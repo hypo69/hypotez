@@ -1,0 +1,21 @@
+{
+	"post": {
+		"title": "",
+		"description": "",
+		"language": "",
+		"currency": "",
+		"price": "",
+		"category": "",
+		"products" : []
+	},
+	"timeout":0,"timeout_for_event":"presence_of_element_located","event": {
+		"title": "",
+		"description": "",
+		"language": "",
+		"currency": "",
+		"price": "",
+		"start_date": "",
+		"start_time": "",
+		"end_date": ""
+	}
+}
