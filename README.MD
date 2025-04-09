@@ -1,10 +1,10 @@
 <table>
 <tr>
 <td>
-<a href='https://github.com/hypo69/hypotez/blob/master/src/README.MD'>Code</a>
+&nbsp;
 </td>
 <td>
-<a href='https://github.com/hypo69/hypotez/blob/master/docs/gemini/out/README.MD'>Documentation</a> 
+<a href='https://github.com/hypo69/hypotez/blob/master/docs/en/src/README.MD'>Documentation</a> 
 </td>
 <td>
 <a href='https://github.com/hypo69/hypotez/blob/master/README.RU.MD'>Русский</a>
