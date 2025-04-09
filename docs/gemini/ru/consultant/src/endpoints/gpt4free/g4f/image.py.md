@@ -2,32 +2,31 @@
 
 ## \file /hypotez/src/endpoints/gpt4free/g4f/image.py
 
-Модуль содержит функции и классы для обработки изображений, включая преобразование форматов, изменение размеров и проверку типов файлов. Он предназначен для работы с изображениями различных типов, такими как PIL Image, bytes, строки (пути к файлам или data URI).
+Модуль содержит функции для обработки изображений, включая конвертацию форматов, изменение размеров, извлечение данных из URI и другие операции.
+=================================================
 
-**Качество кода:**
+Модуль содержит функции для обработки изображений, включая конвертацию форматов, изменение размеров, извлечение данных из URI и другие операции.
+"""
 
+**Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код разбит на отдельные функции, каждая из которых выполняет определенную задачу.
-    - Присутствуют проверки типов и форматирование данных.
+    - Код содержит функции для различных операций с изображениями.
+    - Используются аннотации типов.
     - Обработка исключений присутствует.
 - **Минусы**:
-    - Отсутствует логирование.
-    - Некоторые docstring написаны на английском языке, что не соответствует требованиям.
-    - Не все переменные аннотированы типами
-    - Не используется модуль `logger` из `src.logger`.
-    - Некоторые аннотации `Union` нужно заменить на `|`
+    - Не все функции содержат подробные docstring.
+    - Отсутствует логирование ошибок.
+    - Не используется `j_loads` или `j_loads_ns` для чтения конфигурационных файлов, хотя это может быть и не требуется в данном модуле.
 
-**Рекомендации по улучшению:**
+**Рекомендации по улучшению**:
+- Добавить подробные docstring для каждой функции, включая описание аргументов, возвращаемых значений и возможных исключений.
+- Внедрить логирование ошибок с использованием модуля `logger` для более эффективной отладки.
+- Проверить и обновить аннотации типов для соответствия последним версиям Python.
+- Использовать одинарные кавычки вместо двойных.
+- Заменить `Union` на `|`.
 
-1.  Добавить логирование для отслеживания ошибок и предупреждений.
-2.  Перевести все docstring на русский язык.
-3.  Указать аннотации типов для всех переменных, где это необходимо.
-4.  Заменить `Union` на `|`.
-5.  Добавить docstring для классов `ImageDataResponse` и `ImageRequest`.
-6.  Использовать `ex` вместо `e` в блоках обработки исключений.
-
-**Оптимизированный код:**
+**Оптимизированный код**:
 
 ```python
 from __future__ import annotations
@@ -39,23 +38,19 @@ import base64
 from urllib.parse import quote_plus
 from io import BytesIO
 from pathlib import Path
-from typing import Union, Optional, List
-
 try:
     from PIL.Image import open as open_image, new as new_image
     from PIL.Image import FLIP_LEFT_RIGHT, ROTATE_180, ROTATE_270, ROTATE_90
-
     has_requirements = True
-except ImportError as ex:  # Используем ex вместо e
+except ImportError:
     has_requirements = False
-    # from src.logger import logger  #  Импортируем logger
-    # logger.error('Pillow package is not installed', ex, exc_info=True)  # Логируем ошибку
 
-from .typing import ImageType, Image, Cookies
+from .typing import ImageType, Image, Optional, Cookies
 from .errors import MissingRequirementsError
 from .requests.aiohttp import get_connector
+from src.logger import logger  # Import logger module
 
-ALLOWED_EXTENSIONS: set[str] = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'}
 
 EXTENSIONS_MAP: dict[str, str] = {
     "image/png": "png",
@@ -65,22 +60,21 @@ EXTENSIONS_MAP: dict[str, str] = {
 }
 
 # Define the directory for generated images
-images_dir: str = "./generated_images"
-
+images_dir = "./generated_images"
 
 def to_image(image: ImageType, is_svg: bool = False) -> Image:
     """
     Преобразует входное изображение в объект PIL Image.
 
     Args:
-        image (ImageType): Входное изображение (строка, байты или PIL Image).
-        is_svg (bool): Указывает, является ли изображение SVG.
+        image (str | bytes | Image): Входное изображение.
+        is_svg (bool, optional): Указывает, является ли изображение SVG. По умолчанию False.
 
     Returns:
         Image: Преобразованный объект PIL Image.
 
     Raises:
-        MissingRequirementsError: Если не установлен пакет "pillow" или "cairosvg".
+        MissingRequirementsError: Если отсутствует пакет "pillow" или "cairosvg".
     """
     if not has_requirements:
         raise MissingRequirementsError('Install "pillow" package for images')
@@ -92,11 +86,9 @@ def to_image(image: ImageType, is_svg: bool = False) -> Image:
     if is_svg:
         try:
             import cairosvg
-        except ImportError as ex:  # Используем ex вместо e
-            raise MissingRequirementsError('Install "cairosvg" package for svg images')
-            # from src.logger import logger  #  Импортируем logger
-            # logger.error('cairosvg package is not installed', ex, exc_info=True)  # Логируем ошибку
-
+        except ImportError as ex:
+            logger.error('Error while importing cairosvg', ex, exc_info=True)
+            raise MissingRequirementsError('Install "cairosvg" package for svg images') from ex
         if not isinstance(image, bytes):
             image = image.read()
         buffer = BytesIO()
@@ -113,10 +105,9 @@ def to_image(image: ImageType, is_svg: bool = False) -> Image:
 
     return image
 
-
 def is_allowed_extension(filename: str) -> bool:
     """
-    Проверяет, имеет ли заданное имя файла допустимое расширение.
+    Проверяет, имеет ли указанное имя файла допустимое расширение.
 
     Args:
         filename (str): Имя файла для проверки.
@@ -127,10 +118,9 @@ def is_allowed_extension(filename: str) -> bool:
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
 def is_data_uri_an_image(data_uri: str) -> None:
     """
-    Проверяет, представляет ли заданный URI данных изображение.
+    Проверяет, представляет ли данный URI данных изображение.
 
     Args:
         data_uri (str): URI данных для проверки.
@@ -147,16 +137,15 @@ def is_data_uri_an_image(data_uri: str) -> None:
     if image_format not in ALLOWED_EXTENSIONS and image_format != "svg+xml":
         raise ValueError("Invalid image format (from mime file type).")
 
-
 def is_accepted_format(binary_data: bytes) -> str:
     """
-    Проверяет, представляет ли заданный двоичный код изображение с допустимым форматом.
+    Проверяет, представляет ли данный двоичный код изображение с принятым форматом.
 
     Args:
-        binary_data (bytes): Двоичный код для проверки.
+        binary_data (bytes): Двоичные данные для проверки.
 
     Returns:
-        str: MIME-тип изображения.
+        str: MIME-тип изображения, если формат принят.
 
     Raises:
         ValueError: Если формат изображения не разрешен.
@@ -176,10 +165,9 @@ def is_accepted_format(binary_data: bytes) -> str:
     else:
         raise ValueError("Invalid image format (from magic code).")
 
-
 def extract_data_uri(data_uri: str) -> bytes:
     """
-    Извлекает двоичные данные из заданного URI данных.
+    Извлекает двоичные данные из данного URI данных.
 
     Args:
         data_uri (str): URI данных.
@@ -191,27 +179,29 @@ def extract_data_uri(data_uri: str) -> bytes:
     data = base64.b64decode(data)
     return data
 
-
 def get_orientation(image: Image) -> Optional[int]:
     """
-    Определяет ориентацию изображения на основе EXIF данных.
+    Возвращает ориентацию изображения на основе EXIF данных.
 
     Args:
         image (Image): Изображение для анализа.
 
     Returns:
-        Optional[int]: Значение ориентации или None, если EXIF данные отсутствуют.
+        Optional[int]: Значение ориентации, если оно найдено, иначе None.
     """
-    exif_data = image.getexif() if hasattr(image, 'getexif') else image._getexif()
-    if exif_data is not None:
-        orientation = exif_data.get(274)  # 274 соответствует тегу ориентации в EXIF
-        if orientation is not None:
-            return orientation
-
+    try:
+        exif_data = image.getexif() if hasattr(image, 'getexif') else image._getexif()
+        if exif_data is not None:
+            orientation = exif_data.get(274)  # 274 соответствует тегу ориентации в EXIF
+            if orientation is not None:
+                return orientation
+    except Exception as ex:
+        logger.error('Error while getting orientation', ex, exc_info=True)
+        return None
 
 def process_image(image: Image, new_width: int, new_height: int) -> Image:
     """
-    Обрабатывает изображение, корректируя ориентацию и изменяя размер.
+    Обрабатывает изображение, корректируя его ориентацию и изменяя размер.
 
     Args:
         image (Image): Изображение для обработки.
@@ -245,10 +235,9 @@ def process_image(image: Image, new_width: int, new_height: int) -> Image:
         image = image.convert("RGB")
     return image
 
-
 def to_bytes(image: ImageType) -> bytes:
     """
-    Преобразует изображение в байты.
+    Преобразует данное изображение в байты.
 
     Args:
         image (ImageType): Изображение для преобразования.
@@ -263,9 +252,13 @@ def to_bytes(image: ImageType) -> bytes:
         return extract_data_uri(image)
     elif isinstance(image, Image):
         bytes_io = BytesIO()
-        image.save(bytes_io, image.format)
-        bytes_io.seek(0)
-        return bytes_io.getvalue()
+        try:
+            image.save(bytes_io, image.format)
+            bytes_io.seek(0)
+            return bytes_io.getvalue()
+        except Exception as ex:
+            logger.error('Error while saving image to bytes', ex, exc_info=True)
+            return b''
     elif isinstance(image, (str, os.PathLike)):
         return Path(image).read_bytes()
     elif isinstance(image, Path):
@@ -275,8 +268,11 @@ def to_bytes(image: ImageType) -> bytes:
             image.seek(0)
         except (AttributeError, io.UnsupportedOperation):
             pass
-        return image.read()
-
+        try:
+            return image.read()
+        except Exception as ex:
+            logger.error('Error while reading image', ex, exc_info=True)
+            return b''
 
 def to_data_uri(image: ImageType) -> str:
     """
@@ -286,7 +282,7 @@ def to_data_uri(image: ImageType) -> str:
         image (ImageType): Изображение для преобразования.
 
     Returns:
-        str: Изображение в формате data URI.
+        str: Data URI изображения.
     """
     if not isinstance(image, str):
         data = to_bytes(image)
@@ -294,62 +290,58 @@ def to_data_uri(image: ImageType) -> str:
         return f"data:{is_accepted_format(data)};base64,{data_base64}"
     return image
 
-
 class ImageDataResponse():
     """
-    Класс для представления ответа с данными об изображении.
+    Класс для представления ответа с данными изображения.
     """
-
     def __init__(
-            self,
-            images: str | list[str],
-            alt: str,
+        self,
+        images: str | list[str],
+        alt: str,
     ) -> None:
         """
-        Инициализирует объект ImageDataResponse.
+        Инициализирует экземпляр ImageDataResponse.
 
         Args:
-            images (str | list[str]): Список URL-адресов изображений или один URL-адрес.
-            alt (str): Альтернативный текст для изображений.
+            images (str | list[str]): Список изображений или одно изображение.
+            alt (str): Альтернативный текст для изображения.
         """
-        self.images: str | list[str] = images
-        self.alt: str = alt
+        self.images = images
+        self.alt = alt
 
     def get_list(self) -> list[str]:
         """
-        Возвращает список URL-адресов изображений.
+        Возвращает список изображений.
 
         Returns:
-            list[str]: Список URL-адресов изображений.
+            list[str]: Список изображений.
         """
         return [self.images] if isinstance(self.images, str) else self.images
-
 
 class ImageRequest():
     """
     Класс для представления запроса изображения.
     """
-
     def __init__(
-            self,
-            options: dict = {}
+        self,
+        options: dict = {}
     ) -> None:
         """
-        Инициализирует объект ImageRequest.
+        Инициализирует экземпляр ImageRequest.
 
         Args:
-            options (dict): Словарь с опциями запроса.
+            options (dict, optional): Параметры запроса. По умолчанию {}.
         """
-        self.options: dict = options
+        self.options = options
 
     def get(self, key: str) -> Optional[str]:
         """
-        Возвращает значение опции запроса по ключу.
+        Возвращает значение параметра запроса по ключу.
 
         Args:
-            key (str): Ключ опции.
+            key (str): Ключ параметра.
 
         Returns:
-            Optional[str]: Значение опции или None, если опция не найдена.
+            Optional[str]: Значение параметра или None, если параметр не найден.
         """
         return self.options.get(key)

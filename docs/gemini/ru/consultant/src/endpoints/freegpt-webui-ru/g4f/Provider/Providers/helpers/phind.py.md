@@ -1,48 +1,41 @@
-### Анализ кода модуля `phind`
+## Анализ кода модуля `phind.py`
 
 **Качество кода:**
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код выполняет отправку запроса к API `phind.com` и обрабатывает полученные данные.
-    - Используются библиотеки `curl_cffi` для выполнения HTTP-запросов.
+  - Код выполняет отправку запроса к API `phind.com` для получения ответа на вопрос.
+  - Обработка ошибок присутствует в основном цикле.
 - **Минусы**:
-    - Отсутствует документация к функциям и модулю.
-    - Переменные не аннотированы типами.
-    - Обработка исключений не логируется с использованием `logger`.
-    - Использование `print` для вывода данных вместо логирования.
-    - Не используется `j_loads` для чтения JSON данных.
-    - Не обрабатываются ошибки при декодировании JSON.
-    - Magic values в коде.
-    - Отсутствие обработки ошибок сетевых запросов и ошибок API.
-    - Повторный вызов `print` в блоке `except` и в функции `output`.
-    - Плохая обработка `chunk`.
+  - Отсутствует документация модуля, классов и функций.
+  - Отсутствуют аннотации типов.
+  - Не используется модуль `logger` для логирования.
+  - Не используется `j_loads` для загрузки JSON-данных.
+  - Используется `print` вместо `logger.info` или `logger.error` для вывода информации.
+  - Код содержит много обработки строк, что может быть неэффективно.
+  - Не обрабатываются специфические исключения, а используется общее `Exception`.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить документацию модуля**: Описать назначение модуля и предоставить примеры использования.
-2.  **Добавить документацию к функции `output`**: Описать параметры, возвращаемое значение и возможные исключения.
-3.  **Аннотировать типы переменных**: Указать типы для всех переменных, чтобы повысить читаемость и облегчить отладку.
-4.  **Использовать логирование**: Заменить `print` на `logger` для записи информации об ошибках и событиях.
-5.  **Использовать `j_loads` для чтения JSON данных**: Это упростит чтение конфигурационных файлов.
-6.  **Обрабатывать ошибки при декодировании JSON**: Добавить обработку исключений `json.JSONDecodeError`.
-7.  **Обрабатывать ошибки сетевых запросов и ошибок API**: Проверять статус ответа от API и обрабатывать возможные ошибки.
-8.  **Улучшить обработку `chunk`**: Упростить логику обработки `chunk` и убедиться, что все возможные случаи обрабатываются корректно.
-9.  **Удалить повторный вызов `print`**: Избегать дублирования вызовов `print` в блоке `except` и функции `output`.
-10. **Улучшить форматирование кода**: Привести код в соответствие со стандартами PEP8.
-11. **Избавиться от magic values**: Использовать константы вместо неименованных значений.
-12. **Переработать обработку ошибок**: Использовать `logger.error` и передавать исключение `ex`.
+1.  **Добавить документацию модуля, классов и функций.** Необходимо добавить docstring в соответствии с указанным форматом, чтобы код был понятным и удобным в использовании.
+2.  **Добавить аннотации типов для всех переменных и функций.** Это улучшит читаемость и поможет избежать ошибок.
+3.  **Использовать модуль `logger` для логирования.** Заменить `print` на `logger.info` и `logger.error` для более удобного логирования.
+4.  **Использовать `j_loads` для загрузки JSON-данных.** Это упростит загрузку конфигурационных файлов.
+5.  **Улучшить обработку исключений.** Вместо обработки общего исключения `Exception`, следует обрабатывать специфические исключения, чтобы более точно понимать причину ошибки.
+6.  **Оптимизировать обработку строк.** Использовать более эффективные методы для обработки строк.
+7.  **Разбить код на функции для улучшения читаемости и повторного использования.**
+8.  **Избегать использования `sys.argv`.**
 
 **Оптимизированный код:**
 
 ```python
 """
-Модуль для взаимодействия с API Phind.
+Модуль для взаимодействия с API Phind
 ========================================
 
 Модуль содержит функции для отправки запросов к API Phind и обработки ответов.
-Используется для получения ответов на вопросы с учетом заданных параметров, таких как уровень экспертизы, дата и язык.
 """
+
 import sys
 import json
 import datetime
@@ -50,106 +43,100 @@ import urllib.parse
 from typing import Dict, Any
 
 from curl_cffi import requests
-from src.logger import logger
 
-def output(chunk: bytes) -> None:
+from src.logger import logger  # Импортируем модуль logger
+
+def send_request_to_phind(config: Dict[str, Any]) -> None:
     """
-    Обрабатывает и выводит полученные чанки данных.
+    Отправляет запрос к API Phind и обрабатывает ответ.
 
     Args:
-        chunk (bytes): Часть данных, полученная от API.
+        config (Dict[str, Any]): Конфигурация запроса.
 
     Returns:
         None
 
     Raises:
-        json.decoder.JSONDecodeError: Если не удается декодировать JSON из чанка.
+        Exception: Если произошла ошибка при отправке запроса.
     """
-    try:
-        if b'PHIND_METADATA' in chunk:
-            return
+    prompt = config['messages'][-1]['content']  # Получаем текст запроса из конфигурации
 
-        chunk = chunk.replace(b'data:  \\r\\ndata: \\r\\ndata: \\r\\n\\r\\n', b'data:  \\n\\r\\n\\r\\n')
-        chunk = chunk.decode()
-        chunk = chunk.replace('data: \\r\\n\\r\\ndata: ', 'data: \\n')
-        chunk = chunk.replace('\\r\\ndata: \\r\\ndata: \\r\\n\\r\\n', '\\n\\r\\n\\r\\n')
-        chunk = chunk.replace('data: ', '').replace('\\r\\n\\r\\n', '')
+    skill = 'expert' if config['model'] == 'gpt-4' else 'intermediate'  # Определяем уровень квалификации
 
-        print(chunk, flush=True, end='')
+    json_data = json.dumps({  # Формируем JSON-данные для отправки
+        'question': prompt,
+        'options': {
+            'skill': skill,
+            'date': datetime.datetime.now().strftime('%d/%m/%Y'),
+            'language': 'en',
+            'detailed': True,
+            'creative': True,
+            'customLinks': []}}, separators=(',', ':'))
 
-    except json.decoder.JSONDecodeError as ex:
-        logger.error('Ошибка декодирования JSON', ex, exc_info=True)
-    except Exception as ex:
-        logger.error('Неизвестная ошибка при обработке чанка', ex, exc_info=True)
+    headers = {  # Формируем заголовки запроса
+        'Content-Type': 'application/json',
+        'Pragma': 'no-cache',
+        'Accept': '*/*',
+        'Sec-Fetch-Site': 'same-origin',
+        'Accept-Language': 'en-GB,en;q=0.9',
+        'Cache-Control': 'no-cache',
+        'Sec-Fetch-Mode': 'cors',
+        'Content-Length': str(len(json_data)),
+        'Origin': 'https://www.phind.com',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Safari/605.1.15',
+        'Referer': f'https://www.phind.com/search?q={urllib.parse.quote(prompt)}&source=searchbox',
+        'Connection': 'keep-alive',
+        'Host': 'www.phind.com',
+        'Sec-Fetch-Dest': 'empty'
+    }
 
+    def output(chunk: bytes) -> None:
+        """
+        Обрабатывает полученные чанки данных.
 
-def main() -> None:
-    """
-    Основная функция для отправки запросов к API Phind и обработки ответов.
+        Args:
+            chunk (bytes): Чанк данных.
 
-    Args:
-        None
+        Returns:
+            None
+        """
+        try:
+            if b'PHIND_METADATA' in chunk:
+                return
 
-    Returns:
-        None
-    """
-    try:
-        config: Dict[str, Any] = json.loads(sys.argv[1])
-        prompt: str = config['messages'][-1]['content']
-        skill_level: str = 'expert' if config['model'] == 'gpt-4' else 'intermediate'
-        current_date: str = datetime.datetime.now().strftime('%d/%m/%Y')
+            if chunk == b'data:  \\r\\ndata: \\r\\ndata: \\r\\n\\r\\n':
+                chunk = b'data:  \\n\\r\\n\\r\\n'
 
-        json_data: str = json.dumps({
-            'question': prompt,
-            'options': {
-                'skill': skill_level,
-                'date': current_date,
-                'language': 'en',
-                'detailed': True,
-                'creative': True,
-                'customLinks': []
-            }
-        }, separators=(',', ':'))
+            chunk = chunk.decode()
 
-        headers: Dict[str, str] = {
-            'Content-Type': 'application/json',
-            'Pragma': 'no-cache',
-            'Accept': '*/*',
-            'Sec-Fetch-Site': 'same-origin',
-            'Accept-Language': 'en-GB,en;q=0.9',
-            'Cache-Control': 'no-cache',
-            'Sec-Fetch-Mode': 'cors',
-            'Content-Length': str(len(json_data)),
-            'Origin': 'https://www.phind.com',
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Safari/605.1.15',
-            'Referer': f'https://www.phind.com/search?q={urllib.parse.quote(prompt)}&source=searchbox',
-            'Connection': 'keep-alive',
-            'Host': 'www.phind.com',
-            'Sec-Fetch-Dest': 'empty'
-        }
+            chunk = chunk.replace('data: \\r\\n\\r\\ndata: ', 'data: \\n')
+            chunk = chunk.replace('\\r\\ndata: \\r\\ndata: \\r\\n\\r\\n', '\\n\\r\\n\\r\\n')
+            chunk = chunk.replace('data: ', '').replace('\\r\\n\\r\\n', '')
 
-        while True:
-            try:
-                response = requests.post(
-                    'https://www.phind.com/api/infer/answer',
-                    headers=headers, data=json_data, content_callback=output, timeout=999999,
-                    impersonate='safari15_5'
-                )
+            print(chunk, flush=True, end='')
 
-                if response.status_code != 200:
-                    logger.error(f'API request failed with status code: {response.status_code}')
-                    break
+        except json.decoder.JSONDecodeError as ex:
+            logger.error('JSONDecodeError while processing chunk', ex, exc_info=True)
 
-                exit(0)
+    while True:
+        try:
+            response = requests.post(  # Отправляем POST-запрос к API Phind
+                'https://www.phind.com/api/infer/answer',
+                headers=headers, data=json_data, content_callback=output, timeout=999999,
+                impersonate='safari15_5'
+            )
 
-            except Exception as ex:
-                logger.error('Произошла ошибка, повторная попытка... |', ex, exc_info=True)
-                continue
+            exit(0)
 
-    except Exception as ex:
-        logger.error('Критическая ошибка в main', ex, exc_info=True)
+        except Exception as ex:
+            logger.error('An error occurred, retrying...', ex, exc_info=True)
+            continue
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        config = json.loads(sys.argv[1])  # Загружаем конфигурацию из аргументов командной строки
+        send_request_to_phind(config)  # Вызываем функцию отправки запроса
+    except Exception as ex:
+        logger.error('Error while loading config', ex, exc_info=True)
 ```

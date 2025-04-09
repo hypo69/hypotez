@@ -1,148 +1,133 @@
 ### **Анализ кода модуля `log_time.py`**
 
-## \file /hypotez/src/endpoints/gpt4free/etc/testing/log_time.py
-
-Модуль содержит функции для измерения времени выполнения методов.
-=================================================
-
-Модуль содержит три функции: `log_time_async`, `log_time_yield` и `log_time`, которые используются для измерения времени выполнения различных методов.
-
-Пример использования
-----------------------
-
-```python
-async def my_async_method():
-    await asyncio.sleep(1)
-    return "Async method completed"
-
-result = await log_time_async(my_async_method)
-print(result)  # Вывод: Async method completed 1.01 secs
-```
-
 **Качество кода:**
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Простой и понятный код.
-  - Функции выполняют измерение времени выполнения методов.
+    - Код выполняет полезную функцию измерения времени выполнения переданных методов.
+    - Присутствуют асинхронные и синхронные варианты функций.
 - **Минусы**:
-  - Отсутствует обработка исключений.
-  - Нет документации к функциям.
-  - Не используется модуль логирования `logger`.
-  - Нет аннотации типов для переменных `start` и `secs`.
+    - Отсутствует документация (docstrings) для функций.
+    - Нет обработки исключений.
+    - Не используется модуль `logger` для логирования времени выполнения.
+    - Нет аннотаций типов для параметров и возвращаемых значений.
 
 **Рекомендации по улучшению:**
 
-1. **Добавить документацию**:
-   - Добавить docstring к каждой функции, описывающий ее назначение, аргументы и возвращаемое значение.
-
-2. **Использовать логирование**:
-   - Вместо возврата строки с временем выполнения использовать модуль `logger` для записи времени выполнения.
-
-3. **Обработка исключений**:
-   - Добавить блоки `try...except` для обработки возможных исключений во время выполнения методов.
-
-4. **Аннотация типов**:
-   - Добавить аннотацию типов для переменных `start` и `secs`.
-
-5. **Улучшить форматирование**:
-   - Использовать f-строки для форматирования строк.
-   - Сделать код более читаемым, добавив пробелы вокруг операторов.
+1.  **Добавить docstrings**: Добавить подробные docstrings для каждой функции, описывающие её назначение, параметры, возвращаемое значение и возможные исключения.
+2.  **Обработка исключений**: Добавить блоки `try...except` для обработки возможных исключений, которые могут возникнуть при выполнении переданных методов.
+3.  **Использовать `logger`**: Использовать модуль `logger` для логирования времени выполнения методов.
+4.  **Аннотации типов**: Добавить аннотации типов для параметров и возвращаемых значений функций.
+5.  **Улучшить форматирование**: Использовать `f-strings` для более читаемого форматирования времени выполнения.
+6. **Соблюдать PEP8**: Проверить код на соответствие стандартам PEP8.
+7. **Удалить не используемые импорты**: Если импорт `time` не используется напрямую в коде, его можно удалить. В данном случае он используется и удалять не нужно
 
 **Оптимизированный код:**
 
 ```python
 from time import time
-from src.logger import logger
 from typing import Callable, Any
+from src.logger import logger
 
 
-async def log_time_async(method: Callable, **kwargs: Any) -> str | None:
+async def log_time_async(method: Callable[..., Any], **kwargs: Any) -> str | None:
     """
-    Измеряет время выполнения асинхронного метода и логирует результат.
+    Измеряет время выполнения асинхронного метода и возвращает результат вместе со временем выполнения.
 
     Args:
-        method (Callable): Асинхронный метод для измерения времени выполнения.
-        **kwargs (Any): Произвольные аргументы для передачи в метод.
+        method (Callable[..., Any]): Асинхронный метод для измерения времени выполнения.
+        **kwargs (Any): Произвольные аргументы, передаваемые в метод.
 
     Returns:
-        str | None: Результат выполнения метода, если он есть, или None.
+        str | None: Результат выполнения метода, объединенный со временем выполнения в секундах, или только время, если результат равен None.
+
+    Raises:
+        Exception: Если во время выполнения метода происходит исключение, оно логируется.
 
     Example:
         >>> async def my_async_method():
         ...     await asyncio.sleep(1)
-        ...     return "Async method completed"
-        >>>
+        ...     return "Async done"
         >>> result = await log_time_async(my_async_method)
         >>> print(result)
-        Async method completed
+        Async done 1.01 secs
     """
-    start: float = time()  # Время начала выполнения метода
+    start = time()
     try:
         result = await method(**kwargs)
-        secs: str = f"{round(time() - start, 2)} secs"  # Вычисляем время выполнения в секундах
-        logger.info(f'Method {method.__name__} completed in {secs}')  # Логируем время выполнения
-        return " ".join([result, secs]) if result else secs
     except Exception as ex:
-        logger.error(f'Error while executing method {method.__name__}', ex, exc_info=True)  # Логируем ошибку
+        logger.error(f'Error while executing async method {method.__name__}', ex, exc_info=True)
         return None
+    secs = f"{round(time() - start, 2)} secs"
+    log_message = f"Async method {method.__name__} executed in {secs}"
+    logger.info(log_message)
+    return " ".join([result, secs]) if result else secs
 
 
-def log_time_yield(method: Callable, **kwargs: Any):
+def log_time_yield(method: Callable[..., Any], **kwargs: Any):
     """
-    Измеряет время выполнения метода-генератора и логирует результат.
+    Измеряет время выполнения метода-генератора и возвращает результат вместе со временем выполнения.
 
     Args:
-        method (Callable): Метод-генератор для измерения времени выполнения.
-        **kwargs (Any): Произвольные аргументы для передачи в метод.
+        method (Callable[..., Any]): Метод-генератор для измерения времени выполнения.
+        **kwargs (Any): Произвольные аргументы, передаваемые в метод.
 
     Yields:
-        Any: Результат выполнения метода-генератора.
+        Any: Значения, генерируемые методом, и время выполнения в конце.
+
+    Raises:
+        Exception: Если во время выполнения метода происходит исключение, оно логируется.
 
     Example:
-        >>> def my_yield_method():
-        ...     yield "Yield method completed"
-        >>>
-        >>> for result in log_time_yield(my_yield_method):
+        >>> def my_generator_method():
+        ...     yield "Yield 1"
+        ...     yield "Yield 2"
+        >>> for result in log_time_yield(my_generator_method):
         ...     print(result)
-        Yield method completed
+        Yield 1
+        Yield 2
+         0.0 secs
     """
-    start: float = time()  # Время начала выполнения метода
+    start = time()
     try:
         result = yield from method(**kwargs)
-        secs: str = f" {round(time() - start, 2)} secs"  # Вычисляем время выполнения в секундах
-        logger.info(f'Method {method.__name__} completed in {secs}')  # Логируем время выполнения
-        yield f" {round(time() - start, 2)} secs"
     except Exception as ex:
-        logger.error(f'Error while executing method {method.__name__}', ex, exc_info=True)  # Логируем ошибку
+        logger.error(f'Error while executing generator method {method.__name__}', ex, exc_info=True)
         yield None
+    secs = f"{round(time() - start, 2)} secs"
+    log_message = f"Generator method {method.__name__} executed in {secs}"
+    logger.info(log_message)
+    yield f" {secs}"
 
 
-def log_time(method: Callable, **kwargs: Any) -> str | None:
+def log_time(method: Callable[..., Any], **kwargs: Any) -> str | None:
     """
-    Измеряет время выполнения метода и логирует результат.
+    Измеряет время выполнения синхронного метода и возвращает результат вместе со временем выполнения.
 
     Args:
-        method (Callable): Метод для измерения времени выполнения.
-        **kwargs (Any): Произвольные аргументы для передачи в метод.
+        method (Callable[..., Any]): Синхронный метод для измерения времени выполнения.
+        **kwargs (Any): Произвольные аргументы, передаваемые в метод.
 
     Returns:
-        str | None: Результат выполнения метода, если он есть, или None.
+        str | None: Результат выполнения метода, объединенный со временем выполнения в секундах, или только время, если результат равен None.
+
+    Raises:
+        Exception: Если во время выполнения метода происходит исключение, оно логируется.
 
     Example:
-        >>> def my_method():
-        ...     return "Method completed"
-        >>>
-        >>> result = log_time(my_method)
+        >>> def my_sync_method():
+        ...     return "Sync done"
+        >>> result = log_time(my_sync_method)
         >>> print(result)
-        Method completed
+        Sync done 0.0 secs
     """
-    start: float = time()  # Время начала выполнения метода
+    start = time()
     try:
         result = method(**kwargs)
-        secs: str = f"{round(time() - start, 2)} secs"  # Вычисляем время выполнения в секундах
-        logger.info(f'Method {method.__name__} completed in {secs}')  # Логируем время выполнения
-        return " ".join([result, secs]) if result else secs
     except Exception as ex:
-        logger.error(f'Error while executing method {method.__name__}', ex, exc_info=True)  # Логируем ошибку
+        logger.error(f'Error while executing method {method.__name__}', ex, exc_info=True)
         return None
+    secs = f"{round(time() - start, 2)} secs"
+    log_message = f"Method {method.__name__} executed in {secs}"
+    logger.info(log_message)
+    return " ".join([str(result), secs]) if result else secs

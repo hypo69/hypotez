@@ -1,83 +1,130 @@
 ### **Анализ кода модуля `vision_images.py`**
 
-**Качество кода:**
-
+**Качество кода**:
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код выполняет поставленную задачу обработки изображений с использованием `g4f`.
-    - Примеры использования удаленного и локального изображений.
+    - Код выполняет поставленную задачу - обработку изображений (локальных и удаленных) с использованием g4f.
+    - Используется библиотека `requests` для загрузки удаленных изображений.
 - **Минусы**:
     - Отсутствует обработка исключений.
-    - Не используются логирование.
-    - Отсутствуют аннотации типов.
-    - Нет документации модуля.
-    - Не закрывается сессия `requests`.
+    - Нет документации и аннотаций типов.
+    - Не используется модуль логирования `logger`.
+    - Не закрывается файл `local_image` в блоке `finally`, что может привести к проблемам при возникновении исключения.
+    - Отсутствует описание модуля.
+    - Не используются одинарные кавычки.
 
-**Рекомендации по улучшению:**
+**Рекомендации по улучшению**:
 
-1.  **Добавить обработку исключений**: Обернуть код в блоки `try...except` для обработки возможных ошибок, таких как сетевые ошибки при загрузке удаленного изображения или ошибки при открытии локального файла.
-2.  **Использовать логирование**: Добавить логирование для отслеживания процесса выполнения и записи ошибок с использованием модуля `logger` из `src.logger`.
-3.  **Добавить аннотации типов**: Добавить аннотации типов для переменных и функций, чтобы улучшить читаемость и облегчить отладку.
-4.  **Добавить документацию модуля**: Добавить docstring в начало модуля с описанием назначения модуля.
-5.  **Закрывать сессию `requests`**: Использовать `with` statement для управления сессией `requests`, чтобы гарантировать её закрытие после использования.
-6.  **Использовать `j_loads` или `j_loads_ns`**: Хотя в данном коде это не требуется, стоит помнить о необходимости использования `j_loads` или `j_loads_ns` для чтения JSON или конфигурационных файлов.
-7.  **Перевести docstring на русский язык**: Все комментарии и docstring должны быть на русском языке в формате UTF-8.
-8.  **Удалить `print`**: удалить все `print`, заменив на логирование.
+1.  **Добавить документацию**:
+    - Добавить описание модуля, классов и функций в формате docstring.
+    - Добавить аннотации типов для переменных и параметров функций.
+2.  **Обработка исключений**:
+    - Обернуть код в блоки `try...except` для обработки возможных исключений при загрузке изображений и взаимодействии с API.
+    - Использовать `logger.error` для логирования ошибок.
+3.  **Использовать менеджер контекста**:
+    - Использовать `with open(...)` для автоматического закрытия файла `local_image`.
+4.  **Улучшить форматирование**:
+    - Использовать одинарные кавычки.
+    - Добавить пробелы вокруг операторов.
+5.  **Добавить логирование**:
+    - Использовать `logger.info` для логирования основных этапов выполнения кода.
 
-**Оптимизированный код:**
+**Оптимизированный код**:
 
 ```python
 """
-Модуль для обработки изображений с использованием g4f
-=====================================================
+Модуль для обработки изображений с использованием g4f.
+======================================================
 
-Модуль содержит примеры обработки удаленных и локальных изображений с использованием библиотеки g4f.
+Модуль демонстрирует обработку удаленных и локальных изображений с использованием библиотеки g4f для взаимодействия с моделями vision.
 """
 
 import g4f
 import requests
 from g4f.client import Client
-from src.logger import logger  # Добавлен импорт logger
+from src.logger import logger
 
-client = Client()
+client: Client = Client()
 
-try:
-    # Обработка удаленного изображения
-    with requests.get("https://raw.githubusercontent.com/xtekky/gpt4free/refs/heads/main/docs/images/cat.jpeg", stream=True) as response:
-        response.raise_for_status()  # Проверка на ошибки HTTP
-        remote_image: bytes = response.content  # Аннотация типа
-    response_remote = client.chat.completions.create(
-        model=g4f.models.default_vision,
-        messages=[
-            {"role": "user", "content": "What are on this image?"}
-        ],
-        image=remote_image
-    )
-    logger.info("Ответ для удаленного изображения:")  # Заменено на логирование
-    logger.info(response_remote.choices[0].message.content)  # Заменено на логирование
 
-    logger.info("-" * 50)  # Разделитель
+def process_remote_image(image_url: str) -> str | None:
+    """
+    Обрабатывает удаленное изображение, загружая его по URL и отправляя запрос в модель vision.
 
-    # Обработка локального изображения
+    Args:
+        image_url (str): URL изображения.
+
+    Returns:
+        str | None: Ответ модели vision или None в случае ошибки.
+    """
     try:
-        local_image = open("docs/images/cat.jpeg", "rb")
-        response_local = client.chat.completions.create(
+        response = requests.get(image_url, stream=True)
+        response.raise_for_status()  # Проверка на HTTP ошибки
+        remote_image: bytes = response.content
+        response_remote = client.chat.completions.create(
             model=g4f.models.default_vision,
             messages=[
-                {"role": "user", "content": "What are on this image?"}
+                {'role': 'user', 'content': 'What are on this image?'}
             ],
-            image=local_image
+            image=remote_image
         )
-        logger.info("Ответ для локального изображения:")  # Заменено на логирование
-        logger.info(response_local.choices[0].message.content)  # Заменено на логирование
-    except FileNotFoundError as ex:  # Обработка исключения FileNotFoundError
-        logger.error("Файл не найден", ex, exc_info=True)  # Логирование ошибки
-    except Exception as ex:  # Обработка других исключений
-        logger.error("Произошла ошибка при обработке локального изображения", ex, exc_info=True)  # Логирование ошибки
-    finally:
-        if 'local_image' in locals() and hasattr(local_image, 'close'):
-            local_image.close()  # Закрытие файла после использования
-except requests.exceptions.RequestException as ex:  # Обработка исключений requests
-    logger.error("Произошла ошибка при загрузке удаленного изображения", ex, exc_info=True)  # Логирование ошибки
-except Exception as ex:
-    logger.error("Произошла общая ошибка", ex, exc_info=True)  # Логирование ошибки
+        logger.info('Успешно обработано удаленное изображение.')
+        return response_remote.choices[0].message.content
+    except requests.exceptions.RequestException as ex:
+        logger.error('Ошибка при загрузке удаленного изображения.', ex, exc_info=True)
+        return None
+    except Exception as ex:
+        logger.error('Ошибка при обработке удаленного изображения.', ex, exc_info=True)
+        return None
+
+
+def process_local_image(image_path: str) -> str | None:
+    """
+    Обрабатывает локальное изображение, отправляя запрос в модель vision.
+
+    Args:
+        image_path (str): Путь к локальному изображению.
+
+    Returns:
+        str | None: Ответ модели vision или None в случае ошибки.
+    """
+    try:
+        with open(image_path, 'rb') as local_image:
+            response_local = client.chat.completions.create(
+                model=g4f.models.default_vision,
+                messages=[
+                    {'role': 'user', 'content': 'What are on this image?'}
+                ],
+                image=local_image
+            )
+            logger.info('Успешно обработано локальное изображение.')
+            return response_local.choices[0].message.content
+    except FileNotFoundError as ex:
+        logger.error(f'Файл не найден: {image_path}', ex, exc_info=True)
+        return None
+    except Exception as ex:
+        logger.error('Ошибка при обработке локального изображения.', ex, exc_info=True)
+        return None
+
+
+if __name__ == '__main__':
+    remote_image_url: str = 'https://raw.githubusercontent.com/xtekky/gpt4free/refs/heads/main/docs/images/cat.jpeg'
+    local_image_path: str = 'docs/images/cat.jpeg'
+
+    # Processing remote image
+    remote_response: str | None = process_remote_image(remote_image_url)
+    if remote_response:
+        print('Response for remote image:')
+        print(remote_response)
+    else:
+        print('Не удалось обработать удаленное изображение.')
+
+    print('\n' + '-'*50 + '\n')  # Separator
+
+    # Processing local image
+    local_response: str | None = process_local_image(local_image_path)
+    if local_response:
+        print('Response for local image:')
+        print(local_response)
+    else:
+        print('Не удалось обработать локальное изображение.')

@@ -1,36 +1,40 @@
 ### **Анализ кода модуля `DeepAi.py`**
 
+---
+
 **Качество кода:**
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код выполняет свою задачу - обращается к API DeepAI для получения ответа.
-    - Присутствуют базовые элементы для работы с API (формирование заголовков, отправка запроса).
+    - Код содержит базовую структуру для взаимодействия с API DeepAI.
+    - Присутствует функция для генерации API-ключа.
     - Используется потоковая передача данных (`stream=True`).
 - **Минусы**:
-    - Не хватает обработки исключений для сетевых запросов.
-    - Не используется модуль `logger` для логирования ошибок и отладочной информации.
-    - Не указаны аннотации типов для переменных, где это возможно.
-    - Генерация `api-key` выглядит сложной и может быть упрощена.
-    - Отсутствует документация в формате docstring для функций.
-    - Параметр `model` не используется в коде функции `_create_completion`.
+    - Отсутствует обработка ошибок, за исключением `r.raise_for_status()`.
+    - Не хватает подробной документации для функций и параметров.
+    - Используется жестко заданный `user_agent`.
+    - Не используются логирование.
+    - Нет аннотаций типов
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить Docstring:**
-    - Добавьте docstring к функции `_create_completion` и внутренним функциям `md5` и `get_api_key`, объяснив их назначение, аргументы, возвращаемые значения и возможные исключения.
-2.  **Использовать Логгирование:**
-    - Интегрируйте модуль `logger` для записи ошибок и отладочной информации.
-3.  **Обработка Исключений:**
-    - Добавьте обработку исключений для сетевых запросов (`requests.post`).
-4.  **Аннотации Типов:**
-    - Добавьте аннотации типов для переменных, где это возможно, чтобы повысить читаемость и облегчить отладку.
-5.  **Упрощение генерации `api-key`:**
-    - Проверить необходимость сложной логики генерации `api-key`. Если возможно, упростить этот процесс.
-6.  **Использовать `j_loads` или `j_loads_ns`:**
-    - В данном коде это не требуется, но стоит помнить о возможности использовать эти функции для чтения JSON.
-7.  **Проверка использования `model`:**
-    - Проверьте, почему параметр `model` не используется в `_create_completion` и либо используйте его, либо удалите.
+1.  **Добавить документацию**:
+    - Добавить docstring для каждой функции, описывающий её назначение, аргументы, возвращаемые значения и возможные исключения.
+    - Описать назначение модуля в целом.
+2.  **Обработка ошибок**:
+    - Добавить обработку исключений для сетевых запросов и других потенциальных ошибок.
+    - Использовать `logger.error` для записи ошибок.
+3.  **Улучшить генерацию API-ключа**:
+    - Рассмотреть возможность использования более надежного метода генерации API-ключа.
+    - Проверить, требуется ли вообще генерация ключа или его можно получить другим способом.
+4.  **Избавиться от жестко заданных значений**:
+    - Вынести `user_agent` в параметры конфигурации.
+5.  **Добавить аннотации типов**:
+    - Добавить аннотации типов для всех переменных и параметров функций.
+6.  **Логирование**:
+    - Добавить логирование для отслеживания запросов, ответов и возможных ошибок.
+7.  **Использовать `j_loads` или `j_loads_ns`**:
+    - Если `messages` это строка JSON, то для работы с ней необходимо использовать `j_loads` или `j_loads_ns`
 
 **Оптимизированный код:**
 
@@ -41,8 +45,9 @@ import random
 import hashlib
 import requests
 
-from ...typing import sha256, Dict, get_type_hints
-from src.logger import logger  # Import the logger module
+from typing import Generator, Optional, List, Dict
+
+from src.logger import logger # Добавлен импорт logger
 
 url = 'https://deepai.org'
 model = ['gpt-3.5-turbo']
@@ -50,27 +55,22 @@ supports_stream = True
 needs_auth = False
 
 
-def _create_completion(model: str, messages: list, stream: bool, **kwargs) -> str | None:
+def _create_completion(model: str, messages: list, stream: bool, **kwargs) -> Generator[str, None, None]:
     """
-    Создает завершение чата, взаимодействуя с API DeepAI.
+    Создает запрос к API DeepAI для получения ответа.
 
     Args:
-        model (str): Имя используемой модели. На данный момент не используется.
-        messages (list): Список сообщений в формате истории чата.
-        stream (bool): Определяет, использовать ли потоковую передачу данных.
+        model (str): Модель для использования.
+        messages (list): Список сообщений для отправки.
+        stream (bool): Флаг потоковой передачи данных.
         **kwargs: Дополнительные аргументы.
 
     Returns:
-        str | None: Сгенерированный ответ от API DeepAI или None в случае ошибки.
+        Generator[str, None, None]: Генератор, возвращающий части ответа от API.
 
     Raises:
-        requests.exceptions.RequestException: Если возникает ошибка при выполнении запроса к API.
-        Exception: Если возникает другая ошибка при обработке данных.
-
-    Example:
-        >>> messages = [{"role": "user", "content": "Hello, how are you?"}]
-        >>> _create_completion(model="gpt-3.5-turbo", messages=messages, stream=True)
-        <generator object _create_completion at 0x...>
+        requests.exceptions.RequestException: При ошибке HTTP-запроса.
+        Exception: При других ошибках.
     """
 
     def md5(text: str) -> str:
@@ -87,44 +87,43 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs) -> st
 
     def get_api_key(user_agent: str) -> str:
         """
-        Генерирует ключ API на основе user-agent.
+        Генерирует API-ключ.
 
         Args:
-            user_agent (str): User-agent для генерации ключа.
+            user_agent (str): User-Agent для генерации ключа.
 
         Returns:
-            str: Сгенерированный ключ API.
+            str: Сгенерированный API-ключ.
         """
-        part1: str = str(random.randint(0, 10**11))
-        part2: str = md5(user_agent + md5(user_agent + md5(user_agent + part1 + "x")))
+        part1 = str(random.randint(0, 10**11))
+        part2 = md5(user_agent + md5(user_agent + md5(user_agent + part1 + "x")))
         return f"tryit-{part1}-{part2}"
 
-    user_agent: str = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
 
-    headers: dict = {
+    headers = {
         "api-key": get_api_key(user_agent),
         "user-agent": user_agent
     }
 
-    files: dict = {
+    files = {
         "chat_style": (None, "chat"),
         "chatHistory": (None, json.dumps(messages))
     }
 
     try:
         r = requests.post("https://api.deepai.org/chat_response", headers=headers, files=files, stream=True)
-        r.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
+        r.raise_for_status()  # Проверка на HTTP ошибки
 
         for chunk in r.iter_content(chunk_size=None):
             yield chunk.decode()
     except requests.exceptions.RequestException as ex:
-        logger.error('Error during request to DeepAI API', ex, exc_info=True)
-        yield None  # Indicate failure
+        logger.error(f'Network error occurred: {ex}', exc_info=True) # Логирование ошибок
+        raise  # Переброс исключения для дальнейшей обработки
     except Exception as ex:
-        logger.error('Error while processing DeepAI response', ex, exc_info=True)
-        yield None
-
+        logger.error(f'Error while processing data: {ex}', exc_info=True)
+        raise
 
 params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    ' (%s)' % ', '.join(
+    '(%s)' % ', '.join(
         [f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])

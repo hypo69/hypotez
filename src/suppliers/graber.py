@@ -38,6 +38,7 @@ import datetime
 import os
 import sys
 import asyncio
+import re
 from pathlib import Path
 from typing import Optional, Any
 from types import SimpleNamespace

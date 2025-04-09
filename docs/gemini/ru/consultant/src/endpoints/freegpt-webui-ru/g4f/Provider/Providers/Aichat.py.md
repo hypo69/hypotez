@@ -1,57 +1,39 @@
 ### **Анализ кода модуля `Aichat.py`**
 
-Модуль предоставляет класс для взаимодействия с сервисом Aichat и получения ответов на основе предоставленных сообщений.
-
 **Качество кода:**
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код достаточно прост и понятен.
-    - Определены параметры `url`, `model`, `supports_stream`, `needs_auth`, что облегчает конфигурирование.
+    - Код выполняет отправку запроса к API `chat-gpt.org`.
+    - Определены основные метаданные провайдера, такие как `url`, `model`, `supports_stream`, `needs_auth`.
+    - Добавлены `headers` для имитации запроса от браузера.
 - **Минусы**:
-    - Отсутствует документация модуля и функций.
-    - Жёстко заданы заголовки User-Agent и другие, что может вызвать проблемы при изменении требований API.
-    - Не обрабатываются исключения при запросах к API.
-    - Используется устаревший стиль форматирования строк.
-    - Отсутствует логирование.
-    - Не используются аннотации типов для переменных внутри функции `_create_completion`.
+    - Отсутствует обработка исключений при запросе к API.
+    - Не используются логирование для отладки и записи ошибок.
+    - Нет документации для функций и переменных.
+    - Не указаны типы для переменных `base`, `headers`, `json_data`, `response`.
+    - Использованы двойные кавычки вместо одинарных в некоторых местах.
+    - Не используется модуль `logger` из `src.logger.logger`.
+    - Не используется `j_loads` или `j_loads_ns` для чтения JSON или конфигурационных файлов.
+    - Нет аннотации типов для переменных.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить документацию модуля и функций**:
-    - Добавить docstring для модуля с описанием назначения.
-    - Добавить docstring для функции `_create_completion` с описанием аргументов, возвращаемых значений и возможных исключений.
-    - Улучшить читаемость кода путем добавления комментариев, объясняющих логику работы.
-
-2.  **Обработка исключений**:
-    - Добавить обработку исключений при выполнении HTTP-запросов, чтобы избежать неожиданных сбоев.
-
-3.  **Логирование**:
-    - Добавить логирование для отслеживания запросов и ответов, а также для записи ошибок.
-
-4.  **Использовать `f-strings` для форматирования строк**:
-    - Заменить устаревший стиль форматирования строк на `f-strings`.
-
-5.  **Улучшить гибкость заголовков**:
-    - Сделать заголовки более гибкими, чтобы их можно было легко конфигурировать.
-
-6.  **Добавить аннотации типов**:
-    - Добавить аннотации типов для переменных внутри функции `_create_completion`.
+1.  Добавить docstring к функциям, описывающие их назначение, аргументы, возвращаемые значения и возможные исключения.
+2.  Использовать одинарные кавычки вместо двойных.
+3.  Добавить обработку исключений для перехвата возможных ошибок при выполнении запроса.
+4.  Добавить логирование для записи информации о работе кода и возникающих ошибках.
+5.  Указать типы для переменных `base`, `headers`, `json_data`, `response`.
+6.  Удалить неиспользуемый импорт `os`.
+7.  Использовать `logger` из `src.logger.logger` для логирования.
+8.  Добавить аннотации типов для всех переменных.
 
 **Оптимизированный код:**
 
 ```python
-import os
+from typing import Dict, List, Generator
 import requests
-from typing import sha256, Dict, get_type_hints, List, Generator
-from src.logger import logger
-
-"""
-Модуль для взаимодействия с сервисом Aichat.
-=============================================
-
-Модуль предоставляет функциональность для отправки запросов к API Aichat и получения ответов.
-"""
+from src.logger import logger  # Используем модуль logger из проекта hypotez
 
 url: str = 'https://chat-gpt.org/chat'
 model: List[str] = ['gpt-3.5-turbo']
@@ -59,22 +41,26 @@ supports_stream: bool = False
 needs_auth: bool = False
 
 
-def _create_completion(model: str, messages: List[Dict[str, str]], stream: bool, **kwargs) -> Generator[str, None, None]:
+def _create_completion(model: str, messages: List[Dict], stream: bool, **kwargs) -> Generator[str, None, None]:
     """
-    Создает завершение на основе предоставленных сообщений, отправляя запрос к API Aichat.
+    Создает завершение на основе предоставленных сообщений, отправляя запрос к API.
 
     Args:
-        model (str): Модель для использования.
-        messages (List[Dict[str, str]]): Список сообщений для отправки.
+        model (str): Название модели для использования.
+        messages (List[Dict]): Список сообщений для отправки в API.
         stream (bool): Флаг, указывающий, использовать ли потоковый режим.
-        **kwargs: Дополнительные аргументы.
+        **kwargs: Дополнительные параметры.
 
     Yields:
-        str: Часть ответа от API Aichat.
+        str: Части ответа от API.
 
     Raises:
-        requests.exceptions.RequestException: Если возникает ошибка при выполнении HTTP-запроса.
+        requests.exceptions.RequestException: Если возникает ошибка при отправке запроса.
 
+    Example:
+        >>> messages = [{"role": "user", "content": "Hello"}]
+        >>> for chunk in _create_completion(model="gpt-3.5-turbo", messages=messages, stream=False):
+        ...     print(chunk)
     """
     base: str = ''
     for message in messages:
@@ -97,7 +83,7 @@ def _create_completion(model: str, messages: List[Dict[str, str]], stream: bool,
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36',
     }
 
-    json_data: Dict[str, any] = {
+    json_data: Dict[str, int | str] = {
         'message': base,
         'temperature': 1,
         'presence_penalty': 0,
@@ -106,13 +92,14 @@ def _create_completion(model: str, messages: List[Dict[str, str]], stream: bool,
     }
 
     try:
-        response = requests.post('https://chat-gpt.org/api/text', headers=headers, json=json_data)
+        response: requests.Response = requests.post('https://chat-gpt.org/api/text', headers=headers, json=json_data)
         response.raise_for_status()  # Проверка на HTTP ошибки
+
         yield response.json()['message']
     except requests.exceptions.RequestException as ex:
-        logger.error('Error while processing data', ex, exc_info=True)
-        yield f'Error: {str(ex)}'
+        logger.error('Error while processing request to chat-gpt.org/api/text', ex, exc_info=True)
+        yield f'Error: {str(ex)}'  # Возвращаем сообщение об ошибке вместо None
 
 
-params: str = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    f'({", ".join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])})'
+# params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
+#    '(%s)' % ', '.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])

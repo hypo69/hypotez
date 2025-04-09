@@ -42,10 +42,10 @@ from src.ai.gemini import GoogleGenerativeAI
 from src.endpoints.advertisement.facebook.scenarios import (
     post_message_title, upload_post_media, message_publish
 )
-from src.suppliers.morlevi.graber import Graber as MorleviGraber
-from src.suppliers.ksp.graber import Graber as KspGraber
-from src.suppliers.ivory.graber import Graber as IvoryGraber
-from src.suppliers.grandadvance.graber import Graber as GrandadvanceGraber
+from src.suppliers.suppliers_list.morlevi.graber import Graber as MorleviGraber
+from src.suppliers.suppliers_list.ksp.graber import Graber as KspGraber
+from src.suppliers.suppliers_list.ivory.graber import Graber as IvoryGraber
+from src.suppliers.suppliers_list.grandadvance.graber import Graber as GrandadvanceGraber
 from src.endpoints.kazarinov.report_generator import ReportGenerator 
 
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps

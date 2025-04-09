@@ -1,133 +1,138 @@
 ### **Анализ кода модуля `text_completions_streaming.py`**
 
-**Качество кода**:
-- **Соответствие стандартам**: 6/10
+**Качество кода:**
+- **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код демонстрирует асинхронный и синхронный стриминг.
-  - Есть обработка ошибок.
+  - Код демонстрирует использование асинхронных и синхронных потоков для работы с `gpt4free`.
+  - Примеры использования хорошо документированы.
 - **Минусы**:
-  - Отсутствуют docstring для функций и аннотации типов.
-  - Нет логирования ошибок через `logger`.
-  - Исключение обрабатывается с использованием `print` вместо `logger.error`.
-  - Не указаны типы для переменных.
-  - Клиент g4f не конфигурируется.
-  - Не обрабатывается случай, когда `chunk.choices` пуст.
+  - Отсутствуют аннотации типов для переменных и функций.
+  - Не используется модуль логирования `src.logger`.
+  - Отсутствует обработка ошибок с использованием `logger.error`.
+  - Не все комментарии переведены на русский язык.
+  - Код не содержит docstring для модуля
 
-**Рекомендации по улучшению**:
+**Рекомендации по улучшению:**
 
-1.  **Добавить docstring**:
-    - Добавить docstring для каждой функции, описывая ее назначение, аргументы, возвращаемые значения и возможные исключения.
-2.  **Добавить аннотации типов**:
-    - Добавить аннотации типов для всех аргументов функций и возвращаемых значений.
-3.  **Использовать логирование**:
-    - Заменить `print` на `logger.info` и `logger.error` для логирования информации и ошибок.
+1.  **Добавить docstring модуля**:
+
+*   В начало файла добавить docstring, описывающий назначение модуля.
+
+2.  **Аннотации типов**:
+
+*   Добавить аннотации типов для всех переменных и функций, чтобы повысить читаемость и облегчить отладку.
+
+3.  **Использовать `logger`**:
+
+*   Заменить `print` на `logger.info` для вывода информационных сообщений.
+*   Использовать `logger.error` для логирования ошибок вместо `print(f"An error occurred: {str(e)}")`.
+
 4.  **Обработка исключений**:
-    - Использовать `logger.error` с `exc_info=True` для логирования полной информации об исключении.
-    - Использовать `ex` вместо `e` в блоках обработки исключений.
-5.  **Обработка `chunk.choices`**:
-    - Добавить проверку на случай, когда `chunk.choices` может быть `None` или пустым списком.
-6.  **Конфигурирование клиента**:
-    - Добавить возможность конфигурации клиента `g4f`.
 
-**Оптимизированный код**:
+*   В блоке `except` использовать `ex` вместо `e` для исключений.
+*   Добавить `exc_info=True` при логировании ошибок, чтобы получить подробную информацию об исключении.
+
+5.  **Улучшить комментарии**:
+
+*   Перевести все комментарии и docstring на русский язык в формате UTF-8.
+*   Сделать комментарии более подробными и понятными.
+
+6.  **Использовать одинарные кавычки**:
+
+*   Заменить двойные кавычки на одинарные, где это необходимо.
+
+**Оптимизированный код:**
 
 ```python
+"""
+Модуль для демонстрации асинхронного и синхронного стриминга с использованием gpt4free
+========================================================================================
+
+Этот модуль демонстрирует, как использовать асинхронные и синхронные потоки для взаимодействия с API gpt4free.
+Он предоставляет примеры для выполнения текстовых завершений с использованием модели GPT-4.
+
+Пример использования
+--------------------
+
+>>> from g4f.client import Client, AsyncClient
+>>> import asyncio
+
+>>> async def main():
+>>>     client = AsyncClient()
+>>>     stream = client.chat.completions.create(
+>>>         model="gpt-4",
+>>>         messages=[{"role": "user", "content": "Hello!"}],
+>>>         stream=True,
+>>>     )
+>>>     async for chunk in stream:
+>>>         print(chunk.choices[0].delta.content, end="")
+
+>>> asyncio.run(main())
+"""
 import asyncio
-from typing import Optional, Generator
+from typing import AsyncGenerator, Generator
 from g4f.client import Client, AsyncClient
 from src.logger import logger
 
-"""
-Модуль для демонстрации асинхронного и синхронного стриминга с использованием g4f.
-============================================================================
+question: str = 'Привет! Как я могу рекурсивно перечислить все файлы в каталоге в Python?'
 
-Модуль содержит функции для выполнения стриминга в синхронном и асинхронном режимах.
-
-Пример использования:
-----------------------
-
->>> main()
-"""
-
-question: str = "Hey! How can I recursively list all files in a directory in Python?"
-
-
-def sync_stream() -> Optional[Generator]:
+# Синхронная функция стриминга
+def sync_stream() -> None:
     """
-    Выполняет синхронный стриминг.
+    Выполняет синхронный стриминг запроса к gpt4free.
 
-    Args:
-        None
-
-    Returns:
-        Optional[Generator]: Генератор чанков или None в случае ошибки.
-
-    Raises:
-        Exception: Если во время стриминга произошла ошибка.
+    Эта функция создает синхронный клиент, отправляет запрос на текстовое завершение и выводит полученные чанки.
     """
-    try:
-        client: Client = Client()
-        stream = client.chat.completions.create(
-            model="gpt-4",
-            messages=[{"role": "user", "content": question}],
-            stream=True,
-        )
+    client: Client = Client() # Создаем инстанс клиента
+    stream: Generator = client.chat.completions.create(
+        model='gpt-4',
+        messages=[
+            {'role': 'user', 'content': question}
+        ],
+        stream=True,
+    )
+    
+    for chunk in stream: # Итерируемся по чанкам ответа
+        if chunk.choices[0].delta.content: # Проверяем, что чанк содержит контент
+            print(chunk.choices[0].delta.content or '', end='') # Выводим контент чанка
+            # logger.info(chunk.choices[0].delta.content or '', end='') # Логируем контент чанка
 
-        for chunk in stream:
-            if chunk.choices and chunk.choices[0].delta.content:  # Check if chunk.choices is not None and not empty
-                print(chunk.choices[0].delta.content or "", end="")
-        return stream
-    except Exception as ex:
-        logger.error("Ошибка при выполнении синхронного стриминга", ex, exc_info=True)
-        return None
-
-
+# Асинхронная функция стриминга
 async def async_stream() -> None:
     """
-    Выполняет асинхронный стриминг.
+    Выполняет асинхронный стриминг запроса к gpt4free.
 
-    Args:
-        None
-
-    Returns:
-        None
-
-    Raises:
-        Exception: Если во время стриминга произошла ошибка.
+    Эта функция создает асинхронный клиент, отправляет запрос на текстовое завершение и выводит полученные чанки.
     """
-    try:
-        client: AsyncClient = AsyncClient()
-        stream = client.chat.completions.create(
-            model="gpt-4",
-            messages=[{"role": "user", "content": question}],
-            stream=True,
-        )
+    client: AsyncClient = AsyncClient() # Создаем асинхронный инстанс клиента
+    stream: AsyncGenerator = client.chat.completions.create(
+        model='gpt-4',
+        messages=[
+            {'role': 'user', 'content': question}
+        ],
+        stream=True,
+    )
+    
+    async for chunk in stream: # Асинхронно итерируемся по чанкам ответа
+        if chunk.choices and chunk.choices[0].delta.content: # Проверяем, что чанк содержит контент
+            print(chunk.choices[0].delta.content, end='') # Выводим контент чанка
+            #  logger.info(chunk.choices[0].delta.content, end='') # Логируем контент чанка
 
-        async for chunk in stream:
-            if chunk.choices and chunk.choices[0].delta.content:  # Check if chunk.choices is not None and not empty
-                print(chunk.choices[0].delta.content, end="")
-    except Exception as ex:
-        logger.error("Ошибка при выполнении асинхронного стриминга", ex, exc_info=True)
-
-
+# Основная функция для запуска обоих стримов
 def main() -> None:
     """
-    Главная функция для запуска синхронного и асинхронного стриминга.
+    Запускает синхронный и асинхронный стриминг.
 
-    Args:
-        None
-
-    Returns:
-        None
+    Эта функция вызывает `sync_stream` и `async_stream` для демонстрации обоих режимов работы.
     """
-    print("Synchronous Stream:")
+    print('Синхронный стрим:')
     sync_stream()
-    print("\n\nAsynchronous Stream:")
+    print('\n\nАсинхронный стрим:')
     asyncio.run(async_stream())
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     try:
         main()
     except Exception as ex:
-        logger.error(f"Произошла ошибка: {str(ex)}", ex, exc_info=True)
+        logger.error(f'Произошла ошибка: {str(ex)}', ex, exc_info=True) # Логируем ошибку
+        # print(f'Произошла ошибка: {str(e)}')

@@ -1,50 +1,40 @@
 ### **Анализ кода модуля `openaichat.py`**
 
-#### **Расположение файла:**
-Файл находится в `hypotez/src/endpoints/gpt4free/etc/examples/openaichat.py`, что указывает на его использование в качестве примера для работы с OpenAI через g4f (GPT4Free) в контексте проекта `hypotez`.
+**Расположение файла в проекте:** `hypotez/src/endpoints/gpt4free/etc/examples/openaichat.py`
 
-#### **Качество кода:**
+**Описание:** Пример использования `g4f` для взаимодействия с OpenAI через прокси.
+
+**Качество кода:**
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-  - Код демонстрирует базовый пример использования библиотеки `g4f` для взаимодействия с OpenAI.
-  - Использование `RetryProvider` для повышения надежности соединения.
+    - Код выполняет поставленную задачу - взаимодействие с OpenAI через прокси с использованием библиотеки `g4f`.
+    - Использование `RetryProvider` для повышения надежности.
 - **Минусы**:
-  - Отсутствует обработка исключений при запросах к OpenAI.
-  - Не хватает комментариев для пояснения логики работы кода.
-  - Не указаны аннотации типов.
-  - Не используется модуль логирования `logger` из `src.logger`.
-  - Жестко заданные параметры прокси без возможности конфигурации.
+    - Отсутствуют аннотации типов.
+    - Отсутствует обработка исключений.
+    - Нет документации.
+    - Жёстко заданные параметры прокси и модели.
+    - Не используется модуль логирования `logger` из проекта `hypotez`.
 
-#### **Рекомендации по улучшению:**
+**Рекомендации по улучшению:**
 
-1.  **Добавить обработку исключений**:
-    - Обернуть вызов `client.chat.completions.create` в блок `try...except` для обработки возможных ошибок при взаимодействии с OpenAI.
-    - Логировать ошибки с использованием `logger.error` из модуля `src.logger`.
+1.  **Добавить аннотации типов** для переменных и параметров функций.
+2.  **Добавить документацию** для всего кода, включая описание назначения, параметров и возвращаемых значений.
+3.  **Обработка исключений**: Обернуть вызов `client.chat.completions.create` в блок `try...except` для обработки возможных ошибок.
+4.  **Использовать `logger`**: Добавить логирование для отладки и мониторинга.
+5.  **Избавиться от жестко заданных параметров**: Параметры прокси и модели должны передаваться через переменные окружения или аргументы командной строки.
+6.  **Удалить неиспользуемые импорты**: Проверить и удалить неиспользуемые импорты, если таковые имеются.
+7.  **Использовать одинарные кавычки**: Заменить двойные кавычки на одинарные.
 
-2.  **Добавить комментарии и документацию**:
-    - Добавить docstring для пояснения назначения модуля и основных блоков кода.
-    - Добавить комментарии для пояснения логики работы с прокси и параметрами запроса.
-
-3.  **Улучшить конфигурацию прокси**:
-    - Предоставить возможность конфигурации параметров прокси через переменные окружения или конфигурационный файл.
-    - Проверять доступность прокси перед использованием.
-
-4.  **Добавить аннотации типов**:
-    - Добавить аннотации типов для переменных и параметров функций для повышения читаемости и облегчения отладки.
-
-5.  **Улучшить обработку потока ответов**:
-    - Обеспечить корректную обработку потока ответов от OpenAI, включая обработку ошибок и завершение потока.
-
-#### **Оптимизированный код:**
+**Оптимизированный код:**
 
 ```python
 """
-Модуль для демонстрации взаимодействия с OpenAI через библиотеку g4f.
-=====================================================================
+Пример использования g4f для взаимодействия с OpenAI через прокси.
+==============================================================
 
-Модуль содержит пример использования Client и RetryProvider из библиотеки g4f
-для отправки запросов к OpenAI с использованием прокси и обработки ответов в потоковом режиме.
+Модуль демонстрирует подключение к OpenAI с использованием прокси и обработкой повторных попыток.
 
 Пример использования
 ----------------------
@@ -54,78 +44,93 @@
 
 >>> client = Client(
 ...     proxies={
-...         'http': 'http://username:password@host:port',  # Пример прокси
-...         'https': 'http://username:password@host:port' # Пример прокси
+...         'http': 'http://username:password@host:port',  # MUST BE WORKING OPENAI COUNTRY PROXY ex: USA
+...         'https': 'http://username:password@host:port'  # MUST BE WORKING OPENAI COUNTRY PROXY ex: USA
 ...     },
 ...     provider=RetryProvider([OpenaiChat], single_provider_retry=True, max_retries=5)
 ... )
 
 >>> messages = [{'role': 'user', 'content': 'Hello'}]
 
->>> try:
-...     response = client.chat.completions.create(model='gpt-3.5-turbo', messages=messages, stream=True)
-...     for message in response:
-...         print(message.choices[0].delta.content or "")
-... except Exception as ex:
-...     print(f"Error: {ex}")
+>>> response = client.chat.completions.create(model='gpt-3.5-turbo', messages=messages, stream=True)
+
+>>> for message in response:
+...     print(message.choices[0].delta.content or "")
 """
+
+from typing import Dict, List, Generator
 
 from g4f.client import Client
 from g4f.Provider import OpenaiChat, RetryProvider
-from typing import List, Dict, Generator
-from src.logger import logger
 
-# Добавлены аннотации типов
-def get_openai_chat_completion(messages: List[Dict[str, str]],
-                                 proxy_url: str = None,
-                                 max_retries: int = 5) -> Generator[str, None, None]:
+from src.logger import logger  # Импорт модуля логирования
+
+
+def chat_with_openai(
+    messages: List[Dict[str, str]],
+    http_proxy: str,
+    https_proxy: str,
+    model: str = "gpt-3.5-turbo",
+    max_retries: int = 5,
+) -> Generator[str, None, None] | None:
     """
-    Функция для получения ответа от OpenAI через g4f с использованием прокси и повторных попыток.
+    Выполняет запрос к OpenAI с использованием прокси и повторных попыток.
 
     Args:
         messages (List[Dict[str, str]]): Список сообщений для отправки в OpenAI.
-        proxy_url (str, optional): URL прокси-сервера. Defaults to None.
+        http_proxy (str): HTTP прокси.
+        https_proxy (str): HTTPS прокси.
+        model (str, optional): Модель OpenAI для использования. Defaults to "gpt-3.5-turbo".
         max_retries (int, optional): Максимальное количество повторных попыток. Defaults to 5.
 
     Yields:
-        str: Часть ответа от OpenAI в потоковом режиме.
-
+        str: Части ответа от OpenAI.
+    
+    Returns:
+        Generator[str, None, None] | None: Генератор строк с ответом от OpenAI или None в случае ошибки.
+    
     Raises:
-        Exception: В случае ошибки при взаимодействии с OpenAI.
+        Exception: При возникновении ошибки во время запроса к OpenAI.
 
+    Example:
+        >>> messages = [{'role': 'user', 'content': 'Hello'}]
+        >>> for message in chat_with_openai(messages, 'http://username:password@host:port', 'http://username:password@host:port'):
+        ...     print(message)
     """
-    proxies: Dict[str, str] = {}
-    if proxy_url:
-        proxies = {
-            'http': proxy_url,
-            'https': proxy_url
-        }
     try:
+        # Настройка клиента с прокси и повторными попытками
         client: Client = Client(
-            proxies=proxies,
-            provider=RetryProvider([OpenaiChat], single_provider_retry=True, max_retries=max_retries)
+            proxies={
+                "http": http_proxy,  # Прокси для HTTP
+                "https": https_proxy,  # Прокси для HTTPS
+            },
+            provider=RetryProvider(
+                [OpenaiChat], single_provider_retry=True, max_retries=max_retries
+            ),
         )
 
-        response: Generator = client.chat.completions.create(model='gpt-3.5-turbo',
-                                                        messages=messages,
-                                                        stream=True)
+        # Отправка запроса в OpenAI
+        response = client.chat.completions.create(
+            model=model, messages=messages, stream=True
+        )
 
+        # Итерация по ответу и вывод чанков
         for message in response:
-            yield message.choices[0].delta.content or ""
+            chunk = message.choices[0].delta.content or ""
+            yield chunk
 
     except Exception as ex:
-        logger.error('Error while getting OpenAI chat completion', ex, exc_info=True) # Логируем ошибку
-        yield f"Error: {ex}" # Возвращаем сообщение об ошибке
+        logger.error("Ошибка при запросе к OpenAI", ex, exc_info=True)
+        return None
 
-if __name__ == '__main__':
-    messages: List[Dict[str, str]] = [
-        {'role': 'user', 'content': 'Hello'}
-    ]
 
-    # Пример использования с прокси
-    # for message_part in get_openai_chat_completion(messages, proxy_url='http://username:password@host:port'):
-    #     print(message_part, end="")
+if __name__ == "__main__":
+    # Пример использования
+    messages: List[Dict[str, str]] = [{"role": "user", "content": "Hello"}]
+    http_proxy: str = "http://username:password@host:port"  # Замените на ваш HTTP прокси
+    https_proxy: str = "http://username:password@host:port"  # Замените на ваш HTTPS прокси
 
-    # Пример использования без прокси
-    for message_part in get_openai_chat_completion(messages):
-        print(message_part, end="")
+    # Вызов функции и обработка ответа
+    if  result := chat_with_openai(messages, http_proxy, https_proxy):
+        for message in result:
+            print(message, end="")

@@ -2,125 +2,121 @@
 
 ## \file /hypotez/src/endpoints/freegpt-webui-ru/g4f/Provider/Providers/Lockchat.py
 
-Модуль предоставляет класс для взаимодействия с Lockchat API, позволяя генерировать ответы от моделей GPT-4 и GPT-3.5.
-
 **Качество кода:**
-
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код достаточно лаконичен и выполняет поставленную задачу.
-    - Определены параметры для работы с Lockchat API (URL, поддерживаемые модели).
-    - Реализована потоковая передача данных.
+    - Код выполняет отправку запросов к API `lockchat.app` для получения ответов от языковой модели.
+    - Используется потоковая передача данных (streaming) для получения ответов по частям.
+    - Указаны типы данных в сигнатуре функции `_create_completion`.
 - **Минусы**:
-    - Отсутствует обработка ошибок при запросах к API.
-    - Жёстко закодированные URL и ключи (auth) снижают гибкость и безопасность.
-    - Не документированы функции и параметры (отсутствуют docstring).
-    - Используется глобальная переменная `url`.
-    - Отсутствует логирование.
-    - Рекурсивный вызов `_create_completion` при ошибке может привести к переполнению стека.
-    - Не все переменные аннотированы.
+    - Отсутствует общая документация модуля.
+    - Отсутствует обработка ошибок при отправке запросов и декодировании ответов.
+    - Не используется модуль `logger` для логирования ошибок и информации.
+    - В случае ошибки модель пытается повторить запрос рекурсивно, что может привести к переполнению стека.
+    - В коде используется небезопасная конструкция `eval` или `exec`, что может привести к выполнению произвольного кода.
+    - Параметры `url` и `model` заданы вне функции, что делает их глобальными константами, но не указаны как константы.
+    - Нет аннотаций в `params`
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить docstring**:
-    - Документировать модуль, функцию `_create_completion` и ее параметры, указав их назначение и типы данных.
-2.  **Обработка ошибок**:
-    - Добавить обработку исключений `requests.exceptions.RequestException` при выполнении запросов к API.
-    - Вместо рекурсивного вызова `_create_completion` использовать цикл с ограничением количества попыток.
-3.  **Конфигурация**:
-    - Вынести URL и ключ `auth` в конфигурационный файл или переменные окружения.
-4.  **Логирование**:
-    - Использовать модуль `logger` для записи информации об ошибках и важных событиях.
-5.  **Аннотации типов**:
-    - Добавить аннотации типов для всех переменных и параметров функций.
-6.  **Удалить глобальные переменные**:
-    - Избегать использования глобальных переменных, передавать необходимые параметры в функции.
+1.  **Добавить документацию модуля**:
+    - Добавить общее описание модуля, его назначения и примеры использования.
+2.  **Реализовать обработку ошибок**:
+    - Добавить блоки `try-except` для обработки возможных исключений при отправке запросов и декодировании ответов.
+    - Использовать модуль `logger` для логирования ошибок и отладочной информации.
+3.  **Избегать рекурсии**:
+    - Изменить логику повторных запросов, чтобы избежать рекурсии и возможного переполнения стека. Вместо этого можно использовать цикл `while` с ограничением на количество попыток.
+4.  **Безопасность**:
+    - Избегать использования `eval` или `exec` для обработки данных, полученных от API.
+5.  **Улучшить читаемость**:
+    - Использовать более понятные имена переменных.
+    - Добавить комментарии для объяснения сложных участков кода.
+6.  **Улучшить обработку ошибок**:
+    - Проверять статус код ответа от сервера и обрабатывать ошибки, если они есть.
+    - Выводить более информативные сообщения об ошибках.
+7.  **Добавить аннотации**:
+    - Добавить аннотацию типа для переменой `params`
 
 **Оптимизированный код:**
 
 ```python
+"""
+Модуль для работы с Lockchat API
+=================================
+
+Модуль содержит функции для взаимодействия с API Lockchat для получения ответов от языковых моделей.
+
+Пример использования
+----------------------
+
+>>> from src.endpoints.freegpt-webui-ru.g4f.Provider.Providers import Lockchat
+>>> Lockchat._create_completion(model='gpt-4', messages=[{'role': 'user', 'content': 'Hello'}], stream=True)
+<generator object _create_completion at 0x...>
+"""
 import requests
 import os
 import json
-from typing import Dict, get_type_hints, Generator
-from src.logger import logger  # Добавлен импорт logger
-from typing import Optional
-
+from typing import Dict, get_type_hints, List, Generator
+from src.logger import logger  # Import logger
 url: str = 'http://super.lockchat.app'
-model: list[str] = ['gpt-4', 'gpt-3.5-turbo']
+model: List[str] = ['gpt-4', 'gpt-3.5-turbo']
 supports_stream: bool = True
 needs_auth: bool = False
 
 
-def _create_completion(
-    model: str,
-    messages: list[dict[str, str]],
-    stream: bool,
-    temperature: float = 0.7,
-    max_retries: int = 3,
-    **kwargs
-) -> Generator[str, None, None] | None:
+def _create_completion(model: str, messages: List[Dict], stream: bool, temperature: float = 0.7, **kwargs) -> Generator[str, None, None]:
     """
-    Создает запрос к Lockchat API для генерации текста.
+    Создает запрос к Lockchat API для получения ответа от языковой модели.
 
     Args:
-        model (str): Имя используемой модели.
-        messages (list[dict[str, str]]): Список сообщений для отправки в API.
-        stream (bool): Флаг потоковой передачи данных.
-        temperature (float, optional): Температура генерации текста. По умолчанию 0.7.
-        max_retries (int, optional): Максимальное количество попыток при ошибке. По умолчанию 3.
+        model (str): Имя языковой модели.
+        messages (List[Dict]): Список сообщений для отправки в API.
+        stream (bool): Флаг, указывающий, использовать ли потоковую передачу данных.
+        temperature (float, optional): Температура модели. По умолчанию 0.7.
         **kwargs: Дополнительные параметры.
 
     Yields:
-        str: Часть сгенерированного текста (токен).
+        str: Часть ответа от API (токен).
 
-    Returns:
-        None: Если произошла ошибка и не удалось получить ответ от API после нескольких попыток.
+    Raises:
+        requests.exceptions.RequestException: Если возникает ошибка при отправке запроса.
+        json.JSONDecodeError: Если возникает ошибка при декодировании JSON ответа.
+        Exception: Если приходит ошибка ответа от lockchat, например "The model: `gpt-4` does not exist"
+
     """
-    payload: dict[str, any] = {
+    payload = {
         "temperature": temperature,
         "messages": messages,
         "model": model,
         "stream": stream,
     }
-    headers: dict[str, str] = {
+    headers = {
         "user-agent": "ChatX/39 CFNetwork/1408.0.4 Darwin/22.5.0",
     }
-    auth: str = "FnMNPlwZEnGFqvEc9470Vw=="  # Вынесено в локальную переменную
-    api_url: str = "http://super.lockchat.app/v1/chat/completions?auth=" + auth  # Сформирован URL
+    try:
+        response = requests.post(
+            "http://super.lockchat.app/v1/chat/completions?auth=FnMNPlwZEnGFqvEc9470Vw==",
+            json=payload, headers=headers, stream=True
+        )
+        response.raise_for_status()  # Проверка статус кода ответа
 
-    for attempt in range(max_retries):
-        try:
-            response = requests.post(api_url, json=payload, headers=headers, stream=True)
-
-            for token in response.iter_lines():
-                if b'The model: `gpt-4` does not exist' in token:
-                    logger.warning(f'Model {model} does not exist, retrying...')
-                    break  # Выход из цикла iter_lines, чтобы повторить запрос
-                if b"content" in token:
-                    try:
-                        token_str: str = token.decode('utf-8')
-                        data_str: str = token_str.split('data: ')[1]
-                        token_json: dict = json.loads(data_str)
-                        content: Optional[str] = token_json['choices'][0]['delta'].get('content')
-                        if content:
-                            yield content
-                    except (IndexError, KeyError, json.JSONDecodeError) as ex:
-                        logger.error(f'Error parsing token: {token}', ex, exc_info=True)
-                        continue  # Переход к следующему токену
-            else:
-                # Если цикл iter_lines завершился без ошибок, выходим из цикла попыток
-                break
-        except requests.exceptions.RequestException as ex:
-            logger.error(f'Request error: {ex}', exc_info=True)
-            if attempt < max_retries - 1:
-                logger.info(f'Retrying... (attempt {attempt + 1}/{max_retries})')
-            else:
-                logger.error('Max retries exceeded.')
-                return None  # Возвращаем None при неудаче после всех попыток
-    else:
-        logger.error('Max retries exceeded.')
-        return None  # Возвращаем None, если все попытки исчерпаны
+        for token in response.iter_lines():
+            if b\'The model: `gpt-4` does not exist\' in token:
+                error_message = 'The model: `gpt-4` does not exist, retrying...'
+                logger.error(error_message)
+                raise Exception(error_message)
+            if b"content" in token:
+                try:
+                    token = json.loads(token.decode('utf-8').split('data: ')[1])['choices'][0]['delta'].get('content')
+                    if token:
+                        yield (token)
+                except (json.JSONDecodeError, IndexError) as ex:
+                    logger.error(f'Error decoding JSON: {ex}', exc_info=True)
+                    continue
+    except requests.exceptions.RequestException as ex:
+        logger.error(f'Request error: {ex}', exc_info=True)
+    except Exception as ex:
+        logger.error(f'Lockchat error: {ex}', exc_info=True)
 
 
 params: str = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \

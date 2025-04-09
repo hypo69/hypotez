@@ -1,7 +1,7 @@
 # \file hypotez/src/scenario/scenario_executor.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
-
+# Документация: https://github.com/hypo69/hypotez/blob/master/docs/ru/src/scenario/scenario_executor.py.md
 """
 Исполнитель сценариев поставщиков
 ====================================
@@ -15,6 +15,7 @@
 .. module::  scenario_executor
 ```
 """
+
 import os
 import sys
 import requests

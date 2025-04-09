@@ -1,67 +1,80 @@
 ### **Анализ кода модуля `models.py`**
 
-## `/hypotez/src/endpoints/gpt4free/g4f/models.py`
+---
 
-Модуль содержит определения dataclass моделей, используемых для конфигурации машинного обучения, а также утилиты для работы с этими моделями. Он определяет различные модели, такие как языковые модели, модели изображений и аудио, и связывает их с конкретными провайдерами.
-
-**Качество кода:**
+**Качество кода**:
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Использование dataclass для представления моделей.
-  - Четкое разделение моделей по типам (ImageModel, AudioModel, VisionModel).
-  - Использование `IterListProvider` для указания предпочтительных провайдеров.
-  - Аннотации типов для переменных и параметров функций.
+  - Код хорошо структурирован и организован, особенно в части определения моделей и их провайдеров.
+  - Использование `dataclass` упрощает создание классов моделей.
+  - Наличие `ModelUtils` для преобразования строковых идентификаторов в экземпляры моделей облегчает доступ к моделям.
 - **Минусы**:
-  - Отсутствие документации модуля.
-  - Не все методы и функции имеют docstring.
-  - Смешанный стиль именования переменных (snake_case и camelCase).
-  - Некоторые провайдеры импортируются, но не используются.
+  - Отсутствует docstring для модуля.
+  - Не все функции и методы имеют подробные docstring, описывающие их назначение, аргументы и возвращаемые значения.
+  - Некоторые имена переменных и констант могут быть более описательными.
+  - В коде используются смешанные стили именования переменных (например, `mini_max` и `MiniMax`).
+  - Не хватает единообразия в определении `best_provider` для разных моделей.
 
-**Рекомендации по улучшению:**
+**Рекомендации по улучшению**:
 
-1.  **Добавить документацию модуля**:
-    -   Описать назначение модуля, основные классы и примеры использования.
-2.  **Добавить docstring для всех методов и функций**:
-    -   Описать параметры, возвращаемые значения и возможные исключения.
-3.  **Привести к единообразному стилю именования переменных**:
-    -   Рекомендуется использовать snake_case для всех переменных и атрибутов.
-4.  **Удалить неиспользуемые импорты**:
-    -   Удалить импортированные модули, которые не используются в коде.
-5.  **Улучшить читаемость кода**:
-    -   Добавить больше пробелов и переносов строк для улучшения визуального разделения логических блоков.
-6.  **Использовать `logger` для логирования**:
-    -   Добавить логирование для отслеживания работы кода и отладки.
+1.  **Добавить docstring для модуля**:
 
-**Оптимизированный код:**
+    *   Добавить описание модуля, его назначения и примеры использования.
+
+2.  **Улучшить docstring для классов и методов**:
+
+    *   Добавить подробные описания для всех классов и методов, включая аргументы, возвращаемые значения и возможные исключения.
+    *   Описать назначение каждой функции и метода.
+    *   Привести примеры использования.
+
+3.  **Унифицировать стиль именования переменных и констант**:
+
+    *   Привести все имена к единому стилю, например, snake_case (например, `mini_max` вместо `MiniMax`).
+
+4.  **Добавить логирование**:
+
+    *   Использовать модуль `logger` для записи информации об ошибках и предупреждениях.
+
+5.  **Определить типы для всех переменных**:
+
+    *   Добавить аннотации типов для всех переменных, чтобы улучшить читаемость и облегчить отладку.
+
+6.  **Оптимизировать определение `best_provider`**:
+
+    *   Сделать определение `best_provider` более единообразным для всех моделей.
+
+7.  **Улучшить читаемость IterListProvider**:
+
+    *   Сделать логику определения `best_provider` с использованием `IterListProvider` более явной и понятной.
+
+**Оптимизированный код**:
 
 ```python
 """
 Модуль для определения моделей машинного обучения и их провайдеров.
 =====================================================================
 
-Модуль содержит dataclass-ы для представления различных моделей, таких как текстовые,
-аудио и визуальные модели, а также утилиты для работы с этими моделями.
-Он определяет различные модели и связывает их с конкретными провайдерами,
-используя IterListProvider для указания предпочтительных провайдеров.
+Модуль содержит классы для представления различных моделей машинного обучения,
+таких как Model, ImageModel, AudioModel и VisionModel.
+Он также определяет различные провайдеры для этих моделей и утилиты для
+сопоставления строковых идентификаторов с экземплярами моделей.
 
 Пример использования
 ----------------------
 
 >>> from g4f.models import ModelUtils
->>> model = ModelUtils.convert['gpt-3.5-turbo']
->>> print(model)
-Model(name='gpt-3.5-turbo', base_provider='OpenAI', best_provider=None)
+>>> model = ModelUtils.convert.get("gpt-3.5-turbo")
+>>> if model:
+...     print(f"Model name: {model.name}")
+...     print(f"Base provider: {model.base_provider}")
 """
-
 from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import List, Optional
 
 from .Provider import IterListProvider, ProviderType
-
-# Импорт всех провайдеров
 from .Provider import (
     ### No Auth Required ###
     AllenAI,
@@ -94,6 +107,7 @@ from .Provider import (
     TeachAnything,
     Websim,
     Yqcloud,
+    
     ### Needs Auth ###
     BingCreateImages,
     CopilotAccount,
@@ -111,46 +125,64 @@ from .Provider import (
     Reka,
 )
 
-
 @dataclass(unsafe_hash=True)
 class Model:
     """
     Представляет конфигурацию модели машинного обучения.
 
     Attributes:
-        name (str): Название модели.
+        name (str): Имя модели.
         base_provider (str): Провайдер по умолчанию для модели.
-        best_provider (ProviderType): Предпочтительный провайдер для модели, обычно с логикой повторных попыток.
+        best_provider (ProviderType | None): Предпочтительный провайдер для модели, обычно с логикой повторных попыток.
+    
+    Example:
+        >>> model = Model(name='gpt-3.5-turbo', base_provider='OpenAI')
+        >>> print(model.name)
+        gpt-3.5-turbo
     """
     name: str
     base_provider: str
-    best_provider: Optional[ProviderType] = None
+    best_provider: ProviderType | None = None
 
     @staticmethod
     def __all__() -> list[str]:
-        """Возвращает список всех названий моделей."""
+        """
+        Возвращает список всех имен моделей.
+
+        Returns:
+            list[str]: Список всех имен моделей.
+
+        Example:
+            >>> Model.__all__()
+            ['gpt-3.5-turbo', 'gpt-4', ...]
+        """
         return _all_models
 
-
 class ImageModel(Model):
-    """Представляет модель для работы с изображениями."""
+    """
+    Представляет модель для работы с изображениями.
+    Наследуется от класса Model.
+    """
     pass
-
 
 class AudioModel(Model):
-    """Представляет модель для работы со звуком."""
+    """
+    Представляет модель для работы со звуком.
+    Наследуется от класса Model.
+    """
     pass
-
 
 class VisionModel(Model):
-    """Представляет модель для работы с видео."""
+    """
+    Представляет модель, обладающую возможностями компьютерного зрения.
+    Наследуется от класса Model.
+    """
     pass
-
 
 ### Default ###
 default = Model(
-    name = '',
-    base_provider = '',
+    name = "",
+    base_provider = "",
     best_provider = IterListProvider([
         DDG,
         Blackbox,
@@ -172,8 +204,8 @@ default = Model(
 )
 
 default_vision = Model(
-    name = '',
-    base_provider = '',
+    name = "",
+    base_provider = "",
     best_provider = IterListProvider([
         Blackbox,
         OIVSCode,
@@ -197,183 +229,182 @@ default_vision = Model(
 ### OpenAI ###
 # gpt-3.5
 gpt_3_5_turbo = Model(
-    name = 'gpt-3.5-turbo',
+    name          = 'gpt-3.5-turbo',
     base_provider = 'OpenAI'
 )
 
 # gpt-4
 gpt_4 = Model(
-    name = 'gpt-4',
+    name          = 'gpt-4',
     base_provider = 'OpenAI',
     best_provider = IterListProvider([DDG, Jmuz, ChatGptEs, PollinationsAI, Yqcloud, Goabror, Copilot, OpenaiChat, Liaobots])
 )
 
 # gpt-4o
 gpt_4o = VisionModel(
-    name = 'gpt-4o',
+    name          = 'gpt-4o',
     base_provider = 'OpenAI',
     best_provider = IterListProvider([Blackbox, Jmuz, ChatGptEs, PollinationsAI, Liaobots, OpenaiChat])
 )
 
 gpt_4o_mini = Model(
-    name = 'gpt-4o-mini',
+    name          = 'gpt-4o-mini',
     base_provider = 'OpenAI',
     best_provider = IterListProvider([DDG, Blackbox, ChatGptEs, TypeGPT, PollinationsAI, OIVSCode, Liaobots, Jmuz, OpenaiChat])
 )
 
 gpt_4o_audio = AudioModel(
-    name = 'gpt-4o-audio',
+    name          = 'gpt-4o-audio',
     base_provider = 'OpenAI',
     best_provider = PollinationsAI
 )
 
 # o1
 o1 = Model(
-    name = 'o1',
+    name          = 'o1',
     base_provider = 'OpenAI',
     best_provider = IterListProvider([Blackbox, Copilot, OpenaiAccount])
 )
 
 o1_mini = Model(
-    name = 'o1-mini',
+    name          = 'o1-mini',
     base_provider = 'OpenAI',
     best_provider = OpenaiAccount
 )
 
 # o3
 o3_mini = Model(
-    name = 'o3-mini',
+    name          = 'o3-mini',
     base_provider = 'OpenAI',
     best_provider = IterListProvider([DDG, Blackbox, PollinationsAI, Liaobots])
 )
 
 ### GigaChat ###
 gigachat = Model(
-    name = 'GigaChat:latest',
+    name          = 'GigaChat:latest',
     base_provider = 'gigachat',
     best_provider = GigaChat
 )
 
 ### Meta ###
 meta = Model(
-    name = 'meta-ai',
-    base_provider = 'Meta',
+    name          = "meta-ai",
+    base_provider = "Meta",
     best_provider = MetaAI
 )
 
 # llama 2
 llama_2_7b = Model(
-    name = 'llama-2-7b',
-    base_provider = 'Meta Llama',
+    name          = "llama-2-7b",
+    base_provider = "Meta Llama",
     best_provider = Cloudflare
 )
 # llama 3
 llama_3_8b = Model(
-    name = 'llama-3-8b',
-    base_provider = 'Meta Llama',
+    name          = "llama-3-8b",
+    base_provider = "Meta Llama",
     best_provider = IterListProvider([Jmuz, Cloudflare])
 )
 
 llama_3_70b = Model(
-    name = 'llama-3-70b',
-    base_provider = 'Meta Llama',
+    name          = "llama-3-70b",
+    base_provider = "Meta Llama",
     best_provider = Jmuz
 )
 
 # llama 3.1
 llama_3_1_8b = Model(
-    name = 'llama-3.1-8b',
-    base_provider = 'Meta Llama',
+    name          = "llama-3.1-8b",
+    base_provider = "Meta Llama",
     best_provider = IterListProvider([DeepInfraChat, Glider, PollinationsAI, AllenAI, Jmuz, Cloudflare])
 )
 
 llama_3_1_70b = Model(
-    name = 'llama-3.1-70b',
-    base_provider = 'Meta Llama',
+    name          = "llama-3.1-70b",
+    base_provider = "Meta Llama",
     best_provider = IterListProvider([Glider, AllenAI, Jmuz])
 )
 
 llama_3_1_405b = Model(
-    name = 'llama-3.1-405b',
-    base_provider = 'Meta Llama',
+    name          = "llama-3.1-405b",
+    base_provider = "Meta Llama",
     best_provider = IterListProvider([AllenAI, Jmuz])
 )
 
 # llama 3.2
-
 llama_3_2_1b = Model(
-    name = 'llama-3.2-1b',
-    base_provider = 'Meta Llama',
+    name          = "llama-3.2-1b",
+    base_provider = "Meta Llama",
     best_provider = Cloudflare
 )
 
 llama_3_2_3b = Model(
-    name = 'llama-3.2-3b',
-    base_provider = 'Meta Llama',
+    name          = "llama-3.2-3b",
+    base_provider = "Meta Llama",
     best_provider = Glider
 )
 
 llama_3_2_11b = VisionModel(
-    name = 'llama-3.2-11b',
-    base_provider = 'Meta Llama',
+    name          = "llama-3.2-11b",
+    base_provider = "Meta Llama",
     best_provider = IterListProvider([Jmuz, HuggingChat, HuggingFace])
 )
 
 llama_3_2_90b = Model(
-    name = 'llama-3.2-90b',
-    base_provider = 'Meta Llama',
+    name          = "llama-3.2-90b",
+    base_provider = "Meta Llama",
     best_provider = IterListProvider([DeepInfraChat, Jmuz])
 )
 
 # llama 3.3
 llama_3_3_70b = Model(
-    name = 'llama-3.3-70b',
-    base_provider = 'Meta Llama',
+    name          = "llama-3.3-70b",
+    base_provider = "Meta Llama",
     best_provider = IterListProvider([DDG, DeepInfraChat, LambdaChat, PollinationsAI, Jmuz, HuggingChat, HuggingFace])
 )
 
 ### Mistral ###
 mixtral_8x7b = Model(
-    name = 'mixtral-8x7b',
-    base_provider = 'Mistral',
+    name          = "mixtral-8x7b",
+    base_provider = "Mistral",
     best_provider = Jmuz
 )
 mixtral_8x22b = Model(
-    name = 'mixtral-8x22b',
-    base_provider = 'Mistral',
+    name          = "mixtral-8x22b",
+    base_provider = "Mistral",
     best_provider = DeepInfraChat
 )
 
 mistral_nemo = Model(
-    name = 'mistral-nemo',
-    base_provider = 'Mistral',
+    name          = "mistral-nemo",
+    base_provider = "Mistral",
     best_provider = IterListProvider([PollinationsAI, HuggingChat, HuggingFace])
 )
 
 mixtral_small_24b = Model(
-    name = 'mixtral-small-24b',
-    base_provider = 'Mistral',
+    name          = "mixtral-small-24b",
+    base_provider = "Mistral",
     best_provider = IterListProvider([DDG, DeepInfraChat])
 )
 
 ### NousResearch ###
 hermes_3 = Model(
-    name = 'hermes-3',
-    base_provider = 'NousResearch',
+    name          = "hermes-3",
+    base_provider = "NousResearch",
     best_provider = LambdaChat
 )
 
 ### Microsoft ###
 # phi
 phi_3_5_mini = Model(
-    name = 'phi-3.5-mini',
-    base_provider = 'Microsoft',
+    name          = "phi-3.5-mini",
+    base_provider = "Microsoft",
     best_provider = HuggingChat
 )
 
 phi_4 = Model(
-    name = 'phi-4',
-    base_provider = 'Microsoft',
+    name          = "phi-4",
+    base_provider = "Microsoft",
     best_provider = IterListProvider([DeepInfraChat, PollinationsAI, HuggingSpace])
 )
 
@@ -393,46 +424,46 @@ wizardlm_2_8x22b = Model(
 ### Google DeepMind ###
 # gemini
 gemini = Model(
-    name = 'gemini-2.0',
+    name          = 'gemini-2.0',
     base_provider = 'Google',
     best_provider = Gemini
 )
 
 # gemini-exp
 gemini_exp = Model(
-    name = 'gemini-exp',
+    name          = 'gemini-exp',
     base_provider = 'Google',
     best_provider = Jmuz
 )
 
 # gemini-1.5
 gemini_1_5_flash = Model(
-    name = 'gemini-1.5-flash',
+    name          = 'gemini-1.5-flash',
     base_provider = 'Google DeepMind',
     best_provider = IterListProvider([Free2GPT, FreeGpt, TeachAnything, Websim, Dynaspark, Jmuz, GeminiPro])
 )
 
 gemini_1_5_pro = Model(
-    name = 'gemini-1.5-pro',
+    name          = 'gemini-1.5-pro',
     base_provider = 'Google DeepMind',
     best_provider = IterListProvider([Free2GPT, FreeGpt, TeachAnything, Websim, Jmuz, GeminiPro])
 )
 
 # gemini-2.0
 gemini_2_0_flash = Model(
-    name = 'gemini-2.0-flash',
+    name          = 'gemini-2.0-flash',
     base_provider = 'Google DeepMind',
     best_provider = IterListProvider([Dynaspark, GeminiPro, Gemini])
 )
 
 gemini_2_0_flash_thinking = Model(
-    name = 'gemini-2.0-flash-thinking',
+    name          = 'gemini-2.0-flash-thinking',
     base_provider = 'Google DeepMind',
     best_provider = Gemini
 )
 
 gemini_2_0_flash_thinking_with_apps = Model(
-    name = 'gemini-2.0-flash-thinking-with-apps',
+    name          = 'gemini-2.0-flash-thinking-with-apps',
     base_provider = 'Google DeepMind',
     best_provider = Gemini
 )
@@ -440,21 +471,21 @@ gemini_2_0_flash_thinking_with_apps = Model(
 ### Anthropic ###
 # claude 3
 claude_3_haiku = Model(
-    name = 'claude-3-haiku',
+    name          = 'claude-3-haiku',
     base_provider = 'Anthropic',
     best_provider = IterListProvider([DDG, Jmuz])
 )
 
 # claude 3.5
 claude_3_5_sonnet = Model(
-    name = 'claude-3.5-sonnet',
+    name          = 'claude-3.5-sonnet',
     base_provider = 'Anthropic',
     best_provider = IterListProvider([Jmuz, Liaobots])
 )
 
 # claude 3.7
 claude_3_7_sonnet = Model(
-    name = 'claude-3.7-sonnet',
+    name          = 'claude-3.7-sonnet',
     base_provider = 'Anthropic',
     best_provider = IterListProvider([Blackbox, Liaobots])
 )
@@ -519,7 +550,7 @@ qwen_2_72b = Model(
     best_provider = IterListProvider([DeepInfraChat, HuggingSpace])
 )
 qwen_2_vl_7b = VisionModel(
-    name = 'qwen-2-vl-7b',
+    name = "qwen-2-vl-7b",
     base_provider = 'Qwen',
     best_provider = HuggingFaceAPI
 )
@@ -610,7 +641,7 @@ grok_3_r1 = Model(
     best_provider = Grok
 )
 
-### Perplexity AI ###
+### Perplexity AI ### 
 sonar = Model(
     name = 'sonar',
     base_provider = 'Perplexity AI',
@@ -641,21 +672,21 @@ r1_1776 = Model(
     best_provider = PerplexityLabs
 )
 
-### Nvidia ###
+### Nvidia ### 
 nemotron_70b = Model(
     name = 'nemotron-70b',
     base_provider = 'Nvidia',
     best_provider = IterListProvider([LambdaChat, HuggingChat, HuggingFace])
 )
 
-### Databricks ###
+### Databricks ### 
 dbrx_instruct = Model(
     name = 'dbrx-instruct',
     base_provider = 'Databricks',
     best_provider = DeepInfraChat
 )
 
-### THUDM ###
+### THUDM ### 
 glm_4 = Model(
     name = 'glm-4',
     base_provider = 'THUDM',
@@ -747,7 +778,7 @@ lfm_40b = Model(
     best_provider = LambdaChat
 )
 
-### Uncensored AI ###
+### Uncensored AI ### 
 evil = Model(
     name = 'evil',
     base_provider = 'Evil Mode - Experimental',
@@ -812,15 +843,19 @@ midjourney = ImageModel(
     best_provider = PollinationsImage
 )
 
-
 class ModelUtils:
     """
-    Утилитарный класс для сопоставления строковых идентификаторов с экземплярами моделей.
+    Утилитарный класс для сопоставления строковых идентификаторов с экземплярами Model.
 
     Attributes:
         convert (dict[str, Model]): Словарь, сопоставляющий строковые идентификаторы моделей с экземплярами Model.
+
+    Example:
+        >>> model = ModelUtils.convert['gpt-3.5-turbo']
+        >>> print(model.base_provider)
+        OpenAI
     """
-    convert: dict[str, Model] = {
+    convert: dict[str, Model] = { 
         ############
         ### Text ###
         ############
@@ -828,19 +863,19 @@ class ModelUtils:
         ### OpenAI ###
         # gpt-3.5
         gpt_3_5_turbo.name: gpt_3_5_turbo,
-
+        
         # gpt-4
         gpt_4.name: gpt_4,
-
+        
         # gpt-4o
         gpt_4o.name: gpt_4o,
         gpt_4o_mini.name: gpt_4o_mini,
         gpt_4o_audio.name: gpt_4o_audio,
-
+        
         # o1
         o1.name: o1,
         o1_mini.name: o1_mini,
-
+        
         # o3
         o3_mini.name: o3_mini,
 
@@ -853,7 +888,7 @@ class ModelUtils:
         # llama-3
         llama_3_8b.name: llama_3_8b,
         llama_3_70b.name: llama_3_70b,
-
+                
         # llama-3.1
         llama_3_1_8b.name: llama_3_1_8b,
         llama_3_1_70b.name: llama_3_1_70b,
@@ -864,10 +899,10 @@ class ModelUtils:
         llama_3_2_3b.name: llama_3_2_3b,
         llama_3_2_11b.name: llama_3_2_11b,
         llama_3_2_90b.name: llama_3_2_90b,
-
+        
         # llama-3.3
         llama_3_3_70b.name: llama_3_3_70b,
-
+                
         ### Mistral ###
         mixtral_8x7b.name: mixtral_8x7b,
         mixtral_8x22b.name: mixtral_8x22b,
@@ -876,19 +911,19 @@ class ModelUtils:
 
         ### NousResearch ###
         hermes_3.name: hermes_3,
-
+                
         ### Microsoft ###
         # phi
         phi_3_5_mini.name: phi_3_5_mini,
         phi_4.name: phi_4,
-
+        
         # wizardlm
         wizardlm_2_7b.name: wizardlm_2_7b,
         wizardlm_2_8x22b.name: wizardlm_2_8x22b,
 
         ### Google ###
         ### Gemini
-        'gemini': gemini,
+        "gemini": gemini,
         gemini.name: gemini,
         gemini_exp.name: gemini_exp,
         gemini_1_5_pro.name: gemini_1_5_pro,
@@ -903,7 +938,7 @@ class ModelUtils:
 
         # claude 3.5
         claude_3_5_sonnet.name: claude_3_5_sonnet,
-
+        
         # claude 3.7
         claude_3_7_sonnet.name: claude_3_7_sonnet,
 
@@ -926,11 +961,11 @@ class ModelUtils:
         ### Qwen ###
         # qwen-1.5
         qwen_1_5_7b.name: qwen_1_5_7b,
-
+        
         # qwen-2
         qwen_2_72b.name: qwen_2_72b,
         qwen_2_vl_7b.name: qwen_2_vl_7b,
-
+        
         # qwen-2.5
         qwen_2_5.name: qwen_2_5,
         qwen_2_5_72b.name: qwen_2_5_72b,
@@ -952,37 +987,4 @@ class ModelUtils:
         sonar.name: sonar,
         sonar_pro.name: sonar_pro,
         sonar_reasoning.name: sonar_reasoning,
-        sonar_reasoning_pro.name: sonar_reasoning_pro,
-        r1_1776.name: r1_1776,
-
-        ### DeepSeek ###
-        deepseek_chat.name: deepseek_chat,
-        deepseek_v3.name: deepseek_v3,
-        deepseek_r1.name: deepseek_r1,
-
-        ### Nvidia ###
-        nemotron_70b.name: nemotron_70b,
-
-        ### Databricks ###
-        dbrx_instruct.name: dbrx_instruct,
-
-        ### THUDM ###
-        glm_4.name: glm_4,
-
-        ## MiniMax ###
-        mini_max.name: mini_max,
-
-        ## 01-ai ###
-        yi_34b.name: yi_34b,
-
-        ### Cognitive Computations ###
-        dolphin_2_6.name: dolphin_2_6,
-        dolphin_2_9.name: dolphin_2_9,
-
-        ### DeepInfra ###
-        airoboros_70b.name: airoboros_70b,
-
-        ### Lizpreciatior ###
-        lzlv_70b.name: lzlv_70b,
-
-        ### Open
+        sonar_reasoning

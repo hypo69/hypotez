@@ -1,57 +1,81 @@
 ### **Анализ кода модуля `Bing.py`**
 
-**Расположение файла в проекте:** `hypotez/src/endpoints/freegpt-webui-ru/g4f/Provider/Providers/Bing.py`
-
-**Описание:** Модуль предоставляет реализацию взаимодействия с Bing Chat API для генерации текста.
-
-**Качество кода:**
+#### **Качество кода**:
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код выполняет свою основную функцию - взаимодействие с Bing Chat API.
-    - Присутствуют базовые механизмы обработки ошибок.
-    - Использование асинхронности для неблокирующего взаимодействия с API.
+    - Код выполняет функцию стриминговой генерации текста с использованием Bing API.
+    - Присутствуют константы и структуры данных для настройки соединения и параметров запросов.
+    - Обработка ошибок при создании соединения и генерации контента.
 - **Минусы**:
-    - Отсутствует подробная документация и комментарии.
-    - Не соблюдены PEP8 стандарты форматирования.
-    - Magic values разбросаны по коду.
-    - Не все переменные аннотированы типами.
-    - Не используется модуль логирования `logger`.
-    - Нет обработки исключений для всех потенциально проблемных мест.
-    - Код содержит устаревшие конструкции (например, использование `asyncio.get_event_loop()`).
+    - Отсутствует docstring в начале файла модуля.
+    - Многие функции не имеют подробного документирования (docstring), что затрудняет понимание их назначения и использования.
+    - Не везде используются аннотации типов.
+    - Смешанный стиль: где-то используется `logger`, а где-то `print`.
+    - Некоторые участки кода выглядят избыточно сложными, особенно в обработке ответов от Bing API.
+    - Magic values: в коде встречаются неименованные числовые константы, что снижает читаемость.
 
-**Рекомендации по улучшению:**
+#### **Рекомендации по улучшению**:
 
-1.  **Добавить документацию и комментарии:**
-    - Добавить docstring к классам и функциям, описывающие их назначение, параметры и возвращаемые значения.
-    - Добавить комментарии к ключевым участкам кода, объясняющие логику работы.
-2.  **Соблюдать PEP8 стандарты форматирования:**
-    - Использовать пробелы вокруг операторов присваивания и других операторов.
-    - Переименовать переменные и функции в соответствии с конвенцией (snake_case).
-    - Убрать длинные строки, разбить их на несколько.
-3.  **Использовать модуль логирования `logger`:**
-    - Заменить `print` на `logger.info`, `logger.error` и т.д.
-    - Логировать важные события и ошибки.
-4.  **Обрабатывать исключения:**
-    - Добавить блоки `try-except` для обработки возможных исключений, возникающих при взаимодействии с API, работе с сетью и т.д.
-    - Логировать возникающие исключения с использованием `logger.error`.
-5.  **Улучшить структуру кода:**
-    - Разбить большие функции на более мелкие, чтобы улучшить читаемость и поддерживаемость.
-    - Вынести константы и magic values в отдельные переменные.
-6.  **Добавить аннотации типов:**
-    - Добавить аннотации типов для всех переменных, аргументов функций и возвращаемых значений.
-7.  **Обновить устаревшие конструкции:**
-    - Использовать `asyncio.run()` вместо `loop.run_until_complete()`.
-8.  **Улучшить обработку ошибок:**
-    - Добавить более информативные сообщения об ошибках.
-    - Подумать о реализации механизма повторных попыток при возникновении временных проблем с сетью.
-9.  **Перевести все docstring и комментарии на русский язык**
-10. **Использовать одинарные кавычки**
-11. **Заменить `Union[]` на `|`**
-12. **Убрать неиспользуемые импорты**
+1.  **Добавить Docstring в начало файла модуля**:
 
-**Оптимизированный код:**
+    *   Добавить общее описание модуля.
+    *   Описать назначение модуля и предоставить примеры использования, если это необходимо.
+
+2.  **Документирование функций**:
+
+    *   Добавить docstring для каждой функции, включая описание аргументов, возвращаемых значений и возможных исключений.
+    *   Особенно важна документация для функций `create_conversation`, `stream_generate`, `_format`, `run`, `convert` и `_create_completion`.
+
+3.  **Использовать логирование `logger`**:
+
+    *   Заменить все вызовы `print` на вызовы `logger.info` или `logger.debug` для отладочной информации.
+    *   Обязательно использовать `logger.error` для логирования ошибок и исключений, передавая `ex` и `exc_info=True`.
+
+4.  **Улучшить читаемость обработки ответов**:
+
+    *   Разбить сложные условия на более простые и понятные блоки.
+    *   Использовать промежуточные переменные с понятными именами для хранения результатов обработки JSON.
+
+5.  **Улучшить обработку ошибок**:
+
+    *   Добавить больше конкретных обработок исключений, чтобы понимать, в каком месте возникла проблема.
+    *   Обрабатывать возможные ошибки при парсинге JSON.
+
+6.  **Использовать константы вместо "магических чисел"**:
+
+    *   Заменить числовые значения (например, `1`, `2`, `4`) на именованные константы, чтобы сделать код более понятным.
+
+7.  **Улучшить форматирование**:
+
+    *   Убедиться, что код соответствует PEP8, включая отступы, пробелы и длину строк.
+
+8.  **Добавить аннотации типов**:
+
+    *   Добавить аннотации типов для всех переменных, аргументов функций и возвращаемых значений.
+
+9. **Использовать `j_loads` или `j_loads_ns`**:
+- Для чтения JSON или конфигурационных файлов замените стандартное использование `open` и `json.load` на `j_loads` или `j_loads_ns`.
+
+#### **Оптимизированный код**:
 
 ```python
+"""
+Модуль для взаимодействия с Bing API для стриминговой генерации текста.
+======================================================================
+
+Модуль содержит функции для создания диалога с Bing, стриминговой генерации текста на основе запроса,
+а также вспомогательные функции для форматирования сообщений и обработки контекста.
+
+Пример использования
+----------------------
+
+>>> from src.endpoints.freegpt-webui-ru.g4f.Provider.Providers import Bing
+>>> async def example():
+>>>     async for response in Bing.stream_generate(prompt="Hello, Bing!"):
+>>>         print(response)
+>>> import asyncio
+>>> asyncio.run(example())
+"""
 import os
 import json
 import random
@@ -61,13 +85,11 @@ import certifi
 import aiohttp
 import asyncio
 import requests
-from typing import Optional, Dict, Generator, List
-from pathlib import Path
-
-from src.logger import logger
+from src.logger import logger # Подключаем модуль логирования
+from ...typing import sha256, Dict, get_type_hints
 
 url: str = 'https://bing.com/chat'
-model: List[str] = ['gpt-4']
+model: list[str] = ['gpt-4']
 supports_stream: bool = True
 needs_auth: bool = False
 
@@ -77,17 +99,14 @@ ssl_context.load_verify_locations(certifi.where())
 
 class OptionsSets:
     """
-    Класс, содержащий наборы опций для запросов к Bing Chat.
+    Класс для хранения наборов опций для Bing API.
     """
+    optionSet: dict = {
+        'tone': str,
+        'optionsSets': list
+    }
 
-    class OptionSet:
-        """
-        Внутренний класс для представления набора опций.
-        """
-        tone: str
-        options_sets: list
-
-    jailbreak: Dict[str, List[str]] = {
+    jailbreak: dict = {
         "optionsSets": [
             'saharasugg',
             'enablenewsfc',
@@ -99,6 +118,7 @@ class OptionsSets:
             "responsible_ai_policy_235",
             "enablemm",
             "h3precise",
+            # "harmonyv3",
             "dtappid",
             "cricinfo",
             "cricinfov2",
@@ -110,12 +130,12 @@ class OptionsSets:
 
 class Defaults:
     """
-    Класс, содержащий значения по умолчанию для параметров запросов.
+    Класс, содержащий дефолтные значения для Bing API.
     """
     delimiter: str = '\x1e'
     ip_address: str = f'13.{random.randint(104, 107)}.{random.randint(0, 255)}.{random.randint(0, 255)}'
 
-    allowed_message_types: List[str] = [
+    allowedMessageTypes: list[str] = [
         'Chat',
         'Disengaged',
         'AdsQuery',
@@ -129,7 +149,7 @@ class Defaults:
         'SemanticSerp'
     ]
 
-    slice_ids: List[str] = [
+    sliceIds: list[str] = [
         'winmuid3tf',
         'osbsdusgreccf',
         'ttstmout',
@@ -149,7 +169,7 @@ class Defaults:
         '427startpms0'
     ]
 
-    location: Dict[str, str | list[dict]] = {
+    location: dict = {
         'locale': 'en-US',
         'market': 'en-US',
         'region': 'US',
@@ -173,25 +193,26 @@ class Defaults:
 
 def _format(msg: dict) -> str:
     """
-    Форматирует сообщение в JSON-формат с добавлением разделителя.
+    Форматирует сообщение для отправки в Bing API.
 
     Args:
-        msg (dict): Сообщение для форматирования.
+        msg (dict): Сообщение в формате словаря.
 
     Returns:
-        str: Отформатированное сообщение.
+        str: JSON-представление сообщения с добавлением разделителя.
     """
     return json.dumps(msg, ensure_ascii=False) + Defaults.delimiter
 
 
-async def create_conversation() -> tuple[Optional[str], Optional[str], Optional[str]]:
+async def create_conversation() -> tuple[str, str, str]:
     """
-    Создает новую сессию разговора с Bing Chat.
+    Создает новый диалог с Bing API.
 
     Returns:
-        tuple[Optional[str], Optional[str], Optional[str]]: Идентификатор разговора, идентификатор клиента и подпись разговора.
+        tuple[str, str, str]: conversationId, clientId, conversationSignature.
+
     Raises:
-        Exception: Если не удалось создать разговор после нескольких попыток.
+        Exception: Если не удалось создать диалог после нескольких попыток.
     """
     for _ in range(5):
         try:
@@ -221,46 +242,42 @@ async def create_conversation() -> tuple[Optional[str], Optional[str], Optional[
                     'x-forwarded-for': Defaults.ip_address
                 })
 
-            conversation_id = create.json().get('conversationId')
-            client_id = create.json().get('clientId')
-            conversation_signature = create.json().get('conversationSignature')
+            response_json = create.json()
+            conversationId = response_json.get('conversationId')
+            clientId = response_json.get('clientId')
+            conversationSignature = response_json.get('conversationSignature')
 
-            if not conversation_id or not client_id or not conversation_signature and _ == 4:
-                raise Exception('Failed to create conversation.')
+            if conversationId and clientId and conversationSignature:
+                return conversationId, clientId, conversationSignature
 
-            return conversation_id, client_id, conversation_signature
-
-        except Exception as ex:
+        except requests.exceptions.RequestException as ex:
             logger.error('Error while creating conversation', ex, exc_info=True)
-            await asyncio.sleep(1)  # небольшая задержка перед следующей попыткой
 
-    return None, None, None  # вернуть None, если все попытки не удались
+    raise Exception('Failed to create conversation.')
 
 
 async def stream_generate(prompt: str,
-                          mode: dict = OptionsSets.jailbreak,
+                          mode: OptionsSets.optionSet = OptionsSets.jailbreak,
                           context: str | bool = False) -> Generator[str, None, None]:
     """
-    Генерирует текст с использованием Bing Chat API в потоковом режиме.
+    Генерирует текст в стриминговом режиме с использованием Bing API.
 
     Args:
         prompt (str): Текст запроса.
-        mode (dict, optional): Набор опций для запроса. По умолчанию OptionsSets.jailbreak.
-        context (str | bool, optional): Контекст для запроса. По умолчанию False.
+        mode (OptionsSets.optionSet, optional): Набор опций. Defaults to OptionsSets.jailbreak.
+        context (str | bool, optional): Контекст для запроса. Defaults to False.
 
     Yields:
         str: Часть сгенерированного текста.
 
     Raises:
-        Exception: Если произошла ошибка во время генерации текста.
+        Exception: Если произошла ошибка при генерации текста.
     """
     timeout = aiohttp.ClientTimeout(total=900)
     session = aiohttp.ClientSession(timeout=timeout)
 
     try:
-        conversation_id, client_id, conversation_signature = await create_conversation()
-        if not conversation_id or not client_id or not conversation_signature:
-            raise Exception('Failed to create conversation.')
+        conversationId, clientId, conversationSignature = await create_conversation()
 
         wss = await session.ws_connect(
             'wss://sydney.bing.com/sydney/ChatHub',
@@ -297,8 +314,8 @@ async def stream_generate(prompt: str,
                 {
                     **mode,
                     'source': 'cib',
-                    'allowedMessageTypes': Defaults.allowed_message_types,
-                    'sliceIds': Defaults.slice_ids,
+                    'allowedMessageTypes': Defaults.allowedMessageTypes,
+                    'sliceIds': Defaults.sliceIds,
                     'traceId': os.urandom(16).hex(),
                     'isStartOfSession': True,
                     'message': Defaults.location | {
@@ -307,16 +324,16 @@ async def stream_generate(prompt: str,
                         'text': prompt,
                         'messageType': 'Chat'
                     },
-                    'conversationSignature': conversation_signature,
+                    'conversationSignature': conversationSignature,
                     'participant': {
-                        'id': client_id
+                        'id': clientId
                     },
-                    'conversationId': conversation_id
+                    'conversationId': conversationId
                 }
             ],
             'invocationId': '0',
             'target': 'chat',
-            'type': 4
+            'type': 4  # Тип сообщения
         }
 
         if context:
@@ -344,87 +361,91 @@ async def stream_generate(prompt: str,
             objects = msg.data.split(Defaults.delimiter)
 
             for obj in objects:
-                if obj is None or not obj:
+                if not obj:
                     continue
 
-                response = json.loads(obj)
-                if response.get('type') == 1 and response['arguments'][0].get('messages', ):
-                    if not draw:
+                try:
+                    response = json.loads(obj)
+
+                    if response.get('type') == 1 and response['arguments'][0].get('messages', ):
                         if (response['arguments'][0]['messages'][0]['contentOrigin'] != 'Apology') and not draw:
                             resp_txt = result_text + \
-                                       response['arguments'][0]['messages'][0]['adaptiveCards'][0]['body'][0].get(
-                                           'text', '')
+                                response['arguments'][0]['messages'][0]['adaptiveCards'][0]['body'][0].get(
+                                    'text', '')
                             resp_txt_no_link = result_text + \
-                                                response['arguments'][0]['messages'][0].get(
-                                                    'text', '')
+                                response['arguments'][0]['messages'][0].get(
+                                    'text', '')
 
                             if response['arguments'][0]['messages'][0].get('messageType', ):
                                 resp_txt = (
-                                        resp_txt
-                                        + response['arguments'][0]['messages'][0]['adaptiveCards'][0]['body'][0][
-                                            'inlines'][0].get('text')
-                                        + '\n'
+                                    resp_txt
+                                    + response['arguments'][0]['messages'][0]['adaptiveCards'][0]['body'][0]['inlines'][0].get('text')
+                                    + '\n'
                                 )
                                 result_text = (
-                                        result_text
-                                        + response['arguments'][0]['messages'][0]['adaptiveCards'][0]['body'][0][
-                                            'inlines'][0].get('text')
-                                        + '\n'
+                                    result_text
+                                    + response['arguments'][0]['messages'][0]['adaptiveCards'][0]['body'][0]['inlines'][0].get('text')
+                                    + '\n'
                                 )
 
-                    if cache_text.endswith('   '):
+                        if cache_text.endswith('   '):
+                            final = True
+                            if wss and not wss.closed:
+                                await wss.close()
+                            if session and not session.closed:
+                                await session.close()
+
+                        yield (resp_txt.replace(cache_text, ''))
+                        cache_text = resp_txt
+
+                    elif response.get('type') == 2:
+                        if response['item']['result'].get('error'):
+                            if wss and not wss.closed:
+                                await wss.close()
+                            if session and not session.closed:
+                                await session.close()
+
+                            raise Exception(
+                                f"{response['item']['result']['value']}: {response['item']['result']['message']}")
+
+                        if draw:
+                            cache = response['item']['messages'][1]['adaptiveCards'][0]['body'][0]['text']
+                            response['item']['messages'][1]['adaptiveCards'][0]['body'][0]['text'] = (
+                                cache + resp_txt)
+
+                        if (response['item']['messages'][-1]['contentOrigin'] == 'Apology' and resp_txt):
+                            response['item']['messages'][-1]['text'] = resp_txt_no_link
+                            response['item']['messages'][-1]['adaptiveCards'][0]['body'][0]['text'] = resp_txt
+
                         final = True
                         if wss and not wss.closed:
                             await wss.close()
                         if session and not session.closed:
                             await session.close()
 
-                    yield (resp_txt.replace(cache_text, ''))
-                    cache_text = resp_txt
+                except json.JSONDecodeError as ex:
+                    logger.error(f'Error decoding JSON: {ex}', exc_info=True)
+                    continue
 
-                elif response.get('type') == 2:
-                    if response['item']['result'].get('error'):
-                        if wss and not wss.closed:
-                            await wss.close()
-                        if session and not session.closed:
-                            await session.close()
-
-                        raise Exception(
-                            f"{response['item']['result']['value']}: {response['item']['result']['message']}")
-
-                    if draw:
-                        cache = response['item']['messages'][1]['adaptiveCards'][0]['body'][0]['text']
-                        response['item']['messages'][1]['adaptiveCards'][0]['body'][0]['text'] = (
-                                cache + resp_txt)
-
-                    if (response['item']['messages'][-1]['contentOrigin'] == 'Apology' and resp_txt):
-                        response['item']['messages'][-1]['text'] = resp_txt_no_link
-                        response['item']['messages'][-1]['adaptiveCards'][0]['body'][0]['text'] = resp_txt
-
-                    final = True
-                    if wss and not wss.closed:
-                        await wss.close()
-                    if session and not session.closed:
-                        await session.close()
-
-    except Exception as ex:
-        logger.error('Error in stream_generate', ex, exc_info=True)
-        if wss and not wss.closed:
-            await wss.close()
+    except (aiohttp.ClientError, Exception) as ex:
+        logger.error(f'Error in stream_generate: {ex}', exc_info=True)
+        raise
+    finally:
         if session and not session.closed:
             await session.close()
-        raise
+        if wss and not wss.closed:
+            await wss.close()
 
 
-def run(generator: Generator[str, None, None]) -> Generator[str, None, None]:
+def run(generator: Generator[Any, None, None]) -> Generator[str, None, None]:
     """
     Запускает асинхронный генератор и возвращает синхронный генератор.
 
     Args:
-        generator (Generator[str, None, None]): Асинхронный генератор.
+        generator (Generator[Any, None, None]): Асинхронный генератор.
 
     Yields:
-        str: Значение, полученное из асинхронного генератора.
+        str: Значения, выдаваемые асинхронным генератором.
     """
     loop = asyncio.get_event_loop()
     gen = generator.__aiter__()
@@ -443,10 +464,10 @@ def convert(messages: list[dict]) -> str:
     Преобразует список сообщений в строку контекста.
 
     Args:
-        messages (list[dict]): Список сообщений.
+        messages (list[dict]): Список сообщений, где каждое сообщение - словарь с ключами 'role' и 'content'.
 
     Returns:
-        str: Строка контекста.
+        str: Строка контекста, отформатированная для Bing API.
     """
     context = ""
 
@@ -459,16 +480,16 @@ def convert(messages: list[dict]) -> str:
 
 def _create_completion(model: str, messages: list[dict], stream: bool, **kwargs) -> Generator[str, None, None]:
     """
-    Создает запрос на завершение текста с использованием Bing Chat API.
+    Создает завершение текста на основе запроса к Bing API.
 
     Args:
-        model (str): Идентификатор модели.
-        messages (list[dict]): Список сообщений.
-        stream (bool): Флаг потоковой передачи.
+        model (str): Название модели.
+        messages (list[dict]): Список сообщений для контекста.
+        stream (bool): Флаг стриминговой генерации.
         **kwargs: Дополнительные аргументы.
 
     Yields:
-        str: Часть сгенерированного текста.
+        str: Части сгенерированного текста.
     """
     if len(messages) < 2:
         prompt = messages[0]['content']
@@ -478,12 +499,11 @@ def _create_completion(model: str, messages: list[dict], stream: bool, **kwargs)
         prompt = messages[-1]['content']
         context = convert(messages[:-1])
 
-    response = run(stream_generate(prompt, mode, context))
+    response = run(stream_generate(prompt, OptionsSets.jailbreak, context))
     for token in response:
         yield (token)
 
 
 params: str = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-              '(%s)' % ', '.join(
-    [f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in
-     _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
+    '(%s)' % ', '.join(
+        [f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])

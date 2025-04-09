@@ -1,133 +1,125 @@
 ### **Анализ кода модуля `Phind.py`**
 
-**Качество кода**:
+**Качество кода:**
+
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Четкое разделение функциональности.
-    - Использование `subprocess` для запуска внешнего скрипта.
+  - Код выполняет поставленную задачу - интеграцию с Phind.com через subprocess.
+  - Определены переменные `url`, `model`, `supports_stream`, что облегчает конфигурацию провайдера.
 - **Минусы**:
-    - Отсутствует обработка исключений.
-    - Жестко заданы пути к скриптам (следует использовать `os.path.join`).
-    - Не используются логи.
-    - Не документирован код.
-    - Код небезопасен и подвержен `code injection`
-    - Используются глобальные переменные `url`, `model`, `supports_stream` без необходимости.
-    - Отсутствуют аннотации типов для переменных `path`, `config`, `cmd`, `p`, `line`, `params`.
+  - Отсутствует docstring для модуля, класса и функции.
+  - Отсутствуют аннотации типов для переменных `path`, `config`, `cmd`, `p`, `line`.
+  - Используется `os.system('clear' if os.name == 'posix' else 'cls')` для очистки экрана, что может быть небезопасным и не кроссплатформенным.
+  - Нет обработки исключений.
+  - Использование `os._exit(0)` для выхода из программы является нежелательным.
 
-**Рекомендации по улучшению**:
+**Рекомендации по улучшению:**
 
-1. **Добавить документацию**:
-   - Добавить docstring для модуля, функции `_create_completion`.
-   - Добавить комментарии для пояснения логики работы кода.
+- Добавить docstring для модуля, класса и функции.
+- Добавить аннотации типов для переменных.
+- Использовать `shutil.get_terminal_size()` вместо `os.system('clear' if os.name == 'posix' else 'cls')` для очистки экрана.
+- Добавить обработку исключений.
+- Использовать `sys.exit(0)` вместо `os._exit(0)` для выхода из программы.
+- Изменить кодировку на `utf-8`.
+- Использовать `logger` из `src.logger` для логирования.
+- Добавить проверку на наличие файла `helpers/phind.py`.
+-  `params` можно упростить, используя f-строки и генераторы списков.
+- Использовать менеджер контекста `with` для управления subprocess.
 
-2. **Обработка исключений**:
-   - Добавить блоки `try...except` для обработки возможных исключений при запуске процесса и чтении данных.
-   - Логировать исключения с использованием модуля `logger` из `src.logger`.
-
-3. **Безопасность**:
-   - Использовать `shlex.quote` для экранирования аргументов, передаваемых в `subprocess.Popen`.
-   - Рассмотреть возможность использования более безопасных способов взаимодействия между процессами (например, `multiprocessing.Queue`).
-
-4. **Пути к файлам**:
-   - Использовать `os.path.join` для формирования путей к файлам, чтобы избежать проблем с разными операционными системами.
-
-5. **Аннотации типов**:
-   - Добавить аннотации типов для всех переменных и параметров функций.
-
-6. **Логирование**:
-   - Использовать `logger` для логирования важных событий, таких как запуск процесса, обнаружение ошибок Clouflare и т.д.
-
-7. **Глобальные переменные**:
-   - Преобразовать глобальные переменные `url`, `model`, `supports_stream` в параметры функций или константы, если это необходимо.
-
-**Оптимизированный код**:
+**Оптимизированный код:**
 
 ```python
 import os
 import json
 import time
 import subprocess
-import shlex
-from typing import Dict, List, Generator
+import sys
+import shutil
+from pathlib import Path
 
-from src.logger import logger  # Import logger
-# from ...typing import sha256, Dict, get_type_hints # !!!
-# from src.webdirver import Driver, Chrome, Firefox, Playwright # !!!
-
+from src.logger import logger  # Импортируем logger
+from typing import sha256, Dict, get_type_hints, List
 
 """
-Модуль для взаимодействия с Phind API через subprocess.
-=========================================================
+Модуль для интеграции с Phind.com через subprocess
+==================================================
 
-Модуль содержит функцию :func:`_create_completion`, которая запускает внешний Python-скрипт
-для получения ответа от Phind API.
-
-Пример использования
-----------------------
-
->>> answer = _create_completion(model='gpt-4', messages=[{'role': 'user', 'content': 'Hello'}], stream=True)
->>> for chunk in answer:
-...     print(chunk, end='')
+Модуль содержит функцию :func:`_create_completion`, которая используется для взаимодействия с Phind.com
+и получения ответов.
 """
 
-# url = 'https://phind.com' # больше не глобальная
-# model = ['gpt-4'] # больше не глобальная
-# supports_stream = True # больше не глобальная
+url: str = 'https://phind.com'
+model: List[str] = ['gpt-4']
+supports_stream: bool = True
 
 
-def _create_completion(model: str, messages: List[Dict], stream: bool, **kwargs) -> Generator[str, None, None]:
+def _create_completion(model: str, messages: list, stream: bool, **kwargs) -> iter:
     """
-    Создает запрос к Phind API через subprocess и возвращает ответ в виде генератора.
+    Создает запрос к Phind.com через subprocess и возвращает ответ.
 
     Args:
         model (str): Модель для использования.
-        messages (List[Dict]): Список сообщений для отправки.
-        stream (bool): Флаг, указывающий, использовать ли потоковый режим.
+        messages (list): Список сообщений для отправки.
+        stream (bool): Использовать ли потоковый режим.
         **kwargs: Дополнительные аргументы.
 
-    Yields:
-        str: Часть ответа от Phind API.
-        None: если ошибка
+    Returns:
+        iter: Итератор с ответами от Phind.com.
 
     Raises:
-        subprocess.CalledProcessError: Если subprocess возвращает ненулевой код возврата.
+        FileNotFoundError: Если не найден файл helpers/phind.py.
+        subprocess.CalledProcessError: Если subprocess возвращает код ошибки.
         Exception: При возникновении других ошибок.
 
+    Example:
+        >>> messages = [{'role': 'user', 'content': 'Hello'}]
+        >>> for line in _create_completion(model='gpt-4', messages=messages, stream=True):
+        ...     print(line, end='')
+        Hello from Phind.com
     """
     path: str = os.path.dirname(os.path.realpath(__file__))
-    config: str = json.dumps({'model': model, 'messages': messages}, separators=(',', ':'))
+    helper_path: Path = Path(path) / 'helpers' / 'phind.py'
 
-    # Экранируем config для предотвращения code injection
-    config_safe: str = shlex.quote(config)
-    cmd: List[str] = ['python', os.path.join(path, 'helpers', 'phind.py'), config_safe]
+    if not helper_path.exists():
+        logger.error(f'File not found: {helper_path}')
+        raise FileNotFoundError(f'Файл не найден: {helper_path}')
+
+    config: str = json.dumps({'model': model, 'messages': messages}, separators=(',', ':'))
+    cmd: List[str] = ['python', str(helper_path), config]
 
     try:
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as p:
+            for line in iter(p.stdout.readline, b''):
+                if b'<title>Just a moment...</title>' in line:
+                    try:
+                        terminal_size = shutil.get_terminal_size().columns
+                        os.system('clear' if os.name == 'posix' else 'cls')  # Очистка экрана
+                    except OSError as ex:
+                        logger.error(f'Could not get terminal size: {ex}', exc_info=True)
+                        print('\n' * 20)  # Fallback
+                    yield 'Clouflare error, please try again...'
+                    sys.exit(0)
 
-        for line in iter(p.stdout.readline, b''):
-            if b'<title>Just a moment...</title>' in line:
-                os.system('clear' if os.name == 'posix' else 'cls')
-                yield 'Clouflare error, please try again...'
-                os._exit(0)
+                else:
+                    if b'ping - 2023-' in line:
+                        continue
 
-            else:
-                if b'ping - 2023-' in line:
-                    continue
+                    yield line.decode('utf-8')  # Изменена кодировка на utf-8
 
-                yield line.decode('cp1251')  # [:-1]
+            if p.returncode != 0:
+                logger.error(f'Subprocess exited with code {p.returncode}')
+                raise subprocess.CalledProcessError(p.returncode, cmd)
 
-        # Проверяем код возврата subprocess
-        if p.returncode != 0:
-            raise subprocess.CalledProcessError(p.returncode, cmd)
-
+    except FileNotFoundError as ex:
+        logger.error(f'File not found: {ex}', exc_info=True)
+        raise
     except subprocess.CalledProcessError as ex:
-        logger.error(f'Subprocess failed with error code {ex.returncode}', ex, exc_info=True)
-        yield f'Error: Subprocess failed with error code {ex.returncode}'
+        logger.error(f'Subprocess error: {ex}', exc_info=True)
+        raise
     except Exception as ex:
-        logger.error('Error while processing data', ex, exc_info=True)
-        yield f'Error: {str(ex)}' # return None
-    # finally:
-    #     if p is not None:
-    #         p.kill() # или p.terminate()
-# params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-#     '(%s)' % ', '.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
+        logger.error(f'Error in _create_completion: {ex}', exc_info=True)
+        raise
+
+
+params: str = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
+              f'({", ".join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])})'

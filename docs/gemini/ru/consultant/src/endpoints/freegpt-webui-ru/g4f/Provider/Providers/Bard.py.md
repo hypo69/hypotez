@@ -1,174 +1,43 @@
 ### **Анализ кода модуля `Bard.py`**
 
-**Расположение файла:** `hypotez/src/endpoints/freegpt-webui-ru/g4f/Provider/Providers/Bard.py`
-
-**Описание:** Модуль предоставляет интерфейс для взаимодействия с Google Bard.
-
 **Качество кода:**
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код выполняет свою основную задачу - взаимодействие с Google Bard API.
-    - Использование `browser_cookie3` для получения cookies.
+    - Код выполняет свою основную задачу - взаимодействие с Google Bard.
+    - Использование `browser_cookie3` для автоматического получения cookies.
 - **Минусы**:
-    - Отсутствует подробная документация и комментарии.
-    - Не обрабатываются возможные исключения при запросах к API.
-    - Magic values: URL-адреса, параметры запросов, заголовки.
-    - Смешанный стиль кавычек (используются и одинарные, и двойные).
-    - Не используется модуль `logger` для логгирования.
-    - Плохая обработка ошибок, ошибки просто возвращаются строкой `error`.
-    - Проверка `proxy == False` не соответствует стандартам.
-    - Использование `print` вместо `logger.warning`.
-    - Отсутствуют аннотации типов для переменных `snlm0e`, `conversation_id`, `response_id`, `choice_id`.
-    - Не обрабатываются исключения при поиске `SNlM0e`.
+    - Отсутствует обработка исключений.
     - Не все переменные аннотированы типами.
-    - Не переведен docstring с английского на русский.
-    - Использование устаревшего форматирования строк `%`.
+    - Не используется модуль `logger` для логирования.
+    - Отсутствует документация для функций и параметров.
+    - Смешанный стиль кавычек (используются как одинарные, так и двойные).
+    - Код не соответствует PEP8.
+    - Отсутствуют комментарии, объясняющие ключевые моменты логики.
+    - Сообщение `print` для предупреждения об отсутствии прокси.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить документацию модуля**:
-
-    ```python
-    """
-    Модуль для взаимодействия с Google Bard.
-    =========================================
-
-    Модуль содержит функции для создания запросов к Google Bard API
-    и получения ответов.
-
-    Пример использования:
-    ----------------------
-
-    >>> from src.endpoints.freegpt-webui-ru.g4f.Provider.Providers import Bard
-    >>> messages = [{"role": "user", "content": "Hello"}]
-    >>> for response in Bard._create_completion("Palm2", messages, stream=False, proxy="your_proxy"):
-    ...     print(response)
-    """
-    ```
-
-2.  **Добавить документацию для функции `_create_completion`**:
-
-    ```python
-    def _create_completion(model: str, messages: list, stream: bool, **kwargs) -> Generator[str, None, None]:
-        """
-        Создает запрос к Google Bard API и возвращает ответ.
-
-        Args:
-            model (str): Модель для использования.
-            messages (list): Список сообщений для отправки.
-            stream (bool): Использовать ли потоковый режим.
-            **kwargs: Дополнительные аргументы, такие как proxy.
-
-        Yields:
-            str: Ответ от Google Bard API.
-
-        Raises:
-            requests.exceptions.RequestException: При ошибке запроса к API.
-            Exception: При других ошибках.
-        """
-    ```
-
-3.  **Использовать `logger` для логгирования**:
-
-    ```python
-    from src.logger import logger
-
-    # Вместо print
-    logger.warning('Вы не указали прокси. Google Bard может быть недоступен в вашей стране.')
-
-    # Обработка ошибок
-    try:
-        snlm0e = re.search(r'SNlM0e\\":\\"(.*?)\\"', client.get('https://bard.google.com/').text).group(1)
-    except Exception as ex:
-        logger.error('Ошибка при получении SNlM0e', ex, exc_info=True)
-        raise
-
-    try:
-        chat_data = json.loads(response.content.splitlines()[3])[0][2]
-    except Exception as ex:
-        logger.error('Ошибка при обработке ответа от Bard', ex, exc_info=True)
-        yield 'error'
-        return
-    ```
-
-4.  **Улучшить обработку ошибок**:
-    - Вместо возврата строки `'error'` возвращать или пробрасывать исключение.
-    - Обрабатывать `requests.exceptions.RequestException` при запросах к API.
-
-5.  **Использовать f-строки вместо `%`**:
-
-    ```python
-    prompt = f'{formatted}\nAssistant:'
-    params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-        f'({", ".join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])})'
-    ```
-
-6.  **Улучшить читаемость кода**:
-    - Использовать константы для URL-адресов и других magic values.
-    - Избавиться от лишних проверок `proxy == False`, заменить на `if not proxy:`.
-    - Добавить аннотации типов для переменных.
-
-7. **Перевести docstring на русский язык**:
-
-    ```python
-    def _create_completion(model: str, messages: list, stream: bool, **kwargs) -> Generator[str, None, None]:
-        """
-        Создает запрос к Google Bard API и возвращает ответ.
-
-        Args:
-            model (str): Модель для использования.
-            messages (list): Список сообщений для отправки.
-            stream (bool): Использовать ли потоковый режим.
-            **kwargs: Дополнительные аргументы, такие как proxy.
-
-        Yields:
-            str: Ответ от Google Bard API.
-
-        Raises:
-            requests.exceptions.RequestException: При ошибке запроса к API.
-            Exception: При других ошибках.
-        """
-    ```
-
-    Перевод:
-
-    ```python
-    def _create_completion(model: str, messages: list, stream: bool, **kwargs) -> Generator[str, None, None]:
-        """
-        Создает запрос к Google Bard API и возвращает ответ.
-
-        Args:
-            model (str): Модель для использования.
-            messages (list): Список сообщений для отправки.
-            stream (bool): Использовать ли потоковый режим.
-            **kwargs: Дополнительные аргументы, такие как proxy.
-
-        Yields:
-            str: Ответ от Google Bard API.
-
-        Raises:
-            requests.exceptions.RequestException: При ошибке запроса к API.
-            Exception: При других ошибках.
-        """
-
-        """
-        Создает запрос к Google Bard API и возвращает ответ.
-
-        Аргументы:
-            model (str): Модель для использования.
-            messages (list): Список сообщений для отправки.
-            stream (bool): Использовать ли потоковый режим.
-            **kwargs: Дополнительные аргументы, такие как proxy.
-
-        Возвращает:
-            str: Ответ от Google Bard API.
-
-        Вызывает исключения:
-            requests.exceptions.RequestException: При ошибке запроса к API.
-            Exception: При других ошибках.
-        """
-    ```
+1.  **Добавить документацию**:
+    - Добавить docstring к функции `_create_completion` с описанием аргументов, возвращаемых значений и возможных исключений.
+    - Добавить комментарии, объясняющие назначение каждого блока кода.
+2.  **Обработка исключений**:
+    - Обернуть запросы к Google Bard в блоки `try...except` для обработки возможных ошибок соединения или ошибок API.
+    - Логировать ошибки с использованием `logger.error`.
+3.  **Типизация**:
+    - Добавить аннотации типов для всех переменных, где это возможно.
+4.  **Логирование**:
+    - Заменить `print` на `logger.warning` для предупреждения об отсутствии прокси.
+    - Добавить логирование для успешных и неудачных запросов.
+5.  **Использовать одинарные кавычки**:
+    - Заменить двойные кавычки на одинарные, где это необходимо.
+6.  **Улучшить читаемость**:
+    - Разбить длинные строки на несколько строк для улучшения читаемости.
+    - Использовать f-строки для форматирования строк.
+7.  **Удалить неиспользуемые переменные**:
+    - Если `snlm0e` инициализируется как `None`, а затем сразу перезаписывается, то можно сразу присвоить значение из первого запроса.
+8.  **Безопасность**:
+    - Учесть вопросы безопасности при работе с cookies.
 
 **Оптимизированный код:**
 
@@ -179,124 +48,136 @@ import json
 import browser_cookie3
 import re
 import random
-from typing import Generator, Optional, List, Dict
+from typing import Dict, Generator, Optional
+from pathlib import Path
 
 from src.logger import logger
-from ...typing import sha256, Dict, get_type_hints
 
-"""
-Модуль для взаимодействия с Google Bard.
-=========================================
+url = 'https://bard.google.com'
+model = ['Palm2']
+supports_stream = False
+needs_auth = True
 
-Модуль содержит функции для создания запросов к Google Bard API
-и получения ответов.
 
-Пример использования:
-----------------------
-
->>> from src.endpoints.freegpt-webui-ru.g4f.Provider.Providers import Bard
->>> messages = [{"role": "user", "content": "Hello"}]
->>> for response in Bard._create_completion("Palm2", messages, stream=False, proxy="your_proxy"):
-...     print(response)
-"""
-
-url: str = 'https://bard.google.com'
-model: List[str] = ['Palm2']
-supports_stream: bool = False
-needs_auth: bool = True
-
-def _create_completion(model: str, messages: list, stream: bool, **kwargs) -> Generator[str, None, None]:
+def _create_completion(model: str, messages: list, stream: bool, proxy: Optional[str] = None) -> Generator[str, None, None]:
     """
-    Создает запрос к Google Bard API и возвращает ответ.
+    Создает запрос к Google Bard и возвращает ответ.
 
-    Аргументы:
+    Args:
         model (str): Модель для использования.
         messages (list): Список сообщений для отправки.
-        stream (bool): Использовать ли потоковый режим.
-        **kwargs: Дополнительные аргументы, такие как proxy.
+        stream (bool): Флаг стриминга.
+        proxy (Optional[str], optional): Прокси-сервер для использования. Defaults to None.
 
-    Возвращает:
-        str: Ответ от Google Bard API.
-
-    Вызывает исключения:
-        requests.exceptions.RequestException: При ошибке запроса к API.
+    Yields:
+        Generator[str, None, None]: Ответ от Google Bard.
+    
+    Raises:
+        requests.exceptions.RequestException: При ошибке запроса.
         Exception: При других ошибках.
+
+    Example:
+        >>> messages = [{'role': 'user', 'content': 'Hello'}]
+        >>> for response in _create_completion(model='Palm2', messages=messages, stream=False):
+        ...     print(response)
     """
-    psid: str = {cookie.name: cookie.value for cookie in browser_cookie3.chrome(
-        domain_name='.google.com')}['__Secure-1PSID']
-    
-    formatted: str = '\n'.join([
-        '%s: %s' % (message['role'], message['content']) for message in messages
-    ])
-    prompt: str = f'{formatted}\nAssistant:'
-
-    proxy: Optional[str] = kwargs.get('proxy', None)
-    if not proxy:
-        logger.warning('Вы не указали прокси. Google Bard может быть недоступен в вашей стране.')
-    
-    snlm0e: Optional[str] = None
-    conversation_id: Optional[str] = None
-    response_id: Optional[str] = None
-    choice_id: Optional[str] = None
-
-    client: requests.Session = requests.Session()
-    client.proxies = {
-        'http': f'http://{proxy}',
-        'https': f'http://{proxy}'} if proxy else None
-
-    client.headers = {
-        'authority': 'bard.google.com',
-        'content-type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        'origin': 'https://bard.google.com',
-        'referer': 'https://bard.google.com/',
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
-        'x-same-domain': '1',
-        'cookie': f'__Secure-1PSID={psid}'
-    }
-
     try:
-        snlm0e = re.search(r'SNlM0e\\":\\"(.*?)\\"',
-                        client.get('https://bard.google.com/').text).group(1)
-    except Exception as ex:
-        logger.error('Ошибка при получении SNlM0e', ex, exc_info=True)
-        raise
+        # Получение cookies из браузера
+        cookies = {cookie.name: cookie.value for cookie in browser_cookie3.chrome(domain_name='.google.com')}
+        psid = cookies.get('__Secure-1PSID')
 
-    params: Dict[str, str | int] = {
-        'bl': 'boq_assistant-bard-web-server_20230326.21_p0',
-        '_reqid': random.randint(1111, 9999),
-        'rt': 'c'
-    }
+        if not psid:
+            logger.error('Не удалось получить __Secure-1PSID cookie')
+            yield 'error'
+            return
 
-    data: Dict[str, Optional[str]] = {
-        'at': snlm0e,
-        'f.req': json.dumps([None, json.dumps([[prompt], None, [conversation_id, response_id, choice_id]])])}
+        # Форматирование сообщений
+        formatted_messages = '\n'.join([f'{message["role"]}: {message["content"]}' for message in messages])
+        prompt = f'{formatted_messages}\nAssistant:'
 
-    intents: str = '.'.join([
-        'assistant',
-        'lamda',
-        'BardFrontendService'
-    ])
+        if not proxy:
+            logger.warning('Вы не предоставили прокси. Google Bard может быть недоступен в вашей стране.')
 
-    try:
-        response: requests.Response = client.post(f'https://bard.google.com/_/BardChatUi/data/{intents}/StreamGenerate',
-                            data=data, params=params)
+        # Инициализация параметров
+        snlm0e = None
+        conversation_id = None
+        response_id = None
+        choice_id = None
 
-        chat_data: str | None = json.loads(response.content.splitlines()[3])[0][2]
-        if chat_data:
-            json_chat_data: json = json.loads(chat_data)
+        # Создание сессии
+        client = requests.Session()
+        if proxy:
+            client.proxies = {
+                'http': f'http://{proxy}',
+                'https': f'http://{proxy}'
+            }
 
-            yield json_chat_data[0][0]
-            
-        else:
+        # Установка заголовков
+        client.headers = {
+            'authority': 'bard.google.com',
+            'content-type': 'application/x-www-form-urlencoded;charset=UTF-8',
+            'origin': 'https://bard.google.com',
+            'referer': 'https://bard.google.com/',
+            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
+            'x-same-domain': '1',
+            'cookie': f'__Secure-1PSID={psid}'
+        }
+
+        # Получение SNlM0e
+        try:
+            response = client.get('https://bard.google.com/')
+            response.raise_for_status()  # Проверка на HTTP ошибки
+            snlm0e = re.search(r'SNlM0e\\":\\"(.*?)\\"', response.text).group(1)
+        except requests.exceptions.RequestException as ex:
+            logger.error('Ошибка при получении SNlM0e', ex, exc_info=True)
+            yield 'error'
+            return
+        except AttributeError as ex:
+            logger.error('Не удалось извлечь SNlM0e из ответа', ex, exc_info=True)
+            yield 'error'
+            return
+
+        # Формирование параметров запроса
+        params = {
+            'bl': 'boq_assistant-bard-web-server_20230326.21_p0',
+            '_reqid': random.randint(1111, 9999),
+            'rt': 'c'
+        }
+
+        # Формирование данных запроса
+        data = {
+            'at': snlm0e,
+            'f.req': json.dumps([None, json.dumps([[prompt], None, [conversation_id, response_id, choice_id]])])
+        }
+
+        # Определение intents
+        intents = '.'.join([
+            'assistant',
+            'lamda',
+            'BardFrontendService'
+        ])
+
+        # Отправка запроса
+        try:
+            response = client.post(f'https://bard.google.com/_/BardChatUi/data/{intents}/StreamGenerate', data=data, params=params)
+            response.raise_for_status()  # Проверка на HTTP ошибки
+            chat_data = json.loads(response.content.splitlines()[3])[0][2]
+            if chat_data:
+                json_chat_data = json.loads(chat_data)
+                yield json_chat_data[0][0]
+            else:
+                yield 'error'
+        except requests.exceptions.RequestException as ex:
+            logger.error('Ошибка при отправке запроса', ex, exc_info=True)
+            yield 'error'
+        except (json.JSONDecodeError, IndexError) as ex:
+            logger.error('Ошибка при обработке ответа', ex, exc_info=True)
             yield 'error'
 
-    except requests.exceptions.RequestException as ex:
-        logger.error('Ошибка при запросе к API Bard', ex, exc_info=True)
-        yield 'error' # TODO: Заменить на проброс исключения
     except Exception as ex:
-        logger.error('Ошибка при обработке ответа от Bard', ex, exc_info=True)
-        yield 'error' # TODO: Заменить на проброс исключения
-        return
+        logger.error('Непредвиденная ошибка', ex, exc_info=True)
+        yield 'error'
 
-params: str = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
+
+params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
     f'({", ".join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])})'

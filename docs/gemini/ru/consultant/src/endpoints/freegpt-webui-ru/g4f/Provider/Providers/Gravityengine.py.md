@@ -1,69 +1,50 @@
 ### **Анализ кода модуля `Gravityengine.py`**
 
-**Качество кода**:
+---
+
+**Качество кода:**
+
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-  - Код достаточно прост и понятен.
-  - Определены типы для параметров функции `_create_completion`.
+    - Код достаточно лаконичен и выполняет поставленную задачу - отправку запроса к API `gpt4.gravityengine.cc`.
+    - Определены типы для переменных, что улучшает читаемость и предотвращает ошибки.
 - **Минусы**:
-  - Отсутствует docstring для модуля.
-  - Отсутствует docstring для функции `_create_completion`.
-  - Не используется модуль `logger` для логирования ошибок.
-  - Жестко заданы значения `temperature` и `presence_penalty`.
-  - Используется конкатенация строк вместо f-строк.
-  - Не обрабатываются исключения при запросах к API.
-  - Не используется `j_loads` или `j_loads_ns` для обработки JSON.
-  - Не используются одинарные кавычки (`'`) в Python-коде.
+    - Отсутствует обработка ошибок при запросе к API.
+    - Нет документации к функциям и модулю.
+    - Использованы двойные кавычки вместо одинарных.
+    - Не используется модуль `logger` для логирования.
+    - Не обрабатываются исключения, которые могут возникнуть при работе с сетью или JSON.
+    - Параметры в `params` формируются небезопасным способом, рекомендуется использовать f-строки.
+    - Не все переменные аннотированы типами.
 
-**Рекомендации по улучшению**:
+**Рекомендации по улучшению:**
 
-1.  **Добавить docstring для модуля**:
+- Добавить docstring к модулю и функции `_create_completion` с описанием параметров, возвращаемых значений и возможных исключений.
+- Использовать одинарные кавычки вместо двойных.
+- Добавить обработку исключений при выполнении запроса к API, чтобы обеспечить стабильность работы.
+- Использовать модуль `logger` для логирования ошибок и отладочной информации.
+- Переписать формирование строки `params` с использованием f-строк для улучшения читаемости и безопасности.
+- Добавить аннотации типов для всех переменных, где это необходимо.
+- Вместо прямого доступа к элементам `response.json()`, добавить проверку на наличие ключей и обрабатывать возможные ошибки.
 
-    *   Добавить заголовок модуля с кратким описанием его функциональности.
-
-2.  **Добавить docstring для функции `_create_completion`**:
-
-    *   Описать назначение функции, аргументы, возвращаемое значение и возможные исключения.
-
-3.  **Использовать модуль `logger` для логирования ошибок**:
-
-    *   Добавить обработку исключений при запросах к API и логировать ошибки с использованием `logger.error`.
-
-4.  **Использовать f-строки**:
-
-    *   Заменить конкатенацию строк на f-строки для улучшения читаемости.
-
-5.  **Использовать одинарные кавычки**:
-
-    *   Заменить двойные кавычки на одинарные для строк.
-
-6.  **Обработка ответов**:
-    * Необходимо добавить провеку на успешность запроса и обработку ошибок, если запрос не успешен
-    * При необходимости логировать ошибки с использованием модуля `logger`.
-
-**Оптимизированный код**:
+**Оптимизированный код:**
 
 ```python
 """
-Модуль для работы с Provider Gravityengine
-=================================================
+Модуль для работы с провайдером Gravityengine
+===============================================
 
-Модуль содержит функции для взаимодействия с API Gravityengine для получения ответов от AI моделей.
-
-Пример использования
-----------------------
-
->>> from src.endpoints.freegpt-webui-ru.g4f.Provider.Providers import Gravityengine
->>> Gravityengine._create_completion(model='gpt-3.5-turbo-16k', messages=[{'role': 'user', 'content': 'Hello'}], stream=False)
+Модуль содержит функции для взаимодействия с API Gravityengine для получения ответов от языковых моделей.
 """
+
 import json
 import os
-import uuid
-from typing import Dict, get_type_hints, List, Generator, Optional
 import requests
-from src.logger import logger  # Импорт модуля logger
-from ...typing import sha256
+import uuid
+from typing import sha256, Dict, get_type_hints, Generator, List
 
+from src.logger import logger  # Импорт модуля logger
+# from src.webdirver import Driver, Chrome, Firefox, Playwright # Пример импорта webdriver, если необходимо
 
 url: str = 'https://gpt4.gravityengine.cc'
 model: List[str] = ['gpt-3.5-turbo-16k', 'gpt-3.5-turbo-0613']
@@ -71,22 +52,31 @@ supports_stream: bool = True
 needs_auth: bool = False
 
 
-def _create_completion(model: str, messages: list, stream: bool, **kwargs) -> Generator[str, None, None]:
+def _create_completion(model: str, messages: list, stream: bool, **kwargs) -> Generator[str, None, None] | None:
     """
-    Функция отправляет запрос к API Gravityengine для получения ответа от AI модели.
+    Отправляет запрос к API Gravityengine для получения ответа от языковой модели.
 
     Args:
-        model (str): Название модели.
-        messages (list): Список сообщений для отправки.
-        stream (bool): Флаг, указывающий, нужно ли использовать потоковую передачу.
-        **kwargs: Дополнительные аргументы.
+        model (str): Название языковой модели.
+        messages (list): Список сообщений для отправки в API.
+        stream (bool): Флаг, указывающий, использовать ли потоковый режим.
+        **kwargs: Дополнительные параметры.
 
     Returns:
-        Generator[str, None, None]: Генератор, возвращающий контент ответа.
+        Generator[str, None, None] | None: Генератор, выдающий части ответа от API, или None в случае ошибки.
 
     Raises:
-        requests.exceptions.RequestException: При ошибке во время запроса к API.
-        KeyError: Если в ответе отсутствует ожидаемый ключ.
+        requests.exceptions.RequestException: Если возникает ошибка при отправке запроса.
+        json.JSONDecodeError: Если не удается декодировать ответ от API.
+
+    Example:
+        >>> model_name = 'gpt-3.5-turbo-16k'
+        >>> messages_list = [{'role': 'user', 'content': 'Hello, how are you?'}]
+        >>> stream_mode = True
+        >>> for chunk in _create_completion(model_name, messages_list, stream_mode):
+        ...     print(chunk, end='')
+        ...
+        I am doing well, thank you for asking. How can I assist you today?
     """
     headers: Dict[str, str] = {
         'Content-Type': 'application/json',
@@ -98,24 +88,25 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs) -> Ge
         'messages': messages
     }
     try:
-        response = requests.post(f'{url}/api/openai/v1/chat/completions', headers=headers,
+        response = requests.post(url + '/api/openai/v1/chat/completions', headers=headers,
                                  json=data, stream=True)
-        response.raise_for_status()  # Проверка на успешный статус код
+        response.raise_for_status()  # Проверка на HTTP ошибки
 
         try:
-            # Попытка извлечь контент из JSON
-            content = response.json()['choices'][0]['message']['content']
-            yield content
-        except KeyError as ex:
-            logger.error('Отсутствует ключ в ответе API', ex, exc_info=True)
-            yield f'Error: Отсутствует ключ в ответе API: {ex}'  # Возвращаем сообщение об ошибке
+            response_json = response.json()
+            if 'choices' in response_json and len(response_json['choices']) > 0 and 'message' in response_json['choices'][0]:
+                yield response_json['choices'][0]['message']['content']
+            else:
+                logger.error(f'Unexpected response format: {response_json}')
+                yield None  # Возвращаем None в случае неожиданного формата ответа
         except json.JSONDecodeError as ex:
-            logger.error('Ошибка при декодировании JSON', ex, exc_info=True)
-            yield f'Error: Ошибка при декодировании JSON: {ex}'  # Возвращаем сообщение об ошибке
-
+            logger.error('Failed to decode JSON response', ex, exc_info=True)
+            yield None  # Возвращаем None в случае ошибки декодирования JSON
     except requests.exceptions.RequestException as ex:
-        logger.error('Ошибка при запросе к API', ex, exc_info=True)
-        yield f'Error: Ошибка при запросе к API: {ex}'  # Возвращаем сообщение об ошибке
+        logger.error('Error while making request to Gravityengine API', ex, exc_info=True)
+        yield None  # Возвращаем None в случае ошибки запроса
 
+
+# Формирование строки params с использованием f-строки
 params: str = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    f'({", ".join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])}'
+              f'({" ".join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])})'

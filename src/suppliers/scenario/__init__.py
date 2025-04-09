@@ -1,33 +1,18 @@
 ## \file /src/scenario/__init__.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
 """
 .. module:: src.scenario 
-	:platform: Windows, Unix
-	:synopsis: Module with scenario execution functions: `run_scenario_files`, `run_scenarios`  
-Scenario executor for suppliers.
-----
+Исполнитель сценариев поставщиков
+====================================
+Модуль может исполнять различные сценарии, такие как:
+- Сбор товаров в определенной каегории
+- Сбор товаров по определенному фильтру
+- Сбор товаров по определенному производителю
+- ...
+- и т.д.
 
-.. :codeblock:
-s = Supplier('aliexpress')
-
-run_scenario_files(s, 'file1')
-
-
-scenario_files = ['file1', ...]
-run_scenario_files(s, scenario_files)
-
-
-scenario1 = {'key': 'value'}
-run_scenarios(s, scenario1)
-
-
-list_of_scenarios = [scenario1, ...]
-run_scenarios(s, list_of_scenarios)
-
-.. :examples:
 Example of a scenario file:
 ```json
 {
@@ -81,11 +66,3 @@ list_of_scenarios = [scenario1, ...]
 s.run(list_of_scenarios)
 ```
 """
-
-from .executor import (
-    run_scenario, 
-    run_scenarios, 
-    run_scenario_file, 
-    run_scenario_files, 
-    insert_grabbed_data_to_prestashop,
-)

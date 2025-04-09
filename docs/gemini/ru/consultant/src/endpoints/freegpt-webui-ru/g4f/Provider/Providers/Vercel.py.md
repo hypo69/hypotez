@@ -2,47 +2,49 @@
 
 ---
 
-#### **1. Качество кода:**
+#### **Качество кода:**
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-  - Код разбит на логические блоки, что облегчает его понимание.
-  - Используются стандартные библиотеки, такие как `json`, `base64`, `execjs`, `queue` и `threading`.
-  - Присутствует обработка исключений.
+  - Код содержит разделение на классы и функции, что улучшает его структуру.
+  - Присутствуют комментарии, объясняющие некоторые части кода.
 - **Минусы**:
-  - Отсутствует документация в формате docstring для функций и классов.
-  - Не используются аннотации типов для переменных и возвращаемых значений функций.
-  - Смешанный стиль кавычек (используются как одинарные, так и двойные кавычки).
-  - Отсутствует логирование ошибок и информации о работе программы.
-  - Не везде добавлены пробелы вокруг операторов присваивания.
-  - Функция `_create_completion` содержит закомментированный код и заглушку `yield 'Vercel is currently not working.'`.
-  - Не используется модуль `logger` из `src.logger`.
-  - Не используется `j_loads` для чтения `json` файлов
-  - Не используется `Driver` для работы с `webdriver`
+  - Отсутствует подробная документация в формате docstring для классов и функций.
+  - Не используются аннотации типов для переменных и параметров функций.
+  - Присутствуют участки кода, закомментированные или неиспользуемые (`yield 'Vercel is currently not working.'`).
+  - Не везде соблюдены пробелы вокруг операторов присваивания.
+  - Используется небезопасный метод `execjs.compile`, что может привести к уязвимостям.
+  - Отсутствует обработка ошибок с использованием `logger`.
 
-#### **2. Рекомендации по улучшению:**
+#### **Рекомендации по улучшению:**
 
-- Добавить docstring для всех функций и классов, включая описание аргументов, возвращаемых значений и возможных исключений.
-- Использовать аннотации типов для всех переменных и возвращаемых значений функций.
-- Привести все строки к единому стилю кавычек (одинарные).
-- Добавить логирование для отслеживания ошибок и хода выполнения программы с использованием модуля `logger` из `src.logger`.
-- Устранить смешанный стиль использования пробелов вокруг операторов присваивания.
-- Разобраться с закомментированным кодом в функции `_create_completion` и либо удалить его, либо доработать и включить в работу.
-- Использовать `j_loads` для чтения `json` файлов
-- Избавиться от хардкода URL-ов, вынести в переменные окружения.
-- Обеспечить обработку ошибок с использованием `logger.error` и передачей исключения `ex`.
-- Добавить обработки исключений, которые могут возникнуть в разных частях кода.
-- Удалить неиспользуемые импорты.
-- Добавить пояснения в комментариях к сложным участкам кода.
-- Улучшить обработку ошибок в блоке `request_thread`, чтобы логировать ошибки и не замалчивать их.
-- Использовать `with` для управления сессиями `requests`, чтобы обеспечить корректное закрытие соединений.
+1.  **Добавить docstring для всех классов и функций**.
 
-#### **3. Оптимизированный код:**
+    *   Добавить подробные описания, аргументы, возвращаемые значения и возможные исключения.
+2.  **Ввести аннотации типов**.
+
+    *   Указывать типы для всех переменных и параметров функций, чтобы улучшить читаемость и облегчить отладку.
+3.  **Заменить небезопасный `execjs.compile` на более безопасный метод**.
+
+    *   Рассмотреть альтернативные способы выполнения JavaScript-кода, чтобы избежать потенциальных уязвимостей безопасности.
+4.  **Использовать логирование для обработки ошибок**.
+
+    *   Заменить `print` на `logger.error` для записи ошибок и исключений.
+5.  **Удалить или закомментировать неиспользуемый код**.
+
+    *   Убрать строку `yield 'Vercel is currently not working.'` или закомментировать ее, если планируется использовать в будущем.
+6.  **Соблюдать PEP8**.
+
+    *   Проверить и исправить все нарушения стиля кода, такие как пробелы вокруг операторов присваивания.
+7.  **Перевести все комментарии и docstring на русский язык в формате UTF-8**.
+8.  **Удалить все конструкции `Union[]` и заменить их на `|`**.
+
+#### **Оптимизированный код:**
 
 ```python
 """
-Модуль для работы с Vercel Provider
-======================================
+Модуль для работы с провайдером Vercel для g4f.
+==================================================
 
 Модуль содержит класс :class:`Client`, который используется для взаимодействия с API Vercel.
 """
@@ -50,14 +52,16 @@
 import os
 import json
 import base64
-import execjs
 import queue
 import threading
 from typing import Dict, Generator, List, Optional
 
+import execjs
 from curl_cffi import requests
 
-from src.logger import logger
+from src.logger import logger # Добавлен импорт logger
+from ...typing import sha256
+
 
 url: str = 'https://play.vercel.ai'
 supports_stream: bool = True
@@ -89,12 +93,12 @@ models: Dict[str, str] = {
 model: List[str] = list(models.keys())
 
 vercel_models: Dict[str, Dict] = {
-    'anthropic:claude-instant-v1': {'id': 'anthropic:claude-instant-v1', 'provider': 'anthropic', 'providerHumanName': 'Anthropic', 'makerHumanName': 'Anthropic', 'minBillingTier': 'hobby', 'parameters': {'temperature': {'value': 1, 'range': [0, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 1, 'range': [0.1, 1]}, 'topK': {'value': 1, 'range': [1, 500]}, 'presencePenalty': {'value': 1, 'range': [0, 1]}, 'frequencyPenalty': {'value': 1, 'range': [0, 1]}, 'stopSequences': {'value': ['\n\nHuman:'], 'range': []}}, 'name': 'claude-instant-v1'},
-    'anthropic:claude-v1': {'id': 'anthropic:claude-v1', 'provider': 'anthropic', 'providerHumanName': 'Anthropic', 'makerHumanName': 'Anthropic', 'minBillingTier': 'hobby', 'parameters': {'temperature': {'value': 1, 'range': [0, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 1, 'range': [0.1, 1]}, 'topK': {'value': 1, 'range': [1, 500]}, 'presencePenalty': {'value': 1, 'range': [0, 1]}, 'frequencyPenalty': {'value': 1, 'range': [0, 1]}, 'stopSequences': {'value': ['\n\nHuman:'], 'range': []}}, 'name': 'claude-v1'},
+    'anthropic:claude-instant-v1': {'id': 'anthropic:claude-instant-v1', 'provider': 'anthropic', 'providerHumanName': 'Anthropic', 'makerHumanName': 'Anthropic', 'minBillingTier': 'hobby', 'parameters': {'temperature': {'value': 1, 'range': [0, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 1, 'range': [0.1, 1]}, 'topK': {'value': 1, 'range': [1, 500]}, 'presencePenalty': {'value': 1, 'range': [0, 1]}, 'frequencyPenalty': {'value': 1, 'range': [0, 1]}, 'stopSequences': {'value': ['\\n\\nHuman:'], 'range': []}}, 'name': 'claude-instant-v1'},
+    'anthropic:claude-v1': {'id': 'anthropic:claude-v1', 'provider': 'anthropic', 'providerHumanName': 'Anthropic', 'makerHumanName': 'Anthropic', 'minBillingTier': 'hobby', 'parameters': {'temperature': {'value': 1, 'range': [0, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 1, 'range': [0.1, 1]}, 'topK': {'value': 1, 'range': [1, 500]}, 'presencePenalty': {'value': 1, 'range': [0, 1]}, 'frequencyPenalty': {'value': 1, 'range': [0, 1]}, 'stopSequences': {'value': ['\\n\\nHuman:'], 'range': []}}, 'name': 'claude-v1'},
     'replicate:replicate/alpaca-7b': {'id': 'replicate:replicate/alpaca-7b', 'provider': 'replicate', 'providerHumanName': 'Replicate', 'makerHumanName': 'Stanford', 'parameters': {'temperature': {'value': 0.75, 'range': [0.01, 5]}, 'maximumLength': {'value': 200, 'range': [50, 512]}, 'topP': {'value': 0.95, 'range': [0.01, 1]}, 'presencePenalty': {'value': 0, 'range': [0, 1]}, 'frequencyPenalty': {'value': 0, 'range': [0, 1]}, 'repetitionPenalty': {'value': 1.1765, 'range': [0.01, 5]}, 'stopSequences': {'value': [], 'range': []}}, 'version': '2014ee1247354f2e81c0b3650d71ca715bc1e610189855f134c30ecb841fae21', 'name': 'alpaca-7b'},
     'replicate:stability-ai/stablelm-tuned-alpha-7b': {'id': 'replicate:stability-ai/stablelm-tuned-alpha-7b', 'provider': 'replicate', 'makerHumanName': 'StabilityAI', 'providerHumanName': 'Replicate', 'parameters': {'temperature': {'value': 0.75, 'range': [0.01, 5]}, 'maximumLength': {'value': 200, 'range': [50, 512]}, 'topP': {'value': 0.95, 'range': [0.01, 1]}, 'presencePenalty': {'value': 0, 'range': [0, 1]}, 'frequencyPenalty': {'value': 0, 'range': [0, 1]}, 'repetitionPenalty': {'value': 1.1765, 'range': [0.01, 5]}, 'stopSequences': {'value': [], 'range': []}}, 'version': '4a9a32b4fd86c2d047f1d271fa93972683ec6ef1cf82f402bd021f267330b50b', 'name': 'stablelm-tuned-alpha-7b'},
-    'huggingface:bigscience/bloom': {'id': 'huggingface:bigscience/bloom', 'provider': 'huggingface', 'providerHumanName': 'HuggingFace', 'makerHumanName': 'BigScience', 'instructions': "Do NOT talk to Bloom as an entity, it's not a chatbot but a webpage/blog/article completion model. For the best results: mimic a few words of a webpage similar to the content you want to generate. Start a sentence as if YOU were writing a blog, webpage, math post, coding article and Bloom will generate a coherent follow-up.", 'parameters': {'temperature': {'value': 0.5, 'range': [0.1, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 0.95, 'range': [0.01, 0.99]}, 'topK': {'value': 4, 'range': [1, 500]}, 'repetitionPenalty': {'value': 1.03, 'range': [0.1, 2]}}, 'name': 'bloom'},
-    'huggingface:bigscience/bloomz': {'id': 'huggingface:bigscience/bloomz', 'provider': 'huggingface', 'providerHumanName': 'HuggingFace', 'makerHumanName': 'BigScience', 'instructions': 'We recommend using the model to perform tasks expressed in natural language. For example, given the prompt "Translate to English: Je t\'aime.", the model will most likely answer "I love you."', 'parameters': {'temperature': {'value': 0.5, 'range': [0.1, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 0.95, 'range': [0.01, 0.99]}, 'topK': {'value': 4, 'range': [1, 500]}, 'repetitionPenalty': {'value': 1.03, 'range': [0.1, 2]}}, 'name': 'bloomz'},
+    'huggingface:bigscience/bloom': {'id': 'huggingface:bigscience/bloom', 'provider': 'huggingface', 'providerHumanName': 'HuggingFace', 'makerHumanName': 'BigScience', 'instructions': "Do NOT talk to Bloom as an entity, it\'s not a chatbot but a webpage/blog/article completion model. For the best results: mimic a few words of a webpage similar to the content you want to generate. Start a sentence as if YOU were writing a blog, webpage, math post, coding article and Bloom will generate a coherent follow-up.", 'parameters': {'temperature': {'value': 0.5, 'range': [0.1, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 0.95, 'range': [0.01, 0.99]}, 'topK': {'value': 4, 'range': [1, 500]}, 'repetitionPenalty': {'value': 1.03, 'range': [0.1, 2]}}, 'name': 'bloom'},
+    'huggingface:bigscience/bloomz': {'id': 'huggingface:bigscience/bloomz', 'provider': 'huggingface', 'providerHumanName': 'HuggingFace', 'makerHumanName': 'BigScience', 'instructions': 'We recommend using the model to perform tasks expressed in natural language. For example, given the prompt "Translate to English: Je t\\\'aime.", the model will most likely answer "I love you.".', 'parameters': {'temperature': {'value': 0.5, 'range': [0.1, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 0.95, 'range': [0.01, 0.99]}, 'topK': {'value': 4, 'range': [1, 500]}, 'repetitionPenalty': {'value': 1.03, 'range': [0.1, 2]}}, 'name': 'bloomz'},
     'huggingface:google/flan-t5-xxl': {'id': 'huggingface:google/flan-t5-xxl', 'provider': 'huggingface', 'makerHumanName': 'Google', 'providerHumanName': 'HuggingFace', 'name': 'flan-t5-xxl', 'parameters': {'temperature': {'value': 0.5, 'range': [0.1, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 0.95, 'range': [0.01, 0.99]}, 'topK': {'value': 4, 'range': [1, 500]}, 'repetitionPenalty': {'value': 1.03, 'range': [0.1, 2]}}},
     'huggingface:google/flan-ul2': {'id': 'huggingface:google/flan-ul2', 'provider': 'huggingface', 'providerHumanName': 'HuggingFace', 'makerHumanName': 'Google', 'parameters': {'temperature': {'value': 0.5, 'range': [0.1, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 0.95, 'range': [0.01, 0.99]}, 'topK': {'value': 4, 'range': [1, 500]}, 'repetitionPenalty': {'value': 1.03, 'range': [0.1, 2]}}, 'name': 'flan-ul2'},
     'huggingface:EleutherAI/gpt-neox-20b': {'id': 'huggingface:EleutherAI/gpt-neox-20b', 'provider': 'huggingface', 'providerHumanName': 'HuggingFace', 'makerHumanName': 'EleutherAI', 'parameters': {'temperature': {'value': 0.5, 'range': [0.1, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 0.95, 'range': [0.01, 0.99]}, 'topK': {'value': 4, 'range': [1, 500]}, 'repetitionPenalty': {'value': 1.03, 'range': [0.1, 2]}, 'stopSequences': {'value': [], 'range': []}}, 'name': 'gpt-neox-20b'},
@@ -111,7 +115,8 @@ vercel_models: Dict[str, Dict] = {
     'openai:text-babbage-001': {'id': 'openai:text-babbage-001', 'provider': 'openai', 'providerHumanName': 'OpenAI', 'makerHumanName': 'OpenAI', 'name': 'text-babbage-001', 'parameters': {'temperature': {'value': 0.5, 'range': [0.1, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 1, 'range': [0.1, 1]}, 'presencePenalty': {'value': 0, 'range': [0, 1]}, 'frequencyPenalty': {'value': 0, 'range': [0, 1]}, 'stopSequences': {'value': [], 'range': []}}},
     'openai:text-curie-001': {'id': 'openai:text-curie-001', 'provider': 'openai', 'providerHumanName': 'OpenAI', 'makerHumanName': 'OpenAI', 'name': 'text-curie-001', 'parameters': {'temperature': {'value': 0.5, 'range': [0.1, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 1, 'range': [0.1, 1]}, 'presencePenalty': {'value': 0, 'range': [0, 1]}, 'frequencyPenalty': {'value': 0, 'range': [0, 1]}, 'stopSequences': {'value': [], 'range': []}}},
     'openai:text-davinci-002': {'id': 'openai:text-davinci-002', 'provider': 'openai', 'providerHumanName': 'OpenAI', 'makerHumanName': 'OpenAI', 'name': 'text-davinci-002', 'parameters': {'temperature': {'value': 0.5, 'range': [0.1, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 1, 'range': [0.1, 1]}, 'presencePenalty': {'value': 0, 'range': [0, 1]}, 'frequencyPenalty': {'value': 0, 'range': [0, 1]}, 'stopSequences': {'value': [], 'range': []}}},
-    'openai:text-davinci-003': {'id': 'openai:text-davinci-003', 'provider': 'openai', 'providerHumanName': 'OpenAI', 'makerHumanName': 'OpenAI', 'name': 'text-davinci-003', 'parameters': {'temperature': {'value': 0.5, 'range': [0.1, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 1, 'range': [0.1, 1]}, 'presencePenalty': {'value': 0, 'range': [0, 1]}, 'frequencyPenalty': {'value': 0, 'range': [0, 1]}, 'stopSequences': {'value': [], 'range': []}}}}
+    'openai:text-davinci-003': {'id': 'openai:text-davinci-003', 'provider': 'openai', 'providerHumanName': 'OpenAI', 'makerHumanName': 'OpenAI', 'name': 'text-davinci-003', 'parameters': {'temperature': {'value': 0.5, 'range': [0.1, 1]}, 'maximumLength': {'value': 200, 'range': [50, 1024]}, 'topP': {'value': 1, 'range': [0.1, 1]}, 'presencePenalty': {'value': 0, 'range': [0, 1]}, 'frequencyPenalty': {'value': 0, 'range': [0, 1]}, 'stopSequences': {'value': [], 'range': []}}}
+}
 
 
 # based on https://github.com/ading2210/vercel-llm-api // modified
@@ -119,12 +124,11 @@ class Client:
     """
     Клиент для взаимодействия с API Vercel.
     """
-
-    def __init__(self) -> None:
+    def __init__(self):
         """
-        Инициализирует клиент для взаимодействия с API Vercel.
+        Инициализирует клиентский сеанс и устанавливает заголовки.
         """
-        self.session: requests.Session = requests.Session()
+        self.session = requests.Session()
         self.headers: Dict[str, str] = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110 Safari/537.36',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
@@ -144,7 +148,7 @@ class Client:
         """
         try:
             b64: str = self.session.get('https://sdk.vercel.ai/openai.jpeg').text
-            data: Dict = json.loads(base64.b64decode(b64))
+            data: dict = json.loads(base64.b64decode(b64))
 
             code: str = 'const globalThis = {data: `sentinel`}; function token() {return (%s)(%s)}' % (
                 data['c'], data['a'])
@@ -157,7 +161,7 @@ class Client:
             logger.error('Ошибка при получении токена', ex, exc_info=True)
             return ''
 
-    def get_default_params(self, model_id: str) -> Dict:
+    def get_default_params(self, model_id: str) -> Dict[str, int | float | str | list]:
         """
         Получает параметры по умолчанию для указанной модели.
 
@@ -165,33 +169,37 @@ class Client:
             model_id (str): Идентификатор модели.
 
         Returns:
-            Dict: Словарь параметров по умолчанию.
+            Dict[str, int | float | str | list]: Словарь параметров по умолчанию.
         """
-        return {key: param['value'] for key, param in vercel_models[model_id]['parameters'].items()}
+        try:
+            return {key: param['value'] for key, param in vercel_models[model_id]['parameters'].items()}
+        except Exception as ex:
+            logger.error(f'Ошибка при получении параметров по умолчанию для модели {model_id}', ex, exc_info=True)
+            return {}
 
-    def generate(self, model_id: str, prompt: str, params: Dict = {}) -> Generator[Dict, None, None]:
+    def generate(self, model_id: str, prompt: str, params: Dict[str, int | float | str | list] = {}) -> Generator[Dict, None, None]:
         """
-        Генерирует текст на основе указанной модели и промпта.
+        Генерирует текст на основе указанной модели и входных параметров.
 
         Args:
             model_id (str): Идентификатор модели.
-            prompt (str): Промпт для генерации текста.
-            params (Dict, optional): Дополнительные параметры. По умолчанию пустой словарь.
+            prompt (str): Входной текст для генерации.
+            params (Dict[str, int | float | str | list], optional): Дополнительные параметры для модели. По умолчанию пустой словарь.
 
         Yields:
-            Generator[Dict, None, None]: Генератор токенов сгенерированного текста.
+            Generator[Dict, None, None]: Генератор JSON-объектов, представляющих сгенерированный текст.
         """
         if ':' not in model_id:
-            model_id: str = models[model_id]
+            model_id = models[model_id]
 
-        defaults: Dict = self.get_default_params(model_id)
+        defaults: Dict[str, int | float | str | list] = self.get_default_params(model_id)
 
-        payload: Dict = defaults | params | {
+        payload: Dict[str, str | Dict[str, int | float | str | list]] = defaults | params | {
             'prompt': prompt,
             'model': model_id,
         }
 
-        headers: Dict = self.headers | {
+        headers: Dict[str, str] = self.headers | {
             'Accept-Encoding': 'gzip, deflate, br',
             'Custom-Encoding': self.get_token(),
             'Host': 'sdk.vercel.ai',
@@ -208,7 +216,7 @@ class Client:
 
         def callback(data: bytes) -> None:
             """
-            Callback-функция для обработки чанков данных.
+            Обратный вызов для обработки чанков данных из ответа сервера.
 
             Args:
                 data (bytes): Чанк данных.
@@ -222,15 +230,14 @@ class Client:
             nonlocal response, error
             for _ in range(3):
                 try:
-                    with self.session.post('https://sdk.vercel.ai/api/generate',
-                                             json=payload, headers=headers, content_callback=callback) as res:
-                        res.raise_for_status()
-                        response = res
+                    response = self.session.post('https://sdk.vercel.ai/api/generate',
+                                                 json=payload, headers=headers, content_callback=callback)
+                    response.raise_for_status()
 
                 except Exception as ex:
-                    logger.error(f'Ошибка при запросе к API Vercel (попытка {_ + 1})', ex, exc_info=True)
                     if _ == 2:
                         error = ex
+
                     else:
                         continue
 
@@ -259,41 +266,38 @@ class Client:
             if len(lines) - 1 > index:
                 new: List[str] = lines[index:-1]
                 for word in new:
-                    try:
-                        yield json.loads(word)
-                    except json.JSONDecodeError as ex:
-                        logger.error(f'Не удалось декодировать JSON: {word}', ex, exc_info=True)
+                    yield json.loads(word)
                 index = len(lines) - 1
 
 
 def _create_completion(model: str, messages: list, stream: bool, **kwargs) -> Generator[str, None, None]:
     """
-    Создает завершение текста на основе указанной модели и сообщений.
+    Создает завершение текста на основе указанной модели и истории сообщений.
 
     Args:
         model (str): Идентификатор модели.
-        messages (list): Список сообщений для создания завершения.
-        stream (bool): Флаг потоковой передачи.
+        messages (list): Список сообщений в формате {"role": "user" | "assistant", "content": str}.
+        stream (bool): Флаг, указывающий, следует ли использовать потоковую передачу.
         **kwargs: Дополнительные аргументы.
 
     Yields:
-        Generator[str, None, None]: Генератор токенов завершенного текста.
+        Generator[str, None, None]: Генератор токенов завершения.
     """
-    yield 'Vercel is currently not working.'
-    return
+    # yield 'Vercel is currently not working.' # TODO: Раскомментировать, когда Vercel снова будет работать
+    # return
 
-    conversation: str = 'This is a conversation between a human and a language model, respond to the last message accordingly, referring to the past history of messages if needed.\n'
+    conversation: str = 'This is a conversation between a human and a language model, respond to the last message accordingly, referring to the past history of messages if needed.\\n'
 
     for message in messages:
-        conversation += '%s: %s\n' % (message['role'], message['content'])
+        conversation += '%s: %s\\n' % (message['role'], message['content'])
 
     conversation += 'assistant: '
 
-    completion: Generator = Client().generate(model, conversation)
+    completion: Generator[Dict, None, None] = Client().generate(model, conversation)
 
     for token in completion:
-        yield token
+        yield str(token) # Преобразуем token в строку, так как ожидается str
 
 
 params: str = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-              f'({", ".join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])})'
+    '({0})'.format(', '.join([f'{name}: {get_type_hints(_create_completion)[name].__name__}' for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]]))
