@@ -1,131 +1,141 @@
 ### **Анализ кода модуля `improve_code.py`**
 
-#### **Качество кода**:
+#### **Расположение файла в проекте:**
+`hypotez/src/endpoints/gpt4free/etc/tool/improve_code.py`
+
+#### **Качество кода:**
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код выполняет поставленную задачу - улучшает предоставленный код, добавляя type hints.
-    - Используется библиотека `g4f` для взаимодействия с моделями AI.
-    - Присутствует функция `read_code` для извлечения кода из текстового ответа.
+    - Код выполняет задачу улучшения Python-кода с использованием g4f (GPT4Free).
+    - Присутствует функция `read_code` для извлечения кода из текстовых блоков.
 - **Минусы**:
-    - Не хватает обработки исключений.
-    - Отсутствуют docstring для функций и комментарии для пояснения логики.
+    - Отсутствуют аннотации типов для переменных и возвращаемых значений функций.
     - Не используется модуль `logger` для логирования.
-    - Не все переменные аннотированы типами.
-    - Отсутствуют проверки на корректность пути к файлу.
-    - Жестко заданы параметры модели `g4f`, нет возможности их конфигурации.
-    - Использование `input()` для получения пути к файлу делает код менее гибким и удобным для автоматизации.
-    - Отсутствует обработка ошибок при чтении и записи файлов.
-    - Не используется `j_loads` для открытия файла.
-    - Отсутствуют необходимые импорты из `src.logger`.
-    - Не обрабатывается случай, когда не удалось извлечь код из ответа модели.
+    - Отсутствует обработка исключений.
+    - Не хватает комментариев для пояснения логики работы кода.
+    - Не соблюдены правила форматирования (пробелы вокруг оператора присваивания).
+    - Не используется `j_loads` или `j_loads_ns` для чтения конфигурационных файлов (хотя в данном коде это не требуется).
 
-#### **Рекомендации по улучшению**:
-1.  **Добавить docstring для функций**: Необходимо добавить docstring для функций `read_code` с описанием аргументов, возвращаемого значения и возможных исключений.
-2.  **Добавить логирование**: Использовать модуль `logger` для логирования процесса, включая ошибки и важные этапы выполнения.
-3.  **Добавить обработку исключений**: Добавить блоки `try-except` для обработки возможных исключений при чтении файла, вызове API, записи файла и т.д.
-4.  **Добавить аннотации типов**: Добавить аннотации типов для переменных, где это возможно.
-5.  **Улучшить обработку пути к файлу**: Вместо `input()` использовать аргументы командной строки или конфигурационный файл для указания пути. Добавить проверки на существование файла.
-6.  **Сделать параметры модели `g4f` конфигуриемыми**: Предоставить возможность настройки параметров модели, таких как используемая модель, timeout и т.д.
-7.  **Добавить обработку ошибок при извлечении кода**: Проверить, удалось ли извлечь код из ответа модели, и вывести сообщение об ошибке в случае неудачи.
-8. **Использовать одинарные кавычки**: Заменить двойные кавычки на одинарные в строках.
-9. **Использовать `j_loads` для открытия файла конфигурации**.
-10. **Реализовать импорты из `src.logger`**
-11. **Перевести все комментарии на русский язык и переписать docstring**
+#### **Рекомендации по улучшению:**
+1. **Добавить аннотации типов**:
+   - Добавить аннотации типов для параметров функций и возвращаемых значений.
+   - Добавить аннотации типов для переменных.
+2. **Внедрить логирование**:
+   - Использовать модуль `logger` для записи информации о процессе выполнения и ошибок.
+3. **Обработка исключений**:
+   - Добавить блоки `try...except` для обработки возможных исключений, таких как ошибки при чтении/записи файлов или при вызове API g4f.
+4. **Улучшить комментарии**:
+   - Добавить комментарии для пояснения назначения каждого блока кода.
+   - Описать, что делает каждая функция и какие параметры она принимает.
+5. **Форматирование кода**:
+   - Добавить пробелы вокруг операторов присваивания для улучшения читаемости.
+6. **Использовать `j_loads` или `j_loads_ns`**:
+   - Если в будущем потребуется чтение конфигурационных файлов, использовать `j_loads` или `j_loads_ns` вместо стандартных `open` и `json.load`.
 
-#### **Оптимизированный код**:
-
+#### **Оптимизированный код:**
 ```python
 import sys
 import re
 from pathlib import Path
-from typing import Optional
-
-# Добавляем путь к директории проекта, чтобы можно было импортировать модули из src
-sys.path.append(str(Path(__file__).parent.parent.parent))
-
 import g4f
-from src.logger import logger  # Импортируем модуль logger
+from typing import Optional
+from src.logger import logger  # Import the logger module
+
+"""
+Модуль для улучшения Python-кода с использованием g4f (GPT4Free).
+==================================================================
+
+Модуль содержит функции для чтения кода из файла, улучшения кода с использованием g4f и записи улучшенного кода обратно в файл.
+
+Пример использования:
+----------------------
+>>> python improve_code.py
+"""
+
 
 def read_code(text: str) -> Optional[str]:
     """
-    Извлекает код из текстового блока, заключенного в тройные кавычки.
+    Извлекает блок кода Python из текста, заключенного в тройные обратные кавычки.
 
     Args:
-        text (str): Текст, содержащий код, заключенный в тройные кавычки (```python ... ```).
+        text (str): Текст, содержащий блок кода.
 
     Returns:
         Optional[str]: Извлеченный код или None, если код не найден.
-
+    
     Example:
-        >>> text = "```python\\nprint('Hello')\\n```"
-        >>> read_code(text)
+        >>> read_code("```python\\nprint('Hello')\\n```")
         "print('Hello')"
     """
-    try:
-        if match := re.search(r"```(python|py|)\\n(?P<code>[\\S\\s]+?)\\n```", text):
-            return match.group("code")
-        return None
-    except Exception as ex:
-        logger.error(f'Ошибка при извлечении кода из текста: {ex}', exc_info=True)
-        return None
+    if match := re.search(r"```(python|py|)\\n(?P<code>[\\S\\s]+?)\\n```", text):
+        return match.group("code")
+    return None
 
-def improve_code(file_path: str | Path) -> None:
+
+def improve_code_from_file(file_path: str | Path) -> None:
     """
-    Читает код из указанного файла, отправляет его в g4f для улучшения,
-    и записывает улучшенный код обратно в файл.
+    Читает код из файла, улучшает его с помощью g4f и записывает улучшенный код обратно в файл.
 
     Args:
         file_path (str | Path): Путь к файлу с кодом.
 
     Raises:
         FileNotFoundError: Если файл не найден.
-        Exception: Если произошла ошибка при чтении, отправке или записи файла.
-
+        Exception: Если возникает ошибка при чтении или записи файла, или при вызове API g4f.
     """
     try:
-        file_path = Path(file_path) # Преобразуем file_path в объект Path
-        with open(file_path, "r", encoding='utf-8') as file:
+        with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()
+    except FileNotFoundError as ex:
+        logger.error(f"File not found: {file_path}", ex, exc_info=True)
+        raise FileNotFoundError(f"File not found: {file_path}") from ex
+    except Exception as ex:
+        logger.error(f"Error while reading file: {file_path}", ex, exc_info=True)
+        raise
 
-        prompt = f"""
-        Улучши код в этом файле:
-        ```py
-        {code}
-        ```
-        Не удаляй ничего.
-        Добавь type hints, где это возможно.
-        Не добавляй type hints в kwargs.
-        Не удаляй комментарии о лицензии.
-        """
+    prompt = f"""
+Improve the code in this file:
+```py
+{code}
+```
+Don't remove anything.
+Add typehints if possible.
+Don't add any typehints to kwargs.
+Don't remove license comments.
+"""
 
-        logger.info(f'Отправляем запрос на улучшение кода в {file_path}')
-        response = []
+    logger.info("Creating code...")
+    response = []
+    try:
         for chunk in g4f.ChatCompletion.create(
             model=g4f.models.default,
             messages=[{"role": "user", "content": prompt}],
             timeout=300,
-            stream=True
+            stream=True,
         ):
             response.append(chunk)
             print(chunk, end="", flush=True)
         print()
         response = "".join(response)
-
-        improved_code = read_code(response)
-        if improved_code:
-            with open(file_path, "w", encoding='utf-8') as file:
-                file.write(improved_code)
-            logger.info(f'Улучшенный код записан в {file_path}')
-        else:
-            logger.error('Не удалось извлечь улучшенный код из ответа модели.')
-
-    except FileNotFoundError as ex:
-        logger.error(f'Файл не найден: {file_path}', exc_info=True)
     except Exception as ex:
-        logger.error(f'Ошибка при обработке файла {file_path}: {ex}', exc_info=True)
+        logger.error("Error while calling g4f API", ex, exc_info=True)
+        raise
+
+    if improved_code := read_code(response):
+        try:
+            with open(file_path, "w", encoding="utf-8") as file:
+                file.write(improved_code)
+            logger.info(f"Improved code saved to {file_path}")
+        except Exception as ex:
+            logger.error(f"Error while writing to file: {file_path}", ex, exc_info=True)
+            raise
+
 
 if __name__ == "__main__":
-    # Пример использования:
-    path = input("Путь к файлу: ")
-    improve_code(path)
+    file_path_input = input("Path: ")
+    try:
+        improve_code_from_file(file_path_input)
+    except Exception as ex:
+        logger.error("Error while improving code", ex, exc_info=True)
+        sys.exit(1)
 ```

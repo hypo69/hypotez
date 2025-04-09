@@ -2,98 +2,137 @@
 
 ## \file /hypotez/src/endpoints/gpt4free/g4f/providers/base_provider.py
 
-Модуль определяет базовые классы для реализации провайдеров, взаимодействующих с различными языковыми моделями. Он содержит абстрактные классы и вспомогательные функции для обработки запросов, аутентификации и управления параметрами.
-
-**Качество кода:**
-
+**Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Хорошая структура классов и разделение ответственности.
-    - Использование абстрактных классов для определения интерфейсов провайдеров.
-    - Наличие вспомогательных методов для работы с параметрами и аутентификацией.
-    - Обработка исключений для различных сценариев (ошибки модели, аутентификации и т.д.).
+  - Код хорошо структурирован и разбит на классы и методы, что облегчает его понимание и поддержку.
+  - Использованы абстрактные классы и методы для обеспечения гибкости и расширяемости.
+  - Присутствуют аннотации типов, что улучшает читаемость и помогает в отладке.
+  - Обработка исключений присутствует, хотя и требует улучшения.
 - **Минусы**:
-    - Некоторые docstring написаны на английском языке.
-    - Не все функции и методы имеют подробные docstring с описанием параметров и возвращаемых значений.
-    - В некоторых местах отсутствует аннотация типов.
-    - Смешанный стиль использования `Union` и `|` для указания типов.
-    - Не везде используется `logger` для логирования ошибок.
+  - Некоторые docstring отсутствуют или не соответствуют требованиям.
+  - Используются конструкции `Union[]` вместо `|`.
+  - Не все переменные аннотированы типами.
+  - Не везде используется модуль `logger` для логирования.
+  - Код содержит английские комментарии и docstring, которые нужно перевести на русский язык.
 
-**Рекомендации по улучшению:**
+**Рекомендации по улучшению**:
 
 1.  **Документация**:
-    *   Перевести все docstring на русский язык.
-    *   Добавить подробные описания для всех параметров и возвращаемых значений в docstring.
-    *   Описать все возможные исключения, которые могут быть выброшены в функциях.
-2.  **Типизация**:
-    *   Добавить аннотации типов для всех переменных, где это возможно.
-    *   Использовать `|` вместо `Union` для указания нескольких типов.
-3.  **Логирование**:
-    *   Использовать `logger.error` для логирования ошибок с указанием исключения и `exc_info=True`.
-4.  **Использование webdriver**:
-    *   Убедиться, что webdriver используется в соответствии с предоставленными инструкциями, если это необходимо.
-5.  **Комментарии**:
-    *   Проверить и обновить комментарии, чтобы они соответствовали текущему коду и были понятными.
-6.  **Форматирование**:
-    *   Убедиться, что все строки используют одинарные кавычки (`'`).
-    *   Добавить пробелы вокруг операторов присваивания (`=`).
+    - Дополнить docstring для всех классов и методов, включая описание параметров, возвращаемых значений и возможных исключений.
+    - Перевести все docstring и комментарии на русский язык.
 
-**Оптимизированный код:**
+2.  **Типизация**:
+    - Убедиться, что все переменные аннотированы типами.
+    - Заменить `Union[]` на `|` для объединения типов.
+
+3.  **Логирование**:
+    - Использовать модуль `logger` для логирования важных событий и ошибок.
+
+4.  **Обработка исключений**:
+    - Улучшить обработку исключений, добавив логирование ошибок с использованием `logger.error`.
+    - Использовать `ex` вместо `e` в блоках `except`.
+
+5.  **Форматирование**:
+    - Использовать одинарные кавычки (`'`) вместо двойных (`"`) в Python-коде.
+    - Добавить пробелы вокруг операторов присваивания (`=`).
+
+6.  **Структура**:
+    - Проверить и, при необходимости, обновить импорты для соответствия текущей структуре проекта.
+
+**Оптимизированный код**:
 
 ```python
 """
-Модуль для определения базовых классов провайдеров.
-=====================================================
+Модуль содержит базовые классы для реализации провайдеров g4f.
+=============================================================
 
-Этот модуль содержит абстрактные классы и вспомогательные функции,
-используемые для реализации провайдеров, взаимодействующих с различными
-языковыми моделями. Он обеспечивает основу для обработки запросов,
-аутентификации и управления параметрами.
+Этот модуль определяет абстрактные классы и миксины, которые служат основой для создания различных провайдеров,
+используемых для генерации текста и обработки запросов к языковым моделям. Он включает в себя:
+
+- Классы для асинхронной и синхронной работы с провайдерами.
+- Миксины для обработки ошибок и аутентификации.
+- Функции для управления параметрами и моделями.
+
+Пример использования
+----------------------
+
+>>> from g4f.providers import AbstractProvider
+>>> class MyProvider(AbstractProvider):
+...     @classmethod
+...     def create_completion(cls, model: str, messages: list[dict], stream: bool, **kwargs):
+...         raise NotImplementedError()
 """
-
 from __future__ import annotations
 
 import asyncio
-import json
-from abc import abstractmethod
 from asyncio import AbstractEventLoop
 from concurrent.futures import ThreadPoolExecutor
-from inspect import Parameter, signature
+from abc import abstractmethod
+import json
+from inspect import signature, Parameter
+from typing import Optional, _GenericAlias
 from pathlib import Path
-from typing import Optional, _GenericAlias, List, Dict, Any, Generator, AsyncGenerator
-
-from .. import debug
-from ..cookies import get_cookies_dir
-from ..errors import (MissingAuthError, ModelNotSupportedError,
-                      NoValidHarFileError, PaymentRequiredError, ResponseError)
-from ..typing import AsyncResult, CreateResult, Messages
-from .asyncio import get_running_loop, to_async_generator, to_async_iterator
-from .helper import concat_chunks
-from .response import AuthResult, BaseConversation
-from .types import BaseProvider
 
 try:
     from types import NoneType
 except ImportError:
     NoneType = type(None)
 
-from src.logger import logger # Подключаем модуль логирования
+from ..typing import CreateResult, AsyncResult, Messages
+from .types import BaseProvider
+from .asyncio import get_running_loop, to_sync_generator, to_async_iterator
+from .response import BaseConversation, AuthResult
+from .helper import concat_chunks
+from ..cookies import get_cookies_dir
+from ..errors import (
+    ModelNotSupportedError,
+    ResponseError,
+    MissingAuthError,
+    NoValidHarFileError,
+    PaymentRequiredError,
+)
+from .. import debug
+from src.logger import logger
 
-SAFE_PARAMETERS: List[str] = [
-    'model', 'messages', 'stream', 'timeout',
-    'proxy', 'media', 'response_format',
-    'prompt', 'negative_prompt', 'tools', 'conversation',
+SAFE_PARAMETERS: list[str] = [
+    'model',
+    'messages',
+    'stream',
+    'timeout',
+    'proxy',
+    'media',
+    'response_format',
+    'prompt',
+    'negative_prompt',
+    'tools',
+    'conversation',
     'history_disabled',
-    'temperature', 'top_k', 'top_p',
-    'frequency_penalty', 'presence_penalty',
-    'max_tokens', 'stop',
-    'api_key', 'api_base', 'seed', 'width', 'height',
-    'max_retries', 'web_search',
-    'guidance_scale', 'num_inference_steps', 'randomize_seed',
-    'safe', 'enhance', 'private', 'aspect_ratio', 'n',
+    'temperature',
+    'top_k',
+    'top_p',
+    'frequency_penalty',
+    'presence_penalty',
+    'max_tokens',
+    'stop',
+    'api_key',
+    'api_base',
+    'seed',
+    'width',
+    'height',
+    'max_retries',
+    'web_search',
+    'guidance_scale',
+    'num_inference_steps',
+    'randomize_seed',
+    'safe',
+    'enhance',
+    'private',
+    'aspect_ratio',
+    'n',
 ]
 
-BASIC_PARAMETERS: Dict[str, Any] = {
+BASIC_PARAMETERS: dict[str, str | list | bool | int | None] = {
     'provider': None,
     'model': '',
     'messages': [],
@@ -104,7 +143,7 @@ BASIC_PARAMETERS: Dict[str, Any] = {
     'stop': ['stop1', 'stop2'],
 }
 
-PARAMETER_EXAMPLES: Dict[str, Any] = {
+PARAMETER_EXAMPLES: dict[str, str | list | dict | int] = {
     'proxy': 'http://user:password@127.0.0.1:3128',
     'temperature': 1,
     'top_k': 1,
@@ -114,7 +153,10 @@ PARAMETER_EXAMPLES: Dict[str, Any] = {
     'messages': [{'role': 'system', 'content': ''}, {'role': 'user', 'content': ''}],
     'media': [['data:image/jpeg;base64,...', 'filename.jpg']],
     'response_format': {'type': 'json_object'},
-    'conversation': {'conversation_id': '550e8400-e29b-11d4-a716-...', 'message_id': '550e8400-e29b-11d4-a716-...'},
+    'conversation': {
+        'conversation_id': '550e8400-e29b-11d4-a716-...',
+        'message_id': '550e8400-e29b-11d4-a716-...',
+    },
     'seed': 42,
     'tools': [],
 }
@@ -122,20 +164,17 @@ PARAMETER_EXAMPLES: Dict[str, Any] = {
 
 class AbstractProvider(BaseProvider):
     """
-    Абстрактный базовый класс для провайдеров.
+    Абстрактный класс, определяющий интерфейс для всех провайдеров.
+    Провайдеры используются для взаимодействия с различными API для генерации текста.
     """
 
     @classmethod
     @abstractmethod
     def create_completion(
-        cls,
-        model: str,
-        messages: Messages,
-        stream: bool,
-        **kwargs
+        cls, model: str, messages: Messages, stream: bool, **kwargs
     ) -> CreateResult:
         """
-        Создает завершение (completion) с заданными параметрами.
+        Создает завершение с заданными параметрами.
 
         Args:
             model (str): Модель для использования.
@@ -160,18 +199,17 @@ class AbstractProvider(BaseProvider):
         timeout: Optional[int] = None,
         loop: Optional[AbstractEventLoop] = None,
         executor: Optional[ThreadPoolExecutor] = None,
-        **kwargs
+        **kwargs,
     ) -> str:
         """
         Асинхронно создает результат на основе заданной модели и сообщений.
 
         Args:
-            cls (type): Класс, в котором вызывается этот метод.
+            cls (type): Класс, на котором вызывается этот метод.
             model (str): Модель для использования при создании.
             messages (Messages): Сообщения для обработки.
-            timeout (Optional[int], optional): Максимальное время ожидания в секундах. Defaults to None.
             loop (Optional[AbstractEventLoop], optional): Event loop для использования. Defaults to None.
-            executor (Optional[ThreadPoolExecutor], optional): Executor для выполнения асинхронных задач. Defaults to None.
+            executor (Optional[ThreadPoolExecutor], optional): Executor для запуска асинхронных задач. Defaults to None.
             **kwargs: Дополнительные именованные аргументы.
 
         Returns:
@@ -181,68 +219,70 @@ class AbstractProvider(BaseProvider):
 
         def create_func() -> str:
             """
-            Внутренняя функция для синхронного создания завершения.
+            Выполняет синхронное создание завершения и объединяет полученные чанки.
 
             Returns:
-                str: Результат завершения.
+                str: Объединенный результат завершения.
             """
             return concat_chunks(cls.create_completion(model, messages, **kwargs))
 
-        return await asyncio.wait_for(
-            loop.run_in_executor(executor, create_func),
-            timeout=timeout
-        )
+        return await asyncio.wait_for(loop.run_in_executor(executor, create_func), timeout=timeout)
 
     @classmethod
     def get_create_function(cls) -> callable:
         """
-        Возвращает функцию создания.
+        Возвращает функцию для создания завершений.
 
         Returns:
-            callable: Функция создания.
+            callable: Функция создания завершений.
         """
         return cls.create_completion
 
     @classmethod
     def get_async_create_function(cls) -> callable:
         """
-        Возвращает асинхронную функцию создания.
+        Возвращает асинхронную функцию для создания завершений.
 
         Returns:
-            callable: Асинхронная функция создания.
+            callable: Асинхронная функция создания завершений.
         """
         return cls.create_async
 
     @classmethod
     def get_parameters(cls, as_json: bool = False) -> dict[str, Parameter]:
         """
-        Получает параметры, поддерживаемые провайдером.
+        Возвращает параметры, поддерживаемые провайдером.
 
         Args:
-            cls (type): Класс провайдера.
-            as_json (bool, optional): Преобразовать параметры в JSON-совместимый формат. Defaults to False.
+            as_json (bool, optional): Преобразовать ли параметры в JSON-совместимый формат. Defaults to False.
 
         Returns:
-            dict[str, Parameter]: Словарь параметров.
+            dict[str, Parameter]: Словарь параметров, поддерживаемых провайдером.
         """
-        params = {name: parameter for name, parameter in signature(
-            cls.create_async_generator if issubclass(cls, AsyncGeneratorProvider) else
-            cls.create_async if issubclass(cls, AsyncProvider) else
-            cls.create_completion
-        ).parameters.items() if name in SAFE_PARAMETERS
-            and (name != 'stream' or cls.supports_stream)}
+        params = {
+            name: parameter
+            for name, parameter in signature(
+                cls.create_async_generator
+                if issubclass(cls, AsyncGeneratorProvider)
+                else cls.create_async
+                if issubclass(cls, AsyncProvider)
+                else cls.create_completion
+            ).parameters.items()
+            if name in SAFE_PARAMETERS and (name != 'stream' or cls.supports_stream)
+        }
         if as_json:
-            def get_type_as_var(annotation: type, key: str, default):
+
+            def get_type_as_var(annotation: type, key: str, default: object) -> object:
                 """
-                Получает значение переменной в зависимости от типа аннотации.
+                Получает пример значения параметра на основе его аннотации типа.
 
                 Args:
-                    annotation (type): Тип аннотации.
-                    key (str): Ключ параметра.
-                    default: Значение по умолчанию.
+                    annotation (type): Аннотация типа параметра.
+                    key (str): Имя параметра.
+                    default (object): Значение по умолчанию.
 
                 Returns:
-                    Any: Значение переменной.
+                    object: Пример значения параметра.
                 """
                 if key in PARAMETER_EXAMPLES:
                     if key == 'messages' and not cls.supports_system_message:
@@ -274,36 +314,48 @@ class AbstractProvider(BaseProvider):
                         return get_type_as_var(annotation.__args__[0], key, default)
                 else:
                     return str(annotation)
-            return {name: (
-                param.default
-                if isinstance(param, Parameter) and param.default is not Parameter.empty and param.default is not None
-                else get_type_as_var(param.annotation, name, param.default) if isinstance(param, Parameter) else param
-            ) for name, param in {
-                **BASIC_PARAMETERS,
-                **params,
-                **{'provider': cls.__name__, 'model': getattr(cls, 'default_model', ''), 'stream': cls.supports_stream},
-            }.items()}
+
+            return {
+                name: (
+                    param.default
+                    if isinstance(param, Parameter)
+                    and param.default is not Parameter.empty
+                    and param.default is not None
+                    else get_type_as_var(param.annotation, name, param.default)
+                    if isinstance(param, Parameter)
+                    else param
+                )
+                for name, param in {
+                    **BASIC_PARAMETERS,
+                    **params,
+                    **{
+                        'provider': cls.__name__,
+                        'model': getattr(cls, 'default_model', ''),
+                        'stream': cls.supports_stream,
+                    },
+                }.items()
+            }
         return params
 
     @classmethod
     @property
     def params(cls) -> str:
         """
-        Возвращает параметры, поддерживаемые провайдером.
+        Возвращает параметры, поддерживаемые провайдером, в виде строки.
 
         Returns:
-            str: Строка, перечисляющая поддерживаемые параметры.
+            str: Строка, содержащая список поддерживаемых параметров.
         """
 
         def get_type_name(annotation: type) -> str:
             """
-            Получает имя типа аннотации.
+            Возвращает имя типа аннотации.
 
             Args:
-                annotation (type): Тип аннотации.
+                annotation (type): Аннотация типа.
 
             Returns:
-                str: Имя типа.
+                str: Имя типа аннотации.
             """
             return getattr(annotation, '__name__', str(annotation)) if annotation is not Parameter.empty else ''
 
@@ -326,20 +378,16 @@ class AsyncProvider(AbstractProvider):
 
     @classmethod
     def create_completion(
-        cls,
-        model: str,
-        messages: Messages,
-        stream: bool = False,
-        **kwargs
+        cls, model: str, messages: Messages, stream: bool = False, **kwargs
     ) -> CreateResult:
         """
         Создает результат завершения синхронно.
 
         Args:
-            cls (type): Класс, в котором вызывается этот метод.
+            cls (type): Класс, на котором вызывается этот метод.
             model (str): Модель для использования при создании.
             messages (Messages): Сообщения для обработки.
-            stream (bool, optional): Указывает, следует ли передавать результаты потоком. Defaults to False.
+            stream (bool): Указывает, следует ли передавать результаты потоком. Defaults to False.
             **kwargs: Дополнительные именованные аргументы.
 
         Returns:
@@ -353,7 +401,7 @@ class AsyncProvider(AbstractProvider):
     async def create_async(
         model: str,
         messages: Messages,
-        **kwargs
+        **kwargs,
     ) -> str:
         """
         Абстрактный метод для создания асинхронных результатов.
@@ -363,65 +411,61 @@ class AsyncProvider(AbstractProvider):
             messages (Messages): Сообщения для обработки.
             **kwargs: Дополнительные именованные аргументы.
 
-        Returns:
-            str: Созданный результат в виде строки.
-
         Raises:
             NotImplementedError: Если этот метод не переопределен в производных классах.
+
+        Returns:
+            str: Созданный результат в виде строки.
         """
         raise NotImplementedError()
 
     @classmethod
     def get_create_function(cls) -> callable:
         """
-        Возвращает функцию создания.
+        Возвращает функцию для создания завершений.
 
         Returns:
-            callable: Функция создания.
+            callable: Функция создания завершений.
         """
         return cls.create_completion
 
     @classmethod
     def get_async_create_function(cls) -> callable:
         """
-        Возвращает асинхронную функцию создания.
+        Возвращает асинхронную функцию для создания завершений.
 
         Returns:
-            callable: Асинхронная функция создания.
+            callable: Асинхронная функция создания завершений.
         """
         return cls.create_async
 
 
 class AsyncGeneratorProvider(AbstractProvider):
     """
-    Предоставляет функциональность асинхронного генератора для потоковой передачи результатов.
+    Предоставляет асинхронную функциональность генератора для потоковой передачи результатов.
     """
+
     supports_stream: bool = True
 
     @classmethod
     def create_completion(
-        cls,
-        model: str,
-        messages: Messages,
-        stream: bool = True,
-        **kwargs
+        cls, model: str, messages: Messages, stream: bool = True, **kwargs
     ) -> CreateResult:
         """
         Создает потоковый результат завершения синхронно.
 
         Args:
-            cls (type): Класс, в котором вызывается этот метод.
+            cls (type): Класс, на котором вызывается этот метод.
             model (str): Модель для использования при создании.
             messages (Messages): Сообщения для обработки.
-            stream (bool, optional): Указывает, следует ли передавать результаты потоком. Defaults to True.
+            stream (bool): Указывает, следует ли передавать результаты потоком. Defaults to True.
             **kwargs: Дополнительные именованные аргументы.
 
         Returns:
             CreateResult: Результат создания потокового завершения.
         """
         return to_sync_generator(
-            cls.create_async_generator(model, messages, stream=stream, **kwargs),
-            stream=stream
+            cls.create_async_generator(model, messages, stream=stream, **kwargs), stream=stream
         )
 
     @staticmethod
@@ -430,7 +474,7 @@ class AsyncGeneratorProvider(AbstractProvider):
         model: str,
         messages: Messages,
         stream: bool = True,
-        **kwargs
+        **kwargs,
     ) -> AsyncResult:
         """
         Абстрактный метод для создания асинхронного генератора.
@@ -438,51 +482,52 @@ class AsyncGeneratorProvider(AbstractProvider):
         Args:
             model (str): Модель для использования при создании.
             messages (Messages): Сообщения для обработки.
-            stream (bool, optional): Указывает, следует ли передавать результаты потоком. Defaults to True.
+            stream (bool): Указывает, следует ли передавать результаты потоком. Defaults to True.
             **kwargs: Дополнительные именованные аргументы.
-
-        Returns:
-            AsyncResult: Асинхронный генератор, выдающий результаты.
 
         Raises:
             NotImplementedError: Если этот метод не переопределен в производных классах.
+
+        Returns:
+            AsyncResult: Асинхронный генератор, выдающий результаты.
         """
         raise NotImplementedError()
 
     @classmethod
     def get_create_function(cls) -> callable:
         """
-        Возвращает функцию создания.
+        Возвращает функцию для создания завершений.
 
         Returns:
-            callable: Функция создания.
+            callable: Функция создания завершений.
         """
         return cls.create_completion
 
     @classmethod
     def get_async_create_function(cls) -> callable:
         """
-        Возвращает асинхронную функцию создания генератора.
+        Возвращает асинхронную функцию-генератор для создания завершений.
 
         Returns:
-            callable: Асинхронная функция создания генератора.
+            callable: Асинхронная функция-генератор создания завершений.
         """
         return cls.create_async_generator
 
 
 class ProviderModelMixin:
     """
-    Миксин для управления моделями провайдера.
+    Миксин для управления моделями, поддерживаемыми провайдером.
     """
+
     default_model: Optional[str] = None
-    models: List[str] = []
-    model_aliases: Dict[str, str] = {}
-    image_models: List[str] = []
-    vision_models: List[str] = []
+    models: list[str] = []
+    model_aliases: dict[str, str] = {}
+    image_models: list[str] = []
+    vision_models: list[str] = []
     last_model: Optional[str] = None
 
     @classmethod
-    def get_models(cls, **kwargs) -> List[str]:
+    def get_models(cls, **kwargs) -> list[str]:
         """
         Возвращает список поддерживаемых моделей.
 
@@ -490,7 +535,7 @@ class ProviderModelMixin:
             **kwargs: Дополнительные именованные аргументы.
 
         Returns:
-            List[str]: Список моделей.
+            list[str]: Список поддерживаемых моделей.
         """
         if not cls.models and cls.default_model is not None:
             return [cls.default_model]
@@ -499,10 +544,10 @@ class ProviderModelMixin:
     @classmethod
     def get_model(cls, model: str, **kwargs) -> str:
         """
-        Получает модель по имени.
+        Возвращает модель на основе заданного имени или псевдонима.
 
         Args:
-            model (str): Имя модели.
+            model (str): Имя модели или псевдоним.
             **kwargs: Дополнительные именованные аргументы.
 
         Returns:
@@ -517,19 +562,21 @@ class ProviderModelMixin:
             model = cls.model_aliases[model]
         else:
             if model not in cls.get_models(**kwargs) and cls.models:
-                raise ModelNotSupportedError(f'Model is not supported: {model} in: {cls.__name__} Valid models: {cls.models}')
+                raise ModelNotSupportedError(
+                    f'Model is not supported: {model} in: {cls.__name__} Valid models: {cls.models}'
+                )
         cls.last_model = model
         debug.last_model = model
         return model
 
 
-class RaiseErrorMixin():
+class RaiseErrorMixin:
     """
-    Миксин для обработки ошибок.
+    Миксин для обработки ошибок, возвращаемых провайдером.
     """
 
     @staticmethod
-    def raise_error(data: dict, status: Optional[int] = None):
+    def raise_error(data: dict, status: Optional[int] = None) -> None:
         """
         Вызывает исключение на основе данных об ошибке.
 
@@ -538,9 +585,9 @@ class RaiseErrorMixin():
             status (Optional[int], optional): HTTP-статус код. Defaults to None.
 
         Raises:
-            ResponseError: Общее исключение для ошибок ответа.
-            MissingAuthError: Исключение для ошибок аутентификации.
-            PaymentRequiredError: Исключение, когда требуется оплата.
+            ResponseError: Если произошла ошибка при обработке ответа.
+            MissingAuthError: Если отсутствует аутентификация.
+            PaymentRequiredError: Если требуется оплата.
         """
         if 'error_message' in data:
             raise ResponseError(data['error_message'])
@@ -556,9 +603,18 @@ class RaiseErrorMixin():
             elif isinstance(data['error'], bool):
                 raise ResponseError(data)
             elif 'code' in data['error']:
-                raise ResponseError('\n'.join(
-                    [e for e in [f'Error {data["error"]["code"]}: {data["error"]["message"]}', data['error'].get('failed_generation')] if e is not None]
-                ))
+                raise ResponseError(
+                    '\n'.join(
+                        [
+                            e
+                            for e in [
+                                f'Error {data["error"]["code"]}: {data["error"]["message"]}',
+                                data['error'].get('failed_generation'),
+                            ]
+                            if e is not None
+                        ]
+                    )
+                )
             elif 'message' in data['error']:
                 raise ResponseError(data['error']['message'])
             else:
@@ -567,9 +623,9 @@ class RaiseErrorMixin():
             raise ResponseError(f'Invalid response: {json.dumps(data)}')
 
 
-class AuthFileMixin():
+class AuthFileMixin:
     """
-    Миксин для работы с файлами аутентификации.
+    Миксин для управления файлами аутентификации.
     """
 
     @classmethod
@@ -578,20 +634,20 @@ class AuthFileMixin():
         Возвращает путь к файлу кэша аутентификации.
 
         Returns:
-            Path: Путь к файлу кэша.
+            Path: Путь к файлу кэша аутентификации.
         """
         return Path(get_cookies_dir()) / f'auth_{cls.parent if hasattr(cls, "parent") else cls.__name__}.json'
 
 
 class AsyncAuthedProvider(AsyncGeneratorProvider, AuthFileMixin):
     """
-    Провайдер с асинхронной аутентификацией и использованием генератора.
+    Провайдер, требующий асинхронной аутентификации и поддерживающий потоковую передачу результатов.
     """
 
     @classmethod
     async def on_auth_async(cls, **kwargs) -> AuthResult:
         """
-        Асинхронно выполняет аутентификацию.
+        Асинхронно выполняет аутентификацию провайдера.
 
         Args:
             **kwargs: Дополнительные именованные аргументы.
@@ -600,7 +656,7 @@ class AsyncAuthedProvider(AsyncGeneratorProvider, AuthFileMixin):
             AuthResult: Результат аутентификации.
 
         Raises:
-            MissingAuthError: Если отсутствует API ключ.
+            MissingAuthError: Если отсутствует API-ключ.
         """
         if 'api_key' not in kwargs:
             raise MissingAuthError(f'API key is required for {cls.__name__}')
@@ -609,7 +665,7 @@ class AsyncAuthedProvider(AsyncGeneratorProvider, AuthFileMixin):
     @classmethod
     def on_auth(cls, **kwargs) -> AuthResult:
         """
-        Синхронно выполняет аутентификацию.
+        Выполняет аутентификацию провайдера.
 
         Args:
             **kwargs: Дополнительные именованные аргументы.
@@ -625,27 +681,27 @@ class AsyncAuthedProvider(AsyncGeneratorProvider, AuthFileMixin):
     @classmethod
     def get_create_function(cls) -> callable:
         """
-        Возвращает функцию создания.
+        Возвращает функцию для создания завершений.
 
         Returns:
-            callable: Функция создания.
+            callable: Функция создания завершений.
         """
         return cls.create_completion
 
     @classmethod
     def get_async_create_function(cls) -> callable:
         """
-        Возвращает асинхронную функцию создания генератора.
+        Возвращает асинхронную функцию для создания завершений.
 
         Returns:
-            callable: Асинхронная функция создания генератора.
+            callable: Асинхронная функция создания завершений.
         """
         return cls.create_async_generator
 
     @classmethod
-    def write_cache_file(cls, cache_file: Path, auth_result: Optional[AuthResult] = None):
+    def write_cache_file(cls, cache_file: Path, auth_result: Optional[AuthResult] = None) -> None:
         """
-        Записывает данные аутентификации в файл кэша.
+        Записывает результаты аутентификации в файл кэша.
 
         Args:
             cache_file (Path): Путь к файлу кэша.
@@ -659,13 +715,10 @@ class AsyncAuthedProvider(AsyncGeneratorProvider, AuthFileMixin):
 
     @classmethod
     def create_completion(
-        cls,
-        model: str,
-        messages: Messages,
-        **kwargs
+        cls, model: str, messages: Messages, **kwargs
     ) -> CreateResult:
         """
-        Создает завершение с аутентификацией.
+        Создает завершение с использованием аутентификации.
 
         Args:
             model (str): Модель для использования.
@@ -673,10 +726,10 @@ class AsyncAuthedProvider(AsyncGeneratorProvider, AuthFileMixin):
             **kwargs: Дополнительные именованные аргументы.
 
         Yields:
-            CreateResult: Результат создания.
+            str: Части результата завершения.
         """
         auth_result: Optional[AuthResult] = None
-        cache_file = cls.get_cache_file()
+        cache_file: Path = cls.get_cache_file()
         try:
             if cache_file.exists():
                 with cache_file.open('r') as f:
@@ -684,8 +737,8 @@ class AsyncAuthedProvider(AsyncGeneratorProvider, AuthFileMixin):
             else:
                 raise MissingAuthError
             yield from to_sync_generator(cls.create_authed(model, messages, auth_result, **kwargs))
-        except (MissingAuthError, NoValidHarFileError) as ex: # Добавлено имя исключения
-            logger.error('Ошибка аутентификации', ex, exc_info=True) # Логируем ошибку
+        except (MissingAuthError, NoValidHarFileError) as ex:
+            logger.error('Error during create_completion', ex, exc_info=True)
             response = cls.on_auth(**kwargs)
             for chunk in response:
                 if isinstance(chunk, AuthResult):
@@ -698,13 +751,10 @@ class AsyncAuthedProvider(AsyncGeneratorProvider, AuthFileMixin):
 
     @classmethod
     async def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        **kwargs
+        cls, model: str, messages: Messages, **kwargs
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор с аутентификацией.
+        Создает асинхронный генератор завершений с использованием аутентификации.
 
         Args:
             model (str): Модель для использования.
@@ -712,10 +762,10 @@ class AsyncAuthedProvider(AsyncGeneratorProvider, AuthFileMixin):
             **kwargs: Дополнительные именованные аргументы.
 
         Yields:
-            AsyncResult: Результат создания.
+            str: Части результата завершения.
         """
         auth_result: Optional[AuthResult] = None
-        cache_file = cls.get_cache_file()
+        cache_file: Path = cls.get_cache_file()
         try:
             if cache_file.exists():
                 with cache_file.open('r') as f:
@@ -725,8 +775,8 @@ class AsyncAuthedProvider(AsyncGeneratorProvider, AuthFileMixin):
             response = to_async_iterator(cls.create_authed(model, messages, **kwargs, auth_result=auth_result))
             async for chunk in response:
                 yield chunk
-        except (MissingAuthError, NoValidHarFileError) as ex:  # Добавлено имя исключения
-            logger.error('Ошибка аутентификации при создании асинхронного генератора', ex, exc_info=True)  # Логируем ошибку
+        except (MissingAuthError, NoValidHarFileError) as ex:
+            logger.error('Error during create_async_generator', ex, exc_info=True)
             if cache_file.exists():
                 cache_file.unlink()
             response = cls.on_auth_async(**kwargs)

@@ -2,6 +2,11 @@
 
 **Общая схема работы:**
 
+*   **Иерархия:** В базе данных KeePass предполагается иерархическая структура папок и записей. Код использует `kp.find_groups(path=['...'])` для навигации по этой структуре.
+*   **Кастомные свойства:** Большинство данных хранятся в кастомных свойствах записей KeePass.
+*   **`SimpleNamespace`:** Для хранения настроек и учетных данных используются объекты `SimpleNamespace`, что позволяет обращаться к данным как к атрибутам объекта.
+
+
 Код использует `pykeepass` для доступа к файлу `credentials.kdbx`, который хранит зашифрованные учетные данные. Вся логика работы с `pykeepass` сосредоточена в классе `ProgramSettings`. Этот класс является синглтоном, что гарантирует существование единственного экземпляра настроек для всего приложения.
 
 **Основные этапы работы с KeePass:**
@@ -16,61 +21,8 @@
     *   Эти методы используют `kp.find_groups` для поиска групп и записей в базе данных KeePass.
     *   Далее, из каждой записи извлекаются необходимые данные (например, API ключи, пароли, логины) через `entry.custom_properties` и `entry.password`.
 
-**Структура базы данных KeePass и получаемые данные:**
 
-Посмотрим на конкретные места в коде и какие данные оттуда извлекаются, и какая структура базы данных подразумевается.
-
-
-```mermaid
-graph LR
-    subgraph KeePass Database
-    direction TB
-        subgraph suppliers
-            direction TB
-            subgraph aliexpress
-                direction TB
-                api[api]
-            end
-        end
-       subgraph openai
-            direction TB
-                api_keys[api_keys]
-                assistants[assistants]
-        end
-        gemini[gemini]
-        telegram[telegram]
-        discord[discord]
-        subgraph prestashop
-            direction TB
-                clients[clients]
-                translation[translation]
-        end
-        smtp[smtp]
-        facebook[facebook]
-         subgraph google
-            direction TB
-                 gapi[gapi]
-         end
-    end
-    
-    classDef entry fill:#f9f,stroke:#333,stroke-width:2px
-    class api,api_keys,assistants,gemini,telegram,discord,clients,translation,smtp,facebook,gapi entry
-    
-     api -->|api_key, secret, tracking_id, email, password|ProgramSettings.credentials.aliexpress
-     api_keys -->|api_key, project_api| ProgramSettings.credentials.openai
-     assistants -->|assistant_id| ProgramSettings.credentials.openai.assistant_id
-     gemini --> |api_key|ProgramSettings.credentials.gemini
-     telegram --> |token|ProgramSettings.credentials.telegram
-    discord -->|application_id, public_key, bot_token|ProgramSettings.credentials.discord
-    clients -->|api_key, api_domain, db_server, db_user, db_password|ProgramSettings.credentials.presta.client
-    translation -->|server, port, database, user, password|ProgramSettings.credentials.presta.translations
-    smtp --> |server, port, user, password|ProgramSettings.credentials.smtp
-    facebook -->|app_id, app_secret, access_token|ProgramSettings.credentials.facebook
-    gapi --> |api_key|ProgramSettings.credentials.gapi
-    
-    
-    style KeePass Database fill:#ccf,stroke:#333,stroke-width:2px
-```
+**API и ключи**
 
 1.  **Aliexpress:**
     *   Ищется группа `suppliers/aliexpress/api`.
@@ -119,11 +71,4 @@ graph LR
     *   Ищется группа `google/gapi`.
     *   Извлекается `api_key` из кастомных свойств записи.
     *    Этот данные сохраняются в `ProgramSettings.credentials.gapi` по ключу `api_key`.
-
-**Важные моменты:**
-
-*   **Иерархия:** В базе данных KeePass предполагается иерархическая структура папок и записей. Код использует `kp.find_groups(path=['...'])` для навигации по этой структуре.
-*   **Кастомные свойства:** Большинство данных хранятся в кастомных свойствах записей KeePass.
-*   **Обработка ошибок:** Код содержит блоки `try-except` для обработки ошибок при открытии базы данных и извлечении данных.
-*   **`SimpleNamespace`:** Для хранения настроек и учетных данных используются объекты `SimpleNamespace`, что позволяет обращаться к данным как к атрибутам объекта.
 

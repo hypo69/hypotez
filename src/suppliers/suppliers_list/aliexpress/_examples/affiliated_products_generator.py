@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress._examples 
+.. module:: src.suppliers.suppliers_list.aliexpress._examples 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,12 +33,12 @@
   :synopsis:
 """
   
-""" module: src.suppliers.aliexpress._examples """
+""" module: src.suppliers.suppliers_list.aliexpress._examples """
 
 
 # пример_использования.py
 
-from src.suppliers.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
 
 def main():
     # Задайте параметры рекламной кампании

@@ -266,34 +266,34 @@ def handle_voice_message(message):
 
 @bot.message_handler(content_types=['document'])
 def handle_document_message(message):
-    logger.info(f"User {message.from_user.username} send document message")
+    logger.info(f'User {message.from_user.username} send document message')
     handler.handle_document(bot, message)
 
 @bot.message_handler(func=lambda message: message.text and not message.text.startswith('/'))
 def handle_text_message(message):
-    logger.info(f"User {message.from_user.username} sent message: {message.text}")
+    logger.info(f'User {message.from_user.username} sent message: {message.text}')
     handler.handle_message(bot, message )
 
 @bot.message_handler(func=lambda message: message.text and message.text.startswith('/'))
 def handle_unknown_command(message):
-    logger.info(f"User {message.from_user.username} send unknown command: {message.text}")
+    logger.info(f'User {message.from_user.username} send unknown command: {message.text}')
     bot.send_message(message.chat.id, config.UNKNOWN_COMMAND_MESSAGE)
 
 def main(restarts:int = 5):
 
     try:
-        logger.info(f"Starting bot in {Config.MODE} mode")
+        logger.info(f'Starting bot in {Config.MODE} mode')
         restarts = 5 # <- пусть будет бесконечный цикл
         bot.polling(none_stop=True)
         
     except Exception as ex:
-        logger.error(f"Error during bot polling: ", ex)
+        logger.error(f'Error during bot polling: ', ex, False)
         ...
         if restarts > 1:
             try:
                 bot.stop_bot()
             except Exception as ex:
-                logger.error(f'Ошибка останова бота', ex)
+                logger.error(f'Ошибка останова бота:', ex, False)
             logger.debug('Повторный запуск через 10 сек')
             time.sleep(10)
             main(restarts - 1)

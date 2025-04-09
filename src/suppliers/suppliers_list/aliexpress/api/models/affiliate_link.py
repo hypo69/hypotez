@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.aliexpress.api.models """
+""" module: src.suppliers.suppliers_list.aliexpress.api.models """
 class AffiliateLink:
     promotion_link: str
     source_value: str

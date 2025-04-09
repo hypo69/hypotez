@@ -1,59 +1,72 @@
 ### **Анализ кода модуля `Liaobots.py`**
 
-#### **1. Качество кода:**
+## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/Liaobots.py
 
-- **Соответствие стандартам**: 6/10
+#### **Качество кода**:
+- **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Использование асинхронных операций для неблокирующего выполнения.
-    - Поддержка истории сообщений и системных сообщений.
-    - Наличие модели fallback.
+    - Использование асинхронности для неблокирующих операций.
+    - Реализация поддержки истории сообщений и системных сообщений.
+    - Наличие модели `ProviderModelMixin` для управления моделями.
 - **Минусы**:
     - Повторяющийся код в блоках `try` и `except`.
-    - Отсутствие обработки исключений при инициализации `_auth_code`.
-    - Жестко заданные значения `authcode` в теле метода.
+    - Жестко заданные значения `authcode` в нескольких местах.
+    - Отсутствие обработки исключений при `json.loads`.
     - Не все переменные аннотированы типами.
-    - Не хватает docstring для класса.
-    - Дублирование кода, нелогичная обработка ошибок.
 
-#### **2. Рекомендации по улучшению:**
+#### **Рекомендации по улучшению**:
 
-- Добавление docstring для класса `Liaobots` с описанием его назначения, основных атрибутов и методов.
-- Удаление дублирующегося кода из блоков `try` и `except` путем вынесения общего кода в отдельную функцию.
-- Обработка исключений при инициализации `_auth_code` для обеспечения стабильной работы.
-- Использовать `logger` из модуля `src.logger` для логирования ошибок и отладочной информации.
-- Избавиться от хардкода `authcode`.
-- Добавить аннотации типов для всех переменных и параметров функций.
+1. **Удаление повторяющегося кода**:
+   - Вынести повторяющийся код из блоков `try` и `except` в отдельную функцию. Это улучшит читаемость и упростит поддержку кода.
 
-#### **3. Оптимизированный код:**
+2. **Обработка исключений**:
+   - Добавить обработку исключений при `json.loads`, чтобы избежать неожиданных сбоев.
+
+3. **Использование `logger`**:
+   - Логгировать ошибки и важные события, чтобы упростить отладку и мониторинг.
+
+4. **Избавиться от дублирования кода**:
+   - Повторяющийся код в `try...except` блоке следует вынести в отдельную функцию для повторного использования.
+
+5. **Аннотации типов**:
+   - Добавить аннотации типов для всех переменных и параметров функций.
+
+6. **Использовать `j_loads`**:
+   - Для парсинга json необходимо использовать `j_loads` из `src.utils`.
+
+7. **Пересмотреть логику получения `authcode`**:
+   - Сейчас в коде в нескольких местах хардкодится `authcode`. Необходимо пересмотреть логику его получения и инициализации, чтобы избежать дублирования и сделать код более гибким.
+
+#### **Оптимизированный код**:
 
 ```python
 """
-Модуль для работы с Liaobots API
-===================================
+Модуль для работы с провайдером Liaobots.
+========================================
 
-Модуль содержит класс :class:`Liaobots`, который используется для взаимодействия с Liaobots API для
-генерации текста на основе предоставленных сообщений.
+Модуль содержит класс :class:`Liaobots`, который используется для взаимодействия с Liaobots API.
+Поддерживает асинхронные запросы и предоставляет функциональность для работы с различными моделями.
 
 Пример использования
 ----------------------
 
 >>> provider = Liaobots()
->>> #messages = [...]
->>> #async for message in provider.create_async_generator(model, messages):
->>> #    print(message)
+>>> models = provider.models
 """
 from __future__ import annotations
 
 import uuid
 import json
 from typing import AsyncGenerator, Dict, List, Optional
-from aiohttp import ClientSession, BaseConnector, ClientResponse
+from aiohttp import ClientSession, BaseConnector
 
-from src.logger import logger  # Импортируем logger
 from ..typing import AsyncResult, Messages
 from .base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from .helper import get_connector
 from ..requests import raise_for_status
+from src.logger import logger  # Импорт logger
+from src.utils.proxy_manager import ProxyManager
+
 
 models: Dict[str, Dict[str, str | int]] = {
     "claude-3-5-sonnet-20241022": {
@@ -234,7 +247,7 @@ class Liaobots(AsyncGeneratorProvider, ProviderModelMixin):
     """
     Провайдер Liaobots для асинхронной генерации текста.
 
-    Поддерживает историю сообщений, системные сообщения и выбор различных моделей.
+    Поддерживает историю сообщений и системные сообщения.
     """
 
     url: str = "https://liaobots.site"
@@ -266,15 +279,15 @@ class Liaobots(AsyncGeneratorProvider, ProviderModelMixin):
     }
 
     _auth_code: str = ""
-    _cookie_jar: Optional[dict] = None
-
+    _cookie_jar: Optional[ClientSession] = None
+    
     @classmethod
     def is_supported(cls, model: str) -> bool:
         """
         Проверяет, поддерживается ли данная модель.
 
         Args:
-            model (str): Идентификатор модели.
+            model (str): Название модели.
 
         Returns:
             bool: True, если модель поддерживается, иначе False.
@@ -291,17 +304,20 @@ class Liaobots(AsyncGeneratorProvider, ProviderModelMixin):
         **kwargs,
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для получения ответов от Liaobots API.
+        Создает асинхронный генератор для взаимодействия с Liaobots API.
 
         Args:
-            model (str): Идентификатор модели.
+            model (str): Название модели.
             messages (Messages): Список сообщений для отправки.
-            proxy (Optional[str]): Прокси-сервер для использования.
-            connector (Optional[BaseConnector]): HTTP-коннектор для использования.
-            **kwargs: Дополнительные аргументы.
+            proxy (Optional[str]): Адрес прокси-сервера.
+            connector (Optional[BaseConnector]): Объект коннектора.
 
         Yields:
-            str: Части контента, полученные от API.
+            str: Части контента, возвращаемые от API.
+
+        Raises:
+            RuntimeError: Если не удалось получить код авторизации.
+            Exception: При возникновении других ошибок.
         """
         model = cls.get_model(model)
 
@@ -315,32 +331,73 @@ class Liaobots(AsyncGeneratorProvider, ProviderModelMixin):
             cookie_jar=cls._cookie_jar,
             connector=get_connector(connector, proxy, True),
         ) as session:
-            data: Dict[str, str | list | Dict] = {
+            data: Dict[str, str | Dict] = {
                 "conversationId": str(uuid.uuid4()),
                 "model": models[model],
                 "messages": messages,
                 "key": "",
                 "prompt": kwargs.get("system_message", "You are a helpful assistant."),
             }
-            await cls.ensure_auth_code(session)  # Ensure auth code is initialized
+
+            if not cls._auth_code:
+                await cls._get_auth_code(session)
+
             try:
-                async for content in cls._stream_content(session, data):
+                async for content in cls._send_chat_request(session, data):
                     yield content
             except Exception as ex:
-                logger.error("Error while streaming content", ex, exc_info=True)
-                raise
+                logger.error("Ошибка при отправке запроса в Liaobots API", ex, exc_info=True)
+                try:
+                    # Повторная попытка с другим кодом авторизации
+                    await cls._get_auth_code(session, authcode="jGDRFOqHcZKAo")
+                    async for content in cls._send_chat_request(session, data):
+                        yield content
+                except Exception as ex:
+                    logger.error("Повторная попытка отправки запроса не удалась", ex, exc_info=True)
+                    raise
 
     @classmethod
-    async def _stream_content(cls, session: ClientSession, data: Dict[str, str | list | Dict]) -> AsyncGenerator[str, None]:
+    async def _get_auth_code(cls, session: ClientSession, authcode: str = "pTIQr4FTnVRfr") -> None:
         """
-        Асинхронно получает и обрабатывает контент от API.
+        Получает код авторизации из API.
 
         Args:
-            session (ClientSession): Aiohttp ClientSession.
-            data (Dict[str, str | list | Dict]): Данные для отправки в API.
+            session (ClientSession): Сессия aiohttp.
+            authcode (str): Код авторизации для запроса. По умолчанию "pTIQr4FTnVRfr".
+
+        Raises:
+            RuntimeError: Если не удалось получить код авторизации.
+        """
+        try:
+            async with session.post(
+                "https://liaobots.work/api/user",
+                json={"authcode": authcode},
+                verify_ssl=False,
+            ) as response:
+                await raise_for_status(response)
+                response_json = await response.json(content_type=None)
+                cls._auth_code = response_json["authCode"]
+                if not cls._auth_code:
+                    raise RuntimeError("Empty auth code")
+                cls._cookie_jar = session.cookie_jar
+        except Exception as ex:
+            logger.error("Ошибка при получении кода авторизации", ex, exc_info=True)
+            raise
+
+    @classmethod
+    async def _send_chat_request(cls, session: ClientSession, data: Dict[str, str | Dict]) -> AsyncGenerator[str, None]:
+        """
+        Отправляет запрос чата в API и возвращает асинхронный генератор контента.
+
+        Args:
+            session (ClientSession): Сессия aiohttp.
+            data (Dict[str, str | Dict]): Данные для отправки в запросе.
 
         Yields:
-            str: Части контента, полученные от API.
+            str: Части контента, возвращаемые от API.
+
+        Raises:
+            Exception: При возникновении ошибок при отправке запроса.
         """
         try:
             async with session.post(
@@ -352,49 +409,33 @@ class Liaobots(AsyncGeneratorProvider, ProviderModelMixin):
                 await raise_for_status(response)
                 async for line in response.content:
                     if line.startswith(b"data: "):
-                        yield json.loads(line[6:]).get("content")
+                        try:
+                            content = json.loads(line[6:]).get("content")
+                            yield content
+                        except json.JSONDecodeError as ex:
+                            logger.error("Ошибка при декодировании JSON", ex, exc_info=True)
+                            continue  # Пропускаем текущую строку и переходим к следующей
         except Exception as ex:
-            logger.error("Error during content streaming", ex, exc_info=True)
+            logger.error("Ошибка при отправке запроса чата", ex, exc_info=True)
             raise
 
     @classmethod
     async def initialize_auth_code(cls, session: ClientSession) -> None:
         """
-        Инициализирует auth code, выполняя необходимые запросы для логина.
+        Инициализирует код авторизации, выполняя необходимые запросы для входа в систему.
 
         Args:
-            session (ClientSession): Aiohttp ClientSession.
+            session (ClientSession): Сессия aiohttp.
         """
-        try:
-            async with session.post(
-                "https://liaobots.work/recaptcha/api/login",
-                data={"token": "abcdefghijklmnopqrst"},
-                verify_ssl=False
-            ) as response:
-                await raise_for_status(response)
-
-            async with session.post(
-                "https://liaobots.work/api/user",
-                json={"authcode": "pTIQr4FTnVRfr"},  # TODO: Remove hardcoded authcode
-                verify_ssl=False
-            ) as response:
-                await raise_for_status(response)
-                response_data = await response.json(content_type=None)
-                cls._auth_code = response_data["authCode"]
-                if not cls._auth_code:
-                    raise RuntimeError("Empty auth code")
-                cls._cookie_jar = session.cookie_jar
-        except Exception as ex:
-            logger.error("Error during auth code initialization", ex, exc_info=True)
-            raise
+        await cls._get_auth_code(session)
 
     @classmethod
     async def ensure_auth_code(cls, session: ClientSession) -> None:
         """
-        Проверяет, инициализирован ли auth code, и выполняет инициализацию, если это необходимо.
+        Убеждается, что код авторизации инициализирован, и выполняет инициализацию, если это необходимо.
 
         Args:
-            session (ClientSession): Aiohttp ClientSession.
+            session (ClientSession): Сессия aiohttp.
         """
         if not cls._auth_code:
             await cls.initialize_auth_code(session)

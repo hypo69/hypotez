@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.gui 
+.. module:: src.suppliers.suppliers_list.aliexpress.gui 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -28,7 +28,7 @@ from src.utils.jjson import j_loads_ns, j_dumps
 from product import ProductEditor
 from campaign import CampaignEditor
 from category import CategoryEditor
-from src.suppliers.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
 from styles import set_fixed_size
 
 class MainApp(QtWidgets.QMainWindow):

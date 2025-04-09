@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.aliexpress.api """
+""" module: src.suppliers.suppliers_list.aliexpress.api """
 
 """
 - `__version__`: This variable holds the version of the module or package.

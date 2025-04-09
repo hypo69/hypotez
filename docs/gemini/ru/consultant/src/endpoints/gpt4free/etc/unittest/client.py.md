@@ -1,261 +1,232 @@
 ### **Анализ кода модуля `client.py`**
 
 #### **Качество кода**:
-
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код содержит модульные тесты для асинхронного и синхронного клиентов `g4f`.
-  - Присутствуют проверки различных сценариев, таких как успешные ответы, передача модели, ограничение количества токенов, потоковая передача и остановка генерации.
-  - Используются моки для изоляции тестов.
+  - Код содержит модульные тесты для проверки асинхронного и синхронного функционала.
+  - Используются моки для изоляции тестов от внешних зависимостей.
+  - Тесты покрывают различные сценарии, включая проверку ответов, передачу моделей, ограничение токенов, потоковую передачу и остановку генерации.
 - **Минусы**:
-  - Отсутствуют аннотации типов для переменных и возвращаемых значений функций, что снижает читаемость и поддерживаемость кода.
-  - Не хватает документации в виде docstring для классов и методов, что затрудняет понимание их назначения и использования.
-  - Не используется модуль `logger` для логирования ошибок и отладочной информации.
-  - Есть некоторые несоответствия PEP8, например, отсутствие пробелов вокруг операторов.
-  - Использование `DEFAULT_MESSAGES` без описания может быть неочевидным.
+  - Отсутствует документация модуля и отдельных тестовых методов.
+  - Не используются аннотации типов для переменных и возвращаемых значений в некоторых местах.
+  - Не хватает комментариев, объясняющих логику работы тестов.
+  - В блоках обработки исключений не используется `logger` для логирования ошибок.
+  - Не все строки соответствуют PEP8 (например, отсутствие пробелов вокруг операторов).
 
 #### **Рекомендации по улучшению**:
 
-1.  **Добавить документацию**:
-    *   Добавить docstring для всех классов и методов, описывающие их назначение, параметры и возвращаемые значения.
-    *   Описать назначение константы `DEFAULT_MESSAGES`.
-
-2.  **Добавить аннотации типов**:
-    *   Добавить аннотации типов для всех переменных, аргументов функций и возвращаемых значений.
-
-3.  **Использовать логирование**:
-    *   Заменить `print` на `logger.info` или `logger.debug` для отладочной информации.
-    *   Использовать `logger.error` для логирования ошибок и исключений.
-
-4.  **Улучшить форматирование**:
-    *   Следовать стандарту PEP8, в частности, добавить пробелы вокруг операторов присваивания и сравнения.
-    *   Использовать одинарные кавычки для строк.
-
-5.  **Улучшить обработку исключений**:
-    *   Использовать `ex` вместо `e` в блоках `except`.
-
-6.  **Улучшить читаемость**:
-    *   Разбить длинные строки на несколько строк для улучшения читаемости.
-    *   Использовать более описательные имена переменных.
+1.  **Добавить документацию модуля**:
+    -   В начале файла добавить docstring с описанием назначения модуля и примерами использования.
+2.  **Добавить документацию для тестовых методов**:
+    -   Описать, что именно тестирует каждый метод, какие входные данные используются и какие результаты ожидаются.
+3.  **Использовать аннотации типов**:
+    -   Добавить аннотации типов для всех переменных и возвращаемых значений, чтобы улучшить читаемость и облегчить отладку.
+4.  **Добавить комментарии**:
+    -   Внутри тестовых методов добавить комментарии, объясняющие логику работы тестов, особенно в сложных местах.
+5.  **Использовать `logger` для логирования ошибок**:
+    -   В блоках обработки исключений использовать `logger.error` для логирования ошибок, что поможет при отладке и мониторинге.
+6.  **Соблюдать PEP8**:
+    -   Привести код в соответствие со стандартами PEP8, включая добавление пробелов вокруг операторов и использование правильных отступов.
+7.  **Улучшить читаемость**:
+    -   Разбить длинные строки на несколько строк, чтобы улучшить читаемость.
+    -   Использовать более понятные имена переменных.
 
 #### **Оптимизированный код**:
 
 ```python
-"""
-Модуль содержит юнит-тесты для асинхронного и синхронного клиентов `g4f`.
-=======================================================================
-
-Тесты проверяют различные сценарии, такие как:
-- Успешные ответы от моделей.
-- Передача модели в запросе.
-- Ограничение количества токенов в ответе.
-- Потоковая передача ответов.
-- Остановка генерации по стоп-словам.
-- Обработка ошибок, например, когда модель не найдена.
-
-Пример использования
-----------------------
-
->>> python -m unittest hypotez/src/endpoints/gpt4free/etc/unittest/client.py
-"""
 from __future__ import annotations
 
 import unittest
-from typing import List
+from typing import List, AsyncGenerator
 
 from g4f.errors import ModelNotFoundError
 from g4f.client import Client, AsyncClient, ChatCompletion, ChatCompletionChunk, get_model_and_provider
 from g4f.Provider.Copilot import Copilot
 from g4f.models import gpt_4o
-
 from .mocks import AsyncGeneratorProviderMock, ModelProviderMock, YieldProviderMock
-from src.logger import logger  # Импортируем logger для логирования
+from src.logger import logger # Добавлен импорт logger
 
-DEFAULT_MESSAGES: List[dict] = [{'role': 'user', 'content': 'Hello'}]  # Сообщения по умолчанию для тестов
+DEFAULT_MESSAGES: List[dict] = [{'role': 'user', 'content': 'Hello'}]
+
 
 class AsyncTestPassModel(unittest.IsolatedAsyncioTestCase):
     """
-    Асинхронные тесты для проверки работы с моделями.
+    Набор асинхронных тестов для проверки функциональности g4f.
     """
 
-    async def test_response(self) -> None:
+    async def test_response(self):
         """
-        Тест проверяет получение ответа от асинхронного клиента.
+        Тест проверяет получение ответа от асинхронного клиента с моковым провайдером.
         """
-        client: AsyncClient = AsyncClient(provider=AsyncGeneratorProviderMock)  # Создаем асинхронный клиент с мок-провайдером
-        response: ChatCompletion = await client.chat.completions.create(DEFAULT_MESSAGES, "")  # Получаем ответ
-        self.assertIsInstance(response, ChatCompletion)  # Проверяем, что получен ChatCompletion
-        self.assertEqual("Mock", response.choices[0].message.content)  # Проверяем содержимое ответа
+        client: AsyncClient = AsyncClient(provider=AsyncGeneratorProviderMock)
+        response: ChatCompletion = await client.chat.completions.create(DEFAULT_MESSAGES, "")
+        self.assertIsInstance(response, ChatCompletion)
+        self.assertEqual("Mock", response.choices[0].message.content)
 
-    async def test_pass_model(self) -> None:
+    async def test_pass_model(self):
         """
-        Тест проверяет передачу модели в асинхронный клиент.
+        Тест проверяет передачу модели асинхронному клиенту и получение соответствующего ответа.
         """
-        client: AsyncClient = AsyncClient(provider=ModelProviderMock)  # Создаем асинхронный клиент с мок-провайдером
-        response: ChatCompletion = await client.chat.completions.create(DEFAULT_MESSAGES, "Hello")  # Получаем ответ
-        self.assertIsInstance(response, ChatCompletion)  # Проверяем, что получен ChatCompletion
-        self.assertEqual("Hello", response.choices[0].message.content)  # Проверяем содержимое ответа
+        client: AsyncClient = AsyncClient(provider=ModelProviderMock)
+        response: ChatCompletion = await client.chat.completions.create(DEFAULT_MESSAGES, "Hello")
+        self.assertIsInstance(response, ChatCompletion)
+        self.assertEqual("Hello", response.choices[0].message.content)
 
-    async def test_max_tokens(self) -> None:
+    async def test_max_tokens(self):
         """
-        Тест проверяет ограничение количества токенов в асинхронном клиенте.
+        Тест проверяет ограничение количества токенов в ответе асинхронного клиента.
         """
-        client: AsyncClient = AsyncClient(provider=YieldProviderMock)  # Создаем асинхронный клиент с мок-провайдером
-        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["How ", "are ", "you", "?"]]  # Формируем список сообщений
-        response: ChatCompletion = await client.chat.completions.create(messages, "Hello", max_tokens=1)  # Получаем ответ с ограничением в 1 токен
-        self.assertIsInstance(response, ChatCompletion)  # Проверяем, что получен ChatCompletion
-        self.assertEqual("How ", response.choices[0].message.content)  # Проверяем содержимое ответа
-        response: ChatCompletion = await client.chat.completions.create(messages, "Hello", max_tokens=2)  # Получаем ответ с ограничением в 2 токена
-        self.assertIsInstance(response, ChatCompletion)  # Проверяем, что получен ChatCompletion
-        self.assertEqual("How are ", response.choices[0].message.content)  # Проверяем содержимое ответа
+        client: AsyncClient = AsyncClient(provider=YieldProviderMock)
+        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["How ", "are ", "you", "?"]]
+        response: ChatCompletion = await client.chat.completions.create(messages, "Hello", max_tokens=1)
+        self.assertIsInstance(response, ChatCompletion)
+        self.assertEqual("How ", response.choices[0].message.content)
+        response: ChatCompletion = await client.chat.completions.create(messages, "Hello", max_tokens=2)
+        self.assertIsInstance(response, ChatCompletion)
+        self.assertEqual("How are ", response.choices[0].message.content)
 
-    async def test_max_stream(self) -> None:
+    async def test_max_stream(self):
         """
-        Тест проверяет потоковую передачу в асинхронном клиенте.
+        Тест проверяет потоковую передачу данных с ограничением количества токенов.
         """
-        client: AsyncClient = AsyncClient(provider=YieldProviderMock)  # Создаем асинхронный клиент с мок-провайдером
-        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["How ", "are ", "you", "?"]]  # Формируем список сообщений
-        response: AsyncGeneratorProviderMock = client.chat.completions.create(messages, "Hello", stream=True)  # Получаем потоковый ответ
-        async for chunk in response:  # Итерируемся по чанкам
-            chunk: ChatCompletionChunk = chunk  # Явное указание типа для chunk
-            self.assertIsInstance(chunk, ChatCompletionChunk)  # Проверяем, что получен ChatCompletionChunk
-            if chunk.choices[0].delta.content is not None:  # Проверяем, что содержимое не None
-                self.assertIsInstance(chunk.choices[0].delta.content, str)  # Проверяем, что содержимое - строка
+        client: AsyncClient = AsyncClient(provider=YieldProviderMock)
+        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["How ", "are ", "you", "?"]]
+        response: AsyncGenerator = client.chat.completions.create(messages, "Hello", stream=True) # Исправлена аннотация типа
+        async for chunk in response:
+            chunk: ChatCompletionChunk
+            self.assertIsInstance(chunk, ChatCompletionChunk)
+            if chunk.choices[0].delta.content is not None:
+                self.assertIsInstance(chunk.choices[0].delta.content, str)
+        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["You ", "You ", "Other", "?"]]
+        response: AsyncGenerator = client.chat.completions.create(messages, "Hello", stream=True, max_tokens=2) # Исправлена аннотация типа
+        response_list: List[ChatCompletionChunk] = []
+        async for chunk in response:
+            response_list.append(chunk)
+        self.assertEqual(len(response_list), 3)
+        for chunk in response_list:
+            if chunk.choices[0].delta.content is not None:
+                self.assertEqual(chunk.choices[0].delta.content, "You ")
 
-        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["You ", "You ", "Other", "?"]]  # Формируем список сообщений
-        response: AsyncGeneratorProviderMock = client.chat.completions.create(messages, "Hello", stream=True, max_tokens=2)  # Получаем потоковый ответ с ограничением в 2 токена
-        response_list: List[ChatCompletionChunk] = []  # Список для хранения чанков
-        async for chunk in response:  # Итерируемся по чанкам
-            response_list.append(chunk)  # Добавляем чанк в список
-        self.assertEqual(len(response_list), 3)  # Проверяем количество чанков
-        for chunk in response_list:  # Итерируемся по списку чанков
-            if chunk.choices[0].delta.content is not None:  # Проверяем, что содержимое не None
-                self.assertEqual(chunk.choices[0].delta.content, "You ")  # Проверяем содержимое чанка
-
-    async def test_stop(self) -> None:
+    async def test_stop(self):
         """
-        Тест проверяет остановку генерации в асинхронном клиенте.
+        Тест проверяет остановку генерации при достижении определенного слова.
         """
-        client: AsyncClient = AsyncClient(provider=YieldProviderMock)  # Создаем асинхронный клиент с мок-провайдером
-        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["How ", "are ", "you", "?"]]  # Формируем список сообщений
-        response: ChatCompletion = await client.chat.completions.create(messages, "Hello", stop=["and"])  # Получаем ответ с указанием стоп-слов
-        self.assertIsInstance(response, ChatCompletion)  # Проверяем, что получен ChatCompletion
-        self.assertEqual("How are you?", response.choices[0].message.content)  # Проверяем содержимое ответа
+        client: AsyncClient = AsyncClient(provider=YieldProviderMock)
+        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["How ", "are ", "you", "?"]]
+        response: ChatCompletion = await client.chat.completions.create(messages, "Hello", stop=["and"])
+        self.assertIsInstance(response, ChatCompletion)
+        self.assertEqual("How are you?", response.choices[0].message.content)
 
 
 class TestPassModel(unittest.TestCase):
     """
-    Синхронные тесты для проверки работы с моделями.
+    Набор синхронных тестов для проверки функциональности g4f.
     """
 
-    def test_response(self) -> None:
+    def test_response(self):
         """
-        Тест проверяет получение ответа от синхронного клиента.
+        Тест проверяет получение ответа от синхронного клиента с моковым провайдером.
         """
-        client: Client = Client(provider=AsyncGeneratorProviderMock)  # Создаем синхронный клиент с мок-провайдером
-        response: ChatCompletion = client.chat.completions.create(DEFAULT_MESSAGES, "")  # Получаем ответ
-        self.assertIsInstance(response, ChatCompletion)  # Проверяем, что получен ChatCompletion
-        self.assertEqual("Mock", response.choices[0].message.content)  # Проверяем содержимое ответа
+        client: Client = Client(provider=AsyncGeneratorProviderMock)
+        response: ChatCompletion = client.chat.completions.create(DEFAULT_MESSAGES, "")
+        self.assertIsInstance(response, ChatCompletion)
+        self.assertEqual("Mock", response.choices[0].message.content)
 
-    def test_pass_model(self) -> None:
+    def test_pass_model(self):
         """
-        Тест проверяет передачу модели в синхронный клиент.
+        Тест проверяет передачу модели синхронному клиенту и получение соответствующего ответа.
         """
-        client: Client = Client(provider=ModelProviderMock)  # Создаем синхронный клиент с мок-провайдером
-        response: ChatCompletion = client.chat.completions.create(DEFAULT_MESSAGES, "Hello")  # Получаем ответ
-        self.assertIsInstance(response, ChatCompletion)  # Проверяем, что получен ChatCompletion
-        self.assertEqual("Hello", response.choices[0].message.content)  # Проверяем содержимое ответа
+        client: Client = Client(provider=ModelProviderMock)
+        response: ChatCompletion = client.chat.completions.create(DEFAULT_MESSAGES, "Hello")
+        self.assertIsInstance(response, ChatCompletion)
+        self.assertEqual("Hello", response.choices[0].message.content)
 
-    def test_max_tokens(self) -> None:
+    def test_max_tokens(self):
         """
-        Тест проверяет ограничение количества токенов в синхронном клиенте.
+        Тест проверяет ограничение количества токенов в ответе синхронного клиента.
         """
-        client: Client = Client(provider=YieldProviderMock)  # Создаем синхронный клиент с мок-провайдером
-        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["How ", "are ", "you", "?"]]  # Формируем список сообщений
-        response: ChatCompletion = client.chat.completions.create(messages, "Hello", max_tokens=1)  # Получаем ответ с ограничением в 1 токен
-        self.assertIsInstance(response, ChatCompletion)  # Проверяем, что получен ChatCompletion
-        self.assertEqual("How ", response.choices[0].message.content)  # Проверяем содержимое ответа
-        response: ChatCompletion = client.chat.completions.create(messages, "Hello", max_tokens=2)  # Получаем ответ с ограничением в 2 токена
-        self.assertIsInstance(response, ChatCompletion)  # Проверяем, что получен ChatCompletion
-        self.assertEqual("How are ", response.choices[0].message.content)  # Проверяем содержимое ответа
+        client: Client = Client(provider=YieldProviderMock)
+        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["How ", "are ", "you", "?"]]
+        response: ChatCompletion = client.chat.completions.create(messages, "Hello", max_tokens=1)
+        self.assertIsInstance(response, ChatCompletion)
+        self.assertEqual("How ", response.choices[0].message.content)
+        response: ChatCompletion = client.chat.completions.create(messages, "Hello", max_tokens=2)
+        self.assertIsInstance(response, ChatCompletion)
+        self.assertEqual("How are ", response.choices[0].message.content)
 
-    def test_max_stream(self) -> None:
+    def test_max_stream(self):
         """
-        Тест проверяет потоковую передачу в синхронном клиенте.
+        Тест проверяет потоковую передачу данных с ограничением количества токенов.
         """
-        client: Client = Client(provider=YieldProviderMock)  # Создаем синхронный клиент с мок-провайдером
-        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["How ", "are ", "you", "?"]]  # Формируем список сообщений
-        response: AsyncGeneratorProviderMock = client.chat.completions.create(messages, "Hello", stream=True)  # Получаем потоковый ответ
-        for chunk in response:  # Итерируемся по чанкам
-            self.assertIsInstance(chunk, ChatCompletionChunk)  # Проверяем, что получен ChatCompletionChunk
-            if chunk.choices[0].delta.content is not None:  # Проверяем, что содержимое не None
-                self.assertIsInstance(chunk.choices[0].delta.content, str)  # Проверяем, что содержимое - строка
+        client: Client = Client(provider=YieldProviderMock)
+        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["How ", "are ", "you", "?"]]
+        response = client.chat.completions.create(messages, "Hello", stream=True)
+        for chunk in response:
+            self.assertIsInstance(chunk, ChatCompletionChunk)
+            if chunk.choices[0].delta.content is not None:
+                self.assertIsInstance(chunk.choices[0].delta.content, str)
+        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["You ", "You ", "Other", "?"]]
+        response = client.chat.completions.create(messages, "Hello", stream=True, max_tokens=2)
+        response_list: List[ChatCompletionChunk] = list(response)
+        self.assertEqual(len(response_list), 3)
+        for chunk in response_list:
+            if chunk.choices[0].delta.content is not None:
+                self.assertEqual(chunk.choices[0].delta.content, "You ")
 
-        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["You ", "You ", "Other", "?"]]  # Формируем список сообщений
-        response: AsyncGeneratorProviderMock = client.chat.completions.create(messages, "Hello", stream=True, max_tokens=2)  # Получаем потоковый ответ с ограничением в 2 токена
-        response_list: List[ChatCompletionChunk] = list(response)  # Получаем список чанков
-        self.assertEqual(len(response_list), 3)  # Проверяем количество чанков
-        for chunk in response_list:  # Итерируемся по списку чанков
-            if chunk.choices[0].delta.content is not None:  # Проверяем, что содержимое не None
-                self.assertEqual(chunk.choices[0].delta.content, "You ")  # Проверяем содержимое чанка
+    def test_stop(self):
+        """
+        Тест проверяет остановку генерации при достижении определенного слова.
+        """
+        client: Client = Client(provider=YieldProviderMock)
+        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["How ", "are ", "you", "?"]]
+        response: ChatCompletion = client.chat.completions.create(messages, "Hello", stop=["and"])
+        self.assertIsInstance(response, ChatCompletion)
+        self.assertEqual("How are you?", response.choices[0].message.content)
 
-    def test_stop(self) -> None:
+    def test_model_not_found(self):
         """
-        Тест проверяет остановку генерации в синхронном клиенте.
+        Тест проверяет возникновение исключения ModelNotFoundError при отсутствии модели.
         """
-        client: Client = Client(provider=YieldProviderMock)  # Создаем синхронный клиент с мок-провайдером
-        messages: List[dict] = [{'role': 'user', 'content': chunk} for chunk in ["How ", "are ", "you", "?"]]  # Формируем список сообщений
-        response: ChatCompletion = client.chat.completions.create(messages, "Hello", stop=["and"])  # Получаем ответ с указанием стоп-слов
-        self.assertIsInstance(response, ChatCompletion)  # Проверяем, что получен ChatCompletion
-        self.assertEqual("How are you?", response.choices[0].message.content)  # Проверяем содержимое ответа
+        def run_exception():
+            client: Client = Client()
+            client.chat.completions.create(DEFAULT_MESSAGES, "Hello")
+        self.assertRaises(ModelNotFoundError, run_exception)
 
-    def test_model_not_found(self) -> None:
+    def test_best_provider(self):
         """
-        Тест проверяет обработку исключения, когда модель не найдена.
+        Тест проверяет выбор лучшего провайдера для заданной модели.
         """
-        def run_exception() -> None:
-            """
-            Функция для вызова исключения ModelNotFoundError.
-            """
-            client: Client = Client()  # Создаем клиент без указания провайдера
-            client.chat.completions.create(DEFAULT_MESSAGES, "Hello")  # Пытаемся получить ответ
-        self.assertRaises(ModelNotFoundError, run_exception)  # Проверяем, что вызывается исключение ModelNotFoundError
+        not_default_model: str = "gpt-4o"
+        model: str, provider = get_model_and_provider(not_default_model, None, False)
+        self.assertTrue(hasattr(provider, "create_completion"))
+        self.assertEqual(model, not_default_model)
 
-    def test_best_provider(self) -> None:
+    def test_default_model(self):
         """
-        Тест проверяет выбор лучшего провайдера для указанной модели.
+        Тест проверяет выбор модели по умолчанию.
         """
-        not_default_model: str = "gpt-4o"  # Указываем не дефолтную модель
-        model: str, provider: Copilot = get_model_and_provider(not_default_model, None, False)  # Получаем модель и провайдера
-        self.assertTrue(hasattr(provider, "create_completion"))  # Проверяем, что у провайдера есть метод create_completion
-        self.assertEqual(model, not_default_model)  # Проверяем, что модель соответствует запрошенной
+        default_model: str = ""
+        model: str, provider = get_model_and_provider(default_model, None, False)
+        self.assertTrue(hasattr(provider, "create_completion"))
+        self.assertEqual(model, default_model)
 
-    def test_default_model(self) -> None:
-        """
-        Тест проверяет выбор дефолтной модели.
-        """
-        default_model: str = ""  # Указываем дефолтную модель
-        model: str, provider: Copilot = get_model_and_provider(default_model, None, False)  # Получаем модель и провайдера
-        self.assertTrue(hasattr(provider, "create_completion"))  # Проверяем, что у провайдера есть метод create_completion
-        self.assertEqual(model, default_model)  # Проверяем, что модель соответствует дефолтной
-
-    def test_provider_as_model(self) -> None:
+    def test_provider_as_model(self):
         """
         Тест проверяет использование провайдера в качестве модели.
         """
-        provider_as_model: str = Copilot.__name__  # Указываем провайдера в качестве модели
-        model: str, provider: Copilot = get_model_and_provider(provider_as_model, None, False)  # Получаем модель и провайдера
-        self.assertTrue(hasattr(provider, "create_completion"))  # Проверяем, что у провайдера есть метод create_completion
-        self.assertIsInstance(model, str)  # Проверяем, что модель - строка
-        self.assertEqual(model, Copilot.default_model)  # Проверяем, что модель соответствует дефолтной модели провайдера
+        provider_as_model: str = Copilot.__name__
+        model: str, provider = get_model_and_provider(provider_as_model, None, False)
+        self.assertTrue(hasattr(provider, "create_completion"))
+        self.assertIsInstance(model, str)
+        self.assertEqual(model, Copilot.default_model)
 
-    def test_get_model(self) -> None:
+    def test_get_model(self):
         """
-        Тест проверяет получение модели по имени.
+        Тест проверяет получение модели.
         """
-        model: str, provider: Copilot = get_model_and_provider(gpt_4o.name, None, False)  # Получаем модель и провайдера
-        self.assertTrue(hasattr(provider, "create_completion"))  # Проверяем, что у провайдера есть метод create_completion
-        self.assertEqual(model, gpt_4o.name)  # Проверяем, что модель соответствует запрошенной
+        model: str, provider = get_model_and_provider(gpt_4o.name, None, False)
+        self.assertTrue(hasattr(provider, "create_completion"))
+        self.assertEqual(model, gpt_4o.name)
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.gui 
+.. module:: src.suppliers.suppliers_list.aliexpress.gui 
 	:platform: Windows, Unix
 	:synopsis:
 

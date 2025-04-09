@@ -1,91 +1,79 @@
-### **Анализ кода модуля `GizAI`**
+### **Анализ кода модуля `GizAI.py`**
 
-#### **Качество кода**:
+Модуль `GizAI.py` предоставляет класс `GizAI`, который является асинхронным провайдером для взаимодействия с API GizAI. Он поддерживает стриминг, системные сообщения и историю сообщений.
+
+**Качество кода:**
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Класс хорошо структурирован и следует принципам наследования.
-  - Четкое разделение ответственности между методами.
-  - Использование асинхронных операций для неблокирующего выполнения.
+    - Код достаточно хорошо структурирован и понятен.
+    - Используются асинхронные запросы через `aiohttp`.
+    - Присутствует обработка ошибок с выводом статуса ответа и текста ошибки.
+    - Класс наследует `AsyncGeneratorProvider` и `ProviderModelMixin`, что предполагает использование в общей структуре провайдеров.
 - **Минусы**:
-  - Отсутствует документация класса и методов.
-  - Жёстко заданы заголовки, что может затруднить адаптацию к изменениям API.
-  - Не все переменные аннотированы типами.
+    - Отсутствует полное документирование всех методов и параметров.
+    - Жёстко заданы заголовки, что может быть негибко при изменениях API GizAI.
+    - Не используется модуль логирования `src.logger.logger` для регистрации ошибок и отладочной информации.
 
-#### **Рекомендации по улучшению**:
+**Рекомендации по улучшению:**
 
-1. **Добавить документацию**:
-   - Добавить docstring для класса `GizAI` с описанием его назначения, основных атрибутов и методов.
-   - Добавить docstring для каждого метода, включая описание параметров, возвращаемых значений и возможных исключений.
+1.  **Документирование**:
+    - Добавить docstring для класса `GizAI` и всех его методов, включая `get_model` и `create_async_generator`.
+    - Описать параметры и возвращаемые значения, а также возможные исключения.
 
-2. **Улучшить обработку ошибок**:
-   - Логировать ошибки с использованием `logger.error` из модуля `src.logger`.
-   - Предоставить более конкретные сообщения об ошибках, чтобы облегчить отладку.
+2.  **Логирование**:
+    - Использовать модуль `src.logger.logger` для логирования ошибок и отладочной информации.
+    - Добавить логирование при возникновении исключений, а также при успешном получении ответа от API.
 
-3. **Типизация**:
-   - Указать типы для всех переменных, чтобы улучшить читаемость и предотвратить ошибки.
+3.  **Гибкость заголовков**:
+    - Рассмотреть возможность вынесения заголовков в отдельную переменную или метод, чтобы их можно было легко изменять при необходимости.
 
-4. **Рефакторинг заголовков**:
-   - Вынести заголовки в отдельную константу или переменную, чтобы упростить их изменение и поддержку.
-   - Рассмотреть возможность использования библиотеки для управления заголовками, чтобы избежать дублирования.
+4.  **Обработка ошибок**:
+    - Улучшить обработку ошибок, добавив более конкретные исключения и логирование.
 
-5. **Добавить обработку прокси**:
-   - Учесть возможность передачи прокси через аргументы, чтобы повысить гибкость использования.
+5.  **Улучшение совместимости моделей**:
+    - Сделать `model_aliases` более гибким, чтобы можно было добавлять новые алиасы без изменения кода.
 
-6. **Улучшить структуру данных**:
-   - Использовать более явные структуры данных для представления запросов и ответов API.
-
-#### **Оптимизированный код**:
+**Оптимизированный код:**
 
 ```python
 from __future__ import annotations
 
 from aiohttp import ClientSession
-from typing import AsyncGenerator, Dict, Any, Optional
 
 from ..typing import AsyncResult, Messages
 from .base_provider import AsyncGeneratorProvider, ProviderModelMixin
-from src.logger import logger  # Добавлен импорт logger
+from src.logger import logger  # Импорт модуля логирования
 from .helper import format_prompt
-
 
 class GizAI(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Провайдер GizAI для асинхронной генерации текста.
-    ====================================================
+    Провайдер для взаимодействия с API GizAI.
 
-    Этот класс предоставляет асинхронный интерфейс для взаимодействия с API GizAI.
-    Он поддерживает стриминг, системные сообщения и историю сообщений.
-
-    Пример использования:
-    ----------------------
-
-    >>> model = 'chat-gemini-flash'
-    >>> messages = [{'role': 'user', 'content': 'Hello, GizAI!'}]
-    >>> async for message in GizAI.create_async_generator(model=model, messages=messages):
-    ...     print(message)
+    Поддерживает асинхронные запросы, стриминг, системные сообщения и историю сообщений.
     """
-    url: str = "https://app.giz.ai/assistant"
-    api_endpoint: str = "https://app.giz.ai/api/data/users/inferenceServer.infer"
-
-    working: bool = True
-    supports_stream: bool = False
-    supports_system_message: bool = True
-    supports_message_history: bool = True
-
-    default_model: str = 'chat-gemini-flash'
-    models: list[str] = [default_model]
-    model_aliases: dict[str, str] = {"gemini-1.5-flash": "chat-gemini-flash", }
+    url = 'https://app.giz.ai/assistant'
+    api_endpoint = 'https://app.giz.ai/api/data/users/inferenceServer.infer'
+    
+    working = True
+    supports_stream = False
+    supports_system_message = True
+    supports_message_history = True
+    
+    default_model = 'chat-gemini-flash'
+    models = [default_model]
+    model_aliases = {"gemini-1.5-flash": "chat-gemini-flash",}
 
     @classmethod
     def get_model(cls, model: str) -> str:
         """
-        Получает имя модели на основе предоставленного алиаса или возвращает модель по умолчанию.
+        Получает имя модели на основе заданного алиаса.
 
         Args:
             model (str): Имя модели или алиас.
 
         Returns:
-            str: Имя модели.
+            str: Имя модели, если найдено, иначе имя модели по умолчанию.
         """
         if model in cls.models:
             return model
@@ -96,11 +84,11 @@ class GizAI(AsyncGeneratorProvider, ProviderModelMixin):
 
     @classmethod
     async def create_async_generator(
-            cls,
-            model: str,
-            messages: Messages,
-            proxy: Optional[str] = None,
-            **kwargs
+        cls,
+        model: str,
+        messages: Messages,
+        proxy: str = None,
+        **kwargs
     ) -> AsyncResult:
         """
         Создает асинхронный генератор для взаимодействия с API GizAI.
@@ -108,17 +96,17 @@ class GizAI(AsyncGeneratorProvider, ProviderModelMixin):
         Args:
             model (str): Имя модели.
             messages (Messages): Список сообщений для отправки.
-            proxy (Optional[str]): Адрес прокси-сервера (необязательный).
+            proxy (str, optional): Адрес прокси-сервера. По умолчанию None.
 
         Returns:
             AsyncResult: Асинхронный генератор, выдающий ответы от API.
 
         Raises:
-            Exception: В случае неожиданного статуса ответа от API.
+            Exception: Если возникает ошибка при запросе к API.
         """
         model = cls.get_model(model)
-
-        headers: dict[str, str] = {
+        
+        headers = {
             'Accept': 'application/json, text/plain, */*',
             'Accept-Language': 'en-US,en;q=0.9',
             'Cache-Control': 'no-cache',
@@ -135,9 +123,9 @@ class GizAI(AsyncGeneratorProvider, ProviderModelMixin):
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"Linux"'
         }
-
+        
         async with ClientSession(headers=headers) as session:
-            data: dict[str, Any] = {
+            data = {
                 "model": model,
                 "input": {
                     "messages": [
@@ -150,13 +138,15 @@ class GizAI(AsyncGeneratorProvider, ProviderModelMixin):
                 },
                 "noStream": True
             }
-            try:
+            try: # Добавлена обработка исключений с логированием
                 async with session.post(cls.api_endpoint, json=data, proxy=proxy) as response:
                     if response.status == 201:
-                        result: dict[str, str] = await response.json()
+                        result = await response.json()
                         yield result['output'].strip()
                     else:
-                        raise Exception(f"Unexpected response status: {response.status}\n{await response.text()}")
+                        response_text = await response.text()
+                        logger.error(f'Unexpected response status: {response.status}\\n{response_text}') # Логирование ошибки
+                        raise Exception(f'Unexpected response status: {response.status}\\n{response_text}')
             except Exception as ex:
-                logger.error('Error while processing GizAI request', ex, exc_info=True)
+                logger.error('Error while creating async generator', ex, exc_info=True) # Логирование исключения
                 raise

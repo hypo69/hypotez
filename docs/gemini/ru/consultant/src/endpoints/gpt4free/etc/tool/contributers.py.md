@@ -4,49 +4,66 @@
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код выполняет задачу получения и отображения информации о контрибьюторах репозитория.
+    - Код выполняет свою задачу - получение информации о контрибьюторах репозитория.
     - Простота и лаконичность кода.
 - **Минусы**:
-    - Отсутствует обработка возможных ошибок при запросе к API GitHub.
-    - Код не документирован, что затрудняет его понимание и поддержку.
-    - Нет аннотаций типов.
-    - Не используется `logger` для логирования.
-    - Не соответствует стандартам оформления кода (отсутствуют пробелы вокруг операторов, используются двойные кавычки вместо одинарных).
-    - Отсутсвует описание модуля
+    - Отсутствует обработка ошибок при запросе к API.
+    - Не используются аннотации типов.
+    - Отсутствует подробное описание работы кода и документация.
+    - Не используется модуль `logger` для логгирования.
+    - Неправильное форматирование кода.
+    - Использованы двойные кавычки вместо одинарных.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить обработку ошибок**: Обернуть запрос к API GitHub в блок `try...except`, чтобы обрабатывать возможные исключения (например, `requests.exceptions.RequestException`).
-2.  **Добавить логирование**: Использовать модуль `logger` для записи информации об успешных и неуспешных запросах, а также для логирования ошибок.
-3.  **Добавить документацию**: Добавить docstring для всего модуля с описанием его назначения и использования.
-4.  **Соблюдать стандарты оформления кода**: Использовать одинарные кавычки, добавить пробелы вокруг операторов и соблюдать другие рекомендации PEP8.
-5.  **Добавить аннотации типов**: Аннотировать типы для переменных.
-6.  **Использовать `j_loads` или `j_loads_ns`**: Хотя в данном коде это не требуется, стоит помнить о возможности использования этих функций при работе с JSON-данными.
+1.  Добавить обработку ошибок при выполнении запроса к API GitHub.
+2.  Добавить аннотации типов для переменных.
+3.  Оформить код в виде функции с docstring.
+4.  Использовать модуль `logger` для записи информации о процессе выполнения и ошибок.
+5.  Использовать одинарные кавычки вместо двойных.
+6.  Добавить проверку на успешность запроса `response.raise_for_status()`.
+7.  Соблюдать PEP8.
 
 **Оптимизированный код:**
 
 ```python
-"""
-Модуль для получения и отображения информации о контрибьюторах репозитория gpt4free
-=============================================================================
-
-Модуль отправляет запрос к API GitHub для получения списка контрибьюторов репозитория gpt4free
-и выводит HTML-код для отображения их аватарок со ссылками на профили.
-"""
+from typing import Optional
 import requests
 from src.logger import logger
 
-url: str = "https://api.github.com/repos/xtekky/gpt4free/contributors?per_page=100"
+def get_github_contributors(url: str = "https://api.github.com/repos/xtekky/gpt4free/contributors?per_page=100") -> Optional[str]:
+    """
+    Получает HTML-код с ссылками на аватары и логины контрибьюторов репозитория GPT4Free с GitHub API.
 
-try:
-    response = requests.get(url)
-    response.raise_for_status()  # Проверка на HTTP ошибки
-    users = response.json()
-    for user in users:
-        login: str = user['login']
-        avatar_url: str = user['avatar_url']
-        html_code: str = f'<a href="https://github.com/{login}" target="_blank"><img src="{avatar_url}&s=45" width="45" title="{login}"></a>'
-        print(html_code)
-    logger.info('Successfully retrieved and printed contributors information.')
-except requests.exceptions.RequestException as ex:
-    logger.error('Error while retrieving contributors information from GitHub API', ex, exc_info=True)
+    Args:
+        url (str, optional): URL для запроса к API GitHub.
+            По умолчанию "https://api.github.com/repos/xtekky/gpt4free/contributors?per_page=100".
+
+    Returns:
+        Optional[str]: HTML-код со ссылками на контрибьюторов или None в случае ошибки.
+
+    Raises:
+        requests.exceptions.RequestException: Если возникает ошибка при запросе к API GitHub.
+
+    Example:
+        >>> html_code = get_github_contributors()
+        >>> if html_code:
+        ...     print(html_code)
+        '<a href="https://github.com/login1" target="_blank"><img src="avatar_url_1&s=45" width="45" title="login1"></a>\\n<a href="https://github.com/login2" target="_blank"><img src="avatar_url_2&s=45" width="45" title="login2"></a>\\n...'
+    """
+    try:
+        response = requests.get(url)
+        response.raise_for_status() # Проверка на ошибки HTTP
+        html_output = ''
+        for user in response.json():
+            html_output += f'<a href="https://github.com/{user["login"]}" target="_blank"><img src="{user["avatar_url"]}&s=45" width="45" title="{user["login"]}"></a>\n'
+        return html_output
+    except requests.exceptions.RequestException as ex:
+        logger.error('Ошибка при запросе к API GitHub', ex, exc_info=True)
+        return None
+
+# Пример использования функции
+if __name__ == '__main__':
+    html_content = get_github_contributors()
+    if html_content:
+        print(html_content)

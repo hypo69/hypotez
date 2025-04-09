@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.aliexpress.api.skd.api.rest """
+""" module: src.suppliers.suppliers_list.aliexpress.api.skd.api.rest """
 """
 Created by auto_sdk on 2021.05.17
 """

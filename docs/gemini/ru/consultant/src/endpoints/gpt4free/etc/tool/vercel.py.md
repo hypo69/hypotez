@@ -1,102 +1,115 @@
 ### **Анализ кода модуля `vercel.py`**
 
-## \file /hypotez/src/endpoints/gpt4free/etc/tool/vercel.py
-
-**Качество кода:**
-
+#### **Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код разбит на отдельные функции, что облегчает понимание и поддержку.
-  - Используются аннотации типов для параметров и возвращаемых значений функций.
-  - Присутствует логика извлечения и преобразования информации о моделях с использованием регулярных выражений и `quickjs`.
+  - Код разбит на логические функции, что облегчает его понимание и поддержку.
+  - Используются регулярные выражения для извлечения данных из HTML и JavaScript.
+  - Присутствует обработка исключений.
 - **Минусы**:
-  - Отсутствуют docstring для функций, что затрудняет понимание их назначения и использования.
-  - Не используются `j_loads` или `j_loads_ns` для чтения JSON данных.
-  - Не обрабатываются возможные исключения при выполнении запросов и обработке данных.
-  - Используется устаревшая библиотека `curl_cffi` вместо `httpx`.
+  - Отсутствует документация docstring для функций и модуля.
+  - Не используются логирование для отслеживания ошибок и хода выполнения программы.
+  - Не все переменные аннотированы типами.
+  - Использование `re.sub` с `re.escape` может быть избыточным.
+  - Отсутствует описание модуля.
 
-**Рекомендации по улучшению:**
+#### **Рекомендации по улучшению**:
 
-1.  **Добавить docstring**: Добавить docstring для каждой функции, описывающие ее назначение, параметры, возвращаемые значения и возможные исключения.
-2.  **Обработка исключений**: Добавить блоки `try...except` для обработки возможных исключений при выполнении HTTP-запросов, обработке регулярных выражений и преобразовании данных. Использовать `logger.error` для логирования ошибок.
-3.  **Заменить `curl_cffi` на `httpx`**: `curl_cffi` считается устаревшей, рекомендуется использовать `httpx` для выполнения HTTP-запросов.
-4.  **Использовать `j_loads`**: Использовать `j_loads` для загрузки JSON данных, чтобы обеспечить консистентность в проекте.
-5.  **Улучшить читаемость регулярных выражений**: Добавить комментарии к регулярным выражениям, чтобы объяснить их назначение.
-6.  **Удалить неиспользуемые импорты**: Убрать неиспользуемые импорты, если таковые имеются.
-7.  **Добавить логирование**: Добавить логирование для отслеживания процесса выполнения и выявления возможных проблем.
-8.  **Упростить код**: Упростить код, где это возможно, чтобы улучшить его читаемость и производительность.
-9. **Перевести все комментарии на русский язык**
+1.  **Добавить docstring**:
+    *   Добавить docstring для всех функций и для модуля с описанием назначения, аргументов, возвращаемых значений и возможных исключений.
+    *   Описать, что делает модуль, какие классы содержит и примеры использования.
 
-**Оптимизированный код:**
+2.  **Логирование**:
+    *   Добавить логирование с использованием модуля `logger` для отслеживания хода выполнения программы и записи ошибок.
+
+3.  **Аннотация типов**:
+    *   Добавить аннотацию типов для всех переменных.
+
+4.  **Безопасность**:
+    *   Убедиться, что использование `re.escape` необходимо в контексте `re.sub`. Если нет, упростить код.
+
+5.  **Обработка исключений**:
+    *   Добавить обработку исключений при запросах к внешним ресурсам (сайтам) и парсинге данных.
+
+#### **Оптимизированный код**:
 
 ```python
+"""
+Модуль для получения информации о моделях Vercel AI SDK
+=======================================================
+
+Модуль содержит функции для извлечения информации о доступных моделях из Vercel AI SDK,
+включая их параметры и имена.
+
+Пример использования
+----------------------
+
+>>> model_info = get_model_info()
+>>> if model_info:
+>>>     model_names = get_model_names(model_info)
+>>>     print_providers(model_names)
+"""
+
 import json
 import re
-from typing import Any
+from typing import Any, Dict, List
 
-import httpx
 import quickjs
+from curl_cffi import requests
 
-from src.logger import logger  # Import logger
-from src.utils.json_utils import j_loads  # Import j_loads
+from src.logger import logger # Добавлен импорт logger
 
-# Сессия для выполнения HTTP запросов с impersonate chrome107
-session = httpx.Client(
-    headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"},
-    timeout=30,
-)
+session = requests.Session(impersonate="chrome107")
 
 
-def get_model_info() -> dict[str, Any]:
+def get_model_info() -> Dict[str, Any]:
     """
-    Извлекает информацию о моделях с сайта sdk.vercel.ai.
+    Получает информацию о моделях из Vercel AI SDK.
+
+    Извлекает информацию о моделях из HTML-кода SDK, используя регулярные выражения,
+    и возвращает ее в виде словаря.
 
     Returns:
-        dict[str, Any]: Словарь с информацией о моделях.
+        Dict[str, Any]: Словарь, содержащий информацию о моделях, или пустой словарь в случае ошибки.
+
+    Raises:
+        requests.exceptions.RequestException: При ошибке выполнения HTTP-запроса.
+        quickjs.Error: При ошибке выполнения JavaScript-кода.
+        json.JSONDecodeError: При ошибке декодирования JSON.
+
     """
-    url = "https://sdk.vercel.ai"
+    url: str = "https://sdk.vercel.ai"
     try:
         response = session.get(url)
-        response.raise_for_status()  # Проверка на ошибки HTTP
-        html = response.text
-    except httpx.HTTPStatusError as ex:
-        logger.error(f"Ошибка при получении данных с {url}", ex, exc_info=True)
-        return {}
-    except httpx.RequestError as ex:
-        logger.error(f"Ошибка при подключении к {url}", ex, exc_info=True)
+        response.raise_for_status()  # Проверка на HTTP ошибки
+        html: str = response.text
+    except requests.exceptions.RequestException as ex:
+        logger.error(f"Ошибка при выполнении запроса к {url}", ex, exc_info=True)
         return {}
 
-    # Регулярное выражение для поиска путей к JavaScript файлам
-    paths_regex = r"static\\/chunks.+?\\.js"
-    # Регулярное выражение для удаления разделителя
-    separator_regex = r\'"\\]\\)<\\/script><script>self\\.__next_f\\.push\\(\\[.,"\'
+    paths_regex: str = r"static\\/chunks.+?\\.js"
+    separator_regex: str = r\'"\\]\\)<\\/script><script>self\\.__next_f\\.push\\(\\[.,"\'"
 
-    paths = re.findall(paths_regex, html)
+    paths: List[str] = re.findall(paths_regex, html)
     paths = [re.sub(separator_regex, "", path) for path in paths]
     paths = list(set(paths))
 
-    urls = [f"{url}/_next/{path}" for path in paths]
-    scripts = []
-    for url in urls:
+    urls: List[str] = [f"{url}/_next/{path}" for path in paths]
+    scripts: List[str] = []
+    for url_item in urls:
         try:
-            response = session.get(url)
-            response.raise_for_status()
-            scripts.append(response.text)
-        except httpx.HTTPStatusError as ex:
-            logger.error(f"Ошибка при получении данных с {url}", ex, exc_info=True)
-            continue
-        except httpx.RequestError as ex:
-            logger.error(f"Ошибка при подключении к {url}", ex, exc_info=True)
+            script = session.get(url_item).text
+            scripts.append(script)
+        except requests.exceptions.RequestException as ex:
+            logger.error(f"Ошибка при выполнении запроса к {url_item}", ex, exc_info=True)
             continue
 
-    # Регулярное выражение для поиска информации о моделях
-    models_regex = r"let .=\"\\\\n\\\\nHuman:\\\",r=(.+?),.=\'"
+    models_regex: str = r'let .="\\\\n\\\\nHuman:\\",r=(.+?),.=\''
     for script in scripts:
         matches = re.findall(models_regex, script)
         if matches:
-            models_str = matches[0]
-            # Регулярное выражение для удаления stopSequences
-            stop_sequences_regex = r"(?<=stopSequences:{value:\\[)\\D(?<!\\])"
+            models_str: str = matches[0]
+            stop_sequences_regex: str = r"(?<=stopSequences:{value:\\[)\\D(?<!\\])"
             models_str = re.sub(
                 stop_sequences_regex, re.escape('"\\\\n\\\\nHuman:"'), models_str
             )
@@ -104,42 +117,44 @@ def get_model_info() -> dict[str, Any]:
             context = quickjs.Context()  # type: ignore
             try:
                 json_str: str = context.eval(f"({models_str})").json()  # type: ignore
-                return j_loads(json_str)  # type: ignore # Use j_loads here
-            except quickjs.JSError as ex:
-                logger.error(f"Ошибка при выполнении JavaScript кода", ex, exc_info=True)
+                return json.loads(json_str)  # type: ignore
+            except (quickjs.Error, json.JSONDecodeError) as ex:
+                logger.error("Ошибка при выполнении JavaScript или декодировании JSON", ex, exc_info=True)
                 return {}
 
     return {}
 
 
-def convert_model_info(models: dict[str, Any]) -> dict[str, Any]:
+def convert_model_info(models: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Преобразует информацию о моделях в более удобный формат.
+    Преобразует информацию о моделях в формат, удобный для дальнейшего использования.
+
+    Извлекает ID и параметры по умолчанию для каждой модели.
 
     Args:
-        models (dict[str, Any]): Словарь с информацией о моделях.
+        models (Dict[str, Any]): Словарь с информацией о моделях.
 
     Returns:
-        dict[str, Any]: Преобразованный словарь с информацией о моделях.
+        Dict[str, Any]: Преобразованный словарь с информацией о моделях.
     """
-    model_info: dict[str, Any] = {}
+    model_info: Dict[str, Any] = {}
     for model_name, params in models.items():
-        default_params = params_to_default_params(params["parameters"])
+        default_params: Dict[str, Any] = params_to_default_params(params["parameters"])
         model_info[model_name] = {"id": params["id"], "default_params": default_params}
     return model_info
 
 
-def params_to_default_params(parameters: dict[str, Any]) -> dict[str, Any]:
+def params_to_default_params(parameters: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Преобразует параметры модели в параметры по умолчанию.
+    Извлекает параметры по умолчанию из словаря параметров модели.
 
     Args:
-        parameters (dict[str, Any]): Словарь с параметрами модели.
+        parameters (Dict[str, Any]): Словарь параметров модели.
 
     Returns:
-        dict[str, Any]: Словарь с параметрами по умолчанию.
+        Dict[str, Any]: Словарь параметров по умолчанию.
     """
-    defaults: dict[str, Any] = {}
+    defaults: Dict[str, Any] = {}
     for key, parameter in parameters.items():
         if key == "maximumLength":
             key = "maxTokens"
@@ -147,15 +162,15 @@ def params_to_default_params(parameters: dict[str, Any]) -> dict[str, Any]:
     return defaults
 
 
-def get_model_names(model_info: dict[str, Any]) -> list[str]:
+def get_model_names(model_info: Dict[str, Any]) -> List[str]:
     """
-    Извлекает имена моделей из информации о моделях.
+    Извлекает имена моделей из словаря информации о моделях.
 
     Args:
-        model_info (dict[str, Any]): Словарь с информацией о моделях.
+        model_info (Dict[str, Any]): Словарь с информацией о моделях.
 
     Returns:
-        list[str]: Список имен моделей.
+        List[str]: Список имен моделей, отсортированный по алфавиту.
     """
     model_names = model_info.keys()
     model_names = [
@@ -167,46 +182,46 @@ def get_model_names(model_info: dict[str, Any]) -> list[str]:
     return model_names
 
 
-def print_providers(model_names: list[str]):
+def print_providers(model_names: List[str]) -> None:
     """
-    Печатает строку провайдеров моделей.
+    Печатает строки кода для определения моделей и их провайдеров.
 
     Args:
-        model_names (list[str]): Список имен моделей.
+        model_names (List[str]): Список имен моделей.
     """
     for name in model_names:
         split_name = re.split(r":|/", name)
         base_provider = split_name[0]
         variable_name = split_name[-1].replace("-", "_").replace(".", "")
-        line = f'\'{variable_name} = Model(name="{name}", base_provider="{base_provider}", best_provider=Vercel,)\\n\''
+        line = f'variable_name = Model(name="{name}", base_provider="{base_provider}", best_provider=Vercel,)\n'
         print(line)
 
 
-def print_convert(model_names: list[str]):
+def print_convert(model_names: List[str]) -> None:
     """
-    Печатает строку для преобразования моделей.
+    Печатает строки кода для преобразования имен моделей в переменные.
 
     Args:
-        model_names (list[str]): Список имен моделей.
+        model_names (List[str]): Список имен моделей.
     """
     for name in model_names:
         split_name = re.split(r":|/", name)
         key = split_name[-1]
         variable_name = split_name[-1].replace("-", "_").replace(".", "")
         # "claude-instant-v1": claude_instant_v1,
-        line = f'        "{key}": {variable_name},\''
+        line = f'        "{key}": {variable_name},\'\n'
         print(line)
 
 
-def main():
+def main() -> None:
     """
-    Основная функция для извлечения, преобразования и печати информации о моделях.
+    Основная функция, которая выполняет извлечение, преобразование и печать информации о моделях.
     """
-    model_info = get_model_info()
+    model_info: Dict[str, Any] = get_model_info()
     model_info = convert_model_info(model_info)
     print(json.dumps(model_info, indent=2))
 
-    model_names = get_model_names(model_info)
+    model_names: List[str] = get_model_names(model_info)
     print("-------" * 40)
     print_providers(model_names)
     print("-------" * 40)

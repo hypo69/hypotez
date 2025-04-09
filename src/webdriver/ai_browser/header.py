@@ -3,7 +3,6 @@
 #! .pyenv/bin/python3
 
 
-
 import sys
 import json
 from packaging.version import Version

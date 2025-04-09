@@ -186,7 +186,7 @@ class FacebookPromoter:
     def get_category_item(self, campaign_name: str, group: SimpleNamespace, language: str, currency: str) -> SimpleNamespace:
         """Fetches the category item for promotion based on the campaign and promoter."""    
         if self.promoter == 'aliexpress':
-            from src.suppliers.aliexpress.campaign import AliCampaignEditor
+            from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
             ce = AliCampaignEditor(campaign_name=campaign_name, language=group.language, currency=group.currency)
             list_categories = ce.list_categories
             random.shuffle(list_categories)

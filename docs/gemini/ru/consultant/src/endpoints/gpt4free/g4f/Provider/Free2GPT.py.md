@@ -2,41 +2,43 @@
 
 ## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/Free2GPT.py
 
-Модуль предоставляет класс `Free2GPT`, который является асинхронным генератором для взаимодействия с сервисом Free2GPT.
+Модуль предоставляет реализацию асинхронного провайдера `Free2GPT` для работы с моделями Gemini через API `chat10.free2gpt.xyz`.
 
 **Качество кода:**
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код асинхронный, что позволяет эффективно использовать ресурсы.
-    - Используется `aiohttp` для асинхронных запросов.
-    - Есть обработка ошибок, включая `RateLimitError`.
-    - Класс `Free2GPT` наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`, что предполагает хорошую интеграцию в систему.
+    - Асинхронная реализация с использованием `aiohttp`.
+    - Обработка ошибок, включая `RateLimitError`.
+    - Использование `generate_signature` для подписи запросов.
+    - Поддержка прокси.
 - **Минусы**:
-    - Отсутствует явное логирование.
-    - Не все переменные и параметры аннотированы типами.
-    - `secret: str = ""`  в `generate_signature` может быть небезопасным.
-    - Нет документации модуля.
+    - Отсутствует явная обработка других возможных ошибок при запросах.
+    - Жестко заданные заголовки User-Agent, Referer и Origin.
+    - Нет документации к функциям и классам.
+    - Magic strings в коде.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить документацию модуля**:
-    - Описать назначение модуля, структуру и примеры использования.
+1.  **Добавить документацию**:
+    - Добавить docstring для класса `Free2GPT` и его методов, включая `create_async_generator`.
+    - Добавить docstring для функции `generate_signature`.
+    - Описать назначение каждого параметра и возвращаемого значения.
 
-2.  **Добавить логирование**:
-    - Использовать `logger` для логирования важных событий, таких как отправка запроса, получение ответа, возникновение ошибок.
+2.  **Обработка ошибок**:
+    - Добавить обработку других возможных ошибок при запросах, например, `aiohttp.ClientError`.
+    - Логировать ошибки с использованием `logger.error` из `src.logger.logger`.
 
-3.  **Аннотировать типы**:
-    - Добавить аннотации типов для всех переменных и параметров функций, где это возможно.
+3.  **Улучшить гибкость**:
+    - Вынести заголовки в отдельную переменную для удобства изменения.
+    - Сделать `secret` для `generate_signature` конфигурируемым.
 
-4.  **Безопасность**:
-    - Рассмотреть возможность использования более безопасного способа генерации подписи, чем `sha256` с секретом по умолчанию.
+4.  **Улучшить читаемость**:
+    - Добавить аннотации типов для переменных.
+    - Использовать f-строки для форматирования URL.
 
-5.  **Обработка ошибок**:
-    - Улучшить обработку ошибок, добавив больше конкретных проверок и логирование ошибок.
-
-6.  **Форматирование**:
-    - Улучшить форматирование кода в соответствии с PEP8.
+5.  **Безопасность**:
+    - Рассмотреть возможность использования более надежного способа подписи запросов, если это необходимо.
 
 **Оптимизированный код:**
 
@@ -53,20 +55,13 @@ from ..requests import raise_for_status
 from ..requests.aiohttp import get_connector
 from ..typing import AsyncResult, Messages
 from .base_provider import AsyncGeneratorProvider, ProviderModelMixin
-from src.logger import logger # Добавлен импорт logger
-
-
-"""
-Модуль для взаимодействия с сервисом Free2GPT.
-================================================
-
-Модуль содержит класс :class:`Free2GPT`, который является асинхронным генератором для взаимодействия с API Free2GPT.
-"""
+from src.logger import logger  # Добавлен импорт logger
 
 
 class Free2GPT(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Асинхронный провайдер для взаимодействия с API Free2GPT.
+    Провайдер для асинхронного взаимодействия с API Free2GPT.
+    Поддерживает модели Gemini 1.5.
     """
 
     url: str = "https://chat10.free2gpt.xyz"
@@ -80,25 +75,25 @@ class Free2GPT(AsyncGeneratorProvider, ProviderModelMixin):
         cls,
         model: str,
         messages: Messages,
-        proxy: str | None = None,
-        connector: BaseConnector | None = None,
+        proxy: str = None,
+        connector: BaseConnector = None,
         **kwargs,
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для отправки сообщений в API Free2GPT.
+        Создает асинхронный генератор для получения ответов от API Free2GPT.
 
         Args:
-            model (str): Модель для использования.
+            model (str): Название модели для использования.
             messages (Messages): Список сообщений для отправки.
-            proxy (str, optional): Прокси-сервер для использования. По умолчанию None.
-            connector (BaseConnector, optional): Aiohttp connector. По умолчанию None.
+            proxy (str, optional): URL прокси-сервера. Defaults to None.
+            connector (BaseConnector, optional): Aiohttp connector. Defaults to None.
 
         Returns:
-            AsyncResult: Асинхронный генератор, возвращающий ответы от API.
+            AsyncResult: Асинхронный генератор, выдающий чанки ответа.
 
         Raises:
             RateLimitError: Если достигнут лимит запросов.
-            Exception: При других ошибках во время запроса.
+            Exception: При других ошибках запроса.
         """
         headers: dict[str, str] = {
             "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",
@@ -113,30 +108,27 @@ class Free2GPT(AsyncGeneratorProvider, ProviderModelMixin):
             connector=get_connector(connector, proxy), headers=headers
         ) as session:
             timestamp: int = int(time.time() * 1e3)
-            data: dict[str, str | list] = {
+            data: dict[str, str | list | int | None] = {
                 "messages": messages,
                 "time": timestamp,
                 "pass": None,
                 "sign": generate_signature(timestamp, messages[-1]["content"]),
             }
             try:
-                logger.info(f"Отправка запроса к {cls.url}/api/generate") # Логирование отправки запроса
                 async with session.post(
                     f"{cls.url}/api/generate", json=data, proxy=proxy
                 ) as response:
                     if response.status == 500:
-                        if "Quota exceeded" in await response.text():
+                        text: str = await response.text()
+                        if "Quota exceeded" in text:
                             raise RateLimitError(
                                 f"Response {response.status}: Rate limit reached"
                             )
                     await raise_for_status(response)
                     async for chunk in response.content.iter_any():
                         yield chunk.decode(errors="ignore")
-            except RateLimitError as ex: # Обработка ошибки RateLimitError
-                logger.error("Превышен лимит запросов", ex, exc_info=True)
-                raise
-            except Exception as ex: # Обработка других ошибок
-                logger.error("Ошибка при запросе к API", ex, exc_info=True)
+            except Exception as ex:
+                logger.error('Error while processing request', ex, exc_info=True) # Логирование ошибки
                 raise
 
 
@@ -145,12 +137,12 @@ def generate_signature(time: int, text: str, secret: str = "") -> str:
     Генерирует подпись для запроса.
 
     Args:
-        time (int): Временная метка.
+        time (int): Timestamp запроса.
         text (str): Текст сообщения.
-        secret (str, optional): Секретный ключ. По умолчанию "".
+        secret (str, optional): Секретный ключ. Defaults to "".
 
     Returns:
-        str: Подпись SHA256.
+        str: SHA256 хеш строки, используемый в качестве подписи.
     """
     message: str = f"{time}:{text}:{secret}"
     return sha256(message.encode()).hexdigest()

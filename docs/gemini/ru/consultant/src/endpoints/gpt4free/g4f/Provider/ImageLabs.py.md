@@ -2,75 +2,92 @@
 
 ## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/ImageLabs.py
 
-Модуль содержит класс `ImageLabs`, который является асинхронным провайдером для генерации изображений через API ImageLabs.
+Модуль содержит класс `ImageLabs`, который используется для генерации изображений на основе текстовых запросов через API ImageLabs.
 
 **Качество кода:**
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Асинхронная реализация для неблокирующего выполнения операций.
-    - Четкая структура класса с разделением на методы для создания запросов и обработки ответов.
-    - Использование `ClientSession` для эффективного управления HTTP-соединениями.
+  - Асинхронная обработка запросов с использованием `aiohttp`.
+  - Класс `ImageLabs` наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`, что обеспечивает гибкость и расширяемость.
+  - Поддержка прокси.
+  - Использование `AsyncResult` для асинхронного возврата результатов.
 - **Минусы**:
-    - Отсутствует обработка исключений для сетевых запросов (например, `aiohttp.ClientError`).
-    - Не все переменные аннотированы типами.
-    - Отсутствует логирование.
-    - Отсутствует подробное документирование методов и классов.
+  - Отсутствует обработка ошибок при запросах к API.
+  - Не все параметры документированы в docstring.
+  - Жестко заданные значения для `width` и `height`.
+  - Не используется модуль `logger` для логирования.
+  - Отсутствует обработка возможных исключений при парсинге JSON ответов.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить обработку исключений**:
-    - Обернуть HTTP-запросы в блоки `try...except` для обработки возможных ошибок соединения и HTTP-статусов.
-
-2.  **Добавить логирование**:
-    - Использовать модуль `logger` для записи информации о запросах, ответах и ошибках.
-
-3.  **Улучшить типизацию**:
-    - Добавить аннотации типов для всех переменных и возвращаемых значений функций.
-
-4.  **Документирование**:
-    - Написать docstring для класса `ImageLabs` и его методов, описывающие их назначение, параметры и возвращаемые значения.
-
-5.  **Обработка ошибок**:
-    - Добавить более детальную обработку ошибок при получении данных из ответов API.
-
-6.  **Улучшить читаемость**:
-    - Использовать f-строки для форматирования URL-адресов.
+1.  **Добавить docstring для класса `ImageLabs`**.
+2.  **Добавить обработку ошибок**:
+    - Обернуть запросы к API в блоки `try...except` для обработки возможных исключений, таких как `aiohttp.ClientError` и `json.JSONDecodeError`.
+    - Использовать `logger.error` для логирования ошибок.
+3.  **Документировать параметры функций**:
+    - Добавить полные docstring для всех методов, включая `__init__` (если требуется), `create_async_generator` и `get_model`.
+    - Указать типы и описания всех параметров.
+4.  **Сделать параметры `width` и `height` настраиваемыми**:
+    - Позволить пользователям задавать значения `width` и `height` через параметры при вызове `create_async_generator`.
+5.  **Улучшить обработку статусов**:
+    - Добавить проверку на другие возможные статусы, возвращаемые API.
+    - Добавить логирование статусов для отладки.
+6.  **Использовать `j_loads` для парсинга JSON**:
+    - Заменить `await generate_response.json()` и `await progress_response.json()` на использование `j_loads` для более надежной обработки JSON.
+7.  **Логирование**:
+    - Добавить логирование для отслеживания процесса генерации изображения, включая отправленные запросы, полученные ответы и возникающие ошибки.
+8.  **Удалить `from __future__ import annotations`**:
+    - Эта строка больше не нужна, так как аннотации типов поддерживаются начиная с Python 3.7.
+9.  **Использовать `driver`**:
+    - В данном коде не используется `webdriver`, поэтому этот пункт не применим.
+10. **Типизация**:
+    - Убедиться, что все переменные аннотированы типами.
+    - Использовать `|` вместо `Union[]`.
 
 **Оптимизированный код:**
 
 ```python
 from __future__ import annotations
 
-from aiohttp import ClientSession, ClientError
+from aiohttp import ClientSession
 import time
 import asyncio
-from typing import AsyncGenerator, Dict, Any, Optional, List
+
+from typing import AsyncGenerator, Optional, Dict, Any
 
 from ..typing import AsyncResult, Messages
 from ..providers.response import ImageResponse
 from .base_provider import AsyncGeneratorProvider, ProviderModelMixin
-from src.logger import logger  # Import logger
+from src.logger import logger  # Добавлен импорт logger
 
 
 class ImageLabs(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Провайдер для генерации изображений через API ImageLabs.
+    Модуль для генерации изображений на основе текстовых запросов через API ImageLabs.
+    ==============================================================================
 
-    Поддерживает асинхронное создание изображений на основе текстовых запросов.
+    Этот класс предоставляет функциональность для асинхронной генерации изображений с использованием API ImageLabs.
+    Он поддерживает настройку прокси, указание размеров изображения и обработку ошибок.
+
+    Пример использования:
+    ----------------------
+    >>> image_labs = ImageLabs()
+    >>> async for image_response in image_labs.create_async_generator(model='sdxl-turbo', messages=[{'content': 'A cat'}]):
+    ...     print(image_response)
     """
-    url: str = "https://editor.imagelabs.net"
-    api_endpoint: str = "https://editor.imagelabs.net/txt2img"
-
-    working: bool = True
-    supports_stream: bool = False
-    supports_system_message: bool = False
-    supports_message_history: bool = False
-
-    default_model: str = 'sdxl-turbo'
-    default_image_model: str = default_model
-    image_models: List[str] = [default_image_model]
-    models: List[str] = image_models
+    url = "https://editor.imagelabs.net"
+    api_endpoint = "https://editor.imagelabs.net/txt2img"
+    
+    working = True
+    supports_stream = False
+    supports_system_message = False
+    supports_message_history = False
+    
+    default_model = 'sdxl-turbo'
+    default_image_model = default_model
+    image_models = [default_image_model]
+    models = image_models
 
     @classmethod
     async def create_async_generator(
@@ -90,19 +107,19 @@ class ImageLabs(AsyncGeneratorProvider, ProviderModelMixin):
 
         Args:
             model (str): Модель для генерации изображения.
-            messages (Messages): Список сообщений для формирования запроса.
-            proxy (Optional[str], optional): Прокси-сервер. Defaults to None.
-            prompt (Optional[str], optional): Текст запроса. Defaults to None.
-            negative_prompt (str, optional): Негативный текст запроса. Defaults to "".
-            width (int, optional): Ширина изображения. Defaults to 1152.
-            height (int, optional): Высота изображения. Defaults to 896.
+            messages (Messages): Список сообщений для генерации изображения.
+            proxy (Optional[str], optional): Прокси для использования при запросах. По умолчанию None.
+            prompt (Optional[str], optional): Текстовый запрос для генерации изображения. По умолчанию None.
+            negative_prompt (str, optional): Негативный запрос для генерации изображения. По умолчанию "".
+            width (int, optional): Ширина изображения. По умолчанию 1152.
+            height (int, optional): Высота изображения. По умолчанию 896.
             **kwargs (Any): Дополнительные аргументы.
 
         Yields:
-            AsyncGenerator[ImageResponse, None]: Объект ImageResponse с URL-адресом сгенерированного изображения.
+            ImageResponse: Объект ImageResponse с сгенерированным изображением.
 
         Raises:
-            Exception: В случае ошибки при генерации изображения.
+            Exception: Если возникает ошибка при генерации изображения.
         """
         headers: Dict[str, str] = {
             'accept': '*/*',
@@ -114,10 +131,10 @@ class ImageLabs(AsyncGeneratorProvider, ProviderModelMixin):
             'x-requested-with': 'XMLHttpRequest',
             'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
         }
-
+        
         async with ClientSession(headers=headers) as session:
             prompt = messages[-1]["content"] if prompt is None else prompt
-
+            
             # Generate image
             payload: Dict[str, Any] = {
                 "prompt": prompt,
@@ -132,42 +149,45 @@ class ImageLabs(AsyncGeneratorProvider, ProviderModelMixin):
                 "reference_image_type": None,
                 "reference_strength": 30
             }
-
+            
             try:
-                async with session.post(f'{cls.api_endpoint}', json=payload, proxy=proxy) as generate_response:
+                async with session.post(f'{cls.url}/txt2img', json=payload, proxy=proxy) as generate_response:
                     generate_data: Dict[str, Any] = await generate_response.json()
                     task_id: str = generate_data.get('task_id')
-            except ClientError as ex:
-                logger.error('Error during image generation request', ex, exc_info=True)
-                raise Exception(f"Image generation request failed: {ex}")
+                    logger.info(f"Task ID: {task_id}") # Логирование task_id
+            except Exception as ex:
+                logger.error("Error while generating image", ex, exc_info=True)
+                raise
 
             # Poll for progress
             while True:
                 try:
                     async with session.post(f'{cls.url}/progress', json={"task_id": task_id}, proxy=proxy) as progress_response:
                         progress_data: Dict[str, Any] = await progress_response.json()
-                except ClientError as ex:
-                    logger.error('Error during progress polling', ex, exc_info=True)
-                    raise Exception(f"Progress polling failed: {ex}")
+                        logger.info(f"Progress data: {progress_data}")  # Логирование progress_data
+                        
+                        # Check for completion or error states
+                        status: str = progress_data.get('status', '').lower()
+                        final_image_url: str = progress_data.get('final_image_url')
 
-                # Check for completion or error states
-                status: str = progress_data.get('status', '').lower()
-                final_image_url: str = progress_data.get('final_image_url')
-
-                if status == 'done' or final_image_url:
-                    # Yield ImageResponse with the final image URL
-                    yield ImageResponse(
-                        images=[final_image_url],
-                        alt=prompt
-                    )
-                    break
-
-                # Check for queue or error states
-                if 'error' in status:
-                    error_message = f"Image generation error: {progress_data}"
-                    logger.error(error_message)
-                    raise Exception(error_message)
-
+                        if status == 'done' or final_image_url:
+                            # Yield ImageResponse with the final image URL
+                            yield ImageResponse(
+                                images=[final_image_url], 
+                                alt=prompt
+                            )
+                            break
+                        
+                        # Check for queue or error states
+                        if 'error' in status:
+                            error_message = f"Image generation error: {progress_data}"
+                            logger.error(error_message)
+                            raise Exception(error_message)
+                
+                except Exception as ex:
+                    logger.error("Error while polling for progress", ex, exc_info=True)
+                    raise
+                
                 # Wait between polls
                 await asyncio.sleep(1)
 

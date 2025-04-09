@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.campaign._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,14 +33,14 @@
   :synopsis:
 """
   
-""" module: src.suppliers.aliexpress.campaign._experiments """
+""" module: src.suppliers.suppliers_list.aliexpress.campaign._experiments """
 
 
 
 """ Парсер таблицы xls, сгенегированной в личном кабинете portals.aliexpress.com"""
 ...
 import header
-from src.suppliers.aliexpress import DealsFromXLS 
+from src.suppliers.suppliers_list.aliexpress import DealsFromXLS 
 from src.utils.printer import pprint
 
 deals_parser = DealsFromXLS(language='EN', currency= 'USD')

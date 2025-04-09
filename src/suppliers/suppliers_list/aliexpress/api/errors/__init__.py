@@ -2,6 +2,6 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.aliexpress.api.errors """
+""" module: src.suppliers.suppliers_list.aliexpress.api.errors """
 from .exceptions import *
 

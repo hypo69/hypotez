@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.aliexpress.api.skd.api """
+""" module: src.suppliers.suppliers_list.aliexpress.api.skd.api """
 """
 Created on 2012-7-3
 

@@ -2,35 +2,33 @@
 
 ## \file /hypotez/src/endpoints/gpt4free/g4f/integration/pydantic_ai.py
 
-Модуль предназначен для интеграции с `pydantic-ai` и предоставляет возможность использования моделей G4F (gpt4free) в качестве AI-моделей для `pydantic-ai`. Он включает в себя класс `AIModel`, который расширяет `OpenAIModel` из `pydantic-ai`, а также функции `new_infer_model` и `patch_infer_model`, которые позволяют использовать модели G4F вместо стандартных моделей `pydantic-ai`.
+Этот модуль интегрирует G4F (GPT4Free) с библиотекой `pydantic_ai`, позволяя использовать модели G4F API.
 
-**Качество кода:**
+**Качество кода**:
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код хорошо структурирован и логически понятен.
-  - Используются аннотации типов.
-  - Применяется `dataclass` для определения класса `AIModel`.
+  - Четкая структура, использование `dataclass` для представления моделей.
+  - Интеграция с `pydantic_ai` для упрощения работы с моделями.
+  - Использование `AsyncClient` для асинхронного взаимодействия с API.
 - **Минусы**:
-  - Отсутствует логирование.
-  - Не все docstring переведены на русский язык.
-  - Не используется `j_loads` для загрузки конфигурационных файлов, если таковые используются.
-  - Нет обработки исключений.
+  - Отсутствие подробной документации в docstrings (не указаны типы исключений, нет примеров использования).
+  - Жесткая привязка к OpenAI (в параметре `system`).
+  - Не все параметры аннотированы типами.
 
-**Рекомендации по улучшению:**
-1.  **Добавить логирование**:
-    - Использовать модуль `logger` для логирования ошибок и важной информации.
-2.  **Перевести docstring на русский язык**:
-    - Обеспечить, чтобы все docstring были на русском языке и соответствовали указанному формату.
-3.  **Добавить обработку исключений**:
-    - Обернуть потенциально проблемные участки кода в блоки `try...except` для обработки исключений и логирования ошибок.
-4.  **Улучшить docstring**:
-    - Добавить более подробное описание работы функций и классов.
-    - Добавить примеры использования.
-5.  **Улучшить соответствие стандартам**:
-    - Проверить код на соответствие PEP8 и исправить найденные несоответствия.
-    - Использовать одинарные кавычки для строковых литералов.
+**Рекомендации по улучшению**:
 
-**Оптимизированный код:**
+1.  **Документация**:
+    *   Добавить подробные docstrings для всех классов и функций, включая описание параметров, возвращаемых значений и возможных исключений.
+    *   Добавить примеры использования в docstrings.
+2.  **Аннотации типов**:
+    *   Указать аннотации типов для всех переменных и параметров функций, где это возможно.
+3.  **Обработка ошибок**:
+    *   Добавить обработку исключений с использованием `logger.error`.
+4.  **Гибкость**:
+    *   Сделать параметр `system` более гибким, чтобы можно было использовать разные провайдеры.
+
+**Оптимизированный код**:
 
 ```python
 from __future__ import annotations
@@ -47,20 +45,13 @@ import pydantic_ai.models.openai
 pydantic_ai.models.openai.NOT_GIVEN = None
 
 from ..client import AsyncClient
-from src.logger import logger
+from src.logger import logger  # Import logger
 
 
 @dataclass(init=False)
 class AIModel(OpenAIModel):
     """
-    Модель, использующая API G4F.
-
-    Args:
-        client (AsyncClient): Асинхронный клиент для взаимодействия с API G4F.
-        system_prompt_role (OpenAISystemPromptRole | None): Роль для системного промта. По умолчанию `None`.
-        _model_name (str): Имя модели.
-        _provider (str): Провайдер модели.
-        _system (Optional[str]): Системное имя.
+    Модель, использующая G4F API.
     """
 
     client: AsyncClient = field(repr=False)
@@ -80,24 +71,26 @@ class AIModel(OpenAIModel):
         **kwargs
     ) -> None:
         """
-        Инициализация AI модели.
+        Инициализирует AI модель.
 
         Args:
-            model_name (str): Имя используемой AI модели. Список доступных имен моделей можно найти
-                [здесь](https://github.com/openai/openai-python/blob/v1.54.3/src/openai/types/chat_model.py#L7)
-                (К сожалению, OpenAI не предоставляет `.inv` файлы для своего API).
+            model_name (str): Название используемой AI модели.
             provider (str | None): Провайдер модели.
-            system_prompt_role (OpenAISystemPromptRole | None): Роль для системного промта. Если не указана, используется `\'system\'`.
-            system (str | None): Провайдер модели, по умолчанию `openai`. Используется для целей наблюдаемости, необходимо
-                настроить `base_url` и `api_key` для использования другого провайдера.
+            system_prompt_role (OpenAISystemPromptRole | None): Роль для системного запроса. По умолчанию None.
+            system (str | None): Провайдер модели, по умолчанию 'openai'.
+            **kwargs: Дополнительные аргументы для AsyncClient.
+
+        Raises:
+            ValueError: Если `model_name` не указан.
+
+        Example:
+            >>> model = AIModel(model_name='gpt-3.5-turbo', provider='openai')
         """
+        if not model_name:
+            raise ValueError('model_name должен быть указан')
         self._model_name = model_name
         self._provider = provider
-        try:
-            self.client = AsyncClient(provider=provider, **kwargs)
-        except Exception as ex:
-            logger.error('Error while initializing AsyncClient', ex, exc_info=True)
-            raise
+        self.client = AsyncClient(provider=provider, **kwargs)
         self.system_prompt_role = system_prompt_role
         self._system = system
 
@@ -106,7 +99,12 @@ class AIModel(OpenAIModel):
         Возвращает имя модели.
 
         Returns:
-            str: Имя модели в формате `g4f:{provider}:{model_name}` или `g4f:{model_name}`.
+            str: Имя модели в формате 'g4f:{provider}:{model_name}' или 'g4f:{model_name}'.
+
+        Example:
+            >>> model = AIModel(model_name='gpt-3.5-turbo', provider='openai')
+            >>> model.name()
+            'g4f:openai:gpt-3.5-turbo'
         """
         if self._provider:
             return f'g4f:{self._provider}:{self._model_name}'
@@ -115,32 +113,45 @@ class AIModel(OpenAIModel):
 
 def new_infer_model(model: Model | KnownModelName, api_key: str = None) -> Model:
     """
-    Создает новую AI модель на основе имени модели.
+    Создает инстанс AIModel на основе входных параметров.
 
     Args:
-        model (Model | KnownModelName): Имя модели или объект модели.
-        api_key (str | None): API ключ.
+        model (Model | KnownModelName): Модель или имя модели.
+        api_key (str, optional): API ключ. По умолчанию None.
 
     Returns:
-        Model: Объект AI модели.
+        Model: Инстанс AIModel.
+
+    Raises:
+        ValueError: Если указан неизвестный провайдер.
+
+    Example:
+        >>> model = new_infer_model('g4f:openai:gpt-3.5-turbo')
     """
-    if isinstance(model, Model):
-        return model
-    if model.startswith('g4f:'):
-        model = model[4:]
-        if ':' in model:
-            provider, model = model.split(':', 1)
-            return AIModel(model, provider=provider, api_key=api_key)
-        return AIModel(model)
-    return infer_model(model)
+    try:
+        if isinstance(model, Model):
+            return model
+        if model.startswith("g4f:"):
+            model = model[4:]
+            if ":" in model:
+                provider, model = model.split(":", 1)
+                return AIModel(model, provider=provider, api_key=api_key)
+            return AIModel(model)
+        return infer_model(model)
+    except ValueError as ex:
+        logger.error('Ошибка при создании AIModel', ex, exc_info=True)
+        raise
 
 
 def patch_infer_model(api_key: str | None = None) -> None:
     """
-    Заменяет функции `infer_model` и класс `AIModel` в модуле `pydantic_ai.models` на новые.
+    Заменяет функцию infer_model в pydantic_ai.models на новую функцию new_infer_model.
 
     Args:
-        api_key (str | None): API ключ.
+        api_key (str | None): API ключ. По умолчанию None.
+
+    Example:
+        >>> patch_infer_model(api_key='test_key')
     """
     import pydantic_ai.models
 

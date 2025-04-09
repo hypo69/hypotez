@@ -12,7 +12,7 @@ digraph dependencies {
     types [label="types"];
     urllib_parse [label="urllib.parse"];
     src_settings [label="src.settings"];
-    src_suppliers_aliexpress [label="src.suppliers.aliexpress"];
+    src_suppliers_aliexpress [label="src.suppliers.suppliers_list.aliexpress"];
     src_utils_convertor [label="src.utils.convertor"];
     src_utils [label="src.utils"];
     src_logger [label="src.logger"];

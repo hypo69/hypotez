@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress 
+.. module:: src.suppliers.suppliers_list.aliexpress 
 	:platform: Windows, Unix
 	:synopsis:  управление категориями aliexpress
 

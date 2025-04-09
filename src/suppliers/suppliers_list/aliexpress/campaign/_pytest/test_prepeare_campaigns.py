@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.campaign._pytest 
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign._pytest 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,7 +33,7 @@
   :synopsis:
 """
   
-""" module: src.suppliers.aliexpress.campaign._pytest """
+""" module: src.suppliers.suppliers_list.aliexpress.campaign._pytest """
 
 
 import pytest
@@ -41,7 +41,7 @@ import asyncio
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 from types import SimpleNamespace
-from src.suppliers.aliexpress.campaign.prepare_campaigns import (
+from src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns import (
     update_category,
     process_campaign_category,
     process_campaign,
@@ -70,7 +70,7 @@ def mock_get_directory_names():
 
 @pytest.fixture
 def mock_ali_promo_campaign():
-    with patch("src.suppliers.aliexpress.campaign.AliPromoCampaign") as mock:
+    with patch("src.suppliers.suppliers_list.aliexpress.campaign.AliPromoCampaign") as mock:
         yield mock
 
 def test_update_category_success(mock_j_loads, mock_j_dumps, mock_logger):

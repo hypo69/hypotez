@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.campaign._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,7 +33,7 @@
   :synopsis:
 """
   
-""" module: src.suppliers.aliexpress.campaign._experiments """
+""" module: src.suppliers.suppliers_list.aliexpress.campaign._experiments """
 
 
 """ Эксперименты с гугл таблицами """
@@ -42,9 +42,9 @@
 import header
 from types import SimpleNamespace
 from gspread import Spreadsheet, Worksheet
-from src.suppliers.aliexpress import campaign
-from src.suppliers.aliexpress.campaign import AliCampaignGoogleSheet , AliCampaignEditor
-from src.suppliers.aliexpress.campaign.ttypes import CampaignType, CategoryType, ProductType
+from src.suppliers.suppliers_list.aliexpress import campaign
+from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignGoogleSheet , AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress.campaign.ttypes import CampaignType, CategoryType, ProductType
 from src.utils.printer import pprint
 from src.logger.logger import logger
 

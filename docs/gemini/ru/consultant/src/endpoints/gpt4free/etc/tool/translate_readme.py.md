@@ -1,78 +1,81 @@
 ### **Анализ кода модуля `translate_readme.py`**
 
-#### **Качество кода:**
+**Расположение файла:** `hypotez/src/endpoints/gpt4free/etc/tool/translate_readme.py`
 
-*   **Соответствие стандартам**: 6/10
-*   **Плюсы**:
-    *   Использование асинхронности для перевода частей текста.
-    *   Наличие `blocklist` и `allowlist` для контроля перевода определенных секций.
-    *   Функция `read_text` для извлечения текста из Markdown блоков.
-*   **Минусы**:
-    *   Не хватает документации (docstrings) для функций и комментариев для пояснения логики работы кода.
-    *   Жёстко заданные пути к файлам ("README.md", `file = f"README-{iso}.md"`) без возможности конфигурации.
-    *   Не обрабатываются исключения при чтении/записи файлов и при обращении к API перевода.
-    *   Не используется модуль `logger` для логирования важных событий и ошибок.
-    *   Аннотации типов отсутствуют.
+**Назначение:** Скрипт предназначен для автоматического перевода файла `README.md` на другой язык с использованием AI-модели. В данном случае, перевод осуществляется на немецкий язык (german).
 
-#### **Рекомендации по улучшению:**
+**Качество кода:**
+- **Соответствие стандартам**: 6/10
+- **Плюсы**:
+  - Код логически структурирован, выделены функции для чтения, перевода и обработки частей текста.
+  - Используется асинхронность для ускорения процесса перевода.
+  - Присутствует базовая обработка исключений.
+- **Минусы**:
+  - Отсутствуют docstring для функций и комментарии, объясняющие назначение отдельных блоков кода.
+  - Жестко заданы параметры, такие как язык перевода и провайдер модели, что снижает гибкость скрипта.
+  - Отсутствует обработка ошибок при чтении/записи файлов.
+  - Используется небезопасный способ добавления директории в `sys.path`.
 
-1.  **Добавить docstring для всех функций**, включая описание параметров, возвращаемых значений и возможных исключений.
-2.  **Добавить аннотации типов** для переменных и параметров функций.
-3.  **Заменить `print` на `logger`** для логирования информации, предупреждений и ошибок.
-4.  **Обработка ошибок**: Добавить блоки `try...except` для обработки возможных исключений при чтении/записи файлов, обращении к API перевода и других операциях. Логировать ошибки с использованием `logger.error`.
-5.  **Конфигурация**: Вынести пути к файлам и другие параметры конфигурации в отдельный файл или переменные окружения.
-6.  **Улучшить читаемость**: Разбить функцию `translate_part` на более мелкие, чтобы улучшить читаемость.
-7.  **Удалить неиспользуемые импорты**: Проверьте и удалите все неиспользуемые импорты.
-8.  **Проверить зависимость от `g4f`**: Убедитесь, что используется последняя версия библиотеки `g4f` и что все зависимости установлены корректно.
-9.  **Добавить комментарии**: Добавить комментарии для пояснения сложных участков кода.
+**Рекомендации по улучшению:**
 
-#### **Оптимизированный код:**
+1.  **Добавить docstring и комментарии:** Подробно документировать каждую функцию, чтобы повысить читаемость и понимание кода.
+2.  **Использовать конфигурационный файл:** Параметры, такие как язык перевода, имя выходного файла и используемый провайдер, должны быть вынесены в конфигурационный файл.
+3.  **Обработка ошибок:** Добавить обработку исключений при чтении и записи файлов, а также при взаимодействии с AI-моделью.
+4.  **Улучшить логирование:** Использовать модуль `logger` для логирования важных событий, таких как начало и конец перевода, ошибки и т.д.
+5.  **Безопасное добавление в sys.path:** Использовать `os.path.abspath` для получения абсолютного пути и добавления его в `sys.path`.
+6.  **Удалить неиспользуемые импорты:** Убрать неиспользуемые импорты.
+7.  **Улучшить обработку `blocklist` и `allowlist`:**  Оптимизировать логику обработки `blocklist` и `allowlist` для более эффективного и понятного кода.
+8.  **Удалить `g4f.debug.logging = True`:**  Убрать отладочное логирование
+
+**Оптимизированный код:**
 
 ```python
 import sys
-from pathlib import Path
 import asyncio
-from typing import List, Optional
-
-sys.path.append(str(Path(__file__).parent.parent.parent))
-
+from pathlib import Path
+import os
 import g4f
-g4f.debug.logging = True
-from g4f.debug import access_token
-from src.logger import logger # Добавлен импорт logger
+from typing import List
+from src.logger import logger
+
+# Получаем абсолютный путь к директории проекта и добавляем его в sys.path
+HYPOTEZ_PATH = Path(__file__).resolve().parent.parent.parent.parent
+if str(HYPOTEZ_PATH) not in sys.path:
+    sys.path.append(str(HYPOTEZ_PATH))
+
+g4f.debug.logging = False
 provider = g4f.Provider.OpenaiChat
 
-iso: str = "GE"
-language: str = "german"
-translate_prompt: str = f"""
-Translate this markdown document to {language}.
+ISO = "GE"
+LANGUAGE = "german"
+TRANSLATE_PROMPT = f"""
+Translate this markdown document to {LANGUAGE}.
 Don't translate or change inline code examples.
 ```md
 """
-keep_note: str = "Keep this: [!Note] as [!Note].\\n"
-blocklist: List[str] = [
+KEEP_NOTE = "Keep this: [!Note] as [!Note].\\n"
+BLOCKLIST = [
     '## ©️ Copyright',
     '## 🚀 Providers and Models',
     '## 🔗 Related GPT4Free Projects'
 ]
-allowlist: List[str] = [
+ALLOWLIST = [
     "### Other",
     "### Models"
 ]
 
 def read_text(text: str) -> str:
     """
-    Извлекает текст из markdown блока кода.
+    Извлекает текст из markdown-блока, находящегося между ```.
 
     Args:
-        text (str): Строка содержащая markdown блок кода.
+        text (str): Строка, содержащая markdown-блок.
 
     Returns:
-        str: Текст, извлеченный из markdown блока кода.
+        str: Текст, извлеченный из markdown-блока.
     """
-    start: int = 0
-    end: int = 0
-    new: List[str] = text.strip().split('\n')
+    start = end = 0
+    new = text.strip().split('\n')
     for i, line in enumerate(new):
         if line.startswith('```'):
             if not start:
@@ -82,7 +85,7 @@ def read_text(text: str) -> str:
 
 async def translate(text: str) -> str:
     """
-    Переводит заданный текст с использованием g4f провайдера.
+    Асинхронно переводит текст с использованием AI-модели.
 
     Args:
         text (str): Текст для перевода.
@@ -90,25 +93,25 @@ async def translate(text: str) -> str:
     Returns:
         str: Переведенный текст.
     """
-    prompt: str = translate_prompt + text.strip() + '\n```'
+    prompt = TRANSLATE_PROMPT + text.strip() + '\n```'
     if "[!Note]" in text:
-        prompt = keep_note + prompt
+        prompt = KEEP_NOTE + prompt
     try:
-        result: str = read_text(await provider.create_async(
+        result = read_text(await provider.create_async(
             model="",
             messages=[{"role": "user", "content": prompt}],
-            access_token=access_token
+            access_token=g4f.debug.access_token # access_token
         ))
         if text.endswith("```") and not result.endswith("```"):
-            result += "\\n```"
+            result += "\n```"
         return result
     except Exception as ex:
-        logger.error('Ошибка при переводе текста', ex, exc_info=True)
+        logger.error('Error while translating text', ex, exc_info=True)
         return text  # Возвращаем исходный текст в случае ошибки
 
 async def translate_part(part: str, i: int) -> str:
     """
-    Переводит часть текста, проверяя, находится ли она в blocklist.
+    Асинхронно переводит часть текста, исключая блоки из blocklist, но обрабатывая allowlist.
 
     Args:
         part (str): Часть текста для перевода.
@@ -117,60 +120,62 @@ async def translate_part(part: str, i: int) -> str:
     Returns:
         str: Переведенная часть текста.
     """
-    blocklisted: bool = False
-    for headline in blocklist:
+    blocklisted = False
+    for headline in BLOCKLIST:
         if headline in part:
             blocklisted = True
+            break
+
     if blocklisted:
-        lines: List[str] = part.split('\n')
-        lines[0]: str = await translate(lines[0])
-        part: str = '\n'.join(lines)
-        for trans in allowlist:
+        lines = part.split('\n')
+        lines[0] = await translate(lines[0])
+        part = '\n'.join(lines)
+        for trans in ALLOWLIST:
             if trans in part:
-                part: str = part.replace(trans, await translate(trans))
+                part = part.replace(trans, await translate(trans))
     else:
-        part: str = await translate(part)
-    logger.info(f"[{i}] translated") # Заменено print на logger
+        part = await translate(part)
+
+    print(f"[{i}] translated")
     return part
 
 async def translate_readme(readme: str) -> str:
     """
-    Разбивает README на части и переводит каждую часть асинхронно.
+    Асинхронно переводит README.md файл на указанный язык.
 
     Args:
-        readme (str): Полный текст README.
+        readme (str): Содержимое README.md файла.
 
     Returns:
-        str: Полный переведенный текст README.
+        str: Переведенное содержимое README.md файла.
     """
-    parts: List[str] = readme.split('\n## ')
-    logger.info(f"{len(parts)} parts...") # Заменено print на logger
-    parts: List[str] = await asyncio.gather(
+    parts = readme.split('\n## ')
+    print(f"{len(parts)} parts...")
+    parts = await asyncio.gather(
         *[translate_part("## " + part, i) for i, part in enumerate(parts)]
     )
     return "\n\n".join(parts)
 
 async def main():
     """
-    Основная функция для запуска перевода README.
+    Основная функция для запуска процесса перевода README.md.
     """
     try:
-        with open("README.md", "r") as fp:
-            readme: str = fp.read()
+        with open("README.md", "r", encoding='utf-8') as fp:
+            readme = fp.read()
 
-        logger.info("Translate readme...") # Заменено print на logger
-        readme: str = await translate_readme(readme)
+        print("Translate readme...")
+        readme = await translate_readme(readme)
 
-        file: str = f"README-{iso}.md"
-        with open(file, "w") as fp:
+        file = f"README-{ISO}.md"
+        with open(file, "w", encoding='utf-8') as fp:
             fp.write(readme)
-        logger.info(f'"{file}" saved') # Заменено print на logger
+        print(f'"{file}" saved')
 
     except FileNotFoundError as ex:
-        logger.error('Файл README.md не найден', ex, exc_info=True)
+        logger.error('README.md not found', ex, exc_info=True)
     except Exception as ex:
-        logger.error('Ошибка при обработке README', ex, exc_info=True)
+        logger.error('Error while processing README.md', ex, exc_info=True)
 
 if __name__ == "__main__":
     asyncio.run(main())
-```

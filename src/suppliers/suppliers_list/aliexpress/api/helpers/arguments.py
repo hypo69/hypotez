@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.aliexpress.api.helpers """
+""" module: src.suppliers.suppliers_list.aliexpress.api.helpers """
 
 from ..tools.get_product_id import get_product_id
 from ..errors.exceptions import InvalidArgumentException

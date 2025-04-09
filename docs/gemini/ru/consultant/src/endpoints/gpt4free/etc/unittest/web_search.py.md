@@ -1,41 +1,40 @@
 ### **Анализ кода модуля `web_search.py`**
 
 **Качество кода**:
-- **Соответствие стандартам**: 7/10
+- **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Использование `unittest` для тестирования.
-    - Изолированные тесты с использованием `unittest.IsolatedAsyncioTestCase`.
-    - Проверка наличия необходимых зависимостей перед выполнением тестов.
+    - Код разбит на отдельные тестовые случаи, что облегчает отладку и поддержку.
+    - Используются асинхронные тесты (`unittest.IsolatedAsyncioTestCase`), что позволяет эффективно тестировать асинхронный код.
+    - Присутствуют проверки на наличие необходимых зависимостей (`has_requirements`).
 - **Минусы**:
-    - Отсутствие docstring для класса `TestIterListProvider` и тестовых методов.
-    - Использование `try-except` для обработки `DuckDuckGoSearchException`, но пропуск теста вместо логирования ошибки.
-    - Дублирование кода в `test_search`, `test_search2` и `test_search3`.
-    - Нет аннотации типов для переменных.
-    - Не используется модуль `logger` для логирования.
+    - Отсутствует подробная документация к классам и методам.
+    - Некоторые параметры в `tool_calls` заданы как строковые литералы, что снижает гибкость и читаемость кода.
+    - Дублирование кода в тестах `test_search`, `test_search2` и `test_search3`.
+    - Не все переменные аннотированы типами.
 
 **Рекомендации по улучшению**:
 
-1.  **Добавить docstring**:
-    - Добавить docstring для класса `TestIterListProvider` с описанием его назначения.
-    - Добавить docstring для каждого тестового метода (`test_search`, `test_search2`, `test_search3`) с описанием тестируемой функциональности и ожидаемых результатов.
+1.  **Добавить документацию**:
+    - Добавить docstring к классу `TestIterListProvider` и каждому тестовому методу (`test_search`, `test_search2`, `test_search3`).
+    - Описать назначение каждого теста и используемые параметры.
 
-2.  **Логирование ошибок**:
-    - Вместо пропуска теста при возникновении `DuckDuckGoSearchException`, логировать ошибку с использованием модуля `logger`.
+2.  **Улучшить структуру `tool_calls`**:
+    - Параметры для `tool_calls` можно вынести в отдельные переменные или константы для улучшения читаемости и избежания дублирования.
+    - Использовать более явное задание типов для параметров `tool_calls`.
 
-3.  **Удалить дублирование кода**:
-    - Вынести общую логику из `test_search`, `test_search2` и `test_search3` в отдельный метод или функцию.
-    - Использовать параметризацию тестов для запуска одного и того же теста с разными параметрами.
+3.  **Избавиться от дублирования кода**:
+    - Создать вспомогательную функцию для выполнения общих действий в тестах `test_search`, `test_search2` и `test_search3`.
+    - Параметризовать тесты, чтобы избежать повторения однотипного кода.
 
-4.  **Аннотации типов**:
+4.  **Добавить аннотации типов**:
     - Добавить аннотации типов для всех переменных и параметров функций.
 
-5.  **Улучшить читаемость**:
-    - Использовать более понятные имена для переменных.
+5.  **Использовать `logger` для логирования**:
+    - Добавить логирование для отладки и мониторинга выполнения тестов.
+    - Логировать исключения и важные события.
 
-6. **Использовать одинарные кавычки**
-    - Все строки должны быть в одинарных кавычках
-7. **Добавить комментарии**
-    - Описать что делает данный файл и каждый класс и метод
+6.  **Обработка исключений**:
+    - Использовать `ex` вместо `e` в блоках обработки исключений.
 
 **Оптимизированный код**:
 
@@ -50,119 +49,102 @@ try:
     from duckduckgo_search import DDGS
     from duckduckgo_search.exceptions import DuckDuckGoSearchException
     from bs4 import BeautifulSoup
-    has_requirements: bool = True
+    has_requirements = True
 except ImportError:
-    has_requirements: bool = False
+    has_requirements = False
 
 from g4f.client import AsyncClient
-from src.logger import logger
 from .mocks import YieldProviderMock
+from src.logger import logger  # Импорт модуля logger
 
 DEFAULT_MESSAGES: List[Dict[str, str]] = [{'role': 'user', 'content': 'Hello'}]
 
-
 class TestIterListProvider(unittest.IsolatedAsyncioTestCase):
     """
-    Класс для тестирования интеграции с поисковыми системами.
-    ============================================================
-
-    Этот класс содержит асинхронные тесты для проверки функциональности
-    поискового инструмента, использующего `duckduckgo_search` и `g4f.client`.
-
-    Пример использования
-    ----------------------
-
-    >>> test_instance = TestIterListProvider()
-    >>> await test_instance.test_search()
+    Тесты для проверки интеграции с DuckDuckGo Search и выполнения tool_calls.
     """
-
     def setUp(self) -> None:
         """
         Проверяет наличие необходимых зависимостей перед выполнением тестов.
-        Если зависимости не установлены, тест пропускается.
         """
         if not has_requirements:
             self.skipTest('web search requirements not passed')
 
     async def _run_search_test(self, tool_calls: List[Dict[str, Any]]) -> None:
         """
-        Запускает тест поискового инструмента с заданными параметрами.
+        Вспомогательная функция для выполнения тестов поиска.
 
         Args:
-            tool_calls (List[Dict[str, Any]]): Список параметров для вызова инструмента поиска.
+            tool_calls (List[Dict[str, Any]]): Список tool_calls для выполнения.
 
         Raises:
-            unittest.SkipTest: Если происходит ошибка при выполнении поискового запроса.
+            unittest.SkipTest: Если DuckDuckGoSearchException.
         """
-        client: AsyncClient = AsyncClient(provider=YieldProviderMock) # Создание экземпляра асинхронного клиента с мокированным провайдером.
-
+        client: AsyncClient = AsyncClient(provider=YieldProviderMock)
         try:
-            # Выполнение запроса к чат-боту с использованием инструмента поиска.
-            response = await client.chat.completions.create([{'content': '', 'role': 'user'}], '', tool_calls=tool_calls)
-            # Проверка наличия ожидаемого текста в ответе.
-            self.assertIn('Using the provided web search results', response.choices[0].message.content)
-        except DuckDuckGoSearchException as ex:
-            # Логирование ошибки и пропуск теста в случае исключения.
-            logger.error('DuckDuckGoSearchException occurred', ex, exc_info=True)
+            response = await client.chat.completions.create([{"content": "", "role": "user"}], "", tool_calls=tool_calls)
+            self.assertIn("Using the provided web search results", response.choices[0].message.content)
+        except DuckDuckGoSearchException as ex:  # Используем ex вместо e
+            logger.error('DuckDuckGoSearchException', ex, exc_info=True)  # Логируем ошибку
             self.skipTest(f'DuckDuckGoSearchException: {ex}')
 
     async def test_search(self) -> None:
         """
-        Тест поискового инструмента с полным набором параметров.
+        Тест с полным набором параметров для search_tool.
         """
-        tool_calls: List[Dict[str, Any]] = [ # Определение параметров для вызова инструмента поиска.
+        tool_calls: List[Dict[str, Any]] = [
             {
-                'function': {
-                    'arguments': {
-                        'query': 'search query',  # content of last message: messages[-1]["content"]
-                        'max_results': 5,  # maximum number of search results
-                        'max_words': 500,  # maximum number of used words from search results for generating the response
-                        'backend': 'html',  # or "lite", "api": change it to bypass rate limits
-                        'add_text': True,  # do scraping websites
-                        'timeout': 5,  # in seconds for scraping websites
-                        'region': 'wt-wt',
-                        'instructions': 'Using the provided web search results, to write a comprehensive reply to the user request.\\n'
-                                        'Make sure to add the sources of cites using [[Number]](Url) notation after the reference. Example: [[0]](http://google.com)',
+                "function": {
+                    "arguments": {
+                        "query": "search query",
+                        "max_results": 5,
+                        "max_words": 500,
+                        "backend": "html",
+                        "add_text": True,
+                        "timeout": 5,
+                        "region": "wt-wt",
+                        "instructions": "Using the provided web search results, to write a comprehensive reply to the user request.\\n"\
+                                        "Make sure to add the sources of cites using [[Number]](Url) notation after the reference. Example: [[0]](http://google.com)",
                     },
-                    'name': 'search_tool'
+                    "name": "search_tool"
                 },
-                'type': 'function'
+                "type": "function"
             }
         ]
-        await self._run_search_test(tool_calls) # Запуск теста с заданными параметрами.
+        await self._run_search_test(tool_calls)
 
     async def test_search2(self) -> None:
         """
-        Тест поискового инструмента с минимальным набором параметров (только query).
+        Тест с минимальным набором параметров для search_tool.
         """
-        tool_calls: List[Dict[str, Any]] = [ # Определение параметров для вызова инструмента поиска.
+        tool_calls: List[Dict[str, Any]] = [
             {
-                'function': {
-                    'arguments': {
-                        'query': 'search query',
+                "function": {
+                    "arguments": {
+                        "query": "search query",
                     },
-                    'name': 'search_tool'
+                    "name": "search_tool"
                 },
-                'type': 'function'
+                "type": "function"
             }
         ]
-        await self._run_search_test(tool_calls) # Запуск теста с заданными параметрами.
+        await self._run_search_test(tool_calls)
 
     async def test_search3(self) -> None:
         """
-        Тест поискового инструмента с параметрами, переданными в формате JSON.
+        Тест с параметрами для search_tool, переданными через json.dumps.
         """
-        tool_calls: List[Dict[str, Any]] = [ # Определение параметров для вызова инструмента поиска.
+        tool_calls: List[Dict[str, Any]] = [
             {
-                'function': {
-                    'arguments': json.dumps({
-                        'query': 'search query',  # content of last message: messages[-1]["content"]
-                        'max_results': 5,  # maximum number of search results
-                        'max_words': 500,  # maximum number of used words from search results for generating the response
+                "function": {
+                    "arguments": json.dumps({
+                        "query": "search query",
+                        "max_results": 5,
+                        "max_words": 500,
                     }),
-                    'name': 'search_tool'
+                    "name": "search_tool"
                 },
-                'type': 'function'
+                "type": "function"
             }
         ]
-        await self._run_search_test(tool_calls) # Запуск теста с заданными параметрами.
+        await self._run_search_test(tool_calls)

@@ -1,91 +1,75 @@
 ### **Анализ кода модуля `_providers.py`**
 
-#### **1. Качество кода:**
-
+#### **Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код достаточно структурирован и логичен.
-    - Используются аннотации типов для функций.
-    - Присутствует разделение на функции для тестирования провайдеров.
+    - Код выполняет тестирование провайдеров, что полезно для проверки их работоспособности.
+    - Используется `colorama` для выделения результатов в консоли.
+    - Есть функции для получения списка провайдеров и создания запроса.
 - **Минусы**:
-    - Отсутствует docstring для модуля и функций.
-    - Не обрабатываются ошибки при создании ответа от провайдера (нет логирования).
-    - Есть импорты, которые могут быть улучшены (например, `from g4f import Provider, ProviderType, models`).
-    - Нет обработки `needs_auth` провайдеров.
-    - Не используется модуль `logger` из `src.logger`.
-    - Не используются одинарные кавычки.
+    - Отсутствуют docstring для функций.
+    - Не используется логгирование для записи ошибок.
+    - Нет обработки специфичных исключений, что затрудняет отладку.
+    - Не все переменные аннотированы типами.
 
-#### **2. Рекомендации по улучшению:**
+#### **Рекомендации по улучшению**:
+1. **Добавить docstring для функций**:
+   - Добавить подробные docstring к каждой функции, описывающие её назначение, параметры, возвращаемые значения и возможные исключения.
+2. **Использовать логгирование**:
+   - Заменить `print` на `logger.info` и `logger.error` для более информативного логирования.
+3. **Обработка исключений**:
+   - Уточнить обработку исключений, чтобы логировать конкретные ошибки.
+4. **Аннотация типов**:
+   - Добавить аннотации типов для всех переменных и возвращаемых значений функций.
+5. **Использовать одинарные кавычки**:
+   - Заменить двойные кавычки на одинарные в строках.
 
-- Добавить docstring для модуля и каждой функции, описывающие их назначение, аргументы, возвращаемые значения и возможные исключения.
-- Использовать модуль `logger` из `src.logger` для логирования ошибок и информации о работе программы.
-- Заменить двойные кавычки на одинарные.
-- Улучшить обработку ошибок в функции `test`, чтобы логировать, какой провайдер не работает и почему.
-- Рассмотреть возможность использования более конкретных исключений вместо `Exception`.
-- Добавить обработку для провайдеров, требующих аутентификацию (`needs_auth`).
-- Упростить импорты, если это возможно. Например, импортировать только нужные атрибуты из модуля.
-
-#### **3. Оптимизированный код:**
-
+#### **Оптимизированный код**:
 ```python
-"""
-Модуль для тестирования провайдеров g4f
-========================================
-
-Этот модуль предназначен для тестирования различных провайдеров g4f.
-Он проверяет работоспособность провайдеров и выводит результаты.
-"""
 import sys
 from pathlib import Path
 from colorama import Fore, Style
+from typing import List, Generator
 
 sys.path.append(str(Path(__file__).parent.parent))
 
 from g4f import Provider, ProviderType, models
 from g4f.Provider import __providers__
-from src.logger import logger  # Импорт модуля logger
+
+from src.logger import logger  # Import logger
 
 
-def main():
+def main() -> None:
     """
-    Основная функция для тестирования провайдеров.
-
-    Args:
-        None
-
-    Returns:
-        None
+    Главная функция для тестирования провайдеров.
+    Получает список провайдеров, проверяет их работоспособность и выводит результаты.
     """
-    providers = get_providers()
-    failed_providers = []
+    providers: List[ProviderType] = get_providers()
+    failed_providers: List[ProviderType] = []
 
     for provider in providers:
         if provider.needs_auth:
-            logger.info(f'Провайдер {provider.__name__} требует аутентификацию, пропущен.')  # Логирование
             continue
-        logger.info(f'Тестирование провайдера: {provider.__name__}')  # Логирование
-        result = test(provider)
-        logger.info(f'Результат: {result}')  # Логирование
+        logger.info(f'Provider: {provider.__name__}')  # Логируем имя провайдера
+        result: bool | str = test(provider)
+        logger.info(f'Result: {result}')  # Логируем результат теста
         if provider.working and not result:
             failed_providers.append(provider)
-
+    
     if failed_providers:
-        print(f'{Fore.RED + Style.BRIGHT}Неработающие провайдеры:{Style.RESET_ALL}')
+        logger.error(f'{Fore.RED + Style.BRIGHT}Failed providers:{Style.RESET_ALL}')  # Логируем сообщение об ошибке
         for _provider in failed_providers:
-            print(f'{Fore.RED}{_provider.__name__}')
+            logger.error(f'{Fore.RED}{_provider.__name__}')  # Логируем имена проваленных провайдеров
     else:
-        print(f'{Fore.GREEN + Style.BRIGHT}Все провайдеры работают')
+        logger.info(f'{Fore.GREEN + Style.BRIGHT}All providers are working')  # Логируем сообщение об успехе
 
 
-def get_providers() -> list[ProviderType]:
+def get_providers() -> List[ProviderType]:
     """
-    Получает список доступных провайдеров.
-
-    Args:
-        None
+    Получает список доступных провайдеров, исключая deprecated и те, у которых отсутствует URL.
 
     Returns:
-        list[ProviderType]: Список провайдеров.
+        List[ProviderType]: Список провайдеров.
     """
     return [
         provider
@@ -97,39 +81,43 @@ def get_providers() -> list[ProviderType]:
 
 def create_response(provider: ProviderType) -> str:
     """
-    Создает ответ от провайдера.
+    Создает запрос к провайдеру и возвращает ответ.
 
     Args:
-        provider (ProviderType): Провайдер для создания ответа.
+        provider (ProviderType): Провайдер для отправки запроса.
 
     Returns:
         str: Ответ от провайдера.
     """
-    response = provider.create_completion(
-        model=models.default.name,
-        messages=[{'role': 'user', 'content': 'Hello, who are you? Answer in detail much as possible.'}],
-        stream=False,
-    )
-    return ''.join(response)
+    try:
+        response: Generator[str, None, None] = provider.create_completion(
+            model=models.default.name,
+            messages=[{'role': 'user', 'content': 'Hello, who are you? Answer in detail much as possible.'}],
+            stream=False,
+        )
+        return ''.join(response)
+    except Exception as ex:
+        logger.error(f'Error while creating response for provider {provider.__name__}', ex, exc_info=True)  # Логируем ошибку
+        return ''
 
 
-def test(provider: ProviderType) -> bool:
+def test(provider: ProviderType) -> bool | str:
     """
-    Тестирует работоспособность провайдера.
+    Тестирует провайдера, отправляя запрос и проверяя ответ.
 
     Args:
         provider (ProviderType): Провайдер для тестирования.
 
     Returns:
-        bool: True, если провайдер работает, False в противном случае.
+        bool | str: True, если тест пройден, иначе False.
     """
     try:
-        response = create_response(provider)
+        response: str = create_response(provider)
         assert isinstance(response, str)
         assert len(response) > 0
         return response
     except Exception as ex:
-        logger.error(f'Провайдер {provider.__name__} не работает', ex, exc_info=True)  # Логирование ошибки
+        logger.error(f'Error while testing provider {provider.__name__}', ex, exc_info=True)  # Логируем ошибку
         return False
 
 

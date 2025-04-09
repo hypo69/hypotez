@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.gui 
+.. module:: src.suppliers.suppliers_list.aliexpress.gui 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -25,7 +25,7 @@ from types import SimpleNamespace
 from PyQt6 import QtWidgets, QtGui, QtCore
 from qasync import QEventLoop, asyncSlot
 from src.utils.jjson import j_loads_ns, j_dumps
-from src.suppliers.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
 from styles import set_fixed_size
 
 class CampaignEditor(QtWidgets.QWidget):

@@ -1,69 +1,39 @@
 ### **Анализ кода модуля `test_needs_auth.py`**
 
-**Расположение файла:** `hypotez/src/endpoints/gpt4free/etc/testing/test_needs_auth.py`
-
-**Описание:** Модуль предназначен для тестирования работы с различными провайдерами g4f (GPT4Free) с использованием аутентификации и без неё. Включает асинхронные и потоковые тесты для оценки времени отклика и корректности работы провайдеров.
-
 **Качество кода:**
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-  - Код содержит примеры использования асинхронных и потоковых вызовов к различным провайдерам g4f.
-  - Используется модуль `log_time` для оценки времени выполнения операций.
-  - Присутствуют примеры работы с `g4f.ChatCompletion.create` и `provider.create_async`.
+    - Код выполняет тестирование различных провайдеров g4f для проверки необходимости аутентификации.
+    - Используется асинхронный запуск тестов для ускорения процесса.
+    - Присутствует логирование времени выполнения для каждой функции и провайдера.
 - **Минусы**:
-  - Отсутствуют аннотации типов для переменных и функций.
-  - Не хватает комментариев и документации для функций.
-  - Не обрабатываются исключения, которые могут возникнуть при работе с провайдерами.
-  - Используется `print` для вывода в консоль, что затрудняет дальнейшую обработку и анализ результатов. Желательно использовать `logger`.
-  - Есть прямое обращение к `sys.path`, что может быть нежелательным.
-  - Использованы относительные импорты, что может привести к проблемам при перемещении или переименовании модуля.
+    - Отсутствует документация в формате docstring для функций и переменных.
+    - Не указаны типы данных для переменных и параметров функций.
+    - Не обрабатываются возможные исключения при работе с провайдерами.
+    - Используется `print` вместо `logger` для логирования.
+    - Не все импорты используются.
 
 **Рекомендации по улучшению:**
 
-1. **Добавить аннотации типов:**
-   - Необходимо добавить аннотации типов для всех переменных и функций, чтобы улучшить читаемость и поддерживаемость кода.
-
-2. **Добавить комментарии и документацию:**
-   - Добавить docstring к каждой функции, описывающий её назначение, аргументы и возвращаемые значения.
-   - Добавить комментарии в коде для пояснения логики работы.
-
-3. **Обработка исключений:**
-   - Обернуть вызовы к провайдерам в блоки `try...except` для обработки возможных исключений.
-   - Использовать `logger.error` для логирования ошибок.
-
-4. **Использовать `logger` вместо `print`:**
-   - Заменить все вызовы `print` на `logger.info` или `logger.debug` для логирования информации.
-
-5. **Избегать прямого обращения к `sys.path`:**
-   - Рассмотреть возможность использования более надежного способа добавления пути к модулям.
-
-6. **Использовать абсолютные импорты:**
-   - Заменить относительные импорты на абсолютные, чтобы избежать проблем при перемещении или переименовании модуля.
-
-7. **Улучшить читаемость кода:**
-   - Добавить пробелы вокруг операторов присваивания и сравнения.
-   - Использовать более понятные имена переменных.
-
-8. **Использовать менеджер контекста для `g4f.ChatCompletion.create`:**
-   - Убедиться, что ресурсы освобождаются корректно после использования `g4f.ChatCompletion.create`.
-
-9. **Переработать структуру модуля:**
-   - Разделить модуль на несколько функций для улучшения читаемости и тестируемости.
+1.  **Добавить docstring**: Добавить подробное описание для каждой функции, класса и переменной, используя формат docstring.
+2.  **Добавить аннотации типов**: Указать типы данных для всех переменных и параметров функций.
+3.  **Использовать `logger`**: Заменить `print` на `logger` для логирования информации.
+4.  **Обработка исключений**: Добавить блоки `try-except` для обработки возможных исключений при работе с провайдерами.
+5.  **Удалить неиспользуемые импорты**: Убрать `log_time` и `log_time_yield` из `from testing.log_time import log_time, log_time_async, log_time_yield`.
+6.  **Улучшить читаемость**: Добавить пробелы вокруг операторов присваивания и других операторов.
 
 **Оптимизированный код:**
 
 ```python
-import asyncio
 import sys
 from pathlib import Path
-from typing import List, Generator
+import asyncio
+from typing import List, AsyncGenerator
 
 sys.path.append(str(Path(__file__).parent.parent))
 
 import g4f
 from src.logger import logger
-from testing.log_time import log_time, log_time_async, log_time_yield
-
 
 _providers: List[g4f.Provider] = [
     g4f.Provider.H2o,
@@ -74,7 +44,7 @@ _providers: List[g4f.Provider] = [
     g4f.Provider.Bard
 ]
 
-_instruct: str = 'Hello, are you GPT 4?.'
+_instruct: str = "Hello, are you GPT 4?."
 
 _example: str = """
 OpenaiChat: Hello! How can I assist you today? 2.0 secs
@@ -94,100 +64,145 @@ No Stream Total: 10.14 secs
 """
 
 
-def bing_chat_completion() -> None:
+def log_time(func):
     """
-    Выполняет запрос к Bing через g4f.ChatCompletion с использованием потоковой передачи данных и аутентификации.
-    Логирует каждый полученный ответ.
-    """
-    logger.info('Starting Bing ChatCompletion...')
-    print('Bing: ', end='')
-    try:
-        for response in log_time_yield(
-            g4f.ChatCompletion.create,
-            model=g4f.models.default,
-            messages=[{'role': 'user', 'content': _instruct}],
-            provider=g4f.Provider.Bing,
-            stream=True,
-            auth=True
-        ):
-            print(response, end='', flush=True)
-    except Exception as ex:
-        logger.error('Error during Bing ChatCompletion', ex, exc_info=True)
-    print()
-    print()
+    Декоратор для логирования времени выполнения функции.
 
-
-async def run_async() -> List[str]:
-    """
-    Асинхронно выполняет запросы ко всем провайдерам из списка `_providers` и возвращает список ответов.
+    Args:
+        func: Функция, время выполнения которой нужно залогировать.
 
     Returns:
-        List[str]: Список ответов от провайдеров.
+        wrapper: Обертка для функции, которая логирует время выполнения.
     """
-    logger.info('Starting async run...')
-    responses = [
+    import time
+
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        execution_time = end_time - start_time
+        logger.info(f"Function {func.__name__} executed in {execution_time:.2f} seconds")
+        return result
+
+    return wrapper
+
+
+async def log_time_async(func):
+    """
+    Асинхронный декоратор для логирования времени выполнения функции.
+
+    Args:
+        func: Асинхронная функция, время выполнения которой нужно залогировать.
+
+    Returns:
+        wrapper: Обертка для функции, которая логирует время выполнения.
+    """
+    import time
+
+    async def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = await func(*args, **kwargs)
+        end_time = time.time()
+        execution_time = end_time - start_time
+        logger.info(f"Async function {func.__name__} executed in {execution_time:.2f} seconds")
+        return result
+
+    return wrapper
+
+
+def log_time_yield(func):
+    """
+    Декоратор для логирования времени выполнения генератора.
+
+    Args:
+        func: Функция-генератор, время выполнения которой нужно залогировать.
+
+    Returns:
+        wrapper: Обертка для генератора, которая логирует время выполнения.
+    """
+    import time
+
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        for item in func(*args, **kwargs):
+            yield item
+        end_time = time.time()
+        execution_time = end_time - start_time
+        logger.info(f"Generator {func.__name__} executed in {execution_time:.2f} seconds")
+
+    return wrapper
+
+
+print("Bing: ", end="")
+for response in log_time_yield(
+    g4f.ChatCompletion.create,
+    model=g4f.models.default,
+    messages=[{"role": "user", "content": _instruct}],
+    provider=g4f.Provider.Bing,
+    # cookies=g4f.get_cookies(".huggingface.co"),
+    stream=True,
+    auth=True
+):
+    print(response, end="", flush=True)
+print()
+print()
+
+
+async def run_async() -> None:
+    """
+    Асинхронно запускает запросы ко всем провайдерам и выводит результаты.
+    """
+    responses: List[AsyncGenerator[str, None]] = [
         log_time_async(
             provider.create_async,
             model=None,
-            messages=[{'role': 'user', 'content': _instruct}],
-        )
+            messages=[{"role": "user", "content": _instruct}],
+        )()  # Invoke the wrapped function
         for provider in _providers
     ]
-    try:
-        responses = await asyncio.gather(*responses)
-        for idx, provider in enumerate(_providers):
-            logger.info(f'{provider.__name__}: {responses[idx]}')
-    except Exception as ex:
-        logger.error('Error during async run', ex, exc_info=True)
-        return []
-    return responses
+    responses = await asyncio.gather(*responses)
+    for idx, provider in enumerate(_providers):
+        print(f"{provider.__name__}:", responses[idx])
+
+
+print("Async Total:", asyncio.run(log_time_async(run_async)()))
+print()
 
 
 def run_stream() -> None:
     """
-    Выполняет запросы ко всем провайдерам из списка `_providers` с использованием потоковой передачи данных.
+    Запускает запросы ко всем провайдерам в режиме стриминга и выводит результаты.
     """
-    logger.info('Starting stream run...')
-    try:
-        for provider in _providers:
-            print(f'{provider.__name__}: ', end='')
-            for response in log_time_yield(
-                provider.create_completion,
-                model=None,
-                messages=[{'role': 'user', 'content': _instruct}],
-            ):
-                print(response, end='', flush=True)
-            print()
-    except Exception as ex:
-        logger.error('Error during stream run', ex, exc_info=True)
+    for provider in _providers:
+        print(f"{provider.__name__}: ", end="")
+        for response in log_time_yield(
+            provider.create_completion,
+            model=None,
+            messages=[{"role": "user", "content": _instruct}],
+        ):
+            print(response, end="", flush=True)
+        print()
+
+
+print("Stream Total:", log_time(run_stream))
+print()
 
 
 def create_no_stream() -> None:
     """
-    Выполняет запросы ко всем провайдерам из списка `_providers` без использования потоковой передачи данных.
+    Запускает запросы ко всем провайдерам без стриминга и выводит результаты.
     """
-    logger.info('Starting no stream run...')
-    try:
-        for provider in _providers:
-            print(f'{provider.__name__}: ', end='')
-            for response in log_time_yield(
-                provider.create_completion,
-                model=None,
-                messages=[{'role': 'user', 'content': _instruct}],
-                stream=False
-            ):
-                print(response, end='')
-            print()
-    except Exception as ex:
-        logger.error('Error during no stream run', ex, exc_info=True)
+    for provider in _providers:
+        print(f"{provider.__name__}:", end=" ")
+        for response in log_time_yield(
+            provider.create_completion,
+            model=None,
+            messages=[{"role": "user", "content": _instruct}],
+            stream=False
+        ):
+            print(response, end="")
+        print()
 
 
-if __name__ == '__main__':
-    bing_chat_completion()
-    print('Async Total:', asyncio.run(log_time_async(run_async)))
-    print()
-    print('Stream Total:', log_time(run_stream))
-    print()
-    print('No Stream Total:', log_time(create_no_stream))
-    print()
-```
+print("No Stream Total:", log_time(create_no_stream))
+print()

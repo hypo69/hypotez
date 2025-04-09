@@ -150,7 +150,7 @@ class Firefox(WebDriver):
             super().__init__(service=service, options=options_obj)
             self._payload()
             logger.success(f"Browser started successfully, {window_mode=}")
-        except WebDriverException as e:
+        except WebDriverException as ex:
             logger.critical(
                 """
                 ---------------------------------
@@ -158,13 +158,17 @@ class Firefox(WebDriver):
                     Possible reasons:
                     - Firefox update
                     - Firefox not installed
+
+                    Перезапусти код.
                 ----------------------------------
                 """,
-                e,
+                ex,
+                False
             )
             sys.exit(1)
-        except Exception as e:
-            logger.critical("Firefox WebDriver error:", e)
+        except Exception as ex:
+            logger.critical("Firefox WebDriver error:", ex, False)
+
             return
 
     def set_proxy(self, options: Options) -> None:

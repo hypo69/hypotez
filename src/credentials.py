@@ -1,8 +1,16 @@
-"""
-.. module:: src 
-    :platform: Windows, Unix
-    :synopsis: Global Project Settings: paths, passwords, logins, and API settings
+## \file /src/credentials.py
+# -*- coding: utf-8 -*-
+#! .pyenv/bin/python3
 
+"""
+Модуль credentials
+====================
+Модуль credentials предназначен для хранения глобальных настроек проекта, таких как пути, пароли, логины и параметры API. 
+Он использует паттерн Singleton для обеспечения единственного экземпляра настроек в течение всего времени работы приложения.
+
+```rst
+.. module:: src.header 
+```
 """
 
 import datetime

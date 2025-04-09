@@ -6,7 +6,7 @@ Here's the example file for the `affiliated_products_generator.py` module in Eng
 ```python
 # example_usage.py
 
-from src.suppliers.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
 
 def main():
     # Set up the ad campaign parameters
@@ -102,7 +102,7 @@ if __name__ == "__main__":
 ```python
 # example_usage.py
 
-from src.suppliers.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
 
 def main():
     # Set up the ad campaign parameters

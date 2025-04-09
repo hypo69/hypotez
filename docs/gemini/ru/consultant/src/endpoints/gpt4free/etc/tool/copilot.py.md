@@ -1,32 +1,42 @@
 ### Анализ кода модуля `copilot.py`
 
-2. **Качество кода**:
-   - **Соответствие стандартам**: 6/10
-   - **Плюсы**:
-     - Код разбит на отдельные функции, что облегчает понимание и поддержку.
-     - Используются docstring для описания функций.
-     - Обработка исключений присутствует.
-   - **Минусы**:
-     - Не все переменные аннотированы типами.
-     - Использование `Union` вместо `|`.
-     - Не используется модуль `logger` для логирования.
-     - Некоторые docstring написаны на английском языке.
+**Качество кода:**
 
-3. **Рекомендации по улучшению**:
-   - Добавить аннотации типов для всех переменных.
-   - Заменить `Union` на `|` для объединения типов.
-   - Использовать модуль `logger` для логирования ошибок и информации.
-   - Перевести все docstring на русский язык и привести их к требуемому формату.
-   - Использовать одинарные кавычки для строк.
-   - Добавить комментарии к коду для улучшения понимания логики.
-   - Обрабатывать исключения с использованием переменной `ex` вместо `e`.
+- **Соответствие стандартам**: 7/10
+- **Плюсы**:
+  - Код разбит на логические функции, что улучшает читаемость и поддержку.
+  - Используются docstring для документирования функций.
+  - Обработка исключений присутствует.
+- **Минусы**:
+  - Отсутствуют аннотации типов для переменных, что снижает читаемость и возможность статической проверки типов.
+  - Не все docstring соответствуют требуемому формату (отсутствуют секции Args, Returns, Raises, Example).
+  - Используется `Union` вместо `|` для объединения типов.
+  - Не используется модуль `logger` из `src.logger` для логирования ошибок.
+  - В некоторых местах используется `e` вместо `ex` в блоках обработки исключений.
+  - Не используется `j_loads` или `j_loads_ns` для чтения JSON или конфигурационных файлов.
 
-4. **Оптимизированный код**:
+**Рекомендации по улучшению:**
+
+1.  **Добавить аннотации типов**: Для всех переменных и аргументов функций добавить аннотации типов.
+2.  **Улучшить docstring**: Привести docstring к единому стандарту, добавив секции Args, Returns, Raises, Example.
+3.  **Использовать `|` вместо `Union`**: Заменить `Union` на `|` для объединения типов.
+4.  **Использовать модуль `logger`**: Заменить `print` на `logger.error` для логирования ошибок.
+5.  **Исправить использование `e` на `ex`**: Заменить `e` на `ex` в блоках обработки исключений.
+6.  **Использовать `j_loads` или `j_loads_ns`**: Для чтения JSON или конфигурационных файлов использовать `j_loads` или `j_loads_ns` вместо стандартных `open` и `json.load`.
+7.  **Добавить docstring модуля**: Описать модуль в соответствии с форматом.
+
+**Оптимизированный код:**
 
 ```python
+"""
+Модуль для автоматического анализа Pull Request
+==================================================
+
+Этот модуль содержит функции для анализа изменений кода в Pull Request на GitHub,
+используя OpenAI API для генерации комментариев и предложений по улучшению.
+"""
 import sys
 from pathlib import Path
-from typing import Optional, List, Union
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
@@ -35,36 +45,43 @@ import json
 import os
 import re
 import requests
+from typing import Union, Optional, List
 from github import Github
 from github.PullRequest import PullRequest
-from src.logger import logger # Подключаем модуль логгирования
+from src.logger import logger
 
 g4f.debug.logging = True
 g4f.debug.version_check = False
 
-GITHUB_TOKEN = os.getenv('GITHUB_TOKEN') # Токен GitHub
-GITHUB_REPOSITORY = os.getenv('GITHUB_REPOSITORY') # Репозиторий GitHub
-G4F_PROVIDER = os.getenv('G4F_PROVIDER') # Провайдер G4F
-G4F_MODEL = os.getenv('G4F_MODEL') or g4f.models.gpt_4 # Модель G4F
+GITHUB_TOKEN: Optional[str] = os.getenv('GITHUB_TOKEN')
+GITHUB_REPOSITORY: Optional[str] = os.getenv('GITHUB_REPOSITORY')
+G4F_PROVIDER: Optional[str] = os.getenv('G4F_PROVIDER')
+G4F_MODEL: str = os.getenv('G4F_MODEL') or g4f.models.gpt_4
+
 
 def get_pr_details(github: Github) -> Optional[PullRequest]:
     """
-    Получает детали pull request из GitHub.
+    Получает детали Pull Request с GitHub.
 
     Args:
         github (Github): Объект Github для взаимодействия с API GitHub.
 
     Returns:
-        Optional[PullRequest]: Объект, представляющий pull request. Возвращает None, если pr_number не найден.
+        Optional[PullRequest]: Объект, представляющий Pull Request. Возвращает None, если номер PR не найден.
 
     Raises:
-        Exception: В случае ошибки при получении pull request.
+        Exception: Если возникает ошибка при получении деталей PR.
+
+    Example:
+        >>> github = Github(GITHUB_TOKEN)
+        >>> pull_request = get_pr_details(github)
+        >>> if pull_request:
+        ...     print(f"Pull Request title: {pull_request.title}")
     """
     try:
         with open('./pr_number', 'r') as file:
-            pr_number = file.read().strip()
+            pr_number: str = file.read().strip()
         if not pr_number:
-            logger.warning('PR number not found') # Используем logger
             return None
 
         repo = github.get_repo(GITHUB_REPOSITORY)
@@ -72,42 +89,56 @@ def get_pr_details(github: Github) -> Optional[PullRequest]:
 
         return pull
     except Exception as ex:
-        logger.error('Error while getting PR details', ex, exc_info=True) # Логируем ошибку
+        logger.error('Error while getting PR details', ex, exc_info=True)
         return None
+
 
 def get_diff(diff_url: str) -> str:
     """
-    Получает diff pull request по заданному URL.
+    Получает diff Pull Request по URL.
 
     Args:
-        diff_url (str): URL pull request diff.
+        diff_url (str): URL diff Pull Request.
 
     Returns:
-        str: Diff pull request.
+        str: Diff Pull Request.
 
     Raises:
-        requests.exceptions.HTTPError: Если HTTP-запрос завершается с ошибкой.
+        requests.exceptions.HTTPError: Если возникает ошибка при запросе diff.
+
+    Example:
+        >>> diff_url = 'https://github.com/owner/repo/pull/123/files.diff'
+        >>> diff = get_diff(diff_url)
+        >>> print(diff[:100])  # Вывод первых 100 символов diff
+        'diff --git a/file1.txt b/file1.txt...'
     """
     try:
         response = requests.get(diff_url)
         response.raise_for_status()
         return response.text
     except requests.exceptions.HTTPError as ex:
-        logger.error('Error while fetching diff', ex, exc_info=True) # Логируем ошибку
-        return ''
+        logger.error('Error while fetching diff', ex, exc_info=True)
+        raise
+
 
 def read_json(text: str) -> dict:
     """
-    Извлекает JSON из текста.
+    Извлекает JSON код из строки.
 
     Args:
-        text (str): Строка, содержащая JSON.
+        text (str): Строка, содержащая JSON код.
 
     Returns:
-        dict: Словарь, полученный из JSON.
+        dict: Словарь, полученный из JSON кода.
 
     Raises:
-        RuntimeError: Если JSON невалидный.
+        RuntimeError: Если JSON недействителен.
+
+    Example:
+        >>> text = "```json\\n{\\"key\\": \\"value\\"}\\n```"
+        >>> data = read_json(text)
+        >>> print(data)
+        {'key': 'value'}
     """
     match = re.search(r"```(json|)\n(?P<code>[\S\s]+?)\n```", text)
     if match:
@@ -117,18 +148,25 @@ def read_json(text: str) -> dict:
     except json.JSONDecodeError as ex:
         raise RuntimeError(f"Invalid JSON: {text}") from ex
 
+
 def read_text(text: str) -> str:
     """
-    Извлекает текст из markdown code block.
+    Извлекает текст из markdown кода.
 
     Args:
-        text (str): Строка, содержащая markdown code block.
+        text (str): Строка, содержащая markdown код.
 
     Returns:
         str: Извлеченный текст.
 
     Raises:
-        RuntimeError: Если markdown невалидный.
+        RuntimeError: Если markdown недействителен.
+
+    Example:
+        >>> text = "```markdown\\nПример текста\\n```"
+        >>> extracted_text = read_text(text)
+        >>> print(extracted_text)
+        'Пример текста'
     """
     match = re.search(r"```(markdown|)\n(?P<text>[\S\s]+?)\n```", text)
     if match:
@@ -136,44 +174,42 @@ def read_text(text: str) -> str:
     else:
         raise RuntimeError(f"Invalid markdown: {text}")
 
+
 def get_ai_response(prompt: str, as_json: bool = True) -> Union[dict, str]:
     """
     Получает ответ от g4f API на основе prompt.
 
     Args:
         prompt (str): Prompt для отправки в g4f.
-        as_json (bool): Флаг, указывающий, нужно ли парсить ответ как JSON.
+        as_json (bool): Определяет, следует ли разбирать ответ как JSON.
 
     Returns:
         Union[dict, str]: Ответ от g4f, либо как словарь, либо как строка.
     """
-    try:
-        response = g4f.ChatCompletion.create(
-            G4F_MODEL,
-            [{'role': 'user', 'content': prompt}],
-            G4F_PROVIDER,
-            ignore_stream_and_auth=True
-        )
-        return read_json(response) if as_json else read_text(response)
-    except Exception as ex:
-        logger.error('Error while getting AI response', ex, exc_info=True) # Логируем ошибку
-        return {} if as_json else ''
+    response: str = g4f.ChatCompletion.create(
+        G4F_MODEL,
+        [{'role': 'user', 'content': prompt}],
+        G4F_PROVIDER,
+        ignore_stream_and_auth=True
+    )
+    return read_json(response) if as_json else read_text(response)
+
 
 def analyze_code(pull: PullRequest, diff: str) -> list[dict]:
     """
-    Анализирует изменения кода в pull request.
+    Анализирует изменения кода в Pull Request.
 
     Args:
-        pull (PullRequest): Объект pull request.
-        diff (str): Diff pull request.
+        pull (PullRequest): Объект Pull Request.
+        diff (str): Diff Pull Request.
 
     Returns:
         list[dict]: Список комментариев, сгенерированных анализом.
     """
-    comments: list[dict] = [] # Аннотация типа
-    changed_lines: list[str] = [] # Аннотация типа
-    current_file_path: Optional[str] = None # Аннотация типа
-    offset_line: int = 0 # Аннотация типа
+    comments: list[dict] = []
+    changed_lines: list[str] = []
+    current_file_path: Optional[str] = None
+    offset_line: int = 0
 
     for line in diff.split('\n'):
         if line.startswith('+++ b/'):
@@ -185,8 +221,8 @@ def analyze_code(pull: PullRequest, diff: str) -> list[dict]:
                 offset_line = int(match.group(1))
         elif current_file_path:
             if (line.startswith('\\') or line.startswith('diff')) and changed_lines:
-                prompt = create_analyze_prompt(changed_lines, pull, current_file_path)
-                response = get_ai_response(prompt)
+                prompt: str = create_analyze_prompt(changed_lines, pull, current_file_path)
+                response: Union[dict, str] = get_ai_response(prompt)
                 for review in response.get('reviews', []):
                     review['path'] = current_file_path
                     comments.append(review)
@@ -194,25 +230,26 @@ def analyze_code(pull: PullRequest, diff: str) -> list[dict]:
             elif line.startswith('-'):
                 changed_lines.append(line)
             else:
-                changed_lines.append(f'{offset_line}:{line}')
+                changed_lines.append(f"{offset_line}:{line}")
                 offset_line += 1
 
     return comments
+
 
 def create_analyze_prompt(changed_lines: list[str], pull: PullRequest, file_path: str) -> str:
     """
     Создает prompt для g4f модели.
 
     Args:
-        changed_lines (list[str]): Список измененных строк кода.
-        pull (PullRequest): Объект pull request.
-        file_path (str): Путь к файлу, который просматривается.
+        changed_lines (list[str]): Измененные строки кода.
+        pull (PullRequest): Объект Pull Request.
+        file_path (str): Путь к файлу, который проверяется.
 
     Returns:
         str: Сгенерированный prompt.
     """
-    code = '\n'.join(changed_lines)
-    example = '{"reviews": [{"line": <line_number>, "body": "<review comment>"}]}'
+    code: str = "\n".join(changed_lines)
+    example: str = '{"reviews": [{"line": <line_number>, "body": "<review comment>"}]}'
     return f"""Your task is to review pull requests. Instructions:
 - Provide the response in following JSON format: {example}
 - Do not give positive comments or compliments.
@@ -235,16 +272,17 @@ Each line is prefixed by its number. Code to review:
 ```
 """
 
+
 def create_review_prompt(pull: PullRequest, diff: str) -> str:
     """
-    Создает prompt для создания review comment.
+    Создает prompt для создания комментария обзора.
 
     Args:
-        pull (PullRequest): Объект pull request.
-        diff (str): Diff pull request.
+        pull (PullRequest): Объект Pull Request.
+        diff (str): Diff Pull Request.
 
     Returns:
-        str: Сгенерированный prompt для review.
+        str: Сгенерированный prompt для обзора.
     """
     return f"""Your task is to review a pull request. Instructions:
 - Write in name of g4f copilot. Don't use placeholder.
@@ -265,42 +303,44 @@ Diff:
 ```
 """
 
-def main():
+
+def main() -> None:
     """
-    Основная функция для анализа pull request и создания review.
+    Основная функция для анализа Pull Request и создания обзоров.
     """
     try:
-        github = Github(GITHUB_TOKEN)
-        pull = get_pr_details(github)
+        github: Github = Github(GITHUB_TOKEN)
+        pull: Optional[PullRequest] = get_pr_details(github)
         if not pull:
-            print('No PR number found')
+            print(f"No PR number found")
             exit()
-        diff = get_diff(pull.diff_url)
+        diff: str = get_diff(pull.diff_url)
     except Exception as ex:
-        print(f'Error get details: {ex.__class__.__name__}: {ex}')
+        logger.error(f"Error get details: {ex.__class__.__name__}: {ex}", exc_info=True)
         exit(1)
     try:
-        review = get_ai_response(create_review_prompt(pull, diff), False)
+        review: Union[dict, str] = get_ai_response(create_review_prompt(pull, diff), False)
     except Exception as ex:
-        print(f'Error create review: {ex}')
+        logger.error(f"Error create review: {ex}", exc_info=True)
         exit(1)
     if pull.get_reviews().totalCount > 0 or pull.get_issue_comments().totalCount > 0:
         pull.create_issue_comment(body=review)
         return
     try:
-        comments = analyze_code(pull, diff)
+        comments: list[dict] = analyze_code(pull, diff)
     except Exception as ex:
-        print(f'Error analyze: {ex}')
+        logger.error(f"Error analyze: {ex}", exc_info=True)
         exit(1)
-    print('Comments:', comments)
+    print("Comments:", comments)
     try:
         if comments:
             pull.create_review(body=review, comments=comments)
         else:
             pull.create_issue_comment(body=review)
     except Exception as ex:
-        print(f'Error posting review: {ex}')
+        logger.error(f"Error posting review: {ex}", exc_info=True)
         exit(1)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

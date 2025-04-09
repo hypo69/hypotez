@@ -2,139 +2,138 @@
 
 ## \file /hypotez/src/endpoints/gpt4free/g4f/requests/aiohttp.py
 
-Модуль предоставляет реализации классов для работы с асинхронными HTTP-запросами с использованием библиотеки `aiohttp`, включая поддержку потоковой передачи данных и прокси.
+Модуль предоставляет расширения для библиотеки `aiohttp`, предназначенные для стриминга ответов, обработки Server-Sent Events (SSE) и прокси.
 
-**Качество кода**:
+**Качество кода:**
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Использование асинхронности для эффективной обработки запросов.
-  - Реализация потоковой передачи данных через `AsyncIterator`.
-  - Поддержка Server-Sent Events (SSE).
-  - Возможность использования прокси через `aiohttp_socks`.
+    - Расширение функциональности `aiohttp` для стриминга и SSE.
+    - Обработка прокси через `aiohttp_socks`.
+    - Использование `AsyncIterator` для асинхронной итерации.
 - **Минусы**:
-  - Отсутствует полная документация классов и методов.
-  - Не все переменные аннотированы типами.
-  - Обработка исключений `ImportError` для `aiohttp_socks` могла бы быть улучшена с помощью более информативного сообщения.
-  - Некоторые участки кода требуют дополнительных комментариев для пояснения логики.
+    - Не хватает документации для некоторых функций и классов.
+    - Не все переменные аннотированы типами.
+    - Отсутствуют логирование ошибок.
+    - Не используется `logger` из `src.logger`.
+    - Нет обработки исключений при работе с `aiohttp`.
+    - Не используется `j_loads` или `j_loads_ns`.
 
-**Рекомендации по улучшению**:
+**Рекомендации по улучшению:**
 
-1.  **Добавить документацию**:
-    - Добавить docstring для каждого класса и метода, описывающие их назначение, параметры и возвращаемые значения.
+1.  **Добавить docstring для классов и методов:**
+    *   Описать назначение каждого класса и метода, а также параметры и возвращаемые значения.
+2.  **Добавить аннотации типов для переменных:**
+    *   Указать типы для всех переменных, чтобы улучшить читаемость и предотвратить ошибки.
+3.  **Внедрить логирование:**
+    *   Использовать модуль `logger` для записи информации об ошибках и других важных событиях.
+4.  **Обработка исключений:**
+    *   Добавить блоки `try-except` для обработки возможных исключений при работе с `aiohttp`.
+5.  **Использовать `j_loads` или `j_loads_ns`:**
+    *   Если необходимо обрабатывать JSON, использовать `j_loads` или `j_loads_ns` вместо стандартного `json.load`.
+6.  **Улучшить обработку прокси:**
+    *   Добавить логирование для случаев, когда не удается установить соединение через прокси.
 
-2.  **Улучшить обработку ошибок**:
-    - В блоке `except ImportError`, добавить более конкретное сообщение об ошибке, указывающее, как установить необходимый пакет.
-
-3.  **Добавить аннотации типов**:
-    - Добавить аннотации типов для всех переменных, где это возможно, чтобы повысить читаемость и облегчить отладку.
-
-4.  **Добавить комментарии**:
-    - Добавить комментарии к наиболее сложным участкам кода, чтобы пояснить их логику работы.
-
-5. **Использовать `logger`**:
-    - Добавить логгирование для обработки исключений и важных этапов выполнения кода.
-
-**Оптимизированный код**:
+**Оптимизированный код:**
 
 ```python
 from __future__ import annotations
 
 import json
 from aiohttp import ClientSession, ClientResponse, ClientTimeout, BaseConnector, FormData
-from typing import AsyncIterator, Any, Optional, Tuple, Dict
-
+from typing import AsyncIterator, Any, Optional
+from src.logger import logger  # Импортируем модуль логирования
 from .defaults import DEFAULT_HEADERS
 from ..errors import MissingRequirementsError
-from src.logger import logger  # Import logger
 
 
 class StreamResponse(ClientResponse):
     """
-    Асинхронный ответ, поддерживающий потоковую передачу данных и SSE.
+    Расширение класса `ClientResponse` для поддержки стриминга и SSE.
     """
     async def iter_lines(self) -> AsyncIterator[bytes]:
         """
-        Асинхронно итерирует по строкам ответа.
+        Асинхронно итерирует по строкам содержимого ответа.
 
         Yields:
-            AsyncIterator[bytes]: Строки ответа в байтовом формате.
+            bytes: Строка содержимого ответа.
         """
         async for line in self.content:
             yield line.rstrip(b"\r\n")
 
     async def iter_content(self) -> AsyncIterator[bytes]:
         """
-        Асинхронно итерирует по содержимому ответа.
+        Асинхронно итерирует по частям содержимого ответа.
 
         Yields:
-            AsyncIterator[bytes]: Чанки содержимого ответа в байтовом формате.
+            bytes: Часть содержимого ответа.
         """
         async for chunk in self.content.iter_any():
             yield chunk
 
-    async def json(self, content_type: Optional[str] = None) -> Any:
+    async def json(self, content_type: str | None = None) -> Any:
         """
         Декодирует JSON из тела ответа.
 
         Args:
-            content_type (Optional[str], optional): Тип содержимого. По умолчанию None.
+            content_type (str | None): Тип содержимого. По умолчанию None.
 
         Returns:
-            Any: Декодированные JSON-данные.
+            Any: Декодированные данные JSON.
         """
         return await super().json(content_type=content_type)
 
     async def sse(self) -> AsyncIterator[dict]:
         """
-        Асинхронно итерирует по Server-Sent Events (SSE) ответа.
+        Асинхронно итерирует по Server-Sent Events ответа.
 
         Yields:
-            AsyncIterator[dict]: События SSE в виде словарей.
+            dict: Данные SSE.
         """
         async for line in self.content:
             if line.startswith(b"data: "):
                 chunk = line[6:]
-                if chunk.startswith(b"[DONE]"):
+                if chunk.startswith(b"[DONE]"):\
                     break
                 try:
                     yield json.loads(chunk)
                 except json.JSONDecodeError as ex:
-                    logger.error('Ошибка при декодировании JSON', ex, exc_info=True) # add log
+                    logger.error('Ошибка при декодировании JSON', ex, exc_info=True)  # Логируем ошибку
                     continue
 
 
 class StreamSession(ClientSession):
     """
-    Асинхронная сессия для выполнения HTTP-запросов с поддержкой потоковой передачи данных.
+    Расширение класса `ClientSession` для поддержки стриминга и прокси.
     """
     def __init__(
         self,
-        headers: Dict[str, str] = {},
-        timeout: Optional[int | Tuple[int, int]] = None,
-        connector: Optional[BaseConnector] = None,
-        proxy: Optional[str] = None,
-        proxies: Dict[str, str] = {},
-        impersonate: Optional[str] = None,
+        headers: dict = {},
+        timeout: int | tuple[int, int] | None = None,
+        connector: BaseConnector | None = None,
+        proxy: str | None = None,
+        proxies: dict = {},
+        impersonate: str | None = None,
         **kwargs: Any
     ) -> None:
         """
-        Инициализирует StreamSession.
+        Инициализирует `StreamSession`.
 
         Args:
-            headers (Dict[str, str], optional): Заголовки сессии. По умолчанию {}.
-            timeout (Optional[int | Tuple[int, int]], optional): Тайм-аут сессии. По умолчанию None.
-            connector (Optional[BaseConnector], optional): Коннектор сессии. По умолчанию None.
-            proxy (Optional[str], optional): Прокси для сессии. По умолчанию None.
-            proxies (Dict[str, str], optional): Прокси для сессии. По умолчанию {}.
-            impersonate (Optional[str], optional): User-Agent для имитации. По умолчанию None.
-            **kwargs (Any): Дополнительные аргументы для ClientSession.
+            headers (dict): Заголовки для сессии.
+            timeout (int | tuple[int, int] | None): Тайм-аут для сессии.
+            connector (BaseConnector | None): Коннектор для сессии.
+            proxy (str | None): Прокси для сессии.
+            proxies (dict): Прокси для сессии.
+            impersonate (str | None): Строка для имитации.
+            **kwargs (Any): Дополнительные аргументы для `ClientSession`.
         """
         if impersonate:
             headers = {
                 **DEFAULT_HEADERS,
                 **headers
             }
-        connect: Optional[int] = None
+        connect: int | None = None
         if isinstance(timeout, tuple):
             connect, timeout = timeout
         if timeout is not None:
@@ -150,14 +149,14 @@ class StreamSession(ClientSession):
         )
 
 
-def get_connector(connector: Optional[BaseConnector] = None, proxy: Optional[str] = None, rdns: bool = False) -> Optional[BaseConnector]:
+def get_connector(connector: BaseConnector | None = None, proxy: str | None = None, rdns: bool = False) -> Optional[BaseConnector]:
     """
-    Возвращает коннектор для aiohttp с поддержкой прокси.
+    Возвращает коннектор для `aiohttp` с поддержкой прокси.
 
     Args:
-        connector (Optional[BaseConnector], optional): Существующий коннектор. По умолчанию None.
-        proxy (Optional[str], optional): URL прокси. По умолчанию None.
-        rdns (bool, optional): Флаг удаленного разрешения DNS для SOCKS прокси. По умолчанию False.
+        connector (BaseConnector | None): Существующий коннектор.
+        proxy (str | None): URL прокси.
+        rdns (bool): Флаг для удаленного разрешения DNS.
 
     Returns:
         Optional[BaseConnector]: Коннектор с поддержкой прокси или None.
@@ -170,6 +169,9 @@ def get_connector(connector: Optional[BaseConnector] = None, proxy: Optional[str
                 rdns = True
             connector = ProxyConnector.from_url(proxy, rdns=rdns)
         except ImportError as ex:
-            logger.error('Не удалось импортировать "aiohttp_socks". Установите пакет для поддержки прокси: pip install aiohttp_socks', ex, exc_info=True)
-            raise MissingRequirementsError('Не удалось импортировать "aiohttp_socks". Установите пакет для поддержки прокси: pip install aiohttp_socks')
+            logger.error('Не удалось импортировать "aiohttp_socks"', ex, exc_info=True)
+            raise MissingRequirementsError('Install "aiohttp_socks" package for proxy support')
+        except Exception as ex:
+            logger.error('Ошибка при создании ProxyConnector', ex, exc_info=True)
+            return None
     return connector

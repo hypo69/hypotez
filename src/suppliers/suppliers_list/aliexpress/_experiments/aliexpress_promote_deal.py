@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,7 +33,7 @@
   :synopsis:
 """
   
-""" module: src.suppliers.aliexpress._experiments """
+""" module: src.suppliers.suppliers_list.aliexpress._experiments """
 
 
 """ Deal, event
@@ -43,7 +43,7 @@
 
 ...
 import header
-from src.suppliers.aliexpress import AliPromoDeal
+from src.suppliers.suppliers_list.aliexpress import AliPromoDeal
 
 deal_name = '150624_baseus_deals'
 a = AliPromoDeal(deal_name)

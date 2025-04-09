@@ -1,62 +1,78 @@
 ### **Анализ кода модуля `create_images.py`**
 
 **Качество кода:**
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Хорошая структура класса `CreateImagesProvider`.
-    - Использование `typing` для аннотации типов.
-    - Обработка исключений при создании изображений.
-    - Разделение на синхронный и асинхронный методы.
+  - Код хорошо структурирован и организован в классы и функции.
+  - Использование аннотаций типов повышает читаемость и упрощает отладку.
+  - Присутствует документация в формате docstring.
+  - Обработка ошибок осуществляется с помощью `try-except`.
 - **Минусы**:
-    - Отсутствие документации модуля на русском языке.
-    - Не все методы и аргументы документированы в соответствии с требованиями.
-    - Использование английского языка в docstring.
-    - Не используется модуль `logger` для логирования.
+  - Docstring написаны на английском языке. Необходимо перевести на русский язык.
+  - Не везде используется модуль `logger` для логирования.
+  - Нет обработки исключений для асинхронных вызовов.
+  - Не все переменные аннотированы типами.
+  - Не используется `j_loads` или `j_loads_ns` для чтения конфигурационных файлов.
+  - Отсутствует `Example` в Docstring
 
 **Рекомендации по улучшению:**
-- Добавить заголовок модуля с описанием его назначения и основных классов.
-- Перевести все docstring на русский язык и привести их в соответствие с заданным форматом.
-- Добавить подробные комментарии к коду, объясняющие логику работы.
-- Использовать модуль `logger` для логирования важных событий, таких как создание изображений и обработка ошибок.
-- Улучшить обработку исключений, чтобы обеспечить более надежную работу кода.
+
+1.  **Документация**:
+    *   Перевести все docstring на русский язык, обеспечивая соответствие стандартам оформления документации.
+
+2.  **Логирование**:
+    *   Добавить логирование с использованием модуля `logger` для отслеживания хода выполнения программы и записи ошибок.
+
+3.  **Обработка исключений**:
+    *   Добавить обработку исключений для асинхронных вызовов, чтобы предотвратить неожиданное завершение программы.
+
+4.  **Использовать `j_loads` или `j_loads_ns`**:
+    *   Если используются конфигурационные файлы, заменить стандартное использование `open` и `json.load` на `j_loads` или `j_loads_ns`.
+
+5.  **Аннотации типов**:
+    *   Добавить аннотации типов для всех переменных, чтобы улучшить читаемость и облегчить отладку.
+
+6. **webdriver**
+   *  Если в коде используется вебдрайвер, знай как его использовать
+   наследуй Driver, Chrome, Firexox, Playwright
+   Далее определи так
+   # Создание инстанса драйвера (пример с Chrome)
+   driver = Drivewr(Chrome)
+   В модулях Driver И Chrome, Firexox, Playwright уже содержатся все настройки selenium.
+   Основная комада, которая используется в коде: `driver.execute_locator(l:dict)`
+   Она возвращает аначение вебэелемента по локатору.
 
 **Оптимизированный код:**
-```python
-"""
-Модуль для создания изображений на основе текстовых запросов
-===========================================================
 
-Модуль содержит класс :class:`CreateImagesProvider`, который позволяет создавать изображения на основе текстовых запросов,
-внедренных в сообщения. Он использует другие провайдеры для обработки не связанных с изображениями задач и предоставляет
-синхронные и асинхронные методы для создания изображений.
-"""
+```python
 from __future__ import annotations
 
 import re
 import asyncio
-from typing import Generator, Optional, List, AsyncGenerator
+from typing import Generator, Optional, List, Any
 
 from .. import debug
 from ..typing import CreateResult, Messages
 from .types import BaseProvider, ProviderType
 from ..providers.response import ImageResponse
-from src.logger import logger # Импорт модуля logger
+from src.logger import logger  # Импорт модуля логирования
 
-system_message = """
+system_message: str = """
 Вы можете генерировать изображения, картинки, фотографии или img с помощью генератора изображений DALL-E 3.
-Чтобы сгенерировать изображение с подсказкой, сделайте следующее:
+Чтобы сгенерировать изображение с запросом, сделайте следующее:
 
 <img data-prompt=\\"ключевые слова для изображения\\">
 
-Никогда не используйте собственные ссылки на изображения. Не заключайте его в обратные кавычки.
-Важно использовать только тег img с подсказкой.
+Никогда не используйте собственные ссылки на изображения. Не заключайте это в обратные кавычки.
+Важно использовать только тег img с запросом.
 
-<img data-prompt=\\"подпись к изображению\\">
+<img data-prompt=\\"описание изображения\\">
 """
 
 class CreateImagesProvider(BaseProvider):
     """
-    Провайдер для создания изображений на основе текстовых подсказок.
+    Провайдер для создания изображений на основе текстовых запросов.
 
     Этот провайдер обрабатывает запросы на создание изображений, встроенные в содержимое сообщений,
     используя предоставленные функции создания изображений.
@@ -66,7 +82,7 @@ class CreateImagesProvider(BaseProvider):
         create_images (callable): Функция для синхронного создания изображений.
         create_images_async (callable): Функция для асинхронного создания изображений.
         system_message (str): Сообщение, объясняющее возможность создания изображений.
-        include_placeholder (bool): Флаг, определяющий, включать ли заполнитель изображения в вывод.
+        include_placeholder (bool): Флаг, определяющий, следует ли включать заполнитель изображения в вывод.
         __name__ (str): Имя провайдера.
         url (str): URL провайдера.
         working (bool): Указывает, работает ли провайдер.
@@ -88,107 +104,115 @@ class CreateImagesProvider(BaseProvider):
             provider (ProviderType): Базовый провайдер.
             create_images (callable): Функция для синхронного создания изображений.
             create_async (callable): Функция для асинхронного создания изображений.
-            system_message (str, optional): Системное сообщение, добавляемое к сообщениям. По умолчанию - предопределенное сообщение.
-            include_placeholder (bool, optional): Нужно ли включать заполнители изображений в вывод. По умолчанию True.
+            system_message (str, optional): Системное сообщение, добавляемое к сообщениям. По умолчанию используется предопределенное сообщение.
+            include_placeholder (bool, optional): Следует ли включать заполнители изображений в вывод. По умолчанию True.
         """
-        self.provider = provider
-        self.create_images = create_images
-        self.create_images_async = create_async
-        self.system_message = system_message
-        self.include_placeholder = include_placeholder
-        self.__name__ = provider.__name__
-        self.url = provider.url
-        self.working = provider.working
-        self.supports_stream = provider.supports_stream
+        self.provider: ProviderType = provider
+        self.create_images: callable = create_images
+        self.create_images_async: callable = create_async
+        self.system_message: str = system_message
+        self.include_placeholder: bool = include_placeholder
+        self.__name__: str = provider.__name__
+        self.url: str = provider.url
+        self.working: bool = provider.working
+        self.supports_stream: bool = provider.supports_stream
 
     def create_completion(
         self,
         model: str,
         messages: Messages,
         stream: bool = False,
-        **kwargs
+        **kwargs: Any
     ) -> CreateResult:
         """
-        Создает результат завершения, обрабатывая все подсказки для создания изображений, найденные в сообщениях.
+        Создает результат завершения, обрабатывая любые запросы на создание изображений, найденные в сообщениях.
 
         Args:
             model (str): Модель для использования при создании.
-            messages (Messages): Сообщения для обработки, которые могут содержать подсказки для изображений.
-            stream (bool, optional): Указывает, нужно ли передавать результаты потоком. По умолчанию False.
-            **kwargs: Дополнительные аргументы ключевых слов для провайдера.
+            messages (Messages): Сообщения для обработки, которые могут содержать запросы на изображения.
+            stream (bool, optional): Указывает, следует ли передавать результаты потоком. По умолчанию False.
+            **kwargs: Дополнительные аргументы для провайдера.
 
         Yields:
             CreateResult: Выдает фрагменты обработанных сообщений, включая данные изображения, если это применимо.
 
         Note:
-            Этот метод обрабатывает сообщения для обнаружения подсказок для создания изображений. Когда такая подсказка найдена,
-            он вызывает синхронную функцию создания изображений и включает полученное изображение в выходные данные.
+            Этот метод обрабатывает сообщения для обнаружения запросов на создание изображений. Когда такой запрос найден,
+            он вызывает синхронную функцию создания изображений и включает полученное изображение в вывод.
         """
-        messages.insert(0, {'role': 'system', 'content': self.system_message}) # Вставляем системное сообщение в начало списка сообщений
-        buffer = '' # Инициализируем буфер для хранения фрагментов сообщений
-        for chunk in self.provider.create_completion(model, messages, stream, **kwargs): # Перебираем фрагменты, полученные от базового провайдера
-            if isinstance(chunk, ImageResponse): # Если фрагмент является ответом с изображением
-                yield chunk # Возвращаем его
-            elif isinstance(chunk, str) and (buffer or '<' in chunk): # Если фрагмент является строкой и буфер не пуст или содержит '<'
-                buffer += chunk # Добавляем фрагмент в буфер
-                if '>' in buffer: # Если в буфере есть закрывающий тег '>'
-                    match = re.search(r'<img data-prompt="(.*?)">', buffer) # Ищем тег <img> с подсказкой data-prompt
-                    if match: # Если тег найден
-                        placeholder, prompt = match.group(0), match.group(1) # Извлекаем заполнитель и подсказку
-                        start, append = buffer.split(placeholder, 1) # Разделяем буфер на части до и после заполнителя
-                        if start: # Если есть часть до заполнителя
-                            yield start # Возвращаем ее
-                        if self.include_placeholder: # Если нужно включать заполнитель
-                            yield placeholder # Возвращаем заполнитель
-                        if debug.logging: # Если включено логирование отладки
-                            logger.info(f'Создание изображений с подсказкой: {prompt}') # Логируем информацию о создании изображения
+        messages.insert(0, {"role": "system", "content": self.system_message})
+        buffer: str = ""
+        for chunk in self.provider.create_completion(model, messages, stream, **kwargs):
+            if isinstance(chunk, ImageResponse):
+                yield chunk
+            elif isinstance(chunk, str) and buffer or "<" in chunk:
+                buffer += chunk
+                if ">" in buffer:
+                    match = re.search(r'<img data-prompt="(.*?)">', buffer)
+                    if match:
+                        placeholder: str
+                        prompt: str
+                        placeholder, prompt = match.group(0), match.group(1)
+                        start: str
+                        append: str
+                        start, append = buffer.split(placeholder, 1)
+                        if start:
+                            yield start
+                        if self.include_placeholder:
+                            yield placeholder
+                        if debug.logging:
+                            print(f"Create images with prompt: {prompt}")
                         try:
-                            yield from self.create_images(prompt) # Создаем изображения и возвращаем их
+                            yield from self.create_images(prompt)
                         except Exception as ex:
-                            logger.error('Ошибка при создании изображений', ех, exc_info=True) # Логируем ошибку, если она произошла
-                        if append: # Если есть часть после заполнителя
-                            yield append # Возвращаем ее
-                    else: # Если тег не найден
-                        yield buffer # Возвращаем буфер
-                    buffer = '' # Очищаем буфер
-            else: # Если фрагмент не является ответом с изображением и не содержит '<'
-                yield chunk # Возвращаем его
+                            logger.error('Error while creating image', ex, exc_info=True)  # Логирование ошибки
+                        if append:
+                            yield append
+                    else:
+                        yield buffer
+                    buffer = ""
+            else:
+                yield chunk
 
     async def create_async(
         self,
         model: str,
         messages: Messages,
-        **kwargs
+        **kwargs: Any
     ) -> str:
         """
-        Асинхронно создает ответ, обрабатывая все подсказки для создания изображений, найденные в сообщениях.
+        Асинхронно создает ответ, обрабатывая любые запросы на создание изображений, найденные в сообщениях.
 
         Args:
             model (str): Модель для использования при создании.
-            messages (Messages): Сообщения для обработки, которые могут содержать подсказки для изображений.
-            **kwargs: Дополнительные аргументы ключевых слов для провайдера.
+            messages (Messages): Сообщения для обработки, которые могут содержать запросы на изображения.
+            **kwargs: Дополнительные аргументы для провайдера.
 
         Returns:
-            str: Обработанная строка ответа, включающая асинхронно сгенерированные данные изображения, если это применимо.
+            str: Обработанная строка ответа, включая асинхронно сгенерированные данные изображения, если это применимо.
+
+        Note:
+            Этот метод обрабатывает сообщения для обнаружения запросов на создание изображений. Когда такой запрос найден,
+            он вызывает асинхронную функцию создания изображений и включает полученное изображение в вывод.
         """
-        messages.insert(0, {'role': 'system', 'content': self.system_message}) # Вставляем системное сообщение в начало списка сообщений
-        response = await self.provider.create_async(model, messages, **kwargs) # Получаем ответ от базового провайдера
-        matches = re.findall(r'(<img data-prompt="(.*?)">)', response) # Ищем все теги <img> с подсказками data-prompt
-        results = [] # Инициализируем список для хранения результатов создания изображений
-        placeholders = [] # Инициализируем список для хранения заполнителей
-        for placeholder, prompt in matches: # Перебираем найденные теги
-            if placeholder not in placeholders: # Если заполнитель еще не обработан
-                if debug.logging: # Если включено логирование отладки
-                    logger.info(f'Создание изображений с подсказкой: {prompt}') # Логируем информацию о создании изображения
+        messages.insert(0, {"role": "system", "content": self.system_message})
+        response: str = await self.provider.create_async(model, messages, **kwargs)
+        matches: List[tuple[str, str]] = re.findall(r'(<img data-prompt="(.*?)">)', response)
+        results: List[Any] = []
+        placeholders: List[str] = []
+        for placeholder, prompt in matches:
+            if placeholder not in placeholders:
+                if debug.logging:
+                    print(f"Create images with prompt: {prompt}")
                 try:
-                    results.append(self.create_images_async(prompt)) # Запускаем асинхронное создание изображения и добавляем задачу в список
+                    results.append(self.create_images_async(prompt))
                 except Exception as ex:
-                    logger.error('Ошибка при создании изображений', ех, exc_info=True) # Логируем ошибку, если она произошла
-                placeholders.append(placeholder) # Добавляем заполнитель в список обработанных
-        results = await asyncio.gather(*results) # Ожидаем завершения всех задач создания изображений
-        for idx, result in enumerate(results): # Перебираем результаты
-            placeholder = placeholders[idx] # Получаем соответствующий заполнитель
-            if self.include_placeholder: # Если нужно включать заполнитель
-                result = placeholder + result # Добавляем заполнитель к результату
-            response = response.replace(placeholder, result) # Заменяем заполнитель в ответе на результат
-        return response # Возвращаем обработанный ответ
+                    logger.error('Error while creating image async', ex, exc_info=True)  # Логирование ошибки
+                placeholders.append(placeholder)
+        results = await asyncio.gather(*results)
+        for idx, result in enumerate(results):
+            placeholder = placeholders[idx]
+            if self.include_placeholder:
+                result = placeholder + result
+            response = response.replace(placeholder, result)
+        return response

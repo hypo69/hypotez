@@ -3,7 +3,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.campaign 
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign 
 	:platform: Windows, Unix
 	:synopsis: AliPromoCampaign
 
@@ -48,12 +48,12 @@ from types import SimpleNamespace
 from typing import List, Optional, Dict
 import header
 from src import gs
-from src.suppliers.aliexpress import campaign
-from src.suppliers.aliexpress.affiliated_products_generator import AliAffiliatedProducts
-from src.suppliers.aliexpress.utils import locales
+from src.suppliers.suppliers_list.aliexpress import campaign
+from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.aliexpress.utils import locales
 from src.ai.gemini import GoogleGenerativeAI
 from src.ai.openai import OpenAIModel
-from src.suppliers.aliexpress.campaign.html_generators import (
+from src.suppliers.suppliers_list.aliexpress.campaign.html_generators import (
     ProductHTMLGenerator,
     CategoryHTMLGenerator,
     CampaignHTMLGenerator,
@@ -69,7 +69,7 @@ from src.utils.convertors.csv import csv2dict
 from src.utils.file import save_text_file
 from src.utils.printer import pprint
 
-from src.suppliers.aliexpress.utils.extract_product_id import extract_prod_ids
+from src.suppliers.suppliers_list.aliexpress.utils.extract_product_id import extract_prod_ids
 from src.logger.logger import logger
 
 class AliPromoCampaign:

@@ -45,7 +45,7 @@ import header
 from header import __root__
 from src import gs
 from src.utils.jjson import j_loads_ns
-from src.suppliers.scenario import run_scenarios, run_scenario_files
+from src.suppliers.scenario.scenario_executor import run_scenarios, run_scenario_files 
 from src.logger.logger import logger
 from src.logger.exceptions import DefaultSettingsException
 
@@ -72,8 +72,8 @@ class Supplier(BaseModel):
     related_modules: Optional[ModuleType] = Field(default=None)
     scenario_files: List[str] = Field(default_factory=list)
     current_scenario: Dict[str, Any] = Field(default_factory=dict)
-    locators: Dict[str, Any] = Field(default_factory=dict)
-    driver: Optional[Driver] = Field(default=None)
+    locators: List[SimpleNamespace] = Field(default_factory=dict)
+    driver: Optional['Driver'] = Field(default=None)
 
     class Config:
         """Настройки модели."""

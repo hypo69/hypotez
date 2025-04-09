@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,14 +33,14 @@
   :synopsis:
 """
   
-""" module: src.suppliers.aliexpress._experiments """
+""" module: src.suppliers.suppliers_list.aliexpress._experiments """
 
 
 
 """ Short affiliate links """
 
 import header
-from src.suppliers.aliexpress import AffiliateLinksShortener
+from src.suppliers.suppliers_list.aliexpress import AffiliateLinksShortener
 
 a = AffiliateLinksShortener()
 url = 'https://aliexpress.com'

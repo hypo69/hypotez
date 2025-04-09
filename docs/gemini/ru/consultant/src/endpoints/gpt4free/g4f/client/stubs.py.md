@@ -1,59 +1,56 @@
-### **Анализ кода модуля `stubs.py`**
+### Анализ кода модуля `stubs.py`
 
-#### **Качество кода**:
-- **Соответствие стандартам**: 7/10
-- **Плюсы**:
-    - Использование `pydantic` для определения моделей данных.
-    - Применение `@classmethod` для создания альтернативных конструкторов моделей.
-    - Наличие базовой структуры для работы с данными ответов API.
-    - Использование `filter_none` для фильтрации `None` значений при создании моделей.
-- **Минусы**:
+**Качество кода:**
+
+- **Соответствие стандартам**: 6/10
+- **Плюсы:**
+    - Использование `pydantic` для определения структур данных (если библиотека установлена).
+    - Применение `filter_none` для очистки данных.
+    - Наличие классов для представления различных структур данных, используемых в ответах API.
+- **Минусы:**
     - Отсутствие документации для большинства классов и методов.
-    - Использование `try...except` с пустым классом `BaseModel` как обходной путь при отсутствии `pydantic`.
-    - Смешанный стиль форматирования (где-то есть пробелы вокруг операторов, где-то нет).
-    - Отсутствуют аннотации типов для некоторых переменных.
-    - Использование `hasattr(self.content, "data")` выглядит не очень надежно.
+    - Не все переменные аннотированы типами.
+    - Смешанный стиль объявления классов (с использованием `BaseModel` из `pydantic` и без него).
+    - Использование `super().model_construct` и `cls.construct` в одном классе.
+    - Присутствие английских комментариев и docstring.
 
-#### **Рекомендации по улучшению**:
-- Добавить docstring для каждого класса, метода и атрибута, чтобы улучшить понимание кода.
-- Обеспечить единообразное форматирование кода в соответствии со стандартами PEP8.
-- Добавить обработку ошибок и логирование.
-- Избегать использования `hasattr` и заменить его более явной проверкой типа.
-- Добавить аннотации типов для всех переменных и параметров.
-- Упростить логику создания моделей, где это возможно.
-- Перевести все комментарии на русский язык.
-- Заменить множественное наследование класса `BaseModel` на более простое решение.
-- Убедиться, что все зависимости указаны явно и корректно обработаны.
+**Рекомендации по улучшению:**
 
-#### **Оптимизированный код**:
+1.  **Добавить документацию для каждого класса и метода**.
+2.  **Улучшить аннотации типов для переменных и аргументов функций**.
+3.  **Унифицировать способ объявления классов, используя `BaseModel` из `pydantic` во всех классах**.
+4.  **Удалить или переработать дублирующую логику в `BaseModel`**.
+5.  **Перевести все комментарии и docstring на русский язык**.
+6.  **Заменить `hasattr(self.content, "data")` на более конкретную проверку типа, если это возможно**.
+7.  **Добавить логирование ошибок с использованием `logger` из модуля `src.logger`**.
+
+**Оптимизированный код:**
+
 ```python
 """
-Модуль содержит стабы (заглушки) для работы с gpt4free.
+Модуль для определения структур данных (стабов) для g4f.
 ==========================================================
 
-Этот модуль определяет структуры данных (модели), используемые для представления
-запросов и ответов при взаимодействии с API gpt4free. Он включает в себя классы
-для работы с текстом, изображениями и другими типами данных.
+Модуль содержит классы, представляющие различные структуры данных, 
+используемые для работы с API g4f.
 """
+
 import os
 from typing import Optional, List
 from time import time
-from pathlib import Path
 
 from ..image import extract_data_uri
 from ..image.copy_images import images_dir
 from ..client.helper import filter_markdown
 from .helper import filter_none
-
 from src.logger import logger  # Добавлен импорт logger
 
 try:
     from pydantic import BaseModel
 except ImportError:
-    logger.warning('pydantic не установлен. Используется упрощенная версия BaseModel.')  # Логирование предупреждения
     class BaseModel():
         """
-        Базовый класс модели, используемый при отсутствии `pydantic`.
+        Базовый класс, эмулирующий поведение pydantic.BaseModel, если pydantic не установлен.
         """
         @classmethod
         def model_construct(cls, **data):
@@ -61,25 +58,44 @@ except ImportError:
             Создает экземпляр класса, устанавливая атрибуты из переданного словаря.
 
             Args:
-                data (dict): Словарь с данными для установки атрибутов.
+                **data: Словарь с данными для установки атрибутов.
 
             Returns:
-                cls: Новый экземпляр класса.
+                cls: Экземпляр класса с установленными атрибутами.
             """
             new = cls()
             for key, value in data.items():
                 setattr(new, key, value)
             return new
 
+class BaseModel(BaseModel):
+    """
+    Базовый класс для моделей данных.
+    """
+    @classmethod
+    def model_construct(cls, **data):
+        """
+        Создает экземпляр класса, используя либо родительский метод model_construct, либо construct.
+
+        Args:
+            **data: Данные для создания модели.
+
+        Returns:
+            Экземпляр класса.
+        """
+        if hasattr(super(), "model_construct"):
+            return super().model_construct(**data)
+        return cls.construct(**data)
+
 class TokenDetails(BaseModel):
     """
-    Модель, представляющая детали токенов.
+    Модель для хранения деталей о токенах.
     """
     cached_tokens: int
 
 class UsageModel(BaseModel):
     """
-    Модель, представляющая информацию об использовании токенов.
+    Модель для хранения информации об использовании токенов.
     """
     prompt_tokens: int
     completion_tokens: int
@@ -101,7 +117,7 @@ class UsageModel(BaseModel):
             **kwargs: Дополнительные аргументы.
 
         Returns:
-            UsageModel: Новый экземпляр класса.
+            UsageModel: Экземпляр класса UsageModel.
         """
         return super().model_construct(
             prompt_tokens=prompt_tokens,
@@ -114,14 +130,14 @@ class UsageModel(BaseModel):
 
 class ToolFunctionModel(BaseModel):
     """
-    Модель, представляющая функцию инструмента.
+    Модель для представления функции инструмента.
     """
     name: str
     arguments: str
 
 class ToolCallModel(BaseModel):
     """
-    Модель, представляющая вызов инструмента.
+    Модель для представления вызова инструмента.
     """
     id: str
     type: str
@@ -133,11 +149,11 @@ class ToolCallModel(BaseModel):
         Создает экземпляр класса ToolCallModel.
 
         Args:
-            function (Optional[dict]): Информация о функции инструмента.
+            function (Optional[dict]): Словарь с данными функции.
             **kwargs: Дополнительные аргументы.
 
         Returns:
-            ToolCallModel: Новый экземпляр класса.
+            ToolCallModel: Экземпляр класса ToolCallModel.
         """
         return super().model_construct(
             **kwargs,
@@ -146,14 +162,14 @@ class ToolCallModel(BaseModel):
 
 class ChatCompletionChunk(BaseModel):
     """
-    Модель, представляющая фрагмент ответа чата.
+    Модель для представления чанка завершения чата.
     """
     id: str
     object: str
     created: int
     model: str
     provider: Optional[str]
-    choices: List['ChatCompletionDeltaChoice']  # Forward reference
+    choices: List[ChatCompletionDeltaChoice]
     usage: UsageModel
 
     @classmethod
@@ -163,24 +179,24 @@ class ChatCompletionChunk(BaseModel):
         finish_reason: str,
         completion_id: str = None,
         created: int = None,
-        usage: Optional[UsageModel] = None
+        usage: UsageModel = None
     ):
         """
         Создает экземпляр класса ChatCompletionChunk.
 
         Args:
-            content (str): Содержимое фрагмента.
+            content (str): Содержимое чанка.
             finish_reason (str): Причина завершения.
-            completion_id (str): ID завершения.
-            created (int): Время создания.
-            usage (Optional[UsageModel]): Информация об использовании токенов.
+            completion_id (str, optional): ID завершения.
+            created (int, optional): Время создания.
+            usage (UsageModel, optional): Информация об использовании токенов.
 
         Returns:
-            ChatCompletionChunk: Новый экземпляр класса.
+            ChatCompletionChunk: Экземпляр класса ChatCompletionChunk.
         """
         return super().model_construct(
-            id=f'chatcmpl-{completion_id}' if completion_id else None,
-            object='chat.completion.cunk',
+            id=f"chatcmpl-{completion_id}" if completion_id else None,
+            object="chat.completion.cunk",
             created=created,
             model=None,
             provider=None,
@@ -193,11 +209,11 @@ class ChatCompletionChunk(BaseModel):
 
 class ChatCompletionMessage(BaseModel):
     """
-    Модель, представляющая сообщение чата.
+    Модель для представления сообщения в чате.
     """
     role: str
     content: str
-    tool_calls: Optional[list[ToolCallModel]] = None
+    tool_calls: list[ToolCallModel] | None = None
 
     @classmethod
     def model_construct(cls, content: str, tool_calls: Optional[list] = None):
@@ -209,42 +225,48 @@ class ChatCompletionMessage(BaseModel):
             tool_calls (Optional[list]): Список вызовов инструментов.
 
         Returns:
-            ChatCompletionMessage: Новый экземпляр класса.
+            ChatCompletionMessage: Экземпляр класса ChatCompletionMessage.
         """
-        return super().model_construct(role='assistant', content=content, **filter_none(tool_calls=tool_calls))
+        return super().model_construct(role="assistant", content=content, **filter_none(tool_calls=tool_calls))
 
-    def save(self, filepath: str | Path, allowd_types: Optional[list] = None):
+    def save(self, filepath: str, allowd_types: Optional[list] = None):
         """
         Сохраняет содержимое сообщения в файл.
 
         Args:
-            filepath (str | Path): Путь к файлу.
+            filepath (str): Путь к файлу.
             allowd_types (Optional[list]): Список разрешенных типов.
         """
-        if isinstance(self.content, object) and hasattr(self.content, "data"):  # Более надежная проверка типа
+        # Проверяем, является ли content файлом
+        if isinstance(self.content, str) and self.content.startswith("data:"):
             try:
-                os.rename(self.content.data.replace('/media', images_dir), filepath)
-            except Exception as ex:
-                logger.error(f'Error while renaming file: {filepath}', ex, exc_info=True)  # Логирование ошибки
-            return
-        if self.content.startswith('data:'):
-            try:
-                with open(filepath, 'wb') as f:
+                with open(filepath, "wb") as f:
                     f.write(extract_data_uri(self.content))
+                return
             except Exception as ex:
-                logger.error(f'Error while writing data URI to file: {filepath}', ex, exc_info=True)  # Логирование ошибки
-            return
+                logger.error(f"Ошибка при сохранении файла {filepath}", ex, exc_info=True)
+                return
+
+        # Если content содержит данные
+        if hasattr(self.content, "data"):
+            try:
+                os.rename(self.content.data.replace("/media", images_dir), filepath)
+                return
+            except Exception as ex:
+                logger.error(f"Ошибка при переименовании файла {filepath}", ex, exc_info=True)
+                return
+        
         content = filter_markdown(self.content, allowd_types)
         if content is not None:
             try:
-                with open(filepath, 'w') as f:
+                with open(filepath, "w") as f:
                     f.write(content)
             except Exception as ex:
-                logger.error(f'Error while writing content to file: {filepath}', ex, exc_info=True)  # Логирование ошибки
+                logger.error(f"Ошибка при записи в файл {filepath}", ex, exc_info=True)
 
 class ChatCompletionChoice(BaseModel):
     """
-    Модель, представляющая выбор в ответе чата.
+    Модель для представления выбора завершения чата.
     """
     index: int
     message: ChatCompletionMessage
@@ -256,17 +278,17 @@ class ChatCompletionChoice(BaseModel):
         Создает экземпляр класса ChatCompletionChoice.
 
         Args:
-            message (ChatCompletionMessage): Сообщение.
+            message (ChatCompletionMessage): Сообщение завершения чата.
             finish_reason (str): Причина завершения.
 
         Returns:
-            ChatCompletionChoice: Новый экземпляр класса.
+            ChatCompletionChoice: Экземпляр класса ChatCompletionChoice.
         """
         return super().model_construct(index=0, message=message, finish_reason=finish_reason)
 
 class ChatCompletion(BaseModel):
     """
-    Модель, представляющая завершенный ответ чата.
+    Модель для представления завершения чата.
     """
     id: str
     object: str
@@ -275,7 +297,7 @@ class ChatCompletion(BaseModel):
     provider: Optional[str]
     choices: list[ChatCompletionChoice]
     usage: UsageModel
-    conversation: Optional[dict]
+    conversation: dict
 
     @classmethod
     def model_construct(
@@ -284,28 +306,28 @@ class ChatCompletion(BaseModel):
         finish_reason: str,
         completion_id: str = None,
         created: int = None,
-        tool_calls: Optional[list[ToolCallModel]] = None,
+        tool_calls: list[ToolCallModel] | None = None,
         usage: UsageModel = None,
-        conversation: Optional[dict] = None
+        conversation: dict | None = None
     ):
         """
         Создает экземпляр класса ChatCompletion.
 
         Args:
-            content (str): Содержимое ответа.
+            content (str): Содержимое завершения чата.
             finish_reason (str): Причина завершения.
-            completion_id (str): ID завершения.
-            created (int): Время создания.
-            tool_calls (Optional[list[ToolCallModel]]): Список вызовов инструментов.
-            usage (UsageModel): Информация об использовании токенов.
-            conversation (Optional[dict]): Информация о разговоре.
+            completion_id (str, optional): ID завершения.
+            created (int, optional): Время создания.
+            tool_calls (list[ToolCallModel] | None, optional): Список вызовов инструментов.
+            usage (UsageModel, optional): Информация об использовании токенов.
+            conversation (dict | None, optional): Информация о контексте диалога.
 
         Returns:
-            ChatCompletion: Новый экземпляр класса.
+            ChatCompletion: Экземпляр класса ChatCompletion.
         """
         return super().model_construct(
-            id=f'chatcmpl-{completion_id}' if completion_id else None,
-            object='chat.completion',
+            id=f"chatcmpl-{completion_id}" if completion_id else None,
+            object="chat.completion",
             created=created,
             model=None,
             provider=None,
@@ -318,7 +340,7 @@ class ChatCompletion(BaseModel):
 
 class ChatCompletionDelta(BaseModel):
     """
-    Модель, представляющая изменение в ответе чата.
+    Модель для представления дельты завершения чата.
     """
     role: str
     content: str
@@ -329,16 +351,16 @@ class ChatCompletionDelta(BaseModel):
         Создает экземпляр класса ChatCompletionDelta.
 
         Args:
-            content (Optional[str]): Содержимое изменения.
+            content (Optional[str]): Содержимое дельты.
 
         Returns:
-            ChatCompletionDelta: Новый экземпляр класса.
+            ChatCompletionDelta: Экземпляр класса ChatCompletionDelta.
         """
-        return super().model_construct(role='assistant', content=content)
+        return super().model_construct(role="assistant", content=content)
 
 class ChatCompletionDeltaChoice(BaseModel):
     """
-    Модель, представляющая выбор изменения в ответе чата.
+    Модель для представления выбора дельты завершения чата.
     """
     index: int
     delta: ChatCompletionDelta
@@ -350,34 +372,34 @@ class ChatCompletionDeltaChoice(BaseModel):
         Создает экземпляр класса ChatCompletionDeltaChoice.
 
         Args:
-            delta (ChatCompletionDelta): Изменение.
+            delta (ChatCompletionDelta): Дельта завершения чата.
             finish_reason (Optional[str]): Причина завершения.
 
         Returns:
-            ChatCompletionDeltaChoice: Новый экземпляр класса.
+            ChatCompletionDeltaChoice: Экземпляр класса ChatCompletionDeltaChoice.
         """
         return super().model_construct(index=0, delta=delta, finish_reason=finish_reason)
 
 class Image(BaseModel):
     """
-    Модель, представляющая изображение.
+    Модель для представления изображения.
     """
     url: Optional[str]
     b64_json: Optional[str]
     revised_prompt: Optional[str]
 
     @classmethod
-    def model_construct(cls, url: str = None, b64_json: str = None, revised_prompt: str = None):
+    def model_construct(cls, url: str | None = None, b64_json: str | None = None, revised_prompt: str | None = None):
         """
         Создает экземпляр класса Image.
 
         Args:
-            url (str): URL изображения.
-            b64_json (str): Изображение в формате Base64 JSON.
-            revised_prompt (str): Измененный запрос.
+            url (str | None, optional): URL изображения.
+            b64_json (str | None, optional): Изображение в формате base64.
+            revised_prompt (str | None, optional): Пересмотренный запрос.
 
         Returns:
-            Image: Новый экземпляр класса.
+            Image: Экземпляр класса Image.
         """
         return super().model_construct(**filter_none(
             url=url,
@@ -387,7 +409,7 @@ class Image(BaseModel):
 
 class ImagesResponse(BaseModel):
     """
-    Модель, представляющая ответ с изображениями.
+    Модель для представления ответа с изображениями.
     """
     data: List[Image]
     model: str
@@ -395,18 +417,18 @@ class ImagesResponse(BaseModel):
     created: int
 
     @classmethod
-    def model_construct(cls, data: List[Image], created: int = None, model: str = None, provider: str = None):
+    def model_construct(cls, data: List[Image], created: int | None = None, model: str | None = None, provider: str | None = None):
         """
         Создает экземпляр класса ImagesResponse.
 
         Args:
             data (List[Image]): Список изображений.
-            created (int): Время создания.
-            model (str): Модель.
-            provider (str): Провайдер.
+            created (int | None, optional): Время создания.
+            model (str | None, optional): Модель.
+            provider (str | None, optional): Провайдер.
 
         Returns:
-            ImagesResponse: Новый экземпляр класса.
+            ImagesResponse: Экземпляр класса ImagesResponse.
         """
         if created is None:
             created = int(time())

@@ -2,30 +2,29 @@
 
 ## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/deprecated/Acytoo.py
 
-Модуль предоставляет класс для взаимодействия с провайдером Acytoo, который является устаревшим.
+Модуль содержит класс `Acytoo`, который является асинхронным генератором провайдера для взаимодействия с сервисом Acytoo.
 
 **Качество кода:**
-
-- **Соответствие стандартам**: 6/10
+- **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Асинхронная реализация для неблокирующего взаимодействия.
-    - Использование `ClientSession` из `aiohttp` для эффективного управления HTTP-соединениями.
+    - Код достаточно хорошо структурирован.
+    - Используются асинхронные генераторы для эффективной потоковой обработки данных.
+    - Присутствуют аннотации типов.
 - **Минусы**:
-    - Отсутствуют docstring для класса и методов, что затрудняет понимание функциональности.
-    - Не используются возможности модуля `src.logger` для логирования.
+    - Отсутствует документация для класса и методов.
+    - Используются не все рекомендации PEP8 (например, отсутствует пробел после `:` в определении параметров функций).
     - Нет обработки исключений.
-    - Не указаны типы для возвращаемых значений функций `_create_header` и `_create_payload`.
-    - Не используется `j_loads` или `j_loads_ns` для работы с JSON.
-    - Не обрабатываются ошибки, возникающие при запросах к API.
+    - Нет логирования.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить docstring**: Добавить подробные docstring для класса `Acytoo` и всех его методов, включая `_create_header` и `_create_payload`.
-2.  **Логирование**: Внедрить логирование с использованием модуля `src.logger` для отслеживания работы и отладки.
-3.  **Обработка исключений**: Добавить обработку исключений в методе `create_async_generator` для более надежной работы.
-4.  **Типизация**: Указать типы возвращаемых значений для функций `_create_header` и `_create_payload`.
-5.  **Использовать константы**: Заменить строковые литералы на константы для повышения читаемости и упрощения поддержки.
-6.  **Обработка ошибок**: Добавить обработку ошибок при декодировании потока данных.
+1.  **Добавить документацию**: Добавить docstring для класса `Acytoo`, его методов (`create_async_generator`), а также для функций `_create_header` и `_create_payload`. Описать назначение каждой функции, принимаемые аргументы, возвращаемые значения и возможные исключения.
+2.  **Обработка исключений**: Добавить блоки `try...except` для обработки возможных исключений, которые могут возникнуть при выполнении запросов к сервису Acytoo. Использовать `logger.error` для регистрации ошибок.
+3.  **Логирование**: Добавить логирование для отслеживания хода выполнения программы, особенно при возникновении ошибок.
+4.  **Форматирование**: Привести код в соответствие со стандартами PEP8 (добавить пробелы вокруг операторов, после запятых и т.д.).
+5.  **Использовать `j_loads` или `j_loads_ns`**: В данном случае это не требуется, так как модуль не работает с локальными файлами JSON.
+6.  **Аннотации**: Добавить пробелы после `:` в аннотациях типов.
+7. **Улучшить читаемость**: Переименовать `stream` в `chunk` для лучшего понимания.
 
 **Оптимизированный код:**
 
@@ -33,79 +32,70 @@
 from __future__ import annotations
 
 from aiohttp import ClientSession
-from aiohttp.client_exceptions import ClientError
-from typing import AsyncGenerator, Dict, List, Optional
 
 from ...typing import AsyncResult, Messages
 from ..base_provider import AsyncGeneratorProvider
-from src.logger import logger  # Import logger
-
-ACYTOO_URL = 'https://chat.acytoo.com'
-GPT_35_TURBO = 'gpt-3.5-turbo'
+from src.logger import logger  # Импорт модуля logger
 
 
 class Acytoo(AsyncGeneratorProvider):
     """
-    Провайдер Acytoo для асинхронной генерации текста.
+    Провайдер для взаимодействия с сервисом Acytoo.
 
-    Поддерживает использование GPT-3.5 Turbo и сохранение истории сообщений.
+    Поддерживает асинхронную генерацию ответов, историю сообщений и модель gpt-3.5-turbo.
     """
-    url: str = ACYTOO_URL
-    working: bool = False
-    supports_message_history: bool = True
-    supports_gpt_35_turbo: bool = True
+    url                      = 'https://chat.acytoo.com'
+    working                  = False
+    supports_message_history = True
+    supports_gpt_35_turbo    = True
 
     @classmethod
     async def create_async_generator(
         cls,
         model: str,
         messages: Messages,
-        proxy: Optional[str] = None,
+        proxy: str = None,
         **kwargs
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для получения ответов от API Acytoo.
+        Создает асинхронный генератор для получения ответов от сервиса Acytoo.
 
         Args:
-            model (str): Имя модели для использования.
+            model (str): Модель для использования.
             messages (Messages): Список сообщений для отправки.
-            proxy (Optional[str], optional): Прокси-сервер для использования. По умолчанию None.
+            proxy (str, optional): Прокси-сервер для использования. По умолчанию None.
+            **kwargs: Дополнительные аргументы.
 
-        Yields:
-            str: Часть сгенерированного текста.
+        Returns:
+            AsyncResult: Асинхронный генератор, возвращающий части ответа.
 
         Raises:
-            ClientError: Если возникает ошибка при выполнении запроса.
-            Exception: Если возникает ошибка при декодировании данных.
+            Exception: В случае ошибки при выполнении запроса.
         """
-        async with ClientSession(
-            headers=_create_header()
-        ) as session:
-            try:
+        try:
+            async with ClientSession(
+                headers=_create_header()
+            ) as session:
                 async with session.post(
                     f'{cls.url}/api/completions',
                     proxy=proxy,
                     json=_create_payload(messages, **kwargs)
                 ) as response:
                     response.raise_for_status()
-                    async for stream in response.content.iter_any():
-                        if stream:
-                            try:
-                                yield stream.decode()
-                            except Exception as ex:
-                                logger.error('Ошибка при декодировании данных', ex, exc_info=True)
-                                yield str(ex)  # или обработка по вашему усмотрению
-            except ClientError as ex:
-                logger.error('Ошибка при выполнении запроса к API', ex, exc_info=True)
-                yield str(ex)
+                    async for chunk in response.content.iter_any():  # change stream to chunk
+                        if chunk:
+                            yield chunk.decode()
+        except Exception as ex:
+            logger.error('Error while processing Acytoo request', ex, exc_info=True)
+            raise
 
 
-def _create_header() -> Dict[str, str]:
+def _create_header() -> dict:
     """
     Создает заголовок запроса.
 
     Returns:
-        Dict[str, str]: Словарь с заголовками.
+        dict: Словарь с заголовками.
     """
     return {
         'accept': '*/*',
@@ -113,21 +103,22 @@ def _create_header() -> Dict[str, str]:
     }
 
 
-def _create_payload(messages: Messages, temperature: float = 0.5, **kwargs) -> Dict:
+def _create_payload(messages: Messages, temperature: float = 0.5, **kwargs) -> dict:
     """
     Создает payload для запроса.
 
     Args:
         messages (Messages): Список сообщений.
         temperature (float, optional): Температура для генерации. По умолчанию 0.5.
+        **kwargs: Дополнительные аргументы.
 
     Returns:
-        Dict: Словарь с данными для отправки.
+        dict: Словарь с payload.
     """
     return {
-        'key': '',
-        'model': GPT_35_TURBO,
-        'messages': messages,
-        'temperature': temperature,
-        'password': ''
+        'key'         : '',
+        'model'       : 'gpt-3.5-turbo',
+        'messages'    : messages,
+        'temperature' : temperature,
+        'password'    : ''
     }

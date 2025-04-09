@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.campaign._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,7 +33,7 @@
   :synopsis:
 """
   
-""" module: src.suppliers.aliexpress.campaign._experiments """
+""" module: src.suppliers.suppliers_list.aliexpress.campaign._experiments """
 
 
 """ Проверка создания affiliate для рекламной кампании  
@@ -41,7 +41,7 @@
 
 ...
 import header
-from src.suppliers.aliexpress.campaign import process_campaign
+from src.suppliers.suppliers_list.aliexpress.campaign import process_campaign
 
 locales = {'EN': 'USD', 'HE': 'ILS', 'RU': 'ILS'}
 language: str = 'EN'

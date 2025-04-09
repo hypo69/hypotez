@@ -6,134 +6,54 @@
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Использование `pydantic` для валидации данных.
-  - Применение `typing` для статической типизации.
-  - Наличие структуры для конфигурационных моделей и моделей ответов.
+    - Использование `pydantic` для определения моделей данных.
+    - Наличие аннотаций типов для параметров и переменных.
+    - Определение структуры данных для различных конфигураций и ответов API.
 - **Минусы**:
-  - Использование `Union` вместо `|` для объединения типов.
-  - Отсутствие docstring для классов и их методов.
-  - Не все переменные аннотированы типами.
-  - Не хватает комментариев для пояснения логики работы кода.
+    - Отсутствие docstring для классов и их полей.
+    - Использование `Union` вместо `|` для объединения типов.
+    - Не все переменные аннотированы типами.
+    - Не хватает описания модуля.
 
 **Рекомендации по улучшению:**
 
-1.  **Заменить `Union` на `|`**:
-    - В коде использовать `|` вместо `Union` для объединения типов.
-    ```python
-    # Было
-    stop: Union[list[str], str, None] = None
-    # Стало
-    stop: list[str] | str | None = None
-    ```
-2.  **Добавить docstring для классов и методов**:
-    - Добавить подробные docstring для каждого класса и метода, описывающие их назначение, параметры и возвращаемые значения.
-    ```python
-    class ChatCompletionsConfig(BaseModel):
-        """
-        Конфигурация для создания чат-завершений.
-
-        Args:
-            messages (Messages): Список сообщений для чата.
-            model (str): Используемая модель.
-            provider (Optional[str]): Провайдер модели.
-            stream (bool): Флаг стриминга.
-            image (Optional[str]): URL изображения.
-            image_name (Optional[str]): Имя изображения.
-            images (Optional[list[tuple[str, str]]]): Список изображений.
-            media (Optional[list[tuple[str, str]]]): Список медиафайлов.
-            modalities (Optional[list[str]]): Список модальностей.
-            temperature (Optional[float]): Температура.
-            presence_penalty (Optional[float]): Штраф за присутствие.
-            frequency_penalty (Optional[float]): Штраф за частоту.
-            top_p (Optional[float]): Top P.
-            max_tokens (Optional[int]): Максимальное количество токенов.
-            stop (Optional[Union[list[str], str]]): Условия остановки.
-            api_key (Optional[str]): API ключ.
-            api_base (str): Базовый URL API.
-            web_search (Optional[bool]): Флаг веб-поиска.
-            proxy (Optional[str]): Прокси.
-            conversation_id (Optional[str]): ID разговора.
-            conversation (Optional[dict]): Разговор.
-            return_conversation (Optional[bool]): Флаг возврата разговора.
-            history_disabled (Optional[bool]): Флаг отключения истории.
-            timeout (Optional[int]): Тайм-аут.
-            tool_calls (list): Список вызовов инструментов.
-            tools (list): Список инструментов.
-            parallel_tool_calls (bool): Флаг параллельных вызовов инструментов.
-            tool_choice (Optional[str]): Выбор инструмента.
-            reasoning_effort (Optional[str]): Уровень рассуждений.
-            logit_bias (Optional[dict]): Смещение логитов.
-            audio (Optional[dict]): Аудио данные.
-            response_format (Optional[dict]): Формат ответа.
-            extra_data (Optional[dict]): Дополнительные данные.
-        """
-    ```
-3.  **Добавить комментарии для пояснения логики работы кода**:
-    - Внутри классов и методов добавить комментарии, объясняющие ключевые шаги и логику работы.
-    ```python
-    class ChatCompletionsConfig(BaseModel):
-        messages: Messages = Field(examples=[[{"role": "system", "content": ""}, {"role": "user", "content": ""}]])
-        model: str = Field(default="")
-        provider: Optional[str] = None  # Провайдер модели
-        stream: bool = False  # Флаг стриминга
-    ```
+1.  **Добавить docstring для всех классов и их полей**:
+    - Описать назначение каждого класса и атрибута, чтобы улучшить понимание кода.
+2.  **Использовать `|` вместо `Union`**:
+    - Заменить `Union[list[str], str, None]` на `list[str] | str | None`.
+3.  **Добавить обработку ошибок с использованием `logger`**:
+    - Логировать ошибки, возникающие при работе с API.
+4.  **Добавить аннотацию типов для полей, где они отсутствуют**:.
+5.  **Добавить описание модуля в начале файла**.
 
 **Оптимизированный код:**
 
 ```python
+"""
+Модуль для определения структур данных (стабов) для API g4f
+==========================================================
+
+Модуль содержит классы, определенные с использованием pydantic,
+для представления конфигураций запросов и ответов API, используемых в g4f.
+"""
 from __future__ import annotations
 
 from pydantic import BaseModel, Field
-from typing import Optional
-
+from typing import Optional, List
 try:
     from typing import Annotated
 except ImportError:
     class Annotated:
         pass
 from g4f.typing import Messages
+from src.logger import logger  # Import logger
 
 class ChatCompletionsConfig(BaseModel):
     """
-    Конфигурация для создания чат-завершений.
-
-    Args:
-        messages (Messages): Список сообщений для чата.
-        model (str): Используемая модель.
-        provider (Optional[str]): Провайдер модели.
-        stream (bool): Флаг стриминга.
-        image (Optional[str]): URL изображения.
-        image_name (Optional[str]): Имя изображения.
-        images (Optional[list[tuple[str, str]]]): Список изображений.
-        media (Optional[list[tuple[str, str]]]): Список медиафайлов.
-        modalities (Optional[list[str]]): Список модальностей.
-        temperature (Optional[float]): Температура.
-        presence_penalty (Optional[float]): Штраф за присутствие.
-        frequency_penalty (Optional[float]): Штраф за частоту.
-        top_p (Optional[float]): Top P.
-        max_tokens (Optional[int]): Максимальное количество токенов.
-        stop (list[str] | str | None): Условия остановки.
-        api_key (Optional[str]): API ключ.
-        api_base (str): Базовый URL API.
-        web_search (Optional[bool]): Флаг веб-поиска.
-        proxy (Optional[str]): Прокси.
-        conversation_id (Optional[str]): ID разговора.
-        conversation (Optional[dict]): Разговор.
-        return_conversation (Optional[bool]): Флаг возврата разговора.
-        history_disabled (Optional[bool]): Флаг отключения истории.
-        timeout (Optional[int]): Тайм-аут.
-        tool_calls (list): Список вызовов инструментов.
-        tools (list): Список инструментов.
-        parallel_tool_calls (bool): Флаг параллельных вызовов инструментов.
-        tool_choice (Optional[str]): Выбор инструмента.
-        reasoning_effort (Optional[str]): Уровень рассуждений.
-        logit_bias (Optional[dict]): Смещение логитов.
-        audio (Optional[dict]): Аудио данные.
-        response_format (Optional[dict]): Формат ответа.
-        extra_data (Optional[dict]): Дополнительные данные.
+    Конфигурация для запросов ChatCompletions.
     """
-    messages: Messages = Field(examples=[[{"role": "system", "content": ""}, {"role": "user", "content": ""}]])
-    model: str = Field(default="")
+    messages: Messages = Field(examples=[[{"role": "system", "content": ""}, {"role": "user", "content": ""}]], description="Список сообщений для чата.")
+    model: str = Field(default="", description="Модель для использования.")
     provider: Optional[str] = None
     stream: bool = False
     image: Optional[str] = None
@@ -177,24 +97,7 @@ class ChatCompletionsConfig(BaseModel):
 
 class ImageGenerationConfig(BaseModel):
     """
-    Конфигурация для генерации изображений.
-
-    Args:
-        prompt (str): Запрос для генерации изображения.
-        model (Optional[str]): Используемая модель.
-        provider (Optional[str]): Провайдер модели.
-        response_format (Optional[str]): Формат ответа.
-        api_key (Optional[str]): API ключ.
-        proxy (Optional[str]): Прокси.
-        width (Optional[int]): Ширина изображения.
-        height (Optional[int]): Высота изображения.
-        num_inference_steps (Optional[int]): Количество шагов инференса.
-        seed (Optional[int]): Зерно для генерации.
-        guidance_scale (Optional[int]): Масштаб направления.
-        aspect_ratio (Optional[str]): Соотношение сторон.
-        n (Optional[int]): Количество генерируемых изображений.
-        negative_prompt (Optional[str]): Негативный запрос.
-        resolution (Optional[str]): Разрешение изображения.
+    Конфигурация для запросов генерации изображений.
     """
     prompt: str
     model: Optional[str] = None
@@ -215,34 +118,16 @@ class ImageGenerationConfig(BaseModel):
 class ProviderResponseModel(BaseModel):
     """
     Модель ответа от провайдера.
-
-    Args:
-        id (str): ID провайдера.
-        object (str): Тип объекта.
-        created (int): Время создания.
-        url (Optional[str]): URL.
-        label (Optional[str]): Лейбл.
     """
     id: str
     object: str = "provider"
     created: int
-    url: Optional[str]
-    label: Optional[str]
+    url: Optional[str] = None
+    label: Optional[str] = None
 
 class ProviderResponseDetailModel(ProviderResponseModel):
     """
     Детальная модель ответа от провайдера.
-
-    Args:
-        id (str): ID провайдера.
-        object (str): Тип объекта.
-        created (int): Время создания.
-        url (Optional[str]): URL.
-        label (Optional[str]): Лейбл.
-        models (list[str]): Список моделей.
-        image_models (list[str]): Список моделей изображений.
-        vision_models (list[str]): Список vision-моделей.
-        params (list[str]): Список параметров.
     """
     models: list[str]
     image_models: list[str]
@@ -251,13 +136,7 @@ class ProviderResponseDetailModel(ProviderResponseModel):
 
 class ModelResponseModel(BaseModel):
     """
-    Модель ответа модели.
-
-    Args:
-        id (str): ID модели.
-        object (str): Тип объекта.
-        created (int): Время создания.
-        owned_by (Optional[str]): Владелец.
+    Модель ответа о модели.
     """
     id: str
     object: str = "model"
@@ -266,11 +145,7 @@ class ModelResponseModel(BaseModel):
 
 class UploadResponseModel(BaseModel):
     """
-    Модель ответа загрузки.
-
-    Args:
-        bucket_id (str): ID бакета.
-        url (str): URL.
+    Модель ответа для загрузки.
     """
     bucket_id: str
     url: str
@@ -278,11 +153,6 @@ class UploadResponseModel(BaseModel):
 class ErrorResponseModel(BaseModel):
     """
     Модель ответа об ошибке.
-
-    Args:
-        error (ErrorResponseMessageModel): Сообщение об ошибке.
-        model (Optional[str]): Модель.
-        provider (Optional[str]): Провайдер.
     """
     error: ErrorResponseMessageModel
     model: Optional[str] = None
@@ -291,17 +161,11 @@ class ErrorResponseModel(BaseModel):
 class ErrorResponseMessageModel(BaseModel):
     """
     Модель сообщения об ошибке.
-
-    Args:
-        message (str): Сообщение.
     """
     message: str
-
+    
 class FileResponseModel(BaseModel):
     """
-    Модель ответа файла.
-
-    Args:
-        filename (str): Имя файла.
+    Модель ответа для файла.
     """
     filename: str

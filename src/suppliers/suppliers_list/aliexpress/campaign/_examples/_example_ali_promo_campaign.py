@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.campaign._examples 
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign._examples 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,7 +33,7 @@
   :synopsis:
 """
   
-""" module: src.suppliers.aliexpress.campaign._examples """
+""" module: src.suppliers.suppliers_list.aliexpress.campaign._examples """
 
 
 """ Примеры создания рекламной кампании """
@@ -45,8 +45,8 @@ import header
 from pathlib import Path
 from types import SimpleNamespace
 from src import gs
-from src.suppliers.aliexpress import AliPromoCampaign
-from src.suppliers.aliexpress import AliAffiliatedProducts
+from src.suppliers.suppliers_list.aliexpress import AliPromoCampaign
+from src.suppliers.suppliers_list.aliexpress import AliAffiliatedProducts
 from src.utils import get_filenames, get_directory_names, read_text_file, csv2dict
 from src.utils.jjson import j_loads_ns
 from src.utils.printer import pprint

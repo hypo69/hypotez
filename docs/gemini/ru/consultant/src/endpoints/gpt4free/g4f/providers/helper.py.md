@@ -1,33 +1,34 @@
 ### **Анализ кода модуля `helper.py`**
 
-**Качество кода:**
-
+**Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Четкое разделение на функции.
-    - Наличие docstring для большинства функций.
-    - Использование аннотаций типов.
+    - Код достаточно хорошо структурирован, функции имеют понятные имена.
+    - Используются аннотации типов.
+    - Есть docstring для большинства функций.
 - **Минусы**:
     - Docstring написаны на английском языке, требуется перевод на русский.
-    - Отсутствует логирование ошибок.
-    - Нет обработки исключений для повышения надежности.
-    - Не все функции имеют подробное описание и примеры использования.
+    - Не все функции имеют подробное описание в docstring.
+    - В некоторых местах отсутствует обработка исключений.
+    - Нет логирования.
+    - Нет информации об использовании вебдрайвера, если это необходимо.
+    - Используются конструкции `if value.get("type") == "text"` без обработки возможных исключений, если `value` не словарь.
 
-**Рекомендации по улучшению:**
+**Рекомендации по улучшению**:
 
-1.  **Перевод и корректировка docstring**:
-    *   Перевести все docstring на русский язык, соблюдая формат, указанный в инструкции.
-    *   Добавить более подробные описания и примеры использования для каждой функции.
-2.  **Добавить логирование**:
-    *   Внедрить логирование с использованием модуля `logger` для отслеживания ошибок и предупреждений.
-3.  **Обработка исключений**:
-    *   Добавить блоки `try-except` для обработки возможных исключений и логирования ошибок.
-4.  **Улучшение форматирования**:
-    *   Убедиться, что все строки соответствуют стандарту PEP8 по длине.
-5.  **Аннотации типов**:
-    *   Проверить и добавить аннотации типов для всех аргументов и возвращаемых значений функций, где это необходимо.
+1.  **Перевод docstring на русский язык**: Все описания функций и классов должны быть переведены на русский язык.
+2.  **Добавление подробных описаний в docstring**: Необходимо добавить более подробные описания для каждой функции, включая описание параметров, возвращаемых значений и возможных исключений.
+3.  **Добавление логирования**: В важных местах кода, таких как обработка данных и возникновение исключений, следует добавить логирование для облегчения отладки и мониторинга.
+4.  **Обработка исключений**: Добавить обработку исключений в тех местах, где это необходимо, с использованием `try-except` блоков и логированием ошибок.
+5.  **Уточнение обработки данных**: Проверять тип `value` перед использованием `value.get("type")` чтобы избежать ошибок.
+6. **Улучшение форматирования**: Для повышения читаемости кода следует добавить пробелы вокруг операторов присваивания.
+7.  **Использовать `j_loads` или `j_loads_ns`**: Если функция работает с JSON или конфигурационными файлами, следует заменить стандартное использование `open` и `json.load` на `j_loads` или `j_loads_ns`.
+8. **Аннотации**:
+    - Все переменные должны быть аннотированы типами. 
+    - Для всех функций все входные и выходные параметры аннотириваны
+    - Для все параметров должны быть аннотации типа.
 
-**Оптимизированный код:**
+**Оптимизированный код**:
 
 ```python
 from __future__ import annotations
@@ -35,7 +36,7 @@ from __future__ import annotations
 import random
 import string
 from pathlib import Path
-from typing import Messages, Cookies, AsyncIterator, Iterator
+from typing import Messages, Cookies, AsyncIterator, Iterator, Optional, Dict, List, Any
 
 from ..typing import Messages, Cookies, AsyncIterator, Iterator
 from ..tools.files import get_bucket_dir, read_bucket
@@ -43,12 +44,12 @@ from .. import debug
 from src.logger import logger  # Добавлен импорт logger
 
 
-def to_string(value: any) -> str:
+def to_string(value: str | dict | list) -> str:
     """
-    Преобразует значение любого типа в строку.
+    Преобразует значение в строку.
 
     Args:
-        value (any): Значение для преобразования.
+        value (str | dict | list): Значение для преобразования.
 
     Returns:
         str: Строковое представление значения.
@@ -59,38 +60,32 @@ def to_string(value: any) -> str:
         if "name" in value:
             return ""
         elif "bucket_id" in value:
-            bucket_dir = Path(get_bucket_dir(value.get("bucket_id")))
-            return "".join(read_bucket(bucket_dir))
+            try:
+                bucket_dir: Path = Path(get_bucket_dir(value.get("bucket_id")))
+                return "".join(read_bucket(bucket_dir))
+            except Exception as ex:
+                logger.error(f"Ошибка при чтении bucket: {ex}", exc_info=True)
+                return ""
         elif value.get("type") == "text":
-            return value.get("text")
+            return str(value.get("text", ""))
         return ""
     elif isinstance(value, list):
-        return "".join([to_string(v) for v in value if v.get("type", "text") == "text"])
+        return "".join([to_string(v) for v in value if isinstance(v, dict) and v.get("type") == "text"])
     return str(value)
 
 
-def format_prompt(
-    messages: Messages,
-    add_special_tokens: bool = False,
-    do_continue: bool = False,
-    include_system: bool = True,
-) -> str:
+def format_prompt(messages: Messages, add_special_tokens: bool = False, do_continue: bool = False, include_system: bool = True) -> str:
     """
-    Форматирует серию сообщений в единую строку, при необходимости добавляя специальные токены.
+    Форматирует серию сообщений в одну строку, при необходимости добавляя специальные токены.
 
     Args:
         messages (Messages): Список словарей сообщений, каждый из которых содержит 'role' и 'content'.
-        add_special_tokens (bool, optional): Определяет, добавлять ли специальные токены форматирования. По умолчанию False.
-        do_continue (bool, optional): Флаг для продолжения форматирования. По умолчанию False.
-        include_system (bool, optional): Определяет, включать ли системные сообщения. По умолчанию True.
+        add_special_tokens (bool): Нужно ли добавлять специальные токены форматирования. По умолчанию False.
+        do_continue (bool): Флаг, указывающий, нужно ли продолжать форматирование. По умолчанию False.
+        include_system (bool): Включать ли системные сообщения. По умолчанию True.
 
     Returns:
         str: Отформатированная строка, содержащая все сообщения.
-
-    Example:
-        >>> messages = [{"role": "user", "content": "Hello"}, {"role": "assistant", "content": "Hi"}]
-        >>> format_prompt(messages, add_special_tokens=True)
-        'User: Hello\\nAssistant: Hi\\nAssistant:'
     """
     if not add_special_tokens and len(messages) <= 1:
         return to_string(messages[0]["content"])
@@ -99,13 +94,11 @@ def format_prompt(
         for message in messages
         if include_system or message.get("role") != "system"
     ]
-    formatted = "\n".join(
-        [
-            f"{role.capitalize()}: {content}"
-            for role, content in messages
-            if content.strip()
-        ]
-    )
+    formatted: str = "\n".join([
+        f"{role.capitalize()}: {content}"
+        for role, content in messages
+        if content.strip()
+    ])
     if do_continue:
         return formatted
     return f"{formatted}\nAssistant:"
@@ -119,28 +112,28 @@ def get_system_prompt(messages: Messages) -> str:
         messages (Messages): Список словарей сообщений.
 
     Returns:
-        str: Объединенные системные сообщения.
+        str: Строка, содержащая все системные сообщения, разделенные символом новой строки.
     """
     return "\n".join([m["content"] for m in messages if m["role"] == "system"])
 
 
 def get_last_user_message(messages: Messages) -> str:
     """
-    Получает последнее сообщение от пользователя из списка сообщений.
+    Извлекает последнее сообщение от пользователя из списка сообщений.
 
     Args:
         messages (Messages): Список словарей сообщений.
 
     Returns:
-        str: Последнее сообщение от пользователя.
+        str: Строка, содержащая последнее сообщение от пользователя.
     """
-    user_messages = []
-    last_message = None if len(messages) == 0 else messages[-1]
+    user_messages: List[str] = []
+    last_message: Optional[Dict[str, str]] = None if len(messages) == 0 else messages[-1]
     messages = messages.copy()
     while last_message is not None and messages:
         last_message = messages.pop()
         if last_message["role"] == "user":
-            content = to_string(last_message["content"]).strip()
+            content: str = to_string(last_message["content"]).strip()
             if content:
                 user_messages.append(content)
         else:
@@ -148,16 +141,16 @@ def get_last_user_message(messages: Messages) -> str:
     return "\n".join(user_messages[::-1])
 
 
-def format_image_prompt(messages: Messages, prompt: str | None = None) -> str:
+def format_image_prompt(messages: Messages, prompt: Optional[str] = None) -> str:
     """
-    Форматирует запрос изображения, используя последнее сообщение пользователя или предоставленный запрос.
+    Форматирует промпт для генерации изображений.
 
     Args:
-        messages (Messages): Список словарей сообщений.
-        prompt (str | None, optional): Предоставленный запрос. По умолчанию None.
+        messages (Messages): Список сообщений.
+        prompt (Optional[str]): Промпт.
 
     Returns:
-        str: Сформированный запрос изображения.
+        str: Отформатированный промпт.
     """
     if prompt is None:
         return get_last_user_message(messages)
@@ -166,17 +159,17 @@ def format_image_prompt(messages: Messages, prompt: str | None = None) -> str:
 
 def format_prompt_max_length(messages: Messages, max_lenght: int) -> str:
     """
-    Форматирует запрос, обрезая его до максимальной длины, если необходимо.
+    Форматирует промпт, обрезая его до максимальной длины.
 
     Args:
-        messages (Messages): Список словарей сообщений.
-        max_lenght (int): Максимальная длина запроса.
+        messages (Messages): Список сообщений.
+        max_lenght (int): Максимальная длина промпта.
 
     Returns:
-        str: Отформатированный и обрезанный запрос.
+        str: Отформатированный промпт.
     """
-    prompt = format_prompt(messages)
-    start = len(prompt)
+    prompt: str = format_prompt(messages)
+    start: int = len(prompt)
     if start > max_lenght:
         if len(messages) > 6:
             prompt = format_prompt(messages[:3] + messages[-3:])
@@ -194,17 +187,14 @@ def get_random_string(length: int = 10) -> str:
     Генерирует случайную строку указанной длины, содержащую строчные буквы и цифры.
 
     Args:
-        length (int, optional): Длина генерируемой случайной строки. По умолчанию 10.
+        length (int, optional): Длина случайной строки для генерации. По умолчанию 10.
 
     Returns:
         str: Случайная строка указанной длины.
-
-    Example:
-        >>> get_random_string(5)
-        'a1b2c'
     """
-    return "".join(
-        random.choice(string.ascii_lowercase + string.digits) for _ in range(length)
+    return ''.join(
+        random.choice(string.ascii_lowercase + string.digits)
+        for _ in range(length)
     )
 
 
@@ -213,15 +203,18 @@ def get_random_hex(length: int = 32) -> str:
     Генерирует случайную шестнадцатеричную строку длиной n символов.
 
     Args:
-        length (int): Длина шестнадцатеричной строки.
+        length (int): Длина шестнадцатеричной строки. По умолчанию 32.
 
     Returns:
         str: Случайная шестнадцатеричная строка длиной n символов.
     """
-    return "".join(random.choice("abcdef" + string.digits) for _ in range(length))
+    return ''.join(
+        random.choice("abcdef" + string.digits)
+        for _ in range(length)
+    )
 
 
-def filter_none(**kwargs) -> dict:
+def filter_none(**kwargs: Any) -> Dict[str, Any]:
     """
     Фильтрует словарь, удаляя элементы со значением None.
 
@@ -229,18 +222,18 @@ def filter_none(**kwargs) -> dict:
         **kwargs: Произвольные именованные аргументы.
 
     Returns:
-        dict: Отфильтрованный словарь.
-
-    Example:
-        >>> filter_none(a=1, b=None, c=3)
-        {'a': 1, 'c': 3}
+        Dict[str, Any]: Новый словарь, содержащий только элементы, значения которых не равны None.
     """
-    return {key: value for key, value in kwargs.items() if value is not None}
+    return {
+        key: value
+        for key, value in kwargs.items()
+        if value is not None
+    }
 
 
 async def async_concat_chunks(chunks: AsyncIterator) -> str:
     """
-    Асинхронно объединяет чанки в одну строку.
+    Асинхронно объединяет чанки в строку.
 
     Args:
         chunks (AsyncIterator): Асинхронный итератор чанков.
@@ -248,16 +241,12 @@ async def async_concat_chunks(chunks: AsyncIterator) -> str:
     Returns:
         str: Объединенная строка.
     """
-    try:
-        return concat_chunks([chunk async for chunk in chunks])
-    except Exception as ex:
-        logger.error("Error while async concatenating chunks", ex, exc_info=True)
-        return ""
+    return concat_chunks([chunk async for chunk in chunks])
 
 
 def concat_chunks(chunks: Iterator) -> str:
     """
-    Объединяет чанки в одну строку.
+    Объединяет чанки в строку.
 
     Args:
         chunks (Iterator): Итератор чанков.
@@ -265,29 +254,20 @@ def concat_chunks(chunks: Iterator) -> str:
     Returns:
         str: Объединенная строка.
     """
-    try:
-        return "".join(
-            [str(chunk) for chunk in chunks if chunk and not isinstance(chunk, Exception)]
-        )
-    except Exception as ex:
-        logger.error("Error while concatenating chunks", ex, exc_info=True)
-        return ""
+    return "".join([
+        str(chunk) for chunk in chunks
+        if chunk and not isinstance(chunk, Exception)
+    ])
 
 
 def format_cookies(cookies: Cookies) -> str:
     """
-    Форматирует куки в строку.
+    Форматирует куки в строку для отправки в HTTP-запросе.
 
     Args:
         cookies (Cookies): Словарь куки.
 
     Returns:
-        str: Строка, представляющая куки.
-
-    Example:
-        >>> cookies = {"name": "value", "name2": "value2"}
-        >>> format_cookies(cookies)
-        'name=value; name2=value2'
+        str: Строка, содержащая куки в формате "key=value; key=value; ...".
     """
     return "; ".join([f"{k}={v}" for k, v in cookies.items()])
-```

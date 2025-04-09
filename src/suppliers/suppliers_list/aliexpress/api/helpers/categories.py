@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.aliexpress.api.helpers """
+""" module: src.suppliers.suppliers_list.aliexpress.api.helpers """
 
 """  функции для фильтрации категорий и подкатегорий API Aliexpress"""
 from typing import List, Union
 from .. import models
-#from src.suppliers.aliexpress.api.api import models
+#from src.suppliers.suppliers_list.aliexpress.api.api import models
 
 def filter_parent_categories(categories: List[models.Category | models.ChildCategory]) -> List[models.Category]:
     """

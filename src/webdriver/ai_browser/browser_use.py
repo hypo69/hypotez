@@ -1,10 +1,16 @@
-#@ https://habr.com/ru/articles/875798/
+
+
+#Документация: https://habr.com/ru/articles/875798/
 
 from langchain_openai import ChatOpenAI
 from browser_use import Agent
 import asyncio
-from dotenv import load_dotenv
-load_dotenv()
+
+
+
+class Driver:
+    """Класс использует `browser_use` 
+    и `langchain_openai` Для поиска и поилучения данных с веб страниц"""
 
 async def habra_toxic_commenter(author_username: str, model_name: str = "gpt-4o"):
     """
@@ -27,12 +33,12 @@ async def habra_toxic_commenter(author_username: str, model_name: str = "gpt-4o"
             task=task,
             llm=llm,
         )
-        logging.info(f"Агент начал работу по поиску статьи автора {author_username}")
+        logger.info(f"Агент начал работу по поиску статьи автора {author_username}")
         result = await agent.run()
-        logging.info(f"Агент завершил работу.")
+        logger.info(f"Агент завершил работу.")
         return result
     except Exception as e:
-        logging.error(f"Произошла ошибка: {e}")
+        logger.error(f"Произошла ошибка: {e}")
         return None
 
 

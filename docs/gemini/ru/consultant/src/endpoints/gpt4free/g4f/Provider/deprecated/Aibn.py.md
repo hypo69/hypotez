@@ -1,68 +1,82 @@
 ### **Анализ кода модуля `Aibn.py`**
 
----
-
 **Качество кода:**
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Асинхронная реализация генерации ответов.
-    - Использование `StreamSession` для эффективной потоковой передачи данных.
-    - Поддержка истории сообщений и модели `gpt-3.5-turbo`.
+    - Асинхронная генерация ответа для неблокирующего ожидания.
+    - Использование `StreamSession` для потоковой передачи данных.
+    - Реализация поддержки истории сообщений.
 - **Минусы**:
-    - Отсутствует обработка исключений при декодировании чанков.
-    - Жестко заданный `impersonate="chrome107"`.
-    - `secret` в `generate_signature` по умолчанию "undefined".
-    - Нет логирования.
+    - Отсутствует обработка возможных исключений при декодировании чанков.
+    - Не хватает документации для функций и методов.
+    - Жестко заданный `impersonate="chrome107"` может потребовать обновления.
+    - Отсутствует логирование ошибок.
+    - Не используются f-strings там, где это возможно.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить документацию модуля**:
-    - Добавить заголовок модуля с описанием его назначения.
+1.  **Добавить Docstring:**
 
-2.  **Добавить документацию к классам и методам**:
-    - Описать класс `Aibn` и его методы, включая `create_async_generator` и `generate_signature`.
+    *   Добавить docstring для класса `Aibn` с описанием его назначения, атрибутов и методов.
+    *   Добавить docstring для метода `create_async_generator` с описанием параметров, возвращаемого значения и возможных исключений.
+    *   Добавить docstring для функции `generate_signature` с описанием параметров и возвращаемого значения.
 
-3.  **Обработка исключений**:
-    - Добавить обработку исключений при декодировании чанков.
+2.  **Обработка исключений:**
 
-4.  **Использовать `logger`**:
-    - Добавить логирование для отладки и мониторинга.
+    *   Добавить обработку исключений при декодировании чанков в методе `create_async_generator`.
 
-5.  **Улучшить `generate_signature`**:
-    - Рассмотреть возможность использования более безопасного способа управления секретами.
-    - Добавить описание для чего нужна эта функция и что она делает.
+3.  **Логирование:**
 
-6.  **Улучшить типизацию**:
-    - Улучшить типизацию там, где это необходимо.
+    *   Добавить логирование ошибок с использованием модуля `logger` из `src.logger`.
 
-7.  **Перевести docstring на русский язык**:
-    - Весь docstring должен быть переведен на русский язык.
+4.  **Улучшить типизацию:**
+
+    *   Использовать `from typing import TYPE_CHECKING` и `if TYPE_CHECKING:` для импортов, используемых только для аннотаций типов.
+
+5.  **Использовать f-strings:**
+
+    *   Использовать f-strings для форматирования строк, где это возможно.
+
+6.  **Удалить устаревшие комментарии:**
+
+    *   Удалить или обновить устаревшие комментарии.
+
+7.  **Использовать webdriver**
+
+    *   В модуле `Aibn` не используется вебдрайвер.
 
 **Оптимизированный код:**
 
 ```python
 """
-Модуль для работы с провайдером Aibn
-=====================================
+Модуль для работы с Aibn API
+==============================
 
-Модуль содержит класс :class:`Aibn`, который используется для взаимодействия с сервисом Aibn для генерации ответов.
+Модуль содержит класс :class:`Aibn`, который используется для взаимодействия с Aibn API.
+Он поддерживает асинхронную генерацию ответов и потоковую передачу данных.
 """
 from __future__ import annotations
 
 import time
 import hashlib
+from typing import TYPE_CHECKING
 
-from ...typing import AsyncResult, Messages
+if TYPE_CHECKING:
+    from ...typing import AsyncResult, Messages
 from ...requests import StreamSession
 from ..base_provider import AsyncGeneratorProvider
-
-from src.logger import logger  # Импорт модуля logger
-
+from src.logger import logger #  Импорт модуля логгирования
 
 class Aibn(AsyncGeneratorProvider):
     """
-    Провайдер для взаимодействия с сервисом Aibn.
+    Класс для взаимодействия с Aibn API.
+
+    Attributes:
+        url (str): URL API Aibn.
+        working (bool): Указывает, работает ли провайдер.
+        supports_message_history (bool): Поддерживает ли провайдер историю сообщений.
+        supports_gpt_35_turbo (bool): Поддерживает ли провайдер модель GPT-3.5 Turbo.
     """
     url = "https://aibn.cc"
     working = False
@@ -79,23 +93,22 @@ class Aibn(AsyncGeneratorProvider):
         **kwargs
     ) -> AsyncResult:
         """
-        Асинхронно генерирует ответы от сервиса Aibn.
+        Создает асинхронный генератор для получения ответов от Aibn API.
 
         Args:
-            model (str): Модель для генерации.
+            model (str): Используемая модель.
             messages (Messages): Список сообщений для отправки.
-            proxy (str, optional): Прокси-сервер. По умолчанию `None`.
+            proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
             timeout (int, optional): Время ожидания запроса. По умолчанию 120 секунд.
 
-        Returns:
-            AsyncResult: Асинхронный генератор ответов.
+        Yields:
+            str: Часть ответа от API.
 
         Raises:
-            Exception: В случае ошибки при запросе или обработке ответа от сервиса Aibn.
-
+            Exception: В случае ошибки при запросе к API или декодировании данных.
         """
         async with StreamSession(
-            impersonate="chrome107", # Эмулируем браузер Chrome версии 107
+            impersonate="chrome107",
             proxies={"https": proxy},
             timeout=timeout
         ) as session:
@@ -107,22 +120,21 @@ class Aibn(AsyncGeneratorProvider):
                 "time": timestamp
             }
             try:
-                async with session.post(f"{cls.url}/api/generate", json=data) as response:
+                async with session.post(f"{cls.url}/api/generate", json=data) as response: #  Используем f-string
                     response.raise_for_status()
                     async for chunk in response.iter_content():
                         try:
                             yield chunk.decode()
                         except Exception as ex:
-                            logger.error(f"Ошибка при декодировании чанка: {ex}", exc_info=True) # Логируем ошибку декодирования
-                            continue
+                            logger.error("Ошибка при декодировании чанка", ex, exc_info=True) #  Логируем ошибку декодирования
+                            raise
             except Exception as ex:
-                logger.error(f"Ошибка при запросе к сервису Aibn: {ex}", exc_info=True) # Логируем ошибку запроса
+                logger.error("Ошибка при запросе к Aibn API", ex, exc_info=True) #  Логируем ошибку запроса
                 raise
-
 
 def generate_signature(timestamp: int, message: str, secret: str = "undefined") -> str:
     """
-    Генерирует подпись для запроса к сервису Aibn.
+    Генерирует подпись для запроса к Aibn API.
 
     Args:
         timestamp (int): Временная метка запроса.
@@ -130,7 +142,7 @@ def generate_signature(timestamp: int, message: str, secret: str = "undefined") 
         secret (str, optional): Секретный ключ. По умолчанию "undefined".
 
     Returns:
-        str: Сгенерированная подпись в формате SHA256.
+        str: Сгенерированная подпись.
     """
-    data = f"{timestamp}:{message}:{secret}"
+    data = f"{timestamp}:{message}:{secret}" #  Используем f-string
     return hashlib.sha256(data.encode()).hexdigest()

@@ -1,65 +1,53 @@
 ### **Анализ кода модуля `ChatGpt.py`**
 
-## \file hypotez/src/endpoints/gpt4free/g4f/Provider/ChatGpt.py
+## `/src/endpoints/gpt4free/g4f/Provider/ChatGpt.py`
 
-Модуль предоставляет класс `ChatGpt`, который является провайдером для взаимодействия с моделью ChatGPT. Он включает в себя методы для настройки сессии, форматирования сообщений и создания запросов к API ChatGPT.
+Модуль `ChatGpt.py` является частью проекта `hypotez` и предоставляет реализацию доступа к API ChatGpt через g4f (gpt4free). Он включает в себя функции для форматирования сообщений, инициализации сессии, а также класс `ChatGpt`, который реализует методы для создания и обработки запросов к ChatGpt.
 
 **Качество кода:**
-
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код достаточно хорошо структурирован и содержит обработку различных аспектов взаимодействия с API ChatGPT.
-  - Присутствует обработка ошибок и проверка статуса ответа.
-  - Поддерживается работа с историей сообщений и системными сообщениями.
+  - Четкая структура класса `ChatGpt`, наследующего абстрактный класс `AbstractProvider`.
+  - Использование `typing` для аннотации типов.
+  - Реализация поддержки истории сообщений и системных сообщений.
 - **Минусы**:
-  - Отсутствует полная документация функций и классов.
-  - Некоторые участки кода требуют дополнительных комментариев для лучшего понимания логики.
-  - Не используется модуль `logger` для логирования ошибок и информации.
-  - Не везде проставлены аннотации типов.
+  - Отсутствие обработки исключений в некоторых функциях.
+  - Не все переменные аннотированы типами.
+  - Дублирование кода в блоках `try-except`.
+  - Magic values
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить документацию для всех функций и классов**:
-    - Необходимо добавить docstring к каждой функции и классу, описывающий их назначение, параметры и возвращаемые значения.
-    - В docstring указать все возможные исключения, которые могут быть выброшены.
-    - Для класса `ChatGpt` добавить примеры использования.
-
-2.  **Использовать логирование**:
-    - Заменить `print` на `logger.info` или `logger.debug` для информационных сообщений.
-    - Добавить `logger.error` для обработки ошибок, чтобы можно было отслеживать проблемы.
-
-3.  **Проставить аннотации типов**:
-    - Добавить аннотации типов для всех переменных и параметров функций, где это возможно, чтобы улучшить читаемость и облегчить отладку.
-
-4.  **Улучшить обработку ошибок**:
-    - Добавить более детальную обработку ошибок, чтобы можно было точно определить причину сбоя.
-    - Логировать ошибки с использованием `logger.error` с передачей исключения.
-
-5.  **Перевести все комментарии и docstring на русский язык**
-    - Весь код в проекте должен быть на русском языке
-
-6. **Заменить константы user_agent на значения по умолчанию из `src.utils`**
-    - user_agent может менятся. Желательно его брать из константных значений в `src.utils`
-
-7. **Ввести try except  и обернуть в него session.post**
-    - session.post - отправляет пост запрос. Любой вызов внешней функции может закончится исключением. На этот случай нужен `try except`
+1.  **Добавить обработку исключений**:
+    - В функциях `format_conversation`, `init_session`, `create_completion` добавить блоки `try-except` для обработки возможных исключений и логирования ошибок.
+2.  **Добавить логирование**:
+    - Использовать модуль `logger` для логирования важных событий, таких как успешная инициализация сессии, отправка запроса, получение ответа и возникновение ошибок.
+3.  **Улучшить аннотацию типов**:
+    - Добавить аннотации типов для всех переменных, где это необходимо.
+4.  **Избавиться от дублирования кода**:
+    - Вынести повторяющиеся блоки кода в отдельные функции или методы.
+5.  **Улучшить читаемость кода**:
+    - Использовать более описательные имена переменных.
+6.  **Улучшить структуру обработки ответов**:
+    - Упростить логику обработки ответов от API, чтобы улучшить читаемость и уменьшить вероятность ошибок.
+7.  **Перевести docstring**:
+    - Перевести все docstring на русский язык.
 
 **Оптимизированный код:**
 
 ```python
 from __future__ import annotations
 
-from typing import Messages, CreateResult, Optional
-from ..providers.base_provider import AbstractProvider, ProviderModelMixin
-
 import time
 import uuid
 import random
 import json
 from requests import Session
-from src.logger import logger  # Import logger
-from src.utils import DEFAULT_USER_AGENT  # Пример импорта user_agent по умолчанию
+from typing import List, Dict, Generator
 
+from src.logger import logger  # Import logger
+from ..typing import Messages, CreateResult
+from ..providers.base_provider import AbstractProvider, ProviderModelMixin
 from .openai.new import (
     get_config,
     get_answer_token,
@@ -67,23 +55,19 @@ from .openai.new import (
     get_requirements_token
 )
 
-def format_conversation(messages: list) -> list:
+
+def format_conversation(messages: List[Dict]) -> List[Dict]:
     """
-    Форматирует список сообщений для отправки в API ChatGPT.
+    Форматирует список сообщений для отправки в API ChatGpt.
 
     Args:
-        messages (list): Список сообщений, где каждое сообщение представляет собой словарь с ключами 'role' и 'content'.
+        messages (List[Dict]): Список сообщений, где каждое сообщение - словарь с ключами 'role' и 'content'.
 
     Returns:
-        list: Список отформатированных сообщений, готовых для отправки в API.
-
-    Example:
-        >>> messages = [{'role': 'user', 'content': 'Hello'}]
-        >>> format_conversation(messages)
-        [{'id': ..., 'author': {'role': 'user'}, 'content': {'content_type': 'text', 'parts': ['Hello']}, 'metadata': ..., 'create_time': ...}]
+        List[Dict]: Список сообщений, отформатированных для API ChatGpt.
     """
     conversation = []
-    
+
     for message in messages:
         conversation.append({
             'id': str(uuid.uuid4()),
@@ -103,21 +87,22 @@ def format_conversation(messages: list) -> list:
             },
             'create_time': round(time.time(), 3),
         })
-    
+
     return conversation
+
 
 def init_session(user_agent: str) -> Session:
     """
     Инициализирует сессию requests с необходимыми заголовками и куками.
 
     Args:
-        user_agent (str): User-agent для установки в заголовках сессии.
+        user_agent (str): User agent для сессии.
 
     Returns:
         Session: Инициализированная сессия requests.
-    
+
     Raises:
-        Exception: Если не удалось создать сессию.
+        Exception: При возникновении ошибок во время инициализации сессии.
     """
     session = Session()
 
@@ -148,44 +133,27 @@ def init_session(user_agent: str) -> Session:
 
     try:
         session.get('https://chatgpt.com/', cookies=cookies, headers=headers)
+        logger.info('Session initialized successfully')
         return session
     except Exception as ex:
-        logger.error('Ошибка при инициализации сессии', ex, exc_info=True)
-        return session
+        logger.error('Error while initializing session', ex, exc_info=True)
+        raise
+
 
 class ChatGpt(AbstractProvider, ProviderModelMixin):
     """
-    Провайдер для взаимодействия с моделью ChatGPT.
+    Провайдер для доступа к API ChatGpt.
 
-    Этот класс позволяет создавать запросы к API ChatGPT и получать ответы.
-    Поддерживает историю сообщений, системные сообщения и потоковую передачу данных.
-
-    Attributes:
-        label (str): Метка провайдера.
-        url (str): URL ChatGPT.
-        working (bool): Флаг, указывающий, работает ли провайдер.
-        supports_message_history (bool): Поддержка истории сообщений.
-        supports_system_message (bool): Поддержка системных сообщений.
-        supports_stream (bool): Поддержка потоковой передачи.
-        default_model (str): Модель по умолчанию.
-        models (list): Список поддерживаемых моделей.
-        model_aliases (dict): Псевдонимы моделей.
-
-    Example:
-        >>> chat_gpt = ChatGpt()
-        >>> messages = [{'role': 'user', 'content': 'Hello'}]
-        >>> result = chat_gpt.create_completion(model='default', messages=messages, stream=False)
-        >>> print(result)
-        ...
+    Этот класс реализует методы для создания и обработки запросов к ChatGpt.
     """
-    label = 'ChatGpt'
-    url = 'https://chatgpt.com'
-    working = False
-    supports_message_history = True
-    supports_system_message = True
-    supports_stream = True
-    default_model = 'auto'
-    models = [
+    label: str = "ChatGpt"
+    url: str = "https://chatgpt.com"
+    working: bool = False
+    supports_message_history: bool = True
+    supports_system_message: bool = True
+    supports_stream: bool = True
+    default_model: str = 'auto'
+    models: List[str] = [
         default_model,
         'gpt-3.5-turbo',
         'gpt-4o',
@@ -194,24 +162,21 @@ class ChatGpt(AbstractProvider, ProviderModelMixin):
         'gpt-4-turbo',
         'chatgpt-4o-latest',
     ]
-    
-    model_aliases = {
-        'gpt-4o': 'chatgpt-4o-latest',
+
+    model_aliases: Dict[str, str] = {
+        "gpt-4o": "chatgpt-4o-latest",
     }
-    
+
     @classmethod
     def get_model(cls, model: str) -> str:
         """
-        Возвращает модель, если она поддерживается, иначе возвращает модель по умолчанию.
+        Возвращает имя модели, если она поддерживается, иначе возвращает модель по умолчанию.
 
         Args:
-            model (str): Название модели.
+            model (str): Имя модели.
 
         Returns:
-            str: Поддерживаемая модель или модель по умолчанию.
-        
-        Raises:
-            ValueError: Если модель не найдена в списке поддерживаемых моделей.
+            str: Имя модели или модель по умолчанию.
         """
         if model in cls.models:
             return model
@@ -229,12 +194,12 @@ class ChatGpt(AbstractProvider, ProviderModelMixin):
         **kwargs
     ) -> CreateResult:
         """
-        Создает запрос к API ChatGPT и возвращает результат.
+        Создает запрос к API ChatGpt и возвращает результат.
 
         Args:
-            model (str): Название модели.
-            messages (Messages): Список сообщений.
-            stream (bool): Флаг, указывающий, использовать ли потоковую передачу.
+            model (str): Имя модели.
+            messages (Messages): Список сообщений для отправки.
+            stream (bool): Флаг, указывающий, использовать ли потоковый режим.
             **kwargs: Дополнительные аргументы.
 
         Returns:
@@ -242,19 +207,17 @@ class ChatGpt(AbstractProvider, ProviderModelMixin):
 
         Raises:
             ValueError: Если указанная модель не поддерживается.
-            Exception: При возникновении ошибок во время запроса.
         """
         model = cls.get_model(model)
         if model not in cls.models:
-            raise ValueError(f'Model \'{model}\' is not available. Available models: {', '.join(cls.models)}')
+            raise ValueError(f"Model '{model}' is not available. Available models: {', '.join(cls.models)}")
 
-        
-        user_agent = DEFAULT_USER_AGENT # Использование user_agent по умолчанию
+        user_agent: str = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36'
         session: Session = init_session(user_agent)
-        
+
         config = get_config(user_agent)
         pow_req = get_requirements_token(config)
-        headers = { 
+        headers: Dict[str, str] = {
             'accept': '*/*',
             'accept-language': 'en-US,en;q=0.8',
             'content-type': 'application/json',
@@ -271,31 +234,30 @@ class ChatGpt(AbstractProvider, ProviderModelMixin):
             'sec-gpc': '1',
             'user-agent': f'{user_agent}'
         }
-        
+
         try:
             response = session.post(
                 'https://chatgpt.com/backend-anon/sentinel/chat-requirements',
-                headers=headers,
-                json={'p': pow_req}
+                headers=headers, json={'p': pow_req}
             )
 
             if response.status_code != 200:
-                logger.error(f'Неудачный запрос sentinel: {response.status_code}, {response.text}')
+                logger.warning(f"Chat requirements request failed with status code: {response.status_code}")
                 return
 
-            response_data = response.json()
-            if 'detail' in response_data and 'Unusual activity' in response_data['detail']:
-                logger.warning('Обнаружена необычная активность')
+            response_data: Dict = response.json()
+            if "detail" in response_data and "Unusual activity" in response_data["detail"]:
+                logger.warning("Unusual activity detected")
                 return
-            
-            turnstile = response_data.get('turnstile', {})
-            turnstile_required = turnstile.get('required')
-            pow_conf = response_data.get('proofofwork', {})
+
+            turnstile: Dict = response_data.get('turnstile', {})
+            turnstile_required: bool = turnstile.get('required')
+            pow_conf: Dict = response_data.get('proofofwork', {})
 
             if turnstile_required:
-                turnstile_dx = turnstile.get('dx')
-                turnstile_token = process_turnstile(turnstile_dx, pow_req)
-            
+                turnstile_dx: str = turnstile.get('dx')
+                turnstile_token: str = process_turnstile(turnstile_dx, pow_req)
+
             headers = {
                 **headers,
                 'openai-sentinel-turnstile-token': turnstile_token,
@@ -305,7 +267,7 @@ class ChatGpt(AbstractProvider, ProviderModelMixin):
                 )
             }
 
-            json_data = {
+            json_data: Dict = {
                 'action': 'next',
                 'messages': format_conversation(messages),
                 'parent_message_id': str(uuid.uuid4()),
@@ -342,41 +304,39 @@ class ChatGpt(AbstractProvider, ProviderModelMixin):
             }
 
             time.sleep(2)
-            
+
             response = session.post(
                 'https://chatgpt.com/backend-anon/conversation',
-                headers=headers,
-                json=json_data,
-                stream=True
+                headers=headers, json=json_data, stream=True
             )
             response.raise_for_status()
 
-            replace = ''
+            replace: str = ''
             for line in response.iter_lines():
                 if line:
-                    decoded_line = line.decode()
+                    decoded_line: str = line.decode()
 
                     if decoded_line.startswith('data:'):
-                        json_string = decoded_line[6:].strip()
+                        json_string: str = decoded_line[6:].strip()
 
                         if json_string == '[DONE]':
                             break
-                        
+
                         if json_string:
                             try:
-                                data = json.loads(json_string)
+                                data: Dict = json.loads(json_string)
                             except json.JSONDecodeError as ex:
-                                logger.error('Ошибка при декодировании JSON', ex, exc_info=True)
+                                logger.error('Error decoding JSON', ex, exc_info=True)
                                 continue
-                            
+
                             if data.get('message') and data['message'].get('author'):
-                                role = data['message']['author'].get('role')
+                                role: str = data['message']['author'].get('role')
                                 if role == 'assistant':
-                                    tokens = data['message']['content'].get('parts', [])
+                                    tokens: List[str] = data['message']['content'].get('parts', [])
                                     if tokens:
                                         yield tokens[0].replace(replace, '')
                                         replace = tokens[0]
 
         except Exception as ex:
-            logger.error('Ошибка при создании completion', ex, exc_info=True)
-            return
+            logger.error('Error while creating completion', ex, exc_info=True)
+            raise

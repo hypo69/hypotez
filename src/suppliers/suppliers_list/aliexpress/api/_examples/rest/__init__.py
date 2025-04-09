@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.aliexpress.api._examples.rest """
+""" module: src.suppliers.suppliers_list.aliexpress.api._examples.rest """
 from .AliexpressAffiliateProductSmartmatchRequest import AliexpressAffiliateProductSmartmatchRequest
 from .AliexpressAffiliateOrderGetRequest import AliexpressAffiliateOrderGetRequest
 from .AliexpressAffiliateOrderListRequest import AliexpressAffiliateOrderListRequest

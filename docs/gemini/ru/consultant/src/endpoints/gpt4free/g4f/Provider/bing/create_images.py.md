@@ -1,39 +1,40 @@
 ### **Анализ кода модуля `create_images.py`**
 
-#### **Качество кода**:
+**Качество кода:**
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код структурирован и логически разделен на функции.
-  - Используются асинхронные операции для неблокирующего выполнения.
-  - Обработка ошибок реализована с использованием исключений.
+    - Код достаточно хорошо структурирован и читаем.
+    - Используются асинхронные операции для неблокирующего выполнения.
+    - Обработка ошибок присутствует, включая специфические исключения, такие как `RateLimitError` и `MissingRequirementsError`.
 - **Минусы**:
-  - Отсутствует полное описание всех функций и их параметров в формате docstring.
-  - Не все переменные аннотированы типами.
-  - Не используется `logger` для логирования ошибок и информации.
+    - Отсутствует логирование.
+    - Не все переменные аннотированы типами.
+    - Не везде используются одинарные кавычки.
+    - Есть `try-except` блок с `pass`, что не является хорошей практикой.
+    - Не все docstring переведены на русский язык.
 
-#### **Рекомендации по улучшению**:
-1. **Добавить docstring для каждой функции и метода**:
-   - Описать назначение, параметры, возвращаемые значения и возможные исключения.
-   - Использовать стиль Google Python Docstrings.
+**Рекомендации по улучшению:**
 
-2. **Аннотировать типы для всех переменных и параметров функций**:
-   - Это улучшит читаемость и облегчит отладку.
+1.  **Добавить логирование**:
+    - Использовать модуль `logger` для записи информации, ошибок и предупреждений. Это поможет в отладке и мониторинге работы.
+2.  **Добавить аннотации типов**:
+    - Указать типы для всех переменных, чтобы повысить читаемость и облегчить проверку типов.
+3.  **Использовать одинарные кавычки**:
+    - Заменить двойные кавычки на одинарные там, где это необходимо.
+4.  **Улучшить обработку исключений**:
+    - Избегать использования `pass` в блоках `except`. Вместо этого логировать исключение и, при необходимости, выполнять другие действия.
+5.  **Перевести docstring на русский язык**:
+    - Обеспечить, чтобы все docstring были на русском языке для соответствия требованиям.
+6.  **Улучшить документацию**:
+    - Добавить более подробные описания к функциям и их параметрам.
+7.  **Использовать `j_loads` или `j_loads_ns`**:
+    -  Если в коде происходит чтение JSON или конфигурационных файлов, заменить стандартное использование `open` и `json.load` на `j_loads` или `j_loads_ns`.
+8.  **Обработка `...` в коде**:
+    - Оставляйте `...` как указатели в коде без изменений. Не документируйте строки с `...`.
 
-3. **Использовать `logger` для логирования**:
-   - Заменить `print` на `logger.info` и `logger.error`.
-   - Добавить логирование важных этапов выполнения кода.
+**Оптимизированный код:**
 
-4. **Обработка исключений**:
-   - Использовать `ex` вместо `e` в блоках `except`.
-   - Логировать ошибки с использованием `logger.error(..., ex, exc_info=True)`.
-
-5. **Удалить неиспользуемые импорты**:
-   - Проверить и удалить неиспользуемые импорты.
-
-6. **Использовать одинарные кавычки**:
-   - Заменить двойные кавычки на одинарные, где это необходимо.
-
-#### **Оптимизированный код**:
 ```python
 from __future__ import annotations
 
@@ -52,57 +53,54 @@ except ImportError:
 
 from ..helper import get_connector
 from ...errors import MissingRequirementsError, RateLimitError
-
-from src.logger import logger  # Import logger module
+from src.logger import logger  # Добавлен импорт logger
 
 BING_URL: str = "https://www.bing.com"
 TIMEOUT_LOGIN: int = 1200
 TIMEOUT_IMAGE_CREATION: int = 300
 ERRORS: List[str] = [
-    "this prompt is being reviewed",
-    "this prompt has been blocked",
-    "we're working hard to offer image creator in more languages",
-    "we can't create your images right now"
+    'this prompt is being reviewed',
+    'this prompt has been blocked',
+    'we\'re working hard to offer image creator in more languages',
+    'we can\'t create your images right now'
 ]
 BAD_IMAGES: List[str] = [
-    "https://r.bing.com/rp/in-2zU3AJUdkgFe7ZKv19yPBHVs.png",
-    "https://r.bing.com/rp/TX9QuO3WzcCJz1uaaSwQAz39Kb0.jpg",
+    'https://r.bing.com/rp/in-2zU3AJUdkgFe7ZKv19yPBHVs.png',
+    'https://r.bing.com/rp/TX9QuO3WzcCJz1uaaSwQAz39Kb0.jpg',
 ]
-
 
 def create_session(cookies: Dict[str, str], proxy: Optional[str] = None, connector: Optional[BaseConnector] = None) -> ClientSession:
     """
-    Создает новый клиентский сеанс с указанными куками и заголовками.
+    Создает новый клиентский сеанс с указанными куки и заголовками.
 
     Args:
         cookies (Dict[str, str]): Куки, которые будут использоваться для сеанса.
-        proxy (Optional[str]): Прокси-сервер для использования (необязательно).
-        connector (Optional[BaseConnector]): Пользовательский коннектор aiohttp (необязательно).
+        proxy (Optional[str]): Прокси-сервер для использования (если необходимо). По умолчанию None.
+        connector (Optional[BaseConnector]): Пользовательский коннектор aiohttp. По умолчанию None.
 
     Returns:
         ClientSession: Созданный клиентский сеанс.
     """
     headers: Dict[str, str] = {
-        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-        "accept-encoding": "gzip, deflate, br",
-        "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh-TW;q=0.7,zh;q=0.6",
-        "content-type": "application/x-www-form-urlencoded",
-        "referrer-policy": "origin-when-cross-origin",
-        "referrer": "https://www.bing.com/images/create/",
-        "origin": "https://www.bing.com",
-        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.54",
-        "sec-ch-ua": '"Microsoft Edge";v="111", "Not(A:Brand";v="8", "Chromium";v="111"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-fetch-dest": "document",
-        "sec-fetch-mode": "navigate",
-        "sec-fetch-site": "same-origin",
-        "sec-fetch-user": "?1",
-        "upgrade-insecure-requests": "1",
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+        'accept-encoding': 'gzip, deflate, br',
+        'accept-language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh-TW;q=0.7,zh;q=0.6',
+        'content-type': 'application/x-www-form-urlencoded',
+        'referrer-policy': 'origin-when-cross-origin',
+        'referrer': 'https://www.bing.com/images/create/',
+        'origin': 'https://www.bing.com',
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.54',
+        'sec-ch-ua': '"Microsoft Edge";v="111", "Not(A:Brand";v="8", "Chromium";v="111"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-fetch-dest': 'document',
+        'sec-fetch-mode': 'navigate',
+        'sec-fetch-site': 'same-origin',
+        'sec-fetch-user': '?1',
+        'upgrade-insecure-requests': '1',
     }
     if cookies:
-        headers["Cookie"] = '; '.join(f'{k}={v}' for k, v in cookies.items())
+        headers['Cookie'] = '; '.join(f'{k}={v}' for k, v in cookies.items())
     return ClientSession(headers=headers, connector=get_connector(connector, proxy))
-
 
 async def create_images(session: ClientSession, prompt: str, timeout: int = TIMEOUT_IMAGE_CREATION) -> List[str]:
     """
@@ -111,15 +109,15 @@ async def create_images(session: ClientSession, prompt: str, timeout: int = TIME
     Args:
         session (ClientSession): Активный клиентский сеанс.
         prompt (str): Запрос для генерации изображений.
-        timeout (int, optional): Время ожидания для запроса. По умолчанию TIMEOUT_IMAGE_CREATION.
+        timeout (int, optional): Время ожидания запроса в секундах. По умолчанию TIMEOUT_IMAGE_CREATION.
 
     Returns:
         List[str]: Список URL-адресов созданных изображений.
 
     Raises:
-        MissingRequirementsError: Если отсутствует пакет "beautifulsoup4".
-        RateLimitError: Если закончились монеты для создания изображений.
-        RuntimeError: Если создание изображений не удалось или истекло время ожидания.
+        MissingRequirementsError: Если отсутствует необходимый пакет 'beautifulsoup4'.
+        RateLimitError: Если закончились доступные монеты.
+        RuntimeError: Если создание изображений завершается неудачей или истекает время ожидания.
     """
     if not has_requirements:
         raise MissingRequirementsError('Install "beautifulsoup4" package')
@@ -163,26 +161,19 @@ async def create_images(session: ClientSession, prompt: str, timeout: int = TIME
         error: Optional[str] = None
         try:
             error = json.loads(text).get('errorMessage')
-        except json.JSONDecodeError as ex:
-            logger.error('Error decoding JSON', ex, exc_info=True)  # Log JSON decode error
+        except Exception as ex:
+            logger.error('Ошибка при разборе JSON', ех, exc_info=True)  # Логируем ошибку разбора JSON
         if error == 'Pending':
             raise RuntimeError('Prompt is been blocked')
         elif error:
             raise RuntimeError(error)
         return read_images(text)
-    except MissingRequirementsError as ex:
-        logger.error('Missing requirements', ex, exc_info=True)
-        raise
-    except RateLimitError as ex:
-        logger.error('Rate limit error', ex, exc_info=True)
-        raise
-    except RuntimeError as ex:
-        logger.error('Runtime error during image creation', ex, exc_info=True)
+    except (MissingRequirementsError, RateLimitError, RuntimeError) as ex:
+        logger.error('Ошибка при создании изображений', ех, exc_info=True)  # Логируем ошибку создания изображений
         raise
     except Exception as ex:
-        logger.error('Unexpected error during image creation', ex, exc_info=True)
+        logger.error('Непредвиденная ошибка при создании изображений', ех, exc_info=True)  # Логируем непредвиденную ошибку
         raise
-
 
 def read_images(html_content: str) -> List[str]:
     """
@@ -195,7 +186,7 @@ def read_images(html_content: str) -> List[str]:
         List[str]: Список URL-адресов изображений.
 
     Raises:
-        RuntimeError: Если не удалось найти изображения или обнаружены недопустимые изображения.
+        RuntimeError: Если не найдены изображения или обнаружены плохие изображения.
     """
     soup = BeautifulSoup(html_content, 'html.parser')
     tags = soup.find_all('img', class_='mimg')

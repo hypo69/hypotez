@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.campaign._pytest 
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign._pytest 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,7 +33,7 @@
   :synopsis:
 """
   
-""" module: src.suppliers.aliexpress.campaign._pytest """
+""" module: src.suppliers.suppliers_list.aliexpress.campaign._pytest """
 
 
 
@@ -58,7 +58,7 @@
 import pytest
 from pathlib import Path
 from types import SimpleNamespace
-from src.suppliers.aliexpress.campaign.ali_promo_campaign import AliPromoCampaign
+from src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign import AliPromoCampaign
 from src.utils.jjson import j_dumps, j_loads_ns
 from src.utils.file import save_text_file
 from src import gs
@@ -99,7 +99,7 @@ def test_initialize_campaign(mocker, campaign):
 def test_get_category_products_no_json_files(mocker, campaign):
     """Test get_category_products method when no JSON files are present."""
     mocker.patch("src.utils.file.get_filenames", return_value=[])
-    mocker.patch("src.suppliers.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.fetch_product_data", return_value=[])
+    mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.fetch_product_data", return_value=[])
 
     products = campaign.get_category_products(force=True)
     assert products == []
@@ -152,10 +152,10 @@ def test_create_campaign_namespace(campaign):
 
 def test_prepare_products(mocker, campaign):
     """Test prepare_products method."""
-    mocker.patch("src.suppliers.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.get_prepared_products", return_value=[])
+    mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.get_prepared_products", return_value=[])
     mocker.patch("src.utils.file.read_text_file", return_value="source_data")
     mocker.patch("src.utils.file.get_filenames", return_value=["source.html"])
-    mocker.patch("src.suppliers.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products")
+    mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products")
 
     campaign.prepare_products()
     campaign.process_affiliate_products.assert_called_once()
@@ -164,7 +164,7 @@ def test_fetch_product_data(mocker, campaign):
     """Test fetch_product_data method."""
     product_ids = ["123", "456"]
     mock_products = [SimpleNamespace(product_id="123"), SimpleNamespace(product_id="456")]
-    mocker.patch("src.suppliers.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products", return_value=mock_products)
+    mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products", return_value=mock_products)
 
     products = campaign.fetch_product_data(product_ids)
     assert len(products) == 2

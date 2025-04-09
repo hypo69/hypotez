@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.scenarios 
+.. module:: src.suppliers.suppliers_list.aliexpress.scenarios 
 	:platform: Windows, Unix
 	:synopsis: Сокращатель ссылок через веббраузер
 

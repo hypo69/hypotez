@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress 
+.. module:: src.suppliers.suppliers_list.aliexpress 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -21,9 +21,9 @@ from typing import List
 
 from src.logger.logger import logger
 from src import gs
-from src.suppliers.aliexpress import AliApi
-from src.suppliers.aliexpress.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator 
-from src.suppliers.aliexpress.utils.ensure_https import ensure_https
+from src.suppliers.suppliers_list.aliexpress import AliApi
+from src.suppliers.suppliers_list.aliexpress.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator 
+from src.suppliers.suppliers_list.aliexpress.utils.ensure_https import ensure_https
 from src.endpoints.prestashop.product_fields import ProductFields as f
 from src.utils.image import save_image_from_url_async 
 from src.utils.video import save_video_from_url

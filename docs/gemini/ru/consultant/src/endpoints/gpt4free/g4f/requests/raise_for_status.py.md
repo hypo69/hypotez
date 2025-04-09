@@ -1,78 +1,69 @@
 ### **Анализ кода модуля `raise_for_status.py`**
 
+## \file /hypotez/src/endpoints/gpt4free/g4f/requests/raise_for_status.py
+
+Модуль предназначен для обработки ответов от различных сервисов, таких как Cloudflare и OpenAI, и генерирует исключения на основе статуса ответа.
+
 **Качество кода:**
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код выполняет проверку статуса ответа и выбрасывает исключения в зависимости от различных условий (например, Cloudflare, OpenAI, Rate Limit).
-  - Используются информативные сообщения об ошибках.
-  - Присутствует асинхронная версия функции `raise_for_status_async`.
+    - Код достаточно хорошо структурирован и читаем.
+    - Используются асинхронные функции для обработки ответов.
+    - Обработка различных типов ошибок (Cloudflare, OpenAI, Rate Limit и др.).
 - **Минусы**:
-  - Используется `Union` вместо `|` для объединения типов.
-  - Не хватает подробной документации для функций и классов.
-  - Не используется `logger` для логгирования ошибок.
-  - В некоторых местах сообщения об ошибках формируются вручную, что может привести к дублированию логики.
-  - Проверки на Cloudflare и OpenAI выглядят как "магические" строки, что снижает читаемость и поддерживаемость кода.
+    - Не все переменные аннотированы типами.
+    - Местами используется `Union` вместо `|`.
+    - Отсутствует логирование ошибок.
+    - Нет документации в виде docstring для функций и классов.
 
 **Рекомендации по улучшению:**
 
-1.  **Заменить `Union` на `|`**:
+1.  **Добавить docstring**:
+    - Добавить docstring для каждой функции, включая описание параметров, возвращаемых значений и возможных исключений.
+    - Описать назначение каждой функции и класса.
 
-    -   В аннотациях типов заменить `Union[StreamResponse, ClientResponse]` на `StreamResponse | ClientResponse`.
-    -   В аннотациях типов заменить `Union[Response, StreamResponse, ClientResponse, RequestsResponse]` на `Response | StreamResponse | ClientResponse | RequestsResponse`.
+2.  **Использовать аннотации типов**:
+    - Добавить аннотации типов для всех переменных, где это возможно.
 
-2.  **Добавить подробную документацию для функций и классов**:
+3.  **Заменить `Union` на `|`**:
+    - Использовать `|` вместо `Union` для указания нескольких типов переменных.
 
-    -   Описать назначение каждой функции, аргументы и возвращаемые значения.
-    -   Описать, в каких случаях могут быть выброшены исключения.
-    -   Добавить примеры использования.
+4.  **Добавить логирование**:
+    - Добавить логирование для отслеживания ошибок и предупреждений.
 
-3.  **Использовать `logger` для логгирования ошибок**:
+5.  **Улучшить обработку ошибок**:
+    - Сделать обработку ошибок более гранулированной и информативной.
 
-    -   В блоках `except` использовать `logger.error` для записи информации об ошибках.
-    -   Передавать исключение `ex` в `logger.error` для получения подробной информации об ошибке.
-
-4.  **Улучшить обработку ошибок Cloudflare и OpenAI**:
-
-    -   Вынести проверки на Cloudflare и OpenAI в отдельные функции с понятными именами.
-    -   Использовать константы для "магических" строк, чтобы повысить читаемость и поддерживаемость кода.
-
-5.  **Упростить формирование сообщений об ошибках**:
-
-    -   Использовать f-строки для более удобного форматирования сообщений об ошибках.
-
-6.  **Добавить аннотации типов для всех переменных**:
-
-    -   Указать типы для всех переменных, чтобы улучшить читаемость и облегчить отладку.
+6.  **Улучшить читаемость**:
+    - Добавить больше пробелов для улучшения читаемости кода.
 
 **Оптимизированный код:**
 
 ```python
 from __future__ import annotations
 
-from typing import Optional
+from typing import Union
 from aiohttp import ClientResponse
 from requests import Response as RequestsResponse
-
+from src.logger import logger # Добавлен импорт logger
 from ..errors import ResponseStatusError, RateLimitError, MissingAuthError
-from . import Response, StreamResponse
-from src.logger import logger  # Импортируем logger
-
-CLOUDFLARE_DETECTED_MESSAGE = 'Cloudflare detected'
-OPENAI_BOT_DETECTED_MESSAGE = 'OpenAI Bot detected'
-
 
 class CloudflareError(ResponseStatusError):
     """
-    Исключение, выбрасываемое при обнаружении Cloudflare.
+    Класс исключения для ошибок Cloudflare.
 
     Args:
         message (str): Сообщение об ошибке.
     """
+    def __init__(self, message: str):
+        """
+        Инициализирует экземпляр класса CloudflareError.
 
-    ...
-
-
+        Args:
+            message (str): Сообщение об ошибке.
+        """
+        super().__init__(message)
 def is_cloudflare(text: str) -> bool:
     """
     Проверяет, содержит ли текст признаки Cloudflare.
@@ -81,15 +72,19 @@ def is_cloudflare(text: str) -> bool:
         text (str): Текст для проверки.
 
     Returns:
-        bool: True, если обнаружены признаки Cloudflare, иначе False.
+        bool: True, если текст содержит признаки Cloudflare, иначе False.
+
+    Example:
+        >>> is_cloudflare('Generated by cloudfront')
+        True
+        >>> is_cloudflare('Some other text')
+        False
     """
-    if "Generated by cloudfront" in text or '<p id="cf-spinner-please-wait">' in text:
+    if 'Generated by cloudfront' in text or '<p id="cf-spinner-please-wait">' in text:
         return True
-    elif "<title>Attention Required! | Cloudflare</title>" in text or 'id="cf-cloudflare-status"' in text:
+    elif '<title>Attention Required! | Cloudflare</title>' in text or 'id="cf-cloudflare-status"' in text:
         return True
-    return '<div id="cf-please-wait">' in text or "<title>Just a moment...</title>" in text
-
-
+    return '<div id="cf-please-wait">' in text or '<title>Just a moment...</title>' in text
 def is_openai(text: str) -> bool:
     """
     Проверяет, содержит ли текст признаки OpenAI.
@@ -98,125 +93,122 @@ def is_openai(text: str) -> bool:
         text (str): Текст для проверки.
 
     Returns:
-        bool: True, если обнаружены признаки OpenAI, иначе False.
-    """
-    return "<p>Unable to load site</p>" in text or 'id="challenge-error-text"' in text
+        bool: True, если текст содержит признаки OpenAI, иначе False.
 
-
-async def raise_for_status_async(response: StreamResponse | ClientResponse, message: Optional[str] = None):
+    Example:
+        >>> is_openai('<p>Unable to load site</p>')
+        True
+        >>> is_openai('Some other text')
+        False
     """
-    Асинхронно проверяет статус ответа и выбрасывает исключение, если статус не OK.
+    return '<p>Unable to load site</p>' in text or 'id="challenge-error-text"' in text
+
+async def raise_for_status_async(response: Union[StreamResponse, ClientResponse], message: str | None = None) -> None:
+    """
+    Асинхронно проверяет статус ответа и вызывает исключение, если статус не OK.
 
     Args:
         response (StreamResponse | ClientResponse): Объект ответа.
-        message (Optional[str]): Сообщение об ошибке. По умолчанию None.
+        message (str | None): Сообщение об ошибке. По умолчанию None.
 
     Raises:
         MissingAuthError: Если статус ответа 401.
         CloudflareError: Если статус ответа 403 и обнаружен Cloudflare.
-        ResponseStatusError: Если статус ответа 403 и обнаружен OpenAI Bot.
-        ResponseStatusError: Если статус ответа 502.
-        RateLimitError: Если статус ответа 504.
-        ResponseStatusError: Если статус ответа не OK и не обработан другими исключениями.
+        ResponseStatusError: Если статус ответа 403 и обнаружен OpenAI, 502 или другой статус ошибки.
+        RateLimitError: Если статус ответа 429, 402 или 504.
+
+    Returns:
+        None
     """
     if response.ok:
         return
 
     is_html: bool = False
-    content_type: str = response.headers.get("content-type", "")
-
-    try:
-        if message is None:
-            if content_type.startswith("application/json"):
-                try:
-                    message = await response.json()
-                    message = message.get("error", message)
-                    if isinstance(message, dict):
-                        message = message.get("message", message)
-                except Exception as ex:
-                    logger.error('Error while parsing JSON', ex, exc_info=True)
-                    message = "Failed to parse JSON response"
-            else:
-                message = (await response.text()).strip()
-                is_html = content_type.startswith("text/html") or message.startswith("<!DOCTYPE")
-
-        if message is None or is_html:
-            if response.status == 520:
-                message = "Unknown error (Cloudflare)"
-            elif response.status in (429, 402):
-                message = "Rate limit"
-
-        if response.status == 401:
-            raise MissingAuthError(f"Response {response.status}: {message}")
-        elif response.status == 403 and is_cloudflare(message):
-            raise CloudflareError(f"Response {response.status}: {CLOUDFLARE_DETECTED_MESSAGE}")
-        elif response.status == 403 and is_openai(message):
-            raise ResponseStatusError(f"Response {response.status}: {OPENAI_BOT_DETECTED_MESSAGE}")
-        elif response.status == 502:
-            raise ResponseStatusError(f"Response {response.status}: Bad Gateway")
-        elif response.status == 504:
-            raise RateLimitError(f"Response {response.status}: Gateway Timeout ")
+    if message is None:
+        content_type: str = response.headers.get('content-type', '')
+        if content_type.startswith('application/json'):
+            try:
+                message = await response.json()
+                message = message.get('error', message)
+                if isinstance(message, dict):
+                    message = message.get('message', message)
+            except Exception as ex:
+                logger.error('Error while parsing JSON', ex, exc_info=True) # Добавлено логирование ошибки
+                message = 'Failed to parse JSON'
         else:
-            raise ResponseStatusError(f"Response {response.status}: {'HTML content' if is_html else message}")
+            try:
+                message = (await response.text()).strip()
+                is_html = content_type.startswith('text/html') or message.startswith('<!DOCTYPE')
+            except Exception as ex:
+                logger.error('Error while reading text', ex, exc_info=True) # Добавлено логирование ошибки
+                message = 'Failed to read text'
 
-    except (MissingAuthError, CloudflareError, ResponseStatusError, RateLimitError) as ex:
-        logger.error(f"Error {response.status}: {message}", ex, exc_info=True)  # Логируем ошибку
-        raise  # Перебрасываем исключение дальше
-    except Exception as ex:
-        logger.error(f"Unexpected error {response.status}: {message}", ex, exc_info=True)
-        raise ResponseStatusError(f"Response {response.status}: {'HTML content' if is_html else message}")
+    if message is None or is_html:
+        if response.status == 520:
+            message = 'Unknown error (Cloudflare)'
+        elif response.status in (429, 402):
+            message = 'Rate limit'
 
+    if response.status == 401:
+        raise MissingAuthError(f'Response {response.status}: {message}')
+    if response.status == 403 and is_cloudflare(message):
+        raise CloudflareError(f'Response {response.status}: Cloudflare detected')
+    elif response.status == 403 and is_openai(message):
+        raise ResponseStatusError(f'Response {response.status}: OpenAI Bot detected')
+    elif response.status == 502:
+        raise ResponseStatusError(f'Response {response.status}: Bad Gateway')
+    elif response.status == 504:
+        raise RateLimitError(f'Response {response.status}: Gateway Timeout ')
+    else:
+        raise ResponseStatusError(f'Response {response.status}: {\'HTML content\' if is_html else message}')
 
-def raise_for_status(response: Response | StreamResponse | ClientResponse | RequestsResponse, message: Optional[str] = None):
+def raise_for_status(response: Union[Response, StreamResponse, ClientResponse, RequestsResponse], message: str | None = None) -> None:
     """
-    Проверяет статус ответа и выбрасывает исключение, если статус не OK.
+    Проверяет статус ответа и вызывает исключение, если статус не OK.
 
     Args:
         response (Response | StreamResponse | ClientResponse | RequestsResponse): Объект ответа.
-        message (Optional[str]): Сообщение об ошибке. По умолчанию None.
+        message (str | None): Сообщение об ошибке. По умолчанию None.
 
     Raises:
         MissingAuthError: Если статус ответа 401.
         CloudflareError: Если статус ответа 403 и обнаружен Cloudflare.
-        ResponseStatusError: Если статус ответа 403 и обнаружен OpenAI Bot.
-        ResponseStatusError: Если статус ответа 502.
-        RateLimitError: Если статус ответа 429 или 402 или 504.
-        ResponseStatusError: Если статус ответа не OK и не обработан другими исключениями.
+        ResponseStatusError: Если статус ответа 403 и обнаружен OpenAI, 502 или другой статус ошибки.
+        RateLimitError: Если статус ответа 429, 402 или 504.
+
+    Returns:
+        None
     """
-    if hasattr(response, "status"):
+    if hasattr(response, 'status'):
         return raise_for_status_async(response, message)
 
+    if response.ok:
+        return
+
     is_html: bool = False
+    if message is None:
+        try:
+            is_html = response.headers.get('content-type', '').startswith('text/html') or response.text.startswith('<!DOCTYPE')
+            message = response.text
+        except Exception as ex:
+            logger.error('Error while getting headers or text', ex, exc_info=True) # Добавлено логирование ошибки
+            message = 'Failed to get headers or text'
 
-    try:
-        if not response.ok:
-            if message is None:
-                is_html = response.headers.get("content-type", "").startswith("text/html") or response.text.startswith("<!DOCTYPE")
-                message = response.text
+    if message is None or is_html:
+        if response.status_code == 520:
+            message = 'Unknown error (Cloudflare)'
+        elif response.status_code in (429, 402):
+            raise RateLimitError(f'Response {response.status_code}: Rate Limit')
 
-            if message is None or is_html:
-                if response.status_code == 520:
-                    message = "Unknown error (Cloudflare)"
-                elif response.status_code in (429, 402):
-                    raise RateLimitError(f"Response {response.status_code}: Rate Limit")
-
-            if response.status_code == 401:
-                raise MissingAuthError(f"Response {response.status_code}: {message}")
-            elif response.status_code == 403 and is_cloudflare(response.text):
-                raise CloudflareError(f"Response {response.status_code}: {CLOUDFLARE_DETECTED_MESSAGE}")
-            elif response.status_code == 403 and is_openai(response.text):
-                raise ResponseStatusError(f"Response {response.status_code}: {OPENAI_BOT_DETECTED_MESSAGE}")
-            elif response.status_code == 502:
-                raise ResponseStatusError(f"Response {response.status_code}: Bad Gateway")
-            elif response.status_code == 504:
-                raise RateLimitError(f"Response {response.status_code}: Gateway Timeout ")
-            else:
-                raise ResponseStatusError(f"Response {response.status_code}: {'HTML content' if is_html else message}")
-    except (MissingAuthError, CloudflareError, ResponseStatusError, RateLimitError) as ex:
-        logger.error(f"Error {response.status_code}: {message}", ex, exc_info=True)  # Логируем ошибку
-        raise  # Перебрасываем исключение дальше
-    except Exception as ex:
-        logger.error(f"Unexpected error {response.status_code}: {message}", ex, exc_info=True)
-        raise ResponseStatusError(f"Response {response.status_code}: {'HTML content' if is_html else message}")
-```
-```
+    if response.status_code == 401:
+        raise MissingAuthError(f'Response {response.status_code}: {message}')
+    if response.status_code == 403 and is_cloudflare(response.text):
+        raise CloudflareError(f'Response {response.status_code}: Cloudflare detected')
+    elif response.status_code == 403 and is_openai(response.text):
+        raise ResponseStatusError(f'Response {response.status_code}: OpenAI Bot detected')
+    elif response.status_code == 502:
+        raise ResponseStatusError(f'Response {response.status_code}: Bad Gateway')
+    elif response.status_code == 504:
+        raise RateLimitError(f'Response {response.status_code}: Gateway Timeout ')
+    else:
+        raise ResponseStatusError(f'Response {response.status_code}: {\'HTML content\' if is_html else message}')

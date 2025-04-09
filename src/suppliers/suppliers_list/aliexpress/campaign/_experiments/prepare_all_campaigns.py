@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.campaign._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,14 +33,14 @@
   :synopsis:
 """
   
-""" module: src.suppliers.aliexpress.campaign._experiments """
+""" module: src.suppliers.suppliers_list.aliexpress.campaign._experiments """
 
 
 
 """ Прогоняет все рекламные кампании для всех языков с поиском названий категорий из директорий """
 ...
 import header
-from src.suppliers.aliexpress.campaign.prepare_campaigns import process_all_campaigns, main_process
+from src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns import process_all_campaigns, main_process
 
 # locales = {'EN': 'USD', 'HE': 'ILS', 'RU': 'ILS'}
 # campaign_name:str = 'rc'

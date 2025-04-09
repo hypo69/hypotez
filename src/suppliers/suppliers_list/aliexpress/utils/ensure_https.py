@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.utils 
+.. module:: src.suppliers.suppliers_list.aliexpress.utils 
 	:platform: Windows, Unix
 	:synopsis: Ensures that the provided URL string(s) contain the https:// prefix. 
 If the input is a product ID, it constructs a full URL with https:// prefix.

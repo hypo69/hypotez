@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.campaign 
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign 
 	:platform: Windows, Unix
 	:synopsis: Jupyter widgets for the AliExpress campaign editor.
 
@@ -25,8 +25,8 @@ from IPython.display import display
 import webbrowser
 
 from src import gs
-from src.suppliers.aliexpress.campaign import AliCampaignEditor
-from src.suppliers.aliexpress.utils import locales
+from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress.utils import locales
 from src.utils.printer import pprint, get_directory_names
 from src.logger.logger import logger
 

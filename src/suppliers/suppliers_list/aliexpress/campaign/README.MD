@@ -1,5 +1,5 @@
 ```rst
-.. module:: src.suppliers.aliexpress.campaign
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign
 ```
 ### `campaign`  
  

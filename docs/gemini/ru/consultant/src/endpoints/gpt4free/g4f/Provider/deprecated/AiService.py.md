@@ -1,59 +1,53 @@
 ### **Анализ кода модуля `AiService.py`**
 
-#### **Качество кода**:
+## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/deprecated/AiService.py
+
+**Качество кода**:
+
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код достаточно прост и понятен.
-    - Используется `requests` для выполнения HTTP-запросов.
+    - Код достаточно простой и понятный, легко читается.
+    - Используется `from __future__ import annotations` для корректной работы с аннотациями типов.
+    - Класс наследуется от `AbstractProvider`, что предполагает наличие общей структуры для провайдеров.
 - **Минусы**:
-    - Отсутствует обработка исключений.
-    - Не используются логи.
-    - Не все переменные аннотированы типами.
-    - Отсутствует документация.
-    - Не используется модуль `logger` из `src.logger`.
-    - Нет обработки ошибок при запросе.
-    - Используются двойные кавычки вместо одинарных.
+    - Отсутствуют docstring для класса и метода `create_completion`.
+    - Нет обработки исключений при выполнении запроса.
+    - Не используется модуль `logger` для логирования ошибок.
+    - Отсутствуют аннотации типов для `base` и `url` внутри функции `create_completion`.
+    - `working = False` - нет функциональности для автоматической проверки работоспособности провайдера.
+    - В коде используются двойные кавычки.
+    - `response.json()["data"]` - отсутствует проверка на наличие ключа `data` в ответе JSON.
+    - Отсутствует обработка ошибок, возникающих при парсинге JSON.
 
-#### **Рекомендации по улучшению**:
-- Добавить обработку исключений для `requests.post` и `response.json()`.
-- Использовать логирование для отслеживания ошибок и предупреждений.
-- Добавить документацию для класса и метода `create_completion`.
-- Исправить использование двойных кавычек на одинарные.
-- Аннотировать типы для всех переменных и параметров функций.
-- Использовать `logger` для логирования ошибок и информации.
-- Добавить проверку статуса ответа от сервера и обработку ошибок.
+**Рекомендации по улучшению**:
 
-#### **Оптимизированный код**:
+- Добавить docstring для класса `AiService` и метода `create_completion` с подробным описанием параметров, возвращаемых значений и возможных исключений.
+- Реализовать обработку исключений при выполнении запроса с использованием `try-except` блоков и логированием ошибок через `logger.error`.
+- Добавить аннотации типов для переменных `base`, `headers`, `data` и `url` внутри функции `create_completion`.
+- Реализовать механизм для автоматической проверки работоспособности провайдера и обновления значения `working`.
+- Проверять наличие ключа `data` в ответе JSON, прежде чем обращаться к нему, и обрабатывать возможные ошибки парсинга JSON.
+- Использовать одинарные кавычки вместо двойных.
+
+**Оптимизированный код**:
 
 ```python
 from __future__ import annotations
 
 import requests
-from requests import Response
-from typing import Any, Generator, List, Dict
 
-from ...typing import CreateResult, Messages
+from ...typing import Any, CreateResult, Messages
 from ..base_provider import AbstractProvider
-from src.logger import logger
+from src.logger import logger  # Добавлен импорт logger
+from typing import Generator
 
 
 class AiService(AbstractProvider):
     """
-    Сервис AiService для взаимодействия с API aiservice.vercel.app.
-    ==============================================================
+    Провайдер AiService для gpt4free.
 
-    Этот класс предоставляет метод для создания завершений на основе предоставленных сообщений,
-    используя API aiservice.vercel.app.
-
-    Пример использования:
-    ----------------------
-    >>> service = AiService()
-    >>> messages = [{"role": "user", "content": "Hello"}]
-    >>> result = service.create_completion(model="gpt-3.5-turbo", messages=messages, stream=False)
-    >>> for chunk in result:
-    ...     print(chunk)
+    Этот класс предоставляет функциональность для взаимодействия с AiService для создания завершений текста.
     """
-    url: str = 'https://aiservice.vercel.app/'
+    url: str = "https://aiservice.vercel.app/"
     working: bool = False
     supports_gpt_35_turbo: bool = True
 
@@ -63,52 +57,56 @@ class AiService(AbstractProvider):
         messages: Messages,
         stream: bool,
         **kwargs: Any,
-    ) -> CreateResult:
+    ) -> Generator[str, None, None]:
         """
-        Создает завершение на основе предоставленных сообщений.
+        Создает завершение текста, используя AiService.
 
         Args:
-            model (str): Модель для использования.
+            model (str): Имя модели.
             messages (Messages): Список сообщений для отправки.
-            stream (bool): Флаг потоковой передачи.
+            stream (bool): Флаг, указывающий, нужно ли использовать потоковую передачу.
             **kwargs (Any): Дополнительные аргументы.
 
         Yields:
-            str: Часть ответа от API.
+            str: Часть завершенного текста.
 
         Raises:
-            requests.exceptions.RequestException: Если возникает ошибка при выполнении запроса.
-            ValueError: Если ответ от API не содержит ожидаемых данных.
-
+            requests.exceptions.RequestException: Если произошла ошибка при выполнении запроса.
+            KeyError: Если в ответе JSON отсутствует ключ "data".
+            json.JSONDecodeError: Если не удалось распарсить ответ JSON.
         """
-        base: str = (
-            '\n'.join(
-                f'{message["role"]}: {message["content"]}' for message in messages
-            )
-            + '\nassistant: '
-        )
-        headers: Dict[str, str] = {
-            'accept': '*/*',
-            'content-type': 'text/plain;charset=UTF-8',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-origin',
-            'Referer': 'https://aiservice.vercel.app/chat',
-        }
-        data: Dict[str, str] = {'input': base}
-        url: str = 'https://aiservice.vercel.app/api/chat/answer'
         try:
-            response: Response = requests.post(url, headers=headers, json=data)
-            response.raise_for_status()  # Проверка на HTTP ошибки
-            response_json: dict = response.json()
-            if 'data' in response_json:
-                yield response_json['data']
-            else:
-                logger.error('Response does not contain data', exc_info=True)
-                raise ValueError('Response does not contain data')
-        except requests.exceptions.RequestException as ex:
-            logger.error('Error while processing data', ex, exc_info=True)
-            raise
-        except ValueError as ex:
-            logger.error('Error decoding JSON response', ex, exc_info=True)
-            raise
+            # Формируем запрос
+            base: str = "\n".join(
+                f"{message['role']}: {message['content']}" for message in messages
+            ) + "\nassistant: "
+            headers: dict[str, str] = {
+                "accept": "*/*",
+                "content-type": "text/plain;charset=UTF-8",
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-origin",
+                "Referer": "https://aiservice.vercel.app/chat",
+            }
+            data: dict[str, str] = {"input": base}
+            url: str = "https://aiservice.vercel.app/api/chat/answer"
+
+            # Отправляем запрос
+            response = requests.post(url, headers=headers, json=data)
+            response.raise_for_status()
+
+            # Обрабатываем ответ
+            try:
+                json_data: dict[str, Any] = response.json()
+                if "data" in json_data:
+                    yield json_data["data"]
+                else:
+                    logger.error("Ключ 'data' отсутствует в ответе JSON", exc_info=True)  # Исправлено на logger.error
+                    yield "Error: Ключ 'data' отсутствует в ответе JSON"  # Можно заменить на исключение
+            except Exception as ex:  # Исправлено на использование ex вместо e
+                logger.error("Ошибка при разборе JSON", ex, exc_info=True)  # Исправлено на logger.error
+                yield f"Error decoding JSON: {ex}"  # Можно заменить на исключение
+
+        except requests.exceptions.RequestException as ex:  # Исправлено на использование ex вместо e
+            logger.error("Ошибка при выполнении запроса", ex, exc_info=True)  # Исправлено на logger.error
+            yield f"Request error: {ex}"  # Можно заменить на исключение

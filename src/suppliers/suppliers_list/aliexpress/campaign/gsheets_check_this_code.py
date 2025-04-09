@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.campaign 
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign 
 	:platform: Windows, Unix
 	:synopsis: Редактор рекламной кампании через гугл таблицами
 
@@ -17,7 +17,7 @@ from types import SimpleNamespace
 from src.webdriver.driver import Driver, Chrome, Firefox, Edge
 from gspread.worksheet import Worksheet
 from src.goog.spreadsheet.spreadsheet import SpreadSheet
-from src.suppliers.aliexpress.campaign.ali_campaign_editor import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress.campaign.ali_campaign_editor import AliCampaignEditor
 from src.utils.jjson import j_dumps
 from src.utils.printer import pprint
 from src.logger.logger import logger

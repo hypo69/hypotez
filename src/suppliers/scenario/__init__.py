@@ -1,4 +1,4 @@
-## \file /src/scenario/__init__.py
+## \file /src/suppliers/scenario/__init__.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 

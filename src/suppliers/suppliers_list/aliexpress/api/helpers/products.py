@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.aliexpress.api.helpers """
+""" module: src.suppliers.suppliers_list.aliexpress.api.helpers """
 def parse_product(product):
     product.product_small_image_urls = product.product_small_image_urls.string
     return product

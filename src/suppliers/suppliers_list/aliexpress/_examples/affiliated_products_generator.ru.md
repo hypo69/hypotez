@@ -6,7 +6,7 @@
 ```python
 # пример_использования.py
 
-from src.suppliers.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
 
 def main():
     # Задайте параметры рекламной кампании
@@ -104,7 +104,7 @@ if __name__ == "__main__":
 ```python
 # пример_использования.py
 
-from src.suppliers.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
 
 def main():
     # Задайте параметры рекламной кампании

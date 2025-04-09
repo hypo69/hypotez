@@ -5,7 +5,7 @@
 
 """
 rst```
-.. module:: src.suppliers.aliexpress 
+.. module:: src.suppliers.suppliers_list.aliexpress 
 	:platform: Windows, Unix
 	:synopsis: Модуль для сбора данных о товарах с AliExpress
 ```

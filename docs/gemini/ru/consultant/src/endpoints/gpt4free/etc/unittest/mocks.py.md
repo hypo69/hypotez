@@ -4,176 +4,194 @@
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код предоставляет набор мок-классов провайдеров, полезных для юнит-тестирования.
-    - Разделение на синхронные и асинхронные мок-классы, а также классы, генерирующие ответы и выбрасывающие исключения.
-    - Использование `AbstractProvider`, `AsyncProvider`, `AsyncGeneratorProvider` для наследования, что обеспечивает соответствие интерфейсам.
+    - Код содержит набор mock-классов, которые полезны для тестирования и имитации различных сценариев работы с провайдерами g4f.
+    - Присутствуют классы, имитирующие успешные ответы, ошибки аутентификации и другие исключительные ситуации.
+    - Классы явно указывают на свое предназначение (например, `MissingAuthProviderMock`, `RaiseExceptionProviderMock`).
 - **Минусы**:
-    - Отсутствует документация в формате docstring для классов и методов.
-    - Не хватает комментариев, объясняющих назначение каждого мок-класса.
-    - Не используются `logger` для записи ошибок или отладочной информации.
-    - Не указаны типы для параметров `model`, `messages`, `stream` и `kwargs` в методах.
+    - Отсутствует документация модуля и классов.
+    - Не хватает аннотаций типов для параметров и возвращаемых значений методов.
+    - Используются `classmethod` без необходимости, когда можно обойтись `staticmethod`.
+    - Некоторые методы содержат `yield` после `raise`, что делает код недостижимым.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить docstring для каждого класса и метода**. Описать назначение класса, аргументы и возвращаемые значения методов.
-2.  **Указать типы для параметров и возвращаемых значений**. Это улучшит читаемость и поможет в отладке.
-3.  **Использовать `logger` для логирования ошибок**. Например, в `MissingAuthProviderMock` и `RaiseExceptionProviderMock`.
-4.  **Добавить комментарии**, объясняющие, что именно мокает каждый класс.
-5.  **Перевести все комментарии на русский язык**
+1.  **Добавить документацию модуля**:
+    - В начале файла добавить docstring с описанием назначения модуля и примерами использования.
+2.  **Добавить документацию к классам и методам**:
+    - Описать назначение каждого класса и метода, а также их параметры и возвращаемые значения.
+    - Использовать docstring в формате, указанном в инструкции.
+3.  **Добавить аннотации типов**:
+    - Указать типы параметров и возвращаемых значений для всех методов.
+4.  **Изменить `classmethod` на `staticmethod`**:
+    - Если метод не использует `cls` (класс), то лучше использовать `staticmethod`.
+5.  **Удалить недостижимый код**:
+    - Убрать `yield` после `raise` в классах `MissingAuthProviderMock`, `RaiseExceptionProviderMock` и `AsyncRaiseExceptionProviderMock`.
+6.  **Использовать `logger` для логирования ошибок**:
+    - Добавить логирование ошибок в тех местах, где это необходимо.
 
 **Оптимизированный код:**
 
 ```python
-from typing import AsyncGenerator, AsyncIterable, Dict, List, Optional, Union
+"""
+Модуль, содержащий mock-классы для тестирования провайдеров g4f.
+====================================================================
+
+Этот модуль предоставляет набор классов, которые имитируют поведение различных провайдеров,
+включая успешные ответы, ошибки аутентификации и другие исключительные ситуации.
+
+Пример использования:
+----------------------
+>>> from g4f.models import Model
+>>> from src.endpoints.gpt4free.etc.unittest.mocks import ProviderMock
+>>> model = Model.palm
+>>> messages = [{"role": "user", "content": "Hello"}]
+>>> stream = False
+>>> for response in ProviderMock.create_completion(model, messages, stream):
+...     print(response)
+Mock
+"""
+from typing import AsyncGenerator, Generator, List, Optional
+
 from g4f.providers.base_provider import AbstractProvider, AsyncProvider, AsyncGeneratorProvider
 from g4f.providers.response import ImageResponse
 from g4f.errors import MissingAuthError
-from src.logger import logger # Импорт модуля логгирования
+from src.logger import logger # Импорт модуля logger
+
 
 class ProviderMock(AbstractProvider):
     """
-    Мок-класс для синхронного провайдера.
-    Используется в юнит-тестах для имитации работы провайдера.
+    Mock-класс, имитирующий успешного провайдера.
     """
     working = True
 
-    @classmethod
+    @staticmethod
     def create_completion(
-        cls, 
         model: str, 
-        messages: List[Dict[str, str]], 
+        messages: List[dict], 
         stream: bool, 
-        **kwargs: Dict[str, any]
-    ) -> AsyncGenerator[str, None]:
+        **kwargs
+    ) -> Generator[str, None, None]:
         """
-        Генерирует строку "Mock".
+        Создает имитацию завершения текста.
 
         Args:
-            model (str): Модель для генерации (не используется).
-            messages (List[Dict[str, str]]): Список сообщений (не используется).
-            stream (bool): Флаг стриминга (не используется).
-            kwargs (Dict[str, any]): Дополнительные аргументы (не используются).
+            model (str): Имя модели.
+            messages (List[dict]): Список сообщений.
+            stream (bool): Флаг потоковой передачи.
+            **kwargs: Дополнительные аргументы.
 
         Yields:
-            str: "Mock".
+            str: Имитация ответа.
         """
         yield 'Mock'
 
 
 class AsyncProviderMock(AsyncProvider):
     """
-    Мок-класс для асинхронного провайдера.
-    Используется в юнит-тестах для имитации работы асинхронного провайдера.
+    Async mock-класс, имитирующий успешного асинхронного провайдера.
     """
     working = True
 
-    @classmethod
+    @staticmethod
     async def create_async(
-        cls, 
         model: str, 
-        messages: List[Dict[str, str]], 
-        **kwargs: Dict[str, any]
+        messages: List[dict], 
+        **kwargs
     ) -> str:
         """
-        Возвращает строку "Mock".
+        Создает имитацию асинхронного ответа.
 
         Args:
-            model (str): Модель для генерации (не используется).
-            messages (List[Dict[str, str]]): Список сообщений (не используется).
-            kwargs (Dict[str, any]): Дополнительные аргументы (не используются).
+            model (str): Имя модели.
+            messages (List[dict]): Список сообщений.
+            **kwargs: Дополнительные аргументы.
 
         Returns:
-            str: "Mock".
+            str: Имитация ответа.
         """
         return 'Mock'
 
 
 class AsyncGeneratorProviderMock(AsyncGeneratorProvider):
     """
-    Мок-класс для асинхронного провайдера-генератора.
-    Используется в юнит-тестах для имитации работы асинхронного провайдера, генерирующего ответы.
+    Async mock-класс, имитирующий успешного асинхронного генератора провайдера.
     """
     working = True
 
-    @classmethod
+    @staticmethod
     async def create_async_generator(
-        cls,
-        model: str,
-        messages: List[Dict[str, str]],
-        stream: bool,
-        **kwargs: Dict[str, any]
+        model: str, 
+        messages: List[dict], 
+        stream: bool, 
+        **kwargs
     ) -> AsyncGenerator[str, None]:
         """
-        Генерирует строку "Mock".
+        Создает имитацию асинхронного генератора ответа.
 
         Args:
-            model (str): Модель для генерации (не используется).
-            messages (List[Dict[str, str]]): Список сообщений (не используется).
-            stream (bool): Флаг стриминга (не используется).
-            kwargs (Dict[str, any]): Дополнительные аргументы (не используются).
+            model (str): Имя модели.
+            messages (List[dict]): Список сообщений.
+            stream (bool): Флаг потоковой передачи.
+            **kwargs: Дополнительные аргументы.
 
         Yields:
-            str: "Mock".
+            str: Имитация ответа.
         """
         yield 'Mock'
 
 
 class ModelProviderMock(AbstractProvider):
     """
-    Мок-класс для провайдера, возвращающего название модели.
-    Используется в юнит-тестах для проверки, что модель передается правильно.
+    Mock-класс, имитирующий провайдера, возвращающего имя модели.
     """
     working = True
 
-    @classmethod
+    @staticmethod
     def create_completion(
-        cls, 
         model: str, 
-        messages: List[Dict[str, str]], 
+        messages: List[dict], 
         stream: bool, 
-        **kwargs: Dict[str, any]
-    ) -> AsyncGenerator[str, None]:
+        **kwargs
+    ) -> Generator[str, None, None]:
         """
-        Генерирует название модели.
+        Создает имитацию завершения текста, возвращая имя модели.
 
         Args:
-            model (str): Модель для генерации.
-            messages (List[Dict[str, str]]): Список сообщений (не используется).
-            stream (bool): Флаг стриминга (не используется).
-            kwargs (Dict[str, any]): Дополнительные аргументы (не используются).
+            model (str): Имя модели.
+            messages (List[dict]): Список сообщений.
+            stream (bool): Флаг потоковой передачи.
+            **kwargs: Дополнительные аргументы.
 
         Yields:
-            str: Название модели.
+            str: Имя модели.
         """
         yield model
 
 
 class YieldProviderMock(AsyncGeneratorProvider):
     """
-    Мок-класс для провайдера-генератора, возвращающего содержимое сообщений.
-    Используется в юнит-тестах для проверки обработки сообщений.
+    Async mock-класс, имитирующий провайдера, возвращающего содержимое сообщений.
     """
     working = True
 
-    @classmethod
+    @staticmethod
     async def create_async_generator(
-        cls,
-        model: str,
-        messages: List[Dict[str, str]],
-        stream: bool,
-        **kwargs: Dict[str, any]
+        model: str, 
+        messages: List[dict], 
+        stream: bool, 
+        **kwargs
     ) -> AsyncGenerator[str, None]:
         """
-        Генерирует содержимое каждого сообщения.
+        Создает имитацию асинхронного генератора ответа, возвращая содержимое сообщений.
 
         Args:
-            model (str): Модель для генерации (не используется).
-            messages (List[Dict[str, str]]): Список сообщений.
-            stream (bool): Флаг стриминга (не используется).
-            kwargs (Dict[str, any]): Дополнительные аргументы (не используются).
+            model (str): Имя модели.
+            messages (List[dict]): Список сообщений.
+            stream (bool): Флаг потоковой передачи.
+            **kwargs: Дополнительные аргументы.
 
         Yields:
-            str: Содержимое каждого сообщения.
+            str: Содержимое сообщений.
         """
         for message in messages:
             yield message['content']
@@ -181,166 +199,154 @@ class YieldProviderMock(AsyncGeneratorProvider):
 
 class YieldImageResponseProviderMock(AsyncGeneratorProvider):
     """
-    Мок-класс для провайдера-генератора, возвращающего объект ImageResponse.
-    Используется в юнит-тестах для проверки обработки ответов с изображениями.
+    Async mock-класс, имитирующий провайдера, возвращающего изображение.
     """
     working = True
 
-    @classmethod
+    @staticmethod
     async def create_async_generator(
-        cls,
         model: str,
-        messages: List[Dict[str, str]],
+        messages: List[dict],
         stream: bool,
         prompt: str,
-        **kwargs: Dict[str, any]
+        **kwargs
     ) -> AsyncGenerator[ImageResponse, None]:
         """
-        Генерирует объект ImageResponse.
+        Создает имитацию асинхронного генератора ответа, возвращая изображение.
 
         Args:
-            model (str): Модель для генерации (не используется).
-            messages (List[Dict[str, str]]): Список сообщений (не используется).
-            stream (bool): Флаг стриминга (не используется).
-            prompt (str): Prompt для генерации изображения.
-            kwargs (Dict[str, any]): Дополнительные аргументы (не используются).
+            model (str): Имя модели.
+            messages (List[dict]): Список сообщений.
+            stream (bool): Флаг потоковой передачи.
+            prompt (str): Текст запроса.
+            **kwargs: Дополнительные аргументы.
 
         Yields:
-            ImageResponse: Объект ImageResponse с prompt и пустой строкой.
+            ImageResponse: Объект ImageResponse.
         """
         yield ImageResponse(prompt, '')
 
 
 class MissingAuthProviderMock(AbstractProvider):
     """
-    Мок-класс для провайдера, выбрасывающего исключение MissingAuthError.
-    Используется в юнит-тестах для проверки обработки ошибок аутентификации.
+    Mock-класс, имитирующий ошибку аутентификации.
     """
     working = True
 
-    @classmethod
+    @staticmethod
     def create_completion(
-        cls, 
         model: str, 
-        messages: List[Dict[str, str]], 
+        messages: List[dict], 
         stream: bool, 
-        **kwargs: Dict[str, any]
-    ) -> AsyncGenerator[str, None]:
+        **kwargs
+    ) -> Generator[str, None, None]:
         """
-        Выбрасывает исключение MissingAuthError.
+        Вызывает исключение MissingAuthError.
 
         Args:
-            model (str): Модель для генерации (не используется).
-            messages (List[Dict[str, str]]): Список сообщений (не используется).
-            stream (bool): Флаг стриминга (не используется).
-            kwargs (Dict[str, any]): Дополнительные аргументы (не используются).
+            model (str): Имя модели.
+            messages (List[dict]): Список сообщений.
+            stream (bool): Флаг потоковой передачи.
+            **kwargs: Дополнительные аргументы.
 
         Raises:
-            MissingAuthError: Всегда выбрасывается.
+            MissingAuthError: Всегда вызывается.
         """
         try:
-            raise MissingAuthError(cls.__name__)
+            raise MissingAuthError(MissingAuthProviderMock.__name__)
         except MissingAuthError as ex:
-            logger.error('Missing Auth Error', ex, exc_info=True)
-            raise # Переброс исключения после логирования
-        yield cls.__name__
+            logger.error('Missing authentication error', ex, exc_info=True)
+            raise
+    
 
 
 class RaiseExceptionProviderMock(AbstractProvider):
     """
-    Мок-класс для провайдера, выбрасывающего исключение RuntimeError.
-    Используется в юнит-тестах для проверки обработки ошибок времени выполнения.
+    Mock-класс, имитирующий общее исключение.
     """
     working = True
 
-    @classmethod
+    @staticmethod
     def create_completion(
-        cls, 
         model: str, 
-        messages: List[Dict[str, str]], 
+        messages: List[dict], 
         stream: bool, 
-        **kwargs: Dict[str, any]
-    ) -> AsyncGenerator[str, None]:
+        **kwargs
+    ) -> Generator[str, None, None]:
         """
-        Выбрасывает исключение RuntimeError.
+        Вызывает исключение RuntimeError.
 
         Args:
-            model (str): Модель для генерации (не используется).
-            messages (List[Dict[str, str]]): Список сообщений (не используется).
-            stream (bool): Флаг стриминга (не используется).
-            kwargs (Dict[str, any]): Дополнительные аргументы (не используются).
+            model (str): Имя модели.
+            messages (List[dict]): Список сообщений.
+            stream (bool): Флаг потоковой передачи.
+            **kwargs: Дополнительные аргументы.
 
         Raises:
-            RuntimeError: Всегда выбрасывается.
+            RuntimeError: Всегда вызывается.
         """
         try:
-            raise RuntimeError(cls.__name__)
+            raise RuntimeError(RaiseExceptionProviderMock.__name__)
         except RuntimeError as ex:
-            logger.error('Runtime Error', ex, exc_info=True)
-            raise # Переброс исключения после логирования
-        yield cls.__name__
+            logger.error('Runtime error', ex, exc_info=True)
+            raise
 
 
 class AsyncRaiseExceptionProviderMock(AsyncGeneratorProvider):
     """
-    Мок-класс для асинхронного провайдера-генератора, выбрасывающего исключение RuntimeError.
-    Используется в юнит-тестах для проверки обработки асинхронных ошибок времени выполнения.
+    Async mock-класс, имитирующий общее исключение в асинхронном генераторе.
     """
     working = True
 
-    @classmethod
+    @staticmethod
     async def create_async_generator(
-        cls,
-        model: str,
-        messages: List[Dict[str, str]],
-        stream: bool,
-        **kwargs: Dict[str, any]
+        model: str, 
+        messages: List[dict], 
+        stream: bool, 
+        **kwargs
     ) -> AsyncGenerator[str, None]:
         """
-        Выбрасывает исключение RuntimeError.
+        Вызывает исключение RuntimeError в асинхронном генераторе.
 
         Args:
-            model (str): Модель для генерации (не используется).
-            messages (List[Dict[str, str]]): Список сообщений (не используется).
-            stream (bool): Флаг стриминга (не используется).
-            kwargs (Dict[str, any]): Дополнительные аргументы (не используются).
+            model (str): Имя модели.
+            messages (List[dict]): Список сообщений.
+            stream (bool): Флаг потоковой передачи.
+            **kwargs: Дополнительные аргументы.
 
         Raises:
-            RuntimeError: Всегда выбрасывается.
+            RuntimeError: Всегда вызывается.
         """
         try:
-            raise RuntimeError(cls.__name__)
+             raise RuntimeError(AsyncRaiseExceptionProviderMock.__name__)
         except RuntimeError as ex:
-            logger.error('Async Runtime Error', ex, exc_info=True)
-            raise # Переброс исключения после логирования
-        yield cls.__name__
+            logger.error('Async runtime error', ex, exc_info=True)
+            raise
 
 
 class YieldNoneProviderMock(AsyncGeneratorProvider):
     """
-    Мок-класс для провайдера-генератора, возвращающего None.
-    Используется в юнит-тестах для проверки обработки пустых ответов.
+    Async mock-класс, имитирующий провайдера, возвращающего None.
     """
     working = True
 
-    @classmethod
+    @staticmethod
     async def create_async_generator(
-        cls,
-        model: str,
-        messages: List[Dict[str, str]],
-        stream: bool,
-        **kwargs: Dict[str, any]
+        model: str, 
+        messages: List[dict], 
+        stream: bool, 
+        **kwargs
     ) -> AsyncGenerator[None, None]:
         """
-        Генерирует None.
+        Создает имитацию асинхронного генератора ответа, возвращая None.
 
         Args:
-            model (str): Модель для генерации (не используется).
-            messages (List[Dict[str, str]]): Список сообщений (не используется).
-            stream (bool): Флаг стриминга (не используется).
-            kwargs (Dict[str, any]): Дополнительные аргументы (не используются).
+            model (str): Имя модели.
+            messages (List[dict]): Список сообщений.
+            stream (bool): Флаг потоковой передачи.
+            **kwargs: Дополнительные аргументы.
 
         Yields:
-            None: None.
+            None: Всегда возвращает None.
         """
         yield None

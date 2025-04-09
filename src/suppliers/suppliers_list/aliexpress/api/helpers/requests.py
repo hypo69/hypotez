@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.aliexpress.api.helpers """
+""" module: src.suppliers.suppliers_list.aliexpress.api.helpers """
 from types import SimpleNamespace
 from time import sleep
 from src.logger.logger import logger

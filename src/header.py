@@ -2,13 +2,6 @@
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
-"""
-.. module:: src.header 
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
 
 import sys
 import json

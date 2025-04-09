@@ -2,63 +2,70 @@
 
 ## \file /hypotez/src/endpoints/gpt4free/g4f/locals/models.py
 
-Модуль `models.py` предназначен для загрузки, форматирования, чтения и сохранения информации о моделях, используемых в проекте. Он отвечает за получение данных о моделях с удаленного ресурса, а также за локальное хранение и управление этими данными.
+Модуль содержит функции для загрузки, форматирования, чтения и сохранения информации о моделях, используемых в проекте.
 
-**Качество кода**:
-- **Соответствие стандартам**: 7/10
+**Качество кода:**
+
+- **Соответствие стандартам**: 6/10
 - **Плюсы**:
-  - Четкая структура функций.
-  - Разделение ответственности между функциями (загрузка, форматирование, сохранение).
-  - Обработка ошибок при загрузке данных.
+    - Код достаточно структурирован и выполняет поставленные задачи.
+    - Есть функции для загрузки, чтения, сохранения и форматирования моделей.
+    - Используется `raise_for_status` для обработки ошибок HTTP-запросов.
 - **Минусы**:
-  - Отсутствие аннотаций типов для параметров и возвращаемых значений функций.
-  - Использование двойных кавычек вместо одинарных.
-  - Нет обработки исключений при работе с файлами.
-  - Не используется модуль логирования `logger` для записи информации об операциях и ошибках.
+    - Отсутствуют аннотации типов для параметров и возвращаемых значений функций.
+    - Нет обработки исключений для операций с файлами (чтение и запись).
+    - Не используется `logger` для логирования ошибок и информации.
+    - Отсутствуют docstring для функций, что затрудняет понимание их назначения и использования.
+    - Используются двойные кавычки вместо одинарных.
+    - Не используется `j_loads` или `j_loads_ns` для чтения JSON.
 
-**Рекомендации по улучшению**:
-1. **Добавить аннотации типов**: Для всех функций необходимо добавить аннотации типов параметров и возвращаемых значений.
-2. **Использовать одинарные кавычки**: Заменить двойные кавычки на одинарные для строк.
-3. **Добавить обработку исключений**: При работе с файлами необходимо добавить блоки `try...except` для обработки возможных исключений (например, `FileNotFoundError`, `JSONDecodeError`).
-4. **Использовать логирование**: Добавить логирование для записи информации о важных операциях (например, загрузка моделей, сохранение моделей) и ошибок.
-5. **Использовать `j_loads` и `j_loads_ns`**: Заменить стандартное использование `open` и `json.load` на `j_loads` или `j_loads_ns` для чтения JSON файлов.
-6. **Документировать функции**: Добавить docstring к каждой функции для описания ее назначения, параметров и возвращаемых значений.
-7. **Перевести docstring на русский язык**: Все docstring должны быть на русском языке.
-8. **Исправить форматирование**: PEP8 formatting.
-9. **Удалить `from __future__ import annotations`**: Этот импорт больше не нужен в Python 3.10 и выше.
-10. **Использовать `Path`**: Использовать `Path` для работы с путями к файлам.
+**Рекомендации по улучшению:**
 
-**Оптимизированный код**:
+1.  **Добавить аннотации типов**:
+    - Для всех параметров и возвращаемых значений функций добавить аннотации типов.
+2.  **Добавить docstring**:
+    - Для каждой функции добавить docstring с описанием ее назначения, параметров, возвращаемых значений и возможных исключений.
+3.  **Обработка исключений**:
+    - Добавить блоки `try...except` для обработки возможных исключений при чтении и записи файлов.
+    - Использовать `logger` для логирования ошибок.
+4.  **Использовать `j_loads`**:
+    - Заменить `json.load` на `j_loads` для чтения JSON файлов.
+5.  **Использовать одинарные кавычки**:
+    - Заменить двойные кавычки на одинарные.
+6.  **Улучшить форматирование**:
+    - Добавить пробелы вокруг операторов присваивания.
+
+**Оптимизированный код:**
 
 ```python
 from __future__ import annotations
 
 import os
-import json
 import requests
-from pathlib import Path
-from typing import Dict, List, Optional
-from src.logger import logger
-from src.file_utils import j_loads
+import json
+from typing import Any
+
+from src.logger import logger # Импорт модуля логгирования
+from ..requests.raise_for_status import raise_for_status
 
 
-def load_models() -> list:
+def load_models() -> dict[str, dict[str, str | int | None]]:
     """
-    Загружает информацию о моделях с удаленного ресурса.
+    Загружает информацию о моделях из внешнего источника.
 
     Returns:
-        list: Список моделей, полученных с удаленного ресурса.
-
+        dict[str, dict[str, str | int | None]]: Словарь, содержащий информацию о моделях.
+                                                 Ключ - имя модели, значение - словарь с параметрами модели.
     Raises:
         requests.exceptions.RequestException: Если возникает ошибка при выполнении HTTP-запроса.
     """
     try:
-        response = requests.get("https://gpt4all.io/models/models3.json")
-        response.raise_for_status()  # Проверяет, что запрос выполнен успешно
-        return response.json()
+        response = requests.get('https://gpt4all.io/models/models3.json')
+        raise_for_status(response)
+        return format_models(response.json())
     except requests.exceptions.RequestException as ex:
-        logger.error(f'Ошибка при загрузке моделей с удаленного ресурса: {ex}', exc_info=True)
-        return []
+        logger.error('Ошибка при загрузке моделей', ex, exc_info=True)
+        return {}
 
 
 def get_model_name(filename: str) -> str:
@@ -71,71 +78,72 @@ def get_model_name(filename: str) -> str:
     Returns:
         str: Имя модели.
     """
-    name = filename.split(".", 1)[0]
-    for replace in ["-v1_5", "-v1", "-q4_0", "_v01", "-v0", "-f16", "-gguf2", "-newbpe"]:
-        name = name.replace(replace, "")
+    name = filename.split('.', 1)[0]
+    for replace in ['-v1_5', '-v1', '-q4_0', '_v01', '-v0', '-f16', '-gguf2', '-newbpe']:
+        name = name.replace(replace, '')
     return name
 
 
-def format_models(models: list) -> Dict[str, Dict[str, Optional[str | int]]]:
+def format_models(models: list[dict[str, str | int]]) -> dict[str, dict[str, str | int | None]]:
     """
-    Форматирует список моделей в словарь, где ключ - имя модели.
+    Форматирует список моделей в словарь.
 
     Args:
-        models (list): Список моделей.
+        models (list[dict[str, str | int]]): Список моделей.
 
     Returns:
-        Dict[str, Dict[str, Optional[str | int]]]: Отформатированный словарь моделей.
+        dict[str, dict[str, str | int | None]]: Словарь, где ключ - имя модели, значение - словарь с параметрами.
     """
-    return {get_model_name(model["filename"]): {
-        "path": model["filename"],
-        "ram": model["ramrequired"],
-        "prompt": model["promptTemplate"] if "promptTemplate" in model else None,
-        "system": model["systemPrompt"] if "systemPrompt" in model else None,
+    return {get_model_name(model['filename']): {
+        'path': model['filename'],
+        'ram': model['ramrequired'],
+        'prompt': model['promptTemplate'] if 'promptTemplate' in model else None,
+        'system': model['systemPrompt'] if 'systemPrompt' in model else None,
     } for model in models}
 
 
-def read_models(file_path: str | Path) -> dict:
+def read_models(file_path: str) -> dict[str, dict[str, str | int | None]] | None:
     """
-    Читает информацию о моделях из JSON-файла.
+    Считывает информацию о моделях из файла.
 
     Args:
-        file_path (str | Path): Путь к файлу с информацией о моделях.
+        file_path (str): Путь к файлу с информацией о моделях.
 
     Returns:
-        dict: Словарь с информацией о моделях.
-
-    Raises:
-        FileNotFoundError: Если файл не найден.
-        json.JSONDecodeError: Если файл содержит некорректный JSON.
+        dict[str, dict[str, str | int | None]] | None: Словарь с информацией о моделях, или None в случае ошибки.
     """
     try:
-        return j_loads(file_path)
+        with open(file_path, 'r', encoding='utf-8') as f: # Добавлена кодировка utf-8
+            return json.load(f)
     except FileNotFoundError as ex:
-        logger.error(f'Файл {file_path} не найден: {ex}', exc_info=True)
-        return {}
+        logger.error(f'Файл {file_path} не найден', ex, exc_info=True)
+        return None
     except json.JSONDecodeError as ex:
-        logger.error(f'Ошибка декодирования JSON в файле {file_path}: {ex}', exc_info=True)
-        return {}
+        logger.error(f'Ошибка при чтении JSON из файла {file_path}', ex, exc_info=True)
+        return None
+    except Exception as ex:
+        logger.error(f'Неизвестная ошибка при чтении файла {file_path}', ex, exc_info=True)
+        return None
 
 
-def save_models(file_path: str | Path, data: dict) -> None:
+def save_models(file_path: str, data: dict[str, dict[str, str | int | None]]) -> bool:
     """
-    Сохраняет информацию о моделях в JSON-файл.
+    Сохраняет информацию о моделях в файл.
 
     Args:
-        file_path (str | Path): Путь к файлу для сохранения информации о моделях.
-        data (dict): Данные для сохранения.
+        file_path (str): Путь к файлу для сохранения информации о моделях.
+        data (dict[str, dict[str, str | int | None]]): Словарь с информацией о моделях.
 
-    Raises:
-        Exception: Если возникает ошибка при записи в файл.
+    Returns:
+        bool: True в случае успешного сохранения, False в случае ошибки.
     """
     try:
-        with open(file_path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=4, ensure_ascii=False)
-        logger.info(f'Информация о моделях сохранена в файл {file_path}')
+        with open(file_path, 'w', encoding='utf-8') as f: # Добавлена кодировка utf-8
+            json.dump(data, f, indent=4)
+        return True
     except Exception as ex:
-        logger.error(f'Ошибка при сохранении информации о моделях в файл {file_path}: {ex}', exc_info=True)
+        logger.error(f'Ошибка при сохранении моделей в файл {file_path}', ex, exc_info=True)
+        return False
 
 
 def get_model_dir() -> str:
@@ -147,25 +155,32 @@ def get_model_dir() -> str:
     """
     local_dir = os.path.dirname(os.path.abspath(__file__))
     project_dir = os.path.dirname(os.path.dirname(local_dir))
-    model_dir = os.path.join(project_dir, "models")
+    model_dir = os.path.join(project_dir, 'models')
     if not os.path.exists(model_dir):
-        os.makedirs(model_dir, exist_ok=True)  # Создает директорию, если она не существует
+        os.makedirs(model_dir, exist_ok=True) # Заменено os.mkdir на os.makedirs
     return model_dir
 
 
-def get_models() -> Dict[str, Dict[str, Optional[str | int]]]:
+def get_models() -> dict[str, dict[str, str | int | None]]:
     """
-    Получает информацию о моделях из локального файла или с удаленного ресурса.
+    Получает информацию о моделях. Если файл с информацией о моделях существует,
+    информация считывается из файла. В противном случае информация загружается из
+    внешнего источника, сохраняется в файл и возвращается.
 
     Returns:
-        Dict[str, Dict[str, Optional[str | int]]]: Словарь с информацией о моделях.
+        dict[str, dict[str, str | int | None]]: Словарь с информацией о моделях.
     """
     model_dir = get_model_dir()
-    file_path = os.path.join(model_dir, "models.json")
+    file_path = os.path.join(model_dir, 'models.json')
     if os.path.isfile(file_path):
-        return read_models(file_path)
+        models = read_models(file_path)
+        if models:
+            return models
+        else:
+            models = load_models()
+            save_models(file_path, models)
+            return models
     else:
         models = load_models()
-        formatted_models = format_models(models)
-        save_models(file_path, formatted_models)
-        return formatted_models
+        save_models(file_path, models)
+        return models

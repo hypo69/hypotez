@@ -1,127 +1,138 @@
 ### **Анализ кода модуля `ChatGLM.py`**
 
-#### **Качество кода**:
+**Расположение файла в проекте:** `hypotez/src/endpoints/gpt4free/g4f/Provider/ChatGLM.py`
+
+**Описание:** Модуль `ChatGLM.py` предоставляет асинхронный интерфейс для взаимодействия с моделью ChatGLM через API. Он поддерживает стриминг ответов и предоставляет базовую функциональность для обмена сообщениями с моделью.
+
+**Качество кода:**
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код асинхронный, что позволяет эффективно обрабатывать запросы.
-    - Использование `ClientSession` для управления HTTP-сессиями.
-    - Реализация потоковой обработки данных.
+    - Асинхронная обработка запросов.
+    - Использование `ClientSession` для эффективного управления HTTP-соединениями.
+    - Поддержка стриминга ответов от API.
     - Обработка ошибок при декодировании JSON.
-    - Реализована поддержка прокси.
 - **Минусы**:
-    - Отсутствует полная документация всех методов и классов.
+    - Отсутствие документации для функций и классов.
     - Не все переменные аннотированы типами.
-    - Отсутствует логирование ошибок.
-    - Некоторые значения, такие как `assistant_id`, `conversation_id`, `input_question_type` и `channel` захардкожены.
-    - Не используется модуль `logger` из `src.logger`.
-    - Не используется `j_loads` для обработки JSON.
+    - Жестко заданные значения для `App-Name`, `X-App-Platform` и `X-App-Version` в заголовках.
+    - Отсутствие обработки исключений при отправке запросов.
+    - Магические значения, такие как `65940acff94777010aa6b796` для `assistant_id`.
+    - Дублирование кода (например, обработка `text_content`).
 
-#### **Рекомендации по улучшению**:
-- Добавить docstring к классу `ChatGLM` с описанием его назначения и принципов работы.
-- Добавить аннотации типов для всех переменных и параметров функций.
-- Реализовать логирование ошибок с использованием модуля `logger` из `src.logger`.
-- Вынести константы, такие как `assistant_id`, `conversation_id`, `input_question_type` и `channel`, в конфигурационные файлы или переменные окружения.
-- Использовать `j_loads` для обработки JSON-ответов.
-- Добавить обработку возможных исключений при сетевых запросах.
-- Добавить обработку ошибок, связанных с отсутствием данных в JSON-ответе.
-- Улучшить читаемость кода, разбив длинные строки на несколько.
-- Избавиться от дублирования кода, вынеся повторяющиеся блоки в отдельные функции.
+**Рекомендации по улучшению:**
 
-#### **Оптимизированный код**:
+1.  **Добавить docstring:** Добавить docstring для класса `ChatGLM` и его методов, чтобы объяснить их назначение, параметры и возвращаемые значения.
+2.  **Аннотации типов:** Добавить аннотации типов для всех переменных и параметров функций.
+3.  **Логирование ошибок:** Добавить логирование ошибок с использованием модуля `logger` для отслеживания и диагностики проблем.
+4.  **Обработка исключений:** Добавить обработку исключений для сетевых запросов и других потенциальных ошибок.
+5.  **Конфигурация заголовков:** Сделать значения `App-Name`, `X-App-Platform` и `X-App-Version` конфигурируемыми через параметры класса или файла конфигурации.
+6.  **Убрать магические значения:** Заменить магическое значение `assistant_id` на параметр, передаваемый при инициализации класса или вызове метода.
+7.  **Рефакторинг**: Устранить дублирование кода.
+
+**Оптимизированный код:**
+
 ```python
 from __future__ import annotations
 
 import uuid
 import json
+from typing import AsyncGenerator, Optional, List, Dict
 
-from aiohttp import ClientSession
+from aiohttp import ClientSession, ClientResponse
+from pathlib import Path
 
 from ..typing import AsyncResult, Messages
 from ..requests.raise_for_status import raise_for_status
 from .base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ..providers.response import FinishReason
-from src.logger import logger  # Import logger module
+from src.logger import logger  # Добавлен импорт logger
 
 
 class ChatGLM(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Асинхронный провайдер для взаимодействия с ChatGLM.
+    Провайдер для взаимодействия с моделью ChatGLM.
+    ==================================================
 
-    Этот класс обеспечивает асинхронное взаимодействие с API ChatGLM,
-    поддерживает потоковую передачу данных и обработку сообщений.
+    Предоставляет асинхронный интерфейс для обмена сообщениями с моделью ChatGLM через API.
+    Поддерживает стриминг ответов и предоставляет базовую функциональность для взаимодействия с моделью.
+
     """
+    url: str = 'https://chatglm.cn'
+    api_endpoint: str = 'https://chatglm.cn/chatglm/mainchat-api/guest/stream'
 
-    url = 'https://chatglm.cn'
-    api_endpoint = 'https://chatglm.cn/chatglm/mainchat-api/guest/stream'
+    working: bool = True
+    supports_stream: bool = True
+    supports_system_message: bool = False
+    supports_message_history: bool = False
 
-    working = True
-    supports_stream = True
-    supports_system_message = False
-    supports_message_history = False
+    default_model: str = 'glm-4'
+    models: List[str] = [default_model]
 
-    default_model = 'glm-4'
-    models = [default_model]
-
-    ASSISTANT_ID = "65940acff94777010aa6b796"
-    CONVERSATION_ID = ""
-    INPUT_QUESTION_TYPE = "xxxx"
-    CHANNEL = ""
+    app_name: str = 'chatglm'
+    app_platform: str = 'pc'
+    app_version: str = '0.0.1'
 
     @classmethod
     async def create_async_generator(
         cls,
         model: str,
         messages: Messages,
-        proxy: str = None,
+        proxy: Optional[str] = None,
+        assistant_id: str = "65940acff94777010aa6b796",  # Значение по умолчанию для assistant_id
         **kwargs
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для взаимодействия с ChatGLM API.
+        Создает асинхронный генератор для взаимодействия с API ChatGLM.
 
         Args:
-            model (str): Модель для использования.
+            model (str): Имя модели.
             messages (Messages): Список сообщений для отправки.
-            proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-            **kwargs: Дополнительные аргументы.
+            proxy (Optional[str], optional): Прокси-сервер для использования. Defaults to None.
+            assistant_id (str, optional): ID ассистента. Defaults to "65940acff94777010aa6b796".
+            **kwargs: Дополнительные параметры.
 
-        Returns:
-            AsyncResult: Асинхронный генератор, возвращающий текстовые фрагменты ответа.
+        Yields:
+            str: Части ответа от API.
+            FinishReason: Причина завершения.
+
+        Raises:
+            Exception: В случае ошибки при запросе к API.
         """
         device_id: str = str(uuid.uuid4()).replace('-', '')
 
-        headers: dict[str, str] = {
+        headers: Dict[str, str] = {
             'Accept-Language': 'en-US,en;q=0.9',
-            'App-Name': 'chatglm',
+            'App-Name': cls.app_name,
             'Authorization': 'undefined',
             'Content-Type': 'application/json',
             'Origin': 'https://chatglm.cn',
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
-            'X-App-Platform': 'pc',
-            'X-App-Version': '0.0.1',
+            'X-App-Platform': cls.app_platform,
+            'X-App-Version': cls.app_version,
             'X-Device-Id': device_id,
             'Accept': 'text/event-stream'
         }
 
         async with ClientSession(headers=headers) as session:
-            data: dict = {
-                "assistant_id": cls.ASSISTANT_ID,
-                "conversation_id": cls.CONVERSATION_ID,
-                "meta_data": {
-                    "if_plus_model": False,
-                    "is_test": False,
-                    "input_question_type": cls.INPUT_QUESTION_TYPE,
-                    "channel": cls.CHANNEL,
-                    "draft_id": "",
-                    "quote_log_id": "",
-                    "platform": "pc"
+            data: Dict = {
+                'assistant_id': assistant_id,
+                'conversation_id': '',
+                'meta_data': {
+                    'if_plus_model': False,
+                    'is_test': False,
+                    'input_question_type': 'xxxx',
+                    'channel': '',
+                    'draft_id': '',
+                    'quote_log_id': '',
+                    'platform': 'pc'
                 },
-                "messages": [
+                'messages': [
                     {
-                        "role": message["role"],
-                        "content": [
+                        'role': message['role'],
+                        'content': [
                             {
-                                "type": "text",
-                                "text": message["content"]
+                                'type': 'text',
+                                'text': message['content']
                             }
                         ]
                     }
@@ -138,22 +149,22 @@ class ChatGLM(AsyncGeneratorProvider, ProviderModelMixin):
                             decoded_chunk: str = chunk.decode('utf-8')
                             if decoded_chunk.startswith('data: '):
                                 try:
-                                    json_data: dict = json.loads(decoded_chunk[6:])
-                                    parts: list = json_data.get('parts', [])
+                                    json_data: Dict = json.loads(decoded_chunk[6:])
+                                    parts: List = json_data.get('parts', [])
                                     if parts:
-                                        content: list = parts[0].get('content', [])
+                                        content: List = parts[0].get('content', [])
                                         if content:
-                                            text_content: list = content[0].get('text', '')
+                                            text_content: Dict = content[0].get('text', '')
                                             text: str = text_content[yield_text:]
                                             if text:
                                                 yield text
                                                 yield_text += len(text)
                                     # Yield FinishReason when status is 'finish'
                                     if json_data.get('status') == 'finish':
-                                        yield FinishReason("stop")
+                                        yield FinishReason('stop')
                                 except json.JSONDecodeError as ex:
-                                    logger.error('Error decoding JSON', ex, exc_info=True)
+                                    logger.error('Ошибка при декодировании JSON', ex, exc_info=True)  # Логирование ошибки
                                     pass
             except Exception as ex:
-                logger.error('Error during API request', ex, exc_info=True)
-                raise
+                logger.error('Ошибка при запросе к API ChatGLM', ex, exc_info=True)  # Логирование ошибки
+                raise  # Переброс исключения для дальнейшей обработки

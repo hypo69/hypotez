@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.campaign 
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign 
 	:platform: Windows, Unix
 	:synopsis:  Редактор рекламной кампании через гугл таблицами
 

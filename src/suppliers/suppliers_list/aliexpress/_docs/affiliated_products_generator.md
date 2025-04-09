@@ -1,5 +1,5 @@
 
-Certainly! Here’s a detailed breakdown of the `affiliated_products_generator.py` file from the `src.suppliers.aliexpress` module:
+Certainly! Here’s a detailed breakdown of the `affiliated_products_generator.py` file from the `src.suppliers.suppliers_list.aliexpress` module:
 
 ---
 
@@ -19,11 +19,11 @@ from types import SimpleNamespace
 from urllib.parse import urlparse, parse_qs
 
 from src import gs
-from src.suppliers.aliexpress import AliApi
-from src.suppliers.aliexpress import Aliexpress
-from src.suppliers.aliexpress.affiliate_links_shortener_via_webdriver import AffiliateLinksShortener
-from src.suppliers.aliexpress.utils.extract_product_id import extract_prod_ids
-from src.suppliers.aliexpress.utils.set_full_https import ensure_https
+from src.suppliers.suppliers_list.aliexpress import AliApi
+from src.suppliers.suppliers_list.aliexpress import Aliexpress
+from src.suppliers.suppliers_list.aliexpress.affiliate_links_shortener_via_webdriver import AffiliateLinksShortener
+from src.suppliers.suppliers_list.aliexpress.utils.extract_product_id import extract_prod_ids
+from src.suppliers.suppliers_list.aliexpress.utils.set_full_https import ensure_https
 from src.utils.convertor.csv2json import csv2dict 
 from src.utils.jjson import j_dumps
 from src.utils import save_png_from_url, save_video_from_url
@@ -34,7 +34,7 @@ from src.logger.logger import logger
 ```
 
 - **Standard Libraries:** `asyncio`, `itertools`, `math`, `pathlib`, `typing`, `types`, `urllib.parse`
-- **External Libraries:** `src.settings`, `src.suppliers.aliexpress`, `src.utils.convertor`, `src.utils`, `src.logger`
+- **External Libraries:** `src.settings`, `src.suppliers.suppliers_list.aliexpress`, `src.utils.convertor`, `src.utils`, `src.logger`
 
 ### `AliAffiliatedProducts` Class
 

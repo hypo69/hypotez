@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.campaign._examples 
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign._examples 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,7 +33,7 @@
   :synopsis:
 """
   
-""" module: src.suppliers.aliexpress.campaign._examples """
+""" module: src.suppliers.suppliers_list.aliexpress.campaign._examples """
 
 
 
@@ -46,10 +46,10 @@ from pathlib import Path
 from typing import List, Optional, Union
 from types import SimpleNamespace
 from src import gs
-from src.suppliers.aliexpress.scenarios.campaigns import AliPromoCampaign
-from src.suppliers.aliexpress.affiliated_products_generator import AliAffiliatedProducts
-from src.suppliers.aliexpress.utils.extract_product_id import extract_prod_ids
-from src.suppliers.aliexpress.utils.set_full_https import ensure_https
+from src.suppliers.suppliers_list.aliexpress.scenarios.campaigns import AliPromoCampaign
+from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.aliexpress.utils.extract_product_id import extract_prod_ids
+from src.suppliers.suppliers_list.aliexpress.utils.set_full_https import ensure_https
 from src.utils.jjson import j_loads_ns, j_loads
 from src.utils.convertors import list2string, csv2dict
 from src.utils.printer import pprint

@@ -1,39 +1,56 @@
 ### **Анализ кода модуля `AiAsk.py`**
 
-#### **Качество кода**:
+=========================================================================================
+
+#### **Расположение файла в проекте:**
+`hypotez/src/endpoints/gpt4free/g4f/Provider/deprecated/AiAsk.py`
+
+Этот файл расположен в директории `deprecated`, что может указывать на то, что он больше не рекомендуется к использованию или находится в стадии устаревания.
+
+#### **Описание:**
+Модуль `AiAsk.py` представляет собой асинхронный провайдер для взаимодействия с сервисом `aiask.me`. Он поддерживает работу с историей сообщений и моделью `gpt-3.5-turbo`.
+
+---
+
+#### **1. Качество кода:**
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
   - Асинхронная реализация с использованием `aiohttp`.
-  - Поддержка истории сообщений и модели `gpt-35-turbo`.
-  - Использование `AsyncGeneratorProvider` для потоковой обработки данных.
+  - Поддержка истории сообщений.
+  - Обработка лимитов запросов.
 - **Минусы**:
-  - Отсутствует документация классов и методов.
-  - Жёстко заданные значения, такие как `id` и `models` в теле запроса.
-  - Обработка ошибок ограничена проверкой на достижение лимита запросов.
-  - Нет логирования.
+  - Не хватает документации и комментариев.
+  - Жёстко заданные значения (`id`: `"fRMSQtuHl91A4De9cCvKD"`, `models`: `"0"`) могут потребовать пояснений.
+  - Расположение в директории `deprecated`.
 
-#### **Рекомендации по улучшению**:
-- Добавить docstring для класса `AiAsk` и его методов, включая `create_async_generator`.
-- Заменить жёстко заданные значения `id` и `models` параметрами, передаваемыми в метод `create_async_generator`.
-- Добавить обработку исключений с использованием `try-except` и логированием ошибок через `logger.error`.
-- Улучшить обработку лимитов запросов, добавив более информативное сообщение об ошибке.
-- Перевести текст ошибки, выводимый на китайском, на русский язык.
-- Добавить аннотации типов для переменных.
+---
 
-#### **Оптимизированный код**:
+#### **2. Рекомендации по улучшению:**
+
+- Добавить docstring для класса `AiAsk` и метода `create_async_generator`.
+- Добавить комментарии, объясняющие назначение переменных `id`, `models` и `rate_limit`.
+- Обработка ошибок должна быть более информативной.
+- Рассмотреть возможность перемещения из `deprecated` или указать причину, по которой модуль остается в этой директории.
+
+---
+
+#### **3. Оптимизированный код:**
+
 ```python
 from __future__ import annotations
 
 from aiohttp import ClientSession
 from ...typing import AsyncResult, Messages
 from ..base_provider import AsyncGeneratorProvider
-from src.logger import logger
+from src.logger import logger  # Import logger module
 
 
 class AiAsk(AsyncGeneratorProvider):
     """
-    Провайдер для взаимодействия с AiAsk.
-    Поддерживает потоковую генерацию ответов.
+    Асинхронный провайдер для взаимодействия с сервисом AiAsk.
+
+    Поддерживает историю сообщений и модель gpt-3.5-turbo.
     """
     url: str = "https://e.aiask.me"
     supports_message_history: bool = True
@@ -45,28 +62,24 @@ class AiAsk(AsyncGeneratorProvider):
         cls,
         model: str,
         messages: Messages,
-        proxy: str = None,
-        request_id: str = "fRMSQtuHl91A4De9cCvKD",  # Добавлен параметр request_id
-        model_id: str = "0",  # Добавлен параметр model_id
-        temperature: float = 0.5,
+        proxy: str | None = None,
         **kwargs
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для получения ответов от AiAsk.
+        Создает асинхронный генератор для взаимодействия с API AiAsk.
 
         Args:
-            model (str): Идентификатор модели.
+            model (str): Модель для использования.
             messages (Messages): Список сообщений для отправки.
-            proxy (str, optional): Прокси-сервер. Defaults to None.
-            request_id (str, optional): ID запроса. Defaults to "fRMSQtuHl91A4De9cCvKD".
-            model_id (str, optional): ID модели. Defaults to "0".
-            temperature (float, optional): Температура для генерации. Defaults to 0.5.
+            proxy (str | None, optional): Прокси-сервер. По умолчанию `None`.
+            **kwargs: Дополнительные аргументы.
 
-        Yields:
-            str: Части ответа от AiAsk.
+        Returns:
+            AsyncResult: Асинхронный генератор, возвращающий ответ от API.
 
         Raises:
             RuntimeError: Если достигнут лимит запросов.
+            Exception: При возникновении других ошибок.
         """
         headers: dict[str, str] = {
             "accept": "application/json, text/plain, */*",
@@ -76,23 +89,25 @@ class AiAsk(AsyncGeneratorProvider):
         async with ClientSession(headers=headers) as session:
             data: dict[str, str | bool | list | float] = {
                 "continuous": True,
-                "id": request_id,
+                "id": "fRMSQtuHl91A4De9cCvKD",  # ID сессии
                 "list": messages,
-                "models": model_id,
+                "models": "0",  # Код модели
                 "prompt": "",
-                "temperature": temperature,
+                "temperature": kwargs.get("temperature", 0.5),
                 "title": "",
             }
             buffer: str = ""
-            rate_limit: str = "您的免费额度不够使用这个模型啦，请点击右上角登录继续使用！" # Лимит бесплатных запросов исчерпан. Пожалуйста, войдите в систему.
+            rate_limit: str = "您的免费额度不够使用这个模型啦，请点击右上角登录继续使用！"  # Сообщение о лимите запросов
             async with session.post(f"{cls.url}/v1/chat/gpt/", json=data, proxy=proxy) as response:
-                response.raise_for_status()
-                async for chunk in response.content.iter_any():
-                    buffer += chunk.decode()
-                    if not rate_limit.startswith(buffer):
-                        yield buffer
-                        buffer = ""
-                    elif buffer == rate_limit:
-                        msg = "Достигнут лимит бесплатных запросов. Пожалуйста, войдите в систему."
-                        logger.error(msg)
-                        raise RuntimeError(msg)
+                try:
+                    response.raise_for_status()
+                    async for chunk in response.content.iter_any():
+                        buffer += chunk.decode()
+                        if not rate_limit.startswith(buffer):
+                            yield buffer
+                            buffer = ""
+                        elif buffer == rate_limit:
+                            raise RuntimeError("Rate limit reached")
+                except Exception as ex:
+                    logger.error('Error while processing data', ex, exc_info=True)  # Log the error
+                    raise

@@ -1,65 +1,68 @@
 ### **Анализ кода модуля `create_provider.py`**
 
-**Качество кода**:
+**Качество кода:**
+
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-  - Использование `re.search` для извлечения кода из текста.
-  - Чтение входных данных от пользователя для создания команды cURL.
-  - Применение `g4f` для генерации кода на основе запроса.
+  - Использование `pathlib` для работы с путями.
+  - Чтение cURL команды из ввода пользователя.
+  - Использование `g4f` для генерации кода провайдера.
 - **Минусы**:
-  - Смешивание логики ввода-вывода с основной логикой.
-  - Недостаточная обработка ошибок при чтении/записи файлов.
-  - Отсутствие аннотаций типов.
-  - Не все переменные и функции документированы.
-  - Не используется `logger` для логгирования.
+  - Отсутствие обработки исключений при чтении и записи файлов.
+  - Не все переменные аннотированы типами.
+  - Смешанный стиль кавычек (используются и одинарные, и двойные кавычки).
+  - Не используется модуль `logger` для логирования.
 
-**Рекомендации по улучшению**:
-1. **Добавить аннотации типов**:
-   - Добавить аннотации типов для всех переменных и функций.
-2. **Улучшить обработку ошибок**:
-   - Добавить обработку исключений при чтении и записи файлов.
-   - Использовать `logger` для логгирования ошибок и информации.
-3. **Разделить логику**:
-   - Разделить логику ввода-вывода и основную логику для улучшения читаемости и тестируемости.
-4. **Документировать код**:
-   - Добавить docstring для всех функций, включая внутренние.
-5. **Использовать одинарные кавычки**:
-   - Заменить двойные кавычки на одинарные.
-6. **Использовать `j_loads` или `j_loads_ns`**:
-   - Заменить стандартное использование `open` и `json.load` на `j_loads` или `j_loads_ns` для чтения JSON или конфигурационных файлов.
-7. **Оптимизировать импорты**:
-   - Перенести импорты в начало файла и отсортировать их.
-8. **Улучшить читаемость**:
-   - Добавить пробелы вокруг операторов присваивания.
-   - Использовать более описательные имена переменных.
-9. **Логирование**:
-   - Для логгирования Всегда Используй модуль `logger` из `src.logger.logger`.
-   - Ошибки должны логироваться с использованием `logger.error`.
+**Рекомендации по улучшению:**
 
-**Оптимизированный код**:
+1.  **Обработка исключений**:
+    - Добавить блоки `try-except` для обработки возможных исключений при чтении и записи файлов.
+    - Логировать исключения с использованием модуля `logger`.
+2.  **Аннотации типов**:
+    - Добавить аннотации типов для всех переменных и параметров функций.
+3.  **Форматирование кода**:
+    - Использовать только одинарные кавычки для строк.
+    - Добавить пробелы вокруг операторов присваивания.
+4.  **Использование `j_loads`**:
+    - Рассмотреть возможность использования `j_loads` для чтения JSON данных, если это необходимо.
+5.  **Логирование**:
+    - Заменить `print` на `logger.info` для логирования информации.
+6.  **Комментарии и документация**:
+    - Добавить docstring для функций `read_code` и `input_command`.
+    - Добавить комментарии для пояснения логики работы кода.
+7. **Структура и читаемость:**
+    - Разбить код на более мелкие, логически завершенные функции для улучшения читаемости и упрощения поддержки.
+8. **Использование f-строк:**
+    -  Улучшить читаемость и форматирование, используя f-строки вместо конкатенации строк.
+9. **Улучшение подсказок:**
+    - Сделать подсказки более конкретными, чтобы улучшить качество сгенерированного кода провайдера.
+
+**Оптимизированный код:**
 
 ```python
 """
-Модуль для создания провайдеров g4f на основе cURL команд.
-=============================================================
+Модуль для создания провайдеров g4f из cURL команд
+====================================================
 
-Модуль предоставляет функции для чтения cURL команды от пользователя,
-генерации кода провайдера с использованием g4f и сохранения его в файл.
+Модуль содержит функции для чтения cURL команды, генерации кода провайдера с использованием g4f и сохранения его в файл.
 """
 
 import sys
 import re
 from pathlib import Path
 from os import path
-from typing import List
+from typing import Optional, List
 
-from src.logger import logger
+# Добавляем путь к директории проекта в sys.path для импорта модулей
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
 import g4f
+from src.logger import logger # Импортируем модуль logger
 
 g4f.debug.logging = True
 
 
-def read_code(text: str) -> str | None:
+def read_code(text: str) -> Optional[str]:
     """
     Извлекает код Python из текстового блока, заключенного в тройные обратные кавычки.
 
@@ -67,7 +70,7 @@ def read_code(text: str) -> str | None:
         text (str): Текст, содержащий код Python.
 
     Returns:
-        str | None: Извлеченный код Python или None, если код не найден.
+        Optional[str]: Извлеченный код Python или None, если код не найден.
 
     Example:
         >>> text = "```python\\nprint('Hello')\\n```"
@@ -81,34 +84,43 @@ def read_code(text: str) -> str | None:
 
 def input_command() -> str:
     """
-    Считывает многострочную команду cURL от пользователя из стандартного ввода.
+    Считывает многострочный ввод от пользователя (cURL команду) до тех пор, пока не будет введен EOF (Ctrl-D или Ctrl-Z в Windows).
 
     Returns:
-        str: Объединенная команда cURL в виде строки.
+        str: Объединенный ввод пользователя в виде строки.
+
+    Example:
+        >>> # Пользователь вводит:
+        >>> # curl -X GET https://example.com
+        >>> # (нажимает Ctrl-D)
+        >>> input_command()
+        'curl -X GET https://example.com'
     """
-    print("Enter/Paste the cURL command. Ctrl-D or Ctrl-Z ( windows ) to save it.")
+    print('Enter/Paste the cURL command. Ctrl-D or Ctrl-Z ( windows ) to save it.')
     contents: List[str] = []
     while True:
         try:
-            line = input()
+            line: str = input()
         except EOFError:
             break
         contents.append(line)
-    return "\n".join(contents)
+    return '\n'.join(contents)
 
 
-def generate_provider_code(name: str, command: str) -> str:
+def create_provider_file(name: str, command: str) -> None:
     """
-    Генерирует код провайдера на основе предоставленной команды cURL и имени.
+    Создает файл провайдера на основе cURL команды, используя g4f для генерации кода.
 
     Args:
         name (str): Имя провайдера.
-        command (str): Команда cURL для генерации кода.
+        command (str): cURL команда.
 
-    Returns:
-        str: Сгенерированный код провайдера.
+    Raises:
+        Exception: Если возникает ошибка при создании или записи файла.
     """
-    example = f"""
+    provider_path: str = f'g4f/Provider/{name}.py'
+
+    example: str = """
 from __future__ import annotations
 
 from aiohttp import ClientSession
@@ -119,20 +131,20 @@ from .helper import format_prompt
 
 
 class {name}(AsyncGeneratorProvider, ProviderModelMixin):
-    label = ""
-    url = "https://example.com"
-    api_endpoint = "https://example.com/api/completion"
+    label = ''
+    url = 'https://example.com'
+    api_endpoint = 'https://example.com/api/completion'
     working = True
     needs_auth = False
     supports_stream = True
     supports_system_message = True
     supports_message_history = True
-    
+
     default_model = ''
     models = ['', '']
-    
+
     model_aliases = {{
-        "alias1": "model1",
+        'alias1': 'model1',
     }}
 
    @classmethod
@@ -153,27 +165,28 @@ class {name}(AsyncGeneratorProvider, ProviderModelMixin):
         **kwargs
     ) -> AsyncResult:
         model = cls.get_model(model)
-        
+
         headers = {{
-            "authority": "example.com",
-            "accept": "application/json",
-            "origin": cls.url,
-            "referer": f"{{cls.url}}/chat",
+            'authority': 'example.com',
+            'accept': 'application/json',
+            'origin': cls.url,
+            'referer': f'{{cls.url}}/chat',
         }}
         async with ClientSession(headers=headers) as session:
             prompt = format_prompt(messages)
             data = {{
-                "prompt": prompt,
-                "model": model,
+                'prompt': prompt,
+                'model': model,
             }}
-            async with session.post(f"{{cls.url}}/api/chat", json=data, proxy=proxy) as response:
+            async with session.post(f'{{cls.url}}/api/chat', json=data, proxy=proxy) as response:
                 response.raise_for_status()
                 async for chunk in response.content:
                     if chunk:
                         yield chunk.decode()
 """
 
-    prompt = f"""
+    if not path.isfile(provider_path):
+        prompt: str = f"""
 Create a provider from a cURL command. The command is:
 ```bash
 {command}
@@ -187,88 +200,45 @@ The name for the provider class:
 Replace "hello" with `format_prompt(messages)`.
 And replace "gpt-3.5-turbo" with `model`.
 """
-    return prompt
 
-
-def save_provider_code(name: str, code: str) -> None:
-    """
-    Сохраняет сгенерированный код провайдера в файл.
-
-    Args:
-        name (str): Имя провайдера.
-        code (str): Сгенерированный код провайдера.
-    """
-    provider_path = f"g4f/Provider/{name}.py"
-    try:
-        with open(provider_path, "w", encoding='utf-8') as file:
-            file.write(code)
-        logger.info(f"Saved at: {provider_path}")
-        with open("g4f/Provider/__init__.py", "a", encoding='utf-8') as file:
-            file.write(f"\nfrom .{name} import {name}")
-        logger.info(f"Updated g4f/Provider/__init__.py with {name}")
-    except Exception as ex:
-        logger.error(f"Error while saving provider code to {provider_path}", ex, exc_info=True)
-
-
-def load_provider_code(name: str) -> str | None:
-    """
-    Загружает код провайдера из файла, если он существует.
-
-    Args:
-        name (str): Имя провайдера.
-
-    Returns:
-        str | None: Код провайдера или None, если файл не существует.
-    """
-    provider_path = f"g4f/Provider/{name}.py"
-    if path.isfile(provider_path):
-        try:
-            with open(provider_path, "r", encoding='utf-8') as file:
-                code = file.read()
-            logger.info(f"Loaded code from {provider_path}")
-            return code
-        except Exception as ex:
-            logger.error(f"Error while loading provider code from {provider_path}", ex, exc_info=True)
-            return None
-    return None
-
-
-def main() -> None:
-    """
-    Основная функция для создания провайдера g4f на основе cURL команды.
-    """
-    sys.path.append(str(Path(__file__).parent.parent.parent))
-
-    name: str = input("Name: ")
-    provider_path: str = f"g4f/Provider/{name}.py"
-
-    if not path.isfile(provider_path):
-        command: str = input_command()
-        prompt: str = generate_provider_code(name, command)
-
-        print("Create code...")
+        logger.info('Creating code...') # Используем logger вместо print
         response: List[str] = []
         try:
             for chunk in g4f.ChatCompletion.create(
                 model=g4f.models.gpt_4o,
-                messages=[{"role": "user", "content": prompt}],
+                messages=[{'role': 'user', 'content': prompt}],
                 timeout=300,
                 stream=True,
             ):
-                print(chunk, end="", flush=True)
+                print(chunk, end='', flush=True)
                 response.append(chunk)
             print()
-            response_text: str = "".join(response)
+            response_text: str = ''.join(response)
 
             if code := read_code(response_text):
-                save_provider_code(name, code)
+                try:
+                    with open(provider_path, 'w', encoding='utf-8') as file:
+                        file.write(code)
+                    logger.info(f'Saved at: {provider_path}')
+                    with open('g4f/Provider/__init__.py', 'a', encoding='utf-8') as file:
+                        file.write(f'\nfrom .{name} import {name}')
+                except Exception as ex:
+                    logger.error(f'Error while writing to file: {ex}', exc_info=True)
             else:
-                logger.error("No code found in the response.")
+                logger.warning('No code found in response.')
+
         except Exception as ex:
-            logger.error("Error while generating code", ex, exc_info=True)
+            logger.error(f'Error while generating code: {ex}', exc_info=True)
     else:
-        load_provider_code(name)
+        try:
+            with open(provider_path, 'r', encoding='utf-8') as file:
+                code: str = file.read()
+            logger.info(f'Code read from existing file: {provider_path}')
+        except Exception as ex:
+            logger.error(f'Error while reading existing file: {ex}', exc_info=True)
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    name: str = input('Name: ')
+    command: str = input_command()
+    create_provider_file(name, command)

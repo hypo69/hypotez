@@ -1,10 +1,9 @@
 ## \file /src/suppliers/aliexpress/aliapi.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress 
+.. module:: src.suppliers.suppliers_list.aliexpress 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -28,17 +27,12 @@ from src.utils.convertors.json import json2csv
 from src.logger.logger import logger
 from .api import AliexpressApi
 
-from src.db.manager_categories import AliexpressCategory, CategoryManager
-from src.db.manager_coupons_and_sales import ProductCampaignsManager
 
 class AliApi(AliexpressApi):
     """
     Custom API class for AliExpress operations.
     """
     
-    # Database managers
-    manager_categories: CategoryManager = None
-    manager_campaigns: ProductCampaignsManager = None
        
     def __init__(self, language: str = 'en', currency: str = 'usd', *args, **kwargs):
         """ Initializes an instance of the AliApi class.
@@ -52,9 +46,6 @@ class AliApi(AliexpressApi):
         secret = credentials.secret
         tracking_id = credentials.tracking_id
         super().__init__(api_key, secret, language, currency, tracking_id)
-        # Initialize database managers if needed
-        # self.manager_categories = CategoryManager()
-        # self.manager_campaigns = ProductCampaignsManager(gs.presta_credentials[0])
         ...
 
     # def collect_deals_from_url():

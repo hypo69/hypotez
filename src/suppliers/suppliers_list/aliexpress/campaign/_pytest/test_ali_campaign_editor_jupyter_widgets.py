@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.aliexpress.campaign._pytest 
+.. module:: src.suppliers.suppliers_list.aliexpress.campaign._pytest 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,7 +33,7 @@
   :synopsis:
 """
   
-""" module: src.suppliers.aliexpress.campaign._pytest """
+""" module: src.suppliers.suppliers_list.aliexpress.campaign._pytest """
 
 
 

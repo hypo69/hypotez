@@ -2,5 +2,5 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.aliexpress.api._examples.iop """
+""" module: src.suppliers.suppliers_list.aliexpress.api._examples.iop """
 from .base import **

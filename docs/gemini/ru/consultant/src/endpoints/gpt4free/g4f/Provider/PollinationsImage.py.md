@@ -2,80 +2,70 @@
 
 ## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/PollinationsImage.py
 
-**Качество кода:**
-
+#### **Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код достаточно хорошо структурирован и читаем.
-    - Используются аннотации типов.
-    - Наличие класса `PollinationsImage`, наследующего от `PollinationsAI`, что способствует расширяемости и повторному использованию кода.
+  - Код достаточно хорошо структурирован и организован.
+  - Используются аннотации типов.
+  - Присутствует наследование от класса `PollinationsAI`.
 - **Минусы**:
-    - Не хватает docstring для класса `PollinationsImage` и его методов.
-    - Не используется модуль `logger` для логирования.
-    - Не все переменные аннотированы типами, особенно в `create_async_generator`.
-    - Не обрабатываются исключения.
+  - Не хватает docstring для классов и методов.
+  - Отсутствует обработка исключений.
+  - Не используется модуль `logger` для логирования.
+  - Не все переменные аннотированы типами.
 
-**Рекомендации по улучшению:**
+#### **Рекомендации по улучшению**:
+1. **Добавить docstring**:
+   - Добавить docstring для класса `PollinationsImage` и всех его методов, включая `get_models` и `create_async_generator`.
+   - Описать параметры, возвращаемые значения и возможные исключения.
+2. **Использовать логирование**:
+   - Добавить логирование с использованием модуля `logger` для отслеживания важных событий и ошибок.
+3. **Обработка исключений**:
+   - Реализовать обработку исключений в методе `create_async_generator`.
+4. **Аннотации типов**:
+   - Проверить и добавить аннотации типов для всех переменных, где это необходимо.
+5. **Использовать одинарные кавычки**:
+   - Привести все строки к использованию одинарных кавычек.
 
-1.  **Добавить docstring для класса и методов**:
-    *   Добавить подробное описание класса `PollinationsImage`.
-    *   Добавить docstring для каждого метода, включая описание аргументов, возвращаемых значений и возможных исключений.
-2.  **Использовать логирование**:
-    *   Добавить логирование для отслеживания ошибок и важной информации.
-3.  **Обработка исключений**:
-    *   Добавить блоки `try...except` для обработки возможных исключений.
-4.  **Явное указание типов**:
-    *   Указывать типы для всех переменных, чтобы повысить читаемость и предотвратить ошибки.
-5.  **Использовать `j_loads` или `j_loads_ns`**:
-    *   Если используются JSON или конфигурационные файлы, заменить стандартное использование `open` и `json.load` на `j_loads` или `j_loads_ns`.
-
-**Оптимизированный код:**
+#### **Оптимизированный код**:
 
 ```python
 from __future__ import annotations
 
-from typing import Optional, List, AsyncGenerator
+from typing import Optional, AsyncGenerator, List, Any
 from pathlib import Path
+
 from .helper import format_image_prompt
 from ..typing import AsyncResult, Messages
 from .PollinationsAI import PollinationsAI
 from src.logger import logger  # Import logger
-# from src.utils import j_loads  # Предположим, что j_loads находится здесь
-
 
 class PollinationsImage(PollinationsAI):
     """
-    Класс для работы с PollinationsImage, предоставляет методы для генерации изображений.
-
-    Этот класс наследуется от класса PollinationsAI и специализируется на создании
-    изображений с использованием различных моделей.
+    Класс для работы с PollinationsImage, наследник PollinationsAI.
     """
-    label: str = "PollinationsImage"
-    default_model: str = "flux"
+    label: str = 'PollinationsImage'
+    default_model: str = 'flux'
     default_vision_model: Optional[str] = None
     default_image_model: str = default_model
     image_models: List[str] = [default_image_model]  # Default models
     _models_loaded: bool = False  # Add a checkbox for synchronization
-    extra_image_models: List[str] = []
 
     @classmethod
     def get_models(cls, **kwargs) -> List[str]:
         """
-        Получает список доступных моделей изображений.
-
-        Если модели еще не загружены, метод загружает их из родительского класса
-        и объединяет с дополнительными моделями.
+        Получает список доступных image моделей.
 
         Args:
             **kwargs: Дополнительные аргументы.
 
         Returns:
-            List[str]: Список доступных моделей изображений.
+            List[str]: Список image моделей.
         """
         if not cls._models_loaded:
-            # Calling the parent method to load models
+            # Вызов родительского метода для загрузки моделей
             super().get_models()
-            # Combine models from the parent class and additional ones
+            # Объединение моделей из родительского класса и дополнительных
             all_image_models: List[str] = list(dict.fromkeys(
                 cls.image_models +
                 PollinationsAI.image_models +
@@ -92,7 +82,7 @@ class PollinationsImage(PollinationsAI):
         messages: Messages,
         proxy: Optional[str] = None,
         prompt: Optional[str] = None,
-        aspect_ratio: str = "1:1",
+        aspect_ratio: str = '1:1',
         width: Optional[int] = None,
         height: Optional[int] = None,
         seed: Optional[int] = None,
@@ -102,32 +92,32 @@ class PollinationsImage(PollinationsAI):
         enhance: bool = False,
         safe: bool = False,
         n: int = 4,
-        **kwargs
+        **kwargs: Any
     ) -> AsyncResult:
         """
-        Асинхронно генерирует изображения на основе предоставленных параметров.
+        Создает асинхронный генератор изображений.
 
         Args:
             model (str): Используемая модель.
-            messages (Messages): Сообщения для генерации изображения.
+            messages (Messages): Список сообщений.
             proxy (Optional[str], optional): Прокси-сервер. По умолчанию None.
-            prompt (Optional[str], optional): Дополнительный текст подсказки. По умолчанию None.
-            aspect_ratio (str, optional): Соотношение сторон изображения. По умолчанию "1:1".
+            prompt (Optional[str], optional): Промпт. По умолчанию None.
+            aspect_ratio (str, optional): Соотношение сторон. По умолчанию '1:1'.
             width (Optional[int], optional): Ширина изображения. По умолчанию None.
             height (Optional[int], optional): Высота изображения. По умолчанию None.
             seed (Optional[int], optional): Зерно для генерации. По умолчанию None.
             cache (bool, optional): Использовать кэш. По умолчанию False.
             nologo (bool, optional): Без логотипа. По умолчанию True.
             private (bool, optional): Приватный режим. По умолчанию False.
-            enhance (bool, optional): Улучшить изображение. По умолчанию False.
+            enhance (bool, optional): Улучшение изображения. По умолчанию False.
             safe (bool, optional): Безопасный режим. По умолчанию False.
             n (int, optional): Количество изображений. По умолчанию 4.
-            **kwargs: Дополнительные аргументы.
+            **kwargs (Any): Дополнительные аргументы.
 
         Yields:
             AsyncResult: Часть сгенерированного изображения.
         """
-        # Calling model updates before creating a generator
+        # Вызов model updates перед созданием генератора
         cls.get_models()
         try:
             async for chunk in cls._generate_image(
@@ -147,5 +137,5 @@ class PollinationsImage(PollinationsAI):
             ):
                 yield chunk
         except Exception as ex:
-            logger.error('Error while generating image', ex, exc_info=True)  # Log the error
-            raise  # Re-raise the exception after logging
+            logger.error('Error while generating image', ex, exc_info=True)
+            raise

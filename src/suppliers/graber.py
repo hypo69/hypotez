@@ -30,7 +30,10 @@ class G(Graber):
     ```
 ```rst
 .. module:: src.suppliers 
-```                
+``` 
+
+Список полей: https://github.com/hypo69/hypotez/blob/master/src/endpoints/prestashop/product_fields/fields_list.txt
+
 """
 
 
@@ -136,7 +139,7 @@ class Graber:
             driver ('Driver'): Экземпляр класса Driver.
         """
         self.supplier_prefix = supplier_prefix
-        self.locator: SimpleNamespace = j_loads_ns(gs.path.src / 'suppliers' / supplier_prefix / 'locators' / 'product.json')
+        self.locator: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'suppliers' / 'suppliers_list' / supplier_prefix / 'locators' / 'product.json')
         self.driver = driver
         self.fields: ProductFields = ProductFields(lang_index) # <- установка базового языка. Тип - `int`
         Context.driver = self.driver
