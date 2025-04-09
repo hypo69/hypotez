@@ -1,253 +1,176 @@
 ### **Анализ кода модуля `post_message_async.md`**
 
-## \file /hypotez/src/endpoints/advertisement/facebook/scenarios/post_message_async.md
-
-#### **Качество кода**:
+## Качество кода:
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Хорошая структурированность документации.
-  - Описание основных функций и их параметров.
-  - Наличие диаграммы, описывающей логику работы скрипта.
-  - Описание процесса использования скрипта.
-
+    - Хорошее общее описание функциональности модуля.
+    - Наличие схемы структуры модуля.
+    - Описание каждой функции с указанием параметров и возвращаемых значений.
+    - Описание процесса использования модуля.
 - **Минусы**:
-  - Отсутствие примеров использования функций с заполнением параметров.
-  - Нет подробностей об обработке ошибок, хотя и заявлено о ее наличии.
-  - Документация на английском языке.
+    - Отсутствуют примеры использования функций в формате docstring.
+    - Не указаны исключения, которые могут быть вызваны функциями.
+    - Отсутствуют аннотации типов для переменных в примере использования.
+    - Ссылки на несуществующие модули проекта, например, `src.webdriver.driver`. Необходимо использовать актуальные пути.
 
-#### **Рекомендации по улучшению**:
+## Рекомендации по улучшению:
 
-1.  **Перевод на русский язык**:
-    - Необходимо перевести всю документацию на русский язык, чтобы соответствовать требованиям.
-2.  **Подробные примеры использования**:
-    - Добавить примеры использования каждой функции с конкретными значениями параметров и ожидаемым результатом. Это поможет пользователям лучше понять, как использовать скрипт.
-3.  **Детализация обработки ошибок**:
-    - Расширить раздел "Error Handling", предоставив конкретные примеры возможных ошибок и способы их обработки.
-4.  **Улучшение описания функций**:
-    - Добавить более подробное описание каждой функции, включая возможные побочные эффекты и ограничения.
-5.  **Примеры инициализации драйвера**:
-    - Уточнить, какие параметры необходимо передавать при инициализации `Driver`.
-6.  **Уточнение зависимостей**:
-    - Добавить версии используемых библиотек в разделе "Dependencies".
-7.  **Улучшение структуры**:
-    - Разбить длинные абзацы на более мелкие для улучшения читаемости.
+1.  **Добавить примеры использования функций в формате docstring**:
+    - Для каждой функции добавить блок `Example`, показывающий пример использования функции.
+2.  **Указать возможные исключения для каждой функции**:
+    - Добавить блок `Raises` в docstring каждой функции, описывающий возможные исключения и условия их возникновения.
+3.  **Актуализировать пути к модулям**:
+    - Исправить пути к модулям, чтобы они соответствовали структуре проекта. `src.webdriver.driver` заменить на `src.webdriver`.
+4.  **Добавить аннотации типов в примере использования**:
+    - Указать типы переменных в примере использования, чтобы улучшить читаемость и понимание кода.
 
-#### **Оптимизированный код**:
+## Оптимизированный код:
 
 ```markdown
-### **Анализ кода модуля `post_message_async.md`**
+```rst
+... module:: src.endpoints.advertisement.facebook.post_message_async
+```
 
-## \file /hypotez/src/endpoints/advertisement/facebook/scenarios/post_message_async.md
+[Русский]()
 
-### **Описание**
+## Asynchronous Facebook Post Message Scenario
 
-Этот скрипт является частью директории `hypotez/src/endpoints/advertisement/facebook/scenarios` и предназначен для автоматизации процесса отправки сообщений в Facebook. Скрипт взаимодействует со страницей Facebook, используя локаторы для выполнения различных действий, таких как отправка сообщений, загрузка медиафайлов и обновление подписей.
+### Overview
 
-### **Основные возможности**
+This script is part of the `hypotez/src/endpoints/advertisement/facebook/scenarios` directory and is designed to automate the process of posting messages on Facebook. The script interacts with the Facebook page by using locators to perform various actions such as sending messages, uploading media files, and updating captions.
 
-1.  **Отправка заголовка и описания**: Отправляет заголовок и описание кампании в поле сообщения Facebook.
-2.  **Загрузка медиафайлов**: Загружает медиафайлы (изображения и видео) в сообщение Facebook и обновляет их подписи.
-3.  **Продвижение поста**: Управляет всем процессом продвижения поста с заголовком, описанием и медиафайлами.
+### Key Features
 
-### **Структура модуля**
+1.  **Sending Title and Description**: Sends the title and description of a campaign to the Facebook post message box.
+2.  **Uploading Media Files**: Uploads media files (images and videos) to the Facebook post and updates their captions.
+3.  **Promoting Post**: Manages the entire process of promoting a post with a title, description, and media files.
+
+### Module Structure
 
 ```mermaid
 graph TD
-    Start[Начало] --> InitDriver[Инициализация драйвера]
-    InitDriver --> LoadCategoryAndProducts[Загрузка категории и продуктов]
-    LoadCategoryAndProducts --> SendTitle[Отправка заголовка]
-    SendTitle --> CheckTitleSuccess{Успешно?}]
-    CheckTitleSuccess -->|Да| UploadMediaAndPromotePost[Загрузка медиа и продвижение поста]
-    CheckTitleSuccess -->|Нет| TitleError[Ошибка: Не удалось отправить заголовок]
-    UploadMediaAndPromotePost --> UploadMedia[Загрузка медиа]
-    UploadMedia --> CheckMediaSuccess{Успешно?}]
-    CheckMediaSuccess -->|Да| UpdateCaptions[Обновление подписей изображений]
-    CheckMediaSuccess -->|Нет| MediaError[Ошибка: Не удалось загрузить медиа]
-    UpdateCaptions --> PromotePost[Продвижение поста]
-    PromotePost --> CheckPromoteSuccess{Успешно?}]
-    CheckPromoteSuccess -->|Да| End[Конец]
-    CheckPromoteSuccess -->|Нет| PromoteError[Ошибка: Не удалось продвинуть пост]
+    Start[Start] --> InitDriver[Initialize Driver]
+    InitDriver --> LoadCategoryAndProducts[Load Category and Products]
+    LoadCategoryAndProducts --> SendTitle[Send Title]
+    SendTitle --> CheckTitleSuccess{Success?}
+    CheckTitleSuccess -->|Yes| UploadMediaAndPromotePost[Upload Media and Promote Post]
+    CheckTitleSuccess -->|No| TitleError[Error: Failed to Send Title]
+    UploadMediaAndPromotePost --> UploadMedia[Upload Media]
+    UploadMedia --> CheckMediaSuccess{Success?}
+    CheckMediaSuccess -->|Yes| UpdateCaptions[Update Image Captions]
+    CheckMediaSuccess -->|No| MediaError[Error: Failed to Upload Media]
+    UpdateCaptions --> PromotePost[Promote Post]
+    PromotePost --> CheckPromoteSuccess{Success?}
+    CheckPromoteSuccess -->|Yes| End[End]
+    CheckPromoteSuccess -->|No| PromoteError[Error: Failed to Promote Post]
 ```
 
-### **Легенда**
+### Legend
 
-1.  **Начало**: Начало выполнения скрипта.
-2.  **InitDriver**: Создание экземпляра класса `Driver`.
-3.  **LoadCategoryAndProducts**: Загрузка данных категории и продукта.
-4.  **SendTitle**: Вызов функции `post_title` для отправки заголовка.
-5.  **CheckTitleSuccess**: Проверка, успешно ли отправлен заголовок.
-    -   **Да**: Переход к загрузке медиа и продвижению поста.
-    -   **Нет**: Вывод ошибки "Не удалось отправить заголовок".
-6.  **UploadMediaAndPromotePost**: Вызов функции `promote_post`.
-7.  **UploadMedia**: Вызов функции `upload_media` для загрузки медиафайлов.
-8.  **CheckMediaSuccess**: Проверка, успешно ли загружены медиафайлы.
-    -   **Да**: Переход к обновлению подписей изображений.
-    -   **Нет**: Вывод ошибки "Не удалось загрузить медиа".
-9.  **UpdateCaptions**: Вызов функции `update_images_captions` для обновления подписей.
-10. **PromotePost**: Завершение процесса продвижения поста.
-11. **CheckPromoteSuccess**: Проверка, успешно ли продвинут пост.
-    -   **Да**: Завершение выполнения скрипта.
-    -   **Нет**: Вывод ошибки "Не удалось продвинуть пост".
+1.  **Start**: Start of script execution.
+2.  **InitDriver**: Create an instance of the `Driver` class.
+3.  **LoadCategoryAndProducts**: Load category and product data.
+4.  **SendTitle**: Call the `post_title` function to send the title.
+5.  **CheckTitleSuccess**: Check if the title was sent successfully.
+    - **Yes**: Proceed to upload media and promote the post.
+    - **No**: Output error "Failed to send title".
+6.  **UploadMediaAndPromotePost**: Call the `promote_post` function.
+7.  **UploadMedia**: Call the `upload_media` function to upload media files.
+8.  **CheckMediaSuccess**: Check if media was uploaded successfully.
+    - **Yes**: Proceed to update image captions.
+    - **No**: Output error "Failed to upload media".
+9.  **UpdateCaptions**: Call the `update_images_captions` function to update captions.
+10. **PromotePost**: Complete the post promotion process.
+11. **CheckPromoteSuccess**: Check if the post was promoted successfully.
+    - **Yes**: End of script execution.
+    - **No**: Output error "Failed to promote post".
 
-### **Функции**
+-----------------------
 
-#### **`post_title(d: Driver, category: SimpleNamespace) -> bool`**
+#### Functions
 
-```python
-def post_title(d: Driver, category: SimpleNamespace) -> bool:
-    """
-    Отправляет заголовок и описание кампании в поле сообщения Facebook.
+- **`post_title(d: Driver, category: SimpleNamespace) -> bool`**:
+    - **Purpose**: Sends the title and description of a campaign to the Facebook post message box.
+    - **Parameters**:
+        - `d`: The `Driver` instance used for interacting with the webpage.
+        - `category`: The category containing the title and description to be sent.
+    - **Returns**: `True` if the title and description were sent successfully, otherwise `None`.
 
-    Args:
-        d (Driver): Экземпляр класса `Driver`, используемый для взаимодействия с веб-страницей.
-        category (SimpleNamespace): Объект, содержащий заголовок и описание для отправки.
+- **`upload_media(d: Driver, products: List[SimpleNamespace], no_video: bool = False) -> bool`**:
+    - **Purpose**: Uploads media files to the Facebook post and updates their captions.
+    - **Parameters**:
+        - `d`: The `Driver` instance used for interacting with the webpage.
+        - `products`: List of products containing media file paths.
+        - `no_video`: Flag indicating whether to skip video uploads.
+    - **Returns**: `True` if media files were uploaded successfully, otherwise `None`.
 
-    Returns:
-        bool: `True`, если заголовок и описание успешно отправлены, иначе `False`.
+- **`update_images_captions(d: Driver, products: List[SimpleNamespace], textarea_list: List[WebElement]) -> None`**:
+    - **Purpose**: Asynchronously adds descriptions to uploaded media files.
+    - **Parameters**:
+        - `d`: The `Driver` instance used for interacting with the webpage.
+        - `products`: List of products with details to update.
+        - `textarea_list`: List of textareas where captions are added.
 
-    Example:
-        >>> from src.webdriver.driver import Driver
-        >>> from types import SimpleNamespace
-        >>> # Инициализация драйвера (пример с Firefox)
-        >>> driver = Driver(Firefox)
-        >>> category = SimpleNamespace(title="Заголовок кампании", description="Описание кампании")
-        >>> result = post_title(driver, category)
-        >>> print(result)
-        True
-    """
-    ...
-```
+- **`promote_post(d: Driver, category: SimpleNamespace, products: List[SimpleNamespace], no_video: bool = False) -> bool`**:
+    - **Purpose**: Manages the process of promoting a post with a title, description, and media files.
+    - **Parameters**:
+        - `d`: The `Driver` instance used for interacting with the webpage.
+        - `category`: The category details used for the post title and description.
+        - `products`: List of products containing media and details to be posted.
+        - `no_video`: Flag indicating whether to skip video uploads.
+    - **Returns**: `True` if the post was promoted successfully, otherwise `None`.
 
-#### **`upload_media(d: Driver, products: List[SimpleNamespace], no_video: bool = False) -> bool`**
+### Usage
 
-```python
-def upload_media(d: Driver, products: List[SimpleNamespace], no_video: bool = False) -> bool:
-    """
-    Загружает медиафайлы в сообщение Facebook.
+To use this script, follow these steps:
 
-    Args:
-        d (Driver): Экземпляр класса `Driver`, используемый для взаимодействия с веб-страницей.
-        products (List[SimpleNamespace]): Список объектов, содержащих пути к медиафайлам.
-        no_video (bool, optional): Флаг, указывающий, следует ли пропускать загрузку видео. По умолчанию `False`.
+1.  **Initialize Driver**: Create an instance of the `Driver` class.
+2.  **Load Locators**: Load the locators from the JSON file.
+3.  **Call Functions**: Use the provided functions to send the title, upload media, and promote the post.
 
-    Returns:
-        bool: `True`, если медиафайлы успешно загружены, иначе `False`.
-
-    Example:
-        >>> from src.webdriver.driver import Driver
-        >>> from types import SimpleNamespace
-        >>> # Инициализация драйвера (пример с Firefox)
-        >>> driver = Driver(Firefox)
-        >>> products = [SimpleNamespace(local_image_path='path/to/image.jpg')]
-        >>> result = upload_media(driver, products)
-        >>> print(result)
-        True
-    """
-    ...
-```
-
-#### **`update_images_captions(d: Driver, products: List[SimpleNamespace], textarea_list: List[WebElement]) -> None`**
+#### Example
 
 ```python
-def update_images_captions(d: Driver, products: List[SimpleNamespace], textarea_list: List[WebElement]) -> None:
-    """
-    Асинхронно добавляет описания к загруженным медиафайлам.
-
-    Args:
-        d (Driver): Экземпляр класса `Driver`, используемый для взаимодействия с веб-страницей.
-        products (List[SimpleNamespace]): Список объектов с деталями для обновления.
-        textarea_list (List[WebElement]): Список текстовых полей, куда добавляются подписи.
-
-    Example:
-        >>> from src.webdriver.driver import Driver
-        >>> from types import SimpleNamespace
-        >>> from selenium.webdriver.remote.webelement import WebElement
-        >>> # Инициализация драйвера (пример с Firefox)
-        >>> driver = Driver(Firefox)
-        >>> products = [SimpleNamespace(description='Описание изображения')]
-        >>> textarea_list = [WebElement(None, None)]  #  [SimpleNamespace(text='Текст')]
-        >>> update_images_captions(driver, products, textarea_list)
-        >>> # Ожидаемый результат: Подписи к изображениям обновлены
-    """
-    ...
-```
-
-#### **`promote_post(d: Driver, category: SimpleNamespace, products: List[SimpleNamespace], no_video: bool = False) -> bool`**
-
-```python
-def promote_post(d: Driver, category: SimpleNamespace, products: List[SimpleNamespace], no_video: bool = False) -> bool:
-    """
-    Управляет процессом продвижения поста с заголовком, описанием и медиафайлами.
-
-    Args:
-        d (Driver): Экземпляр класса `Driver`, используемый для взаимодействия с веб-страницей.
-        category (SimpleNamespace): Объект с деталями категории, используемыми для заголовка и описания поста.
-        products (List[SimpleNamespace]): Список объектов, содержащих медиа и детали для публикации.
-        no_video (bool, optional): Флаг, указывающий, следует ли пропускать загрузку видео. По умолчанию `False`.
-
-    Returns:
-        bool: `True`, если пост успешно продвинут, иначе `False`.
-
-    Example:
-        >>> from src.webdriver.driver import Driver
-        >>> from types import SimpleNamespace
-        >>> # Инициализация драйвера (пример с Firefox)
-        >>> driver = Driver(Firefox)
-        >>> category = SimpleNamespace(title="Заголовок кампании", description="Описание кампании")
-        >>> products = [SimpleNamespace(local_image_path='path/to/image.jpg')]
-        >>> result = promote_post(driver, category, products)
-        >>> print(result)
-        True
-    """
-    ...
-```
-
-### **Использование**
-
-Чтобы использовать этот скрипт, выполните следующие шаги:
-
-1.  **Инициализация драйвера**: Создайте экземпляр класса `Driver`.
-2.  **Загрузка локаторов**: Загрузите локаторы из JSON-файла.
-3.  **Вызов функций**: Используйте предоставленные функции для отправки заголовка, загрузки медиа и продвижения поста.
-
-#### **Пример**
-
-```python
-from src.webdriver.driver import Driver
-from src.webdriver import Firefox
+from src.webdriver import Driver
 from types import SimpleNamespace
+import asyncio
 
-# Инициализация драйвера
-driver = Driver(Firefox)
+# Initialize Driver
+driver: Driver = Driver(...)
 
-# Загрузка категории и продуктов
-category = SimpleNamespace(title="Заголовок кампании", description="Описание кампании")
-products = [SimpleNamespace(local_image_path='path/to/image.jpg')]
+# Load category and products
+category: SimpleNamespace = SimpleNamespace(title='Campaign Title', description='Campaign Description')
+products: list[SimpleNamespace] = [SimpleNamespace(local_image_path='path/to/image.jpg')]
 
-# Отправка заголовка
-post_title(driver, category)
 
-# Загрузка медиа и продвижение поста
-promote_post(driver, category, products)
+async def main():
+    # Send title
+    post_title(driver, category)
+
+    # Upload media and promote post
+    await promote_post(driver, category, products)
+
+# Run the main function
+asyncio.run(main())
 ```
 
-### **Зависимости**
+### Dependencies
 
--   `selenium`: Для автоматизации веб-интерфейса (версия X.X.X).
--   `asyncio`: Для асинхронных операций (версия X.X.X).
--   `pathlib`: Для обработки путей к файлам (версия X.X.X).
--   `types`: Для создания простых пространств имен (входит в стандартную библиотеку Python).
--   `typing`: Для аннотаций типов (версия X.X.X).
+- `selenium`: For web automation.
+- `asyncio`: For asynchronous operations.
+- `pathlib`: For handling file paths.
+- `types`: For creating simple namespaces.
+- `typing`: For type annotations.
 
-### **Обработка ошибок**
+### Error Handling
 
-Скрипт включает надежную обработку ошибок, чтобы обеспечить продолжение выполнения, даже если определенные элементы не найдены или возникли проблемы с веб-страницей. Это особенно полезно для обработки динамических или нестабильных веб-страниц.
+The script includes robust error handling to ensure that the execution continues even if certain elements are not found or if there are issues with the web page. This is particularly useful for handling dynamic or unstable web pages.
 
-### **Вклад**
+### Contributing
 
-Приветствуются вклады в этот скрипт. Убедитесь, что любые изменения хорошо документированы и включают соответствующие тесты.
+Contributions to this script are welcome. Please ensure that any changes are well-documented and include appropriate tests.
 
-### **Лицензия**
+### License
 
-Этот скрипт распространяется под лицензией MIT. Подробности см. в файле `LICENSE`.
+This script is licensed under the MIT License. See the `LICENSE` file for more details.

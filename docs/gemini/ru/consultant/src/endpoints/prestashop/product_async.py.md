@@ -2,66 +2,82 @@
 
 ## \file /hypotez/src/endpoints/prestashop/product_async.py
 
+Модуль предназначен для асинхронного взаимодействия с PrestaShop API для управления продуктами. Он включает в себя добавление новых продуктов, получение информации о категориях и обработку изображений.
+
 **Качество кода:**
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Использование асинхронности для выполнения операций.
-    - Применение `dataclass` для представления данных о продукте.
-    - Логирование ошибок.
+    - Использование асинхронности для неблокирующих операций.
+    - Применение `dataclass` для представления структуры данных продукта.
+    - Четкое разделение ответственности между классами (например, `PrestaProductAsync` и `PrestaCategoryAsync`).
+    - Использование логирования для отслеживания ошибок.
 - **Минусы**:
-    - Отсутствие docstring для класса `PrestaProductAsync`.
-    - Неполные docstring для методов (отсутствуют описания исключений и примеры использования).
-    - Использование `...` вместо конкретной логики.
-    - Не везде используется `logger.error` с передачей исключения.
-    - Не все переменные аннотированы типами.
-    - Смешанный стиль кавычек (используются и двойные, и одинарные).
+    - Отсутствует полная документация в формате, требуемом инструкцией.
+    - Не все переменные и возвращаемые значения аннотированы типами.
+    - Использование `...` вместо полноценной реализации логики.
+    - Смешанный стиль кавычек (использование как двойных, так и одинарных кавычек).
+    - Встречаются устаревшие комментарии.
+    - Отсутствует обработка исключений в некоторых местах.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить docstring для класса `PrestaProductAsync`**:
-    - Описать назначение класса и его основные атрибуты.
+1.  **Документация**:
+    - Добавить docstring к модулю в соответствии с предоставленным примером.
+    - Заполнить все docstring для классов и методов, включая описание аргументов, возвращаемых значений и возможных исключений.
+    - Перевести все комментарии и docstring на русский язык.
 
-2.  **Заполнить docstring для методов**:
-    - Добавить описание каждого параметра, возвращаемого значения и возможных исключений.
-    - Привести примеры использования.
+2.  **Аннотации типов**:
+    - Добавить аннотации типов для всех переменных и возвращаемых значений функций и методов.
+    - Убедиться, что все типы указаны корректно.
 
-3.  **Убрать `...` и добавить конкретную логику**:
-    - Заменить многоточия реальным кодом или заглушками с комментариями о необходимости реализации.
+3.  **Обработка исключений**:
+    - Добавить обработку исключений во всех местах, где это необходимо, с использованием `try...except` блоков.
+    - Использовать `logger.error` для логирования ошибок, передавая исключение как аргумент.
 
-4.  **Использовать `logger.error` с передачей исключения**:
-    - В блоках `except` передавать исключение в `logger.error` для более информативного логирования.
+4.  **Использование `j_loads` и `j_dumps`**:
+    - Убедиться, что для работы с JSON-файлами используются функции `j_loads` и `j_dumps` из `src.utils.jjson`.
 
-5.  **Аннотировать типы переменных**:
-    - Указать типы для всех переменных, чтобы улучшить читаемость и облегчить отладку.
+5.  **Форматирование кода**:
+    - Использовать только одинарные кавычки (`'`) для строк.
+    - Добавить пробелы вокруг операторов присваивания (`=`).
 
-6.  **Использовать только одинарные кавычки**:
-    - Заменить все двойные кавычки на одинарные.
+6.  **Удаление `...`**:
+    - Заменить все `...` на полноценную реализацию логики или, если это временно, оставить комментарий с объяснением.
 
-7.  **Удалить неиспользуемый код `main`**:
-    - Код в `main` предназначен для примера, но в данном виде он нерабочий (отсутствует класс `Product`). Следует либо его исправить, либо удалить.
+7.  **Логирование**:
+    - Убедиться, что все важные события и ошибки логируются с использованием модуля `logger`.
+    - Добавить контекстную информацию в логи, чтобы упростить отладку.
 
-8.  **Следовать принципам SOLID**:
-    - Рассмотреть возможность разделения класса `PrestaProductAsync` на несколько классов для соблюдения принципа единственной ответственности.
+8. **webdriver**:
+   - В данном коде не используется webdriver, но если он потребуется в будущем, необходимо использовать `Driver`, `Chrome`, `Firefox`, `Playwright` из `src.webdriver`.
 
 **Оптимизированный код:**
 
 ```python
 # -*- coding: utf-8 -*-
 """
-Модуль для асинхронного взаимодействия с продуктами PrestaShop.
-===============================================================
+Модуль для асинхронного управления продуктами в PrestaShop.
+===========================================================
 
-Модуль содержит класс :class:`PrestaProductAsync`, который используется для управления продуктами
-в PrestaShop с использованием асинхронных запросов к API.
+Модуль содержит класс :class:`PrestaProductAsync`, который используется для взаимодействия с PrestaShop API
+и выполнения задач, связанных с управлением продуктами, таких как добавление новых продуктов и получение информации о категориях.
+
+Пример использования:
+----------------------
+
+>>> product = PrestaProductAsync()
+>>> product_fields = ProductFields(lang_index=1, name='Test Product Async', price=19.99, description='This is an asynchronous test product.')
+>>> # parent_categories = await Product.get_parent_categories(id_category=3) # Закомментировано, т.к. не используется в данном контексте
+>>> # new_product = await product.add_new_product(product_fields)
 """
 
 import asyncio
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
 
-import header
-from src import gs
+import header # Импорт не используется, возможно стоит удалить
+from src import gs # Импорт не используется, возможно стоит удалить
 from src.endpoints.prestashop.api import PrestaShopAsync
 from src.endpoints.prestashop.category_async import PrestaCategoryAsync
 
@@ -75,87 +91,75 @@ from src.logger import logger
 
 class PrestaProductAsync(PrestaShopAsync):
     """
-    Класс для управления продуктами в PrestaShop с использованием асинхронных запросов к API.
+    Класс для управления продуктами в PrestaShop.
 
-    Args:
-        *args: Произвольные позиционные аргументы.
-        **kwargs: Произвольные именованные аргументы.
+    Инициализирует объект, позволяющий взаимодействовать с PrestaShop API для управления продуктами.
     """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """
-        Инициализирует объект класса PrestaProductAsync.
+        Инициализирует объект Product.
 
         Args:
-            *args: Произвольные позиционные аргументы.
-            **kwargs: Произвольные именованные аргументы.
+            *args: Произвольный список аргументов.
+            **kwargs: Произвольный словарь аргументов.
         """
         PrestaShopAsync.__init__(self, *args, **kwargs)
         self.presta_category_async: PrestaCategoryAsync = PrestaCategoryAsync(*args, **kwargs)
 
-    async def add_new_product_async(self, f: ProductFields) -> ProductFields | None:
+
+    async def add_new_product_async(self, f: ProductFields) -> Optional[bool]:
         """
-        Добавляет новый продукт в PrestaShop.
+        Асинхронно добавляет новый продукт в PrestaShop.
 
         Args:
-            f (ProductFields): Объект ProductFields, содержащий информацию о продукте.
+            f (ProductFields): Объект `ProductFields`, содержащий информацию о продукте.
 
         Returns:
-            ProductFields | None: Объект `ProductFields` с установленным `id_product`, если продукт был успешно добавлен, иначе `None`.
-        
-        Raises:
-            Exception: Если не удалось добавить продукт или изображение.
-
-        Example:
-            >>> product_fields = ProductFields(lang_index=1, name='Test Product Async', price=19.99, description='This is an asynchronous test product.')
-            >>> product = PrestaProductAsync()
-            >>> new_product = await product.add_new_product_async(product_fields)
-            >>> if new_product:
-            ...     print(f'New product id = {new_product.id_product}')
-            ... else:
-            ...     print('Error adding new product')
+            Optional[bool]: Возвращает `True`, если продукт был успешно добавлен, `None` в случае ошибки.
         """
-        f.additional_categories: List[int] = await self.presta_category_async.get_parent_categories_list(f.id_category_default)
 
-        presta_product_dict: Dict[str, Any] = f.to_dict()
+        f.additional_categories = await self.presta_category_async.get_parent_categories_list(f.id_category_default)
+
+        presta_product_dict: dict = f.to_dict()
 
         new_f: ProductFields | None = await self.create('products', presta_product_dict)
 
         if not new_f:
-            logger.error('Товар не был добавлен в базу данных Presyashop')
-            return
+            logger.error('Товар не был добавлен в базу данных PrestaShop')
+            return None
 
+        # Асинхронно создаем бинарное представление изображения продукта
         if await self.create_binary(f'images/products/{new_f.id_product}', f.local_image_path, new_f.id_product):
-            return new_f # Возвращаем new_f, чтобы сохранить id_product
+            return True
         else:
             logger.error('Не удалось загрузить изображение')
             return None
 
 
-async def main():
+async def main() -> None:
     """
-    Пример использования асинхронного добавления продукта (закомментирован).
+    Пример использования.
     """
-    # # Example usage
-    # product = PrestaProductAsync()
-    # product_fields = ProductFields(
-    #     lang_index = 1,
-    #     name='Test Product Async',
-    #     price=19.99,
-    #     description='This is an asynchronous test product.',
-    # )
-    
-    # parent_categories = await product.presta_category_async.get_parent_categories_list(3)
-    # print(f'Parent categories: {parent_categories}')
+    # Пример использования
+    product = PrestaProductAsync()
+    product_fields = ProductFields(
+        lang_index=1,
+        name='Test Product Async',
+        price=19.99,
+        description='This is an asynchronous test product.',
+    )
 
+    # parent_categories = await Product.get_parent_categories(id_category=3) # Закомментировано, т.к. нет реализации Product.get_parent_categories
+    # print(f'Parent categories: {parent_categories}') # Используется переменная из закомментированной строки
 
-    # new_product = await product.add_new_product_async(product_fields)
+    # new_product = await product.add_new_product(product_fields) # Используется переменная product, которая не имеет await
     # if new_product:
-    #     print(f'New product id = {new_product.id_product}')
+    #    print(f'New product id = {new_product.id_product}')
     # else:
-    #     print(f'Error add new product')
+    #    print(f'Error add new product')
 
-    # await product.fetch_data_async()
+    # await product.fetch_data_async() # Используется переменная product, которая не имеет await
     pass
 
 

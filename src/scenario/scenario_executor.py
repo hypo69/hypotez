@@ -1,17 +1,19 @@
-# \file hypotez/src/scenario/executor.py
+# \file hypotez/src/scenario/scenario_executor.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
 """
-Module for executing scenarios.
-=========================================================================================
-
-This module contains functions for executing scenarios, loading them from files,
-and handling the process of extracting product information and inserting it into PrestaShop.
-
-.. module::  src.scenario.executor
-   :platform: Windows, Unix
-   :synopsis: Module for executing scenarios.
+Исполнитель сценариев поставщиков
+====================================
+Модуль может исполнять различные сценарии, такие как:
+- Сбор товаров в определенной каегории
+- Сбор товаров по определенному фильтру
+- Сбор товаров по определенному производителю
+- ...
+- и т.д.
+```rst
+.. module::  scenario_executor
+```
 """
 import os
 import sys
@@ -26,6 +28,7 @@ from typing import Dict, List, Optional
 import json
 
 import header
+from header import __root__
 from src import gs
 from src.utils.printer import pprint
 from src.utils.jjson import j_loads, j_dumps

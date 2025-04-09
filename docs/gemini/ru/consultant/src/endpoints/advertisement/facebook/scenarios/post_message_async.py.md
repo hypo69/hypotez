@@ -2,52 +2,70 @@
 
 ## \file /src/endpoints/advertisement/facebook/scenarios/post_message_async.py
 
-Модуль содержит функции для автоматизации процесса публикации рекламных сообщений в Facebook, включая загрузку медиафайлов и добавление описаний.
+Модуль содержит асинхронные функции для публикации рекламных сообщений в Facebook, включая загрузку медиафайлов и добавление описаний к ним.
 
 **Качество кода:**
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код разбит на отдельные функции, что облегчает понимание и поддержку.
-  - Используется асинхронность для выполнения задач, что позволяет повысить производительность.
-  - Присутствуют логирование ошибок с использованием `logger`.
-  - Используются `SimpleNamespace` для хранения данных, что упрощает доступ к атрибутам.
+    - Четкая структура функций, разделение задач.
+    - Использование `SimpleNamespace` для хранения данных.
+    - Логирование ошибок.
 - **Минусы**:
-  - В некоторых местах отсутствуют аннотации типов.
-  - Docstrings на английском языке.
-  - Не везде используется `j_loads_ns` для загрузки JSON файлов.
-  - Не все ошибки обрабатываются с логированием.
-  - Не всегда передается ошибка в logger.error
+    - Некоторые docstring на английском языке.
+    - Не все переменные аннотированы типами.
+    - Не везде используется `logger.error` с передачей исключения `ex`.
+    - Отсутствует обработка некоторых возможных исключений.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить аннотации типов**: Добавить аннотации типов для всех переменных и параметров функций.
-2.  **Перевести docstrings на русский язык**: Перевести все docstrings на русский язык для соответствия стандартам проекта.
-3.  **Использовать `j_loads_ns` для загрузки JSON**: Заменить стандартное открытие файла и `json.load` на `j_loads_ns`.
-4.  **Добавить логирование ошибок**: Добавить логирование ошибок во все блоки `try...except` с передачей информации об исключении.
-5.  **Улучшить обработку ошибок**: Проверять возвращаемые значения `d.execute_locator` и логировать ошибки, если операция не удалась.
-6.  **Улучшить docstring для внутренних функций** Добавить docstring для `handle_product` c подробным описанием работы функции, ее аргументов и возвращаемых значений.
-7.  **Исправить опечатку**: Исправить опечатку в `edit_uloaded_media_button`. Правильно `edit_uploaded_media_button`.
-8.  **Передавать ошибки в `logger.error`** Всегда передавать ошибки в `logger.error` вторым аргументом `logger.error("Error in media upload", ex, exc_info=True)`.
+1.  **Документация**:
+    *   Перевести все docstring на русский язык, следуя инструкциям.
+    *   Улучшить описание `Args` и `Returns` в docstring, чтобы они были более информативными.
+    *   Добавить примеры использования для всех функций, где это возможно.
+
+2.  **Обработка ошибок**:
+    *   Убедиться, что все блоки `try...except` содержат `logger.error` с передачей исключения `ex` и `exc_info=True`.
+    *   Рассмотреть возможность добавления обработки специфических исключений вместо общего `Exception`.
+
+3.  **Аннотации типов**:
+    *   Добавить аннотации типов для всех переменных, где это возможно.
+    *   Убедиться, что аннотации типов соответствуют фактическим типам данных.
+
+4.  **Использование `j_loads_ns`**:
+    *   Убедиться, что для чтения JSON файлов используется `j_loads_ns`.
+
+5.  **Улучшение читаемости**:
+    *   Добавить пробелы вокруг операторов присваивания.
+    *   Использовать более понятные имена переменных, где это необходимо.
+
+6.  **Сокращение дублирования кода**:
+    *   Рассмотреть возможность вынесения повторяющегося кода в отдельные функции.
+
+7.  **Улучшение логирования**:
+    *   Добавить больше информативных сообщений в логи, чтобы облегчить отладку.
+    *   Использовать разные уровни логирования (DEBUG, INFO, WARNING, ERROR) в зависимости от ситуации.
+
+8.  **Использование webdriver**:
+    *   Убедиться, что webdriver используется правильно, с учетом рекомендаций в инструкции.
 
 **Оптимизированный код:**
 
 ```python
 ## \file /src/endpoints/advertisement/facebook/scenarios/post_message_async.py
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*
 
 #! .pyenv/bin/python3
 
 """
-Модуль для публикации сообщения из `aliexpress` промо
-=====================================================
+Модуль для публикации сообщений в Facebook
+==========================================
 
-Модуль содержит асинхронные функции для автоматизации процесса публикации рекламных сообщений в Facebook,
-включая загрузку медиафайлов и добавление описаний.
+Модуль содержит асинхронные функции для публикации рекламных сообщений в Facebook, включая загрузку медиафайлов и добавление описаний к ним.
 """
 
-import time
 import asyncio
+import time
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Dict, List, Optional
@@ -57,79 +75,80 @@ from src.webdriver.driver import Driver
 from src.utils.jjson import j_loads_ns
 from src.logger.logger import logger
 
+
 # Загрузка локаторов из JSON файла.
 locator: SimpleNamespace = j_loads_ns(
     Path(gs.path.src / 'endpoints' / 'advertisement' / 'facebook' / 'locators' / 'post_message.json')
 )
 
-def post_title(d: Driver, category: SimpleNamespace) -> Optional[bool]:
+
+def post_title(d: Driver, category: SimpleNamespace) -> bool:
     """Отправляет заголовок и описание кампании в поле сообщения.
 
     Args:
-        d (Driver): Инстанс драйвера, используемый для взаимодействия с веб-страницей.
-        category (SimpleNamespace): Объект, содержащий заголовок и описание для отправки.
+        d (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
+        category (SimpleNamespace): Категория, содержащая заголовок и описание для отправки.
 
     Returns:
-        Optional[bool]: `True`, если заголовок и описание были успешно отправлены, иначе `None`.
+        bool: `True`, если заголовок и описание были успешно отправлены, иначе `False`.
 
     Example:
         >>> driver = Driver(...)
-        >>> category = SimpleNamespace(title="Campaign Title", description="Campaign Description")
+        >>> category = SimpleNamespace(title="Заголовок кампании", description="Описание кампании")
         >>> post_title(driver, category)
         True
     """
-    # Прокрутка страницы назад
+    # Прокрутка страницы вверх
     if not d.scroll(1, 1200, 'backward'):
-        logger.error('Scroll failed during post title')
-        return None
+        logger.error('Ошибка при прокрутке страницы вверх во время публикации заголовка', exc_info=False)
+        return False
 
-    # Открытие поля "add post"
+    # Открытие поля "Добавить пост"
     if not d.execute_locator(locator.open_add_post_box):
-        logger.error('Failed to open \'add post\' box')
-        return None
+        logger.error('Не удалось открыть поле "Добавить пост"', exc_info=False)
+        return False
 
     # Формирование сообщения с заголовком и описанием
-    message: str = f"{category.title}; {category.description};"
+    message: str = f'{category.title}; {category.description};'
 
-    # Добавление сообщения в поле "post box"
+    # Добавление сообщения в поле поста
     if not d.execute_locator(locator.add_message, message):
-        logger.error(f'Failed to add message to post box: {message=}')
-        return None
+        logger.error(f'Не удалось добавить сообщение в поле поста: {message=}', exc_info=False)
+        return False
 
     return True
 
 
-async def upload_media(d: Driver, products: List[SimpleNamespace], no_video: bool = False) -> Optional[bool]:
-    """Асинхронно загружает медиафайлы в секцию изображений и обновляет подписи.
+async def upload_media(d: Driver, products: List[SimpleNamespace], no_video: bool = False) -> bool:
+    """Асинхронно загружает медиафайлы в раздел изображений и обновляет подписи.
 
     Args:
-        d (Driver): Инстанс драйвера, используемый для взаимодействия с веб-страницей.
+        d (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
         products (List[SimpleNamespace]): Список продуктов, содержащих пути к медиафайлам.
-        no_video (bool): Флаг, указывающий, следует ли избегать загрузки видео. По умолчанию `False`.
+        no_video (bool, optional): Если True, видео не загружаются. По умолчанию False.
 
     Returns:
-        Optional[bool]: `True`, если медиафайлы были успешно загружены, иначе `None`.
+        bool: `True`, если медиафайлы были успешно загружены, иначе `False`.
 
     Raises:
         Exception: Если произошла ошибка во время загрузки медиафайлов или обновления подписей.
 
     Example:
         >>> driver = Driver(...)
-        >>> products = [SimpleNamespace(local_image_path='path/to/image.jpg', ...)]
+        >>> products = [SimpleNamespace(local_image_path='путь/к/изображению.jpg', ...)]
         >>> await upload_media(driver, products)
         True
     """
-    # Шаг 1: Открытие формы "add media". Она может быть уже открыта.
+    # Шаг 1: Открытие формы "Добавить медиа". Она может быть уже открыта.
     if not d.execute_locator(locator.open_add_foto_video_form):
-        logger.error('Не удалось открыть форму добавления медиа')
-        return None
+        return False
     d.wait(0.5)
 
-    # Шаг 2: Проверка, что products является списком.
+    # Шаг 2: Проверка, является ли products списком.
     products: List[SimpleNamespace] = products if isinstance(products, list) else [products]
     ret: bool = True
 
-    # Итерация по продуктам и загрузка медиа.
+    # Перебор продуктов и загрузка медиафайлов.
     for product in products:
         media_path: str = product.local_video_path if hasattr(product, 'local_video_path') and not no_video else product.local_image_path
         try:
@@ -138,23 +157,23 @@ async def upload_media(d: Driver, products: List[SimpleNamespace], no_video: boo
                 d.wait(1.5)
             else:
                 logger.error(f'Ошибка загрузки изображения {media_path=}')
-                return None
+                return False
         except Exception as ex:
-            logger.error('Error in media upload', ex, exc_info=True)
-            return None
+            logger.error('Ошибка при загрузке медиафайла', ex, exc_info=True)
+            return False
 
-    # Шаг 3: Обновление подписей для загруженных медиа.
-    if not d.execute_locator(locator.edit_uploaded_media_button):
-        logger.error(f'Ошибка нажатия на кнопку редактирования медиа {media_path=}')
-        return None
-    uploaded_media_frame: WebElement | List[WebElement] | None = d.execute_locator(locator.uploaded_media_frame)
-    uploaded_media_frame: WebElement = uploaded_media_frame[0] if isinstance(uploaded_media_frame, list) else uploaded_media_frame
+    # Шаг 3: Обновление подписей для загруженных медиафайлов.
+    if not d.execute_locator(locator.edit_uloaded_media_button):
+        logger.error(f'Ошибка при нажатии кнопки редактирования загруженного изображения {media_path=}')
+        return False
+    uploaded_media_frame = d.execute_locator(locator.uploaded_media_frame)
+    uploaded_media_frame = uploaded_media_frame[0] if isinstance(uploaded_media_frame, list) else uploaded_media_frame
     d.wait(0.3)
 
-    textarea_list: List[WebElement] | None = d.execute_locator(locator.edit_image_properties_textarea)
+    textarea_list: List[WebElement] = d.execute_locator(locator.edit_image_properties_textarea)
     if not textarea_list:
-        logger.error('Не нашлись поля ввода подписи к изображениям')
-        return None
+        logger.error('Не найдены поля ввода подписи к изображениям')
+        return False
     # Асинхронное обновление подписей к изображениям.
     await update_images_captions(d, products, textarea_list)
 
@@ -165,9 +184,9 @@ async def update_images_captions(d: Driver, products: List[SimpleNamespace], tex
     """Асинхронно добавляет описания к загруженным медиафайлам.
 
     Args:
-        d (Driver): Инстанс драйвера, используемый для взаимодействия с веб-страницей.
+        d (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
         products (List[SimpleNamespace]): Список продуктов с деталями для обновления.
-        textarea_list (List[WebElement]): Список текстовых полей, куда добавляются подписи.
+        textarea_list (List[WebElement]): Список текстовых полей, в которые добавляются подписи.
 
     Raises:
         Exception: Если произошла ошибка при обновлении подписей медиафайлов.
@@ -179,11 +198,8 @@ async def update_images_captions(d: Driver, products: List[SimpleNamespace], tex
 
         Args:
             product (SimpleNamespace): Продукт для обновления.
-            textarea_list (List[WebElement]): Список текстовых полей, куда добавляются подписи.
+            textarea_list (List[WebElement]): Список текстовых полей, в которые добавляются подписи.
             i (int): Индекс продукта в списке.
-
-        Returns:
-            Optional[bool]: Возвращает `True` в случае успешного обновления подписи, иначе `None`.
         """
         direction: str = getattr(local_units.LOCALE, product.language, "LTR")
         message: str = ""
@@ -225,16 +241,15 @@ async def update_images_captions(d: Driver, products: List[SimpleNamespace], tex
                 message += f"\n{getattr(local_units.COPYRIGHT, product.language)}"
 
         except Exception as ex:
-            logger.error("Error in message generation", ex, exc_info=True)
-            return None
+            logger.error("Ошибка при формировании сообщения", ex, exc_info=True)
 
-        # Отправка сообщения в textarea.
+        # Отправка сообщения в текстовое поле.
         try:
             textarea_list[i].send_keys(message)
             return True
         except Exception as ex:
-            logger.error("Error in sending keys to textarea", ex, exc_info=True)
-            return None
+            logger.error("Ошибка при отправке текста в textarea", ex, exc_info=True)
+            return False
 
     # Обработка продуктов и обновление их подписей асинхронно.
     for i, product in enumerate(products):
@@ -245,32 +260,25 @@ async def promote_post(d: Driver, category: SimpleNamespace, products: List[Simp
     """Управляет процессом продвижения поста с заголовком, описанием и медиафайлами.
 
     Args:
-        d (Driver): Инстанс драйвера, используемый для взаимодействия с веб-страницей.
+        d (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
         category (SimpleNamespace): Детали категории, используемые для заголовка и описания поста.
-        products (List[SimpleNamespace]): Список продуктов, содержащих медиа и детали для публикации.
-        no_video (bool): Флаг, указывающий, следует ли избегать загрузки видео. По умолчанию `False`.
-
-    Returns:
-        Optional[bool]: `True`, если пост был успешно продвинут, иначе `None`.
+        products (List[SimpleNamespace]): Список продуктов, содержащих медиафайлы и детали для публикации.
+        no_video (bool, optional): Если True, видео не загружаются. По умолчанию False.
 
     Example:
         >>> driver = Driver(...)
-        >>> category = SimpleNamespace(title="Campaign Title", description="Campaign Description")
-        >>> products = [SimpleNamespace(local_image_path='path/to/image.jpg', ...)]
+        >>> category = SimpleNamespace(title="Заголовок кампании", description="Описание кампании")
+        >>> products = [SimpleNamespace(local_image_path='путь/к/изображению.jpg', ...)]
         >>> await promote_post(driver, category, products)
     """
     if not post_title(d, category):
-        logger.error("Не удалось установить заголовок поста")
-        return None
+        return False
     d.wait(0.5)
 
     if not await upload_media(d, products, no_video):
-        logger.error("Не удалось загрузить медиа")
-        return None
+        return False
     if not d.execute_locator(locator.finish_editing_button):
-        logger.error("Не удалось нажать на кнопку завершения редактирования")
-        return None
+        return False
     if not d.execute_locator(locator.publish):
-        logger.error("Не удалось нажать на кнопку публикации")
-        return None
+        return False
     return True

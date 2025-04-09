@@ -1,128 +1,133 @@
 ### **Анализ кода модуля `post_ad.py`**
 
-## \file /src/endpoints/advertisement/facebook/scenarios/post_ad.py
-
-Модуль предназначен для публикации рекламных сообщений в группах Facebook. Он включает в себя функции для отправки заголовка сообщения, загрузки медиафайлов и публикации сообщения.
-
-**Качество кода**:
-- **Соответствие стандартам**: 6/10
+#### **Качество кода**:
+- **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код достаточно структурирован и разделен на логические блоки.
-  - Используется модуль `logger` для логирования ошибок.
-  - Присутствуют docstring для функций, что облегчает понимание их назначения.
+  - Использование `SimpleNamespace` для передачи данных.
+  - Логирование ошибок с использованием `logger`.
+  - Структурированный код, разделенный на функции.
 - **Минусы**:
-  - Не все переменные аннотированы типами.
-  - В docstring используются английские комментарии. Необходимо перевести их на русский язык.
-  - Не все функции документированы в соответствии с форматом, указанным в инструкции.
-  - Используется старый стиль импорта `from src.webdriver.driver import Driver`.
-  - Не хватает обработки исключений и логирования в некоторых частях кода.
+  - Отсутствуют аннотации типов для переменных `fails`.
+  - Не все функции имеют docstring.
+  - В блоках `if fails < 15:` используется `print`, вместо `logger.info` или `logger.debug`.
+  - Используются глобальные переменные (`fails`).
+  - Отсутствует обработка исключений для `upload_post_media` и `message_publish`.
 
-**Рекомендации по улучшению**:
-- Добавить аннотации типов для всех переменных и параметров функций.
-- Перевести все комментарии и docstring на русский язык.
-- Привести docstring к единому формату, указанному в инструкции.
-- Изменить импорт `from src.webdriver.driver import Driver` на `from src.webdriver import Driver, Chrome, Firefox, Playwright`.
-- Добавить обработку исключений и логирование, где это необходимо.
-- Изменить способ форматирования строк с f-строк на конкатенацию строк для лучшей читаемости и соответствия стандартам.
-- Добавить проверки на типы для входных параметров функций, чтобы избежать неожиданных ошибок.
-- Изменить `print(f"{fails=}")` на `logger.info(f"fails={fails}")`
+#### **Рекомендации по улучшению**:
+1. **Добавить docstring**:
+   - Добавить docstring для всех функций и внутренних функций.
 
-**Оптимизированный код**:
+2. **Аннотации типов**:
+   - Добавить аннотации типов для переменных, особенно для глобальных переменных.
+   - Указывать типы для всех входных параметров и возвращаемых значений функций.
 
+3. **Логирование**:
+   - Заменить `print` на `logger.info` или `logger.debug` для отладочной информации.
+
+4. **Обработка исключений**:
+   - Добавить обработку исключений для функций `upload_post_media` и `message_publish` с использованием `try...except` и логированием ошибок.
+
+5. **Глобальные переменные**:
+   - Избегать использования глобальных переменных. Передавать `fails` как аргумент функции.
+
+6. **Улучшить сообщения логгера**:
+   - Сделать сообщения логгера более информативными.
+   - Всегда передавать `exc` или `ex` в `logger.error`.
+
+7. **Удалить неиспользуемые импорты**:
+   - Удалить неиспользуемые импорты, такие как `from socket import timeout`.
+
+#### **Оптимизированный код**:
 ```python
-## \file /src/endpoints/advertisement/facebook/scenarios/post_ad.py
 # -*- coding: utf-8 -*-
-
 """
-Модуль для публикации рекламных сообщений в группах Facebook
-==============================================================
+Модуль публикации рекламных сообщений в группах Facebook.
+==========================================================
 
-Модуль содержит функции для отправки заголовка сообщения, загрузки медиафайлов и публикации сообщения.
+Модуль содержит функции для автоматической публикации рекламных сообщений,
+включая загрузку медиа и отправку текста.
 
 Пример использования
 ----------------------
 
->>> from src.webdriver import Driver, Chrome
->>> from types import SimpleNamespace
 >>> driver = Driver(Chrome)
 >>> message = SimpleNamespace(description='Текст сообщения', image_path='path/to/image.jpg')
->>> post_ad(driver, message)
+>>> result = post_ad(driver, message)
+>>> print(result)
 True
 """
 
 import time
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Dict, List, Optional
+from typing import List
 from urllib.parse import urlencode
 from selenium.webdriver.remote.webelement import WebElement
 
 from src import gs
-from src.webdriver import Driver
+from src.webdriver.driver import Driver
 from src.endpoints.advertisement.facebook.scenarios import post_message_title, upload_post_media, message_publish
 from src.utils.jjson import j_loads_ns
 from src.logger.logger import logger
 
-# Загрузка локаторов из JSON файла.
+# Загрузка локаторов из JSON-файла.
 locator: SimpleNamespace = j_loads_ns(
     Path(gs.path.src / 'endpoints' / 'advertisement' / 'facebook' / 'locators' / 'post_message.json')
 )
 
-fails: int = 0
 
-
-def post_ad(d: Driver, message: SimpleNamespace) -> bool | None:
+def post_ad(d: Driver, message: SimpleNamespace) -> bool:
     """
-    Публикует рекламное объявление в группах Facebook.
+    Публикует рекламное сообщение в Facebook, включая заголовок, медиа и подтверждение публикации.
 
     Args:
-        d (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
-        message (SimpleNamespace): Объект, содержащий данные сообщения для публикации.
+        d (Driver): Инстанс драйвера для взаимодействия с веб-страницей.
+        message (SimpleNamespace): Объект, содержащий данные для публикации, включая описание и путь к изображению.
 
     Returns:
-        bool | None: `True`, если объявление успешно опубликовано, иначе `None`.
+        bool: True, если публикация прошла успешно, иначе False.
 
     Raises:
-        Exception: Если возникает ошибка при публикации объявления.
+        Exception: Если происходит ошибка во время публикации сообщения.
 
     Example:
-        >>> from src.webdriver import Driver, Chrome
-        >>> from types import SimpleNamespace
         >>> driver = Driver(Chrome)
         >>> message = SimpleNamespace(description='Текст сообщения', image_path='path/to/image.jpg')
-        >>> post_ad(driver, message)
+        >>> result = post_ad(driver, message)
+        >>> print(result)
         True
     """
-    global fails
+    fails: int = 0  # Локальная переменная для подсчета неудачных попыток
 
-    if not isinstance(d, Driver):
-        logger.error(f"Expected Driver instance, got {type(d)}")
-        return None
-
-    if not isinstance(message, SimpleNamespace):
-        logger.error(f"Expected SimpleNamespace instance, got {type(message)}")
-        return None
-
-    if not post_message_title(d, f"{ message.description}"):
-        logger.error('Не удалось отправить заголовок события', exc_info=True) # Логируем ошибку отправки заголовка
-        fails += 1
-        if fails < 15:
-            logger.info(f"fails={fails}")
-            return False
+    while fails < 15:
+        if not post_message_title(d, f"{message.description}"):
+            logger.error("Не удалось отправить заголовок сообщения")
+            fails += 1
+            logger.info(f"Попытка {fails} из 15")
+            time.sleep(1)  # Небольшая задержка между попытками
         else:
-            logger.error('Превышено максимальное количество неудачных попыток')
-            return None
+            break  # Выход из цикла при успешной отправке заголовка
+    else:
+        logger.error("Превышено максимальное количество попыток отправки заголовка")
+        return False  # Возврат False, если не удалось отправить заголовок
 
     time.sleep(1)
 
     if hasattr(message, 'image_path') and message.image_path:
-        if not upload_post_media(d, media=message.image_path, without_captions=True):
-            logger.error('Не удалось загрузить медиафайл', exc_info=True)
-            return None
+        try:
+            if not upload_post_media(d, media=message.image_path, without_captions=True):
+                logger.error("Не удалось загрузить медиа")
+                return False
+        except Exception as ex:
+            logger.error("Ошибка при загрузке медиа", ex, exc_info=True)
+            return False
 
-    if not message_publish(d):
-        logger.error('Не удалось опубликовать сообщение', exc_info=True)
-        return None
+    try:
+        if not message_publish(d):
+            logger.error("Не удалось опубликовать сообщение")
+            return False
+    except Exception as ex:
+        logger.error("Ошибка при публикации сообщения", ex, exc_info=True)
+        return False
 
-    fails = 0
     return True

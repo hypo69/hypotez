@@ -1,55 +1,52 @@
-### **Анализ кода модуля `src.endpoints.prestashop.product`**
+### **Анализ кода модуля `product.py`**
 
 ## Качество кода:
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Использование классов для конфигурации и представления данных.
-    - Четкое разделение ответственности между классами.
-    - Использование `logger` для логирования.
+    - Использование `dataclass` для представления структуры данных.
+    - Применение `Optional` для указания необязательных параметров.
+    - Использование `logger` для логирования ошибок.
+    - Код разбит на функции, что улучшает читаемость.
 - **Минусы**:
-    - Неполная документация функций и классов.
-    - Использование смешанного стиля именования переменных и функций.
-    - Отсутствие обработки исключений во всех необходимых местах.
-    - Не везде используются аннотации типов.
-    - Много закомментированного кода, который нужно удалить.
+    - Не все функции и классы содержат docstring.
+    - Есть дублирование кода (например, `kwards = {'data_format': 'JSON'}` встречается дважды в `get_product`).
+    - Встречаются устаревшие комментарии и отладочный код.
+    - Не везде используется аннотация типов.
+    - Отсутствует единообразие в форматировании.
+    - Местами отсутствует обработка исключений.
+    - Смешаны стили именования переменных (snake_case и camelCase).
 
 ## Рекомендации по улучшению:
 
-1.  **Документация**:
-    - Добавить подробные docstring для всех классов, функций и методов, используя формат, указанный в инструкции.
-    - Перевести все комментарии и docstring на русский язык.
-    - Описать назначение каждого модуля в начале файла.
+1.  **Документирование кода**:
+    *   Добавить docstring для всех классов и функций, включая описание аргументов, возвращаемых значений и возможных исключений.
 
-2.  **Обработка исключений**:
-    - Добавить обработку исключений во все места, где это необходимо, с использованием `logger.error` для логирования ошибок.
-    - Использовать `ex` вместо `e` в блоках `except`.
+2.  **Удаление отладочного кода**:
+    *   Удалить или закомментировать отладочный код и устаревшие комментарии.
 
-3.  **Аннотации типов**:
-    - Добавить аннотации типов для всех переменных и параметров функций.
+3.  **Улучшение обработки исключений**:
+    *   Добавить обработку исключений в тех местах, где это необходимо.
 
-4.  **Форматирование**:
-    - Исправить форматирование кода в соответствии со стандартами PEP8.
-    - Использовать только одинарные кавычки.
-    - Добавить пробелы вокруг операторов присваивания.
+4.  **Унификация форматирования**:
+    *   Привести код в соответствие со стандартами PEP8.
 
-5.  **Использование `j_loads` и `j_dumps`**:
-    - Убедиться, что для чтения JSON-файлов используется `j_loads` или `j_loads_ns`, а для записи - `j_dumps`.
+5.  **Улучшение логирования**:
+    *   Добавить логирование важных событий и ошибок.
 
-6.  **Удаление неиспользуемого кода**:
-    - Удалить весь закомментированный код и неиспользуемые переменные.
+6.  **Удалить дублирование кода**:
+    *   Удалить повторяющиеся строчки кода.
 
-7. **Логирование**:
-    - Всегда используй модуль `logger` из `src.logger.logger`.
-    - Ошибки должны логироваться с использованием `logger.error`.
+7.  **Аннотации типов**:
+    *   Добавить аннотации типов для всех переменных и параметров функций.
 
-8. **Использование `webdriver`**:
-    - Если в коде используется `webdriver`, убедиться, что он импортирован из модуля `src.webdriver` и используется в соответствии с инструкциями.
+8. **Использовать `j_loads` или `j_loads_ns`**:
+    - Для чтения JSON или конфигурационных файлов замените стандартное использование `open` и `json.load` на `j_loads` или `j_loads_ns`.
 
 ## Оптимизированный код:
 
 ```python
-                ## \file /src/endpoints/prestashop/product.py
+## \file /src/endpoints/prestashop/product.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
@@ -58,10 +55,10 @@
 ======================================================
 Определяет логику взаимодействия с товарами в проекте.
 """
+
 import asyncio
 import os
 from dataclasses import dataclass, field
-# from re import U
 from types import SimpleNamespace
 from typing import List, Dict, Any, Optional
 
@@ -111,10 +108,10 @@ class Config:
 
 class PrestaProduct(PrestaShop):
     """
-    Класс для управления товарами в PrestaShop.
+    Класс для работы с товарами PrestaShop.
 
-    Изначально предполагает получение данных о товаре,
-    а затем взаимодействие с API PrestaShop.
+    Изначально, граббер извлекает данные со страницы товара,
+    а затем происходит взаимодействие с API PrestaShop.
     """
 
     def __init__(self, api_key: Optional[str] = '', api_domain: Optional[str] = '', *args, **kwargs) -> None:
@@ -122,8 +119,8 @@ class PrestaProduct(PrestaShop):
         Инициализирует объект Product.
 
         Args:
-            api_key (Optional[str], optional): Ключ API PrestaShop. Defaults to ''.
-            api_domain (Optional[str], optional): Домен API PrestaShop. Defaults to ''.
+            api_key (Optional[str], optional): PrestaShop API key. Defaults to ''.
+            api_domain (Optional[str], optional): PrestaShop API domain. Defaults to ''.
 
         Returns:
             None
@@ -137,20 +134,20 @@ class PrestaProduct(PrestaShop):
 
     def get_product_schema(self, resource_id: Optional[str | int] = None, schema: Optional[str] = 'blank') -> dict:
         """
-        Получает схему ресурса продукта из PrestaShop.
+        Получает схему ресурса товара из PrestaShop.
 
         Args:
-            resource_id (Optional[str | int], optional): ID ресурса продукта. Defaults to None.
+            resource_id (Optional[str | int], optional): ID ресурса товара. Defaults to None.
             schema (Optional[str], optional): Тип схемы. Defaults to 'blank'.
 
         Returns:
-            dict: Схема ресурса продукта.
+            dict: Схема ресурса товара.
         """
         return self.get_schema(resource='products', resource_id=resource_id, schema=schema, display='full')
 
     def get_parent_category(self, id_category: int) -> Optional[int]:
         """
-        Рекурсивно извлекает родительские категории из PrestaShop для данной категории.
+        Рекурсивно извлекает родительские категории из PrestaShop для заданной категории.
 
         Args:
             id_category (int): ID категории.
@@ -166,6 +163,10 @@ class PrestaProduct(PrestaShop):
             return int(category_response['id_parent'])
         except Exception as ex:
             logger.error(f'Ошибка при получении категории с ID {id_category}: ', ex, exc_info=True)
+            return None
+
+        if not category_response:
+            logger.error(f'Категория с ID {id_category} не найдена.')
             return None
 
     def _add_parent_categories(self, f: ProductFields) -> None:
@@ -187,7 +188,7 @@ class PrestaProduct(PrestaShop):
                 else:
                     break
 
-    def get_product(self, id_product: int, **kwargs) -> dict:
+    def get_product(self, id_product: int, **kwards) -> dict:
         """
         Возвращает словарь полей товара из магазина PrestaShop.
 
@@ -201,15 +202,14 @@ class PrestaProduct(PrestaShop):
                     {... product fields}
             }
         """
-        kwargs = {'data_format': 'JSON'}
-        kwargs = {'data_format': 'JSON'}
-        return self.read(resource='products', resource_id=id_product, **kwargs)
+        kwargs: dict = {'data_format': 'JSON'}  # Corrected variable name to kwargs
+        return self.read(resource='products', resource_id=id_product, **kwargs)  # Corrected variable name to kwargs
 
     def add_new_product(self, f: ProductFields) -> dict:
         """
         Добавляет новый продукт в PrestaShop.
 
-        Преобразовывает объект `ProductFields` в словарь формата `Prestashop` и отправляет его в API Престашоп
+        Преобразовывает объект `ProductFields` в словарь формата `PrestaShop` и отправляет его в API PrestaShop.
 
         Args:
             f (ProductFields): Экземпляр класса ProductFields, содержащий информацию о продукте.
@@ -225,7 +225,8 @@ class PrestaProduct(PrestaShop):
 
         presta_product_dict: dict = f.to_dict()
 
-        kwards = {
+        ...
+        kwargs: dict = {
             'data_format': Config.POST_FORMAT,
             'language': 2,
         }
@@ -236,10 +237,10 @@ class PrestaProduct(PrestaShop):
             xml_data: str = presta_fields_to_xml({'product': presta_product_dict})
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
             save_xml(xml_data, gs.path.endpoints / 'emil' / '_experiments' / f'{gs.now}_presta_product.xml')
-            kwards['data_format'] = 'XML'
-            response = self.create('products', data=xml_data, **kwards)
+            kwargs['data_format'] = 'XML'
+            response = self.create('products', data=xml_data, **kwargs)
         else:  # elif post_format == 'JSON':
-            response = self.create('products', data={'product': presta_product_dict}, **kwards)
+            response = self.create('products', data={'product': presta_product_dict}, **kwargs)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
         j_dumps(
@@ -251,6 +252,7 @@ class PrestaProduct(PrestaShop):
         if response:
             added_product_ns: SimpleNamespace = j_loads_ns(response)
             added_product_ns = added_product_ns.product
+            ...
             try:
                 # f.reference = response['product']['reference'] if isinstance(response['product']['reference'], str) else int(response['product']['reference'])
                 img_data = self.create_binary(
@@ -276,59 +278,66 @@ class PrestaProduct(PrestaShop):
 
 
 def example_add_new_product() -> None:
-    """
-    Пример добавления товара в Prestashop.
-    """
+    """Пример для добавления товара в Prestashop"""
 
     p = PrestaProduct(API_KEY=Config.API_KEY, API_DOMAIN=Config.API_DOMAIN)
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+    # resource_id = 2191
+    # schema = p.get_product_schema(resource_id = resource_id)
+    # j_dumps(schema, gs.path.endpoints / 'emil' / '_experiments' / f'product_schema.{resource_id}_{gs.now}.json')
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
     example_data: dict = j_loads(
         gs.path.endpoints / 'emil' / '_experiments' / 'product_schema.2191_250319224027026.json'
     )  # <- XML like
-
+    """"""
     if not example_data:
-        logger.error('Файл не существует или неправильный формат файла')
+        logger.error(f'Файл не существует или неправильный формат файла')
+        ...
         return
 
     presta_product_xml = presta_fields_to_xml(example_data)  # <- XML
     save_xml(presta_product_xml, gs.path.endpoints / 'emil' / '_experiments' / f'{gs.now}_presta_product.xml')
 
     # 1. JSON | XML
-    kwards: dict = {
+    kwargs: dict = {
         'io_format': 'JSON',
     }
 
     response = p._exec(
         resource='products',
         method='POST',
-        data=example_data if kwards['io_format'] == 'JSON' else presta_product_xml,
-        **kwards,
+        data=example_data if kwargs['io_format'] == 'JSON' else presta_product_xml,
+        **kwargs,
     )
+    # response = p.create('products', data=presta_product_dict  if kwards['io_format'] == 'JSON' else presta_product_xml, **kwards)
+    # j_dumps(response if kwards['io_format'] == 'JSON' else xml2dict(response), gs.path.endpoints / 'emil' / '_experiments' / f"{gs.now}_presta_response_new_product_added.json")
 
     print(response)
+    ...
 
 
-def example_get_product(id_product: int, **kwargs) -> None:
+def example_get_product(id_product: int, **kwards) -> None:
     """
-    Пример получения товара из Prestashop.
+    Пример получения информации о товаре из PrestaShop.
     """
 
     p = PrestaProduct(API_KEY=Config.API_KEY, API_DOMAIN=Config.API_DOMAIN)
-    kwards: dict = {
+    kwargs: dict = {
         'data_format': 'JSON',
         'display': 'full',
         'schema': 'blank',
     }
-    presta_product = p.get_product(id_product, **kwards)
+    presta_product = p.get_product(id_product, **kwargs)
     presta_product = presta_product[0] if isinstance(presta_product, list) else presta_product
-
+    ...
     j_dumps(
         presta_product, gs.path.endpoints / 'emil' / '_experiments' / f'presta_response_product_{id_product}.json'
     )
+    ...
 
 
 if __name__ == '__main__':
-    """
-    Пример использования.
-    """
+    """"""
+    # example_add_new_product()
     example_get_product(2191)
+    ...

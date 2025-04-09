@@ -1,54 +1,45 @@
 ### **Анализ кода модуля `facebook.py`**
 
 ## Качество кода:
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код относительно хорошо структурирован.
-    - Присутствуют docstring для классов и методов.
-    - Используются аннотации типов.
+  - Четкая структура модуля с разделением на сценарии.
+  - Использование аннотаций типов.
+  - Логирование с использованием `logger`.
 - **Минусы**:
-    - Не все функции и методы имеют подробные docstring.
-    - Местами отсутствует логирование.
-    - Код содержит закомментированные участки.
-    - Не все части кода соответствуют стандарту PEP8 (например, отсутствуют пробелы вокруг операторов присваивания).
-    - Не хватает обработки исключений с использованием `logger.error`.
+  - Наличие закомментированного кода.
+  - Незавершенная реализация методов (наличие `...`).
+  - Отсутствие docstring для класса.
+  - Не все функции имеют docstring.
+  - Смешанный стиль кавычек (использование как одинарных, так и двойных кавычек).
 
 ## Рекомендации по улучшению:
 
-1.  **Заголовок модуля**:
-    - Добавить подробное описание модуля, включая его назначение и примеры использования.
-    - Описать, какие сценарии выполняет модуль.
+1.  **Документирование класса**:
+    - Добавить docstring для класса `Facebook` с описанием его назначения и основных атрибутов.
 
-2.  **Docstring**:
-    - Дополнить docstring для всех функций и методов, включая описание параметров, возвращаемых значений и возможных исключений.
-    - Перевести все docstring на русский язык.
-    - Использовать стиль Google Python Style Guide для docstring.
+2.  **Документирование методов**:
+    - Добавить docstring для методов `__init__` и `promote_event`.
+    - Улучшить существующие docstring, сделав их более информативными и соответствующими PEP 257.
 
-3.  **Логирование**:
-    - Добавить логирование ключевых событий и ошибок.
-    - Использовать `logger.info`, `logger.warning`, `logger.error` в соответствующих местах.
+3.  **Удаление закомментированного кода**:
+    - Удалить или объяснить назначение закомментированных строк кода.
 
-4.  **Обработка исключений**:
-    - Добавить блоки `try...except` для обработки возможных исключений.
-    - Логировать ошибки с использованием `logger.error(..., ex, exc_info=True)`.
+4.  **Завершение реализации методов**:
+    - Реализовать функциональность методов, помеченных как `...`. Если метод не планируется к реализации, удалить его или заменить заглушкой с понятным комментарием.
 
-5.  **Комментарии**:
-    - Убрать закомментированный код, если он не несет полезной информации.
-    - Улучшить комментарии, сделав их более понятными и информативными.
-    - Все комментарии должны быть на русском языке.
+5.  **Использование одинарных кавычек**:
+    - Привести все строковые литералы к использованию одинарных кавычек.
 
-6.  **Форматирование**:
-    - Привести код в соответствие со стандартом PEP8 (например, добавить пробелы вокруг операторов присваивания).
-    - Использовать одинарные кавычки для строк.
+6.  **Улучшение аннотаций типов**:
+    - Убедиться, что все переменные и параметры функций аннотированы типами.
 
-7.  **Использование `j_loads`**:
-    - Если в коде используются JSON или конфигурационные файлы, заменить стандартное использование `open` и `json.load` на `j_loads`.
+7.  **Удаление неиспользуемых импортов**:
+    - Удалить неиспользуемые импорты, чтобы уменьшить размер модуля и улучшить его читаемость.
 
-8.  **Аннотации типов**:
-    - Проверить, что все переменные и параметры функций аннотированы типами.
-
-9.  **Webdriver**:
-    - Убедиться, что вебдрайвер используется корректно через инстанс класса `Driver` с указанием нужного браузера.
+8. **Логирование**:
+    - Добавить логирование в методах для отслеживания хода выполнения программы и облегчения отладки.
 
 ## Оптимизированный код:
 
@@ -57,26 +48,23 @@
 # -*- coding: utf-8 -*-
 
 """
-Модуль для работы с Facebook рекламой
-======================================
+Модуль рекламы на Facebook
+==============================
 
 Модуль содержит класс :class:`Facebook`, который используется для взаимодействия с Facebook через веб-драйвер.
-Он позволяет выполнять различные сценарии, такие как вход в аккаунт, публикация сообщений и загрузка медиафайлов.
+Он включает в себя сценарии для логина, отправки сообщений и загрузки медиафайлов.
 
 Сценарии:
-    - login: Логин в Facebook аккаунт.
-    - post_message: Отправка текстового сообщения в форму.
-    - upload_media: Загрузка файла или списка файлов.
+    - login: логин на Facebook
+    - post_message: отправка текстового сообщения в форму
+    - upload_media: загрузка файла или списка файлов
 
 Пример использования:
 ----------------------
 
->>> from src.webdirver import Driver, Firefox
->>> from src.endpoints.advertisement.facebook.facebook import Facebook
-
->>> driver = Driver(Firefox)
->>> promoter = 'some_promoter'
->>> group_file_paths = []
+>>> driver = Driver(Chrome)
+>>> promoter = 'user_name'
+>>> group_file_paths = ['/path/to/group_file.txt']
 >>> facebook = Facebook(driver, promoter, group_file_paths)
 >>> facebook.login()
 True
@@ -92,41 +80,42 @@ from src import gs
 from src.utils.jjson import j_loads, j_dumps
 from src.utils.printer import pprint
 from src.logger.logger import logger
-from src.webdirver import Driver # Импорт класса Driver
 from .scenarios.login import login
 from .scenarios import switch_account, promote_post, post_title, upload_media, update_images_captions
+from src.webdriver import Driver # <-
 
 
 class Facebook():
     """
     Класс для взаимодействия с Facebook через веб-драйвер.
+    Предоставляет методы для логина, продвижения постов и событий, а также для загрузки медиафайлов.
     """
-    d: 'Driver'  # Строковая аннотация типа для откладывания импорта
+    d: Driver  # Строковая аннотация типа для откладывания импорта
     start_page: str = 'https://www.facebook.com/hypotez.promocodes'
     promoter: str
 
-    def __init__(self, driver: 'Driver', promoter: str, group_file_paths: list[str], *args, **kwards):
+    def __init__(self, driver: Driver, promoter: str, group_file_paths: list[str], *args, **kwards) -> None:
         """
-        Инициализация класса Facebook.
+        Инициализирует экземпляр класса Facebook.
 
         Args:
             driver (Driver): Инстанс веб-драйвера.
-            promoter (str): Имя промоутера.
+            promoter (str): Имя пользователя промоутера.
             group_file_paths (list[str]): Список путей к файлам групп.
 
         Raises:
-            Exception: Если возникает ошибка при инициализации.
+            Exception: Если не удалось инициализировать драйвер.
+
+        Example:
+            >>> driver = Driver(Chrome)
+            >>> promoter = 'user_name'
+            >>> group_file_paths = ['/path/to/group_file.txt']
+            >>> facebook = Facebook(driver, promoter, group_file_paths)
         """
         self.d = driver
         self.promoter = promoter
-        # @todo:
-        #   - Добавить проверку на какой странице открылся фейсбук. Если открылась страница логина - выполнитл сценарий логина
-        try:
-            # self.driver.get_url (self.start_page)
-            # switch_account(self.driver) # <- переключение профиля, если не на своей странице
-            ...
-        except Exception as ex:
-            logger.error('Ошибка при инициализации класса Facebook', ex, exc_info=True)
+        ...
+        # switch_account(self.driver) # <- переключение профиля, если не на своей странице
 
     def login(self) -> bool:
         """
@@ -134,34 +123,52 @@ class Facebook():
 
         Returns:
             bool: `True`, если вход выполнен успешно, иначе `False`.
+        
+        Raises:
+            Exception: Если не удалось войти в систему.
         """
-        return login(self)
+        try:
+            result = login(self.d) # <- передаем инстанс драйвера
+            logger.info(f'Login result: {result}')
+            return result
+        except Exception as ex:
+            logger.error('Error during login', ex, exc_info=True)
+            return False
 
     def promote_post(self, item: SimpleNamespace) -> bool:
         """
-        Отправляет текст в форму сообщения для продвижения поста.
+        Продвигает пост в Facebook.
 
         Args:
             item (SimpleNamespace): Объект с данными для продвижения поста.
 
         Returns:
             bool: `True`, если успешно, иначе `False`.
+
+        Raises:
+            Exception: Если не удалось продвинуть пост.
+
+        Example:
+            >>> item = SimpleNamespace(message='Example message')
+            >>> facebook.promote_post(item)
+            True
         """
-        # @param message: сообщение текстом. Знаки `;` будут заменены на `SHIFT+ENTER`
         try:
-            ...
             result = promote_post(self.d, item)
-            logger.info(f'Пост успешно продвинут: {item}')
+            logger.info(f'Promote post result: {result}')
             return result
         except Exception as ex:
-            logger.error(f'Ошибка при продвижении поста: {item}', ex, exc_info=True)
+            logger.error('Error while promoting post', ex, exc_info=True)
             return False
 
-    def promote_event(self, event: SimpleNamespace):
+    def promote_event(self, event: SimpleNamespace) -> None:
         """
-        Пример функции для продвижения события.
+        Продвигает событие в Facebook.
 
         Args:
-            event (SimpleNamespace): Объект с данными о событии.
+            event (SimpleNamespace): Объект с данными для продвижения события.
+        Raises:
+            NotImplementedError: Если функция не реализована.
         """
+        logger.warning('promote_event function is not implemented yet')
         ...
