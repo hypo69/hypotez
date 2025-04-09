@@ -42,10 +42,10 @@ from types import ModuleType, SimpleNamespace
 
 from pydantic import BaseModel, Field, validator
 import header
+from header import __root__
 from src import gs
 from src.utils.jjson import j_loads_ns
-from src.webdriver.driver import Driver
-from src.scenario import run_scenarios, run_scenario_files
+from src.suppliers.scenario import run_scenarios, run_scenario_files
 from src.logger.logger import logger
 from src.logger.exceptions import DefaultSettingsException
 
@@ -53,7 +53,7 @@ from src.logger.exceptions import DefaultSettingsException
 class Supplier(BaseModel):
     """Класс Supplier. Выполняет сценарии для различных поставщиков.
     
-    Атрибуты:
+    Attrs:
         supplier_id (Optional[int]): Идентификатор поставщика.
         supplier_prefix (str): Префикс поставщика.
         locale (str): Код локали в формате ISO 639-1.
@@ -102,7 +102,7 @@ class Supplier(BaseModel):
         
         # Импорт модулей, связанных с конкртетным поставщиком
         try:
-            related_modules = importlib.import_module(f'src.suppliers.{self.supplier_prefix}')
+            related_modules = importlib.import_module(f'src.suppliers.suppliers_list.{self.supplier_prefix}')
             object.__setattr__(self, 'related_modules', related_modules)
         except ModuleNotFoundError as ex:
             logger.error(f'Модуль не найден для поставщика {self.supplier_prefix}: ', ex)

@@ -4,11 +4,6 @@ from langchain_openai import ChatOpenAI
 from browser_use import Agent
 import asyncio
 from dotenv import load_dotenv
-import logging
-
-# Настройка логирования
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
 load_dotenv()
 
 async def habra_toxic_commenter(author_username: str, model_name: str = "gpt-4o"):

@@ -32,22 +32,22 @@ Example usage
 
 import header
 from src.suppliers.graber import Graber
-from src.suppliers.aliexpress.graber import Graber as AliexpressGraber
-from src.suppliers.amazon.graber import Graber as AmazonGraber
-from src.suppliers.bangood.graber import Graber as BangoodGraber
-from src.suppliers.cdata.graber import Graber as CdataGraber
-from src.suppliers.ebay.graber import Graber as EbayGraber
-from src.suppliers.etzmaleh.graber import Graber as EtzmalehGraber
-from src.suppliers.gearbest.graber import Graber as GearbestGraber
-from src.suppliers.grandadvance.graber import Graber as GrandadvanceGraber
-from src.suppliers.hb.graber import Graber as HBGraber
-from src.suppliers.ivory.graber import Graber as IvoryGraber
-from src.suppliers.ksp.graber import Graber as KspGraber
-from src.suppliers.kualastyle.graber import Graber as KualaStyleGraber
-from src.suppliers.morlevi.graber import Graber as MorleviGraber
-from src.suppliers.visualdg.graber import Graber as VisualDGGraber
-from src.suppliers.wallashop.graber import Graber as WallaShopGraber
-from src.suppliers.wallmart.graber import Graber as WallmartGraber
+from src.suppliers.suppliers_list.aliexpress.graber import Graber as AliexpressGraber
+from src.suppliers.suppliers_list.amazon.graber import Graber as AmazonGraber
+from src.suppliers.suppliers_list.bangood.graber import Graber as BangoodGraber
+from src.suppliers.suppliers_list.cdata.graber import Graber as CdataGraber
+from src.suppliers.suppliers_list.ebay.graber import Graber as EbayGraber
+from src.suppliers.suppliers_list.etzmaleh.graber import Graber as EtzmalehGraber
+from src.suppliers.suppliers_list.gearbest.graber import Graber as GearbestGraber
+from src.suppliers.suppliers_list.grandadvance.graber import Graber as GrandadvanceGraber
+from src.suppliers.suppliers_list.hb.graber import Graber as HBGraber
+from src.suppliers.suppliers_list.ivory.graber import Graber as IvoryGraber
+from src.suppliers.suppliers_list.ksp.graber import Graber as KspGraber
+from src.suppliers.suppliers_list.kualastyle.graber import Graber as KualaStyleGraber
+from src.suppliers.suppliers_list.morlevi.graber import Graber as MorleviGraber
+from src.suppliers.suppliers_list.visualdg.graber import Graber as VisualDGGraber
+from src.suppliers.suppliers_list.wallashop.graber import Graber as WallaShopGraber
+from src.suppliers.suppliers_list.wallmart.graber import Graber as WallmartGraber
 from src.logger.logger import logger
 
 
