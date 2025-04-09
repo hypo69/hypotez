@@ -1,126 +1,92 @@
-### **Анализ кода модуля `model_train_for_aliexpress.py`**
+### **Анализ кода модуля `_experiments`**
 
-**Качество кода:**
-
-- **Соответствие стандартам**: 3/10
+#### **Качество кода**:
+- **Соответствие стандартам**: 4/10
 - **Плюсы**:
-    - Использование функций из других модулей проекта `hypotez` (например, `recursively_get_filenames`, `read_text_file`).
-    - Наличие переменных для путей к файлам и системных инструкций.
+    - Использование функций для чтения файлов и рекурсивного поиска.
+    - Наличие импортов, указывающих на использование OpenAI и Gemini моделей.
 - **Минусы**:
-    - Отсутствие docstring в начале файла с описанием модуля.
-    - Множество пустых docstring.
-    - Отсутствуют аннотации типов для переменных.
-    - Использование старого стиля импортов `import header`.
-    - Отсутствие обработки исключений.
-    - Отсутствие логирования.
-    - Не определены типы для переменных `product_titles_files`, `system_instruction_path`, `system_instruction`, `openai`, `gemini`, `file`, `product_titles`, `response_openai`, `response_gemini`.
-    - Используется неявное указание кодировки файлов.
-    - Не используются менеджеры контекста для работы с файлами.
+    - Отсутствие docstring для модуля, что затрудняет понимание его назначения.
+    - Неинформативные и повторяющиеся docstring.
+    - Не используются аннотации типов.
+    - Не используется логирование.
+    - В коде используются старые конструкции, такие как `list`. Необходимо заменить на `list[]`.
+    - Нет обработки исключений.
 
-**Рекомендации по улучшению:**
+#### **Рекомендации по улучшению**:
 
-1.  **Добавить docstring в начало файла**:
-    - Описать назначение модуля, основные классы и функции.
+1.  **Документирование модуля**:
+    - Добавить docstring в начале файла с описанием назначения модуля, его основных функций и примеров использования.
+2.  **Документирование переменных**:
+    - Добавить аннотацию типа для всех переменных.
+3.  **Улучшение комментариев**:
+    - Заменить существующие комментарии на более информативные и конкретные, описывающие функциональность каждой части кода.
+3.  **Обработка исключений**:
+    - Добавить блоки try-except для обработки возможных ошибок при чтении файлов или обращении к AI-моделям, логируя ошибки с использованием `logger.error`.
+4.  **Использование `j_loads` или `j_loads_ns`**:
+    - Если `system_instruction_path` указывает на JSON или конфигурационный файл, использовать `j_loads` или `j_loads_ns` для его чтения.
+5.  **Улучшение читаемости**:
+    - Улучшить читаемость кода, добавив пробелы вокруг операторов присваивания и другие элементы форматирования в соответствии с PEP8.
 
-2.  **Удалить или заполнить пустые docstring**:
-    - Заполнить все пустые docstring или удалить их.
-
-3.  **Добавить аннотации типов**:
-    - Для всех переменных необходимо указать типы.
-
-4.  **Изменить стиль импорта**:
-    - Заменить `import header` на `import header as header` (если используется) или `from header import ...`
-
-5.  **Добавить обработку исключений**:
-    - Обернуть чтение файлов и запросы к моделям в блоки `try...except` с логированием ошибок.
-
-6.  **Добавить логирование**:
-    - Использовать модуль `logger` для записи информации о процессе выполнения.
-
-7.  **Указать кодировку файлов**:
-    - Явно указывать кодировку при чтении файлов, например, `encoding='utf-8'`.
-
-8.  **Использовать менеджеры контекста**:
-    - Использовать `with open(...) as f:` для работы с файлами, чтобы гарантировать их закрытие.
-
-9.  **Улучшить комментарии**:
-    - Добавить комментарии к ключевым участкам кода.
-
-10. **Перевести существующие docstring на русский язык**
-
-**Оптимизированный код:**
+#### **Оптимизированный код**:
 
 ```python
 ## \file /src/ai/openai/model/_experiments/model_train_for_aliexpress.py
-# -*- coding: utf-8 -*-\n
-
-#! .pyenv/bin/python3
+# -*- coding: utf-8 -*-
 
 """
-Модуль для обучения моделей OpenAI и Google Gemini на данных AliExpress.
-=======================================================================
+Модуль для экспериментов с моделями OpenAI и Gemini для генерации заголовков товаров Aliexpress.
+==========================================================================================
 
-Модуль предназначен для загрузки и обработки данных о товарах AliExpress,
-а также для обучения моделей OpenAI и Google Gemini с использованием этих данных.
+Модуль предназначен для загрузки заголовков товаров из файлов, расположенных в Google Drive,
+и использования моделей OpenAI и Gemini для создания улучшенных версий этих заголовков.
 
 Пример использования:
 ----------------------
 
->>> from src.ai.openai.model._experiments import model_train_for_aliexpress
->>> model_train_for_aliexpress.train_models()
+>>> from src.ai import OpenAIModel, GoogleGenerativeAI
+>>> from src.utils.file import recursively_get_filenames, read_text_file
+>>> from src import gs
+>>> system_instruction_path = gs.path.src / 'ai' / 'prompts' / 'aliexpress_campaign' / 'system_instruction.txt'
+>>> system_instruction = read_text_file(system_instruction_path)
+>>> openai = OpenAIModel(system_instruction=system_instruction)
+>>> gemini = GoogleGenerativeAI(system_instruction=system_instruction)
+>>> product_titles_files = recursively_get_filenames(gs.path.google_drive / 'aliexpress' / 'campaigns', 'product_titles.txt')
+>>> for file in product_titles_files:
+>>>     product_titles = read_text_file(file)
+>>>     response_openai = openai.ask(product_titles)
+>>>     response_gemini = gemini.ask(product_titles)
+>>>     print(f"OpenAI Response: {response_openai}")
+>>>     print(f"Gemini Response: {response_gemini}")
 """
 
-import header as header
+from src.logger import logger # Импорт модуля логгирования
+from pathlib import Path
+from typing import List
 
 from src import gs
 from src.ai import OpenAIModel, GoogleGenerativeAI
 from src.utils.file import recursively_get_filenames, read_text_file
 from src.utils.convertors import csv2json_csv2dict
 from src.utils.printer import pprint
-from src.logger import logger
-from pathlib import Path
-from typing import List
 
-def train_models():
-    """
-    Обучает модели OpenAI и Google Gemini на данных AliExpress.
 
-    Args:
-        None
+product_titles_files: List[Path] = recursively_get_filenames(gs.path.google_drive / 'aliexpress' / 'campaigns', 'product_titles.txt') # Получаем список файлов с заголовками товаров
+system_instruction_path: Path = gs.path.src / 'ai' / 'prompts' / 'aliexpress_campaign' / 'system_instruction.txt' # Путь к файлу с системными инструкциями
+system_instruction: str = read_text_file(system_instruction_path) # Считываем системные инструкции из файла
 
-    Returns:
-        None
-    """
-    product_titles_files: List[str] = recursively_get_filenames(gs.path.google_drive / 'aliexpress' / 'campaigns', 'product_titles.txt') # Получаем список файлов с названиями товаров
-    system_instruction_path: Path = gs.path.src / 'ai' / 'prompts' / 'aliexpress_campaign' / 'system_instruction.txt' # Путь к файлу с системными инструкциями
+openai = OpenAIModel(system_instruction = system_instruction) # Инициализация модели OpenAI
+gemini = GoogleGenerativeAI(system_instruction = system_instruction) # Инициализация модели Gemini
+
+for file in product_titles_files: # Итерируемся по списку файлов
     try:
-        system_instruction: str = read_text_file(system_instruction_path, encoding='utf-8') # Читаем системные инструкции
+        product_titles: str | None = read_text_file(file) # Читаем заголовки товаров из файла
+        if product_titles:
+            response_openai: str | None = openai.ask(product_titles) # Получаем ответ от OpenAI
+            response_gemini: str | None = gemini.ask(product_titles) # Получаем ответ от Gemini
+            logger.info(f'OpenAI Response: {response_openai}') # Логируем ответ OpenAI
+            logger.info(f'Gemini Response: {response_gemini}') # Логируем ответ Gemini
+        else:
+            logger.warning(f'No product titles found in {file}') # Логируем предупреждение, если заголовки не найдены
     except Exception as ex:
-        logger.error(f'Error while reading system instruction file: {system_instruction_path}', ex, exc_info=True)
-        return
-
-    openai: OpenAIModel = OpenAIModel(system_instruction=system_instruction) # Инициализируем модель OpenAI
-    gemini: GoogleGenerativeAI = GoogleGenerativeAI(system_instruction=system_instruction) # Инициализируем модель Gemini
-
-    for file in product_titles_files: # Итерируемся по списку файлов
-        try:
-            product_titles: str | None = read_text_file(file, encoding='utf-8') # Читаем названия товаров из файла
-            if product_titles is None:
-                logger.warning(f'Could not read product titles from file: {file}')
-                continue
-
-            response_openai: str | None = openai.ask(product_titles) # Запрашиваем ответ у модели OpenAI
-            response_gemini: str | None = gemini.ask(product_titles) # Запрашиваем ответ у модели Gemini
-
-            # Здесь должна быть логика обработки ответов моделей
-            logger.info(f'OpenAI response: {response_openai}')
-            logger.info(f'Gemini response: {response_gemini}')
-
-        except Exception as ex:
-            logger.error(f'Error while processing file: {file}', ex, exc_info=True)
-
-    ...
-
-# Пример использования функции
-if __name__ == '__main__':
-    train_models()
+        logger.error(f'Error processing file {file}', ex, exc_info=True) # Логируем ошибку при обработке файла

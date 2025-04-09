@@ -15,110 +15,68 @@
 </TABLE>
 
 
+# TOC
 
-# Модули проекта
+## Содержание
 
-## Обзор
+- [Модуль `ai`](#модуль-ai) - Модуль, отвечающий за функциональность искусственного интеллекта.
+    - [Код: `ai`](ai)
+    - [Документация: `ai/readme.md`](ai/readme.md)
+    - [Тесты: `ai/tests`](ai/tests)
+- [Модуль `db`](#модуль-db) - Модуль для работы с базой данных.
+    - [Код: `db`](db)
+    - [Документация: `db/readme.md`](db/readme.md)
+    - [Тесты: `db/tests`](db/tests)
+- [Модуль `endpoints`](#модуль-endpoints) - Модуль, содержащий определения API endpoints.
+    - [Код: `endpoints`](endpoints)
+    - [Документация: `endpoints/readme.md`](endpoints/readme.md)
+    - [Тесты: `endpoints/tests`](endpoints/tests)
+- [Модуль `fast_api`](#модуль-fast_api) - Модуль, реализующий API с использованием FastAPI.
+    - [Код: `fast_api`](fast_api)
+    - [Документация: `fast_api/readme.md`](fast_api/readme.md)
+    - [Тесты: `fast_api/tests`](fast_api/tests)
+- [Модуль `goog`](#модуль-goog) - Модуль, взаимодействующий с Google сервисами.
+    - [Код: `goog`](goog)
+    - [Документация: `goog/readme.md`](goog/readme.md)
+    - [Тесты: `goog/tests`](goog/tests)
+- [Модуль `gui`](#модуль-gui) - Модуль для графического интерфейса пользователя.
+    - [Код: `gui`](gui)
+    - [Документация: `gui/readme.md`](gui/readme.md)
+    - [Тесты: `gui/tests`](gui/tests)
+- [Модуль `logger`](#модуль-logger) - Модуль для логирования событий.
+    - [Код: `logger`](logger)
+    - [Документация: `logger/readme.md`](logger/readme.md)
+    - [Тесты: `logger/tests`](logger/tests)
+- [Модуль `scenario`](#модуль-scenario) - Модуль для работы со сценариями.
+    - [Код: `scenario`](scenario)
+    - [Документация: `scenario/readme.md`](scenario/readme.md)
+    - [Тесты: `scenario/tests`](scenario/tests)
+- [Модуль `suppliers`](#модуль-suppliers) - Модуль, управляющий взаимодействием с поставщиками.
+    - [Код: `suppliers`](suppliers)
+    - [Документация: `suppliers/readme.md`](suppliers/readme.md)
+    - [Тесты: `suppliers/tests`](suppliers/tests)
+- [Модуль `templates`](#модуль-templates) - Модуль для работы с шаблонами.
+    - [Код: `templates`](templates)
+    - [Документация: `templates/readme.md`](templates/readme.md)
+    - [Тесты: `templates/tests`](templates/tests)
+- [Модуль `translators`](#модуль-translators) - Модуль для перевода текста.
+    - [Код: `translators`](translators)
+    - [Документация: `translators/readme.md`](translators/readme.md)
+    - [Тесты: `translators/tests`](translators/tests)
+- [Модуль `utils`](#модуль-utils) - Модуль с утилитами и вспомогательными функциями.
+    - [Код: `utils`](utils)
+    - [Документация: `utils/readme.md`](utils/readme.md)
+    - [Тесты: `utils/tests`](utils/tests)
+- [Модуль `webdriver`](#модуль-webdriver) - Модуль для управления браузером с использованием Selenium WebDriver.
+    - [Код: `webdriver`](webdriver)
+    - [Документация: `webdriver/readme.md`](webdriver/readme.md)
+    - [Тесты: `webdriver/tests`](webdriver/tests)
+- [Файл `__init__.py`](#__init__.py) - Файл инициализации пакета.
+- [Файл `check_release.py`](#check_release.py) - Скрипт для проверки релиза.
+- [Файл `config.json`](#config.json) - Файл с конфигурационными данными.
+- [Файл `credentials.md`](#credentials.md) - Файл с учетными данными (в формате Markdown).
+- [Файл `credentials.py`](#credentials.py) - Файл с учетными данными (Python).
+- [Файл `credentials.ru.md`](#credentials.ru.md) - Файл с учетными данными на русском языке (в формате Markdown).
+- [Файл `gs.py`](#gs.py) - Файл с дополнительными скриптами.
+- [Файл `header.py`](#header.py) - Файл, содержащий заголовки.
 
-Данный документ предоставляет обзор различных модулей проекта, включая ссылки на исходный код, документацию, тесты и примеры.
-
-
-## Модуль `bot`
-
-Модуль интерфейсов для `telegram`,`doscord` ботов
-
-- [Исходный код модуля](https://github.com/hypo69/hypotez/blob/master/src/bot/readme.ru.md)
-- [Документация](https://github.com/hypo69/hypotez/blob/master/docs/gemini/ru/doc/src/bot/readme.ru.md)
-- [Тесты](https://github.com/hypo69/hypotez/blob/master/pytest/gemini/src/bot)
-- [Примеры](https://github.com/hypo69/hypotez/blob/master/docs/examples/bot)
-
-
-## Модуль `scenario`
-
-Модуль для работы со сценариями, включая генерацию и выполнение сценариев.
-
-- [Исходный код модуля](https://github.com/hypo69/hypotez/blob/master/src/scenario/readme.ru.md)
-- [Документация](https://github.com/hypo69/hypotez/blob/master/docs/gemini/ru/doc/src/scenario/readme.ru.md)
-- [Тесты](https://github.com/hypo69/hypotez/blob/master/pytest/gemini/src/scenario)
-- [Примеры](https://github.com/hypo69/hypotez/blob/master/docs/examples/scenario)
-
-
-## Модуль `suppliers`
-
-Модуль для работы с поставщиками, включая управление их данными и отношениями.
-
-- [Исходный код модуля](https://github.com/hypo69/hypotez/blob/master/src/suppliers/readme.ru.md)
-- [Документация](https://github.com/hypo69/hypotez/blob/master/docs/gemini/ru/doc/src/suppliers/readme.ru.md)
-- [Тесты](https://github.com/hypo69/hypotez/blob/master/pytest/gemini/src/suppliers)
-- [Примеры](https://github.com/hypo69/hypotez/blob/master/docs/examples/suppliers)
-
-
-## Модуль `templates`
-
-Модуль для работы с шаблонами, включая создание и управление шаблонами для различных целей.
-
-- [Исходный код модуля](https://github.com/hypo69/hypotez/blob/master/src/templates/readme.ru.md)
-- [Документация](https://github.com/hypo69/hypotez/blob/master/docs/gemini/ru/doc/src/templates/readme.ru.md)
-- [Тесты](https://github.com/hypo69/hypotez/blob/master/pytest/gemini/src/templates)
-- [Примеры](https://github.com/hypo69/hypotez/blob/master/docs/examples/templates)
-
-
-## Модуль `translators`
-
-Модуль для работы с переводчиками и переводом текста.
-
-- [Исходный код модуля](https://github.com/hypo69/hypotez/blob/master/src/translators/readme.ru.md)
-- [Документация](https://github.com/hypo69/hypotez/blob/master/docs/gemini/ru/doc/src/translators/readme.ru.md)
-- [Тесты](https://github.com/hypo69/hypotez/blob/master/pytest/gemini/src/translators)
-- [Примеры](https://github.com/hypo69/hypotez/blob/master/docs/examples/translators)
-
-
-## Модуль `utils`
-
-Модуль для вспомогательных утилит, упрощающих выполнение общих задач.
-
-- [Исходный код модуля](https://github.com/hypo69/hypotez/blob/master/src/utils/readme.ru.md)
-- [Документация](https://github.com/hypo69/hypotez/blob/master/docs/gemini/ru/doc/src/utils/readme.ru.md)
-- [Тесты](https://github.com/hypo69/hypotez/blob/master/pytest/gemini/src/utils)
-- [Примеры](https://github.com/hypo69/hypotez/blob/master/docs/examples/utils)
-
-
-## Модуль `webdriver`
-
-Модуль для работы с драйверами веб-браузера и управления веб-элементами.
-
-- [Исходный код модуля](https://github.com/hypo69/hypotez/blob/master/src/webdriver/readme.ru.md)
-- [Документация](https://github.com/hypo69/hypotez/blob/master/docs/gemini/ru/doc/src/webdriver/readme.ru.md)
-- [Тесты](https://github.com/hypo69/hypotez/blob/master/pytest/gemini/src/webdriver)
-- [Примеры](https://github.com/hypo69/hypotez/blob/master/docs/examples/webdriver)
-
----
-
-Глоссарий
-=========
-
-### 1. **webdriver**
-   - **`Driver`**: An object that controls the browser (e.g., Chrome, Firefox) and performs actions such as navigating web pages, filling out forms, etc.
-   - **`Executor`**: An interface or class that executes commands or scripts within the context of the web driver.
-   - **`Chrome`, `Firefox`, ...**: Specific browsers that can be controlled using the web driver.
-   - **`locator`**: A mechanism for finding elements on a web page (e.g., by ID, CSS selector, XPath).
-
-### 2. **`Supplier`**
-   - **list of suppliers (`Amazon`, `Aliexpress`, `Morlevi`, ...)**: A list of companies or platforms that provide products or services.
-   - **`Graber`**: A tool or module that automatically collects data from supplier websites (e.g., prices, product availability).
-
-### 3. **`Product`**
-   - **`Product`**: An object representing a product or service that can be available on various platforms.
-   - **`ProductFields`**: Fields or attributes that describe the characteristics of a product (e.g., name, price, description, images).
-
-### 4. **`ai`**
-	- **`Model Prompt`**: Specifies how the model should process incoming information and return a response. It is set during model initialization.
-	- **`Command Instruction`**: A small command or instruction sent with each request.
-
-Court Information
-=================
-1. The ellipsis symbol `...` indicates where to set breakpoints when debugging code.
-
-Next
-=====
-[Project Initialization and Setup](https://github.com/hypo69/hypotez/blob/master/src/credentials.md)

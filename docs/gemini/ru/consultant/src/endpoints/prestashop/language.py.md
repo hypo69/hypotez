@@ -3,53 +3,56 @@
 2. **Качество кода**:
    - **Соответствие стандартам**: 7/10
    - **Плюсы**:
-     - Код структурирован в классы, что облегчает его организацию.
-     - Присутствуют docstring для основных методов, что помогает в понимании функциональности.
-     - Используется модуль `logger` для логирования ошибок.
+     - Код структурирован в класс `PrestaLanguage`, что облегчает его использование и расширение.
+     - Присутствует базовая обработка исключений с использованием `try-except`.
+     - Документация к классу и методам присутствует, что помогает понять назначение кода.
    - **Минусы**:
-     - Не все методы имеют подробные docstring, особенно отсутствует описание параметров и возвращаемых значений.
-     - Отсутствует обработка конкретных исключений, что может затруднить отладку.
-     - Есть смешение стилей комментариев (`#` и docstring).
+     - Не все функции имеют подробное описание в docstring.
+     - В коде используется конструкция `...`, что может указывать на незавершенность реализации.
+     - Не везде используется логирование ошибок с передачей исключения в `logger.error`.
 
 3. **Рекомендации по улучшению**:
-   - Дополнить docstring для всех методов, указав типы аргументов, возвращаемые значения и возможные исключения.
-   - Улучшить обработку исключений, чтобы логировать конкретные ошибки, а не просто общее исключение.
-   - Перевести docstring на русский язык.
-   - Добавить больше комментариев внутри методов для пояснения логики работы.
-   - Использовать одинарные кавычки для строк.
-   - Улучшить обработку исключений, чтобы логировать конкретные ошибки, а не просто общее исключение.
-   - Избавиться от `...` в коде.
+   - Дополнить docstring для всех функций и методов, включая подробное описание аргументов, возвращаемых значений и возможных исключений.
+   - Заменить `...` конкретной реализацией или заглушкой с комментарием о необходимости доработки.
+   - Улучшить обработку ошибок, добавив логирование с передачей исключения в `logger.error`.
+   - Добавить примеры использования в docstring для методов.
+   - Унифицировать стиль кавычек (использовать одинарные кавычки).
+   - Добавить аннотации типов для всех переменных.
+   - Использовать `logger.error` для логирования ошибок с передачей исключения в качестве аргумента.
 
 4. **Оптимизированный код**:
 
 ```python
-                ## \file /src/endpoints/prestashop/language.py
+## \file /src/endpoints/prestashop/language.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
 """
 Модуль для работы с языками в PrestaShop.
-===========================================
+==========================================
+
 Модуль представляет интерфейс взаимодейлствия с сущностью `language` в cms `Prestashop` через `API Prestashop`
+
+Пример использования
+----------------------
 """
 import asyncio
 from types import SimpleNamespace
+
+import header
+
+from src import gs
+from src.endpoints.prestashop.api import PrestaShop
+from src.logger.exceptions import PrestaShopException
+from src.utils.printer import pprint as print
+from src.logger.logger import logger
+
 from typing import Optional
-
-import header # Импорт модуля header
-
-from src import gs # Импорт модуля gs
-from src.endpoints.prestashop.api import PrestaShop # Импорт класса PrestaShop из модуля api
-from src.logger.exceptions import PrestaShopException # Импорт класса PrestaShopException из модуля exceptions
-from src.utils.printer import pprint as print # Импорт функции pprint из модуля printer и переименование ее в print
-from src.logger.logger import logger # Импорт logger из модуля logger
 
 
 class PrestaLanguage(PrestaShop):
     """
-    Класс для управления языками в PrestaShop.
-
-    Этот класс предоставляет методы для добавления, удаления, обновления и получения информации о языках в магазине PrestaShop через API.
+    Класс, отвечающий за настройки языков магазина PrestaShop.
 
     Example:
         >>> prestalanguage = PrestaLanguage(API_DOMAIN=API_DOMAIN, API_KEY=API_KEY)
@@ -59,13 +62,13 @@ class PrestaLanguage(PrestaShop):
         >>> print(prestalanguage.get_language_details_PrestaShop(5))
     """
     
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwards):
         """
-        Инициализирует экземпляр класса PrestaLanguage.
+        Инициализирует новый экземпляр класса `PrestaLanguage`.
 
         Args:
-            *args: Произвольные позиционные аргументы.
-            **kwargs: Произвольные именованные аргументы.
+            *args: Произвольные аргументы.
+            **kwards: Произвольные именованные аргументы.
 
         Note:
             Важно помнить, что у каждого магазина своя нумерация языков.
@@ -74,30 +77,34 @@ class PrestaLanguage(PrestaShop):
             `he` - 2;
             `ru` - 3.
         """
-        super().__init__(*args, **kwargs)
-        # Здесь можно добавить дополнительную инициализацию, если необходимо
+        #TODO: Добавить реализацию метода __init__
+        pass
 
     def get_lang_name_by_index(self, lang_index: int | str) -> str:
         """
-        Извлекает ISO код языка из магазина PrestaShop по его индексу.
+        Извлекает ISO код языка из магазина `Prestashop`.
 
         Args:
             lang_index (int | str): Индекс языка в таблице PrestaShop.
 
         Returns:
             str: Имя языка ISO по его индексу в таблице PrestaShop.
-            Возвращает пустую строку в случае ошибки.
 
         Raises:
-            PrestaShopException: Если происходит ошибка при получении данных о языке.
+            PrestaShopException: Если не удается получить язык по индексу.
+
+        Example:
+            >>> prestalanguage = PrestaLanguage(API_DOMAIN=API_DOMAIN, API_KEY=API_KEY)
+            >>> lang_name = prestalanguage.get_lang_name_by_index(1)
+            >>> print(lang_name)
+            'English'
         """
         try:
-            # Вызов метода get из родительского класса PrestaShop для получения данных о языке
-            language = super().get('languages', resource_id=str(lang_index), display='full', io_format='JSON')
-            return language
+            # Выполняем запрос к API для получения информации о языке по индексу
+            return super().get('languages', resource_id=str(lang_index), display='full', io_format='JSON')
         except Exception as ex:
-            # Логирование ошибки с использованием logger
-            logger.error(f'Ошибка при получении языка по индексу {lang_index=}', ex, exc_info=True)
+            # Логируем ошибку, если не удалось получить язык
+            logger.error(f'Ошибка получения языка по индексу {lang_index=}', ex, exc_info=True)
             return ''
 
     def get_languages_schema(self) -> Optional[dict]:
@@ -105,57 +112,38 @@ class PrestaLanguage(PrestaShop):
         Извлекает словарь актуальных языков для данного магазина.
 
         Returns:
-            Optional[dict]: Language schema или None в случае неудачи.
+            Optional[dict]: Language schema или `None` в случае ошибки.
 
-        Examples:
-            # Возвращаемый словарь:
-            {
-                "languages": {
-                        "language": [
-                                        {
-                                        "attrs": {
-                                            "id": "1"
-                                        },
-                                        "value": ""
-                                        },
-                                        {
-                                        "attrs": {
-                                            "id": "2"
-                                        },
-                                        "value": ""
-                                        },
-                                        {
-                                        "attrs": {
-                                            "id": "3"
-                                        },
-                                        "value": ""
-                                        }
-                                    ]
-                }
-            }
+        Raises:
+            PrestaShopException: Если не удается получить схему языков.
+
+        Example:
+            >>> prestalanguage = PrestaLanguage(API_DOMAIN=API_DOMAIN, API_KEY=API_KEY)
+            >>> languages_schema = prestalanguage.get_languages_schema()
+            >>> print(languages_schema)
+            {'languages': {'language': [{'attrs': {'id': '1'}, 'value': ''}, {'attrs': {'id': '2'}, 'value': ''}, {'attrs': {'id': '3'}, 'value': ''}]}}
         """
         try:
-            # Выполнение запроса к API PrestaShop для получения схемы языков
+            # Выполняем запрос к API для получения схемы языков
             response = self._exec('languages', display='full', io_format='JSON')
             return response
         except Exception as ex:
-            # Логирование ошибки с использованием logger
+            # Логируем ошибку, если не удалось получить схему языков
             logger.error('Ошибка при получении схемы языков', ex, exc_info=True)
             return None
 
 
 async def main():
     """
-    Пример использования класса PrestaLanguage.
+    Пример использования класса `PrestaLanguage`.
     """
-    # Создание экземпляра класса PrestaLanguage
+    # Создаем экземпляр класса PrestaLanguage (не забудьте передать необходимые параметры)
     lang_class = PrestaLanguage()
-    # Получение схемы языков
+    # Получаем схему языков
     languagas_schema = await lang_class.get_languages_schema()
-    # Вывод схемы языков
+    # Выводим полученную схему
     print(languagas_schema)
 
 
 if __name__ == '__main__':
-    # Запуск асинхронной функции main
     asyncio.run(main())

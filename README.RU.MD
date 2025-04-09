@@ -4,10 +4,10 @@
 <table>
 <tr>
 <td>
-<a href='https://github.com/hypo69/hypotez/blob/master/src/readme.ru.md'>Код</a>
+&nbsp;
 </td>
 <td>
-<a href='https://github.com/hypo69/hypotez/blob/master/docs/gemini/out/readme.ru.md'>Документация</a> 
+<a href='https://github.com/hypo69/hypotez/blob/master/docs/ru/src/readme.ru.md'>Документация</a> 
 </td>
 <td>
 <a href='https://github.com/hypo69/hypotez/blob/master/README.MD'>English</a>
