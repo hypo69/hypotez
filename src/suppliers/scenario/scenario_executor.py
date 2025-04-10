@@ -1,4 +1,4 @@
-# \file hypotez/src/scenario/scenario_executor.py
+# \file hypotez/src/suppliers/scenario/scenario_executor.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 # Документация: https://github.com/hypo69/hypotez/blob/master/docs/ru/src/scenario/scenario_executor.py.md
@@ -12,7 +12,7 @@
 - ...
 - и т.д.
 ```rst
-.. module::  scenario_executor
+.. module::  src.suppliers.scenario.scenario_executor
 ```
 """
 

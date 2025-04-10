@@ -1,4 +1,4 @@
-## \file /src/suppliers/aliexpress/graber.py
+## \file /src/suppliers/suppliers_list/aliexpress/graber.py
 # -*- coding: utf-8 -*-
 
 #! .pyenv/bin/python3
@@ -9,7 +9,7 @@ rst```
 	:platform: Windows, Unix
 	:synopsis: Модуль для сбора данных о товарах с AliExpress
 ```
-Модуль для сбора данных о товарах с AliExpress.
+Модуль для сбора данных о товарах с Amazon.
 =========================================================================================
 
 Модуль содержит класс :class:`Graber`, который используется для сбора данных о товарах

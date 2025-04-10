@@ -1,42 +1,10 @@
-## \file /src/suppliers/amazon/scenario.py
+## \file /src/suppliers/suppliers_list/amazon/scenario.py
 # -*- coding: utf-8 -*-
 
 #! .pyenv/bin/python3
 
-"""
-.. module:: src.suppliers.amazon 
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-
-"""
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-"""
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-"""
-  :platform: Windows, Unix
-
-"""
-"""
-  :platform: Windows, Unix
-  :platform: Windows, Unix
-  :synopsis:
-"""
-  
-""" module: src.suppliers.amazon """
-
-
 """  Модуль сбора товаров со страницы категорий поставщика aliexpress.com через вебдрайвер
+=============================================================================================
 
 У каждого поставщика свой сценарий обреботки категорий
 
@@ -47,7 +15,9 @@
 - Собирает список товаров со страницы категории `get_list_products_in_category()`
 - Итерируясь по списку передает управление в `grab_product_page()` отсылая функции текущий url страницы  
 `grab_product_page()` обрабатывает поля товара и передает управление классу `Product` 
-
+```rst
+.. module:: src.suppliers.suppliers_list.amazon 
+```
 """
 
 

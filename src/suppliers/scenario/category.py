@@ -1,5 +1,4 @@
-
-## \file /src/category/category.py
+## \file /src/supplisers/scenario/category/category.py
 # -*- coding: utf-8 -*-\
 #! .pyenv/bin/python3
 """

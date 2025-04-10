@@ -1,4 +1,4 @@
-## \file /src/suppliers/aliexpress/category.py
+## \file /src/suppliers/suppliers_list/aliexpress/category.py
 # -*- coding: utf-8 -*-
 
 #! .pyenv/bin/python3
@@ -18,13 +18,6 @@ from src import gs
 from src.utils.jjson import j_dumps, j_loads
 from src.logger.logger import logger
 
-# Импорт класса CategoryManager и модели AliexpressCategory
-# Зачем?  CategoryManager занимается переводами
-from src.db.manager_categories.suppliers_categories import CategoryManager, AliexpressCategory
-
-credentials = gs.db_translations_credentials
-# Создание экземпляра класса CategoryManager
-manager = CategoryManager()
 
 
 def get_list_products_in_category(s) -> list[str, str]:

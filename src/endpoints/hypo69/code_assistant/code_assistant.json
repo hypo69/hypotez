@@ -3,18 +3,19 @@
   "lang": "EN",
   "model": [ "gemini" ],
   "process_dirs": [
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\toolbox",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\launchers",
+
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\logger",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\utils\\",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\utils\\convertors",
 
-      "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver",
-      "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\chrome",
-      "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\firefox",
-      "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\playwright",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\gemini",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\chrome",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\ai_browser",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\firefox",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\playwright",
 
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\gpt4free\\",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\gpt4free\\g4f",
 
 
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop",
@@ -22,21 +23,6 @@
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\product_fields",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\utils",
 
-
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\skd",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\models",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\helplers",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\tools",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\errors",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\campaign",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\scenarios",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\utils",
-
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru\\client",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru\\server",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru\\g4f",
 
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\gemini_simplechat",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\kazarinov",
@@ -47,7 +33,7 @@
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\hypo69\\tiny_troupe",
 
 
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\scenario",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\scenario",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\fast_api",
 
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai",
@@ -85,7 +71,6 @@
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\emil\\scenarios",
 
 
-
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers",
 
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\amazon",
@@ -108,7 +93,22 @@
 
 
   "exclude_dirs": [
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru\\client",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru\\server",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru\\g4f",
 
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\gpt4free\\",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\gpt4free\\g4f",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\skd",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\models",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\helplers",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\tools",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\errors",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\campaign",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\scenarios",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\utils",
 
     ".ipynb_checkpoints",
     "resources",

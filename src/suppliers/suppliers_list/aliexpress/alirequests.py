@@ -1,4 +1,4 @@
-## \file /src/suppliers/aliexpress/alirequests.py
+## \file /src/suppliers/suppliers_list/aliexpress/alirequests.py
 # -*- coding: utf-8 -*-
 
 #! .pyenv/bin/python3

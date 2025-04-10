@@ -1,44 +1,11 @@
-## \file /src/suppliers/amazon/login.py
+## \file /src/suppliers/suppliers_list/amazon/login.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
-"""
-.. module:: src.suppliers.amazon 
-	:platform: Windows, Unix
-	:synopsis:
 
-"""
-
-
-"""
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-"""
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-"""
-  :platform: Windows, Unix
-
-"""
-"""
-  :platform: Windows, Unix
-  :platform: Windows, Unix
-  :synopsis:
-"""
-  
-""" module: src.suppliers.amazon """
-
-
-"""   Интерфейс авторизации. Реализация для вебдрайвера
-
-@image html login.png
+"""   
+Интерфейс авторизации. Реализация для вебдрайвера
+====================================================
 """
 
 

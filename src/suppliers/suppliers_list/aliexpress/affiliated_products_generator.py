@@ -1,4 +1,4 @@
-## \file /src/suppliers/aliexpress/affiliated_products_generator.py
+## \file /src/suppliers/suppliers_list/aliexpress/affiliated_products_generator.py
 # -*- coding: utf-8 -*-
 
 #! .pyenv/bin/python3

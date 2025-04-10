@@ -1,94 +1,108 @@
-```rst
-.. module:: src.endpoints.hypo69.code_assistant.make_summary
+# Документация модуля `make_summary.py`
+
+## Обзор
+
+Модуль предназначен для автоматической генерации файла `SUMMARY.md`, который используется для компиляции документации с помощью таких инструментов, как `mdbook`. Модуль рекурсивно обходит указанный каталог, содержащий исходные `.md` файлы, и генерирует оглавление, включая или исключая файлы на основе указанного языка.
+
+## Подробнее
+
+Этот модуль автоматизирует процесс создания файла `SUMMARY.md`, который необходим для `mdbook` и других инструментов для генерации документации. Он фильтрует файлы по языку (русский или английский), чтобы в оглавление включались только релевантные файлы. Все пути указываются относительно корня проекта, что обеспечивает устойчивость модуля к изменениям структуры каталогов.
+
+## Классы
+
+### `make_summary.py`
+
+**Описание**: В данном файле нет классов. Модуль содержит функциональность для создания файла `SUMMARY.md`, который используется для компиляции документации.
+
+## Функции
+
+### `main`
+
+```python
+def main():
+    """
+    Основная функция скрипта.
+    Анализирует аргументы командной строки, генерирует файл SUMMARY.md.
+
+    Args:
+        None
+
+    Returns:
+        None
+
+    Raises:
+        FileNotFoundError: Если указанный исходный каталог не существует.
+        Exception: При возникновении любых других ошибок в процессе генерации.
+    """
 ```
 
-<TABLE>
-<TR>
-<TD>
-<A HREF = 'https://github.com/hypo69/hypotez/blob/master/README.MD'>[Root ↑]</A>
-</TD>
-<TD>
-<A HREF = 'https://github.com/hypo69/hypotez/blob/master/src/README.MD'>src</A> \ 
-<A HREF = 'https://github.com/hypo69/hypotez/blob/master/src/endpoints/README.MD'>endpoints</A>
-<A HREF = 'https://github.com/hypo69/hypotez/blob/master/src/endpoints/hypo69/README.MD'>hypo69</A>
-</TD>
-<TD>
-<A HREF = 'https://github.com/hypo69/hypotez/blob/master/src/endpoints/hypo69/code_assistant/make_summary.ru.md'>Русский</A>
-</TD>
-</TR>
-</TABLE>
+**Назначение**: Основная функция скрипта, отвечающая за анализ аргументов командной строки и генерацию файла `SUMMARY.md`.
 
-# Module `make_summary.py`
+**Параметры**:
+- Отсутствуют.
 
-## Description
+**Возвращает**:
+- `None`
 
-This module is designed to automatically generate the `SUMMARY.md` file, which is used for compiling documentation using tools like `mdbook`. The module recursively traverses the specified directory containing source `.md` files and generates a table of contents, including or excluding files based on the specified language.
+**Вызывает исключения**:
+- `FileNotFoundError`: Если указанный исходный каталог не существует.
+- `Exception`: При возникновении любых других ошибок в процессе генерации.
 
-## Key Features
+**Внутренние функции**:
+- Отсутствуют.
 
-- **Generation of `SUMMARY.md`**:
-  - Recursively traverses the directory with source `.md` files.
-  - Creates a `SUMMARY.md` file with a table of contents for each `.md` file.
+**Как работает функция**:
 
-- **Language Filtering**:
-  - Supports filtering files by language:
-    - `ru`: Includes only files with the `.ru.md` suffix.
-    - `en`: Excludes files with the `.ru.md` suffix.
+1. **Анализ аргументов командной строки**: Функция использует `argparse` для получения аргументов командной строки, таких как язык (`-lang`) и исходный каталог (`src`).
 
-- **Universal Paths**:
-  - All paths are relative to the project root, making the module robust to changes in directory structure.
+2. **Определение целевого каталога**: Определяет целевой каталог для сохранения файла `SUMMARY.md` (`docs`).
 
-## Installation and Usage
+3. **Создание целевого каталога**: Если целевой каталог не существует, он создается.
 
-### Requirements
+4. **Формирование списка файлов**: Использует функцию `os.walk` для рекурсивного обхода исходного каталога и формирования списка файлов с расширением `.md`.
 
-- Python 3.8 or higher.
-- Installed dependencies from the `requirements.txt` file.
+5. **Фильтрация файлов по языку**: Фильтрует список файлов в зависимости от указанного языка (`ru` или `en`). Если указан русский язык, включаются только файлы с суффиксом `.ru.md`. Если указан английский язык, исключаются файлы с суффиксом `.ru.md`.
 
-### Installation
+6. **Создание содержимого файла `SUMMARY.md`**: Формирует содержимое файла `SUMMARY.md` в формате Markdown, где каждая строка представляет собой ссылку на соответствующий файл.
 
-1. Ensure you have Python and all dependencies installed:
-   ```bash
-   pip install -r requirements.txt
-   ```
+7. **Запись содержимого в файл `SUMMARY.md`**: Записывает сформированное содержимое в файл `SUMMARY.md` в целевом каталоге.
 
-### Usage
+8. **Обработка исключений**: Обрабатывает исключения, такие как отсутствие исходного каталога (`FileNotFoundError`) и другие ошибки, возникающие в процессе генерации. В случае ошибки, выводит сообщение об ошибке в консоль.
 
-1. Run the `make_summary.py` script with the specified `src` directory and language filter:
-   ```bash
-   python src/endpoints/hypo69/code_assistant/make_summary.py -lang ru src
-   ```
+**Примеры**:
 
-   - The `-lang` parameter can take values `ru` or `en`.
-   - The `src` argument specifies the directory containing the source `.md` files.
+Примеры запуска скрипта из командной строки:
 
-2. After running the script, the `SUMMARY.md` file will be created in the `docs` directory.
-
-## Example Output
-
-### Example `SUMMARY.md` for Language `ru`:
-```
-# Summary
-
-- [file1](file1.md)
-- [file2](file2.ru.md)
+```bash
+python src/endpoints/hypo69/code_assistant/make_summary.py -lang ru src
+python src/endpoints/hypo69/code_assistant/make_summary.py -lang en src
 ```
 
-### Example `SUMMARY.md` for Language `en`:
+### `if __name__ == "__main__":`
+
+```python
+if __name__ == "__main__":
+    main()
 ```
-# Summary
 
-- [file1](file1.md)
-- [file3](file3.en.md)
-```
+**Назначение**: Обеспечивает запуск функции `main`, только если скрипт запущен как основная программа.
 
-## Author
+**Параметры**:
+- Отсутствуют.
 
-- **Author Name**: [Your Name]
-- **Email**: [Your Email]
-- **Boosty Link**: [https://boosty.to/hypo69](https://boosty.to/hypo69)
+**Возвращает**:
+- Отсутствует.
 
-## License
+**Вызывает исключения**:
+- Отсутствуют.
 
-This module is licensed under the [MIT License](../../../LICENSE).
+**Как работает функция**:
+Проверяет, является ли текущий модуль основным, и если да, вызывает функцию `main`.
 
+**Примеры**:
+
+Примеры запуска скрипта из командной строки:
+
+```bash
+python src/endpoints/hypo69/code_assistant/make_summary.py -lang ru src
+python src/endpoints/hypo69/code_assistant/make_summary.py -lang en src

@@ -1,74 +1,75 @@
+# Модуль для обновления заголовков файлов в проекте "hypotez"
 
-# Update File Headers in the "hypotez" Project
+## Обзор
 
-This script is designed to process Python files in the "hypotez" project. It adds or replaces headers, interpreter lines, and module documentation in the source code. The script traverses all files in the project and updates them, adding project information, interpreter details, and metadata.
+Этот скрипт предназначен для обработки Python-файлов в проекте "hypotez". Он добавляет или заменяет заголовки, строки интерпретатора и документацию модуля в исходном коде. Скрипт обходит все файлы в проекте и обновляет их, добавляя информацию о проекте, детали интерпретатора и метаданные.
 
-## Description
+## Подробнее
 
-The script performs the following tasks:
+Скрипт выполняет следующие задачи:
 
-- Identifies the project's root folder.
-- Finds and adds the encoding line.
-- Adds interpreter lines for both Windows and Linux.
-- Adds the module documentation string.
-- Sets the mode value for the project.
+- Определяет корневую папку проекта.
+- Находит и добавляет строку кодировки.
+- Добавляет строки интерпретатора для Windows и Linux.
+- Добавляет строку документации модуля.
+- Устанавливает значение режима для проекта.
 
-## Usage Examples
+## Использование
 
-### Standard Run
+### Стандартный запуск
 
-Processes all files in the project:
+Обрабатывает все файлы в проекте:
 
 ```bash
 python update_files_headers.py
 ```
 
-### Force Update Files
+### Принудительное обновление файлов
 
-Forces the update of files even if headers already exist:
+Принудительно обновляет файлы, даже если заголовки уже существуют:
 
 ```bash
 python update_files_headers.py --force-update
 ```
 
-### Specify a Specific Project Directory
+### Указание конкретного каталога проекта
 
-Processes files in the specified project directory:
+Обрабатывает файлы в указанном каталоге проекта:
 
 ```bash
-python update_files_headers.py -p /path/to/project
+python update_files_headers.py -p /путь/к/проекту
 ```
 
-### Exclude the "venv" Directory
+### Исключение каталога "venv"
 
-Excludes the `venv` directory from processing:
+Исключает каталог `venv` из обработки:
 
 ```bash
 python update_files_headers.py --exclude-venv
 ```
 
-## Script Workflow
+## Принцип работы скрипта
 
-1. **Finding the Project Root**  
-   The script searches for the project root starting from the current directory. If the project root is not found, an error is raised.
+1. **Поиск корня проекта**
+   Скрипт ищет корень проекта, начиная с текущего каталога. Если корень проекта не найден, возникает ошибка.
 
-2. **Adding/Replacing Headers**  
-   For each Python file, the script:
-   - Adds the encoding line `# -*- coding: utf-8 -*-` if it is missing.
-   - Adds interpreter lines for Windows and Linux (depending on the operating system).
-   - Adds the module documentation string if it is absent.
-   - Sets the `MODE` variable if it is missing.
+2. **Добавление/замена заголовков**
+   Для каждого Python-файла скрипт:
+   - Добавляет строку кодировки `# -*- coding: utf-8 -*-`, если она отсутствует.
+   - Добавляет строки интерпретатора для Windows и Linux (в зависимости от операционной системы).
+   - Добавляет строку документации модуля, если она отсутствует.
+   - Устанавливает переменную `MODE`, если она отсутствует.
 
-3. **Update Modes**  
-   - In normal update mode (when `force-update` is not set), headers are added only if they are missing.
-   - In `--force-update` mode, headers and interpreter lines are updated even if they already exist in the file.
+3. **Режимы обновления**
+   - В обычном режиме обновления (когда `force-update` не установлен), заголовки добавляются только если они отсутствуют.
+   - В режиме `--force-update`, заголовки и строки интерпретатора обновляются, даже если они уже существуют в файле.
 
-4. **Excluding Folders**  
-   Folders like `venv`, `tmp`, `docs`, `data`, and other directories specified in the `EXCLUDE_DIRS` variable are excluded from processing.
+4. **Исключение папок**
+   Папки, такие как `venv`, `tmp`, `docs`, `data` и другие каталоги, указанные в переменной `EXCLUDE_DIRS`, исключаются из обработки.
 
-## Dependencies
+## Зависимости
 
-The script uses standard Python libraries:
+Скрипт использует стандартные библиотеки Python:
 
 - `os`
 - `argparse`
@@ -76,16 +77,47 @@ The script uses standard Python libraries:
 - `sys`
 - `platform`
 
-Make sure Python and dependencies are installed if required for your environment.
+Убедитесь, что Python и зависимости установлены, если это требуется для вашей среды.
 
-## Code Example
+## Пример кода
 
-Here’s an example of the Python code for adding/replacing headers:
+Вот пример Python-кода для добавления/замены заголовков:
 
 ```python
 def add_or_replace_file_header(file_path: str, project_root: Path, force_update: bool):
-    """Adds or replaces a header, interpreter lines, and module docstring in the specified Python file."""
-    # Logic for adding headers and interpreters...
+    """Добавляет или заменяет заголовок, строки интерпретатора и docstring модуля в указанном Python-файле."""
+    # Логика для добавления заголовков и интерпретаторов...
 ```
 
-This script is useful for automatically setting up file headers in large projects, ensuring a standardized structure and metadata in source files.
+Этот скрипт полезен для автоматической настройки заголовков файлов в крупных проектах, обеспечивая стандартизированную структуру и метаданные в исходных файлах.
+
+## Функции
+
+### `add_or_replace_file_header`
+
+```python
+def add_or_replace_file_header(file_path: str, project_root: Path, force_update: bool):
+    """Добавляет или заменяет заголовок, строки интерпретатора и docstring модуля в указанном Python-файле."""
+    # Логика для добавления заголовков и интерпретаторов...
+```
+
+**Назначение**: Добавляет или заменяет заголовок, строки интерпретатора и docstring модуля в указанном Python-файле.
+
+**Параметры**:
+- `file_path` (str): Путь к файлу, в котором нужно добавить или заменить заголовок.
+- `project_root` (Path): Корневой путь проекта.
+- `force_update` (bool): Флаг, указывающий, следует ли принудительно обновить заголовок, даже если он уже существует.
+
+**Возвращает**:
+- `None`
+
+**Как работает функция**:
+- Функция выполняет добавление или замену заголовка файла, строк интерпретатора и docstring модуля в Python-файле.
+
+**Примеры**:
+
+```python
+file_path = 'example.py'
+project_root = Path('.')
+force_update = True
+add_or_replace_file_header(file_path, project_root, force_update)
