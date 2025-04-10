@@ -31,7 +31,8 @@ from header import __root__
 from src import gs
 from src.utils.jjson import j_loads, j_loads_ns
 from src.utils.file import read_text_file
-from src.utils.string.normalizer import ( 
+from src.utils.string.normalizer import (
+                                        normalize_string,
                                         normalize_boolean,
                                         normalize_float,
                                         normalize_sql_date,
@@ -251,7 +252,7 @@ class ProductFields:
     def id_shop_default(self, value: int ):
         """ setter `ID` магазина по умолчанию."""
         try:
-            self.presta_fields.id_shop_default = value or 1
+            self.presta_fields.id_shop_default = normalize_int(value or 1)
         except Exception as ex:
             logger.error(f"Ошибка при установке id_shop_default:",ex)
 
@@ -264,7 +265,7 @@ class ProductFields:
     def id_shop(self, value: int):
         """ setter `ID` магазина (для multishop)."""
         try:
-            self.presta_fields.id_shop = value or 1
+            self.presta_fields.id_shop = normalize_int(value or 1)
         except Exception as ex:
              logger.error(f"Ошибка при установке id_shop:",ex)
 
@@ -278,7 +279,7 @@ class ProductFields:
          """ setter `ID` налога."""
         
          try:
-            self.presta_fields.id_tax = value
+            self.presta_fields.id_tax = normalize_int(value)
          except Exception as ex:
             logger.error(f"Ошибка при установке id_tax:",ex)
 
@@ -291,7 +292,7 @@ class ProductFields:
     def position_in_category(self, value:int = None):
         """ setter  Позиция товара в категории."""
         try:
-            self.presta_fields.position_in_category = value
+            self.presta_fields.position_in_category = normalize_int(value)
         except Exception as ex:
            logger.error(f'Ошибка при установке `position_in_category` {value} : ',ex)
 
@@ -303,7 +304,7 @@ class ProductFields:
     @on_sale.setter
     def on_sale(self, value: int ):
         """ setter Флаг распродажи."""
-        self.presta_fields.on_sale = value
+        self.presta_fields.on_sale = normalize_int(value)
 
     @property
     def online_only(self) -> int:
@@ -313,7 +314,7 @@ class ProductFields:
     @online_only.setter
     def online_only(self, value: int|bool ):
         """ setter Флаг "только онлайн". """
-        self.presta_fields.online_only = int(value)
+        self.presta_fields.online_only = normalize_int(value)
 
     @property
     def ean13(self) -> Optional[str]:
@@ -323,7 +324,7 @@ class ProductFields:
     @ean13.setter
     def ean13(self, value: str):
         """ setter EAN13 код товара."""
-        self.presta_fields.ean13 = value
+        self.presta_fields.ean13 = normalize_string(value)
 
     @property
     def isbn(self) -> Optional[str]:
@@ -333,7 +334,7 @@ class ProductFields:
     @isbn.setter
     def isbn(self, value: str):
         """ setter ISBN код товара."""
-        self.presta_fields.isbn = value
+        self.presta_fields.isbn = normalize_string(value)
 
     @property
     def upc(self) -> Optional[str]:
@@ -343,7 +344,7 @@ class ProductFields:
     @upc.setter
     def upc(self, value: str):
         """ setter UPC код товара."""
-        self.presta_fields.upc = value
+        self.presta_fields.upc = normalize_string(value)
 
     @property
     def mpn(self) -> Optional[str]:
@@ -353,7 +354,7 @@ class ProductFields:
     @mpn.setter
     def mpn(self, value: str):
         """ setter MPN код товара."""
-        self.presta_fields.mpn = value
+        self.presta_fields.mpn = normalize_string(value)
    
 
     @property
@@ -364,7 +365,7 @@ class ProductFields:
     @ecotax.setter
     def ecotax(self, value: float = None):
         """ setter Эко налог."""
-        self.presta_fields.ecotax = value
+        self.presta_fields.ecotax = normalize_float(value)
 
     @property
     def minimal_quantity(self) -> int:
@@ -374,7 +375,7 @@ class ProductFields:
     @minimal_quantity.setter
     def minimal_quantity(self, value: int = 1):
         """ setter Минимальное количество товара для заказа."""
-        self.presta_fields.minimal_quantity = value
+        self.presta_fields.minimal_quantity = normalize_int(value)
    
     @property
     def low_stock_threshold(self) -> int:
@@ -384,7 +385,7 @@ class ProductFields:
     @low_stock_threshold.setter
     def low_stock_threshold(self, value: int):
         """ setter Пороговое значение для уведомления о низком запасе."""
-        self.presta_fields.low_stock_threshold = value
+        self.presta_fields.low_stock_threshold = normalize_int(value)
 
     @property
     def low_stock_alert(self) -> int:
@@ -394,7 +395,7 @@ class ProductFields:
     @low_stock_alert.setter
     def low_stock_alert(self, value: int):
         """ setter Флаг уведомления о низком запасе."""
-        self.presta_fields.low_stock_alert = value
+        self.presta_fields.low_stock_alert = normalize_int(value)
   
     @property
     def price(self) -> float:
@@ -418,7 +419,7 @@ class ProductFields:
     @wholesale_price.setter
     def wholesale_price(self, value: str | int | float):
         """ setter Оптовая цена."""
-        self.presta_fields.wholesale_price = float(value)
+        self.presta_fields.wholesale_price = normalize_float(value)
     
     @property
     def unity(self) -> Optional[str]:
