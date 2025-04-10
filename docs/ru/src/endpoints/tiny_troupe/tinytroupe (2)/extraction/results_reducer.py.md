@@ -1,251 +1,185 @@
-# Модуль для редукции результатов агентов
-=================================================
-
-Модуль содержит класс :class:`ResultsReducer`, который используется для обработки и сведения результатов, полученных от различных агентов (TinyPerson) в проекте. Он позволяет агрегировать информацию из эпизодической памяти агентов на основе заданных правил и преобразовывать её в структурированный формат, например, в DataFrame.
-
+# Модуль для сведения результатов агентов
 ## Обзор
 
-Модуль `results_reducer.py` предоставляет функциональность для сведения результатов работы агентов (`TinyPerson`) на основе определенных правил. Он позволяет извлекать информацию из эпизодической памяти агентов, фильтровать ее по типу сообщений (стимулы и действия) и применять заданные функции для агрегации и обработки данных. Полученные результаты могут быть преобразованы в DataFrame для дальнейшего анализа.
+Модуль `results_reducer.py` предназначен для обработки и сведения результатов, полученных от агентов `TinyPerson` в рамках проекта `hypotez`. Он предоставляет функциональность для добавления правил сведения, применения этих правил к данным агентов и преобразования результатов в формат `DataFrame`.
 
-## Подробнее
+## Подробней
 
-Этот код предназначен для анализа эпизодической памяти агентов `TinyPerson` и сведения результатов их взаимодействий на основе заданных правил. Он используется для извлечения полезной информации из сообщений агентов и представления ее в структурированном виде.
+Модуль содержит класс `ResultsReducer`, который управляет правилами сведения и выполняет их применение к эпизодической памяти агентов. Правила сведения позволяют извлекать и обрабатывать информацию из сообщений агентов, разделяя их по ролям (стимулы от пользователя и действия от ассистента). Полученные данные могут быть преобразованы в структурированный формат `DataFrame` для дальнейшего анализа.
 
 ## Классы
 
 ### `ResultsReducer`
 
-**Описание**: Класс, предназначенный для сведения результатов работы агентов `TinyPerson`. Он хранит правила сведения и предоставляет методы для обработки эпизодической памяти агентов и преобразования результатов в DataFrame.
-
-**Принцип работы**:
-1.  Инициализация: При создании экземпляра класса `ResultsReducer` инициализируется пустой словарь `results` для хранения результатов и пустой словарь `rules` для хранения правил сведения.
-2.  Добавление правил сведения: Метод `add_reduction_rule` позволяет добавлять правила сведения, связывая тип стимула или действия с функцией, которая будет применяться для обработки соответствующих сообщений агентов.
-3.  Сведение результатов агента: Метод `reduce_agent` извлекает сообщения из эпизодической памяти агента, фильтрует их по типу (стимулы и действия) и применяет соответствующие правила сведения для обработки данных.
-4.  Преобразование в DataFrame: Метод `reduce_agent_to_dataframe` преобразует результаты сведения в DataFrame, используя библиотеку pandas.
+**Описание**: Класс `ResultsReducer` предназначен для сведения (редукции) результатов, полученных от агентов `TinyPerson`. Он позволяет добавлять правила обработки сообщений агентов и преобразовывать результаты в формат `DataFrame`.
 
 **Атрибуты**:
--   `results` (dict): Словарь для хранения промежуточных результатов.
--   `rules` (dict): Словарь, содержащий правила сведения, где ключом является тип стимула или действия, а значением - функция для обработки.
+- `results (dict)`: Словарь для хранения результатов сведения.
+- `rules (dict)`: Словарь для хранения правил сведения, где ключ - тип триггера, значение - функция для обработки.
 
 **Методы**:
--   `__init__()`: Инициализирует экземпляр класса `ResultsReducer`.
--   `add_reduction_rule(trigger: str, func: callable)`: Добавляет правило сведения для указанного типа стимула или действия.
--   `reduce_agent(agent: TinyPerson) -> list`: Сводит результаты работы агента на основе заданных правил.
--   `reduce_agent_to_dataframe(agent: TinyPerson, column_names: list=None) -> pd.DataFrame`: Преобразует результаты сведения в DataFrame.
+- `__init__`: Инициализирует экземпляр класса `ResultsReducer` с пустыми словарями для хранения результатов и правил.
+- `add_reduction_rule`: Добавляет правило сведения для определенного триггера.
+- `reduce_agent`: Применяет правила сведения к сообщениям агента и возвращает список извлеченных данных.
+- `reduce_agent_to_dataframe`: Преобразует результаты сведения агента в формат `DataFrame`.
 
-## Функции
+#### `__init__`
 
-### `add_reduction_rule`
+```python
+def __init__(self):
+    """
+    Инициализирует экземпляр класса `ResultsReducer`.
+
+    Args:
+        self: Экземпляр класса `ResultsReducer`.
+
+    Returns:
+        None
+
+    Пример:
+        >>> reducer = ResultsReducer()
+        >>> print(reducer.results)
+        {}
+        >>> print(reducer.rules)
+        {}
+    """
+    ...
+```
+
+#### `add_reduction_rule`
 
 ```python
 def add_reduction_rule(self, trigger: str, func: callable):
-    """Добавляет правило сведения для указанного типа стимула или действия.
+    """
+    Добавляет правило сведения для определенного триггера.
 
     Args:
-        trigger (str): Тип стимула или действия, для которого добавляется правило.
-        func (callable): Функция, которая будет применяться для обработки соответствующих сообщений агентов.
+        trigger (str): Триггер, при котором применяется правило (например, тип стимула или действия).
+        func (callable): Функция, выполняющая сведение данных при срабатывании триггера.
+
+    Returns:
+        None
 
     Raises:
-        Exception: Если правило для указанного типа стимула или действия уже существует.
+        Exception: Если правило для данного триггера уже существует.
 
+    Пример:
+        >>> def my_reduction_rule(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
+        ...     return {'event': event, 'content': content}
+        >>> reducer = ResultsReducer()
+        >>> reducer.add_reduction_rule('my_event', my_reduction_rule)
+        >>> print(reducer.rules)
+        {'my_event': <function my_reduction_rule at 0x...>}
     """
+    ...
 ```
 
-**Назначение**: Добавляет правило сведения в словарь `rules`. Правило связывает определенный триггер (тип стимула или действия) с функцией, которая будет вызываться для обработки данных, соответствующих этому триггеру.
-
-**Параметры**:
--   `trigger` (str): Тип стимула или действия, для которого добавляется правило.
--   `func` (callable): Функция, которая будет применяться для обработки соответствующих сообщений агентов.
-
-**Возвращает**: None
-
-**Вызывает исключения**:
--   `Exception`: Если правило для указанного типа стимула или действия уже существует.
-
-**Как работает функция**:
-
-1.  **Проверка наличия правила**: Проверяет, существует ли уже правило для данного триггера в словаре `self.rules`.
-2.  **Вызов исключения**: Если правило уже существует, вызывается исключение `Exception` с сообщением об ошибке.
-3.  **Добавление правила**: Если правило не существует, оно добавляется в словарь `self.rules`, где ключом является `trigger`, а значением - `func`.
-
-```
-Проверка -> Вызов исключения (если правило существует)
-    |         ↓
-    |         Добавление правила (если правило не существует)
-    ↓
-    Конец
-```
-
-**Примеры**:
-
-```python
-reducer = ResultsReducer()
-def my_reduction_function(agent, data):
-    return data['value'] * 2
-
-reducer.add_reduction_rule('my_event', my_reduction_function)
-# Теперь при обработке событий типа 'my_event' будет вызываться функция my_reduction_function
-```
-
-### `reduce_agent`
+#### `reduce_agent`
 
 ```python
 def reduce_agent(self, agent: TinyPerson) -> list:
-    """Сводит результаты работы агента на основе заданных правил.
+    """
+    Применяет правила сведения к сообщениям агента и возвращает список извлеченных данных.
 
     Args:
-        agent (TinyPerson): Агент, результаты работы которого необходимо свести.
+        agent (TinyPerson): Агент, для которого выполняется сведение результатов.
 
     Returns:
-        list: Список извлеченных данных.
+        list: Список извлеченных данных, полученных в результате применения правил сведения.
 
+    Как работает функция:
+    - Функция извлекает все сообщения из эпизодической памяти агента.
+    - Итерируется по сообщениям и применяет правила сведения в зависимости от роли сообщения (`system`, `user`, `assistant`).
+    - Для сообщений с ролью `user` извлекает тип стимула (`stimulus_type`), содержимое (`stimulus_content`), источник (`stimulus_source`) и временную метку (`stimulus_timestamp`). Если для `stimulus_type` определено правило, применяет его.
+    - Для сообщений с ролью `assistant` извлекает тип действия (`action_type`), содержимое (`action_content`), цель (`action_target`) и временную метку (`action_timestamp`). Если для `action_type` определено правило, применяет его.
+    - Возвращает список извлеченных данных.
+
+    Пример:
+        >>> from unittest.mock import MagicMock
+        >>> agent_mock = MagicMock(spec=TinyPerson)
+        >>> agent_mock.episodic_memory.retrieve_all.return_value = [
+        ...     {'role': 'user', 'content': {'stimuli': [{'type': 'event1', 'content': 'content1', 'source': 'source1'}]}, 'simulation_timestamp': 100},
+        ...     {'role': 'assistant', 'content': {'action': {'type': 'action1', 'content': 'content2', 'target': 'target1'}}, 'simulation_timestamp': 200}
+        ... ]
+        >>> def rule_event1(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
+        ...     return {'event': event, 'content': content}
+        >>> def rule_action1(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
+        ...     return {'event': event, 'content': content}
+        >>> reducer = ResultsReducer()
+        >>> reducer.add_reduction_rule('event1', rule_event1)
+        >>> reducer.add_reduction_rule('action1', rule_action1)
+        >>> result = reducer.reduce_agent(agent_mock)
+        >>> print(result)
+        [{'event': 'event1', 'content': 'content1'}, {'event': 'action1', 'content': 'content2'}]
     """
+    reduction = []
+    for message in agent.episodic_memory.retrieve_all():
+        if message['role'] == 'system':
+            continue  # doing nothing for `system` role yet at least
+
+        elif message['role'] == 'user':
+            # User role is related to stimuli only
+            stimulus_type = message['content']['stimuli'][0]['type']
+            stimulus_content = message['content']['stimuli'][0]['content']
+            stimulus_source = message['content']['stimuli'][0]['source']
+            stimulus_timestamp = message['simulation_timestamp']
+
+            if stimulus_type in self.rules:
+                extracted = self.rules[stimulus_type](focus_agent=agent, source_agent=TinyPerson.get_agent_by_name(stimulus_source), target_agent=agent, kind='stimulus', event=stimulus_type, content=stimulus_content, timestamp=stimulus_timestamp)
+                if extracted is not None:
+                    reduction.append(extracted)
+
+        elif message['role'] == 'assistant':
+            # Assistant role is related to actions only
+            if 'action' in message['content']:
+                action_type = message['content']['action']['type']
+                action_content = message['content']['action']['content']
+                action_target = message['content']['action']['target']
+                action_timestamp = message['simulation_timestamp']
+
+                if action_type in self.rules:
+                    extracted = self.rules[action_type](focus_agent=agent, source_agent=agent, target_agent=TinyPerson.get_agent_by_name(action_target), kind='action', event=action_type, content=action_content, timestamp=action_timestamp)
+                    if extracted is not None:
+                        reduction.append(extracted)
+
+    return reduction
 ```
 
-**Назначение**: Извлекает и обрабатывает сообщения из эпизодической памяти агента `TinyPerson` на основе заданных правил сведения. Функция фильтрует сообщения по ролям (user и assistant), определяет тип стимула или действия и применяет соответствующую функцию сведения для обработки данных.
-
-**Параметры**:
--   `agent` (TinyPerson): Агент, результаты работы которого необходимо свести.
-
-**Возвращает**:
--   `list`: Список извлеченных и обработанных данных.
-
-**Как работает функция**:
-
-1.  **Инициализация**: Создает пустой список `reduction` для хранения результатов сведения.
-2.  **Извлечение сообщений**: Извлекает все сообщения из эпизодической памяти агента с помощью метода `agent.episodic_memory.retrieve_all()`.
-3.  **Итерация по сообщениям**: Перебирает каждое сообщение в эпизодической памяти.
-4.  **Фильтрация по ролям**:
-    -   Игнорирует сообщения с ролью `'system'`.
-    -   Обрабатывает сообщения с ролью `'user'`, которые связаны со стимулами. Определяет тип стимула, его содержимое и источник. Если для данного типа стимула существует правило сведения, применяет его и добавляет результат в список `reduction`.
-    -   Обрабатывает сообщения с ролью `'assistant'`, которые связаны с действиями. Определяет тип действия, его содержимое и цель. Если для данного типа действия существует правило сведения, применяет его и добавляет результат в список `reduction`.
-5.  **Возврат результатов**: Возвращает список `reduction`, содержащий извлеченные и обработанные данные.
-
-```
-Начало -> Инициализация списка reduction
-    |
-    ↓
-    Извлечение сообщений из эпизодической памяти
-    |
-    ↓
-    Итерация по сообщениям
-    |
-    ↓
-    Фильтрация по ролям: system, user, assistant
-    |
-    ↓
-    Обработка сообщений в зависимости от роли
-    |
-    ↓
-    Применение правил сведения (если существуют)
-    |
-    ↓
-    Добавление результатов в список reduction
-    |
-    ↓
-    Конец -> Возврат списка reduction
-```
-
-**Примеры**:
-
-```python
-reducer = ResultsReducer()
-def my_stimulus_reduction(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
-    return {'event': event, 'content': content}
-
-reducer.add_reduction_rule('my_stimulus', my_stimulus_reduction)
-
-agent = TinyPerson(name='TestAgent')
-agent.episodic_memory.store({
-    'role': 'user',
-    'content': {
-        'stimuli': [{
-            'type': 'my_stimulus',
-            'content': 'Some content',
-            'source': 'ExternalSource'
-        }]
-    },
-    'simulation_timestamp': 123
-})
-
-reduction_result = reducer.reduce_agent(agent)
-print(reduction_result)
-# Ожидаемый вывод: [{'event': 'my_stimulus', 'content': 'Some content'}]
-```
-
-### `reduce_agent_to_dataframe`
+#### `reduce_agent_to_dataframe`
 
 ```python
 def reduce_agent_to_dataframe(self, agent: TinyPerson, column_names: list=None) -> pd.DataFrame:
-    """Преобразует результаты сведения в DataFrame.
+    """
+    Преобразует результаты сведения агента в формат `DataFrame`.
 
     Args:
-        agent (TinyPerson): Агент, результаты работы которого необходимо свести и преобразовать в DataFrame.
-        column_names (list, optional): Список названий столбцов для DataFrame. По умолчанию `None`.
+        agent (TinyPerson): Агент, для которого выполняется сведение результатов.
+        column_names (list, optional): Список названий столбцов для `DataFrame`. По умолчанию `None`.
 
     Returns:
-        pd.DataFrame: DataFrame, содержащий результаты сведения.
+        pd.DataFrame: `DataFrame`, содержащий результаты сведения.
 
+    Пример:
+        >>> import pandas as pd
+        >>> from unittest.mock import MagicMock
+        >>> agent_mock = MagicMock(spec=TinyPerson)
+        >>> agent_mock.episodic_memory.retrieve_all.return_value = [
+        ...     {'role': 'user', 'content': {'stimuli': [{'type': 'event1', 'content': 'content1', 'source': 'source1'}]}, 'simulation_timestamp': 100},
+        ...     {'role': 'assistant', 'content': {'action': {'type': 'action1', 'content': 'content2', 'target': 'target1'}}, 'simulation_timestamp': 200}
+        ... ]
+        >>> def rule_event1(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
+        ...     return {'event': event, 'content': content}
+        >>> def rule_action1(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
+        ...     return {'event': event, 'content': content}
+        >>> reducer = ResultsReducer()
+        >>> reducer.add_reduction_rule('event1', rule_event1)
+        >>> reducer.add_reduction_rule('action1', rule_action1)
+        >>> df = reducer.reduce_agent_to_dataframe(agent_mock, column_names=['event', 'content'])
+        >>> print(df)
+             event   content
+        0   event1  content1
+        1  action1  content2
     """
+    reduction = self.reduce_agent(agent)
+    return pd.DataFrame(reduction, columns=column_names)
 ```
-
-**Назначение**: Преобразует результаты сведения, полученные из эпизодической памяти агента `TinyPerson`, в DataFrame с использованием библиотеки pandas.
-
-**Параметры**:
--   `agent` (TinyPerson): Агент, результаты работы которого необходимо свести и преобразовать в DataFrame.
--   `column_names` (list, optional): Список названий столбцов для DataFrame. Если `None`, используются названия столбцов по умолчанию. По умолчанию `None`.
-
-**Возвращает**:
--   `pd.DataFrame`: DataFrame, содержащий результаты сведения.
-
-**Как работает функция**:
-
-1.  **Сведение результатов**: Вызывает метод `self.reduce_agent(agent)` для получения списка извлеченных и обработанных данных.
-2.  **Преобразование в DataFrame**: Преобразует список `reduction` в DataFrame с помощью `pd.DataFrame(reduction, columns=column_names)`. Если `column_names` не указаны, используются названия столбцов по умолчанию.
-3.  **Возврат DataFrame**: Возвращает созданный DataFrame.
-
-```
-Начало -> Сведение результатов (вызов reduce_agent)
-    |
-    ↓
-    Преобразование в DataFrame
-    |
-    ↓
-    Конец -> Возврат DataFrame
-```
-
-**Примеры**:
-
-```python
-import pandas as pd
-reducer = ResultsReducer()
-
-def my_stimulus_reduction(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
-    return {'event': event, 'content': content, 'timestamp': timestamp}
-
-reducer.add_reduction_rule('my_stimulus', my_stimulus_reduction)
-
-agent = TinyPerson(name='TestAgent')
-agent.episodic_memory.store({
-    'role': 'user',
-    'content': {
-        'stimuli': [{
-            'type': 'my_stimulus',
-            'content': 'Some content',
-            'source': 'ExternalSource'
-        }]
-    },
-    'simulation_timestamp': 123
-})
-
-df = reducer.reduce_agent_to_dataframe(agent)
-print(df)
-# Ожидаемый вывод:
-#          event     content  timestamp
-# 0  my_stimulus  Some content        123
-
-df = reducer.reduce_agent_to_dataframe(agent, column_names=['Event Type', 'Content', 'Time'])
-print(df)
-# Ожидаемый вывод:
-#   Event Type       Content  Time
-# 0  my_stimulus  Some content   123

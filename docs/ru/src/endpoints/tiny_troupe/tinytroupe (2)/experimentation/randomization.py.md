@@ -1,11 +1,11 @@
-# Модуль для рандомизации A/B-тестов
+# Модуль для рандомизации A/B тестов
 ## Обзор
 
-Модуль предоставляет класс `ABRandomizer`, который используется для проведения A/B-тестов, позволяя рандомизировать выбор между двумя опциями и восстанавливать исходный выбор позже. Он особенно полезен в задачах, где необходимо скрыть реальные имена опций от пользователя.
+Модуль предоставляет класс `ABRandomizer`, предназначенный для рандомизации и дерандомизации вариантов в A/B-тестах. Он позволяет временно заменять реальные названия вариантов на условные обозначения, чтобы избежать предвзятости при выборе.
 
-## Подробнее
+## Подробней
 
-Этот модуль предназначен для упрощения процесса A/B-тестирования, обеспечивая возможность как случайного выбора между двумя вариантами, так и восстановления исходного варианта выбора. Это полезно, когда нужно скрыть реальные названия вариантов от пользователя во время эксперимента. Класс `ABRandomizer` позволяет инициализировать различные параметры, такие как имена вариантов, имена для отображения пользователю и зерно случайности, что обеспечивает воспроизводимость результатов.
+Этот модуль полезен для проведения A/B-тестов, где необходимо случайным образом распределять пользователей между двумя группами (контрольной и тестовой) и затем анализировать результаты, возвращаясь к исходным обозначениям вариантов. Класс `ABRandomizer` хранит информацию о произведенных заменах, что позволяет корректно интерпретировать результаты тестов.
 
 ## Классы
 
@@ -13,224 +13,249 @@
 
 **Описание**: Класс для рандомизации и дерандомизации вариантов в A/B-тестах.
 
-**Принцип работы**:
-
-1.  Инициализация класса `ABRandomizer` с указанием реальных имен вариантов, имен для отображения пользователю и списка вариантов, которые не нужно рандомизировать.
-2.  Метод `randomize` случайным образом выбирает один из двух вариантов и сохраняет информацию о выборе для последующей дерандомизации.
-3.  Метод `derandomize` восстанавливает исходный порядок вариантов на основе сохраненной информации.
-4.  Метод `derandomize_name` декодирует выбор пользователя, возвращая реальное имя выбранного варианта.
-
 **Атрибуты**:
+- `choices` (dict): Словарь, хранящий информацию о произведенной рандомизации для каждого элемента. Ключом является индекс элемента, значением - кортеж (0, 1) или (1, 0), указывающий, были ли переставлены варианты.
+- `real_name_1` (str): Реальное название первого варианта (например, "control").
+- `real_name_2` (str): Реальное название второго варианта (например, "treatment").
+- `blind_name_a` (str): Условное обозначение первого варианта (например, "A").
+- `blind_name_b` (str): Условное обозначение второго варианта (например, "B").
+- `passtrough_name` (list): Список названий, которые не подлежат рандомизации и возвращаются без изменений.
+- `random_seed` (int): Зерно для генератора случайных чисел, обеспечивающее воспроизводимость рандомизации.
 
-*   `choices` (dict): Словарь, хранящий информацию о том, какие варианты были переключены для каждого элемента.
-*   `real_name_1` (str): Реальное имя первого варианта.
-*   `real_name_2` (str): Реальное имя второго варианта.
-*   `blind_name_a` (str): Имя первого варианта, отображаемое пользователю.
-*   `blind_name_b` (str): Имя второго варианта, отображаемое пользователю.
-*   `passtrough_name` (list): Список имен, которые не должны быть рандомизированы.
-*   `random_seed` (int): Зерно случайности для воспроизводимости результатов.
+**Принцип работы**:
+1.  При инициализации класса задаются реальные и условные названия вариантов, а также зерно для генератора случайных чисел.
+2.  Метод `randomize` случайным образом меняет местами два варианта и сохраняет информацию об этом в словаре `choices`.
+3.  Метод `derandomize` восстанавливает исходный порядок вариантов на основе информации из словаря `choices`.
+4.  Метод `derandomize_name` преобразует условное обозначение варианта обратно в реальное название, используя информацию из словаря `choices`.
 
 **Методы**:
-
-*   `__init__(self, real_name_1="control", real_name_2="treatment", blind_name_a="A", blind_name_b="B", passtrough_name=[], random_seed=42)`: Инициализирует класс `ABRandomizer`.
-*   `randomize(self, i, a, b)`: Рандомизирует порядок двух вариантов.
-*   `derandomize(self, i, a, b)`: Восстанавливает исходный порядок вариантов.
-*   `derandomize_name(self, i, blind_name)`: Декодирует выбор пользователя и возвращает реальное имя варианта.
+- `__init__`: Инициализация класса `ABRandomizer`.
+- `randomize`: Случайная перестановка двух вариантов.
+- `derandomize`: Восстановление исходного порядка вариантов.
+- `derandomize_name`: Преобразование условного обозначения варианта в реальное название.
 
 ## Функции
 
 ### `__init__`
 
 ```python
-    def __init__(self, real_name_1="control", real_name_2="treatment",
+def __init__(self, real_name_1="control", real_name_2="treatment",
                        blind_name_a="A", blind_name_b="B",
                        passtrough_name=[],
                        random_seed=42):
-        """
-        An utility class to randomize between two options, and de-randomize later.
-        The choices are stored in a dictionary, with the index of the item as the key.
-        The real names are the names of the options as they are in the data, and the blind names
-        are the names of the options as they are presented to the user. Finally, the passtrough names
-        are names that are not randomized, but are always returned as-is.\n
-        Args:\n
-            real_name_1 (str): the name of the first option\n
-            real_name_2 (str): the name of the second option\n
-            blind_name_a (str): the name of the first option as seen by the user\n
-            blind_name_b (str): the name of the second option as seen by the user\n
-            passtrough_name (list): a list of names that should not be randomized and are always\n
-                                    returned as-is.\n
-            random_seed (int): the random seed to use\n
-        """
+    """
+    An utility class to randomize between two options, and de-randomize later.
+    The choices are stored in a dictionary, with the index of the item as the key.
+    The real names are the names of the options as they are in the data, and the blind names
+    are the names of the options as they are presented to the user. Finally, the passtrough names
+    are names that are not randomized, but are always returned as-is.\n
+    Args:\n
+        real_name_1 (str): the name of the first option\n
+        real_name_2 (str): the name of the second option\n
+        blind_name_a (str): the name of the first option as seen by the user\n
+        blind_name_b (str): the name of the second option as seen by the user\n
+        passtrough_name (list): a list of names that should not be randomized and are always\n
+                                returned as-is.\n
+        random_seed (int): the random seed to use
+    """
 ```
 
-**Назначение**: Инициализирует объект класса `ABRandomizer` с заданными параметрами.
+**Назначение**: Инициализация экземпляра класса `ABRandomizer`.
 
 **Параметры**:
-
-*   `real_name_1` (str): Реальное имя первого варианта (по умолчанию "control").
-*   `real_name_2` (str): Реальное имя второго варианта (по умолчанию "treatment").
-*   `blind_name_a` (str): Имя первого варианта, отображаемое пользователю (по умолчанию "A").
-*   `blind_name_b` (str): Имя второго варианта, отображаемое пользователю (по умолчанию "B").
-*   `passtrough_name` (list): Список имен, которые не должны быть рандомизированы и всегда возвращаются как есть (по умолчанию `[]`).
-*   `random_seed` (int): Зерно случайности для воспроизводимости результатов (по умолчанию 42).
+- `real_name_1` (str): Реальное название первого варианта (по умолчанию "control").
+- `real_name_2` (str): Реальное название второго варианта (по умолчанию "treatment").
+- `blind_name_a` (str): Условное обозначение первого варианта (по умолчанию "A").
+- `blind_name_b` (str): Условное обозначение второго варианта (по умолчанию "B").
+- `passtrough_name` (list): Список названий, которые не подлежат рандомизации (по умолчанию пустой список `[]`).
+- `random_seed` (int): Зерно для генератора случайных чисел (по умолчанию 42).
 
 **Как работает функция**:
-
-1.  Инициализирует словарь `self.choices` для хранения информации о переключениях вариантов.
-2.  Устанавливает значения атрибутов `self.real_name_1`, `self.real_name_2`, `self.blind_name_a`, `self.blind_name_b`, `self.passtrough_name` и `self.random_seed` на основе переданных аргументов.
-
-```
-Инициализация --> Установка атрибутов
-```
+1.  Инициализирует словарь `self.choices` для хранения информации о рандомизации.
+2.  Сохраняет реальные и условные названия вариантов, а также зерно для генератора случайных чисел в атрибутах экземпляра класса.
 
 **Примеры**:
 
 ```python
-randomizer = ABRandomizer()
-randomizer = ABRandomizer(real_name_1="Контроль", real_name_2="Тест", blind_name_a="Вариант A", blind_name_b="Вариант B", passtrough_name=["Не менять"], random_seed=123)
+randomizer = ABRandomizer(real_name_1="контроль", real_name_2="тест", blind_name_a="A", blind_name_b="B", passtrough_name=["pass"], random_seed=123)
 ```
 
 ### `randomize`
 
 ```python
-    def randomize(self, i, a, b):
-        """
-        Randomly switch between a and b, and return the choices.\n
-        Store whether the a and b were switched or not for item i, to be able to
-        de-randomize later.\n
-        Args:\n
-            i (int): index of the item\n
-            a (str): first choice\n
-            b (str): second choice\n
-        """
+def randomize(self, i, a, b):
+    """
+    Randomly switch between a and b, and return the choices.
+    Store whether the a and b were switched or not for item i, to be able to
+    de-randomize later.\n
+    Args:\n
+        i (int): index of the item\n
+        a (str): first choice\n
+        b (str): second choice
+    """
+    # use the seed
+    if random.Random(self.random_seed).random() < 0.5:
+        self.choices[i] = (0, 1)
+        return a, b
+        
+    else:
+        self.choices[i] = (1, 0)
+        return b, a
 ```
 
-**Назначение**: Случайным образом меняет местами два варианта (`a` и `b`) и возвращает их. Сохраняет информацию о том, были ли переставлены варианты, чтобы можно было выполнить дерандомизацию позже.
+**Назначение**: Случайная перестановка двух вариантов.
 
 **Параметры**:
-
-*   `i` (int): Индекс элемента.
-*   `a` (str): Первый вариант.
-*   `b` (str): Второй вариант.
+- `i` (int): Индекс элемента.
+- `a` (str): Первый вариант.
+- `b` (str): Второй вариант.
 
 **Возвращает**:
-
-*   Кортеж из двух элементов: (`a`, `b`) или (`b`, `a`) в зависимости от случайного выбора.
+- Кортеж из двух элементов, содержащий варианты `a` и `b` в случайном порядке.
 
 **Как работает функция**:
-
-1.  Использует `random.Random(self.random_seed).random()` для генерации случайного числа в диапазоне от 0 до 1.
-2.  Если случайное число меньше 0.5, сохраняет в `self.choices[i]` кортеж `(0, 1)` и возвращает варианты в исходном порядке (`a`, `b`).
-3.  Если случайное число больше или равно 0.5, сохраняет в `self.choices[i]` кортеж `(1, 0)` и возвращает варианты в переставленном порядке (`b`, `a`).
-
-```
-Генерация случайного числа --> Проверка случайного числа (< 0.5?) --> Сохранение выбора в self.choices и возврат вариантов
-```
+1.  Использует генератор случайных чисел с заданным зерном (`self.random_seed`) для определения, нужно ли менять местами варианты `a` и `b`.
+2.  Если случайное число меньше 0.5, варианты остаются в исходном порядке, и в словарь `self.choices` записывается кортеж `(0, 1)`.
+3.  В противном случае варианты меняются местами, и в словарь `self.choices` записывается кортеж `(1, 0)`.
+4.  Возвращает кортеж из двух элементов, содержащий варианты `a` и `b` в случайном порядке.
 
 **Примеры**:
 
 ```python
 randomizer = ABRandomizer()
-a, b = randomizer.randomize(1, "вариант1", "вариант2")
+a, b = randomizer.randomize(0, "контроль", "тест")
+print(f"Вариант A: {a}, Вариант B: {b}")
 ```
 
 ### `derandomize`
 
 ```python
-    def derandomize(self, i, a, b):
-        """
-        De-randomize the choices for item i, and return the choices.\n
-        Args:\n
-            i (int): index of the item\n
-            a (str): first choice\n
-            b (str): second choice\n
-        """
+def derandomize(self, i, a, b):
+    """
+    De-randomize the choices for item i, and return the choices.\n
+    Args:\n
+        i (int): index of the item\n
+        a (str): first choice\n
+        b (str): second choice
+    """
+    if self.choices[i] == (0, 1):
+        return a, b
+    elif self.choices[i] == (1, 0):
+        return b, a
+    else:
+        raise Exception(f"No randomization found for item {i}")
 ```
 
-**Назначение**: Восстанавливает исходный порядок вариантов для элемента с индексом `i` и возвращает их.
+**Назначение**: Восстановление исходного порядка вариантов.
 
 **Параметры**:
-
-*   `i` (int): Индекс элемента.
-*   `a` (str): Первый вариант.
-*   `b` (str): Второй вариант.
+- `i` (int): Индекс элемента.
+- `a` (str): Первый вариант.
+- `b` (str): Второй вариант.
 
 **Возвращает**:
-
-*   Кортеж из двух элементов: (`a`, `b`) или (`b`, `a`) в зависимости от того, как они были переставлены при рандомизации.
+- Кортеж из двух элементов, содержащий варианты `a` и `b` в исходном порядке.
 
 **Вызывает исключения**:
-
-*   `Exception`: Если для элемента `i` не найдена информация о рандомизации.
+- `Exception`: Если для элемента `i` не найдена информация о рандомизации.
 
 **Как работает функция**:
-
-1.  Проверяет значение `self.choices[i]`.
-2.  Если `self.choices[i]` равно `(0, 1)`, возвращает варианты в исходном порядке (`a`, `b`).
-3.  Если `self.choices[i]` равно `(1, 0)`, возвращает варианты в переставленном порядке (`b`, `a`).
-4.  Если для элемента `i` не найдена информация о рандомизации (т.е. `self.choices[i]` не существует), вызывает исключение с сообщением "No randomization found for item {i}".
-
-```
-Проверка self.choices[i] --> Возврат вариантов в исходном или переставленном порядке (или вызов исключения)
-```
+1.  Проверяет значение в словаре `self.choices` для элемента `i`.
+2.  Если значение равно `(0, 1)`, возвращает варианты `a` и `b` в исходном порядке.
+3.  Если значение равно `(1, 0)`, возвращает варианты `b` и `a` (меняет их местами).
+4.  Если для элемента `i` не найдена информация о рандомизации, выбрасывает исключение `Exception`.
 
 **Примеры**:
 
 ```python
 randomizer = ABRandomizer()
-a, b = randomizer.randomize(1, "вариант1", "вариант2")
-a, b = randomizer.derandomize(1, "вариант1", "вариант2")
+a, b = randomizer.randomize(0, "контроль", "тест")
+a, b = randomizer.derandomize(0, a, b)
+print(f"Вариант A: {a}, Вариант B: {b}")
 ```
 
 ### `derandomize_name`
 
 ```python
-    def derandomize_name(self, i, blind_name):
-        """
-        Decode the choice made by the user, and return the choice. \n
-        Args:\n
-            i (int): index of the item\n
-            choice_name (str): the choice made by the user\n
-        """
+def derandomize_name(self, i, blind_name):
+    """
+    Decode the choice made by the user, and return the choice. \n
+    Args:\n
+        i (int): index of the item\n
+        choice_name (str): the choice made by the user
+    """
+    # was the choice i randomized?
+    if self.choices[i] == (0, 1):
+        # no, so return the choice
+        if blind_name == self.blind_name_a:
+            return self.real_name_1
+        elif blind_name == self.blind_name_b:
+            return self.real_name_2
+        elif blind_name in self.passtrough_name:
+            return blind_name
+        else:
+            raise Exception(f"Choice \'{blind_name}\' not recognized")
+        
+    elif self.choices[i] == (1, 0):
+        # yes, it was randomized, so return the opposite choice
+        if blind_name == self.blind_name_a:
+            return self.real_name_2
+        elif blind_name == self.blind_name_b:
+            return self.real_name_1
+        elif blind_name in self.passtrough_name:
+            return blind_name
+        else:
+            raise Exception(f"Choice \'{blind_name}\' not recognized")
+    else:
+        raise Exception(f"No randomization found for item {i}")
 ```
 
-**Назначение**: Декодирует выбор, сделанный пользователем, и возвращает соответствующее реальное имя варианта.
+**Назначение**: Преобразование условного обозначения варианта в реальное название.
 
 **Параметры**:
-
-*   `i` (int): Индекс элемента.
-*   `blind_name` (str): Выбор, сделанный пользователем (имя варианта, отображаемое пользователю).
+- `i` (int): Индекс элемента.
+- `blind_name` (str): Условное обозначение варианта.
 
 **Возвращает**:
-
-*   Реальное имя выбранного варианта (`self.real_name_1` или `self.real_name_2`) или `blind_name`, если он находится в списке `self.passtrough_name`.
+- Реальное название варианта.
 
 **Вызывает исключения**:
-
-*   `Exception`: Если для элемента `i` не найдена информация о рандомизации или если `blind_name` не распознано.
+- `Exception`: Если для элемента `i` не найдена информация о рандомизации.
+- `Exception`: Если условное обозначение варианта не распознано.
 
 **Как работает функция**:
-
-1.  Проверяет значение `self.choices[i]`.
-2.  Если `self.choices[i]` равно `(0, 1)`:
-    *   Если `blind_name` равно `self.blind_name_a`, возвращает `self.real_name_1`.
-    *   Если `blind_name` равно `self.blind_name_b`, возвращает `self.real_name_2`.
-    *   Если `blind_name` находится в `self.passtrough_name`, возвращает `blind_name`.
-    *   В противном случае вызывает исключение с сообщением "Choice '{blind_name}' not recognized".
-3.  Если `self.choices[i]` равно `(1, 0)`:
-    *   Если `blind_name` равно `self.blind_name_a`, возвращает `self.real_name_2`.
-    *   Если `blind_name` равно `self.blind_name_b`, возвращает `self.real_name_1`.
-    *   Если `blind_name` находится в `self.passtrough_name`, возвращает `blind_name`.
-    *   В противном случае вызывает исключение с сообщением "Choice '{blind_name}' not recognized".
-4.  Если для элемента `i` не найдена информация о рандомизации, вызывает исключение с сообщением "No randomization found for item {i}".
-
-```
-Проверка self.choices[i] --> Проверка blind_name --> Возврат реального имени варианта (или вызов исключения)
-```
+1.  Проверяет значение в словаре `self.choices` для элемента `i`.
+2.  Если значение равно `(0, 1)`, это означает, что варианты не были переставлены.
+    -   Если `blind_name` соответствует `self.blind_name_a`, возвращает `self.real_name_1`.
+    -   Если `blind_name` соответствует `self.blind_name_b`, возвращает `self.real_name_2`.
+    -   Если `blind_name` находится в списке `self.passtrough_name`, возвращает `blind_name` без изменений.
+    -   В противном случае выбрасывает исключение `Exception`.
+3.  Если значение равно `(1, 0)`, это означает, что варианты были переставлены.
+    -   Если `blind_name` соответствует `self.blind_name_a`, возвращает `self.real_name_2`.
+    -   Если `blind_name` соответствует `self.blind_name_b`, возвращает `self.real_name_1`.
+    -   Если `blind_name` находится в списке `self.passtrough_name`, возвращает `blind_name` без изменений.
+    -   В противном случае выбрасывает исключение `Exception`.
+4.  Если для элемента `i` не найдена информация о рандомизации, выбрасывает исключение `Exception`.
 
 **Примеры**:
 
 ```python
-randomizer = ABRandomizer(real_name_1="вариант1", real_name_2="вариант2", blind_name_a="A", blind_name_b="B", passtrough_name=["не менять"])
-randomizer.randomize(1, "A", "B")
-real_name = randomizer.derandomize_name(1, "A")
+randomizer = ABRandomizer(real_name_1="контроль", real_name_2="тест", blind_name_a="A", blind_name_b="B")
+randomizer.randomize(0, "A", "B")
+real_name = randomizer.derandomize_name(0, "A")
+print(f"Реальное название варианта: {real_name}")
+```
+```
+A
+↓
+проверка рандомизации (choices[i])
+↓
+нет (0, 1) → проверка blind_name
+↓
+blind_name == blind_name_a → возврат real_name_1
+↓
+да (1, 0) → проверка blind_name
+↓
+blind_name == blind_name_a → возврат real_name_2
+↓
+исключение (если нет информации о рандомизации или blind_name не распознан)

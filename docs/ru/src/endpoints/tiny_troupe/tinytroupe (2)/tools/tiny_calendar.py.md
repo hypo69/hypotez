@@ -2,64 +2,55 @@
 
 ## Обзор
 
-Модуль `tiny_calendar.py` предоставляет класс `TinyCalendar`, который является инструментом для управления календарем агентов. Он позволяет агентам отслеживать встречи и события.
+Модуль предоставляет класс `TinyCalendar`, который представляет собой инструмент для работы с календарем. Этот инструмент позволяет агентам отслеживать встречи и события.
 
-## Подробнее
+## Подробней
 
-Модуль содержит класс `TinyCalendar`, который наследуется от класса `TinyTool`. Основная задача класса `TinyCalendar` - предоставление функциональности календаря для агентов, позволяя им добавлять события, находить события и управлять ими. Класс использует словарь `calendar` для хранения событий, где ключом является дата, а значением - список событий.
+Модуль `tiny_calendar.py` является частью проекта `hypotez` и предназначен для организации работы с календарем. Он предоставляет базовый функционал для создания и поиска событий в календаре агентов. Класс `TinyCalendar` наследуется от класса `TinyTool` и расширяет его функциональность, добавляя возможность управления событиями.
 
 ## Классы
 
 ### `TinyCalendar`
 
-**Описание**: Класс `TinyCalendar` предоставляет инструмент календаря для агентов, позволяя им отслеживать встречи и события.
+**Описание**: Класс `TinyCalendar` представляет собой инструмент календаря, который позволяет агентам отслеживать встречи и события.
 
-**Наследует**:
-- `TinyTool`: Класс `TinyCalendar` наследует функциональность от класса `TinyTool`.
+**Наследует**: `TinyTool`
 
 **Атрибуты**:
-- `calendar` (dict): Словарь, отображающий дату на список событий. Каждое событие представлено словарем с ключами "title", "description", "owner", "mandatory_attendees", "optional_attendees", "start_time", "end_time".
+- `calendar` (dict): Словарь, где ключи - это даты, а значения - списки событий. Каждое событие представлено в виде словаря с ключами: "title", "description", "owner", "mandatory_attendees", "optional_attendees", "start_time", "end_time".
+
+**Принцип работы**:
+Класс `TinyCalendar` предоставляет методы для добавления и поиска событий в календаре. Он использует словарь `calendar` для хранения информации о событиях, где ключом является дата, а значением - список событий в этот день.
 
 **Методы**:
-- `__init__(self, owner=None)`: Конструктор класса, инициализирует инструмент календаря.
-- `add_event(self, date, title, description=None, owner=None, mandatory_attendees=None, optional_attendees=None, start_time=None, end_time=None)`: Добавляет новое событие в календарь.
-- `find_events(self, year, month, day, hour=None, minute=None)`: Ищет события в календаре по указанным параметрам даты и времени.
-- `_process_action(self, agent, action) -> bool`: Обрабатывает действия, связанные с календарем, такие как создание событий.
-- `actions_definitions_prompt(self) -> str`: Возвращает текстовое описание доступных действий для агента.
-- `actions_constraints_prompt(self) -> str`: Возвращает текстовое описание ограничений на действия агента.
+- `__init__(self, owner=None)`: Инициализирует объект `TinyCalendar`.
+- `add_event(self, date, title, description=None, owner=None, mandatory_attendees=None, optional_attendees=None, start_time=None, end_time=None)`: Добавляет событие в календарь.
+- `find_events(self, year, month, day, hour=None, minute=None)`: Ищет события в календаре.
+- `_process_action(self, agent, action) -> bool`: Обрабатывает действие, связанное с календарем.
+- `actions_definitions_prompt(self) -> str`: Возвращает строку с описанием действий, которые можно выполнять с календарем.
+- `actions_constraints_prompt(self) -> str`: Возвращает строку с ограничениями на действия, которые можно выполнять с календарем.
 
 ### `__init__`
 
 ```python
 def __init__(self, owner=None):
     """
-    Инициализирует экземпляр класса `TinyCalendar`.
+    Инициализирует объект `TinyCalendar`.
 
     Args:
         owner (Any, optional): Владелец календаря. По умолчанию `None`.
-
     """
-    ...
 ```
-
-**Назначение**: Инициализирует объект `TinyCalendar`, вызывая конструктор родительского класса `TinyTool` и инициализируя атрибут `calendar` как пустой словарь.
+**Описание**:
+Конструктор класса `TinyCalendar`. Инициализирует атрибуты класса, в том числе словарь `calendar`, который будет хранить события.
 
 **Параметры**:
 - `owner` (Any, optional): Владелец календаря. По умолчанию `None`.
 
-**Как работает функция**:
-1. Вызывает конструктор родительского класса `TinyTool` с передачей имени "calendar", описания, владельца и флага `real_world_side_effects=False`.
-2. Инициализирует атрибут `calendar` как пустой словарь, который будет использоваться для хранения событий календаря.
-
-```mermaid
-graph LR
-    A[Вызов конструктора TinyTool] --> B(Инициализация self.calendar = {})
-```
-
 **Примеры**:
-
 ```python
-calendar = TinyCalendar()
+calendar = TinyCalendar(owner="Agent1")
+print(calendar.calendar)  # Выведет: {}
 ```
 
 ### `add_event`
@@ -67,50 +58,38 @@ calendar = TinyCalendar()
 ```python
 def add_event(self, date, title, description=None, owner=None, mandatory_attendees=None, optional_attendees=None, start_time=None, end_time=None):
     """
-    Добавляет новое событие в календарь.
+    Добавляет событие в календарь.
 
     Args:
         date (Any): Дата события.
-        title (Any): Название события.
-        description (Any, optional): Описание события. По умолчанию `None`.
+        title (str): Название события.
+        description (str, optional): Описание события. По умолчанию `None`.
         owner (Any, optional): Владелец события. По умолчанию `None`.
-        mandatory_attendees (Any, optional): Список обязательных участников. По умолчанию `None`.
-        optional_attendees (Any, optional): Список необязательных участников. По умолчанию `None`.
+        mandatory_attendees (List[Any], optional): Список обязательных участников. По умолчанию `None`.
+        optional_attendees (List[Any], optional): Список необязательных участников. По умолчанию `None`.
         start_time (Any, optional): Время начала события. По умолчанию `None`.
         end_time (Any, optional): Время окончания события. По умолчанию `None`.
     """
-    ...
 ```
-
-**Назначение**: Добавляет новое событие в календарь для указанной даты.
+**Описание**:
+Метод добавляет новое событие в календарь. Если для указанной даты еще нет событий, создается новый список. Затем событие добавляется в список событий для указанной даты.
 
 **Параметры**:
 - `date` (Any): Дата события.
-- `title` (Any): Название события.
-- `description` (Any, optional): Описание события. По умолчанию `None`.
+- `title` (str): Название события.
+- `description` (str, optional): Описание события. По умолчанию `None`.
 - `owner` (Any, optional): Владелец события. По умолчанию `None`.
-- `mandatory_attendees` (Any, optional): Список обязательных участников. По умолчанию `None`.
-- `optional_attendees` (Any, optional): Список необязательных участников. По умолчанию `None`.
+- `mandatory_attendees` (List[Any], optional): Список обязательных участников. По умолчанию `None`.
+- `optional_attendees` (List[Any], optional): Список необязательных участников. По умолчанию `None`.
 - `start_time` (Any, optional): Время начала события. По умолчанию `None`.
 - `end_time` (Any, optional): Время окончания события. По умолчанию `None`.
 
-**Как работает функция**:
-1. Проверяет, существует ли запись для указанной даты в словаре `calendar`. Если нет, создает новую запись (список) для этой даты.
-2. Добавляет словарь с информацией о событии (название, описание, владельца, списки участников, время начала и окончания) в список событий для указанной даты.
-
-```mermaid
-graph LR
-    A[Проверка наличия даты в calendar] --> B{Дата существует?}
-    B -- Да --> C[Добавление события в список]
-    B -- Нет --> D[Создание списка для даты]
-    D --> C
-```
-
 **Примеры**:
-
 ```python
 calendar = TinyCalendar()
-calendar.add_event("2024-01-01", "New Year", "New Year celebration")
+calendar.add_event("2024-01-01", "New Year", description="New Year celebration")
+print(calendar.calendar)
+# Выведет: {'2024-01-01': [{'title': 'New Year', 'description': 'New Year celebration', 'owner': None, 'mandatory_attendees': None, 'optional_attendees': None, 'start_time': None, 'end_time': None}]}
 ```
 
 ### `find_events`
@@ -118,81 +97,65 @@ calendar.add_event("2024-01-01", "New Year", "New Year celebration")
 ```python
 def find_events(self, year, month, day, hour=None, minute=None):
     """
-    Ищет события в календаре по указанным параметрам даты и времени.
+    Ищет события в календаре.
 
     Args:
-        year (Any): Год.
-        month (Any): Месяц.
-        day (Any): День.
-        hour (Any, optional): Час. По умолчанию `None`.
-        minute (Any, optional): Минута. По умолчанию `None`.
+        year (int): Год.
+        month (int): Месяц.
+        day (int): День.
+        hour (int, optional): Час. По умолчанию `None`.
+        minute (int, optional): Минута. По умолчанию `None`.
     """
-    ...
 ```
-
-**Назначение**: Ищет события в календаре на основе указанных года, месяца и дня.
+**Описание**:
+Метод предназначен для поиска событий в календаре по указанным параметрам даты и времени. 
 
 **Параметры**:
-- `year` (Any): Год для поиска событий.
-- `month` (Any): Месяц для поиска событий.
-- `day` (Any): День для поиска событий.
-- `hour` (Any, optional): Час для поиска событий. По умолчанию `None`.
-- `minute` (Any, optional): Минута для поиска событий. По умолчанию `None`.
-
-**Как работает функция**:
-Функция пока не реализована (`pass`).
+- `year` (int): Год.
+- `month` (int): Месяц.
+- `day` (int): День.
+- `hour` (int, optional): Час. По умолчанию `None`.
+- `minute` (int, optional): Минута. По умолчанию `None`.
 
 ### `_process_action`
 
 ```python
 def _process_action(self, agent, action) -> bool:
     """
-    Обрабатывает действия, связанные с календарем, такие как создание событий.
+    Обрабатывает действие, связанное с календарем.
 
     Args:
         agent (Any): Агент, выполняющий действие.
         action (dict): Словарь, содержащий информацию о действии.
 
     Returns:
-        bool: `True`, если действие было успешно обработано, `False` в противном случае.
+        bool: `True`, если действие успешно обработано, `False` в противном случае.
     """
-    ...
 ```
-
-**Назначение**: Обрабатывает действия, связанные с календарем, такие как создание событий.
+**Описание**:
+Метод обрабатывает действие, переданное агентом. Если тип действия "CREATE_EVENT", он извлекает содержимое события из JSON, проверяет наличие недопустимых ключей и использует полученные данные для создания нового события с помощью метода `add_event`.
 
 **Параметры**:
 - `agent` (Any): Агент, выполняющий действие.
 - `action` (dict): Словарь, содержащий информацию о действии.
 
 **Возвращает**:
-- `bool`: `True`, если действие было успешно обработано, `False` в противном случае.
+- `bool`: `True`, если действие успешно обработано, `False` в противном случае.
 
-**Как работает функция**:
-1. Проверяет, что тип действия (`action['type']`) равен "CREATE_EVENT" и что содержимое действия (`action['content']`) не равно `None`.
-2. Если условие выполнено, парсит содержимое действия как JSON.
-3. Проверяет, что в содержимом JSON нет недопустимых ключей. Допустимые ключи: "title", "description", "mandatory_attendees", "optional_attendees", "start_time", "end_time".
-4. Использует полученные данные для создания нового события с помощью метода `add_event`.
-5. Возвращает `True`, если действие успешно обработано.
-6. Если тип действия не "CREATE_EVENT" или содержимое действия равно `None`, возвращает `False`.
-
-```mermaid
-graph LR
-    A[Проверка типа действия и содержимого] --> B{Тип = "CREATE_EVENT" и content != None?}
-    B -- Да --> C[Парсинг content как JSON]
-    C --> D[Проверка допустимых ключей]
-    D --> E[Создание нового события с помощью add_event]
-    E --> F(Возврат True)
-    B -- Нет --> G(Возврат False)
-```
+**Внутренние функции**:
+Внутри данного метода нет внутренних функций.
 
 **Примеры**:
-
 ```python
 calendar = TinyCalendar()
-action = {'type': 'CREATE_EVENT', 'content': '{"title": "Meeting", "description": "Discuss project progress"}'}
-result = calendar._process_action(None, action)
-print(result)  # Вывод: True
+action = {
+    'type': "CREATE_EVENT",
+    'content': '{"title": "Meeting", "description": "Discuss project progress", "date": "2024-01-05"}'
+}
+result = calendar._process_action("Agent1", action)
+print(result)  # Выведет: True
+print(calendar.calendar)
+# Выведет: {'2024-01-05': [{'title': 'Meeting', 'description': 'Discuss project progress', 'owner': None, 'mandatory_attendees': None, 'optional_attendees': None, 'start_time': None, 'end_time': None, 'date': '2024-01-05'}]}
 ```
 
 ### `actions_definitions_prompt`
@@ -200,37 +163,32 @@ print(result)  # Вывод: True
 ```python
 def actions_definitions_prompt(self) -> str:
     """
-    Возвращает текстовое описание доступных действий для агента.
+    Возвращает строку с описанием действий, которые можно выполнять с календарем.
 
     Returns:
-        str: Текстовое описание доступных действий.
+        str: Строка с описанием действий.
     """
-    ...
 ```
 
-**Назначение**: Возвращает текстовое описание доступных действий, которые агент может выполнить с календарем.
+**Описание**:
+Метод возвращает строку с описанием возможных действий, которые агент может выполнить с календарем. В данном случае, определено только действие "CREATE_EVENT", которое позволяет создавать новые события. Строка содержит описание полей, которые можно указать при создании события.
 
 **Возвращает**:
-- `str`: Текстовое описание доступных действий.
-
-**Как работает функция**:
-1. Формирует строку с описанием действия "CREATE_EVENT", указывая, что агент может создать новое событие в своем календаре.
-2. Описывает поля, которые можно использовать в JSON-формате для задания параметров события, такие как "title", "description", "mandatory_attendees", "optional_attendees", "start_time", "end_time".
-3. Использует функцию `utils.dedent` для удаления лишних отступов из строки.
-4. Возвращает полученную строку.
-
-```mermaid
-graph LR
-    A[Формирование строки с описанием действия CREATE_EVENT] --> B[Удаление лишних отступов с помощью utils.dedent]
-    B --> C(Возврат строки)
-```
+- `str`: Строка с описанием действий.
 
 **Примеры**:
-
 ```python
 calendar = TinyCalendar()
 prompt = calendar.actions_definitions_prompt()
 print(prompt)
+# Выведет:
+# - CREATE_EVENT: You can create a new event in your calendar. The content of the event has many fields, and you should use a JSON format to specify them. Here are the possible fields:
+# * title: The title of the event. Mandatory.
+# * description: A brief description of the event. Optional.
+# * mandatory_attendees: A list of agent names who must attend the event. Optional.
+# * optional_attendees: A list of agent names who are invited to the event, but are not required to attend. Optional.
+# * start_time: The start time of the event. Optional.
+# * end_time: The end time of the event. Optional.
 ```
 
 ### `actions_constraints_prompt`
@@ -238,18 +196,21 @@ print(prompt)
 ```python
 def actions_constraints_prompt(self) -> str:
     """
-    Возвращает текстовое описание ограничений на действия агента.
+    Возвращает строку с ограничениями на действия, которые можно выполнять с календарем.
 
     Returns:
-        str: Текстовое описание ограничений на действия агента.
+        str: Строка с ограничениями на действия.
     """
-    ...
 ```
-
-**Назначение**: Возвращает текстовое описание ограничений на действия, которые агент может выполнить с календарем.
+**Описание**:
+Метод возвращает строку с описанием ограничений на действия, которые можно выполнять с календарем. В текущей реализации строка пустая, так как ограничения не определены.
 
 **Возвращает**:
-- `str`: Текстовое описание ограничений на действия агента.
+- `str`: Строка с ограничениями на действия.
 
-**Как работает функция**:
-Функция пока не реализована (`pass`).
+**Примеры**:
+```python
+calendar = TinyCalendar()
+prompt = calendar.actions_constraints_prompt()
+print(prompt)  # Выведет: ""
+```

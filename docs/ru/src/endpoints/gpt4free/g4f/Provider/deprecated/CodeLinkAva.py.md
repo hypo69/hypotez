@@ -1,139 +1,135 @@
-# Модуль `CodeLinkAva`
+# Модуль CodeLinkAva
 
 ## Обзор
 
-Модуль `CodeLinkAva` предоставляет асинхронный генератор для взаимодействия с API CodeLinkAva. Он использует `aiohttp` для выполнения асинхронных HTTP-запросов и предназначен для работы с моделью `gpt-3.5-turbo`. Модуль позволяет отправлять сообщения и получать ответы в режиме реального времени.
+Модуль `CodeLinkAva` предоставляет асинхронный генератор для взаимодействия с API CodeLinkAva. Этот модуль предназначен для работы с моделью `gpt-3.5-turbo` и позволяет получать ответы от API в режиме реального времени.
 
-## Подробней
+## Подробнее
 
-Модуль `CodeLinkAva` является частью устаревших провайдеров GPT4Free. Он реализует асинхронный генератор, который взаимодействует с API CodeLinkAva для получения ответов на основе предоставленных сообщений. API поддерживает потоковую передачу данных, что позволяет получать ответы в режиме реального времени. Этот модуль полезен для интеграции с CodeLinkAva в асинхронных приложениях.
+Модуль использует библиотеку `aiohttp` для выполнения асинхронных HTTP-запросов. Он отправляет сообщения пользователя в API CodeLinkAva и возвращает ответы в виде асинхронного генератора, что позволяет обрабатывать большие объемы данных потоково.
 
 ## Классы
 
 ### `CodeLinkAva`
 
-**Описание**: Класс `CodeLinkAva` предоставляет функциональность для взаимодействия с API CodeLinkAva. Он наследует класс `AsyncGeneratorProvider` и реализует метод `create_async_generator` для создания асинхронного генератора.
+**Описание**: Класс `CodeLinkAva` является асинхронным провайдером генератора.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает базовую функциональность для асинхронных провайдеров-генераторов.
+**Наследует**: `AsyncGeneratorProvider`
 
 **Атрибуты**:
 - `url` (str): URL API CodeLinkAva.
-- `supports_gpt_35_turbo` (bool): Указывает, поддерживает ли провайдер модель `gpt-3.5-turbo`.
-- `working` (bool): Указывает, находится ли провайдер в рабочем состоянии.
+- `supports_gpt_35_turbo` (bool): Поддержка модели `gpt-3.5-turbo`.
+- `working` (bool): Указывает, работает ли провайдер.
 
 **Методы**:
-- `create_async_generator`: Создает асинхронный генератор для получения ответов от API CodeLinkAva.
+- `create_async_generator`: Создает асинхронный генератор для получения ответов от API.
 
 ## Функции
 
 ### `create_async_generator`
 
 ```python
-    @classmethod
-    async def create_async_generator(
-        cls,
-        model: str,
-        messages: list[dict[str, str]],
-        **kwargs
-    ) -> AsyncGenerator:
-        """
-        Создает асинхронный генератор для получения ответов от API CodeLinkAva.
+@classmethod
+async def create_async_generator(
+    cls,
+    model: str,
+    messages: list[dict[str, str]],
+    **kwargs
+) -> AsyncGenerator:
+    """
+    Создает асинхронный генератор для получения ответов от API CodeLinkAva.
 
-        Args:
-            model (str): Модель, используемая для генерации ответов.
-            messages (list[dict[str, str]]): Список сообщений для отправки в API.
-            **kwargs: Дополнительные аргументы для передачи в API.
+    Args:
+        model (str): Название модели.
+        messages (list[dict[str, str]]): Список сообщений для отправки в API.
+        **kwargs: Дополнительные аргументы.
 
-        Returns:
-            AsyncGenerator: Асинхронный генератор, выдающий контент ответов от API CodeLinkAva.
+    Returns:
+        AsyncGenerator: Асинхронный генератор, возвращающий контент ответов от API.
 
-        Raises:
-            aiohttp.ClientResponseError: Если возникает ошибка при выполнении HTTP-запроса.
-        """
+    Raises:
+        aiohttp.ClientResponseError: Если возникает ошибка при выполнении HTTP-запроса.
+
+    """
 ```
 
-**Назначение**: Создает асинхронный генератор, который отправляет сообщения в API CodeLinkAva и возвращает ответы в режиме реального времени.
+**Назначение**: Создание асинхронного генератора для взаимодействия с API CodeLinkAva и получения потоковых ответов.
 
 **Параметры**:
-- `cls` (class): Ссылка на класс `CodeLinkAva`.
+- `cls`: Ссылка на класс `CodeLinkAva`.
 - `model` (str): Модель, используемая для генерации ответов.
-- `messages` (list[dict[str, str]]): Список сообщений для отправки в API. Каждое сообщение представляет собой словарь с ключами `role` и `content`.
-- `**kwargs`: Дополнительные аргументы, которые будут переданы в API.
+- `messages` (list[dict[str, str]]): Список сообщений, отправляемых в API. Каждое сообщение представляет собой словарь с ключами `role` и `content`.
+- `**kwargs`: Дополнительные параметры, которые будут переданы в API.
 
 **Возвращает**:
-- `AsyncGenerator`: Асинхронный генератор, который выдает контент ответов от API CodeLinkAva.
+- `AsyncGenerator`: Асинхронный генератор, который предоставляет содержимое ответов от API по мере их поступления.
 
 **Вызывает исключения**:
-- `aiohttp.ClientResponseError`: Если возникает ошибка при выполнении HTTP-запроса.
+- `aiohttp.ClientResponseError`: Вызывается в случае, если HTTP-запрос завершается с ошибкой.
 
 **Как работает функция**:
-1. **Установка заголовков**: Функция создает словарь `headers` с необходимыми HTTP-заголовками для запроса.
-2. **Создание сессии**: Используется `aiohttp.ClientSession` для выполнения асинхронных HTTP-запросов.
-3. **Подготовка данных**: Функция подготавливает данные для отправки в API, включая сообщения, температуру и флаг потоковой передачи.
-4. **Выполнение запроса**: Функция выполняет POST-запрос к API CodeLinkAva и обрабатывает ответы в асинхронном режиме.
-5. **Обработка ответов**: Функция обрабатывает каждую строку ответа, декодирует ее и извлекает контент из JSON-формата.
-6. **Генерация контента**: Функция использует `yield` для генерации контента ответа в режиме реального времени.
 
-**ASCII Flowchart**:
+1. **Инициализация заголовков**: Функция создает словарь `headers` с необходимыми HTTP-заголовками для запроса.
+
+2. **Создание асинхронной сессии**: Используется `aiohttp.ClientSession` для управления HTTP-соединением.
+
+3. **Подготовка данных**: Формируется словарь `data`, включающий сообщения, температуру и другие параметры.
+
+4. **Отправка POST-запроса**: Функция отправляет асинхронный POST-запрос к API CodeLinkAva (`https://ava-alpha-api.codelink.io/api/chat`) с данными и заголовками.
+
+5. **Обработка потока ответов**: Функция читает содержимое ответа построчно.
+
+6. **Декодирование и обработка данных**: Каждая строка декодируется и проверяется на наличие префикса `data: `. Если строка содержит данные, она загружается из JSON.
+
+7. **Извлечение контента**: Извлекается контент из поля `content` в JSON-ответе и возвращается через генератор.
+
+8. **Завершение**: Если строка начинается с `data: [DONE]`, генератор завершает свою работу.
 
 ```
-    Начало
-     ↓
-Установка заголовков
-     ↓
-  Создание сессии (aiohttp.ClientSession)
-     ↓
-  Подготовка данных (messages, temperature, stream, kwargs)
-     ↓
-  POST-запрос к API ("https://ava-alpha-api.codelink.io/api/chat")
-     ↓
-   Обработка ответа
-     ├───> Получение строки ответа
-     │     ↓
-     │   Декодирование строки
-     │     ↓
-     │   Проверка на "data: "
-     │     ↓
-     │   Проверка на "data: [DONE]"
-     │     ↓
-     │   Извлечение контента из JSON
-     │     ↓
-     └───> yield content (генерация контента)
-     ↓
-   Конец
+    A   Начало
+    |
+    |   Создание headers
+    |
+    B   Создание асинхронной сессии
+    |
+    |   Формирование data
+    |
+    C   Отправка POST запроса
+    |
+    |   Получение ответа
+    |
+    D   Обработка каждой строки ответа
+    |
+    |   Проверка префикса "data: "
+    |
+    E   Извлечение контента из JSON
+    |
+    |   Возврат контента через yield
+    |
+    F   Завершение при "data: [DONE]"
 ```
 
 **Примеры**:
 
-```python
-import asyncio
-from aiohttp import ClientSession
+1. **Простой пример вызова**:
+   ```python
+   async def main():
+       messages = [{"role": "user", "content": "Hello, how are you?"}]
+       async for message in CodeLinkAva.create_async_generator(model="gpt-3.5-turbo", messages=messages):
+           print(message, end="")
 
-from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated import CodeLinkAva
+   if __name__ == "__main__":
+       import asyncio
+       asyncio.run(main())
+   ```
 
-async def main():
-    messages = [{"role": "user", "content": "Hello, how are you?"}]
-    model = "gpt-3.5-turbo"
-    
-    async for message in CodeLinkAva.create_async_generator(model=model, messages=messages):
-        print(message, end="")
+2. **Пример с дополнительными параметрами**:
+   ```python
+   async def main():
+       messages = [{"role": "user", "content": "Tell me a joke."}]
+       async for message in CodeLinkAva.create_async_generator(model="gpt-3.5-turbo", messages=messages, temperature=0.8):
+           print(message, end="")
 
-if __name__ == "__main__":
-    asyncio.run(main())
-```
-```python
-import asyncio
-from aiohttp import ClientSession
-
-from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated import CodeLinkAva
-
-async def main():
-    messages = [{"role": "user", "content": "Как создать асинхронный генератор на Python?"}]
-    model = "gpt-3.5-turbo"
-    
-    async for message in CodeLinkAva.create_async_generator(model=model, messages=messages):
-        print(message, end="")
-
-if __name__ == "__main__":
-    asyncio.run(main())
+   if __name__ == "__main__":
+       import asyncio
+       asyncio.run(main())

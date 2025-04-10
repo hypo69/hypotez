@@ -1,334 +1,162 @@
 # Модуль для экспорта артефактов
+
 ## Обзор
 
-Модуль `artifact_exporter.py` предоставляет класс `ArtifactExporter`, предназначенный для экспорта артефактов из элементов TinyTroupe. Это может быть полезно, например, для создания файлов синтетических данных из симуляций.
+Модуль `artifact_exporter.py` предназначен для экспорта артефактов, полученных из элементов TinyTroupe, например, для создания синтетических файлов данных из симуляций. Он содержит класс `ArtifactExporter`, который управляет процессом экспорта артефактов в различные форматы, такие как JSON, TXT и DOCX.
 
 ## Подробнее
 
-Класс `ArtifactExporter` позволяет сохранять данные в различных форматах, таких как JSON, TXT и DOCX. Он также обрабатывает имена артефактов, заменяя недопустимые символы, и создает необходимые подкаталоги для сохранения файлов.
+Этот модуль предоставляет функциональность для сохранения данных в различных форматах, что позволяет использовать результаты работы TinyTroupe в различных целях, например, для анализа данных или создания отчетов.
 
 ## Классы
 
 ### `ArtifactExporter`
 
-**Описание**: Класс `ArtifactExporter` отвечает за экспорт артефактов из TinyTroupe.
-
-**Принцип работы**:
-Класс инициализируется с указанием базовой папки для вывода. Метод `export` принимает имя артефакта, данные, тип контента и формат, после чего вызывает соответствующие методы для сохранения данных в нужном формате.
+**Описание**: Класс `ArtifactExporter` отвечает за экспорт артефактов из TinyTroupe. Он предоставляет методы для экспорта данных в различные форматы файлов, такие как JSON, TXT и DOCX.
 
 **Атрибуты**:
-- `base_output_folder` (str): Базовая папка для сохранения экспортированных артефактов.
+- `base_output_folder` (str): Базовая папка для сохранения экспортируемых артефактов.
 
 **Методы**:
-
-- `__init__(self, base_output_folder: str) -> None`: Инициализирует экземпляр класса `ArtifactExporter` с указанием базовой папки для вывода.
-- `export(self, artifact_name: str, artifact_data: Union[dict, str], content_type: str, content_format: str = None, target_format: str = "txt", verbose: bool = False)`: Экспортирует артефакт в файл.
+- `__init__(self, base_output_folder: str)`: Конструктор класса, инициализирует базовую папку для вывода.
+- `export(self, artifact_name: str, artifact_data: Union[dict, str], content_type: str, content_format: str = None, target_format: str = "txt", verbose: bool = False)`: Экспортирует артефакт в указанный файл.
 - `_export_as_txt(self, artifact_file_path: str, artifact_data: Union[dict, str], content_type: str, verbose: bool = False)`: Экспортирует артефакт в текстовый файл.
 - `_export_as_json(self, artifact_file_path: str, artifact_data: Union[dict, str], content_type: str, verbose: bool = False)`: Экспортирует артефакт в JSON файл.
-- `_export_as_docx(self, artifact_file_path: str, artifact_data: Union[dict, str], content_original_format: str, verbose: bool = False)`: Экспортирует артефакт в файл DOCX.
-- `_compose_filepath(self, artifact_data: Union[dict, str], artifact_name: str, content_type: str, target_format: str = None, verbose: bool = False)`: Формирует путь к файлу для экспортируемого артефакта.
+- `_export_as_docx(self, artifact_file_path: str, artifact_data: Union[dict, str], content_original_format: str, verbose: bool = False)`: Экспортирует артефакт в DOCX файл.
+- `_compose_filepath(self, artifact_data: Union[dict, str], artifact_name: str, content_type: str, target_format: str = None, verbose: bool = False)`: Составляет путь к файлу для экспортируемого артефакта.
 
-## Функции
-
-### `__init__`
+#### `__init__`
 
 ```python
-def __init__(self, base_output_folder:str) -> None:
-    """
-    Args:
-        base_output_folder (str): Базовая папка для сохранения экспортированных артефактов.
-    """
-    ...
+    def __init__(self, base_output_folder: str) -> None:
+        """
+        Инициализирует экземпляр класса ArtifactExporter.
+
+        Args:
+            base_output_folder (str): Базовая папка для сохранения экспортируемых артефактов.
+        """
+        self.base_output_folder = base_output_folder
 ```
 
-**Назначение**: Инициализирует класс `ArtifactExporter`, устанавливая базовую папку для вывода артефактов.
-
-**Параметры**:
-- `base_output_folder` (str): Путь к базовой папке, в которой будут сохраняться экспортированные артефакты.
-
-**Как работает функция**:
-1. Функция принимает путь к базовой папке.
-2. Присваивает переданный путь атрибуту `base_output_folder` экземпляра класса.
-
-**Примеры**:
-```python
-exporter = ArtifactExporter("output")
-print(exporter.base_output_folder)  # Вывод: output
-```
-
-### `export`
+#### `export`
 
 ```python
-def export(self, artifact_name:str, artifact_data:Union[dict, str], content_type:str, content_format:str=None, target_format:str="txt", verbose:bool=False):
-    """
-    Args:
-        artifact_name (str): Имя артефакта.
-        artifact_data (Union[dict, str]): Данные для экспорта. Если передан словарь, он будет сохранен как JSON. Если передана строка, она будет сохранена как есть.
-        content_type (str): Тип контента в артефакте.
-        content_format (str, optional): Формат контента в артефакте (например, md, csv и т.д.). По умолчанию `None`.
-        target_format (str): Формат, в который экспортируется артефакт (например, json, txt, docx и т.д.).
-        verbose (bool, optional): Флаг, определяющий, нужно ли выводить отладочные сообщения. По умолчанию `False`.
+    def export(self, artifact_name: str, artifact_data: Union[dict, str], content_type: str, content_format: str = None, target_format: str = "txt", verbose: bool = False):
+        """
+        Экспортирует указанные данные артефакта в файл.
 
-    Raises:
-        ValueError: Если `artifact_data` не является строкой или словарем.
-        ValueError: Если `target_format` не поддерживается.
-    """
-    ...
-```
+        Args:
+            artifact_name (str): Имя артефакта.
+            artifact_data (Union[dict, str]): Данные для экспорта. Если передан словарь, он будет сохранен как JSON.
+                Если передана строка, она будет сохранена как есть.
+            content_type (str): Тип контента в артефакте.
+            content_format (str, optional): Формат контента в артефакте (например, md, csv и т.д.). По умолчанию None.
+            target_format (str): Формат экспорта артефакта (например, json, txt, docx и т.д.).
+            verbose (bool, optional): Флаг для вывода отладочных сообщений. По умолчанию False.
 
-**Назначение**: Экспортирует переданные данные артефакта в файл в указанном формате.
+        Raises:
+            ValueError: Если данные артефакта не являются строкой или словарем.
+            ValueError: Если указанный формат экспорта не поддерживается.
 
-**Параметры**:
-- `artifact_name` (str): Имя артефакта, которое будет использоваться в имени файла.
-- `artifact_data` (Union[dict, str]): Данные для экспорта. Могут быть словарем или строкой.
-- `content_type` (str): Тип контента, например, "log" или "simulation". Используется для создания подпапок.
-- `content_format` (str, optional): Формат контента (например, "md" для Markdown). По умолчанию `None`.
-- `target_format` (str): Целевой формат файла (например, "json", "txt", "docx"). По умолчанию "txt".
-- `verbose` (bool, optional): Флаг для вывода отладочных сообщений. По умолчанию `False`.
-
-**Вызывает исключения**:
-- `ValueError`: Если `artifact_data` не является ни строкой, ни словарем.
-- `ValueError`: Если указан неподдерживаемый `target_format`.
-
-**Как работает функция**:
+        Как работает функция:
+        - Проверяет тип входных данных `artifact_data`, и если это строка, удаляет начальные отступы. Если это словарь, удаляет отступы из значения ключа `'content'`. Если тип данных не строка и не словарь, выбрасывает исключение ValueError.
+        - Очищает имя артефакта `artifact_name` от недопустимых символов, заменяя их на дефисы.
+        - Составляет путь к файлу артефакта с помощью метода `_compose_filepath`.
+        - В зависимости от значения `target_format` вызывает соответствующий метод для экспорта данных в нужный формат (_export_as_json, _export_as_txt или _export_as_docx).
+        - Если `target_format` не поддерживается, выбрасывает исключение ValueError.
+        """
 
 ```
-На входе: artifact_name, artifact_data, content_type, content_format, target_format, verbose
-│
-├── Проверка типа artifact_data (строка или словарь)
-│   └── Если не строка и не словарь:
-│       └── Выброс ValueError("The artifact data must be either a string or a dictionary.")
-│
-├── Очистка artifact_name от недопустимых символов
-│   └── Замена недопустимых символов на дефисы
-│
-├── Формирование пути к файлу с помощью _compose_filepath
-│   └── artifact_file_path = self._compose_filepath(...)
-│
-├── Выбор метода экспорта в зависимости от target_format
-│   ├── Если target_format == "json":
-│   │   └── Вызов _export_as_json
-│   ├── Если target_format == "txt" или "text" или "md" или "markdown":
-│   │   └── Вызов _export_as_txt
-│   ├── Если target_format == "docx":
-│   │   └── Вызов _export_as_docx
-│   └── Иначе:
-│       └── Выброс ValueError(f"Unsupported target format: {target_format}.")
-│
-Выход: Сохраненный файл с артефактом в указанном формате
-```
 
-**Примеры**:
+#### `_export_as_txt`
 
 ```python
-exporter = ArtifactExporter("output")
-data = {"content": "Пример данных"}
-exporter.export("example", data, "text", target_format="json")  # Создаст файл output/text/example.json
+    def _export_as_txt(self, artifact_file_path: str, artifact_data: Union[dict, str], content_type: str, verbose: bool = False):
+        """
+        Экспортирует указанные данные артефакта в текстовый файл.
+
+        Args:
+            artifact_file_path (str): Путь к файлу для экспорта.
+            artifact_data (Union[dict, str]): Данные для экспорта.
+            content_type (str): Тип контента в артефакте.
+            verbose (bool, optional): Флаг для вывода отладочных сообщений. По умолчанию False.
+
+        Как работает функция:
+        - Открывает файл по указанному пути `artifact_file_path` для записи в кодировке utf-8.
+        - Проверяет тип данных `artifact_data`. Если это словарь, извлекает значение по ключу 'content'. Если это строка, использует строку как контент.
+        - Записывает контент в файл.
+        """
 ```
 
-### `_export_as_txt`
+#### `_export_as_json`
 
 ```python
-def _export_as_txt(self, artifact_file_path:str, artifact_data:Union[dict, str], content_type:str, verbose:bool=False):
-    """
-    Exports the specified artifact data to a text file.
-    """
-    ...
+    def _export_as_json(self, artifact_file_path: str, artifact_data: Union[dict, str], content_type: str, verbose: bool = False):
+        """
+        Экспортирует указанные данные артефакта в JSON файл.
+
+        Args:
+            artifact_file_path (str): Путь к файлу для экспорта.
+            artifact_data (Union[dict, str]): Данные для экспорта.
+            content_type (str): Тип контента в артефакте.
+            verbose (bool, optional): Флаг для вывода отладочных сообщений. По умолчанию False.
+
+        Raises:
+            ValueError: Если данные артефакта не являются словарем.
+
+        Как работает функция:
+        - Открывает файл по указанному пути `artifact_file_path` для записи в кодировке utf-8.
+        - Проверяет тип данных `artifact_data`. Если это словарь, сериализует его в JSON-формат с отступами и записывает в файл.
+        - Если `artifact_data` не является словарем, выбрасывает исключение ValueError.
+        """
 ```
 
-**Назначение**: Экспортирует переданные данные артефакта в текстовый файл.
-
-**Параметры**:
-- `artifact_file_path` (str): Путь к файлу, в который будет сохранен артефакт.
-- `artifact_data` (Union[dict, str]): Данные для экспорта. Могут быть словарем или строкой.
-- `content_type` (str): Тип контента (не используется в данной функции, но передается для совместимости).
-- `verbose` (bool, optional): Флаг для вывода отладочных сообщений (не используется в данной функции, но передается для совместимости).
-
-**Как работает функция**:
-
-```
-На входе: artifact_file_path, artifact_data, content_type, verbose
-│
-├── Открытие файла для записи в кодировке utf-8
-│   └── with open(artifact_file_path, 'w', encoding="utf-8") as f:
-│
-├── Проверка типа artifact_data
-│   ├── Если artifact_data - словарь:
-│   │   └── Извлечение контента из словаря: content = artifact_data['content']
-│   └── Иначе:
-│   │   └── Контент = artifact_data
-│
-├── Запись контента в файл
-│   └── f.write(content)
-│
-Выход: Текстовый файл с данными артефакта
-```
-
-**Примеры**:
+#### `_export_as_docx`
 
 ```python
-exporter = ArtifactExporter("output")
-data = {"content": "Пример данных для текстового файла"}
-exporter._export_as_txt("output/example.txt", data, "text")  # Создаст файл output/example.txt с содержимым "Пример данных для текстового файла"
+    def _export_as_docx(self, artifact_file_path: str, artifact_data: Union[dict, str], content_original_format: str, verbose: bool = False):
+        """
+        Экспортирует указанные данные артефакта в DOCX файл.
+
+        Args:
+            artifact_file_path (str): Путь к файлу для экспорта.
+            artifact_data (Union[dict, str]): Данные для экспорта.
+            content_original_format (str): Исходный формат контента (например, 'text' или 'markdown').
+            verbose (bool, optional): Флаг для вывода отладочных сообщений. По умолчанию False.
+
+        Raises:
+            ValueError: Если исходный формат контента не поддерживается.
+
+        Как работает функция:
+        - Проверяет, что `content_original_format` является одним из допустимых значений ('text', 'txt', 'markdown', 'md'). Если нет, выбрасывает исключение ValueError.
+        - Нормализует значение `content_original_format`, приводя 'md' к 'markdown'.
+        - Извлекает контент из `artifact_data`. Если это словарь, берет значение по ключу 'content'. Если это строка, использует строку как контент.
+        - Преобразует контент в HTML с помощью markdown.markdown().
+        - Конвертирует HTML-контент в формат DOCX с помощью pypandoc.convert_text().
+        """
 ```
 
-### `_export_as_json`
+#### `_compose_filepath`
 
 ```python
-def _export_as_json(self, artifact_file_path:str, artifact_data:Union[dict, str], content_type:str, verbose:bool=False):
-    """
-    Exports the specified artifact data to a JSON file.
-    """
-    ...
-```
+    def _compose_filepath(self, artifact_data: Union[dict, str], artifact_name: str, content_type: str, target_format: str = None, verbose: bool = False):
+        """
+        Составляет путь к файлу для экспортируемого артефакта.
 
-**Назначение**: Экспортирует переданные данные артефакта в JSON файл.
+        Args:
+            artifact_data (Union[dict, str]): Данные для экспорта.
+            artifact_name (str): Имя артефакта.
+            content_type (str): Тип контента в артефакте.
+            target_format (str, optional): Формат экспорта артефакта (например, json, txt, docx и т.д.).
+            verbose (bool, optional): Флаг для вывода отладочных сообщений. По умолчанию False.
 
-**Параметры**:
-- `artifact_file_path` (str): Путь к файлу, в который будет сохранен артефакт.
-- `artifact_data` (Union[dict, str]): Данные для экспорта. Должны быть словарем.
-- `content_type` (str): Тип контента (не используется в данной функции, но передается для совместимости).
-- `verbose` (bool, optional): Флаг для вывода отладочных сообщений (не используется в данной функции, но передается для совместимости).
+        Returns:
+            str: Сформированный путь к файлу артефакта.
 
-**Вызывает исключения**:
-- `ValueError`: Если `artifact_data` не является словарем.
-
-**Как работает функция**:
-
-```
-На входе: artifact_file_path, artifact_data, content_type, verbose
-│
-├── Открытие файла для записи в кодировке utf-8
-│   └── with open(artifact_file_path, 'w', encoding="utf-8") as f:
-│
-├── Проверка типа artifact_data
-│   ├── Если artifact_data - словарь:
-│   │   └── Запись данных в файл в формате JSON с отступами
-│   │   └── json.dump(artifact_data, f, indent=4)
-│   └── Иначе:
-│   │   └── Выброс ValueError("The artifact data must be a dictionary to export to JSON.")
-│
-Выход: JSON файл с данными артефакта
-```
-
-**Примеры**:
-
-```python
-exporter = ArtifactExporter("output")
-data = {"key": "value", "number": 123}
-exporter._export_as_json("output/example.json", data, "data")  # Создаст файл output/example.json с JSON представлением словаря data
-```
-
-### `_export_as_docx`
-
-```python
-def _export_as_docx(self, artifact_file_path:str, artifact_data:Union[dict, str], content_original_format:str, verbose:bool=False):
-    """
-    Exports the specified artifact data to a DOCX file.
-    """
-    ...
-```
-
-**Назначение**: Экспортирует переданные данные артефакта в файл DOCX.
-
-**Параметры**:
-- `artifact_file_path` (str): Путь к файлу, в который будет сохранен артефакт.
-- `artifact_data` (Union[dict, str]): Данные для экспорта. Могут быть словарем или строкой.
-- `content_original_format` (str): Исходный формат контента ("text", "txt", "markdown", "md").
-- `verbose` (bool, optional): Флаг для вывода отладочных сообщений (не используется в данной функции, но передается для совместимости).
-
-**Вызывает исключения**:
-- `ValueError`: Если `content_original_format` не является одним из допустимых значений ("text", "txt", "markdown", "md").
-
-**Как работает функция**:
-
-```
-На входе: artifact_file_path, artifact_data, content_original_format, verbose
-│
-├── Проверка content_original_format на допустимые значения
-│   └── Если content_original_format не в ['text', 'txt', 'markdown', 'md']:
-│       └── Выброс ValueError(f"The original format cannot be {content_original_format} to export to DOCX.")
-│
-├── Нормализация content_original_format (если 'md', то заменяется на 'markdown')
-│   └── content_original_format = 'markdown' if content_original_format == 'md' else content_original_format
-│
-├── Извлечение контента из artifact_data (если artifact_data - словарь, то content = artifact_data['content'], иначе content = artifact_data)
-│
-├── Преобразование контента в HTML с помощью markdown.markdown(content)
-│
-├── Конвертация HTML в DOCX с помощью pypandoc.convert_text(html_content, 'docx', format='html', outputfile=artifact_file_path)
-│
-Выход: Файл DOCX с данными артефакта
-```
-
-**Примеры**:
-
-```python
-exporter = ArtifactExporter("output")
-data = {"content": "# Заголовок\nТекст"}
-exporter._export_as_docx("output/example.docx", data, "markdown")  # Создаст файл output/example.docx с отформатированным текстом
-```
-
-### `_compose_filepath`
-
-```python
-def _compose_filepath(self, artifact_data:Union[dict, str], artifact_name:str, content_type:str, target_format:str=None, verbose:bool=False):
-    """
-    Args:
-        artifact_data (Union[dict, str]): Данные для экспорта.
-        artifact_name (str): Имя артефакта.
-        content_type (str): Тип контента в артефакте.
-        content_format (str, optional): Формат контента в артефакте (например, md, csv и т.д.). Defaults to None.
-        verbose (bool, optional): Флаг, определяющий, нужно ли выводить отладочные сообщения. Defaults to False.
-    """
-    ...
-```
-
-**Назначение**: Формирует путь к файлу для экспортируемого артефакта.
-
-**Параметры**:
-- `artifact_data` (Union[dict, str]): Данные для экспорта.
-- `artifact_name` (str): Имя артефакта.
-- `content_type` (str): Тип контента.
-- `target_format` (str, optional): Целевой формат файла (например, "json", "txt", "docx"). По умолчанию `None`.
-- `verbose` (bool, optional): Флаг для вывода отладочных сообщений. По умолчанию `False`.
-
-**Как работает функция**:
-
-```
-На входе: artifact_data, artifact_name, content_type, target_format, verbose
-│
-├── Определение расширения файла
-│   ├── Если target_format указан:
-│   │   └── extension = f"{target_format}"
-│   ├── Иначе, если artifact_data - строка и target_format не указан:
-│   │   └── extension = "txt"
-│   └── Иначе:
-│   │   └── extension = None
-│
-├── Определение подпапки на основе content_type
-│   ├── Если content_type не указан:
-│   │   └── subfolder = ""
-│   └── Иначе:
-│   │   └── subfolder = content_type
-│
-├── Формирование полного пути к файлу
-│   └── artifact_file_path = os.path.join(self.base_output_folder, subfolder, f"{artifact_name}.{extension}")
-│
-├── Создание промежуточных директорий, если необходимо
-│   └── os.makedirs(os.path.dirname(artifact_file_path), exist_ok=True)
-│
-Выход: Полный путь к файлу артефакта
-```
-
-**Примеры**:
-
-```python
-exporter = ArtifactExporter("output")
-file_path = exporter._compose_filepath({"content": "data"}, "example", "log", target_format="json")
-print(file_path)  # Вывод: output/log/example.json
-```
-```python
-exporter = ArtifactExporter("output")
-file_path = exporter._compose_filepath("data", "example", "text")
-print(file_path)  # Вывод: output/text/example.txt
+        Как работает функция:
+        - Определяет расширение файла на основе `target_format` и типа `artifact_data`.
+        - Определяет подпапку на основе `content_type`.
+        - Формирует полный путь к файлу, объединяя базовую папку, подпапку и имя файла с расширением.
+        - Создает промежуточные директории, если они не существуют.
+        - Возвращает сформированный путь к файлу.
+        """

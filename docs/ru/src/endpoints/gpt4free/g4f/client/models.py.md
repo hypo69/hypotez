@@ -1,98 +1,167 @@
-# Модуль `models.py`
+# Модуль для управления моделями клиентов
 
 ## Обзор
 
-Модуль `models.py` предназначен для управления моделями, используемыми клиентом, включая получение, фильтрацию и предоставление информации о доступных моделях от различных провайдеров, таких как GPT4Free. Модуль содержит класс `ClientModels`, который инкапсулирует логику для работы с моделями и провайдерами.
+Модуль `models.py` предназначен для управления и получения информации о моделях, доступных для клиента, включая текстовые, визуальные и медиа-модели. Он предоставляет интерфейс для взаимодействия с различными поставщиками моделей, такими как GPT4Free, и получения списка доступных моделей в зависимости от типа поставщика.
 
 ## Подробней
 
-Модуль предоставляет методы для получения моделей по имени, получения всех доступных моделей, а также фильтрации моделей по типу (например, vision, media, image, video). Он использует утилиты `ModelUtils` и `ProviderUtils` для преобразования и получения информации о моделях и провайдерах.
-Класс `ClientModels` инициализируется с клиентом и, возможно, с указанными провайдерами для основных моделей и медиа-моделей.
+Этот модуль содержит класс `ClientModels`, который инкапсулирует логику получения и фильтрации моделей. Он использует классы `ModelUtils`, `ImageModel`, `VisionModel`, `ProviderUtils` и `ProviderType` из других модулей для определения типов моделей и поставщиков.
+Расположение файла в проекте `hypotez/src/endpoints/gpt4free/g4f/client/models.py` говорит о том, что он является частью клиентского API для gpt4free, отвечающего за выбор и предоставление моделей.
 
 ## Классы
 
 ### `ClientModels`
 
-**Описание**: Класс `ClientModels` управляет моделями, используемыми клиентом, и предоставляет методы для получения информации о доступных моделях от различных провайдеров.
+**Описание**: Класс `ClientModels` управляет моделями, доступными для клиента, и предоставляет методы для их получения и фильтрации.
 
-**Принцип работы**:
-Класс `ClientModels` инициализируется с клиентом и, возможно, с указанными провайдерами для основных моделей и медиа-моделей. Он предоставляет методы для получения моделей по имени, получения всех доступных моделей, а также фильтрации моделей по типу.
+**Принцип работы**: Класс инициализируется с экземпляром клиента и, опционально, типами поставщиков для основных и медиа-моделей. Он предоставляет методы для получения конкретных моделей, всех моделей, визуальных моделей и медиа-моделей в зависимости от поставщика и доступных API-ключей.
 
 **Аттрибуты**:
-- `client`: Клиент, использующий модели.
-- `provider` (ProviderType, optional): Провайдер основных моделей. По умолчанию `None`.
-- `media_provider` (ProviderType, optional): Провайдер медиа-моделей. По умолчанию `None`.
 
-**Методы**: 
-- `get(name, default=None)`: Получает провайдера по имени модели.
-- `get_all(api_key: str = None, **kwargs)`: Получает список всех доступных моделей от провайдера.
-- `get_vision(**kwargs)`: Получает список vision-моделей.
-- `get_media(api_key: str = None, **kwargs)`: Получает список медиа-моделей.
-- `get_image(**kwargs)`: Получает список image-моделей.
-- `get_video(**kwargs)`: Получает список video-моделей.
+- `client`: Экземпляр клиента, используемый для выполнения запросов к API.
+- `provider` (Optional[`ProviderType`]): Тип поставщика для основных моделей (например, текстовых).
+- `media_provider` (Optional[`ProviderType`]): Тип поставщика для медиа-моделей (например, изображений и видео).
+
+**Методы**:
+
+- `get(name, default=None)`: Возвращает тип поставщика для заданной модели или поставщика.
+- `get_all(api_key: str = None, **kwargs)`: Возвращает список всех доступных моделей от заданного поставщика.
+- `get_vision(**kwargs)`: Возвращает список vision-моделей от заданного поставщика.
+- `get_media(api_key: str = None, **kwargs)`: Возвращает список media-моделей от заданного поставщика.
+- `get_image(**kwargs)`: Возвращает список image-моделей от заданного поставщика.
+- `get_video(**kwargs)`: Возвращает список video-моделей от заданного поставщика.
 
 ## Функции
+
+### `__init__`
+
+```python
+def __init__(self, client, provider: ProviderType = None, media_provider: ProviderType = None):
+    """
+    Инициализирует экземпляр класса `ClientModels`.
+
+    Args:
+        client: Экземпляр клиента, используемый для выполнения запросов к API.
+        provider (Optional[ProviderType], optional): Тип поставщика для основных моделей. По умолчанию `None`.
+        media_provider (Optional[ProviderType], optional): Тип поставщика для медиа-моделей. По умолчанию `None`.
+    """
+    ...
+```
+
+**Назначение**: Инициализация объекта `ClientModels` с указанием клиента и поставщиков моделей.
+
+**Параметры**:
+
+- `client`: Экземпляр клиента, который будет использоваться для запросов к API.
+- `provider` (Optional[`ProviderType`]): Тип поставщика для основных моделей (текстовых). По умолчанию `None`.
+- `media_provider` (Optional[`ProviderType`]): Тип поставщика для медиа-моделей (изображений и видео). По умолчанию `None`.
+
+**Как работает функция**:
+1. Функция `__init__` принимает экземпляр клиента, а также необязательные типы поставщиков для основных и медиа-моделей.
+2.  Присваивает значения атрибутам `self.client`, `self.provider` и `self.media_provider` для сохранения переданных значений.
+
+**Примеры**:
+
+```python
+from ..Provider import ProviderUtils
+from ..providers.types import ProviderType
+
+class MockClient:
+    def __init__(self, api_key: str = None):
+        self.api_key = api_key
+
+# Создание экземпляра ClientModels с клиентом и поставщиком
+client = MockClient(api_key="test_api_key")
+provider = ProviderType("test_provider")
+media_provider = ProviderType("test_media_provider")
+
+client_models = ClientModels(client=client, provider=provider, media_provider=media_provider)
+
+# Проверка атрибутов
+assert client_models.client == client
+assert client_models.provider == provider
+assert client_models.media_provider == media_provider
+
+# Создание экземпляра ClientModels только с клиентом
+client_models = ClientModels(client=client)
+
+# Проверка атрибутов
+assert client_models.client == client
+assert client_models.provider is None
+assert client_models.media_provider is None
+```
 
 ### `get`
 
 ```python
 def get(self, name, default=None) -> ProviderType:
     """
-    Получает провайдера по имени модели.
+    Получает тип поставщика для заданной модели или поставщика.
 
     Args:
-        name: Имя модели.
-        default: Значение по умолчанию, если модель не найдена.
+        name: Имя модели или поставщика.
+        default: Значение по умолчанию, если модель или поставщик не найдены.
 
     Returns:
-        ProviderType: Провайдер модели или значение по умолчанию.
+        ProviderType: Тип поставщика для заданной модели или поставщика, или значение по умолчанию, если не найдено.
     """
     ...
 ```
 
-**Назначение**:
-Функция `get` используется для получения провайдера, связанного с указанным именем модели. Она проверяет, существует ли модель в `ModelUtils.convert` или `ProviderUtils.convert`, и возвращает соответствующего провайдера.
+**Назначение**: Получение типа поставщика для заданной модели или поставщика.
 
 **Параметры**:
-- `name`: Имя модели, для которой нужно получить провайдера.
-- `default`: Значение, которое будет возвращено, если модель не найдена. По умолчанию `None`.
+
+- `name`: Имя модели или поставщика, для которого требуется получить тип поставщика.
+- `default`: Значение по умолчанию, которое будет возвращено, если модель или поставщик не найдены. По умолчанию `None`.
 
 **Возвращает**:
-- `ProviderType`: Провайдер, связанный с указанным именем модели. Если модель не найдена, возвращается значение `default`.
+
+- `ProviderType`: Тип поставщика для заданной модели или поставщика, или значение по умолчанию, если не найдено.
 
 **Как работает функция**:
-1. Проверяет, есть ли `name` в словаре `ModelUtils.convert`. Если есть, возвращает `best_provider` для этой модели.
-2. Если `name` нет в `ModelUtils.convert`, проверяет, есть ли `name` в словаре `ProviderUtils.convert`. Если есть, возвращает соответствующего провайдера.
-3. Если `name` нет ни в одном из словарей, возвращает значение `default`.
 
-**ASCII flowchart**:
-```
-A: Проверяем name в ModelUtils.convert
-|
-B: name есть в ModelUtils.convert?
-| Yes
-C: Возвращаем ModelUtils.convert[name].best_provider
-| No
-D: Проверяем name в ProviderUtils.convert
-|
-E: name есть в ProviderUtils.convert?
-| Yes
-F: Возвращаем ProviderUtils.convert[name]
-| No
-G: Возвращаем default
-```
+1.  Функция `get` принимает имя модели или поставщика (`name`) и необязательное значение по умолчанию (`default`).
+2.  Проверяет, содержится ли `name` в `ModelUtils.convert`. Если да, возвращает `best_provider` из `ModelUtils.convert[name]`.
+3.  Если `name` не найден в `ModelUtils.convert`, проверяет, содержится ли `name` в `ProviderUtils.convert`. Если да, возвращает `ProviderUtils.convert[name]`.
+4.  Если `name` не найден ни в `ModelUtils.convert`, ни в `ProviderUtils.convert`, возвращает значение `default`.
 
 **Примеры**:
 
 ```python
-# Пример получения провайдера для модели, существующей в ModelUtils.convert
-provider = client_models.get("gpt-3.5-turbo")
+from ..Provider import ProviderUtils
+from ..providers.types import ProviderType
+from ..models import ModelUtils
 
-# Пример получения провайдера для модели, существующей в ProviderUtils.convert
-provider = client_models.get("openai")
+class MockClient:
+    def __init__(self, api_key: str = None):
+        self.api_key = api_key
 
-# Пример получения провайдера для модели, не существующей ни в ModelUtils.convert, ни в ProviderUtils.convert
-provider = client_models.get("unknown_model", default="default_provider")
+# Mock ModelUtils.convert и ProviderUtils.convert для тестирования
+ModelUtils.convert = {"model1": Mock()}
+ModelUtils.convert["model1"].best_provider = "provider1"
+ProviderUtils.convert = {"provider2": "provider_type2"}
+
+# Создание экземпляра ClientModels с клиентом
+client = MockClient(api_key="test_api_key")
+client_models = ClientModels(client=client)
+
+# Тестирование получения поставщика для модели
+provider = client_models.get("model1")
+assert provider == "provider1"
+
+# Тестирование получения поставщика для поставщика
+provider = client_models.get("provider2")
+assert provider == "provider_type2"
+
+# Тестирование получения поставщика с значением по умолчанию
+provider = client_models.get("nonexistent", default="default_value")
+assert provider == "default_value"
+
+# Тестирование получения поставщика без значения по умолчанию
+provider = client_models.get("nonexistent")
+assert provider is None
 ```
 
 ### `get_all`
@@ -100,61 +169,69 @@ provider = client_models.get("unknown_model", default="default_provider")
 ```python
 def get_all(self, api_key: str = None, **kwargs) -> list[str]:
     """
-    Получает список всех доступных моделей от провайдера.
+    Возвращает список всех доступных моделей от заданного поставщика.
 
     Args:
-        api_key (str, optional): API ключ для провайдера. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы для передачи провайдеру.
+        api_key (Optional[str], optional): API ключ для аутентификации. По умолчанию `None`.
+        **kwargs: Дополнительные аргументы, передаваемые в `get_models` метод поставщика.
 
     Returns:
-        list[str]: Список идентификаторов моделей.
+        list[str]: Список доступных моделей от заданного поставщика.
     """
     ...
 ```
 
-**Назначение**:
-Функция `get_all` используется для получения списка всех доступных моделей от указанного провайдера. Она принимает API ключ и дополнительные аргументы, которые передаются провайдеру при запросе моделей.
+**Назначение**: Получение списка всех доступных моделей от заданного поставщика.
 
 **Параметры**:
-- `api_key` (str, optional): API ключ для аутентификации у провайдера. Если не указан, используется `self.client.api_key`. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы, которые будут переданы в метод `get_models` провайдера.
+
+- `api_key` (Optional[str]): API-ключ для аутентификации. По умолчанию `None`.
+- `**kwargs`: Дополнительные аргументы, передаваемые в метод `get_models` поставщика.
 
 **Возвращает**:
-- `list[str]`: Список идентификаторов доступных моделей.
+
+- `list[str]`: Список доступных моделей от заданного поставщика.
 
 **Как работает функция**:
-1. Проверяет, установлен ли провайдер (`self.provider`). Если нет, возвращает пустой список.
-2. Если `api_key` не указан, использует `self.client.api_key`.
-3. Вызывает метод `get_models` у провайдера, передавая `kwargs` и `api_key` (если он указан).
-4. Возвращает список идентификаторов моделей, полученных от провайдера.
 
-**ASCII flowchart**:
-```
-A: Проверяем, установлен ли self.provider
-|
-B: self.provider установлен?
-| Yes
-C: Проверяем, указан ли api_key
-|
-D: api_key указан?
-| Yes
-E: Используем api_key
-| No
-F: Используем self.client.api_key
-|
-G: Вызываем self.provider.get_models(**kwargs, api_key=api_key)
-|
-H: Возвращаем список моделей
-```
+1.  Функция `get_all` принимает необязательный API-ключ (`api_key`) и дополнительные аргументы (`**kwargs`).
+2.  Если `self.provider` равен `None`, возвращает пустой список.
+3.  Если `api_key` равен `None`, использует `self.client.api_key`.
+4.  Вызывает метод `get_models` поставщика (`self.provider.get_models`) с переданными аргументами и, если `api_key` не равен `None`, добавляет его в аргументы.
+5.  Возвращает список моделей, полученный от `self.provider.get_models`.
 
 **Примеры**:
 
 ```python
-# Пример получения всех моделей без указания API ключа
-models = client_models.get_all()
+from ..Provider import ProviderUtils
+from ..providers.types import ProviderType
 
-# Пример получения всех моделей с указанием API ключа и дополнительных параметров
-models = client_models.get_all(api_key="YOUR_API_KEY", param1="value1", param2="value2")
+class MockClient:
+    def __init__(self, api_key: str = None):
+        self.api_key = api_key
+
+class MockProvider:
+    def get_models(self, **kwargs):
+        return ["model1", "model2"]
+
+# Создание экземпляра ClientModels с клиентом и поставщиком
+client = MockClient(api_key="test_api_key")
+provider = MockProvider()
+
+client_models = ClientModels(client=client, provider=provider)
+
+# Тестирование получения всех моделей с API-ключом из клиента
+models = client_models.get_all()
+assert models == ["model1", "model2"]
+
+# Тестирование получения всех моделей с переданным API-ключом
+models = client_models.get_all(api_key="override_api_key")
+assert models == ["model1", "model2"]
+
+# Тестирование получения всех моделей без поставщика
+client_models.provider = None
+models = client_models.get_all()
+assert models == []
 ```
 
 ### `get_vision`
@@ -162,60 +239,79 @@ models = client_models.get_all(api_key="YOUR_API_KEY", param1="value1", param2="
 ```python
 def get_vision(self, **kwargs) -> list[str]:
     """
-    Получает список vision-моделей.
+    Возвращает список vision-моделей от заданного поставщика.
 
     Args:
-        **kwargs: Дополнительные аргументы для передачи в `get_all`.
+        **kwargs: Дополнительные аргументы, передаваемые в `get_all` метод или проверяемые на наличие `vision_models` атрибута.
 
     Returns:
-        list[str]: Список идентификаторов vision-моделей.
+        list[str]: Список vision-моделей от заданного поставщика.
     """
     ...
 ```
 
-**Назначение**:
-Функция `get_vision` используется для получения списка vision-моделей. Она проверяет, установлен ли провайдер, и возвращает список vision-моделей либо из `ModelUtils.convert`, либо из атрибута `vision_models` провайдера.
+**Назначение**: Получение списка vision-моделей (моделей компьютерного зрения) от заданного поставщика.
 
 **Параметры**:
-- `**kwargs`: Дополнительные аргументы для передачи в метод `get_all`.
+
+- `**kwargs`: Дополнительные аргументы, передаваемые в метод `get_all` или проверяемые на наличие атрибута `vision_models` у поставщика.
 
 **Возвращает**:
-- `list[str]`: Список идентификаторов vision-моделей.
+
+- `list[str]`: Список vision-моделей от заданного поставщика.
 
 **Как работает функция**:
-1. Проверяет, установлен ли провайдер (`self.provider`).
-2. Если провайдер не установлен, возвращает список идентификаторов моделей, которые являются экземплярами класса `VisionModel` в `ModelUtils.convert`.
-3. Если провайдер установлен, вызывает метод `get_all` с переданными `kwargs`.
-4. Проверяет, есть ли у провайдера атрибут `vision_models`. Если есть, возвращает значение этого атрибута.
-5. Если атрибута `vision_models` нет, возвращает пустой список.
 
-**ASCII flowchart**:
-```
-A: Проверяем, установлен ли self.provider
-|
-B: self.provider установлен?
-| Yes
-C: Вызываем self.get_all(**kwargs)
-|
-D: Проверяем, есть ли у self.provider атрибут vision_models
-|
-E: Атрибут vision_models есть?
-| Yes
-F: Возвращаем self.provider.vision_models
-| No
-G: Возвращаем []
-| No
-H: Возвращаем [model_id for model_id, model in ModelUtils.convert.items() if isinstance(model, VisionModel)]
-```
+1.  Функция `get_vision` принимает дополнительные аргументы (`**kwargs`).
+2.  Если `self.provider` равен `None`, возвращает список `model_id` для всех `model_id, model` из `ModelUtils.convert`, где `model` является экземпляром `VisionModel`.
+3.  Вызывает метод `get_all` с переданными аргументами.
+4.  Если у `self.provider` есть атрибут `vision_models`, возвращает его значение.
+5.  Если у `self.provider` нет атрибута `vision_models`, возвращает пустой список.
 
 **Примеры**:
 
 ```python
-# Пример получения vision-моделей без дополнительных параметров
-vision_models = client_models.get_vision()
+from ..Provider import ProviderUtils
+from ..providers.types import ProviderType
+from ..models import ModelUtils, VisionModel
 
-# Пример получения vision-моделей с дополнительными параметрами
-vision_models = client_models.get_vision(param1="value1", param2="value2")
+class MockClient:
+    def __init__(self, api_key: str = None):
+        self.api_key = api_key
+
+class MockProvider:
+    def __init__(self):
+        self.vision_models = ["vision_model1", "vision_model2"]
+
+    def get_models(self, **kwargs):
+        return []
+
+# Создание экземпляра ClientModels с клиентом и поставщиком
+client = MockClient(api_key="test_api_key")
+provider = MockProvider()
+
+client_models = ClientModels(client=client, provider=provider)
+
+# Mock ModelUtils.convert для тестирования
+ModelUtils.convert = {"model1": VisionModel(), "model2": Mock()}
+
+# Тестирование получения vision-моделей с поставщиком
+vision_models = client_models.get_vision()
+assert vision_models == ["vision_model1", "vision_model2"]
+
+# Тестирование получения vision-моделей без поставщика
+client_models.provider = None
+vision_models = client_models.get_vision()
+assert vision_models == ["model1"]
+
+# Тестирование получения vision-моделей без vision_models у поставщика
+class MockProviderWithoutVisionModels:
+    def get_models(self, **kwargs):
+        return []
+
+client_models.provider = MockProviderWithoutVisionModels()
+vision_models = client_models.get_vision()
+assert vision_models == []
 ```
 
 ### `get_media`
@@ -223,61 +319,69 @@ vision_models = client_models.get_vision(param1="value1", param2="value2")
 ```python
 def get_media(self, api_key: str = None, **kwargs) -> list[str]:
     """
-    Получает список медиа-моделей.
+    Возвращает список media-моделей от заданного поставщика.
 
     Args:
-        api_key (str, optional): API ключ для провайдера. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы для передачи в `get_all`.
+        api_key (Optional[str], optional): API ключ для аутентификации. По умолчанию `None`.
+        **kwargs: Дополнительные аргументы, передаваемые в `get_models` метод поставщика.
 
     Returns:
-        list[str]: Список идентификаторов медиа-моделей.
+        list[str]: Список media-моделей от заданного поставщика.
     """
     ...
 ```
 
-**Назначение**:
-Функция `get_media` используется для получения списка медиа-моделей от указанного провайдера. Она принимает API ключ и дополнительные аргументы, которые передаются провайдеру при запросе моделей.
+**Назначение**: Получение списка media-моделей от заданного поставщика.
 
 **Параметры**:
-- `api_key` (str, optional): API ключ для аутентификации у провайдера. Если не указан, используется `self.client.api_key`. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы, которые будут переданы в метод `get_models` провайдера.
+
+- `api_key` (Optional[str]): API-ключ для аутентификации. По умолчанию `None`.
+- `**kwargs`: Дополнительные аргументы, передаваемые в метод `get_models` поставщика.
 
 **Возвращает**:
-- `list[str]`: Список идентификаторов медиа-моделей.
+
+- `list[str]`: Список media-моделей от заданного поставщика.
 
 **Как работает функция**:
-1. Проверяет, установлен ли медиа-провайдер (`self.media_provider`). Если нет, возвращает пустой список.
-2. Если `api_key` не указан, использует `self.client.api_key`.
-3. Вызывает метод `get_models` у медиа-провайдера, передавая `kwargs` и `api_key` (если он указан).
-4. Возвращает список идентификаторов моделей, полученных от медиа-провайдера.
 
-**ASCII flowchart**:
-```
-A: Проверяем, установлен ли self.media_provider
-|
-B: self.media_provider установлен?
-| Yes
-C: Проверяем, указан ли api_key
-|
-D: api_key указан?
-| Yes
-E: Используем api_key
-| No
-F: Используем self.client.api_key
-|
-G: Вызываем self.media_provider.get_models(**kwargs, api_key=api_key)
-|
-H: Возвращаем список моделей
-```
+1.  Функция `get_media` принимает необязательный API-ключ (`api_key`) и дополнительные аргументы (`**kwargs`).
+2.  Если `self.media_provider` равен `None`, возвращает пустой список.
+3.  Если `api_key` равен `None`, использует `self.client.api_key`.
+4.  Вызывает метод `get_models` медиа-поставщика (`self.media_provider.get_models`) с переданными аргументами и, если `api_key` не равен `None`, добавляет его в аргументы.
+5.  Возвращает список моделей, полученный от `self.media_provider.get_models`.
 
 **Примеры**:
 
 ```python
-# Пример получения всех медиа-моделей без указания API ключа
-media_models = client_models.get_media()
+from ..Provider import ProviderUtils
+from ..providers.types import ProviderType
 
-# Пример получения всех медиа-моделей с указанием API ключа и дополнительных параметров
-media_models = client_models.get_media(api_key="YOUR_API_KEY", param1="value1", param2="value2")
+class MockClient:
+    def __init__(self, api_key: str = None):
+        self.api_key = api_key
+
+class MockMediaProvider:
+    def get_models(self, **kwargs):
+        return ["media_model1", "media_model2"]
+
+# Создание экземпляра ClientModels с клиентом и медиа-поставщиком
+client = MockClient(api_key="test_api_key")
+media_provider = MockMediaProvider()
+
+client_models = ClientModels(client=client, media_provider=media_provider)
+
+# Тестирование получения media-моделей с API-ключом из клиента
+media_models = client_models.get_media()
+assert media_models == ["media_model1", "media_model2"]
+
+# Тестирование получения media-моделей с переданным API-ключом
+media_models = client_models.get_media(api_key="override_api_key")
+assert media_models == ["media_model1", "media_model2"]
+
+# Тестирование получения media-моделей без медиа-поставщика
+client_models.media_provider = None
+media_models = client_models.get_media()
+assert media_models == []
 ```
 
 ### `get_image`
@@ -285,60 +389,79 @@ media_models = client_models.get_media(api_key="YOUR_API_KEY", param1="value1", 
 ```python
 def get_image(self, **kwargs) -> list[str]:
     """
-    Получает список image-моделей.
+    Возвращает список image-моделей от заданного поставщика.
 
     Args:
-        **kwargs: Дополнительные аргументы для передачи в `get_media`.
+        **kwargs: Дополнительные аргументы, передаваемые в `get_media` метод или проверяемые на наличие `image_models` атрибута.
 
     Returns:
-        list[str]: Список идентификаторов image-моделей.
+        list[str]: Список image-моделей от заданного поставщика.
     """
     ...
 ```
 
-**Назначение**:
-Функция `get_image` используется для получения списка image-моделей. Она проверяет, установлен ли медиа-провайдер, и возвращает список image-моделей либо из `ModelUtils.convert`, либо из атрибута `image_models` медиа-провайдера.
+**Назначение**: Получение списка image-моделей (моделей для обработки изображений) от заданного поставщика.
 
 **Параметры**:
-- `**kwargs`: Дополнительные аргументы для передачи в метод `get_media`.
+
+- `**kwargs`: Дополнительные аргументы, передаваемые в метод `get_media` или проверяемые на наличие атрибута `image_models` у медиа-поставщика.
 
 **Возвращает**:
-- `list[str]`: Список идентификаторов image-моделей.
+
+- `list[str]`: Список image-моделей от заданного поставщика.
 
 **Как работает функция**:
-1. Проверяет, установлен ли медиа-провайдер (`self.media_provider`).
-2. Если медиа-провайдер не установлен, возвращает список идентификаторов моделей, которые являются экземплярами класса `ImageModel` в `ModelUtils.convert`.
-3. Если медиа-провайдер установлен, вызывает метод `get_media` с переданными `kwargs`.
-4. Проверяет, есть ли у медиа-провайдера атрибут `image_models`. Если есть, возвращает значение этого атрибута.
-5. Если атрибута `image_models` нет, возвращает пустой список.
 
-**ASCII flowchart**:
-```
-A: Проверяем, установлен ли self.media_provider
-|
-B: self.media_provider установлен?
-| Yes
-C: Вызываем self.get_media(**kwargs)
-|
-D: Проверяем, есть ли у self.media_provider атрибут image_models
-|
-E: Атрибут image_models есть?
-| Yes
-F: Возвращаем self.media_provider.image_models
-| No
-G: Возвращаем []
-| No
-H: Возвращаем [model_id for model_id, model in ModelUtils.convert.items() if isinstance(model, ImageModel)]
-```
+1.  Функция `get_image` принимает дополнительные аргументы (`**kwargs`).
+2.  Если `self.media_provider` равен `None`, возвращает список `model_id` для всех `model_id, model` из `ModelUtils.convert`, где `model` является экземпляром `ImageModel`.
+3.  Вызывает метод `get_media` с переданными аргументами.
+4.  Если у `self.media_provider` есть атрибут `image_models`, возвращает его значение.
+5.  Если у `self.media_provider` нет атрибута `image_models`, возвращает пустой список.
 
 **Примеры**:
 
 ```python
-# Пример получения image-моделей без дополнительных параметров
-image_models = client_models.get_image()
+from ..Provider import ProviderUtils
+from ..providers.types import ProviderType
+from ..models import ModelUtils, ImageModel
 
-# Пример получения image-моделей с дополнительными параметрами
-image_models = client_models.get_image(param1="value1", param2="value2")
+class MockClient:
+    def __init__(self, api_key: str = None):
+        self.api_key = api_key
+
+class MockMediaProvider:
+    def __init__(self):
+        self.image_models = ["image_model1", "image_model2"]
+
+    def get_models(self, **kwargs):
+        return []
+
+# Создание экземпляра ClientModels с клиентом и медиа-поставщиком
+client = MockClient(api_key="test_api_key")
+media_provider = MockMediaProvider()
+
+client_models = ClientModels(client=client, media_provider=media_provider)
+
+# Mock ModelUtils.convert для тестирования
+ModelUtils.convert = {"model1": ImageModel(), "model2": Mock()}
+
+# Тестирование получения image-моделей с медиа-поставщиком
+image_models = client_models.get_image()
+assert image_models == ["image_model1", "image_model2"]
+
+# Тестирование получения image-моделей без медиа-поставщика
+client_models.media_provider = None
+image_models = client_models.get_image()
+assert image_models == ["model1"]
+
+# Тестирование получения image-моделей без image_models у медиа-поставщика
+class MockMediaProviderWithoutImageModels:
+    def get_models(self, **kwargs):
+        return []
+
+client_models.media_provider = MockMediaProviderWithoutImageModels()
+image_models = client_models.get_image()
+assert image_models == []
 ```
 
 ### `get_video`
@@ -346,55 +469,72 @@ image_models = client_models.get_image(param1="value1", param2="value2")
 ```python
 def get_video(self, **kwargs) -> list[str]:
     """
-    Получает список video-моделей.
+    Возвращает список video-моделей от заданного поставщика.
 
     Args:
-        **kwargs: Дополнительные аргументы для передачи в `get_media`.
+        **kwargs: Дополнительные аргументы, передаваемые в `get_media` метод или проверяемые на наличие `video_models` атрибута.
 
     Returns:
-        list[str]: Список идентификаторов video-моделей.
+        list[str]: Список video-моделей от заданного поставщика.
     """
     ...
 ```
 
-**Назначение**:
-Функция `get_video` используется для получения списка video-моделей. Она проверяет, установлен ли медиа-провайдер, и возвращает список video-моделей из атрибута `video_models` медиа-провайдера.
+**Назначение**: Получение списка video-моделей (моделей для обработки видео) от заданного поставщика.
 
 **Параметры**:
-- `**kwargs`: Дополнительные аргументы для передачи в метод `get_media`.
+
+- `**kwargs`: Дополнительные аргументы, передаваемые в метод `get_media` или проверяемые на наличие атрибута `video_models` у медиа-поставщика.
 
 **Возвращает**:
-- `list[str]`: Список идентификаторов video-моделей.
+
+- `list[str]`: Список video-моделей от заданного поставщика.
 
 **Как работает функция**:
-1. Проверяет, установлен ли медиа-провайдер (`self.media_provider`).
-2. Если медиа-провайдер не установлен, возвращает пустой список.
-3. Если медиа-провайдер установлен, вызывает метод `get_media` с переданными `kwargs`.
-4. Проверяет, есть ли у медиа-провайдера атрибут `video_models`. Если есть, возвращает значение этого атрибута.
-5. Если атрибута `video_models` нет, возвращает пустой список.
 
-**ASCII flowchart**:
-```
-A: Проверяем, установлен ли self.media_provider
-|
-B: self.media_provider установлен?
-| Yes
-C: Вызываем self.get_media(**kwargs)
-|
-D: Проверяем, есть ли у self.media_provider атрибут video_models
-|
-E: Атрибут video_models есть?
-| Yes
-F: Возвращаем self.media_provider.video_models
-| No
-G: Возвращаем []
-```
+1.  Функция `get_video` принимает дополнительные аргументы (`**kwargs`).
+2.  Если `self.media_provider` равен `None`, возвращает пустой список.
+3.  Вызывает метод `get_media` с переданными аргументами.
+4.  Если у `self.media_provider` есть атрибут `video_models`, возвращает его значение.
+5.  Если у `self.media_provider` нет атрибута `video_models`, возвращает пустой список.
 
 **Примеры**:
 
 ```python
-# Пример получения video-моделей без дополнительных параметров
-video_models = client_models.get_video()
+from ..Provider import ProviderUtils
+from ..providers.types import ProviderType
 
-# Пример получения video-моделей с дополнительными параметрами
-video_models = client_models.get_video(param1="value1", param2="value2")
+class MockClient:
+    def __init__(self, api_key: str = None):
+        self.api_key = api_key
+
+class MockMediaProvider:
+    def __init__(self):
+        self.video_models = ["video_model1", "video_model2"]
+
+    def get_models(self, **kwargs):
+        return []
+
+# Создание экземпляра ClientModels с клиентом и медиа-поставщиком
+client = MockClient(api_key="test_api_key")
+media_provider = MockMediaProvider()
+
+client_models = ClientModels(client=client, media_provider=media_provider)
+
+# Тестирование получения video-моделей с медиа-поставщиком
+video_models = client_models.get_video()
+assert video_models == ["video_model1", "video_model2"]
+
+# Тестирование получения video-моделей без медиа-поставщика
+client_models.media_provider = None
+video_models = client_models.get_video()
+assert video_models == []
+
+# Тестирование получения video-моделей без video_models у медиа-поставщика
+class MockMediaProviderWithoutVideoModels:
+    def get_models(self, **kwargs):
+        return []
+
+client_models.media_provider = MockMediaProviderWithoutVideoModels()
+video_models = client_models.get_video()
+assert video_models == []

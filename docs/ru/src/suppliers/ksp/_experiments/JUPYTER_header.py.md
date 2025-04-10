@@ -1,51 +1,105 @@
-# Модуль _experiments (JUPYTER_header.py)
+# Модуль _experiments
 
 ## Обзор
 
-Этот модуль представляет собой экспериментальный файл `JUPYTER_header.py`, расположенный в директории `src/suppliers/ksp/_experiments` проекта `hypotez`. Он содержит набор импортов и определений, необходимых для работы с поставщиками, продуктами, категориями и веб-драйверами в контексте экспериментов KSP.
+Модуль содержит экспериментальный код, связанный с поставщиком KSP. Включает в себя импорты библиотек, настройку путей, а также функцию для запуска поставщика.
 
 ## Подробней
 
-Файл содержит различные импорты модулей, используемых для работы с файловой системой, JSON, регулярными выражениями, веб-драйверами, поставщиками, продуктами, категориями, форматированием строк, нормализацией строк, а также для взаимодействия с PrestaShop. Также присутствует функция `start_supplier`, предназначенная для инициализации поставщика с заданными параметрами.
+Этот модуль, кажется, является частью экспериментального кода, связанного с поставщиком KSP. Он содержит импорты библиотек, настройку путей и функцию для запуска поставщика. Код модуля предназначен для использования в среде Windows и Unix.
+
+## Настройка окружения
+
+```python
+import sys
+import os
+from pathlib import Path
+
+# ----------------
+dir_root : Path = Path (os.getcwd()[:os.getcwd().rfind('hypotez')+7])
+sys.path.append (str (dir_root) )  # Добавляю корневую папку в sys.path
+dir_src = Path (dir_root, 'src')
+sys.path.append (str (dir_root) ) 
+# ----------------
+```
+
+Этот блок кода настраивает окружение выполнения, добавляя корневую директорию проекта `hypotez` и директорию `src` в `sys.path`. Это позволяет импортировать модули из этих директорий.
+
+- `dir_root`: Определяет корневую директорию проекта `hypotez`, находя ее в текущей рабочей директории.
+- `sys.path.append(str(dir_root))`: Добавляет корневую директорию в список путей поиска модулей.
+- `dir_src`: Определяет директорию `src` внутри корневой директории.
+- `sys.path.append(str(dir_root))`:  Повторно добавляет корневую директорию в `sys.path`.  Это может быть избыточным, так как корневая директория уже была добавлена ранее.
+
+## Импорт модулей
+
+```python
+from pathlib import Path
+import json
+import re
+
+#from settings import gs
+from src.webdriver.driver import Driver
+from src.suppliers import Supplier
+from src.product import Product, ProductFields
+from src.category import Category
+from src.utils import StringFormatter, StringNormalizer
+from src.utils.printer import  pprint
+from src.endpoints.PrestaShop import Product as PrestaProduct
+, save_text_file
+```
+
+Этот блок кода импортирует необходимые модули и классы, которые будут использоваться в дальнейшем коде.
+
+- `Path` из `pathlib`: Для работы с путями к файлам и директориям.
+- `json`: Для работы с данными в формате JSON.
+- `re`: Для работы с регулярными выражениями.
+- `Driver` из `src.webdriver.driver`: Класс для управления веб-драйвером (например, для Chrome или Firefox).
+- `Supplier` из `src.suppliers`: Класс, представляющий поставщика товаров.
+- `Product`, `ProductFields` из `src.product`: Классы для работы с информацией о продуктах.
+- `Category` из `src.category`: Класс для работы с категориями товаров.
+- `StringFormatter`, `StringNormalizer` из `src.utils`: Классы для форматирования и нормализации строк.
+- `pprint` из `src.utils.printer`: Функция для "красивой" печати данных.
+- `PrestaProduct` из `src.endpoints.PrestaShop`: Класс для работы с продуктами в PrestaShop.
+- `save_text_file`: Функция для сохранения текстовых файлов.
 
 ## Функции
 
 ### `start_supplier`
 
 ```python
-def start_supplier(supplier_prefix: str = 'aliexpress', locale: str = 'en') -> Supplier:
+def start_supplier(supplier_prefix: str = 'aliexpress', locale: str = 'en' ):
     """ Старт поставщика """
+    params: dict = \
+    {
+        'supplier_prefix': supplier_prefix,
+        'locale': locale
+    }
+    
+    return Supplier(**params))
 ```
 
-**Назначение**: Функция `start_supplier` создает и возвращает экземпляр класса `Supplier` с заданными параметрами.
+Функция создает и возвращает экземпляр класса `Supplier`.
+
+**Назначение**: Запускает поставщика с указанными параметрами.
 
 **Параметры**:
-
--   `supplier_prefix` (str, optional): Префикс поставщика. По умолчанию `'aliexpress'`.
--   `locale` (str, optional): Локаль поставщика. По умолчанию `'en'`.
+- `supplier_prefix` (str): Префикс поставщика. По умолчанию 'aliexpress'.
+- `locale` (str): Локаль. По умолчанию 'en'.
 
 **Возвращает**:
-
--   `Supplier`: Экземпляр класса `Supplier`, инициализированный с переданными параметрами.
+- Экземпляр класса `Supplier`.
 
 **Как работает функция**:
-
-1.  Формирует словарь `params` с параметрами `supplier_prefix` и `locale`.
-2.  Создает и возвращает экземпляр класса `Supplier`, используя распакованный словарь `params` в качестве аргументов.
-
-```
- A (Формирование параметров)
- |
- B (Создание экземпляра Supplier)
- |
- C (Возврат экземпляра Supplier)
-```
+- Создает словарь `params` с параметрами `supplier_prefix` и `locale`.
+- Возвращает экземпляр класса `Supplier`, инициализированный с использованием распакованного словаря `params`.
 
 **Примеры**:
 
 ```python
-# Пример вызова функции start_supplier с параметрами по умолчанию
-supplier = start_supplier()
-
-# Пример вызова функции start_supplier с указанием префикса и локали
 supplier = start_supplier(supplier_prefix='amazon', locale='de')
+print(type(supplier))  # Output: <class 'src.suppliers.Supplier'>
+```
+
+```python
+supplier = start_supplier()
+print(type(supplier))  # Output: <class 'src.suppliers.Supplier'>

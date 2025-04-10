@@ -1,40 +1,42 @@
-# Модуль для работы с HAR-файлами для OpenAI
+# Модуль для работы с HAR-файлами и Arkose Labs
 
 ## Обзор
 
-Модуль предоставляет функциональность для чтения, парсинга и обработки HAR-файлов (HTTP Archive) с целью извлечения необходимой информации для взаимодействия с API OpenAI. Он включает в себя функции для поиска и чтения HAR-файлов, извлечения токенов доступа, proof_token, turnstile_token, а также парсинга данных для запросов Arkose Labs.
+Модуль `har_file.py` предназначен для обработки HAR (HTTP Archive) файлов, содержащих информацию о HTTP-запросах и ответах, а также для взаимодействия с Arkose Labs, системой защиты от ботов. Он используется для извлечения и анализа данных из HAR-файлов, необходимых для аутентификации и обхода защиты Arkose Labs при взаимодействии с API.
 
 ## Подробней
 
-Этот модуль предназначен для автоматического извлечения конфигурационных данных из HAR-файлов, которые могут быть получены при взаимодействии с веб-сайтом OpenAI. Собранные данные используются для аутентификации и авторизации при отправке запросов к API OpenAI, а также для решения задач, связанных с Arkose Labs (FunCaptcha). Это позволяет обходить различные защиты и ограничения, используемые OpenAI.
+Этот модуль играет важную роль в автоматизации взаимодействия с сервисами, защищенными Arkose Labs, такими как ChatGPT. Он позволяет извлекать необходимые токены и параметры из HAR-файлов, сгенерированных в браузере, и использовать их для создания запросов к API. Это позволяет обходить защиту от ботов и получать доступ к функциональности сервиса.
 
 ## Классы
 
 ### `RequestConfig`
 
-**Описание**: Класс, предназначенный для хранения конфигурационных данных, необходимых для выполнения запросов к API OpenAI.
+**Описание**: Класс, предназначенный для хранения конфигурационных данных запроса, таких как cookies, заголовки, access token, proof token, turnstile token, а также информации, связанной с Arkose Labs.
 
 **Атрибуты**:
-- `cookies` (dict): Словарь с куками, полученными из HAR-файла.
-- `headers` (dict): Словарь с заголовками, полученными из HAR-файла.
-- `access_token` (str): Токен доступа для API OpenAI.
-- `proof_token` (list): Список, представляющий собой proof_token.
-- `turnstile_token` (str): Turnstile токен.
-- `arkose_request` (arkReq): Объект класса `arkReq`, содержащий данные для запроса к Arkose Labs.
-- `arkose_token` (str): Токен, полученный от Arkose Labs.
-- `data_build` (str): Строка, представляющая собой версию сборки данных.
+
+-   `cookies` (dict): Словарь с cookies запроса.
+-   `headers` (dict): Словарь с заголовками запроса.
+-   `access_token` (str): Access token для аутентификации.
+-   `proof_token` (list): Список proof token'ов.
+-   `turnstile_token` (str): Turnstile token.
+-   `arkose_request` (arkReq): Объект `arkReq`, содержащий информацию для запроса к Arkose Labs.
+-   `arkose_token` (str): Токен, полученный от Arkose Labs.
+-   `data_build` (str): Строка, содержащая информацию о сборке данных.
 
 ### `arkReq`
 
-**Описание**: Класс, предназначенный для хранения данных, необходимых для выполнения запросов к Arkose Labs (FunCaptcha).
+**Описание**: Класс, предназначенный для хранения данных, необходимых для выполнения запросов к Arkose Labs.
 
 **Атрибуты**:
-- `arkURL` (str): URL для запроса к Arkose Labs.
-- `arkBx` (str): Зашифрованное значение, используемое для Arkose Labs.
-- `arkHeader` (dict): Словарь с заголовками для запроса к Arkose Labs.
-- `arkBody` (dict): Словарь с данными тела запроса для Arkose Labs.
-- `arkCookies` (dict): Словарь с куками для запроса к Arkose Labs.
-- `userAgent` (str): User-Agent, используемый для запроса к Arkose Labs.
+
+-   `arkURL` (str): URL для запроса к Arkose Labs.
+-   `arkBx` (str): Зашифрованное значение, используемое в запросах к Arkose Labs.
+-   `arkHeader` (dict): Заголовки запроса к Arkose Labs.
+-   `arkBody` (dict): Тело запроса к Arkose Labs.
+-   `arkCookies` (dict): Cookies для запроса к Arkose Labs.
+-   `userAgent` (str): User-Agent, используемый в запросах.
 
 ## Функции
 
@@ -43,50 +45,38 @@
 ```python
 def get_har_files() -> list[str]:
     """
-    Находит все HAR-файлы в директории с куками.
+    Находит все HAR-файлы в директории с cookies.
 
     Args:
         None
 
     Returns:
-        list[str]: Список путей к HAR-файлам.
+        list[str]: Список путей к найденным HAR-файлам.
 
     Raises:
-        NoValidHarFileError: Если директория с HAR-файлами недоступна для чтения или не содержит HAR-файлов.
-
+        NoValidHarFileError: Если директория с cookies не читаема или не найдено ни одного HAR-файла.
     """
 ```
 
-**Назначение**: Функция выполняет поиск всех файлов с расширением `.har` в директории, указанной как директория для хранения куки, и возвращает список путей к этим файлам.
+**Назначение**: Функция находит все файлы с расширением `.har` в директории, предназначенной для хранения cookies и HAR-файлов.
 
 **Как работает функция**:
-1. Проверяет, доступна ли директория для чтения. Если нет, вызывает исключение `NoValidHarFileError`.
-2. Обходит директорию и все её поддиректории в поисках файлов с расширением `.har`.
-3. Добавляет пути к найденным файлам в список `harPath`.
-4. Если список `harPath` пуст (т.е. HAR-файлы не найдены), вызывает исключение `NoValidHarFileError`.
-5. Сортирует список `harPath` по дате изменения файла (от старых к новым).
-6. Возвращает отсортированный список путей к HAR-файлам.
 
-```
-A: Проверка доступности директории для чтения
-|
-B: Обход директории и поиск HAR-файлов
-|
-C: Проверка, найдены ли HAR-файлы
-|
-D: Сортировка HAR-файлов по дате изменения
-|
-E: Возврат списка HAR-файлов
-```
+1.  Проверяет, доступна ли директория с cookies для чтения. Если нет, вызывает исключение `NoValidHarFileError`.
+2.  Проходит по всем файлам в директории и ее поддиректориях.
+3.  Если файл имеет расширение `.har`, добавляет его путь в список `harPath`.
+4.  Если список `harPath` пуст, вызывает исключение `NoValidHarFileError`.
+5.  Сортирует список `harPath` по времени изменения файла (от старых к новым).
+6.  Возвращает отсортированный список путей к HAR-файлам.
 
 **Примеры**:
 
 ```python
 try:
     har_files = get_har_files()
-    print(f"Найденные HAR-файлы: {har_files}")
+    print(f"Found HAR files: {har_files}")
 except NoValidHarFileError as ex:
-    print(f"Ошибка: {ex}")
+    print(f"Error: {ex}")
 ```
 
 ### `readHAR`
@@ -94,50 +84,30 @@ except NoValidHarFileError as ex:
 ```python
 def readHAR(request_config: RequestConfig) -> None:
     """
-    Считывает данные из HAR-файлов и заполняет объект RequestConfig.
+    Извлекает данные из HAR-файлов и сохраняет их в объекте RequestConfig.
 
     Args:
-        request_config (RequestConfig): Объект RequestConfig для заполнения данными из HAR-файлов.
+        request_config (RequestConfig): Объект RequestConfig для хранения извлеченных данных.
 
     Returns:
         None
 
     Raises:
-        NoValidHarFileError: Если proof_token не найден в HAR-файлах.
+        NoValidHarFileError: Если не найден proof_token в HAR-файлах.
     """
 ```
 
-**Назначение**: Функция читает HAR-файлы, извлекает из них данные (токены, заголовки, куки) и сохраняет их в объект `RequestConfig`.
+**Назначение**: Функция читает HAR-файлы и извлекает из них необходимые данные, такие как access token, proof token, turnstile token, cookies и информацию для запросов к Arkose Labs.
 
 **Как работает функция**:
 
-1. Получает список HAR-файлов с помощью функции `get_har_files()`.
-2. Перебирает каждый HAR-файл в списке.
-3. Открывает HAR-файл и пытается загрузить его содержимое как JSON. Если возникают ошибки при чтении JSON, переходит к следующему файлу.
-4. Перебирает записи в HAR-файле (`harFile['log']['entries']`).
-5. Для каждой записи:
-   - Извлекает заголовки с помощью функции `get_headers()`.
-   - Если URL записи соответствует `arkose_url`, парсит запись с помощью `parseHAREntry()` и сохраняет результат в `request_config.arkose_request`.
-   - Если URL записи начинается с `start_url`, пытается извлечь `access_token` из текста ответа, а также `proof_token` и `turnstile_token` из заголовков. Куки извлекаются из запроса.
-6. Если после обработки всех HAR-файлов `request_config.proof_token` остается `None`, вызывает исключение `NoValidHarFileError`.
-
-```
-A: Получение списка HAR-файлов
-|
-B: Перебор HAR-файлов
-|
-C: Загрузка содержимого HAR-файла как JSON
-|
-D: Перебор записей в HAR-файле
-|
-E: Извлечение заголовков
-|
-F: Проверка URL записи на соответствие arkose_url или start_url
-|
-G: Извлечение данных (access_token, proof_token, turnstile_token, куки)
-|
-H: Проверка наличия proof_token после обработки всех файлов
-```
+1.  Получает список HAR-файлов с помощью функции `get_har_files()`.
+2.  Перебирает HAR-файлы в списке.
+3.  Для каждого HAR-файла пытается прочитать его содержимое как JSON.
+4.  Перебирает записи (entries) в HAR-файле.
+5.  Если URL записи соответствует `arkose_url`, парсит запись с помощью функции `parseHAREntry()` и сохраняет результат в `request_config.arkose_request`.
+6.  Если URL записи начинается с `start_url`, извлекает access token, proof token, turnstile token и cookies из заголовков и тела ответа.
+7.  Если не найден `proof_token` ни в одном из HAR-файлов, вызывает исключение `NoValidHarFileError`.
 
 **Примеры**:
 
@@ -148,7 +118,7 @@ try:
     print(f"Access Token: {request_config.access_token}")
     print(f"Proof Token: {request_config.proof_token}")
 except NoValidHarFileError as ex:
-    print(f"Ошибка: {ex}")
+    print(f"Error: {ex}")
 ```
 
 ### `get_headers`
@@ -159,10 +129,10 @@ def get_headers(entry: dict) -> dict:
     Извлекает заголовки из записи HAR-файла.
 
     Args:
-        entry (dict): Запись из HAR-файла.
+        entry (dict): Запись HAR-файла.
 
     Returns:
-        dict: Словарь с заголовками, приведенными к нижнему регистру.
+        dict: Словарь с заголовками запроса в нижнем регистре.
     """
 ```
 
@@ -170,20 +140,10 @@ def get_headers(entry: dict) -> dict:
 
 **Как работает функция**:
 
-1. Перебирает заголовки в записи HAR-файла (`entry['request']['headers']`).
-2. Исключает заголовки `content-length`, `cookie` и заголовки, начинающиеся с `:`.
-3. Приводит имя каждого заголовка к нижнему регистру.
-4. Возвращает словарь, где ключи - имена заголовков (в нижнем регистре), а значения - значения заголовков.
-
-```
-A: Перебор заголовков в записи HAR-файла
-|
-B: Исключение нежелательных заголовков
-|
-C: Приведение имени заголовка к нижнему регистру
-|
-D: Возврат словаря с заголовками
-```
+1.  Извлекает список заголовков из записи HAR-файла.
+2.  Фильтрует заголовки, исключая `content-length`, `cookie` и заголовки, начинающиеся с `:`.
+3.  Создает словарь, в котором ключами являются имена заголовков в нижнем регистре, а значениями - значения заголовков.
+4.  Возвращает полученный словарь.
 
 **Примеры**:
 
@@ -192,13 +152,15 @@ entry = {
     'request': {
         'headers': [
             {'name': 'Content-Type', 'value': 'application/json'},
-            {'name': 'Cookie', 'value': 'test=123'},
-            {'name': 'X-Custom-Header', 'value': 'custom_value'}
+            {'name': 'Content-Length', 'value': '123'},
+            {'name': 'Cookie', 'value': 'sessionid=12345'},
+            {'name': 'Authorization', 'value': 'Bearer mytoken'}
         ]
     }
 }
 headers = get_headers(entry)
-print(headers)  # Вывод: {'content-type': 'application/json', 'x-custom-header': 'custom_value'}
+print(headers)
+# Expected output: {'content-type': 'application/json', 'authorization': 'Bearer mytoken'}
 ```
 
 ### `parseHAREntry`
@@ -206,44 +168,24 @@ print(headers)  # Вывод: {'content-type': 'application/json', 'x-custom-hea
 ```python
 def parseHAREntry(entry: dict) -> arkReq:
     """
-    Парсит запись HAR-файла для извлечения данных Arkose Labs.
+    Парсит запись HAR-файла для извлечения данных, необходимых для запросов к Arkose Labs.
 
     Args:
-        entry (dict): Запись из HAR-файла.
+        entry (dict): Запись HAR-файла.
 
     Returns:
-        arkReq: Объект класса arkReq с данными для запроса к Arkose Labs.
+        arkReq: Объект arkReq с извлеченными данными.
     """
 ```
 
-**Назначение**: Функция парсит запись HAR-файла, содержащую информацию о запросе к Arkose Labs, и создает объект класса `arkReq` с извлеченными данными.
+**Назначение**: Функция парсит запись HAR-файла и извлекает из нее данные, необходимые для запросов к Arkose Labs, такие как URL, заголовки, тело запроса и cookies.
 
 **Как работает функция**:
 
-1. Создает временный объект `arkReq`.
-2. Заполняет поля объекта `arkReq` данными из записи HAR-файла:
-   - `arkURL` берется из `entry['request']['url']`.
-   - `arkHeader` получается с помощью функции `get_headers(entry)`.
-   - `arkBody` формируется из параметров POST-запроса (`entry['request']['postData']['params']`), исключая параметр `rnd`, и декодируя значения параметров с помощью `unquote()`.
-   - `arkCookies` формируется из куки запроса (`entry['request']['cookies']`).
-3. Извлекает `userAgent` из заголовков.
-4. Извлекает значения `bda` и `bw` из тела запроса и заголовков соответственно.
-5. Расшифровывает значение `bda` с использованием `userAgent` и `bw` с помощью функции `decrypt()`. Результат сохраняется в `tmpArk.arkBx`.
-6. Возвращает объект `tmpArk`.
-
-```
-A: Создание временного объекта arkReq
-|
-B: Заполнение полей объекта arkReq данными из записи HAR-файла
-|
-C: Извлечение userAgent
-|
-D: Извлечение значений bda и bw
-|
-E: Расшифровка значения bda
-|
-F: Возврат объекта arkReq
-```
+1.  Создает объект `arkReq` и заполняет его поля данными из записи HAR-файла.
+2.  Извлекает `bda` из тела запроса и `bw` из заголовка `x-ark-esync-value`.
+3.  Дешифрует `bda` с использованием `userAgent` и `bw` с помощью функции `decrypt()`.
+4.  Возвращает объект `arkReq`.
 
 **Примеры**:
 
@@ -253,22 +195,22 @@ entry = {
         'url': 'https://tcr9i.chat.openai.com/fc/gt2/public_key/35536E1E-65B4-4D96-9D97-6ADB7EFF8147',
         'headers': [
             {'name': 'User-Agent', 'value': 'Mozilla/5.0'},
-            {'name': 'X-Ark-Esync-Value', 'value': 'test_bw'}
+            {'name': 'X-Ark-Esync-Value', 'value': '12345'}
         ],
         'postData': {
             'params': [
-                {'name': 'bda', 'value': 'encrypted_data'},
+                {'name': 'bda', 'value': 'encrypted_bda'},
                 {'name': 'rnd', 'value': '0.123'}
             ]
         },
         'cookies': [
-            {'name': 'test_cookie', 'value': 'cookie_value'}
+            {'name': 'ark_cookie', 'value': 'cookie_value'}
         ]
     }
 }
 ark_req = parseHAREntry(entry)
-print(ark_req.arkURL)
-print(ark_req.arkBody)
+print(f"Arkose URL: {ark_req.arkURL}")
+print(f"Arkose Bx: {ark_req.arkBx}")
 ```
 
 ### `genArkReq`
@@ -276,65 +218,48 @@ print(ark_req.arkBody)
 ```python
 def genArkReq(chatArk: arkReq) -> arkReq:
     """
-    Генерирует новый запрос Arkose Labs на основе существующего.
+    Генерирует новый объект arkReq с обновленными параметрами для запроса к Arkose Labs.
 
     Args:
-        chatArk (arkReq): Объект класса arkReq с данными для запроса к Arkose Labs.
+        chatArk (arkReq): Объект arkReq с исходными данными.
 
     Returns:
-        arkReq: Новый объект класса arkReq с обновленными данными для запроса к Arkose Labs.
+        arkReq: Новый объект arkReq с обновленными параметрами.
 
     Raises:
-        RuntimeError: Если предоставленный объект arkReq недействителен.
+        RuntimeError: Если входной объект arkReq недействителен.
     """
 ```
 
-**Назначение**: Функция генерирует новый запрос Arkose Labs на основе существующего, обновляя значения `bda` и `rnd` в теле запроса, а также `x-ark-esync-value` в заголовках.
+**Назначение**: Функция генерирует новый объект `arkReq` с обновленными параметрами для запроса к Arkose Labs. Она обновляет значения `bda`, `rnd` и `x-ark-esync-value` в теле и заголовках запроса.
 
 **Как работает функция**:
 
-1. Создает глубокую копию объекта `chatArk`.
-2. Проверяет, что `tmpArk` не `None` и что у него есть `arkBody` и `arkHeader`. Если нет, вызывает исключение `RuntimeError`.
-3. Получает новые значения `bda` и `bw` с помощью функции `getBDA()`.
-4. Кодирует `bda` в base64 и обновляет значение `bda` в `tmpArk.arkBody`.
-5. Генерирует случайное число и обновляет значение `rnd` в `tmpArk.arkBody`.
-6. Обновляет значение `x-ark-esync-value` в `tmpArk.arkHeader` на новое значение `bw`.
-7. Возвращает обновленный объект `tmpArk`.
-
-```
-A: Создание глубокой копии объекта chatArk
-|
-B: Проверка валидности объекта arkReq
-|
-C: Получение новых значений bda и bw
-|
-D: Кодирование bda в base64 и обновление значения в tmpArk.arkBody
-|
-E: Генерация случайного числа и обновление значения rnd в tmpArk.arkBody
-|
-F: Обновление значения x-ark-esync-value в tmpArk.arkHeader
-|
-G: Возврат обновленного объекта arkReq
-```
+1.  Создает глубокую копию входного объекта `arkReq`.
+2.  Проверяет, является ли копия `tmpArk` валидной (не `None` и содержит ли тело и заголовки запроса). Если нет, вызывает исключение `RuntimeError`.
+3.  Получает новые значения `bda` и `bw` с помощью функции `getBDA()`.
+4.  Кодирует `bda` в base64 и обновляет значение `bda` в теле запроса.
+5.  Генерирует случайное число и обновляет значение `rnd` в теле запроса.
+6.  Обновляет значение `x-ark-esync-value` в заголовках запроса.
+7.  Возвращает обновленный объект `arkReq`.
 
 **Примеры**:
 
 ```python
-ark_req = arkReq(
+chat_ark = arkReq(
     arkURL='https://example.com',
-    arkBx='test_bx',
-    arkHeader={'x-ark-esync-value': 'old_bw', 'User-Agent': 'Mozilla/5.0'},
+    arkBx='encrypted_bx',
+    arkHeader={'User-Agent': 'Mozilla/5.0', 'x-ark-esync-value': 'old_bw'},
     arkBody={'bda': 'old_bda'},
     arkCookies={},
     userAgent='Mozilla/5.0'
 )
-
 try:
-    new_ark_req = genArkReq(ark_req)
-    print(f"New bda: {new_ark_req.arkBody['bda']}")
-    print(f"New x-ark-esync-value: {new_ark_req.arkHeader['x-ark-esync-value']}")
+    new_ark_req = genArkReq(chat_ark)
+    print(f"New BDA: {new_ark_req.arkBody['bda']}")
+    print(f"New X-Ark-Esync-Value: {new_ark_req.arkHeader['x-ark-esync-value']}")
 except RuntimeError as ex:
-    print(f"Ошибка: {ex}")
+    print(f"Error: {ex}")
 ```
 
 ### `sendRequest`
@@ -342,64 +267,49 @@ except RuntimeError as ex:
 ```python
 async def sendRequest(tmpArk: arkReq, proxy: str = None) -> str:
     """
-    Отправляет запрос к Arkose Labs и возвращает токен.
+    Отправляет запрос к Arkose Labs и получает токен.
 
     Args:
-        tmpArk (arkReq): Объект класса arkReq с данными для запроса к Arkose Labs.
-        proxy (str, optional): Строка с прокси-сервером. По умолчанию None.
+        tmpArk (arkReq): Объект arkReq с данными для запроса.
+        proxy (str, optional): Адрес прокси-сервера. По умолчанию None.
 
     Returns:
-        str: Токен Arkose Labs.
+        str: Токен, полученный от Arkose Labs.
 
     Raises:
-        RuntimeError: Если не удалось получить токен Arkose Labs.
+        RuntimeError: Если не удалось сгенерировать валидный arkose token.
     """
 ```
 
-**Назначение**: Функция отправляет асинхронный POST-запрос к Arkose Labs с использованием предоставленных данных и возвращает полученный токен.
+**Назначение**: Функция отправляет запрос к Arkose Labs с использованием данных из объекта `arkReq` и получает токен Arkose.
 
 **Как работает функция**:
 
-1. Создает асинхронную сессию с использованием `StreamSession` с заголовками, куками и прокси (если указан).
-2. Отправляет POST-запрос к `tmpArk.arkURL` с данными из `tmpArk.arkBody`.
-3. Получает JSON-ответ из ответа.
-4. Извлекает значение токена из JSON-ответа (`data.get("token")`).
-5. Проверяет, содержит ли токен подстроку `sup=1|rid=`. Если нет, вызывает исключение `RuntimeError`.
-6. Возвращает токен.
-
-```
-A: Создание асинхронной сессии
-|
-B: Отправка POST-запроса к Arkose Labs
-|
-C: Получение JSON-ответа
-|
-D: Извлечение значения токена
-|
-E: Проверка валидности токена
-|
-F: Возврат токена
-```
+1.  Создает асинхронную сессию с использованием `StreamSession` с заданными заголовками, cookies и прокси (если указан).
+2.  Отправляет POST-запрос к `tmpArk.arkURL` с данными из `tmpArk.arkBody`.
+3.  Получает JSON-ответ и извлекает значение токена из поля `token`.
+4.  Проверяет, содержит ли токен подстроку `sup=1|rid=`. Если нет, вызывает исключение `RuntimeError`.
+5.  Возвращает полученный токен.
 
 **Примеры**:
 
 ```python
 import asyncio
+
 async def main():
-    ark_req = arkReq(
-        arkURL='https://example.com',
-        arkBx='test_bx',
-        arkHeader={'x-ark-esync-value': 'old_bw', 'User-Agent': 'Mozilla/5.0'},
-        arkBody={'bda': 'old_bda'},
+    tmp_ark = arkReq(
+        arkURL='https://example.com/arkose',
+        arkBx='encrypted_bx',
+        arkHeader={'User-Agent': 'Mozilla/5.0'},
+        arkBody={'bda': 'base64_bda'},
         arkCookies={},
         userAgent='Mozilla/5.0'
     )
-
     try:
-        token = await sendRequest(ark_req)
-        print(f"Arkose Token: {token}")
+        arkose_token = await sendRequest(tmp_ark, proxy='http://proxy:8080')
+        print(f"Arkose Token: {arkose_token}")
     except RuntimeError as ex:
-        print(f"Ошибка: {ex}")
+        print(f"Error: {ex}")
 
 asyncio.run(main())
 ```
@@ -409,56 +319,41 @@ asyncio.run(main())
 ```python
 def getBDA(arkReq: arkReq) -> tuple[str, str]:
     """
-    Генерирует зашифрованное значение bda и bw для Arkose Labs.
+    Обновляет и шифрует данные bx для запроса к Arkose Labs.
 
     Args:
-        arkReq (arkReq): Объект класса arkReq с данными для запроса к Arkose Labs.
+        arkReq (arkReq): Объект arkReq с данными для запроса.
 
     Returns:
-        tuple[str, str]: Кортеж, содержащий зашифрованное значение bda и bw.
+        tuple[str, str]: Кортеж, содержащий зашифрованное значение bx и bw.
     """
 ```
 
-**Назначение**: Функция генерирует зашифрованное значение `bda` и `bw` для запроса к Arkose Labs, используя предоставленные данные из объекта `arkReq`.
+**Назначение**: Функция обновляет и шифрует данные `bx` для запроса к Arkose Labs. Она заменяет UUID, получает новые значения `bt` и `bw`, шифрует `bx` и возвращает зашифрованное значение и `bw`.
 
 **Как работает функция**:
 
-1. Получает значение `bx` из `arkReq.arkBx`.
-2. Заменяет значение ключа `"key":"n"` в `bx` на новое значение, полученное с помощью функции `getN()`.
-3. Ищет старый UUID в `bx` и заменяет его на новый UUID.
-4. Генерирует новое значение `bw` с помощью функций `getBt()` и `getBw()`.
-5. Шифрует `bx` с использованием `arkReq.userAgent` и `bw` с помощью функции `encrypt()`.
-6. Возвращает кортеж, содержащий зашифрованное значение `bx` и `bw`.
-
-```
-A: Получение значения bx
-|
-B: Замена значения ключа "key":"n"
-|
-C: Замена старого UUID на новый
-|
-D: Генерация нового значения bw
-|
-E: Шифрование bx
-|
-F: Возврат зашифрованного значения bx и bw
-```
+1.  Извлекает `bx` из объекта `arkReq`.
+2.  Заменяет значение ключа `"key":"n","value":"\\S*?"` в `bx` на новое значение, полученное с помощью функции `getN()`.
+3.  Ищет старый UUID в `bx` и заменяет его на новый, сгенерированный с помощью `uuid.uuid4()`.
+4.  Получает значение `bw` с помощью функций `getBt()` и `getBw()`.
+5.  Шифрует `bx` с использованием `userAgent` и `bw` с помощью функции `encrypt()`.
+6.  Возвращает зашифрованное значение `bx` и `bw`.
 
 **Примеры**:
 
 ```python
 ark_req = arkReq(
-    arkURL='https://example.com',
-    arkBx='test_bx',
-    arkHeader={'x-ark-esync-value': 'old_bw', 'User-Agent': 'Mozilla/5.0'},
-    arkBody={'bda': 'old_bda'},
+    arkURL='https://example.com/arkose',
+    arkBx='{"key":"4b4b269e68","value":"old_uuid"}{"key":"n","value":"old_n"}',
+    arkHeader={'User-Agent': 'Mozilla/5.0'},
+    arkBody={},
     arkCookies={},
     userAgent='Mozilla/5.0'
 )
-
 encrypted_bx, bw = getBDA(ark_req)
-print(f"Encrypted bx: {encrypted_bx}")
-print(f"Bw: {bw}")
+print(f"Encrypted BX: {encrypted_bx}")
+print(f"BW: {bw}")
 ```
 
 ### `getBt`
@@ -466,37 +361,29 @@ print(f"Bw: {bw}")
 ```python
 def getBt() -> int:
     """
-    Получает текущее время в формате Unix timestamp.
+    Получает текущее время в формате timestamp.
 
     Args:
         None
 
     Returns:
-        int: Текущее время в формате Unix timestamp.
+        int: Текущее время в формате timestamp.
     """
 ```
 
-**Назначение**: Функция возвращает текущее время в формате Unix timestamp (количество секунд, прошедших с начала эпохи Unix).
+**Назначение**: Функция возвращает текущее время в формате timestamp (количество секунд, прошедших с начала эпохи Unix).
 
 **Как работает функция**:
 
-1. Получает текущее время с помощью `time.time()`.
-2. Преобразует время в целое число.
-3. Возвращает полученное значение.
-
-```
-A: Получение текущего времени
-|
-B: Преобразование времени в целое число
-|
-C: Возврат времени в формате Unix timestamp
-```
+1.  Вызывает функцию `time.time()`, которая возвращает текущее время в секундах.
+2.  Преобразует полученное значение в целое число.
+3.  Возвращает полученное целое число.
 
 **Примеры**:
 
 ```python
 bt = getBt()
-print(f"Bt: {bt}")
+print(f"Current Timestamp: {bt}")
 ```
 
 ### `getBw`
@@ -504,41 +391,31 @@ print(f"Bt: {bt}")
 ```python
 def getBw(bt: int) -> str:
     """
-    Вычисляет значение bw на основе времени bt.
+    Вычисляет значение bw на основе timestamp bt.
 
     Args:
-        bt (int): Время в формате Unix timestamp.
+        bt (int): Timestamp.
 
     Returns:
         str: Вычисленное значение bw.
     """
 ```
 
-**Назначение**: Функция вычисляет значение `bw` на основе предоставленного времени `bt` (Unix timestamp).
+**Назначение**: Функция вычисляет значение `bw` на основе timestamp `bt`.
 
 **Как работает функция**:
 
-1. Вычисляет остаток от деления `bt` на 21600.
-2. Вычитает остаток из `bt`.
-3. Преобразует результат в строку.
-4. Возвращает полученную строку.
-
-```
-A: Вычисление остатка от деления bt на 21600
-|
-B: Вычитание остатка из bt
-|
-C: Преобразование результата в строку
-|
-D: Возврат вычисленного значения bw
-```
+1.  Вычисляет остаток от деления `bt` на 21600.
+2.  Вычитает полученный остаток из `bt`.
+3.  Преобразует результат в строку.
+4.  Возвращает полученную строку.
 
 **Примеры**:
 
 ```python
-bt = int(time.time())
+bt = 1678886400
 bw = getBw(bt)
-print(f"Bw: {bw}")
+print(f"BW: {bw}")
 ```
 
 ### `getN`
@@ -546,34 +423,25 @@ print(f"Bw: {bw}")
 ```python
 def getN() -> str:
     """
-    Генерирует значение n на основе текущего времени.
+    Генерирует base64-encoded timestamp.
 
     Args:
         None
 
     Returns:
-        str: Значение n, закодированное в base64.
+        str: Сгенерированный base64-encoded timestamp.
     """
 ```
 
-**Назначение**: Функция генерирует значение `n` на основе текущего времени и кодирует его в base64.
+**Назначение**: Функция генерирует timestamp, кодирует его в base64 и возвращает закодированное значение в виде строки.
 
 **Как работает функция**:
 
-1. Получает текущее время в формате Unix timestamp и преобразует его в строку.
-2. Кодирует строку с временем в base64.
-3. Декодирует закодированное значение в строку.
-4. Возвращает полученную строку.
-
-```
-A: Получение текущего времени в формате Unix timestamp
-|
-B: Кодирование строки с временем в base64
-|
-C: Декодирование закодированного значения в строку
-|
-D: Возврат значения n
-```
+1.  Получает текущее время в виде timestamp с помощью функции `time.time()`.
+2.  Преобразует timestamp в строку.
+3.  Кодирует строку в base64.
+4.  Декодирует base64-encoded значение в строку.
+5.  Возвращает полученную строку.
 
 **Примеры**:
 
@@ -587,36 +455,24 @@ print(f"N: {n}")
 ```python
 async def get_request_config(request_config: RequestConfig, proxy: str) -> RequestConfig:
     """
-    Обновляет конфигурацию запроса, получая данные из HAR-файлов и Arkose Labs.
+    Получает конфигурацию запроса, включая токены Arkose Labs.
 
     Args:
-        request_config (RequestConfig): Объект RequestConfig для обновления.
-        proxy (str): Прокси-сервер для использования.
+        request_config (RequestConfig): Объект RequestConfig для хранения конфигурации.
+        proxy (str): Адрес прокси-сервера.
 
     Returns:
-        RequestConfig: Обновленный объект RequestConfig.
+        RequestConfig: Обновленный объект RequestConfig с токенами Arkose Labs.
     """
 ```
 
-**Назначение**: Функция обновляет конфигурацию запроса, получая данные из HAR-файлов и запрашивая токен у Arkose Labs, если необходимо.
+**Назначение**: Функция получает конфигурацию запроса, включая токены Arkose Labs.
 
 **Как работает функция**:
 
-1. Если `request_config.proof_token` равен `None`, читает данные из HAR-файлов с помощью функции `readHAR()`.
-2. Если `request_config.arkose_request` не равен `None`, генерирует и отправляет запрос к Arkose Labs с помощью функций `genArkReq()` и `sendRequest()`, и сохраняет полученный токен в `request_config.arkose_token`.
-3. Возвращает обновленный объект `request_config`.
-
-```
-A: Проверка наличия proof_token
-|
-B: Чтение данных из HAR-файлов
-|
-C: Проверка наличия arkose_request
-|
-D: Генерация и отправка запроса к Arkose Labs
-|
-E: Возврат обновленного объекта request_config
-```
+1.  Если `request_config.proof_token` не установлен, читает HAR-файлы с помощью функции `readHAR()` и заполняет `request_config`.
+2.  Если `request_config.arkose_request` установлен, генерирует и отправляет запрос Arkose Labs с помощью функций `genArkReq()` и `sendRequest()`, и сохраняет полученный токен в `request_config.arkose_token`.
+3.  Возвращает обновленный объект `request_config`.
 
 **Примеры**:
 
@@ -625,11 +481,9 @@ import asyncio
 
 async def main():
     request_config = RequestConfig()
-    proxy = None  # Замените на свой прокси, если необходимо
-
+    proxy = 'http://proxy:8080'
     updated_config = await get_request_config(request_config, proxy)
-
-    print(f"Access Token: {updated_config.access_token}")
     print(f"Arkose Token: {updated_config.arkose_token}")
 
 asyncio.run(main())
+```

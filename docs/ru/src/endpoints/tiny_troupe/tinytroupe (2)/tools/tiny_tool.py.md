@@ -2,428 +2,345 @@
 
 ## Обзор
 
-Модуль `TinyTool` определяет базовый класс для создания инструментов, используемых агентами в системе `tinytroupe`. Он предоставляет общую структуру для инструментов, включая атрибуты, такие как имя, описание, владелец, а также методы для обработки действий, проверки владения и защиты от нежелательных побочных эффектов в реальном мире. Этот модуль является частью фреймворка для разработки виртуальных ассистентов и агентов, взаимодействующих в некоторой среде.
+Модуль `TinyTool` предоставляет базовый класс для создания инструментов в проекте `hypotez`. Инструменты используются агентами для выполнения определенных действий. Этот модуль определяет структуру и основные методы, которые должны быть реализованы в подклассах.
 
-## Подробней
+## Подробнее
 
-Модуль `TinyTool` предоставляет абстрактный класс, который служит основой для создания различных инструментов, используемых в системе `tinytroupe`. Он включает механизмы для контроля владения инструментами, предупреждения о потенциальных побочных эффектах в реальном мире и обработки действий агентов.
+Модуль содержит класс `TinyTool`, который является базовым классом для всех инструментов. Он включает в себя методы для защиты от нежелательных побочных эффектов, проверки права собственности на инструмент и обработки действий агента. Класс использует `JsonSerializableRegistry` для сериализации и десериализации.
 
 ## Классы
 
 ### `TinyTool`
 
-**Описание**: Базовый класс для инструментов, используемых агентами.
-
-**Принцип работы**:
-
-Класс `TinyTool` предоставляет основу для создания инструментов, которые могут быть использованы агентами. Он включает механизмы для защиты от нежелательных побочных эффектов в реальном мире, проверки владения инструментом и обработки действий агентов.
+**Описание**:
+Базовый класс для создания инструментов. Инструменты используются агентами для выполнения действий.
 
 **Наследует**:
-
-- `JsonSerializableRegistry`: Класс, обеспечивающий сериализацию и десериализацию объектов в формат JSON.
+`JsonSerializableRegistry` - обеспечивает возможность сериализации и десериализации объектов класса в формат JSON.
 
 **Атрибуты**:
-
 - `name` (str): Имя инструмента.
 - `description` (str): Краткое описание инструмента.
-- `owner` (str): Агент, владеющий инструментом. Если `None`, инструмент может использоваться любым агентом.
+- `owner` (str): Агент, которому принадлежит инструмент. Если `None`, инструмент может использоваться любым агентом.
 - `real_world_side_effects` (bool): Указывает, имеет ли инструмент побочные эффекты в реальном мире.
 - `exporter` (ArtifactExporter): Экспортер для сохранения результатов работы инструмента.
-- `enricher` (Enricher): Обогатитель для добавления дополнительной информации к результатам работы инструмента.
+- `enricher` (Enricher): Обогатитель для обработки результатов работы инструмента.
 
 **Методы**:
-
-- `__init__(self, name, description, owner=None, real_world_side_effects=False, exporter=None, enricher=None)`: Инициализация нового инструмента.
-- `_process_action(self, agent, action: dict) -> bool`: Абстрактный метод для обработки действий агента. Должен быть реализован в подклассах.
-- `_protect_real_world(self)`: Выводит предупреждение, если инструмент имеет побочные эффекты в реальном мире.
-- `_enforce_ownership(self, agent)`: Проверяет, имеет ли агент право на использование инструмента.
+- `__init__(self, name, description, owner=None, real_world_side_effects=False, exporter=None, enricher=None)`: Инициализирует новый инструмент.
+- `_process_action(self, agent, action: dict) -> bool`: Абстрактный метод, который должен быть реализован в подклассах для обработки действий агента.
+- `_protect_real_world(self)`: Предупреждает о возможных побочных эффектах инструмента в реальном мире.
+- `_enforce_ownership(self, agent)`: Проверяет, имеет ли агент право собственности на инструмент.
 - `set_owner(self, owner)`: Устанавливает владельца инструмента.
-- `actions_definitions_prompt(self) -> str`: Абстрактный метод, возвращающий описание действий инструмента в формате строки. Должен быть реализован в подклассах.
-- `actions_constraints_prompt(self) -> str`: Абстрактный метод, возвращающий ограничения на действия инструмента в формате строки. Должен быть реализован в подклассах.
-- `process_action(self, agent, action: dict) -> bool`: Обрабатывает действие агента, проверяя наличие побочных эффектов и право собственности.
+- `actions_definitions_prompt(self) -> str`: Абстрактный метод, который должен быть реализован в подклассах для определения действий инструмента.
+- `actions_constraints_prompt(self) -> str`: Абстрактный метод, который должен быть реализован в подклассах для определения ограничений действий инструмента.
+- `process_action(self, agent, action: dict) -> bool`: Обрабатывает действие агента, проверяя побочные эффекты и право собственности.
 
-## Функции
-
-### `__init__`
-
+#### `__init__`
 ```python
 def __init__(self, name, description, owner=None, real_world_side_effects=False, exporter=None, enricher=None):
+    """
+    Initialize a new tool.
+
+    Args:
+        name (str): The name of the tool.
+        description (str): A brief description of the tool.
+        owner (str): The agent that owns the tool. If None, the tool can be used by anyone.
+        real_world_side_effects (bool): Whether the tool has real-world side effects. That is to say, if it has the potential to change the 
+            state of the world outside of the simulation. If it does, it should be used with caution.
+        exporter (ArtifactExporter): An exporter that can be used to export the results of the tool's actions. If None, the tool will not be able to export results.
+        enricher (Enricher): An enricher that can be used to enrich the results of the tool's actions. If None, the tool will not be able to enrich results.
+    
+    """
 ```
 
-**Назначение**: Инициализация экземпляра класса `TinyTool`.
+**Назначение**: Инициализирует новый экземпляр класса `TinyTool`.
 
 **Параметры**:
-
 - `name` (str): Имя инструмента.
 - `description` (str): Описание инструмента.
 - `owner` (str, optional): Владелец инструмента. По умолчанию `None`.
 - `real_world_side_effects` (bool, optional): Флаг, указывающий на наличие побочных эффектов в реальном мире. По умолчанию `False`.
-- `exporter` (ArtifactExporter, optional): Экспортер результатов. По умолчанию `None`.
-- `enricher` (Enricher, optional): Обогатитель результатов. По умолчанию `None`.
-
-**Возвращает**:
-
-- `None`
-
-**Вызывает исключения**:
-
-- Отсутствуют явные исключения, но могут быть вызваны исключения из родительского класса или других вызываемых методов.
+- `exporter` (ArtifactExporter, optional): Экспортер для сохранения результатов. По умолчанию `None`.
+- `enricher` (Enricher, optional): Обогатитель для обработки результатов. По умолчанию `None`.
 
 **Как работает функция**:
-
-1. Функция инициализирует атрибуты экземпляра класса `TinyTool` значениями, переданными в качестве аргументов.
-2. Устанавливает имя инструмента (`self.name`), описание (`self.description`), владельца (`self.owner`), флаг побочных эффектов (`self.real_world_side_effects`), экспортер (`self.exporter`) и обогатитель (`self.enricher`).
+- Присваивает переданные значения атрибутам экземпляра класса, таким как `name`, `description`, `owner`, `real_world_side_effects`, `exporter` и `enricher`.
+- Если `owner` не указан, инструмент может использоваться любым агентом.
+- Если `real_world_side_effects` установлен в `True`, инструмент следует использовать с осторожностью, так как он может изменять состояние реального мира.
+- `exporter` используется для экспорта результатов работы инструмента. Если `None`, экспорт результатов невозможен.
+- `enricher` используется для обогащения результатов работы инструмента. Если `None`, обогащение результатов не выполняется.
 
 **Примеры**:
 
 ```python
 from tinytroupe.tools.tiny_tool import TinyTool
 
-tool = TinyTool(name='MyTool', description='A simple tool', owner='Agent1', real_world_side_effects=False)
-print(tool.name)  # MyTool
-print(tool.description) # A simple tool
-print(tool.owner) # Agent1
-print(tool.real_world_side_effects) # False
+# Пример создания инструмента с именем, описанием и без владельца
+tool = TinyTool(name='MyTool', description='A simple tool.')
+
+# Пример создания инструмента с именем, описанием и владельцем
+tool = TinyTool(name='MyTool', description='A simple tool.', owner='Agent1')
+
+# Пример создания инструмента с реальными побочными эффектами
+tool = TinyTool(name='MyTool', description='A tool with side effects.', real_world_side_effects=True)
 ```
 
-### `_process_action`
-
+#### `_process_action`
 ```python
 def _process_action(self, agent, action: dict) -> bool:
+    """
+    Subclasses must implement this method.
+    """
+    raise NotImplementedError("Subclasses must implement this method.")
 ```
 
-**Назначение**: Абстрактный метод для обработки действий агента.
+**Назначение**: Абстрактный метод, предназначенный для переопределения в подклассах. Обрабатывает действия, выполняемые агентом с использованием данного инструмента.
 
 **Параметры**:
-
-- `agent`: Агент, выполняющий действие.
-- `action` (dict): Словарь, представляющий действие агента.
+- `agent` (Agent): Агент, выполняющий действие.
+- `action` (dict): Словарь, содержащий информацию о выполняемом действии.
 
 **Возвращает**:
-
-- `bool`: Должен возвращать `True`, если действие было успешно обработано, и `False` в противном случае.
+- `bool`: Возвращает `True`, если действие было успешно обработано, и `False` в противном случае.
 
 **Вызывает исключения**:
-
-- `NotImplementedError`: Вызывается, так как метод должен быть переопределен в подклассах.
+- `NotImplementedError`: Вызывается, если метод не переопределен в подклассе.
 
 **Как работает функция**:
-
-1. Метод `_process_action` предназначен для обработки действий, выполняемых агентами с использованием данного инструмента.
-2. Поскольку это абстрактный метод, он не имеет реализации в базовом классе `TinyTool` и должен быть переопределен в подклассах для предоставления конкретной логики обработки действий.
+- Вызывает исключение `NotImplementedError`, так как должен быть реализован в подклассах.
+- Подклассы должны переопределить этот метод, чтобы определить логику обработки действий агента.
 
 **Примеры**:
+Поскольку это абстрактный метод, примеры его вызова не имеют смысла до тех пор, пока он не будет реализован в подклассе.
 
-```python
-from tinytroupe.tools.tiny_tool import TinyTool
-
-class MyTool(TinyTool):
-    def __init__(self, name, description, owner=None, real_world_side_effects=False, exporter=None, enricher=None):
-        super().__init__(name, description, owner, real_world_side_effects, exporter, enricher)
-
-    def _process_action(self, agent, action: dict) -> bool:
-        print(f"Agent {agent.name} выполнил действие: {action}")
-        return True
-
-# Создание инстанса класса MyTool
-tool = MyTool(name='MyTool', description='A simple tool')
-
-# Пример вызова функции _process_action
-# agent = ...  # Необходима инициализация агента
-# action = {'type': 'example_action', 'param': 'example_value'}
-# result = tool._process_action(agent, action)
-# print(result)
-```
-
-### `_protect_real_world`
-
+#### `_protect_real_world`
 ```python
 def _protect_real_world(self):
+    """
+    ...
+    """
+    if self.real_world_side_effects:
+        logger.warning(f" !!!!!!!!!! Tool {self.name} has REAL-WORLD SIDE EFFECTS. This is NOT just a simulation. Use with caution. !!!!!!!!!!")
 ```
 
-**Назначение**: Выводит предупреждение в лог, если инструмент имеет побочные эффекты в реальном мире.
+**Назначение**: Предупреждает пользователя о возможных побочных эффектах инструмента в реальном мире, если таковые имеются.
 
 **Параметры**:
-
-- `self`: Экземпляр класса `TinyTool`.
-
-**Возвращает**:
-
-- `None`
-
-**Вызывает исключения**:
-
 - Отсутствуют.
 
-**Как работает функция**:
+**Возвращает**:
+- Отсутствует.
 
-1. Функция проверяет, установлен ли флаг `real_world_side_effects` в `True`.
-2. Если флаг установлен, функция выводит предупреждение в лог с использованием модуля `logger`, указывающее на то, что инструмент имеет побочные эффекты в реальном мире и должен использоваться с осторожностью.
+**Как работает функция**:
+- Проверяет, установлен ли атрибут `real_world_side_effects` в `True`.
+- Если да, выводит предупреждение в лог с использованием модуля `logger` из `src.logger.logger`, указывающее на то, что инструмент имеет побочные эффекты в реальном мире и должен использоваться с осторожностью.
 
 **Примеры**:
-
 ```python
 from tinytroupe.tools.tiny_tool import TinyTool
-from tinytroupe.tools import logger
-# Пример с real_world_side_effects = True
-tool_with_side_effects = TinyTool(name='DangerousTool', description='Tool with real-world side effects', real_world_side_effects=True)
-tool_with_side_effects._protect_real_world()  # Выведет предупреждение в лог
+from src.logger import logger
 
-# Пример с real_world_side_effects = False
-tool_without_side_effects = TinyTool(name='SafeTool', description='Tool without real-world side effects', real_world_side_effects=False)
-tool_without_side_effects._protect_real_world()  # Ничего не выведет
+# Пример создания инструмента с реальными побочными эффектами
+tool = TinyTool(name='DangerousTool', description='A tool with side effects.', real_world_side_effects=True)
+
+# Вызов метода _protect_real_world
+tool._protect_real_world()  # Выведет предупреждение в лог
 ```
 
-### `_enforce_ownership`
-
+#### `_enforce_ownership`
 ```python
 def _enforce_ownership(self, agent):
+    """
+    ...
+    """
+    if self.owner is not None and agent.name != self.owner.name:
+        raise ValueError(f"Agent {agent.name} does not own tool {self.name}, which is owned by {self.owner.name}.")
 ```
 
-**Назначение**: Проверяет, имеет ли агент право на использование инструмента.
+**Назначение**: Проверяет, имеет ли агент право собственности на инструмент.
 
 **Параметры**:
-
-- `self`: Экземпляр класса `TinyTool`.
-- `agent`: Агент, пытающийся использовать инструмент.
+- `agent` (Agent): Агент, который пытается использовать инструмент.
 
 **Возвращает**:
-
-- `None`
+- Отсутствует.
 
 **Вызывает исключения**:
-
 - `ValueError`: Если агент не является владельцем инструмента.
 
 **Как работает функция**:
-
-1. Функция проверяет, установлен ли владелец инструмента (`self.owner`).
-2. Если владелец установлен, функция сравнивает имя агента (`agent.name`) с именем владельца (`self.owner.name`).
-3. Если агент не является владельцем, функция вызывает исключение `ValueError` с сообщением об ошибке.
+- Проверяет, установлен ли атрибут `owner` (владелец) инструмента.
+- Если владелец установлен, сравнивает имя агента с именем владельца.
+- Если имена не совпадают, вызывает исключение `ValueError` с сообщением о том, что агент не имеет права использовать инструмент.
 
 **Примеры**:
-
 ```python
 from tinytroupe.tools.tiny_tool import TinyTool
 
-# Пример с владельцем
+# Пример создания инструмента с владельцем
+tool = TinyTool(name='MyTool', description='A simple tool.', owner='Agent1')
+
 class Agent:
     def __init__(self, name):
         self.name = name
 
-agent1 = Agent('Agent1')
-agent2 = Agent('Agent2')
-tool_owned = TinyTool(name='OwnedTool', description='Tool owned by Agent1', owner=agent1)
+# Пример создания агента
+agent1 = Agent(name='Agent1')
+agent2 = Agent(name='Agent2')
 
-tool_owned._enforce_ownership(agent1)  # Не вызовет исключение
-
-try:
-    tool_owned._enforce_ownership(agent2)  # Вызовет ValueError
-except ValueError as ex:
-    print(ex)  # Agent Agent2 does not own tool OwnedTool, which is owned by Agent1.
-
-# Пример без владельца
-tool_unowned = TinyTool(name='UnownedTool', description='Tool without owner')
-tool_unowned._enforce_ownership(agent2)  # Не вызовет исключение
+# Вызов метода _enforce_ownership
+tool._enforce_ownership(agent1)  # Не вызовет исключение
+# tool._enforce_ownership(agent2)  # Вызовет исключение ValueError
 ```
 
-### `set_owner`
-
+#### `set_owner`
 ```python
 def set_owner(self, owner):
+    """
+    ...
+    """
+    self.owner = owner
 ```
 
 **Назначение**: Устанавливает владельца инструмента.
 
 **Параметры**:
-
-- `self`: Экземпляр класса `TinyTool`.
-- `owner`: Агент, который будет установлен в качестве владельца инструмента.
+- `owner` (Agent): Новый владелец инструмента.
 
 **Возвращает**:
-
-- `None`
-
-**Вызывает исключения**:
-
-- Отсутствуют.
+- Отсутствует.
 
 **Как работает функция**:
-
-1. Функция устанавливает атрибут `self.owner` равным значению, переданному в параметре `owner`.
+- Присваивает переданное значение атрибуту `owner` инструмента.
 
 **Примеры**:
-
 ```python
 from tinytroupe.tools.tiny_tool import TinyTool
+
+# Пример создания инструмента без владельца
+tool = TinyTool(name='MyTool', description='A simple tool.')
 
 class Agent:
     def __init__(self, name):
         self.name = name
 
-agent1 = Agent('Agent1')
-agent2 = Agent('Agent2')
-tool = TinyTool(name='MyTool', description='A simple tool')
+# Пример создания агента
+agent1 = Agent(name='Agent1')
 
+# Вызов метода set_owner
 tool.set_owner(agent1)
-print(tool.owner.name)  # Agent1
 
-tool.set_owner(agent2)
-print(tool.owner.name)  # Agent2
+# Теперь инструмент принадлежит агенту Agent1
 ```
 
-### `actions_definitions_prompt`
-
+#### `actions_definitions_prompt`
 ```python
 def actions_definitions_prompt(self) -> str:
+    """
+    ...
+    """
+    raise NotImplementedError("Subclasses must implement this method.")
 ```
 
-**Назначение**: Абстрактный метод, возвращающий описание действий инструмента в формате строки.
+**Назначение**: Абстрактный метод, который должен быть реализован в подклассах. Предназначен для определения возможных действий, которые может выполнять инструмент.
 
 **Параметры**:
-
-- `self`: Экземпляр класса `TinyTool`.
+- Отсутствуют.
 
 **Возвращает**:
-
-- `str`: Описание действий инструмента.
+- `str`: Строка, содержащая определение действий, которые может выполнять инструмент.
 
 **Вызывает исключения**:
-
-- `NotImplementedError`: Вызывается, так как метод должен быть переопределен в подклассах.
+- `NotImplementedError`: Вызывается, если метод не переопределен в подклассе.
 
 **Как работает функция**:
-
-1. Функция `actions_definitions_prompt` предназначена для предоставления описания действий, которые может выполнять данный инструмент.
-2. Поскольку это абстрактный метод, он не имеет реализации в базовом классе `TinyTool` и должен быть переопределен в подклассах для предоставления конкретного описания действий.
+- Вызывает исключение `NotImplementedError`, так как должен быть реализован в подклассах.
+- Подклассы должны переопределить этот метод, чтобы определить логику определения действий инструмента.
 
 **Примеры**:
+Поскольку это абстрактный метод, примеры его вызова не имеют смысла до тех пор, пока он не будет реализован в подклассе.
 
-```python
-from tinytroupe.tools.tiny_tool import TinyTool
-
-class MyTool(TinyTool):
-    def __init__(self, name, description, owner=None, real_world_side_effects=False, exporter=None, enricher=None):
-        super().__init__(name, description, owner, real_world_side_effects, exporter, enricher)
-
-    def actions_definitions_prompt(self) -> str:
-        return "Действия: выполнить задачу, проверить статус"
-
-# Создание инстанса класса MyTool
-tool = MyTool(name='MyTool', description='A simple tool')
-
-# Пример вызова функции actions_definitions_prompt
-result = tool.actions_definitions_prompt()
-print(result)  # Действия: выполнить задачу, проверить статус
-```
-
-### `actions_constraints_prompt`
-
+#### `actions_constraints_prompt`
 ```python
 def actions_constraints_prompt(self) -> str:
+    """
+    ...
+    """
+    raise NotImplementedError("Subclasses must implement this method.")
 ```
 
-**Назначение**: Абстрактный метод, возвращающий ограничения на действия инструмента в формате строки.
+**Назначение**: Абстрактный метод, который должен быть реализован в подклассах. Предназначен для определения ограничений на действия, которые может выполнять инструмент.
 
 **Параметры**:
-
-- `self`: Экземпляр класса `TinyTool`.
+- Отсутствуют.
 
 **Возвращает**:
-
-- `str`: Ограничения на действия инструмента.
+- `str`: Строка, содержащая ограничения на действия, которые может выполнять инструмент.
 
 **Вызывает исключения**:
-
-- `NotImplementedError`: Вызывается, так как метод должен быть переопределен в подклассах.
+- `NotImplementedError`: Вызывается, если метод не переопределен в подклассе.
 
 **Как работает функция**:
-
-1. Функция `actions_constraints_prompt` предназначена для предоставления описания ограничений на действия, которые может выполнять данный инструмент.
-2. Поскольку это абстрактный метод, он не имеет реализации в базовом классе `TinyTool` и должен быть переопределен в подклассах для предоставления конкретного описания ограничений.
+- Вызывает исключение `NotImplementedError`, так как должен быть реализован в подклассах.
+- Подклассы должны переопределить этот метод, чтобы определить логику определения ограничений на действия инструмента.
 
 **Примеры**:
+Поскольку это абстрактный метод, примеры его вызова не имеют смысла до тех пор, пока он не будет реализован в подклассе.
 
-```python
-from tinytroupe.tools.tiny_tool import TinyTool
-
-class MyTool(TinyTool):
-    def __init__(self, name, description, owner=None, real_world_side_effects=False, exporter=None, enricher=None):
-        super().__init__(name, description, owner, real_world_side_effects, exporter, enricher)
-
-    def actions_constraints_prompt(self) -> str:
-        return "Ограничения: нельзя выполнять более одной задачи одновременно"
-
-# Создание инстанса класса MyTool
-tool = MyTool(name='MyTool', description='A simple tool')
-
-# Пример вызова функции actions_constraints_prompt
-result = tool.actions_constraints_prompt()
-print(result)  # Ограничения: нельзя выполнять более одной задачи одновременно
-```
-
-### `process_action`
-
+#### `process_action`
 ```python
 def process_action(self, agent, action: dict) -> bool:
+    """
+    ...
+    """
+    self._protect_real_world()
+    self._enforce_ownership(agent)
+    self._process_action(agent, action)
 ```
 
-**Назначение**: Обрабатывает действие агента, проверяя наличие побочных эффектов и право собственности.
+**Назначение**: Обрабатывает действие агента, проверяя побочные эффекты и право собственности.
 
 **Параметры**:
-
-- `self`: Экземпляр класса `TinyTool`.
-- `agent`: Агент, выполняющий действие.
-- `action` (dict): Словарь, представляющий действие агента.
+- `agent` (Agent): Агент, выполняющий действие.
+- `action` (dict): Словарь, содержащий информацию о действии.
 
 **Возвращает**:
-
-- `bool`: Результат выполнения действия.
-
-**Вызывает исключения**:
-
-- `ValueError`: Если агент не является владельцем инструмента.
+- `bool`: Возвращает `True`, если действие было успешно обработано, и `False` в противном случае.
 
 **Как работает функция**:
-
-1.  **Защита от побочных эффектов в реальном мире**:
-
-    -   Вызывается метод `self._protect_real_world()`, который логирует предупреждение, если инструмент имеет `real_world_side_effects`.
-2.  **Проверка права собственности**:
-
-    -   Вызывается метод `self._enforce_ownership(agent)`, который проверяет, имеет ли агент право на использование инструмента. Если агент не является владельцем, вызывается исключение `ValueError`.
-3.  **Обработка действия**:
-
-    -   Вызывается метод `self._process_action(agent, action)` для фактической обработки действия. Результат этого метода возвращается как результат функции `process_action`.
+- Вызывает метод `_protect_real_world()` для проверки и предупреждения о возможных побочных эффектах инструмента в реальном мире.
+- Вызывает метод `_enforce_ownership(agent)` для проверки, имеет ли агент право собственности на инструмент.
+- Вызывает метод `_process_action(agent, action)` для обработки действия агента.
 
 **Примеры**:
-
 ```python
 from tinytroupe.tools.tiny_tool import TinyTool
+
+# Пример создания инструмента с владельцем
+tool = TinyTool(name='MyTool', description='A simple tool.', owner='Agent1')
 
 class Agent:
     def __init__(self, name):
         self.name = name
 
-class MyTool(TinyTool):
-    def __init__(self, name, description, owner=None, real_world_side_effects=False, exporter=None, enricher=None):
-        super().__init__(name, description, owner, real_world_side_effects, exporter, enricher)
+    def process_action(self, agent, action: dict) -> bool:
+        """
 
-    def _process_action(self, agent, action: dict) -> bool:
-        print(f"Agent {agent.name} выполнил действие: {action}")
-        return True
+        Args:
+            agent (Agent): 
+            action (dict):
 
-# Создание инстанса класса MyTool
-agent1 = Agent('Agent1')
-agent2 = Agent('Agent2')
-tool = MyTool(name='MyTool', description='A simple tool', owner=agent1)
+        Returns:
+            bool:
+        """
+        raise NotImplementedError
 
-# Пример вызова функции process_action
-action = {'type': 'example_action', 'param': 'example_value'}
-result = tool.process_action(agent1, action)  # Agent Agent1 выполнил действие: {'type': 'example_action', 'param': 'example_value'}
-print(result)  # True
+# Пример создания агента
+agent1 = Agent(name='Agent1')
 
-try:
-    result = tool.process_action(agent2, action)  # Вызовет ValueError, так как agent2 не владеет инструментом
-except ValueError as ex:
-    print(ex)  # Agent Agent2 does not own tool MyTool, which is owned by Agent1.
+# Пример действия
+action = {'action': 'do_something'}
+
+# Вызов метода process_action
+# tool.process_action(agent1, action)  # Вызовет исключение NotImplementedError, так как _process_action не реализован

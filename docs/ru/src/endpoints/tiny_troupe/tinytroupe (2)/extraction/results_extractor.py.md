@@ -1,81 +1,71 @@
-# Модуль извлечения результатов `results_extractor.py`
-
+# Модуль для извлечения результатов из взаимодействий агентов и окружения TinyTroupe
 ## Обзор
 
-Модуль `results_extractor.py` предназначен для извлечения ключевой информации из истории взаимодействий агентов в рамках проекта `tinytroupe`. Он предоставляет класс `ResultsExtractor`, который позволяет извлекать результаты как из отдельных агентов (`TinyPerson`), так и из целых виртуальных миров (`TinyWorld`). Модуль использует шаблоны `chevron` для формирования запросов к OpenAI API и преобразует полученные ответы в структурированный формат JSON.
+Модуль `results_extractor.py` предназначен для извлечения информации из истории взаимодействий агентов (`TinyPerson`) и окружения (`TinyWorld`) в рамках проекта `hypotez`. Он использует шаблоны для формирования запросов к OpenAI и извлекает структурированные данные в формате JSON.
 
 ## Подробней
 
-Этот модуль является важной частью системы, поскольку он автоматизирует процесс анализа и обобщения данных, полученных в результате моделирования взаимодействий агентов. Он позволяет исследователям и разработчикам быстро выявлять основные тенденции и закономерности в поведении агентов, а также оценивать эффективность различных стратегий и сценариев.
+Основная задача модуля - анализ истории взаимодействий агентов и выделение ключевых моментов. Это достигается путем формирования запросов на естественном языке с использованием шаблонов и отправки их в OpenAI для получения структурированных результатов. Результаты могут быть сохранены в формате JSON для дальнейшего анализа и использования.
 
 ## Классы
 
 ### `ResultsExtractor`
 
-**Описание**: Класс `ResultsExtractor` предназначен для извлечения результатов из истории взаимодействий агентов (`TinyPerson`) или виртуальных миров (`TinyWorld`).
+**Описание**: Класс `ResultsExtractor` предназначен для извлечения результатов из взаимодействий агентов и окружения. Он использует OpenAI для анализа текста и извлечения структурированных данных.
 
-**Принцип работы**:
-Класс инициализируется с путем к шаблону промпта для извлечения, а также значениями по умолчанию для различных параметров, таких как цель извлечения, ситуация, поля для извлечения и уровень детализации. Он предоставляет методы для извлечения результатов из агентов и миров, а также для сохранения результатов в формате JSON.
-
-**Аттрибуты**:
-- `_extraction_prompt_template_path` (str): Путь к шаблону промпта для извлечения информации.
+**Атрибуты**:
+- `_extraction_prompt_template_path` (str): Путь к шаблону запроса для извлечения информации.
 - `default_extraction_objective` (str): Цель извлечения информации по умолчанию.
-- `default_situation` (str): Ситуация по умолчанию, используемая при извлечении информации.
+- `default_situation` (str): Описание ситуации по умолчанию.
 - `default_fields` (List[str] | None): Список полей для извлечения по умолчанию.
 - `default_fields_hints` (dict | None): Подсказки для полей извлечения по умолчанию.
-- `default_verbose` (bool): Флаг, определяющий, нужно ли выводить отладочные сообщения по умолчанию.
-- `agent_extraction` (dict): Кэш для хранения последних результатов извлечения для агентов.
-- `world_extraction` (dict): Кэш для хранения последних результатов извлечения для виртуальных миров.
+- `default_verbose` (bool): Флаг verbose-режима по умолчанию.
+- `agent_extraction` (dict): Кэш последних результатов извлечения для агентов.
+- `world_extraction` (dict): Кэш последних результатов извлечения для окружения.
 
 **Методы**:
-- `__init__`: Инициализирует объект `ResultsExtractor` с заданными параметрами.
+- `__init__`: Инициализирует экземпляр класса `ResultsExtractor`.
 - `extract_results_from_agents`: Извлекает результаты из списка агентов.
 - `extract_results_from_agent`: Извлекает результаты из одного агента.
-- `extract_results_from_world`: Извлекает результаты из виртуального мира.
-- `save_as_json`: Сохраняет извлеченные результаты в файл JSON.
-- `_get_default_values_if_necessary`: Возвращает значения по умолчанию для параметров, если они не были заданы.
+- `extract_results_from_world`: Извлекает результаты из окружения.
+- `save_as_json`: Сохраняет последние результаты извлечения в файл JSON.
+- `_get_default_values_if_necessary`: Возвращает значения по умолчанию, если аргументы не переданы.
 
-## Функции
+## Методы класса
 
 ### `__init__`
 
 ```python
 def __init__(self, 
-             extraction_prompt_template_path:str = os.path.join(os.path.dirname(__file__), './prompts/interaction_results_extractor.mustache'),
-             extraction_objective:str = "The main points present in the agents' interactions history.",
-             situation:str = "",
-             fields:List[str] = None,
-             fields_hints:dict = None,
-             verbose:bool = False):
+             extraction_prompt_template_path: str = os.path.join(os.path.dirname(__file__), './prompts/interaction_results_extractor.mustache'),
+             extraction_objective: str = "The main points present in the agents\' interactions history.",
+             situation: str = "",
+             fields: List[str] | None = None,
+             fields_hints: dict | None = None,
+             verbose: bool = False):
     """
-    Initializes the ResultsExtractor with default parameters.
+    Инициализирует ResultsExtractor с параметрами по умолчанию.
 
     Args:
-        extraction_prompt_template_path (str): The path to the extraction prompt template.
-        extraction_objective (str): The default extraction objective.
-        situation (str): The default situation to consider.
-        fields (List[str], optional): The default fields to extract. Defaults to None.
-        fields_hints (dict, optional): The default hints for the fields to extract. Defaults to None.
-        verbose (bool, optional): Whether to print debug messages by default. Defaults to False.
+        extraction_prompt_template_path (str): Путь к шаблону запроса для извлечения. По умолчанию указывает на `./prompts/interaction_results_extractor.mustache`.
+        extraction_objective (str): Цель извлечения по умолчанию. По умолчанию: "The main points present in the agents' interactions history.".
+        situation (str): Ситуация для анализа по умолчанию. По умолчанию пустая строка.
+        fields (List[str] | None, optional): Список полей для извлечения. По умолчанию `None`.
+        fields_hints (dict | None, optional): Подсказки для полей извлечения. По умолчанию `None`.
+        verbose (bool, optional): Флаг verbose-режима. Если `True`, будут выводиться отладочные сообщения. По умолчанию `False`.
     """
     ...
 ```
 
-**Назначение**: Инициализация класса `ResultsExtractor` с параметрами по умолчанию.
+**Назначение**: Инициализирует объект `ResultsExtractor`, задавая пути к шаблонам, цели извлечения, ситуацию, поля и прочие параметры.
 
 **Параметры**:
-- `extraction_prompt_template_path` (str): Путь к шаблону промпта извлечения. По умолчанию - `./prompts/interaction_results_extractor.mustache`.
-- `extraction_objective` (str): Цель извлечения по умолчанию. По умолчанию: "The main points present in the agents' interactions history.".
-- `situation` (str): Описание ситуации по умолчанию. По умолчанию пустая строка.
-- `fields` (List[str] | None): Список полей для извлечения. По умолчанию `None`.
-- `fields_hints` (dict | None): Словарь с подсказками для полей. По умолчанию `None`.
-- `verbose` (bool): Флаг для вывода отладочной информации. По умолчанию `False`.
-
-**Как работает функция**:
-
-1.  Сохраняет путь к файлу шаблона промпта извлечения во внутреннюю переменную `self._extraction_prompt_template_path`.
-2.  Сохраняет параметры по умолчанию, такие как цель извлечения, ситуацию, поля и подсказки для полей, а также флаг отладки во внутренние переменные экземпляра класса.
-3.  Инициализирует кэш `self.agent_extraction` и `self.world_extraction` для хранения извлеченных данных об агентах и мире, соответственно.
+- `extraction_prompt_template_path` (str): Путь к шаблону запроса для извлечения.
+- `extraction_objective` (str): Цель извлечения по умолчанию.
+- `situation` (str): Описание ситуации по умолчанию.
+- `fields` (List[str] | None): Список полей для извлечения по умолчанию.
+- `fields_hints` (dict | None): Подсказки для полей извлечения по умолчанию.
+- `verbose` (bool): Флаг verbose-режима по умолчанию.
 
 **Примеры**:
 
@@ -83,324 +73,284 @@ def __init__(self,
 extractor = ResultsExtractor(verbose=True)
 ```
 
-```python
-extractor = ResultsExtractor(extraction_objective="Find the most important decisions made by the agents.")
-```
-
 ### `extract_results_from_agents`
 
 ```python
 def extract_results_from_agents(self,
-                                    agents:List[TinyPerson],
-                                    extraction_objective:str=None,
-                                    situation:str =None,
-                                    fields:list=None,
-                                    fields_hints:dict=None,
-                                    verbose:bool=None):
+                                agents: List[TinyPerson],
+                                extraction_objective: str | None = None,
+                                situation: str | None = None,
+                                fields: list | None = None,
+                                fields_hints: dict | None = None,
+                                verbose: bool | None = None) -> list:
     """
-    Extracts results from a list of TinyPerson instances.
+    Извлекает результаты из списка экземпляров TinyPerson.
 
     Args:
-        agents (List[TinyPerson]): The list of TinyPerson instances to extract results from.
-        extraction_objective (str): The extraction objective.
-        situation (str): The situation to consider.
-        fields (list, optional): The fields to extract. If None, the extractor will decide what names to use. 
-            Defaults to None.
-        fields_hints (dict, optional): Hints for the fields to extract. Maps field names to strings with the hints. Defaults to None.
-        verbose (bool, optional): Whether to print debug messages. Defaults to False.
+        agents (List[TinyPerson]): Список экземпляров TinyPerson, из которых нужно извлечь результаты.
+        extraction_objective (str | None, optional): Цель извлечения.
+        situation (str | None, optional): Ситуация для анализа.
+        fields (list | None, optional): Список полей для извлечения.
+        fields_hints (dict | None, optional): Подсказки для полей извлечения.
+        verbose (bool | None, optional): Флаг verbose-режима.
+
+    Returns:
+        list: Список извлеченных результатов.
     """
     ...
 ```
 
-**Назначение**: Извлечение результатов из списка объектов `TinyPerson`.
+**Назначение**: Извлекает результаты из списка агентов `TinyPerson`, используя заданные параметры извлечения или параметры по умолчанию.
 
 **Параметры**:
-- `agents` (List[TinyPerson]): Список экземпляров `TinyPerson`, из которых нужно извлечь результаты.
-- `extraction_objective` (str | None): Цель извлечения. Если `None`, используется значение по умолчанию.
-- `situation` (str | None): Ситуация для рассмотрения. Если `None`, используется значение по умолчанию.
-- `fields` (list | None): Список полей для извлечения. Если `None`, используется значение по умолчанию.
-- `fields_hints` (dict | None): Подсказки для полей извлечения. Если `None`, используется значение по умолчанию.
-- `verbose` (bool | None): Флаг для вывода отладочной информации. Если `None`, используется значение по умолчанию.
-
-**Возвращает**:
-- `results` (list): Список извлеченных результатов, каждый элемент которого соответствует результату извлечения из одного агента.
+- `agents` (List[TinyPerson]): Список агентов для извлечения результатов.
+- `extraction_objective` (str | None): Цель извлечения (если не указана, используется значение по умолчанию).
+- `situation` (str | None): Контекст ситуации для извлечения (если не указан, используется значение по умолчанию).
+- `fields` (list | None): Список полей для извлечения (если не указан, используется значение по умолчанию).
+- `fields_hints` (dict | None): Словарь подсказок для извлечения полей (если не указан, используется значение по умолчанию).
+- `verbose` (bool | None): Флаг, определяющий, выводить ли отладочные сообщения (если не указан, используется значение по умолчанию).
 
 **Как работает функция**:
-
-```mermaid
-graph LR
-    A[Начало] --> B{Для каждого агента в списке agents};
-    B -- Да --> C[Извлечь результаты из агента с помощью extract_results_from_agent];
-    C --> D[Добавить результат в список results];
-    D --> B;
-    B -- Нет --> E[Вернуть список results];
-    E --> F[Конец];
-```
-
-1.  Инициализируется пустой список `results` для хранения результатов извлечения.
-2.  Функция итерируется по каждому агенту в списке `agents`.
-3.  Для каждого агента вызывается метод `extract_results_from_agent` с передачей текущего агента и параметров извлечения.
-4.  Результат, возвращенный методом `extract_results_from_agent`, добавляется в список `results`.
-5.  После обработки всех агентов, функция возвращает список `results`.
+- Функция итерируется по списку агентов `agents`.
+- Для каждого агента вызывается метод `extract_results_from_agent`, чтобы извлечь результаты.
+- Результаты добавляются в список `results`.
+- В конце функция возвращает список `results`.
 
 **Примеры**:
-
 ```python
-agents = [TinyPerson(...), TinyPerson(...)]
-results = extractor.extract_results_from_agents(agents, extraction_objective="Find the agent's goals")
+from tinytroupe.agent import TinyPerson
+from tinytroupe.extraction.results_extractor import ResultsExtractor
+
+# Пример использования extract_results_from_agents
+agent1 = TinyPerson(name='Alice')
+agent2 = TinyPerson(name='Bob')
+agents = [agent1, agent2]
+extractor = ResultsExtractor()
+results = extractor.extract_results_from_agents(agents, extraction_objective='Find main points')
+print(results)
 ```
 
 ### `extract_results_from_agent`
 
 ```python
 def extract_results_from_agent(self, 
-                    tinyperson:TinyPerson, 
-                    extraction_objective:str="The main points present in the agent's interactions history.", 
-                    situation:str = "", 
-                    fields:list=None,
-                    fields_hints:dict=None,
-                    verbose:bool=None):
+                    tinyperson: TinyPerson, 
+                    extraction_objective: str = "The main points present in the agent\'s interactions history.", 
+                    situation: str = "", 
+                    fields: list | None = None,
+                    fields_hints: dict | None = None,
+                    verbose: bool | None = None) -> dict | None:
     """
-    Extracts results from a TinyPerson instance.
+    Извлекает результаты из экземпляра TinyPerson.
 
     Args:
-        tinyperson (TinyPerson): The TinyPerson instance to extract results from.
-        extraction_objective (str): The extraction objective.
-        situation (str): The situation to consider.
-        fields (list, optional): The fields to extract. If None, the extractor will decide what names to use. 
-            Defaults to None.
-        fields_hints (dict, optional): Hints for the fields to extract. Maps field names to strings with the hints. Defaults to None.
-        verbose (bool, optional): Whether to print debug messages. Defaults to False.
+        tinyperson (TinyPerson): Экземпляр TinyPerson, из которого нужно извлечь результаты.
+        extraction_objective (str, optional): Цель извлечения. По умолчанию: "The main points present in the agent's interactions history.".
+        situation (str, optional): Ситуация для анализа. По умолчанию пустая строка.
+        fields (list | None, optional): Список полей для извлечения.
+        fields_hints (dict | None, optional): Подсказки для полей извлечения.
+        verbose (bool | None, optional): Флаг verbose-режима.
+
+    Returns:
+        dict | None: Извлеченные результаты в виде словаря или None в случае ошибки.
     """
     ...
 ```
 
-**Назначение**: Извлечение результатов из экземпляра `TinyPerson`.
+**Назначение**: Извлекает результаты из объекта `TinyPerson` на основе истории его взаимодействий.
 
 **Параметры**:
-- `tinyperson` (TinyPerson): Экземпляр `TinyPerson`, из которого нужно извлечь результаты.
-- `extraction_objective` (str): Цель извлечения. По умолчанию "The main points present in the agent's interactions history.".
-- `situation` (str): Ситуация для рассмотрения. По умолчанию пустая строка.
-- `fields` (list | None): Список полей для извлечения. Если `None`, используется значение по умолчанию.
-- `fields_hints` (dict | None): Подсказки для полей извлечения. Если `None`, используется значение по умолчанию.
-- `verbose` (bool | None): Флаг для вывода отладочной информации. Если `None`, используется значение по умолчанию.
-
-**Возвращает**:
-- `result` (dict | None): Извлеченные результаты в формате JSON или `None` в случае ошибки.
+- `tinyperson` (TinyPerson): Объект `TinyPerson`, из которого извлекаются результаты.
+- `extraction_objective` (str): Цель извлечения (если не указана, используется значение по умолчанию).
+- `situation` (str): Контекст ситуации для извлечения (если не указан, используется значение по умолчанию).
+- `fields` (list | None): Список полей для извлечения (если не указан, используется значение по умолчанию).
+- `fields_hints` (dict | None): Словарь подсказок для извлечения полей (если не указан, используется значение по умолчанию).
+- `verbose` (bool | None): Флаг, определяющий, выводить ли отладочные сообщения (если не указан, используется значение по умолчанию).
 
 **Как работает функция**:
-
-```mermaid
-graph LR
-    A[Начало] --> B[Получить значения по умолчанию для параметров, если необходимо];
-    B --> C[Подготовить сообщения для OpenAI API];
-    C --> D[Получить историю взаимодействий агента];
-    D --> E[Сформировать промпт для извлечения];
-    E --> F[Отправить запрос в OpenAI API];
-    F --> G{Результат получен?};
-    G -- Да --> H[Извлечь JSON из результата];
-    H --> I[Кэшировать результат];
-    I --> J[Вернуть результат];
-    G -- Нет --> K[Вернуть None];
-    J --> L[Конец];
-    K --> L;
-```
-
-1.  Получает значения по умолчанию для параметров извлечения, таких как `extraction_objective`, `situation`, `fields`, `fields_hints` и `verbose`, если они не были переданы явно.
-2.  Подготавливает сообщения для OpenAI API, включая системное сообщение с целью извлечения и подсказками для полей.
-3.  Получает историю взаимодействий агента с помощью метода `tinyperson.pretty_current_interactions`.
-4.  Формирует промпт для извлечения, включающий цель извлечения, ситуацию и историю взаимодействий агента.
-5.  Отправляет запрос в OpenAI API с использованием метода `openai_utils.client().send_message`.
-6.  Извлекает JSON из полученного сообщения с помощью функции `utils.extract_json`.
-7.  Кэширует результат извлечения в `self.agent_extraction`.
-8.  Возвращает извлеченный результат.
+- Функция сначала получает значения параметров, используя `_get_default_values_if_necessary`.
+- Формирует сообщения для отправки в OpenAI, используя предоставленный шаблон (`_extraction_prompt_template_path`).
+- Извлекает историю взаимодействий агента.
+- Отправляет запрос в OpenAI и получает ответ.
+- Извлекает JSON из ответа и кэширует результат.
+- Возвращает извлеченный результат.
 
 **Примеры**:
 
 ```python
-agent = TinyPerson(...)
-result = extractor.extract_results_from_agent(agent, extraction_objective="Find the agent's goals")
+from tinytroupe.agent import TinyPerson
+from tinytroupe.extraction.results_extractor import ResultsExtractor
+
+# Пример использования extract_results_from_agent
+agent = TinyPerson(name='Alice')
+extractor = ResultsExtractor()
+result = extractor.extract_results_from_agent(agent, extraction_objective='Find main points')
+print(result)
 ```
 
 ### `extract_results_from_world`
 
 ```python
 def extract_results_from_world(self, 
-                                   tinyworld:TinyWorld, 
-                                   extraction_objective:str="The main points that can be derived from the agents conversations and actions.", 
-                                   situation:str="", 
-                                   fields:list=None,
-                                   fields_hints:dict=None,
-                                   verbose:bool=None):
+                               tinyworld: TinyWorld, 
+                               extraction_objective: str = "The main points that can be derived from the agents conversations and actions.", 
+                               situation: str = "", 
+                               fields: list | None = None,
+                               fields_hints: dict | None = None,
+                               verbose: bool | None = None) -> dict | None:
     """
-    Extracts results from a TinyWorld instance.
+    Извлекает результаты из экземпляра TinyWorld.
 
     Args:
-        tinyworld (TinyWorld): The TinyWorld instance to extract results from.
-        extraction_objective (str): The extraction objective.
-        situation (str): The situation to consider.
-        fields (list, optional): The fields to extract. If None, the extractor will decide what names to use. 
-            Defaults to None.
-        verbose (bool, optional): Whether to print debug messages. Defaults to False.
+        tinyworld (TinyWorld): Экземпляр TinyWorld, из которого нужно извлечь результаты.
+        extraction_objective (str, optional): Цель извлечения. По умолчанию: "The main points that can be derived from the agents conversations and actions.".
+        situation (str, optional): Ситуация для анализа. По умолчанию пустая строка.
+        fields (list | None, optional): Список полей для извлечения.
+        fields_hints (dict | None, optional): Подсказки для полей извлечения.
+        verbose (bool | None, optional): Флаг verbose-режима.
+
+    Returns:
+        dict | None: Извлеченные результаты в виде словаря или None в случае ошибки.
     """
     ...
 ```
 
-**Назначение**: Извлечение результатов из экземпляра `TinyWorld`.
+**Назначение**: Извлекает результаты из объекта `TinyWorld` на основе истории взаимодействий агентов в этом мире.
 
 **Параметры**:
-- `tinyworld` (TinyWorld): Экземпляр `TinyWorld`, из которого нужно извлечь результаты.
-- `extraction_objective` (str): Цель извлечения. По умолчанию "The main points that can be derived from the agents conversations and actions.".
-- `situation` (str): Ситуация для рассмотрения. По умолчанию пустая строка.
-- `fields` (list | None): Список полей для извлечения. Если `None`, используется значение по умолчанию.
-- `fields_hints` (dict | None): Подсказки для полей извлечения. Если `None`, используется значение по умолчанию.
-- `verbose` (bool | None): Флаг для вывода отладочной информации. Если `None`, используется значение по умолчанию.
-
-**Возвращает**:
-- `result` (dict | None): Извлеченные результаты в формате JSON или `None` в случае ошибки.
+- `tinyworld` (TinyWorld): Объект `TinyWorld`, из которого извлекаются результаты.
+- `extraction_objective` (str): Цель извлечения (если не указана, используется значение по умолчанию).
+- `situation` (str): Контекст ситуации для извлечения (если не указан, используется значение по умолчанию).
+- `fields` (list | None): Список полей для извлечения (если не указан, используется значение по умолчанию).
+- `fields_hints` (dict | None): Словарь подсказок для извлечения полей (если не указан, используется значение по умолчанию).
+- `verbose` (bool | None): Флаг, определяющий, выводить ли отладочные сообщения (если не указан, используется значение по умолчанию).
 
 **Как работает функция**:
-
-```mermaid
-graph LR
-    A[Начало] --> B[Получить значения по умолчанию для параметров, если необходимо];
-    B --> C[Подготовить сообщения для OpenAI API];
-    C --> D[Получить историю взаимодействий мира];
-    D --> E[Сформировать промпт для извлечения];
-    E --> F[Отправить запрос в OpenAI API];
-    F --> G{Результат получен?};
-    G -- Да --> H[Извлечь JSON из результата];
-    H --> I[Кэшировать результат];
-    I --> J[Вернуть результат];
-    G -- Нет --> K[Вернуть None];
-    J --> L[Конец];
-    K --> L;
-```
-
-1.  Получает значения по умолчанию для параметров извлечения, таких как `extraction_objective`, `situation`, `fields`, `fields_hints` и `verbose`, если они не были переданы явно.
-2.  Подготавливает сообщения для OpenAI API, включая системное сообщение с целью извлечения и подсказками для полей.
-3.  Получает историю взаимодействий мира с помощью метода `tinyworld.pretty_current_interactions`.
-4.  Формирует промпт для извлечения, включающий цель извлечения, ситуацию и историю взаимодействий мира.
-5.  Отправляет запрос в OpenAI API с использованием метода `openai_utils.client().send_message`.
-6.  Извлекает JSON из полученного сообщения с помощью функции `utils.extract_json`.
-7.  Кэширует результат извлечения в `self.world_extraction`.
-8.  Возвращает извлеченный результат.
+- Функция сначала получает значения параметров, используя `_get_default_values_if_necessary`.
+- Формирует сообщения для отправки в OpenAI, используя предоставленный шаблон (`_extraction_prompt_template_path`).
+- Извлекает историю взаимодействий в мире.
+- Отправляет запрос в OpenAI и получает ответ.
+- Извлекает JSON из ответа и кэширует результат.
+- Возвращает извлеченный результат.
 
 **Примеры**:
 
 ```python
-world = TinyWorld(...)
-result = extractor.extract_results_from_world(world, extraction_objective="Find the world's main events")
+from tinytroupe.environment import TinyWorld
+from tinytroupe.extraction.results_extractor import ResultsExtractor
+
+# Пример использования extract_results_from_world
+world = TinyWorld(name='MyWorld')
+extractor = ResultsExtractor()
+result = extractor.extract_results_from_world(world, extraction_objective='Find main points')
+print(result)
 ```
 
 ### `save_as_json`
 
 ```python
-def save_as_json(self, filename:str, verbose:bool=False):
+def save_as_json(self, filename: str, verbose: bool = False) -> None:
     """
-    Saves the last extraction results as JSON.
+    Сохраняет последние результаты извлечения в формате JSON.
 
     Args:
-        filename (str): The filename to save the JSON to.
-        verbose (bool, optional): Whether to print debug messages. Defaults to False.
+        filename (str): Имя файла для сохранения JSON.
+        verbose (bool, optional): Флаг verbose-режима. Defaults to False.
     """
     ...
 ```
 
-**Назначение**: Сохранение последних извлеченных результатов в формате JSON.
+**Назначение**: Сохраняет последние результаты извлечения агентов и окружения в формате JSON в указанный файл.
 
 **Параметры**:
-- `filename` (str): Имя файла для сохранения JSON.
-- `verbose` (bool): Флаг для вывода отладочной информации. По умолчанию `False`.
+- `filename` (str): Имя файла, в который нужно сохранить результаты.
+- `verbose` (bool): Флаг, определяющий, выводить ли отладочные сообщения.
 
 **Как работает функция**:
-
-```mermaid
-graph LR
-    A[Начало] --> B[Открыть файл для записи];
-    B --> C[Записать JSON в файл];
-    C --> D[Закрыть файл];
-    D --> E{verbose is True?};
-    E -- Да --> F[Вывести сообщение о сохранении];
-    F --> G[Конец];
-    E -- Нет --> G[Конец];
-```
-
-1.  Открывает файл с именем `filename` для записи.
-2.  Записывает словарь, содержащий результаты извлечения агентов (`self.agent_extraction`) и мира (`self.world_extraction`), в файл в формате JSON с отступами для удобочитаемости.
-3.  Закрывает файл.
-4.  Если `verbose` имеет значение `True`, выводит сообщение о том, что результаты извлечения были сохранены в указанный файл.
+- Открывает файл с указанным именем в режиме записи.
+- Сохраняет в файл JSON-представление словаря, содержащего результаты извлечения для агентов (`agent_extraction`) и окружения (`world_extraction`).
+- Если включен режим verbose, выводит сообщение о том, в какой файл были сохранены результаты.
 
 **Примеры**:
 
 ```python
-extractor.save_as_json("results.json", verbose=True)
+from tinytroupe.extraction.results_extractor import ResultsExtractor
+
+# Пример использования save_as_json
+extractor = ResultsExtractor()
+extractor.save_as_json('results.json', verbose=True)
 ```
 
 ### `_get_default_values_if_necessary`
 
 ```python
 def _get_default_values_if_necessary(self,
-                        extraction_objective:str,
-                        situation:str,
-                        fields:List[str],
-                        fields_hints:dict,
-                        verbose:bool):
-        
-    """
-    Gets default values if the provided values are None.
-    """
+                        extraction_objective: str | None,
+                        situation: str | None,
+                        fields: List[str] | None,
+                        fields_hints: dict | None,
+                        verbose: bool | None) -> tuple[str, str, List[str] | None, dict | None, bool]:
 
+    """
+    Возвращает значения по умолчанию, если аргументы не переданы.
+
+    Args:
+        extraction_objective (str | None): Цель извлечения.
+        situation (str | None): Ситуация для анализа.
+        fields (List[str] | None): Список полей для извлечения.
+        fields_hints (dict | None): Подсказки для полей извлечения.
+        verbose (bool | None): Флаг verbose-режима.
+
+    Returns:
+        tuple[str, str, List[str] | None, dict | None, bool]: Кортеж значений:
+            - extraction_objective (str): Цель извлечения.
+            - situation (str): Ситуация для анализа.
+            - fields (List[str] | None): Список полей для извлечения.
+            - fields_hints (dict | None): Подсказки для полей извлечения.
+            - verbose (bool): Флаг verbose-режима.
+    """
     ...
 ```
 
-**Назначение**: Возвращает значения по умолчанию для параметров, если переданные значения равны `None`.
+**Назначение**: Проверяет, были ли переданы значения для параметров `extraction_objective`, `situation`, `fields`, `fields_hints` и `verbose`. Если какое-либо из значений не было передано (то есть равно `None`), функция возвращает значение по умолчанию, хранящееся в атрибутах экземпляра класса `ResultsExtractor`.
 
 **Параметры**:
 - `extraction_objective` (str | None): Цель извлечения.
-- `situation` (str | None): Ситуация для рассмотрения.
+- `situation` (str | None): Ситуация для анализа.
 - `fields` (List[str] | None): Список полей для извлечения.
 - `fields_hints` (dict | None): Подсказки для полей извлечения.
-- `verbose` (bool | None): Флаг для вывода отладочной информации.
-
-**Возвращает**:
-- `extraction_objective` (str): Цель извлечения.
-- `situation` (str): Ситуация для рассмотрения.
-- `fields` (List[str] | None): Список полей для извлечения.
-- `fields_hints` (dict | None): Подсказки для полей извлечения.
-- `verbose` (bool): Флаг для вывода отладочной информации.
+- `verbose` (bool | None): Флаг verbose-режима.
 
 **Как работает функция**:
-
-```mermaid
-graph LR
-   A[Начало] --> B{extraction_objective is None?};
-   B -- Да --> C[extraction_objective = self.default_extraction_objective];
-   C --> D{situation is None?};
-   B -- Нет --> D{situation is None?};
-   D -- Да --> E[situation = self.default_situation];
-   D -- Нет --> F{fields is None?};
-   E --> F{fields is None?};
-   F -- Да --> G[fields = self.default_fields];
-   F -- Нет --> H{fields_hints is None?};
-   G --> H{fields_hints is None?};
-   H -- Да --> I[fields_hints = self.default_fields_hints];
-   H -- Нет --> J{verbose is None?};
-   I --> J{verbose is None?};
-   J -- Да --> K[verbose = self.default_verbose];
-   J -- Нет --> L[Вернуть extraction_objective, situation, fields, fields_hints, verbose];
-   K --> L[Вернуть extraction_objective, situation, fields, fields_hints, verbose];
-   L --> M[Конец];
-```
-
-1.  Проверяет, является ли `extraction_objective` `None`. Если да, присваивает ему значение `self.default_extraction_objective`.
-2.  Проверяет, является ли `situation` `None`. Если да, присваивает ему значение `self.default_situation`.
-3.  Проверяет, является ли `fields` `None`. Если да, присваивает ему значение `self.default_fields`.
-4.  Проверяет, является ли `fields_hints` `None`. Если да, присваивает ему значение `self.default_fields_hints`.
-5.  Проверяет, является ли `verbose` `None`. Если да, присваивает ему значение `self.default_verbose`.
-6.  Возвращает обновленные значения `extraction_objective`, `situation`, `fields`, `fields_hints` и `verbose`.
+- Если `extraction_objective` равно `None`, присваивает ему значение `self.default_extraction_objective`.
+- Если `situation` равно `None`, присваивает ему значение `self.default_situation`.
+- Если `fields` равно `None`, присваивает ему значение `self.default_fields`.
+- Если `fields_hints` равно `None`, присваивает ему значение `self.default_fields_hints`.
+- Если `verbose` равно `None`, присваивает ему значение `self.default_verbose`.
+- Возвращает кортеж измененных (или исходных, если они не были `None`) значений.
 
 **Примеры**:
 
 ```python
-extraction_objective, situation, fields, fields_hints, verbose = extractor._get_default_values_if_necessary(None, None, None, None, None)
+from tinytroupe.extraction.results_extractor import ResultsExtractor
+
+# Пример использования _get_default_values_if_necessary
+extractor = ResultsExtractor(default_extraction_objective='Default objective')
+objective, _, _, _, _ = extractor._get_default_values_if_necessary(None, None, None, None, None)
+print(objective)  # Выведет: Default objective
+```
+```python
+extractor = ResultsExtractor(default_extraction_objective='Default objective')
+objective, _, _, _, _ = extractor._get_default_values_if_necessary("New objective", None, None, None, None)
+print(objective)
+```
+## Параметры класса
+
+- `_extraction_prompt_template_path` (str): Путь к mustache-шаблону, используемому для формирования запросов к OpenAI.
+- `default_extraction_objective` (str): Цель извлечения по умолчанию.
+- `default_situation` (str): Контекст ситуации по умолчанию.
+- `default_fields` (List[str] | None): Список полей для извлечения по умолчанию.
+- `default_fields_hints` (dict | None): Подсказки для полей извлечения по умолчанию.
+- `default_verbose` (bool): Флаг, определяющий, выводить ли отладочные сообщения по умолчанию.
+- `agent_extraction` (dict): Словарь для кэширования результатов извлечения для агентов.
+- `world_extraction` (dict): Словарь для кэширования результатов извлечения для окружения.

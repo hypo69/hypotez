@@ -1,32 +1,30 @@
-# Модуль для сбора данных с сайта eBay
-=================================================
-
-Модуль `src.suppliers.ebay.graber` предназначен для сбора информации о товарах с сайта `ebay.com`. Он содержит класс `Graber`, который наследует функциональность от родительского класса `Graber` (Grbr) и переопределяет некоторые методы для специфической обработки данных с eBay.
+# Модуль `src.suppliers.ebay.graber`
 
 ## Обзор
 
-Модуль предоставляет класс `Graber`, который специализируется на извлечении информации о товарах с сайта eBay. Он использует веб-драйвер для навигации по страницам товаров и извлечения необходимых данных.
-Модуль определяет логику для сбора данных, специфичную для структуры страниц eBay.
+Модуль `src.suppliers.ebay.graber` предназначен для сбора значений полей со страницы товара на сайте `ebay.com`. Он содержит класс `Graber`, который наследует функциональность от родительского класса `Graber` (`Grbr`). Этот класс специализируется на обработке полей, требующих нестандартного подхода, переопределяя соответствующие функции. В модуле также предусмотрен механизм предварительных действий перед отправкой запроса к веб-драйверу через декораторы.
 
 ## Подробней
 
-Этот модуль является частью системы сбора данных о товарах с различных онлайн-платформ. Он расширяет базовый класс `Graber` для адаптации к особенностям структуры HTML и логики работы сайта eBay. Это позволяет эффективно извлекать информацию о товарах, такую как названия, описания, цены и другие характеристики, необходимые для дальнейшей обработки и анализа.
+Основная цель модуля - автоматизировать процесс извлечения информации о товарах с `ebay.com`. Он обеспечивает гибкость за счет возможности переопределения методов обработки полей, что позволяет адаптироваться к изменениям в структуре веб-страниц.  Используется для парсинга данных о товарах с сайта `ebay.com` и предварительной обработки данных с использованием декораторов для выполнения дополнительных действий, таких как закрытие всплывающих окон.
 
 ## Классы
 
 ### `Graber`
 
-**Описание**: Класс `Graber` предназначен для сбора данных о товарах с сайта eBay. Он наследует функциональность от базового класса `Graber` (Grbr) и адаптирует ее для работы с eBay.
+**Описание**: Класс `Graber` предназначен для захвата данных о товарах с сайта `ebay.com`. Он наследуется от класса `Graber` (`Grbr`) и содержит методы для извлечения и обработки информации с веб-страниц товаров.
 
 **Наследует**:
-- `Grbr` (src.suppliers.graber.Graber): Базовый класс для сбора данных с сайтов-поставщиков.
+
+- `Graber` (`Grbr`): Родительский класс, предоставляющий базовую функциональность для сбора данных с веб-страниц.
 
 **Атрибуты**:
-- `supplier_prefix` (str): Префикс поставщика, установлен в `'ebay'`.
+
+- `supplier_prefix` (str): Префикс поставщика, устанавливается как `'ebay'`.
 
 **Методы**:
-- `__init__(driver: Driver, lang_index)`: Инициализирует экземпляр класса `Graber`, устанавливает префикс поставщика и вызывает конструктор родительского класса.
--  `close_pop_up(value: Any = None)`: Создает декоратор для закрытия всплывающих окон перед выполнением основной логики функции.
+
+- `__init__(self, driver: Driver, lang_index)`: Инициализирует класс `Graber`, устанавливает префикс поставщика и вызывает конструктор родительского класса.
 
 #### `__init__`
 
@@ -36,145 +34,104 @@ def __init__(self, driver: Driver, lang_index):
     ...
 ```
 
-**Назначение**: Инициализирует класс `Graber`, устанавливая префикс поставщика и вызывая конструктор родительского класса.
+**Назначение**: Инициализация экземпляра класса `Graber`.
 
 **Параметры**:
-- `driver` (Driver): Экземпляр веб-драйвера для управления браузером.
-- `lang_index` (int): Индекс языка, используемый при сборе данных.
+
+- `driver` (Driver): Инстанс веб-драйвера, используемый для взаимодействия с веб-страницами.
+- `lang_index`: Индекс языка.
 
 **Как работает функция**:
 
-1. Устанавливает атрибут `supplier_prefix` равным `'ebay'`.
-2. Вызывает конструктор родительского класса `Grbr` с установленным префиксом поставщика, драйвером и индексом языка.
-3. Устанавливает атрибут `Context.locator_for_decorator` в `None`. Это необходимо для работы декоратора `@close_pop_up`, который будет выполняться, только если установлено значение `Context.locator_for_decorator`.
+- Устанавливает атрибут `supplier_prefix` равным `'ebay'`.
+- Вызывает конструктор родительского класса `Graber` (`Grbr`) с соответствующими параметрами.
+- Устанавливает значение `Context.locator_for_decorator` в `None`. Это позволяет отключать выполнение декоратора `@close_pop_up`, если он не требуется.
 
-```
-Инициализация класса
-│
-├── Установка supplier_prefix = 'ebay'
-│
-├── Вызов Grbr.__init__(..., driver, lang_index)
-│
-└── Установка Context.locator_for_decorator = None
-```
+## Переменные класса
 
-**Примеры**:
-```python
-from src.webdriver.driver import Driver, Chrome
-from src.suppliers.ebay.graber import Graber
+- `supplier_prefix` (str): Префикс поставщика, используемый для идентификации поставщика в системе.
 
-driver = Driver(Chrome)
-graber = Graber(driver, 0)
-print(graber.supplier_prefix)  # Вывод: ebay
-```
-#### `close_pop_up`
+## Обзор кода
+В данном коде определен класс `Graber`, предназначенный для сбора данных о товарах с сайта `ebay.com`. Класс наследуется от базового класса `Graber` (`Grbr`) и переопределяет некоторые методы для адаптации к специфике `ebay.com`.
+В коде также присутствует закомментированный шаблон декоратора `close_pop_up`, предназначенного для закрытия всплывающих окон, который можно использовать для предварительной обработки страницы.
 
 ```python
-def close_pop_up(value: Any = None):
-    """Создает декоратор для закрытия всплывающих окон перед выполнением основной логики функции."""
-    ...
-```
-
-**Назначение**: Создает декоратор, предназначенный для закрытия всплывающих окон, которые могут появляться на странице перед выполнением основной логики функции сбора данных.
-
-**Параметры**:
-- `value` (Any, optional): Дополнительное значение, которое можно передать декоратору. По умолчанию `None`.
-
-**Возвращает**:
-- `Callable`: Декоратор, который оборачивает функцию.
-
-**Как работает функция**:
-
-1.  Определяет внутреннюю функцию `decorator`, которая принимает функцию `func` в качестве аргумента.
-2.  Внутри `decorator` определяется функция `wrapper`, которая выполняет следующие действия:
-    *   Пытается выполнить локатор `Context.locator.close_pop_up` с помощью `Context.driver.execute_locator()`, чтобы закрыть всплывающее окно.
-    *   Обрабатывает исключение `ExecuteLocatorException`, которое может возникнуть, если локатор не найден или не может быть выполнен.
-    *   Вызывает исходную функцию `func` с переданными аргументами и возвращает результат её выполнения.
-3.  Возвращает функцию `decorator`.
-
-```
-Создание декоратора close_pop_up
-│
-├── Определение внутренней функции decorator(func)
-│   │
-│   ├── Определение внутренней функции wrapper(*args, **kwargs)
-│   │   │
-│   │   ├── Попытка закрытия всплывающего окна через Context.driver.execute_locator(Context.locator.close_pop_up)
-│   │   │   │
-│   │   │   └── Обработка исключения ExecuteLocatorException (если возникнет)
-│   │   │
-│   │   └── Вызов исходной функции func(*args, **kwargs)
-│   │
-│   └── Возврат wrapper
-│
-└── Возврат decorator
-```
-
-**Примеры**:
-
-```python
-from typing import Callable, Any
-from functools import wraps
-from src.webdriver.driver import Driver, Chrome
-from src.suppliers.ebay.graber import Graber
+from typing import Any
+import header
+from src.suppliers.graber import Graber as Grbr, Context, close_pop_up
+from src.webdriver.driver import Driver
 from src.logger.logger import logger
-
-# Модуль для логирования
-# logger.info('Some information message')
-# ...
-# except SomeError as ex:
-# logger.error('Some error message', ex, exc_info = True), где ошибка передается вторым аргументом. exc_info определает надо ли выводить служебную информацию.
-
-class Context:
-    driver = None
-    locator = None
-    locator_for_decorator = None
-
-
-class ExecuteLocatorException(Exception):
-    pass
-
-
-def close_pop_up(value: Any = None) -> Callable:
-    """Создает декоратор для закрытия всплывающих окон перед выполнением основной логики функции."""
-
-    def decorator(func: Callable) -> Callable:
-        @wraps(func)
-        async def wrapper(*args, **kwargs):
-            try:
-                # await Context.driver.execute_locator(Context.locator.close_pop_up)  # Await async pop-up close
-                print('Выполняется закрытие всплывающего окна')
-            except ExecuteLocatorException as ex:
-                logger.debug(f'Ошибка выполнения локатора: {ex}')
-            result = await func(*args, **kwargs)  # Await the main function
-            return result
-
-        return wrapper
-
-    return decorator
-
-
-async def my_function(arg1: str) -> str:
-    """Пример функции, оборачиваемой декоратором."""
-    print(f"Выполняется my_function с аргументом: {arg1}")
-    return f"Результат: {arg1}"
-
-
-async def main():
-    Context.driver = Driver(Chrome)  # Инициализация драйвера
-    Context.locator = type('Locator', (object,), {'close_pop_up': 'locator_value'})()
-
-    decorated_function = close_pop_up()(my_function)  # Оборачиваем функцию декоратором
-    result = await decorated_function("test_argument")  # Вызываем обернутую функцию
-    print(f"Результат выполнения: {result}")
-
-
-# Запуск примера
-import asyncio
-
-# asyncio.run(main())
 ```
-## Переменные
+- `typing.Any`: Импортируется для аннотации типов, когда тип переменной может быть любым.
+- `header`: Импортируется модуль `header`.
+- `src.suppliers.graber.Graber`: Импортируется базовый класс `Graber` как `Grbr`, класс `Context` и декоратор `close_pop_up` из модуля `src.suppliers.graber`.
+- `src.webdriver.driver.Driver`: Импортируется класс `Driver` для управления веб-драйвером.
+- `src.logger.logger.logger`: Импортируется объект `logger` для логирования событий.
 
-- `supplier_prefix` (str): Префикс поставщика, используемый для идентификации eBay.
-- `Context.locator_for_decorator` (Any): Локатор для выполнения в декораторе `@close_pop_up`. Если установлено значение, декоратор будет выполнен.
+## Декораторы
+```python
+# def close_pop_up(value: Any = None) -> Callable:
+#     """Создает декоратор для закрытия всплывающих окон перед выполнением основной логики функции.
+#
+#     Args:
+#         value (Any): Дополнительное значение для декоратора.
+#
+#     Returns:
+#         Callable: Декоратор, оборачивающий функцию.
+#     """
+#     def decorator(func: Callable) -> Callable:
+#         @wraps(func)
+#         async def wrapper(*args, **kwargs):
+#             try:
+#                 # await Context.driver.execute_locator(Context.locator.close_pop_up)  # Await async pop-up close
+#                 ...
+#             except ExecuteLocatorException as e:
+#                 logger.debug(f'Ошибка выполнения локатора: {e}')
+#             return await func(*args, **kwargs)  # Await the main function
+#         return wrapper
+#     return decorator
+```
+
+Декоратор `close_pop_up` предназначен для закрытия всплывающих окон перед выполнением основной логики функции.
+
+- **Параметры**:
+  - `value` (Any, optional): Дополнительное значение для декоратора. По умолчанию `None`.
+- **Как работает**:
+  - Создает декоратор, который оборачивает функцию.
+  - Внутри декоратора вызывается метод `Context.driver.execute_locator(Context.locator.close_pop_up)` для закрытия всплывающего окна.
+  - Если возникает исключение `ExecuteLocatorException`, оно логируется с использованием `logger.debug`.
+  - После выполнения (или неудачи) закрытия всплывающего окна вызывается основная функция.
+```python
+class Graber(Grbr):
+    """Класс для операций захвата Morlevi."""
+    supplier_prefix: str
+```
+
+## `Graber`
+**Описание**: Класс `Graber` предназначен для захвата данных с сайта `ebay.com`.
+
+- **Наследует**:
+  - `Graber` (`Grbr`): Базовый класс для сбора данных.
+
+### `Graber.__init__`
+```python
+def __init__(self, driver: Driver, lang_index):
+    """Инициализация класса сбора полей товара."""
+    self.supplier_prefix = 'ebay'
+    super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)
+    Context.locator_for_decorator = None
+```
+- **Назначение**: Инициализация экземпляра класса `Graber`.
+- **Параметры**:
+  - `driver` (`Driver`): Инстанс веб-драйвера для управления браузером.
+  - `lang_index`: Индекс языка.
+- **Как работает**:
+  - Устанавливает `self.supplier_prefix = 'ebay'`.
+  - Вызывает конструктор родительского класса `Grbr` с параметрами `supplier_prefix`, `driver` и `lang_index`.
+  - Устанавливает `Context.locator_for_decorator = None`, что позволяет отключать выполнение декоратора `@close_pop_up`, если он не требуется.
+```python
+Context.locator_for_decorator = None
+```
+
+- **Назначение**: Отключает выполнение декоратора `@close_pop_up`, если он не требуется.
+- **Как работает**: Устанавливает значение `Context.locator_for_decorator` в `None`. Если это значение установлено, декоратор `@close_pop_up` не будет выполняться.

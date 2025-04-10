@@ -1,12 +1,12 @@
-# Модуль для работы с Google Sheets в рамках кампаний AliExpress
+# Модуль: Редактор рекламной кампании AliExpress через Google Sheets
 
 ## Обзор
 
-Модуль `gsheet.py` предоставляет класс `AliCampaignGoogleSheet` для работы с Google Sheets при управлении рекламными кампаниями на AliExpress. Он наследует класс `SpreadSheet` и добавляет функциональность для управления листами, записи данных о категориях и продуктах, а также форматирования листов.
+Модуль предоставляет класс `AliCampaignGoogleSheet`, который используется для управления рекламными кампаниями AliExpress посредством Google Sheets. Он позволяет автоматизировать запись и форматирование данных о кампаниях, категориях и продуктах в Google Sheets, упрощая процесс редактирования и управления рекламными материалами.
 
 ## Подробнее
 
-Модуль предназначен для автоматизации работы с Google Sheets, используемыми для хранения и управления данными рекламных кампаний AliExpress. Он обеспечивает удобный интерфейс для записи и чтения данных, а также для форматирования листов в соответствии с требованиями.
+Этот модуль предоставляет инструменты для интеграции с Google Sheets, позволяя автоматически создавать листы, записывать данные и форматировать их в соответствии с требованиями рекламной кампании. Он упрощает взаимодействие с данными AliExpress, делая их более доступными и удобными для редактирования.
 
 ## Классы
 
@@ -18,172 +18,123 @@
 
 **Атрибуты**:
 
-- `spreadsheet_id` (str): Идентификатор Google Sheets spreadsheet.
-- `spreadsheet` (SpreadSheet): Экземпляр класса `SpreadSheet` для работы с Google Sheets.
-- `worksheet` (Worksheet): Экземпляр класса `Worksheet` для работы с конкретным листом Google Sheets.
+-   `spreadsheet_id` (str): Идентификатор Google Sheets таблицы.
+-   `spreadsheet` (SpreadSheet): Экземпляр класса `SpreadSheet` для работы с Google Sheets.
+-   `worksheet` (Worksheet): Экземпляр класса `Worksheet` для работы с конкретным листом Google Sheets.
 
 **Методы**:
 
-- `__init__(self, campaign_name: str, language: str | dict = None, currency: str = None)`: Инициализирует экземпляр класса `AliCampaignGoogleSheet`.
-- `clear(self)`: Очищает содержимое листов продуктов, категорий и других указанных листов.
-- `delete_products_worksheets(self)`: Удаляет все листы, кроме 'categories', 'product', 'category', 'campaign'.
-- `set_campaign_worksheet(self, campaign: SimpleNamespace, language: str = None, currency: str = None)`: Записывает данные кампании на лист Google Sheets.
-- `set_products_worksheet(self, category_name: str)`: Записывает данные о продуктах на лист Google Sheets.
-- `set_categories_worksheet(self, categories: SimpleNamespace)`: Записывает данные о категориях на лист Google Sheets.
-- `get_categories(self)`: Получает данные о категориях из таблицы Google Sheets.
-- `set_category_products(self, category_name: str, products: dict)`: Записывает данные о продуктах категории в таблицу Google Sheets.
-- `_format_categories_worksheet(self, ws: Worksheet)`: Форматирует лист 'categories'.
-- `_format_category_products_worksheet(self, ws: Worksheet)`: Форматирует лист с продуктами категории.
+-   `__init__(campaign_name: str, language: str | dict = None, currency: str = None)`: Инициализирует экземпляр класса `AliCampaignGoogleSheet`.
+-   `clear()`: Очищает содержимое Google Sheets, удаляя листы продуктов и очищая данные на других указанных листах.
+-   `delete_products_worksheets()`: Удаляет все листы из Google Sheets, кроме листов с категориями и шаблонами продуктов.
+-   `set_campaign_worksheet(campaign: SimpleNamespace)`: Записывает данные кампании в лист Google Sheets.
+-   `set_products_worksheet(category_name: str)`: Записывает данные о продуктах в лист Google Sheets.
+-   `set_categories_worksheet(categories: SimpleNamespace)`: Записывает данные о категориях в лист Google Sheets.
+-   `get_categories()`: Получает данные о категориях из Google Sheets.
+-   `set_category_products(category_name: str, products: dict)`: Записывает данные о продуктах категории в Google Sheets.
+-   `_format_categories_worksheet(ws: Worksheet)`: Форматирует лист с категориями.
+-   `_format_category_products_worksheet(ws: Worksheet)`: Форматирует лист с продуктами категории.
 
 ### `__init__`
 
 ```python
 def __init__(self, campaign_name: str, language: str | dict = None, currency: str = None):
-    """ Initialize AliCampaignGoogleSheet with specified Google Sheets spreadsheet ID and additional parameters.
-    @param campaign_name `str`: The name of the campaign.
-    @param category_name `str`: The name of the category.   
-    @param language `str`: The language for the campaign.
-    @param currency `str`: The currency for the campaign.
     """
-    # Initialize SpreadSheet with the spreadsheet ID
-    super().__init__(spreadsheet_id = self.spreadsheet_id)
-    #self.capmaign_editor = AliCampaignEditor(campaign_name=campaign_name, language=language, currency=currency)
-    # if campaign_editor:
-    #     self.set_campaign_worksheet(campaign_editor.campaign)
-    #     self.set_categories_worksheet(campaign_editor.campaign.category)
+    Args:
+        campaign_name (str): Название кампании.
+        language (str | dict, optional): Язык кампании. По умолчанию `None`.
+        currency (str, optional): Валюта кампании. По умолчанию `None`.
+
+    Raises:
+        Exception: Если возникает ошибка при инициализации.
+    """
 ```
 
-**Назначение**: Инициализирует экземпляр класса `AliCampaignGoogleSheet`.
+**Назначение**: Инициализирует класс `AliCampaignGoogleSheet`, устанавливая идентификатор таблицы Google Sheets и вызывая конструктор родительского класса `SpreadSheet`.
 
 **Параметры**:
 
-- `campaign_name` (str): Имя кампании.
-- `language` (str | dict, optional): Язык кампании. По умолчанию `None`.
-- `currency` (str, optional): Валюта кампании. По умолчанию `None`.
+-   `campaign_name` (str): Название кампании.
+-   `language` (str | dict, optional): Язык кампании. По умолчанию `None`.
+-   `currency` (str, optional): Валюта кампании. По умолчанию `None`.
 
 **Как работает функция**:
 
-1. Вызывает конструктор родительского класса `SpreadSheet` с идентификатором spreadsheet.
-2. Инициализирует экземпляр класса `AliCampaignGoogleSheet` с заданными параметрами.
-
-**Примеры**:
-
-```python
-campaign_gsheet = AliCampaignGoogleSheet(campaign_name='test_campaign', language='ru', currency='USD')
-```
+-   Вызывает конструктор родительского класса `SpreadSheet` с указанным `spreadsheet_id`.
 
 ### `clear`
 
 ```python
 def clear(self):
-    """ Clear contents.
-    Delete product sheets and clear data on the categories and other specified sheets.
     """
-    try:
-        self.delete_products_worksheets()
-    except Exception as ex:
-        logger.error("Ошибка очистки", ex)
+    Очищает содержимое Google Sheets.
+    """
 ```
 
-**Назначение**: Очищает содержимое листов продуктов, категорий и других указанных листов.
+**Назначение**: Очищает содержимое Google Sheets, удаляя листы продуктов и очищая данные на листах категорий и других указанных листах.
 
 **Как работает функция**:
 
-1. Вызывает метод `delete_products_worksheets` для удаления листов продуктов.
-2. Обрабатывает исключение, если возникает ошибка при очистке, и логирует ошибку.
+1.  Вызывает метод `delete_products_worksheets()` для удаления листов продуктов.
+2.  Ловит исключения, которые могут возникнуть при удалении листов, и логирует ошибки.
 
 **Примеры**:
 
 ```python
-campaign_gsheet.clear()
+sheet = AliCampaignGoogleSheet(campaign_name='test_campaign')
+sheet.clear()
 ```
 
 ### `delete_products_worksheets`
 
 ```python
 def delete_products_worksheets(self):
-    """ Delete all sheets from the Google Sheets spreadsheet except 'categories' and 'product_template'.
     """
-    excluded_titles = {'categories', 'product', 'category', 'campaign'}
-    try:
-        worksheets = self.spreadsheet.worksheets()
-        for sheet in worksheets:
-            if sheet.title not in excluded_titles:
-                self.spreadsheet.del_worksheet_by_id(sheet.id)
-                logger.success(f"Worksheet '{sheet.title}' deleted.")
-    except Exception as ex:
-        logger.error("Error deleting all worksheets.", ex, exc_info=True)
-        raise
+    Удаляет все листы, кроме 'categories', 'product', 'category', 'campaign'.
+    """
 ```
 
-**Назначение**: Удаляет все листы из Google Sheets, кроме 'categories', 'product', 'category', 'campaign'.
+**Назначение**: Удаляет все листы из Google Sheets, кроме листов с названиями 'categories', 'product', 'category' и 'campaign'.
 
 **Как работает функция**:
 
-1. Определяет список листов, которые не нужно удалять (`excluded_titles`).
-2. Получает список всех листов в Google Sheets.
-3. Перебирает листы и удаляет те, которые не входят в список исключений.
-4. Логирует информацию об удаленных листах.
-5. Обрабатывает исключение, если возникает ошибка при удалении листов, и логирует ошибку.
+1.  Определяет список исключенных названий листов (`excluded_titles`).
+2.  Получает список всех листов в Google Sheets.
+3.  Перебирает листы и удаляет те, которые не входят в список исключенных.
+4.  Ловит исключения, которые могут возникнуть при удалении листов, и логирует ошибки.
 
 **Примеры**:
 
 ```python
-campaign_gsheet.delete_products_worksheets()
+sheet = AliCampaignGoogleSheet(campaign_name='test_campaign')
+sheet.delete_products_worksheets()
 ```
 
 ### `set_campaign_worksheet`
 
 ```python
 def set_campaign_worksheet(self, campaign: SimpleNamespace):
-    """ Write campaign data to a Google Sheets worksheet.
-    @param campaign `SimpleNamespace | str`: SimpleNamespace object with campaign data fields for writing.
-    @param language `str`: Optional language parameter.
-    @param currency `str`: Optional currency parameter.
     """
-    try:
-        ws: Worksheet = self.get_worksheet('campaign')  # Clear the 'campaign' worksheet
-    
-        # Prepare data for vertical writing
-        updates = []
-        vertical_data = [
-            ('A1', 'Campaign Name', campaign.campaign_name),
-            ('A2', 'Campaign Title', campaign.title),
-            ('A3', 'Campaign Language', campaign.language),
-            ('A4', 'Campaign Currency', campaign.currency),
-            ('A5', 'Campaign Description', campaign.description),              
-            
-        ]
-    
-        # Add update operations to batch_update list
-        for cell, header, value in vertical_data:
-            updates.append({'range': cell, 'values': [[header]]})
-            updates.append({'range': f'B{cell[1]}', 'values': [[str(value)]]})
-    
-        # Perform batch update
-        if updates:
-            ws.batch_update(updates)
-    
-        logger.info("Campaign data written to 'campaign' worksheet vertically.")
-    
-    except Exception as ex:
-        logger.error("Error setting campaign worksheet.", ex, exc_info=True)
-        raise
+    Args:
+        campaign (SimpleNamespace): Объект SimpleNamespace с данными кампании.
+
+    Raises:
+        Exception: Если возникает ошибка при записи данных кампании.
+    """
 ```
 
-**Назначение**: Записывает данные кампании на лист Google Sheets.
+**Назначение**: Записывает данные кампании в лист Google Sheets с именем 'campaign'.
 
 **Параметры**:
 
-- `campaign` (SimpleNamespace): Объект SimpleNamespace с данными кампании для записи.
+-   `campaign` (SimpleNamespace): Объект `SimpleNamespace`, содержащий данные кампании.
 
 **Как работает функция**:
 
-1. Получает лист 'campaign' из Google Sheets.
-2. Формирует список операций обновления для записи данных кампании в вертикальном формате.
-3. Выполняет пакетное обновление листа с данными кампании.
-4. Логирует информацию об успешной записи данных кампании.
-5. Обрабатывает исключение, если возникает ошибка при записи данных кампании, и логирует ошибку.
+1.  Получает лист Google Sheets с именем 'campaign'.
+2.  Формирует список операций обновления для записи данных кампании в вертикальном формате (столбец A - заголовки, столбец B - значения).
+3.  Выполняет пакетное обновление листа Google Sheets с данными кампании.
+4.  Ловит исключения, которые могут возникнуть при записи данных, и логирует ошибки.
 
 **Примеры**:
 
@@ -191,241 +142,123 @@ def set_campaign_worksheet(self, campaign: SimpleNamespace):
 from types import SimpleNamespace
 
 campaign_data = SimpleNamespace(
-    campaign_name='test_campaign',
-    title='Test Campaign Title',
-    language='ru',
+    campaign_name='Test Campaign',
+    title='Test Title',
+    language='en',
     currency='USD',
-    description='Test campaign description'
+    description='Test Description'
 )
 
-campaign_gsheet.set_campaign_worksheet(campaign_data)
+sheet = AliCampaignGoogleSheet(campaign_name='test_campaign')
+sheet.set_campaign_worksheet(campaign_data)
 ```
 
 ### `set_products_worksheet`
 
 ```python
 def set_products_worksheet(self, category_name: str):
-    """ Write data from a list of SimpleNamespace objects to Google Sheets cells.
-    @param category_name `str`: The name of the category to fetch products from.
     """
-    if category_name:
-        category: SimpleNamespace = getattr(self.editor.campaign.category, category_name)
-        products: list[SimpleNamespace] = category.products
-    else:
-        logger.warning(f"No products found for {category=}\n{products=}.")
-        return
+    Args:
+        category_name (str): Имя категории.
 
-    ws = self.copy_worksheet('product', category_name)
-
-    try:
-        # headers = [
-        #     'product_id', 'app_sale_price', 'original_price', 'sale_price', 'discount',
-        #     'product_main_image_url', 'local_image_path', 'product_small_image_urls',
-        #     'product_video_url', 'local_video_path', 'first_level_category_id',
-        #     'first_level_category_name', 'second_level_category_id', 'second_level_category_name',
-        #     'target_sale_price', 'target_sale_price_currency', 'target_app_sale_price_currency',
-        #     'target_original_price_currency', 'original_price_currency', 'product_title',
-        #     'evaluate_rate', 'promotion_link', 'shop_url', 'shop_id', 'tags'
-        # ]
-        # updates = [{'range': 'A1:Y1', 'values': [headers]}]  # Add headers to the worksheet
-
-        row_data = []
-        for product in products:
-            _ = product.__dict__
-            row_data.append([
-                str(_.get('product_id')),
-                _.get('product_title'),
-                _.get('promotion_link'),
-                str(_.get('app_sale_price')),
-                _.get('original_price'),
-                _.get('sale_price'),
-                _.get('discount'),
-                _.get('product_main_image_url'),
-                _.get('local_image_path'),
-                ', '.join(_.get('product_small_image_urls', [])),
-                _.get('product_video_url'),
-                _.get('local_video_path'),
-                _.get('first_level_category_id'),
-                _.get('first_level_category_name'),
-                _.get('second_level_category_id'),
-                _.get('second_level_category_name'),
-                _.get('target_sale_price'),
-                _.get('target_sale_price_currency'),
-                _.get('target_app_sale_price_currency'),
-                _.get('target_original_price_currency'),
-                _.get('original_price_currency'),
-                
-                _.get('evaluate_rate'),
-                
-                _.get('shop_url'),
-                _.get('shop_id'),
-                ', '.join(_.get('tags', []))
-            ])
-
-        for index, row in enumerate(row_data, start=2):
-            ws.update(f'A{index}:Y{index}', [row])
-            logger.info(f"Products {str(_.get('product_id'))} updated .")
-
-        self._format_category_products_worksheet(ws)
-
-        logger.info("Products updated in worksheet.")
-
-
-    except Exception as ex:
-        logger.error("Error setting products worksheet.", ex, exc_info=True)
-        raise
+    Raises:
+        Exception: Если возникает ошибка при записи данных о продуктах.
+    """
 ```
 
-**Назначение**: Записывает данные о продуктах на лист Google Sheets.
+**Назначение**: Записывает данные о продуктах из указанной категории в лист Google Sheets.
 
 **Параметры**:
 
-- `category_name` (str): Название категории, продукты которой нужно получить.
+-   `category_name` (str): Название категории, для которой нужно записать данные о продуктах.
 
 **Как работает функция**:
 
-1.  Извлекает категорию и список продуктов из `self.editor.campaign.category` по `category_name`.
-2.  Если продукты не найдены, функция завершает работу и выводит предупреждение в лог.
-3.  Копирует лист `product` и переименовывает его в `category_name`.
-4.  Формирует список данных о продуктах для записи в Google Sheets.
-5.  Обновляет лист Google Sheets данными о продуктах.
-6.  Вызывает метод `_format_category_products_worksheet` для форматирования листа.
-7.  Логирует информацию об успешной записи данных о продуктах.
-8.  Обрабатывает исключение, если возникает ошибка при записи данных о продуктах, и логирует ошибку.
+1.  Копирует лист 'product' и переименовывает его в `category_name`.
+2.  Извлекает данные о продуктах из атрибута `products` объекта категории.
+3.  Формирует список строк с данными о продуктах для записи в Google Sheets.
+4.  Обновляет лист Google Sheets данными о продуктах.
+5.  Форматирует лист с использованием метода `_format_category_products_worksheet`.
+6.  Ловит исключения, которые могут возникнуть при записи данных, и логирует ошибки.
 
 **Примеры**:
 
 ```python
-campaign_gsheet.set_products_worksheet(category_name='test_category')
+sheet = AliCampaignGoogleSheet(campaign_name='test_campaign')
+sheet.set_products_worksheet(category_name='test_category')
 ```
 
 ### `set_categories_worksheet`
 
 ```python
 def set_categories_worksheet(self, categories: SimpleNamespace):
-    """ Запись данных из объекта SimpleNamespace с категориями в ячейки Google Sheets.
-    @param categories `SimpleNamespace`: Объект, где ключи — это категории с данными для записи.
     """
-    ws: Worksheet = self.get_worksheet('categories')
-    ws.clear()  # Очистка рабочей таблицы перед записью данных
+    Args:
+        categories (SimpleNamespace): Объект SimpleNamespace с данными о категориях.
 
-    try:
-        # Получение всех ключей (категорий) и соответствующих значений
-        category_data = categories.__dict__
-
-        # Проверка, что все объекты категории имеют необходимые атрибуты
-        required_attrs = ['name', 'title', 'description', 'tags', 'products_count']
-
-        if all(all(hasattr(category, attr) for attr in required_attrs) for category in category_data.values()):
-            # Заголовки для таблицы
-            headers = ['Name', 'Title', 'Description', 'Tags', 'Products Count']
-            ws.update('A1:E1', [headers])
-        
-            # Подготовка данных для записи
-            rows = []
-            for category in category_data.values():
-                row_data = [
-                    category.name,
-                    category.title,
-                    category.description,
-                    ', '.join(category.tags),
-                    category.products_count,
-                ]
-                rows.append(row_data)
-        
-            # Обновляем строки данных
-            ws.update(f'A2:E{1 + len(rows)}', rows)
-        
-            # Форматируем таблицу
-            self._format_categories_worksheet(ws)
-        
-            logger.info("Category fields updated from SimpleNamespace object.")
-        else:
-            logger.warning("One or more category objects do not contain all required attributes.")
-
-    except Exception as ex:
-        logger.error("Error updating fields from SimpleNamespace object.", ex, exc_info=True)
-        raise
+    Raises:
+        Exception: Если возникает ошибка при записи данных о категориях.
+    """
 ```
 
-**Назначение**: Записывает данные о категориях на лист Google Sheets.
+**Назначение**: Записывает данные о категориях из объекта `SimpleNamespace` в лист Google Sheets с именем 'categories'.
 
 **Параметры**:
 
-- `categories` (SimpleNamespace): Объект SimpleNamespace с данными о категориях для записи.
+-   `categories` (SimpleNamespace): Объект `SimpleNamespace`, содержащий данные о категориях.
 
 **Как работает функция**:
 
-1. Получает лист 'categories' из Google Sheets.
-2. Очищает лист 'categories'.
-3. Извлекает данные о категориях из объекта SimpleNamespace.
-4. Проверяет наличие необходимых атрибутов у каждой категории.
-5. Формирует список заголовков для таблицы.
-6. Формирует список данных о категориях для записи в Google Sheets.
-7. Обновляет лист Google Sheets данными о категориях.
-8. Вызывает метод `_format_categories_worksheet` для форматирования листа.
-9. Логирует информацию об успешной записи данных о категориях.
-10. Обрабатывает исключение, если возникает ошибка при записи данных о категориях, и логирует ошибку.
+1.  Получает лист Google Sheets с именем 'categories'.
+2.  Очищает лист Google Sheets.
+3.  Извлекает данные о категориях из объекта `SimpleNamespace`.
+4.  Формирует заголовки для таблицы категорий.
+5.  Формирует список строк с данными о категориях для записи в Google Sheets.
+6.  Обновляет лист Google Sheets данными о категориях.
+7.  Форматирует лист с использованием метода `_format_categories_worksheet`.
+8.  Ловит исключения, которые могут возникнуть при записи данных, и логирует ошибки.
 
 **Примеры**:
 
 ```python
 from types import SimpleNamespace
 
-category1 = SimpleNamespace(
-    name='test_category1',
-    title='Test Category 1 Title',
-    description='Test category 1 description',
-    tags=['tag1', 'tag2'],
-    products_count=10
-)
+categories_data = SimpleNamespace()
+categories_data.category1 = SimpleNamespace(name='Category 1', title='Title 1', description='Description 1', tags=['tag1', 'tag2'], products_count=10)
+categories_data.category2 = SimpleNamespace(name='Category 2', title='Title 2', description='Description 2', tags=['tag3', 'tag4'], products_count=20)
 
-category2 = SimpleNamespace(
-    name='test_category2',
-    title='Test Category 2 Title',
-    description='Test category 2 description',
-    tags=['tag3', 'tag4'],
-    products_count=20
-)
-
-categories_data = SimpleNamespace(
-    test_category1=category1,
-    test_category2=category2
-)
-
-campaign_gsheet.set_categories_worksheet(categories_data)
+sheet = AliCampaignGoogleSheet(campaign_name='test_campaign')
+sheet.set_categories_worksheet(categories_data)
 ```
 
 ### `get_categories`
 
 ```python
 def get_categories(self):
-    """ Получение данных из таблицы Google Sheets.
-    @return Данные из таблицы в виде списка словарей.
     """
-    ws = self.get_worksheet('categories') 
-    data = ws.get_all_records()
-    logger.info("Categories data retrieved from worksheet.")
-    return data
+    Returns:
+        list[dict]: Данные о категориях в виде списка словарей.
+    """
 ```
 
-**Назначение**: Получает данные о категориях из таблицы Google Sheets.
+**Назначение**: Получает данные о категориях из листа Google Sheets с именем 'categories'.
 
 **Возвращает**:
 
-- `list[dict]`: Список словарей с данными о категориях.
+-   `list[dict]`: Список словарей, где каждый словарь представляет данные об одной категории.
 
 **Как работает функция**:
 
-1. Получает лист 'categories' из Google Sheets.
-2. Извлекает все записи из листа.
-3. Логирует информацию об успешном получении данных о категориях.
-4. Возвращает данные о категориях в виде списка словарей.
+1.  Получает лист Google Sheets с именем 'categories'.
+2.  Извлекает все записи из листа.
+3.  Логирует информацию об извлечении данных.
+4.  Возвращает полученные данные.
 
 **Примеры**:
 
 ```python
-categories = campaign_gsheet.get_categories()
+sheet = AliCampaignGoogleSheet(campaign_name='test_campaign')
+categories = sheet.get_categories()
 print(categories)
 ```
 
@@ -433,223 +266,129 @@ print(categories)
 
 ```python
 def set_category_products(self, category_name: str, products: dict):
-    """ Запись данных о продуктах в новую таблицу Google Sheets.
-    @param category_name Название категории.
-    @param products Словарь с данными о продуктах.
     """
-    if category_name:
-        category_ns: SimpleNamespace = getattr(self.editor.campaign.category, category_name)
-        products_ns: list[SimpleNamespace] = category_ns.products
-    else:
-        logger.warning("No products found for category.")
-        return
-    
-    ws = self.copy_worksheet('product', category_name)
-    try:
-        headers = [
-            'product_id', 'app_sale_price', 'original_price', 'sale_price', 'discount',
-            'product_main_image_url', 'local_image_path', 'product_small_image_urls',
-            'product_video_url', 'local_video_path', 'first_level_category_id',
-            'first_level_category_name', 'second_level_category_id', 'second_level_category_name',
-            'target_sale_price', 'target_sale_price_currency', 'target_app_sale_price_currency',
-            'target_original_price_currency', 'original_price_currency', 'product_title',
-            'evaluate_rate', 'promotion_link', 'shop_url', 'shop_id', 'tags'
-        ]
-        updates = [{'range': 'A1:Y1', 'values': [headers]}]  # Add headers to the worksheet
+    Args:
+        category_name (str): Название категории.
+        products (dict): Словарь с данными о продуктах.
 
-        row_data = []
-        for product in products:
-            _ = product.__dict__
-            row_data.append([
-                str(_.get('product_id')),
-                str(_.get('app_sale_price')),
-                _.get('original_price'),
-                _.get('sale_price'),
-                _.get('discount'),
-                _.get('product_main_image_url'),
-                _.get('local_image_path'),
-                ', '.join(_.get('product_small_image_urls', [])),
-                _.get('product_video_url'),
-                _.get('local_video_path'),
-                _.get('first_level_category_id'),
-                _.get('first_level_category_name'),
-                _.get('second_level_category_id'),
-                _.get('second_level_category_name'),
-                _.get('target_sale_price'),
-                _.get('target_sale_price_currency'),
-                _.get('target_app_sale_price_currency'),
-                _.get('target_original_price_currency'),
-                _.get('original_price_currency'),
-                _.get('product_title'),
-                _.get('evaluate_rate'),
-                _.get('promotion_link'),
-                _.get('shop_url'),
-                _.get('shop_id'),
-                ', '.join(_.get('tags', []))
-            ])
-        
-        for index, row in enumerate(row_data, start=2):
-            ws.update(f'A{index}:Y{index}', [row])
-            logger.info(f"Products {str(_.get('product_id'))} updated .")
-
-        self._format_category_products_worksheet(ws)
-
-        logger.info("Products updated in worksheet.")
-    except Exception as ex:
-        logger.error("Error updating products in worksheet.", ex, exc_info=True)
-        raise
+    Raises:
+        Exception: Если возникает ошибка при записи данных о продуктах.
+    """
 ```
 
-**Назначение**: Записывает данные о продуктах категории в таблицу Google Sheets.
+**Назначение**: Записывает данные о продуктах в новую таблицу Google Sheets.
 
 **Параметры**:
 
-- `category_name` (str): Название категории.
-- `products` (dict): Словарь с данными о продуктах.
+-   `category_name` (str): Название категории.
+-   `products` (dict): Словарь с данными о продуктах.
 
 **Как работает функция**:
 
-1.  Извлекает категорию и список продуктов из `self.editor.campaign.category` по `category_name`.
-2.  Если продукты не найдены, функция завершает работу и выводит предупреждение в лог.
-3.  Копирует лист `product` и переименовывает его в `category_name`.
-4.  Формирует список данных о продуктах для записи в Google Sheets.
-5.  Обновляет лист Google Sheets данными о продуктах.
-6.  Вызывает метод `_format_category_products_worksheet` для форматирования листа.
-7.  Логирует информацию об успешной записи данных о продуктах.
-8.  Обрабатывает исключение, если возникает ошибка при записи данных о продуктах, и логирует ошибку.
+1.  Копирует лист 'product' и переименовывает его в `category_name`.
+2.  Определяет заголовки для таблицы продуктов.
+3.  Формирует список строк с данными о продуктах для записи в Google Sheets.
+4.  Обновляет лист Google Sheets данными о продуктах.
+5.  Форматирует лист с использованием метода `_format_category_products_worksheet`.
+6.  Ловит исключения, которые могут возникнуть при записи данных, и логирует ошибки.
 
 **Примеры**:
 
 ```python
-campaign_gsheet.set_category_products(category_name='test_category', products=[{'product_id': 1, 'app_sale_price': 10.0}])
+products_data = [
+    {'product_id': '1', 'app_sale_price': '10.00', 'original_price': '12.00', 'sale_price': '11.00', 'discount': '10%',
+     'product_main_image_url': 'http://example.com/image1.jpg', 'local_image_path': '/path/to/image1.jpg',
+     'product_small_image_urls': ['http://example.com/small_image1.jpg', 'http://example.com/small_image2.jpg'],
+     'product_video_url': 'http://example.com/video1.mp4', 'local_video_path': '/path/to/video1.mp4',
+     'first_level_category_id': '1001', 'first_level_category_name': 'Category 1',
+     'second_level_category_id': '2001', 'second_level_category_name': 'Subcategory 1',
+     'target_sale_price': '10.50', 'target_sale_price_currency': 'USD',
+     'target_app_sale_price_currency': 'USD', 'target_original_price_currency': 'USD',
+     'original_price_currency': 'USD', 'product_title': 'Product Title 1', 'evaluate_rate': '4.5',
+     'promotion_link': 'http://example.com/promotion1', 'shop_url': 'http://example.com/shop1', 'shop_id': 'Shop123',
+     'tags': ['tag1', 'tag2']},
+    {'product_id': '2', 'app_sale_price': '20.00', 'original_price': '24.00', 'sale_price': '22.00', 'discount': '8%',
+     'product_main_image_url': 'http://example.com/image2.jpg', 'local_image_path': '/path/to/image2.jpg',
+     'product_small_image_urls': ['http://example.com/small_image3.jpg', 'http://example.com/small_image4.jpg'],
+     'product_video_url': 'http://example.com/video2.mp4', 'local_video_path': '/path/to/video2.mp4',
+     'first_level_category_id': '1002', 'first_level_category_name': 'Category 2',
+     'second_level_category_id': '2002', 'second_level_category_name': 'Subcategory 2',
+     'target_sale_price': '21.00', 'target_sale_price_currency': 'USD',
+     'target_app_sale_price_currency': 'USD', 'target_original_price_currency': 'USD',
+     'original_price_currency': 'USD', 'product_title': 'Product Title 2', 'evaluate_rate': '4.7',
+     'promotion_link': 'http://example.com/promotion2', 'shop_url': 'http://example.com/shop2', 'shop_id': 'Shop456',
+     'tags': ['tag3', 'tag4']}
+]
+
+sheet = AliCampaignGoogleSheet(campaign_name='test_campaign')
+sheet.set_category_products(category_name='test_category', products=products_data)
 ```
 
 ### `_format_categories_worksheet`
 
 ```python
 def _format_categories_worksheet(self, ws: Worksheet):
-    """ Форматирование листа 'categories'.
-    @param ws Лист Google Sheets для форматирования.
     """
-    try:
-        # Установка ширины столбцов
-        set_column_width(ws, 'A:A', 150)  # Ширина столбца A
-        set_column_width(ws, 'B:B', 200)  # Ширина столбца B
-        set_column_width(ws, 'C:C', 300)  # Ширина столбца C
-        set_column_width(ws, 'D:D', 200)  # Ширина столбца D
-        set_column_width(ws, 'E:E', 150)  # Ширина столбца E
-        
-        # Установка высоты строк
-        set_row_height(ws, '1:1', 40)  # Высота заголовков
+    Args:
+        ws (Worksheet): Лист Google Sheets для форматирования.
 
-        # Форматирование заголовков
-        header_format = cellFormat(
-            textFormat=textFormat(bold=True, fontSize=12),
-            horizontalAlignment='CENTER',
-            verticalAlignment='MIDDLE',  # Добавлено вертикальное выравнивание
-            backgroundColor=Color(0.8, 0.8, 0.8)  # Используем Color для задания цвета
-        )
-        format_cell_range(ws, 'A1:E1', header_format)
-
-        logger.info("Categories worksheet formatted.")
-    except Exception as ex:
-        logger.error("Error formatting categories worksheet.", ex, exc_info=True)
-        raise
+    Raises:
+        Exception: Если возникает ошибка при форматировании листа.
+    """
 ```
 
-**Назначение**: Форматирует лист 'categories' в Google Sheets.
+**Назначение**: Форматирует лист Google Sheets с категориями, устанавливая ширину столбцов, высоту строк и форматирование заголовков.
 
 **Параметры**:
 
-- `ws` (Worksheet): Лист Google Sheets для форматирования.
+-   `ws` (Worksheet): Лист Google Sheets для форматирования.
 
 **Как работает функция**:
 
-1. Устанавливает ширину столбцов A, B, C, D и E.
-2. Устанавливает высоту строки 1.
-3. Определяет формат заголовков (жирный шрифт, размер 12, центрирование, вертикальное выравнивание по середине, серый фон).
-4. Применяет формат заголовков к диапазону A1:E1.
-5. Логирует информацию об успешном форматировании листа.
-6. Обрабатывает исключение, если возникает ошибка при форматировании листа, и логирует ошибку.
+1.  Устанавливает ширину столбцов A, B, C, D и E.
+2.  Устанавливает высоту первой строки (заголовки).
+3.  Определяет формат заголовков (жирный шрифт, размер 12, выравнивание по центру, серый фон).
+4.  Применяет формат к диапазону ячеек A1:E1 (заголовки).
+5.  Ловит исключения, которые могут возникнуть при форматировании, и логирует ошибки.
 
 **Примеры**:
 
 ```python
-ws = campaign_gsheet.get_worksheet('categories')
-campaign_gsheet._format_categories_worksheet(ws)
+sheet = AliCampaignGoogleSheet(campaign_name='test_campaign')
+ws = sheet.get_worksheet('categories')
+sheet._format_categories_worksheet(ws)
 ```
 
 ### `_format_category_products_worksheet`
 
 ```python
 def _format_category_products_worksheet(self, ws: Worksheet):
-    """ Форматирование листа с продуктами категории.
-    @param ws Лист Google Sheets для форматирования.
     """
-    try:
-        # Установка ширины столбцов
-        set_column_width(ws, 'A:A', 250)  # Ширина столбца A
-        set_column_width(ws, 'B:B', 220)  # Ширина столбца B
-        set_column_width(ws, 'C:C', 220)  # Ширина столбца C
-        set_column_width(ws, 'D:D', 220)  # Ширина столбца D
-        set_column_width(ws, 'E:E', 200)  # Ширина столбца E
-        set_column_width(ws, 'F:F', 200)  # Ширина столбца F
-        set_column_width(ws, 'G:G', 200)  # Ширина столбца G
-        set_column_width(ws, 'H:H', 200)  # Ширина столбца H
-        set_column_width(ws, 'I:I', 200)  # Ширина столбца I
-        set_column_width(ws, 'J:J', 200)  # Ширина столбца J
-        set_column_width(ws, 'K:K', 200)  # Ширина столбца K
-        set_column_width(ws, 'L:L', 200)  # Ширина столбца L
-        set_column_width(ws, 'M:M', 200)  # Ширина столбца M
-        set_column_width(ws, 'N:N', 200)  # Ширина столбца N
-        set_column_width(ws, 'O:O', 200)  # Ширина столбца O
-        set_column_width(ws, 'P:P', 200)  # Ширина столбца P
-        set_column_width(ws, 'Q:Q', 200)  # Ширина столбца Q
-        set_column_width(ws, 'R:R', 200)  # Ширина столбца R
-        set_column_width(ws, 'S:S', 200)  # Ширина столбца S
-        set_column_width(ws, 'T:T', 200)  # Ширина столбца T
-        set_column_width(ws, 'U:U', 200)  # Ширина столбца U
-        set_column_width(ws, 'V:V', 200)  # Ширина столбца V
-        set_column_width(ws, 'W:W', 200)  # Ширина столбца W
-        set_column_width(ws, 'X:X', 200)  # Ширина столбца X
-        set_column_width(ws, 'Y:Y', 200)  # Ширина столбца Y
+    Args:
+        ws (Worksheet): Лист Google Sheets для форматирования.
 
-        # Установка высоты строк
-        set_row_height(ws, '1:1', 40)  # Высота заголовков
-
-        # Форматирование заголовков
-        header_format = cellFormat(
-            textFormat=textFormat(bold=True, fontSize=12),
-            horizontalAlignment='CENTER',
-            verticalAlignment='TOP',  # Добавлено вертикальное выравнивание
-            backgroundColor=Color(0.8, 0.8, 0.8)  # Используем Color для задания цвета
-        )
-        format_cell_range(ws, 'A1:Y1', header_format)
-
-        logger.info("Category products worksheet formatted.")
-    except Exception as ex:
-        logger.error("Error formatting category products worksheet.", ex, exc_info=True)
-        raise
+    Raises:
+        Exception: Если возникает ошибка при форматировании листа.
+    """
 ```
 
-**Назначение**: Форматирует лист с продуктами категории в Google Sheets.
+**Назначение**: Форматирует лист Google Sheets с продуктами категории, устанавливая ширину столбцов, высоту строк и форматирование заголовков.
 
 **Параметры**:
 
-- `ws` (Worksheet): Лист Google Sheets для форматирования.
+-   `ws` (Worksheet): Лист Google Sheets для форматирования.
 
 **Как работает функция**:
 
-1. Устанавливает ширину столбцов от A до Y.
-2. Устанавливает высоту строки 1.
-3. Определяет формат заголовков (жирный шрифт, размер 12, центрирование, вертикальное выравнивание по верхнему краю, серый фон).
-4. Применяет формат заголовков к диапазону A1:Y1.
-5. Логирует информацию об успешном форматировании листа.
-6. Обрабатывает исключение, если возникает ошибка при форматировании листа, и логирует ошибку.
+1.  Устанавливает ширину столбцов от A до Y.
+2.  Устанавливает высоту первой строки (заголовки).
+3.  Определяет формат заголовков (жирный шрифт, размер 12, выравнивание по центру, серый фон).
+4.  Применяет формат к диапазону ячеек A1:Y1 (заголовки).
+5.  Ловит исключения, которые могут возникнуть при форматировании, и логирует ошибки.
 
 **Примеры**:
 
 ```python
-ws = campaign_gsheet.get_worksheet('test_category')
-campaign_gsheet._format_category_products_worksheet(ws)
-```
+sheet = AliCampaignGoogleSheet(campaign_name='test_campaign')
+ws = sheet.get_worksheet('test_category')
+sheet._format_category_products_worksheet(ws)

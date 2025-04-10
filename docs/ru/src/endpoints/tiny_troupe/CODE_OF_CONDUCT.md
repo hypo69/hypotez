@@ -2,23 +2,27 @@
 
 ## Обзор
 
-Этот документ содержит Кодекс поведения Open Source от Microsoft, который определяет стандарты поведения для участников проекта. Он предоставляет ссылки на ресурсы, такие как сам кодекс поведения и часто задаваемые вопросы, а также контактный адрес электронной почты для обращений.
+Файл `CODE_OF_CONDUCT.md` содержит текст Кодекса поведения открытого исходного кода Microsoft. Этот файл информирует участников проекта о стандартах поведения и ожиданиях при взаимодействии с проектом.
 
-## Подробнее
+## Подробней
 
-Этот файл важен для установления четких правил и ожиданий относительно поведения в проекте. Он помогает создать уважительную и инклюзивную среду для всех участников, что способствует более продуктивному и приятному сотрудничеству. Кодекс поведения является важной частью любого open source проекта, так как он гарантирует, что все участники будут относиться друг к другу с уважением и достоинством.
+Этот файл важен для поддержания позитивной и инклюзивной среды в проекте `hypotez`. Он направляет участников относительно приемлемого поведения и предоставляет ресурсы для получения дополнительной информации и сообщения о нарушениях. В файле указаны ссылки на сам Кодекс поведения, часто задаваемые вопросы и контактный адрес электронной почты для связи по вопросам или опасениям.
 
 ## Содержание
 
-1.  [Microsoft Open Source Code of Conduct](#microsoft-open-source-code-of-conduct)
-2.  [Resources](#resources)
+- [Обзор](#обзор)
+- [Подробней](#подробней)
+- [Кодекс поведения Microsoft для Open Source](#кодекс-поведения-microsoft-для-open-source)
+- [Ресурсы](#ресурсы)
 
-## Microsoft Open Source Code of Conduct
+## Кодекс поведения Microsoft для Open Source
 
-Этот проект принял [Кодекс поведения Open Source от Microsoft](https://opensource.microsoft.com/codeofconduct/).
+В файле содержится ссылка на [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). Этот кодекс определяет стандарты поведения для участников проекта.
 
-## Resources
+## Ресурсы
 
--   [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/)
--   [Microsoft Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/)
--   Contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with questions or concerns
+Файл предоставляет ссылки на ресурсы, связанные с Кодексом поведения Microsoft, включая:
+
+- [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/)
+- [Microsoft Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/)
+- Контактный адрес электронной почты: [opencode@microsoft.com](mailto:opencode@microsoft.com) для вопросов и опасений.

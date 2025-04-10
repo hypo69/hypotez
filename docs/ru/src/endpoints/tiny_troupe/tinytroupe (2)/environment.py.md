@@ -1,319 +1,773 @@
-# Модуль `environment.py`
+# Модуль `environment`
 
 ## Обзор
 
-Модуль `environment.py` предоставляет классы для моделирования окружения, в котором взаимодействуют агенты, а также внешние сущности. Он содержит базовый класс `TinyWorld`, представляющий собой абстрактное окружение, и класс `TinySocialNetwork`, расширяющий `TinyWorld` для моделирования социальных сетей.
+Модуль `environment` предоставляет инструменты для создания и управления виртуальными средами, в которых взаимодействуют агенты (например, `TinyPerson`) и внешние сущности. Он содержит базовый класс `TinyWorld`, представляющий собой абстракцию мира, в котором живут и действуют агенты. Также включает подкласс `TinySocialNetwork`, расширяющий `TinyWorld` для моделирования социальных связей между агентами.
 
-## Подробнее
+## Подробней
 
-Этот модуль играет центральную роль в создании симуляций, где агенты взаимодействуют друг с другом и с окружением. Он предоставляет механизмы для управления временем, добавления и удаления агентов, обработки действий агентов и организации коммуникаций между ними. `TinyWorld` служит основой для определения общих правил и логики окружения, в то время как `TinySocialNetwork` добавляет специфические возможности для моделирования социальных связей и отношений между агентами.
+Этот модуль является ключевым компонентом системы моделирования, позволяя создавать различные сценарии взаимодействия между агентами. Он предоставляет механизмы для управления временем, добавления и удаления агентов, обработки действий агентов и организации коммуникации между ними. `TinyWorld` служит основой для более сложных сред, таких как `TinySocialNetwork`, которая учитывает социальные отношения между агентами. Модуль также предоставляет инструменты для сохранения и восстановления состояния среды, что позволяет воспроизводить и анализировать результаты моделирования.
 
 ## Классы
 
 ### `TinyWorld`
 
-**Описание**: Базовый класс для окружений.
+**Описание**:
+Базовый класс для создания виртуальных сред, в которых взаимодействуют агенты.
 
-**Принцип работы**: `TinyWorld` предоставляет основные методы для управления агентами, временем и взаимодействиями в симулируемой среде. Он содержит логику для выполнения шагов симуляции, обработки действий агентов и организации коммуникаций между ними.
+**Принцип работы**:
+Класс `TinyWorld` предоставляет основу для моделирования окружения агентов. Он управляет списком агентов, временем, обработкой действий и коммуникацией между агентами. `TinyWorld` может быть расширен для создания более сложных и специализированных сред.
 
 **Атрибуты**:
-
-- `all_environments (dict)`: Словарь, содержащий все созданные окружения (`name -> environment`).
-- `communication_display (bool)`: Флаг, определяющий, отображать ли коммуникации в окружении. По умолчанию `True`.
+- `all_environments (dict)`: Словарь, содержащий все созданные окружения. Ключ - имя окружения, значение - экземпляр `TinyWorld`.
+- `communication_display (bool)`: Флаг, определяющий, отображать ли коммуникации в окружении.
 - `name (str)`: Имя окружения.
-- `current_datetime (datetime)`: Текущая дата и время в окружении.
-- `broadcast_if_no_target (bool)`: Если `True`, действия транслируются, если цель действия не найдена.
+- `current_datetime (datetime)`: Текущее время в окружении.
+- `broadcast_if_no_target (bool)`: Флаг, определяющий, транслировать ли действия, если цель не найдена.
 - `simulation_id (Any)`: Идентификатор симуляции, к которой принадлежит окружение.
 - `agents (list)`: Список агентов в окружении.
-- `name_to_agent (dict)`: Словарь, сопоставляющий имена агентов с их экземплярами (`{agent_name: agent}`).
-- `_displayed_communications_buffer (list)`: Буфер отображаемых коммуникаций.
-- `console (Console)`: Объект консоли для вывода информации.
+- `name_to_agent (dict)`: Словарь, отображающий имена агентов в экземпляры агентов.
+- `_displayed_communications_buffer (list)`: Буфер для хранения отображаемых сообщений.
+- `console (Console)`: Консоль для вывода сообщений.
 
 **Методы**:
 
-- `__init__(self, name: str="A TinyWorld", agents=[], initial_datetime=datetime.datetime.now(), broadcast_if_no_target=True)`:
-    Инициализирует окружение.
+- `__init__(self, name: str="A TinyWorld", agents=[], initial_datetime=datetime.datetime.now(), broadcast_if_no_target=True)`
+    ```python
+    def __init__(self, name: str="A TinyWorld", agents=[], 
+                 initial_datetime=datetime.datetime.now(),
+                 broadcast_if_no_target=True):
+        """
+        Инициализирует окружение.
 
-- `_step(self, timedelta_per_step=None)`:
-    Выполняет один шаг в окружении.
+        Args:
+            name (str): Имя окружения.
+            agents (list): Список агентов для добавления в окружение.
+            initial_datetime (datetime): Начальное время окружения. По умолчанию - текущее время.
+            broadcast_if_no_target (bool): Если `True`, транслирует действия, если цель не найдена.
+        """
+        ...
+    ```
+- `_step(self, timedelta_per_step=None)`
+    ```python
+    @transactional
+    def _step(self, timedelta_per_step=None):
+        """
+        Выполняет один шаг в окружении.
 
-- `_advance_datetime(self, timedelta)`:
-    Увеличивает текущую дату и время окружения на указанный интервал.
+        Args:
+            timedelta_per_step (timedelta, optional): Временной интервал для одного шага. По умолчанию `None`.
+        """
+        ...
+    ```
+- `_advance_datetime(self, timedelta)`
+    ```python
+    def _advance_datetime(self, timedelta):
+        """
+        Сдвигает текущее время в окружении на заданный интервал.
 
-- `run(self, steps: int, timedelta_per_step=None, return_actions=False)`:
-    Запускает окружение на заданное количество шагов.
+        Args:
+            timedelta (timedelta): Временной интервал для сдвига.
+        """
+        ...
+    ```
+- `run(self, steps: int, timedelta_per_step=None, return_actions=False)`
+    ```python
+    @transactional
+    def run(self, steps: int, timedelta_per_step=None, return_actions=False):
+        """
+        Запускает окружение на заданное количество шагов.
 
-- `skip(self, steps: int, timedelta_per_step=None)`:
-    Пропускает заданное количество шагов в окружении без выполнения действий.
+        Args:
+            steps (int): Количество шагов для запуска.
+            timedelta_per_step (timedelta, optional): Временной интервал между шагами. По умолчанию `None`.
+            return_actions (bool, optional): Если `True`, возвращает действия агентов. По умолчанию `False`.
 
-- `run_minutes(self, minutes: int)`:
-    Запускает окружение на заданное количество минут.
+        Returns:
+            list: Список действий агентов за время выполнения, если `return_actions` равен `True`.
+        """
+        ...
+    ```
+- `skip(self, steps: int, timedelta_per_step=None)`
+    ```python
+    @transactional
+    def skip(self, steps: int, timedelta_per_step=None):
+        """
+        Пропускает заданное количество шагов в окружении.
 
-- `skip_minutes(self, minutes: int)`:
-    Пропускает заданное количество минут в окружении.
+        Args:
+            steps (int): Количество шагов для пропуска.
+            timedelta_per_step (timedelta, optional): Временной интервал между шагами. По умолчанию `None`.
+        """
+        ...
+    ```
+- `run_minutes(self, minutes: int)`
+    ```python
+    def run_minutes(self, minutes: int):
+        """
+        Запускает окружение на заданное количество минут.
 
-- `run_hours(self, hours: int)`:
-    Запускает окружение на заданное количество часов.
+        Args:
+            minutes (int): Количество минут для запуска.
+        """
+        ...
+    ```
+- `skip_minutes(self, minutes: int)`
+    ```python
+    def skip_minutes(self, minutes: int):
+        """
+        Пропускает заданное количество минут в окружении.
 
-- `skip_hours(self, hours: int)`:
-    Пропускает заданное количество часов в окружении.
+        Args:
+            minutes (int): Количество минут для пропуска.
+        """
+        ...
+    ```
+- `run_hours(self, hours: int)`
+    ```python
+    def run_hours(self, hours: int):
+        """
+        Запускает окружение на заданное количество часов.
 
-- `run_days(self, days: int)`:
-    Запускает окружение на заданное количество дней.
+        Args:
+            hours (int): Количество часов для запуска.
+        """
+        ...
+    ```
+- `skip_hours(self, hours: int)`
+    ```python
+    def skip_hours(self, hours: int):
+        """
+        Пропускает заданное количество часов в окружении.
 
-- `skip_days(self, days: int)`:
-    Пропускает заданное количество дней в окружении.
+        Args:
+            hours (int): Количество часов для пропуска.
+        """
+        ...
+    ```
+- `run_days(self, days: int)`
+    ```python
+    def run_days(self, days: int):
+        """
+        Запускает окружение на заданное количество дней.
 
-- `run_weeks(self, weeks: int)`:
-    Запускает окружение на заданное количество недель.
+        Args:
+            days (int): Количество дней для запуска.
+        """
+        ...
+    ```
+- `skip_days(self, days: int)`
+    ```python
+    def skip_days(self, days: int):
+        """
+        Пропускает заданное количество дней в окружении.
 
-- `skip_weeks(self, weeks: int)`:
-    Пропускает заданное количество недель в окружении.
+        Args:
+            days (int): Количество дней для пропуска.
+        """
+        ...
+    ```
+- `run_weeks(self, weeks: int)`
+    ```python
+    def run_weeks(self, weeks: int):
+        """
+        Запускает окружение на заданное количество недель.
 
-- `run_months(self, months: int)`:
-    Запускает окружение на заданное количество месяцев.
+        Args:
+            weeks (int): Количество недель для запуска.
+        """
+        ...
+    ```
+- `skip_weeks(self, weeks: int)`
+    ```python
+    def skip_weeks(self, weeks: int):
+        """
+        Пропускает заданное количество недель в окружении.
 
-- `skip_months(self, months: int)`:
-    Пропускает заданное количество месяцев в окружении.
+        Args:
+            weeks (int): Количество недель для пропуска.
+        """
+        ...
+    ```
+- `run_months(self, months: int)`
+    ```python
+    def run_months(self, months: int):
+        """
+        Запускает окружение на заданное количество месяцев.
 
-- `run_years(self, years: int)`:
-    Запускает окружение на заданное количество лет.
+        Args:
+            months (int): Количество месяцев для запуска.
+        """
+        ...
+    ```
+- `skip_months(self, months: int)`
+    ```python
+    def skip_months(self, months: int):
+        """
+        Пропускает заданное количество месяцев в окружении.
 
-- `skip_years(self, years: int)`:
-    Пропускает заданное количество лет в окружении.
+        Args:
+            months (int): Количество месяцев для пропуска.
+        """
+        ...
+    ```
+- `run_years(self, years: int)`
+    ```python
+    def run_years(self, years: int):
+        """
+        Запускает окружение на заданное количество лет.
 
-- `add_agents(self, agents: list)`:
-    Добавляет список агентов в окружение.
+        Args:
+            years (int): Количество лет для запуска.
+        """
+        ...
+    ```
+- `skip_years(self, years: int)`
+    ```python
+    def skip_years(self, years: int):
+        """
+        Пропускает заданное количество лет в окружении.
 
-- `add_agent(self, agent: TinyPerson)`:
-    Добавляет агента в окружение.
+        Args:
+            years (int): Количество лет для пропуска.
+        """
+        ...
+    ```
+- `add_agents(self, agents: list)`
+    ```python
+    def add_agents(self, agents: list):
+        """
+        Добавляет список агентов в окружение.
 
-- `remove_agent(self, agent: TinyPerson)`:
-    Удаляет агента из окружения.
+        Args:
+            agents (list): Список агентов для добавления.
 
-- `remove_all_agents(self)`:
-    Удаляет всех агентов из окружения.
+        Returns:
+            self: Для цепочки вызовов.
+        """
+        ...
+    ```
+- `add_agent(self, agent: TinyPerson)`
+    ```python
+    def add_agent(self, agent: TinyPerson):
+        """
+        Добавляет агента в окружение.
 
-- `get_agent_by_name(self, name: str) -> TinyPerson`:
-    Возвращает агента с указанным именем.
+        Args:
+            agent (TinyPerson): Агент для добавления.
 
-- `_handle_actions(self, source: TinyPerson, actions: list)`:
-    Обрабатывает действия, инициированные агентами.
+        Raises:
+            ValueError: Если имя агента не уникально в окружении.
 
-- `_handle_reach_out(self, source_agent: TinyPerson, content: str, target: str)`:
-    Обрабатывает действие `REACH_OUT`.
+        Returns:
+            self: Для цепочки вызовов.
+        """
+        ...
+    ```
+- `remove_agent(self, agent: TinyPerson)`
+    ```python
+    def remove_agent(self, agent: TinyPerson):
+        """
+        Удаляет агента из окружения.
 
-- `_handle_talk(self, source_agent: TinyPerson, content: str, target: str)`:
-    Обрабатывает действие `TALK`.
+        Args:
+            agent (TinyPerson): Агент для удаления.
 
-- `broadcast(self, speech: str, source: AgentOrWorld=None)`:
-    Отправляет сообщение всем агентам в окружении.
+        Returns:
+            self: Для цепочки вызовов.
+        """
+        ...
+    ```
+- `remove_all_agents(self)`
+    ```python
+    def remove_all_agents(self):
+        """
+        Удаляет всех агентов из окружения.
 
-- `broadcast_thought(self, thought: str, source: AgentOrWorld=None)`:
-    Отправляет мысль всем агентам в окружении.
+        Returns:
+            self: Для цепочки вызовов.
+        """
+        ...
+    ```
+- `get_agent_by_name(self, name: str) -> TinyPerson`
+    ```python
+    def get_agent_by_name(self, name: str) -> TinyPerson:
+        """
+        Возвращает агента по имени.
 
-- `broadcast_internal_goal(self, internal_goal: str)`:
-    Отправляет внутреннюю цель всем агентам в окружении.
+        Args:
+            name (str): Имя агента.
 
-- `broadcast_context_change(self, context: list)`:
-    Отправляет изменение контекста всем агентам в окружении.
+        Returns:
+            TinyPerson: Агент с указанным именем.
+        """
+        ...
+    ```
+- `_handle_actions(self, source: TinyPerson, actions: list)`
+    ```python
+    @transactional
+    def _handle_actions(self, source: TinyPerson, actions: list):
+        """
+        Обрабатывает действия агентов.
 
-- `make_everyone_accessible(self)`:
-    Делает всех агентов в окружении доступными друг для друга.
+        Args:
+            source (TinyPerson): Агент, выполнивший действия.
+            actions (list): Список действий.
+        """
+        ...
+    ```
+- `_handle_reach_out(self, source_agent: TinyPerson, content: str, target: str)`
+    ```python
+    @transactional
+    def _handle_reach_out(self, source_agent: TinyPerson, content: str, target: str):
+        """
+        Обрабатывает действие REACH_OUT.
 
-- `_display_communication(self, cur_step, total_steps, kind, timedelta_per_step=None)`:
-    Отображает текущую коммуникацию и сохраняет её в буфере.
+        Args:
+            source_agent (TinyPerson): Агент, выполнивший действие.
+            content (str): Содержимое сообщения.
+            target (str): Цель сообщения.
+        """
+        ...
+    ```
+- `_handle_talk(self, source_agent: TinyPerson, content: str, target: str)`
+    ```python
+    @transactional
+    def _handle_talk(self, source_agent: TinyPerson, content: str, target: str):
+        """
+        Обрабатывает действие TALK.
 
-- `_push_and_display_latest_communication(self, rendering)`:
-    Добавляет последние коммуникации в буфер агента.
+        Args:
+            source_agent (TinyPerson): Агент, выполнивший действие.
+            content (str): Содержимое сообщения.
+            target (str): Цель сообщения.
+        """
+        ...
+    ```
+- `broadcast(self, speech: str, source: AgentOrWorld=None)`
+    ```python
+    @transactional
+    def broadcast(self, speech: str, source: AgentOrWorld=None):
+        """
+        Отправляет сообщение всем агентам в окружении.
 
-- `pop_and_display_latest_communications(self)`:
-    Извлекает последние коммуникации и отображает их.
+        Args:
+            speech (str): Содержимое сообщения.
+            source (AgentOrWorld, optional): Источник сообщения. По умолчанию `None`.
+        """
+        ...
+    ```
+- `broadcast_thought(self, thought: str, source: AgentOrWorld=None)`
+    ```python
+    @transactional
+    def broadcast_thought(self, thought: str, source: AgentOrWorld=None):
+        """
+        Отправляет мысль всем агентам в окружении.
 
-- `_display(self, communication)`:
-    Отображает коммуникацию.
+        Args:
+            thought (str): Содержимое мысли.
+        """
+        ...
+    ```
+- `broadcast_internal_goal(self, internal_goal: str)`
+    ```python
+    @transactional
+    def broadcast_internal_goal(self, internal_goal: str):
+        """
+        Отправляет внутреннюю цель всем агентам в окружении.
 
-- `clear_communications_buffer(self)`:
-    Очищает буфер коммуникаций.
+        Args:
+            internal_goal (str): Содержимое внутренней цели.
+        """
+        ...
+    ```
+- `broadcast_context_change(self, context: list)`
+    ```python
+    @transactional
+    def broadcast_context_change(self, context:list):
+        """
+        Отправляет изменение контекста всем агентам в окружении.
 
-- `__repr__(self)`:
-    Возвращает строковое представление объекта `TinyWorld`.
+        Args:
+            context (list): Содержимое изменения контекста.
+        """
+        ...
+    ```
+- `make_everyone_accessible(self)`
+    ```python
+    def make_everyone_accessible(self):
+        """
+        Делает всех агентов в окружении доступными друг для друга.
+        """
+        ...
+    ```
+- `_display_communication(self, cur_step, total_steps, kind, timedelta_per_step=None)`
+    ```python
+    def _display_communication(self, cur_step, total_steps, kind, timedelta_per_step=None):
+        """
+        Отображает текущую коммуникацию и сохраняет ее в буфере.
 
-- `_pretty_step(self, cur_step, total_steps, timedelta_per_step=None)`:
-    Форматирует строку шага симуляции для отображения.
+        Args:
+            cur_step (int): Текущий шаг.
+            total_steps (int): Общее количество шагов.
+            kind (str): Тип коммуникации.
+            timedelta_per_step (timedelta, optional): Временной интервал между шагами. По умолчанию `None`.
+        """
+        ...
+    ```
+- `_push_and_display_latest_communication(self, rendering)`
+    ```python
+    def _push_and_display_latest_communication(self, rendering):
+        """
+        Добавляет последнюю коммуникацию в буфер агента.
 
-- `pp_current_interactions(self, simplified=True, skip_system=True)`:
-    Выводит текущие сообщения от агентов в этом окружении.
+        Args:
+            rendering (dict): Отображаемая информация.
+        """
+        ...
+    ```
+- `pop_and_display_latest_communications(self)`
+    ```python
+    def pop_and_display_latest_communications(self):
+        """
+        Извлекает последние коммуникации и отображает их.
+        """
+        ...
+    ```
+- `_display(self, communication)`
+    ```python
+    def _display(self, communication):
+        """
+        Отображает коммуникацию.
 
-- `pretty_current_interactions(self, simplified=True, skip_system=True, max_content_length=default["max_content_display_length"], first_n=None, last_n=None, include_omission_info:bool=True)`:
-    Возвращает отформатированную строку с текущими сообщениями агентов в этом окружении.
+        Args:
+            communication (dict): Коммуникация для отображения.
+        """
+        ...
+    ```
+- `clear_communications_buffer(self)`
+    ```python
+    def clear_communications_buffer(self):
+        """
+        Очищает буфер коммуникаций.
+        """
+        ...
+    ```
+- `__repr__(self)`
+    ```python
+    def __repr__(self):
+        return f"TinyWorld(name=\'{self.name}\')"
+    ```
+- `_pretty_step(self, cur_step, total_steps, timedelta_per_step=None)`
+    ```python
+    def _pretty_step(self, cur_step, total_steps, timedelta_per_step=None):
+        """
+        Форматирует сообщение для отображения текущего шага.
 
-- `encode_complete_state(self) -> dict`:
-    Кодирует полное состояние окружения в словарь.
+        Args:
+            cur_step (int): Текущий шаг.
+            total_steps (int): Общее количество шагов.
+            timedelta_per_step (timedelta, optional): Временной интервал между шагами. По умолчанию `None`.
 
-- `decode_complete_state(self, state: dict) -> Self`:
-    Декодирует полное состояние окружения из словаря.
+        Returns:
+            str: Отформатированное сообщение.
+        """
+        ...
+    ```
+- `pp_current_interactions(self, simplified=True, skip_system=True)`
+    ```python
+    def pp_current_interactions(self, simplified=True, skip_system=True):
+        """
+        Выводит текущие взаимодействия агентов в окружении.
 
-- `add_environment(environment)`:
-    Добавляет окружение в список всех окружений.
+        Args:
+            simplified (bool, optional): Упрощенный вывод. По умолчанию `True`.
+            skip_system (bool, optional): Пропускать системные сообщения. По умолчанию `True`.
+        """
+        ...
+    ```
+- `pretty_current_interactions(self, simplified=True, skip_system=True, max_content_length=default["max_content_display_length"], first_n=None, last_n=None, include_omission_info:bool=True)`
+    ```python
+    def pretty_current_interactions(self, simplified=True, skip_system=True, max_content_length=default["max_content_display_length"], first_n=None, last_n=None, include_omission_info:bool=True):
+      """
+      Возвращает отформатированную строку с текущими сообщениями агентов в этой среде.
+      """
+      ...
+    ```
+- `encode_complete_state(self) -> dict`
+    ```python
+    def encode_complete_state(self) -> dict:
+        """
+        Кодирует полное состояние окружения в словарь.
 
-- `set_simulation_for_free_environments(simulation)`:
-    Устанавливает симуляцию, если она равна `None`. Это позволяет захватывать свободные окружения определенными областями симуляции, если это необходимо.
+        Returns:
+            dict: Словарь, содержащий состояние окружения.
+        """
+        ...
+    ```
+- `decode_complete_state(self, state: dict) -> Self`
+    ```python
+    def decode_complete_state(self, state:dict) -> Self:
+        """
+        Декодирует полное состояние окружения из словаря.
 
-- `get_environment_by_name(name: str)`:
-    Возвращает окружение с указанным именем.
+        Args:
+            state (dict): Словарь, содержащий состояние окружения.
 
-- `clear_environments()`:
-    Очищает список всех окружений.
+        Returns:
+            Self: Окружение, декодированное из словаря.
+        """
+        ...
+    ```
 
-#### Как работает класс `TinyWorld`:
-1. **Инициализация**: При создании экземпляра `TinyWorld` инициализируются основные атрибуты, такие как имя окружения, текущее время и список агентов.
-2. **Шаг симуляции (`_step`)**: Этот метод выполняет один шаг симуляции, заставляя каждого агента в окружении действовать (`agent.act()`) и обрабатывая их действия (`_handle_actions`).
-3. **Обработка действий (`_handle_actions`)**: В зависимости от типа действия (например, `REACH_OUT` или `TALK`), вызываются соответствующие обработчики (`_handle_reach_out`, `_handle_talk`).
-4. **Коммуникация**: Методы `broadcast`, `broadcast_thought`, `broadcast_internal_goal` и `broadcast_context_change` используются для распространения информации между агентами в окружении.
-5. **Управление временем**: Методы `run`, `skip`, `run_minutes`, `skip_minutes` и т.д. позволяют управлять течением времени в симуляции, выполняя шаги с определенными временными интервалами или пропуская время.
-6. **Управление агентами**: Методы `add_agent`, `remove_agent`, `add_agents` и `remove_all_agents` позволяют добавлять и удалять агентов из окружения.
+**Статические методы**:
+
+- `add_environment(environment)`
+    ```python
+    @staticmethod
+    def add_environment(environment):
+        """
+        Добавляет окружение в список всех окружений.
+
+        Args:
+            environment (TinyWorld): Окружение для добавления.
+
+        Raises:
+            ValueError: Если имя окружения не уникально.
+        """
+        ...
+    ```
+- `set_simulation_for_free_environments(simulation)`
+    ```python
+    @staticmethod
+    def set_simulation_for_free_environments(simulation):
+        """
+        Устанавливает симуляцию для свободных окружений.
+        """
+        ...
+    ```
+- `get_environment_by_name(name: str)`
+    ```python
+    @staticmethod
+    def get_environment_by_name(name: str):
+        """
+        Возвращает окружение по имени.
+
+        Args:
+            name (str): Имя окружения.
+
+        Returns:
+            TinyWorld: Окружение с указанным именем.
+        """
+        ...
+    ```
+- `clear_environments()`
+    ```python
+    @staticmethod
+    def clear_environments():
+        """
+        Очищает список всех окружений.
+        """
+        ...
+    ```
+
+### `TinySocialNetwork`
+
+**Описание**:
+Подкласс `TinyWorld`, представляющий собой социальную сеть агентов.
+
+**Наследует**:
+`TinyWorld`: Расширяет базовый класс `TinyWorld`, добавляя функциональность для моделирования социальных связей между агентами.
+
+**Атрибуты**:
+- `relations (dict)`: Словарь, хранящий отношения между агентами.
+
+**Методы**:
+
+- `__init__(self, name, broadcast_if_no_target=True)`
+    ```python
+    def __init__(self, name, broadcast_if_no_target=True):
+        """
+        Создает новую среду TinySocialNetwork.
+
+        Args:
+            name (str): Имя окружения.
+            broadcast_if_no_target (bool): Если `True`, транслирует действия через доступные связи агента, если цель не найдена.
+        """
+        ...
+    ```
+- `add_relation(self, agent_1, agent_2, name="default")`
+    ```python
+    @transactional
+    def add_relation(self, agent_1, agent_2, name="default"):
+        """
+        Добавляет отношение между двумя агентами.
+
+        Args:
+            agent_1 (TinyPerson): Первый агент.
+            agent_2 (TinyPerson): Второй агент.
+            name (str): Имя отношения.
+
+        Returns:
+            self: Для цепочки вызовов.
+        """
+        ...
+    ```
+- `_update_agents_contexts(self)`
+    ```python
+    @transactional
+    def _update_agents_contexts(self):
+        """
+        Обновляет контексты агентов на основе текущего состояния мира.
+        """
+        ...
+    ```
+- `_step(self)`
+    ```python
+    @transactional
+    def _step(self):
+        """
+        Выполняет один шаг в социальной сети.
+        """
+        ...
+    ```
+- `_handle_reach_out(self, source_agent: TinyPerson, content: str, target: str)`
+    ```python
+    @transactional
+    def _handle_reach_out(self, source_agent: TinyPerson, content: str, target: str):
+        """
+        Обрабатывает действие REACH_OUT.
+
+        Args:
+            source_agent (TinyPerson): Агент, выполнивший действие.
+            content (str): Содержимое сообщения.
+            target (str): Цель сообщения.
+        """
+        ...
+    ```
+- `is_in_relation_with(self, agent_1: TinyPerson, agent_2: TinyPerson, relation_name=None) -> bool`
+    ```python
+    def is_in_relation_with(self, agent_1:TinyPerson, agent_2:TinyPerson, relation_name=None) -> bool:
+        """
+        Проверяет, находятся ли два агента в отношении.
+
+        Args:
+            agent_1 (TinyPerson): Первый агент.
+            agent_2 (TinyPerson): Второй агент.
+            relation_name (str, optional): Имя отношения для проверки. Если `None`, проверяется наличие любого отношения.
+
+        Returns:
+            bool: `True`, если агенты находятся в отношении, `False` в противном случае.
+        """
+        ...
+    ```
+
+## Функции
+
+В данном модуле нет отдельных функций, не являющихся методами классов.
+
+## Как работает `TinyWorld`
+
+1.  **Инициализация окружения**:
+    *   Создается экземпляр класса `TinyWorld` с заданным именем, списком агентов, начальным временем и флагом трансляции действий.
+    *   Окружение добавляется в статический словарь `all_environments`, где хранятся все созданные окружения.
+    *   Агенты добавляются в окружение с помощью метода `add_agents`.
+
+2.  **Запуск симуляции**:
+    *   Метод `run` запускает симуляцию на заданное количество шагов.
+    *   На каждом шаге вызывается метод `_step`.
+
+3.  **Выполнение шага симуляции (`_step`)**:
+    *   Если задан временной интервал (`timedelta_per_step`), текущее время окружения увеличивается на этот интервал.
+    *   Для каждого агента в окружении вызывается метод `act`, который определяет действия агента.
+    *   Действия агента обрабатываются методом `_handle_actions`.
+
+4.  **Обработка действий агентов (`_handle_actions`)**:
+    *   Для каждого действия определяется его тип (`action_type`), содержимое (`content`) и цель (`target`).
+    *   В зависимости от типа действия вызывается соответствующий метод обработки:
+        *   `REACH_OUT`: `_handle_reach_out` (устанавливает доступность между агентами).
+        *   `TALK`: `_handle_talk` (доставляет сообщение целевому агенту или транслирует его).
+
+5.  **Коммуникация между агентами**:
+    *   Метод `broadcast` отправляет сообщение всем агентам в окружении, кроме отправителя.
+    *   Метод `listen` используется агентом для получения сообщений.
+
+6.  **Управление временем**:
+    *   Методы `run_minutes`, `run_hours`, `run_days`, `run_weeks`, `run_months`, `run_years` позволяют запускать симуляцию на заданный период времени.
+    *   Аналогичные методы `skip_...` позволяют пропускать определенный период времени без выполнения действий агентов.
+
+7.  **Сохранение и восстановление состояния**:
+    *   Метод `encode_complete_state` кодирует состояние окружения в словарь.
+    *   Метод `decode_complete_state` восстанавливает состояние окружения из словаря.
+
+## Как работает функция `_step`
+
+Функция `_step` выполняет один шаг в симуляции окружения. Она отвечает за обновление времени в окружении и запуск действий каждого агента.
 
 ```
-Инициализация TinyWorld
-│
-├─── Добавление агентов в окружение (add_agents, add_agent)
-│    │
-│    └─── Проверка уникальности имени агента
-│
-├─── Выполнение шага симуляции (_step)
-│    │
-│    ├─── Увеличение времени (_advance_datetime)
-│    │
-│    ├─── Действия агентов (agent.act)
-│    │    │
-│    │    └─── Обработка действий (_handle_actions)
-│    │         │
-│    │         ├─── REACH_OUT (_handle_reach_out)
-│    │         │
-│    │         └─── TALK (_handle_talk)
-│    │
-│    └─── Коммуникация между агентами (broadcast, broadcast_thought, broadcast_internal_goal, broadcast_context_change)
-│
-└─── Управление временем (run, skip, run_minutes, skip_minutes, и т.д.)
+    Начало
+    │
+    ├──► Обновление времени: Если timedelta_per_step задан, current_datetime увеличивается на timedelta_per_step
+    │   (advance_datetime)
+    │
+    ├──► Действия агентов: Для каждого агента в окружении:
+    │   │
+    │   ├──► Агент действует: Вызывается метод act() агента, который возвращает список действий
+    │   │   (agent.act(return_actions=True))
+    │   │
+    │   ├──► Обработка действий: Действия агента обрабатываются функцией _handle_actions()
+    │   │   (_handle_actions(agent, agent.pop_latest_actions()))
+    │   │
+    │   └──► Запись действий: Действия агента записываются в словарь agents_actions
+    │
+    └──► Возврат действий: Возвращается словарь agents_actions, содержащий действия всех агентов
+         (return agents_actions)
+    │
+    Конец
 ```
 
-**Примеры**:
+## Примеры
+
+### Создание и запуск `TinyWorld`
 
 ```python
-from datetime import datetime, timedelta
-from tinytroupe.agent import TinyPerson
+import datetime
 from tinytroupe.environment import TinyWorld
-
-# Создание окружения
-world = TinyWorld(name='MyWorld', initial_datetime=datetime(2024, 1, 1))
+from tinytroupe.agent import TinyPerson
 
 # Создание агентов
 agent1 = TinyPerson(name='Alice')
 agent2 = TinyPerson(name='Bob')
 
-# Добавление агентов в окружение
-world.add_agents([agent1, agent2])
+# Создание окружения
+world = TinyWorld(name='MyWorld', agents=[agent1, agent2], initial_datetime=datetime.datetime(2024, 1, 1))
 
 # Запуск симуляции на 10 шагов с интервалом в 1 час
-world.run(steps=10, timedelta_per_step=timedelta(hours=1))
+world.run(steps=10, timedelta_per_step=datetime.timedelta(hours=1))
 
 # Вывод текущего времени в окружении
 print(world.current_datetime)
-
-# Alice отправляет сообщение Bob-у
-agent1.talk('Привет, Bob!', target='Bob')
 ```
 
-### `TinySocialNetwork`
-
-**Описание**: Класс для моделирования социальных сетей, наследуется от `TinyWorld`.
-
-**Наследует**: `TinyWorld`
-
-**Принцип работы**: `TinySocialNetwork` расширяет возможности `TinyWorld`, добавляя поддержку социальных связей между агентами. Он позволяет определять отношения между агентами и управлять их видимостью друг для друга в зависимости от этих отношений.
-
-**Атрибуты**:
-
-- `relations (dict)`: Словарь, содержащий отношения между агентами (`{relation_name: [(agent_1, agent_2), ...]}``).
-
-**Методы**:
-
-- `__init__(self, name, broadcast_if_no_target=True)`:
-    Создает новое окружение `TinySocialNetwork`.
-
-- `add_relation(self, agent_1, agent_2, name="default")`:
-    Добавляет отношение между двумя агентами.
-
-- `_update_agents_contexts(self)`:
-    Обновляет контексты агентов на основе текущего состояния мира.
-
-- `_step(self)`:
-    Выполняет один шаг в социальной сети, обновляя контексты агентов и вызывая метод `_step` базового класса.
-
-- `_handle_reach_out(self, source_agent: TinyPerson, content: str, target: str)`:
-    Обрабатывает действие `REACH_OUT`, проверяя, находится ли цель в том же отношении, что и источник.
-
-- `is_in_relation_with(self, agent_1: TinyPerson, agent_2: TinyPerson, relation_name=None) -> bool`:
-    Проверяет, находятся ли два агента в отношении.
-
-#### Как работает класс `TinySocialNetwork`:
-1. **Инициализация**: При создании экземпляра `TinySocialNetwork` инициализируются атрибуты базового класса `TinyWorld` и добавляется атрибут `relations` для хранения социальных связей между агентами.
-2. **Добавление отношений (`add_relation`)**: Этот метод позволяет установить отношение между двумя агентами, добавляя их в словарь `relations`.
-3. **Обновление контекстов агентов (`_update_agents_contexts`)**: Этот метод вызывается на каждом шаге симуляции для обновления информации, доступной агентам, на основе их отношений. Он делает агентов видимыми друг для друга в зависимости от их социальных связей.
-4. **Обработка действия `REACH_OUT` (`_handle_reach_out`)**: В `TinySocialNetwork` действие `REACH_OUT` обрабатывается с учетом социальных связей. Агент может обратиться к другому агенту только в том случае, если они находятся в одном отношении.
-5. **Проверка отношений (`is_in_relation_with`)**: Этот метод позволяет проверить, находятся ли два агента в определенном отношении.
-
-```
-Инициализация TinySocialNetwork
-│
-├─── Добавление отношений между агентами (add_relation)
-│
-├─── Обновление контекстов агентов (_update_agents_contexts)
-│    │
-│    └─── Определение доступности агентов на основе отношений
-│
-├─── Выполнение шага симуляции (_step)
-│    │
-│    ├─── Обновление контекстов агентов (_update_agents_contexts)
-│    │
-│    └─── Выполнение шага симуляции в TinyWorld (super()._step())
-│
-└─── Обработка действия REACH_OUT (_handle_reach_out)
-     │
-     └─── Проверка наличия отношения между агентами (is_in_relation_with)
-```
-
-**Примеры**:
+### Создание и использование `TinySocialNetwork`
 
 ```python
-from tinytroupe.agent import TinyPerson
 from tinytroupe.environment import TinySocialNetwork
-
-# Создание социальной сети
-social_network = TinySocialNetwork(name='MySocialNetwork')
+from tinytroupe.agent import TinyPerson
 
 # Создание агентов
 agent1 = TinyPerson(name='Alice')
 agent2 = TinyPerson(name='Bob')
 agent3 = TinyPerson(name='Charlie')
 
-# Добавление агентов в социальную сеть
-social_network.add_agents([agent1, agent2, agent3])
+# Создание социальной сети
+network = TinySocialNetwork(name='MyNetwork')
 
-# Установление отношения "друзья" между Alice и Bob
-social_network.add_relation(agent1, agent2, name='friends')
+# Добавление агентов в сеть
+network.add_agents([agent1, agent2, agent3])
 
-# Запуск симуляции на 5 шагов
-social_network.run(steps=5)
+# Установка отношений между агентами
+network.add_relation(agent1, agent2, name='friends')
 
-# Alice пытается обратиться к Charlie
-agent1.talk('Привет, Charlie!', target='Charlie')  # Сообщение не будет доставлено, так как они не в отношениях
-
-# Alice пытается обратиться к Bob-у
-agent1.talk('Привет, Bob!', target='Bob')  # Сообщение будет доставлено, так как они друзья
-```
-
-## Функции
-
-В данном модуле нет отдельных функций, только методы классов.
+# Запуск симуляции
+network.run(steps=5)

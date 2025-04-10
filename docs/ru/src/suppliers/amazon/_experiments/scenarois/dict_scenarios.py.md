@@ -2,23 +2,15 @@
 
 ## Обзор
 
-Модуль содержит словарь `scenario`, который определяет параметры для поиска и обработки товаров "Murano Glass" на сайте Amazon, а также их последующей загрузки в PrestaShop.
+Модуль содержит словарь `scenario`, предназначенный для хранения информации о сценариях, связанных с товарами на Amazon. В данном случае, представлен пример для "Murano Glass". Словарь включает в себя URL страницы товара, условие ("new"), категории PrestaShop и правило ценообразования.
 
-## Подробней
+## Подробнее
 
-Данный модуль является частью экспериментального кода в проекте `hypotez`, предназначенного для автоматизации процессов, связанных с поставщиками, в частности, Amazon. Словарь `scenario` содержит конфигурацию для конкретного сценария работы с товарами "Murano Glass".
+Этот модуль, вероятно, используется для автоматизации процесса сбора данных о товарах с Amazon и их последующей загрузки или синхронизации с PrestaShop. Он определяет структуру данных, которая содержит всю необходимую информацию для каждого сценария.
 
 ## Переменные
 
 ### `scenario`
-
-```python
-scenario: dict
-```
-
-Словарь, содержащий параметры для поиска и обработки товаров на Amazon.
-
-**Структура словаря `scenario`**:
 
 ```python
 scenario: dict = {
@@ -26,39 +18,30 @@ scenario: dict = {
         "url": "https://www.amazon.com/s?k=Art+Deco+murano+glass&crid=24Q0ZZYVNOQMP&sprefix=art+deco+murano+glass%2Caps%2C230&ref=nb_sb_noss",
         "condition": "new",
         "presta_categories": {
-            "default_category":{"11209":"MURANO GLASS"}
+            "default_category": {"11209": "MURANO GLASS"}
         },
         "price_rule": 1
     }
 }
 ```
 
-**Ключи верхнего уровня**:
-- `"Murano Glass"`: Название сценария.
+**Описание**: Словарь, содержащий информацию о сценариях для различных товаров. Ключом словаря является название товара, а значением - словарь с детальной информацией о сценарии.
 
-**Вложенные ключи**:
-- `"url"`: URL для поиска товаров на Amazon.
-- `"condition"`: Состояние товара (в данном случае, "new").
-- `"presta_categories"`: Информация о категориях PrestaShop, куда следует загружать товары.
-    - `"default_category"`: Словарь, где ключ - ID категории (в данном случае, "11209"), а значение - название категории ("MURANO GLASS").
-- `"price_rule"`: Правило ценообразования (в данном случае, "1").
+**Элементы словаря**:
 
-**Как работает переменная `scenario`**:
+-   `"Murano Glass"`: Название товара.
+    -   `"url"`: URL страницы товара на Amazon.
+    -   `"condition"`: Условие товара (в данном случае, "new").
+    -   `"presta_categories"`: Словарь, содержащий информацию о категориях товара в PrestaShop.
+        -   `"default_category"`: Словарь, где ключ - ID категории в PrestaShop, а значение - название категории.
+    -   `"price_rule"`: Правило ценообразования для товара.
 
-1.  **Определение сценария**: Переменная `scenario` определяет параметры для поиска и обработки товаров "Murano Glass" на Amazon.
-2.  **Конфигурация параметров**: Включает URL поиска, состояние товара, категории PrestaShop и правило ценообразования.
-3.  **Использование в процессах**: Используется для автоматизации поиска, извлечения данных и загрузки товаров в PrestaShop.
-
-**Примеры**:
+**Примеры**
 
 ```python
-# Пример доступа к URL поиска
-url = scenario["Murano Glass"]["url"]
-print(url)
-# Вывод: https://www.amazon.com/s?k=Art+Deco+murano+glass&crid=24Q0ZZYVNOQMP&sprefix=art+deco+murano+glass%2Caps%2C230&ref=nb_sb_noss
+# Пример использования словаря scenario
+product_name = "Murano Glass"
+product_url = scenario[product_name]["url"]
+print(f"URL для {product_name}: {product_url}")
 
-# Пример доступа к категории PrestaShop
-category_id = list(scenario["Murano Glass"]["presta_categories"]["default_category"].keys())[0]
-category_name = scenario["Murano Glass"]["presta_categories"]["default_category"][category_id]
-print(f"ID категории: {category_id}, Название категории: {category_name}")
-# Вывод: ID категории: 11209, Название категории: MURANO GLASS
+# Вывод: URL для Murano Glass: https://www.amazon.com/s?k=Art+Deco+murano+glass&crid=24Q0ZZYVNOQMP&sprefix=art+deco+murano+glass%2Caps%2C230&ref=nb_sb_noss

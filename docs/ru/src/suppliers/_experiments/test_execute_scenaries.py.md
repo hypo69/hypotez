@@ -1,242 +1,435 @@
-# Модуль тестирования сценариев выполнения (`test_execute_scenaries.py`)
+# Модуль для тестирования сценариев выполнения
 
 ## Обзор
 
-Модуль `test_execute_scenaries.py` содержит набор тестов для проверки корректности выполнения сценариев, связанных с парсингом и обработкой данных о товарах. Он использует библиотеку `unittest` для организации тестов и `MagicMock` для создания заглушек, имитирующих поведение различных компонентов системы.
+Модуль `test_execute_scenarios.py` содержит набор тестов, предназначенных для проверки корректности выполнения сценариев, связанных с парсингом и обработкой данных о товарах. Он использует библиотеку `unittest` для организации тестовых случаев и `MagicMock` для создания мок-объектов, имитирующих взаимодействие с другими компонентами системы.
 
-## Подробней
+## Подробнее
 
-Модуль предназначен для тестирования основных функций выполнения сценариев: `run_scenarios`, `run_scenario_file`, `run_scenario`, и `grab_product_page`. Каждый тестовый класс имитирует определенные условия и проверяет, что функции ведут себя ожидаемым образом. Это включает в себя проверку вызовов функций, обработку данных и логирование ошибок.
+Этот модуль важен для обеспечения стабильности и надежности системы парсинга данных о товарах. Он позволяет автоматизировать проверку различных сценариев, включая случаи с разными настройками, наличием или отсутствием данных, а также различными методами парсинга (через WebDriver или API).
 
 ## Классы
 
 ### `TestRunListOfScenarioFiles`
 
-**Описание**: Класс содержит тесты для функции `run_scenarios`, которая отвечает за выполнение списка файлов сценариев.
+**Описание**: Класс `TestRunListOfScenarioFiles` предназначен для тестирования функции `run_scenarios`, которая отвечает за запуск списка файлов со сценариями.
+
+**Наследует**: `unittest.TestCase`
+
+**Атрибуты**: Нет
 
 **Методы**:
-
-- `test_with_scenario_files_...ed()`: Тест проверяет случай, когда передается список файлов сценариев.
-- `test_with_no_scenario_files_...ed()`: Тест проверяет случай, когда список файлов сценариев не передается, и функция должна использовать сценарии по умолчанию.
+- `test_with_scenario_files_...ed`: Тестирует сценарий, когда передается список файлов со сценариями.
+- `test_with_no_scenario_files_...ed`: Тестирует сценарий, когда список файлов со сценариями не передается (используются сценарии по умолчанию).
 
 ### `TestRunScenarioFile`
 
-**Описание**: Класс содержит тесты для функции `run_scenario_file`, которая отвечает за выполнение сценария из файла.
+**Описание**: Класс `TestRunScenarioFile` предназначен для тестирования функции `run_scenario_file`, которая отвечает за запуск сценария из файла.
+
+**Наследует**: `unittest.TestCase`
+
+**Атрибуты**:
+- `s`: Мок-объект, имитирующий экземпляр класса `Supplier` и используемый для передачи в тестируемые функции.
 
 **Методы**:
-
-- `setUp()`: Подготавливает мок Supplier с необходимыми атрибутами.
-- `test_run_scenario_file_webdriver()`: Тест проверяет выполнение сценария с использованием `webdriver`.
-- `test_run_scenario_file_api()`: Тест проверяет выполнение сценария с использованием API.
-- `test_run_scenario_file_no_scenarios()`: Тест проверяет случай, когда файл сценария не содержит сценариев.
+- `setUp`: Метод, выполняющийся перед каждым тестом. Инициализирует мок-объект `Supplier` с необходимыми атрибутами и настройками.
+- `test_run_scenario_file_webdriver`: Тестирует сценарий запуска файла сценария с использованием WebDriver.
+- `test_run_scenario_file_api`: Тестирует сценарий запуска файла сценария с использованием API.
+- `test_run_scenario_file_no_scenarios`: Тестирует сценарий, когда в файле сценария отсутствуют сценарии.
 
 ### `TestGrabProductPage`
 
-**Описание**: Класс содержит тесты для функции `grab_product_page`, которая отвечает за получение данных со страницы товара.
+**Описание**: Класс `TestGrabProductPage` предназначен для тестирования функции `grab_product_page`, которая отвечает за получение данных о товаре со страницы.
+
+**Наследует**: `unittest.TestCase`
+
+**Атрибуты**:
+- `s`: Мок-объект, имитирующий экземпляр класса `Supplier` и используемый для передачи в тестируемые функции.
 
 **Методы**:
-
-- `setUp()`: Подготавливает мок Supplier.
-- `test_grab_product_page_succesStringFormatterul()`: Тест проверяет успешное получение данных со страницы товара.
-- `test_grab_product_page_failure()`: Тест проверяет случай, когда не все необходимые данные присутствуют на странице товара.
+- `setUp`: Метод, выполняющийся перед каждым тестом. Инициализирует мок-объект `Supplier`.
+- `test_grab_product_page_succesStringFormatterul`: Тестирует успешное получение данных о товаре.
+- `test_grab_product_page_failure`: Тестирует случай, когда не удается получить все необходимые данные о товаре.
 
 ### `TestRunScenario`
 
-**Описание**: Класс содержит тесты для функции `run_scenario`, которая отвечает за выполнение отдельного сценария.
+**Описание**: Класс `TestRunScenario` предназначен для тестирования функции `run_scenario`, которая отвечает за выполнение отдельного сценария.
+
+**Наследует**: `unittest.TestCase`
+
+**Атрибуты**:
+- `supplier`: Мок-объект, имитирующий экземпляр класса `Supplier` и используемый для передачи в тестируемые функции.
 
 **Методы**:
+- `setUp`: Метод, выполняющийся перед каждым тестом. Инициализирует мок-объект `Supplier` с необходимыми атрибутами и настройками.
+- `tearDown`: Метод, выполняющийся после каждого теста.
+- `test_run_scenario_no_url`: Тестирует сценарий, когда в сценарии не указан URL.
+- `test_run_scenario_valid_url`: Тестирует сценарий с валидным URL.
+- `test_run_scenario_export_empty_list`: Тестирует сценарий, когда список товаров для экспорта пуст.
 
-- `setUp()`: Подготавливает мок Supplier с необходимыми атрибутами.
-- `tearDown()`: Метод очистки после выполнения каждого теста. В текущей версии не реализован (`...`).
-- `test_run_scenario_no_url()`: Тест проверяет случай, когда в сценарии не указан URL.
-- `test_run_scenario_valid_url()`: Тест проверяет выполнение сценария с валидным URL.
-- `test_run_scenario_export_empty_list()`: Тест проверяет случай, когда после сбора данных список товаров пуст.
+## Методы класса
 
-## Функции
+### `TestRunListOfScenarioFiles`
 
-### `run_scenarios`
-
-**Назначение**: Выполняет список файлов сценариев или сценарии по умолчанию, если список не предоставлен.
-
-**Параметры**:
-
-- `s`: Мок Supplier, содержащий настройки и связанные модули.
-- `scenario_files` (Optional[List[str]]): Список файлов сценариев для выполнения. По умолчанию `None`.
-
-**Возвращает**:
-- `bool`: Возвращает `True`, если выполнение успешно, иначе `False`.
-
-**Как работает функция**:
-
-1.  Проверяет, передан ли список файлов сценариев.
-2.  Если список передан, выполняет сценарии из каждого файла.
-3.  Если список не передан, использует сценарии по умолчанию из настроек.
-4.  Вызывает `build_shop_categories`, если в настройках указана необходимость проверки категорий.
-5.  Обновляет `current_scenario_filename` и `last_runned_scenario` в настройках.
-
-**Примеры**:
+#### `test_with_scenario_files_...ed`
 
 ```python
-# Пример вызова функции с файлами сценариев
-s = MagicMock()
-scenario_files = ["scenario1.json", "scenario2.json"]
-s.settings = {
-    'check categories on site': False,
-    'scenarios': ["default1.json", "default2.json"]
-}
-result = run_scenarios(s, scenario_files)
+def test_with_scenario_files_...ed(self):
+    """
+    Тестирует функцию `run_scenarios` при передаче списка файлов сценариев.
+
+    Args:
+        self (TestRunListOfScenarioFiles): Экземпляр класса `TestRunListOfScenarioFiles`.
+
+    Returns:
+        None
+
+    Raises:
+        AssertionError: Если результат выполнения не соответствует ожидаемому.
+
+    Как работает функция:
+    - Создается мок-объект `s`, имитирующий экземпляр класса `Supplier`.
+    - Определяется список `scenario_files` с именами файлов сценариев.
+    - Устанавливаются настройки для мок-объекта `s`, включая отключение проверки категорий на сайте и список сценариев по умолчанию.
+    - Вызывается функция `run_scenarios` с мок-объектом `s` и списком файлов сценариев.
+    - Проверяется, что функция вернула `True`.
+    - Проверяется, что метод `build_shop_categories` не был вызван.
+    - Проверяется, что текущий файл сценария соответствует последнему файлу в списке `scenario_files`.
+    - Проверяется, что последний запущенный сценарий соответствует последнему файлу в списке `scenario_files`.
+    """
+    ...
 ```
+
+#### `test_with_no_scenario_files_...ed`
 
 ```python
-# Пример вызова функции без файлов сценариев
-s = MagicMock()
-s.settings = {
-    'check categories on site': True,
-    'scenarios': ["default1.json", "default2.json"]
-}
-result = run_scenarios(s)
+def test_with_no_scenario_files_...ed(self):
+    """
+    Тестирует функцию `run_scenarios` при отсутствии списка файлов сценариев (используются сценарии по умолчанию).
+
+    Args:
+        self (TestRunListOfScenarioFiles): Экземпляр класса `TestRunListOfScenarioFiles`.
+
+    Returns:
+        None
+
+    Raises:
+        AssertionError: Если результат выполнения не соответствует ожидаемому.
+
+    Как работает функция:
+    - Создается мок-объект `s`, имитирующий экземпляр класса `Supplier`.
+    - Устанавливаются настройки для мок-объекта `s`, включая включение проверки категорий на сайте и список сценариев по умолчанию.
+    - Вызывается функция `run_scenarios` с мок-объектом `s`.
+    - Проверяется, что функция вернула `True`.
+    - Проверяется, что метод `build_shop_categories` был вызван один раз.
+    - Проверяется, что текущий файл сценария соответствует последнему файлу в списке сценариев по умолчанию.
+    - Проверяется, что последний запущенный сценарий соответствует последнему файлу в списке сценариев по умолчанию.
+    """
+    ...
 ```
 
-### `run_scenario_file`
+### `TestRunScenarioFile`
 
-**Назначение**: Выполняет сценарии, описанные в файле сценариев.
-
-**Параметры**:
-
-- `s`: Мок Supplier, содержащий настройки и сценарии.
-- `scenario_file`: Имя файла сценариев для выполнения.
-
-**Возвращает**:
-- `bool`: Возвращает `True`, если выполнение успешно, иначе `False`.
-
-**Как работает функция**:
-
-1.  Определяет метод парсинга (webdriver или API) из настроек.
-2.  Если метод парсинга - webdriver, загружает сценарии из файла и выполняет каждый сценарий.
-3.  Если метод парсинга - API, вызывает функцию `run_scenario_file_via_api`.
-4.  Логирует ошибку и возвращает `False`, если файл сценариев не содержит сценариев.
-
-**Примеры**:
+#### `setUp`
 
 ```python
-# Пример вызова функции для webdriver
-s = MagicMock()
-s.current_scenario_filename = "test_scenario.json"
-s.settings = {
-    "parcing method [webdriver|api]": "webdriver"
-}
-s.dir_export_imagesECTORY_FOR_STORE = "/path/to/images"
-s.scenarios = {
-    "scenario1": {
-        "url": "https://example.com",
-        "steps": []
-    },
-    "scenario2": {
-        "url": None,
-        "steps": []
-    }
-}
-run_scenario_file(s, "test_scenario.json")
+def setUp(self):
+    """
+    Выполняется перед каждым тестом.
+
+    Args:
+        self (TestRunScenarioFile): Экземпляр класса `TestRunScenarioFile`.
+
+    Returns:
+        None
+
+    Как работает функция:
+    - Создает мок-объект `s`, имитирующий экземпляр класса `Supplier`.
+    - Устанавливает атрибуты и настройки для мок-объекта `s`, включая текущий файл сценария, метод парсинга, директорию для изображений и словарь сценариев.
+    """
+    ...
 ```
+
+#### `test_run_scenario_file_webdriver`
 
 ```python
-# Пример вызова функции для API
-s = MagicMock()
-s.current_scenario_filename = "test_scenario.json"
-s.settings = {
-    "parcing method [webdriver|api]": "api"
-}
-s.dir_export_imagesECTORY_FOR_STORE = "/path/to/images"
-s.scenarios = {
-    "scenario1": {
-        "url": "https://example.com",
-        "steps": []
-    },
-    "scenario2": {
-        "url": None,
-        "steps": []
-    }
-}
-run_scenario_file(s, "test_scenario.json")
+def test_run_scenario_file_webdriver(self):
+    """
+    Тестирует функцию `run_scenario_file` с методом парсинга WebDriver.
+
+    Args:
+        self (TestRunScenarioFile): Экземпляр класса `TestRunScenarioFile`.
+
+    Returns:
+        None
+
+    Raises:
+        AssertionError: Если результат выполнения не соответствует ожидаемому.
+
+    Как работает функция:
+    - Используется `patch` для замены функций `j_loads` и `run_scenario` мок-объектами.
+    - Функция `j_loads` возвращает словарь со сценариями, содержащимися в мок-объекте `s`.
+    - Вызывается функция `run_scenario_file` с мок-объектом `s` и именем файла сценария.
+    - Проверяется, что функция `j_loads` была вызвана с правильным путем к файлу сценария.
+    - Проверяется, что функция `run_scenario` была вызвана с первым сценарием из словаря сценариев.
+    - Проверяется, что функция `run_scenario` не была вызвана со вторым сценарием из словаря сценариев (так как URL первого сценария не `None`).
+    """
+    ...
 ```
 
-### `run_scenario`
-
-**Назначение**: Выполняет отдельный сценарий.
-
-**Параметры**:
-
-- `supplier`: Мок Supplier, содержащий настройки и сценарии.
-- `scenario`: Словарь, описывающий сценарий для выполнения.
-
-**Возвращает**:
-- `bool`: Возвращает `True`, если выполнение успешно, иначе `False`.
-
-**Как работает функция**:
-
-1.  Проверяет наличие URL в сценарии. Если URL отсутствует, возвращает `False`.
-2.  Получает список товаров в категории с использованием `get_list_products_in_category`.
-3.  Для каждого товара вызывает `grab_product_page` для получения данных.
-4.  Экспортирует данные в файлы с использованием `export_files`.
-
-**Примеры**:
+#### `test_run_scenario_file_api`
 
 ```python
-# Пример вызова функции с валидным URL
-supplier = MagicMock()
-supplier.settings = {'parcing method [webdriver|api]': 'webdriver'}
-supplier.current_scenario_filename = 'test_scenario.json'
-supplier.export_file_name = 'test_export'
-supplier.dir_export_imagesECTORY_FOR_STORE = '/test/path'
-supplier.p = []
-scenario = {'name': 'scenario2', 'url': 'https://example.com/products'}
-supplier.scenarios = {'scenario2': scenario}
-supplier.get_list_products_in_category = MagicMock(return_value=['https://example.com/products/1', 'https://example.com/products/2'])
-supplier.grab_product_page = MagicMock(return_value=True)
-supplier.export_files = MagicMock()
-result = supplier.run_scenario(scenario)
+def test_run_scenario_file_api(self):
+    """
+    Тестирует функцию `run_scenario_file` с методом парсинга API.
+
+    Args:
+        self (TestRunScenarioFile): Экземпляр класса `TestRunScenarioFile`.
+
+    Returns:
+        None
+
+    Raises:
+        AssertionError: Если результат выполнения не соответствует ожидаемому.
+
+    Как работает функция:
+    - Изменяется настройка метода парсинга в мок-объекте `s` на "api".
+    - Используется `patch` для замены функции `related_modules.run_scenario_file_via_api` мок-объектом.
+    - Вызывается функция `run_scenario_file` с мок-объектом `s` и именем файла сценария.
+    - Проверяется, что функция `run_scenario_file_via_api` была вызвана с мок-объектом `s` и именем файла сценария.
+    """
+    ...
 ```
+
+#### `test_run_scenario_file_no_scenarios`
 
 ```python
-# Пример вызова функции без URL
-supplier = MagicMock()
-scenario = {'name': 'scenario1', 'url': None}
-supplier.scenarios = {'scenario1': scenario}
-supplier.get_list_products_in_category = MagicMock(return_value=[])
-result = supplier.run_scenario(scenario)
+def test_run_scenario_file_no_scenarios(self):
+    """
+    Тестирует функцию `run_scenario_file` при отсутствии сценариев в файле.
+
+    Args:
+        self (TestRunScenarioFile): Экземпляр класса `TestRunScenarioFile`.
+
+    Returns:
+        None
+
+    Raises:
+        AssertionError: Если результат выполнения не соответствует ожидаемому.
+
+    Как работает функция:
+    - Используется `patch` для замены функций `j_loads` и `logger.error` мок-объектами.
+    - Функция `j_loads` возвращает словарь с `None` в качестве значения для ключа "scenarios".
+    - Вызывается функция `run_scenario_file` с мок-объектом `s` и именем файла сценария.
+    - Проверяется, что функция вернула `False`.
+    - Проверяется, что функция `logger.error` была вызвана с сообщением об отсутствии сценариев в файле.
+    """
+    ...
 ```
 
-### `grab_product_page`
+### `TestGrabProductPage`
 
-**Назначение**: Получает данные со страницы товара.
-
-**Параметры**:
-
-- `s`: Мок Supplier, содержащий метод `grab_product_page`.
-
-**Возвращает**:
-- `bool`: Возвращает `True`, если получение данных успешно, иначе `False`.
-
-**Как работает функция**:
-
-1.  Вызывает метод `grab_product_page` у Supplier для получения данных о товаре.
-2.  Проверяет наличие необходимых данных (`id`, `price`, `name`).
-3.  Добавляет полученные данные в список товаров (`s.p`).
-
-**Примеры**:
+#### `setUp`
 
 ```python
-# Пример успешного получения данных
-s = MagicMock()
-s.grab_product_page = lambda _: {'id': '123', 'price': 19.99, 'name': 'Product Name'}
-s.p = []
-result = grab_product_page(s)
+def setUp(self):
+    """
+    Выполняется перед каждым тестом.
+
+    Args:
+        self (TestGrabProductPage): Экземпляр класса `TestGrabProductPage`.
+
+    Returns:
+        None
+
+    Как работает функция:
+    - Создает экземпляр класса `Supplier` и сохраняет его в атрибуте `s`.
+    """
+    ...
 ```
 
+#### `test_grab_product_page_succesStringFormatterul`
+
 ```python
-# Пример неуспешного получения данных
-s = MagicMock()
-s.grab_product_page = lambda _: {'name': 'Product Name'}
-s.p = []
-result = grab_product_page(s)
+def test_grab_product_page_succesStringFormatterul(self):
+    """
+    Тестирует успешное получение данных о товаре функцией `grab_product_page`.
+
+    Args:
+        self (TestGrabProductPage): Экземпляр класса `TestGrabProductPage`.
+
+    Returns:
+        None
+
+    Raises:
+        AssertionError: Если результат выполнения не соответствует ожидаемому.
+
+    Как работает функция:
+    - Определяет лямбда-функцию, имитирующую метод `grab_product_page` класса `Supplier`, которая возвращает словарь с данными о товаре.
+    - Вызывает функцию `grab_product_page` с мок-объектом `s`.
+    - Проверяется, что функция вернула `True`.
+    - Проверяется, что длина списка товаров `s.p` равна 1.
+    - Проверяется, что данные о товаре в списке `s.p` соответствуют ожидаемым значениям.
+    """
+    ...
 ```
+
+#### `test_grab_product_page_failure`
+
+```python
+def test_grab_product_page_failure(self):
+    """
+    Тестирует неудачное получение данных о товаре функцией `grab_product_page`.
+
+    Args:
+        self (TestGrabProductPage): Экземпляр класса `TestGrabProductPage`.
+
+    Returns:
+        None
+
+    Raises:
+        AssertionError: Если результат выполнения не соответствует ожидаемому.
+
+    Как работает функция:
+    - Определяет лямбда-функцию, имитирующую метод `grab_product_page` класса `Supplier`, которая возвращает словарь с неполными данными о товаре.
+    - Вызывает функцию `grab_product_page` с мок-объектом `s`.
+    - Проверяется, что функция вернула `False`.
+    - Проверяется, что длина списка товаров `s.p` равна 0.
+    """
+    ...
+```
+
+### `TestRunScenario`
+
+#### `setUp`
+
+```python
+def setUp(self):
+    """
+    Выполняется перед каждым тестом.
+
+    Args:
+        self (TestRunScenario): Экземпляр класса `TestRunScenario`.
+
+    Returns:
+        None
+
+    Как работает функция:
+    - Создает экземпляр класса `Supplier` и сохраняет его в атрибуте `supplier`.
+    - Устанавливает настройки для мок-объекта `supplier`, включая метод парсинга, имя файла сценария, имя файла экспорта и директорию для изображений.
+    """
+    ...
+```
+
+#### `tearDown`
+
+```python
+def tearDown(self):
+    """
+    Выполняется после каждого теста.
+
+    Args:
+        self (TestRunScenario): Экземпляр класса `TestRunScenario`.
+
+    Returns:
+        None
+
+    Как работает функция:
+        Очищает ресурсы после каждого теста (в данном случае, ничего не делает).
+    """
+    ...
+```
+
+#### `test_run_scenario_no_url`
+
+```python
+def test_run_scenario_no_url(self):
+    """
+    Тестирует функцию `run_scenario` при отсутствии URL в сценарии.
+
+    Args:
+        self (TestRunScenario): Экземпляр класса `TestRunScenario`.
+
+    Returns:
+        None
+
+    Raises:
+        AssertionError: Если результат выполнения не соответствует ожидаемому.
+
+    Как работает функция:
+    - Определяет словарь `scenario` с отсутствующим URL.
+    - Устанавливает сценарий в атрибуте `scenarios` мок-объекта `supplier`.
+    - Заменяет метод `get_list_products_in_category` мок-объектом, возвращающим пустой список.
+    - Вызывает функцию `run_scenario` с мок-объектом `supplier` и сценарием.
+    - Проверяется, что функция вернула `False`.
+    """
+    ...
+```
+
+#### `test_run_scenario_valid_url`
+
+```python
+def test_run_scenario_valid_url(self):
+    """
+    Тестирует функцию `run_scenario` с валидным URL в сценарии.
+
+    Args:
+        self (TestRunScenario): Экземпляр класса `TestRunScenario`.
+
+    Returns:
+        None
+
+    Raises:
+        AssertionError: Если результат выполнения не соответствует ожидаемому.
+
+    Как работает функция:
+    - Определяет словарь `scenario` с валидным URL.
+    - Устанавливает сценарий в атрибуте `scenarios` мок-объекта `supplier`.
+    - Заменяет метод `get_list_products_in_category` мок-объектом, возвращающим список URL товаров.
+    - Заменяет метод `grab_product_page` мок-объектом, возвращающим `True`.
+    - Заменяет метод `export_files` мок-объектом.
+    - Вызывает функцию `run_scenario` с мок-объектом `supplier` и сценарием.
+    - Проверяется, что функция вернула `True`.
+    - Проверяется, что длина списка товаров `supplier.p` равна 2.
+    - Проверяется, что метод `export_files` был вызван с правильными аргументами.
+    """
+    ...
+```
+
+#### `test_run_scenario_export_empty_list`
+
+```python
+def test_run_scenario_export_empty_list(self):
+    """
+    Тестирует функцию `run_scenario` при пустом списке товаров для экспорта.
+
+    Args:
+        self (TestRunScenario): Экземпляр класса `TestRunScenario`.
+
+    Returns:
+        None
+
+    Raises:
+        AssertionError: Если результат выполнения не соответствует ожидаемому.
+
+    Как работает функция:
+    - Определяет словарь `scenario` с валидным URL.
+    - Устанавливает сценарий в атрибуте `scenarios` мок-объекта `supplier`.
+    - Заменяет метод `get_list_products_in_category` мок-объектом, возвращающим список с одним URL товара.
+    - Заменяет метод `grab_product_page` мок-объектом, возвращающим `False`.
+    - Заменяет метод `export_files` мок-объектом.
+    - Вызывает функцию `run_scenario` с мок-объектом `supplier` и сценарием.
+    - Проверяется, что функция вернула `False`.
+    - Проверяется, что длина списка товаров `supplier.p` равна 0.
+    - Проверяется, что метод `export_files` не был вызван.
+    """
+    ...
+```
+
+## Запуск тестов
+
+В конце файла находится блок `if __name__ == '__main__':`, который запускает тесты при выполнении файла как скрипта.
+```python
+if __name__ == '__main__':
+    unittest.main()

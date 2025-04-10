@@ -1,239 +1,248 @@
-# Модуль для извлечения данных из симуляций TinyTroupe
-=========================================================
+# Модуль для извлечения данных из TinyTroupe
+==================================================
 
-Модуль содержит классы и функции для извлечения, сокращения и экспорта данных из элементов TinyTroupe, таких как агенты и миры. Он предоставляет механизмы для структурирования данных, полученных в результате симуляций, и преобразования их в удобные для анализа форматы.
+Модуль предоставляет утилиты для извлечения данных из элементов TinyTroupe, таких как агенты и миры. Он также предоставляет механизм для сокращения извлеченных данных до более лаконичной формы и экспорта артефактов из элементов TinyTroupe.
 
 ## Обзор
 
-Этот модуль предоставляет инструменты для извлечения данных из симуляций, проводимых в TinyTroupe. Он позволяет извлекать ключевые моменты из истории взаимодействий агентов, генерировать синтетические данные для обучения моделей машинного обучения и преобразовывать данные в машиночитаемые форматы, такие как JSON или CSV.
+Этот модуль предназначен для извлечения, обработки и экспорта данных из симуляций TinyTroupe. Он предоставляет классы и функции для извлечения информации из агентов (TinyPerson) и миров (TinyWorld), а также для нормализации и экспорта этих данных в различные форматы, такие как JSON, TXT и DOCX.
 
 ## Подробнее
 
-Модуль включает классы `ResultsExtractor`, `ResultsReducer` и `ArtifactExporter`, которые обеспечивают различные уровни обработки данных. `ResultsExtractor` извлекает данные из агентов и миров, `ResultsReducer` сокращает объем данных, а `ArtifactExporter` экспортирует артефакты в различные форматы файлов. Также представлен класс `Normalizer` для нормализации текстовых элементов.
+Модуль содержит классы `ResultsExtractor`, `ResultsReducer` и `ArtifactExporter`, которые используются для извлечения результатов, их сокращения и экспорта артефактов соответственно. Также присутствует класс `Normalizer` для нормализации текстовых элементов.
 
 ## Классы
 
 ### `ResultsExtractor`
 
-**Описание**: Класс предназначен для извлечения результатов из экземпляров `TinyPerson` (агентов) и `TinyWorld` (миров).
+**Описание**: Класс для извлечения результатов из экземпляров `TinyPerson` и `TinyWorld`.
 
-**Принцип работы**: Использует шаблоны запросов (prompt templates) и OpenAI API для извлечения информации из истории взаимодействий агентов и состояний мира. Результаты извлечения кэшируются для дальнейшего использования.
+**Принцип работы**: Класс использует шаблоны (`.mustache`) и OpenAI API для извлечения данных. Он кэширует последние результаты извлечения для каждого типа, чтобы их можно было использовать для создания отчетов или других дополнительных выходных данных.
 
 **Методы**:
 
-- `__init__()`: Инициализирует экземпляр класса, загружает шаблон запроса и создает кэш для результатов извлечения.
-- `extract_results_from_agent(tinyperson: TinyPerson, extraction_objective: str = "The main points present in the agent's interactions history.", situation: str = "", fields: list = None, fields_hints: dict = None, verbose: bool = False) -> dict | None`: Извлекает результаты из экземпляра `TinyPerson`.
-- `extract_results_from_world(tinyworld: TinyWorld, extraction_objective: str = "The main points that can be derived from the agents conversations and actions.", situation: str = "", fields: list = None, fields_hints: dict = None, verbose: bool = False) -> dict | None`: Извлекает результаты из экземпляра `TinyWorld`.
-- `save_as_json(filename: str, verbose: bool = False)`: Сохраняет последние результаты извлечения в формате JSON.
+- `__init__`: Инициализирует экземпляр класса, устанавливает путь к шаблону запроса на извлечение и создает кэш для результатов извлечения агентов и миров.
+- `extract_results_from_agent`: Извлекает результаты из экземпляра `TinyPerson`.
+- `extract_results_from_world`: Извлекает результаты из экземпляра `TinyWorld`.
+- `save_as_json`: Сохраняет последние результаты извлечения в формате JSON.
 
 ### `ResultsReducer`
 
-**Описание**: Класс предназначен для сокращения объема данных, извлеченных из агентов, на основе заданных правил.
+**Описание**: Класс для сокращения данных, извлеченных из агентов.
 
-**Принцип работы**: Применяет набор правил к истории взаимодействий агента для извлечения наиболее релевантной информации. Правила определяются пользователем и могут быть добавлены динамически.
-
-**Методы**:
-
-- `__init__()`: Инициализирует экземпляр класса, создает хранилище для правил сокращения.
-- `add_reduction_rule(trigger: str, func: callable)`: Добавляет правило сокращения для определенного типа события.
-- `reduce_agent(agent: TinyPerson) -> list`: Сокращает данные агента на основе заданных правил.
-- `reduce_agent_to_dataframe(agent: TinyPerson, column_names: list = None) -> pd.DataFrame`: Преобразует сокращенные данные агента в формат DataFrame.
-
-### `ArtifactExporter(JsonSerializableRegistry)`
-
-**Описание**: Класс предназначен для экспорта артефактов из элементов TinyTroupe в различные форматы файлов.
-**Наследует**: `JsonSerializableRegistry`
-
-**Принцип работы**: Позволяет сохранять данные (например, JSON, текст, документы) в файлы, используя заданные имя артефакта, тип контента и формат. Поддерживает преобразование в различные форматы, включая DOCX.
+**Принцип работы**: Класс применяет правила сокращения к сообщениям из эпизодической памяти агента и преобразует сокращенные данные в DataFrame.
 
 **Методы**:
 
-- `__init__(base_output_folder: str) -> None`: Инициализирует экземпляр класса, устанавливает базовую директорию для вывода файлов.
-- `export(artifact_name: str, artifact_data: Union[dict, str], content_type: str, content_format: str = None, target_format: str = "txt", verbose: bool = False)`: Экспортирует данные артефакта в файл.
-- `_export_as_txt(artifact_file_path: str, artifact_data: Union[dict, str], content_type: str, verbose: bool = False)`: Экспортирует данные артефакта в текстовый файл.
-- `_export_as_json(artifact_file_path: str, artifact_data: Union[dict, str], content_type: str, verbose: bool = False)`: Экспортирует данные артефакта в JSON файл.
-- `_export_as_docx(artifact_file_path: str, artifact_data: Union[dict, str], content_original_format: str, verbose: bool = False)`: Экспортирует данные артефакта в DOCX файл.
-- `_compose_filepath(artifact_data: Union[dict, str], artifact_name: str, content_type: str, target_format: str = None, verbose: bool = False)`: Компонует путь к файлу для экспортируемого артефакта.
+- `__init__`: Инициализирует экземпляр класса, создает словари для хранения результатов и правил сокращения.
+- `add_reduction_rule`: Добавляет правило сокращения для определенного триггера.
+- `reduce_agent`: Сокращает данные агента на основе установленных правил.
+- `reduce_agent_to_dataframe`: Преобразует сокращенные данные агента в DataFrame.
+
+### `ArtifactExporter`
+
+**Описание**: Класс для экспорта артефактов из элементов TinyTroupe в различные форматы файлов.
+
+**Принцип работы**: Класс позволяет сохранять данные в форматах JSON, TXT и DOCX, автоматически создавая необходимые подкаталоги и обрабатывая недопустимые символы в именах артефактов.
+
+**Методы**:
+
+- `__init__`: Инициализирует экземпляр класса, устанавливает базовую папку для вывода артефактов.
+- `export`: Экспортирует данные артефакта в файл указанного формата.
+- `_export_as_txt`: Экспортирует данные в текстовый файл.
+- `_export_as_json`: Экспортирует данные в JSON файл.
+- `_export_as_docx`: Экспортирует данные в DOCX файл.
+- `_compose_filepath`: Составляет путь к файлу для экспортируемого артефакта.
 
 ### `Normalizer`
 
-**Описание**: Класс предназначен для нормализации текстовых элементов, таких как пассажи, концепции и другие текстовые данные.
+**Описание**: Класс для нормализации текстовых элементов.
 
-**Принцип работы**: Использует OpenAI API для объединения нескольких элементов в один нормализованный элемент. Результаты нормализации кэшируются для повышения производительности.
+**Принцип работы**: Класс использует OpenAI API для нормализации списка элементов и кэширует результаты для повышения производительности.
 
 **Методы**:
 
-- `__init__(elements: List[str], n: int, verbose: bool = False)`: Инициализирует экземпляр класса, устанавливает элементы для нормализации и количество нормализованных элементов для вывода.
-- `normalize(element_or_elements: Union[str, List[str]]) -> Union[str, List[str]]`: Нормализует указанный элемент или элементы.
+- `__init__`: Инициализирует экземпляр класса, выполняет нормализацию элементов с использованием OpenAI API и создает карту нормализации.
+- `normalize`: Нормализует указанный элемент или список элементов, используя кэш, если это возможно.
 
 ## Функции
 
-### `extract_results_from_agent`
+### `ResultsExtractor.extract_results_from_agent`
 
 ```python
-def extract_results_from_agent(
-    tinyperson: TinyPerson,
-    extraction_objective: str = "The main points present in the agent's interactions history.",
-    situation: str = "",
-    fields: list = None,
-    fields_hints: dict = None,
-    verbose: bool = False,
-) -> dict | None:
+def extract_results_from_agent(self, 
+                        tinyperson:TinyPerson, 
+                        extraction_objective:str="The main points present in the agent's interactions history.", 
+                        situation:str = "", 
+                        fields:list=None,
+                        fields_hints:dict=None,
+                        verbose:bool=False) -> dict | None:
     """
     Извлекает результаты из экземпляра `TinyPerson`.
 
     Args:
         tinyperson (TinyPerson): Экземпляр `TinyPerson`, из которого нужно извлечь результаты.
-        extraction_objective (str, optional): Цель извлечения. По умолчанию "The main points present in the agent's interactions history.".
-        situation (str, optional): Контекст ситуации. По умолчанию "".
-        fields (list, optional): Список полей для извлечения. Если `None`, извлекатель сам решает, какие имена использовать. По умолчанию `None`.
+        extraction_objective (str): Цель извлечения. Описывает, какие данные нужно извлечь из истории взаимодействий агента. По умолчанию "The main points present in the agent's interactions history.".
+        situation (str): Описание ситуации, которую нужно учитывать при извлечении. По умолчанию "".
+        fields (list, optional): Список полей для извлечения. Если `None`, экстрактор сам решает, какие имена использовать. По умолчанию `None`.
         fields_hints (dict, optional): Словарь с подсказками для полей. По умолчанию `None`.
         verbose (bool, optional): Флаг, указывающий, нужно ли выводить отладочные сообщения. По умолчанию `False`.
 
     Returns:
-        dict | None: Словарь с извлеченными результатами или `None`, если извлечение не удалось.
+        dict | None: Результат извлечения в виде словаря, или `None`, если извлечение не удалось.
 
     Raises:
-        Нет явных исключений.
+        Exception: Если возникает ошибка при отправке сообщения в OpenAI API.
 
     Example:
-        >>> from tinytroupe.agent import TinyPerson
-        >>> agent = TinyPerson(name='Alice')
         >>> extractor = ResultsExtractor()
-        >>> results = extractor.extract_results_from_agent(agent, extraction_objective='Summarize interactions')
+        >>> agent = TinyPerson(name='Alice')
+        >>> results = extractor.extract_results_from_agent(agent, extraction_objective='Summarize the agent\'s goals.')
         >>> if results:
         ...     print(results)
-        ... else:
-        ...     print('No results extracted')
+        {'goals': 'Agent Alice wants to make friends.'}
     """
     ...
 ```
 
-**Назначение**: Извлечение результатов из истории взаимодействий агента `TinyPerson`.
+**Назначение**: Извлечение результатов из истории взаимодействий агента `TinyPerson` с использованием OpenAI API.
 
 **Параметры**:
-- `tinyperson` (TinyPerson): Агент, из которого извлекаются данные.
-- `extraction_objective` (str): Цель извлечения данных (например, "основные моменты из истории взаимодействий").
-- `situation` (str): Описание ситуации, контекст для извлечения данных.
-- `fields` (list): Список полей, которые необходимо извлечь. Если не указан, используются значения по умолчанию.
-- `fields_hints` (dict): Дополнительные указания для извлечения полей.
-- `verbose` (bool): Флаг для вывода отладочной информации.
+- `tinyperson` (TinyPerson): Экземпляр агента, из которого извлекаются данные.
+- `extraction_objective` (str): Цель извлечения, определяет, какие данные должны быть извлечены из истории взаимодействий агента.
+- `situation` (str): Описание ситуации, которую следует учитывать при извлечении данных.
+- `fields` (list, optional): Список полей для извлечения. Если не указан, экстрактор сам определяет, какие поля извлекать.
+- `fields_hints` (dict, optional): Словарь с подсказками для полей извлечения.
+- `verbose` (bool, optional): Флаг, указывающий, следует ли выводить отладочные сообщения.
 
 **Возвращает**:
-- `dict | None`: Словарь с извлеченными данными в формате JSON или `None` в случае ошибки.
+- `dict | None`: Результат извлечения в виде словаря или `None` в случае ошибки.
 
 **Как работает функция**:
-1.  Функция `extract_results_from_agent` получает экземпляр `TinyPerson`, из которого необходимо извлечь данные.
-2.  Формируется запрос к OpenAI API с учетом цели извлечения, контекста ситуации и истории взаимодействий агента.
-3.  Запрос отправляется в OpenAI API, и получается ответ с извлеченными данными.
-4.  Результаты извлечения сохраняются в кэш `self.agent_extraction`.
-5.  Функция возвращает извлеченные данные в формате JSON.
+1. Формирует сообщение для OpenAI API, используя шаблон `interaction_results_extractor.mustache` и переданные параметры.
+2. Добавляет историю взаимодействий агента в запрос.
+3. Отправляет запрос в OpenAI API и получает ответ.
+4. Извлекает JSON из ответа и кэширует результат.
+5. Возвращает извлеченный JSON.
 
-```mermaid
-graph TD
-    A[Получение TinyPerson] --> B{Формирование запроса к OpenAI};
-    B --> C[Отправка запроса в OpenAI API];
-    C --> D{Получение ответа с данными};
-    D --> E[Сохранение результатов в кэш agent_extraction];
-    E --> F[Возврат извлеченных данных в формате JSON];
+```
+Начало
+  │
+  ├── Формирование сообщения для OpenAI API
+  │   │
+  │   └── Добавление истории взаимодействий агента
+  │       │
+  │       └── Отправка запроса в OpenAI API
+  │           │
+  │           └── Извлечение JSON из ответа
+  │               │
+  │               └── Кэширование результата
+  │                   │
+  │                   └── Возврат извлеченного JSON
+  │
+Конец
 ```
 
 **Примеры**:
 
 ```python
-from tinytroupe.agent import TinyPerson
-from src.endpoints.tiny_troupe.tinytroupe.extraction import ResultsExtractor
-
-agent = TinyPerson(name='Alice')
 extractor = ResultsExtractor()
-results = extractor.extract_results_from_agent(agent, extraction_objective='Summarize interactions')
-
+agent = TinyPerson(name='Alice')
+results = extractor.extract_results_from_agent(agent, extraction_objective='Summarize the agent\'s goals.')
 if results:
     print(results)
-else:
-    print('No results extracted')
 ```
 
-### `extract_results_from_world`
+### `ResultsExtractor.extract_results_from_world`
 
 ```python
-def extract_results_from_world(
-    tinyworld: TinyWorld,
-    extraction_objective: str = "The main points that can be derived from the agents conversations and actions.",
-    situation: str = "",
-    fields: list = None,
-    fields_hints: dict = None,
-    verbose: bool = False,
-) -> dict | None:
+def extract_results_from_world(self, 
+                                   tinyworld:TinyWorld, 
+                                   extraction_objective:str="The main points that can be derived from the agents conversations and actions.", 
+                                   situation:str="", 
+                                   fields:list=None,
+                                   fields_hints:dict=None,
+                                   verbose:bool=False) -> dict | None:
     """
     Извлекает результаты из экземпляра `TinyWorld`.
 
     Args:
         tinyworld (TinyWorld): Экземпляр `TinyWorld`, из которого нужно извлечь результаты.
-        extraction_objective (str, optional): Цель извлечения. По умолчанию "The main points that can be derived from the agents conversations and actions.".
-        situation (str, optional): Контекст ситуации. По умолчанию "".
-        fields (list, optional): Список полей для извлечения. Если `None`, извлекатель сам решает, какие имена использовать. По умолчанию `None`.
+        extraction_objective (str): Цель извлечения. Описывает, какие данные нужно извлечь из истории взаимодействий агентов в мире. По умолчанию "The main points that can be derived from the agents conversations and actions.".
+        situation (str): Описание ситуации, которую нужно учитывать при извлечении. По умолчанию "".
+        fields (list, optional): Список полей для извлечения. Если `None`, экстрактор сам решает, какие имена использовать. По умолчанию `None`.
         fields_hints (dict, optional): Словарь с подсказками для полей. По умолчанию `None`.
         verbose (bool, optional): Флаг, указывающий, нужно ли выводить отладочные сообщения. По умолчанию `False`.
 
     Returns:
-        dict | None: Словарь с извлеченными результатами или `None`, если извлечение не удалось.
+        dict | None: Результат извлечения в виде словаря, или `None`, если извлечение не удалось.
 
     Raises:
-        Нет явных исключений.
+        Exception: Если возникает ошибка при отправке сообщения в OpenAI API.
+
+    Example:
+        >>> extractor = ResultsExtractor()
+        >>> world = TinyWorld(name='Wonderland')
+        >>> results = extractor.extract_results_from_world(world, extraction_objective='Summarize the main events in the world.')
+        >>> if results:
+        ...     print(results)
+        {'events': 'Alice met the Mad Hatter.'}
     """
     ...
 ```
 
-**Назначение**: Извлечение результатов из истории взаимодействий агентов в мире `TinyWorld`.
+**Назначение**: Извлечение результатов из истории взаимодействий агентов в мире `TinyWorld` с использованием OpenAI API.
 
 **Параметры**:
-- `tinyworld` (TinyWorld): Мир, из которого извлекаются данные.
-- `extraction_objective` (str): Цель извлечения данных (например, "основные моменты из разговоров и действий агентов").
-- `situation` (str): Описание ситуации, контекст для извлечения данных.
-- `fields` (list): Список полей, которые необходимо извлечь. Если не указан, используются значения по умолчанию.
-- `fields_hints` (dict): Дополнительные указания для извлечения полей.
-- `verbose` (bool): Флаг для вывода отладочной информации.
+- `tinyworld` (TinyWorld): Экземпляр мира, из которого извлекаются данные.
+- `extraction_objective` (str): Цель извлечения, определяет, какие данные должны быть извлечены из истории взаимодействий агентов в мире.
+- `situation` (str): Описание ситуации, которую следует учитывать при извлечении данных.
+- `fields` (list, optional): Список полей для извлечения. Если не указан, экстрактор сам определяет, какие поля извлекать.
+- `fields_hints` (dict, optional): Словарь с подсказками для полей извлечения.
+- `verbose` (bool, optional): Флаг, указывающий, следует ли выводить отладочные сообщения.
 
 **Возвращает**:
-- `dict | None`: Словарь с извлеченными данными в формате JSON или `None` в случае ошибки.
+- `dict | None`: Результат извлечения в виде словаря или `None` в случае ошибки.
 
 **Как работает функция**:
-1.  Функция `extract_results_from_world` получает экземпляр `TinyWorld`, из которого необходимо извлечь данные.
-2.  Формируется запрос к OpenAI API с учетом цели извлечения, контекста ситуации и истории взаимодействий агентов в мире.
-3.  Запрос отправляется в OpenAI API, и получается ответ с извлеченными данными.
-4.  Результаты извлечения сохраняются в кэш `self.world_extraction`.
-5.  Функция возвращает извлеченные данные в формате JSON.
+1. Формирует сообщение для OpenAI API, используя шаблон `interaction_results_extractor.mustache` и переданные параметры.
+2. Добавляет историю взаимодействий агентов в мире в запрос.
+3. Отправляет запрос в OpenAI API и получает ответ.
+4. Извлекает JSON из ответа и кэширует результат.
+5. Возвращает извлеченный JSON.
 
-```mermaid
-graph TD
-    A[Получение TinyWorld] --> B{Формирование запроса к OpenAI};
-    B --> C[Отправка запроса в OpenAI API];
-    C --> D{Получение ответа с данными};
-    D --> E[Сохранение результатов в кэш world_extraction];
-    E --> F[Возврат извлеченных данных в формате JSON];
+```
+Начало
+  │
+  ├── Формирование сообщения для OpenAI API
+  │   │
+  │   └── Добавление истории взаимодействий агентов в мире
+  │       │
+  │       └── Отправка запроса в OpenAI API
+  │           │
+  │           └── Извлечение JSON из ответа
+  │               │
+  │               └── Кэширование результата
+  │                   │
+  │                   └── Возврат извлеченного JSON
+  │
+Конец
 ```
 
 **Примеры**:
 
 ```python
-from tinytroupe.environment import TinyWorld
-from src.endpoints.tiny_troupe.tinytroupe.extraction import ResultsExtractor
-
-world = TinyWorld(name='MyWorld')
 extractor = ResultsExtractor()
-results = extractor.extract_results_from_world(world, extraction_objective='Summarize world events')
-
+world = TinyWorld(name='Wonderland')
+results = extractor.extract_results_from_world(world, extraction_objective='Summarize the main events in the world.')
 if results:
     print(results)
-else:
-    print('No results extracted')
 ```
 
-### `save_as_json`
+### `ResultsExtractor.save_as_json`
 
 ```python
-def save_as_json(filename: str, verbose: bool = False):
+def save_as_json(self, filename:str, verbose:bool=False) -> None:
     """
     Сохраняет последние результаты извлечения в формате JSON.
 
@@ -242,480 +251,525 @@ def save_as_json(filename: str, verbose: bool = False):
         verbose (bool, optional): Флаг, указывающий, нужно ли выводить отладочные сообщения. По умолчанию `False`.
 
     Raises:
-        Нет явных исключений.
+        Exception: Если возникает ошибка при записи в файл.
+
+    Example:
+        >>> extractor = ResultsExtractor()
+        >>> extractor.save_as_json('extraction_results.json', verbose=True)
+        Saved extraction results to extraction_results.json
     """
     ...
 ```
 
-**Назначение**: Сохранение извлеченных данных агентов и миров в JSON-файл.
+**Назначение**: Сохранение последних извлеченных результатов (агентов и миров) в файл в формате JSON.
 
 **Параметры**:
-- `filename` (str): Имя файла, в который будут сохранены данные.
-- `verbose` (bool): Флаг для вывода отладочной информации.
+- `filename` (str): Имя файла, в который будут сохранены результаты.
+- `verbose` (bool, optional): Флаг для включения/выключения отладочных сообщений.
 
 **Как работает функция**:
-1.  Функция `save_as_json` получает имя файла для сохранения данных.
-2.  Извлеченные данные агентов и миров (из `self.agent_extraction` и `self.world_extraction`) объединяются в словарь.
-3.  Словарь сохраняется в JSON-файл с указанным именем.
+1. Открывает файл с указанным именем для записи.
+2. Записывает в файл JSON, содержащий результаты извлечения для агентов и миров.
+3. Выводит отладочное сообщение, если `verbose` установлен в `True`.
 
-```mermaid
-graph TD
-    A[Получение имени файла] --> B{Объединение данных агентов и миров};
-    B --> C[Сохранение данных в JSON-файл];
+```
+Начало
+  │
+  ├── Открытие файла для записи
+  │   │
+  │   └── Запись JSON в файл
+  │       │
+  │       └── Вывод отладочного сообщения (если verbose=True)
+  │
+Конец
 ```
 
 **Примеры**:
 
 ```python
-from src.endpoints.tiny_troupe.tinytroupe.extraction import ResultsExtractor
-
 extractor = ResultsExtractor()
 extractor.save_as_json('extraction_results.json', verbose=True)
 ```
 
-### `add_reduction_rule`
+### `ResultsReducer.add_reduction_rule`
 
 ```python
-def add_reduction_rule(self, trigger: str, func: callable):
+def add_reduction_rule(self, trigger: str, func: callable) -> None:
     """
     Добавляет правило сокращения для определенного триггера.
 
     Args:
         trigger (str): Триггер, для которого добавляется правило.
-        func (callable): Функция, выполняющая сокращение данных.
+        func (callable): Функция, которая будет вызвана при срабатывании триггера.
 
     Raises:
         Exception: Если правило для указанного триггера уже существует.
+
+    Example:
+        >>> reducer = ResultsReducer()
+        >>> def my_rule(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
+        ...     return {'event': event, 'content': content}
+        >>> reducer.add_reduction_rule('stimulus_type', my_rule)
     """
     ...
 ```
 
-**Назначение**: Добавление правила сокращения данных.
+**Назначение**: Добавление правила сокращения в класс `ResultsReducer`.
 
 **Параметры**:
-- `trigger` (str): Тип триггера (события), для которого применяется правило.
-- `func` (callable): Функция, которая будет вызвана при срабатывании триггера для сокращения данных.
+- `trigger` (str): Строка, представляющая триггер, при котором должно применяться правило.
+- `func` (callable): Функция, которая будет вызываться для сокращения данных при срабатывании триггера.
 
 **Как работает функция**:
-1.  Функция `add_reduction_rule` получает тип триггера и функцию для сокращения данных.
-2.  Проверяется, существует ли уже правило для указанного триггера.
-3.  Если правило не существует, оно добавляется в словарь `self.rules`.
+1. Проверяет, существует ли уже правило для указанного триггера.
+2. Если правило уже существует, вызывает исключение.
+3. Если правило не существует, добавляет функцию `func` в словарь `self.rules` под ключом `trigger`.
 
-```mermaid
-graph TD
-    A[Получение триггера и функции] --> B{Проверка наличия правила для триггера};
-    B -- Правило существует --> C[Выброс исключения];
-    B -- Правило не существует --> D[Добавление правила в словарь rules];
+```
+Начало
+  │
+  ├── Проверка существования правила для триггера
+  │   │
+  │   ├── Правило существует: Вызов исключения
+  │   │
+  │   └── Правило не существует: Добавление функции в словарь self.rules
+  │
+Конец
 ```
 
 **Примеры**:
 
 ```python
-from src.endpoints.tiny_troupe.tinytroupe.extraction import ResultsReducer
-
-def my_reduction_rule(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
-    return {'event': event, 'content': content}
-
 reducer = ResultsReducer()
-reducer.add_reduction_rule('stimulus_type', my_reduction_rule)
+def my_rule(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
+    return {'event': event, 'content': content}
+reducer.add_reduction_rule('stimulus_type', my_rule)
 ```
 
-### `reduce_agent`
+### `ResultsReducer.reduce_agent`
 
 ```python
 def reduce_agent(self, agent: TinyPerson) -> list:
     """
-    Сокращает данные агента на основе заданных правил.
+    Сокращает данные агента на основе установленных правил.
 
     Args:
-        agent (TinyPerson): Агент, данные которого необходимо сократить.
+        agent (TinyPerson): Агент, данные которого нужно сократить.
 
     Returns:
         list: Список сокращенных данных.
+
+    Raises:
+        Exception: Если возникает ошибка при применении правил сокращения.
+
+    Example:
+        >>> reducer = ResultsReducer()
+        >>> def my_rule(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
+        ...     return {'event': event, 'content': content}
+        >>> reducer.add_reduction_rule('stimulus_type', my_rule)
+        >>> agent = TinyPerson(name='Alice')
+        >>> reduction = reducer.reduce_agent(agent)
     """
     ...
 ```
 
-**Назначение**: Сокращение данных агента `TinyPerson` на основе заданных правил.
+**Назначение**: Сокращение данных агента `TinyPerson` на основе установленных правил.
 
 **Параметры**:
-- `agent` (TinyPerson): Агент, данные которого необходимо сократить.
+- `agent` (TinyPerson): Агент, чьи данные нужно сократить.
 
 **Возвращает**:
 - `list`: Список сокращенных данных.
 
 **Как работает функция**:
-1.  Функция `reduce_agent` получает экземпляр `TinyPerson`, данные которого необходимо сократить.
-2.  Проходится по всем сообщениям в эпизодической памяти агента.
-3.  Для каждого сообщения определяется тип события (стимул или действие).
-4.  Если для данного типа события существует правило сокращения, оно применяется к данным события.
-5.  Сокращенные данные добавляются в список `reduction`.
-6.  Функция возвращает список сокращенных данных.
+1. Итерируется по всем сообщениям в эпизодической памяти агента.
+2. Пропускает сообщения с ролью `system`.
+3. Для сообщений с ролью `user` извлекает тип, контент и источник стимула, а также временную метку.
+4. Если для типа стимула существует правило сокращения, применяет его и добавляет результат в список сокращений.
+5. Для сообщений с ролью `assistant` извлекает тип, контент и цель действия, а также временную метку.
+6. Если для типа действия существует правило сокращения, применяет его и добавляет результат в список сокращений.
+7. Возвращает список сокращенных данных.
 
-```mermaid
-graph TD
-    A[Получение TinyPerson] --> B{Проход по сообщениям в эпизодической памяти};
-    B --> C{Определение типа события (стимул/действие)};
-    C --> D{Проверка наличия правила сокращения для типа события};
-    D -- Правило существует --> E[Применение правила к данным события];
-    D -- Правило не существует --> B;
-    E --> F[Добавление сокращенных данных в список reduction];
-    F --> B;
-    B --> G[Возврат списка сокращенных данных];
+```
+Начало
+  │
+  ├── Итерация по сообщениям в эпизодической памяти агента
+  │   │
+  │   ├── Пропуск сообщений с ролью `system`
+  │   │
+  │   ├── Сообщение с ролью `user`: Извлечение типа, контента и источника стимула
+  │   │   │
+  │   │   └── Применение правила сокращения (если существует)
+  │   │
+  │   └── Сообщение с ролью `assistant`: Извлечение типа, контента и цели действия
+  │       │
+  │       └── Применение правила сокращения (если существует)
+  │
+Конец
 ```
 
 **Примеры**:
 
 ```python
-from tinytroupe.agent import TinyPerson
-from src.endpoints.tiny_troupe.tinytroupe.extraction import ResultsReducer
-
-def my_reduction_rule(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
-    return {'event': event, 'content': content}
-
 reducer = ResultsReducer()
-reducer.add_reduction_rule('stimulus_type', my_reduction_rule)
-
+def my_rule(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
+    return {'event': event, 'content': content}
+reducer.add_reduction_rule('stimulus_type', my_rule)
 agent = TinyPerson(name='Alice')
 reduction = reducer.reduce_agent(agent)
-
-print(reduction)
 ```
 
-### `reduce_agent_to_dataframe`
+### `ResultsReducer.reduce_agent_to_dataframe`
 
 ```python
-def reduce_agent_to_dataframe(self, agent: TinyPerson, column_names: list = None) -> pd.DataFrame:
+def reduce_agent_to_dataframe(self, agent: TinyPerson, column_names: list=None) -> pd.DataFrame:
     """
-    Преобразует сокращенные данные агента в формат DataFrame.
+    Преобразует сокращенные данные агента в DataFrame.
 
     Args:
-        agent (TinyPerson): Агент, данные которого необходимо преобразовать.
-        column_names (list, optional): Список имен столбцов для DataFrame. По умолчанию `None`.
+        agent (TinyPerson): Агент, данные которого нужно сократить и преобразовать в DataFrame.
+        column_names (list, optional): Список имен столбцов для DataFrame. Если `None`, используются имена столбцов по умолчанию. По умолчанию `None`.
 
     Returns:
         pd.DataFrame: DataFrame с сокращенными данными агента.
+
+    Raises:
+        Exception: Если возникает ошибка при создании DataFrame.
+
+    Example:
+        >>> reducer = ResultsReducer()
+        >>> def my_rule(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
+        ...     return {'event': event, 'content': content}
+        >>> reducer.add_reduction_rule('stimulus_type', my_rule)
+        >>> agent = TinyPerson(name='Alice')
+        >>> df = reducer.reduce_agent_to_dataframe(agent, column_names=['event', 'content'])
     """
     ...
 ```
 
-**Назначение**: Преобразование сокращенных данных агента в DataFrame.
+**Назначение**: Преобразование сокращенных данных агента в объект `pd.DataFrame`.
 
 **Параметры**:
-- `agent` (TinyPerson): Агент, данные которого преобразуются.
-- `column_names` (list): Список имен столбцов для DataFrame.
+- `agent` (TinyPerson): Агент, чьи данные будут сокращены и преобразованы в DataFrame.
+- `column_names` (list, optional): Список имен столбцов для DataFrame. Если не указан, используются имена столбцов по умолчанию.
 
 **Возвращает**:
-- `pd.DataFrame`: DataFrame с сокращенными данными агента.
+- `pd.DataFrame`: DataFrame, содержащий сокращенные данные агента.
 
 **Как работает функция**:
-1.  Функция `reduce_agent_to_dataframe` получает экземпляр `TinyPerson`, данные которого необходимо преобразовать в DataFrame.
-2.  Вызывается функция `reduce_agent` для сокращения данных агента.
-3.  Сокращенные данные преобразуются в DataFrame с использованием библиотеки pandas.
-4.  Функция возвращает DataFrame с сокращенными данными агента.
+1. Вызывает метод `reduce_agent` для сокращения данных агента.
+2. Создает DataFrame из списка сокращенных данных, используя указанные имена столбцов (если они предоставлены).
+3. Возвращает созданный DataFrame.
 
-```mermaid
-graph TD
-    A[Получение TinyPerson] --> B[Вызов reduce_agent для сокращения данных];
-    B --> C[Преобразование сокращенных данных в DataFrame];
-    C --> D[Возврат DataFrame];
+```
+Начало
+  │
+  ├── Вызов метода `reduce_agent`
+  │   │
+  │   └── Создание DataFrame из сокращенных данных
+  │       │
+  │       └── Возврат DataFrame
+  │
+Конец
 ```
 
 **Примеры**:
 
 ```python
-import pandas as pd
-from tinytroupe.agent import TinyPerson
-from src.endpoints.tiny_troupe.tinytroupe.extraction import ResultsReducer
-
-def my_reduction_rule(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
-    return {'event': event, 'content': content}
-
 reducer = ResultsReducer()
-reducer.add_reduction_rule('stimulus_type', my_reduction_rule)
-
+def my_rule(focus_agent, source_agent, target_agent, kind, event, content, timestamp):
+    return {'event': event, 'content': content}
+reducer.add_reduction_rule('stimulus_type', my_rule)
 agent = TinyPerson(name='Alice')
 df = reducer.reduce_agent_to_dataframe(agent, column_names=['event', 'content'])
-
-print(df)
 ```
 
-### `export`
+### `ArtifactExporter.export`
 
 ```python
-def export(self, artifact_name: str, artifact_data: Union[dict, str], content_type: str, content_format: str = None, target_format: str = "txt", verbose: bool = False):
+def export(self, artifact_name:str, artifact_data:Union[dict, str], content_type:str, content_format:str=None, target_format:str="txt", verbose:bool=False) -> None:
     """
     Экспортирует указанные данные артефакта в файл.
 
     Args:
         artifact_name (str): Имя артефакта.
-        artifact_data (Union[dict, str]): Данные для экспорта. Если дан словарь, он будет сохранен как JSON.
-            Если дана строка, она будет сохранена как есть.
+        artifact_data (Union[dict, str]): Данные для экспорта. Если передан словарь, он будет сохранен в формате JSON. Если передана строка, она будет сохранена как есть.
         content_type (str): Тип контента внутри артефакта.
         content_format (str, optional): Формат контента внутри артефакта (например, md, csv и т.д.). По умолчанию `None`.
         target_format (str): Формат для экспорта артефакта (например, json, txt, docx и т.д.).
-        verbose (bool, optional): Нужно ли печатать отладочные сообщения. По умолчанию `False`.
+        verbose (bool, optional): Флаг, указывающий, нужно ли выводить отладочные сообщения. По умолчанию `False`.
 
     Raises:
         ValueError: Если `artifact_data` не является строкой или словарем.
         ValueError: Если `target_format` не поддерживается.
+
+    Example:
+        >>> exporter = ArtifactExporter('output')
+        >>> exporter.export('agent_data', {'name': 'Alice', 'age': 30}, 'agent', target_format='json', verbose=True)
+        Saved extraction results to output/agent/agent_data.json
     """
     ...
 ```
 
-**Назначение**: Экспорт артефакта (данных) в файл определенного формата.
+**Назначение**: Экспорт данных артефакта в файл заданного формата.
 
 **Параметры**:
-- `artifact_name` (str): Имя артефакта (используется для формирования имени файла).
-- `artifact_data` (Union[dict, str]): Данные для экспорта. Могут быть словарем (JSON) или строкой.
-- `content_type` (str): Тип контента (используется для создания подпапки).
-- `content_format` (str, optional): Формат содержимого артефакта (например, "md", "csv"). По умолчанию `None`.
-- `target_format` (str): Целевой формат файла (например, "json", "txt", "docx"). По умолчанию "txt".
-- `verbose` (bool): Флаг для вывода отладочной информации.
+- `artifact_name` (str): Имя артефакта (имя файла без расширения).
+- `artifact_data` (Union[dict, str]): Данные для экспорта. Могут быть строкой или словарем.
+- `content_type` (str): Тип контента (имя подкаталога, в котором будет сохранен файл).
+- `content_format` (str, optional): Формат контента (например, 'md', 'csv'). Используется для формирования имени файла. По умолчанию `None`.
+- `target_format` (str): Целевой формат файла (например, 'json', 'txt', 'docx'). По умолчанию 'txt'.
+- `verbose` (bool, optional): Флаг для включения/выключения отладочных сообщений.
 
 **Как работает функция**:
+1. Удаляет лишние отступы из данных артефакта, если это строка или словарь.
+2. Очищает имя артефакта от недопустимых символов.
+3. Составляет путь к файлу, используя метод `_compose_filepath`.
+4. В зависимости от `target_format` вызывает соответствующие методы экспорта (`_export_as_json`, `_export_as_txt`, `_export_as_docx`).
 
-1. Функция `export` получает данные артефакта, имя, тип контента и целевой формат.
-2. Проверяет и очищает имя артефакта от недопустимых символов.
-3. Составляет путь к файлу, используя базовую папку, подпапку (тип контента) и имя файла с расширением.
-4. В зависимости от `target_format` вызывает соответствующую функцию для экспорта:
-    - `_export_as_json` для JSON.
-    - `_export_as_txt` для TXT.
-    - `_export_as_docx` для DOCX.
-
-```mermaid
-graph TD
-    A[Получение данных для экспорта] --> B{Очистка имени артефакта};
-    B --> C{Составление пути к файлу};
-    C --> D{Выбор формата экспорта};
-    D -- JSON --> E[_export_as_json];
-    D -- TXT --> F[_export_as_txt];
-    D -- DOCX --> G[_export_as_docx];
-    D -- Другой формат --> H[Выброс исключения ValueError];
+```
+Начало
+  │
+  ├── Удаление отступов из данных артефакта
+  │   │
+  │   ├── Очистка имени артефакта от недопустимых символов
+  │   │   │
+  │   │   └── Составление пути к файлу
+  │   │       │
+  │   │       └── Вызов метода экспорта в зависимости от target_format
+  │   │
+  │   └── Конец
+  │
+Конец
 ```
 
 **Примеры**:
 
 ```python
-from src.endpoints.tiny_troupe.tinytroupe.extraction import ArtifactExporter
-
-exporter = ArtifactExporter(base_output_folder='output')
-data = {'key': 'value'}
-exporter.export(artifact_name='my_data', artifact_data=data, content_type='json_data', target_format='json')
-
+exporter = ArtifactExporter('output')
+exporter.export('agent_data', {'name': 'Alice', 'age': 30}, 'agent', target_format='json', verbose=True)
 ```
 
-### `_export_as_txt`
+### `ArtifactExporter._export_as_txt`
 
 ```python
-def _export_as_txt(self, artifact_file_path: str, artifact_data: Union[dict, str], content_type: str, verbose: bool = False):
+def _export_as_txt(self, artifact_file_path:str, artifact_data:Union[dict, str], content_type:str, verbose:bool=False) -> None:
     """
     Экспортирует указанные данные артефакта в текстовый файл.
     """
     ...
 ```
 
-**Назначение**: Экспорт данных в текстовый файл.
+**Назначение**: Экспорт данных артефакта в текстовый файл.
 
 **Параметры**:
-- `artifact_file_path` (str): Путь к файлу, в который будут сохранены данные.
-- `artifact_data` (Union[dict, str]): Данные для экспорта.
-- `content_type` (str): Тип контента.
-- `verbose` (bool): Флаг для вывода отладочной информации.
+- `artifact_file_path` (str): Путь к файлу, в который будут записаны данные.
+- `artifact_data` (Union[dict, str]): Данные для экспорта. Если это словарь, то извлекается значение по ключу `content`.
+- `content_type` (str): Тип контента (не используется в этой функции, но необходим для соответствия интерфейсу).
+- `verbose` (bool, optional): Флаг для включения/выключения отладочных сообщений (не используется в этой функции).
 
 **Как работает функция**:
-1.  Функция `_export_as_txt` получает путь к файлу, данные для экспорта и тип контента.
-2.  Открывает файл в режиме записи с кодировкой UTF-8.
-3.  Если данные представлены в виде словаря, извлекает содержимое из ключа 'content'.
-4.  Записывает содержимое в файл.
+1. Открывает файл по указанному пути для записи в кодировке UTF-8.
+2. Если `artifact_data` является словарем, извлекает значение по ключу `'content'`.
+3. Записывает содержимое в файл.
 
-```mermaid
-graph TD
-    A[Получение данных и пути к файлу] --> B{Проверка типа данных};
-    B -- Словарь --> C[Извлечение содержимого из ключа 'content'];
-    B -- Строка --> D[Использование данных как есть];
-    C --> E[Запись содержимого в файл];
-    D --> E;
+```
+Начало
+  │
+  ├── Открытие файла для записи
+  │   │
+  │   ├── Извлечение контента из словаря (если artifact_data - словарь)
+  │   │   │
+  │   │   └── Запись контента в файл
+  │   │
+  │   └── Конец
+  │
+Конец
 ```
 
-**Примеры**:
+### `ArtifactExporter._export_as_json`
 
 ```python
-from src.endpoints.tiny_troupe.tinytroupe.extraction import ArtifactExporter
-
-exporter = ArtifactExporter(base_output_folder='output')
-exporter._export_as_txt(artifact_file_path='output/text_data/my_text.txt', artifact_data='Hello, world!', content_type='text_data')
-```
-
-### `_export_as_json`
-
-```python
-def _export_as_json(self, artifact_file_path: str, artifact_data: Union[dict, str], content_type: str, verbose: bool = False):
+def _export_as_json(self, artifact_file_path:str, artifact_data:Union[dict, str], content_type:str, verbose:bool=False) -> None:
     """
     Экспортирует указанные данные артефакта в JSON файл.
     """
     ...
 ```
 
-**Назначение**: Экспорт данных в JSON файл.
+**Назначение**: Экспорт данных артефакта в JSON файл.
 
 **Параметры**:
-- `artifact_file_path` (str): Путь к файлу, в который будут сохранены данные.
-- `artifact_data` (Union[dict, str]): Данные для экспорта (должны быть словарем).
-- `content_type` (str): Тип контента.
-- `verbose` (bool): Флаг для вывода отладочной информации.
+- `artifact_file_path` (str): Путь к файлу, в который будут записаны данные.
+- `artifact_data` (Union[dict, str]): Данные для экспорта. Должны быть словарем.
+- `content_type` (str): Тип контента (не используется в этой функции, но необходим для соответствия интерфейсу).
+- `verbose` (bool, optional): Флаг для включения/выключения отладочных сообщений (не используется в этой функции).
+
+**Вызывает исключения**:
+- `ValueError`: Если `artifact_data` не является словарем.
 
 **Как работает функция**:
-1.  Функция `_export_as_json` получает путь к файлу, данные для экспорта и тип контента.
-2.  Открывает файл в режиме записи с кодировкой UTF-8.
-3.  Проверяет, что данные представлены в виде словаря.
-4.  Сохраняет словарь в файл в формате JSON с отступами.
+1. Открывает файл по указанному пути для записи в кодировке UTF-8.
+2. Проверяет, является ли `artifact_data` словарем. Если нет, вызывает исключение `ValueError`.
+3. Записывает словарь в файл в формате JSON с отступами.
 
-```mermaid
-graph TD
-    A[Получение данных и пути к файлу] --> B{Проверка типа данных};
-    B -- Словарь --> C[Сохранение данных в JSON файл];
-    B -- Не словарь --> D[Выброс исключения ValueError];
+```
+Начало
+  │
+  ├── Открытие файла для записи
+  │   │
+  │   ├── Проверка, является ли artifact_data словарем
+  │   │   │
+  │   │   ├── Если не словарь: Вызов исключения ValueError
+  │   │   │
+  │   │   └── Если словарь: Запись в файл в формате JSON
+  │   │
+  │   └── Конец
+  │
+Конец
 ```
 
-**Примеры**:
+### `ArtifactExporter._export_as_docx`
 
 ```python
-from src.endpoints.tiny_troupe.tinytroupe.extraction import ArtifactExporter
-
-exporter = ArtifactExporter(base_output_folder='output')
-data = {'key': 'value'}
-exporter._export_as_json(artifact_file_path='output/json_data/my_data.json', artifact_data=data, content_type='json_data')
-```
-
-### `_export_as_docx`
-
-```python
-def _export_as_docx(self, artifact_file_path: str, artifact_data: Union[dict, str], content_original_format: str, verbose: bool = False):
+def _export_as_docx(self, artifact_file_path:str, artifact_data:Union[dict, str], content_original_format:str, verbose:bool=False) -> None:
     """
     Экспортирует указанные данные артефакта в DOCX файл.
     """
     ...
 ```
 
-**Назначение**: Экспорт данных в DOCX файл.
+**Назначение**: Экспорт данных артефакта в файл формата DOCX.
 
 **Параметры**:
-- `artifact_file_path` (str): Путь к файлу, в который будут сохранены данные.
-- `artifact_data` (Union[dict, str]): Данные для экспорта.
-- `content_original_format` (str): Исходный формат контента (например, "markdown", "text").
-- `verbose` (bool): Флаг для вывода отладочной информации.
+- `artifact_file_path` (str): Путь к файлу, в который будут записаны данные.
+- `artifact_data` (Union[dict, str]): Данные для экспорта. Если это словарь, то извлекается значение по ключу `content`.
+- `content_original_format` (str): Исходный формат контента (например, 'text', 'markdown').
+- `verbose` (bool, optional): Флаг для включения/выключения отладочных сообщений (не используется в этой функции).
+
+**Вызывает исключения**:
+- `ValueError`: Если `content_original_format` не является допустимым значением ('text', 'txt', 'markdown', 'md').
 
 **Как работает функция**:
-1.  Функция `_export_as_docx` получает путь к файлу, данные для экспорта, исходный формат контента.
-2.  Проверяет, что исходный формат контента поддерживается ("text", "markdown").
-3.  Преобразует контент в HTML.
-4.  Использует `pypandoc` для преобразования HTML в DOCX и сохранения в файл.
+1. Проверяет допустимость значения `content_original_format`.
+2. Извлекает контент из `artifact_data`. Если `artifact_data` является словарем, то извлекается значение по ключу `content`.
+3. Преобразует контент в HTML с использованием библиотеки `markdown`.
+4. Преобразует HTML в DOCX с использованием библиотеки `pypandoc`.
 
-```mermaid
-graph TD
-    A[Получение данных и пути к файлу] --> B{Проверка исходного формата};
-    B -- Поддерживается --> C{Преобразование в HTML};
-    B -- Не поддерживается --> D[Выброс исключения ValueError];
-    C --> E[Преобразование HTML в DOCX с помощью pypandoc];
-    E --> F[Сохранение в файл];
+```
+Начало
+  │
+  ├── Проверка допустимости content_original_format
+  │   │
+  │   ├── Извлечение контента из artifact_data
+  │   │   │
+  │   │   ├── Преобразование контента в HTML
+  │   │   │
+  │   │   └── Преобразование HTML в DOCX
+  │   │
+  │   └── Конец
+  │
+Конец
 ```
 
-**Примеры**:
+### `ArtifactExporter._compose_filepath`
 
 ```python
-from src.endpoints.tiny_troupe.tinytroupe.extraction import ArtifactExporter
-
-exporter = ArtifactExporter(base_output_folder='output')
-exporter._export_as_docx(artifact_file_path='output/docx_data/my_doc.docx', artifact_data='# Hello', content_original_format='markdown')
-```
-
-### `_compose_filepath`
-
-```python
-def _compose_filepath(self, artifact_data: Union[dict, str], artifact_name: str, content_type: str, target_format: str = None, verbose: bool = False):
+def _compose_filepath(self, artifact_data:Union[dict, str], artifact_name:str, content_type:str, target_format:str=None, verbose:bool=False) -> str:
     """
-    Composes the file path for the artifact to export.
+    Составляет путь к файлу для экспортируемого артефакта.
 
     Args:
-        artifact_data (Union[dict, str]): The data to export.
-        artifact_name (str): The name of the artifact.
-        content_type (str): The type of the content within the artifact.
-        content_format (str, optional): The format of the content within the artifact (e.g., md, csv, etc). Defaults to None.
-        verbose (bool, optional): Whether to print debug messages. Defaults to False.
-    """
-    ...
-```
-
-**Назначение**: Компоновка пути к файлу для экспорта артефакта.
-
-**Параметры**:
-
--   `artifact_data` (Union[dict, str]): Данные для экспорта.
--   `artifact_name` (str): Имя артефакта.
--   `content_type` (str): Тип контента.
--   `target_format` (str, optional): Целевой формат (например, json, txt, docx). По умолчанию `None`.
--   `verbose` (bool, optional): Флаг для вывода отладочной информации. По умолчанию `False`.
-
-**Как работает функция**:
-
-1.  Функция `_compose_filepath` получает данные об артефакте, его имя, тип контента и целевой формат.
-2.  Определяет расширение файла в зависимости от `target_format` и типа данных (`artifact_data`).
-3.  Формирует подпапку в зависимости от `content_type`.
-4.  Составляет полный путь к файлу, используя базовую папку, подпапку и имя файла с расширением.
-5.  Создает промежуточные директории, если они не существуют.
-
-```mermaid
-graph TD
-    A[Получение данных для компоновки пути] --> B{Определение расширения файла};
-    B --> C{Формирование подпапки};
-    C --> D{Составление полного пути к файлу};
-    D --> E{Создание промежуточных директорий};
-    E --> F[Возврат полного пути к файлу];
-```
-
-**Примеры**:
-
-```python
-from src.endpoints.tiny_troupe.tinytroupe.extraction import ArtifactExporter
-
-exporter = ArtifactExporter(base_output_folder='output')
-file_path = exporter._compose_filepath(artifact_data={'key': 'value'}, artifact_name='my_data', content_type='json_data', target_format='json')
-print(file_path)  # Вывод: output/json_data/my_data.json
-```
-
-### `normalize`
-
-```python
-def normalize(self, element_or_elements: Union[str, List[str]]) -> Union[str, List[str]]:
-    """
-    Normalizes the specified element or elements.
-
-    This method uses a caching mechanism to improve performance. If an element has been normalized before, 
-    its normalized form is stored in a cache (self.normalizing_map). When the same element needs to be 
-    normalized again, the method will first check the cache and use the stored normalized form if available, 
-    instead of normalizing the element again.
-
-    The order of elements in the output will be the same as in the input. This is ensured by processing 
-    the elements in the order they appear in the input and appending the normalized elements to the output 
-    list in the same order.
-
-    Args:
-        element_or_elements (Union[str, List[str]]): The element or elements to normalize.
+        artifact_data (Union[dict, str]): Данные для экспорта.
+        artifact_name (str): Имя артефакта.
+        content_type (str): Тип контента внутри артефакта.
+        target_format (str, optional): Формат для экспорта артефакта (например, json, txt, docx и т.д.).
+        verbose (bool, optional): Флаг, указывающий, нужно ли выводить отладочные сообщения. По умолчанию `False`.
 
     Returns:
-        str: The normalized element if the input was a string.
-        list: The normalized elements if the input was a list, preserving the order of elements in the input.
+        str: Сформированный путь к файлу.
+
+    Raises:
+        ValueError: Если `artifact_data` не является строкой или словарем.
+        ValueError: Если `target_format` не поддерживается.
+
+    Example:
+        >>> exporter = ArtifactExporter('output')
+        >>> file_path = exporter._compose_filepath({'content': 'test'}, 'my_artifact', 'test_type', target_format='json')
+        >>> print(file_path)
+        output/test_type/my_artifact.json
     """
     ...
 ```
 
-**Назначение**: Нормализация одного или нескольких текстовых элементов.
+**Назначение**: Функция составляет путь к файлу для экспортируемого артефакта, основываясь на переданных параметрах.
 
 **Параметры**:
-- `element_or_elements` (Union[str, List[str]]): Элемент или список элементов для нормализации.
+- `artifact_data` (Union[dict, str]): Данные для экспорта. Используется для определения расширения файла, если `target_format` не указан.
+- `artifact_name` (str): Имя артефакта, которое будет использовано в имени файла.
+- `content_type` (str): Тип контента, который будет использован в качестве подпапки для сохранения файла.
+- `target_format` (str, optional): Целевой формат файла (например, 'json', 'txt', 'docx'). Если указан, используется для определения расширения файла. По умолчанию `None`.
+- `verbose` (bool, optional): Флаг, указывающий, нужно ли выводить отладочные сообщения. По умолчанию `False`.
 
 **Возвращает**:
-- `Union[str, List[str]]`: Нормализованный элемент или список нормализованных элементов.
+- `str`: Сформированный путь к файлу.
 
-**Как
+**Как работает функция**:
+
+1.  Определяет расширение файла в зависимости от `target_format` и типа `artifact_data`.
+2.  Определяет подпапку для сохранения файла на основе `content_type`.
+3.  Составляет полный путь к файлу, объединяя базовую папку вывода, подпапку и имя файла с расширением.
+4.  Создает промежуточные каталоги, если они не существуют.
+5.  Возвращает сформированный путь к файлу.
+
+```
+Начало
+  │
+  ├── Определение расширения файла
+  │   │
+  │   ├── Определение подпапки
+  │   │   │
+  │   │   ├── Составление полного пути к файлу
+  │   │   │   │
+  │   │   │   ├── Создание промежуточных каталогов (если необходимо)
+  │   │   │   │   │
+  │   │   │   │   └── Возврат сформированного пути к файлу
+  │   │   │   │
+  │   │   │   └── Конец
+  │   │   │
+  │   │   └── Конец
+  │   │
+  │   └── Конец
+  │
+Конец
+```
+
+**Примеры**:
+
+```python
+exporter = ArtifactExporter('output')
+file_path = exporter._compose_filepath({'content': 'test'}, 'my_artifact', 'test_type', target_format='json')
+print(file_path)
+```
+
+### `Normalizer.__init__`
+
+```python
+def __init__(self, elements:List[str], n:int, verbose:bool=False) -> None:
+    """
+    Нормализует указанные элементы.
+
+    Args:
+        elements (list): Элементы для нормализации.
+        n (int): Количество нормализованных элементов для вывода.
+        verbose (bool, optional): Флаг, указывающий, нужно ли выводить отладочные сообщения. По умолчанию `False`.
+    """
+    ...
+```
+
+**Назначение**: Инициализация экземпляра класса `Normalizer`.
+
+**Параметры**:
+- `elements` (list): Список элементов для нормализации.
+- `n` (int): Количество нормализованных элементов, которые нужно получить в результате.
+- `verbose` (bool, optional): Флаг для включения/выключения отладочных сообщений.

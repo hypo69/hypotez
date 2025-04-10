@@ -1,144 +1,234 @@
-# Документация для модуля backend.py
+# Документация для модуля `backend.py`
 
 ## Обзор
 
-Модуль `backend.py` содержит набор юнит-тестов для тестирования `Backend_Api` из `g4f.gui.server.backend_api`. Эти тесты проверяют различные аспекты API, такие как получение версии, моделей, провайдеров и выполнение поиска.
+Модуль `backend.py` содержит юнит-тесты для backend API, используемого в графическом интерфейсе (GUI) проекта `g4f`. Он проверяет корректность работы API, включая получение версий, моделей, провайдеров и выполнение поисковых запросов.
 
 ## Подробней
 
-Этот модуль предназначен для автоматизированной проверки работоспособности API, предоставляемого `Backend_Api`. Он использует `unittest` для организации тестов и `asyncio` для запуска асинхронных функций. В случае отсутствия необходимых зависимостей, таких как `g4f.gui` или `duckduckgo_search`, тесты пропускаются.
+Этот модуль важен для обеспечения стабильности и надежности backend API, используемого в GUI. Он включает в себя тесты для основных функций API, гарантируя, что они работают правильно и возвращают ожидаемые результаты. Модуль использует `unittest` для организации тестов и `MagicMock` для имитации объектов приложения.
 
 ## Классы
 
 ### `TestBackendApi`
 
-**Описание**: Класс `TestBackendApi` содержит юнит-тесты для проверки функциональности `Backend_Api`.
+**Описание**: Класс `TestBackendApi` содержит набор тестов для проверки функциональности backend API.
 
 **Наследует**:
-   - `unittest.TestCase`: Класс наследует `unittest.TestCase`, предоставляя методы для написания тестов.
+- `unittest.TestCase`: Класс наследует от `unittest.TestCase`, предоставляя базовый функционал для написания и запуска тестов.
 
 **Аттрибуты**:
-   - `app`: `MagicMock` - Мок-объект приложения, используемый для инициализации `Backend_Api`.
-   - `api`: `Backend_Api` - Экземпляр класса `Backend_Api`, который тестируется.
+- `app` (MagicMock): Мок-объект приложения, используемый для имитации взаимодействия с приложением.
+- `api` (Backend_Api): Экземпляр класса `Backend_Api`, который тестируется.
+- `has_requirements` (bool): Флаг, указывающий, установлены ли все необходимые зависимости для GUI.
 
 **Методы**:
-   - `setUp()`: Подготовка к каждому тесту. Проверяет наличие необходимых зависимостей и создает мок-объект приложения, а также экземпляр `Backend_Api`.
-   - `test_version()`: Тестирует метод `get_version()` класса `Backend_Api`.
-   - `test_get_models()`: Тестирует метод `get_models()` класса `Backend_Api`.
-   - `test_get_providers()`: Тестирует метод `get_providers()` класса `Backend_Api`.
-   - `test_search()`: Тестирует функцию поиска.
+- `setUp()`: Метод для подготовки к каждому тесту, инициализирует `MagicMock` для `app` и создает экземпляр `Backend_Api`.
+- `test_version()`: Тест для проверки корректности возвращаемой версии API.
+- `test_get_models()`: Тест для проверки получения списка доступных моделей.
+- `test_get_providers()`: Тест для проверки получения списка доступных провайдеров.
+- `test_search()`: Тест для проверки функции поиска.
 
-#### `setUp`
-
-```python
-def setUp(self):
-    """
-    Подготовка к каждому тесту. Проверяет наличие необходимых зависимостей и создает мок-объект приложения,
-    а также экземпляр `Backend_Api`.
-    """
-    ...
-```
-
-**Как работает функция**:
-
-1. **Проверка зависимостей**: Проверяет, установлены ли необходимые зависимости для запуска GUI (`has_requirements`). Если зависимости отсутствуют, тест пропускается.
-2. **Создание мок-объекта**: Создает мок-объект `MagicMock` для имитации приложения (`self.app = MagicMock()`).
-3. **Инициализация API**: Создает экземпляр класса `Backend_Api`, передавая мок-объект приложения в качестве аргумента (`self.api = Backend_Api(self.app)`).
-
-#### `test_version`
+### `TestBackendApi.setUp`
 
 ```python
-def test_version(self):
-    """
-    Тестирует метод `get_version()` класса `Backend_Api`.
-    """
-    ...
-```
-
-**Как работает функция**:
-
-1. **Вызов метода**: Вызывает метод `get_version()` у экземпляра `Backend_Api` (`response = self.api.get_version()`).
-2. **Проверка результата**: Проверяет, содержит ли возвращенный словарь ключи `"version"` и `"latest_version"` с использованием `self.assertIn()`.
-
-#### `test_get_models`
-
-```python
-def test_get_models(self):
-    """
-    Тестирует метод `get_models()` класса `Backend_Api`.
-    """
-    ...
-```
-
-**Как работает функция**:
-
-1. **Вызов метода**: Вызывает метод `get_models()` у экземпляра `Backend_Api` (`response = self.api.get_models()`).
-2. **Проверка типа**: Проверяет, является ли возвращенное значение списком с помощью `self.assertIsInstance()`.
-3. **Проверка содержимого**: Проверяет, является ли длина списка больше нуля с помощью `self.assertTrue()`.
-
-#### `test_get_providers`
-
-```python
-def test_get_providers(self):
-    """
-    Тестирует метод `get_providers()` класса `Backend_Api`.
-    """
-    ...
-```
-
-**Как работает функция**:
-
-1. **Вызов метода**: Вызывает метод `get_providers()` у экземпляра `Backend_Api` (`response = self.api.get_providers()`).
-2. **Проверка типа**: Проверяет, является ли возвращенное значение списком с помощью `self.assertIsInstance()`.
-3. **Проверка содержимого**: Проверяет, является ли длина списка больше нуля с помощью `self.assertTrue()`.
-
-#### `test_search`
-
-```python
-def test_search(self):
-    """
-    Тестирует функцию поиска.
-    """
-    ...
-```
-
-**Как работает функция**:
-
-1. **Импорт функции**: Импортирует функцию `search` из модуля `g4f.gui.server.internet`.
-2. **Вызов функции поиска**: Пытается выполнить поиск строки "Hello" асинхронно с использованием `asyncio.run(search("Hello"))`.
-3. **Обработка исключений**:
-   - Если возникает исключение `DuckDuckGoSearchException`, тест пропускается с помощью `self.skipTest(e)`.
-   - Если возникает исключение `MissingRequirementsError`, тест пропускается с сообщением "search is not installed".
-4. **Проверка результата**: Проверяет, является ли длина результата поиска больше нуля с помощью `self.assertGreater()`.
-
-## Функции
-
-В данном модуле функции отсутствуют, так как основная логика сосредоточена в классе `TestBackendApi` и его методах.
-
-```python
-class DuckDuckGoSearchException:
-    pass
-```
-В данном коде определяется класс `DuckDuckGoSearchException`, если он не был импортирован из библиотеки `duckduckgo_search`. Этот класс используется для обработки исключений, связанных с поиском DuckDuckGo.
-## Пример
-
-```python
-import unittest
-from unittest.mock import MagicMock
-import asyncio
-
-class TestBackendApi(unittest.TestCase):
-
     def setUp(self):
+        if not has_requirements:
+            self.skipTest("gui is not installed")
         self.app = MagicMock()
         self.api = Backend_Api(self.app)
+```
 
+**Назначение**: Подготовка к каждому тесту.
+
+**Параметры**:
+- Отсутствуют.
+
+**Возвращает**:
+- Отсутствует.
+
+**Как работает функция**:
+1. **Проверка зависимостей**: Проверяет, установлены ли все необходимые зависимости (`has_requirements`). Если нет, тест пропускается.
+2. **Инициализация мок-объекта**: Создает мок-объект `app` с использованием `MagicMock()`.
+3. **Создание экземпляра API**: Создает экземпляр класса `Backend_Api`, передавая мок-объект `app`.
+
+```
+Проверка зависимостей --> Инициализация мок-объекта --> Создание экземпляра API
+```
+
+**Примеры**:
+
+```python
+# Пример использования в unittest (не вызывается напрямую)
+class TestBackendApi(unittest.TestCase):
+    def setUp(self):
+        # Вызывается перед каждым тестом
+        if not has_requirements:
+            self.skipTest("gui is not installed")
+        self.app = MagicMock()
+        self.api = Backend_Api(self.app)
+```
+
+### `TestBackendApi.test_version`
+
+```python
     def test_version(self):
         response = self.api.get_version()
         self.assertIn("version", response)
         self.assertIn("latest_version", response)
+```
 
+**Назначение**: Тест для проверки корректности возвращаемой версии API.
+
+**Параметры**:
+- Отсутствуют.
+
+**Возвращает**:
+- Отсутствует.
+
+**Как работает функция**:
+1. **Вызов метода API**: Вызывает метод `get_version()` экземпляра `Backend_Api` и сохраняет результат в `response`.
+2. **Проверка наличия ключей**: Проверяет, содержит ли `response` ключи `"version"` и `"latest_version"` с использованием `self.assertIn()`.
+
+```
+Вызов метода API --> Проверка наличия ключей
+```
+
+**Примеры**:
+
+```python
+# Пример использования в unittest (не вызывается напрямую)
+class TestBackendApi(unittest.TestCase):
+    def test_version(self):
+        response = self.api.get_version()
+        self.assertIn("version", response)
+        self.assertIn("latest_version", response)
+```
+
+### `TestBackendApi.test_get_models`
+
+```python
     def test_get_models(self):
         response = self.api.get_models()
         self.assertIsInstance(response, list)
         self.assertTrue(len(response) > 0)
+```
+
+**Назначение**: Тест для проверки получения списка доступных моделей.
+
+**Параметры**:
+- Отсутствуют.
+
+**Возвращает**:
+- Отсутствует.
+
+**Как работает функция**:
+1. **Вызов метода API**: Вызывает метод `get_models()` экземпляра `Backend_Api` и сохраняет результат в `response`.
+2. **Проверка типа данных**: Проверяет, является ли `response` списком с использованием `self.assertIsInstance()`.
+3. **Проверка непустоты списка**: Проверяет, что длина списка `response` больше 0 с использованием `self.assertTrue()`.
+
+```
+Вызов метода API --> Проверка типа данных --> Проверка непустоты списка
+```
+
+**Примеры**:
+
+```python
+# Пример использования в unittest (не вызывается напрямую)
+class TestBackendApi(unittest.TestCase):
+    def test_get_models(self):
+        response = self.api.get_models()
+        self.assertIsInstance(response, list)
+        self.assertTrue(len(response) > 0)
+```
+
+### `TestBackendApi.test_get_providers`
+
+```python
+    def test_get_providers(self):
+        response = self.api.get_providers()
+        self.assertIsInstance(response, list)
+        self.assertTrue(len(response) > 0)
+```
+
+**Назначение**: Тест для проверки получения списка доступных провайдеров.
+
+**Параметры**:
+- Отсутствуют.
+
+**Возвращает**:
+- Отсутствует.
+
+**Как работает функция**:
+1. **Вызов метода API**: Вызывает метод `get_providers()` экземпляра `Backend_Api` и сохраняет результат в `response`.
+2. **Проверка типа данных**: Проверяет, является ли `response` списком с использованием `self.assertIsInstance()`.
+3. **Проверка непустоты списка**: Проверяет, что длина списка `response` больше 0 с использованием `self.assertTrue()`.
+
+```
+Вызов метода API --> Проверка типа данных --> Проверка непустоты списка
+```
+
+**Примеры**:
+
+```python
+# Пример использования в unittest (не вызывается напрямую)
+class TestBackendApi(unittest.TestCase):
+    def test_get_providers(self):
+        response = self.api.get_providers()
+        self.assertIsInstance(response, list)
+        self.assertTrue(len(response) > 0)
+```
+
+### `TestBackendApi.test_search`
+
+```python
+    def test_search(self):
+        from g4f.gui.server.internet import search
+        try:
+            result = asyncio.run(search("Hello"))
+        except DuckDuckGoSearchException as e:
+            self.skipTest(e)
+        except MissingRequirementsError:
+            self.skipTest("search is not installed")
+        self.assertGreater(len(result), 0)
+```
+
+**Назначение**: Тест для проверки функции поиска.
+
+**Параметры**:
+- Отсутствуют.
+
+**Возвращает**:
+- Отсутствует.
+
+**Как работает функция**:
+1. **Импорт функции поиска**: Импортирует функцию `search` из модуля `g4f.gui.server.internet`.
+2. **Выполнение поиска**: Выполняет асинхронный поиск строки `"Hello"` с использованием `asyncio.run()` и сохраняет результат в `result`.
+3. **Обработка исключений**:
+   - Если возникает исключение `DuckDuckGoSearchException`, тест пропускается.
+   - Если возникает исключение `MissingRequirementsError`, тест пропускается.
+4. **Проверка результата поиска**: Проверяет, что длина результата поиска `result` больше 0 с использованием `self.assertGreater()`.
+
+```
+Импорт функции поиска --> Выполнение поиска --> Обработка исключений --> Проверка результата поиска
+```
+
+**Примеры**:
+
+```python
+# Пример использования в unittest (не вызывается напрямую)
+class TestBackendApi(unittest.TestCase):
+    def test_search(self):
+        from g4f.gui.server.internet import search
+        try:
+            result = asyncio.run(search("Hello"))
+        except DuckDuckGoSearchException as e:
+            self.skipTest(e)
+        except MissingRequirementsError:
+            self.skipTest("search is not installed")
+        self.assertGreater(len(result), 0)
+```
+
+## Функции
+
+В данном модуле нет отдельных функций, только методы класса `TestBackendApi`.

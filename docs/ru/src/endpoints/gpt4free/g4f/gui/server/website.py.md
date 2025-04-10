@@ -1,33 +1,33 @@
-# Модуль для настройки веб-сайта G4F
+# Модуль для управления веб-сайтом G4F
 
 ## Обзор
 
-Этот модуль содержит класс `Website`, который отвечает за настройку маршрутов веб-сайта и обработку запросов к различным страницам, таким как чат, настройки и фоновые изображения. Он использует Flask для обработки запросов и отображения HTML-шаблонов.
+Модуль отвечает за настройку маршрутов и обработку запросов для веб-сайта `G4F`. Он использует Flask для определения эндпоинтов и рендеринга шаблонов HTML.
 
-## Подробнее
+## Подробней
 
-Модуль определяет маршруты для различных URL-адресов, связывая их с соответствующими функциями класса `Website`. Это позволяет пользователям переходить между различными разделами веб-сайта, такими как чат с определенным `conversation_id`, страница настроек и другие.
+Модуль `website.py` является частью GUI-сервера проекта `hypotez`. Он определяет класс `Website`, который инициализирует Flask-приложение и настраивает маршруты для различных страниц веб-сайта, таких как чат, настройки и фоновые изображения. Модуль использует шаблоны Jinja2 для динамической генерации HTML-страниц.
 
 ## Классы
 
 ### `Website`
 
-**Описание**: Класс `Website` отвечает за настройку маршрутов веб-сайта и обработку запросов к различным страницам.
+**Описание**: Класс `Website` отвечает за настройку и управление маршрутами Flask-приложения для веб-сайта.
 
 **Принцип работы**:
-Класс инициализируется с Flask-приложением, и создает словарь маршрутов, связывающих URL-адреса с функциями класса. Каждый маршрут определяет, какая функция будет вызвана для обработки запроса по этому URL-адресу, а также HTTP-методы, которые разрешены для этого маршрута.
+Класс инициализируется Flask-приложением и определяет словарь `routes`, который связывает URL-адреса с функциями-обработчиками и HTTP-методами. При создании экземпляра класса, он настраивает маршруты Flask-приложения, связывая каждый URL с соответствующей функцией-обработчиком.
 
-**Атрибуты**:
-- `app`: Flask-приложение, используемое для обработки запросов.
-- `routes`: Словарь, связывающий URL-адреса с функциями класса и HTTP-методами.
+**Аттрибуты**:
+- `app`: Flask-приложение, для которого настраиваются маршруты.
+- `routes`: Словарь, определяющий маршруты веб-сайта и соответствующие им функции-обработчики.
 
 **Методы**:
-- `__init__(self, app)`: Инициализирует класс `Website`, сохраняя Flask-приложение и определяя маршруты.
-- `_chat(self, conversation_id)`: Отображает страницу чата с указанным `conversation_id`.
-- `_share_id(self, share_id, conversation_id: str = "")`: Отображает страницу общего доступа с указанными `share_id` и `conversation_id`.
-- `_index(self)`: Отображает главную страницу чата, генерируя новый `conversation_id`.
-- `_settings(self)`: Отображает страницу настроек, генерируя новый `conversation_id`.
-- `_background(self)`: Отображает страницу с фоном.
+- `__init__(self, app)`: Инициализирует экземпляр класса `Website` и настраивает маршруты Flask-приложения.
+- `_chat(self, conversation_id)`: Обрабатывает запросы к странице чата с указанным идентификатором разговора.
+- `_share_id(self, share_id, conversation_id: str = "")`: Обрабатывает запросы к странице чата с общим идентификатором.
+- `_index(self)`: Обрабатывает запросы к главной странице чата.
+- `_settings(self)`: Обрабатывает запросы к странице настроек.
+- `_background(self)`: Обрабатывает запросы к странице фоновых изображений.
 
 ## Функции
 
@@ -35,347 +35,271 @@
 
 ```python
 def redirect_home():
-    return redirect('/chat')
+    """
+    Перенаправляет пользователя на главную страницу чата.
+
+    Returns:
+        flask.Response: HTTP-редирект на страницу '/chat'.
+
+    """
+    ...
 ```
 
 **Назначение**: Перенаправляет пользователя на главную страницу чата (`/chat`).
 
-**Параметры**:
-- Нет
-
 **Возвращает**:
-- `flask.Response`: Объект перенаправления Flask.
+- `flask.Response`: HTTP-редирект на страницу `/chat`.
 
 **Как работает функция**:
-
-1. Функция `redirect_home` вызывает функцию `redirect` из библиотеки Flask, передавая ей URL-адрес `/chat`.
-2. Функция `redirect` возвращает объект `flask.Response`, который содержит информацию о перенаправлении.
-
-**Примеры**:
-```python
-from flask import Flask, redirect
-app = Flask(__name__)
-
-@app.route('/menu/')
-def redirect_to_chat():
-    return redirect_home()
-
-if __name__ == '__main__':
-    app.run(debug=True)
-```
-
-ASCII flowchart:
+1. Функция `redirect_home` использует функцию `redirect` из Flask для перенаправления пользователя на URL-адрес `/chat`.
 
 ```
-Начало --> Перенаправление на /chat --> Конец
+Перенаправление на главную страницу
+↓
+Редирект на /chat
 ```
 
 ### `Website.__init__`
 
 ```python
-def __init__(self, app) -> None:
-    self.app = app
-    self.routes = {
-        '/chat/': {
-            'function': self._index,
-            'methods': ['GET', 'POST']
-        },
-        '/chat/<conversation_id>': {
-            'function': self._chat,
-            'methods': ['GET', 'POST']
-        },
-        '/chat/<share_id>/': {
-            'function': self._share_id,
-            'methods': ['GET', 'POST']
-        },
-        '/chat/<share_id>/<conversation_id>': {
-            'function': self._share_id,
-            'methods': ['GET', 'POST']
-        },
-        '/chat/menu/': {
-            'function': redirect_home,
-            'methods': ['GET', 'POST']
-        },
-        '/chat/settings/': {
-            'function': self._settings,
-            'methods': ['GET', 'POST']
-        },
-        '/images/': {
-            'function': redirect_home,
-            'methods': ['GET', 'POST']
-        },
-        '/background': {
-            'function': self._background,
-            'methods': ['GET']
-        },
-    }
+    def __init__(self, app) -> None:
+        """
+        Инициализирует экземпляр класса Website и настраивает маршруты Flask-приложения.
+
+        Args:
+            app: Flask-приложение, для которого настраиваются маршруты.
+
+        """
+        ...
 ```
 
-**Назначение**: Инициализирует экземпляр класса `Website`, настраивая Flask-приложение и определяя маршруты для различных URL-адресов.
+**Назначение**: Инициализирует экземпляр класса `Website` и настраивает маршруты Flask-приложения.
 
 **Параметры**:
-- `app`: Flask-приложение, которое будет использоваться для обработки запросов.
-
-**Возвращает**:
-- `None`
+- `app`: Flask-приложение, для которого настраиваются маршруты.
 
 **Как работает функция**:
 
-1.  Сохраняет Flask-приложение в атрибуте `app` экземпляра класса.
-2.  Определяет словарь `routes`, который связывает URL-адреса с соответствующими функциями класса и HTTP-методами.
-
-    *   Для каждого URL-адреса указывается функция, которая будет вызвана для обработки запроса, а также список HTTP-методов (например, `GET`, `POST`), которые разрешены для этого маршрута.
-
-**Примеры**:
-
-```python
-from flask import Flask
-from src.endpoints.gpt4free.g4f.gui.server.website import Website
-
-app = Flask(__name__)
-website = Website(app)
-```
-
-ASCII flowchart:
+1.  **Инициализация атрибутов**:
+    *   Сохраняет переданное Flask-приложение в атрибуте `self.app`.
+    *   Определяет словарь `self.routes`, содержащий маршруты веб-сайта и соответствующие им функции-обработчики.
 
 ```
-Начало --> Сохранение Flask-приложения --> Определение маршрутов --> Конец
+Инициализация приложения Flask
+│
+└──► Определение маршрутов и функций-обработчиков
 ```
 
 ### `Website._chat`
 
 ```python
-def _chat(self, conversation_id):
-    if conversation_id == "share":
-        return render_template('index.html', conversation_id=str(uuid.uuid4()))
-    return render_template('index.html', conversation_id=conversation_id)
+    def _chat(self, conversation_id):
+        """
+        Обрабатывает запросы к странице чата с указанным идентификатором разговора.
+
+        Args:
+            conversation_id: Идентификатор разговора.
+
+        Returns:
+            flask.Response: HTTP-ответ с отображенной страницей чата.
+
+        """
+        ...
 ```
 
-**Назначение**: Отображает страницу чата с указанным `conversation_id`. Если `conversation_id` равен "share", генерируется новый UUID.
+**Назначение**: Обрабатывает запросы к странице чата с указанным идентификатором разговора.
 
 **Параметры**:
-- `conversation_id`: Идентификатор беседы (conversation).
+- `conversation_id`: Идентификатор разговора.
 
 **Возвращает**:
-- `flask.Response`: HTML-страница, отображаемая пользователю.
+- `flask.Response`: HTTP-ответ с отображенной страницей чата.
 
 **Как работает функция**:
 
-1.  Проверяет, равен ли `conversation_id` значению "share".
-2.  Если `conversation_id` равен "share", генерируется новый UUID с помощью `uuid.uuid4()` и преобразуется в строку.
-3.  Вызывает функцию `render_template` из библиотеки Flask, передавая ей имя шаблона `index.html` и `conversation_id`.
-4.  Функция `render_template` загружает шаблон `index.html` и подставляет в него значение `conversation_id`.
-5.  Возвращает HTML-страницу, сгенерированную функцией `render_template`.
+1.  **Проверка `conversation_id`**:
+    *   Если `conversation_id` равен `"share"`, генерируется новый UUID для идентификатора разговора.
+2.  **Рендеринг шаблона**:
+    *   Отображает шаблон `index.html` с передачей `conversation_id` в качестве параметра.
+
+```
+Проверка ID разговора
+│
+└──► Рендеринг шаблона index.html с conversation_id
+```
 
 **Примеры**:
 
 ```python
-from flask import Flask
-from src.endpoints.gpt4free.g4f.gui.server.website import Website
-import uuid
+# Пример вызова функции _chat с conversation_id
+website._chat("12345")
 
-app = Flask(__name__)
-website = Website(app)
-
-@app.route('/chat/<conversation_id>')
-def chat(conversation_id):
-    return website._chat(conversation_id)
-
-if __name__ == '__main__':
-    app.run(debug=True)
-```
-
-ASCII flowchart:
-
-```
-Начало --> Проверка conversation_id == "share" --> Генерация нового UUID (если да) --> Отображение index.html с conversation_id --> Конец
+# Пример вызова функции _chat с conversation_id = "share"
+website._chat("share")
 ```
 
 ### `Website._share_id`
 
 ```python
-def _share_id(self, share_id, conversation_id: str = ""):
-    share_url = os.environ.get("G4F_SHARE_URL", "")
-    conversation_id = conversation_id if conversation_id else str(uuid.uuid4())
-    return render_template('index.html', share_url=share_url, share_id=share_id, conversation_id=conversation_id)
+    def _share_id(self, share_id, conversation_id: str = ""):
+        """
+        Обрабатывает запросы к странице чата с общим идентификатором.
+
+        Args:
+            share_id: Общий идентификатор.
+            conversation_id (str, optional): Идентификатор разговора. По умолчанию "".
+
+        Returns:
+            flask.Response: HTTP-ответ с отображенной страницей чата.
+
+        """
+        ...
 ```
 
-**Назначение**: Отображает страницу общего доступа с указанными `share_id` и `conversation_id`. Если `conversation_id` не указан, генерируется новый UUID.
+**Назначение**: Обрабатывает запросы к странице чата с общим идентификатором.
 
 **Параметры**:
-- `share_id`: Идентификатор общего доступа.
-- `conversation_id`: Идентификатор беседы (необязательный, по умолчанию "").
+- `share_id`: Общий идентификатор.
+- `conversation_id` (str, optional): Идентификатор разговора. По умолчанию "".
 
 **Возвращает**:
-- `flask.Response`: HTML-страница, отображаемая пользователю.
+- `flask.Response`: HTTP-ответ с отображенной страницей чата.
 
 **Как работает функция**:
 
-1.  Получает URL-адрес общего доступа из переменной окружения `G4F_SHARE_URL`.
-2.  Если `conversation_id` не указан, генерируется новый UUID с помощью `uuid.uuid4()` и преобразуется в строку.
-3.  Вызывает функцию `render_template` из библиотеки Flask, передавая ей имя шаблона `index.html`, `share_url`, `share_id` и `conversation_id`.
-4.  Функция `render_template` загружает шаблон `index.html` и подставляет в него значения `share_url`, `share_id` и `conversation_id`.
-5.  Возвращает HTML-страницу, сгенерированную функцией `render_template`.
+1.  **Получение URL для общего доступа**:
+    *   Получает URL для общего доступа из переменной окружения `G4F_SHARE_URL`.
+2.  **Определение `conversation_id`**:
+    *   Если `conversation_id` не указан, генерируется новый UUID.
+3.  **Рендеринг шаблона**:
+    *   Отображает шаблон `index.html` с передачей `share_url`, `share_id` и `conversation_id` в качестве параметров.
+
+```
+Получение URL для общего доступа из переменной окружения
+│
+└──► Определение conversation_id
+│
+└──► Рендеринг шаблона index.html с share_url, share_id и conversation_id
+```
 
 **Примеры**:
 
 ```python
-from flask import Flask
-from src.endpoints.gpt4free.g4f.gui.server.website import Website
-import uuid
-import os
+# Пример вызова функции _share_id с share_id и conversation_id
+website._share_id("share123", "45678")
 
-app = Flask(__name__)
-website = Website(app)
-
-# Set the environment variable for testing
-os.environ["G4F_SHARE_URL"] = "http://example.com/share"
-
-@app.route('/share/<share_id>/<conversation_id>')
-def share(share_id, conversation_id):
-    return website._share_id(share_id, conversation_id)
-
-if __name__ == '__main__':
-    app.run(debug=True)
-```
-
-ASCII flowchart:
-
-```
-Начало --> Получение share_url из переменной окружения --> Генерация нового UUID (если conversation_id не указан) --> Отображение index.html с share_url, share_id и conversation_id --> Конец
+# Пример вызова функции _share_id только с share_id
+website._share_id("share123")
 ```
 
 ### `Website._index`
 
 ```python
-def _index(self):
-    return render_template('index.html', conversation_id=str(uuid.uuid4()))
+    def _index(self):
+        """
+        Обрабатывает запросы к главной странице чата.
+
+        Returns:
+            flask.Response: HTTP-ответ с отображенной главной страницей чата.
+
+        """
+        ...
 ```
 
-**Назначение**: Отображает главную страницу чата, генерируя новый `conversation_id`.
-
-**Параметры**:
-- Нет
+**Назначение**: Обрабатывает запросы к главной странице чата.
 
 **Возвращает**:
-- `flask.Response`: HTML-страница, отображаемая пользователю.
+- `flask.Response`: HTTP-ответ с отображенной главной страницей чата.
 
 **Как работает функция**:
 
-1.  Генерирует новый UUID с помощью `uuid.uuid4()` и преобразуется в строку.
-2.  Вызывает функцию `render_template` из библиотеки Flask, передавая ей имя шаблона `index.html` и `conversation_id`.
-3.  Функция `render_template` загружает шаблон `index.html` и подставляет в него значение `conversation_id`.
-4.  Возвращает HTML-страницу, сгенерированную функцией `render_template`.
+1.  **Генерация `conversation_id`**:
+    *   Генерируется новый UUID для идентификатора разговора.
+2.  **Рендеринг шаблона**:
+    *   Отображает шаблон `index.html` с передачей `conversation_id` в качестве параметра.
+
+```
+Генерация ID разговора
+│
+└──► Рендеринг шаблона index.html с conversation_id
+```
 
 **Примеры**:
 
 ```python
-from flask import Flask
-from src.endpoints.gpt4free.g4f.gui.server.website import Website
-import uuid
-
-app = Flask(__name__)
-website = Website(app)
-
-@app.route('/')
-def index():
-    return website._index()
-
-if __name__ == '__main__':
-    app.run(debug=True)
-```
-
-ASCII flowchart:
-
-```
-Начало --> Генерация нового UUID --> Отображение index.html с conversation_id --> Конец
+# Пример вызова функции _index
+website._index()
 ```
 
 ### `Website._settings`
 
 ```python
-def _settings(self):
-    return render_template('index.html', conversation_id=str(uuid.uuid4()))
+    def _settings(self):
+        """
+        Обрабатывает запросы к странице настроек.
+
+        Returns:
+            flask.Response: HTTP-ответ с отображенной страницей настроек.
+
+        """
+        ...
 ```
 
-**Назначение**: Отображает страницу настроек, генерируя новый `conversation_id`.
-
-**Параметры**:
-- Нет
+**Назначение**: Обрабатывает запросы к странице настроек.
 
 **Возвращает**:
-- `flask.Response`: HTML-страница, отображаемая пользователю.
+- `flask.Response`: HTTP-ответ с отображенной страницей настроек.
 
 **Как работает функция**:
 
-1.  Генерирует новый UUID с помощью `uuid.uuid4()` и преобразуется в строку.
-2.  Вызывает функцию `render_template` из библиотеки Flask, передавая ей имя шаблона `index.html` и `conversation_id`.
-3.  Функция `render_template` загружает шаблон `index.html` и подставляет в него значение `conversation_id`.
-4.  Возвращает HTML-страницу, сгенерированную функцией `render_template`.
+1.  **Генерация `conversation_id`**:
+    *   Генерируется новый UUID для идентификатора разговора.
+2.  **Рендеринг шаблона**:
+    *   Отображает шаблон `index.html` с передачей `conversation_id` в качестве параметра.
+
+```
+Генерация ID разговора
+│
+└──► Рендеринг шаблона index.html с conversation_id
+```
 
 **Примеры**:
 
 ```python
-from flask import Flask
-from src.endpoints.gpt4free.g4f.gui.server.website import Website
-import uuid
-
-app = Flask(__name__)
-website = Website(app)
-
-@app.route('/settings')
-def settings():
-    return website._settings()
-
-if __name__ == '__main__':
-    app.run(debug=True)
-```
-
-ASCII flowchart:
-
-```
-Начало --> Генерация нового UUID --> Отображение index.html с conversation_id --> Конец
+# Пример вызова функции _settings
+website._settings()
 ```
 
 ### `Website._background`
 
 ```python
-def _background(self):
-    return render_template('background.html')
+    def _background(self):
+        """
+        Обрабатывает запросы к странице фоновых изображений.
+
+        Returns:
+            flask.Response: HTTP-ответ с отображенной страницей фоновых изображений.
+
+        """
+        ...
 ```
 
-**Назначение**: Отображает страницу с фоном.
-
-**Параметры**:
-- Нет
+**Назначение**: Обрабатывает запросы к странице фоновых изображений.
 
 **Возвращает**:
-- `flask.Response`: HTML-страница, отображаемая пользователю.
+- `flask.Response`: HTTP-ответ с отображенной страницей фоновых изображений.
 
 **Как работает функция**:
 
-1.  Вызывает функцию `render_template` из библиотеки Flask, передавая ей имя шаблона `background.html`.
-2.  Функция `render_template` загружает шаблон `background.html`.
-3.  Возвращает HTML-страницу, сгенерированную функцией `render_template`.
+1.  **Рендеринг шаблона**:
+    *   Отображает шаблон `background.html`.
+
+```
+Рендеринг шаблона background.html
+```
 
 **Примеры**:
 
 ```python
-from flask import Flask
-from src.endpoints.gpt4free.g4f.gui.server.website import Website
-
-app = Flask(__name__)
-website = Website(app)
-
-@app.route('/background')
-def background():
-    return website._background()
-
-if __name__ == '__main__':
-    app.run(debug=True)
-```
-
-ASCII flowchart:
-
-```
-Начало --> Отображение background.html --> Конец
+# Пример вызова функции _background
+website._background()

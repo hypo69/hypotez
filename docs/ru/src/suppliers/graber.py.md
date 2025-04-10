@@ -1,48 +1,21 @@
-# Модуль грабера
+# Модуль graber.py
 
 ## Обзор
 
-Модуль `graber.py` предназначен для сбора информации о товарах с веб-страниц поставщиков. Он содержит базовый класс `Graber`, который использует веб-драйвер для извлечения данных, таких как название, описание, характеристики, артикул и цена товара. Локаторы для определения местоположения полей хранятся в JSON-файлах в директории `locators` каждого поставщика.
+Модуль `graber.py` предназначен для сбора информации о товарах с веб-страниц поставщиков. Он содержит базовый класс `Graber`, который использует веб-драйвер (класс `Driver`) для извлечения целевых полей, таких как название, описание, спецификация, артикул и цена, со страниц HTML. Расположение полей определяется локаторами, хранящимися в JSON-файлах в директории `locators` каждого поставщика.
+Для нестандартной обработки полей товара можно переопределить функцию в своем классе.
 
-## Подробней
+## Оглавление
 
-Этот модуль предоставляет основу для создания специализированных граберов для различных поставщиков. Для нестандартной обработки полей товара рекомендуется переопределять функции в классах-наследниках `Graber`.
+- [Классы](#классы)
+  - [Context](#context)
+  - [Graber](#graber)
+- [Функции](#функции)
+  - [close_pop_up](#close_pop_up)
 
-## Классы
+## Подробнее
 
-### `Context`
-
-**Описание**:
-Класс `Context` предназначен для хранения глобальных настроек, используемых в процессе сбора данных.
-
-**Атрибуты**:
-- `driver` (Optional['Driver']): Объект драйвера, используемый для управления браузером или другим интерфейсом.
-- `locator_for_decorator` (Optional[SimpleNamespace]): Локатор для декоратора `@close_pop_up`. Устанавливается при инициализации поставщика, например: `Context.locator = self.locator.close_pop_up`.
-- `supplier_prefix` (Optional[str]): Префикс поставщика.
-
-**Принцип работы**:
-Класс `Context` используется для централизованного хранения и доступа к глобальным настройкам, таким как драйвер веб-браузера, локаторы для всплывающих окон и префикс поставщика. Это позволяет избежать передачи этих параметров в каждую функцию и упрощает управление конфигурацией грабера.
-
-### `Graber`
-
-**Описание**:
-Базовый класс `Graber` предназначен для сбора данных о товарах с веб-страниц поставщиков.
-
-**Атрибуты**:
-- `supplier_prefix` (str): Префикс поставщика.
-- `locator` (SimpleNamespace): Объект, содержащий локаторы элементов страницы, загруженные из JSON.
-- `driver` ('Driver'): Экземпляр класса `Driver` для управления браузером.
-- `fields` (ProductFields): Объект для хранения собранных данных о товаре.
-
-**Принцип работы**:
-Класс `Graber` инициализируется с префиксом поставщика, загружает локаторы элементов страницы из JSON, создает экземпляр драйвера и объект для хранения данных о товаре. Он предоставляет методы для извлечения и нормализации данных с веб-страниц, а также для обработки ошибок.
-
-**Методы**:
-- `__init__(supplier_prefix: str, lang_index: int, driver: 'Driver')`: Инициализация класса `Graber`.
-- `error(field: str)`: Обработчик ошибок для полей.
-- `set_field_value(value: Any, locator_func: Callable[[], Any], field_name: str, default: Any = '')`: Универсальная функция для установки значений полей с обработкой ошибок.
-- `grab_page(*args, **kwards)`: Запускает асинхронный сбор полей продукта.
-- `grab_page_async(*args, **kwards)`: Асинхронная функция для сбора полей продукта.
+Модуль предоставляет базовый класс для сбора данных с веб-страниц поставщиков. Он использует веб-драйвер для сбора информации о товаре, определяя местоположение полей с помощью локаторов, хранящихся в JSON-файлах.
 
 ## Функции
 
@@ -51,49 +24,198 @@
 ```python
 def close_pop_up() -> Callable:
     """Создает декоратор для закрытия всплывающих окон перед выполнением основной логики функции.
-    ...
+    Функция `driver.execute_locator()` будет вызвана только если был указан `Context.locator_for_decorator` при инициализации экземляра класса.
+
+    Args:
+        value (\'Driver\'): Дополнительное значение для декоратора.
+
+    Returns:
+        Callable: Декоратор, оборачивающий функцию.
     """
+    ...
 ```
 
-**Назначение**:
-Создает декоратор для закрытия всплывающих окон перед выполнением основной логики функции.
+**Назначение**: Создает декоратор для закрытия всплывающих окон перед выполнением основной логики декорируемой функции.
 
 **Параметры**:
-- `value` ('Driver'): Дополнительное значение для декоратора.
+- `value` (\'Driver\'): Дополнительное значение для декоратора.
 
 **Возвращает**:
 - `Callable`: Декоратор, оборачивающий функцию.
 
 **Как работает функция**:
-1. Определяет декоратор `decorator`, который принимает функцию `func` в качестве аргумента.
-2. Внутри `decorator` определяется асинхронная функция `wrapper`, которая будет заменять оригинальную функцию `func`.
-3. В `wrapper` проверяется, установлен ли `Context.locator_for_decorator`. Если да, то пытается выполнить локатор для закрытия всплывающего окна с помощью `Context.driver.execute_locator()`.
-4. После выполнения локатора (или при возникновении ошибки) `Context.locator_for_decorator` устанавливается в `None`, чтобы декоратор не срабатывал повторно.
-5. Вызывает оригинальную функцию `func` с переданными аргументами и возвращает результат её выполнения.
-6. Возвращает `wrapper` как результат работы декоратора.
+Функция `close_pop_up` является декоратором, который оборачивает другую функцию. Перед выполнением обернутой функции, декоратор проверяет, установлен ли `Context.locator_for_decorator`. Если он установлен, декоратор пытается выполнить локатор, чтобы закрыть всплывающее окно. После этого `Context.locator_for_decorator` сбрасывается, чтобы декоратор не срабатывал повторно.
 
-**ASCII flowchart**:
+## Классы
 
-```
-A: Проверка Context.locator_for_decorator
-|
--- B: Выполнение локатора для закрытия всплывающего окна
-|
-C: Вызов оригинальной функции func
-|
-D: Возврат результата выполнения func
-```
-
-**Примеры**:
+### `Context`
 
 ```python
-@close_pop_up()
-async def my_function():
-    # some code here
-    pass
+class Context:
+    """
+    Класс для хранения глобальных настроек.
+
+    Attributes:
+        driver (Optional[\'Driver\']): Объект драйвера, используется для управления браузером или другим интерфейсом.
+        locator_for_decorator (Optional[SimpleNamespace]): Если будет установлен - выполнится декоратор `@close_pop_up`.
+            Устанавливается при инициализации поставщика, например: `Context.locator = self.locator.close_pop_up`.
+        supplier_prefix (Optional[str]): Префикс поставщика.
+
+    Example:
+        >>> context = Context()
+        >>> context.supplier_prefix = \'prefix\'
+        >>> print(context.supplier_prefix)
+        prefix
+    """
+
+    # Аттрибуты класса
+    driver: Optional[\'Driver\'] = None
+    locator_for_decorator: Optional[SimpleNamespace] = None  # <- Если будет установлен - выполнится декоратор `@close_pop_up`. Устанавливается при инициализации поставщика, например: `Context.locator = self.locator.close_pop_up`
+    supplier_prefix: Optional[str] = None
 ```
 
-### `Graber.__init__`
+**Описание**: Класс `Context` используется для хранения глобальных настроек, таких как драйвер, локатор для декоратора `@close_pop_up` и префикс поставщика.
+
+**Атрибуты**:
+- `driver` (Optional['Driver']): Объект драйвера для управления браузером.
+- `locator_for_decorator` (Optional[SimpleNamespace]): Локатор для декоратора `@close_pop_up`.
+- `supplier_prefix` (Optional[str]): Префикс поставщика.
+
+**Принцип работы**:
+Класс `Context` предоставляет централизованное место для хранения глобальных настроек, которые могут использоваться различными частями приложения. Это позволяет избежать передачи одних и тех же параметров между функциями и классами.
+
+### `Graber`
+
+```python
+class Graber:
+    """Базовый класс сбора данных со страницы для всех поставщиков."""
+    
+    def __init__(self, supplier_prefix: str, lang_index:int, driver: 'Driver'):
+        """Инициализация класса Graber.
+
+        Args:
+            supplier_prefix (str): Префикс поставщика.
+            driver (\'Driver\'): Экземпляр класса Driver.
+        """
+        self.supplier_prefix = supplier_prefix
+        self.locator: SimpleNamespace = j_loads_ns(gs.path.src / \'suppliers\' / supplier_prefix / \'locators\' / \'product.json\')
+        self.driver = driver
+        self.fields: ProductFields = ProductFields(lang_index) # <- установка базового языка. Тип - `int`
+        Context.driver = self.driver
+        Context.supplier_prefix = None
+        Context.locator_for_decorator = None
+        """Если будет установлен локатор в Context.locator_for_decorator - выполнится декоратор `@close_pop_up`"""
+```
+
+**Описание**: Базовый класс `Graber` предназначен для сбора данных о товарах с веб-страниц поставщиков.
+
+**Атрибуты**:
+- `supplier_prefix` (str): Префикс поставщика.
+- `locator` (SimpleNamespace): Локаторы элементов страницы.
+- `driver` ('Driver'): Экземпляр класса `Driver` для управления браузером.
+- `fields` (ProductFields): Объект для хранения полей продукта.
+
+**Параметры**:
+- `supplier_prefix` (str): Префикс поставщика.
+- `driver` ('Driver'): Экземпляр класса `Driver`.
+
+**Принцип работы**:
+Класс `Graber` инициализируется с префиксом поставщика и экземпляром драйвера. Он загружает локаторы элементов страницы из JSON-файла и создает объект `ProductFields` для хранения данных о товаре.
+
+**Методы**:
+
+- `error(self, field: str)`: Обработчик ошибок для полей.
+- `set_field_value(self, value: Any, locator_func: Callable[[], Any], field_name: str, default: Any = '') -> Any`: Универсальная функция для установки значений полей с обработкой ошибок.
+- `grab_page(self, *args, **kwards) -> ProductFields`: Синхронная функция для сбора полей продукта.
+- `grab_page_async(self, *args, **kwards) -> ProductFields`: Асинхронная функция для сбора полей продукта.
+- `additional_shipping_cost(self, value: Optional[Any] = None)`: Извлекает и устанавливает дополнительную стоимость доставки.
+- `delivery_in_stock(self, value: Optional[Any] = None)`: Извлекает и устанавливает статус доставки в наличии.
+- `active(self, value: Optional[Any] = None)`: Извлекает и устанавливает статус активности.
+- `additional_delivery_times(self, value: Optional[Any] = None)`: Извлекает и устанавливает дополнительное время доставки.
+- `advanced_stock_management(self, value: Optional[Any] = None)`: Извлекает и устанавливает статус расширенного управления запасами.
+- `affiliate_short_link(self, value: Optional[Any] = None)`: Извлекает и устанавливает короткую ссылку аффилиата.
+- `affiliate_summary(self, value: Optional[Any] = None)`: Извлекает и устанавливает сводку аффилиата.
+- `affiliate_summary_2(self, value: Optional[Any] = None)`: Извлекает и устанавливает сводку аффилиата 2.
+- `affiliate_text(self, value: Optional[Any] = None)`: Извлекает и устанавливает текст аффилиата.
+- `affiliate_image_large(self, value: Optional[Any] = None)`: Извлекает и устанавливает большое изображение аффилиата.
+- `affiliate_image_medium(self, value: Optional[Any] = None)`: Извлекает и устанавливает среднее изображение аффилиата.
+- `affiliate_image_small(self, value: Optional[Any] = None)`: Извлекает и устанавливает маленькое изображение аффилиата.
+- `available_date(self, value: Optional[Any] = None)`: Извлекает и устанавливает доступную дату.
+- `available_for_order(self, value: Optional[Any] = None)`: Извлекает и устанавливает статус доступности для заказа.
+- `available_later(self, value: Optional[Any] = None)`: Извлекает и устанавливает статус доступности позже.
+- `available_now(self, value: Optional[Any] = None)`: Извлекает и устанавливает статус доступности сейчас.
+- `additional_categories(self, value: str | list = None) -> dict`: Устанавливает дополнительные категории.
+- `cache_default_attribute(self, value: Optional[Any] = None)`: Извлекает и устанавливает атрибут кэша по умолчанию.
+- `cache_has_attachments(self, value: Optional[Any] = None)`: Извлекает и устанавливает статус наличия вложений в кэше.
+- `cache_is_pack(self, value: Optional[Any] = None)`: Извлекает и устанавливает статус упаковки в кэше.
+- `condition(self, value: Optional[Any] = None)`: Извлекает и устанавливает условие продукта.
+- `customizable(self, value: Optional[Any] = None)`: Извлекает и устанавливает статус настройки.
+- `date_add(self, value: Optional[str  |  datetime.date] = None)`: Извлекает и устанавливает дату добавления.
+- `date_upd(self, value: Optional[Any] = None)`: Извлекает и устанавливает дату обновления.
+- `delivery_out_stock(self, value: Optional[Any] = None)`: Извлекает и устанавливает доставку вне склада.
+- `depth(self, value: Optional[Any] = None)`: Извлекает и устанавливает глубину.
+- `description(self, value: Optional[Any] = None)`: Извлекает и устанавливает описание.
+- `description_short(self, value: Optional[Any] = None)`: Извлекает и устанавливает краткое описание.
+- `id_category_default(self, value: Optional[Any] = None)`: Извлекает и устанавливает ID категории по умолчанию.
+- `id_default_combination(self, value: Optional[Any] = None)`: Извлекает и устанавливает ID комбинации по умолчанию.
+- `id_product(self, value: Optional[Any] = None)`: Извлекает и устанавливает ID продукта.
+- `locale(self, value: Optional[Any] = None)`: Извлекает и устанавливает локаль.
+- `id_default_image(self, value: Optional[Any] = None)`: Извлекает и устанавливает ID изображения по умолчанию.
+- `ean13(self, value: Optional[Any] = None)`: Извлекает и устанавливает код EAN13.
+- `ecotax(self, value: Optional[Any] = None)`: Извлекает и устанавливает ecotax.
+- `height(self, value: Optional[Any] = None)`: Извлекает и устанавливает высоту.
+- `how_to_use(self, value: Optional[Any] = None)`: Извлекает и устанавливает "как использовать".
+- `id_manufacturer(self, value: Optional[Any] = None)`: Извлекает и устанавливает ID производителя.
+- `id_supplier(self, value: Optional[Any] = None)`: Извлекает и устанавливает ID поставщика.
+- `id_tax(self, value: Optional[Any] = None)`: Извлекает и устанавливает ID налога.
+- `id_type_redirected(self, value: Optional[Any] = None)`: Извлекает и устанавливает ID перенаправленного типа.
+- `images_urls(self, value: Optional[Any] = None)`: Извлекает и устанавливает URL-адреса изображений.
+- `indexed(self, value: Optional[Any] = None)`: Извлекает и устанавливает статус индексации.
+- `ingredients(self, value: Optional[Any] = None)`: Извлекает и устанавливает ингредиенты.
+- `meta_description(self, value: Optional[Any] = None)`: Извлекает и устанавливает мета-описание.
+- `meta_keywords(self, value: Optional[Any] = None)`: Извлекает и устанавливает мета-ключевые слова.
+- `meta_title(self, value: Optional[Any] = None)`: Извлекает и устанавливает мета-заголовок.
+- `is_virtual(self, value: Optional[Any] = None)`: Извлекает и устанавливает виртуальный статус.
+- `isbn(self, value: Optional[Any] = None)`: Извлекает и устанавливает ISBN.
+- `link_rewrite(self, value: Optional[Any] = None)`: Извлекает и устанавливает перезапись ссылки.
+- `location(self, value: Optional[Any] = None)`: Извлекает и устанавливает местоположение.
+- `low_stock_alert(self, value: Optional[Any] = None)`: Извлекает и устанавливает оповещение о низком запасе.
+- `low_stock_threshold(self, value: Optional[Any] = None)`: Извлекает и устанавливает порог низкого запаса.
+- `minimal_quantity(self, value: Optional[Any] = None)`: Извлекает и устанавливает минимальное количество.
+- `mpn(self, value: Optional[Any] = None)`: Извлекает и устанавливает MPN (номер детали производителя).
+- `name(self, value: Optional[Any] = None)`: Извлекает и устанавливает название продукта.
+- `online_only(self, value: Optional[Any] = None)`: Извлекает и устанавливает статус "только онлайн".
+- `on_sale(self, value: Optional[Any] = None)`: Извлекает и устанавливает статус "в продаже".
+- `out_of_stock(self, value: Optional[Any] = None)`: Извлекает и устанавливает статус "нет в наличии".
+- `pack_stock_type(self, value: Optional[Any] = None)`: Извлекает и устанавливает тип запаса пакета.
+- `price(self, value: Optional[Any] = None)`: Извлекает и устанавливает цену.
+- `product_type(self, value: Optional[Any] = None)`: Извлекает и устанавливает тип продукта.
+- `quantity(self, value: Optional[Any] = None)`: Извлекает и устанавливает количество.
+- `quantity_discount(self, value: Optional[Any] = None)`: Извлекает и устанавливает скидку за количество.
+- `redirect_type(self, value: Optional[Any] = None)`: Извлекает и устанавливает тип перенаправления.
+- `reference(self, value: Optional[Any] = None)`: Извлекает и устанавливает ссылку.
+- `show_condition(self, value: Optional[int] = None)`: Извлекает и устанавливает отображение условия.
+- `show_price(self, value: Optional[int] = None)`: Извлекает и устанавливает отображение цены.
+- `state(self, value: Optional[Any] = None)`: Извлекает и устанавливает состояние.
+- `text_fields(self, value: Optional[Any] = None)`: Извлекает и устанавливает текстовые поля.
+- `unit_price_ratio(self, value: Optional[Any] = None)`: Извлекает и устанавливает коэффициент цены за единицу.
+- `unity(self, value: Optional[str] = None)`: Извлекает и устанавливает единство.
+- `upc(self, value: Optional[str] = None)`: Извлекает и устанавливает UPC.
+- `uploadable_files(self, value: Optional[Any] = None)`: Извлекает и устанавливает загружаемые файлы.
+- `default_image_url(self, value: Optional[Any] = None)`: Извлекает и устанавливает URL изображения по умолчанию.
+- `visibility(self, value: Optional[str] = None)`: Извлекает и устанавливает видимость.
+- `weight(self, value: Optional[float] = None)`: Извлекает и устанавливает вес.
+- `wholesale_price(self, value: Optional[float] = None)`: Извлекает и устанавливает оптовую цену.
+- `width(self, value: Optional[float] = None)`: Извлекает и устанавливает ширину.
+- `specification(self, value: Optional[str | list] = None)`: Извлекает и устанавливает спецификацию.
+- `link(self, value: Optional[str] = None)`: Извлекает и устанавливает ссылку.
+- `byer_protection(self, value: Optional[str | list] = None)`: Извлекает и устанавливает защиту покупателя.
+- `customer_reviews(self, value: Optional[Any] = None)`: Извлекает и устанавливает отзывы клиентов.
+- `link_to_video(self, value: Optional[Any] = None)`: Извлекает и устанавливает ссылку на видео.
+- `local_image_path(self, value: Optional[str] = None)`: Извлекает и сохраняет изображение локально.
+- `local_video_path(self, value: Optional[Any] = None)`: Извлекает и сохраняет видео локально.
+
+### `__init__`
 
 ```python
 def __init__(self, supplier_prefix: str, lang_index:int, driver: 'Driver'):
@@ -101,61 +223,45 @@ def __init__(self, supplier_prefix: str, lang_index:int, driver: 'Driver'):
 
     Args:
         supplier_prefix (str): Префикс поставщика.
-        driver ('Driver'): Экземпляр класса Driver.
+        driver (\'Driver\'): Экземпляр класса Driver.
     """
-    ...
+    self.supplier_prefix = supplier_prefix
+    self.locator: SimpleNamespace = j_loads_ns(gs.path.src / 'suppliers' / supplier_prefix / 'locators' / 'product.json')
+    self.driver = driver
+    self.fields: ProductFields = ProductFields(lang_index) # <- установка базового языка. Тип - `int`
+    Context.driver = self.driver
+    Context.supplier_prefix = None
+    Context.locator_for_decorator = None
+    """Если будет установлен локатор в Context.locator_for_decorator - выполнится декоратор `@close_pop_up`"""
 ```
 
-**Назначение**:
-Инициализирует экземпляр класса `Graber`.
+**Назначение**: Инициализация экземпляра класса `Graber`.
 
 **Параметры**:
 - `supplier_prefix` (str): Префикс поставщика.
 - `lang_index` (int): Индекс языка.
-- `driver` ('Driver'): Экземпляр класса `Driver` для управления браузером.
+- `driver` ('Driver'): Экземпляр класса `Driver`.
 
 **Как работает функция**:
-1. Сохраняет префикс поставщика в атрибуте `supplier_prefix`.
-2. Загружает локаторы элементов страницы из JSON-файла, расположенного в директории `locators` поставщика, и сохраняет их в атрибуте `locator`.
-3. Инициализирует экземпляр `ProductFields` с указанным `lang_index` и сохраняет его в атрибуте `fields`.
-4. Устанавливает глобальные настройки `Context.driver`, `Context.supplier_prefix` и `Context.locator_for_decorator`.
+Конструктор класса `Graber` принимает префикс поставщика, индекс языка и экземпляр драйвера. Он загружает локаторы элементов страницы из JSON-файла, создает объект `ProductFields` для хранения данных о товаре и устанавливает глобальные настройки в классе `Context`.
 
-**ASCII flowchart**:
-
-```
-A: Сохранение supplier_prefix
-|
-B: Загрузка локаторов из JSON
-|
-C: Инициализация ProductFields
-|
-D: Установка глобальных настроек Context
-```
-
-### `Graber.error`
+### `error`
 
 ```python
 async def error(self, field: str):
     """Обработчик ошибок для полей."""
-    ...
+    logger.debug(f"Ошибка заполнения поля {field}")
 ```
 
-**Назначение**:
-Обрабатывает ошибки, возникающие при заполнении полей.
+**Назначение**: Обработчик ошибок для полей.
 
 **Параметры**:
 - `field` (str): Название поля, для которого произошла ошибка.
 
 **Как работает функция**:
-1. Логирует отладочное сообщение с информацией о поле, в котором произошла ошибка.
+Функция `error` записывает сообщение об ошибке в лог с указанием названия поля, для которого произошла ошибка.
 
-**ASCII flowchart**:
-
-```
-A: Логирование отладочного сообщения
-```
-
-### `Graber.set_field_value`
+### `set_field_value`
 
 ```python
 async def set_field_value(
@@ -165,741 +271,298 @@ async def set_field_value(
     field_name: str,
     default: Any = ''
 ) -> Any:
-    """Универсальная функция для установки значений полей с обработкой ошибок."""
-    ...
+    """Универсальная функция для установки значений полей с обработкой ошибок.
+
+    Args:
+        value (Any): Значение для установки.
+        locator_func (Callable[[], Any]): Функция для получения значения из локатора.
+        field_name (str): Название поля.
+        default (Any): Значение по умолчанию. По умолчанию пустая строка.
+
+    Returns:
+        Any: Установленное значение.
+    """
+    locator_result = await asyncio.to_thread(locator_func)
+    if value:
+        return value
+    if locator_result:
+        return locator_result
+    await self.error(field_name)
+    return default
 ```
 
-**Назначение**:
-Устанавливает значение поля, используя предоставленную функцию локатора, и обрабатывает возможные ошибки.
+**Назначение**: Универсальная функция для установки значений полей с обработкой ошибок.
 
 **Параметры**:
 - `value` (Any): Значение для установки.
 - `locator_func` (Callable[[], Any]): Функция для получения значения из локатора.
 - `field_name` (str): Название поля.
-- `default` (Any): Значение по умолчанию.
+- `default` (Any): Значение по умолчанию. По умолчанию пустая строка.
 
 **Возвращает**:
 - `Any`: Установленное значение.
 
 **Как работает функция**:
-1. Асинхронно выполняет функцию локатора `locator_func` для получения значения.
-2. Если передано значение `value`, возвращает его.
-3. Если функция локатора вернула значение `locator_result`, возвращает его.
-4. Если ни `value`, ни `locator_result` не заданы, вызывает метод `error` для логирования ошибки и возвращает значение по умолчанию `default`.
+Функция `set_field_value` пытается установить значение поля, используя переданные параметры. Если передано значение `value`, оно устанавливается. В противном случае, функция пытается получить значение из локатора с помощью функции `locator_func`. Если значение получено, оно устанавливается. Если ни значение `value`, ни значение из локатора не получены, записывается сообщение об ошибке в лог и устанавливается значение по умолчанию.
 
-**ASCII flowchart**:
-
-```
-A: Выполнение locator_func
-|
--- B: Проверка value
-|  |
-|  C: Возврат value
-|
--- D: Проверка locator_result
-|  |
-|  E: Возврат locator_result
-|
--- F: Вызов error(field_name)
-|
-G: Возврат default
-```
-
-### `Graber.grab_page`
+### `grab_page`
 
 ```python
 def grab_page(self, *args, **kwards) -> ProductFields:
     return asyncio.run(self.grab_page_async(*args, **kwards))
 ```
 
-**Назначение**:
-Запускает асинхронную функцию для сбора полей продукта.
+**Назначение**: Синхронная функция для сбора полей продукта.
 
 **Параметры**:
 - `*args`: Аргументы, передаваемые в `grab_page_async`.
-- `**kwards`: Ключевые аргументы, передаваемые в `grab_page_async`.
+- `**kwargs`: Ключевые аргументы, передаваемые в `grab_page_async`.
 
 **Возвращает**:
 - `ProductFields`: Объект `ProductFields` с собранными данными.
 
 **Как работает функция**:
-1. Запускает асинхронную функцию `grab_page_async` и возвращает результат ее выполнения.
+Функция `grab_page` является синхронной оберткой для асинхронной функции `grab_page_async`. Она запускает асинхронную функцию и возвращает результат.
 
-**ASCII flowchart**:
-
-```
-A: Запуск grab_page_async
-|
-B: Возврат результата выполнения grab_page_async
-```
-
-### `Graber.grab_page_async`
+### `grab_page_async`
 
 ```python
 async def grab_page_async(self, *args, **kwards) -> ProductFields:
     """Асинхронная функция для сбора полей продукта."""
-    ...
+    async def fetch_all_data(*args, **kwards):
+        # Динамическое вызовы функций для каждого поля из args
+        if not args: # по какой то причини не были переданы имена полей для сбора информации
+            args:list = ['id_product', 'name', 'description_short', 'description', 'specification', 'local_image_path']
+        for filed_name in args:
+            function = getattr(self, filed_name, None)
+            if function:
+                await function(kwards.get(filed_name, '')) # Просто вызываем с await, так как все функции асинхронные
+
+    await fetch_all_data(*args, **kwards)
+    return self.fields
 ```
 
-**Назначение**:
-Асинхронно собирает поля продукта, вызывая соответствующие методы класса для каждого поля.
+**Назначение**: Асинхронная функция для сбора полей продукта.
 
 **Параметры**:
-- `*args`: Список названий полей, которые необходимо собрать.
-- `**kwards`: Словарь с дополнительными параметрами для каждого поля.
+- `*args`: Список полей, которые необходимо собрать. Если не переданы, используются значения по умолчанию (`id_product`, `name`, `description_short`, `description`, `specification`, `local_image_path`).
+- `**kwargs`: Ключевые аргументы, содержащие значения для установки полей.
 
 **Возвращает**:
 - `ProductFields`: Объект `ProductFields` с собранными данными.
 
-**Внутренние функции**:
-- `fetch_all_data(*args, **kwards)`: Динамически вызывает функции для каждого поля из `args`.
-
 **Как работает функция**:
-1. Определяет асинхронную внутреннюю функцию `fetch_all_data`, которая выполняет динамический вызов методов для каждого поля, указанного в `args`.
-2. Для каждого имени поля в `args` функция пытается получить соответствующий метод из класса `self`.
-3. Если метод существует, он вызывается с использованием `await` и передачей дополнительных параметров из `kwards`.
-4. После вызова всех методов возвращает объект `self.fields`, содержащий собранные данные.
+Функция `grab_page_async` выполняет сбор данных о продукте асинхронно. Она динамически вызывает функции для каждого поля, указанного в `args`, и устанавливает значения полей, используя данные из `kwargs`.
 
-**ASCII flowchart**:
+**Внутренние функции**:
+- `fetch_all_data(*args, **kwards)`: Асинхронная функция, которая динамически вызывает функции для каждого поля из `args`. Если `args` пустой, то устанавливаются значения по умолчанию.
 
-```
-A: Определение fetch_all_data
-|
--- B: Для каждого filed_name в args
-|  |
-|  C: Получение функции из self
-|  |
-|  D: Если функция существует
-|  |  |
-|  |  E: Вызов функции с await
-|
-F: Возврат self.fields
-```
-
-### `Graber.additional_shipping_cost`
+### `additional_shipping_cost`
 
 ```python
 @close_pop_up()
 async def additional_shipping_cost(self, value:Optional[Any] = None):
-    """Fetch and set additional shipping cost."""
-    ...
+    """Fetch and set additional shipping cost.
+    Args:
+    value (Any): это значение можно передать в словаре kwards чеез ключ {additional_shipping_cost = `value`} при определении класса
+    если `value` был передан - его значение подставляется в поле `ProductFields.additional_shipping_cost
+    """
+    try:
+        # Получаем значение через execute_locator
+        self.fields.additional_shipping_cost = normalize_string(value or  await self.driver.execute_locator(self.locator.additional_shipping_cost) or '')
+        if not  self.fields.additional_shipping_cost:
+            logger.error(f"Поле `additional_shipping_cost` не получиле значения")
+            return
+
+        return True
+    except Exception as ex:
+        logger.error(f"Ошибка получения значения в поле `additional_shipping_cost`", ex)
+        ...
+        return
 ```
 
-**Назначение**:
-Извлекает и устанавливает стоимость дополнительной доставки.
+**Назначение**: Извлечение и установка дополнительной стоимости доставки.
 
 **Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `additional_shipping_cost`. Если `value` передано, оно будет установлено в поле `ProductFields.additional_shipping_cost`.
+- `value` (Any, optional): Значение, которое можно передать через словарь `kwargs` с ключом `additional_shipping_cost`.
 
 **Как работает функция**:
-1. Пытается получить значение стоимости дополнительной доставки из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.additional_shipping_cost)`.
-2. Нормализует полученное значение с помощью `normalize_string`.
-3. Если значение не получено, логирует ошибку и возвращает `None`.
-4. В случае возникновения исключения логирует ошибку и возвращает `None`.
-5. Записывает полученное значение в поле `self.fields.additional_shipping_cost`.
+Функция `additional_shipping_cost` пытается получить и установить значение дополнительной стоимости доставки. Если `value` передан, то нормализуется и присваивается полю `ProductFields.additional_shipping_cost`. Если `value` не передан, то пытается получить значение через `execute_locator` из `self.locator.additional_shipping_cost`, нормализует его и присваивает полю `ProductFields.additional_shipping_cost`.
 
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
--- B: Нормализация значения
-|  |
-|  C: Если значение не получено -> Логирование ошибки
-|
-D: Запись значения в self.fields.additional_shipping_cost
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.additional_shipping_cost()
-
-# Вызов функции с передачей значения
-await grabber.additional_shipping_cost(value='10.00')
-```
-
-### `Graber.delivery_in_stock`
+### `delivery_in_stock`
 
 ```python
 @close_pop_up()
 async def delivery_in_stock(self, value:Optional[Any] = None):
-    """Fetch and set delivery in stock status."""
-    ...
+    """Fetch and set delivery in stock status.
+    
+    Args:
+    value (Any): это значение можно передать в словаре kwargs через ключ {delivery_in_stock = `value`} при определении класса.
+    Если `value` был передан, его значение подставляется в поле `ProductFields.delivery_in_stock`.\n
+    """
+    try:
+        # Получаем значение через execute_locator
+        self.fields.delivery_in_stock = normalize_string( value or  await self.driver.execute_locator(self.locator.delivery_in_stock) or '' )
+        if not  self.fields.delivery_in_stock:
+            logger.error(f"Поле `delivery_in_stock` не получиле значения")
+            return
+        return True
+    except Exception as ex:
+        logger.error(f"Ошибка получения значения в поле `delivery_in_stock`", ex)
+        ...
+        return
 ```
 
-**Назначение**:
-Извлекает и устанавливает статус доставки в наличии.
+**Назначение**: Извлечение и установка статуса доставки в наличии.
 
 **Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `delivery_in_stock`. Если `value` передано, оно будет установлено в поле `ProductFields.delivery_in_stock`.
+- `value` (Any, optional): Значение, которое можно передать через словарь `kwargs` с ключом `delivery_in_stock`.
 
 **Как работает функция**:
-1. Пытается получить значение статуса доставки из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.delivery_in_stock)`.
-2. Нормализует полученное значение с помощью `normalize_string`.
-3. Если значение не получено, логирует ошибку и возвращает `None`.
-4. В случае возникновения исключения логирует ошибку и возвращает `None`.
-5. Записывает полученное значение в поле `self.fields.delivery_in_stock`.
+Функция `delivery_in_stock` пытается получить и установить статус доставки в наличии. Если `value` передан, то нормализуется и присваивается полю `ProductFields.delivery_in_stock`. Если `value` не передан, то пытается получить значение через `execute_locator` из `self.locator.delivery_in_stock`, нормализует его и присваивает полю `ProductFields.delivery_in_stock`.
 
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
--- B: Нормализация значения
-|  |
-|  C: Если значение не получено -> Логирование ошибки
-|
-D: Запись значения в self.fields.delivery_in_stock
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.delivery_in_stock()
-
-# Вызов функции с передачей значения
-await grabber.delivery_in_stock(value='В наличии')
-```
-
-### `Graber.active`
+### `active`
 
 ```python
 @close_pop_up()
 async def active(self, value:Optional[Any] = None):
-    """Fetch and set active status."""
-    ...
+    """Fetch and set active status.
+    
+    Args:
+    value (Any): это значение можно передать в словаре kwargs через ключ {active = `value`} при определении класса.
+    Если `value` был передан, его значение подставляется в поле `ProductFields.active`.
+    Принимаемое значениеЬ 1/0\n
+    """
+    try:
+        # Получаем значение через execute_locator
+        self.fields.active = normalize_int( value or  await self.driver.execute_locator(self.locator.active) or 1)
+        if not self.fields.active:
+            return
+    except Exception as ex:
+        logger.error(f"Ошибка получения значения в поле `active`", ex)
+        ...
+        return
+    
+    # Проверка валидности `value`
+    if not value:
+        logger.debug(f"Невалидный результат {value=}\\nлокатор {self.locator.active}")
+        ...
+        return
+
+    # Записываем результат в поле `active` объекта `ProductFields`
+    self.fields.active = value
+    return True
 ```
 
-**Назначение**:
-Извлекает и устанавливает статус активности товара.
+**Назначение**: Извлечение и установка статуса активности товара.
 
 **Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `active`. Если `value` передано, оно будет установлено в поле `ProductFields.active`. Принимает значения 1/0.
+- `value` (Any, optional): Значение, которое можно передать через словарь `kwargs` с ключом `active`.
 
 **Как работает функция**:
-1. Пытается получить значение статуса активности из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.active)`.
-2. Нормализует полученное значение с помощью `normalize_int`.
-3. Если значение не получено, логирует отладочное сообщение и возвращает `None`.
-4. В случае возникновения исключения логирует ошибку и возвращает `None`.
-5. Если значение `value` невалидно, логирует отладочное сообщение и возвращает `None`.
-6. Записывает полученное значение в поле `self.fields.active`.
+Функция `active` пытается получить и установить статус активности товара. Если `value` передан, то нормализуется как целое число и присваивается полю `ProductFields.active`. Если `value` не передан, то пытается получить значение через `execute_locator` из `self.locator.active`, нормализует его как целое число и присваивает полю `ProductFields.active`.
 
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
--- B: Нормализация значения
-|  |
-|  C: Если значение не получено -> Логирование отладочного сообщения
-|
-D: Проверка валидности value
-|
--- E: Запись значения в self.fields.active
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.active()
-
-# Вызов функции с передачей значения
-await grabber.active(value=1)
-```
-
-### `Graber.additional_delivery_times`
+### `additional_delivery_times`
 
 ```python
 @close_pop_up()
 async def additional_delivery_times(self, value:Optional[Any] = None):
-    """Fetch and set additional delivery times."""
-    ...
+    """Fetch and set additional delivery times.
+    
+    Args:
+    value (Any): это значение можно передать в словаре kwargs через ключ {additional_delivery_times = `value`} при определении класса.
+    Если `value` был передан, его значение подставляется в поле `ProductFields.additional_delivery_times`.\n
+    """
+    try:
+        # Получаем значение через execute_locator
+        value = value or  await self.driver.execute_locator(self.locator.additional_delivery_times) or ''
+    except Exception as ex:
+        logger.error(f"Ошибка получения значения в поле `additional_delivery_times`", ex)
+        ...
+        return
+    
+    # Проверка валидности `value`
+    if not value:
+        logger.debug(f"Невалидный результат {value=}\\nлокатор {self.locator.additional_delivery_times}")
+        ...
+        return
+
+    # Записываем результат в поле `additional_delivery_times` объекта `ProductFields`
+    self.fields.additional_delivery_times = value
+    return True
 ```
 
-**Назначение**:
-Извлекает и устанавливает дополнительное время доставки.
+**Назначение**: Извлечение и установка дополнительного времени доставки.
 
 **Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `additional_delivery_times`. Если `value` передано, оно будет установлено в поле `ProductFields.additional_delivery_times`.
+- `value` (Any, optional): Значение, которое можно передать через словарь `kwargs` с ключом `additional_delivery_times`.
 
 **Как работает функция**:
-1. Пытается получить значение времени доставки из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.additional_delivery_times)`.
-2. Если значение не получено, логирует отладочное сообщение и возвращает `None`.
-3. В случае возникновения исключения логирует ошибку и возвращает `None`.
-4. Записывает полученное значение в поле `self.fields.additional_delivery_times`.
+Функция `additional_delivery_times` пытается получить и установить дополнительное время доставки. Если `value` передан, то присваивается полю `ProductFields.additional_delivery_times`. Если `value` не передан, то пытается получить значение через `execute_locator` из `self.locator.additional_delivery_times` и присваивает полю `ProductFields.additional_delivery_times`.
 
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
--- B: Если значение не получено -> Логирование отладочного сообщения
-|
-D: Запись значения в self.fields.additional_delivery_times
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.additional_delivery_times()
-
-# Вызов функции с передачей значения
-await grabber.additional_delivery_times(value='3-5 дней')
-```
-
-### `Graber.advanced_stock_management`
+### `advanced_stock_management`
 
 ```python
 @close_pop_up()
 async def advanced_stock_management(self, value:Optional[Any] = None):
-    """Fetch and set advanced stock management status."""
-    ...
+    """Fetch and set advanced stock management status.
+    
+    Args:
+    value (Any): это значение можно передать в словаре kwargs через ключ {advanced_stock_management = `value`} при определении класса.
+    Если `value` был передан, его значение подставляется в поле `ProductFields.advanced_stock_management`.\n
+    """
+    try:
+        # Получаем значение через execute_locator
+        value = value or  await self.driver.execute_locator(self.locator.advanced_stock_management) or ''
+    except Exception as ex:
+        logger.error(f"Ошибка получения значения в поле `advanced_stock_management`", ex)
+        ...
+        return
+    
+    # Проверка валидности `value`
+    if not value:
+        logger.debug(f"Невалидный результат {value=}\\nлокатор {self.locator.advanced_stock_management}")
+        ...
+        return
+
+    # Записываем результат в поле `advanced_stock_management` объекта `ProductFields`
+    self.fields.advanced_stock_management = value
+    return True
 ```
 
-**Назначение**:
-Извлекает и устанавливает статус расширенного управления запасами.
+**Назначение**: Извлечение и установка статуса расширенного управления запасами.
 
 **Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `advanced_stock_management`. Если `value` передано, оно будет установлено в поле `ProductFields.advanced_stock_management`.
+- `value` (Any, optional): Значение, которое можно передать через словарь `kwargs` с ключом `advanced_stock_management`.
 
 **Как работает функция**:
-1. Пытается получить значение статуса управления запасами из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.advanced_stock_management)`.
-2. Если значение не получено, логирует отладочное сообщение и возвращает `None`.
-3. В случае возникновения исключения логирует ошибку и возвращает `None`.
-4. Записывает полученное значение в поле `self.fields.advanced_stock_management`.
+Функция `advanced_stock_management` пытается получить и установить статус расширенного управления запасами. Если `value` передан, то присваивается полю `ProductFields.advanced_stock_management`. Если `value` не передан, то пытается получить значение через `execute_locator` из `self.locator.advanced_stock_management` и присваивает полю `ProductFields.advanced_stock_management`.
 
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
--- B: Если значение не получено -> Логирование отладочного сообщения
-|
-D: Запись значения в self.fields.advanced_stock_management
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.advanced_stock_management()
-
-# Вызов функции с передачей значения
-await grabber.advanced_stock_management(value='1')
-```
-
-### `Graber.affiliate_short_link`
+### `affiliate_short_link`
 
 ```python
 @close_pop_up()
 async def affiliate_short_link(self, value:Optional[Any] = None):
-    """Fetch and set affiliate short link."""
-    ...
+    """Fetch and set affiliate short link.
+    
+    Args:
+    value (Any): это значение можно передать в словаре kwargs через ключ {affiliate_short_link = `value`} при определении класса.
+    Если `value` был передан, его значение подставляется в поле `ProductFields.affiliate_short_link`.\n
+    """
+    try:
+        # Получаем значение через execute_locator
+        self.fields.affiliate_short_link = value or  await self.driver.execute_locator(self.locator.affiliate_short_link) or ''
+        return True
+    except Exception as ex:
+        logger.error(f"Ошибка получения значения в поле `affiliate_short_link`", ex)
+        ...
+        return
 ```
 
-**Назначение**:
-Извлекает и устанавливает короткую партнерскую ссылку.
+**Назначение**: Извлечение и установка короткой ссылки аффилиата.
 
 **Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `affiliate_short_link`. Если `value` передано, оно будет установлено в поле `ProductFields.affiliate_short_link`.
+- `value` (Any, optional): Значение, которое можно передать через словарь `kwargs` с ключом `affiliate_short_link`.
 
 **Как работает функция**:
-1. Пытается получить значение короткой партнерской ссылки из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.affiliate_short_link)`.
-2. В случае возникновения исключения логирует ошибку и возвращает `None`.
-3. Записывает полученное значение в поле `self.fields.affiliate_short_link`.
-
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
-B: Запись значения в self.fields.affiliate_short_link
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.affiliate_short_link()
-
-# Вызов функции с передачей значения
-await grabber.affiliate_short_link(value='https://short.link')
-```
-
-### `Graber.affiliate_summary`
-
-```python
-@close_pop_up()
-async def affiliate_summary(self, value:Optional[Any] = None):
-    """Fetch and set affiliate summary."""
-    ...
-```
-
-**Назначение**:
-Извлекает и устанавливает партнерское описание.
-
-**Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `affiliate_summary`. Если `value` передано, оно будет установлено в поле `ProductFields.affiliate_summary`.
-
-**Как работает функция**:
-1. Пытается получить значение партнерского описания из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.affiliate_summary)`.
-2. Нормализует полученное значение с помощью `normalize_string`.
-3. В случае возникновения исключения логирует ошибку и возвращает `None`.
-4. Записывает полученное значение в поле `self.fields.affiliate_summary`.
-
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
--- B: Нормализация значения
-|
-C: Запись значения в self.fields.affiliate_summary
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.affiliate_summary()
-
-# Вызов функции с передачей значения
-await grabber.affiliate_summary(value='Краткое описание партнерской программы')
-```
-
-### `Graber.affiliate_summary_2`
-
-```python
-@close_pop_up()
-async def affiliate_summary_2(self, value:Optional[Any] = None):
-    """Fetch and set affiliate summary 2."""
-    ...
-```
-
-**Назначение**:
-Извлекает и устанавливает второе партнерское описание.
-
-**Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `affiliate_summary_2`. Если `value` передано, оно будет установлено в поле `ProductFields.affiliate_summary_2`.
-
-**Как работает функция**:
-1. Пытается получить значение второго партнерского описания из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.affiliate_summary_2)`.
-2. Если значение не получено, логирует отладочное сообщение и возвращает `None`.
-3. В случае возникновения исключения логирует ошибку и возвращает `None`.
-4. Записывает полученное значение в поле `self.fields.affiliate_summary_2`.
-
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
--- B: Если значение не получено -> Логирование отладочного сообщения
-|
-D: Запись значения в self.fields.affiliate_summary_2
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.affiliate_summary_2()
-
-# Вызов функции с передачей значения
-await grabber.affiliate_summary_2(value='Более подробное описание партнерской программы')
-```
-
-### `Graber.affiliate_text`
-
-```python
-@close_pop_up()
-async def affiliate_text(self, value:Optional[Any] = None):
-    """Fetch and set affiliate text."""
-    ...
-```
-
-**Назначение**:
-Извлекает и устанавливает партнерский текст.
-
-**Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `affiliate_text`. Если `value` передано, оно будет установлено в поле `ProductFields.affiliate_text`.
-
-**Как работает функция**:
-1. Пытается получить значение партнерского текста из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.affiliate_text)`.
-2. Если значение не получено, логирует отладочное сообщение и возвращает `None`.
-3. В случае возникновения исключения логирует ошибку и возвращает `None`.
-4. Записывает полученное значение в поле `self.fields.affiliate_text`.
-
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
--- B: Если значение не получено -> Логирование отладочного сообщения
-|
-D: Запись значения в self.fields.affiliate_text
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.affiliate_text()
-
-# Вызов функции с передачей значения
-await grabber.affiliate_text(value='Текст партнерской программы')
-```
-
-### `Graber.affiliate_image_large`
-
-```python
-@close_pop_up()
-async def affiliate_image_large(self, value:Optional[Any] = None):
-    """Fetch and set affiliate large image."""
-    ...
-```
-
-**Назначение**:
-Извлекает и устанавливает большую партнерскую картинку.
-
-**Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `affiliate_image_large`. Если `value` передано, оно будет установлено в поле `ProductFields.affiliate_image_large`.
-
-**Как работает функция**:
-1. Пытается получить значение большой партнерской картинки из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.affiliate_image_large)`.
-2. В случае возникновения исключения логирует ошибку и возвращает `None`.
-3. Записывает полученное значение в поле `self.fields.affiliate_image_large`.
-
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
-B: Запись значения в self.fields.affiliate_image_large
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.affiliate_image_large()
-
-# Вызов функции с передачей значения
-await grabber.affiliate_image_large(value='https://example.com/large.jpg')
-```
-
-### `Graber.affiliate_image_medium`
-
-```python
-@close_pop_up()
-async def affiliate_image_medium(self, value:Optional[Any] = None):
-    """Fetch and set affiliate medium image."""
-    ...
-```
-
-**Назначение**:
-Извлекает и устанавливает среднюю партнерскую картинку.
-
-**Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `affiliate_image_medium`. Если `value` передано, оно будет установлено в поле `ProductFields.affiliate_image_medium`.
-
-**Как работает функция**:
-1. Пытается получить значение средней партнерской картинки из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.affiliate_image_medium)`.
-2. Если значение не получено, логирует отладочное сообщение и возвращает `None`.
-3. В случае возникновения исключения логирует ошибку и возвращает `None`.
-4. Записывает полученное значение в поле `self.fields.affiliate_image_medium`.
-
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
--- B: Если значение не получено -> Логирование отладочного сообщения
-|
-D: Запись значения в self.fields.affiliate_image_medium
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.affiliate_image_medium()
-
-# Вызов функции с передачей значения
-await grabber.affiliate_image_medium(value='https://example.com/medium.jpg')
-```
-
-### `Graber.affiliate_image_small`
-
-```python
-@close_pop_up()
-async def affiliate_image_small(self, value:Optional[Any] = None):
-    """Fetch and set affiliate small image."""
-    ...
-```
-
-**Назначение**:
-Извлекает и устанавливает маленькую партнерскую картинку.
-
-**Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `affiliate_image_small`. Если `value` передано, оно будет установлено в поле `ProductFields.affiliate_image_small`.
-
-**Как работает функция**:
-1. Пытается получить значение маленькой партнерской картинки из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.affiliate_image_small)`.
-2. Если значение не получено, логирует отладочное сообщение и возвращает `None`.
-3. В случае возникновения исключения логирует ошибку и возвращает `None`.
-4. Записывает полученное значение в поле `self.fields.affiliate_image_small`.
-
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
--- B: Если значение не получено -> Логирование отладочного сообщения
-|
-D: Запись значения в self.fields.affiliate_image_small
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.affiliate_image_small()
-
-# Вызов функции с передачей значения
-await grabber.affiliate_image_small(value='https://example.com/small.jpg')
-```
-
-### `Graber.available_date`
-
-```python
-@close_pop_up()
-async def available_date(self, value:Optional[Any] = None):
-    """Fetch and set available date."""
-    ...
-```
-
-**Назначение**:
-Извлекает и устанавливает дату доступности товара.
-
-**Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `available_date`. Если `value` передано, оно будет установлено в поле `ProductFields.available_date`.
-
-**Как работает функция**:
-1. Пытается получить значение даты доступности товара из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.available_date)`.
-2. Если значение не получено, логирует отладочное сообщение и возвращает `None`.
-3. В случае возникновения исключения логирует ошибку и возвращает `None`.
-4. Записывает полученное значение в поле `self.fields.available_date`.
-
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
--- B: Если значение не получено -> Логирование отладочного сообщения
-|
-D: Запись значения в self.fields.available_date
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.available_date()
-
-# Вызов функции с передачей значения
-await grabber.available_date(value='2024-12-31')
-```
-
-### `Graber.available_for_order`
-
-```python
-@close_pop_up()
-async def available_for_order(self, value:Optional[Any] = None):
-    """Fetch and set available for order status."""
-    ...
-```
-
-**Назначение**:
-Извлекает и устанавливает статус "доступно для заказа".
-
-**Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `available_for_order`. Если `value` передано, оно будет установлено в поле `ProductFields.available_for_order`.
-
-**Как работает функция**:
-1. Пытается получить значение статуса "доступно для заказа" из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_locator(self.locator.available_for_order)`.
-2. Если значение не получено, логирует отладочное сообщение и возвращает `None`.
-3. В случае возникновения исключения логирует ошибку и возвращает `None`.
-4. Записывает полученное значение в поле `self.fields.available_for_order`.
-
-**ASCII flowchart**:
-
-```
-A: Получение значения из value или локатора
-|
--- B: Если значение не получено -> Логирование отладочного сообщения
-|
-D: Запись значения в self.fields.available_for_order
-```
-
-**Примеры**:
-
-```python
-# Вызов функции без передачи значения
-await grabber.available_for_order()
-
-# Вызов функции с передачей значения
-await grabber.available_for_order(value='1')
-```
-
-### `Graber.available_later`
-
-```python
-@close_pop_up()
-async def available_later(self, value:Optional[Any] = None):
-    """Fetch and set available later status."""
-    ...
-```
-
-**Назначение**:
-Извлекает и устанавливает статус "доступно позже".
-
-**Параметры**:
-- `value` (Optional[Any]): Значение, которое можно передать в словаре `kwargs` через ключ `available_later`. Если `value` передано, оно будет установлено в поле `ProductFields.available_later`.
-
-**Как работает функция**:
-1. Пытается получить значение статуса "доступно позже" из следующих источников:
-   - Если передано значение `value`, использует его.
-   - Если `value` не передано, пытается получить значение с помощью `self.driver.execute_
+Функция `aff

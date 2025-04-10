@@ -1,103 +1,68 @@
-# Модуль для работы с Acytoo API
-======================================
-
-Модуль предоставляет асинхронный генератор для взаимодействия с API Acytoo.
-Он поддерживает ведение истории сообщений и работу с моделью `gpt-3.5-turbo`.
+# Модуль Acytoo
 
 ## Обзор
 
-Модуль `Acytoo` предоставляет класс `Acytoo`, который является асинхронным провайдером генератора для взаимодействия с API Acytoo.
-Этот модуль позволяет отправлять запросы к Acytoo API и получать ответы в виде асинхронного генератора.
+Модуль `Acytoo.py` предоставляет асинхронный генератор для взаимодействия с провайдером Acytoo, который является одним из поставщиков GPT-3.5 Turbo. Модуль предназначен для работы с чат-сервисом Acytoo через его API. Он поддерживает ведение истории сообщений.
 
-## Подробнее
+## Подробней
 
-Модуль предназначен для упрощения взаимодействия с Acytoo API. Он предоставляет удобный интерфейс для отправки сообщений и получения ответов в асинхронном режиме.
-Этот модуль используется для интеграции с сервисами, требующими взаимодействия с Acytoo API.
+Модуль содержит класс `Acytoo`, который наследуется от `AsyncGeneratorProvider` и реализует асинхронную генерацию ответов от Acytoo API. В модуле определены функции для создания заголовков и полезной нагрузки (payload) запроса к API.
 
 ## Классы
 
 ### `Acytoo`
 
-**Описание**: Класс `Acytoo` является асинхронным провайдером, который взаимодействует с API Acytoo.
+**Описание**: Класс `Acytoo` представляет собой асинхронный провайдер генератора для взаимодействия с сервисом Acytoo.
 
-**Принцип работы**:
-Класс использует `aiohttp.ClientSession` для отправки асинхронных POST-запросов к API Acytoo и получает ответы в виде асинхронного генератора.
+**Наследует**:
+- `AsyncGeneratorProvider`: Наследует функциональность асинхронного генератора.
 
-**Аттрибуты**:
-- `url` (str): URL API Acytoo.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений.
-- `supports_gpt_35_turbo` (bool): Флаг, указывающий на поддержку модели `gpt-3.5-turbo`.
+**Атрибуты**:
+- `url` (str): URL-адрес сервиса Acytoo (`https://chat.acytoo.com`).
+- `working` (bool): Флаг, указывающий на работоспособность провайдера (по умолчанию `False`).
+- `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений (по умолчанию `True`).
+- `supports_gpt_35_turbo` (bool): Флаг, указывающий на поддержку модели GPT-3.5 Turbo (по умолчанию `True`).
 
-### `create_async_generator`
+**Методы**:
+- `create_async_generator`: Асинхронный метод для создания генератора, который отправляет запросы к Acytoo API и возвращает ответы.
+
+#### `create_async_generator`
+
+**Описание**: Асинхронный метод для создания генератора, который взаимодействует с Acytoo API.
 
 ```python
-    @classmethod
-    async def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        proxy: str = None,
-        **kwargs
-    ) -> AsyncResult:
-        """
-        Создает асинхронный генератор для взаимодействия с API Acytoo.
+@classmethod
+async def create_async_generator(
+    cls,
+    model: str,
+    messages: Messages,
+    proxy: str = None,
+    **kwargs
+) -> AsyncResult:
+    """
+    Создает асинхронный генератор для взаимодействия с Acytoo API.
 
-        Args:
-            cls (Acytoo): Класс Acytoo.
-            model (str): Модель для использования (в данном случае всегда 'gpt-3.5-turbo').
-            messages (Messages): Список сообщений для отправки.
-            proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-            **kwargs: Дополнительные аргументы.
+    Args:
+        cls: Ссылка на класс.
+        model (str): Модель для использования (в данном случае всегда 'gpt-3.5-turbo').
+        messages (Messages): Список сообщений для отправки в API.
+        proxy (str, optional): Адрес прокси-сервера. По умолчанию `None`.
+        **kwargs: Дополнительные аргументы.
 
-        Returns:
-            AsyncResult: Асинхронный генератор, возвращающий ответы от API.
+    Returns:
+        AsyncResult: Асинхронный генератор, возвращающий ответы от API.
 
-        Raises:
-            aiohttp.ClientResponseError: Если возникает HTTP ошибка при запросе к API.
-
-        Как работает функция:
-        1. Создает `aiohttp.ClientSession` с заголовками, полученными из `_create_header()`.
-        2. Отправляет POST-запрос к API Acytoo (`f'{cls.url}/api/completions'`) с использованием `session.post()`.
-        3. Передает прокси-сервер, если он указан.
-        4. Формирует JSON-тело запроса с использованием `_create_payload()`.
-        5. Обрабатывает ответ от API и генерирует поток данных, декодируя каждый чанк.
-
-        ASCII flowchart:
-
-        Создание сессии aiohttp
-        │
-        └──> Отправка POST-запроса к API Acytoo
-             │
-             └──> Обработка ответа и генерация потока данных
-
-        Примеры:
-            Пример 1: Создание асинхронного генератора без прокси.
-            >>> async for message in Acytoo.create_async_generator(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello'}]):
-            ...     print(message)
-
-            Пример 2: Создание асинхронного генератора с прокси.
-            >>> async for message in Acytoo.create_async_generator(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello'}], proxy='http://proxy.example.com'):
-            ...     print(message)
-        """
-        async with ClientSession(
-            headers=_create_header()
-        ) as session:
-            async with session.post(
-                f'{cls.url}/api/completions',
-                proxy=proxy,
-                json=_create_payload(messages, **kwargs)
-            ) as response:
-                response.raise_for_status()
-                async for stream in response.content.iter_any():
-                    if stream:
-                        yield stream.decode()
+    Raises:
+        aiohttp.ClientResponseError: Если возникает HTTP ошибка при запросе к API.
+    """
+    ...
 ```
 
 **Параметры**:
-- `model` (str): Модель для использования (в данном случае всегда `gpt-3.5-turbo`).
-- `messages` (Messages): Список сообщений для отправки.
-- `proxy` (str, optional): Прокси-сервер для использования. По умолчанию `None`.
+- `cls`: Ссылка на класс.
+- `model` (str): Модель для использования.
+- `messages` (Messages): Список сообщений для отправки в API.
+- `proxy` (str, optional): Адрес прокси-сервера. По умолчанию `None`.
 - `**kwargs`: Дополнительные аргументы.
 
 **Возвращает**:
@@ -106,6 +71,55 @@
 **Вызывает исключения**:
 - `aiohttp.ClientResponseError`: Если возникает HTTP ошибка при запросе к API.
 
+**Как работает функция**:
+
+1.  **Инициализация сессии**: Создается асинхронная сессия `aiohttp.ClientSession` с заголовками, полученными из функции `_create_header`.
+2.  **Отправка запроса**: Отправляется POST-запрос к адресу `f'{cls.url}/api/completions'` с использованием указанного прокси (если он есть) и с данными в формате JSON, полученными из функции `_create_payload`.
+3.  **Обработка ответа**: Для каждого чанка данных, полученного из ответа, выполняется декодирование и передача в генератор.
+4.  **Обработка ошибок**: Если возникает HTTP ошибка, вызывается исключение `aiohttp.ClientResponseError`.
+
+**ASCII Flowchart**:
+
+```
+Начало
+   |
+   v
+Создание асинхронной сессии (ClientSession)
+   |
+   v
+Отправка POST-запроса к Acytoo API
+   |
+   v
+Получение ответа от API
+   |
+   v
+Итерация по содержимому ответа (stream)
+   |
+   v
+Декодирование содержимого (stream.decode())
+   |
+   v
+Выдача декодированного содержимого через yield
+   |
+   v
+Конец
+```
+
+**Примеры**:
+
+Пример использования `create_async_generator`:
+
+```python
+async def main():
+    messages = [{"role": "user", "content": "Hello"}]
+    async for message in Acytoo.create_async_generator(model="gpt-3.5-turbo", messages=messages):
+        print(message, end="")
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
+```
+
 ## Функции
 
 ### `_create_header`
@@ -113,53 +127,56 @@
 ```python
 def _create_header():
     """
-    Создает заголовок для HTTP-запроса.
+    Создает заголовки для HTTP-запроса.
+
+    Args:
+        None
 
     Returns:
-        dict: Словарь с заголовками.
-
-    Как работает функция:
-
-    Функция возвращает словарь, содержащий заголовки HTTP-запроса, необходимые для взаимодействия с API.
-
-    ASCII flowchart:
-
-    Создание заголовков
-    │
-    └──> Возврат словаря с заголовками
-
-    Примеры:
-        >>> _create_header()
-        {'accept': '*/*', 'content-type': 'application/json'}
+        dict: Словарь с заголовками запроса.
     """
-    return {
-        'accept': '*/*',
-        'content-type': 'application/json',
-    }
+    ...
 ```
 
-**Назначение**: Создает заголовок для HTTP-запроса.
+**Описание**: Создает заголовки для HTTP-запроса.
+
+**Параметры**:
+- Отсутствуют.
 
 **Возвращает**:
-- `dict`: Словарь с заголовками.
+- `dict`: Словарь с заголовками запроса, содержащий `accept` и `content-type`.
 
 **Как работает функция**:
 
-Функция возвращает словарь, содержащий заголовки HTTP-запроса, необходимые для взаимодействия с API.
+Функция создает и возвращает словарь с заголовками, необходимыми для выполнения HTTP-запроса к API. В частности, устанавливается `accept` в значение `'*/*'` и `content-type` в значение `'application/json'`.
 
-**ASCII flowchart**:
+**ASCII Flowchart**:
 
 ```
-Создание заголовков
-│
-└──> Возврат словаря с заголовками
+Начало
+   |
+   v
+Создание словаря с заголовками
+   |
+   v
+Установка accept в '*/*'
+   |
+   v
+Установка content-type в 'application/json'
+   |
+   v
+Возврат словаря с заголовками
+   |
+   v
+Конец
 ```
 
 **Примеры**:
 
 ```python
->>> _create_header()
-{'accept': '*/*', 'content-type': 'application/json'}
+headers = _create_header()
+print(headers)
+# {'accept': '*/*', 'content-type': 'application/json'}
 ```
 
 ### `_create_payload`
@@ -167,7 +184,7 @@ def _create_header():
 ```python
 def _create_payload(messages: Messages, temperature: float = 0.5, **kwargs):
     """
-    Создает полезную нагрузку (payload) для POST-запроса.
+    Создает полезную нагрузку (payload) для HTTP-запроса.
 
     Args:
         messages (Messages): Список сообщений для отправки.
@@ -175,34 +192,12 @@ def _create_payload(messages: Messages, temperature: float = 0.5, **kwargs):
         **kwargs: Дополнительные аргументы.
 
     Returns:
-        dict: Словарь с полезной нагрузкой.
-
-    Как работает функция:
-
-    Функция формирует словарь, представляющий полезную нагрузку для POST-запроса к API. Она включает в себя ключ API, модель, сообщения и температуру.
-
-    ASCII flowchart:
-
-    Создание полезной нагрузки
-    │
-    └──> Формирование словаря с параметрами
-         │
-         └──> Возврат словаря
-
-    Примеры:
-        >>> _create_payload(messages=[{'role': 'user', 'content': 'Hello'}])
-        {'key': '', 'model': 'gpt-3.5-turbo', 'messages': [{'role': 'user', 'content': 'Hello'}], 'temperature': 0.5, 'password': ''}
+        dict: Словарь с полезной нагрузкой для запроса.
     """
-    return {
-        'key'         : '',
-        'model'       : 'gpt-3.5-turbo',
-        'messages'    : messages,
-        'temperature' : temperature,
-        'password'    : ''
-    }
+    ...
 ```
 
-**Назначение**: Создает полезную нагрузку (payload) для POST-запроса.
+**Описание**: Создает полезную нагрузку (payload) для HTTP-запроса к API.
 
 **Параметры**:
 - `messages` (Messages): Список сообщений для отправки.
@@ -210,24 +205,46 @@ def _create_payload(messages: Messages, temperature: float = 0.5, **kwargs):
 - `**kwargs`: Дополнительные аргументы.
 
 **Возвращает**:
-- `dict`: Словарь с полезной нагрузкой.
+- `dict`: Словарь с полезной нагрузкой для запроса.
 
 **Как работает функция**:
 
-Функция формирует словарь, представляющий полезную нагрузку для POST-запроса к API. Она включает в себя ключ API, модель, сообщения и температуру.
+Функция создает словарь, представляющий собой полезную нагрузку для запроса к API. Включает в себя ключ API (`key`), модель (`model`), список сообщений (`messages`), температуру (`temperature`) и пароль (`password`).
 
-**ASCII flowchart**:
+**ASCII Flowchart**:
 
 ```
-Создание полезной нагрузки
-│
-└──> Формирование словаря с параметрами
-     │
-     └──> Возврат словаря
+Начало
+   |
+   v
+Создание словаря payload
+   |
+   v
+Установка key в ''
+   |
+   v
+Установка model в 'gpt-3.5-turbo'
+   |
+   v
+Установка messages из аргумента
+   |
+   v
+Установка temperature из аргумента
+   |
+   v
+Установка password в ''
+   |
+   v
+Возврат словаря payload
+   |
+   v
+Конец
 ```
 
 **Примеры**:
 
 ```python
->>> _create_payload(messages=[{'role': 'user', 'content': 'Hello'}])
-{'key': '', 'model': 'gpt-3.5-turbo', 'messages': [{'role': 'user', 'content': 'Hello'}], 'temperature': 0.5, 'password': ''}
+messages = [{"role": "user", "content": "Hello"}]
+payload = _create_payload(messages=messages, temperature=0.7)
+print(payload)
+# {'key': '', 'model': 'gpt-3.5-turbo', 'messages': [{'role': 'user', 'content': 'Hello'}], 'temperature': 0.7, 'password': ''}

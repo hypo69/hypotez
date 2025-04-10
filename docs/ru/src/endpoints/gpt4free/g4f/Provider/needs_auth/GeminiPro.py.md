@@ -1,199 +1,238 @@
-# Модуль для работы с Google Gemini API
-================================================
-
-Модуль содержит класс :class:`GeminiPro`, который используется для взаимодействия с Google Gemini API для генерации контента, включая поддержку потоковой передачи, мультимодальных запросов (изображения) и инструментов (tools).
-
-Пример использования
-----------------------
-
-```python
-# Пример использования класса GeminiPro
-# from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth import GeminiPro
-# from hypotez.src.endpoints.gpt4free.g4f.typing import Messages, MediaListType
-#
-# messages: Messages = [{"role": "user", "content": "Hello, how are you?"}]
-# media: MediaListType = None
-#
-# async def main():
-#     generator = await GeminiPro.create_async_generator(
-#         model="gemini-1.5-pro",
-#         messages=messages,
-#         stream=True,
-#         api_key="YOUR_API_KEY",
-#         media=media
-#     )
-#     async for item in generator:
-#         print(item)
-# Замените "YOUR_API_KEY" на ваш актуальный API ключ.
-```
-
-## Оглавление
-- [Обзор](#обзор)
-- [Подробнее](#подробнее)
-- [Классы](#классы)
-    - [GeminiPro](#geminipro)
-- [Функции](#функции)
-    - [get_models](#get_models)
-    - [create_async_generator](#create_async_generator)
+# Модуль для работы с Google Gemini API (GeminiPro)
 
 ## Обзор
 
-Модуль `GeminiPro` предоставляет интерфейс для взаимодействия с API Google Gemini. Он поддерживает как потоковую, так и не потоковую генерацию контента, а также позволяет передавать изображения в запросах. Класс `GeminiPro` реализует методы для получения списка доступных моделей и создания асинхронного генератора для получения ответов от API.
+Модуль `GeminiPro.py` предназначен для взаимодействия с API Google Gemini, в частности с моделью Gemini Pro. Он обеспечивает асинхронную генерацию текста, поддержку истории сообщений, системных сообщений и аутентификацию через API-ключ. Модуль позволяет использовать как потоковую, так и не потоковую генерацию контента, а также поддерживает отправку медиа-файлов.
 
 ## Подробнее
 
-Этот модуль является частью проекта `hypotez` и используется для интеграции с API Google Gemini, позволяя пользователям использовать модели Gemini для различных задач, таких как генерация текста, ответы на вопросы и обработка изображений. Он обеспечивает асинхронное взаимодействие с API, что позволяет эффективно использовать ресурсы и обрабатывать большое количество запросов.
-Модуль обрабатывает аутентификацию через API ключ, поддерживает выбор модели и настройку параметров генерации контента, таких как температура, максимальное количество токенов и другие.
+Этот модуль является частью проекта `hypotez` и предназначен для интеграции с другими частями проекта, требующими взаимодействия с Google Gemini API. Он предоставляет удобный интерфейс для отправки запросов к API и получения ответов, а также обрабатывает ошибки и возвращает результаты в нужном формате.
 
 ## Классы
 
 ### `GeminiPro`
 
-**Описание**: Класс для взаимодействия с Google Gemini API.
+**Описание**: Класс `GeminiPro` предоставляет функциональность для взаимодействия с Google Gemini API.
 
 **Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию контента.
-- `ProviderModelMixin`: Предоставляет методы для управления моделями.
+- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
+- `ProviderModelMixin`: Предоставляет функциональность для работы с моделями.
 
 **Атрибуты**:
-- `label` (str): Название провайдера ("Google Gemini API").
-- `url` (str): URL главной страницы Google AI.
-- `login_url` (str): URL страницы для получения API ключа.
-- `api_base` (str): Базовый URL для API запросов.
-- `working` (bool): Флаг, указывающий, работает ли провайдер.
-- `supports_message_history` (bool): Флаг, указывающий, поддерживает ли провайдер историю сообщений.
-- `supports_system_message` (bool): Флаг, указывающий, поддерживает ли провайдер системные сообщения.
-- `needs_auth` (bool): Флаг, указывающий, требуется ли аутентификация.
-- `default_model` (str): Модель, используемая по умолчанию ("gemini-1.5-pro").
-- `default_vision_model` (str): Модель для обработки изображений, используемая по умолчанию.
-- `fallback_models` (list[str]): Список моделей, которые используются, если не удалось получить список моделей из API.
+- `label` (str): Метка провайдера, значение "Google Gemini API".
+- `url` (str): URL документации Google AI.
+- `login_url` (str): URL для получения API-ключа Google AI Studio.
+- `api_base` (str): Базовый URL API Google Generative Language.
+- `working` (bool): Флаг, указывающий на работоспособность провайдера (True).
+- `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений (True).
+- `supports_system_message` (bool): Флаг, указывающий на поддержку системных сообщений (True).
+- `needs_auth` (bool): Флаг, указывающий на необходимость аутентификации (True).
+- `default_model` (str): Модель по умолчанию ("gemini-1.5-pro").
+- `default_vision_model` (str): Модель для обработки изображений (совпадает с `default_model`).
+- `fallback_models` (list[str]): Список резервных моделей.
 - `model_aliases` (dict[str, str]): Словарь псевдонимов моделей.
 
 **Методы**:
-- `get_models`: Получает список доступных моделей.
-- `create_async_generator`: Создает асинхронный генератор для получения ответов от API.
+- `get_models()`: Получает список доступных моделей.
+- `create_async_generator()`: Создает асинхронный генератор для взаимодействия с API.
 
 ## Функции
 
 ### `get_models`
 
 ```python
-@classmethod
-def get_models(cls, api_key: str = None, api_base: str = api_base) -> list[str]:
-    """Получает список доступных моделей из API Google Gemini.
+    @classmethod
+    def get_models(cls, api_key: str = None, api_base: str = api_base) -> list[str]:
+        """
+        Возвращает список доступных моделей Gemini API.
 
-    Args:
-        api_key (str, optional): API ключ для аутентификации. По умолчанию `None`.
-        api_base (str, optional): Базовый URL для API запросов. По умолчанию `api_base`.
+        Args:
+            api_key (str, optional): API-ключ для аутентификации. По умолчанию `None`.
+            api_base (str, optional): Базовый URL API. По умолчанию `api_base` класса.
 
-    Returns:
-        list[str]: Список доступных моделей.
+        Returns:
+            list[str]: Список имен моделей.
 
-    Raises:
-        MissingAuthError: Если `api_key` не указан и не удалось получить список моделей из API.
+        Raises:
+            MissingAuthError: Если `api_key` не указан и не удалось получить список моделей.
 
-    Как работает функция:
-    1. Проверяет, если список моделей уже получен. Если да, возвращает его.
-    2. Если список моделей не получен, пытается получить его из API.
-    3. Формирует URL для запроса списка моделей.
-    4. Отправляет GET запрос к API.
-    5. Обрабатывает ответ API, извлекая имена моделей.
-    6. Если произошла ошибка при получении списка моделей, возвращает список fallback моделей.
+        Как работает функция:
+        1. Проверяет, если список моделей уже был получен ранее. Если да, возвращает его.
+        2. Если список моделей пуст, пытается получить его из API.
+        3. Формирует URL для запроса списка моделей.
+        4. Отправляет GET-запрос к API с использованием `requests`.
+        5. Проверяет статус ответа и вызывает исключение, если произошла ошибка.
+        6. Извлекает имена моделей из JSON-ответа и сохраняет их в `cls.models`.
+        7. В случае ошибки логирует её и возвращает список резервных моделей.
+        """
+        ...
+```
 
-    ASCII flowchart:
-    Начало --> Проверка списка моделей (A)
-    A -- Да --> Возврат списка моделей
-    A -- Нет --> Формирование URL (B)
-    B --> GET запрос к API (C)
-    C -- Успех --> Обработка ответа (D) --> Извлечение имен моделей (E) --> Возврат списка моделей
-    C -- Ошибка --> Обработка ошибки (F) --> Возврат fallback моделей
+**Назначение**: Получение списка доступных моделей Gemini API.
 
-    Примеры:
-        >>> GeminiPro.get_models(api_key="YOUR_API_KEY")
-        ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-flash-exp', 'gemini-pro']
-    """
-    ...
+**Параметры**:
+- `api_key` (str, optional): API-ключ для аутентификации. По умолчанию `None`.
+- `api_base` (str, optional): Базовый URL API. По умолчанию `api_base` класса.
+
+**Возвращает**:
+- `list[str]`: Список имен моделей.
+
+**Вызывает исключения**:
+- `MissingAuthError`: Если `api_key` не указан и не удалось получить список моделей.
+
+**Как работает функция**:
+```
+A[Проверка наличия моделей в cls.models]
+│
+├─── True ───> B[Возврат cls.models]
+│
+└─── False ───> C[Попытка получения моделей из API]
+│
+D[Формирование URL для запроса списка моделей]
+│
+E[Отправка GET-запроса к API]
+│
+F[Проверка статуса ответа]
+│
+├─── Успешно ───> G[Извлечение имен моделей из JSON-ответа]
+│   │
+│   H[Сохранение имен моделей в cls.models]
+│   │
+│   I[Возврат cls.models]
+│
+└─── Ошибка ───> J[Логирование ошибки]
+│
+K[Возврат списка резервных моделей fallback_models]
+```
+
+**Примеры**:
+
+```python
+models = GeminiPro.get_models(api_key="your_api_key")
+print(models)
 ```
 
 ### `create_async_generator`
 
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    stream: bool = False,
-    proxy: str = None,
-    api_key: str = None,
-    api_base: str = api_base,
-    use_auth_header: bool = False,
-    media: MediaListType = None,
-    tools: Optional[list] = None,
-    connector: BaseConnector = None,
-    **kwargs
-) -> AsyncResult:
-    """Создает асинхронный генератор для получения ответов от API Google Gemini.
+    @classmethod
+    async def create_async_generator(
+        cls,
+        model: str,
+        messages: Messages,
+        stream: bool = False,
+        proxy: str = None,
+        api_key: str = None,
+        api_base: str = api_base,
+        use_auth_header: bool = False,
+        media: MediaListType = None,
+        tools: Optional[list] = None,
+        connector: BaseConnector = None,
+        **kwargs
+    ) -> AsyncResult:
+        """
+        Создает асинхронный генератор для взаимодействия с Gemini API.
 
-    Args:
-        model (str): Название модели для использования.
-        messages (Messages): Список сообщений для отправки в API.
-        stream (bool, optional): Флаг, указывающий, использовать ли потоковую передачу. По умолчанию `False`.
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-        api_key (str, optional): API ключ для аутентификации. По умолчанию `None`.
-        api_base (str, optional): Базовый URL для API запросов. По умолчанию `api_base`.
-        use_auth_header (bool, optional): Флаг, указывающий, использовать ли заголовок авторизации. По умолчанию `False`.
-        media (MediaListType, optional): Список медиафайлов для отправки в API. По умолчанию `None`.
-        tools (Optional[list], optional): Список инструментов (functions) для использования. По умолчанию `None`.
-        connector (BaseConnector, optional): Aiohttp connector. По умолчанию `None`.
-        **kwargs: Дополнительные параметры для передачи в API.
+        Args:
+            model (str): Имя модели для использования.
+            messages (Messages): Список сообщений для отправки в API.
+            stream (bool, optional): Флаг, указывающий на использование потоковой генерации. По умолчанию `False`.
+            proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
+            api_key (str, optional): API-ключ для аутентификации. По умолчанию `None`.
+            api_base (str, optional): Базовый URL API. По умолчанию `api_base` класса.
+            use_auth_header (bool, optional): Флаг, указывающий на использование заголовка авторизации. По умолчанию `False`.
+            media (MediaListType, optional): Список медиа-файлов для отправки. По умолчанию `None`.
+            tools (Optional[list], optional): Список инструментов, которые будут использоваться. По умолчанию `None`.
+            connector (BaseConnector, optional): HTTP-коннектор aiohttp. По умолчанию `None`.
+            **kwargs: Дополнительные параметры для конфигурации генерации.
 
-    Returns:
-        AsyncResult: Асинхронный генератор для получения ответов от API.
+        Returns:
+            AsyncResult: Асинхронный генератор для получения ответов от API.
 
-    Raises:
-        MissingAuthError: Если `api_key` не указан.
-        RuntimeError: Если произошла ошибка при отправке запроса в API.
+        Raises:
+            MissingAuthError: Если `api_key` не указан.
 
-    Как работает функция:
-    1. Проверяет наличие API ключа. Если ключ отсутствует, вызывает исключение MissingAuthError.
-    2. Получает название модели для использования.
-    3. Формирует заголовки и параметры запроса.
-    4. Определяет метод API (streamGenerateContent или generateContent) в зависимости от параметра stream.
-    5. Формирует URL для запроса.
-    6. Создает асинхронную сессию с использованием aiohttp.
-    7. Формирует данные запроса, включая сообщения, медиафайлы и параметры генерации.
-    8. Отправляет POST запрос к API.
-    9. Обрабатывает ответ API. Если используется потоковая передача, обрабатывает каждый чанк данных.
-    10. Возвращает асинхронный генератор для получения ответов от API.
+        Как работает функция:
+        1. Проверяет наличие API-ключа и вызывает исключение, если он не указан.
+        2. Получает имя модели, используя `cls.get_model`.
+        3. Формирует заголовки и параметры запроса в зависимости от способа аутентификации.
+        4. Определяет метод API в зависимости от флага `stream`.
+        5. Формирует URL для запроса.
+        6. Создает `ClientSession` aiohttp для выполнения запросов.
+        7. Преобразует сообщения в формат, требуемый API.
+        8. Добавляет медиа-файлы в запрос, если они указаны.
+        9. Формирует тело запроса с сообщениями, конфигурацией генерации и инструментами.
+        10. Отправляет POST-запрос к API.
+        11. Обрабатывает ответ API:
+            - Если `stream` равен `True`, обрабатывает потоковые ответы.
+            - Если `stream` равен `False`, обрабатывает не потоковые ответы.
+        12. Возвращает асинхронный генератор для получения ответов.
+        """
+        ...
+```
 
-    ASCII flowchart:
-    Начало --> Проверка API ключа (A)
-    A -- Нет API ключа --> Вызов исключения MissingAuthError
-    A -- Есть API ключ --> Получение названия модели (B)
-    B --> Формирование заголовков и параметров (C)
-    C --> Определение метода API (D)
-    D --> Формирование URL (E)
-    E --> Создание асинхронной сессии (F)
-    F --> Формирование данных запроса (G)
-    G --> POST запрос к API (H)
-    H -- Успех --> Обработка ответа (I)
-    H -- Ошибка --> Вызов исключения RuntimeError
-    I -- Потоковая передача --> Обработка каждого чанка данных (J) --> Возврат ответа
-    I -- Без потоковой передачи --> Обработка ответа целиком (K) --> Возврат ответа
+**Назначение**: Создание асинхронного генератора для взаимодействия с Gemini API.
 
-    Примеры:
-        >>> messages: Messages = [{"role": "user", "content": "Hello, how are you?"}]
-        >>> import asyncio
-        >>> async def main():
-        ...     generator = await GeminiPro.create_async_generator(
-        ...         model="gemini-1.5-pro",
-        ...         messages=messages,
-        ...         stream=True,
-        ...         api_key="YOUR_API_KEY"
-        ...     )
-        ...     async for item in generator:
-        ...         print(item)
-        >>> asyncio.run(main())
-    """
-    ...
+**Параметры**:
+- `model` (str): Имя модели для использования.
+- `messages` (Messages): Список сообщений для отправки в API.
+- `stream` (bool, optional): Флаг, указывающий на использование потоковой генерации. По умолчанию `False`.
+- `proxy` (str, optional): URL прокси-сервера. По умолчанию `None`.
+- `api_key` (str, optional): API-ключ для аутентификации. По умолчанию `None`.
+- `api_base` (str, optional): Базовый URL API. По умолчанию `api_base` класса.
+- `use_auth_header` (bool, optional): Флаг, указывающий на использование заголовка авторизации. По умолчанию `False`.
+- `media` (MediaListType, optional): Список медиа-файлов для отправки. По умолчанию `None`.
+- `tools` (Optional[list], optional): Список инструментов, которые будут использоваться. По умолчанию `None`.
+- `connector` (BaseConnector, optional): HTTP-коннектор aiohttp. По умолчанию `None`.
+- `**kwargs`: Дополнительные параметры для конфигурации генерации.
+
+**Возвращает**:
+- `AsyncResult`: Асинхронный генератор для получения ответов от API.
+
+**Вызывает исключения**:
+- `MissingAuthError`: Если `api_key` не указан.
+
+**Как работает функция**:
+
+```
+A[Проверка наличия API-ключа]
+│
+├─── Нет API-ключа ───> B[Выброс исключения MissingAuthError]
+│
+└─── Есть API-ключ ───> C[Получение имени модели]
+│
+D[Формирование заголовков и параметров запроса]
+│
+E[Определение метода API (streamGenerateContent или generateContent)]
+│
+F[Формирование URL для запроса]
+│
+G[Создание ClientSession aiohttp]
+│
+H[Преобразование сообщений в формат API]
+│
+I[Добавление медиа-файлов (если есть)]
+│
+J[Формирование тела запроса (сообщения, конфигурация, инструменты)]
+│
+K[Отправка POST-запроса к API]
+│
+L[Обработка ответа API]
+│
+├─── stream = True ───> M[Обработка потоковых ответов]
+│
+└─── stream = False ───> N[Обработка не потоковых ответов]
+│
+O[Возврат асинхронного генератора]
+```
+
+**Примеры**:
+
+```python
+async def main():
+    messages = [{"role": "user", "content": "Hello, Gemini!"}]
+    async for response in GeminiPro.create_async_generator(model="gemini-1.5-pro", messages=messages, api_key="your_api_key"):
+        print(response)
+
+import asyncio
+asyncio.run(main())

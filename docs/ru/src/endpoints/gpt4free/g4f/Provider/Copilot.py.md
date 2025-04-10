@@ -1,19 +1,10 @@
 # Модуль для работы с Microsoft Copilot
 =================================================
 
-Модуль содержит класс :class:`Copilot`, который используется для взаимодействия с Microsoft Copilot для генерации текста и изображений.
-
-Пример использования
-----------------------
-
-```python
-# Пример использования будет добавлен позднее, когда будет предоставлен код для примера
-```
+Модуль содержит класс :class:`Copilot`, который используется для взаимодействия с Microsoft Copilot API для генерации текста, изображений и предложений.
 
 ## Оглавление
-
 - [Обзор](#обзор)
-- [Подробнее](#подробнее)
 - [Классы](#классы)
     - [Conversation](#conversation)
     - [Copilot](#copilot)
@@ -24,48 +15,47 @@
 
 ## Обзор
 
-Модуль `Copilot.py` предоставляет интерфейс для взаимодействия с Microsoft Copilot, позволяя генерировать текст и изображения. Он включает в себя классы для управления диалогами и аутентификацией, а также функции для получения токенов доступа и работы с файлами HAR.
+Этот модуль обеспечивает взаимодействие с Microsoft Copilot, позволяя генерировать текст и изображения, а также получать предложения. Он использует `curl_cffi` для выполнения HTTP-запросов и WebSocket-соединений, если библиотека доступна, в противном случае использует `nodriver`. Модуль поддерживает стриминг ответов, работу через прокси и аутентификацию с использованием access token и cookies.
 
 ## Подробнее
 
-Этот модуль является частью проекта `hypotez` и предназначен для интеграции с Microsoft Copilot. Он использует библиотеки `curl_cffi` и `nodriver` для осуществления HTTP и WebSocket соединений, а также для автоматизации входа в систему через браузер. Модуль предоставляет возможность создавать и поддерживать диалоги, отправлять текстовые запросы и медиафайлы, а также получать ответы в виде текста и изображений.
+Этот модуль предоставляет класс `Copilot`, который упрощает взаимодействие с API Microsoft Copilot. Он поддерживает получение ответов в режиме стриминга, загрузку изображений и использование различных моделей, таких как "Copilot" и "Think Deeper". Модуль также содержит функции для получения access token и cookies, необходимые для аутентификации.
 
 ## Классы
 
 ### `Conversation`
 
-**Описание**: Класс для представления разговора с Copilot.
+**Описание**: Класс для представления объекта беседы с Copilot.
 
-**Наследует**: JsonConversation
+**Наследует**: `JsonConversation`
 
-**Атрибуты**:
-- `conversation_id` (str): Идентификатор разговора.
+**Аттрибуты**:
+- `conversation_id` (str): Уникальный идентификатор беседы.
 
 **Методы**:
-- `__init__(conversation_id: str)`: Конструктор класса. Инициализирует объект `Conversation` с заданным `conversation_id`.
+- `__init__(conversation_id: str)`: Инициализирует объект `Conversation` с заданным идентификатором.
 
 ### `Copilot`
 
-**Описание**: Класс для взаимодействия с Microsoft Copilot.
+**Описание**: Класс для взаимодействия с Microsoft Copilot API.
 
-**Наследует**: AbstractProvider, ProviderModelMixin
+**Наследует**: `AbstractProvider`, `ProviderModelMixin`
 
-**Атрибуты**:
+**Аттрибуты**:
 - `label` (str): Метка провайдера (Microsoft Copilot).
-- `url` (str): URL Copilot.
-- `working` (bool): Указывает, работает ли провайдер.
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу данных.
-- `default_model` (str): Модель, используемая по умолчанию ("Copilot").
-- `models` (list): Список поддерживаемых моделей ("Copilot", "Think Deeper").
-- `model_aliases` (dict): Псевдонимы моделей.
-- `websocket_url` (str): URL для WebSocket соединения.
-- `conversation_url` (str): URL для управления разговорами.
-- `_access_token` (str): Токен доступа.
-- `_cookies` (dict): Cookie для аутентификации.
+- `url` (str): URL главной страницы Microsoft Copilot.
+- `working` (bool): Флаг, указывающий, работает ли провайдер (True).
+- `supports_stream` (bool): Флаг, указывающий, поддерживает ли провайдер стриминг ответов (True).
+- `default_model` (str): Модель, используемая по умолчанию (Copilot).
+- `models` (List[str]): Список поддерживаемых моделей (Copilot, Think Deeper).
+- `model_aliases` (Dict[str, str]): Алиасы моделей для удобства использования.
+- `websocket_url` (str): URL для установления WebSocket-соединения.
+- `conversation_url` (str): URL для управления беседами.
+- `_access_token` (str): Access token для аутентификации.
+- `_cookies` (dict): Cookies для аутентификации.
 
 **Методы**:
-- `create_completion(model: str, messages: Messages, stream: bool = False, proxy: str = None, timeout: int = 900, prompt: str = None, media: MediaListType = None, conversation: BaseConversation = None, return_conversation: bool = False, api_key: str = None, **kwargs) -> CreateResult`:
-    Функция создает запрос к Copilot и возвращает результат.
+- `create_completion(model: str, messages: Messages, stream: bool = False, proxy: str = None, timeout: int = 900, prompt: str = None, media: MediaListType = None, conversation: BaseConversation = None, return_conversation: bool = False, api_key: str = None, **kwargs) -> CreateResult`: Создает запрос к Copilot и возвращает результат.
 
 ## Функции
 
@@ -74,71 +64,64 @@
 ```python
 async def get_access_token_and_cookies(url: str, proxy: str = None, target: str = "ChatAI") -> tuple[str, dict]:
     """
-    Получает токен доступа и cookie для Microsoft Copilot, используя автоматизированный браузер.
+    Асинхронно получает access token и cookies для аутентификации в Copilot.
 
     Args:
-        url (str): URL для доступа к Copilot.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию None.
-        target (str, optional): Цель для получения токена доступа. По умолчанию "ChatAI".
+        url (str): URL для получения access token и cookies.
+        proxy (str, optional): URL прокси-сервера. По умолчанию None.
+        target (str, optional): Цель для access token. По умолчанию "ChatAI".
 
     Returns:
-        tuple[str, dict]: Кортеж, содержащий токен доступа и словарь cookie.
-
-    Как работает функция:
-    1. Инициализирует автоматизированный браузер с использованием `get_nodriver` с заданным прокси и каталогом пользовательских данных.
-    2. Открывает указанный URL в браузере.
-    3. Извлекает токен доступа из `localStorage` браузера, ожидая, пока он не станет доступным.
-       Токен извлекается, только если `credentialType` равен "AccessToken", время истечения (`expiresOn`) больше текущего времени, и цель (`target`) включает указанную цель.
-    4. Получает все cookie для указанного URL с помощью `nodriver.cdp.network.get_cookies`.
-    5. Закрывает страницу и останавливает браузер.
-    6. Возвращает токен доступа и cookie.
-
-    Примеры:
-        # Пример вызова функции с параметрами
-        access_token, cookies = asyncio.run(get_access_token_and_cookies("https://copilot.microsoft.com", proxy="http://proxy:8080", target="ChatAI"))
+        tuple[str, dict]: Кортеж, содержащий access token и словарь cookies.
     """
 ```
 
+**Назначение**: Получение access token и cookies, необходимых для аутентификации в Copilot. Функция использует `nodriver` для запуска браузера и выполнения JavaScript-кода для извлечения access token из localStorage.
+
+**Параметры**:
+- `url` (str): URL для получения access token и cookies.
+- `proxy` (str, optional): URL прокси-сервера. По умолчанию `None`.
+- `target` (str, optional): Цель для access token. По умолчанию `"ChatAI"`.
+
+**Возвращает**:
+- `tuple[str, dict]`: Кортеж, содержащий access token и словарь cookies.
+
 **Как работает функция**:
+1. Запускает браузер с использованием `nodriver` для имитации действий пользователя.
+2. Открывает указанный `url` в браузере.
+3. Выполняет JavaScript-код для извлечения access token из `localStorage`.
+4. Получает cookies из браузера.
+5. Закрывает браузер.
+6. Возвращает access token и cookies.
+
+ASCII flowchart:
 
 ```
-    +---------------------------------------------------------------------+
-    | A: Инициализация автоматизированного браузера                        |
-    +---------------------------------------------------------------------+
-    |                                                                     |
-    |  browser, stop_browser = await get_nodriver(proxy=proxy, user_data_dir="copilot")
-    |                                                                     |
-    +---------------------------------------------------------------------+
-    | B: Открытие URL в браузере                                          |
-    +---------------------------------------------------------------------+
-    |                                                                     |
-    |  page = await browser.get(url)                                      |
-    |                                                                     |
-    +---------------------------------------------------------------------+
-    | C: Извлечение токена доступа из localStorage                          |
-    +---------------------------------------------------------------------+
-    |                                                                     |
-    |  access_token = await page.evaluate(...)                            |
-    |                                                                     |
-    +---------------------------------------------------------------------+
-    | D: Получение cookie                                                   |
-    +---------------------------------------------------------------------+
-    |                                                                     |
-    |  cookies = {}                                                       |
-    |  for c in await page.send(nodriver.cdp.network.get_cookies([url])): |
-    |      cookies[c.name] = c.value                                      |
-    |                                                                     |
-    +---------------------------------------------------------------------+
-    | E: Закрытие страницы и остановка браузера                             |
-    +---------------------------------------------------------------------+
-    |                                                                     |
-    |  await page.close()                                                 |
-    |  stop_browser()                                                      |
-    |                                                                     |
-    +---------------------------------------------------------------------+
-    | F: Возврат токена доступа и cookie                                    |
-    +---------------------------------------------------------------------+
+A: Запуск браузера
+|
+B: Открытие URL
+|
+C: Извлечение access token из localStorage
+|
+D: Получение cookies
+|
+E: Закрытие браузера
+|
+F: Возврат access token и cookies
+```
 
+**Примеры**:
+```python
+import asyncio
+
+async def main():
+    url = "https://copilot.microsoft.com"
+    access_token, cookies = await get_access_token_and_cookies(url)
+    print(f"Access Token: {access_token[:10]}...")
+    print(f"Cookies: {cookies}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
 ```
 
 ### `readHAR`
@@ -146,73 +129,62 @@ async def get_access_token_and_cookies(url: str, proxy: str = None, target: str 
 ```python
 def readHAR(url: str) -> tuple[str, dict]:
     """
-    Читает файлы HAR (HTTP Archive) для извлечения токена доступа и cookie.
+    Читает .har файлы для извлечения access token и cookies.
 
     Args:
-        url (str): URL для поиска в файлах HAR.
+        url (str): URL для поиска в .har файлах.
 
     Returns:
-        tuple[str, dict]: Кортеж, содержащий токен доступа и словарь cookie.
+        tuple[str, dict]: Кортеж, содержащий access token и словарь cookies.
 
     Raises:
-        NoValidHarFileError: Если токен доступа не найден в файлах HAR.
-
-    Как работает функция:
-    1. Получает список путей к файлам HAR с использованием `get_har_files()`.
-    2. Перебирает каждый файл HAR, пытаясь загрузить его содержимое как JSON.
-    3. Для каждого файла HAR перебирает записи (`entries`) в логе.
-    4. Проверяет, начинается ли URL запроса (`request.url`) с указанного URL.
-    5. Если URL совпадает, извлекает заголовки запроса и проверяет наличие заголовка `authorization`.
-       Если заголовок `authorization` присутствует, извлекает токен доступа из его значения.
-    6. Извлекает cookie из запроса и формирует словарь cookie.
-    7. Если токен доступа не найден после перебора всех файлов HAR, вызывает исключение `NoValidHarFileError`.
-    8. Возвращает токен доступа и cookie.
-
-    Примеры:
-        # Пример вызова функции
-        api_key, cookies = readHAR("https://copilot.microsoft.com")
+        NoValidHarFileError: Если access token не найден в .har файлах.
     """
 ```
 
+**Назначение**: Чтение HAR (HTTP Archive) файлов для извлечения access token и cookies, необходимых для аутентификации.
+
+**Параметры**:
+- `url` (str): URL для поиска в HAR файлах.
+
+**Возвращает**:
+- `tuple[str, dict]`: Кортеж, содержащий access token и словарь cookies.
+
+**Вызывает исключения**:
+- `NoValidHarFileError`: Если access token не найден в HAR файлах.
+
 **Как работает функция**:
+1. Получает список HAR файлов с использованием `get_har_files()`.
+2. Перебирает HAR файлы и пытается загрузить их содержимое как JSON.
+3. Ищет записи, URL которых начинаются с заданного `url`.
+4. Извлекает access token из заголовка `authorization` и cookies из запроса.
+5. Если access token не найден, вызывает исключение `NoValidHarFileError`.
+
+ASCII flowchart:
 
 ```
-    +---------------------------------------------------------------------+
-    | A: Получение списка файлов HAR                                       |
-    +---------------------------------------------------------------------+
-    |                                                                     |
-    |  for path in get_har_files():                                       |
-    |                                                                     |
-    +---------------------------------------------------------------------+
-    | B: Чтение и разбор файла HAR                                         |
-    +---------------------------------------------------------------------+
-    |                                                                     |
-    |  with open(path, 'rb') as file:                                     |
-    |      harFile = json.loads(file.read())                             |
-    |                                                                     |
-    +---------------------------------------------------------------------+
-    | C: Поиск токена доступа и cookie в записях HAR                       |
-    +---------------------------------------------------------------------+
-    |                                                                     |
-    |  for v in harFile['log']['entries']:                                 |
-    |      if v['request']['url'].startswith(url):                        |
-    |          v_headers = get_headers(v)                                 |
-    |          if "authorization" in v_headers:                           |
-    |              api_key = v_headers["authorization"].split(maxsplit=1).pop()
-    |          if v['request']['cookies']:                                 |
-    |              cookies = {c['name']: c['value'] for c in v['request']['cookies']}
-    |                                                                     |
-    +---------------------------------------------------------------------+
-    | D: Выброс исключения, если токен не найден                          |
-    +---------------------------------------------------------------------+
-    |                                                                     |
-    |  if api_key is None:                                               |
-    |      raise NoValidHarFileError("No access token found in .har files")
-    |                                                                     |
-    +---------------------------------------------------------------------+
-    | E: Возврат токена доступа и cookie                                    |
-    +---------------------------------------------------------------------+
+A: Получение списка HAR файлов
+|
+B: Перебор HAR файлов
+|
+C: Загрузка содержимого HAR файла как JSON
+|
+D: Поиск записей с заданным URL
+|
+E: Извлечение access token и cookies
+|
+F: Возврат access token и cookies
+```
 
+**Примеры**:
+```python
+try:
+    url = "https://copilot.microsoft.com"
+    access_token, cookies = readHAR(url)
+    print(f"Access Token: {access_token[:10]}...")
+    print(f"Cookies: {cookies}")
+except NoValidHarFileError as ex:
+    print(f"Error: {ex}")
 ```
 
 ### `get_clarity`
@@ -220,37 +192,33 @@ def readHAR(url: str) -> tuple[str, dict]:
 ```python
 def get_clarity() -> bytes:
     """
-    Возвращает base64-декодированные данные, используемые для Clarity.
+    Возвращает закодированное тело запроса для Clarity.
 
     Returns:
-        bytes: Декодированные данные Clarity.
-
-    Как работает функция:
-    1. Определяет base64-encoded строку, представляющую сжатые данные.
-    2. Декодирует base64-encoded строку, используя `base64.b64decode()`.
-    3. Возвращает декодированные данные.
-
-    Примеры:
-        # Пример вызова функции
-        clarity_data = get_clarity()
+        bytes: Закодированное тело запроса для Clarity.
     """
 ```
 
+**Назначение**: Возвращает закодированное тело запроса для Clarity, сервиса веб-аналитики.
+
+**Возвращает**:
+- `bytes`: Закодированное тело запроса для Clarity.
+
 **Как работает функция**:
+1. Определяет закодированную строку в формате base64.
+2. Декодирует строку base64 и возвращает результат.
+
+ASCII flowchart:
 
 ```
-    +---------------------------------------------------------------------+
-    | A: Определение base64-encoded данных                                |
-    +---------------------------------------------------------------------+
-    |                                                                     |
-    |  body = base64.b64decode("H4sIAAAAAAAAA23RwU7DMAwG4HfJ2...")      |
-    |                                                                     |
-    +---------------------------------------------------------------------+
-    | B: Декодирование base64-encoded данных                               |
-    +---------------------------------------------------------------------+
-    |                                                                     |
-    |  body = base64.b64decode(...)                                        |
-    |                                                                     |
-    +---------------------------------------------------------------------+
-    | C: Возврат декодированных данных                                      |
-    +---------------------------------------------------------------------+
+A: Определение закодированной строки
+|
+B: Декодирование строки base64
+|
+C: Возврат декодированного тела запроса
+```
+
+**Примеры**:
+```python
+body = get_clarity()
+print(f"Clarity body: {body[:10]}...")

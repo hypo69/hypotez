@@ -1,40 +1,36 @@
-# Модуль для юнит-тестирования моделей g4f
-==============================================
-
-Модуль содержит юнит-тесты для проверки корректности работы моделей в библиотеке `g4f`.
-В частности, проверяется создание и использование мок-моделей для тестирования.
+# Модуль для модульного тестирования моделей
 
 ## Обзор
 
-Модуль предоставляет класс `TestPassModel`, который содержит набор тестов для проверки правильности инициализации и функционирования моделей в контексте `g4f`. Он использует мок-объекты для эмуляции поведения провайдеров моделей, что позволяет изолированно тестировать логику, связанную с моделями.
+Модуль содержит набор тестов для проверки корректности работы моделей, используемых в `gpt4free`. Он использует `unittest` для организации тестов и `g4f` для взаимодействия с моделями. Модуль также включает моки (mocks) для имитации поведения провайдеров моделей.
 
-## Подробнее
+## Подробней
 
-Этот модуль важен для обеспечения стабильности и надежности библиотеки `g4f`. Он позволяет убедиться, что модели правильно создаются, инициализируются и используются в различных сценариях, включая передачу экземпляра модели, имени модели и комбинации имени модели и провайдера. Модуль использует `unittest` для организации и запуска тестов, а также мок-объект `ModelProviderMock` для эмуляции поведения провайдера модели.
+Этот модуль предназначен для обеспечения надежности и правильности интеграции моделей в проект `hypotez`. Он позволяет проверять, как модели реагируют на различные входные данные и как они взаимодействуют с другими компонентами системы.
 
 ## Классы
 
 ### `TestPassModel`
 
-**Описание**: Класс, содержащий юнит-тесты для проверки работы моделей `g4f`.
+**Описание**: Класс, содержащий тесты для проверки передачи и функционирования моделей.
 
-**Наследует**: `unittest.TestCase`
+**Принцип работы**:
+Класс `TestPassModel` использует библиотеку `unittest` для определения тестовых случаев. Он проверяет, что модели могут быть правильно инстанцированы и вызваны через `ChatCompletion.create` с использованием различных способов передачи модели (экземпляр модели, имя модели). Он также проверяет, что модель может быть передана вместе с моком провайдера модели.
 
-**Атрибуты**:
-- Нет специфических атрибутов, кроме тех, что предоставляются `unittest.TestCase`.
+**Аттрибуты**:
+- Отсутствуют
 
 **Методы**:
-- `test_model_instance()`: Проверяет создание модели через передачу экземпляра модели.
-- `test_model_name()`: Проверяет создание модели через передачу имени модели.
-- `test_model_pass()`: Проверяет создание модели через передачу имени модели и провайдера.
-
-## Функции
+- `test_model_instance()`: Проверяет создание ответа через передачу инстанса модели.
+- `test_model_name()`: Проверяет создание ответа через передачу имени модели.
+- `test_model_pass()`: Проверяет создание ответа через передачу имени модели и мока провайдера.
 
 ### `test_model_instance`
 
 ```python
 def test_model_instance(self):
-    """Функция тестирует создание модели через передачу экземпляра модели.
+    """
+    Проверяет, что модель может быть инстанцирована и использована для создания ответа через ChatCompletion.create при передаче экземпляра модели.
 
     Args:
         self (TestPassModel): Экземпляр класса TestPassModel.
@@ -43,39 +39,27 @@ def test_model_instance(self):
         None
 
     Raises:
-        AssertionError: Если имя созданной модели не совпадает с ожидаемым.
-
-    Example:
-        >>> test_instance = TestPassModel()
-        >>> test_instance.test_model_instance()
+        AssertionError: Если имя модели не совпадает с ожидаемым ответом.
     """
 ```
 
-**Назначение**: Проверяет, что модель может быть создана и использована путем передачи экземпляра модели в функцию `ChatCompletion.create`.
-
-**Параметры**:
-- `self` (TestPassModel): Экземпляр класса `TestPassModel`.
-
-**Возвращает**:
-- `None`
-
-**Вызывает исключения**:
-- `AssertionError`: Если имя созданной модели не совпадает с ожидаемым.
-
 **Как работает функция**:
-1. Вызывает функцию `ChatCompletion.create` с экземпляром мок-модели `test_model` и стандартными сообщениями `DEFAULT_MESSAGES`.
-2. Сравнивает имя модели `test_model.name` с результатом, возвращенным функцией `ChatCompletion.create`.
-3. Если имена не совпадают, тест завершается с ошибкой `AssertionError`.
+
+1.  **Создание запроса к ChatCompletion**: Вызывается `ChatCompletion.create` с передачей экземпляра `test_model` и стандартного сообщения `DEFAULT_MESSAGES`.
+2.  **Получение ответа**: Результат вызова сохраняется в переменной `response`.
+3.  **Проверка ответа**: С помощью `self.assertEqual` проверяется, что имя модели (`test_model.name`) совпадает с полученным ответом (`response`).
+
+```
+A: Вызов ChatCompletion.create с экземпляром модели и сообщением
+|
+B: Получение ответа от ChatCompletion
+|
+C: Проверка совпадения имени модели и ответа
+```
 
 **Примеры**:
+
 ```python
-import unittest
-import g4f
-from g4f import ChatCompletion
-from .mocks import ModelProviderMock
-
-DEFAULT_MESSAGES = [{'role': 'user', 'content': 'Hello'}]
-
 test_model = g4f.models.Model(
     name          = "test/test_model",
     base_provider = "",
@@ -83,17 +67,17 @@ test_model = g4f.models.Model(
 )
 g4f.models.ModelUtils.convert["test_model"] = test_model
 
-class TestPassModel(unittest.TestCase):
-
-    def test_model_instance(self):
-        response = ChatCompletion.create(test_model, DEFAULT_MESSAGES)
-        self.assertEqual(test_model.name, response)
+# Создание инстанса класса TestPassModel (Предположим, что он уже создан)
+test_instance = TestPassModel()
+test_instance.test_model_instance()
 ```
+
 ### `test_model_name`
 
 ```python
 def test_model_name(self):
-    """Функция тестирует создание модели через передачу имени модели.
+    """
+    Проверяет, что модель может быть использована для создания ответа через ChatCompletion.create при передаче имени модели.
 
     Args:
         self (TestPassModel): Экземпляр класса TestPassModel.
@@ -102,39 +86,27 @@ def test_model_name(self):
         None
 
     Raises:
-        AssertionError: Если имя созданной модели не совпадает с ожидаемым.
-
-    Example:
-        >>> test_instance = TestPassModel()
-        >>> test_instance.test_model_name()
+        AssertionError: Если имя модели не совпадает с ожидаемым ответом.
     """
 ```
 
-**Назначение**: Проверяет, что модель может быть создана и использована путем передачи имени модели в функцию `ChatCompletion.create`.
-
-**Параметры**:
-- `self` (TestPassModel): Экземпляр класса `TestPassModel`.
-
-**Возвращает**:
-- `None`
-
-**Вызывает исключения**:
-- `AssertionError`: Если имя созданной модели не совпадает с ожидаемым.
-
 **Как работает функция**:
-1. Вызывает функцию `ChatCompletion.create` с именем мок-модели `"test_model"` и стандартными сообщениями `DEFAULT_MESSAGES`.
-2. Сравнивает имя модели `test_model.name` с результатом, возвращенным функцией `ChatCompletion.create`.
-3. Если имена не совпадают, тест завершается с ошибкой `AssertionError`.
+
+1.  **Создание запроса к ChatCompletion**: Вызывается `ChatCompletion.create` с передачей имени модели `"test_model"` и стандартного сообщения `DEFAULT_MESSAGES`.
+2.  **Получение ответа**: Результат вызова сохраняется в переменной `response`.
+3.  **Проверка ответа**: С помощью `self.assertEqual` проверяется, что имя модели (`test_model.name`) совпадает с полученным ответом (`response`).
+
+```
+A: Вызов ChatCompletion.create с именем модели и сообщением
+|
+B: Получение ответа от ChatCompletion
+|
+C: Проверка совпадения имени модели и ответа
+```
 
 **Примеры**:
+
 ```python
-import unittest
-import g4f
-from g4f import ChatCompletion
-from .mocks import ModelProviderMock
-
-DEFAULT_MESSAGES = [{'role': 'user', 'content': 'Hello'}]
-
 test_model = g4f.models.Model(
     name          = "test/test_model",
     base_provider = "",
@@ -142,17 +114,17 @@ test_model = g4f.models.Model(
 )
 g4f.models.ModelUtils.convert["test_model"] = test_model
 
-class TestPassModel(unittest.TestCase):
-
-    def test_model_name(self):
-        response = ChatCompletion.create("test_model", DEFAULT_MESSAGES)
-        self.assertEqual(test_model.name, response)
+# Создание инстанса класса TestPassModel (Предположим, что он уже создан)
+test_instance = TestPassModel()
+test_instance.test_model_name()
 ```
+
 ### `test_model_pass`
 
 ```python
 def test_model_pass(self):
-    """Функция тестирует создание модели через передачу имени модели и провайдера.
+    """
+    Проверяет, что модель может быть использована для создания ответа через ChatCompletion.create при передаче имени модели и мока провайдера.
 
     Args:
         self (TestPassModel): Экземпляр класса TestPassModel.
@@ -161,39 +133,27 @@ def test_model_pass(self):
         None
 
     Raises:
-        AssertionError: Если имя созданной модели не совпадает с ожидаемым.
-
-    Example:
-        >>> test_instance = TestPassModel()
-        >>> test_instance.test_model_pass()
+        AssertionError: Если имя модели не совпадает с ожидаемым ответом.
     """
 ```
 
-**Назначение**: Проверяет, что модель может быть создана и использована путем передачи имени модели и провайдера в функцию `ChatCompletion.create`.
-
-**Параметры**:
-- `self` (TestPassModel): Экземпляр класса `TestPassModel`.
-
-**Возвращает**:
-- `None`
-
-**Вызывает исключения**:
-- `AssertionError`: Если имя созданной модели не совпадает с ожидаемым.
-
 **Как работает функция**:
-1. Вызывает функцию `ChatCompletion.create` с именем мок-модели `"test/test_model"`, стандартными сообщениями `DEFAULT_MESSAGES` и мок-провайдером `ModelProviderMock`.
-2. Сравнивает имя модели `test_model.name` с результатом, возвращенным функцией `ChatCompletion.create`.
-3. Если имена не совпадают, тест завершается с ошибкой `AssertionError`.
+
+1.  **Создание запроса к ChatCompletion**: Вызывается `ChatCompletion.create` с передачей имени модели `"test/test_model"`, стандартного сообщения `DEFAULT_MESSAGES` и мока провайдера `ModelProviderMock`.
+2.  **Получение ответа**: Результат вызова сохраняется в переменной `response`.
+3.  **Проверка ответа**: С помощью `self.assertEqual` проверяется, что имя модели (`test_model.name`) совпадает с полученным ответом (`response`).
+
+```
+A: Вызов ChatCompletion.create с именем модели, сообщением и моком провайдера
+|
+B: Получение ответа от ChatCompletion
+|
+C: Проверка совпадения имени модели и ответа
+```
 
 **Примеры**:
+
 ```python
-import unittest
-import g4f
-from g4f import ChatCompletion
-from .mocks import ModelProviderMock
-
-DEFAULT_MESSAGES = [{'role': 'user', 'content': 'Hello'}]
-
 test_model = g4f.models.Model(
     name          = "test/test_model",
     base_provider = "",
@@ -201,8 +161,53 @@ test_model = g4f.models.Model(
 )
 g4f.models.ModelUtils.convert["test_model"] = test_model
 
-class TestPassModel(unittest.TestCase):
+# Создание инстанса класса TestPassModel (Предположим, что он уже создан)
+test_instance = TestPassModel()
+test_instance.test_model_pass()
+```
 
-    def test_model_pass(self):
-        response = ChatCompletion.create("test/test_model", DEFAULT_MESSAGES, ModelProviderMock)
-        self.assertEqual(test_model.name, response)
+## Функции
+
+### `DEFAULT_MESSAGES`
+
+**Назначение**:
+Определение стандартного набора сообщений для использования в тестах.
+
+**Параметры**:
+- Отсутствуют.
+
+**Возвращает**:
+- `List[Dict[str, str]]`: Список, содержащий словарь с ролью пользователя и сообщением "Hello".
+
+**Как работает**:
+Функция просто определяет константу `DEFAULT_MESSAGES`, которая представляет собой список, содержащий одно сообщение с ролью пользователя и текстом "Hello". Этот набор сообщений используется в тестах для отправки в модели.
+
+**Примеры**:
+
+```python
+# Пример использования DEFAULT_MESSAGES в тестах
+messages = DEFAULT_MESSAGES
+print(messages)  # Вывод: [{'role': 'user', 'content': 'Hello'}]
+```
+
+### `test_model`
+
+**Назначение**:
+Создание экземпляра модели `g4f.models.Model` для использования в тестах.
+
+**Параметры**:
+- Отсутствуют
+
+**Возвращает**:
+- `g4f.models.Model`: Экземпляр модели с заданными параметрами.
+
+**Как работает**:
+Функция создает экземпляр класса `g4f.models.Model` с именем `"test/test_model"`, пустым `base_provider` и `ModelProviderMock` в качестве `best_provider`. Затем она добавляет созданную модель в словарь `g4f.models.ModelUtils.convert` под ключом `"test_model"`.
+
+**Примеры**:
+
+```python
+# Пример использования test_model в тестах
+model = test_model
+print(model.name)  # Вывод: test/test_model
+```

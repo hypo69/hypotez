@@ -1,41 +1,45 @@
-# Модуль `GithubCopilot`
-
+# Модуль для работы с GitHub Copilot
 ## Обзор
 
-Модуль предназначен для взаимодействия с GitHub Copilot в режиме асинхронного генератора. Он предоставляет возможность создавать и поддерживать диалоги с использованием различных моделей, включая `gpt-4o`, `o1-mini`, `o1-preview` и `claude-3.5-sonnet`. Модуль требует аутентификации и поддерживает потоковую передачу данных.
+Модуль предоставляет класс `GithubCopilot`, который позволяет взаимодействовать с сервисом GitHub Copilot для генерации текста. Он поддерживает потоковую передачу данных, требует аутентификации и может работать через прокси. Класс асинхронный, что позволяет эффективно использовать ресурсы при работе с сетью.
 
 ## Подробней
 
-Модуль предназначен для интеграции с GitHub Copilot и обеспечивает асинхронное взаимодействие с API. Он позволяет отправлять сообщения и получать ответы в потоковом режиме, что особенно полезно для длительных диалогов. Класс `GithubCopilot` реализует логику подключения, аутентификации и обмена сообщениями с сервером GitHub Copilot.
+Этот модуль предназначен для интеграции с GitHub Copilot API. Он включает в себя функции для создания асинхронного генератора, необходимого для потоковой обработки ответов от API. Модуль поддерживает различные модели, такие как "gpt-4o", "o1-mini", "o1-preview", "claude-3.5-sonnet" и требует аутентификации через API ключ или cookies. Он также умеет управлять conversation_id для поддержания контекста диалога.
 
 ## Классы
 
 ### `Conversation`
+Описание назначения класса:
 
-**Описание**: Класс представляет собой структуру данных для хранения информации о текущем диалоге (conversation) с GitHub Copilot.
+Класс `Conversation` представляет собой контейнер для хранения идентификатора беседы (conversation_id) с GitHub Copilot.
 
-**Атрибуты**:
-- `conversation_id` (str): Уникальный идентификатор диалога.
+**Наследует:**
 
-**Методы**:
-- `__init__(self, conversation_id: str)`: Инициализирует объект `Conversation` с заданным `conversation_id`.
+Не наследует другие классы.
+
+**Атрибуты:**
+
+- `conversation_id` (str): Уникальный идентификатор беседы.
 
 ### `GithubCopilot`
 
-**Описание**: Класс `GithubCopilot` реализует асинхронного провайдера для взаимодействия с GitHub Copilot. Он обеспечивает создание диалогов, отправку сообщений и получение ответов.
+**Описание**: Класс `GithubCopilot` предназначен для взаимодействия с API GitHub Copilot. Он обеспечивает асинхронную генерацию текста на основе предоставленных сообщений, поддерживает потоковую передачу данных и требует аутентификации.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
-- `ProviderModelMixin`: Добавляет поддержку выбора модели.
+**Принцип работы**:
+Класс `GithubCopilot` инициализируется без параметров. Для работы с API требуется передать API-ключ или cookies, а также идентификатор беседы (conversation_id) для поддержания контекста.
 
-**Атрибуты**:
-- `label` (str): Метка провайдера ("GitHub Copilot").
-- `url` (str): URL GitHub Copilot ("https://github.com/copilot").
-- `working` (bool): Указывает, что провайдер работает (True).
-- `needs_auth` (bool): Указывает, что требуется аутентификация (True).
-- `supports_stream` (bool): Указывает, что поддерживается потоковая передача (True).
-- `default_model` (str): Модель по умолчанию ("gpt-4o").
-- `models` (list[str]): Список поддерживаемых моделей (["gpt-4o", "o1-mini", "o1-preview", "claude-3.5-sonnet"]).
+**Атрибуты:**
+- `label` (str): Метка провайдера, в данном случае "GitHub Copilot".
+- `url` (str): URL GitHub Copilot.
+- `working` (bool): Указывает, работает ли провайдер (в данном случае `True`).
+- `needs_auth` (bool): Указывает, требуется ли аутентификация (в данном случае `True`).
+- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу данных (в данном случае `True`).
+- `default_model` (str): Модель, используемая по умолчанию (`gpt-4o`).
+- `models` (List[str]): Список поддерживаемых моделей.
+
+**Методы**:
+- `create_async_generator`: Создает асинхронный генератор для взаимодействия с API GitHub Copilot.
 
 ## Функции
 
@@ -57,97 +61,131 @@ async def create_async_generator(
     **kwargs
 ) -> AsyncResult:
     """
-    Создает асинхронный генератор для взаимодействия с GitHub Copilot.
+    Создает асинхронный генератор для взаимодействия с API GitHub Copilot.
 
     Args:
-        cls (GithubCopilot): Класс GithubCopilot.
-        model (str): Используемая модель.
-        messages (Messages): Список сообщений для отправки.
-        stream (bool, optional): Флаг потоковой передачи. По умолчанию False.
-        api_key (str, optional): API ключ для аутентификации. По умолчанию None.
-        proxy (str, optional): Прокси сервер. По умолчанию None.
-        cookies (Cookies, optional): Cookies для аутентификации. По умолчанию None.
-        conversation_id (str, optional): Идентификатор существующего диалога. По умолчанию None.
-        conversation (Conversation, optional): Объект Conversation. По умолчанию None.
-        return_conversation (bool, optional): Флаг возврата объекта Conversation. По умолчанию False.
-        **kwargs: Дополнительные аргументы.
+        model (str): Модель для генерации текста.
+        messages (Messages): Список сообщений для передачи в API.
+        stream (bool, optional): Флаг, указывающий на использование потоковой передачи данных. По умолчанию `False`.
+        api_key (str, optional): API-ключ для аутентификации. По умолчанию `None`.
+        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
+        cookies (Cookies, optional): Cookies для аутентификации. По умолчанию `None`.
+        conversation_id (str, optional): Идентификатор беседы. По умолчанию `None`.
+        conversation (Conversation, optional): Объект беседы. По умолчанию `None`.
+        return_conversation (bool, optional): Флаг, указывающий на необходимость возврата объекта беседы. По умолчанию `False`.
+        **kwargs: Дополнительные параметры.
 
     Returns:
-        AsyncResult: Асинхронный генератор для получения ответов от GitHub Copilot.
-    
+        AsyncResult: Асинхронный генератор для получения ответов от API.
+
     Raises:
-        Exception: Если происходит ошибка при получении токена или создании диалога.
+        Exception: В случае ошибок при запросе токена или при создании/отправке сообщений.
     """
 ```
 
-**Назначение**: Функция создает асинхронный генератор для взаимодействия с GitHub Copilot. Она отвечает за установку соединения, аутентификацию и обмен сообщениями с сервером GitHub Copilot.
+**Назначение**: Функция `create_async_generator` создает и возвращает асинхронный генератор, который обеспечивает взаимодействие с API GitHub Copilot. Она отвечает за аутентификацию, установку заголовков, формирование данных запроса и обработку потоковых ответов от API.
 
 **Параметры**:
-- `cls` (GithubCopilot): Класс `GithubCopilot`.
-- `model` (str): Используемая модель.
-- `messages` (Messages): Список сообщений для отправки.
-- `stream` (bool, optional): Флаг потоковой передачи. По умолчанию `False`.
-- `api_key` (str, optional): API ключ для аутентификации. По умолчанию `None`.
-- `proxy` (str, optional): Прокси сервер. По умолчанию `None`.
+- `cls`: Ссылка на класс `GithubCopilot`.
+- `model` (str): Модель для генерации текста.
+- `messages` (Messages): Список сообщений для передачи в API.
+- `stream` (bool, optional): Флаг, указывающий на использование потоковой передачи данных. По умолчанию `False`.
+- `api_key` (str, optional): API-ключ для аутентификации. По умолчанию `None`.
+- `proxy` (str, optional): URL прокси-сервера. По умолчанию `None`.
 - `cookies` (Cookies, optional): Cookies для аутентификации. По умолчанию `None`.
-- `conversation_id` (str, optional): Идентификатор существующего диалога. По умолчанию `None`.
-- `conversation` (Conversation, optional): Объект `Conversation`. По умолчанию `None`.
-- `return_conversation` (bool, optional): Флаг возврата объекта `Conversation`. По умолчанию `False`.
-- `**kwargs`: Дополнительные аргументы.
+- `conversation_id` (str, optional): Идентификатор беседы. По умолчанию `None`.
+- `conversation` (Conversation, optional): Объект беседы. По умолчанию `None`.
+- `return_conversation` (bool, optional): Флаг, указывающий на необходимость возврата объекта беседы. По умолчанию `False`.
+- `**kwargs`: Дополнительные параметры.
 
 **Возвращает**:
-- `AsyncResult`: Асинхронный генератор для получения ответов от GitHub Copilot.
+- `AsyncResult`: Асинхронный генератор для получения ответов от API.
 
 **Вызывает исключения**:
-- `Exception`: Если происходит ошибка при получении токена или создании диалога.
+- `Exception`: В случае ошибок при запросе токена или при создании/отправке сообщений.
+
+**Внутренние функции**:
+- Отсутствуют
 
 **Как работает функция**:
 
-1. **Инициализация**: Функция начинается с установки значений по умолчанию для параметров `model` и `cookies`, если они не были предоставлены.
-2. **Создание сессии**: Создается асинхронная сессия `ClientSession` с использованием `aiohttp`, которая будет использоваться для отправки запросов к API GitHub Copilot. Устанавливаются необходимые заголовки, такие как `User-Agent`, `Referer` и `Content-Type`.
-3. **Аутентификация**: Если `api_key` не предоставлен, функция пытается получить его, отправляя POST-запрос на `https://github.com/github-copilot/chat/token`. Полученный токен используется для формирования заголовка `Authorization`.
-4. **Создание диалога**: Если `conversation_id` не предоставлен, функция создает новый диалог, отправляя POST-запрос на `https://api.individual.githubcopilot.com/github/chat/threads`. Полученный `thread_id` используется в качестве `conversation_id`.
-5. **Отправка сообщений и получение ответов**: Функция формирует JSON-данные для отправки сообщения, включая контент сообщения, параметры контекста и информацию о модели. Затем она отправляет POST-запрос на `https://api.individual.githubcopilot.com/github/chat/threads/{conversation_id}/messages` и получает ответы в потоковом режиме.
-6. **Генерация ответов**: Функция итерирует по строкам ответа и извлекает полезные данные (тело ответа) из JSON-объектов, которые начинаются с `data: `. Полученные данные передаются в генератор для последующей обработки.
+1. **Инициализация**:
+   - Устанавливает модель по умолчанию, если она не предоставлена.
+   - Получает cookies, если они не предоставлены.
 
-**Внутренние функции**: Отсутствуют
+2. **Создание сессии**:
+   - Создает асинхронную сессию `ClientSession` с использованием `aiohttp`.
+   - Устанавливает заголовки User-Agent, Accept-Language, Referer, Content-Type и другие.
 
-**ASCII flowchart**:
+3. **Аутентификация**:
+   - Если `api_key` не предоставлен, запрашивает токен аутентификации с `https://github.com/github-copilot/chat/token`.
+   - Добавляет заголовок `Authorization` с полученным токеном.
+
+4. **Управление conversation_id**:
+   - Если `conversation_id` не предоставлен, создает новую беседу, запросив `thread_id` с `https://api.individual.githubcopilot.com/github/chat/threads`.
+
+5. **Формирование данных запроса**:
+   - Если `return_conversation` установлен в `True`, возвращает объект `Conversation` с `conversation_id`.
+   - Форматирует сообщения с использованием `format_prompt` или `get_last_user_message`.
+   - Формирует JSON-данные для отправки запроса, включая `content`, `intent`, `references`, `context`, `currentURL`, `streaming`, `confirmations`, `customInstructions`, `model` и `mode`.
+
+6. **Отправка запроса и обработка ответа**:
+   - Отправляет POST-запрос на `https://api.individual.githubcopilot.com/github/chat/threads/{conversation_id}/messages` с сформированными JSON-данными и заголовками.
+   - Асинхронно читает ответ по строкам и извлекает данные из строк, начинающихся с `data: `.
+   - Декодирует JSON-данные и возвращает содержимое (`body`), если тип данных (`type`) равен `content`.
 
 ```
-A: Инициализация параметров
-↓
-B: Создание асинхронной сессии
-↓
-C: Аутентификация (получение API ключа, если необходимо)
-↓
-D: Создание диалога (получение conversation_id, если необходимо)
-↓
-E: Формирование JSON-данных для отправки сообщения
-↓
-F: Отправка POST-запроса и получение ответов в потоковом режиме
-↓
-G: Извлечение полезных данных из JSON-ответов и передача в генератор
+Инициализация
+    │
+    ├── Проверка наличия model и установка default_model
+    │
+    ├── Получение cookies
+    │
+    └── Создание ClientSession
+         │
+         ├── Определение api_key
+         │   │
+         │   └── Запрос токена, если api_key не предоставлен
+         │
+         ├── Определение conversation_id
+         │   │
+         │   └── Создание новой беседы, если conversation_id не предоставлен
+         │
+         └── Формирование json_data
+              │
+              └── Отправка POST-запроса
+                   │
+                   └── Обработка потока ответов
 ```
 
 **Примеры**:
 
 ```python
-# Пример использования с указанием модели и сообщениями
-messages = [{"role": "user", "content": "Hello, Copilot!"}]
-async for response in GithubCopilot.create_async_generator(model="gpt-4o", messages=messages):
-    print(response)
-```
+# Пример 1: Создание асинхронного генератора с использованием API-ключа
+async for message in GithubCopilot.create_async_generator(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Hello, Copilot!"}],
+    api_key="YOUR_API_KEY"
+):
+    print(message)
 
-```python
-# Пример использования с указанием API ключа и прокси
-messages = [{"role": "user", "content": "Tell me a joke."}]
-async for response in GithubCopilot.create_async_generator(model="o1-mini", messages=messages, api_key="YOUR_API_KEY", proxy="http://your_proxy:8080"):
-    print(response)
-```
+# Пример 2: Создание асинхронного генератора с использованием cookies и прокси
+async for message in GithubCopilot.create_async_generator(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Hello, Copilot!"}],
+    cookies={"cookie_name": "cookie_value"},
+    proxy="http://your_proxy:8080"
+):
+    print(message)
 
-```python
-# Пример использования с существующим conversation_id
-messages = [{"role": "user", "content": "Continue the conversation."}]
-async for response in GithubCopilot.create_async_generator(model="o1-preview", messages=messages, conversation_id="YOUR_CONVERSATION_ID"):
-    print(response)
+# Пример 3: Создание асинхронного генератора с возвратом объекта беседы
+async for item in GithubCopilot.create_async_generator(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Hello, Copilot!"}],
+    return_conversation=True
+):
+    if isinstance(item, Conversation):
+        conversation = item
+        print(f"Conversation ID: {conversation.conversation_id}")
+    else:
+        print(item)

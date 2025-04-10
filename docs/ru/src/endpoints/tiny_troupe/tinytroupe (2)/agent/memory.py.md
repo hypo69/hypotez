@@ -1,267 +1,448 @@
-# Модуль memory.py
+# Модуль `memory.py`
 
 ## Обзор
 
-Модуль `memory.py` предоставляет классы для реализации различных типов памяти агента в системе `tinytroupe`. Он включает базовый класс `TinyMemory` и его подклассы `EpisodicMemory` и `SemanticMemory`, представляющие эпизодическую и семантическую память соответственно.
+Модуль предоставляет классы для реализации различных типов памяти агента в системе `tinytroupe`. Он включает в себя абстрактный базовый класс `TinyMemory` и его подклассы `EpisodicMemory` и `SemanticMemory`, реализующие эпизодическую и семантическую память соответственно. Модуль обеспечивает механизмы хранения и извлечения информации, а также интеграцию с семантическим заземлением для обработки и хранения семантических данных.
 
 ## Подробней
 
-Этот модуль предназначен для моделирования когнитивных процессов, связанных с памятью агента. `TinyMemory` служит базовым классом для различных типов памяти, предоставляя интерфейс для хранения и извлечения информации. `EpisodicMemory` позволяет агенту запоминать конкретные события или эпизоды из прошлого, а `SemanticMemory` хранит знания и понятия, не связанные с конкретными событиями.
+Этот модуль является важной частью архитектуры агента, позволяя ему сохранять и использовать информацию о прошлых событиях и общих знаниях. `TinyMemory` служит основой для различных типов памяти, а `EpisodicMemory` и `SemanticMemory` предоставляют конкретные реализации для хранения и извлечения эпизодических и семантических данных.
 
 ## Классы
 
 ### `TinyMemory`
 
-**Описание**: Базовый класс для различных типов памяти.
+**Описание**: Абстрактный базовый класс для различных типов памяти.
 
-**Принцип работы**:
-- Определяет интерфейс для хранения и извлечения информации из памяти.
-- Предоставляет методы для предварительной обработки значений перед сохранением и абстрактные методы, которые должны быть реализованы в подклассах.
-
-**Аттрибуты**:
-- Нет специфических атрибутов, определённых в данном классе.
+**Принцип работы**: Определяет интерфейс для хранения и извлечения данных из памяти агента. Подклассы должны реализовывать методы `_store`, `retrieve`, `retrieve_recent` и `retrieve_all`.
 
 **Методы**:
-- `_preprocess_value_for_storage(self, value: Any) -> Any`: Предварительная обработка значения перед сохранением в памяти. По умолчанию не выполняет никаких действий.
-- `_store(self, value: Any) -> None`: Абстрактный метод для хранения значения в памяти. Должен быть реализован в подклассах.
-- `store(self, value: dict) -> None`: Сохраняет значение в памяти, предварительно обрабатывая его.
-- `store_all(self, values: list) -> None`: Сохраняет список значений в памяти.
-- `retrieve(self, first_n: int, last_n: int, include_omission_info: bool = True) -> list`: Абстрактный метод для извлечения значений из памяти. Должен быть реализован в подклассах.
-- `retrieve_recent(self) -> list`: Абстрактный метод для извлечения последних значений из памяти. Должен быть реализован в подклассах.
-- `retrieve_all(self) -> list`: Абстрактный метод для извлечения всех значений из памяти. Должен быть реализован в подклассах.
-- `retrieve_relevant(self, relevance_target: str, top_k=20) -> list`: Абстрактный метод для извлечения значений из памяти, релевантных заданной цели. Должен быть реализован в подклассах.
 
----
+- `_preprocess_value_for_storage(self, value: Any) -> Any`:
+    ```python
+    def _preprocess_value_for_storage(self, value: Any) -> Any:
+        """
+        Предобрабатывает значение перед сохранением в памяти.
+
+        Args:
+            value (Any): Значение для предобработки.
+
+        Returns:
+            Any: Предобработанное значение.
+        """
+    ```
+
+- `_store(self, value: Any) -> None`:
+    ```python
+    def _store(self, value: Any) -> None:
+        """
+        Сохраняет значение в памяти.
+
+        Raises:
+            NotImplementedError: Если метод не реализован в подклассе.
+        """
+    ```
+
+- `store(self, value: dict) -> None`:
+    ```python
+    def store(self, value: dict) -> None:
+        """
+        Сохраняет значение в памяти, предварительно обработав его.
+
+        Args:
+            value (dict): Значение для сохранения.
+        """
+    ```
+
+- `store_all(self, values: list) -> None`:
+    ```python
+    def store_all(self, values: list) -> None:
+        """
+        Сохраняет список значений в памяти.
+
+        Args:
+            values (list): Список значений для сохранения.
+        """
+    ```
+
+- `retrieve(self, first_n: int, last_n: int, include_omission_info:bool=True) -> list`:
+    ```python
+    def retrieve(self, first_n: int, last_n: int, include_omission_info:bool=True) -> list:
+        """
+        Извлекает первые `n` и/или последние `n` значения из памяти. Если `n` равен `None`, извлекаются все значения.
+
+        Args:
+            first_n (int): Количество первых значений для извлечения.
+            last_n (int): Количество последних значений для извлечения.
+            include_omission_info (bool): Включать ли информационное сообщение, когда некоторые значения опущены.
+
+        Returns:
+            list: Извлеченные значения.
+
+        Raises:
+            NotImplementedError: Если метод не реализован в подклассе.
+        """
+    ```
+
+- `retrieve_recent(self) -> list`:
+    ```python
+    def retrieve_recent(self) -> list:
+        """
+        Извлекает `n` самых последних значений из памяти.
+
+        Raises:
+            NotImplementedError: Если метод не реализован в подклассе.
+        """
+    ```
+
+- `retrieve_all(self) -> list`:
+    ```python
+    def retrieve_all(self) -> list:
+        """
+        Извлекает все значения из памяти.
+
+        Raises:
+            NotImplementedError: Если метод не реализован в подклассе.
+        """
+    ```
+
+- `retrieve_relevant(self, relevance_target:str, top_k=20) -> list`:
+    ```python
+    def retrieve_relevant(self, relevance_target:str, top_k=20) -> list:
+        """
+        Извлекает все значения из памяти, которые релевантны заданной цели.
+
+        Args:
+            relevance_target (str): Цель релевантности.
+            top_k (int): Количество извлекаемых релевантных значений.
+
+        Raises:
+            NotImplementedError: Если метод не реализован в подклассе.
+        """
+    ```
 
 ### `EpisodicMemory`
 
-**Описание**: Класс, реализующий эпизодическую память агента.
+**Описание**: Предоставляет возможности эпизодической памяти для агента. Эпизодическая память - это способность помнить конкретные события или эпизоды в прошлом.
 
-**Наследует**:
-- `TinyMemory`: Наследует функциональность базового класса `TinyMemory`.
+**Наследует**: `TinyMemory`
 
-**Принцип работы**:
-- Позволяет агенту запоминать конкретные события или эпизоды из прошлого.
-- Хранит сообщения в списке `memory` и предоставляет методы для извлечения последних, первых или всех значений.
+**Атрибуты**:
 
-**Аттрибуты**:
 - `MEMORY_BLOCK_OMISSION_INFO (dict)`: Информация о пропущенных блоках памяти.
-- `fixed_prefix_length (int)`: Длина фиксированного префикса памяти. По умолчанию 100.
-- `lookback_length (int)`: Длина отрезка памяти для просмотра в прошлое. По умолчанию 100.
-- `memory (list)`: Список для хранения сообщений памяти.
+- `fixed_prefix_length (int)`: Фиксированная длина префикса.
+- `lookback_length (int)`: Длина ретроспективного обзора.
+- `memory (list)`: Список для хранения эпизодических воспоминаний.
 
 **Методы**:
-- `__init__(self, fixed_prefix_length: int = 100, lookback_length: int = 100) -> None`: Инициализирует память.
-- `_store(self, value: Any) -> None`: Сохраняет значение в памяти, добавляя его в список `memory`.
-- `count(self) -> int`: Возвращает количество значений в памяти.
-- `retrieve(self, first_n: int, last_n: int, include_omission_info: bool = True) -> list`: Извлекает первые `n` и/или последние `n` значения из памяти.
-- `retrieve_recent(self, include_omission_info: bool = True) -> list`: Извлекает последние значения из памяти, учитывая фиксированный префикс и длину просмотра в прошлое.
-- `retrieve_all(self) -> list`: Извлекает все значения из памяти.
-- `retrieve_relevant(self, relevance_target: str, top_k: int) -> list`: Вызывает исключение `NotImplementedError`.
-- `retrieve_first(self, n: int, include_omission_info: bool = True) -> list`: Извлекает первые `n` значений из памяти.
-- `retrieve_last(self, n: int, include_omission_info: bool = True) -> list`: Извлекает последние `n` значений из памяти.
 
----
+- `__init__(self, fixed_prefix_length: int = 100, lookback_length: int = 100) -> None`:
+    ```python
+    def __init__(self, fixed_prefix_length: int = 100, lookback_length: int = 100) -> None:
+        """
+        Инициализирует память.
+
+        Args:
+            fixed_prefix_length (int): Фиксированная длина префикса. По умолчанию 100.
+            lookback_length (int): Длина ретроспективного обзора. По умолчанию 100.
+        """
+    ```
+
+- `_store(self, value: Any) -> None`:
+    ```python
+    def _store(self, value: Any) -> None:
+        """
+        Сохраняет значение в памяти.
+
+        Args:
+            value (Any): Значение для сохранения.
+        """
+    ```
+
+- `count(self) -> int`:
+    ```python
+    def count(self) -> int:
+        """
+        Возвращает количество значений в памяти.
+
+        Returns:
+            int: Количество значений в памяти.
+        """
+    ```
+
+- `retrieve(self, first_n: int, last_n: int, include_omission_info:bool=True) -> list`:
+    ```python
+    def retrieve(self, first_n: int, last_n: int, include_omission_info:bool=True) -> list:
+        """
+        Извлекает первые `n` и/или последние `n` значения из памяти. Если `n` равен `None`, извлекаются все значения.
+
+        Args:
+            first_n (int): Количество первых значений для извлечения.
+            last_n (int): Количество последних значений для извлечения.
+            include_omission_info (bool): Включать ли информационное сообщение, когда некоторые значения опущены.
+
+        Returns:
+            list: Извлеченные значения.
+        """
+    ```
+
+- `retrieve_recent(self, include_omission_info:bool=True) -> list`:
+    ```python
+    def retrieve_recent(self, include_omission_info:bool=True) -> list:
+        """
+        Извлекает `n` самых последних значений из памяти.
+
+        Args:
+            include_omission_info (bool): Включать ли информационное сообщение, когда некоторые значения опущены.
+
+        Returns:
+            list: Список последних значений из памяти.
+        """
+    ```
+
+- `retrieve_all(self) -> list`:
+    ```python
+    def retrieve_all(self) -> list:
+        """
+        Извлекает все значения из памяти.
+
+        Returns:
+            list: Список всех значений из памяти.
+        """
+    ```
+
+- `retrieve_relevant(self, relevance_target: str, top_k:int) -> list`:
+    ```python
+    def retrieve_relevant(self, relevance_target: str, top_k:int) -> list:
+        """
+        Извлекает top-k значений из памяти, которые наиболее релевантны заданной цели.
+
+        Args:
+            relevance_target (str): Цель релевантности.
+            top_k (int): Количество извлекаемых релевантных значений.
+
+        Raises:
+            NotImplementedError: Если метод не реализован в подклассе.
+        """
+    ```
+
+- `retrieve_first(self, n: int, include_omission_info:bool=True) -> list`:
+    ```python
+    def retrieve_first(self, n: int, include_omission_info:bool=True) -> list:
+        """
+        Извлекает первые `n` значений из памяти.
+
+        Args:
+            n (int): Количество первых значений для извлечения.
+            include_omission_info (bool): Включать ли информационное сообщение, когда некоторые значения опущены.
+
+        Returns:
+            list: Список первых значений из памяти.
+        """
+    ```
+
+- `retrieve_last(self, n: int, include_omission_info:bool=True) -> list`:
+    ```python
+    def retrieve_last(self, n: int, include_omission_info:bool=True) -> list:
+        """
+        Извлекает последние `n` значений из памяти.
+
+        Args:
+            n (int): Количество последних значений для извлечения.
+            include_omission_info (bool): Включать ли информационное сообщение, когда некоторые значения опущены.
+
+        Returns:
+            list: Список последних значений из памяти.
+        """
+    ```
 
 ### `SemanticMemory`
 
-**Описание**: Класс, реализующий семантическую память агента.
+**Описание**: Предоставляет возможности семантической памяти для агента. Семантическая память - это память о значениях, пониманиях и других знаниях, основанных на понятиях, не связанных с конкретными переживаниями.
 
-**Наследует**:
-- `TinyMemory`: Наследует функциональность базового класса `TinyMemory`.
+**Наследует**: `TinyMemory`
 
-**Принцип работы**:
-- Хранит знания и понятия, не связанные с конкретными событиями.
-- Использует `BaseSemanticGroundingConnector` для хранения и извлечения семантической информации.
-- При создании происходит индексация всех загруженных документов для быстрого поиска.
+**Атрибуты**:
 
-**Аттрибуты**:
-- `serializable_attrs (list)`: Список атрибутов, которые должны быть сериализованы.
-- `memories (list)`: Список для хранения семантической информации.
-- `semantic_grounding_connector (BaseSemanticGroundingConnector)`: Коннектор для взаимодействия с семантическим хранилищем.
+- `serializable_attrs (list)`: Список сериализуемых атрибутов.
+- `memories (list)`: Список для хранения семантических воспоминаний.
+- `semantic_grounding_connector (BaseSemanticGroundingConnector)`: Коннектор для семантического заземления.
 
 **Методы**:
-- `__init__(self, memories: list = None) -> None`: Инициализирует память.
-- `_post_init(self)`: Выполняется после `__init__`, инициализирует `semantic_grounding_connector` и добавляет документы из `memories`.
-- `_preprocess_value_for_storage(self, value: dict) -> Any`: Предварительно обрабатывает значение перед сохранением, формируя текстовое представление в зависимости от типа значения (action или stimulus).
-- `_store(self, value: Any) -> None`: Сохраняет значение в памяти, добавляя его в семантическое хранилище через `semantic_grounding_connector`.
-- `retrieve_relevant(self, relevance_target: str, top_k: int) -> list`: Извлекает значения из памяти, релевантные заданной цели, используя `semantic_grounding_connector`.
-- `_build_document_from(memory) -> Document`: Вспомогательный метод для создания документа из значения памяти.
-- `_build_documents_from(self, memories: list) -> list`: Вспомогательный метод для создания списка документов из списка значений памяти.
+
+- `__init__(self, memories: list=None) -> None`:
+    ```python
+    def __init__(self, memories: list=None) -> None:
+        """
+        Инициализирует память.
+
+        Args:
+            memories (list): Список начальных семантических воспоминаний.
+        """
+    ```
+
+- `_post_init(self)`:
+    ```python
+    def _post_init(self):
+        """
+        Выполняется после __init__. Инициализирует коннектор семантического заземления и добавляет документы.
+        """
+    ```
+
+- `_preprocess_value_for_storage(self, value: dict) -> Any`:
+    ```python
+    def _preprocess_value_for_storage(self, value: dict) -> Any:
+        """
+        Предобрабатывает значение перед сохранением в памяти.
+
+        Args:
+            value (dict): Значение для предобработки.
+
+        Returns:
+            Any: Предобработанное значение (энграмма).
+        """
+    ```
+
+- `_store(self, value: Any) -> None`:
+    ```python
+    def _store(self, value: Any) -> None:
+        """
+        Сохраняет значение в памяти.
+
+        Args:
+            value (Any): Значение для сохранения.
+        """
+    ```
+
+- `retrieve_relevant(self, relevance_target:str, top_k=20) -> list`:
+    ```python
+    def retrieve_relevant(self, relevance_target:str, top_k=20) -> list:
+        """
+        Извлекает все значения из памяти, которые релевантны заданной цели.
+
+        Args:
+            relevance_target (str): Цель релевантности.
+            top_k (int): Количество извлекаемых релевантных значений.
+
+        Returns:
+            list: Список релевантных значений из памяти.
+        """
+    ```
+
+- `_build_document_from(memory) -> Document`:
+    ```python
+    def _build_document_from(memory) -> Document:
+        """
+        Создает документ из памяти.
+
+        Args:
+            memory: Память для создания документа.
+
+        Returns:
+            Document: Созданный документ.
+        """
+    ```
+
+- `_build_documents_from(self, memories: list) -> list`:
+    ```python
+    def _build_documents_from(self, memories: list) -> list:
+        """
+        Создает список документов из списка воспоминаний.
+
+        Args:
+            memories (list): Список воспоминаний для создания документов.
+
+        Returns:
+            list: Список созданных документов.
+        """
+    ```
 
 ## Функции
-
-### `_preprocess_value_for_storage`
-
-```python
-def _preprocess_value_for_storage(self, value: dict) -> Any:
-    """
-    Предварительно обрабатывает значение перед сохранением в памяти.
-    
-    Args:
-        value (dict): Значение для предварительной обработки.
-    
-    Returns:
-        Any: Предварительно обработанное значение.
-    """
-    ...
-```
-
-**Назначение**: Предварительная обработка значения перед сохранением в семантической памяти. Формирует текстовое представление значения в зависимости от его типа (`action` или `stimulus`).
-
-**Параметры**:
-- `value (dict)`: Значение для предварительной обработки. Ожидается, что словарь будет содержать ключи `type`, `simulation_timestamp` и `content`.
-
-**Возвращает**:
-- `Any`: Предварительно обработанное значение в виде строки, содержащей информацию о действии или стимуле.
-
-**Как работает функция**:
-1. **Проверка типа значения**: Определяет тип значения (`action` или `stimulus`).
-2. **Формирование текстового представления**: В зависимости от типа значения формирует текстовое представление, включающее информацию о времени и содержании.
-3. **Возврат результата**: Возвращает сформированное текстовое представление.
-
-```
-Тип значения (value) 
-   ↓
-"action"? --> Формирование строки с информацией о действии
-   ↓
-"stimulus"? --> Формирование строки с информацией о стимуле
-   ↓
-Возврат сформированной строки
-```
-
-**Примеры**:
-```python
-# Пример 1: Обработка значения типа 'action'
-value = {'type': 'action', 'simulation_timestamp': '2023-10-26 12:00:00', 'content': 'Выполнено действие X'}
-preprocessed_value = _preprocess_value_for_storage(value)
-print(preprocessed_value)
-# Вывод:
-# # Fact
-# I have performed the following action at date and time 2023-10-26 12:00:00:
-#
-#  Выполнено действие X
-
-# Пример 2: Обработка значения типа 'stimulus'
-value = {'type': 'stimulus', 'simulation_timestamp': '2023-10-26 12:05:00', 'content': 'Получен стимул Y'}
-preprocessed_value = _preprocess_value_for_storage(value)
-print(preprocessed_value)
-# Вывод:
-# # Stimulus
-# I have received the following stimulus at date and time 2023-10-26 12:05:00:
-#
-#  Получен стимул Y
-```
-
----
 
 ### `_build_document_from`
 
 ```python
 def _build_document_from(memory) -> Document:
     """
-    Создает документ из значения памяти.
-    
+    Создает документ из памяти.
+
     Args:
-        memory: Значение памяти.
-    
+        memory: Память для создания документа.
+
     Returns:
         Document: Созданный документ.
     """
-    ...
 ```
-
-**Назначение**: Создает объект `Document` из значения памяти. Используется для представления информации в формате, подходящем для семантического хранилища.
-
-**Параметры**:
-- `memory`: Значение памяти, которое будет преобразовано в документ.
-
-**Возвращает**:
-- `Document`: Объект `Document`, содержащий текстовое представление значения памяти.
 
 **Как работает функция**:
-1. **Преобразование в строку**: Преобразует значение памяти в строку с помощью `str(memory)`.
-2. **Создание документа**: Создает объект `Document` с использованием полученной строки в качестве текста.
-3. **Возврат документа**: Возвращает созданный объект `Document`.
+
+1. Принимает значение `memory` в качестве аргумента.
+2. Преобразует значение `memory` в строковое представление.
+3. Создает объект `Document` из `llama_index.core` с использованием строкового представления `memory` в качестве текста.
+4. Возвращает созданный объект `Document`.
 
 ```
-Значение памяти (memory)
-   ↓
-Преобразование в строку
-   ↓
-Создание объекта Document
-   ↓
-Возврат объекта Document
+memory_data --> Преобразование в строку --> Создание Document --> Document
 ```
 
 **Примеры**:
+
 ```python
-# Пример 1: Создание документа из строки
-memory_value = "Some memory content"
-document = _build_document_from(memory_value)
-print(document.text)
-# Вывод: Some memory content
+from llama_index.core import Document
 
-# Пример 2: Создание документа из числа
-memory_value = 12345
-document = _build_document_from(memory_value)
-print(document.text)
-# Вывод: 12345
+# Пример вызова функции
+memory_data = "Some memory data"
+document = _build_document_from(memory_data)
+
+print(type(document))  # Вывод: <class 'llama_index.core.schema.Document'>
+print(document.text)   # Вывод: Some memory data
 ```
-
----
 
 ### `_build_documents_from`
 
 ```python
 def _build_documents_from(self, memories: list) -> list:
     """
-    Создает список документов из списка значений памяти.
-    
+    Создает список документов из списка воспоминаний.
+
     Args:
-        memories (list): Список значений памяти.
-    
+        memories (list): Список воспоминаний для создания документов.
+
     Returns:
         list: Список созданных документов.
     """
-    ...
 ```
-
-**Назначение**: Создает список объектов `Document` из списка значений памяти. Используется для пакетной обработки и добавления информации в семантическое хранилище.
-
-**Параметры**:
-- `memories (list)`: Список значений памяти, которые будут преобразованы в документы.
-
-**Возвращает**:
-- `list`: Список объектов `Document`, каждый из которых содержит текстовое представление соответствующего значения памяти.
 
 **Как работает функция**:
-1. **Итерация по списку значений памяти**: Проходит по каждому значению памяти в списке `memories`.
-2. **Преобразование каждого значения в документ**: Для каждого значения вызывает функцию `_build_document_from(memory)` для создания объекта `Document`.
-3. **Сбор документов в список**: Собирает все созданные объекты `Document` в список.
-4. **Возврат списка документов**: Возвращает список объектов `Document`.
+
+1. Принимает список `memories` в качестве аргумента.
+2. Использует генератор списков для итерации по каждому элементу в списке `memories`.
+3. Для каждого элемента вызывает функцию `self._build_document_from(memory)`.
+4. Возвращает список, содержащий объекты `Document`, созданные из каждого элемента списка `memories`.
 
 ```
-Список значений памяти (memories)
-   ↓
-Итерация по списку
-   ↓
-Преобразование каждого значения в Document с помощью _build_document_from
-   ↓
-Сбор Document в список
-   ↓
-Возврат списка Document
+memories --> Итерация по списку --> Создание Document (self._build_document_from) --> Список Document
 ```
 
 **Примеры**:
+
 ```python
-# Пример: Создание списка документов из списка строк
-memory_values = ["Memory content 1", "Memory content 2", "Memory content 3"]
-documents = _build_documents_from(memory_values)
-for doc in documents:
-    print(doc.text)
-# Вывод:
-# Memory content 1
-# Memory content 2
-# Memory content 3
-```
+from llama_index.core import Document
+
+class ExampleClass:
+    def _build_document_from(self, memory):
+        return Document(text=str(memory))
+
+    def _build_documents_from(self, memories: list) -> list:
+        return [self._build_document_from(memory) for memory in memories]
+
+# Пример вызова функции
+memories_data = ["Memory 1", "Memory 2", "Memory 3"]
+example_instance = ExampleClass()
+documents = example_instance._build_documents_from(memories_data)
+
+print(type(documents))        # Вывод: <class 'list'>
+print(type(documents[0]))     # Вывод: <class 'llama_index.core.schema.Document'>
+print(documents[0].text)      # Вывод: Memory 1
+print(documents[1].text)      # Вывод: Memory 2
+print(documents[2].text)      # Вывод: Memory 3

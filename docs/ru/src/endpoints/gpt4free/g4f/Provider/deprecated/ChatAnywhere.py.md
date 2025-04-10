@@ -2,32 +2,28 @@
 
 ## Обзор
 
-Модуль `ChatAnywhere` предоставляет асинхронный генератор для взаимодействия с сервисом `chatanywhere.cn`. Он поддерживает модель `gpt-3.5-turbo` и сохранение истории сообщений. Этот модуль предназначен для использования в асинхронных приложениях, требующих потоковой обработки ответов от чат-бота.
+Модуль `ChatAnywhere` предоставляет асинхронный генератор для взаимодействия с сервисом `chatanywhere.cn`. Он поддерживает модель `gpt-3.5-turbo` и сохраняет историю сообщений. Модуль предназначен для использования в асинхронных приложениях.
 
-## Подробнее
+## Подробней
 
-Модуль реализует класс `ChatAnywhere`, который наследуется от `AsyncGeneratorProvider`. Он использует библиотеку `aiohttp` для выполнения асинхронных HTTP-запросов к API `chatanywhere.cn`. Модуль предназначен для интеграции в систему, где требуется асинхронное взаимодействие с чат-ботом через API.
+Модуль используется для отправки запросов к сервису `chatanywhere.cn` и получения ответов в виде асинхронного генератора. Это позволяет обрабатывать большие объемы данных потоково, не загружая все данные в память сразу.
 
 ## Классы
 
 ### `ChatAnywhere`
 
-**Описание**:
-Класс `ChatAnywhere` предоставляет асинхронный генератор для взаимодействия с API `chatanywhere.cn`.
+**Описание**: Класс `ChatAnywhere` является провайдером для работы с сервисом `chatanywhere.cn`. Он наследуется от `AsyncGeneratorProvider` и реализует метод `create_async_generator` для создания асинхронного генератора.
 
 **Наследует**:
-`AsyncGeneratorProvider` - базовый класс для асинхронных провайдеров генераторов.
+
+- `AsyncGeneratorProvider`: Обеспечивает базовую функциональность для асинхронных генераторов.
 
 **Атрибуты**:
+
 - `url` (str): URL сервиса `chatanywhere.cn`.
-- `supports_gpt_35_turbo` (bool): Флаг, указывающий на поддержку модели `gpt-3.5-turbo`.
-- `supports_message_history` (bool): Флаг, указывающий на поддержку сохранения истории сообщений.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-
-**Методы**:
-- `create_async_generator`: Создаёт асинхронный генератор для взаимодействия с API.
-
-## Функции
+- `supports_gpt_35_turbo` (bool): Указывает, что поддерживается модель `gpt-3.5-turbo`.
+- `supports_message_history` (bool): Указывает, что поддерживается история сообщений.
+- `working` (bool): Указывает, что модуль находится в рабочем состоянии.
 
 ### `create_async_generator`
 
@@ -37,122 +33,89 @@ async def create_async_generator(
     cls,
     model: str,
     messages: Messages,
-    proxy: str = None,
+    proxy: str | None = None,
     timeout: int = 120,
     temperature: float = 0.5,
     **kwargs
 ) -> AsyncResult:
     """
-    Создаёт асинхронный генератор для взаимодействия с API `chatanywhere.cn`.
+    Создает асинхронный генератор для взаимодействия с сервисом ChatAnywhere.
 
     Args:
         model (str): Модель для использования.
         messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-        timeout (int, optional): Время ожидания ответа в секундах. По умолчанию 120.
+        proxy (Optional[str], optional): Прокси-сервер для использования. По умолчанию `None`.
+        timeout (int, optional): Время ожидания ответа от сервера. По умолчанию 120.
         temperature (float, optional): Температура генерации текста. По умолчанию 0.5.
         **kwargs: Дополнительные аргументы.
 
     Returns:
-        AsyncResult: Асинхронный генератор, выдающий чанки данных ответа.
+        AsyncResult: Асинхронный генератор, выдающий ответы от сервиса.
 
     Raises:
-        Exception: В случае ошибок при выполнении HTTP-запроса.
+        aiohttp.ClientError: Если возникает ошибка при выполнении запроса к сервису.
+
     """
 ```
 
-**Назначение**:
-Функция `create_async_generator` создает асинхронный генератор, который отправляет сообщения в API `chatanywhere.cn` и возвращает чанки данных ответа.
+**Назначение**: Создает асинхронный генератор для взаимодействия с сервисом `chatanywhere.cn`.
 
 **Параметры**:
-- `cls`: Класс, для которого вызывается метод.
-- `model` (str): Модель, используемая для генерации ответа.
-- `messages` (Messages): Список сообщений, отправляемых в API.
-- `proxy` (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-- `timeout` (int, optional): Максимальное время ожидания ответа от сервера в секундах. По умолчанию 120.
-- `temperature` (float, optional): Параметр, контролирующий случайность генерации текста. Значение по умолчанию равно 0.5.
-- `**kwargs`: Дополнительные аргументы, которые могут быть переданы в функцию.
+
+- `cls`: Ссылка на класс.
+- `model` (str): Модель для использования.
+- `messages` (Messages): Список сообщений для отправки.
+- `proxy` (Optional[str], optional): Прокси-сервер для использования. По умолчанию `None`.
+- `timeout` (int, optional): Время ожидания ответа от сервера. По умолчанию 120.
+- `temperature` (float, optional): Температура генерации текста. По умолчанию 0.5.
+- `**kwargs`: Дополнительные аргументы.
 
 **Возвращает**:
-- `AsyncResult`: Асинхронный генератор, выдающий чанки данных ответа.
+
+- `AsyncResult`: Асинхронный генератор, выдающий ответы от сервиса.
 
 **Вызывает исключения**:
-- `Exception`: В случае возникновения ошибок при выполнении HTTP-запроса.
+
+- `aiohttp.ClientError`: Если возникает ошибка при выполнении запроса к сервису.
 
 **Как работает функция**:
 
-1.  **Определение заголовков**: Функция начинает с определения необходимых HTTP-заголовков, включая `User-Agent`, `Accept`, `Content-Type` и другие.
+1. **Определение заголовков**: Функция определяет заголовки, которые будут отправлены вместе с запросом к сервису `chatanywhere.cn`. Заголовки включают User-Agent, Accept, Accept-Language, Content-Type, Referer, Origin, Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Authorization, Connection и TE.
+2. **Создание сессии**: Функция создает асинхронную сессию с использованием `aiohttp.ClientSession` и передает заголовки и время ожидания.
+3. **Подготовка данных**: Функция подготавливает данные для отправки в теле запроса. Данные включают список сообщений, идентификатор, заголовок, промпт, температуру и модель.
+4. **Отправка запроса**: Функция отправляет POST-запрос к сервису `chatanywhere.cn` с использованием асинхронной сессии и передает данные в формате JSON.
+5. **Обработка ответа**: Функция обрабатывает ответ от сервиса, итерируясь по чанкам данных и декодируя их. Каждый чанк данных выдается как результат генератора.
 
-2.  **Создание сессии `aiohttp`**: Создается асинхронная сессия `aiohttp` с заданными заголовками и временем ожидания. Использование `ClientSession` позволяет переиспользовать соединение для нескольких запросов, что повышает эффективность.
-
-3.  **Формирование данных запроса**: Формируются данные запроса в формате JSON, включающие список сообщений, идентификатор, заголовок, температуру и другие параметры.
-
-4.  **Выполнение POST-запроса**: Выполняется асинхронный POST-запрос к API `chatanywhere.cn` с использованием `session.post`. В случае возникновения HTTP-ошибки, выбрасывается исключение `response.raise_for_status()`.
-
-5.  **Получение и обработка чанков данных**: Функция итерируется по чанкам данных, полученным из ответа сервера, и декодирует каждый чанк, после чего передает его через `yield`.
+**ASCII flowchart**:
 
 ```
-Определение заголовков и данных запроса
-│
-ClientSession(headers=headers, timeout=ClientTimeout(timeout))
-│
-POST-запрос к API chatanywhere.cn
-│
-Получение и обработка чанков данных
-│
-Выдача чанков данных через yield
+    Определение заголовков
+    ↓
+    Создание асинхронной сессии
+    ↓
+    Подготовка данных для запроса
+    ↓
+    Отправка POST-запроса к сервису
+    ↓
+    Обработка ответа: итерация по чанкам и декодирование
+    ↓
+    Выдача чанков данных как результат генератора
 ```
 
 **Примеры**:
 
 ```python
-# Пример использования create_async_generator
-import asyncio
-from typing import AsyncGenerator, List, Dict
-
+# Пример вызова функции create_async_generator
 async def main():
     model = "gpt-3.5-turbo"
-    messages = [{"role": "user", "content": "Привет, как дела?"}]
+    messages = [{"role": "user", "content": "Hello, how are you?"}]
     proxy = None
     timeout = 120
     temperature = 0.5
-
-    generator: AsyncGenerator[str, None] = await ChatAnywhere.create_async_generator(
-        model=model,
-        messages=messages,
-        proxy=proxy,
-        timeout=timeout,
-        temperature=temperature
-    )
-
-    async for chunk in generator:
+    async for chunk in ChatAnywhere.create_async_generator(model, messages, proxy, timeout, temperature):
         print(chunk, end="")
 
+# Запуск асинхронной функции
 if __name__ == "__main__":
-    asyncio.run(main())
-```
-```python
-# Пример использования create_async_generator c прокси
-import asyncio
-from typing import AsyncGenerator, List, Dict
-
-async def main():
-    model = "gpt-3.5-turbo"
-    messages = [{"role": "user", "content": "Привет, как дела?"}]
-    proxy = "http://your.proxy:8080"  # Замените на ваш прокси
-    timeout = 120
-    temperature = 0.5
-
-    generator: AsyncGenerator[str, None] = await ChatAnywhere.create_async_generator(
-        model=model,
-        messages=messages,
-        proxy=proxy,
-        timeout=timeout,
-        temperature=temperature
-    )
-
-    async for chunk in generator:
-        print(chunk, end="")
-
-if __name__ == "__main__":
+    import asyncio
     asyncio.run(main())

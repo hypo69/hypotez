@@ -2,11 +2,11 @@
 
 ## Обзор
 
-Модуль предназначен для автоматизации процесса публикации календарных событий в группах Facebook с использованием Selenium WebDriver. Он предоставляет функции для ввода заголовка, даты, времени и описания события, а также для отправки события.
+Модуль предназначен для публикации календарного события в группах Facebook. Он включает функции для отправки заголовка, даты, времени и описания события, а также для управления процессом публикации события.
 
 ## Подробней
 
-Модуль содержит функции, автоматизирующие ввод данных о событии (заголовок, дата, время, описание) и отправку этого события в Facebook. Используется для автоматизации маркетинговых кампаний и упрощения процесса публикации событий. Он использует `j_loads_ns` для загрузки локаторов элементов веб-страницы из JSON-файла, что облегчает поддержку и изменение структуры страницы.
+Модуль содержит функции для автоматизации процесса создания и публикации событий в Facebook группах. Он использует Selenium WebDriver для взаимодействия с веб-страницей Facebook и выполняет такие действия, как ввод заголовка, даты, времени и описания события, а также отправку события. Модуль использует локаторы, хранящиеся в JSON-файле, для поиска элементов на странице.
 
 ## Классы
 
@@ -18,326 +18,328 @@
 
 ```python
 def post_title(d: Driver, title: str) -> bool:
-    """ Sends the title of event.
+    """ Отправляет заголовок события.
 
     Args:
-        d (Driver): The driver instance used for interacting with the webpage.
-        event (SimpleNamespace): The event containing the title, data of event and description to be sent.
+        d (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
+        title (str): Заголовок события, который необходимо отправить.
 
     Returns:
-        bool: `True` if the title and description were sent successfully, otherwise `None`.
+        bool: `True`, если заголовок успешно отправлен, иначе `None`.
 
-    Examples:
+    Example:
         >>> driver = Driver(...)
         >>> event = SimpleNamespace(title="Campaign Title", description="Event Description")
         >>> post_title(driver, event)
         True
     """
-    ...
 ```
 
-**Назначение**: Отправляет заголовок события на веб-страницу.
+**Назначение**: Отправляет заголовок события в соответствующее поле на веб-странице.
 
 **Параметры**:
-
--   `d` (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
--   `title` (str): Заголовок события, который необходимо отправить.
+- `d` (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
+- `title` (str): Заголовок события, который необходимо отправить.
 
 **Возвращает**:
-
--   `bool`: `True`, если заголовок был успешно отправлен, иначе `None`.
+- `bool`: `True`, если заголовок успешно отправлен, иначе `None`.
 
 **Как работает функция**:
+1. Пытается отправить заголовок события, используя локатор `locator.event_title`.
+2. Если отправка не удалась, логирует ошибку и возвращает `None`.
+3. В случае успешной отправки возвращает `True`.
 
-1.  Пытается отправить заголовок события, используя локатор `locator.event_title` и метод `execute_locator` драйвера `d`.
-2.  Если отправка не удалась, регистрирует ошибку с помощью `logger.error` и возвращает `None`.
-3.  В случае успешной отправки возвращает `True`.
-
-**ASCII Flowchart**:
+**ASCII flowchart**:
 
 ```
-A[Отправка заголовка события]
+A[Начало]
 |
-B[Проверка результата отправки]
+B[Отправка заголовка события с использованием locator.event_title]
 |
-C[Успешно: True, Неуспешно: Ошибка, None]
+C[Успешно?] -- No --> D[Логирование ошибки и возврат None]
+|
+Yes
+|
+E[Возврат True]
+|
+F[Конец]
 ```
 
 **Примеры**:
-
 ```python
-from src.webdriver.driver import Driver
-from types import SimpleNamespace
-
-# Пример использования функции post_title
-driver = Driver()  # Предполагается, что драйвер инициализирован
-event_title = "Заголовок события"
-result = post_title(driver, event_title)
-print(f"Результат отправки заголовка: {result}")
+driver = Driver(Chrome)
+event = SimpleNamespace(title="Campaign Title", description="Event Description")
+result = post_title(driver, event.title)
+print(result)  # Вывод: True или None в случае ошибки
 ```
 
 ### `post_date`
 
 ```python
 def post_date(d: Driver, date: str) -> bool:
-    """ Sends the title of event.
+    """ Отправляет дату события.
 
     Args:
-        d (Driver): The driver instance used for interacting with the webpage.
-        event (SimpleNamespace): The event containing the title, data of event and description to be sent.
+        d (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
+        date (str): Дата события, которую необходимо отправить.
 
     Returns:
-        bool: `True` if the title and description were sent successfully, otherwise `None`.
+        bool: `True`, если дата успешно отправлена, иначе `None`.
 
-    Examples:
+    Example:
         >>> driver = Driver(...)
         >>> event = SimpleNamespace(title="Campaign Title", description="Event Description")
-        >>> post_title(driver, event)
+        >>> post_date(driver, event.start)
         True
     """
-    ...
 ```
 
-**Назначение**: Отправляет дату события на веб-страницу.
+**Назначение**: Отправляет дату события в соответствующее поле на веб-странице.
 
 **Параметры**:
-
--   `d` (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
--   `date` (str): Дата события, которую необходимо отправить.
+- `d` (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
+- `date` (str): Дата события, которую необходимо отправить.
 
 **Возвращает**:
-
--   `bool`: `True`, если дата была успешно отправлена, иначе `None`.
+- `bool`: `True`, если дата успешно отправлена, иначе `None`.
 
 **Как работает функция**:
+1. Пытается отправить дату события, используя локатор `locator.start_date`.
+2. Если отправка не удалась, логирует ошибку и возвращает `None`.
+3. В случае успешной отправки возвращает `True`.
 
-1.  Пытается отправить дату события, используя локатор `locator.start_date` и метод `execute_locator` драйвера `d`.
-2.  Если отправка не удалась, регистрирует ошибку с помощью `logger.error` и возвращает `None`.
-3.  В случае успешной отправки возвращает `True`.
-
-**ASCII Flowchart**:
+**ASCII flowchart**:
 
 ```
-A[Отправка даты события]
+A[Начало]
 |
-B[Проверка результата отправки]
+B[Отправка даты события с использованием locator.start_date]
 |
-C[Успешно: True, Неуспешно: Ошибка, None]
+C[Успешно?] -- No --> D[Логирование ошибки и возврат None]
+|
+Yes
+|
+E[Возврат True]
+|
+F[Конец]
 ```
 
 **Примеры**:
-
 ```python
-from src.webdriver.driver import Driver
-from types import SimpleNamespace
-
-# Пример использования функции post_date
-driver = Driver()  # Предполагается, что драйвер инициализирован
-event_date = "2024-01-01"
-result = post_date(driver, event_date)
-print(f"Результат отправки даты: {result}")
+driver = Driver(Chrome)
+event = SimpleNamespace(title="Campaign Title", description="Event Description", start="2024-08-24 10:00")
+result = post_date(driver, event.start.split()[0])
+print(result)  # Вывод: True или None в случае ошибки
 ```
 
 ### `post_time`
 
 ```python
 def post_time(d: Driver, time: str) -> bool:
-    """ Sends the title of event.
+    """ Отправляет время события.
 
     Args:
-        d (Driver): The driver instance used for interacting with the webpage.
-        event (SimpleNamespace): The event containing the title, data of event and description to be sent.
+        d (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
+        time (str): Время события, которое необходимо отправить.
 
     Returns:
-        bool: `True` if the title and description were sent successfully, otherwise `None`.
+        bool: `True`, если время успешно отправлено, иначе `None`.
 
-    Examples:
+    Example:
         >>> driver = Driver(...)
         >>> event = SimpleNamespace(title="Campaign Title", description="Event Description")
-        >>> post_title(driver, event)
+        >>> post_time(driver, event.start)
         True
     """
-    ...
 ```
 
-**Назначение**: Отправляет время события на веб-страницу.
+**Назначение**: Отправляет время события в соответствующее поле на веб-странице.
 
 **Параметры**:
-
--   `d` (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
--   `time` (str): Время события, которое необходимо отправить.
+- `d` (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
+- `time` (str): Время события, которое необходимо отправить.
 
 **Возвращает**:
-
--   `bool`: `True`, если время было успешно отправлено, иначе `None`.
+- `bool`: `True`, если время успешно отправлено, иначе `None`.
 
 **Как работает функция**:
+1. Пытается отправить время события, используя локатор `locator.start_time`.
+2. Если отправка не удалась, логирует ошибку и возвращает `None`.
+3. В случае успешной отправки возвращает `True`.
 
-1.  Пытается отправить время события, используя локатор `locator.start_time` и метод `execute_locator` драйвера `d`.
-2.  Если отправка не удалась, регистрирует ошибку с помощью `logger.error` и возвращает `None`.
-3.  В случае успешной отправки возвращает `True`.
-
-**ASCII Flowchart**:
+**ASCII flowchart**:
 
 ```
-A[Отправка времени события]
+A[Начало]
 |
-B[Проверка результата отправки]
+B[Отправка времени события с использованием locator.start_time]
 |
-C[Успешно: True, Неуспешно: Ошибка, None]
+C[Успешно?] -- No --> D[Логирование ошибки и возврат None]
+|
+Yes
+|
+E[Возврат True]
+|
+F[Конец]
 ```
 
 **Примеры**:
-
 ```python
-from src.webdriver.driver import Driver
-from types import SimpleNamespace
-
-# Пример использования функции post_time
-driver = Driver()  # Предполагается, что драйвер инициализирован
-event_time = "12:00"
-result = post_time(driver, event_time)
-print(f"Результат отправки времени: {result}")
+driver = Driver(Chrome)
+event = SimpleNamespace(title="Campaign Title", description="Event Description", start="2024-08-24 10:00")
+result = post_time(driver, event.start.split()[1])
+print(result)  # Вывод: True или None в случае ошибки
 ```
 
 ### `post_description`
 
 ```python
 def post_description(d: Driver, description: str) -> bool:
-    """ Sends the title of event.
+    """ Отправляет описание события.
 
     Args:
-        d (Driver): The driver instance used for interacting with the webpage.
-        event (SimpleNamespace): The event containing the title, data of event and description to be sent.
+        d (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
+        description (str): Описание события, которое необходимо отправить.
 
     Returns:
-        bool: `True` if the title and description were sent successfully, otherwise `None`.
+        bool: `True`, если описание успешно отправлено, иначе `None`.
 
-    Examples:
+    Example:
         >>> driver = Driver(...)
         >>> event = SimpleNamespace(title="Campaign Title", description="Event Description")
-        >>> post_title(driver, event)
+        >>> post_description(driver, event)
         True
     """
-    ...
 ```
 
-**Назначение**: Отправляет описание события на веб-страницу.
+**Назначение**: Отправляет описание события в соответствующее поле на веб-странице.
 
 **Параметры**:
-
--   `d` (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
--   `description` (str): Описание события, которое необходимо отправить.
+- `d` (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
+- `description` (str): Описание события, которое необходимо отправить.
 
 **Возвращает**:
-
--   `bool`: `True`, если описание было успешно отправлено, иначе `None`.
+- `bool`: `True`, если описание успешно отправлено, иначе `None`.
 
 **Как работает функция**:
+1. Выполняет скролл страницы вниз на 300 пикселей.
+2. Пытается отправить описание события, используя локатор `locator.event_description`.
+3. Если отправка не удалась, логирует ошибку и возвращает `None`.
+4. В случае успешной отправки возвращает `True`.
 
-1.  Выполняет скролл страницы вниз на 300 пикселей.
-2.  Пытается отправить описание события, используя локатор `locator.event_description` и метод `execute_locator` драйвера `d`.
-3.  Если отправка не удалась, регистрирует ошибку с помощью `logger.error` и возвращает `None`.
-4.  В случае успешной отправки возвращает `True`.
-
-**ASCII Flowchart**:
+**ASCII flowchart**:
 
 ```
-A[Скролл страницы вниз]
+A[Начало]
 |
-B[Отправка описания события]
+B[Скролл страницы вниз]
 |
-C[Проверка результата отправки]
+C[Отправка описания события с использованием locator.event_description]
 |
-D[Успешно: True, Неуспешно: Ошибка, None]
+D[Успешно?] -- No --> E[Логирование ошибки и возврат None]
+|
+Yes
+|
+F[Возврат True]
+|
+G[Конец]
 ```
 
 **Примеры**:
-
 ```python
-from src.webdriver.driver import Driver
-from types import SimpleNamespace
-
-# Пример использования функции post_description
-driver = Driver()  # Предполагается, что драйвер инициализирован
-event_description = "Описание события"
-result = post_description(driver, event_description)
-print(f"Результат отправки описания: {result}")
+driver = Driver(Chrome)
+event = SimpleNamespace(title="Campaign Title", description="Event Description")
+result = post_description(driver, event.description)
+print(result)  # Вывод: True или None в случае ошибки
 ```
 
 ### `post_event`
 
 ```python
 def post_event(d: Driver, event: SimpleNamespace) -> bool:
-    """ Manages the process of promoting a post with a title, description, and media files.
+    """ Управляет процессом публикации события, включая заголовок, дату, время, описание и отправку.
 
     Args:
-        d (Driver): The driver instance used for interacting with the webpage.
-        category (SimpleNamespace): The category details used for the post title and description.
-        products (List[SimpleNamespace]): List of products containing media and details to be posted.
+        d (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
+        event (SimpleNamespace): Объект, содержащий данные события (заголовок, дату, время, описание и рекламную ссылку).
 
-    Examples:
+    Returns:
+        bool: `True`, если событие успешно опубликовано, иначе `None`.
+
+    Example:
         >>> driver = Driver(...)
-        >>> category = SimpleNamespace(title="Campaign Title", description="Campaign Description")
-        >>> products = [SimpleNamespace(local_image_path=\'path/to/image.jpg\', ...)]
-        >>> promote_post(driver, category, products)
+        >>> event = SimpleNamespace(title="Campaign Title", description="Campaign Description", start="2024-08-24 10:00", promotional_link="https://example.com")
+        >>> post_event(driver, event)
+        True
     """
-    ...
 ```
 
-**Назначение**: Управляет процессом публикации события, отправляя заголовок, дату, время и описание.
+**Назначение**: Управляет процессом публикации события, включая отправку заголовка, даты, времени, описания и нажатие кнопки отправки.
 
 **Параметры**:
-
--   `d` (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
--   `event` (SimpleNamespace): Объект, содержащий данные события (заголовок, дату, время, описание и ссылку).
+- `d` (Driver): Экземпляр драйвера, используемый для взаимодействия с веб-страницей.
+- `event` (SimpleNamespace): Объект, содержащий данные события (заголовок, дату, время, описание и рекламную ссылку).
 
 **Возвращает**:
-
--   `bool`: `True`, если все данные были успешно отправлены и событие опубликовано, иначе `None`.
+- `bool`: `True`, если событие успешно опубликовано, иначе `None`.
 
 **Как работает функция**:
+1. Отправляет заголовок события с помощью функции `post_title`. Если отправка не удалась, функция завершается.
+2. Разбивает строку даты и времени события на дату и время.
+3. Отправляет дату события с помощью функции `post_date`. Если отправка не удалась, функция завершается.
+4. Отправляет время события с помощью функции `post_time`. Если отправка не удалась, функция завершается.
+5. Отправляет описание события, включая рекламную ссылку, с помощью функции `post_description`. Если отправка не удалась, функция завершается.
+6. Нажимает кнопку отправки события, используя локатор `locator.event_send`. Если нажатие не удалось, функция завершается.
+7. Ожидает 30 секунд.
+8. Возвращает `True`.
 
-1.  Отправляет заголовок события, вызывая функцию `post_title`. Если отправка не удалась, возвращает `None`.
-2.  Разделяет дату и время из атрибута `event.start`.
-3.  Отправляет дату события, вызывая функцию `post_date`. Если отправка не удалась, возвращает `None`.
-4.  Отправляет время события, вызывая функцию `post_time`. Если отправка не удалась, возвращает `None`.
-5.  Отправляет описание события и ссылку, вызывая функцию `post_description`. Если отправка не удалась, возвращает `None`.
-6.  Кликает на элемент отправки события, используя локатор `locator.event_send` и метод `execute_locator` драйвера `d`.  Если клик не удался, возвращает `None`.
-7.  Делает паузу в 30 секунд и возвращает `True`.
-
-**ASCII Flowchart**:
+**ASCII flowchart**:
 
 ```
-A[Отправка заголовка]
+A[Начало]
 |
-B[Отправка даты]
+B[Отправка заголовка с помощью post_title]
 |
-C[Отправка времени]
+C[Успешно?] -- No --> I[Завершение]
 |
-D[Отправка описания]
+Yes
 |
-E[Клик на отправку события]
+D[Разбиение даты и времени события]
 |
-F[Ожидание 30 сек]
+E[Отправка даты с помощью post_date]
 |
-G[Успешно: True]
+F[Успешно?] -- No --> I[Завершение]
+|
+Yes
+|
+G[Отправка времени с помощью post_time]
+|
+H[Успешно?] -- No --> I[Завершение]
+|
+Yes
+|
+J[Отправка описания с помощью post_description]
+|
+K[Успешно?] -- No --> I[Завершение]
+|
+Yes
+|
+L[Нажатие кнопки отправки с использованием locator.event_send]
+|
+M[Успешно?] -- No --> I[Завершение]
+|
+Yes
+|
+N[Ожидание 30 секунд]
+|
+O[Возврат True]
+|
+P[Конец]
 ```
 
 **Примеры**:
-
 ```python
-from src.webdriver.driver import Driver
-from types import SimpleNamespace
-import time
-
-# Пример использования функции post_event
-driver = Driver()  # Предполагается, что драйвер инициализирован
-event_data = SimpleNamespace(
-    title="Заголовок события",
-    start="2024-01-01 12:00",
-    description="Описание события",
-    promotional_link="http://example.com"
-)
-result = post_event(driver, event_data)
-print(f"Результат публикации события: {result}")
+driver = Driver(Chrome)
+event = SimpleNamespace(title="Campaign Title", description="Campaign Description", start="2024-08-24 10:00", promotional_link="https://example.com")
+result = post_event(driver, event)
+print(result)  # Вывод: True или None в случае ошибки

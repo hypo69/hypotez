@@ -1,38 +1,37 @@
 # Модуль для создания историй в TinyTroupe
-
 ## Обзор
 
-Модуль `story.py` предоставляет механизмы для создания историй на основе симуляций в TinyTroupe. Он содержит класс `TinyStory`, который позволяет генерировать и продолжать истории, учитывая окружение и агентов.
+Модуль `story.py` предназначен для создания и управления историями, основанными на симуляциях в TinyTroupe. Он предоставляет класс `TinyStory`, который позволяет генерировать истории об агентах или окружении, учитывая контекст, цели и ход симуляции.
+Данный модуль помогает придать повествовательную структуру симуляциям, делая их более интересными и понятными.
 
-## Подробнее
+## Подробней
 
-Этот модуль помогает создавать интересные и реалистичные истории, основанные на данных симуляций. Он использует шаблоны и OpenAI для генерации текста, который может быть использован для визуализации или анализа поведения агентов в симуляции. Модуль особенно полезен для создания контекста и повествования вокруг автоматизированных симуляций.
+Этот модуль предоставляет инструменты для создания историй на основе симуляций в TinyTroupe. Он содержит класс `TinyStory`, который позволяет генерировать и продолжать истории, учитывая текущее состояние симуляции, цели и контекст. Модуль использует OpenAI для генерации текста истории, основываясь на предоставленных шаблонах и данных симуляции.
 
 ## Классы
 
 ### `TinyStory`
 
-**Описание**: Класс для создания и управления историями, основанными на симуляциях TinyTroupe.
+**Описание**: Класс для создания и управления историями, основанными на симуляциях в TinyTroupe.
 
-**Принцип работы**: Класс инициализируется либо с окружением (`TinyWorld`), либо с агентом (`TinyPerson`). Он использует эти данные для создания и продолжения истории, генерируя текст с помощью OpenAI.
+**Принцип работы**:
+Класс `TinyStory` инициализируется либо с окружением (`TinyWorld`), либо с агентом (`TinyPerson`). Он использует текущие взаимодействия симуляции для создания или продолжения истории. Для генерации текста истории используются OpenAI и шаблоны Mustache.
 
 **Атрибуты**:
-
-- `environment (TinyWorld, optional)`: Окружение, в котором происходит история. По умолчанию `None`.
-- `agent (TinyPerson, optional)`: Агент, о котором рассказывается история. По умолчанию `None`.
-- `purpose (str, optional)`: Цель истории. Используется для направления генерации истории. По умолчанию `"Be a realistic simulation."`.
-- `context (str, optional)`: Текущий контекст истории. По умолчанию `""`.
-- `first_n (int, optional)`: Количество первых взаимодействий для включения в историю. По умолчанию `10`.
-- `last_n (int, optional)`: Количество последних взаимодействий для включения в историю. По умолчанию `20`.
-- `include_omission_info (bool, optional)`: Флаг, указывающий, следует ли включать информацию об опущенных взаимодействиях. По умолчанию `True`.
-- `current_story (str)`: Текущая история.
+- `environment` (TinyWorld, optional): Окружение, в котором происходит история. По умолчанию `None`.
+- `agent` (TinyPerson, optional): Агент, о котором рассказывается история. По умолчанию `None`.
+- `purpose` (str, optional): Цель истории. Используется для направления генерации истории. По умолчанию "Be a realistic simulation.".
+- `context` (str, optional): Текущий контекст истории. Новая история будет добавлена к этому контексту. По умолчанию "".
+- `first_n` (int, optional): Количество первых взаимодействий для включения в историю. По умолчанию 10.
+- `last_n` (int, optional): Количество последних взаимодействий для включения в историю. По умолчанию 20.
+- `include_omission_info` (bool, optional): Определяет, включать ли информацию об опущенных взаимодействиях. По умолчанию `True`.
+- `current_story` (str): Текущая история.
 
 **Методы**:
-
-- `__init__(environment: TinyWorld = None, agent: TinyPerson = None, purpose: str = "Be a realistic simulation.", context: str = "", first_n: int = 10, last_n: int = 20, include_omission_info: bool = True) -> None`: Инициализирует экземпляр класса `TinyStory`.
-- `start_story(requirements: str = "Start some interesting story about the agents.", number_of_words: int = 100, include_plot_twist: bool = False) -> str`: Начинает новую историю.
-- `continue_story(requirements: str = "Continue the story in an interesting way.", number_of_words: int = 100, include_plot_twist: bool = False) -> str`: Предлагает продолжение истории.
-- `_current_story() -> str`: Возвращает текущую историю.
+- `__init__`: Инициализирует объект `TinyStory`.
+- `start_story`: Начинает новую историю.
+- `continue_story`: Предлагает продолжение истории.
+- `_current_story`: Возвращает текущую историю с учетом последних взаимодействий.
 
 ## Функции
 
@@ -42,18 +41,21 @@
 def __init__(self, environment:TinyWorld=None, agent:TinyPerson=None, purpose:str="Be a realistic simulation.", context:str="",
                  first_n=10, last_n=20, include_omission_info:bool=True) -> None:
     """
-    Initialize the story. The story can be about an environment or an agent. It also has a purpose, which
-    is used to guide the story generation. Stories are aware that they are related to simulations, so one can
-    specify simulation-related purposes.
+    Инициализирует объект истории. История может быть об окружении или об агенте. Также имеет цель, которая
+    используется для направления генерации истории. Истории знают, что они связаны с симуляциями, поэтому можно
+    указать цели, связанные с симуляцией.
 
     Args:
-        environment (TinyWorld, optional): The environment in which the story takes place. Defaults to None.
-        agent (TinyPerson, optional): The agent in the story. Defaults to None.
-        purpose (str, optional): The purpose of the story. Defaults to "Be a realistic simulation.".
-        context (str, optional): The current story context. Defaults to "". The actual story will be appended to this context.
-        first_n (int, optional): The number of first interactions to include in the story. Defaults to 10.
-        last_n (int, optional): The number of last interactions to include in the story. Defaults to 20.
-        include_omission_info (bool, optional): Whether to include information about omitted interactions. Defaults to True.
+        environment (TinyWorld, optional): Окружение, в котором происходит история. По умолчанию None.
+        agent (TinyPerson, optional): Агент, о котором рассказывается история. По умолчанию None.
+        purpose (str, optional): Цель истории. Используется для направления генерации истории. По умолчанию "Be a realistic simulation.".
+        context (str, optional): Текущий контекст истории. Новая история будет добавлена к этому контексту. По умолчанию "".
+        first_n (int, optional): Количество первых взаимодействий для включения в историю. По умолчанию 10.
+        last_n (int, optional): Количество последних взаимодействий для включения в историю. По умолчанию 20.
+        include_omission_info (bool, optional): Определяет, включать ли информацию об опущенных взаимодействиях. По умолчанию True.
+
+    Raises:
+        Exception: Если не предоставлено ни окружение, ни агент, или предоставлены оба одновременно.
     """
     ...
 ```
@@ -61,31 +63,28 @@ def __init__(self, environment:TinyWorld=None, agent:TinyPerson=None, purpose:st
 **Назначение**: Инициализация объекта `TinyStory`.
 
 **Параметры**:
-
-- `environment (TinyWorld, optional)`: Окружение, в котором происходит история. По умолчанию `None`.
-- `agent (TinyPerson, optional)`: Агент, о котором рассказывается история. По умолчанию `None`.
-- `purpose (str, optional)`: Цель истории. Используется для направления генерации истории. По умолчанию `"Be a realistic simulation."`.
-- `context (str, optional)`: Текущий контекст истории. По умолчанию `""`.
-- `first_n (int, optional)`: Количество первых взаимодействий для включения в историю. По умолчанию `10`.
-- `last_n (int, optional)`: Количество последних взаимодействий для включения в историю. По умолчанию `20`.
-- `include_omission_info (bool, optional)`: Флаг, указывающий, следует ли включать информацию об опущенных взаимодействиях. По умолчанию `True`.
-
-**Возвращает**:
-
-- `None`
+- `environment` (TinyWorld, optional): Окружение, в котором происходит история. По умолчанию `None`.
+- `agent` (TinyPerson, optional): Агент, о котором рассказывается история. По умолчанию `None`.
+- `purpose` (str, optional): Цель истории. Используется для направления генерации истории. По умолчанию "Be a realistic simulation.".
+- `context` (str, optional): Текущий контекст истории. Новая история будет добавлена к этому контексту. По умолчанию "".
+- `first_n` (int, optional): Количество первых взаимодействий для включения в историю. По умолчанию 10.
+- `last_n` (int, optional): Количество последних взаимодействий для включения в историю. По умолчанию 20.
+- `include_omission_info` (bool, optional): Определяет, включать ли информацию об опущенных взаимодействиях. По умолчанию `True`.
 
 **Вызывает исключения**:
-
-- `Exception`: Если одновременно предоставлены `environment` и `agent` или если не предоставлен ни один из них.
+- `Exception`: Если не предоставлено ни окружение, ни агент, или предоставлены оба одновременно.
 
 **Как работает функция**:
 
-1. Проверяет, что предоставлен либо `environment`, либо `agent`, но не оба сразу.
-2. Инициализирует атрибуты объекта `TinyStory` значениями, переданными в параметрах.
-3. Устанавливает цель истории, контекст, количество первых и последних взаимодействий для включения, а также флаг включения информации об опущенных взаимодействиях.
+1.  **Проверка входных параметров**: Код проверяет, что передан ровно один из параметров: `environment` или `agent`. Если не передан ни один или переданы оба, вызывается исключение.
+2.  **Инициализация атрибутов**: Инициализируются атрибуты класса, такие как `environment`, `agent`, `purpose`, `current_story`, `first_n`, `last_n` и `include_omission_info`.
+
+**ASCII Flowchart**:
 
 ```
-Проверка параметров -> Инициализация атрибутов класса
+A[Проверка наличия environment или agent]
+|
+B[Инициализация атрибутов класса]
 ```
 
 **Примеры**:
@@ -94,14 +93,13 @@ def __init__(self, environment:TinyWorld=None, agent:TinyPerson=None, purpose:st
 from tinytroupe.environment import TinyWorld
 from tinytroupe.story import TinyStory
 
-# Пример инициализации с окружением
+# Пример 1: Инициализация с окружением
 environment = TinyWorld()
 story = TinyStory(environment=environment)
 
-# Пример инициализации с агентом
-from tinytroupe.agent import TinyPerson
-agent = TinyPerson()
-story = TinyStory(agent=agent)
+# Пример 2: Инициализация с агентом (предположим, что TinyPerson определен и импортирован)
+# agent = TinyPerson()
+# story = TinyStory(agent=agent)
 ```
 
 ### `start_story`
@@ -109,32 +107,41 @@ story = TinyStory(agent=agent)
 ```python
 def start_story(self, requirements="Start some interesting story about the agents.", number_of_words:int=100, include_plot_twist:bool=False) -> str:
     """
-    Start a new story.
+    Начинает новую историю.
     """
     ...
 ```
 
-**Назначение**: Начинает новую историю, генерируя текст с помощью OpenAI на основе предоставленных требований и текущего контекста симуляции.
+**Назначение**: Начинает новую историю на основе предоставленных требований и текущего контекста симуляции.
 
 **Параметры**:
-
-- `requirements (str, optional)`: Дополнительные требования к началу истории. По умолчанию `"Start some interesting story about the agents."`.
-- `number_of_words (int, optional)`: Количество слов в сгенерированном тексте. По умолчанию `100`.
-- `include_plot_twist (bool, optional)`: Флаг, указывающий, следует ли включать сюжетный поворот. По умолчанию `False`.
+- `requirements` (str, optional): Требования к началу истории. По умолчанию "Start some interesting story about the agents.".
+- `number_of_words` (int, optional): Количество слов в сгенерированной истории. По умолчанию 100.
+- `include_plot_twist` (bool, optional): Определяет, нужно ли включать неожиданный поворот сюжета. По умолчанию `False`.
 
 **Возвращает**:
-
-- `str`: Сгенерированный текст начала истории.
+- `str`: Сгенерированное начало истории.
 
 **Как работает функция**:
 
-1. Создает словарь `rendering_configs` с параметрами для генерации истории, такими как цель, требования, текущий контекст симуляции, количество слов и флаг сюжетного поворота.
-2. Использует функцию `utils.compose_initial_LLM_messages_with_templates` для создания сообщений для языковой модели (LLM) на основе шаблонов.
-3. Отправляет сообщения в OpenAI для генерации текста начала истории.
-4. Добавляет сгенерированный текст к текущей истории.
+1.  **Подготовка конфигурации**: Создается словарь `rendering_configs`, содержащий параметры для генерации истории, такие как цель, требования, текущая трасса симуляции, количество слов и необходимость включения сюжетного поворота.
+2.  **Композиция сообщений**: Используется функция `compose_initial_LLM_messages_with_templates` для создания сообщений для языковой модели (LLM) на основе шаблонов Mustache.
+3.  **Отправка сообщения в OpenAI**: Сообщения отправляются в OpenAI для генерации начала истории.
+4.  **Обновление текущей истории**: Сгенерированное начало истории добавляется к текущей истории.
+5.  **Возврат начала истории**: Возвращается сгенерированное начало истории.
+
+**ASCII Flowchart**:
 
 ```
-Создание rendering_configs -> Создание сообщений для LLM -> Отправка сообщений в OpenAI -> Добавление текста к current_story
+A[Подготовка конфигурации]
+|
+B[Композиция сообщений для LLM]
+|
+C[Отправка сообщения в OpenAI]
+|
+D[Обновление текущей истории]
+|
+E[Возврат начала истории]
 ```
 
 **Примеры**:
@@ -143,12 +150,16 @@ def start_story(self, requirements="Start some interesting story about the agent
 from tinytroupe.environment import TinyWorld
 from tinytroupe.story import TinyStory
 
-# Пример инициализации с окружением
+# Пример: Начало новой истории с настройками по умолчанию
 environment = TinyWorld()
 story = TinyStory(environment=environment)
-
-# Пример начала истории
 start = story.start_story()
+print(start)
+
+# Пример: Начало новой истории с пользовательскими требованиями и количеством слов
+environment = TinyWorld()
+story = TinyStory(environment=environment)
+start = story.start_story(requirements="Start a story about a conflict between agents", number_of_words=150)
 print(start)
 ```
 
@@ -157,32 +168,41 @@ print(start)
 ```python
 def continue_story(self, requirements="Continue the story in an interesting way.", number_of_words:int=100, include_plot_twist:bool=False) -> str:
     """
-    Propose a continuation of the story.
+    Предлагает продолжение истории.
     """
     ...
 ```
 
-**Назначение**: Предлагает продолжение истории, генерируя текст с помощью OpenAI на основе предоставленных требований и текущего контекста истории.
+**Назначение**: Предлагает продолжение истории на основе предоставленных требований и текущего контекста симуляции.
 
 **Параметры**:
-
-- `requirements (str, optional)`: Дополнительные требования к продолжению истории. По умолчанию `"Continue the story in an interesting way."`.
-- `number_of_words (int, optional)`: Количество слов в сгенерированном тексте. По умолчанию `100`.
-- `include_plot_twist (bool, optional)`: Флаг, указывающий, следует ли включать сюжетный поворот. По умолчанию `False`.
+- `requirements` (str, optional): Требования к продолжению истории. По умолчанию "Continue the story in an interesting way.".
+- `number_of_words` (int, optional): Количество слов в сгенерированном продолжении истории. По умолчанию 100.
+- `include_plot_twist` (bool, optional): Определяет, нужно ли включать неожиданный поворот сюжета. По умолчанию `False`.
 
 **Возвращает**:
-
-- `str`: Сгенерированный текст продолжения истории.
+- `str`: Сгенерированное продолжение истории.
 
 **Как работает функция**:
 
-1. Создает словарь `rendering_configs` с параметрами для генерации истории, такими как цель, требования, текущий контекст симуляции, количество слов и флаг сюжетного поворота.
-2. Использует функцию `utils.compose_initial_LLM_messages_with_templates` для создания сообщений для языковой модели (LLM) на основе шаблонов.
-3. Отправляет сообщения в OpenAI для генерации текста продолжения истории.
-4. Добавляет сгенерированный текст к текущей истории.
+1.  **Подготовка конфигурации**: Создается словарь `rendering_configs`, содержащий параметры для генерации продолжения истории, такие как цель, требования, текущая трасса симуляции, количество слов и необходимость включения сюжетного поворота.
+2.  **Композиция сообщений**: Используется функция `compose_initial_LLM_messages_with_templates` для создания сообщений для языковой модели (LLM) на основе шаблонов Mustache.
+3.  **Отправка сообщения в OpenAI**: Сообщения отправляются в OpenAI для генерации продолжения истории.
+4.  **Обновление текущей истории**: Сгенерированное продолжение истории добавляется к текущей истории.
+5.  **Возврат продолжения истории**: Возвращается сгенерированное продолжение истории.
+
+**ASCII Flowchart**:
 
 ```
-Создание rendering_configs -> Создание сообщений для LLM -> Отправка сообщений в OpenAI -> Добавление текста к current_story
+A[Подготовка конфигурации]
+|
+B[Композиция сообщений для LLM]
+|
+C[Отправка сообщения в OpenAI]
+|
+D[Обновление текущей истории]
+|
+E[Возврат продолжения истории]
 ```
 
 **Примеры**:
@@ -191,15 +211,16 @@ def continue_story(self, requirements="Continue the story in an interesting way.
 from tinytroupe.environment import TinyWorld
 from tinytroupe.story import TinyStory
 
-# Пример инициализации с окружением
+# Пример: Продолжение истории с настройками по умолчанию
 environment = TinyWorld()
 story = TinyStory(environment=environment)
-
-# Пример начала истории
-start = story.start_story()
-
-# Пример продолжения истории
 continuation = story.continue_story()
+print(continuation)
+
+# Пример: Продолжение истории с пользовательскими требованиями и количеством слов
+environment = TinyWorld()
+story = TinyStory(environment=environment)
+continuation = story.continue_story(requirements="Continue the story with a new challenge", number_of_words=150)
 print(continuation)
 ```
 
@@ -208,30 +229,32 @@ print(continuation)
 ```python
 def _current_story(self) -> str:
     """
-    Get the current story.
+    Возвращает текущую историю.
     """
     ...
 ```
 
-**Назначение**: Возвращает текущую историю, включая информацию о взаимодействиях агента или окружения.
-
-**Параметры**:
-
-- `None`
+**Назначение**: Возвращает текущую историю с учетом последних взаимодействий агента или окружения.
 
 **Возвращает**:
-
-- `str`: Текущая история.
+- `str`: Текущая история с добавленными последними взаимодействиями.
 
 **Как работает функция**:
 
-1. Инициализирует переменную `interaction_history` пустой строкой.
-2. Если в объекте `TinyStory` задан агент, добавляет в `interaction_history` информацию о его взаимодействиях.
-3. Если в объекте `TinyStory` задано окружение, добавляет в `interaction_history` информацию о его взаимодействиях.
-4. Добавляет `interaction_history` к текущей истории.
+1.  **Получение истории взаимодействий**: В зависимости от того, с чем был инициализирован объект `TinyStory` (с агентом или окружением), вызывается метод `pretty_current_interactions` для получения истории взаимодействий.
+2.  **Добавление истории взаимодействий к текущей истории**: История взаимодействий добавляется к текущей истории.
+3.  **Возврат текущей истории**: Возвращается обновленная текущая история.
+
+**ASCII Flowchart**:
 
 ```
-Инициализация interaction_history -> Проверка agent -> Добавление взаимодействий агента (если есть) -> Проверка environment -> Добавление взаимодействий окружения (если есть) -> Добавление interaction_history к current_story
+A[Проверка наличия agent или environment]
+|
+B[Получение истории взаимодействий]
+|
+C[Добавление истории взаимодействий к текущей истории]
+|
+D[Возврат текущей истории]
 ```
 
 **Примеры**:
@@ -240,10 +263,14 @@ def _current_story(self) -> str:
 from tinytroupe.environment import TinyWorld
 from tinytroupe.story import TinyStory
 
-# Пример инициализации с окружением
+# Пример: Получение текущей истории для окружения
 environment = TinyWorld()
 story = TinyStory(environment=environment)
-
-# Пример получения текущей истории
 current_story = story._current_story()
 print(current_story)
+
+# Пример: Получение текущей истории для агента (предположим, что TinyPerson определен и импортирован)
+# agent = TinyPerson()
+# story = TinyStory(agent=agent)
+# current_story = story._current_story()
+# print(current_story)

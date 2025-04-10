@@ -1,33 +1,33 @@
-# Модуль для работы с аккаунтом Copilot (CopilotAccount.py)
+# Модуль CopilotAccount
 
 ## Обзор
 
-Модуль `CopilotAccount.py` предназначен для аутентификации и взаимодействия с сервисом Copilot через аккаунт пользователя. Он расширяет функциональность базового класса `AsyncAuthedProvider` и `Copilot`, реализуя механизмы для получения токена доступа и управления cookies. Модуль предоставляет возможность асинхронной аутентификации и создания запросов к Copilot с использованием полученных данных.
+Модуль `CopilotAccount` предоставляет асинхронный способ аутентификации и взаимодействия с Copilot API. Он использует файлы HAR для получения токенов доступа и cookie, а также поддерживает автоматическую аутентификацию через веб-драйвер, если файл HAR недействителен или отсутствует.
 
 ## Подробней
 
-Этот модуль является частью системы, требующей аутентификации для доступа к Copilot. Он использует HAR-файлы для чтения токенов доступа и cookies, а также предоставляет возможность интерактивного логина через веб-интерфейс, если HAR-файл недействителен или отсутствует.
+Этот модуль является частью проекта `hypotez` и предназначен для обеспечения интеграции с API Copilot, требующим аутентификации. Он предоставляет функциональность для автоматической аутентификации и выполнения запросов к API Copilot.
 
 ## Классы
 
 ### `CopilotAccount`
 
-**Описание**: Класс `CopilotAccount` предназначен для аутентификации и создания запросов к Copilot с использованием учетной записи.
+**Описание**: Класс `CopilotAccount` является асинхронным провайдером аутентификации для Copilot. Он наследуется от `AsyncAuthedProvider` и `Copilot`.
 
 **Наследует**:
-- `AsyncAuthedProvider`: Обеспечивает асинхронную аутентификацию.
-- `Copilot`: Предоставляет методы для взаимодействия с Copilot.
+- `AsyncAuthedProvider`: Предоставляет базовую функциональность для асинхронных провайдеров, требующих аутентификации.
+- `Copilot`: Содержит методы для взаимодействия с API Copilot.
 
 **Атрибуты**:
-- `needs_auth` (bool): Указывает, требуется ли аутентификация (всегда `True`).
-- `use_nodriver` (bool): Указывает, использовать ли бездрайверный режим (всегда `True`).
-- `parent` (str): Указывает родительский класс ("Copilot").
-- `default_model` (str): Модель, используемая по умолчанию ("Copilot").
-- `default_vision_model` (str): Модель для обработки изображений, используемая по умолчанию (совпадает с `default_model`).
+- `needs_auth` (bool): Указывает, требуется ли аутентификация для использования провайдера (всегда `True`).
+- `use_nodriver` (bool): Указывает, следует ли использовать безголовый веб-драйвер для автоматической аутентификации (всегда `True`).
+- `parent` (str): Указывает родительский класс (`"Copilot"`).
+- `default_model` (str): Модель, используемая по умолчанию (`"Copilot"`).
+- `default_vision_model` (str): Модель для работы с изображениями по умолчанию (`"Copilot"`).
 
 **Методы**:
-- `on_auth_async`: Асинхронно аутентифицирует пользователя и возвращает токен доступа и cookies.
-- `create_authed`: Создает аутентифицированный запрос к Copilot и возвращает результат.
+- `on_auth_async`: Асинхронный метод для аутентификации.
+- `create_authed`: Асинхронный метод для создания аутентифицированного запроса.
 
 ## Функции
 
@@ -35,156 +35,155 @@
 
 ```python
 def cookies_to_dict():
-    """ Функция преобразует cookies в словарь.
-
-    Args:
-        Нет
+    """
+    Преобразует cookies в словарь.
 
     Returns:
-        dict: Словарь, содержащий cookies, где ключи - имена cookies, а значения - их значения.
-              Если `Copilot._cookies` уже является словарем, он возвращается без изменений.
+        dict: Словарь, содержащий имена и значения cookie.
     """
 ```
 
-**Назначение**: Преобразует cookies, хранящиеся в `Copilot._cookies`, в словарь.
+**Назначение**: Преобразует cookies, полученные от Copilot, в формат словаря.
+
+**Возвращает**:
+- `dict`: Словарь, где ключами являются имена cookie, а значениями - их значения.
 
 **Как работает функция**:
-
-1. **Проверка типа `Copilot._cookies`**:
-   - Проверяет, является ли `Copilot._cookies` экземпляром `dict`.
-
-2. **Преобразование в словарь**:
-   - Если `Copilot._cookies` не является словарем, преобразует его в словарь, где ключами являются имена cookies, а значениями - их значения.
-
-3. **Возврат словаря**:
-   - Возвращает полученный словарь.
+1. Проверяет, является ли `Copilot._cookies` уже словарем.
+2. Если `Copilot._cookies` является списком объектов cookie, преобразует его в словарь.
 
 **Примеры**:
-
 ```python
 # Пример преобразования cookies в словарь
-Copilot._cookies = [{'name': 'cookie1', 'value': 'value1'}, {'name': 'cookie2', 'value': 'value2'}]
+Copilot._cookies = [{"name": "cookie1", "value": "value1"}, {"name": "cookie2", "value": "value2"}]
 cookies_dict = cookies_to_dict()
-print(cookies_dict)
-# {'cookie1': 'value1', 'cookie2': 'value2'}
-
-Copilot._cookies = {'cookie1': 'value1', 'cookie2': 'value2'}
-cookies_dict = cookies_to_dict()
-print(cookies_dict)
-# {'cookie1': 'value1', 'cookie2': 'value2'}
+print(cookies_dict)  # Вывод: {'cookie1': 'value1', 'cookie2': 'value2'}
 ```
 
 ### `CopilotAccount.on_auth_async`
 
 ```python
-    @classmethod
-    async def on_auth_async(cls, proxy: str = None, **kwargs) -> AsyncIterator:
-        """ Асинхронно аутентифицирует пользователя для доступа к Copilot.
+@classmethod
+async def on_auth_async(cls, proxy: str = None, **kwargs) -> AsyncIterator:
+    """
+    Асинхронно аутентифицирует аккаунт Copilot, используя HAR-файл или веб-драйвер.
 
-        Args:
-            proxy (str, optional): Прокси-сервер для использования при подключении. По умолчанию `None`.
-            **kwargs: Дополнительные параметры.
+    Args:
+        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
+        **kwargs: Дополнительные аргументы.
 
-        Yields:
-            AuthResult: Объект, содержащий токен доступа и cookies.
+    Yields:
+        AuthResult: Результат аутентификации, содержащий токен API и cookie.
 
-        Raises:
-            NoValidHarFileError: Если не удается прочитать HAR-файл.
-            Exception: Если происходит ошибка при получении токена доступа и cookies.
-
-        """
+    Raises:
+        NoValidHarFileError: Если не удалось прочитать или найти HAR-файл.
+    """
 ```
 
-**Назначение**: Асинхронно аутентифицирует пользователя для доступа к Copilot.
+**Назначение**: Выполняет асинхронную аутентификацию для аккаунта Copilot.
 
 **Параметры**:
-- `proxy` (str, optional): Прокси-сервер для использования при подключении. По умолчанию `None`.
-- `**kwargs`: Дополнительные параметры.
+- `proxy` (str, optional): Прокси-сервер для использования при аутентификации через веб-драйвер. По умолчанию `None`.
+- `**kwargs`: Дополнительные аргументы, которые могут быть переданы.
 
 **Возвращает**:
-- `AsyncIterator`: Асинхронный итератор, возвращающий объект `AuthResult`, содержащий токен доступа и cookies.
+- `AsyncIterator[AuthResult]`: Асинхронный итератор, возвращающий результат аутентификации (`AuthResult`), содержащий токен API и cookie.
 
 **Вызывает исключения**:
-- `NoValidHarFileError`: Если не удается прочитать HAR-файл.
+- `NoValidHarFileError`: Если не удается прочитать или найти HAR-файл, и веб-драйвер не настроен.
 
 **Как работает функция**:
 
-1. **Чтение HAR-файла**:
-   - Пытается прочитать токен доступа и cookies из HAR-файла, используя метод `readHAR` класса `Copilot`.
-   - Если возникает исключение `NoValidHarFileError`, переходит к следующему шагу.
+```
+A[Чтение HAR-файла]
+|
+B[Обработка ошибки HAR-файла]
+|   Y: да, N: нет
+|   /   \
+N  /     \  Y
+| /       \ |
+C[Проверка наличия веб-драйвера]
+|
+D[Запрос URL для логина]
+|
+E[Получение токена и cookie через веб-драйвер]
+|
+F[Результат аутентификации]
+```
 
-2. **Интерактивный логин (если `has_nodriver` is True)**:
-   - Если `has_nodriver` имеет значение `True`, запрашивает URL для логина у пользователя, используя `RequestLogin`.
-   - Получает токен доступа и cookies с использованием метода `get_access_token_and_cookies` класса `Copilot`.
-   - Если `has_nodriver` имеет значение `False`, вызывает исключение `h`.
-
-3. **Возврат результата**:
-   - Возвращает объект `AuthResult`, содержащий токен доступа и cookies.
+1. **Чтение HAR-файла**: Пытается прочитать токен доступа и cookie из HAR-файла, используя `Copilot._access_token, Copilot._cookies = readHAR(cls.url)`.
+2. **Обработка ошибки HAR-файла**: Если возникает ошибка `NoValidHarFileError` при чтении HAR-файла, выполняется следующее:
+   - Логируется сообщение об ошибке с использованием `debug.log(f"Copilot: {h}")`.
+   - Проверяется, доступен ли веб-драйвер (`has_nodriver`).
+3. **Проверка наличия веб-драйвера**: Если веб-драйвер доступен:
+   - Запрашивается URL для логина с использованием `yield RequestLogin(cls.label, os.environ.get("G4F_LOGIN_URL", ""))`.
+   - Получаются токен доступа и cookie с использованием веб-драйвера: `Copilot._access_token, Copilot._cookies = await get_access_token_and_cookies(cls.url, proxy)`.
+4. **Результат аутентификации**: Возвращает результат аутентификации в виде `AuthResult`, содержащего токен API и cookie, используя `yield AuthResult(api_key=Copilot._access_token, cookies=cookies_to_dict())`.
 
 **Примеры**:
-
 ```python
 # Пример асинхронной аутентификации
 async for result in CopilotAccount.on_auth_async():
-    print(result.api_key)
-    print(result.cookies)
+    print(result)
 ```
 
 ### `CopilotAccount.create_authed`
 
 ```python
-    @classmethod
-    async def create_authed(
-        cls,
-        model: str,
-        messages: Messages,
-        auth_result: AuthResult,
-        **kwargs
-    ) -> AsyncResult:
-        """ Создает аутентифицированный запрос к Copilot и возвращает результат.
+@classmethod
+async def create_authed(
+    cls,
+    model: str,
+    messages: Messages,
+    auth_result: AuthResult,
+    **kwargs
+) -> AsyncResult:
+    """
+    Создает аутентифицированный запрос к Copilot.
 
-        Args:
-            model (str): Имя модели для использования.
-            messages (Messages): Список сообщений для отправки в Copilot.
-            auth_result (AuthResult): Объект, содержащий результаты аутентификации (токен доступа и cookies).
-            **kwargs: Дополнительные параметры для запроса.
+    Args:
+        model (str): Модель для использования.
+        messages (Messages): Список сообщений для отправки.
+        auth_result (AuthResult): Результат аутентификации.
+        **kwargs: Дополнительные аргументы.
 
-        Yields:
-            str: Части ответа от Copilot.
-
-        """
+    Yields:
+        str: Части ответа от API Copilot.
+    """
 ```
 
-**Назначение**: Создает аутентифицированный запрос к Copilot и возвращает результат.
+**Назначение**: Создает аутентифицированный запрос к API Copilot.
 
 **Параметры**:
-- `model` (str): Имя модели для использования.
-- `messages` (Messages): Список сообщений для отправки в Copilot.
-- `auth_result` (AuthResult): Объект, содержащий результаты аутентификации (токен доступа и cookies).
-- `**kwargs`: Дополнительные параметры для запроса.
+- `model` (str): Модель, используемая для запроса.
+- `messages` (Messages): Список сообщений, отправляемых в запросе.
+- `auth_result` (AuthResult): Результат аутентификации, содержащий токен API и cookie.
+- `**kwargs`: Дополнительные аргументы, передаваемые в функцию `Copilot.create_completion`.
 
 **Возвращает**:
-- `AsyncResult`: Асинхронный генератор, возвращающий части ответа от Copilot.
+- `AsyncResult`: Асинхронный генератор, выдающий части ответа от API Copilot.
 
 **Как работает функция**:
 
-1. **Установка токена доступа и cookies**:
-   - Устанавливает токен доступа и cookies из объекта `auth_result` в классе `Copilot`.
-   - Устанавливает флаг `needs_auth` класса `Copilot` в значение `cls.needs_auth`.
+```
+A[Присвоение токена и cookie]
+|
+B[Вызов create_completion]
+|
+C[Обновление cookie]
+|
+D[Выдача чанков ответа]
+```
 
-2. **Создание запроса**:
-   - Создает запрос к Copilot, используя метод `create_completion` класса `Copilot`.
-   - Возвращает части ответа от Copilot через `yield`.
-
-3. **Обновление cookies**:
-   - Обновляет cookies в объекте `auth_result` после завершения запроса.
+1. **Присвоение токена и cookie**: Устанавливает токен доступа и cookie из `auth_result` в `Copilot._access_token` и `Copilot._cookies` соответственно.
+2. **Вызов `create_completion`**: Вызывает метод `Copilot.create_completion` для создания запроса к API Copilot.
+3. **Обновление cookie**: Обновляет cookie в `auth_result` с использованием `auth_result.cookies = cookies_to_dict()`.
+4. **Выдача чанков ответа**: Передает части ответа от API Copilot с использованием `yield chunk`.
 
 **Примеры**:
-
 ```python
 # Пример создания аутентифицированного запроса
-auth_result = AuthResult(api_key='token', cookies={'cookie1': 'value1'})
-messages = [{'role': 'user', 'content': 'Hello, Copilot!'}]
-async for chunk in CopilotAccount.create_authed(model='default', messages=messages, auth_result=auth_result):
+messages = [{"role": "user", "content": "Hello, Copilot!"}]
+auth_result = AuthResult(api_key="test_token", cookies={"cookie1": "value1"})
+async for chunk in CopilotAccount.create_authed(model="default", messages=messages, auth_result=auth_result):
     print(chunk)
-```

@@ -1,132 +1,90 @@
-# Модуль Yqcloud
+# Модуль Yqcloud для gpt4free
 
 ## Обзор
 
-Модуль `Yqcloud` предоставляет асинхронный генератор для взаимодействия с сервисом `chat9.yqcloud.top`. Он позволяет отправлять запросы к API для генерации текста на основе предоставленных сообщений, используя GPT-3.5 Turbo.
+Модуль `Yqcloud` представляет собой асинхронный провайдер генерации текста, использующий API сервиса `chat9.yqcloud.top`. Он предназначен для интеграции с библиотекой `gpt4free` и обеспечивает возможность получения потоковых ответов от языковой модели. Модуль поддерживает модель `gpt-3.5-turbo`.
 
 ## Подробней
 
-Этот модуль предназначен для работы с API `chat9.yqcloud.top` и предоставляет функциональность асинхронной генерации текста. Он включает в себя функции для создания заголовков запроса и полезной нагрузки (payload), а также для обработки потоковых ответов от сервера. Модуль использует `StreamSession` для асинхронной отправки запросов и обработки ответов.
+Модуль `Yqcloud` предоставляет асинхронный интерфейс для взаимодействия с API `chat9.yqcloud.top`. Он использует `StreamSession` для отправки запросов и получения потоковых ответов. Важной особенностью является обработка возможных блокировок IP-адресов из-за обнаружения злоупотреблений. Модуль автоматически формирует необходимые заголовки и полезную нагрузку для запросов к API.
 
-## Классы
-
-### `Yqcloud`
-
-**Описание**: Класс `Yqcloud` является провайдером асинхронной генерации текста.
-
-**Наследует**: `AsyncGeneratorProvider`
-
-**Атрибуты**:
-- `url` (str): URL-адрес сервиса `chat9.yqcloud.top`.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `supports_gpt_35_turbo` (bool): Флаг, указывающий на поддержку модели GPT-3.5 Turbo.
-
-**Методы**:
-- `create_async_generator`: Создает асинхронный генератор для получения потоковых ответов от API.
+## Функции
 
 ### `create_async_generator`
 
 ```python
-    @staticmethod
-    async def create_async_generator(
-        model: str,
-        messages: Messages,
-        proxy: str = None,
-        timeout: int = 120,
-        **kwargs,
-    ) -> AsyncResult:
-        """Создает асинхронный генератор для получения потоковых ответов от API.
+async def create_async_generator(
+    model: str,
+    messages: Messages,
+    proxy: str = None,
+    timeout: int = 120,
+    **kwargs,
+) -> AsyncResult:
+    """Создает асинхронный генератор для получения потоковых ответов от Yqcloud.
 
-        Args:
-            model (str): Модель для генерации текста.
-            messages (Messages): Список сообщений для отправки.
-            proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-            timeout (int, optional): Время ожидания запроса в секундах. По умолчанию `120`.
-            **kwargs: Дополнительные параметры.
-
-        Returns:
-            AsyncResult: Асинхронный генератор, возвращающий чанки текста.
-
-        Raises:
-            RuntimeError: Если IP-адрес заблокирован из-за обнаружения злоупотреблений.
-        """
-        ...
-```
-
-**Назначение**: Создает асинхронный генератор для получения потоковых ответов от API `chat9.yqcloud.top`.
-
-**Параметры**:
-- `model` (str): Модель для генерации текста.
-- `messages` (Messages): Список сообщений для отправки.
-- `proxy` (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-- `timeout` (int, optional): Время ожидания запроса в секундах. По умолчанию `120`.
-- `**kwargs`: Дополнительные параметры.
-
-**Возвращает**:
-- `AsyncResult`: Асинхронный генератор, возвращающий чанки текста.
-
-**Вызывает исключения**:
-- `RuntimeError`: Если IP-адрес заблокирован из-за обнаружения злоупотреблений.
-
-**Как работает функция**:
-1. Функция создает асинхронную сессию с использованием `StreamSession` и переданных параметров, таких как заголовки, прокси и таймаут.
-2. Формируется полезная нагрузка (payload) для запроса с помощью функции `_create_payload`.
-3. Отправляется POST-запрос к API `https://api.aichatos.cloud/api/generateStream` с сформированной полезной нагрузкой.
-4. Функция итерируется по чанкам ответа, декодирует их и проверяет наличие сообщения о блокировке IP-адреса.
-5. Если IP-адрес заблокирован, выбрасывается исключение `RuntimeError`.
-6. Возвращает чанки текста через генератор.
-
-```
-Создание сессии --> Формирование Payload --> POST-запрос к API
-    |                      |                      |
-    V                      V                      V
-Обработка ответа <-- Проверка IP-адреса <-- Получение чанков ответа
-    |                      |                      |
-    V                      V                      V
-   Вывод чанков текста <-- Выброс исключения  <-- Обнаружена блокировка
-```
-
-**Примеры**:
-```python
-# Пример использования create_async_generator
-async def example():
-    messages = [{"role": "user", "content": "Hello"}]
-    async for chunk in Yqcloud.create_async_generator(model="gpt-3.5-turbo", messages=messages):
-        print(chunk, end="")
-```
-
-## Функции
-
-### `_create_header`
-
-```python
-def _create_header():
-    """Создает словарь с заголовками запроса.
+    Args:
+        model (str): Идентификатор модели.
+        messages (Messages): Список сообщений для отправки в запросе.
+        proxy (str, optional): Адрес прокси-сервера. По умолчанию `None`.
+        timeout (int, optional): Время ожидания ответа в секундах. По умолчанию `120`.
+        **kwargs: Дополнительные параметры.
 
     Returns:
-        dict: Словарь с заголовками запроса.
+        AsyncResult: Асинхронный генератор, выдающий чанки текста.
+
+    Raises:
+        RuntimeError: Если IP-адрес заблокирован из-за обнаружения злоупотреблений.
+
+    Как работает функция:
+    1. Функция создает сессию `StreamSession` с заданными заголовками, прокси и таймаутом.
+    2. Формируется полезная нагрузка `payload` на основе переданных сообщений и дополнительных параметров.
+    3. Отправляется `POST` запрос к API `https://api.aichatos.cloud/api/generateStream` с сформированной полезной нагрузкой.
+    4. Функция итерируется по чанкам ответа, декодирует их и проверяет наличие сообщения о блокировке IP-адреса.
+    5. Если IP-адрес заблокирован, выбрасывается исключение `RuntimeError`.
+    6. Каждый чанк ответа выдается как часть асинхронного генератора.
+
+    flowchart ASCII:
+
+    Создание сессии StreamSession --> Формирование payload --> POST запрос к API --> Итерация по чанкам ответа --> Проверка блокировки IP --> Выдача чанка ответа
+
+    Примеры:
+        >>> model = "gpt-3.5-turbo"
+        >>> messages = [{"role": "user", "content": "Hello, Yqcloud!"}]
+        >>> async for chunk in Yqcloud.create_async_generator(model, messages):
+        ...     print(chunk, end="")
+        <ответ от Yqcloud>
+
+        >>> model = "gpt-3.5-turbo"
+        >>> messages = [{"role": "user", "content": "Translate to French: Hello, Yqcloud!"}]
+        >>> proxy = "http://your_proxy:8080"
+        >>> async for chunk in Yqcloud.create_async_generator(model, messages, proxy=proxy):
+        ...     print(chunk, end="")
+        <переведенный ответ от Yqcloud>
     """
     ...
 ```
 
-**Назначение**: Создает словарь с заголовками запроса, необходимыми для взаимодействия с API.
+### `_create_header`
 
-**Возвращает**:
-- `dict`: Словарь с заголовками запроса.
-
-**Как работает функция**:
-1. Функция создает и возвращает словарь с предопределенными заголовками, такими как `accept`, `content-type`, `origin` и `referer`.
-2. Эти заголовки необходимы для успешного выполнения запроса к API `chat9.yqcloud.top`.
-
-```
-Создание заголовков --> Возврат словаря с заголовками
-```
-
-**Примеры**:
 ```python
-# Пример использования _create_header
-headers = _create_header()
-print(headers)
+def _create_header() -> dict:
+    """Создает словарь с заголовками для HTTP-запроса.
+
+    Returns:
+        dict: Словарь с заголовками.
+
+    Как работает функция:
+    Функция возвращает статический словарь с необходимыми заголовками для запроса к API `chat9.yqcloud.top`.
+
+    flowchart ASCII:
+    Возврат словаря с заголовками
+
+    Примеры:
+        >>> headers = _create_header()
+        >>> print(headers)
+        {'accept': 'application/json, text/plain, */*', 'content-type': 'application/json', 'origin': 'https://chat9.yqcloud.top', 'referer': 'https://chat9.yqcloud.top/'}
+    """
+    ...
 ```
 
 ### `_create_payload`
@@ -137,44 +95,37 @@ def _create_payload(
     system_message: str = "",
     user_id: int = None,
     **kwargs
-):
-    """Создает полезную нагрузку (payload) для запроса к API.
+) -> dict:
+    """Создает словарь с полезной нагрузкой для HTTP-запроса.
 
     Args:
-        messages (Messages): Список сообщений для отправки.
+        messages (Messages): Список сообщений для отправки в запросе.
         system_message (str, optional): Системное сообщение. По умолчанию "".
-        user_id (int, optional): ID пользователя. По умолчанию `None`.
+        user_id (int, optional): Идентификатор пользователя. Если не указан, генерируется случайный. По умолчанию `None`.
         **kwargs: Дополнительные параметры.
 
     Returns:
-        dict: Словарь с полезной нагрузкой для запроса.
+        dict: Словарь с полезной нагрузкой.
+
+    Как работает функция:
+    1. Если `user_id` не предоставлен, генерируется случайный `user_id`.
+    2. Форматируется `prompt` из списка сообщений с помощью `format_prompt`.
+    3. Создается словарь с полезной нагрузкой, включающий `prompt`, флаги `network` и `stream`, а также `userId`.
+
+    flowchart ASCII:
+    Проверка user_id --> Генерация user_id (если отсутствует) --> Форматирование prompt --> Создание payload
+
+    Примеры:
+        >>> messages = [{"role": "user", "content": "Hello, Yqcloud!"}]
+        >>> payload = _create_payload(messages)
+        >>> print(payload)
+        {'prompt': 'Hello, Yqcloud!', 'network': True, 'system': '', 'withoutContext': False, 'stream': True, 'userId': '#/chat/1785648765432'}
+
+        >>> messages = [{"role": "user", "content": "Hello"}]
+        >>> system_message = "You are a helpful assistant."
+        >>> user_id = 1234567890
+        >>> payload = _create_payload(messages, system_message=system_message, user_id=user_id)
+        >>> print(payload)
+        {'prompt': 'Hello', 'network': True, 'system': 'You are a helpful assistant.', 'withoutContext': False, 'stream': True, 'userId': '#/chat/1234567890'}
     """
     ...
-```
-
-**Назначение**: Создает словарь с полезной нагрузкой (payload) для запроса к API.
-
-**Параметры**:
-- `messages` (Messages): Список сообщений для отправки.
-- `system_message` (str, optional): Системное сообщение. По умолчанию "".
-- `user_id` (int, optional): ID пользователя. По умолчанию `None`.
-- `**kwargs`: Дополнительные параметры.
-
-**Возвращает**:
-- `dict`: Словарь с полезной нагрузкой для запроса.
-
-**Как работает функция**:
-1. Функция генерирует случайный `user_id`, если он не был предоставлен.
-2. Формирует словарь с параметрами запроса, такими как `prompt`, `network`, `system`, `withoutContext`, `stream` и `userId`.
-3. Использует функцию `format_prompt` для форматирования сообщений.
-
-```
-Генерация User ID --> Форматирование сообщений --> Создание Payload
-```
-
-**Примеры**:
-```python
-# Пример использования _create_payload
-messages = [{"role": "user", "content": "Hello"}]
-payload = _create_payload(messages=messages)
-print(payload)

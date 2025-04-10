@@ -1,26 +1,36 @@
-# Модуль для работы с H2o API
+# Модуль для работы с H2o API (устаревший)
 =================================================
 
-Модуль содержит класс `H2o`, который используется для взаимодействия с H2o AI API для генерации текста.
+Модуль содержит класс `H2o`, который является устаревшим провайдером для взаимодействия с API H2o.ai.
+Он использует асинхронные запросы для генерации текста на основе предоставленных сообщений.
 
 ## Обзор
 
-Модуль `H2o` предоставляет асинхронный интерфейс для взаимодействия с API H2o AI. Он позволяет отправлять запросы на генерацию текста и получать результаты в виде асинхронного генератора. Этот модуль предназначен для интеграции в системы, требующие асинхронной обработки данных и взаимодействия с API H2o AI.
+Модуль `H2o` предоставляет класс `H2o`, который наследуется от `AsyncGeneratorProvider` и предназначен для взаимодействия с API H2o.ai. Он позволяет отправлять запросы к модели `h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1` для генерации текста на основе предоставленных сообщений. Модуль поддерживает использование прокси и предоставляет возможность настройки параметров генерации текста.
 
 ## Подробнее
 
-Модуль использует библиотеку `aiohttp` для выполнения асинхронных HTTP-запросов к API H2o AI. Он поддерживает настройку прокси-сервера и передачу дополнительных параметров в запросе.
+Модуль `H2o` является частью устаревшего набора провайдеров `gpt4free` и может быть заменен более актуальными реализациями. Он использует библиотеку `aiohttp` для выполнения асинхронных HTTP-запросов.
 
 ## Классы
 
 ### `H2o`
 
-**Описание**: Класс `H2o` предоставляет асинхронный интерфейс для взаимодействия с API H2o AI.
+**Описание**: Класс `H2o` предоставляет функциональность для взаимодействия с API H2o.ai и генерации текста на основе предоставленных сообщений.
 
 **Наследует**:
-- `AsyncGeneratorProvider`: Класс наследует функциональность асинхронного генератора от `AsyncGeneratorProvider`.
+- `AsyncGeneratorProvider`: Класс `H2o` наследует функциональность асинхронного генератора от `AsyncGeneratorProvider`.
 
-#### `create_async_generator`
+**Атрибуты**:
+- `url` (str): URL-адрес API H2o.ai.
+- `model` (str): Название используемой модели.
+
+**Методы**:
+- `create_async_generator`: Создает асинхронный генератор для получения текстовых результатов от API H2o.ai.
+
+## Функции
+
+### `create_async_generator`
 
 ```python
 @classmethod
@@ -31,182 +41,100 @@ async def create_async_generator(
     proxy: str = None,
     **kwargs
 ) -> AsyncResult:
-    """Создает асинхронный генератор для взаимодействия с H2o AI API.
+    """Создает асинхронный генератор для получения текстовых результатов от API H2o.ai.
 
     Args:
-        model (str): Название модели, используемой для генерации текста.
-        messages (Messages): Список сообщений, передаваемых в запросе.
-        proxy (str, optional): Адрес прокси-сервера. По умолчанию `None`.
-        **kwargs: Дополнительные параметры, передаваемые в запросе.
+        cls (H2o): Ссылка на класс `H2o`.
+        model (str): Название модели для использования.
+        messages (Messages): Список сообщений для отправки в API.
+        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
+        **kwargs: Дополнительные параметры для передачи в API.
 
     Returns:
-        AsyncResult: Асинхронный генератор, выдающий сгенерированный текст.
+        AsyncResult: Асинхронный генератор, выдающий текстовые результаты.
 
     Raises:
         aiohttp.ClientResponseError: Если возникает ошибка при выполнении HTTP-запроса.
 
-    Внутренние функции:
-        Нет внутренних функций
+    **Внутренние функции**:
+    - Отсутствуют.
     """
 ```
 
-**Параметры**:
+**Назначение**: Создание асинхронного генератора для получения текстовых результатов от API H2o.ai.
 
--   `cls`: Ссылка на класс.
--   `model` (`str`): Название модели, используемой для генерации текста.
--   `messages` (`Messages`): Список сообщений, передаваемых в запросе.
--   `proxy` (`str`, `Optional`): Адрес прокси-сервера. По умолчанию `None`.
--   `**kwargs`: Дополнительные параметры, передаваемые в запросе.
+**Параметры**:
+- `cls` (H2o): Ссылка на класс `H2o`.
+- `model` (str): Название модели для использования.
+- `messages (Messages)`: Список сообщений для отправки в API.
+- `proxy (str, optional)`: URL прокси-сервера. По умолчанию `None`.
+- `**kwargs`: Дополнительные параметры для передачи в API.
 
 **Возвращает**:
-
--   `AsyncResult`: Асинхронный генератор, выдающий сгенерированный текст.
+- `AsyncResult`: Асинхронный генератор, выдающий текстовые результаты.
 
 **Вызывает исключения**:
-
--   `aiohttp.ClientResponseError`: Если возникает ошибка при выполнении HTTP-запроса.
+- `aiohttp.ClientResponseError`: Если возникает ошибка при выполнении HTTP-запроса.
 
 **Как работает функция**:
 
-1.  **Инициализация**: Функция принимает параметры модели, сообщения, прокси и дополнительные аргументы.
-2.  **Формирование заголовков**: Создаются заголовки, включающие Referer для запроса.
-3.  **Создание сессии**: Используется `aiohttp.ClientSession` для выполнения асинхронных HTTP-запросов.
-4.  **Настройка параметров**: Формируется словарь `data` с параметрами, необходимыми для запроса к API.
-5.  **Отправка запроса на настройку**: Отправляется POST-запрос к `/settings` для установки параметров.
-6.  **Отправка запроса на создание разговора**: Отправляется POST-запрос к `/conversation` для создания нового разговора. Полученный `conversationId` используется в последующих запросах.
-7.  **Формирование данных для запроса**: Формируется словарь `data` с входными данными, параметрами генерации и опциями.
-8.  **Отправка запроса на генерацию текста**: Отправляется POST-запрос к `/conversation/{conversationId}` для генерации текста.
-9.  **Обработка потока данных**: Полученные данные обрабатываются построчно, извлекается текст из JSON-ответов и выдается через генератор.
-10. **Удаление разговора**: После завершения генерации текста отправляется DELETE-запрос к `/conversation/{conversationId}` для удаления разговора.
-
-**Примеры**:
-
-```python
-import asyncio
-from typing import List, Dict, AsyncGenerator, Optional
-
-from aiohttp import ClientSession
-
-# Предположим, что Messages это List[Dict[str, str]]
-Messages = List[Dict[str, str]]
-AsyncResult = AsyncGenerator[str, None]
-
-class H2o:
-    url = "https://gpt-gm.h2o.ai"
-    model = "h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1"
-
-    @classmethod
-    async def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        proxy: Optional[str] = None,
-        **kwargs
-    ) -> AsyncResult:
-        model = model if model else cls.model
-        headers = {"Referer": f"{cls.url}/"}
-
-        async with ClientSession(
-            headers=headers
-        ) as session:
-            data = {
-                "ethicsModalAccepted": "true",
-                "shareConversationsWithModelAuthors": "true",
-                "ethicsModalAcceptedAt": "",
-                "activeModel": model,
-                "searchEnabled": "true",
-            }
-            async with session.post(
-                f"{cls.url}/settings",
-                proxy=proxy,
-                data=data
-            ) as response:
-                response.raise_for_status()
-
-            async with session.post(
-                f"{cls.url}/conversation",
-                proxy=proxy,
-                json={"model": model},
-            ) as response:
-                response.raise_for_status()
-                conversationId = (await response.json())["conversationId"]
-
-            data = {
-                "inputs": format_prompt(messages),
-                "parameters": {
-                    "temperature": 0.4,
-                    "truncate": 2048,
-                    "max_new_tokens": 1024,
-                    "do_sample":  True,
-                    "repetition_penalty": 1.2,
-                    "return_full_text": False,
-                    **kwargs
-                },
-                "stream": True,
-                "options": {
-                    "id": str(uuid.uuid4()),
-                    "response_id": str(uuid.uuid4()),
-                    "is_retry": False,
-                    "use_cache": False,
-                    "web_search_id": "",
-                },
-            }
-            async with session.post(
-                f"{cls.url}/conversation/{conversationId}",
-                proxy=proxy,
-                json=data
-             ) as response:
-                start = "data:"
-                async for line in response.content:
-                    line = line.decode("utf-8")
-                    if line and line.startswith(start):
-                        line = json.loads(line[len(start):-1])
-                        if not line["token"]["special"]:
-                            yield line["token"]["text"]
-
-            async with session.delete(
-                f"{cls.url}/conversation/{conversationId}",
-                proxy=proxy,
-            ) as response:
-                response.raise_for_status()
-
-async def format_prompt(messages: Messages) -> str:
-    """
-    Форматирует список сообщений в строку для отправки в API.
-
-    Args:
-        messages (Messages): Список сообщений для форматирования.
-
-    Returns:
-        str: Отформатированная строка.
-    """
-    return "\\n".join([message["content"] for message in messages])
-
-
-async def main():
-    messages: Messages = [{"role": "user", "content": "Hello, how are you?"}]
-    async for token in H2o.create_async_generator(model="h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1", messages=messages):
-        print(token, end="")
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
+1. **Установка параметров**: Инициализирует параметры, такие как модель и заголовки запроса.
+2. **Создание сессии**: Создает асинхронную сессию `aiohttp.ClientSession` с необходимыми заголовками.
+3. **Отправка запроса настроек**: Отправляет POST-запрос к `/settings` для установки параметров, таких как принятие условий использования и выбор модели.
+4. **Создание разговора**: Отправляет POST-запрос к `/conversation` для создания нового разговора и получения `conversationId`.
+5. **Отправка запроса с сообщением**: Форматирует сообщения и отправляет POST-запрос к `/conversation/{conversationId}` с параметрами генерации текста.
+6. **Получение результатов**: Получает ответы от API в виде потока данных и извлекает текстовые результаты из JSON-ответов.
+7. **Удаление разговора**: После завершения генерации удаляет разговор, отправив DELETE-запрос к `/conversation/{conversationId}`.
 
 **ASCII Flowchart**:
 
 ```
-Начало
-│
-ClientSession - Создание асинхронной сессии
-│
-POST /settings - Отправка запроса на настройку
-│
-POST /conversation - Создание нового conversationId
-│
-POST /conversation/{conversationId} - Отправка запроса на генерацию текста
-│
-Обработка потока данных (JSON) - Извлечение текста из ответов
-│
-DELETE /conversation/{conversationId} - Удаление разговора
-│
-Конец
+A[Установка параметров и заголовков]
+|
+B[Создание асинхронной сессии]
+|
+C[Отправка POST-запроса к /settings]
+|
+D[Отправка POST-запроса к /conversation для создания разговора]
+|
+E[Отправка POST-запроса с сообщениями и параметрами генерации текста]
+|
+F[Получение потока данных и извлечение текстовых результатов]
+|
+G[Отправка DELETE-запроса к /conversation для удаления разговора]
+```
+
+**Примеры**:
+
+```python
+# Пример использования create_async_generator
+import asyncio
+
+async def main():
+    model = "h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1"
+    messages = [{"role": "user", "content": "Hello, how are you?"}]
+    proxy = None
+    kwargs = {"temperature": 0.5}
+
+    async for message in H2o.create_async_generator(model, messages, proxy, **kwargs):
+        print(message, end="")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+```python
+# Пример использования create_async_generator с прокси
+import asyncio
+
+async def main():
+    model = "h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1"
+    messages = [{"role": "user", "content": "Привет, как дела?"}]
+    proxy = "http://your-proxy-url:your-proxy-port"
+    kwargs = {"temperature": 0.7}
+
+    async for message in H2o.create_async_generator(model, messages, proxy, **kwargs):
+        print(message, end="")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```

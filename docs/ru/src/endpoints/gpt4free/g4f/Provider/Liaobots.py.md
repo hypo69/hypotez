@@ -1,217 +1,291 @@
-# Модуль `Liaobots`
+# Модуль для работы с провайдером Liaobots
+================================================
+
+Модуль содержит класс :class:`Liaobots`, который используется для взаимодействия с Liaobots API для получения ответов от различных AI-моделей.
+Модуль определяет модели и предоставляет асинхронный генератор для взаимодействия с API.
+
+## Оглавление
+- [Обзор](#обзор)
+- [Подробнее](#подробнее)
+- [Классы](#классы)
+    - [Liaobots](#liaobots)
+- [Функции](#функции)
+    - [is_supported](#is_supported)
+    - [create_async_generator](#create_async_generator)
+    - [initialize_auth_code](#initialize_auth_code)
+    - [ensure_auth_code](#ensure_auth_code)
 
 ## Обзор
 
-Модуль `Liaobots` предоставляет асинхронный генератор для взаимодействия с различными моделями, предоставляемыми сервисом `liaobots.site`. Он поддерживает сохранение истории сообщений и использование системных сообщений. Модуль включает в себя поддержку моделей `Claude`, `DeepSeek`, `Gemini` и `GPT`, а также предоставляет возможность выбора модели и установки параметров подключения.
+Модуль предназначен для асинхронного взаимодействия с API Liaobots, предоставляющего доступ к различным моделям, таким как Claude, Gemini и GPT.
+Он включает в себя поддержку истории сообщений и системных сообщений.
 
-## Подробней
+## Подробнее
 
-Модуль предназначен для интеграции с сервисом `liaobots.site` для получения ответов от различных AI-моделей. Он использует асинхронные запросы для взаимодействия с API сервиса и предоставляет удобный интерфейс для выбора модели, передачи сообщений и получения результатов в виде асинхронного генератора.
+Модуль определяет класс `Liaobots`, который наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`.
+Он содержит информацию о поддерживаемых моделях, их максимальной длине и контексте.
+Модуль использует асинхронные запросы для взаимодействия с API Liaobots и предоставляет методы для создания асинхронного генератора, инициализации и обеспечения наличия кода аутентификации.
 
 ## Классы
 
 ### `Liaobots`
 
-**Описание**: Класс `Liaobots` является поставщиком асинхронного генератора, который взаимодействует с API `liaobots.site`.
+**Описание**: Класс для взаимодействия с API Liaobots.
 
 **Наследует**:
 - `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
-- `ProviderModelMixin`: Предоставляет функциональность для работы с моделями.
+- `ProviderModelMixin`: Предоставляет методы для работы с моделями.
 
 **Атрибуты**:
-- `url` (str): URL сервиса `liaobots.site`.
-- `working` (bool): Указывает, что провайдер находится в рабочем состоянии.
-- `supports_message_history` (bool): Указывает на поддержку истории сообщений.
-- `supports_system_message` (bool): Указывает на поддержку системных сообщений.
-- `default_model` (str): Модель, используемая по умолчанию (`gpt-4o-2024-08-06`).
+- `url` (str): URL API Liaobots.
+- `working` (bool): Флаг, указывающий, работает ли провайдер.
+- `supports_message_history` (bool): Флаг, указывающий, поддерживает ли провайдер историю сообщений.
+- `supports_system_message` (bool): Флаг, указывающий, поддерживает ли провайдер системные сообщения.
+- `default_model` (str): Модель, используемая по умолчанию.
 - `models` (list): Список поддерживаемых моделей.
 - `model_aliases` (dict): Словарь псевдонимов моделей.
-- `_auth_code` (str): Код аутентификации для доступа к API.
-- `_cookie_jar`: Объект для хранения cookie.
+- `_auth_code` (str): Код аутентификации.
+- `_cookie_jar` (aiohttp.CookieJar): Cookie Jar для хранения cookie сессии.
 
 **Методы**:
-- `is_supported(model: str) -> bool`: Проверяет, поддерживается ли указанная модель.
+- `is_supported(model: str) -> bool`: Проверяет, поддерживается ли данная модель.
 - `create_async_generator(model: str, messages: Messages, proxy: str = None, connector: BaseConnector = None, **kwargs) -> AsyncResult`: Создает асинхронный генератор для получения ответов от API.
 - `initialize_auth_code(session: ClientSession) -> None`: Инициализирует код аутентификации.
-- `ensure_auth_code(session: ClientSession) -> None`: Обеспечивает инициализацию кода аутентификации, если он еще не установлен.
+- `ensure_auth_code(session: ClientSession) -> None`: Проверяет и инициализирует код аутентификации, если он не инициализирован.
 
 ## Функции
 
 ### `is_supported`
 
 ```python
-    @classmethod
-    def is_supported(cls, model: str) -> bool:
-        """
-        Check if the given model is supported.
-        """
-        return model in models or model in cls.model_aliases
+@classmethod
+def is_supported(cls, model: str) -> bool:
+    """
+    Check if the given model is supported.
+    """
+    return model in models or model in cls.model_aliases
 ```
 
-**Назначение**: Проверяет, поддерживается ли указанная модель провайдером `Liaobots`.
+**Назначение**: Проверяет, поддерживается ли указанная модель провайдером.
 
 **Параметры**:
-- `model` (str): Идентификатор модели, которую необходимо проверить.
+- `model` (str): Имя модели для проверки.
 
 **Возвращает**:
-- `bool`: `True`, если модель поддерживается, иначе `False`.
+- `bool`: `True`, если модель поддерживается, `False` в противном случае.
 
 **Как работает функция**:
-1. Функция `is_supported` принимает на вход строковый идентификатор модели (`model`).
-2. Проверяет, присутствует ли `model` в списке поддерживаемых моделей (`models`) или в словаре псевдонимов моделей (`model_aliases`) класса `Liaobots`.
-3. Возвращает `True`, если модель найдена в одном из этих мест, и `False` в противном случае.
-
-**ASCII flowchart**:
+1. Функция проверяет, содержится ли имя модели в списке поддерживаемых моделей (`models`) или в словаре псевдонимов моделей (`cls.model_aliases`).
+2. Если модель найдена хотя бы в одном из этих мест, функция возвращает `True`, иначе возвращает `False`.
 
 ```
-    Модель -> Проверка в списке models -> Проверка в словаре model_aliases -> Возврат True/False
+Проверка наличия модели в списках
+    A: model in models or model in cls.model_aliases
+    |
+    B: Возвращает True, если модель найдена, иначе False
 ```
 
 **Примеры**:
-
 ```python
+# Пример 1: Проверка поддерживаемой модели
 Liaobots.is_supported("gpt-4o-2024-08-06")  # Вернет True
+
+# Пример 2: Проверка модели с псевдонимом
+Liaobots.is_supported("gpt-4o")  # Вернет True, так как "gpt-4o" является псевдонимом для "gpt-4o-2024-08-06"
+
+# Пример 3: Проверка неподдерживаемой модели
 Liaobots.is_supported("unsupported-model")  # Вернет False
 ```
 
 ### `create_async_generator`
 
 ```python
-    @classmethod
-    async def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        proxy: str = None,
-        connector: BaseConnector = None,
-        **kwargs
-    ) -> AsyncResult:
-        ...
+@classmethod
+async def create_async_generator(
+    cls,
+    model: str,
+    messages: Messages,
+    proxy: str = None,
+    connector: BaseConnector = None,
+    **kwargs
+) -> AsyncResult:
+    """
+    Creates an asynchronous generator for interacting with the API.
+    """
+    ...
 ```
 
-**Назначение**: Создает асинхронный генератор для получения ответов от API `liaobots.site`.
+**Назначение**: Создает асинхронный генератор для взаимодействия с API Liaobots и получения ответов.
 
 **Параметры**:
-- `model` (str): Идентификатор модели, которую необходимо использовать.
+- `model` (str): Имя модели для использования.
 - `messages` (Messages): Список сообщений для отправки в API.
 - `proxy` (str, optional): URL прокси-сервера. По умолчанию `None`.
-- `connector` (BaseConnector, optional): Объект коннектора AIOHTTP. По умолчанию `None`.
-- `**kwargs`: Дополнительные параметры, такие как `system_message`.
+- `connector` (BaseConnector, optional): Aiohttp коннектор. По умолчанию `None`.
+- `**kwargs`: Дополнительные аргументы, такие как `system_message`.
 
 **Возвращает**:
-- `AsyncResult`: Асинхронный генератор, выдающий ответы от API.
+- `AsyncResult`: Асинхронный генератор, возвращающий содержимое ответов от API.
+
+**Вызывает исключения**:
+- `RuntimeError`: Если не удается получить код аутентификации.
 
 **Как работает функция**:
 
-1.  **Получение модели**: Функция `create_async_generator` принимает идентификатор модели (`model`), сообщения (`messages`), прокси (`proxy`) и коннектор (`connector`) в качестве аргументов. Сначала она получает фактическое имя модели, используя `cls.get_model(model)`.
-2.  **Формирование заголовков**: Функция задает заголовки HTTP-запроса, включая `referer`, `origin` и `user-agent`.
-3.  **Создание сессии**: Создается асинхронная сессия с использованием `aiohttp.ClientSession` с заданными заголовками, файлами cookie и коннектором. Коннектор создается с использованием функции `get_connector` из модуля `helper`.
-4.  **Формирование данных**: Формируются данные для отправки в теле запроса. Данные включают `conversationId` (случайный UUID), `model` (информация о модели из словаря `models`), `messages` и `prompt` (системное сообщение).
-5.  **Аутентификация (если необходимо)**: Если `cls._auth_code` не установлен, выполняется запрос к `https://liaobots.work/recaptcha/api/login` для получения кода аутентификации.
-6.  **Отправка запроса и получение ответа**: Выполняется POST-запрос к `https://liaobots.work/api/chat` с данными и заголовком `x-auth-code`. Функция асинхронно итерируется по строкам в ответе, извлекая содержимое JSON из строк, начинающихся с `data: `.
-7.  **Обработка ошибок**: Если происходит ошибка, функция пытается повторно аутентифицироваться с другим кодом аутентификации (`jGDRFOqHcZKAo`) и повторяет запрос.
-8.  **Генерация результатов**: Функция возвращает асинхронный генератор, который выдает извлеченное содержимое из ответов API.
-
-**ASCII flowchart**:
+1. **Выбор модели**: Функция `get_model` используется для получения фактического имени модели из псевдонима, если указано псевдоним.
+2. **Подготовка заголовков**: Создаются заголовки HTTP-запроса, включая `referer`, `origin` и `user-agent`.
+3. **Создание сессии**: Создается асинхронная сессия `ClientSession` с заданными заголовками, cookie jar и коннектором.
+4. **Подготовка данных**: Создается словарь `data` с информацией о запросе, включая `conversationId`, `model`, `messages`, `key` и `prompt` (системное сообщение).
+5. **Получение кода аутентификации**:
+   - Если `cls._auth_code` пуст, выполняется запрос к `https://liaobots.work/recaptcha/api/login` для получения кода аутентификации.
+   - Затем выполняется запрос к `https://liaobots.work/api/user` с текущим `authcode` для обновления кода аутентификации.
+   - Если код аутентификации не получен, вызывается `RuntimeError`.
+6. **Отправка запроса и получение ответа**:
+   - Выполняется POST-запрос к `https://liaobots.work/api/chat` с данными запроса и заголовком `x-auth-code`.
+   - Асинхронно обрабатывается ответ, и из каждой строки, начинающейся с `data: `, извлекается содержимое (`content`) и возвращается через `yield`.
+7. **Обработка исключений**:
+   - Если происходит исключение, повторяется попытка получения кода аутентификации и отправки запроса с фиксированным `authcode`.
+   - Это позволяет обработать временные проблемы с аутентификацией.
 
 ```
-    Model, Messages, Proxy, Connector -> Получение имени модели -> Формирование заголовков ->
-    Создание асинхронной сессии -> Формирование данных -> Проверка auth_code ->
-    Аутентификация (если необходимо) -> POST запрос к API -> Обработка ответа ->
-    Генерация результатов (content)
+Получение ответа от API Liaobots
+    A: Получение имени модели
+    |
+    B: Создание заголовков HTTP-запроса
+    |
+    C: Создание асинхронной сессии
+    |
+    D: Подготовка данных для запроса
+    |
+    E: Проверка и получение кода аутентификации
+    |
+    F: Отправка POST-запроса к API
+    |
+    G: Асинхронное получение и обработка ответа
+    |
+    H: Обработка исключений и повторная попытка
 ```
 
 **Примеры**:
 
 ```python
+# Пример 1: Создание асинхронного генератора с минимальными параметрами
 messages = [{"role": "user", "content": "Hello, how are you?"}]
-async for message in Liaobots.create_async_generator(model="gpt-4o-2024-08-06", messages=messages):
-    print(message)
+async_generator = Liaobots.create_async_generator(model="gpt-4o-2024-08-06", messages=messages)
+
+# Пример 2: Создание асинхронного генератора с прокси и системным сообщением
+messages = [{"role": "user", "content": "Translate 'hello' to French."}]
+async_generator = Liaobots.create_async_generator(
+    model="gpt-4o-2024-08-06",
+    messages=messages,
+    proxy="http://your-proxy:8080",
+    system_message="You are a translation assistant."
+)
+
+# Пример 3: Использование асинхронного генератора для получения ответа
+async def get_response():
+    messages = [{"role": "user", "content": "Tell me a joke."}]
+    async for response_chunk in Liaobots.create_async_generator(model="gpt-4o-2024-08-06", messages=messages):
+        print(response_chunk, end="")
+
+import asyncio
+asyncio.run(get_response())
 ```
 
 ### `initialize_auth_code`
 
 ```python
-    @classmethod
-    async def initialize_auth_code(cls, session: ClientSession) -> None:
-        """
-        Initialize the auth code by making the necessary login requests.
-        """
-        async with session.post(
-            "https://liaobots.work/api/user",
-            json={"authcode": "pTIQr4FTnVRfr"},
-            verify_ssl=False
-        ) as response:
-            await raise_for_status(response)
-            cls._auth_code = (await response.json(content_type=None))["authCode"]
-            if not cls._auth_code:
-                raise RuntimeError("Empty auth code")
-            cls._cookie_jar = session.cookie_jar
+@classmethod
+async def initialize_auth_code(cls, session: ClientSession) -> None:
+    """
+    Initialize the auth code by making the necessary login requests.
+    """
+    ...
 ```
 
-**Назначение**: Инициализирует код аутентификации, выполняя необходимые запросы для входа.
+**Назначение**: Инициализирует код аутентификации, выполняя необходимые запросы для входа в систему.
 
 **Параметры**:
-- `session` (ClientSession): Асинхронная сессия AIOHTTP.
-
-**Возвращает**:
-- `None`
+- `session` (ClientSession): Асинхронная сессия для выполнения запросов.
 
 **Как работает функция**:
-1. Функция `initialize_auth_code` принимает асинхронную сессию (`session`) в качестве аргумента.
-2. Выполняет POST-запрос к `https://liaobots.work/api/user` с кодом аутентификации `pTIQr4FTnVRfr`.
-3. Проверяет статус ответа, используя `await raise_for_status(response)`.
-4. Извлекает код аутентификации из JSON-ответа и сохраняет его в `cls._auth_code`.
-5. Если код аутентификации пустой, вызывает исключение `RuntimeError`.
-6. Сохраняет cookie из сессии в `cls._cookie_jar`.
 
-**ASCII flowchart**:
+1. **Выполнение POST-запроса**:
+   - Выполняется POST-запрос к `https://liaobots.work/api/user` с фиксированным `authcode` "pTIQr4FTnVRfr".
+2. **Обработка ответа**:
+   - Извлекается `authCode` из JSON-ответа.
+   - Если `authCode` пуст, вызывается `RuntimeError`.
+3. **Сохранение кода и cookie**:
+   - Сохраненный `authCode` присваивается `cls._auth_code`.
+   - Cookie Jar из сессии сохраняется в `cls._cookie_jar`.
 
 ```
-    Session -> POST запрос к API -> Проверка статуса ответа -> Извлечение authCode ->
-    Проверка на пустоту authCode -> Сохранение authCode и cookie_jar
+Инициализация кода аутентификации
+    A: Выполнение POST-запроса к API
+    |
+    B: Извлечение authCode из JSON-ответа
+    |
+    C: Проверка наличия authCode
+    |
+    D: Сохранение authCode и cookie
 ```
 
 **Примеры**:
 
 ```python
-async with ClientSession() as session:
-    await Liaobots.initialize_auth_code(session)
+# Пример 1: Инициализация кода аутентификации с использованием асинхронной сессии
+import aiohttp
+import asyncio
+
+async def initialize():
+    async with aiohttp.ClientSession() as session:
+        await Liaobots.initialize_auth_code(session)
+        print(f"Auth code initialized: {Liaobots._auth_code}")
+
+asyncio.run(initialize())
 ```
 
 ### `ensure_auth_code`
 
 ```python
-    @classmethod
-    async def ensure_auth_code(cls, session: ClientSession) -> None:
-        """
-        Ensure the auth code is initialized, and if not, perform the initialization.
-        """
-        if not cls._auth_code:
-            await cls.initialize_auth_code(session)
+@classmethod
+async def ensure_auth_code(cls, session: ClientSession) -> None:
+    """
+    Ensure the auth code is initialized, and if not, perform the initialization.
+    """
+    if not cls._auth_code:
+        await cls.initialize_auth_code(session)
 ```
 
-**Назначение**: Обеспечивает инициализацию кода аутентификации, выполняя инициализацию, если он еще не установлен.
+**Назначение**: Проверяет, инициализирован ли код аутентификации, и выполняет инициализацию, если это необходимо.
 
 **Параметры**:
-- `session` (ClientSession): Асинхронная сессия AIOHTTP.
-
-**Возвращает**:
-- `None`
+- `session` (ClientSession): Асинхронная сессия для выполнения запросов.
 
 **Как работает функция**:
-1. Функция `ensure_auth_code` принимает асинхронную сессию (`session`) в качестве аргумента.
-2. Проверяет, установлен ли `cls._auth_code`.
-3. Если `cls._auth_code` не установлен, вызывает функцию `cls.initialize_auth_code(session)` для его инициализации.
 
-**ASCII flowchart**:
+1. **Проверка кода аутентификации**:
+   - Проверяется, является ли `cls._auth_code` пустым.
+2. **Инициализация, если необходимо**:
+   - Если `cls._auth_code` пуст, вызывается `cls.initialize_auth_code(session)` для инициализации кода аутентификации.
 
 ```
-    Session -> Проверка auth_code -> Инициализация auth_code (если необходимо)
+Проверка и инициализация кода аутентификации
+    A: Проверка наличия кода аутентификации
+    |
+    B: Вызов initialize_auth_code, если код отсутствует
 ```
 
 **Примеры**:
 
 ```python
-async with ClientSession() as session:
-    await Liaobots.ensure_auth_code(session)
+# Пример 1: Обеспечение инициализации кода аутентификации перед использованием API
+import aiohttp
+import asyncio
+
+async def ensure_and_use():
+    async with aiohttp.ClientSession() as session:
+        await Liaobots.ensure_auth_code(session)
+        print(f"Auth code ensured: {Liaobots._auth_code}")
+
+asyncio.run(ensure_and_use())

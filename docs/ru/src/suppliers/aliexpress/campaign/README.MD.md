@@ -4,121 +4,117 @@
 
 Модуль `campaign` предназначен для управления процессом создания и публикации рекламных кампаний на Facebook. Он включает в себя функциональность для инициализации параметров кампании (имя, язык, валюта), создания структуры каталогов, сохранения конфигураций для новой кампании, сбора и сохранения данных о продуктах через `ali` или `html`, генерации рекламных материалов, проверки кампании и публикации ее на Facebook.
 
-## Подробней
+## Подробнее
 
-Модуль `campaign` используется для автоматизации процесса создания рекламных кампаний на Facebook. Он предоставляет инструменты для управления всеми этапами кампании, от инициализации до публикации.
+Этот модуль автоматизирует шаги, необходимые для запуска рекламной кампании, от первоначальной настройки до окончательной публикации, обеспечивая структурированный подход к управлению рекламными активами и данными.
 
-## Функциональность
-
-### Создание рекламной кампании
+## Схема работы модуля
 
 ```mermaid
 flowchart TD
-    A[Start: Создание рекламной кампании для размещения на Facebook] --> B[Инициализация имени, языка и валюты кампании]
-    B --> C[Создание каталогов кампании и категорий]
-    C --> D[Сохранение конфигурации кампании]
-    D --> E[Сбор данных о продуктах]
-    E --> F[Сохранение данных о продуктах]
-    F --> G[Создание рекламных материалов]
-    G --> H[Проверка кампании]
-    H --> I{Кампания готова?}
-    I -- Да --> J[Публикация кампании на Facebook]
-    I -- Нет --> H
-    J --> K[End: Завершение создания рекламной кампании]
+    A[Start: Creating an advertising campaign for Facebook placement] --> B[Initialize Campaign Name, Language, and Currency]
+    B --> C[Create Campaign and Category Directories]
+    C --> D[Save Campaign Configuration]
+    D --> E[Collect Product Data]
+    E --> F[Save Product Data]
+    F --> G[Create Promotional Materials]
+    G --> H[Review Campaign]
+    H --> I{Is the Campaign Ready?}
+    I -- Yes --> J[Publish Campaign on Facebook]
+    I -- No --> H
+    J --> K[End: Completion of the advertising campaign creation]
 ```
 
-**Как работает процесс создания кампании:**
+- **Шаг 1**: Начало - процесс начинается.
 
-1.  **Шаг 1**: Старт - Начало процесса.
+- **Шаг 2**: Инициализация деталей кампании - определяются имя кампании, язык и валюта. Пример: Имя кампании: "Летняя распродажа", Язык: "Русский", Валюта: "USD".
 
-2.  **Шаг 2**: Инициализация деталей кампании - Определяются имя, язык и валюта кампании. Пример: Имя кампании: "Летняя распродажа", Язык: "Русский", Валюта: "RUB"
+- **Шаг 3**: Создание каталогов кампании и категорий - создаются необходимые каталоги или файлы для кампании. Пример: Структура папок создается в файловой системе для хранения активов кампании.
 
-3.  **Шаг 3**: Создание каталогов кампании и категорий - Создаются необходимые каталоги или файлы для кампании. Пример: Создается структура папок в файловой системе для хранения активов кампании.
+- **Шаг 4**: Сохранение конфигурации кампании - сохраняются инициализированные детали кампании. Пример: Данные записываются в базу данных или файл конфигурации.
 
-4.  **Шаг 4**: Сохранение конфигурации кампании - Сохраненные детали инициализированной кампании. Пример: Данные записываются в базу данных или конфигурационный файл.
+- **Шаг 5**: Сбор данных о продуктах - собираются данные, относящиеся к продуктам, которые будут продвигаться в рамках кампании. Пример: ID продуктов, описания, изображения и цены извлекаются из системы инвентаризации.
 
-5.  **Шаг 5**: Сбор данных о продуктах - Собираются данные, относящиеся к продуктам, которые будут продвигаться в рамках кампании. Пример: ID продуктов, описания, изображения и цены извлекаются из системы инвентаризации.
+- **Шаг 6**: Сохранение данных о продуктах - сохраняются собранные данные о продуктах. Пример: Данные записываются в таблицу базы данных, предназначенную для продуктов кампании.
 
-6.  **Шаг 6**: Сохранение данных о продуктах - Собранные данные о продуктах сохраняются. Пример: Данные записываются в таблицу базы данных, предназначенную для продуктов кампании.
+- **Шаг 7**: Создание рекламных материалов - генерируются или выбираются графика, баннеры и другие рекламные активы. Пример: Изображения и описания адаптируются для привлечения клиентов.
 
-7.  **Шаг 7**: Создание рекламных материалов - Создаются или выбираются графика, баннеры и другие рекламные активы. Пример: Изображения и описания адаптируются для привлечения клиентов.
+- **Шаг 8**: Проверка кампании - процесс проверки подтверждает, что компоненты кампании готовы. Пример: Человек или система оценивают качество и полноту всех компонентов кампании.
 
-8.  **Шаг 8**: Проверка кампании - Процесс проверки подтверждает, что компоненты кампании готовы. Пример: Человек или система оценивает качество и полноту всех компонентов кампании.
+- **Шаг 9**: Готова ли кампания? - Проверка для определения, завершена ли кампания и готова ли к публикации. Пример: Логический флаг сигнализирует "Да", если все на месте, в противном случае "Нет", инициируя возврат к предыдущему шагу для внесения исправлений.
 
-9.  **Шаг 9**: Кампания готова? - Проверка для определения, завершена ли кампания и готова ли к публикации. Пример: Логический флаг сигнализирует "Да", если все на месте, в противном случае "Нет", инициируя возврат к предыдущему шагу для внесения исправлений.
+- **Шаг 10**: Публикация кампании - кампания публикуется на платформе и готова к маркетинговым усилиям. Пример: Выполняются вызовы API для публикации кампании на соответствующей платформе.
 
-10. **Шаг 10**: Публикация кампании - Кампания становится активной на платформе и готова к маркетинговым усилиям. Пример: Выполняются вызовы API для публикации кампании на соответствующей платформе.
+- **Шаг 11**: Конец - процесс создания кампании завершен.
 
-11. **Шаг 11**: Конец - Процесс создания кампании завершен.
-
-### Редактирование кампании
+## Схема редактирования кампании
 
 ```mermaid
 graph LR
-    A[Ввод пользователя: campaign_name, language, currency] --> B{AliCampaignEditor.__init__};
-    B --> C[AliPromoCampaign.__init__];
-    C --> D[Инициализация: AliCampaignEditor constructor];
-    D --> E[AliCampaignEditor];
+        A[User Input: campaign_name, language, currency] --> B{AliCampaignEditor.__init__};
+        B --> C[AliPromoCampaign.__init__];
+        C --> D[Initialization: AliCampaignEditor constructor];
+        D --> E[AliCampaignEditor];
+        
+        E --> F[delete_product: Check for affiliate link];
+        F --> G[read_text_file sources.txt: Read product list];
+        G --> H[Iterate & check product_id: Loop through product list];
+        H -- Match --> I[remove & save: Remove product if match found];
+        H -- No Match --> J[rename product file: Rename product file if no match];
+        
+        E --> K[update_product: Update product details];
+        K --> L[Call dump_category_products_files: Update category with new product];
+        
+        E --> M[update_campaign: Update campaign properties like description];
+        M --> N[update campaign parameters];
+        
+        E --> O[update_category: Update category in JSON file];
+        O --> P[j_loads JSON file: Read category data];
+        P --> Q[Update category: Update category data];
+        Q --> R[j_dumps JSON file: Write updated category to file];
+        
+        E --> S[get_category: Retrieve category by name];
+        S --> T[Check if category exists];
+        T -- Found --> U[Return SimpleNamespace: Return category details];
+        T -- Not Found --> V[Log warning: Category not found in campaign];
+        
+        E --> W[list_categories: List all categories in the campaign];
+        W --> X[Check category attribute: Ensure categories exist in campaign];
+        X -- Found --> Y[Return category list: List category names];
+        X -- Not Found --> Z[Log warning: No categories found in campaign];
+        
+        E --> AA[get_category_products: Retrieve products for a category];
+        AA --> AB[Get category path: Build path for category products];
+        AB --> AC[Get JSON filenames: Retrieve all product JSON files];
+        AC --> AD[Read JSON files: Load product data];
+        AD --> AE[Create SimpleNamespace: Convert product data to objects];
+        AE --> AF[Return products: Return list of products];
+        AC -- No JSON files --> AG[Log error: No files found];
+        AG --> AH[Process category: Trigger category product preparation];
 
-    E --> F[delete_product: Проверка партнерской ссылки];
-    F --> G[read_text_file sources.txt: Чтение списка продуктов];
-    G --> H[Iterate & check product_id: Цикл по списку продуктов];
-    H -- Соответствие --> I[remove & save: Удаление продукта, если найдено соответствие];
-    H -- Нет соответствия --> J[rename product file: Переименование файла продукта, если нет соответствия];
-
-    E --> K[update_product: Обновление деталей продукта];
-    K --> L[Call dump_category_products_files: Обновление категории новым продуктом];
-
-    E --> M[update_campaign: Обновление свойств кампании, например, описания];
-    M --> N[update campaign parameters];
-
-    E --> O[update_category: Обновление категории в JSON-файле];
-    O --> P[j_loads JSON file: Чтение данных категории];
-    P --> Q[Update category: Обновление данных категории];
-    Q --> R[j_dumps JSON file: Запись обновленной категории в файл];
-
-    E --> S[get_category: Получение категории по имени];
-    S --> T[Check if category exists];
-    T -- Найдено --> U[Return SimpleNamespace: Возврат деталей категории];
-    T -- Не найдено --> V[Log warning: Категория не найдена в кампании];
-
-    E --> W[list_categories: Список всех категорий в кампании];
-    W --> X[Check category attribute: Проверка существования категорий в кампании];
-    X -- Найдено --> Y[Return category list: Список имен категорий];
-    X -- Не найдено --> Z[Log warning: В кампании не найдены категории];
-
-    E --> AA[get_category_products: Получение продуктов для категории];
-    AA --> AB[Get category path: Построение пути для продуктов категории];
-    AB --> AC[Get JSON filenames: Получение всех JSON-файлов продуктов];
-    AC --> AD[Read JSON files: Загрузка данных о продуктах];
-    AD --> AE[Create SimpleNamespace: Преобразование данных продуктов в объекты];
-    AE --> AF[Return products: Возврат списка продуктов];
-    AC -- Нет JSON-файлов --> AG[Log error: Файлы не найдены];
-    AG --> AH[Process category: Запуск подготовки продуктов категории];
-
-    E --> AI[Other methods];
+        E --> AI[Other methods];
 ```
 
-### Подготовка кампании
+## Схема подготовки кампании
 
 ```mermaid
 flowchart TD
-    A[Start] --> B{Обработать все кампании?}
-    B -->|Да| C[Обработать все кампании]
-    B -->|Нет| D[Обработать конкретную кампанию]
-
-    C --> E{Предоставлены язык и валюта?}
-    E -->|Да| F[Обработать каждую кампанию с предоставленным языком и валютой]
-    E -->|Нет| G[Обработать все локали для каждой кампании]
-
-    D --> H{Указаны категории?}
-    H -->|Да| I[Обработать конкретные категории для кампании]
-    H -->|Нет| J[Обработать всю кампанию]
-
-    F --> K[Обработать категорию кампании]
-    G --> L[Обработать кампанию для всех локалей]
+    A[Start] --> B{Process all campaigns?}
+    B -->|Yes| C[Process all campaigns]
+    B -->|No| D[Process specific campaign]
+    
+    C --> E{Language and Currency provided?}
+    E -->|Yes| F[Process each campaign with provided language and currency]
+    E -->|No| G[Process all locales for each campaign]
+    
+    D --> H{Categories specified?}
+    H -->|Yes| I[Process specific categories for the campaign]
+    H -->|No| J[Process entire campaign]
+    
+    F --> K[Process campaign category]
+    G --> L[Process campaign for all locales]
     I --> K
     J --> L
-
+    
     K --> M[Return]
     L --> M

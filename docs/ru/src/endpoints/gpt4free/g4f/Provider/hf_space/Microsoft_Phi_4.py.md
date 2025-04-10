@@ -1,42 +1,45 @@
-# Модуль `Microsoft_Phi_4`
+# Модуль Microsoft_Phi_4
 
 ## Обзор
 
-Модуль `Microsoft_Phi_4` предназначен для взаимодействия с мультимодальной моделью Microsoft Phi-4 через Hugging Face Space. Он предоставляет асинхронный генератор для получения ответов от модели, поддерживает потоковую передачу данных и работу с изображениями.
+Модуль `Microsoft_Phi_4` предназначен для взаимодействия с моделью Microsoft Phi-4 Multimodal через Hugging Face Spaces. Он предоставляет асинхронный генератор для получения ответов от модели, поддерживает потоковую передачу данных, системные сообщения и историю сообщений. Модуль также обеспечивает работу с изображениями.
 
 ## Подробней
 
-Этот модуль позволяет отправлять текстовые запросы и изображения в модель Microsoft Phi-4 и получать ответы в потоковом режиме. Он использует API Hugging Face Spaces для взаимодействия с моделью и поддерживает как текстовые, так и мультимодальные запросы.
+Модуль использует Hugging Face Spaces для доступа к модели Microsoft Phi-4 Multimodal. Он поддерживает текстовые и визуальные запросы, а также загрузку и обработку изображений. Для аутентификации используется токен `zerogpu_token`.
 
 ## Классы
 
 ### `Microsoft_Phi_4`
 
-**Описание**: Класс `Microsoft_Phi_4` предоставляет методы для взаимодействия с мультимодальной моделью Microsoft Phi-4 через Hugging Face Space.
+**Описание**: Класс `Microsoft_Phi_4` является асинхронным провайдером и миксином для работы с моделью Microsoft Phi-4 Multimodal.
 
 **Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию ответов.
-- `ProviderModelMixin`: Предоставляет общие методы для работы с моделями провайдеров.
+
+- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
+- `ProviderModelMixin`: Предоставляет функциональность для работы с моделями.
 
 **Атрибуты**:
-- `label` (str): Метка провайдера, `"Microsoft Phi-4"`.
-- `space` (str): Hugging Face Space, `"microsoft/phi-4-multimodal"`.
-- `url` (str): URL Hugging Face Space.
-- `api_url` (str): URL API Hugging Face Space.
+
+- `label` (str): Метка провайдера (Microsoft Phi-4).
+- `space` (str): Название пространства Hugging Face (microsoft/phi-4-multimodal).
+- `url` (str): URL пространства Hugging Face.
+- `api_url` (str): URL API для взаимодействия с моделью.
 - `referer` (str): Referer для HTTP-запросов.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера, `True`.
-- `supports_stream` (bool): Флаг, указывающий на поддержку потоковой передачи данных, `True`.
-- `supports_system_message` (bool): Флаг, указывающий на поддержку системных сообщений, `True`.
-- `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений, `True`.
-- `default_model` (str): Модель по умолчанию, `"phi-4-multimodal"`.
-- `default_vision_model` (str): Модель для работы с изображениями по умолчанию, `"phi-4-multimodal"`.
-- `model_aliases` (dict): Псевдонимы моделей, `{"phi-4": default_vision_model}`.
+- `working` (bool): Флаг, указывающий, что провайдер работает.
+- `supports_stream` (bool): Флаг, указывающий, что провайдер поддерживает потоковую передачу.
+- `supports_system_message` (bool): Флаг, указывающий, что провайдер поддерживает системные сообщения.
+- `supports_message_history` (bool): Флаг, указывающий, что провайдер поддерживает историю сообщений.
+- `default_model` (str): Модель по умолчанию (phi-4-multimodal).
+- `default_vision_model` (str): Модель для работы с изображениями по умолчанию.
+- `model_aliases` (dict): Алиасы моделей.
 - `vision_models` (list): Список моделей для работы с изображениями.
 - `models` (list): Список поддерживаемых моделей.
 
 **Методы**:
-- `run()`: Выполняет HTTP-запрос к API Hugging Face Space.
-- `create_async_generator()`: Создает асинхронный генератор для получения ответов от модели.
+
+- `run`: Выполняет HTTP-запросы к API Hugging Face Space.
+- `create_async_generator`: Создает асинхронный генератор для получения ответов от модели.
 
 ## Функции
 
@@ -45,53 +48,51 @@
 ```python
     @classmethod
     def run(cls, method: str, session: StreamSession, prompt: str, conversation: JsonConversation, media: list = None):
-        ...
-```
+        """ Выполняет HTTP-запросы к API Hugging Face Space.
 
-**Назначение**: Выполняет HTTP-запрос к API Hugging Face Space для взаимодействия с моделью Microsoft Phi-4.
+        Args:
+            method (str): HTTP-метод ("predict", "post" или "get").
+            session (StreamSession): Асинхронная сессия для выполнения запросов.
+            prompt (str): Текстовый запрос.
+            conversation (JsonConversation): Объект, содержащий информацию о сессии и токены.
+            media (list, optional): Список медиафайлов (изображений). По умолчанию `None`.
 
-**Параметры**:
-- `cls` (Microsoft_Phi_4): Ссылка на класс `Microsoft_Phi_4`.
-- `method` (str): HTTP-метод (`"predict"`, `"post"` или `"get"`).
-- `session` (StreamSession): Асинхровая сессия для выполнения HTTP-запросов.
-- `prompt` (str): Текстовый запрос.
-- `conversation` (JsonConversation): Объект, содержащий информацию о текущем диалоге.
-- `media` (list, optional): Список медиафайлов (изображений), которые нужно отправить. По умолчанию `None`.
+        Returns:
+            StreamResponse: Объект ответа от сервера.
 
-**Возвращает**:
-- `StreamResponse`: Асинхронный ответ от сервера.
+        Как работает функция:
+        1.  Формирует заголовки запроса, включая `content-type`, `x-zerogpu-token` и `x-zerogpu-uuid`.
+        2.  В зависимости от значения `method` выполняет соответствующий HTTP-запрос (`POST` или `GET`) к API Hugging Face Space.
+        3.  Формирует данные запроса в формате JSON, включая текстовый запрос (`prompt`) и медиафайлы (`media`).
+        4.  Возвращает объект ответа от сервера.
 
-**Как работает функция**:
+        ```mermaid
+        graph TD
+        A[Начало] --> B{Выбор HTTP-метода};
+        B -- predict --> C[Выполнение POST-запроса к /gradio_api/run/predict];
+        B -- post --> D[Выполнение POST-запроса к /gradio_api/queue/join];
+        B -- get --> E[Выполнение GET-запроса к /gradio_api/queue/data];
+        C --> F[Возврат объекта ответа];
+        D --> F;
+        E --> F;
+        ```
 
-1. **Определение заголовков**: Определяются заголовки запроса, включая `content-type`, `x-zerogpu-token`, `x-zerogpu-uuid` и `referer`.
-2. **Выбор метода**: В зависимости от значения параметра `method` выбирается соответствующий HTTP-метод и формируется тело запроса.
-3. **Выполнение запроса**: Выполняется HTTP-запрос с использованием переданной сессии и возвращается ответ.
+        Примеры:
+            Запрос на предсказание:
+            ```python
+            response = Microsoft_Phi_4.run("predict", session, "Hello", conversation, [])
+            ```
 
-```
-     Определение заголовков
-     ↓
-     Выбор метода ("predict", "post", "get")
-     ↓
-     Формирование тела запроса
-     ↓
-     Выполнение HTTP-запроса
-```
+            Запрос на отправку данных:
+            ```python
+            response = Microsoft_Phi_4.run("post", session, "Hello", conversation, [])
+            ```
 
-**Примеры**:
-```python
-# Пример вызова метода run
-import asyncio
-from aiohttp import ClientSession
-from src.providers.response import JsonConversation
-
-async def test_run():
-    async with ClientSession() as session:
-        conversation = JsonConversation(session_hash="test_session")
-        response = await Microsoft_Phi_4.run("get", session, "test prompt", conversation)
-        print(response)
-
-if __name__ == "__main__":
-    asyncio.run(test_run())
+            Запрос на получение данных:
+            ```python
+            response = Microsoft_Phi_4.run("get", session, "Hello", conversation)
+            ```
+        """
 ```
 
 ### `create_async_generator`
@@ -112,66 +113,69 @@ if __name__ == "__main__":
         conversation: JsonConversation = None,
         **kwargs
     ) -> AsyncResult:
-        ...
-```
+        """ Создает асинхронный генератор для получения ответов от модели.
 
-**Назначение**: Создает асинхронный генератор для получения ответов от модели Microsoft Phi-4.
+        Args:
+            model (str): Название модели.
+            messages (Messages): Список сообщений для формирования запроса.
+            media (MediaListType, optional): Список медиафайлов (изображений). По умолчанию `None`.
+            prompt (str, optional): Текстовый запрос. По умолчанию `None`.
+            proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
+            cookies (Cookies, optional): HTTP-куки. По умолчанию `None`.
+            api_key (str, optional): API-ключ. По умолчанию `None`.
+            zerogpu_uuid (str, optional): UUID для zerogpu. По умолчанию "[object Object]".
+            return_conversation (bool, optional): Флаг, указывающий, нужно ли возвращать объект Conversation. По умолчанию `False`.
+            conversation (JsonConversation, optional): Объект Conversation. По умолчанию `None`.
+            **kwargs: Дополнительные аргументы.
 
-**Параметры**:
-- `cls` (Microsoft_Phi_4): Ссылка на класс `Microsoft_Phi_4`.
-- `model` (str): Название модели.
-- `messages` (Messages): Список сообщений для отправки в модель.
-- `media` (MediaListType, optional): Список медиафайлов (изображений), которые нужно отправить. По умолчанию `None`.
-- `prompt` (str, optional): Текстовый запрос. По умолчанию `None`.
-- `proxy` (str, optional): URL прокси-сервера. По умолчанию `None`.
-- `cookies` (Cookies, optional): Cookies для отправки с запросом. По умолчанию `None`.
-- `api_key` (str, optional): API-ключ для доступа к модели. По умолчанию `None`.
-- `zerogpu_uuid` (str, optional): UUID для zerogpu. По умолчанию `"[object Object]"`.
-- `return_conversation` (bool, optional): Флаг, указывающий, нужно ли возвращать объект диалога. По умолчанию `False`.
-- `conversation` (JsonConversation, optional): Объект, содержащий информацию о текущем диалоге. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы.
+        Returns:
+            AsyncResult: Асинхронный генератор для получения ответов от модели.
 
-**Возвращает**:
-- `AsyncResult`: Асинхронный генератор, возвращающий ответы от модели.
+        Raises:
+            ResponseError: Если возникает ошибка при получении ответа от сервера.
 
-**Как работает функция**:
+        Как работает функция:
+        1.  Формирует текстовый запрос (`prompt`) на основе списка сообщений (`messages`).
+        2.  Инициализирует UUID сессии (`session_hash`).
+        3.  Получает токен `zerogpu_token` и API-ключ, если они не были предоставлены.
+        4.  Создает или обновляет объект `JsonConversation`.
+        5.  Загружает медиафайлы на сервер, если они предоставлены.
+        6.  Выполняет последовательность HTTP-запросов (`predict`, `post`, `get`) к API Hugging Face Space.
+        7.  Обрабатывает ответы от сервера, извлекая данные из JSON-ответа.
+        8.  Генерирует ответы от модели в асинхронном режиме.
 
-1. **Форматирование запроса**: Форматируется текстовый запрос и запрос изображения, если они предоставлены.
-2. **Создание сессии**: Создается асинхровая сессия для выполнения HTTP-запросов.
-3. **Получение токена**: Если API-ключ не предоставлен, он получается с использованием функции `get_zerogpu_token`.
-4. **Создание объекта диалога**: Создается объект диалога `JsonConversation`, если он не был передан.
-5. **Загрузка медиафайлов**: Если предоставлены медиафайлы, они загружаются на сервер.
-6. **Выполнение запросов**: Выполняются HTTP-запросы к API Hugging Face Space для получения ответов от модели.
-7. **Обработка ответов**: Ответы от модели обрабатываются и возвращаются через асинхронный генератор.
+        ```mermaid
+        graph TD
+        A[Начало] --> B{Формирование запроса};
+        B --> C{Инициализация UUID сессии};
+        C --> D{Получение zerogpu_token и API-ключа};
+        D --> E{Создание/обновление JsonConversation};
+        E --> F{Загрузка медиафайлов (если есть)};
+        F --> G{Выполнение запроса predict};
+        G --> H{Выполнение запроса post};
+        H --> I{Выполнение запроса get};
+        I --> J{Обработка ответа};
+        J --> K{Генерация ответа};
+        K --> L[Конец];
+        ```
 
-```
-     Форматирование запроса
-     ↓
-     Создание асинхронной сессии
-     ↓
-     Получение токена (если отсутствует)
-     ↓
-     Создание объекта диалога
-     ↓
-     Загрузка медиафайлов (если предоставлены)
-     ↓
-     Выполнение HTTP-запросов ("predict", "post", "get")
-     ↓
-     Обработка ответов и возврат через генератор
-```
+        Примеры:
+            Создание асинхронного генератора без медиафайлов:
+            ```python
+            async for response in Microsoft_Phi_4.create_async_generator(
+                model="phi-4-multimodal",
+                messages=[{"role": "user", "content": "Hello"}]
+            ):
+                print(response)
+            ```
 
-**Примеры**:
-```python
-# Пример вызова метода create_async_generator
-import asyncio
-from typing import AsyncGenerator
-from src.typing import Messages
-from src.providers.response import JsonConversation
-
-async def test_create_async_generator():
-    messages: Messages = [{"role": "user", "content": "test message"}]
-    async for response in Microsoft_Phi_4.create_async_generator(model="phi-4-multimodal", messages=messages):
-        print(response)
-
-if __name__ == "__main__":
-    asyncio.run(test_create_async_generator())
+            Создание асинхронного генератора с медиафайлами:
+            ```python
+            async for response in Microsoft_Phi_4.create_async_generator(
+                model="phi-4-multimodal",
+                messages=[{"role": "user", "content": "Hello"}],
+                media=[(b"...", "image.jpg")]
+            ):
+                print(response)
+            ```
+        """

@@ -1,59 +1,180 @@
-# Модуль `proposition.py`
-
+# Модуль для определения и проверки пропозиций в контексте TinyTroupe
 ## Обзор
 
-Модуль `proposition.py` определяет класс `Proposition`, который используется для формулировки и проверки утверждений (propositional claims) о поведении агентов или состоянии среды в многоагентном моделировании. Также содержит функцию `check_proposition`, которая является удобным способом для проверки утверждений без создания объекта `Proposition`.
+Модуль `proposition.py` предназначен для работы с пропозициями (утверждениями) о целях, которыми могут быть `TinyWorld`, `TinyPerson` или их комбинации. Модуль предоставляет класс `Proposition` для определения пропозиций и функцию `check_proposition` для их проверки с использованием языковой модели (LLM).
 
-## Подробней
+## Подробнее
 
-Этот модуль играет важную роль в проверке гипотез о поведении агентов и их взаимодействии со средой в симуляциях `TinyTroupe`. Он позволяет формулировать утверждения и автоматически оценивать их истинность на основе траектории симуляции с использованием языковых моделей (LLM). Класс `Proposition` инкапсулирует целевой объект (агента или среду), само утверждение и контекст, необходимый для его проверки.
+Модуль позволяет формулировать утверждения о поведении агентов или состоянии среды в многоагентном моделировании. Он использует `LLMRequest` для оценки истинности или ложности этих утверждений на основе предоставленного контекста, который может включать траекторию симуляции агентов и состояние среды.
 
 ## Классы
 
 ### `Proposition`
 
-**Описание**: Класс `Proposition` представляет собой утверждение о целевом объекте, которое может быть проверено на основе контекста симуляции.
-
-**Принцип работы**:
-Класс принимает целевой объект (агента или среду), утверждение и необязательные параметры для ограничения контекста (количество первых или последних взаимодействий). При вызове метода `check`, класс формирует запрос к языковой модели, чтобы оценить истинность утверждения на основе предоставленного контекста. Результат оценки, обоснование и уверенность сохраняются в атрибутах объекта.
+**Описание**: Класс для определения пропозиции как текстового утверждения о цели (целях), в качестве которых может выступать `TinyWorld`, `TinyPerson` или несколько экземпляров любого из них.
 
 **Атрибуты**:
-- `targets` (list): Список целевых объектов утверждения (экземпляры `TinyWorld` или `TinyPerson`).
-- `claim` (str): Текст утверждения.
-- `first_n` (int): Количество первых взаимодействий для включения в контекст.
-- `last_n` (int): Количество последних взаимодействий для включения в контекст.
-- `value` (bool): Значение истинности утверждения (True или False).
-- `justification` (str): Обоснование значения истинности, предоставленное LLM.
-- `confidence` (float): Уверенность LLM в оценке.
+- `targets` (list): Список целей пропозиции (`TinyWorld` или `TinyPerson`).
+- `claim` (str): Текст утверждения пропозиции.
+- `first_n` (int): Количество первых взаимодействий для рассмотрения в контексте.
+- `last_n` (int): Количество последних взаимодействий (самых последних) для рассмотрения в контексте.
+- `value` (bool): Значение пропозиции (True или False) после проверки.
+- `justification` (str): Обоснование значения пропозиции, предоставленное LLM.
+- `confidence` (float): Уверенность LLM в значении пропозиции.
 - `raw_llm_response` (str): Необработанный ответ от LLM.
 
 **Методы**:
+- `__init__(self, target, claim: str, first_n: int = None, last_n: int = None)`: Инициализирует объект `Proposition`.
+- `__call__(self, additional_context=None)`: Вызывает метод `check` для проверки пропозиции.
+- `check(self, additional_context="No additional context available.")`: Проверяет пропозицию, используя LLM, и возвращает её значение.
 
-- `__init__(self, target, claim: str, first_n: int = None, last_n: int = None)`
-- `__call__(self, additional_context=None)`
-- `check(self, additional_context="No additional context available.")`
-
-#### `__init__`
+#### `__init__(self, target, claim: str, first_n: int = None, last_n: int = None)`
 
 ```python
-def __init__(self, target, claim: str, first_n: int = None, last_n: int = None)
+def __init__(self, target, claim:str, first_n:int=None, last_n:int=None):
+    """
+    Args:
+        target (TinyWorld, TinyPerson, list): the target or targets of the proposition
+        claim (str): the claim of the proposition
+        first_n (int): the number of first interactions to consider in the context
+        last_n (int): the number of last interactions (most recent) to consider in the context
+
+    """
 ```
 
-**Назначение**: Инициализирует объект `Proposition`.
+**Описание**: Инициализирует объект `Proposition`, определяя цель (цели), утверждение и контекст.
 
 **Параметры**:
-- `target` (TinyWorld, TinyPerson, list): Целевой объект или список целевых объектов утверждения.
-- `claim` (str): Текст утверждения.
-- `first_n` (int, optional): Количество первых взаимодействий для включения в контекст. По умолчанию `None`.
-- `last_n` (int, optional): Количество последних взаимодействий для включения в контекст. По умолчанию `None`.
+- `target` (TinyWorld, TinyPerson, list): Цель или цели пропозиции. Может быть экземпляром `TinyWorld`, `TinyPerson` или списком экземпляров этих классов.
+- `claim` (str): Утверждение, которое необходимо проверить.
+- `first_n` (int, optional): Количество первых взаимодействий, которые следует учитывать в контексте. По умолчанию `None`.
+- `last_n` (int, optional): Количество последних взаимодействий (самых недавних), которые следует учитывать в контексте. По умолчанию `None`.
+
+**Как работает**:
+
+1.  Проверяет тип цели (`target`). Если цель является экземпляром `TinyWorld` или `TinyPerson`, она преобразуется в список, содержащий только эту цель. Если цель является списком, проверяется, что все элементы списка являются экземплярами `TinyWorld` или `TinyPerson`. Если цель имеет недопустимый тип, вызывается исключение `ValueError`.
+2.  Сохраняет утверждение (`claim`) в атрибуте `self.claim`.
+3.  Сохраняет значения `first_n` и `last_n` в соответствующих атрибутах объекта.
+4.  Инициализирует атрибуты `value`, `justification` и `confidence` значением `None`.
+
+#### `__call__(self, additional_context=None)`
+
+```python
+def __call__(self, additional_context=None):
+    """ """
+```
+
+**Описание**: Позволяет вызывать объект `Proposition` как функцию, что приводит к вызову метода `check`.
+
+**Параметры**:
+- `additional_context` (str, optional): Дополнительный контекст для передачи в метод `check`. По умолчанию `None`.
+
+**Возвращает**:
+- Результат вызова метода `check`.
+
+#### `check(self, additional_context="No additional context available.")`
+
+```python
+def check(self, additional_context="No additional context available."):
+    """ """
+```
+
+**Описание**: Проверяет истинность пропозиции с использованием языковой модели (LLM).
+
+**Параметры**:
+- `additional_context` (str, optional): Дополнительный контекст, который будет предоставлен LLM. По умолчанию "No additional context available.".
+
+**Как работает**:
+
+1.  Инициализирует переменную `context` пустой строкой.
+2.  Для каждой цели (`target`) в списке `self.targets` выполняет следующие действия:
+    *   Получает траекторию взаимодействий цели с помощью метода `pretty_current_interactions`.
+    *   Формирует строку контекста, добавляя информацию о типе цели (агент или среда) и её имени.
+    *   Добавляет траекторию взаимодействий цели в строку `context`.
+3.  Создает объект `LLMRequest` с системным запросом, определяющим роль LLM как системы оценки истинности или ложности пропозиций в контексте многоагентного моделирования.
+4.  Формирует пользовательский запрос (`user_prompt`), включающий текст пропозиции, контекст и дополнительный контекст.
+5.  Вызывает LLM с помощью объекта `llm_request`, чтобы получить значение пропозиции.
+6.  Сохраняет значение пропозиции, обоснование и уверенность, полученные от LLM, в соответствующих атрибутах объекта.
+7.  Сохраняет необработанный ответ от LLM в атрибуте `raw_llm_response`.
+8.  Возвращает значение пропозиции.
+
+**Внутренние функции**:
+- В данном методе нет внутренних функций.
+
+**Пример**:
+
+```python
+from tinytroupe.agent import TinyPerson
+from tinytroupe.environment import TinyWorld
+
+# Создание экземпляров TinyWorld и TinyPerson
+world = TinyWorld(name='MyWorld')
+person = TinyPerson(name='Alice')
+
+# Создание пропозиции об агенте Alice
+proposition = Proposition(target=person, claim="Alice is happy.")
+
+# Проверка пропозиции
+result = proposition.check()
+print(f"Proposition value: {result}")
+
+# Создание пропозиции об окружении MyWorld
+proposition_world = Proposition(target=world, claim="The environment is clean.")
+
+# Проверка пропозиции
+result_world = proposition_world.check()
+print(f"Proposition value: {result_world}")
+
+# Создание пропозиции с дополнительным контекстом
+proposition_with_context = Proposition(target=person, claim="Alice likes the weather.")
+result_with_context = proposition_with_context.check(additional_context="The weather is sunny.")
+print(f"Proposition value with additional context: {result_with_context}")
+```
+
+## Функции
+
+### `check_proposition(target, claim: str, additional_context="No additional context available.", first_n: int = None, last_n: int = None)`
+
+```python
+def check_proposition(target, claim:str, additional_context="No additional context available.",
+                      first_n:int=None, last_n:int=None):
+    """
+    Args:
+        target (TinyWorld, TinyPerson, list): the target or targets of the proposition
+        claim (str): the claim of the proposition
+        additional_context (str): additional context to provide to the LLM
+        first_n (int): the number of first interactions to consider in the context
+        last_n (int): the number of last interactions (most recent) to consider in the context
+
+    Returns:
+        bool: whether the proposition holds for the given target(s)
+    """
+```
+
+**Назначение**: Проверяет, выполняется ли пропозициональное утверждение для заданной цели (целей).
+
+**Параметры**:
+- `target` (TinyWorld, TinyPerson, list): Цель или цели пропозиции. Может быть экземпляром `TinyWorld`, `TinyPerson` или списком экземпляров этих классов.
+- `claim` (str): Утверждение, которое необходимо проверить.
+- `additional_context` (str, optional): Дополнительный контекст для предоставления LLM. По умолчанию "No additional context available.".
+- `first_n` (int, optional): Количество первых взаимодействий, которые следует учитывать в контексте. По умолчанию `None`.
+- `last_n` (int, optional): Количество последних взаимодействий (самых недавних), которые следует учитывать в контексте. По умолчанию `None`.
+
+**Возвращает**:
+- `bool`: Значение `True`, если пропозиция выполняется для заданных целей, и `False` в противном случае.
 
 **Как работает функция**:
 
-1. **Проверяет тип целевого объекта**: Убеждается, что `target` является экземпляром `TinyWorld`, `TinyPerson` или списком, содержащим только экземпляры `TinyWorld` или `TinyPerson`.
-2. **Устанавливает атрибуты объекта**: Присваивает значения атрибутам `targets`, `claim`, `first_n` и `last_n`.
+1.  Создает экземпляр класса `Proposition` с переданными аргументами: целью (`target`), утверждением (`claim`), `first_n` и `last_n`.
+2.  Вызывает метод `check` созданного экземпляра `Proposition`, передавая дополнительный контекст (`additional_context`).
+3.  Возвращает результат, полученный от метода `check`.
 
-```ascii
-Проверка типа цели --> Установка атрибутов
+```
+A: Создание экземпляра Proposition
+↓
+B: Вызов метода check экземпляра Proposition
+↓
+C: Возврат результата метода check
 ```
 
 **Примеры**:
@@ -62,132 +183,18 @@ def __init__(self, target, claim: str, first_n: int = None, last_n: int = None)
 from tinytroupe.agent import TinyPerson
 from tinytroupe.environment import TinyWorld
 
-person = TinyPerson(name="Alice")
-world = TinyWorld(name="Wonderland")
+# Создание экземпляров TinyWorld и TinyPerson
+world = TinyWorld(name='MyWorld')
+person = TinyPerson(name='Alice')
 
-# Создание экземпляра Proposition с целевым объектом TinyPerson
-proposition1 = Proposition(target=person, claim="Alice is happy")
+# Проверка пропозиции об агенте Alice
+result = check_proposition(target=person, claim="Alice is happy.")
+print(f"Proposition value: {result}")
 
-# Создание экземпляра Proposition с целевым объектом TinyWorld
-proposition2 = Proposition(target=world, claim="Wonderland is peaceful")
+# Проверка пропозиции об окружении MyWorld
+result_world = check_proposition(target=world, claim="The environment is clean.")
+print(f"Proposition value: {result_world}")
 
-# Создание экземпляра Proposition со списком целевых объектов
-proposition3 = Proposition(target=[person, world], claim="Alice is in Wonderland")
-```
-
-#### `__call__`
-
-```python
-def __call__(self, additional_context=None)
-```
-
-**Назначение**: Позволяет вызывать объект `Proposition` как функцию, что эквивалентно вызову метода `check`.
-
-**Параметры**:
-- `additional_context` (str, optional): Дополнительный контекст для предоставления LLM. По умолчанию `None`.
-
-**Возвращает**:
-- `bool`: Значение истинности утверждения.
-
-**Как работает функция**:
-Вызывает метод `check` с переданным дополнительным контекстом.
-
-```ascii
-Вызов метода check --> Возврат значения истинности
-```
-
-**Примеры**:
-
-```python
-from tinytroupe.agent import TinyPerson
-
-person = TinyPerson(name="Alice")
-proposition = Proposition(target=person, claim="Alice is happy")
-
-# Вызов объекта Proposition как функции
-result = proposition()
-print(result)  # Выведет True или False в зависимости от результата проверки
-```
-
-#### `check`
-
-```python
-def check(self, additional_context="No additional context available.")
-```
-
-**Назначение**: Проверяет, выполняется ли утверждение для заданных целевых объектов.
-
-**Параметры**:
-- `additional_context` (str, optional): Дополнительный контекст для предоставления LLM. По умолчанию "No additional context available.".
-
-**Возвращает**:
-- `bool`: Значение истинности утверждения (True или False).
-
-**Как работает функция**:
-
-1. **Подготовка контекста**: Собирает траектории симуляции для каждого целевого объекта и формирует контекст для LLM запроса.
-2. **Создание запроса к LLM**: Создает объект `LLMRequest` с системным и пользовательским запросами, включающими утверждение и контекст.
-3. **Выполнение запроса**: Вызывает LLM и получает ответ.
-4. **Обработка ответа**: Извлекает значение истинности, обоснование и уверенность из ответа LLM.
-5. **Сохранение результатов**: Сохраняет результаты в атрибутах объекта.
-
-```ascii
-Подготовка контекста --> Создание LLMRequest --> Выполнение LLMRequest --> Обработка ответа --> Сохранение результатов --> Возврат значения истинности
-```
-
-**Примеры**:
-
-```python
-from tinytroupe.agent import TinyPerson
-
-person = TinyPerson(name="Alice")
-proposition = Proposition(target=person, claim="Alice is happy")
-
-# Проверка утверждения
-result = proposition.check()
-print(result)  # Выведет True или False в зависимости от результата проверки
-print(proposition.justification)  # Выведет обоснование, предоставленное LLM
-print(proposition.confidence)  # Выведет уверенность LLM в оценке
-```
-
-## Функции
-
-### `check_proposition`
-
-```python
-def check_proposition(target, claim: str, additional_context="No additional context available.",
-                      first_n: int = None, last_n: int = None) -> bool:
-```
-
-**Назначение**: Проверяет, выполняется ли утверждение для заданных целевых объектов, используя класс `Proposition`. Является удобной функцией для однократной проверки утверждений без создания объекта `Proposition`.
-
-**Параметры**:
-- `target` (TinyWorld, TinyPerson, list): Целевой объект или список целевых объектов утверждения.
-- `claim` (str): Текст утверждения.
-- `additional_context` (str, optional): Дополнительный контекст для предоставления LLM. По умолчанию "No additional context available.".
-- `first_n` (int, optional): Количество первых взаимодействий для включения в контекст. По умолчанию `None`.
-- `last_n` (int, optional): Количество последних взаимодействий для включения в контекст. По умолчанию `None`.
-
-**Возвращает**:
-- `bool`: Значение истинности утверждения (True или False).
-
-**Как работает функция**:
-
-1. **Создание объекта `Proposition`**: Создает экземпляр класса `Proposition` с переданными параметрами.
-2. **Проверка утверждения**: Вызывает метод `check` объекта `Proposition` с дополнительным контекстом.
-3. **Возврат результата**: Возвращает значение истинности утверждения.
-
-```ascii
-Создание Proposition --> Вызов check --> Возврат значения истинности
-```
-
-**Примеры**:
-
-```python
-from tinytroupe.agent import TinyPerson
-
-person = TinyPerson(name="Alice")
-
-# Проверка утверждения с помощью функции check_proposition
-result = check_proposition(target=person, claim="Alice is happy")
-print(result)  # Выведет True или False в зависимости от результата проверки
+# Проверка пропозиции с дополнительным контекстом
+result_with_context = check_proposition(target=person, claim="Alice likes the weather.", additional_context="The weather is sunny.")
+print(f"Proposition value with additional context: {result_with_context}")

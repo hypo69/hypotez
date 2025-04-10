@@ -2,39 +2,43 @@
 
 ## Обзор
 
-Модуль `tiny_person_factory.py` предоставляет класс `TinyPersonFactory`, который используется для создания экземпляров класса `TinyPerson` с использованием OpenAI LLM. Он включает в себя методы для генерации как отдельных персон, так и списков персон на основе заданного контекста.
+Модуль предоставляет класс `TinyPersonFactory`, который используется для генерации экземпляров класса `TinyPerson` с использованием OpenAI LLM. Он позволяет создавать персонажей с заданными характеристиками на основе контекста, указанного в текстовом формате.
 
 ## Подробней
 
-Этот модуль является частью системы для генерации реалистичных симуляций людей. Он использует текстовые описания контекста для создания уникальных персонажей с различными характеристиками. Класс `TinyPersonFactory` управляет процессом создания персонажей, гарантируя, что имена персонажей уникальны, и предоставляет возможность настройки процесса генерации с использованием различных параметров, таких как температура и штрафы за частоту и присутствие.
+Модуль содержит класс `TinyPersonFactory`, который является фабрикой для создания объектов `TinyPerson`. Он использует OpenAI LLM для генерации персонажей на основе заданного контекста. Класс имеет методы для генерации как одного персонажа, так и списка персонажей. Также, класс включает механизм для предотвращения повторной генерации одинаковых персонажей. Для работы с OpenAI используется модуль `openai_utils`, а для логирования - модуль `logger` из `src.logger`.
+В данном коде используется декоратор `@transactional`, который позволяет обеспечить транзакционность операций.
 
 ## Классы
 
 ### `TinyPersonFactory`
 
-**Описание**: Фабрика для создания экземпляров класса `TinyPerson` на основе контекста с использованием OpenAI LLM.
+**Описание**: Фабрика для создания экземпляров класса `TinyPerson` с использованием OpenAI LLM.
 
 **Наследует**:
-- `TinyFactory`: Класс `TinyPersonFactory` наследует от класса `TinyFactory`, который, вероятно, предоставляет общую функциональность для создания различных объектов в системе.
+
+- `TinyFactory`: Класс `TinyPersonFactory` наследует функциональность от класса `TinyFactory`.
 
 **Атрибуты**:
-- `person_prompt_template_path` (str): Путь к файлу шаблона mustache, используемому для генерации подсказок для создания персон.
-- `context_text` (str): Контекстный текст, используемый для генерации экземпляров `TinyPerson`.
-- `generated_minibios` (list): Список сгенерированных мини-биографий. Используется для отслеживания сгенерированных персон и предотвращения повторной генерации тех же самых персон.
-- `generated_names` (list): Список сгенерированных имен.
+
+- `person_prompt_template_path (str)`: Путь к шаблону mustache, используемому для генерации запроса к LLM.
+- `context_text (str)`: Контекст, используемый для генерации персонажей.
+- `generated_minibios (list)`: Список сгенерированных мини-биографий, чтобы избежать повторной генерации тех же персонажей.
+- `generated_names (list)`: Список сгенерированных имен, чтобы избежать повторной генерации персонажей с одинаковыми именами.
 
 **Методы**:
-- `__init__`: Инициализирует экземпляр `TinyPersonFactory`.
-- `generate_person_factories`: Генерирует список экземпляров `TinyPersonFactory`, используя OpenAI LLM.
-- `generate_person`: Генерирует экземпляр `TinyPerson`, используя OpenAI LLM.
-- `generate_people`: Генерирует список экземпляров `TinyPerson`, используя OpenAI LLM.
-- `_aux_model_call`: Вспомогательный метод для выполнения вызова модели.
-- `_setup_agent`: Настраивает агента с необходимыми элементами.
+
+- `__init__(self, context_text: str, simulation_id: str = None)`: Инициализирует экземпляр класса `TinyPersonFactory`.
+- `generate_person_factories(number_of_factories: int, generic_context_text: str) -> list`: Генерирует список экземпляров `TinyPersonFactory` с использованием OpenAI LLM.
+- `generate_person(self, agent_particularities: str = None, temperature: float = 1.5, frequency_penalty: float = 0.0, presence_penalty: float = 0.0, attepmpts: int = 10) -> TinyPerson`: Генерирует экземпляр `TinyPerson` с использованием OpenAI LLM.
+- `generate_people(self, number_of_people: int, agent_particularities: str = None, temperature: float = 1.5, frequency_penalty: float = 0.0, presence_penalty: float = 0.0, attepmpts: int = 10, verbose: bool = False) -> list`: Генерирует список экземпляров `TinyPerson` с использованием OpenAI LLM.
+- `_aux_model_call(self, messages: list, temperature: float, frequency_penalty: float, presence_penalty: float) -> dict`: Вспомогательный метод для выполнения вызова модели.
+- `_setup_agent(self, agent: TinyPerson, configuration: dict)`: Настраивает агента с необходимыми элементами.
 
 ### `__init__`
 
 ```python
-def __init__(self, context_text, simulation_id:str=None):
+def __init__(self, context_text: str, simulation_id: str = None):
     """
     Initialize a TinyPersonFactory instance.
 
@@ -42,44 +46,35 @@ def __init__(self, context_text, simulation_id:str=None):
         context_text (str): The context text used to generate the TinyPerson instances.
         simulation_id (str, optional): The ID of the simulation. Defaults to None.
     """
+    ...
 ```
 
-**Назначение**: Инициализирует экземпляр `TinyPersonFactory`.
+**Назначение**: Инициализирует экземпляр класса `TinyPersonFactory`.
 
 **Параметры**:
-- `context_text` (str): Контекстный текст, используемый для генерации экземпляров `TinyPerson`.
-- `simulation_id` (str, optional): ID симуляции. По умолчанию `None`.
+
+- `context_text (str)`: Контекст, используемый для генерации экземпляров `TinyPerson`.
+- `simulation_id (str, optional)`: ID симуляции. По умолчанию `None`.
 
 **Как работает функция**:
-1. Вызывает конструктор суперкласса (`TinyFactory`) с переданным `simulation_id`.
-2. Устанавливает путь к шаблону подсказок для генерации персоны (`person_prompt_template_path`).
-3. Сохраняет переданный `context_text` в атрибуте `self.context_text`.
-4. Инициализирует пустой список `self.generated_minibios` для отслеживания сгенерированных мини-биографий.
-5. Инициализирует пустой список `self.generated_names` для отслеживания сгенерированных имен.
 
-```
-A: Вызов конструктора суперкласса
-|
-B: Установка пути к шаблону подсказок
-|
-C: Сохранение контекстного текста
-|
-D: Инициализация списка сгенерированных мини-биографий
-|
-E: Инициализация списка сгенерированных имен
-```
+- Вызывает конструктор родительского класса `TinyFactory` с параметром `simulation_id`.
+- Определяет путь к шаблону `generate_person.mustache`.
+- Сохраняет `context_text` в атрибуте `self.context_text`.
+- Инициализирует пустой список `self.generated_minibios` для хранения сгенерированных мини-биографий.
+- Инициализирует пустой список `self.generated_names` для хранения сгенерированных имен.
 
 **Примеры**:
 
 ```python
-factory = TinyPersonFactory("Some context text", "simulation123")
+factory = TinyPersonFactory(context_text="Some context", simulation_id="123")
 ```
 
 ### `generate_person_factories`
 
 ```python
 @staticmethod
-def generate_person_factories(number_of_factories, generic_context_text):
+def generate_person_factories(number_of_factories: int, generic_context_text: str) -> list:
     """
     Generate a list of TinyPersonFactory instances using OpenAI's LLM.
 
@@ -90,57 +85,42 @@ def generate_person_factories(number_of_factories, generic_context_text):
     Returns:
         list: A list of TinyPersonFactory instances.
     """
+    ...
 ```
 
-**Назначение**: Генерирует список экземпляров `TinyPersonFactory`, используя OpenAI LLM.
+**Назначение**: Генерирует список экземпляров `TinyPersonFactory` с использованием OpenAI LLM.
 
 **Параметры**:
-- `number_of_factories` (int): Количество экземпляров `TinyPersonFactory` для генерации.
-- `generic_context_text` (str): Общий контекстный текст, используемый для генерации экземпляров `TinyPersonFactory`.
 
-**Возвращает**:
-- `list`: Список экземпляров `TinyPersonFactory`.
+- `number_of_factories (int)`: Количество экземпляров `TinyPersonFactory` для генерации.
+- `generic_context_text (str)`: Общий контекст, используемый для генерации экземпляров `TinyPersonFactory`.
 
 **Как работает функция**:
-1. Логирует начало генерации фабрик персон, используя `logger.info`.
-2. Читает системную подсказку из файла `prompts/generate_person_factory.md`.
-3. Формирует пользовательскую подсказку, используя шаблон chevron для запроса к OpenAI.
-4. Отправляет сообщение в OpenAI, используя `openai_utils.client().send_message`.
-5. Извлекает JSON из ответа OpenAI.
-6. Создает экземпляры `TinyPersonFactory` на основе извлеченного JSON и добавляет их в список.
-7. Возвращает список фабрик.
 
-```
-A: Логирование начала генерации фабрик
-|
-B: Чтение системной подсказки из файла
-|
-C: Формирование пользовательской подсказки
-|
-D: Отправка сообщения в OpenAI
-|
-E: Извлечение JSON из ответа OpenAI
-|
-F: Создание экземпляров TinyPersonFactory
-|
-G: Возврат списка фабрик
-```
+1. Логирует начало генерации фабрик персонажей на основе заданного контекста.
+2. Открывает и считывает содержимое файла `prompts/generate_person_factory.md`, который содержит системный промт для OpenAI.
+3. Формирует сообщение для OpenAI, содержащее запрос на создание указанного количества описаний персонажей на основе заданного контекста.
+4. Отправляет сообщение в OpenAI LLM с использованием `openai_utils.client().send_message(messages)`.
+5. Извлекает JSON из ответа OpenAI.
+6. Создает список экземпляров `TinyPersonFactory`, используя извлеченные описания.
+7. Логирует процесс генерации каждой фабрики персонажей.
+8. Возвращает список созданных фабрик.
 
 **Примеры**:
 
 ```python
-factories = TinyPersonFactory.generate_person_factories(3, "Generic context text")
+factories = TinyPersonFactory.generate_person_factories(number_of_factories=2, generic_context_text="Generic context")
 ```
 
 ### `generate_person`
 
 ```python
-def generate_person(self, 
-                    agent_particularities:str=None, 
-                    temperature:float=1.5, 
-                    frequency_penalty:float=0.0,
-                    presence_penalty:float=0.0, 
-                    attepmpts:int=10):
+def generate_person(self,
+                    agent_particularities: str = None,
+                    temperature: float = 1.5,
+                    frequency_penalty: float = 0.0,
+                    presence_penalty: float = 0.0,
+                    attepmpts: int = 10) -> TinyPerson:
     """
     Generate a TinyPerson instance using OpenAI's LLM.
 
@@ -151,74 +131,46 @@ def generate_person(self,
     Returns:
         TinyPerson: A TinyPerson instance generated using the LLM.
     """
+    ...
 ```
 
-**Назначение**: Генерирует экземпляр `TinyPerson`, используя OpenAI LLM.
+**Назначение**: Генерирует экземпляр `TinyPerson` с использованием OpenAI LLM.
 
 **Параметры**:
-- `agent_particularities` (str, optional): Особенности агента. По умолчанию `None`.
-- `temperature` (float, optional): Температура для выборки из LLM. По умолчанию `1.5`.
-- `frequency_penalty` (float, optional): Штраф за частоту. По умолчанию `0.0`.
-- `presence_penalty` (float, optional): Штраф за присутствие. По умолчанию `0.0`.
-- `attepmpts` (int, optional): Количество попыток генерации. По умолчанию `10`.
 
-**Возвращает**:
-- `TinyPerson`: Экземпляр `TinyPerson`, сгенерированный с использованием LLM.
+- `agent_particularities (str, optional)`: Особенности агента. По умолчанию `None`.
+- `temperature (float, optional)`: Температура для использования при выборке из LLM. По умолчанию `1.5`.
+- `frequency_penalty (float, optional)`: Штраф за частоту. По умолчанию `0.0`.
+- `presence_penalty (float, optional)`: Штраф за присутствие. По умолчанию `0.0`.
+- `attepmpts (int, optional)`: Количество попыток. По умолчанию `10`.
 
 **Как работает функция**:
-1. Логирует начало генерации персоны, используя `logger.info`.
-2. Загружает примеры спецификаций агентов из файлов JSON.
-3. Формирует подсказку, используя шаблон chevron и контекст, особенности агента, примеры и списки сгенерированных имен и мини-биографий.
-4. Определяет вспомогательную функцию `aux_generate` для выполнения вызова модели.
-5. В цикле пытается сгенерировать спецификацию агента, используя `aux_generate`, пока не будет получена подходящая спецификация или не будет достигнуто максимальное количество попыток.
-6. Если спецификация агента получена, создает экземпляр `TinyPerson`, настраивает его, добавляет мини-биографию в список сгенерированных мини-биографий и имя в список сгенерированных имен.
-7. Если спецификация агента не получена после всех попыток, логирует ошибку и возвращает `None`.
 
-Внутренняя функция `aux_generate`:
-   - Принимает номер попытки `attempt` в качестве аргумента.
-   - Формирует список сообщений для отправки в OpenAI, включая системное сообщение и пользовательскую подсказку.
-   - Если это не первая попытка, добавляет дополнительное сообщение с указанием не генерировать то же имя снова.
-   - Вызывает метод `_aux_model_call` для отправки сообщения в OpenAI и получения результата.
-   - Извлекает JSON из результата.
-   - Проверяет, что имя не находится в списке уже сгенерированных имен.
-   - Логирует сгенерированные параметры персоны.
-   - Возвращает результат, если имя уникально, иначе возвращает `None`.
-```
-A: Логирование начала генерации персоны
-|
-B: Загрузка примеров спецификаций агентов
-|
-C: Формирование подсказки
-|
-D: Определение вспомогательной функции aux_generate
-|
-E: Цикл попыток генерации спецификации агента
-|
-F: Создание экземпляра TinyPerson
-|
-G: Настройка экземпляра TinyPerson
-|
-H: Обновление списков сгенерированных данных
-|
-I: Логирование и возврат результата
-```
-
-**Примеры**:
-
-```python
-person = factory.generate_person("Some agent particularities", temperature=1.0)
-```
+1.  Логирует начало генерации персонажа на основе заданного контекста.
+2.  Загружает примеры спецификаций агентов из файлов `Friedrich_Wolf.agent.json` и `Sophie_Lefevre.agent.json`.
+3.  Формирует промт для OpenAI, используя шаблон из файла `self.person_prompt_template_path`. Промт включает контекст, особенности агента, примеры спецификаций и список уже сгенерированных имен.
+4.  Определяет внутреннюю функцию `aux_generate(attempt)`, которая отправляет запрос в OpenAI и извлекает спецификацию персонажа из ответа.
+    -   Внутренняя функция `aux_generate(attempt)`:
+        -   Формирует список сообщений для отправки в OpenAI, включая системное сообщение и пользовательский промт.
+        -   Если это не первая попытка генерации, добавляет дополнительное сообщение с требованием уникальности имени.
+        -   Вызывает метод `self._aux_model_call` для отправки запроса в OpenAI.
+        -   Если ответ получен, извлекает JSON из ответа и проверяет уникальность имени.
+        -   Если имя уникально, возвращает спецификацию персонажа.
+        -   Иначе, логирует сообщение о повторном использовании имени.
+5.  Вызывает `aux_generate(attempt)` в цикле до тех пор, пока не будет сгенерирована подходящая спецификация или не будет достигнуто максимальное количество попыток.
+6.  Если спецификация сгенерирована, создает экземпляр `TinyPerson`, настраивает его с использованием `self._setup_agent`, добавляет мини-биографию в `self.generated_minibios`, добавляет имя в `self.generated_names` и возвращает созданного персонажа.
+7.  Если после всех попыток не удалось сгенерировать персонажа, логирует сообщение об ошибке и возвращает `None`.
 
 ### `generate_people`
 
 ```python
-def generate_people(self, number_of_people:int, 
-                    agent_particularities:str=None, 
-                    temperature:float=1.5, 
-                    frequency_penalty:float=0.0,
-                    presence_penalty:float=0.0,
-                    attepmpts:int=10, 
-                    verbose:bool=False) -> list:
+def generate_people(self, number_of_people: int,
+                    agent_particularities: str = None,
+                    temperature: float = 1.5,
+                    frequency_penalty: float = 0.0,
+                    presence_penalty: float = 0.0,
+                    attepmpts: int = 10,
+                    verbose: bool = False) -> list:
     """
     Generate a list of TinyPerson instances using OpenAI's LLM.
 
@@ -231,49 +183,33 @@ def generate_people(self, number_of_people:int,
     Returns:
         list: A list of TinyPerson instances generated using the LLM.
     """
+    ...
 ```
 
-**Назначение**: Генерирует список экземпляров `TinyPerson`, используя OpenAI LLM.
+**Назначение**: Генерирует список экземпляров `TinyPerson` с использованием OpenAI LLM.
 
 **Параметры**:
-- `number_of_people` (int): Количество экземпляров `TinyPerson` для генерации.
-- `agent_particularities` (str, optional): Особенности агента. По умолчанию `None`.
-- `temperature` (float, optional): Температура для выборки из LLM. По умолчанию `1.5`.
-- `frequency_penalty` (float, optional): Штраф за частоту. По умолчанию `0.0`.
-- `presence_penalty` (float, optional): Штраф за присутствие. По умолчанию `0.0`.
-- `attepmpts` (int, optional): Количество попыток генерации. По умолчанию `10`.
-- `verbose` (bool, optional): Флаг, указывающий, следует ли печатать подробную информацию. По умолчанию `False`.
 
-**Возвращает**:
-- `list`: Список экземпляров `TinyPerson`, сгенерированных с использованием LLM.
+-   `number_of_people (int)`: Количество экземпляров `TinyPerson` для генерации.
+-   `agent_particularities (str, optional)`: Особенности агента. По умолчанию `None`.
+-   `temperature (float, optional)`: Температура для использования при выборке из LLM. По умолчанию `1.5`.
+-   `frequency_penalty (float, optional)`: Штраф за частоту. По умолчанию `0.0`.
+-   `presence_penalty (float, optional)`: Штраф за присутствие. По умолчанию `0.0`.
+-   `attepmpts (int, optional)`: Количество попыток. По умолчанию `10`.
+-   `verbose (bool, optional)`: Определяет, выводить ли подробную информацию. По умолчанию `False`.
 
 **Как работает функция**:
-1. Инициализирует пустой список `people`.
-2. В цикле генерирует экземпляры `TinyPerson`, используя метод `generate_person`.
-3. Если персона успешно сгенерирована, добавляет ее в список `people`.
-4. Логирует информацию о сгенерированной персоне, используя `logger.info`.
-5. Если `verbose` равен `True`, выводит информацию о сгенерированной персоне в консоль.
-6. Если персона не может быть сгенерирована, логирует ошибку.
-7. Возвращает список сгенерированных персон.
 
-```
-A: Инициализация списка people
-|
-B: Цикл генерации экземпляров TinyPerson
-|
-C: Логирование информации о сгенерированной персоне
-|
-D: Вывод информации о сгенерированной персоне (если verbose=True)
-|
-E: Логирование ошибки, если персона не может быть сгенерирована
-|
-F: Возврат списка сгенерированных персон
-```
+1.  Инициализирует пустой список `people` для хранения сгенерированных персонажей.
+2.  В цикле генерирует указанное количество персонажей с использованием метода `self.generate_person`.
+3.  Если персонаж успешно сгенерирован, добавляет его в список `people`, логирует информацию о сгенерированном персонаже и, если `verbose` установлен в `True`, выводит информацию в консоль.
+4.  Если не удалось сгенерировать персонажа, логирует сообщение об ошибке.
+5.  Возвращает список сгенерированных персонажей.
 
 **Примеры**:
 
 ```python
-people = factory.generate_people(5, "Some agent particularities", verbose=True)
+people = factory.generate_people(number_of_people=3, agent_particularities="Some particularities", verbose=True)
 ```
 
 ### `_aux_model_call`
@@ -286,26 +222,28 @@ def _aux_model_call(self, messages, temperature, frequency_penalty, presence_pen
     due too a technicality - otherwise, the agent creation would be skipped during cache reutilization, and
     we don't want that.
     """
+    ...
 ```
 
 **Назначение**: Вспомогательный метод для выполнения вызова модели.
 
 **Параметры**:
-- `messages` (list): Список сообщений для отправки в OpenAI.
-- `temperature` (float): Температура для выборки из LLM.
-- `frequency_penalty` (float): Штраф за частоту.
-- `presence_penalty` (float): Штраф за присутствие.
 
-**Возвращает**:
-- `dict`: Ответ от OpenAI API.
+-   `messages (list)`: Список сообщений для отправки в OpenAI.
+-   `temperature (float)`: Температура для использования при выборке из LLM.
+-   `frequency_penalty (float)`: Штраф за частоту.
+-   `presence_penalty (float)`: Штраф за присутствие.
 
 **Как работает функция**:
-1.  Отправляет сообщение в OpenAI, используя `openai_utils.client().send_message`.
-2.  Передает параметры `temperature`, `frequency_penalty` и `presence_penalty`.
-3.  Указывает формат ответа как JSON.
 
-```
-A: Отправка сообщения в OpenAI
+1. Отправляет сообщение в OpenAI LLM с использованием `openai_utils.client().send_message()`.
+2. Параметры `temperature`, `frequency_penalty` и `presence_penalty` передаются в вызов OpenAI.
+3. Параметр `response_format={"type": "json_object"}` указывает, что ожидается ответ в формате JSON.
+4. Возвращает ответ от OpenAI.
+**Примеры**:
+
+```python
+response = self._aux_model_call(messages=messages, temperature=0.7, frequency_penalty=0.5, presence_penalty=0.5)
 ```
 
 ### `_setup_agent`
@@ -316,17 +254,23 @@ def _setup_agent(self, agent, configuration):
     """
     Sets up the agent with the necessary elements.
     """
+    ...
 ```
 
 **Назначение**: Настраивает агента с необходимыми элементами.
 
 **Параметры**:
-- `agent` (TinyPerson): Агент для настройки.
-- `configuration` (dict): Конфигурация агента.
+
+-   `agent (TinyPerson)`: Экземпляр `TinyPerson` для настройки.
+-   `configuration (dict)`: Конфигурация агента.
 
 **Как работает функция**:
-1.  Включает определения персонажа в агенте, используя `agent.include_persona_definitions(configuration)`.
 
-```
-A: Включение определений персонажа в агенте
+1.  Включает определения персонажа в агента с использованием `agent.include_persona_definitions(configuration)`.
+2.  Не возвращает ничего, так как не нужно кэшировать сам объект агента.
+
+**Примеры**:
+
+```python
+self._setup_agent(person, agent_spec)
 ```

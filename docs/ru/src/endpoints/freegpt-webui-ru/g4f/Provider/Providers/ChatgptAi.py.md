@@ -2,11 +2,11 @@
 
 ## Обзор
 
-Модуль предназначен для взаимодействия с моделью GPT-4 через веб-сервис chatgpt.ai. Он предоставляет функцию `_create_completion`, которая отправляет запросы к API chatgpt.ai и возвращает ответ модели.
+Модуль предоставляет реализацию взаимодействия с моделью GPT-4 через веб-сайт chatgpt.ai. Он содержит функцию `_create_completion`, которая отправляет запросы к API чата и возвращает ответы.
 
 ## Подробнее
 
-Модуль содержит настройки для подключения к API `chatgpt.ai`.
+Модуль предназначен для использования в проекте `hypotez` в качестве одного из провайдеров для доступа к языковым моделям. Он использует библиотеки `requests` для выполнения HTTP-запросов и `re` для извлечения данных из HTML-страницы. Модуль определяет параметры, такие как URL, поддерживаемые модели и необходимость аутентификации.
 
 ## Функции
 
@@ -14,52 +14,47 @@
 
 ```python
 def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    """Функция отправляет запрос к API chatgpt.ai и возвращает ответ модели.
+    """ Функция отправляет запросы к API чата на chatgpt.ai и возвращает ответ модели.
 
     Args:
         model (str): Идентификатор используемой модели.
-        messages (list): Список сообщений в формате [{"role": "user" | "assistant" | "system", "content": "text"}]
-        stream (bool): Определяет, возвращать ли ответ в виде потока.
-        **kwargs: Дополнительные аргументы.
+        messages (list): Список сообщений в формате [{"role": "user" | "assistant", "content": "text"}].
+        stream (bool): Флаг, указывающий на необходимость потоковой передачи данных.
+        **kwargs: Дополнительные параметры.
 
-    Yields:
-        str: Ответ модели.
+    Returns:
+        Generator[str, None, None]: Генератор, возвращающий ответ модели.
 
     Raises:
-        requests.exceptions.RequestException: Если возникает ошибка при отправке запроса к API.
-        KeyError: Если в ответе API отсутствует поле 'data'.
+        requests.exceptions.RequestException: В случае ошибки при выполнении HTTP-запроса.
+        re.exceptions.ReError: В случае ошибки регулярного выражения.
 
     Как работает функция:
-    1.  Формирует строку `chat`, объединяя сообщения из входного списка `messages`, добавляя роль и содержимое каждого сообщения.
-    2.  Выполняет GET-запрос к `https://chatgpt.ai/gpt-4/` для получения данных `nonce`, `post_id`, `bot_id`, необходимых для последующего POST-запроса.
-    3.  Извлекает значения `nonce`, `post_id`, `bot_id` с использованием регулярного выражения из текста ответа на GET-запрос.
-    4.  Формирует заголовки `headers` для POST-запроса, включая `authority`, `accept`, `origin` и другие необходимые параметры.
-    5.  Формирует данные `data` для POST-запроса, включая `_wpnonce`, `post_id`, `message` (сформированная строка `chat`) и `bot_id`.
-    6.  Выполняет POST-запрос к `https://chatgpt.ai/wp-admin/admin-ajax.php` с использованием сформированных заголовков и данных.
-    7.  Извлекает данные из JSON-ответа и возвращает их с помощью `yield`.
+    1. Формирует строку `chat`, объединяя сообщения из параметра `messages` в формате "role: content".
+    2. Выполняет GET-запрос к `https://chatgpt.ai/gpt-4/` для получения значений `nonce`, `post_id`, `_`, `bot_id`, необходимых для последующего POST-запроса.
+    3. Извлекает значения `nonce`, `post_id`, `_`, `bot_id` с использованием регулярных выражений из текста ответа на GET-запрос.
+    4. Определяет заголовки `headers` для POST-запроса, включая `authority`, `accept`, `origin` и другие параметры.
+    5. Формирует данные `data` для POST-запроса, включая `_wpnonce`, `post_id`, `url`, `action`, `message` и `bot_id`.
+    6. Выполняет POST-запрос к `https://chatgpt.ai/wp-admin/admin-ajax.php` с использованием заголовков `headers` и данных `data`.
+    7. Извлекает данные из JSON-ответа и возвращает их в виде генератора.
 
     Внутренние функции:
-    - Нет
+    - Отсутствуют
 
-    ASCII flowchart:
-
-    Формирование запроса
-    │
-    └──> GET-запрос к chatgpt.ai/gpt-4/ -> Получение nonce, post_id, bot_id
-    │
-    └──> Формирование headers и data для POST-запроса
-    │
-    └──> POST-запрос к chatgpt.ai/wp-admin/admin-ajax.php -> Получение ответа от API
-    │
-    └──> Извлечение данных из JSON-ответа
-    │
-    └──> Выдача результата
+    ASCII Flowchart:
+    Формирование сообщения -> GET-запрос -> Извлечение данных -> POST-запрос -> Получение ответа
+    Сообщение --> GET --> Данные --> POST --> Ответ
 
     Примеры:
-        >>> messages = [{"role": "user", "content": "Hello, GPT-4!"}]
-        >>> for response in _create_completion(model="gpt-4", messages=messages, stream=False):
-        ...     print(response)
-        Привет! Чем я могу помочь вам сегодня?
+        Пример 1:
+        messages = [{"role": "user", "content": "Hello, how are you?"}]
+        for response in _create_completion(model="gpt-4", messages=messages, stream=False):
+            print(response)
+
+        Пример 2:
+        messages = [{"role": "user", "content": "Tell me a joke."}, {"role": "assistant", "content": "Why don't scientists trust atoms? Because they make up everything!"}]
+        for response in _create_completion(model="gpt-4", messages=messages, stream=False, temperature=0.7):
+            print(response)
     """
     chat = ''
     for message in messages:
@@ -95,18 +90,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
         'bot_id': bot_id
     }
 
-    response = requests.post('https://chatgpt.ai/wp-admin/admin-ajax.php', 
+    response = requests.post('https://chatgpt.ai/wp-admin/admin-ajax.php',
                             headers=headers, data=data)
 
     yield (response.json()['data'])
-
-```
-
-### `params`
-
-```python
-params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    '(%s)' % ', '.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
-```
-
-Содержит строку с информацией о поддерживаемых параметрах функции `_create_completion`.

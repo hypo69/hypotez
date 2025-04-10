@@ -2,254 +2,207 @@
 
 ## Обзор
 
-Этот модуль предназначен для экспериментов по интеграции Google Sheets в процесс управления кампаниями AliExpress. Он позволяет автоматизировать чтение и запись данных кампаний, категорий и продуктов, используя Google Sheets в качестве источника данных и инструмента для редактирования. Модуль содержит логику для синхронизации данных между локальными структурами данных кампании и Google Sheets.
+Модуль предназначен для экспериментов с Google Sheets в контексте управления кампаниями AliExpress. Он включает в себя настройку категорий продуктов, получение данных из Google Sheets и обновление информации о кампаниях.
 
 ## Подробней
 
-Модуль `gsheets-step-by-step.py` предоставляет функциональность для работы с Google Sheets в контексте управления кампаниями на AliExpress. Он включает в себя чтение и запись данных категорий и продуктов кампании, а также механизм обновления данных кампании на основе информации, полученной из Google Sheets.
+Модуль позволяет автоматизировать процесс работы с кампаниями AliExpress, используя Google Sheets для хранения и редактирования данных. Он включает в себя функции для установки категорий, получения отредактированных категорий и обновления информации о кампаниях. Этот код является частью экспериментов, направленных на улучшение процесса управления кампаниями AliExpress через интеграцию с Google Sheets.
 
 ## Функции
 
 ### `AliCampaignGoogleSheet`
 
-**Описание**: Класс для работы с Google Sheets, содержащими данные кампании AliExpress.
+*   **Назначение**: Инициализация класса для работы с Google Sheets, содержащими данные о кампаниях AliExpress.
+*   **Параметры**:
+    *   `spreadsheet_id` (str): ID таблицы Google Sheets.
+*   **Возвращает**: None
+*   **Примеры**:
 
-**Методы**:
-- `__init__`: Инициализирует подключение к Google Sheets.
-- `set_categories`: Записывает список категорий в Google Sheet.
-- `get_categories`: Получает список категорий из Google Sheet.
-- `set_category_products`: Записывает список продуктов для определенной категории в Google Sheet.
-- `get_category_products`: Получает список продуктов для определенной категории из Google Sheet.
+    ```python
+    gs = AliCampaignGoogleSheet('1nu4mNNFMzSePlggaaL_QM2vdKVP_NNBl2OG7R9MNrs0')
+    ```
 
 ### `AliCampaignEditor`
 
-**Описание**: Класс для редактирования данных кампании AliExpress.
+*   **Назначение**: Инициализация редактора кампаний AliExpress.
+*   **Параметры**:
 
-**Методы**:
-- `__init__`: Инициализирует редактор кампании с указанным именем, языком и валютой.
-- `get_category_products`: Получает список продуктов для заданной категории.
-- `update_campaign`: Обновляет данные кампании.
+    *   `campaign_name` (str): Название кампании.
+    *   `language` (str): Язык кампании.
+    *   `currency` (str): Валюта кампании.
+*   **Возвращает**: None
+*   **Примеры**:
 
-## Обзор кода
+    ```python
+    campaign_editor = AliCampaignEditor(campaign_name, language, currency)
+    ```
 
-### Создание экземпляров классов `AliCampaignGoogleSheet` и `AliCampaignEditor`
+### Преобразование \_categories в словарь
 
-```python
-gs = AliCampaignGoogleSheet('1nu4mNNFMzSePlggaaL_QM2vdKVP_NNBl2OG7R9MNrs0')
-...
-campaign_name = "lighting"
-language = 'EN'
-currency = 'USD'
+*   **Назначение**: Преобразует объект `_categories` (типа `SimpleNamespace`) в словарь, где ключами являются названия категорий, а значениями - объекты типа `CategoryType`.
+*   **Параметры**:
 
-campaign_editor = AliCampaignEditor(campaign_name, language, currency)
-campaign_data = campaign_editor.campaign
-_categories: SimpleNamespace = campaign_data.category
-```
+    *   `_categories` (SimpleNamespace): Объект, содержащий категории.
+*   **Возвращает**:
 
-- Создается экземпляр класса `AliCampaignGoogleSheet` с указанием идентификатора Google Sheet.
-- Определяются параметры кампании: имя, язык и валюта.
-- Создается экземпляр класса `AliCampaignEditor` с указанными параметрами.
-- Извлекаются данные кампании и категории.
+    *   `dict[str, CategoryType]`: Словарь категорий.
+*   **Как работает функция**:
 
-### Преобразование и установка категорий в Google Sheets
+    *   Используется генератор словаря для итерации по атрибутам объекта `_categories` и создания словаря, где ключами являются имена атрибутов (категорий), а значениями - соответствующие объекты `CategoryType`.
+*   **Примеры**:
 
-```python
-categories_dict: dict[str, CategoryType] = {category_name: getattr(_categories, category_name) for category_name in vars(_categories)}
+    ```python
+    categories_dict: dict[str, CategoryType] = {category_name: getattr(_categories, category_name) for category_name in vars(_categories)}
+    ```
 
-# Преобразование категорий в список для Google Sheets
-categories_list: list[CategoryType] = list(categories_dict.values())
+### Преобразование категорий в список для Google Sheets
 
-# Установка категорий в Google Sheet
-gs.set_categories(categories_list)
-```
+*   **Назначение**: Преобразует словарь категорий в список значений типа `CategoryType`.
+*   **Параметры**:
 
-- Преобразование категорий из `SimpleNamespace` в словарь для удобства работы.
-- Преобразование словаря категорий в список для записи в Google Sheets.
-- Установка списка категорий в Google Sheets с использованием метода `set_categories` класса `AliCampaignGoogleSheet`.
+    *   `categories_dict` (dict[str, CategoryType]): Словарь категорий.
+*   **Возвращает**:
 
-### Получение и обновление категорий из Google Sheets
+    *   `list[CategoryType]`: Список категорий.
+*   **Как работает функция**:
 
-```python
-edited_categories: list[dict] = gs.get_categories()
+    *   Используется метод `values()` словаря `categories_dict` для получения коллекции значений (объектов `CategoryType`), которые затем преобразуются в список.
+*   **Примеры**:
 
-# Обновление словаря categories_dict с отредактированными данными
-for _cat in edited_categories:
-    _cat_ns: SimpleNamespace = SimpleNamespace(**{
-        'name':_cat['name'],
-        'title':_cat['title'],
-        'description':_cat['description'],
-        'tags':_cat['tags'],
-        'products_count':_cat['products_count']
+    ```python
+    categories_list: list[CategoryType] = list(categories_dict.values())
+    ```
+
+### `gs.set_categories(categories_list)`
+
+*   **Назначение**: Устанавливает список категорий в Google Sheet.
+*   **Параметры**:
+
+    *   `categories_list` (list[CategoryType]): Список категорий для установки.
+*   **Возвращает**: None
+*   **Примеры**:
+
+    ```python
+    gs.set_categories(categories_list)
+    ```
+
+### `gs.get_categories()`
+
+*   **Назначение**: Получает отредактированные категории из Google Sheet.
+*   **Параметры**:
+
+    *   Нет
+*   **Возвращает**:
+
+    *   `list[dict]`: Список отредактированных категорий в формате словаря.
+*   **Примеры**:
+
+    ```python
+    edited_categories: list[dict] = gs.get_categories()
+    ```
+
+### Обновление словаря categories\_dict с отредактированными данными
+
+*   **Назначение**: Обновляет словарь `categories_dict` данными из списка отредактированных категорий, полученных из Google Sheets.
+*   **Параметры**:
+
+    *   `edited_categories` (list[dict]): Список словарей, содержащих отредактированные данные категорий.
+*   **Как работает функция**:
+
+    1.  Итерируется по списку `edited_categories`.
+    2.  Для каждого элемента (категории) создается объект `SimpleNamespace` из словаря `_cat`.
+    3.  Выполняется логирование имени обновляемой категории.
+    4.  Обновляется соответствующая категория в словаре `categories_dict` объектом `_cat_ns`.
+    5.  Получает продукты для категории с помощью `campaign_editor.get_category_products(_cat_ns.name)`.
+    6.  Устанавливает продукты категории в Google Sheets с помощью `gs.set_category_products(_cat_ns.name, products)`.
+*   **Примеры**:
+
+    ```python
+    for _cat in edited_categories:
+        _cat_ns: SimpleNamespace = SimpleNamespace(**{
+            'name':_cat['name'],
+            'title':_cat['title'],
+            'description':_cat['description'],
+            'tags':_cat['tags'],
+            'products_count':_cat['products_count']
+        })
+        logger.info(f"Updating category: {_cat_ns.name}")
+        categories_dict[_cat_ns.name] = _cat_ns
+        products = campaign_editor.get_category_products(_cat_ns.name)
+        gs.set_category_products(_cat_ns.name, products)
+    ```
+
+### Преобразование categories\_dict обратно в SimpleNamespace вручную
+
+*   **Назначение**: Преобразует обновленный словарь `categories_dict` обратно в объект `SimpleNamespace`.
+*   **Параметры**:
+
+    *   `categories_dict` (dict): Словарь, содержащий обновленные данные категорий.
+*   **Возвращает**:
+
+    *   `SimpleNamespace`: Объект `SimpleNamespace`, содержащий категории.
+*   **Как работает функция**:
+
+    *   Используется конструктор `SimpleNamespace` для создания объекта из словаря `categories_dict`.
+*   **Примеры**:
+
+    ```python
+    _updated_categories = SimpleNamespace(**categories_dict)
+    ```
+
+### Создание словаря для кампании
+
+*   **Назначение**: Создает словарь, содержащий данные кампании, включая имя, заголовок, язык, валюту и обновленные категории.
+*   **Параметры**:
+
+    *   `campaign_data` (SimpleNamespace): Объект, содержащий данные кампании.
+    *   `language` (str): Язык кампании.
+    *   `currency` (str): Валюта кампании.
+    *   `_updated_categories` (SimpleNamespace): Объект, содержащий обновленные категории.
+*   **Возвращает**:
+
+    *   `dict`: Словарь с данными кампании.
+*   **Как работает функция**:
+
+    *   Создается словарь, где ключами являются атрибуты кампании (`name`, `title`, `language`, `currency`, `category`), а значениями - соответствующие данные из объектов `campaign_data`, `language`, `currency` и `_updated_categories`.
+*   **Примеры**:
+
+    ```python
+    campaign_dict: dict = {
+        'name': campaign_data.campaign_name,
+        'title': campaign_data.title,
+        'language': language,
+        'currency': currency,
+        'category': _updated_categories
     }
-    )
-    # Логирование для отладки
-    logger.info(f"Updating category: {_cat_ns.name}")
-    categories_dict[_cat_ns.name] = _cat_ns
-    products = campaign_editor.get_category_products(_cat_ns.name)
-    gs.set_category_products(_cat_ns.name,products)
-```
+    ```
 
-- Получение отредактированных категорий из Google Sheets с использованием метода `get_categories` класса `AliCampaignGoogleSheet`.
-- Обновление данных в словаре `categories_dict` на основе данных из Google Sheets.
-- Для каждой категории создается `SimpleNamespace` и обновляются данные.
-- Логирование процесса обновления категорий.
-- Получение списка продуктов для каждой категории и запись их в Google Sheets.
+### `SimpleNamespace(**campaign_dict)`
 
-### Преобразование и обновление данных кампании
+*   **Назначение**: Создает объект `SimpleNamespace` из словаря `campaign_dict`, содержащего данные о кампании.
+*   **Параметры**:
 
-```python
-_updated_categories = SimpleNamespace(**categories_dict)
+    *   `campaign_dict` (dict): Словарь, содержащий данные о кампании.
+*   **Возвращает**:
 
-# Вывод данных для отладки
-pprint(_updated_categories)
+    *   `SimpleNamespace`: Объект, содержащий данные о кампании.
+*   **Как работает функция**:
 
-# Создание словаря для кампании
-campaign_dict: dict = {
-    'name': campaign_data.campaign_name,
-    'title': campaign_data.title,
-    'language': language,
-    'currency': currency,
-    'category': _updated_categories
-}
+    *   Используется конструктор `SimpleNamespace` для создания объекта из словаря `campaign_dict`.
+*   **Примеры**:
 
-edited_campaign: SimpleNamespace = SimpleNamespace(**campaign_dict)
+    ```python
+    edited_campaign: SimpleNamespace = SimpleNamespace(**campaign_dict)
+    ```
 
-# Пример использования pprint для вывода данных
-pprint(edited_campaign)
-campaign_editor.update_campaign(edited_campaign)
-```
+### `campaign_editor.update_campaign(edited_campaign)`
 
-- Преобразование обновленного словаря категорий обратно в `SimpleNamespace`.
-- Создание словаря для кампании с обновленными данными категорий.
-- Создание `SimpleNamespace` для отредактированной кампании.
-- Вывод данных кампании для отладки.
-- Обновление данных кампании с использованием метода `update_campaign` класса `AliCampaignEditor`.
+*   **Назначение**: Обновляет данные кампании с использованием объекта `edited_campaign`.
+*   **Параметры**:
 
-## Функции
+    *   `edited_campaign` (SimpleNamespace): Объект, содержащий обновленные данные о кампании.
+*   **Возвращает**: None
+*   **Примеры**:
 
-### `categories_dict: dict[str, CategoryType]`
-
-**Назначение**: Преобразование категорий из `SimpleNamespace` в словарь.
-
-**Параметры**:
-- Отсутствуют явные параметры, функция использует переменные из окружающей области видимости.
-
-**Возвращает**:
-- `dict[str, CategoryType]`: Словарь, где ключи - имена категорий, а значения - объекты `CategoryType`.
-
-**Как работает функция**:
-1. Извлекает имена атрибутов из объекта `_categories`.
-2. Для каждого имени атрибута получает соответствующий атрибут из `_categories` с помощью `getattr`.
-3. Создает словарь, где ключом является имя категории, а значением - соответствующий объект `CategoryType`.
-
-```
-_categories (SimpleNamespace) --> vars(_categories) --> category_name --> getattr(_categories, category_name) --> categories_dict (dict)
-```
-
-**Примеры**:
-
-```python
-# Пример: Допустим, _categories имеет атрибуты 'lighting' и 'furniture'
-# categories_dict будет содержать {'lighting': <CategoryType object>, 'furniture': <CategoryType object>}
-```
-
-### `edited_categories: list[dict]`
-
-**Назначение**: Получение отредактированных категорий из Google Sheets.
-
-**Параметры**:
-- Отсутствуют явные параметры, функция использует `gs` (экземпляр `AliCampaignGoogleSheet`).
-
-**Возвращает**:
-- `list[dict]`: Список словарей, представляющих отредактированные категории.
-
-**Как работает функция**:
-1. Вызывает метод `gs.get_categories()`, который обращается к Google Sheets и извлекает данные категорий.
-2. Возвращает список словарей, содержащих информацию о категориях.
-
-```
-gs (AliCampaignGoogleSheet) --> gs.get_categories() --> edited_categories (list[dict])
-```
-
-**Примеры**:
-
-```python
-# Пример: edited_categories может содержать
-# [{'name': 'lighting', 'title': 'Lighting Solutions', ...}, {'name': 'furniture', 'title': 'Furniture', ...}]
-```
-
-### `_cat_ns: SimpleNamespace`
-
-**Назначение**: Преобразование данных категории из словаря в `SimpleNamespace`.
-
-**Параметры**:
-- Отсутствуют явные параметры, функция использует `_cat` (словарь с данными категории).
-
-**Возвращает**:
-- `SimpleNamespace`: Объект `SimpleNamespace`, содержащий данные категории.
-
-**Как работает функция**:
-1. Принимает словарь `_cat`, содержащий данные категории.
-2. Создает `SimpleNamespace` с атрибутами, соответствующими ключам и значениям словаря.
-
-```
-_cat (dict) --> SimpleNamespace(**_cat) --> _cat_ns (SimpleNamespace)
-```
-
-**Примеры**:
-
-```python
-# Пример: _cat может содержать {'name': 'lighting', 'title': 'Lighting Solutions', ...}
-# _cat_ns будет объектом SimpleNamespace с атрибутами _cat_ns.name, _cat_ns.title и т.д.
-```
-
-### `campaign_dict: dict`
-
-**Назначение**: Создание словаря для представления данных кампании.
-
-**Параметры**:
-- Отсутствуют явные параметры, функция использует `campaign_data`, `language`, `currency` и `_updated_categories`.
-
-**Возвращает**:
-- `dict`: Словарь, содержащий данные кампании.
-
-**Как работает функция**:
-1. Создает словарь, содержащий имя, заголовок, язык, валюту и категории кампании.
-2. Данные берутся из `campaign_data`, `language`, `currency` и `_updated_categories`.
-
-```
-campaign_data, language, currency, _updated_categories --> campaign_dict (dict)
-```
-
-**Примеры**:
-
-```python
-# Пример: campaign_dict может содержать
-# {'name': 'lighting', 'title': 'Lighting Campaign', 'language': 'EN', 'currency': 'USD', 'category': <SimpleNamespace object>}
-```
-
-### `edited_campaign: SimpleNamespace`
-
-**Назначение**: Преобразование данных кампании из словаря в `SimpleNamespace`.
-
-**Параметры**:
-- Отсутствуют явные параметры, функция использует `campaign_dict`.
-
-**Возвращает**:
-- `SimpleNamespace`: Объект `SimpleNamespace`, содержащий данные кампании.
-
-**Как работает функция**:
-1. Принимает словарь `campaign_dict`, содержащий данные кампании.
-2. Создает `SimpleNamespace` с атрибутами, соответствующими ключам и значениям словаря.
-
-```
-campaign_dict (dict) --> SimpleNamespace(**campaign_dict) --> edited_campaign (SimpleNamespace)
-```
-
-**Примеры**:
-
-```python
-# Пример: campaign_dict может содержать
-# {'name': 'lighting', 'title': 'Lighting Campaign', 'language': 'EN', 'currency': 'USD', 'category': <SimpleNamespace object>}
-# edited_campaign будет объектом SimpleNamespace с атрибутами edited_campaign.name, edited_campaign.title и т.д.
-```
+    ```python
+    campaign_editor.update_campaign(edited_campaign)

@@ -1,44 +1,90 @@
-# Модуль подготовки AI кампании для AliExpress
+# Модуль для подготовки AI кампании
 
 ## Обзор
 
-Модуль `prepare_ai_campaign.py` предназначен для автоматизации процесса подготовки и создания рекламных кампаний на платформе AliExpress с использованием AI. Он включает в себя функции для обработки категорий кампаний, общей обработки кампаний и обработки всех кампаний.
+Модуль `prepare_ai_campaign.py` предназначен для подготовки и обработки рекламных кампаний AliExpress с использованием AI. Он включает в себя функции для создания, редактирования и обработки кампаний, категорий и всех кампаний в целом.
 
-## Подробнее
+## Подробней
 
-Этот модуль является частью более крупной системы, предназначенной для управления рекламными кампаниями AliExpress. Он использует классы и функции из других модулей проекта, таких как `AliCampaignEditor`, `process_campaign_category`, `process_campaign` и `process_all_campaigns`.
-Расположение файла в структуре проекта указывает на его роль в экспериментальных процессах подготовки AI кампаний.
+Модуль предоставляет инструменты для автоматизации процесса подготовки рекламных кампаний, используя класс `AliCampaignEditor` и другие функции для обработки данных кампаний. Расположение файла в проекте указывает на его роль в подготовке AI-кампаний для AliExpress.
+
+## Классы
+
+### `AliCampaignEditor`
+
+**Описание**: Класс `AliCampaignEditor` предназначен для редактирования и обработки рекламных кампаний AliExpress.
+
+**Наследует**:
+
+**Атрибуты**:
+- `campaign_name` (str): Название кампании.
+- `campaign_file` (str): Файл кампании.
+
+**Методы**:
+- `process_ai_campaign(campaign_name)`: Обрабатывает AI кампанию.
 
 ## Функции
 
-### `process_ai_campaign`
+### `process_campaign_category`
 
-```python
-campaign_editor.process_ai_campaign(campaign_name)
-```
-
-**Назначение**: Запускает процесс AI-подготовки рекламной кампании.
+**Назначение**: Обрабатывает категорию кампании.
 
 **Параметры**:
--   `campaign_name` (str): Имя кампании, которую необходимо обработать.
+- Нет явных параметров в предоставленном коде.
 
 **Возвращает**:
--   Нет явного возвращаемого значения. Функция выполняет действия по подготовке AI кампании.
+- Нет явного возвращаемого значения в предоставленном коде.
 
-**Как работает функция**:
+**Вызывает исключения**:
+- Нет явных исключений в предоставленном коде.
 
-1.  Функция принимает имя кампании (`campaign_name`) в качестве аргумента.
-2.  Затем вызывается метод `process_ai_campaign` объекта `campaign_editor` с переданным именем кампании.
-3.  Метод `process_ai_campaign` выполняет все необходимые шаги для подготовки AI кампании.
+### `process_campaign`
 
-**Примеры**:
+**Назначение**: Обрабатывает кампанию.
+
+**Параметры**:
+- Нет явных параметров в предоставленном коде.
+
+**Возвращает**:
+- Нет явного возвращаемого значения в предоставленном коде.
+
+**Вызывает исключения**:
+- Нет явных исключений в предоставленном коде.
+
+### `process_all_campaigns`
+
+**Назначение**: Обрабатывает все кампании.
+
+**Параметры**:
+- Нет явных параметров в предоставленном коде.
+
+**Возвращает**:
+- Нет явного возвращаемого значения в предоставленном коде.
+
+**Вызывает исключения**:
+- Нет явных исключений в предоставленном коде.
+
+## Переменные
+
+- `campaign_name` (str): Название кампании (`'lighting'`).
+- `campaign_file` (str): Имя файла кампании (`'EN_US.JSON'`).
+- `campaign_editor` (AliCampaignEditor): Экземпляр класса `AliCampaignEditor`, используемый для обработки кампании.
+
+## Пример использования
 
 ```python
-campaign_editor.process_ai_campaign('lighting')
-```
+import header
+from pathlib import Path
+from src.suppliers.aliexpress.campaign import AliCampaignEditor
+from src import gs
+from src.suppliers.aliexpress.campaign import process_campaign_category, process_campaign,  process_all_campaigns
+from src.utils import get_filenames, get_directory_names
+from src.utils.printer import pprint
+from src.logger.logger import logger
 
-В данном примере вызывается функция `process_ai_campaign` для кампании с именем 'lighting'.
-```
-A
-|
-process_ai_campaign('lighting')
+#locales = {\'EN\': \'USD\', \'HE\': \'ILS\', \'RU\': \'ILS\'}
+campaign_name = 'lighting'
+campaign_file = 'EN_US.JSON'
+campaign_editor = AliCampaignEditor(campaign_name = campaign_name, campaign_file = campaign_file )
+campaign_editor.process_ai_campaign(campaign_name)
+#process_all_campaigns()

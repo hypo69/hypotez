@@ -1,84 +1,149 @@
-# Модуль для работы с Google Gemini (g4f.Provider.needs_auth.Gemini)
-
+# Модуль Gemini для работы с Google Gemini
 ## Обзор
 
-Модуль `Gemini.py` предназначен для взаимодействия с Google Gemini. Он предоставляет асинхронные генераторы для получения ответов от модели Gemini, включая поддержку текстовых и визуальных запросов. Модуль требует аутентификации и использует cookies для поддержания сессии.
+Модуль `Gemini.py` предназначен для взаимодействия с сервисом Google Gemini. Он предоставляет асинхронные методы для генерации текста, обработки изображений и выполнения других задач с использованием API Google Gemini. Модуль поддерживает автоматическое обновление куки, работу через прокси и загрузку изображений.
 
-## Подробней
+## Подробнее
 
-Этот модуль является частью проекта `hypotez` и отвечает за интеграцию с сервисом Google Gemini. Он включает в себя функции для автоматического обновления cookies, загрузки изображений и синтеза речи. Модуль также обрабатывает ответы от Gemini, извлекая из них текст, изображения и ссылки на YouTube.
+Этот модуль является частью проекта `hypotez` и отвечает за интеграцию с Google Gemini. Он использует асинхронные запросы для взаимодействия с API Gemini, обеспечивая неблокирующие операции. Модуль также включает механизмы для управления куками и автоматического обновления для поддержания сессии с сервисом.
 
 ## Классы
 
 ### `Gemini`
 
-**Описание**: Класс `Gemini` является асинхронным генератором, который реализует взаимодействие с моделью Google Gemini.
+**Описание**: Основной класс для взаимодействия с Google Gemini.
 
 **Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает базовую структуру для асинхронных провайдеров генераторов.
-- `ProviderModelMixin`: Предоставляет функциональность для работы с различными моделями, поддерживаемыми провайдером.
+- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
+- `ProviderModelMixin`: Предоставляет функциональность для работы с разными моделями.
 
-**Аттрибуты**:
-- `label` (str): Метка провайдера (Google Gemini).
-- `url` (str): URL сервиса Gemini.
-- `needs_auth` (bool): Указывает, требуется ли аутентификация для работы с провайдером.
-- `working` (bool): Указывает, работает ли провайдер в данный момент.
-- `use_nodriver` (bool): Указывает, следует ли использовать `nodriver` для автоматической аутентификации.
-- `default_model` (str): Модель по умолчанию.
-- `default_image_model` (str): Модель для генерации изображений по умолчанию.
-- `default_vision_model` (str): Модель для обработки визуальных данных по умолчанию.
-- `image_models` (list[str]): Список поддерживаемых моделей для генерации изображений.
-- `models` (list[str]): Список поддерживаемых моделей.
-- `model_aliases` (dict[str, str]): Псевдонимы моделей.
-- `synthesize_content_type` (str): Тип контента для синтеза речи (audio/vnd.wav).
-- `_cookies` (Cookies): Cookies для аутентификации.
-- `_snlm0e` (str): Значение параметра `SNlM0e`, необходимого для запросов.
-- `_sid` (str): Значение параметра `SID`, необходимого для запросов.
-- `auto_refresh` (bool): Автоматическое обновление cookies.
-- `refresh_interval` (int): Интервал обновления cookies в секундах.
-- `rotate_tasks` (dict): Словарь задач для ротации cookies.
+**Атрибуты**:
+- `label` (str): Метка провайдера ("Google Gemini").
+- `url` (str): URL сервиса Google Gemini ("https://gemini.google.com").
+- `needs_auth` (bool): Требуется ли аутентификация (True).
+- `working` (bool): Показывает, работает ли провайдер (True).
+- `use_nodriver` (bool): Использовать ли nodriver (True).
+- `default_model` (str): Модель по умолчанию ("").
+- `default_image_model` (str): Модель для обработки изображений по умолчанию ("").
+- `default_vision_model` (str): Модель для обработки видео по умолчанию ("").
+- `image_models` (list): Список поддерживаемых моделей для изображений.
+- `models` (list): Список поддерживаемых моделей.
+- `model_aliases` (dict): Псевдонимы моделей.
+- `synthesize_content_type` (str): Тип контента для синтеза ("audio/vnd.wav").
+- `_cookies` (Cookies): Куки для аутентификации.
+- `_snlm0e` (str): Токен `SNlM0e`, необходимый для запросов.
+- `_sid` (str): Идентификатор сессии.
+- `auto_refresh` (bool): Автоматическое обновление куки (True).
+- `refresh_interval` (int): Интервал обновления куки (540 секунд).
+- `rotate_tasks` (dict): Задачи для ротации куки.
 
 **Методы**:
-- `nodriver_login()`: Метод для автоматической аутентификации с использованием `nodriver`.
-- `start_auto_refresh()`: Запускает задачу для автоматического обновления cookies в фоновом режиме.
-- `create_async_generator()`: Создает асинхронный генератор для взаимодействия с моделью Gemini.
-- `synthesize()`: Генерирует речь на основе заданного текста.
-- `build_request()`: Строит запрос к API Gemini.
-- `upload_images()`: Загружает изображения на сервер Gemini.
-- `fetch_snlm0e()`: Получает значение параметра `SNlM0e` из cookies.
+- `nodriver_login(proxy: str = None)`: Асинхронный метод для входа в систему с использованием nodriver.
+- `start_auto_refresh(proxy: str = None)`: Запускает фоновую задачу для автоматического обновления куки.
+- `create_async_generator(model: str, messages: Messages, proxy: str = None, cookies: Cookies = None, connector: BaseConnector = None, media: MediaListType = None, return_conversation: bool = False, conversation: Conversation = None, language: str = "en", **kwargs)`: Создает асинхронный генератор для взаимодействия с Gemini.
+- `synthesize(params: dict, proxy: str = None)`: Асинхронный метод для синтеза речи.
+- `build_request(prompt: str, language: str, conversation: Conversation = None, uploads: list[list[str, str]] = None, tools: list[list[str]] = [])`: Создает запрос к Gemini.
+- `upload_images(connector: BaseConnector, media: MediaListType)`: Загружает изображения в Gemini.
+- `fetch_snlm0e(session: ClientSession, cookies: Cookies)`: Извлекает токен `SNlM0e` из куки.
 
-#### `nodriver_login`
+### `Conversation`
+
+**Описание**: Класс для хранения информации о контексте разговора.
+
+**Наследует**:
+- `JsonConversation`: Базовый класс для хранения контекста в формате JSON.
+
+**Атрибуты**:
+- `conversation_id` (str): Идентификатор разговора.
+- `response_id` (str): Идентификатор ответа.
+- `choice_id` (str): Идентификатор выбора.
+- `model` (str): Используемая модель.
+
+## Функции
+
+### `nodriver_login`
 
 ```python
     @classmethod
     async def nodriver_login(cls, proxy: str = None) -> AsyncIterator[str]:
         """
-        Автоматическая аутентификация с использованием `nodriver`.
+        Асинхронный метод для входа в систему с использованием nodriver.
 
         Args:
-            proxy (str, optional): Прокси-сервер для подключения. По умолчанию `None`.
+            proxy (str, optional): Прокси для подключения. По умолчанию `None`.
 
         Yields:
-            AsyncIterator[str]: Асинхронный итератор, возвращающий чанки данных.
+            AsyncIterator[str]: Асинхронный итератор строк, содержащий информацию о процессе входа.
 
         Raises:
             ImportError: Если модуль `nodriver` не установлен.
+
+        Как работает функция:
+        1. Проверяет, установлен ли модуль `nodriver`. Если нет, то функция завершается.
+        2. Получает инстанс браузера и функцию остановки браузера с помощью `get_nodriver`.
+        3. Пытается получить URL для входа из переменной окружения `G4F_LOGIN_URL` и возвращает его через `yield`.
+        4. Открывает страницу `f"{cls.url}/app"` в браузере.
+        5. Выбирает элемент `div.ql-editor.textarea` на странице.
+        6. Получает куки из браузера.
+        7. Закрывает страницу.
+        8. Сохраняет куки в атрибут класса `_cookies`.
+        9. Останавливает браузер.
+
+        ASCII flowchart:
+
+        Проверка has_nodriver
+        |
+        Получение browser, stop_browser
+        |
+        Получение login_url из env
+        |
+        Открытие страницы в браузере
+        |
+        Получение cookies
+        |
+        Закрытие страницы, остановка браузера
+
+        Примеры:
+            >>> async for chunk in Gemini.nodriver_login():
+            ...     print(chunk)
         """
-        ...
 ```
 
-#### `start_auto_refresh`
+### `start_auto_refresh`
 
 ```python
     @classmethod
     async def start_auto_refresh(cls, proxy: str = None) -> None:
         """
-        Запускает задачу для автоматического обновления cookies в фоновом режиме.
+        Запускает фоновую задачу для автоматического обновления куки.
+
+        Args:
+            proxy (str, optional): Прокси для подключения. По умолчанию `None`.
+
+        Как работает функция:
+        1. Бесконечный цикл, который пытается обновить куки с помощью `rotate_1psidts`.
+        2. Если обновление куки завершается успешно, то обновляет значение `__Secure-1PSIDTS` в атрибуте класса `_cookies`.
+        3. Если обновление куки не удается, то логирует ошибку и отменяет задачу ротации куки.
+        4. Засыпает на `cls.refresh_interval` секунд.
+
+        ASCII flowchart:
+
+        Бесконечный цикл
+        |
+        Обновление куки
+        |
+        Обновление __Secure-1PSIDTS
+        |
+        Обработка ошибок
+        |
+        Сон
+
+        Примеры:
+            >>> asyncio.create_task(Gemini.start_auto_refresh())
         """
-        ...
 ```
 
-#### `create_async_generator`
+### `create_async_generator`
 
 ```python
     @classmethod
@@ -96,52 +161,111 @@
         **kwargs
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для взаимодействия с моделью Gemini.
+        Создает асинхронный генератор для взаимодействия с Gemini.
 
         Args:
-            model (str): Название модели Gemini.
+            model (str): Используемая модель.
             messages (Messages): Список сообщений для отправки.
-            proxy (str, optional): Прокси-сервер для подключения. По умолчанию `None`.
-            cookies (Cookies, optional): Cookies для аутентификации. По умолчанию `None`.
-            connector (BaseConnector, optional): HTTP-коннектор. По умолчанию `None`.
+            proxy (str, optional): Прокси для подключения. По умолчанию `None`.
+            cookies (Cookies, optional): Куки для аутентификации. По умолчанию `None`.
+            connector (BaseConnector, optional): Коннектор для HTTP-сессии. По умолчанию `None`.
             media (MediaListType, optional): Список медиафайлов для отправки. По умолчанию `None`.
-            return_conversation (bool, optional): Возвращать ли объект Conversation. По умолчанию `False`.
-            conversation (Conversation, optional): Объект Conversation. По умолчанию `None`.
-            language (str, optional): Язык ответа. По умолчанию "en".
-            **kwargs: Дополнительные параметры.
+            return_conversation (bool, optional): Возвращать ли контекст разговора. По умолчанию `False`.
+            conversation (Conversation, optional): Объект разговора. По умолчанию `None`.
+            language (str, optional): Язык. По умолчанию "en".
+            **kwargs: Дополнительные аргументы.
 
         Yields:
-            AsyncResult: Асинхронный генератор, возвращающий результаты от модели Gemini.
+            AsyncResult: Асинхронный результат генерации.
 
         Raises:
             MissingAuthError: Если отсутствует или недействителен cookie "__Secure-1PSID".
-            RuntimeError: Если не удалось получить значение SNlM0e.
+            RuntimeError: Если не удалось получить SNlM0e.
+
+        Как работает функция:
+        1. Инициализирует куки, если они не были переданы.
+        2. Форматирует запрос на основе переданных сообщений и контекста разговора.
+        3. Создает асинхронную сессию `ClientSession`.
+        4. Проверяет наличие токена `_snlm0e` и, если его нет, пытается получить его с помощью `fetch_snlm0e` или `nodriver_login`.
+        5. Загружает изображения с помощью `upload_images`.
+        6. Отправляет POST-запрос к API Gemini и обрабатывает ответ.
+        7. Извлекает контент из ответа и возвращает его через `yield`.
+        8. Обрабатывает ошибки и логирует их.
+
+        ASCII flowchart:
+
+        Инициализация куки
+        |
+        Форматирование запроса
+        |
+        Создание ClientSession
+        |
+        Проверка _snlm0e
+        |
+        Загрузка изображений
+        |
+        Отправка POST-запроса
+        |
+        Обработка ответа
+        |
+        Извлечение контента
+        |
+        Обработка ошибок
+
+        Примеры:
+            >>> async for chunk in Gemini.create_async_generator(model="gemini-2.0", messages=[{"role": "user", "content": "Hello"}], cookies=cookies):
+            ...     print(chunk)
         """
-        ...
 ```
 
-#### `synthesize`
+### `synthesize`
 
 ```python
     @classmethod
     async def synthesize(cls, params: dict, proxy: str = None) -> AsyncIterator[bytes]:
         """
-        Генерирует речь на основе заданного текста.
+        Асинхронный метод для синтеза речи.
 
         Args:
-            params (dict): Параметры для генерации речи, включая текст.
-            proxy (str, optional): Прокси-сервер для подключения. По умолчанию `None`.
+            params (dict): Параметры для синтеза речи, включая текст.
+            proxy (str, optional): Прокси для подключения. По умолчанию `None`.
 
         Yields:
-            AsyncIterator[bytes]: Асинхронный итератор, возвращающий чанки аудиоданных в формате bytes.
+            AsyncIterator[bytes]: Асинхронный итератор байтов, представляющих аудио.
 
         Raises:
             ValueError: Если отсутствует параметр "text".
+
+        Как работает функция:
+        1. Проверяет наличие параметра "text" в переданных параметрах.
+        2. Создает асинхронную сессию `ClientSession`.
+        3. Проверяет наличие токена `_snlm0e` и, если его нет, пытается получить его с помощью `fetch_snlm0e`.
+        4. Формирует данные для запроса и отправляет POST-запрос к API Gemini.
+        5. Обрабатывает ответ, декодирует base64 и возвращает аудио через `yield`.
+        
+        ASCII flowchart:
+
+        Проверка параметра "text"
+        |
+        Создание ClientSession
+        |
+        Проверка _snlm0e
+        |
+        Формирование данных запроса
+        |
+        Отправка POST-запроса
+        |
+        Декодирование base64
+        |
+        Возврат аудио
+        
+        Примеры:
+            >>> async for chunk in Gemini.synthesize(params={"text": "Hello"}, cookies=cookies):
+            ...     print(chunk)
         """
-        ...
 ```
 
-#### `build_request`
+### `build_request`
 
 ```python
     def build_request(
@@ -152,132 +276,150 @@
         tools: list[list[str]] = []
     ) -> list:
         """
-        Строит запрос к API Gemini.
+        Создает запрос к Gemini.
 
         Args:
             prompt (str): Текст запроса.
             language (str): Язык запроса.
-            conversation (Conversation, optional): Объект Conversation. По умолчанию `None`.
+            conversation (Conversation, optional): Объект разговора. По умолчанию `None`.
             uploads (list[list[str, str]], optional): Список загруженных изображений. По умолчанию `None`.
-            tools (list[list[str]], optional): Список инструментов. По умолчанию `[]`.
+            tools (list[list[str]], optional): Список инструментов. По умолчанию `None`.
 
         Returns:
-            list: Сформированный запрос в виде списка.
+            list: Сформированный запрос для Gemini.
+
+        Как работает функция:
+        1. Формирует список изображений для загрузки.
+        2. Создает структуру запроса, включающую текст запроса, язык, контекст разговора, загруженные изображения и инструменты.
+
+        ASCII flowchart:
+
+        Формирование списка изображений
+        |
+        Создание структуры запроса
+
+        Примеры:
+            >>> request = Gemini.build_request(prompt="Hello", language="en")
         """
-        ...
 ```
 
-#### `upload_images`
+### `upload_images`
 
 ```python
     async def upload_images(connector: BaseConnector, media: MediaListType) -> list:
         """
-        Загружает изображения на сервер Gemini.
+        Загружает изображения в Gemini.
 
         Args:
-            connector (BaseConnector): HTTP-коннектор.
+            connector (BaseConnector): Коннектор для HTTP-сессии.
             media (MediaListType): Список медиафайлов для загрузки.
 
         Returns:
             list: Список URL загруженных изображений.
+
+        Как работает функция:
+        1. Определяет асинхронную функцию `upload_image` для загрузки одного изображения.
+        2. Функция `upload_image` создает сессию `ClientSession` и отправляет запросы для загрузки изображения.
+        3. Использует `asyncio.gather` для параллельной загрузки всех изображений.
+
+        ASCII flowchart:
+
+        Для каждого изображения:
+            Создание ClientSession
+            |
+            Отправка запросов для загрузки
+        |
+        Сбор результатов
+
+        Примеры:
+            >>> urls = await Gemini.upload_images(connector, media=[("image.jpg", b"...")])
         """
-        ...
 ```
 
-#### `fetch_snlm0e`
+### `fetch_snlm0e`
 
 ```python
     @classmethod
     async def fetch_snlm0e(cls, session: ClientSession, cookies: Cookies):
         """
-        Получает значение параметра `SNlM0e` из cookies.
+        Извлекает токен `SNlM0e` из куки.
 
         Args:
-            session (ClientSession): HTTP-сессия.
-            cookies (Cookies): Cookies для запроса.
+            session (ClientSession): Асинхронная сессия.
+            cookies (Cookies): Куки для запроса.
+
+        Как работает функция:
+        1. Отправляет GET-запрос к URL Gemini.
+        2. Извлекает токен `SNlM0e` из ответа с помощью регулярного выражения.
+        3. Извлекает `sid` из ответа с помощью регулярного выражения.
+        4. Сохраняет токен в атрибуте класса `_snlm0e`.
+
+        ASCII flowchart:
+
+        Отправка GET-запроса
+        |
+        Извлечение SNlM0e из ответа
+        |
+        Сохранение токена
+
+        Примеры:
+            >>> await Gemini.fetch_snlm0e(session, cookies)
         """
-        ...
 ```
 
-### `Conversation`
+### `Conversation.__init__`
 
-**Описание**: Класс `Conversation` представляет собой структуру данных для хранения информации о контексте разговора с моделью Gemini.
+```python
+    def __init__(self,
+        conversation_id: str,
+        response_id: str,
+        choice_id: str,
+        model: str
+    ) -> None:
+        """
+        Инициализирует объект Conversation.
 
-**Наследует**:
-- `JsonConversation`: Базовый класс для представления контекста разговора в формате JSON.
-
-**Аттрибуты**:
-- `conversation_id` (str): Идентификатор разговора.
-- `response_id` (str): Идентификатор последнего ответа в разговоре.
-- `choice_id` (str): Идентификатор выбора ответа.
-- `model` (str): Используемая модель.
-
-## Функции
+        Args:
+            conversation_id (str): Идентификатор разговора.
+            response_id (str): Идентификатор ответа.
+            choice_id (str): Идентификатор выбора.
+            model (str): Используемая модель.
+        """
+```
 
 ### `iter_filter_base64`
 
 ```python
 async def iter_filter_base64(chunks: AsyncIterator[bytes]) -> AsyncIterator[bytes]:
     """
-    Фильтрует асинхронный итератор байтовых чанков, извлекая полезную нагрузку base64.
+    Фильтрует base64 чанки из асинхронного итератора байтов.
 
     Args:
-        chunks (AsyncIterator[bytes]): Асинхронный итератор байтовых чанков.
+        chunks (AsyncIterator[bytes]): Асинхронный итератор байтов.
 
     Yields:
-        AsyncIterator[bytes]: Отфильтрованный асинхронный итератор байтовых чанков.
+        AsyncIterator[bytes]: Отфильтрованный асинхронный итератор байтов.
 
     Raises:
-        ValueError: Если в чанке не найдена строка `search_for`.
+        ValueError: Если ответ не содержит ожидаемый формат.
 
     Как работает функция:
-    1. Функция принимает асинхронный итератор байтовых чанков `chunks`.
-    2. Определяет переменные `search_for` и `end_with`, которые содержат байтовые строки для поиска начала и конца полезной нагрузки base64 соответственно.
-    3. Итерируется по чанкам:
-        - Если `is_started` равно `True`, это означает, что начало полезной нагрузки уже найдено.
-            - Если `end_with` присутствует в текущем чанке, функция извлекает часть чанка до `end_with`, отправляет её и завершает итерацию.
-            - В противном случае, функция отправляет текущий чанк.
-        - Если `is_started` равно `False`, функция проверяет, содержит ли текущий чанк `search_for`.
-            - Если `search_for` присутствует в чанке, функция устанавливает `is_started` в `True`, извлекает часть чанка после `search_for` и отправляет её.
-            - Если `search_for` отсутствует в чанке, функция вызывает исключение `ValueError`.
+    1. Ищет стартовую последовательность `[["wrb.fr","XqA3Ic","[\\\\"`.
+    2. После нахождения стартовой последовательности, ищет окончание `\\\\`.
+    3. Возвращает чанки между стартовой и конечной последовательностями.
 
     ASCII flowchart:
-    A[Начало]
+
+    Поиск стартовой последовательности
     |
-    B[Принят чанк]
+    Поиск конечной последовательности
     |
-    C{is_started?}
-    | Да
-    D{end_with in chunk?}
-    | Да
-    E[Извлечь часть до end_with и отправить]
-    |
-    F[Завершить]
-    C -- Нет
-    |
-    G{search_for in chunk?}
-    | Да
-    H[Установить is_started = True и извлечь часть после search_for]
-    |
-    I[Отправить часть]
-    |
-    B --
-    G -- Нет
-    |
-    J[Вызвать ValueError]
-    |
-    K[Конец]
+    Возврат чанков
 
     Примеры:
-    - Пример 1:
-        chunks = [b'some data [["wrb.fr","XqA3Ic","[\\\\"base64data\\\\']', b'end\\\\']
-        Результат: b'base64data'
-
-    - Пример 2:
-        chunks = [b'[["wrb.fr","XqA3Ic","[\\\\"base64data', b'moredata\\\\']
-        Результат: b'base64datamoredata'
+        >>> async for chunk in iter_filter_base64(chunks):
+        ...     print(chunk)
     """
-    ...
 ```
 
 ### `iter_base64_decode`
@@ -285,66 +427,31 @@ async def iter_filter_base64(chunks: AsyncIterator[bytes]) -> AsyncIterator[byte
 ```python
 async def iter_base64_decode(chunks: AsyncIterator[bytes]) -> AsyncIterator[bytes]:
     """
-    Декодирует асинхронный итератор base64-encoded байтовых чанков.
+    Декодирует base64 чанки из асинхронного итератора байтов.
 
     Args:
-        chunks (AsyncIterator[bytes]): Асинхронный итератор base64-encoded байтовых чанков.
+        chunks (AsyncIterator[bytes]): Асинхронный итератор байтов.
 
     Yields:
-        AsyncIterator[bytes]: Асинхронный итератор декодированных байтовых чанков.
+        AsyncIterator[bytes]: Декодированный асинхронный итератор байтов.
 
     Как работает функция:
-    1.  Инициализирует буфер `buffer` для хранения остатков base64 данных между чанками.
-    2.  Инициализирует переменную `rest` для хранения количества байт, которые остались не обработанными после base64 декодирования.
-    3.  Итерируется по чанкам:
-        - Объединяет текущий чанк с содержимым буфера `buffer`.
-        - Вычисляет остаток от деления длины объединенного чанка на 4 (так как base64 декодирование работает с блоками по 4 символа).
-        - Сохраняет последние `rest` байт объединенного чанка в буфер `buffer`.
-        - Декодирует base64 данные из объединенного чанка, исключая последние `rest` байт, и отправляет декодированные данные.
-    4.  После завершения итерации, если в буфере `buffer` остались необработанные данные (`rest > 0`), декодирует base64 данные из буфера, добавляя необходимое количество символов `=` для корректного декодирования, и отправляет декодированные данные.
+    1. Буферизует чанки.
+    2. Выполняет base64 декодирование.
+    3. Возвращает декодированные чанки.
 
     ASCII flowchart:
 
-    A[Начало]
+    Буферизация чанков
     |
-    B[Инициализация buffer = b"" и rest = 0]
+    Декодирование base64
     |
-    C[Принят чанк]
-    |
-    D[chunk = buffer + chunk]
-    |
-    E[rest = len(chunk) % 4]
-    |
-    F[buffer = chunk[-rest:]]
-    |
-    G[yield base64.b64decode(chunk[:-rest])]
-    |
-    H[Конец итерации?]
-    | Да
-    I{rest > 0?}
-    | Да
-    J[yield base64.b64decode(buffer+rest*b"=")]
-    |
-    K[Конец]
-    H -- Нет
-    |
-    C --
-    I -- Нет
-    |
-    K --
+    Возврат декодированных чанков
 
     Примеры:
-    - Пример 1:
-        chunks = [b'YWFh', b'YWFh']
-        Результат: b'aaa', b'aaa'
-    - Пример 2:
-        chunks = [b'YWFhYQ']
-        Результат: b'aaa'
-    - Пример 3:
-        chunks = [b'YWFhYWFh']
-        Результат: b'aaaaaa'
+        >>> async for chunk in iter_base64_decode(chunks):
+        ...     print(chunk)
     """
-    ...
 ```
 
 ### `rotate_1psidts`
@@ -352,67 +459,41 @@ async def iter_base64_decode(chunks: AsyncIterator[bytes]) -> AsyncIterator[byte
 ```python
 async def rotate_1psidts(url, cookies: dict, proxy: str | None = None) -> str:
     """
-    Обновляет cookie "__Secure-1PSIDTS" путем запроса к сервису Google.
+    Обновляет куки `__Secure-1PSIDTS`.
 
     Args:
-        url (str): URL сервиса Google.
-        cookies (dict): Текущие cookies.
-        proxy (str | None, optional): Прокси-сервер для подключения. По умолчанию `None`.
+        url (str): URL для обновления куки.
+        cookies (dict): Текущие куки.
+        proxy (str | None, optional): Прокси для подключения. По умолчанию `None`.
 
     Returns:
-        str: Новое значение cookie "__Secure-1PSIDTS".
+        str: Новое значение `__Secure-1PSIDTS`.
 
     Raises:
-        MissingAuthError: Если cookies недействительны.
-        HTTPError: Если произошла ошибка при выполнении HTTP-запроса.
+        MissingAuthError: Если куки недействительны.
 
     Как работает функция:
-    1.  Создает директорию для хранения cookies, если она не существует.
-    2.  Формирует путь к файлу, в котором хранятся cookies.
-    3.  Проверяет, был ли файл модифицирован в течение последней минуты, чтобы избежать ошибки "429 Too Many Requests".
-    4.  Создает асинхронную HTTP-сессию.
-    5.  Выполняет POST-запрос к сервису Google для обновления cookies.
-    6.  Проверяет статус ответа. Если статус равен 401, выбрасывает исключение `MissingAuthError`.
-    7.  Обновляет cookies на основе ответа от сервера.
-    8.  Сохраняет обновленные cookies в файл.
-    9.  Возвращает новое значение cookie "__Secure-1PSIDTS".
+    1. Формирует путь к файлу, где хранятся куки.
+    2. Проверяет, не был ли файл изменен в течение последней минуты, чтобы избежать `429 Too Many Requests`.
+    3. Отправляет POST-запрос к `ROTATE_COOKIES_URL` для обновления куки.
+    4. Обновляет куки в переданном словаре.
+    5. Сохраняет новые куки в файл.
+    6. Возвращает новое значение `__Secure-1PSIDTS`.
 
     ASCII flowchart:
 
-    A[Начало]
+    Формирование пути к файлу
     |
-    B[Создать директорию для cookies]
+    Проверка времени изменения файла
     |
-    C[Сформировать путь к файлу cookies]
+    Отправка POST-запроса
     |
-    D{Файл изменен в течение минуты?}
-    | Нет
-    E[Создать асинхронную HTTP-сессию]
+    Обновление куки
     |
-    F[Выполнить POST-запрос к сервису Google]
+    Сохранение куки в файл
     |
-    G{response.status == 401?}
-    | Да
-    H[Выбросить MissingAuthError]
-    |
-    I[Конец]
-    G -- Нет
-    |
-    J[Обновить cookies]
-    |
-    K[Сохранить cookies в файл]
-    |
-    L[Вернуть новое значение __Secure-1PSIDTS]
-    |
-    I --
-    D -- Да
-    |
-    L --
+    Возврат нового значения __Secure-1PSIDTS
 
     Примеры:
-    - Пример 1:
-        url = "https://accounts.google.com/RotateCookies"
-        cookies = {"__Secure-1PSID": "some_sid"}
-        Результат: "new_1psidts_value" (если запрос успешен)
+        >>> new_1psidts = await rotate_1psidts(url, cookies)
     """
-    ...

@@ -2,30 +2,31 @@
 
 ## Обзор
 
-Модуль `Pizzagpt` предоставляет асинхронный генератор для взаимодействия с API сервиса pizzagpt.it. Он позволяет отправлять запросы к API и получать ответы в виде асинхронного генератора.
+Модуль `Pizzagpt` предоставляет асинхронный генератор для взаимодействия с API pizzagpt.it. Он позволяет отправлять запросы к модели и получать ответы в виде асинхронного генератора.
 
 ## Подробней
 
-Этот модуль используется для интеграции с сервисом pizzagpt.it, предоставляющим API для генерации текста. Модуль отправляет запросы к API с использованием библиотеки `aiohttp` и возвращает результаты в виде асинхронного генератора, что позволяет обрабатывать большие объемы данных потоково и экономить память.
-Анализ кода показывает, что модуль предназначен для асинхронного взаимодействия с API pizzagpt.it, предоставляющим сервис генерации текста. Он использует библиотеку `aiohttp` для отправки запросов и обработки ответов. Ключевой особенностью является асинхронная генерация результатов, что позволяет эффективно обрабатывать большие объемы данных. Модуль также включает обработку ошибок и форматирование запросов.
+Этот модуль является частью проекта `hypotez` и предназначен для интеграции с сервисом pizzagpt.it. Он использует асинхронные запросы для взаимодействия с API, что позволяет эффективно обрабатывать ответы. Модуль включает в себя форматирование запроса, отправку его на API и обработку полученного ответа.
+
 ## Классы
 
 ### `Pizzagpt`
 
-**Описание**: Класс `Pizzagpt` является асинхронным провайдером и миксином моделей. Он предназначен для взаимодействия с API pizzagpt.it для генерации текста.
+**Описание**: Класс `Pizzagpt` является асинхронным провайдером и миксином моделей.
 
-**Принцип работы**:
-Класс наследует функциональность от `AsyncGeneratorProvider` и `ProviderModelMixin`. Он определяет URL, API endpoint, используемую модель и заголовки для взаимодействия с API. Метод `create_async_generator` отправляет запрос к API и возвращает асинхронный генератор, который выдает части сгенерированного текста.
+**Наследует**:
+- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию ответов.
+- `ProviderModelMixin`: Предоставляет функциональность для работы с моделями.
 
-**Аттрибуты**:
-- `url` (str): URL сервиса pizzagpt.it.
-- `api_endpoint` (str): Endpoint API для отправки запросов.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `default_model` (str): Модель, используемая по умолчанию (`gpt-4o-mini`).
-- `models` (List[str]): Список поддерживаемых моделей.
+**Атрибуты**:
+- `url` (str): URL сервиса `https://www.pizzagpt.it`.
+- `api_endpoint` (str): Эндпоинт API `/api/chatx-completion`.
+- `working` (bool): Указывает, работает ли провайдер. Изначально `False`.
+- `default_model` (str): Модель по умолчанию `'gpt-4o-mini'`.
+- `models` (list): Список поддерживаемых моделей `[default_model]`.
 
 **Методы**:
-- `create_async_generator`: Создает асинхронный генератор для получения ответов от API.
+- `create_async_generator()`: Создает асинхронный генератор для получения ответов от API.
 
 ## Функции
 
@@ -41,142 +42,102 @@ async def create_async_generator(
     **kwargs
 ) -> AsyncResult:
     """
-    Создает асинхронный генератор для получения ответов от API pizzagpt.it.
+    Создает асинхронный генератор для получения ответов от API Pizzagpt.
 
     Args:
-        model (str): Модель для генерации текста.
-        messages (Messages): Список сообщений для отправки в запросе.
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
+        model (str): Модель для использования в запросе.
+        messages (Messages): Список сообщений для отправки.
+        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
         **kwargs: Дополнительные аргументы.
 
     Returns:
-        AsyncResult: Асинхронный генератор, выдающий части сгенерированного текста.
+        AsyncResult: Асинхронный генератор, возвращающий ответы от API.
 
     Raises:
-        ValueError: Если в ответе содержится сообщение об обнаружении злоупотребления.
+        ValueError: Если обнаружено злоупотребление в содержании ответа.
     """
 ```
 
-**Назначение**: Создание асинхронного генератора для взаимодействия с API pizzagpt.it.
+**Назначение**: Создает асинхронный генератор для взаимодействия с API `Pizzagpt`.
 
 **Параметры**:
 - `cls` (type): Ссылка на класс.
-- `model` (str): Модель для генерации текста.
-- `messages` (Messages): Список сообщений для отправки в запросе.
-- `proxy` (str, optional): URL прокси-сервера. По умолчанию `None`.
+- `model` (str): Модель для использования в запросе.
+- `messages` (Messages): Список сообщений для отправки.
+- `proxy` (str, optional): Прокси-сервер для использования. По умолчанию `None`.
 - `**kwargs`: Дополнительные аргументы.
 
 **Возвращает**:
-- `AsyncResult`: Асинхронный генератор, выдающий части сгенерированного текста.
+- `AsyncResult`: Асинхронный генератор, возвращающий ответы от API.
 
 **Вызывает исключения**:
-- `ValueError`: Если в ответе содержится сообщение об обнаружении злоупотребления (`Misuse detected. please get in touch`).
+- `ValueError`: Если обнаружено злоупотребление в содержании ответа.
 
 **Как работает функция**:
 
-1. **Подготовка заголовков**: Функция создает заголовки HTTP-запроса, включая `accept`, `accept-language`, `content-type`, `origin`, `referer`, `user-agent` и `x-secret`. Заголовок `x-secret` содержит значение `Marinara`.
-2. **Создание сессии**: Используется асинхронный контекстный менеджер `ClientSession` для создания HTTP-сессии с заданными заголовками.
-3. **Форматирование промпта**: Функция форматирует сообщения `messages` в строку `prompt` с использованием функции `format_prompt`.
-4. **Подготовка данных**: Создается словарь `data`, содержащий отформатированный промт под ключом `"question"`.
-5. **Отправка запроса**: Отправляется POST-запрос к API endpoint (`cls.url}{cls.api_endpoint}`) с данными в формате JSON и использованием прокси, если он указан.
+1. **Подготовка заголовков**: Формируются заголовки HTTP-запроса, включая `accept`, `accept-language`, `content-type`, `origin`, `referer` и `user-agent`. Также устанавливается секретный ключ `x-secret` равным `"Marinara"`.
+2. **Создание сессии**: Используется `aiohttp.ClientSession` для выполнения асинхронных HTTP-запросов с заданными заголовками.
+3. **Форматирование запроса**: Список сообщений `messages` форматируется в строку `prompt` с использованием функции `format_prompt`.
+4. **Подготовка данных**: Формируется словарь `data`, содержащий отформатированный запрос `prompt` под ключом `"question"`.
+5. **Отправка запроса**: Отправляется POST-запрос к API эндпоинту (`cls.url + cls.api_endpoint`) с использованием `session.post`. В запрос передаются данные в формате JSON и, если указано, прокси-сервер.
 6. **Обработка ответа**:
-   - Проверяется статус ответа на наличие ошибок с помощью `response.raise_for_status()`.
-   - Ответ преобразуется в JSON-формат.
-   - Из JSON извлекается содержимое ответа из полей `response_json.get("answer", response_json).get("content")`.
-7. **Генерация результата**:
-   - Если содержимое присутствует:
-     - Проверяется наличие сообщения об обнаружении злоупотребления (`Misuse detected. please get in touch`). Если оно присутствует, вызывается исключение `ValueError`.
-     - Содержимое передается в генератор с помощью `yield content`.
-     - В генератор передается сигнал остановки (`FinishReason("stop")`) с помощью `yield FinishReason("stop")`.
+   - Проверяется статус ответа с помощью `response.raise_for_status()`, чтобы вызвать исключение в случае ошибки.
+   - Полученный JSON-ответ преобразуется в словарь `response_json`.
+   - Извлекается содержимое ответа из `response_json.get("answer", response_json).get("content")`.
+7. **Генерация ответа**:
+   - Если содержимое `content` существует:
+     - Проверяется наличие сообщения об обнаружении злоупотребления `"Misuse detected. please get in touch"` в содержимом. Если оно присутствует, вызывается исключение `ValueError`.
+     - Содержимое ответа передается через `yield content`, что делает функцию генератором.
+     - Передается сигнал остановки `yield FinishReason("stop")`.
 
-**Внутренние функции**:
-Внутри функции `create_async_generator` не определены внутренние функции.
+**Внутренние функции**: Нет
 
-**ASCII flowchart**:
+**ASCII Flowchart**:
 
 ```
-    [Начало]
-     |
-     v
-[Подготовка заголовков]
-     |
-     v
-   [Создание сессии]
-     |
-     v
-[Форматирование промпта]
-     |
-     v
-   [Подготовка данных]
-     |
-     v
-   [Отправка запроса]
-     |
-     v
-   [Обработка ответа]
-     |
-     v
-[Извлечение содержимого]
-     |
-     v
-  [Проверка на злоупотребление]
-     |
-     v
-[Генерация результата] ---> [Выдача содержимого]
-     |                       |
-     v                       v
-   [Сигнал остановки]      [Конец]
-     |
-     v
-   [Конец]
+    Начало
+     ↓
+Заголовки HTTP
+     ↓
+   Сессия
+     ↓
+Форматирование запроса
+     ↓
+  Подготовка данных
+     ↓
+   POST-запрос
+     ↓
+  Обработка ответа
+     ↓
+ Генерация ответа
+     ↓
+    Конец
 ```
 
 **Примеры**:
 
 ```python
-# Пример вызова функции create_async_generator
 import asyncio
 from typing import List, Dict, AsyncGenerator, Optional
 
-from g4f.Provider.Pizzagpt import Pizzagpt
-from g4f.typing import Messages, AsyncResult, FinishReason
+from src.endpoints.gpt4free.g4f.Provider.Pizzagpt import Pizzagpt
+from src.endpoints.gpt4free.g4f.typing import Messages, AsyncResult
 
 async def main():
-    model: str = "gpt-4o-mini"
+    # Пример 1: Простой запрос
     messages: Messages = [{"role": "user", "content": "Hello, how are you?"}]
-    proxy: Optional[str] = None
+    async_generator: AsyncResult = Pizzagpt.create_async_generator(model=Pizzagpt.default_model, messages=messages)
+    
+    async for message in async_generator:
+        print(message)
 
-    result: AsyncResult = await Pizzagpt.create_async_generator(model=model, messages=messages, proxy=proxy)
-
-    async for item in result:
-        if isinstance(item, str):
-            print("Content:", item)
-        elif isinstance(item, FinishReason):
-            print("Finish Reason:", item)
+    # Пример 2: Использование прокси (если необходимо)
+    messages: Messages = [{"role": "user", "content": "Tell me a joke."}]
+    proxy: Optional[str] = "http://your_proxy:8080"  # Замените на свой прокси
+    async_generator: AsyncResult = Pizzagpt.create_async_generator(model=Pizzagpt.default_model, messages=messages, proxy=proxy)
+    
+    async for message in async_generator:
+        print(message)
 
 if __name__ == "__main__":
     asyncio.run(main())
-
-# Пример вызова с прокси
-import asyncio
-from typing import List, Dict, AsyncGenerator, Optional
-
-from g4f.Provider.Pizzagpt import Pizzagpt
-from g4f.typing import Messages, AsyncResult, FinishReason
-
-async def main():
-    model: str = "gpt-4o-mini"
-    messages: Messages = [{"role": "user", "content": "Hello, how are you?"}]
-    proxy: str = "http://your_proxy:8080"
-
-    result: AsyncResult = await Pizzagpt.create_async_generator(model=model, messages=messages, proxy=proxy)
-
-    async for item in result:
-        if isinstance(item, str):
-            print("Content:", item)
-        elif isinstance(item, FinishReason):
-            print("Finish Reason:", item)
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```

@@ -1,54 +1,47 @@
-# Модуль DeepInfraChat для работы с DeepInfra API
+# Модуль для работы с DeepInfraChat
+======================================
+
+Модуль определяет класс `DeepInfraChat`, который наследуется от `OpenaiTemplate` и предоставляет конфигурацию для взаимодействия с платформой DeepInfraChat. Он задает URL, базовый API, модели и алиасы моделей, используемые для общения с DeepInfraChat.
 
 ## Обзор
 
-Модуль `DeepInfraChat` предназначен для взаимодействия с API DeepInfra. Он наследует функциональность от класса `OpenaiTemplate` и предоставляет специфические настройки для работы с моделями, размещенными на платформе DeepInfra.
+Этот модуль является частью проекта `hypotez` и предназначен для интеграции с платформой DeepInfraChat. Он содержит информацию о доступных моделях, URL и базовом API для упрощения взаимодействия с этой платформой. Модуль предоставляет класс `DeepInfraChat`, который наследуется от `OpenaiTemplate`, что позволяет использовать общие методы и атрибуты для работы с разными провайдерами.
 
 ## Подробней
 
-Этот модуль содержит информацию о доступных моделях, URL для API и другие параметры, необходимые для правильной работы с DeepInfra. Он определяет модели, которые можно использовать для чата и обработки изображений, а также предоставляет псевдонимы для удобства выбора моделей.
+Модуль определяет следующие параметры для работы с DeepInfraChat:
+
+- `url`: URL платформы DeepInfraChat.
+- `api_base`: Базовый URL API для DeepInfraChat.
+- `working`: Статус работоспособности провайдера.
+- `default_model`: Модель, используемая по умолчанию.
+- `default_vision_model`: Модель для работы с изображениями, используемая по умолчанию.
+- `vision_models`: Список моделей, поддерживающих работу с изображениями.
+- `models`: Список доступных моделей.
+- `model_aliases`: Словарь с алиасами моделей для удобства использования.
 
 ## Классы
 
 ### `DeepInfraChat`
 
-**Описание**: Класс `DeepInfraChat` расширяет `OpenaiTemplate` и предоставляет конфигурацию для работы с моделями DeepInfra.
+**Описание**: Класс `DeepInfraChat` предоставляет конфигурацию для взаимодействия с платформой DeepInfraChat.
 
 **Наследует**:
-
-- `OpenaiTemplate`: Этот класс предоставляет общую структуру для взаимодействия с API, подобными OpenAI.
+- `OpenaiTemplate`: Наследует базовую конфигурацию и методы от класса `OpenaiTemplate`.
 
 **Атрибуты**:
-
-- `url` (str): URL для доступа к DeepInfra API (`https://deepinfra.com/chat`).
-- `api_base` (str): Базовый URL для OpenAI-совместимого API DeepInfra (`https://api.deepinfra.com/v1/openai`).
-- `working` (bool): Указывает, что провайдер находится в рабочем состоянии (`True`).
+- `url` (str): URL платформы DeepInfraChat.
+- `api_base` (str): Базовый URL API для DeepInfraChat.
+- `working` (bool): Статус работоспособности провайдера.
 - `default_model` (str): Модель, используемая по умолчанию (`deepseek-ai/DeepSeek-V3`).
-- `default_vision_model` (str): Модель для обработки изображений по умолчанию (`openbmb/MiniCPM-Llama3-V-2_5`).
-- `vision_models` (List[str]): Список моделей, поддерживающих обработку изображений.
-- `models` (List[str]): Список доступных моделей для использования.
-- `model_aliases` (Dict[str, str]): Словарь псевдонимов моделей для удобства выбора.
+- `default_vision_model` (str): Модель для работы с изображениями, используемая по умолчанию (`openbmb/MiniCPM-Llama3-V-2_5`).
+- `vision_models` (List[str]): Список моделей, поддерживающих работу с изображениями.
+- `models` (List[str]): Список доступных моделей.
+- `model_aliases` (Dict[str, str]): Словарь с алиасами моделей для удобства использования.
 
-**Методы**:
-- Отсутствуют, класс использует методы родительского класса `OpenaiTemplate`.
+**Принцип работы**:
+Класс `DeepInfraChat` определяет статические атрибуты, которые используются для настройки подключения к платформе DeepInfraChat. Он наследуется от `OpenaiTemplate`, что позволяет использовать общие методы и атрибуты для работы с разными провайдерами.
 
 ## Функции
 
-В данном модуле отсутствуют отдельные функции, так как основная логика реализована через класс `DeepInfraChat` и его атрибуты.
-
-## Примеры
-
-Пример использования класса `DeepInfraChat`:
-
-```python
-from g4f.Provider import DeepInfraChat
-
-# Создание экземпляра класса DeepInfraChat
-deep_infra_chat = DeepInfraChat()
-
-# Вывод URL API
-print(deep_infra_chat.url)  # Вывод: https://deepinfra.com/chat
-
-# Вывод списка доступных моделей
-print(deep_infra_chat.models)
-# Вывод: ['meta-llama/Meta-Llama-3.1-8B-Instruct', 'meta-llama/Llama-3.3-70B-Instruct-Turbo', 'meta-llama/Llama-3.3-70B-Instruct', 'deepseek-ai/DeepSeek-V3', 'mistralai/Mistral-Small-24B-Instruct-2501', 'deepseek-ai/DeepSeek-R1', 'deepseek-ai/DeepSeek-R1-Turbo', 'deepseek-ai/DeepSeek-R1-Distill-Llama-70B', 'deepseek-ai/DeepSeek-R1-Distill-Qwen-32B', 'microsoft/phi-4', 'microsoft/WizardLM-2-8x22B', 'Qwen/Qwen2.5-72B-Instruct', '01-ai/Yi-34B-Chat', 'Qwen/Qwen2-72B-Instruct', 'cognitivecomputations/dolphin-2.6-mixtral-8x7b', 'cognitivecomputations/dolphin-2.9.1-llama-3-70b', 'databricks/dbrx-instruct', 'deepinfra/airoboros-70b', 'lizpreciatior/lzlv_70b_fp16_hf', 'microsoft/WizardLM-2-7B', 'mistralai/Mixtral-8x22B-Instruct-v0.1', 'openbmb/MiniCPM-Llama3-V-2_5', 'meta-llama/Llama-3.2-90B-Vision-Instruct']
+В данном модуле отсутствуют отдельные функции, так как основная логика реализована через статические атрибуты класса `DeepInfraChat`.

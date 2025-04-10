@@ -1,754 +1,537 @@
-# Модуль TinyPerson для работы с симулируемым персонажем
+# Модуль `tiny_person.py`
 
 ## Обзор
 
-Модуль содержит класс `TinyPerson`, который представляет собой симулируемого персонажа в виртуальной среде TinyTroupe. Этот класс позволяет создавать, настраивать и управлять виртуальными агентами, наделенными памятью, личностью, целями и способностью взаимодействовать с окружением и другими агентами. Класс включает методы для восприятия стимулов, выполнения действий, управления памятью и поддержания когнитивного состояния.
+Модуль содержит класс `TinyPerson`, представляющий собой симуляцию личности в виртуальной среде TinyTroupe. Этот класс управляет поведением агентов, их памятью (эпизодической и семантической), ментальными способностями и взаимодействием с окружающей средой.
 
 ## Подробнее
 
-Класс `TinyPerson` является центральным элементом для моделирования поведения агентов. Он использует различные компоненты, такие как эпизодическая и семантическая память, а также набор ментальных способностей для принятия решений и взаимодействия с миром. Агенты могут воспринимать стимулы из окружения, выполнять действия и изменять свое внутреннее состояние на основе этих взаимодействий.
+Модуль предоставляет инструменты для создания, управления и взаимодействия с виртуальными агентами. `TinyPerson` может воспринимать стимулы из окружающей среды, принимать решения, действовать и изменять своё внутреннее состояние. Модуль также включает механизмы для сохранения и загрузки состояний агентов, что позволяет создавать сложные и динамические симуляции.
 
 ## Классы
 
 ### `TinyPerson`
 
-**Описание**: Класс `TinyPerson` представляет собой симулируемого персонажа в виртуальной среде TinyTroupe.
+**Описание**: Класс `TinyPerson` представляет собой виртуального агента, способного взаимодействовать с виртуальным миром TinyTroupe.
 
-**Наследует**: `JsonSerializableRegistry` - класс, обеспечивающий возможность сериализации и десериализации экземпляров класса в формат JSON.
+   **Принцип работы**:
 
-**Атрибуты**:
+   Класс управляет персональными данными агента (`_persona`), его ментальным состоянием (`_mental_state`), ментальными способностями (`_mental_faculties`), а также эпизодической и семантической памятью. Он также предоставляет методы для взаимодействия с окружающей средой, такие как восприятие стимулов, принятие решений и выполнение действий.
 
-- `MAX_ACTIONS_BEFORE_DONE` (int): Максимальное количество действий, которое агент может выполнить до того, как будет считаться, что ему нужны дополнительные стимулы.
-- `PP_TEXT_WIDTH` (int): Ширина текста для красивого вывода.
-- `serializable_attributes` (list): Список атрибутов, которые будут сериализованы.
-- `serializable_attributes_renaming` (dict): Словарь для переименования атрибутов при сериализации.
-- `all_agents` (dict): Словарь всех созданных агентов (имя -> агент).
-- `communication_style` (str): Стиль общения для всех агентов ("simplified" или "full").
-- `communication_display` (bool): Флаг, определяющий, отображать ли общение (True для интерактивных приложений).
-- `name` (str): Имя агента.
-- `episodic_memory` (EpisodicMemory): Эпизодическая память агента.
-- `semantic_memory` (SemanticMemory): Семантическая память агента.
-- `_persona` (dict): Словарь, описывающий личность агента (имя, возраст, национальность и т.д.).
-- `_mental_state` (dict): Словарь, описывающий ментальное состояние агента (время, местоположение, контекст, цели и т.д.).
-- `_mental_faculties` (list): Список ментальных способностей агента.
-- `current_messages` (list): Список текущих сообщений агента.
-- `environment` (Any): Текущее окружение, в котором действует агент.
-- `_actions_buffer` (list): Список действий, выполненных агентом, но еще не обработанных окружением.
-- `_accessible_agents` (list): Список агентов, с которыми данный агент может взаимодействовать.
-- `_displayed_communications_buffer` (list): Буфер отображаемых коммуникаций.
-- `_extended_agent_summary` (str): Расширенное описание агента, сгенерированное LLM.
-- `_prompt_template_path` (str): Путь к шаблону промпта агента.
-- `_init_system_message` (str): Исходное системное сообщение агента.
+   **Аттрибуты**:
 
-**Принцип работы**:
-Класс `TinyPerson` предоставляет собой основу для создания и управления симулируемыми персонажами, поведение которых определяется их личностью, памятью и ментальными способностями. Агенты могут взаимодействовать с окружением и другими агентами, воспринимать стимулы и выполнять действия.
+   - `name (str)`: Имя агента.
+   - `episodic_memory (EpisodicMemory)`: Эпизодическая память агента.
+   - `semantic_memory (SemanticMemory)`: Семантическая память агента.
+   - `_persona (dict)`: Словарь, содержащий персональные данные агента (имя, возраст, национальность, профессия и т.д.).
+   - `_mental_state (dict)`: Словарь, содержащий ментальное состояние агента (время, местоположение, контекст, цели, внимание, эмоции и т.д.).
+   - `_mental_faculties (list)`: Список ментальных способностей агента.
+   - `MAX_ACTIONS_BEFORE_DONE (int)`: Максимальное количество действий, которые агент может выполнить до того, как потребуется дополнительный стимул (равно 15).
+   - `PP_TEXT_WIDTH (int)`: Ширина текста для отображения информации об агенте (равна 100).
+   - `serializable_attributes (list)`: Список атрибутов, которые могут быть сериализованы.
+   - `serializable_attributes_renaming (dict)`: Словарь, содержащий переименования атрибутов при сериализации.
+   - `all_agents (dict)`: Словарь, содержащий всех созданных агентов (имя -> агент).
+   - `communication_style (str)`: Стиль коммуникации для всех агентов ("simplified" или "full").
+   - `communication_display (bool)`: Флаг, определяющий, нужно ли отображать коммуникации (True для интерактивных приложений).
 
-**Методы**:
-- `__init__(name: str = None, episodic_memory = None, semantic_memory = None, mental_faculties: list = None)`: Создает экземпляр класса `TinyPerson`.
-- `_post_init(**kwargs)`: Выполняет постобработку после инициализации объекта, устанавливает значения по умолчанию, регистрирует агента и сбрасывает промпт.
-- `generate_agent_system_prompt()`: Генерирует системный промпт для агента на основе шаблона и конфигурации личности.
-- `reset_prompt()`: Сбрасывает промпт агента, перегенерируя системное сообщение и добавляя недавние воспоминания.
-- `get(key)`: Возвращает значение ключа из конфигурации личности агента.
-- `import_fragment(path)`: Импортирует фрагмент конфигурации личности из JSON-файла.
-- `include_persona_definitions(additional_definitions: dict)`: Импортирует набор определений в конфигурацию личности агента.
-- `define(key, value, merge = True, overwrite_scalars = True)`: Определяет значение в конфигурации личности агента.
-- `define_relationships(relationships, replace = True)`: Определяет или обновляет отношения агента с другими агентами.
-- `clear_relationships()`: Очищает отношения агента.
-- `related_to(other_agent, description, symmetric_description = None)`: Определяет отношение между этим агентом и другим агентом.
-- `add_mental_faculties(mental_faculties)`: Добавляет список ментальных способностей агенту.
-- `add_mental_faculty(faculty)`: Добавляет ментальную способность агенту.
-- `act(until_done = True, n = None, return_actions = False, max_content_length)`: Выполняет действия в окружении и обновляет внутреннее когнитивное состояние.
-- `listen(speech, source: AgentOrWorld = None, max_content_length)`: Слушает другого агента и обновляет внутреннее когнитивное состояние.
-- `socialize(social_description: str, source: AgentOrWorld = None, max_content_length)`: Воспринимает социальный стимул и обновляет внутреннее когнитивное состояние.
-- `see(visual_description, source: AgentOrWorld = None, max_content_length)`: Воспринимает визуальный стимул и обновляет внутреннее когнитивное состояние.
-- `think(thought, max_content_length)`: Заставляет агента подумать о чем-то и обновляет внутреннее когнитивное состояние.
-- `internalize_goal(goal, max_content_length)`: Интернализует цель и обновляет внутреннее когнитивное состояние.
-- `_observe(stimulus, max_content_length)`: Наблюдает за стимулом и обновляет внутреннее когнитивное состояние.
-- `listen_and_act(speech, return_actions = False, max_content_length)`: Комбинирует методы `listen` и `act`.
-- `see_and_act(visual_description, return_actions = False, max_content_length)`: Комбинирует методы `see` и `act`.
-- `think_and_act(thought, return_actions = False, max_content_length)`: Комбинирует методы `think` и `act`.
-- `read_documents_from_folder(documents_path: str)`: Читает документы из директории и загружает их в семантическую память.
-- `read_document_from_file(file_path: str)`: Читает документ из файла и загружает его в семантическую память.
-- `read_documents_from_web(web_urls: list)`: Читает документы из веб-URL и загружает их в семантическую память.
-- `read_document_from_web(web_url: str)`: Читает документ из веб-URL и загружает его в семантическую память.
-- `move_to(location, context = [])`: Перемещается в новое местоположение и обновляет внутреннее когнитивное состояние.
-- `change_context(context: list)`: Изменяет контекст и обновляет внутреннее когнитивное состояние.
-- `make_agent_accessible(agent: Self, relation_description: str = "An agent I can currently interact with.")`: Делает агента доступным для взаимодействия.
-- `make_agent_inaccessible(agent: Self)`: Делает агента недоступным для взаимодействия.
-- `make_all_agents_inaccessible()`: Делает всех агентов недоступными для взаимодействия.
-- `_produce_message()`: Генерирует сообщение с использованием OpenAI API на основе текущего состояния агента.
-- `_update_cognitive_state(goals = None, context = None, attention = None, emotions = None)`: Обновляет когнитивное состояние агента.
-- `store_in_memory(value: Any)`: Сохраняет значение в эпизодической памяти.
-- `optimize_memory()`: Оптимизирует память агента (TODO).
-- `retrieve_memories(first_n: int, last_n: int, include_omission_info: bool = True, max_content_length: int = None)`: Извлекает воспоминания из эпизодической памяти.
-- `retrieve_recent_memories(max_content_length: int = None)`: Извлекает последние воспоминания из эпизодической памяти.
-- `retrieve_relevant_memories(relevance_target: str, top_k = 20)`: Извлекает релевантные воспоминания из семантической памяти.
-- `retrieve_relevant_memories_for_current_context(top_k = 7)`: Извлекает релевантные воспоминания для текущего контекста.
-- `_display_communication(role, content, kind, simplified = True, max_content_length)`: Отображает текущую коммуникацию и сохраняет ее в буфере.
-- `_push_and_display_latest_communication(communication)`: Добавляет последнюю коммуникацию в буфер агента.
-- `pop_and_display_latest_communications()`: Извлекает последние коммуникации и отображает их.
-- `clear_communications_buffer()`: Очищает буфер коммуникаций.
-- `pop_latest_actions() -> list`: Возвращает последние действия, выполненные этим агентом.
-- `pop_actions_and_get_contents_for(action_type: str, only_last_action: bool = True) -> list`: Возвращает содержимое действий заданного типа, выполненных этим агентом.
-- `__repr__()`: Возвращает строковое представление объекта `TinyPerson`.
-- `minibio(extended = True)`: Возвращает краткую биографию `TinyPerson`.
-- `pp_current_interactions(simplified = True, skip_system = True, max_content_length)`: Выводит текущие взаимодействия.
-- `pretty_current_interactions(simplified = True, skip_system = True, max_content_length, first_n = None, last_n = None, include_omission_info:bool=True)`: Возвращает строку с текущими взаимодействиями в удобном для чтения формате.
-- `_pretty_stimuli(role, content, simplified = True, max_content_length) -> list`: Форматирует стимулы для красивого вывода.
-- `_pretty_action(role, content, simplified = True, max_content_length) -> str`: Форматирует действие для красивого вывода.
-- `_pretty_timestamp(role, timestamp) -> str`: Форматирует временную метку для красивого вывода.
-- `iso_datetime() -> str`: Возвращает текущую дату и время окружения в формате ISO.
-- `save_specification(path, include_mental_faculties = True, include_memory = False)`: Сохраняет текущую конфигурацию в JSON-файл.
-- `load_specification(path_or_dict, suppress_mental_faculties = False, suppress_memory = False, auto_rename_agent = False, new_agent_name = None)`: Загружает спецификацию агента из JSON-файла.
-- `encode_complete_state() -> dict`: Кодирует полное состояние `TinyPerson`, включая текущие сообщения, доступных агентов и т. д.
-- `decode_complete_state(state: dict) -> Self`: Загружает полное состояние `TinyPerson`, включая текущие сообщения, и создает новый экземпляр `TinyPerson`.
-- `create_new_agent_from_current_spec(new_name: str) -> Self`: Создает нового агента из текущей спецификации агента.
-- `add_agent(agent)`: Добавляет агента в глобальный список агентов.
-- `has_agent(agent_name: str)`: Проверяет, зарегистрирован ли уже агент.
-- `set_simulation_for_free_agents(simulation)`: Устанавливает симуляцию, если она None.
-- `get_agent_by_name(name)`: Получает агента по имени.
-- `all_agents_names()`: Возвращает имена всех агентов.
-- `clear_agents()`: Очищает глобальный список агентов.
-
-## Функции
+   **Методы**:
+   - `__init__(name: str = None, episodic_memory = None, semantic_memory = None, mental_faculties: list = None)`: Конструктор класса.
+   - `_post_init(**kwargs)`: Выполняется после `__init__`, используется для дополнительной инициализации.
+   - `generate_agent_system_prompt()`: Генерирует системное сообщение для агента на основе шаблона.
+   - `reset_prompt()`: Сбрасывает текущий промпт агента.
+   - `get(key)`: Возвращает значение ключа из конфигурации агента.
+   - `import_fragment(path)`: Импортирует фрагмент конфигурации персонажа из JSON-файла.
+   - `include_persona_definitions(additional_definitions: dict)`: Импортирует набор определений в конфигурацию персонажа.
+   - `define(key, value, merge = True, overwrite_scalars = True)`: Определяет значение в конфигурации персонажа.
+   - `define_relationships(relationships, replace = True)`: Определяет или обновляет отношения персонажа.
+   - `clear_relationships()`: Очищает отношения персонажа.
+   - `related_to(other_agent, description, symmetric_description = None)`: Определяет отношение между этим агентом и другим агентом.
+   - `add_mental_faculties(mental_faculties)`: Добавляет список ментальных способностей агенту.
+   - `add_mental_faculty(faculty)`: Добавляет ментальную способность агенту.
+   - `act(until_done = True, n = None, return_actions = False, max_content_length = default["max_content_display_length"])`: Агент действует в окружающей среде и обновляет свое внутреннее когнитивное состояние.
+   - `listen(speech, source: AgentOrWorld = None, max_content_length = default["max_content_display_length"])`: Слушает другого агента и обновляет свое внутреннее когнитивное состояние.
+   - `socialize(social_description: str, source: AgentOrWorld = None, max_content_length = default["max_content_display_length"])`: Воспринимает социальный стимул через описание и обновляет свое внутреннее когнитивное состояние.
+   - `see(visual_description, source: AgentOrWorld = None, max_content_length = default["max_content_display_length"])`: Воспринимает визуальный стимул через описание и обновляет свое внутреннее когнитивное состояние.
+   - `think(thought, max_content_length = default["max_content_display_length"])`: Заставляет агента думать о чем-то и обновляет его внутреннее когнитивное состояние.
+   - `internalize_goal(goal, max_content_length = default["max_content_display_length"])`: Усваивает цель и обновляет свое внутреннее когнитивное состояние.
+   - `_observe(stimulus, max_content_length = default["max_content_display_length"])`: Наблюдает за стимулом и обновляет свое внутреннее когнитивное состояние.
+   - `listen_and_act(speech, return_actions = False, max_content_length = default["max_content_display_length"])`: Комбинированный метод `listen` и `act`.
+   - `see_and_act(visual_description, return_actions = False, max_content_length = default["max_content_display_length"])`: Комбинированный метод `see` и `act`.
+   - `think_and_act(thought, return_actions = False, max_content_length = default["max_content_display_length"])`: Комбинированный метод `think` и `act`.
+   - `read_documents_from_folder(documents_path: str)`: Читает документы из каталога и загружает их в семантическую память.
+   - `read_document_from_file(file_path: str)`: Читает документ из файла и загружает его в семантическую память.
+   - `read_documents_from_web(web_urls: list)`: Читает документы из веб-URL и загружает их в семантическую память.
+   - `read_document_from_web(web_url: str)`: Читает документ из веб-URL и загружает его в семантическую память.
+   - `move_to(location, context = [])`: Перемещается в новое местоположение и обновляет свое внутреннее когнитивное состояние.
+   - `change_context(context: list)`: Изменяет контекст и обновляет свое внутреннее когнитивное состояние.
+   - `make_agent_accessible(agent: Self, relation_description: str = "An agent I can currently interact with.")`: Делает агента доступным для этого агента.
+   - `make_agent_inaccessible(agent: Self)`: Делает агента недоступным для этого агента.
+   - `make_all_agents_inaccessible()`: Делает всех агентов недоступными для этого агента.
+   - `_produce_message()`: Генерирует сообщение на основе текущего состояния агента.
+   - `_update_cognitive_state(goals = None, context = None, attention = None, emotions = None)`: Обновляет когнитивное состояние TinyPerson.
+   - `store_in_memory(value: Any) -> list`: Сохраняет значение в памяти.
+   - `optimize_memory()`: Оптимизирует память.
+   - `retrieve_memories(first_n: int, last_n: int, include_omission_info: bool = True, max_content_length: int = None) -> list`: Извлекает воспоминания из памяти.
+   - `retrieve_recent_memories(max_content_length: int = None) -> list`: Извлекает последние воспоминания.
+   - `retrieve_relevant_memories(relevance_target: str, top_k = 20) -> list`: Извлекает релевантные воспоминания.
+   - `retrieve_relevant_memories_for_current_context(top_k = 7) -> list`: Извлекает релевантные воспоминания для текущего контекста.
+   - `_display_communication(role, content, kind, simplified = True, max_content_length = default["max_content_display_length"])`: Отображает текущую коммуникацию и сохраняет ее в буфере.
+   - `_push_and_display_latest_communication(communication)`: Добавляет последние коммуникации в буфер агента.
+   - `pop_and_display_latest_communications()`: Извлекает последние коммуникации и отображает их.
+   - `clear_communications_buffer()`: Очищает буфер коммуникаций.
+   - `pop_latest_actions() -> list`: Возвращает последние действия, выполненные этим агентом.
+   - `pop_actions_and_get_contents_for(action_type: str, only_last_action: bool = True) -> list`: Возвращает содержимое действий заданного типа, выполненных этим агентом.
+   - `__repr__()`: Возвращает строковое представление объекта `TinyPerson`.
+   - `minibio(extended = True)`: Возвращает мини-биографию `TinyPerson`.
+   - `pp_current_interactions(simplified = True, skip_system = True, max_content_length = default["max_content_display_length"])`: Выводит в удобочитаемом формате текущие взаимодействия.
+   - `pretty_current_interactions(simplified = True, skip_system = True, max_content_length = default["max_content_display_length"], first_n = None, last_n = None, include_omission_info: bool = True)`: Возвращает удобочитаемую строку с текущими сообщениями.
+   - `_pretty_stimuli(role, content, simplified = True, max_content_length = default["max_content_display_length"]) -> list`: Форматирует стимулы для отображения.
+   - `_pretty_action(role, content, simplified = True, max_content_length = default["max_content_display_length"]) -> str`: Форматирует действие для отображения.
+   - `_pretty_timestamp(role, timestamp) -> str`: Форматирует временную метку для отображения.
+   - `iso_datetime() -> str`: Возвращает текущую дату и время в формате ISO.
+   - `save_specification(path, include_mental_faculties = True, include_memory = False)`: Сохраняет текущую конфигурацию в JSON-файл.
+   - `load_specification(path_or_dict, suppress_mental_faculties = False, suppress_memory = False, auto_rename_agent = False, new_agent_name = None)`: Загружает спецификацию агента из JSON.
+   - `encode_complete_state() -> dict`: Кодирует полное состояние `TinyPerson`, включая текущие сообщения, доступных агентов и т. д.
+   - `decode_complete_state(state: dict) -> Self`: Загружает полное состояние `TinyPerson`.
+   - `create_new_agent_from_current_spec(new_name: str) -> Self`: Создает нового агента на основе текущей спецификации агента.
+   - `add_agent(agent)`: Добавляет агента в глобальный список агентов.
+   - `has_agent(agent_name: str)`: Проверяет, зарегистрирован ли уже агент.
+   - `set_simulation_for_free_agents(simulation)`: Устанавливает симуляцию, если она `None`.
+   - `get_agent_by_name(name)`: Получает агента по имени.
+   - `all_agents_names()`: Возвращает имена всех агентов.
+   - `clear_agents()`: Очищает глобальный список агентов.
 
 ### `__init__`
+   ```python
+    def __init__(self, name:str=None, 
+                 episodic_memory=None,
+                 semantic_memory=None,
+                 mental_faculties:list=None):
+        """
+        Creates a TinyPerson.
 
-**Назначение**: Инициализация экземпляра класса `TinyPerson`.
+        Args:
+            name (str): The name of the TinyPerson. Either this or spec_path must be specified.
+            episodic_memory (EpisodicMemory, optional): The memory implementation to use. Defaults to EpisodicMemory().
+            semantic_memory (SemanticMemory, optional): The memory implementation to use. Defaults to SemanticMemory().
+            mental_faculties (list, optional): A list of mental faculties to add to the agent. Defaults to None.
+        """
+    ```
 
-**Параметры**:
-- `name` (str, optional): Имя персонажа. Должно быть указано либо имя, либо путь к спецификации.
-- `episodic_memory` (EpisodicMemory, optional): Реализация эпизодической памяти для использования. По умолчанию `EpisodicMemory()`.
-- `semantic_memory` (SemanticMemory, optional): Реализация семантической памяти для использования. По умолчанию `SemanticMemory()`.
-- `mental_faculties` (list, optional): Список ментальных способностей, которые нужно добавить агенту. По умолчанию `None`.
+   **Назначение**: Инициализирует экземпляр класса `TinyPerson`.
 
-**Возвращает**:
-- `None`
+   **Параметры**:
+   - `name (str, optional)`: Имя персонажа. Если не указано, должно быть указано `spec_path`. По умолчанию `None`.
+   - `episodic_memory (EpisodicMemory, optional)`: Эпизодическая память для персонажа. По умолчанию `None`.
+   - `semantic_memory (SemanticMemory, optional)`: Семантическая память для персонажа. По умолчанию `None`.
+   - `mental_faculties (list, optional)`: Список ментальных способностей персонажа. По умолчанию `None`.
 
-**Вызывает исключения**:
-- `AssertionError`: Если не указано имя агента.
+   **Как работает функция**:
+   1. Проверяет, переданы ли объекты `episodic_memory` и `semantic_memory`, и присваивает их соответствующим атрибутам экземпляра класса.
+   2. Проверяет, передан ли список ментальных способностей `mental_faculties`, и присваивает его атрибуту `_mental_faculties` экземпляра класса.
+   3. Утверждает, что имя персонажа `name` не `None`.
+   4. Присваивает имя персонажа атрибуту `name` экземпляра класса.
 
-**Как работает функция**:
-
-1.  Проверяет, переданы ли объекты эпизодической и семантической памяти, и присваивает их соответствующим атрибутам агента.
-2.  Проверяет, передан ли список ментальных способностей, и присваивает его атрибуту `_mental_faculties` агента.
-3.  Проверяет, передано ли имя агента, и присваивает его атрибуту `name`.
-4.  Вызывается метод `_post_init` для выполнения дополнительной инициализации.
-
-```
-Проверка параметров инициализации
-|
-V
-Присваивание переданных значений атрибутам
-|
-V
-Вызов метода _post_init
-```
-
-**Примеры**:
-
-```python
-from tinytroupe.agent.memory import EpisodicMemory, SemanticMemory
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агента с именем и пользовательской памятью
-agent = TinyPerson(name='Alice', episodic_memory=EpisodicMemory(), semantic_memory=SemanticMemory())
-
-# Создание агента с именем и ментальными способностями
-agent = TinyPerson(name='Bob', mental_faculties=[])
-```
+   **Примеры**:
+   ```python
+   from tinytroupe.agent.memory import EpisodicMemory, SemanticMemory
+   from tinytroupe.agent.tiny_person import TinyPerson
+   
+   # Создание TinyPerson с именем
+   person1 = TinyPerson(name='Alice')
+   print(person1.name)  # Вывод: Alice
+   
+   # Создание TinyPerson с эпизодической и семантической памятью
+   episodic_memory = EpisodicMemory()
+   semantic_memory = SemanticMemory()
+   person2 = TinyPerson(name='Bob', episodic_memory=episodic_memory, semantic_memory=semantic_memory)
+   print(person2.episodic_memory)  # Вывод: <tinytroupe.agent.memory.EpisodicMemory object at ...>
+   print(person2.semantic_memory)  # Вывод: <tinytroupe.agent.memory.SemanticMemory object at ...>
+   
+   # Создание TinyPerson с ментальными способностями
+   mental_faculties = ['способность к обучению', 'способность к анализу']
+   person3 = TinyPerson(name='Charlie', mental_faculties=mental_faculties)
+   print(person3._mental_faculties)  # Вывод: ['способность к обучению', 'способность к анализу']
+   ```
 
 ### `_post_init`
 
-**Назначение**: Выполняет постобработку после инициализации объекта, устанавливает значения по умолчанию, регистрирует агента и сбрасывает промпт. Этот метод вызывается автоматически после `__init__` благодаря декоратору `@utils.post_init`.
-
-**Параметры**:
-- `kwargs` (dict, optional): Дополнительные аргументы, переданные при инициализации.
-
-**Возвращает**:
-- `None`
-
-**Вызывает исключения**:
-- `ValueError`: Если указано `new_agent_name`, но имя уже используется.
-
-**Как работает функция**:
-
-1.  Инициализирует значения по умолчанию для атрибутов, таких как `current_messages`, `environment`, `_actions_buffer`, `_accessible_agents` и `_displayed_communications_buffer`.
-2.  Создает экземпляры эпизодической и семантической памяти, если они не были переданы при инициализации.
-3.  Создает словарь `_persona` с атрибутами личности агента.
-4.  Создает словарь `_mental_state` с атрибутами ментального состояния агента.
-5.  Определяет пути к шаблонам промптов и системным сообщениям.
-6.  Выполняет переименование агента, если указано `new_agent_name` или `auto_rename`.
-7.  Регистрирует агента в глобальном списке агентов (`TinyPerson.all_agents`).
-8.  Сбрасывает промпт агента, вызывая метод `reset_prompt`.
-9.  Устанавливает `simulation_id`, если агент создается в контексте симуляции.
-
-```
-Инициализация атрибутов по умолчанию
-|
-V
-Создание словарей _persona и _mental_state
-|
-V
-Обработка переименования агента
-|
-V
-Регистрация агента
-|
-V
-Сброс промпта
-|
-V
-Установка simulation_id
-```
-
-**Примеры**:
-
 ```python
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агента
-agent = TinyPerson(name='Alice')
-
-# Создание агента с переименованием
-agent = TinyPerson(name='Bob', new_agent_name='Charlie')
-
-# Создание агента с автоматическим переименованием
-agent = TinyPerson(name='David', auto_rename=True)
+    def _post_init(self, **kwargs):
+        """
+        This will run after __init__, since the class has the @post_init decorator.
+        It is convenient to separate some of the initialization processes to make deserialize easier.
+        """
 ```
+   **Назначение**: Метод `_post_init` вызывается после `__init__` благодаря декоратору `@utils.post_init`. Этот метод предназначен для выполнения дополнительной инициализации объекта, особенно при десериализации.
+
+   **Параметры**:
+   - `**kwargs`: Произвольные ключевые аргументы, которые могут быть переданы при вызове метода.
+
+   **Как работает функция**:
+   1. **Инициализация значений по умолчанию**:
+      - Создает пустой список `self.current_messages` для хранения текущих сообщений агента.
+      - Устанавливает `self.environment` в `None`, указывая на отсутствие окружения у агента.
+      - Создает пустой список `self._actions_buffer` для хранения действий, ожидающих выполнения.
+      - Создает пустой список `self._accessible_agents` для хранения агентов, с которыми данный агент может взаимодействовать.
+      - Создает пустой список `self._displayed_communications_buffer` для хранения отображенных сообщений.
+
+   2. **Инициализация памяти, если она не была передана**:
+      - Проверяет, существует ли атрибут `episodic_memory`. Если нет, создает новый экземпляр `EpisodicMemory` и присваивает его `self.episodic_memory`.
+      - Проверяет, существует ли атрибут `semantic_memory`. Если нет, создает новый экземпляр `SemanticMemory` и присваивает его `self.semantic_memory`.
+      - Проверяет, существует ли атрибут `_mental_faculties`. Если нет, создает пустой список и присваивает его `self._mental_faculties`.
+
+   3. **Создание конфигурации персонажа**:
+      - Проверяет, существует ли атрибут `_persona`. Если нет, создает словарь с основными характеристиками персонажа (имя, возраст, национальность, место жительства, профессия, рутины, описание профессии, черты характера, интересы, навыки, отношения).
+
+   4. **Присвоение имени из `_persona`**:
+      - Проверяет, существует ли атрибут `name`. Если нет, присваивает ему значение из `self._persona["name"]`.
+
+   5. **Создание ментального состояния**:
+      - Проверяет, существует ли атрибут `_mental_state`. Если нет, создает словарь с основными аспектами ментального состояния (дата и время, местоположение, контекст, цели, внимание, эмоции, контекст памяти, доступные агенты).
+
+   6. **Инициализация расширенного описания агента**:
+      - Устанавливает `self._extended_agent_summary` в `None`.
+
+   7. **Настройка путей к шаблонам**:
+      - Устанавливает путь к шаблону промпта агента `self._prompt_template_path` и инициализирует `self._init_system_message` в `None`.
+
+   8. **Механизмы десериализации**:
+      - Если передан аргумент `new_agent_name`, вызывает метод `self._rename` для переименования агента.
+      - Если передан аргумент `auto_rename` и он равен `True`, пытается переименовать агента, добавляя уникальный идентификатор к имени, пока имя не станет уникальным.
+
+   9. **Регистрация агента**:
+      - Регистрирует агента в глобальном списке агентов с помощью `TinyPerson.add_agent(self)`.
+
+   10. **Сброс промпта**:
+       - Вызывает метод `self.reset_prompt()` для очистки и установки начального промпта агента.
+
+   11. **Установка идентификатора симуляции**:
+       - Проверяет, выполняется ли код в контексте симуляции. Если да, добавляет агента в текущую симуляцию. В противном случае устанавливает `self.simulation_id` в `None`.
+
+   **Примеры**:
+   ```python
+   from tinytroupe.agent.memory import EpisodicMemory, SemanticMemory
+   from tinytroupe.agent.tiny_person import TinyPerson
+   
+   # Пример создания TinyPerson с указанием имени
+   person = TinyPerson(name="Alice")
+   person._post_init()
+   print(person.name)
+   
+   # Пример создания TinyPerson с указанием имени и автоматическим переименованием
+   person = TinyPerson(name="Alice")
+   person._post_init(auto_rename=True)
+   print(person.name)
+   
+   # Пример создания TinyPerson с указанием имени и новым именем
+   person = TinyPerson(name="Alice")
+   person._post_init(new_agent_name="Bob")
+   print(person.name)
+   ```
 
 ### `generate_agent_system_prompt`
 
-**Назначение**: Генерирует системный промпт для агента, используя шаблон Mustache и данные о личности агента и ментальных способностях.
-
-**Параметры**:
-- `None`
-
-**Возвращает**:
-- `str`: Сгенерированный системный промпт.
-
-**Как работает функция**:
-
-1.  Читает шаблон промпта агента из файла `_prompt_template_path`.
-2.  Создает копию словаря `_persona` для использования в качестве переменных шаблона.
-3.  Подготавливает определения и ограничения действий на основе ментальных способностей агента.
-4.  Добавляет дополнительные переменные шаблона, если включены RAI (Responsible AI).
-5.  Визуализирует шаблон с использованием библиотеки `chevron` и возвращает сгенерированный промпт.
-
-```
-Чтение шаблона промпта
-|
-V
-Создание переменных шаблона на основе _persona
-|
-V
-Подготовка определений и ограничений действий
-|
-V
-Добавление переменных RAI (если включены)
-|
-V
-Визуализация шаблона и возврат промпта
-```
-
-**Примеры**:
-
 ```python
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агента
-agent = TinyPerson(name='Alice')
+    def generate_agent_system_prompt(self):
+        with open(self._prompt_template_path, "r") as f:
+            agent_prompt_template = f.read()
 
-# Генерация системного промпта
-prompt = agent.generate_agent_system_prompt()
-print(prompt)
+        # let\'s operate on top of a copy of the configuration, because we\'ll need to add more variables, etc.
+        template_variables = self._persona.copy()    
+        template_variables["persona"] = json.dumps(self._persona.copy(), indent=4)    
+
+        # Prepare additional action definitions and constraints
+        actions_definitions_prompt = ""
+        actions_constraints_prompt = ""
+        for faculty in self._mental_faculties:
+            actions_definitions_prompt += f"{faculty.actions_definitions_prompt()}\\n"
+            actions_constraints_prompt += f"{faculty.actions_constraints_prompt()}\\n"
+
+        # Make the additional prompt pieces available to the template. 
+        # Identation here is to align with the text structure in the template.
+        template_variables[\'actions_definitions_prompt\'] = textwrap.indent(actions_definitions_prompt.strip(), "  ")
+        template_variables[\'actions_constraints_prompt\'] = textwrap.indent(actions_constraints_prompt.strip(), "  ")
+
+        # RAI prompt components, if requested
+        template_variables = utils.add_rai_template_variables_if_enabled(template_variables)
+
+        return chevron.render(agent_prompt_template, template_variables)
 ```
+
+   **Назначение**: Генерирует системный промпт для агента, используя шаблон Mustache и данные из конфигурации персонажа и ментальных способностей.
+
+   **Как работает функция**:
+   1. Читает шаблон промпта агента из файла, указанного в `self._prompt_template_path`.
+   2. Создает копию словаря `self._persona` для работы с переменными шаблона.
+   3. Преобразует словарь `self._persona` в JSON-строку с отступами и добавляет её в `template_variables` под ключом `"persona"`.
+   4. Подготавливает строки для определений и ограничений действий, итерируясь по ментальным способностям агента (`self._mental_faculties`).
+   5. Добавляет определения и ограничения действий в `template_variables`, используя `textwrap.indent` для форматирования.
+   6. Добавляет компоненты RAI (Responsible AI), если они включены, с помощью `utils.add_rai_template_variables_if_enabled`.
+   7. Рендерит шаблон `agent_prompt_template` с использованием `template_variables` и возвращает результат.
+
+   **Параметры**:
+   - Нет параметров.
+
+   **Возвращает**:
+   - `str`: Сгенерированный системный промпт для агента.
+
+   **Примеры**:
+   ```python
+   from tinytroupe.agent.tiny_person import TinyPerson
+   import os
+   
+   # Создание экземпляра TinyPerson (необходимо указать имя)
+   agent = TinyPerson(name="TestAgent")
+   agent._prompt_template_path = os.path.join(
+       os.path.dirname(__file__), "prompts/tiny_person.mustache"
+   )
+   # Генерация системного промпта
+   system_prompt = agent.generate_agent_system_prompt()
+   print(system_prompt)
+   ```
 
 ### `reset_prompt`
 
-**Назначение**: Сбрасывает промпт агента, перегенерируя системное сообщение на основе текущей конфигурации и добавляя последние воспоминания.
-
-**Параметры**:
-- `None`
-
-**Возвращает**:
-- `None`
-
-**Как работает функция**:
-
-1.  Генерирует системный промпт, вызывая метод `generate_agent_system_prompt`.
-2.  Устанавливает атрибуту `_init_system_message` сгенерированный промпт.
-3.  Создает список сообщений `current_messages`, содержащий системное сообщение.
-4.  Добавляет последние воспоминания агента, полученные с помощью метода `retrieve_recent_memories`.
-5.  Добавляет финальное сообщение пользователя, побуждающее агента к действию.
-
-```
-Генерация системного промпта
-|
-V
-Установка _init_system_message
-|
-V
-Создание списка сообщений с системным промптом
-|
-V
-Добавление последних воспоминаний
-|
-V
-Добавление финального сообщения пользователя
-```
-
-**Примеры**:
-
 ```python
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агента
-agent = TinyPerson(name='Alice')
+    def reset_prompt(self):
 
-# Сброс промпта
-agent.reset_prompt()
+        # render the template with the current configuration
+        self._init_system_message = self.generate_agent_system_prompt()
+
+        # TODO actually, figure out another way to update agent state without "changing history"
+
+        # reset system message
+        self.current_messages = [
+            {"role": "system", "content": self._init_system_message}
+        ]
+
+        # sets up the actual interaction messages to use for prompting
+        self.current_messages += self.retrieve_recent_memories()
+
+        # add a final user message, which is neither stimuli or action, to instigate the agent to act properly
+        self.current_messages.append({"role": "user", 
+                                      "content": "Now you **must** generate a sequence of actions following your interaction directives, " +\\
+                                                 "and complying with **all** instructions and contraints related to the action you use." +\\\
+                                                 "DO NOT repeat the exact same action more than once in a row!" +\\\
+                                                 "DO NOT keep saying or doing very similar things, but instead try to adapt and make the interactions look natural." +\\\
+                                                 "These actions **MUST** be rendered following the JSON specification perfectly, including all required keys (even if their value is empty), **ALWAYS**."
+                                     })
 ```
+
+   **Назначение**: Сбрасывает и обновляет текущий промпт агента, генерируя новое системное сообщение на основе текущей конфигурации, добавляя последние воспоминания и финальное сообщение пользователя.
+
+   **Как работает функция**:
+   1. Генерирует новое системное сообщение, вызывая `self.generate_agent_system_prompt()`, и присваивает его `self._init_system_message`.
+   2. Сбрасывает список текущих сообщений `self.current_messages`, добавляя системное сообщение с ролью "system" и содержимым `self._init_system_message`.
+   3. Извлекает последние воспоминания агента, вызывая `self.retrieve_recent_memories()`, и добавляет их в `self.current_messages`.
+   4. Добавляет финальное сообщение пользователя с ролью "user", которое инструктирует агента генерировать последовательность действий, соблюдая все инструкции и ограничения.
+
+   **Параметры**:
+   - Нет параметров.
+
+   **Примеры**:
+   ```python
+   from tinytroupe.agent.memory import EpisodicMemory, SemanticMemory
+   from tinytroupe.agent.tiny_person import TinyPerson
+   
+   # Создание экземпляра TinyPerson (необходимо указать имя)
+   agent = TinyPerson(name="TestAgent")
+   
+   # Сброс промпта
+   agent.reset_prompt()
+   
+   # Вывод текущих сообщений агента
+   for message in agent.current_messages:
+       print(message)
+   ```
 
 ### `get`
 
-**Назначение**: Возвращает значение указанного ключа из конфигурации личности агента (`_persona`).
-
-**Параметры**:
-- `key` (str): Ключ, значение которого необходимо получить.
-
-**Возвращает**:
-- `Any`: Значение ключа или `None`, если ключ не найден.
-
-**Как работает функция**:
-
-1.  Выполняет поиск ключа в словаре `_persona`.
-2.  Возвращает значение, соответствующее ключу, или `None`, если ключ не найден.
-
-```
-Поиск ключа в _persona
-|
-V
-Возврат значения или None
-```
-
-**Примеры**:
-
 ```python
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агента
-agent = TinyPerson(name='Alice')
-agent.define('age', 30)
-
-# Получение значения ключа
-age = agent.get('age')
-print(age)  # Вывод: 30
-
-# Получение значения несуществующего ключа
-occupation = agent.get('occupation')
-print(occupation)  # Вывод: None
+    def get(self, key):
+        """
+        Returns the definition of a key in the TinyPerson\'s configuration.
+        """
+        return self._persona.get(key, None)
 ```
+
+   **Назначение**: Возвращает значение ключа из конфигурации `TinyPerson` (словаря `_persona`).
+
+   **Как работает функция**:
+   1. Использует метод `get` словаря `self._persona` для получения значения по указанному ключу.
+   2. Если ключ не найден, возвращает `None`.
+
+   **Параметры**:
+   - `key (str)`: Ключ, значение которого нужно получить.
+
+   **Возвращает**:
+   - Значение ключа из `self._persona` или `None`, если ключ не найден.
+
+   **Примеры**:
+   ```python
+   from tinytroupe.agent.memory import EpisodicMemory, SemanticMemory
+   from tinytroupe.agent.tiny_person import TinyPerson
+   
+   # Создание экземпляра TinyPerson (необходимо указать имя)
+   agent = TinyPerson(name="TestAgent")
+   
+   # Установка возраста в конфигурации персонажа
+   agent._persona["age"] = 30
+   
+   # Получение возраста из конфигурации
+   age = agent.get("age")
+   print(age)  # Вывод: 30
+   
+   # Получение значения несуществующего ключа
+   non_existent_key = agent.get("non_existent_key")
+   print(non_existent_key)  # Вывод: None
+   ```
 
 ### `import_fragment`
 
-**Назначение**: Импортирует фрагмент конфигурации личности из JSON-файла.
-
-**Параметры**:
-- `path` (str): Путь к JSON-файлу.
-
-**Возвращает**:
-- `None`
-
-**Вызывает исключения**:
-- `ValueError`: Если импортированный JSON-файл не является допустимым фрагментом конфигурации личности.
-
-**Как работает функция**:
-
-1.  Открывает JSON-файл по указанному пути.
-2.  Загружает содержимое файла в словарь `fragment`.
-3.  Проверяет, что тип фрагмента - `"Fragment"` и содержит ключ `"persona"`.
-4.  Вызывает метод `include_persona_definitions` для включения определений личности из фрагмента.
-5.  Сбрасывает промпт агента, вызывая метод `reset_prompt`.
-
-```
-Открытие и загрузка JSON-файла
-|
-V
-Проверка типа фрагмента и наличия ключа "persona"
-|
-V
-Включение определений личности
-|
-V
-Сброс промпта
-```
-
-**Примеры**:
-
 ```python
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агента
-agent = TinyPerson(name='Alice')
+    @transactional
+    def import_fragment(self, path):
+        """
+        Imports a fragment of a persona configuration from a JSON file.
+        """
+        with open(path, "r") as f:
+            fragment = json.load(f)
 
-# Импорт фрагмента конфигурации
-agent.import_fragment('path/to/fragment.json')
+        # check the type is "Fragment" and that there\'s also a "persona" key
+        if fragment.get("type", None) == "Fragment" and fragment.get("persona", None) is not None:
+            self.include_persona_definitions(fragment["persona"])\n        else:\n            raise ValueError("The imported JSON file must be a valid fragment of a persona configuration.")
+        
+        # must reset prompt after adding to configuration
+        self.reset_prompt()
 ```
+
+   **Назначение**: Импортирует фрагмент конфигурации персонажа из JSON-файла.
+
+   **Как работает функция**:
+   1. Открывает JSON-файл по указанному пути `path` для чтения.
+   2. Загружает содержимое JSON-файла в переменную `fragment`.
+   3. Проверяет, что тип фрагмента (`fragment.get("type", None)`) равен "Fragment" и что во фрагменте присутствует ключ "persona".
+   4. Если проверка пройдена, вызывает метод `self.include_persona_definitions(fragment["persona"])` для включения определений персонажа из фрагмента.
+   5. Если проверка не пройдена, выбрасывает исключение `ValueError` с сообщением о том, что импортированный JSON-файл должен быть допустимым фрагментом конфигурации персонажа.
+   6. Сбрасывает промпт после добавления конфигурации с помощью `self.reset_prompt()`.
+
+   **Параметры**:
+   - `path (str)`: Путь к JSON-файлу с фрагментом конфигурации.
+
+   **Вызывает исключения**:
+   - `ValueError`: Если импортированный JSON-файл не является допустимым фрагментом конфигурации персонажа.
+
+   **Примеры**:
+   ```python
+   from tinytroupe.agent.memory import EpisodicMemory, SemanticMemory
+   from tinytroupe.agent.tiny_person import TinyPerson
+   import json
+   import os
+   
+   # Создаем временный JSON-файл для примера
+   fragment_data = {
+       "type": "Fragment",
+       "persona": {
+           "age": 30,
+           "occupation": "Software Engineer"
+       }
+   }
+   
+   fragment_file_path = "temp_fragment.json"
+   with open(fragment_file_path, "w") as f:
+       json.dump(fragment_data, f)
+   
+   # Создаем экземпляр TinyPerson (необходимо указать имя)
+   agent = TinyPerson(name="TestAgent")
+   
+   # Импортируем фрагмент конфигурации
+   agent.import_fragment(fragment_file_path)
+   
+   # Проверяем, что данные из фрагмента были импортированы
+   print(agent._persona["age"])       # Вывод: 30
+   print(agent._persona["occupation"])  # Вывод: Software Engineer
+   
+   # Удаляем временный файл
+   os.remove(fragment_file_path)
+   ```
 
 ### `include_persona_definitions`
 
-**Назначение**: Импортирует набор определений в конфигурацию личности агента, объединяя их с текущей конфигурацией.
-
-**Параметры**:
-- `additional_definitions` (dict): Дополнительные определения для импорта.
-
-**Возвращает**:
-- `None`
-
-**Как работает функция**:
-
-1.  Объединяет переданные определения с текущей конфигурацией личности агента (`_persona`) с помощью метода `utils.merge_dicts`.
-2.  Сбрасывает промпт агента, вызывая метод `reset_prompt`.
-
-```
-Объединение определений с _persona
-|
-V
-Сброс промпта
-```
-
-**Примеры**:
-
 ```python
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агента
-agent = TinyPerson(name='Alice')
+    @transactional
+    def include_persona_definitions(self, additional_definitions: dict):
+        """
+        Imports a set of definitions into the TinyPerson. They will be merged with the current configuration.
+        It is also a convenient way to include multiple bundled definitions into the agent.
 
-# Импорт дополнительных определений
-additional_definitions = {'age': 30, 'occupation': 'Software Engineer'}
-agent.include_persona_definitions(additional_definitions)
+        Args:
+            additional_definitions (dict): The additional definitions to import.
+        """
+
+        self._persona = utils.merge_dicts(self._persona, additional_definitions)
+
+        # must reset prompt after adding to configuration
+        self.reset_prompt()
 ```
+
+   **Назначение**: Импортирует набор определений в `TinyPerson`, объединяя их с текущей конфигурацией.
+
+   **Как работает функция**:
+   1. Объединяет `additional_definitions` с текущим словарем `self._persona`, используя функцию `utils.merge_dicts`.
+   2. Сбрасывает промпт после добавления конфигурации с помощью `self.reset_prompt()`.
+
+   **Параметры**:
+   - `additional_definitions (dict)`: Дополнительные определения для импорта.
+
+   **Примеры**:
+   ```python
+   from tinytroupe.agent.memory import EpisodicMemory, SemanticMemory
+   from tinytroupe.agent.tiny_person import TinyPerson
+   
+   # Создаем экземпляр TinyPerson (необходимо указать имя)
+   agent = TinyPerson(name="TestAgent")
+   
+   # Изначальная конфигурация персонажа
+   agent._persona = {
+       "name": "TestAgent",
+       "age": 25
+   }
+   
+   # Дополнительные определения для импорта
+   additional_definitions = {
+       "occupation": "Software Engineer",
+       "interests": ["Programming", "Hiking"]
+   }
+   
+   # Импортируем дополнительные определения
+   agent.include_persona_definitions(additional_definitions)
+   
+   # Проверяем, что данные были импортированы и объединены
+   print(agent._persona["age"])         # Вывод: 25
+   print(agent._persona["occupation"])    # Вывод: Software Engineer
+   print(agent._persona["interests"])     # Вывод: ['Programming', 'Hiking']
+   ```
 
 ### `define`
 
-**Назначение**: Определяет значение для указанного ключа в конфигурации личности агента (`_persona`).
-
-**Параметры**:
-- `key` (str): Ключ для определения.
-- `value` (Any): Значение для определения.
-- `merge` (bool, optional): Определяет, следует ли объединять значения словарей или списков с существующими значениями. По умолчанию `True`.
-- `overwrite_scalars` (bool, optional): Определяет, следует ли перезаписывать скалярные значения. По умолчанию `True`.
-
-**Возвращает**:
-- `None`
-
-**Вызывает исключения**:
-- `ValueError`: Если ключ уже существует в конфигурации личности и `overwrite_scalars` установлено в `False`.
-
-**Как работает функция**:
-
-1.  Если значение является строкой, удаляет отступы с помощью `textwrap.dedent`.
-2.  Если значение является словарем или списком, объединяет его с существующим значением, если `merge` установлено в `True`, или заменяет существующее значение, если `merge` установлено в `False`.
-3.  Если значение является скаляром, перезаписывает существующее значение, если `overwrite_scalars` установлено в `True`, или вызывает исключение, если ключ уже существует и `overwrite_scalars` установлено в `False`.
-4.  Сбрасывает промпт агента, вызывая метод `reset_prompt`.
-
-```
-Удаление отступов, если значение - строка
-|
-V
-Обработка словарей и списков (объединение или замена)
-|
-V
-Обработка скаляров (перезапись или исключение)
-|
-V
-Сброс промпта
-```
-
-**Примеры**:
-
 ```python
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агента
-agent = TinyPerson(name='Alice')
+    @transactional
+    def define(self, key, value, merge=True, overwrite_scalars=True):
+        """
+        Define a value to the TinyPerson\'s persona configuration. Value can either be a scalar or a dictionary.\n        If the value is a dictionary or list, you can choose to merge it with the existing value or replace it. \n        If the value is a scalar, you can choose to overwrite the existing value or not.
 
-# Определение скалярного значения
-agent.define('age', 30)
-
-# Определение словаря с объединением
-agent.define('interests', ['reading', 'hiking'], merge=True)
-
-# Определение списка с заменой
-agent.define('skills', ['programming', 'writing'], merge=False)
+        Args:
+            key (str): The key to define.
+            value (Any): The value to define.
+            merge (bool, optional): Whether to merge the dict/list values with the existing values or replace them. Defaults to True.\n            overwrite_scalars (bool, optional): Whether to overwrite scalar values or not. Defaults to True.\n        """
 ```
 
-### `define_relationships`
+   **Назначение**: Определяет значение в конфигурации персонажа `TinyPerson`.
 
-**Назначение**: Определяет или обновляет отношения `TinyPerson`.
+   **Как работает функция**:
 
-**Параметры**:
-- `relationships` (list или dict): Отношения для добавления или замены.
-- `replace` (bool, optional): Определяет, следует ли заменять текущие отношения или просто добавлять к ним. По умолчанию `True`.
-
-**Возвращает**:
-- `None`
-
-**Вызывает исключения**:
-- `Exception`: Если переданы неверные аргументы.
-
-**Как работает функция**:
-
-1.  Если `replace` установлено в `True` и `relationships` является списком, заменяет текущие отношения переданными.
-2.  Если `replace` установлено в `False`, добавляет переданные отношения к текущим.
-3.  Если `relationships` является словарем, содержащим два элемента (Name и Description), добавляет его к текущим отношениям.
-4.  Сбрасывает промпт агента, вызывая метод `reset_prompt`.
-
-```
-Проверка параметров
-|
-V
-Замена или добавление отношений
-|
-V
-Сброс промпта
-```
-
-**Примеры**:
-
-```python
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агентов
-agent1 = TinyPerson(name='Alice')
-agent2 = TinyPerson(name='Bob')
-
-# Определение отношений с заменой
-relationships = [{'Name': 'Bob', 'Description': 'Friend'}]
-agent1.define_relationships(relationships, replace=True)
-
-# Определение отношений с добавлением
-relationship = {'Name': 'Charlie', 'Description': 'Colleague'}
-agent1.define_relationships(relationship, replace=False)
-```
-
-### `clear_relationships`
-
-**Назначение**: Очищает отношения `TinyPerson`.
-
-**Параметры**:
-- `None`
-
-**Возвращает**:
-- `TinyPerson`: Возвращает самого агента для облегчения цепочки вызовов.
-
-**Как работает функция**:
-
-1.  Устанавливает значение ключа `relationships` в `[]`.
-2.  Возвращает агента.
-
-```
-Очистка отношений
-|
-V
-Возврат агента
-```
-
-**Примеры**:
-
-```python
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агента
-agent = TinyPerson(name='Alice')
-
-# Очистка отношений
-agent.clear_relationships()
-```
-
-### `related_to`
-
-**Назначение**: Определяет отношение между этим агентом и другим агентом.
-
-**Параметры**:
-- `other_agent` (TinyPerson): Другой агент.
-- `description` (str): Описание отношения.
-- `symmetric_description` (str, optional): Симметричное описание отношения. Если указано, отношение определяется для обоих агентов. По умолчанию `None`.
-
-**Возвращает**:
-- `TinyPerson`: Возвращает самого агента для облегчения цепочки вызовов.
-
-**Как работает функция**:
-
-1.  Определяет отношение между этим агентом и другим агентом, вызывая метод `define_relationships`.
-2.  Если указано симметричное описание, определяет отношение между другим агентом и этим агентом, вызывая метод `define_relationships` для другого агента.
-3.  Возвращает агента.
-
-```
-Определение отношения
-|
-V
-Определение симметричного отношения (если указано)
-|
-V
-Возврат агента
-```
-
-**Примеры**:
-
-```python
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агентов
-agent1 = TinyPerson(name='Alice')
-agent2 = TinyPerson(name='Bob')
-
-# Определение отношения
-agent1.related_to(agent2, 'Friend')
-
-# Определение симметричного отношения
-agent1.related_to(agent2, 'Friend', symmetric_description='Friend')
-```
-
-### `add_mental_faculties`
-
-**Назначение**: Добавляет список ментальных способностей агенту.
-
-**Параметры**:
-- `mental_faculties` (list): Список ментальных способностей для добавления.
-
-**Возвращает**:
-- `TinyPerson`: Возвращает самого агента для облегчения цепочки вызовов.
-
-**Как работает функция**:
-
-1.  Проходит по списку ментальных способностей и добавляет каждую способность агенту, вызывая метод `add_mental_faculty`.
-2.  Возвращает агента.
-
-```
-Перебор списка способностей
-|
-V
-Добавление каждой способности
-|
-V
-Возврат агента
-```
-
-**Примеры**:
-
-```python
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агента
-agent = TinyPerson(name='Alice')
-
-# Добавление ментальных способностей
-mental_faculties = [] # Добавь сюда необходимые способности
-agent.add_mental_faculties(mental_faculties)
-```
-
-### `add_mental_faculty`
-
-**Назначение**: Добавляет ментальную способность агенту.
-
-**Параметры**:
-- `faculty` (Any): Ментальная способность для добавления.
-
-**Возвращает**:
-- `TinyPerson`: Возвращает самого агента для облегчения цепочки вызовов.
-
-**Вызывает исключения**:
-- `Exception`: Если ментальная способность уже присутствует у агента.
-
-**Как работает функция**:
-
-1.  Проверяет, присутствует ли уже ментальная способность у агента.
-2.  Если способность отсутствует, добавляет ее в список `_mental_faculties`.
-3.  Если способность уже присутствует, вызывает исключение.
-4.  Возвращает агента.
-
-```
-Проверка наличия способности
-|
-V
-Добавление способности или вызов исключения
-|
-V
-Возврат агента
-```
-
-**Примеры**:
-
-```python
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агента
-agent = TinyPerson(name='Alice')
-
-# Добавление ментальной способности
-faculty = None # добавь ментальную способность
-agent.add_mental_faculty(faculty)
-```
-
-### `act`
-
-**Назначение**: Выполняет действие в среде и обновляет внутреннее когнитивное состояние. Действует либо до тех пор, пока агент не будет выполнен и не потребует дополнительных стимулов, либо действует фиксированное количество раз, но не оба сразу.
-
-**Параметры**:
-- `until_done` (bool, optional): Продолжать действовать, пока агент не будет выполнен и не потребует дополнительных стимулов. По умолчанию `True`.
-- `n` (int, optional): Количество действий для выполнения. По умолчанию `None`.
-- `return_actions` (bool, optional): Возвращать ли действия. По умолчанию `False`.
-- `max_content_length` (int, optional): Максимальная длина содержимого для отображения.
-
-**Возвращает**:
-- `list`, если `return_actions` имеет значение `True`.
-- `None`, если `return_actions` имеет значение `False`.
-
-**Вызывает исключения**:
-- `AssertionError`: если `until_done` и `n` не являются None.
-- `AssertionError`: если `n` не меньше `TinyPerson.MAX_ACTIONS_BEFORE_DONE`.
-- `KeyError`: если возвращенный JSON отсутствует важные ключи.
-- `TypeError`: если содержимое содержит `EpisodicMemory.MEMORY_BLOCK_OMISSION_INFO`.
-
-**Как работает функция**:
-
-1.  Проверяет, что либо `until_done`, либо `n` установлены, но не оба сразу.
-2.  Определяет вспомогательную функцию `aux_pre_act`, которая запускается перед каждым действием.
-3.  Определяет вспомогательную функцию `aux_act_once`, которая выполняет одно действие. Если модель возвращает JSON, в котором отсутствуют важные ключи, функция повторяет попытку до 5 раз.
-4.  Если `n` установлено, запускает цикл, который выполняет `aux_pre_act`, а затем `aux_act_once` `n` раз.
-5.  Если `until_done` установлено, запускает цикл, который выполняет `aux_pre_act`, а затем `aux_act_once` до тех пор, пока агент не будет выполнен или не достигнет `TinyPerson.MAX_ACTIONS_BEFORE_DONE`.
-6.  Если `return_actions` установлено, возвращает список выполненных действий.
-
-```
-Проверка входных параметров
-|
-V
-Определение локальных функций aux_pre_act и aux_act_once
-|
-V
-Выполнение N действий (если n != None)
-|
-V
-Выполнение действий, пока не будет достигнуто состояние DONE
-```
-
-**Примеры**:
-
-```python
-from tinytroupe.agent.tiny_person import TinyPerson
-# Создание агента
-agent = TinyPerson(name='Alice')
-
-# Выполнение действий, пока не будет достигнуто состояние DONE
-agent.act()
-
-# Выполнение 5 действий
-actions = agent.act(n=5, return_actions=True)
-```
-
-### `listen`
-
-**Назначение**: Слушает другого агента (искусственного или человека) и обновляет свое внутреннее когнитивное состояние.
-
-**Параметры**:
-- `speech` (str): Речь, которую нужно прослушать.
-- `source` (AgentOrWorld, optional): Источник речи. По умолчанию `None`.
-- `max_content_length`: Максимальная длина содержимого для отображения.
-
-**Возвращает**:
-- `Self`: Возвращает себя для облегчения цепочки вызовов.
-
-**Как работает функция**:
-
-1.  Вызывает метод `_observe` с аргументом `stimulus`. Стимул - это словарь, содержащий тип стимула (CONVERSATION), содержимое речи и источник речи.
-2.  Возвра
+   1. Делает отступ для значения, если это строка.
+   2. Если значение является словарем или списком:
+      - Если `merge` равно `True`, объединяет значение с

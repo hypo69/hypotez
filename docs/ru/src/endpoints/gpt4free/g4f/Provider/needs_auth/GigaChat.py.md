@@ -1,136 +1,167 @@
-# Модуль GigaChat
+# Модуль для работы с GigaChat API, требующим аутентификацию
+=============================================================
+
+Модуль содержит класс `GigaChat`, который используется для взаимодействия с API GigaChat от Сбербанка.
+Этот класс поддерживает потоковую передачу данных и требует аутентификации через API-ключ.
 
 ## Обзор
 
-Модуль `GigaChat.py` предоставляет асинхронный интерфейс для взаимодействия с API GigaChat от Сбербанка. Он обеспечивает поддержку стриминга, истории сообщений и системных сообщений. Модуль требует аутентификации через API-ключ и поддерживает несколько моделей GigaChat.
+Модуль предназначен для асинхронного взаимодействия с API GigaChat. Он обеспечивает получение токена доступа, необходимого для аутентификации, и отправку запросов к API для генерации текста.
+Модуль также поддерживает потоковую передачу данных, что позволяет получать результаты генерации текста по частям.
 
-## Подробней
+## Подробнее
 
-Модуль предназначен для интеграции в проекты, требующие взаимодействия с GigaChat API. Он автоматически обновляет токен доступа и поддерживает работу через прокси-серверы. Для безопасного соединения используется SSL-контекст с доверенным сертификатом.
+Этот модуль является частью проекта `hypotez` и предназначен для интеграции с сервисом GigaChat.
+Он использует асинхронные запросы для эффективного взаимодействия с API и поддерживает различные модели GigaChat.
+Расположение файла в проекте указывает на то, что он является одним из поставщиков (Provider) API, требующих аутентификацию (needs_auth).
 
 ## Классы
 
 ### `GigaChat`
 
-**Описание**: Класс `GigaChat` является асинхронным провайдером для работы с API GigaChat. Он наследует функциональность от `AsyncGeneratorProvider` и `ProviderModelMixin`.
+**Описание**: Класс для взаимодействия с API GigaChat.
 
 **Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию ответов.
+- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
 - `ProviderModelMixin`: Предоставляет методы для работы с моделями.
 
-**Аттрибуты**:
-- `url` (str): URL API GigaChat (`"https://developers.sber.ru/gigachat"`).
-- `working` (bool): Указывает, что провайдер в рабочем состоянии (`True`).
-- `supports_message_history` (bool): Поддержка истории сообщений (`True`).
-- `supports_system_message` (bool): Поддержка системных сообщений (`True`).
-- `supports_stream` (bool): Поддержка потоковой передачи данных (`True`).
-- `needs_auth` (bool): Требуется аутентификация (`True`).
-- `default_model` (str): Модель по умолчанию (`"GigaChat:latest"`).
-- `models` (list): Список поддерживаемых моделей (`["GigaChat:latest", "GigaChat-Plus", "GigaChat-Pro"]`).
+**Атрибуты**:
+- `url` (str): URL API GigaChat (`https://developers.sber.ru/gigachat`).
+- `working` (bool): Указывает, работает ли провайдер (всегда `True`).
+- `supports_message_history` (bool): Указывает, поддерживает ли провайдер историю сообщений (всегда `True`).
+- `supports_system_message` (bool): Указывает, поддерживает ли провайдер системные сообщения (всегда `True`).
+- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу данных (всегда `True`).
+- `needs_auth` (bool): Указывает, требуется ли аутентификация (всегда `True`).
+- `default_model` (str): Модель по умолчанию (`GigaChat:latest`).
+- `models` (list[str]): Список поддерживаемых моделей (`[default_model, "GigaChat-Plus", "GigaChat-Pro"]`).
 
 **Методы**:
-- `create_async_generator()`: Асинхронный генератор для взаимодействия с API GigaChat.
+- `create_async_generator`: Асинхронный генератор для получения данных от API GigaChat.
 
 ## Функции
 
 ### `create_async_generator`
 
 ```python
-    @classmethod
-    async def create_async_generator(
-            cls,
-            model: str,
-            messages: Messages,
-            stream: bool = True,
-            proxy: str = None,
-            api_key: str = None,
-            connector: BaseConnector = None,
-            scope: str = "GIGACHAT_API_PERS",
-            update_interval: float = 0,
-            **kwargs
-    ) -> AsyncResult:
-        """Создает асинхронный генератор для взаимодействия с API GigaChat.
+@classmethod
+async def create_async_generator(
+    cls,
+    model: str,
+    messages: Messages,
+    stream: bool = True,
+    proxy: str = None,
+    api_key: str = None,
+    connector: BaseConnector = None,
+    scope: str = "GIGACHAT_API_PERS",
+    update_interval: float = 0,
+    **kwargs
+) -> AsyncResult:
+    """Асинхронно создает генератор для взаимодействия с API GigaChat.
 
-        Args:
-            model (str): Модель для использования.
-            messages (Messages): Список сообщений для отправки.
-            stream (bool): Флаг потоковой передачи данных. По умолчанию `True`.
-            proxy (str): URL прокси-сервера. По умолчанию `None`.
-            api_key (str): API-ключ для аутентификации. По умолчанию `None`.
-            connector (BaseConnector): Асинхронный коннектор. По умолчанию `None`.
-            scope (str): Область действия для токена доступа. По умолчанию `"GIGACHAT_API_PERS"`.
-            update_interval (float): Интервал обновления. По умолчанию `0`.
-            **kwargs: Дополнительные аргументы для API GigaChat.
+    Args:
+        cls (Type[GigaChat]): Ссылка на класс `GigaChat`.
+        model (str): Используемая модель GigaChat.
+        messages (Messages): Список сообщений для отправки в API.
+        stream (bool, optional): Флаг, указывающий на использование потоковой передачи данных. По умолчанию `True`.
+        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
+        api_key (str, optional): API-ключ для аутентификации. По умолчанию `None`.
+        connector (BaseConnector, optional): TCP коннектор для клиентской сессии. По умолчанию `None`.
+        scope (str, optional): Область действия для получения токена доступа. По умолчанию `"GIGACHAT_API_PERS"`.
+        update_interval (float, optional): Интервал обновления. По умолчанию `0`.
+        **kwargs: Дополнительные параметры для передачи в API.
 
-        Returns:
-            AsyncResult: Асинхронный генератор, возвращающий ответы от API GigaChat.
+    Returns:
+        AsyncResult: Асинхронный генератор, возвращающий данные от API GigaChat.
 
-        Raises:
-            MissingAuthError: Если отсутствует API-ключ.
+    Raises:
+        MissingAuthError: Если не предоставлен API-ключ.
 
-        """
+    Внутренние функции:
+        Нет
+    """
+    ...
 ```
 
 **Назначение**: Создает асинхронный генератор для взаимодействия с API GigaChat.
 
 **Параметры**:
 - `cls`: Ссылка на класс `GigaChat`.
-- `model` (str): Модель для использования.
-- `messages` (Messages): Список сообщений для отправки.
-- `stream` (bool): Флаг потоковой передачи данных. По умолчанию `True`.
-- `proxy` (str): URL прокси-сервера. По умолчанию `None`.
-- `api_key` (str): API-ключ для аутентификации. По умолчанию `None`.
-- `connector` (BaseConnector): Асинхронный коннектор. По умолчанию `None`.
-- `scope` (str): Область действия для токена доступа. По умолчанию `"GIGACHAT_API_PERS"`.
-- `update_interval` (float): Интервал обновления. По умолчанию `0`.
-- `**kwargs`: Дополнительные аргументы для API GigaChat.
+- `model` (str): Используемая модель GigaChat.
+- `messages` (Messages): Список сообщений для отправки в API.
+- `stream` (bool): Флаг, указывающий на использование потоковой передачи данных.
+- `proxy` (str, optional): URL прокси-сервера. По умолчанию `None`.
+- `api_key` (str, optional): API-ключ для аутентификации. По умолчанию `None`.
+- `connector (BaseConnector, optional)`:  Объект `BaseConnector` для управления сетевым подключением. По умолчанию `None`.
+- `scope` (str, optional): Область действия для получения токена доступа. По умолчанию `"GIGACHAT_API_PERS"`.
+- `update_interval` (float, optional): Интервал обновления. По умолчанию `0`.
+- `**kwargs`: Дополнительные параметры для передачи в API.
 
 **Возвращает**:
-- `AsyncResult`: Асинхронный генератор, возвращающий ответы от API GigaChat.
+- `AsyncResult`: Асинхронный генератор, возвращающий данные от API GigaChat.
 
 **Вызывает исключения**:
-- `MissingAuthError`: Если отсутствует API-ключ.
+- `MissingAuthError`: Если не предоставлен API-ключ.
 
 **Как работает функция**:
 
-1. **Проверка наличия API-ключа**: Проверяет, передан ли `api_key`. Если ключ отсутствует, вызывает исключение `MissingAuthError`.
-2. **Создание файла сертификата**: Создает файл `russian_trusted_root_ca.crt` в каталоге cookies, если он еще не существует.
-3. **Создание SSL-контекста**: Если `has_ssl` и `connector` равны `None`, создает SSL-контекст с использованием сертификата.
-4. **Создание асинхронной сессии**: Создает асинхронную сессию с использованием `ClientSession` и переданного коннектора (или созданного на основе прокси).
-5. **Обновление токена доступа**: Проверяет, истек ли срок действия текущего токена доступа. Если токен истек или скоро истечет, отправляет запрос на обновление токена.
-6. **Отправка запроса в API GigaChat**: Отправляет POST-запрос к API GigaChat с использованием обновленного токена доступа.
-7. **Обработка потоковых данных**: Если `stream` равен `True`, обрабатывает потоковые данные, возвращаемые API. Если `stream` равен `False`, возвращает полный ответ после завершения запроса.
+1.  **Проверка наличия API-ключа**: Проверяет, предоставлен ли API-ключ. Если нет, вызывает исключение `MissingAuthError`.
+2.  **Создание файла сертификата**: Создает файл сертификата `russian_trusted_root_ca.crt` в директории cookies, если он еще не существует.
+    Этот сертификат необходим для установки доверенного соединения с серверами Сбербанка.
+3.  **Создание SSL-контекста**: Если доступен модуль `ssl` и не передан коннектор, создает SSL-контекст с использованием сертификата.
+    Это необходимо для обеспечения безопасного соединения.
+4.  **Получение токена доступа**: Если токен доступа устарел (время истечения меньше 60 секунд), отправляет запрос на получение нового токена.
+    Запрос отправляется на URL `https://ngw.devices.sberbank.ru:9443/api/v2/oauth` с использованием API-ключа.
+5.  **Отправка запроса к API GigaChat**: Отправляет запрос к API GigaChat на URL `https://gigachat.devices.sberbank.ru/api/v1/chat/completions` с использованием полученного токена доступа.
+    В теле запроса передаются параметры модели, сообщения, флаг потоковой передачи данных и другие параметры.
+6.  **Обработка потоковой передачи данных**: Если включена потоковая передача данных, функция читает данные из ответа построчно.
+    Каждая строка, начинающаяся с `data:`, содержит JSON-объект с данными.
+    Функция извлекает содержимое сообщения из JSON-объекта и передает его в генератор.
+    Если строка содержит `[DONE]`, функция завершает работу.
+7.  **Обработка не потоковой передачи данных**: Если потоковая передача данных выключена, функция читает весь ответ целиком и возвращает содержимое сообщения.
 
-**Внутренние функции**: Нет
+**ASCII flowchart**:
 
 ```
-    A: Проверка API-ключа
-    |
-    B: Создание SSL-контекста
-    |
-    C: Создание асинхронной сессии
-    |
-    D: Проверка срока действия токена
-    |
-    E: Обновление токена доступа
-    |
-    F: Отправка запроса в API GigaChat
-    |
-    G: Обработка потоковых данных
+    Проверка API-ключа
+    ↓
+    Создание/проверка сертификата
+    ↓
+    Проверка SSL и создание коннектора
+    ↓
+    Проверка актуальности токена
+    │
+    └─> [Токен устарел] -> Запрос нового токена
+    ↓
+    Отправка запроса к API GigaChat
+    ↓
+    Обработка ответа (потоковый/не потоковый)
+    │
+    └─> [Потоковый] -> Чтение данных построчно и извлечение содержимого
+    │
+    └─> [Не потоковый] -> Чтение всего ответа
+    ↓
+    Возврат содержимого сообщения
 ```
 
 **Примеры**:
 
+1.  Пример вызова с минимальным набором параметров:
+
 ```python
-# Пример использования create_async_generator
-api_key = "your_api_key"
-messages = [{"role": "user", "content": "Hello, GigaChat!"}]
-model = "GigaChat:latest"
+async for message in GigaChat.create_async_generator(model="GigaChat:latest", messages=[{"role": "user", "content": "Hello!"}], api_key="YOUR_API_KEY"):
+    print(message)
+```
 
-async def main():
-    generator = await GigaChat.create_async_generator(model=model, messages=messages, api_key=api_key)
-    async for message in generator:
-        print(message, end="")
+2.  Пример вызова с использованием прокси-сервера:
 
-# Запуск примера
-# asyncio.run(main())
+```python
+async for message in GigaChat.create_async_generator(model="GigaChat:latest", messages=[{"role": "user", "content": "Hello!"}], api_key="YOUR_API_KEY", proxy="http://your_proxy:8080"):
+    print(message)
+```
+
+3.  Пример вызова с указанием области действия (scope):
+
+```python
+async for message in GigaChat.create_async_generator(model="GigaChat:latest", messages=[{"role": "user", "content": "Hello!"}], api_key="YOUR_API_KEY", scope="GIGACHAT_API_PERS"):
+    print(message)
+```

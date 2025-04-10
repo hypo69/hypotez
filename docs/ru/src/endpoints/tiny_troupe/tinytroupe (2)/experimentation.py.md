@@ -1,39 +1,41 @@
-# Модуль для проведения экспериментов A/B-тестирования и анализа TinyTroupe
+# Модуль experimentation.py
+
 ## Обзор
 
-Модуль `experimentation.py` предоставляет классы для проведения A/B-тестирования, рандомизации и дерандомизации выбора пользователей, а также для управления вмешательствами (interventions) в среде TinyTroupe.
+Модуль `experimentation.py` предназначен для проведения A/B-тестирований и экспериментов в рамках проекта `hypotez`. Он содержит классы для рандомизации выбора между двумя вариантами и применения различных интервенций (воздействий) к агентам и окружению.
 
-## Подробнее
+## Подробней
 
-Модуль содержит классы `ABRandomizer` и `Intervention`.
-Класс `ABRandomizer` используется для проведения A/B-тестирования, обеспечивая случайное распределение пользователей по группам и последующую возможность дерандомизации для анализа результатов.
+Модуль предоставляет класс `ABRandomizer` для случайного выбора между двумя опциями и последующей дерандомизации. Это полезно для проведения A/B-тестов, где необходимо случайным образом назначать пользователям один из двух вариантов, а затем анализировать результаты, учитывая сделанный выбор.
 
-Класс `Intervention` предназначен для моделирования вмешательств в среде TinyTroupe, позволяя изменять поведение агентов или окружающей среды на основе заданных условий.
+Также в модуле находится класс `Intervention`, который предназначен для применения различных воздействий к агентам и окружению. Этот класс пока находится в разработке, но он позволяет задавать предусловия и эффекты интервенций, что делает его полезным для моделирования различных сценариев и оценки их влияния на систему.
 
 ## Классы
 
 ### `ABRandomizer`
 
-**Описание**: Утилитарный класс для рандомизации между двумя опциями и последующей дерандомизации.
+**Описание**: Класс `ABRandomizer` предоставляет функциональность для рандомизации между двумя опциями и последующей дерандомизации. Он используется для проведения A/B-тестов, где необходимо случайным образом назначать пользователям один из двух вариантов, а затем анализировать результаты, учитывая сделанный выбор.
 
-**Принцип работы**: Класс `ABRandomizer` принимает имена двух опций (control и treatment), их "слепые" имена (A и B), используемые для представления пользователю, список имен, которые не нужно рандомизировать, и зерно случайности. Он предоставляет методы для случайного переключения между опциями, сохранения информации о переключении и последующей дерандомизации для анализа.
+**Принцип работы**:
 
-**Аттрибуты**:
+Класс `ABRandomizer` инициализируется с указанием реальных и "слепых" имен опций, а также списка имен, которые не нужно рандомизировать. Метод `randomize` случайным образом выбирает между двумя опциями и сохраняет информацию о сделанном выборе. Метод `derandomize` позволяет восстановить исходный порядок опций на основе сохраненной информации. Метод `derandomize_name` позволяет декодировать выбор пользователя, возвращая реальное имя опции на основе "слепого" имени.
 
-- `choices` (dict): Словарь, хранящий информацию о том, были ли переключены опции для каждого элемента.
-- `real_name_1` (str): Название первой опции (control).
-- `real_name_2` (str): Название второй опции (treatment).
-- `blind_name_a` (str): Название первой опции, видимое пользователю (A).
-- `blind_name_b` (str): Название второй опции, видимое пользователю (B).
-- `passtrough_name` (list): Список имен, которые не нужно рандомизировать.
-- `random_seed` (int): Зерно случайности для обеспечения воспроизводимости.
+**Атрибуты**:
+
+-   `choices` (dict): Словарь, в котором хранятся результаты рандомизации для каждого элемента. Ключом является индекс элемента, значением - кортеж из двух чисел, указывающих, была ли произведена перестановка опций.
+-   `real_name_1` (str): Реальное имя первой опции.
+-   `real_name_2` (str): Реальное имя второй опции.
+-   `blind_name_a` (str): "Слепое" имя первой опции (используется для представления опции пользователю).
+-   `blind_name_b` (str): "Слепое" имя второй опции (используется для представления опции пользователю).
+-   `passtrough_name` (list): Список имен, которые не нужно рандомизировать.
+-   `random_seed` (int): Зерно для генератора случайных чисел.
 
 **Методы**:
 
-- `__init__`: Инициализирует экземпляр класса `ABRandomizer`.
-- `randomize`: Случайно переключает местами две опции и сохраняет информацию о переключении.
-- `derandomize`: Возвращает опции в исходном порядке на основе сохраненной информации о переключении.
-- `derandomize_name`: Декодирует выбор пользователя и возвращает соответствующее реальное имя опции.
+-   `__init__(self, real_name_1="control", real_name_2="treatment", blind_name_a="A", blind_name_b="B", passtrough_name=[], random_seed=42)`: Инициализирует объект `ABRandomizer` с указанными параметрами.
+-   `randomize(self, i, a, b)`: Случайно меняет местами `a` и `b` и возвращает их. Сохраняет информацию о перестановке для последующей дерандомизации.
+-   `derandomize(self, i, a, b)`: Возвращает `a` и `b` в исходном порядке на основе сохраненной информации о рандомизации.
+-   `derandomize_name(self, i, blind_name)`: Декодирует выбор пользователя, возвращая реальное имя опции на основе "слепого" имени.
 
 #### `__init__`
 
@@ -42,366 +44,255 @@ def __init__(self, real_name_1="control", real_name_2="treatment",
                        blind_name_a="A", blind_name_b="B",
                        passtrough_name=[],
                        random_seed=42):
-    """
-    An utility class to randomize between two options, and de-randomize later.
-    The choices are stored in a dictionary, with the index of the item as the key.
-    The real names are the names of the options as they are in the data, and the blind names
-    are the names of the options as they are presented to the user. Finally, the passtrough names
-    are names that are not randomized, but are always returned as-is.
-
-    Args:
-        real_name_1 (str): the name of the first option
-        real_name_2 (str): the name of the second option
-        blind_name_a (str): the name of the first option as seen by the user
-        blind_name_b (str): the name of the second option as seen by the user
-        passtrough_name (list): a list of names that should not be randomized and are always
-                                returned as-is.
-        random_seed (int): the random seed to use
-    """
-    ...
 ```
 
-**Назначение**: Инициализирует объект класса `ABRandomizer` с заданными параметрами.
+**Назначение**: Инициализирует экземпляр класса `ABRandomizer`.
 
 **Параметры**:
 
-- `real_name_1` (str): Название первой опции (по умолчанию "control").
-- `real_name_2` (str): Название второй опции (по умолчанию "treatment").
-- `blind_name_a` (str): Название первой опции, видимое пользователю (по умолчанию "A").
-- `blind_name_b` (str): Название второй опции, видимое пользователю (по умолчанию "B").
-- `passtrough_name` (list): Список имен, которые не нужно рандомизировать (по умолчанию `[]`).
-- `random_seed` (int): Зерно случайности для обеспечения воспроизводимости (по умолчанию 42).
+-   `real_name_1` (str): Реальное имя первой опции. По умолчанию "control".
+-   `real_name_2` (str): Реальное имя второй опции. По умолчанию "treatment".
+-   `blind_name_a` (str): "Слепое" имя первой опции. По умолчанию "A".
+-   `blind_name_b` (str): "Слепое" имя второй опции. По умолчанию "B".
+-   `passtrough_name` (list): Список имен, которые не нужно рандомизировать. По умолчанию [].
+-   `random_seed` (int): Зерно для генератора случайных чисел. По умолчанию 42.
 
 **Как работает функция**:
 
-1.  Инициализируется словарь `self.choices` для хранения информации о рандомизации.
-2.  Сохраняются переданные параметры в атрибуты объекта.
+1.  Инициализирует словарь `self.choices` для хранения информации о рандомизации.
+2.  Сохраняет реальные и "слепые" имена опций в атрибутах экземпляра класса.
+3.  Сохраняет список имен, которые не нужно рандомизировать, в атрибуте экземпляра класса.
+4.  Сохраняет зерно для генератора случайных чисел в атрибуте экземпляра класса.
 
 ```
-Инициализация параметров
-│
-│ Сохранение параметров в атрибуты объекта
-↓
-Конец
+A (Инициализация атрибутов класса)
+|
+B (Сохранение параметров в атрибуты экземпляра)
 ```
 
 **Примеры**:
 
 ```python
-from tinytroupe.experimentation import ABRandomizer
-
-# Создание экземпляра ABRandomizer с параметрами по умолчанию
-randomizer = ABRandomizer()
-
-# Создание экземпляра ABRandomizer с пользовательскими параметрами
-randomizer = ABRandomizer(real_name_1="group_a", real_name_2="group_b", blind_name_a="X", blind_name_b="Y", passtrough_name=["id"], random_seed=123)
+randomizer = ABRandomizer(real_name_1="control", real_name_2="treatment", blind_name_a="A", blind_name_b="B", passtrough_name=[], random_seed=42)
 ```
 
 #### `randomize`
 
 ```python
 def randomize(self, i, a, b):
-    """
-    Randomly switch between a and b, and return the choices.
-    Store whether the a and b were switched or not for item i, to be able to
-    de-randomize later.
-
-    Args:
-        i (int): index of the item
-        a (str): first choice
-        b (str): second choice
-    """
-    ...
 ```
 
-**Назначение**: Случайно переключает местами две опции и возвращает их.
+**Назначение**: Случайно меняет местами `a` и `b` и возвращает их. Сохраняет информацию о перестановке для последующей дерандомизации.
 
 **Параметры**:
 
-- `i` (int): Индекс элемента.
-- `a` (str): Первая опция.
-- `b` (str): Вторая опция.
+-   `i` (int): Индекс элемента.
+-   `a` (str): Первая опция.
+-   `b` (str): Вторая опция.
 
 **Возвращает**:
 
-- `tuple`: Кортеж из двух элементов, представляющих опции после возможного переключения.
+-   `(str, str)`: Кортеж из двух строк, представляющих опции `a` и `b`, возможно, переставленные местами.
 
 **Как работает функция**:
 
-1.  Используется `random.Random(self.random_seed).random()` для генерации случайного числа от 0 до 1 с использованием заданного зерна случайности.
-2.  Если случайное число меньше 0.5, опции `a` и `b` возвращаются в исходном порядке, и в `self.choices` сохраняется значение `(0, 1)`, указывающее, что переключения не было.
-3.  В противном случае опции `a` и `b` переключаются местами, и в `self.choices` сохраняется значение `(1, 0)`, указывающее, что переключение произошло.
+1.  Инициализирует генератор случайных чисел с использованием зерна `self.random_seed`.
+2.  Если случайное число меньше 0.5, сохраняет в `self.choices[i]` кортеж `(0, 1)` и возвращает `a`, `b` без изменений.
+3.  Иначе сохраняет в `self.choices[i]` кортеж `(1, 0)` и возвращает `b`, `a` (опции переставлены местами).
 
 ```
-Генерация случайного числа
-│
-├── Случайное число < 0.5?
-│   ├── Да: Сохранение (0, 1) в self.choices и возврат (a, b)
-│   └── Нет: Сохранение (1, 0) в self.choices и возврат (b, a)
-│
-Конец
+A (Инициализация генератора случайных чисел)
+|
+B (Генерация случайного числа)
+|
+C (Проверка условия: случайное число < 0.5)
+|
+D (Если условие выполнено: сохранение (0, 1) в self.choices[i] и возврат a, b)
+|
+E (Если условие не выполнено: сохранение (1, 0) в self.choices[i] и возврат b, a)
 ```
 
 **Примеры**:
 
 ```python
-from tinytroupe.experimentation import ABRandomizer
-
 randomizer = ABRandomizer()
-
-# Случайное переключение опций "apple" и "banana" для элемента с индексом 1
-option1, option2 = randomizer.randomize(1, "apple", "banana")
-print(f"Рандомизированные опции: {option1}, {option2}")
-
-# Случайное переключение опций "red" и "blue" для элемента с индексом 2
-option3, option4 = randomizer.randomize(2, "red", "blue")
-print(f"Рандомизированные опции: {option3}, {option4}")
+a, b = randomizer.randomize(1, "option1", "option2")
+print(f"Рандомизированные опции: a={a}, b={b}")
 ```
 
 #### `derandomize`
 
 ```python
 def derandomize(self, i, a, b):
-    """
-    De-randomize the choices for item i, and return the choices.
-
-    Args:
-        i (int): index of the item
-        a (str): first choice
-        b (str): second choice
-    """
-    ...
 ```
 
-**Назначение**: Возвращает опции в исходном порядке на основе сохраненной информации о переключении.
+**Назначение**: Возвращает `a` и `b` в исходном порядке на основе сохраненной информации о рандомизации.
 
 **Параметры**:
 
-- `i` (int): Индекс элемента.
-- `a` (str): Первая опция.
-- `b` (str): Вторая опция.
+-   `i` (int): Индекс элемента.
+-   `a` (str): Первая опция.
+-   `b` (str): Вторая опция.
 
 **Возвращает**:
 
-- `tuple`: Кортеж из двух элементов, представляющих опции в исходном порядке.
+-   `(str, str)`: Кортеж из двух строк, представляющих опции `a` и `b` в исходном порядке.
 
 **Вызывает исключения**:
 
-- `Exception`: Если для элемента `i` не найдена информация о рандомизации.
+-   `Exception`: Если для элемента `i` не найдена информация о рандомизации.
 
 **Как работает функция**:
 
-1.  Проверяется значение `self.choices[i]`.
-2.  Если `self.choices[i]` равно `(0, 1)`, опции `a` и `b` возвращаются в исходном порядке.
-3.  Если `self.choices[i]` равно `(1, 0)`, опции `b` и `a` возвращаются в исходном порядке.
-4.  Если для элемента `i` не найдена информация о рандомизации, выбрасывается исключение `Exception`.
+1.  Проверяет значение `self.choices[i]`.
+2.  Если `self.choices[i]` равно `(0, 1)`, возвращает `a`, `b` без изменений.
+3.  Если `self.choices[i]` равно `(1, 0)`, возвращает `b`, `a` (опции переставлены местами).
+4.  Если для элемента `i` не найдена информация о рандомизации, выбрасывает исключение `Exception`.
 
 ```
-Проверка self.choices[i]
-│
-├── self.choices[i] == (0, 1)?
-│   ├── Да: Возврат (a, b)
-│   └── Нет: Проверка self.choices[i] == (1, 0)?
-│       ├── Да: Возврат (b, a)
-│       └── Нет: Выброс исключения Exception
-│
-Конец
+A (Проверка наличия информации о рандомизации для элемента i)
+|
+B (Если self.choices[i] == (0, 1): возврат a, b)
+|
+C (Если self.choices[i] == (1, 0): возврат b, a)
+|
+D (Если информация о рандомизации не найдена: выброс исключения)
 ```
 
 **Примеры**:
 
 ```python
-from tinytroupe.experimentation import ABRandomizer
-
 randomizer = ABRandomizer()
-
-# Случайное переключение опций "apple" и "banana" для элемента с индексом 1
-option1, option2 = randomizer.randomize(1, "apple", "banana")
-print(f"Рандомизированные опции: {option1}, {option2}")
-
-# Возврат опций в исходный порядок для элемента с индексом 1
-original_option1, original_option2 = randomizer.derandomize(1, "apple", "banana")
-print(f"Оригинальные опции: {original_option1}, {original_option2}")
+a, b = randomizer.randomize(1, "option1", "option2")
+a, b = randomizer.derandomize(1, a, b)
+print(f"Дерандомизированные опции: a={a}, b={b}")
 ```
 
 #### `derandomize_name`
 
 ```python
 def derandomize_name(self, i, blind_name):
-    """
-    Decode the choice made by the user, and return the choice. 
-
-    Args:
-        i (int): index of the item
-        choice_name (str): the choice made by the user
-    """
-    ...
 ```
 
-**Назначение**: Декодирует выбор, сделанный пользователем, и возвращает соответствующее реальное имя опции.
+**Назначение**: Декодирует выбор пользователя, возвращая реальное имя опции на основе "слепого" имени.
 
 **Параметры**:
 
-- `i` (int): Индекс элемента.
-- `blind_name` (str): Выбор, сделанный пользователем (слепое имя опции).
+-   `i` (int): Индекс элемента.
+-   `blind_name` (str): "Слепое" имя выбранной опции.
 
 **Возвращает**:
 
-- `str`: Реальное имя опции, соответствующее выбору пользователя.
+-   `str`: Реальное имя выбранной опции.
 
 **Вызывает исключения**:
 
-- `Exception`: Если для элемента `i` не найдена информация о рандомизации.
-- `Exception`: Если выбор пользователя не распознан.
+-   `Exception`: Если для элемента `i` не найдена информация о рандомизации или если "слепое" имя не распознано.
 
 **Как работает функция**:
 
-1.  Проверяется значение `self.choices[i]`.
-2.  Если `self.choices[i]` равно `(0, 1)`, проверяется значение `blind_name`.
-    - Если `blind_name` равно `self.blind_name_a`, возвращается `self.real_name_1`.
-    - Если `blind_name` равно `self.blind_name_b`, возвращается `self.real_name_2`.
-    - Если `blind_name` содержится в `self.passtrough_name`, возвращается `blind_name`.
-    - В противном случае выбрасывается исключение `Exception`.
-3.  Если `self.choices[i]` равно `(1, 0)`, проверяется значение `blind_name`.
-    - Если `blind_name` равно `self.blind_name_a`, возвращается `self.real_name_2`.
-    - Если `blind_name` равно `self.blind_name_b`, возвращается `self.real_name_1`.
-    - Если `blind_name` содержится в `self.passtrough_name`, возвращается `blind_name`.
-    - В противном случае выбрасывается исключение `Exception`.
-4.  Если для элемента `i` не найдена информация о рандомизации, выбрасывается исключение `Exception`.
+1.  Проверяет значение `self.choices[i]`.
+2.  Если `self.choices[i]` равно `(0, 1)`:
+    *   Если `blind_name` равно `self.blind_name_a`, возвращает `self.real_name_1`.
+    *   Если `blind_name` равно `self.blind_name_b`, возвращает `self.real_name_2`.
+    *   Если `blind_name` присутствует в `self.passtrough_name`, возвращает `blind_name`.
+    *   Иначе выбрасывает исключение `Exception`.
+3.  Если `self.choices[i]` равно `(1, 0)`:
+    *   Если `blind_name` равно `self.blind_name_a`, возвращает `self.real_name_2`.
+    *   Если `blind_name` равно `self.blind_name_b`, возвращает `self.real_name_1`.
+    *   Если `blind_name` присутствует в `self.passtrough_name`, возвращает `blind_name`.
+    *   Иначе выбрасывает исключение `Exception`.
+4.  Если для элемента `i` не найдена информация о рандомизации, выбрасывает исключение `Exception`.
 
 ```
-Проверка self.choices[i]
-│
-├── self.choices[i] == (0, 1)?
-│   ├── Да: Проверка blind_name
-│   │   ├── blind_name == self.blind_name_a?
-│   │   │   ├── Да: Возврат self.real_name_1
-│   │   │   └── Нет: Проверка blind_name == self.blind_name_b?
-│   │   │       ├── Да: Возврат self.real_name_2
-│   │   │       └── Нет: Проверка blind_name in self.passtrough_name?
-│   │   │           ├── Да: Возврат blind_name
-│   │   │           └── Нет: Выброс исключения Exception
-│   │   └── ...
-│   └── Нет: Проверка self.choices[i] == (1, 0)?
-│       ├── Да: Проверка blind_name
-│       │   ├── blind_name == self.blind_name_a?
-│       │   │   ├── Да: Возврат self.real_name_2
-│       │   │   └── Нет: Проверка blind_name == self.blind_name_b?
-│       │   │       ├── Да: Возврат self.real_name_1
-│       │   │       └── Нет: Проверка blind_name in self.passtrough_name?
-│       │   │           ├── Да: Возврат blind_name
-│       │   │           └── Нет: Выброс исключения Exception
-│       │   └── ...
-│       └── Нет: Выброс исключения Exception
-│
-Конец
+A (Проверка наличия информации о рандомизации для элемента i)
+|
+B (Если self.choices[i] == (0, 1):)
+|   |
+|   C (Проверка blind_name и возврат соответствующего real_name)
+|
+D (Если self.choices[i] == (1, 0):)
+|   |
+|   E (Проверка blind_name и возврат соответствующего real_name)
+|
+F (Если информация о рандомизации не найдена: выброс исключения)
 ```
 
 **Примеры**:
 
 ```python
-from tinytroupe.experimentation import ABRandomizer
-
-randomizer = ABRandomizer(real_name_1="group_a", real_name_2="group_b", blind_name_a="X", blind_name_b="Y")
-
-# Случайное переключение опций для элемента с индексом 1
-randomizer.randomize(1, "group_a", "group_b")
-
-# Определение реального имени опции, выбранной пользователем (X) для элемента с индексом 1
-real_name = randomizer.derandomize_name(1, "X")
-print(f"Реальное имя опции: {real_name}")
-
-# Определение реального имени опции, выбранной пользователем (Y) для элемента с индексом 1
-real_name = randomizer.derandomize_name(1, "Y")
-print(f"Реальное имя опции: {real_name}")
+randomizer = ABRandomizer(real_name_1="control", real_name_2="treatment", blind_name_a="A", blind_name_b="B")
+randomizer.randomize(1, "A", "B")
+real_name = randomizer.derandomize_name(1, "A")
+print(f"Реальное имя выбранной опции: {real_name}")
 ```
 
 ### `Intervention`
 
-**Описание**: Класс для представления и применения вмешательств (interventions) в среде TinyTroupe.
+**Описание**: Класс `Intervention` предназначен для применения различных воздействий к агентам и окружению. Этот класс пока находится в разработке, но он позволяет задавать предусловия и эффекты интервенций, что делает его полезным для моделирования различных сценариев и оценки их влияния на систему.
 
-**Принцип работы**: Класс `Intervention` принимает агентов и/или окружения, на которые будет оказано воздействие. Он позволяет задавать предусловия в виде текста или функций, а также функцию, определяющую эффект вмешательства. Методы класса позволяют проверить предусловия и применить эффект вмешательства.
+**Принцип работы**:
+
+Класс `Intervention` инициализируется с указанием агента(ов) и/или окружения(й), к которым будет применена интервенция. Он позволяет задавать предусловия в виде текста или функции, а также эффект интервенции в виде функции. Метод `check_precondition` проверяет, выполнены ли предусловия для применения интервенции. Метод `apply` применяет эффект интервенции к указанным агентам и/или окружению.
 
 **Атрибуты**:
 
-- `agents` (list): Список агентов, на которых оказывается воздействие.
-- `environments` (list): Список окружений, на которые оказывается воздействие.
-- `text_precondition` (str): Текстовое описание предусловия.
-- `precondition_func` (function): Функция, определяющая предусловие.
-- `effect_func` (function): Функция, определяющая эффект вмешательства.
+-   `agents` (list): Список агентов, к которым будет применена интервенция.
+-   `environments` (list): Список окружений, к которым будет применена интервенция.
+-   `text_precondition` (str): Предусловие в виде текста (для интерпретации языковой моделью).
+-   `precondition_func` (function): Предусловие в виде функции (для выполнения кодом).
+-   `effect_func` (function): Функция, представляющая эффект интервенции.
 
 **Методы**:
 
-- `__init__`: Инициализирует экземпляр класса `Intervention`.
-- `check_precondition`: Проверяет, выполнено ли предусловие для вмешательства.
-- `apply`: Применяет эффект вмешательства.
-- `set_textual_precondition`: Устанавливает предусловие в виде текста.
-- `set_functional_precondition`: Устанавливает предусловие в виде функции.
-- `set_effect`: Устанавливает эффект вмешательства.
+-   `__init__(self, agent=None, agents:list=None, environment=None, environments:list=None)`: Инициализирует объект `Intervention` с указанными параметрами.
+-   `check_precondition(self)`: Проверяет, выполнены ли предусловия для применения интервенции.
+-   `apply(self)`: Применяет интервенцию.
+-   `set_textual_precondition(self, text)`: Устанавливает предусловие в виде текста.
+-   `set_functional_precondition(self, func)`: Устанавливает предусловие в виде функции.
+-   `set_effect(self, effect_func)`: Устанавливает эффект интервенции.
 
 #### `__init__`
 
 ```python
 def __init__(self, agent=None, agents:list=None, environment=None, environments:list=None):
-    """
-    Initialize the intervention.
-
-    Args:
-        agent (TinyPerson): the agent to intervene on
-        environment (TinyWorld): the environment to intervene on
-    """
-    ...
 ```
 
-**Назначение**: Инициализирует объект класса `Intervention` с заданными агентами и/или окружениями.
+**Назначение**: Инициализирует экземпляр класса `Intervention`.
 
 **Параметры**:
 
-- `agent` (TinyPerson, optional): Агент, на которого оказывается воздействие.
-- `agents` (list, optional): Список агентов, на которых оказывается воздействие.
-- `environment` (TinyWorld, optional): Окружение, на которое оказывается воздействие.
-- `environments` (list, optional): Список окружений, на которые оказывается воздействие.
+-   `agent` (TinyPerson, optional): Агент, к которому будет применена интервенция.
+-   `agents` (list, optional): Список агентов, к которым будет применена интервенция.
+-   `environment` (TinyWorld, optional): Окружение, к которому будет применена интервенция.
+-   `environments` (list, optional): Список окружений, к которым будет применена интервенция.
 
 **Вызывает исключения**:
 
-- `Exception`: Если переданы одновременно `agent` и `agents` или `environment` и `environments`.
-- `Exception`: Если не передан ни один из параметров (`agent`, `agents`, `environment`, `environments`).
+-   `Exception`: Если не указан ни один агент или окружение, или если указан одновременно и агент, и список агентов, или если указано одновременно и окружение, и список окружений.
 
 **Как работает функция**:
 
-1.  Проверяется, что переданы либо `agent`, либо `agents`, но не оба одновременно.
-2.  Проверяется, что переданы либо `environment`, либо `environments`, но не оба одновременно.
-3.  Проверяется, что передан хотя бы один из параметров.
-4.  Инициализируются атрибуты `self.agents` и `self.environments` в зависимости от переданных параметров.
-5.  Инициализируются атрибуты `self.text_precondition`, `self.precondition_func` и `self.effect_func` значением `None`.
+1.  Проверяет, что указан хотя бы один параметр (агент или окружение).
+2.  Проверяет, что не указаны одновременно агент и список агентов, а также окружение и список окружений.
+3.  Инициализирует атрибуты `self.agents` и `self.environments` в зависимости от переданных параметров.
 
 ```
-Проверка параметров
-│
-├── agent и agents переданы вместе?
-│   ├── Да: Выброс исключения Exception
-│   └── Нет: Проверка environment и environments переданы вместе?
-│       ├── Да: Выброс исключения Exception
-│       └── Нет: Проверка, что хотя бы один параметр передан
-│           ├── Нет: Выброс исключения Exception
-│           └── Да: Инициализация атрибутов self.agents и self.environments
-│               │
-│               └── Инициализация атрибутов self.text_precondition, self.precondition_func и self.effect_func значением None
-│
-Конец
+A (Проверка наличия хотя бы одного параметра)
+|
+B (Проверка одновременного указания агента и списка агентов)
+|
+C (Проверка одновременного указания окружения и списка окружений)
+|
+D (Инициализация self.agents и self.environments)
 ```
 
 **Примеры**:
 
 ```python
-from tinytroupe.experimentation import Intervention
-from tinytroupe.agent import TinyPerson
-
-# Создание экземпляра Intervention с агентом
 agent = TinyPerson()
 intervention = Intervention(agent=agent)
 
-# Создание экземпляра Intervention со списком агентов
 agents = [TinyPerson(), TinyPerson()]
 intervention = Intervention(agents=agents)
 ```
@@ -410,127 +301,94 @@ intervention = Intervention(agents=agents)
 
 ```python
 def check_precondition(self):
-    """
-    Check if the precondition for the intervention is met.
-    """
-    ...
 ```
 
-**Назначение**: Проверяет, выполнено ли предусловие для вмешательства.
+**Назначение**: Проверяет, выполнены ли предусловия для применения интервенции.
 
 **Вызывает исключения**:
 
-- `NotImplementedError`: Метод требует переопределения в подклассах.
+-   `NotImplementedError`: Метод не реализован.
 
 **Как работает функция**:
 
-1. Выбрасывает исключение `NotImplementedError`, указывающее, что метод должен быть переопределен в подклассах для реализации конкретной логики проверки предусловия.
+1.  Выбрасывает исключение `NotImplementedError`, так как метод должен быть реализован в подклассах.
+
+```
+A (Выброс исключения NotImplementedError)
+```
 
 #### `apply`
 
 ```python
 def apply(self):
-    """
-    Apply the intervention.
-    """
-    ...
 ```
 
-**Назначение**: Применяет эффект вмешательства.
+**Назначение**: Применяет интервенцию.
 
 **Как работает функция**:
 
-1. Вызывает функцию `self.effect_func` с аргументами `self.agents` и `self.environments`.
+1.  Вызывает функцию `self.effect_func` с аргументами `self.agents` и `self.environments`.
 
 ```
-Вызов self.effect_func(self.agents, self.environments)
-│
-Конец
+A (Вызов self.effect_func)
 ```
 
 #### `set_textual_precondition`
 
 ```python
 def set_textual_precondition(self, text):
-    """
-    Set a precondition as text, to be interpreted by a language model.
-
-    Args:
-        text (str): the text of the precondition
-    """
-    ...
 ```
 
 **Назначение**: Устанавливает предусловие в виде текста.
 
 **Параметры**:
 
-- `text` (str): Текст предусловия.
+-   `text` (str): Текст предусловия.
 
 **Как работает функция**:
 
-1. Сохраняет текст предусловия в атрибут `self.text_precondition`.
+1.  Сохраняет текст предусловия в атрибуте `self.text_precondition`.
 
 ```
-Сохранение текста в self.text_precondition
-│
-Конец
+A (Сохранение текста предусловия в self.text_precondition)
 ```
 
 #### `set_functional_precondition`
 
 ```python
 def set_functional_precondition(self, func):
-    """
-    Set a precondition as a function, to be evaluated by the code.
-
-    Args:
-        func (function): the function of the precondition. 
-          Must have the arguments: agent, agents, environment, environments.
-    """
-    ...
 ```
 
 **Назначение**: Устанавливает предусловие в виде функции.
 
 **Параметры**:
 
-- `func` (function): Функция предусловия. Функция должна принимать аргументы `agent`, `agents`, `environment`, `environments`.
+-   `func` (function): Функция предусловия. Функция должна принимать аргументы: agent, agents, environment, environments.
 
 **Как работает функция**:
 
-1. Сохраняет функцию предусловия в атрибут `self.precondition_func`.
+1.  Сохраняет функцию предусловия в атрибуте `self.precondition_func`.
 
 ```
-Сохранение функции в self.precondition_func
-│
-Конец
+A (Сохранение функции предусловия в self.precondition_func)
 ```
 
 #### `set_effect`
 
 ```python
 def set_effect(self, effect_func):
-    """
-    Set the effect of the intervention.
-
-    Args:
-        effect (str): the effect function of the intervention
-    """
-    ...
 ```
 
-**Назначение**: Устанавливает эффект вмешательства.
+**Назначение**: Устанавливает эффект интервенции.
 
 **Параметры**:
 
-- `effect_func` (function): Функция, определяющая эффект вмешательства.
+-   `effect_func` (function): Функция эффекта интервенции.
 
 **Как работает функция**:
 
-1. Сохраняет функцию эффекта в атрибут `self.effect_func`.
+1.  Сохраняет функцию эффекта интервенции в атрибуте `self.effect_func`.
 
 ```
-Сохранение функции в self.effect_func
-│
-Конец
+A (Сохранение функции эффекта в self.effect_func)
+```

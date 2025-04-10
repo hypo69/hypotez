@@ -2,294 +2,216 @@
 
 ## Обзор
 
-Модуль `tiny_word_processor.py` предоставляет класс `TinyWordProcessor`, который является инструментом для создания и обработки текстовых документов. Он позволяет агентам (agents) писать документы, обогащать их контент и экспортировать в различные форматы (Markdown, DOCX, JSON).
+Модуль предоставляет класс `TinyWordProcessor`, который является инструментом для обработки текстовых документов. Он позволяет агентам создавать, обогащать и экспортировать документы в различных форматах, таких как Markdown и JSON.
 
 ## Подробней
 
-Модуль предназначен для использования в системе, где требуется автоматизированное создание документов с возможностью расширения контента и экспорта в разные форматы. Класс `TinyWordProcessor` наследуется от `TinyTool` и интегрируется с другими инструментами, такими как `enricher` (для обогащения контента) и `exporter` (для экспорта документов).
+Этот модуль является частью системы `tinytroupe` и предоставляет функциональность для создания и обработки текстовых документов. Он использует другие модули, такие как `logger` для ведения логов, `TinyTool` в качестве базового класса для инструментов, `utils` для различных утилитных функций, а также `exporter` и `enricher` для экспорта и обогащения контента.
 
 ## Классы
 
 ### `TinyWordProcessor`
 
-**Описание**: Класс `TinyWordProcessor` предоставляет функциональность для создания, обогащения и экспорта текстовых документов.
+**Описание**: Класс `TinyWordProcessor` предоставляет инструменты для создания, обогащения и экспорта текстовых документов.
 
 **Наследует**:
-- `TinyTool`: Класс `TinyWordProcessor` наследует от `TinyTool`, что позволяет интегрировать его в систему инструментов `tinytroupe`.
+- `TinyTool`: Класс `TinyWordProcessor` наследует от класса `TinyTool` и расширяет его функциональность для обработки текстовых документов.
 
 **Атрибуты**:
-- `owner` (Any): Владелец инструмента.
-- `exporter` (Any): Инструмент для экспорта документов.
-- `enricher` (Any): Инструмент для обогащения контента документов.
+- `owner` (Optional[Any]): Владелец инструмента.
+- `exporter` (Optional[Any]): Инструмент для экспорта документов.
+- `enricher` (Optional[Any]): Инструмент для обогащения контента документов.
 
 **Методы**:
-- `__init__(self, owner=None, exporter=None, enricher=None)`: Инициализирует экземпляр класса `TinyWordProcessor`.
-- `write_document(self, title, content, author=None)`: Создает и экспортирует документ с заданным заголовком, контентом и автором.
-- `_process_action(self, agent, action) -> bool`: Обрабатывает действие агента, создавая новый документ, если действие имеет тип "WRITE_DOCUMENT".
-- `actions_definitions_prompt(self) -> str`: Возвращает строку с описанием возможных действий, которые может выполнять инструмент.
-- `actions_constraints_prompt(self) -> str`: Возвращает строку с описанием ограничений на действия, выполняемые инструментом.
+- `__init__`: Инициализирует экземпляр класса `TinyWordProcessor`.
+- `write_document`: Создает и экспортирует документ с заданным заголовком и содержанием.
+- `_process_action`: Обрабатывает действие агента, связанное с созданием документа.
+- `actions_definitions_prompt`: Возвращает подсказку с определениями действий, которые может выполнять агент.
+- `actions_constraints_prompt`: Возвращает подсказку с ограничениями на действия, которые может выполнять агент.
 
-### `__init__(self, owner=None, exporter=None, enricher=None)`
+#### `__init__`
 
 ```python
 def __init__(self, owner=None, exporter=None, enricher=None):
-    """
-    Инициализирует экземпляр класса `TinyWordProcessor`.
+    """Инициализирует экземпляр класса `TinyWordProcessor`.
 
     Args:
-        owner (Any, optional): Владелец инструмента. По умолчанию `None`.
-        exporter (Any, optional): Инструмент для экспорта документов. По умолчанию `None`.
-        enricher (Any, optional): Инструмент для обогащения контента документов. По умолчанию `None`.
+        owner (Optional[Any], optional): Владелец инструмента. По умолчанию `None`.
+        exporter (Optional[Any], optional): Инструмент для экспорта документов. По умолчанию `None`.
+        enricher (Optional[Any], optional): Инструмент для обогащения контента документов. По умолчанию `None`.
+
+    Returns:
+        None
     """
     ...
 ```
 
-### `write_document(self, title, content, author=None)`
+**Назначение**: Инициализирует объект `TinyWordProcessor` с заданными параметрами.
+
+**Параметры**:
+- `owner` (Any, optional): Владелец инструмента. По умолчанию `None`.
+- `exporter` (Any, optional): Инструмент для экспорта документов. По умолчанию `None`.
+- `enricher` (Any, optional): Инструмент для обогащения контента документов. По умолчанию `None`.
+
+**Как работает функция**:
+- Вызывает конструктор родительского класса `TinyTool` с заданными параметрами.
+- Устанавливает значения атрибутов `owner`, `exporter` и `enricher`.
+
+**Примеры**:
 
 ```python
-def write_document(self, title, content, author=None):
-    """
-    Создает и экспортирует документ с заданным заголовком, контентом и автором.
+from tinytroupe.tools.tiny_word_processor import TinyWordProcessor
+from tinytroupe.tools.exporter import Exporter
+from tinytroupe.tools.enricher import Enricher
+
+exporter = Exporter()
+enricher = Enricher()
+word_processor = TinyWordProcessor(owner="agent1", exporter=exporter, enricher=enricher)
+```
+
+#### `write_document`
+
+```python
+def write_document(self, title: str, content: str, author: Optional[str] = None) -> None:
+    """Создает и экспортирует документ с заданным заголовком и содержанием.
 
     Args:
         title (str): Заголовок документа.
         content (str): Содержание документа.
-        author (str, optional): Автор документа. По умолчанию `None`.
-    """
-    ...
-```
-
-### `_process_action(self, agent, action) -> bool`
-
-```python
-def _process_action(self, agent, action) -> bool:
-    """
-    Обрабатывает действие агента, создавая новый документ, если действие имеет тип "WRITE_DOCUMENT".
-
-    Args:
-        agent (Any): Агент, выполняющий действие.
-        action (dict): Словарь с информацией о действии.
+        author (Optional[str], optional): Автор документа. По умолчанию `None`.
 
     Returns:
-        bool: `True`, если действие было успешно обработано, иначе `False`.
+        None
     """
     ...
 ```
 
-### `actions_definitions_prompt(self) -> str`
-
-```python
-def actions_definitions_prompt(self) -> str:
-    """
-    Возвращает строку с описанием возможных действий, которые может выполнять инструмент.
-
-    Returns:
-        str: Строка с описанием действий.
-    """
-    ...
-```
-
-### `actions_constraints_prompt(self) -> str`
-
-```python
-def actions_constraints_prompt(self) -> str:
-    """
-    Возвращает строку с описанием ограничений на действия, выполняемые инструментом.
-
-    Returns:
-        str: Строка с описанием ограничений.
-    """
-    ...
-```
-
-## Функции
-
-### `write_document`
-
-**Назначение**: Создает и экспортирует документ с заданным заголовком, контентом и автором. Если указан `enricher`, контент документа обогащается. Документ экспортируется в форматы Markdown, DOCX и JSON.
+**Назначение**: Создает и экспортирует документ с заданным заголовком, содержанием и автором.
 
 **Параметры**:
 - `title` (str): Заголовок документа.
 - `content` (str): Содержание документа.
 - `author` (str, optional): Автор документа. По умолчанию `None`.
 
-**Возвращает**:
-- `None`: Функция ничего не возвращает явно.
-
-**Вызывает исключения**:
-- Отсутствуют явные исключения в коде функции, но исключения могут быть вызваны методами `enricher.enrich_content` и `exporter.export`.
-
 **Как работает функция**:
-
-1. Логирует информацию о создании документа с указанным заголовком и контентом.
-2. Если `enricher` определен, обогащает контент документа, используя `self.enricher.enrich_content`.
-3. Если `exporter` определен, экспортирует документ в форматы Markdown, DOCX и JSON, используя `self.exporter.export`.
-
-```
-Начало
-│
-├── Логирование информации о создании документа
-│
-├── Проверка наличия `enricher`
-│   └───> Если `enricher` есть: Обогащение контента документа
-│
-├── Проверка наличия `exporter`
-│   └───> Если `exporter` есть: Экспорт документа в Markdown, DOCX и JSON
-│
-Конец
-```
+1. Логирует отладочное сообщение о создании документа.
+2. Если задан `enricher`, обогащает контент документа, используя `enricher.enrich_content`.
+3. Если задан `exporter`, экспортирует документ в форматах `md` и `json`, используя `exporter.export`.
 
 **Примеры**:
 
 ```python
-# Пример создания документа без автора
-word_processor.write_document(title="Пример документа", content="Это пример контента.")
+from tinytroupe.tools.tiny_word_processor import TinyWordProcessor
+from tinytroupe.tools.exporter import Exporter
+from tinytroupe.tools.enricher import Enricher
 
-# Пример создания документа с автором
-word_processor.write_document(title="Пример документа с автором", content="Это пример контента.", author="Иванов")
+exporter = Exporter()
+enricher = Enricher()
+word_processor = TinyWordProcessor(exporter=exporter, enricher=enricher)
+word_processor.write_document(title="MyDocument", content="This is the content.", author="John Doe")
 ```
 
-### `_process_action`
+#### `_process_action`
 
-**Назначение**: Обрабатывает действие агента, проверяя, является ли действие созданием документа (`WRITE_DOCUMENT`). Если да, извлекает параметры документа из контента действия и вызывает метод `write_document` для создания документа.
+```python
+def _process_action(self, agent: str, action: dict) -> bool:
+    """Обрабатывает действие агента, связанное с созданием документа.
+
+    Args:
+        agent (str): Агент, выполняющий действие.
+        action (dict): Словарь, описывающий действие.
+
+    Returns:
+        bool: `True`, если действие успешно обработано, `False` в противном случае.
+    """
+    ...
+```
+
+**Назначение**: Обрабатывает действие агента, связанное с созданием документа.
 
 **Параметры**:
-- `agent` (Any): Агент, выполняющий действие.
-- `action` (dict): Словарь с информацией о действии.
-
-**Возвращает**:
-- `bool`: `True`, если действие было успешно обработано, иначе `False`.
-
-**Вызывает исключения**:
-- `json.JSONDecodeError`: Если не удается распарсить JSON контент действия.
-- `Exception`: При возникновении других ошибок во время обработки действия.
+- `agent` (str): Агент, выполняющий действие.
+- `action` (dict): Словарь, описывающий действие.
 
 **Как работает функция**:
-
-1. Проверяет, является ли тип действия `WRITE_DOCUMENT` и не является ли контент действия `None`.
-2. Пытается распарсить контент действия как JSON. Если контент уже является словарем, использует его напрямую.
-3. Проверяет наличие недопустимых ключей в спецификации документа (`doc_spec`).
-4. Вызывает метод `write_document` с параметрами, извлеченными из `doc_spec`.
-5. В случае ошибок логирует информацию об ошибке и возвращает `False`.
-
-```
-Начало
-│
-├── Проверка типа действия и наличия контента
-│   └───> Если тип действия `WRITE_DOCUMENT` и контент не `None`:
-│       │
-│       ├── Парсинг контента действия как JSON
-│       │   └───> Если контент - строка: Извлечение JSON из строки
-│       │   └───> Если контент - словарь: Использование словаря напрямую
-│       │
-│       ├── Проверка наличия недопустимых ключей
-│       │
-│       ├── Вызов `write_document` с параметрами из `doc_spec`
-│       │
-│       └── Возврат `True`
-│
-└── Возврат `False` (если тип действия не `WRITE_DOCUMENT` или контент `None`)
-│
-Обработка ошибок:
-│
-├── `json.JSONDecodeError`: Логирование ошибки парсинга JSON и возврат `False`
-│
-└── `Exception`: Логирование общей ошибки и возврат `False`
-│
-Конец
-```
+1. Проверяет, что тип действия - `WRITE_DOCUMENT` и контент не `None`.
+2. Извлекает JSON из контента действия.
+3. Проверяет, что все ключи в JSON валидны.
+4. Вызывает `self.write_document` с параметрами из JSON.
+5. Перехватывает исключения `json.JSONDecodeError` и `Exception` и логирует ошибки.
 
 **Примеры**:
 
 ```python
-# Пример успешной обработки действия
-action = {"type": "WRITE_DOCUMENT", "content": '{"title": "Пример", "content": "Текст"}'}
-result = word_processor._process_action(agent, action)
-print(result)  # Вывод: True
+from tinytroupe.tools.tiny_word_processor import TinyWordProcessor
+from tinytroupe.tools.exporter import Exporter
+from tinytroupe.tools.enricher import Enricher
 
-# Пример неуспешной обработки действия из-за ошибки JSON
-action = {"type": "WRITE_DOCUMENT", "content": '{"title": "Пример", "content": "Текст"'}  # Ошибка в JSON
-result = word_processor._process_action(agent, action)
-print(result)  # Вывод: False
+exporter = Exporter()
+enricher = Enricher()
+word_processor = TinyWordProcessor(exporter=exporter, enricher=enricher)
+action = {
+    "type": "WRITE_DOCUMENT",
+    "content": '{"title": "MyDocument", "content": "This is the content.", "author": "John Doe"}'
+}
+result = word_processor._process_action(agent="agent1", action=action)
+print(result) #  True
 ```
 
-### `actions_definitions_prompt`
+#### `actions_definitions_prompt`
 
-**Назначение**: Возвращает строку с описанием возможных действий, которые может выполнять инструмент. В данном случае, описывает действие `WRITE_DOCUMENT` и его параметры (title, content, author).
+```python
+def actions_definitions_prompt(self) -> str:
+    """Возвращает подсказку с определениями действий, которые может выполнять агент.
 
-**Параметры**:
-- Отсутствуют.
+    Returns:
+        str: Подсказка с определениями действий.
+    """
+    ...
+```
 
-**Возвращает**:
-- `str`: Строка с описанием действия `WRITE_DOCUMENT` и его параметров.
+**Назначение**: Возвращает подсказку с определениями действий, которые может выполнять агент.
 
 **Как работает функция**:
-
-1. Определяет строку `prompt` с описанием действия `WRITE_DOCUMENT` и его параметров (title, content, author).
-2. Удаляет лишние отступы из строки `prompt` с помощью `utils.dedent`.
-3. Возвращает полученную строку.
-
-```
-Начало
-│
-├── Определение строки с описанием действия `WRITE_DOCUMENT`
-│
-├── Удаление лишних отступов из строки
-│
-└── Возврат строки с описанием действия
-│
-Конец
-```
+- Определяет строку `prompt`, содержащую описание действия `WRITE_DOCUMENT` и его параметров.
+- Использует `utils.dedent` для удаления лишних отступов в строке.
+- Возвращает полученную строку.
 
 **Примеры**:
 
 ```python
-# Пример вызова функции
+from tinytroupe.tools.tiny_word_processor import TinyWordProcessor
+
+word_processor = TinyWordProcessor()
 prompt = word_processor.actions_definitions_prompt()
 print(prompt)
-# Вывод:
-# - WRITE_DOCUMENT: you can create a new document. The content of the document has many fields, and you **must** use a JSON format to specify them. Here are the possible fields:
-#     * title: The title of the document. Mandatory.
-#     * content: The actual content of the document. You **must** use Markdown to format this content. Mandatory.
-#     * author: The author of the document. You should put your own name. Optional.
 ```
 
-### `actions_constraints_prompt`
+#### `actions_constraints_prompt`
 
-**Назначение**: Возвращает строку с описанием ограничений на действия, выполняемые инструментом. В данном случае, описывает ограничения на действие `WRITE_DOCUMENT`, такие как обязательное использование JSON формата, необходимость длинного и подробного контента, и дополнительные рекомендации по форматированию контента.
+```python
+def actions_constraints_prompt(self) -> str:
+    """Возвращает подсказку с ограничениями на действия, которые может выполнять агент.
 
-**Параметры**:
-- Отсутствуют.
+    Returns:
+        str: Подсказка с ограничениями на действия.
+    """
+    ...
+```
 
-**Возвращает**:
-- `str`: Строка с описанием ограничений на действие `WRITE_DOCUMENT`.
+**Назначение**: Возвращает подсказку с ограничениями на действия, которые может выполнять агент.
 
 **Как работает функция**:
-
-1. Определяет строку `prompt` с описанием ограничений на действие `WRITE_DOCUMENT`.
-2. Удаляет лишние отступы из строки `prompt` с помощью `utils.dedent`.
-3. Возвращает полученную строку.
-
-```
-Начало
-│
-├── Определение строки с описанием ограничений на действие `WRITE_DOCUMENT`
-│
-├── Удаление лишних отступов из строки
-│
-└── Возврат строки с описанием ограничений
-│
-Конец
-```
+- Определяет строку `prompt`, содержащую ограничения на действие `WRITE_DOCUMENT`.
+- Использует `utils.dedent` для удаления лишних отступов в строке.
+- Возвращает полученную строку.
 
 **Примеры**:
 
 ```python
-# Пример вызова функции
+from tinytroupe.tools.tiny_word_processor import TinyWordProcessor
+
+word_processor = TinyWordProcessor()
 prompt = word_processor.actions_constraints_prompt()
 print(prompt)
-# Вывод:
-# - Whenever you WRITE_DOCUMENT, you write all the content at once. Moreover, the content should be long and detailed, unless there's a good reason for it not to be.
-# - Whenever you WRITE_DOCUMENT, you **must** embed the content in a JSON object. Use only valid escape sequences in the JSON content.
-# - When you WRITE_DOCUMENT, you follow these additional guidelines:
-#     * For any milestones or timelines mentioned, try mentioning specific owners or partner teams, unless there's a good reason not to do so.
+```
