@@ -1,78 +1,50 @@
 ### **Анализ кода модуля `Local.py`**
 
-**Качество кода:**
-
+**Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код структурирован и использует классы для организации функциональности.
-  - Присутствуют аннотации типов.
-  - Используется `try-except` для обработки возможных ошибок импорта.
+  - Код достаточно структурирован и понятен.
+  - Присутствует проверка наличия необходимых зависимостей.
+  - Используется наследование от `AbstractProvider` и `ProviderModelMixin`.
 - **Минусы**:
-  - Отсутствует docstring для модуля.
-  - Не все методы имеют подробные docstring с описанием аргументов, возвращаемых значений и возможных исключений.
-  - Не используется `logger` для логирования ошибок.
-  - Нет обработки исключений при получении списка моделей.
+  - Отсутствует подробная документация в формате docstring для классов и методов.
+  - Не используются логирование ошибок.
+  - Не все переменные аннотированы типами.
+  - Используется `try-except` без логирования ошибок.
 
-**Рекомендации по улучшению:**
+**Рекомендации по улучшению**:
+1. **Добавить docstring**: Добавить подробные docstring для класса `Local` и его методов `get_models` и `create_completion`. Описать параметры, возвращаемые значения и возможные исключения.
+2. **Использовать логирование**: В блоке `try-except` добавить логирование ошибки `ImportError` с использованием `logger.error`.
+3. **Аннотации типов**: Добавить аннотации типов для переменных `has_requirements`, `model` в методе `create_completion`.
+4. **Обработка ошибок**: В методе `create_completion` добавить логирование ошибки при отсутствии необходимых библиотек.
+5. **Улучшить сообщения об ошибках**: Сделать сообщение об ошибке при отсутствии необходимых библиотек более информативным, указав конкретные шаги для установки.
 
-1.  **Добавить docstring для модуля**:
-    - Описать назначение модуля и предоставить примеры использования.
-
-2.  **Добавить подробные docstring для методов**:
-    - Описать аргументы, возвращаемые значения и возможные исключения.
-
-3.  **Использовать `logger` для логирования ошибок**:
-    - Заменить `print` на `logger.error` для логирования ошибок, возникающих при импорте или выполнении методов.
-
-4.  **Обработка исключений при получении списка моделей**:
-    - Добавить `try-except` блок для обработки возможных исключений при вызове `get_models()`.
-
-5.  **Улучшить сообщения об ошибках**:
-    - Добавить более информативные сообщения об ошибках, чтобы упростить отладку.
-
-6.  **Удалить `from __future__ import annotations`**:
-    - Эта строка не нужна, так как используется Python 3.7+
-
-7.  **Все параметры должны быть аннотированы типами**
-    - У `kwargs` тоже должен быть тип
-
-**Оптимизированный код:**
+**Оптимизированный код**:
 
 ```python
 from __future__ import annotations
+
+from typing import List, Dict, Any
 
 from ...locals.models import get_models
 from src.logger import logger  # Импорт logger
 try:
     from ...locals.provider import LocalProvider
-    has_requirements = True
-except ImportError as ex: # Используем ex вместо e
-    has_requirements = False
-    logger.error('Не удалось импортировать LocalProvider', ex, exc_info=True) # Логируем ошибку
+    has_requirements: bool = True
+except ImportError as ex:
+    has_requirements: bool = False
+    logger.error('Не удалось импортировать LocalProvider', ex, exc_info=True) # Логирование ошибки импорта
 
 from ...typing import Messages, CreateResult
 from ...providers.base_provider import AbstractProvider, ProviderModelMixin
 from ...errors import MissingRequirementsError
 
-"""
-Модуль для работы с локальными моделями GPT4All
-=================================================
-
-Модуль содержит класс :class:`Local`, который используется для взаимодействия с локальными моделями GPT4All.
-Он предоставляет методы для получения списка доступных моделей и создания завершений.
-
-Пример использования
-----------------------
-
->>> from g4f.Provider.local.Local import Local
->>> models = Local.get_models()
->>> if models:
->>>     print(f'Доступные модели: {models}')
-"""
-
 class Local(AbstractProvider, ProviderModelMixin):
     """
-    Провайдер для локальных моделей GPT4All.
+    Провайдер для локальных моделей, таких как GPT4All.
+
+    Этот класс позволяет использовать локально установленные модели для генерации текста.
+    Поддерживает историю сообщений, системные сообщения и потоковую передачу данных.
     """
     label: str = "GPT4All"
     working: bool = True
@@ -80,32 +52,19 @@ class Local(AbstractProvider, ProviderModelMixin):
     supports_system_message: bool = True
     supports_stream: bool = True
 
-    models: list[str] | None = None
-    default_model: str | None = None
-
     @classmethod
-    def get_models(cls) -> list[str]:
+    def get_models(cls) -> List[str]:
         """
         Получает список доступных локальных моделей.
 
+        Если список моделей еще не был инициализирован, он инициализируется из `get_models()`.
+
         Returns:
-            list[str]: Список доступных моделей.
-
-        Raises:
-            Exception: Если не удалось получить список моделей.
-
-        Example:
-            >>> models = Local.get_models()
-            >>> if models:
-            >>>     print(f'Доступные модели: {models}')
+            List[str]: Список доступных моделей.
         """
         if not cls.models:
-            try:
-                cls.models = list(get_models())
-                cls.default_model = cls.models[0]
-            except Exception as ex:
-                logger.error('Не удалось получить список моделей', ex, exc_info=True)
-                raise  # Перебрасываем исключение, чтобы не скрывать ошибку
+            cls.models: List[str] = list(get_models())
+            cls.default_model: str = cls.models[0]
         return cls.models
 
     @classmethod
@@ -114,30 +73,28 @@ class Local(AbstractProvider, ProviderModelMixin):
         model: str,
         messages: Messages,
         stream: bool,
-        **kwargs: dict # Добавлена аннотация типа для kwargs
+        **kwargs: Any
     ) -> CreateResult:
         """
-        Создает завершение с использованием локальной модели.
+        Создает завершение текста с использованием локальной модели.
 
         Args:
-            model (str): Название модели.
-            messages (Messages): Список сообщений для завершения.
-            stream (bool): Флаг потоковой передачи.
-            **kwargs (dict): Дополнительные параметры.
+            model (str): Название используемой модели.
+            messages (Messages): Список сообщений для передачи модели.
+            stream (bool): Флаг, указывающий, следует ли использовать потоковую передачу.
+            **kwargs (Any): Дополнительные аргументы, передаваемые модели.
 
         Returns:
-            CreateResult: Результат создания завершения.
+            CreateResult: Результат завершения текста.
 
         Raises:
-            MissingRequirementsError: Если не установлены необходимые зависимости.
-
-        Example:
-            >>> messages = [{'role': 'user', 'content': 'Привет'}]
-            >>> result = Local.create_completion('ggml-model-gpt4all-falcon-q4_0.bin', messages, stream=False)
-            >>> print(result)
+            MissingRequirementsError: Если не установлены необходимые библиотеки (gpt4all).
         """
         if not has_requirements:
-            raise MissingRequirementsError('Install "gpt4all" package | pip install -U g4f[local]')
+            msg = 'Для работы с локальными моделями необходимо установить пакет "gpt4all". ' \
+                  'Выполните: `pip install -U g4f[local]`'
+            logger.error(msg)
+            raise MissingRequirementsError(msg)
         return LocalProvider.create_completion(
             cls.get_model(model),
             messages,

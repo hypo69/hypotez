@@ -1,59 +1,71 @@
 ### **Анализ кода модуля `Ylokh.py`**
 
+#### **Расположение файла в проекте**:
+Файл находится по пути `hypotez/src/endpoints/gpt4free/g4f/Provider/deprecated/Ylokh.py`, что указывает на его принадлежность к устаревшим провайдерам GPT4Free.
+
 #### **Качество кода**:
-- **Соответствие стандартам**: 7/10
+- **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Асинхронная реализация генератора для обработки данных.
-    - Поддержка стриминга и работы через прокси.
-    - Использование `StreamSession` для эффективной работы с потоками данных.
+  - Асинхронная обработка запросов с использованием `AsyncGeneratorProvider`.
+  - Поддержка стриминга ответов.
+  - Использование `StreamSession` для эффективной работы с потоками данных.
+  
 - **Минусы**:
-    - Отсутствует обработка исключений при парсинге JSON, что может привести к падению программы при некорректных данных.
-    - Жестко заданные URL-адреса и параметры, что усложняет изменение и поддержку.
-    - Не все переменные аннотированы типами.
+  - Отсутствие документации и комментариев, что затрудняет понимание кода.
+  - Жёстко заданные значения параметров (temperature, presence_penalty, top_p, frequency_penalty).
+  - Не используются аннотации типов.
+  - Отсутствует обработка исключений при парсинге JSON.
+  - Использование устаревшего подхода `Union[]` вместо `|`
 
 #### **Рекомендации по улучшению**:
-1. **Добавить обработку исключений**:
-   - Обернуть код, связанный с `json.loads`, в блоки `try...except`, чтобы избежать падений при некорректном формате JSON.
-   - Логировать ошибки с использованием `logger.error` с передачей информации об исключении (`ex`, `exc_info=True`).
 
-2. **Улучшить гибкость и конфигурацию**:
-   - Вынести URL-адреса и основные параметры в переменные или конфигурационные файлы, чтобы упростить их изменение.
-
-3. **Документировать код**:
-   - Добавить docstring для класса `Ylokh` и метода `create_async_generator` с описанием параметров, возвращаемых значений и возможных исключений.
-   - Указывать типы для всех входных и выходных параметров.
-
-4. **Логирование**:
-   - Добавить логирование для отладки и мониторинга работы провайдера, особенно при возникновении ошибок.
+1.  **Добавить документацию**:
+    *   Добавить docstring для класса `Ylokh` и его методов, описывающие их назначение, параметры и возвращаемые значения.
+    *   Добавить комментарии к ключевым участкам кода, объясняющие логику работы.
+2.  **Использовать аннотации типов**:
+    *   Добавить аннотации типов для переменных и параметров функций, чтобы улучшить читаемость и облегчить отладку.
+3.  **Обработка исключений**:
+    *   Добавить обработку исключений при парсинге JSON, чтобы предотвратить падение приложения в случае некорректных данных.
+    *   Логировать ошибки с использованием `logger.error`.
+4.  **Улучшить гибкость**:
+    *   Вынести значения параметров (temperature, presence\_penalty, top\_p, frequency\_penalty) в переменные класса или параметры конструктора, чтобы их можно было легко изменять.
+5.  **Удалить `__future__ import`**:
+    *   Удалить `from __future__ import annotations`, так как в Python 3.10+ аннотации типов поддерживаются без этого импорта.
+6.  **Переименовать переменные**:
+    *   Переименовать переменную `e` в `ex` в блоках `except`.
+7. **Использовать `|` вместо `Union[]`**:
+    *   Заменить `Union[]` на `|` для указания типов.
+8. **Логирование**
+    *   Добавить логирование с использованием `logger` из `src.logger`.
+       Пример:
+        ```python
+            try:
+                ...
+            except Exception as ex:
+                logger.error('Error while processing data', ex, exc_info=True)
+        ```
 
 #### **Оптимизированный код**:
+
 ```python
 from __future__ import annotations
 
 import json
-from typing import AsyncGenerator, Optional
+from typing import AsyncGenerator, Dict, List, Optional
 
+from src.logger import logger
 from ...requests import StreamSession
 from ..base_provider import AsyncGeneratorProvider
 from ...typing import AsyncResult, Messages
-from src.logger import logger  # Import logger
 
 
 class Ylokh(AsyncGeneratorProvider):
     """
-    Асинхронный провайдер для взаимодействия с Ylokh API.
-    =======================================================
+    Провайдер для доступа к модели Ylokh.
 
-    Этот класс позволяет отправлять запросы к Ylokh API и получать ответы в асинхронном режиме.
-    Поддерживает стриминг ответов и прокси.
-
-    Пример использования:
-    ----------------------
-
-    >>> provider = Ylokh()
-    >>> async for message in provider.create_async_generator(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Hello"}]):
-    ...     print(message)
+    Поддерживает стриминг ответов и работу с GPT-3.5-turbo.
     """
+
     url: str = "https://chat.ylokh.xyz"
     working: bool = False
     supports_message_history: bool = True
@@ -67,28 +79,25 @@ class Ylokh(AsyncGeneratorProvider):
         stream: bool = True,
         proxy: Optional[str] = None,
         timeout: int = 120,
-        **kwargs
+        **kwargs: Dict,
     ) -> AsyncResult:
         """
         Создает асинхронный генератор для взаимодействия с Ylokh API.
 
         Args:
-            model (str): Название модели для использования.
+            model (str): Имя модели.
             messages (Messages): Список сообщений для отправки.
-            stream (bool, optional): Использовать ли стриминг. По умолчанию True.
-            proxy (Optional[str], optional): Адрес прокси-сервера. По умолчанию None.
-            timeout (int, optional): Время ожидания ответа. По умолчанию 120.
-            **kwargs: Дополнительные параметры для передачи в API.
+            stream (bool, optional): Флаг стриминга. По умолчанию True.
+            proxy (Optional[str], optional): Прокси-сервер. По умолчанию None.
+            timeout (int, optional): Время ожидания. По умолчанию 120.
+            **kwargs (Dict): Дополнительные параметры для передачи в API.
 
         Returns:
-            AsyncResult: Асинхронный генератор, возвращающий части ответа от API.
-
-        Raises:
-            Exception: В случае ошибки при запросе к API.
+            AsyncResult: Асинхронный генератор, выдающий ответы от API.
         """
         model = model if model else "gpt-3.5-turbo"
-        headers: dict[str, str] = {"Origin": cls.url, "Referer": f"{cls.url}/"}
-        data: dict = {
+        headers: Dict[str, str] = {"Origin": cls.url, "Referer": f"{cls.url}/"}
+        data: Dict = {
             "messages": messages,
             "model": model,
             "temperature": 1,
@@ -97,33 +106,37 @@ class Ylokh(AsyncGeneratorProvider):
             "frequency_penalty": 0,
             "allow_fallback": True,
             "stream": stream,
-            **kwargs
+            **kwargs,
         }
-        try: # try
-            async with StreamSession(
-                    headers=headers,
-                    proxies={"https": proxy},
-                    timeout=timeout
-                ) as session:
-                async with session.post("https://chatapi.ylokh.xyz/v1/chat/completions", json=data) as response:
-                    response.raise_for_status()
-                    if stream:
-                        async for line in response.iter_lines():
+        async with StreamSession(
+            headers=headers, proxies={"https": proxy}, timeout=timeout
+        ) as session:
+            async with session.post(
+                "https://chatapi.ylokh.xyz/v1/chat/completions", json=data
+            ) as response:
+                response.raise_for_status()
+                if stream:
+                    async for line in response.iter_lines():
+                        try:
                             line = line.decode()
                             if line.startswith("data: "):
                                 if line.startswith("data: [DONE]"):
                                     break
-                                try: # try
-                                    line = json.loads(line[6:])
-                                    content: Optional[str] = line["choices"][0]["delta"].get("content")
-                                    if content:
-                                        yield content
-                                except json.JSONDecodeError as ex: #except
-                                    logger.error("Error decoding JSON", ex, exc_info=True) # logger
-                                    continue
-                    else:
-                        chat: dict = await response.json()
+                                line = json.loads(line[6:])
+                                content = line["choices"][0]["delta"].get("content")
+                                if content:
+                                    yield content
+                        except json.JSONDecodeError as ex:
+                            logger.error("Ошибка при декодировании JSON", ex, exc_info=True)
+                            continue
+                        except Exception as ex:
+                            logger.error("Ошибка при обработке данных", ex, exc_info=True)
+                            break
+                else:
+                    try:
+                        chat: Dict = await response.json()
                         yield chat["choices"][0]["message"].get("content")
-        except Exception as ex: # except
-            logger.error("Error while creating async generator", ex, exc_info=True) # logger
-            raise # raise
+                    except json.JSONDecodeError as ex:
+                        logger.error("Ошибка при декодировании JSON", ex, exc_info=True)
+                    except Exception as ex:
+                        logger.error("Ошибка при обработке данных", ex, exc_info=True)

@@ -1,81 +1,91 @@
 ### **Анализ кода модуля `Gemini.py`**
 
-**Расположение файла в проекте:** `hypotez/src/endpoints/gpt4free/g4f/Provider/needs_auth/Gemini.py`
+## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/needs_auth/Gemini.py
 
-**Описание:** Модуль предназначен для взаимодействия с Google Gemini в рамках проекта `hypotez`. Он предоставляет функциональность для генерации текста, обработки изображений и выполнения других задач, используя асинхронные запросы. Модуль требует аутентификации и использует cookies для работы.
+Модуль предоставляет класс `Gemini`, который является асинхронным генератором для взаимодействия с моделью Google Gemini.
 
 **Качество кода:**
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Асинхронная обработка запросов, что повышает производительность.
-    - Использование `aiohttp` для выполнения HTTP-запросов.
-    - Реализована поддержка cookies и их автоматическое обновление.
-    - Обработка исключений с логированием ошибок.
+    - Асинхронная реализация для неблокирующих операций.
+    - Использование `ProviderModelMixin` для управления моделями.
+    - Реализация автоматического обновления cookies.
+    - Поддержка загрузки изображений.
 - **Минусы**:
-    - Не все функции и классы имеют docstring.
-    - В коде встречаются не аннотированные переменные.
-    - Некоторые участки кода сложны для понимания из-за отсутствия подробных комментариев.
-    - Жестко заданные значения и URL-ы.
+    - Многочисленные вложенные блоки `try-except` могут усложнить отладку.
+    - Использование `json.loads` внутри цикла `async for` может быть неэффективным.
+    - Не все переменные аннотированы типами.
+    - Magic values.
+    - Большой объем кода в одном классе. Желательно разбить на несколько подклассов.
+    - Не все функции и методы документированы в соответствии с требованиями.
+    - Не используется `j_loads` для загрузки `json`.
+    - Присутствуют устаревшие конструкции, например `from __future__ import annotations`.
+    - Не везде используется `logger` для логирования ошибок и информации.
+    - Не используются возможности `webdriver` из проекта `hypotez`.
+    - Много повторений кода, особенно в блоках обработки ошибок.
+    - Не соблюдены отступы в некоторых местах, что ухудшает читаемость.
 
 **Рекомендации по улучшению:**
 
 1. **Документация**:
-   - Добавить docstring для всех классов и методов, описывающие их назначение, параметры и возвращаемые значения.
-   - В docstring добавить примеры использования.
-   - Добавить описание модуля в целом.
-
-2. **Аннотации типов**:
-   - Добавить аннотации типов для всех переменных.
-
-3. **Комментарии**:
-   - Добавить комментарии для пояснения сложных участков кода.
-   - Улучшить существующие комментарии, сделав их более информативными.
-
-4. **Конфигурация**:
-   - Вынести жестко заданные URL и параметры в отдельный конфигурационный файл.
-
-5. **Обработка ошибок**:
-   - Улучшить обработку ошибок, добавив более конкретные исключения и логирование.
-
-6. **Безопасность**:
-   - Рассмотреть возможность хранения cookies в более безопасном месте, чем просто в файле.
+   - Добавить docstring к каждой функции и методу, включая описание аргументов, возвращаемых значений и возможных исключений.
+   - Перевести все docstring на русский язык.
+2. **Обработка исключений**:
+   - Унифицировать обработку исключений с использованием `logger.error` и передачей исключения `ex`.
+   - Избегать слишком общих блоков `except Exception as e`, заменяя их на более конкретные исключения.
+3. **Типизация**:
+   - Добавить аннотации типов для всех переменных и параметров функций.
+4. **Логирование**:
+   - Использовать `logger` для записи информации о процессе работы, особенно при обновлении cookies и загрузке изображений.
+5. **Рефакторинг**:
+   - Разбить класс `Gemini` на несколько подклассов для улучшения читаемости и поддержки.
+   - Вынести повторяющийся код в отдельные функции.
+6. **Cookies**:
+   - Использовать `j_loads` для загрузки cookies из файла.
+7. **Удалить устаревшие конструкции**:
+   - Убрать `from __future__ import annotations`.
+8. **Использовать webdriver**:
+   - Переписать функции `nodriver_login` с использованием `webdriver` из `hypotez`.
+9. **Обработка JSON**:
+   - Использовать более надежные способы обработки JSON, чтобы избежать `ValueError` при парсинге.
+10. **Улучшение читаемости**:
+    - Следовать стандартам PEP8 для форматирования кода, включая пробелы вокруг операторов и отступы.
 
 **Оптимизированный код:**
 
 ```python
 """
-Модуль для взаимодействия с Google Gemini
-==========================================
+Модуль для работы с моделью Google Gemini
+=========================================
 
-Модуль предоставляет асинхронные функции для генерации текста и обработки изображений с использованием Google Gemini.
-Требуется аутентификация через cookies.
+Модуль содержит класс :class:`Gemini`, который используется для взаимодействия с моделью Google Gemini через асинхронный генератор.
+Поддерживает автоматическое обновление cookies и загрузку изображений.
+
+Пример использования
+----------------------
+
+>>> gemini = Gemini()
+>>> async for chunk in gemini.create_async_generator(model="gemini-2.0-flash", messages=[{"role": "user", "content": "Hello"}]):
+...     print(chunk, end="")
 """
-
 from __future__ import annotations
 
-import os
+import asyncio
+import base64
 import json
+import os
 import random
 import re
-import base64
-import asyncio
 import time
-from typing import Generator, Optional, List, Dict, Tuple, AsyncIterator, Any
-
-from urllib.parse import quote_plus, unquote_plus
 from pathlib import Path
+from urllib.parse import quote_plus, unquote_plus
+
 from aiohttp import ClientSession, BaseConnector
 
-from src.logger import logger # Импорт модуля для логирования
-
-try:
-    import nodriver
-    has_nodriver: bool = True
-except ImportError:
-    has_nodriver: bool = False
-
+from src.logger import logger  # Используем logger из src.logger
 from ... import debug
-from ...typing import Messages, Cookies, MediaListType, AsyncResult
+from ...typing import Messages, Cookies, MediaListType, AsyncResult, AsyncIterator
 from ...providers.response import JsonConversation, Reasoning, RequestLogin, ImageResponse, YouTube
 from ...requests.raise_for_status import raise_for_status
 from ...requests.aiohttp import get_connector
@@ -87,7 +97,7 @@ from ...tools.media import merge_media
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ..helper import format_prompt, get_cookies, get_last_user_message
 
-REQUEST_HEADERS: Dict[str, str] = {
+REQUEST_HEADERS: dict[str, str] = {
     "authority": "gemini.google.com",
     "origin": "https://gemini.google.com",
     "referer": "https://gemini.google.com/",
@@ -97,12 +107,12 @@ REQUEST_HEADERS: Dict[str, str] = {
 REQUEST_BL_PARAM: str = "boq_assistant-bard-web-server_20240519.16_p0"
 REQUEST_URL: str = "https://gemini.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate"
 UPLOAD_IMAGE_URL: str = "https://content-push.googleapis.com/upload/"
-UPLOAD_IMAGE_HEADERS: Dict[str, str] = {
+UPLOAD_IMAGE_HEADERS: dict[str, str] = {
     "authority": "content-push.googleapis.com",
     "accept": "*/*",
     "accept-language": "en-US,en;q=0.7",
     "authorization": "Basic c2F2ZXM6cyNMdGhlNmxzd2F2b0RsN3J1d1U=",
-    "content-type": "application/x-wwwform-urlencoded;charset=UTF-8",
+    "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
     "origin": "https://gemini.google.com",
     "push-id": "feeds/mcudyrk2a4khkz",
     "referer": "https://gemini.google.com/",
@@ -115,7 +125,7 @@ GOOGLE_COOKIE_DOMAIN: str = ".google.com"
 ROTATE_COOKIES_URL: str = "https://accounts.google.com/RotateCookies"
 GGOGLE_SID_COOKIE: str = "__Secure-1PSID"
 
-models: Dict[str, Dict[str, str]] = {
+models: dict[str, dict[str, str]] = {
     "gemini-2.0-flash": {"x-goog-ext-525001261-jspb": '[null,null,null,null,"f299729663a2343f"]'},
     "gemini-2.0-flash-exp": {"x-goog-ext-525001261-jspb": '[null,null,null,null,"f299729663a2343f"]'},
     "gemini-2.0-flash-thinking": {"x-goog-ext-525001261-jspb": '[null,null,null,null,"9c17b1863f581b8a"]'},
@@ -128,61 +138,70 @@ models: Dict[str, Dict[str, str]] = {
 
 class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Класс для взаимодействия с Google Gemini.
+    Класс для взаимодействия с моделью Google Gemini.
     """
     label: str = "Google Gemini"
     url: str = "https://gemini.google.com"
-    
     needs_auth: bool = True
     working: bool = True
     use_nodriver: bool = True
-    
+
     default_model: str = ""
     default_image_model: str = default_model
     default_vision_model: str = default_model
-    image_models: List[str] = [default_image_model]
-    models: List[str] = [
+    image_models: list[str] = [default_image_model]
+    models: list[str] = [
         default_model, *models.keys()
     ]
-    model_aliases: Dict[str, str] = {"gemini-2.0": ""}
+    model_aliases: dict[str, str] = {"gemini-2.0": ""}
 
     synthesize_content_type: str = "audio/vnd.wav"
-    
+
     _cookies: Cookies | None = None
     _snlm0e: str | None = None
     _sid: str | None = None
 
     auto_refresh: bool = True
     refresh_interval: int = 540
-    rotate_tasks: Dict[str, asyncio.Task] = {}
+    rotate_tasks: dict[str, asyncio.Task] = {}
 
     @classmethod
-    async def nodriver_login(cls, proxy: str | None = None) -> AsyncIterator[str | RequestLogin]:
+    async def nodriver_login(cls, proxy: str | None = None) -> AsyncIterator[str] | None:
         """
-        Выполняет вход в Gemini с использованием nodriver.
+        Автоматически проходит процесс логина с использованием nodriver для получения cookies.
 
         Args:
-            proxy (str | None): Прокси-сервер для использования.
+            proxy (str | None): Прокси для использования.
 
         Yields:
-            AsyncIterator[str | RequestLogin]: Асинхронный итератор, возвращающий строки или объекты RequestLogin.
+            AsyncIterator[str] | None: Часть страницы логина или None в случае ошибки.
         """
-        if not has_nodriver:
+        if not hasattr(cls, 'has_nodriver'):
+            try:
+                import nodriver
+                cls.has_nodriver = True
+            except ImportError:
+                cls.has_nodriver = False
+
+        if not cls.has_nodriver:
             if debug.logging:
                 print("Skip nodriver login in Gemini provider")
             return
+
         browser, stop_browser = await get_nodriver(proxy=proxy, user_data_dir="gemini")
         try:
-            login_url: str | None = os.environ.get("G4F_LOGIN_URL")
+            login_url = os.environ.get("G4F_LOGIN_URL")
             if login_url:
                 yield RequestLogin(cls.label, login_url)
             page = await browser.get(f"{cls.url}/app")
             await page.select("div.ql-editor.textarea", 240)
-            cookies: Dict[str, str] = {}
+            cookies = {}
             for c in await page.send(nodriver.cdp.network.get_cookies([cls.url])):
                 cookies[c.name] = c.value
             await page.close()
             cls._cookies = cookies
+        except Exception as ex:
+            logger.error('Error while nodriver login', ex, exc_info=True)
         finally:
             stop_browser()
 
@@ -190,22 +209,19 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
     async def start_auto_refresh(cls, proxy: str | None = None) -> None:
         """
         Запускает фоновую задачу для автоматического обновления cookies.
-
-        Args:
-            proxy (str | None): Прокси-сервер для использования.
         """
-
         while True:
             try:
-                new_1psidts: str | None = await rotate_1psidts(cls.url, cls._cookies, proxy)
+                new_1psidts = await rotate_1psidts(cls.url, cls._cookies, proxy)
             except Exception as ex:
                 logger.error(f"Failed to refresh cookies: {ex}", exc_info=True)
-                task: asyncio.Task | None = cls.rotate_tasks.get(cls._cookies[GGOGLE_SID_COOKIE])
+                task = cls.rotate_tasks.get(cls._cookies[GGOGLE_SID_COOKIE])
                 if task:
                     task.cancel()
                 logger.error(
-                    "Failed to refresh cookies. Background auto refresh task canceled.", exc_info=True
+                    "Failed to refresh cookies. Background auto refresh task canceled."
                 )
+                continue  # Добавлено для продолжения цикла
 
             debug.log(f"Gemini: Cookies refreshed. New __Secure-1PSIDTS: {new_1psidts}")
             if new_1psidts:
@@ -224,35 +240,31 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
         return_conversation: bool = False,
         conversation: "Conversation" | None = None,
         language: str = "en",
-        **kwargs: Any
+        **kwargs
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для взаимодействия с Gemini.
+        Создает асинхронный генератор для получения ответов от модели Gemini.
 
         Args:
-            model (str): Модель для использования.
+            model (str): Имя модели.
             messages (Messages): Список сообщений для отправки.
-            proxy (str | None): Прокси-сервер для использования.
+            proxy (str | None): Прокси для использования.
             cookies (Cookies | None): Cookies для использования.
-            connector (BaseConnector | None): Коннектор для использования.
-            media (MediaListType | None): Список медиафайлов для отправки.
-            return_conversation (bool): Флаг, указывающий, нужно ли возвращать объект Conversation.
+            connector (BaseConnector | None): Connector для использования.
+            media (MediaListType | None): Медиафайлы для отправки.
+            return_conversation (bool): Флаг для возврата объекта Conversation.
             conversation (Conversation | None): Объект Conversation для продолжения диалога.
-            language (str): Язык для использования.
-            **kwargs (Any): Дополнительные аргументы.
+            language (str): Язык ответа.
+            **kwargs: Дополнительные аргументы.
 
         Yields:
-            AsyncIterator[str | Reasoning | ImageResponse | YouTube | Conversation]: Асинхронный итератор, возвращающий различные типы ответов от Gemini.
-
-        Raises:
-            MissingAuthError: Если отсутствует cookie "__Secure-1PSID".
-            RuntimeError: Если не удалось получить SNlM0e.
+            AsyncIterator[str]: Часть ответа от модели.
         """
         cls._cookies = cookies or cls._cookies or get_cookies(GOOGLE_COOKIE_DOMAIN, False, True)
         if conversation is not None and getattr(conversation, "model", None) != model:
             conversation = None
-        prompt: str = format_prompt(messages) if conversation is None else get_last_user_message(messages)
-        base_connector: BaseConnector = get_connector(connector, proxy)
+        prompt = format_prompt(messages) if conversation is None else get_last_user_message(messages)
+        base_connector = get_connector(connector, proxy)
 
         async with ClientSession(
             headers=REQUEST_HEADERS,
@@ -273,26 +285,26 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
             if not cls._snlm0e:
                 raise RuntimeError("Invalid cookies. SNlM0e not found")
             if GGOGLE_SID_COOKIE in cls._cookies:
-                task: asyncio.Task | None = cls.rotate_tasks.get(cls._cookies[GGOGLE_SID_COOKIE])
+                task = cls.rotate_tasks.get(cls._cookies[GGOGLE_SID_COOKIE])
                 if not task:
                     cls.rotate_tasks[cls._cookies[GGOGLE_SID_COOKIE]] = asyncio.create_task(
                         cls.start_auto_refresh()
                     )
 
-            uploads: list[list[str, str]] = await cls.upload_images(base_connector, merge_media(media, messages))
+            uploads = await cls.upload_images(base_connector, merge_media(media, messages))
             async with ClientSession(
                 cookies=cls._cookies,
                 headers=REQUEST_HEADERS,
                 connector=base_connector,
             ) as client:
-                params: Dict[str, Any] = {
+                params = {
                     'bl': REQUEST_BL_PARAM,
                     'hl': language,
                     '_reqid': random.randint(1111, 9999),
                     'rt': 'c',
                     "f.sid": cls._sid,
                 }
-                data: Dict[str, Any] = {
+                data = {
                     'at': cls._snlm0e,
                     'f.req': json.dumps([None, json.dumps(cls.build_request(
                         prompt,
@@ -308,8 +320,8 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
                     headers=models[model] if model in models else None
                 ) as response:
                     await raise_for_status(response)
-                    image_prompt: str | None = response_part = None
-                    last_content: str = ""
+                    image_prompt = response_part = None
+                    last_content = ""
                     async for line in response.content:
                         try:
                             try:
@@ -325,56 +337,28 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
                                 continue
                             if return_conversation:
                                 yield Conversation(response_part[1][0], response_part[1][1], response_part[4][0][0], model)
-                            def read_recusive(data: list) -> Generator[str, None, None]:
-                                """
-                                Рекурсивно извлекает строки из списка.
-
-                                Args:
-                                    data (list): Список для извлечения строк.
-
-                                Yields:
-                                    Generator[str, None, None]: Генератор строк.
-                                """
+                            def read_recusive(data):
                                 for item in data:
                                     if isinstance(item, list):
                                         yield from read_recusive(item)
                                     elif isinstance(item, str) and not item.startswith("rc_"):\
                                         yield item
-                            def find_str(data: list, skip: int = 0) -> Generator[str, None, None]:
-                                """
-                                Ищет строки в списке, пропуская первые skip элементов.
-
-                                Args:
-                                    data (list): Список для поиска строк.
-                                    skip (int): Количество элементов для пропуска.
-
-                                Yields:
-                                    Generator[str, None, None]: Генератор строк.
-                                """
+                            def find_str(data, skip=0):
                                 for item in read_recusive(data):
                                     if skip > 0:
                                         skip -= 1
                                         continue
                                     yield item
-                            reasoning: str = "\\n\\n".join(find_str(response_part[4][0], 3))
+                            reasoning = "\\n\\n".join(find_str(response_part[4][0], 3))
                             reasoning = re.sub(r"<b>|</b>", "**", reasoning)
-                            def replace_image(match: re.Match) -> str:
-                                """
-                                Заменяет ссылки на изображения в тексте.
-
-                                Args:
-                                    match (re.Match): Объект Match.
-
-                                Returns:
-                                    str: Строка с замененными ссылками.
-                                """
+                            def replace_image(match):
                                 return f"![](https:{match.group(0)})"
                             reasoning = re.sub(r"//yt3.(?:ggpht.com|googleusercontent.com/ytc)/[\\w=-]+", replace_image, reasoning)
                             reasoning = re.sub(r"\\nyoutube\\n", "\\n\\n\\n", reasoning)
                             reasoning = re.sub(r"\\nyoutube_tool\\n", "\\n\\n", reasoning)
                             reasoning = re.sub(r"\\nYouTube\\n", "\\nYouTube ", reasoning)
                             reasoning = reasoning.replace('\\nhttps://www.gstatic.com/images/branding/productlogos/youtube/v9/192px.svg', '<i class="fa-brands fa-youtube"></i>')
-                            content: str = response_part[4][0][1][0]
+                            content = response_part[4][0][1][0]
                             if reasoning:
                                 yield Reasoning(reasoning, status="🤔")
                         except (ValueError, KeyError, TypeError, IndexError) as ex:
@@ -387,16 +371,7 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
                         pattern = r"http://googleusercontent.com/(?:image_generation|youtube|map)_content/\\d+"
                         content = re.sub(pattern, "", content)
                         content = content.replace("<!-- end list -->", "")
-                        def replace_link(match: re.Match) -> str:
-                            """
-                            Заменяет ссылки в тексте.
-
-                            Args:
-                                match (re.Match): Объект Match.
-
-                            Returns:
-                                str: Строка с замененными ссылками.
-                            """
+                        def replace_link(match):
                             return f"(https://{quote_plus(unquote_plus(match.group(1)), '/?&=#')})"
                         content = re.sub(r"\\(https://www.google.com/(?:search\\?q=|url\\?sa=E&source=gmail&q=)https?://(.+?)\\)", replace_link, content)
 
@@ -407,13 +382,13 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
                         last_content = content
                         if image_prompt:
                             try:
-                                images: List[str] = [image[0][3][3] for image in response_part[4][0][12][7][0]]
+                                images = [image[0][3][3] for image in response_part[4][0][12][7][0]]
                                 image_prompt = image_prompt.replace("a fake image", "")
                                 yield ImageResponse(images, image_prompt, {"cookies": cls._cookies})
                             except (TypeError, IndexError, KeyError) as ex:
-                                logger.error(f"Error processing image response: {ex}", exc_info=True)
+                                logger.error(f"{cls.__name__} {type(ex).__name__}: {ex}", exc_info=True)
                                 pass
-                        youtube_ids: List[str] = []
+                        youtube_ids = []
                         pattern = re.compile(r"http://www.youtube.com/watch\\?v=([\\w-]+)")
                         for match in pattern.finditer(content):
                             if match.group(1) not in youtube_ids:
@@ -422,16 +397,16 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
                             yield YouTube(youtube_ids)
 
     @classmethod
-    async def synthesize(cls, params: dict, proxy: str | None = None) -> AsyncIterator[bytes]:
+    async def synthesize(cls, params: dict[str, str], proxy: str | None = None) -> AsyncIterator[bytes]:
         """
-        Синтезирует речь из текста.
+        Синтезирует речь из текста с использованием модели Gemini.
 
         Args:
-            params (dict): Параметры запроса.
-            proxy (str | None): Прокси-сервер для использования.
+            params (dict[str, str]): Параметры для синтеза речи, включая текст.
+            proxy (str | None): Прокси для использования.
 
         Yields:
-            AsyncIterator[bytes]: Асинхронный итератор байтов с синтезированной речью.
+            AsyncIterator[bytes]: Аудиоданные в формате bytes.
 
         Raises:
             ValueError: Если отсутствует параметр "text".
@@ -445,11 +420,11 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
         ) as session:
             if not cls._snlm0e:
                 await cls.fetch_snlm0e(session, cls._cookies) if cls._cookies else None
-            inner_data: str = json.dumps([None, params["text"], "en-US", None, 2])
+            inner_data = json.dumps([None, params["text"], "en-US", None, 2])
             async with session.post(
                 "https://gemini.google.com/_/BardChatUi/data/batchexecute",
                 data={
-                      "f.req": json.dumps([[["XqA3Ic", inner_data, None, "generic"]]]),\
+                      "f.req": json.dumps([[["XqA3Ic", inner_data, None, "generic"]]]),
                       "at": cls._snlm0e,
                 },
                 params={
@@ -463,7 +438,7 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
                 },
             ) as response:
                 await raise_for_status(response)
-                iter_base64_response: AsyncIterator[bytes] = iter_filter_base64(response.content.iter_chunked(1024))
+                iter_base64_response = iter_filter_base64(response.content.iter_chunked(1024))
                 async for chunk in iter_base64_decode(iter_base64_response):
                     yield chunk
 
@@ -472,22 +447,22 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
         language: str,
         conversation: "Conversation" | None = None,
         uploads: list[list[str, str]] | None = None,
-        tools: list[list[str]] | None = None
+        tools: list[list[str]] = []
     ) -> list:
         """
-        Создает запрос к Gemini.
+        Создает запрос к модели Gemini.
 
         Args:
             prompt (str): Текст запроса.
             language (str): Язык запроса.
             conversation (Conversation | None): Объект Conversation для продолжения диалога.
             uploads (list[list[str, str]] | None): Список загруженных изображений.
-            tools (list[list[str]] | None): Список инструментов.
+            tools (list[list[str]]): Список инструментов для использования.
 
         Returns:
             list: Список параметров запроса.
         """
-        image_list: list = [[[image_url, 1], image_name] for image_url, image_name in uploads] if uploads else []
+        image_list = [[[image_url, 1], image_name] for image_url, image_name in uploads] if uploads else []
         return [
             [prompt, 0, None, image_list, None, None, 0],
             [language],
@@ -510,27 +485,27 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
             0,
         ]
 
-    async def upload_images(connector: BaseConnector, media: MediaListType) -> list:
+    async def upload_images(connector: BaseConnector, media: MediaListType) -> list[list[str, str]]:
         """
-        Загружает изображения в Gemini.
+        Загружает изображения на сервер Gemini.
 
         Args:
-            connector (BaseConnector): Коннектор для использования.
+            connector (BaseConnector): Connector для использования.
             media (MediaListType): Список медиафайлов для загрузки.
 
         Returns:
-            list: Список URL-адресов загруженных изображений.
+            list[list[str, str]]: Список URL загруженных изображений и их имен.
         """
-        async def upload_image(image: bytes, image_name: str | None = None) -> list[str]:
+        async def upload_image(image: bytes, image_name: str | None = None) -> list[str, str]:
             """
-            Загружает одно изображение.
+            Загружает одно изображение на сервер Gemini.
 
             Args:
-                image (bytes): Байты изображения.
+                image (bytes): Изображение в формате bytes.
                 image_name (str | None): Имя изображения.
 
             Returns:
-                list[str]: Список URL-адресов загруженного изображения.
+                list[str, str]: URL загруженного изображения и его имя.
             """
             async with ClientSession(
                 headers=UPLOAD_IMAGE_HEADERS,
@@ -541,16 +516,16 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
                 async with session.options(UPLOAD_IMAGE_URL) as response:
                     await raise_for_status(response)
 
-                headers: Dict[str, str] = {
+                headers = {
                     "size": str(len(image)),
                     "x-goog-upload-command": "start"
                 }
-                data: str | None = f"File name: {image_name}" if image_name else None
+                data = f"File name: {image_name}" if image_name else None
                 async with session.post(
                     UPLOAD_IMAGE_URL, headers=headers, data=data
                 ) as response:
                     await raise_for_status(response)
-                    upload_url: str = response.headers["X-Goog-Upload-Url"]
+                    upload_url = response.headers["X-Goog-Upload-Url"]
 
                 async with session.options(upload_url, headers=headers) as response:
                     await raise_for_status(response)
@@ -567,15 +542,15 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
     @classmethod
     async def fetch_snlm0e(cls, session: ClientSession, cookies: Cookies) -> None:
         """
-        Извлекает SNlM0e из ответа сервера.
+        Получает значение SNlM0e из cookies.
 
         Args:
-            session (ClientSession): Сессия aiohttp.
+            session (ClientSession): Сессия для выполнения запроса.
             cookies (Cookies): Cookies для использования.
         """
         async with session.get(cls.url, cookies=cookies) as response:
             await raise_for_status(response)
-            response_text: str = await response.text()
+            response_text = await response.text()
         match = re.search(r'SNlM0e\\":\\"(.*?)\\"', response_text)
         if match:
             cls._snlm0e = match.group(1)
@@ -585,19 +560,19 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
 
 class Conversation(JsonConversation):
     """
-    Класс для хранения информации о контексте диалога.
+    Класс для представления истории диалога.
     """
-    def __init__(self,\
-        conversation_id: str,\
-        response_id: str,\
-        choice_id: str,\
-        model: str\
+    def __init__(self,
+        conversation_id: str,
+        response_id: str,
+        choice_id: str,
+        model: str
     ) -> None:
         """
         Инициализирует объект Conversation.
 
         Args:
-            conversation_id (str): ID разговора.
+            conversation_id (str): ID диалога.
             response_id (str): ID ответа.
             choice_id (str): ID выбора.
             model (str): Используемая модель.
@@ -609,17 +584,17 @@ class Conversation(JsonConversation):
 
 async def iter_filter_base64(chunks: AsyncIterator[bytes]) -> AsyncIterator[bytes]:
     """
-    Фильтрует base64 чанки из ответа сервера.
+    Фильтрует base64 данные из чанков.
 
     Args:
-        chunks (AsyncIterator[bytes]): Асинхронный итератор байтов.
+        chunks (AsyncIterator[bytes]): Асинхронный итератор байтовых чанков.
 
     Yields:
-        AsyncIterator[bytes]: Отфильтрованный асинхронный итератор байтов.
+        AsyncIterator[bytes]: Отфильтрованные байтовые чанки.
     """
-    search_for = b'[["wrb.fr","XqA3Ic","[\\\\"'\
+    search_for = b'[["wrb.fr","XqA3Ic","[\\\\"\'
     end_with = b'\\\\'
-    is_started: bool = False
+    is_started = False
     async for chunk in chunks:
         if is_started:
             if end_with in chunk:
@@ -635,16 +610,16 @@ async def iter_filter_base64(chunks: AsyncIterator[bytes]) -> AsyncIterator[byte
 
 async def iter_base64_decode(chunks: AsyncIterator[bytes]) -> AsyncIterator[bytes]:
     """
-    Декодирует base64 чанки.
+    Декодирует base64 данные из чанков.
 
     Args:
-        chunks (AsyncIterator[bytes]): Асинхронный итератор байтов.
+        chunks (AsyncIterator[bytes]): Асинхронный итератор байтовых чанков.
 
     Yields:
-        AsyncIterator[bytes]: Декодированный асинхронный итератор байтов.
+        AsyncIterator[bytes]: Декодированные байтовые чанки.
     """
-    buffer: bytes = b""
-    rest: int = 0
+    buffer = b""
+    rest = 0
     async for chunk in chunks:
         chunk = buffer + chunk
         rest = len(chunk) % 4
@@ -653,24 +628,21 @@ async def iter_base64_decode(chunks: AsyncIterator[bytes]) -> AsyncIterator[byte
     if rest > 0:
         yield base64.b64decode(buffer+rest*b"=")
 
-async def rotate_1psidts(url: str, cookies: dict, proxy: str | None = None) -> str:
+async def rotate_1psidts(url: str, cookies: dict[str, str], proxy: str | None = None) -> str | None:
     """
-    Обновляет cookie "__Secure-1PSIDTS".
+    Обновляет cookie __Secure-1PSIDTS.
 
     Args:
         url (str): URL для запроса.
-        cookies (dict): Cookies для использования.
-        proxy (str | None): Прокси-сервер для использования.
+        cookies (dict[str, str]): Текущие cookies.
+        proxy (str | None): Прокси для использования.
 
     Returns:
-        str: Новое значение cookie "__Secure-1PSIDTS".
-
-    Raises:
-        MissingAuthError: Если cookies невалидны.
+        str | None: Новое значение __Secure-1PSIDTS или None в случае ошибки.
     """
-    path: Path = Path(get_cookies_dir())
+    path = Path(get_cookies_dir())
     path.mkdir(parents=True, exist_ok=True)
-    filename: str = f"auth_Gemini.json"
+    filename = f"auth_Gemini.json"
     path = path / filename
 
     # Check if the cache file was modified in the last minute to avoid 429 Too Many Requests
@@ -689,7 +661,7 @@ async def rotate_1psidts(url: str, cookies: dict, proxy: str | None = None) -> s
             response.raise_for_status()
             for key, c in response.cookies.items():
                 cookies[key] = c.value
-            new_1psidts: str | None = response.cookies.get("__Secure-1PSIDTS")
+            new_1psidts = response.cookies.get("__Secure-1PSIDTS")
             path.write_text(json.dumps([{\
                 "name": k,\
                 "value": v,\
@@ -697,3 +669,4 @@ async def rotate_1psidts(url: str, cookies: dict, proxy: str | None = None) -> s
             } for k, v in cookies.items()]))
             if new_1psidts:
                 return new_1psidts
+    return None

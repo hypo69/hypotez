@@ -1,55 +1,87 @@
 ### **Анализ кода модуля `Prodia.py`**
 
 #### **Качество кода**:
-- **Соответствие стандартам**: 7/10
+- **Соответствие стандартам**: 6/10
 - **Плюсы**:
-  - Код асинхронный, что позволяет эффективно использовать ресурсы при ожидании ответа от API.
-  - Используются аннотации типов для параметров и возвращаемых значений.
-  - Класс `Prodia` наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`, что предполагает использование в рамках общей архитектуры.
+  - Асинхронная реализация генерации изображений.
+  - Использование `ClientSession` для эффективного управления HTTP-соединениями.
+  - Наличие списка предопределенных моделей для генерации изображений.
 - **Минусы**:
-  - Отсутствует docstring для класса `Prodia`.
-  - Нет обработки исключений для `ClientSession`.
-  - Строки содержат двойные кавычки, когда должны быть одинарные.
-  - Magic values для `max_attempts` и `delay`.
-  - Отсутствует логирование.
+  - Отсутствует подробная документация для функций и классов.
+  - Не используются логирование для отслеживания ошибок и хода выполнения программы.
+  - Жестко заданные URL и заголовки запросов.
+  - Magic values (например, `0, 10000`, `30, 2`, `"succeeded"`, `"failed"`) без объяснения их назначения.
+  - Отсутствуют аннотации типов для всех переменных.
 
 #### **Рекомендации по улучшению**:
-- Добавить docstring для класса `Prodia` с описанием назначения класса.
-- Добавить обработку исключений для `ClientSession` с использованием `logger.error`.
-- Изменить двойные кавычки на одинарные.
-- Добавить константы для `max_attempts` и `delay`.
-- Добавить логирование.
-- Перевести документацию на русский язык
+
+1. **Добавить документацию**:
+   - Добавить docstring к классам и методам, описывающие их назначение, параметры и возвращаемые значения.
+   - Описать назначение каждого параметра в docstring.
+
+2. **Использовать логирование**:
+   - Добавить логирование для отслеживания хода выполнения программы и ошибок.
+   - Логировать важные события, такие как начало и окончание генерации изображения, успешное завершение или возникновение ошибки.
+
+3. **Избегать жестко заданных значений**:
+   - Вынести URL и заголовки запросов в константы или переменные конфигурации.
+   - Заменить "магические" числа константами с понятными именами.
+
+4. **Добавить обработку исключений**:
+   - Добавить более детальную обработку исключений, чтобы можно было корректно обрабатывать различные типы ошибок.
+   - Использовать `logger.error` для логирования ошибок с указанием причины.
+
+5. **Улучшить читаемость**:
+   - Использовать более понятные имена переменных.
+   - Разбить длинные функции на более мелкие, чтобы улучшить читаемость и упростить отладку.
+
+6. **Добавить аннотации типов**:
+   - Добавить аннотации типов для всех переменных, чтобы улучшить читаемость и упростить отладку.
 
 #### **Оптимизированный код**:
+
 ```python
 """
-Модуль для работы с провайдером Prodia
-========================================
+Модуль для асинхронной генерации изображений с использованием API Prodia.
+=====================================================================
 
-Модуль содержит класс :class:`Prodia`, который используется для взаимодействия с API Prodia для генерации изображений.
+Модуль содержит класс :class:`Prodia`, который предоставляет асинхронные методы
+для генерации изображений на основе заданных параметров, таких как модель, промпт
+и другие настройки.
+
+Пример использования:
+----------------------
+>>> from src.endpoints.gpt4free.g4f.Provider.not_working.Prodia import Prodia
+>>> import asyncio
+>>> async def main():
+>>>     model = 'absolutereality_v181.safetensors [3d9d4d2b]'
+>>>     messages = [{'role': 'user', 'content': 'A beautiful landscape'}]
+>>>     async for image_response in Prodia.create_async_generator(model=model, messages=messages):
+>>>         print(image_response.url)
+>>> asyncio.run(main())
 """
 from __future__ import annotations
 
 from aiohttp import ClientSession
 import asyncio
 import random
-from typing import Optional, List
+from typing import AsyncGenerator, Optional, List
 
-from ...typing import AsyncResult, Messages
-from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
-from ...providers.response import ImageResponse
-from src.logger import logger
+from src.endpoints.gpt4free.g4f.typing import Messages
+from src.endpoints.gpt4free.g4f.providers.base_provider import AsyncGeneratorProvider, ProviderModelMixin
+from src.endpoints.gpt4free.g4f.providers.response import ImageResponse
+from src.logger import logger  # Добавлен импорт logger
+
 
 class Prodia(AsyncGeneratorProvider, ProviderModelMixin):
     """
     Провайдер для генерации изображений через API Prodia.
     """
-    url: str = 'https://app.prodia.com'
-    api_endpoint: str = 'https://api.prodia.com/generate'
-    
+    url: str = "https://app.prodia.com"
+    api_endpoint: str = "https://api.prodia.com/generate"
+
     working: bool = False
-    
+
     default_model: str = 'absolutereality_v181.safetensors [3d9d4d2b]'
     default_image_model: str = default_model
     image_models: List[str] = [
@@ -121,19 +153,17 @@ class Prodia(AsyncGeneratorProvider, ProviderModelMixin):
     ]
     models: List[str] = [*image_models]
 
-    MAX_ATTEMPTS: int = 30
-    DELAY: int = 2
-
     @classmethod
     def get_model(cls, model: str) -> str:
         """
-        Возвращает имя модели.
+        Возвращает имя модели для генерации изображения.
 
         Args:
             model (str): Имя модели.
 
         Returns:
-            str: Имя модели.
+            str: Имя модели, если она найдена в списке поддерживаемых моделей,
+                 иначе имя модели по умолчанию.
         """
         if model in cls.models:
             return model
@@ -148,100 +178,109 @@ class Prodia(AsyncGeneratorProvider, ProviderModelMixin):
         model: str,
         messages: Messages,
         proxy: Optional[str] = None,
-        negative_prompt: str = '',
-        steps: int = 20, # 1-25
-        cfg: int = 7, # 0-20
+        negative_prompt: str = "",
+        steps: int = 20,  # 1-25
+        cfg: int = 7,  # 0-20
         seed: Optional[int] = None,
-        sampler: str = 'DPM++ 2M Karras', # "Euler", "Euler a", "Heun", "DPM++ 2M Karras", "DPM++ SDE Karras", "DDIM"
-        aspect_ratio: str = 'square', # "square", "portrait", "landscape"
+        sampler: str = "DPM++ 2M Karras",  # "Euler", "Euler a", "Heun", "DPM++ 2M Karras", "DPM++ SDE Karras", "DDIM"
+        aspect_ratio: str = "square",  # "square", "portrait", "landscape"
         **kwargs
-    ) -> AsyncResult:
+    ) -> AsyncGenerator[ImageResponse, None]:
         """
-        Создает асинхронный генератор изображений.
+        Асинхронно генерирует изображения на основе заданных параметров.
 
         Args:
-            model (str): Имя модели.
-            messages (Messages): Список сообщений.
-            proxy (Optional[str], optional): Прокси. По умолчанию None.
+            model (str): Имя модели для генерации изображения.
+            messages (Messages): Список сообщений для генерации изображения.
+            proxy (Optional[str], optional): Адрес прокси-сервера. По умолчанию None.
             negative_prompt (str, optional): Негативный промпт. По умолчанию "".
             steps (int, optional): Количество шагов. По умолчанию 20.
-            cfg (int, optional): CFG. По умолчанию 7.
-            seed (Optional[int], optional): Seed. По умолчанию None.
-            sampler (str, optional): Sampler. По умолчанию "DPM++ 2M Karras".
-            aspect_ratio (str, optional): Aspect ratio. По умолчанию "square".
+            cfg (int, optional): CFG scale. По умолчанию 7.
+            seed (Optional[int], optional): Зерно для генерации случайных чисел. По умолчанию None.
+            sampler (str, optional): Сэмплер. По умолчанию "DPM++ 2M Karras".
+            aspect_ratio (str, optional): Соотношение сторон. По умолчанию "square".
+            **kwargs: Дополнительные параметры.
 
-        Returns:
-            AsyncResult: Асинхронный генератор изображений.
+        Yields:
+            ImageResponse: Объект ImageResponse с URL сгенерированного изображения.
+
+        Raises:
+            Exception: Если возникает ошибка при генерации изображения.
         """
         model = cls.get_model(model)
-        
+
         if seed is None:
             seed = random.randint(0, 10000)
-        
+
         headers: dict[str, str] = {
-            'accept': '*/*',
-            'accept-language': 'en-US,en;q=0.9',
-            'origin': cls.url,
-            'referer': f'{cls.url}/',
-            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36'
+            "accept": "*/*",
+            "accept-language": "en-US,en;q=0.9",
+            "origin": cls.url,
+            "referer": f"{cls.url}/",
+            "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
         }
-        
+
         async with ClientSession(headers=headers) as session:
+            prompt: str = messages[-1]['content'] if messages else ""
+
+            params: dict[str, str | int] = {
+                "new": "true",
+                "prompt": prompt,
+                "model": model,
+                "negative_prompt": negative_prompt,
+                "steps": steps,
+                "cfg": cfg,
+                "seed": seed,
+                "sampler": sampler,
+                "aspect_ratio": aspect_ratio
+            }
+
             try:
-                prompt: str = messages[-1]['content'] if messages else ''
-                
-                params: dict[str, str | int | float] = {
-                    'new': 'true',
-                    'prompt': prompt,
-                    'model': model,
-                    'negative_prompt': negative_prompt,
-                    'steps': steps,
-                    'cfg': cfg,
-                    'seed': seed,
-                    'sampler': sampler,
-                    'aspect_ratio': aspect_ratio
-                }
-                
                 async with session.get(cls.api_endpoint, params=params, proxy=proxy) as response:
                     response.raise_for_status()
-                    job_data: dict = await response.json()
-                    job_id: str = job_data['job']
-                    
+                    job_data = await response.json()
+                    job_id: str = job_data["job"]
+
                     image_url: str = await cls._poll_job(session, job_id, proxy)
                     yield ImageResponse(image_url, alt=prompt)
+
             except Exception as ex:
-                logger.error('Error while creating async generator', ex, exc_info=True)
+                logger.error('Error while generating image', ex, exc_info=True)
                 raise
 
     @classmethod
     async def _poll_job(cls, session: ClientSession, job_id: str, proxy: str, max_attempts: int = 30, delay: int = 2) -> str:
         """
-        Опрашивает статус задачи генерации изображения.
+        Асинхронно опрашивает статус задачи генерации изображения.
 
         Args:
-            session (ClientSession): Сессия aiohttp.
-            job_id (str): ID задачи.
-            proxy (str): Прокси.
+            session (ClientSession): HTTP сессия.
+            job_id (str): Идентификатор задачи.
+            proxy (str): Адрес прокси-сервера.
             max_attempts (int, optional): Максимальное количество попыток. По умолчанию 30.
             delay (int, optional): Задержка между попытками в секундах. По умолчанию 2.
 
         Returns:
-            str: URL изображения.
+            str: URL сгенерированного изображения.
+
+        Raises:
+            Exception: Если задача завершилась с ошибкой или истекло время ожидания.
         """
         for _ in range(max_attempts):
             try:
-                async with session.get(f'https://api.prodia.com/job/{job_id}', proxy=proxy) as response:
+                async with session.get(f"https://api.prodia.com/job/{job_id}", proxy=proxy) as response:
                     response.raise_for_status()
-                    job_status: dict = await response.json()
+                    job_status = await response.json()
 
-                    if job_status['status'] == 'succeeded':
-                        return f'https://images.prodia.xyz/{job_id}.png'
-                    elif job_status['status'] == 'failed':
-                        raise Exception('Image generation failed')
+                    if job_status["status"] == "succeeded":
+                        return f"https://images.prodia.xyz/{job_id}.png"
+                    elif job_status["status"] == "failed":
+                        raise Exception("Image generation failed")
 
                 await asyncio.sleep(delay)
+
             except Exception as ex:
-                logger.error('Error while polling job', ex, exc_info=True)
+                logger.error(f'Error while polling job {job_id}', ex, exc_info=True)
                 raise
 
-        raise Exception('Timeout waiting for image generation')
+        raise Exception("Timeout waiting for image generation")

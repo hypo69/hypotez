@@ -1,60 +1,73 @@
-### **Анализ кода модуля `DeepSeek.py`**
+### **Анализ кода модуля `DeepSeek`**
 
 **Качество кода:**
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код достаточно структурирован и понятен.
-    - Наследуется от класса `OpenaiAPI`, что предполагает использование общих методов и свойств.
-    - Определены основные атрибуты, такие как `label`, `url`, `working`, `api_base`, `needs_auth`, `supports_stream`, `supports_message_history`, `default_model`, `fallback_models`.
+    - Код достаточно лаконичен и понятен.
+    - Используется наследование от класса `OpenaiAPI`, что способствует переиспользованию кода.
+    - Определены атрибуты, специфичные для провайдера DeepSeek.
 - **Минусы**:
     - Отсутствует документация модуля и класса.
-    - Нет аннотаций типов для атрибутов класса.
-    - Не используется модуль `logger` для логирования.
-    - Отсутствует обработка исключений.
+    - Не указаны типы для атрибутов класса.
+    - Нет обработки исключений или логирования.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить документацию модуля**:
+1.  **Добавить документацию модуля и класса**:
 
-    *   В начале файла добавить docstring с описанием назначения модуля и класса `DeepSeek`.
+    ```python
+    """
+    Модуль для работы с провайдером DeepSeek.
+    ==========================================
 
-2.  **Добавить документацию класса**:
+    Модуль содержит класс :class:`DeepSeek`, который используется для взаимодействия с API DeepSeek.
+    """
 
-    *   Добавить docstring к классу `DeepSeek` с описанием его назначения, атрибутов и методов.
+    class DeepSeek(OpenaiAPI):
+        """
+        Класс для взаимодействия с API DeepSeek.
 
-3.  **Аннотировать типы атрибутов класса**:
-
-    *   Добавить аннотации типов ко всем атрибутам класса `DeepSeek`, чтобы улучшить читаемость и поддерживаемость кода.
-
-4.  **Использовать модуль `logger`**:
-
-    *   Добавить логирование для отладки и мониторинга работы класса `DeepSeek`.
-
-5.  **Обработка исключений**:
-
-    *   Добавить обработку исключений для предотвращения неожиданных сбоев.
+        Args:
+            label (str): Название провайдера.
+            url (str): URL платформы DeepSeek.
+            login_url (str): URL страницы для получения API ключа.
+            working (bool): Статус работоспособности провайдера.
+            api_base (str): Базовый URL API DeepSeek.
+            needs_auth (bool): Требуется ли аутентификация.
+            supports_stream (bool): Поддерживает ли стриминг.
+            supports_message_history (bool): Поддерживает ли историю сообщений.
+            default_model (str): Модель по умолчанию.
+            fallback_models (list[str]): Список резервных моделей.
+        """
+        label: str = "DeepSeek"
+        url: str = "https://platform.deepseek.com"
+        login_url: str = "https://platform.deepseek.com/api_keys"
+        working: bool = True
+        api_base: str = "https://api.deepseek.com"
+        needs_auth: bool = True
+        supports_stream: bool = True
+        supports_message_history: bool = True
+        default_model: str = "deepseek-chat"
+        fallback_models: list[str] = [default_model]
+    ```
+2.  **Добавить аннотации типов для атрибутов класса**:
+    - Указывать типы данных для каждого атрибута класса для улучшения читаемости и облегчения отладки.
+3.  **Логирование**:
+    - Добавить логирование для отслеживания ошибок и предупреждений.
 
 **Оптимизированный код:**
 
 ```python
 """
-Модуль для работы с DeepSeek API
-===================================
+Модуль для работы с провайдером DeepSeek.
+==========================================
 
 Модуль содержит класс :class:`DeepSeek`, который используется для взаимодействия с API DeepSeek.
-Он наследуется от класса :class:`OpenaiAPI` и предоставляет методы для аутентификации и выполнения запросов.
-
-Пример использования
-----------------------
-
->>> from src.endpoints.gpt4free.g4f.Provider.needs_auth.DeepSeek import DeepSeek
->>> deepseek = DeepSeek()
->>> # deepseek.get_model_list()
 """
 from __future__ import annotations
 
-from typing import ClassVar
+from typing import List
 
 from .OpenaiAPI import OpenaiAPI
 from src.logger import logger
@@ -64,26 +77,26 @@ class DeepSeek(OpenaiAPI):
     """
     Класс для взаимодействия с API DeepSeek.
 
-    Атрибуты:
+    Args:
         label (str): Название провайдера.
-        url (str): URL главной страницы провайдера.
+        url (str): URL платформы DeepSeek.
         login_url (str): URL страницы для получения API ключа.
         working (bool): Статус работоспособности провайдера.
         api_base (str): Базовый URL API DeepSeek.
         needs_auth (bool): Требуется ли аутентификация.
-        supports_stream (bool): Поддерживается ли потоковая передача данных.
-        supports_message_history (bool): Поддерживается ли история сообщений.
-        default_model (str): Модель, используемая по умолчанию.
+        supports_stream (bool): Поддерживает ли стриминг.
+        supports_message_history (bool): Поддерживает ли историю сообщений.
+        default_model (str): Модель по умолчанию.
         fallback_models (list[str]): Список резервных моделей.
     """
 
-    label: ClassVar[str] = 'DeepSeek'
-    url: ClassVar[str] = 'https://platform.deepseek.com'
-    login_url: ClassVar[str] = 'https://platform.deepseek.com/api_keys'
-    working: ClassVar[bool] = True
-    api_base: ClassVar[str] = 'https://api.deepseek.com'
-    needs_auth: ClassVar[bool] = True
-    supports_stream: ClassVar[bool] = True
-    supports_message_history: ClassVar[bool] = True
-    default_model: ClassVar[str] = 'deepseek-chat'
-    fallback_models: ClassVar[list[str]] = [default_model]
+    label: str = "DeepSeek"
+    url: str = "https://platform.deepseek.com"
+    login_url: str = "https://platform.deepseek.com/api_keys"
+    working: bool = True
+    api_base: str = "https://api.deepseek.com"
+    needs_auth: bool = True
+    supports_stream: bool = True
+    supports_message_history: bool = True
+    default_model: str = "deepseek-chat"
+    fallback_models: List[str] = [default_model]

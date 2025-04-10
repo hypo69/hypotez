@@ -2,38 +2,35 @@
 
 **Качество кода:**
 
-- **Соответствие стандартам**: 6/10
+- **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Асинхронная реализация для неблокирующего взаимодействия.
-    - Использование `ClientSession` из `aiohttp` для эффективного управления HTTP-соединениями.
-    - Попытка повторного использования авторизации для оптимизации запросов.
+    - Код асинхронный, что позволяет эффективно обрабатывать запросы.
+    - Используется `ClientSession` для управления HTTP-соединениями.
+    - Присутствует механизм повторной аутентификации.
 - **Минусы**:
-    - Не хватает обработки исключений для различных этапов запросов.
-    - Жестко заданные значения (`'2229'`, `0`, `111`, `3`) затрудняют поддержку и масштабирование.
-    - Не все переменные аннотированы типами.
-    - Отсутствует логирование.
-    - Мало комментариев.
+    - Недостаточно подробные комментарии и отсутствует docstring для класса и методов.
+    - Жестко заданные значения для заголовков и данных, что снижает гибкость.
+    - Отсутствует обработка исключений при парсинге JSON.
+    - Не используются возможности логирования.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить обработку исключений**:
-    - Обернуть каждый запрос к внешнему API в блоки `try...except` для обработки возможных ошибок сети, таймаутов или неожиданных ответов сервера.
-    - Использовать `logger.error` для записи ошибок с контекстной информацией (`ex`, `exc_info=True`).
-2.  **Улучшить управление авторизацией**:
-    - Рассмотреть возможность использования асинхронных блокировок (`asyncio.Lock`) для предотвращения гонок при обновлении токена авторизации в многопоточной среде.
-    - Добавить механизм обновления токена при получении ошибки авторизации от сервера.
-3.  **Конфигурируемость**:
-    - Вынести жестко заданные значения в переменные конфигурации (например, через `os.environ` или файлы конфигурации).
-4.  **Аннотации типов**:
-    - Добавить аннотации типов для всех переменных и возвращаемых значений функций.
-5.  **Добавить логирование**:
-    - Использовать `logger.info`, `logger.debug` для записи хода выполнения программы, чтобы облегчить отладку и мониторинг.
-6.  **Улучшить комментарии и документацию**:
-    - Добавить docstring к классу и методам, описывающие их назначение, аргументы и возвращаемые значения.
-    - Добавить комментарии к наиболее сложным участкам кода.
-7. **Использовать `j_loads` или `j_loads_ns`**:
-    - Для чтения JSON или конфигурационных файлов замените стандартное использование `open` и `json.load` на `j_loads` или `j_loads_ns`.
-8. **Использовать одинарные кавычки**
+1.  **Добавить docstring для класса и методов**:
+    - Добавить подробное описание класса `GPTalk`, его назначения и основных атрибутов.
+    - Добавить docstring для метода `create_async_generator`, описывающий его параметры, возвращаемое значение и возможные исключения.
+2.  **Использовать логирование**:
+    - Добавить логирование для важных событий, таких как успешная аутентификация, отправка запроса и получение ответа.
+    - Логировать ошибки, возникающие при запросах к API и парсинге ответов.
+3.  **Обработка исключений**:
+    - Добавить обработку исключений при парсинге JSON в цикле получения данных.
+    - Использовать `try-except` блоки для обработки возможных ошибок при выполнении запросов.
+4.  **Улучшить читаемость кода**:
+    - Разбить длинные строки на несколько, чтобы улучшить читаемость.
+    - Использовать более понятные имена переменных.
+5.  **Использовать константы для URL и заголовков**:
+    - Вынести URL и заголовки в константы, чтобы упростить их изменение и поддержку.
+6.  **Добавить аннотации типов**:
+    - Добавить аннотации типов для всех переменных и параметров функций.
 
 **Оптимизированный код:**
 
@@ -43,55 +40,51 @@ from __future__ import annotations
 import secrets
 import time
 import json
-from typing import AsyncGenerator, Optional
-
-from aiohttp import ClientSession, ClientResponse, ClientError
+from aiohttp import ClientSession
 
 from ...typing import AsyncResult, Messages
 from ..base_provider import AsyncGeneratorProvider
 from ..helper import format_prompt
-from src.logger import logger
 
+from src.logger import logger  # Import logger
 
 class GPTalk(AsyncGeneratorProvider):
     """
     Провайдер для взаимодействия с GPTalk API.
 
+    Этот класс обеспечивает асинхронную генерацию текста с использованием GPTalk API.
     Поддерживает модель gpt-3.5-turbo.
     """
-    url: str = 'https://gptalk.net'
+    url: str = "https://gptalk.net"
     working: bool = False
     supports_gpt_35_turbo: bool = True
-    _auth: Optional[dict] = None
+    _auth: dict | None = None
     used_times: int = 0
-    APP_ID: str = '2229'  # ID приложения для авторизации
-    RO_ID: int = 111  # RO ID
-    CTX_MSG_COUNT: int = 3  # Количество сообщений в контексте
 
     @classmethod
     async def create_async_generator(
         cls,
         model: str,
         messages: Messages,
-        proxy: Optional[str] = None,
+        proxy: str = None,
         **kwargs
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для получения ответов от GPTalk API.
+        Асинхронно генерирует текст с использованием GPTalk API.
 
         Args:
-            model (str): Модель для использования.
-            messages (Messages): Список сообщений для отправки.
-            proxy (Optional[str], optional): Прокси-сервер для использования. По умолчанию None.
+            model (str): Название модели для использования.
+            messages (Messages): Список сообщений для отправки в API.
+            proxy (str, optional): Прокси-сервер для использования. По умолчанию None.
 
         Returns:
-            AsyncResult: Асинхронный генератор для получения ответов.
+            AsyncResult: Асинхронный генератор текста.
 
         Raises:
-            Exception: В случае ошибки при взаимодействии с API.
+            Exception: В случае ошибки при выполнении запроса к API.
         """
         if not model:
-            model: str = 'gpt-3.5-turbo'  # используем gpt-3.5-turbo по умолчанию, если модель не указана
+            model = "gpt-3.5-turbo"
         timestamp: int = int(time.time())
         headers: dict[str, str] = {
             'authority': 'gptalk.net',
@@ -106,69 +99,70 @@ class GPTalk(AsyncGeneratorProvider):
             'sec-fetch-mode': 'cors',
             'sec-fetch-site': 'same-origin',
             'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
-            'x-auth-appid': cls.APP_ID,
+            'x-auth-appid': '2229',
             'x-auth-openid': '',
             'x-auth-platform': '',
-            'x-auth-timestamp': f'{timestamp}',
+            'x-auth-timestamp': f"{timestamp}",
         }
         async with ClientSession(headers=headers) as session:
-            # Проверяем необходимость обновления токена авторизации
-            if not cls._auth or cls._auth['expires_at'] < timestamp or cls.used_times == 5:
-                # Данные для запроса на авторизацию
+            # Проверяем необходимость обновления токена аутентификации
+            if not cls._auth or cls._auth["expires_at"] < timestamp or cls.used_times == 5:
                 data: dict[str, str] = {
-                    'fingerprint': secrets.token_hex(16).zfill(32),
-                    'platform': 'fingerprint'
+                    "fingerprint": secrets.token_hex(16).zfill(32),
+                    "platform": "fingerprint"
                 }
                 try:
-                    # Отправляем запрос на авторизацию
-                    async with session.post(f'{cls.url}/api/chatgpt/user/login', json=data, proxy=proxy) as response:
+                    async with session.post(f"{cls.url}/api/chatgpt/user/login", json=data, proxy=proxy) as response:
                         response.raise_for_status()
-                        cls._auth: dict = (await response.json())['data']
-                    cls.used_times: int = 0  # Сбрасываем счетчик использований токена
-                except ClientError as ex:
-                    logger.error('Error while logging in', ex, exc_info=True)
+                        cls._auth: dict = (await response.json())["data"]
+                        logger.info('Successfully authenticated with GPTalk API')  # Логируем успешную аутентификацию
+                except Exception as ex:
+                    logger.error('Error during authentication', ex, exc_info=True)  # Логируем ошибку аутентификации
                     raise
-            # Готовим данные для запроса к API
+                cls.used_times = 0
             data: dict = {
-                'content': format_prompt(messages),
-                'accept': 'stream',
-                'from': 1,
-                'model': model,
-                'is_mobile': 0,
-                'user_agent': headers['user-agent'],
-                'is_open_ctx': 0,
-                'prompt': '',
-                'roid': cls.RO_ID,
-                'temperature': 0,
-                'ctx_msg_count': cls.CTX_MSG_COUNT,
-                'created_at': timestamp
+                "content": format_prompt(messages),
+                "accept": "stream",
+                "from": 1,
+                "model": model,
+                "is_mobile": 0,
+                "user_agent": headers["user-agent"],
+                "is_open_ctx": 0,
+                "prompt": "",
+                "roid": 111,
+                "temperature": 0,
+                "ctx_msg_count": 3,
+                "created_at": timestamp
             }
-            headers: dict[str, str] = {
+            headers: dict = {
                 'authorization': f'Bearer {cls._auth["token"]}',
             }
             try:
-                # Отправляем запрос на получение токена чата
-                async with session.post(f'{cls.url}/api/chatgpt/chatapi/text', json=data, headers=headers, proxy=proxy) as response:
+                async with session.post(f"{cls.url}/api/chatgpt/chatapi/text", json=data, headers=headers, proxy=proxy) as response:
                     response.raise_for_status()
-                    token: str = (await response.json())['data']['token']
-                    cls.used_times += 1  # Увеличиваем счетчик использований токена
-            except ClientError as ex:
-                logger.error('Error while getting chat token', ex, exc_info=True)
+                    token: str = (await response.json())["data"]["token"]
+                    cls.used_times += 1
+                    logger.info('Successfully sent message to GPTalk API')  # Логируем успешную отправку сообщения
+            except Exception as ex:
+                logger.error('Error while sending message to GPTalk API', ex, exc_info=True)  # Логируем ошибку отправки сообщения
                 raise
-
-            last_message: str = ''
+            last_message: str = ""
             try:
-                # Отправляем запрос на получение стрима сообщений
-                async with session.get(f'{cls.url}/api/chatgpt/chatapi/stream', params={'token': token}, proxy=proxy) as response:
+                async with session.get(f"{cls.url}/api/chatgpt/chatapi/stream", params={"token": token}, proxy=proxy) as response:
                     response.raise_for_status()
                     async for line in response.content:
-                        if line.startswith(b'data: '):
-                            if line.startswith(b'data: [DONE]'):
+                        if line.startswith(b"data: "):
+                            if line.startswith(b"data: [DONE]"):
                                 break
-                            message: str = json.loads(line[6:-1])['content']
-                            yield message[len(last_message):]
-                            last_message: str = message
-            except ClientError as ex:
-                logger.error('Error while getting stream', ex, exc_info=True)
+                            try:
+                                message: str = json.loads(line[6:-1])["content"]
+                                yield message[len(last_message):]
+                                last_message: str = message
+                            except (json.JSONDecodeError, KeyError) as ex:
+                                logger.error('Error while parsing JSON', ex, exc_info=True)  # Логируем ошибку парсинга JSON
+                                continue
+            except Exception as ex:
+                logger.error('Error while receiving stream from GPTalk API', ex, exc_info=True)  # Логируем ошибку получения стрима
                 raise
+
 ```

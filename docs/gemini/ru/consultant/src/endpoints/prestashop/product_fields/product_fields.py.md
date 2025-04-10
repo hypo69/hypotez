@@ -1,77 +1,59 @@
-### **Анализ кода модуля `product_fields.py`**
-
-=========================================================================================
-
-Модуль содержит класс `ProductFields`, предназначенный для описания полей товара в формате API PrestaShop. Класс включает методы для загрузки значений полей по умолчанию, установки мультиязычных значений и преобразования объекта в словарь, готовый для отправки в API PrestaShop.
+### **Анализ кода модуля `product_fields`**
 
 #### **Качество кода**:
-
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Класс `ProductFields` хорошо структурирован и предоставляет удобный интерфейс для работы с полями товара.
-    - Использование `dataclass` упрощает создание класса и автоматическую генерацию методов, таких как `__init__` и `__repr__`.
-    - Код содержит обработку исключений с логированием ошибок, что помогает в отладке и выявлении проблем.
-    - Использование `SimpleNamespace` для хранения полей товара обеспечивает гибкость и удобный доступ к атрибутам.
-    - Применение `j_loads` для загрузки JSON-файлов соответствует рекомендациям.
+    - Код разбит на логические блоки, что облегчает понимание структуры.
+    - Использованы аннотации типов для параметров и возвращаемых значений функций и методов.
+    - Присутствует базовая документация для большинства методов и свойств.
+    - Использование `dataclass` для представления структуры данных.
 - **Минусы**:
-    - Не везде используется аннотация типов для переменных и возвращаемых значений.
-    - В некоторых местах отсутствует документация, что затрудняет понимание назначения отдельных частей кода.
-    - В коде есть неиспользуемые переменные и закомментированный код, который следует удалить.
-    - Некоторые методы и свойства не имеют полного описания, что снижает читаемость кода.
-    - Есть смешение стилей: использование как `Union`, так и `|` для указания типов.
+    - Не везде используется логирование ошибок с передачей исключения в `logger.error`.
+    - В некоторых местах отсутствует документация или она неполная.
+    - Есть участки кода, которые можно упростить или оптимизировать.
+    - Не все переменные аннотированы типами.
 
 #### **Рекомендации по улучшению**:
 
-1.  **Документирование кода**:
-    - Добавить docstring к каждому методу и свойству класса `ProductFields`, описывающие их назначение, аргументы и возвращаемые значения.
-    - В docstring добавить примеры использования методов, где это уместно.
-    - Перевести все docstring на русский язык.
-
-2.  **Аннотация типов**:
-    - Добавить аннотации типов для всех переменных и возвращаемых значений, где это еще не сделано.
-    - Использовать `|` вместо `Union` для обозначения объединения типов.
-
-3.  **Удаление неиспользуемого кода**:
-    - Удалить все закомментированные участки кода и неиспользуемые переменные.
-
-4.  **Улучшение обработки исключений**:
-    - Убедиться, что все исключения обрабатываются с использованием `logger.error` и передачей информации об исключении (`ex`, `exc_info=True`).
-    - Использовать `ex` вместо `e` в блоках `except`.
-
-5.  **Форматирование кода**:
-    - Привести код в соответствие со стандартами PEP8, включая пробелы вокруг операторов и другие рекомендации.
-    - Использовать только одинарные кавычки для строк.
-
-6.  **Улучшение структуры `_set_multilang_value`**:
-    - Упростить логику работы с мультиязычными значениями, чтобы улучшить читаемость и уменьшить вложенность.
-    - Добавить больше комментариев для пояснения работы алгоритма.
-
-7.  **Пересмотреть `_format_multilang_value`**:
-    - Метод `_format_multilang_value` в текущей реализации просто возвращает входные данные без какой-либо обработки. Необходимо пересмотреть его функциональность, чтобы он действительно форматировал мультиязычные значения в требуемый формат.
-
-8.  **Улучшить именование переменных**:
-    - Использовать более описательные имена переменных, чтобы повысить читаемость кода.
+1.  **Документация**:
+    - Дополнить docstring для всех методов и свойств, особенно для тех, где сейчас отсутствуют описания или они неполные.
+    - Описать назначение каждого property и setter.
+    - Перевести все комментарии и docstring на русский язык.
+2.  **Обработка исключений**:
+    - Убедиться, что все блоки `try...except` содержат логирование ошибок с передачей информации об исключении (`ex`) в `logger.error`.
+3.  **Именование переменных**:
+    - Привести именование переменных в соответствие со стандартами PEP8 (например, `id_lang` -> `id_lang`).
+4.  **Упрощение кода**:
+    - Оптимизировать логику в методе `_set_multilang_value`, упростить условные операторы.
+    - Рассмотреть возможность использования более эффективных структур данных, если это уместно.
+5.  **Аннотации типов**:
+    - Добавить аннотации типов для всех переменных, где они отсутствуют.
+6.  **Улучшение логирования**:
+    - В сообщениях логирования добавить больше контекстной информации, чтобы было легче отлаживать проблемы.
+7.  **Использовать одинарные кавычки**:
+    - Заменить двойные кавычки на одинарные там, где это необходимо.
 
 #### **Оптимизированный код**:
 
 ```python
-## \file /src/endpoints/prestashop/product_fields/product_fields.py
+                ## \file /src/endpoints/prestashop/product_fields/product_fields.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 """
-Модуль для работы с полями товара в PrestaShop API
-=====================================================
+Модуль `ProductFields`
+=========================
+Модуль product_fields предназначен для работы с полями товаров в PrestaShop.
+Он предоставляет класс ProductFields, который позволяет удобно управлять атрибутами товара, как основными, так и мультиязычными.
+Расписано каждое поле товара для таблиц престашоп
 
-Модуль содержит класс :class:`ProductFields`, который используется для описания и управления полями товара
-в формате, совместимом с PrestaShop API.
+    Список полей: https://github.com/hypo69/hypotez/blob/master/src/endpoints/prestashop/product_fields/fields_list.txt
+    Значения по умолчанию: https://github.com/hypo69/hypotez/blob/master/src/endpoints/prestashop/product_fields/product_fields_default_values.json
+    Документация: https://github.com/hypo69/hypotez/blob/master/docs/ru/src/endpoints/prestashop/product_fields/product_fields.py.md
 
-Пример использования
-----------------------
-
->>> product_fields = ProductFields()
->>> product_fields.name = 'Новый товар'
->>> product_dict = product_fields.to_dict()
-"""
+ ```rst
+ .. module:: endpoints.prestashop.product_fields.product_fields
+ ```
+ """
 
 import asyncio
 from datetime import datetime
@@ -88,46 +70,39 @@ from src import gs
 from src.utils.jjson import j_loads, j_loads_ns
 from src.utils.file import read_text_file
 from src.utils.string.normalizer import (
-    normalize_boolean,
-    normalize_float,
-    normalize_sql_date,
-    normalize_int,
+                                        normalize_boolean,
+                                        normalize_float,
+                                        normalize_sql_date,
+                                        normalize_int,
 )
 from src.logger import logger
 from src.logger.exceptions import ProductFieldException  # If you have this exception class
 
-
 @dataclass
 class ProductFields:
-    """
-    Класс для описания полей товара в формате API PrestaShop.
-
-    Индексы языков, которые устанавливаются в БД PrestaShop:
-        1. Английский
-        2. Иврит
-        3. Русский
+    """Класс, описывающий поля товара в формате API PrestaShop.
+     Индексы языков, которые я устанавливаю в бд престашоп:
+    1. Английский
+    2. Иврит
+    3. Русский
     """
 
     presta_fields: SimpleNamespace = field(init=False)
     id_lang: int = field(default=1)
 
     def __post_init__(self) -> None:
-        """
-        Инициализация класса. Выполняет загрузку дефолтных значений полей.
-        """
+        """Инициализация после создания экземпляра класса."""
         self._payload()
 
     def _payload(self) -> bool:
         """
-        Загружает дефолтные значения полей из файлов `fields_list.txt` и `product_fields_default_values.json`.
+        Загрузка дефолтных значений полей.
 
         Returns:
-            bool: `True`, если загрузка прошла успешно, иначе `False`.
+            bool: True, если загрузка прошла успешно, иначе False.
         """
         base_path: Path = __root__ / 'src' / 'endpoints' / 'prestashop'
-        presta_fields_list: list = read_text_file(
-            base_path / 'product_fields' / 'fields_list.txt', as_list=True
-        )
+        presta_fields_list: list = read_text_file(base_path / 'product_fields' / 'fields_list.txt', as_list=True)
         if not presta_fields_list:
             logger.error('Ошибка загрузки файла со списком полей')
             ...
@@ -150,7 +125,7 @@ class ProductFields:
                 setattr(self.presta_fields, name, value)
             return True
         except Exception as ex:
-            logger.error('Exception', ex, exc_info=True)
+            logger.error('Ошибка при установке атрибута', ex, exc_info=True)
             ...
             return False
 
@@ -161,10 +136,28 @@ class ProductFields:
         Args:
             field_name (str): Имя поля (например, 'name', 'description').
             value (str): Значение для установки.
-            id_lang (Optional[int | str], optional): ID языка. Если не указан, используется `self.id_lang`. По умолчанию `None`.
+            id_lang (Optional[Union[int, str]]): ID языка. Если не указан, используется self.id_lan.
+
+        Описание:
+            Функция устанавливает мультиязычное значение для указанного поля объекта.
+            Поле может хранить значения для разных языков.  Значения хранятся в виде списка словарей,
+            где каждый словарь представляет собой значение для определенного языка и имеет структуру:
+
+            {'attrs': {'id': 'language_id'}, 'value': 'language_value'}
+             {'id': 'language_id'}, 'value': 'language_value'}
+
+            - 'attrs': Словарь, содержащий атрибуты значения.  В данном случае, обязательным атрибутом является 'id',
+                       который представляет собой идентификатор языка.
+            - 'value': Значение поля для указанного языка.
+
+            Если поле с указанным именем не существует, оно создается. Если поле существует, но не имеет
+            ожидаемой структуры (словарь с ключом 'language', содержащим список), поле перезаписывается.
+            Если поле существует и имеет правильную структуру, функция пытается обновить значение для
+            указанного языка. Если язык уже существует в списке, его значение обновляется. Если язык
+            не существует, добавляется новая запись в список.
 
         Returns:
-            bool: `True`, если значение успешно установлено, `False` в случае ошибки.
+            bool: True, если значение успешно установлено, False в случае ошибки.
         """
 
         def escape_and_strip(text: str) -> str:
@@ -175,31 +168,33 @@ class ProductFields:
             if not text:
                 return ''
             # Экранируем "'" и '"', заменяем ";" на "<br>", удаляем лишние пробелы
-            escaped_text = re.sub(r"['\"]", lambda match: '\\' + match.group(0), text.strip()).replace(';', '<br>')
+            escaped_text: str = re.sub(r"[\'\\"]", lambda match: '\\\\' + match.group(0), text.strip()).replace(';', '<br>')
             return escaped_text
 
-        value = escape_and_strip(value)
+        value: str = escape_and_strip(value)
 
         id_lang: int = int(id_lang) if id_lang else int(self.id_lang)
+        id_lang_str: str = str(id_lang)
 
         lang_data: dict = {'attrs': {'id': id_lang}, 'value': f'{value}'}
+        #lang_data: dict = {'@id': id_lang, '#text': f'{value}' }
 
         try:
             # Get the existing field value, or None if it doesn't exist
             field = getattr(self.presta_fields, field_name, None)
             if field is None:
                 # If the field doesn't exist, create a dictionary with the new language data
-                setattr(self.presta_fields, field_name, {'language': lang_data})
+                setattr(self.presta_fields, field_name, {'language': [lang_data]})  # Оборачиваем lang_data в список
             else:
                 # If the field exists, update or append the new language data to the existing list
                 if not isinstance(field, dict) or 'language' not in field or not isinstance(field['language'], list):
                     # Если поле не является словарем с ключом 'language', содержащим список, то создаем словарь
-                    setattr(self.presta_fields, field_name, {'language': lang_data})
+                    setattr(self.presta_fields, field_name, {'language': [lang_data]})  # Оборачиваем lang_data в список
                 else:
-                    language_list = field['language']
-                    found = False
+                    language_list: list = field['language']
+                    found: bool = False
                     for i, lang_item in enumerate(language_list):
-                        if 'attrs' in lang_item and 'id' in lang_item['attrs'] and str(lang_item['attrs']['id']) == str(id_lang):
+                        if 'attrs' in lang_item and 'id' in lang_item['attrs'] and str(lang_item['attrs']['id']) == id_lang_str:
                             # Language already exists, update the value
                             language_list[i]['value'] = value
                             found = True
@@ -211,8 +206,7 @@ class ProductFields:
             return True
 
         except Exception as ex:
-            logger.error(f'Ошибка установки значения в мультиязычное поле {field_name}\n'
-                         f'Значение {value}:\n{ex}', exc_info=True)  # Include exception details in the log
+            logger.error(f'Ошибка установки значения в мультиязычное поле {field_name}\nЗначение {value}:\n{ex}', exc_info=True)  # Include exception details in the log
             return False
 
     # --------------------------------------------------------------------------
@@ -230,7 +224,7 @@ class ProductFields:
         try:
             self.presta_fields.id_product = value
         except Exception as ex:
-            logger.error('Ошибка при установке id_product:', ex, exc_info=True)
+            logger.error(f'Ошибка при установке id_product: {ex}', exc_info=True)
 
     @property
     def id_supplier(self) -> Optional[int]:
@@ -243,7 +237,7 @@ class ProductFields:
         try:
             self.presta_fields.id_supplier = value
         except Exception as ex:
-            logger.error('Ошибка при установке id_supplier:', ex, exc_info=True)
+            logger.error(f'Ошибка при установке id_supplier: {ex}', exc_info=True)
 
     @property
     def id_manufacturer(self) -> Optional[int]:
@@ -256,7 +250,7 @@ class ProductFields:
         try:
             self.presta_fields.id_manufacturer = value
         except Exception as ex:
-            logger.error('Ошибка при установке id_manufacturer:', ex, exc_info=True)
+            logger.error(f'Ошибка при установке id_manufacturer: {ex}', exc_info=True)
 
     @property
     def id_category_default(self) -> Optional[int]:
@@ -269,7 +263,7 @@ class ProductFields:
         try:
             self.presta_fields.id_category_default = value
         except Exception as ex:
-            logger.error('Ошибка при установке id_shop_default:', ex, exc_info=True)
+            logger.error(f'Ошибка при установке id_shop_default: {ex}', exc_info=True)
 
     @property
     def id_shop_default(self) -> Optional[int]:
@@ -282,7 +276,7 @@ class ProductFields:
         try:
             self.presta_fields.id_shop_default = value or 1
         except Exception as ex:
-            logger.error('Ошибка при установке id_shop_default:', ex, exc_info=True)
+            logger.error(f'Ошибка при установке id_shop_default: {ex}', exc_info=True)
 
     @property
     def id_shop(self) -> Optional[int]:
@@ -295,7 +289,7 @@ class ProductFields:
         try:
             self.presta_fields.id_shop = value or 1
         except Exception as ex:
-            logger.error('Ошибка при установке id_shop:', ex, exc_info=True)
+            logger.error(f'Ошибка при установке id_shop: {ex}', exc_info=True)
 
     @property
     def id_tax(self) -> Optional[int]:
@@ -305,11 +299,10 @@ class ProductFields:
     @id_tax.setter
     def id_tax(self, value: int) -> None:
         """setter `ID` налога."""
-
         try:
             self.presta_fields.id_tax = value
         except Exception as ex:
-            logger.error('Ошибка при установке id_tax:', ex, exc_info=True)
+            logger.error(f'Ошибка при установке id_tax: {ex}', exc_info=True)
 
     @property
     def position_in_category(self) -> Optional[int]:
@@ -322,7 +315,7 @@ class ProductFields:
         try:
             self.presta_fields.position_in_category = value
         except Exception as ex:
-            logger.error(f'Ошибка при установке `position_in_category` {value} : ', ex, exc_info=True)
+            logger.error(f'Ошибка при установке `position_in_category` {value} : {ex}', exc_info=True)
 
     @property
     def on_sale(self) -> int:
@@ -435,7 +428,7 @@ class ProductFields:
         try:
             self.presta_fields.price = normalize_float(value)
         except ValueError as ex:
-            logger.error(f'Недопустимое значение для цены: {value}. Ошибка:', ex, exc_info=True)
+            logger.error(f'Недопустимое значение для цены: {value}. Ошибка: {ex}', exc_info=True)
             return
 
     @property
@@ -630,7 +623,6 @@ class ProductFields:
 
     class EnumRedirect(Enum):
         """Перечисление для типов редиректов."""
-
         ERROR_404 = '404'
         REDIRECT_301_PRODUCT = '301-product'
         REDIRECT_302_PRODUCT = '302-product'
@@ -689,7 +681,6 @@ class ProductFields:
 
     class EnumCondition(Enum):
         """Перечисление для состояний товара."""
-
         NEW = 'new'
         USED = 'used'
         REFURBISHED = 'refurbished'
@@ -726,7 +717,6 @@ class ProductFields:
 
     class EnumVisibity(Enum):
         """Перечисление для видимости товара."""
-
         BOTH = 'both'
         CATALOG = 'catalog'
         SEARCH = 'search'
@@ -774,14 +764,4 @@ class ProductFields:
 
     @property
     def cache_default_attribute(self) -> Optional[int]:
-        """property `ps_product.cache_default_attribute: int(10) unsigned`"""
-        return self.presta_fields.cache_default_attribute
-
-    @cache_default_attribute.setter
-    def cache_default_attribute(self, value: int = 1) -> None:
-        """setter ID атрибута по умолчанию для кэширования."""
-        self.presta_fields.cache_default_attribute = value
-
-    @property
-    def date_add(self) -> Optional[datetime]:
-        """property `ps_
+        """

@@ -3,64 +3,37 @@
 ## \file /hypotez/src/endpoints/bots/telegram/bot_long_polling.py
 
 **Качество кода:**
-
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Четкая структура класса `TelegramBot`.
-    - Использование `logger` для логирования.
-    - Регистрация обработчиков команд и сообщений.
-    - Обработка различных типов сообщений (текст, голос, документы).
+  - Код структурирован в класс `TelegramBot`, что облегчает его организацию и повторное использование.
+  - Используется `logger` для логирования.
+  - Присутствуют обработчики для основных команд, голосовых сообщений и документов.
+  - Обработчики зарегистрированы.
 - **Минусы**:
-    - Отсутствует docstring для класса `TelegramBot`.
-    - Не все методы имеют подробное описание (docstring).
-    - Не указаны типы для всех переменных и параметров функций.
-    - Не используются `j_loads` или `j_loads_ns` для чтения конфигурационных файлов (если таковые используются).
+  - Отсутствуют docstring для класса `TelegramBot`.
+  - Не все методы класса имеют docstring.
+  - Есть смешанные стили кавычек (используются и двойные, и одинарные).
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить docstring для класса `TelegramBot`**:
+1.  **Документация класса `TelegramBot`**:
+    - Добавить docstring для класса `TelegramBot` с описанием его назначения и основных атрибутов.
 
-    ```python
-    class TelegramBot:
-        """
-        Класс, представляющий интерфейс Telegram-бота.
+2.  **Docstring для методов**:
+    - Добавить docstring для методов `__init__`, `register_handlers`, `replace_message_handler`, `start` с описанием их функциональности, аргументов и возвращаемых значений.
 
-        Этот класс инициализирует Telegram-бота, регистрирует обработчики команд и сообщений,
-        а также предоставляет методы для взаимодействия с ботом.
-        """
-    ```
+3.  **Использовать одинарные кавычки**:
+    - Заменить двойные кавычки на одинарные во всем коде.
 
-2.  **Добавить подробные docstring для всех методов**:
+4.  **Логирование ошибок**:
+    - Добавить обработку ошибок с логированием в методах.
 
-    ```python
-    def __init__(self, token: str):
-        """
-        Инициализирует Telegram-бота.
+5.  **Улучшение обработки исключений**:
+    - В блоках `try...except` использовать `ex` вместо `e` для исключений.
 
-        Args:
-            token (str): Telegram bot token, e.g., `gs.credentials.telegram.bot.kazarinov`.
-        """
-    ```
-
-3.  **Указать типы для всех переменных и параметров функций**:
-
-    ```python
-    application: Application
-    handler: BotHandler
-
-    def __init__(self, token: str):
-        ...
-
-    async def start(self, update: Update, context: CallbackContext) -> None:
-        ...
-    ```
-
-4.  **Улучшить комментарии**:
-    - Сделать комментарии более информативными и понятными.
-    - Избегать общих фраз, таких как "Сохраняем ссылку". Вместо этого указывать, какую именно ссылку сохраняем и для чего.
-
-5.  **Использовать `j_loads` или `j_loads_ns`**:
-    - Если в коде используются конфигурационные файлы, заменить стандартное использование `open` и `json.load` на `j_loads` или `j_loads_ns`.
+6. **Аннотации**
+- Для всех переменных должны быть определены аннотации типа.
+- Для всех функций все входные и выходные параметры аннотириваны
 
 **Оптимизированный код:**
 
@@ -86,10 +59,13 @@ from src.utils.file import read_text_file
 
 class TelegramBot:
     """
-    Класс, представляющий интерфейс Telegram-бота.
+    Класс для управления Telegram ботом.
 
-    Этот класс инициализирует Telegram-бота, регистрирует обработчики команд и сообщений,
-    а также предоставляет методы для взаимодействия с ботом.
+    Этот класс инкапсулирует логику инициализации, регистрации обработчиков и запуска бота.
+
+    Attributes:
+        application (Application): Объект приложения Telegram.
+        handler (BotHandler): Обработчик команд и сообщений бота.
     """
 
     application: Application
@@ -97,23 +73,25 @@ class TelegramBot:
 
     def __init__(self, token: str):
         """
-        Инициализирует Telegram-бота.
+        Инициализация Telegram бота.
 
         Args:
-            token (str): Telegram bot token, e.g., `gs.credentials.telegram.bot.kazarinov`.
+            token (str): Токен Telegram бота, например, `gs.credentials.telegram.bot.kazarinov`.
         """
         self.application = Application.builder().token(token).build()
-        self.handler: BotHandler = BotHandler()  # Инициализация обработчика в конструкторе
-        self._original_message_handler: Optional[MessageHandler] = None
+        self.handler = BotHandler()  # Инициализация обработчика в конструкторе
+        self._original_message_handler = None
         self.register_handlers()
 
     def register_handlers(self) -> None:
-        """Регистрирует bot commands and message handlers."""
+        """
+        Регистрация обработчиков команд и сообщений бота.
+        """
         self.application.add_handler(CommandHandler('start', self.handler.start))
         self.application.add_handler(CommandHandler('help', self.handler.help_command))
         self.application.add_handler(CommandHandler('sendpdf', self.handler.send_pdf))
 
-        # Сохраняем ссылку на оригинальный обработчик текстовых сообщений для возможности его замены
+        # Сохраняем ссылку
         self._original_message_handler = MessageHandler(filters.TEXT & ~filters.COMMAND, self.handler.handle_message)
         self.application.add_handler(self._original_message_handler)
 
@@ -127,22 +105,23 @@ class TelegramBot:
         Args:
             new_handler (Callable): Новая функция для обработки сообщений.
         """
-        # Удаляем старый обработчик
+        # 2. Удаляем старый обработчик
         if self._original_message_handler in self.application.handlers[0]:
             self.application.handlers[0].remove(self._original_message_handler)
 
-        # Создаем новый обработчик
+        # 3. Создаем новый обработчик
         self._original_message_handler = MessageHandler(filters.TEXT & ~filters.COMMAND, new_handler)
-        # Регистрируем новый обработчик
+        # 4. Регистрируем новый обработчик
         self.application.add_handler(self._original_message_handler)
+
 
     async def start(self, update: Update, context: CallbackContext) -> None:
         """
-        Обрабатывает команду /start.
+        Обработка команды /start.
 
         Args:
-            update (Update): Объект Update, представляющий входящее обновление.
-            context (CallbackContext): Объект CallbackContext, содержащий информацию о контексте бота.
+            update (Update): Объект обновления Telegram.
+            context (CallbackContext): Контекст обратного вызова.
         """
         logger.info(f'Bot started by user {update.effective_user.id}')
         await update.message.reply_text('Hello! I am your simple bot. Type /help to see available commands.')

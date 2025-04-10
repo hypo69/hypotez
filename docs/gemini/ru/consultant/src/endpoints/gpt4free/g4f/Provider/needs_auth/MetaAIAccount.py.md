@@ -4,55 +4,51 @@
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код структурирован и наследуется от класса `MetaAI`, что способствует повторному использованию кода.
-    - Используются аннотации типов.
-    - Проверка наличия cookies реализована с использованием `get_cookies`.
+  - Код достаточно структурирован и использует наследование от класса `MetaAI`.
+  - Присутствует аннотация типов.
 - **Минусы**:
-    - Отсутствует docstring для класса и метода `create_async_generator`.
-    - Нет обработки исключений.
-    - Не используется модуль `logger` для логирования.
-    - Не все переменные аннотированы типами.
+  - Отсутствует docstring для класса и метода `create_async_generator`.
+  - Нет обработки исключений.
+  - Нет логирования.
+  - Желательно добавить больше комментариев для пояснения логики работы.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить Docstring**: Добавьте docstring для класса `MetaAIAccount` и метода `create_async_generator`, чтобы объяснить их назначение, параметры и возвращаемые значения.
-2.  **Обработка исключений**: Реализуйте обработку исключений с использованием `try...except` блоков для предотвращения неожиданных сбоев.
-3.  **Логирование**: Используйте модуль `logger` для логирования ошибок и отладочной информации.
-4.  **Аннотации типов**: Убедитесь, что все переменные аннотированы типами для повышения читаемости и облегчения отладки.
+1.  **Добавить docstring**:
+    - Добавить docstring для класса `MetaAIAccount` и метода `create_async_generator` с описанием назначения, аргументов, возвращаемых значений и возможных исключений.
+2.  **Обработка исключений**:
+    - Обернуть вызовы функций и другие потенциально опасные операции в блоки `try...except` для обработки возможных исключений.
+    - Логировать ошибки с использованием модуля `logger` из `src.logger`.
+3.  **Добавить комментарии**:
+    - Добавить комментарии для пояснения логики работы, особенно в тех местах, где это может быть неочевидно.
 
 **Оптимизированный код:**
 
 ```python
 from __future__ import annotations
 
-from typing import AsyncGenerator, Optional
-
 from ...typing import AsyncResult, Messages, Cookies
 from ..helper import format_prompt, get_cookies
 from .MetaAI import MetaAI
 from src.logger import logger  # Добавлен импорт logger
 
+
 class MetaAIAccount(MetaAI):
     """
-    Класс для работы с Meta AI с использованием аккаунта.
+    Класс для работы с Meta AI аккаунтом.
     Наследуется от класса MetaAI.
-
-    Attributes:
-        needs_auth (bool): Указывает, требуется ли аутентификация.
-        parent (str): Имя родительского класса.
-        image_models (list[str]): Список поддерживаемых моделей изображений.
     """
-    needs_auth: bool = True
-    parent: str = "MetaAI"
-    image_models: list[str] = ["meta"]
+    needs_auth = True
+    parent = "MetaAI"
+    image_models = ["meta"]
 
     @classmethod
     async def create_async_generator(
         cls,
         model: str,
         messages: Messages,
-        proxy: Optional[str] = None,
-        cookies: Optional[Cookies] = None,
+        proxy: str = None,
+        cookies: Cookies = None,
         **kwargs
     ) -> AsyncResult:
         """
@@ -61,23 +57,23 @@ class MetaAIAccount(MetaAI):
         Args:
             model (str): Модель для использования.
             messages (Messages): Список сообщений для отправки.
-            proxy (Optional[str], optional): Прокси-сервер для использования. По умолчанию None.
-            cookies (Optional[Cookies], optional): Cookies для аутентификации. По умолчанию None.
+            proxy (str, optional): Прокси для использования. По умолчанию None.
+            cookies (Cookies, optional): Куки для использования. По умолчанию None.
 
-        Yields:
-            AsyncResult: Части ответа от Meta AI.
+        Returns:
+            AsyncResult: Асинхронный генератор чанков текста.
 
         Raises:
             Exception: В случае ошибки при взаимодействии с Meta AI.
 
         Example:
-            >>> async for chunk in MetaAIAccount.create_async_generator(model="default", messages=[{"role": "user", "content": "Hello"}], proxy=None, cookies=None):
-            ...     print(chunk)
+            >>> async for chunk in MetaAIAccount.create_async_generator(model='default', messages=[{'role': 'user', 'content': 'Hello'}]):
+            ...     print(chunk, end='')
         """
         try:
             cookies = get_cookies(".meta.ai", True, True) if cookies is None else cookies
             async for chunk in cls(proxy).prompt(format_prompt(messages), cookies):
                 yield chunk
         except Exception as ex:
-            logger.error("Ошибка при взаимодействии с Meta AI", ex, exc_info=True)  # Используем logger для логирования ошибки
+            logger.error('Error while creating async generator', ex, exc_info=True)  # Логирование ошибки
             raise  # Переброс исключения для дальнейшей обработки

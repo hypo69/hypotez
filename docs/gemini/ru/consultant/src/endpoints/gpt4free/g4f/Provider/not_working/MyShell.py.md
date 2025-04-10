@@ -1,46 +1,42 @@
 ### **Анализ кода модуля `MyShell.py`**
 
-## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/not_working/MyShell.py
-
-Модуль предоставляет класс `MyShell`, который является провайдером для взаимодействия с MyShell AI через API.
+---
 
 **Качество кода:**
 
-- **Соответствие стандартам**: 5/10
+- **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код структурирован в виде класса `MyShell`, наследующего `AbstractProvider`.
-    - Определены методы для создания завершений (`create_completion`).
-    - Используется `format_prompt` для форматирования сообщений.
+  - Код структурирован в виде класса `MyShell`, наследующего `AbstractProvider`, что способствует организации и расширяемости.
+  - Использование `format_prompt` для форматирования сообщений.
+  - Реализация стриминга через `TextDecoderStream`.
 - **Минусы**:
-    - Отсутствует документация класса и методов.
-    - Жетская привязка к `botId` и `conversation_scenario`.
-    - Использование JavaScript в Python коде выглядит не очень хорошо
-    - Нет обработки исключений.
-    - В коде используется устаревший подход с `WebDriverSession`.
-    - Отсутствуют аннотации типов.
-    - Не используется модуль `logger` для логирования.
+  - Отсутствует полная документация и описание параметров функций.
+  - Жестко заданные значения, такие как `botId = "4738"`, могут потребовать внешней конфигурации.
+  - Использование `time.sleep(0.1)` может быть неэффективным.
+  - Отсутствуют обработка исключений и логирование.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить документацию**:
-    - Добавить docstring для класса `MyShell` и метода `create_completion`, объясняющие их назначение, параметры и возвращаемые значения.
-2.  **Улучшить обработку ошибок**:
-    - Добавить блоки `try...except` для обработки возможных исключений, таких как `WebDriverException` и `JSONDecodeError`.
-    - Использовать `logger.error` для логирования ошибок с трассировкой (`exc_info=True`).
-3.  **Избавиться от жесткой привязки к параметрам**:
-    - Вынести `botId` и `conversation_scenario` в параметры класса или метода, чтобы можно было их изменять.
-4.  **Добавить аннотации типов**:
-    - Добавить аннотации типов для всех переменных и параметров функций, чтобы улучшить читаемость и облегчить отладку.
-5.  **Использовать `j_loads`**:
-    - Если в коде есть чтение JSON, использовать `j_loads` вместо стандартного `json.load`.
-6.  **Улучшить код WebDriver**:
-    - По возможности, заменить использование `WebDriverSession` на более современный и гибкий способ работы с веб-драйвером, если это необходимо.
-7.  **Разделить код на более мелкие функции**:
-    - Разбить функцию `create_completion` на более мелкие, чтобы повысить читаемость и упростить тестирование.
-8.  **Использовать более конкретные исключения**:
-    - Вместо обработки всех исключений (`except Exception as ex`) использовать более конкретные типы исключений, такие как `json.JSONDecodeError` или `requests.RequestException`.
-9.  **Логирование**:
-    - Добавить логирование для отладки и мониторинга работы кода.
+1. **Добавить документацию:**
+   - Добавить docstring для класса `MyShell` и метода `create_completion`.
+   - Описать параметры `model`, `messages`, `stream`, `proxy`, `timeout` и `webdriver` в `create_completion`.
+
+2. **Улучшить обработку ошибок:**
+   - Добавить обработку исключений для сетевых запросов и JSON парсинга.
+   - Использовать `logger` для логирования ошибок и отладочной информации.
+
+3. **Конфигурация `botId`:**
+   - Рассмотреть возможность вынесения `botId` в конфигурационный файл или переменную окружения.
+
+4. **Улучшить стриминг:**
+   - Использовать асинхронные методы для более эффективного стриминга.
+   - Избегать `time.sleep` и использовать асинхронные аналоги.
+
+5. **Использовать `j_loads`**:
+   - Заменить `json.dumps` на `j_loads`.
+
+6. **Вебдрайвер**:
+   - Использовать `webdriver` из модуля `src.webdriver`.
 
 **Оптимизированный код:**
 
@@ -49,33 +45,38 @@ from __future__ import annotations
 
 import time
 import json
+from typing import Generator, Optional
 
-from typing import AsyncGenerator, Dict, List, Optional
-from src.logger import logger
-
+from src.logger import logger # Лггер
 from ...typing import CreateResult, Messages
 from ..base_provider import AbstractProvider
 from ..helper import format_prompt
-from src.webdriver import Driver, Chrome  # Добавлен импорт Driver и Chrome
 
+from src.webdriver import Driver # Импорт класса Driver из модуля webdriver
+from src.webdriver import Chrome # Импорт класса Chrome из модуля webdriver
 
 class MyShell(AbstractProvider):
     """
-    Провайдер для взаимодействия с MyShell AI через API.
+    Провайдер для взаимодействия с MyShell AI.
+    =================================================
 
-    Args:
-        url (str): URL для взаимодействия с MyShell.
-        working (bool): Статус работоспособности провайдера.
-        supports_gpt_35_turbo (bool): Поддержка модели GPT-3.5 Turbo.
-        supports_stream (bool): Поддержка потоковой передачи данных.
+    Этот класс позволяет отправлять запросы к MyShell AI и получать ответы.
+
+    Пример использования
+    ----------------------
+
+    >>> provider = MyShell()
+    >>> result = provider.create_completion(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello'}], stream=True)
+    >>> for chunk in result:
+    ...     print(chunk)
     """
-    url: str = "https://app.myshell.ai/chat"
-    working: bool = False
-    supports_gpt_35_turbo: bool = True
-    supports_stream: bool = True
+    url = "https://app.myshell.ai/chat"
+    working = False
+    supports_gpt_35_turbo = True
+    supports_stream = True
 
     @classmethod
-    async def create_completion(
+    def create_completion(
         cls,
         model: str,
         messages: Messages,
@@ -83,82 +84,77 @@ class MyShell(AbstractProvider):
         proxy: Optional[str] = None,
         timeout: int = 120,
         webdriver = None,
-        **kwargs,
+        **kwargs
     ) -> CreateResult:
         """
-        Создает завершение с использованием MyShell AI.
+        Создает завершение для заданных сообщений с использованием MyShell AI.
 
         Args:
-            model (str): Имя модели для использования.
+            model (str): Модель для использования.
             messages (Messages): Список сообщений для отправки.
-            stream (bool): Флаг потоковой передачи данных.
-            proxy (Optional[str]): Прокси-сервер для использования. По умолчанию None.
-            timeout (int): Время ожидания ответа в секундах. По умолчанию 120.
-            webdriver: Selenium webdriver instance
-            **kwargs: Дополнительные параметры.
+            stream (bool): Флаг, указывающий, использовать ли потоковую передачу.
+            proxy (Optional[str], optional): Прокси-сервер для использования. По умолчанию None.
+            timeout (int, optional): Время ожидания запроса в секундах. По умолчанию 120.
+            webdriver: Драйвер веб-браузера для автоматизации взаимодействия с веб-сайтом.
 
         Returns:
-            CreateResult: Результат создания завершения.
-
-        Yields:
-            str: Части ответа, если stream=True.
+            CreateResult: Результат завершения.
         """
+        driver = Driver(Chrome) #  Драйвер для автоматизации взаимодействия с веб-сайтом.
 
-        bot_id: str = "4738"  # Идентификатор бота
-        conversation_scenario: int = 3  # Сценарий разговора
-
-        try:
-            # Создание инстанса драйвера (пример с Chrome)
-            driver = Driver(Chrome)
+        with driver.session(webdriver, "", proxy=proxy) as session: # Исправлено название переменной
+            driver.bypass_cloudflare(driver, cls.url, timeout)
 
             # Send request with message
-            data: Dict = {
-                "botId": bot_id,
-                "conversation_scenario": conversation_scenario,
+            data = {
+                "botId": "4738",
+                "conversation_scenario": 3,
                 "message": format_prompt(messages),
-                "messageType": 1,
+                "messageType": 1
             }
-            script: str = f"""
-                response = await fetch("https://api.myshell.ai/v1/bot/chat/send_message", {{
-                    "headers": {{
-                        "accept": "application/json",
-                        "content-type": "application/json",
-                        "myshell-service-name": "organics-api",
-                        "visitor-id": localStorage.getItem("mix_visitorId")
-                    }},
-                    "body": '{json.dumps(data)}',
-                    "method": "POST"
-                }});
-                window._reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
-            """
-            driver.execute_script(script) # type: ignore
-            script: str = """
-                chunk = await window._reader.read();
-                if (chunk.done) {
-                    return null;
-                }
-                content = '';
-                chunk.value.split('\\n').forEach((line, index) => {
-                    if (line.startsWith('data: ')) {
-                        try {
-                            const data = JSON.parse(line.substring('data: '.length));
-                            if ('content' in data) {
-                                content += data['content'];
-                            }
-                        } catch(e) {}
-                    }
-                });
-                return content;
-            """
+            script = """
+response = await fetch("https://api.myshell.ai/v1/bot/chat/send_message", {
+    "headers": {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "myshell-service-name": "organics-api",
+        "visitor-id": localStorage.getItem("mix_visitorId")
+    },
+    "body": '{body}',
+    "method": "POST"
+})
+window._reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+"""
+            driver.execute_script(script.replace("{body}", json.dumps(data)))
+            script = """
+chunk = await window._reader.read();
+if (chunk.done) {
+    return null;
+}
+content = '';
+chunk.value.split('\\n').forEach((line, index) => {
+    if (line.startsWith('data: ')) {
+        try {
+            const data = JSON.parse(line.substring('data: '.length));
+            if ('content' in data) {
+                content += data['content'];
+            }
+        } catch(ex) {
+            logger.error('Error parsing JSON', ex, exc_info=True) #  Логирование ошибок при парсинге JSON
+        }
+    }
+});
+return content;
+"""
             while True:
-                chunk: str | None = driver.execute_script(script) # type: ignore
-                if chunk:
-                    yield chunk
-                elif chunk != "":
+                try:
+                    chunk = driver.execute_script(script)
+                    if chunk:
+                        yield chunk
+                    elif chunk != "":
+                        break
+                    else:
+                        time.sleep(0.1)
+                except Exception as ex:
+                    logger.error('Error while processing data', ex, exc_info=True) #  Логирование ошибок во время обработки данных
                     break
-                else:
-                    time.sleep(0.1)
-
-        except Exception as ex:
-            logger.error("Ошибка при создании завершения", ex, exc_info=True)
-            yield f"Error: {str(ex)}"

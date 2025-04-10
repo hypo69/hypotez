@@ -3,58 +3,43 @@
 #### **Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код разбит на логические блоки, что облегчает его понимание.
-  - Присутствуют аннотации типов.
-  - Используются асинхронные операции для неблокирующего выполнения задач.
+  - Асинхронный код, что позволяет эффективно обрабатывать запросы.
+  - Использование `StreamSession` для потоковой обработки данных.
+  - Реализация методов для аутентификации и загрузки изображений.
+  - Обработка различных типов ответов от OpenAI, включая текст и изображения.
 - **Минусы**:
-  - Некоторые docstring отсутствуют или не соответствуют требованиям.
-  - Не везде используется модуль `logger` для логирования ошибок.
-  - Присутствуют устаревшие комментарии, которые нужно обновить или удалить.
-  - В некоторых местах можно улучшить читаемость кода.
-  - Не все переменные аннотированы типами.
+  - Большое количество условных операторов и вложенных блоков, что усложняет чтение и понимание кода.
+  - Некоторые участки кода требуют более подробной документации и комментариев.
+  - Дублирование кода в некоторых местах (например, обновление аргументов запроса).
+  - Не все переменные аннотированы типами, отсутствует обработка исключений в некоторых местах.
+  - Использование устаревшего `Union[]`, которое заменено на `|`
 
 #### **Рекомендации по улучшению**:
-1. **Документация**:
-   - Добавить docstring для всех классов и методов, включая описание аргументов, возвращаемых значений и возможных исключений.
-   - Перевести все docstring на русский язык в формате UTF-8.
-   - Обновить и уточнить существующие docstring, чтобы они соответствовали актуальному функционалу кода.
+1. **Рефакторинг и упрощение кода**:
+   - Разбить крупные методы на более мелкие, чтобы улучшить читаемость и упростить поддержку.
+   - Избавиться от излишней вложенности условных операторов.
+   - Повторно использовать общие функции для уменьшения дублирования кода.
 
-2. **Логирование**:
-   - Заменить все `print` statements на использование модуля `logger` из `src.logger`.
-   - Добавить логирование важных этапов выполнения кода, таких как успешная аутентификация, загрузка изображений и получение данных.
-   - Обязательно логировать ошибки с использованием `logger.error` и передавать исключения в качестве аргумента.
+2. **Документация**:
+   - Добавить docstring к классам и методам, описывающие их назначение, аргументы и возвращаемые значения.
+   - Добавить комментарии для пояснения сложных участков кода.
 
-3. **Обработка исключений**:
-   - Улучшить обработку исключений, чтобы предоставлять более информативные сообщения об ошибках.
-   - Использовать `ex` вместо `e` в блоках `except`.
+3. **Обработка ошибок**:
+   - Добавить обработку исключений в тех местах, где это необходимо, и логировать ошибки с использованием `logger.error`.
+   - Улучшить обработку ошибок при загрузке изображений и получении данных.
 
-4. **Комментарии**:
-   - Просмотреть и обновить устаревшие комментарии, чтобы они соответствовали текущей логике кода.
-   - Удалить или перефразировать неинформативные комментарии.
+4. **Безопасность**:
+   - Убедиться, что все токены и ключи API обрабатываются безопасно, особенно при логировании.
+   - Проверить, что все зависимости обновлены до последних версий для предотвращения известных уязвимостей.
 
-5. **Форматирование**:
-   - Убедиться, что все строки используют одинарные кавычки (`'`).
-   - Добавить пробелы вокруг операторов присваивания (`=`).
+5. **Типизация**:
+   - Добавить аннотации типов для всех переменных, аргументов функций и возвращаемых значений, чтобы улучшить надежность кода и облегчить его понимание.
+   - Использовать `|` вместо `Union[]`.
 
-6. **Аннотации**:
-   - Добавить аннотации типов для всех переменных, где это необходимо.
-
-7. **Использование `j_loads` или `j_loads_ns`**:
-   - Проверить, используются ли `open` и `json.load` для чтения JSON или конфигурационных файлов, и заменить их на `j_loads` или `j_loads_ns`, если это необходимо.
-
-8. **Использовать webdriver**:
-    - Драйвер импортируется из модуля `webdriver` проекта `hypotez`
-    ```python
-    from src.webdirver import Driver, Chrome, Firefox, Playwright, ...
-    driver = Driver(Firefox)
-    ```
-    После чего он может использоваться как
-    ```python
-    result = driver.execute_locator(close_banner)
-    ```
+6. **Логирование**:
+    -  Использовать `logger` из `src.logger` для логирования важных событий, ошибок и отладочной информации.
 
 #### **Оптимизированный код**:
-
 ```python
 from __future__ import annotations
 
@@ -68,10 +53,11 @@ import time
 import random
 from typing import AsyncIterator, Iterator, Optional, Generator, Dict, List
 from copy import copy
+from pathlib import Path
 
+from src.logger import logger # Добавлен импорт logger
 try:
     import nodriver
-
     has_nodriver = True
 except ImportError:
     has_nodriver = False
@@ -83,37 +69,16 @@ from ...requests import StreamSession
 from ...requests import get_nodriver
 from ...image import ImageRequest, to_image, to_bytes, is_accepted_format
 from ...errors import MissingAuthError, NoValidHarFileError
-from ...providers.response import (
-    JsonConversation,
-    FinishReason,
-    SynthesizeData,
-    AuthResult,
-    ImageResponse,
-)
+from ...providers.response import JsonConversation, FinishReason, SynthesizeData, AuthResult, ImageResponse
 from ...providers.response import Sources, TitleGeneration, RequestLogin, Reasoning
 from ...tools.media import merge_media
 from ..helper import format_cookies, get_last_user_message
-from ..openai.models import (
-    default_model,
-    default_image_model,
-    models,
-    image_models,
-    text_models,
-)
+from ..openai.models import default_model, default_image_model, models, image_models, text_models
 from ..openai.har_file import get_request_config
-from ..openai.har_file import (
-    RequestConfig,
-    arkReq,
-    arkose_url,
-    start_url,
-    conversation_url,
-    backend_url,
-    backend_anon_url,
-)
+from ..openai.har_file import RequestConfig, arkReq, arkose_url, start_url, conversation_url, backend_url, backend_anon_url
 from ..openai.proofofwork import generate_proof_token
 from ..openai.new import get_requirements_token, get_config
 from ... import debug
-from src.logger import logger
 
 DEFAULT_HEADERS: Dict[str, str] = {
     'accept': '*/*',
@@ -127,7 +92,7 @@ DEFAULT_HEADERS: Dict[str, str] = {
     'sec-fetch-mode': 'cors',
     'sec-fetch-site': 'same-origin',
     'sec-gpc': '1',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
 }
 
 INIT_HEADERS: Dict[str, str] = {
@@ -148,7 +113,7 @@ INIT_HEADERS: Dict[str, str] = {
     'sec-fetch-site': 'none',
     'sec-fetch-user': '?1',
     'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
 }
 
 UPLOAD_HEADERS: Dict[str, str] = {
@@ -164,17 +129,16 @@ UPLOAD_HEADERS: Dict[str, str] = {
     'sec-fetch-site': 'cross-site',
     'x-ms-blob-type': 'BlockBlob',
     'x-ms-version': '2020-04-08',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
 }
-
 
 class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
     """
-    Класс для создания и управления беседами с чат-сервисом OpenAI.
+    Класс для создания и управления разговорами с чат-сервисом OpenAI.
     """
 
-    label: str = 'OpenAI ChatGPT'
-    url: str = 'https://chatgpt.com'
+    label: str = "OpenAI ChatGPT"
+    url: str = "https://chatgpt.com"
     working: bool = True
     use_nodriver: bool = True
     supports_gpt_4: bool = True
@@ -185,7 +149,7 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
     image_models: List[str] = image_models
     vision_models: List[str] = text_models
     models: List[str] = models
-    synthesize_content_type: str = 'audio/aac'
+    synthesize_content_type: str = "audio/aac"
     request_config: RequestConfig = RequestConfig()
 
     _api_key: Optional[str] = None
@@ -194,16 +158,16 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
     _expires: Optional[int] = None
 
     @classmethod
-    async def on_auth_async(cls, proxy: str = None, **kwargs) -> AsyncIterator:
+    async def on_auth_async(cls, proxy: Optional[str] = None, **kwargs) -> AsyncIterator:
         """
-        Асинхронный генератор для аутентификации.
+        Асинхронно выполняет аутентификацию и возвращает результаты.
 
         Args:
-            proxy (str, optional): Прокси для использования. По умолчанию None.
+            proxy (Optional[str], optional): Прокси для использования. По умолчанию `None`.
             **kwargs: Дополнительные аргументы.
 
         Yields:
-            AsyncIterator: Частичные результаты аутентификации.
+            AsyncIterator: Асинхронный итератор с результатами аутентификации.
         """
         async for chunk in cls.login(proxy=proxy):
             yield chunk
@@ -213,7 +177,7 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
             headers=cls._headers or cls.request_config.headers or cls.get_default_headers(),
             expires=cls._expires,
             proof_token=cls.request_config.proof_token,
-            turnstile_token=cls.request_config.turnstile_token,
+            turnstile_token=cls.request_config.turnstile_token
         )
 
     @classmethod
@@ -227,57 +191,52 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
         Загружает изображение на сервис и получает URL для скачивания.
 
         Args:
-            session (StreamSession): Объект StreamSession для запросов.
+            session (StreamSession): Объект StreamSession для выполнения запросов.
             auth_result (AuthResult): Результат аутентификации.
-            media (MediaListType): Изображения для загрузки.
+            media (MediaListType): Изображения для загрузки (PIL Image или bytes).
 
         Returns:
             ImageRequest: Объект ImageRequest с URL для скачивания, именем файла и другими данными.
-
-        Raises:
-            RuntimeError: Если произошла ошибка при загрузке изображения.
         """
-
         async def upload_image(image: bytes, image_name: str) -> ImageRequest:
             """
-            Внутренняя функция для загрузки отдельного изображения.
+            Внутренняя функция для загрузки одного изображения.
 
             Args:
-                image (bytes): Изображение в виде байтов.
+                image (bytes): Изображение в формате bytes.
                 image_name (str): Имя изображения.
 
             Returns:
                 ImageRequest: Объект ImageRequest с данными об изображении.
             """
-            logger.info(f'Uploading image: {image_name}')
-            # Конвертируем изображение в PIL Image и получаем расширение
+            debug.log(f'Uploading image: {image_name}')
+            # Преобразование изображения в PIL Image и получение расширения
             data_bytes = to_bytes(image)
             image = to_image(data_bytes)
             extension = image.format.lower()
-            data: Dict[str, str | int | float] = {
+            data = {
                 'file_name': '' if image_name is None else image_name,
                 'file_size': len(data_bytes),
-                'use_case': 'multimodal',
+                'use_case': 'multimodal'
             }
-            # Отправляем данные изображения и получаем данные об изображении
+            # Отправка данных изображения и получение данных об изображении
             headers = auth_result.headers if hasattr(auth_result, 'headers') else None
             try:
                 async with session.post(f'{cls.url}/backend-api/files', json=data, headers=headers) as response:
                     cls._update_request_args(auth_result, session)
                     await raise_for_status(response, 'Create file failed')
-                    image_data: Dict[str, str | int] = {
+                    image_data = {
                         **data,
                         **await response.json(),
                         'mime_type': is_accepted_format(data_bytes),
                         'extension': extension,
                         'height': image.height,
-                        'width': image.width,
+                        'width': image.width
                     }
             except Exception as ex:
-                logger.error('Error while creating file', ex, exc_info=True)
+                logger.error('Error while creating file', ex, exc_info=True) # Логирование ошибки
                 raise
-
-            # Отправляем байты изображения по URL и проверяем статус
+            # Отправка байтов изображения по URL для загрузки и проверка статуса
             await asyncio.sleep(1)
             try:
                 async with session.put(
@@ -289,124 +248,105 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
                         'x-ms-blob-type': 'BlockBlob',
                         'x-ms-version': '2020-04-08',
                         'Origin': 'https://chatgpt.com',
-                    },
+                    }
                 ) as response:
                     await raise_for_status(response)
             except Exception as ex:
-                logger.error('Error while putting image', ex, exc_info=True)
+                logger.error('Error while putting image data', ex, exc_info=True) # Логирование ошибки
                 raise
-
-            # Отправляем ID файла и получаем URL для скачивания
+            # Отправка ID файла и получение URL для скачивания
             try:
                 async with session.post(
                     f'{cls.url}/backend-api/files/{image_data["file_id"]}/uploaded',
                     json={},
-                    headers=auth_result.headers,
+                    headers=auth_result.headers
                 ) as response:
                     cls._update_request_args(auth_result, session)
                     await raise_for_status(response, 'Get download url failed')
                     image_data['download_url'] = (await response.json())['download_url']
             except Exception as ex:
-                logger.error('Error while getting download url', ex, exc_info=True)
+                logger.error('Error while getting download URL', ex, exc_info=True) # Логирование ошибки
                 raise
-
             return ImageRequest(image_data)
-
         return [await upload_image(image, image_name) for image, image_name in media]
 
     @classmethod
-    def create_messages(
-        cls, messages: Messages, image_requests: Optional[ImageRequest] = None, system_hints: Optional[List[str]] = None
-    ) -> List[Dict]:
+    def create_messages(cls, messages: Messages, image_requests: Optional[ImageRequest] = None, system_hints: Optional[List[str]] = None) -> List[Dict]:
         """
         Создает список сообщений для пользовательского ввода.
 
         Args:
             messages (Messages): Список предыдущих сообщений.
-            image_requests (Optional[ImageRequest], optional): Ответ на запрос изображения, если есть. По умолчанию None.
-            system_hints (Optional[List[str]], optional): Системные подсказки. По умолчанию None.
+            image_requests (Optional[ImageRequest], optional): Объект ответа на запрос изображения. По умолчанию `None`.
+            system_hints (Optional[List[str]], optional): Список системных подсказок. По умолчанию `None`.
 
         Returns:
             List[Dict]: Список сообщений с пользовательским вводом и изображением, если есть.
         """
-        messages = [
-            {
-                'id': str(uuid.uuid4()),
-                'author': {'role': message['role']},
-                'content': {'content_type': 'text', 'parts': [message['content']]},
-                'metadata': {'serialization_metadata': {'custom_symbol_offsets': []}, **({'system_hints': system_hints} if system_hints else {})},
-                'create_time': time.time(),
-            }
-            for message in messages
-        ]
-        # Проверяем, есть ли ответ на запрос изображения
+        messages = [{
+            'id': str(uuid.uuid4()),
+            'author': {'role': message['role']},
+            'content': {'content_type': 'text', 'parts': [message['content']]},
+            'metadata': {'serialization_metadata': {'custom_symbol_offsets': []}, **({'system_hints': system_hints} if system_hints else {})},
+            'create_time': time.time(),
+        } for message in messages]
+        # Проверка наличия ответа на запрос изображения
         if image_requests:
-            # Изменяем контент в последнем сообщении пользователя
+            # Изменение содержимого в последнем сообщении пользователя
             messages[-1]['content'] = {
                 'content_type': 'multimodal_text',
-                'parts': [
-                    *[
-                        {
-                            'asset_pointer': f'file-service://{image_request.get("file_id")}',
-                            'height': image_request.get('height'),
-                            'size_bytes': image_request.get('file_size'),
-                            'width': image_request.get('width'),
-                        }
-                        for image_request in image_requests
-                    ],
-                    messages[-1]['content']['parts'][0],
-                ],
+                'parts': [*[{
+                    'asset_pointer': f'file-service://{image_request.get("file_id")}',
+                    'height': image_request.get('height'),
+                    'size_bytes': image_request.get('file_size'),
+                    'width': image_request.get('width'),
+                }
+                for image_request in image_requests],
+                messages[-1]['content']['parts'][0]]
             }
-            # Добавляем объект metadata с вложениями
+            # Добавление объекта метаданных с вложениями
             messages[-1]['metadata'] = {
-                'attachments': [
-                    {
-                        'height': image_request.get('height'),
-                        'id': image_request.get('file_id'),
-                        'mimeType': image_request.get('mime_type'),
-                        'name': image_request.get('file_name'),
-                        'size': image_request.get('file_size'),
-                        'width': image_request.get('width'),
-                    }
-                    for image_request in image_requests
-                ]
+                'attachments': [{
+                    'height': image_request.get('height'),
+                    'id': image_request.get('file_id'),
+                    'mimeType': image_request.get('mime_type'),
+                    'name': image_request.get('file_name'),
+                    'size': image_request.get('file_size'),
+                    'width': image_request.get('width'),
+                }
+                for image_request in image_requests]
             }
         return messages
 
     @classmethod
-    async def get_generated_image(
-        cls, session: StreamSession, auth_result: AuthResult, element: dict, prompt: str = None
-    ) -> Optional[ImageResponse]:
+    async def get_generated_image(cls, session: StreamSession, auth_result: AuthResult, element: dict, prompt: Optional[str] = None) -> Optional[ImageResponse]:
         """
         Получает сгенерированное изображение.
 
         Args:
-            session (StreamSession): Объект StreamSession для запросов.
+            session (StreamSession): Объект StreamSession для выполнения запросов.
             auth_result (AuthResult): Результат аутентификации.
-            element (dict): Элемент с данными изображения.
-            prompt (str, optional): Подсказка для генерации изображения. По умолчанию None.
+            element (dict): Элемент с данными об изображении.
+            prompt (Optional[str], optional): Текст запроса. По умолчанию `None`.
 
         Returns:
-            Optional[ImageResponse]: Объект ImageResponse с данными об изображении или None в случае ошибки.
-
-        Raises:
-            RuntimeError: Если не найдено изображение или произошла ошибка при скачивании.
+            Optional[ImageResponse]: Объект ImageResponse с данными об изображении или `None` в случае ошибки.
         """
         try:
             prompt = element['metadata']['dalle']['prompt']
             file_id = element['asset_pointer'].split('file-service://', 1)[1]
         except TypeError:
             return
-        except Exception as ex:
-            raise RuntimeError(f'No Image: {ex.__class__.__name__}: {ex}')
+        except Exception as e:
+            raise RuntimeError(f'No Image: {e.__class__.__name__}: {e}')
         try:
             async with session.get(f'{cls.url}/backend-api/files/{file_id}/download', headers=auth_result.headers) as response:
                 cls._update_request_args(auth_result, session)
                 await raise_for_status(response)
                 download_url = (await response.json())['download_url']
                 return ImageResponse(download_url, prompt)
-        except Exception as ex:
-            raise RuntimeError(f'Error in downloading image: {ex}')
+        except Exception as e:
+            raise RuntimeError(f'Error in downloading image: {e}')
 
     @classmethod
     async def create_authed(
@@ -414,42 +354,46 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
         model: str,
         messages: Messages,
         auth_result: AuthResult,
-        proxy: str = None,
+        proxy: Optional[str] = None,
         timeout: int = 180,
         auto_continue: bool = False,
-        action: str = 'next',
-        conversation: Conversation = None,
-        media: MediaListType = None,
+        action: Optional[str] = 'next',
+        conversation: Optional[Conversation] = None,
+        media: Optional[MediaListType] = None,
         return_conversation: bool = False,
         web_search: bool = False,
-        **kwargs,
+        **kwargs
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для беседы.
+        Создает асинхронный генератор для разговора.
 
         Args:
             model (str): Имя модели.
             messages (Messages): Список предыдущих сообщений.
             auth_result (AuthResult): Результат аутентификации.
-            proxy (str, optional): Прокси для использования. По умолчанию None.
+            proxy (Optional[str], optional): Прокси для использования. По умолчанию `None`.
             timeout (int, optional): Время ожидания запроса. По умолчанию 180.
-            auto_continue (bool, optional): Автоматически продолжать беседу. По умолчанию False.
-            action (str, optional): Тип действия ("next", "continue", "variant"). По умолчанию "next".
-            conversation (Conversation, optional): Объект Conversation. По умолчанию None.
-            media (MediaListType, optional): Медиафайлы для включения в беседу. По умолчанию None.
-            return_conversation (bool, optional): Включать ли поля ответа в вывод. По умолчанию False.
-            web_search (bool, optional): Использовать ли веб-поиск. По умолчанию False.
+            auto_continue (bool, optional): Автоматическое продолжение разговора. По умолчанию `False`.
+            action (Optional[str], optional): Тип действия ('next', 'continue', 'variant'). По умолчанию 'next'.
+            conversation (Optional[Conversation], optional): Объект разговора. По умолчанию `None`.
+            media (Optional[MediaListType], optional): Изображения для включения в разговор. По умолчанию `None`.
+            return_conversation (bool, optional): Флаг для включения полей ответа в вывод. По умолчанию `False`.
+            web_search (bool, optional): Флаг для включения веб-поиска. По умолчанию `False`.
             **kwargs: Дополнительные аргументы.
 
         Yields:
-            AsyncResult: Асинхронные результаты из генератора.
+            AsyncResult: Асинхронные результаты от генератора.
 
         Raises:
             MissingAuthError: Если отсутствует токен доступа.
             RuntimeError: Если произошла ошибка во время обработки.
         """
-        async with StreamSession(proxy=proxy, impersonate='chrome', timeout=timeout) as session:
-            image_requests: Optional[List[ImageRequest]] = None
+        async with StreamSession(
+            proxy=proxy,
+            impersonate='chrome',
+            timeout=timeout
+        ) as session:
+            image_requests = None
             if not cls.needs_auth:
                 if cls._headers is None:
                     cls._create_request_args(cls._cookies)
@@ -458,7 +402,7 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
                             cls._update_request_args(auth_result, session)
                             await raise_for_status(response)
                     except Exception as ex:
-                        logger.error('Error while getting url', ex, exc_info=True)
+                        logger.error('Error while getting initial response', ex, exc_info=True) # Логирование ошибки
                         raise
             else:
                 if cls._headers is None and getattr(auth_result, 'cookies', None):
@@ -470,12 +414,12 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
                         cls._update_request_args(auth_result, session)
                         await raise_for_status(response)
                 except Exception as ex:
-                    logger.error('Error while getting url', ex, exc_info=True)
+                    logger.error('Error while getting response with headers', ex, exc_info=True) # Логирование ошибки
                     raise
                 try:
                     image_requests = await cls.upload_images(session, auth_result, merge_media(media, messages))
                 except Exception as ex:
-                    logger.error('OpenaiChat: Upload image failed', ex, exc_info=True)
+                    logger.error('OpenaiChat: Upload image failed', ex, exc_info=True) # Логирование ошибки
             model = cls.get_model(model)
             if conversation is None:
                 conversation = Conversation(None, str(uuid.uuid4()), getattr(auth_result, 'cookies', {}).get('oai-did'))
@@ -491,10 +435,10 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
                 try:
                     async with session.post(
                         f'{cls.url}/backend-anon/sentinel/chat-requirements'
-                        if cls._api_key is None
-                        else f'{cls.url}/backend-api/sentinel/chat-requirements',
+                        if cls._api_key is None else
+                        f'{cls.url}/backend-api/sentinel/chat-requirements',
                         json={'p': None if not getattr(auth_result, 'proof_token', None) else get_requirements_token(getattr(auth_result, 'proof_token', None))},
-                        headers=cls._headers,
+                        headers=cls._headers
                     ) as response:
                         if response.status in (401, 403):
                             raise MissingAuthError(f'Response status: {response.status}')
@@ -506,14 +450,13 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
                         need_arkose = chat_requirements.get('arkose', {}).get('required', False)
                         chat_token = chat_requirements.get('token')
                 except Exception as ex:
-                    logger.error('Error while getting chat requirements', ex, exc_info=True)
+                    logger.error('Error while getting chat requirements', ex, exc_info=True) # Логирование ошибки
                     raise
-
                 # if need_arkose and cls.request_config.arkose_token is None:
-                #     await get_request_config(proxy)\
-                #     cls._create_request_args(auth_result.cookies, auth_result.headers)\
-                #     cls._set_api_key(auth_result.access_token)\
-                #     if auth_result.arkose_token is None:\
+                #     await get_request_config(proxy)
+                #     cls._create_request_args(auth_result.cookies, auth_result.headers)
+                #     cls._set_api_key(auth_result.access_token)
+                #     if auth_result.arkose_token is None:
                 #         raise MissingAuthError("No arkose token found in .har file")
                 if 'proofofwork' in chat_requirements:
                     user_agent = getattr(auth_result, 'headers', {}).get('user-agent')
@@ -521,19 +464,18 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
                     if proof_token is None:
                         auth_result.proof_token = get_config(user_agent)
                     proofofwork = generate_proof_token(
-                        **chat_requirements['proofofwork'], user_agent=user_agent, proof_token=proof_token
+                        **chat_requirements['proofofwork'],
+                        user_agent=user_agent,
+                        proof_token=proof_token
                     )
-                [
-                    debug.log(text)
-                    for text in (
-                        # f"Arkose: {\'False\' if not need_arkose else auth_result.arkose_token[:12]+\'...\'}",
-                        # f"Proofofwork: {\'False\' if proofofwork is None else proofofwork[:12]+\'...\'}",
-                        # f"AccessToken: {\'False\' if cls._api_key is None else cls._api_key[:12]+\'...\'}",
-                    )
-                ]
+                [debug.log(text) for text in (
+                    #f"Arkose: {\'False\' if not need_arkose else auth_result.arkose_token[:12]+\'...\'}",
+                    #f"Proofofwork: {\'False\' if proofofwork is None else proofofwork[:12]+\'...\'}",
+                    #f"AccessToken: {\'False\' if cls._api_key is None else cls._api_key[:12]+\'...\'}",
+                )]
                 if action is None or action == 'variant' or action == 'continue' and conversation.message_id is None:
                     action = 'next'
-                data: Dict[str, str | int | bool | dict | list] = {
+                data = {
                     'action': action,
                     'parent_message_id': conversation.message_id,
                     'model': model,
@@ -544,16 +486,8 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
                     'system_hints': ['search'] if web_search else None,
                     'supports_buffering': True,
                     'supported_encodings': ['v1'],
-                    'client_contextual_info': {
-                        'is_dark_mode': False,
-                        'time_since_loaded': random.randint(20, 500),
-                        'page_height': 578,
-                        'page_width': 1850,
-                        'pixel_ratio': 1,
-                        'screen_height': 1080,
-                        'screen_width': 1920,
-                    },
-                    'paragen_cot_summary_display_override': 'allow',
+                    'client_contextual_info': {'is_dark_mode': False, 'time_since_loaded': random.randint(20, 500), 'page_height': 578, 'page_width': 1850, 'pixel_ratio': 1, 'screen_height': 1080, 'screen_width': 1920},
+                    'paragen_cot_summary_display_override': 'allow'
                 }
                 if conversation.conversation_id is not None:
                     data['conversation_id'] = conversation.conversation_id
@@ -563,23 +497,25 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
                     conversation.parent_message_id = None
                     messages = messages if conversation.conversation_id is None else [{'role': 'user', 'content': get_last_user_message(messages)}]
                     data['messages'] = cls.create_messages(messages, image_requests, ['search'] if web_search else None)
-                headers: Dict[str, str] = {
+                headers = {
                     **cls._headers,
                     'accept': 'text/event-stream',
                     'content-type': 'application/json',
                     'openai-sentinel-chat-requirements-token': chat_token,
                 }
-                # if cls.request_config.arkose_token:\
-                #     headers["openai-sentinel-arkose-token"] = cls.request_config.arkose_token
+                #if cls.request_config.arkose_token:
+                #    headers["openai-sentinel-arkose-token"] = cls.request_config.arkose_token
                 if proofofwork is not None:
                     headers['openai-sentinel-proof-token'] = proofofwork
                 if need_turnstile and getattr(auth_result, 'turnstile_token', None) is not None:
                     headers['openai-sentinel-turnstile-token'] = auth_result.turnstile_token
                 try:
                     async with session.post(
-                        f'{cls.url}/backend-anon/conversation' if cls._api_key is None else f'{cls.url}/backend-api/conversation',
+                        f'{cls.url}/backend-anon/conversation'
+                        if cls._api_key is None else
+                        f'{cls.url}/backend-api/conversation',
                         json=data,
-                        headers=headers,
+                        headers=headers
                     ) as response:
                         cls._update_request_args(auth_result, session)
                         if response.status in (401, 403, 429):
@@ -593,26 +529,15 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
                                     buffer += chunk
                                     if buffer.find('\ue200') != -1:
                                         if buffer.find('\ue201') != -1:
-                                            buffer = buffer.replace('\ue200', '').replace('\ue202', '\\n').replace('\ue201', '')
-                                            buffer = buffer.replace('navlist\\n', '#### ')
-
-                                            def replacer(match: re.Match) -> str:
-                                                """
-                                                Заменяет ссылки в тексте.
-
-                                                Args:
-                                                    match (re.Match): Объект Match с найденной ссылкой.
-
-                                                Returns:
-                                                    str: Замененная строка со ссылкой.
-                                                """
+                                            buffer = buffer.replace('\ue200', '').replace('\ue202', '\n').replace('\ue201', '')
+                                            buffer = buffer.replace('navlist\n', '#### ')
+                                            def replacer(match):
                                                 link = None
                                                 if len(sources.list) > int(match.group(1)):
                                                     link = sources.list[int(match.group(1))]['url']
                                                     return f'[[{int(match.group(1))+1}]]({link})'
                                                 return f' [{int(match.group(1))+1}]'
-
-                                            buffer = re.sub(r'(?:cite\\nturn0search|cite\\nturn0news|turn0news)(\d+)', replacer, buffer)
+                                            buffer = re.sub(r'(?:cite\nturn0search|cite\nturn0news|turn0news)(\d+)', replacer, buffer)
                                         else:
                                             continue
                                     yield buffer
@@ -622,22 +547,18 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
                             if conversation.finish_reason is not None:
                                 break
                 except Exception as ex:
-                    logger.error('Error while processing conversation', ex, exc_info=True)
+                    logger.error('Error while getting conversation response', ex, exc_info=True) # Логирование ошибки
                     raise
-
                 if sources.list:
                     yield sources
                 if return_conversation:
                     yield conversation
                 if auth_result.api_key is not None:
-                    yield SynthesizeData(
-                        cls.__name__,
-                        {
-                            'conversation_id': conversation.conversation_id,
-                            'message_id': conversation.message_id,
-                            'voice': 'maple',
-                        },
-                    )
+                    yield SynthesizeData(cls.__name__, {
+                        'conversation_id': conversation.conversation_id,
+                        'message_id': conversation.message_id,
+                        'voice': 'maple',
+                    })
                 if auto_continue and conversation.finish_reason == 'max_tokens':
                     conversation.finish_reason = None
                     action = 'continue'
@@ -647,24 +568,19 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
             yield FinishReason(conversation.finish_reason)
 
     @classmethod
-    async def iter_messages_line(
-        cls, session: StreamSession, auth_result: AuthResult, line: bytes, fields: Conversation, sources: Sources
-    ) -> AsyncIterator:
+    async def iter_messages_line(cls, session: StreamSession, auth_result: AuthResult, line: bytes, fields: Conversation, sources: Sources) -> AsyncIterator:
         """
-        Обрабатывает строку сообщения.
+        Итератор для обработки строк сообщений.
 
         Args:
-            session (StreamSession): Объект StreamSession для запросов.
+            session (StreamSession): Объект StreamSession для выполнения запросов.
             auth_result (AuthResult): Результат аутентификации.
-            line (bytes): Строка сообщения.
-            fields (Conversation): Объект Conversation.
-            sources (Sources): Объект Sources.
+            line (bytes): Строка сообщения в байтах.
+            fields (Conversation): Объект разговора.
+            sources (Sources): Объект источников.
 
         Yields:
-            AsyncIterator: Асинхронный итератор.
-
-        Raises:
-            RuntimeError: Если произошла ошибка во время обработки сообщения.
+            AsyncIterator: Асинхронный итератор с результатами обработки.
         """
         if not line.startswith(b'data: '):
             return
@@ -672,8 +588,7 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
             return
         try:
             line = json.loads(line[6:])
-        except Exception as ex:
-            logger.error('Error while loading json', ex, exc_info=True)
+        except:
             return
         if not isinstance(line, dict):
             return
@@ -716,4 +631,31 @@ class OpenaiChat(AsyncAuthedProvider, ProviderModelMixin):
                         generated_images = []
                         for element in c.get('parts'):
                             if isinstance(element, dict) and element.get('content_type') == 'image_asset_pointer':
-                                image = cls.get_generated
+                                image = cls.get_generated_image(session, auth_result, element)
+                                generated_images.append(image)
+                        for image_response in await asyncio.gather(*generated_images):
+                            if image_response is not None:
+                                yield image_response
+                    if m.get('author', {}).get('role') == 'assistant':
+                        if fields.parent_message_id is None:
+                            fields.parent_message_id = v.get('message', {}).get('id')
+                        fields.message_id = v.get('message', {}).get('id')
+            return
+        if 'error' in line and line.get('error'):
+            raise RuntimeError(line.get('error'))
+
+    @classmethod
+    async def synthesize(cls, params: dict) -> AsyncIterator[bytes]:
+        """
+        Синтезирует речь на основе параметров.
+
+        Args:
+            params (dict): Параметры для синтеза речи.
+
+        Yields:
+            AsyncIterator[bytes]: Асинхронный итератор с байтами синтезированной речи.
+        """
+        async for _ in cls.login():
+            pass
+        async with StreamSession(
+            impersonate='chrome',

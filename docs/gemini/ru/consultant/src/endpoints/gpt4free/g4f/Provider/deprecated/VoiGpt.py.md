@@ -1,96 +1,70 @@
 ### **Анализ кода модуля `VoiGpt.py`**
 
-#### **Качество кода:**
+**Качество кода:**
 
-- **Соответствие стандартам**: 7/10
+- **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код содержит docstring для класса и метода `create_completion`.
+    - Код достаточно структурирован и содержит docstring для класса.
     - Используются аннотации типов.
 - **Минусы**:
-    - Отсутствует docstring для модуля.
-    - В docstring класса `VoiGpt` используется формат Markdown, но не полностью соответствует требуемому.
-    - В блоке `except` не используется `logger` для регистрации ошибок.
-    - Используются двойные кавычки вместо одинарных.
-    - Не указаны типы для переменных `url`, `working`, `supports_gpt_35_turbo`, `supports_message_history`, `_access_token`.
-    - Не все переменные и параметры аннотированы типами.
-    - Нет обработки ошибок при запросе access_token.
+    - Docstring написан на английском языке.
+    - Не все переменные аннотированы типами.
+    - Обработка ошибок не использует логирование.
+    - Не используется `j_loads` для обработки JSON.
+    - Не используется `logger` из `src.logger`.
 
-#### **Рекомендации по улучшению:**
+**Рекомендации по улучшению:**
 
-1.  Добавить docstring для модуля.
-2.  Перефразировать docstring для класса `VoiGpt` в соответствии с предоставленным форматом, включая пример использования.
-3.  Использовать `logger` для регистрации ошибок в блоке `except`.
-4.  Заменить двойные кавычки на одинарные.
-5.  Добавить аннотации типов для переменных `url`, `working`, `supports_gpt_35_turbo`, `supports_message_history`, `_access_token`.
-6.  Обработать исключения при запросе `access_token` и использовать `logger.error` для логирования.
-7.  Удалить `from __future__ import annotations`, так как используется Python 3.7+.
-8.  Перевести все docstring на русский язык.
-9.   Добавить обработку ошибок при запросе access_token.
-10.  Необходимо проверить все импорты.
+1.  **Перевести docstring на русский язык**: Необходимо перевести все docstring на русский язык, чтобы соответствовать требованиям.
+2.  **Использовать `logger` для логирования**: В блоке `except` следует использовать `logger.error` для логирования ошибок.
+3.  **Использовать одинарные кавычки**: Заменить двойные кавычки на одинарные в значениях словарей и строках.
+4.  **Улучшить обработку ошибок**: Добавить обработку исключений с использованием `logger.error` для регистрации ошибок.
+5.  **Добавить аннотации типов**: Добавить аннотации типов для всех переменных.
+6.  **Использовать `j_loads`**: Заменить `json.loads` на `j_loads`.
+7.  **Добавить docstring для внутренней функции**: Добавить docstring для внутренней функции.
 
-#### **Оптимизированный код:**
+**Оптимизированный код:**
 
 ```python
-"""
-Модуль для работы с провайдером VoiGpt
-=========================================
-
-Модуль содержит класс :class:`VoiGpt`, который используется для взаимодействия с VoiGpt.com.
-
-Пример использования
-----------------------
-
->>> from src.endpoints.gpt4free.g4f.Provider.deprecated import VoiGpt
->>> model = "gpt-3.5-turbo"
->>> messages = [{"role": "user", "content": "Hello"}]
->>> stream = False
->>> access_token = "your_access_token"  # Необходимо получить с сайта voigpt.com
->>> result = VoiGpt.create_completion(model=model, messages=messages, stream=stream, access_token=access_token)
->>> for res in result:
-...     print(res)
-"""
+from __future__ import annotations
 
 import json
 import requests
-from typing import Optional
-
 from ..base_provider import AbstractProvider
 from ...typing import Messages, CreateResult
-from src.logger import logger
+from src.logger import logger  # Добавлен импорт logger
 
 
 class VoiGpt(AbstractProvider):
     """
-    Провайдер для VoiGpt.com
+    Модуль для работы с VoiGpt.com
+    ================================
 
-    **Примечание**: для использования этого провайдера необходимо получить csrf token/cookie с сайта voigpt.com.
+    Этот модуль предоставляет класс :class:`VoiGpt`, который используется для взаимодействия с API VoiGpt.com.
+
+    **Примечание**: Для использования этого провайдера необходимо получить CSRF токен/cookie с сайта voigpt.com.
 
     Args:
         model (str): Модель для использования.
         messages (Messages): Сообщения для отправки.
         stream (bool): Флаг, указывающий, нужно ли стримить ответ.
-        proxy (Optional[str], optional): Прокси для использования. По умолчанию `None`.
-        access_token (Optional[str], optional): Access token для использования. По умолчанию `None`.
+        proxy (Optional[str]): Прокси для использования. По умолчанию `None`.
+        access_token (Optional[str]): Токен доступа для использования. По умолчанию `None`.
+        **kwargs: Дополнительные именованные аргументы.
 
     Returns:
         CreateResult: Объект CreateResult.
 
     Example:
-        >>> from src.endpoints.gpt4free.g4f.Provider.deprecated import VoiGpt
-        >>> model = "gpt-3.5-turbo"
-        >>> messages = [{"role": "user", "content": "Hello"}]
-        >>> stream = False
-        >>> access_token = "your_access_token"  # Необходимо получить с сайта voigpt.com
-        >>> result = VoiGpt.create_completion(model=model, messages=messages, stream=stream, access_token=access_token)
-        >>> for res in result:
-        ...     print(res)
+        >>> provider = VoiGpt()
+        >>> provider.create_completion(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello'}], stream=False)
     """
     url: str = 'https://voigpt.com'
     working: bool = False
     supports_gpt_35_turbo: bool = True
     supports_message_history: bool = True
     supports_stream: bool = False
-    _access_token: Optional[str] = None
+    _access_token: str | None = None
 
     @classmethod
     def create_completion(
@@ -98,8 +72,8 @@ class VoiGpt(AbstractProvider):
         model: str,
         messages: Messages,
         stream: bool,
-        proxy: Optional[str] = None,
-        access_token: Optional[str] = None,
+        proxy: str | None = None,
+        access_token: str | None = None,
         **kwargs
     ) -> CreateResult:
         """
@@ -109,32 +83,25 @@ class VoiGpt(AbstractProvider):
             model (str): Модель для использования.
             messages (Messages): Список сообщений для отправки.
             stream (bool): Флаг, указывающий, нужно ли использовать потоковую передачу.
-            proxy (Optional[str], optional): Прокси-сервер для использования. По умолчанию `None`.
-            access_token (Optional[str], optional): Токен доступа. Если не указан, будет получен автоматически. По умолчанию `None`.
-            **kwargs: Дополнительные аргументы.
+            proxy (Optional[str]): Прокси для использования. По умолчанию `None`.
+            access_token (Optional[str]): Токен доступа. По умолчанию `None`.
+            **kwargs: Дополнительные параметры.
 
         Returns:
-            CreateResult: Объект-генератор, содержащий ответ от VoiGpt.
+            CreateResult: Результат запроса.
 
         Raises:
-            RuntimeError: Если возникает ошибка при получении ответа от сервера.
+            RuntimeError: Если возникает ошибка при обработке ответа от сервера.
 
         Example:
-            >>> from src.endpoints.gpt4free.g4f.Provider.deprecated import VoiGpt
-            >>> model = "gpt-3.5-turbo"
-            >>> messages = [{"role": "user", "content": "Hello"}]
-            >>> stream = False
-            >>> access_token = "your_access_token"  # Необходимо получить с сайта voigpt.com
-            >>> result = VoiGpt.create_completion(model=model, messages=messages, stream=stream, access_token=access_token)
-            >>> for res in result:
-            ...     print(res)
+            >>> VoiGpt.create_completion(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello'}], stream=False)
         """
         if not model:
             model = 'gpt-3.5-turbo'
         if not access_token:
             access_token = cls._access_token
         if not access_token:
-            headers = {
+            headers: dict[str, str] = {
                 'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
                 'accept-language': 'de-DE,de;q=0.9,en-DE;q=0.8,en;q=0.7,en-US;q=0.6',
                 'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
@@ -147,18 +114,10 @@ class VoiGpt(AbstractProvider):
                 'upgrade-insecure-requests': '1',
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
             }
-            try:
-                req_response = requests.get(cls.url, headers=headers)
-                req_response.raise_for_status()  # Проверка на HTTP ошибки
-                access_token = cls._access_token = req_response.cookies.get('csrftoken')
-                if not access_token:
-                    logger.error('Не удалось получить csrftoken из cookies')
-                    raise RuntimeError('Не удалось получить csrftoken')
-            except requests.exceptions.RequestException as ex:
-                logger.error('Ошибка при запросе csrftoken', ex, exc_info=True)
-                raise RuntimeError(f'Ошибка при запросе csrftoken: {ex}')
+            req_response = requests.get(cls.url, headers=headers)
+            access_token = cls._access_token = req_response.cookies.get('csrftoken')
 
-        headers = {
+        headers: dict[str, str] = {
             'Accept-Encoding': 'gzip, deflate, br',
             'Accept-Language': 'de-DE,de;q=0.9,en-DE;q=0.8,en;q=0.7,en-US;q=0.6',
             'Cookie': f'csrftoken={access_token};',
@@ -174,24 +133,14 @@ class VoiGpt(AbstractProvider):
             'X-Csrftoken': access_token,
         }
 
-        payload = {
+        payload: dict[str, Messages] = {
             'messages': messages,
         }
-        request_url = f'{cls.url}/generate_response/'
+        request_url: str = f'{cls.url}/generate_response/'
+        req_response = requests.post(request_url, headers=headers, json=payload)
         try:
-            req_response = requests.post(request_url, headers=headers, json=payload)
-            req_response.raise_for_status()  # Проверка на HTTP ошибки
-            response = json.loads(req_response.text)
+            response: dict = json.loads(req_response.text)
             yield response['response']
-        except requests.exceptions.RequestException as ex:
-            logger.error('Ошибка при отправке запроса', ex, exc_info=True)
-            raise RuntimeError(f'Ошибка при отправке запроса: {ex}')
-        except json.JSONDecodeError as ex:
-            logger.error('Ошибка при разборе JSON', ex, exc_info=True)
-            raise RuntimeError(f'Ошибка при разборе JSON: {ex}')
-        except KeyError as ex:
-            logger.error('Отсутствует ключ "response" в ответе', ex, exc_info=True)
-            raise RuntimeError(f'Отсутствует ключ "response" в ответе: {ex}')
-        except Exception as ex:
-            logger.error('Неизвестная ошибка', ex, exc_info=True)
-            raise RuntimeError(f'Неизвестная ошибка: {req_response.text}')
+        except Exception as ex:  # Используем ex вместо e и логируем ошибку
+            logger.error('Ошибка при обработке ответа от сервера', ex, exc_info=True)
+            raise RuntimeError(f'Response: {req_response.text}') from ex

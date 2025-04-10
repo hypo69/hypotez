@@ -3,84 +3,109 @@
 #### **Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Использование `AsyncGeneratorProvider` для потоковой обработки данных.
-  - Явное указание `content-type` и других заголовков.
-  - Использование `aiohttp.ClientSession` для асинхронных запросов.
+    - Использование асинхронных операций для неблокирующего взаимодействия с API.
+    - Класс реализован как AsyncGeneratorProvider, что позволяет эффективно обрабатывать потоковые данные.
+    - Предусмотрена обработка ошибок JSON при декодировании ответа от сервера.
+    - Использование `model_aliases` для упрощения выбора моделей.
 - **Минусы**:
-  - Отсутствует обработка ошибок при запросе к API (кроме `response.raise_for_status()`).
-  - Не все переменные аннотированы типами.
-  - `working = False` не используется и не документирован.
-  - Дублирование ключа `"solar-mini"` в `model_aliases`.
+    - Отсутствует документация модуля и большинства методов.
+    - Нет логирования ошибок, что затрудняет отладку и мониторинг.
+    - Жестко заданные заголовки, что может привести к проблемам совместимости в будущем.
+    - Не все переменные аннотированы типами.
+    - Дублирование ключа "solar-mini" в `model_aliases`.
+    - Отсутствуют проверки входных данных и обработки исключений, помимо `json.JSONDecodeError`.
 
 #### **Рекомендации по улучшению**:
 
-1. **Добавить обработку исключений**:
-   - Обернуть блок `async with session.post` в `try...except` для обработки возможных исключений, связанных с сетевыми запросами (`aiohttp.ClientError`, `asyncio.TimeoutError` и другие).
-   - Логировать ошибки с использованием `logger.error`.
+1.  **Добавить документацию**:
+    - Добавить docstring для класса `Upstage` и всех его методов, включая `__init__` (если он есть), `get_model`, `create_async_generator`.
+    - Описать назначение каждого метода, его параметры, возвращаемые значения и возможные исключения.
+    - Добавить описание модуля в начале файла.
 
-2. **Улучшить обработку JSONDecodeError**:
-   - Добавить логирование ошибок при декодировании JSON, чтобы было легче отслеживать проблемы с форматом данных от API.
+2.  **Реализовать логирование**:
+    - Добавить логирование для отладки и мониторинга работы класса.
+    - Логировать важные события, такие как успешное подключение к API, отправка запроса, получение ответа, ошибки декодирования JSON и другие исключения.
+    - Использовать `logger.error` для записи ошибок и `logger.info` для информационных сообщений.
 
-3. **Добавить аннотации типов**:
-   - Добавить аннотации типов для всех переменных и возвращаемых значений функций.
+3.  **Улучшить обработку ошибок**:
+    - Добавить обработку исключений для сетевых ошибок, ошибок API и других возможных проблем.
+    - Использовать `try-except` блоки для защиты кода от неожиданных ошибок.
+    - Логировать все исключения с использованием `logger.error`.
 
-4. **Исправить дублирование в `model_aliases`**:
-   - Устранить дублирование ключа `"solar-mini"` в `model_aliases`, уточнив, какое значение должно быть присвоено.
+4.  **Добавить аннотации типов**:
+    - Добавить аннотации типов для всех переменных, параметров функций и возвращаемых значений.
+    - Это улучшит читаемость кода и поможет выявлять ошибки на этапе разработки.
 
-5. **Документировать `working`**:
-   - Добавить описание для переменной `working`, чтобы указать, для чего она предназначена. Если она не используется, удалить её.
+5.  **Исправить дублирование ключа в `model_aliases`**:
+    - Устранить дублирование ключа "solar-mini" в словаре `model_aliases`.
+    - Проверить правильность значений для каждого ключа.
 
-6. **Добавить docstrings**:
-   - Добавить docstrings для всех методов и классов, описывающие их назначение, параметры и возвращаемые значения.
+6.  **Рефакторинг заголовков**:
+    - Рассмотреть возможность вынести заголовки в отдельную константу или функцию для удобства изменения и поддержки.
+    - Добавить возможность передавать заголовки через параметры, чтобы можно было их настраивать при необходимости.
 
 #### **Оптимизированный код**:
 
 ```python
+"""
+Модуль для взаимодействия с Upstage API
+==========================================
+
+Модуль содержит класс :class:`Upstage`, который используется для асинхронного взаимодействия с API Upstage
+для генерации текста. Поддерживает различные модели и предоставляет возможность потоковой обработки данных.
+
+Пример использования
+----------------------
+
+>>> from src.endpoints.gpt4free.g4f.Provider.not_working import Upstage
+>>> import asyncio
+>>> async def main():
+>>>     async for message in Upstage.create_async_generator(model='solar-pro', messages=[{'role': 'user', 'content': 'Hello'}]):
+>>>         print(message, end='')
+>>> asyncio.run(main())
+"""
 from __future__ import annotations
 
-from aiohttp import ClientSession, ClientError
+from aiohttp import ClientSession
 import json
-import asyncio
-from typing import AsyncGenerator, Dict, List, Optional
+from typing import AsyncGenerator, AsyncIterable, Dict, List, Optional
 
+from src.logger import logger # Используем logger из src.logger
 from ...typing import AsyncResult, Messages
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ..helper import format_prompt
-from src.logger import logger
 
 
 class Upstage(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Провайдер для взаимодействия с API Upstage AI.
+    Провайдер для асинхронного взаимодействия с API Upstage.
 
-    Поддерживает асинхронную потоковую передачу данных.
+    Поддерживает различные модели и предоставляет возможность потоковой обработки данных.
     """
-    url = "https://console.upstage.ai/playground/chat"
-    api_endpoint = "https://ap-northeast-2.apistage.ai/v1/web/demo/chat/completions"
-    working = False  # TODO: Определить, используется ли этот параметр и для чего
-    default_model = 'solar-pro'
-    models = [
+    url: str = "https://console.upstage.ai/playground/chat"
+    api_endpoint: str = "https://ap-northeast-2.apistage.ai/v1/web/demo/chat/completions"
+    working: bool = False
+    default_model: str = 'solar-pro'
+    models: List[str] = [
         'upstage/solar-1-mini-chat',
         'upstage/solar-1-mini-chat-ja',
         'solar-pro',
     ]
-    model_aliases = {
-        "solar-mini": "upstage/solar-1-mini-chat",  # TODO: Уточнить, какое значение должно быть здесь
+    model_aliases: Dict[str, str] = {
+        "solar-mini": "upstage/solar-1-mini-chat",
+        "solar-mini-ja": "upstage/solar-1-mini-chat-ja",  # Исправлено дублирование ключа
     }
 
     @classmethod
     def get_model(cls, model: str) -> str:
         """
-        Получает имя модели.
-
-        Если модель есть в списке поддерживаемых, возвращает её.
-        Иначе возвращает модель по умолчанию.
+        Получает имя модели на основе алиаса или возвращает значение по умолчанию.
 
         Args:
-            model (str): Имя модели.
+            model (str): Алиас модели или полное имя модели.
 
         Returns:
-            str: Имя модели для запроса к API.
+            str: Полное имя модели.
         """
         if model in cls.models:
             return model
@@ -94,7 +119,7 @@ class Upstage(AsyncGeneratorProvider, ProviderModelMixin):
         cls,
         model: str,
         messages: Messages,
-        proxy: str = None,
+        proxy: Optional[str] = None,
         **kwargs
     ) -> AsyncResult:
         """
@@ -103,14 +128,17 @@ class Upstage(AsyncGeneratorProvider, ProviderModelMixin):
         Args:
             model (str): Имя модели.
             messages (Messages): Список сообщений для отправки.
-            proxy (str, optional): Адрес прокси-сервера. По умолчанию None.
+            proxy (Optional[str], optional): Прокси-сервер. По умолчанию None.
 
-        Returns:
-            AsyncResult: Асинхронный генератор, возвращающий ответы от API.
+        Yields:
+            str: Части ответа от сервера.
+
+        Raises:
+            Exception: В случае ошибки при взаимодействии с API.
         """
         model = cls.get_model(model)
 
-        headers = {
+        headers: Dict[str, str] = {
             "accept": "*/*",
             "accept-language": "en-US,en;q=0.9",
             "cache-control": "no-cache",
@@ -129,36 +157,37 @@ class Upstage(AsyncGeneratorProvider, ProviderModelMixin):
             "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
         }
 
-        async with ClientSession(headers=headers) as session:
-            data = {
-                "stream": True,
-                "messages": [{"role": "user", "content": format_prompt(messages)}],
-                "model": model
-            }
+        try:
+            async with ClientSession(headers=headers) as session:
+                data: Dict[str, any] = {
+                    "stream": True,
+                    "messages": [{"role": "user", "content": format_prompt(messages)}],
+                    "model": model
+                }
 
-            try:
                 async with session.post(f"{cls.api_endpoint}", json=data, proxy=proxy) as response:
                     response.raise_for_status()
 
-                    response_text = ""
+                    response_text: str = ""
 
                     async for line in response.content:
                         if line:
-                            line = line.decode('utf-8').strip()
-                            
-                            if line.startswith("data: ") and line != "data: [DONE]":
+                            line_str: str = line.decode('utf-8').strip()
+
+                            if line_str.startswith("data: ") and line_str != "data: [DONE]":
                                 try:
-                                    data = json.loads(line[6:])
-                                    content = data['choices'][0]['delta'].get('content', '')
+                                    data = json.loads(line_str[6:])
+                                    content: str = data['choices'][0]['delta'].get('content', '')
                                     if content:
                                         response_text += content
                                         yield content
                                 except json.JSONDecodeError as ex:
-                                    logger.error('Ошибка при декодировании JSON', ex, exc_info=True)
+                                    logger.error(f"Ошибка декодирования JSON: {ex}", ех, exc_info=True) # Логируем ошибку JSONDecodeError
                                     continue
-                            
-                            if line == "data: [DONE]":
+
+                            if line_str == "data: [DONE]":
                                 break
-            except (ClientError, asyncio.TimeoutError) as ex:
-                logger.error('Ошибка при запросе к API Upstage', ex, exc_info=True)
-                yield str(ex)  # или как-то иначе обработать ошибку
+
+        except Exception as ex:
+            logger.error(f"Ошибка при взаимодействии с API Upstage: {ex}", ех, exc_info=True) # Логируем общую ошибку
+            raise  # Перебрасываем исключение для дальнейшей обработки

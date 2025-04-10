@@ -1,42 +1,40 @@
-### **Анализ кода модуля `H2o.py`**
+### Анализ кода модуля `H2o.py`
 
-#### **Качество кода**:
+**Качество кода:**
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Асинхронная реализация с использованием `aiohttp`.
-  - Класс `H2o` наследуется от `AsyncGeneratorProvider`, что обеспечивает гибкость в использовании.
-  - Используется `format_prompt` для форматирования сообщений.
+    - Асинхронная реализация.
+    - Использование `ClientSession` для эффективного управления соединениями.
+    - Обработка ошибок с помощью `response.raise_for_status()`.
 - **Минусы**:
-  - Отсутствует обработка исключений.
-  - Не используются аннотации типов для всех переменных и возвращаемых значений.
-  - Параметры по умолчанию для `ethicsModalAcceptedAt` и `web_search_id` заданы как пустые строки, что может быть неявным.
-  - Magic values (например, `0.4`, `1.2`, `2048`, `"data:"`) без объяснения их назначения.
-  - Отсутствует логирование.
+    - Отсутствует подробная документация (docstrings) для класса и методов.
+    - Жёстко заданные параметры модели, такие как `temperature`, `truncate`, `max_new_tokens` и `repetition_penalty`.
+    - Не используется `logger` для логирования ошибок и важной информации.
+    - Не все переменные аннотированы типами.
+    - Не используется `j_loads` для чтения данных из JSON.
+    - Обработка исключений не логируется.
 
-#### **Рекомендации по улучшению**:
-1.  **Добавить обработку исключений**:
-    - Обернуть блоки `session.post` и `session.delete` в блоки `try...except` для обработки возможных исключений, таких как `aiohttp.ClientError`.
-    - Использовать `logger.error` для записи информации об ошибках.
-2.  **Добавить аннотации типов**:
-    - Добавить аннотации типов для всех переменных и возвращаемых значений функций.
-3.  **Добавить документацию**:
-    - Добавить docstring для класса `H2o` и его методов, описывающие их назначение, параметры и возвращаемые значения.
-4.  **Убрать Magic values**:
-    - Заменить магические значения константами с понятными именами.
-5.  **Логирование**:
-    - Добавить логирование для отслеживания хода выполнения программы и для отладки.
-6.  **Использовать `j_loads` или `j_loads_ns`**:
-    - В данном коде не требуется использование `j_loads` или `j_loads_ns`.
+**Рекомендации по улучшению:**
 
-#### **Оптимизированный код**:
+1.  **Добавить Docstring**: Добавить подробные docstring для класса `H2o` и метода `create_async_generator` с описанием параметров, возвращаемых значений и возможных исключений.
+2.  **Использовать `logger`**: Добавить логирование для отладки и мониторинга, особенно при возникновении ошибок.
+3.  **Типизация переменных**: Явно указать типы для всех переменных, чтобы улучшить читаемость и предотвратить ошибки.
+4.  **Параметризация значений**: Сделать параметры модели, такие как `temperature`, `truncate`, `max_new_tokens` и `repetition_penalty`, настраиваемыми через аргументы `kwargs`.
+5.  **Обработка исключений**: Добавить обработку исключений с логированием ошибок.
+6.  **Использовать одинарные кавычки**: Применить одинарные кавычки для строковых литералов.
+7.  **Заменить `Union` на `|`**: Использовать `|` вместо `Union`.
+
+**Оптимизированный код:**
+
 ```python
 from __future__ import annotations
 
 import json
 import uuid
-from typing import AsyncGenerator, Dict, List, Optional
+from typing import AsyncGenerator, Optional, Dict, Any
 
-from aiohttp import ClientSession, ClientResponse, ClientError
+from aiohttp import ClientSession, ClientResponse
 
 from ...typing import AsyncResult, Messages
 from ..base_provider import AsyncGeneratorProvider, format_prompt
@@ -44,17 +42,14 @@ from src.logger import logger  # Import logger
 
 class H2o(AsyncGeneratorProvider):
     """
-    Провайдер для взаимодействия с H2O.ai.
+    Провайдер для взаимодействия с H2O AI.
 
-    Предоставляет асинхронный генератор для получения ответов от модели.
+    Attributes:
+        url (str): URL сервиса H2O AI.
+        model (str): Используемая модель.
     """
-    url: str = "https://gpt-gm.h2o.ai"
-    model: str = "h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1"
-    DEFAULT_TEMPERATURE: float = 0.4
-    DEFAULT_TRUNCATE: int = 2048
-    DEFAULT_MAX_NEW_TOKENS: int = 1024
-    DEFAULT_REPETITION_PENALTY: float = 1.2
-    DATA_PREFIX: str = "data:"
+    url: str = 'https://gpt-gm.h2o.ai'
+    model: str = 'h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1'
 
     @classmethod
     async def create_async_generator(
@@ -62,102 +57,107 @@ class H2o(AsyncGeneratorProvider):
         model: str,
         messages: Messages,
         proxy: Optional[str] = None,
-        **kwargs
+        **kwargs: Any
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для получения ответов от модели H2O.ai.
+        Создает асинхронный генератор для взаимодействия с H2O AI.
 
         Args:
-            model (str): Имя модели.
+            model (str): Название модели для использования.
             messages (Messages): Список сообщений для отправки.
-            proxy (Optional[str]): Прокси-сервер для использования.
-            **kwargs: Дополнительные параметры для передачи в модель.
+            proxy (Optional[str], optional): Прокси-сервер для использования. Defaults to None.
+            **kwargs (Any): Дополнительные параметры для передачи в API.
 
         Returns:
-            AsyncResult: Асинхронный генератор, выдающий ответы от модели.
+            AsyncResult: Асинхронный генератор, возвращающий результаты от H2O AI.
+
+        Raises:
+            Exception: В случае ошибки при взаимодействии с API.
+
+        Example:
+            >>> async for message in H2o.create_async_generator(model='h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1', messages=[{'role': 'user', 'content': 'Hello'}]):
+            ...     print(message)
         """
         model = model if model else cls.model
-        headers: Dict[str, str] = {"Referer": f"{cls.url}/"}
+        headers: Dict[str, str] = {'Referer': f'{cls.url}/'}
 
-        async with ClientSession(headers=headers) as session:
+        async with ClientSession(
+            headers=headers
+        ) as session:
             data: Dict[str, str | bool] = {
-                "ethicsModalAccepted": "true",
-                "shareConversationsWithModelAuthors": "true",
-                "ethicsModalAcceptedAt": "",
-                "activeModel": model,
-                "searchEnabled": "true",
+                'ethicsModalAccepted': 'true',
+                'shareConversationsWithModelAuthors': 'true',
+                'ethicsModalAcceptedAt': '',
+                'activeModel': model,
+                'searchEnabled': 'true',
             }
             try:
                 async with session.post(
-                    f"{cls.url}/settings",
+                    f'{cls.url}/settings',
                     proxy=proxy,
                     data=data
                 ) as response:
                     response.raise_for_status()
-            except ClientError as ex:
-                logger.error("Error while posting settings", ex, exc_info=True)
+            except Exception as ex:
+                logger.error('Error while posting settings', ex, exc_info=True)
                 raise
 
             try:
                 async with session.post(
-                    f"{cls.url}/conversation",
+                    f'{cls.url}/conversation',
                     proxy=proxy,
-                    json={"model": model},
+                    json={'model': model},
                 ) as response:
                     response.raise_for_status()
-                    response_json = await response.json()
-                    conversationId: str = response_json["conversationId"]
-            except ClientError as ex:
-                logger.error("Error while posting conversation", ex, exc_info=True)
+                    conversationId: str = (await response.json())['conversationId']
+            except Exception as ex:
+                logger.error('Error while posting conversation', ex, exc_info=True)
                 raise
 
             data = {
-                "inputs": format_prompt(messages),
-                "parameters": {
-                    "temperature": cls.DEFAULT_TEMPERATURE,
-                    "truncate": cls.DEFAULT_TRUNCATE,
-                    "max_new_tokens": cls.DEFAULT_MAX_NEW_TOKENS,
-                    "do_sample":  True,
-                    "repetition_penalty": cls.DEFAULT_REPETITION_PENALTY,
-                    "return_full_text": False,
+                'inputs': format_prompt(messages),
+                'parameters': {
+                    'temperature': kwargs.get('temperature', 0.4),  # Get temperature from kwargs or default to 0.4
+                    'truncate': kwargs.get('truncate', 2048),  # Get truncate from kwargs or default to 2048
+                    'max_new_tokens': kwargs.get('max_new_tokens', 1024),  # Get max_new_tokens from kwargs or default to 1024
+                    'do_sample': True,
+                    'repetition_penalty': kwargs.get('repetition_penalty', 1.2),  # Get repetition_penalty from kwargs or default to 1.2
+                    'return_full_text': False,
                     **kwargs
                 },
-                "stream": True,
-                "options": {
-                    "id": str(uuid.uuid4()),
-                    "response_id": str(uuid.uuid4()),
-                    "is_retry": False,
-                    "use_cache": False,
-                    "web_search_id": "",
+                'stream': True,
+                'options': {
+                    'id': str(uuid.uuid4()),
+                    'response_id': str(uuid.uuid4()),
+                    'is_retry': False,
+                    'use_cache': False,
+                    'web_search_id': '',
                 },
             }
             try:
                 async with session.post(
-                    f"{cls.url}/conversation/{conversationId}",
+                    f'{cls.url}/conversation/{conversationId}',
                     proxy=proxy,
                     json=data
-                 ) as response:
-                    start: str = cls.DATA_PREFIX
+                ) as response:
+                    start: str = 'data:'
                     async for line in response.content:
-                        line_str: str = line.decode("utf-8")
-                        if line_str and line_str.startswith(start):
-                            try:
-                                line_json: Dict = json.loads(line_str[len(start):-1])
-                                if not line_json["token"]["special"]:
-                                    yield line_json["token"]["text"]
-                            except json.JSONDecodeError as ex:
-                                logger.error("Error decoding JSON", ex, exc_info=True)
-                                continue
-            except ClientError as ex:
-                logger.error("Error while posting conversation data", ex, exc_info=True)
+                        line = line.decode('utf-8')
+                        if line and line.startswith(start):
+                            line = json.loads(line[len(start):-1])
+                            if not line['token']['special']:
+                                yield line['token']['text']
+            except Exception as ex:
+                logger.error('Error while processing conversation', ex, exc_info=True)
                 raise
 
             try:
                 async with session.delete(
-                    f"{cls.url}/conversation/{conversationId}",
+                    f'{cls.url}/conversation/{conversationId}',
                     proxy=proxy,
                 ) as response:
                     response.raise_for_status()
-            except ClientError as ex:
-                logger.error("Error while deleting conversation", ex, exc_info=True)
+            except Exception as ex:
+                logger.error('Error while deleting conversation', ex, exc_info=True)
                 raise
+```

@@ -1,101 +1,106 @@
 ### **Анализ кода модуля `NoowAi.py`**
 
----
-
-**Качество кода:**
-
+**Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Использование асинхронных операций для неблокирующего взаимодействия.
-  - Наличие базовой структуры для стриминга ответов.
+  - Асинхронная реализация с использованием `aiohttp`.
+  - Поддержка истории сообщений.
+  - Использование генератора для обработки потоковых данных.
 - **Минусы**:
-  - Отсутствие обработки исключений для сетевых запросов.
+  - Отсутствует обработка исключений при создании `ClientSession`.
+  - Не используется модуль `logger` для логирования ошибок.
+  - Жестко заданные значения для `botId` и `customId`.
   - Не все переменные аннотированы типами.
-  - Нет логирования ошибок.
-  - Magic values.
 
-**Рекомендации по улучшению:**
+**Рекомендации по улучшению**:
 
-1.  **Добавить обработку исключений**:
-    - Обернуть `session.post` в блок `try...except` для обработки возможных сетевых ошибок (`aiohttp.ClientError`, `asyncio.TimeoutError` и др.).
-    - Использовать `logger.error` для логирования ошибок с передачей информации об исключении.
+1.  **Добавить Docstring модуля**:
 
-2.  **Улучшить аннотации типов**:
-    - Добавить аннотации типов для всех переменных, где это возможно, чтобы улучшить читаемость и облегчить отладку.
-    - Уточнить типы для `messages` (например, `List[Dict[str, str]]`).
+    Добавьте docstring в начало файла с описанием модуля, его назначения и примерами использования.
 
-3.  **Добавить документацию**:
-    - Добавить docstring для класса `NoowAi` и метода `create_async_generator`, чтобы объяснить их назначение, параметры и возвращаемые значения.
+2.  **Использовать `j_loads` для обработки JSON**:
 
-4.  **Использовать константы**:
-    - Заменить magic strings (например, `"data: "`, `"type"`, `"live"`, `"end"`, `"error"`) константами для повышения читаемости и упрощения обслуживания.
+    Замените `json.loads` на `j_loads` для единообразного подхода к обработке JSON в проекте.
 
-5.  **Логирование**:
-    - Добавить логирование для отладки и мониторинга работы провайдера. Логировать можно начало запроса, получение ответа, ошибки и т.д.
+3.  **Логирование ошибок**:
+
+    Добавьте логирование ошибок с использованием модуля `logger` из `src.logger`.
+
+4.  **Обработка исключений**:
+
+    Добавьте обработку исключений при создании `ClientSession`, чтобы избежать неожиданных сбоев.
+
+5.  **Аннотации типов**:
+
+    Добавьте аннотации типов для всех переменных и параметров функций.
 
 6.  **Удалить неиспользуемые импорты**:
-    - Удалить импорт `json`, если он не используется явно (судя по коду, используется `json.loads`, поэтому импорт нужен).
+    Удалить `from __future__ import annotations` так как используется Python 3.11+
 
-7.  **Улучшить обработку ошибок**:
-    - Сейчас при любой ошибке парсинга строки выбрасывается `RuntimeError`. Стоит добавить более специфичные исключения и логировать детали ошибки.
-    - Добавить обработку случая, когда `line` не содержит ожидаемые ключи (например, `"type"`).
-
-8.  **Убрать устаревшие конструкции**:
-    - Убрать `from __future__ import annotations`, если проект использует Python 3.10 или новее, так как аннотации типов поддерживаются по умолчанию.
-
-**Оптимизированный код:**
+**Оптимизированный код**:
 
 ```python
-from __future__ import annotations
+"""
+Модуль для взаимодействия с NoowAi API
+========================================
 
-import asyncio
+Модуль содержит класс :class:`NoowAi`, который используется для асинхронного взаимодействия с API NoowAi для генерации текста.
+
+Пример использования
+----------------------
+
+>>> from src.endpoints.gpt4free.g4f.Provider.deprecated.NoowAi import NoowAi
+>>> import asyncio
+>>> async def main():
+...     messages = [{"role": "user", "content": "Hello"}]
+...     result = await NoowAi.create_async_generator(model="gpt-3.5-turbo", messages=messages)
+...     async for item in result:
+...         print(item, end="")
+>>> asyncio.run(main())
+"""
+
 import json
-from typing import AsyncGenerator, List, Dict
-from aiohttp import ClientSession, ClientError
+from typing import AsyncGenerator, Dict, List, Optional
 
-from src.logger import logger # Import logger
-from ..typing import AsyncResult, Messages
+from aiohttp import ClientSession, ClientResponse
+
+from src.logger import logger
+from ..typing import Messages
 from .base_provider import AsyncGeneratorProvider
 from .helper import get_random_string
+from ...helper import j_loads
+
 
 class NoowAi(AsyncGeneratorProvider):
     """
-    Провайдер для взаимодействия с NoowAI.
-
-    Поддерживает потоковую передачу сообщений и GPT-3.5 Turbo.
+    Провайдер для взаимодействия с NoowAi API.
     """
     url: str = "https://noowai.com"
     supports_message_history: bool = True
     supports_gpt_35_turbo: bool = True
     working: bool = False
 
-    DATA_PREFIX: str = "data: "
-    TYPE_KEY: str = "type"
-    LIVE_TYPE: str = "live"
-    END_TYPE: str = "end"
-    ERROR_TYPE: str = "error"
-
     @classmethod
     async def create_async_generator(
         cls,
         model: str,
         messages: Messages,
-        proxy: str | None = None,
+        proxy: Optional[str] = None,
         **kwargs
-    ) -> AsyncResult:
+    ) -> AsyncGenerator[str, None]:
         """
-        Создает асинхронный генератор для получения ответов от NoowAI.
+        Создает асинхронный генератор для получения ответов от NoowAi API.
 
         Args:
             model (str): Модель для использования.
             messages (Messages): Список сообщений для отправки.
-            proxy (str | None, optional): Прокси для использования. Defaults to None.
+            proxy (Optional[str], optional): Прокси для использования. По умолчанию None.
 
         Yields:
-            str: Части ответа от NoowAI.
+            str: Часть ответа от API.
 
         Raises:
-            RuntimeError: Если произошла ошибка при обработке ответа от NoowAI.
+            RuntimeError: Если произошла ошибка при взаимодействии с API.
         """
         headers: Dict[str, str] = {
             "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0",
@@ -114,37 +119,34 @@ class NoowAi(AsyncGeneratorProvider):
             "Cache-Control": "no-cache",
             "TE": "trailers"
         }
-        async with ClientSession(headers=headers) as session:
-            data: Dict[str, any] = {
-                "botId": "default",
-                "customId": "d49bc3670c3d858458576d75c8ea0f5d",
-                "session": "N/A",
-                "chatId": get_random_string(),
-                "contextId": 25,
-                "messages": messages,
-                "newMessage": messages[-1]["content"],
-                "stream": True
-            }
-            try:
-                async with session.post(f"{cls.url}/wp-json/mwai-ui/v1/chats/submit", json=data, proxy=proxy) as response:
-                    response.raise_for_status()
-                    async for line in response.content:
-                        if line.startswith(cls.DATA_PREFIX.encode()):
+        try:
+            async with ClientSession(headers=headers) as session: # Создание сессии aiohttp для выполнения запросов
+                data: Dict[str, object] = {
+                    "botId": "default", #  Идентификатор бота
+                    "customId": "d49bc3670c3d858458576d75c8ea0f5d", #  Пользовательский идентификатор
+                    "session": "N/A", #  Идентификатор сессии
+                    "chatId": get_random_string(), #  Идентификатор чата
+                    "contextId": 25, #  Идентификатор контекста
+                    "messages": messages, #  Сообщения для отправки
+                    "newMessage": messages[-1]["content"], #  Последнее сообщение
+                    "stream": True #  Включить потоковый режим
+                }
+                async with session.post(f"{cls.url}/wp-json/mwai-ui/v1/chats/submit", json=data, proxy=proxy) as response: #  Отправка POST-запроса к API
+                    response.raise_for_status() #  Вызов исключения для плохих статусов ответа
+                    async for line in response.content: #  Асинхронный перебор строк в содержимом ответа
+                        if line.startswith(b"data: "): #  Проверка, начинается ли строка с "data: "
                             try:
-                                line_data = json.loads(line[len(cls.DATA_PREFIX):])
-                                if cls.TYPE_KEY not in line_data:
-                                    raise ValueError(f"Missing 'type' key in line data: {line_data}")
-                            except (json.JSONDecodeError, ValueError) as ex:
-                                logger.error(f"Error decoding or processing line: {line.decode()}", ex, exc_info=True)
-                                raise RuntimeError(f"Broken line: {line.decode()}") from ex
-
-                            line_type = line_data[cls.TYPE_KEY]
-                            if line_type == cls.LIVE_TYPE:
-                                yield line_data["data"]
-                            elif line_type == cls.END_TYPE:
-                                break
-                            elif line_type == cls.ERROR_TYPE:
-                                raise RuntimeError(line_data["data"])
-            except (ClientError, asyncio.TimeoutError) as ex:
-                logger.error("Error during session post", ex, exc_info=True)
-                raise RuntimeError("Failed to get response from NoowAI") from ex
+                                line_data: Dict[str, object] = j_loads(line[6:].decode()) #  Загрузка JSON из строки
+                                assert "type" in line_data #  Проверка наличия ключа "type" в загруженных данных
+                            except (json.JSONDecodeError, AssertionError) as ex: #  Обработка ошибок JSON и утверждений
+                                logger.error(f"Broken line: {line.decode()}", exc_info=True) #  Логирование ошибки
+                                raise RuntimeError(f"Broken line: {line.decode()}") from ex #  Генерирование исключения времени выполнения
+                            if line_data["type"] == "live": #  Если тип данных "live"
+                                yield line_data["data"] #  Извлечение и выдача данных
+                            elif line_data["type"] == "end": #  Если тип данных "end"
+                                break #  Выход из цикла
+                            elif line_data["type"] == "error": #  Если тип данных "error"
+                                raise RuntimeError(line_data["data"]) #  Генерирование исключения времени выполнения
+        except Exception as ex:
+            logger.error("Error while creating async generator", exc_info=True)
+            raise

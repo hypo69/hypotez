@@ -2,75 +2,60 @@
 
 ## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/deprecated/Forefront.py
 
-**Качество кода**:
+**Качество кода:**
+
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код выполняет свою основную задачу - взаимодействие с API Forefront для генерации текста.
-    - Поддерживается потоковая передача данных (`supports_stream = True`).
+    - Код достаточно структурирован и понятен.
     - Используются аннотации типов.
+    - Присутствует базовая обработка ошибок через `response.raise_for_status()`.
 - **Минусы**:
-    - Отсутствует документация модуля и функций.
-    - Не обрабатываются возможные исключения при запросах к API.
-    - Используются устаревшие стили форматирования (например, отсутствие пробелов вокруг оператора присваивания).
-    - Не используется модуль `logger` для логирования.
-    - Не обрабатываются случаи ошибок при чтении `json`.
-    - Отсутсвуют аннотации типов в kwargs
-    - `json_data` объявлена без аннотации типа
-    - `response`  объявлена без аннотации типа
+    - Отсутствует docstring для класса и метода `create_completion`.
+    - Не используется модуль `logger` для логирования ошибок и информации.
+    - Не все переменные аннотированы типами.
+    - Не обрабатываются исключения при декодировании JSON.
+    - Не указана кодировка при работе с `response.iter_lines()`.
+    - URL-адреса жестко закодированы в коде.
+    - Нет обработки возможных ошибок сети.
 
-**Рекомендации по улучшению**:
+**Рекомендации по улучшению:**
 
-1.  **Добавить документацию модуля и функций**:
-    *   Описать назначение модуля, класса и метода `create_completion`.
-    *   Указать, какие параметры принимает `create_completion` и что возвращает.
+1.  **Добавить docstring**:
+    - Добавить docstring для класса `Forefront` и метода `create_completion` с описанием их назначения, параметров и возвращаемых значений.
+    - Описать возможные исключения.
+2.  **Использовать модуль `logger`**:
+    - Добавить логирование с использованием модуля `logger` для записи ошибок и отладочной информации.
+3.  **Обработка исключений**:
+    - Добавить обработку исключений при декодировании JSON.
+    - Добавить обработку сетевых ошибок.
+4.  **Улучшить аннотации типов**:
+    - Указать типы для всех переменных.
+5.  **Использовать кодировку**:
+    - Явно указать кодировку при работе с `response.iter_lines()`.
+6.  **Убрать жестко закодированные URL**:
+    - Вынести URL в константы или параметры конфигурации.
+7.  **Обработка ошибок сети**:
+    - Проверять статус код ответа от сервера.
+    - Сделать повторные попытки запроса.
+    - Добавить таймауты для запросов.
 
-2.  **Обработка исключений**:
-    *   Добавить обработку исключений для `requests.post`, чтобы перехватывать ошибки при запросе к API.
-    *   Добавить обработку исключений при парсинге JSON (`json.loads`).
-    *   Использовать `logger.error` для логирования ошибок.
-
-3.  **Форматирование кода**:
-    *   Следовать стандарту PEP8 для форматирования кода (добавить пробелы вокруг операторов присваивания, переименовать имена переменных и тд.).
-    *   Использовать константы для URL, чтобы избежать дублирования и облегчить поддержку.
-
-4.  **Логирование**:
-    *   Использовать модуль `logger` для логирования информации о запросах и ответах.
-    *   Логировать ошибки и исключения.
-
-5.  **Улучшение читаемости**:
-    *   Разбить длинные строки кода на несколько строк для улучшения читаемости.
-
-6.  **Безопасность**:
-    *   Учесть обработку ошибок, связанных с безопасностью (например, некорректный JSON в ответе).
-
-7.  **Аннотации типов**:
-    *   Добавить аннотации типов для `kwargs`, `json_data` и `response`.
-
-**Оптимизированный код**:
+**Оптимизированный код:**
 
 ```python
-"""
-Модуль для взаимодействия с API Forefront для генерации текста.
-==============================================================
-
-Модуль содержит класс :class:`Forefront`, который позволяет взаимодействовать с API Forefront
-для генерации текстовых ответов на основе предоставленных сообщений.
-"""
-
 from __future__ import annotations
 
 import json
-from typing import Any, CreateResult, List, Dict, Generator
+from typing import Any, CreateResult, List, Dict
 import requests
-
-from src.logger import logger # Добавлен импорт logger
+from src.logger import logger  # Подключаем модуль logger
 from ..base_provider import AbstractProvider
 
 
 class Forefront(AbstractProvider):
     """
-    Провайдер для доступа к API Forefront.
-    Поддерживает потоковую передачу данных и модель gpt-35-turbo.
+    Провайдер Forefront для g4f.
+
+    Поддерживает стриминг и модель gpt-3.5-turbo.
     """
     url: str = "https://forefront.com"
     supports_stream: bool = True
@@ -81,29 +66,25 @@ class Forefront(AbstractProvider):
         model: str,
         messages: List[Dict[str, str]],
         stream: bool,
-        **kwargs: Any # Добавлена аннотация типов для kwargs
+        **kwargs: Any
     ) -> CreateResult:
         """
-        Создает запрос к API Forefront и возвращает результат генерации текста.
+        Создает completion для Forefront.
 
         Args:
-            model (str): Идентификатор используемой модели.
-            messages (List[Dict[str, str]]): Список сообщений для отправки в API.
-            stream (bool): Флаг, указывающий, следует ли использовать потоковую передачу данных.
-            **kwargs (Any): Дополнительные параметры.
+            model (str): Модель для использования.
+            messages (List[Dict[str, str]]): Список сообщений для отправки.
+            stream (bool): Флаг стриминга.
+            **kwargs (Any): Дополнительные аргументы.
 
         Returns:
-            CreateResult: Результат запроса к API.
-        
-        Yields:
-            str: Часть сгенерированного текста, если используется потоковая передача.
+            CreateResult: Результат completion.
 
         Raises:
-            requests.exceptions.RequestException: Если произошла ошибка при выполнении запроса.
-            json.JSONDecodeError: Если не удалось декодировать JSON из ответа API.
-            Exception: При возникновении других ошибок.
+            requests.exceptions.RequestException: При ошибке запроса.
+            json.JSONDecodeError: При ошибке декодирования JSON.
         """
-        json_data: Dict[str, Any] = { # Добавлена аннотация типов для json_data
+        json_data: Dict[str, Any] = {
             "text": messages[-1]["content"],
             "action": "noauth",
             "id": "",
@@ -116,22 +97,21 @@ class Forefront(AbstractProvider):
         }
 
         try:
-            response: requests.Response = requests.post( # Добавлена аннотация типов для response
+            response = requests.post(
                 "https://streaming.tenant-forefront-default.knative.chi.coreweave.com/free-chat",
                 json=json_data,
-                stream=True
+                stream=True,
+                timeout=30  # Добавляем таймаут
             )
             response.raise_for_status()
-            for token in response.iter_lines():
-                if b"delta" in token:
+            for token in response.iter_lines(decode_unicode=True):  # Явно указываем кодировку
+                if token:  # Проверяем, что токен не пустой
                     try:
-                        yield json.loads(token.decode().split("data: ")[1])["delta"]
+                        if "data:" in token:
+                            yield json.loads(token.split("data: ")[1])["delta"]
                     except json.JSONDecodeError as ex:
-                        logger.error("Ошибка при декодировании JSON", ex, exc_info=True)
+                        logger.error(f"Ошибка при декодировании JSON: {ex}", exc_info=True)
                         continue
         except requests.exceptions.RequestException as ex:
-            logger.error("Ошибка при выполнении запроса к API", ex, exc_info=True)
-            raise
-        except Exception as ex:
-            logger.error("Произошла ошибка", ex, exc_info=True)
+            logger.error(f"Ошибка при выполнении запроса: {ex}", exc_info=True)
             raise

@@ -2,39 +2,41 @@
 
 **Расположение файла в проекте:** `hypotez/src/endpoints/gpt4free/g4f/Provider/deprecated/GetGpt.py`
 
-**Назначение модуля:** Модуль предоставляет класс `GetGpt`, который является провайдером для работы с моделью GPT-3.5-turbo через API `chat.getgpt.world`. Модуль deprecated, следует обратить внимание при рефакторинге.
+**Описание:** Модуль предоставляет класс `GetGpt`, который является устаревшим провайдером для взаимодействия с API `chat.getgpt.world`. Он реализует метод `create_completion` для отправки запросов к API и получения ответов.
 
 **Качество кода:**
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код достаточно структурирован и понятен.
-    - Используется `requests` для выполнения HTTP-запросов.
-    - Присутствует обработка исключений через `res.raise_for_status()`.
-    - Реализована поддержка потоковой передачи данных (`stream=True`).
+    - Код достаточно структурирован.
+    - Используются аннотации типов.
 - **Минусы**:
-    - Отсутствует логирование.
-    - Не используются аннотации типов для всех переменных.
-    - Закомментированный код, который следует удалить или переработать.
-    - Отсутствует обработка ошибок при парсинге JSON.
-    - Не реализовано шифрование данных (функции `_encrypt` и `_pad_data` содержат только `return`).
-    - Отсутствуют docstring для класса `GetGpt` и методов.
+    - Отсутствует docstring для класса `GetGpt` и подробное описание для его методов.
+    - Не используется модуль `logger` для логирования ошибок.
+    - Закомментированный код шифрования (`_encrypt` и `_pad_data`) не несет полезной нагрузки и его следует удалить или доработать.
+    - Не используются одинарные кавычки.
+    - Отсутствуют пробелы вокруг операторов присваивания.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить docstring**: Добавить подробные docstring для класса `GetGpt` и его методов `create_completion`, `_encrypt`, `_pad_data`. Описать назначение каждого метода, аргументы, возвращаемые значения и возможные исключения.
+1.  **Добавить docstring для класса `GetGpt` и методов**:
 
-2.  **Реализовать логирование**: Добавить логирование для отслеживания ошибок и предупреждений. Использовать `logger` из `src.logger.logger` для записи информации о запросах, ответах и ошибках.
+    - Добавить описание класса `GetGpt`, указав его назначение и особенности.
+    - Добавить подробные docstring для метода `create_completion`, описывающие параметры, возвращаемые значения и возможные исключения.
+2.  **Использовать модуль `logger` для логирования ошибок**:
 
-3.  **Обработка ошибок JSON**: Добавить обработку исключений при парсинге JSON в цикле `res.iter_lines()`, чтобы избежать неожиданных сбоев.
+    - В методе `create_completion` добавить обработку исключений с использованием `try-except` блоков и логировать ошибки с помощью `logger.error`.
+3.  **Удалить или доработать закомментированный код шифрования**:
 
-4.  **Удалить или переработать закомментированный код**: Удалить неиспользуемый закомментированный код или переработать его, если он все еще необходим.
+    - Если код шифрования не используется, его следует удалить.
+    - Если планируется использование шифрования, необходимо его доработать и добавить соответствующие комментарии и документацию.
+4.  **Форматирование кода**:
 
-5.  **Реализовать шифрование**: Реализовать функции `_encrypt` и `_pad_data`, если требуется шифрование данных. В противном случае удалить их.
-
-6.  **Аннотации типов**: Добавить аннотации типов для всех переменных, где это возможно.
-
-7.  **Проверка на working**: Так как модуль deprecated, можно проверить статус `working` и возвращать ошибку, если он не работает.
+    - Использовать одинарные кавычки (`'`) в Python-коде.
+    - Добавить пробелы вокруг оператора `=` для повышения читаемости.
+5.  **Добавить комментарии к основным блокам кода**:
+    - Добавить комментарии к основным блокам кода, объясняющие их назначение и логику работы.
+    - Комментарии должны быть на русском языке и соответствовать стандарту UTF-8.
 
 **Оптимизированный код:**
 
@@ -43,28 +45,20 @@ from __future__ import annotations
 
 import json
 import uuid
-from typing import Any, CreateResult, List, Dict
 
 import requests
 
-from src.logger import logger  # Import logger
+from src.logger import logger # Добавлен импорт logger
+from ...typing import Any, CreateResult
 from ..base_provider import AbstractProvider
 
 
 class GetGpt(AbstractProvider):
     """
-    Провайдер для работы с моделью GPT-3.5-turbo через API chat.getgpt.world.
-    =======================================================================
+    Провайдер для взаимодействия с API chat.getgpt.world.
 
-    Этот класс позволяет отправлять запросы к API chat.getgpt.world и получать ответы,
-    используя модель GPT-3.5-turbo. Поддерживает потоковую передачу данных.
-
-    Example:
-        >>> provider = GetGpt()
-        >>> messages = [{"role": "user", "content": "Hello, world!"}]
-        >>> result = provider.create_completion(model="gpt-3.5-turbo", messages=messages, stream=True)
-        >>> for chunk in result:
-        ...     print(chunk)
+    Этот класс позволяет отправлять запросы к API chat.getgpt.world и получать ответы.
+    Поддерживает потоковую передачу данных.
     """
     url: str = 'https://chat.getgpt.world/'
     supports_stream: bool = True
@@ -74,26 +68,27 @@ class GetGpt(AbstractProvider):
     @staticmethod
     def create_completion(
         model: str,
-        messages: List[Dict[str, str]],
-        stream: bool, **kwargs: Any) -> CreateResult:
+        messages: list[dict[str, str]],
+        stream: bool,
+        **kwargs: Any
+    ) -> CreateResult:
         """
         Создает запрос к API chat.getgpt.world и возвращает ответ.
 
         Args:
-            model (str): Идентификатор модели.
-            messages (List[Dict[str, str]]): Список сообщений для отправки.
-            stream (bool): Флаг, указывающий на необходимость потоковой передачи данных.
+            model (str): Модель для использования.
+            messages (list[dict[str, str]]): Список сообщений для отправки.
+            stream (bool): Флаг потоковой передачи данных.
             **kwargs (Any): Дополнительные параметры запроса.
 
         Returns:
-            CreateResult: Генератор, возвращающий части ответа.
+            CreateResult: Результат запроса.
 
         Raises:
-            requests.exceptions.HTTPError: Если HTTP-запрос завершается с ошибкой.
-            json.JSONDecodeError: Если не удается декодировать JSON из ответа.
-
+            requests.exceptions.HTTPError: Если возникает ошибка при выполнении запроса.
+            Exception: Если возникает ошибка при обработке ответа.
         """
-        headers: Dict[str, str] = {
+        headers: dict[str, str] = {
             'Content-Type': 'application/json',
             'Referer': 'https://chat.getgpt.world/',
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
@@ -114,45 +109,55 @@ class GetGpt(AbstractProvider):
         )
 
         try:
-            res = requests.post('https://chat.getgpt.world/api/chat/stream',
-                                headers=headers, json={'signature': _encrypt(data)}, stream=True)  # Отправка POST-запроса
+            res = requests.post(
+                'https://chat.getgpt.world/api/chat/stream',
+                headers=headers,
+                json={'signature': _encrypt(data)}, # Вызов функции шифрования
+                stream=True
+            )
+            res.raise_for_status() # Проверка на ошибки HTTP
 
-            res.raise_for_status()  # Проверка статуса ответа
+            for line in res.iter_lines(): # Итерация по строкам ответа
+                if b'content' in line: # Проверка наличия контента в строке
+                    line_json: dict = json.loads(line.decode('utf-8').split('data: ')[1]) # Декодирование и извлечение JSON
+                    yield (line_json['choices'][0]['delta']['content']) # Извлечение контента
 
-            for line in res.iter_lines():  # Итерация по строкам ответа
-                if b'content' in line:  # Проверка наличия 'content' в строке
-                    try:
-                        line_json: dict = json.loads(line.decode('utf-8').split('data: ')[1])  # Декодирование JSON
-                        yield (line_json['choices'][0]['delta']['content'])  # Извлечение контента
-                    except json.JSONDecodeError as ex:
-                        logger.error('Error decoding JSON', ex, exc_info=True)  # Логирование ошибки декодирования JSON
-                        continue
-        except requests.exceptions.RequestException as ex:
-            logger.error('Error while making request', ex, exc_info=True)  # Логирование ошибки запроса
+        except requests.exceptions.HTTPError as ex:
+            logger.error('Ошибка при выполнении запроса', ex, exc_info=True) # Логирование ошибки HTTP
+            raise
+        except Exception as ex:
+            logger.error('Ошибка при обработке ответа', ex, exc_info=True) # Логирование общей ошибки
             raise
 
 
 def _encrypt(e: str) -> None:
     """
-    Функция шифрования данных (в текущей версии не реализована).
+    Функция шифрования данных.
 
-    Args:
-        e (str): Данные для шифрования.
-
-    Returns:
-        None: Функция всегда возвращает None.
+    ВНИМАНИЕ: В текущей версии функция не выполняет шифрование и всегда возвращает None.
+    Реализация шифрования отсутствует.
     """
-    return  # Функция не выполняет никаких действий
+    # t = os.urandom(8).hex().encode('utf-8')
+    # n = os.urandom(8).hex().encode('utf-8')
+    # r = e.encode('utf-8')
+
+    # cipher     = AES.new(t, AES.MODE_CBC, n)
+    # ciphertext = cipher.encrypt(_pad_data(r))
+
+    # return ciphertext.hex() + t.decode('utf-8') + n.decode('utf-8')
+    return # ToDo: Реализовать шифрование
 
 
 def _pad_data(data: bytes) -> None:
     """
-    Функция для дополнения данных (в текущей версии не реализована).
+    Функция для дополнения данных.
 
-    Args:
-        data (bytes): Данные для дополнения.
-
-    Returns:
-        None: Функция всегда возвращает None.
+    ВНИМАНИЕ: В текущей версии функция не выполняет дополнение и всегда возвращает None.
+    Реализация дополнения отсутствует.
     """
-    return  # Функция не выполняет никаких действий
+    # block_size   = AES.block_size
+    # padding_size = block_size - len(data) % block_size
+    # padding      = bytes([padding_size] * padding_size)
+
+    # return data + padding
+    return # ToDo: Реализовать дополнение

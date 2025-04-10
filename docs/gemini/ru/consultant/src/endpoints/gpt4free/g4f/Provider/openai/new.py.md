@@ -1,36 +1,66 @@
 ### **Анализ кода модуля `new.py`**
 
-## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/openai/new.py
+## Расположение файла в проекте:
+`hypotez/src/endpoints/gpt4free/g4f/Provider/openai/new.py`
 
-Модуль содержит функции для генерации и обработки токенов, используемых для обхода защиты Turnstile. Он включает в себя функции для генерации случайных данных, вычисления хешей, а также функции для обработки и преобразования данных, необходимых для работы с Turnstile.
+Модуль `new.py` является частью проекта `hypotez` и расположен в каталоге `src/endpoints/gpt4free/g4f/Provider/openai/`. Это указывает на то, что модуль предназначен для работы с OpenAI API в рамках gpt4free. Он реализует различные функции, необходимые для получения токенов, решения задач и обработки данных, связанных с запросами к OpenAI.
 
-**Качество кода:**
+## Качество кода:
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-  - Код содержит много функций, каждая из которых выполняет определенную задачу.
-  - Используются стандартные библиотеки, такие как `hashlib`, `base64`, `random`, `json`, `time`, `uuid` и `datetime`.
-  - Присутствуют аннотации типов.
-
+  - Код содержит множество функций, каждая из которых выполняет определенную задачу, что способствует модульности.
+  - Используются стандартные библиотеки, такие как `hashlib`, `base64`, `random`, `json`, `time` и `uuid`.
+  - Присутствует обработка исключений.
+  - Код разделён на логические блоки, такие как генерация токенов, обработка turnstile token.
 - **Минусы**:
-  -  Нет пояснения о назначении констант `navigator_keys`, `window_keys`.
-  -  Нет логирования ошибок.
-  -  Есть закомментированный код (`# print(...)`).
-  -  Используются конструкции `if solved:` и `else: raise Exception(...)`, которые можно улучшить с помощью обработки исключений.
-  -  Docstring отсутствуют почти у всех функций.
-  -  Смешаны стили кавычек: как двойные (`""`), так и одинарные (`''`). Необходимо использовать только одинарные.
+  - Отсутствует подробная документация функций и классов (docstring).
+  - Многие переменные не аннотированы типами.
+  - Не используются логи из `src.logger.logger`.
+  - В блоках `except` используется `e` вместо `ex` для обозначения исключения.
+  - Есть закомментированный код, который следует удалить.
+  - В коде используются смешанные стили кавычек (одинарные и двойные).
+  - Отсутствие обработки ошибок при декодировании base64.
+  - Magic values (строки, числа) без объяснения в коде, например, `"gAAAAAB"`, `"0fffff"`.
+  - Не всегда понятно назначение переменных и функций без контекста.
+  - Не везде используются одинарные кавычки.
 
-**Рекомендации по улучшению:**
+## Рекомендации по улучшению:
 
-1.  **Добавить docstring**: Необходимо добавить docstring ко всем функциям, классам и методам, чтобы объяснить их назначение, параметры и возвращаемые значения.
-2.  **Логирование**: Добавить логирование для отслеживания ошибок и предупреждений, используя модуль `logger` из `src.logger`.
-3.  **Удалить закомментированный код**: Весь закомментированный код, такой как `# print(...)`, следует удалить.
-4.  **Обработка исключений**: Улучшить обработку исключений, чтобы избежать `raise Exception(...)` и использовать `logger.error` для логирования ошибок.
-5.  **Унификация кавычек**: Использовать только одинарные кавычки (`'`) для строк.
-6.  **Улучшить читаемость**: Разбить длинные функции на более мелкие и понятные.
-7.  **Добавить аннотации типов**: Добавить аннотации типов для всех переменных.
+1.  **Добавить документацию ко всем функциям и классам**:
+    - Добавить docstring к каждой функции и классу, описывающий их назначение, параметры, возвращаемые значения и возможные исключения.
 
-**Оптимизированный код:**
+2.  **Аннотировать типы переменных и параметров функций**:
+    - Добавить аннотации типов для всех переменных и параметров функций, чтобы улучшить читаемость и облегчить отладку.
+
+3.  **Использовать логирование**:
+    - Заменить `print` на `logger.info`, `logger.warning`, `logger.error` из модуля `src.logger.logger` для логирования важных событий и ошибок.
+
+4.  **Исправить именование исключений**:
+    - Заменить `except Exception as e` на `except Exception as ex` для единообразия.
+
+5.  **Удалить закомментированный код**:
+    - Удалить все закомментированные участки кода, чтобы избежать путаницы и улучшить читаемость.
+
+6.  **Унифицировать использование кавычек**:
+    - Привести все строки к использованию одинарных кавычек (`'`).
+
+7.  **Добавить обработку ошибок при декодировании base64**:
+    - Обернуть `base64.b64decode` в блоки `try...except` для обработки возможных ошибок декодирования.
+
+8.  **Улучшить читаемость и понятность кода**:
+    - Избегать использования magic values без объяснения (например, `"gAAAAAB"`, `"0fffff"`).
+    - Добавить комментарии для пояснения сложных участков кода.
+
+9.  **Использовать `j_loads` или `j_loads_ns` для чтения JSON**:
+    - Заменить стандартное использование `json.loads` на `j_loads` или `j_loads_ns`.
+
+10. **Более точные комментарии**:
+    - Заменить неясные формулировки в комментариях, такие как "получаем" или "делаем", на более точные описания: "проверяем", "отправляем", "выполняем".
+    - Всегда делай подробные объяснения в комментариях. Избегай расплывчатых терминов. Вместо этого используйте точные термины, такие как *«извлечь»*, *«проверить»*, *«выполнить»*.
+    - Вместо: *«получаем»*, *«возвращаем»*, *«преобразовываем»* используй имя объекта *«функция получае»*, *«переменная возвращает»*, *«код преобразовывает»*
+
+## Оптимизированный код:
 
 ```python
 import hashlib
@@ -41,12 +71,16 @@ import time
 import uuid
 
 from collections import OrderedDict, defaultdict
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Tuple, Optional
 
-from datetime import datetime, timedelta, timezone
+from datetime import (
+    datetime,
+    timedelta,
+    timezone
+)
 
 from .har_file import RequestConfig
-from src.logger import logger  # Импорт модуля логирования
+from src.logger import logger # Добавлен импорт logger
 
 cores: List[int] = [16, 24, 32]
 screens: List[int] = [3000, 4000, 6000]
@@ -405,35 +439,36 @@ window_keys: List[str] = [
 
 def get_parse_time() -> str:
     """
-    Получает текущее время в заданном формате.
+    Функция возвращает текущее время в формате, требуемом для конфигурации.
 
     Returns:
         str: Время в формате '%a %b %d %Y %H:%M:%S GMT+0200 (Central European Summer Time)'.
 
     Example:
         >>> get_parse_time()
-        'Sun Jun 23 2024 15:30:00 GMT+0200 (Central European Summer Time)'
+        'Sun Jun 23 2024 18:24:30 GMT+0200 (Central European Summer Time)'
     """
     now: datetime = datetime.now(timezone(timedelta(hours=-5)))
     return now.strftime('%a %b %d %Y %H:%M:%S') + ' GMT+0200 (Central European Summer Time)'
 
 def get_config(user_agent: str) -> List[Any]:
     """
-    Генерирует конфигурацию на основе user_agent.
+    Функция генерирует конфигурацию на основе user_agent.
 
     Args:
-        user_agent (str): User agent.
+        user_agent (str): User agent пользователя.
 
     Returns:
         List[Any]: Сгенерированная конфигурация.
 
     Example:
-        >>> get_config('Mozilla/5.0')
-        [3016, 'Sun Jun 23 2024 15:30:00 GMT+0200 (Central European Summer Time)', None, 0.5, 'Mozilla/5.0', None, None, 'en-US', 'en-US,es-US,en,es', 0, 'appCodeName−Mozilla', 'location', 'name', 1687547400.0, 'uuid', '', 8, 1687547400]
+        >>> get_config('Mozilla/5.0 ...')
+        [..., 'Mozilla/5.0 ...', ...]
     """
     core: int = random.choice(cores)
     screen: int = random.choice(screens)
 
+    # частично жестко закодированная конфигурация
     config: List[Any] = [
         core + screen,
         get_parse_time(),
@@ -459,40 +494,39 @@ def get_config(user_agent: str) -> List[Any]:
 
 def get_answer_token(seed: str, diff: str, config: List[Any]) -> str:
     """
-    Генерирует answer token на основе seed, diff и config.
+    Функция генерирует токен ответа на основе seed, diff и config.
 
     Args:
-        seed (str): Seed.
-        diff (str): Diff.
+        seed (str): Seed для генерации ответа.
+        diff (str): Diff для генерации ответа.
         config (List[Any]): Конфигурация.
 
     Returns:
-        str: Answer token.
+        str: Токен ответа.
 
     Raises:
         Exception: Если не удалось решить задачу 'gAAAAAB'.
     """
-    try:
-        answer, solved = generate_answer(seed, diff, config)
-        if solved:
-            return 'gAAAAAB' + answer
-        else:
-            raise Exception('Failed to solve \'gAAAAAB\' challenge')
-    except Exception as ex:
-        logger.error('Failed to generate answer token', ex, exc_info=True)
-        raise
+    answer: str
+    solved: bool
+    answer, solved = generate_answer(seed, diff, config)
 
-def generate_answer(seed: str, diff: str, config: List[Any]) -> tuple[str, bool]:
+    if solved:
+        return 'gAAAAAB' + answer
+    else:
+        raise Exception('Failed to solve \'gAAAAAB\' challenge')
+
+def generate_answer(seed: str, diff: str, config: List[Any]) -> Tuple[str, bool]:
     """
-    Генерирует answer на основе seed, diff и config.
+    Функция генерирует ответ на основе seed, diff и config.
 
     Args:
-        seed (str): Seed.
-        diff (str): Diff.
+        seed (str): Seed для генерации ответа.
+        diff (str): Diff для генерации ответа.
         config (List[Any]): Конфигурация.
 
     Returns:
-        tuple[str, bool]: Сгенерированный answer и флаг успешного решения.
+        Tuple[str, bool]: Сгенерированный ответ и флаг успешности.
     """
     diff_len: int = len(diff)
     seed_encoded: bytes = seed.encode()
@@ -524,36 +558,35 @@ def generate_answer(seed: str, diff: str, config: List[Any]) -> tuple[str, bool]
 
 def get_requirements_token(config: List[Any]) -> str:
     """
-    Генерирует requirements token на основе config.
+    Функция генерирует токен требований на основе конфигурации.
 
     Args:
         config (List[Any]): Конфигурация.
 
     Returns:
-        str: Requirements token.
+        str: Токен требований.
 
     Raises:
         Exception: Если не удалось решить задачу 'gAAAAAC'.
     """
-    try:
-        require, solved = generate_answer(format(random.random()), '0fffff', config)
-        if solved:
-            return 'gAAAAAC' + require
-        else:
-            raise Exception('Failed to solve \'gAAAAAC\' challenge')
-    except Exception as ex:
-        logger.error('Failed to generate requirements token', ex, exc_info=True)
-        raise
+    require: str
+    solved: bool
+    require, solved = generate_answer(format(random.random()), '0fffff', config)
+
+    if solved:
+        return 'gAAAAAC' + require
+    else:
+        raise Exception('Failed to solve \'gAAAAAC\' challenge')
 
 ### processing turnstile token
 
 class OrderedMap:
     """
-    Класс для представления упорядоченного словаря.
+    Класс для хранения упорядоченных данных в формате JSON.
     """
     def __init__(self):
         """
-        Инициализирует OrderedMap.
+        Инициализация OrderedMap.
         """
         self.map: OrderedDict = OrderedDict()
 
@@ -569,53 +602,57 @@ class OrderedMap:
 
     def to_json(self) -> str:
         """
-        Преобразует упорядоченный словарь в JSON строку.
+        Преобразует упорядоченный словарь в JSON-строку.
 
         Returns:
-            str: JSON строка.
+            str: JSON-строка.
         """
         return json.dumps(self.map)
 
     def __str__(self) -> str:
         """
-        Возвращает JSON представление упорядоченного словаря.
+        Возвращает JSON-представление объекта.
 
         Returns:
-            str: JSON строка.
+            str: JSON-строка.
         """
         return self.to_json()
 
 TurnTokenList = List[List[Any]]
-FloatMap = Dict[float, Any]
-StringMap = Dict[str, Any]
-FuncType = Callable[..., Any]
+FloatMap: TypeAlias = Dict[float, Any] #TypeAlias
+StringMap: TypeAlias = Dict[str, Any] #TypeAlias
+FuncType: TypeAlias = Callable[..., Any] #TypeAlias
 
 start_time: float = time.time()
 
 def get_turnstile_token(dx: str, p: str) -> str:
     """
-    Получает turnstile token на основе dx и p.
+    Декодирует и обрабатывает Turnstile токен.
 
     Args:
         dx (str): Закодированная строка.
-        p (str): Ключ.
+        p (str): Ключ для обработки.
 
     Returns:
-        str: Turnstile token.
+        str: Обработанный Turnstile токен.
     """
-    decoded_bytes: bytes = base64.b64decode(dx)
-    return process_turnstile_token(decoded_bytes.decode(), p)
+    try:
+        decoded_bytes: bytes = base64.b64decode(dx)
+        return process_turnstile_token(decoded_bytes.decode(), p)
+    except base64.binascii.Error as ex:
+        logger.error('Ошибка при декодировании base64', ex, exc_info=True)
+        return ''
 
 def process_turnstile_token(dx: str, p: str) -> str:
     """
-    Обрабатывает turnstile token на основе dx и p.
+    Обрабатывает Turnstile токен с использованием ключа.
 
     Args:
-        dx (str): Закодированная строка.
-        p (str): Ключ.
+        dx (str): Turnstile токен.
+        p (str): Ключ для обработки.
 
     Returns:
-        str: Обработанный turnstile token.
+        str: Обработанный Turnstile токен.
     """
     result: List[str] = []
     p_length: int = len(p)
@@ -628,19 +665,19 @@ def process_turnstile_token(dx: str, p: str) -> str:
 
 def is_slice(input_val: Any) -> bool:
     """
-    Проверяет, является ли input_val слайсом (list или tuple).
+    Проверяет, является ли входное значение списком или кортежем.
 
     Args:
         input_val (Any): Входное значение.
 
     Returns:
-        bool: True, если является слайсом, иначе False.
+        bool: True, если является списком или кортежем, иначе False.
     """
     return isinstance(input_val, (list, tuple))
 
 def is_float(input_val: Any) -> bool:
     """
-    Проверяет, является ли input_val числом с плавающей точкой.
+    Проверяет, является ли входное значение числом с плавающей точкой.
 
     Args:
         input_val (Any): Входное значение.
@@ -652,7 +689,7 @@ def is_float(input_val: Any) -> bool:
 
 def is_string(input_val: Any) -> bool:
     """
-    Проверяет, является ли input_val строкой.
+    Проверяет, является ли входное значение строкой.
 
     Args:
         input_val (Any): Входное значение.
@@ -664,13 +701,13 @@ def is_string(input_val: Any) -> bool:
 
 def to_str(input_val: Any) -> str:
     """
-    Преобразует input_val в строку.
+    Преобразует входное значение в строку.
 
     Args:
         input_val (Any): Входное значение.
 
     Returns:
-        str: Строковое представление input_val.
+        str: Строковое представление входного значения.
     """
     if input_val is None:
         return 'undefined'
@@ -695,20 +732,21 @@ def to_str(input_val: Any) -> str:
     ):
         return ','.join(input_val)
     else:
+        # print(f'Type of input is: {type(input_val)}')
         return str(input_val)
 
 def get_func_map() -> FloatMap:
     """
-    Создает и возвращает карту функций.
+    Создает и возвращает словарь функций для обработки Turnstile токена.
 
     Returns:
-        FloatMap: Карта функций.
+        FloatMap: Словарь функций.
     """
     process_map: FloatMap = defaultdict(lambda: None)
 
     def func_1(e: float, t: float):
         """
-        Функция 1: Обрабатывает два значения из process_map как строки и применяет process_turnstile_token.
+        Обрабатывает два значения из словаря и выполняет операцию XOR над ними.
 
         Args:
             e (float): Ключ первого значения.
@@ -719,10 +757,12 @@ def get_func_map() -> FloatMap:
         if e_str is not None and t_str is not None:
             res: str = process_turnstile_token(e_str, t_str)
             process_map[e] = res
+        else:
+            logger.warning(f'Не удалось обработать func_1 для e={e}, t={t}')
 
     def func_2(e: float, t: Any):
         """
-        Функция 2: Устанавливает значение для ключа e в process_map.
+        Присваивает значение t ключу e в словаре.
 
         Args:
             e (float): Ключ.
@@ -732,10 +772,10 @@ def get_func_map() -> FloatMap:
 
     def func_5(e: float, t: float):
         """
-        Функция 5: Добавляет значение из process_map[t] к process_map[e].
+        Объединяет значения из словаря в зависимости от их типа.
 
         Args:
-            e (float): Ключ первого значения.
+            e (float): Ключ для сохранения результата.
             t (float): Ключ второго значения.
         """
         n: Any = process_map[e]
@@ -743,7 +783,7 @@ def get_func_map() -> FloatMap:
         if n is None:
             process_map[e] = tres
         elif is_slice(n):
-            nt: list[Any] = n + [tres] if tres is not None else n
+            nt: List[Any] = n + [tres] if tres is not None else n
             process_map[e] = nt
         else:
             if is_string(n) or is_string(tres):
@@ -756,10 +796,10 @@ def get_func_map() -> FloatMap:
 
     def func_6(e: float, t: float, n: float):
         """
-        Функция 6: Объединяет два строковых значения из process_map и устанавливает результат для ключа e.
+        Формирует строку из двух значений словаря, разделенных точкой.
 
         Args:
-            e (float): Ключ для результата.
+            e (float): Ключ для сохранения результата.
             t (float): Ключ первого значения.
             n (float): Ключ второго значения.
         """
@@ -771,13 +811,15 @@ def get_func_map() -> FloatMap:
                 process_map[e] = 'https://chatgpt.com/'
             else:
                 process_map[e] = res
+        else:
+            logger.warning('Ошибка в func type 6')
 
     def func_24(e: float, t: float, n: float):
         """
-        Функция 24: Объединяет два строковых значения из process_map и устанавливает результат для ключа e.
+        Формирует строку из двух значений словаря, разделенных точкой.
 
         Args:
-            e (float): Ключ для результата.
+            e (float): Ключ для сохранения результата.
             t (float): Ключ первого значения.
             n (float): Ключ второго значения.
         """
@@ -785,14 +827,16 @@ def get_func_map() -> FloatMap:
         nv: Any = process_map[n]
         if is_string(tv) and is_string(nv):
             process_map[e] = f'{tv}.{nv}'
+        else:
+            logger.warning('Ошибка в func type 24')
 
-    def func_7(e: float, *args):
+    def func_7(e: float, *args: float):
         """
-        Функция 7: Вызывает функцию из process_map[e] с аргументами из args.
+        Вызывает функцию из словаря с аргументами.
 
         Args:
             e (float): Ключ функции.
-            *args: Аргументы функции.
+            *args (float): Аргументы функции.
         """
         n: List[Any] = [process_map[arg] for arg in args]
         ev: Any = process_map[e]
@@ -805,62 +849,14 @@ def get_func_map() -> FloatMap:
         elif callable(ev):
             ev(*n)
 
-    def func_17(e: float, t: float, *args):
+    def func_17(e: float, t: float, *args: float):
         """
-        Функция 17: Обрабатывает вызовы функций и свойств из process_map[t].
+        Выполняет различные операции в зависимости от значения ключа t.
 
         Args:
-            e (float): Ключ для результата.
-            t (float): Ключ вызываемой функции или свойства.
-            *args: Аргументы функции.
+            e (float): Ключ для сохранения результата.
+            t (float): Ключ операции.
+            *args (float): Аргументы операции.
         """
         i: List[Any] = [process_map[arg] for arg in args]
         tv: Any = process_map[t]
-        res: Any = None
-        if isinstance(tv, str):
-            if tv == 'window.performance.now':
-                current_time: float = time.time_ns()
-                elapsed_ns: float = current_time - int(start_time * 1e9)
-                res: float = (elapsed_ns + random.random()) / 1e6
-            elif tv == 'window.Object.create':
-                res: OrderedMap = OrderedMap()
-            elif tv == 'window.Object.keys':
-                if isinstance(i[0], str) and i[0] == 'window.localStorage':
-                    res: List[str] = [
-                        'STATSIG_LOCAL_STORAGE_INTERNAL_STORE_V4',
-                        'STATSIG_LOCAL_STORAGE_STABLE_ID',
-                        'client-correlated-secret',
-                        'oai/apps/capExpiresAt',
-                        'oai-did',
-                        'STATSIG_LOCAL_STORAGE_LOGGING_REQUEST',
-                        'UiState.isNavigationCollapsed.1',
-                    ]
-            elif tv == 'window.Math.random':
-                res: float = random.random()
-        elif callable(tv):
-            res: Any = tv(*i)
-        process_map[e] = res
-
-    def func_8(e: float, t: float):
-        """
-        Функция 8: Копирует значение из process_map[t] в process_map[e].
-
-        Args:
-            e (float): Ключ для копирования.
-            t (float): Ключ для источника.
-        """
-        process_map[e] = process_map[t]
-
-    def func_14(e: float, t: float):
-        """
-        Функция 14: Загружает JSON из process_map[t] и устанавливает результат для ключа e.
-
-        Args:
-            e (float): Ключ для результата.
-            t (float): Ключ для JSON строки.
-        """
-        tv: Any = process_map[t]
-        if is_string(tv):
-            try:
-                token_list: Any = json.loads(tv)
-                process_

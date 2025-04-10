@@ -2,48 +2,30 @@
 
 ## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/deprecated/Equing.py
 
-Модуль предоставляет класс `Equing`, который является устаревшим провайдером для работы с API `next.eqing.tech`. Класс поддерживает модели `gpt-3.5-turbo` и потоковую передачу данных.
+Модуль предоставляет класс `Equing`, который является устаревшим провайдером для g4f.
 
 **Качество кода:**
 
-- **Соответствие стандартам**: 7/10
+- **Соответствие стандартам**: 6/10
 - **Плюсы**:
-  - Код достаточно структурирован и понятен.
-  - Используются аннотации типов.
-  - Есть разделение на статические методы и атрибуты класса.
+    - Наличие аннотаций типов.
+    - Использование `ABC` и `abstractmethod` для определения абстрактного класса.
 - **Минусы**:
-  - Отсутствует обработка ошибок при запросах.
-  - Не все параметры документированы.
-  - Не используется модуль `logger` для логирования.
-  - Не обрабатываются исключения.
+    - Отсутствует docstring для модуля.
+    - Нет документации для класса `Equing` и его методов.
+    - Не обрабатываются исключения.
+    - В коде используется `requests`, но нет обработки возможных ошибок при запросах.
+    - Не используется `logger` для логирования.
+    - Не все переменные аннотированы типами.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить docstring для класса и методов**:
-    - Добавить описание класса `Equing`, его предназначение и основные атрибуты.
-    - Добавить подробное описание аргументов и возвращаемых значений для метода `create_completion`.
-    - Описать возможные исключения и ситуации, в которых они могут возникнуть.
-    - Перевести docstring на русский язык.
-
-2.  **Обработка ошибок**:
-    - Добавить обработку исключений при выполнении запроса к API, чтобы избежать неожиданных сбоев.
-    - Использовать `logger.error` для логирования ошибок.
-
-3.  **Логирование**:
-    - Добавить логирование основных этапов работы функции `create_completion`, таких как отправка запроса, получение ответа и обработка данных.
-
-4.  **Улучшить читаемость кода**:
-    - Добавить пробелы вокруг операторов присваивания.
-    - Использовать более понятные названия переменных, если это уместно.
-
-5.  **Удалить неиспользуемые импорты**:
-    - Проверить и удалить неиспользуемые импорты.
-
-6.  **Совместимость с типами данных**:
-    - Явное указание типов для переменных, если это необходимо для лучшей читаемости и поддержки.
-
-7.  **Пересмотреть устаревший статус**:
-    - Уточнить, действительно ли провайдер устарел, и, если да, предложить альтернативные решения или удалить код.
+1.  Добавить docstring для модуля с описанием его назначения.
+2.  Добавить docstring для класса `Equing` и всех его методов, включая описание аргументов, возвращаемых значений и возможных исключений.
+3.  Реализовать обработку исключений при выполнении запросов с помощью `requests` и логировать ошибки с использованием модуля `logger`.
+4.  Удалить `from __future__ import annotations`, так как используется python3.
+5.  Все параметры и переменные должны быть аннотированы типами.
+6.  Изменить способ возвращения данных в `create_completion`. Сейчас используется `yield`. Это не соответствует документации.
 
 **Оптимизированный код:**
 
@@ -52,18 +34,28 @@ from __future__ import annotations
 
 import json
 from abc import ABC, abstractmethod
-from typing import Any, CreateResult, Generator
+from typing import Any, CreateResult, List, Dict, Generator
 
 import requests
+from requests import Response
+from src.logger import logger
 
-from src.logger import logger  # Импорт модуля logger
+from ...typing import Any, CreateResult
 from ..base_provider import AbstractProvider
 
 
 class Equing(AbstractProvider):
     """
-    Устаревший провайдер для работы с API next.eqing.tech.
-    Поддерживает модели gpt-3.5-turbo и потоковую передачу данных.
+    Устаревший провайдер Equing для g4f.
+
+    Этот класс предоставляет интерфейс для взаимодействия с сервисом Equing для получения ответов от моделей GPT.
+
+    Attributes:
+        url (str): URL сервиса Equing.
+        working (bool): Указывает, работает ли провайдер в данный момент.
+        supports_stream (bool): Поддерживает ли провайдер потоковую передачу данных.
+        supports_gpt_35_turbo (bool): Поддерживает ли провайдер модель GPT-3.5 Turbo.
+        supports_gpt_4 (bool): Поддерживает ли провайдер модель GPT-4.
     """
     url: str = 'https://next.eqing.tech/'
     working: bool = False
@@ -72,31 +64,25 @@ class Equing(AbstractProvider):
     supports_gpt_4: bool = False
 
     @staticmethod
+    @abstractmethod
     def create_completion(
         model: str,
         messages: list[dict[str, str]],
-        stream: bool,
-        **kwargs: Any
-    ) -> CreateResult:
+        stream: bool, **kwargs: Any) -> CreateResult:
         """
-        Создает запрос к API Equing для получения ответа модели.
+        Абстрактный метод для создания завершения.
 
         Args:
-            model (str): Идентификатор модели, например, "gpt-3.5-turbo".
-            messages (list[dict[str, str]]): Список сообщений для отправки модели.
-                                            Каждое сообщение представляется словарем с ключами "role" и "content".
-            stream (bool): Флаг, указывающий, следует ли использовать потоковый режим.
-            **kwargs (Any): Дополнительные параметры запроса, такие как температура, штрафы и т.д.
+            model (str): Имя модели для использования.
+            messages (list[dict[str, str]]): Список сообщений для отправки в модель.
+            stream (bool): Флаг, указывающий, использовать ли потоковую передачу.
+            **kwargs (Any): Дополнительные аргументы.
 
         Returns:
-            CreateResult: Генератор токенов в потоковом режиме или строка с полным ответом в обычном режиме.
-
-        Raises:
-            requests.exceptions.RequestException: Если возникает ошибка при выполнении HTTP-запроса.
-            json.JSONDecodeError: Если не удается декодировать JSON из ответа API.
-            Exception: При возникновении других ошибок.
+            CreateResult: Результат создания завершения.
         """
-        headers = {
+
+        headers: Dict[str, str] = {
             'authority': 'next.eqing.tech',
             'accept': 'text/event-stream',
             'accept-language': 'en,fr-FR;q=0.9,fr;q=0.8,es-ES;q=0.7,es;q=0.6,en-US;q=0.5,am;q=0.4,de;q=0.3',
@@ -117,7 +103,7 @@ class Equing(AbstractProvider):
             'x-requested-with': 'XMLHttpRequest'
         }
 
-        json_data = {
+        json_data: Dict[str, Any] = {
             'messages': messages,
             'stream': stream,
             'model': model,
@@ -128,11 +114,10 @@ class Equing(AbstractProvider):
         }
 
         try:
-            response = requests.post(
+            response: Response = requests.post(
                 'https://next.eqing.tech/api/openai/v1/chat/completions',
-                headers=headers, json=json_data, stream=stream
-            )
-            response.raise_for_status()  # Проверка на HTTP ошибки
+                headers=headers, json=json_data, stream=stream)
+            response.raise_for_status()  # Проверка на ошибки HTTP
 
             if not stream:
                 yield response.json()["choices"][0]["message"]["content"]
@@ -146,13 +131,12 @@ class Equing(AbstractProvider):
                         token = line_json['choices'][0]['delta'].get('content')
                         if token:
                             yield token
-
         except requests.exceptions.RequestException as ex:
-            logger.error('Ошибка при выполнении запроса к API', ex, exc_info=True)
-            yield str(ex)  # Возвращаем сообщение об ошибке, чтобы не прерывать поток
+            logger.error(f'Ошибка при выполнении запроса к Equing: {ex}', exc_info=True)
+            return None  # Или можно вызвать исключение, в зависимости от логики вашего приложения
         except json.JSONDecodeError as ex:
-            logger.error('Ошибка при декодировании JSON', ex, exc_info=True)
-            yield str(ex)  # Возвращаем сообщение об ошибке, чтобы не прерывать поток
+            logger.error(f'Ошибка при декодировании JSON ответа от Equing: {ex}', exc_info=True)
+            return None
         except Exception as ex:
-            logger.error('Непредвиденная ошибка', ex, exc_info=True)
-            yield str(ex)  # Возвращаем сообщение об ошибке, чтобы не прерывать поток
+            logger.error(f'Непредвиденная ошибка: {ex}', exc_info=True)
+            return None

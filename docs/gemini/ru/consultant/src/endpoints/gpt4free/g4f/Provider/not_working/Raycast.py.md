@@ -1,64 +1,51 @@
 ### **Анализ кода модуля `Raycast.py`**
 
-=========================================================================================
-
-Модуль предоставляет класс `Raycast`, который является провайдером для взаимодействия с моделями GPT через API Raycast.
-Он поддерживает стриминг ответов, требует аутентификации и использует модели `gpt-3.5-turbo` и `gpt-4`.
-
-**Качество кода**:
-
+#### **Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Четкая структура класса и метода `create_completion`.
-  - Использование `requests` для выполнения POST-запросов.
-  - Реализация стриминга ответов через `response.iter_lines()`.
+  - Код структурирован и выполняет определенную задачу - взаимодействие с API Raycast.
+  - Присутствует обработка авторизации.
+  - Поддержка стриминга ответов.
 - **Минусы**:
-  - Отсутствует обработка ошибок при запросах к API Raycast.
-  - Жетские кодировки и URL-адреса.
-  - Отсутствует логирование.
-  - Нет документации классов и методов.
+  - Недостаточно подробные комментарии и отсутствует docstring для класса и метода `create_completion`.
+  - Отсутствует обработка исключений при запросах к API.
+  - Жестко заданы значения `locale` и `system_instruction`.
+  - Не используется модуль `logger` для логирования ошибок и информации.
+  - Нет аннотаций типов.
 
-**Рекомендации по улучшению**:
+#### **Рекомендации по улучшению**:
+1. **Добавить docstring**:
+   - Добавить docstring для класса `Raycast` с описанием его назначения.
+   - Добавить подробный docstring для метода `create_completion` с описанием параметров, возвращаемого значения и возможных исключений.
+2. **Обработка исключений**:
+   - Добавить обработку исключений при выполнении запроса `requests.post`, чтобы избежать неожиданных сбоев.
+   - Логировать ошибки с использованием `logger.error` с передачей информации об исключении.
+3. **Гибкость конфигурации**:
+   - Предоставить возможность конфигурации параметров `locale` и `system_instruction` через аргументы метода `create_completion`.
+4. **Аннотация типов**:
+    - Добавить аннотации типов для всех переменных и параметров функций.
+5. **Использовать одинарные кавычки**:
+    - Заменить двойные кавычки на одинарные.
 
-- Добавить обработку исключений для `requests.post`, чтобы избежать неожиданных сбоев.
-- Использовать `logger` для логирования ошибок и отладочной информации.
-- Добавить документацию для класса `Raycast` и метода `create_completion`, используя формат docstring.
-- Улучшить читаемость кода, добавив пробелы вокруг операторов.
-- Изменить передачу `auth` через `kwargs` на явный параметр функции.
-- Использовать `j_loads` вместо `json.loads`.
-- Заменить конкатенацию строк через f-string на `str.format()`.
-
-**Оптимизированный код**:
-
+#### **Оптимизированный код**:
 ```python
 from __future__ import annotations
 
 import json
-from typing import Generator, Optional
+from typing import Generator
 
 import requests
 
-from src.logger import logger # Импорт модуля logger
+from src.logger import logger  # Импортируем logger из src.logger
 from ...typing import CreateResult, Messages
 from ..base_provider import AbstractProvider
 
 
-"""
-Модуль для работы с провайдером Raycast
-=========================================
-
-Модуль содержит класс :class:`Raycast`, который используется для взаимодействия с API Raycast для получения ответов от моделей GPT.
-
-Пример использования
-----------------------
-
->>> Raycast.create_completion(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Hello"}], stream=True, auth="YOUR_AUTH_TOKEN")
-"""
-
-
 class Raycast(AbstractProvider):
     """
-    Провайдер для взаимодействия с API Raycast.
+    Провайдер для взаимодействия с Raycast API.
+
+    Поддерживает стриминг ответов, требует авторизации.
     """
     url: str = 'https://raycast.com'
     supports_stream: bool = True
@@ -75,46 +62,45 @@ class Raycast(AbstractProvider):
         model: str,
         messages: Messages,
         stream: bool,
-        auth: str,  # auth передается как явный параметр
-        proxy: Optional[str] = None,
+        proxy: str | None = None,
         **kwargs,
     ) -> CreateResult:
         """
-        Создает запрос к API Raycast и возвращает ответ.
+        Создает запрос к Raycast API для получения ответа.
 
         Args:
-            model (str): Имя модели для использования.
+            model (str): Идентификатор модели.
             messages (Messages): Список сообщений для отправки.
-            stream (bool): Флаг, указывающий, нужно ли использовать потоковую передачу.
-            auth (str): Токен аутентификации Raycast.
-            proxy (Optional[str], optional): Прокси-сервер для использования. По умолчанию `None`.
-            **kwargs: Дополнительные аргументы.
+            stream (bool): Флаг стриминга.
+            proxy (str | None, optional): Прокси-сервер. По умолчанию None.
+            **kwargs: Дополнительные аргументы, включая токен авторизации `auth`.
 
         Returns:
-            CreateResult: Результат запроса.
+            CreateResult: Генератор токенов ответа.
 
         Raises:
-            ValueError: Если не предоставлен токен аутентификации.
-            requests.exceptions.RequestException: При ошибке во время выполнения запроса.
+            ValueError: Если не предоставлен токен авторизации.
+            requests.exceptions.RequestException: При ошибке запроса к API.
 
         Yields:
-            str: Части ответа, если `stream` установлен в `True`.
+            str: Токены ответа от API.
         """
+        auth: str | None = kwargs.get('auth')
         if not auth:
             raise ValueError('Raycast needs an auth token, pass it with the `auth` parameter')
 
         headers: dict[str, str] = {
             'Accept': 'application/json',
             'Accept-Language': 'en-US,en;q=0.9',
-            'Authorization': 'Bearer {}'.format(auth),  # Используем str.format()
+            'Authorization': f'Bearer {auth}',
             'Content-Type': 'application/json',
             'User-Agent': 'Raycast/0 CFNetwork/1410.0.3 Darwin/22.6.0',
         }
-        parsed_messages: list[dict[str, str | dict[str, str]]] = [
+        parsed_messages: list[dict] = [
             {'author': message['role'], 'content': {'text': message['content']}}
             for message in messages
         ]
-        data: dict[str, str | bool | list[dict[str, str | dict[str, str]]] | float] = {
+        data: dict = {
             'debug': False,
             'locale': 'en-CN',
             'messages': parsed_messages,
@@ -137,15 +123,13 @@ class Raycast(AbstractProvider):
             for token in response.iter_lines():
                 if b'data: ' not in token:
                     continue
-                try:
-                    completion_chunk: dict = json.loads(token.decode().replace('data: ', '')) # декодируем ответ
-                    token: str | None = completion_chunk.get('text') # извлекаем текст
-                    if token:
-                        yield token
-                except json.JSONDecodeError as ex:
-                    logger.error('Ошибка при декодировании JSON', ex, exc_info=True) # Логируем ошибку декодирования JSON
-                    continue
-
+                completion_chunk: dict = json.loads(token.decode().replace('data: ', ''))
+                token_text: str | None = completion_chunk['text']
+                if token_text:
+                    yield token_text
         except requests.exceptions.RequestException as ex:
-            logger.error('Ошибка при выполнении запроса к API Raycast', ex, exc_info=True) # Логируем ошибку запроса
-            raise  # Перебрасываем исключение для дальнейшей обработки
+            logger.error('Error while processing Raycast API request', ex, exc_info=True)
+            raise  # Перебросить исключение после логирования
+        except json.JSONDecodeError as ex:
+            logger.error('Error decoding JSON response from Raycast API', ex, exc_info=True)
+            raise  # Перебросить исключение после логирования

@@ -1,64 +1,65 @@
 ### **Анализ кода модуля `FreeNetfly.py`**
 
-#### **Качество кода**:
+**Качество кода:**
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Асинхронная обработка с использованием `async` и `await`.
-  - Реализована логика повторных попыток с экспоненциальной задержкой.
-  - Обработка ошибок при запросах и декодировании JSON.
-  - Использование `AsyncGenerator` для потоковой обработки данных.
+  - Асинхронная обработка запросов с использованием `aiohttp`.
+  - Реализация повторных попыток (retry) при возникновении ошибок сети или таймаутов.
+  - Использование `AsyncGenerator` для потоковой обработки ответов от сервера.
 - **Минусы**:
-  - Отсутствует логирование ошибок и предупреждений.
+  - Отсутствует логирование ошибок.
   - Не все переменные аннотированы типами.
-  - Используется `print` для отладочной информации вместо `logger`.
-  - Нет обработки исключений на верхнем уровне для `_process_response`.
-  - Не все docstring переведены на русский язык.
+  - Жёстко заданные значения таймаутов и количества повторных попыток.
+  - Дублирование кода при обработке данных в `_process_response`.
+  - Обработка исключений `json.JSONDecodeError` и `KeyError` без логирования.
+  - Отсутствует документация в стиле `Google Python Style Guide`.
 
-#### **Рекомендации по улучшению**:
-1. **Добавить логирование**:
-   - Заменить `print` на `logger.error` и `logger.info` для отслеживания ошибок и хода выполнения программы.
-2. **Аннотировать типы**:
-   - Добавить аннотации типов для всех переменных и возвращаемых значений функций.
-3. **Обработка исключений**:
-   - Добавить обработку исключений в методе `_process_response` с использованием `logger.error`.
-4. **Улучшить документацию**:
-   - Перевести все docstring на русский язык и добавить более подробное описание параметров и возвращаемых значений.
-5. **Использовать `j_loads`**:
-   - Использовать `j_loads` для обработки JSON вместо `json.loads`.
-6. **Обработка `ClientError`**:
-   - Конкретизировать обработку `ClientError`, чтобы различать разные типы ошибок (например, `ClientConnectionError`, `ClientResponseError`).
-7. **Удалить неиспользуемые импорты**:
-   - Удалить `from __future__ import annotations`, так как используется Python 3.
-8. **Улучшить обработку ошибок JSON**:
-   - Добавить контекстную информацию в логи ошибок JSON, чтобы было легче отлаживать проблемы.
+**Рекомендации по улучшению:**
 
-#### **Оптимизированный код**:
+1.  **Добавить логирование**:
+    - Использовать `logger.error` для регистрации ошибок, возникающих при сетевых запросах, обработке JSON и других исключительных ситуациях.
+    - Добавить `logger.debug` для отслеживания важных этапов выполнения кода, таких как отправка запроса, получение ответа, повторные попытки.
+
+2.  **Добавить аннотации типов**:
+    - Указать типы для всех переменных и возвращаемых значений функций, где это еще не сделано.
+
+3.  **Вынести конфигурационные параметры**:
+    - Значения `max_retries`, `retry_delay` и `timeout` вынести в переменные класса или конфигурационный файл, чтобы их можно было легко изменить без изменения кода.
+
+4.  **Улучшить обработку ошибок**:
+    - В блоке `except` в `_process_response` добавить логирование ошибок с использованием `logger.error`, чтобы было легче отслеживать проблемы с форматом данных.
+
+5.  **Избежать дублирования кода**:
+    - Упростить логику обработки данных в `_process_response`, объединив повторяющиеся блоки кода в одну функцию или цикл.
+
+6.  **Документировать код**:
+    - Добавить подробные docstring к классам и методам, используя формат Google Python Style Guide.
+    - Описать назначение каждого параметра и возвращаемого значения.
+
+7. **Использовать webdriver**
+    - В данном коде не используется webdriver, но если это необходимо, следует импортировать и использовать его, как указано в системных инструкциях.
+
+**Оптимизированный код:**
+
 ```python
 from __future__ import annotations
 
 import json
 import asyncio
-from aiohttp import ClientSession, ClientTimeout, ClientError, ClientResponse
-from typing import AsyncGenerator, Optional, List, Dict, Any
+from aiohttp import ClientSession, ClientTimeout, ClientError
+from typing import AsyncGenerator, Optional, List
 
 from ...typing import AsyncResult, Messages
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
-from src.logger.logger import logger
+from src.logger import logger  # Import logger
 
 
 class FreeNetfly(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Модуль для взаимодействия с FreeNetfly API.
-    ==============================================
+    Провайдер FreeNetfly для асинхронного взаимодействия с API.
 
-    Предоставляет асинхронный генератор для получения ответов от API FreeNetfly.
-    Поддерживает модели gpt-3.5-turbo и gpt-4.
-
-    Пример использования:
-    ----------------------
-
-    >>> async for chunk in FreeNetfly.create_async_generator(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello'}]):
-    ...     print(chunk, end='')
+    Поддерживает модели: gpt-3.5-turbo, gpt-4.
     """
     url: str = "https://free.netfly.top"
     api_endpoint: str = "/api/openai/v1/chat/completions"
@@ -68,6 +69,9 @@ class FreeNetfly(AsyncGeneratorProvider, ProviderModelMixin):
         'gpt-3.5-turbo',
         'gpt-4',
     ]
+    max_retries: int = 5  # Максимальное количество повторных попыток
+    retry_delay: int = 2  # Задержка перед повторной попыткой в секундах
+    timeout_total: int = 60  # Общий таймаут для запроса
 
     @classmethod
     async def create_async_generator(
@@ -75,25 +79,24 @@ class FreeNetfly(AsyncGeneratorProvider, ProviderModelMixin):
         model: str,
         messages: Messages,
         proxy: Optional[str] = None,
-        **kwargs: Any
+        **kwargs
     ) -> AsyncResult:
         """
         Создает асинхронный генератор для получения ответов от API FreeNetfly.
 
         Args:
-            model (str): Модель для использования (например, 'gpt-3.5-turbo').
+            model (str): Название модели для использования.
             messages (Messages): Список сообщений для отправки в API.
             proxy (Optional[str], optional): Прокси-сервер для использования. По умолчанию None.
-            **kwargs (Any): Дополнительные аргументы.
 
-        Returns:
-            AsyncResult: Асинхронный генератор, возвращающий части ответа от API.
+        Yields:
+            str: Части ответа от API.
 
         Raises:
             ClientError: Если произошла ошибка при выполнении HTTP-запроса.
-            asyncio.TimeoutError: Если превышено время ожидания ответа от API.
+            asyncio.TimeoutError: Если превышен таймаут ожидания ответа.
         """
-        headers: Dict[str, str] = {
+        headers: dict[str, str] = {
             "accept": "application/json, text/event-stream",
             "accept-language": "en-US,en;q=0.9",
             "content-type": "application/json",
@@ -108,7 +111,7 @@ class FreeNetfly(AsyncGeneratorProvider, ProviderModelMixin):
             "sec-fetch-site": "same-origin",
             "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
         }
-        data: Dict[str, Any] = {
+        data: dict[str, object] = {
             "messages": messages,
             "stream": True,
             "model": model,
@@ -118,72 +121,60 @@ class FreeNetfly(AsyncGeneratorProvider, ProviderModelMixin):
             "top_p": 1
         }
 
-        max_retries: int = 5
-        retry_delay: int = 2
-
-        for attempt in range(max_retries):
+        for attempt in range(cls.max_retries):
             try:
                 async with ClientSession(headers=headers) as session:
-                    timeout: ClientTimeout = ClientTimeout(total=60)
+                    timeout: ClientTimeout = ClientTimeout(total=cls.timeout_total)
                     async with session.post(f"{cls.url}{cls.api_endpoint}", json=data, proxy=proxy, timeout=timeout) as response:
                         response.raise_for_status()
                         async for chunk in cls._process_response(response):
                             yield chunk
                         return  # If successful, exit the function
-            except ClientError as ex: # Обработка ошибок клиента
-                logger.error(f'Client error during attempt {attempt + 1}/{max_retries}: {ex}', exc_info=True)
-                if attempt == max_retries - 1:
+            except (ClientError, asyncio.TimeoutError) as ex:
+                logger.error(f"Attempt {attempt + 1} failed: {ex}", exc_info=True)  # Log the error
+                if attempt == cls.max_retries - 1:
                     raise  # If all retries failed, raise the last exception
-                await asyncio.sleep(retry_delay)
-                retry_delay *= 2  # Exponential backoff
-            except asyncio.TimeoutError as ex: # Обработка таймаутов
-                logger.error(f'Timeout error during attempt {attempt + 1}/{max_retries}: {ex}', exc_info=True)
-                if attempt == max_retries - 1:
-                    raise  # If all retries failed, raise the last exception
-                await asyncio.sleep(retry_delay)
-                retry_delay *= 2  # Exponential backoff
+                await asyncio.sleep(cls.retry_delay)
+                cls.retry_delay *= 2  # Exponential backoff
 
     @classmethod
-    async def _process_response(cls, response: ClientResponse) -> AsyncGenerator[str, None]:
+    async def _process_response(cls, response) -> AsyncGenerator[str, None]:
         """
-        Обрабатывает ответ от API, извлекая содержимое из JSON-данных.
+        Обрабатывает ответ от сервера, извлекая полезные данные.
 
         Args:
-            response (ClientResponse): Ответ от API.
+            response: Объект ответа от aiohttp.
 
         Yields:
-            str: Часть контента, извлеченного из ответа.
+            str: Содержимое из ответа.
         """
         buffer: str = ""
-        try:
-            async for line in response.content:
-                buffer += line.decode('utf-8')
-                if buffer.endswith('\n\n'):
-                    for subline in buffer.strip().split('\n'):
-                        if subline.startswith('data: '):
-                            if subline == 'data: [DONE]':
-                                return
-                            try:
-                                data: Dict[str, Any] = json.loads(subline[6:])
-                                content: Optional[str] = data['choices'][0]['delta'].get('content')
-                                if content:
-                                    yield content
-                            except json.JSONDecodeError as ex: # Обработка ошибок при декодировании JSON
-                                logger.error(f"Failed to parse JSON: {subline}. Error: {ex}", exc_info=True)
-                            except KeyError as ex: # Обработка ошибок ключа
-                                logger.error(f"Unexpected JSON structure: {data}. Error: {ex}", exc_info=True)
-                    buffer = ""
-
-            # Process any remaining data in the buffer
-            if buffer:
+        async for line in response.content:
+            buffer += line.decode('utf-8')
+            if buffer.endswith('\n\n'):
                 for subline in buffer.strip().split('\n'):
-                    if subline.startswith('data: ') and subline != 'data: [DONE]':
+                    if subline.startswith('data: '):
+                        if subline == 'data: [DONE]':
+                            return
                         try:
-                            data: Dict[str, Any] = json.loads(subline[6:])
+                            data: dict = json.loads(subline[6:])
                             content: Optional[str] = data['choices'][0]['delta'].get('content')
                             if content:
                                 yield content
-                        except (json.JSONDecodeError, KeyError) as ex: # Обработка ошибок при декодировании JSON или отсутствия ключа
-                            logger.error(f"Error processing remaining data: {ex}", exc_info=True)
-        except Exception as ex: # Обработка неожиданных исключений
-            logger.error(f"Unexpected error in _process_response: {ex}", exc_info=True)
+                        except json.JSONDecodeError as ex:
+                            logger.error(f"Failed to parse JSON: {subline} - {ex}", exc_info=True)
+                        except KeyError as ex:
+                            logger.error(f"Unexpected JSON structure: {data} - {ex}", exc_info=True)
+                buffer = ""
+
+        # Process any remaining data in the buffer
+        if buffer:
+            for subline in buffer.strip().split('\n'):
+                if subline.startswith('data: ') and subline != 'data: [DONE]':
+                    try:
+                        data: dict = json.loads(subline[6:])
+                        content: Optional[str] = data['choices'][0]['delta'].get('content')
+                        if content:
+                            yield content
+                    except (json.JSONDecodeError, KeyError) as ex:
+                        logger.error(f"Error processing remaining data: {ex}", exc_info=True)

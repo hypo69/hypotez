@@ -1,44 +1,61 @@
 ### **Анализ кода модуля `database_middleware.py`**
 
-#### **Качество кода**:
+## \file /hypotez/src/endpoints/bots/telegram/digital_market/bot/dao/database_middleware.py
+
+Модуль содержит middleware для работы с базой данных в Telegram боте, используя aiogram.
+Он определяет базовый класс `BaseDatabaseMiddleware` и его подклассы `DatabaseMiddlewareWithoutCommit` и `DatabaseMiddlewareWithCommit`, которые управляют сессиями базы данных и коммитами транзакций.
+
+**Качество кода:**
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Четкая структура middleware для управления сессиями базы данных.
-  - Использование `async with` для управления сессией.
-  - Разделение middleware на два типа: с коммитом и без.
+  - Четкая структура классов для управления сессиями базы данных.
+  - Использование `async with` для управления контекстом сессии.
+  - Разделение ответственности между middleware с коммитом и без.
 - **Минусы**:
-  - Не все методы документированы в соответствии с требуемым форматом.
-  - Отсутствует обработка конкретных исключений, что может затруднить отладку.
-  - Не используется `logger` для логирования ошибок.
-  - Не указаны типы для `session` в методах `set_session` и `after_handler`.
+  - Отсутствует полная документация в формате, требуемом проектом.
+  - Обработка исключений не использует `logger` для логирования ошибок.
+  - Не все переменные аннотированы типами.
 
-#### **Рекомендации по улучшению**:
-1. **Документирование методов**:
-   - Добавить docstring к методам `set_session` и `after_handler` в базовом классе `BaseDatabaseMiddleware` и в подклассах `DatabaseMiddlewareWithoutCommit` и `DatabaseMiddlewareWithCommit`.
-2. **Обработка исключений**:
-   - Логировать исключения с использованием `logger.error` с передачей информации об ошибке (`ex`) и трассировки (`exc_info=True`).
-3. **Типизация**:
-   - Указать тип для параметра `session` в методах `set_session` и `after_handler`.
-4. **Комментарии**:
-   - Добавить комментарии, объясняющие назначение каждого блока кода, особенно в методах `set_session` и `after_handler`.
-5. **Использовать одинарные кавычки**:
-   - Заменить двойные кавычки на одинарные.
+**Рекомендации по улучшению:**
 
-#### **Оптимизированный код**:
+1.  **Документация**:
+    - Дополнить docstring для всех классов и методов, включая подробное описание аргументов, возвращаемых значений и возможных исключений.
+    - Перевести все docstring на русский язык.
+    - Оформить документацию в соответствии с форматом, принятым в проекте.
+
+2.  **Логирование**:
+    - Добавить логирование ошибок в блоке `except` в методе `__call__` класса `BaseDatabaseMiddleware`, используя `logger.error`.
+
+3.  **Аннотации типов**:
+    - Убедиться, что все переменные и параметры функций аннотированы типами.
+
+4.  **Обработка исключений**:
+    - Использовать `ex` вместо `e` в блоках обработки исключений.
+
+**Оптимизированный код:**
 
 ```python
 from typing import Callable, Dict, Any, Awaitable
 from aiogram import BaseMiddleware
 from aiogram.types import Message, CallbackQuery
-from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.logger import logger  # Добавлен импорт logger
 from bot.dao.database import async_session_maker
-from src.logger import logger
 
 
 class BaseDatabaseMiddleware(BaseMiddleware):
     """
     Базовый класс middleware для управления сессиями базы данных.
+
+    Этот класс обеспечивает создание, использование и закрытие асинхронных сессий базы данных
+    для обработки входящих событий (сообщений или callback-запросов) в Telegram боте.
+    Подклассы должны реализовывать метод `set_session` для установки сессии в словарь данных.
+
+    Пример использования:
+        class MyDatabaseMiddleware(BaseDatabaseMiddleware):
+            def set_session(self, data: Dict[str, Any], session) -> None:
+                data['session'] = session
     """
 
     async def __call__(
@@ -48,51 +65,63 @@ class BaseDatabaseMiddleware(BaseMiddleware):
             data: Dict[str, Any]
     ) -> Any:
         """
-        Выполняет middleware.
+        Выполняет middleware-обработку события.
+
+        Создает асинхронную сессию базы данных, вызывает обработчик события,
+        обрабатывает возможные исключения и закрывает сессию.
 
         Args:
-            handler (Callable[[Message | CallbackQuery, Dict[str, Any]], Awaitable[Any]]): Обработчик события.
-            event (Message | CallbackQuery): Событие (сообщение или callback-запрос).
-            data (Dict[str, Any]): Дополнительные данные.
+            handler (Callable[[Message | CallbackQuery, Dict[str, Any]], Awaitable[Any]]):
+                Функция-обработчик события.
+            event (Message | CallbackQuery): Объект события (сообщение или callback-запрос).
+            data (Dict[str, Any]): Словарь данных, передаваемый обработчику.
 
         Returns:
-            Any: Результат обработки события.
+            Any: Результат выполнения обработчика.
 
         Raises:
-            Exception: Если при выполнении обработчика или коммита возникает ошибка, выполняется откат сессии.
+            Exception: Если при выполнении обработчика возникает исключение,
+                       сессия откатывается и исключение перевыбрасывается после логирования.
         """
         async with async_session_maker() as session:
             self.set_session(data, session)
             try:
-                result = await handler(event, data) # Вызов обработчика события
-                await self.after_handler(session) # Выполнение действий после обработчика
+                result = await handler(event, data)
+                await self.after_handler(session)
                 return result
-            except Exception as ex: # Обработка исключений
-                logger.error('Error during handler execution or commit', ex, exc_info=True)
-                await session.rollback() # Откат изменений в случае ошибки
+            except Exception as ex:  # Изменено e на ex
+                await session.rollback()
+                logger.error('Ошибка при обработке события', ex, exc_info=True)  # Добавлено логирование ошибки
                 raise ex
             finally:
-                await session.close() # Закрытие сессии
+                await session.close()
 
-    def set_session(self, data: Dict[str, Any], session: AsyncSession) -> None:
+    def set_session(self, data: Dict[str, Any], session) -> None:
         """
         Устанавливает сессию в словарь данных.
 
+        Этот метод должен быть реализован в подклассах для установки сессии
+        в словарь данных, чтобы она была доступна обработчику события.
+
         Args:
-            data (Dict[str, Any]): Словарь данных, в который будет добавлена сессия.
-            session (AsyncSession): Сессия базы данных.
+            data (Dict[str, Any]): Словарь данных, в который нужно установить сессию.
+            session: Объект сессии базы данных.
 
         Raises:
             NotImplementedError: Если метод не реализован в подклассе.
         """
-        raise NotImplementedError('Этот метод должен быть реализован в подклассах.')
+        raise NotImplementedError("Этот метод должен быть реализован в подклассах.")
 
-    async def after_handler(self, session: AsyncSession) -> None:
+    async def after_handler(self, session) -> None:
         """
-        Выполняет действия после вызова хендлера (например, коммит).
+        Выполняет действия после вызова обработчика.
+
+        Этот метод может быть переопределен в подклассах для выполнения
+        дополнительных действий после вызова обработчика события, например,
+        для выполнения коммита транзакции.
 
         Args:
-            session (AsyncSession): Сессия базы данных.
+            session: Объект сессии базы данных.
         """
         pass
 
@@ -100,15 +129,18 @@ class BaseDatabaseMiddleware(BaseMiddleware):
 class DatabaseMiddlewareWithoutCommit(BaseDatabaseMiddleware):
     """
     Middleware для работы с базой данных без автоматического коммита.
+
+    Этот класс устанавливает сессию базы данных в словарь данных без
+    автоматического выполнения коммита после обработки события.
     """
 
-    def set_session(self, data: Dict[str, Any], session: AsyncSession) -> None:
+    def set_session(self, data: Dict[str, Any], session) -> None:
         """
-        Устанавливает сессию без коммита в словарь данных.
+        Устанавливает сессию в словарь данных под ключом 'session_without_commit'.
 
         Args:
-            data (Dict[str, Any]): Словарь данных, в который будет добавлена сессия.
-            session (AsyncSession): Сессия базы данных.
+            data (Dict[str, Any]): Словарь данных, в который нужно установить сессию.
+            session: Объект сессии базы данных.
         """
         data['session_without_commit'] = session
 
@@ -116,23 +148,26 @@ class DatabaseMiddlewareWithoutCommit(BaseDatabaseMiddleware):
 class DatabaseMiddlewareWithCommit(BaseDatabaseMiddleware):
     """
     Middleware для работы с базой данных с автоматическим коммитом.
+
+    Этот класс устанавливает сессию базы данных в словарь данных и выполняет
+    автоматический коммит транзакции после обработки события.
     """
 
-    def set_session(self, data: Dict[str, Any], session: AsyncSession) -> None:
+    def set_session(self, data: Dict[str, Any], session) -> None:
         """
-        Устанавливает сессию с коммитом в словарь данных.
+        Устанавливает сессию в словарь данных под ключом 'session_with_commit'.
 
         Args:
-            data (Dict[str, Any]): Словарь данных, в который будет добавлена сессия.
-            session (AsyncSession): Сессия базы данных.
+            data (Dict[str, Any]): Словарь данных, в который нужно установить сессию.
+            session: Объект сессии базы данных.
         """
         data['session_with_commit'] = session
 
-    async def after_handler(self, session: AsyncSession) -> None:
+    async def after_handler(self, session) -> None:
         """
-        Выполняет коммит сессии после вызова хендлера.
+        Выполняет коммит транзакции после обработки события.
 
         Args:
-            session (AsyncSession): Сессия базы данных.
+            session: Объект сессии базы данных.
         """
         await session.commit()

@@ -2,50 +2,35 @@
 
 ## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/mini_max/HailuoAI.py
 
-Модуль предоставляет класс `HailuoAI`, который является асинхронным аутентифицированным провайдером для взаимодействия с Hailuo AI.
-
-**Качество кода**:
+#### **Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Использование `AsyncAuthedProvider` и `ProviderModelMixin` для расширения функциональности.
-    - Поддержка стриминга (`supports_stream = True`).
-    - Использование `aiohttp` для асинхронных запросов.
-    - Обработка ошибок JSON при декодировании.
+  - Асинхронный код, что хорошо для неблокирующих операций.
+  - Использование `FormData` для отправки данных.
+  - Обработка различных событий от сервера (`send_result`, `message_result`).
 - **Минусы**:
-    - Отсутствуют подробные docstring для методов и классов.
-    - Не все переменные аннотированы типами.
-    - Жёстко закодированные значения, такие как `characterID = 1`.
-    - Не используется `logger` для логирования ошибок и отладки.
+  - Недостаточно подробные комментарии и docstring.
+  - Использование `getattr` с фиксированным значением по умолчанию (1), что может быть не всегда корректно.
+  - Отсутствуют аннотации типов для переменных `form_data` и `headers`
+  - В блоке обработки исключений json.JSONDecodeError используется `e` вместо `ex`
+  - Не используется модуль `logger` для логгирования ошибок
 
-**Рекомендации по улучшению**:
+#### **Рекомендации по улучшению**:
 
-1.  **Добавить docstring**:
-    - Добавить подробные docstring для класса `HailuoAI`, методов `on_auth_async` и `create_authed`, а также для класса `Conversation`.
-    - В docstring указать, что делает каждый метод, какие аргументы принимает и что возвращает.
+1. **Добавить docstring**:
+   - Добавьте подробные docstring для класса `HailuoAI` и его методов, включая `on_auth_async` и `create_authed`.
+   - Опишите назначение каждого параметра и возвращаемого значения.
 
-2.  **Аннотации типов**:
-    - Добавить аннотации типов для всех переменных, где это возможно.
-    - Убедиться, что все параметры функций и методов имеют аннотации типов.
+2. **Логирование**:
+   - В случае ошибки `json.JSONDecodeError` использовать `logger.error` для логирования.
 
-3.  **Логирование**:
-    - Использовать `logger` для логирования ошибок и важной информации, например, при возникновении исключений или при успешной аутентификации.
-    - Заменить `debug.log` на `logger.debug`.
+3. **Аннотации типов**:
+   - Добавить аннотации типов для переменных `form_data` и `headers`
 
-4.  **Улучшение обработки ошибок**:
-    - Добавить более подробную обработку ошибок, например, логирование ошибок при запросах к API.
-    - Использовать `logger.error` для логирования ошибок с `exc_info=True` для получения полной трассировки.
+4. **Улучшить читаемость**:
+   - Упростить логику работы с `conversation` внутри `create_authed`.
 
-5.  **Конфигурация**:
-    - Перенести жёстко закодированные значения, такие как `characterID = 1`, в конфигурационные параметры.
-
-6.  **Улучшение читаемости**:
-    - Разбить длинные строки на несколько строк для улучшения читаемости.
-    - Использовать более понятные имена переменных.
-
-7.  **Безопасность**:
-    - Проверить, как обрабатываются и хранятся токены и другие секретные данные.
-
-**Оптимизированный код**:
+#### **Оптимизированный код**:
 
 ```python
 from __future__ import annotations
@@ -61,28 +46,22 @@ from ..mini_max.crypt import CallbackResults, get_browser_callback, generate_yy_
 from ...requests import get_args_from_nodriver, raise_for_status
 from ...providers.response import AuthResult, JsonConversation, RequestLogin, TitleGeneration
 from ..helper import get_last_user_message
-from src.logger import logger  # Import logger
-from pathlib import Path
-
+from ... import debug
+from src.logger import logger
 
 class Conversation(JsonConversation):
     """
-    Класс для хранения информации о разговоре.
-    ============================================
-    
-    Содержит информацию о токене, ID чата и ID персонажа.
-    
+    Класс для представления истории разговора с Hailuo AI.
+
     Args:
         token (str): Токен авторизации.
         chatID (str): ID чата.
         characterID (str, optional): ID персонажа. По умолчанию 1.
-    
-    Attributes:
-        token (str): Токен авторизации.
-        chatID (str): ID чата.
-        characterID (str): ID персонажа.
     """
     def __init__(self, token: str, chatID: str, characterID: str = 1):
+        """
+        Инициализирует объект Conversation.
+        """
         self.token = token
         self.chatID = chatID
         self.characterID = characterID
@@ -91,17 +70,11 @@ class Conversation(JsonConversation):
 class HailuoAI(AsyncAuthedProvider, ProviderModelMixin):
     """
     Провайдер для взаимодействия с Hailuo AI.
-    =========================================
 
-    Предоставляет методы для аутентификации и создания запросов к API Hailuo AI.
+    Этот класс позволяет асинхронно взаимодействовать с Hailuo AI, поддерживая стриминг ответов.
 
-    Attributes:
-        label (str): Метка провайдера.
-        url (str): URL API Hailuo AI.
-        working (bool): Флаг, указывающий на работоспособность провайдера.
-        use_nodriver (bool): Флаг, указывающий на использование без драйвера.
-        supports_stream (bool): Флаг, указывающий на поддержку стриминга.
-        default_model (str): Модель по умолчанию.
+    Пример использования:
+        >>> HailuoAI.create_authed(model="MiniMax", messages=[{"role": "user", "content": "Hello"}], auth_result=auth_result)
     """
     label = 'Hailuo AI'
     url = 'https://www.hailuo.ai'
@@ -109,43 +82,30 @@ class HailuoAI(AsyncAuthedProvider, ProviderModelMixin):
     use_nodriver = True
     supports_stream = True
     default_model = 'MiniMax'
-    G4F_LOGIN_URL = os.environ.get('G4F_LOGIN_URL') # получение url
 
     @classmethod
-    async def on_auth_async(cls, proxy: Optional[str] = None, **kwargs: Any) -> AsyncIterator:
+    async def on_auth_async(cls, proxy: Optional[str] = None, **kwargs) -> AsyncIterator:
         """
         Асинхронно выполняет аутентификацию.
 
         Args:
             proxy (Optional[str], optional): Прокси-сервер. По умолчанию None.
-            **kwargs (Any): Дополнительные аргументы.
 
         Yields:
             AsyncIterator: Результаты аутентификации.
-
-        Raises:
-            Exception: В случае ошибки при аутентификации.
-
-        Example:
-            >>> async for result in HailuoAI.on_auth_async():
-            ...     print(result)
         """
-        if cls.G4F_LOGIN_URL:
-            yield RequestLogin(cls.label, cls.G4F_LOGIN_URL)
-        callback_results = CallbackResults()
-        try:
-            auth_args = await get_args_from_nodriver(
+        login_url = os.environ.get('G4F_LOGIN_URL') # Получение URL для логина из переменных окружения
+        if login_url:
+            yield RequestLogin(cls.label, login_url) # Возврат запроса на логин, если URL найден
+        callback_results = CallbackResults() # Создание объекта для хранения результатов callback
+        yield AuthResult(
+            **await get_args_from_nodriver( # Получение аргументов от nodriver
                 cls.url,
                 proxy=proxy,
-                callback=await get_browser_callback(callback_results)
-            )
-            yield AuthResult(
-                **auth_args,
-                **callback_results.get_dict()
-            )
-        except Exception as ex:
-            logger.error('Error during authentication', ex, exc_info=True)
-            raise
+                callback=await get_browser_callback(callback_results) # Получение callback из браузера
+            ),
+            **callback_results.get_dict() # Добавление результатов callback в AuthResult
+        )
 
     @classmethod
     async def create_authed(
@@ -155,77 +115,72 @@ class HailuoAI(AsyncAuthedProvider, ProviderModelMixin):
         auth_result: AuthResult,
         return_conversation: bool = False,
         conversation: Optional[Conversation] = None,
-        **kwargs: Any
+        **kwargs
     ) -> AsyncResult:
         """
-        Создает аутентифицированный запрос к API.
+        Создает аутентифицированный запрос к Hailuo AI.
 
         Args:
-            model (str): Модель для запроса.
-            messages (Messages): Сообщения для отправки.
+            model (str): Модель для использования.
+            messages (Messages): Список сообщений для отправки.
             auth_result (AuthResult): Результат аутентификации.
-            return_conversation (bool, optional): Флаг, указывающий на необходимость возврата информации о разговоре. По умолчанию False.
-            conversation (Optional[Conversation], optional): Объект разговора. По умолчанию None.
-            **kwargs (Any): Дополнительные аргументы.
+            return_conversation (bool, optional): Нужно ли возвращать объект Conversation. По умолчанию False.
+            conversation (Optional[Conversation], optional): Объект Conversation. По умолчанию None.
 
         Yields:
             AsyncResult: Результат запроса.
-
-        Raises:
-            Exception: В случае ошибки при создании запроса.
         """
-        args = auth_result.get_dict().copy()
-        args.pop('impersonate')
-        token = args.pop('token')
-        path_and_query = args.pop('path_and_query')
-        timestamp = args.pop('timestamp')
+        args: dict[str, str] = auth_result.get_dict().copy() # Копирование аргументов из auth_result
+        args.pop('impersonate') # Удаление 'impersonate' из аргументов
+        token: str = args.pop('token') # Извлечение токена из аргументов
+        path_and_query: str = args.pop('path_and_query') # Извлечение пути запроса из аргументов
+        timestamp: str = args.pop('timestamp') # Извлечение timestamp
 
-        async with ClientSession(**args) as session:
-            if conversation is not None and conversation.token != token:
-                conversation = None
-            form_data: Dict[str, Any] = {
-                'characterID': 1 if conversation is None else getattr(conversation, 'characterID', 1),
-                'msgContent': format_prompt(messages) if conversation is None else get_last_user_message(messages),
-                'chatID': 0 if conversation is None else getattr(conversation, 'chatID', 0),
-                'searchMode': 0
+        async with ClientSession(**args) as session: # Создание асинхронной сессии
+            if conversation is not None and conversation.token != token: # Проверка conversation и токена
+                conversation = None # Сброс conversation, если токен не совпадает
+
+            form_data: Dict[str, str] = {
+                'characterID': str(1 if conversation is None else conversation.characterID), # characterID
+                'msgContent': format_prompt(messages) if conversation is None else get_last_user_message(messages), # Содержимое сообщения
+                'chatID': str(0 if conversation is None else conversation.chatID), # ID чата
+                'searchMode': '0' # Режим поиска
             }
-            data = FormData(default_to_multipart=True)
+            data: FormData = FormData(default_to_multipart=True) # Создание FormData
             for name, value in form_data.items():
-                form_data[name] = str(value)
-                data.add_field(name, str(value))
-            headers = {
+                data.add_field(name, value) # Добавление полей в FormData
+
+            headers: Dict[str, str] = {
                 'token': token,
-                'yy': generate_yy_header(auth_result.path_and_query, get_body_to_yy(form_data), timestamp)
+                'yy': generate_yy_header(auth_result.path_and_query, get_body_to_yy(form_data), timestamp) # Генерация заголовка yy
             }
-            try:
-                async with session.post(f'{cls.url}{path_and_query}', data=data, headers=headers) as response:
-                    await raise_for_status(response)
-                    event: Optional[str] = None
-                    yield_content_len = 0
-                    async for line in response.content:
-                        if not line:
-                            continue
-                        if line.startswith(b'event:'):
-                            event = line[6:].decode(errors='replace').strip()
-                            if event == 'close_chunk':
-                                break
-                        if line.startswith(b'data:'):
-                            try:
-                                data = json.loads(line[5:])
-                            except json.JSONDecodeError as ex:
-                                logger.error(f'Failed to decode JSON: {line}', ex, exc_info=True)
-                                continue
-                            if event == 'send_result':
-                                send_result = data['data']['sendResult']
-                                if 'chatTitle' in send_result:
-                                    yield TitleGeneration(send_result['chatTitle'])
-                                if 'chatID' in send_result and return_conversation:
-                                    yield Conversation(token, send_result['chatID'])
-                            elif event == 'message_result':
-                                message_result = data['data']['messageResult']
-                                if 'content' in message_result:
-                                    yield message_result['content'][yield_content_len:]
-                                    yield_content_len = len(message_result['content'])
-            except Exception as ex:
-                logger.error('Error during request', ex, exc_info=True)
-                raise
+            async with session.post(f'{cls.url}{path_and_query}', data=data, headers=headers) as response: # POST запрос
+                await raise_for_status(response) # Проверка статуса ответа
+                event: Optional[str] = None # Инициализация переменной для события
+                yield_content_len: int = 0 # Инициализация длины контента
+
+                async for line in response.content: # Асинхронный перебор строк в ответе
+                    if not line:
+                        continue # Пропуск пустых строк
+                    if line.startswith(b'event:'):
+                        event = line[6:].decode(errors='replace').strip() # Извлечение события
+                        if event == 'close_chunk':
+                            break # Выход из цикла, если событие 'close_chunk'
+                    if line.startswith(b'data:'):
+                        try:
+                            data_line: dict[str, Any] = json.loads(line[5:]) # Загрузка JSON из строки
+                        except json.JSONDecodeError as ex:
+                            logger.error(f'Failed to decode JSON: {line}, error: {ex}', exc_info=True) # Логирование ошибки декодирования JSON
+                            continue # Переход к следующей строке
+
+                        if event == 'send_result':
+                            send_result: dict[str, Any] = data_line['data']['sendResult'] # Извлечение sendResult
+                            if 'chatTitle' in send_result:
+                                yield TitleGeneration(send_result['chatTitle']) # Генерация заголовка
+                            if 'chatID' in send_result and return_conversation:
+                                yield Conversation(token, send_result['chatID']) # Возврат объекта Conversation
+                        elif event == 'message_result':
+                            message_result: dict[str, Any] = data_line['data']['messageResult'] # Извлечение messageResult
+                            if 'content' in message_result:
+                                yield message_result['content'][yield_content_len:] # Извлечение контента
+                                yield_content_len = len(message_result['content']) # Обновление длины контента

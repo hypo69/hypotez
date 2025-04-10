@@ -4,53 +4,73 @@
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код выполняет логику успешной оплаты, включая добавление записи о покупке, отправку уведомлений администраторам и предоставление информации пользователю.
-    - Использование `AsyncSession` для асинхронной работы с базой данных.
-    - Использование `logger` для логирования ошибок.
+    - Код достаточно хорошо структурирован и логически понятен.
+    - Используются асинхронные функции, что хорошо для производительности.
+    - Присутствует обработка исключений при отправке уведомлений администраторам.
+    - Использование `PurchaseDao` и `ProductDao` для работы с базой данных.
 - **Минусы**:
-    - Отсутствуют аннотации типов для переменных, полученных из `payment_data`.
-    - Обработка исключений для отправки уведомлений администраторам может быть улучшена.
+    - Отсутствуют аннотации типов для переменных `payment_data`, `currency`, `user_tg_id`, `bot`.
+    - Исключение перехватывается как `e`, следует использовать `ex`.
+    - Не используется модуль `logger` из `src.logger`.
+    - В строке `file_text = "📦 <b>Товар включает файл:</b>" if product_data.file_id else "📄 <b>Товар не включает файлы:</b>"` нет пробелов вокруг оператора `=`
+    - Отсутствуют docstring для функции `successful_payment_logic`.
     - Использованы двойные кавычки.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить аннотации типов**:
-    - Добавить аннотации типов для переменных, полученных из `payment_data`, чтобы улучшить читаемость и облегчить отладку.
-2.  **Улучшить обработку исключений**:
-    - В блоке `except` при отправке уведомлений администраторам, вместо простого логирования ошибки, можно добавить дополнительную логику, например, повторную отправку уведомления через некоторое время или отправку уведомления в резервный канал.
-3.  **Использовать одинарные кавычки**:
-    - Заменить двойные кавычки на одинарные.
-4.  **Добавить Docstring**:
-    - Добавить описание в Docstring для каждой функции, включая описание параметров, возвращаемого значения и возможных исключений.
-5.  **Использовать f-строки**:
-    - В f-строках нет необходимости оборачивать переменные в фигурные скобки, если сразу указан метод.
+1.  **Добавить docstring для функции `successful_payment_logic`**:
+
+    ```python
+    async def successful_payment_logic(session: AsyncSession, payment_data: dict, currency: str, user_tg_id: int, bot: Bot):
+        """
+        Обрабатывает успешную оплату товара: добавляет запись о покупке в БД,
+        отправляет уведомления администраторам и пользователю.
+
+        Args:
+            session (AsyncSession): Сессия базы данных SQLAlchemy.
+            payment_data (dict): Данные об оплате.
+            currency (str): Валюта платежа.
+            user_tg_id (int): ID пользователя в Telegram.
+            bot (Bot): Экземпляр бота aiogram.
+
+        Returns:
+            None
+
+        Raises:
+            Exception: При возникновении ошибки при отправке уведомления администраторам.
+
+        Example:
+            # Пример использования функции
+            >>> await successful_payment_logic(session, payment_data, currency, user_tg_id, bot)
+        """
+    ```
+
+2.  **Использовать одинарные кавычки**: Заменить все двойные кавычки на одинарные.
+3.  **Добавить аннотации типов**: Указать типы для всех переменных и параметров функций.
+4.  **Использовать `logger` из `src.logger`**: Заменить `from loguru import logger` на `from src.logger import logger` и использовать его для логирования ошибок.
+5.  **Переименовать переменную исключения**: Заменить `except Exception as e` на `except Exception as ex`.
+6.  **Добавить пробелы вокруг операторов присваивания**: Добавить пробелы вокруг оператора `=` для повышения читаемости.
 
 **Оптимизированный код:**
 
 ```python
 from aiogram import Bot
-from loguru import logger
+from src.logger import logger
 from sqlalchemy.ext.asyncio import AsyncSession
 from bot.config import settings
 from bot.dao.dao import PurchaseDao, ProductDao
 from bot.user.kbs import main_user_kb
 from bot.user.schemas import PaymentData
-from typing import Dict, Any
 
-async def successful_payment_logic(
-    session: AsyncSession,
-    payment_data: Dict[str, Any],
-    currency: str,
-    user_tg_id: int,
-    bot: Bot
-) -> None:
+
+async def successful_payment_logic(session: AsyncSession, payment_data: dict, currency: str, user_tg_id: int, bot: Bot) -> None:
     """
-    Обрабатывает логику успешной оплаты, добавляет запись о покупке,
-    отправляет уведомления администраторам и предоставляет информацию пользователю.
+    Обрабатывает успешную оплату товара: добавляет запись о покупке в БД,
+    отправляет уведомления администраторам и пользователю.
 
     Args:
         session (AsyncSession): Сессия базы данных SQLAlchemy.
-        payment_data (Dict[str, Any]): Данные об оплате.
+        payment_data (dict): Данные об оплате.
         currency (str): Валюта платежа.
         user_tg_id (int): ID пользователя в Telegram.
         bot (Bot): Экземпляр бота aiogram.
@@ -59,7 +79,11 @@ async def successful_payment_logic(
         None
 
     Raises:
-        Exception: Если возникает ошибка при отправке уведомления администраторам.
+        Exception: При возникновении ошибки при отправке уведомления администраторам.
+
+    Example:
+        # Пример использования функции
+        >>> await successful_payment_logic(session, payment_data, currency, user_tg_id, bot)
     """
     product_id: int = int(payment_data.get('product_id'))
     price: str = payment_data.get('price')
@@ -86,15 +110,15 @@ async def successful_payment_logic(
     # Отправка информации пользователю
     file_text: str = '📦 <b>Товар включает файл:</b>' if product_data.file_id else '📄 <b>Товар не включает файлы:</b>'
     product_text: str = (
-        f'🎉 <b>Спасибо за покупку!</b>\n\n'
-        f'🛒 <b>Информация о вашем товаре:</b>\n'
-        f'━━━━━━━━━━━━━━━━━━\n'
-        f'🔹 <b>Название:</b> <b>{product_data.name}</b>\n'
-        f'🔹 <b>Описание:</b>\n<i>{product_data.description}</i>\n'
-        f'🔹 <b>Цена:</b> <b>{price} {currency}</b>\n'
-        f'🔹 <b>Закрытое описание:</b>\n<i>{product_data.hidden_content}</i>\n'
-        f'━━━━━━━━━━━━━━━━━━\n'
-        f'{file_text}\n\n'
+        f'🎉 <b>Спасибо за покупку!</b>\\n\\n'
+        f'🛒 <b>Информация о вашем товаре:</b>\\n'
+        f'━━━━━━━━━━━━━━━━━━\\n'
+        f'🔹 <b>Название:</b> <b>{product_data.name}</b>\\n'
+        f'🔹 <b>Описание:</b>\\n<i>{product_data.description}</i>\\n'
+        f'🔹 <b>Цена:</b> <b>{price} {currency}</b>\\n'
+        f'🔹 <b>Закрытое описание:</b>\\n<i>{product_data.hidden_content}</i>\\n'
+        f'━━━━━━━━━━━━━━━━━━\\n'
+        f'{file_text}\\n\\n'
         f'ℹ️ <b>Информацию о всех ваших покупках вы можете найти в личном профиле.</b>'
     )
 

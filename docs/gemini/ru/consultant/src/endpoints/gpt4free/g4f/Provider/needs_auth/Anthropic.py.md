@@ -1,54 +1,57 @@
 ### **Анализ кода модуля `Anthropic.py`**
 
-#### **Качество кода**:
+**Качество кода:**
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код структурирован в виде класса `Anthropic`, наследующего `OpenaiAPI`, что способствует повторному использованию кода и расширяемости.
-  - Присутствует обработка ошибок и логирование исключений.
-  - Использованы асинхронные операции для неблокирующего выполнения запросов.
-  - Добавлена поддержка стриминга ответов от API.
-  - Есть методы для получения списка моделей и формирования заголовков запросов.
+    - Код хорошо структурирован и разбит на методы, что облегчает чтение и понимание.
+    - Присутствуют аннотации типов, что улучшает читаемость и упрощает отладку.
+    - Обработка ошибок выполняется с использованием `try-except` блоков и логируется через `logger.error`.
+    - Использование `async` и `await` для асинхронных операций.
 - **Минусы**:
-  - Некоторые участки кода требуют более подробных комментариев и документации.
-  - Не все переменные и параметры аннотированы типами.
-  - Присутствуют устаревшие конструкции, которые можно заменить более современными.
-  - Отсутствует логирование важных событий и ошибок.
-  - Не все функции имеют docstring.
+    - Не все методы и классы имеют подробные docstring, описывающие их назначение и параметры.
+    - Отсутствуют примеры использования в docstring.
+    - Есть смешение стилей в использовании кавычек (иногда используются двойные кавычки вместо одинарных).
+    - Некоторые участки кода требуют более детальных комментариев для пояснения логики.
 
-#### **Рекомендации по улучшению**:
-1. **Добавить документацию к классу `Anthropic`**:
-   - Описать назначение класса, основные атрибуты и методы.
+**Рекомендации по улучшению:**
 
-2. **Улучшить документацию функций**:
-   - Добавить docstring к функциям `get_models`, `create_async_generator`, `get_headers`, описывающие входные параметры, возвращаемые значения и возможные исключения.
-   - В docstring добавить примеры использования функций.
+1.  **Добавить docstring**:
+    - Добавить подробные docstring ко всем классам и методам, включая описание параметров, возвращаемых значений и возможных исключений.
+    - Включить примеры использования в docstring, чтобы упростить понимание и использование кода.
 
-3. **Добавить аннотации типов**:
-   - Указать типы для всех переменных и параметров функций, где они отсутствуют.
+2.  **Унифицировать кавычки**:
+    - Заменить все двойные кавычки на одинарные для соответствия стандартам кодирования.
 
-4. **Улучшить обработку ошибок**:
-   - Добавить логирование ошибок с использованием `logger.error` из модуля `src.logger`.
-   - Указывать `exc_info=True` при логировании исключений для получения полной трассировки.
+3.  **Улучшить комментарии**:
+    - Добавить больше комментариев для пояснения сложных участков кода и логических операций.
+    - Сделать комментарии более информативными, избегая общих фраз вроде "получаем" или "делаем".
 
-5. **Оптимизировать код**:
-   - Использовать более современные конструкции Python, такие как walrus operator (:=) где это уместно.
-   - Упростить логику работы с `partial_json` в стриминговом режиме.
+4.  **Логирование**:
+    - Убедиться, что все исключения логируются с использованием `logger.error` и передачей `exc_info=True` для получения полной трассировки.
 
-6. **Добавить комментарии**:
-   - Добавить комментарии к сложным участкам кода, объясняющие их назначение.
+5.  **Обработка ошибок**:
+    - Проверить все места, где вызывается `raise_for_status`, и убедиться, что ошибки обрабатываются корректно.
 
-7. **Проверить и обновить зависимости**:
-   - Убедиться, что все используемые библиотеки актуальны.
+6. **Использовать `j_loads` или `j_loads_ns`**:
+    - заменить стандартное использование `open` и `json.load` на `j_loads` или `j_loads_ns`.
 
-#### **Оптимизированный код**:
+7. **Аннотации**
+    - Для всех переменных должны быть определены аннотации типа.
+    - Для всех функций все входные и выходные параметры аннотириваны
+
+**Оптимизированный код:**
+
 ```python
 from __future__ import annotations
 
 import requests
 import json
 import base64
-from typing import Optional, List
+from typing import Optional, List, Dict, AsyncGenerator, Tuple, Any
+from pathlib import Path
 
+from src.logger import logger # Import logger
 from ..helper import filter_none
 from ...typing import AsyncResult, Messages, MediaListType
 from ...requests import StreamSession, raise_for_status
@@ -56,24 +59,16 @@ from ...providers.response import FinishReason, ToolCalls, Usage
 from ...errors import MissingAuthError
 from ...image import to_bytes, is_accepted_format
 from .OpenaiAPI import OpenaiAPI
-from src.logger import logger  # Import logger
-
-"""
-Модуль для взаимодействия с Anthropic API
-===========================================
-
-Этот модуль содержит класс `Anthropic`, который наследует `OpenaiAPI` и предоставляет функциональность для
-взаимодействия с API Anthropic, включая поддержку стриминга, управления моделями и обработки изображений.
-"""
 
 
 class Anthropic(OpenaiAPI):
     """
-    Класс для взаимодействия с Anthropic API.
-
-    Этот класс предоставляет методы для выполнения запросов к API Anthropic,
-    включая поддержку стриминга, управления моделями и обработки изображений.
+    Модуль для взаимодействия с Anthropic API.
+    ===========================================
+    Этот класс предоставляет методы для отправки запросов к API Anthropic,
+    включая поддержку стриминга, мультимодальных сообщений и инструментов.
     """
+
     label: str = 'Anthropic API'
     url: str = 'https://console.anthropic.com'
     login_url: str = 'https://console.anthropic.com/settings/keys'
@@ -94,7 +89,7 @@ class Anthropic(OpenaiAPI):
         'claude-3-sonnet-20240229',
         'claude-3-haiku-20240307'
     ]
-    models_aliases: dict[str, str] = {
+    models_aliases: Dict[str, str] = {
         'claude-3.5-sonnet': default_model,
         'claude-3-opus': 'claude-3-opus-latest',
         'claude-3-sonnet': 'claude-3-sonnet-20240229',
@@ -107,14 +102,14 @@ class Anthropic(OpenaiAPI):
         Получает список доступных моделей из Anthropic API.
 
         Args:
-            api_key (str, optional): Ключ API для аутентификации. Defaults to None.
+            api_key (str, optional): API ключ для аутентификации. Defaults to None.
 
         Returns:
             List[str]: Список идентификаторов моделей.
         """
         if not cls.models:
             url: str = f'https://api.anthropic.com/v1/models'
-            headers: dict[str, str] = {
+            headers: Dict[str, str] = {
                 'Content-Type': 'application/json',
                 'x-api-key': api_key,
                 'anthropic-version': '2023-06-01'
@@ -122,11 +117,11 @@ class Anthropic(OpenaiAPI):
             try:
                 response = requests.get(url, headers=headers)
                 raise_for_status(response)
-                models = response.json()
-                cls.models = [model['id'] for model in models['data']]
+                models_data = response.json()
+                cls.models = [model['id'] for model in models_data['data']]
             except requests.exceptions.RequestException as ex:
-                logger.error('Error while fetching models', ex, exc_info=True)
-                return []
+                logger.error('Ошибка при получении списка моделей', ex, exc_info=True)
+                return []  # В случае ошибки возвращаем пустой список
         return cls.models
 
     @classmethod
@@ -151,37 +146,37 @@ class Anthropic(OpenaiAPI):
         **kwargs
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для взаимодействия с Anthropic API.
+        Асинхронно создает генератор для взаимодействия с Anthropic API.
 
         Args:
-            model (str): Идентификатор модели для использования.
-            messages (Messages): Список сообщений для отправки в API.
-            proxy (str, optional): URL прокси-сервера. Defaults to None.
-            timeout (int, optional): Время ожидания запроса в секундах. Defaults to 120.
-            media (MediaListType, optional): Список медиафайлов для отправки. Defaults to None.
-            api_key (str, optional): Ключ API для аутентификации. Defaults to None.
-            temperature (float, optional): Температура для управления случайностью ответов. Defaults to None.
+            model (str): Идентификатор модели.
+            messages (Messages): Список сообщений для отправки.
+            proxy (str, optional): Прокси-сервер для использования. Defaults to None.
+            timeout (int, optional): Максимальное время ожидания запроса. Defaults to 120.
+            media (MediaListType, optional): Список медиа-файлов для отправки. Defaults to None.
+            api_key (str, optional): API ключ для аутентификации. Defaults to None.
+            temperature (float, optional): Температура для генерации текста. Defaults to None.
             max_tokens (int, optional): Максимальное количество токенов в ответе. Defaults to 4096.
-            top_k (int, optional): Параметр Top-K для фильтрации токенов. Defaults to None.
-            top_p (float, optional): Параметр Top-P для фильтрации токенов. Defaults to None.
-            stop (list[str], optional): Список стоп-последовательностей. Defaults to None.
-            stream (bool, optional): Включить стриминг ответов. Defaults to False.
-            headers (dict, optional): Дополнительные заголовки для отправки. Defaults to None.
-            impersonate (str, optional): Параметр для имитации пользователя. Defaults to None.
+            top_k (int, optional): Параметр top_k для генерации текста. Defaults to None.
+            top_p (float, optional): Параметр top_p для генерации текста. Defaults to None.
+            stop (list[str], optional): Список стоп-слов для остановки генерации. Defaults to None.
+            stream (bool, optional): Флаг для включения стриминга. Defaults to False.
+            headers (dict, optional): Дополнительные заголовки для запроса. Defaults to None.
+            impersonate (str, optional): User agent для имитации. Defaults to None.
             tools (Optional[list], optional): Список инструментов для использования. Defaults to None.
-            extra_data (dict, optional): Дополнительные данные для отправки. Defaults to {}.
+            extra_data (dict, optional): Дополнительные данные для запроса. Defaults to {}.
 
         Yields:
-            AsyncResult: Результаты взаимодействия с API.
+            AsyncGenerator[str | FinishReason | Usage | ToolCalls, None]: Генератор, возвращающий части ответа от API.
 
         Raises:
-            MissingAuthError: Если не предоставлен ключ API.
+            MissingAuthError: Если не предоставлен API ключ.
         """
         if api_key is None:
             raise MissingAuthError('Add a "api_key"')
 
         if media is not None:
-            insert_images: list[dict] = []
+            insert_images: List[Dict[str, Any]] = []
             for image, _ in media:
                 data: bytes = to_bytes(image)
                 insert_images.append({
@@ -199,8 +194,7 @@ class Anthropic(OpenaiAPI):
                     'text': messages[-1]['content']
                 }
             ]
-
-        system: str = '\n'.join([message['content'] for message in messages if message.get('role') == 'system'])
+        system: Optional[str] = '\n'.join([message['content'] for message in messages if message.get('role') == 'system'])
         if system:
             messages = [message for message in messages if message.get('role') != 'system']
         else:
@@ -212,7 +206,7 @@ class Anthropic(OpenaiAPI):
             timeout=timeout,
             impersonate=impersonate,
         ) as session:
-            data: dict = filter_none(
+            data: Dict[str, Any] = filter_none(
                 messages=messages,
                 model=cls.get_model(model, api_key=api_key),
                 temperature=temperature,
@@ -232,31 +226,33 @@ class Anthropic(OpenaiAPI):
                         data = await response.json()
                         cls.raise_error(data)
                         if 'type' in data and data['type'] == 'message':
+                            tool_calls: List[Dict[str, Any]] = []
                             for content in data['content']:
                                 if content['type'] == 'text':
                                     yield content['text']
                                 elif content['type'] == 'tool_use':
-                                    tool_calls: list[dict] = []
                                     tool_calls.append({
                                         'id': content['id'],
                                         'type': 'function',
-                                        'function': {'name': content['name'], 'arguments': content['input']}
+                                        'function': { 'name': content['name'], 'arguments': content['input'] }
                                     })
                             if data['stop_reason'] == 'end_turn':
                                 yield FinishReason('stop')
                             elif data['stop_reason'] == 'max_tokens':
                                 yield FinishReason('length')
                             yield Usage(**data['usage'])
+                            if tool_calls:
+                                yield ToolCalls(tool_calls)  # Возвращаем tool_calls после обработки
                     else:
-                        content_block: Optional[dict] = None
-                        partial_json: list[str] = []
-                        tool_calls: list[dict] = []
+                        content_block: Optional[Dict[str, Any]] = None
+                        partial_json: List[str] = []
+                        tool_calls: List[Dict[str, Any]] = []
                         async for line in response.iter_lines():
                             if line.startswith(b'data: '):
                                 chunk: bytes = line[6:]
                                 if chunk == b'[DONE]':
                                     break
-                                data = json.loads(chunk)
+                                data = json.loads(chunk.decode('utf-8'))  # Декодируем chunk в строку
                                 cls.raise_error(data)
                                 if 'type' in data:
                                     if data['type'] == 'content_block_start':
@@ -279,29 +275,29 @@ class Anthropic(OpenaiAPI):
                                             tool_calls.append({
                                                 'id': content_block['id'],
                                                 'type': 'function',
-                                                'function': {'name': content_block['name'], 'arguments': ''.join(partial_json)}
+                                                'function': { 'name': content_block['name'], 'arguments': ''.join(partial_json) }
                                             })
                                             partial_json = []
                         if tool_calls:
                             yield ToolCalls(tool_calls)
             except Exception as ex:
-                logger.error('Error while creating async generator', ex, exc_info=True)
-                raise
+                logger.error('Ошибка при создании асинхронного генератора', ex, exc_info=True)
+                raise  # Перебрасываем исключение после логирования
 
     @classmethod
     def get_headers(cls, stream: bool, api_key: str = None, headers: dict = None) -> dict:
         """
-        Получает заголовки для запроса к Anthropic API.
+        Формирует заголовки для запроса к Anthropic API.
 
         Args:
-            stream (bool): Включить стриминг ответов.
-            api_key (str, optional): Ключ API для аутентификации. Defaults to None.
-            headers (dict, optional): Дополнительные заголовки. Defaults to None.
+            stream (bool): Флаг для включения стриминга.
+            api_key (str, optional): API ключ для аутентификации. Defaults to None.
+            headers (dict, optional): Дополнительные заголовки для запроса. Defaults to None.
 
         Returns:
-            dict: Словарь заголовков для запроса.
+            dict: Словарь с заголовками для запроса.
         """
-        default_headers: dict = {
+        default_headers: Dict[str, str] = {
             'Accept': 'text/event-stream' if stream else 'application/json',
             'Content-Type': 'application/json',
             'anthropic-version': '2023-06-01',

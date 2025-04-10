@@ -1,64 +1,60 @@
 ### **Анализ кода модуля `GeminiPro.py`**
 
-#### **Качество кода**:
-- **Соответствие стандартам**: 7/10
-- **Плюсы**:
-    - Асинхронная реализация для неблокирующего выполнения.
-    - Использование `ProviderModelMixin` для работы с моделями.
-    - Обработка как streaming, так и не-streaming запросов.
-    - Поддержка system_message.
-- **Минусы**:
-    - Отсутствие документации и аннотаций типов.
-    - Смешанный стиль кавычек.
-    - Не используется `logger` для логирования ошибок.
-    - Не используются `j_loads` или `j_loads_ns`.
-    - Использование `Union` вместо `|`.
-    - Обработка ошибок происходит без использования `logger.error`.
+2. **Качество кода**:
+   - **Соответствие стандартам**: 7/10
+   - **Плюсы**:
+     - Использование асинхронных операций для неблокирующего выполнения.
+     - Реализация поддержки стриминга ответов.
+     - Наличие обработки ошибок и логирования.
+     - Класс `GeminiPro` предоставляет методы для получения моделей и создания асинхронных генераторов.
+     - Использование `try-except` блоков для обработки исключений при запросах к API.
+   - **Минусы**:
+     - Отсутствие подробной документации к большинству функций и параметров.
+     - Не все переменные аннотированы типами.
+     - Смешанный стиль кавычек (использование как двойных, так и одинарных кавычек).
+     - Некоторые участки кода сложны для понимания из-за отсутствия комментариев.
+     - Использование `debug.error(e)` вместо `logger.error(e, exc_info=True)` для логирования ошибок.
+     - Не все импорты используются.
 
-#### **Рекомендации по улучшению**:
-1.  **Добавить документацию**:
-    - Добавить docstring к классам и методам, описывающие их назначение, параметры и возвращаемые значения.
-2.  **Использовать аннотации типов**:
-    - Добавить аннотации типов для переменных и параметров функций.
-3.  **Улучшить обработку ошибок**:
-    - Использовать `logger.error` для логирования ошибок с передачей `ex` и `exc_info=True`.
-4.  **Унифицировать стиль кавычек**:
-    - Использовать только одинарные кавычки.
-5.  **Заменить `Union` на `|`**:
-    - Использовать `|` вместо `Union`.
-6.  **Использовать `j_loads` или `j_loads_ns`**:
-    - Для чтения JSON или конфигурационных файлов.
-7.  **Удалить неиспользуемые импорты**:
-    - Проверить и удалить неиспользуемые импорты.
-8. **Использовать driver.execute_locator**:
-    - Если в коде используется webdriver, знай как его использовать
-    наследуй Driver, Chrome, Firexox, Playwright
-    Далее определи так
-    # Создание инстанса драйвера (пример с Chrome)
-    driver = Drivewr(Chrome)
-    В модулях Driver И Chrome, Firexox, Playwright уже содержатся все настройки selenium.
-    Основная комада, которая используется в коде: `driver.execute_locator(l:dict)`
-    Она возвращает аначение вебэелемента по локатору.
+3. **Рекомендации по улучшению**:
+   - Добавить docstring к классу `GeminiPro` с описанием его назначения и основных методов.
+   - Добавить docstring к методам `get_models` и `create_async_generator` с подробным описанием параметров и возвращаемых значений.
+   - Заменить `debug.error(e)` на `logger.error(e, exc_info=True)` для более информативного логирования ошибок.
+   - Использовать только одинарные кавычки для строк.
+   - Добавить аннотации типов для всех переменных и параметров функций.
+   - Улучшить обработку ошибок, чтобы предоставлять более конкретные сообщения об ошибках.
+   - Избавиться от неиспользуемых импортов.
 
-#### **Оптимизированный код**:
+4. **Оптимизированный код**:
 
 ```python
 """
-Модуль для взаимодействия с Google Gemini API.
-================================================
+Модуль для работы с Gemini Pro API от Google
+============================================
 
-Предоставляет асинхронный класс `GeminiPro` для генерации контента с использованием моделей Gemini.
-Поддерживает streaming, system_message и работу с media.
+Модуль содержит класс :class:`GeminiPro`, который используется для взаимодействия с API Gemini Pro
+для генерации контента на основе текстовых запросов и медиа-файлов.
+
+Пример использования:
+----------------------
+
+>>> api_key = "YOUR_API_KEY"
+>>> model = "gemini-1.5-pro"
+>>> messages = [{"role": "user", "content": "Hello, Gemini!"}]
+>>> generator = await GeminiPro.create_async_generator(model=model, messages=messages, api_key=api_key)
+>>> async for chunk in generator:
+...     print(chunk)
 """
-
 from __future__ import annotations
 
 import base64
 import json
 import requests
-from typing import Optional
+from typing import Optional, List, AsyncGenerator, Tuple, Dict, Any, Union
+from pathlib import Path
 from aiohttp import ClientSession, BaseConnector
 
+from src.logger import logger #  Используем logger из src.logger
 from ...typing import AsyncResult, Messages, MediaListType
 from ...image import to_bytes, is_data_an_media
 from ...errors import MissingAuthError
@@ -66,15 +62,13 @@ from ...requests.raise_for_status import raise_for_status
 from ...providers.response import Usage, FinishReason
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ..helper import get_connector
-from ... import debug
-from src.logger import logger  # Добавлен импорт logger
 
 
 class GeminiPro(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Асинхронный провайдер для Google Gemini API.
+    Провайдер для доступа к Google Gemini API.
 
-    Поддерживает streaming, system_message и работу с media.
+    Поддерживает текстовые и мультимодальные запросы.
     """
 
     label: str = 'Google Gemini API'
@@ -89,8 +83,8 @@ class GeminiPro(AsyncGeneratorProvider, ProviderModelMixin):
 
     default_model: str = 'gemini-1.5-pro'
     default_vision_model: str = default_model
-    fallback_models: list[str] = [default_model, 'gemini-2.0-flash-exp', 'gemini-pro', 'gemini-1.5-flash', 'gemini-1.5-flash-8b']
-    model_aliases: dict[str, str] = {
+    fallback_models: List[str] = [default_model, 'gemini-2.0-flash-exp', 'gemini-pro', 'gemini-1.5-flash', 'gemini-1.5-flash-8b']
+    model_aliases: Dict[str, str] = {
         'gemini-1.5-flash': 'gemini-1.5-flash',
         'gemini-1.5-flash': 'gemini-1.5-flash-8b',
         'gemini-1.5-pro': 'gemini-pro',
@@ -107,7 +101,7 @@ class GeminiPro(AsyncGeneratorProvider, ProviderModelMixin):
             api_base (str, optional): Базовый URL API. Defaults to api_base.
 
         Returns:
-            list[str]: Список моделей.
+            list[str]: Список доступных моделей.
 
         Raises:
             MissingAuthError: Если API ключ недействителен.
@@ -118,14 +112,14 @@ class GeminiPro(AsyncGeneratorProvider, ProviderModelMixin):
                 response = requests.get(url, params={'key': api_key})
                 raise_for_status(response)
                 data: dict = response.json()
-                cls.models = [
+                cls.models: List[str] = [
                     model.get('name').split('/').pop()
                     for model in data.get('models')
                     if 'generateContent' in model.get('supportedGenerationMethods')
                 ]
                 cls.models.sort()
             except Exception as ex:
-                logger.error('Error while getting models', ex, exc_info=True) # Логирование ошибки
+                logger.error(ex, exc_info=True) #  Используем logger.error для логирования ошибок
                 if api_key is not None:
                     raise MissingAuthError('Invalid API key')
                 return cls.fallback_models
@@ -147,34 +141,35 @@ class GeminiPro(AsyncGeneratorProvider, ProviderModelMixin):
         **kwargs
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для запросов к Gemini API.
+        Создает асинхронный генератор для взаимодействия с Gemini API.
 
         Args:
             model (str): Название модели.
-            messages (Messages): Список сообщений.
-            stream (bool, optional): Использовать streaming. Defaults to False.
+            messages (Messages): Список сообщений для отправки.
+            stream (bool, optional): Использовать ли стриминг. Defaults to False.
             proxy (str, optional): Proxy URL. Defaults to None.
             api_key (str, optional): API ключ. Defaults to None.
             api_base (str, optional): Базовый URL API. Defaults to api_base.
-            use_auth_header (bool, optional): Использовать заголовок авторизации. Defaults to False.
-            media (MediaListType, optional): Список медиафайлов. Defaults to None.
-            tools (Optional[list], optional): Список инструментов. Defaults to None.
-            connector (BaseConnector, optional): Connector для aiohttp. Defaults to None.
+            use_auth_header (bool, optional): Использовать ли заголовок авторизации. Defaults to False.
+            media (MediaListType, optional): Список медиа-файлов для отправки. Defaults to None.
+            tools (Optional[list], optional): Список инструментов для использования. Defaults to None.
+            connector (BaseConnector, optional): Connector для сессии aiohttp. Defaults to None.
+            **kwargs: Дополнительные параметры для конфигурации генерации.
 
         Returns:
-            AsyncResult: Асинхронный генератор.
+            AsyncResult: Асинхронный генератор для получения ответов от API.
 
         Raises:
             MissingAuthError: Если отсутствует API ключ.
-            RuntimeError: При ошибке ответа от API.
+            RuntimeError: Если произошла ошибка при запросе к API.
         """
         if not api_key:
             raise MissingAuthError('Add a "api_key"')
 
-        model = cls.get_model(model, api_key=api_key, api_base=api_base)
+        model: str = cls.get_model(model, api_key=api_key, api_base=api_base)
 
-        headers: Optional[dict] = None
-        params: Optional[dict] = None
+        headers: Optional[Dict[str, str]] = None
+        params: Optional[Dict[str, str]] = None
         if use_auth_header:
             headers = {'Authorization': f'Bearer {api_key}'}
         else:
@@ -183,7 +178,7 @@ class GeminiPro(AsyncGeneratorProvider, ProviderModelMixin):
         method: str = 'streamGenerateContent' if stream else 'generateContent'
         url: str = f'{api_base.rstrip("/")}/models/{model}:{method}'
         async with ClientSession(headers=headers, connector=get_connector(connector, proxy)) as session:
-            contents: list[dict] = [
+            contents: List[Dict[str, Any]] = [
                 {
                     'role': 'model' if message['role'] == 'assistant' else 'user',
                     'parts': [{'text': message['content']}]
@@ -193,14 +188,14 @@ class GeminiPro(AsyncGeneratorProvider, ProviderModelMixin):
             ]
             if media is not None:
                 for media_data, filename in media:
-                    image = to_bytes(media_data)
+                    image: bytes = to_bytes(media_data)
                     contents[-1]['parts'].append({
                         'inline_data': {
                             'mime_type': is_data_an_media(image, filename),
                             'data': base64.b64encode(media_data).decode()
                         }
                     })
-            data: dict = {
+            data: Dict[str, Any] = {
                 'contents': contents,
                 'generationConfig': {
                     'stopSequences': kwargs.get('stop'),
@@ -232,22 +227,18 @@ class GeminiPro(AsyncGeneratorProvider, ProviderModelMixin):
                 data['system_instruction'] = {'parts': {'text': system_prompt}}
             async with session.post(url, params=params, json=data) as response:
                 if not response.ok:
-                    try:
-                        data = await response.json()
-                        data = data[0] if isinstance(data, list) else data
-                        raise RuntimeError(f'Response {response.status}: {data["error"]["message"]}')
-                    except Exception as ex:
-                        logger.error('Error in response', ex, exc_info=True)
-                        raise  # Re-raise the exception after logging
+                    data: dict = await response.json()
+                    data = data[0] if isinstance(data, list) else data
+                    raise RuntimeError(f'Response {response.status}: {data["error"]["message"]}')
                 if stream:
-                    lines: list[bytes] = []
+                    lines: List[bytes] = []
                     async for chunk in response.content:
-                        if chunk == b'[{\n':
-                            lines = [b'{\n']
-                        elif chunk == b',\r\n' or chunk == b']':
+                        if chunk == b'[{\\n':
+                            lines = [b'{\\n']
+                        elif chunk == b',\\r\\n' or chunk == b']':
                             try:
-                                data = b''.join(lines)
-                                data = json.loads(data)
+                                data: bytes = b''.join(lines)
+                                data: dict = json.loads(data)
                                 yield data['candidates'][0]['content']['parts'][0]['text']
                                 if 'finishReason' in data['candidates'][0]:
                                     yield FinishReason(data['candidates'][0]['finishReason'].lower())
@@ -259,14 +250,14 @@ class GeminiPro(AsyncGeneratorProvider, ProviderModelMixin):
                                         total_tokens=usage.get('totalTokenCount')
                                     )
                             except Exception as ex:
-                                data = data.decode(errors='ignore') if isinstance(data, bytes) else data
-                                logger.error(f'Read chunk failed: {data}', ex, exc_info=True) # Логирование ошибки
-                                raise RuntimeError(f'Read chunk failed: {data}') from ex
+                                data: str = data.decode(errors='ignore') if isinstance(data, bytes) else data
+                                logger.error(f'Read chunk failed: {data}', ex, exc_info=True) #  Используем logger.error для логирования ошибок
+                                raise RuntimeError(f'Read chunk failed: {data}')
                             lines = []
                         else:
                             lines.append(chunk)
                 else:
-                    data = await response.json()
+                    data: dict = await response.json()
                     candidate: dict = data['candidates'][0]
                     if candidate['finishReason'] == 'STOP':
                         yield candidate['content']['parts'][0]['text']

@@ -1,50 +1,41 @@
 ### **Анализ кода модуля `BlackForestLabs_Flux1Dev.py`**
 
-**Качество кода**:
+**Качество кода:**
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Использование асинхронных операций для неблокирующего выполнения.
-  - Применение `StreamSession` для эффективной обработки потоковых данных.
-  - Обработка различных типов сообщений от API (log, progress, process_generating, process_completed).
-  - Явное указание кодировки `utf-8` при работе с `json`.
+  - Асинхронная обработка запросов с использованием `AsyncGeneratorProvider`.
+  - Поддержка потоковой передачи данных через `StreamSession`.
+  - Обработка различных типов сообщений от сервера (log, progress, process_generating, process_completed).
+  - Использование `JsonConversation` для управления состоянием сессии.
 - **Минусы**:
-  - Отсутствие документации модуля и большинства функций.
-  - Жёстко закодированные значения, такие как `zerogpu_uuid = "[object Object]"`.
-  - Использование `assert` без обработки исключений.
-  - Смешанный стиль обработки данных (использование `json_data.get('msg')` вместо констант).
+  - Смешанный стиль кавычек (используются как `""`, так и `''`).
+  - Некоторые участки кода выглядят сложночитаемыми из-за большого количества вложенных условий.
+  - Отсутствуют подробные комментарии для некоторых сложных операций.
+  - Не все переменные аннотированы типами.
+  - Обработка ошибок выполняется недостаточно информативно (отсутствует логирование).
 
-**Рекомендации по улучшению**:
-- Добавить docstring для класса `BlackForestLabs_Flux1Dev` и его методов, включая `run` и `create_async_generator`.
-- Описать назначение и использование каждого параметра в docstring.
-- Перевести все комментарии и docstring на русский язык.
-- Заменить жёстко закодированное значение `"[object Object]"` для `zerogpu_uuid` на более подходящее значение или сделать его настраиваемым.
-- Использовать константы для значений `msg` (например, `MSG_LOG`, `MSG_PROGRESS` и т.д.).
-- Обрабатывать исключения `json.JSONDecodeError`, `KeyError`, `TypeError` с использованием `logger.error` для логирования ошибок.
-- Избегать использования `assert` в production-коде; заменить его на более явную проверку с возбуждением исключений.
-- Улучшить обработку ошибок, чтобы предоставить более конкретные сообщения об ошибках.
+**Рекомендации по улучшению:**
+- Заменить двойные кавычки на одинарные.
+- Добавить аннотации типов для всех переменных и параметров функций.
+- Улучшить читаемость кода путем разделения сложных условий на более простые.
+- Добавить логирование ошибок с использованием `logger` из модуля `src.logger`.
+- Добавить более подробные комментарии для сложных операций, особенно в цикле обработки `event_response`.
+- Перевести docstring на русский язык.
+- Использовать `ex` вместо `e` в блоках обработки исключений.
+- Убедиться, что все исключения обрабатываются с использованием `logger.error` для логирования ошибок.
+- Добавить docstring для всех функций и классов, включая внутренние функции.
+- Переработать функцию `create_async_generator` для повышения читаемости и упрощения логики.
 
-**Оптимизированный код**:
+**Оптимизированный код:**
 
 ```python
-"""
-Модуль для взаимодействия с BlackForestLabs Flux-1-Dev API.
-===========================================================
-
-Модуль содержит класс :class:`BlackForestLabs_Flux1Dev`, который позволяет генерировать изображения с использованием API BlackForestLabs Flux-1-Dev.
-
-Пример использования:
-----------------------
-
->>> provider = BlackForestLabs_Flux1Dev()
->>> async for item in provider.create_async_generator(model='flux-dev', messages=[{'role': 'user', 'content': 'Generate a cat image'}]):
-...     print(item)
-"""
 from __future__ import annotations
 
 import json
 import uuid
-from typing import Optional
+from typing import AsyncGenerator, Optional, Dict, Any
 
+from src.logger import logger #  Импорт модуля logger
 from ...typing import AsyncResult, Messages
 from ...providers.response import ImageResponse, ImagePreview, JsonConversation, Reasoning
 from ...requests import StreamSession
@@ -54,11 +45,16 @@ from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ..helper import format_image_prompt
 from .DeepseekAI_JanusPro7b import get_zerogpu_token
 from .raise_for_status import raise_for_status
-from src.logger import logger  # Импорт модуля логгирования
+
 
 class BlackForestLabs_Flux1Dev(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Провайдер для BlackForestLabs Flux-1-Dev.
+    Модуль для взаимодействия с BlackForestLabs Flux-1-Dev.
+    =======================================================
+
+    Этот модуль обеспечивает асинхронное взаимодействие с BlackForestLabs Flux-1-Dev для генерации изображений.
+    Он включает в себя функции для установки соединения, обработки запросов и обработки ответов,
+    а также для логирования ошибок и преобразования данных.
     """
     label: str = "BlackForestLabs Flux-1-Dev"
     url: str = "https://black-forest-labs-flux-1-dev.hf.space"
@@ -69,14 +65,9 @@ class BlackForestLabs_Flux1Dev(AsyncGeneratorProvider, ProviderModelMixin):
 
     default_model: str = 'black-forest-labs-flux-1-dev'
     default_image_model: str = default_model
-    model_aliases: dict[str, str] = {"flux-dev": default_image_model, "flux": default_image_model}
+    model_aliases: Dict[str, str] = {"flux-dev": default_image_model, "flux": default_image_model}
     image_models: list[str] = list(model_aliases.keys())
     models: list[str] = image_models
-
-    MSG_LOG: str = 'log'
-    MSG_PROGRESS: str = 'progress'
-    MSG_PROCESS_GENERATING: str = 'process_generating'
-    MSG_PROCESS_COMPLETED: str = 'process_completed'
 
     @classmethod
     def run(cls, method: str, session: StreamSession, conversation: JsonConversation, data: Optional[list] = None):
@@ -85,17 +76,17 @@ class BlackForestLabs_Flux1Dev(AsyncGeneratorProvider, ProviderModelMixin):
 
         Args:
             method (str): HTTP-метод (post или get).
-            session (StreamSession): Асинхронная сессия для выполнения запроса.
+            session (StreamSession): Сессия для выполнения запроса.
             conversation (JsonConversation): Объект JsonConversation с данными сессии.
-            data (Optional[list], optional): Данные для отправки в запросе. По умолчанию None.
+            data (Optional[list]): Данные для отправки в запросе (для POST-запросов).
 
         Returns:
-            AsyncResult: Результат выполнения запроса.
+            AsyncGenerator: Асинхронный генератор для обработки данных ответа.
 
         Raises:
             ResponseError: Если возникает ошибка при выполнении запроса.
         """
-        headers = {
+        headers: Dict[str, str] = {
             "accept": "application/json",
             "content-type": "application/json",
             "x-zerogpu-token": conversation.zerogpu_token,
@@ -105,7 +96,8 @@ class BlackForestLabs_Flux1Dev(AsyncGeneratorProvider, ProviderModelMixin):
         if method == "post":
             return session.post(f"{cls.url}/gradio_api/queue/join?__theme=light", **{
                 "headers": {k: v for k, v in headers.items() if v is not None},
-                "json": {"data": data,"event_data":None,"fn_index":2,"trigger_id":4,"session_hash":conversation.session_hash}
+                "json": {"data": data, "event_data": None, "fn_index": 2, "trigger_id": 4,
+                         "session_hash": conversation.session_hash}
 
             })
         return session.get(f"{cls.url}/gradio_api/queue/data?session_hash={conversation.session_hash}", **{
@@ -121,97 +113,99 @@ class BlackForestLabs_Flux1Dev(AsyncGeneratorProvider, ProviderModelMixin):
         cls,
         model: str,
         messages: Messages,
-        prompt: str | None = None,
-        proxy: str | None = None,
+        prompt: str = None,
+        proxy: str = None,
         aspect_ratio: str = "1:1",
-        width: int | None = None,
-        height: int | None = None,
+        width: int = None,
+        height: int = None,
         guidance_scale: float = 3.5,
         num_inference_steps: int = 28,
         seed: int = 0,
         randomize_seed: bool = True,
-        cookies: dict | None = None,
-        api_key: str | None = None,
-        zerogpu_uuid: str = "[object Object]",  # TODO: заменить на более подходящее значение или сделать настраиваемым
+        cookies: dict = None,
+        api_key: str = None,
+        zerogpu_uuid: str = "[object Object]",
         **kwargs
     ) -> AsyncResult:
         """
-        Асинхронный генератор для создания изображений.
+        Создает асинхронный генератор для генерации изображений.
 
         Args:
             model (str): Модель для генерации изображений.
             messages (Messages): Список сообщений для формирования запроса.
-            prompt (str | None, optional): Дополнительный промпт. По умолчанию None.
-            proxy (str | None, optional): Прокси-сервер. По умолчанию None.
-            aspect_ratio (str, optional): Соотношение сторон изображения. По умолчанию "1:1".
-            width (int | None, optional): Ширина изображения. По умолчанию None.
-            height (int | None, optional): Высота изображения. По умолчанию None.
-            guidance_scale (float, optional): Масштаб соответствия. По умолчанию 3.5.
-            num_inference_steps (int, optional): Количество шагов вывода. По умолчанию 28.
-            seed (int, optional): Зерно для генерации. По умолчанию 0.
-            randomize_seed (bool, optional): Рандомизировать зерно. По умолчанию True.
-            cookies (dict | None, optional): Куки для запроса. По умолчанию None.
-            api_key (str | None, optional): API ключ. По умолчанию None.
-            zerogpu_uuid (str, optional): UUID для ZeroGPU. По умолчанию "[object Object]".
-            **kwargs: Дополнительные аргументы.
+            prompt (str, optional): Дополнительный текст запроса. Defaults to None.
+            proxy (str, optional): Прокси-сервер для использования. Defaults to None.
+            aspect_ratio (str, optional): Соотношение сторон изображения. Defaults to "1:1".
+            width (int, optional): Ширина изображения. Defaults to None.
+            height (int, optional): Высота изображения. Defaults to None.
+            guidance_scale (float, optional): Масштаб соответствия запросу. Defaults to 3.5.
+            num_inference_steps (int, optional): Количество шагов для генерации. Defaults to 28.
+            seed (int, optional): Зерно для генерации. Defaults to 0.
+            randomize_seed (bool, optional): Флаг для рандомизации зерна. Defaults to True.
+            cookies (dict, optional): Куки для передачи в запросе. Defaults to None.
+            api_key (str, optional): API-ключ для доступа. Defaults to None.
+            zerogpu_uuid (str, optional): UUID для zerogpu. Defaults to "[object Object]".
+            **kwargs: Дополнительные параметры.
 
         Yields:
-            AsyncResult: Результат генерации изображения.
+            AsyncResult: Асинхронный генератор, возвращающий результаты генерации изображений.
 
         Raises:
-            ResponseError: Если возникает ошибка при выполнении запроса.
-            RuntimeError: Если не удается разобрать сообщение от API.
+            ResponseError: Если возникает ошибка при обработке ответа от сервера.
+            RuntimeError: Если не удается распарсить сообщение от сервера.
         """
         async with StreamSession(impersonate="chrome", proxy=proxy) as session:
             prompt = format_image_prompt(messages, prompt)
-            data = use_aspect_ratio({"width": width, "height": height}, aspect_ratio)
-            data = [prompt, seed, randomize_seed, data.get("width"), data.get("height"), guidance_scale, num_inference_steps]
-            conversation = JsonConversation(zerogpu_token=api_key, zerogpu_uuid=zerogpu_uuid, session_hash=uuid.uuid4().hex)
+            data: Dict[str, Optional[int]] = use_aspect_ratio({"width": width, "height": height}, aspect_ratio)
+            data: list[Optional[float | int | str | bool]] = [prompt, seed, randomize_seed, data.get("width"), data.get("height"), guidance_scale, num_inference_steps]
+            conversation: JsonConversation = JsonConversation(zerogpu_token=api_key, zerogpu_uuid=zerogpu_uuid, session_hash=uuid.uuid4().hex)
             if conversation.zerogpu_token is None:
                 conversation.zerogpu_uuid, conversation.zerogpu_token = await get_zerogpu_token(cls.space, session, conversation, cookies)
-            async with cls.run(f"post", session, conversation, data) as response:
-                await raise_for_status(response)
+            async with cls.run("post", session, conversation, data) as response:
                 try:
+                    await raise_for_status(response)
                     assert (await response.json()).get("event_id")
-                except AssertionError as ex:
-                    logger.error("Failed to assert event_id", ex, exc_info=True)  # Логируем ошибку
+                    async with cls.run("get", session, conversation) as event_response:
+                        await raise_for_status(event_response)
+                        async for chunk in event_response.iter_lines():
+                            if chunk.startswith(b"data: "):
+                                try:
+                                    json_data: Any = json.loads(chunk[6:])
+                                    if json_data is None:
+                                        continue
+                                    if json_data.get('msg') == 'log':
+                                        yield Reasoning(status=json_data["log"])
+
+                                    if json_data.get('msg') == 'progress':
+                                        if 'progress_data' in json_data:
+                                            if json_data['progress_data']:
+                                                progress: Dict[str, Any] = json_data['progress_data'][0]
+                                                yield Reasoning(status=f"{progress['desc']} {progress['index']}/{progress['length']}")
+                                            else:
+                                                yield Reasoning(status="Generating")
+
+                                    elif json_data.get('msg') == 'process_generating':
+                                        for item in json_data['output']['data'][0]:
+                                            if isinstance(item, dict) and "url" in item:
+                                                yield ImagePreview(item["url"], prompt)
+                                            elif isinstance(item, list) and len(item) > 2 and "url" in item[1]:
+                                                yield ImagePreview(item[2], prompt)
+
+                                    elif json_data.get('msg') == 'process_completed':
+                                        if 'output' in json_data and 'error' in json_data['output']:
+                                            json_data['output']['error'] = json_data['output']['error'].split(" <a ")[0]
+                                            raise ResponseError(json_data['output']['error'])
+                                        if 'output' in json_data and 'data' in json_data['output']:
+                                            yield Reasoning(status="Finished")
+                                            if len(json_data['output']['data']) > 0:
+                                                yield ImageResponse(json_data['output']['data'][0]["url"], prompt)
+                                        break
+                                except (json.JSONDecodeError, KeyError, TypeError) as ex:
+                                    logger.error('Failed to parse message', ex, exc_info=True) #  Логирование ошибки парсинга
+                                    raise RuntimeError(f"Failed to parse message: {chunk.decode(errors='replace')}", ex)
+                except ResponseError as ex:
+                    logger.error('Response Error', ex, exc_info=True) #  Логирование ошибки ответа
                     raise
-                async with cls.run("get", session, conversation) as event_response:
-                    await raise_for_status(event_response)
-                    async for chunk in event_response.iter_lines():
-                        if chunk.startswith(b"data: "):
-                            try:
-                                json_data = json.loads(chunk[6:])
-                                if json_data is None:
-                                    continue
-                                msg = json_data.get('msg')
-                                if msg == cls.MSG_LOG:
-                                    yield Reasoning(status=json_data["log"])
-
-                                elif msg == cls.MSG_PROGRESS:
-                                    if 'progress_data' in json_data:
-                                        if json_data['progress_data']:
-                                            progress = json_data['progress_data'][0]
-                                            yield Reasoning(status=f"{progress['desc']} {progress['index']}/{progress['length']}")
-                                        else:
-                                            yield Reasoning(status=f"Generating")
-
-                                elif msg == cls.MSG_PROCESS_GENERATING:
-                                    for item in json_data['output']['data'][0]:
-                                        if isinstance(item, dict) and "url" in item:
-                                            yield ImagePreview(item["url"], prompt)
-                                        elif isinstance(item, list) and len(item) > 2 and "url" in item[1]:
-                                            yield ImagePreview(item[2], prompt)
-
-                                elif msg == cls.MSG_PROCESS_COMPLETED:
-                                    if 'output' in json_data and 'error' in json_data['output']:
-                                        json_data['output']['error'] = json_data['output']['error'].split(" <a ")[0]
-                                        raise ResponseError(json_data['output']['error'])
-                                    if 'output' in json_data and 'data' in json_data['output']:
-                                        yield Reasoning(status="Finished")
-                                        if len(json_data['output']['data']) > 0:
-                                            yield ImageResponse(json_data['output']['data'][0]["url"], prompt)
-                                    break
-                            except (json.JSONDecodeError, KeyError, TypeError) as ex:
-                                logger.error(f"Failed to parse message: {chunk.decode(errors='replace')}", ex, exc_info=True)
-                                raise RuntimeError(f"Failed to parse message: {chunk.decode(errors='replace')}") from ex
+                except AssertionError as ex:
+                    logger.error('Assertion Error', ex, exc_info=True)
+                    raise

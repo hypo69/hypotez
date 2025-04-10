@@ -3,52 +3,49 @@
 ## \file /hypotez/src/endpoints/bots/telegram/digital_market/bot/dao/models.py
 
 Модуль содержит определения моделей базы данных для Telegram-бота цифрового рынка.
-Модели включают: User, Category, Product и Purchase.
+Модели включают: User, Category, Product, Purchase.
 
-**Качество кода**:
+**Качество кода:**
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код хорошо структурирован и организован.
-  - Используются аннотации типов.
-  - Присутствуют `__repr__` методы для удобного представления объектов.
-  - Используются cascade для автоматического удаления связанных записей.
+  - Код использует SQLAlchemy для определения моделей базы данных, что обеспечивает удобное взаимодействие с базой данных.
+  - Присутствуют `__repr__` методы для каждой модели, что упрощает отладку и логирование.
+  - Используются аннотации типов для переменных.
 - **Минусы**:
-  - Отсутствует документация для классов и их атрибутов.
-  - Не все типы переменных указаны с использованием `|` вместо `Union[]`
+  - Отсутствуют docstring для классов и их полей.
+  - В аннотациях используется `List[]` вместо `list[]`
 
-**Рекомендации по улучшению**:
-1.  Добавить docstring к каждому классу и методу, описывающие их назначение, аргументы и возвращаемые значения.
-2.  Использовать `|` вместо `Union[]` для аннотаций типов.
-3.  Добавить комментарии к наиболее сложным участкам кода.
-4.  Устранить дублирование информации, например, в классе `Purchase` поле `price` дублирует цену продукта.
-5.  Добавить обработку исключений и логирование.
+**Рекомендации по улучшению:**
 
-**Оптимизированный код**:
+- Добавить docstring для каждого класса и его полей, чтобы улучшить понимание структуры базы данных.
+- Изменить `List[]` на `list[]`.
+- Добавить комментарии к наиболее важным частям кода.
+
+**Оптимизированный код:**
 
 ```python
 from typing import List
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import BigInteger, Text, ForeignKey
 from bot.dao.database import Base
-from src.logger import logger
 
 
 class User(Base):
     """
     Модель пользователя Telegram-бота.
 
-    Args:
+    Attributes:
         telegram_id (int): Уникальный идентификатор пользователя в Telegram.
         username (str | None): Имя пользователя в Telegram (может отсутствовать).
         first_name (str | None): Имя пользователя.
         last_name (str | None): Фамилия пользователя.
-        purchases (List['Purchase']): Список покупок пользователя.
+        purchases (list['Purchase']): Список покупок, связанных с пользователем.
     """
     telegram_id: Mapped[int] = mapped_column(BigInteger, unique=True, nullable=False)
     username: Mapped[str | None]
     first_name: Mapped[str | None]
     last_name: Mapped[str | None]
-    purchases: Mapped[List['Purchase']] = relationship(
+    purchases: Mapped[list['Purchase']] = relationship( #  Устанавливаем связь "один ко многим" с таблицей покупок
         "Purchase",
         back_populates="user",
         cascade="all, delete-orphan"
@@ -57,25 +54,22 @@ class User(Base):
     def __repr__(self) -> str:
         """
         Возвращает строковое представление объекта User.
-
-        Returns:
-            str: Строковое представление объекта User.
         """
         return f"<User(id={self.id}, telegram_id={self.telegram_id}, username='{self.username}')>"
 
 
 class Category(Base):
     """
-    Модель категории товаров.
+    Модель категории продукта.
 
-    Args:
+    Attributes:
         category_name (str): Название категории.
-        products (List["Product"]): Список товаров в категории.
+        products (list["Product"]): Список продуктов, связанных с категорией.
     """
     __tablename__ = 'categories'
 
     category_name: Mapped[str] = mapped_column(Text, nullable=False)
-    products: Mapped[List["Product"]] = relationship(
+    products: Mapped[list["Product"]] = relationship( # Устанавливаем связь "один ко многим" с таблицей продуктов
         "Product",
         back_populates="category",
         cascade="all, delete-orphan"
@@ -84,26 +78,23 @@ class Category(Base):
     def __repr__(self) -> str:
         """
         Возвращает строковое представление объекта Category.
-
-        Returns:
-            str: Строковое представление объекта Category.
         """
         return f"<Category(id={self.id}, name='{self.category_name}')>"
 
 
 class Product(Base):
     """
-    Модель товара.
+    Модель продукта.
 
-    Args:
-        name (str): Название товара.
-        description (str): Описание товара.
-        price (int): Цена товара.
-        file_id (str | None): Идентификатор файла (может отсутствовать).
-        category_id (int): Идентификатор категории товара.
-        hidden_content (str): Скрытое содержимое товара.
-        category (Category): Категория товара.
-        purchases (List['Purchase']): Список покупок, связанных с товаром.
+    Attributes:
+        name (str): Название продукта.
+        description (str): Описание продукта.
+        price (int): Цена продукта.
+        file_id (str | None): Идентификатор файла, связанного с продуктом (может отсутствовать).
+        category_id (int): Идентификатор категории, к которой принадлежит продукт.
+        hidden_content (str): Скрытое содержимое продукта.
+        category (Category): Категория, к которой принадлежит продукт.
+        purchases (list['Purchase']): Список покупок, связанных с продуктом.
     """
     name: Mapped[str] = mapped_column(Text)
     description: Mapped[str] = mapped_column(Text)
@@ -112,7 +103,7 @@ class Product(Base):
     category_id: Mapped[int] = mapped_column(ForeignKey('categories.id'))
     hidden_content: Mapped[str] = mapped_column(Text)
     category: Mapped["Category"] = relationship("Category", back_populates="products")
-    purchases: Mapped[List['Purchase']] = relationship(
+    purchases: Mapped[list['Purchase']] = relationship( # Устанавливаем связь "один ко многим" с таблицей покупок
         "Purchase",
         back_populates="product",
         cascade="all, delete-orphan"
@@ -121,9 +112,6 @@ class Product(Base):
     def __repr__(self) -> str:
         """
         Возвращает строковое представление объекта Product.
-
-        Returns:
-            str: Строковое представление объекта Product.
         """
         return f"<Product(id={self.id}, name='{self.name}', price={self.price})>"
 
@@ -132,14 +120,14 @@ class Purchase(Base):
     """
     Модель покупки.
 
-    Args:
+    Attributes:
         user_id (int): Идентификатор пользователя, совершившего покупку.
-        product_id (int): Идентификатор купленного товара.
-        price (int): Цена товара на момент покупки.
+        product_id (int): Идентификатор купленного продукта.
+        price (int): Цена покупки.
         payment_type (str): Тип платежа.
-        payment_id (str): Уникальный идентификатор платежа.
+        payment_id (str): Идентификатор платежа (уникальный).
         user (User): Пользователь, совершивший покупку.
-        product (Product): Купленный товар.
+        product (Product): Купленный продукт.
     """
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
     product_id: Mapped[int] = mapped_column(ForeignKey('products.id'))
@@ -152,8 +140,5 @@ class Purchase(Base):
     def __repr__(self) -> str:
         """
         Возвращает строковое представление объекта Purchase.
-
-        Returns:
-            str: Строковое представление объекта Purchase.
         """
         return f"<Purchase(id={self.id}, user_id={self.user_id}, product_id={self.product_id}, date={self.created_at})>"

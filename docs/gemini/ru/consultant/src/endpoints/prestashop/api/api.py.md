@@ -1,41 +1,42 @@
-### **Анализ кода модуля `api`**
+### **Анализ кода модуля `api.py`**
 
 ## \file /src/endpoints/prestashop/api/api.py
 
-Модуль для взаимодействия с PrestaShop API.
-
 **Качество кода**:
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код хорошо структурирован и организован в классы и функции.
-    - Присутствует обработка ошибок и логирование.
-    - Использование `requests.Session` для поддержания соединения.
+    - Модуль хорошо структурирован и содержит класс `PrestaShop` для взаимодействия с API PrestaShop.
+    - Присутствует обработка ошибок и логирование с использованием `logger`.
+    - Использование `j_loads` или `j_loads_ns` не требуется, так как код не читает JSON/конфигурационные файлы напрямую.
 - **Минусы**:
-    - Не все функции и методы имеют docstring.
-    - Использование `print` для отладки вместо `logger.debug`.
-    - Смешанный стиль кавычек (иногда двойные вместо одинарных).
-    - Некоторые аннотации типов отсутствуют или неполные.
+    - Не все функции и классы имеют docstring на русском языке.
+    - В некоторых местах используется `print` вместо `logger.info`.
+    - Не везде указаны типы для переменных.
+    - Некоторые комментарии не соответствуют стандарту оформления.
 
 **Рекомендации по улучшению**:
-1.  **Документирование**:
-    *   Добавить docstring для всех функций и методов, включая аргументы, возвращаемые значения и возможные исключения.
-    *   Описать назначение каждой функции и класса более подробно.
+
+1.  **Документация**:
+    - Перевести все docstring на русский язык.
+    - Добавить полные docstring для всех функций и классов, включая описание аргументов, возвращаемых значений и возможных исключений.
+    - Улучшить описание модуля в целом, добавив примеры использования.
 2.  **Логирование**:
-    *   Заменить все `print` на `logger.debug` для отладочной информации.
-    *   Добавить больше информативных логов для отслеживания работы API.
-3.  **Форматирование**:
-    *   Использовать только одинарные кавычки для строк.
-    *   Добавить пробелы вокруг операторов присваивания.
-    *   Убедиться, что все переменные и параметры функций аннотированы типами.
-4.  **Обработка исключений**:
-    *   Улучшить обработку исключений, добавив конкретные типы исключений вместо `Exception`.
-    *   Использовать `logger.error` с `exc_info=True` для вывода полной трассировки.
-5.  **Конфигурация**:
-    *   Улучшить способ загрузки конфигурации, возможно, с использованием библиотеки `pydantic` или `dataclasses`.
-6.  **Использование** `j_loads` или `j_loads_ns`:.
-    *   Проверить, где можно заменить стандартное использование `open` и `json.load` на `j_loads` или `j_loads_ns`.
-7.  **Аннотации**
-    *   Добавить аннотации типа.
+    - Заменить все вызовы `print` на `logger.info`.
+    - Улучшить логирование ошибок, добавив контекстную информацию.
+3.  **Типизация**:
+    - Добавить аннотации типов для всех переменных, где это возможно.
+    - Убедиться, что типы аргументов и возвращаемых значений функций указаны правильно.
+4.  **Комментарии**:
+    - Проверить и обновить все комментарии, чтобы они соответствовали текущему коду и были понятными.
+    - Использовать более конкретные глаголы в комментариях (например, "извлекает" вместо "получает").
+5.  **Исключения**:
+    - Убедиться, что все исключения обрабатываются правильно и логируются с использованием `logger.error`.
+    - Использовать `ex` вместо `e` в блоках `except`.
+6.  **Конфигурация**:
+    - Улучшить обработку конфигурации, чтобы она была более гибкой и удобной для использования.
+7.  **Обработка данных**:
+    - Убедиться, что все данные, отправляемые и получаемые из API, обрабатываются правильно и безопасно.
 
 **Оптимизированный код**:
 
@@ -51,8 +52,10 @@
 и загрузку изображений, с обработкой ошибок для ответов.
 
 Примеры использования
--------------\n
+-------------
+
 ```python
+
 from src.endpoints.prestashop.api import PrestaShop
 
 api = PrestaShop(
@@ -141,7 +144,7 @@ from src.utils.xml import save_xml
 from src.utils.file import save_text_file
 from src.utils.image import save_image_from_url_async
 from src.utils.jjson import j_dumps, j_loads, j_loads_ns
-from src.utils.printer import pprint as print
+from src.utils.printer import pprint
 from src import USE_ENV
 
 
@@ -195,8 +198,8 @@ class PrestaShop:
     Класс для взаимодействия с PrestaShop webservice API, использующий JSON и XML для обмена сообщениями.
 
     Этот класс предоставляет методы для взаимодействия с PrestaShop API, позволяя выполнять CRUD
-    операции, поиск и загрузку изображений. Он также обеспечивает обработку ошибок
-    для ответов и методы для обработки данных API.
+    операции, поиск и загрузку изображений. Он также предоставляет обработку ошибок для ответов
+    и методы для обработки данных API.
 
     Args:
         api_key (str): API ключ, сгенерированный в PrestaShop.
@@ -227,7 +230,7 @@ class PrestaShop:
         debug: bool = False,
     ) -> None:
         """
-        Инициализирует класс PrestaShop.
+        Инициализация класса PrestaShop.
 
         Args:
             data_format (str): Формат данных по умолчанию ('JSON' или 'XML'). По умолчанию 'JSON'.
@@ -254,7 +257,7 @@ class PrestaShop:
         Проверяет работоспособность веб-сервиса.
 
         Returns:
-            bool: Результат проверки связи. Возвращает `True`, если веб-сервис работает, иначе `False`.
+            bool: Результат проверки. Возвращает `True`, если веб-сервис работает, иначе `False`.
         """
         response: requests.Response = self.client.request(method='HEAD', url=self.api_domain)
 
@@ -270,18 +273,18 @@ class PrestaShop:
         data: Optional[dict] = None,
     ) -> bool:
         """
-        Проверяет код состояния ответа и обрабатывает ошибки.
+        Проверяет код ответа и обрабатывает ошибки.
 
         Args:
-            status_code (int): Код состояния HTTP-ответа.
-            response (requests.Response): Объект HTTP-ответа.
-            method (Optional[str]): HTTP-метод, использованный для запроса.
+            status_code (int): HTTP код ответа.
+            response (requests.Response): Объект HTTP ответа.
+            method (Optional[str]): HTTP метод, использованный в запросе.
             url (Optional[str]): URL запроса.
-            headers (Optional[dict]): Заголовки, использованные в запросе.
+            headers (Optional[dict]): Заголовки запроса.
             data (Optional[dict]): Данные, отправленные в запросе.
 
         Returns:
-            bool: `True`, если код состояния 200 или 201, иначе `False`.
+            bool: `True`, если код ответа 200 или 201, иначе `False`.
         """
         if status_code in (200, 201):
             return True
@@ -298,10 +301,10 @@ class PrestaShop:
         data: Optional[dict] = None,
     ) -> None:
         """
-        Разбирает ответ об ошибке от PrestaShop API.
+        Обрабатывает ошибки в ответе от PrestaShop API.
 
         Args:
-            response (requests.Response): Объект HTTP-ответа от сервера.
+            response (requests.Response): Объект HTTP ответа от сервера.
         """
 
         if self.data_format == 'JSON':
@@ -314,11 +317,11 @@ class PrestaShop:
                 response status code: {status_code}
                     {response.request.url=}
                     --------------
-                    response.headers {print(response.headers)}
+                    response.headers {pprint(response.headers)}
                     --------------
-                    response: {print(response)}
+                    response: {pprint(response)}
                     --------------
-                    response text: {print(response.json())}""",
+                    response text: {pprint(response.json())}""",
                     None,
                     False,
                 )
@@ -346,7 +349,7 @@ class PrestaShop:
 
         Args:
             url (str): Базовый URL.
-            params (dict): Параметры для запроса.
+            params (dict): Параметры запроса.
 
         Returns:
             str: Подготовленный URL с параметрами.
@@ -372,7 +375,7 @@ class PrestaShop:
         data_format: str = 'JSON',
     ) -> Optional[dict]:
         """
-        Выполняет HTTP-запрос к PrestaShop API.
+        Выполняет HTTP запрос к PrestaShop API.
         """
 
         try:
@@ -414,9 +417,9 @@ class PrestaShop:
             ):
                 logger.error(
                     f"""Ошибка ответа: {response.status_code}
-                response =
-                {print(response.headers)}
-                {print(response.text)}"""
+                response = 
+                {pprint(response.headers)}
+                {pprint(response.text)}"""
                 )
                 ...
                 return False
@@ -424,18 +427,18 @@ class PrestaShop:
             return self._parse_response(response)
 
         except Exception as ex:
-            logger.error(f'Error:', ex)
+            logger.error(f'Error:', ex, exc_info=True)
             return
 
     def _parse_response(self, response: Response, data_format: Optional[str] = 'JSON') -> dict | None:
         """
-        Разбирает XML или JSON ответ от API в структуру dict.
+        Преобразует XML или JSON ответ от API в структуру dict.
 
         Args:
             text (str): Текст ответа.
 
         Returns:
-            dict: Разобранные данные или `False` в случае неудачи.
+            dict: Преобразованные данные или `False` в случае ошибки.
         """
 
         try:
@@ -443,7 +446,7 @@ class PrestaShop:
             return data.get('prestashop', {}) if 'prestashop' in data else data
 
         except Exception as ex:
-            logger.error(f'Parsing Error:', ex)
+            logger.error(f'Parsing Error:', ex, exc_info=True)
             ...
             return {}
 
@@ -502,7 +505,7 @@ class PrestaShop:
             resource_id (int | str): ID ресурса.
 
         Returns:
-            bool: `True`, если успешно, `False` иначе.
+            bool: `True` в случае успеха, `False` в противном случае.
         """
         return self._exec(resource=resource, resource_id=resource_id, method='DELETE', data_format=self.data_format)
 
@@ -541,11 +544,11 @@ class PrestaShop:
                 return self._parse_response(response=response, data_format='XML')
 
         except RequestException as ex:
-            logger.error(f'Ошибка при загрузке изображения:', ex)
+            logger.error(f'Ошибка при загрузке изображения:', ex, exc_info=True)
             return {'error': str(ex)}
 
         except Exception as ex:
-            logger.error(f'Error:', ex)
+            logger.error(f'Error:', ex, exc_info=True)
             return {'error': str(ex)}
 
     def get_schema(
@@ -555,7 +558,7 @@ class PrestaShop:
         Получает схему заданного ресурса из PrestaShop API.
 
         Args:
-            resource (str): Имя ресурса (например, 'products', 'customers').
+            resource (str): Название ресурса (например, 'products', 'customers').
                 Если не указан - вернется список всех схем сущностей доступных для API ключа
             resource_id (Optinal[str]):
             schema (Optional[str]): обычно подразумеваются следующие опции:
@@ -580,14 +583,14 @@ class PrestaShop:
 
     def get_data(self, resource: str, **kwargs) -> Optional[dict]:
         """
-        Извлекает данные из PrestaShop API ресурса и сохраняет их.
+        Получает данные из PrestaShop API и сохраняет их.
 
         Args:
             resource (str): API ресурс (например, 'products').
             **kwargs: Дополнительные аргументы для API запроса.
 
         Returns:
-            dict | None: Данные из API или `False` в случае неудачи.
+            dict | None: Данные из API или `False` в случае ошибки.
         """
         return self._exec(resource=resource, method='GET', **kwargs)
 
@@ -613,7 +616,7 @@ class PrestaShop:
             img_name (Optional[str]): Имя файла изображения, по умолчанию None.
 
         Returns:
-            dict | None: Ответ от API или `False` в случае неудачи.
+            dict | None: Ответ от API или `False` в случае ошибки.
         """
         url_parts: List[str] = img_url.rsplit('.', 1)
         url_without_extension: str = url_parts[0]
@@ -637,7 +640,7 @@ class PrestaShop:
             img_name (Optional[str]): Имя файла изображения, по умолчанию None.
 
         Returns:
-            dict | None: Ответ от API или `False` в случае неудачи.
+            dict | None: Ответ от API или `False` в случае ошибки.
         """
         url_parts: List[str] = img_url.rsplit('.', 1)
         url_without_extension: str = url_parts[0]
@@ -656,9 +659,11 @@ class PrestaShop:
             product_id (int): ID продукта.
 
         Returns:
-            dict | None: Список изображений продукта или `False` в случае неудачи.
+            dict | None: Список изображений продукта или `False` в случае ошибки.
         """
         return self._exec(f'products/{product_id}/images', method='GET', data_format=self.data_format)
+
+
 
 
 

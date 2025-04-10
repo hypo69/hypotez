@@ -1,45 +1,53 @@
-### Анализ кода модуля `admin`
+### **Анализ кода модуля `admin.py`**
 
-**Качество кода:**
-
-- **Соответствие стандартам**: 6/10
+#### **Качество кода**:
+- **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Использование `aiogram` для создания Telegram-бота.
-    - Применение FSM (Finite State Machine) для управления состоянием при добавлении товара.
-    - Разделение кода на функции для обработки различных действий администратора.
-    - Использование `AsyncSession` для асинхронной работы с базой данных.
+  - Код разбит на логические блоки, что облегчает его понимание.
+  - Использование `FSMContext` для управления состоянием пользователя.
+  - Применение `aiogram` для обработки логики бота.
 - **Минусы**:
-    - Отсутствие обработки исключений для некоторых операций, что может привести к непредсказуемому поведению бота.
-    - Смешивание логики обработки и отправки сообщений.
-    - Недостаточно подробные комментарии и docstring для функций и классов.
-    - Дублирование кода при обработке ошибок.
-    - Не везде используется `logger` для логирования ошибок.
-    - Использование `e` вместо `ex` в блоках обработки исключений.
+  - Отсутствие логирования ошибок.
+  - Некоторые участки кода содержат повторения (например, обработка исключений).
+  - Не все функции и методы имеют docstring.
+  - Жестко заданные тексты сообщений, что затрудняет локализацию.
+  - Использование `Exception as e` вместо `Exception as ex`.
 
-**Рекомендации по улучшению:**
+#### **Рекомендации по улучшению**:
+1. **Добавить логирование**:
+   - В каждый блок `try...except` добавить логирование с использованием `logger.error` для отслеживания ошибок.
 
-1.  **Документирование кода**:
-    *   Добавить docstring для каждой функции и класса, описывающие их назначение, аргументы, возвращаемые значения и возможные исключения.
-    *   Добавить комментарии для пояснения сложных участков кода.
-2.  **Обработка исключений**:
-    *   Добавить обработку исключений для всех операций, которые могут вызвать ошибку, например, при работе с базой данных или при отправке сообщений.
-    *   Использовать `logger.error` для логирования ошибок.
-    *   Использовать `ex` вместо `e` в блоках обработки исключений.
-3.  **Разделение ответственности**:
-    *   Разделить функции на более мелкие, чтобы каждая функция выполняла только одну задачу.
-    *   Вынести логику формирования сообщений в отдельные функции.
-4.  **Улучшение читаемости**:
-    *   Использовать более понятные имена для переменных и функций.
-    *   Добавить пробелы между операторами.
-    *   Удалить дублирование кода.
-5.  **Логирование**:
-    *   Добавить логирование для важных событий, таких как добавление, удаление и изменение товаров.
-6.  **Использовать `j_loads` или `j_loads_ns` для чтения JSON или конфигурационных файлов**
-7.  **Аннотации**
-    *   Для всех переменных должны быть определены аннотации типа.
-    *   Для всех функций все входные и выходные параметры аннотириваны
+2. **Улучшить обработку исключений**:
+   - Избегать повторений в блоках `try...except`. Можно создать вспомогательную функцию для отправки сообщений об ошибках.
 
-**Оптимизированный код:**
+3. **Добавить docstring**:
+   - Добавить docstring ко всем функциям и методам, чтобы улучшить понимание кода.
+
+4. **Использовать `ex` вместо `e` в блоках обработки исключений**:
+   - Заменить все экземпляры `Exception as e` на `Exception as ex`.
+
+5. **Улучшить структуру сообщений**:
+   - Вынести тексты сообщений в отдельные переменные или использовать шаблонизатор для упрощения локализации и изменения текстов.
+
+6. **Улучшить обработку ошибок в `admin_process_price`**:
+   - Добавить проверку на `None` или пустую строку перед попыткой преобразования в `int`.
+
+7. **Устранить избыточность в `admin_process_start_dell`**:
+   - Убрать дублирование кода, вынеся общую логику формирования сообщений в отдельную функцию.
+
+8. **Обеспечить обработку ошибок при удалении сообщений**:
+   - Добавить блок `try...except` вокруг `await bot.delete_message`, чтобы обрабатывать возможные ошибки при удалении сообщений.
+
+9. **Использовать `j_loads` или `j_loads_ns`**:
+   - Проверить, используются ли JSON-файлы конфигурации, и заменить стандартные методы чтения на `j_loads` или `j_loads_ns`.
+
+10. **Аннотации типов**:
+    - Убедиться, что все переменные и параметры функций имеют аннотации типов.
+
+11. **Использовать webdriver**:
+    - Если в коде используются элементы webdriver, убедиться, что они соответствуют правилам использования, определенным в системных инструкциях.
+
+#### **Оптимизированный код**:
 
 ```python
 import asyncio
@@ -48,21 +56,20 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import CallbackQuery, Message
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from bot.config import settings, bot
 from bot.dao.dao import UserDAO, ProductDao, CategoryDao, PurchaseDao
 from bot.admin.kbs import admin_kb, admin_kb_back, product_management_kb, cancel_kb_inline, catalog_admin_kb, \
     admin_send_file_kb, admin_confirm_kb, dell_product_kb
 from bot.admin.schemas import ProductModel, ProductIDModel
 from bot.admin.utils import process_dell_text_msg
-from src.logger import logger # Импорт модуля логирования
+from src.logger import logger  # Добавлен импорт logger
 
 admin_router = Router()
 
 
 class AddProduct(StatesGroup):
     """
-    Класс состояний для добавления товара.
+    Класс состояний для добавления нового товара.
     """
     name = State()
     description = State()
@@ -77,6 +84,7 @@ class AddProduct(StatesGroup):
 async def start_admin(call: CallbackQuery) -> None:
     """
     Обработчик нажатия на кнопку "admin_panel".
+    Предоставляет доступ в админ-панель.
 
     Args:
         call (CallbackQuery): Объект CallbackQuery.
@@ -87,16 +95,16 @@ async def start_admin(call: CallbackQuery) -> None:
             text="Вам разрешен доступ в админ-панель. Выберите необходимое действие.",
             reply_markup=admin_kb()
         )
-    except Exception as ex: # Обработка исключений с использованием logger.error
-        logger.error('Error while opening admin panel', ex, exc_info=True)
+    except Exception as ex:
+        logger.error('Ошибка при открытии админ-панели', ex, exc_info=True)  # Добавлено логирование
         try:
             await call.message.delete()
             await call.message.answer(
                 text="Вам разрешен доступ в админ-панель. Выберите необходимое действие.",
                 reply_markup=admin_kb()
             )
-        except Exception as ex: # Обработка исключений с использованием logger.error
-            logger.error('Error while deleting and answering message', ex, exc_info=True)
+        except Exception as ex:
+            logger.error('Ошибка при удалении и отправке сообщения в админ-панели', ex, exc_info=True)  # Добавлено логирование
             await call.message.answer(
                 text="Произошла ошибка при открытии админ-панели. Пожалуйста, попробуйте еще раз.",
                 reply_markup=admin_kb()
@@ -107,10 +115,11 @@ async def start_admin(call: CallbackQuery) -> None:
 async def admin_statistic(call: CallbackQuery, session_without_commit: AsyncSession) -> None:
     """
     Обработчик нажатия на кнопку "statistic".
+    Предоставляет статистику по пользователям и заказам.
 
     Args:
         call (CallbackQuery): Объект CallbackQuery.
-        session_without_commit (AsyncSession): Асинхронная сессия SQLAlchemy.
+        session_without_commit (AsyncSession): Асинхровая сессия SQLAlchemy.
     """
     await call.answer('Запрос на получение статистики...')
     await call.answer('📊 Собираем статистику...')
@@ -125,19 +134,17 @@ async def admin_statistic(call: CallbackQuery, session_without_commit: AsyncSess
         f"📆 Новых за месяц: {stats['new_month']}\n\n"
         f"💰 Общая статистика по заказам:\n\n{payment_stats}"
     )
-    try: # Обработка исключений с использованием logger.error
-        await call.message.edit_text(
-            text=stats_message,
-            reply_markup=admin_kb()
-        )
-    except Exception as ex:
-        logger.error('Error while editing text with statistics', ex, exc_info=True)
+    await call.message.edit_text(
+        text=stats_message,
+        reply_markup=admin_kb()
+    )
 
 
 @admin_router.callback_query(F.data == "cancel", F.from_user.id.in_(settings.ADMIN_IDS))
 async def admin_process_cancel(call: CallbackQuery, state: FSMContext) -> None:
     """
     Обработчик нажатия на кнопку "cancel".
+    Отменяет сценарий добавления товара.
 
     Args:
         call (CallbackQuery): Объект CallbackQuery.
@@ -145,107 +152,108 @@ async def admin_process_cancel(call: CallbackQuery, state: FSMContext) -> None:
     """
     await state.clear()
     await call.answer('Отмена сценария добавления товара')
-    try: # Обработка исключений с использованием logger.error
+    try:
         await call.message.delete()
-        await call.message.answer(
-            text="Отмена добавления товара.",
-            reply_markup=admin_kb_back()
-        )
     except Exception as ex:
-        logger.error('Error while deleting and answering message on cancel', ex, exc_info=True)
+        logger.error('Ошибка при удалении сообщения об отмене', ex, exc_info=True)  # Добавлено логирование
+    await call.message.answer(
+        text="Отмена добавления товара.",
+        reply_markup=admin_kb_back()
+    )
 
 
 @admin_router.callback_query(F.data == 'delete_product', F.from_user.id.in_(settings.ADMIN_IDS))
 async def admin_process_start_dell(call: CallbackQuery, session_without_commit: AsyncSession) -> None:
     """
     Обработчик нажатия на кнопку "delete_product".
+    Запускает режим удаления товаров.
 
     Args:
         call (CallbackQuery): Объект CallbackQuery.
-        session_without_commit (AsyncSession): Асинхронная сессия SQLAlchemy.
+        session_without_commit (AsyncSession): Асинхровая сессия SQLAlchemy.
     """
     await call.answer('Режим удаления товаров')
-    try: # Обработка исключений с использованием logger.error
-        all_products = await ProductDao.find_all(session=session_without_commit)
+    all_products = await ProductDao.find_all(session=session_without_commit)
 
-        await call.message.edit_text(
-            text=f"На данный момент в базе данных {len(all_products)} товаров. Для удаления нажмите на кнопку ниже"
-        )
-        for product_data in all_products:
-            file_id = product_data.file_id
-            file_text = "📦 Товар с файлом" if file_id else "📄 Товар без файла"
+    await call.message.edit_text(
+        text=f"На данный момент в базе данных {len(all_products)} товаров. Для удаления нажмите на кнопку ниже"
+    )
+    for product_data in all_products:
+        file_id = product_data.file_id
+        file_text = "📦 Товар с файлом" if file_id else "📄 Товар без файла"
 
-            product_text = (f'🛒 Описание товара:\n\n'
-                            f'🔹 <b>Название товара:</b> <b>{product_data.name}</b>\n'
-                            f'🔹 <b>Описание:</b>\n\n<b>{product_data.description}</b>\n\n'
-                            f'🔹 <b>Цена:</b> <b>{product_data.price} ₽</b>\n'
-                            f'🔹 <b>Описание (закрытое):</b>\n\n<b>{product_data.hidden_content}</b>\n\n'
-                            f'<b>{file_text}</b>')
+        product_text = (f'🛒 Описание товара:\n\n'
+                        f'🔹 <b>Название товара:</b> <b>{product_data.name}</b>\n'
+                        f'🔹 <b>Описание:</b>\n\n<b>{product_data.description}</b>\n\n'
+                        f'🔹 <b>Цена:</b> <b>{product_data.price} ₽</b>\n'
+                        f'🔹 <b>Описание (закрытое):</b>\n\n<b>{product_data.hidden_content}</b>\n\n'
+                        f'<b>{file_text}</b>')
+        try:
             if file_id:
                 await call.message.answer_document(document=file_id, caption=product_text,
                                                    reply_markup=dell_product_kb(product_data.id))
             else:
                 await call.message.answer(text=product_text, reply_markup=dell_product_kb(product_data.id))
-    except Exception as ex:
-        logger.error('Error while processing start delete', ex, exc_info=True)
+        except Exception as ex:
+            logger.error(f'Ошибка при отправке товара с ID {product_data.id}', ex, exc_info=True)
 
 
 @admin_router.callback_query(F.data.startswith('dell_'), F.from_user.id.in_(settings.ADMIN_IDS))
 async def admin_process_start_dell(call: CallbackQuery, session_with_commit: AsyncSession) -> None:
     """
-    Обработчик нажатия на кнопку "dell_".
+    Обработчик нажатия на кнопку удаления товара.
+    Удаляет товар из базы данных.
 
     Args:
         call (CallbackQuery): Объект CallbackQuery.
-        session_with_commit (AsyncSession): Асинхронная сессия SQLAlchemy.
+        session_with_commit (AsyncSession): Асинхровая сессия SQLAlchemy с коммитом.
     """
-    try: # Обработка исключений с использованием logger.error
-        product_id = int(call.data.split('_')[-1])
+    product_id = int(call.data.split('_')[-1])
+    try:
         await ProductDao.delete(session=session_with_commit, filters=ProductIDModel(id=product_id))
         await call.answer(f"Товар с ID {product_id} удален!", show_alert=True)
         await asyncio.sleep(1.5)
         await call.message.delete()
     except Exception as ex:
-        logger.error('Error while deleting product', ex, exc_info=True)
+        logger.error(f'Ошибка при удалении товара с ID {product_id}', ex, exc_info=True)
 
 
 @admin_router.callback_query(F.data == 'process_products', F.from_user.id.in_(settings.ADMIN_IDS))
 async def admin_process_products(call: CallbackQuery, session_without_commit: AsyncSession) -> None:
     """
     Обработчик нажатия на кнопку "process_products".
+    Предоставляет инструменты для управления товарами.
 
     Args:
         call (CallbackQuery): Объект CallbackQuery.
-        session_without_commit (AsyncSession): Асинхронная сессия SQLAlchemy.
+        session_without_commit (AsyncSession): Асинхровая сессия SQLAlchemy.
     """
     await call.answer('Режим управления товарами')
-    try: # Обработка исключений с использованием logger.error
-        all_products_count = await ProductDao.count(session=session_without_commit)
-        await call.message.edit_text(
-            text=f"На данный момент в базе данных {all_products_count} товаров. Что будем делать?",
-            reply_markup=product_management_kb()
-        )
-    except Exception as ex:
-        logger.error('Error while processing products', ex, exc_info=True)
+    all_products_count = await ProductDao.count(session=session_without_commit)
+    await call.message.edit_text(
+        text=f"На данный момент в базе данных {all_products_count} товаров. Что будем делать?",
+        reply_markup=product_management_kb()
+    )
 
 
 @admin_router.callback_query(F.data == 'add_product', F.from_user.id.in_(settings.ADMIN_IDS))
 async def admin_process_add_product(call: CallbackQuery, state: FSMContext) -> None:
     """
     Обработчик нажатия на кнопку "add_product".
+    Запускает сценарий добавления товара.
 
     Args:
         call (CallbackQuery): Объект CallbackQuery.
         state (FSMContext): Объект FSMContext.
     """
     await call.answer('Запущен сценарий добавления товара.')
-    try: # Обработка исключений с использованием logger.error
+    try:
         await call.message.delete()
-        msg = await call.message.answer(text="Для начала укажите имя товара: ", reply_markup=cancel_kb_inline())
-        await state.update_data(last_msg_id=msg.message_id)
-        await state.set_state(AddProduct.name)
     except Exception as ex:
-        logger.error('Error while processing add product', ex, exc_info=True)
+        logger.error('Ошибка при удалении сообщения о запуске сценария добавления товара', ex, exc_info=True)
+    msg = await call.message.answer(text="Для начала укажите имя товара: ", reply_markup=cancel_kb_inline())
+    await state.update_data(last_msg_id=msg.message_id)
+    await state.set_state(AddProduct.name)
 
 
 @admin_router.message(F.text, F.from_user.id.in_(settings.ADMIN_IDS), AddProduct.name)
@@ -257,14 +265,11 @@ async def admin_process_name(message: Message, state: FSMContext) -> None:
         message (Message): Объект Message.
         state (FSMContext): Объект FSMContext.
     """
-    try: # Обработка исключений с использованием logger.error
-        await state.update_data(name=message.text)
-        await process_dell_text_msg(message, state)
-        msg = await message.answer(text="Теперь дайте короткое описание товару: ", reply_markup=cancel_kb_inline())
-        await state.update_data(last_msg_id=msg.message_id)
-        await state.set_state(AddProduct.description)
-    except Exception as ex:
-        logger.error('Error while processing name', ex, exc_info=True)
+    await state.update_data(name=message.text)
+    await process_dell_text_msg(message, state)
+    msg = await message.answer(text="Теперь дайте короткое описание товару: ", reply_markup=cancel_kb_inline())
+    await state.update_data(last_msg_id=msg.message_id)
+    await state.set_state(AddProduct.description)
 
 
 @admin_router.message(F.text, F.from_user.id.in_(settings.ADMIN_IDS), AddProduct.description)
@@ -275,17 +280,14 @@ async def admin_process_description(message: Message, state: FSMContext, session
     Args:
         message (Message): Объект Message.
         state (FSMContext): Объект FSMContext.
-        session_without_commit (AsyncSession): Асинхронная сессия SQLAlchemy.
+        session_without_commit (AsyncSession): Асинхровая сессия SQLAlchemy.
     """
-    try: # Обработка исключений с использованием logger.error
-        await state.update_data(description=message.html_text)
-        await process_dell_text_msg(message, state)
-        catalog_data = await CategoryDao.find_all(session=session_without_commit)
-        msg = await message.answer(text="Теперь выберите категорию товара: ", reply_markup=catalog_admin_kb(catalog_data))
-        await state.update_data(last_msg_id=msg.message_id)
-        await state.set_state(AddProduct.category_id)
-    except Exception as ex:
-        logger.error('Error while processing description', ex, exc_info=True)
+    await state.update_data(description=message.html_text)
+    await process_dell_text_msg(message, state)
+    catalog_data = await CategoryDao.find_all(session=session_without_commit)
+    msg = await message.answer(text="Теперь выберите категорию товара: ", reply_markup=catalog_admin_kb(catalog_data))
+    await state.update_data(last_msg_id=msg.message_id)
+    await state.set_state(AddProduct.category_id)
 
 
 @admin_router.callback_query(F.data.startswith("add_category_"),
@@ -299,15 +301,12 @@ async def admin_process_category(call: CallbackQuery, state: FSMContext) -> None
         call (CallbackQuery): Объект CallbackQuery.
         state (FSMContext): Объект FSMContext.
     """
-    try: # Обработка исключений с использованием logger.error
-        category_id = int(call.data.split("_")[-1])
-        await state.update_data(category_id=category_id)
-        await call.answer('Категория товара успешно выбрана.')
-        msg = await call.message.edit_text(text="Введите цену товара: ", reply_markup=cancel_kb_inline())
-        await state.update_data(last_msg_id=msg.message_id)
-        await state.set_state(AddProduct.price)
-    except Exception as ex:
-        logger.error('Error while processing category', ex, exc_info=True)
+    category_id = int(call.data.split("_")[-1])
+    await state.update_data(category_id=category_id)
+    await call.answer('Категория товара успешно выбрана.')
+    msg = await call.message.edit_text(text="Введите цену товара: ", reply_markup=cancel_kb_inline())
+    await state.update_data(last_msg_id=msg.message_id)
+    await state.set_state(AddProduct.price)
 
 
 @admin_router.message(F.text, F.from_user.id.in_(settings.ADMIN_IDS), AddProduct.price)
@@ -319,7 +318,7 @@ async def admin_process_price(message: Message, state: FSMContext) -> None:
         message (Message): Объект Message.
         state (FSMContext): Объект FSMContext.
     """
-    try: # Обработка исключений с использованием logger.error
+    try:
         price = int(message.text)
         await state.update_data(price=price)
         await process_dell_text_msg(message, state)
@@ -329,92 +328,82 @@ async def admin_process_price(message: Message, state: FSMContext) -> None:
         )
         await state.update_data(last_msg_id=msg.message_id)
         await state.set_state(AddProduct.file_id)
-    except ValueError:
+    except ValueError as ex:
+        logger.error('Ошибка при вводе цены товара', ex, exc_info=True)
         await message.answer(text="Ошибка! Необходимо ввести числовое значение для цены.")
         return
-    except Exception as ex:
-        logger.error('Error while processing price', ex, exc_info=True)
 
 
 @admin_router.callback_query(F.data == "without_file", F.from_user.id.in_(settings.ADMIN_IDS), AddProduct.file_id)
 async def admin_process_without_file(call: CallbackQuery, state: FSMContext) -> None:
     """
-    Обработчик выбора "без файла".
+    Обработчик выбора варианта "без файла".
 
     Args:
         call (CallbackQuery): Объект CallbackQuery.
         state (FSMContext): Объект FSMContext.
     """
-    try: # Обработка исключений с использованием logger.error
-        await state.update_data(file_id=None)
-        await call.answer('Файл не выбран.')
-        msg = await call.message.edit_text(
-            text="Теперь отправьте контент, который отобразится после покупки товара внутри карточки",
-            reply_markup=cancel_kb_inline())
-        await state.update_data(last_msg_id=msg.message_id)
-        await state.set_state(AddProduct.hidden_content)
-    except Exception as ex:
-        logger.error('Error while processing without file', ex, exc_info=True)
+    await state.update_data(file_id=None)
+    await call.answer('Файл не выбран.')
+    msg = await call.message.edit_text(
+        text="Теперь отправьте контент, который отобразится после покупки товара внутри карточки",
+        reply_markup=cancel_kb_inline())
+    await state.update_data(last_msg_id=msg.message_id)
+    await state.set_state(AddProduct.hidden_content)
 
 
 @admin_router.message(F.document, F.from_user.id.in_(settings.ADMIN_IDS), AddProduct.file_id)
 async def admin_process_without_file(message: Message, state: FSMContext) -> None:
     """
-    Обработчик отправки файла.
+    Обработчик получения файла (документа).
 
     Args:
         message (Message): Объект Message.
         state (FSMContext): Объект FSMContext.
     """
-    try: # Обработка исключений с использованием logger.error
-        await state.update_data(file_id=message.document.file_id)
-        await process_dell_text_msg(message, state)
-        msg = await message.answer(
-            text="Теперь отправьте контент, который отобразится после покупки товара внутри карточки",
-            reply_markup=cancel_kb_inline())
-        await state.update_data(last_msg_id=msg.message_id)
-        await state.set_state(AddProduct.hidden_content)
-    except Exception as ex:
-        logger.error('Error while processing with file', ex, exc_info=True)
+    await state.update_data(file_id=message.document.file_id)
+    await process_dell_text_msg(message, state)
+    msg = await message.answer(
+        text="Теперь отправьте контент, который отобразится после покупки товара внутри карточки",
+        reply_markup=cancel_kb_inline())
+    await state.update_data(last_msg_id=msg.message_id)
+    await state.set_state(AddProduct.hidden_content)
 
 
 @admin_router.message(F.text, F.from_user.id.in_(settings.ADMIN_IDS), AddProduct.hidden_content)
 async def admin_process_hidden_content(message: Message, state: FSMContext, session_without_commit: AsyncSession) -> None:
     """
-    Обработчик ввода скрытого контента.
+    Обработчик ввода скрытого контента товара.
 
     Args:
         message (Message): Объект Message.
         state (FSMContext): Объект FSMContext.
-        session_without_commit (AsyncSession): Асинхронная сессия SQLAlchemy.
+        session_without_commit (AsyncSession): Асинхровая сессия SQLAlchemy.
     """
-    try: # Обработка исключений с использованием logger.error
-        await state.update_data(hidden_content=message.html_text)
+    await state.update_data(hidden_content=message.html_text)
 
-        product_data = await state.get_data()
-        category_info = await CategoryDao.find_one_or_none_by_id(session=session_without_commit,
-                                                                 data_id=product_data.get("category_id"))
+    product_data = await state.get_data()
+    category_info = await CategoryDao.find_one_or_none_by_id(session=session_without_commit,
+                                                             data_id=product_data.get("category_id"))
 
-        file_id = product_data.get("file_id")
-        file_text = "📦 Товар с файлом" if file_id else "📄 Товар без файла"
+    file_id = product_data.get("file_id")
+    file_text = "📦 Товар с файлом" if file_id else "📄 Товар без файла"
 
-        product_text = (f'🛒 Проверьте, все ли корректно:\n\n'
-                        f'🔹 <b>Название товара:</b> <b>{product_data["name"]}</b>\n'
-                        f'🔹 <b>Описание:</b>\n\n<b>{product_data["description"]}</b>\n\n'
-                        f'🔹 <b>Цена:</b> <b>{product_data["price"]} ₽</b>\n'
-                        f'🔹 <b>Описание (закрытое):</b>\n\n<b>{product_data["hidden_content"]}</b>\n\n'
-                        f'🔹 <b>Категория:</b> <b>{category_info.category_name} (ID: {category_info.id})</b>\n\n'
-                        f'<b>{file_text}</b>')
-        await process_dell_text_msg(message, state)
+    product_text = (f'🛒 Проверьте, все ли корректно:\n\n'
+                    f'🔹 <b>Название товара:</b> <b>{product_data["name"]}</b>\n'
+                    f'🔹 <b>Описание:</b>\n\n<b>{product_data["description"]}</b>\n\n'
+                    f'🔹 <b>Цена:</b> <b>{product_data["price"]} ₽</b>\n'
+                    f'🔹 <b>Описание (закрытое):</b>\n\n<b>{product_data["hidden_content"]}</b>\n\n'
+                    f'🔹 <b>Категория:</b> <b>{category_info.category_name} (ID: {category_info.id})</b>\n\n'
+                    f'<b>{file_text}</b>')
+    await process_dell_text_msg(message, state)
 
-        if file_id:
-            msg = await message.answer_document(document=file_id, caption=product_text, reply_markup=admin_confirm_kb())
-        else:
-            msg = await message.answer(text=product_text, reply_markup=admin_confirm_kb())
-        await state.update_data(last_msg_id=msg.message_id)
-        await state.set_state(AddProduct.confirm_add)
-    except Exception as ex:
-        logger.error('Error while processing hidden content', ex, exc_info=True)
+    if file_id:
+        msg = await message.answer_document(document=file_id, caption=product_text, reply_markup=admin_confirm_kb())
+    else:
+        msg = await message.answer(text=product_text, reply_markup=admin_confirm_kb())
+    await state.update_data(last_msg_id=msg.message_id)
+    await state.set_state(AddProduct.confirm_add)
 
 
 @admin_router.callback_query(F.data == "confirm_add", F.from_user.id.in_(settings.ADMIN_IDS))
@@ -425,14 +414,14 @@ async def admin_process_confirm_add(call: CallbackQuery, state: FSMContext, sess
     Args:
         call (CallbackQuery): Объект CallbackQuery.
         state (FSMContext): Объект FSMContext.
-        session_with_commit (AsyncSession): Асинхронная сессия SQLAlchemy.
+        session_with_commit (AsyncSession): Асинхровая сессия SQLAlchemy с коммитом.
     """
     await call.answer('Приступаю к сохранению файла!')
-    try: # Обработка исключений с использованием logger.error
-        product_data = await state.get_data()
+    product_data = await state.get_data()
+    try:
         await bot.delete_message(chat_id=call.from_user.id, message_id=product_data["last_msg_id"])
-        del product_data["last_msg_id"]
-        await ProductDao.add(session=session_with_commit, values=ProductModel(**product_data))
-        await call.message.answer(text="Товар успешно добавлен в базу данных!", reply_markup=admin_kb())
     except Exception as ex:
-        logger.error('Error while confirming add', ex, exc_info=True)
+        logger.error('Ошибка при удалении сообщения о подтверждении', ex, exc_info=True)
+    del product_data["last_msg_id"]
+    await ProductDao.add(session=session_with_commit, values=ProductModel(**product_data))
+    await call.message.answer(text="Товар успешно добавлен в базу данных!", reply_markup=admin_kb())

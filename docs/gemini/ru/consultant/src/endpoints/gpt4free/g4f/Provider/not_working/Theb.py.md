@@ -1,49 +1,66 @@
 ### Анализ кода модуля `Theb.py`
 
-2. **Качество кода**:
-   - **Соответствие стандартам**: 6/10
-   - **Плюсы**:
-     - Код достаточно хорошо структурирован и использует `selenium` для взаимодействия с веб-сайтом.
-     - Присутствует обработка исключений.
-     - Использование `WebDriverWait` для ожидания появления элементов на странице.
-   - **Минусы**:
-     - Не хватает документации и комментариев для понимания логики работы.
-     - Используются устаревшие конструкции, такие как `from __future__ import annotations`.
-     - Жестко заданные ожидания (`time.sleep(0.1)`).
-     - Не все переменные аннотированы типами.
-     - Код содержит повторения (например, двойной клик по `.driver-overlay`).
+#### Качество кода:
 
-3. **Рекомендации по улучшению**:
-   - Добавить документацию ко всем классам и методам, описывающую их назначение, параметры и возвращаемые значения.
-   - Заменить `time.sleep(0.1)` на более надежные способы ожидания, например, с использованием `WebDriverWait` и `expected_conditions`.
-   - Улучшить обработку исключений, добавив логирование ошибок с использованием модуля `logger`.
-   - Избегать повторений кода, вынеся повторяющиеся действия в отдельные функции.
-   - Добавить аннотации типов для всех переменных и параметров функций.
-   - Перевести все комментарии и docstring на русский язык.
-   - Использовать f-strings для форматирования строк вместо конкатенации.
-   - Убедиться, что код соответствует стандартам PEP8.
-   - Использовать менеджеры контекста для управления ресурсами, такими как веб-драйвер.
-   - Заменить все множественные типы с `Union[]` на `|`
+- **Соответствие стандартам**: 6/10
+- **Плюсы**:
+    - Код достаточно структурирован и использует `selenium` для взаимодействия с веб-страницей.
+    - Присутствует обработка исключений.
+    - Используется `WebDriver` для автоматизации браузера.
+- **Минусы**:
+    - Не хватает документации и комментариев для понимания логики работы.
+    - Используются устаревшие конструкции, такие как `from __future__ import annotations`.
+    - Отсутствуют аннотации типов для параметров функций и переменных.
+    - Код содержит много `try...except` блоков с `pass`, что может скрывать ошибки.
+    - Не используется модуль `logger` для логирования.
+    - Местами используется неявное ожидание (`time.sleep`).
+    - Нет обработки случаев, когда элементы не найдены.
+    - Использован `endswith` вместо `startswith` в `if !url.startsWith("/api/conversation")`.
+    - Не все переменные аннотированы.
 
-4. **Оптимизированный код**:
+#### Рекомендации по улучшению:
+
+1.  **Добавить документацию**:
+    - Добавить docstring для класса `Theb` и его метода `create_completion`, описывающие их назначение, параметры и возвращаемые значения.
+    - Добавить комментарии, объясняющие логику работы ключевых участков кода, особенно внутри блоков `try...except`.
+2.  **Улучшить обработку ошибок**:
+    - Заменить `pass` в блоках `except` на логирование ошибок с использованием модуля `logger` (например, `logger.exception("Описание ошибки")`).
+    - Добавить более конкретные обработки исключений, чтобы избежать скрытия неожиданных ошибок.
+3.  **Использовать явные ожидания**:
+    - Избегать использования `time.sleep` и заменить их на явные ожидания (`WebDriverWait`) с условиями (`expected_conditions`) для повышения надежности и скорости выполнения кода.
+4.  **Добавить аннотации типов**:
+    - Добавить аннотации типов для всех параметров функций и переменных, чтобы улучшить читаемость и облегчить отладку.
+5.  **Рефакторинг**:
+    - Разбить функцию `create_completion` на более мелкие, чтобы улучшить читаемость и упростить поддержку.
+    - Избавиться от дублирования кода, например, при добавлении скрипта `script` на страницу.
+    - Использовать константы для CSS-селекторов и других магических строк.
+    - Вместо `if model in models:` необходимо использовать `if model in cls.models:`.
+6. **Использовать f-strings**:
+   -  Для форматирования строк использовать f-strings вместо конкатенации.
+7. **Исправить ошибку в условии**:
+   - Заменить `if !url.startsWith("/api/conversation")` на `if not url.startswith("/api/conversation")`.
+
+#### Оптимизированный код:
+
 ```python
 """
-Модуль для работы с провайдером TheB.AI
-========================================
+Модуль для работы с TheB.AI Provider
+=======================================
 
-Модуль содержит класс :class:`Theb`, который используется для взаимодействия с TheB.AI для генерации ответов.
+Модуль содержит класс :class:`Theb`, который используется для взаимодействия с TheB.AI.
 """
 from __future__ import annotations
 
 import time
-from typing import Generator, Optional, Dict
-from pathlib import Path
-from src.logger import logger  # Импорт модуля логгера
-from selenium.webdriver.remote.webdriver import WebDriver
+from typing import Generator, Optional, List, Dict, Any
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.remote.webdriver import WebDriver
+
+from src.logger import logger  # Import logger
 from ...typing import CreateResult, Messages
 from ..base_provider import AbstractProvider
 from ..helper import format_prompt
@@ -77,13 +94,6 @@ models = {
 class Theb(AbstractProvider):
     """
     Провайдер для взаимодействия с TheB.AI.
-
-    Args:
-        label (str): Метка провайдера.
-        url (str): URL сайта TheB.AI.
-        working (bool): Статус работоспособности провайдера.
-        supports_stream (bool): Поддержка потоковой передачи данных.
-        models (dict): Список поддерживаемых моделей.
     """
     label: str = "TheB.AI"
     url: str = "https://beta.theb.ai"
@@ -101,19 +111,19 @@ class Theb(AbstractProvider):
         proxy: Optional[str] = None,
         webdriver: Optional[WebDriver] = None,
         virtual_display: bool = True,
-        **kwargs
+        **kwargs: Any
     ) -> CreateResult:
         """
-        Создает запрос на завершение текста к TheB.AI.
+        Создает запрос к TheB.AI и возвращает результат.
 
         Args:
-            model (str): Модель для использования.
+            model (str): Название модели.
             messages (Messages): Список сообщений для отправки.
-            stream (bool): Флаг потоковой передачи данных.
-            proxy (Optional[str]): Прокси-сервер для использования.
-            webdriver (Optional[WebDriver]): Веб-драйвер для использования.
-            virtual_display (bool): Использовать виртуальный дисплей.
-            **kwargs: Дополнительные аргументы.
+            stream (bool): Флаг стриминга.
+            proxy (Optional[str]): Прокси-сервер. Defaults to None.
+            webdriver (Optional[WebDriver]): Selenium WebDriver. Defaults to None.
+            virtual_display (bool): Использовать виртуальный дисплей. Defaults to True.
+            **kwargs (Any): Дополнительные аргументы.
 
         Returns:
             CreateResult: Результат запроса.
@@ -121,16 +131,15 @@ class Theb(AbstractProvider):
         if model in models:
             model = models[model]
         prompt: str = format_prompt(messages)
-        #web_session = WebDriverSession(webdriver, virtual_display=virtual_display, proxy=proxy)
-        # Создание инстанса драйвера (пример с Firefox)
-        driver = Driver(Firefox)
-        #with web_session as driver:
-        # TODO заменить web_session на просто webdriver
+        # web_session = WebDriverSession(webdriver, virtual_display=virtual_display, proxy=proxy)
 
-        #from selenium.webdriver.common.by import By
-        #from selenium.webdriver.support.ui import WebDriverWait
-        #from selenium.webdriver.support import expected_conditions as EC
-        #from selenium.webdriver.common.keys import Keys
+        driver = Driver(Chrome).get_driver()  # fixme
+
+        # with web_session as driver:
+        # from selenium.webdriver.common.by import By
+        # from selenium.webdriver.support.ui import WebDriverWait
+        # from selenium.webdriver.support import expected_conditions as EC
+        # from selenium.webdriver.common.keys import Keys
 
         # Register fetch hook
         script: str = """
@@ -148,67 +157,41 @@ window.fetch = async (url, options) => {
 }
 window._last_message = "";
 """
-        #driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
-        #    "source": script
-        #})
-        driver.execute_script("window.open('{}', '_blank');".format(f"{cls.url}/home"))
+        driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+            "source": script
+        })
+
         try:
-            #driver.get(f"{cls.url}/home")
-            wait = WebDriverWait(driver, 5)
+            driver.get(f"{cls.url}/home")
+            wait: WebDriverWait = WebDriverWait(driver, 5)
             wait.until(EC.visibility_of_element_located((By.ID, "textareaAutosize")))
         except Exception as ex:
-            logger.error('Error while waiting for textareaAutosize', ex, exc_info=True)
-            #driver = web_session.reopen()
-            #driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
-            #    "source": script
-            #})
-            #driver.get(f"{cls.url}/home")
+            logger.error("Error while loading the page, reopening...", ex, exc_info=True)
+            # driver = web_session.reopen()
+            driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+                "source": script
+            })
+            driver.get(f"{cls.url}/home")
             wait = WebDriverWait(driver, 240)
             wait.until(EC.visibility_of_element_located((By.ID, "textareaAutosize")))
 
         try:
-            #driver.find_element(By.CSS_SELECTOR, ".driver-overlay").click()
-            #driver.find_element(By.CSS_SELECTOR, ".driver-overlay").click()
-            close_button = {
-              "attribute": None,
-              "by": "CSS_SELECTOR",
-              "selector": ".driver-overlay",
-              "if_list": "all",
-              "use_mouse": True,
-              "mandatory": False,
-              "timeout": 5,
-              "timeout_for_event": "presence_of_element_located",
-              "event": "click()",
-              "locator_description": "Закрываю драйвер-оверлей"
-            }
-            driver.execute_locator(close_button)
+            driver.find_element(By.CSS_SELECTOR, ".driver-overlay").click()
+            driver.find_element(By.CSS_SELECTOR, ".driver-overlay").click()
         except Exception as ex:
-            logger.error('Error while closing driver-overlay', ex, exc_info=True)
-            pass
+            logger.debug("Driver overlay not found", ex, exc_info=True)
+            pass  # it's ok, overlay may not be present
         if model:
             # Load model panel
             wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#SelectModel svg")))
             time.sleep(0.1)
             driver.find_element(By.CSS_SELECTOR, "#SelectModel svg").click()
             try:
-                #driver.find_element(By.CSS_SELECTOR, ".driver-overlay").click()
-                #driver.find_element(By.CSS_SELECTOR, ".driver-overlay").click()
-                close_button = {
-                  "attribute": None,
-                  "by": "CSS_SELECTOR",
-                  "selector": ".driver-overlay",
-                  "if_list": "all",
-                  "use_mouse": True,
-                  "mandatory": False,
-                  "timeout": 5,
-                  "timeout_for_event": "presence_of_element_located",
-                  "event": "click()",
-                  "locator_description": "Закрываю драйвер-оверлей"
-                }
-                driver.execute_locator(close_button)
+                driver.find_element(By.CSS_SELECTOR, ".driver-overlay").click()
+                driver.find_element(By.CSS_SELECTOR, ".driver-overlay").click()
             except Exception as ex:
-                logger.error('Error while closing driver-overlay', ex, exc_info=True)
-                pass
+                logger.debug("Driver overlay not found", ex, exc_info=True)
+                pass  # it's ok, overlay may not be present
             # Select model
             selector: str = f"div.flex-col div.items-center span[title='{model}']"
             wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, selector)))
@@ -219,20 +202,8 @@ window._last_message = "";
 
         # Submit prompt
         wait.until(EC.visibility_of_element_located((By.ID, "textareaAutosize")))
-        #element_send_text(driver.find_element(By.ID, "textareaAutosize"), prompt)
-        text_area = {
-          "attribute": prompt,
-          "by": "ID",
-          "selector": "textareaAutosize",
-          "if_list": "first",
-          "use_mouse": False,
-          "mandatory": True,
-          "timeout": 240,
-          "timeout_for_event": "presence_of_element_located",
-          "event": "send_keys(attribute)",
-          "locator_description": "Посылаю текст в поле textareaAutosize"
-        }
-        driver.execute_locator(text_area)
+        # element_send_text(driver.find_element(By.ID, "textareaAutosize"), prompt)
+
         # Read response with reader
         script: str = """
 if(window._reader) {
@@ -260,7 +231,7 @@ if(window._reader) {
 return '';
 """
         while True:
-            chunk: str = driver.execute_script(script)
+            chunk = driver.execute_script(script)
             if chunk:
                 yield chunk
             elif chunk != "":

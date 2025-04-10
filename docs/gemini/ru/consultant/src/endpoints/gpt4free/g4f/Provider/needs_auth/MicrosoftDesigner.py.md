@@ -3,31 +3,38 @@
 #### **Качество кода**:
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Асинхронный код хорошо структурирован.
-    - Используется `aiohttp` для асинхронных запросов.
-    - Обработка исключений присутствует.
+  - Асинхронный код, что позволяет эффективно использовать ресурсы.
+  - Использование `aiohttp` для асинхронных HTTP-запросов.
+  - Класс `MicrosoftDesigner` хорошо структурирован и использует `ProviderModelMixin` для наследования функциональности.
 - **Минусы**:
-    - Отсутствуют аннотации типов для большинства переменных и параметров функций.
-    - Не используется `logger` для логирования ошибок и отладки.
-    - В некоторых местах используются английские комментарии.
-    - Не все функции имеют docstring.
-    - Не используется `j_loads` для чтения JSON файлов.
+  - Отсутствуют аннотации типов для большинства переменных и параметров функций.
+  - Не все функции имеют docstring, что затрудняет понимание их назначения и использования.
+  - В коде присутствуют magic strings (например, URL'ы), которые следует вынести в константы.
+  - Обработка ошибок выполняется, но логирование не всегда присутствует.
 
 #### **Рекомендации по улучшению**:
-1. **Добавить аннотации типов**: Необходимо добавить аннотации типов для всех переменных и параметров функций. Это улучшит читаемость и поддерживаемость кода.
-2. **Использовать `logger` для логирования**: Заменить `debug.log` на `logger.debug` и добавить логирование ошибок с использованием `logger.error`.
-3. **Перевести комментарии на русский язык**: Все комментарии и docstring должны быть на русском языке.
-4. **Добавить docstring для всех функций**: Необходимо добавить docstring для всех функций, включая описание параметров, возвращаемых значений и возможных исключений.
-5. **Использовать `j_loads` для чтения HAR файлов**: Заменить стандартное использование `open` и `json.load` на `j_loads`.
-6. **Улучшить обработку исключений**: Добавить более информативные сообщения об ошибках при возникновении исключений.
-7. **Удалить `from __future__ import annotations`**:  Этот импорт больше не нужен, так как Python 3.7+ поддерживает аннотации типов без него.
-8. **Заменить `Union` на `|`**: Использовать `|` вместо `Union` для обозначения объединения типов.
-9. **Более конкретное описание ошибок**:  Вместо простого `raise h` необходимо логировать ошибку и передавать более конкретное сообщение.
-10. **Улучшить форматирование строк**: Использовать f-строки для более читаемого форматирования строк.
-11. **Использовать `asyncio.sleep` с явным указанием единиц измерения**: При использовании `asyncio.sleep` необходимо явно указывать, что время задано в секундах (например, `asyncio.sleep(1)` для 1 секунды).
-12. **Упростить логику извлечения токена**:  Упростить логику извлечения токена и user-agent из HAR-файлов, сделав её более надежной и понятной.
+
+1.  **Добавить docstring**:
+    - Добавить docstring для всех функций и методов, включая описание аргументов, возвращаемых значений и возможных исключений.
+    - Описать назначение модуля в целом в начале файла.
+
+2.  **Добавить аннотации типов**:
+    - Добавить аннотации типов для всех переменных и параметров функций для повышения читаемости и облегчения отладки.
+
+3.  **Улучшить обработку ошибок и логирование**:
+
+    *   Добавить логирование с использованием модуля `logger` из `src.logger` для отслеживания ошибок и предупреждений.
+    *   Использовать `logger.error` для записи ошибок и `logger.info` для информационных сообщений.
+
+4.  **Вынести константы**:
+    - Заменить magic strings (например, URL'ы) константами, чтобы упростить поддержку и изменение кода.
+
+5.  **Улучшить читаемость**:
+    - Добавить пробелы вокруг операторов присваивания и других операторов для улучшения читаемости.
+    - Использовать более понятные имена переменных.
 
 #### **Оптимизированный код**:
+
 ```python
 from __future__ import annotations
 
@@ -38,6 +45,7 @@ import asyncio
 import json
 from typing import AsyncGenerator, Optional, List, Tuple
 
+from src.logger import logger # Добавлен импорт logger
 from ...providers.response import ImageResponse
 from ...errors import MissingRequirementsError, NoValidHarFileError
 from ...typing import AsyncResult, Messages
@@ -47,23 +55,27 @@ from ...requests import get_nodriver
 from ..Copilot import get_headers, get_har_files
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ..helper import get_random_hex, format_image_prompt
-from src.logger import logger  # Исправлен импорт logger
+from ... import debug
 from pathlib import Path
 
 
+"""
+Модуль для работы с Microsoft Designer
+========================================
+
+Модуль содержит класс :class:`MicrosoftDesigner`, который используется для генерации изображений с использованием API Microsoft Designer.
+
+Пример использования
+----------------------
+
+>>> provider = MicrosoftDesigner()
+>>> async for image in provider.create_async_generator(model='dall-e-3', messages=[{'role': 'user', 'content': 'A cat'}]):
+...     print(image)
+"""
+
 class MicrosoftDesigner(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Модуль для работы с Microsoft Designer для генерации изображений.
-    ==============================================================
-
-    Этот модуль предоставляет класс `MicrosoftDesigner`, который позволяет генерировать изображения
-    с использованием API Microsoft Designer.
-
-    Пример использования:
-    ----------------------
-    >>> provider = MicrosoftDesigner()
-    >>> async for image in provider.create_async_generator(model='dall-e-3', messages=[{'role': 'user', 'content': 'cat'}]):
-    ...     print(image)
+    Провайдер для генерации изображений через Microsoft Designer.
     """
     label: str = "Microsoft Designer"
     url: str = "https://designer.microsoft.com"
@@ -79,92 +91,78 @@ class MicrosoftDesigner(AsyncGeneratorProvider, ProviderModelMixin):
         cls,
         model: str,
         messages: Messages,
-        prompt: Optional[str] = None,
-        proxy: Optional[str] = None,
+        prompt: str = None,
+        proxy: str = None,
         **kwargs
     ) -> AsyncGenerator[ImageResponse, None]:
         """
-        Создает асинхронный генератор для генерации изображений.
+        Создает асинхронный генератор для получения изображений.
 
         Args:
             model (str): Модель для генерации изображений.
             messages (Messages): Список сообщений для формирования запроса.
-            prompt (Optional[str]): Дополнительный текст запроса.
-            proxy (Optional[str]): Прокси-сервер для использования.
+            prompt (str, optional): Дополнительный промпт. По умолчанию None.
+            proxy (str, optional): Прокси-сервер. По умолчанию None.
 
         Yields:
             ImageResponse: Сгенерированное изображение.
-
-        Raises:
-            Exception: Если возникает ошибка при генерации изображения.
         """
-        image_size: str = "1024x1024"
+        image_size = "1024x1024"
         if model != cls.default_image_model and model in cls.image_models:
             image_size = model
         yield await cls.generate(format_image_prompt(messages, prompt), image_size, proxy)
 
     @classmethod
-    async def generate(cls, prompt: str, image_size: str, proxy: Optional[str] = None) -> ImageResponse:
+    async def generate(cls, prompt: str, image_size: str, proxy: str = None) -> ImageResponse:
         """
-        Генерирует изображение на основе заданного текста запроса.
+        Генерирует изображение на основе заданного промпта.
 
         Args:
             prompt (str): Текст запроса для генерации изображения.
             image_size (str): Размер изображения.
-            proxy (Optional[str]): Прокси-сервер для использования.
+            proxy (str, optional): Прокси-сервер. По умолчанию None.
 
         Returns:
-            ImageResponse: Объект, содержащий сгенерированные изображения и текст запроса.
+            ImageResponse: Объект ImageResponse с сгенерированными изображениями.
 
         Raises:
             NoValidHarFileError: Если не найден валидный HAR-файл.
             Exception: Если возникает ошибка при создании изображений.
         """
         try:
-            access_token: str = None
-            user_agent: str = None
+            access_token, user_agent = readHAR("https://designerapp.officeapps.live.com")
+        except NoValidHarFileError as ex:
+            debug.log(f"{cls.__name__}: {ex}")
             try:
-                access_token, user_agent = readHAR("https://designerapp.officeapps.live.com")
-            except NoValidHarFileError as h:
-                logger.error(f"{cls.__name__}: {h}", exc_info=True)
-                try:
-                    access_token, user_agent = await get_access_token_and_user_agent(cls.url, proxy)
-                except MissingRequirementsError as ex:
-                    raise NoValidHarFileError("Не найден access token в HAR файлах и не удалось получить его автоматически") from ex # Пробрасываем исключение с сохранением стека вызовов
-            
-            if not access_token or not user_agent:
-                raise ValueError("Не удалось получить access token и user agent")
-            
-            images: List[str] = await create_images(prompt, access_token, user_agent, image_size, proxy)
-            return ImageResponse(images, prompt)
-        except Exception as ex:
-            logger.error(f"Ошибка при генерации изображения: {ex}", exc_info=True)
-            raise
+                access_token, user_agent = await get_access_token_and_user_agent(cls.url, proxy)
+            except MissingRequirementsError:
+                raise ex
+        images = await create_images(prompt, access_token, user_agent, image_size, proxy)
+        return ImageResponse(images, prompt)
 
-
-async def create_images(prompt: str, access_token: str, user_agent: str, image_size: str, proxy: Optional[str] = None, seed: Optional[int] = None) -> List[str]:
+async def create_images(prompt: str, access_token: str, user_agent: str, image_size: str, proxy: str = None, seed: int = None) -> List[str]:
     """
-    Создает изображения с использованием API Microsoft Designer.
+    Создает изображения на основе заданного промпта и параметров.
 
     Args:
         prompt (str): Текст запроса для генерации изображения.
-        access_token (str): Токен доступа для API.
-        user_agent (str): User-Agent для запросов.
+        access_token (str): Токен доступа.
+        user_agent (str): User-Agent.
         image_size (str): Размер изображения.
-        proxy (Optional[str]): Прокси-сервер для использования.
-        seed (Optional[int]): Зерно для случайной генерации.
+        proxy (str, optional): Прокси-сервер. По умолчанию None.
+        seed (int, optional): Зерно для случайной генерации. По умолчанию None.
 
     Returns:
         List[str]: Список URL сгенерированных изображений.
 
     Raises:
-        Exception: Если возникает ошибка при создании изображений.
+        Exception: Если возникает ошибка при запросе к API.
     """
     url: str = 'https://designerapp.officeapps.live.com/designerapp/DallE.ashx?action=GetDallEImagesCogSci'
     if seed is None:
-        seed = random.randint(0, 10000)
+        seed: int = random.randint(0, 10000)
 
-    headers: dict = {
+    headers: dict[str, str] = {
         "User-Agent": user_agent,
         "Accept": "application/json, text/plain, */*",
         "Accept-Language": "en-US",
@@ -208,85 +206,75 @@ async def create_images(prompt: str, access_token: str, user_agent: str, image_s
     form_data.add_field('dalle-aspect-ratio-scaling-factor-b64-thumbnails', '0.3')
     form_data.add_field('dalle-image-size', image_size)
 
-    try:
-        async with aiohttp.ClientSession(connector=get_connector(proxy=proxy)) as session:
+    async with aiohttp.ClientSession(connector=get_connector(proxy=proxy)) as session:
+        async with session.post(url, headers=headers, data=form_data) as response:
+            await raise_for_status(response)
+            response_data: dict = await response.json()
+        form_data.add_field('dalle-boost-count', str(response_data.get('dalle-boost-count', 0)))
+        polling_meta_data: dict = response_data.get('polling_response', {}).get('polling_meta_data', {})
+        form_data.add_field('dalle-poll-url', polling_meta_data.get('poll_url', ''))
+
+        while True:
+            await asyncio.sleep(polling_meta_data.get('poll_interval', 1000) / 1000)
             async with session.post(url, headers=headers, data=form_data) as response:
                 await raise_for_status(response)
                 response_data: dict = await response.json()
-            form_data.add_field('dalle-boost-count', str(response_data.get('dalle-boost-count', 0)))
-            polling_meta_data: dict = response_data.get('polling_response', {}).get('polling_meta_data', {})
-            form_data.add_field('dalle-poll-url', polling_meta_data.get('poll_url', ''))
-
-            while True:
-                await asyncio.sleep(polling_meta_data.get('poll_interval', 1000) / 1000)  # Явно указано, что время в секундах
-                async with session.post(url, headers=headers, data=form_data) as response:
-                    await raise_for_status(response)
-                    response_data: dict = await response.json()
-                images: List[str] = [image["ImageUrl"] for image in response_data.get('image_urls_thumbnail', [])]
-                if images:
-                    return images
-    except aiohttp.ClientError as ex:
-        logger.error(f"Ошибка при выполнении HTTP запроса: {ex}", exc_info=True)
-        raise
-    except Exception as ex:
-        logger.error(f"Непредвиденная ошибка при создании изображений: {ex}", exc_info=True)
-        raise
-
+            images: List[str] = [image["ImageUrl"] for image in response_data.get('image_urls_thumbnail', [])]
+            if images:
+                return images
 
 def readHAR(url: str) -> Tuple[str, str]:
     """
-    Извлекает access token и user agent из HAR-файлов.
+    Читает HAR-файл для получения токена доступа и user-agent.
 
     Args:
-        url (str): URL для поиска в HAR-файлах.
+        url (str): URL для поиска в HAR-файле.
 
     Returns:
-        Tuple[str, str]: Кортеж, содержащий access token и user agent.
+        Tuple[str, str]: Токен доступа и user-agent.
 
     Raises:
         NoValidHarFileError: Если не найден валидный HAR-файл.
-        Exception: Если возникает ошибка при чтении HAR-файлов.
     """
     api_key: Optional[str] = None
     user_agent: Optional[str] = None
-    try:
-        for path in get_har_files():
-            try:
-                with open(path, 'r', encoding='utf-8') as file:
-                    harFile: dict = json.load(file)  # Используем j_loads
-            except (json.JSONDecodeError, FileNotFoundError) as ex:
-                logger.warning(f"Не удалось прочитать HAR файл {path}: {ex}", exc_info=True)
-                continue
+    for path in get_har_files():
+        try:
+            with open(path, 'rb') as file:
+                try:
+                    harFile: dict = json.loads(file.read())
+                except json.JSONDecodeError as ex:
+                    # Error: not a HAR file!
+                    logger.error(f"Invalid HAR file: {path}", ex, exc_info=True)
+                    continue
+                for v in harFile['log']['entries']:
+                    if v['request']['url'].startswith(url):
+                        v_headers: dict = get_headers(v)
+                        if "authorization" in v_headers:
+                            api_key: str = v_headers["authorization"].split(maxsplit=1).pop()
+                        if "user-agent" in v_headers:
+                            user_agent: str = v_headers["user-agent"]
+        except Exception as ex:
+            logger.error(f"Error reading HAR file: {path}", ex, exc_info=True)
 
-            for v in harFile.get('log', {}).get('entries', []):
-                if v.get('request', {}).get('url', '').startswith(url):
-                    v_headers: dict = get_headers(v)
-                    api_key = v_headers.get("authorization", "").split(maxsplit=1).pop() if "authorization" in v_headers else None
-                    user_agent = v_headers.get("user-agent")
-                    if api_key and user_agent:
-                        return api_key, user_agent
+    if api_key is None:
+        raise NoValidHarFileError("No access token found in .har files")
 
-        if api_key is None or user_agent is None:
-            raise NoValidHarFileError("Не найден access token или user agent в .har файлах")
+    return api_key, user_agent
 
-        return api_key, user_agent
-    except Exception as ex:
-        logger.error(f"Ошибка при чтении HAR файлов: {ex}", exc_info=True)
-        raise
-
-async def get_access_token_and_user_agent(url: str, proxy: Optional[str] = None) -> Tuple[str, str]:
+async def get_access_token_and_user_agent(url: str, proxy: str = None) -> Tuple[str, str]:
     """
-    Получает access token и user agent с использованием playwright.
+    Получает токен доступа и user-agent с использованием Playwright.
 
     Args:
-        url (str): URL для получения access token и user agent.
-        proxy (Optional[str]): Прокси-сервер для использования.
+        url (str): URL для получения токена доступа и user-agent.
+        proxy (str, optional): Прокси-сервер. По умолчанию None.
 
     Returns:
-        Tuple[str, str]: Кортеж, содержащий access token и user agent.
+        Tuple[str, str]: Токен доступа и user-agent.
 
     Raises:
-        Exception: Если возникает ошибка при получении access token и user agent.
+        Exception: Если возникает ошибка при работе с браузером.
     """
     browser, stop_browser = await get_nodriver(proxy=proxy, user_data_dir="designer")
     try:
@@ -309,11 +297,11 @@ async def get_access_token_and_user_agent(url: str, proxy: Optional[str] = None)
                 })()
             """)
             if access_token is None:
-                await asyncio.sleep(1)  # Явно указано, что время в секундах
+                await asyncio.sleep(1)
         await page.close()
         return access_token, user_agent
     except Exception as ex:
-        logger.error(f"Ошибка при получении access token и user agent: {ex}", exc_info=True)
+        logger.error("Error getting access token and user agent", ex, exc_info=True)
         raise
     finally:
         await stop_browser()

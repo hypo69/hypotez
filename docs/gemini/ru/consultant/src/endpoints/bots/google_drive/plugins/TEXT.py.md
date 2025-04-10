@@ -2,72 +2,57 @@
 
 **Качество кода:**
 
-- **Соответствие стандартам**: 6/10
+- **Соответствие стандартам**: 4/10
 - **Плюсы**:
-    - Код содержит основные переменные и сообщения, необходимые для работы бота.
-    - Есть константы для путей, что облегчает изменение конфигурации.
+    - Код содержит определения различных констант, что упрощает поддержку и изменение текста в боте.
+    - Присутствуют комментарии, объясняющие некоторые переменные и строки.
 - **Минусы**:
-    - Отсутствует документация модуля.
-    - Нет комментариев, объясняющих назначение каждой переменной.
-    - Используются двойные кавычки вместо одинарных.
-    - Отсутствуют аннотации типов.
-    - Не используется модуль `logger` для логирования.
-    - Не обрабатываются исключения.
-    - Не используется `j_loads` для загрузки JSON-конфигураций (если применимо).
-    - Сообщения для пользователя написаны на английском языке, требуется перевод на русский.
+    - Отсутствует документация модуля и отдельных переменных.
+    - Не используются аннотации типов.
+    - Смешанный стиль кавычек (используются как двойные, так и одинарные кавычки).
+    - Отсутствует обработка исключений.
+    - Некоторые комментарии неинформативны или устарели.
+    - Не используется модуль логирования `logger` из `src.logger`.
+    - Переменные названы в стиле `UPPER_CASE`, что обычно зарезервировано для констант, но не все переменные являются константами.
+    - В сообщениях используются HTML теги, что может быть неудобно для поддержки и изменения.
 
 **Рекомендации по улучшению:**
 
 1.  **Добавить документацию модуля**:
-
-    *   Добавить заголовок и описание модуля, используя стиль Markdown.
-    *   Описать назначение модуля и предоставить примеры использования.
-
+    - В начале файла добавить docstring с описанием назначения модуля и инструкциями по использованию.
 2.  **Добавить документацию для переменных**:
-
-    *   Добавить комментарии, объясняющие назначение каждой переменной.
-    *   Использовать аннотации типов для всех переменных.
-
-3.  **Исправить кавычки**:
-
-    *   Заменить двойные кавычки на одинарные.
-
-4.  **Логирование**:
-
-    *   Добавить логирование с использованием модуля `logger` для отслеживания ошибок и важных событий.
-
-5.  **Обработка исключений**:
-
-    *   Добавить блоки `try...except` для обработки возможных исключений, возникающих в процессе работы бота.
-    *   Логировать ошибки с использованием `logger.error`.
-
-6.  **Перевод на русский язык**:
-
-    *   Перевести все сообщения для пользователя на русский язык.
-
-7.  **Использовать f-строки**:
-    *  Для форматирования строк использовать f-строки.
-    *  Например:
-       ```python
-       name = "User"
-       message = f"Hello, {name}!"
-       ```
+    - Описать каждую переменную, её назначение и формат.
+3.  **Использовать аннотации типов**:
+    - Добавить аннотации типов для всех переменных.
+4.  **Привести к единообразию стиль кавычек**:
+    - Использовать только одинарные кавычки.
+5.  **Добавить обработку исключений**:
+    - Обернуть потенциально проблемные места (например, взаимодействие с внешними сервисами) в блоки `try...except` с логированием ошибок.
+6.  **Актуализировать и уточнить комментарии**:
+    - Пересмотреть все комментарии, исправить устаревшие и сделать их более информативными.
+7.  **Использовать модуль логирования**:
+    - Заменить `print` на `logger.info`, `logger.error` и т.д.
+8.  **Переименовать переменные**:
+    - Переименовать переменные, которые не являются константами, в соответствии со стилем `snake_case`.
+9.  **Использовать f-строки**:
+    - Для форматирования строк использовать f-строки вместо конкатенации.
+10. **Разделить константы и переменные**:
+    - Создать отдельный блок для констант и блок для переменных.
 
 **Оптимизированный код:**
 
 ```python
 """
-Модуль содержит константы и переменные, необходимые для работы Google Drive Uploader Bot.
+Модуль содержит константы и переменные, используемые в боте для загрузки файлов на Google Drive.
 ========================================================================================
 
-В модуле определены основные настройки, такие как имя папки на Google Диске, учетные данные Mega,
-а также текстовые сообщения, используемые ботом для взаимодействия с пользователем.
+Модуль содержит определения различных текстовых сообщений, настроек и учетных данных, необходимых для работы бота.
 
 Пример использования
 ----------------------
 
->>> print(START.format("Имя пользователя"))
- Hi Имя пользователя
+>>> print(START.format("username"))
+ Hi username
 I am Drive Uploader Bot . Please Authorise To use me .By using /auth
 
  For more info /help
@@ -79,116 +64,171 @@ I am Drive Uploader Bot . Please Authorise To use me .By using /auth
  <a href ='https://t.me/aryan_bots'>Join Channel</a>
 Please Report Bugs  @aryanvikash
 """
+from src.logger import logger
 
-from src.logger import logger  # Импорт модуля логирования
-
-# Имя папки на Google Диске (можно изменить по желанию)
+# Название папки в Google Drive (опционально)
 drive_folder_name: str = 'GDriveUploaderBot'
 
 # Учетные данные Mega (обязательно)
-MEGA_EMAIL: str = 'bearyan8@yandex.com'
-MEGA_PASSWORD: str = 'bearyan8@yandex.com'
+mega_email: str = 'bearyan8@yandex.com'
+mega_password: str = 'bearyan8@yandex.com'
 
-# Текстовые сообщения для бота
-START: str = (
-    'Привет, {}! \\n'
-    'Я бот для загрузки на Google Диск. Пожалуйста, авторизуйтесь, используя /auth \\n'
-    '\\n'
-    'Для получения дополнительной информации используйте /help \\n'
-    '\\n'
-    'Поддержка сторонних сайтов \\n'
-    'Добавлено обновление /update \\n'
-    '\\n'
-    'Для обновлений бота \\n'
-    '<a href =\'https://t.me/aryan_bots\'>Присоединяйтесь к каналу</a>\\n'
-    'Пожалуйста, сообщайте об ошибках @aryanvikash'
-)
-
-HELP: str = (
-    '<b>АВТОРИЗАЦИЯ БОТА</b> \\n'
-    'Используйте команду /auth для генерации \\n'
-    'токена Google Drive и отправьте его боту \\n'
-    '<b>Хотите изменить свою учетную запись?</b> \\n'
-    '\\n'
-    'Вы можете использовать команду /revoke \\n'
-    '<b>Что я могу делать с этим ботом?</b>\\n'
-    'Вы можете загружать любые интернет-\\n'
-    'файлы на свой аккаунт Google Drive.\\n'
-    '<b>Ссылки, поддерживаемые ботом</b>\\n'
-    '* Прямые ссылки\\n'
-    '* Ссылки Openload [Максимальная скорость \\n'
-    '  500 КБ/с :(   ]\\n'
-    '* Ссылки Dropbox\\n'
-    '* Ссылки Mega\\n'
-    '\\n'
-    '+ Больше в пути:)\\n'
-    '\\n'
-    'Сообщить об ошибке @aryanvikash'
+# Текст приветственного сообщения
+start_message: str = (
+    ' Hi {}  \n'
+    'I am Drive Uploader Bot . Please Authorise To use me .By using /auth \n'
+    '\n'
+    ' For more info /help \n'
+    '\n'
+    ' Third-Party Website \n'
+    ' Support Added /update \n'
+    '\n'
+    ' For Bot Updates  \n'
+    ' <a href =\'https://t.me/aryan_bots\'>Join Channel</a>\n'
+    'Please Report Bugs  @aryanvikash'
 )
 
-DP_DOWNLOAD: str = 'Ссылка Dropbox!! Загрузка началась ...'
-OL_DOWNLOAD: str = 'Ссылка Openload!! Загрузка началась ... \\n Ссылки Openload очень медленные'
-PROCESSING: str = 'Обработка вашего запроса ...!!'
-DOWN_TWO: bool = True
-DOWNLOAD: str = 'Загрузка началась ...'
-DOWN_MEGA: str = 'Загрузка началась... \\n  Mega ссылки \\n Очень медленные :('
-DOWN_COMPLETE: str = 'Загрузка завершена!!'
-NOT_AUTH: str = (
-    'Вы не авторизованы для использования этого бота \\n'
-    '\\n'
-    'Пожалуйста, авторизуйтесь, используя /auth \\n'
-    '\\n'
-    '@aryanvikash'
+# Текст справки
+help_message: str = (
+    '   <b>AUTHORISE BOT</b> \n'
+    '       Use  /auth Command Generate\n'
+    '       Your Google Drive Token And \n'
+    '       Send It To Bot  \n'
+    '<b> You Wanna Change Your Login \n'
+    '        Account ?</b> \n'
+    '\n'
+    '        You Can Use /revoke \n'
+    '        command            \n'
+    '<b>What I Can Do With This Bot? </b>\n'
+    '            You Can Upload Any Internet\n'
+    '            Files On Your google\n'
+    '            Drive Account.\n'
+    '<b> Links Supported By Bot</b>\n'
+    '            * Direct Links \n'
+    '            * Openload links [Max Speed \n'
+    '              500 KBps :(   ]\n'
+    '            * Dropbox links \n'
+    '            *  Mega links\n'
+    '            \n'
+    '            + More On Its way:)\n'
+    '                \n'
+    'Bug Report @aryanvikash\n'
 )
-REVOKE_FAIL: str = (
-    'Вы уже не авторизованы \\n'
-    '. Пожалуйста, используйте /auth для авторизации \\n'
-    '\\n'
-    'Сообщить @aryanvikash'
-)
-AUTH_SUCC: str = 'Авторизация прошла успешно!! \\n\\n Теперь отправьте мне прямую ссылку :)'
-ALREADY_AUTH: str = (
-    'Вы уже авторизованы! \\n'
-    '\\n'
-    'Хотите изменить аккаунт Drive? \\n'
-    '\\n'
-    'Используйте /revoke \\n'
-    '\\n'
-    'Сообщить @aryanvikash'
-)
-AUTH_URL: str = '<a href ="{}">Перейдите по этой ссылке</a> \\n Сгенерируйте и скопируйте свой токен Google Drive и отправьте его мне'
-UPLOADING: str = 'Загрузка завершена!! \\n Загружаю ваш файл'
-REVOKE_TOK: str = 'Ваш токен успешно отозван!! \\n\\n Используйте /auth для повторной авторизации вашей учетной записи Drive.'
-# DOWN_PATH = "Downloads\\\\" #windows path
-DOWN_PATH: str = 'Downloads/'  # Linux path
-DOWNLOAD_URL: str = (
-    'Ваш файл успешно загружен \\n'
-    '\\n'
-    '<b>Имя файла</b>: {} \\n'
-    '\\n'
-    '<b>Размер</b>: {} MB \\n'
-    '\\n'
-    '<b>Скачать</b> {}'
-)
-AUTH_ERROR: str = (
-    'Ошибка авторизации!! Пожалуйста, отправьте мне действительный токен или повторно авторизуйтесь \\n'
-    '\\n'
-    'Сообщить @aryanvikash'
-)
-OPENLOAD: bool = True
-DROPBOX: bool = True
-MEGA: bool = True
 
+# Сообщение о начале загрузки Dropbox
+dropbox_download_message: str = 'Dropbox Link !! Downloading Started ...'
 
-UPDATE: str = """ <b> Update  on  27.07.2019</b>
-            * MEGA LINK added
-            * Error Handling Improved
+# Сообщение о начале загрузки Openload
+openload_download_message: str = (
+    'Openload Link !! Downloading Started ... \n Openload Links Are Extremely Slow'
+)
 
-<b> Links Supported By Bot</b>
-            * Direct Links 
-            * Openload links [Max Speed 
-              500 KBps :(   ]
-            * Dropbox links 
-            *  Mega links (only files)
-            
-            + More are in way:) """
+# Сообщение об обработке запроса
+processing_message: str = 'Processing Your Request ...!!'
+
+# Флаг для параллельной загрузки (стоит True)
+down_two: bool = True
+
+# Сообщение о начале загрузки
+download_message: str = 'Downloading Started ...'
+
+# Сообщение о начале загрузки Mega
+mega_download_message: str = (
+    'Downloading Started... \n  Mega Links are \n Extremely Slow :('
+)
+
+# Сообщение об успешном завершении загрузки
+download_complete_message: str = 'Downloading complete !!'
+
+# Сообщение об отсутствии авторизации
+not_authorised_message: str = (
+    'You Are Not Authorised To Using this Bot \n'
+    '\n'
+    ' Please Authorise Me Using /auth  \n'
+    '\n'
+    ' @aryanvikash'
+)
+
+# Сообщение о неудачной попытке отзыва токена
+revoke_fail_message: str = (
+    'You Are Already UnAuthorised \n'
+    '. Please Use /auth To Authorise \n'
+    '\n'
+    ' report At @aryanvikash '
+)
+
+# Сообщение об успешной авторизации
+auth_success_message: str = 'Authorised Successfully  !! \n\n Now Send me A direct Link :)'
+
+# Сообщение о повторной авторизации
+already_authorised_message: str = (
+    'You Are Already Authorised ! \n'
+    '\n'
+    ' Wanna Change Drive Account? \n'
+    '\n'
+    ' Use /revoke \n'
+    '\n'
+    ' report At @aryanvikash '
+)
+
+# URL для авторизации
+auth_url_message: str = (
+    '<a href ="{}">Vist This Url</a> \n'
+    ' Generate And Copy Your Google Drive Token And Send It To Me'
+)
+
+# Сообщение о загрузке файла
+uploading_message: str = 'Download Complete !! \n Uploading Your file'
+
+# Сообщение об успешном отзыве токена
+revoke_token_message: str = (
+    ' Your Token is Revoked Successfully !! \n'
+    '\n'
+    ' Use /auth To Re-Authorise Your Drive Acc. '
+)
+
+# Путь для загрузки файлов (Linux)
+download_path: str = 'Downloads/'
+
+# Сообщение с информацией о загруженном файле
+download_url_message: str = (
+    'Your File Uploaded Successfully \n'
+    '\n'
+    ' <b>Filename</b> : {} \n'
+    '\n'
+    ' <b> Size</b> : {} MB \n'
+    '\n'
+    ' <b>Download</b> {}'
+)
+
+# Сообщение об ошибке авторизации
+auth_error_message: str = (
+    'AUTH Error !! Please  Send Me a  valid Token or Re - Authorise Me  \n'
+    '\n'
+    ' report At @aryanvikash'
+)
+
+# Поддержка Openload (стоит True)
+openload_enabled: bool = True
+
+# Поддержка Dropbox (стоит True)
+dropbox_enabled: bool = True
+
+# Поддержка Mega (стоит True)
+mega_enabled: bool = True
+
+# Сообщение об обновлении
+update_message: str = (
+    ' <b> Update  on  27.07.2019</b>\n'
+    '            * MEGA LINK added\n'
+    '            * Error Handling Improved\n'
+    '\n'
+    '<b> Links Supported By Bot</b>\n'
+    '            * Direct Links \n'
+    '            * Openload links [Max Speed \n'
+    '              500 KBps :(   ]\n'
+    '            * Dropbox links \n'
+    '            *  Mega links (only files)\n'
+    '            \n'
+    '            + More are in way:) '
+)

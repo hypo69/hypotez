@@ -1,63 +1,65 @@
 ### **Анализ кода модуля `Microsoft_Phi_4.py`**
 
-## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/hf_space/Microsoft_Phi_4.py
-
-Модуль `Microsoft_Phi_4.py` предоставляет класс `Microsoft_Phi_4`, который реализует взаимодействие с мультимодальной моделью Microsoft Phi-4 через Hugging Face Spaces.
-
-**Качество кода:**
-
+**Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
   - Асинхронная обработка запросов.
-  - Использование `StreamSession` для потоковой передачи данных.
-  - Поддержка мультимодальных запросов (текст и изображения).
-  - Реализована обработка ошибок.
+  - Использование `StreamSession` для эффективной потоковой передачи данных.
+  - Обработка ошибок и логирование.
 - **Минусы**:
   - Не все переменные аннотированы типами.
-  - Некоторые участки кода выглядят сложными для понимания из-за большого количества вложенных конструкций.
-  - Метод `run` содержит много условных ветвлений, что снижает читаемость.
+  - Смешанный стиль в использовании кавычек (иногда двойные, иногда одинарные).
+  - Некоторые участки кода требуют более подробных комментариев.
 
-**Рекомендации по улучшению:**
+**Рекомендации по улучшению**:
 
-1.  **Добавить docstring для модуля**:
+1. **Документация модуля**:
+   - Добавить заголовок и описание модуля в формате Markdown.
 
-    ```python
-    """
-    Модуль для взаимодействия с мультимодальной моделью Microsoft Phi-4 через Hugging Face Spaces.
-    =============================================================================================
+2. **Аннотации типов**:
+   - Добавить аннотации типов для всех переменных, где они отсутствуют.
+   - Уточнить типы для `media` (использовать `List[Tuple[bytes, str]]` вместо `list`, если это применимо).
 
-    Модуль содержит класс :class:`Microsoft_Phi_4`, который позволяет отправлять запросы к модели
-    и получать ответы как в текстовом, так и в мультимодальном формате (с использованием изображений).
+3. **Комментарии и docstring**:
+   - Добавить docstring для класса `Microsoft_Phi_4` с описанием его назначения.
+   - Добавить docstring для метода `run` с описанием параметров и возвращаемых значений.
+   - Улучшить комментарии для более понятного описания логики работы с `FormData` и обработки ответов.
 
-    Пример использования:
-    ----------------------
-    >>> provider = Microsoft_Phi_4()
-    >>> result = await provider.create_async_generator(model='phi-4-multimodal', messages=[{'role': 'user', 'content': 'Hello'}])
-    >>> async for chunk in result:
-    ...     print(chunk)
-    """
-    ```
+4. **Использование кавычек**:
+   - Привести все строки к использованию одинарных кавычек.
 
-2.  **Добавить аннотации типов**:
-    - Добавить аннотации типов для локальных переменных в методах.
+5. **Обработка ошибок**:
+   - Использовать `logger.error` для логирования ошибок с передачей исключения (`ex`) и `exc_info=True`.
 
-3.  **Улучшить читаемость метода `run`**:
-    - Разбить метод `run` на несколько подметодов для упрощения логики.
+6. **Структура кода**:
+   - Упростить логику обработки `json_data`, чтобы уменьшить вложенность условий.
 
-4.  **Добавить логирование**:
-    - Добавить логирование для отладки и мониторинга работы провайдера.
+7. **Безопасность**:
+   - Проверить и обработать возможные уязвимости, связанные с загрузкой файлов (например, проверка расширения файла).
 
-5.  **Обработка ошибок**:
-    - Улучшить обработку ошибок, добавив более конкретные исключения и логирование ошибок.
-
-**Оптимизированный код:**
+**Оптимизированный код**:
 
 ```python
+"""
+Модуль для работы с моделью Microsoft Phi-4
+==============================================
+
+Модуль содержит класс :class:`Microsoft_Phi_4`, который используется для взаимодействия с multimodal моделью Phi-4 от Microsoft через Hugging Face Spaces.
+Он поддерживает потоковую передачу данных, обработку мультимедийных файлов и сообщений.
+
+Пример использования:
+----------------------
+
+>>> provider = Microsoft_Phi_4()
+>>> async for message in provider.create_async_generator(model='phi-4-multimodal', messages=[{'role': 'user', 'content': 'Hello'}]):
+...     print(message)
+"""
+
 from __future__ import annotations
 
 import json
 import uuid
-from typing import AsyncGenerator, Optional, List
+from typing import AsyncGenerator, Optional, List, Tuple, Dict
 
 from ...typing import AsyncResult, Messages, Cookies, MediaListType
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
@@ -69,15 +71,12 @@ from ...image import to_bytes, is_accepted_format, is_data_an_audio
 from ...errors import ResponseError
 from ... import debug
 from .DeepseekAI_JanusPro7b import get_zerogpu_token
-from .raise_for_status import raise_for_status
-from src.logger import logger  # Добавлен импорт logger
-
+from src.logger import logger  # Импорт logger
 
 class Microsoft_Phi_4(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Класс для взаимодействия с мультимодальной моделью Microsoft Phi-4 через Hugging Face Spaces.
+    Провайдер для multimodal модели Microsoft Phi-4.
     """
-
     label: str = 'Microsoft Phi-4'
     space: str = 'microsoft/phi-4-multimodal'
     url: str = f'https://huggingface.co/spaces/{space}'
@@ -91,144 +90,80 @@ class Microsoft_Phi_4(AsyncGeneratorProvider, ProviderModelMixin):
 
     default_model: str = 'phi-4-multimodal'
     default_vision_model: str = default_model
-    model_aliases: dict[str, str] = {'phi-4': default_vision_model}
+    model_aliases: Dict[str, str] = {'phi-4': default_vision_model}
     vision_models: List[str] = list(model_aliases.keys())
     models: List[str] = vision_models
 
     @classmethod
-    def _prepare_headers(cls, conversation: JsonConversation) -> dict[str, str | None]:
+    def run(cls, method: str, session: StreamSession, prompt: str, conversation: JsonConversation, media: Optional[List[Dict[str, str]]] = None) -> AsyncResult:
         """
-        Подготавливает заголовки для запросов.
+        Выполняет HTTP-запрос к API.
 
         Args:
-            conversation (JsonConversation): Объект JsonConversation с данными сессии.
+            method (str): HTTP-метод (predict, post, get).
+            session (StreamSession): Асинхронная сессия для выполнения запросов.
+            prompt (str): Текст запроса.
+            conversation (JsonConversation): Объект для хранения состояния разговора.
+            media (Optional[List[Dict[str, str]]], optional): Список медиафайлов для отправки. Defaults to None.
 
         Returns:
-            dict[str, str | None]: Словарь с заголовками.
+            AsyncResult: Асинхронный результат HTTP-запроса.
         """
-        headers: dict[str, str | None] = {
+        headers: Dict[str, Optional[str]] = {
             'content-type': 'application/json',
             'x-zerogpu-token': conversation.zerogpu_token,
             'x-zerogpu-uuid': conversation.zerogpu_uuid,
             'referer': cls.referer,
         }
-        return {k: v for k, v in headers.items() if v is not None}
+        headers = {k: v for k, v in headers.items() if v is not None} # Фильтрация None значений
 
-    @classmethod
-    async def _run_predict(cls, session: StreamSession, prompt: str, conversation: JsonConversation, media: list = None) -> StreamResponse:
-        """
-        Выполняет POST запрос к эндпоинту `/gradio_api/run/predict`.
-
-        Args:
-            session (StreamSession): Объект StreamSession для выполнения запроса.
-            prompt (str): Текст запроса.
-            conversation (JsonConversation): Объект JsonConversation с данными сессии.
-            media (list, optional): Список медиафайлов. Defaults to None.
-
-        Returns:
-            StreamResponse: Объект StreamResponse с ответом от сервера.
-        """
-        headers: dict[str, str | None] = cls._prepare_headers(conversation)
-        response: StreamResponse = await session.post(f'{cls.api_url}/gradio_api/run/predict', **{
-            'headers': headers,
-            'json': {
-                'data': [
-                    [],
-                    {
-                        'text': prompt,
-                        'files': media,
-                    },
-                    None
-                ],
-                'event_data': None,
-                'fn_index': 10,
-                'trigger_id': 8,
-                'session_hash': conversation.session_hash
-            },
-        })
-        return response
-
-    @classmethod
-    async def _run_post(cls, session: StreamSession, prompt: str, conversation: JsonConversation, media: list = None) -> StreamResponse:
-        """
-        Выполняет POST запрос к эндпоинту `/gradio_api/queue/join`.
-
-        Args:
-            session (StreamSession): Объект StreamSession для выполнения запроса.
-            prompt (str): Текст запроса.
-            conversation (JsonConversation): Объект JsonConversation с данными сессии.
-            media (list, optional): Список медиафайлов. Defaults to None.
-
-        Returns:
-            StreamResponse: Объект StreamResponse с ответом от сервера.
-        """
-        headers: dict[str, str | None] = cls._prepare_headers(conversation)
-        response: StreamResponse = await session.post(f'{cls.api_url}/gradio_api/queue/join?__theme=light', **{
-            'headers': headers,
-            'json': {
-                'data': [[
-                    {
-                        'role': 'user',
-                        'content': prompt,
-                    }
-                ] + [[
-                    {
-                        'role': 'user',
-                        'content': {'file': image}
-                    } for image in media
-                ]],
-                'event_data': None,
-                'fn_index': 11,
-                'trigger_id': 8,
-                'session_hash': conversation.session_hash
-            },
-        })
-        return response
-
-    @classmethod
-    async def _run_get(cls, session: StreamSession, conversation: JsonConversation) -> StreamResponse:
-        """
-        Выполняет GET запрос к эндпоинту `/gradio_api/queue/data`.
-
-        Args:
-            session (StreamSession): Объект StreamSession для выполнения запроса.
-            conversation (JsonConversation): Объект JsonConversation с данными сессии.
-
-        Returns:
-            StreamResponse: Объект StreamResponse с ответом от сервера.
-        """
-        headers: dict[str, str | None] = {
-            'accept': 'text/event-stream',
-            'content-type': 'application/json',
-            'referer': cls.referer,
-        }
-        response: StreamResponse = await session.get(f'{cls.api_url}/gradio_api/queue/data?session_hash={conversation.session_hash}', **{
-            'headers': headers
-        })
-        return response
-
-    @classmethod
-    async def run(cls, method: str, session: StreamSession, prompt: str, conversation: JsonConversation, media: list = None) -> StreamResponse:
-        """
-        Выполняет HTTP запрос к API в зависимости от указанного метода.
-
-        Args:
-            method (str): Метод запроса ('predict', 'post', 'get').
-            session (StreamSession): Объект StreamSession для выполнения запроса.
-            prompt (str): Текст запроса.
-            conversation (JsonConversation): Объект JsonConversation с данными сессии.
-            media (list, optional): Список медиафайлов. Defaults to None.
-
-        Returns:
-            StreamResponse: Объект StreamResponse с ответом от сервера.
-        """
         if method == 'predict':
-            return await cls._run_predict(session, prompt, conversation, media)
+            return session.post(f'{cls.api_url}/gradio_api/run/predict', **{
+                'headers': headers,
+                'json': {
+                    'data': [
+                        [],
+                        {
+                            'text': prompt,
+                            'files': media,
+                        },
+                        None
+                    ],
+                    'event_data': None,
+                    'fn_index': 10,
+                    'trigger_id': 8,
+                    'session_hash': conversation.session_hash
+                },
+            })
         if method == 'post':
-            return await cls._run_post(session, prompt, conversation, media)
-        if method == 'get':
-            return await cls._run_get(session, conversation)
-        raise ValueError(f'Invalid method: {method}')
+            return session.post(f'{cls.api_url}/gradio_api/queue/join?__theme=light', **{
+                'headers': headers,
+                'json': {
+                    'data': [[
+                        {
+                            'role': 'user',
+                            'content': prompt,
+                        }
+                    ] + [[
+                        {
+                            'role': 'user',
+                            'content': {'file': image}
+                        } for image in media
+                    ]],
+                        'event_data': None,
+                        'fn_index': 11,
+                        'trigger_id': 8,
+                        'session_hash': conversation.session_hash
+                    ],
+                },
+            })
+        return session.get(f'{cls.api_url}/gradio_api/queue/data?session_hash={conversation.session_hash}', **{
+            'headers': {
+                'accept': 'text/event-stream',
+                'content-type': 'application/json',
+                'referer': cls.referer,
+            }
+        })
 
     @classmethod
     async def create_async_generator(
@@ -244,24 +179,27 @@ class Microsoft_Phi_4(AsyncGeneratorProvider, ProviderModelMixin):
         return_conversation: bool = False,
         conversation: JsonConversation = None,
         **kwargs
-    ) -> AsyncResult:
+    ) -> AsyncGenerator[str, None]:
         """
-        Создает асинхронный генератор для взаимодействия с моделью Microsoft Phi-4.
+        Создает асинхронный генератор для получения ответов от API.
 
         Args:
-            model (str): Название модели.
+            model (str): Модель для использования.
             messages (Messages): Список сообщений для отправки.
-            media (MediaListType, optional): Список медиафайлов. Defaults to None.
+            media (MediaListType, optional): Список медиафайлов для отправки. Defaults to None.
             prompt (str, optional): Текст запроса. Defaults to None.
-            proxy (str, optional): Адрес прокси-сервера. Defaults to None.
-            cookies (Cookies, optional): Cookie для отправки с запросом. Defaults to None.
+            proxy (str, optional): Прокси-сервер для использования. Defaults to None.
+            cookies (Cookies, optional): Cookies для отправки. Defaults to None.
             api_key (str, optional): API ключ. Defaults to None.
             zerogpu_uuid (str, optional): UUID для ZeroGPU. Defaults to '[object Object]'.
-            return_conversation (bool, optional): Флаг возврата объекта conversation. Defaults to False.
-            conversation (JsonConversation, optional): Объект JsonConversation с данными сессии. Defaults to None.
+            return_conversation (bool, optional): Возвращать ли объект conversation. Defaults to False.
+            conversation (JsonConversation, optional): Объект для хранения состояния разговора. Defaults to None.
 
         Yields:
-            AsyncGenerator[str, None]: Части ответа от модели.
+            str: Ответ от API.
+
+        Raises:
+            ResponseError: Если в ответе содержится ошибка.
         """
         prompt = format_prompt(messages) if prompt is None and conversation is None else prompt
         prompt = format_image_prompt(messages, prompt)
@@ -275,26 +213,26 @@ class Microsoft_Phi_4(AsyncGeneratorProvider, ProviderModelMixin):
             else:
                 conversation.zerogpu_token = api_key
             if return_conversation:
-                yield conversation
+                yield conversation # type: ignore
 
             if media is not None:
                 data: FormData = FormData()
-                mime_types: list[Optional[str]] = [None for i in range(len(media))]
+                mime_types: List[Optional[str]] = [None for _ in range(len(media))]
                 for i in range(len(media)):
                     mime_types[i] = is_data_an_audio(media[i][0], media[i][1])
                     media[i] = (to_bytes(media[i][0]), media[i][1])
                     mime_types[i] = is_accepted_format(media[i][0]) if mime_types[i] is None else mime_types[i]
                 for image, image_name in media:
-                    data.add_field('files', to_bytes(image), filename=image_name)
+                    data.add_field('files', to_bytes(image), filename=image_name) # type: ignore
                 async with session.post(f'{cls.api_url}/gradio_api/upload', params={'upload_id': session_hash}, data=data) as response:
                     await raise_for_status(response)
-                    image_files: list[str] = await response.json()
-                media: list[dict[str, str | int | dict[str, str]]] = [{
+                    image_files: List[str] = await response.json()
+                media = [{
                     'path': image_file,
                     'url': f'{cls.api_url}/gradio_api/file={image_file}',
-                    'orig_name': media[i][1],
-                    'size': len(media[i][0]),
-                    'mime_type': mime_types[i],
+                    'orig_name': media[i][1], # type: ignore
+                    'size': len(media[i][0]), # type: ignore
+                    'mime_type': mime_types[i], # type: ignore
                     'meta': {
                         '_type': 'gradio.FileData'
                     }
@@ -312,13 +250,19 @@ class Microsoft_Phi_4(AsyncGeneratorProvider, ProviderModelMixin):
                     if line.startswith(b'data: '):
                         try:
                             json_data: dict = json.loads(line[6:])
-                            if json_data.get('msg') == 'process_completed':
-                                if 'output' in json_data and 'error' in json_data['output']:
-                                    raise ResponseError(json_data['output']['error'])
-                                if 'output' in json_data and 'data' in json_data['output']:
-                                    yield json_data['output']['data'][0][-1]['content']
+                            msg: str = json_data.get('msg', '')
+                            if msg == 'process_completed':
+                                output: dict = json_data.get('output', {})
+                                error: str = output.get('error')
+                                if error:
+                                    raise ResponseError(error)
+                                data_content: list = output.get('data', [])
+                                if data_content:
+                                    yield data_content[0][-1]['content']
                                 break
 
                         except json.JSONDecodeError as ex:
                             debug.log('Could not parse JSON:', line.decode(errors='replace'))
-                            logger.error('Could not parse JSON', ex, exc_info=True)  # Добавлено логирование ошибки
+                            logger.error('Could not parse JSON', ex, exc_info=True)
+                        except ResponseError as ex:
+                            logger.error('Response error', ex, exc_info=True)

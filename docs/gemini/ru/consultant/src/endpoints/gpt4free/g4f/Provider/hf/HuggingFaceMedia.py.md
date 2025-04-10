@@ -1,39 +1,33 @@
 ### **Анализ кода модуля `HuggingFaceMedia.py`**
 
 #### **Качество кода**:
-- **Соответствие стандартам**: 7/10
+- **Соответствие стандартам**: 6/10
 - **Плюсы**:
-  - Асинхронная обработка запросов с использованием `async` и `await`.
-  - Использование `StreamSession` для эффективной работы с потоками данных.
-  - Обработка различных типов ответов (изображения и видео).
-  - Логическая структура для выбора провайдера и обработки ошибок.
+  - Асинхронная обработка запросов.
+  - Использование `ProviderModelMixin` для получения списка моделей.
+  - Обработка различных типов задач (генерация изображений и видео).
 - **Минусы**:
-  - Отсутствие аннотаций типов для переменных и возвращаемых значений в некоторых местах.
-  - Смешение ответственности: функция `create_async_generator` выполняет как выбор провайдера, так и генерацию контента.
-  - Использование `Union[]`.
+  - Смешанный стиль кодирования (использование как двойных, так и одинарных кавычек).
+  - Отсутствие аннотаций типов для переменных и параметров функций.
+  - Не везде используется `logger` для логирования ошибок и отладки.
+  - Использование `Union` вместо `|` в аннотациях типов.
+  - Нет обработки исключений при получении списка моделей.
+  - Не все параметры документированы в docstring.
 
 #### **Рекомендации по улучшению**:
-1. **Добавить аннотации типов**:
-   - Добавить аннотации типов для всех переменных и возвращаемых значений, где они отсутствуют.
-
-2. **Разделить функцию `create_async_generator`**:
-   - Вынести логику выбора провайдера в отдельную функцию.
-   - Улучшить читаемость, разделив функцию на более мелкие, специализированные блоки.
-
-3. **Улучшить обработку ошибок**:
-   - Сделать обработку ошибок более явной и информативной, используя `logger.error` с указанием `exc_info=True`.
-
-4. **Упростить логику выбора провайдера**:
-   - Сделать логику выбора провайдера более простой и понятной.
-
-5.  **Использование `j_loads` или `j_loads_ns`**:
-   - Нет чтение JSON или конфигурационных файлов.
-
-6. **Документация**:
-   - Добавить docstring для всех функций и методов, включая подробное описание параметров и возвращаемых значений.
+- Заменить двойные кавычки на одинарные.
+- Добавить аннотации типов для всех переменных и параметров функций.
+- Использовать `logger` для логирования ошибок и отладки.
+- Заменить `Union` на `|` в аннотациях типов.
+- Добавить обработку исключений при получении списка моделей.
+- Добавить docstring для всех функций и параметров.
+- Перевести все комментарии и docstring на русский язык.
+- Использовать `ex` вместо `e` в блоках обработки исключений.
+- Следовать стандартам PEP8 для форматирования.
+- Добавить поясняющие комментарии к сложным участкам кода.
+- Добавить обработку возможных ошибок при работе с API HuggingFace.
 
 #### **Оптимизированный код**:
-
 ```python
 from __future__ import annotations
 
@@ -41,7 +35,10 @@ import time
 import asyncio
 import random
 import requests
+from typing import Optional, List, AsyncGenerator, Dict, Tuple, Set
+from pathlib import Path
 
+from src.logger import logger
 from ...providers.types import Messages
 from ...requests import StreamSession, raise_for_status
 from ...errors import ModelNotSupportedError
@@ -50,126 +47,122 @@ from ...providers.base_provider import AsyncGeneratorProvider, ProviderModelMixi
 from ...providers.response import ProviderInfo, ImageResponse, VideoResponse, Reasoning
 from ...image.copy_images import save_response_media
 from ...image import use_aspect_ratio
-from ... import debug
-from src.logger import logger  # Import logger
 
 
 class HuggingFaceMedia(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Класс для генерации изображений и видео через HuggingFace.
+    Модуль для работы с HuggingFace для генерации изображений и видео.
+    ==================================================================
 
-    Предоставляет методы для выбора модели, создания запросов и обработки ответов от различных провайдеров HuggingFace.
+    Предоставляет асинхронный генератор для создания медиа-контента на основе текстовых запросов.
+    Поддерживает различные модели и провайдеров HuggingFace.
+
     """
-    label: str = "HuggingFace (Image/Video Generation)"
-    parent: str = "HuggingFace"
-    url: str = "https://huggingface.co"
+    label: str = 'HuggingFace (Image/Video Generation)'
+    parent: str = 'HuggingFace'
+    url: str = 'https://huggingface.co'
     working: bool = True
     needs_auth: bool = True
 
-    tasks: list[str] = ["text-to-image", "text-to-video"]
-    provider_mapping: dict[str, dict] = {}
-    task_mapping: dict[str, str] = {}
-    models: list[str] = []
-    image_models: list[str] = []
-    video_models: list[str] = []
+    tasks: List[str] = ['text-to-image', 'text-to-video']
+    provider_mapping: Dict[str, dict] = {}
+    task_mapping: Dict[str, str] = {}
+    models: List[str] = []
+    image_models: List[str] = []
+    video_models: List[str] = []
 
     @classmethod
     def get_models(cls, **kwargs) -> list[str]:
         """
-        Получает список доступных моделей из HuggingFace API.
+        Получает список доступных моделей из API HuggingFace.
 
         Args:
             **kwargs: Дополнительные аргументы.
 
         Returns:
-            list[str]: Список идентификаторов моделей.
-
-        Raises:
-            Exception: В случае ошибки при запросе к API.
+            list[str]: Список доступных моделей.
         """
-        if cls.models:
-            return cls.models
+        if not cls.models:
+            url: str = 'https://huggingface.co/api/models?inference=warm&expand[]=inferenceProviderMapping'
+            try:
+                response = requests.get(url)
+                response.raise_for_status()  # Проверка на HTTP ошибки
 
-        url: str = "https://huggingface.co/api/models?inference=warm&expand[]=inferenceProviderMapping"
-        try:
-            response = requests.get(url)
-            response.raise_for_status()  # raise HTTPError for bad responses (4xx or 5xx)
-            models = response.json()
-        except requests.exceptions.RequestException as ex:
-            logger.error(f'Error while fetching models from HuggingFace API: {ex}', exc_info=True)
-            cls.models = []
-            return cls.models
-
-        providers: dict[str, list] = {
-            model["id"]: [
-                provider
-                for provider in model.get("inferenceProviderMapping")
-                if provider.get("status") == "live" and provider.get("task") in cls.tasks
-            ]
-            for model in models
-            if [
-                provider
-                for provider in model.get("inferenceProviderMapping")
-                if provider.get("status") == "live" and provider.get("task") in cls.tasks
-            ]
-        }
-        new_models: list[str] = []
-        for model, provider_keys in providers.items():
-            new_models.append(model)
-            for provider_data in provider_keys:
-                new_models.append(f"{model}:{provider_data.get('provider')}")
-
-        cls.task_mapping = {
-            model["id"]: [
-                provider.get("task")
-                for provider in model.get("inferenceProviderMapping")
-            ].pop()
-            for model in models
-        }
-        prepend_models: list[str] = []
-        for model, provider_keys in providers.items():
-            task: str = cls.task_mapping.get(model)
-            if task == "text-to-video":
-                prepend_models.append(model)
-                for provider_data in provider_keys:
-                    prepend_models.append(f"{model}:{provider_data.get('provider')}")
-
-        cls.models = prepend_models + [model for model in new_models if model not in prepend_models]
-        cls.image_models = [model for model, task in cls.task_mapping.items() if task == "text-to-image"]
-        cls.video_models = [model for model, task in cls.task_mapping.items() if task == "text-to-video"]
+                models = response.json()
+                providers = {
+                    model['id']: [
+                        provider
+                        for provider in model.get('inferenceProviderMapping')
+                        if provider.get('status') == 'live' and provider.get('task') in cls.tasks
+                    ]
+                    for model in models
+                    if [
+                        provider
+                        for provider in model.get('inferenceProviderMapping')
+                        if provider.get('status') == 'live' and provider.get('task') in cls.tasks
+                    ]
+                }
+                new_models = []
+                for model, provider_keys in providers.items():
+                    new_models.append(model)
+                    for provider_data in provider_keys:
+                        new_models.append(f'{model}:{provider_data.get('provider')}')
+                cls.task_mapping = {
+                    model['id']: [
+                        provider.get('task')
+                        for provider in model.get('inferenceProviderMapping')
+                    ].pop()
+                    for model in models
+                }
+                prepend_models = []
+                for model, provider_keys in providers.items():
+                    task = cls.task_mapping.get(model)
+                    if task == 'text-to-video':
+                        prepend_models.append(model)
+                        for provider_data in provider_keys:
+                            prepend_models.append(f'{model}:{provider_data.get('provider')}')
+                cls.models = prepend_models + [model for model in new_models if model not in prepend_models]
+                cls.image_models = [model for model, task in cls.task_mapping.items() if task == 'text-to-image']
+                cls.video_models = [model for model, task in cls.task_mapping.items() if task == 'text-to-video']
+            except requests.exceptions.RequestException as ex:
+                logger.error('Ошибка при получении списка моделей', ex, exc_info=True)
+                cls.models = []
+            except (KeyError, ValueError) as ex:
+                logger.error('Ошибка при обработке данных моделей', ex, exc_info=True)
+                cls.models = []
         return cls.models
 
     @classmethod
-    async def get_mapping(cls, model: str, api_key: str | None = None) -> dict:
+    async def get_mapping(cls, model: str, api_key: Optional[str] = None) -> dict:
         """
         Получает mapping для указанной модели.
 
         Args:
-            model (str): Идентификатор модели.
-            api_key (Optional[str]): API ключ.
+            model (str): Имя модели.
+            api_key (Optional[str], optional): API ключ. Defaults to None.
 
         Returns:
             dict: Mapping для модели.
         """
         if model in cls.provider_mapping:
             return cls.provider_mapping[model]
-        headers: dict[str, str] = {
+        headers: Dict[str, str] = {
             'Content-Type': 'application/json',
         }
         if api_key is not None:
-            headers["Authorization"] = f"Bearer {api_key}"
+            headers['Authorization'] = f'Bearer {api_key}'
         async with StreamSession(
             timeout=30,
             headers=headers,
         ) as session:
             try:
-                async with session.get(f"https://huggingface.co/api/models/{model}?expand[]=inferenceProviderMapping") as response:
+                async with session.get(f'https://huggingface.co/api/models/{model}?expand[]=inferenceProviderMapping') as response:
                     await raise_for_status(response)
                     model_data = await response.json()
-                    cls.provider_mapping[model] = {key: value for key, value in model_data.get("inferenceProviderMapping", {}).items() if value["status"] == "live"}
+                    cls.provider_mapping[model] = {key: value for key, value in model_data.get('inferenceProviderMapping', {}).items() if value['status'] == 'live'}
             except Exception as ex:
-                logger.error(f"Error while fetching provider mapping for model {model}: {ex}", ех, exc_info=True)
-                return {}
+                logger.error(f'Ошибка при получении mapping для модели {model}', ex, exc_info=True)
+                cls.provider_mapping[model] = {}  # Возвращаем пустой словарь в случае ошибки
         return cls.provider_mapping[model]
 
     @classmethod
@@ -177,173 +170,164 @@ class HuggingFaceMedia(AsyncGeneratorProvider, ProviderModelMixin):
         cls,
         model: str,
         messages: Messages,
-        api_key: str | None = None,
+        api_key: Optional[str] = None,
         extra_data: dict = {},
-        prompt: str | None = None,
-        proxy: str | None = None,
+        prompt: Optional[str] = None,
+        proxy: Optional[str] = None,
         timeout: int = 0,
         # Video & Image Generation
         n: int = 1,
-        aspect_ratio: str | None = None,
+        aspect_ratio: Optional[str] = None,
         # Only for Image Generation
-        height: int | None = None,
-        width: int | None = None,
+        height: Optional[int] = None,
+        width: Optional[int] = None,
         # Video Generation
-        resolution: str = "480p",
+        resolution: str = '480p',
         **kwargs
-    ) -> None:
+    ) -> AsyncGenerator[Tuple[ProviderInfo, ImageResponse | VideoResponse | Reasoning], None]:
         """
-        Создает асинхронный генератор для создания изображений и видео.
+        Создает асинхронный генератор для генерации медиа-контента.
 
         Args:
-            model (str): Идентификатор модели.
+            model (str): Имя модели.
             messages (Messages): Список сообщений.
-            api_key (Optional[str]): API ключ.
-            extra_data (dict): Дополнительные данные.
-            prompt (Optional[str]): Промпт.
-            proxy (Optional[str]): Прокси.
-            timeout (int): Тайм-аут.
-            n (int): Количество задач.
-            aspect_ratio (Optional[str]): Соотношение сторон.
-            height (Optional[int]): Высота изображения.
-            width (Optional[int]): Ширина изображения.
-            resolution (str): Разрешение видео.
+            api_key (Optional[str], optional): API ключ. Defaults to None.
+            extra_data (dict, optional): Дополнительные данные. Defaults to {}.
+            prompt (Optional[str], optional): Текст запроса. Defaults to None.
+            proxy (Optional[str], optional): Proxy. Defaults to None.
+            timeout (int, optional): Timeout. Defaults to 0.
+            n (int, optional): Количество генераций. Defaults to 1.
+            aspect_ratio (Optional[str], optional): Соотношение сторон. Defaults to None.
+            height (Optional[int], optional): Высота изображения. Defaults to None.
+            width (Optional[int], optional): Ширина изображения. Defaults to None.
+            resolution (str, optional): Разрешение видео. Defaults to '480p'.
             **kwargs: Дополнительные аргументы.
 
         Yields:
-            ProviderInfo: Информация о провайдере.
-            ImageResponse | VideoResponse | Reasoning: Ответ с медиа-контентом или информацией о процессе.
-
-        Raises:
-            ModelNotSupportedError: Если модель не поддерживается.
-            Exception: В случае ошибки при запросе к API.
+            AsyncGenerator[Tuple[ProviderInfo, ImageResponse | VideoResponse | Reasoning], None]: Асинхронный генератор.
         """
-
-        selected_provider: str | None = None
-        if model and ":" in model:
-            model, selected_provider = model.split(":", 1)
+        selected_provider: Optional[str] = None
+        if model and ':' in model:
+            model, selected_provider = model.split(':', 1)
         elif not model:
             model = cls.get_models()[0]
         prompt = format_image_prompt(messages, prompt)
         provider_mapping = await cls.get_mapping(model, api_key)
-        headers: dict[str, str] = {
+        headers: Dict[str, str] = {
             'Accept-Encoding': 'gzip, deflate',
             'Content-Type': 'application/json',
         }
-        new_mapping: dict = {
-            "hf-free" if key == "hf-inference" else key: value for key, value in provider_mapping.items()
-            if key in ["replicate", "together", "hf-inference"]
+        new_mapping = {
+            'hf-free' if key == 'hf-inference' else key: value for key, value in provider_mapping.items()
+            if key in ['replicate', 'together', 'hf-inference']
         }
         provider_mapping = {**new_mapping, **provider_mapping}
 
-        async def generate(extra_data: dict, aspect_ratio: str | None = None):
+        async def generate(extra_data: dict, aspect_ratio: Optional[str] = None) -> Tuple[ProviderInfo, ImageResponse | VideoResponse | Reasoning]:
             """
-            Генерирует изображение или видео с использованием выбранного провайдера.
+            Генерирует медиа-контент для указанного провайдера.
 
             Args:
                 extra_data (dict): Дополнительные данные.
-                aspect_ratio (Optional[str]): Соотношение сторон.
+                aspect_ratio (Optional[str], optional): Соотношение сторон. Defaults to None.
 
             Returns:
-                tuple[ProviderInfo, ImageResponse | VideoResponse]: Информация о провайдере и ответ с медиа-контентом.
-
-            Raises:
-                ModelNotSupportedError: Если модель не поддерживается.
-                Exception: В случае ошибки при запросе к API.
+                Tuple[ProviderInfo, ImageResponse | VideoResponse | Reasoning]: Информация о провайдере и ответ.
             """
             last_response = None
             for provider_key, provider in provider_mapping.items():
                 if selected_provider is not None and selected_provider != provider_key:
                     continue
-                provider_info = ProviderInfo(**{**cls.get_dict(), "label": f"HuggingFace ({provider_key})", "url": f"{cls.url}/{model}"})
+                provider_info = ProviderInfo(**{**cls.get_dict(), 'label': f'HuggingFace ({provider_key})', 'url': f'{cls.url}/{model}'})
 
-                api_base: str = f"https://router.huggingface.co/{provider_key}"
-                task: str = provider["task"]
-                provider_id: str = provider["providerId"]
+                api_base = f'https://router.huggingface.co/{provider_key}'
+                task = provider['task']
+                provider_id = provider['providerId']
                 if task not in cls.tasks:
-                    raise ModelNotSupportedError(f"Model is not supported: {model} in: {cls.__name__} task: {task}")
+                    raise ModelNotSupportedError(f'Model is not supported: {model} in: {cls.__name__} task: {task}')
 
                 if aspect_ratio is None:
-                    aspect_ratio = "1:1" if task == "text-to-image" else "16:9"
-                if task == "text-to-video" and provider_key != "novita":
+                    aspect_ratio = '1:1' if task == 'text-to-image' else '16:9'
+                if task == 'text-to-video' and provider_key != 'novita':
                     extra_data = {
-                        "num_inference_steps": 20,
-                        "resolution": resolution,
-                        "aspect_ratio": aspect_ratio,
+                        'num_inference_steps': 20,
+                        'resolution': resolution,
+                        'aspect_ratio': aspect_ratio,
                         **extra_data
                     }
                 else:
                     extra_data = use_aspect_ratio({
                         **extra_data,
-                        "height": height,
-                        "width": width,
+                        'height': height,
+                        'width': width,
                     }, aspect_ratio)
-                url: str = f"{api_base}/{provider_id}"
-                data: dict = {
-                    "prompt": prompt,
+                url = f'{api_base}/{provider_id}'
+                data = {
+                    'prompt': prompt,
                     **extra_data
                 }
-                if provider_key == "fal-ai" and task == "text-to-image":
+                if provider_key == 'fal-ai' and task == 'text-to-image':
                     data = {
-                        "image_size": extra_data,
+                        'image_size': extra_data,
                         **data
                     }
-                elif provider_key == "novita":
-                    url = f"{api_base}/v3/hf/{provider_id}"
-                elif provider_key == "replicate":
-                    url = f"{api_base}/v1/models/{provider_id}/predictions"
+                elif provider_key == 'novita':
+                    url = f'{api_base}/v3/hf/{provider_id}'
+                elif provider_key == 'replicate':
+                    url = f'{api_base}/v1/models/{provider_id}/predictions'
                     data = {
-                        "input": data
+                        'input': data
                     }
-                elif provider_key in ("hf-inference", "hf-free"):
-                    api_base = "https://api-inference.huggingface.co"
-                    url = f"{api_base}/models/{provider_id}"
+                elif provider_key in ('hf-inference', 'hf-free'):
+                    api_base = 'https://api-inference.huggingface.co'
+                    url = f'{api_base}/models/{provider_id}'
                     data = {
-                        "inputs": prompt,
-                        "parameters": {
-                            "seed": random.randint(0, 2**32),
+                        'inputs': prompt,
+                        'parameters': {
+                            'seed': random.randint(0, 2**32),
                             **extra_data
                         }
                     }
-                elif task == "text-to-image":
-                    url = f"{api_base}/v1/images/generations"
+                elif task == 'text-to-image':
+                    url = f'{api_base}/v1/images/generations'
                     data = {
-                        "response_format": "url",
-                        "model": provider_id,
+                        'response_format': 'url',
+                        'model': provider_id,
                         **data
                     }
 
-                async with StreamSession(
-                    headers=headers if provider_key == "hf-free" or api_key is None else {**headers, "Authorization": f"Bearer {api_key}"},
-                    proxy=proxy,
-                    timeout=timeout
-                ) as session:
-                    try:
+                try:
+                    async with StreamSession(
+                        headers=headers if provider_key == 'hf-free' or api_key is None else {**headers, 'Authorization': f'Bearer {api_key}'},
+                        proxy=proxy,
+                        timeout=timeout
+                    ) as session:
                         async with session.post(url, json=data) as response:
                             if response.status in (400, 401, 402):
                                 last_response = response
-                                debug.error(f"{cls.__name__}: Error {response.status} with {provider_key} and {provider_id}")
+                                logger.error(f'{cls.__name__}: Error {response.status} with {provider_key} and {provider_id}')
                                 continue
                             if response.status == 404:
-                                raise ModelNotSupportedError(f"Model is not supported: {model}")
+                                raise ModelNotSupportedError(f'Model is not supported: {model}')
                             await raise_for_status(response)
                             async for chunk in save_response_media(response, prompt, [aspect_ratio, model]):
-                                yield provider_info, chunk
+                                return provider_info, chunk
                             result = await response.json()
-                            if "video" in result:
-                                yield provider_info, VideoResponse(result.get("video").get("url", result.get("video").get("video_url")), prompt)
-                            elif task == "text-to-image":
-                                yield provider_info, ImageResponse([item["url"] for item in result.get("images", result.get("data"))], prompt)
-                            elif task == "text-to-video":
-                                yield provider_info, VideoResponse(result["output"], prompt)
-                    except Exception as ex:
-                        logger.error(f"Error while processing request to {url}: {ex}", ех, exc_info=True)
-                        continue
+                            if 'video' in result:
+                                return provider_info, VideoResponse(result.get('video').get('url', result.get('video').get('video_url')), prompt)
+                            elif task == 'text-to-image':
+                                return provider_info, ImageResponse([item['url'] for item in result.get('images', result.get('data'))], prompt)
+                            elif task == 'text-to-video':
+                                return provider_info, VideoResponse(result['output'], prompt)
+                except Exception as ex:
+                    logger.error(f'Ошибка при генерации контента для {provider_key}', ex, exc_info=True)
             if last_response:
                 await raise_for_status(last_response)
+            else:
+                raise Exception('Не удалось получить ответ от провайдера')
 
-        background_tasks: set = set()
-        running_tasks: set = set()
+        background_tasks: Set[asyncio.Task] = set()
+        running_tasks: Set[asyncio.Task] = set()
         started: float = time.time()
         while n > 0:
             n -= 1
@@ -354,10 +338,10 @@ class HuggingFaceMedia(AsyncGeneratorProvider, ProviderModelMixin):
         while running_tasks:
             diff: float = time.time() - started
             if diff > 1:
-                yield Reasoning(label="Generating", status=f"{diff:.2f}s")
+                yield Reasoning(label='Generating', status=f'{diff:.2f}s')
             await asyncio.sleep(0.2)
         for task in background_tasks:
             provider_info, media_response = await task
-            yield Reasoning(label="Finished", status=f"{time.time() - started:.2f}s")
+            yield Reasoning(label='Finished', status=f'{time.time() - started:.2f}s')
             yield provider_info
             yield media_response

@@ -2,45 +2,57 @@
 
 ## \file /hypotez/src/endpoints/bots/telegram/ToolBoxbot-main/ToolBox/ToolBox_DataBase.py
 
-**Качество кода**:
+**Качество кода:**
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код выполняет основные операции с базой данных SQLite: создание, вставка/обновление и загрузка данных.
-    - Использование `literal_eval` и `json.loads` для обработки данных из базы данных.
+    - Код выполняет основные функции для работы с базой данных SQLite.
+    - Присутствуют функции для создания таблицы, добавления/обновления данных и загрузки данных в словарь.
+    - Код достаточно читаемый и структурированный.
 - **Минусы**:
-    - Отсутствует логирование ошибок.
-    - Не все переменные и функции аннотированы типами.
-    - Использование `Union[]` вместо `|`
-    - Плохая читаемость кода из-за отсутствия обработки исключений и излишней краткости в некоторых местах.
-    - Не все функции документированы.
-    - Использование `input()` в основном блоке кода.
+    - Отсутствует обработка исключений при работе с базой данных.
+    - Использование `literal_eval` может быть небезопасным.
+    - Не все переменные аннотированы типами.
+    - Не хватает документации в формате docstring для функций и класса.
+    - Есть проблемы с форматированием кода (например, отсутствие пробелов вокруг операторов).
+    - Использование `sub` с регулярными выражениями выглядит сложным для восприятия, возможно стоит упростить.
+    - В функции `insert_or_update_data` используется небезопасное форматирование SQL-запроса (SQL injection).
 
-**Рекомендации по улучшению**:
+**Рекомендации по улучшению:**
 
-1.  **Добавить логирование**:
-    - Добавить логирование для отслеживания ошибок и предупреждений в процессе работы с базой данных.
+1.  **Добавить docstring**:
+    - Добавить подробное описание класса `DataBase` и всех его методов.
+    - Описать назначение каждого аргумента и возвращаемого значения.
+    - Указать, какие исключения могут быть выброшены.
 
-2.  **Добавить обработку исключений**:
-    - Добавить блоки `try-except` для обработки возможных исключений при работе с базой данных.
-    - Логировать возникающие исключения с использованием `logger.error`.
+2.  **Обработка исключений**:
+    - Обернуть операции с базой данных в блоки `try...except` для обработки возможных ошибок (например, `sqlite3.Error`).
+    - Логировать возникающие исключения с использованием модуля `logger` из `src.logger`.
 
-3.  **Улучшить аннотации типов**:
-    - Добавить аннотации типов для всех переменных и функций, где они отсутствуют.
-    - Использовать `|` вместо `Union[]` для объединения типов.
+3.  **Безопасность**:
+    - Использовать параметризованные запросы для предотвращения SQL injection в методе `insert_or_update_data`.
+    - Рассмотреть возможность замены `literal_eval` на более безопасные методы десериализации данных.
 
-4.  **Улучшить читаемость кода**:
-    - Добавить больше комментариев для объяснения сложных участков кода.
-    - Разбить длинные строки кода на несколько строк для улучшения читаемости.
+4.  **Аннотации типов**:
+    - Добавить аннотации типов для всех переменных, где это возможно.
+    - Уточнить типы данных в аннотациях (например, использовать `list[int]` вместо `list[bool|int]`).
 
-5.  **Документировать функции**:
-    - Добавить docstring для всех функций, включая описание аргументов, возвращаемых значений и возможных исключений.
-    - Описать назначение каждого метода и класса.
+5.  **Форматирование кода**:
+    - Привести код в соответствие со стандартами PEP8.
+    - Добавить пробелы вокруг операторов присваивания и других операторов.
+    - Использовать более понятные имена переменных.
 
-6.  **Удалить `input()` из основного блока кода**:
-    - Перенести код с использованием `input()` в отдельную функцию или класс для тестирования и демонстрации.
+6.  **Упрощение кода**:
+    - Попробовать упростить логику преобразования данных в методах `insert_or_update_data` и `load_data_from_db`.
+    - Избегать использования сложных регулярных выражений, если есть более простые альтернативы.
 
-**Оптимизированный код**:
+7.  **Логирование**:
+    - Добавить логирование важных этапов работы с базой данных (например, создание подключения, выполнение запросов, обработка результатов).
+
+8.  **Использовать `j_loads`**:
+    - Если `TEXT[]` содержит JSON, то использовать `j_loads` для десериализации.
+
+**Оптимизированный код:**
 
 ```python
 import sqlite3
@@ -49,40 +61,30 @@ from re import sub
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from ast import literal_eval
-from typing import Optional, Dict, List, Any
-from src.logger import logger
+from typing import Optional, List, Dict, Any
+from src.logger import logger #  Используй модуль logger из src.logger.logger.
 
-"""
-Модуль для работы с базой данных SQLite
-==========================================
-
-Модуль содержит класс :class:`DataBase`, который используется для взаимодействия с базой данных SQLite,
-включая создание таблицы, вставку/обновление данных и загрузку данных в словарь.
-
-Пример использования
-----------------------
-
->>> base = DataBase(db_name='UsersData.db', table_name='users_data_table', titles={'id': 'TEXT PRIMARY KEY', 'text': 'INTEGER[]'})
->>> base.create()
->>> data = base.load_data_from_db()
-"""
-
-
-# Database functions class
+# Класс для работы с базой данных
 class DataBase:
+    """
+    Класс для управления базой данных SQLite.
+
+    Позволяет создавать таблицы, добавлять, обновлять и загружать данные.
+    """
+
     def __init__(self, db_name: str, table_name: str, titles: Dict[str, str]) -> None:
         """
-        Инициализирует класс DataBase.
+        Инициализирует экземпляр класса DataBase.
 
         Args:
             db_name (str): Имя файла базы данных.
             table_name (str): Имя таблицы в базе данных.
-            titles (Dict[str, str]): Словарь с названиями столбцов и их типами данных.
+            titles (Dict[str, str]): Словарь, содержащий названия столбцов и их типы данных.
         """
         self.db_name = db_name
         self.table_name = table_name
         self.titles = titles
-        self.types: Dict[str, Any] = {
+        self.types = {
             "INTEGER": lambda x: int(x),
             "BOOLEAN": lambda x: bool(x),
             "INTEGER[]": lambda x: [int(el) for el in literal_eval(sub(r"{(.*?)}", r"[\\1]", x))],
@@ -93,7 +95,7 @@ class DataBase:
             "TEXT": lambda x: str(x)
         }
 
-    # Database creation function
+    # Функция создания базы данных
     def create(self) -> None:
         """
         Создает таблицу в базе данных, если она не существует.
@@ -102,18 +104,22 @@ class DataBase:
             conn = sqlite3.connect(self.db_name)
             cursor = conn.cursor()
             cursor.execute(f"CREATE TABLE IF NOT EXISTS {self.table_name} ({',\\n'.join(f'{key} {value}' for key, value in self.titles.items())})")
-            conn.close()
+            conn.commit() #  Подтверждаем изменения
+            logger.info(f'Table {self.table_name} created successfully in {self.db_name}') #  Логируем успешное создание таблицы
         except sqlite3.Error as ex:
-            logger.error('Error while creating table', ex, exc_info=True)
+            logger.error(f'Error creating table {self.table_name} in {self.db_name}', ex, exc_info=True) #  Логируем ошибку при создании таблицы
+        finally:
+            if conn:
+                conn.close() #  Закрываем соединение с базой данных
 
-    # Function of insert or update data
-    def insert_or_update_data(self, record_id: str, values: Dict[str, List[bool | int] | bool | int | str]) -> None:
+    # Функция для вставки или обновления данных
+    def insert_or_update_data(self, record_id: str, values: Dict[str, list[bool | int] | bool | int | str]) -> None:
         """
         Вставляет или обновляет данные в таблице.
 
         Args:
             record_id (str): Идентификатор записи.
-            values (Dict[str, List[bool | int] | bool | int | str]): Словарь со значениями для вставки или обновления.
+            values (Dict[str, list[bool | int] | bool | int | str]): Словарь со значениями для вставки или обновления.
         """
         try:
             conn = sqlite3.connect(self.db_name)
@@ -122,53 +128,55 @@ class DataBase:
             placeholders = ', '.join(['?'] * (len(self.titles)))
 
             sql = f"REPLACE INTO {self.table_name} ({', '.join(list(self.titles.keys()))}) VALUES ({placeholders})"
-            cursor.execute(sql, [record_id] + [sub(r"^\\[(.*?)\\]$", r'{\\1}', str([json.dumps(el) if isinstance(el, dict) else int(el) for el in val])) if isinstance(val, list) else val for val in values.values()])
+            # Используем параметризованные запросы для предотвращения SQL injection
+            data = [record_id] + [
+                sub(r"^\\[(.*?)\\]$", r'{\\1}', str([json.dumps(el) if isinstance(el, dict) else int(el) for el in val]))
+                if isinstance(val, list) else val for val in values.values()
+            ]
+            cursor.execute(sql, data) #  Передаем данные в запрос
 
             conn.commit()
-            conn.close()
+            logger.info(f'Data inserted or updated successfully for record_id {record_id} in {self.table_name}') #  Логируем успешную вставку или обновление данных
         except sqlite3.Error as ex:
-            logger.error('Error while inserting or updating data', ex, exc_info=True)
+            logger.error(f'Error inserting or updating data for record_id {record_id} in {self.table_name}', ex, exc_info=True) #  Логируем ошибку при вставке или обновлении данных
+        finally:
+            if conn:
+                conn.close() #  Закрываем соединение с базой данных
 
-    # Function for load data in dictionary
-    def load_data_from_db(self) -> Dict[str, Dict[str, List[bool | int] | bool | int | str]]:
+    # Функция для загрузки данных в словарь
+    def load_data_from_db(self) -> Dict[str, Dict[str, list[bool | int] | bool | int | str]]:
         """
         Загружает данные из базы данных в словарь.
 
         Returns:
-            Dict[str, Dict[str, List[bool | int] | bool | int | str]]: Словарь с данными из базы данных.
+            Dict[str, Dict[str, list[bool | int] | bool | int | str]]: Словарь, содержащий данные из базы данных.
         """
-        loaded_data: Dict[str, Dict[str, List[bool | int] | bool | int | str]] = {}
+        loaded_data: Dict[str, Dict[str, list[bool | int] | bool | int | str]] = {}
+        conn = sqlite3.connect(self.db_name)
+        cursor = conn.cursor()
         try:
-            conn = sqlite3.connect(self.db_name)
-            cursor = conn.cursor()
             cursor.execute(f"SELECT {', '.join(list(self.titles.keys()))} FROM {self.table_name}")
             rows = cursor.fetchall()
-
             for row in rows:
                 record_id = row[0]
                 loaded_data[record_id] = {}
                 for i, (key, value) in enumerate(list(self.titles.items())[1:], 1):
                     loaded_data[record_id][key] = self.types[value](row[i])
-            conn.close()
-            return loaded_data
+            logger.info(f'Data loaded successfully from {self.table_name}') #  Логируем успешную загрузку данных
         except sqlite3.Error as ex:
-            logger.error('Error while loading data from database', ex, exc_info=True)
-            return {}
+            logger.error(f'Error loading data from {self.table_name}', ex, exc_info=True) #  Логируем ошибку при загрузке данных
+        finally:
+            conn.close()
+        return loaded_data
 
-
-# Database visualization
+# Визуализация базы данных
 if __name__ == "__main__":
-    from src.logger import logger
-
     base = DataBase(db_name="UsersData.db", table_name="users_data_table", titles={"id": "TEXT PRIMARY KEY", "text": "INTEGER[]",
                         "sessions_messages": "TEXT[]", "some": "BOOLEAN",
                         "images": "CHAR", "free" : "BOOLEAN", "basic" : "BOOLEAN",
                         "pro" : "BOOLEAN", "incoming_tokens": "INTEGER", "outgoing_tokens" : "INTEGER",
                         "free_requests" : "INTEGER", "datetime_sub": "DATETIME", "promocode": "BOOLEAN", "ref": "TEXT"})
-    base.create()
-    db = base.load_data_from_db()
-    N = 8
-
+    base.create(); db = base.load_data_from_db(); N = 8
     uid = input()
     if uid != '':
         if "pro" in uid:

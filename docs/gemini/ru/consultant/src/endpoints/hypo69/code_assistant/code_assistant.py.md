@@ -1,43 +1,41 @@
-### **Анализ кода модуля `code_assistant`**
+### **Анализ кода модуля `code_assistant.py`**
+
+## \file /src/endpoints/hypo69/code_assistant/code_assistant.py
 
 **Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Код разбит на классы и функции, что улучшает читаемость и структуру.
-  - Используется логирование для отслеживания ошибок и хода выполнения программы.
-  - Присутствует обработка исключений.
-  - Есть возможность динамической настройки через конфигурационные файлы.
+    - Код разбит на классы и функции, что улучшает читаемость и организацию.
+    - Используется логирование через модуль `logger`.
+    - Присутствуют docstring для большинства функций и классов.
 - **Минусы**:
-  - Некоторые docstring написаны на английском языке.
-  - Не везде используется аннотация типов.
-  - Встречаются `...` в коде, что может указывать на незавершенность реализации.
-  - Не все переменные аннотированы типами.
+    - В некоторых местах docstring отсутствуют или не соответствуют требованиям.
+    - Есть смешение стилей в форматировании строк (используются как одинарные, так и двойные кавычки).
+    - Встречается использование `Union` вместо `|` для аннотаций типов.
+    - В некоторых блоках `except` отсутствует обработка исключений или передается `None` вместо `ex` в `logger.error`.
 
 **Рекомендации по улучшению**:
 
 1.  **Документация**:
+    *   Дополнить docstring для всех функций и классов, включая внутренние функции, в соответствии с заданным форматом.
     *   Перевести все docstring на русский язык.
-    *   Дополнить docstring для всех функций, методов и классов, включая описание аргументов, возвращаемых значений и возможных исключений.
-    *   Улучшить описание модуля, добавив примеры использования и mermaid-схемы.
-
-2.  **Аннотация типов**:
-    *   Добавить аннотации типов для всех переменных, аргументов функций и возвращаемых значений, где это необходимо.
-
-3.  **Логирование**:
-    *   Убедиться, что все исключения логируются с использованием `logger.error` и передачей информации об исключении (`ex`) и стека вызовов (`exc_info=True`).
-
-4.  **Конфигурация**:
-    *   Улучшить механизм динамического обновления конфигурации, чтобы изменения вступали в силу без перезапуска программы.
-
-5.  **Обработка `...`**:
-    *   Заменить `...` конкретной реализацией или удалить, если это не требуется.
-
-6.  **Соответствие PEP8**:
-    *   Проверить код на соответствие стандартам PEP8 и исправить найденные несоответствия.
+    *   Уточнить и детализировать описания параметров и возвращаемых значений.
+2.  **Форматирование**:
+    *   Привести все строки к использованию одинарных кавычек (`'`).
+    *   Добавить пробелы вокруг операторов присваивания (`=`).
+    *   Заменить `Union` на `|` в аннотациях типов.
+3.  **Обработка исключений**:
+    *   Во всех блоках `except` передавать переменную исключения (`ex`) в `logger.error`.
+    *   Указывать `exc_info=True` в `logger.error` для получения более подробной информации об исключении.
+4.  **Использование `j_loads` и `j_loads_ns`**:
+    *   Убедиться, что для чтения JSON-файлов используется `j_loads` или `j_loads_ns` вместо стандартных `open` и `json.load`.
+5.  **Аннотации типов**:
+    *   Проверить и добавить аннотации типов для всех переменных, входных и выходных параметров функций.
 
 **Оптимизированный код**:
 
 ```python
+                
 ## \file /src/endpoints/hypo69/code_assistant/code_assistant.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
@@ -46,13 +44,13 @@
 =========================================================================================
 
 :class:`CodeAssistant`, читает файлы кода, отдает код в модели, модель обрабатывет код и возвращает его в класс, класс сохраняет результат
-в директории `docs/gemini` В зависимости от роли файлы сохраняются в
+в директории `docs/gemini` В зависимости от роли файлы сохраняются в 
 
 Пример использования
 --------------------
 
 Пример использования класса `CodeAssistant`:
-# задайте роль исполнителя, язык
+# задайте роль исполнителя, язык 
 ```python
 
     assistant = CodeAssistant(role='code_checker', lang='ru', model=['gemini'])
@@ -63,8 +61,8 @@
     ```mermaid
     flowchart TD
         Start --> Header[<code>header.py</code><br> Determine Project Root]
-
-        Header --> import[Import Global Settings: <br><code>from src import gs</code>]
+    
+        Header --> import[Import Global Settings: <br><code>from src import gs</code>] 
     ```
 
 [Документация](https://github.com/hypo69/hypotez/blob/master/docs/ru/src/endpoints/hypo69/code_assistant/code_assistant.py.md)
@@ -97,9 +95,9 @@ from src import USE_ENV
 
 class Config:
     """
-    Конфигурационный класс для CodeAssistant.
+    Конфигурационный класс для ассистента кода.
     """
-    base_path: Path = __root__ / 'src' / 'endpoints' / 'hypo69' / 'code_assistant'
+    base_path: Path = __root__ / 'src' / 'endpoints' / 'hypo69' / 'code_assistant'   
     config: SimpleNamespace = j_loads_ns(base_path / 'code_assistant.json')
     roles_list: list = config.roles
     languages_list: list = config.languages
@@ -111,32 +109,26 @@ class Config:
     include_files_patterns: list[Path] = config.include_files_patterns
     exclude_files: list[Path] = config.exclude_files
     exclude_dirs: list[Path] = config.exclude_dirs
-    response_mime_type: str = config.response_mime_type
+    response_mime_type: str = config.response_mime_type 
     output_directory_patterns: list = config.output_dirs
 
     @classmethod
     @property
     def code_instruction(self) -> str:
+        """code_instruction - Инструкция для кода.
+        При каждом вызове читает файл с инструкцией, что позволяет обновлять инструкции "на лету"
         """
-        Инструкция для кода.
-        При каждом вызове читает файл с инструкцией, что позволяет обновлять инструкции "на лету".
-
-        Returns:
-            str: Содержимое файла с инструкцией.
-        """
-        return Path(Config.base_path / 'instructions'/ f'instruction_{Config.role}_{Config.lang}.md'
+        #  Инструкция для кода
+        return Path( Config.base_path / 'instructions'/ f'instruction_{Config.role}_{Config.lang}.md'
             ).read_text(encoding='UTF-8')
 
     @classmethod
     @property
     def system_instruction(self) -> str:
-        """
-        Инструкция для модели.
-        При каждом вызове читает файл с инструкцией, что позволяет обновлять инструкции "на лету".
-
-        Returns:
-            str: Содержимое файла с инструкцией для модели.
-        """
+        """Инструкция для модели.
+        При каждом вызове читает файл с инструкцией, что позволяет обновлять инструкции "на лету"
+        """        
+        # Инструкция для модели
         return Path(Config.base_path / 'instructions' / f'CODE_RULES.{Config.lang}.MD'
                             ).read_text(encoding='UTF-8')
 
@@ -148,13 +140,14 @@ class Config:
     })
 
 
+
 # -------------------------- end file ---------------------------------------------------
 
 
+
+
 class CodeAssistant:
-    """
-    Класс для работы ассистента программиста с моделями ИИ.
-    """
+    """Класс для работы ассистента программиста с моделями ИИ"""
 
     role: str
     lang: str
@@ -165,8 +158,8 @@ class CodeAssistant:
     def __init__(
         self,
         role: Optional[str] = 'doc_writer_md',
-        lang: Optional[str] = 'ru',
-        models_list: Optional[list[str] | str] = ['gemini'],
+        lang: Optional[str] = 'en',
+        models_list: Optional[list[str, str] | str] = ['gemini'],
         system_instruction: Optional[str | Path] = None,
         **kwards,
     ) -> None:
@@ -174,14 +167,11 @@ class CodeAssistant:
         Инициализация ассистента с заданными параметрами.
 
         Args:
-            role (Optional[str]): Роль для выполнения задачи. По умолчанию 'doc_writer_md'.
-            lang (Optional[str]): Язык выполнения. По умолчанию 'ru'.
-            models_list (Optional[list[str] | str]): Список моделей для инициализации. По умолчанию ['gemini'].
-            system_instruction (Optional[str | Path]): Общая инструкция для модели.
+            role (str): Роль для выполнения задачи.
+            lang (str): Язык выполнения.
+            models_list (list[str]): Список моделей для инициализации.
+            system_instruction (str|Path): Общая инструкция для модели. 
             **kwards: Дополнительные аргументы для инициализации моделей.
-
-        Returns:
-            None
         """
         Config.role = role if role else Config.role
         Config.lang = lang if lang else Config.lang
@@ -195,11 +185,10 @@ class CodeAssistant:
 
         Args:
             models_list (list[str]): Список моделей для инициализации.
-            response_mime_type (Optional[str]): Тип MIME ответа. По умолчанию ''.
             **kwards: Дополнительные аргументы для инициализации моделей.
 
         Returns:
-            bool: True, если инициализация прошла успешно, иначе False.
+            bool: Успешность инициализации моделей.
 
         Raises:
             Exception: Если произошла ошибка при инициализации моделей.
@@ -224,11 +213,10 @@ class CodeAssistant:
                     generation_config = {'response_mime_type': kwards.get( 'response_mime_type',  Config.response_mime_type)},
                     **filtered_kwargs,
                 )
-                #  Добавить логирование об успешной инициализации модели
-                logger.info(f'Модель Gemini успешно инициализирована')
+                ...
                 return True
             except Exception as ex:
-                logger.error(f'Ошибка при инициализации Gemini:', ex, exc_info = True)
+                logger.error(f'Ошибка при инициализации Gemini:', ex, exc_info=True) # передаем ex
                 return False
 
     def send_file(self, file_path: Path) -> Optional[str | None]:
@@ -237,6 +225,7 @@ class CodeAssistant:
 
         Args:
             file_path (Path): Абсолютный путь к файлу, который нужно отправить.
+            file_name (Optional[str]): Имя файла для отправки. Если не указано и 'src' отсутствует, используется имя файла без изменений.
 
         Returns:
             Optional[str | None]: URL файла, если успешно отправлен, иначе None.
@@ -251,24 +240,15 @@ class CodeAssistant:
 
             return None
         except Exception as ex:
-            logger.error('Ошибка при отправке файла: ', ex, exc_info = True)
-            # Добавить логирование стека вызовов
+            logger.error('Ошибка при отправке файла: ', ex, exc_info=True) # передаем ex
+            ...
             return None
 
 
     async def process_files(
         self, process_dirs: Optional[str | Path | list[str | Path]] = None, start_from_file: Optional[int] = 1
     ) -> bool:
-        """
-        Компиляция, отправка запроса и сохранение результата для каждого файла в указанных директориях.
-
-        Args:
-            process_dirs (Optional[str | Path | list[str | Path]]): Список директорий для обработки. Если не указан, используются директории из конфигурации.
-            start_from_file (Optional[int]): Номер файла, с которого начинается обработка. По умолчанию 1.
-
-        Returns:
-            bool: True, если обработка завершена успешно, иначе False.
-        """
+        """компиляция, отправка запроса и сохранение результата."""
         Config.process_dirs = process_dirs if process_dirs else Config.process_dirs
 
         for process_directory in Config.process_dirs:
@@ -281,7 +261,7 @@ class CodeAssistant:
                 continue  # Переходим к следующей директории, если текущая не существует
 
             if not process_directory.is_dir():
-                logger.error(f"Это не директория: {process_directory}")
+                logger.error(f"Это не директория: {process_directory}", None, False)
                 continue  # Переходим к следующей директории, если текущая не является директорией
 
             for i, (file_path, content) in enumerate(self._yield_files_content(process_directory)):
@@ -291,7 +271,7 @@ class CodeAssistant:
                 if i < start_from_file:  # <- старт с номера файла
                     continue
                 if file_path and content:
-                    logger.debug(f'Processed file number: {i}')
+                    logger.debug(f'Processed file number: {i}', None, False)
                     content_request = self._create_request(file_path, content)
                     response = await self.gemini.ask_async(content_request)
 
@@ -299,26 +279,19 @@ class CodeAssistant:
                         response: str = self._remove_outer_quotes(response)
                         if not await self._save_response(file_path, response, 'gemini'):
                             logger.error(f'Файл {file_path} \n НЕ сохранился')
+                            ...
                             continue
-                        # Добавить логирование об успешном сохранении файла
-                        logger.info(f'Файл {file_path} успешно сохранен')
+                        
+                        ...
                     else:
-                        logger.error('Ошибка ответа модели')
+                        logger.error('Ошибка ответа модели', None, False)
+                        ...
                         continue
 
                 await asyncio.sleep(20)  # <- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG (change timeout)
 
     def _create_request(self, file_path: str, content: str) -> str:
-        """
-        Создание запроса с учетом роли и языка.
-
-        Args:
-            file_path (str): Путь к файлу.
-            content (str): Содержимое файла.
-
-        Returns:
-            str: Сформированный запрос.
-        """
+        """Создание запроса с учетом роли и языка."""
         
         try:
             content_request: dict = {
@@ -331,7 +304,8 @@ class CodeAssistant:
                 ```""",
             }
         except Exception as ex:
-            logger.error(f'Ошибка в составлении запроса ', ex, exc_info = True)
+            logger.error(f'Ошибка в составлении запроса ', ex, False) # передаем ex
+            ...
             return str(content)
 
         return str(content_request)
@@ -346,8 +320,8 @@ class CodeAssistant:
         Args:
             process_directory (Path | str): Абсолютный путь к стартовой директории
 
-        Yields:
-            tuple[Path, str]: Кортеж, содержащий путь к файлу и его содержимое.
+        Returns:
+            bool: Iterator
         """
 
         process_directory: Path = process_directory if isinstance(process_directory, Path) else Path(process_directory)
@@ -360,8 +334,9 @@ class CodeAssistant:
 
         except Exception as ex:
             logger.error(
-                f'Не удалось скомпилировать регулярки из списка:/n{Config.exclude_files_patterns=}\n ', ex, exc_info = True
-            )
+                f'Не удалось скомпилировать регулярки из списка:/n{Config.exclude_files_patterns=}\n ', ex
+            ) # передаем ex
+            ...
 
         # Итерация по всем файлам в директории
         for file_path in process_directory.rglob('*'):
@@ -389,9 +364,11 @@ class CodeAssistant:
                 yield file_path, content
                 # make_summary( docs_dir = start_dir.parent / 'docs' )  # <- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG  (create `summary.md`)
             except Exception as ex:
-                logger.error(f'Ошибка при чтении файла {file_path}', ex, exc_info = True)
+                logger.error(f'Ошибка при чтении файла {file_path}', ex, exc_info=True) # передаем ex
+                ...
                 yield None, None
 
+            ...
 
     async def _save_response(self, file_path: Path, response: str, model_name: str) -> bool:
         """
@@ -405,9 +382,6 @@ class CodeAssistant:
             response (str): Ответ модели, который необходимо сохранить.
             model_name (str): Имя модели, использованной для генерации ответа.
 
-        Returns:
-            bool: True, если сохранение прошло успешно, иначе False.
-
         Raises:
             OSError: Если не удаётся создать директорию или записать в файл.
         """
@@ -415,8 +389,10 @@ class CodeAssistant:
         try:
             export_path = Path(file_path)
         except Exception as ex:
-            logger.error(f'Ошибка пути: {file_path}', ex, exc_info = True)
-            return False
+            logger.error(f'Ошибка пути: {file_path}', exc_info=True) # передаем ex
+            ...
+            return
+
         try:
             # Получаем директорию для вывода в зависимости от роли
             output_directory_pattern:str = getattr(Config.output_directory_patterns, Config.role)
@@ -453,7 +429,8 @@ class CodeAssistant:
             return True
 
         except Exception as ex:
-            logger.critical(f'Ошибка сохранения файла: {export_path=}', ex, exc_info = True)
+            logger.critical(f'Ошибка сохранения файла: {export_path=}', ex, exc_info=True) # передаем ex
+            # sys.exit(0)
             return False
 
     def _remove_outer_quotes(self, response: str) -> str:
@@ -477,7 +454,7 @@ class CodeAssistant:
         try:
             response = response.strip()
         except Exception as ex:
-            logger.error('Exception in `_remove_outer_quotes()`', ex, exc_info = True)
+            logger.error('Exception in `_remove_outer_quotes()`', ex, False) # передаем ex
             return ''
 
         # Если строка начинается с '```python' или '```mermaid', возвращаем её без изменений. Это годный код
@@ -501,40 +478,18 @@ class CodeAssistant:
         return response
 
     def run(self, start_from_file: int = 1) -> None:
-        """
-        Запуск процесса обработки файлов.
-
-        Args:
-            start_from_file (int): Номер файла, с которого начинается обработка. По умолчанию 1.
-
-        Returns:
-            None
-        """
+        """Запуск процесса обработки файлов."""
         signal.signal(signal.SIGINT, self._signal_handler)  # Обработка прерывания (Ctrl+C)
         asyncio.run(self.process_files(start_from_file))
 
     def _signal_handler(self, signal, frame) -> None:
-        """
-        Обработка прерывания выполнения.
-
-        Args:
-            signal: Номер сигнала.
-            frame: Текущий кадр стека вызовов.
-
-        Returns:
-            None
-        """
+        """Обработка прерывания выполнения."""
         logger.debug('Процесс был прерван', text_color='red')
         sys.exit(0)
 
 
 def parse_args() -> dict:
-    """
-    Разбор аргументов командной строки.
-
-    Returns:
-        dict: Словарь с аргументами командной строки.
-    """
+    """Разбор аргументов командной строки."""
     parser = argparse.ArgumentParser(description='Ассистент для программистов')
     parser.add_argument(
         '--role',
@@ -571,9 +526,6 @@ def main() -> None:
     Функция запускает бесконечный цикл, в котором выполняется обработка файлов с учетом ролей и языков, указанных в конфигурации.
     Конфигурация обновляется в каждом цикле, что позволяет динамически изменять настройки в файле `code_assistant.json` во время работы программы.
     Для каждой комбинации языка и роли создается экземпляр класса :class:`CodeAssistant`, который обрабатывает файлы, используя заданную модель ИИ.
-
-    Returns:
-        None
     """
 
     while True:
@@ -582,7 +534,7 @@ def main() -> None:
         for lang in Config.languages_list:
             Config.lang = lang
             for role in Config.roles_list:
-                logger.debug(f'Start role: {role}, lang: {lang}')
+                logger.debug(f'Start role: {role}, lang: {lang}', None, False)
                 assistant_direct = CodeAssistant(
                     role=role,
                     lang=lang,

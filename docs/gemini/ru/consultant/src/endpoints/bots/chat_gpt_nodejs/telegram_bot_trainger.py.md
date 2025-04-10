@@ -2,201 +2,211 @@
 
 **Качество кода:**
 
-*   **Соответствие стандартам**: 6/10
-*   **Плюсы**:
-    *   Используется асинхронность для обработки сообщений, что важно для ботов.
-    *   Обработчики разделены на команды, текст, голос и документы.
-    *   Присутствует базовая обработка команд `/start` и `/help`.
-    *   Используется модуль `logger` для логирования (хотя и не во всех местах, где это необходимо).
-*   **Минусы**:
-    *   Отсутствует подробная документация в формате docstring для функций.
-    *   Не все переменные аннотированы типами.
-    *   Обработка ошибок отсутствует или неполная (например, при скачивании или чтении файлов).
-    *   Использование `gs.credentials.telegram.bot_token` напрямую без обработки исключений.
-    *   В начале файла присутсвует не нужная строчка `#! .pyenv/bin/python3`. Она не нужна, потому что она нужна для запуска файла как скрипта, и она должна быть определена в самом скрипте, а не как часть модуля.
-    *   Дублирование `j_loads_ns` при импорте.
-    *   Вместо tempfile.gettempdir() лучше использовать Path(".").resolve(), и сохранять файлы во временную папку.
-    *   Многие участки кода закомментированы. Это говорит о том, что код не используется, но и не удален.
-    *   Отсутствуют аннотации типов.
-    *   Переменная `model` объявлена в глобальной области видимости. Это может привести к проблемам, если в коде будет несколько моделей.
-    *   Используются устаревшие конструкции для python3. Например: `f.read()`. Современный способ: `f.read_text()`
-    *   Обработка исключений отсутствует.
+- **Соответствие стандартам**: 6/10
+- **Плюсы**:
+    - Использование асинхронности для обработки сообщений.
+    - Разделение обработки разных типов сообщений (текст, голос, документ) на отдельные функции.
+    - Использование `logger` для логирования.
+- **Минусы**:
+    - Отсутствует docstring для модуля.
+    - Не все функции имеют docstring.
+    - Не все переменные аннотированы типами.
+    - В коде встречается дублирование кода (например, вызов `text_to_speech`).
+    - Не используется `j_loads` для загрузки конфигурационных данных (TELEGRAM_TOKEN).
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить docstring для всех функций** с описанием аргументов, возвращаемых значений и возможных исключений.
-2.  **Добавить аннотации типов** для всех переменных и аргументов функций.
-3.  **Обработка ошибок**:
-    *   Добавить блоки `try...except` для обработки возможных исключений, особенно при работе с файлами, API Telegram и внешними сервисами. Использовать `logger.error` для логирования ошибок.
-4.  **Удалить дубликаты импортов**
-5.  **Переработать сохранение файлов**:
-    *   Вместо `tempfile.gettempdir()` использовать `Path(".").resolve() / "tmp"` для сохранения файлов во временную папку.
-    *   Обязательно обрабатывать ошибки при создании директории и скачивании файлов.
-6.  **Удалить закомментированный код**
-7.  **Изменить способ чтения файла**:
-    *   Использовать `f.read_text()` вместо `f.read()` для чтения содержимого файла.
-8.  **Удалить неиспользуемые импорты**
-9.  **Переместить model**:
-    *   Объявить переменную `model` внутри функции `main`.
+1.  **Добавить docstring для модуля**:
+    - Описать назначение модуля, основные классы и функции, а также примеры использования.
+2.  **Добавить docstring для всех функций**:
+    - Описать аргументы, возвращаемые значения, возможные исключения и примеры использования.
+3.  **Аннотировать типы переменных**:
+    - Добавить аннотации типов для всех переменных, чтобы улучшить читаемость и облегчить отладку.
+4.  **Использовать `j_loads` для загрузки `TELEGRAM_TOKEN`**:
+    - Заменить прямое использование `gs.credentials.telegram.bot_token` на загрузку через `j_loads`.
+5.  **Удалить неиспользуемые импорты**:
+    - Удалить импорты, которые не используются в коде (например, `header`).
+6.  **Избавиться от дублирования кода**:
+    - Вынести повторяющийся код в отдельные функции или классы.
+7.  **Добавить обработку исключений**:
+    - Добавить обработку исключений для возможных ошибок, таких как ошибки при распознавании речи или при отправке сообщений.
+8.  **Улучшить логирование**:
+    - Добавить логирование для важных событий, таких как получение сообщения, отправка ответа, возникновение ошибки.
+9.  **Перевести все комментарии на русский язык**:
+    - Перевести все комментарии и docstring на русский язык.
+10. **Исправить опечатку**
+    - Исправить опечатку `telegram_bot_trainger.py` -> `telegram_bot_trainer.py`
 
 **Оптимизированный код:**
 
 ```python
-"""
-Модуль для работы с Telegram ботом, обучаемым через OpenAI.
-==============================================================
+# -*- coding: utf-8 -*-\n
+#! .pyenv/bin/python3
 
-Модуль содержит функции для обработки команд, текстовых сообщений,
-голосовых сообщений и документов, отправляемых боту.
+"""
+Модуль для создания и управления Telegram-ботом для обучения моделей.
+====================================================================
+
+Модуль содержит функции для обработки команд и сообщений от пользователей Telegram,
+включая текстовые сообщения, голосовые сообщения и документы.
+Он использует библиотеку python-telegram-bot для взаимодействия с Telegram API
+и обучает модель на основе полученных данных.
 
 Пример использования:
 ----------------------
 
->>> # Запуск бота (пример)
->>> # python telegram_bot_trainger.py
+>>> # Запуск бота
+>>> main()
 """
 
-# -*- coding: utf-8 -*-
-
 from pathlib import Path
+import tempfile
 import asyncio
 
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
+# from header import ... #TODO не используется
 from src import gs
 from src.ai.openai.model.training import Model
-from src.utils.jjson import j_dumps
+from src.utils.jjson import j_loads_ns, j_dumps  # j_loads_ns используется 2 раза, стоит проверить необходимость обоих
 from src.logger.logger import logger
+import speech_recognition as sr  # Библиотека для распознавания речи
+import requests  # Для скачивания файлов
+from pydub import AudioSegment  # Библиотека для конвертации аудио
+from gtts import gTTS  # Библиотека для текстового воспроизведения
 from src.utils.convertors.tts import recognizer, text_to_speech
 
-TELEGRAM_TOKEN: str = gs.credentials.telegram.bot_token
+model = Model()
+
+# Замените 'YOUR_TOKEN_HERE' на ваш актуальный токен бота
+# TELEGRAM_TOKEN = gs.credentials.telegram.bot_token
+TELEGRAM_TOKEN: str = j_loads_ns(gs.credentials.telegram).get('bot_token') # type: ignore #TODO тут может быть None
 
 
 async def start(update: Update, context: CallbackContext) -> None:
     """
-    Обработчик команды /start.
+    Обрабатывает команду /start.
 
     Args:
         update (Update): Объект Update от Telegram.
-        context (CallbackContext): Объект CallbackContext от telegram.ext.
+        context (CallbackContext): Объект CallbackContext от python-telegram-bot.
 
     Returns:
         None
     """
-    await update.message.reply_text('Hello! I am your simple bot. Type /help to see available commands.')
+    await update.message.reply_text('Привет! Я простой бот. Напишите /help, чтобы увидеть доступные команды.')
 
 
 async def help_command(update: Update, context: CallbackContext) -> None:
     """
-    Обработчик команды /help.
+    Обрабатывает команду /help.
 
     Args:
         update (Update): Объект Update от Telegram.
-        context (CallbackContext): Объект CallbackContext от telegram.ext.
+        context (CallbackContext): Объект CallbackContext от python-telegram-bot.
 
     Returns:
         None
     """
-    await update.message.reply_text('Available commands:\n/start - Start the bot\n/help - Show this help message')
+    await update.message.reply_text(
+        'Доступные команды:\n/start - Запустить бота\n/help - Показать это сообщение справки'
+    )
 
 
 async def handle_document(update: Update, context: CallbackContext) -> None:
     """
-    Обработчик документов, отправленных боту.
+    Обрабатывает полученные документы.
 
     Args:
         update (Update): Объект Update от Telegram.
-        context (CallbackContext): Объект CallbackContext от telegram.ext.
+        context (CallbackContext): Объект CallbackContext от python-telegram-bot.
 
     Returns:
         None
     """
     try:
+        # Получаем файл
         file = await update.message.document.get_file()
-        tmp_dir = Path(".").resolve() / "tmp"
-
-        # Ensure the temporary directory exists
-        tmp_dir.mkdir(parents=True, exist_ok=True)
-
-        tmp_file_path = tmp_dir / "received.txt"
-        await file.download_to_drive(custom_path=tmp_file_path)  # Сохраняем файл локально
+        tmp_file_path = await file.download_to_drive()  # Сохраняем файл локально
 
         # Читаем содержимое файла
         with open(tmp_file_path, 'r') as f:
             file_content = f.read()
 
-        model = Model()
-        response = model.send_message(f"Обучение модели на следующем содержимом:{file_content}")
+        response: str = model.send_message(f'Обучение модели на следующем содержимом:{file_content}')
         await update.message.reply_text(response)
+        # tts_file_path = await text_to_speech(response)
+        # await update.message.reply_audio(audio=open(tts_file_path, 'rb'))
     except Exception as ex:
-        logger.error('Error while processing document', ex, exc_info=True)
+        logger.error('Ошибка при обработке документа', ex, exc_info=True)
         await update.message.reply_text('Произошла ошибка при обработке документа.')
 
 
 async def handle_message(update: Update, context: CallbackContext) -> None:
     """
-    Обработчик текстовых сообщений.
+    Обрабатывает текстовые сообщения.
 
     Args:
         update (Update): Объект Update от Telegram.
-        context (CallbackContext): Объект CallbackContext от telegram.ext.
+        context (CallbackContext): Объект CallbackContext от python-telegram-bot.
 
     Returns:
         None
     """
     try:
-        text_received = update.message.text
-        model = Model()
-        response = model.send_message(text_received)
+        text_received: str = update.message.text
+        response: str = model.send_message(text_received)
         await update.message.reply_text(response)
+        # tts_file_path = await text_to_speech(response)
+        # await update.message.reply_audio(audio=open(tts_file_path, 'rb'))
     except Exception as ex:
-        logger.error('Error while processing message', ex, exc_info=True)
+        logger.error('Ошибка при обработке текстового сообщения', ex, exc_info=True)
         await update.message.reply_text('Произошла ошибка при обработке сообщения.')
 
 
 async def handle_voice(update: Update, context: CallbackContext) -> None:
     """
-    Обработчик голосовых сообщений.
+    Обрабатывает голосовые сообщения.
 
     Args:
         update (Update): Объект Update от Telegram.
-        context (CallbackContext): Объект CallbackContext от telegram.ext.
+        context (CallbackContext): Объект CallbackContext от python-telegram-bot.
 
     Returns:
         None
     """
     try:
         voice_file = await update.message.voice.get_file()
-        message = recognizer(audio_url=voice_file.file_path)
-        model = Model()
-        response = model.send_message(message)
+        message: str = recognizer(audio_url=voice_file.file_path)
+        response: str = model.send_message(message)
         await update.message.reply_text(response)
-        tts_file_path = await text_to_speech(response)
+        tts_file_path: str = await text_to_speech(response)
         await update.message.reply_audio(audio=open(tts_file_path, 'rb'))
     except Exception as ex:
-        logger.error('Error while processing voice message', ex, exc_info=True)
+        logger.error('Ошибка при обработке голосового сообщения', ex, exc_info=True)
         await update.message.reply_text('Произошла ошибка при обработке голосового сообщения.')
 
 
 def main() -> None:
     """
-    Основная функция для запуска бота.
+    Запускает Telegram-бота.
 
     Returns:
         None
     """
     application = Application.builder().token(TELEGRAM_TOKEN).build()
 
-    # Register command handlers
+    # Регистрируем обработчики команд
     application.add_handler(CommandHandler('start', start))
     application.add_handler(CommandHandler('help', help_command))
 
-    # Register message handlers
+    # Регистрируем обработчики сообщений
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     application.add_handler(MessageHandler(filters.VOICE, handle_voice))
     application.add_handler(MessageHandler(filters.Document.ALL, handle_document))
-    # Start the bot
+
+    # Запускаем бота
     application.run_polling()
 
 

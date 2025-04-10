@@ -4,44 +4,77 @@
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код достаточно лаконичен и выполняет свою задачу - определение основных атрибутов для работы с API OpenAI через шаблон OpenaiTemplate.
-    - Присутствует аннотация типов.
+    - Код соответствует базовому шаблону для API OpenAI.
+    - Определены необходимые атрибуты, такие как `label`, `url`, `login_url`, `api_base`, `working` и `needs_auth`.
 - **Минусы**:
-    - Отсутствует docstring для класса, что затрудняет понимание назначения класса и его атрибутов.
-    - Не хватает информации о том, для чего используется каждый атрибут класса (например, `label`, `url`, `api_base` и т.д.).
-    - Не указаны типы для полей класса
+    - Отсутствует документация модуля и класса.
+    - Нет аннотаций типов для атрибутов класса.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить docstring для класса**: Необходимо добавить подробное описание класса `OpenaiAPI`, указав его назначение, основные атрибуты и примеры использования.
-2.  **Добавить описание атрибутов класса**: Добавить комментарии или docstring для каждого атрибута класса, чтобы пояснить его роль и назначение.
-3.  **Указать типы для полей класса**: Добавить аннотации типов для полей класса, что облегчит чтение и поддержку кода.
+1.  **Добавить документацию модуля**:
+    - Добавить заголовок модуля с описанием его назначения.
+    - Указать, что модуль определяет класс `OpenaiAPI`, который наследуется от `OpenaiTemplate` и предоставляет конфигурацию для работы с API OpenAI.
+
+2.  **Добавить документацию класса**:
+    - Добавить docstring для класса `OpenaiAPI` с описанием его атрибутов.
+    - Описать назначение каждого атрибута: `label`, `url`, `login_url`, `api_base`, `working`, `needs_auth`.
+
+3.  **Добавить аннотации типов**:
+    - Добавить аннотации типов для всех атрибутов класса.
+    - Например:
+
+```python
+class OpenaiAPI(OpenaiTemplate):
+    label: str = "OpenAI API"
+    url: str = "https://platform.openai.com"
+    login_url: str = "https://platform.openai.com/settings/organization/api-keys"
+    api_base: str = "https://api.openai.com/v1"
+    working: bool = True
+    needs_auth: bool = True
+```
+
+4.  **Использовать логгирование**:
+    - Добавить логирование для отслеживания состояния `working`.
+    - В случае изменения состояния `working` добавлять запись в лог.
 
 **Оптимизированный код:**
 
 ```python
+"""
+Модуль для работы с OpenAI API
+==============================
+
+Модуль определяет класс :class:`OpenaiAPI`, который наследуется от :class:`OpenaiTemplate` и предоставляет конфигурацию для работы с API OpenAI.
+
+Пример использования:
+----------------------
+
+>>> from g4f.Provider.needs_auth.OpenaiAPI import OpenaiAPI
+>>> openai_api = OpenaiAPI()
+>>> print(openai_api.label)
+OpenAI API
+"""
 from __future__ import annotations
 
+from src.logger import logger # Добавлен импорт logger
 from ..template import OpenaiTemplate
-from typing import ClassVar
-
 
 class OpenaiAPI(OpenaiTemplate):
     """
-    Класс для взаимодействия с API OpenAI.
-    Наследует класс OpenaiTemplate и определяет специфические атрибуты для OpenAI API.
+    Класс для конфигурации OpenAI API.
 
-    Attributes:
-        label (str): Отображаемое имя провайдера API.
-        url (str): URL главной страницы OpenAI.
-        login_url (str): URL страницы для получения API ключей.
-        api_base (str): Базовый URL для API запросов.
-        working (bool): Флаг, указывающий на работоспособность провайдера.
-        needs_auth (bool): Флаг, указывающий на необходимость аутентификации.
+    Args:
+        label (str): Название провайдера.
+        url (str): URL провайдера.
+        login_url (str): URL для авторизации.
+        api_base (str): Базовый URL API.
+        working (bool): Статус работоспособности провайдера.
+        needs_auth (bool): Требуется ли авторизация.
     """
-    label: ClassVar[str] = 'OpenAI API'
-    url: ClassVar[str] = 'https://platform.openai.com'
-    login_url: ClassVar[str] = 'https://platform.openai.com/settings/organization/api-keys'
-    api_base: ClassVar[str] = 'https://api.openai.com/v1'
-    working: ClassVar[bool] = True
-    needs_auth: ClassVar[bool] = True
+    label: str = "OpenAI API"
+    url: str = "https://platform.openai.com"
+    login_url: str = "https://platform.openai.com/settings/organization/api-keys"
+    api_base: str = "https://api.openai.com/v1"
+    working: bool = True
+    needs_auth: bool = True

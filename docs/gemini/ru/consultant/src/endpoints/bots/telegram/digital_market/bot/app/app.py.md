@@ -2,63 +2,70 @@
 
 ## \file /hypotez/src/endpoints/bots/telegram/digital_market/bot/app/app.py
 
-Модуль содержит основные обработчики для веб-приложения, включая обработку вебхуков от Telegram, главной страницы и взаимодействие с Robokassa.
+Модуль содержит основные обработчики веб-запросов для Telegram-бота, включая обработку вебхуков от Telegram и Robokassa, а также отображение главной страницы сервиса.
 
-**Качество кода:**
+**Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Четкая структура обработчиков.
-  - Использование `logger` для логирования.
-  - Обработка исключений.
+    - Использование асинхронности для обработки запросов.
+    - Логирование важных событий и ошибок.
+    - Четкое разделение функций по задачам.
 - **Минусы**:
-  - Отсутствуют аннотации типов для параметров функций `robokassa_fail` и `handle_webhook`.
-  - Не используется `j_loads` для загрузки конфигурационных файлов.
-  - Не все docstring переведены на русский язык.
+    - Не все переменные и параметры функций аннотированы типами.
+    - Отсутствуют подробные docstring для некоторых функций.
+    - Используются `logger.success`, `logger.warning`, `logger.info` вместо `logger.debug`.
 
-**Рекомендации по улучшению:**
+**Рекомендации по улучшению**:
 
-1.  **Добавить аннотации типов:**
-    - Добавить аннотации типов для параметров функций `robokassa_fail` и `handle_webhook`, чтобы улучшить читаемость и предотвратить возможные ошибки.
-2.  **Использовать `j_loads`:**
-    - Если используются конфигурационные файлы, заменить стандартное использование `open` и `json.load` на `j_loads` или `j_loads_ns`.
-3.  **Перевести docstring на русский язык:**
-    - Перевести все docstring на русский язык для соответствия требованиям.
-4.  **Более точные описания в комментариях и docstring:**
-    -  Избегай расплывчатых терминов, таких как *«получить»* или *«делать»*. Вместо этого используйте точные термины, такие как *«извлечь»*, *«проверить»*, *«выполнить»*.
+1. **Добавить аннотации типов**:
+    - Добавить аннотации типов для всех переменных и параметров функций, где они отсутствуют.
+    - Использовать `Optional` для параметров, которые могут быть `None`.
+2. **Улучшить Docstring**:
+    - Добавить подробные docstring для всех функций, включая описание параметров, возвращаемых значений и возможных исключений.
+    - Перевести существующие docstring на русский язык, если они на английском.
+3. **Заменить логирование**:
+    - Заменить `logger.success`, `logger.warning`, `logger.info` на `logger.debug`, так как это отладочная информация.
+4. **Обработка исключений**:
+    - Улучшить обработку исключений, добавив более конкретные типы исключений и логирование с использованием `logger.error` и `exc_info=True`.
+5. **Использовать f-строки**:
+    - Использовать f-строки для форматирования строк логов.
+6. **Комментарии**:
+    - Добавить комментарии для пояснения логики работы кода, особенно в сложных местах.
 
-**Оптимизированный код:**
+**Оптимизированный код**:
 
 ```python
 import datetime
 
 from aiohttp import web
 from aiogram.types import Update
-from loguru import logger
-
-# from bot.app.utils import check_signature_result
 from bot.app.utils import check_signature_result
 from bot.config import bot, dp, settings
 from bot.dao.database import async_session_maker
 from bot.user.utils import successful_payment_logic
+from src.logger import logger
 
 
 async def handle_webhook(request: web.Request) -> web.Response:
     """
-    Обрабатывает вебхук от Telegram.
+    Обрабатывает входящий вебхук от Telegram.
 
     Args:
-        request (web.Request): HTTP-запрос.
+        request (web.Request): Объект HTTP-запроса от aiohttp.
 
     Returns:
-        web.Response: HTTP-ответ.
+        web.Response: HTTP-ответ со статусом 200 в случае успеха, 500 в случае ошибки.
+
+    Raises:
+        Exception: Если возникает ошибка при обработке обновления.
     """
     try:
-        update = Update(**await request.json())
-        await dp.feed_update(bot, update)
-        return web.Response(status=200)
+        update: Update = Update(**await request.json())  # Преобразуем JSON в объект Update
+        await dp.feed_update(bot, update)  # Передаем обновление в dispatcher для обработки
+        return web.Response(status=200)  # Возвращаем успешный статус
     except Exception as ex:
-        logger.error("Ошибка при обработке вебхука", ex, exc_info=True)  # Логируем ошибку
-        return web.Response(status=500)
+        logger.error('Ошибка при обработке вебхука', ex, exc_info=True)  # Логируем ошибку
+        return web.Response(status=500)  # Возвращаем статус ошибки
 
 
 # Функция для обработки запроса на эндпоинт "Hello, World!"
@@ -67,21 +74,14 @@ async def home_page(request: web.Request) -> web.Response:
     Обработчик для отображения главной страницы с информацией о сервисе.
 
     Args:
-        request (web.Request): HTTP-запрос.
+        request (web.Request): Объект HTTP-запроса от aiohttp.
 
     Returns:
-        web.Response: HTTP-ответ с HTML-контентом.
-
-    Example:
-        >>> from aiohttp import web
-        >>> request = web.Request(method='GET', url='/', app=web.Application())
-        >>> response = await home_page(request)
-        >>> print(response.status)
-        200
+        web.Response: HTTP-ответ с HTML-содержимым страницы.
     """
-    current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    current_time: str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    html_content = f"""
+    html_content: str = f"""
     <!DOCTYPE html>
     <html lang="ru">
     <head>
@@ -120,27 +120,17 @@ async def robokassa_result(request: web.Request) -> web.Response:
 
     Returns:
         web.Response: Текстовый ответ с результатами проверки.
-
-    Raises:
-        Exception: Если возникает ошибка при обработке данных или проверке подписи.
-
-    Example:
-        >>> from aiohttp import web
-        >>> request = web.Request(method='POST', url='/robokassa_result', app=web.Application())
-        >>> response = await robokassa_result(request)
-        >>> print(response.status)
-        200
     """
-    logger.success("Получен ответ от Робокассы!")
-    data = await request.post()
+    logger.debug("Получен ответ от Робокассы!")
+    data: dict = await request.post()
 
     # Извлекаем параметры из запроса
-    signature = data.get('SignatureValue')
-    out_sum = data.get('OutSum')
-    inv_id = data.get('InvId')
-    user_id = data.get('Shp_user_id')
-    user_telegram_id = data.get('Shp_user_telegram_id')
-    product_id = data.get('Shp_product_id')
+    signature: str | None = data.get('SignatureValue')
+    out_sum: str | None = data.get('OutSum')
+    inv_id: str | None = data.get('InvId')
+    user_id: str | None = data.get('Shp_user_id')
+    user_telegram_id: str | None = data.get('Shp_user_telegram_id')
+    product_id: str | None = data.get('Shp_product_id')
 
     # Проверяем подпись
     if check_signature_result(
@@ -152,10 +142,10 @@ async def robokassa_result(request: web.Request) -> web.Response:
         user_telegram_id=user_telegram_id,
         product_id=product_id
     ):
-        result = f"OK{inv_id}"
-        logger.info(f"Успешная проверка подписи для InvId: {inv_id}")
+        result: str = f"OK{inv_id}"
+        logger.debug(f"Успешная проверка подписи для InvId: {inv_id}")
 
-        payment_data = {
+        payment_data: dict = {
             'user_id': int(user_id),
             'payment_id': signature,
             'price': int(out_sum),
@@ -172,32 +162,25 @@ async def robokassa_result(request: web.Request) -> web.Response:
             )
             await session.commit()
     else:
-        result = "bad sign"
-        logger.warning(f"Неверная подпись для InvId: {inv_id}")
+        result: str = "bad sign"
+        logger.debug(f"Неверная подпись для InvId: {inv_id}")
 
-    logger.info(f"Ответ: {result}")
+    logger.debug(f"Ответ: {result}")
     return web.Response(text=result)
 
 
 async def robokassa_fail(request: web.Request) -> web.Response:
     """
-    Обрабатывает запрос при неудачном платеже через Robokassa.
+    Обрабатывает ситуацию неуспешной оплаты через Robokassa.
 
     Args:
-        request (web.Request): HTTP-запрос.
+        request (web.Request): Объект HTTP-запроса от aiohttp.
 
     Returns:
-        web.Response: HTTP-ответ с информацией о неудачном платеже.
-
-    Example:
-        >>> from aiohttp import web
-        >>> request = web.Request(method='GET', url='/robokassa_fail?InvId=123&OutSum=100', app=web.Application())
-        >>> response = await robokassa_fail(request)
-        >>> print(response.status)
-        200
+        web.Response: HTTP-ответ с сообщением об ошибке.
     """
     # Получаем параметры из GET-запроса
-    inv_id = request.query.get('InvId')
-    out_sum = request.query.get('OutSum')
+    inv_id: str | None = request.query.get('InvId')
+    out_sum: str | None = request.query.get('OutSum')
     print(f"Неудачный платеж: сумма {out_sum}, ID {inv_id}")
     return web.Response(text="Платеж не удался", content_type='text/html')

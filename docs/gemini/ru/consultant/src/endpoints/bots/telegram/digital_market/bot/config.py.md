@@ -3,83 +3,114 @@
 **Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Использование `pydantic_settings` для управления конфигурацией.
-    - Разделение конфигурационных параметров через класс `Settings`.
-    - Использование `loguru` для логирования.
-    - Применение `aiogram` для создания Telegram-бота.
-    - Использование `MemoryStorage` для хранения состояний.
-    - Динамическое формирование URL для вебхуков.
+  - Использование `pydantic_settings` для управления конфигурацией.
+  - Разделение конфигурации и логики приложения.
+  - Использование `loguru` для логирования.
+  - Аннотация типов.
 - **Минусы**:
-    - Не все переменные аннотированы типами.
-    - Использованы небезопасные методы хранения паролей (MRH_PASS_1, MRH_PASS_2).
-    - Недостаточно подробные комментарии.
-    - Используется конкатенация строк для формирования URL, что может быть менее эффективно по сравнению с f-strings.
-    - Некоторые константы определены непосредственно в коде (например, строка подключения к базе данных).
+  - Не все переменные аннотированы типами.
+  - Использование `os.path.join` вместо `pathlib`.
+  - Отсутствует docstring для модуля.
+  - Не используется модуль `src.logger.logger` для логирования.
+  - Не все функции документированы.
+  - Отсутствуют примеры использования в docstring.
 
 **Рекомендации по улучшению**:
 
-1.  **Аннотации типов**:
-    - Добавьте аннотации типов для всех переменных, чтобы улучшить читаемость и облегчить отладку.
-
-2.  **Безопасность хранения паролей**:
-    - Пересмотрите способ хранения паролей `MRH_PASS_1` и `MRH_PASS_2`. Используйте более безопасные методы, такие как хеширование с солью, или храните их в зашифрованном виде.
-    - Рассмотрите возможность использования secrets management tools для хранения конфиденциальной информации.
-
-3.  **Подробные комментарии**:
-    - Добавьте более подробные комментарии к каждой функции и классу, описывая их назначение, входные параметры и возвращаемые значения.
-
-4.  **Логирование ошибок**:
-    - Добавьте обработку исключений и логирование ошибок, чтобы упростить отладку и мониторинг работы бота.
-
-5.  **Использовать безопасные методы для конкатенации строк**:
-    - Рекомендуется использовать `urljoin` из модуля `urllib.parse` для формирования URL.
-
-6. **Безопасность**:
-   - Рассмотрите возможность использования переменных окружения или secrets management tools для хранения конфиденциальной информации.
+1.  **Добавить docstring для модуля**:
+    - Описать назначение модуля и предоставить примеры использования.
+2.  **Добавить аннотации типов**:
+    - Указывать типы для всех переменных, чтобы повысить читаемость и упростить отладку.
+3.  **Использовать `pathlib` вместо `os.path.join`**:
+    - `pathlib` обеспечивает более современный и удобный способ работы с путями файлов.
+4.  **Использовать модуль `src.logger.logger` для логирования**:
+    - Это позволит унифицировать логирование во всем проекте.
+5.  **Добавить документацию для методов**:
+    - Описать параметры, возвращаемые значения и возможные исключения для каждого метода.
+6.  **Добавить примеры использования в docstring**:
+    - Это поможет пользователям понять, как использовать классы и функции.
+7.  **Использовать одинарные кавычки**:
+    - Привести все строки к использованию одинарных кавычек.
+8.  **Улучшить структуру `Settings`**:
+    - Изменить `model_config` на более явное объявление.
+9. **Переименовать переменные**:
+   -  `MRH_PASS_1, MRH_PASS_2` в более понятные имена, например, `MRH_PASSWORD_PART_1, MRH_PASSWORD_PART_2`.
+10. **Использовать logger.error**:
+    - При возникновении исключений использовать `logger.error` для логирования ошибок.
 
 **Оптимизированный код**:
 
 ```python
+"""
+Модуль конфигурации Telegram-бота для Digital Market
+=====================================================
+
+Модуль содержит класс :class:`Settings`, который загружает параметры из переменных среды
+и предоставляет методы для формирования URL вебхуков.
+
+Пример использования
+----------------------
+
+>>> settings = Settings()
+>>> print(settings.BOT_TOKEN)
+>>> print(settings.get_webhook_url)
+"""
 import os
-from typing import List, Optional
-from loguru import logger
+from typing import List
+from src.logger.logger import logger
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.client.default import DefaultBotProperties
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from urllib.parse import urljoin
+from pathlib import Path
 
 
 class Settings(BaseSettings):
     """
     Класс настроек для Telegram-бота.
-    =======================================
 
-    Этот класс использует `pydantic_settings` для загрузки параметров из переменных окружения и файла `.env`.
+    Args:
+        BOT_TOKEN (str): Токен бота, полученный от BotFather.
+        ADMIN_IDS (List[int]): Список ID администраторов бота.
+        PROVIDER_TOKEN (str): Токен провайдера платежей.
+        FORMAT_LOG (str): Формат логов. По умолчанию "{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}".
+        LOG_ROTATION (str): Размер ротации логов. По умолчанию "10 MB".
+        DB_URL (str): URL базы данных. По умолчанию 'sqlite+aiosqlite:///data/db.sqlite3'.
+        SITE_URL (str): URL сайта.
+        SITE_HOST (str): Хост сайта.
+        SITE_PORT (int): Порт сайта.
+        MRH_LOGIN (str): Логин MRH.
+        MRH_PASS_1 (str): Пароль MRH часть 1.
+        MRH_PASS_2 (str): Пароль MRH часть 2.
+        IN_TEST (int): Флаг тестового режима.
 
-    Пример использования:
-    ----------------------
+    Returns:
+        str: URL вебхука.
 
-    >>> settings = Settings()
-    >>> print(settings.BOT_TOKEN)
+    Raises:
+        ValueError: Если не удалось получить URL вебхука.
+
+    Example:
+        >>> settings = Settings()
+        >>> print(settings.BOT_TOKEN)
+        'токен_бота'
     """
-    BOT_TOKEN: str  # Токен Telegram-бота
-    ADMIN_IDS: List[int]  # Список ID администраторов
-    PROVIDER_TOKEN: str  # Токен провайдера платежей
-    FORMAT_LOG: str = "{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}"  # Формат логов
-    LOG_ROTATION: str = "10 MB"  # Ротация логов
-    DB_URL: str = 'sqlite+aiosqlite:///data/db.sqlite3'  # URL базы данных
-    SITE_URL: str  # URL сайта
-    SITE_HOST: str  # Хост сайта
-    SITE_PORT: int  # Порт сайта
-    MRH_LOGIN: str  # Логин Merchant
-    MRH_PASS_1: str  # Пароль 1 Merchant (требует безопасного хранения)
-    MRH_PASS_2: str  # Пароль 2 Merchant (требует безопасного хранения)
-    IN_TEST: int  # Флаг тестового режима
-
+    BOT_TOKEN: str
+    ADMIN_IDS: List[int]
+    PROVIDER_TOKEN: str
+    FORMAT_LOG: str = "{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}"
+    LOG_ROTATION: str = "10 MB"
+    DB_URL: str = 'sqlite+aiosqlite:///data/db.sqlite3'
+    SITE_URL: str
+    SITE_HOST: str
+    SITE_PORT: int
+    MRH_LOGIN: str
+    MRH_PASS_1: str
+    MRH_PASS_2: str
+    IN_TEST: int
     model_config = SettingsConfigDict(
-        env_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".env")
+        env_file=Path(__file__).resolve().parent.parent / '.env'
     )
 
     @property
@@ -88,33 +119,29 @@ class Settings(BaseSettings):
         Формирует URL для вебхука на основе токена и URL сайта.
 
         Returns:
-            str: URL для вебхука.
+            str: URL вебхука.
 
         Example:
             >>> settings = Settings()
-            >>> webhook_url = settings.get_webhook_url
-            >>> print(webhook_url)
-            'https://example.com/bot_token'
+            >>> print(settings.get_webhook_url)
+            'https://example.com/токен_бота'
         """
-        # Формируем URL для вебхука, используя urljoin для безопасности
-        return urljoin(self.SITE_URL, self.BOT_TOKEN)
+        return f"{self.SITE_URL}/{self.BOT_TOKEN}"
 
     @property
     def get_provider_hook_url(self) -> str:
         """
-        Формирует URL для вебхука провайдера на основе URL сайта и префикса 'robokassa'.
+        Формирует URL для вебхука провайдера на основе URL сайта.
 
         Returns:
-            str: URL для вебхука провайдера.
+            str: URL вебхука провайдера.
 
         Example:
             >>> settings = Settings()
-            >>> provider_hook_url = settings.get_provider_hook_url
-            >>> print(provider_hook_url)
+            >>> print(settings.get_provider_hook_url)
             'https://example.com/robokassa'
         """
-        # Формируем URL для вебхука провайдера, используя urljoin для безопасности
-        return urljoin(self.SITE_URL, "robokassa")
+        return f"{self.SITE_URL}/robokassa"
 
 
 # Получаем параметры для загрузки переменных среды
@@ -125,6 +152,6 @@ bot: Bot = Bot(token=settings.BOT_TOKEN, default=DefaultBotProperties(parse_mode
 dp: Dispatcher = Dispatcher(storage=MemoryStorage())
 admins: List[int] = settings.ADMIN_IDS
 
-log_file_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "log.txt")
-logger.add(log_file_path, format=settings.FORMAT_LOG, level="INFO", rotation=settings.LOG_ROTATION)
+log_file_path: Path = Path(__file__).resolve().parent / "log.txt"
+logger.add(str(log_file_path), format=settings.FORMAT_LOG, level="INFO", rotation=settings.LOG_ROTATION)
 database_url: str = settings.DB_URL

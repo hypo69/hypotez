@@ -1,39 +1,42 @@
 ### **Анализ кода модуля `xml_json_convertor.py`**
 
-**Качество кода:**
+## \file /src/endpoints/prestashop/utils/xml_json_convertor.py
 
+Модуль предоставляет утилиты для конвертации XML данных в JSON и обратно.
+Содержит функции для парсинга XML строк, преобразования XML деревьев элементов в словарные представления и преобразования JSON в XML.
+
+**Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код содержит функции для конвертации JSON в XML и XML в JSON, что полезно для интеграции с Prestashop.
-    - Присутствуют docstring для большинства функций, что облегчает понимание кода.
-    - Код достаточно хорошо структурирован.
+  - Код содержит функции для конвертации XML в JSON и обратно.
+  - Присутствуют docstring для большинства функций.
+  - Код достаточно читаемый и логически структурирован.
 - **Минусы**:
-    - В некоторых местах используются смешанные стили комментариев (как старые docstring, так и обычные комментарии).
-    - Некоторые docstring написаны на английском языке.
-    - Отсутствует обработка исключений.
-    - Не используются логирование.
-    - Есть дублирование кода (функции `dict2xml` и `presta_fields_to_xml` очень похожи).
-    - Не все переменные аннотированы типами.
+  - Отсутствуют аннотации типов для переменных.
+  - Docstring написаны на английском языке, требуется перевод на русский.
+  - Не используется модуль `logger` для логгирования.
+  - Не используется `j_loads` или `j_loads_ns` для чтения JSON.
 
-**Рекомендации по улучшению:**
+**Рекомендации по улучшению**:
 
-1.  **Общая документация модуля**:
-    - Добавить общее описание модуля в начале файла, указав его назначение и примеры использования.
-2.  **Унификация комментариев**:
-    - Перевести все docstring на русский язык и привести к единообразному стилю.
-3.  **Обработка исключений**:
-    - Добавить блоки try-except для обработки возможных исключений, например, `ET.fromstring` может вызвать исключение, если XML некорректный.
-4.  **Логирование**:
-    - Добавить логирование для отслеживания ошибок и предупреждений.
-5.  **Рефакторинг**:
-    - Объединить функциональность `dict2xml` и `presta_fields_to_xml` в одну функцию, параметризовав имя корневого элемента.
-6.  **Аннотации типов**:
+1.  **Добавить аннотации типов**:
     - Добавить аннотации типов для всех переменных и возвращаемых значений функций.
-7.  **Использование одинарных кавычек**:
-    - Заменить двойные кавычки на одинарные, где это необходимо.
-8. **Заменить все  `Union` на `|`**
+2.  **Перевести docstring на русский язык**:
+    - Перевести все docstring на русский язык, чтобы соответствовать требованиям.
+3.  **Использовать модуль `logger` для логгирования**:
+    - Добавить логирование ошибок и важных событий с использованием модуля `logger` из `src.logger`.
+4.  **Использовать одинарные кавычки**:
+    - Заменить двойные кавычки на одинарные.
+5.  **Улучшить docstring**:
+    - Описать, что именно делает каждая функция, избегая расплывчатых формулировок.
+6.  **Избавиться от дублирования кода**:
+    -  Функции `dict2xml` и `presta_fields_to_xml` содержат много общего кода. Рекомендуется выделить общий функционал в отдельную функцию и использовать её в обеих функциях.
+7.  **Заменить множественные `isinstance`**:
+    - Использовать паттерн-матчинг (match-case) вместо `isinstance` для улучшения читаемости кода.
+8.  **Более информативные комментарии**:
+    - Добавить более подробные комментарии, особенно в сложных участках кода.
 
-**Оптимизированный код:**
+**Оптимизированный код**:
 
 ```python
 ## \file /src/endpoints/prestashop/utils/xml_json_convertor.py
@@ -41,99 +44,74 @@
 #! .pyenv/bin/python3
 
 """
-Модуль для конвертации XML данных в JSON и наоборот.
-=====================================================
+Модуль для работы с конвертацией XML и JSON
+============================================
 
-Модуль предоставляет утилиты для преобразования XML данных в словари и JSON в XML.
-Включает функции для парсинга XML строк и конвертации XML деревьев элементов в словарные представления.
-
-Пример использования:
-----------------------
-
->>> from src.endpoints.prestashop.utils.xml_json_convertor import xml2dict, dict2xml
->>> xml_data = '<product><name>Test Product</name><price>10.00</price></product>'
->>> data = xml2dict(xml_data)
->>> print(data)
-{'product': {'name': 'Test Product', 'price': '10.00'}}
->>> json_data = {'product': {'name': 'Test Product', 'price': '10.00'}}
->>> xml_data = dict2xml(json_data)
->>> print(xml_data)
-<product><name>Test Product</name><price>10.00</product>
+Модуль содержит функции для конвертации XML данных в JSON и обратно.
+Включает функции для парсинга XML строк, преобразования XML деревьев элементов в словарные представления и преобразования JSON в XML.
 """
 import json
 import re
 import xml.etree.ElementTree as ET
-from typing import Any, Optional
+from typing import Dict, Any, Optional
 from src.logger import logger
 
 
-def dict2xml(json_obj: dict, root_name: str = 'product') -> str:
+def build_xml_element(parent: ET.Element, data: Any) -> None:
     """
-    Конвертирует JSON словарь в XML строку.
+    Рекурсивно строит XML элементы из JSON данных.
 
     Args:
-        json_obj (dict): JSON словарь для конвертации.
+        parent (ET.Element): Родительский XML элемент.
+        data (Any): JSON данные для преобразования.
+    """
+    if isinstance(data, dict):
+        for key, value in data.items():
+            if key.startswith('@'):  # Attribute
+                parent.set(key[1:], str(value))  # Преобразование значения атрибута в строку
+            elif key == '#text':  # Text value
+                parent.text = str(value)  # Преобразование текстового значения в строку
+            else:
+                if isinstance(value, list):
+                    for item in value:
+                        child = ET.SubElement(parent, key)
+                        build_xml_element(child, item)
+                else:
+                    child = ET.SubElement(parent, key)
+                    build_xml_element(child, value)
+    elif isinstance(data, list):
+        for item in data:
+            build_xml_element(parent, item)
+    else:
+        parent.text = str(data)  # Преобразование значения в строку
+
+
+def dict2xml(json_obj: Dict[str, Any], root_name: str = 'product') -> str:
+    """
+    Преобразует JSON словарь в XML строку.
+
+    Args:
+        json_obj (Dict[str, Any]): JSON словарь для преобразования.
         root_name (str, optional): Имя корневого элемента. По умолчанию 'product'.
 
     Returns:
-        str: XML строковое представление JSON.
+        str: XML строка, представляющая JSON.
 
     Raises:
-        TypeError: Если входные данные имеют неверный тип.
-        ValueError: Если возникают проблемы при построении XML.
-
-    Example:
-        >>> data = {'product': {'name': 'Test Product', 'price': '10.00'}}
-        >>> xml_data = dict2xml(data)
-        >>> print(xml_data)
-        <product><name>Test Product</name><price>10.00</product>
+        TypeError: Если `json_obj` не является словарем.
     """
+    if not isinstance(json_obj, dict):
+        logger.error('Input is not a dict')
+        raise TypeError('Input must be a dict')
+    # Create root element
+    root = ET.Element(root_name)
+    build_xml_element(root, json_obj[root_name])
 
-    def build_xml_element(parent: ET.Element, data: Any) -> None:
-        """
-        Рекурсивно конструирует XML элементы из JSON данных.
-
-        Args:
-            parent (ET.Element): Родительский XML элемент.
-            data (Any): Данные для добавления в XML элемент.
-
-        Raises:
-            TypeError: Если данные имеют неверный тип.
-            ValueError: Если возникают проблемы при построении XML.
-        """
-        if isinstance(data, dict):
-            for key, value in data.items():
-                if key.startswith('@'):  # Attribute
-                    parent.set(key[1:], str(value)) # Преобразуем значение атрибута в строку
-                elif key == '#text':  # Text value
-                    parent.text = str(value) # Преобразуем текстовое значение в строку
-                else:
-                    if isinstance(value, list):
-                        for item in value:
-                            child = ET.SubElement(parent, key)
-                            build_xml_element(child, item)
-                    else:
-                        child = ET.SubElement(parent, key)
-                        build_xml_element(child, value)
-        elif isinstance(data, list):
-            for item in data:
-                build_xml_element(parent, item)
-        else:
-            parent.text = str(data) # Преобразуем значение в строку
-
-    try:
-        # Создаем корневой элемент
-        root = ET.Element(root_name)
-        build_xml_element(root, json_obj[root_name])
-
-        # Конвертируем XML дерево в строку
-        return ET.tostring(root, encoding='utf-8').decode('utf-8')
-    except (TypeError, ValueError) as ex:
-        logger.error('Ошибка при конвертации JSON в XML', ex, exc_info=True)
-        return ''
+    # Convert XML tree to string
+    return ET.tostring(root, encoding='utf-8').decode('utf-8')
 
 
-def _parse_node(node: ET.Element) -> dict | str:
+def _parse_node(node: ET.Element) -> Dict[str, Any] | str:
     """
     Разбирает XML узел в словарь.
 
@@ -141,153 +119,126 @@ def _parse_node(node: ET.Element) -> dict | str:
         node (ET.Element): XML элемент для разбора.
 
     Returns:
-        dict | str: Словарное представление XML узла, или строка, если узел не имеет атрибутов или потомков.
+        Dict[str, Any] | str: Словарь, представляющий XML узел, или строка, если узел не имеет атрибутов или потомков.
     """
-    tree = {}
-    attrs = {}
+    tree: Dict[str, Any] = {}
+    attrs: Dict[str, str] = {}
     for attr_tag, attr_value in node.attrib.items():
-        # Пропускаем атрибуты href, не поддерживаются при конвертации в словарь
+        # Skip href attributes, not supported when converting to dict
         if attr_tag == '{http://www.w3.org/1999/xlink}href':
             continue
         attrs.update(_make_dict(attr_tag, attr_value))
 
-    value = node.text.strip() if node.text is not None else ''
+    value: str = node.text.strip() if node.text is not None else ''
 
     if attrs:
         tree['attrs'] = attrs
 
-    # Сохраняем потомков
-    has_child = False
+    # Save children
+    has_child: bool = False
     for child in list(node):
         has_child = True
-        ctag = child.tag
-        ctree = _parse_node(child)
-        cdict = _make_dict(ctag, ctree)
+        ctag: str = child.tag
+        ctree: Dict[str, Any] | str = _parse_node(child)
+        cdict: Dict[str, Any] = _make_dict(ctag, ctree)
 
-        # Нет значения, когда есть дочерние элементы
+        # No value when there are child elements
         if ctree:
             value = ''
 
-        # Первый раз найден атрибут
-        if ctag not in tree:  # Первый раз нашли
+        # First time an attribute is found
+        if ctag not in tree:  # First time found
             tree.update(cdict)
             continue
 
-        # Много раз один и тот же атрибут, меняем на список
+        # Many times the same attribute, change to a list
         old = tree[ctag]
         if not isinstance(old, list):
-            tree[ctag] = [old]  # Меняем на список
-        tree[ctag].append(ctree)  # Добавляем новую запись
+            tree[ctag] = [old]  # Change to list
+        tree[ctag].append(ctree)  # Add new entry
 
     if not has_child:
         tree['value'] = value
 
-    # Если есть только значение; нет атрибута, нет потомка, возвращаем непосредственно значение
+    # If there is only a value; no attribute, no child, return directly the value
     if list(tree.keys()) == ['value']:
         tree = tree['value']
     return tree
 
 
-def _make_dict(tag: str, value: Any) -> dict:
+def _make_dict(tag: str, value: Any) -> Dict[str, Any]:
     """
-    Генерирует новый словарь с тегом и значением.
+    Создает новый словарь с тегом и значением.
 
     Args:
         tag (str): Имя тега XML элемента.
         value (Any): Значение, связанное с тегом.
 
     Returns:
-        dict: Словарь с именем тега в качестве ключа и значением в качестве значения словаря.
+        Dict[str, Any]: Словарь с именем тега в качестве ключа и значением в качестве значения словаря.
     """
-    tag_values = value
+    tag_values: Any = value
     result = re.compile(r'\{(.*)\}(.*)').search(tag)
     if result:
         tag_values = {'value': value}
-        tag_values['xmlns'], tag = result.groups()  # У нас есть @namespace src!
+        tag_values['xmlns'], tag = result.groups()  # We have a @namespace src!
     return {tag: tag_values}
 
 
-def xml2dict(xml: str) -> dict:
+def xml2dict(xml: str) -> Dict[str, Any]:
     """
-    Разбирает XML строку в словарь.
+    Преобразует XML строку в словарь.
 
     Args:
         xml (str): XML строка для разбора.
 
     Returns:
-        dict: Словарное представление XML.
-
-    Raises:
-        ET.ParseError: Если XML строка имеет неверный формат.
-
-    Example:
-        >>> xml_data = '<product><name>Test Product</name><price>10.00</price></product>'
-        >>> data = xml2dict(xml_data)
-        >>> print(data)
-        {'product': {'name': 'Test Product', 'price': '10.00'}}
+        Dict[str, Any]: Словарь, представляющий XML.
     """
-    try:
-        element_tree = ET.fromstring(xml)
-        return ET2dict(element_tree)
-    except ET.ParseError as ex:
-        logger.error('Ошибка при парсинге XML', ex, exc_info=True)
-        return {}
+    element_tree = ET.fromstring(xml)
+    return ET2dict(element_tree)
 
 
-def ET2dict(element_tree: ET.Element) -> dict:
+def ET2dict(element_tree: ET.Element) -> Dict[str, Any]:
     """
-    Конвертирует XML дерево элементов в словарь.
+    Преобразует XML дерево элементов в словарь.
 
     Args:
         element_tree (ET.Element): XML дерево элементов.
 
     Returns:
-        dict: Словарное представление XML дерева элементов.
+        Dict[str, Any]: Словарь, представляющий XML дерево элементов.
     """
     return _make_dict(element_tree.tag, _parse_node(element_tree))
 
 
-def presta_fields_to_xml(presta_fields_dict: dict, root_name: str = 'prestashop') -> str:
+def presta_fields_to_xml(presta_fields_dict: Dict[str, Any]) -> str:
     """
-    Конвертирует JSON словарь в XML строку с указанным корневым элементом.
+    Преобразует JSON словарь в XML строку с фиксированным корневым элементом 'prestashop'.
 
     Args:
-        presta_fields_dict (dict): JSON словарь, содержащий данные (без ключа 'prestashop').
-        root_name (str, optional): Имя корневого элемента. По умолчанию 'prestashop'.
+        presta_fields_dict (Dict[str, Any]): JSON словарь, содержащий данные (без ключа 'prestashop').
 
     Returns:
-        str: XML строковое представление JSON.
+        str: XML строка, представляющая JSON.
+
+     Raises:
+        TypeError: Если `presta_fields_dict` не является словарем.
+        ValueError: Если `presta_fields_dict` пуст.
     """
 
-    def build_xml_element(parent: ET.Element, data: Any) -> None:
-        """Рекурсивно конструирует XML элементы из JSON данных."""
-        if isinstance(data, dict):
-            for key, value in data.items():
-                if key.startswith('@'):  # Attribute
-                    parent.set(key[1:], str(value))  # Преобразуем значение атрибута в строку
-                elif key == '#text':  # Text value
-                    parent.text = str(value)  # Преобразуем текстовое значение в строку
-                else:
-                    if isinstance(value, list):
-                        for item in value:
-                            child = ET.SubElement(parent, key)
-                            build_xml_element(child, item)
-                    else:
-                        child = ET.SubElement(parent, key)
-                        build_xml_element(child, value)
-        elif isinstance(data, list):
-            for item in data:
-                build_xml_element(parent, item)
-        else:
-            parent.text = str(data)  # Преобразуем значение в строку
+    if not isinstance(presta_fields_dict, dict):
+        logger.error('Input is not a dict')
+        raise TypeError('Input must be a dict')
 
     if not presta_fields_dict:
+        logger.warning('Input dict is empty')
         return ''
 
-    dynamic_key = next(iter(presta_fields_dict))  # Берём первый ключ (например, 'product', 'category' и т. д.)
+    dynamic_key: str = next(iter(presta_fields_dict))  # Берём первый ключ (например, 'product', 'category' и т. д.)
 
     # Создаём корневой элемент "prestashop"
-    root = ET.Element(root_name)
+    root = ET.Element('prestashop')
     dynamic_element = ET.SubElement(root, dynamic_key)
     build_xml_element(dynamic_element, presta_fields_dict[dynamic_key])
 

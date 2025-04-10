@@ -1,196 +1,235 @@
 ### **Анализ кода модуля `upload.py`**
 
-#### **Качество кода**:
-- **Соответствие стандартам**: 6/10
+**Качество кода:**
+- **Соответствие стандартам**: 4/10
 - **Плюсы**:
-  - Код выполняет функцию загрузки файлов в Google Drive.
-  - Присутствует обработка авторизации пользователя через GoogleAuth.
-  - Реализована возможность создания папок, если они не существуют.
-
+    - Код выполняет функцию загрузки файлов в Google Drive.
+    - Используется библиотека `pydrive` для взаимодействия с Google Drive API.
 - **Минусы**:
-  - Недостаточно аннотаций типов для переменных и функций.
-  - Переменные `FOLDER_MIME_TYPE`, `drive`, `http`, `initial_folder` переопределены внутри функции `upload`, что избыточно.
-  - Отсутствует логирование ошибок с использованием `logger` из модуля `src.logger`.
-  - В коде используется `print` для вывода информации, что не рекомендуется в production-коде. Следует использовать `logger`.
-  - Не хватает обработки исключений и логирования.
-  - Отсутствует docstring для модуля и функции `upload`.
-  - Используются устаревшие конструкции, такие как `drive.ListFile` и `file_folder['title']`.
-  - Не соблюдены пробелы вокруг операторов присваивания.
+    - Отсутствует документация модуля, классов и функций.
+    - Не используются аннотации типов.
+    - Много глобальных переменных.
+    - Переменные не соответствуют принятому стилю кодирования.
+    - Не обрабатываются исключения с использованием `logger`.
+    - Не используется `j_loads` для загрузки JSON-конфигурации.
+    - Дублирование кода инициализации `drive` и `http`.
+    - Использование `print` для логирования вместо `logger`.
+    - Не сохраняются учетные данные в соответствии с рекомендациями.
 
-#### **Рекомендации по улучшению**:
+**Рекомендации по улучшению:**
 
-1. **Добавить docstring для модуля и функции `upload`**:
-   - Описать назначение модуля и функции, параметры, возвращаемые значения и возможные исключения.
+1.  **Добавить документацию модуля**:
+    - Добавить заголовок и описание модуля в формате Markdown.
 
-2. **Удалить избыточное переопределение переменных внутри функции `upload`**:
-   - Переменные `FOLDER_MIME_TYPE`, `drive`, `http`, `initial_folder` не должны переопределяться внутри функции.
+2.  **Добавить документацию для функций**:
+    - Описать назначение, аргументы, возвращаемые значения и возможные исключения для каждой функции.
 
-3. **Использовать `logger` для логирования вместо `print`**:
-   - Заменить все вызовы `print` на `logger.info` и `logger.error` для более эффективного логирования.
+3.  **Использовать аннотации типов**:
+    - Добавить аннотации типов для всех переменных и аргументов функций.
 
-4. **Добавить аннотации типов для переменных и функций**:
-   - Указать типы для всех параметров и возвращаемых значений функций, а также для переменных.
+4.  **Удалить неиспользуемые глобальные переменные**:
+    - Удалить или использовать неиспользуемые переменные `http` и `initial_folder`.
 
-5. **Улучшить обработку исключений**:
-   - Использовать `logger.error` для логирования исключений с передачей информации об ошибке и стектрейса.
+5.  **Использовать `logger` для логирования**:
+    - Заменить все вызовы `print` на `logger.info` или `logger.error` в зависимости от ситуации.
 
-6. **Соблюдать пробелы вокруг операторов присваивания**:
-   - Добавить пробелы вокруг оператора `=`, например, `x = 5`.
+6.  **Использовать `j_loads` для загрузки JSON-конфигурации**:
+    - Заменить `open` и `json.load` на `j_loads` для чтения конфигурационных файлов.
 
-7. **Использовать одинарные кавычки**:
-   - Заменить двойные кавычки на одинарные, где это необходимо.
+7.  **Улучшить обработку исключений**:
+    - Использовать `logger.error` для логирования ошибок с указанием исключения и трассировки.
 
-8. **Перевести комментарии и docstring на русский язык**:
-   - Весь текст должен быть на русском языке.
+8.  **Избавиться от дублирования кода**:
+    - Вынести повторяющуюся инициализацию `GoogleDrive` и `http` в отдельную функцию.
 
-9. **Заменить устаревшие конструкции**:
-   - Использовать более современные методы работы с Google Drive API.
+9.  **Переработать логику аутентификации**:
+    - Упростить и переработать логику аутентификации для лучшей читаемости и безопасности.
+    - Использовать `try-except` блоки для обработки возможных ошибок при аутентификации.
 
-#### **Оптимизированный код**:
+10. **Улучшить структуру кода**:
+    - Разбить функцию `upload` на более мелкие, логически связанные функции.
+    - Улучшить читаемость кода, добавив пробелы вокруг операторов и переименовав переменные в соответствии со стандартами.
+
+11. **Использовать одинарные кавычки**:
+    - Заменить двойные кавычки на одинарные, где это необходимо.
+
+**Оптимизированный код:**
 
 ```python
 #!/usr/bin/env python3
 """
 Модуль для загрузки файлов в Google Drive.
-==========================================
+=========================================
 
-Модуль содержит функцию :func:`upload`, которая используется для загрузки файлов в Google Drive с поддержкой Team Drives.
+Модуль содержит функцию :func:`upload`, которая используется для загрузки файлов в Google Drive с использованием
+библиотеки `pydrive`.
 
 Пример использования
 ----------------------
 
->>> upload(filename='example.txt', update=update, context=context, parent_folder='test_folder')
+>>> upload('example.txt', update, context, parent_folder='MyFolder')
 """
-
 import argparse
 import json
 import os
 import os.path as path
 import re
 from typing import Optional
+
 from creds import Creds
 from plugins import TEXT
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
-from src.logger import logger  # Import logger
 
+from src.logger import logger
 
 FOLDER_MIME_TYPE: str = 'application/vnd.google-apps.folder'
-drive: GoogleDrive | None = None
-http = None
-initial_folder = None
 
 
-def upload(filename: str, update, context, parent_folder: Optional[str] = None) -> Optional[str]:
+def authenticate(user_id: str) -> GoogleDrive:
     """
-    Загружает файл в Google Drive, при необходимости создавая папку.
+    Аутентифицирует пользователя в Google Drive.
 
     Args:
-        filename (str): Имя файла для загрузки.
-        update: Объект Update от Telegram Bot API.
-        context: Контекст выполнения.
-        parent_folder (Optional[str], optional): Имя родительской папки. Defaults to None.
+        user_id (str): ID пользователя.
+
+    Returns:
+        GoogleDrive: Объект GoogleDrive для работы с Google Drive API.
+
+    Raises:
+        Exception: Если возникает ошибка при аутентификации.
+    """
+    gauth: GoogleAuth = GoogleAuth()
+    credentials_path: str = path.join(path.dirname(path.abspath(__file__)), user_id)
+    gauth.LoadCredentialsFile(credentials_path)
+
+    if gauth.credentials is None:
+        logger.warning('Пользователь не аутентифицирован')
+    elif gauth.access_token_expired:
+        try:
+            gauth.Refresh()
+            gauth.SaveCredentialsFile(credentials_path)
+        except Exception as ex:
+            logger.error('Ошибка при обновлении токена', ex, exc_info=True)
+            raise
+    else:
+        gauth.Authorize()
+
+    return GoogleDrive(gauth)
+
+
+def create_folder(drive: GoogleDrive, folder_name: str) -> str:
+    """
+    Создает папку в Google Drive, если она не существует.
+
+    Args:
+        drive (GoogleDrive): Объект GoogleDrive.
+        folder_name (str): Название папки.
+
+    Returns:
+        str: ID созданной или существующей папки.
+    """
+    file_list = drive.ListFile({'q': '\'root\' in parents and trashed=false'}).GetList()
+    for file_folder in file_list:
+        if file_folder['title'] == folder_name:
+            logger.info(f'Папка "{folder_name}" уже существует, ID: {file_folder["id"]}')
+            return file_folder['id']
+
+    folder_metadata: dict = {'title': folder_name, 'mimeType': FOLDER_MIME_TYPE}
+    folder = drive.CreateFile(folder_metadata)
+    folder.Upload()
+    folder_id: str = folder['id']
+    folder_title: str = folder['title']
+    logger.info(f'Создана папка title: {folder_title}, id: {folder_id}')
+    return folder_id
+
+
+def upload_file(
+    filename: str,
+    drive: GoogleDrive,
+    parent_folder_id: Optional[str] = None,
+    teamdrive_folder_id: Optional[str] = None,
+) -> Optional[str]:
+    """
+    Загружает файл в Google Drive.
+
+    Args:
+        filename (str): Путь к файлу.
+        drive (GoogleDrive): Объект GoogleDrive.
+        parent_folder_id (Optional[str]): ID родительской папки.
+        teamdrive_folder_id (Optional[str]): ID TeamDrive папки.
 
     Returns:
         Optional[str]: Ссылка на загруженный файл или None в случае ошибки.
 
     Raises:
-        Exception: При возникновении ошибок в процессе загрузки.
-
-    Example:
-        >>> upload(filename='example.txt', update=update, context=context, parent_folder='test_folder')
-        'https://drive.google.com/...'
+        FileNotFoundError: Если указанный файл не существует.
+        Exception: Если произошла ошибка при загрузке файла.
     """
-
-    gauth: GoogleAuth = GoogleAuth()
-    user_id: str = str(update.message.from_user.id)  # Get user ID
-
-    gauth.LoadCredentialsFile(
-        path.join(path.dirname(path.abspath(__file__)), user_id))
-
-    if gauth.credentials is None:
-        logger.warning("User not authenticated")  # Use logger
-        return None
-    elif gauth.access_token_expired:
-        try:
-            gauth.Refresh()
-            gauth.SaveCredentialsFile(
-                path.join(path.dirname(path.abspath(__file__)), user_id))
-        except Exception as ex:
-            logger.error("Error refreshing credentials", ex, exc_info=True)  # Log the error
-            return None
-    else:
-        try:
-            gauth.Authorize()
-        except Exception as ex:
-            logger.error("Error authorizing", ex, exc_info=True)
-            return None
-
-    drive: GoogleDrive = GoogleDrive(gauth)
-    http = drive.auth.Get_Http_Object()
-
     if not path.exists(filename):
-        logger.error(f"File {filename} not found")  # Use logger
-        return None
+        logger.error(f'Указанный файл "{filename}" не существует!')
+        raise FileNotFoundError(f'Файл "{filename}" не найден')
 
-    if not Creds.TEAMDRIVE_FOLDER_ID:
-        if parent_folder:
-            try:
-                # Check the files and folders in the root folder
-                file_list = drive.ListFile(
-                    {'q': "\'root\' in parents and trashed=false"}).GetList()
-                folderid: str | None = None
-                for file_folder in file_list:
-                    if file_folder['title'] == parent_folder:
-                        # Get the matching folder id
-                        folderid = file_folder['id']
-                        logger.info("Folder already exists, trying to upload")  # Use logger
-                        break
-                else:
-                    # Create folder
-                    folder_metadata = {'title': parent_folder,
-                                       'mimeType': 'application/vnd.google-apps.folder'}
-                    folder = drive.CreateFile(folder_metadata)
-                    folder.Upload()
-                    folderid = folder['id']
-                    # Get folder info and print to screen
-                    foldertitle = folder['title']
-                    logger.info(f'title: {foldertitle}, id: {folderid}')  # Use logger
-            except Exception as ex:
-                logger.error("Error creating or listing folders", ex, exc_info=True)
-                return None
+    file_params: dict = {'title': filename.split('/')[-1]}
 
-    file_params: dict[str, list[dict[str, str]]] | dict[str, str] = {'title': filename.split('/')[-1]}
-
-    if Creds.TEAMDRIVE_FOLDER_ID:
-        file_params['parents'] = [{"kind": "drive#fileLink", "teamDriveId": Creds.TEAMDRIVE_ID, "id": Creds.TEAMDRIVE_FOLDER_ID}]
-
-    else:
-        if parent_folder:
-            file_params['parents'] = [{"kind": "drive#fileLink", "id": folderid}]
+    if teamdrive_folder_id:
+        file_params['parents'] = [
+            {'kind': 'drive#fileLink', 'teamDriveId': Creds.TEAMDRIVE_ID, 'id': teamdrive_folder_id}
+        ]
+    elif parent_folder_id:
+        file_params['parents'] = [{'kind': 'drive#fileLink', 'id': parent_folder_id}]
 
     file_to_upload = drive.CreateFile(file_params)
     file_to_upload.SetContentFile(filename)
 
     try:
-        file_to_upload.Upload(param={"supportsTeamDrives": True, "http": http})
-
+        file_to_upload.Upload(param={'supportsTeamDrives': True, 'http': drive.auth.Get_Http_Object()})
     except Exception as ex:
-        logger.error("Error uploading file", ex, exc_info=True)  # Log the exception
-        return None
+        logger.error('Ошибка при загрузке файла', ex, exc_info=True)
+        raise
 
-    if not Creds.TEAMDRIVE_FOLDER_ID:
-        try:
-            file_to_upload.FetchMetadata()
-            file_to_upload.InsertPermission({
-                'type': 'anyone', 'value': 'anyone', 'role': 'reader', 'withLink': True
-            })
-        except Exception as ex:
-            logger.error("Error setting permissions", ex, exc_info=True)
-            return None
+    if not teamdrive_folder_id:
+        file_to_upload.FetchMetadata()
+        file_to_upload.InsertPermission({'type': 'anyone', 'value': 'anyone', 'role': 'reader', 'withLink': True})
+
+    return file_to_upload['webContentLink']
+
+
+def upload(filename: str, update, context, parent_folder: Optional[str] = None) -> Optional[str]:
+    """
+    Загружает файл в Google Drive, создавая папку при необходимости.
+
+    Args:
+        filename (str): Путь к файлу.
+        update: Объект Update от Telegram Bot API.
+        context: Контекст обработки обновления.
+        parent_folder (Optional[str]): Название родительской папки.
+
+    Returns:
+        Optional[str]: Ссылка на загруженный файл или None в случае ошибки.
+    """
+    user_id: str = str(update.message.from_user.id)
 
     try:
-        return file_to_upload['webContentLink']
+        drive: GoogleDrive = authenticate(user_id)
     except Exception as ex:
-        logger.error("Error getting webContentLink", ex, exc_info=True)
+        logger.error('Ошибка аутентификации пользователя', ex, exc_info=True)
+        return None
+
+    try:
+        if parent_folder and not Creds.TEAMDRIVE_FOLDER_ID:
+            parent_folder_id: str = create_folder(drive, parent_folder)
+        else:
+            parent_folder_id = None
+
+        file_link: str = upload_file(
+            filename, drive, parent_folder_id, Creds.TEAMDRIVE_FOLDER_ID
+        )  # type: ignore
+        return file_link
+
+    except FileNotFoundError as ex:
+        logger.error(f'Файл не найден: {ex}', exc_info=True)
+        return None
+    except Exception as ex:
+        logger.error('Ошибка при загрузке файла', ex, exc_info=True)
         return None

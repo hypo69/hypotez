@@ -4,111 +4,147 @@
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Использование библиотеки `pyrogram` для создания Telegram-бота.
-    - Разделение функциональности на обработчики команд и эхо-сообщений.
-    - Использование переменных окружения для хранения API-ключа и токена бота.
+    - Простой и понятный код для начинающего Telegram-бота.
+    - Используются переменные окружения для хранения API-ключей и токенов.
+    - Обработчики команд и текстовых сообщений разделены.
 - **Минусы**:
-    - Отсутствие обработки исключений при получении переменных окружения.
-    - Нет аннотаций типов для параметров функций и переменных.
-    - Отсутствие документации и комментариев в коде.
+    - Отсутствует обработка исключений.
+    - Нет логирования.
+    - Код не документирован.
+    - Не используются аннотации типов.
+    - Не реализована обработка ошибок при получении переменных окружения.
+    - Значения по умолчанию для переменных окружения установлены как пустые строки.
+    - `API_ID` преобразуется в `int` без проверки, что может привести к ошибке.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить документацию модуля**:
-
-    -   В начале файла добавить описание модуля, его назначения и пример использования.
-2.  **Добавить аннотации типов**:
-
-    -   Добавить аннотации типов для всех переменных и параметров функций, чтобы улучшить читаемость и предотвратить ошибки.
-3.  **Обработка исключений**:
-
-    -   Добавить обработку исключений при получении переменных окружения, чтобы избежать ошибок при запуске бота.
-4.  **Логирование**:
-
-    -   Использовать модуль `logger` для логирования информации о запуске бота и обработке сообщений.
-5.  **Комментарии**:
-
-    -   Добавить комментарии для объяснения логики работы кода.
-6.  **Использовать одинарные кавычки**:
-
-    -   Заменить двойные кавычки на одинарные.
+1.  **Добавить обработку исключений**: Обернуть блоки кода, которые могут вызывать исключения, в блоки `try...except`.
+2.  **Добавить логирование**: Использовать модуль `logger` для записи информации, предупреждений и ошибок.
+3.  **Добавить docstring**: Добавить docstring к функциям и классам, чтобы объяснить их назначение и использование.
+4.  **Добавить аннотации типов**: Использовать аннотации типов для параметров функций и переменных.
+5.  **Реализовать обработку ошибок при получении переменных окружения**: Проверять, что переменные окружения установлены, и обрабатывать случаи, когда они отсутствуют.
+6.  **Установить более подходящие значения по умолчанию для переменных окружения**: Вместо пустых строк можно установить `None` или другие значения по умолчанию.
+7.  **Проверять, что `API_ID` является числом**: Перед преобразованием `API_ID` в `int` необходимо проверить, что это число.
 
 **Оптимизированный код:**
 
 ```python
 """
-Модуль для создания простого Telegram-бота с использованием библиотеки Pyrogram.
-==========================================================================
+Модуль для создания простого Telegram-бота с использованием Pyrogram
+=====================================================================
 
-Этот модуль содержит функции для обработки команд и эхо-сообщений.
+Модуль содержит функции для обработки команд и текстовых сообщений,
+а также для запуска бота.
 
-Пример использования:
---------------------
->>> python bot_pyogram.py
+Пример использования
+----------------------
+
+>>> from pyrogram import Client, filters
+>>> import os
+>>> from src.logger import logger
+
+>>> # Замените на свои значения в переменных окружения
+>>> # export TELEGRAM_API_ID=YOUR_API_ID
+>>> # export TELEGRAM_API_HASH=YOUR_API_HASH
+>>> # export TELEGRAM_TOKEN=YOUR_BOT_TOKEN
+>>> API_ID = os.environ.get("TELEGRAM_API_ID")
+>>> API_HASH = os.environ.get("TELEGRAM_API_HASH")
+>>> BOT_TOKEN = os.environ.get("TELEGRAM_TOKEN")
+
+>>> if not API_ID or not API_HASH or not BOT_TOKEN:
+>>>     print("Необходимо установить переменные окружения: TELEGRAM_API_ID, TELEGRAM_API_HASH, TELEGRAM_TOKEN")
+>>>     exit(1)
+
+>>> # Создаем экземпляр клиента Pyrogram
+>>> app = Client(
+>>>     "my_simple_bot",
+>>>     api_id=int(API_ID),
+>>>     api_hash=API_HASH,
+>>>     bot_token=BOT_TOKEN
+>>> )
+
+>>> # Обработчик команды /start
+>>> @app.on_message(filters.command("start"))
+>>> def start_command(client, message):
+>>>     message.reply_text("Привет! Я простой бот на Pyrogram.")
+
+>>> # Обработчик всех текстовых сообщений (кроме команд)
+>>> @app.on_message(filters.text & ~filters.command)
+>>> def echo_message(client, message):
+>>>     message.reply_text(message.text)
+
+>>> # Запуск бота
+>>> if __name__ == "__main__":
+>>>     print("Бот запущен...")
+>>>     app.run()
 """
 
 import os
+from typing import Any
+
 from pyrogram import Client, filters
-from src.logger import logger  # Добавлен импорт logger
+from pyrogram.types import Message
 
-# Получаем значения переменных окружения
-API_ID = os.environ.get("TELEGRAM_API_ID")
-API_HASH = os.environ.get("TELEGRAM_API_HASH")
-BOT_TOKEN = os.environ.get("TELEGRAM_TOKEN")
+from src.logger import logger
 
-# Проверяем, что все необходимые переменные окружения установлены
-if not all([API_ID, API_HASH, BOT_TOKEN]):
-    logger.error("Необходимо установить переменные окружения: TELEGRAM_API_ID, TELEGRAM_API_HASH, TELEGRAM_TOKEN")
-    raise ValueError("Необходимо установить переменные окружения: TELEGRAM_API_ID, TELEGRAM_API_HASH, TELEGRAM_TOKEN")
+# Получение переменных окружения
+API_ID: str | None = os.environ.get('TELEGRAM_API_ID')
+API_HASH: str | None = os.environ.get('TELEGRAM_API_HASH')
+BOT_TOKEN: str | None = os.environ.get('TELEGRAM_TOKEN')
 
-# Преобразуем API_ID в целое число
-try:
-    API_ID = int(API_ID)
-except ValueError as ex:
-    logger.error("TELEGRAM_API_ID должна быть целым числом", ex, exc_info=True)
-    raise ValueError("TELEGRAM_API_ID должна быть целым числом") from ex
 
 # Создаем экземпляр клиента Pyrogram
-app = Client(
-    "my_simple_bot",
-    api_id=API_ID,
+app: Client = Client(
+    'my_simple_bot',
+    api_id=int(API_ID) if API_ID else None,  # Преобразуем API_ID в int, если он существует
     api_hash=API_HASH,
-    bot_token=BOT_TOKEN
+    bot_token=BOT_TOKEN,
 )
 
+
 # Обработчик команды /start
-@app.on_message(filters.command("start"))
-def start_command(client: Client, message) -> None:
+@app.on_message(filters.command('start'))
+def start_command(client: Client, message: Message) -> None:
     """
     Обрабатывает команду /start и отправляет приветственное сообщение.
 
     Args:
-        client (Client): Экземпляр клиента Pyrogram.
-        message: Объект сообщения, содержащий информацию о полученном сообщении.
-
-    Returns:
-        None
+        client (Client): Клиент Pyrogram.
+        message (Message): Объект сообщения.
     """
-    message.reply_text("Привет! Я простой бот на Pyrogram.")
-    logger.info(f"Пользователь {message.from_user.id} отправил команду /start")
+    try:
+        message.reply_text('Привет! Я простой бот на Pyrogram.')
+    except Exception as ex:
+        logger.error('Ошибка при обработке команды /start', ex, exc_info=True)
+
 
 # Обработчик всех текстовых сообщений (кроме команд)
 @app.on_message(filters.text & ~filters.command)
-def echo_message(client: Client, message) -> None:
+def echo_message(client: Client, message: Message) -> None:
     """
-    Повторяет все полученные текстовые сообщения (кроме команд).
+    Обрабатывает все текстовые сообщения (кроме команд) и отправляет их обратно пользователю.
 
     Args:
-        client (Client): Экземпляр клиента Pyrogram.
-        message: Объект сообщения, содержащий информацию о полученном сообщении.
-
-    Returns:
-        None
+        client (Client): Клиент Pyrogram.
+        message (Message): Объект сообщения.
     """
-    message.reply_text(message.text)
-    logger.info(f"Пользователь {message.from_user.id} отправил сообщение: {message.text}")
+    try:
+        message.reply_text(message.text)
+    except Exception as ex:
+        logger.error('Ошибка при обработке текстового сообщения', ex, exc_info=True)
+
 
 # Запуск бота
-if __name__ == "__main__":
-    logger.info("Бот запущен...")
-    app.run()
+if __name__ == '__main__':
+    if not API_ID or not API_HASH or not BOT_TOKEN:
+        logger.error(
+            'Необходимо установить переменные окружения: TELEGRAM_API_ID, TELEGRAM_API_HASH, TELEGRAM_TOKEN'
+        )
+        raise ValueError(
+            'Необходимо установить переменные окружения: TELEGRAM_API_ID, TELEGRAM_API_HASH, TELEGRAM_TOKEN'
+        )
+    try:
+        print('Бот запущен...')
+        app.run()
+    except Exception as ex:
+        logger.error('Ошибка при запуске бота', ex, exc_info=True)

@@ -3,28 +3,25 @@
 2. **Качество кода**:
    - **Соответствие стандартам**: 7/10
    - **Плюсы**:
-     - Код асинхронный, что позволяет эффективно обрабатывать запросы.
-     - Используется `ClientSession` для управления HTTP-соединениями.
-     - Присутствует обработка ошибок при извлечении токенов аутентификации.
-     - Класс наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`.
+     - Асинхронная реализация.
+     - Использование `ClientSession` для HTTP-запросов.
+     - Обработка ошибок при извлечении токенов аутентификации.
+     - Явное указание `user-agent` в заголовках.
    - **Минусы**:
-     - Отсутствуют docstring для класса и его методов.
-     - Не используются логирование для отладки и обработки ошибок.
-     - Не указаны типы для переменных `nonce_` и `post_id`.
+     - Отсутствует полное документирование функций и классов.
      - Не все переменные аннотированы типами.
-     - Не обрабатываются исключения при запросах к серверу.
-     - Не переведены комментарии и документация на русский язык.
-     - Не используется модуль `logger` для логирования.
+     - Обработка ошибок ограничивается `raise_for_status` и общим `RuntimeError`.
+     - Magic values, такие как `'0'`, `'shortcode'`, `5` и `'data'`  в коде без объяснения.
+     - Нет логирования.
 
 3. **Рекомендации по улучшению**:
-   - Добавить docstring для класса `ChatGptt` и метода `create_async_generator`.
-   - Добавить аннотации типов для всех переменных.
-   - Добавить логирование для отладки и обработки ошибок с использованием `logger` из модуля `src.logger`.
-   - Обернуть запросы к серверу в блоки `try...except` для обработки возможных исключений.
-   - Добавить обработку ошибок при получении JSON-ответа от сервера.
-   - Заменить `e` на `ex` в блоках `except`.
-   - Перевести комментарии и документацию на русский язык.
-   - Использовать одинарные кавычки для строк.
+   - Добавить docstring для класса `ChatGptt` с описанием его назначения и основных атрибутов.
+   - Добавить аннотации типов для переменных `nonce_match`, `post_id_match`, `nonce_`, `post_id`, `payload`, `result`, `initial_response`, `html` и других.
+   - Добавить логирование для отладки и мониторинга, особенно при возникновении ошибок.
+   - Сделать обработку ошибок более детальной, логировать ошибки.
+   - Добавить обработку исключений при запросах к `cls.url` и `cls.api_endpoint`.
+   - Убрать  Magic values, такие как `'0'`, `'shortcode'`, `5` и `'data'`  в коде без объяснения.
+   - Добавить комментарии, объясняющие назначение каждого блока кода.
 
 4. **Оптимизированный код**:
 
@@ -34,28 +31,20 @@ from __future__ import annotations
 import os
 import re
 from aiohttp import ClientSession
-from typing import AsyncGenerator, Optional, List
+from typing import AsyncGenerator, Dict, Any, Optional
 
+from src.logger import logger # Импорт модуля логирования
 from ...typing import AsyncResult, Messages
 from ...requests.raise_for_status import raise_for_status
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ..helper import format_prompt
-from src.logger import logger  # Добавлен импорт logger
 
 
 class ChatGptt(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Модуль для работы с ChatGptt.me
-    ==================================
-    Этот класс является провайдером для взаимодействия с API ChatGptt.me.
-    Он поддерживает асинхронную генерацию текста, системные сообщения и историю сообщений.
+    Провайдер для взаимодействия с сервисом ChatGptt.
 
-    Пример использования:
-    ----------------------
-    >>> chat = ChatGptt()
-    >>> messages = [{"role": "user", "content": "Hello"}]
-    >>> async for message in chat.create_async_generator(model='gpt-4', messages=messages):
-    ...     print(message)
+    Поддерживает асинхронную генерацию ответов, stream, системные сообщения и историю сообщений.
     """
     url: str = "https://chatgptt.me"
     api_endpoint: str = "https://chatgptt.me/wp-admin/admin-ajax.php"
@@ -66,7 +55,7 @@ class ChatGptt(AsyncGeneratorProvider, ProviderModelMixin):
     supports_message_history: bool = True
 
     default_model: str = 'gpt-4o'
-    models: List[str] = ['gpt-4', default_model, 'gpt-4o-mini']
+    models: list[str] = ['gpt-4', default_model, 'gpt-4o-mini']
 
     @classmethod
     async def create_async_generator(
@@ -74,34 +63,31 @@ class ChatGptt(AsyncGeneratorProvider, ProviderModelMixin):
         model: str,
         messages: Messages,
         proxy: Optional[str] = None,
-        **kwargs
+        **kwargs: Any
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для взаимодействия с API ChatGptt.me.
+        Создает асинхронный генератор для взаимодействия с ChatGptt.
 
         Args:
             model (str): Модель для использования.
             messages (Messages): Список сообщений для отправки.
             proxy (Optional[str], optional): Прокси-сервер для использования. По умолчанию None.
 
-        Returns:
-            AsyncResult: Асинхронный генератор, выдающий результаты от API.
+        Yields:
+            str: Части сгенерированного ответа.
 
         Raises:
-            RuntimeError: Если не удалось извлечь токены аутентификации из HTML страницы.
-            Exception: Если произошла ошибка при запросе к API.
-
-        Yields:
-            str: Части ответа от API.
+            RuntimeError: Если не удалось получить токены аутентификации.
+            Exception: При возникновении других ошибок в процессе запроса.
         """
         model = cls.get_model(model)
 
-        headers: dict[str, str] = {
-            'authority': 'chatgptt.me',
-            'accept': 'application/json',
-            'origin': cls.url,
-            'referer': f'{cls.url}/chat',
-            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+        headers: Dict[str, str] = {
+            "authority": "chatgptt.me",
+            "accept": "application/json",
+            "origin": cls.url,
+            "referer": f"{cls.url}/chat",
+            "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
         }
 
         async with ClientSession(headers=headers) as session:
@@ -112,33 +98,34 @@ class ChatGptt(AsyncGeneratorProvider, ProviderModelMixin):
                 html: str = await initial_response.text()
 
                 # Extract nonce and post ID with error handling
-                nonce_match = re.search(r'data-nonce=["\\\']([^"\\\']+)["\\\']', html)
-                post_id_match = re.search(r'data-post-id=["\\\']([^"\\\']+)["\\\']', html)
+                nonce_match: Optional[re.Match[str]] = re.search(r'data-nonce=["\\\']([^"\\\']+)["\\\']', html)
+                post_id_match: Optional[re.Match[str]] = re.search(r'data-post-id=["\\\']([^"\\\']+)["\\\']', html)
 
                 if not nonce_match or not post_id_match:
-                    raise RuntimeError('Required authentication tokens not found in page HTML')
+                    raise RuntimeError("Required authentication tokens not found in page HTML")
 
                 nonce_: str = nonce_match.group(1)
                 post_id: str = post_id_match.group(1)
 
                 # Prepare payload with session data
-                payload: dict[str, str | None] = {
+                payload: Dict[str, Any] = {
                     '_wpnonce': nonce_,
                     'post_id': post_id,
                     'url': cls.url,
                     'action': 'wpaicg_chat_shortcode_message',
                     'message': format_prompt(messages),
-                    'bot_id': '0',
-                    'chatbot_identity': 'shortcode',
-                    'wpaicg_chat_client_id': os.urandom(5).hex(),
+                    'bot_id': '0',  # bot_id
+                    'chatbot_identity': 'shortcode',  # chatbot_identity
+                    'wpaicg_chat_client_id': os.urandom(5).hex(),  # random client ID
                     'wpaicg_chat_history': None
                 }
 
                 # Stream the response
                 async with session.post(cls.api_endpoint, headers=headers, data=payload, proxy=proxy) as response:
                     await raise_for_status(response)
-                    result = await response.json()
-                    yield result['data']
+                    result: Dict[str, Any] = await response.json()
+                    yield result['data'] # result data
+
             except Exception as ex:
-                logger.error('Error while processing request', ex, exc_info=True)  # Используем logger.error
-                raise  # Переброс исключения для дальнейшей обработки
+                logger.error('Error while processing request', ex, exc_info=True)
+                raise

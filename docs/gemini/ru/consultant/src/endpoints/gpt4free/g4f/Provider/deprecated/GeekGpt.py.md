@@ -3,46 +3,52 @@
 2. **Качество кода**:
    - **Соответствие стандартам**: 6/10
    - **Плюсы**:
-     - Код достаточно структурирован и понятен.
-     - Используется `response.raise_for_status()` для обработки HTTP-ошибок.
-     - Поддержка потоковой передачи данных.
+     - Код выполняет функцию взаимодействия с API GeekGpt для получения ответов на основе предоставленных сообщений.
+     - Поддерживается потоковая передача ответов, что позволяет получать контент по частям.
    - **Минусы**:
-     - Отсутствует документация и подробные комментарии.
-     - Жёстко заданные заголовки, что может привести к проблемам в будущем.
-     - Не используется модуль `logger` для логирования.
+     - Отсутствует документация модуля и функций.
+     - Не используются логирование для отслеживания ошибок и хода выполнения.
+     - Жёстко заданные заголовки запроса, что может привести к проблемам совместимости в будущем.
+     - Отсутствует обработка различных типов ошибок при запросе к API.
      - Не все переменные аннотированы типами.
-     - Используется `Exception as e` вместо `Exception as ex` в блоке обработки исключений.
-     - Не используются одинарные кавычки.
+     - Используется `Exception as e`, рекомендуется использовать `Exception as ex`.
 
 3. **Рекомендации по улучшению**:
-   - Добавить документацию для класса и метода `create_completion`.
-   - Использовать `logger` для логирования ошибок и информации.
-   - Добавить аннотации типов для переменных и параметров.
-   - Заменить двойные кавычки на одинарные.
-   - Изменить `Exception as e` на `Exception as ex`.
-   - Вынести заголовки в отдельную константу или переменную, чтобы их было легче изменять.
+   - Добавить документацию для модуля и класса `GeekGpt`, описывающую его назначение, основные функции и примеры использования.
+   - Добавить документацию для метода `create_completion`, описывающую входные параметры, возвращаемые значения и возможные исключения.
+   - Использовать `logger` для логирования процесса взаимодействия с API, включая отправку запросов, получение ответов и обработку ошибок.
+   - Добавить обработку различных HTTP-статусов от API, чтобы корректно обрабатывать ошибки, такие как лимиты запросов или проблемы на стороне сервера.
+   - Рассмотреть возможность динамического формирования заголовков запроса на основе текущей конфигурации, чтобы избежать проблем с совместимостью.
+   - Добавить обработку исключений `json.JSONDecodeError` при разборе JSON-ответа.
+   - Переименовать переменную `e` в `ex` в блоке `except Exception as e:`.
+   - Аннотировать типы для всех переменных и параметров функций.
 
 4. **Оптимизированный код**:
 
 ```python
 from __future__ import annotations
-
 import requests
 import json
+from typing import Generator, Optional, Dict, Any
 
 from ..base_provider import AbstractProvider
 from ...typing import CreateResult, Messages
 from json import dumps
-from src.logger import logger
+from src.logger import logger  # Импортируем logger
 
 
 class GeekGpt(AbstractProvider):
     """
-    Модуль для работы с провайдером GeekGpt.
-    ========================================
+    Модуль для взаимодействия с GeekGpt API.
+    =========================================
 
-    Этот класс предоставляет реализацию для взаимодействия с GeekGpt.
-    Он поддерживает создание завершений и потоковую передачу данных.
+    Позволяет отправлять запросы к API GeekGpt и получать ответы.
+    Поддерживает потоковую передачу ответов.
+
+    Пример использования
+    ----------------------
+    >>> from src.logger import logger
+    >>> GeekGpt.create_completion(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Hello"}], stream=True)
     """
     url: str = 'https://chat.geekgpt.org'
     working: bool = False
@@ -57,26 +63,26 @@ class GeekGpt(AbstractProvider):
         model: str,
         messages: Messages,
         stream: bool,
-        **kwargs
+        **kwargs: Any
     ) -> CreateResult:
         """
-        Создает завершение с использованием API GeekGpt.
+        Отправляет запрос к API GeekGpt и возвращает ответ.
 
         Args:
-            model (str): Модель для использования.
+            model (str): Идентификатор модели для использования.
             messages (Messages): Список сообщений для отправки.
-            stream (bool): Флаг, указывающий, использовать ли потоковую передачу.
-            **kwargs: Дополнительные аргументы.
+            stream (bool): Флаг, указывающий, нужно ли использовать потоковую передачу.
+            **kwargs (Any): Дополнительные параметры запроса.
 
         Returns:
-            CreateResult: Результат создания завершения.
-        
+            CreateResult: Генератор, возвращающий части ответа, если stream=True, иначе строка с полным ответом.
+
         Raises:
-            RuntimeError: Если возникает ошибка при обработке ответа от API.
+            RuntimeError: Если возникает ошибка при взаимодействии с API.
         """
         if not model:
-            model: str = 'gpt-3.5-turbo'  # Устанавливаем модель по умолчанию, если она не указана
-        json_data: dict = {
+            model: str = "gpt-3.5-turbo"
+        json_data: Dict[str, Any] = {
             'messages': messages,
             'model': model,
             'temperature': kwargs.get('temperature', 0.9),
@@ -88,7 +94,7 @@ class GeekGpt(AbstractProvider):
 
         data: str = dumps(json_data, separators=(',', ':'))
 
-        headers: dict = {
+        headers: Dict[str, str] = {
             'authority': 'ai.fakeopen.com',
             'accept': '*/*',
             'accept-language': 'en,fr-FR;q=0.9,fr;q=0.8,es-ES;q=0.7,es;q=0.6,en-US;q=0.5,am;q=0.4,de;q=0.3',
@@ -106,25 +112,28 @@ class GeekGpt(AbstractProvider):
         }
 
         try:
-            response = requests.post('https://ai.fakeopen.com/v1/chat/completions',
-                                     headers=headers, data=data, stream=True) # Отправляем POST-запрос к API
-            response.raise_for_status()  # Проверяем статус ответа
-
-            for chunk in response.iter_lines(): # Итерируемся по строкам ответа
-                if b'content' in chunk:
-                    json_data: str = chunk.decode().replace('data: ', '') # Декодируем и очищаем данные
-
-                    if json_data == '[DONE]':
-                        break
-
-                    try:
-                        content: str | None = json.loads(json_data)['choices'][0]['delta'].get('content') # Извлекаем контент
-                    except Exception as ex:
-                        logger.error('Ошибка при обработке JSON', ex, exc_info=True) # Логируем ошибку
-                        raise RuntimeError(f'error | {ex} :', json_data)
-
-                    if content:
-                        yield content # Возвращаем контент
+            response = requests.post("https://ai.fakeopen.com/v1/chat/completions",
+                                     headers=headers, data=data, stream=True)
+            response.raise_for_status()
         except requests.exceptions.RequestException as ex:
-            logger.error('Ошибка при выполнении запроса', ex, exc_info=True)
-            raise RuntimeError(f'request error: {ex}')
+            logger.error(f'Ошибка при выполнении запроса к API: {ex}', exc_info=True)
+            raise RuntimeError(f'Ошибка при выполнении запроса к API: {ex}')
+
+        for chunk in response.iter_lines():
+            if b'content' in chunk:
+                json_data: str = chunk.decode().replace("data: ", "")
+
+                if json_data == "[DONE]":
+                    break
+
+                try:
+                    content: Optional[str] = json.loads(json_data)["choices"][0]["delta"].get("content")
+                except json.JSONDecodeError as ex:
+                    logger.error(f'Ошибка при разборе JSON: {ex}, данные: {json_data}', exc_info=True)
+                    raise RuntimeError(f'Ошибка при разборе JSON: {ex}')
+                except Exception as ex:
+                    logger.error(f'error | {ex} :, данные: {json_data}', exc_info=True)
+                    raise RuntimeError(f'error | {ex} :')
+
+                if content:
+                    yield content

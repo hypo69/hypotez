@@ -2,40 +2,31 @@
 
 ## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/deprecated/Lockchat.py
 
-Модуль предоставляет класс `Lockchat`, который является провайдером для работы с API Lockchat. Lockchat поддерживает стриминг, модели gpt-3.5-turbo и gpt-4.
+Модуль предоставляет класс `Lockchat`, который является провайдером для доступа к моделям GPT через API Lockchat.
+=========================================================================================
 
 **Качество кода:**
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Четкая структура класса и метода `create_completion`.
-    - Поддержка стриминга.
-    - Обработка ошибок при получении ответа от API.
+  - Четкая структура класса.
+  - Поддержка стриминга ответов.
+  - Явное указание поддерживаемых моделей.
 - **Минусы**:
-    - Отсутствует обработка исключений.
-    - Не указаны типы данных для параметров и возвращаемых значений в методе `create_completion`.
-    - Использованы двойные кавычки вместо одинарных.
-    - Нет логирования ошибок.
-    - Не используется `j_loads` для обработки JSON.
-    - Не документирован класс и метод `create_completion`.
-    - Повторный вызов `Lockchat.create_completion` при обнаружении ошибки может привести к бесконечной рекурсии, если ошибка не устраняется.
+  - Отсутствие документации и подробных комментариев.
+  - Жестко заданный URL.
+  - Обработка ошибок выполняется через рекурсивный вызов, что может привести к переполнению стека.
+  - Не используется модуль `logger` для логирования ошибок.
 
 **Рекомендации по улучшению:**
 
-1.  **Добавить документацию:**
-    - Добавить docstring для класса `Lockchat` и метода `create_completion`, указав назначение, аргументы, возвращаемые значения и возможные исключения.
-2.  **Добавить аннотации типов:**
-    - Добавить аннотации типов для параметров и возвращаемых значений метода `create_completion`.
-3.  **Заменить двойные кавычки на одинарные:**
-    - Заменить все двойные кавычки на одинарные.
-4.  **Добавить логирование ошибок:**
-    - Использовать модуль `logger` для логирования ошибок.
-5.  **Использовать `j_loads` для обработки JSON:**
-    - Заменить `json.loads` на `j_loads`.
-6.  **Улучшить обработку ошибок:**
-    - Изменить обработку ошибок, чтобы избежать бесконечной рекурсии. Вместо рекурсивного вызова можно использовать цикл с ограничением количества попыток или выбрасывать исключение после нескольких неудачных попыток.
-7. **Обработка исключений**:
-    - Необходимо добавить общую обработку исключений для перехвата любых непредвиденных ошибок, которые могут возникнуть в процессе выполнения запроса.
+1.  **Документация**: Добавить docstring для класса `Lockchat` и его методов, описывающие их назначение, параметры и возвращаемые значения.
+2.  **Логирование**: Использовать модуль `logger` для логирования ошибок и отладочной информации.
+3.  **Обработка ошибок**: Изменить рекурсивный вызов `create_completion` на итеративный подход с ограниченным количеством попыток, чтобы избежать переполнения стека.
+4.  **Конфигурация URL**: Вынести URL в отдельную переменную конфигурации, чтобы упростить его изменение.
+5.  **Обработка исключений**: Добавить обработку исключений для сетевых ошибок и ошибок JSON.
+6.  **Улучшение читаемости**: Использовать более понятные имена переменных.
+7.  **Аннотации**: Добавить аннотации для переменных `url`, `supports_stream`, `supports_gpt_35_turbo`, `supports_gpt_4`.
 
 **Оптимизированный код:**
 
@@ -43,21 +34,35 @@
 from __future__ import annotations
 
 import json
+from typing import Any, CreateResult, List, Dict
 
 import requests
-
-from src.logger import logger # Добавлен импорт модуля logger
-from ...typing import Any, CreateResult
+from requests import Response
+from src.logger import logger  # Import logger
 from ..base_provider import AbstractProvider
 
 
 class Lockchat(AbstractProvider):
     """
-    Провайдер для работы с API Lockchat.
+    Провайдер для доступа к моделям GPT через API Lockchat.
+    =====================================================
 
-    Поддерживает стриминг, модели gpt-3.5-turbo и gpt-4.
+    Предоставляет методы для создания запросов к API Lockchat
+    и получения ответов в потоковом режиме.
+
+    Attributes:
+        url (str): URL API Lockchat.
+        supports_stream (bool): Поддержка стриминга.
+        supports_gpt_35_turbo (bool): Поддержка GPT-3.5 Turbo.
+        supports_gpt_4 (bool): Поддержка GPT-4.
+
+    Пример использования:
+        >>> lockchat = Lockchat()
+        >>> messages = [{"role": "user", "content": "Hello"}]
+        >>> for token in lockchat.create_completion(model="gpt-3.5-turbo", messages=messages, stream=True):
+        ...     print(token, end="")
     """
-    url: str = 'http://supertest.lockchat.app'
+    url: str = "http://supertest.lockchat.app"
     supports_stream: bool = True
     supports_gpt_35_turbo: bool = True
     supports_gpt_4: bool = True
@@ -65,72 +70,78 @@ class Lockchat(AbstractProvider):
     @staticmethod
     def create_completion(
         model: str,
-        messages: list[dict[str, str]],
+        messages: List[Dict[str, str]],
         stream: bool,
         **kwargs: Any
     ) -> CreateResult:
         """
-        Создает запрос к API Lockchat для получения завершения.
+        Создает запрос к API Lockchat и возвращает ответ в потоковом режиме.
 
         Args:
             model (str): Имя модели.
-            messages (list[dict[str, str]]): Список сообщений.
-            stream (bool): Флаг, указывающий, использовать ли стриминг.
+            messages (List[Dict[str, str]]): Список сообщений.
+            stream (bool): Флаг стриминга.
             **kwargs (Any): Дополнительные аргументы.
 
-        Returns:
-            CreateResult: Результат запроса.
+        Yields:
+            str: Часть ответа от API.
 
         Raises:
-            requests.exceptions.RequestException: При ошибке запроса.
-            json.JSONDecodeError: При ошибке декодирования JSON.
-            Exception: При возникновении других ошибок.
+            requests.exceptions.RequestException: Если произошла ошибка при запросе к API.
+            json.JSONDecodeError: Если не удалось декодировать ответ JSON.
+            Exception: Если произошла неизвестная ошибка.
         """
-        temperature: float = float(kwargs.get('temperature', 0.7))
-        payload: dict[str, Any] = {
-            'temperature': temperature,
-            'messages': messages,
-            'model': model,
-            'stream': True,
+        temperature: float = float(kwargs.get("temperature", 0.7))
+        payload: Dict[str, Any] = {
+            "temperature": temperature,
+            "messages": messages,
+            "model": model,
+            "stream": True,
         }
 
-        headers: dict[str, str] = {
-            'user-agent': 'ChatX/39 CFNetwork/1408.0.4 Darwin/22.5.0',
+        headers: Dict[str, str] = {
+            "user-agent": "ChatX/39 CFNetwork/1408.0.4 Darwin/22.5.0",
         }
-        try:
-            response = requests.post(
-                'http://supertest.lockchat.app/v1/chat/completions',
-                json=payload,
-                headers=headers,
-                stream=True
-            )
+        max_retries: int = 3  # Ограничение количества попыток
+        for attempt in range(max_retries):
+            try:
+                response: Response = requests.post(
+                    "http://supertest.lockchat.app/v1/chat/completions",
+                    json=payload,
+                    headers=headers,
+                    stream=True,
+                )
+                response.raise_for_status()
 
-            response.raise_for_status()
-            for token in response.iter_lines():
-                if b'The model: `gpt-4` does not exist' in token:
-                    logger.error('Model gpt-4 does not exist, retrying...') # Логирование ошибки
-                    return Lockchat.create_completion( #Изменен рекурсивный вызов на возврат значения для избежания бесконечной рекурсии
-                        model=model,
-                        messages=messages,
-                        stream=stream,
-                        temperature=temperature,
-                        **kwargs
-                    )
+                for token in response.iter_lines():
+                    if b"The model: `gpt-4` does not exist" in token:
+                        log_message: str = f"Model {model} does not exist. Retrying..."
+                        logger.warning(log_message)
+                        continue  # Переход к следующей итерации цикла
 
-                if b'content' in token:
-                    try:
-                        token_str = token.decode('utf-8').split('data: ')[1]
-                        token = json.loads(token_str)
-                        token = token['choices'][0]['delta'].get('content')
+                    if b"content" in token:
+                        try:
+                            token_str: str = token.decode("utf-8")
+                            if "data: " not in token_str:
+                                continue
+                            json_data: str = token_str.split("data: ")[1]
+                            token_json: Dict[str, Any] = json.loads(json_data)
+                            content: str | None = token_json["choices"][0]["delta"].get("content")
 
-                        if token:
-                            yield (token)
-                    except json.JSONDecodeError as ex:
-                        logger.error('Error decoding JSON', ex, exc_info=True) # Логирование ошибки
-                        continue
-        except requests.exceptions.RequestException as ex:
-            logger.error('Request error', ex, exc_info=True) # Логирование ошибки
-            raise
-        except Exception as ex:
-            logger.error('Unexpected error', ex, exc_info=True) # Логирование ошибки
-            raise
+                            if content:
+                                yield content
+                        except (json.JSONDecodeError, KeyError) as ex:
+                            log_message: str = f"Error decoding JSON or accessing content: {ex}"
+                            logger.error(log_message, exc_info=True)
+                            continue  # Переход к следующей итерации цикла
+
+                break  # Выход из цикла, если успешно
+            except requests.exceptions.RequestException as ex:
+                log_message: str = f"Request failed on attempt {attempt + 1}: {ex}"
+                logger.error(log_message, exc_info=True)
+                if attempt == max_retries - 1:
+                    raise  # Если все попытки исчерпаны, выбрасываем исключение
+            except Exception as ex:
+                log_message: str = f"An unexpected error occurred: {ex}"
+                logger.error(log_message, exc_info=True)
+                raise  # Переброс исключения

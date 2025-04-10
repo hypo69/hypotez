@@ -2,65 +2,75 @@
 
 ## \file /hypotez/src/endpoints/bots/telegram/ToolBoxbot-main/ToolBox/BaseSettings/AuxiliaryClasses.py
 
-**Качество кода**:
+**Качество кода:**
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код разбит на классы, что способствует структурированности.
-    - Используются аннотации типов.
+    - Код разбит на классы, что способствует лучшей организации и повторному использованию.
+    - Используются аннотации типов, что улучшает читаемость и упрощает отладку.
 - **Минусы**:
-    - Не хватает документации в формате docstring для классов и методов.
-    - Отсутствует обработка исключений.
-    - Не используется модуль `logger` для логирования.
-    - Нарушение PEP8 в форматировании (пробелы вокруг операторов).
-    - Использованы двойные кавычки вместо одинарных.
+    - Отсутствует подробная документация для классов и методов.
+    - Не используются логирование для отслеживания ошибок и работы программы.
+    - Жестко заданный путь к файлу `prompts.json`.
+    - Не везде используются одинарные кавычки.
+    - Нет обработки исключений.
 
-**Рекомендации по улучшению**:
+**Рекомендации по улучшению:**
 
-1.  **Добавить документацию**:
-    *   Добавить docstring для классов `keyboards` и `PromptsCompressor`, а также для всех их методов. Описать назначение каждого класса и метода, входные параметры, возвращаемые значения и возможные исключения.
-2.  **Обработка исключений**:
-    *   Добавить блоки `try...except` для обработки возможных исключений, например, при открытии и чтении файлов в методе `get_prompt`.
-3.  **Логирование**:
-    *   Использовать модуль `logger` для логирования ошибок и важных событий.
-4.  **Форматирование кода**:
-    *   Исправить форматирование в соответствии со стандартами PEP8 (добавить пробелы вокруг операторов присваивания).
-    *   Заменить двойные кавычки на одинарные.
-5.  **Использовать `j_loads`**:
-    *   В методе `get_prompt` заменить стандартное открытие файла и `json.load` на `j_loads`.
+1.  **Добавить docstring**:
+    *   Добавить подробные docstring для каждого класса и метода, описывающие их назначение, аргументы, возвращаемые значения и возможные исключения.
+2.  **Использовать логирование**:
+    *   Внедрить логирование для записи информации о работе программы и отслеживания ошибок.
+3.  **Обработка исключений**:
+    *   Добавить блоки `try...except` для обработки возможных исключений, например, при открытии и чтении файла `prompts.json`.
+4.  **Изменить способ хранения `prompts.json`**:
+    *   Изменить способ хранения файла `prompts.json`, чтобы путь к нему не был жестко задан. Можно использовать переменные окружения или аргументы командной строки для указания пути.
+5.  **Перейти на одинарные кавычки**:
+    *   Везде использовать одинарные кавычки.
+6. **Документировать возвращаемые типы**
+    *   Добавить аннотации типов в методах _reply_keyboard
+7. **Соблюдать PEP8**
+    *   Проверить на соответствие стандарту оформления кода PEP8
 
-**Оптимизированный код**:
+**Оптимизированный код:**
 
 ```python
 import json
 import re
 from telebot import types
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 from typing import List
 from src.logger import logger  # Добавлен импорт logger
-from pathlib import Path
-from src.config import j_loads
 
 
-# Класс для работы с клавиатурами
-class keyboards:
+# Keyboard class
+class Keyboards:
     """
-    Класс для создания различных типов клавиатур для Telegram бота.
+    Класс для создания клавиатур Telegram бота.
     """
 
     # Protected
-    # Клавиатура с двумя полями
-    def _keyboard_two_blank(self, data: List[str], name: List[str]) -> types.InlineKeyboardMarkup:
+    # Keyboard with 2 fields
+    def _keyboard_two_blank(self, data: list[str], name: list[str]) -> InlineKeyboardMarkup:
         """
-        Создает inline-клавиатуру с кнопками, расположенными в два столбца.
+        Создает inline-клавиатуру с кнопками в два столбца.
 
         Args:
-            data (List[str]): Список данных, которые будут передаваться в callback_data кнопок.
-            name (List[str]): Список названий кнопок.
+            data (list[str]): Список callback_data для кнопок.
+            name (list[str]): Список текстов для кнопок.
 
         Returns:
-            types.InlineKeyboardMarkup: Объект inline-клавиатуры.
+            InlineKeyboardMarkup: Объект inline-клавиатуры.
+
+        Raises:
+            Exception: Если возникает ошибка при создании клавиатуры.
+
+        Example:
+            >>> data = ['1', '2', '3', '4']
+            >>> name = ['Button 1', 'Button 2', 'Button 3', 'Button 4']
+            >>> keyboard = Keyboards()._keyboard_two_blank(data, name)
         """
-        keyboard = types.InlineKeyboardMarkup(row_width=2)
-        buttons = [types.InlineKeyboardButton(str(name[i]), callback_data=str(data[i])) for i in range(len(data))]
+        keyboard = InlineKeyboardMarkup(row_width=2)
+        buttons = [InlineKeyboardButton(str(name[i]), callback_data=str(data[i])) for i in range(len(data))]
         if len(buttons) % 2 == 0:
             [keyboard.add(buttons[i], buttons[i + 1]) for i in range(0, len(buttons), 2)]
         else:
@@ -68,84 +78,104 @@ class keyboards:
             keyboard.add(buttons[-1])
         return keyboard
 
-    def _reply_keyboard(self, name: List[str]) -> types.ReplyKeyboardMarkup:
+    def _reply_keyboard(self, name: list[str]) -> ReplyKeyboardMarkup:
         """
-        Создает reply-клавиатуру с кнопками.
+        Создает reply-клавиатуру с кнопками в один столбец.
 
         Args:
-            name (List[str]): Список названий кнопок.
+            name (list[str]): Список текстов для кнопок.
 
         Returns:
-            types.ReplyKeyboardMarkup: Объект reply-клавиатуры.
+            ReplyKeyboardMarkup: Объект reply-клавиатуры.
+
+        Raises:
+            Exception: Если возникает ошибка при создании клавиатуры.
+
+        Example:
+            >>> name = ['Button 1', 'Button 2', 'Button 3']
+            >>> keyboard = Keyboards()._reply_keyboard(name)
         """
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        buttons = [types.KeyboardButton(el) for el in name]
+        markup = ReplyKeyboardMarkup(resize_keyboard=True)
+        buttons = [KeyboardButton(el) for el in name]
         [markup.add(btn) for btn in buttons]
         return markup
 
 
-# Класс для сжатия промптов
+# Prompts compression class
 class PromptsCompressor:
     """
-    Класс для работы с промптами, их сжатия и обработки.
+    Класс для сжатия и обработки промптов.
     """
 
     def __init__(self):
         """
-        Инициализирует класс PromptsCompressor, определяя размеры команд.
+        Инициализирует класс PromptsCompressor.
         """
         self.commands_size = [
-            ["TOPIC", "TA", "TONE", "STRUCT", "LENGTH", "EXTRA"], ["TOPIC", "TA", "STYLE", "LENGTH"],
-            ["TOPIC", "IDEA_NUM"], ["TYPE", "TOPIC", "TA", "LENGTH", "STYLE"],
-            ["HEADLINE", "NUM"], ["TOPIC", "KEYWORDS", "INFO", "LENGTH"],
-            ["TEXT", "LENGTH", "EXTRA"], ["TEXT", "RED_TYPE", "EXTRA"]
+            ['TOPIC', 'TA', 'TONE', 'STRUCT', 'LENGTH', 'EXTRA'], ['TOPIC', 'TA', 'STYLE', 'LENGTH'],
+            ['TOPIC', 'IDEA_NUM'], ['TYPE', 'TOPIC', 'TA', 'LENGTH', 'STYLE'],
+            ['HEADLINE', 'NUM'], ['TOPIC', 'KEYWORDS', 'INFO', 'LENGTH'],
+            ['TEXT', 'LENGTH', 'EXTRA'], ['TEXT', 'RED_TYPE', 'EXTRA']
         ]
 
-    # Promts get function
-    def get_prompt(self, info: List[str], ind: int) -> str:
+    def get_prompt(self, info: list[str], ind: int) -> str:
         """
-        Извлекает промпт из файла и заменяет переменные значения.
+        Извлекает и формирует промпт на основе предоставленной информации.
 
         Args:
-            info (List[str]): Список значений для подстановки в промпт.
+            info (list[str]): Список информации для подстановки в промпт.
             ind (int): Индекс промпта в файле.
 
         Returns:
             str: Сформированный промпт.
-        
+
         Raises:
             FileNotFoundError: Если файл prompts.json не найден.
             json.JSONDecodeError: Если файл prompts.json содержит некорректный JSON.
-            Exception: При возникновении других ошибок.
+            KeyError: Если в файле prompts.json отсутствует ключ 'commands'.
+            Exception: Если возникает другая ошибка при чтении файла.
+
+        Example:
+            >>> info = ['topic', 'ta', 'tone', 'struct', 'length', 'extra']
+            >>> ind = 0
+            >>> prompt = PromptsCompressor().get_prompt(info, ind)
         """
         try:
-            commands = j_loads('ToolBox/BaseSettings/prompts.json')['commands'][ind]
-            # with open('ToolBox/BaseSettings/prompts.json', 'r') as file:
-            #     commands = json.load(file)['commands'][ind]
+            with open('ToolBox/BaseSettings/prompts.json', 'r', encoding='utf-8') as file:
+                commands = json.load(file)['commands'][ind]
             for i, el in enumerate(self.commands_size[ind]):
                 commands = commands.replace(f'[{el}]', info[i])
             return commands
         except FileNotFoundError as ex:
-            logger.error('File prompts.json not found', ex, exc_info=True)  # Логирование ошибки
+            logger.error('Файл prompts.json не найден', ex, exc_info=True)  # Добавлено логирование
             return ''
         except json.JSONDecodeError as ex:
-            logger.error('Incorrect JSON format in prompts.json', ex, exc_info=True)  # Логирование ошибки
+            logger.error('Файл prompts.json содержит некорректный JSON', ex, exc_info=True)  # Добавлено логирование
+            return ''
+        except KeyError as ex:
+            logger.error('В файле prompts.json отсутствует ключ \'commands\'', ex, exc_info=True)  # Добавлено логирование
             return ''
         except Exception as ex:
-            logger.error('Error while getting prompt', ex, exc_info=True)  # Логирование ошибки
+            logger.error('Произошла ошибка при чтении файла prompts.json', ex, exc_info=True)  # Добавлено логирование
             return ''
 
-    # HTML tags insert function
     @staticmethod
     def html_tags_insert(response: str) -> str:
         """
         Вставляет HTML-теги в текст ответа для форматирования.
 
         Args:
-            response (str): Текст ответа.
+            response (str): Текст ответа для форматирования.
 
         Returns:
-            str: Текст ответа с HTML-тегами.
+            str: Отформатированный текст ответа.
+
+        Raises:
+            Exception: Если возникает ошибка при вставке HTML-тегов.
+
+        Example:
+            >>> response = '#### Заголовок 1\\n### Заголовок 2\\n**Жирный текст**\\n*Курсив*'
+            >>> formatted_response = PromptsCompressor.html_tags_insert(response)
         """
         patterns = [(r'#### (.*?)\n', r'<b><u>\1</u></b>\n'),
                     (r'### (.*?)\n', r'<u>\1</u>\n'),

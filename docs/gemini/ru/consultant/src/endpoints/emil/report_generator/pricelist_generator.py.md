@@ -1,58 +1,64 @@
 ### **Анализ кода модуля `pricelist_generator.py`**
 
-## \file /src/endpoints/kazarinov/react/pricelist_generator.py
-
-Модуль предназначен для генерации HTML и PDF отчетов для мехиронов Казаринова на основе данных из JSON.
-
-**Качество кода:**
-
-- **Соответствие стандартам**: 6/10
+#### **Качество кода**:
+- **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Чёткая структура класса `ReportGenerator`.
-    - Использование `dataclass` для упрощения создания класса `ReportGenerator`.
-    - Использование `asyncio` для асинхронного выполнения операций.
-    - Применение `j_loads` для загрузки JSON-данных.
-    - Логирование ошибок с использованием `logger`.
+    - Использование `dataclasses` для организации данных.
+    - Применение `jinja2` для генерации HTML.
+    - Чёткое разделение ответственности между функциями.
+    - Логирование ошибок.
+    - Использование `asyncio` для асинхронных операций.
 - **Минусы**:
-    - Не все функции и методы имеют docstring.
-    - Отсутствуют аннотации типов для некоторых переменных.
-    - Использование `read_text_file` и `save_text_file` без обработки исключений.
-    - Не хватает обработки исключений при работе с файловой системой.
-    - Не все переменные аннотированы типами.
-    - Функция `main` не имеет возвращаемого значения, хотя в аннотации типа указан `bool`.
-    - Переменные `template` и `template_path` в методе `generate_html` не аннотированы типами перед присваиванием.
-    - Не используется `logger` для логирования информации.
-    - Нет обработки ошибок при чтении/записи файлов, что может привести к неожиданным сбоям.
+    - Не везде указаны типы для переменных.
+    - Смешанный стиль кавычек (иногда используются двойные кавычки вместо одинарных).
+    - Отсутствие обработки исключений при чтении файлов.
+    - Не все функции документированы в соответствии с заданным форматом.
+    - Слишком короткие имена переменных (например, `r`).
+    - Использование `...` в блоке обработки ошибок.
 
-**Рекомендации по улучшению:**
+#### **Рекомендации по улучшению**:
 
-1.  **Добавить docstring для всех функций и методов.**
-    - Документировать все методы и функции, включая параметры, возвращаемые значения и возможные исключения.
-2.  **Добавить аннотации типов для всех переменных.**
-    - Указать типы для всех переменных, чтобы повысить читаемость и облегчить отладку.
-3.  **Обработка исключений при работе с файловой системой.**
-    - Добавить блоки `try-except` при чтении и записи файлов.
-4.  **Использовать `logger` для логирования информации.**
-    - Добавить логирование для важных этапов выполнения программы, таких как загрузка данных, генерация HTML и PDF.
-5.  **Проверить и исправить возвращаемые значения функций.**
-    - Убедиться, что функция `main` действительно возвращает `bool` и исправить аннотацию типа, если это не так.
-6.  **Улучшить читаемость кода.**
-    - Добавить пробелы вокруг операторов присваивания и других операторов.
-7.  **Удалить излишние комментарии и закомментированный код.**
-8.  **Перевести все комментарии и docstring на русский язык.**
+1.  **Документирование кода**:
 
-**Оптимизированный код:**
+    *   Добавить docstring к классу `ReportGenerator` с описанием его назначения, аргументов и возвращаемых значений.
+    *   Добавить docstring к функции `main` с описанием её назначения, аргументов и возвращаемых значений.
+    *   В docstring для `ReportGenerator.generate_html` добавить информацию о том, какие исключения могут быть вызваны.
+    *   Добавить примеры использования в docstring.
+    *   Документировать все внутренние функции.
+
+2.  **Улучшение обработки ошибок**:
+
+    *   В функции `create_report` добавить обработку исключений при чтении файлов и генерации HTML.
+    *   Заменить `...` на конкретную логику обработки ошибок или логирование.
+
+3.  **Стандартизация стиля кода**:
+
+    *   Использовать только одинарные кавычки.
+    *   Добавить пробелы вокруг операторов присваивания.
+    *   Указывать типы для всех переменных.
+
+4.  **Улучшение именования переменных**:
+
+    *   Использовать более информативные имена переменных (например, `report_generator` вместо `r`).
+
+5.  **Безопасность**:
+
+    *   Рассмотреть возможность экранирования данных, передаваемых в Jinja2, чтобы избежать XSS-уязвимостей.
+
+6.  **Улучшение логирования**:
+
+    *   Добавить больше контекстной информации в сообщения лога.
+    *   Использовать logger.exception вместо logger.error для автоматического логирования трассировки стека.
+
+#### **Оптимизированный код**:
 
 ```python
-# -*- coding: utf-8 -*-
-
-#! .pyenv/bin/python3
-
 """
-Модуль для генерации HTML и PDF отчетов для мехиронов Казаринова
-===============================================================
+Модуль для генерации HTML и PDF отчетов о ценах для Казаринова.
+=============================================================
 
-Модуль содержит класс :class:`ReportGenerator`, который используется для генерации HTML и PDF отчетов на основе данных из JSON.
+Модуль содержит класс :class:`ReportGenerator`, который используется для генерации HTML- и PDF-отчётов
+на основе данных из JSON.
 
 Описание работы:
 ----------------
@@ -67,22 +73,19 @@
 ----------------------
 
 >>> report_generator = ReportGenerator()
->>> data = {'products': []}
->>> lang = 'ru'
->>> html_file = 'report.html'
->>> pdf_file = 'report.pdf'
->>> asyncio.run(report_generator.create_report(data, lang, html_file, pdf_file))
-True
+>>> # report_generator.create_report(data, lang, html_file, pdf_file)
 """
 
 import asyncio
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import pdfkit
 from jinja2 import Environment, FileSystemLoader
 
 from src import gs
 from src.logger.logger import logger
+from src.utils.convertors.html import html2pdf
 from src.utils.file import read_text_file, save_text_file
 from src.utils.image import random_image
 from src.utils.jjson import j_loads
@@ -90,10 +93,19 @@ from src.utils.pdf import PDFUtils
 from src.utils.printer import pprint
 
 
+# config = pdfkit.configuration(wkhtmltopdf= str( gs.path.bin / 'wkhtmltopdf' / 'files' / 'bin' / 'wkhtmltopdf.exe' ) )
+
+
 @dataclass
 class ReportGenerator:
     """
     Класс для генерации HTML- и PDF-отчётов на основе данных из JSON.
+
+    Args:
+        env (Environment): Окружение Jinja2.
+
+    Example:
+        >>> report_generator = ReportGenerator()
     """
 
     env: Environment = field(default_factory=lambda: Environment(loader=FileSystemLoader('.')))
@@ -103,7 +115,7 @@ class ReportGenerator:
         Генерирует HTML-контент на основе шаблона и данных.
 
         Args:
-            data (dict): Словарь с данными для шаблона.
+            data (dict): Данные для рендеринга в шаблоне.
             lang (str): Язык отчёта ('ru' или 'he').
 
         Returns:
@@ -111,22 +123,17 @@ class ReportGenerator:
 
         Raises:
             FileNotFoundError: Если файл шаблона не найден.
-            Exception: При возникновении других ошибок во время генерации HTML.
+            TemplateError: Если произошла ошибка при рендеринге шаблона.
 
         Example:
             >>> report_generator = ReportGenerator()
-            >>> data = {'title': 'Отчет', 'products': []}
-            >>> lang = 'ru'
-            >>> html_content = asyncio.run(report_generator.generate_html(data, lang))
-            >>> print(html_content[:100])
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="UTF-8">
-                <title>Отчет</title>
+            >>> data = {'products': [{'product_title': 'Test', 'specification': 'Spec'}]}
+            >>> html_content = await report_generator.generate_html(data, 'ru')
+            >>> print(html_content[:100])  # Вывод первых 100 символов
         """
         template_name: str = 'template_table_he.html' if lang == 'he' else 'template_table_ru.html'
-        template_path: Path = gs.path.endpoints / 'kazarinov' / 'pricelist_generator' / 'templates' / template_name
+        template_path: str = str(gs.path.endpoints / 'kazarinov' / 'pricelist_generator' / 'templates' / template_name)
+
         try:
             template_string: str = Path(template_path).read_text(encoding='UTF-8')
             template = self.env.from_string(template_string)
@@ -135,96 +142,87 @@ class ReportGenerator:
             logger.error(f'Template file not found: {template_path}', ex, exc_info=True)
             raise
         except Exception as ex:
-            logger.error('Error while generating HTML', ex, exc_info=True)
+            logger.error(f'Error rendering template: {template_path}', ex, exc_info=True)
             raise
 
     async def create_report(self, data: dict, lang: str, html_file: str | Path, pdf_file: str | Path) -> bool:
         """
-        Полный цикл генерации отчёта.
+        Полный цикл генерации отчёта: генерация HTML, сохранение в файл, преобразование в PDF.
 
         Args:
-            data (dict): Словарь с данными для отчёта.
+            data (dict): Данные для отчёта.
             lang (str): Язык отчёта ('ru' или 'he').
             html_file (str | Path): Путь для сохранения HTML-файла.
             pdf_file (str | Path): Путь для сохранения PDF-файла.
 
         Returns:
-            bool: True, если отчёт успешно сгенерирован, False в противном случае.
+            bool: True, если отчёт успешно создан, иначе False.
 
         Raises:
-            FileNotFoundError: Если не удается найти файлы шаблонов сервиса.
-            Exception: При возникновении других ошибок во время генерации отчёта.
+            FileNotFoundError: Если файл шаблона сервиса не найден.
+            Exception: Если произошла ошибка при генерации HTML или PDF.
 
         Example:
             >>> report_generator = ReportGenerator()
-            >>> data = {'products': []}
-            >>> lang = 'ru'
-            >>> html_file = 'report.html'
-            >>> pdf_file = 'report.pdf'
-            >>> result = asyncio.run(report_generator.create_report(data, lang, html_file, pdf_file))
+            >>> data = {'products': [{'product_title': 'Test', 'specification': 'Spec'}]}
+            >>> html_file = 'test.html'
+            >>> pdf_file = 'test.pdf'
+            >>> result = await report_generator.create_report(data, 'ru', html_file, pdf_file)
             >>> print(result)
             True
         """
-
-        # Обслуживание:
         try:
+            # Обслуживание:
             service_dict: dict = {
                 'product_title': 'Сервис' if lang == 'ru' else 'שירות',
-                'specification': Path(gs.path.endpoints / 'kazarinov' / 'pricelist_generator' / 'templates' / f'service_as_product_{lang}.html').read_text(
-                    encoding='UTF-8'
-                ).replace('/n', '<br>'),
+                'specification': Path(gs.path.endpoints / 'kazarinov' / 'pricelist_generator' / 'templates' / f'service_as_product_{lang}.html').read_text(encoding='UTF-8').replace(
+                    '/n', '<br>'
+                ),
                 'image_local_saved_path': random_image(gs.path.external_storage / 'kazarinov' / 'converted_images'),
             }
             data['products'].append(service_dict)
 
             html_content: str = await self.generate_html(data, lang)
             Path(html_file).write_text(data=html_content, encoding='UTF-8')
-            pdf = PDFUtils()
+            pdf_utils = PDFUtils()
 
-            if not pdf.save_pdf_pdfkit(html_content, pdf_file):
+            if not pdf_utils.save_pdf_pdfkit(html_content, pdf_file):
                 logger.error('Не скопмилировался PDF')
                 return False
             return True
         except FileNotFoundError as ex:
-            logger.error('Не удалось найти файлы шаблонов сервиса', ex, exc_info=True)
+            logger.error(f'Service template file not found', ex, exc_info=True)
             return False
         except Exception as ex:
-            logger.error('Ошибка при создании отчета', ex, exc_info=True)
+            logger.error(f'Error during report creation', ex, exc_info=True)
             return False
 
 
 def main(mexiron: str, lang: str) -> bool:
     """
-    Основная функция для генерации отчёта для указанного мехирона.
+    Главная функция для генерации отчёта.
 
     Args:
-        mexiron (str): Имя мехирона.
+        mexiron (str): Имя mexiron.
         lang (str): Язык отчёта ('ru' или 'he').
 
     Returns:
-        bool: True, если отчёт успешно сгенерирован, False в противном случае.
-
-    Raises:
-        FileNotFoundError: Если JSON файл с данными не найден.
-        Exception: При возникновении других ошибок во время генерации отчёта.
+        bool: True, если отчёт успешно создан, иначе False.
 
     Example:
         >>> main('24_12_01_03_18_24_269', 'ru')
         True
     """
     base_path: Path = gs.path.external_storage / 'kazarinov' / 'mexironim' / mexiron
+    data: dict = j_loads(base_path / f'{lang}.json')
     html_file: Path = base_path / f'{mexiron}_{lang}.html'
     pdf_file: Path = base_path / f'{mexiron}_{lang}.pdf'
+    report_generator = ReportGenerator()
     try:
-        data: dict = j_loads(base_path / f'{lang}.json')
-        r = ReportGenerator()
-        asyncio.run(r.create_report(data, lang, html_file, pdf_file))
+        asyncio.run(report_generator.create_report(data, lang, html_file, pdf_file))
         return True
-    except FileNotFoundError as ex:
-        logger.error(f'JSON файл с данными не найден: {base_path / f\'{lang}.json\'}', ex, exc_info=True)
-        return False
     except Exception as ex:
-        logger.error('Ошибка при генерации отчёта', ex, exc_info=True)
+        logger.error(f'Error during report creation', ex, exc_info=True)
         return False
 
 

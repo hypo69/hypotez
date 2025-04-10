@@ -1,43 +1,34 @@
 ### **Анализ кода модуля `bot_aiogram.py`**
 
+## \file /src/endpoints/bots/telegram/bot_aiogram.py
+
+Модуль представляет собой реализацию Telegram-бота с использованием фреймворка FastAPI для обработки входящих запросов через RPC. Он включает в себя настройку вебхуков, регистрацию обработчиков команд и обработку различных типов сообщений.
+
 **Качество кода:**
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Использование `logger` для логирования.
-    - Использование `j_loads_ns` для загрузки JSON-конфигурации.
-    - Наличие обработки исключений.
-    - Применение аннотаций типов.
+  - Использование асинхронности для обработки запросов.
+  - Четкая структура класса `TelegramBot`.
+  - Использование `j_loads_ns` для загрузки конфигурации.
+  - Логирование с использованием модуля `logger`.
 - **Минусы**:
-    - Не все функции и методы имеют docstring.
-    - Docstring написаны на английском языке, требуется перевод на русский.
-    - В некоторых местах отсутствует обработка ошибок.
-    - Есть смешение стилей кавычек (используются и двойные, и одинарные).
-    - Не все переменные аннотированы типами.
+  - Не все методы и функции имеют docstring.
+  - Жестко заданные значения (например, порт 443).
+  - Смешанный стиль кавычек (использованы и двойные, и одинарные).
+  - Местами отсутствует аннотация типов.
 
 **Рекомендации по улучшению:**
 
-1.  **Документирование**:
-    - Добавить docstring ко всем функциям и методам, включая `stop`.
-    - Перевести существующие docstring на русский язык.
-    - Описать все параметры и возвращаемые значения в docstring.
-
-2.  **Обработка исключений**:
-    - Убедиться, что все возможные исключения обрабатываются и логируются.
-
-3.  **Форматирование**:
-    - Использовать только одинарные кавычки для строк.
-    - Добавить аннотации типов для всех переменных.
-
-4.  **Логирование**:
-    - Убедиться, что все важные события логируются с использованием `logger`.
-
-5.  **Использование RPC**:
-    - Проверить, как именно используются RPC-вызовы и убедиться, что они обрабатывают ошибки.
-    - Удостовериться, что RPC server запускается и останавливается корректно.
-
-6.  **Улучшение структуры**:
-    - Рассмотреть возможность разделения кода на более мелкие, переиспользуемые функции.
+1.  **Добавить docstring**: Добавить docstring к методам `run`, `stop` и всем остальным, где они отсутствуют. Описать назначение каждого метода, принимаемые аргументы и возвращаемые значения.
+2.  **Исправить стиль кавычек**: Привести весь код к использованию одинарных кавычек.
+3.  **Добавить аннотации типов**: Добавить аннотации типов для переменных `port` в методе `__init__`.
+4.  **Улучшить обработку ошибок**: Сделать обработку ошибок более специфичной, если это возможно.
+5.  **Убрать дублирование кода**: Избавиться от дублирования кода, например, при формировании `webhook_url`.
+6.  **Добавить комментарии**: Добавить комментарии к блокам кода, объясняющие их назначение.
+7.  **Перевести комментарии**: Перевести все комментарии и docstring на русский язык.
+8.  **Использовать `ex` вместо `e`**: В блоках обработки исключений использовать `ex` вместо `e`.
+9. **Улучшить логирование**: Добавить `exc_info=True` при логировании ошибок.
 
 **Оптимизированный код:**
 
@@ -45,12 +36,19 @@
                 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 """
-Модуль для реализации Telegram-бота через FastAPI с использованием RPC
-=======================================================================
+Телеграм бот через сервер FastAPI через RPC
+====================================================
 
-Этот модуль содержит класс `TelegramBot`, который обеспечивает взаимодействие с Telegram API
-через вебхуки, реализованные с помощью FastAPI. Для взаимодействия между компонентами используется RPC.
+Модуль :mod:`src.endpoints.bots.telegram.telegram_webhooks`
+:platform: Windows, Unix
+:synopsis: Телеграм бот с сервером FAST API Через RPC
 
+Пример использования
+----------------------
+
+>>> from src.endpoints.bots.telegram.bot_aiogram import TelegramBot
+>>> bot = TelegramBot(token='YOUR_TELEGRAM_TOKEN')
+>>> bot.run()
 """
 import asyncio
 import sys
@@ -77,57 +75,58 @@ from src.utils.jjson import j_loads_ns
 
 class TelegramBot:
     """
-    Класс для управления Telegram-ботом. Реализован как Singleton.
+    Класс для управления Telegram ботом.
+    Реализован как Singleton.
     """
 
-    def __init__(self, token: str, route: str = 'telegram_webhook') -> None:
+    def __init__(self, token: str, route: str = 'telegram_webhook'):
         """
-        Инициализирует экземпляр класса TelegramBot.
+        Инициализация экземпляра TelegramBot.
 
         Args:
             token (str): Telegram bot token.
-            route (str): Webhook route для FastAPI. По умолчанию 'telegram_webhook'.
+            route (str): Webhook route для FastAPI. По умолчанию '/telegram_webhook'.
         """
         self.token: str = token
-        self.port: int = 443
+        self.port: int = 443  # Порт для вебхука
 
         self.route: str = route
-        self.config: SimpleNamespace = j_loads_ns(__root__ / 'src/endpoints/bots/telegram/telegram.json')
+        self.config: SimpleNamespace = j_loads_ns(__root__ / 'src/endpoints/bots/telegram/telegram.json') # Загрузка конфигурации из JSON
         self.bot: Bot = Bot(token=self.token)
         self.dp: Dispatcher = Dispatcher()
         self.bot_handler: BotHandler = BotHandler()
         self._register_default_handlers()
         self.app: Optional[web.Application] = None
-        self.rpc_client: Optional[ServerProxy] = None  # Add rpc_client as an attribute
+        self.rpc_client: Optional[ServerProxy] = None  # RPC клиент для взаимодействия с сервером
 
     def run(self) -> None:
         """
-        Запускает бота, инициализирует RPC и вебхук.
+        Запуск бота, инициализация RPC и вебхука.
         """
         try:
-            # Initialize RPC client
+            # Инициализация RPC клиента
             port: int = 9000
 
-            self.rpc_client = ServerProxy(f"http://{gs.host}:{port}", allow_none=True)
+            self.rpc_client = ServerProxy(f'http://{gs.host}:{port}', allow_none=True)
 
-            # Start the server via RPC
+            # Запуск сервера через RPC
             self.rpc_client.start_server(port, gs.host)
 
-            # Register the route via RPC
+            # Регистрация маршрута через RPC
             logger.success(f'RPC Server running at http://{gs.host}:{port}/')
         except Exception as ex:
             logger.error('Ошибка FastApiServer: ', ex, exc_info=True)
             sys.exit()
 
-        # Initialize the Telegram bot webhook
-        webhook_url: str | bool = self.initialize_bot_webhook(self.route)
+        # Инициализация вебхука Telegram бота
+        webhook_url: Optional[str] = self.initialize_bot_webhook(self.route)
 
         if webhook_url:
             self._register_route_via_rpc(self.rpc_client)
             try:
-                # Use web application for webhook
-                self.app: web.Application = web.Application()
-                webhook_requests_handler: SimpleRequestHandler = SimpleRequestHandler(
+                # Использование веб-приложения для вебхука
+                self.app = web.Application()
+                webhook_requests_handler = SimpleRequestHandler(
                     dispatcher=self.dp,
                     bot=self.bot,
                 )
@@ -135,7 +134,7 @@ class TelegramBot:
                 webhook_requests_handler.register(self.app, path=self.route)
                 setup_application(self.app, self.dp, bot=self.bot)
                 web.run_app(self.app, host='0.0.0.0', port=self.port)
-                logger.info(f"Application started: {self.bot.id}")
+                logger.info(f'Application started: {self.bot.id}')
 
             except Exception as ex:
                 logger.error('Ошибка установки вебхука: ', ex, exc_info=True)
@@ -144,9 +143,7 @@ class TelegramBot:
             asyncio.run(self.dp.start_polling(self.bot))
 
     def _register_default_handlers(self) -> None:
-        """
-        Регистрирует обработчики по умолчанию, используя экземпляр BotHandler.
-        """
+        """Регистрация стандартных обработчиков с использованием экземпляра BotHandler."""
         self.dp.message.register(self.bot_handler.start, Command('start'))
         self.dp.message.register(self.bot_handler.help_command, Command('help'))
         self.dp.message.register(self.bot_handler.send_pdf, Command('sendpdf'))
@@ -156,78 +153,66 @@ class TelegramBot:
         self.dp.message.register(self.bot_handler.handle_log, lambda message: message.text is not None)
 
     async def _handle_message(self, message: types.Message) -> None:
-        """
-        Обрабатывает любое текстовое сообщение.
-
-        Args:
-            message (types.Message): Объект сообщения от Telegram.
-        """
+        """Обработка любого текстового сообщения."""
         await self.bot_handler.handle_message(message)
 
-    def initialize_bot_webhook(self, route: str) -> str | bool:
+    def initialize_bot_webhook(self, route: str) -> Optional[str]:
         """
-        Инициализирует вебхук бота.
+        Инициализация вебхука бота.
 
         Args:
-            route (str): Маршрут вебхука.
+            route (str): Маршрут для вебхука.
 
         Returns:
-            str | bool: URL вебхука или False в случае ошибки.
+            Optional[str]: URL вебхука или None в случае ошибки.
         """
-        route: str = route if route.startswith('/') else f'/{route}'
-        host: str = gs.host
+        route = route if route.startswith('/') else f'/{route}'
+        host = gs.host
 
         if host in ('127.0.0.1', 'localhost'):
             from pyngrok import ngrok
             ngrok.set_auth_token(os.getenv('NGROK_AUTH_TOKEN', ''))
             http_tunnel = ngrok.connect(self.port)
-            host: str = http_tunnel.public_url
+            host = http_tunnel.public_url
 
-        host: str = host if host.startswith('http') else f'https://{host}'
-        webhook_url: str = f'{host}{route}'
+        host = host if host.startswith('http') else f'https://{host}'
+        webhook_url = f'{host}{route}'
 
         try:
             asyncio.run(self.bot.set_webhook(url=webhook_url))
             logger.success(f'https://api.telegram.org/bot{self.token}/getWebhookInfo')
             return webhook_url
         except Exception as ex:
-            logger.error('Error setting webhook: ', ex, exc_info=True)
+            logger.error(f'Error setting webhook: ', ex, exc_info=True)
             return False
 
     def _register_route_via_rpc(self, rpc_client: ServerProxy) -> None:
-        """
-        Регистрирует маршрут вебхука Telegram через RPC.
-
-        Args:
-            rpc_client (ServerProxy): Клиент RPC для выполнения вызовов.
-        """
+        """Регистрация маршрута вебхука Telegram через RPC."""
         try:
-            route: str = self.route if self.route.startswith('/') else f'/{self.route}'
+            route = self.route if self.route.startswith('/') else f'/{self.route}'
             rpc_client.add_new_route(
                 route,
                 'self.bot_handler.handle_message',
                 ['POST']
             )
-            logger.info(f"Route {self.route} registered via RPC.")
+            logger.info(f'Route {self.route} registered via RPC.')
         except Exception as ex:
             logger.error('Failed to register route via RPC:', ex, exc_info=True)
 
     def stop(self) -> None:
-        """
-        Останавливает бота и удаляет вебхук.
-        """
+        """Остановка бота и удаление вебхука."""
         if self.app:
             asyncio.run(self.app.shutdown())
             asyncio.run(self.app.cleanup())
         try:
             asyncio.run(self.bot.delete_webhook())
-            logger.info("Bot stopped.")
+            logger.info('Bot stopped.')
         except Exception as ex:
-            logger.error('Error deleting webhook:', ex, exc_info=True)
+            logger.error(f'Error deleting webhook:', ex, exc_info=True)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     from dotenv import load_dotenv
     load_dotenv()
-    bot: TelegramBot = TelegramBot(os.getenv('TELEGRAM_TOKEN'))
+    bot = TelegramBot(os.getenv('TELEGRAM_TOKEN'))
     bot.run()

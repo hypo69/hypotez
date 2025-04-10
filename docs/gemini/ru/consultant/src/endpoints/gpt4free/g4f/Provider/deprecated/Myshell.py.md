@@ -1,45 +1,45 @@
 ### **Анализ кода модуля `Myshell.py`**
 
-2. **Качество кода**:
-   - **Соответствие стандартам**: 6/10
-   - **Плюсы**:
-     - Асинхронная реализация с использованием `aiohttp`.
-     - Поддержка `gpt-3.5-turbo` и `gpt-4`.
-     - Использование генераторов для обработки данных в реальном времени.
-   - **Минусы**:
-     - Отсутствует документация для класса и методов.
-     - Не все переменные аннотированы типами.
-     - Не используется модуль `logger` для логирования ошибок и информации.
-     - Присутствуют устаревшие комментарии `# not using WS anymore`.
-     - Magic values, такие как `40/chat,`, `42/chat,` и другие, не объяснены.
+**Качество кода:**
 
-3. **Рекомендации по улучшению**:
-   - Добавить docstring для класса `Myshell` и всех его методов, включая `create_async_generator`, `generate_timestamp`, `generate_signature`, `xor_hash`, `performance`, и `generate_visitor_id`.
-   - Добавить аннотации типов для всех переменных и параметров функций.
-   - Заменить `print` на `logger.info` или `logger.error` для логирования.
-   - Убрать устаревшие комментарии.
-   - Добавить обработку исключений с логированием ошибок.
-   - Использовать константы для magic values, чтобы улучшить читаемость кода.
-   - Добавить обработку ошибок при подключении к WebSocket.
-   - Улучшить читаемость функций `generate_timestamp`, `xor_hash`, `performance` и `generate_visitor_id`, разбив их на более мелкие и понятные блоки.
-   - Проверить и обновить зависимости, такие как `aiohttp`.
+- **Соответствие стандартам**: 6/10
+- **Плюсы**:
+    - Асинхронная реализация для неблокирующего взаимодействия.
+    - Использование `aiohttp` для асинхронных запросов.
+    - Реализация генерации visitor_id и подписи запросов.
+- **Минусы**:
+    - Не все переменные и возвращаемые значения аннотированы типами.
+    - Отсутствует обработка исключений для всех возможных ошибок (например, `json.loads`).
+    - В некоторых местах отсутствует документация, особенно для внутренних функций.
+    - Не везде используется `logger` для логирования ошибок.
+    - Используется time.sleep
 
-4. **Оптимизированный код**:
+**Рекомендации по улучшению:**
+
+1.  **Добавить аннотации типов**:
+    - Добавить аннотации типов для всех переменных, аргументов функций и возвращаемых значений, где это отсутствует.
+2.  **Документировать функции и методы**:
+    - Добавить docstring к каждой функции и методу, включая описание аргументов, возвращаемых значений и возможных исключений.
+    - Перевести существующие docstring на русский язык.
+3.  **Логирование**:
+    - Использовать `logger` для регистрации ошибок и предупреждений, чтобы упростить отладку и мониторинг.
+4.  **Обработка исключений**:
+    - Добавить обработку исключений для потенциально проблемных мест, таких как `json.loads` и сетевые запросы.
+5.  **Улучшить читаемость**:
+    - Использовать более понятные имена переменных и избегать сокращений, если это не ухудшает читаемость.
+6.  **Удалить time.sleep**:
+    - Избегать использования time.sleep. Вместо этого использовать asyncio.sleep
+7.  **Удалить неиспользуемые переменные**:
+    - Удалить неиспользуемые переменные, такие как WS
+
+**Оптимизированный код:**
 
 ```python
 """
-Модуль для взаимодействия с Myshell API
+Модуль для работы с провайдером Myshell
 ========================================
 
-Модуль содержит класс :class:`Myshell`, который используется для асинхронного взаимодействия с API Myshell для генерации текста.
-Он поддерживает модели GPT-3.5-turbo и GPT-4.
-
-Пример использования
-----------------------
-
->>> result = await Myshell.create_async_generator(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello'}])
->>> async for message in result:
-...     print(message)
+Модуль содержит класс :class:`Myshell`, который используется для взаимодействия с API Myshell для генерации текста.
 """
 
 from __future__ import annotations
@@ -49,17 +49,17 @@ import uuid
 import hashlib
 import time
 import random
-from typing import AsyncGenerator, Dict, List, Optional
-
-from aiohttp import ClientSession, WSMsgType
 import asyncio
+
+from aiohttp import ClientSession
+from aiohttp.http import WSMsgType
 
 from ...typing import AsyncResult, Messages
 from ..base_provider import AsyncGeneratorProvider, format_prompt
-from src.logger import logger  # Import the logger
+from src.logger import logger  # Подключаем логгер
 
 
-models: Dict[str, str] = {
+models: dict[str, str] = {
     "samantha": "1e3be7fe89e94a809408b1154a2ee3e1",
     "gpt-3.5-turbo": "8077335db7cd47e29f7de486612cc7fd",
     "gpt-4": "01c8de4fbfc548df903712b0922a4e01",
@@ -68,9 +68,9 @@ models: Dict[str, str] = {
 
 class Myshell(AsyncGeneratorProvider):
     """
-    Провайдер для асинхронного взаимодействия с API Myshell.
-    Поддерживает модели GPT-3.5-turbo и GPT-4.
+    Провайдер для взаимодействия с API Myshell.
     """
+
     url: str = "https://app.myshell.ai/chat"
     working: bool = False
     supports_gpt_35_turbo: bool = True
@@ -81,26 +81,25 @@ class Myshell(AsyncGeneratorProvider):
         cls,
         model: str,
         messages: Messages,
-        proxy: Optional[str] = None,
+        proxy: str | None = None,
         timeout: int = 90,
-        **kwargs
+        **kwargs,
     ) -> AsyncResult:
         """
         Создает асинхронный генератор для взаимодействия с API Myshell.
 
         Args:
-            model (str): Название модели для использования.
+            model (str): Идентификатор модели.
             messages (Messages): Список сообщений для отправки.
-            proxy (Optional[str], optional): Прокси-сервер для использования. По умолчанию None.
+            proxy (str, optional): Адрес прокси-сервера. По умолчанию None.
             timeout (int, optional): Время ожидания ответа. По умолчанию 90.
 
         Returns:
-            AsyncResult: Асинхронный генератор, возвращающий текст ответа.
+            AsyncResult: Асинхронный генератор для получения ответов от API.
 
         Raises:
             ValueError: Если указанная модель не поддерживается.
-            RuntimeError: Если возникает неожиданное сообщение от сервера.
-            Exception: При возникновении ошибок во время подключения или обмена сообщениями.
+            RuntimeError: Если получен неожиданный тип сообщения.
         """
         if not model:
             bot_id: str = models["samantha"]
@@ -108,7 +107,7 @@ class Myshell(AsyncGeneratorProvider):
             bot_id: str = models[model]
         else:
             raise ValueError(f"Model are not supported: {model}")
-        
+
         user_agent: str = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
         visitor_id: str = generate_visitor_id(user_agent)
 
@@ -122,57 +121,58 @@ class Myshell(AsyncGeneratorProvider):
                     timeout=timeout,
                     proxy=proxy
                 ) as wss:
-                    try:
-                        # Send and receive hello message
-                        await wss.receive_str()
-                        message: str = json.dumps({"token": None, "visitorId": visitor_id})
-                        await wss.send_str(f"40/chat,{message}")
-                        await wss.receive_str()
+                    # Send and receive hello message
+                    await wss.receive_str()
+                    message: str = json.dumps({"token": None, "visitorId": visitor_id})
+                    await wss.send_str(f"40/chat,{message}")
+                    await wss.receive_str()
 
-                        # Fix "need_verify_captcha" issue
-                        await asyncio.sleep(5)
+                    # Fix "need_verify_captcha" issue
+                    await asyncio.sleep(5) #TODO: Удалить time.sleep
 
-                        # Create chat message
-                        text: str = format_prompt(messages)
-                        chat_data: str = json.dumps(["text_chat", {
-                            "reqId": str(uuid.uuid4()),
-                            "botUid": bot_id,
-                            "sourceFrom": "myshellWebsite",
-                            "text": text,
-                            **generate_signature(text)
-                        }])
+                    # Create chat message
+                    text: str = format_prompt(messages)
+                    chat_data: str = json.dumps(["text_chat", {
+                        "reqId": str(uuid.uuid4()),
+                        "botUid": bot_id,
+                        "sourceFrom": "myshellWebsite",
+                        "text": text,
+                        **generate_signature(text)
+                    }])
 
-                        # Send chat message
-                        chat_start: str = "42/chat,"
-                        chat_message: str = f"{chat_start}{chat_data}"
-                        await wss.send_str(chat_message)
+                    # Send chat message
+                    chat_start: str = "42/chat,"
+                    chat_message: str = f"{chat_start}{chat_data}"
+                    await wss.send_str(chat_message)
 
-                        # Receive messages
-                        async for message in wss:
-                            if message.type != WSMsgType.TEXT:
-                                continue
-                            # Ping back
-                            if message.data == "2":
-                                await wss.send_str("3")
-                                continue
-                            # Is not chat message
-                            if not message.data.startswith(chat_start):
-                                continue
+                    # Receive messages
+                    async for message in wss:
+                        if message.type != WSMsgType.TEXT:
+                            continue
+                        # Ping back
+                        if message.data == "2":
+                            await wss.send_str("3")
+                            continue
+                        # Is not chat message
+                        if not message.data.startswith(chat_start):
+                            continue
+                        try:
                             data_type: str
                             data: dict
                             data_type, data = json.loads(message.data[len(chat_start):])
-                            if data_type == "text_stream":
-                                if data["data"]["text"]:
-                                    yield data["data"]["text"]
-                                elif data["data"]["isFinal"]:
-                                    break
-                            elif data_type in ("message_replied", "need_verify_captcha"):
-                                raise RuntimeError(f"Received unexpected message: {data_type}")
-                    except Exception as ex:
-                        logger.error('Error in websocket communication', ex, exc_info=True)
-                        raise
+                        except json.JSONDecodeError as ex:
+                            logger.error("Ошибка при декодировании JSON", ex, exc_info=True)
+                            continue
+
+                        if data_type == "text_stream":
+                            if data["data"]["text"]:
+                                yield data["data"]["text"]
+                            elif data["data"]["isFinal"]:
+                                break
+                        elif data_type in ("message_replied", "need_verify_captcha"):
+                            raise RuntimeError(f"Received unexpected message: {data_type}")
             except Exception as ex:
-                logger.error('Error while connecting to websocket', ex, exc_info=True)
+                logger.error("Ошибка при подключении или обмене сообщениями", ex, exc_info=True)
                 raise
 
 
@@ -183,17 +183,23 @@ def generate_timestamp() -> str:
     Returns:
         str: Timestamp в виде строки.
     """
-    current_time: float = time.time() * 1000
-    timestamp_str: str = str(int(current_time))[:-1]
-    digits_sum: int = sum(
-        2 * int(digit) if idx % 2 == 0 else 3 * int(digit)
-        for idx, digit in enumerate(str(int(current_time))[:-1])
+    return str(
+        int(
+            str(int(time.time() * 1000))[:-1]
+            + str(
+                sum(
+                    2 * int(digit)
+                    if idx % 2 == 0
+                    else 3 * int(digit)
+                    for idx, digit in enumerate(str(int(time.time() * 1000))[:-1])
+                )
+                % 10
+            )
+        )
     )
-    last_digit: int = digits_sum % 10
-    return str(int(timestamp_str + str(last_digit)))
 
 
-def generate_signature(text: str) -> Dict[str, str]:
+def generate_signature(text: str) -> dict[str, str]:
     """
     Генерирует подпись для запроса.
 
@@ -201,7 +207,7 @@ def generate_signature(text: str) -> Dict[str, str]:
         text (str): Текст запроса.
 
     Returns:
-        Dict[str, str]: Словарь с подписью, timestamp и версией.
+        dict[str, str]: Словарь с подписью, timestamp и версией.
     """
     timestamp: str = generate_timestamp()
     version: str = 'v1.0.0'
@@ -218,20 +224,20 @@ def generate_signature(text: str) -> Dict[str, str]:
 
 def xor_hash(B: str) -> str:
     """
-    Вычисляет XOR-хеш строки.
+    Вычисляет XOR hash строки.
 
     Args:
         B (str): Входная строка.
 
     Returns:
-        str: XOR-хеш в виде строки.
+        str: XOR hash в виде шестнадцатеричной строки.
     """
     r: list[int] = []
     i: int = 0
-    
+
     def o(e: int, t: list[int]) -> int:
         """
-        Внутренняя функция для выполнения операции XOR.
+        Внутренняя функция для вычисления XOR.
 
         Args:
             e (int): Первое значение.
@@ -244,27 +250,27 @@ def xor_hash(B: str) -> str:
         for i in range(len(t)):
             o_val |= r[i] << (8 * i)
         return e ^ o_val
-    
+
     for e in range(len(B)):
         t: int = ord(B[e])
         r.insert(0, 255 & t)
-        
+
         if len(r) >= 4:
             i = o(i, r)
-            r: list[int] = []
-    
+            r = []
+
     if len(r) > 0:
         i = o(i, r)
-    
+
     return hex(i)[2:]
 
 
 def performance() -> str:
     """
-    Измеряет производительность и возвращает строку с результатами.
+    Генерирует строку performance.
 
     Returns:
-        str: Строка с результатами измерения производительности.
+        str: Строка performance в шестнадцатеричном формате.
     """
     t: int = int(time.time() * 1000)
     e: int = 0
@@ -275,13 +281,13 @@ def performance() -> str:
 
 def generate_visitor_id(user_agent: str) -> str:
     """
-    Генерирует ID посетителя на основе user agent.
+    Генерирует visitor ID.
 
     Args:
-        user_agent (str): User agent пользователя.
+        user_agent (str): User agent.
 
     Returns:
-        str: ID посетителя.
+        str: Visitor ID.
     """
     f: str = performance()
     r: str = hex(int(random.random() * (16**16)))[2:-2]

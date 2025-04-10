@@ -4,43 +4,51 @@
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Использование библиотеки `discord.py` для создания Discord-бота.
-    - Реализация основных команд бота: `hi`, `join`, `leave`, `train`, `test`, `archive`, `select_dataset`, `instruction`, `correct`, `feedback`, `getfile`.
-    - Логирование действий с использованием `logger`.
-    - Обработка исключений.
-    - Использование `j_loads_ns` для загрузки JSON-данных.
-    - Использование асинхронности для работы с Discord API.
-
+  - Использование `logger` для логирования.
+  - Относительно понятная структура команд для Discord бота.
+  - Использование асинхронности для обработки событий Discord.
 - **Минусы**:
-    - Не все функции и методы имеют подробные docstring.
-    - Отсутствуют аннотации типов для переменных и параметров функций.
-    - Не везде используется `logger.error` с передачей `ex` и `exc_info=True`.
-    - В некоторых местах используются устаревшие конструкции.
-    - Не везде соблюдается PEP8 (например, пробелы вокруг операторов).
-    - Использование глобальных переменных `PREFIX`, `bot`, `model`.
-    - Не все блоки `try...except` обрабатывают исключения с использованием `logger.error`.
-    - Закомментированный код, который лучше удалить.
-    - Дублирование `j_loads_ns` в импортах.
-    - Некорректное указание пути к ffmpeg.
-    - Переменные path_to_ffmpeg audio_file_path  wav_file_path  audio содержат имя файла, но в аннотациях тип str, следует исправить на Path
-    - Не все переменные содержат аннотацию типа
-    - Встречается не консистентность в использовнии кавычек. Используются как одинарные так и двойные кавычки
+  - Не везде используется аннотация типов.
+  - Не все функции и методы имеют docstring.
+  - Местами отсутствует обработка исключений.
+  - Присутствуют закомментированные участки кода.
+  - Смешанный стиль кавычек (используются как одинарные, так и двойные).
+  - Не используется `j_loads` для чтения JSON-подобных данных там, где это возможно.
 
 ## Рекомендации по улучшению:
 
-- Добавить подробные docstring для всех функций и методов, включая описание параметров, возвращаемых значений и возможных исключений.
-- Добавить аннотации типов для всех переменных и параметров функций.
-- Использовать `logger.error` с передачей `ex` и `exc_info=True` во всех блоках `try...except`.
-- Избавиться от устаревших конструкций, использовать более современные аналоги.
-- Соблюдать PEP8 во всем коде.
-- Избегать использования глобальных переменных, по возможности передавать необходимые объекты в функции.
-- Удалить закомментированный код.
-- Исправить дублирование `j_loads_ns` в импортах.
-- Пересмотреть логику обработки аудио, чтобы избежать записи временных файлов на диск.
-- Использовать более надежный способ определения пути к `ffmpeg`.
-- Проверить и унифицировать использование кавычек (использовать одинарные).
-- Доработать обработку ошибок и логирование, чтобы было легче отслеживать проблемы.
-- Рассмотреть возможность использования `dataclasses` для представления данных.
+1.  **Добавить docstring**:
+    - Добавить подробные docstring для всех функций, методов и классов.
+    - Описать назначение, аргументы, возвращаемые значения и возможные исключения.
+
+2.  **Использовать аннотацию типов**:
+    - Добавить аннотацию типов для всех переменных и аргументов функций.
+
+3.  **Обработка исключений**:
+    - Обернуть потенциально проблемные участки кода в блоки `try...except` и логировать возникающие исключения с использованием `logger.error`.
+    - Использовать `ex` вместо `e` в блоках `except`.
+
+4.  **Удалить или объяснить закомментированный код**:
+    - Удалить неиспользуемый закомментированный код.
+    - Если закомментированный код важен, добавить комментарии с объяснением причины его закомментирования.
+
+5.  **Использовать `j_loads`**:
+    - Заменить `json.loads` на `j_loads` для единообразия и соответствия стандартам проекта.
+
+6.  **Унифицировать кавычки**:
+    - Использовать только одинарные кавычки (`'`) для строк.
+
+7.  **Улучшить логирование**:
+    - Добавить больше информативных сообщений в логи, чтобы облегчить отладку и мониторинг работы бота.
+
+8.  **Пересмотреть обработку ошибок**:
+    - Убедиться, что все возможные ошибки обрабатываются корректно и информативно.
+
+9.  **Улучшить читаемость кода**:
+    - Добавить пробелы вокруг операторов присваивания и других операторов для улучшения читаемости.
+
+10. **Использовать Driver для работы с вебдрайвером**:\
+    - Если в коде используется вебдрайвер, необходимо импортировать и использовать его из соответствующего модуля `hypotez`.
 
 ## Оптимизированный код:
 
@@ -48,18 +56,21 @@
 ## \file /src/endpoints/bots/discord/discord_bot_trainger.py
 # -*- coding: utf-8 -*-
 
+#! .pyenv/bin/python3
+
 """
-Модуль для интеграции Discord-бота с системой обучения моделей.
-=============================================================
+Модуль для работы с Discord ботом-тренером
+=================================================
 
-Модуль содержит функции и классы для создания и управления Discord-ботом,
-который позволяет тренировать AI-модели, проводить тестирование и архивировать файлы.
+Модуль содержит функции и классы для создания и управления Discord ботом,
+который может обучать модели машинного обучения на основе данных,
+полученных от пользователей через Discord.
 
-Пример использования:
+Пример использования
 ----------------------
 
->>> # Запуск Discord-бота
->>> bot.run(gs.credentials.discord.bot_token)
+>>> # Здесь будет пример использования, когда будет создан класс для бота
+>>> pass
 """
 
 import discord
@@ -70,7 +81,7 @@ import asyncio
 import header
 from src import gs
 from src.ai.openai.model.training import Model
-from src.utils.jjson import j_loads, j_dumps
+from src.utils.jjson import j_loads_ns, j_dumps, j_loads
 from src.logger.logger import logger
 import speech_recognition as sr  # Библиотека для распознавания речи
 import requests  # Для скачивания файлов
@@ -78,7 +89,7 @@ from pydub import AudioSegment  # Библиотека для конвертац
 from gtts import gTTS  # Библиотека для текстового воспроизведения
 
 # Указываем путь к ffmpeg
-path_to_ffmpeg: str = str(Path(gs.path.bin) / "ffmpeg" / "bin" / "ffmpeg.exe")
+path_to_ffmpeg: str = str(fr"{gs.path.bin}\\ffmpeg\\bin\\ffmpeg.exe")
 AudioSegment.converter = path_to_ffmpeg
 
 # Command prefix for the bot
@@ -88,10 +99,10 @@ PREFIX: str = '!'
 intents: discord.Intents = discord.Intents.default()
 intents.message_content = True
 intents.voice_states = True
-bot: commands.Bot = commands.Bot(command_prefix=PREFIX, intents=intents)
+bot = commands.Bot(command_prefix=PREFIX, intents=intents)
 
 # Create model object
-model: Model = Model()
+model = Model()
 
 @bot.event
 async def on_ready() -> None:
@@ -100,7 +111,7 @@ async def on_ready() -> None:
 
 @bot.command(name='hi')
 async def hi(ctx: commands.Context) -> bool:
-    """Отправляет приветственное сообщение."""
+    """Приветственное сообщение."""
     logger.info(f'hi({ctx})')
     await ctx.send('HI!')
     return True
@@ -129,14 +140,14 @@ async def leave(ctx: commands.Context) -> None:
 @bot.command(name='train')
 async def train(ctx: commands.Context, data: str | None = None, data_dir: str | None = None, positive: bool = True, attachment: discord.Attachment | None = None) -> None:
     """
-    Запускает процесс обучения модели с предоставленными данными.
+    Обучает модель с предоставленными данными.
 
     Args:
-        ctx (commands.Context): Контекст команды.
-        data (str | None): Текстовые данные для обучения.
-        data_dir (str | None): Путь к каталогу с данными для обучения.
-        positive (bool): Флаг, указывающий на позитивные данные.
-        attachment (discord.Attachment | None): Файл с данными для обучения.
+        ctx (commands.Context): Контекст команды Discord.
+        data (str | None, optional): Текстовые данные для обучения. Defaults to None.
+        data_dir (str | None, optional): Путь к каталогу с данными для обучения. Defaults to None.
+        positive (bool, optional): Указывает, являются ли данные положительными или отрицательными. Defaults to True.
+        attachment (discord.Attachment | None, optional): Файл с данными для обучения. Defaults to None.
     """
     logger.info(f'train({ctx})')
     if attachment:
@@ -157,20 +168,20 @@ async def test(ctx: commands.Context, test_data: str) -> None:
     Тестирует модель с предоставленными тестовыми данными.
 
     Args:
-        ctx (commands.Context): Контекст команды.
+        ctx (commands.Context): Контекст команды Discord.
         test_data (str): Тестовые данные в формате JSON.
     """
     logger.info(f'test({ctx})')
     try:
-        test_data_dict: dict = j_loads(test_data)
-        predictions: list[str] | None = model.predict(test_data_dict)
+        test_data = j_loads(test_data)  # Используем j_loads для загрузки JSON
+        predictions: dict | None = model.predict(test_data)
         if predictions:
             await ctx.send(f'Test complete. Predictions: {predictions}')
-            model.handle_errors(predictions, test_data_dict)
+            model.handle_errors(predictions, test_data)
         else:
             await ctx.send('Failed to get predictions.')
-    except json.JSONDecodeError as ex:
-        logger.error('Invalid test data format. Please provide a valid JSON string.', ex, exc_info=True)
+    except Exception as ex:  # Обрабатываем все возможные исключения
+        logger.error('Error while testing the model', ex, exc_info=True)  # Логируем ошибку
         await ctx.send('Invalid test data format. Please provide a valid JSON string.')
 
 @bot.command(name='archive')
@@ -179,7 +190,7 @@ async def archive(ctx: commands.Context, directory: str) -> None:
     Архивирует файлы в указанном каталоге.
 
     Args:
-        ctx (commands.Context): Контекст команды.
+        ctx (commands.Context): Контекст команды Discord.
         directory (str): Путь к каталогу для архивации.
     """
     logger.info(f'archive({ctx})')
@@ -187,7 +198,7 @@ async def archive(ctx: commands.Context, directory: str) -> None:
         await model.archive_files(directory)
         await ctx.send(f'Files in {directory} have been archived.')
     except Exception as ex:
-        logger.error(f'An error occurred while archiving files: {ex}', ex, exc_info=True)
+        logger.error(f'An error occurred while archiving files: {ex}', exc_info=True)
         await ctx.send(f'An error occurred while archiving files: {ex}')
 
 @bot.command(name='select_dataset')
@@ -196,9 +207,9 @@ async def select_dataset(ctx: commands.Context, path_to_dir_positive: str, posit
     Выбирает набор данных для обучения модели.
 
     Args:
-        ctx (commands.Context): Контекст команды.
-        path_to_dir_positive (str): Путь к каталогу с позитивными данными.
-        positive (bool): Флаг, указывающий на позитивные данные.
+        ctx (commands.Context): Контекст команды Discord.
+        path_to_dir_positive (str): Путь к каталогу с положительными данными.
+        positive (bool, optional): Указывает, являются ли данные положительными. Defaults to True.
     """
     logger.info(f'select_dataset({ctx})')
     dataset: str | None = await model.select_dataset_and_archive(path_to_dir_positive, positive)
@@ -210,33 +221,33 @@ async def select_dataset(ctx: commands.Context, path_to_dir_positive: str, posit
 @bot.command(name='instruction')
 async def instruction(ctx: commands.Context) -> None:
     """
-    Отображает инструкцию из внешнего файла.
+    Отображает сообщение с инструкциями из внешнего файла.
 
     Args:
-        ctx (commands.Context): Контекст команды.
+        ctx (commands.Context): Контекст команды Discord.
     """
     logger.info(f'instruction({ctx})')
     try:
-        instructions_path: Path = Path("_docs/bot_instruction.md")
+        instructions_path: Path = Path('_docs/bot_instruction.md')
         if instructions_path.exists():
-            with instructions_path.open("r") as file:
+            with instructions_path.open('r', encoding='utf-8') as file:  # Явно указываем кодировку
                 instructions: str = file.read()
             await ctx.send(instructions)
         else:
             await ctx.send('Instructions file not found.')
     except Exception as ex:
-        logger.error(f'An error occurred while reading the instructions: {ex}', ex, exc_info=True)
+        logger.error(f'An error occurred while reading the instructions: {ex}', exc_info=True)
         await ctx.send(f'An error occurred while reading the instructions: {ex}')
 
 @bot.command(name='correct')
 async def correct(ctx: commands.Context, message_id: int, *, correction: str) -> None:
     """
-    Корректирует предыдущий ответ бота.
+    Исправляет предыдущий ответ, предоставляя ID сообщения и исправление.
 
     Args:
-        ctx (commands.Context): Контекст команды.
-        message_id (int): ID сообщения для корректировки.
-        correction (str): Текст корректировки.
+        ctx (commands.Context): Контекст команды Discord.
+        message_id (int): ID сообщения для исправления.
+        correction (str): Текст исправления.
     """
     logger.info(f'correct({ctx})')
     try:
@@ -249,30 +260,33 @@ async def correct(ctx: commands.Context, message_id: int, *, correction: str) ->
         else:
             await ctx.send("Message not found.")
     except Exception as ex:
-        logger.error(f'An error occurred: {ex}', ex, exc_info=True)
+        logger.error(f'An error occurred: {ex}', exc_info=True)
         await ctx.send(f'An error occurred: {ex}')
 
 def store_correction(original_text: str, correction: str) -> None:
     """
-    Сохраняет корректировку для дальнейшего использования.
+    Сохраняет исправление для дальнейшего использования или переобучения.
 
     Args:
-        original_text (str): Оригинальный текст.
-        correction (str): Текст корректировки.
+        original_text (str): Исходный текст сообщения.
+        correction (str): Текст исправления.
     """
     logger.info('store_correction()')
-    correction_file: Path = Path("corrections_log.txt")
-    with correction_file.open("a") as file:
-        file.write(f"Original: {original_text}\nCorrection: {correction}\n\n")
+    correction_file: Path = Path('corrections_log.txt')
+    try:
+        with correction_file.open('a', encoding='utf-8') as file:  # Явно указываем кодировку
+            file.write(f"Original: {original_text}\nCorrection: {correction}\n\n")
+    except Exception as ex:
+        logger.error(f'An error occurred while storing the correction: {ex}', exc_info=True)
 
 @bot.command(name='feedback')
 async def feedback(ctx: commands.Context, *, feedback_text: str) -> None:
     """
-    Отправляет обратную связь о работе модели.
+    Отправляет отзыв об ответе модели.
 
     Args:
-        ctx (commands.Context): Контекст команды.
-        feedback_text (str): Текст обратной связи.
+        ctx (commands.Context): Контекст команды Discord.
+        feedback_text (str): Текст отзыва.
     """
     logger.info(f'feedback({ctx})')
     store_correction("Feedback", feedback_text)
@@ -281,10 +295,10 @@ async def feedback(ctx: commands.Context, *, feedback_text: str) -> None:
 @bot.command(name='getfile')
 async def getfile(ctx: commands.Context, file_path: str) -> None:
     """
-    Отправляет запрошенный файл.
+    Прикрепляет файл из указанного пути.
 
     Args:
-        ctx (commands.Context): Контекст команды.
+        ctx (commands.Context): Контекст команды Discord.
         file_path (str): Путь к файлу.
     """
     logger.info(f'getfile({ctx})')
@@ -294,6 +308,37 @@ async def getfile(ctx: commands.Context, file_path: str) -> None:
     else:
         await ctx.send(f'File not found: {file_path}')
 
+# def recognizer(audio_url: str, language: str = 'ru-RU') -> str:
+#     """Download an audio file and recognize speech in it."""
+#     # Download audio file
+#     response = requests.get(audio_url)
+#     audio_file_path = Path(tempfile.gettempdir()) / "recognized_audio.ogg"
+#
+#     with open(audio_file_path, 'wb') as f:
+#         f.write(response.content)
+#
+#     # Convert OGG to WAV
+#     wav_file_path = audio_file_path.with_suffix('.wav')
+#     audio = AudioSegment.from_ogg(audio_file_path)  # Load OGG file
+#     audio.export(wav_file_path, format='wav')  # Export as WAV
+#
+#     # Initialize recognizer
+#     recognizer = sr.Recognizer()
+#     with sr.AudioFile(str(wav_file_path)) as source:
+#         audio_data = recognizer.record(source)
+#         try:
+#             # Recognize speech using Google Speech Recognition
+#             text = recognizer.recognize_google(audio_data, language=language)
+#             logger.info(f'Recognized text: {text}')
+#             return text
+#         except sr.UnknownValueError:
+#             logger.error("Google Speech Recognition could not understand audio")
+#             return "Sorry, I could not understand the audio."
+#         except sr.RequestError as e:
+#             logger.error(f"Could not request results from Google Speech Recognition service; {e}")
+#             return "Could not request results from the speech recognition service."
+
+
 async def text_to_speech_and_play(text: str, channel: discord.VoiceChannel) -> None:
     """
     Преобразует текст в речь и воспроизводит его в голосовом канале.
@@ -302,11 +347,11 @@ async def text_to_speech_and_play(text: str, channel: discord.VoiceChannel) -> N
         text (str): Текст для преобразования в речь.
         channel (discord.VoiceChannel): Голосовой канал для воспроизведения.
     """
-    tts: gTTS = gTTS(text=text, lang='ru')  # Замените 'ru' на нужный язык
+    tts = gTTS(text=text, lang='ru')  # Замените 'ru' на нужный язык
     audio_file_path: str = f"{tempfile.gettempdir()}/response.mp3"  # Путь к временно созданному файлу
     tts.save(audio_file_path)  # Сохраняем аудиофайл
 
-    voice_channel: discord.VoiceClient | None = channel.guild.voice_client
+    voice_channel = channel.guild.voice_client
     if not voice_channel:
         voice_channel = await channel.connect()  # Подключаемся к голосовому каналу
 
@@ -325,6 +370,7 @@ async def on_message(message: discord.Message) -> None:
     Args:
         message (discord.Message): Входящее сообщение.
     """
+    #logger.info(f'on_message({message})')
     if message.author == bot.user:
         return  # Игнорируем сообщения от самого себя
 
@@ -335,10 +381,10 @@ async def on_message(message: discord.Message) -> None:
     if message.attachments:
         # Check if it's an audio attachment
         if message.attachments[0].content_type.startswith('audio/'):
-            # TODO: Раскоментировать после доработки функции recognizer
-            #recognized_text = recognizer(message.attachments[0].url)
-            #await message.channel.send(recognized_text)
-            response: str = model.send_message("TODO: Доработать функцию распознавания текста")
+            # recognized_text = recognizer(message.attachments[0].url)
+            # await message.channel.send(recognized_text)
+            # response = model.send_message(recognized_text)
+            pass
 
     else:
         response: str = model.send_message(message.content)

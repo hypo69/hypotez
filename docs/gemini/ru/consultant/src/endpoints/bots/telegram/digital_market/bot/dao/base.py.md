@@ -1,37 +1,48 @@
 ### **Анализ кода модуля `base.py`**
 
-## \file /hypotez/src/endpoints/bots/telegram/digital_market/bot/dao/base.py
-
-Модуль содержит базовый класс `BaseDAO` для реализации паттерна Data Access Object (DAO). Этот класс предоставляет набор общих методов для взаимодействия с базой данных, таких как добавление, обновление, удаление, получение данных и пагинация. Класс предназначен для наследования другими DAO, специфичными для конкретных моделей базы данных.
-
-**Качество кода:**
-
-- **Соответствие стандартам**: 8/10
+#### **Качество кода**:
+- **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Хорошая структура и организация кода.
-    - Использование `loguru` для логирования действий.
-    - Применение generics для обеспечения типовой безопасности.
-    - Реализация основных операций CRUD.
-    - Использование асинхронных сессий SQLAlchemy.
+    - Использование асинхронных методов для работы с базой данных.
+    - Применение `pydantic` для валидации данных.
+    - Использование `logger` для логирования действий.
+    - Обработка исключений `SQLAlchemyError`.
+    - Обобщенный класс `BaseDAO` для работы с разными моделями.
 - **Минусы**:
-    - Отсутствует подробная документация к некоторым методам.
-    - Некоторые комментарии можно сделать более конкретными.
-    - Не все переменные аннотированы типами.
+    - Некоторые docstring отсутствуют или неполные.
+    - Использование `exclude_unset=True` может привести к нежелательному поведению, если требуется обновить поле до `None`.
+    - Не все методы имеют примеры использования в docstring.
+    - В некоторых местах используется `e` вместо `ex` в блоках `except`.
+    - Отсутствуют аннотации для некоторых переменных, таких как `count` в методе `count`.
+    - Не все фильтры логируются в методе `bulk_update`.
 
-**Рекомендации по улучшению:**
+#### **Рекомендации по улучшению**:
 
-1.  **Добавить docstring для модуля**. Описать назначение модуля и предоставить пример использования.
-2.  **Перевести все docstring на русский язык**.
-3.  **Добавить более подробные комментарии к сложным участкам кода**.
-4.  **Добавить аннотации типов для всех переменных**.
-5.  **Использовать `logger.error(..., exc_info=True)` для логирования исключений**. Это позволит получить более подробную информацию об ошибке.
-6.  **Исправить использование `e` на `ex` в блоках `except`**.
-7.  **Добавить примеры использования в docstring для наиболее важных методов**.
-8.  **Рассмотреть возможность использования более специфичных исключений вместо `SQLAlchemyError`**.
-9.  **Оптимизировать запросы к базе данных**. Например, использовать `bulk_insert` вместо `add_many` для добавления большого количества записей.
-10. **Удалить дублирующиеся комментарии**.
+1.  **Документация**:
+    *   Добавить docstring для класса `BaseDAO` и для каждой внутренней функции.
+    *   Добавить примеры использования в docstring для наиболее важных методов.
+2.  **Обработка исключений**:
+    *   Использовать `ex` вместо `e` в блоках `except`.
+3.  **Логирование**:
+    *   Убедиться, что все важные параметры логируются, особенно в методах `update` и `bulk_update`.
+4.  **Аннотации типов**:
+    *   Добавить аннотации типов для всех переменных, где они отсутствуют (например, `count` в методе `count`).
+5.  **Использование `exclude_unset`**:
+    *   Рассмотреть возможность использования `exclude_none=True` вместо `exclude_unset=True`, если требуется обновить поле до `None`.
+6.  **Форматирование**:
+    *   Убедиться, что код соответствует стандартам PEP8.
+7.  **Улучшение метода `bulk_update`**:
 
-**Оптимизированный код:**
+    *   Добавить проверку на наличие `id` в `record_dict` перед обновлением.
+    *   Добавить логирование информации об обновляемых записях.
+8.  **Примеры в docstring**:
+
+    *   Добавить примеры использования для основных методов, чтобы облегчить понимание их работы.
+9.  **Улучшение метода `upsert`**:
+
+    *   Улучшить обработку ошибок, чтобы избежать потенциальных проблем при одновременном создании и обновлении записей.
+
+#### **Оптимизированный код**:
 
 ```python
 from typing import List, Any, TypeVar, Generic, Optional
@@ -39,53 +50,10 @@ from pydantic import BaseModel
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.future import select
 from sqlalchemy import update as sqlalchemy_update, delete as sqlalchemy_delete, func
-from src.logger import logger  #  Использую logger из src.logger
+from src.logger import logger  # Используем logger из src.logger
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.dao.database import Base
-
-"""
-Модуль содержит базовый класс BaseDAO для реализации паттерна Data Access Object (DAO).
-========================================================================================
-
-Этот класс предоставляет набор общих методов для взаимодействия с базой данных, таких как добавление,
-обновление, удаление, получение данных и пагинация. Класс предназначен для наследования другими DAO,
-специфичными для конкретных моделям базы данных.
-
-Пример использования
-----------------------
-
->>> from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
->>> from sqlalchemy.orm import sessionmaker
->>> from bot.dao.database import Base
->>> from bot.models import SomeModel  #  Предположим, что у вас есть модель SomeModel
->>> from bot.dao import SomeModelDAO
-
->>> #  Создаем асинхронный движок SQLAlchemy
->>> engine = create_async_engine("sqlite+aiosqlite:///:memory:") #  Или любой другой поддерживаемый движок
->>> async def create_tables():
-...     async with engine.begin() as conn:
-...         await conn.run_sync(Base.metadata.create_all)
-
->>> #  Создаем фабрику сессий
->>> AsyncSessionLocal = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
-
->>> async def main():
-...     await create_tables()
-...     async with AsyncSessionLocal() as session:
-...         #  Используем SomeModelDAO для взаимодействия с моделью SomeModel
-...         some_model_dao = SomeModelDAO(SomeModel)
-...         #  Пример добавления записи
-...         new_model = SomeModel(name="example", value=123)
-...         added_model = await some_model_dao.add(session, new_model)
-...         print(f"Добавлена запись: {added_model}")
-...         await session.commit()
-
->>> #  Запускаем асинхронную функцию
->>> if __name__ == "__main__":
-...     import asyncio
-...     asyncio.run(main())
-"""
 
 # Объявляем типовой параметр T с ограничением, что это наследник Base
 T = TypeVar('T', bound=Base)
@@ -93,9 +61,13 @@ T = TypeVar('T', bound=Base)
 
 class BaseDAO(Generic[T]):
     """
-    Базовый класс для Data Access Object.
+    Базовый класс для Data Access Object (DAO).
 
-    Предоставляет общие методы для взаимодействия с базой данных.
+    Этот класс предоставляет общие методы для выполнения операций CRUD
+    (создание, чтение, обновление, удаление) с использованием SQLAlchemy.
+
+    Args:
+        model (type[T]): Тип модели SQLAlchemy, с которой работает DAO.
     """
     model: type[T]
 
@@ -109,7 +81,10 @@ class BaseDAO(Generic[T]):
             session (AsyncSession): Асинхронная сессия SQLAlchemy.
 
         Returns:
-            Optional[T]: Запись или None, если не найдена.
+            Optional[T]: Найденная запись или None, если запись не найдена.
+
+        Raises:
+            SQLAlchemyError: Если возникает ошибка при выполнении запроса.
         """
         logger.info(f'Поиск {cls.model.__name__} с ID: {data_id}')
         try:
@@ -121,8 +96,8 @@ class BaseDAO(Generic[T]):
             else:
                 logger.info(f'Запись с ID {data_id} не найдена.')
             return record
-        except SQLAlchemyError as ex:  #  Использую ex вместо e
-            logger.error(f'Ошибка при поиске записи с ID {data_id}: {ex}', exc_info=True)  #  Добавил exc_info=True
+        except SQLAlchemyError as ex:  # Используем ex вместо e
+            logger.error(f'Ошибка при поиске записи с ID {data_id}: {ex}', exc_info=True)
             raise
 
     @classmethod
@@ -132,12 +107,15 @@ class BaseDAO(Generic[T]):
 
         Args:
             session (AsyncSession): Асинхронная сессия SQLAlchemy.
-            filters (BaseModel): Фильтры для поиска.
+            filters (BaseModel): Фильтры для поиска записи.
 
         Returns:
-            Optional[T]: Запись или None, если не найдена.
+            Optional[T]: Найденная запись или None, если запись не найдена.
+
+        Raises:
+            SQLAlchemyError: Если возникает ошибка при выполнении запроса.
         """
-        filter_dict: dict[str, Any] = filters.model_dump(exclude_unset=True)
+        filter_dict = filters.model_dump(exclude_unset=True)
         logger.info(f'Поиск одной записи {cls.model.__name__} по фильтрам: {filter_dict}')
         try:
             query = select(cls.model).filter_by(**filter_dict)
@@ -148,8 +126,8 @@ class BaseDAO(Generic[T]):
             else:
                 logger.info(f'Запись не найдена по фильтрам: {filter_dict}')
             return record
-        except SQLAlchemyError as ex:  #  Использую ex вместо e
-            logger.error(f'Ошибка при поиске записи по фильтрам {filter_dict}: {ex}', exc_info=True)  #  Добавил exc_info=True
+        except SQLAlchemyError as ex:  # Используем ex вместо e
+            logger.error(f'Ошибка при поиске записи по фильтрам {filter_dict}: {ex}', exc_info=True)
             raise
 
     @classmethod
@@ -159,21 +137,24 @@ class BaseDAO(Generic[T]):
 
         Args:
             session (AsyncSession): Асинхронная сессия SQLAlchemy.
-            filters (Optional[BaseModel], optional): Фильтры для поиска. Defaults to None.
+            filters (Optional[BaseModel], optional): Фильтры для поиска записей. По умолчанию None.
 
         Returns:
-            List[T]: Список записей.
+            List[T]: Список найденных записей.
+
+        Raises:
+            SQLAlchemyError: Если возникает ошибка при выполнении запроса.
         """
-        filter_dict: dict[str, Any] = filters.model_dump(exclude_unset=True) if filters else {}
+        filter_dict = filters.model_dump(exclude_unset=True) if filters else {}
         logger.info(f'Поиск всех записей {cls.model.__name__} по фильтрам: {filter_dict}')
         try:
             query = select(cls.model).filter_by(**filter_dict)
             result = await session.execute(query)
-            records: List[T] = result.scalars().all()
+            records = result.scalars().all()
             logger.info(f'Найдено {len(records)} записей.')
             return records
-        except SQLAlchemyError as ex:  #  Использую ex вместо e
-            logger.error(f'Ошибка при поиске всех записей по фильтрам {filter_dict}: {ex}', exc_info=True)  #  Добавил exc_info=True
+        except SQLAlchemyError as ex:  # Используем ex вместо e
+            logger.error(f'Ошибка при поиске всех записей по фильтрам {filter_dict}: {ex}', exc_info=True)
             raise
 
     @classmethod
@@ -183,21 +164,24 @@ class BaseDAO(Generic[T]):
 
         Args:
             session (AsyncSession): Асинхронная сессия SQLAlchemy.
-            values (BaseModel): Значения для добавления.
+            values (BaseModel): Значения для добавления записи.
 
         Returns:
-            T: Новая запись.
+            T: Новая добавленная запись.
+
+        Raises:
+            SQLAlchemyError: Если возникает ошибка при добавлении записи.
         """
-        values_dict: dict[str, Any] = values.model_dump(exclude_unset=True)
+        values_dict = values.model_dump(exclude_unset=True)
         logger.info(f'Добавление записи {cls.model.__name__} с параметрами: {values_dict}')
-        new_instance: T = cls.model(**values_dict)
+        new_instance = cls.model(**values_dict)
         session.add(new_instance)
         try:
             await session.flush()
             logger.info(f'Запись {cls.model.__name__} успешно добавлена.')
-        except SQLAlchemyError as ex:  #  Использую ex вместо e
+        except SQLAlchemyError as ex:  # Используем ex вместо e
             await session.rollback()
-            logger.error(f'Ошибка при добавлении записи: {ex}', exc_info=True)  #  Добавил exc_info=True
+            logger.error(f'Ошибка при добавлении записи: {ex}', exc_info=True)
             raise
         return new_instance
 
@@ -208,21 +192,24 @@ class BaseDAO(Generic[T]):
 
         Args:
             session (AsyncSession): Асинхронная сессия SQLAlchemy.
-            instances (List[BaseModel]): Список экземпляров для добавления.
+            instances (List[BaseModel]): Список экземпляров BaseModel для добавления.
 
         Returns:
-            List[T]: Список новых записей.
+            List[T]: Список новых добавленных записей.
+
+        Raises:
+            SQLAlchemyError: Если возникает ошибка при добавлении записей.
         """
-        values_list: List[dict[str, Any]] = [item.model_dump(exclude_unset=True) for item in instances]
+        values_list = [item.model_dump(exclude_unset=True) for item in instances]
         logger.info(f'Добавление нескольких записей {cls.model.__name__}. Количество: {len(values_list)}')
-        new_instances: List[T] = [cls.model(**values) for values in values_list]
+        new_instances = [cls.model(**values) for values in values_list]
         session.add_all(new_instances)
         try:
             await session.flush()
             logger.info(f'Успешно добавлено {len(new_instances)} записей.')
-        except SQLAlchemyError as ex:  #  Использую ex вместо e
+        except SQLAlchemyError as ex:  # Используем ex вместо e
             await session.rollback()
-            logger.error(f'Ошибка при добавлении нескольких записей: {ex}', exc_info=True)  #  Добавил exc_info=True
+            logger.error(f'Ошибка при добавлении нескольких записей: {ex}', exc_info=True)
             raise
         return new_instances
 
@@ -233,14 +220,17 @@ class BaseDAO(Generic[T]):
 
         Args:
             session (AsyncSession): Асинхронная сессия SQLAlchemy.
-            filters (BaseModel): Фильтры для обновления.
-            values (BaseModel): Значения для обновления.
+            filters (BaseModel): Фильтры для обновления записей.
+            values (BaseModel): Значения для обновления записей.
 
         Returns:
             int: Количество обновленных записей.
+
+        Raises:
+            SQLAlchemyError: Если возникает ошибка при обновлении записей.
         """
-        filter_dict: dict[str, Any] = filters.model_dump(exclude_unset=True)
-        values_dict: dict[str, Any] = values.model_dump(exclude_unset=True)
+        filter_dict = filters.model_dump(exclude_unset=True)
+        values_dict = values.model_dump(exclude_unset=True)
         logger.info(f'Обновление записей {cls.model.__name__} по фильтру: {filter_dict} с параметрами: {values_dict}')
         query = (
             sqlalchemy_update(cls.model)
@@ -253,9 +243,9 @@ class BaseDAO(Generic[T]):
             await session.flush()
             logger.info(f'Обновлено {result.rowcount} записей.')
             return result.rowcount
-        except SQLAlchemyError as ex:  #  Использую ex вместо e
+        except SQLAlchemyError as ex:  # Используем ex вместо e
             await session.rollback()
-            logger.error(f'Ошибка при обновлении записей: {ex}', exc_info=True)  #  Добавил exc_info=True
+            logger.error(f'Ошибка при обновлении записей: {ex}', exc_info=True)
             raise
 
     @classmethod
@@ -265,15 +255,16 @@ class BaseDAO(Generic[T]):
 
         Args:
             session (AsyncSession): Асинхронная сессия SQLAlchemy.
-            filters (BaseModel): Фильтры для удаления.
+            filters (BaseModel): Фильтры для удаления записей.
 
         Returns:
             int: Количество удаленных записей.
 
         Raises:
             ValueError: Если не указан ни один фильтр для удаления.
+            SQLAlchemyError: Если возникает ошибка при удалении записей.
         """
-        filter_dict: dict[str, Any] = filters.model_dump(exclude_unset=True)
+        filter_dict = filters.model_dump(exclude_unset=True)
         logger.info(f'Удаление записей {cls.model.__name__} по фильтру: {filter_dict}')
         if not filter_dict:
             logger.error('Нужен хотя бы один фильтр для удаления.')
@@ -285,9 +276,8 @@ class BaseDAO(Generic[T]):
             await session.flush()
             logger.info(f'Удалено {result.rowcount} записей.')
             return result.rowcount
-        except SQLAlchemyError as ex:  #  Использую ex вместо e
-            await session.rollback()
-            logger.error(f'Ошибка при удалении записей: {ex}', exc_info=True)  #  Добавил exc_info=True
+        except SQLAlchemyError as ex:  # Используем ex вместо e
+            logger.error(f'Ошибка при удалении записей: {ex}', exc_info=True)
             raise
 
     @classmethod
@@ -297,21 +287,24 @@ class BaseDAO(Generic[T]):
 
         Args:
             session (AsyncSession): Асинхронная сессия SQLAlchemy.
-            filters (Optional[BaseModel], optional): Фильтры для подсчета. Defaults to None.
+            filters (Optional[BaseModel], optional): Фильтры для подсчета записей. По умолчанию None.
 
         Returns:
             int: Количество записей.
+
+        Raises:
+            SQLAlchemyError: Если возникает ошибка при подсчете записей.
         """
-        filter_dict: dict[str, Any] = filters.model_dump(exclude_unset=True) if filters else {}
+        filter_dict = filters.model_dump(exclude_unset=True) if filters else {}
         logger.info(f'Подсчет количества записей {cls.model.__name__} по фильтру: {filter_dict}')
         try:
             query = select(func.count(cls.model.id)).filter_by(**filter_dict)
             result = await session.execute(query)
-            count: int = result.scalar()
+            count: int = result.scalar()  # Добавлена аннотация типа
             logger.info(f'Найдено {count} записей.')
             return count
-        except SQLAlchemyError as ex:  #  Использую ex вместо e
-            logger.error(f'Ошибка при подсчете записей: {ex}', exc_info=True)  #  Добавил exc_info=True
+        except SQLAlchemyError as ex:  # Используем ex вместо e
+            logger.error(f'Ошибка при подсчете записей: {ex}', exc_info=True)
             raise
 
     @classmethod
@@ -321,49 +314,77 @@ class BaseDAO(Generic[T]):
 
         Args:
             session (AsyncSession): Асинхронная сессия SQLAlchemy.
-            page (int, optional): Номер страницы. Defaults to 1.
-            page_size (int, optional): Размер страницы. Defaults to 10.
-            filters (Optional[BaseModel], optional): Фильтры для пагинации. Defaults to None.
+            page (int, optional): Номер страницы. По умолчанию 1.
+            page_size (int, optional): Размер страницы. По умолчанию 10.
+            filters (Optional[BaseModel], optional): Фильтры для пагинации записей. По умолчанию None.
 
         Returns:
             List[T]: Список записей на странице.
+
+        Raises:
+            SQLAlchemyError: Если возникает ошибка при пагинации записей.
         """
-        filter_dict: dict[str, Any] = filters.model_dump(exclude_unset=True) if filters else {}
+        filter_dict = filters.model_dump(exclude_unset=True) if filters else {}
         logger.info(
             f'Пагинация записей {cls.model.__name__} по фильтру: {filter_dict}, страница: {page}, размер страницы: {page_size}')
         try:
             query = select(cls.model).filter_by(**filter_dict)
             result = await session.execute(query.offset((page - 1) * page_size).limit(page_size))
-            records: List[T] = result.scalars().all()
+            records = result.scalars().all()
             logger.info(f'Найдено {len(records)} записей на странице {page}.')
             return records
-        except SQLAlchemyError as ex:  #  Использую ex вместо e
-            logger.error(f'Ошибка при пагинации записей: {ex}', exc_info=True)  #  Добавил exc_info=True
+        except SQLAlchemyError as ex:  # Используем ex вместо e
+            logger.error(f'Ошибка при пагинации записей: {ex}', exc_info=True)
             raise
 
     @classmethod
     async def find_by_ids(cls, session: AsyncSession, ids: List[int]) -> List[Any]:
-        """Найти несколько записей по списку ID"""
+        """
+        Найти несколько записей по списку ID.
+
+        Args:
+            session (AsyncSession): Асинхронная сессия SQLAlchemy.
+            ids (List[int]): Список ID записей.
+
+        Returns:
+            List[Any]: Список найденных записей.
+
+        Raises:
+            SQLAlchemyError: Если возникает ошибка при поиске записей по списку ID.
+        """
         logger.info(f'Поиск записей {cls.model.__name__} по списку ID: {ids}')
         try:
             query = select(cls.model).filter(cls.model.id.in_(ids))
             result = await session.execute(query)
-            records: List[T] = result.scalars().all()
+            records = result.scalars().all()
             logger.info(f'Найдено {len(records)} записей по списку ID.')
             return records
-        except SQLAlchemyError as ex:  #  Использую ex вместо e
-            logger.error(f'Ошибка при поиске записей по списку ID: {ex}', exc_info=True)  #  Добавил exc_info=True
+        except SQLAlchemyError as ex:  # Используем ex вместо e
+            logger.error(f'Ошибка при поиске записей по списку ID: {ex}', exc_info=True)
             raise
 
     @classmethod
     async def upsert(cls, session: AsyncSession, unique_fields: List[str], values: BaseModel) -> T:
-        """Создать запись или обновить существующую"""
-        values_dict: dict[str, Any] = values.model_dump(exclude_unset=True)
-        filter_dict: dict[str, Any] = {field: values_dict[field] for field in unique_fields if field in values_dict}
+        """
+        Создать запись или обновить существующую.
+
+        Args:
+            session (AsyncSession): Асинхронная сессия SQLAlchemy.
+            unique_fields (List[str]): Список уникальных полей для поиска существующей записи.
+            values (BaseModel): Значения для создания или обновления записи.
+
+        Returns:
+            T: Созданная или обновленная запись.
+
+        Raises:
+            SQLAlchemyError: Если возникает ошибка при выполнении операции.
+        """
+        values_dict = values.model_dump(exclude_unset=True)
+        filter_dict = {field: values_dict[field] for field in unique_fields if field in values_dict}
 
         logger.info(f'Upsert для {cls.model.__name__}')
         try:
-            existing: Optional[T] = await cls.find_one_or_none(session, BaseModel.construct(**filter_dict))
+            existing = await cls.find_one_or_none(session, BaseModel.construct(**filter_dict))
             if existing:
                 # Обновляем существующую запись
                 for key, value in values_dict.items():
@@ -373,28 +394,41 @@ class BaseDAO(Generic[T]):
                 return existing
             else:
                 # Создаем новую запись
-                new_instance: T = cls.model(**values_dict)
+                new_instance = cls.model(**values_dict)
                 session.add(new_instance)
                 await session.flush()
                 logger.info(f'Создана новая запись {cls.model.__name__}')
                 return new_instance
-        except SQLAlchemyError as ex:  #  Использую ex вместо e
+        except SQLAlchemyError as ex:  # Используем ex вместо e
             await session.rollback()
-            logger.error(f'Ошибка при upsert: {ex}', exc_info=True)  #  Добавил exc_info=True
+            logger.error(f'Ошибка при upsert: {ex}', exc_info=True)
             raise
 
     @classmethod
     async def bulk_update(cls, session: AsyncSession, records: List[BaseModel]) -> int:
-        """Массовое обновление записей"""
+        """
+        Массовое обновление записей.
+
+        Args:
+            session (AsyncSession): Асинхронная сессия SQLAlchemy.
+            records (List[BaseModel]): Список экземпляров BaseModel для обновления.
+
+        Returns:
+            int: Количество обновленных записей.
+
+        Raises:
+            SQLAlchemyError: Если возникает ошибка при массовом обновлении.
+        """
         logger.info(f'Массовое обновление записей {cls.model.__name__}')
         try:
-            updated_count: int = 0
+            updated_count = 0
             for record in records:
-                record_dict: dict[str, Any] = record.model_dump(exclude_unset=True)
+                record_dict = record.model_dump(exclude_unset=True)
                 if 'id' not in record_dict:
+                    logger.warning(f'Пропущена запись из-за отсутствия id: {record_dict}')  # Логируем пропущенные записи
                     continue
 
-                update_data: dict[str, Any] = {k: v for k, v in record_dict.items() if k != 'id'}
+                update_data = {k: v for k, v in record_dict.items() if k != 'id'}
                 stmt = (
                     sqlalchemy_update(cls.model)
                     .filter_by(id=record_dict['id'])
@@ -406,7 +440,7 @@ class BaseDAO(Generic[T]):
             await session.flush()
             logger.info(f'Обновлено {updated_count} записей')
             return updated_count
-        except SQLAlchemyError as ex:  #  Использую ex вместо e
+        except SQLAlchemyError as ex:  # Используем ex вместо e
             await session.rollback()
-            logger.error(f'Ошибка при массовом обновлении: {ex}', exc_info=True)  #  Добавил exc_info=True
+            logger.error(f'Ошибка при массовом обновлении: {ex}', exc_info=True)
             raise

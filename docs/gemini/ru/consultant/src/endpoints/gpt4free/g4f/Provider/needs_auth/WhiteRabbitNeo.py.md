@@ -1,50 +1,64 @@
 ### **Анализ кода модуля `WhiteRabbitNeo.py`**
 
-**Качество кода**:
+**Качество кода:**
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Асинхронная обработка запросов с использованием `aiohttp`.
-  - Использование `AsyncGeneratorProvider` для потоковой обработки ответов.
-  - Обработка cookies и прокси.
-  - Выделение заголовков в отдельную переменную для удобства.
+  - Асинхронная реализация генератора.
+  - Использование `aiohttp` для асинхронных запросов.
+  - Реализация `raise_for_status` для обработки ошибок HTTP.
+  - Четкое разделение на классы и методы.
 - **Минусы**:
-  - Отсутствует подробная документация классов и методов.
-  - Жестко заданные значения заголовков User-Agent и Accept-Language.
-  - Нет обработки исключений при декодировании чанков.
-  - Не используется модуль логирования `logger` из `src.logger`.
+  - Отсутствует полная документация для класса и методов.
+  - Жёстко заданные заголовки User-Agent, Accept, и т.д. (можно вынести в конфиг или сделать более гибкими).
+  - Отсутствует обработка исключений при декодировании чанков.
+  - Не используется модуль `logger` для логирования.
+  - Отсутствуют аннотации типов для параметров и возвращаемых значений.
 
-**Рекомендации по улучшению**:
-- Добавить подробные docstring для класса `WhiteRabbitNeo` и метода `create_async_generator`, описывающие их функциональность, параметры и возвращаемые значения.
-- Добавить обработки исключений при декодировании чанков, чтобы избежать неожиданных сбоев.
-- Использовать модуль логирования `logger` для записи информации об ошибках и событиях.
-- Добавить обработку ошибок при запросе к API.
-- Перенести значения по умолчанию для заголовков User-Agent и Accept-Language в переменные окружения или конфигурационный файл.
-- Улучшить обработку ошибок, добавив логирование и информативные сообщения об ошибках.
-- Заменить `get_cookies("www.whiterabbitneo.com")` на чтение куки из конфигурационного файла с использованием `j_loads` или `j_loads_ns`.
+**Рекомендации по улучшению:**
 
-**Оптимизированный код**:
+1.  **Добавить документацию**:
+    *   Добавить docstring для класса `WhiteRabbitNeo` с описанием его назначения.
+    *   Добавить docstring для метода `create_async_generator` с описанием параметров, возвращаемого значения и возможных исключений.
+    *   Добавить комментарии для пояснения логики работы отдельных участков кода.
+
+2.  **Улучшить обработку ошибок**:
+    *   Добавить обработку исключений при декодировании чанков, чтобы избежать неожиданных сбоев.
+    *   Использовать `logger` для логирования ошибок и предупреждений.
+
+3.  **Сделать код более гибким**:
+    *   Вынести заголовки User-Agent, Accept и т.д. в конфигурационный файл или сделать их настраиваемыми через параметры.
+    *   Предусмотреть возможность передачи дополнительных параметров в метод `create_async_generator`.
+
+4.  **Добавить аннотации типов**:
+    *   Добавить аннотации типов для всех параметров и возвращаемых значений функций и методов.
+
+**Оптимизированный код:**
+
 ```python
 from __future__ import annotations
 
 from aiohttp import ClientSession, BaseConnector
-from src.logger import logger  # Добавлен импорт logger
+from typing import AsyncGenerator, Optional, Dict, Any
+
 from ...typing import AsyncResult, Messages, Cookies
 from ...requests.raise_for_status import raise_for_status
 from ..base_provider import AsyncGeneratorProvider
 from ..helper import get_cookies, get_connector, get_random_string
-
+from src.logger import logger # Импорт модуля logger
 
 class WhiteRabbitNeo(AsyncGeneratorProvider):
     """
     Провайдер для WhiteRabbitNeo.
+    ==============================
 
-    Предоставляет асинхронный генератор для взаимодействия с API WhiteRabbitNeo.
+    Этот класс позволяет взаимодействовать с WhiteRabbitNeo для получения ответов в режиме реального времени.
+    Поддерживает прокси и пользовательские cookies.
 
-    Args:
-        url (str): URL WhiteRabbitNeo.
-        working (bool): Статус работоспособности провайдера.
-        supports_message_history (bool): Поддержка истории сообщений.
-        needs_auth (bool): Требуется ли аутентификация.
+    Пример использования:
+    ----------------------
+    >>> WhiteRabbitNeo.create_async_generator(model="default", messages=[{"role": "user", "content": "Hello"}])
+    <async_generator object WhiteRabbitNeo.create_async_generator at 0x...>
     """
     url = 'https://www.whiterabbitneo.com'
     working = True
@@ -56,26 +70,31 @@ class WhiteRabbitNeo(AsyncGeneratorProvider):
         cls,
         model: str,
         messages: Messages,
-        cookies: Cookies = None,
-        connector: BaseConnector = None,
-        proxy: str = None,
-        **kwargs
-    ) -> AsyncResult:
+        cookies: Optional[Cookies] = None,
+        connector: Optional[BaseConnector] = None,
+        proxy: Optional[str] = None,
+        **kwargs: Any
+    ) -> AsyncGenerator[str, None]:
         """
-        Создает асинхронный генератор для получения чанков ответа от API WhiteRabbitNeo.
+        Создает асинхронный генератор для взаимодействия с WhiteRabbitNeo.
 
         Args:
             model (str): Модель для использования.
             messages (Messages): Список сообщений для отправки.
-            cookies (Cookies, optional): Cookies для использования в запросе. По умолчанию None.
-            connector (BaseConnector, optional): Connector для aiohttp. По умолчанию None.
-            proxy (str, optional): Прокси для использования. По умолчанию None.
+            cookies (Optional[Cookies], optional): Cookies для использования. Defaults to None.
+            connector (Optional[BaseConnector], optional): Connector для использования. Defaults to None.
+            proxy (Optional[str], optional): Proxy для использования. Defaults to None.
+            **kwargs (Any): Дополнительные аргументы.
 
-        Returns:
-            AsyncResult: Асинхронный генератор, выдающий чанки ответа.
+        Yields:
+            str: Части ответа от WhiteRabbitNeo.
+
+        Raises:
+            Exception: В случае ошибки при запросе.
         """
         if cookies is None:
-            cookies = get_cookies('www.whiterabbitneo.com')  # TODO: заменить на j_loads
+            cookies = get_cookies('www.whiterabbitneo.com') # Получаем cookies для домена
+
         headers = {
             'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:123.0) Gecko/20100101 Firefox/123.0',
             'Accept': '*/*',
@@ -98,17 +117,18 @@ class WhiteRabbitNeo(AsyncGeneratorProvider):
             ) as session:
                 data = {
                     'messages': messages,
-                    'id': get_random_string(6),
+                    'id': get_random_string(6), # Генерируем случайный ID
                     'enhancePrompt': False,
                     'useFunctions': False
                 }
                 async with session.post(f'{cls.url}/api/chat', json=data, proxy=proxy) as response:
-                    await raise_for_status(response)
+                    await raise_for_status(response) # Проверяем статус ответа
                     async for chunk in response.content.iter_any():
                         if chunk:
                             try:
-                                yield chunk.decode(errors='ignore')
+                                yield chunk.decode(errors='ignore') # Декодируем чанк
                             except Exception as ex:
-                                logger.error('Error while decoding chunk', ex, exc_info=True) # Логирование ошибки декодирования
+                                logger.error('Error decoding chunk', ex, exc_info=True) # Логируем ошибку декодирования
         except Exception as ex:
-            logger.error('Error while creating async generator', ex, exc_info=True)  # Логирование ошибки
+            logger.error('Error while creating async generator', ex, exc_info=True) # Логируем общую ошибку
+            raise

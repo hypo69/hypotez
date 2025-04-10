@@ -3,93 +3,83 @@
 **Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Использование асинхронных операций для неблокирующего взаимодействия.
-    - Применение `StreamSession` для эффективной потоковой передачи данных.
-    - Преобразование медиа-данных в формат `data_uri`.
-    - Использование `RawResponse` для обработки ответов.
+  - Асинхронная обработка запросов.
+  - Использование `StreamSession` для потоковой передачи данных.
+  - Преобразование медиа-данных в формат `data_uri`.
 - **Минусы**:
-    - Отсутствует полная документация в формате, требуемом инструкцией.
-    - Жестко заданные заголовки и URL, что снижает гибкость.
-    - Не все переменные аннотированы типами.
-    - Не используется модуль логирования `logger` из `src.logger`.
-    - Нет обработки исключений с логированием ошибок.
+  - Отсутствует подробная документация для класса и методов.
+  - Не используются логи из модуля `src.logger`.
+  - Не все переменные аннотированы типами.
+  - Используется `**kwargs` без явного указания, какие параметры ожидаются.
 
 **Рекомендации по улучшению**:
 
 1.  **Добавить документацию**:
-    *   Дополнить все классы и методы docstring, описывающими их назначение, параметры и возвращаемые значения.
-
+    *   Добавить docstring для класса `BackendApi` с описанием его назначения.
+    *   Добавить docstring для метода `create_async_generator` с описанием параметров и возвращаемого значения.
 2.  **Логирование**:
-    *   Добавить логирование с использованием `logger` из `src.logger` для отслеживания ошибок и информационных сообщений.
-
-3.  **Обработка исключений**:
-    *   Добавить обработку исключений с логированием ошибок для повышения устойчивости кода.
-
-4.  **Аннотации типов**:
-    *   Добавить аннотации типов для всех переменных и параметров функций.
-
-5.  **Улучшить гибкость**:
-    *   Рассмотреть возможность вынесения URL и заголовков в конфигурацию для большей гибкости.
-
-6. **Использовать одинарные кавычки**:
-   * Заменить двойные кавычки на одинарные.
-7. **Удалить `from __future__ import annotations`**:
-    * Он больше не нужен, так как используется Python 3.10+
+    *   Использовать `logger` из модуля `src.logger` для логирования информации об ошибках и важных событиях.
+3.  **Аннотации типов**:
+    *   Добавить аннотации типов для всех переменных и параметров функций, где это возможно.
+4.  **Обработка исключений**:
+    *   Добавить обработку исключений для обработки возможных ошибок при выполнении запросов.
+5.  **Улучшение `kwargs`**:
+    *   По возможности заменить `**kwargs` на явное указание ожидаемых параметров.
+6.  **Удалить импорт `from __future__ import annotations`**:
+    *   Этот импорт больше не нужен, так как аннотации типов поддерживаются в Python 3.7+.
+7.  **Использовать одинарные кавычки**:
+    *   Заменить двойные кавычки на одинарные, где это необходимо.
 
 **Оптимизированный код**:
 
 ```python
-from typing import Optional, AsyncGenerator, Dict, Any, Tuple, List
-import json
-from pathlib import Path
+from __future__ import annotations
 
-from src.logger import logger
+import json
+from typing import AsyncGenerator, Optional, Any
+
 from ...typing import Messages, AsyncResult, MediaListType
 from ...requests import StreamSession
 from ...image import to_data_uri
 from ...providers.base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ...providers.response import RawResponse
 from ... import debug
+from src.logger import logger # Import logger
 
 
 class BackendApi(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Класс для взаимодействия с Backend API.
+    Класс для взаимодействия с Backend API для получения ответов в асинхронном режиме.
 
-    Этот класс предоставляет асинхронный генератор для обработки данных,
-    полученных от API, и поддерживает преобразование медиа-файлов в формат data URI.
+    Этот класс предоставляет методы для отправки запросов к API и получения потоковых ответов.
     """
     ssl: Optional[bool] = None
-    headers: Dict[str, str] = {}
+    headers: dict[str, str] = {}
 
     @classmethod
     async def create_async_generator(
         cls,
         model: str,
         messages: Messages,
-        media: Optional[MediaListType] = None,
-        api_key: Optional[str] = None,
-        **kwargs: Any
+        media: MediaListType = None,
+        api_key: str = None,
+        **kwargs: dict[str, Any] # TODO: Сделать нормальные входные параметры вместо kwargs
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для взаимодействия с API.
+        Создает асинхронный генератор для получения потоковых ответов от Backend API.
 
         Args:
-            model (str): Модель для использования в запросе.
+            model (str): Идентификатор модели.
             messages (Messages): Список сообщений для отправки в API.
-            media (Optional[MediaListType], optional): Список медиа-файлов для отправки. Defaults to None.
-            api_key (Optional[str], optional): API ключ для аутентификации. Defaults to None.
-            **kwargs (Any): Дополнительные параметры для передачи в API.
+            media (MediaListType, optional): Список медиафайлов для отправки в API. Defaults to None.
+            api_key (str, optional): Ключ API. Defaults to None.
+            **kwargs (dict[str, Any]): Дополнительные аргументы для отправки в API.
 
         Yields:
-            AsyncResult: Асинхронный генератор, возвращающий ответы от API.
+            RawResponse: Объект ответа от API.
 
         Raises:
-            Exception: В случае ошибки при взаимодействии с API.
-
-        Example:
-            >>> async for response in BackendApi.create_async_generator(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Hello"}]):
-            ...     print(response)
+            Exception: В случае ошибки при выполнении запроса.
         """
         debug.log(f'{cls.__name__}: {api_key}')
         if media is not None:
@@ -109,5 +99,5 @@ class BackendApi(AsyncGeneratorProvider, ProviderModelMixin):
                     async for line in response.iter_lines():
                         yield RawResponse(**json.loads(line))
             except Exception as ex:
-                logger.error('Error while processing data', ex, exc_info=True)
+                logger.error('Error while processing request', ex, exc_info=True) # Log the error
                 raise

@@ -1,27 +1,37 @@
 ### **Анализ кода модуля `throttling.py`**
 
-#### **Качество кода**:
+Модуль содержит middleware для aiogram, реализующий механизм троттлинга сообщений от пользователей в Telegram боте.
+
+**Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Использование `TTLCache` для реализации троттлинга.
-    - Четкая структура класса `ThrottlingMiddleware`.
-    - Использование `BaseMiddleware` из `aiogram` для интеграции в логику бота.
+    - Реализация троттлинга с использованием `TTLCache` для хранения информации о пользователях и времени их последнего запроса.
+    - Четкая структура middleware.
 - **Минусы**:
-    - Отсутствие docstring для класса и методов.
-    - Нет обработки возможных исключений.
-    - Отсутствуют аннотации типов для переменных внутри методов.
-    - Не используется `logger` для логирования.
+    - Отсутствует документация модуля и класса.
+    - Нет логирования.
+    - Не используются одинарные кавычки.
+    - Отсутствуют аннотации в `__call__`
 
-#### **Рекомендации по улучшению**:
-- Добавить docstring для класса `ThrottlingMiddleware` и его методов, чтобы объяснить их назначение и параметры.
-- Добавить аннотации типов для переменных внутри методов.
-- Использовать `logger` для логирования событий, таких как срабатывание троттлинга.
-- Улучшить обработку ошибок, добавив логирование в случае возникновения исключений.
-- Использовать одинарные кавычки.
+**Рекомендации по улучшению**:
 
-#### **Оптимизированный код**:
+1.  Добавить документацию модуля с описанием назначения и принципов работы.
+2.  Добавить docstring для класса `ThrottlingMiddleware` и метода `__call__`.
+3.  Использовать `logger` для логирования событий, например, попыток превышения лимита запросов.
+4.  Добавить обработку исключений, которые могут возникнуть при работе с `TTLCache`.
+5.  Использовать одинарные кавычки (`'`) в Python-коде.
+6.  Добавить аннотации типов для параметров `handler`, `event` и `data` в методе `__call__`.
+
+**Оптимизированный код**:
 
 ```python
+"""
+Модуль для реализации троттлинга сообщений в Telegram боте.
+=============================================================
+
+Модуль содержит класс `ThrottlingMiddleware`, который реализует механизм ограничения частоты запросов от пользователей
+с использованием `TTLCache`.
+"""
 from typing import Any, Awaitable, Callable, Dict
 
 from aiogram import BaseMiddleware
@@ -29,21 +39,7 @@ from aiogram.types import Message
 
 from cachetools import TTLCache
 
-from src.logger import logger  # Import logger
-
-"""
-Модуль для реализации троттлинга в Telegram боте.
-====================================================
-
-Модуль содержит класс :class:`ThrottlingMiddleware`, который используется для ограничения частоты запросов от пользователей.
-
-Пример использования
-----------------------
-
->>> from aiogram import Dispatcher
->>> dp = Dispatcher()
->>> dp.message.middleware(ThrottlingMiddleware(time_limit=2))
-"""
+from src.logger import logger
 
 
 class ThrottlingMiddleware(BaseMiddleware):
@@ -51,40 +47,39 @@ class ThrottlingMiddleware(BaseMiddleware):
     Мидлварь для ограничения частоты запросов от пользователей.
 
     Args:
-        time_limit (int): Время в секундах, в течение которого пользователь не может отправлять новые запросы.
+        time_limit (int, optional): Время в секундах, в течение которого разрешен только один запрос. По умолчанию 2 секунды.
     """
 
     def __init__(self, time_limit: int = 2) -> None:
         """
-        Инициализация мидлвари.
-
-        Args:
-            time_limit (int): Время в секундах, в течение которого пользователь не может отправлять новые запросы.
+        Инициализация ThrottlingMiddleware.
         """
-        self.limit: TTLCache = TTLCache(maxsize=10_000, ttl=time_limit) # TTLCache для хранения информации о пользователях и времени их последнего запроса
+        self.limit: TTLCache = TTLCache(maxsize=10_000, ttl=time_limit)
 
     async def __call__(
-            self,
-            handler: Callable[[Message, Dict[str, Any]], Awaitable[Any]],
-            event: Message,
-            data: Dict[str, Any]
+        self,
+        handler: Callable[[Message, Dict[str, Any]], Awaitable[Any]],
+        event: Message,
+        data: Dict[str, Any],
     ) -> Any:
         """
-        Вызывается при получении каждого сообщения.
+        Вызывается при каждом обрабатываемом событии.
 
         Args:
-            handler (Callable[[Message, Dict[str, Any]], Awaitable[Any]]): Функция-обработчик сообщения.
-            event (Message): Объект сообщения.
+            handler (Callable[[Message, Dict[str, Any]], Awaitable[Any]]): Функция-обработчик события.
+            event (Message): Объект сообщения Telegram.
             data (Dict[str, Any]): Дополнительные данные.
 
         Returns:
-            Any: Результат обработки сообщения.
+            Any: Результат обработки события.
         """
-        user_id: int = event.chat.id  # ID пользователя
-        if user_id in self.limit: # Проверяем, есть ли пользователь в кэше
-            logger.info(f'Throttling user {user_id}')  # Логируем факт троттлинга
-            return  # Если пользователь есть в кэше, не обрабатываем сообщение
-        else:
-            self.limit[user_id] = None  # Добавляем пользователя в кэш
-            logger.info(f'User {user_id} added to throttling cache')  # Логируем добавление пользователя в кэш
-        return await handler(event, data)  # Обрабатываем сообщение
+        try:
+            if event.chat.id in self.limit:
+                logger.debug(f'Троттлинг пользователя {event.chat.id}')  # Логируем срабатывание троттлинга
+                return  # Если пользователь в списке, не обрабатываем запрос
+            else:
+                self.limit[event.chat.id] = None  # Добавляем пользователя в список
+                logger.debug(f'Добавлен пользователь {event.chat.id} в TTLCache')  # Логируем добавление пользователя
+            return await handler(event, data)  # Обрабатываем запрос
+        except Exception as ex:
+            logger.error('Ошибка при обработке запроса', ex, exc_info=True)

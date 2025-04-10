@@ -1,34 +1,46 @@
 ### **Анализ кода модуля `StabilityAI_SD35Large.py`**
 
-#### **Качество кода**:
+**Расположение файла в проекте:** `hypotez/src/endpoints/gpt4free/g4f/Provider/hf_space/StabilityAI_SD35Large.py`
+
+**Описание:**
+Модуль `StabilityAI_SD35Large.py` предназначен для взаимодействия с моделью StabilityAI SD-3.5-Large через API, предоставляемое платформой Hugging Face Space. Он позволяет генерировать изображения на основе текстовых запросов (prompt) и предоставляет асинхронный генератор для получения результатов.
+
+**Качество кода:**
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Асинхронная обработка запросов, что позволяет эффективно использовать ресурсы.
-  - Использование `ClientSession` для управления HTTP-сессиями.
-  - Обработка ошибок и логирование исключений.
-  - Наличие `model_aliases` для удобства использования различных моделей.
+    - Асинхронная реализация для неблокирующего взаимодействия с API.
+    - Использование `ClientSession` из `aiohttp` для эффективного управления HTTP-соединениями.
+    - Обработка ошибок при запросах и парсинге ответов.
+    - Наличие `model_aliases` для удобства использования различных наименований моделей.
 - **Минусы**:
-  - Отсутствует развернутая документация.
-  - Не все переменные аннотированы типами.
-  - Не используется модуль `logger` для логирования.
-  - Обработка ошибок ResponseError не логируется.
+    - Отсутствует логирование.
+    - Не все переменные аннотированы типами.
+    - Некоторые участки кода выглядят сложными для понимания из-за обработки чанков данных.
+    - Docstring отсутствует.
 
-#### **Рекомендации по улучшению**:
-- Добавить docstring к классу `StabilityAI_SD35Large` и всем его методам.
-- Добавить аннотации типов для всех переменных и параметров функций.
-- Использовать модуль `logger` для логирования ошибок и отладочной информации.
-- Улучшить обработку ошибок, добавив логирование при возникновении исключений.
-- Улучшить читаемость кода, добавив больше комментариев для объяснения сложных участков.
-- Использовать одинарные кавычки для строковых литералов.
-- Заменить множественные `if` на `match-case` структуру.
+**Рекомендации по улучшению:**
 
-#### **Оптимизированный код**:
+1.  **Добавить логирование**:
+    - Добавить логирование для отслеживания процесса генерации изображений, а также для записи ошибок и предупреждений. Это поможет при отладке и мониторинге работы модуля.
+2.  **Добавить Docstring**:
+    -  Добавьте docstring к классам и методам, чтобы объяснить их назначение, параметры и возвращаемые значения.
+3.  **Улучшить обработку ошибок**:
+    -  Добавить более информативные сообщения об ошибках, чтобы упростить их отладку.
+4.  **Аннотации типов**:
+    -  Добавить аннотации типов для всех переменных и возвращаемых значений, чтобы улучшить читаемость и поддерживаемость кода.
+5.  **Перефразировать исключение**:
+    -  Используй `ex` вместо `e` в блоках обработки исключений.
+    -  Для логгирования используй `logger` из моего модуля `src.logger`.
+
+**Оптимизированный код:**
+
 ```python
 from __future__ import annotations
 
 import json
+from typing import AsyncGenerator, Optional
+
 from aiohttp import ClientSession
-from aiohttp.client_exceptions import ClientResponseError
 
 from ...typing import AsyncResult, Messages
 from ...providers.response import ImageResponse, ImagePreview
@@ -36,25 +48,25 @@ from ...image import use_aspect_ratio
 from ...errors import ResponseError
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ..helper import format_image_prompt
-from src.logger import logger  # Импорт модуля logger
+from src.logger import logger  # Import logger
 
 
 class StabilityAI_SD35Large(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Модуль для работы с StabilityAI SD-3.5-Large.
-    =================================================
+    Модуль для взаимодействия с StabilityAI SD-3.5-Large API для генерации изображений.
+    ==============================================================================
 
-    Этот модуль позволяет взаимодействовать с StabilityAI SD-3.5-Large для генерации изображений.
-    Он поддерживает установку различных параметров, таких как prompt, negative_prompt, seed и aspect_ratio.
+    Этот класс позволяет генерировать изображения на основе текстовых запросов (prompt)
+    и предоставляет асинхронный генератор для получения результатов.
 
-    Пример использования:
+    Пример использования
     ----------------------
-
     >>> model = 'stabilityai-stable-diffusion-3-5-large'
-    >>> messages = [{'role': 'user', 'content': 'Generate a cat image'}]
-    >>> async for item in StabilityAI_SD35Large.create_async_generator(model=model, messages=messages):
-    ...     print(item)
+    >>> messages = [{'role': 'user', 'content': 'A cat in space'}]
+    >>> async for image in StabilityAI_SD35Large.create_async_generator(model=model, messages=messages):
+    ...     print(image)
     """
+
     label: str = "StabilityAI SD-3.5-Large"
     url: str = "https://stabilityai-stable-diffusion-3-5-large.hf.space"
     api_endpoint: str = "/gradio_api/call/infer"
@@ -72,102 +84,89 @@ class StabilityAI_SD35Large(AsyncGeneratorProvider, ProviderModelMixin):
         cls,
         model: str,
         messages: Messages,
-        prompt: str | None = None,
-        negative_prompt: str | None = None,
-        api_key: str | None = None,
-        proxy: str | None = None,
+        prompt: Optional[str] = None,
+        negative_prompt: Optional[str] = None,
+        api_key: Optional[str] = None,
+        proxy: Optional[str] = None,
         aspect_ratio: str = "1:1",
-        width: int | None = None,
-        height: int | None = None,
+        width: Optional[int] = None,
+        height: Optional[int] = None,
         guidance_scale: float = 4.5,
         num_inference_steps: int = 50,
         seed: int = 0,
         randomize_seed: bool = True,
         **kwargs
-    ) -> AsyncResult:
+    ) -> AsyncGenerator[ImageResponse | ImagePreview, None]:
         """
-        Создает асинхронный генератор для получения изображений от StabilityAI SD-3.5-Large.
+        Создает асинхронный генератор для получения изображений от StabilityAI SD-3.5-Large API.
 
         Args:
-            model (str): Имя модели.
+            model (str): Идентификатор модели.
             messages (Messages): Список сообщений для формирования запроса.
-            prompt (Optional[str]): Основной prompt для генерации изображения.
-            negative_prompt (Optional[str]): Negative prompt для генерации изображения.
+            prompt (Optional[str]): Текстовый запрос для генерации изображения.
+            negative_prompt (Optional[str]): Негативный запрос, указывающий, что не должно быть на изображении.
             api_key (Optional[str]): API ключ для доступа к StabilityAI.
-            proxy (Optional[str]): Proxy для подключения к API.
-            aspect_ratio (str): Соотношение сторон изображения.
+            proxy (Optional[str]): Прокси-сервер для выполнения запросов.
+            aspect_ratio (str): Соотношение сторон изображения (например, "1:1").
             width (Optional[int]): Ширина изображения.
             height (Optional[int]): Высота изображения.
-            guidance_scale (float): Guidance scale.
-            num_inference_steps (int): Количество шагов для генерации.
-            seed (int): Seed для генерации изображения.
-            randomize_seed (bool): Флаг для рандомизации seed.
+            guidance_scale (float): Масштаб соответствия запросу (4.5 по умолчанию).
+            num_inference_steps (int): Количество шагов для генерации изображения (50 по умолчанию).
+            seed (int): Зерно для воспроизводимости результатов (0 по умолчанию).
+            randomize_seed (bool): Флаг для случайной генерации зерна (True по умолчанию).
             **kwargs: Дополнительные параметры.
 
-        Returns:
-            AsyncResult: Асинхронный генератор изображений.
+        Yields:
+            ImageResponse | ImagePreview: Объекты, представляющие сгенерированные изображения.
 
         Raises:
-            ResponseError: Если возникает ошибка при получении ответа от API.
-            RuntimeError: Если не удается распарсить URL изображения.
+            ResponseError: Если возникает ошибка при запросе к API.
+            RuntimeError: Если не удается разобрать URL изображения из ответа.
+
         """
         headers: dict[str, str] = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            "Content-Type": "application/json",
+            "Accept": "application/json",
         }
         if api_key is not None:
-            headers['Authorization'] = f'Bearer {api_key}'
+            headers["Authorization"] = f"Bearer {api_key}"
 
         async with ClientSession(headers=headers) as session:
             prompt = format_image_prompt(messages, prompt)
-            data = use_aspect_ratio({'width': width, 'height': height}, aspect_ratio)
+            data: dict[str, Optional[int]] = use_aspect_ratio({"width": width, "height": height}, aspect_ratio)
             data = {
-                'data': [prompt, negative_prompt, seed, randomize_seed, data.get('width'), data.get('height'), guidance_scale, num_inference_steps]
+                "data": [prompt, negative_prompt, seed, randomize_seed, data.get("width"), data.get("height"), guidance_scale, num_inference_steps]
             }
             try:
-                async with session.post(f'{cls.url}{cls.api_endpoint}', json=data, proxy=proxy) as response:
+                async with session.post(f"{cls.url}{cls.api_endpoint}", json=data, proxy=proxy) as response:
                     response.raise_for_status()
-                    response_json = await response.json()
-                    event_id: str | None = response_json.get('event_id')
-
-                    if event_id is None:
-                        logger.error('event_id is None')
-                        raise ResponseError('event_id is None')
-
-                    async with session.get(f'{cls.url}{cls.api_endpoint}/{event_id}') as event_response:
+                    event_id = (await response.json()).get("event_id")
+                    async with session.get(f"{cls.url}{cls.api_endpoint}/{event_id}") as event_response:
                         event_response.raise_for_status()
-                        event: str | None = None
+                        event: Optional[str] = None
                         async for chunk in event_response.content:
-                            if chunk.startswith(b'event: '):
-                                event = chunk[7:].decode(errors='replace').strip()
-                            if chunk.startswith(b'data: '):
-                                chunk_data = chunk[6:]
-                                match event:
-                                    case 'error':
-                                        error_message = chunk_data.decode(errors='replace')
-                                        logger.error(f'GPU token limit exceeded: {error_message}')
-                                        raise ResponseError(f'GPU token limit exceeded: {error_message}')
-                                    case 'complete' | 'generating':
-                                        try:
-                                            data = json.loads(chunk_data)
-                                            if data is None:
-                                                continue
-                                            url = data[0]['url']
-                                        except (json.JSONDecodeError, KeyError, TypeError) as ex:
-                                            error_message = chunk_data.decode(errors='replace')
-                                            logger.error(f'Failed to parse image URL: {error_message}', exc_info=True)
-                                            raise RuntimeError(f'Failed to parse image URL: {error_message}') from ex
-                                        if event == 'generating':
-                                            yield ImagePreview(url, prompt)
-                                        else:
-                                            yield ImageResponse(url, prompt)
-                                            break
-                                    case _:
-                                        logger.warning(f'Unknown event: {event}')
-
-            except ClientResponseError as ex:
-                logger.error(f'HTTP error occurred: {ex}', exc_info=True)
-                raise ResponseError(f'HTTP error occurred: {ex}') from ex
+                            if chunk.startswith(b"event: "):
+                                event = chunk[7:].decode(errors="replace").strip()
+                            if chunk.startswith(b"data: "):
+                                if event == "error":
+                                    error_message = chunk.decode(errors='replace')
+                                    logger.error(f'GPU token limit exceeded: {error_message}')
+                                    raise ResponseError(f"GPU token limit exceeded: {error_message}")
+                                if event in ("complete", "generating"):
+                                    try:
+                                        data = json.loads(chunk[6:])
+                                        if data is None:
+                                            continue
+                                        url = data[0]["url"]
+                                    except (json.JSONDecodeError, KeyError, TypeError) as ex:
+                                        error_message = chunk.decode(errors='replace')
+                                        logger.error(f'Failed to parse image URL: {error_message}', ex, exc_info=True)
+                                        raise RuntimeError(f"Failed to parse image URL: {error_message}") from ex
+                                    if event == "generating":
+                                        yield ImagePreview(url, prompt)
+                                    else:
+                                        yield ImageResponse(url, prompt)
+                                        break
             except Exception as ex:
-                logger.error(f'Error while processing request: {ex}', exc_info=True)
+                logger.error('Error while processing StabilityAI SD-3.5-Large request', ex, exc_info=True)
                 raise

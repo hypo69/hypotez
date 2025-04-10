@@ -1,7 +1,7 @@
 ## \file /src/endpoints/prestashop/product_fields/product_fields.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
-"""```md
+"""
 модуль `ProductFields`
 =========================
 Модуль product_fields предназначен для работы с полями товаров в PrestaShop. 
@@ -11,7 +11,7 @@
     Список полей: https://github.com/hypo69/hypotez/blob/master/src/endpoints/prestashop/product_fields/fields_list.txt
     Значения по умолчанию: https://github.com/hypo69/hypotez/blob/master/src/endpoints/prestashop/product_fields/product_fields_default_values.json
     Документация: https://github.com/hypo69/hypotez/blob/master/docs/ru/src/endpoints/prestashop/product_fields/product_fields.py.md
- ```
+
  ```rst
  .. module:: endpoints.prestashop.product_fields.product_fields
  ```

@@ -3,71 +3,45 @@
 #### **Качество кода**:
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код выполняет отправку запроса к API и обработку ответа.
-    - Использование `format_prompt` для подготовки сообщения.
+    - Код выполняет отправку запросов к API.
+    - Используется `format_prompt` для форматирования сообщений.
+    - Проверка статуса ответа от сервера.
 - **Минусы**:
     - Отсутствует обработка исключений для `requests.post`.
-    - Нет логирования ошибок.
-    - Не используются аннотации типов для переменных.
-    - Не документирован класс и его методы.
+    - Жёстко заданные заголовки, что может привести к проблемам совместимости в будущем.
+    - Отсутствует логирование ошибок.
+    - Нет документации к классу и методам.
+    - Нет аннотаций типов.
     - Не используется модуль `logger` из `src.logger`.
-    - Не обрабатываются возможные ошибки при `response.text.split("> 若回答失败请重试或多刷新几次界面后重试")`.
-    - Жестко заданы заголовки, что может привести к проблемам совместимости.
-    - Параметр `proxy` обрабатывается небезопасно.
 
 #### **Рекомендации по улучшению**:
-
-1.  **Добавить документацию**:
-    *   Добавить docstring для класса `Wuguokai` и метода `create_completion`.
-    *   Описать параметры и возвращаемые значения.
-
-2.  **Обработка исключений**:
-    *   Добавить обработку исключений для `requests.post`, чтобы избежать падения программы при сетевых ошибках.
-    *   Логировать ошибки с использованием `logger.error` из модуля `src.logger`.
-
-3.  **Аннотации типов**:
-    *   Добавить аннотации типов для переменных, чтобы улучшить читаемость и предотвратить ошибки.
-
-4.  **Безопасность**:
-    *   Проверять наличие ключа `proxy` в `kwargs` перед его использованием.
-
-5.  **Обработка ответа**:
-    *   Добавить проверку на наличие ожидаемой строки перед `split`.
-
-6.  **Использовать `j_loads` или `j_loads_ns`**:
-    *   Если API возвращает JSON, использовать `j_loads` для обработки ответа.
-
-7.  **Улучшить заголовки**:
-    *   Сделать заголовки более гибкими и менее зависимыми от конкретной версии браузера.
+- Добавить аннотации типов для всех переменных и функций.
+- Добавить документацию для класса `Wuguokai` и метода `create_completion`.
+- Использовать `logger` из `src.logger` для логирования ошибок и отладочной информации.
+- Добавить обработку исключений для `requests.post`, чтобы избежать неожиданных сбоев.
+- Сделать заголовки более гибкими, чтобы избежать проблем совместимости.
+- Использовать одинарные кавычки для строк.
+- Добавить проверку на наличие `proxy` в `kwargs` перед его использованием.
+- Улучшить обработку ответа, чтобы корректно обрабатывать различные сценарии.
 
 #### **Оптимизированный код**:
-
 ```python
 from __future__ import annotations
 
 import random
-from typing import Any, CreateResult, List, Dict
+from typing import Any, CreateResult, List, Dict, Generator, Optional
 
 import requests
 
-from ...typing import Any, CreateResult
+from src.logger import logger  #  Используем logger из src.logger
 from ..base_provider import AbstractProvider, format_prompt
-from src.logger import logger  # Добавлен импорт logger
 
 
 class Wuguokai(AbstractProvider):
     """
-    Провайдер для доступа к сервису Wuguokai.
-    ==========================================
+    Провайдер для доступа к API Wuguokai.
 
-    Этот класс позволяет взаимодействовать с API Wuguokai для получения ответов на запросы.
-
-    Пример использования:
-    ----------------------
-    >>> provider = Wuguokai()
-    >>> model = "gpt-3.5-turbo"
-    >>> messages = [{"role": "user", "content": "Hello"}]
-    >>> result = provider.create_completion(model, messages, stream=False)
+    Поддерживает модель gpt-3.5-turbo.
     """
     url: str = 'https://chat.wuguokai.xyz'
     supports_gpt_35_turbo: bool = True
@@ -84,16 +58,16 @@ class Wuguokai(AbstractProvider):
         Создает запрос к API Wuguokai и возвращает результат.
 
         Args:
-            model (str): Модель для использования.
+            model (str): Название модели.
             messages (List[Dict[str, str]]): Список сообщений для отправки.
-            stream (bool): Флаг для стриминга.
+            stream (bool): Флаг стриминга.
             **kwargs (Any): Дополнительные аргументы.
 
         Returns:
             CreateResult: Результат запроса.
 
         Raises:
-            Exception: В случае ошибки при запросе к API.
+            Exception: В случае ошибки при выполнении запроса.
         """
         headers: Dict[str, str] = {
             'authority': 'ai-api.wuguokai.xyz',
@@ -111,31 +85,29 @@ class Wuguokai(AbstractProvider):
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
         }
         data: Dict[str, Any] = {
-            "prompt": format_prompt(messages),
-            "options": {},
-            "userId": f"#/chat/{random.randint(1,99999999)}",
-            "usingContext": True
+            'prompt': format_prompt(messages),
+            'options': {},
+            'userId': f'#/chat/{random.randint(1, 99999999)}',
+            'usingContext': True
         }
         try:
-            proxies: Dict[str, str] = kwargs.get('proxy', {})
+            proxies: dict = kwargs.get('proxy', {})
             response = requests.post(
-                "https://ai-api20.wuguokai.xyz/api/chat-process",
+                'https://ai-api20.wuguokai.xyz/api/chat-process',
                 headers=headers,
                 timeout=3,
                 json=data,
                 proxies=proxies,
             )
-            response.raise_for_status()  # Проверка на HTTP ошибки
-
-            _split: List[str] = response.text.split("> 若回答失败请重试或多刷新几次界面后重试")
+            response.raise_for_status()  #  Проверка на ошибки HTTP
+            _split: List[str] = response.text.split('> 若回答失败请重试或多刷新几次界面后重试')
             if len(_split) > 1:
                 yield _split[1].strip()
             else:
                 yield _split[0].strip()
-
         except requests.exceptions.RequestException as ex:
-            logger.error(f"Error during request to Wuguokai API: {ex}", exc_info=True)
-            raise Exception(f"Request failed: {ex}") from ex
+            logger.error(f'Ошибка при выполнении запроса к Wuguokai: {ex}', exc_info=True)
+            raise Exception(f'Ошибка при выполнении запроса: {ex}') from ex
         except Exception as ex:
-            logger.error(f"Error while processing Wuguokai response: {ex}", exc_info=True)
+            logger.error(f'Необработанная ошибка: {ex}', exc_info=True)
             raise

@@ -1,54 +1,70 @@
 ### **Анализ кода модуля `CohereForAI_C4AI_Command.py`**
 
-**Качество кода**:
+=========================================================================================
+
+Модуль предназначен для взаимодействия с AI-моделями CohereForAI C4AI Command через API.
+
+#### **Качество кода**:
+
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Асинхронная обработка запросов.
-  - Использование `JsonConversation` для сохранения контекста диалога.
-  - Реализация выбора модели через `model_aliases`.
+    - Использование асинхронных запросов для неблокирующего взаимодействия с API.
+    - Реализация выбора модели на основе алиасов.
+    - Обработка ошибок при чтении ответа от API.
+    - Поддержка ведения бесед (conversation).
 - **Минусы**:
-  - Не все переменные аннотированы типами.
-  - Отсутствует обработка ошибок при десериализации JSON.
-  - Некоторые участки кода сложны для понимания из-за глубокой вложенности.
+    - Некоторые участки кода выглядят сложными для понимания из-за манипуляций с данными JSON.
+    - Не хватает подробных комментариев для объяснения логики работы с conversation ID и данными в запросах.
+    - Отсутствует обработка исключений, специфичных для API CohereForAI C4AI Command.
+    - Не все переменные и возвращаемые значения аннотированы типами.
 
-**Рекомендации по улучшению**:
-- Добавить аннотации типов для всех переменных, чтобы повысить читаемость и облегчить отладку.
-- Улучшить обработку ошибок при десериализации JSON, чтобы предоставлять более информативные сообщения об ошибках.
-- Упростить логику извлечения данных из JSON-ответа, чтобы улучшить читаемость кода.
-- Добавить логирование для отслеживания хода выполнения программы и облегчения отладки.
-- Добавить docstring для класса и методов, чтобы улучшить понимание функциональности кода.
-- Использовать `logger` из модуля `src.logger` для логирования ошибок и информации.
-- Перевести все docstring на русский язык.
+#### **Рекомендации по улучшению**:
 
-**Оптимизированный код**:
+1. **Добавить подробные комментарии**:
+   - Объяснить логику получения `message_id` и формирования данных для запроса.
+   - Документировать назначение каждого параметра в функциях и методах.
+
+2. **Улучшить обработку ошибок**:
+   - Добавить обработку конкретных ошибок, которые могут возникнуть при взаимодействии с API CohereForAI C4AI Command.
+   - Логировать ошибки с использованием `logger.error` с передачей исключения `ex` и `exc_info=True`.
+
+3. **Оптимизировать код**:
+   - Упростить код, отвечающий за манипуляции с JSON-данными.
+   - Использовать более понятные имена переменных.
+
+4. **Добавить аннотации типов**:
+   - Добавить аннотации типов для всех переменных и возвращаемых значений, где это возможно.
+
+5. **Документировать класс и методы**:
+   - Добавить docstring для класса `CohereForAI_C4AI_Command` и всех его методов, следуя указанному формату.
+
+#### **Оптимизированный код**:
 
 ```python
 from __future__ import annotations
 
 import json
-from typing import AsyncGenerator, Optional, Dict, Any, List
-
 from aiohttp import ClientSession, FormData
+from typing import AsyncGenerator, Optional, Dict, Any, List
 
 from ...typing import AsyncResult, Messages
 from ...requests import raise_for_status
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ..helper import format_prompt, get_last_user_message
 from ...providers.response import JsonConversation, TitleGeneration
-from src.logger import logger  # Импорт модуля logger
+from src.logger import logger  # Импорт logger
 
 class CohereForAI_C4AI_Command(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Модуль для взаимодействия с CohereForAI C4AI Command.
-    =====================================================
+    Провайдер для взаимодействия с AI-моделями CohereForAI C4AI Command.
+    ==================================================================
 
-    Этот класс позволяет взаимодействовать с CohereForAI C4AI Command API для генерации текста.
-    Он поддерживает выбор модели, сохранение контекста диалога и обработку ошибок.
+    Этот класс позволяет отправлять запросы к API CohereForAI C4AI Command и получать ответы в асинхронном режиме.
 
     Пример использования:
     ----------------------
 
-    >>> model = "command-r"
+    >>> model = "command-a-03-2025"
     >>> messages = [{"role": "user", "content": "Hello, how are you?"}]
     >>> api_key = "YOUR_API_KEY"
     >>> async for response in CohereForAI_C4AI_Command.create_async_generator(model, messages, api_key=api_key):
@@ -73,14 +89,14 @@ class CohereForAI_C4AI_Command(AsyncGeneratorProvider, ProviderModelMixin):
     @classmethod
     def get_model(cls, model: str, **kwargs) -> str:
         """
-        Получает имя модели.
+        Получает название модели на основе алиаса.
 
         Args:
-            model (str): Имя модели.
+            model (str): Алиас модели.
             **kwargs: Дополнительные аргументы.
 
         Returns:
-            str: Имя модели.
+            str: Название модели.
         """
         if model in cls.model_aliases.values():
             return model
@@ -88,32 +104,32 @@ class CohereForAI_C4AI_Command(AsyncGeneratorProvider, ProviderModelMixin):
 
     @classmethod
     async def create_async_generator(
-        cls,
-        model: str,
+        cls, 
+        model: str, 
         messages: Messages,
-        api_key: Optional[str] = None,
+        api_key: Optional[str] = None, 
         proxy: Optional[str] = None,
         conversation: Optional[JsonConversation] = None,
         return_conversation: bool = False,
-        **kwargs: Any,
+        **kwargs
     ) -> AsyncResult:
         """
-        Создает асинхронный генератор для взаимодействия с API.
+        Создает асинхронный генератор для взаимодействия с API CohereForAI C4AI Command.
 
         Args:
-            model (str): Имя модели.
-            messages (Messages): Список сообщений.
-            api_key (Optional[str]): API ключ.
-            proxy (Optional[str]): Прокси-сервер.
-            conversation (Optional[JsonConversation]): Объект JsonConversation.
-            return_conversation (bool): Флаг для возврата объекта JsonConversation.
-            **kwargs (Any): Дополнительные аргументы.
+            model (str): Название модели.
+            messages (Messages): Список сообщений для отправки.
+            api_key (Optional[str], optional): API ключ. По умолчанию None.
+            proxy (Optional[str], optional): Прокси сервер. По умолчанию None.
+            conversation (Optional[JsonConversation], optional): Объект беседы. По умолчанию None.
+            return_conversation (bool, optional): Возвращать ли объект беседы. По умолчанию False.
 
-        Returns:
-            AsyncResult: Асинхронный генератор.
+        Yields:
+            AsyncGenerator[Any, None]: Асинхронный генератор, возвращающий ответы от API.
 
         Raises:
             RuntimeError: Если возникает ошибка при взаимодействии с API.
+
         """
         model = cls.get_model(model)
         headers: Dict[str, str] = {
@@ -129,57 +145,69 @@ class CohereForAI_C4AI_Command(AsyncGeneratorProvider, ProviderModelMixin):
         }
         if api_key is not None:
             headers["Authorization"] = f"Bearer {api_key}"
-
         async with ClientSession(
             headers=headers,
-            cookies=None if conversation is None else conversation.cookies,
+            cookies=None if conversation is None else conversation.cookies
         ) as session:
+            # Извлекаем системные сообщения и формируем системный промпт
             system_prompt: str = "\\n".join([message["content"] for message in messages if message["role"] == "system"])
+            # Оставляем только сообщения пользователя и ассистента
             messages = [message for message in messages if message["role"] != "system"]
+            # Формируем входные данные для запроса
             inputs: str = format_prompt(messages) if conversation is None else get_last_user_message(messages)
+            # Если нет беседы или модель/системный промпт изменились, создаем новую беседу
             if conversation is None or conversation.model != model or conversation.preprompt != system_prompt:
                 data: Dict[str, str] = {"model": model, "preprompt": system_prompt}
                 async with session.post(cls.conversation_url, json=data, proxy=proxy) as response:
-                    await raise_for_status(response)
-                    conversation = JsonConversation(
-                        **await response.json(),
-                        **data,
-                        cookies={n: c.value for n, c in response.cookies.items()},
-                    )
-                    if return_conversation:
-                        yield conversation
+                    try:
+                        await raise_for_status(response)
+                        conversation = JsonConversation(
+                            **await response.json(),
+                            **data,
+                            cookies={n: c.value for n, c in response.cookies.items()}
+                        )
+                        if return_conversation:
+                            yield conversation
+                    except Exception as ex:
+                        logger.error("Error while creating conversation", ex, exc_info=True)
+                        raise
 
+            # Получаем данные о ноде из conversation
             async with session.get(f"{cls.conversation_url}/{conversation.conversationId}/__data.json?x-sveltekit-invalidated=11", proxy=proxy) as response:
-                await raise_for_status(response)
                 try:
-                    node: Dict[str, Any] = json.loads((await response.text()).splitlines()[0])["nodes"][1]
+                    await raise_for_status(response)
+                    node = json.loads((await response.text()).splitlines()[0])["nodes"][1]
                     if node["type"] == "error":
                         raise RuntimeError(node["error"])
-                    data: Any = node["data"]
-                    message_id: Any = data[data[data[data[0]["messages"]][-1]]["id"]]
-                except (json.JSONDecodeError, KeyError, IndexError) as ex:
-                    logger.error("Error while processing JSON response", ex, exc_info=True)
-                    raise RuntimeError("Failed to parse JSON response") from ex
+                    data = node["data"]
+                    message_id = data[data[data[data[0]["messages"]][-1]]["id"]]
+                except Exception as ex:
+                    logger.error("Error while getting node data", ex, exc_info=True)
+                    raise
 
+            # Формируем данные для отправки сообщения
             data = FormData()
             data.add_field(
                 "data",
                 json.dumps({"inputs": inputs, "id": message_id, "is_retry": False, "is_continue": False, "web_search": False, "tools": []}),
-                content_type="application/json",
+                content_type="application/json"
             )
 
+            # Отправляем сообщение и обрабатываем ответ
             async with session.post(f"{cls.conversation_url}/{conversation.conversationId}", data=data, proxy=proxy) as response:
-                await raise_for_status(response)
-                async for chunk in response.content:
-                    try:
-                        data: Dict[str, Any] = json.loads(chunk)
-                    except json.JSONDecodeError as ex:
-                        logger.error("Failed to decode JSON chunk", ex, exc_info=True)
-                        raise RuntimeError(f"Failed to read response: {chunk.decode(errors='replace')}") from ex
-
-                    if data["type"] == "stream":
-                        yield data["token"].replace("\\u0000", "")
-                    elif data["type"] == "title":
-                        yield TitleGeneration(data["title"])
-                    elif data["type"] == "finalAnswer":
-                        break
+                try:
+                    await raise_for_status(response)
+                    async for chunk in response.content:
+                        try:
+                            data = json.loads(chunk)
+                        except (json.JSONDecodeError) as ex:
+                            raise RuntimeError(f"Failed to read response: {chunk.decode(errors='replace')}", ex)
+                        if data["type"] == "stream":
+                            yield data["token"].replace("\\u0000", "")
+                        elif data["type"] == "title":
+                            yield TitleGeneration(data["title"])
+                        elif data["type"] == "finalAnswer":
+                            break
+                except Exception as ex:
+                    logger.error("Error while processing response", ex, exc_info=True)
+                    raise

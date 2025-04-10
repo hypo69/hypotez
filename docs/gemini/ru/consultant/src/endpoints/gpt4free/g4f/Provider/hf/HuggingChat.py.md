@@ -1,42 +1,32 @@
 ### **Анализ кода модуля `HuggingChat.py`**
 
-**Качество кода:**
+## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/hf/HuggingChat.py
+
+Модуль `HuggingChat.py` предоставляет реализацию асинхронного провайдера для взаимодействия с Hugging Face Chat. Он включает в себя функциональность для аутентификации, создания бесед, обмена сообщениями и обработки ответов, включая текст, изображения и результаты веб-поиска.
+
+**Качество кода**:
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Использование асинхронных вызовов для неблокирующих операций.
-    - Реализация механизма авторизации через cookies.
-    - Поддержка стриминга ответов.
-    - Использование `curl_cffi` для повышения производительности HTTP-запросов.
-    - Обработка различных типов ответов от сервера (stream, finalAnswer, file, webSearch, title, reasoning).
+  - Асинхронная реализация для неблокирующего взаимодействия.
+  - Поддержка потоковой передачи ответов.
+  - Обработка различных типов контента, включая текст и изображения.
+  - Интеграция с `curl_cffi` для повышения производительности.
 - **Минусы**:
-    - Смешанный стиль кавычек (используются как одинарные, так и двойные кавычки).
-    - Не везде используются аннотации типов.
-    - Некоторые участки кода сложны для понимания из-за плотной логики и обработки исключений.
-    - Отсутствие логирования важных событий и ошибок.
+  - Не всегда последовательное использование аннотаций типов.
+  - Обработка ошибок могла бы быть более детализированной.
+  - Отсутствуют docstring для некоторых методов и классов.
 
-**Рекомендации по улучшению:**
+**Рекомендации по улучшению**:
 
-1.  **Унификация кавычек**:
-    - Заменить все двойные кавычки на одинарные, чтобы соответствовать стандартам кодирования.
-2.  **Добавление аннотаций типов**:
-    - Добавить аннотации типов для всех переменных и возвращаемых значений функций.
-3.  **Улучшение читаемости**:
-    - Разбить сложные выражения на более простые для улучшения читаемости.
-    - Добавить больше комментариев для объяснения логики работы кода, особенно в сложных участках, таких как обработка ответов от сервера.
-4.  **Логирование**:
-    - Добавить логирование для отслеживания хода выполнения программы и обнаружения ошибок.
-    - Логировать важные события, такие как создание conversation, получение message ID, и ошибки при обработке ответов.
-5.  **Обработка ошибок**:
-    - Улучшить обработку ошибок, чтобы предоставлять более информативные сообщения об ошибках.
-    - Использовать `logger.error` для логирования ошибок с передачей исключения `ex` и `exc_info=True`.
-6.  **Использование `j_loads`**:
-    - Заменить `json.loads` на `j_loads` из модуля `src.requests` для чтения JSON-данных.
-7.  **Документация**:
-    - Добавить docstring для всех классов и методов.
-    - Описать все параметры и возвращаемые значения, а также возможные исключения.
-    - Перевести все комментарии и docstring на русский язык в формате UTF-8.
+1. **Добавить docstring**: Добавить подробные docstring для всех классов и методов, включая описание параметров, возвращаемых значений и возможных исключений.
+2. **Аннотации типов**: Убедиться, что все переменные и параметры функций аннотированы типами.
+3. **Логирование**: Добавить логирование для отладки и мониторинга, особенно в блоках обработки исключений.
+4. **Обработка ошибок**: Улучшить обработку ошибок, чтобы предоставлять более конкретные сообщения об ошибках и рекомендации.
+5. **Удалить неиспользуемые импорты**: Удалить неиспользуемые импорты, чтобы уменьшить зависимость и улучшить читаемость кода.
+6. **Форматирование**: Привести код в соответствие со стандартами PEP8.
+7. **Использовать `j_loads` или `j_loads_ns`**: Для чтения JSON конфигурационных файлов.
 
-**Оптимизированный код:**
+**Оптимизированный код**:
 
 ```python
 from __future__ import annotations
@@ -47,8 +37,7 @@ import os
 import requests
 import base64
 import uuid
-from typing import AsyncIterator, Optional, List, Dict, Any
-from pathlib import Path
+from typing import AsyncIterator, Optional, List
 
 try:
     from curl_cffi.requests import Session
@@ -84,88 +73,81 @@ from .models import (
     model_aliases,
 )
 from ... import debug
-from src.logger import logger  # Import logger
+from src.logger import logger
 
 
 class Conversation(JsonConversation):
     """
-    Класс для хранения информации о conversation.
+    Класс для управления состоянием беседы с HuggingChat.
 
     Args:
-        models (dict): Словарь моделей.
+        models (dict): Словарь, содержащий информацию о моделях, используемых в беседе.
     """
 
     def __init__(self, models: dict):
         """
-        Инициализирует экземпляр класса Conversation.
+        Инициализирует объект Conversation.
 
         Args:
-            models (dict): Словарь моделей.
+            models (dict): Словарь, содержащий информацию о моделях, используемых в беседе.
         """
         self.models: dict = models
 
 
 class HuggingChat(AsyncAuthedProvider, ProviderModelMixin):
     """
-    Провайдер для взаимодействия с HuggingChat.
+    Провайдер для взаимодействия с Hugging Face Chat.
     """
 
-    domain = 'huggingface.co'
-    origin = f'https://{domain}'
-    url = f'{origin}/chat'
+    domain: str = "huggingface.co"
+    origin: str = f"https://{domain}"
+    url: str = f"{origin}/chat"
 
-    working = True
-    use_nodriver = True
-    supports_stream = True
-    needs_auth = True
-    default_model = default_model
-    default_vision_model = default_vision_model
-    model_aliases = model_aliases
-    image_models = image_models
-    text_models = fallback_models
+    working: bool = True
+    use_nodriver: bool = True
+    supports_stream: bool = True
+    needs_auth: bool = True
+    default_model: str = default_model
+    default_vision_model: str = default_vision_model
+    model_aliases: dict = model_aliases
+    image_models: list[str] = image_models
+    text_models: list[str] = fallback_models
+    models: list[str] = []
+    vision_models: list[str] = []
 
     @classmethod
     def get_models(cls) -> list[str]:
         """
-        Получает список доступных моделей.
+        Получает список доступных моделей из Hugging Face Chat.
 
         Returns:
-            list[str]: Список доступных моделей.
+            list[str]: Список идентификаторов моделей.
 
         Raises:
-            Exception: Если происходит ошибка при чтении моделей.
+            Exception: Если не удается получить список моделей.
         """
         if not cls.models:
             try:
                 text = requests.get(cls.url).text
-                text = re.search(r'models:(\\[.+?\\]),oldModels:', text).group(1)
-                text = re.sub(r',parameters:{[^}]+?}', '', text)
-                text = text.replace('void 0', 'null')
+                text = re.search(r"models:(\\[.+?\\]),oldModels:", text).group(1)
+                text = re.sub(r",parameters:{[^}]+?}", "", text)
+                text = text.replace("void 0", "null")
 
-                def add_quotation_mark(match: re.Match) -> str:
-                    """
-                    Добавляет кавычки к ключам в JSON.
-
-                    Args:
-                        match (re.Match): Объект Match.
-
-                    Returns:
-                        str: Строка с добавленными кавычками.
-                    """
+                def add_quotation_mark(match):
                     return f'{match.group(1)}"{match.group(2)}":'
 
-                text = re.sub(r'([{,])([A-Za-z0-9_]+?):', add_quotation_mark, text)
+                text = re.sub(r"([{,])([A-Za-z0-9_]+?):", add_quotation_mark, text)
                 models = json.loads(text)
-                cls.text_models = [model['id'] for model in models]
+                cls.text_models = [model["id"] for model in models]
                 cls.models = cls.text_models + cls.image_models
                 cls.vision_models = [
-                    model['id'] for model in models if model['multimodal']
+                    model["id"] for model in models if model["multimodal"]
                 ]
             except Exception as ex:
                 logger.error(
-                    f'{cls.__name__}: Ошибка при чтении моделей: {type(ex).__name__}: {ex}',
+                    f"{cls.__name__}: Error reading models: {type(ex).__name__}: {ex}",
                     exc_info=True,
-                )  # Логируем ошибку
+                )  # Используем logger.error для логирования ошибок
                 cls.models = [*fallback_models]
         return cls.models
 
@@ -178,29 +160,36 @@ class HuggingChat(AsyncAuthedProvider, ProviderModelMixin):
 
         Args:
             cookies (Cookies, optional): Cookies для аутентификации. По умолчанию None.
-            proxy (str, optional): Proxy для подключения. По умолчанию None.
+            proxy (str, optional): Proxy для использования при аутентификации. По умолчанию None.
+            **kwargs: Дополнительные аргументы.
 
         Yields:
             AuthResult: Результат аутентификации.
-            RequestLogin: Если требуется логин.
+            RequestLogin: Запрос на ввод данных для входа.
+
+        Raises:
+            MissingAuthError: Если не удалось аутентифицироваться.
         """
         if cookies is None:
             cookies = get_cookies(cls.domain, single_browser=True)
-        if 'hf-chat' in cookies:
+        if "hf-chat" in cookies:
             yield AuthResult(
-                cookies=cookies, impersonate='chrome', headers=DEFAULT_HEADERS
+                cookies=cookies, impersonate="chrome", headers=DEFAULT_HEADERS
             )
             return
         if cls.needs_auth:
-            yield RequestLogin(cls.__name__, os.environ.get('G4F_LOGIN_URL') or '')
+            login_url = os.environ.get("G4F_LOGIN_URL") or ""
+            yield RequestLogin(cls.__name__, login_url)
             yield AuthResult(
-                **await get_args_from_nodriver(
-                    cls.url, proxy=proxy, wait_for='form[action$="/logout"]'
+                **(
+                    await get_args_from_nodriver(
+                        cls.url, proxy=proxy, wait_for='form[action$="/logout"]'
+                    )
                 )
             )
         else:
             yield AuthResult(
-                cookies={'hf-chat': str(uuid.uuid4())}  # Generate a session ID
+                cookies={"hf-chat": str(uuid.uuid4())}  # Generate a session ID
             )
 
     @classmethod
@@ -217,26 +206,32 @@ class HuggingChat(AsyncAuthedProvider, ProviderModelMixin):
         **kwargs,
     ) -> AsyncResult:
         """
-        Создает аутентифицированный запрос.
+        Создает аутентифицированный запрос к Hugging Face Chat.
 
         Args:
-            model (str): Модель для запроса.
-            messages (Messages): Список сообщений.
+            model (str): Идентификатор модели для использования.
+            messages (Messages): Список сообщений для отправки.
             auth_result (AuthResult): Результат аутентификации.
-            prompt (str, optional): Prompt для запроса. По умолчанию None.
-            media (MediaListType, optional): Список медиафайлов. По умолчанию None.
-            return_conversation (bool, optional): Возвращать conversation. По умолчанию False.
-            conversation (Conversation, optional): Conversation. По умолчанию None.
-            web_search (bool, optional): Использовать web search. По умолчанию False.
+            prompt (str, optional): Дополнительный текст-подсказка. По умолчанию None.
+            media (MediaListType, optional): Список медиафайлов для отправки. По умолчанию None.
+            return_conversation (bool, optional): Флаг, указывающий, следует ли возвращать объект Conversation. По умолчанию False.
+            conversation (Conversation, optional): Объект Conversation для продолжения беседы. По умолчанию None.
+            web_search (bool, optional): Флаг, указывающий, следует ли выполнять веб-поиск. По умолчанию False.
+            **kwargs: Дополнительные аргументы.
 
         Yields:
-            str | ImageResponse | Sources | TitleGeneration | Reasoning | FinishReason: Результат запроса.
+            str: Части ответа от Hugging Face Chat.
+            ImageResponse: Ответ с изображением.
+            Sources: Источники веб-поиска.
+            TitleGeneration: Сгенерированный заголовок.
+            Reasoning: Рассуждения модели.
+            FinishReason: Причина завершения.
 
         Raises:
             MissingRequirementsError: Если не установлен пакет `curl_cffi`.
-            MissingAuthError: Если отсутствует аутентификация.
-            ResponseError: Если получен некорректный ответ от сервера.
-            RuntimeError: Если происходит ошибка во время выполнения.
+            MissingAuthError: Если не удалось аутентифицироваться.
+            ResponseError: Если получен неожиданный статус ответа.
+            RuntimeError: Если не удалось обработать ответ от сервера.
         """
         if not has_curl_cffi:
             raise MissingRequirementsError(
@@ -248,54 +243,52 @@ class HuggingChat(AsyncAuthedProvider, ProviderModelMixin):
 
         session = Session(**auth_result.get_dict())
 
-        if conversation is None or not hasattr(conversation, 'models'):
+        if conversation is None or not hasattr(conversation, "models"):
             conversation = Conversation({})
 
         if model not in conversation.models:
             conversationId = cls.create_conversation(session, model)
-            debug.log(
-                f'Conversation created: {json.dumps(conversationId[8:] + \'...\')}'
-            )
+            debug.log(f"Conversation created: {json.dumps(conversationId[8:] + '...')}")
             messageId = cls.fetch_message_id(session, conversationId)
             conversation.models[model] = {
-                'conversationId': conversationId,
-                'messageId': messageId,
+                "conversationId": conversationId,
+                "messageId": messageId,
             }
             if return_conversation:
                 yield conversation
             inputs = format_prompt(messages)
         else:
-            conversationId = conversation.models[model]['conversationId']
-            conversation.models[model]['messageId'] = cls.fetch_message_id(
+            conversationId = conversation.models[model]["conversationId"]
+            conversation.models[model]["messageId"] = cls.fetch_message_id(
                 session, conversationId
             )
             inputs = get_last_user_message(messages)
 
         settings = {
-            'inputs': inputs,
-            'id': conversation.models[model]['messageId'],
-            'is_retry': False,
-            'is_continue': False,
-            'web_search': web_search,
-            'tools': ['000000000000000000000001'] if model in cls.image_models else [],
+            "inputs": inputs,
+            "id": conversation.models[model]["messageId"],
+            "is_retry": False,
+            "is_continue": False,
+            "web_search": web_search,
+            "tools": ["000000000000000000000001"] if model in cls.image_models else [],
         }
 
         headers = {
-            'accept': '*/*',
-            'origin': cls.origin,
-            'referer': f'{cls.url}/conversation/{conversationId}',
+            "accept": "*/*",
+            "origin": cls.origin,
+            "referer": f"{cls.url}/conversation/{conversationId}",
         }
         data = CurlMime()
-        data.addpart('data', data=json.dumps(settings, separators=(',', ':')))
+        data.addpart("data", data=json.dumps(settings, separators=(",", ":")))
         for image, filename in merge_media(media, messages):
             data.addpart(
-                'files',
-                filename=f'base64;{filename}',
+                "files",
+                filename=f"base64;{filename}",
                 data=base64.b64encode(to_bytes(image)),
             )
 
         response = session.post(
-            f'{cls.url}/conversation/{conversationId}',
+            f"{cls.url}/conversation/{conversationId}",
             headers=headers,
             multipart=data,
             stream=True,
@@ -303,114 +296,116 @@ class HuggingChat(AsyncAuthedProvider, ProviderModelMixin):
         raise_for_status(response)
 
         sources = None
-        for line in response.iter_lines():
-            if not line:
-                continue
-            try:
-                line = json.loads(line)
-            except json.JSONDecodeError as ex:
-                logger.error(
-                    f'Не удалось декодировать JSON: {line}, ошибка: {ex}', exc_info=True
-                )  # Логируем ошибку
-                continue
-            if 'type' not in line:
-                raise RuntimeError(f'Response: {line}')
-            elif line['type'] == 'stream':
-                yield line['token'].replace('\\u0000', '')
-            elif line['type'] == 'finalAnswer':
-                if sources is not None:
-                    yield sources
-                yield FinishReason('stop')
-                break
-            elif line['type'] == 'file':
-                url = f"{cls.url}/conversation/{conversationId}/output/{line['sha']}"
-                yield ImageResponse(
-                    url,
-                    format_image_prompt(messages, prompt),
-                    options={'cookies': auth_result.cookies},
-                )
-            elif line['type'] == 'webSearch' and 'sources' in line:
-                sources = Sources(line['sources'])
-            elif line['type'] == 'title':
-                yield TitleGeneration(line['title'])
-            elif line['type'] == 'reasoning':
-                yield Reasoning(line.get('token'), status=line.get('status'))
+        try:
+            for line in response.iter_lines():
+                if not line:
+                    continue
+                try:
+                    line = json.loads(line)
+                except json.JSONDecodeError as ex:
+                    logger.error(f"Failed to decode JSON: {line}, error: {ex}", exc_info=True)
+                    continue
+                if "type" not in line:
+                    raise RuntimeError(f"Response: {line}")
+                elif line["type"] == "stream":
+                    yield line["token"].replace("\\u0000", "")
+                elif line["type"] == "finalAnswer":
+                    if sources is not None:
+                        yield sources
+                    yield FinishReason("stop")
+                    break
+                elif line["type"] == "file":
+                    url = f"{cls.url}/conversation/{conversationId}/output/{line['sha']}"
+                    yield ImageResponse(
+                        url,
+                        format_image_prompt(messages, prompt),
+                        options={"cookies": auth_result.cookies},
+                    )
+                elif line["type"] == "webSearch" and "sources" in line:
+                    sources = Sources(line["sources"])
+                elif line["type"] == "title":
+                    yield TitleGeneration(line["title"])
+                elif line["type"] == "reasoning":
+                    yield Reasoning(line.get("token"), status=line.get("status"))
+        except Exception as ex:
+            logger.error(f"Error processing response: {ex}", exc_info=True)
+            raise
 
     @classmethod
     def create_conversation(cls, session: Session, model: str) -> str:
         """
-        Создает conversation.
+        Создает новую беседу с Hugging Face Chat.
 
         Args:
-            session (Session): Сессия.
-            model (str): Модель.
+            session (Session): Сессия для выполнения запросов.
+            model (str): Идентификатор модели для использования.
 
         Returns:
-            str: ID conversation.
+            str: Идентификатор созданной беседы.
 
         Raises:
-            MissingAuthError: Если отсутствует аутентификация.
-            ResponseError: Если получен некорректный ответ от сервера.
+            MissingAuthError: Если не удалось аутентифицироваться.
+            ResponseError: Если получен неожиданный статус ответа.
         """
         if model in cls.image_models:
             model = cls.default_model
-        json_data = {'model': model}
-        response = session.post(f'{cls.url}/conversation', json=json_data)
+        json_data = {"model": model}
+        response = session.post(f"{cls.url}/conversation", json=json_data)
         if response.status_code == 401:
             raise MissingAuthError(response.text)
         if response.status_code == 400:
-            raise ResponseError(f'{response.text}: Model: {model}')
+            raise ResponseError(f"{response.text}: Model: {model}")
         raise_for_status(response)
-        return response.json().get('conversationId')
+        return response.json().get("conversationId")
 
     @classmethod
     def fetch_message_id(cls, session: Session, conversation_id: str) -> str:
         """
-        Извлекает message ID.
+        Извлекает идентификатор последнего сообщения в беседе.
 
         Args:
-            session (Session): Сессия.
-            conversation_id (str): ID conversation.
+            session (Session): Сессия для выполнения запросов.
+            conversation_id (str): Идентификатор беседы.
 
         Returns:
-            str: ID сообщения.
+            str: Идентификатор последнего сообщения.
 
         Raises:
-            RuntimeError: Если не удалось извлечь message ID.
+            RuntimeError: Если не удалось извлечь идентификатор сообщения.
         """
         # Get the data response and parse it properly
         response = session.get(
-            f'{cls.url}/conversation/{conversation_id}/__data.json?x-sveltekit-invalidated=11'
+            f"{cls.url}/conversation/{conversation_id}/__data.json?x-sveltekit-invalidated=11"
         )
         raise_for_status(response)
 
         # Split the response content by newlines and parse each line as JSON
         try:
             json_data = None
-            for line in response.text.split('\n'):
+            for line in response.text.split("\\n"):
                 if line.strip():
                     try:
                         parsed = json.loads(line)
-                        if isinstance(parsed, dict) and 'nodes' in parsed:
+                        if isinstance(parsed, dict) and "nodes" in parsed:
                             json_data = parsed
                             break
                     except json.JSONDecodeError:
                         continue
 
             if not json_data:
-                raise RuntimeError('Не удалось разобрать данные ответа')
+                raise RuntimeError("Failed to parse response data")
 
-            if json_data['nodes'][-1]['type'] == 'error':
-                if json_data['nodes'][-1]['status'] == 403:
+            if json_data["nodes"][-1]["type"] == "error":
+                if json_data["nodes"][-1]["status"] == 403:
                     raise MissingAuthError(
-                        json_data['nodes'][-1]['error']['message']
+                        json_data["nodes"][-1]["error"]["message"]
                     )
-                raise ResponseError(json.dumps(json_data['nodes'][-1]))
+                raise ResponseError(json.dumps(json_data["nodes"][-1]))
 
-            data = json_data['nodes'][1]['data']
-            keys = data[data[0]['messages']]
+            data = json_data["nodes"][1]["data"]
+            keys = data[data[0]["messages"]]
             message_keys = data[keys[-1]]
-            return data[message_keys['id']]
+            return data[message_keys["id"]]
 
         except (KeyError, IndexError, TypeError) as ex:
-            raise RuntimeError(f'Не удалось извлечь message ID: {str(ex)}')
+            raise RuntimeError(f"Failed to extract message ID: {str(ex)}")

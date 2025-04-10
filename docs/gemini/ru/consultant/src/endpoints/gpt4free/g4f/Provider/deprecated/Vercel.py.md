@@ -1,74 +1,74 @@
 ### **Анализ кода модуля `Vercel.py`**
 
-## \file /hypotez/src/endpoints/gpt4free/g4f/Provider/deprecated/Vercel.py
-
-Модуль предоставляет класс `Vercel`, который является провайдером для взаимодействия с моделями Vercel AI.
-
-**Качество кода:**
-
+#### **Качество кода**:
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Код достаточно структурирован.
-    - Присутствуют аннотации типов.
+  - Код достаточно структурирован и логически разделен на функции и классы.
+  - Используются аннотации типов, что улучшает читаемость и облегчает отладку.
 - **Минусы**:
-    - Отсутствует docstring для модуля.
-    - Некоторые функции не имеют docstring или не полностью документированы.
-    - Не используется `logger` для логирования ошибок.
-    - Присутствуют закомментированные блоки кода.
-    - Не все переменные аннотированы типами.
+  - Отсутствует docstring в начале файла, описывающий назначение модуля.
+  - Многие функции и классы не имеют подробных docstring, что затрудняет понимание их работы.
+  - Не используется модуль `logger` для логирования ошибок и информации.
+  - Присутствуют закомментированные блоки кода, которые следует удалить или объяснить их назначение.
+  - Не все переменные аннотированы типами.
+  - Используется устаревший стиль `Union[]`.
 
-**Рекомендации по улучшению:**
+#### **Рекомендации по улучшению**:
+- Добавить docstring в начало файла с описанием модуля.
+- Добавить подробные docstring для всех функций, методов и классов, включая описание параметров, возвращаемых значений и возможных исключений.
+- Заменить `Union[]` на `|` для аннотаций типов.
+- Использовать модуль `logger` для логирования ошибок и важной информации.
+- Удалить или объяснить закомментированные блоки кода.
+- Обеспечить консистентность в использовании кавычек (использовать одинарные кавычки).
+- Добавить обработку исключений с использованием `logger.error` для логирования ошибок.
+- Перевести все docstring и комментарии на русский язык.
+- Для всех переменных добавить аннотации типа.
+- Убрать неиспользуемые импорты.
 
-1.  **Добавить docstring для модуля**: Описать назначение модуля и предоставить примеры использования.
-2.  **Добавить docstring для функций и методов**: Описать параметры, возвращаемые значения и возможные исключения.
-3.  **Использовать `logger` для логирования ошибок**: Заменить `print` на `logger.error` для более эффективного логирования.
-4.  **Удалить закомментированные блоки кода**: Убрать неиспользуемый код для улучшения читаемости.
-5.  **Добавить аннотации типов для всех переменных**: Указать типы данных для всех переменных.
-6.  **Обработка исключений**: Добавить обработку исключений с использованием `logger.error` для записи информации об ошибках.
-
-**Оптимизированный код:**
+#### **Оптимизированный код**:
 
 ```python
-"""
-Модуль для взаимодействия с моделями Vercel AI через класс Vercel.
-====================================================================
-
-Модуль содержит класс :class:`Vercel`, который предоставляет функциональность для создания запросов к Vercel AI API
-и получения ответов. Поддерживает stream ответы.
-
-Пример использования
-----------------------
-
->>> from src.endpoints.gpt4free.g4f.Provider.deprecated.Vercel import Vercel
->>> messages = [{'role': 'user', 'content': 'Hello'}]
->>> for message in Vercel.create_completion(model='gpt-3.5-turbo', messages=messages, stream=True):
-...     print(message, end='')
-"""
-from __future__ import annotations
+                from __future__ import annotations
 
 import json
 import base64
 import requests
 import random
 import uuid
-
-from typing import Messages, TypedDict, CreateResult, Any, Dict
-from ..base_provider import AbstractProvider
-from ...errors import MissingRequirementsError
-from src.logger import logger
+from typing import Any, Dict, Generator, List, Optional
 
 try:
     import execjs
 
-    has_requirements: bool = True
-except ImportError as ex:
-    has_requirements: bool = False
-    logger.error('Required package PyExecJS id not installed', ex, exc_info=True)
+    has_requirements = True
+except ImportError:
+    has_requirements = False
+
+from ...typing import Messages, TypedDict, CreateResult
+from ..base_provider import AbstractProvider
+from ...errors import MissingRequirementsError
+from src.logger import logger  # Добавлен импорт logger
+
+
+"""
+Модуль для взаимодействия с Vercel API для получения ответов от языковых моделей.
+====================================================================================
+
+Модуль содержит класс :class:`Vercel`, который является провайдером для g4f.
+Он использует API Vercel для генерации текста на основе предоставленных сообщений.
+
+Пример использования:
+----------------------
+>>> from g4f.Provider import Vercel
+>>> messages = [{"role": "user", "content": "Hello, how are you?"}]
+>>> for message in Vercel.create_completion(model="gpt-3.5-turbo", messages=messages, stream=True):
+...     print(message, end="")
+"""
 
 
 class Vercel(AbstractProvider):
     """
-    Провайдер для взаимодействия с Vercel AI.
+    Провайдер для g4f, использующий API Vercel для генерации текста.
     """
 
     url: str = 'https://sdk.vercel.ai'
@@ -82,29 +82,30 @@ class Vercel(AbstractProvider):
         model: str,
         messages: Messages,
         stream: bool,
-        proxy: str | None = None,
+        proxy: Optional[str] = None,
         **kwargs: Any,
     ) -> CreateResult:
         """
-        Создает запрос к Vercel AI API и возвращает ответ.
+        Создает завершение текста на основе предоставленных сообщений, используя API Vercel.
 
         Args:
-            model (str): Идентификатор модели.
-            messages (Messages): Список сообщений для отправки.
-            stream (bool): Флаг, указывающий, следует ли использовать потоковый режим.
-            proxy (str | None): Прокси-сервер для использования. По умолчанию None.
-            **kwargs (Any): Дополнительные параметры.
+            model (str): Идентификатор модели для использования.
+            messages (Messages): Список сообщений для отправки в модель.
+            stream (bool): Флаг, указывающий, следует ли возвращать результат в виде потока.
+            proxy (Optional[str]): Прокси-сервер для использования при подключении к API.
+            **kwargs (Any): Дополнительные параметры для передачи в API.
+
+        Yields:
+            str: Части сгенерированного текста, если `stream` установлен в `True`.
 
         Returns:
-            CreateResult: Объект, содержащий ответ от API.
+            str: Сгенерированный текст, если `stream` установлен в `False`.
 
         Raises:
             MissingRequirementsError: Если не установлен пакет "PyExecJS".
             ValueError: Если указанная модель не поддерживается Vercel.
-            requests.exceptions.RequestException: При ошибке запроса к API.
+            requests.exceptions.RequestException: Если возникает ошибка при выполнении HTTP-запроса.
 
-        Yields:
-            str: Части ответа, если stream=True.
         """
         if not has_requirements:
             raise MissingRequirementsError('Install "PyExecJS" package')
@@ -152,18 +153,20 @@ class Vercel(AbstractProvider):
                     stream=True,
                     proxies={'https': proxy},
                 )
-                response.raise_for_status()
+                response.raise_for_status()  # Проверка на успешный статус код
                 for token in response.iter_content(chunk_size=None):
                     yield token.decode()
-                break
+                break  # Выход из цикла при успешном получении ответа
             except requests.exceptions.RequestException as ex:
-                logger.error('Error while sending request', ex, exc_info=True)
-                continue
+                logger.error('Error while making request to Vercel API', ex, exc_info=True)
+                continue  # Повторная попытка при возникновении ошибки
+            except Exception as ex:
+                logger.error('Error while processing data', ex, exc_info=True)
 
 
 def get_anti_bot_token() -> str:
     """
-    Генерирует anti-bot токен для защиты от автоматических запросов.
+    Получает anti-bot токен с использованием API Vercel.
 
     Returns:
         str: Anti-bot токен.
@@ -195,16 +198,16 @@ def get_anti_bot_token() -> str:
         raw_token: str = json.dumps({'r': execjs.compile(js_script).call(''), 't': raw_data['t']}, separators=(',', ':'))
         return base64.b64encode(raw_token.encode('utf-16le')).decode()
     except requests.exceptions.RequestException as ex:
-        logger.error('Error while getting anti bot token', ex, exc_info=True)
-        return ''
+        logger.error('Error while getting anti-bot token', ex, exc_info=True)
+        return ''  # Возвращаем пустую строку в случае ошибки
     except Exception as ex:
-        logger.error('Error while processing anti bot token', ex, exc_info=True)
+        logger.error('Error while processing data', ex, exc_info=True)
         return ''
 
 
 class ModelInfo(TypedDict):
     """
-    Тип данных для информации о модели.
+    Описывает структуру информации о модели.
     """
 
     id: str

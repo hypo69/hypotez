@@ -2,54 +2,57 @@
 
 ## \file /hypotez/src/endpoints/bots/telegram/digital_market/bot/user/kbs.py
 
-Модуль содержит функции для создания различных инлайн-клавиатур для Telegram-бота цифрового магазина.
-Функции генерируют клавиатуры для главного меню, каталога, покупок, страницы продукта и способов оплаты.
+Модуль содержит функции для создания различных inline-клавиатур для Telegram-бота цифрового магазина.
+Обеспечивает навигацию по каталогу, профилю пользователя, информации о магазине, а также предлагает различные способы оплаты товаров.
 
 **Качество кода:**
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Четкая структура функций, каждая из которых отвечает за создание определенной клавиатуры.
-    - Использование `InlineKeyboardBuilder` для удобного создания клавиатур.
-    - Применение `callback_data` для обработки нажатий на кнопки.
+    - Код хорошо структурирован и выполняет поставленные задачи.
+    - Используются `InlineKeyboardBuilder` для удобного создания клавиатур.
+    - Присутствуют функции для создания различных типов клавиатур.
 - **Минусы**:
-    - Отсутствуют docstring для функций, что затрудняет понимание их назначения и параметров.
-    - Не все переменные аннотированы типами.
-    - Использованы двойные кавычки в строках, необходимо заменить на одинарные.
-    - Не используется модуль `logger` для логгирования возможных ошибок.
-    - В некоторых местах отсутствует единообразие в форматировании (например, пробелы вокруг операторов).
+    - Отсутствуют docstring для функций и аннотации типов.
+    - Смешанный стиль кавычек (использованы как одинарные, так и двойные).
+    - Не используется модуль `logger` для логирования.
 
 **Рекомендации по улучшению:**
 
-1.  Добавить docstring к каждой функции, описывающий её назначение, параметры и возвращаемое значение.
-2.  Добавить аннотации типов для переменных и параметров функций.
-3.  Заменить двойные кавычки на одинарные.
-4.  Добавить обработку исключений с логированием ошибок с использованием модуля `logger`.
-5.  Улучшить форматирование кода в соответствии со стандартами PEP8 (пробелы вокруг операторов, отступы и т.д.).
-6.  Удалить неиспользуемые импорты.
+1.  **Добавить docstring для всех функций**:
+    *   Добавить подробное описание каждой функции, ее аргументов, возвращаемых значений и возможных исключений.
+2.  **Аннотировать типы**:
+    *   Указать типы всех переменных и параметров функций.
+3.  **Использовать одинарные кавычки**:
+    *   Привести все строки к использованию одинарных кавычек.
+4.  **Использовать модуль `logger`**:
+    *   Добавить логирование важных событий, таких как ошибки при создании клавиатур.
+5.  **Изменить способ импорта модулей из `aiogram`**:
+    *   Импортировать конкретные классы и функции, а не использовать wildcard импорт (`from aiogram.types import ...`).
+6.  **Удалить неиспользуемые импорты**:
+    *   Удалить `ReplyKeyboardMarkup` и `ReplyKeyboardBuilder`, если они не используются.
 
 **Оптимизированный код:**
 
 ```python
 from typing import List, Optional
-from aiogram.types import InlineKeyboardMarkup, ReplyKeyboardMarkup, InlineKeyboardButton, WebAppInfo
-from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
-
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+from aiogram.utils.keyboard import InlineKeyboardBuilder
+from src.logger.logger import logger  # Добавлен импорт logger
 from bot.app.utils import generate_payment_link
 from bot.config import settings
 from bot.dao.models import Category
-from src.logger import logger  # Добавлен импорт logger
 
 
 def main_user_kb(user_id: int) -> InlineKeyboardMarkup:
     """
-    Создает главную клавиатуру пользователя.
+    Создает главную клавиатуру пользователя с кнопками: "Мои покупки", "Каталог", "О магазине", "Поддержать автора" и "Админ панель" (если пользователь является админом).
 
     Args:
         user_id (int): ID пользователя.
 
     Returns:
-        InlineKeyboardMarkup: Главная клавиатура пользователя.
+        InlineKeyboardMarkup: Объект InlineKeyboardMarkup с главной клавиатурой пользователя.
     """
     kb = InlineKeyboardBuilder()
     kb.button(text='👤 Мои покупки', callback_data='my_profile')
@@ -64,13 +67,13 @@ def main_user_kb(user_id: int) -> InlineKeyboardMarkup:
 
 def catalog_kb(catalog_data: List[Category]) -> InlineKeyboardMarkup:
     """
-    Создает клавиатуру каталога на основе списка категорий.
+    Создает клавиатуру каталога с кнопками категорий и кнопкой "На главную".
 
     Args:
-        catalog_data (List[Category]): Список категорий для отображения.
+        catalog_data (List[Category]): Список объектов Category.
 
     Returns:
-        InlineKeyboardMarkup: Клавиатура каталога.
+        InlineKeyboardMarkup: Объект InlineKeyboardMarkup с клавиатурой каталога.
     """
     kb = InlineKeyboardBuilder()
     for category in catalog_data:
@@ -82,10 +85,10 @@ def catalog_kb(catalog_data: List[Category]) -> InlineKeyboardMarkup:
 
 def purchases_kb() -> InlineKeyboardMarkup:
     """
-    Создает клавиатуру для управления покупками.
+    Создает клавиатуру для управления покупками с кнопками: "Смотреть покупки" и "На главную".
 
     Returns:
-        InlineKeyboardMarkup: Клавиатура для управления покупками.
+        InlineKeyboardMarkup: Объект InlineKeyboardMarkup с клавиатурой управления покупками.
     """
     kb = InlineKeyboardBuilder()
     kb.button(text='🗑 Смотреть покупки', callback_data='purchases')
@@ -94,17 +97,17 @@ def purchases_kb() -> InlineKeyboardMarkup:
     return kb.as_markup()
 
 
-def product_kb(product_id: int, price: float, stars_price: int) -> InlineKeyboardMarkup:
+def product_kb(product_id: int, price: int, stars_price: int) -> InlineKeyboardMarkup:
     """
-    Создает клавиатуру для страницы продукта с опциями покупки.
+    Создает клавиатуру продукта с кнопками для оплаты различными способами и кнопками навигации.
 
     Args:
         product_id (int): ID продукта.
-        price (float): Цена продукта в рублях.
+        price (int): Цена продукта в рублях.
         stars_price (int): Цена продукта в звездах.
 
     Returns:
-        InlineKeyboardMarkup: Клавиатура для страницы продукта.
+        InlineKeyboardMarkup: Объект InlineKeyboardMarkup с клавиатурой продукта.
     """
     kb = InlineKeyboardBuilder()
     kb.button(text='💳 Оплатить ЮКасса', callback_data=f'buy_yukassa_{product_id}_{price}')
@@ -116,15 +119,15 @@ def product_kb(product_id: int, price: float, stars_price: int) -> InlineKeyboar
     return kb.as_markup()
 
 
-def get_product_buy_youkassa(price: float) -> InlineKeyboardMarkup:
+def get_product_buy_youkassa(price: int) -> InlineKeyboardMarkup:
     """
     Создает клавиатуру для оплаты продукта через ЮКасса.
 
     Args:
-        price (float): Цена продукта.
+        price (int): Цена продукта в рублях.
 
     Returns:
-        InlineKeyboardMarkup: Клавиатура для оплаты через ЮКасса.
+        InlineKeyboardMarkup: Объект InlineKeyboardMarkup с клавиатурой для оплаты через ЮКасса.
     """
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=f'Оплатить {price}₽', pay=True)],
@@ -137,11 +140,11 @@ def get_product_buy_robocassa(price: int, payment_link: str) -> InlineKeyboardMa
     Создает клавиатуру для оплаты продукта через Robocassa.
 
     Args:
-        price (int): Цена продукта.
-        payment_link (str): Ссылка на оплату в Robocassa.
+        price (int): Цена продукта в рублях.
+        payment_link (str): Ссылка на оплату через Robocassa.
 
     Returns:
-        InlineKeyboardMarkup: Клавиатура для оплаты через Robocassa.
+        InlineKeyboardMarkup: Объект InlineKeyboardMarkup с клавиатурой для оплаты через Robocassa.
     """
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(
@@ -160,7 +163,7 @@ def get_product_buy_stars(price: int) -> InlineKeyboardMarkup:
         price (int): Цена продукта в звездах.
 
     Returns:
-        InlineKeyboardMarkup: Клавиатура для оплаты звездами.
+        InlineKeyboardMarkup: Объект InlineKeyboardMarkup с клавиатурой для оплаты звездами.
     """
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=f'Оплатить {price} ⭐', pay=True)],

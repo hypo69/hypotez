@@ -1,147 +1,107 @@
 ### **Анализ кода модуля `ChatgptDuo.py`**
 
-**Качество кода:**
+#### **Качество кода**:
 
 - **Соответствие стандартам**: 6/10
 - **Плюсы**:
-    - Асинхронная обработка запросов с использованием `StreamSession`.
-    - Использование `format_prompt` для форматирования сообщений.
-    - Обработка результатов поиска и извлечение источников.
+    - Асинхронная реализация для неблокирующих операций.
+    - Использование `StreamSession` для эффективной работы с потоками данных.
+    - Класс `ChatgptDuo` наследуется от `AsyncProvider`, что предполагает интеграцию в существующую систему провайдеров.
 - **Минусы**:
-    - Отсутствует документация модуля и класса.
-    - Нет обработки возможных исключений при запросах.
-    - Не используются логирование для отслеживания ошибок и хода выполнения.
-    - Не указаны типы для параметров и возвращаемых значений функций.
-    - Используется старый формат `Union` вместо `|`.
-    - Переменная `working` не используется и не документирована.
-    - Неправильное использование `proxy` в `StreamSession`.
-    - Дублирование `prompt` в полях `prompt` и `search` в `data`.
-    - Использование `f-string` для построения URL, хотя можно обойтись без него, так как URL статичен.
+    - Отсутствует документация классов и методов, что затрудняет понимание и использование кода.
+    - Не используются аннотации типов для параметров и возвращаемых значений функций.
+    - Использование f-строк может быть оптимизировано.
+    - Отсутствует обработка возможных исключений при запросах к API.
+    - Не используется модуль логирования `logger` из `src.logger`.
 
-**Рекомендации по улучшению:**
+#### **Рекомендации по улучшению**:
 
-1.  **Добавить документацию модуля и класса**:
-
-    - Добавить docstring в начале файла с описанием модуля.
-    - Добавить docstring для класса `ChatgptDuo` с описанием его назначения и атрибутов.
-
+1.  **Добавить документацию**:
+    - Добавить docstring для класса `ChatgptDuo` и всех его методов, описывающие их назначение, параметры и возвращаемые значения.
+    - Описать формат данных в `_sources`.
 2.  **Добавить аннотации типов**:
+    - Добавить аннотации типов для всех параметров и возвращаемых значений методов.
+3.  **Обработка ошибок**:
+    - Обернуть `session.post` в блок `try...except` для обработки возможных исключений, таких как `HTTPError` или `Timeout`.
+    - Использовать `logger.error` для логирования ошибок.
+4.  **Использовать `j_loads` или `j_loads_ns`**:
+    - Заменить `response.json()` на `j_loads(response.text)` для стандартизации обработки JSON.
+5.  **Улучшить форматирование**:
+    - Исправить форматирование `format_prompt(messages),` удалив лишнюю запятую.
+6. **Логирование**:
+   -  Добавить логирование для отладки и мониторинга работы кода.
+7. **Использовать одинарные кавычки**:
+   - Заменить двойные кавычки на одинарные.
+   - Пример: `"https://chatgptduo.com"` заменить на `'https://chatgptduo.com'`
 
-    - Указать типы для всех параметров функций и возвращаемых значений.
-
-3.  **Обработка исключений**:
-
-    - Добавить блоки `try...except` для обработки возможных исключений при выполнении запросов, чтобы предотвратить неожиданное завершение программы.
-    - Логировать возникающие исключения с использованием `logger.error`.
-
-4.  **Логирование**:
-
-    - Добавить логирование для отслеживания хода выполнения программы и записи ошибок.
-
-5.  **Удалить неиспользуемые переменные**:
-
-    - Удалить или задокументировать переменную `working`, если она не используется.
-
-6.  **Использовать одинарные кавычки**:
-
-    - Заменить двойные кавычки на одинарные, где это необходимо.
-
-7.  **Улучшить обработку прокси**:
-
-    - Проверить и, при необходимости, изменить способ передачи прокси в `StreamSession`, чтобы убедиться, что прокси правильно используются.
-
-8.  **Устранить дублирование `prompt`**:
-
-    - Устранить дублирование переменной `prompt` в `data`, если это не требуется логикой программы.
-
-9. **Улучшить именование переменных**:
-
-    - Переименовать переменную `data` внутри `create_async` в `request_data` для большей ясности.
-
-10. **Упростить URL**:
-    - Убрать `f-string` для URL, так как он статичен.
-
-**Оптимизированный код:**
+#### **Оптимизированный код**:
 
 ```python
-"""
-Модуль для асинхронного взаимодействия с ChatgptDuo
-=====================================================
-
-Модуль содержит класс :class:`ChatgptDuo`, который является асинхронным провайдером для взаимодействия с сервисом ChatgptDuo.
-Он поддерживает модель gpt-3.5-turbo и предоставляет методы для отправки запросов и получения ответов.
-"""
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import List, Dict
 
-from ...typing import Messages, Dict
+from ...typing import Messages
 from ...requests import StreamSession
 from ..base_provider import AsyncProvider, format_prompt
-from src.logger import logger  # Import logger
+from src.logger import logger  # Добавлен импорт logger
 
 
 class ChatgptDuo(AsyncProvider):
     """
-    Асинхронный провайдер для взаимодействия с сервисом ChatgptDuo.
+    Провайдер для доступа к ChatGPT Duo.
 
     Attributes:
-        url (str): URL сервиса ChatgptDuo.
+        url (str): URL сервиса ChatGPT Duo.
         supports_gpt_35_turbo (bool): Поддержка модели gpt-3.5-turbo.
-        working (bool): Флаг, указывающий на работоспособность провайдера.
-        _sources (List[Dict]): Список источников, полученных из ответа сервиса.
+        working (bool): Статус работоспособности провайдера.
+        _sources (List[Dict[str, str]]): Список источников, полученных из ответа API.
     """
     url: str = 'https://chatgptduo.com'
     supports_gpt_35_turbo: bool = True
     working: bool = False
-    _sources: List[Dict] = []
+    _sources: List[Dict[str, str]] = []
 
     @classmethod
     async def create_async(
         cls,
         model: str,
         messages: Messages,
-        proxy: Optional[str] = None,
+        proxy: str | None = None,
         timeout: int = 120,
         **kwargs
     ) -> str | None:
         """
-        Асинхронно отправляет запрос в ChatgptDuo и возвращает ответ.
+        Асинхронно отправляет запрос к ChatGPT Duo и возвращает ответ.
 
         Args:
-            model (str): Модель для использования.
+            model (str): Название используемой модели.
             messages (Messages): Список сообщений для отправки.
-            proxy (Optional[str], optional): Прокси-сервер для использования. Defaults to None.
-            timeout (int, optional): Время ожидания ответа. Defaults to 120.
-            **kwargs: Дополнительные аргументы.
+            proxy (Optional[str]): Прокси-сервер для использования. По умолчанию `None`.
+            timeout (int): Время ожидания ответа в секундах. По умолчанию 120.
 
         Returns:
-            str | None: Ответ от ChatgptDuo или None в случае ошибки.
-
+            str | None: Ответ от ChatGPT Duo или `None` в случае ошибки.
+        
         Raises:
-            Exception: Если возникает ошибка при выполнении запроса.
-
-        Example:
-            >>> messages = [{"role": "user", "content": "Hello, how are you?"}]
-            >>> answer = await ChatgptDuo.create_async(model="gpt-3.5-turbo", messages=messages)
-            >>> print(answer)
-            "I'm doing well, thank you for asking!"
+            Exception: Если возникает ошибка при запросе к API.
         """
         try:
             async with StreamSession(
                 impersonate='chrome107',
-                proxies={'https': proxy} if proxy else None, # Added condition for proxy
+                proxies={'https': proxy},
                 timeout=timeout
             ) as session:
-                prompt: str = format_prompt(messages)
-                request_data: Dict = {
+                prompt = format_prompt(messages)
+                data = {
                     'prompt': prompt,
                     'search': prompt,
                     'purpose': 'ask',
                 }
-                response = await session.post(cls.url, data=request_data) # Fixed URL
-                response.raise_for_status()
-                data: Dict = response.json()
+                response = await session.post(f'{cls.url}/', data=data)
+                response.raise_for_status()  # Проверка на HTTP ошибки
+
+                data = response.json()
 
                 cls._sources = [{
                     'title': source['title'],
@@ -151,20 +111,15 @@ class ChatgptDuo(AsyncProvider):
 
                 return data['answer']
         except Exception as ex:
-            logger.error('Error while creating async request', ex, exc_info=True) # Log the error
+            logger.error('Error while processing request to ChatgptDuo', ex, exc_info=True)  # Логирование ошибки
             return None
 
     @classmethod
-    def get_sources(cls) -> List[Dict]:
+    def get_sources(cls) -> List[Dict[str, str]]:
         """
-        Возвращает список источников, полученных из ответа сервиса.
+        Возвращает список источников, использованных для формирования ответа.
 
         Returns:
-            List[Dict]: Список источников.
-
-        Example:
-            >>> sources = ChatgptDuo.get_sources()
-            >>> print(sources)
-            []
+            List[Dict[str, str]]: Список источников.
         """
         return cls._sources

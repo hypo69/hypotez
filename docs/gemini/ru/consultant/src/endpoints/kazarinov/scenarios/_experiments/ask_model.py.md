@@ -1,207 +1,240 @@
 ### **Анализ кода модуля `ask_model.py`**
 
-## **Качество кода**:
+## Качество кода:
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-  - Четкая структура, разделение на функции.
-  - Использование `j_loads` для загрузки JSON, что соответствует рекомендациям.
-  - Логирование ошибок.
-  - Чтение инструкций из файлов.
+  - Код достаточно структурирован и понятен.
+  - Используются аннотации типов.
+  - Используется `logger` для логирования.
+  - Чтение файлов производится с указанием кодировки `UTF-8`.
 - **Минусы**:
-  - Отсутствие docstring для функции `model_ask`.
+  - Неполная документация функций и модуля.
+  - Отсутствуют комментарии, объясняющие логику работы кода.
+  - Используются глобальные переменные.
   - Не все переменные аннотированы типами.
+  - В коде есть строка `#! .pyenv/bin/python3`, которая не является корректным shebang.
   - Не обрабатываются исключения при чтении файлов инструкций.
-  - Есть рекурсивный вызов функции `model_ask` при ошибке парсинга, что может привести к StackOverflowError.
-  -  `products_in_test_dir` определяется как `Path`, но затем используется в `j_loads`, который принимает строку.
+  - Реккурсивный вызов функции `model_ask` при ошибке парсинга без ограничений.
+  - Не используется конструкция `if __name__ == "__main__":`
 
-## **Рекомендации по улучшению**:
+## Рекомендации по улучшению:
 
-1.  **Добавить docstring для функции `model_ask`**:
+1.  **Документация модуля**:
+    - Добавить полное описание модуля, включая его назначение и примеры использования.
+    ```python
+    """
+    Модуль для проверки валидности ответов от модели
+    ==================================================================
 
+    Модуль предназначен для взаимодействия с AI-моделями (например, Google Gemini)
+    и оценки валидности ответов, полученных от этих моделей.
+
+    Пример использования:
+    ----------------------
+
+    >>> response = model_ask(lang='ru')
+    >>> if response:
+    ...     print("Ответ получен")
+    ... else:
+    ...     print("Ответ не получен")
+    """
+    ```
+2.  **Документация функций**:
+    - Добавить docstring для функции `model_ask`, с описанием аргументов, возвращаемых значений и возможных исключений.
     ```python
     def model_ask(lang: str, attempts: int = 3) -> dict:
         """
-        Запрашивает ответ у модели на указанном языке.
+        Отправляет запрос к модели и возвращает ответ в виде словаря.
 
         Args:
             lang (str): Язык запроса ('ru' или 'he').
-            attempts (int): Количество попыток запроса к модели. По умолчанию 3.
+            attempts (int, optional): Количество попыток запроса к модели. По умолчанию 3.
 
         Returns:
             dict: Ответ от модели в виде словаря. Возвращает пустой словарь в случае ошибки.
+
+        Raises:
+            Exception: Если возникает ошибка при запросе или обработке ответа от модели.
         """
     ```
-
-2.  **Добавить аннотации типов для переменных**:
-
+3.  **Аннотации типов**:
+    - Добавить аннотации типов для всех переменных, где это возможно.
     ```python
     test_directory: Path = gs.path.external_storage / 'kazarinov' / 'mexironim' / '24_12_07_19_06_40_508'
     products_in_test_dir: Path = test_directory / 'products'
-    products_list: list[dict] = j_loads(str(products_in_test_dir)) # Преобразуем Path в str
+    products_list: list[dict] = j_loads(products_in_test_dir)
     system_instruction: str = Path(gs.path.endpoints / 'kazarinov' / 'instructions' / 'system_instruction_mexiron.md').read_text(encoding='UTF-8')
     command_instruction_ru: str = Path(gs.path.endpoints / 'kazarinov' / 'instructions' / 'command_instruction_mexiron_ru.md').read_text(encoding='UTF-8')
     command_instruction_he: str = Path(gs.path.endpoints / 'kazarinov' / 'instructions' / 'command_instruction_mexiron_he.md').read_text(encoding='UTF-8')
     api_key: str = gs.credentials.gemini.kazarinov
     model: GoogleGenerativeAI = GoogleGenerativeAI(
-                    api_key=api_key,
-                    system_instruction=system_instruction,
-                    generation_config={'response_mime_type': 'application/json'}
-                )
+        api_key=api_key,
+        system_instruction=system_instruction,
+        generation_config={'response_mime_type': 'application/json'}
+    )
     q_ru: str = command_instruction_ru + str(products_list)
     q_he: str = command_instruction_he + str(products_list)
     response_ru_dict: dict = model_ask('ru')
     response_he_dict: dict = model_ask('he')
     ```
-
-3.  **Обработка исключений при чтении файлов инструкций**:
-
+4.  **Обработка исключений**:
+    - Добавить обработку исключений при чтении файлов инструкций.
     ```python
     try:
         system_instruction: str = Path(gs.path.endpoints / 'kazarinov' / 'instructions' / 'system_instruction_mexiron.md').read_text(encoding='UTF-8')
         command_instruction_ru: str = Path(gs.path.endpoints / 'kazarinov' / 'instructions' / 'command_instruction_mexiron_ru.md').read_text(encoding='UTF-8')
         command_instruction_he: str = Path(gs.path.endpoints / 'kazarinov' / 'instructions' / 'command_instruction_mexiron_he.md').read_text(encoding='UTF-8')
-    except FileNotFoundError as ex:
-        logger.error(f"Файл не найден: {ex}", exc_info=True)
-        raise  # Перебросить исключение, чтобы не продолжать выполнение с отсутствующими инструкциями
     except Exception as ex:
-        logger.error(f"Ошибка при чтении файла: {ex}", exc_info=True)
-        raise  # Перебросить исключение
+        logger.error(f"Ошибка при чтении файлов инструкций: {ex}", exc_info=True)
+        system_instruction: str = ''
+        command_instruction_ru: str = ''
+        command_instruction_he: str = ''
     ```
-
-4.  **Изменить рекурсивный вызов `model_ask`**:
-    Заменить рекурсивный вызов на цикл `while`, чтобы избежать потенциального `StackOverflowError`.
-
+5.  **Ограничение рекурсии**:
+    - Добавить условие для остановки рекурсивного вызова `model_ask` при ошибке парсинга.
     ```python
     def model_ask(lang: str, attempts: int = 3) -> dict:
         """
-        Запрашивает ответ у модели на указанном языке.
+        Отправляет запрос к модели и возвращает ответ в виде словаря.
 
         Args:
             lang (str): Язык запроса ('ru' или 'he').
-            attempts (int): Количество попыток запроса к модели. По умолчанию 3.
+            attempts (int, optional): Количество попыток запроса к модели. По умолчанию 3.
 
         Returns:
             dict: Ответ от модели в виде словаря. Возвращает пустой словарь в случае ошибки.
+
+        Raises:
+            Exception: Если возникает ошибка при запросе или обработке ответа от модели.
         """
         global model, q_ru, q_he
-        while attempts > 0:
-            response = model.ask(q_ru if lang == 'ru' else q_he)
-            if not response:
-                logger.error(f"Нет ответа от модели, осталось попыток: {attempts}")
-                attempts -= 1
-                continue
 
-            try:
-                response_dict: dict = j_loads(response)
-                if not response_dict:
-                    logger.error("Ошибка парсинга ответа модели")
-                    attempts -= 1
-                    continue
-                return response_dict
-            except Exception as ex:
-                logger.error(f"Ошибка при парсинге JSON: {ex}", exc_info=True)
-                attempts -= 1
-                continue
+        response = model.ask(q_ru if lang == 'ru' else q_he)
+        if not response:
+            logger.error(f"Нет ответа от модели")
+            ...
+            return {}
 
-        logger.error("Превышено количество попыток получения ответа от модели.")
-        return {}
+        try:
+            response_dict: dict = j_loads(response)
+        except Exception as ex:
+            logger.error(f"Ошибка парсинга ответа от модели: {ex}", exc_info=True)
+            if attempts > 1:
+                return model_ask(lang, attempts - 1)
+            else:
+                logger.error("Превышено максимальное количество попыток запроса к модели.")
+                return {}
+
+        return response_dict
     ```
-
-5. **Преобразовать `Path` в `str`**:
-
+6.  **Избегать использования глобальных переменных**:
+    - Передавать необходимые переменные в функции как аргументы.
+7.  **Использовать `if __name__ == "__main__":`**:
+    - Обернуть код, который должен выполняться только при запуске скрипта, в конструкцию `if __name__ == "__main__":`.
     ```python
-    products_list: list[dict] = j_loads(str(products_in_test_dir))
+    if __name__ == "__main__":
+        response_ru_dict: dict = model_ask('ru')
+        j_dumps(response_ru_dict, gs.path.external_storage / 'kazarinov' / 'mexironim' / '24_12_07_19_06_40_508' / f'ru_{gs.now}.json')
+        response_he_dict: dict = model_ask('he')
+        j_dumps(response_he_dict, gs.path.external_storage / 'kazarinov' / 'mexironim' / '24_12_07_19_06_40_508' / f'he_{gs.now}.json')
     ```
+8.  **Удалить или исправить shebang**:
+    - Строка `#! .pyenv/bin/python3` должна быть либо удалена, либо заменена на корректный shebang, например `#!/usr/bin/env python3`.
+9.  **Добавить комментарии**:
+    - Добавить комментарии для объяснения логики работы кода.
 
-## **Оптимизированный код**:
+## Оптимизированный код:
 
 ```python
 ## \file /src/endpoints/kazarinov/scenarios/_experiments/ask_model.py
 # -*- coding: utf-8 -*-
 
-#! .pyenv/bin/python3
+#!/usr/bin/env python3
 
 """
 Модуль для проверки валидности ответов от модели
 ==================================================================
 
-```rst
-.. module:: src.endpoints.kazarinov.scenarios._experiments
-    :platform: Windows, Unix
-    :synopsis: Provides functionality for extracting, parsing, and processing product data from
-various suppliers. The module handles data preparation, AI processing,
-and integration with Facebook for product posting.
-```
+Модуль предназначен для взаимодействия с AI-моделями (например, Google Gemini)
+и оценки валидности ответов, полученных от этих моделей.
 
+Пример использования:
+----------------------
+
+>>> response = model_ask(lang='ru')
+>>> if response:
+...     print("Ответ получен")
+... else:
+...     print("Ответ не получен")
 """
 
 from pathlib import Path
-import re
-import header
-from src import gs
+
+from src import gs, logger
 from src.ai.gemini.gemini import GoogleGenerativeAI
-from src.utils.jjson import j_dumps, j_loads_ns, j_loads
+from src.utils.jjson import j_dumps, j_loads
 from src.logger.logger import logger
 
 test_directory: Path = gs.path.external_storage / 'kazarinov' / 'mexironim' / '24_12_07_19_06_40_508'
 products_in_test_dir: Path = test_directory / 'products'
-products_list: list[dict] = j_loads(str(products_in_test_dir))
+products_list: list[dict] = j_loads(products_in_test_dir)
+
 try:
     system_instruction: str = Path(gs.path.endpoints / 'kazarinov' / 'instructions' / 'system_instruction_mexiron.md').read_text(encoding='UTF-8')
     command_instruction_ru: str = Path(gs.path.endpoints / 'kazarinov' / 'instructions' / 'command_instruction_mexiron_ru.md').read_text(encoding='UTF-8')
     command_instruction_he: str = Path(gs.path.endpoints / 'kazarinov' / 'instructions' / 'command_instruction_mexiron_he.md').read_text(encoding='UTF-8')
-except FileNotFoundError as ex:
-    logger.error(f"Файл не найден: {ex}", exc_info=True)
-    raise  # Перебросить исключение, чтобы не продолжать выполнение с отсутствующими инструкциями
 except Exception as ex:
-    logger.error(f"Ошибка при чтении файла: {ex}", exc_info=True)
-    raise  # Перебросить исключение
+    logger.error(f"Ошибка при чтении файлов инструкций: {ex}", exc_info=True)
+    system_instruction: str = ''
+    command_instruction_ru: str = ''
+    command_instruction_he: str = ''
 
 api_key: str = gs.credentials.gemini.kazarinov
 model: GoogleGenerativeAI = GoogleGenerativeAI(
-                api_key=api_key,
-                system_instruction=system_instruction,
-                generation_config={'response_mime_type': 'application/json'}
-            )
+    api_key=api_key,
+    system_instruction=system_instruction,
+    generation_config={'response_mime_type': 'application/json'}
+)
 q_ru: str = command_instruction_ru + str(products_list)
 q_he: str = command_instruction_he + str(products_list)
 
 def model_ask(lang: str, attempts: int = 3) -> dict:
     """
-    Запрашивает ответ у модели на указанном языке.
+    Отправляет запрос к модели и возвращает ответ в виде словаря.
 
     Args:
         lang (str): Язык запроса ('ru' или 'he').
-        attempts (int): Количество попыток запроса к модели. По умолчанию 3.
+        attempts (int, optional): Количество попыток запроса к модели. По умолчанию 3.
 
     Returns:
         dict: Ответ от модели в виде словаря. Возвращает пустой словарь в случае ошибки.
+
+    Raises:
+        Exception: Если возникает ошибка при запросе или обработке ответа от модели.
     """
     global model, q_ru, q_he
-    while attempts > 0:
-        response = model.ask(q_ru if lang == 'ru' else q_he)
-        if not response:
-            logger.error(f"Нет ответа от модели, осталось попыток: {attempts}")
-            attempts -= 1
-            continue
 
-        try:
-            response_dict: dict = j_loads(response)
-            if not response_dict:
-                logger.error("Ошибка парсинга ответа модели")
-                attempts -= 1
-                continue
-            return response_dict
-        except Exception as ex:
-            logger.error(f"Ошибка при парсинге JSON: {ex}", exc_info=True)
-            attempts -= 1
-            continue
+    response = model.ask(q_ru if lang == 'ru' else q_he)
+    if not response:
+        logger.error("Нет ответа от модели")
+        ...
+        return {}
 
-    logger.error("Превышено количество попыток получения ответа от модели.")
-    return {}
+    try:
+        response_dict: dict = j_loads(response)
+    except Exception as ex:
+        logger.error(f"Ошибка парсинга ответа от модели: {ex}", exc_info=True)
+        if attempts > 1:
+            return model_ask(lang, attempts - 1)
+        else:
+            logger.error("Превышено максимальное количество попыток запроса к модели.")
+            return {}
 
-response_ru_dict: dict = model_ask('ru')
-j_dumps(response_ru_dict, gs.path.external_storage / 'kazarinov' / 'mexironim' / '24_12_07_19_06_40_508' / f'ru_{gs.now}.json')
-response_he_dict: dict = model_ask('he')
-j_dumps(response_he_dict, gs.path.external_storage / 'kazarinov' / 'mexironim' / '24_12_07_19_06_40_508' / f'he_{gs.now}.json')
+    return response_dict
+
+if __name__ == "__main__":
+    response_ru_dict: dict = model_ask('ru')
+    j_dumps(response_ru_dict, gs.path.external_storage / 'kazarinov' / 'mexironim' / '24_12_07_19_06_40_508' / f'ru_{gs.now}.json')
+    response_he_dict: dict = model_ask('he')
+    j_dumps(response_he_dict, gs.path.external_storage / 'kazarinov' / 'mexironim' / '24_12_07_19_06_40_508' / f'he_{gs.now}.json')

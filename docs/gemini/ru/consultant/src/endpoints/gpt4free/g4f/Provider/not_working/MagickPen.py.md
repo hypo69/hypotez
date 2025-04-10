@@ -1,144 +1,148 @@
 ### **Анализ кода модуля `MagickPen.py`**
 
-#### **1. Качество кода:**
+=========================================================================================
 
-- **Соответствие стандартам**: 6/10
+Модуль предоставляет асинхронный генератор для взаимодействия с API MagickPen.com. Он извлекает учетные данные API из JavaScript-файла, формирует запросы и обрабатывает ответы в виде чанков.
+
+#### **Качество кода**:
+- **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Код асинхронный, использует `aiohttp` для неблокирующих запросов.
-    - Присутствует обработка исключений при получении данных из JavaScript файла.
-    - Используется `format_prompt` для форматирования сообщений.
+  - Асинхронная реализация для неблокирующих операций.
+  - Использование `aiohttp` для асинхронных HTTP-запросов.
+  - Поддержка потоковой передачи данных.
+  - Реализовано получение ключей из js файла
 - **Минусы**:
-    - Отсутствуют docstring для классов и методов, что затрудняет понимание назначения кода.
-    - Жёстко закодированные URL и параметры, такие как `https://magickpen.com/_nuxt/bf709a9ce19f14e18116.js`, что делает код менее гибким.
-    - Не используется модуль `logger` для логирования ошибок и отладочной информации.
-    - Отсутствуют аннотации типов для переменных и параметров функций.
-    - Не все переменные и параметры документированы.
+  - Отсутствует обработка ошибок при извлечении данных из JavaScript-файла.
+  - Жёстко заданные URL и параметры, что может затруднить поддержку при изменениях на стороне MagickPen.
+  - Не все переменные аннотированы типами.
+  - Отсутствует логирование.
 
-#### **2. Рекомендации по улучшению:**
+#### **Рекомендации по улучшению**:
 
-- Добавить docstring для класса `MagickPen` и всех его методов, включая `fetch_api_credentials` и `create_async_generator`.
-- Использовать `logger` для логирования ошибок и важных событий, таких как успешное получение ключей API или возникновение проблем при запросе.
-- Добавить аннотации типов для всех переменных и параметров функций.
-- Избавиться от жёстко закодированных URL, вынеся их в переменные класса или параметры конфигурации.
-- Переписать блок обработки исключений, используя `logger.error` для записи информации об ошибке.
-- Улучшить обработку ошибок, чтобы предоставить более конкретные сообщения об ошибках в случае сбоя.
-- Добавить проверку на `None` для `match` перед вызовом `match.group(1)`, чтобы избежать `AttributeError`.
-- Добавить комментарии, объясняющие логику работы с `timestamp`, `nonce` и `signature`.
-- Перевести все комментарии и docstring на русский язык.
-- Документировать все параметры и возвращаемые значения функций.
-- Убедиться, что все зависимости правильно импортированы и используются.
+1. **Обработка ошибок**:
+   - Добавить более детальную обработку ошибок при извлечении данных из JavaScript-файла, чтобы обеспечить более надежную работу.
+   - Логировать ошибки, возникающие при запросах к API.
 
-#### **3. Оптимизированный код:**
+2. **Гибкость**:
+   - Рассмотреть возможность параметризации URL и endpoint, чтобы упростить адаптацию к изменениям API.
+   - Добавить возможность передачи дополнительных параметров в запросе.
+
+3. **Аннотации типов**:
+   - Добавить аннотации типов для всех переменных и возвращаемых значений функций.
+
+4. **Логирование**:
+   - Добавить логирование для отслеживания хода выполнения программы и облегчения отладки.
+
+5. **Комментарии и документация**:
+   - Добавить docstring для класса `MagickPen` с описанием его назначения и основных методов.
+   - Улучшить комментарии в коде, чтобы более подробно описывать логику работы.
+
+#### **Оптимизированный код**:
 
 ```python
 from __future__ import annotations
 
-from aiohttp import ClientSession
 import hashlib
 import time
 import random
 import re
 import json
-from typing import AsyncGenerator, Optional, List
+from typing import AsyncGenerator, Tuple
+
+from aiohttp import ClientSession
+
 from ...typing import AsyncResult, Messages
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ..helper import format_prompt
-from src.logger import logger  # Импортируем модуль logger
+from src.logger import logger  # Import logger module
 
 
 class MagickPen(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Провайдер для доступа к MagickPen API.
-    ========================================
+    Асинхронный провайдер для взаимодействия с API MagickPen.com.
 
-    Этот класс предоставляет асинхронный генератор для взаимодействия с API MagickPen.
-    Он поддерживает потоковую передачу данных, системные сообщения и историю сообщений.
+    Извлекает учетные данные API из JavaScript-файла, формирует запросы и обрабатывает ответы в виде чанков.
     """
-
     url: str = 'https://magickpen.com'  # URL сайта MagickPen
-    api_endpoint: str = 'https://api.magickpen.com/ask'  # URL API endpoint
-    working: bool = False  # Статус работоспособности провайдера
+    api_endpoint: str = 'https://api.magickpen.com/ask'  # Endpoint API для отправки запросов
+    working: bool = False  # Указывает, работает ли провайдер
     supports_stream: bool = True  # Поддержка потоковой передачи данных
     supports_system_message: bool = True  # Поддержка системных сообщений
     supports_message_history: bool = True  # Поддержка истории сообщений
 
-    default_model: str = 'gpt-4o-mini'  # Модель по умолчанию
-    models: List[str] = ['gpt-4o-mini']  # Список поддерживаемых моделей
+    default_model: str = 'gpt-4o-mini'
+    models: list[str] = ['gpt-4o-mini']
 
     @classmethod
-    async def fetch_api_credentials(cls) -> tuple[str, str, str, str, str]:
+    async def fetch_api_credentials(cls) -> Tuple[str, str, str, str, str]:
         """
-        Получает учетные данные API, необходимые для аутентификации.
-
-        Извлекает `X-API-Secret`, `signature`, `timestamp`, `nonce` и `secret` из JavaScript файла.
+        Извлекает учетные данные API из JavaScript-файла.
 
         Returns:
-            tuple[str, str, str, str, str]: Кортеж, содержащий `X_API_SECRET`, `signature`, `timestamp`, `nonce` и `secret`.
+            Tuple[str, str, str, str, str]: Кортеж, содержащий X_API_SECRET, signature, timestamp, nonce и secret.
 
         Raises:
-            Exception: Если не удается извлечь все необходимые данные из JavaScript файла.
+            Exception: Если не удается извлечь все необходимые данные из JavaScript-файла.
         """
-        url: str = 'https://magickpen.com/_nuxt/bf709a9ce19f14e18116.js'  # URL JavaScript файла
-        async with ClientSession() as session:
-            try:
+        url: str = 'https://magickpen.com/_nuxt/bf709a9ce19f14e18116.js'
+        try:
+            async with ClientSession() as session:
                 async with session.get(url) as response:
-                    text: str = await response.text()
-            except Exception as ex:
-                logger.error('Ошибка при получении JavaScript файла', ex, exc_info=True)
-                raise Exception('Ошибка при получении JavaScript файла') from ex
+                    text: str = await response.text()  # Получаем текст из ответа
+        except Exception as ex:
+            logger.error('Error while fetching api credentials', ex, exc_info=True)
+            raise
 
-        pattern: str = r'"X-API-Secret":"(\\w+)"'  # Паттерн для поиска X-API-Secret
-        match = re.search(pattern, text)
-        X_API_SECRET: Optional[str] = match.group(1) if match else None  # Извлекаем X-API-Secret
+        pattern: str = r'"X-API-Secret":"(\\w+)"'
+        match = re.search(pattern, text)  # Ищем X_API_SECRET в тексте
+        X_API_SECRET: str | None = match.group(1) if match else None
 
-        timestamp: str = str(int(time.time() * 1000))  # Текущий timestamp в миллисекундах
-        nonce: str = str(random.random())  # Случайный nonce
+        timestamp: str = str(int(time.time() * 1000))  # Получаем текущее время в миллисекундах
+        nonce: str = str(random.random())  # Генерируем случайное число
 
-        s: List[str] = ['TGDBU9zCgM', timestamp, nonce]  # Список для формирования signature
-        s.sort()  # Сортируем список
+        s: list[str] = ['TGDBU9zCgM', timestamp, nonce]
+        s.sort()  # Сортируем элементы списка
         signature_string: str = ''.join(s)  # Объединяем элементы списка в строку
-        signature: str = hashlib.md5(signature_string.encode()).hexdigest()  # Вычисляем MD5 hash
+        signature: str = hashlib.md5(signature_string.encode()).hexdigest()  # Создаем MD5-хеш
 
-        pattern: str = r'secret:"(\\w+)"'  # Паттерн для поиска secret
-        match = re.search(pattern, text)
-        secret: Optional[str] = match.group(1) if match else None  # Извлекаем secret
+        pattern = r'secret:"(\\w+)"'
+        match = re.search(pattern, text)  # Ищем secret в тексте
+        secret: str | None = match.group(1) if match else None
 
         if X_API_SECRET and timestamp and nonce and secret:
             return X_API_SECRET, signature, timestamp, nonce, secret
         else:
-            logger.error('Не удалось извлечь все необходимые данные из JavaScript файла.')
-            raise Exception('Не удалось извлечь все необходимые данные из JavaScript файла.')
+            msg = 'Unable to extract all the necessary data from the JavaScript file.'
+            logger.error(msg)
+            raise Exception(msg)
 
     @classmethod
     async def create_async_generator(
         cls,
         model: str,
         messages: Messages,
-        proxy: Optional[str] = None,
+        proxy: str = None,
         **kwargs
-    ) -> AsyncGenerator[str, None]:
+    ) -> AsyncResult:
         """
-        Создает асинхронный генератор для получения ответов от API.
+        Создает асинхронный генератор для взаимодействия с API MagickPen.
 
         Args:
-            model (str): Имя используемой модели.
+            model (str): Модель для использования.
             messages (Messages): Список сообщений для отправки.
-            proxy (Optional[str], optional): HTTP прокси-сервер. По умолчанию `None`.
+            proxy (str, optional): Прокси-сервер для использования. По умолчанию None.
 
         Returns:
-            AsyncGenerator[str, None]: Асинхронный генератор, возвращающий чанки текста.
-
-        Raises:
-            Exception: В случае ошибки при запросе к API.
+            AsyncResult: Асинхронный генератор, выдающий чанки данных.
         """
-        model: str = cls.get_model(model)  # Получаем имя модели
+        model = cls.get_model(model)  # Получаем модель
         try:
             X_API_SECRET, signature, timestamp, nonce, secret = await cls.fetch_api_credentials()  # Получаем учетные данные API
         except Exception as ex:
-            logger.error('Ошибка при получении учетных данных API', ex, exc_info=True)
-            raise Exception('Ошибка при получении учетных данных API') from ex
+            logger.error('Error while fetching api credentials', ex, exc_info=True)
+            raise
 
-        headers: dict[str, str] = {  # Заголовки для HTTP запроса
+        headers: dict[str, str] = {
             'accept': 'application/json, text/plain, */*',
             'accept-language': 'en-US,en;q=0.9',
             'content-type': 'application/json',
@@ -152,8 +156,8 @@ class MagickPen(AsyncGeneratorProvider, ProviderModelMixin):
         }
 
         async with ClientSession(headers=headers) as session:
-            prompt: str = format_prompt(messages)  # Форматируем сообщения
-            payload: dict[str, str] = {  # Payload для POST запроса
+            prompt: str = format_prompt(messages)  # Форматируем сообщение
+            payload: dict[str, str] = {
                 'query': prompt,
                 'turnstileResponse': '',
                 'action': 'verify'
@@ -161,10 +165,9 @@ class MagickPen(AsyncGeneratorProvider, ProviderModelMixin):
             try:
                 async with session.post(cls.api_endpoint, json=payload, proxy=proxy) as response:
                     response.raise_for_status()  # Проверяем статус ответа
-
-                    async for chunk in response.content:  # Читаем ответ по частям
+                    async for chunk in response.content:  # Читаем содержимое ответа по частям
                         if chunk:
-                            yield chunk.decode()  # Декодируем и возвращаем чанк
+                            yield chunk.decode()  # Декодируем и выдаем чанк
             except Exception as ex:
-                logger.error('Ошибка при запросе к API', ex, exc_info=True)
-                raise Exception('Ошибка при запросе к API') from ex
+                logger.error('Error while processing data', ex, exc_info=True)
+                raise
