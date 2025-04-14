@@ -130,6 +130,7 @@ class SupplierToPrestashopProvider:
         urls: list[str],
         price: Optional[str] = '', 
         mexiron_name: Optional[str] = '', 
+        scenario: dict = None,
         
     ) -> bool:
         """
@@ -140,6 +141,7 @@ class SupplierToPrestashopProvider:
             price (Optional[str]): Price to process.
             mexiron_name (Optional[str]): Custom Mexiron name.
             urls (Optional[str | List[str]]): Product page URLs.
+            scenario (Optional[dict]): Сценарий исполнения, который находится в директории `src.suppliers.suppliers_list.<supplier>.sceanarios`
 
         Returns:
             bool: True if the scenario executes successfully, False otherwise.
@@ -251,12 +253,6 @@ class SupplierToPrestashopProvider:
             return {}
         return  response_dict
 
-    async def read_data_from_json(self):
-        """Загружаю JSON файлы и фотки, которые я сделал через телеграм"""
-
-        # 1. Get from JSON
-        raw_data =  j_loads_ns(self.local_images_path)
-        print(raw_data)
 
     async def save_in_prestashop(self, products_list:ProductFields | list[ProductFields]) -> bool:
         """Функция, которая сохраняет товары в Prestashop emil-design.com """
@@ -308,14 +304,15 @@ class SupplierToPrestashopProvider:
                 logger.error(f"PDF файл не найден или не является файлом: {pdf_file}")
                 return
 
-async def main(suppier_to_presta):
+async def main():
     """На данный момент функция читает JSON со списком фотографий , которые были получены от Эмиля"""    
-    lang = 'he'
-    products_ns = j_loads_ns(gs.path.external_storage / ENDPOINT / 'out_250108230345305_he.json')
+    # lang = 'he'
+    # products_ns = j_loads_ns(gs.path.external_storage / ENDPOINT / 'out_250108230345305_he.json')
+    # suppier_to_presta = SupplierToPrestashopProvider(lang)
+    # products_list:list = [f for f in products_ns]
+    # await suppier_to_presta.save_in_prestashop(products_list)
 
-    suppier_to_presta = SupplierToPrestashopProvider(lang)
-    products_list:list = [f for f in products_ns]
-    await suppier_to_presta.save_in_prestashop(products_list)
+
     
 
 

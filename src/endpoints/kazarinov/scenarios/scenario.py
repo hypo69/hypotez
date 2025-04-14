@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 """
+Сценарий для Казаринова
+=========================
+
 .. module:: src.endpoints.kazarinov.scenarios.scenario 
 	:platform: Windows, Unix
 	:synopsis: Сценарий для Казаринова
@@ -25,6 +28,7 @@ from src.endpoints.kazarinov.report_generator.report_generator import ReportGene
 from src.endpoints.kazarinov.scenarios.quotation_builder import QuotationBuilder
 from src.endpoints.prestashop.product_fields.product_fields import ProductFields
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
+from src.endpoints.fetch_one_tab import fetch_target_urls_onetab
 from src.utils.jjson import j_dumps
 from src.logger.logger import logger
 
@@ -33,38 +37,38 @@ class Config:
     ENDPOINT = "kazarinov"
 
 
-def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
-    """
-    Функция паресит целевые URL из полученного OneTab.
-    """
-    try:
-        response = requests.get(one_tab_url, timeout=10)
-        response.raise_for_status()
+# def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
+#     """
+#     Функция паресит целевые URL из полученного OneTab.
+#     """
+#     try:
+#         response = requests.get(one_tab_url, timeout=10)
+#         response.raise_for_status()
 
-        soup = BeautifulSoup(response.content, "html.parser")
+#         soup = BeautifulSoup(response.content, "html.parser")
 
-        # Извлечение ссылок
-        urls = [a["href"] for a in soup.find_all("a", class_="tabLink")]
+#         # Извлечение ссылок
+#         urls = [a["href"] for a in soup.find_all("a", class_="tabLink")]
 
-        # Извлечение данных из div с классом 'tabGroupLabel'
-        element = soup.find("div", class_="tabGroupLabel")
-        data = element.get_text() if element else None
+#         # Извлечение данных из div с классом 'tabGroupLabel'
+#         element = soup.find("div", class_="tabGroupLabel")
+#         data = element.get_text() if element else None
 
-        if not data:
-            price = ""
-            mexiron_name = gs.now
-        else:
-            # Разбивка данных на цену и имя
-            parts = data.split(maxsplit=1)
-            price = int(parts[0]) if parts[0].isdigit() else ""
-            mexiron_name = parts[1] if len(parts) > 1 else gs.now
+#         if not data:
+#             price = ""
+#             mexiron_name = gs.now
+#         else:
+#             # Разбивка данных на цену и имя
+#             parts = data.split(maxsplit=1)
+#             price = int(parts[0]) if parts[0].isdigit() else ""
+#             mexiron_name = parts[1] if len(parts) > 1 else gs.now
 
-        return price, mexiron_name, urls
+#         return price, mexiron_name, urls
 
-    except requests.exceptions.RequestException as ex:
-        logger.error(f"Ошибка при выполнении запроса: {one_tab_url=}", ex)
-        ...
-        return False, False, False
+#     except requests.exceptions.RequestException as ex:
+#         logger.error(f"Ошибка при выполнении запроса: {one_tab_url=}", ex)
+#         ...
+#         return False, False, False
 
 
 class Scenario(QuotationBuilder):
