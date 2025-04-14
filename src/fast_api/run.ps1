@@ -1,5 +1,5 @@
 # Путь к файлу Python скрипта
-$pythonScriptPath = ".\src\fast_api\main.py" # <--- Обновлен путь
+$pythonScriptPath = ".\src\endpoints\fast_api\main.py"
 
 # Уникальное имя мьютекса (используйте что-то специфичное для вашего приложения)
 $mutexName = "Global\FastAPIServerManagerMutex"

@@ -18,13 +18,13 @@
 """
 
 from pathlib import Path
-from typing import Any
-from typing import Callable
+from typing import Optional, Any
+from types import SimpleNamespace
 from functools import wraps
 
 import header
 from src import gs
-from src.suppliers.graber import Graber as Grbr, Context, close_pop_up
+from src.suppliers.graber import Graber as Grbr, Config, close_pop_up
 from src.utils.image import save_image
 from src.logger.logger import logger
 
@@ -34,9 +34,9 @@ class Graber(Grbr):
     """Класс для операций захвата Morlevi."""
     supplier_prefix: str  = 'morlevi'
 
-    def __init__(self, driver: 'Driver', lang_index:int):
+    def __init__(self, driver: Optional['Driver'] = None, lang_index:Optional[int] = None):
         """Инициализация класса сбора полей товара."""
         super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)
-        Context.locator_for_decorator = self.locator.close_pop_up 
+        Config.locator_for_decorator = self.locator.close_pop_up 
 
    

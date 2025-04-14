@@ -25,10 +25,10 @@
 """
 
 
-from typing import Any
+from typing import Optional, Any
+from types import SimpleNamespace
 import header
-from src.suppliers.graber import Graber as Grbr, Context, close_pop_up
-from src.webdriver.driver import Driver
+from src.suppliers.graber import Graber as Grbr, Config, close_pop_up
 from src.logger.logger import logger
 
 
@@ -61,10 +61,10 @@ class Graber(Grbr):
     """Класс для операций захвата Morlevi."""
     supplier_prefix: str
 
-    def __init__(self, driver: Driver, lang_index):
+    def __init__(self, driver: Optional['Driver'] = None, lang_index:Optional[int] = None):
         """Инициализация класса сбора полей товара."""
         self.supplier_prefix = 'ebay'
         super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)
         # Устанавливаем глобальные настройки через Context
         
-        Context.locator_for_decorator = None # <- если будет уастановлено значение - то оно выполнится в декораторе `@close_pop_up`
+        Config.locator_for_decorator = None # <- если будет уастановлено значение - то оно выполнится в декораторе `@close_pop_up`

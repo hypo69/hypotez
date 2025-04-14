@@ -1,9 +1,11 @@
 ## \file /src/suppliers/__init__.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
 """
+Модуль поставщика.
+==================
+
 .. module:: src.suppliers 
 	:platform: Windows, Unix
 	:synopsis: Модуль поставщика. Класс `Supplier`
@@ -19,7 +21,3 @@
 @image html supplier-warehouse-client.png
 
 """
-
-
-# from .supplier import Supplier
-# from .graber import Graber, Context, close_pop_up

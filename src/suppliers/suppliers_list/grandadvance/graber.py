@@ -24,12 +24,12 @@
 ```
 """
 
-
-from typing import Any
+from typing import Optional, Any
+from types import SimpleNamespace
 import header
 from header import __root__
 from src import gs
-from src.suppliers.graber import Graber as Grbr, Context, close_pop_up
+from src.suppliers.graber import Graber as Grbr, Config, close_pop_up
 from src.utils.jjson import j_loads_ns
 from src.webdriver.driver import Driver
 from types import SimpleNamespace
@@ -51,5 +51,5 @@ class Graber(Grbr):
         config:SimpleNamespace = j_loads_ns(gs.path.src / 'suppliers' / ENDPOINT / f'{ENDPOINT}.json')
         locator: SimpleNamespace = j_loads_ns(gs.path.src / 'suppliers' / ENDPOINT / 'locators' / 'product.json')
         super().__init__(supplier_prefix=ENDPOINT, driver=driver, lang_index=lang_index)
-        Context.locator_for_decorator = locator.click_to_specifications # <- if locator not definded decorator 
+        Config.locator_for_decorator = locator.click_to_specifications # <- if locator not definded decorator 
 

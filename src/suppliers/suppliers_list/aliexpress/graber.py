@@ -24,12 +24,12 @@ rst```
 Также возможно реализовать свой собственный декоратор, раскомментировав соответствующие строки кода
 и переопределив его поведение.
 """
-
-
+from typing import Optional, Any
+from types import SimpleNamespace
 from typing import Any, Callable
 from functools import wraps
 # from src.utils.jjson import j_loads, j_loads_ns
-from src.suppliers.graber import Graber as Grbr, Context, close_pop_up
+from src.suppliers.graber import Graber as Grbr, Config, close_pop_up
 from src.webdriver.driver import Driver
 from src.logger.logger import logger
 from src.logger.exceptions import ExecuteLocatorException
@@ -53,9 +53,9 @@ from src.logger.exceptions import ExecuteLocatorException
 #         async def wrapper(*args, **kwargs):
 #             try:
 #                 # проверяет наличие локатора для закрытия всплывающего окна
-#                 if Context.locator_for_decorator and Context.locator_for_decorator.close_pop_up:
+#                 if Config.locator_for_decorator and Config.locator_for_decorator.close_pop_up:
 #                      # исполняет локатор закрытия всплывающего окна
-#                     await Context.driver.execute_locator(Context.locator_for_decorator.close_pop_up) 
+#                     await Context.driver.execute_locator(Config.locator_for_decorator.close_pop_up) 
 #                 ...
 #             except ExecuteLocatorException as ex:
 #                 # логирует ошибку выполнения локатора
@@ -69,12 +69,6 @@ from src.logger.exceptions import ExecuteLocatorException
 class Graber(Grbr):
     """
     Класс для сбора данных о товарах с AliExpress.
-
-    Наследует функциональность от :class:`src.suppliers.graber.Graber`
-    и предоставляет методы для обработки полей товара.
-    
-    :ivar supplier_prefix: Префикс поставщика (aliexpress).
-    :vartype supplier_prefix: str
     """
     supplier_prefix: str
 
@@ -91,4 +85,4 @@ class Graber(Grbr):
 
         # устанавливает значение локатора для декоратора в `None`
         # если будет установленно значение - то оно выполнится в декораторе `@close_pop_up`
-        Context.locator_for_decorator = None
+        Config.locator_for_decorator = None

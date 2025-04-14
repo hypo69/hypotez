@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 import requests
 
 import header
+from src import gs
 from src.logger import logger
 
 def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
@@ -34,14 +35,14 @@ def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | b
 
         if not data:
             price = ""
-            mexiron_name = gs.now
+            description = gs.now
         else:
             # Разбивка данных на цену и имя
             parts = data.split(maxsplit=1)
             price = int(parts[0]) if parts[0].isdigit() else ""
-            mexiron_name = parts[1] if len(parts) > 1 else gs.now
+            description = parts[1] if len(parts) > 1 else gs.now
 
-        return price, mexiron_name, urls
+        return price, description, urls
 
     except requests.exceptions.RequestException as ex:
         logger.error(f"Ошибка при выполнении запроса: {one_tab_url=}", ex)

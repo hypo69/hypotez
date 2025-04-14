@@ -52,10 +52,11 @@ from functools import wraps
 import header
 from header import __root__
 from src import gs
-
+from src.webdriver.driver import Driver
+from src.webdriver.firefox import Firefox
 from src.endpoints.prestashop.product_fields import ProductFields
 # from src.endpoints.prestashop.category_async import PrestaCategoryAsync
-
+# from src.suppliers.scenario.scenario_executor import run_scenario as _runscenario, run_scenarios as _runscenarios, run_scenario_file as _run_scenario_file, run_scenario_files as _run_scenario_files
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.image import save_image, save_image_async, save_image_from_url_async
 from src.utils.file import read_text_file
@@ -70,27 +71,27 @@ from src.utils.printer import pprint as print
 from src.logger.logger import logger
 
 
-# Глобальные настройки через объект `Context`
-class Context:
+# Глобальные настройки через объект `Config`
+class Config:
     """
     Класс для хранения глобальных настроек.
 
     Attributes:
         driver (Optional['Driver']): Объект драйвера, используется для управления браузером или другим интерфейсом.
         locator_for_decorator (Optional[SimpleNamespace]): Если будет установлен - выполнится декоратор `@close_pop_up`.
-            Устанавливается при инициализации поставщика, например: `Context.locator = self.locator.close_pop_up`.
+            Устанавливается при инициализации поставщика, например: `Config.locator = self.locator.close_pop_up`.
         supplier_prefix (Optional[str]): Префикс поставщика.
 
     Example:
-        >>> context = Context()
-        >>> context.supplier_prefix = 'prefix'
-        >>> print(context.supplier_prefix)
+        >>> Config = Config()
+        >>> Config.supplier_prefix = 'prefix'
+        >>> print(Config.supplier_prefix)
         prefix
     """
 
     # Аттрибуты класса
     driver: Optional['Driver'] = None
-    locator_for_decorator: Optional[SimpleNamespace] = None  # <- Если будет установлен - выполнится декоратор `@close_pop_up`. Устанавливается при инициализации поставщика, например: `Context.locator = self.locator.close_pop_up`
+    locator_for_decorator: Optional[SimpleNamespace] = None  # <- Если будет установлен - выполнится декоратор `@close_pop_up`. Устанавливается при инициализации поставщика, например: `Config.locator = self.locator.close_pop_up`
     supplier_prefix: Optional[str] = None
 
 
@@ -98,11 +99,11 @@ class Context:
 # Определение декоратора для закрытия всплывающих окон
 # В каждом отдельном поставщике (`Supplier`) декоратор может использоваться в индивидуальных целях
 # Общее название декоратора `@close_pop_up` можно изменить 
-# Если декоратор не используется в поставщике - Установи `Context.locator_for_decorator = None` 
+# Если декоратор не используется в поставщике - Установи `Config.locator_for_decorator = None` 
 
 def close_pop_up() -> Callable:
     """Создает декоратор для закрытия всплывающих окон перед выполнением основной логики функции.
-    Функция `driver.execute_locator()` будет вызвана только если был указан `Context.locator_for_decorator` при инициализации экземляра класса.
+    Функция `driver.execute_locator()` будет вызвана только если был указан `Config.locator_for_decorator` при инициализации экземляра класса.
 
     Args:
         value ('Driver'): Дополнительное значение для декоратора.
@@ -113,15 +114,15 @@ def close_pop_up() -> Callable:
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         async def wrapper(*args, **kwargs):
-            if Context.locator_for_decorator:
+            if Config.locator_for_decorator:
                 try:
-                    await Context.driver.execute_locator(Context.locator_for_decorator)  # Await async pop-up close  
+                    await Config.driver.execute_locator(Config.locator_for_decorator)  # Await async pop-up close  
                     ... 
                 except ExecuteLocatorException as ex:
                     logger.debug(f'Ошибка выполнения локатора:', ex, False)
 
                 finally:
-                    Context.locator_for_decorator = None # Отмена после первого срабатывания
+                    Config.locator_for_decorator = None # Отмена после первого срабатывания
 
             return await func(*args, **kwargs)  # Await the main function
         return wrapper
@@ -131,7 +132,7 @@ def close_pop_up() -> Callable:
 class Graber:
     """Базовый класс сбора данных со страницы для всех поставщиков."""
     
-    def __init__(self, supplier_prefix: str, lang_index:int, driver: 'Driver'):
+    def __init__(self, supplier_prefix: str,  driver: Optional['Driver'] = None,  lang_index:Optional[int] = 2):
         """Инициализация класса Graber.
 
         Args:
@@ -140,12 +141,109 @@ class Graber:
         """
         self.supplier_prefix = supplier_prefix
         self.locator: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'suppliers' / 'suppliers_list' / supplier_prefix / 'locators' / 'product.json')
-        self.driver = driver
-        self.fields: ProductFields = ProductFields(lang_index) # <- установка базового языка. Тип - `int`
-        Context.driver = self.driver
-        Context.supplier_prefix = None
-        Context.locator_for_decorator = None
-        """Если будет установлен локатор в Context.locator_for_decorator - выполнится декоратор `@close_pop_up`"""
+        self.driver = driver 
+        self.fields: ProductFields = ProductFields(lang_index ) # <- установка базового языка. Тип - `int`
+
+        # ---------------------------- конфигурация для декоратора ------------------------------
+        """Если будет установлен локатор в Config.locator_for_decorator - выполнится декоратор `@close_pop_up`"""
+        Config.driver = self.driver
+        Config.supplier_prefix = None
+        Config.locator_for_decorator = None
+        
+
+    async def run_scenarios(self, scenario: dict | SimpleNamespace) -> bool:
+        """Запуск сценария.
+                  scenario (dict): Словарь. Например:
+                                   {
+                       "scenarios": {
+                       "NEW CORSAIR LIQUID COOLING": {
+                           "brand": "CORSAIR",
+                           "url": "https://www.amazon.com/s?k=corsair&i=computers&rh=n%3A3015422011%2Cp_n_is_free_shipping%3A10236242011%2Cp_89%3ACorsair&dc&ds=v1%3A4UdJ5kFgxTrEAPAFY6KYx4O48jHaTgY%2BkKFEZHAmBy4&qid=1674395191&rnid=2528832011&ref=sr_nr_p_89_1",
+                           "active": true,
+                           "condition": "ref",
+                           "presta_categories": {
+                           "template": { "corsair": "LIQUID CPU COOLING" }
+                           },
+                           "checkbox": false,
+                           "price_rule": 1
+                       },
+
+                       "NEW CORSAIR AIR CHAISES COOLING": {
+                           "brand": "CORSAIR",
+                           "url": "https://www.amazon.com/s?k=corsair&i=computers&rh=n%3A172282%2Cn%3A541966%2Cn%3A193870011%2Cn%3A17923671011%2Cn%3A3012290011%2Cn%3A11036291%2Cp_n_is_free_shipping%3A10236242011%2Cp_89%3ACorsair&dc&ds=v1%3A62ROR5QIpRmdvHYid8HLE4S5XJ9aeeOJV%2B9%2Fka%2FPYS8&qid=1674395269&rnid=172282&ref=sr_nr_n_2",
+                           "active": true,
+                           "condition": "ref",
+                           "presta_categories": {
+                           "template": { "corsair": "AIR CHAISES COOLING" }
+                           },
+                           "checkbox": false,
+                           "price_rule": 1
+                       }
+                       }
+                   }
+        """
+
+        # Проверяем тип входных данных. Если SimpleNamespace, доступ через точку, иначе через ['ключ']
+        # Но для универсальности лучше использовать стандартный доступ через ['ключ'] или .get()
+        # Либо можно явно проверить тип и использовать соответствующий синтаксис.
+        # В этом примере будем считать, что пришел словарь (dict), как в вашем примере.
+
+        # 1. Получаем словарь всех сценариев
+        # Используем .get() на случай, если ключ "scenarios" может отсутствовать
+        all_scenarios = scenario.get("scenarios")
+
+        if not all_scenarios:
+            print("Ключ 'scenarios' не найден или пуст.")
+            return False # Или обработать ошибку по-другому
+
+        if not isinstance(all_scenarios, dict):
+             print("Значение по ключу 'scenarios' не является словарем.")
+             return False
+
+        print("Начинаем парсинг сценариев...")
+
+        # 2. Итерируем по каждому сценарию
+        for scenario_name, scenario_details in all_scenarios.items():
+            print(f"\n--- Обработка сценария: {scenario_name} ---")
+
+            # 3. Получаем доступ к деталям сценария
+            # Используем .get() для безопасного доступа (вернет None, если ключ отсутствует)
+            brand = scenario_details.get("brand")
+            url = scenario_details.get("url")
+            is_active = scenario_details.get("active")
+            condition = scenario_details.get("condition")
+            checkbox = scenario_details.get("checkbox")
+            price_rule = scenario_details.get("price_rule")
+
+            print(f"  Бренд: {brand}")
+            print(f"  URL: {url}")
+            print(f"  Активен: {is_active}")
+            print(f"  Состояние: {condition}")
+            print(f"  Checkbox: {checkbox}")
+            print(f"  Правило цены: {price_rule}")
+
+            # 4. Получаем доступ к вложенным категориям
+            presta_categories = scenario_details.get("presta_categories")
+            if presta_categories and isinstance(presta_categories, dict):
+                template_dict = presta_categories.get("template")
+                if template_dict and isinstance(template_dict, dict):
+                    print(f"  Presta Template:")
+                    # Можно получить конкретное значение, если ключ известен
+                    corsair_category = template_dict.get("corsair")
+                    if corsair_category:
+                        print(f"    Категория Corsair: {corsair_category}")
+                    # Или пройти по всем парам ключ-значение в template
+                    # for key, value in template_dict.items():
+                    #     print(f"      {key}: {value}")
+                else:
+                    print("  Ключ 'template' не найден в 'presta_categories' или не является словарем.")
+            else:
+                print("  Ключ 'presta_categories' не найден или не является словарем.")
+
+        print("\nПарсинг завершен.")
+        # Здесь будет ваша логика выполнения сценария
+        # В данном примере просто возвращаем True для демонстрации
+        return True
 
     async def error(self, field: str):
         """Обработчик ошибок для полей."""
