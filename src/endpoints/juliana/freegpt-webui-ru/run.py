@@ -3,11 +3,16 @@ from server.website import Website
 from server.backend import Backend_Api
 from json import load
 
+import header
+from header import __root__
+from src import gs
+from src.utils.jjson import j_loads
+
 
 if __name__ == '__main__':
 
     # Load configuration from config.json
-    config = load(open('config.json', 'r'))
+    config = j_loads(__root__ / 'src' / 'endpoints'/ 'freegpt-webui-ru' / 'config.json')
     site_config = config['site_config']
 
     # Set up the website routes

@@ -4,12 +4,14 @@ import json
 import random
 import threading
 import re
-
+import g4f
+from g4f import ChatCompletion
 from googletrans import Translator
 from flask import request
 from datetime import datetime
 from requests import get
-
+from server.auto_proxy import get_random_proxy, update_working_proxies
+from server.config import special_instructions
 
 
 class Backend_Api:
