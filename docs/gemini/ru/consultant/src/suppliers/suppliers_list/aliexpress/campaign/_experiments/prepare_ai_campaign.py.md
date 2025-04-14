@@ -56,7 +56,7 @@
 >>> campaign_name: str = 'lighting'
 >>> campaign_file: str = 'EN_US.JSON'
 >>> campaign_editor: AliCampaignEditor = AliCampaignEditor(campaign_name=campaign_name, campaign_file=campaign_file)
->>> campaign_editor.process_ai_campaign(campaign_name)
+>>> campaign_editor.process_llm_campaign(campaign_name)
 """
 
 from pathlib import Path
@@ -72,7 +72,7 @@ campaign_file: str = 'EN_US.JSON'
 
 try:
     campaign_editor: AliCampaignEditor = AliCampaignEditor(campaign_name=campaign_name, campaign_file=campaign_file)
-    campaign_editor.process_ai_campaign(campaign_name)
+    campaign_editor.process_llm_campaign(campaign_name)
 except Exception as ex:
     logger.error('Error while processing AI campaign', ex, exc_info=True)
 #process_all_campaigns()

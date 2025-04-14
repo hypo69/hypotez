@@ -16,7 +16,7 @@
   - [Метод: `get_graber_by_supplier_url`](#метод-get_graber_by_supplier_url)
   - [Метод: `convert_product_fields`](#метод-convert_product_fields)
   - [Метод: `save_product_data`](#метод-save_product_data)
-  - [Метод: `process_ai`](#метод-process_ai)
+  - [Метод: `process_llm`](#метод-process_llm)
   - [Метод: `post_facebook`](#метод-post_facebook)
   - [Метод: `create_report`](#метод-create_report)
 - [Использование](#использование)
@@ -465,10 +465,10 @@ product_data = {
 mexiron_builder.save_product_data(product_data)
 ```
 
-#### `process_ai(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`
+#### `process_llm(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`
 
 ```python
-def process_ai(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool:
+def process_llm(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool:
     """
     Обрабатывает список продуктов через модель ИИ.
 
@@ -541,7 +541,7 @@ products_list = [
 ]
 
 # Обработка данных на русском языке
-result = mexiron_builder.process_ai(products_list, lang="ru")
+result = mexiron_builder.process_llm(products_list, lang="ru")
 
 # Вывод результата
 if result:

@@ -14,7 +14,7 @@ import json
 import header
 from src import gs
 from src.logger import logger
-from src.ai import GoogleGenerativeAI
+from src.llm import GoogleGenerativeAI
 
 base_path: Path = gs.path.endpoints / 'hypo69' / 'desktop_assistant'
 templates_path : Path = base_path / 'templates'

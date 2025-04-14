@@ -196,7 +196,7 @@ graph TD
     - **Parameters**:
       - `product_data`: Formatted product data.
 ----
-  - **`process_ai(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`**:
+  - **`process_llm(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`**:
     - **Purpose**: Processes a list of products through the AI model.
     - **Parameters**:
       - `products_list`: List of product data dictionaries as strings.

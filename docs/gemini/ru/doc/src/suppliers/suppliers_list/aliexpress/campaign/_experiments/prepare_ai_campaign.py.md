@@ -41,7 +41,7 @@
 Класс `AliCampaignEditor` предназначен для редактирования рекламных кампаний на AliExpress. Он принимает имя кампании и файл кампании в качестве аргументов и предоставляет методы для обработки AI кампании.
 
 **Методы**: # если есть методы
-- `process_ai_campaign`: метод обработки AI кампании.
+- `process_llm_campaign`: метод обработки AI кампании.
 
 ## Функции
 
@@ -98,5 +98,5 @@ from src.logger.logger import logger
 campaign_name = 'lighting'
 campaign_file = 'EN_US.JSON'
 campaign_editor = AliCampaignEditor(campaign_name = campaign_name, campaign_file = campaign_file )
-campaign_editor.process_ai_campaign(campaign_name)
+campaign_editor.process_llm_campaign(campaign_name)
 #process_all_campaigns()

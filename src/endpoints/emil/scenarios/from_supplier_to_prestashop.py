@@ -36,7 +36,7 @@ from src.endpoints.prestashop.product import PrestaProduct
 
 from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
-from src.ai.gemini import GoogleGenerativeAI
+from src.llm.gemini import GoogleGenerativeAI
 from src.endpoints.emil.report_generator import ReportGenerator
 from src.endpoints.advertisement.facebook.scenarios import post_message_title, upload_post_media, message_publish
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
@@ -194,7 +194,7 @@ class SupplierToPrestashopProvider:
                 continue
 
             if not await self.save_product_data(product_data):
-                logger.error(f"Data not saved! {pprint(product_data)}")
+                logger.error(f"Data not saved! {print(product_data)}")
                 ...
                 continue
             products_list.append(product_data)    
@@ -213,7 +213,7 @@ class SupplierToPrestashopProvider:
             return
         return True
 
-    async def process_ai(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
+    async def process_llm(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
         """
         Processes the product list through the AI model.
 
@@ -247,7 +247,7 @@ class SupplierToPrestashopProvider:
             logger.error("Ошибка парсинга ответа модели", None, False)
             if attempts > 1:
                 ...
-                await self.process_ai(products_list, lang, attempts -1 )
+                await self.process_llm(products_list, lang, attempts -1 )
             return {}
         return  response_dict
 

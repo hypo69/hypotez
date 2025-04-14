@@ -34,8 +34,8 @@
 
 - `__init__(self, mexiron_name: Optional[str] = gs.now, driver: Optional[Firefox | Playwrid | str] = None, **kwards)`: Инициализирует класс `QuotationBuilder` с требуемыми компонентами.
 - `convert_product_fields(self, f: ProductFields) -> dict`: Преобразует поля продукта в словарь.
-- `process_ai(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`: Обрабатывает список продуктов с использованием AI модели.
-- `process_ai_async(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`: Асинхронно обрабатывает список продуктов с использованием AI модели.
+- `process_llm(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`: Обрабатывает список продуктов с использованием AI модели.
+- `process_llm_async(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`: Асинхронно обрабатывает список продуктов с использованием AI модели.
 - `save_product_data(self, product_data: dict) -> bool`: Сохраняет данные о продукте в файл.
 - `post_facebook_async(self, mexiron: SimpleNamespace) -> bool`: Исполняет сценарий рекламного модуля `facebook`.
 
@@ -119,10 +119,10 @@ product_fields = ProductFields(...)
 product_data = quotation.convert_product_fields(product_fields)
 ```
 
-### `process_ai`
+### `process_llm`
 
 ```python
-def process_ai(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
+def process_llm(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
     """
     Processes the product list through the AI model.
 
@@ -164,13 +164,13 @@ def process_ai(self, products_list: List[str], lang:str,  attempts: int = 3) -> 
 
 ```python
 products = [{'product_name': '...', 'product_id': '...', ...}, ...]
-response = quotation.process_ai(str(products), lang='ru')
+response = quotation.process_llm(str(products), lang='ru')
 ```
 
-### `process_ai_async`
+### `process_llm_async`
 
 ```python
-async def process_ai_async(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
+async def process_llm_async(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
     """
     Processes the product list through the AI model.
 
@@ -212,7 +212,7 @@ async def process_ai_async(self, products_list: List[str], lang:str,  attempts: 
 
 ```python
 products = [{'product_name': '...', 'product_id': '...', ...}, ...]
-response = await quotation.process_ai_async(str(products), lang='ru')
+response = await quotation.process_llm_async(str(products), lang='ru')
 ```
 
 ### `save_product_data`

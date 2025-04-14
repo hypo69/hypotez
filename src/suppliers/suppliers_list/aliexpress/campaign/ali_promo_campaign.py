@@ -35,7 +35,7 @@
 Пример заполнения данных категорий с использованием AI:
 
     >>> campaign = AliPromoCampaign("new_campaign", "EN", "USD")
-    >>> campaign.process_ai_category("Electronics")
+    >>> campaign.process_llm_category("Electronics")
 """
 
 import header
@@ -51,8 +51,8 @@ from src import gs
 from src.suppliers.suppliers_list.aliexpress import campaign
 from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
 from src.suppliers.suppliers_list.aliexpress.utils import locales
-from src.ai.gemini import GoogleGenerativeAI
-from src.ai.openai import OpenAIModel
+from src.llm.gemini import GoogleGenerativeAI
+from src.llm.openai import OpenAIModel
 from src.suppliers.suppliers_list.aliexpress.campaign.html_generators import (
     ProductHTMLGenerator,
     CategoryHTMLGenerator,
@@ -162,7 +162,7 @@ class AliPromoCampaign:
             logger.info(f"Starting {category_name=}")
             self.process_category_products(category_name)
             logger.info(f"Starting AI category")
-            self.process_ai_category(category_name)
+            self.process_llm_category(category_name)
             ...
 
 
@@ -180,7 +180,7 @@ class AliPromoCampaign:
         ...
         # Process category products and get the list of products
         self.process_category_products(category_name=category_name)
-        self.process_ai_category(category_name=category_name)
+        self.process_llm_category(category_name=category_name)
 
     def process_new_campaign(
         self,
@@ -250,7 +250,7 @@ class AliPromoCampaign:
         ┌───────────────────────────────────────────────┐
         │ For each `category_name` in campaign:         │
         │ - Call `self.process_category_products`       │
-        │ - Call `self.process_ai_category`             │
+        │ - Call `self.process_llm_category`             │
         └───────────────────────────────────────────────┘
                          │
                          ▼
@@ -287,13 +287,13 @@ class AliPromoCampaign:
             for category_name in self.campaign.category.__dict__:
                 self.process_category_products(category_name)
 
-                self.process_ai_category(category_name)
+                self.process_llm_category(category_name)
                 j_dumps(
                     self.campaign_ai,
                     self.base_path / f"{self.language}_{self.currency}.json",
                 )  # <- в вновь созданный файл категорий
 
-    def process_ai_category(self, category_name: Optional[str] = None):
+    def process_llm_category(self, category_name: Optional[str] = None):
         """Processes the AI campaign for a specified category or all categories.
 
             This method processes AI-generated data for the specified category in the campaign.
@@ -303,8 +303,8 @@ class AliPromoCampaign:
                 category_name (Optional[str]): The name of the category to process. If not provided, all categories are processed.
 
             Example:
-                >>> campaign.process_ai_category("Electronics")
-                >>> campaign.process_ai_category()
+                >>> campaign.process_llm_category("Electronics")
+                >>> campaign.process_llm_category()
 
             Flowchart:
             ┌──────────────────────────────────────────────┐

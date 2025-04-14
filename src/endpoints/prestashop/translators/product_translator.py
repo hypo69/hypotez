@@ -59,7 +59,7 @@ from src import gs
 from src.logger.logger import logger
 from src.utils.jjson import j_loads_ns, j_dumps,  pprint
 from src.db import ProductTranslationsManager
-from src.ai.openai import translate
+from src.llm.openai import translate
 from src.endpoints.PrestaShop import PrestaShop
 
 # def record(presta_fields:Dict, i18n:str = None, i:int = 0) -> Dict:

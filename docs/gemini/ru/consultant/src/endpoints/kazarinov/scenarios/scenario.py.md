@@ -245,7 +245,7 @@ class Scenario(QuotationBuilder):
                     f'AI processing {lang=}',
                 )
             try:
-                data: dict = await self.process_ai_async(products_list, lang)
+                data: dict = await self.process_llm_async(products_list, lang)
                 if not data:
                     if bot:
                         bot.send_message(chat_id, f'Ошибка модели для {lang=}')

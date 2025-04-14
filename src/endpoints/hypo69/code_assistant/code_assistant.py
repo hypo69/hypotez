@@ -47,8 +47,8 @@ import header
 from header import __root__
 from src import gs
 from src.utils.jjson import j_loads, j_loads_ns
-from src.ai.gemini import GoogleGenerativeAI
-from src.ai.openai import OpenAIModel
+from src.llm.gemini import GoogleGenerativeAI
+from src.llm.openai import OpenAIModel
 from src.utils.path import get_relative_path
 from src.logger.logger import logger
 from src.endpoints.hypo69.code_assistant.make_summary import make_summary

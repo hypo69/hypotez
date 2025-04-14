@@ -62,7 +62,7 @@ CAMPAIGN_NAME: str = 'lighting'
 CAMPAIGN_FILE: str = 'EN_US.JSON'
 
 
-def process_ai_campaign(campaign_name: str, campaign_file: str) -> None:
+def process_llm_campaign(campaign_name: str, campaign_file: str) -> None:
     """
     Запускает процесс подготовки и настройки AI кампании в AliExpress.
 
@@ -76,13 +76,13 @@ def process_ai_campaign(campaign_name: str, campaign_file: str) -> None:
         Exception: В случае возникновения ошибок в процессе подготовки кампании.
 
     Example:
-        >>> process_ai_campaign('lighting', 'EN_US.JSON')
+        >>> process_llm_campaign('lighting', 'EN_US.JSON')
     """
     try:
         campaign_editor: AliCampaignEditor = AliCampaignEditor(
             campaign_name=campaign_name, campaign_file=campaign_file
         )  # Инициализация редактора кампании
-        campaign_editor.process_ai_campaign(campaign_name)  # Запуск процесса AI кампании
+        campaign_editor.process_llm_campaign(campaign_name)  # Запуск процесса AI кампании
     except Exception as ex:
         logger.error(
             'Ошибка при подготовке AI кампании', ex, exc_info=True
@@ -90,4 +90,4 @@ def process_ai_campaign(campaign_name: str, campaign_file: str) -> None:
 
 
 if __name__ == '__main__':
-    process_ai_campaign(CAMPAIGN_NAME, CAMPAIGN_FILE)
+    process_llm_campaign(CAMPAIGN_NAME, CAMPAIGN_FILE)

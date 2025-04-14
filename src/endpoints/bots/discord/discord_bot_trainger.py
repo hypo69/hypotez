@@ -19,7 +19,7 @@ import tempfile
 import asyncio
 import header
 from src import gs
-from src.ai.openai.model.training import Model
+from src.llm.openai.model.training import Model
 from src.utils.jjson import j_loads_ns, j_loads_ns, j_dumps
 from src.logger.logger import logger
 import speech_recognition as sr  # Библиотека для распознавания речи

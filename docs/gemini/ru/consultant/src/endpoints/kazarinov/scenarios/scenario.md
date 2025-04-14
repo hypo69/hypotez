@@ -330,10 +330,10 @@ graph TD
 
     ----
 
-    -   **`process_ai(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`**:
+    -   **`process_llm(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`**:
 
         ```python
-        def process_ai(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool:
+        def process_llm(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool:
             """
             Обрабатывает список продуктов через AI модель.
 

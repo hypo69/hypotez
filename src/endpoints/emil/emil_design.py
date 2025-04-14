@@ -34,8 +34,8 @@ from header import __root__
 from src import gs
 from src.webdriver.driver import Driver
 from src.webdriver.chrome import Chrome
-from src.ai.gemini import GoogleGenerativeAI
-from src.ai.openai.model import OpenAIModel
+from src.llm.gemini import GoogleGenerativeAI
+from src.llm.openai.model import OpenAIModel
 from src.endpoints.prestashop.product import PrestaProduct
 from src.endpoints.prestashop.language import PrestaLanguage
 from src.endpoints.prestashop.product_fields import ProductFields

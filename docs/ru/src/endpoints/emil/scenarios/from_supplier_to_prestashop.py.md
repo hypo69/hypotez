@@ -34,7 +34,7 @@
 - `initialise_ai_model`: Инициализирует модель Gemini.
 - `run_scenario`: Выполняет сценарий: разбирает продукты, обрабатывает их через AI и сохраняет данные.
 - `save_product_data`: Сохраняет отдельные данные о продукте в файл.
-- `process_ai`: Обрабатывает список продуктов через AI модель.
+- `process_llm`: Обрабатывает список продуктов через AI модель.
 - `read_data_from_json`: Загружает JSON файлы и фотографии, полученные через телеграм.
 - `save_in_prestashop`: Сохраняет товары в Prestashop.
 - `post_facebook`: Исполняет сценарий рекламного модуля `facebook`.
@@ -144,9 +144,9 @@
 2. Сохраняет данные в файл с помощью `j_dumps`.
 3. В случае ошибки логирует её.
 
-### `process_ai`
+### `process_llm`
 ```python
-    async def process_ai(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:\
+    async def process_llm(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:\
         """\
         Processes the product list through the AI model.\
         """

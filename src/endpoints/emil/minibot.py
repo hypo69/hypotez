@@ -23,7 +23,7 @@ import header
 from header import __root__
 from src import gs
 from src.logger import logger
-from src.ai.gemini import GoogleGenerativeAI
+from src.llm.gemini import GoogleGenerativeAI
 from src.endpoints.kazarinov.scenarios.scenario import fetch_target_urls_onetab, Scenario
 
 from src.utils.url import is_url

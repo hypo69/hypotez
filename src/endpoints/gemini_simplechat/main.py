@@ -22,7 +22,7 @@ import uvicorn
 import header
 from header import __root__
 from src import gs
-from src.ai import GoogleGenerativeAI
+from src.llm import GoogleGenerativeAI
 from src.utils.jjson import j_loads_ns
 from src.logger import logger
 

@@ -51,7 +51,7 @@ from src import gs
 from src.logger.logger import logger
 from src.suppliers.chat_gpt import GptGs
 from src.webdriver.driver import Driver, Chrome, Firefox, Edge
-from src.ai.openai.model import Model
+from src.llm.openai.model import Model
 from src.utils.jjson import j_dumps, j_loads, j_loads_ns, clean_string
 from src.utils.convertors import dict2csv, json2csv
 from src.utils.printer import pprint

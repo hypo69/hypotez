@@ -20,7 +20,7 @@ from src import gs
 from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
 from src.webdriver.playwright import Playwrid
-from src.ai.gemini import GoogleGenerativeAI
+from src.llm.gemini import GoogleGenerativeAI
 from src.endpoints.kazarinov.report_generator.report_generator import ReportGenerator
 from src.endpoints.kazarinov.scenarios.quotation_builder import QuotationBuilder
 from src.endpoints.prestashop.product_fields.product_fields import ProductFields
@@ -148,7 +148,7 @@ class Scenario(QuotationBuilder):
                 f"""AI processing {lang=}""",
             )
             try:
-                data: dict = await self.process_ai_async(products_list, lang)
+                data: dict = await self.process_llm_async(products_list, lang)
                 if not data:
                     bot.send_message(chat_id, f"Ошибка модели для {lang=}")  
                     #  пропустить этот язык

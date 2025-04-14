@@ -23,7 +23,7 @@ from src.utils.printer import pprint
 from src.logger.logger import logger
 
 
-from src.ai.openai import translate
+from src.llm.openai import translate
 from types import SimpleNamespace
 from typing import Optional, List, Dict
 from gspread.worksheet import Worksheet

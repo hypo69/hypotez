@@ -41,8 +41,8 @@
 **Методы**:
 - `__init__`: Инициализирует экземпляр класса `QuotationBuilder`.
 - `convert_product_fields`: Преобразует поля продукта в словарь.
-- `process_ai`: Обрабатывает список продуктов с использованием модели ИИ.
-- `process_ai_async`: Асинхронно обрабатывает список продуктов с использованием модели ИИ.
+- `process_llm`: Обрабатывает список продуктов с использованием модели ИИ.
+- `process_llm_async`: Асинхронно обрабатывает список продуктов с использованием модели ИИ.
 - `save_product_data`: Сохраняет данные продукта в файл.
 - `post_facebook_async`: Публикует рекламные материалы в Facebook.
 
@@ -137,10 +137,10 @@ product_fields = ProductFields(...)
 product_data = quotation.convert_product_fields(product_fields)
 ```
 
-### `process_ai`
+### `process_llm`
 
 ```python
-def process_ai(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
+def process_llm(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
     """
     Processes the product list through the AI model.
 
@@ -184,18 +184,18 @@ def process_ai(self, products_list: List[str], lang:str,  attempts: int = 3) -> 
 
 4. **Обработка ответа от модели**:
    - Пытается распарсить ответ от модели (`response`) в словарь с помощью `j_loads`.
-   - Если парсинг не удался, логирует ошибку и, если остались попытки, рекурсивно вызывает `self.process_ai` с уменьшенным количеством попыток.
+   - Если парсинг не удался, логирует ошибку и, если остались попытки, рекурсивно вызывает `self.process_llm` с уменьшенным количеством попыток.
 
 **Пример**:
 ```python
 products = [...]
-response = quotation.process_ai(products, lang='ru')
+response = quotation.process_llm(products, lang='ru')
 ```
 
-### `process_ai_async`
+### `process_llm_async`
 
 ```python
-async def process_ai_async(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
+async def process_llm_async(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
     """
     Processes the product list through the AI model.
 
@@ -239,12 +239,12 @@ async def process_ai_async(self, products_list: List[str], lang:str,  attempts: 
 
 4. **Обработка ответа от модели**:
    - Пытается распарсить ответ от модели (`response`) в словарь с помощью `j_loads`.
-   - Если парсинг не удался, логирует ошибку и, если остались попытки, рекурсивно вызывает `self.process_ai_async` с уменьшенным количеством попыток.
+   - Если парсинг не удался, логирует ошибку и, если остались попытки, рекурсивно вызывает `self.process_llm_async` с уменьшенным количеством попыток.
 
 **Пример**:
 ```python
 products = [...]
-response = await quotation.process_ai_async(products, lang='ru')
+response = await quotation.process_llm_async(products, lang='ru')
 ```
 
 ### `save_product_data`

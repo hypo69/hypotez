@@ -30,7 +30,7 @@
 - `process_campaign`: Итерируется по категориям кампании и обрабатывает товары.
 - `process_campaign_category`: Обрабатывает конкретную категорию кампании для всех языков и валют.
 - `process_new_campaign`: Создает новую рекламную кампанию.
-- `process_ai_category`: Обрабатывает AI-данные для указанной категории.
+- `process_llm_category`: Обрабатывает AI-данные для указанной категории.
 - `process_category_products`: Обрабатывает товары в указанной категории.
 - `dump_category_products_files`: Сохраняет данные о товарах в JSON-файлы.
 - `set_categories_from_directories`: Устанавливает категории кампании из названий директорий.
@@ -142,10 +142,10 @@ def process_new_campaign(
 **Возвращает**:
 - `None`
 
-### `process_ai_category`
+### `process_llm_category`
 
 ```python
-def process_ai_category(self, category_name: Optional[str] = None):
+def process_llm_category(self, category_name: Optional[str] = None):
 ```
 
 **Назначение**: Обрабатывает AI-данные для указанной категории.

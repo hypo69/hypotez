@@ -249,10 +249,10 @@ def save_product_data(self, product_data: dict) -> None:
     ...
 ```
 
-#### `process_ai`
+#### `process_llm`
 
 ```python
-def process_ai(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool:
+def process_llm(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool:
     """
     Обрабатывает список продуктов с помощью модели ИИ.
 

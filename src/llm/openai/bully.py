@@ -11,7 +11,7 @@
 =========================================
 """
 import os
-import src.ai.openai
+import src.llm.openai
 openai.API_KEY = "YOUR_API_KEYS_OPENAI"
 
 #It works with GPT-3.5-turbo and GPT-4

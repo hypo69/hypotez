@@ -28,7 +28,7 @@ import header
 from header import __root__
 from src import gs
 from src.logger import logger
-from src.ai.gemini import GoogleGenerativeAI
+from src.llm.gemini import GoogleGenerativeAI
 from src.endpoints.kazarinov.scenarios.scenario import fetch_target_urls_onetab, Scenario
 from src.utils.url import is_url
 from src.utils.printer import pprint as print
@@ -279,27 +279,49 @@ def handle_unknown_command(message):
     logger.info(f'User {message.from_user.username} send unknown command: {message.text}')
     bot.send_message(message.chat.id, config.UNKNOWN_COMMAND_MESSAGE)
 
-def main(restarts:int = 5):
+# def main():
 
+#     try:
+#         logger.info(f'Starting bot in {Config.MODE} mode')
+#         bot.polling(none_stop=True)
+        
+#     except Exception as ex:
+#         logger.error(f'Error during bot polling: ', ex, False)
+#         ...
+#         try:
+#             bot.stop_bot()
+#         except Exception as ex:
+#             logger.error(f'Ошибка останова бота:', ex, False)
+#         logger.debug('Повторный запуск через 10 сек')
+#         time.sleep(10)
+#         main()
+
+def run_bot() -> None:
+    """
+    Запускает polling-бота в бесконечном цикле с автоматическим восстановлением при ошибках.
+
+    При возникновении исключений выполняется остановка бота и повторный запуск через 10 секунд.
+
+    Raises:
+        Exception: Повторно пробрасывается при фатальной ошибке, если бот не может быть запущен.
+    """
     try:
         logger.info(f'Starting bot in {Config.MODE} mode')
-        restarts = 5 # <- пусть будет бесконечный цикл
-        bot.polling(none_stop=True)
+        bot.infinity_polling()
         
+
     except Exception as ex:
-        logger.error(f'Error during bot polling: ', ex, False)
-        ...
-        if restarts > 1:
-            try:
-                bot.stop_bot()
-            except Exception as ex:
-                logger.error(f'Ошибка останова бота:', ex, False)
-            logger.debug('Повторный запуск через 10 сек')
-            time.sleep(10)
-            main(restarts - 1)
-        else:
-            logger.error(f'Превышено количество переподключений')
+        logger.error('Error during bot polling', ex, exc_info=True)
+
+        try:
+            bot.stop_bot()
+        except Exception as ex:
+            logger.error('Ошибка останова бота', ex, exc_info=True)
+
+        logger.debug('Повторный запуск через 10 секунд')
+        time.sleep(10)
+        run_bot()
 
 if __name__ == '__main__':
-    main(restarts = 5)
+    run_bot()
    

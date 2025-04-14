@@ -254,7 +254,7 @@ class SupplierToPrestashopProvider:
             return False
         return True
 
-    async def process_ai(self, products_list: List[str], lang: str, attempts: int = 3) -> dict | bool:
+    async def process_llm(self, products_list: List[str], lang: str, attempts: int = 3) -> dict | bool:
         """
         Обрабатывает список продуктов через AI модель.
 
@@ -292,7 +292,7 @@ class SupplierToPrestashopProvider:
             logger.error("Ошибка парсинга ответа модели", None, False)
             logger.error("Ошибка парсинга ответа модели", exc_info=True)
             if attempts > 1:
-                await self.process_ai(products_list, lang, attempts - 1)
+                await self.process_llm(products_list, lang, attempts - 1)
             return {}
         return response_dict
 

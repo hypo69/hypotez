@@ -29,7 +29,7 @@
 5. **Использование констант**:
     - Вынести часто используемые пути к файлам и идентификаторы ассистентов в константы для удобства изменения и поддержки.
 6. **Рефакторинг**:
-    - Упростить логику обработки категорий в методе `process_ai_category`.
+    - Упростить логику обработки категорий в методе `process_llm_category`.
     - Разбить большие методы на более мелкие и переиспользовать их.
 7. **Обработка ошибок**:
     - Добавить обработку ошибок при чтении файлов и директорий.
@@ -66,7 +66,7 @@
 
 >>> products = campaign.process_category_products("electronics")
 
->>> campaign.process_ai_category("Electronics")
+>>> campaign.process_llm_category("Electronics")
 """
 
 import asyncio
@@ -195,7 +195,7 @@ class AliPromoCampaign:
             logger.info(f"Starting {category_name=}")
             self.process_category_products(category_name)
             logger.info(f"Starting AI category")
-            self.process_ai_category(category_name)
+            self.process_llm_category(category_name)
             ...
 
 
@@ -212,7 +212,7 @@ class AliPromoCampaign:
         """
         # Process category products and get the list of products
         self.process_category_products(category_name=category_name)
-        self.process_ai_category(category_name=category_name)
+        self.process_llm_category(category_name=category_name)
 
     def process_new_campaign(
         self,
@@ -283,7 +283,7 @@ class AliPromoCampaign:
         ┌───────────────────────────────────────────────┐
         │ For each `category_name` in campaign:         │
         │ - Call `self.process_category_products`       │
-        │ - Call `self.process_ai_category`             │
+        │ - Call `self.process_llm_category`             │
         └───────────────────────────────────────────────┘
                          │
                          ▼
@@ -319,13 +319,13 @@ class AliPromoCampaign:
             for category_name in self.campaign.category.__dict__:
                 self.process_category_products(category_name)
 
-                self.process_ai_category(category_name)
+                self.process_llm_category(category_name)
                 j_dumps(
                     self.campaign_ai,
                     self.base_path / f"{self.language}_{self.currency}.json",
                 )  # <- в вновь созданный файл категорий
 
-    def process_ai_category(self, category_name: Optional[str] = None) -> None:
+    def process_llm_category(self, category_name: Optional[str] = None) -> None:
         """Обрабатывает AI-данные для указанной категории или для всех категорий кампании.
 
         Args:
@@ -335,8 +335,8 @@ class AliPromoCampaign:
             None
 
         Example:
-            >>> campaign.process_ai_category("Electronics")
-            >>> campaign.process_ai_category()
+            >>> campaign.process_llm_category("Electronics")
+            >>> campaign.process_llm_category()
 
         Flowchart:
         ┌──────────────────────────────────────────────┐

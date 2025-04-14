@@ -21,7 +21,7 @@
 - `campaign_file` (str): Файл кампании.
 
 **Методы**:
-- `process_ai_campaign(campaign_name)`: Обрабатывает AI кампанию.
+- `process_llm_campaign(campaign_name)`: Обрабатывает AI кампанию.
 
 ## Функции
 
@@ -86,5 +86,5 @@ from src.logger.logger import logger
 campaign_name = 'lighting'
 campaign_file = 'EN_US.JSON'
 campaign_editor = AliCampaignEditor(campaign_name = campaign_name, campaign_file = campaign_file )
-campaign_editor.process_ai_campaign(campaign_name)
+campaign_editor.process_llm_campaign(campaign_name)
 #process_all_campaigns()

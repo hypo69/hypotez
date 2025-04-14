@@ -37,16 +37,16 @@
     - Укажи типы для локальных переменных `product_name`, `description`, `description_short`, `specification`.
     - Добавь больше информации в docstring, описывающей процесс конвертации полей.
 
-5.  **Методы `process_ai` и `process_ai_async`**:
+5.  **Методы `process_llm` и `process_llm_async`**:
     - Убедись, что все локальные переменные аннотированы типами.
     - Добавь более подробное описание в docstring о том, как именно происходит обработка данных AI моделью.
-    - Исправить ошибку в `process_ai`, где не возвращается результат рекурсивного вызова функции:
+    - Исправить ошибку в `process_llm`, где не возвращается результат рекурсивного вызова функции:
      ```python
-     self.process_ai(products_list, lang, attempts -1 )
+     self.process_llm(products_list, lang, attempts -1 )
      ```
      заменить на:
      ```python
-     return self.process_ai(products_list, lang, attempts -1 )
+     return self.process_llm(products_list, lang, attempts -1 )
      ```
 
 6.  **Метод `save_product_data`**:
@@ -259,7 +259,7 @@ class QuotationBuilder:
             'local_image_path': str(f.local_image_path),
         }
 
-    def process_ai(self, products_list: List[str], lang: str,  attempts: int = 3) -> dict | bool:
+    def process_llm(self, products_list: List[str], lang: str,  attempts: int = 3) -> dict | bool:
         """
         Обрабатывает список продуктов с использованием AI модели.
 
@@ -299,11 +299,11 @@ class QuotationBuilder:
             logger.error(f"Ошибка парсинга ответа модели", exc_info=True)
             if attempts > 1:
                 ...
-                return self.process_ai(products_list, lang, attempts -1 )
+                return self.process_llm(products_list, lang, attempts -1 )
             return {}
         return  response_dict
 
-    async def process_ai_async(self, products_list: List[str], lang: str,  attempts: int = 3) -> dict | bool:
+    async def process_llm_async(self, products_list: List[str], lang: str,  attempts: int = 3) -> dict | bool:
         """
         Асинхронно обрабатывает список продуктов с использованием AI модели.
 
@@ -344,7 +344,7 @@ class QuotationBuilder:
             logger.error(f'Ошибка {attempts} парсинга ответа модели', exc_info=True)
             if attempts > 1:
                 ...
-                return await self.process_ai_async(products_list, lang, attempts - 1)
+                return await self.process_llm_async(products_list, lang, attempts - 1)
             return {}
         return  response_dict
 

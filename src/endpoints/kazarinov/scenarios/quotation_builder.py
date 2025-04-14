@@ -38,7 +38,7 @@ from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
 from src.webdriver.playwright import Playwrid
 
-from src.ai.gemini import GoogleGenerativeAI
+from src.llm.gemini import GoogleGenerativeAI
 from src.endpoints.advertisement.facebook.scenarios import (
     post_message_title, upload_post_media, message_publish
 )
@@ -196,7 +196,7 @@ class QuotationBuilder:
             'local_image_path': str(f.local_image_path),
         }
 
-    def process_ai(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
+    def process_llm(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
         """
         Processes the product list through the AI model.
 
@@ -232,11 +232,11 @@ class QuotationBuilder:
             logger.error(f"Ошибка парсинга ответа модели", None, False)
             if attempts > 1:
                 ...
-                self.process_ai(products_list, lang, attempts -1 )
+                self.process_llm(products_list, lang, attempts -1 )
             return {}
         return  response_dict
 
-    async def process_ai_async(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
+    async def process_llm_async(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
         """
         Processes the product list through the AI model.
 
@@ -273,7 +273,7 @@ class QuotationBuilder:
             logger.error(f'Ошибка {attempts} парсинга ответа модели', None, False)
             if attempts > 1:
                 ...
-                return await self.process_ai_async(products_list, lang, attempts - 1) 
+                return await self.process_llm_async(products_list, lang, attempts - 1) 
             return {}
         return  response_dict
 

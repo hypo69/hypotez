@@ -30,7 +30,7 @@
 - `get_graber_by_supplier_url(self, url: str)`
 - `convert_product_fields(self, f: ProductFields) -> dict`
 - `save_product_data(self, product_data: dict)`
-- `process_ai(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`
+- `process_llm(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`
 - `post_facebook(self, mexiron: SimpleNamespace) -> bool`
 - `create_report(self, data: dict, html_file: Path, pdf_file: Path)`
 
@@ -151,10 +151,10 @@ product_data = {'name': 'Product Name', 'price': 100}
 mexiron_builder.save_product_data(product_data)
 ```
 
-### `process_ai(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`
+### `process_llm(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`
 
 ```python
-def process_ai(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool:
+def process_llm(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool:
     """Обрабатывает список продуктов через модель ИИ.
     Args:
         products_list: Список словарей данных о продуктах в виде строки.
@@ -166,12 +166,12 @@ def process_ai(self, products_list: List[str], lang: str, attempts: int = 3) -> 
 ```
 
 #### Как работает функция:
-Функция `process_ai` принимает список продуктов, представленных в виде строк, и язык, на котором нужно обработать данные, и использует модель ИИ для обработки этих данных. Функция отправляет данные в модель ИИ и возвращает обработанный ответ. Если запрос к модели ИИ не удался, функция повторяет запрос несколько раз.
+Функция `process_llm` принимает список продуктов, представленных в виде строк, и язык, на котором нужно обработать данные, и использует модель ИИ для обработки этих данных. Функция отправляет данные в модель ИИ и возвращает обработанный ответ. Если запрос к модели ИИ не удался, функция повторяет запрос несколько раз.
 
 #### Примеры:
 ```python
 products_list = ['{"name": "Product 1", "price": 100}', '{"name": "Product 2", "price": 200}']
-result = mexiron_builder.process_ai(products_list, 'ru')
+result = mexiron_builder.process_llm(products_list, 'ru')
 print(result)
 ```
 

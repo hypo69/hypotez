@@ -183,7 +183,7 @@ graph TD
     - **Параметры**:
       - `product_data`: Форматированные данные о продукте.
 ----
-  - **`process_ai(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`**:
+  - **`process_llm(self, products_list: List[str], lang: str, attempts: int = 3) -> tuple | bool`**:
     - **Назначение**: Обрабатывает список продуктов через модель ИИ.
     - **Параметры**:
       - `products_list`: Список словарей данных о продуктах в виде строки.

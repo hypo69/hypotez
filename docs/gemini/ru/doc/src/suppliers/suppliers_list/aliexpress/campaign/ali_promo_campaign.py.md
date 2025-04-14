@@ -32,7 +32,7 @@
 - `process_campaign`: Итерируется по категориям кампании и обрабатывает товары.
 - `process_campaign_category`: Обрабатывает указанную категорию кампании для всех языков и валют.
 - `process_new_campaign`: Создает новую рекламную кампанию.
-- `process_ai_category`: Обрабатывает AI-данные для указанной категории.
+- `process_llm_category`: Обрабатывает AI-данные для указанной категории.
 - `process_category_products`: Обрабатывает товары в указанной категории.
 - `dump_category_products_files`: Сохраняет данные о товарах в JSON-файлы.
 - `set_categories_from_directories`: Устанавливает категории кампании на основе названий директорий.
@@ -117,7 +117,7 @@ def process_campaign(self):
 **Как работает функция**:
 
 1. Получает список названий категорий из директорий.
-2. Для каждой категории вызывает методы `process_category_products` и `process_ai_category`.
+2. Для каждой категории вызывает методы `process_category_products` и `process_llm_category`.
 
 ### `process_campaign_category`
 
@@ -143,7 +143,7 @@ def process_campaign_category(
 
 **Как работает функция**:
 
-1. Вызывает методы `process_category_products` и `process_ai_category` для обработки указанной категории.
+1. Вызывает методы `process_category_products` и `process_llm_category` для обработки указанной категории.
 
 ### `process_new_campaign`
 
@@ -216,7 +216,7 @@ def process_new_campaign(
     ┌───────────────────────────────────────────────┐
     │ For each `category_name` in campaign:         │
     │ - Call `self.process_category_products`       │
-    │ - Call `self.process_ai_category`             │
+    │ - Call `self.process_llm_category`             │
     └───────────────────────────────────────────────┘
                      │
                      ▼
@@ -241,13 +241,13 @@ def process_new_campaign(
 2. Создает объект `SimpleNamespace` для представления кампании.
 3. Устанавливает категории кампании из директорий.
 4. Копирует данные кампании в объект `campaign_ai`.
-5. Для каждой категории вызывает методы `process_category_products` и `process_ai_category`.
+5. Для каждой категории вызывает методы `process_category_products` и `process_llm_category`.
 6. Сохраняет данные кампании в JSON-файл.
 
-### `process_ai_category`
+### `process_llm_category`
 
 ```python
-def process_ai_category(self, category_name: Optional[str] = None):
+def process_llm_category(self, category_name: Optional[str] = None):
     """Processes the AI campaign for a specified category or all categories.
 
         This method processes AI-generated data for the specified category in the campaign.
@@ -257,8 +257,8 @@ def process_ai_category(self, category_name: Optional[str] = None):
             category_name (Optional[str]): The name of the category to process. If not provided, all categories are processed.
 
         Example:
-            >>> campaign.process_ai_category("Electronics")
-            >>> campaign.process_ai_category()
+            >>> campaign.process_llm_category("Electronics")
+            >>> campaign.process_llm_category()
 
         Flowchart:
         ┌──────────────────────────────────────────────┐
