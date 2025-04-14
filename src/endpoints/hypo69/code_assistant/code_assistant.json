@@ -1,0 +1,252 @@
+{
+  "role": "doc_writer_md",
+  "lang": "EN",
+  "model": [ "gemini" ],
+  "process_dirs": [
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\toolbox",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\launchers",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\logger",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\utils\\",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\utils\\convertors",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\chrome",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\ai_browser",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\firefox",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\playwright",
+
+
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\api",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\product_fields",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\utils",
+
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\gemini_simplechat",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\kazarinov",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\kazarinov\\scenarios",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\hypo69\\code_assistant",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\hypo69\\whatsapp",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\hypo69\\juliana",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\hypo69\\tiny_troupe",
+
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\scenario",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\fast_api",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\anthropic",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\deepseek",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\dialogflow",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\gemini",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\gradio",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\helicone",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\llama",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\magenta",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\myai",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\openai",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\openai\\assistants",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\openai\\assistants\\quickstart",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\revai",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\suno",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\tiny_troupe",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\ai\\xai",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\advertisement",
+
+
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots\\chat_gpt_nodejs",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots\\discord",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots\\google_drive",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots\\telegram",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots\\whatsapp",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\emil",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\emil\\report_generator",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\emil\\scenarios",
+
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\amazon",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\bangood",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\cdata",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\chat_gpt",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\ebay",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\etzmaleh",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\gearbest",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\scenario\\granadvance",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\scenario\\hb",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\scenario\\ivory",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\scenario\\ksp",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\scenario\\kualastyle",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\scenario\\morlevi",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\scenario\\visualdg",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\scenario\\wallashop",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\scenario\\wallmart"
+  ],
+
+
+  "exclude_dirs": [
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru\\client",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru\\server",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru\\g4f",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\gpt4free\\",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\gpt4free\\g4f",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\skd",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\models",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\helplers",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\tools",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\errors",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\campaign",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\scenarios",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\utils",
+
+    ".ipynb_checkpoints",
+    "resources",
+    "profiles",
+    "docs",
+    "assests",
+    "instructions",
+    "sdk",
+    "skd",
+    "quickstart",
+    "quick_start",
+    " В раздумьях. Пока не исключаю  _experiments",
+    "templates",
+    "db",
+    "node_modules",
+    "__pycache__",
+    "_examples",
+
+    ".git",
+    ".venv",
+    "venv",
+    ".vs",
+    ".vscode",
+    "docs",
+    "instructions",
+    "images",
+    "exe",
+    "profile*",
+    "pytest",
+    "emil-design.com",
+    "ai_games",
+    "openai-assistants-quickstart",
+    "arsak-zhak-programmirovanie-igr-i-golovolomok",
+    "getting_started_in_classroom_computing",
+    "more_basic_computer_games",
+    "Understanding_Mathematics_And_Logic_Using_BASIC_Computer_Games",
+    "projecteuler"
+  ],
+  "include_files": [
+    "*.json",
+    "*.js",
+    "*.mjs",
+    "*.htm*",
+    "*.php",
+    "*.txt",
+    "*.md",
+    "*.rst"
+  ],
+  "exclude_files": [
+    "version.py",
+    "__init__.py",
+    "*.png",
+    "*.jpg",
+    "*.jpeg",
+    "*.svg",
+    
+    "*.mmd",
+    "*.yaml",
+    "*.yml",
+    "*.ini",
+    "*.cfg",
+    "*.git*",
+
+    "Makefile",
+    "LICENSE*",
+    "CHANGELOG*",
+    "CONTRIBUTING*",
+    "CODE_OF_CONDUCT*",
+    "conf.py",
+    "header.py"
+  ],
+
+  "exclude_files_patterns": [
+    ".*\\(.*\\).*",
+    "___{3,}.*",
+    "___.*",
+    ".*___.*\\..*",
+    ".*___.*"
+  ],
+  "include_files_patterns": [
+    "*.py",
+    "*.md"
+  ],
+  "remove_prefixes": [
+    "```md",
+    "```md\n",
+    "```MD",
+    "```MD\n",
+    "```markdown",
+    "```markdown\n",
+    "```MARKDOWN",
+    "```MARKDOWN\n",
+    "```html",
+    "```html\n",
+    "```HTML",
+    "```HTML\n",
+    "``` ",
+    "```\n",
+    "```rst",
+    "```rst\n",
+    "```RST",
+    "```RST\n",
+    "```plaintext",
+    "```plaintext\n",
+    "```PALINTEXT",
+    "```PALINTEXT\n"
+  ],
+
+  "output_dirs": {
+    "code_checker_md": "<model>/<lang>/consultant/src",
+    "code_explainer_md": "<model>/<lang>/explainer/src",
+    "how_to_writer_md": "<model>/<lang>/how_to/src",
+    "code_explainer_html": "<model>/<lang>explainer/html/src",
+    "doc_writer_md": "<model>/<lang>/doc/src",
+    "pytest": "../pytest/<model>/src",
+    "doc_writer_rst": "<model>/<lang>/doc/rst/src",
+    "doc_writer_html": "<model>/<lang>/doc/html/src"
+
+  },
+
+  "roles": [
+    "doc_writer_md",
+    "code_checker_md",
+    "code_explainer_md",
+    "how_to_writer_md"
+  ],
+  "exclude-roles": [
+    "code_explainer_html",
+    "doc_writer_html",
+    "doc_writer_rst",
+    "pytest"
+  ],
+  "languages": [ "ru", "en" ],
+
+
+  "response_mime_type": "text/plain",
+  "gemini_model_name": "gemini-2.0-flash-exp",
+  "openai_model_name": "gpt-4o-mini",
+  "openai_assistant_id": "<OpenAI Assistant ID>"
+
+}

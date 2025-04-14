@@ -1,0 +1,14 @@
+{
+  "39": {
+    "ali_category_name": "Lights & Lighting",
+    "ali_parent": "",
+    "PrestaShop_categories": [],
+    "PrestaShop_main_category": ""
+  },
+  "1504": {
+    "ali_category_name": "Indoor Lighting",
+    "ali_parent": "39",
+    "PrestaShop_categories": [],
+    "PrestaShop_main_category": ""
+  }
+}

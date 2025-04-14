@@ -1,0 +1,14 @@
+{
+  "telegram_bot": {
+    "host": "127.0.0.1",
+    "port_range": [ 6000, 6999 ]
+  },
+  "discord_bot": {
+    "host": "127.0.0.1",
+    "port_range": [ 7000, 7999 ]
+  },
+  "whatsapp_bot": {
+    "host": "127.0.0.1",
+    "port_range": [ 9000, 9999 ]
+  }
+}

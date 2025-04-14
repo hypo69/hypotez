@@ -1,0 +1,33 @@
+{
+  "product_links": {
+    "attribute": "href",
+
+    "by": "XPATH",
+    "selector": "//h3[@class = 'post-title']//a",
+
+    "if_list":"first","use_mouse": false,
+    "mandatory": true,
+    "timeout":0,"timeout_for_event":"presence_of_element_located","event": false,
+    "locator_description": "Список ссылок на товары со страницы категории"
+  },
+  "pagination": {
+    "<-": {
+
+      "attribute": false,
+      "by": "XPATH",
+      "selector": "//ul[@class='pagination']",
+      "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
+      "mandatory": false,
+      "locator_description": ""
+    }
+  },
+  "categories_links": {
+
+    "attribute": { "text": "href" },
+    "by": "XPATH",
+    "selector": "//a[contains(@class, 'menu-item')]",
+    "timeout":0,"timeout_for_event":"presence_of_element_located","event": false,
+    "mandatory": false,
+    "locator_description": ""
+  }
+}
