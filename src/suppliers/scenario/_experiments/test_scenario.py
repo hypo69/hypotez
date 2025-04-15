@@ -49,7 +49,7 @@ from hypotez import gs
 from src.utils.printer import  pprint
 
 from src.scenario import Scenario
-from src.suppliers import Supplier
+
 
 def start_supplier(supplier_prefix):
     params: dict = \

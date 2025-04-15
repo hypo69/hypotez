@@ -46,7 +46,7 @@ import pickle
 import requests
 
 from src import gs
-from src.suppliers import Supplier
+
 from src.utils.printer import pprint
 
 a = Supplier('aliexpress')

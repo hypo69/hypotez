@@ -12,7 +12,7 @@ module: src.logger
 
 import sys
 import json
-from packaging.version import Version
+
 
 from pathlib import Path
 import header

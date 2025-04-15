@@ -54,7 +54,7 @@ from src.webdriver import executor
 
 
 from src import gs
-from src.suppliers import Supplier
+
 from src.product import Product, ProductFields
 
 from src.logger.logger import logger, ExecuteLocatorException

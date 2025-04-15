@@ -72,6 +72,8 @@ class Config:
     exclude_dirs:list[Path] = config.exclude_dirs
     response_mime_type:str = config.response_mime_type 
     output_directory_patterns:list = config.output_dirs
+    remove_prefixes:str = config.remove_prefixes
+    system_instruction = Path(__root__ / 'src' / 'endpoints' / 'hypo69' / 'code_assistant' / 'instructions' / f'CODE_RULES.{lang}.MD').read_text(encoding='UTF-8')
 
     @classmethod
     @property
@@ -98,12 +100,7 @@ class Config:
         'response_mime_type': 'text/plain',
     })
 
-
-
-# -------------------------- end file ---------------------------------------------------
-
-
-
+# -------------------------- end config.py---------------------------------------------------
 
 class CodeAssistant:
     """Класс для работы ассистента программиста с моделями ИИ"""
@@ -191,26 +188,27 @@ class CodeAssistant:
         """
         try:
             # Отправка файла в модель
-            response = self.gemini.upload_file(file_path)
+            response:str = self.gemini.upload_file(file_path)
 
             if response:
                 if hasattr(response, 'url'):
                     return response.url
 
-            return None
+                ...
+                return ''
         except Exception as ex:
             logger.error('Ошибка при отправке файла: ', ex)
             ...
-            return None
+            return ''
 
 
     async def process_files(
-        self, process_dirs: Optional[str | Path | list[str | Path]] = None, start_from_file: Optional[int] = 1
+        self, process_dirs: Optional[str | Path | list[str | Path]] = None, 
     ) -> bool:
         """компиляция, отправка запроса и сохранение результата."""
-        Config.process_dirs = process_dirs if process_dirs else Config.process_dirs
+        process_dirs = process_dirs if process_dirs else Config.process_dirs
 
-        for process_directory in Config.process_dirs:
+        for process_directory in process_dirs:
 
             process_directory:Path = Path(process_directory)
             logger.info(f'Start {process_directory=}')
@@ -227,12 +225,12 @@ class CodeAssistant:
                 if not any((file_path, content)):  # <- ошибка чтения файла
                     logger.error(f'Ошибка чтения содержимого файла {file_path}/Content {content} ')
                     continue
-                if i < start_from_file:  # <- старт с номера файла
-                    continue
+
                 if file_path and content:
-                    logger.debug(f'Processed file number: {i}', None, False)
+                    logger.debug(f'Чтение файла номер: {i+1}\n{file_path}', None, False)
                     content_request = self._create_request(file_path, content)
-                    response = await self.gemini.ask_async(content_request)
+                    #response = await self.gemini.ask_async(content_request)
+                    response = await self.gemini.chat(content_request)
 
                     if response:
                         response: str = self._remove_outer_quotes(response)
@@ -240,6 +238,7 @@ class CodeAssistant:
                             logger.error(f'Файл {file_path} \n НЕ сохранился')
                             ...
                             continue
+
                         
                         ...
                     else:
@@ -344,26 +343,39 @@ class CodeAssistant:
         Raises:
             OSError: Если не удаётся создать директорию или записать в файл.
         """
-        export_path:Path
-        try:
-            export_path = Path(file_path)
-        except Exception as ex:
+        export_path:Path = None
+        if not Path(file_path).exists(): 
             logger.error(f'Ошибка пути: {file_path}')
             ...
-            return
+            return False
+
         try:
-            # Получаем директорию для вывода в зависимости от роли
-            output_directory_pattern:str = getattr(Config.output_directory_patterns, Config.role)
+            # Получаение директорию для вывода в зависимости от роли
+            _pattern:str = getattr(Config.output_directory_patterns, Config.role)
 
-            # Формируем целевую директорию с учётом подстановки параметров <model> и <lang>
-            target_dir = (
-                f'docs/{output_directory_pattern}'.replace('<model>', model_name).replace('<lang>', Config.lang)
-            )
+            # Формирование целевой директории с учётом подстановки параметров <model> и <lang>
+            target_dir: str = (
+                f'docs/{_pattern}'
+                .replace('<model>', model_name)
+                .replace('<lang>', Config.lang)
+                .replace('<module>', file_path.parent.name)
+)
 
-            # Заменяем часть пути на целевую директорию
-            file_path = str(file_path).replace('src', target_dir)
+
+            parts = list(file_path.parts)
+            try:
+                idx = parts.index('hypotez')
+                # Вставляем '_template' сразу после неё
+                new_parts = parts[:idx + 1] + target_dir.split('/') +  [file_path.name]
+                export_path = Path(*new_parts)
+            except ValueError:
+                logger.error("'hypotez' не найдена в пути!")
+                ...
+                #export_path = Path(file_path,target_dir)
+                return False
 
             # Определяем суффикс для добавления в зависимости от роли
+
             suffix_map = {
                 'code_checker': '.md',
                 'doc_writer_md': '.md',
@@ -375,20 +387,22 @@ class CodeAssistant:
             }
             suffix = suffix_map.get(Config.role, '.md')  # По умолчанию используется .md
 
-            
-            if export_path.suffix == '.md' and suffix == '.md':
-                export_path = Path(f'{file_path}')
-            else:
-                export_path = Path(f'{file_path}{suffix}')
+            export_path = Path(f'{export_path}{suffix}')  # добавление суффикса к имени файла, даже к `.md`
 
             export_path.parent.mkdir(parents=True, exist_ok=True)
-            export_path.write_text(response, encoding='utf-8')
-            logger.success(f'{export_path.name}')
-            return True
+
+            try:
+                export_path.write_text(response, encoding='utf-8')
+                logger.success(f'Файл сохранён В:\n{export_path}')
+                return True
+            except Exception as e:
+                logger.error(f'Файл не сохранился по адресу:\n{export_path}\nОшибка: {e}')
+                return False
+
 
         except Exception as ex:
-            logger.critical(f'Ошибка сохранения файла: {export_path=}', ex)
-            # sys.exit(0)
+            logger.critical(f'Ошибка сохранения файла:\n{file_path=}', ex, False)
+            ...
             return False
 
     def _remove_outer_quotes(self, response: str) -> str:
@@ -419,11 +433,8 @@ class CodeAssistant:
         if response.startswith(('```python', '```mermaid')):
             return response
 
-        # Удаление маркера для известных форматов, если строка обрамлена в '```'
-        config = j_loads_ns(
-            gs.path.endpoints / 'hypo69' / 'code_assistant' / 'code_assistant.json'
-        )
-        for prefix in config.remove_prefixes:
+
+        for prefix in Config.remove_prefixes:
             # Сравнение с префиксом без учёта регистра
             if response.lower().startswith(prefix.lower()):
                 # Удаляем префикс и суффикс "```", если он есть
@@ -490,7 +501,7 @@ def main() -> None:
        
         # Обработка файлов для каждой комбинации языков и ролей
         for lang in Config.languages_list:
-            Config.lang = lang
+            
             for role in Config.roles_list:
                 logger.debug(f'Start role: {role}, lang: {lang}', None, False)
                 assistant_direct = CodeAssistant(

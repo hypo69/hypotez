@@ -12,7 +12,7 @@ module: toolbx.encoder_decoder_file_names
 
 import sys
 import json
-from packaging.version import Version
+
 
 from pathlib import Path
 def set_project_root(marker_files=('__root__','.git')) -> Path:

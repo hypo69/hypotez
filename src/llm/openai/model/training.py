@@ -88,7 +88,7 @@ class OpenAIModel:
             List[str]: A list of assistant names.
         """
         try:
-            self.assistants = j_loads_ns(gs.path.src / 'ai' / 'openai' / 'model' / 'assistants' / 'assistants.json')
+            self.assistants = j_loads_ns(gs.path.src / 'llm' / 'openai' / 'model' / 'assistants' / 'assistants.json')
             assistant_list = [assistant.name for assistant in self.assistants]
             logger.info(f"Loaded assistants: {assistant_list}")
             return assistant_list

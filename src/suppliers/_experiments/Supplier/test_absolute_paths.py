@@ -38,7 +38,7 @@
 
 import unittest
 from pathlib import Path
-from src.suppliers import Supplier
+
 
 class TestSetAbsolutePaths(unittest.TestCase):
     def setUp(self):

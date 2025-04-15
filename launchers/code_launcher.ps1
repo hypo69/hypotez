@@ -8,20 +8,23 @@ if ($arguments.Count -lt 1) {
     exit 1
 }
 
+# путь к директории для виртуальной среды
+$venvPath = "venv"
+
 # Путь к Python скрипту (первый аргумент)
 $scriptPath = $arguments[0]
-
-# Укажите путь к директории для виртуальной среды
-$venvPath = "venv"
 
 # Проверка, существует ли директория venv, если нет, создаем виртуальное окружение
 if (-not (Test-Path $venvPath)) {
     Write-Host "Создание виртуальной среды..."
     python -m venv $venvPath
 }
-
 # Активируем виртуальное окружение
 & "$venvPath\Scripts\Activate"
+
+
+
+
 
 # Устанавливаем зависимости, если необходимо
 # Например, из requirements.txt
@@ -31,4 +34,4 @@ if (-not (Test-Path $venvPath)) {
 python $scriptPath
 
 # Деактивируем виртуальное окружение после выполнения скрипта
-deactivate
+#deactivate

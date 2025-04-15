@@ -14,11 +14,10 @@ from header import __root__
 from src import gs
 #from src.suppliers.graber import Graber
 from src.suppliers.suppliers_list import *
-from src.utils.jjson import j_loads, j_loads_ns, j_dumps
-
+from src.suppliers.suppliers_list.hb.scenario import get_list_products_in_category
+from src.utils.jjson import j_loads
 
 #---------------------------- supplier `HB` ---------------------
-
-scenario:SimpleNamespace = j_loads_ns(__root__ /  'src' / 'suppliers' / 'suppliers_list' / 'hb' / 'bodyspa.json')
+scenario:SimpleNamespace = j_loads(__root__ /  'src' / 'suppliers' / 'suppliers_list' / 'hb' / 'scenarios' / 'bodyspa.json')
 hb:'Graber' = HbGraber()
-hb.run_scenario(scenario)
+hb.run_scenarios('hb', scenario, get_list_products_in_category)

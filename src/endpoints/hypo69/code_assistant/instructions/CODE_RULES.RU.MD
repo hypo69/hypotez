@@ -15,6 +15,36 @@
 
 #### **2. Комментарии**:
 - Используй `#` для внутренних комментариев.
+- В комментариях избегай использования местоимений, таких как *«делаем»*, *«переходим»*, *«возващам»* и т. д.. Вмсто этого используй точные термины, такие как *«извлеизвлечение»*, *«проверка»*, *«выполннение»*, *«замена»*, *«вызов»*, *«Функця выпоняет»*,*«Функця изменяет значение»*, *«Функця вызывает»*
+Пример:
+```python
+# Неправильно:
+def function(param: str, param1: Optional[str | dict | str] = None) -> dict | None:
+    # Получаем значение параметра
+    ...
+# Правильно:
+
+def function(param: str, param1: Optional[str | dict | str] = None) -> dict | None:
+    # Функция извлекает значение параметра
+    ...
+# Неправильно:
+if not process_directory.exists():
+    logger.error(f"Директория не существует: {process_directory}")
+    continue  # Переходим к следующей директории, если текущая не существует
+
+if not process_directory.is_dir():
+    logger.error(f"Это не директория: {process_directory}", None, False)
+    continue  # Переходим к следующей директории, если текущая не является директорией
+# Правильно:
+
+if not process_directory.exists():
+    logger.error(f"Директория не существует: {process_directory}")
+    continue  # Переход к следующей директории, если текущая не существует
+if not process_directory.is_dir():
+    logger.error(f"Это не директория: {process_directory}", None, False)
+    continue  # Переходим к следующей директории, если текущая не является директорией
+
+```
 - Документация всех функций, методов и классов должна следовать такому формату: 
     ```python
         def function(param: str, param1: Optional[str | dict | str] = None) -> dict | None:

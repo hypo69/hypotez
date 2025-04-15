@@ -43,7 +43,7 @@ import sys
 import asyncio
 import re
 from pathlib import Path
-from typing import Optional, Any
+from typing import Optional, Any, List, Dict
 from types import SimpleNamespace
 from typing import Callable
 # from langdetect import detect
@@ -57,6 +57,7 @@ from src.webdriver.firefox import Firefox
 from src.endpoints.prestashop.product_fields import ProductFields
 # from src.endpoints.prestashop.category_async import PrestaCategoryAsync
 # from src.suppliers.scenario.scenario_executor import run_scenario as _runscenario, run_scenarios as _runscenarios, run_scenario_file as _run_scenario_file, run_scenario_files as _run_scenario_files
+from src.endpoints.prestashop.product import PrestaProduct as Product
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.image import save_image, save_image_async, save_image_from_url_async
 from src.utils.file import read_text_file
@@ -132,7 +133,7 @@ def close_pop_up() -> Callable:
 class Graber:
     """Базовый класс сбора данных со страницы для всех поставщиков."""
     
-    def __init__(self, supplier_prefix: str,  driver: Optional['Driver'] = None,  lang_index:Optional[int] = 2):
+    def __init__(self, supplier_prefix: str,  driver: Optional['Driver'] = None,  lang_index:Optional[int] = 2, ):
         """Инициализация класса Graber.
 
         Args:
@@ -151,99 +152,76 @@ class Graber:
         Config.locator_for_decorator = None
         
 
-    async def run_scenarios(self, scenario: dict | SimpleNamespace) -> bool:
-        """Запуск сценария.
-                  scenario (dict): Словарь. Например:
-                                   {
-                       "scenarios": {
-                       "NEW CORSAIR LIQUID COOLING": {
-                           "brand": "CORSAIR",
-                           "url": "https://www.amazon.com/s?k=corsair&i=computers&rh=n%3A3015422011%2Cp_n_is_free_shipping%3A10236242011%2Cp_89%3ACorsair&dc&ds=v1%3A4UdJ5kFgxTrEAPAFY6KYx4O48jHaTgY%2BkKFEZHAmBy4&qid=1674395191&rnid=2528832011&ref=sr_nr_p_89_1",
-                           "active": true,
-                           "condition": "ref",
-                           "presta_categories": {
-                           "template": { "corsair": "LIQUID CPU COOLING" }
-                           },
-                           "checkbox": false,
-                           "price_rule": 1
-                       },
+    async def run_scenarios(self,  supplier_prefix:str, scenarios: List[dict] | dict, get_list_products_in_category) -> List | dict | bool:
+        """
+        Executes a list of scenarios (NOT FILES).
 
-                       "NEW CORSAIR AIR CHAISES COOLING": {
-                           "brand": "CORSAIR",
-                           "url": "https://www.amazon.com/s?k=corsair&i=computers&rh=n%3A172282%2Cn%3A541966%2Cn%3A193870011%2Cn%3A17923671011%2Cn%3A3012290011%2Cn%3A11036291%2Cp_n_is_free_shipping%3A10236242011%2Cp_89%3ACorsair&dc&ds=v1%3A62ROR5QIpRmdvHYid8HLE4S5XJ9aeeOJV%2B9%2Fka%2FPYS8&qid=1674395269&rnid=172282&ref=sr_nr_n_2",
-                           "active": true,
-                           "condition": "ref",
-                           "presta_categories": {
-                           "template": { "corsair": "AIR CHAISES COOLING" }
-                           },
-                           "checkbox": false,
-                           "price_rule": 1
-                       }
-                       }
-                   }
+        Args:
+            
+            scenarios (Optional[List[dict] | dict], optional): Accepts a list of scenarios or a single scenario as a dictionary. Defaults to None.
+
+        Returns:
+            List | dict | bool: The result of executing the scenarios, or False in case of an error.
+
+        Todo:
+            Check the option when no scenarios are specified from all sides. For example, when s.current_scenario is not specified and scenarios are not specified.
         """
 
-        # Проверяем тип входных данных. Если SimpleNamespace, доступ через точку, иначе через ['ключ']
-        # Но для универсальности лучше использовать стандартный доступ через ['ключ'] или .get()
-        # Либо можно явно проверить тип и использовать соответствующий синтаксис.
-        # В этом примере будем считать, что пришел словарь (dict), как в вашем примере.
+        scenarios = scenarios if isinstance(scenarios, list) else [scenarios]
+        res = []
+        for scenario in scenarios:
+            res = self.run_scenario(supplier_prefix, scenario, get_list_products_in_category)
+        return res
 
-        # 1. Получаем словарь всех сценариев
-        # Используем .get() на случай, если ключ "scenarios" может отсутствовать
-        all_scenarios = scenario.get("scenarios")
+    async def run_scenario(self, supplier_prefix:str, scenario: dict, get_list_products_in_category) -> List | dict | bool:
+        """
+        Executes the received scenario.
 
-        if not all_scenarios:
-            print("Ключ 'scenarios' не найден или пуст.")
-            return False # Или обработать ошибку по-другому
+        Args:
+            scenario (dict): Dictionary containing scenario details.
 
-        if not isinstance(all_scenarios, dict):
-             print("Значение по ключу 'scenarios' не является словарем.")
-             return False
+        Returns:
+            List | dict | bool: The result of executing the scenario.
 
-        print("Начинаем парсинг сценариев...")
+        Todo:
+            Check the need for the scenario_name parameter.
+        """
 
-        # 2. Итерируем по каждому сценарию
-        for scenario_name, scenario_details in all_scenarios.items():
-            print(f"\n--- Обработка сценария: {scenario_name} ---")
+        l:SimpleNamespace = j_loads_ns(__root__ / 'src' / 'suppliers' / 'suppliers_list' / supplier_prefix / 'locators' / 'category.json')
+        d = self.driver
+        d.get_url(l.url)
 
-            # 3. Получаем доступ к деталям сценария
-            # Используем .get() для безопасного доступа (вернет None, если ключ отсутствует)
-            brand = scenario_details.get("brand")
-            url = scenario_details.get("url")
-            is_active = scenario_details.get("active")
-            condition = scenario_details.get("condition")
-            checkbox = scenario_details.get("checkbox")
-            price_rule = scenario_details.get("price_rule")
+        # Get list of products in the category
+        list_products_in_category: list = get_list_products_in_category()
+        """ Собираю ссылки на товары.  """
+        if not list_products_in_category:
+            logger.warning('Нет ссылок на товары')
+            return
 
-            print(f"  Бренд: {brand}")
-            print(f"  URL: {url}")
-            print(f"  Активен: {is_active}")
-            print(f"  Состояние: {condition}")
-            print(f"  Checkbox: {checkbox}")
-            print(f"  Правило цены: {price_rule}")
+        # No products in the category (or they haven't loaded yet)
+        if not list_products_in_category:
+            logger.warning('No product list collected from the category page. Possibly an empty category - ', d.current_url)
+            return False
 
-            # 4. Получаем доступ к вложенным категориям
-            presta_categories = scenario_details.get("presta_categories")
-            if presta_categories and isinstance(presta_categories, dict):
-                template_dict = presta_categories.get("template")
-                if template_dict and isinstance(template_dict, dict):
-                    print(f"  Presta Template:")
-                    # Можно получить конкретное значение, если ключ известен
-                    corsair_category = template_dict.get("corsair")
-                    if corsair_category:
-                        print(f"    Категория Corsair: {corsair_category}")
-                    # Или пройти по всем парам ключ-значение в template
-                    # for key, value in template_dict.items():
-                    #     print(f"      {key}: {value}")
-                else:
-                    print("  Ключ 'template' не найден в 'presta_categories' или не является словарем.")
-            else:
-                print("  Ключ 'presta_categories' не найден или не является словарем.")
+        for url in list_products_in_category:
+            if not d.get_url(url):
+                logger.error(f'Error navigating to product page at: {url}')
+                continue  # <- Error navigating to the page. Skip
 
-        print("\nПарсинг завершен.")
-        # Здесь будет ваша логика выполнения сценария
-        # В данном примере просто возвращаем True для демонстрации
-        return True
+            # Grab product page fields
+            f: ProductFields = await self.grab_page_async()
+            if not f:
+                logger.error('Failed to collect product fields')
+                continue
+
+            try:
+                product: Product = Product(supplier_prefix=s.supplier_prefix, presta_fields_dict=presta_fields_dict)
+                insert_grabbed_data(f)
+            except Exception as ex:
+                logger.error(f'Product {product.fields["name"][1]} could not be saved', ex)
+                continue
+
+        return list_products_in_category
 
     async def error(self, field: str):
         """Обработчик ошибок для полей."""

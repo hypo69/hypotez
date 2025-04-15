@@ -76,7 +76,7 @@ class GoogleGenerativeAI:
     history_dir: Path = field(init=False)
     history_txt_file: Path = field(init=False)
     history_json_file: Path = field(init=False)
-    config:SimpleNamespace = field(default_factory=lambda: j_loads_ns(__root__ / 'src' / 'ai' / 'gemini' / 'gemini.json'), init=False)
+    config:SimpleNamespace = field(default_factory=lambda: j_loads_ns(__root__ / 'src' / 'llm' / 'gemini' / 'gemini.json'), init=False)
     chat_history: List[Dict] = field(default_factory=list, init=False)
     model: Any = field(init=False)
     _chat: Any = field(init=False)
@@ -156,7 +156,7 @@ class GoogleGenerativeAI:
         except Exception as ex:
             logger.error(f"Ошибка загрузки истории чата из файла {self.history_json_file=}", ex, False)
 
-    async def chat(self, q: str, chat_data_folder: Optional[str | Path], flag: str = "save_chat") -> Optional[str]:
+    async def chat(self, q: str, chat_data_folder: Optional[str | Path], flag: str = None) -> Optional[str]:
         """
         Обрабатывает чат-запрос с различными режимами управления историей чата.
 

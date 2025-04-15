@@ -48,7 +48,7 @@ import re
 # ----------------
 
 from src import gs
-from src.suppliers import Supplier
+
 from src.product import Product, ProductFields
 from categories import Category
 from src.utils import StringFormatter, StringNormalizer, translate

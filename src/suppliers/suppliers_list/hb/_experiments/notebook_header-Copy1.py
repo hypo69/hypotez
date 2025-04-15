@@ -55,7 +55,7 @@ import re
 
 from src import gs
 from src.webdriver.driver import Driver, executor
-from src.suppliers import Supplier
+
 from src.product import Product, ProductFields
 from src.category import Category
 from src.utils import StringFormatter, StringNormalizer
