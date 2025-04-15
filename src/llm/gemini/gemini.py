@@ -1,5 +1,4 @@
 ## \file src/ai/gemini/gemini.py
-## \file src/ai/gemini/gemini.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
@@ -47,7 +46,6 @@ from src.utils.date_time import TimeoutCheck
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.image import get_image_bytes
 from src.utils.string.ai_string_normalizer import normalize_answer
-from src.utils.printer import pprint as print
 from src.logger import logger
 
 timeout_check = TimeoutCheck()
@@ -79,7 +77,8 @@ class GoogleGenerativeAI:
     config:SimpleNamespace = field(default_factory=lambda: j_loads_ns(__root__ / 'src' / 'llm' / 'gemini' / 'gemini.json'), init=False)
     chat_history: List[Dict] = field(default_factory=list, init=False)
     model: Any = field(init=False)
-    _chat: Any = field(init=False)
+    chat_name:str =  field(init=False)
+    timestamp:str = field(init=False)
 
     MODELS: List[str] = field(default_factory=lambda: [
         "gemini-1.5-flash-8b",
@@ -93,12 +92,10 @@ class GoogleGenerativeAI:
 
         self.config = j_loads_ns(__root__ / 'src' / 'ai' / 'gemini' / 'gemini.json')
 
-        _dialogue_log_path:Path = Path(__root__, gs.path.external_storage, "gemini_data", "log")
-        _history_dir:Path = Path(__root__, gs.path.external_storage, "gemini_data", "history")
+        self.history_dir:Path = Path(__root__, gs.path.external_storage, "chats")
 
-        self.dialogue_txt_path = _dialogue_log_path / f"gemini_{gs.now}.txt"
-        self.history_txt_file = _history_dir / f"gemini_{gs.now}.txt"
-        self.history_json_file = _history_dir / f"gemini_{gs.now}.json"
+        self.timestamp: str = gs.now
+        
 
         # Инициализация модели
         genai.configure(api_key=self.api_key)
@@ -134,18 +131,22 @@ class GoogleGenerativeAI:
         except Exception as ex:
             logger.error("Ошибка при очистке истории чата.", ex, False)
 
-    async def _save_chat_history(self, chat_data_folder: Optional[str | Path]):
+    async def _save_chat_history(self):
         """Сохраняет всю историю чата в JSON файл"""
-        if chat_data_folder:
-            self.history_json_file = Path(chat_data_folder, 'history.json')
-        if self.chat_history:
-            j_dumps(data=self.chat_history, file_path=self.history_json_file, mode="w")
+        json_file_name = f'{self.chat_name}-{self.timestamp}.json'
+        self.history_json_file = Path(self.history_dir, json_file_name)
+
+        if not j_dumps(data=self.chat_history, file_path=self.history_json_file, mode="w"):
+            logger.error(f"Ошибка сохранения истории чата в файл {self.history_json_file=}", None, False)
+            return False
+        logger.info(f"История чата сохранена в файл {self.history_json_file=}", None, False)
+        return True
 
     async def _load_chat_history(self, chat_data_folder: Optional[str | Path]):
         """Загружает историю чата из JSON файла"""
         try:
             if chat_data_folder:
-                self.history_json_file = Path(chat_data_folder, 'history.json')
+                self.history_json_file = Path(self.chat_data_folder, 'history.json')
 
             if self.history_json_file.exists():
                 self.chat_history = j_loads(self.history_json_file)
@@ -156,7 +157,7 @@ class GoogleGenerativeAI:
         except Exception as ex:
             logger.error(f"Ошибка загрузки истории чата из файла {self.history_json_file=}", ex, False)
 
-    async def chat(self, q: str, chat_data_folder: Optional[str | Path], flag: str = None) -> Optional[str]:
+    async def chat(self, q: str,  chat_name:str, flag: Optional[str] = 'save_chat') -> Optional[str]:
         """
         Обрабатывает чат-запрос с различными режимами управления историей чата.
 
@@ -169,58 +170,85 @@ class GoogleGenerativeAI:
         Returns:
             Optional[str]: Ответ модели.
         """
+        self.chat_name = chat_name
         response = None
+        # try:
+        #     if flag == "save_chat":
+        #         await self._load_chat_history(chat_data_folder)
+
+        #     if flag == "read_and_clear":
+        #         logger.info(f"Прочитал историю чата и начал новый", text_color='gray')
+        #         await self._load_chat_history(chat_data_folder)
+        #         self.chat_history = []  # Очистить историю
+
+        #     if flag == "read_and_start_new":
+        #         logger.info(f"Прочитал историю чата, сохранил и начал новый", text_color='gray')
+        #         await self._load_chat_history(chat_data_folder)
+        #         self.chat_history = []  # Очистить историю
+        #         flag = "start_new"
+                
+
+        #     elif flag == "clear":
+        #         logger.info(f"Вытер прошлую историю")
+        #         self.chat_history = []  # Очистить историю
+                
+
+        #     elif flag == "start_new":
+                
+        #         timestamp = time.strftime("%Y%m%d_%H%M%S")
+        #         archive_file = self.history_dir / f"history_{timestamp}.json"
+        #         logger.info(f"Сохранил прошлую историю в {timestamp}", text_color='gray')
+                
+        #         if self.chat_history:
+        #             j_dumps(data=self.chat_history, file_path=archive_file, mode="w")
+        #         self.chat_history = []  # Начать новую историю
+                
+
         try:
-            if flag == "save_chat":
-                await self._load_chat_history(chat_data_folder)
-
-            if flag == "read_and_clear":
-                print(f"Прочитал историю чата и начал новый", text_color='gray')
-                await self._load_chat_history(chat_data_folder)
-                self.chat_history = []  # Очистить историю
-
-            if flag == "read_and_start_new":
-                print(f"Прочитал историю чата, сохранил и начал новый", text_color='gray')
-                await self._load_chat_history(chat_data_folder)
-                self.chat_history = []  # Очистить историю
-                flag = "start_new"
-                
-
-            elif flag == "clear":
-                print(f"Вытер прошлую историю")
-                self.chat_history = []  # Очистить историю
-                
-
-            elif flag == "start_new":
-                
-                timestamp = time.strftime("%Y%m%d_%H%M%S")
-                print(f"Сохранил прошлую историю в {timestamp}", text_color='gray')
-                archive_file = self.history_dir / f"history_{timestamp}.json"
-                if self.chat_history:
-                    j_dumps(data=self.chat_history, file_path=archive_file, mode="w")
-                self.chat_history = []  # Начать новую историю
-                
-
-
             # Отправить запрос модели
-            response = await self._chat.send_message_async(q)
-            if response and response.text:
-             
+            response:'AsyncGenerateContentResponse' = await self._chat.send_message_async(q)
+           
+            try:
+                #  получить доступ к usage_metadata напрямую из объекта response
+                if hasattr(response, 'usage_metadata') and response.usage_metadata:
+                    response_token_count = response.usage_metadata.candidates_token_count
+                    total_token_count = response.usage_metadata.total_token_count
+                    prompt_token_count = response.usage_metadata.prompt_token_count
+
+                    logger.info(f"Токены в ответе: {response_token_count}")
+                    logger.info(f"Токены в запросе: {prompt_token_count}")
+                    logger.info(f"Общее количество токенов: {total_token_count}")
+                else:
+                    # Это может произойти, если генерация не удалась или API не вернул метаданные
+                    logger.warning("Метаданные об использовании токенов отсутствуют в ответе (usage_metadata is None or empty).")
+
+            except AttributeError:
+                # На случай, если у объекта response вообще нет атрибута usage_metadata
+                logger.warning("Атрибут 'usage_metadata' отсутствует в объекте ответа.")
+                # Можно добавить логирование типа объекта для отладки:
+                # logger.debug(f"Тип объекта ответа: {type(response)}")
+            except Exception as meta_ex:
+                 logger.error("Ошибка при извлечении метаданных токенов", meta_ex, False)
+            # --- КОНЕЦ ИСПРАВЛЕННОГО БЛОКА ---
+
+            # Проверяем наличие текста в ответе (безопаснее с hasattr)
+            if hasattr(response, 'text') and response.text:
+                # Добавляем в историю и сохраняем
                 self.chat_history.append({"role": "user", "parts": [q]})
                 self.chat_history.append({"role": "model", "parts": [response.text]})
-                await self._save_chat_history(chat_data_folder)
+                await self._save_chat_history()
                 return response.text
+
+
             else:
                 logger.error("Empty response in chat", None, False)
+                ...
                 return
 
         except Exception as ex:
-            logger.error(f"Ошибка чата:\n {response=}", ex, False)
+            logger.error(f"Ошибка чата:\n {response}", ex, False)
             return
 
-        finally:
-            if flag == "save_chat":
-                await self._save_chat_history(chat_data_folder)
 
     def ask(self, q: str, attempts: int = 15, save_history:bool = False, clean_response:bool = True) -> Optional[str]:
         """
@@ -229,6 +257,7 @@ class GoogleGenerativeAI:
         for attempt in range(attempts):
             try:
                 response = self.model.generate_content(q)
+                ...
                
                 if not response.text:
                     logger.debug(
@@ -425,7 +454,7 @@ class GoogleGenerativeAI:
                     ))
 
             except DefaultCredentialsError as ex:
-                logger.error(f"Ошибка аутентификации: ", print(ex))
+                logger.error(f"Ошибка аутентификации: ", logger.info(ex))
                 return 
 
             except (InvalidArgument, RpcError) as ex:
@@ -438,14 +467,14 @@ class GoogleGenerativeAI:
                 logger.error(f"Ошибка при отправке запроса модели: ", ex)
                 return 
             finally:
-                print(f'\nΔ = {time.time() - start_time }\n',text_color='yellow',bg_color='red')
+                logger.info(f'\nΔ = {time.time() - start_time }\n',text_color='yellow',bg_color='red')
 
 
             _t:str | None = response.text 
             if _t:
                 return _t
             else:
-                print(f"{{Модель вернула:{response}}}",text_color='cyan')
+                logger.info(f"{{Модель вернула:{response}}}",text_color='cyan')
                 return None
 
         except Exception as ex:
@@ -494,7 +523,7 @@ async def main():
     image_path = Path(r"test.jpg")  # Замените на путь к вашему изображению
 
     if not image_path.is_file():
-        print(
+        logger.info(
             f"Файл {image_path} не существует. Поместите в корневую папку с программой файл с названием test.jpg"
         )
     else:
@@ -504,31 +533,31 @@ async def main():
 
         description = await ai.describe_image(image_path, prompt=prompt)
         if description:
-            print("Описание изображения (с JSON форматом):")
-            print(description)
+            logger.info("Описание изображения (с JSON форматом):")
+            logger.info(description)
             try:
                 parsed_description = j_loads(description)
 
             except Exception as ex:
-                print("Не удалось распарсить JSON. Получен текст:")
-                print(description)
+                logger.info("Не удалось распарсить JSON. Получен текст:")
+                logger.info(description)
 
         else:
-            print("Не удалось получить описание изображения.")
+            logger.info("Не удалось получить описание изображения.")
 
         # Пример без JSON вывода
         prompt = "Проанализируй это изображение. Перечисли все объекты, которые ты можешь распознать."
         description = await ai.describe_image(image_path, prompt=prompt)
         if description:
-            print("Описание изображения (без JSON формата):")
-            print(description)
+            logger.info("Описание изображения (без JSON формата):")
+            logger.info(description)
 
     file_path = Path('test.txt')
     with open(file_path, "w") as f:
         f.write("Hello, Gemini!")
 
     file_upload = await ai.upload_file(file_path, 'test_file.txt')
-    print(file_upload)
+    logger.info(file_upload)
 
     # Пример чата
     while True:
@@ -537,9 +566,9 @@ async def main():
             break
         ai_message = await ai.chat(user_message)
         if ai_message:
-            print(f"Gemini: {ai_message}")
+            logger.info(f"Gemini: {ai_message}")
         else:
-            print("Gemini: Ошибка получения ответа")
+            logger.info("Gemini: Ошибка получения ответа")
 
 
 if __name__ == "__main__":

@@ -230,7 +230,7 @@ class CodeAssistant:
                     logger.debug(f'Чтение файла номер: {i+1}\n{file_path}', None, False)
                     content_request = self._create_request(file_path, content)
                     #response = await self.gemini.ask_async(content_request)
-                    response = await self.gemini.chat(content_request)
+                    response = await self.gemini.chat(content_request,'coder')
 
                     if response:
                         response: str = self._remove_outer_quotes(response)
