@@ -44,7 +44,7 @@ import asyncio
 import re
 import importlib
 from pathlib import Path
-from typing import Optional, Any, List, Dict
+from typing import Generator, List, Optional, Dict, Any
 from types import SimpleNamespace
 from typing import Callable
 # from langdetect import detect

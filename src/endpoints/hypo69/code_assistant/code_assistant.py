@@ -133,7 +133,9 @@ class CodeAssistant:
         Config.lang = lang if lang else Config.lang
         Config.system_instruction = system_instruction if system_instruction else Config.system_instruction
         
-        self._initialize_models(list(models_list), **kwards)
+        if not self._initialize_models(list(models_list), **kwards):
+            ...
+
 
     def _initialize_models(self, models_list: list, response_mime_type: Optional[str] = '', **kwards) -> bool:
         """
@@ -163,8 +165,8 @@ class CodeAssistant:
 
                 # Создание экземпляра модели Gemini
                 self.gemini = GoogleGenerativeAi(
-                    model_name=kwards.get('model_name', Config.gemini.model_name),  # Значение из kwards имеет приоритет,
-                    api_key=kwards.get('api_key', Config.gemini.api_key),
+ 
+                    api_key=kwards.get('api_key', Config.gemini.api_key),# Значение из kwards имеет приоритет,
                     system_instruction= kwards.get('system_instruction', Config.system_instruction),
                     generation_config = {'response_mime_type': kwards.get( 'response_mime_type',  Config.response_mime_type)},
                     **filtered_kwargs,
