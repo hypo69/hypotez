@@ -24,7 +24,7 @@ locator = j_loads(gs.path.src.suppliers / f{s} / 'locators' / 'product.json`)
 class G(Graber):
 
     @close_pop_up()
-    async def name(self, value:Optional[Any] = None):
+    async def name(self, value:Optional[Any] = None) -> bool:
         self.fields.name = <Ваша реализация>
         )
     ```
@@ -233,7 +233,7 @@ class Graber:
             except Exception as e:
                 logger.error(f"Ошибка при поиске файлов сценариев для '{supplier_prefix}'", e, exc_info=True)
 
-    async def process_supplier_scenarios(self, supplier_prefix: str, input_scenarios=None):
+    async def process_supplier_scenarios_async(self, supplier_prefix: str, input_scenarios=None) -> bool:
         """
         Пример метода, который использует генератор yield_scenarios_for_supplier
         и вызывает run_scenario для каждого сценария.
@@ -244,10 +244,10 @@ class Graber:
             scenario_generator = self.yield_scenarios_for_supplier(supplier_prefix, input_scenarios)
 
             # Итерируем по сценариям, которые выдает генератор
-            for scenario_data in scenario_generator:
-                logger.info(f"Запуск сценария для '{supplier_prefix}'...")
+            for scenarios in scenario_generator:
+                # logger.info(f"Запуск сценария для '{supplier_prefix}'...")
                 # Вызываем ваш метод run_scenario для каждого словаря сценария
-                result = await self.run_scenario(supplier_prefix, scenario_data)
+                result = await self.process_scenarios(supplier_prefix, scenarios['scenarios'] if hasattr(scenarios, 'scenarios') else scenarios )
                 all_results.append(result) # Собираем результаты (опционально)
 
             logger.info(f"Все сценарии для '{supplier_prefix}' обработаны.")
@@ -258,59 +258,209 @@ class Graber:
             return None # Или другое обозначение ошибки
 
 
-    async def run_scenario(self, supplier_prefix:str, scenario: dict,) -> List | dict | bool:
+
+
+
+    async def process_scenarios(self, supplier_prefix: str, scenarios_input: List[Dict[str, Any]] | Dict[str, Any]) -> Optional[List[Any]]:
         """
-        Executes the received scenario.
+        Выполняет один или несколько сценариев для указанного поставщика.
 
         Args:
-            scenario (dict): Dictionary containing scenario details.
+            supplier_prefix (str): Префикс (идентификатор) поставщика.
+            scenarios_input (Union[List[Dict[str, Any]], Dict[str, Any]]):
+                Один словарь сценария или список словарей сценариев.
 
         Returns:
-            List | dict | bool: The result of executing the scenario.
-
-        Todo:
-            Check the need for the scenario_name parameter.
+            Optional[List[Any]]: Список результатов выполнения каждого сценария
+                                 (например, списки обработанных URL товаров)
+                                 или None в случае критической ошибки импорта.
         """
+        scenarios_list: List[Dict[str, Any]] = []
 
-        l:SimpleNamespace = j_loads_ns(__root__ / 'src' / 'suppliers' / 'suppliers_list' / supplier_prefix / 'locators' / 'category.json')
-        d = self.driver
-        d.get_url(l.url)
+        # 1. Нормализация входных данных до списка словарей
+        if isinstance(scenarios_input, list):
+            if all(isinstance(item, dict) for item in scenarios_input):
+                scenarios_list = scenarios_input
+            else:
+                logger.error(f"Не все элементы в списке scenarios_input для '{supplier_prefix}' являются словарями.")
+                return None # Возвращаем None при некорректном вводе
+        elif isinstance(scenarios_input, dict):
+            scenarios_list = [scenarios_input] # Оборачиваем одиночный словарь в список
+        else:
+            logger.error(f"Неверный тип для scenarios_input для '{supplier_prefix}': {type(scenarios_input)}. Ожидался dict или list.")
+            return None
 
-        scenario_module = importlib.import_module(__root__ / 'src' / 'suppliers' / 'suppliers_list' / supplier_prefix / 'scenario')
+        if not scenarios_list:
+            logger.warning(f"Список сценариев для обработки пуст для '{supplier_prefix}'.")
+            return [] # Возвращаем пустой список, если нет сценариев
 
-        list_products_in_category: list = scenario_module.get_list_products_in_category()
-        """ Собираю ссылки на товары.  """
-        if not list_products_in_category:
-            logger.warning('Нет ссылок на товары')
-            return
+        # 2. Динамический импорт модуля и функции сценария (вынесен до цикла)
+        try:
+            module_path_str: str = f'src.suppliers.suppliers_list.{supplier_prefix}.scenario'
+            scenario_module = importlib.import_module(module_path_str)
 
-        # No products in the category (or they haven't loaded yet)
-        if not list_products_in_category:
-            logger.warning('No product list collected from the category page. Possibly an empty category - ', d.current_url)
-            return False
+            # Проверяем наличие и получаем функцию
+            if not hasattr(scenario_module, 'get_list_products_in_category'):
+                logger.error(f"Функция 'get_list_products_in_category' не найдена в модуле {module_path_str}")
+                return None # Критическая ошибка - не можем продолжить
+            get_list_func: Callable = getattr(scenario_module, 'get_list_products_in_category')
 
-        for url in list_products_in_category:
-            if not d.get_url(url):
-                logger.error(f'Error navigating to product page at: {url}')
-                continue  # <- Error navigating to the page. Skip
+            if not callable(get_list_func):
+                 logger.error(f"'get_list_products_in_category' в {module_path_str} не является функцией")
+                 return None
 
-            # Grab product page fields
-            f: ProductFields = await self.grab_page_async()
-            if not f:
-                logger.error('Failed to collect product fields')
-                continue
+        except (ModuleNotFoundError, ImportError, Exception) as import_err:
+            logger.error(f"Ошибка импорта модуля/функции сценария для '{supplier_prefix}'", import_err, exc_info=True)
+            return None # Критическая ошибка
 
+        # --- Основной цикл обработки сценариев ---
+        all_results: List[Any] = [] # Список для сбора результатов всех сценариев
+        d = self.driver # Предполагаем, что self.driver инициализирован
+        if 'scenarios' in scenarios_list and isinstance(scenarios_list['scenarios'], dict):
+            # Итерируем по ЗНАЧЕНИЯМ вложенного словаря
+            for scenario_data in scenarios_input['scenarios'].values():
+            # 3. Получение URL из текущего словаря сценария
+            scenario_url: Optional[str] = scenario_data.get('url') # Безопасное извлечение URL
+            if not scenario_url:
+                logger.warning(f"Сценарий для '{supplier_prefix}' не содержит ключ 'url'. Пропуск сценария.")
+                all_results.append(None) # Добавляем None как результат этого сценария
+                continue # Переход к следующему сценарию
+
+            logger.info(f"Обработка сценария для '{supplier_prefix}'. URL: {scenario_url}")
+
+            # 4. Переход по URL сценария
+            if not d.get_url(scenario_url):
+                logger.error(f"Не удалось перейти по URL сценария: {scenario_url}", None, False )
+                all_results.append(None) # Добавляем None как результат этого сценария
+                continue # Переход к следующему сценарию
+
+            # 5. Вызов функции для получения списка продуктов
+            list_products_in_category: Optional[List[str]] = None
             try:
-                product: Product = Product(supplier_prefix=s.supplier_prefix, )
-                product.add_new_product(f)
-            except Exception as ex:
-                logger.error(f'Product {product.fields["name"][1]} could not be saved', ex)
-                continue
+                # Передаем драйвер и, возможно, сам словарь сценария для контекста
+                list_products_in_category = await get_list_func(driver=d, scenario_config=scenario_data)
+            except Exception as func_ex:
+                logger.error(f"Ошибка при выполнении get_list_products_in_category для URL {scenario_url}", func_ex, exc_info=True)
+                all_results.append(None) # Добавляем None как результат этого сценария
+                continue # Переход к следующему сценарию
 
-        return list_products_in_category
+            # 6. Проверка результата функции
+            if list_products_in_category is None:
+                logger.warning(f'Функция get_list_products_in_category вернула None для URL {scenario_url}.')
+                # Решите, считать ли это ошибкой сценария или просто отсутствием продуктов
+                all_results.append([]) # Добавляем пустой список как результат (нет продуктов)
+                continue # Переход к следующему сценарию
+            if not isinstance(list_products_in_category, list):
+                 logger.error(f'Функция get_list_products_in_category вернула не список: {type(list_products_in_category)} для URL {scenario_url}')
+                 all_results.append(None) # Ошибка типа результата
+                 continue
+
+            if not list_products_in_category:
+                logger.warning(f'Нет ссылок на товары для URL {scenario_url}. Возможно, пустая категория.')
+                # Продуктов нет, но сценарий как бы выполнен успешно
+                all_results.append([]) # Добавляем пустой список как результат
+                continue # Переход к следующему сценарию (или можно было бы закончить здесь для этого сценария)
+
+            # 7. Обработка каждого продукта из списка
+            processed_product_urls_for_this_scenario: List[str] = []
+            for product_url in list_products_in_category:
+                if not isinstance(product_url, str) or not product_url:
+                     logger.warning(f"Некорректный URL товара получен: {product_url}. Пропуск.")
+                     continue
+
+                if not d.get_url(product_url):
+                    logger.error(f'Ошибка навигации на страницу товара: {product_url}')
+                    continue  # Пропуск этого товара
+
+                # Захват полей со страницы товара
+                f: Optional[ProductFields] = await self.grab_page_async() # Укажите правильный тип ProductFields
+                if not f:
+                    logger.error(f'Не удалось собрать поля товара с {product_url}')
+                    continue # Пропуск этого товара
+
+                # Сохранение продукта
+                try:
+                    # Используем supplier_prefix из аргументов функции
+                    product: Product = Product(supplier_prefix=supplier_prefix)
+                    product.add_new_product(f)
+                    processed_product_urls_for_this_scenario.append(product_url) # Сохраняем URL успешно обработанного продукта
+                except Exception as ex:
+                    product_name_info: str = f'продукта (имя не определено до сохранения)'
+                    # Попытка получить имя, если оно уже есть в 'f' (ProductFields)
+                    # Это зависит от структуры ProductFields
+                    # if hasattr(f, 'name') and f.name:
+                    #     product_name_info = f.name
+                    logger.error(f'Не удалось сохранить данные {product_name_info} с {product_url}', ex, exc_info=True)
+                    continue # Пропуск этого товара
+
+            # Добавляем результаты обработки продуктов для *этого* сценария в общий список
+            all_results.append(processed_product_urls_for_this_scenario)
+
+        # 8. Возврат агрегированных результатов после обработки всех сценариев
+        logger.info(f"Обработка всех сценариев для '{supplier_prefix}' завершена.")
+        return all_results
+
+
+
+    # async def process_scenarios(self, supplier_prefix:str, scenarios: dict,) -> List | dict | bool:
+    #     """
+    #     Executes the received scenario.
+
+    #     Args:
+    #         scenario (dict): Dictionary containing scenario details.
+
+    #     Returns:
+    #         List | dict | bool: The result of executing the scenario.
+
+    #     Todo:
+    #         Check the need for the scenario_name parameter.
+    #     """
+
+    #     scenario_module = importlib.import_module(f'src.suppliers.suppliers_list.{self.supplier_prefix}.scenario')
+    #     d = self.driver
+    #     for scenario in scenarios.items():
+    #         d.get_url(self.scenario.url)
+
+    #         list_products_in_category: list = scenario_module.get_list_products_in_category()
+    #         """ Собираю ссылки на товары.  """
+    #         if not list_products_in_category:
+    #             logger.warning('Нет ссылок на товары')
+    #             return
+
+    #         # No products in the category (or they haven't loaded yet)
+    #         if not list_products_in_category:
+    #             logger.warning('No product list collected from the category page. Possibly an empty category - ', d.current_url)
+    #             return False
+
+    #         for url in list_products_in_category:
+    #             if not d.get_url(url):
+    #                 logger.error(f'Error navigating to product page at: {url}')
+    #                 continue  # <- Error navigating to the page. Skip
+
+    #             # Grab product page fields
+    #             f: ProductFields = await self.grab_page_async()
+    #             if not f:
+    #                 logger.error('Failed to collect product fields')
+    #                 continue
+
+    #             try:
+    #                 product: Product = Product(supplier_prefix=s.supplier_prefix, )
+    #                 product.add_new_product(f)
+    #             except Exception as ex:
+    #                 logger.error(f'Product {product.fields["name"][1]} could not be saved', ex)
+    #                 continue
+
+    #         return list_products_in_category
+
+
+
+
+
+
 
     async def error(self, field: str):
         """Обработчик ошибок для полей."""
+        # Этот метод не используется в process_scenarios, оставлен как есть
         logger.debug(f"Ошибка заполнения поля {field}")
 
     async def set_field_value(
@@ -360,7 +510,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def additional_shipping_cost(self, value:Optional[Any] = None):
+    async def additional_shipping_cost(self, value:Optional[Any] = None) -> bool:
         """Fetch and set additional shipping cost.
         Args:
         value (Any): это значение можно передать в словаре kwards чеез ключ {additional_shipping_cost = `value`} при определении класса
@@ -381,7 +531,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def delivery_in_stock(self, value:Optional[Any] = None):
+    async def delivery_in_stock(self, value:Optional[Any] = None) -> bool:
         """Fetch and set delivery in stock status.
         
         Args:
@@ -402,7 +552,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def active(self, value:Optional[Any] = None):
+    async def active(self, value:Optional[Any] = None) -> bool:
         """Fetch and set active status.
         
         Args:
@@ -431,7 +581,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def additional_delivery_times(self, value:Optional[Any] = None):
+    async def additional_delivery_times(self, value:Optional[Any] = None) -> bool:
         """Fetch and set additional delivery times.
         
         Args:
@@ -457,7 +607,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def advanced_stock_management(self, value:Optional[Any] = None):
+    async def advanced_stock_management(self, value:Optional[Any] = None) -> bool:
         """Fetch and set advanced stock management status.
         
         Args:
@@ -482,7 +632,7 @@ class Graber:
         self.fields.advanced_stock_management = value
         return True
     @close_pop_up()
-    async def affiliate_short_link(self, value:Optional[Any] = None):
+    async def affiliate_short_link(self, value:Optional[Any] = None) -> bool:
         """Fetch and set affiliate short link.
         
         Args:
@@ -499,7 +649,7 @@ class Graber:
             return
 
     @close_pop_up()
-    async def affiliate_summary(self, value:Optional[Any] = None):
+    async def affiliate_summary(self, value:Optional[Any] = None) -> bool:
         """Fetch and set affiliate summary.
         
         Args:
@@ -517,7 +667,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def affiliate_summary_2(self, value:Optional[Any] = None):
+    async def affiliate_summary_2(self, value:Optional[Any] = None) -> bool:
         """Fetch and set affiliate summary 2.
         
         Args:
@@ -543,7 +693,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def affiliate_text(self, value:Optional[Any] = None):
+    async def affiliate_text(self, value:Optional[Any] = None) -> bool:
         """Fetch and set affiliate text.
         
         Args:
@@ -568,7 +718,7 @@ class Graber:
         self.fields.affiliate_text = value
         return True
     @close_pop_up()
-    async def affiliate_image_large(self, value:Optional[Any] = None):
+    async def affiliate_image_large(self, value:Optional[Any] = None) -> bool:
         """Fetch and set affiliate large image.
         
         Args:
@@ -585,7 +735,7 @@ class Graber:
             return
 
     @close_pop_up()
-    async def affiliate_image_medium(self, value:Optional[Any] = None):
+    async def affiliate_image_medium(self, value:Optional[Any] = None) -> bool:
         """Fetch and set affiliate medium image.
         
         Args:
@@ -611,7 +761,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def affiliate_image_small(self, value:Optional[Any] = None):
+    async def affiliate_image_small(self, value:Optional[Any] = None) -> bool:
         """Fetch and set affiliate small image.
         
         Args:
@@ -637,7 +787,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def available_date(self, value:Optional[Any] = None):
+    async def available_date(self, value:Optional[Any] = None) -> bool:
         """Fetch and set available date.
         
         Args:
@@ -662,7 +812,7 @@ class Graber:
         self.fields.available_date = locator_result
         return True
     @close_pop_up()
-    async def available_for_order(self, value:Optional[Any] = None):
+    async def available_for_order(self, value:Optional[Any] = None) -> bool:
         """Fetch and set available for order status.
 
         Args:
@@ -688,7 +838,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def available_later(self, value:Optional[Any] = None):
+    async def available_later(self, value:Optional[Any] = None) -> bool:
         """Fetch and set available later status.
 
         Args:
@@ -714,7 +864,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def available_now(self, value:Optional[Any] = None):
+    async def available_now(self, value:Optional[Any] = None) -> bool:
         """Fetch and set available now status.
 
         Args:
@@ -756,7 +906,7 @@ class Graber:
         return {'additional_categories': self.fields.additional_categories}
 
     @close_pop_up()
-    async def cache_default_attribute(self, value:Optional[Any] = None):
+    async def cache_default_attribute(self, value:Optional[Any] = None) -> bool:
         """Fetch and set cache default attribute.
 
         Args:
@@ -781,7 +931,7 @@ class Graber:
         self.fields.cache_default_attribute = value
         return True
     @close_pop_up()
-    async def cache_has_attachments(self, value:Optional[Any] = None):
+    async def cache_has_attachments(self, value:Optional[Any] = None) -> bool:
         """Fetch and set cache has attachments status.
 
         Args:
@@ -807,7 +957,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def cache_is_pack(self, value:Optional[Any] = None):
+    async def cache_is_pack(self, value:Optional[Any] = None) -> bool:
         """Fetch and set cache is pack status.
 
         Args:
@@ -833,7 +983,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def condition(self, value:Optional[Any] = None):
+    async def condition(self, value:Optional[Any] = None) -> bool:
         """Fetch and set product condition.
 
         Args:
@@ -859,7 +1009,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def customizable(self, value:Optional[Any] = None):
+    async def customizable(self, value:Optional[Any] = None) -> bool:
         """Fetch and set customizable status.
 
         Args:
@@ -884,7 +1034,7 @@ class Graber:
         self.fields.customizable = value
         return True
     @close_pop_up()
-    async def date_add(self, value:Optional[str | datetime.date] = None):
+    async def date_add(self, value:Optional[str | datetime.date] = None) -> bool:
         """Fetch and set date added.
 
         Args:
@@ -902,7 +1052,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def date_upd(self, value:Optional[Any] = None):
+    async def date_upd(self, value:Optional[Any] = None) -> bool:
         """Fetch and set date updated.
 
         Args:
@@ -920,7 +1070,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def delivery_out_stock(self, value:Optional[Any] = None):
+    async def delivery_out_stock(self, value:Optional[Any] = None) -> bool:
         """Fetch and set delivery out of stock.
 
         Args:
@@ -938,7 +1088,7 @@ class Graber:
         
 
     @close_pop_up()
-    async def depth(self, value:Optional[Any] = None):
+    async def depth(self, value:Optional[Any] = None) -> bool:
         """Fetch and set depth.
 
         Args:
@@ -955,7 +1105,7 @@ class Graber:
             return
 
     @close_pop_up()
-    async def description(self, value:Optional[Any] = None):
+    async def description(self, value:Optional[Any] = None) -> bool:
         """Fetch and set description.
         
         Args:
@@ -977,7 +1127,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def description_short(self, value:Optional[Any] = None):
+    async def description_short(self, value:Optional[Any] = None) -> bool:
         """Fetch and set short description.
         
         Args:
@@ -1001,7 +1151,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def id_category_default(self, value:Optional[Any] = None):
+    async def id_category_default(self, value:Optional[Any] = None) -> bool:
         """Fetch and set default category ID.
         
         Args:
@@ -1013,7 +1163,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def id_default_combination(self, value:Optional[Any] = None):
+    async def id_default_combination(self, value:Optional[Any] = None) -> bool:
         """Fetch and set default combination ID.
         
         Args:
@@ -1043,7 +1193,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def id_product(self, value:Optional[Any] = None):
+    async def id_product(self, value:Optional[Any] = None) -> bool:
         """Fetch and set product ID.
         
         Args:
@@ -1079,7 +1229,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def locale(self, value:Optional[Any] = None):
+    async def locale(self, value:Optional[Any] = None) -> bool:
         """Fetch and set locale.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {locale = `value`} при определении класса.
@@ -1097,7 +1247,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def id_default_image(self, value:Optional[Any] = None):
+    async def id_default_image(self, value:Optional[Any] = None) -> bool:
         """Fetch and set default image ID.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {id_default_image = `value`} при определении класса.
@@ -1124,7 +1274,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def ean13(self, value:Optional[Any] = None):
+    async def ean13(self, value:Optional[Any] = None) -> bool:
         """Fetch and set EAN13 code.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {ean13 = `value`} при определении класса.
@@ -1151,7 +1301,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def ecotax(self, value:Optional[Any] = None):
+    async def ecotax(self, value:Optional[Any] = None) -> bool:
         """Fetch and set ecotax.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {ecotax = `value`} при определении класса.
@@ -1178,7 +1328,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def height(self, value:Optional[Any] = None):
+    async def height(self, value:Optional[Any] = None) -> bool:
         """Fetch and set height.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {height = `value`} при определении класса.
@@ -1204,7 +1354,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def how_to_use(self, value:Optional[Any] = None):
+    async def how_to_use(self, value:Optional[Any] = None) -> bool:
         """Fetch and set how to use.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {how_to_use = `value`} при определении класса.
@@ -1229,7 +1379,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def id_manufacturer(self, value:Optional[Any] = None):
+    async def id_manufacturer(self, value:Optional[Any] = None) -> bool:
         """Fetch and set manufacturer ID.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {id_manufacturer = `value`} при определении класса.
@@ -1254,7 +1404,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def id_supplier(self, value:Optional[Any] = None):
+    async def id_supplier(self, value:Optional[Any] = None) -> bool:
         """Fetch and set supplier ID.
         Код поставщика из таблицы `suppliers`
         Обычно подставлятся в локакор
@@ -1297,7 +1447,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def id_tax_rules_group (self, value:Optional[Any] = None):
+    async def id_tax_rules_group (self, value:Optional[Any] = None) -> bool:
         """Fetch and set tax ID.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {id_tax_rules_group = `value`} при определении класса.
@@ -1322,7 +1472,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def id_type_redirected(self, value:Optional[Any] = None):
+    async def id_type_redirected(self, value:Optional[Any] = None) -> bool:
         """Fetch and set redirected type ID.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {id_type_redirected = `value`} при определении класса.
@@ -1347,7 +1497,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def images_urls(self, value:Optional[Any] = None):
+    async def images_urls(self, value:Optional[Any] = None) -> bool:
         """Fetch and set image URLs.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {images_urls = `value`} при определении класса.
@@ -1371,7 +1521,7 @@ class Graber:
         self.fields.images_urls = value
 
     @close_pop_up()
-    async def indexed(self, value:Optional[Any] = None):
+    async def indexed(self, value:Optional[Any] = None) -> bool:
         """Fetch and set indexed status.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {indexed = `value`} при определении класса.
@@ -1396,7 +1546,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def ingredients(self, value:Optional[Any] = None):
+    async def ingredients(self, value:Optional[Any] = None) -> bool:
         """Fetch and set ingredients.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {ingredients = `value`} при определении класса.
@@ -1421,7 +1571,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def meta_description(self, value:Optional[Any] = None):
+    async def meta_description(self, value:Optional[Any] = None) -> bool:
         """Fetch and set meta description.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {meta_description = `value`} при определении класса.
@@ -1446,7 +1596,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def meta_keywords(self, value:Optional[Any] = None):
+    async def meta_keywords(self, value:Optional[Any] = None) -> bool:
         """Fetch and set meta keywords.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {meta_keywords = `value`} при определении класса.
@@ -1471,7 +1621,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def meta_title(self, value:Optional[Any] = None):
+    async def meta_title(self, value:Optional[Any] = None) -> bool:
         """Fetch and set meta title.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {meta_title = `value`} при определении класса.
@@ -1496,7 +1646,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def is_virtual(self, value:Optional[Any] = None):
+    async def is_virtual(self, value:Optional[Any] = None) -> bool:
         """Fetch and set virtual status.
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {is_virtual = `value`} при определении класса.
@@ -1519,7 +1669,7 @@ class Graber:
         self.fields.is_virtual = value
         return True
     @close_pop_up()
-    async def isbn(self, value:Optional[Any] = None):
+    async def isbn(self, value:Optional[Any] = None) -> bool:
         """Fetch and set ISBN.
         
         Args:
@@ -1545,7 +1695,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def link_rewrite(self, value:Optional[Any] = None):
+    async def link_rewrite(self, value:Optional[Any] = None) -> bool:
         """Fetch and set link rewrite.
         
         Args:
@@ -1571,7 +1721,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def location(self, value:Optional[Any] = None):
+    async def location(self, value:Optional[Any] = None) -> bool:
         """Fetch and set location.
         
         Args:
@@ -1597,7 +1747,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def low_stock_alert(self, value:Optional[Any] = None):
+    async def low_stock_alert(self, value:Optional[Any] = None) -> bool:
         """Fetch and set low stock alert.
         
         Args:
@@ -1622,7 +1772,7 @@ class Graber:
         self.fields.low_stock_alert = value
         return True
     @close_pop_up()
-    async def low_stock_threshold(self, value:Optional[Any] = None):
+    async def low_stock_threshold(self, value:Optional[Any] = None) -> bool:
         """Fetch and set low stock threshold.
         
         Args:
@@ -1640,7 +1790,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def minimal_quantity(self, value:Optional[Any] = None):
+    async def minimal_quantity(self, value:Optional[Any] = None) -> bool:
         """Fetch and set minimal quantity.
         
         Args:
@@ -1658,7 +1808,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def mpn(self, value:Optional[Any] = None):
+    async def mpn(self, value:Optional[Any] = None) -> bool:
         """Fetch and set MPN (Manufacturer Part Number).
         
         Args:
@@ -1705,7 +1855,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def online_only(self, value:Optional[Any] = None):
+    async def online_only(self, value:Optional[Any] = None) -> bool:
         """Fetch and set online-only status.
         
         Args:
@@ -1723,7 +1873,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def on_sale(self, value:Optional[Any] = None):
+    async def on_sale(self, value:Optional[Any] = None) -> bool:
         """Fetch and set on sale status.
         
         Args:
@@ -1740,7 +1890,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def out_of_stock(self, value:Optional[Any] = None):
+    async def out_of_stock(self, value:Optional[Any] = None) -> bool:
         """Fetch and set out of stock status.
         
         Args:
@@ -1757,7 +1907,7 @@ class Graber:
             return
 
     @close_pop_up()
-    async def pack_stock_type(self, value:Optional[Any] = None):
+    async def pack_stock_type(self, value:Optional[Any] = None) -> bool:
         """Fetch and set pack stock type.
 
         Args:
@@ -1776,7 +1926,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def price(self, value:Optional[Any] = None):
+    async def price(self, value:Optional[Any] = None) -> bool:
         """Fetch and set price.
 
         Args:
@@ -1800,7 +1950,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def product_type(self, value:Optional[Any] = None):
+    async def product_type(self, value:Optional[Any] = None) -> bool:
         """Fetch and set product type.
 
         Args:
@@ -1827,7 +1977,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def quantity(self, value:Optional[Any] = None):
+    async def quantity(self, value:Optional[Any] = None) -> bool:
         """Fetch and set quantity.
 
         Args:
@@ -1845,7 +1995,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def quantity_discount(self, value:Optional[Any] = None):
+    async def quantity_discount(self, value:Optional[Any] = None) -> bool:
         """Fetch and set quantity discount.
 
         Args:
@@ -1863,7 +2013,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def redirect_type(self, value:Optional[Any] = None):
+    async def redirect_type(self, value:Optional[Any] = None) -> bool:
         """Fetch and set redirect type.
 
         Args:
@@ -1890,7 +2040,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def reference(self, value:Optional[Any] = None):
+    async def reference(self, value:Optional[Any] = None) -> bool:
         """Fetch and set reference.
 
         Args:
@@ -1911,7 +2061,7 @@ class Graber:
             return
 
     @close_pop_up()
-    async def show_condition(self, value:Optional[int] = None):
+    async def show_condition(self, value:Optional[int] = None) -> bool:
         """Fetch and set show condition.
     
         Args:
@@ -1928,7 +2078,7 @@ class Graber:
             return
 
     @close_pop_up()
-    async def show_price(self, value:Optional[int] = None):
+    async def show_price(self, value:Optional[int] = None) -> bool:
         """Fetch and set show price.
     
         Args:
@@ -1971,7 +2121,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def text_fields(self, value:Optional[Any] = None):
+    async def text_fields(self, value:Optional[Any] = None) -> bool:
         """Fetch and set text fields.
     
         Args:
@@ -1996,7 +2146,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def unit_price_ratio(self, value:Optional[Any] = None):
+    async def unit_price_ratio(self, value:Optional[Any] = None) -> bool:
         """Fetch and set unit price ratio.
     
         Args:
@@ -2021,7 +2171,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def unity(self, value:Optional[str] = None):
+    async def unity(self, value:Optional[str] = None) -> bool:
         """Fetch and set unity.
 
         Args:
@@ -2039,7 +2189,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def upc(self, value:Optional[str] = None):
+    async def upc(self, value:Optional[str] = None) -> bool:
         """Fetch and set UPC.
 
         Args:
@@ -2057,7 +2207,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def uploadable_files(self, value:Optional[Any] = None):
+    async def uploadable_files(self, value:Optional[Any] = None) -> bool:
         """Fetch and set uploadable files.
 
         Args:
@@ -2082,7 +2232,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def default_image_url(self, value:Optional[Any] = None):
+    async def default_image_url(self, value:Optional[Any] = None) -> bool:
         """Fetch and set default image URL.
 
         Args:
@@ -2104,7 +2254,7 @@ class Graber:
             return
 
     @close_pop_up()
-    async def visibility(self, value:Optional[str] = None):
+    async def visibility(self, value:Optional[str] = None) -> bool:
         """Fetch and set visibility.
           
         Args:
@@ -2129,7 +2279,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def weight(self, value:Optional[float] = None):
+    async def weight(self, value:Optional[float] = None) -> bool:
         """Fetch and set weight.
     
         Args:
@@ -2148,7 +2298,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def wholesale_price(self, value:Optional[float] = None):
+    async def wholesale_price(self, value:Optional[float] = None) -> bool:
         """Fetch and set wholesale price.
     
         Args:
@@ -2165,7 +2315,7 @@ class Graber:
             return
 
     @close_pop_up()
-    async def width(self, value:Optional[float] = None):
+    async def width(self, value:Optional[float] = None) -> bool:
         """Fetch and set width.
     
         Args:
@@ -2182,7 +2332,7 @@ class Graber:
             return
 
     @close_pop_up()
-    async def specification(self, value:Optional[str|list] = None):
+    async def specification(self, value:Optional[str|list] = None) -> bool:
         """Fetch and set specification.
     
         Args:
@@ -2204,7 +2354,7 @@ class Graber:
             return
 
     @close_pop_up()
-    async def link(self, value:Optional[str] = None):
+    async def link(self, value:Optional[str] = None) -> bool:
         """Fetch and set link.
     
         Args:
@@ -2221,7 +2371,7 @@ class Graber:
             return
 
     @close_pop_up()
-    async def byer_protection(self, value:Optional[str|list] = None):
+    async def byer_protection(self, value:Optional[str|list] = None) -> bool:
         """Fetch and set buyer protection.
         
         Args:
@@ -2238,7 +2388,7 @@ class Graber:
             return
 
     @close_pop_up()
-    async def customer_reviews(self, value:Optional[Any] = None):
+    async def customer_reviews(self, value:Optional[Any] = None) -> bool:
         """Fetch and set customer reviews.
         
         Args:
@@ -2256,7 +2406,7 @@ class Graber:
 
 
     @close_pop_up()
-    async def link_to_video(self, value:Optional[Any] = None):
+    async def link_to_video(self, value:Optional[Any] = None) -> bool:
         """Fetch and set link to video.
         
         Args:
@@ -2282,7 +2432,7 @@ class Graber:
         return True
 
     @close_pop_up()
-    async def local_image_path(self, value: Optional[str] = None):
+    async def local_image_path(self, value: Optional[str] = None) -> bool:
         """Fetch and save an image locally.
 
         Функция получает `URL` картинки или байты изображения, сохраняет изображение в формате `PNG` в директории `tmp` 
@@ -2341,7 +2491,7 @@ class Graber:
             return
 
     @close_pop_up()
-    async def local_video_path(self, value:Optional[Any] = None):
+    async def local_video_path(self, value:Optional[Any] = None) -> bool:
         """Fetch and save video locally.
         
         Args:

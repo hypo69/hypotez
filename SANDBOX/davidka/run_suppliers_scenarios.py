@@ -19,4 +19,4 @@ from src.utils.jjson import j_loads
 #---------------------------- supplier `HB` ---------------------
 scenario:dict = j_loads(__root__ /  'src' / 'suppliers' / 'suppliers_list' / 'hb' / 'scenarios' / 'bodyspa.json')
 hb:'Graber' = HbGraber()
-asyncio.run(hb.run_scenarios_async('hb', scenario, ))
+asyncio.run(hb.process_supplier_scenarios_async('hb', scenario, ))
