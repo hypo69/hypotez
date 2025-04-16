@@ -120,23 +120,89 @@ class PrestaProduct(PrestaShop):
             logger.error(f'No category found with ID {id_category}.')
             return
 
+
     def _add_parent_categories(self, f: ProductFields) -> None:
-        """Calculates and appends all parent categories for a list of category IDs to the ProductFields object.
+        """
+        Вычисляет и добавляет все уникальные родительские категории
+        для списка ID категорий в объект ProductFields.
 
         Args:
-            f (ProductFields): The ProductFields object to append parent categories to.
+            f (ProductFields): Объект ProductFields, в который добавляются
+                               уникальные родительские категории.
         """
-        for _c in f.additional_categories:
-            cat_id: int = int(_c['id'])  # {'id':'value'}
-            if cat_id in (1, 2):  # <-- корневые категории prestashop Здесь можно добавить другие фильтры
+
+        # 1. Создание множества для отслеживания всех ID категорий (начальных и добавленных)
+        seen_ids: Set[int] = set()
+
+        # Заполнение множества ID из *начального* списка f.additional_categories
+        # Итерируем по копии, чтобы избежать проблем, если append меняет список
+        initial_categories_copy: List[Dict[str, Any]] = list(f.additional_categories)
+
+        for initial_cat_dict in initial_categories_copy:
+            # Проверяем, что это словарь и есть ключ 'id'
+            if isinstance(initial_cat_dict, dict):
+                initial_id_val = initial_cat_dict.get('id')
+                if initial_id_val is not None:
+                    try:
+                        # Конвертируем в int и добавляем в множество
+                        seen_ids.add(int(initial_id_val))
+                    except (ValueError, TypeError):
+                        logger.warning(f"Не удалось конвертировать начальный ID категории в int: {initial_id_val}. Пропуск.")
+            else:
+                 logger.warning(f"Элемент в начальном списке категорий не является словарем: {initial_cat_dict}. Пропуск.")
+
+        logger.debug(f"Начальные уникальные ID категорий: {seen_ids}")
+
+        # 2. Итерация по начальным категориям для поиска их родителей
+        # Снова используем копию для безопасности
+        for _c in initial_categories_copy:
+             # Безопасное извлечение ID для старта поиска родителей
+            if not isinstance(_c, dict): continue # Пропуск не-словарей
+            start_cat_id_val = _c.get('id')
+            if start_cat_id_val is None: continue # Пропуск, если нет ID
+
+            try:
+                # Текущий ID категории, по которому ищем родителя
+                current_search_id: int = int(start_cat_id_val)
+            except (ValueError, TypeError):
+                logger.warning(f"Не удалось конвертировать стартовый ID категории {start_cat_id_val} в int. Пропуск ветки.")
                 continue
 
-            while cat_id > 2:
-                cat_id: Optional[int] = self.get_parent_category(cat_id)
-                if cat_id:
-                    f.additional_category_append(cat_id)
+            # Пропуск корневых категорий или некорректных ID
+            if current_search_id <= 2:
+                continue
+
+            logger.debug(f"Поиск родителей для стартовой категории ID: {current_search_id}")
+
+            # 3. Подъем по иерархии
+            while current_search_id > 2: # Пока не дошли до корня
+                parent_id: Optional[int] = self.get_parent_category(current_search_id)
+
+                # Проверка, найден ли родитель и не является ли он корнем
+                if parent_id is not None and parent_id > 2:
+                    # 4. Проверка на дубликат перед добавлением
+                    if parent_id not in seen_ids:
+                        logger.debug(f"Найден новый родитель ID: {parent_id}. Добавление.")
+                        # 5. Добавление родителя (предполагается, что метод сам создает dict {'id': parent_id})
+                        f.additional_category_append(parent_id)
+                        # 6. Добавление ID нового родителя в множество отслеживания
+                        seen_ids.add(parent_id)
+                    else:
+                        # Дубликат найден, просто логируем и идем дальше вверх
+                        logger.debug(f"Родитель ID {parent_id} уже присутствует/добавлен.")
+
+                    # Переход к следующему родителю вверх по иерархии
+                    current_search_id = parent_id
                 else:
-                    break
+                    # Родитель не найден или является корнем - завершаем подъем для этой ветки
+                    logger.debug(f"Завершение поиска родителей для ветки (родитель: {parent_id})")
+                    break # Выход из while для текущей start_cat_id_val
+
+            # Конец цикла while
+        # Конец цикла for
+
+        logger.debug(f"Финальный набор уникальных ID категорий: {seen_ids}")
+        # Теперь f.additional_categories содержит исходные категории + уникальные родительские
 
     def get_product(self, id_product: int, **kwards) -> dict:
         """Возваращает словарь полей товара из магазина Prestasop
@@ -151,7 +217,6 @@ class PrestaProduct(PrestaShop):
                     {... product fields}
             }
         """
-        kwards = {'data_format': 'JSON'}
         kwards = {'data_format': 'JSON'}
         return self.read(resource='products', resource_id=id_product, **kwards)
 
@@ -172,7 +237,7 @@ class PrestaProduct(PrestaShop):
 
         self._add_parent_categories(f)
 
-        schema = self.get_product_schema(resource_id=24, schema='full')
+        #schema = self.get_product_schema(resource_id=24, schema='full')
 
         presta_product_dict: dict = {'prestashop': 
                                      {'attrs':
@@ -196,15 +261,17 @@ class PrestaProduct(PrestaShop):
             ...
             try:
                 # f.reference = response['product']['reference'] if isinstance(response['product']['reference'], str) else int(response['product']['reference'])
-                img_data = self.create_binary(
-                    resource=f'products/{added_product_ns.id}',
-                    file_path=f.local_image_path,
-                    file_name=f'{gs.now}.png',
-                )
-
-
-                logger.info(f'Product added: /n {print(added_product_ns)}')
-                return added_product_ns
+                if f.local_image_path: 
+                    img_data = self.create_binary(
+                        resource=f'products/{added_product_ns.id}',
+                        file_path=f.local_image_path,
+                        file_name=f'{gs.now}.png',
+                    )
+                    logger.info(f'Product added: /n {print(added_product_ns)}')
+                    return added_product_ns
+                elif f.default_image_url:
+                    self.upload_image_from_url('products', added_product_ns.id, f.default_image_url)
+                    logger.info(f'Product added: /n {print(added_product_ns)}')
             except (KeyError, TypeError) as ex:
                 logger.error(f'Ошибка при разборе ответа от сервера: {ex}', exc_info=True)
                 return {}
@@ -271,11 +338,11 @@ def example_get_product(id_product: int, **kwards) -> None:
     """"""
 
     p = PrestaProduct(API_KEY=Config.API_KEY, API_DOMAIN=Config.API_DOMAIN)
-    kwards: dict = {
-        'data_format': 'JSON',
-        'display': 'full',
-        'schema': 'blank',
-    }
+    # kwards: dict = {
+    #     'data_format': 'JSON',
+    #     'display': 'full',
+    #     'schema': 'blank',
+    # }
     presta_product = p.get_product(id_product, **kwards)
     presta_product = presta_product[0] if isinstance(presta_product, list) else presta_product
     ...

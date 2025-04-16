@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>
+<prestashop>
+  <products>
+    <id_supplier>11267</id_supplier>
+    <id_category_default>11262</id_category_default>
+    <id_shop_default>1</id_shop_default>
+    <id_shop>1</id_shop>
+    <id_tax_rules_group>13</id_tax_rules_group>
+    <on_sale>1</on_sale>
+    <online_only>0</online_only>
+    <minimal_quantity>1</minimal_quantity>
+    <price>150.0</price>
+    <active>1</active>
+    <available_for_order>1</available_for_order>
+    <show_condition>1</show_condition>
+    <condition>new</condition>
+    <show_price>1</show_price>
+    <visibility>both</visibility>
+    <is_virtual>0</is_virtual>
+    <state>1</state>
+    <product_type>standard</product_type>
+    <description>
+      <language id="1"/>
+    </description>
+    <description_short>
+      <language id="1">סבון בעל ריכוז גבוה של בוץ, ויטמינים ומינרלים מים המלח בתוספת שמן זית. הסבון מיועד לטיפול בכל בעיות העור בפנים ובגוף כגון: אקנה, סבוראה, הזעת יתר, גרד, פסוריאזיס, לחיטוי פצעי בגרות, פטריות עור ופיגמנטציה. הסבון מנקה ביסודיות ומשאיר את העור חלק ורך. מכיל מגנזיום הידוע בהשפעתו המיטיבה לעצמות ולשרירים ולהרגשת נועם ורוגע. הסבון מיועד לנשים, גברים וילדים לשימוש יומיומי לפנים ולגוף.</language>
+    </description_short>
+    <name>
+      <language id="1">סבון בוץ לפנים ולגוף</language>
+    </name>
+    <specification>
+      <language id="1"/>
+    </specification>
+    <associations>
+      <categories>
+        <id>11259</id>
+      </categories>
+      <categories>
+        <id>11259</id>
+      </categories>
+      <categories>
+        <id>11248</id>
+      </categories>
+      <categories>
+        <id>11246</id>
+      </categories>
+      <categories>
+        <id>11245</id>
+      </categories>
+      <categories>
+        <id>11260</id>
+      </categories>
+      <categories>
+        <id>11260</id>
+      </categories>
+      <categories>
+        <id>11261</id>
+      </categories>
+      <categories>
+        <id>11261</id>
+      </categories>
+      <categories>
+        <id>11262</id>
+      </categories>
+      <categories>
+        <id>11262</id>
+      </categories>
+    </associations>
+  </products>
+</prestashop>

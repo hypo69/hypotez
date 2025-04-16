@@ -206,9 +206,25 @@ class GoogleGenerativeAi:
             except ResourceExhausted as ex:
                 logger.error("Resource exhausted:", ex, False)
                 ...
+                time.sleep(3000)
                 self._start_chat()
+                self.chat(q,  chat_name, flag)
+
+            except InvalidArgument as ex:
+                 logger.error("Общая ошибка чата:", ex, False)
+                 if 'maximum number of tokens allowed (1000000)' in ex.message:
+                    self._start_chat()
+                    ...
+                    await self.chat(q,  chat_name, flag)
+
             except Exception as ex:
                  logger.error("Общая ошибка чата:", ex, False)
+                 if '504 Deadline Exceeded' in ex.text:
+                     timeout:int = 3000
+                     logger.debug(f'Goinf sleep for {timeout/360} hours')
+                     time.sleep(timeout)
+                     self._start_chat()
+                     await self.chat(q,  chat_name, flag)
                  ...
 
            

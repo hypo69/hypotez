@@ -12,13 +12,7 @@
   "additional_delivery_times": null,
   "additional_shipping_cost": null,
   "advanced_stock_management": null,
-  "associations": {
-    "categories": [
-      {
-        "id": "2"
-      }
-    ]
-  },
+  "associations": {},
   "available_date": null,
   "available_for_order": 1,
   "cache_default_attribute": null,

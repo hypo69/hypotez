@@ -3,11 +3,14 @@
     "attribute": "href",
 
     "by": "XPATH",
-    "selector": "//h3[@class = 'post-title']//a",
+    "selector": "//h1[contains(@class,'product_title')]//a",
 
-    "if_list":"first","use_mouse": false,
+    "if_list": "first",
+    "use_mouse": false,
     "mandatory": true,
-    "timeout":0,"timeout_for_event":"presence_of_element_located","event": false,
+    "timeout": 0,
+    "timeout_for_event": "presence_of_element_located",
+    "event": false,
     "locator_description": "Список ссылок на товары со страницы категории"
   },
   "pagination": {

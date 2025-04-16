@@ -105,7 +105,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "default_image_url"
+    "locator_description": "HB default_image_url"
   },
   "id_default_combination": {
     "attribute": null,
@@ -530,14 +530,14 @@
   "price": {
     "attribute": "innerText",
     "by": "XPATH",
-    "selector": "//p[@class='price']",
+    "selector": "//bdi",
     "if_list": "first",
     "use_mouse": false,
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "price"
+    "locator_description": "HB price"
   },
   "wholesale_price": {
     "attribute": null,
@@ -549,7 +549,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "wholesale_price"
+    "locator_description": "HB wholesale_price"
   },
   "unity": {
     "attribute": null,
@@ -827,38 +827,17 @@
     "event": null,
     "locator_description": "name"
   },
-  "description": {
-    "attribute": [
-      null,
-      null
-    ],
-    "by": [
-      "XPATH",
-      "XPATH"
-    ],
-    "selector": [
-      "//a[contains(@href, '#tab-description')]",
-      "//div[@id = 'tab-description']//p"
-    ],
+  "description_short": {
+    "attribute": "innerText",
+    "by": "XPATH",
+    "selector": "//div[@id = 'tab-description']//p",
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": [
-      "click()",
-      null
-    ],
+    "event": null,
     "if_list": "first",
-    "use_mouse": [
-      false,
-      false
-    ],
-    "mandatory": [
-      true,
-      true
-    ],
-    "locator_description": [
-      "Нажимаю на таб для отркытия поля description",
-      "читаю данные из div"
-    ]
+    "use_mouse": false,
+    "mandatory": true,
+    "locator_description": "HB description"
   },
   "specification": {
     "attribute": "",
@@ -872,7 +851,7 @@
     "event": null,
     "locator_description": "Технические характеристики. "
   },
-  "description_short": {
+  "description": {
     "attribute": null,
     "by": null,
     "selector": null,
@@ -882,7 +861,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "description_short - на сайте HB есть только description. получаю через селектор `description`"
+    "locator_description": "description_short - на сайте HB есть только description"
   },
   "affiliate_short_link": {
     "attribute": "$_(driver.current_url)_$",

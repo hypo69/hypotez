@@ -73,8 +73,11 @@ class Scenario(QuotationBuilder):
         lang_index: int = 2
         for url in urls:
             kwards:dict = {}
+            # ------------------------------- бот не работает ----------------
             graber: 'Graber' = get_graber_by_supplier_url(self.driver, url, lang_index, **kwards)
-
+            bot.send_message(chat_id, f"Сереж, сегодня не работает. Позвони.") 
+            break
+            # -----------------------------------------------------------------
             if not graber:
                 logger.error(f"Нет грабера для: {url}")
                 bot.send_message(chat_id, f"Нет грабера для: {url}")
@@ -106,6 +109,7 @@ class Scenario(QuotationBuilder):
 
             await self.save_product_data(product_data)
             products_list.append(product_data)
+            self.driver.quit()
 
         # -----------------------------------------------------
         # 2. AI processing

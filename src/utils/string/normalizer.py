@@ -124,16 +124,18 @@ def normalize_int(input_data: str | int | float | Decimal) -> int:
 
 
 
-
 def normalize_float(value: Any) -> Optional[float]:
-    """Safely convert input value to float (with 3 decimal places) or return None if conversion fails.
-    
+    """
+    Безопасно конвертирует входное значение в float или возвращает None,
+    если конвертация не удалась. Удаляет распространенные символы валют
+    и разделители тысяч перед конвертацией.
+
     Args:
-        value (Any): Input value (int, float, str, etc.).
-    
+        value (Any): Входное значение (int, float, str и т.д.).
+
     Returns:
-        Optional[float]: Float with 3 decimal places (e.g., 5 → 5.000) or None if conversion fails.
-    
+        Optional[float]: Число float или None, если конвертация не удалась.
+
     Examples:
         >>> normalize_float(5)
         5.0
@@ -143,24 +145,63 @@ def normalize_float(value: Any) -> Optional[float]:
         3.14
         >>> normalize_float("abc")
         None
+        >>> normalize_float("₪0.00")
+        0.0
+        >>> normalize_float("$1,234.56")
+        1234.56
+        >>> normalize_float("  - 7.5 € ")
+        -7.5
+        >>> normalize_float(None)
+        None
+        >>> normalize_float(['1'])
+        None
+        >>> normalize_float('')
+        None
 
     Важно! проверять после вызова этой функции, что она не вернула None
     """
     if value is None:
         return None
 
-    # Если передали список/кортеж — возвращаем None (поскольку функция для одиночных значений)
+    # Если это уже число, просто конвертируем в float
+    if isinstance(value, (int, float)):
+        return float(value)
+
+    # Если это список/кортеж - ошибка
     if isinstance(value, (list, tuple)):
-        logger.warning(f"Expected single value, got iterable: {value}")
+        logger.warning(f'Ожидалось одиночное значение, получен итерируемый объект: {value}')
         return None
 
+    # Попытка преобразовать значение в строку для очистки
     try:
-        # Преобразуем в float, затем округляем до 3 знаков (если нужно)
-        float_value = float(value)
-        return float_value  # или round(float_value, 3), если хотим 5 → 5.000
-    except (ValueError, TypeError):
-        logger.warning(f"Cannot convert '{value}' to float")
+        value_str = str(value)
+    except Exception as e:
+        logger.warning(f'Невозможно преобразовать значение в строку: {value} ({type(value)}). Ошибка: {e}')
         return None
+
+    # Очистка строки от известных нечисловых символов
+    # 1. Удаляем распространенные символы валют (можно расширить список)
+    cleaned_str: str = re.sub(r'[₪$€£¥₽]', '', value_str)
+    # 2. Удаляем разделители тысяч (запятые)
+    cleaned_str = cleaned_str.replace(',', '')
+    # 3. Удаляем начальные/конечные пробелы
+    cleaned_str = cleaned_str.strip()
+
+    # Если строка пуста после очистки
+    if not cleaned_str:
+        logger.warning(f'Значение стало пустым после очистки: "{value}" -> "{cleaned_str}"')
+        return None
+
+    # Попытка конвертации очищенной строки
+    try:
+        # Используем float() для преобразования
+        float_value = float(cleaned_str)
+        # Округление до 3 знаков больше не требуется по коду, возвращаем как есть
+        return float_value
+    except (ValueError, TypeError):
+        logger.warning(f'Не удалось конвертировать очищенную строку "{cleaned_str}" (из "{value}") в float')
+        return None
+
 
 
 def normalize_sql_date(input_data: str) -> str:

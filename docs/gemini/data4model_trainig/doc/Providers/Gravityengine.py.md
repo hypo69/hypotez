@@ -1,0 +1,40 @@
+# Модуль провайдера Gravityengine
+
+## Обзор
+
+Модуль `src.endpoints.freegpt-webui-ru/g4f/Provider/Providers/Gravityengine.py` предоставляет реализацию провайдера Gravityengine для взаимодействия с языковой моделью.
+
+## Подробней
+
+Модуль содержит функцию для создания завершений (completions) с использованием API Gravityengine.
+
+## Переменные
+
+*   `url` (str): URL API Gravityengine (значение: `'https://gpt4.gravityengine.cc'` ).
+*   `model` (list): Список поддерживаемых моделей (значение: `['gpt-3.5-turbo-16k', 'gpt-3.5-turbo-0613']`).
+*   `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу (значение: `True`).
+*   `needs_auth` (bool): Указывает, требует ли провайдер аутентификацию (значение: `False`).
+
+## Функции
+
+### `_create_completion`
+
+```python
+def _create_completion(model: str, messages: list, stream: bool, **kwargs):
+```
+
+**Назначение**: Функция для создания завершения (completion).
+
+**Параметры**:
+
+*   `model` (str): Имя модели.
+*   `messages` (list): Список сообщений.
+*   `stream` (bool): Указывает, использовать ли потоковую передачу.
+*   `**kwargs`: Дополнительные аргументы.
+
+**Как работает функция**:
+
+1.  Определяет заголовки для HTTP-запроса.
+2.  Формирует данные в формате JSON для отправки в API, включая модель, температуру, признак потока и сообщения.
+3.  Выполняет POST-запрос к API Gravityengine.
+4.  Извлекает сообщение из ответа JSON и возвращает его.

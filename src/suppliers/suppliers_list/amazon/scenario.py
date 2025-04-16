@@ -29,7 +29,7 @@ from src import gs
 from src.logger.logger import logger
 
 
-def get_list_products_in_category(s) -> list[str,str,None]:    
+async def get_list_products_in_category(d:'Driver', l:dict) -> list[str,str,None]:    
     """ Returns list of products urls from category page
     Если надо пролистстать - страницы категорий - листаю ??????
 
@@ -37,12 +37,7 @@ def get_list_products_in_category(s) -> list[str,str,None]:
     @param s: Supplier - Supplier intstance
     @returns list or one of products urls or None
     """
-    d = s.driver
-    l: dict = s.locators['category']
-    if not l:
-        """ Много проверок, потому, что код можно запускать от лица разных ихполнителей: Supplier, Product, Scenario """
-        logger.error(f"А где локаторы? {l}")
-        return
+
     d.scroll()
 
     #TODO: Нет листалки

@@ -18,7 +18,7 @@
 
 """
 ...
-
+import asyncio
 from typing import Dict, List
 from pathlib import Path
 
@@ -29,7 +29,7 @@ from src.webdriver.driver import Driver
 
 
 
-def get_list_products_in_category (d: Driver) -> list[str, str, None]:    
+async def get_list_products_in_category (d: Driver, l:'SimpleNamespace') -> list[str, str, None]:    
     """ Returns list of products urls from category page
     Если надо пролистстать - страницы категорий - листаю ??????
 
@@ -39,14 +39,11 @@ def get_list_products_in_category (d: Driver) -> list[str, str, None]:
         list or one of products urls or None
     """
     ...
-    l: dict = s.locators['category']
-    ...
     d.wait(1)
-    d.execute_locator (s.locators ['product']['close_banner'] )
     d.scroll()
     ...
 
-    list_products_in_category: List = d.execute_locator(l['product_links'])
+    list_products_in_category: List = await d.execute_locator(l.product_links)
 
     if not list_products_in_category:
         logger.warning('Нет ссылок на товары. Так бывает')
@@ -54,26 +51,26 @@ def get_list_products_in_category (d: Driver) -> list[str, str, None]:
         return
     ...
     while d.current_url != d.previous_url:
-        if paginator(d,l,list_products_in_category):
-            list_products_in_category.append(d.execute_locator(l['product_links']))
+        if await paginator(d,l,list_products_in_category):
+            list_products_in_category.append(await d.execute_locator(l.product_links))
         else:
             break
         
-    list_products_in_category = [list_products_in_category] if isinstance(list_products_in_category, str) else list_products_in_category
+    list_products_in_category:list = [list_products_in_category] if isinstance(list_products_in_category, str) else list_products_in_category
 
-    logger.debug(f""" Found {len(list_products_in_category)} items in category {s.current_scenario['name']} """)
+    logger.debug(f""" Found {len(list_products_in_category)} items in  """)
     
     return list_products_in_category
 
-def paginator(d:Driver, locator: dict, list_products_in_category: list):
+async def paginator(d:Driver, locator: dict, list_products_in_category: list):
     """ Листалка """
-    response = d.execute_locator(locator['pagination']['<-'])
+    response = await d.execute_locator(locator.pagination.__dict__['<-'])
     if not response or (isinstance(response, list) and len(response) == 0): 
         ...
         return
     return True
 
-def get_list_categories_from_site(s):
+def build_list_categories_from_site(s):
     """ сборщик актуальных категорий с сайта """
     ...
 

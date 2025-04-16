@@ -95,7 +95,7 @@ class ProductFields:
             return False 
 
 
-    def _set_multilang_value(self, field_name: str, value: str, id_lang: Optional[int | str] = None) -> bool:
+    def _set_multilang_value(self, field_name: str, value: str, id_lang: Optional[int | str] = 1) -> bool:
         """
         Устанавливает мультиязычное значение для заданного поля.
 
@@ -125,6 +125,7 @@ class ProductFields:
         Returns:
             bool: True, если значение успешно установлено, False в случае ошибки.
         """
+        id_lang = self.id_lang if not id_lang else id_lang
         def escape_and_strip(text: str) -> str:
             """
             Очищает и экранирует строку, заменяя символы "'" и '"' на "\'" и '\"',
@@ -137,10 +138,9 @@ class ProductFields:
             return escaped_text
         value = escape_and_strip(value)
 
-        id_lang: int = int(id_lang) if id_lang else int(self.id_lang)
+        
 
-        lang_data: dict = {'attrs': {'id': id_lang}, 'value': f'{value}' }
-        #lang_data: dict = {'@id': id_lang, '#text': f'{value}' }  
+        lang_data: dict = {'attrs': {'id': id_lang}, 'value': f'{value}' }  
 
         try:
             # Get the existing field value, or None if it doesn't exist
@@ -1135,12 +1135,6 @@ class ProductFields:
         """Добавляет связь с категорией, если ее еще нет."""
         
         self._ensure_associations()
-        try:
-            category_id = int(category_id)
-        except (ValueError, Exception) as ex:
-            logger.error("`category_id` должен быть `int`",ex)
-            return
-
 
         if 'categories' not in self.presta_fields.associations:
             self.presta_fields.associations['categories']:list[dict] = []
@@ -1148,8 +1142,8 @@ class ProductFields:
         category_id_str = str(category_id)
         
         # проверяем есть ли уже такая категория
-        if not any(d['id'] == category_id_str for d in self.presta_fields.associations['categories']):
-            self.presta_fields.associations['categories'].append({'id': category_id_str})
+        #if not any(d['id'] == category_id_str for d in self.presta_fields.associations['categories']):
+        self.presta_fields.associations['categories'].append({'id': category_id_str})
 
     def additional_categories_clear(self):
         """Очищает все связи с категориями."""

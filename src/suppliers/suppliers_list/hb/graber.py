@@ -62,4 +62,37 @@ class Graber(Grbr):
         
         Config.locator_for_decorator = None # <- если будет уастановлено значение - то оно выполнится в декораторе `@close_pop_up`
 
+    # async def description_short(self, value:Optional[Any] = None) -> bool:
+    #     """Fetch and set short description.
+        
+    #     Args:
+    #     value (Any): это значение можно передать в словаре kwargs через ключ {description_short = `value`} при определении класса.
+    #     Если `value` было передано, его значение подставляется в поле `ProductFields.description_short`.
+    #     """
+    #     try:
+    #         # Получаем значение через execute_locator
+    #         #path = self.driver.current_url + '/#tab-description'
+    #         #await self.driver.get_url(path)
+    #         raw_data = await self.driver.execute_locator(self.product_locator.description_short)
+
+    #         self.fields.description_short = value or normalize_string(raw_data) or ''
+    #         ...
+    #         return
+    #     except Exception as ex:
+    #         logger.error(f"Ошибка получения значения в поле `description_short`", ex)
+    #         ...
+    #         return
+
+    #     self.fields.description_short = value
+    #     return True
+
+    async def default_image_url(self, value:Optional[Any] = None) -> bool:
+        return True
+
+    async def price(self, value:Optional[Any] = None) -> bool:
+        """Заглушка для цены"""
+        self.fields.price = 150.00
+        return True
+
+
         

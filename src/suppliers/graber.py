@@ -58,7 +58,7 @@ from src.webdriver.firefox import Firefox
 from src.endpoints.prestashop.product_fields import ProductFields
 # from src.endpoints.prestashop.category_async import PrestaCategoryAsync
 # from src.suppliers.scenario.scenario_executor import run_scenario as _runscenario, run_scenarios as _runscenarios, run_scenario_file as _run_scenario_file, run_scenario_files as _run_scenario_files
-from src.endpoints.prestashop.product import PrestaProduct as Product
+from src.endpoints.prestashop.product import PrestaProduct
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.image import save_image, save_image_async, save_image_from_url_async
 from src.utils.file import read_text_file, get_directory_names, get_filenames_from_directory, read_text_file_generator, recursively_get_file_path, save_text_file
@@ -233,7 +233,7 @@ class Graber:
             except Exception as e:
                 logger.error(f"Ошибка при поиске файлов сценариев для '{supplier_prefix}'", e, exc_info=True)
 
-    async def process_supplier_scenarios_async(self, supplier_prefix: str, input_scenarios=None) -> bool:
+    async def process_supplier_scenarios_async(self, supplier_prefix: str, input_scenarios=None, id_lang:Optional[int]=1) -> bool:
         """
         Пример метода, который использует генератор yield_scenarios_for_supplier
         и вызывает run_scenario для каждого сценария.
@@ -246,8 +246,8 @@ class Graber:
             # Итерируем по сценариям, которые выдает генератор
             for scenarios in scenario_generator:
                 # logger.info(f"Запуск сценария для '{supplier_prefix}'...")
-                # Вызываем ваш метод run_scenario для каждого словаря сценария
-                result = await self.process_scenarios(supplier_prefix, scenarios['scenarios'] if hasattr(scenarios, 'scenarios') else scenarios )
+
+                result = await self.process_scenarios(supplier_prefix, scenarios['scenarios'] if hasattr(scenarios, 'scenarios') else scenarios, id_lang )
                 all_results.append(result) # Собираем результаты (опционально)
 
             logger.info(f"Все сценарии для '{supplier_prefix}' обработаны.")
@@ -258,202 +258,182 @@ class Graber:
             return None # Или другое обозначение ошибки
 
 
-
-
-
-    async def process_scenarios(self, supplier_prefix: str, scenarios_input: List[Dict[str, Any]] | Dict[str, Any]) -> Optional[List[Any]]:
+    async def process_scenarios(self, supplier_prefix: str, scenarios_input: List[Dict[str, Any]] | Dict[str, Any], id_lang:Optional[int]=1) -> Optional[List[Any]]:
         """
         Выполняет один или несколько сценариев для указанного поставщика.
 
         Args:
             supplier_prefix (str): Префикс (идентификатор) поставщика.
-            scenarios_input (Union[List[Dict[str, Any]], Dict[str, Any]]):
-                Один словарь сценария или список словарей сценариев.
+            scenarios_input (List[Dict[str, Any]] | Dict[str, Any]):
+                Данные сценариев: либо список словарей сценариев,
+                либо словарь вида {'scenarios': {'name': dict, ...}}.
 
         Returns:
             Optional[List[Any]]: Список результатов выполнения каждого сценария
                                  (например, списки обработанных URL товаров)
-                                 или None в случае критической ошибки импорта.
+                                 или None в случае критической ошибки.
         """
-        scenarios_list: List[Dict[str, Any]] = []
+        actual_scenarios_to_process: List[Dict[str, Any]] = []
 
-        # 1. Нормализация входных данных до списка словарей
+        # 1. Нормализация входных данных -> actual_scenarios_to_process (список словарей сценариев)
         if isinstance(scenarios_input, list):
+            # Вход - список: валидация содержимого
             if all(isinstance(item, dict) for item in scenarios_input):
-                scenarios_list = scenarios_input
+                actual_scenarios_to_process = scenarios_input
             else:
-                logger.error(f"Не все элементы в списке scenarios_input для '{supplier_prefix}' являются словарями.")
-                return None # Возвращаем None при некорректном вводе
+                logger.error(f"Входной список для '{supplier_prefix}' содержит не-словари.")
+                return None # Возврат `None` при некорректном вводе
         elif isinstance(scenarios_input, dict):
-            scenarios_list = [scenarios_input] # Оборачиваем одиночный словарь в список
+            # Вход - словарь: проверка структуры {'scenarios': {name: dict, ...}}
+            if 'scenarios' in scenarios_input and isinstance(scenarios_input.get('scenarios'), dict):
+                inner_scenarios_dict = scenarios_input['scenarios']
+                # Проверка, что все значения во вложенном словаре - тоже словари
+                if all(isinstance(item, dict) for item in inner_scenarios_dict.values()):
+                    # Извлечение словарей сценариев из значений вложенного словаря
+                    actual_scenarios_to_process = list(inner_scenarios_dict.values())
+                    logger.debug(f"Извлечено {len(actual_scenarios_to_process)} сценариев из ключа 'scenarios' для '{supplier_prefix}'.")
+                else:
+                     logger.error(f"Внутренний словарь 'scenarios' для '{supplier_prefix}' содержит не-словари в значениях.")
+                     ...
+                     return None # Возврат `None` при некорректной структуре
+            else:
+                # Если это словарь, но не ожидаемой структуры, считаем ошибкой
+                logger.error(f"Входной словарь для '{supplier_prefix}' не имеет структуры {{'scenarios': {{...}}}}.")
+                ...
+                # Если нужно обработать одиночный словарь как один сценарий, логика была бы здесь:
+                # actual_scenarios_to_process = [scenarios_input]
+                return None # Возврат `None` при некорректной структуре
         else:
-            logger.error(f"Неверный тип для scenarios_input для '{supplier_prefix}': {type(scenarios_input)}. Ожидался dict или list.")
-            return None
+            logger.error(f"Неверный тип входных данных для '{supplier_prefix}': {type(scenarios_input)}. Ожидался list или dict.")
+            ...
+            return None # Возврат `None` при некорректном типе
 
-        if not scenarios_list:
-            logger.warning(f"Список сценариев для обработки пуст для '{supplier_prefix}'.")
-            return [] # Возвращаем пустой список, если нет сценариев
+        # Проверка, есть ли сценарии после нормализации
+        if not actual_scenarios_to_process:
+            logger.warning(f"Нет сценариев для обработки для '{supplier_prefix}' после нормализации.")
+            ...
+            return [] # Возврат пустого списка
 
-        # 2. Динамический импорт модуля и функции сценария (вынесен до цикла)
+        # 2. Динамический импорт (вынесен до цикла)
         try:
             module_path_str: str = f'src.suppliers.suppliers_list.{supplier_prefix}.scenario'
             scenario_module = importlib.import_module(module_path_str)
-
-            # Проверяем наличие и получаем функцию
             if not hasattr(scenario_module, 'get_list_products_in_category'):
-                logger.error(f"Функция 'get_list_products_in_category' не найдена в модуле {module_path_str}")
-                return None # Критическая ошибка - не можем продолжить
+                logger.error(f"Функция 'get_list_products_in_category' не найдена в {module_path_str}")
+                ...
+                return None
             get_list_func: Callable = getattr(scenario_module, 'get_list_products_in_category')
-
             if not callable(get_list_func):
                  logger.error(f"'get_list_products_in_category' в {module_path_str} не является функцией")
+                 ...
                  return None
-
         except (ModuleNotFoundError, ImportError, Exception) as import_err:
             logger.error(f"Ошибка импорта модуля/функции сценария для '{supplier_prefix}'", import_err, exc_info=True)
-            return None # Критическая ошибка
+            ...
+            return None
 
         # --- Основной цикл обработки сценариев ---
-        all_results: List[Any] = [] # Список для сбора результатов всех сценариев
-        d = self.driver # Предполагаем, что self.driver инициализирован
-        if 'scenarios' in scenarios_list and isinstance(scenarios_list['scenarios'], dict):
-            # Итерируем по ЗНАЧЕНИЯМ вложенного словаря
-            for scenario_data in scenarios_input['scenarios'].values():
+        all_results: List[Any] = []
+        d = self.driver # Предполагается, что self.driver инициализирован
+
+        # Итерация по подготовленному списку словарей сценариев
+        for scenario_data in actual_scenarios_to_process:
+            # --- Начало тела внешнего цикла ---
             # 3. Получение URL из текущего словаря сценария
-            scenario_url: Optional[str] = scenario_data.get('url') # Безопасное извлечение URL
+            if not isinstance(scenario_data, dict): # Дополнительная проверка типа
+                logger.warning(f"Пропуск не-словаря в списке сценариев: {scenario_data}")
+                ...
+                continue
+
+            scenario_url: Optional[str] = scenario_data.get('url')
             if not scenario_url:
-                logger.warning(f"Сценарий для '{supplier_prefix}' не содержит ключ 'url'. Пропуск сценария.")
-                all_results.append(None) # Добавляем None как результат этого сценария
-                continue # Переход к следующему сценарию
+                logger.warning(f"Сценарий для '{supplier_prefix}' не содержит ключ 'url'. Пропуск.")
+                ...
+                continue
 
             logger.info(f"Обработка сценария для '{supplier_prefix}'. URL: {scenario_url}")
 
             # 4. Переход по URL сценария
             if not d.get_url(scenario_url):
-                logger.error(f"Не удалось перейти по URL сценария: {scenario_url}", None, False )
-                all_results.append(None) # Добавляем None как результат этого сценария
-                continue # Переход к следующему сценарию
+                logger.error(f"Не удалось перейти по URL сценария: {scenario_url}", None, False)
+                ...
+                continue
 
             # 5. Вызов функции для получения списка продуктов
             list_products_in_category: Optional[List[str]] = None
             try:
-                # Передаем драйвер и, возможно, сам словарь сценария для контекста
-                list_products_in_category = await get_list_func(driver=d, scenario_config=scenario_data)
+                list_products_in_category = await get_list_func(d, self.category_locator)
             except Exception as func_ex:
                 logger.error(f"Ошибка при выполнении get_list_products_in_category для URL {scenario_url}", func_ex, exc_info=True)
-                all_results.append(None) # Добавляем None как результат этого сценария
-                continue # Переход к следующему сценарию
+                ...
+                continue
 
             # 6. Проверка результата функции
             if list_products_in_category is None:
                 logger.warning(f'Функция get_list_products_in_category вернула None для URL {scenario_url}.')
-                # Решите, считать ли это ошибкой сценария или просто отсутствием продуктов
-                all_results.append([]) # Добавляем пустой список как результат (нет продуктов)
-                continue # Переход к следующему сценарию
+                ...
+                continue
             if not isinstance(list_products_in_category, list):
                  logger.error(f'Функция get_list_products_in_category вернула не список: {type(list_products_in_category)} для URL {scenario_url}')
-                 all_results.append(None) # Ошибка типа результата
+                 ...
                  continue
-
             if not list_products_in_category:
                 logger.warning(f'Нет ссылок на товары для URL {scenario_url}. Возможно, пустая категория.')
-                # Продуктов нет, но сценарий как бы выполнен успешно
-                all_results.append([]) # Добавляем пустой список как результат
-                continue # Переход к следующему сценарию (или можно было бы закончить здесь для этого сценария)
+                ...
+                continue
 
-            # 7. Обработка каждого продукта из списка
-            processed_product_urls_for_this_scenario: List[str] = []
             for product_url in list_products_in_category:
+                # --- Начало тела внутреннего цикла ---
                 if not isinstance(product_url, str) or not product_url:
                      logger.warning(f"Некорректный URL товара получен: {product_url}. Пропуск.")
+                     ...
                      continue
 
                 if not d.get_url(product_url):
                     logger.error(f'Ошибка навигации на страницу товара: {product_url}')
-                    continue  # Пропуск этого товара
+                    ...
+                    continue
+                required_fields:tuple = ('id_product',
+                            'name',
+                            'price',
+                            'id_supplier',
+                            'description_short',
+                            'description',
+                            'specification',
+                            'local_image_path',
+                            'default_image_url')
 
-                # Захват полей со страницы товара
-                f: Optional[ProductFields] = await self.grab_page_async() # Укажите правильный тип ProductFields
+                f: Optional[ProductFields] = await self.grab_page_async(*required_fields, id_lang=id_lang)
                 if not f:
                     logger.error(f'Не удалось собрать поля товара с {product_url}')
-                    continue # Пропуск этого товара
+                    ...
+                    continue
 
-                # Сохранение продукта
                 try:
-                    # Используем supplier_prefix из аргументов функции
-                    product: Product = Product(supplier_prefix=supplier_prefix)
-                    product.add_new_product(f)
-                    processed_product_urls_for_this_scenario.append(product_url) # Сохраняем URL успешно обработанного продукта
+                    f.id_category_default = scenario_data.get('presta_categories')['default_category']
+                    f.additional_category_append(f.id_category_default)
+                    additional_categories = scenario_data.get('presta_categories')['additional_categories']
+                    if additional_categories:
+                        for category in additional_categories:
+                            if category:
+                                f.additional_category_append(category)
                 except Exception as ex:
-                    product_name_info: str = f'продукта (имя не определено до сохранения)'
-                    # Попытка получить имя, если оно уже есть в 'f' (ProductFields)
-                    # Это зависит от структуры ProductFields
-                    # if hasattr(f, 'name') and f.name:
-                    #     product_name_info = f.name
-                    logger.error(f'Не удалось сохранить данные {product_name_info} с {product_url}', ex, exc_info=True)
-                    continue # Пропуск этого товара
+                    logger.error(f'Ошибка добавления дополнительных категорий{print(f)}')
 
-            # Добавляем результаты обработки продуктов для *этого* сценария в общий список
-            all_results.append(processed_product_urls_for_this_scenario)
+                except Exception as ex:
+                    logger.error(f'Не удалось сохранить данные\n {print(f)}\n с {product_url}', ex, exc_info=True)
+                    ...
+                product: PrestaProduct = PrestaProduct()
+                product.add_new_product(f)
+                all_results.append(f)
+                # --- Конец тела внутреннего цикла ---
+            
+            # --- Конец тела внешнего цикла ---
 
-        # 8. Возврат агрегированных результатов после обработки всех сценариев
+        # 8. Возврат агрегированных результатов
         logger.info(f"Обработка всех сценариев для '{supplier_prefix}' завершена.")
         return all_results
-
-
-
-    # async def process_scenarios(self, supplier_prefix:str, scenarios: dict,) -> List | dict | bool:
-    #     """
-    #     Executes the received scenario.
-
-    #     Args:
-    #         scenario (dict): Dictionary containing scenario details.
-
-    #     Returns:
-    #         List | dict | bool: The result of executing the scenario.
-
-    #     Todo:
-    #         Check the need for the scenario_name parameter.
-    #     """
-
-    #     scenario_module = importlib.import_module(f'src.suppliers.suppliers_list.{self.supplier_prefix}.scenario')
-    #     d = self.driver
-    #     for scenario in scenarios.items():
-    #         d.get_url(self.scenario.url)
-
-    #         list_products_in_category: list = scenario_module.get_list_products_in_category()
-    #         """ Собираю ссылки на товары.  """
-    #         if not list_products_in_category:
-    #             logger.warning('Нет ссылок на товары')
-    #             return
-
-    #         # No products in the category (or they haven't loaded yet)
-    #         if not list_products_in_category:
-    #             logger.warning('No product list collected from the category page. Possibly an empty category - ', d.current_url)
-    #             return False
-
-    #         for url in list_products_in_category:
-    #             if not d.get_url(url):
-    #                 logger.error(f'Error navigating to product page at: {url}')
-    #                 continue  # <- Error navigating to the page. Skip
-
-    #             # Grab product page fields
-    #             f: ProductFields = await self.grab_page_async()
-    #             if not f:
-    #                 logger.error('Failed to collect product fields')
-    #                 continue
-
-    #             try:
-    #                 product: Product = Product(supplier_prefix=s.supplier_prefix, )
-    #                 product.add_new_product(f)
-    #             except Exception as ex:
-    #                 logger.error(f'Product {product.fields["name"][1]} could not be saved', ex)
-    #                 continue
-
-    #         return list_products_in_category
-
-
-
+        # --- Конец функции ---
 
 
 
@@ -497,14 +477,27 @@ class Graber:
         async def fetch_all_data(*args, **kwards):
             # Динамическое вызовы функций для каждого поля из args
             if not args: # по какой то причини не были переданы имена полей для сбора информации
-                args:list = ['id_product', 'name', 'description_short', 'description', 'specification', 'local_image_path']
+                args:tuple = ('id_product',
+                             'name',
+                             'description_short',
+                             'description',
+                             'specification',
+                             'local_image_path',
+                             'id_category_default',
+                             'additional_category',
+                             'default_image_url',
+                             'price')
             for filed_name in args:
                 function = getattr(self, filed_name, None)
                 if function:
                     await function(kwards.get(filed_name, '')) # Просто вызываем с await, так как все функции асинхронные
-
-        await fetch_all_data(*args, **kwards)
-        return self.fields
+        try:
+            await fetch_all_data(*args, **kwards)
+            return self.fields
+        except Exception as ex:
+            logger.error(f"Ошибка в функции `fetch_all_data`", ex)
+            ...
+            return None
 
 
 
@@ -1121,27 +1114,29 @@ class Graber:
             self.fields.description = normalize_string( raw_value )
             return True
         except Exception as ex:
-            logger.error(f"Ошибка получения значения в поле `description` \n {print(raw_value)}", ex)
+            logger.error(f"Ошибка получения значения в поле `description` \n ", ex)
             ...
             return
 
 
     @close_pop_up()
-    async def description_short(self, value:Optional[Any] = None) -> bool:
+    async def description_short(self, value:Optional[str] = '') -> bool:
         """Fetch and set short description.
         
         Args:
-        value (Any): это значение можно передать в словаре kwargs через ключ {description_short = `value`} при определении класса.
+        value (atr): это значение можно передать в словаре kwargs через ключ {description_short = `value`} при определении класса.
         Если `value` было передано, его значение подставляется в поле `ProductFields.description_short`.
         """
+
         try:
             # Получаем значение через execute_locator
-            value =   normalize_string(value or  await self.driver.execute_locator(self.product_locator.description_short) or '' )
-            if value:
-                self.fields.description_short = value
+            raw_data = value or await self.driver.execute_locator(self.product_locator.description_short)
+            self.fields.description_short = normalize_string(raw_data)
+            if self.fields.description_short:
                 return True
-            ...
-            return
+                ...
+            return False
+
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `description_short`", ex)
             ...
@@ -1935,12 +1930,19 @@ class Graber:
         """
         try:
             # Получаем значение через execute_locator
-            value = normalize_float( value or  await self.driver.execute_locator(self.product_locator.price) or None)
-            if not value:
-                logger.debug(f'Невалидный результат {value=}\nлокатор {self.product_locator.price}')
+            
+            if value:
+                self.fields.price = normalize_float(value)
+                return True
+
+            raw_data = await self.driver.execute_locator(self.product_locator.price)
+            if raw_data:
+                self.fields.price = normalize_float(raw_data)
+            else:
+                logger.error(f'Не получил цену по локатору /n{print(self.product_locator.price)}')
                 ...
-                return
-            self.fields.price = value
+                return False
+            
             self.fields.wholesale_price = self.fields.price
             return True
         except Exception as ex:
