@@ -35,21 +35,17 @@ from src.webdriver.driver import Driver
 from types import SimpleNamespace
 from src.logger.logger import logger
 
-#############################################################
 
 ENDPOINT = 'grandadvance'
 
 #############################################################
 
 class Graber(Grbr):
-    """Класс населедутет Graber. 
-    все поля 
-    товара устана
-   вливвв модуле `src.supplier."""
+    """Класс населедутет Graber."""
 
     def __init__(self, driver: Driver, lang_index:int):
         config:SimpleNamespace = j_loads_ns(gs.path.src / 'suppliers' / ENDPOINT / f'{ENDPOINT}.json')
         locator: SimpleNamespace = j_loads_ns(gs.path.src / 'suppliers' / ENDPOINT / 'locators' / 'product.json')
         super().__init__(supplier_prefix=ENDPOINT, driver=driver, lang_index=lang_index)
-        Config.locator_for_decorator = locator.click_to_specifications # <- if locator not definded decorator 
+        Config.locator_for_decorator = self.product_locator.click_to_specifications # <- if locator not definded decorator 
 

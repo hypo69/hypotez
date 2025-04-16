@@ -65,7 +65,7 @@ import re
 from typing import Optional
 import header
 from src import gs
-from src.ai.gemini.gemini import GoogleGenerativeAI
+from src.ai.gemini.gemini import GoogleGenerativeAi
 from src.utils.jjson import j_dumps, j_loads_ns, j_loads
 from src.logger.logger import logger
 
@@ -96,7 +96,7 @@ except Exception as ex:
 
 # Инициализация модели Gemini
 api_key: str = gs.credentials.gemini.kazarinov
-model = GoogleGenerativeAI(
+model = GoogleGenerativeAi(
     api_key=api_key,
     system_instruction=system_instruction,
     generation_config={'response_mime_type': 'application/json'}
@@ -107,13 +107,13 @@ q_ru: str = command_instruction_ru + str(products_list)
 q_he: str = command_instruction_he + str(products_list)
 
 
-def model_ask(lang: str, model: GoogleGenerativeAI, q_ru: str, q_he: str, attempts: int = MAX_ATTEMPTS) -> dict:
+def model_ask(lang: str, model: GoogleGenerativeAi, q_ru: str, q_he: str, attempts: int = MAX_ATTEMPTS) -> dict:
     """
     Запрашивает у модели ответ на заданном языке.
 
     Args:
         lang (str): Язык запроса ('ru' или 'he').
-        model (GoogleGenerativeAI): Инстанс модели GoogleGenerativeAI.
+        model (GoogleGenerativeAi): Инстанс модели GoogleGenerativeAi.
         q_ru (str): Текст запроса на русском языке.
         q_he (str): Текст запроса на иврите.
         attempts (int, optional): Количество попыток запроса. По умолчанию MAX_ATTEMPTS.

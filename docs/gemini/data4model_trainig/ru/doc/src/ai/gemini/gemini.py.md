@@ -2,7 +2,7 @@
 
 ## Обзор
 
-Модуль `gemini.py` предназначен для интеграции с моделями Google Generative AI. Он содержит класс `GoogleGenerativeAI`, который позволяет взаимодействовать с различными моделями Gemini, отправлять текстовые запросы, загружать файлы и описывать изображения.
+Модуль `gemini.py` предназначен для интеграции с моделями Google Generative AI. Он содержит класс `GoogleGenerativeAi`, который позволяет взаимодействовать с различными моделями Gemini, отправлять текстовые запросы, загружать файлы и описывать изображения.
 
 ## Подробней
 
@@ -15,7 +15,7 @@
 **Описание**:
 Не реализован. Используется как заполнитель.
 
-### `GoogleGenerativeAI`
+### `GoogleGenerativeAi`
 
 **Описание**:
 Класс для взаимодействия с моделями Google Generative AI.
@@ -36,7 +36,7 @@
 - `MODELS` (List[str]): Список доступных моделей Gemini.
 
 **Методы**:
-- `__post_init__()`: Инициализация модели GoogleGenerativeAI с дополнительными настройками.
+- `__post_init__()`: Инициализация модели GoogleGenerativeAi с дополнительными настройками.
 - `normalize_answer(text: str) -> str`: Очистка вывода от форматирования.
 - `_start_chat()`: Запуск чата с начальной настройкой.
 - `clear_history()`: Очищает историю чата в памяти и удаляет файл истории, если он существует.
@@ -54,11 +54,11 @@
 
 ```python
 def __post_init__(self):
-    """Инициализация модели GoogleGenerativeAI с дополнительными настройками."""
+    """Инициализация модели GoogleGenerativeAi с дополнительными настройками."""
     ...
 ```
 
-**Назначение**: Инициализирует экземпляр класса `GoogleGenerativeAI` после создания, загружая конфигурацию, устанавливая пути к файлам истории и настраивая модель Gemini.
+**Назначение**: Инициализирует экземпляр класса `GoogleGenerativeAi` после создания, загружая конфигурацию, устанавливая пути к файлам истории и настраивая модель Gemini.
 
 **Как работает функция**:
 - Загружает конфигурацию из файла `gemini.json`.
@@ -87,7 +87,7 @@ def normalize_answer(self, text: str) -> str:
 
 **Примеры**:
 ```python
-ai = GoogleGenerativeAI(api_key='your_api_key')
+ai = GoogleGenerativeAi(api_key='your_api_key')
 cleaned_text = ai.normalize_answer("```python\nprint('Hello')\n```")
 print(cleaned_text)  # Вывод: print('Hello')
 ```
@@ -354,17 +354,17 @@ async def upload_file(
 
 ## Примеры
 
-Пример использования класса `GoogleGenerativeAI`:
+Пример использования класса `GoogleGenerativeAi`:
 
 ```python
-from src.ai.gemini.gemini import GoogleGenerativeAI
+from src.ai.gemini.gemini import GoogleGenerativeAi
 from pathlib import Path
 
 # Замените на свой ключ API
 api_key = "YOUR_API_KEY"
 
 # Создание экземпляра класса
-ai = GoogleGenerativeAI(api_key=api_key)
+ai = GoogleGenerativeAi(api_key=api_key)
 
 # Пример отправки текстового запроса
 response = ai.ask("What is the capital of France?")
@@ -380,12 +380,12 @@ print(f"Image description: {description}")
 
 ```python
 import asyncio
-from src.ai.gemini.gemini import GoogleGenerativeAI
+from src.ai.gemini.gemini import GoogleGenerativeAi
 
 async def main():
     # Замените на свой ключ API
     api_key = "YOUR_API_KEY"
-    ai = GoogleGenerativeAI(api_key=api_key)
+    ai = GoogleGenerativeAi(api_key=api_key)
     response = await ai.ask_async("What is the capital of Germany?")
     print(f"Gemini: {response}")
 

@@ -1,15 +1,15 @@
 # Модуль для интеграции с Google Gemini AI
 ==================================================
 
-Модуль `gemini.py` предоставляет класс `GoogleGenerativeAI` для взаимодействия с моделями Google Generative AI.
+Модуль `gemini.py` предоставляет класс `GoogleGenerativeAi` для взаимодействия с моделями Google Generative AI.
 Он поддерживает текстовые запросы, анализ изображений и управление историей чата.
 
 Пример использования
 ----------------------
 
 ```python
->>> from src.ai.gemini.gemini import GoogleGenerativeAI
->>> ai = GoogleGenerativeAI(api_key='YOUR_API_KEY')
+>>> from src.ai.gemini.gemini import GoogleGenerativeAi
+>>> ai = GoogleGenerativeAi(api_key='YOUR_API_KEY')
 >>> response = ai.ask("What is the capital of France?")
 >>> print(response)
 Paris
@@ -19,7 +19,7 @@ Paris
 
 - [Обзор](#обзор)
 - [Классы](#классы)
-    - [GoogleGenerativeAI](#googlegenerativeai)
+    - [GoogleGenerativeAi](#GoogleGenerativeAi)
 - [Функции](#функции)
     - [main](#main)
 
@@ -30,9 +30,9 @@ Paris
 
 ## Классы
 
-### `GoogleGenerativeAI`
+### `GoogleGenerativeAi`
 
-**Описание**: Класс `GoogleGenerativeAI` предназначен для взаимодействия с моделями Google Generative AI.
+**Описание**: Класс `GoogleGenerativeAi` предназначен для взаимодействия с моделями Google Generative AI.
 
 **Атрибуты**:
 - `api_key` (str): Ключ API для доступа к Google Gemini AI.
@@ -62,9 +62,9 @@ Paris
 - `describe_image(image: Path | bytes, mime_type: Optional[str] = 'image/jpeg', prompt: Optional[str] = '') -> Optional[str]`: Отправляет изображение в Gemini Pro Vision и возвращает его текстовое описание.
 - `upload_file(file: str | Path | IOBase, file_name: Optional[str] = None) -> bool`: Загружает файл в Google Gemini.
 
-### `GoogleGenerativeAI.__post_init__`
+### `GoogleGenerativeAi.__post_init__`
 
-**Назначение**: Инициализация модели GoogleGenerativeAI с дополнительными настройками.
+**Назначение**: Инициализация модели GoogleGenerativeAi с дополнительными настройками.
 
 **Как работает функция**:
 1. Загружает конфигурацию из файла `gemini.json`.
@@ -72,7 +72,7 @@ Paris
 3. Инициализирует модель `genai.GenerativeModel` с указанным ключом API, именем модели и системными инструкциями.
 4. Запускает чат с помощью метода `_start_chat()`.
 
-### `GoogleGenerativeAI.normalize_answer`
+### `GoogleGenerativeAi.normalize_answer`
 
 **Назначение**: Очистка вывода от  ``````md, ```python, ```json, ```html, ит.п.
 
@@ -85,7 +85,7 @@ Paris
 **Как работает функция**:
 1. Вызывает функцию `normalize_answer` из модуля `src.utils.string.ai_string_normalizer` для очистки текста.
 
-### `GoogleGenerativeAI._start_chat`
+### `GoogleGenerativeAi._start_chat`
 
 **Назначение**: Запуск чата с начальной настройкой.
 
@@ -97,7 +97,7 @@ Paris
 2. Если системные инструкции заданы, запускает чат с использованием этих инструкций в качестве начального сообщения.
 3. Если системные инструкции не заданы, запускает чат без начальных сообщений.
 
-### `GoogleGenerativeAI.clear_history`
+### `GoogleGenerativeAi.clear_history`
 
 **Назначение**: Очищает историю чата в памяти и удаляет файл истории, если он существует.
 
@@ -107,7 +107,7 @@ Paris
 3. Если файл существует, удаляет его и логирует информацию об удалении.
 4. Обрабатывает возможные исключения при удалении файла и логирует ошибки.
 
-### `GoogleGenerativeAI._save_chat_history`
+### `GoogleGenerativeAi._save_chat_history`
 
 **Назначение**: Сохраняет всю историю чата в JSON файл.
 
@@ -118,7 +118,7 @@ Paris
 1. Если указана папка `chat_data_folder`, формирует путь к файлу истории `history_json_file` в этой папке.
 2. Если история чата (`chat_history`) не пуста, сохраняет её в JSON файл с помощью функции `j_dumps`.
 
-### `GoogleGenerativeAI._load_chat_history`
+### `GoogleGenerativeAi._load_chat_history`
 
 **Назначение**: Загружает историю чата из JSON файла.
 
@@ -133,7 +133,7 @@ Paris
 5. Логирует информацию о загрузке истории чата.
 6. Обрабатывает возможные исключения при загрузке файла и логирует ошибки.
 
-### `GoogleGenerativeAI.chat`
+### `GoogleGenerativeAi.chat`
 
 **Назначение**: Обрабатывает чат-запрос с различными режимами управления историей чата.
 
@@ -198,7 +198,7 @@ response = await ai.chat("What is the capital of Germany?", chat_data_folder="ch
 response = await ai.chat("What is the capital of Germany?", chat_data_folder="chat_data", flag="start_new")
 ```
 
-### `GoogleGenerativeAI.ask`
+### `GoogleGenerativeAi.ask`
 
 **Назначение**: Метод отправляет текстовый запрос модели и возвращает ответ.
 
@@ -256,7 +256,7 @@ response = ai.ask("What is the capital of Germany?", save_history=True)
 response = ai.ask("What is the capital of Germany?", clean_response=False)
 ```
 
-### `GoogleGenerativeAI.ask_async`
+### `GoogleGenerativeAi.ask_async`
 
 **Назначение**: Метод асинхронно отправляет текстовый запрос модели и возвращает ответ.
 
@@ -314,7 +314,7 @@ response = await ai.ask_async("What is the capital of Germany?", save_history=Tr
 response = await ai.ask_async("What is the capital of Germany?", clean_response=False)
 ```
 
-### `GoogleGenerativeAI.describe_image`
+### `GoogleGenerativeAi.describe_image`
 
 **Назначение**: Отправляет изображение в Gemini Pro Vision и возвращает его текстовое описание.
 
@@ -370,7 +370,7 @@ with open("image.jpg", "rb") as f:
 description = await ai.describe_image(image_bytes, prompt="Describe this image")
 ```
 
-### `GoogleGenerativeAI.upload_file`
+### `GoogleGenerativeAi.upload_file`
 
 **Назначение**: Асинхронно загружает файл в Google Gemini.
 
@@ -422,10 +422,10 @@ file_upload = await ai.upload_file(Path("test.txt"), "test_file.txt")
 
 ### `main`
 
-**Назначение**: Функция `main` демонстрирует примеры использования класса `GoogleGenerativeAI` для выполнения различных задач, таких как описание изображений, загрузка файлов и ведение чата.
+**Назначение**: Функция `main` демонстрирует примеры использования класса `GoogleGenerativeAi` для выполнения различных задач, таких как описание изображений, загрузка файлов и ведение чата.
 
 **Как работает функция**:
-1. Создает экземпляр класса `GoogleGenerativeAI` с указанным ключом API и системными инструкциями.
+1. Создает экземпляр класса `GoogleGenerativeAi` с указанным ключом API и системными инструкциями.
 2. Демонстрирует пример вызова метода `describe_image` с промптом для анализа изображения и выдачи ответа в формате JSON.
 3. Демонстрирует пример вызова метода `describe_image` без JSON формата.
 4. Демонстрирует пример вызова метода `upload_file` для загрузки файла.
@@ -438,7 +438,7 @@ file_upload = await ai.upload_file(Path("test.txt"), "test_file.txt")
                │
       ┌──────────▼───────┐
       │Создание экземпляра│
-      │  GoogleGenerativeAI│
+      │  GoogleGenerativeAi│
       └──────────┬───────┘
                │
       ┌──────────▼───────┐

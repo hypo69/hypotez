@@ -206,7 +206,7 @@ print(data)
 -   `system_instruction_path` (Path): Путь к файлу `system_instruction.txt`, содержащему системные инструкции для AI-моделей.
 -   `system_instruction` (str): Содержимое файла `system_instruction.txt`, прочитанное как строка.
 -   `openai` (OpenAIModel): Экземпляр класса `OpenAIModel`, инициализированный с системными инструкциями.
--   `gemini` (GoogleGenerativeAI): Экземпляр класса `GoogleGenerativeAI`, инициализированный с системными инструкциями.
+-   `gemini` (GoogleGenerativeAi): Экземпляр класса `GoogleGenerativeAi`, инициализированный с системными инструкциями.
 
 ## Цикл обработки файлов
 

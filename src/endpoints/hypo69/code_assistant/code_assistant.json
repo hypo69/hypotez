@@ -2,6 +2,12 @@
   "role": "doc_writer_md",
   "lang": "EN",
   "model": [ "gemini" ],
+
+  "response_mime_type": "text/plain",
+  "gemini_model_name": "gemini-2.0-flash-exp",
+  "_gemini_model_name": "gemini-2.5-pro-preview-03-25",
+  "openai_model_name": "gpt-4o-mini",
+  "openai_assistant_id": "<OpenAI Assistant ID>",
   "process_dirs": [
     "C:\\Users\\user\\Documents\\repos\\hypotez\\toolbox",
 
@@ -164,7 +170,7 @@
     "*.jpg",
     "*.jpeg",
     "*.svg",
-    
+
     "*.mmd",
     "*.yaml",
     "*.yml",
@@ -241,12 +247,8 @@
     "doc_writer_rst",
     "pytest"
   ],
-  "languages": [ "ru", "en" ],
+  "languages": [ "ru", "en" ]
 
 
-  "response_mime_type": "text/plain",
-  "gemini_model_name": "gemini-2.0-flash-exp",
-  "openai_model_name": "gpt-4o-mini",
-  "openai_assistant_id": "<OpenAI Assistant ID>"
 
 }

@@ -1,7 +1,7 @@
 # Документация: https://habr.com/ru/articles/875798/
 
 from langchain_openai import ChatOpenAI
-from langchain_google_genai import ChatGoogleGenerativeAI  # Импортируем класс для работы с Google Gemini
+from langchain_google_genai import ChatGoogleGenerativeAi  # Импортируем класс для работы с Google Gemini
 from browser_use import Agent
 import asyncio
 
@@ -31,7 +31,7 @@ class Driver:
             # Выбор модели в зависимости от параметра use_google
             if 'gemini' in models_list:
                 # Инициализация модели Google Gemini
-                gemini = ChatGoogleGenerativeAI(
+                gemini = ChatGoogleGenerativeAi(
                     model="gemini-pro", 
                     google_api_key=gs.credentials.google.api_key
                 )

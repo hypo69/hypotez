@@ -38,11 +38,11 @@
 
 **Принцип работы**:
 
-Класс `EmilDesign` инициализируется с конфигурацией, загруженной из JSON-файла. Он предоставляет методы для описания изображений с использованием Gemini или OpenAI, загрузки информации о продуктах в PrestaShop и продвижения контента в Facebook. Класс использует другие модули и классы, такие как `GoogleGenerativeAI`, `OpenAIModel`, `PrestaProduct` и `Driver`, для выполнения конкретных задач.
+Класс `EmilDesign` инициализируется с конфигурацией, загруженной из JSON-файла. Он предоставляет методы для описания изображений с использованием Gemini или OpenAI, загрузки информации о продуктах в PrestaShop и продвижения контента в Facebook. Класс использует другие модули и классы, такие как `GoogleGenerativeAi`, `OpenAIModel`, `PrestaProduct` и `Driver`, для выполнения конкретных задач.
 
 **Аттрибуты**:
 
-*   `gemini` (Optional\[GoogleGenerativeAI]): Экземпляр класса `GoogleGenerativeAI` для работы с моделью Gemini.
+*   `gemini` (Optional\[GoogleGenerativeAi]): Экземпляр класса `GoogleGenerativeAi` для работы с моделью Gemini.
 *   `openai` (Optional\[OpenAIModel]): Экземпляр класса `OpenAIModel` для работы с моделью OpenAI.
 *   `base_path` (Path): Путь к базовой директории модуля (`gs.path.endpoints / Config.ENDPOINT`).
 *   `config` (SimpleNamespace): Конфигурация, загруженная из JSON-файла (`emil.json`).

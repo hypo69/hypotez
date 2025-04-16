@@ -29,6 +29,7 @@ from typing import Optional, List
 from types import SimpleNamespace
 
 import header
+from header import __root__
 from src import gs, USE_ENV
 
 from src.endpoints.prestashop.product_fields import ProductFields
@@ -36,14 +37,14 @@ from src.endpoints.prestashop.product import PrestaProduct
 
 from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
-from src.llm.gemini import GoogleGenerativeAI
+from src.llm.gemini import GoogleGenerativeAi
 from src.endpoints.emil.report_generator import ReportGenerator
 from src.endpoints.advertisement.facebook.scenarios import post_message_title, upload_post_media, message_publish
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.file import read_text_file, save_text_file, recursively_get_file_path
-from src.utils.image import save_image_from_url, save_image
+from src.utils.image import save_image_from_url_async, save_image
 from src.utils.convertors.unicode import decode_unicode_escape
 from src.utils.printer import pprint as print
 from src.logger.logger import logger
@@ -66,14 +67,14 @@ class SupplierToPrestashopProvider:
         export_path (Path): Путь для экспорта данных.
         products_list (List[dict]): Список обработанных данных о продуктах.
     """
-
+    base_dir:Path = __root__ / 'src' / 'suppliers' / 'supppliers_list' / Config.ENDPOINT
     driver: Driver
     export_path: Path
     mexiron_name: str
     price: float
     timestamp: str
     products_list: list
-    model: GoogleGenerativeAI
+    model: GoogleGenerativeAi
     config: SimpleNamespace
     local_images_path:Path = gs.path.external_storage / Config.ENDPOINT / 'images' / 'furniture_images'
     lang: str
@@ -116,8 +117,8 @@ class SupplierToPrestashopProvider:
         """Инициализация модели Gemini"""
         try:
             system_instruction = (gs.path.endpoints / 'emil' / 'instructions' / f'system_instruction_mexiron.{self.lang}.md').read_text(encoding='UTF-8')
-            return GoogleGenerativeAI(
-                api_key=gs.credentials.gemini.emil,
+            return GoogleGenerativeAi(
+                api_key=gs.credentials.gemini.kazarinov,
                 system_instruction=system_instruction,
                 generation_config={'response_mime_type': 'application/json'}
             )
@@ -125,12 +126,12 @@ class SupplierToPrestashopProvider:
             logger.error(f"Error loading instructions", ex)
             return
 
-    async def run_scenario(
+    async def run_scenarios(
         self, 
         urls: list[str],
         price: Optional[str] = '', 
         mexiron_name: Optional[str] = '', 
-        scenario: dict = None,
+        scenarios: dict | list[dict,dict] = None,
         
     ) -> bool:
         """
@@ -172,13 +173,12 @@ class SupplierToPrestashopProvider:
                 continue
 
             try:
+                #scenarios_files_list:list =  recursively_get_file_path(__root__ / 'src' / 'suppliers' / 'suppliers_list' / graber.supplier_prefix / 'scenarios', '.json')
+                # f = await graber.grab_page(*required_fields)
 
-                f = await graber.grab_page(*required_fields)
-
+                graber.run_scenarios('hb')
                 ...
-                if gs.host_name == 'Vostro-3888':
-                    ...
-                    #self.driver.wait(5)   # <- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Замедлитель
+
             except Exception as ex:
                 logger.error(f"Ошибка получения полей товара",ex, False)
                 ...

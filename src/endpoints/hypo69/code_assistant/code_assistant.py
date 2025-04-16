@@ -47,7 +47,7 @@ import header
 from header import __root__
 from src import gs
 from src.utils.jjson import j_loads, j_loads_ns
-from src.llm.gemini import GoogleGenerativeAI
+from src.llm.gemini import GoogleGenerativeAi
 from src.llm.openai import OpenAIModel
 from src.utils.path import get_relative_path
 from src.logger.logger import logger
@@ -73,7 +73,7 @@ class Config:
     response_mime_type:str = config.response_mime_type 
     output_directory_patterns:list = config.output_dirs
     remove_prefixes:str = config.remove_prefixes
-    system_instruction = Path(__root__ / 'src' / 'endpoints' / 'hypo69' / 'code_assistant' / 'instructions' / f'CODE_RULES.{lang}.MD').read_text(encoding='UTF-8')
+    system_instruction:str = ''
 
     @classmethod
     @property
@@ -108,7 +108,7 @@ class CodeAssistant:
     role: str
     lang: str
     
-    gemini: 'GoogleGenerativeAI'
+    gemini: 'GoogleGenerativeAi'
     openai: 'OpenAIModel'
 
     def __init__(
@@ -162,7 +162,7 @@ class CodeAssistant:
                 }
 
                 # Создание экземпляра модели Gemini
-                self.gemini = GoogleGenerativeAI(
+                self.gemini = GoogleGenerativeAi(
                     model_name=kwards.get('model_name', Config.gemini.model_name),  # Значение из kwards имеет приоритет,
                     api_key=kwards.get('api_key', Config.gemini.api_key),
                     system_instruction= kwards.get('system_instruction', Config.system_instruction),

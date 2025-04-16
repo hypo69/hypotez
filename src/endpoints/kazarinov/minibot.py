@@ -28,7 +28,7 @@ import header
 from header import __root__
 from src import gs
 from src.logger import logger
-from src.llm.gemini import GoogleGenerativeAI
+from src.llm.gemini import GoogleGenerativeAi
 from src.endpoints.kazarinov.scenarios.scenario import fetch_target_urls_onetab, Scenario
 from src.utils.url import is_url
 from src.utils.printer import pprint as print
@@ -39,7 +39,7 @@ from src import USE_ENV
 
 class Config:
     
-    ENDPOINT = 'kazarinov'
+    ENDPOINT:str = 'kazarinov'
     MODE:str = 'PRODUCTION' # <- Определяет режим разработчика. Если MODE=='PRODUCTION' будет запущен kazarionaov бот, иначе тестбот
     #MODE:str = 'DEV'
     BOT_TOKEN:str
@@ -62,6 +62,7 @@ class Config:
     /time - Shows the current time.
     /photo - Sends a random photo.
     """
+    WINDOW_MODE = 'normal'
 
     if USE_ENV:
         from dotenv import load_dotenv
@@ -79,7 +80,7 @@ class BotHandler:
     def __init__(self):
         """Инициализация обработчика событий телеграм-бота."""
         self.questions_list = ['Я не понял?', 'Объясни пожалуйста']
-        self.model = GoogleGenerativeAI(os.getenv('GEMINI_API') if USE_ENV else gs.credentials.gemini.kazarinov)
+        self.model = GoogleGenerativeAi(os.getenv('GEMINI_API') if USE_ENV else gs.credentials.gemini.kazarinov)
 
     def handle_message(self, bot:telebot, message:'message'):
         """Обработка текстовых сообщений."""
@@ -130,7 +131,7 @@ class BotHandler:
             return
 
         try:
-            self.scenario = Scenario(window_mode = 'headless' if Config.MODE == 'PRODUCTION' else 'normal') # debug
+            self.scenario = Scenario(window_mode = Config.WINDOW_MODE)
             asyncio.run(
                 self.scenario.run_scenario_async(
                 mexiron_name = mexiron_name,

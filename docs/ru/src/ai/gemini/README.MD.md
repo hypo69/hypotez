@@ -2,17 +2,17 @@
 
 ## Обзор
 
-Класс `GoogleGenerativeAI` разработан для облегчения взаимодействия с моделями Google Generative AI. Этот класс предоставляет методы для отправки запросов, обработки ответов, управления диалогами и интеграции с различными функциональностями AI. Он включает надежную обработку ошибок, ведение журналов и параметры конфигурации для обеспечения бесперебойной работы.
+Класс `GoogleGenerativeAi` разработан для облегчения взаимодействия с моделями Google Generative AI. Этот класс предоставляет методы для отправки запросов, обработки ответов, управления диалогами и интеграции с различными функциональностями AI. Он включает надежную обработку ошибок, ведение журналов и параметры конфигурации для обеспечения бесперебойной работы.
 
 ## Подробнее
 
-Модуль предоставляет класс `GoogleGenerativeAI`, который упрощает взаимодействие с моделями Google Generative AI. Он обрабатывает запросы, ответы и диалоги, интегрируясь с различными функциями AI. Модуль включает обработку ошибок, ведение журналов и опции конфигурации для обеспечения надежной работы.
+Модуль предоставляет класс `GoogleGenerativeAi`, который упрощает взаимодействие с моделями Google Generative AI. Он обрабатывает запросы, ответы и диалоги, интегрируясь с различными функциями AI. Модуль включает обработку ошибок, ведение журналов и опции конфигурации для обеспечения надежной работы.
 
 ## Классы
 
-### `GoogleGenerativeAI`
+### `GoogleGenerativeAi`
 
-**Описание**: Класс `GoogleGenerativeAI` предназначен для взаимодействия с моделями Google Generative AI.
+**Описание**: Класс `GoogleGenerativeAi` предназначен для взаимодействия с моделями Google Generative AI.
 
 **Принцип работы**:
 Класс инициализируется с использованием API-ключа, имени модели, конфигурации генерации и системной инструкции. Он предоставляет методы для отправки запросов, обработки ответов, управления диалогами и интеграции с различными функциональностями AI. Класс также включает обработку ошибок, ведение журналов и параметры конфигурации.
@@ -24,7 +24,7 @@
 - `system_instruction` (Optional[str]): Инструкция для задания контекста и поведения модели. По умолчанию `None`.
 
 **Методы**:
-- `__init__`: Инициализирует экземпляр класса `GoogleGenerativeAI`.
+- `__init__`: Инициализирует экземпляр класса `GoogleGenerativeAi`.
 - `config`: Получает конфигурацию из файла настроек.
 - `_start_chat`: Запускает сессию чата с AI-моделью.
 - `_save_dialogue`: Сохраняет диалог в текстовом и JSON-форматах.
@@ -37,7 +37,7 @@
 
 ### `__init__(self, api_key: str, model_name: Optional[str] = None, generation_config: Optional[Dict] = None, system_instruction: Optional[str] = None, **kwargs)`
 
-**Назначение**: Инициализирует класс `GoogleGenerativeAI` с необходимыми конфигурациями.
+**Назначение**: Инициализирует класс `GoogleGenerativeAi` с необходимыми конфигурациями.
 
 **Параметры**:
 - `api_key` (str): API-ключ для доступа к Google Generative AI.
@@ -53,7 +53,7 @@
 - Отсутствуют явные исключения, но могут быть исключения, связанные с инициализацией Google Generative AI.
 
 **Как работает функция**:
-1. Функция `__init__` инициализирует класс `GoogleGenerativeAI`, устанавливая API-ключ, имя модели, конфигурацию генерации и системную инструкцию.
+1. Функция `__init__` инициализирует класс `GoogleGenerativeAi`, устанавливая API-ключ, имя модели, конфигурацию генерации и системную инструкцию.
 2. Задаются пути для ведения журналов диалогов и хранения истории.
 3. Инициализируется модель Google Generative AI.
 
@@ -72,7 +72,7 @@
 **Примеры**:
 
 ```python
-ai = GoogleGenerativeAI(api_key="your_api_key", system_instruction="Instruction")
+ai = GoogleGenerativeAi(api_key="your_api_key", system_instruction="Instruction")
 ```
 
 ### `config(self)`
@@ -106,7 +106,7 @@ ai = GoogleGenerativeAI(api_key="your_api_key", system_instruction="Instruction"
 **Примеры**:
 
 ```python
-ai = GoogleGenerativeAI(api_key="your_api_key")
+ai = GoogleGenerativeAi(api_key="your_api_key")
 config = ai.config()
 print(config)
 ```
@@ -138,7 +138,7 @@ print(config)
 **Примеры**:
 
 ```python
-ai = GoogleGenerativeAI(api_key="your_api_key")
+ai = GoogleGenerativeAi(api_key="your_api_key")
 ai._start_chat()
 ```
 
@@ -173,7 +173,7 @@ ai._start_chat()
 **Примеры**:
 
 ```python
-ai = GoogleGenerativeAI(api_key="your_api_key")
+ai = GoogleGenerativeAi(api_key="your_api_key")
 dialogue = ["Привет!", "Как дела?"]
 ai._save_dialogue(dialogue)
 ```
@@ -214,7 +214,7 @@ ai._save_dialogue(dialogue)
 **Примеры**:
 
 ```python
-ai = GoogleGenerativeAI(api_key="your_api_key")
+ai = GoogleGenerativeAi(api_key="your_api_key")
 response = ai.ask("Как дела?")
 print(response)
 ```
@@ -250,7 +250,7 @@ print(response)
 **Примеры**:
 
 ```python
-ai = GoogleGenerativeAI(api_key="your_api_key")
+ai = GoogleGenerativeAi(api_key="your_api_key")
 ai._start_chat()
 response = ai.chat("Привет!")
 print(response)
@@ -289,7 +289,7 @@ print(response)
 ```python
 from pathlib import Path
 
-ai = GoogleGenerativeAI(api_key="your_api_key")
+ai = GoogleGenerativeAi(api_key="your_api_key")
 image_path = Path("image.jpg")
 description = ai.describe_image(image_path)
 print(description)
@@ -329,7 +329,7 @@ print(description)
 ```python
 from pathlib import Path
 
-ai = GoogleGenerativeAI(api_key="your_api_key")
+ai = GoogleGenerativeAi(api_key="your_api_key")
 file_path = Path("file.txt")
 success = ai.upload_file(file_path)
 print(success)
@@ -366,13 +366,13 @@ print(success)
 ## Пример использования
 
 ```python
-ai = GoogleGenerativeAI(api_key="your_api_key", system_instruction="Instruction")
+ai = GoogleGenerativeAi(api_key="your_api_key", system_instruction="Instruction")
 response = ai.ask("Как дела?")
 print(response)
 ```
 
-Этот пример инициализирует класс `GoogleGenerativeAI` и отправляет запрос AI-модели, выводя ответ.
+Этот пример инициализирует класс `GoogleGenerativeAi` и отправляет запрос AI-модели, выводя ответ.
 
 ---
 
-Для получения более подробной информации обратитесь к исходному коду и комментариям внутри класса `GoogleGenerativeAI`.
+Для получения более подробной информации обратитесь к исходному коду и комментариям внутри класса `GoogleGenerativeAi`.

@@ -17,7 +17,7 @@
 **Атрибуты**:
 - `base_dir` (Path): Базовая директория для хранения ресурсов, таких как схема user_flowchart.
 - `scenario` (Scenario): Экземпляр класса `Scenario` для выполнения сценариев.
-- `model` (GoogleGenerativeAI): Экземпляр класса `GoogleGenerativeAI` для взаимодействия с моделью Google Gemini.
+- `model` (GoogleGenerativeAi): Экземпляр класса `GoogleGenerativeAi` для взаимодействия с моделью Google Gemini.
 - `questions_list` (List[str]): Список вопросов для обработки команды "--next".
 
 **Методы**:
@@ -51,7 +51,7 @@ def __init__(self):
 
 **Как работает функция**:
 - Инициализирует экземпляр класса `Scenario`.
-- Создает экземпляр класса `GoogleGenerativeAI` с использованием API-ключа Gemini, полученного из переменной окружения `GEMINI_API`.
+- Создает экземпляр класса `GoogleGenerativeAi` с использованием API-ключа Gemini, полученного из переменной окружения `GEMINI_API`.
 - Инициализирует список вопросов `questions_list`, который будет использоваться для обработки команды `--next`.
 
 #### `handle_message`

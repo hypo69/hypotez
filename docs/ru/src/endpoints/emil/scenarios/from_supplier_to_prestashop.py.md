@@ -21,7 +21,7 @@
 - `price` (float): Цена продукта.
 - `timestamp` (str): Временная метка.
 - `products_list` (list): Список обработанных данных о продуктах.
-- `model` (GoogleGenerativeAI): Экземпляр модели Google Gemini для обработки текста.
+- `model` (GoogleGenerativeAi): Экземпляр модели Google Gemini для обработки текста.
 - `config` (SimpleNamespace): Объект с конфигурационными параметрами.
 - `local_images_path` (Path): Путь к локальному хранилищу изображений.
 - `lang` (str): Язык.
@@ -82,13 +82,13 @@
 - Отсутствуют.
 
 **Возвращает**:
-- `GoogleGenerativeAI`: Экземпляр модели Google Gemini.
+- `GoogleGenerativeAi`: Экземпляр модели Google Gemini.
 - `None`: В случае ошибки.
 
 **Как работает функция**:
 1. Формирует путь к файлу с системными инструкциями для Gemini на основе языка (`self.lang`).
 2. Читает содержимое файла с инструкциями.
-3. Создает экземпляр класса `GoogleGenerativeAI` с API ключом, системными инструкциями и конфигурацией генерации.
+3. Создает экземпляр класса `GoogleGenerativeAi` с API ключом, системными инструкциями и конфигурацией генерации.
 4. В случае ошибки логирует её и возвращает `None`.
 
 ### `run_scenario`
@@ -276,7 +276,7 @@ async def main(suppier_to_presta):\
 - `price` (float): Цена продукта.
 - `timestamp` (str): Временная метка.
 - `products_list` (list): Список обработанных данных о продуктах.
-- `model` (GoogleGenerativeAI): Экземпляр модели Google Gemini для обработки текста.
+- `model` (GoogleGenerativeAi): Экземпляр модели Google Gemini для обработки текста.
 - `config` (SimpleNamespace): Объект с конфигурационными параметрами.
 - `local_images_path` (Path): Путь к локальному хранилищу изображений.
 - `lang` (str): Язык.

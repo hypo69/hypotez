@@ -1,11 +1,11 @@
-## \file src/ai/gemini/gemini.py
+## \file src/llm/gemini/gemini.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
 """
-.. module::  src.ai.gemini.gemini
+.. module::  src.llm.gemini.gemini
    :platform: Windows, Unix
-   :synopsis: Google generative AI integration
+   :synopsis: Google generative llm integration
    https://github.com/google-gemini/generative-ai-python/blob/main/docs/api/google/generativeai.md
 """
 import codecs
@@ -54,13 +54,13 @@ class Config:
     ...
 
 @dataclass
-class GoogleGenerativeAI:
+class GoogleGenerativeAi:
     """
-    Класс для взаимодействия с моделями Google Generative AI.
+    Класс для взаимодействия с моделями Google GenerativeAi.
     """
 
     api_key: str
-    model_name: str = field(default="gemini-2.0-flash-exp")
+    
     dialogue_txt_path: Path = field(init=False)
 
     """generation_config.response_mime_type: allowed mimetypes are 
@@ -80,17 +80,11 @@ class GoogleGenerativeAI:
     chat_name:str =  field(init=False)
     timestamp:str = field(init=False)
 
-    MODELS: List[str] = field(default_factory=lambda: [
-        "gemini-1.5-flash-8b",
-        "gemini-2-13b",
-        "gemini-3-20b",
-        "gemini-2.0-flash-exp",
-    ])
 
     def __post_init__(self):
-        """Инициализация модели GoogleGenerativeAI с дополнительными настройками."""
+        """Инициализация модели GoogleGenerativeAi с дополнительными настройками."""
 
-        self.config = j_loads_ns(__root__ / 'src' / 'ai' / 'gemini' / 'gemini.json')
+        self.config = j_loads_ns(__root__ / 'src' / 'llm' / 'gemini' / 'gemini.json')
 
         self.history_dir:Path = Path(__root__, gs.path.external_storage, "chats")
 
@@ -100,7 +94,7 @@ class GoogleGenerativeAI:
         # Инициализация модели
         genai.configure(api_key=self.api_key)
         self.model = genai.GenerativeModel(
-            model_name=self.model_name, 
+            model_name=self.config.model, 
             generation_config=self.generation_config,
             system_instruction=self.system_instruction
         )
@@ -206,7 +200,17 @@ class GoogleGenerativeAI:
 
         try:
             # Отправить запрос модели
-            response:'AsyncGenerateContentResponse' = await self._chat.send_message_async(q)
+            try:
+                response:'AsyncGenerateContentResponse' = await self._chat.send_message_async(q)
+
+            except ResourceExhausted as ex:
+                logger.error("Resource exhausted:", ex, False)
+                ...
+                self._start_chat()
+            except Exception as ex:
+                 logger.error("Общая ошибка чата:", ex, False)
+                 ...
+
            
             try:
                 #  получить доступ к usage_metadata напрямую из объекта response
@@ -517,7 +521,7 @@ async def main():
     # Замените на свой ключ API
 
     system_instruction = "Ты - полезный ассистент. Отвечай на все вопросы кратко"
-    ai = GoogleGenerativeAI(api_key=gs.credentials.gemini.api_key, system_instruction=system_instruction)
+    llm = GoogleGenerativeAi(api_key=gs.credentials.gemini.api_key, system_instruction=system_instruction)
 
     # Пример вызова describe_image с промптом
     image_path = Path(r"test.jpg")  # Замените на путь к вашему изображению
@@ -531,7 +535,7 @@ async def main():
         где ключом будет имя объекта, а значением его описание.
          Если есть люди, опиши их действия."""
 
-        description = await ai.describe_image(image_path, prompt=prompt)
+        description = await llm.describe_image(image_path, prompt=prompt)
         if description:
             logger.info("Описание изображения (с JSON форматом):")
             logger.info(description)
@@ -547,7 +551,7 @@ async def main():
 
         # Пример без JSON вывода
         prompt = "Проанализируй это изображение. Перечисли все объекты, которые ты можешь распознать."
-        description = await ai.describe_image(image_path, prompt=prompt)
+        description = await llm.describe_image(image_path, prompt=prompt)
         if description:
             logger.info("Описание изображения (без JSON формата):")
             logger.info(description)
@@ -556,7 +560,7 @@ async def main():
     with open(file_path, "w") as f:
         f.write("Hello, Gemini!")
 
-    file_upload = await ai.upload_file(file_path, 'test_file.txt')
+    file_upload = await llm.upload_file(file_path, 'test_file.txt')
     logger.info(file_upload)
 
     # Пример чата
@@ -564,9 +568,9 @@ async def main():
         user_message = input("You: ")
         if user_message.lower() == 'exit':
             break
-        ai_message = await ai.chat(user_message)
-        if ai_message:
-            logger.info(f"Gemini: {ai_message}")
+        llm_message = await llm.chat(user_message)
+        if llm_message:
+            logger.info(f"Gemini: {llm_message}")
         else:
             logger.info("Gemini: Ошибка получения ответа")
 

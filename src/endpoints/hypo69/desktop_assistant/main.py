@@ -14,7 +14,7 @@ import json
 import header
 from src import gs
 from src.logger import logger
-from src.llm import GoogleGenerativeAI
+from src.llm import GoogleGenerativeAi
 
 base_path: Path = gs.path.endpoints / 'hypo69' / 'desktop_assistant'
 templates_path : Path = base_path / 'templates'
@@ -35,7 +35,7 @@ app.add_middleware(
 class ChatRequest(BaseModel):
     message: str
 
-model: GoogleGenerativeAI | None = None
+model: GoogleGenerativeAi | None = None
 api_key:str = gs.credentials.gemini.games
 system_instruction:str = ""
 
@@ -62,7 +62,7 @@ async def chat(request: ChatRequest):
     global model
     try:
         if not model:
-            model = GoogleGenerativeAI(api_key=api_key, model_name='gemini-2.0-flash-exp')
+            model = GoogleGenerativeAi(api_key=api_key, model_name='gemini-2.0-flash-exp')
         response = await model.chat(request.message)
         return {"response": response}
     except Exception as ex:

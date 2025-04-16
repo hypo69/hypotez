@@ -26,7 +26,7 @@
 - `price` (float): Цена.
 - `timestamp` (str): Временная метка.
 - `products_list` (List): Список обработанных данных о продуктах.
-- `model` (GoogleGenerativeAI): Экземпляр AI модели Google Gemini.
+- `model` (GoogleGenerativeAi): Экземпляр AI модели Google Gemini.
 - `translations` (SimpleNamespace): Переводы, загруженные из JSON файла.
 - `required_fields` (tuple): Кортеж необходимых полей товара.
 

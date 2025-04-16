@@ -249,3 +249,22 @@ f = ProductFields(
             self.locator = j_loads_ns(gs.path.src / 'suppliers' / 'ksp' / 'locators' / 'product_mobile_site.json')
         ...
 ```
+### Где расположены локароры:
+```text
+src/
+├── suppliers/
+│   ├── suppliers_list/
+│   │   ├── supplier_a/
+│   │   │   ├── __init__.py
+│   │   │   ├── handler.py  # <--- Модуль для supplier_a
+│   │   │   └── locators/
+│   │   │       └── category.json
+│   │   ├── supplier_b/
+│   │   │   ├── __init__.py
+│   │   │   ├── handler.py  # <--- Модуль для supplier_b
+│   │   │   └── locators/
+│   │   │       └── category.json
+│   │   └── ...
+│   └── ...
+└── ...
+```

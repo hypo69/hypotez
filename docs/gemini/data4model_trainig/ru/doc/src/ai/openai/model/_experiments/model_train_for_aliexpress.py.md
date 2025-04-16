@@ -200,10 +200,10 @@ response = openai.ask(prompt)
 print(response)  # Вывод: The capital of France is Paris.
 ```
 
-### `GoogleGenerativeAI`
+### `GoogleGenerativeAi`
 
 ```python
-class GoogleGenerativeAI:
+class GoogleGenerativeAi:
     """
     Класс для взаимодействия с моделью Google Generative AI.
 
@@ -216,7 +216,7 @@ class GoogleGenerativeAI:
 
     def __init__(self, system_instruction: str):
         """
-        Инициализирует экземпляр класса GoogleGenerativeAI.
+        Инициализирует экземпляр класса GoogleGenerativeAi.
 
         Args:
             system_instruction (str): Инструкция для системы Google Generative AI.
@@ -252,9 +252,9 @@ class GoogleGenerativeAI:
 **Примеры**:
 
 ```python
-# Инициализация класса GoogleGenerativeAI с системной инструкцией
+# Инициализация класса GoogleGenerativeAi с системной инструкцией
 system_instruction = "You are a helpful assistant."
-gemini = GoogleGenerativeAI(system_instruction=system_instruction)
+gemini = GoogleGenerativeAi(system_instruction=system_instruction)
 
 # Отправка запроса в модель Google Generative AI и получение ответа
 prompt = "What is the capital of France?"
@@ -268,7 +268,7 @@ print(response)  # Вывод: The capital of France is Paris.
 - `system_instruction_path` (str): Путь к файлу с системной инструкцией для моделей AI, расположенному в `gs.path.src / 'ai' / 'prompts' / 'aliexpress_campaign' / 'system_instruction.txt'`.
 - `system_instruction` (str): Содержимое файла с системной инструкцией, считанное с использованием функции `read_text_file`.
 - `openai` (OpenAIModel): Экземпляр класса `OpenAIModel`, инициализированный с системной инструкцией.
-- `gemini` (GoogleGenerativeAI): Экземпляр класса `GoogleGenerativeAI`, инициализированный с системной инструкцией.
+- `gemini` (GoogleGenerativeAi): Экземпляр класса `GoogleGenerativeAi`, инициализированный с системной инструкцией.
 - `file` (str): Переменная цикла, представляющая текущий файл с названиями продуктов.
 - `product_titles` (str): Содержимое файла с названиями продуктов, считанное с использованием функции `read_text_file`.
 - `response_openai` (str): Ответ от модели OpenAI на запрос с названиями продуктов.

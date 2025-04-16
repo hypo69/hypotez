@@ -278,7 +278,7 @@ flowchart TD
     A --> S[<code>src.webdriver.driver.Driver</code><br>Управление веб-драйвером];
     A --> T[<code>src.webdriver.firefox.Firefox</code><br>Драйвер Firefox];
     A --> U[<code>src.webdriver.playwright.Playwrid</code><br>Драйвер Playwright];
-    A --> V[<code>src.ai.gemini.GoogleGenerativeAI</code><br>Интеграция с Gemini AI];
+    A --> V[<code>src.ai.gemini.GoogleGenerativeAi</code><br>Интеграция с Gemini AI];
     A --> W[<code>src.endpoints.advertisement.facebook.scenarios</code><br>Сценарии для Facebook];
     A --> X[<code>src.suppliers.suppliers_list</code><br>Сбор данных от поставщиков];
     A --> Y[<code>src.endpoints.kazarinov.report_generator.ReportGenerator</code><br>Генерация отчетов];
@@ -321,7 +321,7 @@ flowchart TD
 *   **src.endpoints.prestashop.product\_fields.ProductFields**: Класс для представления полей продукта.
 *   **src.webdriver.driver.Driver**: Класс для управления веб-драйвером.
 *   **src.webdriver.firefox.Firefox, src.webdriver.playwright.Playwrid**: Классы для управления конкретными веб-драйверами.
-*   **src.ai.gemini.GoogleGenerativeAI**: Класс для интеграции с Gemini AI.
+*   **src.ai.gemini.GoogleGenerativeAi**: Класс для интеграции с Gemini AI.
 *   **src.endpoints.advertisement.facebook.scenarios**: Модуль, содержащий сценарии для публикации контента в Facebook.
 *   **src.suppliers.suppliers\_list**: Содержит граберы для получения данных от различных поставщиков.
 *   **src.endpoints.kazarinov.report\_generator.ReportGenerator**: Класс для генерации отчетов.
@@ -350,7 +350,7 @@ flowchart TD
     *   `src.endpoints.prestashop.product_fields.ProductFields`: Класс для представления полей продукта.
     *   `src.webdriver.driver.Driver`: Класс для управления веб-драйвером.
     *   `src.webdriver.firefox.Firefox, src.webdriver.playwright.Playwrid`: Классы для управления конкретными веб-драйверами.
-    *   `src.ai.gemini.GoogleGenerativeAI`: Класс для интеграции с Gemini AI.
+    *   `src.ai.gemini.GoogleGenerativeAi`: Класс для интеграции с Gemini AI.
     *   `src.endpoints.advertisement.facebook.scenarios`: Модуль, содержащий сценарии для публикации контента в Facebook.
         *   `post_message_title`: функция отправляет заголовок сообщения.
         *   `upload_post_media`: функция загружает медиафайлы.
@@ -379,7 +379,7 @@ flowchart TD
             *   `price` (float): Цена.
             *   `timestamp` (str): Временная метка.
             *   `products_list` (List): Список обработанных данных о продуктах.
-            *   `model` (GoogleGenerativeAI): Экземпляр модели Google Gemini AI.
+            *   `model` (GoogleGenerativeAi): Экземпляр модели Google Gemini AI.
             *   `translations` (SimpleNamespace): Переводы, загруженные из JSON.
         *   **Методы**:
             *   `__init__`: Инициализирует класс, загружает конфигурацию, инициализирует WebDriver и Gemini AI модель.
@@ -404,7 +404,7 @@ flowchart TD
 **Цепочка взаимосвязей с другими частями проекта**:
 
 1.  Модуль `quotation_builder.py` использует глобальные настройки из `src.gs` для определения путей и учетных данных.
-2.  Он интегрируется с Gemini AI через `src.ai.gemini.GoogleGenerativeAI` для обработки данных.
+2.  Он интегрируется с Gemini AI через `src.ai.gemini.GoogleGenerativeAi` для обработки данных.
 3.  Использует `src.webdriver` для автоматизации действий в браузере, в частности для публикации данных в Facebook.
 4.  Использует модули из `src.suppliers.suppliers_list` для получения данных от различных поставщиков.
 5.  Использует утилиты из `src.utils` для работы с JSON, файлами и изображениями.
@@ -415,7 +415,7 @@ flowchart TD
 flowchart TD
     Start --> Header[<code>header.py</code><br> Определяет корневую директорию проекта]
     Header --> GlobalSettings[<code>src.gs</code><br> Импортирует глобальные настройки]
-    GlobalSettings --> AI[<code>src.ai.gemini.GoogleGenerativeAI</code><br> Интеграция с Gemini AI]
+    GlobalSettings --> AI[<code>src.ai.gemini.GoogleGenerativeAi</code><br> Интеграция с Gemini AI]
     GlobalSettings --> WebDriver[<code>src.webdriver</code><br> Автоматизация браузера]
     GlobalSettings --> Suppliers[<code>src.suppliers.suppliers_list</code><br> Получение данных от поставщиков]
     GlobalSettings --> Utils[<code>src.utils</code><br> Утилиты JSON, Files, Images]

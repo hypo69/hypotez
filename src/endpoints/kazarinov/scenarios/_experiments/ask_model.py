@@ -21,7 +21,7 @@ from pathlib import Path
 import re
 import header
 from src import gs, logger
-from src.llm.gemini.gemini import GoogleGenerativeAI
+from src.llm.gemini.gemini import GoogleGenerativeAi
 from src.utils.jjson import j_dumps, j_loads_ns,j_loads
 from src.logger.logger import logger
 
@@ -33,7 +33,7 @@ system_instruction = Path(gs.path.endpoints / 'kazarinov' / 'instructions' / 'sy
 command_instruction_ru = Path(gs.path.endpoints / 'kazarinov' / 'instructions' / 'command_instruction_mexiron_ru.md').read_text(encoding='UTF-8')
 command_instruction_he = Path(gs.path.endpoints / 'kazarinov' / 'instructions' / 'command_instruction_mexiron_he.md').read_text(encoding='UTF-8')
 api_key = gs.credentials.gemini.kazarinov
-model = GoogleGenerativeAI(
+model = GoogleGenerativeAi(
                 api_key=api_key,
                 system_instruction=system_instruction,
                 generation_config={'response_mime_type': 'application/json'}

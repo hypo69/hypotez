@@ -179,21 +179,21 @@ result = driver.execute_locator(close_banner)
 graph LR
     A[Начало: Инициализация] --> B(Чтение конфигурационного файла `config.json`);
     B --> C{Проверка наличия API ключа Gemini};
-    C -- Да --> D(Инициализация класса `GoogleGenerativeAI` с API ключом и системными инструкциями);
+    C -- Да --> D(Инициализация класса `GoogleGenerativeAi` с API ключом и системными инструкциями);
     C -- Нет --> E(Вывод сообщения об ошибке: "API ключ не найден");
     D --> F{Выбор действия: чат, описание изображения, загрузка файла};
     F -- Чат --> G(Ввод сообщения пользователя);
-    G --> H(Вызов метода `chat(q: str)` класса `GoogleGenerativeAI`);
+    G --> H(Вызов метода `chat(q: str)` класса `GoogleGenerativeAi`);
     H --> I{Получение ответа от модели Gemini};
     I -- Успех --> J(Вывод ответа Gemini);
     I -- Ошибка --> K(Обработка ошибки и повторная попытка);
     F -- Описание изображения --> L(Выбор пути к изображению или ввод байтов изображения);
-    L --> M(Вызов метода `describe_image(image: Path | bytes, mime_type: Optional[str], prompt: Optional[str])` класса `GoogleGenerativeAI`);
+    L --> M(Вызов метода `describe_image(image: Path | bytes, mime_type: Optional[str], prompt: Optional[str])` класса `GoogleGenerativeAi`);
     M --> N{Получение описания изображения от модели Gemini};
     N -- Успех --> O(Вывод описания изображения);
     N -- Ошибка --> K;
     F -- Загрузка файла --> P(Выбор пути к файлу);
-    P --> Q(Вызов метода `upload_file(file: str | Path | IOBase, file_name: Optional[str])` класса `GoogleGenerativeAI`);
+    P --> Q(Вызов метода `upload_file(file: str | Path | IOBase, file_name: Optional[str])` класса `GoogleGenerativeAi`);
     Q --> R{Получение статуса загрузки файла};
     R -- Успех --> S(Вывод сообщения об успешной загрузке);
     R -- Ошибка --> K;
@@ -214,10 +214,10 @@ graph LR
     api_key = config['credentials']['gemini']['api_key']
     ```
 
--   **D (Инициализация класса `GoogleGenerativeAI`):** Создается экземпляр класса `GoogleGenerativeAI` с использованием API-ключа и системных инструкций.
+-   **D (Инициализация класса `GoogleGenerativeAi`):** Создается экземпляр класса `GoogleGenerativeAi` с использованием API-ключа и системных инструкций.
 
     ```python
-    ai = GoogleGenerativeAI(api_key=api_key, system_instruction=system_instruction)
+    ai = GoogleGenerativeAi(api_key=api_key, system_instruction=system_instruction)
     ```
 
 -   **H (Вызов метода `chat(q: str)`):** Отправляется сообщение пользователя в чат и получается ответ от модели Gemini.
@@ -236,7 +236,7 @@ graph LR
 
 ```mermaid
 graph LR
-    A[main.py] --> B(src.ai.gemini.GoogleGenerativeAI);
+    A[main.py] --> B(src.ai.gemini.GoogleGenerativeAi);
     A --> C(src.utils.jjson.j_loads);
     A --> D(src.gs);
 
@@ -246,7 +246,7 @@ graph LR
     B --> H(pathlib.Path);
     B --> I(io.IOBase);
 
-    subgraph src.ai.gemini.GoogleGenerativeAI
+    subgraph src.ai.gemini.GoogleGenerativeAi
         E
         F
         G
@@ -263,8 +263,8 @@ graph LR
 
 **Объяснение зависимостей:**
 
--   **`main.py`:** Основной файл, который использует класс `GoogleGenerativeAI`, функцию `j_loads` и глобальные настройки из `src.gs`.
--   **`src.ai.gemini.GoogleGenerativeAI`:** Класс, который обертывает API Google Gemini, использует библиотеки `google.generativeai` для взаимодействия с API, `typing` для аннотации типов, `pathlib` для работы с путями к файлам и `io` для работы с файловыми объектами.
+-   **`main.py`:** Основной файл, который использует класс `GoogleGenerativeAi`, функцию `j_loads` и глобальные настройки из `src.gs`.
+-   **`src.ai.gemini.GoogleGenerativeAi`:** Класс, который обертывает API Google Gemini, использует библиотеки `google.generativeai` для взаимодействия с API, `typing` для аннотации типов, `pathlib` для работы с путями к файлам и `io` для работы с файловыми объектами.
 -   **`src.utils.jjson.j_loads`:** Функция для удобной загрузки JSON файлов.
 -   **`src.gs`:** Модуль, предоставляющий глобальные настройки, включая API-ключи и пути.
 -   **`google.generativeai`:** Библиотека Google для взаимодействия с Gemini API.
@@ -272,13 +272,13 @@ graph LR
 ### 3. Объяснение
 
 -   **Импорты:**
-    -   `src.ai.gemini.GoogleGenerativeAI`: Класс для взаимодействия с API Google Gemini.
+    -   `src.ai.gemini.GoogleGenerativeAi`: Класс для взаимодействия с API Google Gemini.
     -   `src.utils.jjson.j_loads`: Функция для загрузки JSON файлов конфигурации.
     -   `src.gs`: Модуль глобальных настроек, содержащий API-ключи и пути.
     -   `asyncio`: Библиотека для асинхронного программирования.
     -   `pathlib.Path`: Класс для представления путей к файлам и директориям.
 
--   **Класс `GoogleGenerativeAI`:**
+-   **Класс `GoogleGenerativeAi`:**
     -   **Роль:** Обеспечивает интерфейс для взаимодействия с моделями Google Gemini.
     -   **Атрибуты:**
         -   `api_key` (str): API-ключ Google Gemini.
@@ -291,10 +291,10 @@ graph LR
         -   `chat(q: str) -> Optional[str]`: Отправляет запрос в чат и поддерживает историю диалога.
         -   `describe_image(image: Path | bytes, mime_type: Optional[str] = 'image/jpeg', prompt: Optional[str] = '') -> Optional[str]`: Описывает изображение.
         -   `upload_file(file: str | Path | IOBase, file_name: Optional[str] = None) -> bool`: Загружает файл в Gemini API.
-    -   **Взаимодействие:** Класс `GoogleGenerativeAI` использует библиотеку `google.generativeai` для отправки запросов к API Google Gemini и получения ответов.
+    -   **Взаимодействие:** Класс `GoogleGenerativeAi` использует библиотеку `google.generativeai` для отправки запросов к API Google Gemini и получения ответов.
 
 -   **Функции:**
-    -   `main()`: Асинхронная функция, демонстрирующая примеры использования класса `GoogleGenerativeAI`.
+    -   `main()`: Асинхронная функция, демонстрирующая примеры использования класса `GoogleGenerativeAi`.
         -   Загружает изображение, описывает его с использованием различных промптов, загружает файл и запускает интерактивный чат.
         -   Использует `j_loads` для разбора JSON-ответа.
         -   Использует `asyncio.run()` для запуска асинхронной функции.
@@ -303,7 +303,7 @@ graph LR
 -   **Переменные:**
     -   `api_key` (str): API-ключ Google Gemini, полученный из `gs.credentials.gemini.api_key`.
     -   `system_instruction` (str): Системные инструкции для модели.
-    -   `ai` (GoogleGenerativeAI): Экземпляр класса `GoogleGenerativeAI`.
+    -   `ai` (GoogleGenerativeAi): Экземпляр класса `GoogleGenerativeAi`.
     -   `image_path` (Path): Путь к файлу изображения.
     -   `description` (Optional[str]): Описание изображения, полученное от модели.
     -   `user_message` (str): Сообщение пользователя, введенное в чате.

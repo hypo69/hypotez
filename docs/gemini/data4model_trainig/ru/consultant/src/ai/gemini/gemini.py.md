@@ -8,13 +8,13 @@
 Модуль для работы с Google Generative AI
 =================================================
 
-Модуль содержит класс :class:`GoogleGenerativeAI`, который используется для взаимодействия с различными AI-моделями Google Gemini.
+Модуль содержит класс :class:`GoogleGenerativeAi`, который используется для взаимодействия с различными AI-моделями Google Gemini.
 Он включает в себя функции для отправки текстовых запросов, обработки изображений и управления историей чата.
 
 Пример использования
 ----------------------
 
->>> ai = GoogleGenerativeAI(api_key='YOUR_API_KEY', system_instruction='Ты - полезный ассистент.')
+>>> ai = GoogleGenerativeAi(api_key='YOUR_API_KEY', system_instruction='Ты - полезный ассистент.')
 >>> description = await ai.describe_image(image_path, prompt=prompt)
 """
 import codecs
@@ -63,7 +63,7 @@ class Config:
     ...
 
 @dataclass
-class GoogleGenerativeAI:
+class GoogleGenerativeAi:
     """
     Класс для взаимодействия с моделями Google Generative AI.
     """
@@ -96,7 +96,7 @@ class GoogleGenerativeAI:
     ])
 
     def __post_init__(self):
-        """Инициализация модели GoogleGenerativeAI с дополнительными настройками."""
+        """Инициализация модели GoogleGenerativeAi с дополнительными настройками."""
 
         self.config = j_loads_ns(__root__ / 'src' / 'ai' / 'gemini' / 'gemini.json')
 
@@ -369,7 +369,7 @@ async def main():
     # Замените на свой ключ API
 
     system_instruction = "Ты - полезный ассистент. Отвечай на все вопросы кратко"
-    ai = GoogleGenerativeAI(api_key=gs.credentials.gemini.api_key, system_instruction=system_instruction)
+    ai = GoogleGenerativeAi(api_key=gs.credentials.gemini.api_key, system_instruction=system_instruction)
 
     # Пример вызова describe_image с промптом
     image_path = Path(r"test.jpg")  # Замените на путь к вашему изображению
@@ -432,7 +432,7 @@ if __name__ == "__main__":
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
   - Использование аннотаций типов.
-  - Применение `dataclass` для класса `GoogleGenerativeAI`.
+  - Применение `dataclass` для класса `GoogleGenerativeAi`.
   - Использование модуля `logger` для логирования.
   - Четкое разделение функциональности по методам.
   - Использование `j_loads_ns` для загрузки конфигурации.
@@ -471,13 +471,13 @@ if __name__ == "__main__":
 Модуль для работы с Google Generative AI
 =================================================
 
-Модуль содержит класс :class:`GoogleGenerativeAI`, который используется для взаимодействия с различными AI-моделями Google Gemini.
+Модуль содержит класс :class:`GoogleGenerativeAi`, который используется для взаимодействия с различными AI-моделями Google Gemini.
 Он включает в себя функции для отправки текстовых запросов, обработки изображений и управления историей чата.
 
 Пример использования
 ----------------------
 
->>> ai = GoogleGenerativeAI(api_key='YOUR_API_KEY', system_instruction='Ты - полезный ассистент.')
+>>> ai = GoogleGenerativeAi(api_key='YOUR_API_KEY', system_instruction='Ты - полезный ассистент.')
 >>> description = await ai.describe_image(image_path, prompt=prompt)
 """
 import codecs
@@ -529,7 +529,7 @@ class Config:
     ...
 
 @dataclass
-class GoogleGenerativeAI:
+class GoogleGenerativeAi:
     """
     Класс для взаимодействия с моделями Google Generative AI.
     """
@@ -562,7 +562,7 @@ class GoogleGenerativeAI:
     ])
 
     def __post_init__(self):
-        """Инициализация модели GoogleGenerativeAI с дополнительными настройками."""
+        """Инициализация модели GoogleGenerativeAi с дополнительными настройками."""
 
         self.config = j_loads_ns(__root__ / 'src' / 'ai' / 'gemini' / 'gemini.json')
 

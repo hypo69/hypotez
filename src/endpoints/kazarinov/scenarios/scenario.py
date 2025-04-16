@@ -23,7 +23,7 @@ from src import gs
 from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
 from src.webdriver.playwright import Playwrid
-from src.llm.gemini import GoogleGenerativeAI
+from src.llm.gemini import GoogleGenerativeAi
 from src.endpoints.kazarinov.report_generator.report_generator import ReportGenerator
 from src.endpoints.kazarinov.scenarios.quotation_builder import QuotationBuilder
 from src.endpoints.prestashop.product_fields.product_fields import ProductFields
@@ -34,41 +34,8 @@ from src.logger.logger import logger
 
 class Config:
 
-    ENDPOINT = "kazarinov"
+    ENDPOINT:str = "kazarinov"
 
-
-# def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
-#     """
-#     Функция паресит целевые URL из полученного OneTab.
-#     """
-#     try:
-#         response = requests.get(one_tab_url, timeout=10)
-#         response.raise_for_status()
-
-#         soup = BeautifulSoup(response.content, "html.parser")
-
-#         # Извлечение ссылок
-#         urls = [a["href"] for a in soup.find_all("a", class_="tabLink")]
-
-#         # Извлечение данных из div с классом 'tabGroupLabel'
-#         element = soup.find("div", class_="tabGroupLabel")
-#         data = element.get_text() if element else None
-
-#         if not data:
-#             price = ""
-#             mexiron_name = gs.now
-#         else:
-#             # Разбивка данных на цену и имя
-#             parts = data.split(maxsplit=1)
-#             price = int(parts[0]) if parts[0].isdigit() else ""
-#             mexiron_name = parts[1] if len(parts) > 1 else gs.now
-
-#         return price, mexiron_name, urls
-
-#     except requests.exceptions.RequestException as ex:
-#         logger.error(f"Ошибка при выполнении запроса: {one_tab_url=}", ex)
-#         ...
-#         return False, False, False
 
 
 class Scenario(QuotationBuilder):
@@ -121,17 +88,20 @@ class Scenario(QuotationBuilder):
             except Exception as ex:
                 logger.error(f"Failed... Ошибка получения полей товара {url}:", ex)
                 if bot: bot.send_message(chat_id, f"Failed... Ошибка получения полей товара {url}\n{ex}") 
+                ...
                 continue
 
             if not f:
                 logger.error(f"Failed to parse product fields for URL: {url}")
-                if bot: bot.send_message(chat_id, f"Failed to parse product fields for URL: {url}")  
+                if bot: bot.send_message(chat_id, f"Failed to parse product fields for URL: {url}") 
+                ...
                 continue
 
             product_data = self.convert_product_fields(f)
             if not product_data:
                 logger.error(f"Failed to convert product fields: {product_data}")
-                if bot: bot.send_message(chat_id, f"Failed to convert product fields {url} \n {product_data}")  
+                if bot: bot.send_message(chat_id, f"Failed to convert product fields {url} \n {product_data}") 
+                ...
                 continue
 
             await self.save_product_data(product_data)
@@ -194,7 +164,7 @@ def run_sample_scenario():
                            'https://www.ivory.co.il/catalog.php?id=85473',
                            'https://www.morlevi.co.il/product/21018']
 
-    s = Scenario(window_mode = 'headless')
+    s = Scenario(window_mode = 'normal')
     asyncio.run(s.run_scenario_async(urls = urls_list, mexiron_name = 'test price quotation', ))
 
 

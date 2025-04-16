@@ -2,7 +2,7 @@ flowchart TD
     InitMexiron[Initialize Mexiron instance] --> LoadConfig[Load configuration and set paths]
     LoadConfig --> CreateExportPath[Create export path based on storage config]
     CreateExportPath --> LoadInstructions[Load system and command instructions]
-    LoadInstructions --> InitializeAI[Initialize GoogleGenerativeAI model]
+    LoadInstructions --> InitializeAI[Initialize GoogleGenerativeAi model]
     InitializeAI --> RunScenario[Run scenario]
     RunScenario --> ParseURLs[Parse product URLs]
     ParseURLs --> CheckURLs[Check if URLs list is provided]

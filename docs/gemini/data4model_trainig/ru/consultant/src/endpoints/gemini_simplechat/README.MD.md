@@ -5,7 +5,7 @@
 -   **Соответствие стандартам**: 7/10
 -   **Плюсы**:
     -   Документация предоставляет подробное описание проекта, его особенностей, требований, установки и использования.
-    -   Содержит примеры кода для инициализации и использования класса `GoogleGenerativeAI`.
+    -   Содержит примеры кода для инициализации и использования класса `GoogleGenerativeAi`.
     -   Описывает структуру конфигурационного файла `config.json`.
     -   Предоставляет инструкции по установке и настройке автозапуска для Windows.
 -   **Минусы**:
@@ -20,7 +20,7 @@
 3.  **Детали о логах и истории**: Предоставить более подробную информацию о структуре и назначении лог-файлов и истории чата, включая примеры записей и рекомендации по их анализу.
 4.  **Актуализация зависимостей**: Убедиться, что список зависимостей в `requirements.txt` актуален и содержит все необходимые библиотеки.
 5.  **Улучшение структуры `config.json`**: Описать все параметры в файле `config.json` с примерами и пояснениями.
-6.  **Дополнительные примеры использования**: Добавить примеры использования других методов класса `GoogleGenerativeAI`, таких как `upload_file`.
+6.  **Дополнительные примеры использования**: Добавить примеры использования других методов класса `GoogleGenerativeAi`, таких как `upload_file`.
 7.  **Уточнение по API-ключу**: Явно указать, как получить API-ключ Google Gemini и где его разместить в файле `config.json`.
 
 #### **Оптимизированный код**:
@@ -28,7 +28,7 @@
 ```markdown
 # Google Gemini API Интеграция
 
-Этот проект предоставляет класс `GoogleGenerativeAI` для взаимодействия с моделями Google Generative AI (Gemini). Он позволяет отправлять текстовые запросы, вести диалоги, описывать изображения и загружать файлы, используя API Google Gemini.
+Этот проект предоставляет класс `GoogleGenerativeAi` для взаимодействия с моделями Google Generative AI (Gemini). Он позволяет отправлять текстовые запросы, вести диалоги, описывать изображения и загружать файлы, используя API Google Gemini.
 
 ## Особенности
 
@@ -130,17 +130,17 @@ python main.py
 ### Инициализация
 
 ```python
-from src.ai.gemini import GoogleGenerativeAI
+from src.ai.gemini import GoogleGenerativeAi
 import gs
 
 system_instruction = "Ты - полезный ассистент. Отвечай на все вопросы кратко"
-ai = GoogleGenerativeAI(api_key=gs.credentials.gemini.api_key, system_instruction=system_instruction)
+ai = GoogleGenerativeAi(api_key=gs.credentials.gemini.api_key, system_instruction=system_instruction)
 ```
 
-### Методы класса `GoogleGenerativeAI`
+### Методы класса `GoogleGenerativeAi`
 
 -   **`__init__(api_key: str, model_name: str = "gemini-2.0-flash-exp", generation_config: Dict = None, system_instruction: Optional[str] = None)`:**
-    -   Инициализирует объект `GoogleGenerativeAI` с API-ключом, именем модели и настройками генерации.
+    -   Инициализирует объект `GoogleGenerativeAi` с API-ключом, именем модели и настройками генерации.
     -   Параметр `system_instruction` позволяет задать системные инструкции для модели.
 
 -   **`ask(q: str, attempts: int = 15) -> Optional[str]`:**
@@ -169,13 +169,13 @@ ai = GoogleGenerativeAI(api_key=gs.credentials.gemini.api_key, system_instructio
 ```python
 import asyncio
 from pathlib import Path
-from src.ai.gemini import GoogleGenerativeAI
+from src.ai.gemini import GoogleGenerativeAi
 from src import gs
 from src.utils.jjson import j_loads
 
 # Замените на свой ключ API
 system_instruction = "Ты - полезный ассистент. Отвечай на все вопросы кратко"
-ai = GoogleGenerativeAI(api_key=gs.credentials.gemini.api_key, system_instruction=system_instruction)
+ai = GoogleGenerativeAi(api_key=gs.credentials.gemini.api_key, system_instruction=system_instruction)
 
 async def main():
     # Пример вызова describe_image с промптом

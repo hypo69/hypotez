@@ -40,19 +40,16 @@ from header import __root__
 from src import gs
 from src.utils.jjson import j_loads
 from src.utils.file import read_text_file, save_text_file    
-from src.utils.convertors.html2pdf import html2pdf
-from src.utils.convertors.html2docx  import html_to_docx
+from src.utils.convertors.html import html2pdf
+#from src.utils.convertors.html  import html_to_docx
 from src.utils.image import random_image
 from src.utils.printer import pprint
 from src.logger.logger import logger
 
-# config = pdfkit.configuration(wkhtmltopdf= str( gs.path.bin / 'wkhtmltopdf' / 'files' / 'bin' / 'wkhtmltopdf.exe' ) )
 
-##################################################################
+class Config:
+    ENDPOINT = 'kazarinov'
 
-ENDPOINT = 'kazarinov'
-
-##################################################################
 
 class ReportGenerator:
     """
@@ -61,7 +58,7 @@ class ReportGenerator:
     if_need_html: bool
     if_need_pdf: bool
     if_need_docx: bool
-    storage_path:Path =  Path(gs.path.external_storage, ENDPOINT)
+    storage_path:Path =  Path(gs.path.external_storage, Config.ENDPOINT)
     html_path: Path|str
     pdf_path: Path|str
     docs_path: Path|str
@@ -116,13 +113,13 @@ class ReportGenerator:
         return  {
                 "product_id":"00000",
                 "product_name":"Сервис" if lang == 'ru' else "שירות",
-                "specification":Path(__root__ / 'src' / 'endpoints' / ENDPOINT / 'report_generator' / 'templates' / f'service_as_product_{lang}.html').read_text(encoding='UTF-8').replace('/n','<br>'),
+                "specification":Path(__root__ / 'src' / 'endpoints' / Config.ENDPOINT / 'report_generator' / 'templates' / f'service_as_product_{lang}.html').read_text(encoding='UTF-8').replace('/n','<br>'),
                 "image_local_saved_path":random_image(self.storage_path / 'converted_images' )
                 }
 
         ...
 
-    async def create_html_report_async(self, data:dict, lang:str, html_path:Optional[ str|Path] ) -> str | None:
+    async def create_html_report_async(self, data:dict, lang:str, html_path:Optional[ str|Path] ) -> str:
         """
         Генерирует HTML-контент на основе шаблона и данных.
 
@@ -138,25 +135,25 @@ class ReportGenerator:
             service_apendix = self.service_apendix(lang)
             data['products'].append(service_apendix)
             template:str = 'template_table_he.html' if lang == 'he' else  'template_table_ru.html'
-            template_path: str  =  str(gs.path.endpoints / ENDPOINT / 'report_generator' / 'templates' / template)
+            template_path: str  =  str(gs.path.endpoints / Config.ENDPOINT / 'report_generator' / 'templates' / template)
             #template = self.env.get_template(self.template_path)
             template_string = Path(template_path).read_text(encoding = 'UTF-8')
             template = self.env.from_string(template_string)
             self.html_content:str = template.render(**data)
 
-            try:
-                Path(self.html_path).write_text(data = self.html_content, encoding='UTF-8')
-            except Exception as ex:
-                logger.error(f"Не удалось сохранить файл")
-                return self.html_content
+            # try:
+            #     Path(self.html_path).write_text(data = self.html_content, encoding='UTF-8')
+            # except Exception as ex:
+            #     logger.error(f"Не удалось сохранить файл")
+            #     return self.html_content
                 
 
-            logger.info(f"Файл HTML удачно сохранен в {html_path}")
+            # logger.info(f"Файл HTML удачно сохранен в {html_path}")
             return self.html_content
 
         except Exception as ex:
-            logger.error(f"Не удалось сгенерирпвать HTML файл {html_path}", ex)
-            return 
+            logger.error(f"Не удалось сгенерирпвать HTML {html_path}", ex)
+            return ''
 
     async def create_pdf_report_async(self, 
                                 data: dict, 
@@ -188,8 +185,11 @@ class ReportGenerator:
                     self.bot.send_document(self.chat_id, f)
                     return True
             except Exception as ex:
-                self.bot.send_message(self.chat_id, f"Не удалось отправить файл {pdf_path} по причине: {ex}")
+                self.bot.send_message(self.chat_id, f"Не удалось отправить файл {pdf_path} по причине:\n",ex,False)
                 return False
+
+        return True
+
 
     async def create_docx_report_async(self, html_path:str|Path, docx_path:str|Path) -> bool :
         """Создаю docx файл """
@@ -202,7 +202,7 @@ class ReportGenerator:
 
 def main(maxiron_name:str, lang:str) ->bool:
     
-    external_storage: Path =  gs.path.external_storage / ENDPOINT / 'mexironim' /  maxiron_name
+    external_storage: Path =  gs.path.external_storage / Config.ENDPOINT / 'mexironim' /  maxiron_name
     data: dict = j_loads(external_storage / f'{maxiron_name}_{lang}.json')
     html_path: Path =  external_storage / f'{maxiron_name}_{lang}.html' 
     pdf_path: Path = external_storage / f'{maxiron_name}_{lang}.pdf'

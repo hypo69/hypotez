@@ -2,7 +2,7 @@
 
 ## Обзор
 
-Этот документ предоставляет подробное описание класса `GoogleGenerativeAI`, предназначенного для интеграции с моделями Google Generative AI (Gemini). Описаны особенности, процесс установки, использования и настройки данного класса.
+Этот документ предоставляет подробное описание класса `GoogleGenerativeAi`, предназначенного для интеграции с моделями Google Generative AI (Gemini). Описаны особенности, процесс установки, использования и настройки данного класса.
 
 ## Содержание
 
@@ -12,7 +12,7 @@
 - [Запуск веб-сервера](#запуск-веб-сервера)
 - [Использование](#использование)
     - [Инициализация](#инициализация)
-    - [Методы класса GoogleGenerativeAI](#методы-класса-googlegenerativeai)
+    - [Методы класса GoogleGenerativeAi](#методы-класса-GoogleGenerativeAi)
 - [Пример использования](#пример-использования)
 - [Дополнительно](#дополнительно)
     - [Логирование](#логирование)
@@ -82,14 +82,14 @@ python main.py
 ### Инициализация
 
 ```python
-from src.ai.gemini import GoogleGenerativeAI
+from src.ai.gemini import GoogleGenerativeAi
 import gs
 
 system_instruction = "Ты - полезный ассистент. Отвечай на все вопросы кратко"
-ai = GoogleGenerativeAI(api_key=gs.credentials.gemini.api_key, system_instruction=system_instruction)
+ai = GoogleGenerativeAi(api_key=gs.credentials.gemini.api_key, system_instruction=system_instruction)
 ```
 
-### Методы класса `GoogleGenerativeAI`
+### Методы класса `GoogleGenerativeAi`
 
 #### `__init__`
 
@@ -98,7 +98,7 @@ def __init__(api_key: str, model_name: str = "gemini-2.0-flash-exp", generation_
 ```
 
 **Назначение**:
-Инициализирует объект `GoogleGenerativeAI` с API-ключом, именем модели и настройками генерации.
+Инициализирует объект `GoogleGenerativeAi` с API-ключом, именем модели и настройками генерации.
 
 **Параметры**:
 - `api_key` (str): API-ключ Google Gemini.
@@ -107,7 +107,7 @@ def __init__(api_key: str, model_name: str = "gemini-2.0-flash-exp", generation_
 - `system_instruction` (Optional[str], optional): Системные инструкции для модели. По умолчанию `None`.
 
 **Принцип работы**:
-- Конструктор класса `GoogleGenerativeAI` принимает API-ключ, имя модели, конфигурацию генерации и системные инструкции.
+- Конструктор класса `GoogleGenerativeAi` принимает API-ключ, имя модели, конфигурацию генерации и системные инструкции.
 - Устанавливает значения атрибутов экземпляра класса.
 - Используется для настройки и инициализации объекта для дальнейшего взаимодействия с API Gemini.
 
@@ -204,13 +204,13 @@ def upload_file(file: str | Path | IOBase, file_name: Optional[str] = None) -> b
 ```python
 import asyncio
 from pathlib import Path
-from src.ai.gemini import GoogleGenerativeAI
+from src.ai.gemini import GoogleGenerativeAi
 from src import gs
 from src.utils.jjson import j_loads
 
 # Замените на свой ключ API
 system_instruction = "Ты - полезный ассистент. Отвечай на все вопросы кратко"
-ai = GoogleGenerativeAI(api_key=gs.credentials.gemini.api_key, system_instruction=system_instruction)
+ai = GoogleGenerativeAi(api_key=gs.credentials.gemini.api_key, system_instruction=system_instruction)
 
 async def main():
     # Пример вызова describe_image с промптом

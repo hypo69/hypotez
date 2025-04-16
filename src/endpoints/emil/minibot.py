@@ -23,7 +23,7 @@ import header
 from header import __root__
 from src import gs
 from src.logger import logger
-from src.llm.gemini import GoogleGenerativeAI
+from src.llm.gemini import GoogleGenerativeAi
 from src.endpoints.kazarinov.scenarios.scenario import fetch_target_urls_onetab, Scenario
 
 from src.utils.url import is_url
@@ -44,7 +44,7 @@ class BotHandler:
     def __init__(self):
         """Инициализация обработчика событий телеграм-бота."""
         self.scenario = Scenario()
-        self.model = GoogleGenerativeAI(os.getenv('GEMINI_API')) 
+        self.model = GoogleGenerativeAi(os.getenv('GEMINI_API')) 
         self.questions_list = ['Я не понял?', 'Объясни пожалуйста']
 
 

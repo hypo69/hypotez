@@ -76,7 +76,7 @@ from src import gs
 from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
 from src.webdriver.playwright import Playwrid
-from src.ai.gemini import GoogleGenerativeAI
+from src.ai.gemini import GoogleGenerativeAi
 from src.endpoints.kazarinov.report_generator.report_generator import ReportGenerator
 from src.endpoints.kazarinov.scenarios.quotation_builder import QuotationBuilder
 from src.endpoints.prestashop.product_fields.product_fields import ProductFields

@@ -57,7 +57,7 @@ import telebot
 import header
 from header import __root__
 from src import gs
-from src.ai.gemini import GoogleGenerativeAI
+from src.ai.gemini import GoogleGenerativeAi
 from src.endpoints.kazarinov.scenarios.scenario import Scenario, fetch_target_urls_onetab
 from src.logger import logger
 from src.utils.printer import pprint as print
@@ -113,7 +113,7 @@ class BotHandler:
     def __init__(self):
         """Инициализация обработчика событий телеграм-бота."""
         self.questions_list: List[str] = ['Я не понял?', 'Объясни пожалуйста']
-        self.model: GoogleGenerativeAI = GoogleGenerativeAI(os.getenv('GEMINI_API') if USE_ENV else gs.credentials.gemini.kazarinov)
+        self.model: GoogleGenerativeAi = GoogleGenerativeAi(os.getenv('GEMINI_API') if USE_ENV else gs.credentials.gemini.kazarinov)
 
     def handle_message(self, bot: telebot.TeleBot, message: 'telebot.types.Message') -> None:
         """

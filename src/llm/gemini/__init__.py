@@ -11,5 +11,7 @@
 """
 
 
+import header
 
-from .gemini import GoogleGenerativeAI
+
+from src.llm.gemini.gemini import GoogleGenerativeAi

@@ -38,7 +38,7 @@ from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
 from src.webdriver.playwright import Playwrid
 
-from src.llm.gemini import GoogleGenerativeAI
+from src.llm.gemini import GoogleGenerativeAi
 from src.endpoints.advertisement.facebook.scenarios import (
     post_message_title, upload_post_media, message_publish
 )
@@ -54,11 +54,10 @@ from src.utils.image import save_image_from_url_async, save_image
 from src.utils.printer import pprint as print
 from src.logger.logger import logger
 
-##############################################################
 
-ENDPOINT = 'kazarinov'
+class Config:
+    ENDPOINT:str = 'kazarinov'
 
-#############################################################
 
 class QuotationBuilder:
     """
@@ -70,10 +69,10 @@ class QuotationBuilder:
         products_list (List[dict]): Список обработанных данных о продуктах.
     """
     
-    base_path:Path = __root__ / 'src' / 'endpoints' / ENDPOINT
+    base_path:Path = __root__ / 'src' / 'endpoints' / Config.ENDPOINT
 
     try:
-        config: SimpleNamespace = j_loads_ns(base_path / f'{ENDPOINT}.json')
+        config: SimpleNamespace = j_loads_ns(base_path / f'{Config.ENDPOINT}.json')
     except Exception as ex:
         logger.error(f"Error loading configuration",ex)
 
@@ -89,7 +88,7 @@ class QuotationBuilder:
     price: float
     timestamp: str
     products_list: List = field(default_factory=list)
-    model: 'GoogleGenerativeAI'
+    model: 'GoogleGenerativeAi'
     translations: 'SimpleNamespace' =  j_loads_ns(base_path / 'translations' / 'mexiron.json')
 
     # Не все поля товара надо заполнять. Вот кортеж необходимых полей:
@@ -114,7 +113,7 @@ class QuotationBuilder:
         """
         self.mexiron_name = mexiron_name
         try:
-            self.export_path = gs.path.external_storage / ENDPOINT / 'mexironim' / self.mexiron_name
+            self.export_path = gs.path.external_storage / Config.ENDPOINT / 'mexironim' / self.mexiron_name
         except Exception as ex:
             logger.error(f"Error constructing export path:",ex)
             ...
@@ -122,6 +121,7 @@ class QuotationBuilder:
 
         # 1. Initialize webdriver
 
+        kwards['window_mode'] = kwards.get('window_mode', 'normal') # <- если не указано, то нормальный режим
         if driver:
 
            if isinstance(driver, Driver):
@@ -146,9 +146,9 @@ class QuotationBuilder:
         # 2. Initialize Gemini model
 
         try:
-            system_instruction:str = (gs.path.endpoints / ENDPOINT / 'instructions' / 'system_instruction_mexiron.md').read_text(encoding='UTF-8')
+            system_instruction:str = (gs.path.endpoints / Config.ENDPOINT / 'instructions' / 'system_instruction_mexiron.md').read_text(encoding='UTF-8')
             api_key:str = gs.credentials.gemini.kazarinov
-            self.model = GoogleGenerativeAI(
+            self.model = GoogleGenerativeAi(
                 api_key=api_key,
                 system_instruction=system_instruction,
                 generation_config={'response_mime_type': 'application/json'}
@@ -216,7 +216,7 @@ class QuotationBuilder:
             ...
             return {}  # return early if no attempts are left
 
-        model_command = Path(gs.path.endpoints / ENDPOINT / 'instructions' / f'command_instruction_mexiron_{lang}.md').read_text(encoding='UTF-8')
+        model_command = Path(gs.path.endpoints / Config.ENDPOINT / 'instructions' / f'command_instruction_mexiron_{lang}.md').read_text(encoding='UTF-8')
         # Request response from the AI model
         q = model_command + '\n' + str(products_list)
         response = self.model.ask(q)
@@ -256,7 +256,7 @@ class QuotationBuilder:
             ...
             return {}  # return early if no attempts are left
 
-        model_command = Path(gs.path.endpoints / ENDPOINT / 'instructions' / f'command_instruction_mexiron_{lang}.md').read_text(encoding='UTF-8')
+        model_command = Path(gs.path.endpoints / Config.ENDPOINT / 'instructions' / f'command_instruction_mexiron_{lang}.md').read_text(encoding='UTF-8')
         # Request response from the AI model
         q = model_command + '\n' + str(products_list)
 

@@ -2,7 +2,7 @@
 
 ## Обзор
 
-Класс `GoogleGenerativeAI` предназначен для взаимодействия с моделями Google Generative AI. Этот класс предоставляет методы для отправки запросов, обработки ответов, управления диалогами и интеграции с различными функциональностями ИИ. Он включает в себя надежную обработку ошибок, ведение журнала и настройки конфигурации для обеспечения беспрепятственной работы.
+Класс `GoogleGenerativeAi` предназначен для взаимодействия с моделями Google Generative AI. Этот класс предоставляет методы для отправки запросов, обработки ответов, управления диалогами и интеграции с различными функциональностями ИИ. Он включает в себя надежную обработку ошибок, ведение журнала и настройки конфигурации для обеспечения беспрепятственной работы.
 
 ## Подробнее
 
@@ -10,7 +10,7 @@
 
 ## Классы
 
-### `GoogleGenerativeAI`
+### `GoogleGenerativeAi`
 
 **Описание**: Класс для взаимодействия с моделями Google Generative AI.
 
@@ -21,7 +21,7 @@
 - `system_instruction` (Optional[str]): Системная инструкция для модели (по умолчанию `None`).
 
 **Методы**:
-- `__init__`: Инициализирует класс `GoogleGenerativeAI`.
+- `__init__`: Инициализирует класс `GoogleGenerativeAi`.
 - `config`: Получает конфигурацию из файла настроек.
 - `_start_chat`: Запускает сессию чата с моделью ИИ.
 - `_save_dialogue`: Сохраняет диалог в текстовые и JSON файлы.
@@ -31,7 +31,7 @@
 - `upload_file`: Загружает файл в модель ИИ.
 
 **Принцип работы**:
-Класс `GoogleGenerativeAI` предоставляет интерфейс для взаимодействия с моделями Google Generative AI. При инициализации класса задаются необходимые параметры, такие как API-ключ, имя модели и системные инструкции. Методы класса позволяют отправлять запросы, вести диалоги, описывать изображения и загружать файлы. Все взаимодействия ведутся в журнале и сохраняются для последующего анализа.
+Класс `GoogleGenerativeAi` предоставляет интерфейс для взаимодействия с моделями Google Generative AI. При инициализации класса задаются необходимые параметры, такие как API-ключ, имя модели и системные инструкции. Методы класса позволяют отправлять запросы, вести диалоги, описывать изображения и загружать файлы. Все взаимодействия ведутся в журнале и сохраняются для последующего анализа.
 
 ## Методы класса
 
@@ -41,7 +41,7 @@
 def __init__(self, api_key: str, model_name: Optional[str] = None, generation_config: Optional[Dict] = None, system_instruction: Optional[str] = None, **kwargs)
 ```
 
-**Назначение**: Инициализирует экземпляр класса `GoogleGenerativeAI`.
+**Назначение**: Инициализирует экземпляр класса `GoogleGenerativeAi`.
 
 **Параметры**:
 - `api_key` (str): Ключ API для доступа к сервисам Google Generative AI.
@@ -53,7 +53,7 @@ def __init__(self, api_key: str, model_name: Optional[str] = None, generation_co
 **Примеры**:
 
 ```python
-ai = GoogleGenerativeAI(api_key="your_api_key", system_instruction="Instruction")
+ai = GoogleGenerativeAi(api_key="your_api_key", system_instruction="Instruction")
 ```
 
 ### `config`
@@ -70,7 +70,7 @@ def config()
 **Примеры**:
 
 ```python
-config_data = GoogleGenerativeAI.config()
+config_data = GoogleGenerativeAi.config()
 ```
 
 ### `_start_chat`
@@ -210,12 +210,12 @@ print(success)
 ## Примеры
 
 ```python
-ai = GoogleGenerativeAI(api_key="your_api_key", system_instruction="Instruction")
+ai = GoogleGenerativeAi(api_key="your_api_key", system_instruction="Instruction")
 response = ai.ask("Как дела?")
 print(response)
 ```
 ```python
-config_data = GoogleGenerativeAI.config()
+config_data = GoogleGenerativeAi.config()
 ```
 ```python
 dialogue = ["Привет", "Как дела?"]

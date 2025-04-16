@@ -91,7 +91,7 @@ import header
 from header import __root__
 from src import gs
 from src.utils.jjson import j_loads, j_loads_ns
-from src.ai.gemini import GoogleGenerativeAI
+from src.ai.gemini import GoogleGenerativeAi
 from src.ai.openai import OpenAIModel
 from src.utils.path import get_relative_path
 from src.logger.logger import logger
@@ -158,7 +158,7 @@ class CodeAssistant:
 
     role: str
     lang: str
-    gemini: 'GoogleGenerativeAI'
+    gemini: 'GoogleGenerativeAi'
     openai: 'OpenAIModel'
 
     def __init__(
@@ -216,7 +216,7 @@ class CodeAssistant:
                     for k, v in kwards.items()
                     if k not in ('model_name', 'api_key', 'generation_config', 'system_instruction')
                 }
-                self.gemini = GoogleGenerativeAI(
+                self.gemini = GoogleGenerativeAi(
                     model_name=kwards.get('model_name', Config.gemini.model_name),
                     api_key=kwards.get('api_key', Config.gemini.api_key),
                     system_instruction=kwards.get('system_instruction', Config.system_instruction),

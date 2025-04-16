@@ -73,7 +73,7 @@ flowchart TD
     A --> D[<code>header.py</code><br>Determine Project Root]
     A --> E[<code>src</code><br>Global Settings]
     A --> F[<code>logger</code><br>Logging]
-    A --> G[<code>src.ai.gemini.gemini</code><br>GoogleGenerativeAI]
+    A --> G[<code>src.ai.gemini.gemini</code><br>GoogleGenerativeAi]
     A --> H[<code>src.utils.jjson</code><br>j_dumps, j_loads_ns, j_loads]
     D --> E
 
@@ -95,7 +95,7 @@ flowchart TD
         ```
 - **`src`**: Содержит глобальные настройки (`gs`).
 - **`logger`**: Модуль для логирования событий и ошибок.
-- **`src.ai.gemini.gemini`**: Класс `GoogleGenerativeAI`, используемый для взаимодействия с моделью Gemini.
+- **`src.ai.gemini.gemini`**: Класс `GoogleGenerativeAi`, используемый для взаимодействия с моделью Gemini.
 - **`src.utils.jjson`**: Модуль, содержащий функции `j_dumps`, `j_loads_ns` и `j_loads` для работы с JSON.
 
 ---
@@ -111,14 +111,14 @@ flowchart TD
     - `gs`: Объект, содержащий глобальные настройки, такие как пути к директориям и учетные данные.
 - `src.logger.logger`: Модуль для логирования событий и ошибок.
     - `logger`: Объект логгера, используемый для записи информации о работе скрипта.
-- `src.ai.gemini.gemini`: Модуль, содержащий класс `GoogleGenerativeAI` для взаимодействия с моделью Gemini.
+- `src.ai.gemini.gemini`: Модуль, содержащий класс `GoogleGenerativeAi` для взаимодействия с моделью Gemini.
 - `src.utils.jjson`: Модуль, содержащий функции `j_dumps`, `j_loads_ns` и `j_loads` для работы с JSON.
     - `j_dumps`: Функция для сериализации Python-объектов в JSON-строку и записи в файл.
     - `j_loads_ns`: Функция для чтения JSON-файла с использованием namespaces.
     - `j_loads`: Функция для чтения JSON-файла.
 
 #### **Классы**:
-- `GoogleGenerativeAI`: Класс, инкапсулирующий логику взаимодействия с моделью Gemini.
+- `GoogleGenerativeAi`: Класс, инкапсулирующий логику взаимодействия с моделью Gemini.
     - *Атрибуты*:
         - `api_key`: Ключ API для доступа к сервисам Gemini.
         - `system_instruction`: Системная инструкция для модели.
@@ -152,7 +152,7 @@ flowchart TD
 - `command_instruction_ru (str)`: Инструкция на русском языке для модели, загруженная из файла.
 - `command_instruction_he (str)`: Инструкция на иврите для модели, загруженная из файла.
 - `api_key (str)`: Ключ API для доступа к сервисам Gemini.
-- `model (GoogleGenerativeAI)`: Экземпляр класса `GoogleGenerativeAI` для взаимодействия с моделью.
+- `model (GoogleGenerativeAi)`: Экземпляр класса `GoogleGenerativeAi` для взаимодействия с моделью.
 - `q_ru (str)`: Полный запрос на русском языке, включающий инструкцию и список продуктов.
 - `q_he (str)`: Полный запрос на иврите, включающий инструкцию и список продуктов.
 - `response_ru_dict (dict)`: Ответ от модели на русском языке в виде словаря.
@@ -168,6 +168,6 @@ flowchart TD
 #### **Взаимосвязи с другими частями проекта**:
 - Модуль использует глобальные настройки из пакета `src` (`gs`).
 - Модуль использует модуль логирования из пакета `src` (`logger`).
-- Модуль использует класс `GoogleGenerativeAI` из пакета `src.ai.gemini.gemini`.
+- Модуль использует класс `GoogleGenerativeAi` из пакета `src.ai.gemini.gemini`.
 - Модуль использует функции `j_dumps`, `j_loads_ns` и `j_loads` из пакета `src.utils.jjson`.
 - Пути к файлам и директориям определяются на основе глобальных настроек.

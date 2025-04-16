@@ -90,7 +90,7 @@ load_dotenv()
 
 from src import gs
 from src.logger import logger
-from src.ai.gemini import GoogleGenerativeAI
+from src.ai.gemini import GoogleGenerativeAi
 from src.endpoints.kazarinov.scenarios.scenario import fetch_target_urls_onetab, Scenario
 from src.utils.url import is_url
 
@@ -109,7 +109,7 @@ class BotHandler:
     def __init__(self) -> None:
         """Инициализация обработчика событий телеграм-бота."""
         self.scenario: Scenario = Scenario()
-        self.model: GoogleGenerativeAI = GoogleGenerativeAI(os.getenv('GEMINI_API'))
+        self.model: GoogleGenerativeAi = GoogleGenerativeAi(os.getenv('GEMINI_API'))
         self.questions_list: list[str] = ['Я не понял?', 'Объясни пожалуйста']
 
     def handle_message(self, bot: telebot.TeleBot, message: 'telebot.types.Message') -> None:

@@ -180,11 +180,11 @@ graph LR
     B --> C{Получение пути к файлу system_instruction.txt};
     C --> D{Чтение содержимого файла system_instruction.txt};
     D --> E{Инициализация OpenAIModel с system_instruction};
-    E --> F{Инициализация GoogleGenerativeAI с system_instruction};
+    E --> F{Инициализация GoogleGenerativeAi с system_instruction};
     F --> G{Цикл по каждому файлу из списка product_titles_files};
     G --> H{Чтение содержимого текущего файла product_titles};
     H --> I{Отправка product_titles в OpenAIModel для получения ответа};
-    I --> J{Отправка product_titles в GoogleGenerativeAI для получения ответа};
+    I --> J{Отправка product_titles в GoogleGenerativeAi для получения ответа};
     J --> K[Обработка ответов OpenAI и Gemini];
     K --> L{Конец цикла};
     L --> M[Конец];
@@ -203,7 +203,7 @@ flowchart TD
     Start --> A[<code>header.py</code><br> Determine Project Root]
     A --> B[Import Global Settings: <br><code>from src import gs</code>] 
     B --> C[<code>src.ai</code><br> OpenAIModel]
-    B --> D[<code>src.ai</code><br> GoogleGenerativeAI]
+    B --> D[<code>src.ai</code><br> GoogleGenerativeAi]
     B --> E[<code>src.utils.file</code><br> recursively_get_filenames]
     B --> F[<code>src.utils.file</code><br> read_text_file]
     B --> G[<code>src.utils.convertors</code><br> csv2json_csv2dict]
@@ -224,7 +224,7 @@ flowchart TD
 
 -   `header`: Предположительно, определяет корень проекта. Подробности о `header.py` будут ниже.
 -   `from src import gs`: Импортирует глобальные настройки (`gs`) из пакета `src`. Эти настройки могут включать пути к директориям и другие глобальные параметры.
--   `from src.ai import OpenAIModel, GoogleGenerativeAI`: Импортирует классы `OpenAIModel` и `GoogleGenerativeAI` из модуля `src.ai`. Эти классы, вероятно, являются обертками для взаимодействия с моделями OpenAI и Gemini соответственно.
+-   `from src.ai import OpenAIModel, GoogleGenerativeAi`: Импортирует классы `OpenAIModel` и `GoogleGenerativeAi` из модуля `src.ai`. Эти классы, вероятно, являются обертками для взаимодействия с моделями OpenAI и Gemini соответственно.
 -   `from src.utils.file import recursively_get_filenames, read_text_file`: Импортирует функции `recursively_get_filenames` и `read_text_file` из модуля `src.utils.file`. Первая рекурсивно ищет файлы с заданным именем в директории, вторая читает содержимое текстового файла.
 -   `from src.utils.convertors import csv2json_csv2dict`: Импортирует функцию `csv2json_csv2dict` из модуля `src.utils.convertors`. Вероятно, эта функция преобразует CSV-данные в JSON или словарь.
 -   `from src.utils.printer import pprint`: Импортирует функцию `pprint` из модуля `src.utils.printer`. Эта функция используется для "pretty printing" (красивого вывода) данных.
@@ -235,7 +235,7 @@ flowchart TD
 -   `system_instruction_path`: Путь к файлу `system_instruction.txt`, содержащему инструкции для моделей OpenAI и Gemini.
 -   `system_instruction: str`: Содержимое файла `system_instruction.txt`, считанное с помощью `read_text_file`.
 -   `openai`: Экземпляр класса `OpenAIModel`, инициализированный с инструкциями из `system_instruction`.
--   `gemini`: Экземпляр класса `GoogleGenerativeAI`, инициализированный с инструкциями из `system_instruction`.
+-   `gemini`: Экземпляр класса `GoogleGenerativeAi`, инициализированный с инструкциями из `system_instruction`.
 -   `file`: Переменная цикла, представляющая текущий файл `product_titles.txt`.
 -   `product_titles`: Содержимое текущего файла `product_titles.txt`, считанное с помощью `read_text_file`.
 -   `response_openai`: Ответ, полученный от модели OpenAI.
@@ -259,7 +259,7 @@ flowchart TD
 **Взаимосвязи с другими частями проекта:**
 
 -   Этот скрипт использует глобальные настройки из `src.gs`, что позволяет ему получать доступ к путям к директориям и другим параметрам конфигурации.
--   Он использует модули `OpenAIModel` и `GoogleGenerativeAI` из `src.ai` для взаимодействия с соответствующими моделями.
+-   Он использует модули `OpenAIModel` и `GoogleGenerativeAi` из `src.ai` для взаимодействия с соответствующими моделями.
 -   Он использует утилиты из `src.utils.file` для работы с файлами и `src.utils.printer` для форматированного вывода данных.
 
 ```mermaid

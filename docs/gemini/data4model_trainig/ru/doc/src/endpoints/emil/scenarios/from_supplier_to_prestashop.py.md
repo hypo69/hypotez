@@ -22,7 +22,7 @@
 - `price (float)`: Цена товара.
 - `timestamp (str)`: Временная метка.
 - `products_list (list)`: Список обработанных данных о продуктах.
-- `model (GoogleGenerativeAI)`: Модель Google Gemini для обработки текста.
+- `model (GoogleGenerativeAi)`: Модель Google Gemini для обработки текста.
 - `config (SimpleNamespace)`: Конфигурация модуля, загружаемая из JSON.
 - `local_images_path (Path)`: Путь для хранения локальных изображений товаров.
 - `lang (str)`: Язык, используемый в модуле.
@@ -114,7 +114,7 @@ def initialise_ai_model(self):
 
 1. Формирует путь к файлу с системными инструкциями для модели Gemini.
 2. Считывает содержимое файла инструкций.
-3. Создает экземпляр класса `GoogleGenerativeAI` с использованием API ключа, системных инструкций и конфигурации генерации.
+3. Создает экземпляр класса `GoogleGenerativeAi` с использованием API ключа, системных инструкций и конфигурации генерации.
 4. В случае ошибки логирует ее и возвращает `None`.
 
 **Параметры**:
@@ -123,7 +123,7 @@ def initialise_ai_model(self):
 
 **Возвращает**:
 
-- `GoogleGenerativeAI`: Инициализированный экземпляр модели `GoogleGenerativeAI`.
+- `GoogleGenerativeAi`: Инициализированный экземпляр модели `GoogleGenerativeAi`.
 - `None`: В случае ошибки.
 
 **Примеры**:

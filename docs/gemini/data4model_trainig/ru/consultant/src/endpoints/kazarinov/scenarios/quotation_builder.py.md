@@ -101,7 +101,7 @@ from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
 from src.webdriver.playwright import Playwrid
 
-from src.ai.gemini import GoogleGenerativeAI
+from src.ai.gemini import GoogleGenerativeAi
 from src.endpoints.advertisement.facebook.scenarios import (
     post_message_title, upload_post_media, message_publish
 )
@@ -152,7 +152,7 @@ class QuotationBuilder:
     price: float
     timestamp: str
     products_list: List[dict] = field(default_factory=list)
-    model: 'GoogleGenerativeAI'
+    model: 'GoogleGenerativeAi'
     translations: 'SimpleNamespace' =  j_loads_ns(base_path / 'translations' / 'mexiron.json')
 
     # Не все поля товара надо заполнять. Вот кортеж необходимых полей:
@@ -210,7 +210,7 @@ class QuotationBuilder:
         try:
             system_instruction: str = (gs.path.endpoints / ENDPOINT / 'instructions' / 'system_instruction_mexiron.md').read_text(encoding='UTF-8')
             api_key: str = gs.credentials.gemini.kazarinov
-            self.model: GoogleGenerativeAI = GoogleGenerativeAI(
+            self.model: GoogleGenerativeAi = GoogleGenerativeAi(
                 api_key=api_key,
                 system_instruction=system_instruction,
                 generation_config={'response_mime_type': 'application/json'}

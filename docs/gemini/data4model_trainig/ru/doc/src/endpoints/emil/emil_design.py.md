@@ -29,7 +29,7 @@
 **Описание**: Класс `EmilDesign` предназначен для описания изображений с использованием моделей AI (Gemini и OpenAI), продвижения этих изображений в Facebook и загрузки информации о продуктах в PrestaShop.
 
 **Атрибуты**:
-- `gemini` (Optional[GoogleGenerativeAI]): Экземпляр класса `GoogleGenerativeAI` для работы с моделью Gemini.
+- `gemini` (Optional[GoogleGenerativeAi]): Экземпляр класса `GoogleGenerativeAi` для работы с моделью Gemini.
 - `openai` (Optional[OpenAIModel]): Экземпляр класса `OpenAIModel` для работы с моделью OpenAI.
 - `base_path` (Path): Путь к базовой директории модуля, используется для хранения конфигурационных файлов и инструкций.
 - `config` (SimpleNamespace): Конфигурация, загруженная из JSON-файла.

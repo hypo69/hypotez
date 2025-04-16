@@ -71,7 +71,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 
 from src import gs
 from src.ai.openai import OpenAIModel
-from src.ai.gemini import GoogleGenerativeAI
+from src.ai.gemini import GoogleGenerativeAi
 from src.endpoints.bots.telegram import TelegramBot
 from src.logger.logger import logger
 
@@ -79,7 +79,7 @@ from src.logger.logger import logger
 class OnelaBot(TelegramBot):
     """Взаимодействие с моделью ассистента программиста."""
 
-    model: GoogleGenerativeAI = GoogleGenerativeAI(
+    model: GoogleGenerativeAi = GoogleGenerativeAi(
         api_key=gs.credentials.gemini.onela,
         generation_config={'response_mime_type': 'text/plain'}
     )

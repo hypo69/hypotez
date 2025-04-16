@@ -80,7 +80,7 @@ async def chat(request: ChatRequest):
 **Как работает функция**:
 
 1.  Принимает объект `ChatRequest`, содержащий сообщение пользователя.
-2.  Использует глобальную переменную `model` (экземпляр `GoogleGenerativeAI`) для генерации ответа на сообщение.
+2.  Использует глобальную переменную `model` (экземпляр `GoogleGenerativeAi`) для генерации ответа на сообщение.
 3.  Возвращает словарь, содержащий ответ от модели Gemini.
 4.  В случае ошибки логирует её с использованием `logger.error` и выбрасывает `HTTPException` с кодом состояния 500 и детальным сообщением об ошибке.
 
@@ -105,10 +105,10 @@ system_instruction: str = Path('instructions', 'system_instruction.md').read_tex
 ### `model`
 
 ```python
-model: GoogleGenerativeAI = GoogleGenerativeAI(api_key = gs.credentials.gemini.api_key, 
+model: GoogleGenerativeAi = GoogleGenerativeAi(api_key = gs.credentials.gemini.api_key, 
                                                model_name = gs.credentials.gemini.model_name, 
                                                system_instruction = system_instruction)
 ```
 
-**Описание**: Экземпляр класса `GoogleGenerativeAI`, используемый для взаимодействия с моделью Gemini.
+**Описание**: Экземпляр класса `GoogleGenerativeAi`, используемый для взаимодействия с моделью Gemini.
 Инициализируется с использованием API-ключа, имени модели и системной инструкции, полученных из конфигурации `gs.credentials.gemini`.

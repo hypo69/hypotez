@@ -76,7 +76,7 @@ print(config.MODE)
 **Атрибуты**:
 - `base_dir` (Path): Базовая директория модуля.
 - `questions_list` (List[str]): Список вопросов для обработки команды `--next`.
-- `model` (GoogleGenerativeAI): Инстанс модели Google Gemini для обработки текста.
+- `model` (GoogleGenerativeAi): Инстанс модели Google Gemini для обработки текста.
 - `scenario` (Scenario): Сценарий выполнения действий (например, парсинг URL).
 
 **Методы**:

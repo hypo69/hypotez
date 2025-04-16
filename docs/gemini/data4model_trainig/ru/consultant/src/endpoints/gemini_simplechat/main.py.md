@@ -60,7 +60,7 @@ import uvicorn
 import header
 from header import __root__
 from src import gs
-from src.ai import GoogleGenerativeAI
+from src.ai import GoogleGenerativeAi
 from src.utils.jjson import j_loads_ns
 from src.logger import logger
 
@@ -82,7 +82,7 @@ class ChatRequest(BaseModel):
 
 
 system_instruction: str = ( __root__ / Path('instructions', 'system_instruction.md')).read_text(encoding='UTF-8')
-model: GoogleGenerativeAI = GoogleGenerativeAI(api_key = gs.credentials.gemini.api_key, 
+model: GoogleGenerativeAi = GoogleGenerativeAi(api_key = gs.credentials.gemini.api_key, 
                                                model_name = gs.credentials.gemini.model_name, 
                                                system_instruction = system_instruction)
 

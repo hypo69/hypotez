@@ -224,7 +224,7 @@ graph LR
 ```mermaid
 graph TD
     A[CodeAssistant] --> B(Config)
-    A --> C(GoogleGenerativeAI)
+    A --> C(GoogleGenerativeAi)
     A --> D(OpenAIModel)
     A --> E(logger)
     A --> F(j_loads_ns)
@@ -260,14 +260,14 @@ graph TD
 **Объяснение зависимостей:**
 
 -   `CodeAssistant` зависит от `Config` для получения настроек и конфигураций.
--   `CodeAssistant` использует `GoogleGenerativeAI` и `OpenAIModel` для взаимодействия с моделями ИИ.
+-   `CodeAssistant` использует `GoogleGenerativeAi` и `OpenAIModel` для взаимодействия с моделями ИИ.
 -   `CodeAssistant` использует `logger` для логирования информации, ошибок и предупреждений.
 -   `CodeAssistant` использует `j_loads_ns` для загрузки конфигурации из JSON файлов в виде `SimpleNamespace`.
 -   `CodeAssistant` использует `get_relative_path` для получения относительного пути к файлу в проекте.
 -   `CodeAssistant` использует `make_summary` для создания сводки документации.
 -   `Config` зависит от `__root__` (определенной в `header.py`) для определения корневого каталога проекта.
 -   `Config` использует `j_loads_ns` для загрузки конфигурации из `code_assistant.json`.
--   `GoogleGenerativeAI` зависит от параметров модели и API ключа, полученных из `Config`.
+-   `GoogleGenerativeAi` зависит от параметров модели и API ключа, полученных из `Config`.
 -   `make_summary` использует `Path` для работы с путями к файлам и директориям.
 -   `logger` использует модуль `logging` для выполнения операций логирования.
 -   `j_loads_ns` использует модули `json` и `os` для работы с JSON и переменными окружения.
@@ -298,7 +298,7 @@ flowchart TD
 -   `header`: Содержит определение корневого каталога проекта `__root__`.
 -   `src.gs`: Содержит глобальные настройки проекта.
 -   `src.utils.jjson.j_loads, j_loads_ns`: Функции для загрузки JSON файлов.
--   `src.ai.gemini.GoogleGenerativeAI`: Класс для взаимодействия с моделью Gemini.
+-   `src.ai.gemini.GoogleGenerativeAi`: Класс для взаимодействия с моделью Gemini.
 -   `src.ai.openai.OpenAIModel`: Класс для взаимодействия с моделью OpenAI.
 -   `src.utils.path.get_relative_path`: Функция для получения относительного пути к файлу.
 -   `src.logger.logger.logger`: Объект для логирования событий.
@@ -336,7 +336,7 @@ flowchart TD
     -   **Атрибуты**:
         -   `role`: Роль для выполнения задачи.
         -   `lang`: Язык выполнения.
-        -   `gemini`: Экземпляр класса `GoogleGenerativeAI`.
+        -   `gemini`: Экземпляр класса `GoogleGenerativeAi`.
         -   `openai`: Экземпляр класса `OpenAIModel`.
     -   **Методы**:
         -   `__init__(self, role, lang, models_list, system_instruction, \*\*kwards)`: Инициализация ассистента с заданными параметрами.
@@ -349,7 +349,7 @@ flowchart TD
         -   `_remove_outer_quotes(self, response)`: Удаление внешних кавычек в начале и в конце строки.
         -   `run(self, start_from_file)`: Запуск процесса обработки файлов.
         -   `_signal_handler(self, signal, frame)`: Обработка прерывания выполнения.
-    -   **Взаимодействие**: Использует классы `GoogleGenerativeAI` и `OpenAIModel` для взаимодействия с моделями ИИ, `Config` для получения настроек, `logger` для логирования.
+    -   **Взаимодействие**: Использует классы `GoogleGenerativeAi` и `OpenAIModel` для взаимодействия с моделями ИИ, `Config` для получения настроек, `logger` для логирования.
 
 **Функции:**
 
@@ -393,7 +393,7 @@ flowchart TD
 1.  `header.py` определяет корневой каталог проекта `__root__`, который используется в `Config` для определения путей к файлам конфигурации.
 2.  `src.gs` содержит глобальные настройки проекта, которые используются в `Config` для получения значений по умолчанию.
 3.  `src.utils.jjson.j_loads` и `j_loads_ns` используются для загрузки конфигурации из JSON файлов.
-4.  `src.ai.gemini.GoogleGenerativeAI` и `src.ai.openai.OpenAIModel` используются для взаимодействия с моделями ИИ.
+4.  `src.ai.gemini.GoogleGenerativeAi` и `src.ai.openai.OpenAIModel` используются для взаимодействия с моделями ИИ.
 5.  `src.utils.path.get_relative_path` используется для получения относительного пути к файлу в проекте.
 6.  `src.logger.logger.logger` используется для логирования событий.
 7.  `src.endpoints.hypo69.code_assistant.make_summary.make_summary` используется для создания сводки документации.

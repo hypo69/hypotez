@@ -59,7 +59,7 @@ from typing import List, Optional
 
 import header
 from src import gs
-from src.ai.gemini import GoogleGenerativeAI
+from src.ai.gemini import GoogleGenerativeAi
 from src.endpoints.advertisement.facebook.scenarios import (
     message_publish,
     post_message_title,
@@ -111,7 +111,7 @@ class SupplierToPrestashopProvider:
     price: float
     timestamp: str
     products_list: list
-    model: GoogleGenerativeAI
+    model: GoogleGenerativeAi
     config: SimpleNamespace
     local_images_path: Path = gs.path.external_storage / ENDPOINT / 'images' / 'furniture_images'
     lang: str
@@ -150,15 +150,15 @@ class SupplierToPrestashopProvider:
 
         self.timestamp: str = gs.now
         self.driver: Driver = driver if driver else Driver(Firefox)
-        self.model: GoogleGenerativeAI = self.initialise_ai_model()
+        self.model: GoogleGenerativeAi = self.initialise_ai_model()
 
-    def initialise_ai_model(self) -> GoogleGenerativeAI | None:
+    def initialise_ai_model(self) -> GoogleGenerativeAi | None:
         """Инициализация модели Gemini"""
         try:
             system_instruction: str = (
                 gs.path.endpoints / 'emil' / 'instructions' / f'system_instruction_mexiron.{self.lang}.md'
             ).read_text(encoding='UTF-8')
-            return GoogleGenerativeAI(
+            return GoogleGenerativeAi(
                 api_key=gs.credentials.gemini.emil,
                 system_instruction=system_instruction,
                 generation_config={'response_mime_type': 'application/json'},

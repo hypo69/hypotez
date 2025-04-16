@@ -106,7 +106,7 @@ def system_instruction(self):
 
 *   `role` (str): Роль для выполнения задачи.
 *   `lang` (str): Язык выполнения.
-*   `gemini` (GoogleGenerativeAI): Экземпляр класса `GoogleGenerativeAI` для взаимодействия с моделью Gemini.
+*   `gemini` (GoogleGenerativeAi): Экземпляр класса `GoogleGenerativeAi` для взаимодействия с моделью Gemini.
 *   `openai` (OpenAIModel): Экземпляр класса `OpenAIModel` для взаимодействия с моделью OpenAI.
 
 **Методы**:
@@ -195,7 +195,7 @@ def _initialize_models(self, models_list: list, response_mime_type: Optional[str
             }
 
             # Создание экземпляра модели Gemini
-            self.gemini = GoogleGenerativeAI(
+            self.gemini = GoogleGenerativeAi(
                 model_name=kwards.get('model_name', Config.gemini.model_name),  # Значение из kwards имеет приоритет,
                 api_key=kwards.get('api_key', Config.gemini.api_key),
                 system_instruction= kwards.get('system_instruction', Config.system_instruction),
@@ -227,7 +227,7 @@ def _initialize_models(self, models_list: list, response_mime_type: Optional[str
 **Как работает функция**:
 
 1.  Проверяет, есть ли модель `'gemini'` в списке моделей для инициализации.
-2.  Если модель `'gemini'` есть в списке, пытается инициализировать модель `GoogleGenerativeAI` с использованием параметров из `kwards` и `Config.gemini`.
+2.  Если модель `'gemini'` есть в списке, пытается инициализировать модель `GoogleGenerativeAi` с использованием параметров из `kwards` и `Config.gemini`.
 3.  В случае успешной инициализации возвращает `True`, в противном случае логирует ошибку и возвращает `False`.
 
 #### `send_file`

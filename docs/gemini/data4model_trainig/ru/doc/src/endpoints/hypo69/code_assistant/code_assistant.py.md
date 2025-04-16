@@ -42,7 +42,7 @@
 **Атрибуты**:
 - `role` (str): Роль, определяющая задачи, выполняемые ассистентом.
 - `lang` (str): Язык, на котором ассистент выполняет задачи.
-- `gemini` (GoogleGenerativeAI): Экземпляр класса `GoogleGenerativeAI` для взаимодействия с моделью Gemini.
+- `gemini` (GoogleGenerativeAi): Экземпляр класса `GoogleGenerativeAi` для взаимодействия с моделью Gemini.
 - `openai` (OpenAIModel): Экземпляр класса `OpenAIModel` для взаимодействия с моделью OpenAI.
 
 **Методы**:
@@ -116,7 +116,7 @@ def _initialize_models(self, models_list: list, response_mime_type: Optional[str
 
 **Как работает функция**:
 - Проверяет, есть ли `'gemini'` в списке моделей.
-- Если есть, пытается создать экземпляр класса `GoogleGenerativeAI` с использованием параметров из `kwards` и `Config.gemini`.
+- Если есть, пытается создать экземпляр класса `GoogleGenerativeAi` с использованием параметров из `kwards` и `Config.gemini`.
 - Логирует ошибки, если инициализация не удалась.
 
 **Примеры**:

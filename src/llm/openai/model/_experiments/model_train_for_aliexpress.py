@@ -42,7 +42,7 @@
 import header 
 
 from src import gs
-from src.llm import OpenAIModel, GoogleGenerativeAI
+from src.llm import OpenAIModel, GoogleGenerativeAi
 from src.utils.file import recursively_get_filenames, read_text_file
 from src.utils.convertors import csv2json_csv2dict
 from src.utils.printer import pprint
@@ -51,7 +51,7 @@ product_titles_files:list = recursively_get_filenames(gs.path.google_drive / 'al
 system_instruction_path = gs.path.src / 'ai' / 'prompts' / 'aliexpress_campaign' / 'system_instruction.txt'
 system_instruction: str = read_text_file(system_instruction_path)
 openai = OpenAIModel(system_instruction = system_instruction)
-gemini = GoogleGenerativeAI(system_instruction = system_instruction)
+gemini = GoogleGenerativeAi(system_instruction = system_instruction)
 for file in product_titles_files:
     ...
     product_titles = read_text_file(file)

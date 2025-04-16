@@ -22,7 +22,7 @@
 - `campaign_name` (str): Название кампании.
 - `campaign` (SimpleNamespace): Объект, представляющий данные кампании.
 - `campaign_ai` (SimpleNamespace): Объект, представляющий AI-сгенерированные данные кампании.
-- `gemini` (GoogleGenerativeAI): Объект для взаимодействия с моделью Google Gemini.
+- `gemini` (GoogleGenerativeAi): Объект для взаимодействия с моделью Google Gemini.
 - `openai` (OpenAIModel): Объект для взаимодействия с моделью OpenAI.
 
 **Методы**:
@@ -743,7 +743,7 @@ def generate_html_for_campaign(self, campaign_name: str):
 - `campaign_name` (str): Название кампании.
 - `campaign` (SimpleNamespace): Объект, представляющий кампанию.
 - `campaign_ai` (SimpleNamespace): Объект, представляющий AI-сгенерированные данные кампании.
-- `gemini` (GoogleGenerativeAI): Объект для взаимодействия с моделью Google Gemini.
+- `gemini` (GoogleGenerativeAi): Объект для взаимодействия с моделью Google Gemini.
 - `openai` (OpenAIModel): Объект для взаимодействия с моделью OpenAI.
 
 ## Примеры

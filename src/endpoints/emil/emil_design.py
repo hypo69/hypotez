@@ -34,7 +34,7 @@ from header import __root__
 from src import gs
 from src.webdriver.driver import Driver
 from src.webdriver.chrome import Chrome
-from src.llm.gemini import GoogleGenerativeAI
+from src.llm.gemini import GoogleGenerativeAi
 from src.llm.openai.model import OpenAIModel
 from src.endpoints.prestashop.product import PrestaProduct
 from src.endpoints.prestashop.language import PrestaLanguage
@@ -96,7 +96,7 @@ class Config:
 class EmilDesign:
     """Dataclass for designing and promoting images through various platforms."""
 
-    gemini: Optional[GoogleGenerativeAI] = None
+    gemini: Optional[GoogleGenerativeAi] = None
     openai: Optional[OpenAIModel] = None
     base_path: Path = gs.path.endpoints / Config.ENDPOINT
     config: SimpleNamespace = j_loads_ns(base_path / f'{Config.ENDPOINT}.json')
@@ -164,7 +164,7 @@ class EmilDesign:
 
             use_gemini: bool = True
             if use_gemini:
-                self.gemini = GoogleGenerativeAI(
+                self.gemini = GoogleGenerativeAi(
                     api_key=self.gemini_api,
                     model_name=models['gemini']['model_name'],
                     system_instruction=system_instruction,

@@ -239,7 +239,7 @@ flowchart TD
     Start --> H[from src.endpoints.prestashop.product import PrestaProduct]
     Start --> I[from src.webdriver.driver import Driver]
     Start --> J[from src.webdriver.firefox import Firefox]
-    Start --> K[from src.ai.gemini import GoogleGenerativeAI]
+    Start --> K[from src.ai.gemini import GoogleGenerativeAi]
     Start --> L[from src.endpoints.emil.report_generator import ReportGenerator]
     Start --> M[from src.endpoints.advertisement.facebook.scenarios import post_message_title, upload_post_media, message_publish]
     Start --> N[from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url]
@@ -349,7 +349,7 @@ flowchart TD
         -   `price`:  Цена продукта.
         -   `timestamp`:  Временная метка.
         -   `products_list`:  Список обработанных данных о продуктах.
-        -   `model`:  Экземпляр GoogleGenerativeAI.
+        -   `model`:  Экземпляр GoogleGenerativeAi.
         -   `config`:  Конфигурация, загруженная из JSON.
         -   `local_images_path`:  Путь для локального хранения изображений.
         -   `lang`:  Язык.

@@ -81,7 +81,7 @@ from src import gs
 from src.suppliers.suppliers_list.aliexpress import campaign
 from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
 from src.suppliers.suppliers_list.aliexpress.utils import locales
-from src.ai.gemini import GoogleGenerativeAI
+from src.ai.gemini import GoogleGenerativeAi
 from src.ai.openai import OpenAIModel
 from src.suppliers.suppliers_list.aliexpress.campaign.html_generators import (
     ProductHTMLGenerator,
@@ -112,7 +112,7 @@ class AliPromoCampaign:
     campaign_name: str = None
     campaign: SimpleNamespace = None
     campaign_ai: SimpleNamespace = None
-    gemini: GoogleGenerativeAI = None
+    gemini: GoogleGenerativeAi = None
     openai: OpenAIModel = None
 
     def __init__(
@@ -180,7 +180,7 @@ class AliPromoCampaign:
         system_instruction: str = read_text_file(system_instruction_path)
         #self.model = OpenAIModel(system_instruction=system_instruction,
         #                         assistant_id = gs.credentials.openai.assistant.category_descriptions)
-        self.gemini = GoogleGenerativeAI(system_instruction = system_instruction)
+        self.gemini = GoogleGenerativeAi(system_instruction = system_instruction)
         assistant_id: str = "asst_dr5AgQnhhhnef5OSMzQ9zdk9" # <-  задача asst_dr5AgQnhhhnef5OSMzQ9zdk9 создание категорий и описаний на основе списка названий товаров
         #self.openai = OpenAIModel(system_instruction = system_instruction, assistant_id = assistant_id)
 

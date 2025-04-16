@@ -44,14 +44,14 @@
 ----------------------
 
 >>> from src import gs
->>> from src.ai import OpenAIModel, GoogleGenerativeAI
+>>> from src.ai import OpenAIModel, GoogleGenerativeAi
 >>> from src.utils.file import recursively_get_filenames, read_text_file
 
 >>> product_titles_files = recursively_get_filenames(gs.path.google_drive / 'aliexpress' / 'campaigns', 'product_titles.txt')
 >>> system_instruction_path = gs.path.src / 'ai' / 'prompts' / 'aliexpress_campaign' / 'system_instruction.txt'
 >>> system_instruction = read_text_file(system_instruction_path)
 >>> openai = OpenAIModel(system_instruction=system_instruction)
->>> gemini = GoogleGenerativeAI(system_instruction=system_instruction)
+>>> gemini = GoogleGenerativeAi(system_instruction=system_instruction)
 
 >>> for file in product_titles_files:
 >>>     product_titles = read_text_file(file)
@@ -65,7 +65,7 @@ from pathlib import Path
 from typing import List
 
 from src import gs
-from src.ai import OpenAIModel, GoogleGenerativeAI
+from src.ai import OpenAIModel, GoogleGenerativeAi
 from src.utils.file import recursively_get_filenames, read_text_file
 from src.logger import logger  # Corrected import
 
@@ -79,7 +79,7 @@ except Exception as ex:
     system_instruction = ''
 
 openai = OpenAIModel(system_instruction=system_instruction)
-gemini = GoogleGenerativeAI(system_instruction=system_instruction)
+gemini = GoogleGenerativeAi(system_instruction=system_instruction)
 
 for file in product_titles_files:
     try:

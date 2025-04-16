@@ -7,13 +7,13 @@
 
 ## Overview
 
-The `GoogleGenerativeAI` class is designed to facilitate interaction with Google's Generative AI models. This class provides methods for sending queries, handling responses, managing dialogues, and integrating with various AI functionalities. It includes robust error handling, logging, and configuration options to ensure seamless operation.
+The `GoogleGenerativeAi` class is designed to facilitate interaction with Google's Generative AI models. This class provides methods for sending queries, handling responses, managing dialogues, and integrating with various AI functionalities. It includes robust error handling, logging, and configuration options to ensure seamless operation.
 
 ## Key Functions
 
 ### `__init__(self, api_key: str, model_name: Optional[str] = None, generation_config: Optional[Dict] = None, system_instruction: Optional[str] = None, **kwargs)`
 
-**Purpose**: Initializes the `GoogleGenerativeAI` class with the necessary configurations.
+**Purpose**: Initializes the `GoogleGenerativeAi` class with the necessary configurations.
 
 **Details**:
 - Sets up the API key, model name, generation configuration, and system instruction.
@@ -106,13 +106,13 @@ All interactions with the AI models are logged, and dialogues are saved in both 
 ## Usage Example
 
 ```python
-ai = GoogleGenerativeAI(api_key="your_api_key", system_instruction="Instruction")
+ai = GoogleGenerativeAi(api_key="your_api_key", system_instruction="Instruction")
 response = ai.ask("Как дела?")
 print(response)
 ```
 
-This example initializes the `GoogleGenerativeAI` class and sends a query to the AI model, printing the response.
+This example initializes the `GoogleGenerativeAi` class and sends a query to the AI model, printing the response.
 
 ---
 
-For more detailed information, refer to the source code and comments within the `GoogleGenerativeAI` class.
+For more detailed information, refer to the source code and comments within the `GoogleGenerativeAi` class.

@@ -34,7 +34,7 @@
 - `price` (float): Цена продукта.
 - `timestamp` (str): Временная метка.
 - `products_list` (List): Список обработанных данных о продуктах.
-- `model` (GoogleGenerativeAI): Экземпляр модели ИИ Google Gemini.
+- `model` (GoogleGenerativeAi): Экземпляр модели ИИ Google Gemini.
 - `translations` (SimpleNamespace): Переводы, загруженные из JSON-файла.
 - `required_fields` (tuple): Кортеж необходимых полей продукта.
 
@@ -85,7 +85,7 @@ def __init__(self, mexiron_name:Optional[str] = gs.now, driver:Optional[Firefox 
 3. **Инициализация модели Gemini**:
    - Читает системную инструкцию из файла.
    - Получает API-ключ для Gemini.
-   - Инициализирует модель `GoogleGenerativeAI` с API-ключом и системной инструкцией.
+   - Инициализирует модель `GoogleGenerativeAi` с API-ключом и системной инструкцией.
    - Если возникает ошибка при загрузке модели, инструкции или API-ключа, логирует ошибку и завершает работу.
 
 **Пример**:

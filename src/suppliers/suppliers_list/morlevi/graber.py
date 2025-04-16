@@ -37,6 +37,7 @@ class Graber(Grbr):
     def __init__(self, driver: Optional['Driver'] = None, lang_index:Optional[int] = None):
         """Инициализация класса сбора полей товара."""
         super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)
-        Config.locator_for_decorator = self.locator.close_pop_up 
+        Config.driver = self.driver
+        Config.locator_for_decorator = self.product_locator.close_pop_up 
 
    
