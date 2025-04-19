@@ -304,13 +304,21 @@ class SupplierToPrestashopProvider:
                 logger.error(f"PDF файл не найден или не является файлом: {pdf_file}")
                 return
 
+
+async def upload_redacted_images_from_emil():
+    """
+    На данный момент функция читает JSON со списком фотографий , которые были получены от Эмиля
+    """
+    lang = 'he'
+    products_ns = j_loads_ns(gs.path.external_storage / ENDPOINT / 'out_250108230345305_he.json')
+    suppier_to_presta = SupplierToPrestashopProvider(lang)
+    products_list:list = [f for f in products_ns]
+    await suppier_to_presta.save_in_prestashop(products_list)
+
 async def main():
-    """На данный момент функция читает JSON со списком фотографий , которые были получены от Эмиля"""    
-    # lang = 'he'
-    # products_ns = j_loads_ns(gs.path.external_storage / ENDPOINT / 'out_250108230345305_he.json')
-    # suppier_to_presta = SupplierToPrestashopProvider(lang)
-    # products_list:list = [f for f in products_ns]
-    # await suppier_to_presta.save_in_prestashop(products_list)
+    """
+    """
+    await upload_redacted_images_from_emil()
 
 
     

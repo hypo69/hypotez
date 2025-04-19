@@ -42,8 +42,7 @@ class Driver:
                     api_key=gs.credentials.openai.hypotez.api_key
                 )
 
-            task = f"""Открой https://chatgpt.com/, введи в окно ввода на странице chatgpt следующий текст:`Hello, world` 
-            и нажми кнопку отправки сообщения. когда модель вернет ответ и верни мне ответ модели"""
+            task = f""" Найди в интернете """
 
             agent = Agent(
                 task=task,
