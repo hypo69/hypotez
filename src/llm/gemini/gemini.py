@@ -46,12 +46,14 @@ from src.utils.date_time import TimeoutCheck
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.image import get_image_bytes
 from src.utils.string.ai_string_normalizer import normalize_answer
+from src.utils.printer import pprint as print
 from src.logger import logger
 
 timeout_check = TimeoutCheck()
 
 class Config:
-    ...
+    # Важно! эта модель используется для обучения на реальных данных!
+    MODEL_NAME = 'gemini-2.0-flash-exp'
 
 @dataclass
 class GoogleGenerativeAi:
@@ -99,6 +101,8 @@ class GoogleGenerativeAi:
             system_instruction=self.system_instruction
         )
         self._chat = self._start_chat()
+        logger.info(f"Модель {print(self.model.model_name , text_color='gray', bg_color='yellow')} инициализирована", None, False)
+        ...
 
     def normalize_answer(self, text:str) -> str:
         """Очистка вывода от 

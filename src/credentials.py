@@ -176,6 +176,7 @@ class ProgramSettings:
             src = Path(self.base_dir) / 'src', # <- тут весь код
             endpoints = Path(self.base_dir) / 'src' / 'endpoints', # <- тут все клиенты
             secrets = Path(self.base_dir / 'secrets'),  # <- это папка с паролями и базой данных ! Ей нельзя попадать в гит!!!
+
             toolbox = Path(self.base_dir / 'toolbox'), # <- служебные утилиты
             log = Path( getattr(self.config.path, 'log', self.base_dir / 'log')), 
             tmp = Path( getattr(self.config.path, 'tmp', self.base_dir / 'tmp')),
@@ -252,7 +253,7 @@ class ProgramSettings:
         while retry > 0:
             try:
                 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG ~~~~~~~ ⚠️ ФАЙЛ ПАРОЛЯ В ОТКРЫТОМ ВИДЕ ⚠️ ~~~~~~~~~~~~~~~~~~~~~~~
-                password:str = Path( self.path.secrets / 'password.txt').read_text(encoding="utf-8") or None
+                password:str = Path( self.path.google_drive / '..' / 'secrets' / 'password.txt').read_text(encoding="utf-8") or None
                 """password: содержит строку пароля в ⚠️ открытом ⚠️ виде. Можно удалить или сам файл или вытереть его содржимое """
                 
                 kp = PyKeePass(str(self.path.secrets / 'credentials.kdbx'), 

@@ -153,9 +153,6 @@ class Graber:
         Config.locator_for_decorator = None
         
 
-
-
-
     def yield_scenarios_for_supplier(self, supplier_prefix: str, scenarios_input: Optional[List[Dict[str, Any]] | Dict[str, Any]] = None) -> Generator[Dict[str, Any], None, None]:
         """
         Генератор, который выдает (yields) словари сценариев для поставщика.
@@ -436,13 +433,6 @@ class Graber:
         # --- Конец функции ---
 
 
-
-
-    async def error(self, field: str):
-        """Обработчик ошибок для полей."""
-        # Этот метод не используется в process_scenarios, оставлен как есть
-        logger.debug(f"Ошибка заполнения поля {field}")
-
     async def set_field_value(
         self,
         value: Any,
@@ -499,7 +489,11 @@ class Graber:
             ...
             return None
 
-
+    
+    async def error(self, field: str):
+        """Обработчик ошибок для полей."""
+        # Этот метод не используется в process_scenarios, оставлен как есть
+        logger.debug(f"Ошибка заполнения поля {field}")
 
 
     @close_pop_up()

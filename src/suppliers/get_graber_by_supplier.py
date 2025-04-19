@@ -29,7 +29,7 @@ Example usage
         # Handle the case where no grabber is found
         pass
 """
-
+from typing import Optional
 import header
 from src.suppliers.graber import Graber
 from src.suppliers.suppliers_list.aliexpress.graber import Graber as AliexpressGraber
@@ -115,3 +115,36 @@ def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index:int ) -> G
     logger.debug(f'No graber found for URL: {url}')
     ...
     return
+
+def get_graber_by_supplier_prefix(supplier_prefix: str) -> Optional[Graber] | bool:
+    """"""
+    ...
+
+    if supplier_prefix == 'aliexpress':
+        grabber = AliexpressGraber()
+    if supplier_prefix == 'amazon':
+        grabber = AmazonGraber()
+    if supplier_prefix == 'ebay':
+        grabber = EbayGraber()
+    if supplier_prefix == 'gearbest':
+        grabber = GearbestGraber()
+    if supplier_prefix == 'grandadvance':
+        grabber = GrandadvanceGraber()
+    if supplier_prefix == 'hb':
+        grabber = HBGraber()
+    if supplier_prefix == 'ivory':
+        grabber = IvoryGraber()
+    if supplier_prefix == 'ksp':
+        grabber = KspGraber()
+    if supplier_prefix == 'kualastyle':
+        grabber = KualaStyleGraber()
+    if supplier_prefix == 'morlevi':
+        grabber = MorleviGraber()
+    if supplier_prefix == 'visualdg':
+        grabber = VisualDGGraber()
+    if supplier_prefix == 'wallashop':
+        grabber = WallaShopGraber()
+    if supplier_prefix == 'wallmart':
+        grabber = WallmartGraber()
+
+    return grabber or False

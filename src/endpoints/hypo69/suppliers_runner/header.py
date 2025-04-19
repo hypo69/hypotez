@@ -1,9 +1,9 @@
-## \file /src/endpoints/hypo69/header.py
+## \file /src/endpoints/hypo69/suppliers_runner.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
 """
-.. module:: src.endpoints.hypo69 
+.. module:: src.endpoints.hypo69.suppliers_runner 
 	:platform: Windows, Unix
 	:synopsis:
 

@@ -1,6 +1,5 @@
 ## \file /src/endpoints/emil/scenarios/from_supplier_to_prestashop.py
 # -*- coding: utf-8 -*-\
-
 #! .pyenv/bin/python3
 
 """
@@ -126,7 +125,7 @@ class SupplierToPrestashopProvider:
             logger.error(f"Error loading instructions", ex)
             return
 
-    async def run_scenarios(
+    async def process_graber(
         self, 
         urls: list[str],
         price: Optional[str] = '', 
@@ -176,7 +175,7 @@ class SupplierToPrestashopProvider:
                 #scenarios_files_list:list =  recursively_get_file_path(__root__ / 'src' / 'suppliers' / 'suppliers_list' / graber.supplier_prefix / 'scenarios', '.json')
                 # f = await graber.grab_page(*required_fields)
 
-                graber.run_scenarios('hb')
+                graber.process_graber('hb')
                 ...
 
             except Exception as ex:
@@ -201,6 +200,12 @@ class SupplierToPrestashopProvider:
                 continue
             products_list.append(product_data)    
 
+    async def process_scenarios(self, suppliers_prefixes:Optional[str] = '') -> bool:
+        """"""
+        ...
+        suppliers_prefixes = suppliers_prefixes if isinstance(suppliers_prefixes, list) else [suppliers_prefixes] if isinstance(supplier_prefix, str) else []
+
+        
     async def save_product_data(self, product_data: dict):
         """
         Saves individual product data to a file.

@@ -32,6 +32,8 @@ from header import __root__
 
 # External modules
 from src import gs
+from src.suppliers.suppliers_list import *
+from src.suppliers.get_graber_by_supplier  import get_graber_by_supplier_prefix, get_graber_by_supplier_url
 from src.webdriver.driver import Driver
 from src.webdriver.chrome import Chrome
 from src.llm.gemini import GoogleGenerativeAi
@@ -92,6 +94,8 @@ class Config:
         API_DOMAIN = gs.credentials.presta.client.dev_emil_design.api_domain
         API_KEY = gs.credentials.presta.client.dev_emil_design.api_key
 
+    suppliers:list= j_loads(__root__ / 'src' / 'endpoints' / 'emil' / 'emil.json')['suppliers'] 
+
 
 class EmilDesign:
     """Dataclass for designing and promoting images through various platforms."""
@@ -100,10 +104,39 @@ class EmilDesign:
     openai: Optional[OpenAIModel] = None
     base_path: Path = gs.path.endpoints / Config.ENDPOINT
     config: SimpleNamespace = j_loads_ns(base_path / f'{Config.ENDPOINT}.json')
-    data_path: Path = getattr(gs.path, config.storage, 'external_storage') / Config.ENDPOINT
+    data_path: Path = Path(gs.path.external_storage, Config.ENDPOINT) 
     gemini_api: str = os.getenv('GEMINI_API') if USE_ENV else gs.credentials.gemini.emil
     presta_api: str = os.getenv('PRESTA_API') if USE_ENV else gs.credentials.presta.client.emil_design.api_key
     presta_domain: str = os.getenv('PRESTA_URL') if USE_ENV else gs.credentials.presta.client.emil_design.api_domain
+
+
+    async def process_suppliers(self, supplier_prefix: Optional[str | List[str, str]] = '') -> bool:
+        """
+        Process suppliers based on the provided prefix.
+        Args:
+            supplier_prefix (Optional[str | List[str, str]], optional): Prefix for suppliers. Defaults to ''.
+        Returns:
+            bool: True if processing is successful, False otherwise.
+        Raises:
+            Exception: If any error occurs during supplier processing.
+        """
+        try:
+            if supplier_prefix:
+                supplier_prefix = supplier_prefix if isinstance(supplier_prefix, list) else [supplier_prefix]
+            else:
+                supplier_prefix = Config.suppliers
+
+            for prefix in supplier_prefix:
+                graber: 'Graber' = get_graber_by_supplier_prefix(prefix)
+                if not graber:
+                    logger.warning(f'No grabber found for prefix: {prefix}')
+                    continue
+                await graber.process_scenarios_async()
+                logger.info(f'Processing supplier with prefix: {prefix}')
+                graber.process_supplier_scenarios_async()
+        except Exception as ex:
+            logger.error(f'Error while processing suppliers: {ex}', exc_info=True)
+            return False
 
     def describe_images(
         self,
@@ -292,6 +325,8 @@ class EmilDesign:
 
 if __name__ == '__main__':
     emil = EmilDesign()
-    emil.upload_described_products_to_prestashop(id_lang = 2)
+    asyncio.run(emil.process_suppliers())
+    # emil.describe_images(lang='he')
+    # emil.upload_described_products_to_prestashop(id_lang = 2)
     # asyncio.run(emil.upload_described_products_to_prestashop_async(lang='he'))
     # emil.describe_images('he')

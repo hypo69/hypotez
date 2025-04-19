@@ -95,7 +95,7 @@ class Config:
 
 
     gemini: SimpleNamespace = SimpleNamespace(**{
-        'model_name': os.getenv('GEMINI_MODEL') if USE_ENV else config.gemini_model_name or None,
+        'model_name': os.getenv('GEMINI_MODEL') if USE_ENV else config.gemini_model_name or None,  
         'api_key': os.getenv('GEMINI_API_KEY') if USE_ENV else gs.credentials.gemini.onela or None,
         'response_mime_type': 'text/plain',
     })
