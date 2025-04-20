@@ -38,7 +38,7 @@ from src.utils.file import read_text_file, save_text_file, get_filenames_from_di
 from src.utils.printer import pprint as print
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.image import get_image_bytes, get_raw_image_data
-from src.utils.string import string_for_train
+from src.utils.string.ai_string_utils import normalize_answer, string_for_train
 from src.logger.logger import logger
 
 class Config:
@@ -86,13 +86,12 @@ class Config:
           }
         }
 
-    scenarios_list:list = [scenario_hb,
-                           scenario_etzmaleh,
-                           scenario_amazon,
-                           scenario_aliexpress,]
+    scenarios_list:list = [scenario_hb,]
 
 async def process_scenarios(driver:Driver, scenarios_list:List[dict]) -> bool:
     """Исполняет сценарии для сбора товаров от поставщиков"""
+    train_data_list:list = []
+
     for scenario in scenarios_list:
         graber:'Graber' = get_graber_by_supplier_prefix(driver, scenario['supplier_prefix'], lang_index = 2)
         driver.get_url(scenario['train_product_url'])
@@ -109,9 +108,14 @@ async def process_scenarios(driver:Driver, scenarios_list:List[dict]) -> bool:
                     'price')
         res:'ProductFields' = await graber.grab_page_async(*process_fields)
         res_dict:dict = res.to_dict()
-        driver.fe
-        print(res_dict)
-        ...
+        raw_data:str = driver.fetch_html()
+        train_data_list.append({
+             'text_input': string_for_train(str(raw_data)) ,
+             'output': string_for_train(str(res_dict)),
+        })
+    j_dumps(train_data_list, __root__ / 'SANDBOX' / 'davidka' / 'train_data_products' / f'train-{gs.now}.json')
+    ...
+
 
 def main():
     """"""

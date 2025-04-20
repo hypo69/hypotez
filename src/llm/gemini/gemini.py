@@ -45,7 +45,7 @@ from src.utils.file import read_text_file, save_text_file
 from src.utils.date_time import TimeoutCheck
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.image import get_image_bytes
-from src.utils.string.ai_string_normalizer import normalize_answer
+from src.utils.string.ai_string_utils import normalize_answer, string_for_train
 from src.utils.printer import pprint as print
 from src.logger import logger
 
