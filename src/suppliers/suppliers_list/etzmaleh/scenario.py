@@ -1,6 +1,5 @@
 ## \file /src/suppliers/bangood/scenario.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
 """  

@@ -1,6 +1,5 @@
 ## \file /src/utils/string/normalizer.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
 """
@@ -12,13 +11,14 @@
 
 Пример использования
 --------------------
-
-.. code-block:: python
+```python
 
     from src.utils.string.normalizer import normalize_string, normalize_boolean
 
     normalized_str = normalize_string(" Пример строки <b>с HTML</b> ")
     normalized_bool = normalize_boolean("yes")
+```
+.. module:: src.utils.string.normalizer
 """
 
 import re

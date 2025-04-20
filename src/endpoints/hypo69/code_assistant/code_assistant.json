@@ -9,8 +9,6 @@
   "openai_assistant_id": "<OpenAI Assistant ID>",
   "process_dirs": [
 
-
-
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\emil",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\emil\\report_generator",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\emil\\scenarios",

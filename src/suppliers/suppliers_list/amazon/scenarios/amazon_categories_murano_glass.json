@@ -4,8 +4,8 @@
       "url": "https://amzn.to/3OhRz2g",
       "condition": "new",
       "presta_categories": {
-        "default_category": { "11209": "MURANO GLASS" },
-        "additional_categories": [ "" ]
+        "default_category": 11209,
+        "additional_categories": [ 11206, 11388 ]
       },
       "price_rule": 1
     }

@@ -203,7 +203,7 @@ class SupplierToPrestashopProvider:
     async def process_scenarios(self, suppliers_prefixes:Optional[str] = '') -> bool:
         """"""
         ...
-        suppliers_prefixes = suppliers_prefixes if isinstance(suppliers_prefixes, list) else [suppliers_prefixes] if isinstance(supplier_prefix, str) else []
+        suppliers_prefixes = suppliers_prefixes if isinstance(suppliers_prefixes, list) else [suppliers_prefixes] if isinstance(suppliers_prefixes, str) else []
 
         
     async def save_product_data(self, product_data: dict):

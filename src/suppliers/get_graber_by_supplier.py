@@ -116,35 +116,35 @@ def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index:int ) -> G
     ...
     return
 
-def get_graber_by_supplier_prefix(supplier_prefix: str) -> Optional[Graber] | bool:
+def get_graber_by_supplier_prefix(driver: 'Driver', supplier_prefix: str, lang_index:str = '2' ) -> Optional[Graber] | bool:
     """"""
     ...
 
     if supplier_prefix == 'aliexpress':
-        grabber = AliexpressGraber()
+        grabber = AliexpressGraber(driver,lang_index)
     if supplier_prefix == 'amazon':
-        grabber = AmazonGraber()
+        grabber = AmazonGraber(driver,lang_index)
     if supplier_prefix == 'ebay':
-        grabber = EbayGraber()
+        grabber = EbayGraber(driver,lang_index)
     if supplier_prefix == 'gearbest':
-        grabber = GearbestGraber()
+        grabber = GearbestGraber(driver,lang_index)
     if supplier_prefix == 'grandadvance':
-        grabber = GrandadvanceGraber()
+        grabber = GrandadvanceGraber(driver,lang_index)
     if supplier_prefix == 'hb':
-        grabber = HBGraber()
+        grabber = HBGraber(driver,lang_index)
     if supplier_prefix == 'ivory':
-        grabber = IvoryGraber()
+        grabber = IvoryGraber(driver,lang_index)
     if supplier_prefix == 'ksp':
-        grabber = KspGraber()
+        grabber = KspGraber(driver,lang_index)
     if supplier_prefix == 'kualastyle':
-        grabber = KualaStyleGraber()
+        grabber = KualaStyleGraber(driver,lang_index)
     if supplier_prefix == 'morlevi':
-        grabber = MorleviGraber()
+        grabber = MorleviGraber(driver,lang_index)
     if supplier_prefix == 'visualdg':
-        grabber = VisualDGGraber()
+        grabber = VisualDGGraber(driver,lang_index)
     if supplier_prefix == 'wallashop':
-        grabber = WallaShopGraber()
+        grabber = WallaShopGraber(driver,lang_index)
     if supplier_prefix == 'wallmart':
-        grabber = WallmartGraber()
+        grabber = WallmartGraber(driver,lang_index)
 
     return grabber or False

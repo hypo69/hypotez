@@ -17,7 +17,7 @@
 Пример использования
 --------------------
 
-.. code-block:: python
+```python
 
     from pathlib import Path
     from src.utils.file import read_text_file, save_text_file
@@ -28,10 +28,12 @@
         print(f'File content: {content[:100]}...')
 
     save_text_file(file_path, 'Новый текст')
+```
 """
 import os
 import json
 import fnmatch
+import re
 from pathlib import Path
 from typing import List, Optional, Union, Generator
 from src.logger.logger import logger
@@ -200,6 +202,7 @@ def read_text_file(
     as_list: bool = False,
     extensions: Optional[list[str]] = None,
     exc_info: bool = True,
+    chunk_size: int = 8192
 ) -> str | list[str] | None:
     """
     Read the contents of a file.
@@ -217,12 +220,16 @@ def read_text_file(
         path = Path(file_path)
         if path.is_file():
             with path.open("r", encoding="utf-8") as f:
-                return f.readlines() if as_list else f.read()
+                content = f.read()
+                #Обработка согласно заданию
+                content = re.sub(r'\s+', ' ', content)
+                content = content.replace('"', '\\"')
+                return content.splitlines() if as_list else content
         elif path.is_dir():
             files = [
                 p for p in path.rglob("*") if p.is_file() and (not extensions or p.suffix in extensions)
             ]
-            contents = [read_text_file(p, as_list) for p in files]
+            contents = [read_text_file(p, as_list, chunk_size=chunk_size) for p in files]
             return [item for sublist in contents if sublist for item in sublist] if as_list else "\n".join(filter(None, contents))
         else:
             logger.warning(f"Path '{file_path}' is invalid.")
@@ -293,6 +300,9 @@ def _read_file_content(file_path: Path, chunk_size: int) -> str:
             if not chunk:
                 break
             content += chunk
+        #Обработка согласно заданию
+        content = re.sub(r'\s+', ' ', content)
+        content = content.replace('"', '\\"')
         return content
 
 def _read_file_lines_generator(file_path: Path, chunk_size: int) -> Generator[str, None, None]:
@@ -319,10 +329,18 @@ def _read_file_lines_generator(file_path: Path, chunk_size: int) -> Generator[st
                      if next_chunk != '':
                         lines[-1] = lines[-1] + next_chunk
                      else:
-                        yield from lines
+                        for line in lines:
+                            #Обработка согласно заданию
+                            line = re.sub(r'\s+', ' ', line)
+                            line = line.replace('"', '\\"')
+                            yield line
                         break
                 
-                yield from lines
+                for line in lines:
+                    #Обработка согласно заданию
+                    line = re.sub(r'\s+', ' ', line)
+                    line = line.replace('"', '\\"')
+                    yield line
 
 
 def get_filenames_from_directory(

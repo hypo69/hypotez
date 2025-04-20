@@ -19,5 +19,6 @@ from .normalizer import (
 						normalize_boolean,
 						normalize_sql_date,
 					)
+from .string_for_train import string_for_train
 
 
