@@ -46,7 +46,7 @@ from src.utils.image import random_image
 from src.utils.printer import pprint
 from src.logger.logger import logger
 
-
+@dataclass
 class Config:
     ENDPOINT = 'kazarinov'
 

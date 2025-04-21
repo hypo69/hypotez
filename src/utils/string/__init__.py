@@ -20,5 +20,6 @@ from .normalizer import (
 						normalize_sql_date,
 					)
 from .ai_string_utils import string_for_train, normalize_answer
+from .html_simplification import simplify_html
 
 

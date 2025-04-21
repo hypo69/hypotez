@@ -31,7 +31,8 @@ from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 from src.endpoints.fetch_one_tab import fetch_target_urls_onetab
 from src.utils.jjson import j_dumps
 from src.logger.logger import logger
-
+from dataclasses import dataclass, field
+@dataclass
 class Config:
 
     ENDPOINT:str = "kazarinov"

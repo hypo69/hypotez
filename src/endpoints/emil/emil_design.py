@@ -52,7 +52,7 @@ from src.logger.logger import logger
 
 from src import USE_ENV  # <- True - использую переменные окружения, False - использую параметры из keepass
 
-
+@dataclass
 class Config:
     """Configuration class for EmilDesign."""
 

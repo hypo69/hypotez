@@ -74,6 +74,9 @@ from src.logger.logger import logger
 
 
 # Глобальные настройки через объект `Config`
+from dataclasses import dataclass, field
+
+@dataclass
 class Config:
     """
     Класс для хранения глобальных настроек.

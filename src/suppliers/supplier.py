@@ -74,7 +74,9 @@ class Supplier(BaseModel):
     current_scenario: Dict[str, Any] = Field(default_factory=dict)
     locators: List[SimpleNamespace] = Field(default_factory=dict)
     driver: Optional['Driver'] = Field(default=None)
+    from dataclasses import dataclass, field
 
+@dataclass
     class Config:
         """Настройки модели."""
         arbitrary_types_allowed = True

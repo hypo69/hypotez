@@ -14,7 +14,9 @@ from collections import OrderedDict
 from src.logger.logger import logger
 from .convertors.dict import dict2ns
 
+from dataclasses import dataclass, field
 
+@dataclass
 class Config:
     MODE_WRITE:str = "w"
     MODE_APPEND_START:str = "a+"

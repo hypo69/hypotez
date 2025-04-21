@@ -12,10 +12,6 @@ from `Supplier`, `AliRequests`, and `AliApi` for working with AliExpress.
 """
 
 
-
-import header
-
-
 import pickle
 import threading
 from requests.sessions import Session
@@ -25,13 +21,13 @@ from typing import Union
 from requests.cookies import RequestsCookieJar
 from urllib.parse import urlparse
 
+import header
 from src import gs  
-from src.suppliers.supplier import Supplier
 from .alirequests import AliRequests
 from .aliapi import AliApi
 from src.logger.logger import logger  
 
-class Aliexpress(Supplier, AliRequests, AliApi):
+class Aliexpress( AliRequests, AliApi):
     """
     Base class for AliExpress.
 

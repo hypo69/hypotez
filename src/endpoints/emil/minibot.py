@@ -180,6 +180,7 @@ class BotHandler:
             return False
 
 # --- config.py -----------------
+@dataclass
 class Config:
     BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') if USE_ENV else gs.credentials.telegram.hypo69_emil_design_bot
     CHANNEL_ID = '@onela'

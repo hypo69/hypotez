@@ -36,7 +36,9 @@ from src.webdriver.proxy import get_proxies_dict, check_proxy
 from src.utils.jjson import j_loads_ns
 from src.logger.logger import logger
 
+from dataclasses import dataclass, field
 
+@dataclass
 class Config:
     """Configuration class for Firefox WebDriver."""
 

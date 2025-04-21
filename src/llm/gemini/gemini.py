@@ -50,7 +50,9 @@ from src.utils.printer import pprint as print
 from src.logger import logger
 
 timeout_check = TimeoutCheck()
+from dataclasses import dataclass, field
 
+@dataclass
 class Config:
     # Важно! эта модель используется для обучения на реальных данных!
     MODEL_NAME = 'gemini-2.0-flash-exp'

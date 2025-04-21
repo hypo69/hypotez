@@ -55,7 +55,7 @@ from src.endpoints.hypo69.code_assistant.make_summary import make_summary
 from src import USE_ENV
 
 # -------------------------- file config.py ----------------------------------
-
+@dataclass
 class Config:
     ...
     base_path: Path = __root__ / 'src' / 'endpoints' / 'hypo69' / 'code_assistant'   

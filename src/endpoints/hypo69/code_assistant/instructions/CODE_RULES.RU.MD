@@ -66,14 +66,48 @@ if not process_directory.is_dir():
     ```
 - Комментарии и документация должны быть четкими, лаконичными и точными.
 
-#### **3. Форматирование кода**:
+
+### **3. Заголовок файла**:
+Обязательно оставляй строки 
+```python
+## \file path/to/file
+# -*- coding: utf-8 -*-
+#! .pyenv/bin/python3
+```
+и
+```
+"""
+ .. module:: src.utils.string.html_simplification
+"""
+```
+если они есть. Если нет - добавляй.
+Пример:
+## \file /src/utils/string/html_simplification.py
+# -*- coding: utf-8 -*-
+#! .pyenv/bin/python3
+
+"""
+Модуль для очистки HTML-тегов из текста и упрощения HTML-кода.
+===============================================================
+Модуль минимизирует HTML-код, удаляет теги и атрибуты, а также обрабатывает
+специальные случаи, такие как скрипты, стили и комментарии.
+Использует BeautifulSoup для надежного парсинга HTML.
+
+Зависимости:
+    - beautifulsoup4 (pip install beautifulsoup4)
+    - lxml (опционально, для более быстрого парсинга: pip install lxml)
+
+ .. module:: src.utils.string.html_simplification
+"""
+
+#### **4. Форматирование кода**:
 - Используй одинарные кавычки. `a:str = 'value'`, `print('Hello World!')`;
 - Добавляй пробелы вокруг операторов. Например, `x = 5`;
 - Все параметры должны быть аннотированы типами. `def function(param: str, param1: Optional[str | dict | str] = None) -> dict | None:`;
 - Не используй `Union`. Вместо этого используй `|`.
 - Не используй термин `Product`, только `товар`
 
-#### **4. Логирование**:
+#### **5. Логирование**:
 - Для логгирования Всегда Используй модуль `logger` из `src.logger.logger`.
 - Ошибки должны логироваться с использованием `logger.error`.
 Пример:
@@ -83,14 +117,34 @@ if not process_directory.is_dir():
         except Exception as ex:
             logger.error('Error while processing data', ех, exc_info=True)
     ```
-#### **5 Не используй `Union[]` в коде. Вместо него используй `|`
+#### **6. Не используй `Union[]` в коде. Вместо него используй `|`
 Например:
 ```python
 x: str | int ...
 ```
 
+#### **7. Не используй глобальные переменные. Если есть надобность - то поределяй их в классе `Config`.
+Пример:
 
+- Неправильно:
+```python
 
+state:int = 'global'
+
+def func():
+    print(state)
+
+```
+- Правильно:
+```python
+
+class Config:
+    state:int = 'global'
+
+def func():
+    print(Config.state)
+
+```
 
 ---
 

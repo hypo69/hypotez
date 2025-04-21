@@ -21,7 +21,9 @@ import header # type: ignore
 from header import __root__ # type: ignore
 from src import gs # type: ignore
 from src.logger import logger
+from dataclasses import dataclass, field
 
+@dataclass
 class Config:
     """
     Класс для хранения конфигурации API ключей и других параметров.

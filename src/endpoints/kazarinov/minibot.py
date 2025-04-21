@@ -36,7 +36,7 @@ from src import USE_ENV
 
 
 # --- config.py -----------------
-
+@dataclass
 class Config:
     
     ENDPOINT:str = 'kazarinov'

@@ -3,10 +3,14 @@
 #! .pyenv/bin/python3
 
 """
+Модуль сбора датасета для обучения модели на основе данных о товарах
+======================================================================
+
+```rst
 .. module:: sandbox.davidka.process_scenarios_for_train
 	:platform: Windows, Unix
 	:synopsis: Запуск сцеанриев различных поставщиков для сбора датасета с параметрами товаров
-
+```
 """
 import os
 import asyncio
@@ -39,7 +43,9 @@ from src.utils.printer import pprint as print
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.image import get_image_bytes, get_raw_image_data
 from src.utils.string.ai_string_utils import normalize_answer, string_for_train
+from src.utils.string.html_simplification import simplify_html, strip_tags 
 from src.logger.logger import logger
+
 
 class Config:
 
@@ -106,13 +112,27 @@ async def process_scenarios(driver:Driver, scenarios_list:List[dict]) -> bool:
                     'additional_category',
                     'default_image_url',
                     'price')
-        res:'ProductFields' = await graber.grab_page_async(*process_fields)
-        res_dict:dict = res.to_dict()
         raw_data:str = driver.fetch_html()
+        cleared_data:str =  strip_tags(raw_data)
+        if not raw_data:
+            logger.error(f"Failed to fetch HTML from {scenario['train_product_url']}")
+            ...
+            continue
+
+        f:'ProductFields' = await graber.grab_page_async(*process_fields)
+        res_dict:dict = f.to_dict()
+       
+        
         train_data_list.append({
-             'text_input': string_for_train(str(raw_data)) ,
+             'text_input': string_for_train(cleared_data) ,
              'output': string_for_train(str(res_dict)),
         })
+        logger.info(f'\n2 Ввод:\n\t2 {cleared_data}')
+        logger.info(f'\n2 Вывод:\n\t2 {print(res_dict)}')
+        timestamp = gs.now
+        save_text_file(raw_data, __root__ / 'SANDBOX' / 'davidka' / 'raw_data_products' / f'raw-{timestamp}.html')
+        save_text_file(cleared_data, __root__ / 'SANDBOX' / 'davidka' / 'raw_data_products' / f'raw-{timestamp}.txt')
+
     j_dumps(train_data_list, __root__ / 'SANDBOX' / 'davidka' / 'train_data_products' / f'train-{gs.now}.json')
     ...
 

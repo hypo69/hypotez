@@ -48,7 +48,7 @@ from src.utils.convertors.unicode import decode_unicode_escape
 from src.utils.printer import pprint as print
 from src.logger.logger import logger
 
-
+@dataclass
 class Config:
     ENDPOINT = 'emil'
 

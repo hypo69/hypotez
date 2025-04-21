@@ -54,7 +54,7 @@ from src.utils.image import save_image_from_url_async, save_image
 from src.utils.printer import pprint as print
 from src.logger.logger import logger
 
-
+@dataclass
 class Config:
     ENDPOINT:str = 'kazarinov'
 

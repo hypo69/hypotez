@@ -108,7 +108,9 @@ from src.utils.jjson import j_dumps, j_loads, j_loads_ns
 from src.utils.printer import pprint as print
 from src import USE_ENV
 
+from dataclasses import dataclass, field
 
+@dataclass
 class Config:
     """Configuration class for PrestaShop API."""
 
