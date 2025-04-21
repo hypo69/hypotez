@@ -209,28 +209,104 @@ async def main():
 
     # Определение моделей для использования
     models_to_use: List[Dict[str, str]] = [
-        {'gemini': 'gemini-2.0-flash-exp'}, # Пример использования последней flash модели
+        {'gemini': 'gemini-1.5-flash-001-tuning'}, 
     ]
 
 
+    product_pages_list:list = [
+        'https://www.aliexpress.com/item/1005008108060545.html',
+        'https://hbdeadsea.co.il/product/%d7%a7%d7%a8%d7%9d-%d7%a8%d7%92%d7%9c%d7%99%d7%99%d7%9d-%d7%90%d7%99%d7%a0%d7%98%d7%a0%d7%a1%d7%99%d7%91%d7%99-%d7%9e%d7%95%d7%a2%d7%a9%d7%a8-%d7%91%d7%91%d7%95%d7%a5-%d7%9e%d7%99%d7%9d-%d7%94%d7%9e-2/',
+        'https://www.etzmaleh.co.il/montessori_transition_bed',
+        "https://www.amazon.com/C%C3%A1-dOro-Hippie-Colored-Murano-Style/dp/B09N53XSQB/ref=sr_1_2_sspa?crid=24Q0ZZYVNOQMP&dib=eyJ2IjoiMSJ9.WhN_5Deyh2Yz9gRyrG1anDCr1UB8tnpHH_pJePpURaaciFWg_5Ft0XuS-e3A67g3rO1RECMmgpmRLEJOI7Zj6JyAd9DJh6dLSwUcHgHnJiKhmBmpa-AlDotmiq0-4Q_b90WkEmSsgIzC4L1Yc_KssvHa7bj6LGl6fMM4VuctS4nDQ3vYigYzB3jzP9Q3nT5BRv5_yRigaF-hDpPc0lL5wvo5gQ4i-9Jcy4vHyHNX04ZpoQBXrwcwLo3XWoruWSmnrgvQ5XxRzLntClGxBSN3cTjsunsHYzzKSp_VYx631JM.U1bRX0eDJ5c13nETwkLbN9BPt6-OtTKUvvRQiGodOd0&dib_tag=se&keywords=Art+Deco+murano+glass&linkCode=sl2&linkId=1a5da5b6a02f09a4d8fe47362e06cf3a&qid=1745171225&sprefix=art+deco+murano+glass%2Caps%2C230&sr=8-2-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1",
 
+        ]
 
     # Определение задачи
-    my_task: str = "Найди в интернете и дай мне список 50 интернет магазинов, торгующех автоматикой. Предпочтение отдавей сайтам производителей."
+    my_task: str = f"""
+        Если это страница товара - то верни словарь полей:
+        {{
+      'available_now': '',
+      'available_later': '',
+
+      'additional_delivery_times': '',
+      'additional_shipping_cost': '',
+      'available_date': '',
+      'available_for_order': 1 or 0,
+
+      'condition': '',
+      'customizable': '',
+      'date_add': '',
+      'date_upd': '',
+      'default_image_url': '',
+      'images_urls': [''],
+      'delivery_additional_message': '',
+
+      'depth': '',
+      'description': '',
+      'description_short': '',
+      'ean13': '',
+      'ecotax': '',
+      'height': '',
+      'id_category_default': '',
+      
+      'id_manufacturer': '',
+      'id_product': '',
+
+      'id_supplier': '',
+
+      'isbn': '',
+
+      'location': '',
+
+      'meta_description': '',
+      'meta_keywords': '',
+      'meta_title': '',
+
+      'name': '',
+      'ingredients': '',
+      'how_to_use': '',
+      'specification': '',
+      'minimal_quantity': 1,
+      'mpn': '',
+      'on_sale': 1,
+      'online_only': 0,
+      'out_of_stock': '',
+      'pack_stock_type': '',
+      'position_in_category': '',
+      'price': '',
+      'product_type': 'standard',
+      'quantity_discount': '',
+      'supplier_reference': '<SKU>',
+      'text_fields': '',
+      'unit_price_ratio': '',
+      'unity': '',
+      'upc': '',
+      'uploadable_files': '',
+      'volume': '',
+      'weight': '',
+      'wholesale_price': '',
+      'width': '',
+      'raw': '<Здесь помести только очищенное от тегов текстовое содержимое страницы>',
+
+
+    }}
+    """
 
     logger.info("Запуск задачи через Driver.run_task...")
-    # Вызов статического метода класса Driver
-    final_result: Optional[str] = await Driver.run_task(
-        model_configs=models_to_use,
-        task=my_task
-    )
 
-    if final_result is not None: # Явная проверка на None
-        print("\n--- Результат работы агента ---")
-        print(final_result)
-        print("------------------------------")
-    else:
-        print("\n--- Не удалось получить результат выполнения задачи ---")
+    for product_page in product_pages_list:
+        my_task += f"""Перейди на страницу {product_page} {my_task}"""
+        final_result: Optional[str] = await Driver.run_task(
+            model_configs=models_to_use,
+            task=my_task
+        )
+
+        if final_result is not None: # Явная проверка на None
+            print("\n--- Результат работы агента ---")
+            print(final_result)
+            print("------------------------------")
+        else:
+            print("\n--- Не удалось получить результат выполнения задачи ---")
 
 
 if __name__ == "__main__":
