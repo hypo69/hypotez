@@ -76,8 +76,9 @@ async def main():
         try:
             logger.info(f'Обработка URL: {product_url}')
             task = Config.task_description.replace('<URL>', product_url)
-            extracted_data = await driver.run_task(task)
-            print(extracted_data)
+            final_answer_stream, stream_chunks = await driver.stream_task(task, use_gemini=True)
+            print(final_answer_stream)
+            print(stream_chunks)
             ...
         except Exception as ex:
             logger.error(f'Ошибка при обработке {product_url=}', ex)
