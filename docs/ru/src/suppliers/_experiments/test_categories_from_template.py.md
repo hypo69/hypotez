@@ -1,96 +1,78 @@
-# Модуль для тестирования создания шаблонов категорий из файлов
+# Документация для модуля `test_categories_from_template.py`
 
 ## Обзор
 
-Модуль `test_categories_from_template.py` содержит класс `TestBuildtemplates`, который используется для тестирования функциональности создания шаблонов категорий на основе JSON-файлов. 
-Этот модуль предназначен для проверки корректности работы функции `buid_templates` (код которой, к сожалению, не был предоставлен), которая должна читать JSON-файлы из указанной директории и формировать структуру шаблонов категорий.
+Модуль `test_categories_from_template.py` содержит тесты для проверки функциональности создания шаблонов категорий. Этот модуль, похоже, является частью экспериментов и содержит устаревшую версию функциональности. Он проверяет, правильно ли строятся шаблоны на основе существующих директорий с JSON-файлами.
 
 ## Подробнее
 
-Модуль предназначен для автоматизированного тестирования функции `buid_templates`. Тесты включают проверку чтения шаблонов из директории и обработку случая, когда директория не существует.
+Этот модуль предоставляет класс `TestBuildtemplates`, который содержит два метода тестирования:
+1. `test_build_templates_with_existing_directory` - проверяет случай с существующей директорией, содержащей JSON-файлы.
+2. `test_build_templates_with_non_existing_directory` - проверяет случай с несуществующей директорией.
 
 ## Классы
 
-### `TestBuildtemplates(unittest.TestCase)`
+### `TestBuildtemplates`
 
-**Описание**: Класс `TestBuildtemplates` предназначен для выполнения автоматизированных тестов функции `buid_templates`. Он наследует класс `unittest.TestCase` и содержит методы для проверки различных сценариев работы `buid_templates`.
+**Описание**: Класс `TestBuildtemplates` предназначен для тестирования функциональности создания шаблонов категорий на основе JSON-файлов в директориях.
 
-**Наследует**: `unittest.TestCase`
+**Наследует**:
+- `unittest.TestCase`: Наследует от `unittest.TestCase` для использования фреймворка тестирования `unittest`.
 
 **Атрибуты**:
-- Отсутствуют
+- Отсутствуют явно определенные атрибуты класса.
 
 **Методы**:
-- `test_build_templates_with_existing_directory()`: Тестирует функцию `buid_templates` с существующей директорией, содержащей JSON-файлы.
-- `test_build_templates_with_non_existing_directory()`: Тестирует функцию `buid_templates` с несуществующей директорией.
+- `test_build_templates_with_existing_directory()`: Тестирует создание шаблонов категорий с использованием существующей директории.
+- `test_build_templates_with_non_existing_directory()`: Тестирует создание шаблонов категорий с использованием несуществующей директории.
 
-#### `test_build_templates_with_existing_directory(self)`
+**Принцип работы**:
+Класс `TestBuildtemplates` использует модуль `unittest` для определения тестовых случаев. Каждый метод тестирования выполняет определенную проверку функциональности, используя временные директории и файлы для изоляции тестов.
 
-**Назначение**: Проверяет сценарий, когда функция `buid_templates` вызывается с существующей директорией, содержащей JSON-файлы.
+## Методы класса
 
-**Параметры**:
-- `self` (TestBuildtemplates): Экземпляр класса `TestBuildtemplates`.
+### `test_build_templates_with_existing_directory`
 
-**Возвращает**:
-- `None`
-
-**Вызывает исключения**:
-- Отсутствуют
-
-**Как работает функция**:
-1. Создается временная директория с использованием `tempfile.TemporaryDirectory()`.
-2. Внутри временной директории создаются два JSON-файла: `file1.json` в корне временной директории и `file2.json` во вложенной директории `subdir`. Оба файла содержат одинаковые JSON-данные, представляющие шаблоны категорий.
-3. Вызывается функция `buid_templates` с путем к временной директории.
-4. Результат работы функции сравнивается с ожидаемым результатом `expected_output` с использованием метода `self.assertEqual()`.
-
-**Примеры**:
 ```python
-import unittest
-import tempfile
-import os
+def test_build_templates_with_existing_directory(self):
+    """
+    Тестирует создание шаблонов категорий при наличии существующей директории с JSON-файлами.
 
-class TestBuildtemplates(unittest.TestCase):
-    def test_build_templates_with_existing_directory(self):
-        with tempfile.TemporaryDirectory() as tmpdir:
-            json_data = '{"category1": {"template1": "some content"}, "category2": {"template2": "some content"}}'
-            file1_path = os.path.join(tmpdir, 'file1.json')
-            with open(file1_path, 'w') as f:
-                f.write(json_data)
-            file2_path = os.path.join(tmpdir, 'subdir', 'file2.json')
-            os.makedirs(os.path.dirname(file2_path))
-            with open(file2_path, 'w') as f:
-                f.write(json_data)
+    Args:
+        self: Экземпляр класса `TestBuildtemplates`.
 
-            expected_output = {"category1": {
-                "template1": "some content"}, "category2": {"template2": "some content"}}
-            self.assertEqual(buid_templates(tmpdir), expected_output)
+    Returns:
+        None
+
+    Raises:
+        AssertionError: Если ожидаемый результат не совпадает с фактическим.
+
+    Как работает функция:
+    1. Создается временная директория (`tmpdir`).
+    2. Внутри этой директории создаются два JSON-файла (`file1.json` и `file2.json`) с тестовыми данными.
+    3. Вызывается функция `buid_templates` с путем к временной директории.
+    4. Результат сравнивается с ожидаемым результатом `expected_output` с использованием `self.assertEqual`.
+
+    """
 ```
+### `test_build_templates_with_non_existing_directory`
 
-#### `test_build_templates_with_non_existing_directory(self)`
-
-**Назначение**: Проверяет сценарий, когда функция `buid_templates` вызывается с несуществующей директорией.
-
-**Параметры**:
-- `self` (TestBuildtemplates): Экземпляр класса `TestBuildtemplates`.
-
-**Возвращает**:
-- `None`
-
-**Вызывает исключения**:
-- `FileNotFoundError`: Ожидается, что функция `buid_templates` вызовет исключение `FileNotFoundError`, если директория не существует.
-
-**Как работает функция**:
-1. Вызывается функция `buid_templates` с путем к несуществующей директории (`/non/existing/path/`).
-2. Проверяется, что функция вызывает исключение `FileNotFoundError` с использованием контекстного менеджера `self.assertRaises()`.
-
-**Примеры**:
 ```python
-import unittest
-import tempfile
-import os
+def test_build_templates_with_non_existing_directory(self):
+    """
+    Тестирует создание шаблонов категорий при передаче несуществующей директории.
 
-class TestBuildtemplates(unittest.TestCase):
-    def test_build_templates_with_non_existing_directory(self):
-        with self.assertRaises(FileNotFoundError):
-            buid_templates('/non/existing/path/')
-```
+    Args:
+        self: Экземпляр класса `TestBuildtemplates`.
+
+    Returns:
+        None
+
+    Raises:
+        FileNotFoundError: Если директория не существует.
+
+    Как работает функция:
+    1. Вызывается функция `buid_templates` с путем к несуществующей директории.
+    2. Проверяется, что вызов функции вызывает исключение `FileNotFoundError` с использованием `self.assertRaises`.
+
+    """

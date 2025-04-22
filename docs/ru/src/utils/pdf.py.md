@@ -2,31 +2,29 @@
 
 ## Обзор
 
-Модуль предназначен для преобразования HTML-контента или файлов в PDF с использованием различных библиотек. Он предоставляет статические методы класса `PDFUtils` для работы с PDF-файлами. Модуль использует библиотеки `pdfkit`, `FPDF`, `WeasyPrint`, `xhtml2pdf` и `reportlab` для преобразования в PDF.
+Модуль предназначен для преобразования HTML-контента или файлов в формат PDF с использованием различных библиотек. Он предоставляет статические методы класса `PDFUtils` для выполнения этой задачи.
 
-## Подробней
+## Подробнее
 
-Модуль содержит класс `PDFUtils`, который предоставляет статические методы для сохранения HTML-контента в PDF с использованием различных библиотек. В частности, модуль может быть использован для сохранения отчетов, сгенерированных на основе HTML-шаблонов, в формате PDF.
+Модуль содержит класс `PDFUtils`, который предоставляет методы для сохранения HTML-контента в PDF с использованием различных библиотек, таких как `pdfkit`, `FPDF`, `WeasyPrint` и `xhtml2pdf`. Также модуль содержит функции для конвертации PDF в HTML и словаря в PDF.
 
 ## Классы
 
 ### `PDFUtils`
 
-**Описание**: Класс для работы с PDF-файлами, предоставляющий методы для сохранения HTML-контента в PDF с использованием различных библиотек.
+Описание: Класс предоставляет статические методы для работы с PDF-файлами, включая сохранение HTML-контента в PDF и конвертацию PDF в HTML.
 
-**Принцип работы**:
-Класс предоставляет набор статических методов, каждый из которых использует определенную библиотеку для преобразования HTML в PDF. Методы охватывают различные подходы к генерации PDF, начиная от использования внешних инструментов, таких как `wkhtmltopdf`, и заканчивая библиотеками, написанными на Python, такими как `FPDF` и `WeasyPrint`.
+**Методы:**
 
-**Методы**:
-- `save_pdf_pdfkit(data: str | Path, pdf_file: str | Path) -> bool`: Сохраняет HTML-контент или файл в PDF с использованием библиотеки `pdfkit`.
-- `save_pdf_fpdf(data: str, pdf_file: str | Path) -> bool`: Сохраняет текст в PDF с использованием библиотеки `FPDF`.
-- `save_pdf_weasyprint(data: str | Path, pdf_file: str | Path) -> bool`: Сохраняет HTML-контент или файл в PDF с использованием библиотеки `WeasyPrint`.
-- `save_pdf_xhtml2pdf(data: str | Path, pdf_file: str | Path) -> bool`: Сохраняет HTML-контент или файл в PDF с использованием библиотеки `xhtml2pdf`.
-- `html2pdf(html_str: str, pdf_file: str | Path) -> bool | None`: Преобразует HTML-контент в PDF-файл с использованием WeasyPrint.
-- `pdf_to_html(pdf_file: str | Path, html_file: str | Path) -> bool`: Конвертирует PDF-файл в HTML-файл.
-- `dict2pdf(data: Any, file_path: str | Path) -> None`: Сохраняет данные словаря в PDF-файл.
+- `save_pdf_pdfkit(data: str | Path, pdf_file: str | Path) -> bool`
+- `save_pdf_fpdf(data: str, pdf_file: str | Path) -> bool`
+- `save_pdf_weasyprint(data: str | Path, pdf_file: str | Path) -> bool`
+- `save_pdf_xhtml2pdf(data: str | Path, pdf_file: str | Path) -> bool`
+- `html2pdf(html_str: str, pdf_file: str | Path) -> bool | None`
+- `pdf_to_html(pdf_file: str | Path, html_file: str | Path) -> bool`
+- `dict2pdf(data: Any, file_path: str | Path) -> None`
 
-## Функции
+## Методы класса
 
 ### `save_pdf_pdfkit`
 
@@ -50,62 +48,31 @@ def save_pdf_pdfkit(data: str | Path, pdf_file: str | Path) -> bool:
     ...
 ```
 
-**Назначение**: Сохраняет HTML-контент или HTML-файл в PDF-файл, используя библиотеку `pdfkit`.
+**Назначение**: Сохраняет HTML-контент или HTML-файл в PDF-файл с использованием библиотеки `pdfkit`.
 
 **Параметры**:
+
 - `data` (str | Path): HTML-контент в виде строки или путь к HTML-файлу.
-- `pdf_file` (str | Path): Путь к PDF-файлу, в который будет сохранен результат.
+- `pdf_file` (str | Path): Путь к PDF-файлу, в который нужно сохранить данные.
 
 **Возвращает**:
-- `bool`: `True`, если PDF успешно сохранен, иначе `False`.
+
+- `bool`: `True`, если PDF успешно сохранен, `False` в противном случае.
 
 **Вызывает исключения**:
-- `pdfkit.PDFKitError`: Если произошла ошибка во время генерации PDF с помощью `pdfkit`.
-- `OSError`: Если произошла ошибка при доступе к файлу.
+
 - `FileNotFoundError`: Если не найден исполняемый файл `wkhtmltopdf.exe`.
+- `pdfkit.PDFKitError`: Если происходит ошибка во время генерации PDF.
+- `OSError`: Если происходит ошибка при доступе к файлу.
+- `Exception`: Для всех остальных неожиданных ошибок.
 
 **Как работает функция**:
 1. Определяется путь к исполняемому файлу `wkhtmltopdf.exe`.
-2. Проверяется существование `wkhtmltopdf.exe` по указанному пути. Если файл не найден, функция логирует ошибку и вызывает исключение `FileNotFoundError`.
-3. Создается конфигурация для `pdfkit`, указывающая путь к `wkhtmltopdf.exe`.
-4. Определяются опции, разрешающие локальный доступ к файлам.
-5. В зависимости от типа данных (`str` или `Path`), вызывается `pdfkit.from_string` или `pdfkit.from_file` для преобразования HTML в PDF.
-6. Логируется информация об успешном сохранении PDF-файла.
-7. В случае возникновения исключений, таких как `pdfkit.PDFKitError` или `OSError`, логируется информация об ошибке и возвращается `False`.
-
-```
-Проверка наличия wkhtmltopdf.exe
-     |
-     No
-     |
-   Выброс FileNotFoundError
-     |
-     Yes
-     |
-Создание конфигурации pdfkit
-     |
-Определение типа данных (HTML-строка или файл)
-     |
-   HTML-строка
-     |
- Преобразование HTML-строки в PDF
-     |
-   HTML-файл
-     |
-   Чтение HTML-файла и преобразование в PDF
-     |
-Сохранение PDF-файла
-     |
-Успешно
-     |
-   Логирование успешного сохранения
-     |
-Ошибка
-     |
- Логирование ошибки и возврат False
-     |
-Возврат True
-```
+2. Проверяется наличие `wkhtmltopdf.exe` по указанному пути. Если файл не найден, генерируется исключение `FileNotFoundError`.
+3. Формируется конфигурация для `pdfkit` с указанием пути к исполняемому файлу `wkhtmltopdf.exe`.
+4. Устанавливается опция `enable-local-file-access` для обеспечения доступа к локальным файлам.
+5. В зависимости от типа данных (`str` или `Path`) вызывается соответствующая функция `pdfkit` (`from_string` для HTML-контента или `from_file` для HTML-файла) для генерации PDF.
+6. В случае успеха возвращается `True`, при возникновении ошибки логируется сообщение об ошибке и возвращается `False`.
 
 **Примеры**:
 
@@ -114,18 +81,18 @@ from pathlib import Path
 from src.utils.pdf import PDFUtils
 
 # Пример сохранения HTML-контента в PDF
-html_content = "<html><body><h1>Hello, PDF!</h1></body></html>"
-pdf_file = "hello.pdf"
-result = PDFUtils.save_pdf_pdfkit(html_content, pdf_file)
-print(f"Результат сохранения HTML-контента в PDF: {result}")  # Вывод: True
+html_content = "<html><body><h1>Hello, World!</h1></body></html>"
+pdf_file_path = "example.pdf"
+result = PDFUtils.save_pdf_pdfkit(html_content, pdf_file_path)
+print(f"PDF saved successfully: {result}")
 
 # Пример сохранения HTML-файла в PDF
-html_file = Path("example.html")
-html_file.write_text("<html><body><h1>Hello from HTML file!</h1></body></html>")
-pdf_file = "hello_from_file.pdf"
-result = PDFUtils.save_pdf_pdfkit(html_file, pdf_file)
-print(f"Результат сохранения HTML-файла в PDF: {result}")  # Вывод: True
-
+html_file_path = Path("example.html")
+with open(html_file_path, "w", encoding="utf-8") as f:
+    f.write("<html><body><h1>Hello, World!</h1></body></html>")
+pdf_file_path = "example_from_file.pdf"
+result = PDFUtils.save_pdf_pdfkit(html_file_path, pdf_file_path)
+print(f"PDF saved successfully: {result}")
 ```
 
 ### `save_pdf_fpdf`
@@ -146,77 +113,46 @@ def save_pdf_fpdf(data: str, pdf_file: str | Path) -> bool:
     ...
 ```
 
-**Назначение**: Сохраняет текст в PDF-файл, используя библиотеку `FPDF`.
+**Назначение**: Сохраняет текст в PDF-файл с использованием библиотеки `FPDF`.
 
 **Параметры**:
+
 - `data` (str): Текст, который необходимо сохранить в PDF.
-- `pdf_file` (str | Path): Путь к PDF-файлу, в который будет сохранен результат.
+- `pdf_file` (str | Path): Путь к PDF-файлу, в который нужно сохранить данные.
 
 **Возвращает**:
-- `bool`: `True`, если PDF успешно сохранен, иначе `False`.
+
+- `bool`: `True`, если PDF успешно сохранен, `False` в противном случае.
 
 **Вызывает исключения**:
+
 - `FileNotFoundError`: Если не найден файл шрифтов `fonts.json` или какой-либо из файлов шрифтов, указанных в `fonts.json`.
-- `Exception`: Если произошла ошибка во время сохранения PDF с помощью `FPDF`.
+- `Exception`: Если происходит ошибка во время сохранения PDF.
 
 **Как работает функция**:
-1. Импортируется класс `FPDF` из библиотеки `fpdf`.
-2. Создается экземпляр класса `FPDF`.
-3. Добавляется новая страница в PDF-документ.
-4. Устанавливается автоматический перенос строк.
-5. Определяется путь к файлу `fonts.json`, содержащему информацию о шрифтах.
-6. Проверяется существование файла `fonts.json`. Если файл не найден, функция логирует ошибку и вызывает исключение `FileNotFoundError`.
-7. Открывается файл `fonts.json`, считывается информация о шрифтах.
-8. Для каждого шрифта, указанного в `fonts.json`, проверяется существование файла шрифта. Если файл не найден, функция логирует ошибку и вызывает исключение `FileNotFoundError`.
-9. Добавляется шрифт в PDF-документ с использованием метода `add_font`.
-10. Устанавливается шрифт по умолчанию.
-11. Добавляется текст в PDF-документ с использованием метода `multi_cell`.
-12. Сохраняется PDF-файл.
-13. Логируется информация об успешном сохранении PDF-файла.
-14. В случае возникновения исключений логируется информация об ошибке и возвращается `False`.
 
-```
-Инициализация FPDF
-     |
-Добавление страницы
-     |
-Установка параметров страницы
-     |
-Чтение файла шрифтов fonts.json
-     |
-Проверка существования файла шрифтов
-     |
-   Файл не найден
-     |
-  Выброс FileNotFoundError
-     |
-   Файл найден
-     |
-Загрузка параметров шрифтов
-     |
-Добавление шрифтов
-     |
-Установка шрифта
-     |
-Добавление контента
-     |
-Сохранение PDF
-     |
-Обработка исключений
-```
+1. Импортирует класс `FPDF` из библиотеки `fpdf`.
+2. Создает экземпляр класса `FPDF`.
+3. Добавляет страницу в PDF-документ.
+4. Устанавливает автоматический перенос текста и отступ от края страницы.
+5. Определяет путь к файлу `fonts.json`, содержащему информацию о шрифтах.
+6. Открывает и загружает данные из файла `fonts.json`.
+7. Добавляет шрифты, указанные в файле `fonts.json`, в PDF-документ.
+8. Устанавливает шрифт по умолчанию.
+9. Добавляет текст в PDF-документ с использованием метода `multi_cell`.
+10. Сохраняет PDF-документ в указанный файл.
+11. В случае успеха возвращает `True`, при возникновении ошибки логируется сообщение об ошибке и возвращается `False`.
 
 **Примеры**:
 
 ```python
-from pathlib import Path
 from src.utils.pdf import PDFUtils
 
-# Пример сохранения текста в PDF с использованием FPDF
-text_data = "Hello, PDF from FPDF! This is a test."
-pdf_file = "hello_fpdf.pdf"
-result = PDFUtils.save_pdf_fpdf(text_data, pdf_file)
-print(f"Результат сохранения текста в PDF с использованием FPDF: {result}")  # Вывод: True
-
+# Пример сохранения текста в PDF
+text_data = "Hello, World! This is a test PDF generated with FPDF."
+pdf_file_path = "example_fpdf.pdf"
+result = PDFUtils.save_pdf_fpdf(text_data, pdf_file_path)
+print(f"PDF saved successfully: {result}")
 ```
 
 ### `save_pdf_weasyprint`
@@ -237,49 +173,27 @@ def save_pdf_weasyprint(data: str | Path, pdf_file: str | Path) -> bool:
     ...
 ```
 
-**Назначение**: Сохраняет HTML-контент или HTML-файл в PDF-файл, используя библиотеку `WeasyPrint`.
+**Назначение**: Сохраняет HTML-контент или HTML-файл в PDF-файл с использованием библиотеки `WeasyPrint`.
 
 **Параметры**:
+
 - `data` (str | Path): HTML-контент в виде строки или путь к HTML-файлу.
-- `pdf_file` (str | Path): Путь к PDF-файлу, в который будет сохранен результат.
+- `pdf_file` (str | Path): Путь к PDF-файлу, в который нужно сохранить данные.
 
 **Возвращает**:
-- `bool`: `True`, если PDF успешно сохранен, иначе `False`.
+
+- `bool`: `True`, если PDF успешно сохранен, `False` в противном случае.
 
 **Вызывает исключения**:
-- `Exception`: Если произошла ошибка во время сохранения PDF с помощью `WeasyPrint`.
+
+- `Exception`: Если происходит ошибка во время сохранения PDF.
 
 **Как работает функция**:
-1. Импортируется класс `HTML` из библиотеки `weasyprint`.
-2. В зависимости от типа данных (`str` или `Path`), вызывается `HTML(string=data).write_pdf(pdf_file)` или `HTML(filename=str(data)).write_pdf(pdf_file)` для преобразования HTML в PDF.
-3. Логируется информация об успешном сохранении PDF-файла.
-4. В случае возникновения исключений логируется информация об ошибке и возвращается `False`.
 
-```
-Инициализация WeasyPrint
-     |
-Определение типа данных (HTML-строка или файл)
-     |
-   HTML-строка
-     |
-  Преобразование HTML-строки в PDF
-     |
-   HTML-файл
-     |
-  Чтение HTML-файла и преобразование в PDF
-     |
-Сохранение PDF-файла
-     |
-Успешно
-     |
- Логирование успешного сохранения
-     |
-Ошибка
-     |
-Логирование ошибки и возврат False
-     |
-Возврат True
-```
+1. Импортирует класс `HTML` из библиотеки `weasyprint`.
+2. В зависимости от типа данных (`str` или `Path`) создает объект `HTML` либо из HTML-контента (строки), либо из HTML-файла.
+3. Сохраняет PDF-документ в указанный файл с использованием метода `write_pdf`.
+4. В случае успеха возвращает `True`, при возникновении ошибки логируется сообщение об ошибке и возвращается `False`.
 
 **Примеры**:
 
@@ -287,18 +201,19 @@ def save_pdf_weasyprint(data: str | Path, pdf_file: str | Path) -> bool:
 from pathlib import Path
 from src.utils.pdf import PDFUtils
 
-# Пример сохранения HTML-контента в PDF с использованием WeasyPrint
-html_content = "<html><body><h1>Hello, PDF from WeasyPrint!</h1></body></html>"
-pdf_file = "hello_weasyprint.pdf"
-result = PDFUtils.save_pdf_weasyprint(html_content, pdf_file)
-print(f"Результат сохранения HTML-контента в PDF с использованием WeasyPrint: {result}")  # Вывод: True
+# Пример сохранения HTML-контента в PDF
+html_content = "<html><body><h1>Hello, World!</h1></body></html>"
+pdf_file_path = "example_weasyprint.pdf"
+result = PDFUtils.save_pdf_weasyprint(html_content, pdf_file_path)
+print(f"PDF saved successfully: {result}")
 
-# Пример сохранения HTML-файла в PDF с использованием WeasyPrint
-html_file = Path("example.html")
-html_file.write_text("<html><body><h1>Hello from HTML file!</h1></body></html>")
-pdf_file = "hello_from_file_weasyprint.pdf"
-result = PDFUtils.save_pdf_weasyprint(html_file, pdf_file)
-print(f"Результат сохранения HTML-файла в PDF с использованием WeasyPrint: {result}")  # Вывод: True
+# Пример сохранения HTML-файла в PDF
+html_file_path = Path("example.html")
+with open(html_file_path, "w", encoding="utf-8") as f:
+    f.write("<html><body><h1>Hello, World!</h1></body></html>")
+pdf_file_path = "example_weasyprint_from_file.pdf"
+result = PDFUtils.save_pdf_weasyprint(html_file_path, pdf_file_path)
+print(f"PDF saved successfully: {result}")
 ```
 
 ### `save_pdf_xhtml2pdf`
@@ -319,52 +234,29 @@ def save_pdf_xhtml2pdf(data: str | Path, pdf_file: str | Path) -> bool:
     ...
 ```
 
-**Назначение**: Сохраняет HTML-контент или HTML-файл в PDF-файл, используя библиотеку `xhtml2pdf`.
+**Назначение**: Сохраняет HTML-контент или HTML-файл в PDF-файл с использованием библиотеки `xhtml2pdf`.
 
 **Параметры**:
+
 - `data` (str | Path): HTML-контент в виде строки или путь к HTML-файлу.
-- `pdf_file` (str | Path): Путь к PDF-файлу, в который будет сохранен результат.
+- `pdf_file` (str | Path): Путь к PDF-файлу, в который нужно сохранить данные.
 
 **Возвращает**:
-- `bool`: `True`, если PDF успешно сохранен, иначе `False`.
+
+- `bool`: `True`, если PDF успешно сохранен, `False` в противном случае.
 
 **Вызывает исключения**:
-- `Exception`: Если произошла ошибка во время сохранения PDF с помощью `xhtml2pdf`.
+
+- `Exception`: Если происходит ошибка во время сохранения PDF.
 
 **Как работает функция**:
-1. Импортируется модуль `pisa` из библиотеки `xhtml2pdf`.
-2. Открывается PDF-файл для записи в бинарном режиме.
-3. В зависимости от типа данных (`str` или `Path`), вызывается `pisa.CreatePDF(data, dest=result_file)` или читается HTML-файл и вызывается `pisa.CreatePDF(source_data, dest=result_file, encoding='UTF-8')` для преобразования HTML в PDF.
-4. Логируется информация об успешном сохранении PDF-файла.
-5. В случае возникновения исключений логируется информация об ошибке и возвращается `False`.
 
-```
-Инициализация xhtml2pdf
-     |
-Открытие PDF-файла для записи
-     |
-Определение типа данных (HTML-строка или файл)
-     |
-  HTML-строка
-     |
-Преобразование HTML-строки в PDF
-     |
-  HTML-файл
-     |
-Чтение HTML-файла и преобразование в PDF
-     |
-Сохранение PDF-файла
-     |
-Успешно
-     |
-Логирование успешного сохранения
-     |
-Ошибка
-     |
-Логирование ошибки и возврат False
-     |
-Возврат True
-```
+1. Импортирует модуль `pisa` из библиотеки `xhtml2pdf`.
+2. Открывает PDF-файл для записи в бинарном режиме.
+3. В зависимости от типа данных (`str` или `Path`) создает PDF из HTML-контента (строки) или из HTML-файла.
+4. Для HTML-контента (строки) кодирует строку в UTF-8 и создает PDF с использованием `pisa.CreatePDF`.
+5. Для HTML-файла открывает файл, читает его содержимое и создает PDF с использованием `pisa.CreatePDF`.
+6. В случае успеха возвращает `True`, при возникновении ошибки логируется сообщение об ошибке и возвращается `False`.
 
 **Примеры**:
 
@@ -372,18 +264,19 @@ def save_pdf_xhtml2pdf(data: str | Path, pdf_file: str | Path) -> bool:
 from pathlib import Path
 from src.utils.pdf import PDFUtils
 
-# Пример сохранения HTML-контента в PDF с использованием xhtml2pdf
-html_content = "<html><body><h1>Hello, PDF from xhtml2pdf!</h1></body></html>"
-pdf_file = "hello_xhtml2pdf.pdf"
-result = PDFUtils.save_pdf_xhtml2pdf(html_content, pdf_file)
-print(f"Результат сохранения HTML-контента в PDF с использованием xhtml2pdf: {result}")  # Вывод: True
+# Пример сохранения HTML-контента в PDF
+html_content = "<html><body><h1>Hello, World!</h1></body></html>"
+pdf_file_path = "example_xhtml2pdf.pdf"
+result = PDFUtils.save_pdf_xhtml2pdf(html_content, pdf_file_path)
+print(f"PDF saved successfully: {result}")
 
-# Пример сохранения HTML-файла в PDF с использованием xhtml2pdf
-html_file = Path("example.html")
-html_file.write_text("<html><body><h1>Hello from HTML file!</h1></body></html>")
-pdf_file = "hello_from_file_xhtml2pdf.pdf"
-result = PDFUtils.save_pdf_xhtml2pdf(html_file, pdf_file)
-print(f"Результат сохранения HTML-файла в PDF с использованием xhtml2pdf: {result}")  # Вывод: True
+# Пример сохранения HTML-файла в PDF
+html_file_path = Path("example.html")
+with open(html_file_path, "w", encoding="utf-8") as f:
+    f.write("<html><body><h1>Hello, World!</h1></body></html>")
+pdf_file_path = "example_xhtml2pdf_from_file.pdf"
+result = PDFUtils.save_pdf_xhtml2pdf(html_file_path, pdf_file_path)
+print(f"PDF saved successfully: {result}")
 ```
 
 ### `html2pdf`
@@ -395,52 +288,38 @@ def html2pdf(html_str: str, pdf_file: str | Path) -> bool | None:
     ...
 ```
 
-**Назначение**: Преобразует HTML-контент в PDF-файл, используя WeasyPrint.
+**Назначение**: Преобразует HTML-контент в PDF-файл с использованием библиотеки `WeasyPrint`.
 
 **Параметры**:
+
 - `html_str` (str): HTML-контент в виде строки.
-- `pdf_file` (str | Path): Путь к PDF-файлу, в который будет сохранен результат.
+- `pdf_file` (str | Path): Путь к PDF-файлу, в который нужно сохранить данные.
 
 **Возвращает**:
-- `bool | None`: `True`, если PDF успешно сохранен, или `None` в случае ошибки.
+
+- `bool | None`: `True`, если PDF успешно сохранен, `None` в случае ошибки.
 
 **Вызывает исключения**:
-- `Exception`: Если произошла ошибка во время генерации PDF.
+
+- Отсутствуют явные исключения, но функция может вызывать исключения, связанные с `WeasyPrint`.
 
 **Как работает функция**:
-1. Импортируется класс `HTML` из библиотеки `weasyprint`.
-2. Вызывается `HTML(string=html_str).write_pdf(pdf_file)` для преобразования HTML в PDF.
-3. В случае возникновения исключений выводится информация об ошибке и возвращается `None`.
 
-```
-Инициализация WeasyPrint
-     |
-Преобразование HTML-строки в PDF
-     |
-Сохранение PDF-файла
-     |
-Успешно
-     |
-Возврат True
-     |
-Ошибка
-     |
-Вывод сообщения об ошибке и возврат None
-     |
-Возврат None
-```
+1. Импортирует класс `HTML` из библиотеки `weasyprint`.
+2. Создает объект `HTML` из HTML-контента (строки).
+3. Сохраняет PDF-документ в указанный файл с использованием метода `write_pdf`.
+4. В случае успеха возвращает `True`, при возникновении ошибки выводит сообщение об ошибке и возвращает `None`.
 
 **Примеры**:
 
 ```python
-from pathlib import Path
 from src.utils.pdf import PDFUtils
 
-# Пример сохранения HTML-контента в PDF с использованием WeasyPrint
-html_content = "<html><body><h1>Hello, PDF from WeasyPrint!</h1></body></html>"
-pdf_file = "hello_weasyprint.pdf"
-result = PDFUtils.html2pdf(html_content, pdf_file)
-print(f"Результат сохранения HTML-контента в PDF с использованием WeasyPrint: {result}")
+# Пример сохранения HTML-контента в PDF
+html_content = "<html><body><h1>Hello, World!</h1></body></html>"
+pdf_file_path = "example_html2pdf.pdf"
+result = PDFUtils.html2pdf(html_content, pdf_file_path)
+print(f"PDF saved successfully: {result}")
 ```
 
 ### `pdf_to_html`
@@ -464,41 +343,24 @@ def pdf_to_html(pdf_file: str | Path, html_file: str | Path) -> bool:
 **Назначение**: Конвертирует PDF-файл в HTML-файл.
 
 **Параметры**:
+
 - `pdf_file` (str | Path): Путь к исходному PDF-файлу.
 - `html_file` (str | Path): Путь к сохраняемому HTML-файлу.
 
 **Возвращает**:
+
 - `bool`: `True`, если конвертация прошла успешно, иначе `False`.
 
 **Вызывает исключения**:
-- `Exception`: Если произошла ошибка во время конвертации PDF в HTML.
+
+- Отсутствуют явные исключения, но функция может вызывать исключения, связанные с `pdfminer`.
 
 **Как работает функция**:
-1. Импортируется функция `extract_text` из модуля `pdfminer.high_level`.
-2. Извлекается текст из PDF-файла с использованием `extract_text`.
-3. Открывается HTML-файл для записи в кодировке UTF-8.
-4. Записывается HTML-разметка с извлеченным текстом в файл.
-5. В случае возникновения исключений выводится информация об ошибке и возвращается `False`.
 
-```
-Инициализация PDFMiner
-     |
-Извлечение текста из PDF
-     |
-Создание HTML-файла
-     |
-Запись текста в HTML-файл
-     |
-Успешно
-     |
-Возврат True
-     |
-Ошибка
-     |
-Вывод сообщения об ошибке и возврат False
-     |
-Возврат False
-```
+1. Импортирует функцию `extract_text` из модуля `pdfminer.high_level`.
+2. Извлекает текст из PDF-файла с использованием `extract_text`.
+3. Создает HTML-файл и записывает извлеченный текст в формате HTML.
+4. В случае успеха возвращает `True`, при возникновении ошибки выводит сообщение об ошибке и возвращает `False`.
 
 **Примеры**:
 
@@ -506,11 +368,11 @@ def pdf_to_html(pdf_file: str | Path, html_file: str | Path) -> bool:
 from pathlib import Path
 from src.utils.pdf import PDFUtils
 
-# Пример конвертации PDF-файла в HTML-файл
-pdf_file = "example.pdf"  # Замените на путь к вашему PDF-файлу
-html_file = "example.html"
-result = PDFUtils.pdf_to_html(pdf_file, html_file)
-print(f"Результат конвертации PDF в HTML: {result}")
+# Пример конвертации PDF в HTML
+pdf_file_path = Path("example.pdf")  # Убедитесь, что файл существует
+html_file_path = "example.html"
+result = PDFUtils.pdf_to_html(pdf_file_path, html_file_path)
+print(f"HTML saved successfully: {result}")
 ```
 
 ### `dict2pdf`
@@ -531,63 +393,40 @@ def dict2pdf(data: Any, file_path: str | Path) -> None:
 **Назначение**: Сохраняет данные словаря в PDF-файл.
 
 **Параметры**:
-- `data` (Any): Словарь для конвертации в PDF.
-- `file_path` (str | Path): Путь к выходному PDF-файлу.
+
+- `data` (Any): Словарь, который нужно преобразовать в PDF.
+- `file_path` (str | Path): Путь к PDF-файлу, в который нужно сохранить данные.
 
 **Возвращает**:
+
 - `None`
 
 **Вызывает исключения**:
-- Отсутствуют.
+
+- Отсутствуют явные исключения, но функция может вызывать исключения, связанные с `reportlab`.
 
 **Как работает функция**:
-1. Проверяется, является ли входной параметр экземпляром `SimpleNamespace`. Если да, то он преобразуется в словарь.
-2. Создается объект `canvas.Canvas` для создания PDF-файла.
-3. Устанавливается шрифт "Helvetica" размером 12.
-4. Перебираются элементы словаря.
-5. Для каждой пары ключ-значение создается строка, которая выводится на PDF-страницу.
-6. Если текущая позиция по вертикали становится меньше 50, создается новая страница.
-7. Сохраняется PDF-файл.
 
-```
-Преобразование SimpleNamespace в словарь (если необходимо)
-     |
-Создание PDF-документа
-     |
-Установка шрифта
-     |
-Перебор элементов словаря
-     |
-Форматирование строки
-     |
-Вывод строки на страницу
-     |
-Проверка на переполнение страницы
-     |
-Да
-     |
-Создание новой страницы
-     |
-Нет
-     |
-Продолжение
-     |
-Сохранение PDF-документа
-```
+1. Проверяет, является ли `data` экземпляром `SimpleNamespace`, и если да, преобразует его в словарь.
+2. Создает объект `Canvas` из библиотеки `reportlab.pdfgen.canvas` для создания PDF-документа.
+3. Устанавливает шрифт и размер шрифта.
+4. Перебирает элементы словаря и записывает каждую пару "ключ: значение" в PDF-документ.
+5. Если места на странице недостаточно, создает новую страницу.
+6. Сохраняет PDF-документ в указанный файл.
 
 **Примеры**:
 
 ```python
 from pathlib import Path
-from types import SimpleNamespace
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+
+# Функция для конвертации словаря в PDF
 from src.utils.pdf import PDFUtils
 
 # Пример сохранения словаря в PDF
-data = {"name": "John Doe", "age": 30, "city": "New York"}
-pdf_file = "dict_example.pdf"
-PDFUtils.dict2pdf(data, pdf_file)
-
-# Пример сохранения SimpleNamespace в PDF
-data = SimpleNamespace(name="Jane Doe", age=25, city="Los Angeles")
-pdf_file = "simplenamespace_example.pdf"
-PDFUtils.dict2pdf(data, pdf_file)
+data = {"name": "Alice", "age": 30, "city": "New York"}
+pdf_file_path = "example_dict2pdf.pdf"
+PDFUtils.dict2pdf(data, pdf_file_path)
+print(f"PDF saved successfully: {pdf_file_path}")
+```

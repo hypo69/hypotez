@@ -2,11 +2,11 @@
 
 ## Обзор
 
-Модуль `src.utils.printer` предоставляет утилиты для форматированного вывода текста в консоль, включая стилизацию текста с использованием цветов, фонов и шрифтов.
+Модуль `src.utils.printer` предоставляет утилиты для форматированного вывода данных в консоль с возможностью стилизации текста, включая цвет, фон и шрифт. Он содержит функции для удобного вывода различных типов данных, таких как словари, списки и строки, с использованием ANSI escape-кодов для стилизации.
 
-## Подробней
+## Подробнее
 
-Модуль содержит функции для удобной печати данных различных типов (словарей, списков, строк) с возможностью настройки цветовой схемы и стилей текста.  ANSI escape codes используются для стилизации текста. Это позволяет сделать вывод информации более читаемым и наглядным.
+Модуль предназначен для улучшения читаемости выводимой в консоль информации путем добавления цветового оформления и стилей шрифта. Он использует ANSI escape-коды для управления отображением текста в терминале. Это может быть полезно для выделения важной информации, отладки и визуализации данных. <Объясни, как и зачем используется данный код в проекте `hypotez`.>
 
 ## Константы
 
@@ -16,7 +16,7 @@
 RESET = "\\033[0m"
 ```
 
-Сброс всех стилей текста ANSI escape code.
+Сброс всех стилей текста (цвет, фон, шрифт) к значениям по умолчанию.
 
 ### `TEXT_COLORS`
 
@@ -38,7 +38,7 @@ TEXT_COLORS = {
 }
 ```
 
-Словарь, содержащий коды ANSI escape для различных цветов текста.
+Словарь, содержащий ANSI escape-коды для различных цветов текста.
 
 ### `BG_COLORS`
 
@@ -60,7 +60,7 @@ BG_COLORS = {
 }
 ```
 
-Словарь, содержащий коды ANSI escape для различных цветов фона.
+Словарь, содержащий ANSI escape-коды для различных цветов фона текста.
 
 ### `FONT_STYLES`
 
@@ -71,7 +71,7 @@ FONT_STYLES = {
 }
 ```
 
-Словарь, содержащий коды ANSI escape для различных стилей шрифта (например, жирный, подчеркнутый).
+Словарь, содержащий ANSI escape-коды для различных стилей шрифта (например, жирный, подчеркнутый).
 
 ## Функции
 
@@ -85,7 +85,7 @@ def _color_text(text: str, text_color: str = "", bg_color: str = "", font_style:
 
     :param text: The text to be styled.
     :param text_color: The color to apply to the text. Default is an empty string, meaning no color.
-    :param bg_color: The background color to apply. Default is an empty string, meaning no background color.
+    :param bg_color: The background color to apply to the text. Default is an empty string, meaning no background color.
     :param font_style: The font style to apply to the text. Default is an empty string, meaning no font style.
     :return: The styled text as a string.
 
@@ -93,40 +93,31 @@ def _color_text(text: str, text_color: str = "", bg_color: str = "", font_style:
         >>> _color_text("Hello, World!", text_color="green", font_style="bold")
         \'\\033[1m\\033[32mHello, World!\\033[0m\'
     """
-    ...
+    return f"{font_style}{text_color}{bg_color}{text}{RESET}"
 ```
 
-**Назначение**: Применяет стили текста (цвет, фон, шрифт) к заданной строке, используя ANSI escape-последовательности.
+**Назначение**: Применяет цвет, фон и стиль шрифта к тексту с использованием ANSI escape-кодов.
 
 **Параметры**:
 
--   `text` (str): Текст, к которому необходимо применить стили.
+-   `text` (str): Текст, к которому применяется стилизация.
 -   `text_color` (str, optional): Цвет текста. По умолчанию "".
--   `bg_color` (str, optional): Цвет фона. По умолчанию "".
+-   `bg_color` (str, optional): Цвет фона текста. По умолчанию "".
 -   `font_style` (str, optional): Стиль шрифта. По умолчанию "".
 
 **Возвращает**:
 
--   `str`: Строка с примененными стилями ANSI escape-последовательностями.
+-   `str`: Стилизованный текст.
 
 **Как работает функция**:
 
-1.  Функция принимает текст и параметры стилизации (цвет текста, цвет фона, стиль шрифта).
-2.  Формирует строку, содержащую ANSI escape-последовательности для указанных стилей, обрамляющие входной текст.
-3.  Возвращает стилизованную строку.
-
-```mermaid
-graph TD
-    A[Начало] --> B{Сборка строки с кодами стилизации}
-    B --> C{Применение кодов к тексту}
-    C --> D[Возврат стилизованной строки]
-```
+Функция принимает текст и опциональные параметры для цвета текста, цвета фона и стиля шрифта. Она формирует строку, содержащую ANSI escape-коды для указанных стилей, обрамляющие входной текст, и добавляет код сброса стилей в конце, чтобы не влиять на последующий вывод.
 
 **Примеры**:
 
 ```python
 _color_text("Hello, World!", text_color="green", font_style="bold")
-# Результат: '\033[1m\033[32mHello, World!\033[0m'
+# Возвращает: '\033[1m\033[32mHello, World!\033[0m'
 ```
 
 ### `pprint`
@@ -139,37 +130,62 @@ def pprint(print_data: Any = None, text_color: str = "white", bg_color: str = ""
     text color, background color, and font style based on the specified parameters. The function can handle dictionaries, 
     lists, strings, and file paths.
 
-    :param print_data: The data to be printed. Can be of type ``None``, ``dict``, ``list``, ``str``, or ``Path``.\n
-    :param text_color: The color to apply to the text. Default is \'white\'. See :ref:`TEXT_COLORS`.\n
+    :param print_data: The data to be printed. Can be of type ``None``, ``dict``, ``list``, ``str``, or ``Path``.
+    :param text_color: The color to apply to the text. Default is \'white\'. See :ref:`TEXT_COLORS`.
     :param bg_color: The background color to apply to the text. Default is \'\' (no background color). See :ref:`BG_COLORS`.\n
     :param font_style: The font style to apply to the text. Default is \'\' (no font style). See :ref:`FONT_STYLES`.\n
-    :return: None\n
+    :return: None
 
-    :raises: Exception if the data type is unsupported or an error occurs during printing.\n
+    :raises: Exception if the data type is unsupported or an error occurs during printing.
 
-    :example:\n
-        >>> pprint({"name": "Alice", "age": 30}, text_color="green")\n
+    :example:
+        >>> pprint({"name": "Alice", "age": 30}, text_color="green")
         \\033[32m{\n
             "name": "Alice",\n
             "age": 30\n
         }\\033[0m\n
-
-        >>> pprint(["apple", "banana", "cherry"], text_color="blue", font_style="bold")\n
+\n
+        >>> pprint(["apple", "banana", "cherry"], text_color="blue", font_style="bold")
         \\033[34m\\033[1mapple\\033[0m\n
         \\033[34m\\033[1mbanana\\033[0m\n
         \\033[34m\\033[1mcherry\\033[0m\n
-
-        >>> pprint("text example", text_color="yellow", bg_color="bg_red", font_style="underline")\n
+\n
+        >>> pprint("text example", text_color="yellow", bg_color="bg_red", font_style="underline")
         \\033[4m\\033[33m\\033[41mtext example\\033[0m\n
     """
-    ...
+    if not print_data:\n
+        return\n
+    if isinstance(text_color, str):\n
+        text_color = TEXT_COLORS.get(text_color.lower(), TEXT_COLORS["white"])\n
+    if isinstance(bg_color, str):\n
+        bg_color = BG_COLORS.get(bg_color.lower(), "")\n
+    if isinstance(font_style, str):\n
+        font_style = FONT_STYLES.get(font_style.lower(), "")\n
+\n
+\n
+    try:\n
+        if isinstance(print_data, dict):\n
+            print(_color_text(json.dumps(print_data, indent=4), text_color))\n
+        elif isinstance(print_data, list):\n
+            for item in print_data:\n
+                print(_color_text(str(item), text_color))\n
+        elif isinstance(print_data, (str, Path)) and Path(print_data).is_file():\n
+            ext = Path(print_data).suffix.lower()\n
+            if ext in [\'.csv\', \'.xls\']:\n
+                print(_color_text("File reading supported for .csv, .xls only.", text_color))\n
+            else:\n
+                print(_color_text("Unsupported file type.", text_color))\n
+        else:\n
+            print(_color_text(str(print_data), text_color))\n
+    except Exception as ex:\n
+        print(_color_text(f"Error: {ex}", text_color=TEXT_COLORS["red"]))\n
 ```
 
-**Назначение**: Выводит данные в консоль с применением указанных стилей текста (цвет, фон, шрифт).
+**Назначение**: Форматированный вывод данных с возможностью стилизации текста.
 
 **Параметры**:
 
--   `print_data` (Any, optional): Данные для вывода. Может быть `None`, `dict`, `list`, `str` или `Path`. По умолчанию `None`.
+-   `print_data` (Any, optional): Данные для вывода. Может быть `None`, `dict`, `list`, `str` или `Path`.
 -   `text_color` (str, optional): Цвет текста. По умолчанию "white".
 -   `bg_color` (str, optional): Цвет фона. По умолчанию "".
 -   `font_style` (str, optional): Стиль шрифта. По умолчанию "".
@@ -180,51 +196,39 @@ def pprint(print_data: Any = None, text_color: str = "white", bg_color: str = ""
 
 **Как работает функция**:
 
-1.  Функция принимает данные для вывода и параметры стилизации.
-2.  Проверяет тип данных и применяет соответствующее форматирование:
-    -   Для словарей использует `json.dumps` с отступом 4 для красивого вывода.
-    -   Для списков выводит каждый элемент списка на отдельной строке.
-    -   Для строк и объектов `Path` выводит данные как строку.
-    -   Если `print_data` является путем к файлу, проверяет расширение файла и выводит сообщение о поддержке только для `.csv` и `.xls` файлов.
-3.  Применяет стилизацию текста с помощью функции `_color_text`.
-4.  Выводит отформатированные и стилизованные данные в консоль.
-5.  В случае ошибки выводит сообщение об ошибке красным цветом.
+Функция `pprint` принимает данные различных типов и выводит их в консоль с применением указанных стилей текста. Она проверяет тип входных данных и соответствующим образом форматирует вывод:
 
-```mermaid
-graph TD
-    A[Начало] --> B{Проверка наличия данных для вывода}
-    B -- Нет данных --> F[Конец]
-    B -- Данные есть --> C{Определение типа данных}
-    C -- Словарь --> D1{Форматирование словаря через json.dumps}
-    C -- Список --> D2{Перебор списка и вывод каждого элемента}
-    C -- Строка или Path --> D3{Вывод как строка}
-    C -- Файл --> D4{Проверка расширения файла}
-    D1 --> E{Применение стилей текста через _color_text}
-    D2 --> E
-    D3 --> E
-    D4 -- Поддерживаемый формат --> E
-    D4 -- Неподдерживаемый формат --> E
-    E --> F[Вывод данных в консоль]
-    E -- Ошибка --> G{Вывод сообщения об ошибке}
-    G --> F
-```
+-   Если данные являются словарем, они выводятся в формате JSON с отступами.
+-   Если данные являются списком, каждый элемент списка выводится на отдельной строке.
+-   Если данные являются строкой или путем к файлу, функция проверяет расширение файла и выводит сообщение о поддержке чтения только для файлов `.csv` и `.xls`.
+-   В случае возникновения ошибки при выводе данных, функция выводит сообщение об ошибке красным цветом.
+    Если `print_data` не передано - функция ничего не делает.
+
+Внутри функция использует `_color_text` для добавления стилей к тексту перед выводом.
 
 **Примеры**:
 
 ```python
 pprint({"name": "Alice", "age": 30}, text_color="green")
-# Результат: (в консоли)
+# Выводит:
 # \033[32m{
 #     "name": "Alice",
 #     "age": 30
 # }\033[0m
 
 pprint(["apple", "banana", "cherry"], text_color="blue", font_style="bold")
-# Результат: (в консоли)
+# Выводит:
 # \033[34m\033[1mapple\033[0m
 # \033[34m\033[1mbanana\033[0m
 # \033[34m\033[1mcherry\033[0m
 
 pprint("text example", text_color="yellow", bg_color="bg_red", font_style="underline")
-# Результат: (в консоли)
-# \033[4m\033[33m\033[41mtext example\033[0m
+# Выводит: \033[4m\033[33m\033[41mtext example\033[0m
+```
+
+```python
+if __name__ == '__main__':
+    pprint({"name": "Alice", "age": 30}, text_color="green")
+```
+
+Этот блок кода выполняется только при запуске модуля как основной программы. В данном случае, он выводит словарь `{"name": "Alice", "age": 30}` с зеленым цветом текста.

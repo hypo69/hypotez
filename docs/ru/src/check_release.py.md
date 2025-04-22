@@ -1,52 +1,59 @@
-# Модуль проверки последней версии релиза
+# Модуль проверки актуальной версии
 
 ## Обзор
 
-Модуль `check_release.py` предназначен для проверки последней версии релиза репозитория на GitHub. Он использует API GitHub для получения информации о релизах и возвращает номер последней версии.
+Модуль предназначен для проверки актуальной версии репозитория на GitHub. Он использует API GitHub для получения информации о последнем релизе и возвращает номер версии.
 
 ## Подробней
 
-Этот модуль предоставляет функцию `check_latest_release`, которая позволяет получить информацию о последней версии релиза указанного репозитория на GitHub. Это может быть полезно для автоматической проверки наличия обновлений в проекте.
+Модуль содержит функцию `check_latest_release`, которая принимает имя репозитория и имя владельца в качестве аргументов. Функция выполняет запрос к API GitHub и возвращает номер последней версии релиза. Если запрос не удался, функция логирует ошибку и возвращает `None`.
 
 ## Функции
 
 ### `check_latest_release`
 
-```python
-def check_latest_release(owner: str, repo: str):
-    """Check the latest release version of a GitHub repository.
-
-    Args:
-        owner (str): The owner of the repository.
-        repo (str): The name of the repository.
-
-    Returns:
-        str: The latest release version if available, else None.
-    """
-```
-
-**Описание**: Проверяет последнюю версию релиза репозитория на GitHub.
-
-**Как работает функция**:
-1. Формирует URL для запроса к API GitHub для получения информации о последнем релизе репозитория.
-2. Отправляет GET-запрос к API GitHub.
-3. Если запрос успешен (код ответа 200), извлекает номер версии из JSON-ответа и возвращает его.
-4. Если запрос не успешен, логирует ошибку и возвращает `None`.
+**Назначение**: Проверка последней версии релиза репозитория GitHub.
 
 **Параметры**:
-- `owner` (str): Имя владельца репозитория.
-- `repo` (str): Имя репозитория.
+- `repo` (str): Название репозитория.
+- `owner` (str): Владелец репозитория.
 
 **Возвращает**:
 - `str`: Номер последней версии релиза, если доступен.
-- `None`: Если не удалось получить информацию о релизе.
+- `None`: В случае ошибки или отсутствия релизов.
+
+**Как работает функция**:
+1. Формирует URL для запроса к API GitHub для получения информации о последнем релизе.
+2. Отправляет GET-запрос к API GitHub.
+3. Проверяет статус код ответа:
+   - Если статус код 200 (успешно), извлекает номер версии из JSON-ответа и возвращает его.
+   - Если статус код отличается от 200, логирует ошибку с использованием `logger.error` и возвращает `None`.
 
 **Примеры**:
+
 ```python
-owner = 'your_github_username'
-repo = 'your_repo_name'
-latest_version = check_latest_release(owner, repo)
+from src.check_release import check_latest_release
+
+latest_version = check_latest_release(repo='transformers', owner='huggingface')
 if latest_version:
-    print(f'Latest version: {latest_version}')
+    print(f"Latest version: {latest_version}")
 else:
-    print('Could not retrieve the latest version.')
+    print("Could not retrieve the latest version.")
+
+# Вывод:
+# Latest version: v4.35.2 
+```
+
+```python
+from src.check_release import check_latest_release
+
+latest_version = check_latest_release(repo='nonexistent_repo', owner='some_owner')
+if latest_version:
+    print(f"Latest version: {latest_version}")
+else:
+    print("Could not retrieve the latest version.")
+
+# Вывод в лог:
+# logger.error(f"Error fetching data: {response.status_code}")
+# Вывод:
+# Could not retrieve the latest version.

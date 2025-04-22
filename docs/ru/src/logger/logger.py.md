@@ -1,646 +1,300 @@
-# Модуль логгера
+# Модуль `src.logger.logger`
 
 ## Обзор
 
-Модуль `src.logger.logger` предоставляет класс `Logger` для реализации паттерна Singleton с возможностью ведения логов в консоль, файлы и JSON. Он позволяет записывать сообщения различных уровней (INFO, DEBUG, ERROR, CRITICAL) с возможностью настройки цветов текста и фона.
+Модуль `src.logger.logger` предназначен для организации логирования в проекте. Он предоставляет класс `Logger`, реализующий паттерн Singleton, что гарантирует наличие только одного экземпляра логгера в системе. Логгер поддерживает вывод сообщений в консоль, запись в файлы (info, debug, errors) и в JSON-файл. Модуль использует библиотеку `colorama` для раскрашивания сообщений в консоли.
 
-## Подробнее
+## Подробней
 
-Этот модуль предназначен для централизованного управления логированием в проекте `hypotez`. Он использует библиотеку `logging` и `colorama` для форматирования и вывода логов. Класс `Logger` реализован как Singleton, что гарантирует наличие только одного экземпляра логгера во всем приложении. Логи могут быть направлены в консоль, в отдельные файлы для информации, отладки и ошибок, а также в JSON-файл для структурированного хранения.
+Модуль содержит классы и функции для настройки логирования, включая форматирование сообщений и обработку исключений. Он позволяет записывать логи в файлы различных уровней (INFO, DEBUG, ERROR) и предоставляет возможность настройки цветов для консольного вывода.
+
+## Содержание
+
+- [Классы](#Классы)
+  - [SingletonMeta](#SingletonMeta)
+  - [JsonFormatter](#JsonFormatter)
+  - [Logger](#Logger)
+- [Переменные](#Переменные)
+- [Функции](#Функции)
+  - [`_format_message`](#_format_message)
+  - [`_ex_full_info`](#_ex_full_info)
+  - [`log`](#log)
+  - [`info`](#info)
+  - [`success`](#success)
+  - [`warning`](#warning)
+  - [`debug`](#debug)
+  - [`exception`](#exception)
+  - [`error`](#error)
+  - [`critical`](#critical)
+
+## Переменные
+
+### `TEXT_COLORS`
+
+Словарь, содержащий ANSI escape-коды для различных цветов текста, используемых при логировании в консоль.
+
+### `BG_COLORS`
+
+Словарь, содержащий ANSI escape-коды для различных цветов фона, используемых при логировании в консоль.
+
+### `LOG_SYMBOLS`
+
+Словарь, содержащий символы, соответствующие различным уровням логирования, для визуального отображения в консоли.
 
 ## Классы
 
 ### `SingletonMeta`
 
-**Описание**: Метакласс для реализации паттерна Singleton.
+**Описание**: Метакласс для реализации паттерна Singleton. Обеспечивает создание только одного экземпляра класса.
 
-**Принцип работы**:
-Метакласс `SingletonMeta` гарантирует, что класс, к которому он применяется, будет иметь только один экземпляр. Это достигается за счет хранения экземпляров в словаре `_instances` и использования блокировки `_lock` для предотвращения одновременного создания нескольких экземпляров в многопоточной среде.
+**Наследует**: `type`
+
+**Методы**:
+
+- `__call__(cls, *args, **kwargs)`: Обеспечивает создание только одного экземпляра класса. Если экземпляр класса уже существует, возвращает существующий экземпляр.
 
 ### `JsonFormatter`
 
 **Описание**: Пользовательский форматтер для логирования в формате JSON.
 
-**Принцип работы**:
-Класс `JsonFormatter` наследует `logging.Formatter` и переопределяет метод `format`, чтобы преобразовывать записи лога в формат JSON. Он включает время записи, уровень логирования, сообщение и информацию об исключении (если она есть).
+**Наследует**: `logging.Formatter`
 
 **Методы**:
 
-- `format(record)`: Форматирует запись лога в JSON.
-    - **Параметры**:
-        - `record` (logging.LogRecord): Запись лога.
-    - **Возвращает**:
-        - `str`: JSON-представление записи лога.
+- `format(self, record)`: Форматирует запись лога в JSON-формат. Включает время, уровень логирования, сообщение и информацию об исключении (если есть).
 
 ### `Logger`
 
-**Описание**: Класс Logger, реализующий паттерн Singleton с логированием в консоль, файлы и JSON.
+**Описание**: Класс логгера, реализующий паттерн Singleton. Поддерживает логирование в консоль, файлы (info, debug, errors) и JSON-файл.
 
-**Принцип работы**:
-Класс `Logger` использует паттерн Singleton для обеспечения единственного экземпляра логгера в приложении. Он настраивает несколько логгеров для вывода в консоль и файлы (info, debug, errors, json). Поддерживает форматирование сообщений с использованием цветов и символов.
+**Наследует**: Нет
 
 **Атрибуты**:
 
-- `log_files_path` (Path): Путь к папке с файлами логов.
-- `info_log_path` (Path): Путь к файлу информационных логов.
-- `debug_log_path` (Path): Путь к файлу отладочных логов.
-- `errors_log_path` (Path): Путь к файлу логов ошибок.
-- `json_log_path` (Path): Путь к файлу JSON-логов.
-- `logger_console`: (logging.Logger): Логгер для консоли.
-- `logger_file_info`: (logging.Logger): Логгер для информационных сообщений.
-- `logger_file_debug`: (logging.Logger): Логгер для отладочных сообщений.
-- `logger_file_errors`: (logging.Logger): Логгер для сообщений об ошибках.
-- `logger_file_json`: (logging.Logger): Логгер для JSON-форматированных сообщений.
+- `log_files_path` (Path): Путь к директории, где хранятся файлы логов.
+- `info_log_path` (Path): Путь к файлу для логирования информационных сообщений.
+- `debug_log_path` (Path): Путь к файлу для логирования отладочных сообщений.
+- `errors_log_path` (Path): Путь к файлу для логирования сообщений об ошибках.
+- `json_log_path` (Path): Путь к файлу для логирования в формате JSON.
+- `logger_console` (logging.Logger): Объект логгера для вывода в консоль.
+- `logger_file_info` (logging.Logger): Объект логгера для записи информационных сообщений в файл.
+- `logger_file_debug` (logging.Logger): Объект логгера для записи отладочных сообщений в файл.
+- `logger_file_errors` (logging.Logger): Объект логгера для записи сообщений об ошибках в файл.
+- `logger_file_json` (logging.Logger): Объект логгера для записи сообщений в формате JSON в файл.
 
 **Методы**:
 
-- `__init__(info_log_path: Optional[str] = None, debug_log_path: Optional[str] = None, errors_log_path: Optional[str] = None, json_log_path: Optional[str] = None)`: Инициализирует экземпляр логгера.
+- `__init__(self, info_log_path: Optional[str] = None, debug_log_path: Optional[str] = None, errors_log_path: Optional[str] = None, json_log_path: Optional[str] = None)`:
+    - **Назначение**: Инициализирует экземпляр класса `Logger`.
     - **Параметры**:
-        - `info_log_path` (Optional[str], optional): Путь к файлу информационных логов. По умолчанию `None`.
-        - `debug_log_path` (Optional[str], optional): Путь к файлу отладочных логов. По умолчанию `None`.
-        - `errors_log_path` (Optional[str], optional): Путь к файлу логов ошибок. По умолчанию `None`.
-        - `json_log_path` (Optional[str], optional): Путь к файлу JSON-логов. По умолчанию `None`.
+        - `info_log_path` (Optional[str], optional): Путь к файлу для информационных логов. По умолчанию `None`.
+        - `debug_log_path` (Optional[str], optional): Путь к файлу для дебаг логов. По умолчанию `None`.
+        - `errors_log_path` (Optional[str], optional): Путь к файлу для логов ошибок. По умолчанию `None`.
+        - `json_log_path` (Optional[str], optional): Путь к файлу для JSON логов. По умолчанию `None`.
     - **Как работает функция**:
-        1. Загружает конфигурацию из файла `config.json`.
-        2. Определяет пути к файлам логов на основе конфигурации и текущего времени.
-        3. Создает директории для логов, если они не существуют.
-        4. Создает файлы логов, если они не существуют.
-        5. Настраивает логгеры для консоли и файлов с соответствующими уровнями логирования и форматтерами.
+        - Функция определяет пути к файлам логов на основе переданных параметров или значений по умолчанию из конфигурационного файла.
+        - Создает директории для хранения логов, если они не существуют.
+        - Создает файлы логов, если они не существуют.
+        - Инициализирует логгеры для консоли и файлов, устанавливает уровни логирования и форматтеры.
+        - Удаляет все обработчики, которые выводят в консоль для JSON логгера.
+    - **Примеры**:
+      ```python
+      from src.logger.logger import Logger
+      logger = Logger(info_log_path='info.log', debug_log_path='debug.log', errors_log_path='errors.log', json_log_path='log.json')
+      ```
 
-```
-        A: Загрузка конфигурации и определение путей
-        |
-        B: Создание директорий и файлов логов
-        |
-        C: Настройка логгеров для консоли и файлов
-```
+## Функции
 
-- `_format_message(message, ex=None, color: Optional[Tuple[str, str]] = None, level=None)`: Возвращает отформатированное сообщение с информацией об исключении и цветом.
+### `_format_message`
+
+- **Назначение**: Форматирует сообщение лога с учетом уровня логирования, добавляет символ, цвет и информацию об исключении (если есть).
     - **Параметры**:
         - `message` (str): Сообщение для логирования.
-        - `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-        - `color` (Optional[Tuple[str, str]], optional): Кортеж цветов текста и фона. По умолчанию `None`.
+        - `ex` (Exception, optional): Объект исключения. По умолчанию `None`.
+        - `color` (Tuple[str, str], optional): Кортеж, содержащий цвет текста и фона. По умолчанию `None`.
         - `level` (int, optional): Уровень логирования. По умолчанию `None`.
     - **Возвращает**:
         - `str`: Отформатированное сообщение.
     - **Как работает функция**:
-        1. Определяет символ лога на основе уровня логирования.
-        2. Если указан цвет, применяет его к сообщению.
-        3. Форматирует сообщение с символом лога, цветом (если есть) и информацией об исключении (если есть).
+        - Функция извлекает символ лога на основе уровня логирования.
+        - Если указан цвет, применяет ANSI escape-коды для раскрашивания сообщения.
+        - Добавляет информацию об исключении (если есть) к сообщению.
+        - Возвращает отформатированное сообщение.
+    - **Примеры**:
+      ```python
+      from src.logger.logger import Logger
+      logger = Logger()
+      formatted_message = logger._format_message("Test message", ex=Exception("Test exception"), color=("red", "light_gray"), level=logging.ERROR)
+      print(formatted_message)
+      ```
 
-```
-        A: Определение символа лога
-        |
-        B: Применение цвета (если указан)
-        |
-        C: Форматирование сообщения
-```
+### `_ex_full_info`
 
-- `_ex_full_info(ex)`: Возвращает полную информацию об исключении, включая имя файла, имя функции и номер строки.
+- **Назначение**: Получает полную информацию об исключении, включая имя файла, имя функции и номер строки, где произошло исключение.
     - **Параметры**:
         - `ex` (Exception): Объект исключения.
     - **Возвращает**:
         - `str`: Полная информация об исключении.
     - **Как работает функция**:
-        1. Получает информацию о кадре стека вызовов.
-        2. Извлекает имя файла, имя функции и номер строки из информации о кадре.
-        3. Форматирует информацию об исключении, включая имя файла, имя функции и номер строки.
-
-```
-        A: Получение информации о кадре стека вызовов
-        |
-        B: Извлечение имени файла, имени функции и номера строки
-        |
-        C: Форматирование информации об исключении
-```
-
-- `log(level, message, ex=None, exc_info=False, color: Optional[Tuple[str, str]] = None)`: Общий метод для логирования сообщений на указанном уровне с указанным цветом.
-    - **Параметры**:
-        - `level` (int): Уровень логирования.
-        - `message` (str): Сообщение для логирования.
-        - `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `False`.
-        - `color` (Optional[Tuple[str, str]], optional): Кортеж цветов текста и фона. По умолчанию `None`.
-    - **Как работает функция**:
-        1. Форматирует сообщение с использованием метода `_format_message`.
-        2. Логирует сообщение с указанным уровнем и информацией об исключении (если указано).
-
-```
-        A: Форматирование сообщения
-        |
-        B: Логирование сообщения
-```
-
-- `info(message, ex=None, exc_info=False, text_color: str = "green", bg_color: str = "")`: Логирует информационное сообщение с необязательными цветами текста и фона.
-    - **Параметры**:
-        - `message` (str): Сообщение для логирования.
-        - `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `False`.
-        - `text_color` (str, optional): Цвет текста. По умолчанию `"green"`.
-        - `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
-    - **Как работает функция**:
-        1. Определяет цвет на основе параметров `text_color` и `bg_color`.
-        2. Вызывает метод `log` с уровнем `logging.INFO` и определенным цветом.
-
-```
-        A: Определение цвета
-        |
-        B: Вызов метода log
-```
-
-- `success(message, ex=None, exc_info=False, text_color: str = "yellow", bg_color: str = "")`: Логирует сообщение об успехе с необязательными цветами текста и фона.
-    - **Параметры**:
-        - `message` (str): Сообщение для логирования.
-        - `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `False`.
-        - `text_color` (str, optional): Цвет текста. По умолчанию `"yellow"`.
-        - `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
-    - **Как работает функция**:
-        1. Определяет цвет на основе параметров `text_color` и `bg_color`.
-        2. Вызывает метод `log` с уровнем `logging.INFO` и определенным цветом.
-
-```
-        A: Определение цвета
-        |
-        B: Вызов метода log
-```
-
-- `warning(message, ex=None, exc_info=False, text_color: str = "light_red", bg_color: str = "")`: Логирует предупреждающее сообщение с необязательными цветами текста и фона.
-    - **Параметры**:
-        - `message` (str): Сообщение для логирования.
-        - `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `False`.
-        - `text_color` (str, optional): Цвет текста. По умолчанию `"light_red"`.
-        - `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
-    - **Как работает функция**:
-        1. Определяет цвет на основе параметров `text_color` и `bg_color`.
-        2. Вызывает метод `log` с уровнем `logging.WARNING` и определенным цветом.
-
-```
-        A: Определение цвета
-        |
-        B: Вызов метода log
-```
-
-- `debug(message, ex=None, exc_info=True, text_color: str = "cyan", bg_color: str = "")`: Логирует отладочное сообщение с необязательными цветами текста и фона.
-    - **Параметры**:
-        - `message` (str): Сообщение для логирования.
-        - `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `True`.
-        - `text_color` (str, optional): Цвет текста. По умолчанию `"cyan"`.
-        - `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
-    - **Как работает функция**:
-        1. Определяет цвет на основе параметров `text_color` и `bg_color`.
-        2. Вызывает метод `log` с уровнем `logging.DEBUG` и определенным цветом.
-
-```
-        A: Определение цвета
-        |
-        B: Вызов метода log
-```
-
-- `exception(message, ex=None, exc_info=True, text_color: str = "cyan", bg_color: str = "light_gray")`: Логирует сообщение об исключении с необязательными цветами текста и фона.
-    - **Параметры**:
-        - `message` (str): Сообщение для логирования.
-        - `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `True`.
-        - `text_color` (str, optional): Цвет текста. По умолчанию `"cyan"`.
-        - `bg_color` (str, optional): Цвет фона. По умолчанию `"light_gray"`.
-    - **Как работает функция**:
-        1. Определяет цвет на основе параметров `text_color` и `bg_color`.
-        2. Вызывает метод `log` с уровнем `logging.ERROR` и определенным цветом.
-
-```
-        A: Определение цвета
-        |
-        B: Вызов метода log
-```
-
-- `error(message, ex=None, exc_info=True, text_color: str = "red", bg_color: str = "")`: Логирует сообщение об ошибке с необязательными цветами текста и фона.
-    - **Параметры**:
-        - `message` (str): Сообщение для логирования.
-        - `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `True`.
-        - `text_color` (str, optional): Цвет текста. По умолчанию `"red"`.
-        - `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
-    - **Как работает функция**:
-        1. Определяет цвет на основе параметров `text_color` и `bg_color`.
-        2. Вызывает метод `log` с уровнем `logging.ERROR` и определенным цветом.
-
-```
-        A: Определение цвета
-        |
-        B: Вызов метода log
-```
-
-- `critical(message, ex=None, exc_info=True, text_color: str = "red", bg_color: str = "white")`: Логирует критическое сообщение с необязательными цветами текста и фона.
-    - **Параметры**:
-        - `message` (str): Сообщение для логирования.
-        - `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `True`.
-        - `text_color` (str, optional): Цвет текста. По умолчанию `"red"`.
-        - `bg_color` (str, optional): Цвет фона. По умолчанию `"white"`.
-    - **Как работает функция**:
-        1. Определяет цвет на основе параметров `text_color` и `bg_color`.
-        2. Вызывает метод `log` с уровнем `logging.CRITICAL` и определенным цветом.
-
-```
-        A: Определение цвета
-        |
-        B: Вызов метода log
-```
-
-## Функции
+        - Функция использует модуль `inspect` для получения информации о стеке вызовов.
+        - Извлекает имя файла, имя функции и номер строки из стека вызовов.
+        - Форматирует информацию об исключении и возвращает ее в виде строки.
+    - **Примеры**:
+      ```python
+      from src.logger.logger import Logger
+      logger = Logger()
+      try:
+          raise ValueError("Test error")
+      except ValueError as ex:
+          full_info = logger._ex_full_info(ex)
+          print(full_info)
+      ```
 
 ### `log`
 
-```python
-def log(self, level, message, ex=None, exc_info=False, color: Optional[Tuple[str, str]] = None):
-    """
-    Общий метод для логирования сообщений на указанном уровне с указанным цветом.
-    Args:
-        level:
-        message:
-        ex:
-        exc_info:
-        color:
-    """
-    ...
-```
-
-**Назначение**: Общий метод для логирования сообщений на указанном уровне с указанным цветом.
-
-**Параметры**:
-
-- `level` (int): Уровень логирования.
-- `message` (str): Сообщение для логирования.
-- `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-- `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `False`.
-- `color` (Optional[Tuple[str, str]], optional): Кортеж цветов текста и фона. По умолчанию `None`.
-
-**Как работает функция**:
-
-1.  Форматирует сообщение с использованием метода `_format_message`.
-2.  Логирует сообщение с указанным уровнем и информацией об исключении (если указано).
-
-```
-     A
-     ↓
-     B
-```
-
-Где:
-
--   `A`: Форматирование сообщения с использованием `_format_message`.
--   `B`: Логирование сообщения с использованием `self.logger_console.log`.
-
-**Примеры**:
-
-```python
-logger.log(logging.INFO, "Сообщение", color=("green", ""))
-logger.log(logging.ERROR, "Ошибка", ex=ValueError("Неверное значение"), exc_info=True, color=("red", "white"))
-```
+- **Назначение**: Общий метод для логирования сообщений на указанном уровне с возможностью указания цвета.
+    - **Параметры**:
+        - `level` (int): Уровень логирования.
+        - `message` (str): Сообщение для логирования.
+        - `ex` (Exception, optional): Объект исключения. По умолчанию `None`.
+        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли добавлять информацию об исключении в лог. По умолчанию `False`.
+        - `color` (Tuple[str, str], optional): Кортеж, содержащий цвет текста и фона. По умолчанию `None`.
+    - **Как работает функция**:
+        - Функция форматирует сообщение с помощью метода `_format_message`.
+        - Выводит сообщение в консоль с использованием соответствующего метода логгера.
+        - Если `exc_info` установлено в `True` и есть исключение, логирует сообщение как исключение.
+    - **Примеры**:
+      ```python
+      from src.logger.logger import Logger
+      logger = Logger()
+      logger.log(logging.INFO, "Test message", ex=None, exc_info=False, color=("green", ""))
+      ```
 
 ### `info`
 
-```python
-def info(self, message, ex=None, exc_info=False, text_color: str = "green", bg_color: str = ""):
-    """
-    Логирует информационное сообщение с необязательными цветами текста и фона.
-    Args:
-        message:
-        ex:
-        exc_info:
-        text_color:
-        bg_color:
-    """
-    ...
-```
-
-**Назначение**: Логирует информационное сообщение с необязательными цветами текста и фона.
-
-**Параметры**:
-
-- `message` (str): Сообщение для логирования.
-- `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-- `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `False`.
-- `text_color` (str, optional): Цвет текста. По умолчанию `"green"`.
-- `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
-
-**Как работает функция**:
-
-1.  Определяет цвет на основе параметров `text_color` и `bg_color`.
-2.  Вызывает метод `log` с уровнем `logging.INFO` и определенным цветом.
-
-```
-     A
-     ↓
-     B
-```
-
-Где:
-
--   `A`: Определение цвета на основе `text_color` и `bg_color`.
--   `B`: Вызов метода `log` с уровнем `logging.INFO`.
-
-**Примеры**:
-
-```python
-logger.info("Информационное сообщение")
-logger.info("Информация", text_color="blue")
-```
+- **Назначение**: Логирует информационное сообщение с возможностью указания цвета текста и фона.
+    - **Параметры**:
+        - `message` (str): Сообщение для логирования.
+        - `ex` (Exception, optional): Объект исключения. По умолчанию `None`.
+        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли добавлять информацию об исключении в лог. По умолчанию `False`.
+        - `text_color` (str, optional): Цвет текста. По умолчанию `"green"`.
+        - `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
+    - **Как работает функция**:
+        - Функция вызывает метод `log` с уровнем логирования `logging.INFO` и указанными цветами.
+    - **Примеры**:
+      ```python
+      from src.logger.logger import Logger
+      logger = Logger()
+      logger.info("Test info message", ex=None, exc_info=False, text_color="blue", bg_color="light_gray")
+      ```
 
 ### `success`
 
-```python
-def success(self, message, ex=None, exc_info=False, text_color: str = "yellow", bg_color: str = ""):
-    """
-    Logs a success message with optional text and background colors.
-    Args:
-        message:
-        ex:
-        exc_info:
-        text_color:
-        bg_color:
-    """
-    ...
-```
-
-**Назначение**: Логирует сообщение об успехе с необязательными цветами текста и фона.
-
-**Параметры**:
-
-- `message` (str): Сообщение для логирования.
-- `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-- `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `False`.
-- `text_color` (str, optional): Цвет текста. По умолчанию `"yellow"`.
-- `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
-
-**Как работает функция**:
-
-1.  Определяет цвет на основе параметров `text_color` и `bg_color`.
-2.  Вызывает метод `log` с уровнем `logging.INFO` и определенным цветом.
-
-```
-     A
-     ↓
-     B
-```
-
-Где:
-
--   `A`: Определение цвета на основе `text_color` и `bg_color`.
--   `B`: Вызов метода `log` с уровнем `logging.INFO`.
-
-**Примеры**:
-
-```python
-logger.success("Операция выполнена успешно")
-logger.success("Успех!", text_color="green")
-```
+- **Назначение**: Логирует сообщение об успехе с возможностью указания цвета текста и фона.
+    - **Параметры**:
+        - `message` (str): Сообщение для логирования.
+        - `ex` (Exception, optional): Объект исключения. По умолчанию `None`.
+        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли добавлять информацию об исключении в лог. По умолчанию `False`.
+        - `text_color` (str, optional): Цвет текста. По умолчанию `"yellow"`.
+        - `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
+    - **Как работает функция**:
+        - Функция вызывает метод `log` с уровнем логирования `logging.INFO` и указанными цветами.
+    - **Примеры**:
+      ```python
+      from src.logger.logger import Logger
+      logger = Logger()
+      logger.success("Test success message", ex=None, exc_info=False, text_color="green", bg_color="")
+      ```
 
 ### `warning`
 
-```python
-def warning(self, message, ex=None, exc_info=False, text_color: str = "light_red", bg_color: str = ""):
-    """
-    Logs a warning message with optional text and background colors.
-    Args:
-        message:
-        ex:
-        exc_info:
-        text_color:
-        bg_color:
-    """
-    ...
-```
-
-**Назначение**: Логирует предупреждающее сообщение с необязательными цветами текста и фона.
-
-**Параметры**:
-
-- `message` (str): Сообщение для логирования.
-- `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-- `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `False`.
-- `text_color` (str, optional): Цвет текста. По умолчанию `"light_red"`.
-- `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
-
-**Как работает функция**:
-
-1.  Определяет цвет на основе параметров `text_color` и `bg_color`.
-2.  Вызывает метод `log` с уровнем `logging.WARNING` и определенным цветом.
-
-```
-     A
-     ↓
-     B
-```
-
-Где:
-
--   `A`: Определение цвета на основе `text_color` и `bg_color`.
--   `B`: Вызов метода `log` с уровнем `logging.WARNING`.
-
-**Примеры**:
-
-```python
-logger.warning("Предупреждение!")
-logger.warning("Внимание!", text_color="yellow")
-```
+- **Назначение**: Логирует сообщение предупреждения с возможностью указания цвета текста и фона.
+    - **Параметры**:
+        - `message` (str): Сообщение для логирования.
+        - `ex` (Exception, optional): Объект исключения. По умолчанию `None`.
+        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли добавлять информацию об исключении в лог. По умолчанию `False`.
+        - `text_color` (str, optional): Цвет текста. По умолчанию `"light_red"`.
+        - `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
+    - **Как работает функция**:
+        - Функция вызывает метод `log` с уровнем логирования `logging.WARNING` и указанными цветами.
+    - **Примеры**:
+      ```python
+      from src.logger.logger import Logger
+      logger = Logger()
+      logger.warning("Test warning message", ex=None, exc_info=False, text_color="yellow", bg_color="")
+      ```
 
 ### `debug`
 
-```python
-def debug(self, message, ex=None, exc_info=True, text_color: str = "cyan", bg_color: str = ""):
-    """
-    Logs a debug message with optional text and background colors.
-    Args:
-        message:
-        ex:
-        exc_info:
-        text_color:
-        bg_color:
-    """
-    ...
-```
-
-**Назначение**: Логирует отладочное сообщение с необязательными цветами текста и фона.
-
-**Параметры**:
-
-- `message` (str): Сообщение для логирования.
-- `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-- `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `True`.
-- `text_color` (str, optional): Цвет текста. По умолчанию `"cyan"`.
-- `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
-
-**Как работает функция**:
-
-1.  Определяет цвет на основе параметров `text_color` и `bg_color`.
-2.  Вызывает метод `log` с уровнем `logging.DEBUG` и определенным цветом.
-
-```
-     A
-     ↓
-     B
-```
-
-Где:
-
--   `A`: Определение цвета на основе `text_color` и `bg_color`.
--   `B`: Вызов метода `log` с уровнем `logging.DEBUG`.
-
-**Примеры**:
-
-```python
-logger.debug("Отладочное сообщение")
-logger.debug("Отладка", text_color="blue", exc_info=False)
-```
+- **Назначение**: Логирует отладочное сообщение с возможностью указания цвета текста и фона.
+    - **Параметры**:
+        - `message` (str): Сообщение для логирования.
+        - `ex` (Exception, optional): Объект исключения. По умолчанию `None`.
+        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли добавлять информацию об исключении в лог. По умолчанию `True`.
+        - `text_color` (str, optional): Цвет текста. По умолчанию `"cyan"`.
+        - `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
+    - **Как работает функция**:
+        - Функция вызывает метод `log` с уровнем логирования `logging.DEBUG` и указанными цветами.
+    - **Примеры**:
+      ```python
+      from src.logger.logger import Logger
+      logger = Logger()
+      logger.debug("Test debug message", ex=None, exc_info=True, text_color="magenta", bg_color="light_gray")
+      ```
 
 ### `exception`
 
-```python
-def exception(self, message, ex=None, exc_info=True, text_color: str = "cyan", bg_color: str = "light_gray"):
-    """
-    Logs an exception message with optional text and background colors.
-    Args:
-        message:
-        ex:
-        exc_info:
-        text_color:
-        bg_color:
-    """
-    ...
-```
-
-**Назначение**: Логирует сообщение об исключении с необязательными цветами текста и фона.
-
-**Параметры**:
-
-- `message` (str): Сообщение для логирования.
-- `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-- `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `True`.
-- `text_color` (str, optional): Цвет текста. По умолчанию `"cyan"`.
-- `bg_color` (str, optional): Цвет фона. По умолчанию `"light_gray"`.
-
-**Как работает функция**:
-
-1.  Определяет цвет на основе параметров `text_color` и `bg_color`.
-2.  Вызывает метод `log` с уровнем `logging.ERROR` и определенным цветом.
-
-```
-     A
-     ↓
-     B
-```
-
-Где:
-
--   `A`: Определение цвета на основе `text_color` и `bg_color`.
--   `B`: Вызов метода `log` с уровнем `logging.ERROR`.
-
-**Примеры**:
-
-```python
-try:
-    raise ValueError("Ошибка значения")
-except ValueError as ex:
-    logger.exception("Произошло исключение", ex=ex)
-```
+- **Назначение**: Логирует сообщение об исключении с возможностью указания цвета текста и фона.
+    - **Параметры**:
+        - `message` (str): Сообщение для логирования.
+        - `ex` (Exception, optional): Объект исключения. По умолчанию `None`.
+        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли добавлять информацию об исключении в лог. По умолчанию `True`.
+        - `text_color` (str, optional): Цвет текста. По умолчанию `"cyan"`.
+        - `bg_color` (str, optional): Цвет фона. По умолчанию `"light_gray"`.
+    - **Как работает функция**:
+        - Функция вызывает метод `log` с уровнем логирования `logging.ERROR` и указанными цветами. Логируется как ошибка.
+    - **Примеры**:
+      ```python
+      from src.logger.logger import Logger
+      logger = Logger()
+      try:
+          raise ValueError("Test error")
+      except ValueError as ex:
+          logger.exception("Test exception message", ex=ex, exc_info=True, text_color="red", bg_color="")
+      ```
 
 ### `error`
 
-```python
-def error(self, message, ex=None, exc_info=True, text_color: str = "red", bg_color: str = ""):
-    """
-    Logs an error message with optional text and background colors.
-    Args:
-        message:
-        ex:
-        exc_info:
-        text_color:
-        bg_color:
-    """
-    ...
-```
-
-**Назначение**: Логирует сообщение об ошибке с необязательными цветами текста и фона.
-
-**Параметры**:
-
-- `message` (str): Сообщение для логирования.
-- `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-- `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `True`.
-- `text_color` (str, optional): Цвет текста. По умолчанию `"red"`.
-- `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
-
-**Как работает функция**:
-
-1.  Определяет цвет на основе параметров `text_color` и `bg_color`.
-2.  Вызывает метод `log` с уровнем `logging.ERROR` и определенным цветом.
-
-```
-     A
-     ↓
-     B
-```
-
-Где:
-
--   `A`: Определение цвета на основе `text_color` и `bg_color`.
--   `B`: Вызов метода `log` с уровнем `logging.ERROR`.
-
-**Примеры**:
-
-```python
-logger.error("Произошла ошибка")
-logger.error("Ошибка ввода", ex=IOError("Нет доступа к файлу"))
-```
+- **Назначение**: Логирует сообщение об ошибке с возможностью указания цвета текста и фона.
+    - **Параметры**:
+        - `message` (str): Сообщение для логирования.
+        - `ex` (Exception, optional): Объект исключения. По умолчанию `None`.
+        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли добавлять информацию об исключении в лог. По умолчанию `True`.
+        - `text_color` (str, optional): Цвет текста. По умолчанию `"red"`.
+        - `bg_color` (str, optional): Цвет фона. По умолчанию `""`.
+    - **Как работает функция**:
+        - Функция вызывает метод `log` с уровнем логирования `logging.ERROR` и указанными цветами.
+    - **Примеры**:
+      ```python
+      from src.logger.logger import Logger
+      logger = Logger()
+      logger.error("Test error message", ex=ValueError("Test error"), exc_info=True, text_color="yellow", bg_color="light_red")
+      ```
 
 ### `critical`
 
-```python
-def critical(self, message, ex=None, exc_info=True, text_color: str = "red", bg_color: str = "white"):
-    """
-    Logs a critical message with optional text and background colors.
-    Args:
-        message:
-        ex:
-        exc_info:
-        text_color:
-        bg_color:
-    """
-    ...
-```
-
-**Назначение**: Логирует критическое сообщение с необязательными цветами текста и фона.
-
-**Параметры**:
-
-- `message` (str): Сообщение для логирования.
-- `ex` (Optional[Exception], optional): Объект исключения. По умолчанию `None`.
-- `exc_info` (bool, optional): Флаг, указывающий, нужно ли включать информацию об исключении. По умолчанию `True`.
-- `text_color` (str, optional): Цвет текста. По умолчанию `"red"`.
-- `bg_color` (str, optional): Цвет фона. По умолчанию `"white"`.
-
-**Как работает функция**:
-
-1.  Определяет цвет на основе параметров `text_color` и `bg_color`.
-2.  Вызывает метод `log` с уровнем `logging.CRITICAL` и определенным цветом.
-
-```
-     A
-     ↓
-     B
-```
-
-Где:
-
--   `A`: Определение цвета на основе `text_color` и `bg_color`.
--   `B`: Вызов метода `log` с уровнем `logging.CRITICAL`.
-
-**Примеры**:
-
-```python
-logger.critical("Критическая ошибка!")
-logger.critical("Система будет остановлена", text_color="yellow", bg_color="black")
+- **Назначение**: Логирует критическое сообщение с возможностью указания цвета текста и фона.
+    - **Параметры**:
+        - `message` (str): Сообщение для логирования.
+        - `ex` (Exception, optional): Объект исключения. По умолчанию `None`.
+        - `exc_info` (bool, optional): Флаг, указывающий, нужно ли добавлять информацию об исключении в лог. По умолчанию `True`.
+        - `text_color` (str, optional): Цвет текста. По умолчанию `"red"`.
+        - `bg_color` (str, optional): Цвет фона. По умолчанию `"white"`.
+    - **Как работает функция**:
+        - Функция вызывает метод `log` с уровнем логирования `logging.CRITICAL` и указанными цветами.
+    - **Примеры**:
+      ```python
+      from src.logger.logger import Logger
+      logger = Logger()
+      logger.critical("Test critical message", ex=None, exc_info=True, text_color="light_yellow", bg_color="bg_red")
+      ```

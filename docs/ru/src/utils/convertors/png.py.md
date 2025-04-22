@@ -1,63 +1,107 @@
-# Модуль `png.py`
+# Модуль для конвертации PNG изображений
 
 ## Обзор
 
-Модуль предоставляет функциональность для преобразования текста в изображения формата PNG. Он включает класс `TextToImageGenerator`, который позволяет генерировать изображения PNG на основе заданных строк текста, шрифта, цветов и других параметров. Также модуль содержит функцию `webp2png` для конвертации изображений из формата WEBP в формат PNG.
+Модуль предоставляет функциональность для генерации PNG изображений из текста, а также для наложения одного PNG изображения на другое. Он включает класс `TextToImageGenerator` для создания изображений из текста и функцию `webp2png` для конвертации изображений из формата WEBP в PNG.
 
-## Подробней
+## Подробнее
 
-Модуль `png.py` предоставляет инструменты для автоматической генерации изображений из текстовых данных. Это может быть полезно для создания превью, водяных знаков или динамически генерируемых изображений для веб-сайтов и приложений. Модуль использует библиотеку Pillow (PIL) для работы с изображениями и шрифтами.
+Модуль предназначен для автоматической генерации изображений на основе текстовых данных. Это может быть полезно, например, для создания превью или динамических изображений для веб-сайтов.
 
 ## Классы
 
 ### `TextToImageGenerator`
 
-**Описание**: Класс предназначен для генерации PNG изображений из текста.
+**Описание**: Класс для генерации PNG изображений из текстовых строк.
 
-**Принцип работы**:
-Класс инициализируется с настройками по умолчанию для размера холста, отступов, цветов фона и текста. Он предоставляет методы для генерации изображений на основе заданных параметров, центрирования текста на холсте и наложения изображений друг на друга.
+**Методы**:
 
-**Аттрибуты**:
-- `default_output_dir` (Path): Путь к директории вывода по умолчанию ("./output").
-- `default_canvas_size` (Tuple[int, int]): Размер холста по умолчанию (1024, 1024).
-- `default_padding` (float): Отступ от границ холста по умолчанию (0.10).
+- `__init__`: Инициализирует класс `TextToImageGenerator` со значениями по умолчанию для размера холста, отступов, цветов и уровня логирования.
+- `generate_images`: Генерирует PNG изображения из предоставленных текстовых строк.
+- `generate_png`: Создает PNG изображение с заданным текстом, шрифтом и цветами.
+- `center_text_position`: Вычисляет позицию для центрирования текста на холсте.
+- `overlay_images`: Накладывает одно PNG изображение на другое в указанной позиции.
+
+### `__init__`
+
+```python
+def __init__(self):
+    """
+    Initializes the TextToImageGenerator class with default settings.
+    """
+```
+
+**Назначение**:
+Инициализирует класс `TextToImageGenerator` с настройками по умолчанию.
+
+**Как работает функция**:
+Устанавливает значения по умолчанию для атрибутов класса, таких как директория вывода, размер холста, отступы, цвет фона, цвет текста и уровень логирования.
+
+**Атрибуты**:
+- `default_output_dir` (Path): Путь к директории вывода по умолчанию (./output).
+- `default_canvas_size` (Tuple[int, int]): Размер холста по умолчанию (1024x1024 пикселей).
+- `default_padding` (float): Отступ по умолчанию (10% от размера холста).
 - `default_background` (str): Цвет фона по умолчанию ("white").
 - `default_text_color` (str): Цвет текста по умолчанию ("black").
 - `default_log_level` (str): Уровень логирования по умолчанию ("WARNING").
 
-**Методы**:
-- `__init__`: Инициализирует экземпляр класса `TextToImageGenerator` значениями по умолчанию.
-- `generate_images`: Генерирует PNG изображения из предоставленных строк текста.
-- `generate_png`: Создает PNG изображение с заданным текстом, шрифтом и цветами.
-- `center_text_position`: Вычисляет позицию для центрирования текста на холсте.
-- `overlay_images`: Накладывает одно PNG изображение на другое в заданной позиции.
-
-### `TextToImageGenerator.__init__`
-
-**Описание**: Инициализирует класс `TextToImageGenerator` значениями по умолчанию.
-
-**Параметры**:
-- Нет
-
-**Возвращает**:
-- Нет
-
 **Примеры**:
 ```python
 generator = TextToImageGenerator()
+print(generator.default_output_dir)  # Вывод: ./output
 ```
 
-### `TextToImageGenerator.generate_images`
+### `generate_images`
 
-**Описание**: Генерирует PNG изображения из предоставленных строк текста.
+```python
+async def generate_images(
+    self,
+    lines: List[str],
+    output_dir: str | Path = None,
+    font: str | ImageFont.ImageFont = "sans-serif",
+    canvas_size: Tuple[int, int] = None,
+    padding: float = None,
+    background_color: str = None,
+    text_color: str = None,
+    log_level: int | str | bool = None,
+    clobber: bool = False,
+) -> List[Path]:
+    """
+    Generates PNG images from the provided text lines.
+
+    Args:
+        lines (List[str]): A list of strings containing the text to generate images from.
+        output_dir (str | Path, optional): Directory to save the output images. Defaults to "./output".
+        font (str | ImageFont.ImageFont, optional): Font to use for the text. Defaults to "sans-serif".
+        canvas_size (Tuple[int, int], optional): Size of the canvas in pixels. Defaults to (1024, 1024).
+        padding (float, optional): Percentage of canvas size to use as a blank border. Defaults to 0.10.
+        background_color (str, optional): Background color for the images. Defaults to "white".
+        text_color (str, optional): Color of the text. Defaults to "black".
+        log_level (int | str | bool, optional): Logging verbosity level. Defaults to "WARNING".
+        clobber (bool, optional): If True, overwrites existing files. Defaults to False.
+
+    Returns:
+        List[Path]: A list of paths to the generated PNG images.
+
+    Example:
+        >>> generator = TextToImageGenerator()
+        >>> lines = ["Text 1", "Text 2", "Text 3"]
+        >>> output_dir = "./output"
+        >>> images = await generator.generate_images(lines, output_dir=output_dir)
+        >>> print(images)
+        [PosixPath('./output/Text 1.png'), PosixPath('./output/Text 2.png'), PosixPath('./output/Text 3.png')]
+    """
+```
+
+**Назначение**: Генерирует PNG изображения из списка текстовых строк.
 
 **Параметры**:
-- `lines` (List[str]): Список строк, содержащих текст для генерации изображений.
-- `output_dir` (str | Path, optional): Директория для сохранения выходных изображений. По умолчанию "./output".
-- `font` (str | ImageFont.ImageFont, optional): Шрифт для использования в тексте. По умолчанию "sans-serif".
+- `lines` (List[str]): Список строк, из которых будут сгенерированы изображения.
+- `output_dir` (str | Path, optional): Директория для сохранения изображений. По умолчанию "./output".
+- `font` (str | ImageFont.ImageFont, optional): Шрифт для текста. По умолчанию "sans-serif".
 - `canvas_size` (Tuple[int, int], optional): Размер холста в пикселях. По умолчанию (1024, 1024).
-- `padding` (float, optional): Процент размера холста для использования в качестве пустой границы. По умолчанию 0.10.
-- `background_color` (str, optional): Цвет фона для изображений. По умолчанию "white".
+- `padding` (float, optional): Отступ в процентах от размера холста. По умолчанию 0.10.
+- `background_color` (str, optional): Цвет фона изображений. По умолчанию "white".
 - `text_color` (str, optional): Цвет текста. По умолчанию "black".
 - `log_level` (int | str | bool, optional): Уровень детализации логирования. По умолчанию "WARNING".
 - `clobber` (bool, optional): Если `True`, перезаписывает существующие файлы. По умолчанию `False`.
@@ -67,146 +111,171 @@ generator = TextToImageGenerator()
 
 **Как работает функция**:
 
-1. **Инициализация**:
-   - Устанавливает директорию вывода, уровень логирования.
-   - Если размер холста или отступ не заданы, использует значения по умолчанию.
-2. **Генерация изображений**:
-   - Проходит по каждой строке текста в списке `lines`.
-   - Формирует путь к файлу изображения на основе текста строки.
-   - Проверяет, существует ли файл изображения и нужно ли его перезаписывать. Если файл существует и перезапись не разрешена, пропускает и переходит к следующей строке.
-   - Генерирует PNG изображение с помощью метода `self.generate_png`.
-   - Сохраняет изображение по указанному пути.
-   - Добавляет путь к сгенерированному изображению в список `generated_images`.
-3. **Возврат**:
-   - Возвращает список путей к сгенерированным изображениям.
-
-```
-A: Установка параметров
-|
-B: Перебор строк текста
-|
-C: Проверка существования файла
-|
-D: Генерация PNG изображения
-|
-E: Сохранение изображения
-|
-F: Возврат списка путей
-```
+1. Определяет директорию вывода, используя предоставленный параметр `output_dir` или значение по умолчанию.
+2. Устанавливает уровень логирования с помощью метода `setup_logging`.
+3. Перебирает каждую строку текста в списке `lines`.
+4. Формирует путь к файлу изображения на основе текста строки.
+5. Проверяет, существует ли файл и нужно ли его перезаписывать.
+6. Вызывает метод `generate_png` для создания изображения.
+7. Сохраняет изображение в указанный путь.
+8. Добавляет путь к изображению в список `generated_images`.
+9. Возвращает список путей к сгенерированным изображениям.
 
 **Примеры**:
 
 ```python
 generator = TextToImageGenerator()
-lines = ["Текст 1", "Текст 2", "Текст 3"]
+lines = ["Text 1", "Text 2", "Text 3"]
 output_dir = "./output"
 images = await generator.generate_images(lines, output_dir=output_dir)
 print(images)
-# [PosixPath('./output/Текст 1.png'), PosixPath('./output/Текст 2.png'), PosixPath('./output/Текст 3.png')]
+# Вывод: [PosixPath('./output/Text 1.png'), PosixPath('./output/Text 2.png'), PosixPath('./output/Text 3.png')]
 ```
 
-### `TextToImageGenerator.generate_png`
+### `generate_png`
 
-**Описание**: Создает PNG изображение с заданным текстом, шрифтом и цветами.
+```python
+def generate_png(
+    self,
+    text: str,
+    canvas_size: Tuple[int, int],
+    padding: float,
+    background_color: str,
+    text_color: str,
+    font: str | ImageFont.ImageFont,
+) -> Image:
+    """
+    Creates a PNG image with the specified text, font, and colors.
+
+    Args:
+        text (str): Text to render on the image.
+        canvas_size (Tuple[int, int]): Size of the canvas in pixels.
+        padding (float): Padding percentage to use as a border.
+        background_color (str): Background color of the image.
+        text_color (str): Color of the text.
+        font (str | ImageFont.ImageFont): Font to use for the text.
+
+    Returns:
+        Image: The generated PNG image.
+    """
+```
+
+**Назначение**: Создает PNG изображение с заданным текстом, шрифтом и цветами.
 
 **Параметры**:
-- `text` (str): Текст для отображения на изображении.
+- `text` (str): Текст для отрисовки на изображении.
 - `canvas_size` (Tuple[int, int]): Размер холста в пикселях.
-- `padding` (float): Процент отступа для использования в качестве границы.
+- `padding` (float): Отступ в процентах от размера холста.
 - `background_color` (str): Цвет фона изображения.
 - `text_color` (str): Цвет текста.
-- `font` (str | ImageFont.ImageFont): Шрифт для использования в тексте.
+- `font` (str | ImageFont.ImageFont): Шрифт для текста.
 
 **Возвращает**:
 - `Image`: Сгенерированное PNG изображение.
 
 **Как работает функция**:
 
-1. **Создание изображения**:
-   - Создает новое RGB изображение с заданным размером холста и цветом фона.
-2. **Подготовка к рисованию**:
-   - Создает объект `ImageDraw` для рисования на изображении.
-   - Определяет шрифт и размер шрифта с помощью метода `self.get_font_size`.
-3. **Определение позиции текста**:
-   - Вычисляет позицию для центрирования текста на холсте с помощью метода `self.center_text_position`.
-4. **Отрисовка текста**:
-   - Рисует текст на изображении с заданным цветом и шрифтом.
-5. **Возврат изображения**:
-   - Возвращает сгенерированное изображение.
-
-```
-A: Создание изображения
-|
-B: Подготовка к рисованию
-|
-C: Определение позиции текста
-|
-D: Отрисовка текста
-|
-E: Возврат изображения
-```
+1. Создает новое изображение с заданным размером и цветом фона.
+2. Создает объект `ImageDraw` для рисования на изображении.
+3. Определяет размер шрифта с помощью метода `get_font_size`.
+4. Вычисляет позицию для центрирования текста с помощью метода `center_text_position`.
+5. Отрисовывает текст на изображении с заданным цветом и шрифтом.
+6. Возвращает сгенерированное изображение.
 
 **Примеры**:
 
 ```python
 generator = TextToImageGenerator()
-text = "Пример текста"
+text = "Hello, World!"
 canvas_size = (512, 512)
 padding = 0.05
-background_color = "lightblue"
-text_color = "darkblue"
+background_color = "white"
+text_color = "black"
 font = "arial.ttf"
 image = generator.generate_png(text, canvas_size, padding, background_color, text_color, font)
-image.save("example.png")
+image.save("hello_world.png")
 ```
 
-### `TextToImageGenerator.center_text_position`
+### `center_text_position`
 
-**Описание**: Вычисляет позицию для центрирования текста на холсте.
+```python
+def center_text_position(
+    self, draw: ImageDraw.Draw, text: str, font: ImageFont.ImageFont, canvas_size: Tuple[int, int]
+) -> Tuple[int, int]:
+    """
+    Calculates the position to center the text on the canvas.
+
+    Args:
+        draw (ImageDraw.Draw): The ImageDraw instance.
+        text (str): Text to be rendered.
+        font (ImageFont.ImageFont): Font used for the text.
+        canvas_size (Tuple[int, int]): Size of the canvas in pixels.
+
+    Returns:
+        Tuple[int, int]: Coordinates for centering the text.
+    """
+```
+
+**Назначение**: Вычисляет позицию для центрирования текста на холсте.
 
 **Параметры**:
-- `draw` (ImageDraw.Draw): Экземпляр `ImageDraw`.
-- `text` (str): Текст для отображения.
-- `font` (ImageFont.ImageFont): Шрифт, используемый для текста.
+- `draw` (ImageDraw.Draw): Объект `ImageDraw` для рисования.
+- `text` (str): Текст для центрирования.
+- `font` (ImageFont.ImageFont): Шрифт текста.
 - `canvas_size` (Tuple[int, int]): Размер холста в пикселях.
 
 **Возвращает**:
-- `Tuple[int, int]`: Координаты для центрирования текста.
+- `Tuple[int, int]`: Координаты (x, y) для центрирования текста.
 
 **Как работает функция**:
 
-1. **Измерение размера текста**:
-   - Вычисляет ширину и высоту текста с использованием заданного шрифта.
-2. **Вычисление позиции**:
-   - Вычисляет позицию для центрирования текста по горизонтали и вертикали.
-3. **Возврат позиции**:
-   - Возвращает кортеж с координатами x и y для центрирования текста.
-
-```
-A: Измерение размера текста
-|
-B: Вычисление позиции
-|
-C: Возврат позиции
-```
+1. Измеряет ширину и высоту текста с помощью метода `draw.textsize`.
+2. Вычисляет координаты для центрирования текста, вычитая ширину и высоту текста из размера холста и деля результат на 2.
+3. Возвращает вычисленные координаты.
 
 **Примеры**:
 
 ```python
 from PIL import Image, ImageDraw, ImageFont
+
 generator = TextToImageGenerator()
 image = Image.new("RGB", (512, 512), "white")
 draw = ImageDraw.Draw(image)
-text = "Пример текста"
-font = ImageFont.truetype("arial.ttf", size=24)
+font = ImageFont.truetype("arial.ttf", size=32)
+text = "Centered Text"
 canvas_size = (512, 512)
 x, y = generator.center_text_position(draw, text, font, canvas_size)
-print(f"Координаты центрирования: x={x}, y={y}")
+print(f"x={x}, y={y}")
 ```
 
-### `TextToImageGenerator.overlay_images`
+### `overlay_images`
 
-**Описание**: Накладывает одно PNG изображение на другое в заданной позиции.
+```python
+def overlay_images(
+    self,
+    background_path: str | Path,
+    overlay_path: str | Path,
+    position: tuple[int, int] = (0, 0),
+    alpha: float = 1.0,
+) -> Image:
+    """Overlays one PNG image on top of another at a specified position.
+
+    Args:
+        background_path (str | Path): Path to the background PNG image.
+        overlay_path (str | Path): Path to the overlay PNG image.
+        position (tuple[int, int], optional): (x, y) coordinates where the overlay will be placed. Defaults to (0, 0).
+        alpha (float, optional): Transparency level of the overlay image (0.0 - 1.0). Defaults to 1.0.
+
+    Returns:
+        Image: The resulting image with the overlay.
+
+    Example:
+        >>> result_image = overlay_images("background.png", "overlay.png", position=(50, 50), alpha=0.8)
+        >>> result_image.save("result.png")
+    """
+```
+
+**Назначение**: Накладывает одно PNG изображение на другое в указанной позиции.
 
 **Параметры**:
 - `background_path` (str | Path): Путь к фоновому PNG изображению.
@@ -219,28 +288,11 @@ print(f"Координаты центрирования: x={x}, y={y}")
 
 **Как работает функция**:
 
-1. **Открытие изображений**:
-   - Открывает фоновое и накладываемое изображения, преобразует их в формат RGBA.
-2. **Изменение размера накладываемого изображения**:
-   - Если размеры накладываемого изображения не совпадают с размерами фонового изображения, изменяет размер накладываемого изображения, чтобы оно соответствовало размерам фонового изображения.
-3. **Настройка прозрачности**:
-   - Устанавливает прозрачность накладываемого изображения в соответствии с заданным уровнем `alpha`.
-4. **Накладывание изображений**:
-   - Накладывает накладываемое изображение на фоновое изображение в заданной позиции.
-5. **Возврат результирующего изображения**:
-   - Возвращает результирующее изображение.
-
-```
-A: Открытие изображений
-|
-B: Изменение размера накладываемого изображения
-|
-C: Настройка прозрачности
-|
-D: Накладывание изображений
-|
-E: Возврат результирующего изображения
-```
+1. Открывает фоновое и накладываемое изображения, преобразуя их в формат RGBA.
+2. Изменяет размер накладываемого изображения, чтобы он соответствовал размеру фонового изображения, если это необходимо.
+3. Регулирует прозрачность накладываемого изображения на основе параметра `alpha`.
+4. Накладывает изображение на фон в указанной позиции.
+5. Возвращает результирующее изображение.
 
 **Примеры**:
 
@@ -264,53 +316,31 @@ def webp2png(webp_path: str, png_path: str) -> bool:
         png_path (str): Path to save the converted PNG file.
 
     Example:
-        webp2png(\'image.webp\', \'image.png\')
+        webp2png('image.webp', 'image.png')
     """
-    try:
-        # Open the webp image
-        with Image.open(webp_path) as img:
-            # Convert to PNG and save
-            img.save(png_path, \'PNG\')
-        return True
-    except Exception as e:
-        print(f"Error during conversion: {e}")
-        return
 ```
 
-**Назначение**: Преобразует изображение из формата WEBP в формат PNG.
+**Назначение**: Конвертирует изображение из формата WEBP в формат PNG.
 
 **Параметры**:
-- `webp_path` (str): Путь к входному WEBP файлу.
+- `webp_path` (str): Путь к исходному WEBP файлу.
 - `png_path` (str): Путь для сохранения сконвертированного PNG файла.
 
 **Возвращает**:
-- `bool`: `True`, если конвертация прошла успешно, в противном случае возвращает `None`.
-
-**Вызывает исключения**:
-- `Exception`: Возникает, если во время конвертации произошла ошибка.
+- `bool`: `True`, если конвертация прошла успешно, иначе `False`.
 
 **Как работает функция**:
 
-1. **Открытие WEBP изображения**:
-   - Открывает WEBP изображение, используя библиотеку PIL.
-2. **Конвертация и сохранение**:
-   - Конвертирует изображение в формат PNG и сохраняет его по указанному пути.
-3. **Обработка исключений**:
-   - Если во время конвертации происходит ошибка, печатает сообщение об ошибке и возвращает `None`.
-4. **Возврат значения**:
-   - Возвращает `True`, если конвертация выполнена успешно.
-
-```
-A: Открытие WEBP изображения
-|
-B: Конвертация и сохранение
-|
-C: Обработка исключений
-|
-D: Возврат значения
-```
+1. Открывает WEBP изображение с использованием `PIL.Image.open`.
+2. Сохраняет изображение в формате PNG по указанному пути.
+3. Возвращает `True` в случае успеха.
+4. В случае возникновения исключения выводит сообщение об ошибке и возвращает `False`.
 
 **Примеры**:
 
 ```python
-webp2png('image.webp', 'image.png')
+result = webp2png('image.webp', 'image.png')
+if result:
+    print("Conversion successful!")
+else:
+    print("Conversion failed.")

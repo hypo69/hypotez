@@ -2,40 +2,55 @@
 
 ## Обзор
 
-Модуль `executor.py` предоставляет функциональность для взаимодействия с веб-элементами с использованием Selenium на основе предоставленных локаторов. Он обрабатывает разбор локаторов, взаимодействие с элементами и обработку ошибок.
+Модуль `executor.py` предназначен для взаимодействия с веб-элементами с использованием Selenium на основе предоставленных локаторов. Он обрабатывает парсинг локаторов, взаимодействие с элементами и обработку ошибок.
+
 Этот модуль является ключевым компонентом для автоматизированного взаимодействия с веб-страницами. Он позволяет находить элементы на странице по различным локаторам (например, id, class, xpath), выполнять с ними различные действия (например, клик, ввод текста) и получать значения их атрибутов. Модуль также включает механизмы ожидания появления элементов и обработки возможных ошибок, таких как таймауты и перехваты кликов.
 
 ## Подробнее
 
-Этот модуль определяет класс `ExecuteLocator`, который инкапсулирует логику для выполнения действий над веб-элементами. Он использует Selenium для поиска элементов на веб-странице на основе заданных локаторов и выполнения различных операций, таких как клики, ввод текста и получение атрибутов. Модуль также включает обработку исключений, связанных с взаимодействием с веб-элементами, и ведение журнала для отслеживания процесса выполнения.
+Модуль содержит класс `ExecuteLocator`, который предоставляет методы для выполнения различных действий с веб-элементами, таких как клик, ввод текста, получение атрибутов и т.д. Он использует Selenium WebDriver для взаимодействия с веб-страницами.
 
 ## Классы
 
 ### `ExecuteLocator`
 
-**Описание**: Класс `ExecuteLocator` предназначен для взаимодействия с веб-элементами с использованием Selenium на основе предоставленных локаторов.
+**Описание**: Класс `ExecuteLocator` предназначен для обработки взаимодействия с веб-элементами с использованием Selenium на основе предоставленных локаторов.
+
+**Атрибуты**:
+
+- `driver` (Optional[object]): Экземпляр драйвера Selenium WebDriver.
+- `actions` (ActionChains): Объект ActionChains для выполнения сложных последовательностей действий.
+- `mode` (str): Режим работы, по умолчанию "debug".
 
 **Принцип работы**:
-Класс инициализируется с драйвером веб-браузера Selenium. Он содержит методы для поиска веб-элементов на странице, выполнения различных действий над ними (например, клик, ввод текста) и получения значений их атрибутов. Класс также обрабатывает исключения, которые могут возникнуть при взаимодействии с веб-элементами, и ведет журнал для отслеживания процесса выполнения.
-
-**Аттрибуты**:
-
-- `driver` (Optional[object]): Драйвер веб-браузера Selenium. По умолчанию `None`.
-- `actions` (ActionChains): Объект ActionChains для выполнения последовательности действий. Инициализируется в методе `__post_init__`.
-- `mode` (str): Режим работы (например, "debug"). По умолчанию "debug".
+Класс инициализируется с экземпляром драйвера Selenium WebDriver, который используется для выполнения действий с веб-элементами. ActionChains используется для выполнения сложных последовательностей действий, таких как перемещение мыши и ввод текста.
 
 **Методы**:
 
-- `__post_init__()`: Инициализирует объект `ActionChains` после создания экземпляра класса, если передан драйвер.
-- `execute_locator(locator: dict | SimpleNamespace, timeout: Optional[float] = 0, timeout_for_event: Optional[str] = "presence_of_element_located", message: Optional[str] = None, typing_speed: Optional[float] = 0) -> Optional[str | list | dict | WebElement | bool]`: Выполняет действия над веб-элементом на основе предоставленного локатора.
-- `_evaluate_locator(attribute: str | List[str] | dict) -> Optional[str | List[str] | dict]`: Вычисляет и обрабатывает атрибуты локатора.
-- `get_attribute_by_locator(locator: SimpleNamespace | dict, timeout: Optional[float] = 0, timeout_for_event: str = "presence_of_element_located", message: Optional[str] = None, typing_speed: float = 0) -> Optional[WebElement | list[WebElement]]`: Извлекает атрибуты из веб-элемента или списка веб-элементов.
-- `get_webelement_by_locator(locator: dict | SimpleNamespace, timeout: Optional[float] = 0, timeout_for_event: Optional[str] = "presence_of_element_located") -> Optional[WebElement | List[WebElement]]`: Извлекает веб-элемент или список элементов на основе предоставленного локатора.
-- `get_webelement_as_screenshot(locator: SimpleNamespace | dict, timeout: float = 5, timeout_for_event: str = "presence_of_element_located", message: Optional[str] = None, typing_speed: float = 0, webelement: Optional[WebElement] = None) -> Optional[BinaryIO]`: Делает скриншот найденного веб-элемента.
-- `execute_event(locator: SimpleNamespace | dict, timeout: float = 5, timeout_for_event: str = "presence_of_element_located", message: str = None, typing_speed: float = 0) -> Optional[str | list[str] | bytes | list[bytes] | bool]`: Выполняет событие, связанное с локатором.
-- `send_message(locator: SimpleNamespace | dict, timeout: float = 5, timeout_for_event: str = "presence_of_element_located", message: str = None, typing_speed: float = 0) -> bool`: Отправляет сообщение веб-элементу.
+- `__post_init__()`: Метод, вызываемый после инициализации экземпляра класса.
+- `execute_locator()`: Выполняет действия с веб-элементом на основе предоставленного локатора.
+- `_evaluate_locator()`: Вычисляет и обрабатывает атрибуты локатора.
+- `get_attribute_by_locator()`: Получает атрибуты веб-элемента или списка веб-элементов.
+- `get_webelement_by_locator()`: Получает веб-элемент или список элементов на основе предоставленного локатора.
+- `get_webelement_as_screenshot()`: Делает скриншот найденного веб-элемента.
+- `execute_event()`: Выполняет событие, связанное с локатором.
+- `send_message()`: Отправляет сообщение веб-элементу.
 
-## Функции
+## Методы класса
+
+### `__post_init__`
+
+```python
+def __post_init__(self):
+    """
+    Инициализирует объект ActionChains, если предоставлен драйвер.
+    """
+```
+
+**Назначение**: Инициализирует объект `ActionChains`, если предоставлен драйвер.
+
+**Как работает функция**:
+Функция проверяет, был ли предоставлен драйвер при инициализации класса. Если драйвер предоставлен, то создается объект `ActionChains`, который будет использоваться для выполнения сложных действий с веб-элементами.
 
 ### `execute_locator`
 
@@ -49,128 +64,94 @@ async def execute_locator(
     typing_speed: Optional[float] = 0,
 ) ->  Optional[str | list | dict | WebElement | bool]:
     """
-    Executes actions on a web element based on the provided locator.
+    Выполняет действия с веб-элементом на основе предоставленного локатора.
 
     Args:
-        locator: Locator data (dict or SimpleNamespace).
-        timeout: Timeout for locating the element (seconds).
-        timeout_for_event: Wait condition (\'presence_of_element_located\', \'visibility_of_all_elements_located\').
-        message: Optional message for actions like send_keys or type.
-        typing_speed: Typing speed for send_keys events (seconds).
+        locator (dict | SimpleNamespace): Данные локатора.
+        timeout (Optional[float]): Время ожидания для поиска элемента (в секундах). По умолчанию 0.
+        timeout_for_event (Optional[str]): Условие ожидания ('presence_of_element_located', 'visibility_of_all_elements_located'). По умолчанию 'presence_of_element_located'.
+        message (Optional[str]): Сообщение для действий, таких как send_keys или type. По умолчанию None.
+        typing_speed (Optional[float]): Скорость ввода текста для событий send_keys (в секундах). По умолчанию 0.
 
     Returns:
-        The result of the operation, which can be a string, list, dict, WebElement, bool, or None.
+        Optional[str | list | dict | WebElement | bool]: Результат операции, который может быть строкой, списком, словарем, WebElement, булевым значением или None.
+
     """
 ```
 
-**Назначение**: Выполняет действия над веб-элементом на основе предоставленного локатора.
+**Назначение**: Выполняет действия с веб-элементом на основе предоставленного локатора.
 
 **Параметры**:
-
 - `locator` (dict | SimpleNamespace): Данные локатора.
-- `timeout` (Optional[float]): Время ожидания для поиска элемента (в секундах). По умолчанию `0`.
-- `timeout_for_event` (Optional[str]): Условие ожидания (`'presence_of_element_located'`, `'visibility_of_all_elements_located'`). По умолчанию `'presence_of_element_located'`.
-- `message` (Optional[str]): Необязательное сообщение для действий, таких как `send_keys` или `type`. По умолчанию `None`.
-- `typing_speed` (Optional[float]): Скорость печати для событий `send_keys` (в секундах). По умолчанию `0`.
+- `timeout` (Optional[float]): Время ожидания для поиска элемента (в секундах). По умолчанию 0.
+- `timeout_for_event` (Optional[str]): Условие ожидания ('presence_of_element_located', 'visibility_of_all_elements_located'). По умолчанию 'presence_of_element_located'.
+- `message` (Optional[str]): Сообщение для действий, таких как send_keys или type. По умолчанию None.
+- `typing_speed` (Optional[float]): Скорость ввода текста для событий send_keys (в секундах). По умолчанию 0.
 
 **Возвращает**:
-
-- `Optional[str | list | dict | WebElement | bool]`: Результат операции, который может быть строкой, списком, словарем, веб-элементом, булевым значением или `None`.
-
-**Как работает функция**:
-
-1.  **Преобразование локатора**: Если локатор является словарем, он преобразуется в объект `SimpleNamespace` для удобства доступа к атрибутам.
-2.  **Проверка локатора**: Проверяется, что локатор не пустой (содержит атрибут или селектор).
-3.  **Внутренняя функция `_parse_locator`**: Определяется внутренняя асинхронная функция `_parse_locator`, которая выполняет разбор инструкций локатора.
-4.  **Обработка атрибутов**: Внутри `_parse_locator` происходит обработка атрибутов локатора, таких как `by` (метод поиска), `attribute` (атрибут для извлечения) и `event` (событие для выполнения).
-5.  **Выполнение действий**: В зависимости от атрибутов локатора вызываются соответствующие методы для выполнения действий над веб-элементом, такие как получение атрибута, выполнение события или получение веб-элемента.
-6.  **Обработка списков**: Если локатор содержит списки селекторов и методов поиска, выполняется итерация по этим спискам и вызывается `_parse_locator` для каждой пары.
-7.  **Возврат результата**: Функция возвращает результат выполнения действий над веб-элементом.
+- `Optional[str | list | dict | WebElement | bool]`: Результат операции, который может быть строкой, списком, словарем, WebElement, булевым значением или None.
 
 **Внутренние функции**:
 
-### `_parse_locator`
-```python
-async def _parse_locator(
-    locator: SimpleNamespace,
-    message: Optional[str] = None,
-    timeout: Optional[float] = 0,
-    timeout_for_event: Optional[str] = "presence_of_element_located",
-    typing_speed: Optional[float] = 0,
-) -> Optional[str | list | dict | WebElement | bool]:
-    """Parses and executes locator instructions."""
-```
+- `_parse_locator`:
+    ```python
+    async def _parse_locator(
+        locator: SimpleNamespace,
+        message: Optional[str] = None,
+        timeout: Optional[float] = 0,
+        timeout_for_event: Optional[str] = "presence_of_element_located",
+        typing_speed: Optional[float] = 0,
+    ) -> Optional[str | list | dict | WebElement | bool]:
+        """Parses and executes locator instructions."""
+    ```
+        **Назначение**:  Разбирает и выполняет инструкции локатора.
 
-**Назначение**: Разбирает и выполняет инструкции, полученные из локатора. Эта функция обрабатывает различные типы локаторов и соответствующие им действия, такие как получение атрибутов, выполнение событий (например, клик) или получение веб-элементов.
+        **Параметры**:
+        - `locator` (SimpleNamespace):  Данные локатора.
+        - `message` (Optional[str]): Сообщение для действий, таких как `send_keys` или `type`. По умолчанию `None`.
+        - `timeout` (Optional[float]): Время ожидания для поиска элемента (в секундах). По умолчанию `0`.
+        - `timeout_for_event` (Optional[str]): Условие ожидания (`'presence_of_element_located'`, `'visibility_of_all_elements_located'`). По умолчанию `'presence_of_element_located'`.
+        - `typing_speed` (Optional[float]): Скорость ввода текста для событий `send_keys` (в секундах). По умолчанию `0`.
 
-**Параметры**:
-- `locator` (SimpleNamespace): Объект, содержащий данные локатора, такие как метод поиска, селектор, атрибут, событие и другие параметры.
-- `message` (Optional[str]): Необязательное сообщение, которое может использоваться при выполнении определенных действий, таких как ввод текста.
-- `timeout` (Optional[float]): Максимальное время ожидания (в секундах) при поиске элемента.
-- `timeout_for_event` (Optional[str]): Условие ожидания для события (например, "presence_of_element_located").
-- `typing_speed` (Optional[float]): Скорость печати (в секундах) при вводе текста.
+        **Возвращает**:
+        - `Optional[str | list | dict | WebElement | bool]`:  Результат операции, который может быть строкой, списком, словарем, `WebElement`, булевым значением или `None`.
 
-**Возвращает**:
-`Optional[str | list | dict | WebElement | bool]`: Результат выполнения инструкции локатора. Это может быть строкой, списком, словарем, веб-элементом, булевым значением или `None`, если выполнение не удалось.
+        **Как работает функция**:
+        - Функция преобразует входной `locator` в объект `SimpleNamespace`, если он представлен в виде словаря.
+        - Выполняет проверку на наличие атрибутов `attribute` и `selector` в локаторе. Если хотя бы один из них отсутствует, функция логирует отладочное сообщение и возвращает `None`.
+        - Если `locator.by` является строкой, она преобразуется в нижний регистр. Далее, если `locator.attribute` существует, вызывается `self._evaluate_locator()` для его обработки. Если `locator.by` равно `'value'`, возвращается значение `locator.attribute`. Если `locator.by` равно `'url'`, извлекается параметр из URL.
+        - Если `locator.event` определен, вызывается `self.execute_event()` для выполнения связанного события.
+        - Если `locator.attribute` определен, вызывается `self.get_attribute_by_locator()` для получения значения атрибута элемента.
+        - Если `locator.selector` и `locator.by` являются списками, и `locator.sorted` равно `'pairs'`, создаются пары элементов на основе предоставленных списков и рекурсивно вызывается `_parse_locator` для каждой пары.
+        - Если ни одно из вышеперечисленных условий не выполнено, функция логирует предупреждение и возвращает `None`.
+        - В конце функция возвращает результат вызова `_parse_locator`.
 
 **Как работает функция**:
-1. **Проверка флагов и атрибутов**:
-   - Проверяет наличие обязательного флага (`mandatory`) при наличии события и атрибута в локаторе. Если флаг отсутствует, локатор пропускается.
-2. **Обработка типа локатора**:
-   - Приводит метод поиска (`locator.by`) к нижнему регистру.
-   - Если метод поиска равен "value", возвращает атрибут локатора после его оценки.
-   - Если метод поиска равен "url", извлекает значение параметра из URL текущей страницы.
-3. **Выполнение действий**:
-   - Если указано событие (`locator.event`), вызывает метод `execute_event` для выполнения соответствующего действия (например, клик).
-   - Если указан атрибут (`locator.attribute`), вызывает метод `get_attribute_by_locator` для получения значения атрибута элемента.
-   - Если не указаны ни событие, ни атрибут, вызывает метод `get_webelement_by_locator` для получения веб-элемента.
-4. **Обработка списков**:
-   - Если `locator.by` и `locator.selector` являются списками, обрабатывает их как пары элементов. Создает новые локаторы для каждой пары и рекурсивно вызывает `_parse_locator` для их обработки.
-5. **Обработка ошибок**:
-   - Логирует предупреждения, если локатор не содержит списки селекторов и методов поиска, или если значение `sorted` недействительно.
-6. **Возврат результата**:
-   - Возвращает результат выполнения инструкции локатора.
 
-**ASCII flowchart**:
-
-```
-    [Проверка наличия mandatory флага]
-        |
-        V
-    [Проверка типа локатора (locator.by)]
-        |
-        V
-    [Обработка 'value', 'url']
-        |
-    [Вызов соответствующего метода]
-        |
-        V
-    [Вызов execute_event, get_attribute_by_locator, get_webelement_by_locator]
-        |
-        V
-    [Обработка списков (locator.by и locator.selector)]
-        |
-        V
-    [Создание новых локаторов и рекурсивный вызов _parse_locator]
-        |
-        V
-    [Возврат результата]
-```
+1.  Функция принимает данные локатора в виде словаря или объекта `SimpleNamespace`. Если передан словарь, он преобразуется в `SimpleNamespace`.
+2.  Выполняется проверка на наличие атрибутов `attribute` и `selector` в локаторе. Если они отсутствуют, функция завершается и возвращает `None`.
+3.  Вызывается внутренняя функция `_parse_locator` для обработки локатора и выполнения действий.
+4.  Результат выполнения `_parse_locator` возвращается как результат `execute_locator`.
 
 **Примеры**:
 
+Пример использования с данными локатора в виде словаря:
+
 ```python
-# Пример 1: Получение атрибута 'href' из элемента с id 'myLink'
-locator = {'by': 'id', 'selector': 'myLink', 'attribute': 'href'}
-result = await execute_locator(locator)
+locator_data = {
+    "by": "id",
+    "selector": "myElement",
+    "attribute": "value",
+    "mandatory": True,
+}
+result = await execute_locator(locator_data)
+```
 
-# Пример 2: Клик на элемент с xpath '//button[@id="submit"]'
-locator = {'by': 'xpath', 'selector': '//button[@id="submit"]', 'event': 'click()'}
-result = await execute_locator(locator)
+Пример использования с данными локатора в виде `SimpleNamespace`:
 
-# Пример 3: Получение значения параметра 'token' из URL текущей страницы
-locator = {'by': 'url', 'attribute': 'token'}
-result = await execute_locator(locator)
+```python
+locator_data = SimpleNamespace(by="id", selector="myElement", attribute="value", mandatory=True)
+result = await execute_locator(locator_data)
 ```
 
 ### `_evaluate_locator`
@@ -178,13 +159,13 @@ result = await execute_locator(locator)
 ```python
 def _evaluate_locator(self, attribute: str | List[str] | dict) -> Optional[str | List[str] | dict]:
     """
-    Evaluates and processes locator attributes.
+    Вычисляет и обрабатывает атрибуты локатора.
 
     Args:
-        attribute: Attribute to evaluate (can be a string, list of strings, or a dictionary).
+        attribute (str | List[str] | dict): Атрибут для вычисления (может быть строкой, списком строк или словарем).
 
     Returns:
-        The evaluated attribute, which can be a string, list of strings, or dictionary.
+        Optional[str | List[str] | dict]: Вычисленный атрибут, который может быть строкой, списком строк или словарем.
     """
 ```
 
@@ -192,80 +173,51 @@ def _evaluate_locator(self, attribute: str | List[str] | dict) -> Optional[str |
 
 **Параметры**:
 
-- `attribute` (str | List[str] | dict): Атрибут для вычисления (может быть строкой, списком строк или словарем).
+-   `attribute` (str | List[str] | dict): Атрибут для вычисления (может быть строкой, списком строк или словарем).
 
 **Возвращает**:
 
-- `Optional[str | List[str] | dict]`: Вычисленный атрибут, который может быть строкой, списком строк или словарем.
-
-**Как работает функция**:
-
-1.  **Внутренняя функция `_evaluate`**: Определяется внутренняя функция `_evaluate`, которая выполняет вычисление отдельной строки атрибута.
-2.  **Вычисление атрибута**: Если атрибут соответствует шаблону `%\\w+%`, он извлекает имя атрибута из `Keys` и возвращает соответствующее значение. В противном случае возвращает атрибут без изменений.
-3.  **Обработка списка**: Если атрибут является списком, функция применяет `_evaluate` к каждому элементу списка и возвращает список вычисленных атрибутов.
-4.  **Возврат результата**: Функция возвращает вычисленный атрибут.
+-   `Optional[str | List[str] | dict]`: Вычисленный атрибут, который может быть строкой, списком строк или словарем.
 
 **Внутренние функции**:
 
-### `_evaluate`
-```python
-def _evaluate(attr: str) -> Optional[str]:
-    """Evaluates single attribute string."""
-    return getattr(Keys, re.findall(r"%(\\w+)%", attr)[0], None) if re.match(r"^%\\w+%", attr) else attr
-```
+-   `_evaluate`:
 
-**Назначение**: Вычисляет строку атрибута, заменяя специальные маркеры, такие как `%ENTER%`, соответствующими значениями из класса `Keys` библиотеки Selenium.
+    ```python
+    def _evaluate(attr: str) -> Optional[str]:
+        """Evaluates single attribute string."""
+        return getattr(Keys, re.findall(r"%(\\w+)%", attr)[0], None) if re.match(r"^%\\w+%", attr) else attr
+    ```
 
-**Параметры**:
-- `attr` (str): Строка атрибута для вычисления.
+    **Назначение**: Вычисляет одиночный строковый атрибут.
 
-**Возвращает**:
-`Optional[str]`: Вычисленная строка атрибута. Если маркер найден и заменен, возвращается соответствующее значение из класса `Keys`. В противном случае возвращается исходная строка атрибута.
+    **Параметры**:
+
+    -   `attr` (str): Атрибут для вычисления.
+
+    **Возвращает**:
+
+    -   `Optional[str]`: Вычисленный атрибут.
+
+    **Как работает функция**:
+    Функция проверяет, соответствует ли атрибут паттерну `%\\w+%`. Если соответствует, то извлекается имя атрибута из паттерна и возвращается соответствующий атрибут из класса `Keys`. Если не соответствует, то возвращается исходный атрибут.
 
 **Как работает функция**:
-1. **Проверка на наличие маркера**:
-   - Использует регулярное выражение для проверки, начинается ли строка с маркера `%\\w+%`.
-2. **Извлечение значения из Keys**:
-   - Если маркер найден, извлекает имя ключа из маркера с помощью регулярного выражения.
-   - Пытается получить соответствующее значение из класса `Keys` с помощью `getattr`.
-3. **Возврат результата**:
-   - Если значение найдено в классе `Keys`, возвращает это значение.
-   - Если значение не найдено или маркер отсутствует, возвращает исходную строку атрибута.
-
-**Примеры**:
-```python
-# Пример 1: Вычисление атрибута "%ENTER%"
-attribute = "%ENTER%"
-result = _evaluate(attribute)  # Результат: Keys.ENTER
-
-# Пример 2: Вычисление атрибута "some_text"
-attribute = "some_text"
-result = _evaluate(attribute)  # Результат: "some_text"
-```
-
-**ASCII flowchart**:
-```
-    [Проверка: начинается ли строка с маркера `%\\w+%`]
-        |
-        V
-    [Извлечение имени ключа из маркера]
-        |
-        V
-    [Попытка получения значения из класса Keys]
-        |
-        V
-    [Возврат значения из Keys или исходной строки]
-```
+Функция принимает атрибут, который может быть строкой, списком строк или словарем. Если атрибут является списком, то функция применяет функцию `_evaluate` к каждому элементу списка. Если атрибут является строкой, то функция применяет функцию `_evaluate` к строке. Результат вычисления возвращается.
 
 **Примеры**:
 
+Пример использования со строковым атрибутом:
+
 ```python
-# Пример 1: Вычисление атрибута "%ENTER%"
-attribute = "%ENTER%"
+attribute = "%TAB%"
 result = _evaluate_locator(attribute)
+```
 
-# Пример 2: Вычисление списка атрибутов ["%ENTER%", "some_text"]
-attribute = ["%ENTER%", "some_text"]
+Пример использования со списком атрибутов:
+
+```python
+attribute = ["%TAB%", "value"]
 result = _evaluate_locator(attribute)
 ```
 
@@ -281,17 +233,17 @@ async def get_attribute_by_locator(
     typing_speed: float = 0,
 ) -> Optional[WebElement | list[WebElement]]:
     """
-    Retrieves attributes from a web element or a list of web elements.
+    Извлекает атрибуты из веб-элемента или списка веб-элементов.
 
     Args:
-        locator: Locator data (dict or SimpleNamespace).
-        timeout: Timeout for locating the element (seconds).
-        timeout_for_event: Wait condition (\'presence_of_element_located\', \'visibility_of_all_elements_located\').
-        message: Not used in this function.
-        typing_speed: Not used in this function.
+        locator (SimpleNamespace | dict): Данные локатора.
+        timeout (Optional[float]): Время ожидания для поиска элемента (в секундах). По умолчанию 0.
+        timeout_for_event (str): Условие ожидания ('presence_of_element_located', 'visibility_of_all_elements_located'). По умолчанию 'presence_of_element_located'.
+        message (Optional[str]): Не используется в этой функции.
+        typing_speed (float): Не используется в этой функции.
 
     Returns:
-        The attribute value(s) as a WebElement, list of WebElements, or None if not found.
+        Optional[WebElement | list[WebElement]]: Значение(я) атрибута в виде WebElement, списка WebElements или None, если не найдено.
     """
 ```
 
@@ -299,145 +251,97 @@ async def get_attribute_by_locator(
 
 **Параметры**:
 
-- `locator` (SimpleNamespace | dict): Данные локатора.
-- `timeout` (Optional[float]): Время ожидания для поиска элемента (в секундах). По умолчанию `0`.
-- `timeout_for_event` (str): Условие ожидания (`'presence_of_element_located'`, `'visibility_of_all_elements_located'`). По умолчанию `'presence_of_element_located'`.
-- `message` (Optional[str]): Не используется в этой функции.
-- `typing_speed` (float): Не используется в этой функции.
+-   `locator` (SimpleNamespace | dict): Данные локатора.
+-   `timeout` (Optional[float]): Время ожидания для поиска элемента (в секундах). По умолчанию 0.
+-   `timeout_for_event` (str): Условие ожидания ('presence_of_element_located', 'visibility_of_all_elements_located'). По умолчанию 'presence_of_element_located'.
+-   `message` (Optional[str]): Не используется в этой функции.
+-   `typing_speed` (float): Не используется в этой функции.
 
 **Возвращает**:
 
-- `Optional[WebElement | list[WebElement]]`: Значение(я) атрибута в виде `WebElement`, списка `WebElement` или `None`, если не найдено.
-
-**Как работает функция**:
-
-1.  **Преобразование локатора**: Если локатор является словарем, он преобразуется в объект `SimpleNamespace` для удобства доступа к атрибутам.
-2.  **Получение веб-элемента**: Вызывается метод `get_webelement_by_locator` для получения веб-элемента на основе предоставленного локатора.
-3.  **Проверка наличия элемента**: Если веб-элемент не найден и атрибут `mandatory` установлен в `True`, функция логирует отладочное сообщение и возвращает `None`.
-4.  **Внутренняя функция `_parse_dict_string`**: Определяется внутренняя функция `_parse_dict_string`, которая преобразует строку типа `'{attr1:attr2}'` в словарь.
-5.  **Внутренняя функция `_get_attributes_from_dict`**: Определяется внутренняя функция `_get_attributes_from_dict`, которая извлекает значения атрибутов из `WebElement` на основе словаря.
-6.  **Обработка атрибутов**: Если атрибут является строкой и начинается с `{`, функция вызывает `_parse_dict_string` для преобразования строки в словарь и `_get_attributes_from_dict` для извлечения значений атрибутов.
-7.  **Обработка списка элементов**: Если `web_element` является списком, функция извлекает атрибуты для каждого элемента в списке и возвращает список значений атрибутов.
-8.  **Извлечение атрибута**: Если `web_element` не является списком, функция извлекает значение атрибута с помощью метода `get_attribute` и возвращает его.
-9.  **Возврат результата**: Функция возвращает значение(я) атрибута или `None`, если атрибут не найден.
+-   `Optional[WebElement | list[WebElement]]`: Значение(я) атрибута в виде WebElement, списка WebElements или None, если не найдено.
 
 **Внутренние функции**:
 
-### `_parse_dict_string`
-```python
-def _parse_dict_string(attr_string: str) -> dict | None:
-    """Parses a string like '{attr1:attr2}' into a dictionary."""
-    try:
-        return {
-            k.strip(): v.strip()
-            for k, v in (pair.split(":") for pair in attr_string.strip("{}").split(","))
-        }
-    except ValueError as ex:
-        logger.debug(f"Invalid attribute string format: {attr_string!r}", ex)
-        return None
-```
+-   `_parse_dict_string`:
 
-**Назначение**: Преобразует строку вида `'{attr1:attr2}'` в словарь.
-
-**Параметры**:
-- `attr_string` (str): Строка для преобразования в словарь.
-
-**Возвращает**:
-`dict | None`: Словарь, полученный из строки, или `None`, если строка имеет неверный формат.
-
-**Как работает функция**:
-1. **Удаление скобок**:
-   - Удаляет начальные и конечные фигурные скобки из строки.
-2. **Разделение на пары**:
-   - Разделяет строку на пары ключ-значение, используя запятую в качестве разделителя.
-3. **Разделение пары на ключ и значение**:
-   - Разделяет каждую пару на ключ и значение, используя двоеточие в качестве разделителя.
-4. **Создание словаря**:
-   - Создает словарь, где ключи и значения очищаются от лишних пробелов.
-5. **Обработка ошибок**:
-   - Если строка имеет неверный формат, функция перехватывает исключение `ValueError`, логирует отладочное сообщение и возвращает `None`.
-
-**Примеры**:
-```python
-# Пример 1: Преобразование строки '{attr1:attr2}' в словарь
-attr_string = "{attr1:attr2}"
-result = _parse_dict_string(attr_string)  # Результат: {'attr1': 'attr2'}
-
-# Пример 2: Преобразование строки с лишними пробелами '{ attr1 : attr2 }' в словарь
-attr_string = "{ attr1 : attr2 }"
-result = _parse_dict_string(attr_string)  # Результат: {'attr1': 'attr2'}
-
-# Пример 3: Неверный формат строки
-attr_string = "attr1:attr2"
-result = _parse_dict_string(attr_string)  # Результат: None
-```
-
-### `_get_attributes_from_dict`
-```python
-def _get_attributes_from_dict(web_element: WebElement, attr_dict: dict) -> dict:
-    """Retrieves attribute values from a WebElement based on a dictionary."""
-    result = {}
-    for key, value in attr_dict.items():
+    ```python
+    def _parse_dict_string(attr_string: str) -> dict | None:
+        """Parses a string like '{attr1:attr2}' into a dictionary."""
         try:
-            attr_key = web_element.get_attribute(key)
-            attr_value = web_element.get_attribute(value)
-            result[attr_key] = attr_value
-        except Exception as ex:
-            logger.debug(f"Error retrieving attributes '{key}' or '{value}' from element.", ex)
-            return {}
-    return result
-```
+            return {
+                k.strip(): v.strip()
+                for k, v in (pair.split(":") for pair in attr_string.strip("{}").split(","))
+            }
+        except ValueError as ex:
+            logger.debug(f"Invalid attribute string format: {attr_string!r}", ex)
+            return None
+    ```
 
-**Назначение**: Извлекает значения атрибутов из веб-элемента на основе словаря, где ключи и значения словаря соответствуют именам атрибутов веб-элемента.
+    **Назначение**: Преобразует строку вида '{attr1:attr2}' в словарь.
 
-**Параметры**:
-- `web_element` (WebElement): Веб-элемент, из которого извлекаются атрибуты.
-- `attr_dict` (dict): Словарь, содержащий имена атрибутов для извлечения.
+    **Параметры**:
 
-**Возвращает**:
-`dict`: Словарь, содержащий извлеченные значения атрибутов. Если при извлечении атрибутов возникает ошибка, возвращается пустой словарь.
+    -   `attr_string` (str): Строка для преобразования.
+
+    **Возвращает**:
+
+    -   `dict | None`: Словарь, полученный из строки, или None в случае ошибки.
+
+    **Как работает функция**:
+    Функция пытается преобразовать строку вида '{attr1:attr2}' в словарь. Если преобразование удается, то возвращается словарь. Если преобразование не удается, то логируется отладочное сообщение и возвращается None.
+
+-   `_get_attributes_from_dict`:
+
+    ```python
+    def _get_attributes_from_dict(web_element: WebElement, attr_dict: dict) -> dict:
+        """Retrieves attribute values from a WebElement based on a dictionary."""
+        result = {}
+        for key, value in attr_dict.items():
+            try:
+                attr_key = web_element.get_attribute(key)
+                attr_value = web_element.get_attribute(value)
+                result[attr_key] = attr_value
+            except Exception as ex:
+                logger.debug(f"Error retrieving attributes '{key}' or '{value}' from element.", ex)
+                return {}
+        return result
+    ```
+
+    **Назначение**: Извлекает значения атрибутов из WebElement на основе словаря.
+
+    **Параметры**:
+
+    -   `web_element` (WebElement): Веб-элемент, из которого нужно извлечь атрибуты.
+    -   `attr_dict` (dict): Словарь, определяющий, какие атрибуты нужно извлечь.
+
+    **Возвращает**:
+
+    -   `dict`: Словарь, содержащий извлеченные значения атрибутов.
+
+    **Как работает функция**:
+    Функция перебирает элементы словаря `attr_dict` и пытается извлечь значения атрибутов из `web_element` с использованием методов `get_attribute`. Если при извлечении атрибута происходит ошибка, то логируется отладочное сообщение и возвращается пустой словарь.
 
 **Как работает функция**:
-1. **Инициализация результата**:
-   - Создает пустой словарь `result` для хранения извлеченных значений атрибутов.
-2. **Перебор атрибутов в словаре**:
-   - Перебирает пары ключ-значение в словаре `attr_dict`.
-3. **Извлечение атрибутов**:
-   - Для каждой пары пытается извлечь значения атрибутов из `web_element` с помощью метода `get_attribute`.
-   - Ключ и значение из словаря используются как имена атрибутов для извлечения.
-4. **Сохранение результата**:
-   - Сохраняет извлеченные значения атрибутов в словаре `result`, где значение атрибута `attr_key` становится ключом, а значение атрибута `attr_value` становится значением.
-5. **Обработка ошибок**:
-   - Если при извлечении атрибутов возникает ошибка, функция перехватывает исключение, логирует отладочное сообщение и возвращает пустой словарь.
-6. **Возврат результата**:
-   - Возвращает словарь `result`, содержащий извлеченные значения атрибутов.
+
+1.  Функция получает веб-элемент с помощью `self.get_webelement_by_locator`.
+2.  Если атрибут локатора является строкой, начинающейся с '{', то строка преобразуется в словарь с помощью `_parse_dict_string`, и из веб-элемента извлекаются значения атрибутов на основе этого словаря с помощью `_get_attributes_from_dict`.
+3.  Если атрибут локатора не является строкой, начинающейся с '{', то из веб-элемента извлекается значение атрибута с помощью `web_element.get_attribute`.
 
 **Примеры**:
+
+Пример использования с атрибутом в виде строки:
+
 ```python
-# Пример:
-web_element = ... # Предположим, что это WebElement
-attr_dict = {"width": "height"}
-result = _get_attributes_from_dict(web_element, attr_dict) # вернет словарь
+locator = SimpleNamespace(by="id", selector="myElement", attribute="value")
+result = await get_attribute_by_locator(locator)
 ```
 
-**ASCII flowchart**:
-```
-[Инициализация словаря result = {}]
-|
-V
-[Перебор каждой пары key, value в словаре attr_dict]
-|
-V
-[Попытка извлечения значений атрибутов web_element.get_attribute(key) и web_element.get_attribute(value)]
-|
-V
-[Сохранение значений в словаре result[attr_key] = attr_value]
-|
-V
-[Если возникла ошибка, логирование и возврат {}]
-|
-V
-[Возврат словаря result]
+Пример использования с атрибутом в виде словаря:
+
+```python
+locator = SimpleNamespace(by="id", selector="myElement", attribute="{attr1:attr2}")
+result = await get_attribute_by_locator(locator)
 ```
 
 ### `get_webelement_by_locator`
@@ -450,12 +354,12 @@ async def get_webelement_by_locator(
     timeout_for_event: Optional[str] = "presence_of_element_located",
 ) -> Optional[WebElement | List[WebElement]]:
     """
-    Retrieves a web element or list of elements based on the provided locator.
+    Извлекает веб-элемент или список элементов на основе предоставленного локатора.
 
     Args:
-        locator: Locator data (dict or SimpleNamespace).
-        timeout: Timeout for locating the element (seconds).
-        timeout_for_event: Wait condition (\'presence_of_element_located\', \'visibility_of_all_elements_located\').
+        locator (dict | SimpleNamespace): Данные локатора.
+        timeout (Optional[float]): Время ожидания для поиска элемента (в секундах). По умолчанию 0.
+        timeout_for_event (Optional[str]): Условие ожидания ('presence_of_element_located', 'visibility_of_all_elements_located'). По умолчанию 'presence_of_element_located'.
 
     Returns:
        WebElement, list of WebElements, or None if not found.
@@ -466,105 +370,81 @@ async def get_webelement_by_locator(
 
 **Параметры**:
 
-- `locator` (dict | SimpleNamespace): Данные локатора.
-- `timeout` (Optional[float]): Время ожидания для поиска элемента (в секундах). По умолчанию `0`.
-- `timeout_for_event` (Optional[str]): Условие ожидания (`'presence_of_element_located'`, `'visibility_of_all_elements_located'`). По умолчанию `'presence_of_element_located'`.
+-   `locator` (dict | SimpleNamespace): Данные локатора.
+-   `timeout` (Optional[float]): Время ожидания для поиска элемента (в секундах). По умолчанию 0.
+-   `timeout_for_event` (Optional[str]): Условие ожидания ('presence_of_element_located', 'visibility_of_all_elements_located'). По умолчанию 'presence_of_element_located'.
 
 **Возвращает**:
 
-- `Optional[WebElement | List[WebElement]]`: `WebElement`, список `WebElement` или `None`, если не найдено.
-
-**Как работает функция**:
-
-1.  **Получение времени ожидания**: Если предоставленное время ожидания (`timeout`) больше 0, оно используется. В противном случае используется атрибут `timeout` из объекта `locator`.
-2.  **Внутренняя функция `_parse_elements_list`**: Определяется внутренняя асинхронная функция `_parse_elements_list`, которая фильтрует список веб-элементов на основе атрибута `if_list`.
-3.  **Преобразование локатора**: Если локатор является словарем, он преобразуется в объект `SimpleNamespace` для удобства доступа к атрибутам.
-4.  **Проверка локатора**: Проверяется, что локатор не является недействительным.
-5.  **Поиск элементов**: В зависимости от значения `timeout` вызывается метод `find_elements` драйвера Selenium для поиска элементов. Если `timeout` равен 0, элементы ищутся немедленно. В противном случае используется `WebDriverWait` для ожидания появления элементов в течение заданного времени.
-6.  **Фильтрация элементов**: Если элементы найдены, вызывается `_parse_elements_list` для фильтрации списка элементов на основе атрибута `if_list`.
-7.  **Обработка исключений**: Если во время поиска элементов происходит исключение `TimeoutException`, функция логирует сообщение об ошибке и возвращает `None`. Если происходит другое исключение, функция также логирует сообщение об ошибке и возвращает `None`.
-8.  **Возврат результата**: Функция возвращает веб-элемент, список веб-элементов или `None`, если элементы не найдены.
+-   `WebElement | List[WebElement] | None`: Веб-элемент, список веб-элементов или None, если не найдено.
 
 **Внутренние функции**:
 
-### `_parse_elements_list`
-```python
-async def _parse_elements_list(
-    web_elements: WebElement | List[WebElement], locator: SimpleNamespace
-) ->  Optional[WebElement | List[WebElement]]:
-    """Filters a list of web elements based on the if_list attribute."""
-    if not isinstance(web_elements, list):
+-   `_parse_elements_list`:
+
+    ```python
+    async def _parse_elements_list(
+        web_elements: WebElement | List[WebElement], locator: SimpleNamespace
+    ) ->  Optional[WebElement | List[WebElement]]:
+        """Filters a list of web elements based on the if_list attribute."""
+        if not isinstance(web_elements, list):
+            return web_elements
+
+        if_list = locator.if_list
+
+        if if_list == "all":
+            return web_elements
+        elif if_list == "first":
+            return web_elements[0]
+        elif if_list == "last":
+            return web_elements[-1]
+        elif if_list == "even":
+            return [web_elements[i] for i in range(0, len(web_elements), 2)]
+        elif if_list == "odd":
+            return [web_elements[i] for i in range(1, len(web_elements), 2)]
+        elif isinstance(if_list, list):
+            return [web_elements[i] for i in if_list]
+        elif isinstance(if_list, int):
+            return web_elements[if_list - 1]
+
         return web_elements
+    ```
 
-    if_list = locator.if_list
+    **Назначение**: Фильтрует список веб-элементов на основе атрибута `if_list`.
 
-    if if_list == "all":
-        return web_elements
-    elif if_list == "first":
-        return web_elements[0]
-    elif if_list == "last":
-        return web_elements[-1]
-    elif if_list == "even":
-        return [web_elements[i] for i in range(0, len(web_elements), 2)]
-    elif if_list == "odd":
-        return [web_elements[i] for i in range(1, len(web_elements), 2)]
-    elif isinstance(if_list, list):
-        return [web_elements[i] for i in if_list]
-    elif isinstance(if_list, int):
-        return web_elements[if_list - 1]
+    **Параметры**:
 
-    return web_elements
-```
+    -   `web_elements` (WebElement | List[WebElement]): Веб-элемент или список веб-элементов.
+    -   `locator` (SimpleNamespace): Данные локатора.
 
-**Назначение**: Фильтрует список веб-элементов на основе атрибута `if_list`, указанного в локаторе.
+    **Возвращает**:
 
-**Параметры**:
-- `web_elements` (WebElement | List[WebElement]): Список веб-элементов для фильтрации.
-- `locator` (SimpleNamespace): Объект, содержащий данные локатора, включая атрибут `if_list`.
+    -   `Optional[WebElement | List[WebElement]]`: Отфильтрованный веб-элемент или список веб-элементов.
 
-**Возвращает**:
-`Optional[WebElement | List[WebElement]]`: Отфильтрованный веб-элемент или список веб-элементов. Если входной параметр `web_elements` не является списком, он возвращается без изменений.
+    **Как работает функция**:
+    Функция принимает веб-элемент или список веб-элементов и данные локатора. Если веб-элемент не является списком, то он возвращается без изменений. Если веб-элемент является списком, то он фильтруется на основе атрибута `if_list` локатора. Атрибут `if_list` может иметь значения "all", "first", "last", "even", "odd", список индексов или целое число. В зависимости от значения атрибута `if_list` возвращается соответствующий отфильтрованный список веб-элементов.
 
 **Как работает функция**:
-1. **Проверка типа входных данных**:
-   - Проверяет, является ли `web_elements` списком. Если нет, возвращает `web_elements` без изменений.
-2. **Извлечение атрибута `if_list`**:
-   - Извлекает значение атрибута `if_list` из объекта `locator`.
-3. **Фильтрация списка**:
-   - В зависимости от значения `if_list` выполняет фильтрацию списка `web_elements`:
-     - Если `if_list == "all"`: возвращает весь список.
-     - Если `if_list == "first"`: возвращает первый элемент списка.
-     - Если `if_list == "last"`: возвращает последний элемент списка.
-     - Если `if_list == "even"`: возвращает список элементов с четными индексами.
-     - Если `if_list == "odd"`: возвращает список элементов с нечетными индексами.
-     - Если `if_list` является списком: возвращает список элементов, индексы которых указаны в `if_list`.
-     - Если `if_list` является целым числом: возвращает элемент с индексом `if_list - 1`.
-4. **Возврат результата**:
-   - Возвращает отфильтрованный веб-элемент или список веб-элементов.
 
-**ASCII flowchart**:
+1.  Функция преобразует данные локатора в объект `SimpleNamespace`, если это необходимо.
+2.  Функция определяет, нужно ли использовать таймаут для поиска элемента, и если да, то использует `WebDriverWait` для ожидания появления элемента.
+3.  Функция использует `driver.find_elements` для поиска элемента на странице.
+4.  Если элемент найден, функция вызывает `_parse_elements_list` для фильтрации списка элементов на основе атрибута `if_list` локатора.
+
+**Примеры**:
+
+Пример использования без таймаута:
+
+```python
+locator = SimpleNamespace(by="id", selector="myElement")
+element = await get_webelement_by_locator(locator)
 ```
-[Проверка: web_elements является списком?]
-|
-V
-[Извлечение значения if_list из локатора]
-|
-V
-[if_list == "all"?] --Y--> [Возврат web_elements]
-|
-[if_list == "first"?] --Y--> [Возврат web_elements[0]]
-|
-[if_list == "last"?] --Y--> [Возврат web_elements[-1]]
-|
-[if_list == "even"?] --Y--> [Возврат элементов с четными индексами]
-|
-[if_list == "odd"?] --Y--> [Возврат элементов с нечетными индексами]
-|
-[if_list является списком?] --Y--> [Возврат элементов с указанными индексами]
-|
-[if_list является целым числом?] --Y--> [Возврат web_elements[if_list - 1]]
-|
-[Возврат web_elements]
+
+Пример использования с таймаутом:
+
+```python
+locator = SimpleNamespace(by="id", selector="myElement", timeout=10)
+element = await get_webelement_by_locator(locator)
 ```
 
 ### `get_webelement_as_screenshot`
@@ -580,15 +460,15 @@ async def get_webelement_as_screenshot(
     webelement: Optional[WebElement] = None,
 ) -> Optional[BinaryIO]:
     """
-    Takes a screenshot of the located web element.
+    Делает скриншот найденного веб-элемента.
 
     Args:
-        locator: Locator data (dict or SimpleNamespace).
-        timeout: Timeout for locating the element (seconds).
-        timeout_for_event: Wait condition (\'presence_of_element_located\', \'visibility_of_all_elements_located\').
-        message: Not used in this function.
-        typing_speed: Not used in this function.
-        webelement: Optional pre-fetched web element.
+        locator (SimpleNamespace | dict): Данные локатора.
+        timeout (float): Время ожидания для поиска элемента (в секундах). По умолчанию 5.
+        timeout_for_event (str): Условие ожидания ('presence_of_element_located', 'visibility_of_all_elements_located'). По умолчанию 'presence_of_element_located'.
+        message (Optional[str]): Не используется в этой функции.
+        typing_speed (float): Не используется в этой функции.
+        webelement (Optional[WebElement]): Предварительно полученный веб-элемент (опционально).
 
     Returns:
        BinaryIO stream of the screenshot or None if failed.
@@ -601,16 +481,206 @@ async def get_webelement_as_screenshot(
 
 -   `locator` (SimpleNamespace | dict): Данные локатора.
 -   `timeout` (float): Время ожидания для поиска элемента (в секундах). По умолчанию 5.
--   `timeout_for_event` (str): Условие ожидания (`'presence_of_element_located'`, `'visibility_of_all_elements_located'`). По умолчанию `'presence_of_element_located'`.
+-   `timeout_for_event` (str): Условие ожидания ('presence_of_element_located', 'visibility_of_all_elements_located'). По умолчанию 'presence_of_element_located'.
 -   `message` (Optional[str]): Не используется в этой функции.
 -   `typing_speed` (float): Не используется в этой функции.
--   `webelement` (Optional[WebElement]): Предварительно полученный веб-элемент. По умолчанию `None`.
+-   `webelement` (Optional[WebElement]): Предварительно полученный веб-элемент (опционально).
 
 **Возвращает**:
 
--   `Optional[BinaryIO]`: Двоичный поток скриншота или `None` в случае неудачи.
+-   `Optional[BinaryIO]`: BinaryIO stream скриншота или None, если не удалось.
 
 **Как работает функция**:
 
-1.  **Преобразование локатора**: Если локатор является словарем, он преобразуется в объект `SimpleNamespace` для удобства доступа к атрибутам.
-2.  **Получение веб-
+1.  Если `webelement` не передан, функция пытается получить веб-элемент с помощью `self.get_webelement_by_locator`.
+2.  Если веб-элемент не найден, функция возвращает None.
+3.  Функция пытается сделать скриншот веб-элемента с помощью `webelement.screenshot_as_png`.
+4.  Если скриншот сделан успешно, функция возвращает BinaryIO stream скриншота.
+5.  Если при создании скриншота произошла ошибка, функция логирует ошибку и возвращает None.
+
+**Примеры**:
+
+Пример использования с предварительно полученным веб-элементом:
+
+```python
+locator = SimpleNamespace(by="id", selector="myElement")
+webelement = await get_webelement_by_locator(locator)
+screenshot = await get_webelement_as_screenshot(locator, webelement=webelement)
+```
+
+Пример использования без предварительно полученного веб-элемента:
+
+```python
+locator = SimpleNamespace(by="id", selector="myElement")
+screenshot = await get_webelement_as_screenshot(locator)
+```
+
+### `execute_event`
+
+```python
+async def execute_event(
+    self,
+    locator: SimpleNamespace | dict,
+    timeout: float = 5,
+    timeout_for_event: str = "presence_of_element_located",
+    message: str = None,
+    typing_speed: float = 0,
+) -> Optional[str | list[str] | bytes | list[bytes] | bool]:
+    """
+    Выполняет событие, связанное с локатором.
+
+    Args:
+        locator (SimpleNamespace | dict): Данные локатора.
+        timeout (float): Время ожидания для поиска элемента (в секундах). По умолчанию 5.
+        timeout_for_event (str): Условие ожидания ('presence_of_element_located', 'visibility_of_all_elements_located'). По умолчанию 'presence_of_element_located'.
+        message (str): Дополнительное сообщение для отправки с событием.
+        typing_speed (float): Скорость ввода текста для событий send_keys (в секундах).
+
+    Returns:
+        Optional[str | list[str] | bytes | list[bytes] | bool]: Результат выполнения события (str, list of str, bytes, list of bytes, или bool).
+    """
+```
+
+**Назначение**: Выполняет событие, связанное с локатором.
+
+**Параметры**:
+
+-   `locator` (SimpleNamespace | dict): Данные локатора.
+-   `timeout` (float): Время ожидания для поиска элемента (в секундах). По умолчанию 5.
+-   `timeout_for_event` (str): Условие ожидания ('presence_of_element_located', 'visibility_of_all_elements_located'). По умолчанию 'presence_of_element_located'.
+-   `message` (str): Дополнительное сообщение для отправки с событием.
+-   `typing_speed` (float): Скорость ввода текста для событий send_keys (в секундах).
+
+**Возвращает**:
+
+-   `Optional[str | list[str] | bytes | list[bytes] | bool]`: Результат выполнения события (str, list of str, bytes, list of bytes, или bool).
+
+**Как работает функция**:
+
+1.  Функция получает веб-элемент с помощью `self.get_webelement_by_locator`.
+2.  Функция разбивает строку `locator.event` на список событий, разделенных символом ';'.
+3.  Функция перебирает список событий и выполняет каждое событие.
+4.  Если событие равно "click()", функция пытается кликнуть на веб-элемент.
+5.  Если событие начинается с "pause(", функция пытается извлечь длительность паузы из события и приостановить выполнение на указанное время.
+6.  Если событие равно "upload_media()", функция пытается отправить сообщение веб-элементу с помощью `webelement.send_keys`.
+7.  Если событие равно "screenshot()", функция пытается сделать скриншот веб-элемента с помощью `self.get_webelement_as_screenshot`.
+8.  Если событие равно "clear()", функция пытается очистить веб-элемент с помощью `webelement.clear`.
+9.  Если событие начинается с "send_keys(", функция пытается отправить клавиши веб-элементу с помощью `ActionChains`.
+10. Если событие начинается с "type(", функция пытается ввести текст в веб-элемент с помощью `webelement.send_keys`.
+
+**Примеры**:
+
+Пример использования с событием "click()":
+
+```python
+locator = SimpleNamespace(by="id", selector="myElement", event="click()")
+result = await execute_event(locator)
+```
+
+Пример использования с событием "pause(5)":
+
+```python
+locator = SimpleNamespace(by="id", selector="myElement", event="pause(5)")
+result = await execute_event(locator)
+```
+
+### `send_message`
+
+```python
+async def send_message(
+    self,
+    locator: SimpleNamespace | dict,
+    timeout: float = 5,
+    timeout_for_event: str = "presence_of_element_located",
+    message: str = None,
+    typing_speed: float = 0,
+) -> bool:
+    """
+    Отправляет сообщение веб-элементу.
+
+    Args:
+        locator (SimpleNamespace | dict): Данные локатора.
+        timeout (float): Время ожидания для поиска элемента (в секундах). По умолчанию 5.
+        timeout_for_event (str): Условие ожидания ('presence_of_element_located', 'visibility_of_all_elements_located'). По умолчанию 'presence_of_element_located'.
+        message (str): Сообщение для отправки веб-элементу.
+        typing_speed (float): Скорость ввода текста для событий send_keys (в секундах).
+
+    Returns:
+        bool: True, если сообщение было отправлено успешно, False в противном случае.
+    """
+```
+
+**Назначение**: Отправляет сообщение веб-элементу.
+
+**Параметры**:
+
+-   `locator` (SimpleNamespace | dict): Данные локатора.
+-   `timeout` (float): Время ожидания для поиска элемента (в секундах). По умолчанию 5.
+-   `timeout_for_event` (str): Условие ожидания ('presence_of_element_located', 'visibility_of_all_elements_located'). По умолчанию 'presence_of_element_located'.
+-   `message` (str): Сообщение для отправки веб-элементу.
+-   `typing_speed` (float): Скорость ввода текста для событий send_keys (в секундах).
+
+**Возвращает**:
+
+-   `bool`: True, если сообщение было отправлено успешно, False в противном случае.
+
+**Внутренние функции**:
+
+-   `type_message`:
+
+    ```python
+    def type_message(
+        el: WebElement,
+        message: str,
+        replace_dict: dict = {";": "SHIFT+ENTER"},
+        typing_speed: float = typing_speed,
+    ) -> bool:
+        """Types a message into a web element with a specified typing speed."""
+        message = message.split(" ")
+        for word in message:
+            word += " "
+            try:
+                for letter in word:
+                    if letter in replace_dict.keys():
+                        self.actions.key_down(Keys.SHIFT).send_keys(Keys.ENTER).key_up(Keys.SHIFT)
+                    else:
+                        self.actions.send_keys(letter)
+                        self.actions.pause(typing_speed)
+                        self.actions.perform()
+            except Exception as ex:
+                logger.error(f"Error typing message:/n message={print(message)},/n word={print(letter)},/n letter={print(letter)}/n", ex, False)
+                continue
+        return True
+    ```
+
+    **Назначение**: Вводит сообщение в веб-элемент с указанной скоростью ввода.
+
+    **Параметры**:
+
+    -   `el` (WebElement): Веб-элемент, в который нужно ввести сообщение.
+    -   `message` (str): Сообщение для ввода.
+    -   `replace_dict` (dict): Словарь для замены символов. По умолчанию {";": "SHIFT+ENTER"}.
+    -   `typing_speed` (float): Скорость ввода текста (в секундах).
+
+    **Возвращает**:
+
+    -   `bool`: True, если сообщение было введено успешно, False в противном случае.
+
+    **Как работает функция**:
+    Функция разбивает сообщение на слова и перебирает каждое слово. Затем функция перебирает каждую букву в слове и, если буква есть в словаре `replace_dict`, заменяет ее на соответствующую комбинацию клавиш. В противном случае функция просто вводит букву в веб-элемент. После каждой буквы функция приостанавливает выполнение на указанное время.
+
+**Как работает функция**:
+
+1.  Функция получает веб-элемент с помощью `self.get_webelement_by_locator`.
+2.  Функция перемещает фокус на веб-элемент с помощью `self.actions.move_to_element`.
+3.  Функция вызывает `type_message` для ввода сообщения в веб-элемент.
+
+**Примеры**:
+
+Пример использования с сообщением:
+
+```python
+locator = SimpleNamespace(by="id", selector="myElement")
+message = "Hello, world!"
+result = await send_message(locator, message=message)
+```

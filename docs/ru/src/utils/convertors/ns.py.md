@@ -1,15 +1,12 @@
-# Модуль для преобразования SimpleNamespace в различные форматы
-=================================================================
-
-Модуль `src.utils.convertors.ns` предоставляет функции для преобразования объектов `SimpleNamespace` в различные форматы данных, такие как словари, JSON, CSV, XML и XLS. Это упрощает экспорт данных из объектов `SimpleNamespace` в форматы, подходящие для различных целей, например, для сохранения в файлы или передачи по сети.
+# Модуль `ns`
 
 ## Обзор
 
-Модуль содержит набор функций для преобразования объектов `SimpleNamespace` в различные форматы. Он включает в себя функции для преобразования в словари, JSON, CSV, XML и XLS.
+Модуль `ns` предоставляет функции для конвертации объектов `SimpleNamespace` в различные форматы: словарь (`dict`), JSON, CSV, XML и XLS.
 
-## Подробней
+## Подробнее
 
-Этот модуль предназначен для работы с объектами `SimpleNamespace` и преобразования их в другие форматы данных. Он предоставляет удобные функции для экспорта данных из объектов `SimpleNamespace` в различные форматы, что полезно для сохранения данных в файлы или передачи их по сети.
+Модуль содержит функции для преобразования объектов `SimpleNamespace` в различные форматы данных, что позволяет удобно экспортировать и использовать данные в разных приложениях и системах. Он использует вспомогательные функции из других модулей, таких как `xml2dict` (для XML), `save_csv_file` (для CSV) и `save_xls_file` (для XLS).
 
 ## Функции
 
@@ -30,61 +27,20 @@ def ns2dict(obj: Any) -> Dict[str, Any]:
     """
 ```
 
-**Назначение**: Рекурсивно преобразует объект с парами ключ-значение в словарь. Обрабатывает пустые ключи, заменяя их пустой строкой.
+**Назначение**: Рекурсивно преобразует объект с парами "ключ-значение" в словарь. Обрабатывает пустые ключи, заменяя их пустой строкой.
 
 **Параметры**:
-- `obj` (Any): Объект для преобразования. Может быть `SimpleNamespace`, `dict` или любым объектом с аналогичной структурой.
+- `obj` (Any): Объект для преобразования. Может быть `SimpleNamespace`, `dict` или любым другим объектом с аналогичной структурой.
 
 **Возвращает**:
 - `Dict[str, Any]`: Преобразованный словарь с обработанными вложенными структурами.
 
 **Как работает функция**:
+Функция `ns2dict` принимает объект `obj` и рекурсивно преобразует его в словарь. Если обнаруживается объект с атрибутом `__dict__` (например, `SimpleNamespace` или пользовательский объект) или объект, подобный словарю (с методом `items()`), он преобразуется в словарь, где ключи и значения обрабатываются рекурсивно. Пустые ключи заменяются пустой строкой.
 
-1. Функция `ns2dict` принимает объект `obj` в качестве аргумента.
-2. Внутри функции определена внутренняя функция `convert`, которая рекурсивно обрабатывает значения объекта.
-3. Если у значения есть атрибут `__dict__` (например, `SimpleNamespace` или пользовательские объекты), функция преобразует его в словарь, рекурсивно обрабатывая каждое значение.
-4. Если значение является объектом, подобным словарю (имеет метод `items()`), функция преобразует его в словарь, рекурсивно обрабатывая каждое значение.
-5. Если значение является списком или другим итерируемым объектом, функция рекурсивно обрабатывает каждый элемент списка.
-6. В противном случае функция возвращает значение без изменений.
-7. Функция `ns2dict` возвращает результат вызова функции `convert` с объектом `obj`.
+**Внутренние функции**:
 
-```
-    A (obj)
-    |
-    B (convert)
-    |
-    C (hasattr(value, '__dict__'))? -- Yes --> D (vars(value).items()) --> рекурсивный вызов convert для каждого значения
-    |                                  No  --> E (hasattr(value, 'items'))? -- Yes --> F (value.items()) --> рекурсивный вызов convert для каждого значения
-    |                                                             No  --> G (isinstance(value, list))? -- Yes --> H (convert для каждого элемента списка)
-    |                                                                                               No  --> I (return value)
-    |
-    J (return)
-```
-
-**Примеры**:
-
-```python
-from types import SimpleNamespace
-
-# Пример 1: Преобразование SimpleNamespace в словарь
-ns_obj = SimpleNamespace(name='John', age=30, address=SimpleNamespace(city='New York', zip='10001'))
-result = ns2dict(ns_obj)
-print(result)  # {'name': 'John', 'age': 30, 'address': {'city': 'New York', 'zip': '10001'}}
-
-# Пример 2: Преобразование словаря в словарь
-dict_obj = {'name': 'John', 'age': 30, 'address': {'city': 'New York', 'zip': '10001'}}
-result = ns2dict(dict_obj)
-print(result)  # {'name': 'John', 'age': 30, 'address': {'city': 'New York', 'zip': '10001'}}
-
-# Пример 3: Преобразование списка в список
-list_obj = ['John', 30, {'city': 'New York', 'zip': '10001'}]
-result = ns2dict(list_obj)
-print(result)  # ['John', 30, {'city': 'New York', 'zip': '10001'}]
-```
-
-#### Внутренние функции
-
-##### `convert`
+#### `convert`
 
 ```python
 def convert(value: Any) -> Any:
@@ -106,6 +62,25 @@ def convert(value: Any) -> Any:
 
 **Возвращает**:
 - `Any`: Преобразованное значение.
+
+**Как работает функция**:
+Внутренняя функция `convert` рекурсивно обрабатывает значения, проверяя их тип и структуру. Если значение имеет атрибут `__dict__` (например, `SimpleNamespace`) или метод `items()` (как у словаря), оно преобразуется в словарь с рекурсивной обработкой ключей и значений. Если значение является списком, каждый элемент списка также обрабатывается рекурсивно.
+
+**Примеры**:
+
+```python
+from types import SimpleNamespace
+
+# Пример 1: Преобразование SimpleNamespace в словарь
+ns_obj = SimpleNamespace(name="Alice", age=30, address=SimpleNamespace(city="New York", zip="10001"))
+result = ns2dict(ns_obj)
+print(result)  # Вывод: {'name': 'Alice', 'age': 30, 'address': {'city': 'New York', 'zip': '10001'}}
+
+# Пример 2: Преобразование словаря с вложенными структурами
+dict_obj = {"name": "Bob", "age": 25, "contact": {"email": "bob@example.com", "phone": "123-456-7890"}}
+result = ns2dict(dict_obj)
+print(result)  # Вывод: {'name': 'Bob', 'age': 25, 'contact': {'email': 'bob@example.com', 'phone': '123-456-7890'}}
+```
 
 ### `ns2csv`
 
@@ -130,34 +105,13 @@ def ns2csv(ns_obj: SimpleNamespace, csv_file_path: str | Path) -> bool:
 - `csv_file_path` (str | Path): Путь для сохранения CSV-файла.
 
 **Возвращает**:
-- `bool`: `True`, если преобразование прошло успешно, `False` в противном случае.
+- `bool`: `True`, если преобразование выполнено успешно, `False` в противном случае.
 
 **Вызывает исключения**:
-- `Exception`: Если возникает ошибка при преобразовании.
+- `Exception`: Если возникает ошибка при преобразовании в CSV.
 
 **Как работает функция**:
-
-1. Функция `ns2csv` принимает объект `SimpleNamespace` `ns_obj` и путь к CSV-файлу `csv_file_path` в качестве аргументов.
-2. Преобразует `ns_obj` в словарь с помощью функции `ns2dict`.
-3. Сохраняет словарь в CSV-файл по указанному пути с помощью функции `save_csv_file`.
-4. Если во время выполнения возникает исключение, оно перехватывается, и в лог записывается сообщение об ошибке.
-5. Функция возвращает `True`, если преобразование прошло успешно, и `False` в противном случае.
-
-```
-    A (ns_obj, csv_file_path)
-    |
-    B (data = [ns2dict(ns_obj)])
-    |
-    C (save_csv_file(data, csv_file_path))
-    |
-    D (return True)
-    |
-    E (Exception)
-    |
-    F (logger.error(f"ns2csv failed", ex, True))
-    |
-    G (return False)
-```
+Функция `ns2csv` преобразует объект `SimpleNamespace` в CSV-формат, используя функцию `save_csv_file` из модуля `src.utils.csv`. Сначала объект `SimpleNamespace` преобразуется в словарь с помощью `ns2dict`, затем этот словарь передается в `save_csv_file` для сохранения в CSV-файл. В случае ошибки, информация об ошибке логируется с использованием `logger.error`.
 
 **Примеры**:
 
@@ -165,17 +119,11 @@ def ns2csv(ns_obj: SimpleNamespace, csv_file_path: str | Path) -> bool:
 from types import SimpleNamespace
 from pathlib import Path
 
-# Пример 1: Преобразование SimpleNamespace в CSV-файл
-ns_obj = SimpleNamespace(name='John', age=30, city='New York')
-csv_file_path = 'data.csv'
+# Пример: Преобразование SimpleNamespace в CSV
+ns_obj = SimpleNamespace(name="Alice", age=30, city="New York")
+csv_file_path = "output.csv"
 result = ns2csv(ns_obj, csv_file_path)
-print(result)  # True
-
-# Пример 2: Преобразование SimpleNamespace в CSV-файл с указанием пути Path
-ns_obj = SimpleNamespace(name='John', age=30, city='New York')
-csv_file_path = Path('data.csv')
-result = ns2csv(ns_obj, csv_file_path)
-print(result)  # True
+print(result)  # Вывод: True (если успешно)
 ```
 
 ### `ns2xml`
@@ -204,42 +152,20 @@ def ns2xml(ns_obj: SimpleNamespace, root_tag: str = "root") -> str:
 - `str`: Результирующая XML-строка.
 
 **Вызывает исключения**:
-- `Exception`: Если возникает ошибка при преобразовании.
+- `Exception`: Если возникает ошибка при преобразовании в XML.
 
 **Как работает функция**:
-
-1. Функция `ns2xml` принимает объект `SimpleNamespace` `ns_obj` и корневой тег `root_tag` в качестве аргументов.
-2. Преобразует `ns_obj` в словарь с помощью функции `ns2dict`.
-3. Преобразует словарь в XML-строку с помощью функции `xml2dict`.
-4. Если во время выполнения возникает исключение, оно перехватывается, и в лог записывается сообщение об ошибке.
-5. Функция возвращает результирующую XML-строку.
-
-```
-    A (ns_obj, root_tag)
-    |
-    B (data = ns2dict(ns_obj))
-    |
-    C (return xml2dict(data))
-    |
-    D (Exception)
-    |
-    E (logger.error(f"ns2xml failed", ex, True))
-```
+Функция `ns2xml` преобразует объект `SimpleNamespace` в XML-формат. Сначала объект `SimpleNamespace` преобразуется в словарь с помощью `ns2dict`, затем этот словарь передается в функцию `xml2dict` из модуля `src.utils.convertors` для преобразования в XML. В случае ошибки, информация об ошибке логируется с использованием `logger.error`.
 
 **Примеры**:
 
 ```python
 from types import SimpleNamespace
 
-# Пример 1: Преобразование SimpleNamespace в XML-строку
-ns_obj = SimpleNamespace(name='John', age=30, city='New York')
-result = ns2xml(ns_obj)
-print(result)  # <root><name>John</name><age>30</age><city>New York</city></root>
-
-# Пример 2: Преобразование SimpleNamespace в XML-строку с указанием корневого тега
-ns_obj = SimpleNamespace(name='John', age=30, city='New York')
-result = ns2xml(ns_obj, root_tag='person')
-print(result)  # <person><name>John</name><age>30</age><city>New York</city></person>
+# Пример: Преобразование SimpleNamespace в XML
+ns_obj = SimpleNamespace(name="Alice", age=30, city="New York")
+xml_string = ns2xml(ns_obj, root_tag="data")
+print(xml_string)  # Вывод: XML-строка
 ```
 
 ### `ns2xls`
@@ -265,19 +191,10 @@ def ns2xls(data: SimpleNamespace, xls_file_path: str | Path) -> bool:
 - `xls_file_path` (str | Path): Путь для сохранения XLS-файла.
 
 **Возвращает**:
-- `bool`: `True`, если преобразование прошло успешно, `False` в противном случае.
+- `bool`: `True`, если преобразование выполнено успешно, `False` в противном случае.
 
 **Как работает функция**:
-
-1. Функция `ns2xls` принимает объект `SimpleNamespace` `data` и путь к XLS-файлу `xls_file_path` в качестве аргументов.
-2. Сохраняет `data` в XLS-файл по указанному пути с помощью функции `save_xls_file`.
-3. Функция возвращает результат вызова функции `save_xls_file`.
-
-```
-    A (data, xls_file_path)
-    |
-    B (return save_xls_file(data,xls_file_path))
-```
+Функция `ns2xls` преобразует объект `SimpleNamespace` в XLS-формат, используя функцию `save_xls_file` из модуля `src.utils.xls`. Эта функция принимает объект `SimpleNamespace` и путь для сохранения XLS-файла.  В случае ошибки, информация об ошибке логируется с использованием `logger.error`.
 
 **Примеры**:
 
@@ -285,14 +202,8 @@ def ns2xls(data: SimpleNamespace, xls_file_path: str | Path) -> bool:
 from types import SimpleNamespace
 from pathlib import Path
 
-# Пример 1: Преобразование SimpleNamespace в XLS-файл
-ns_obj = SimpleNamespace(name='John', age=30, city='New York')
-xls_file_path = 'data.xls'
+# Пример: Преобразование SimpleNamespace в XLS
+ns_obj = SimpleNamespace(name="Alice", age=30, city="New York")
+xls_file_path = "output.xls"
 result = ns2xls(ns_obj, xls_file_path)
-print(result)  # True
-
-# Пример 2: Преобразование SimpleNamespace в XLS-файл с указанием пути Path
-ns_obj = SimpleNamespace(name='John', age=30, city='New York')
-xls_file_path = Path('data.xls')
-result = ns2xls(ns_obj, xls_file_path)
-print(result)  # True
+print(result)  # Вывод: True (если успешно)

@@ -1,119 +1,217 @@
-# Модуль для конвертации HTML в текст (экспериментальная версия)
+# Модуль `html2text`
 
 ## Обзор
 
-Этот модуль содержит экспериментальные функции для преобразования HTML-контента в текст. Он использует сторонние библиотеки для обработки HTML и извлечения текстового содержимого.
+Модуль предназначен для преобразования HTML-контента в текстовый формат и сохранения результата. Он использует функции для чтения HTML-файлов, конвертации HTML в текст и сохранения текста в файл.
 
-## Подробнее
+## Подробней
 
-Этот код предназначен для преобразования HTML-файлов в текстовые файлы. Он использует функции из других модулей проекта, таких как `html2text`, `read_text_file` и `save_text_file`. Расположение файла в проекте указывает на то, что это экспериментальная версия конвертора HTML в текст.
+Этот модуль предназначен для обработки HTML-файлов, расположенных в Google Drive, извлечения текста из HTML-кода и сохранения этого текста в текстовый файл. Модуль использует другие утилиты, такие как `html2text` и `html2text_file` для конвертации, а также функции для чтения и записи файлов.
+
+## Зависимости
+
+-   `header`: Импортируется для каких-то целей (требуется дополнительная информация о модуле `header`).
+-   `src.gs`: Используется для доступа к путям в Google Drive.
+-   `src.utils.convertors.html2text`, `src.utils.convertors.html2text_file`: Функции для конвертации HTML в текст.
+-   `src.utils.file.read_text_file`, `src.utils.file.save_text_file`: Функции для чтения и записи текстовых файлов.
+
+## Параметры модуля
+
+-   `html` (str): Содержимое HTML-файла, прочитанное функцией `read_text_file`.
+-   `text_from_html` (str): Текст, полученный после конвертации HTML-кода функцией `html2text`.
 
 ## Функции
 
-### `html2text`
-
-```python
-from src.utils.convertors import html2text
-```
-
-**Назначение**: Преобразует HTML-контент в текст.
-
-**Параметры**:
-- Нет явных параметров, так как это импортированная функция.
-
-**Возвращает**:
-- Текстовое представление HTML-контента.
-
-**Как работает функция**:
-
-1.  Функция `html2text` принимает HTML-код в качестве входных данных.
-2.  HTML преобразуется в удобочитаемый текст с использованием логики, определенной в модуле `src.utils.convertors`.
-
-**Примеры**:
-```python
-from src.utils.convertors import html2text
-html_content = "<p>Hello, world!</p>"
-text_content = html2text(html_content)
-print(text_content)
-```
+Модуль использует следующие функции из других модулей:
 
 ### `read_text_file`
 
 ```python
-from src.utils.file import read_text_file
+def read_text_file(
+    file_path: str | Path,
+    as_list: bool = False,
+    extensions: Optional[List[str]] = None,
+    chunk_size: int = 8192,
+) -> Generator[str, None, None] | str | None:
+    """
+    Считывает содержимое файла (или файлов из каталога) с использованием генератора для экономии памяти.
+
+    Args:
+        file_path (str | Path): Путь к файлу или каталогу.
+        as_list (bool): Если `True`, возвращает генератор строк.
+        extensions (Optional[List[str]]): Список расширений файлов для чтения из каталога.
+        chunk_size (int): Размер чанков для чтения файла в байтах.
+
+    Returns:
+        Generator[str, None, None] | str | None: Генератор строк, объединенная строка или `None` в случае ошибки.
+
+    Raises:
+        Exception: Если возникает ошибка при чтении файла.
+
+    Example:
+        >>> from pathlib import Path
+        >>> file_path = Path('example.txt')
+        >>> content = read_text_file(file_path)
+        >>> if content:
+        ...    print(f'File content: {content[:100]}...')
+        File content: Example text...
+    """
 ```
 
-**Назначение**: Считывает содержимое текстового файла.
+**Назначение**: Читает содержимое текстового файла.
 
 **Параметры**:
-- Нет явных параметров, так как это импортированная функция.
+
+-   `file_path` (str | Path): Путь к файлу, который нужно прочитать.
+-   `as_list` (bool, optional): Если `True`, возвращает содержимое файла в виде списка строк. По умолчанию `False`.
+-   `extensions` (Optional[List[str]], optional): Список расширений файлов для чтения (используется при чтении директории). По умолчанию `None`.
+-   `chunk_size` (int, optional): Размер чанка для чтения файла. По умолчанию `8192`.
 
 **Возвращает**:
-- Содержимое файла в виде строки.
+
+-   `Generator[str, None, None] | str | None`: Генератор строк, объединенная строка или `None` в случае ошибки.
+
+**Вызывает исключения**:
+
+-   `Exception`: Если возникает ошибка при чтении файла.
 
 **Как работает функция**:
-
-1.  Функция `read_text_file` принимает путь к файлу в качестве входных данных.
-2.  Содержимое файла считывается и возвращается в виде строки.
-3.  Если файл не найден или происходит ошибка чтения, может быть вызвано исключение.
+1.  Функция принимает путь к файлу `file_path` и считывает его содержимое.
+2.  Если `as_list` установлен в `True`, функция возвращает генератор строк.
+3.  Если произойдет ошибка во время чтения файла, функция перехватит исключение и залогирует его, а затем вернет `None`.
 
 **Примеры**:
+
 ```python
-from src.utils.file import read_text_file
-file_path = "/path/to/your/file.txt"
-text_content = read_text_file(file_path)
-print(text_content)
+from pathlib import Path
+file_path = Path('example.txt')
+content = read_text_file(file_path)
+if content:
+    print(f'File content: {content[:100]}...')
+```
+
+### `html2text`
+
+```python
+def html2text(html: str) -> str:
+    """
+    Конвертирует HTML-код в текст, удаляя HTML-теги и атрибуты.
+
+    Args:
+        html (str): HTML-код для конвертации.
+
+    Returns:
+        str: Текст без HTML-тегов.
+
+    Raises:
+        Отсутствуют явные исключения, но могут быть вызваны исключения из BeautifulSoup.
+
+    Example:
+        >>> html_code = '<p>Hello, <b>world!</b></p>'
+        >>> text = html2text(html_code)
+        >>> print(text)
+        Hello, world!
+    """
+```
+
+**Назначение**: Преобразует HTML-код в текст.
+
+**Параметры**:
+
+-   `html` (str): HTML-код для преобразования.
+
+**Возвращает**:
+
+-   `str`: Текст, извлеченный из HTML-кода.
+
+**Как работает функция**:
+1.  Функция принимает HTML-код в качестве входных данных.
+2.  Использует библиотеку BeautifulSoup для парсинга HTML-кода.
+3.  Извлекает весь текст из HTML-кода, удаляя все HTML-теги и атрибуты.
+
+**Примеры**:
+
+```python
+html_code = '<p>Hello, <b>world!</b></p>'
+text = html2text(html_code)
+print(text)
 ```
 
 ### `save_text_file`
 
 ```python
-from src.utils.file import save_text_file
+def save_text_file(text: str, file_path: str | Path) -> None:
+    """
+    Сохраняет текст в файл.
+
+    Args:
+        text (str): Текст для сохранения.
+        file_path (str | Path): Путь к файлу, в который нужно сохранить текст.
+
+    Returns:
+        None
+
+    Raises:
+        Exception: Если возникает ошибка при сохранении файла.
+
+    Example:
+        >>> file_path = 'example.txt'
+        >>> text = 'Hello, world!'
+        >>> save_text_file(text, file_path)
+    """
 ```
 
 **Назначение**: Сохраняет текст в файл.
 
 **Параметры**:
-- Нет явных параметров, так как это импортированная функция.
+
+-   `text` (str): Текст, который нужно сохранить в файл.
+-   `file_path` (str | Path): Путь к файлу, в который нужно сохранить текст.
 
 **Возвращает**:
-- Нет возвращаемого значения.
+
+-   `None`: Функция ничего не возвращает.
+
+**Вызывает исключения**:
+
+-   `Exception`: Если возникает ошибка при сохранении файла.
 
 **Как работает функция**:
-
-1.  Функция `save_text_file` принимает текст и путь к файлу в качестве входных данных.
-2.  Текст сохраняется в указанный файл.
-3.  Если файл не может быть создан или происходит ошибка записи, может быть вызвано исключение.
+1.  Функция принимает текст и путь к файлу.
+2.  Открывает файл по указанному пути в режиме записи (`'w'`).
+3.  Записывает переданный текст в файл.
+4.  Если во время записи возникает ошибка, функция перехватывает исключение, логирует его и завершает работу.
 
 **Примеры**:
+
 ```python
-from src.utils.file import save_text_file
-text_content = "Hello, world!"
-file_path = "/path/to/your/file.txt"
-save_text_file(text_content, file_path)
+file_path = 'example.txt'
+text = 'Hello, world!'
+save_text_file(text, file_path)
 ```
 
-### Основной блок кода
+## Принцип работы
+
+1.  Читается HTML-файл `index.html` из Google Drive с использованием функции `read_text_file`.
+2.  HTML-код конвертируется в текст с помощью функции `html2text`.
+3.  Полученный текст сохраняется в файл `index.txt` в Google Drive с использованием функции `save_text_file`.
+
+## Использование
+
+Для использования этого модуля необходимо:
+
+1.  Установить необходимые зависимости, такие как `beautifulsoup4`.
+2.  Указать правильные пути к файлам в Google Drive.
+3.  Вызвать функции `read_text_file`, `html2text` и `save_text_file` для выполнения преобразования и сохранения.
+
+Пример использования:
 
 ```python
-import header
 from src import gs
-from src.utils.convertors import html2text, html2text_file
+from src.utils.convertors import html2text
 from src.utils.file import read_text_file, save_text_file
 
 html = read_text_file(gs.path.google_drive / 'html2text' / 'index.html')
 text_from_html = html2text(html)
 save_text_file(text_from_html, gs.path.google_drive / 'html2text' / 'index.txt')
-...
 ```
-
-**Как работает код**:
-
-1.  Читает HTML-файл `index.html` из указанного места в Google Drive (определяется переменной `gs.path.google_drive`).
-2.  Преобразует HTML-содержимое в текст с помощью функции `html2text`.
-3.  Сохраняет полученный текст в файл `index.txt` в том же каталоге.
-
-**ASCII flowchart**:
-
-```
-Read HTML File --> Convert HTML to Text --> Save Text to File

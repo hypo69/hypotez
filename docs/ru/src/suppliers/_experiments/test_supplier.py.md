@@ -1,50 +1,50 @@
-# Модуль для тестирования класса Supplier
+# Модуль `test_supplier`
+
 ## Обзор
 
-Модуль `test_supplier.py` содержит набор тестов для класса `Supplier`, расположенного в модуле `mymodule.supplier`. Он использует библиотеку `unittest` для определения тестовых случаев и `unittest.mock` для имитации зависимостей, таких как чтение файлов и взаимодействие с веб-драйвером.
+Модуль содержит набор тестов для класса `Supplier`, используемого для взаимодействия с различными поставщиками данных. Здесь определены юнит-тесты, проверяющие инициализацию, загрузку настроек и выполнение сценариев для поставщиков.
 
 ## Подробней
 
-Этот модуль предназначен для проверки корректности инициализации, загрузки настроек и выполнения сценариев класса `Supplier`. Тесты охватывают различные аспекты функциональности класса, включая работу с веб-драйвером и API, загрузку параметров из файлов конфигурации и выполнение сценариев.
+Этот модуль предоставляет тесты, которые охватывают различные аспекты работы с поставщиками, включая загрузку настроек из файлов, инициализацию с использованием веб-драйвера или API, а также выполнение сценариев. Он использует `unittest` для организации тестов и `mock` для изоляции тестируемого кода от внешних зависимостей.
 
 ## Классы
 
 ### `TestSupplier`
 
-**Описание**: Класс `TestSupplier` является подклассом `unittest.TestCase` и содержит набор тестовых методов для проверки класса `Supplier`.
+**Описание**: Класс `TestSupplier` содержит набор тестов для класса `Supplier`.
 
-**Наследует**:
-- `unittest.TestCase`
+**Наследует**: `unittest.TestCase`.
 
 **Атрибуты**:
-- `supplier_prefix` (str): Префикс поставщика, используемый в тестах.
-- `lang` (str): Язык, используемый в тестах.
-- `method` (str): Метод парсинга, используемый в тестах ('web' или 'api').
-- `supplier_settings` (dict): Настройки поставщика, используемые в тестах.
-- `locators` (dict): Локаторы элементов веб-страницы, используемые в тестах.
-- `supplier` (Supplier): Экземпляр класса `Supplier`, используемый в тестах.
+- `supplier_prefix` (str): Префикс имени поставщика для тестов.
+- `lang` (str): Язык поставщика.
+- `method` (str): Метод парсинга (`web` или `api`).
+- `supplier_settings` (dict): Настройки поставщика для тестов.
+- `locators` (dict): Локаторы элементов для веб-драйвера.
+- `supplier` (Supplier): Экземпляр класса `Supplier` для тестов.
 - `settings_file` (Path): Путь к файлу настроек поставщика.
-- `locators_file` (Path): Путь к файлу локаторов.
+- `locators_file` (Path): Путь к файлу локаторов элементов.
 
 **Методы**:
-- `setUp()`: Метод, выполняемый перед каждым тестовым методом. Инициализирует атрибуты класса, необходимые для тестов.
-- `test_init_webdriver()`: Тестирует инициализацию класса `Supplier` с методом парсинга 'web'.
-- `test_init_api()`: Тестирует инициализацию класса `Supplier` с методом парсинга 'api'.
-- `test_supplier_load_settings_success()`: Тестирует успешную загрузку настроек поставщика.
-- `test_supplier_load_settings_failure()`: Тестирует неудачную загрузку настроек поставщика.
-- `test_load_settings()`: Тестирует загрузку настроек.
-- `test_load_settings_invalid_path()`: Тестирует загрузку настроек при неверном пути к файлу.
-- `test_load_settings_invalid_locators_path()`: Тестирует загрузку настроек при неверном пути к файлу с локаторами.
-- `test_load_settings_api()`: Тестирует загрузку настроек при методе парсинга 'api'.
-- `test_load_related_functions()`: Тестирует загрузку связанных функций.
-- `test_init()`: Тестирует инициализацию экземпляра класса `Supplier`.
-- `test_load_settings_success()`: Тестирует успешную загрузку настроек из файла.
-- `test_load_settings_failure()`: Тестирует неудачную загрузку настроек из файла.
-- `test_run_api()`: Тестирует запуск поставщика с методом парсинга 'api'.
-- `test_run_scenario_files_success()`: Тестирует успешное выполнение сценария из файла.
-- `test_run_scenario_files_failure()`: Тестирует неудачное выполнение сценария из файла.
-- `test_run_with_login()`: Тестирует запуск поставщика с предварительной авторизацией.
-- `test_run_without_login()`: Тестирует запуск поставщика без авторизации.
+- `setUp()`: Метод подготовки тестовой среды перед каждым тестом.
+- `test_init_webdriver()`: Тест инициализации поставщика с использованием веб-драйвера.
+- `test_init_api()`: Тест инициализации поставщика с использованием API.
+- `test_supplier_load_settings_success()`: Тест успешной загрузки настроек поставщика.
+- `test_supplier_load_settings_failure()`: Тест неудачной загрузки настроек поставщика.
+- `test_load_settings()`: Тест загрузки настроек.
+- `test_load_settings_invalid_path()`: Тест обработки неверного пути к настройкам.
+- `test_load_settings_invalid_locators_path()`: Тест обработки неверного пути к локаторам.
+- `test_load_settings_api()`: Тест загрузки настроек для API.
+- `test_load_related_functions()`: Тест загрузки связанных функций.
+- `test_init()`: Тест инициализации экземпляра `Supplier`.
+- `test_load_settings_success()`: Тест успешной загрузки настроек поставщика.
+- `test_load_settings_failure()`: Тест неудачной загрузки настроек поставщика.
+- `test_run_api()`: Тест запуска поставщика через API.
+- `test_run_scenario_files_success()`: Тест успешного выполнения сценариев из файлов.
+- `test_run_scenario_files_failure()`: Тест неудачного выполнения сценариев из файлов.
+- `test_run_with_login()`: Тест запуска поставщика с авторизацией.
+- `test_run_without_login()`: Тест запуска поставщика без авторизации.
 
 ## Методы класса
 
@@ -52,6 +52,15 @@
 
 ```python
 def setUp(self):
+    """
+    Метод подготовки тестовой среды перед каждым тестом.
+
+    Выполняет настройку тестового окружения, инициализирует атрибуты класса
+    значениями, необходимыми для проведения тестов. Определяет префикс
+    поставщика, язык, метод парсинга, настройки поставщика, локаторы элементов,
+    создает экземпляр класса `Supplier`, а также определяет пути к файлам
+    настроек и локаторов.
+    """
     self.supplier_prefix = 'test_supplier'
     self.lang = 'en'
     self.method = 'web'
@@ -78,34 +87,26 @@ def setUp(self):
     self.locators_file = Path(__file__).parent / 'data/example_supplier/locators.json'
 ```
 
-**Назначение**: Метод `setUp` инициализирует атрибуты класса `TestSupplier` перед каждым тестовым методом.
-
-**Параметры**:
-- Отсутствуют.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Метод задает значения атрибутам, таким как `supplier_prefix`, `lang`, `method`, `supplier_settings` и `locators`.
-- Создает экземпляр класса `Supplier` с префиксом 'example_supplier'.
-- Определяет пути к файлам настроек и локаторов.
-
-**Примеры**:
-
-```python
-# Пример использования метода setUp (вызывается автоматически перед каждым тестом)
-test_case = TestSupplier()
-test_case.setUp()
-print(test_case.supplier_prefix)  # Вывод: test_supplier
-```
-
 ### `test_init_webdriver`
 
 ```python
 @patch('mymodule.supplier.gs.j_loads')
 @patch('mymodule.supplier.Driver')
 def test_init_webdriver(self, mock_driver, mock_j_loads):
+    """
+    Тест инициализации поставщика с использованием веб-драйвера.
+
+    Args:
+        mock_driver (MagicMock): Заглушка для класса `Driver`.
+        mock_j_loads (MagicMock): Заглушка для функции `j_loads`.
+
+    Описание:
+        Тест проверяет корректность инициализации класса `Supplier` при использовании
+        веб-драйвера. Подменяет функции `j_loads` и класс `Driver` заглушками,
+        устанавливает возвращаемые значения для `j_loads` и проверяет, что
+        атрибуты экземпляра `Supplier` инициализированы правильно.
+        Также проверяет, что `j_loads` и `Driver` были вызваны с ожидаемыми аргументами.
+    """
     mock_j_loads.return_value = self.supplier_settings
     mock_driver.return_value = MagicMock()
     supplier = Supplier(self.supplier_prefix, self.lang, self.method)
@@ -122,38 +123,23 @@ def test_init_webdriver(self, mock_driver, mock_j_loads):
     mock_driver.assert_called_once()
 ```
 
-**Назначение**: Метод `test_init_webdriver` тестирует инициализацию класса `Supplier` с методом парсинга 'web' (webdriver).
-
-**Параметры**:
-- `mock_driver` (MagicMock): Имитированный класс `Driver`.
-- `mock_j_loads` (MagicMock): Имитированная функция `j_loads`.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Метод использует декораторы `@patch` для имитации функций `j_loads` и класса `Driver`.
-- Функция `j_loads` возвращает предопределенные настройки поставщика (`self.supplier_settings`).
-- Класс `Driver` возвращает имитированный объект `MagicMock`.
-- Создается экземпляр класса `Supplier` с заданными префиксом, языком и методом парсинга.
-- Проверяются атрибуты созданного экземпляра `Supplier` на соответствие ожидаемым значениям.
-- Утверждается, что функция `j_loads` была вызвана с правильным путем к файлу настроек.
-- Утверждается, что класс `Driver` был вызван один раз.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_init_webdriver (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_init_webdriver()
-```
-
 ### `test_init_api`
 
 ```python
 @patch('mymodule.supplier.gs.j_loads')
 def test_init_api(self, mock_j_loads):
+    """
+    Тест инициализации поставщика с использованием API.
+
+    Args:
+        mock_j_loads (MagicMock): Заглушка для функции `j_loads`.
+
+    Описание:
+        Тест проверяет корректность инициализации класса `Supplier` при использовании API.
+        Подменяет функцию `j_loads` заглушкой, устанавливает возвращаемое значение
+        и проверяет, что атрибуты экземпляра `Supplier` инициализированы правильно.
+        Также проверяет, что `j_loads` была вызвана с ожидаемыми аргументами.
+    """
     self.method = 'api'
     mock_j_loads.return_value = self.supplier_settings
     supplier = Supplier(self.supplier_prefix, self.lang, self.method)
@@ -169,35 +155,17 @@ def test_init_api(self, mock_j_loads):
     mock_j_loads.assert_called_once_with(Path('suppliers', self.supplier_prefix, f'{self.supplier_prefix}.json'))
 ```
 
-**Назначение**: Метод `test_init_api` тестирует инициализацию класса `Supplier` с методом парсинга 'api'.
-
-**Параметры**:
-- `mock_j_loads` (MagicMock): Имитированная функция `j_loads`.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Метод использует декоратор `@patch` для имитации функции `j_loads`.
-- Устанавливает атрибут `self.method` в значение 'api'.
-- Функция `j_loads` возвращает предопределенные настройки поставщика (`self.supplier_settings`).
-- Создается экземпляр класса `Supplier` с заданными префиксом, языком и методом парсинга.
-- Проверяются атрибуты созданного экземпляра `Supplier` на соответствие ожидаемым значениям.
-- Утверждается, что функция `j_loads` была вызвана с правильным путем к файлу настроек.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_init_api (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_init_api()
-```
-
 ### `test_supplier_load_settings_success`
 
 ```python
 def test_supplier_load_settings_success():
+    """
+    Тест успешной загрузки настроек поставщика.
+
+    Описание:
+        Тест проверяет, что при успешной загрузке настроек поставщика атрибуты
+        экземпляра `Supplier` инициализируются значениями по умолчанию.
+    """
     supplier = Supplier(supplier_prefix='dummy')
     assert supplier.supplier_id == 'dummy'
     assert supplier.price_rule == 'dummy'
@@ -212,30 +180,17 @@ def test_supplier_load_settings_success():
     assert supplier.scenarios == []
 ```
 
-**Назначение**: Метод `test_supplier_load_settings_success` тестирует успешную загрузку настроек поставщика.
-
-**Параметры**:
-- Отсутствуют.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Создается экземпляр класса `Supplier` с префиксом 'dummy'.
-- Проверяются атрибуты созданного экземпляра `Supplier` на соответствие значениям по умолчанию.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_supplier_load_settings_success (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.test_supplier_load_settings_success()
-```
-
 ### `test_supplier_load_settings_failure`
 
 ```python
 def test_supplier_load_settings_failure():
+    """
+    Тест неудачной загрузки настроек поставщика.
+
+    Описание:
+        Тест проверяет, что при неудачной загрузке настроек поставщика атрибуты
+        экземпляра `Supplier` инициализируются значением `None` или пустой строкой.
+    """
     supplier = Supplier(supplier_prefix='nonexistent')
     assert supplier.supplier_id == None
     assert supplier.price_rule == None
@@ -249,31 +204,21 @@ def test_supplier_load_settings_failure():
     assert supplier.scrapping_method == ''
 ```
 
-**Назначение**: Метод `test_supplier_load_settings_failure` тестирует неудачную загрузку настроек поставщика.
-
-**Параметры**:
-- Отсутствуют.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Создается экземпляр класса `Supplier` с префиксом 'nonexistent'.
-- Проверяются атрибуты созданного экземпляра `Supplier` на соответствие значениям по умолчанию в случае отсутствия настроек.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_supplier_load_settings_failure (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.test_supplier_load_settings_failure()
-```
-
 ### `test_load_settings`
 
 ```python
-def test_load_settings(supplier, caplog):
-    supplier._load_settings()
+def test_load_settings(supplier):
+    """
+    Тест загрузки настроек.
+
+    Args:
+        supplier (Supplier): Экземпляр класса `Supplier` для теста.
+
+    Описание:
+        Тест проверяет, что настройки экземпляра `Supplier` загружаются правильно
+        из файла настроек. Сравнивает значения атрибутов экземпляра с ожидаемыми
+        значениями.
+    """
     assert supplier.supplier_prefix == 'example_supplier'
     assert supplier.lang == 'en'
     assert supplier.scrapping_method == 'web'
@@ -285,153 +230,98 @@ def test_load_settings(supplier, caplog):
     assert supplier.locators == {'example_locator': '//html/body/div'}
 ```
 
-**Назначение**: Метод `test_load_settings` тестирует загрузку настроек.
-
-**Параметры**:
-- `supplier` (Supplier): Экземпляр класса `Supplier`.
-- `caplog`: Объект для захвата логов.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Вызывается метод `_load_settings` экземпляра класса `Supplier`.
-- Проверяются атрибуты экземпляра `Supplier` на соответствие ожидаемым значениям после загрузки настроек.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_load_settings (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_load_settings(test_case.supplier, caplog)
-```
-
 ### `test_load_settings_invalid_path`
 
 ```python
 def test_load_settings_invalid_path(supplier, caplog):
+    """
+    Тест обработки неверного пути к настройкам.
+
+    Args:
+        supplier (Supplier): Экземпляр класса `Supplier` для теста.
+        caplog: Объект для перехвата логов.
+
+    Описание:
+        Тест проверяет, что при указании неверного пути к файлу настроек в лог
+        записывается сообщение об ошибке.
+    """
     supplier._load_settings()
     assert 'Error reading suppliers/example_supplier/example_supplier.json' in caplog.text
-```
-
-**Назначение**: Метод `test_load_settings_invalid_path` тестирует загрузку настроек при неверном пути к файлу.
-
-**Параметры**:
-- `supplier` (Supplier): Экземпляр класса `Supplier`.
-- `caplog`: Объект для захвата логов.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Вызывается метод `_load_settings` экземпляра класса `Supplier`.
-- Проверяется наличие сообщения об ошибке в логах, указывающего на неверный путь к файлу настроек.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_load_settings_invalid_path (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_load_settings_invalid_path(test_case.supplier, caplog)
 ```
 
 ### `test_load_settings_invalid_locators_path`
 
 ```python
 def test_load_settings_invalid_locators_path(supplier, caplog):
+    """
+    Тест обработки неверного пути к локаторам.
+
+    Args:
+        supplier (Supplier): Экземпляр класса `Supplier` для теста.
+        caplog: Объект для перехвата логов.
+
+    Описание:
+        Тест проверяет, что при указании неверного пути к файлу локаторов в лог
+        записывается сообщение об ошибке. Устанавливает метод парсинга в `api`
+        и проверяет, что сообщение об ошибке содержит информацию о неверном пути
+        к файлу `locators.json`.
+    """
     supplier.scrapping_method = 'api'
     supplier._load_settings()
     assert 'Error reading suppliers/example_supplier/locators.json' in caplog.text
-```
-
-**Назначение**: Метод `test_load_settings_invalid_locators_path` тестирует загрузку настроек при неверном пути к файлу с локаторами.
-
-**Параметры**:
-- `supplier` (Supplier): Экземпляр класса `Supplier`.
-- `caplog`: Объект для захвата логов.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Устанавливается атрибут `scrapping_method` экземпляра класса `Supplier` в значение 'api'.
-- Вызывается метод `_load_settings` экземпляра класса `Supplier`.
-- Проверяется наличие сообщения об ошибке в логах, указывающего на неверный путь к файлу локаторов.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_load_settings_invalid_locators_path (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_load_settings_invalid_locators_path(test_case.supplier, caplog)
 ```
 
 ### `test_load_settings_api`
 
 ```python
 def test_load_settings_api(supplier):
+    """
+    Тест загрузки настроек для API.
+
+    Args:
+        supplier (Supplier): Экземпляр класса `Supplier` для теста.
+
+    Описание:
+        Тест проверяет, что при методе парсинга `api` атрибуты `locators` и `driver`
+        экземпляра `Supplier` устанавливаются в `None`.
+    """
     supplier.scrapping_method = 'api'
     assert supplier.locators is None
     assert supplier.driver is None
-```
-
-**Назначение**: Метод `test_load_settings_api` тестирует загрузку настроек при методе парсинга 'api'.
-
-**Параметры**:
-- `supplier` (Supplier): Экземпляр класса `Supplier`.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Устанавливается атрибут `scrapping_method` экземпляра класса `Supplier` в значение 'api'.
-- Проверяется, что атрибуты `locators` и `driver` экземпляра класса `Supplier` равны `None`.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_load_settings_api (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_load_settings_api(test_case.supplier)
 ```
 
 ### `test_load_related_functions`
 
 ```python
 def test_load_related_functions(supplier):
+    """
+    Тест загрузки связанных функций.
+
+    Args:
+        supplier (Supplier): Экземпляр класса `Supplier` для теста.
+
+    Описание:
+        Тест проверяет, что атрибут `related_modules` экземпляра `Supplier` существует
+        и содержит функцию `example_function`.
+    """
     assert hasattr(supplier, 'related_modules')
     assert hasattr(supplier.related_modules, 'example_function')
-```
-
-**Назначение**: Метод `test_load_related_functions` тестирует загрузку связанных функций.
-
-**Параметры**:
-- `supplier` (Supplier): Экземпляр класса `Supplier`.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Проверяется наличие атрибута `related_modules` у экземпляра класса `Supplier`.
-- Проверяется наличие атрибута `example_function` у атрибута `related_modules` экземпляра класса `Supplier`.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_load_related_functions (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_load_related_functions(test_case.supplier)
 ```
 
 ### `test_init`
 
 ```python
 def test_init(supplier):
+    """
+    Тест инициализации экземпляра `Supplier`.
+
+    Args:
+        supplier (Supplier): Экземпляр класса `Supplier` для теста.
+
+    Описание:
+        Тест проверяет, что атрибуты `driver`, `p`, `c`, `current_scenario_filename`
+        и `current_scenario` экземпляра `Supplier` инициализированы правильно.
+    """
     assert supplier.driver is not None
     assert isinstance(supplier.p, list)
     assert isinstance(supplier.c, list)
@@ -439,98 +329,55 @@ def test_init(supplier):
     assert supplier.current_scenario is None
 ```
 
-**Назначение**: Метод `test_init` тестирует инициализацию экземпляра класса `Supplier`.
-
-**Параметры**:
-- `supplier` (Supplier): Экземпляр класса `Supplier`.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Проверяется, что атрибут `driver` экземпляра класса `Supplier` не равен `None`.
-- Проверяется, что атрибуты `p` и `c` экземпляра класса `Supplier` являются списками.
-- Проверяется, что атрибуты `current_scenario_filename` и `current_scenario` экземпляра класса `Supplier` равны `None`.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_init (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_init(test_case.supplier)
-```
-
 ### `test_load_settings_success`
 
 ```python
 def test_load_settings_success(self):
+    """
+    Тест успешной загрузки настроек поставщика.
+
+    Описание:
+        Тест проверяет, что при успешной загрузке настроек поставщика атрибут
+        `supplier_id` экземпляра `Supplier` устанавливается в значение,
+        загруженное из файла настроек. Использует `patch` для подмены функции
+        `open` и возвращает фиктивные данные JSON.
+    """
     with patch('builtins.open', return_value=MagicMock(spec=open, read=lambda: json.dumps({'supplier_id': 123}))) as mock_open:
         result = self.supplier._load_settings()
         self.assertTrue(result)
         self.assertEqual(self.supplier.supplier_id, 123)
 ```
 
-**Назначение**: Метод `test_load_settings_success` тестирует успешную загрузку настроек из файла.
-
-**Параметры**:
-- Отсутствуют.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Используется менеджер контекста `with patch` для имитации функции `open`.
-- Функция `open` возвращает имитированный объект `MagicMock`, который возвращает JSON-строку с `supplier_id = 123`.
-- Вызывается метод `_load_settings` экземпляра класса `Supplier`.
-- Проверяется, что метод `_load_settings` вернул `True`.
-- Проверяется, что атрибут `supplier_id` экземпляра класса `Supplier` равен 123.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_load_settings_success (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_load_settings_success()
-```
-
 ### `test_load_settings_failure`
 
 ```python
 def test_load_settings_failure(self):
+    """
+    Тест неудачной загрузки настроек поставщика.
+
+    Описание:
+        Тест проверяет, что при неудачной загрузке настроек поставщика метод
+        `_load_settings` возвращает `False`. Использует `patch` для подмены
+        функции `open` и вызывает исключение.
+    """
     with patch('builtins.open', side_effect=Exception):
         result = self.supplier._load_settings()
         self.assertFalse(result)
-```
-
-**Назначение**: Метод `test_load_settings_failure` тестирует неудачную загрузку настроек из файла.
-
-**Параметры**:
-- Отсутствуют.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Используется менеджер контекста `with patch` для имитации функции `open`.
-- Функция `open` вызывает исключение `Exception`.
-- Вызывается метод `_load_settings` экземпляра класса `Supplier`.
-- Проверяется, что метод `_load_settings` вернул `False`.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_load_settings_failure (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_load_settings_failure()
 ```
 
 ### `test_run_api`
 
 ```python
 def test_run_api(self):
+    """
+    Тест запуска поставщика через API.
+
+    Описание:
+        Тест проверяет, что при запуске поставщика через API вызывается функция
+        `run_api` из импортированного модуля. Использует `patch` для подмены
+        функции `importlib.import_module` и возвращает фиктивный модуль с
+        функцией `run_api`.
+    """
     with patch('my_module.supplier.importlib.import_module') as mock_import:
         mock_module = MagicMock()
         mock_module.run_api.return_value = True
@@ -539,34 +386,19 @@ def test_run_api(self):
         self.assertTrue(result)
 ```
 
-**Назначение**: Метод `test_run_api` тестирует запуск поставщика с методом парсинга 'api'.
-
-**Параметры**:
-- Отсутствуют.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Используется менеджер контекста `with patch` для имитации функции `importlib.import_module`.
-- Функция `importlib.import_module` возвращает имитированный модуль `MagicMock`.
-- Метод `run_api` имитированного модуля возвращает `True`.
-- Вызывается метод `run` экземпляра класса `Supplier`.
-- Проверяется, что метод `run` вернул `True`.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_run_api (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_run_api()
-```
-
 ### `test_run_scenario_files_success`
 
 ```python
 def test_run_scenario_files_success(self):
+    """
+    Тест успешного выполнения сценариев из файлов.
+
+    Описание:
+        Тест проверяет, что при успешном выполнении сценариев из файлов метод
+        `run_scenario_files` возвращает `True`. Использует `patch.object` для
+        подмены метода `login` и `_load_settings`, а также указывает путь к файлу
+        сценария.
+    """
     with patch.object(self.supplier, 'login', return_value=True):
         self.supplier._load_settings()
         scenario_file = Path(__file__).parent / 'data/example_supplier/scenario.json'
@@ -574,35 +406,19 @@ def test_run_scenario_files_success(self):
         self.assertTrue(result)
 ```
 
-**Назначение**: Метод `test_run_scenario_files_success` тестирует успешное выполнение сценария из файла.
-
-**Параметры**:
-- Отсутствуют.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Используется менеджер контекста `with patch.object` для имитации метода `login` экземпляра класса `Supplier`.
-- Метод `login` возвращает `True`.
-- Вызывается метод `_load_settings` экземпляра класса `Supplier`.
-- Определяется путь к файлу сценария.
-- Вызывается метод `run_scenario_files` экземпляра класса `Supplier` с путем к файлу сценария.
-- Проверяется, что метод `run_scenario_files` вернул `True`.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_run_scenario_files_success (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_run_scenario_files_success()
-```
-
 ### `test_run_scenario_files_failure`
 
 ```python
 def test_run_scenario_files_failure(self):
+    """
+    Тест неудачного выполнения сценариев из файлов.
+
+    Описание:
+        Тест проверяет, что при неудачном выполнении сценариев из файлов метод
+        `run_scenario_files` возвращает `False`. Использует `patch.object` для
+        подмены метода `login` и `_load_settings`, а также указывает путь к файлу
+        с неверным сценарием.
+    """
     with patch.object(self.supplier, 'login', return_value=True):
         self.supplier._load_settings()
         scenario_file = Path(__file__).parent / 'data/example_supplier/invalid_scenario.json'
@@ -610,35 +426,18 @@ def test_run_scenario_files_failure(self):
         self.assertFalse(result)
 ```
 
-**Назначение**: Метод `test_run_scenario_files_failure` тестирует неудачное выполнение сценария из файла.
-
-**Параметры**:
-- Отсутствуют.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Используется менеджер контекста `with patch.object` для имитации метода `login` экземпляра класса `Supplier`.
-- Метод `login` возвращает `True`.
-- Вызывается метод `_load_settings` экземпляра класса `Supplier`.
-- Определяется путь к файлу сценария.
-- Вызывается метод `run_scenario_files` экземпляра класса `Supplier` с путем к файлу сценария.
-- Проверяется, что метод `run_scenario_files` вернул `False`.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_run_scenario_files_failure (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_run_scenario_files_failure()
-```
-
 ### `test_run_with_login`
 
 ```python
 def test_run_with_login(self):
+    """
+    Тест запуска поставщика с авторизацией.
+
+    Описание:
+        Тест проверяет, что при запуске поставщика с авторизацией вызывается метод
+        `login`. Использует `patch.object` для подмены метода `login` и проверяет,
+        что он был вызван.
+    """
     with patch.object(self.supplier, 'login', return_value=True) as mock_login:
         self.supplier._load_settings()
         result = self.supplier.run()
@@ -646,35 +445,18 @@ def test_run_with_login(self):
         self.assertTrue(result)
 ```
 
-**Назначение**: Метод `test_run_with_login` тестирует запуск поставщика с предварительной авторизацией.
-
-**Параметры**:
-- Отсутствуют.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Используется менеджер контекста `with patch.object` для имитации метода `login` экземпляра класса `Supplier`.
-- Метод `login` возвращает `True`.
-- Вызывается метод `_load_settings` экземпляра класса `Supplier`.
-- Вызывается метод `run` экземпляра класса `Supplier`.
-- Проверяется, что метод `login` был вызван.
-- Проверяется, что метод `run` вернул `True`.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_run_with_login (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_run_with_login()
-```
-
 ### `test_run_without_login`
 
 ```python
 def test_run_without_login(self):
+    """
+    Тест запуска поставщика без авторизации.
+
+    Описание:
+        Тест проверяет, что при запуске поставщика без авторизации не вызывается
+        метод `run_scenario_files`. Использует `patch.object` для подмены метода
+        `run_scenario_files` и проверяет, что он не был вызван.
+    """
     self.supplier.login['if_login'] = False
     with patch.object(self.supplier, 'run_scenario_files', return_value=True) as mock_run_scenario_files:
         self.supplier._load_settings()
@@ -683,27 +465,13 @@ def test_run_without_login(self):
         self.assertTrue(result)
 ```
 
-**Назначение**: Метод `test_run_without_login` тестирует запуск поставщика без авторизации.
+## Параметры класса
 
-**Параметры**:
-- Отсутствуют.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает функция**:
-- Устанавливается значение ключа `if_login` словаря `login` экземпляра класса `Supplier` в `False`.
-- Используется менеджер контекста `with patch.object` для имитации метода `run_scenario_files` экземпляра класса `Supplier`.
-- Метод `run_scenario_files` возвращает `True`.
-- Вызывается метод `_load_settings` экземпляра класса `Supplier`.
-- Вызывается метод `run` экземпляра класса `Supplier`.
-- Проверяется, что метод `run_scenario_files` не был вызван.
-- Проверяется, что метод `run` вернул `True`.
-
-**Примеры**:
-
-```python
-# Пример использования метода test_run_without_login (вызывается автоматически при запуске тестов)
-test_case = TestSupplier()
-test_case.setUp()
-test_case.test_run_without_login()
+- `supplier_prefix` (str): Префикс имени поставщика для тестов.
+- `lang` (str): Язык поставщика.
+- `method` (str): Метод парсинга (`web` или `api`).
+- `supplier_settings` (dict): Настройки поставщика для тестов.
+- `locators` (dict): Локаторы элементов для веб-драйвера.
+- `supplier` (Supplier): Экземпляр класса `Supplier` для тестов.
+- `settings_file` (Path): Путь к файлу настроек поставщика.
+- `locators_file` (Path): Путь к файлу локаторов элементов.

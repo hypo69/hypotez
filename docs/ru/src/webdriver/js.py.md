@@ -1,18 +1,12 @@
-# Модуль `src.webdriver.js`
+# Модуль `js`
 
 ## Обзор
 
-Модуль `src.webdriver.js` предоставляет набор JavaScript-утилит для взаимодействия с веб-страницей. Он расширяет возможности Selenium WebDriver, добавляя функции, основанные на JavaScript, для манипулирования видимостью элементов, получения информации о странице и управления фокусом браузера.
+Модуль `js` предоставляет набор JavaScript-утилит для взаимодействия с веб-страницами с использованием Selenium WebDriver. Он расширяет возможности Selenium WebDriver, добавляя общие функции на основе JavaScript для взаимодействия с веб-страницами, включая манипуляции с видимостью элементов, получение информации о странице и управление фокусом браузера.
 
-## Подробнее
+## Подробней
 
-Этот модуль предназначен для расширения возможностей Selenium WebDriver путем добавления общих JavaScript-функций для взаимодействия с веб-страницами, включая манипуляции с видимостью, получение информации о странице и управление фокусом браузера.
-
-Основные возможности:
-
-1.  Делает невидимые DOM-элементы видимыми для взаимодействия.
-2.  Извлекает метаданные, такие как состояние готовности документа, referrer или язык страницы.
-3.  Программно управляет фокусом окна браузера.
+Модуль предназначен для упрощения выполнения задач, требующих JavaScript, таких как изменение стилей элементов DOM, получение данных о состоянии страницы и управление фокусом окна браузера. Это может быть полезно в ситуациях, когда стандартных средств Selenium WebDriver недостаточно.
 
 ## Классы
 
@@ -20,190 +14,104 @@
 
 **Описание**: Предоставляет JavaScript-утилиты для взаимодействия с веб-страницей.
 
-**Принцип работы**: Класс `JavaScript` инициализируется экземпляром Selenium WebDriver и предоставляет методы для выполнения JavaScript-кода в контексте текущей веб-страницы. Это позволяет выполнять действия, которые сложно или невозможно выполнить с помощью стандартных средств Selenium WebDriver.
+**Атрибуты**:
+- `driver` (WebDriver): Экземпляр Selenium WebDriver для выполнения JavaScript.
 
 **Методы**:
+- `unhide_DOM_element(element: WebElement) -> bool`: Делает невидимый элемент DOM видимым, изменяя его свойства стиля.
+- `ready_state() -> str`: Возвращает статус загрузки документа.
+- `window_focus() -> None`: Устанавливает фокус на окно браузера.
+- `get_referrer() -> str`: Возвращает URL-адрес referrer текущего документа.
+- `get_page_lang() -> str`: Возвращает язык текущей страницы.
 
-*   `__init__`: Инициализирует экземпляр класса `JavaScript`.
-*   `unhide_DOM_element`: Делает невидимый DOM-элемент видимым.
-*   `ready_state`: Получает статус загрузки документа.
-*   `window_focus`: Устанавливает фокус на окно браузера.
-*   `get_referrer`: Получает URL-адрес referrer текущего документа.
-*   `get_page_lang`: Получает язык текущей страницы.
-
-### `JavaScript.__init__(self, driver: WebDriver)`
-
+#### `__init__`
 ```python
-    def __init__(self, driver: WebDriver):
-        """Initializes the JavaScript helper with a Selenium WebDriver instance.
+def __init__(self, driver: WebDriver):
+    """
+    Инициализирует JavaScript helper с экземпляром Selenium WebDriver.
 
-        Args:
-            driver (WebDriver): Selenium WebDriver instance to execute JavaScript.
-        """
-        self.driver = driver
+    Args:
+        driver (WebDriver): Selenium WebDriver instance to execute JavaScript.
+    """
 ```
-
-**Назначение**: Инициализирует класс `JavaScript` с экземпляром `WebDriver`.
 
 **Параметры**:
+- `driver` (WebDriver): Экземпляр Selenium WebDriver для выполнения JavaScript.
 
-*   `driver` (`WebDriver`): Экземпляр `WebDriver`, используемый для выполнения JavaScript.
+**Принцип работы**:
+- Конструктор класса `JavaScript` принимает экземпляр `WebDriver` и сохраняет его в атрибуте `self.driver`. Этот драйвер используется для выполнения JavaScript-кода на веб-странице.
 
-**Как работает функция**:
-
-1.  Функция `__init__` является конструктором класса `JavaScript`.
-2.  Она принимает экземпляр `WebDriver` в качестве аргумента.
-3.  Сохраняет предоставленный экземпляр `WebDriver` в атрибуте `self.driver` для дальнейшего использования.
-
-```
-A[Инициализация класса JavaScript]
-|
-B[Сохранение экземпляра WebDriver в self.driver]
-```
-
-**Примеры**:
-
+#### `unhide_DOM_element`
 ```python
-from selenium import webdriver
-from src.webdriver.js import JavaScript
+def unhide_DOM_element(self, element: WebElement) -> bool:
+    """
+    Делает невидимый DOM элемент видимым, изменяя его свойства стиля.
 
-# Инициализация WebDriver (пример с Chrome)
-driver = webdriver.Chrome()
+    Args:
+        element (WebElement): The WebElement object to make visible.
 
-# Создание экземпляра JavaScript с использованием WebDriver
-js_executor = JavaScript(driver)
+    Returns:
+        bool: True если скрипт выполнился успешно, False в противном случае.
+    """
 ```
-
-### `JavaScript.unhide_DOM_element(self, element: WebElement) -> bool`
-
-```python
-    def unhide_DOM_element(self, element: WebElement) -> bool:
-        """Makes an invisible DOM element visible by modifying its style properties.
-
-        Args:
-            element (WebElement): The WebElement object to make visible.
-
-        Returns:
-            bool: True if the script executes successfully, False otherwise.
-        """
-        script = """
-        arguments[0].style.opacity = 1;
-        arguments[0].style.transform = 'translate(0px, 0px) scale(1)';
-        arguments[0].style.MozTransform = 'translate(0px, 0px) scale(1)';
-        arguments[0].style.WebkitTransform = 'translate(0px, 0px) scale(1)';
-        arguments[0].style.msTransform = 'translate(0px, 0px) scale(1)';
-        arguments[0].style.OTransform = 'translate(0px, 0px) scale(1)';
-        arguments[0].scrollIntoView(true);
-        return true;
-        """
-        try:
-            self.driver.execute_script(script, element)
-            return True
-        except Exception as ex:
-            logger.error('Error in unhide_DOM_element: %s', ex)
-            return False
-```
-
-**Назначение**: Делает невидимый DOM-элемент видимым, изменяя его свойства стиля.
 
 **Параметры**:
-
-*   `element` (`WebElement`): Объект `WebElement`, который нужно сделать видимым.
+- `element` (WebElement): Объект `WebElement`, который нужно сделать видимым.
 
 **Возвращает**:
-
-*   `bool`: `True`, если скрипт выполнен успешно, `False` в противном случае.
-
-**Вызывает исключения**:
-
-*   `Exception`: Если возникает ошибка при выполнении JavaScript-скрипта.
+- `bool`: `True`, если скрипт выполнен успешно, `False` в противном случае.
 
 **Как работает функция**:
-
-1.  Функция `unhide_DOM_element` принимает объект `WebElement` в качестве аргумента.
-2.  Определяет JavaScript-скрипт, который изменяет свойства стиля элемента, чтобы сделать его видимым. Скрипт устанавливает `opacity` в 1, `transform` в `translate(0px, 0px) scale(1)` и вызывает `scrollIntoView(true)` для прокрутки элемента в видимую область.
-3.  Пытается выполнить JavaScript-скрипт с использованием `self.driver.execute_script`.
-4.  Если скрипт выполняется успешно, возвращает `True`.
-5.  Если возникает исключение, логирует ошибку с использованием `logger.error` и возвращает `False`.
-
-```
-A[Принимает WebElement]
-|
-B[Определяет JavaScript-скрипт для изменения свойств стиля элемента]
-|
-C[Пытается выполнить JavaScript-скрипт]
-|
-D[Скрипт выполнен успешно?]
-|
-E[Возвращает True]                                       F[Логирует ошибку и возвращает False]
-```
+- Функция `unhide_DOM_element` принимает `WebElement` в качестве аргумента. Она выполняет JavaScript-код, который изменяет свойства стиля элемента, делая его видимым.
+- Свойства, которые изменяются: `opacity`, `transform`, `MozTransform`, `WebkitTransform`, `msTransform`, `OTransform`.
+- Также вызывается метод `scrollIntoView(true)`, чтобы прокрутить элемент в видимую область.
+- Если в процессе выполнения скрипта возникает исключение, оно логируется, и функция возвращает `False`.
 
 **Примеры**:
 
 ```python
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from src.webdriver.js import JavaScript
 
-# Инициализация WebDriver (пример с Chrome)
+# Инициализация WebDriver (пример для Chrome)
 driver = webdriver.Chrome()
-driver.get("https://example.com")  # Откройте нужную страницу
+driver.get("https://example.com")
 
-# Создание экземпляра JavaScript с использованием WebDriver
-js_executor = JavaScript(driver)
+# Поиск элемента, который изначально невидим
+hidden_element = driver.find_element("id", "hiddenElement")
 
-# Найти элемент, который изначально невидимый
-element = driver.find_element(By.ID, "hiddenElement")
+# Создание экземпляра JavaScript helper
+js_helper = JavaScript(driver)
 
-# Сделать элемент видимым
-result = js_executor.unhide_DOM_element(element)
+# Попытка сделать элемент видимым
+result = js_helper.unhide_DOM_element(hidden_element)
 
 if result:
-    print("Элемент успешно сделан видимым.")
+    print("Элемент успешно отображен")
 else:
-    print("Не удалось сделать элемент видимым.")
+    print("Не удалось отобразить элемент")
+
+driver.quit()
 ```
 
-### `JavaScript.ready_state(self) -> str`
-
+#### `ready_state`
 ```python
-    @property
-    def ready_state(self) -> str:
-        """Retrieves the document loading status.
+@property
+def ready_state(self) -> str:
+    """
+    Возвращает статус загрузки документа.
 
-        Returns:
-            str: 'loading' if the document is still loading, 'complete' if loading is finished.
-        """
-        try:
-            return self.driver.execute_script('return document.readyState;')
-        except Exception as ex:
-            logger.error('Error retrieving document.readyState: %s', ex)
-            return ''
+    Returns:
+        str: 'loading' если документ все еще загружается, 'complete' если загрузка завершена.
+    """
 ```
-
-**Назначение**: Получает статус загрузки документа.
 
 **Возвращает**:
-
-*   `str`: `'loading'`, если документ еще загружается, `'complete'`, если загрузка завершена, или пустую строку в случае ошибки.
-
-**Вызывает исключения**:
-
-*   `Exception`: Если возникает ошибка при выполнении JavaScript-скрипта.
+- `str`: `'loading'`, если документ все еще загружается, `'complete'`, если загрузка завершена.
 
 **Как работает функция**:
-
-1.  Функция `ready_state` пытается выполнить JavaScript-скрипт `return document.readyState;`, который возвращает текущий статус загрузки документа.
-2.  Если скрипт выполняется успешно, возвращает полученный статус.
-3.  Если возникает исключение, логирует ошибку с использованием `logger.error` и возвращает пустую строку.
-
-```
-A[Пытается выполнить JavaScript-скрипт для получения document.readyState]
-|
-B[Скрипт выполнен успешно?]
-|
-C[Возвращает статус загрузки]                                       D[Логирует ошибку и возвращает пустую строку]
-```
+- Функция `ready_state` использует JavaScript для получения значения свойства `document.readyState`, которое указывает на статус загрузки документа.
+- Если в процессе выполнения скрипта возникает исключение, оно логируется, и функция возвращает пустую строку.
 
 **Примеры**:
 
@@ -211,47 +119,34 @@ C[Возвращает статус загрузки]                           
 from selenium import webdriver
 from src.webdriver.js import JavaScript
 
-# Инициализация WebDriver (пример с Chrome)
+# Инициализация WebDriver (пример для Chrome)
 driver = webdriver.Chrome()
 driver.get("https://example.com")
 
-# Создание экземпляра JavaScript с использованием WebDriver
-js_executor = JavaScript(driver)
+# Создание экземпляра JavaScript helper
+js_helper = JavaScript(driver)
 
 # Получение статуса загрузки документа
-ready_state = js_executor.ready_state
+status = js_helper.ready_state
 
-print(f"Статус загрузки документа: {ready_state}")
+print(f"Статус загрузки документа: {status}")
+
+driver.quit()
 ```
 
-### `JavaScript.window_focus(self) -> None`
-
+#### `window_focus`
 ```python
-    def window_focus(self) -> None:
-        """Sets focus to the browser window using JavaScript.
+def window_focus(self) -> None:
+    """
+    Устанавливает фокус на окно браузера.
 
-        Attempts to bring the browser window to the foreground.
-        """
-        try:
-            self.driver.execute_script('window.focus();')
-        except Exception as ex:
-            logger.error('Error executing window.focus(): %s', ex)
+    Попытка вывода окна браузера на передний план.
+    """
 ```
-
-**Назначение**: Устанавливает фокус на окно браузера с помощью JavaScript.
 
 **Как работает функция**:
-
-1.  Функция `window_focus` пытается выполнить JavaScript-скрипт `window.focus();`, который устанавливает фокус на текущее окно браузера.
-2.  Если возникает исключение, логирует ошибку с использованием `logger.error`.
-
-```
-A[Пытается выполнить JavaScript-скрипт для установки фокуса на окно браузера]
-|
-B[Возникла ошибка?]
-|
-C[Логирует ошибку]
-```
+- Функция `window_focus` использует JavaScript для установки фокуса на окно браузера.
+- Если в процессе выполнения скрипта возникает исключение, оно логируется.
 
 **Примеры**:
 
@@ -259,56 +154,38 @@ C[Логирует ошибку]
 from selenium import webdriver
 from src.webdriver.js import JavaScript
 
-# Инициализация WebDriver (пример с Chrome)
+# Инициализация WebDriver (пример для Chrome)
 driver = webdriver.Chrome()
 driver.get("https://example.com")
 
-# Создание экземпляра JavaScript с использованием WebDriver
-js_executor = JavaScript(driver)
+# Создание экземпляра JavaScript helper
+js_helper = JavaScript(driver)
 
 # Установка фокуса на окно браузера
-js_executor.window_focus()
+js_helper.window_focus()
+
+print("Фокус установлен на окно браузера")
+
+driver.quit()
 ```
 
-### `JavaScript.get_referrer(self) -> str`
-
+#### `get_referrer`
 ```python
-    def get_referrer(self) -> str:
-        """Retrieves the referrer URL of the current document.
+def get_referrer(self) -> str:
+    """
+    Возвращает URL-адрес referrer текущего документа.
 
-        Returns:
-            str: The referrer URL, or an empty string if unavailable.
-        """
-        try:
-            return self.driver.execute_script('return document.referrer;') or ''
-        except Exception as ex:
-            logger.error('Error retrieving document.referrer: %s', ex)
-            return ''
+    Returns:
+        str: URL-адрес referrer, или пустая строка, если он недоступен.
+    """
 ```
-
-**Назначение**: Получает URL-адрес referrer текущего документа.
 
 **Возвращает**:
-
-*   `str`: URL-адрес referrer или пустую строку, если он недоступен.
-
-**Вызывает исключения**:
-
-*   `Exception`: Если возникает ошибка при выполнении JavaScript-скрипта.
+- `str`: URL-адрес referrer, или пустая строка, если он недоступен.
 
 **Как работает функция**:
-
-1.  Функция `get_referrer` пытается выполнить JavaScript-скрипт `return document.referrer;`, который возвращает URL-адрес referrer текущего документа.
-2.  Если скрипт выполняется успешно, возвращает полученный URL-адрес. Если URL-адрес отсутствует, возвращает пустую строку.
-3.  Если возникает исключение, логирует ошибку с использованием `logger.error` и возвращает пустую строку.
-
-```
-A[Пытается выполнить JavaScript-скрипт для получения document.referrer]
-|
-B[Скрипт выполнен успешно?]
-|
-C[Возвращает URL-адрес referrer]                                       D[Логирует ошибку и возвращает пустую строку]
-```
+- Функция `get_referrer` использует JavaScript для получения значения свойства `document.referrer`, которое содержит URL-адрес страницы, с которой пользователь перешел на текущую страницу.
+- Если в процессе выполнения скрипта возникает исключение, оно логируется, и функция возвращает пустую строку.
 
 **Примеры**:
 
@@ -316,58 +193,38 @@ C[Возвращает URL-адрес referrer]                                 
 from selenium import webdriver
 from src.webdriver.js import JavaScript
 
-# Инициализация WebDriver (пример с Chrome)
+# Инициализация WebDriver (пример для Chrome)
 driver = webdriver.Chrome()
 driver.get("https://example.com")
 
-# Создание экземпляра JavaScript с использованием WebDriver
-js_executor = JavaScript(driver)
+# Создание экземпляра JavaScript helper
+js_helper = JavaScript(driver)
 
 # Получение URL-адреса referrer
-referrer = js_executor.get_referrer()
+referrer = js_helper.get_referrer()
 
 print(f"URL-адрес referrer: {referrer}")
+
+driver.quit()
 ```
 
-### `JavaScript.get_page_lang(self) -> str`
-
+#### `get_page_lang`
 ```python
-    def get_page_lang(self) -> str:
-        """Retrieves the language of the current page.
+def get_page_lang(self) -> str:
+    """
+    Возвращает язык текущей страницы.
 
-        Returns:
-            str: The language code of the page, or an empty string if unavailable.
-        """
-        try:
-            return self.driver.execute_script('return document.documentElement.lang;') or ''
-        except Exception as ex:
-            logger.error('Error retrieving document.documentElement.lang: %s', ex)
-            return ''
+    Returns:
+        str: Код языка страницы, или пустая строка, если он недоступен.
+    """
 ```
-
-**Назначение**: Получает язык текущей страницы.
 
 **Возвращает**:
-
-*   `str`: Код языка страницы или пустую строку, если он недоступен.
-
-**Вызывает исключения**:
-
-*   `Exception`: Если возникает ошибка при выполнении JavaScript-скрипта.
+- `str`: Код языка страницы, или пустая строка, если он недоступен.
 
 **Как работает функция**:
-
-1.  Функция `get_page_lang` пытается выполнить JavaScript-скрипт `return document.documentElement.lang;`, который возвращает код языка текущей страницы.
-2.  Если скрипт выполняется успешно, возвращает полученный код языка. Если код языка отсутствует, возвращает пустую строку.
-3.  Если возникает исключение, логирует ошибку с использованием `logger.error` и возвращает пустую строку.
-
-```
-A[Пытается выполнить JavaScript-скрипт для получения document.documentElement.lang]
-|
-B[Скрипт выполнен успешно?]
-|
-C[Возвращает код языка страницы]                                       D[Логирует ошибку и возвращает пустую строку]
-```
+- Функция `get_page_lang` использует JavaScript для получения значения свойства `document.documentElement.lang`, которое содержит код языка текущей страницы.
+- Если в процессе выполнения скрипта возникает исключение, оно логируется, и функция возвращает пустую строку.
 
 **Примеры**:
 
@@ -375,14 +232,16 @@ C[Возвращает код языка страницы]                      
 from selenium import webdriver
 from src.webdriver.js import JavaScript
 
-# Инициализация WebDriver (пример с Chrome)
+# Инициализация WebDriver (пример для Chrome)
 driver = webdriver.Chrome()
 driver.get("https://example.com")
 
-# Создание экземпляра JavaScript с использованием WebDriver
-js_executor = JavaScript(driver)
+# Создание экземпляра JavaScript helper
+js_helper = JavaScript(driver)
 
 # Получение языка страницы
-page_lang = js_executor.get_page_lang()
+lang = js_helper.get_page_lang()
 
-print(f"Язык страницы: {page_lang}")
+print(f"Язык страницы: {lang}")
+
+driver.quit()
