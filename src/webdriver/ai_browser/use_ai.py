@@ -20,21 +20,35 @@
     - src.gs (кастомный модуль)
     - src.logger (кастомный модуль)
 
-Документация: https://habr.com/ru/articles/875798/
-
 .. module:: src.webdriver.ai_browser.use_ai
 """
 
-
-from langchain_openai import ChatOpenAI
-from langchain_google_genai import ChatGoogleGenerativeAi  # Импортируем класс для работы с Google Gemini
-from browser_use import Agent
+import os
 import asyncio
+from typing import List, Dict, Any, Optional, Callable, Type, Tuple
+from pathlib import Path
 
-import header
-from header import __root__
-from src import gs
+# LangChain компоненты
+from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.language_models.chat_models import BaseChatModel # Базовый класс для type hinting
+from langchain_core.exceptions import LangChainException # Для обработки ошибок LangChain
+
+# Ваш класс Agent (убедитесь, что он импортирован правильно)
+from browser_use import Agent # Пример: если browser_use находится в корне src
+
+from dotenv import load_dotenv
+
+from src.credentials import j_loads_ns
+load_dotenv() # Функция загружает переменные окружения из .env файла
+
+# Ваши внутренние модули
+import header # type: ignore
+from header import __root__ # type: ignore
+from src import gs # type: ignore
+from src.utils.jjson import j_loads # type: ignore
 from src.logger import logger
+
 
 # --- Класс Конфигурации (API ключи устанавливаются в env) ---
 class Config:
@@ -46,7 +60,7 @@ class Config:
     ПРИ ОПРЕДЕЛЕНИИ КЛАССА из `gs.credentials`.
     """
     ENDPOINT:Path = __root__/ 'src'/ 'webdriver'/ 'ai_browser'
-    config: Dict[str, Any] = j_loads(ENDPOINT/ 'use_ai.json')
+    config: Dict[str, Any] = j_loads_ns(ENDPOINT/ 'use_ai.json')
     models_to_use: Dict[str, Dict[str, str]] = config['models_to_use']
 
     # --- Установка API ключей в переменные окружения ---
@@ -81,13 +95,18 @@ class Config:
 
 
 
-
 class Driver:
     """Класс использует `browser_use` 
     и `langchain_openai` для поиска и получения данных с веб-страниц."""
 
+    config:Config = Config
+    
     def __init__(self):
         """"""
+        ...
+    def _initialize_models(self):
+        """"""
+        ...
 
 
     async def run_task(task:str) -> str:
