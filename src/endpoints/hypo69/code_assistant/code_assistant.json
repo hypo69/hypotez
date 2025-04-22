@@ -4,10 +4,25 @@
   "model": [ "gemini" ],
 
   "response_mime_type": "text/plain",
-  "gemini_model_name": "",
-  "openai_model_name": "gpt-4o-mini",
-  "openai_assistant_id": "<OpenAI Assistant ID>",
+  "gemini_model_name": "gemini-2.5-flash-preview-04-17",
   "process_dirs": [
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\chrome",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\llm_browser",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\firefox",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\playwright",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\ai_browser",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\logger",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\utils\\",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\utils\\convertors",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\api",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\product_fields",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\utils",
+
 
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\emil",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\emil\\report_generator",
@@ -33,18 +48,9 @@
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\scenario\\wallashop",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\scenario\\wallmart",
 
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\toolbox",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\toolbox"
 
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\logger",
 
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\utils\\",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\utils\\convertors",
-
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\chrome",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\llm_browser",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\firefox",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\playwright"
 
 
   ],

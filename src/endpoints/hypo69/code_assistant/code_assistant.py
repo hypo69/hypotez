@@ -55,11 +55,11 @@ from src.endpoints.hypo69.code_assistant.make_summary import make_summary
 from src import USE_ENV
 
 # -------------------------- file config.py ----------------------------------
-@dataclass
+
 class Config:
     ...
-    base_path: Path = __root__ / 'src' / 'endpoints' / 'hypo69' / 'code_assistant'   
-    config: SimpleNamespace = j_loads_ns(base_path / 'code_assistant.json')
+    ENDPOINT: Path = __root__ / 'src' / 'endpoints' / 'hypo69' / 'code_assistant'   
+    config: SimpleNamespace = j_loads_ns(ENDPOINT / 'code_assistant.json')
     roles_list:list = config.roles
     languages_list:list = config.languages
     role: str = 'doc_writer_md'
@@ -81,7 +81,7 @@ class Config:
         """code_instruction - Инструкция для кода.
         При каждом вызове читает файл с инструкцией, что позволяет обновлять инструкции "на лету"
         """
-        return Path( Config.base_path / 'instructions'/ f'instruction_{Config.role}_{Config.lang}.md'
+        return Path( Config.ENDPOINT / 'instructions'/ f'instruction_{Config.role}_{Config.lang}.md'
             ).read_text(encoding='UTF-8')
 
     @classmethod
@@ -90,7 +90,7 @@ class Config:
         """Инструкция для модели.
         При каждом вызове читает файл с инструкцией, что позволяет обновлять инструкции "на лету
         """        
-        return Path(Config.base_path / 'instructions' / f'CODE_RULES.{Config.lang}.MD'
+        return Path(Config.ENDPOINT / 'instructions' / f'CODE_RULES.{Config.lang}.MD'
                             ).read_text(encoding='UTF-8')
 
 
@@ -231,8 +231,8 @@ class CodeAssistant:
                 if file_path and content:
                     logger.debug(f'Чтение файла номер: {i+1}\n{file_path}', None, False)
                     content_request = self._create_request(file_path, content)
-                    #response = await self.gemini.ask_async(content_request)
-                    response = await self.gemini.chat(content_request,'coder')
+                    response = await self.gemini.ask_async(content_request)
+                    #response = await self.gemini.chat(content_request,'coder')
 
                     if response:
                         response: str = self._remove_outer_quotes(response)
