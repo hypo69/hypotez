@@ -19,7 +19,7 @@ from types import SimpleNamespace
 import header
 from header import __root__
 from src import gs
-from src.webdriver.ai_browser import run_task_on_active_models
+from src.webdriver.ai_browser import Driver
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.file import read_text_file, save_text_file, get_filenames_from_directory 
 from src.utils.printer import pprint as print
@@ -32,8 +32,10 @@ class Config(SimpleNamespace):
     task_description =  Path(ENDPOINT/ 'tasks'/ 'grab_product_page.md').read_text(encoding='utf-8')
 
 
-def products_urls_list_from_files(crawl_files_list:list = []) -> list:
-    """Получение списка продуктов из файлов в директории."""
+def get_products_urls_list_from_files(crawl_files_list:list = []) -> list:
+    """
+   Функция читает содержимое файлов  в директории `mining_data`, перемешивает их и возвращает одним большим списком
+   """
     products_urls_list = []
     for filename in crawl_files_list or Config.crawl_files_list:
         try:
@@ -48,7 +50,9 @@ def products_urls_list_from_files(crawl_files_list:list = []) -> list:
     return products_urls_list if isinstance(products_urls_list, list) else [products_urls_list]
 
 def yield_product_urls_from_files(directory: Path = Config.mining_data_path, pattern: str = 'json'):
-    """Генератор для получения product_url из всех файлов в директории."""
+    """
+    Функция возвращает генератор списка `url` Применяется на больших объемах данных
+    """
     filenames = get_filenames_from_directory(directory, pattern)
     for filename in filenames:
         try:
@@ -64,14 +68,15 @@ def yield_product_urls_from_files(directory: Path = Config.mining_data_path, pat
 
 async def main():
     """"""
-    # генератор
-    # for product_url in yield_product_urls_from_files():
+    driver:Driver = Driver()
 
-    for product_url in products_urls_list_from_files():
+    # Через генератор для совсем больших данных
+    # for product_url in yield_product_urls_from_files():
+    for product_url in get_products_urls_list_from_files():
         try:
             logger.info(f'Обработка URL: {product_url}')
             task = Config.task_description.replace('<URL>', product_url)
-            extracted_data = await run_task_on_active_models(task)
+            extracted_data = await driver.run_task(task)
             print(extracted_data)
             ...
         except Exception as ex:

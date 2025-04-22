@@ -116,7 +116,7 @@ class CodeAssistant:
         lang: Optional[str] = 'en',
         model_name:str = 'gemini-2.0-flash-exp',
         system_instruction: Optional[str | Path] = None,
-        **kwards,
+        **kwargs,
     ) -> None:
         """
         Инициализация ассистента с заданными параметрами.
@@ -126,21 +126,21 @@ class CodeAssistant:
             lang (str): Язык выполнения.
             models_list (list[str]): Список моделей для инициализации.
             system_instruction (str|Path): Общая инструкция для модели. 
-            **kwards: Дополнительные аргументы для инициализации моделей.
+            **kwargs: Дополнительные аргументы для инициализации моделей.
         """
         Config.role = role if role else Config.role
         Config.lang = lang if lang else Config.lang
         Config.system_instruction = system_instruction if system_instruction else Config.system_instruction
         filtered_kwargs = {
                     k: v
-                    for k, v in kwards.items()
+                    for k, v in kwargs.items()
                     if k not in ('model_name', 'api_key', 'generation_config', 'system_instruction')
                 }
         self.gemini = GoogleGenerativeAi(     
                 model_name = model_name,
-                api_key=kwards.get('api_key', Config.gemini.api_key),# Значение из kwards имеет приоритет,
+                api_key=kwargs.get('api_key', Config.gemini.api_key),# Значение из kwargs имеет приоритет,
                 system_instruction= system_instruction or Config.system_instruction,
-                generation_config = {'response_mime_type': kwards.get( 'response_mime_type',  Config.response_mime_type)},
+                generation_config = {'response_mime_type': kwargs.get( 'response_mime_type',  Config.response_mime_type)},
                 **filtered_kwargs,
             )
         ...

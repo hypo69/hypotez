@@ -9,4 +9,4 @@
 .. module:: src.webdriver.ai_browser
 """
 
-from .use_ai import run_task_on_active_models, Config
+from .use_ai import Driver

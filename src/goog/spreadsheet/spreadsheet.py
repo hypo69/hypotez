@@ -66,7 +66,7 @@ class SpreadSheet:
     create_sheet: bool
 
     def __init__(self, 
-                 spreadsheet_id: str, *args, **kwards):  # Name of the sheet in Google Sheets
+                 spreadsheet_id: str, *args, **kwargs):  # Name of the sheet in Google Sheets
         """ Initialize GoogleSheetHandler with specified credentials and data file.
         
         @param spreadsheet_id ID of the Google Sheets spreadsheet. Specify None to create a new Spreadsheet.

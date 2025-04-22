@@ -257,7 +257,7 @@ class EmilDesign:
             logger.error(f'Error while promoting to Facebook:', ex, exc_info=True)
 
     def upload_described_products_to_prestashop(
-        self, products_list: Optional[List[SimpleNamespace]] = None, id_lang: Optional[int | str] = 2, *args, **kwards
+        self, products_list: Optional[List[SimpleNamespace]] = None, id_lang: Optional[int | str] = 2, *args, **kwargs
     ) -> bool:
         """Upload product information to PrestaShop.
 

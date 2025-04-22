@@ -94,14 +94,14 @@ class GSRender():
     
     
 
-    def __init__ (self, *args, **kwards) -> None:
+    def __init__ (self, *args, **kwargs) -> None:
         """
          [Function's description]
 
         Parameters : 
              self : [description]
              *args : [description]
-             **kwards : [description]
+             **kwargs : [description]
         Returns : 
              None : [description]
 

@@ -31,7 +31,7 @@ class PrestaShopShop(PrestaShop):
                  credentials: Optional[dict | SimpleNamespace] = None, 
                  api_domain: Optional[str] = None, 
                  api_key: Optional[str] = None, 
-                 *args, **kwards):
+                 *args, **kwargs):
         """Инициализация магазина PrestaShop.
 
         Args:
@@ -47,4 +47,4 @@ class PrestaShopShop(PrestaShop):
         if not api_domain or not api_key:
             raise ValueError('Необходимы оба параметра: api_domain и api_key.')
         
-        super().__init__(api_domain, api_key, *args, **kwards)
+        super().__init__(api_domain, api_key, *args, **kwargs)

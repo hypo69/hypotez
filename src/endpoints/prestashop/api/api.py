@@ -328,7 +328,7 @@ class PrestaShop:
         limit: Optional[str] = None,
         language: Optional[int] = None,
         data_format: str = Config.POST_FORMAT,
-        **kwards,
+        **kwargs,
     ) -> Optional[dict]:
         """Execute an HTTP request to the PrestaShop API."""
 
@@ -401,7 +401,7 @@ class PrestaShop:
             ...
             return {}
 
-    def create(self, resource: str, data: dict, *args, **kwards) -> Optional[dict]:
+    def create(self, resource: str, data: dict, *args, **kwargs) -> Optional[dict]:
         """Create a new resource in PrestaShop API.
 
         Args:
@@ -412,7 +412,7 @@ class PrestaShop:
             dict: Response from the API.
         """
         #data  = {'prestashop' : data}
-        return self._exec(resource=resource, method='POST', data=data, *args, **kwards)
+        return self._exec(resource=resource, method='POST', data=data, *args, **kwargs)
 
     def read(self, resource: str, resource_id: int | str, **kwargs) -> Optional[dict]:
         """Read a resource from the PrestaShop API.
@@ -426,7 +426,7 @@ class PrestaShop:
         """
         return self._exec(resource=resource, resource_id=resource_id, method='GET', **kwargs)
 
-    def write(self, resource: str, resource_id:int|str, data: dict, **kwards) -> Optional[dict]:
+    def write(self, resource: str, resource_id:int|str, data: dict, **kwargs) -> Optional[dict]:
         """Update an existing resource in the PrestaShop API.
 
         Args:
@@ -441,7 +441,7 @@ class PrestaShop:
             resource_id=resource_id,
             method='PUT',
             data=data,
-            **kwards,
+            **kwargs,
         )
 
     def unlink(self, resource: str, resource_id: int | str) -> bool:
@@ -496,7 +496,7 @@ class PrestaShop:
             return {'error': str(ex)}
 
     def get_schema(
-        self, resource: Optional[str] = None, resource_id: Optional[int] = None, schema: Optional[str] = 'blank', **kwards
+        self, resource: Optional[str] = None, resource_id: Optional[int] = None, schema: Optional[str] = 'blank', **kwargs
     ) -> dict | None:
         """Retrieve the schema of a given resource from PrestaShop API.
 
@@ -522,7 +522,7 @@ class PrestaShop:
         Returns:
             dict  |  None: The schema of the requested resource or `None` in case of an error.
         """
-        return self._exec(resource=resource, resource_id=resource_id, schema=schema, method="GET", **kwards)
+        return self._exec(resource=resource, resource_id=resource_id, schema=schema, method="GET", **kwargs)
 
     def get_data(self, resource: str, **kwargs) -> Optional[dict]:
         """Fetch data from a PrestaShop API resource and save it.

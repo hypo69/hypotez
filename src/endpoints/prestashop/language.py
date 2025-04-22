@@ -36,11 +36,11 @@ class PrestaLanguage(PrestaShop):
         >>> print(prestalanguage.get_language_details_PrestaShop(5))
     """
     
-    def __init__(self, *args, **kwards):
+    def __init__(self, *args, **kwargs):
         """
         Args:
             *args: Произвольные аргументы.
-            **kwards: Произвольные именованные аргументы.
+            **kwargs: Произвольные именованные аргументы.
 
         Note:
             Важно помнить, что у каждого магазина своя нумерация языков.

@@ -463,12 +463,12 @@ class Graber:
         await self.error(field_name)
         return default
 
-    def grab_page(self, *args, **kwards) -> ProductFields:
-        return asyncio.run(self.grab_page_async(*args, **kwards))
+    def grab_page(self, *args, **kwargs) -> ProductFields:
+        return asyncio.run(self.grab_page_async(*args, **kwargs))
 
-    async def grab_page_async(self, *args, **kwards) -> ProductFields:
+    async def grab_page_async(self, *args, **kwargs) -> ProductFields:
         """Асинхронная функция для сбора полей продукта."""
-        async def fetch_all_data(*args, **kwards):
+        async def fetch_all_data(*args, **kwargs):
             # Динамическое вызовы функций для каждого поля из args
             process_fields:list = list(args) or ['id_product',
                             'name',
@@ -483,9 +483,9 @@ class Graber:
             for filed_name in process_fields:
                 function = getattr(self, filed_name, None)
                 if function:
-                    await function(kwards.get(filed_name, '')) # Просто вызываем с await, так как все функции асинхронные
+                    await function(kwargs.get(filed_name, '')) # Просто вызываем с await, так как все функции асинхронные
         try:
-            await fetch_all_data(*args, **kwards)
+            await fetch_all_data(*args, **kwargs)
             return self.fields
         except Exception as ex:
             logger.error(f"Ошибка в функции `fetch_all_data`", ex)
@@ -503,7 +503,7 @@ class Graber:
     async def additional_shipping_cost(self, value:Optional[Any] = None) -> bool:
         """Fetch and set additional shipping cost.
         Args:
-        value (Any): это значение можно передать в словаре kwards чеез ключ {additional_shipping_cost = `value`} при определении класса
+        value (Any): это значение можно передать в словаре kwargs чеез ключ {additional_shipping_cost = `value`} при определении класса
         если `value` был передан - его значение подставляется в поле `ProductFields.additional_shipping_cost
         """
         try:

@@ -36,7 +36,7 @@ class Facebook():
     start_page: str = r'https://www.facebook.com/hypotez.promocodes'
     promoter: str
 
-    def __init__(self, driver: 'Driver', promoter: str, group_file_paths: list[str], *args, **kwards):
+    def __init__(self, driver: 'Driver', promoter: str, group_file_paths: list[str], *args, **kwargs):
         """ Я могу передать уже запущенный инстанс драйвера. Например, из алиэкспресс
         @todo:
             - Добавить проверку на какой странице открылся фейсбук. Если открылась страница логина - выполнитл сценарий логина

@@ -32,7 +32,7 @@ class GWorksheet (Worksheet):
     ws: Worksheet = None
     render: GSRender = GSRender()
     
-    def __init__(self, sh, ws_title: str = 'new', rows = None, cols = None, direcion = 'rtl', wipe_if_exist: bool = True, *args, **kwards) -> None:
+    def __init__(self, sh, ws_title: str = 'new', rows = None, cols = None, direcion = 'rtl', wipe_if_exist: bool = True, *args, **kwargs) -> None:
         """
          [Function's description]
 
@@ -45,7 +45,7 @@ class GWorksheet (Worksheet):
              direcion = 'rtl' : [description]
              wipe_if_exist : bool = True : [description]
              *args : [description]
-             **kwards : [description]
+             **kwargs : [description]
         Returns : 
              None : [description]
 

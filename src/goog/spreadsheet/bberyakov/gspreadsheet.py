@@ -78,7 +78,7 @@ class GSpreadsheet(Spreadsheet):
 
     gclient = gspread.client
     
-    def __init__(self, s_id: str = None, s_title: str = None, *args, **kwards):
+    def __init__(self, s_id: str = None, s_title: str = None, *args, **kwargs):
         """
          [Function's description]
 
@@ -87,7 +87,7 @@ class GSpreadsheet(Spreadsheet):
              s_id : str = None : [description]
              s_title : str = None : [description]
              *args : [description]
-             **kwards : [description]
+             **kwargs : [description]
 
         """
         """

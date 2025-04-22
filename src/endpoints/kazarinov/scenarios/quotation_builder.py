@@ -100,7 +100,7 @@ class QuotationBuilder:
                                 'local_image_path')
 
 
-    def __init__(self, mexiron_name:Optional[str] = gs.now, driver:Optional[Firefox | Playwrid | str] = None,  **kwards):
+    def __init__(self, mexiron_name:Optional[str] = gs.now, driver:Optional[Firefox | Playwrid | str] = None,  **kwargs):
         """
         Initializes Mexiron class with required components.
 
@@ -121,24 +121,24 @@ class QuotationBuilder:
 
         # 1. Initialize webdriver
 
-        kwards['window_mode'] = kwards.get('window_mode', 'normal') # <- если не указано, то нормальный режим
+        kwargs['window_mode'] = kwargs.get('window_mode', 'normal') # <- если не указано, то нормальный режим
         if driver:
 
            if isinstance(driver, Driver):
                 self.driver = driver
 
            elif isinstance(driver, (Firefox, Playwrid, )):  # Chrome, Edge
-                self.driver = Driver(driver, **kwards)
+                self.driver = Driver(driver, **kwargs)
 
            elif isinstance(driver, str):
                if driver.lower() == 'firefox':
-                    self.driver = Driver(Firefox, **kwards)
+                    self.driver = Driver(Firefox, **kwargs)
 
                elif driver.lower() == 'playwright':
-                    self.driver = Driver(Playwrid, **kwards)
+                    self.driver = Driver(Playwrid, **kwargs)
 
         else:
-            self.driver = Driver(Firefox, **kwards)
+            self.driver = Driver(Firefox, **kwargs)
 
 
 

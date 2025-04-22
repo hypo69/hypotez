@@ -42,16 +42,16 @@ class Config:
 class Scenario(QuotationBuilder):
     """Исполнитель сценария для Казаринова"""
 
-    def __init__(self, mexiron_name:Optional[str] = gs.now, driver:Optional[Firefox | Playwrid | str] = None, **kwards):
+    def __init__(self, mexiron_name:Optional[str] = gs.now, driver:Optional[Firefox | Playwrid | str] = None, **kwargs):
         """Сценарий сбора информации."""
 
-        if 'window_mode' not in kwards:
-            kwards['window_mode'] = 'normal'
+        if 'window_mode' not in kwargs:
+            kwargs['window_mode'] = 'normal'
 
-        self.driver = Driver(Firefox,**kwards) if not driver else driver
+        self.driver = Driver(Firefox,**kwargs) if not driver else driver
 
 
-        super().__init__(mexiron_name = mexiron_name, driver = self.driver, **kwards)
+        super().__init__(mexiron_name = mexiron_name, driver = self.driver, **kwargs)
 
     async def run_scenario_async(
         self,
@@ -73,9 +73,9 @@ class Scenario(QuotationBuilder):
 
         lang_index: int = 2
         for url in urls:
-            kwards:dict = {}
+            kwargs:dict = {}
             # ------------------------------- бот не работает ----------------
-            graber: 'Graber' = get_graber_by_supplier_url(self.driver, url, lang_index, **kwards)
+            graber: 'Graber' = get_graber_by_supplier_url(self.driver, url, lang_index, **kwargs)
             bot.send_message(chat_id, f"Сереж, сегодня не работает. Позвони.") 
             break
             # -----------------------------------------------------------------

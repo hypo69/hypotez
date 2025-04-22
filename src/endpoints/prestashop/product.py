@@ -204,7 +204,7 @@ class PrestaProduct(PrestaShop):
         logger.debug(f"Финальный набор уникальных ID категорий: {seen_ids}")
         # Теперь f.additional_categories содержит исходные категории + уникальные родительские
 
-    def get_product(self, id_product: int, **kwards) -> dict:
+    def get_product(self, id_product: int, **kwargs) -> dict:
         """Возваращает словарь полей товара из магазина Prestasop
 
         Args:
@@ -217,8 +217,8 @@ class PrestaProduct(PrestaShop):
                     {... product fields}
             }
         """
-        kwards = {'data_format': 'JSON'}
-        return self.read(resource='products', resource_id=id_product, **kwards)
+        kwargs = {'data_format': 'JSON'}
+        return self.read(resource='products', resource_id=id_product, **kwargs)
 
     def add_new_product(self, f: ProductFields) -> dict:
         """Add a new product to PrestaShop.
@@ -317,33 +317,33 @@ def example_add_new_product() -> None:
     save_xml(presta_product_xml, gs.path.endpoints / 'emil' / '_experiments' / f'{gs.now}_presta_product.xml')
 
     # 1. JSON | XML
-    kwards: dict = {
+    kwargs: dict = {
         'io_format': 'JSON',
     }
 
     response = p._exec(
         resource='products',
         method='POST',
-        data=example_data if kwards['io_format'] == 'JSON' else presta_product_xml,
-        **kwards,
+        data=example_data if kwargs['io_format'] == 'JSON' else presta_product_xml,
+        **kwargs,
     )
-    # response = p.create('products', data=presta_product_dict  if kwards['io_format'] == 'JSON' else presta_product_xml, **kwards)
-    # j_dumps(response if kwards['io_format'] == 'JSON' else xml2dict(response), gs.path.endpoints / 'emil' / '_experiments' / f"{gs.now}_presta_response_new_product_added.json")
+    # response = p.create('products', data=presta_product_dict  if kwargs['io_format'] == 'JSON' else presta_product_xml, **kwargs)
+    # j_dumps(response if kwargs['io_format'] == 'JSON' else xml2dict(response), gs.path.endpoints / 'emil' / '_experiments' / f"{gs.now}_presta_response_new_product_added.json")
 
     print(response)
     ...
 
 
-def example_get_product(id_product: int, **kwards) -> None:
+def example_get_product(id_product: int, **kwargs) -> None:
     """"""
 
     p = PrestaProduct(API_KEY=Config.API_KEY, API_DOMAIN=Config.API_DOMAIN)
-    # kwards: dict = {
+    # kwargs: dict = {
     #     'data_format': 'JSON',
     #     'display': 'full',
     #     'schema': 'blank',
     # }
-    presta_product = p.get_product(id_product, **kwards)
+    presta_product = p.get_product(id_product, **kwargs)
     presta_product = presta_product[0] if isinstance(presta_product, list) else presta_product
     ...
     j_dumps(

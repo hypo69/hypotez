@@ -37,7 +37,7 @@ class PrestaLanguageAync(PrestaShopAsync):
         print(prestalanguage.get_language_details_PrestaShop(5))
     """
     
-    def __init__(self, *args, **kwards):
+    def __init__(self, *args, **kwargs):
         """Класс интерфейс взаимодействия языками в Prestashop
         Важно помнить, что у каждого магазина своя нумерация языков
         :lang_string: ISO названия языка. Например: en, ru, he

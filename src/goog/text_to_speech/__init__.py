@@ -23,7 +23,7 @@ from gtts import gTTS
 
 class TTS():
     """ Google text to speach """
-    def __init__(self,*args,**kwards):
+    def __init__(self,*args,**kwargs):
         tts = pyttsx3.init()
         voices = tts.getProperty('voices')
         for v in voices:
