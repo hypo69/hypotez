@@ -5,7 +5,12 @@
 
   "response_mime_type": "text/plain",
   "gemini_model_name": "gemini-2.0-flash-exp",
-  "process_dirs": [
+  "process_dirs": ["C:\\Users\\user\\Documents\\repos\\hypotez\\src\\"
+   
+  ],
+
+
+  "dirs_list": [
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\chrome",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\llm_browser",
@@ -78,15 +83,85 @@
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots\\telegram",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots\\whatsapp",
 
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\toolbox"
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\toolbox",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\chrome",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\llm_browser",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\firefox",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\playwright",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\ai_browser",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\logger",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\utils\\",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\utils\\convertors",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\api",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\product_fields",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\utils",
+
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\emil",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\emil\\report_generator",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\emil\\scenarios",
+
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers",
+
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\api",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\product_fields",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\prestashop\\utils",
+
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\gemini_simplechat",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\kazarinov",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\kazarinov\\scenarios",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\hypo69\\code_assistant",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\hypo69\\whatsapp",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\hypo69\\juliana",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\hypo69\\tiny_troupe",
+
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\fast_api",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\anthropic",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\deepseek",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\dialogflow",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\gemini",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\gradio",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\helicone",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\llama",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\magenta",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\myai",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\openai",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\openai\\assistants",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\openai\\assistants\\quickstart",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\revai",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\suno",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\tiny_troupe",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\llm\\xai",
+
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\advertisement",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots\\chat_gpt_nodejs",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots\\discord",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots\\google_drive",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots\\telegram",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\bots\\whatsapp",
+
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\toolbox",
 
 
 
 
-  ],
-
-
-  "exclude_dirs": [
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru\\client",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\endpoints\\freegpt-webui-ru\\server",
@@ -103,10 +178,17 @@
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\api\\errors",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\campaign",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\scenarios",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\utils",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\suppliers\\aliexpress\\utils"
 
-    
 
+
+
+
+
+  ],
+
+  "exclude_dirs": [
+   
 
 
 
@@ -231,11 +313,11 @@
 
   "roles": [
     "doc_writer_md",
-    "code_checker_md",
-    "code_explainer_md",
     "how_to_writer_md"
   ],
   "exclude-roles": [
+    "code_checker_md",
+    "code_explainer_md",
     "code_explainer_html",
     "doc_writer_html",
     "doc_writer_rst",

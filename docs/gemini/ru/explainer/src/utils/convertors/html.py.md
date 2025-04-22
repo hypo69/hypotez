@@ -439,250 +439,389 @@ if name == 'main':
 pprint({"name": "Alice", "age": 30}, text_color="green")
 ```
 
-### **Анализ кода `hypotez/src/utils/convertors/html.py`**
+## \file /src/utils/convertors/html.py
+# -*- coding: utf-8 -*-
 
-#### **1. Блок-схема**
+#! .pyenv/bin/python3
 
-```mermaid
-graph LR
-    A[Начало] --> B{Выбор функции преобразования};
-    B -- html2escape --> C[Преобразование HTML в escape-последовательности];
-    B -- escape2html --> D[Преобразование escape-последовательностей в HTML];
-    B -- html2dict --> E[Преобразование HTML в словарь];
-    B -- html2ns --> F[Преобразование HTML в SimpleNamespace];
-    B -- html2pdf --> G{Попытка преобразования HTML в PDF};
-    B -- html_to_docx --> H{Конвертация HTML в DOCX через LibreOffice};
-    C --> I[Вывод: HTML в escape-последовательностях];
-    D --> J[Вывод: HTML];
-    E --> K[Вывод: Словарь];
-    F --> L[Вывод: SimpleNamespace];
-    G -- Успешно --> M[Вывод: True];
-    G -- Ошибка --> N[Вывод: None];
-    H --> O{Проверка существования HTML файла};
-    O -- Да --> P{Проверка существования выходной директории};
-    P -- Да --> Q[Создание команды LibreOffice];
-    Q --> R{Запуск LibreOffice процесса};
-    R -- Успешно --> S[Вывод: True];
-    R -- Ошибка --> T{Логирование ошибки}
-    O -- Нет -->  U{Логирование ошибки}
-    P -- Нет -->  V{Создание выходной директории}
-    V --> Q
-    T --> S[Вывод: False];
-    U --> S[Вывод: False];
-    
+"""
+Модуль `src.utils.convertors.html` предоставляет утилиты для конвертации HTML
+==============================================================================
+Этот модуль содержит функции для конвертации HTML в различные форматы, такие как
+экранированные последовательности, словари и объекты SimpleNamespace. Также
+предоставляет функции для конвертации HTML в PDF и DOCX файлы.
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#ccf,stroke:#333,stroke-width:2px
-    style C fill:#ddf,stroke:#333,stroke-width:2px
-    style D fill:#dde,stroke:#333,stroke-width:2px
-    style E fill:#ccd,stroke:#333,stroke-width:2px
-    style F fill:#cde,stroke:#333,stroke-width:2px
-    style G fill:#cdc,stroke:#333,stroke-width:2px
-    style H fill:#eee,stroke:#333,stroke-width:2px
-    style I fill:#aef,stroke:#333,stroke-width:2px
-    style J fill:#afe,stroke:#333,stroke-width:2px
-    style K fill:#acf,stroke:#333,stroke-width:2px
-    style L fill:#ace,stroke:#333,stroke-width:2px
-    style M fill:#acc,stroke:#333,stroke-width:2px
-    style N fill:#aec,stroke:#333,stroke-width:2px
-    style O fill:#caa,stroke:#333,stroke-width:2px
-    style P fill:#abc,stroke:#333,stroke-width:2px
-    style Q fill:#bcd,stroke:#333,stroke-width:2px
-    style R fill:#cba,stroke:#333,stroke-width:2px
-    style S fill:#bac,stroke:#333,stroke-width:2px
-    style T fill:#cda,stroke:#333,stroke-width:2px
-    style U fill:#aad,stroke:#333,stroke-width:2px
-    style V fill:#dda,stroke:#333,stroke-width:2px
+Функции:
+    - `html2escape`: Преобразует HTML в экранированные последовательности.
+    - `escape2html`: Преобразует экранированные последовательности обратно в HTML.
+    - `html2dict`: Преобразует HTML в словарь.
+    - `html2ns`: Преобразует HTML в объекты SimpleNamespace.
+    - `html2pdf`: Преобразует HTML в PDF файл.
+    - `html_to_docx`: Преобразует HTML файл в DOCX файл.
+
+Зависимости:
+    - re
+    - typing
+    - pathlib
+    - venv
+    - src.logger.logger
+    - types
+    - html.parser
+    - xhtml2pdf
+    - subprocess
+    - os
+    - weasyprint
+
+ .. module:: src.utils.convertors.html
+"""
+
+import re
+from typing import Dict
+from pathlib import Path
+from venv import logger
+
+from src.logger.logger import logger
+from types import SimpleNamespace
+from html.parser import HTMLParser
+from xhtml2pdf import pisa
+import subprocess
+from pathlib import Path
+from src.logger import logger
+import os
+
+try:
+    from weasyprint import HTML
+except Exception as ex:
+    logger.error(ex)
+    ...
+
+
+def html2escape(input_str: str) -> str:
+    """
+    Преобразует HTML в экранированные последовательности.
+
+    Args:
+        input_str (str): HTML-код.
+
+    Returns:
+        str: HTML, преобразованный в экранированные последовательности.
+
+    Example:
+        >>> html = "<p>Hello, world!</p>"
+        >>> result = html2escape(html)
+        >>> print(result)
+        &lt;p&gt;Hello, world!&lt;/p&gt;
+    """
+    return StringFormatter.escape_html_tags(input_str)
+
+
+def escape2html(input_str: str) -> str:
+    """
+    Преобразует экранированные последовательности в HTML.
+
+    Args:
+        input_str (str): Строка с экранированными последовательностями.
+
+    Returns:
+        str: Экранированные последовательности, преобразованные обратно в HTML.
+
+    Example:
+        >>> escaped = "&lt;p&gt;Hello, world!&lt;/p&gt;"
+        >>> result = escape2html(escaped)
+        >>> print(result)
+        <p>Hello, world!</p>
+    """
+    return StringFormatter.unescape_html_tags(input_str)
+
+
+def html2dict(html_str: str) -> Dict[str, str]:
+    """
+    Преобразует HTML в словарь, где теги являются ключами, а содержимое - значениями.
+
+    Args:
+        html_str (str): HTML-строка для преобразования.
+
+    Returns:
+        dict: Словарь с HTML-тегами в качестве ключей и их содержимым в качестве значений.
+
+    Example:
+        >>> html = "<p>Hello</p><a href='link'>World</a>"
+        >>> result = html2dict(html)
+        >>> print(result)
+        {'p': 'Hello', 'a': 'World'}
+    """
+
+    class HTMLToDictParser(HTMLParser):
+        """
+        Класс HTMLToDictParser наследуется от HTMLParser и используется для преобразования HTML в словарь.
+        """
+
+        def __init__(self):
+            """
+            Инициализирует экземпляр класса HTMLToDictParser.
+            """
+            super().__init__()
+            self.result = {}
+            self.current_tag = None
+
+        def handle_starttag(self, tag: str, attrs: list) -> None:
+            """
+            Функция обрабатывает начальный тег HTML.
+
+            Args:
+                tag (str): Тег HTML.
+                attrs (list): Атрибуты тега.
+            """
+            self.current_tag = tag
+
+        def handle_endtag(self, tag: str) -> None:
+            """
+            Функция обрабатывает конечный тег HTML.
+
+            Args:
+                tag (str): Тег HTML.
+            """
+            self.current_tag = None
+
+        def handle_data(self, data: str) -> None:
+            """
+            Функция обрабатывает данные между тегами HTML.
+
+            Args:
+                data (str): Данные между тегами.
+            """
+            if self.current_tag:
+                self.result[self.current_tag] = data.strip()
+
+    parser = HTMLToDictParser()
+    parser.feed(html_str)
+    return parser.result
+
+
+def html2ns(html_str: str) -> SimpleNamespace:
+    """
+    Преобразует HTML в объект SimpleNamespace, где теги являются атрибутами, а содержимое - значениями.
+
+    Args:
+        html_str (str): HTML-строка для преобразования.
+
+    Returns:
+        SimpleNamespace: Объект SimpleNamespace с HTML-тегами в качестве атрибутов и их содержимым в качестве значений.
+
+    Example:
+        >>> html = "<p>Hello</p><a href='link'>World</a>"
+        >>> result = html2ns(html)
+        >>> print(result.p)
+        Hello
+        >>> print(result.a)
+        World
+    """
+    html_dict = html2dict(html_str)
+    return SimpleNamespace(**html_dict)
+
+
+# def html2pdf(html_str: str, pdf_file: str | Path) -> bool | None:
+#     """Converts HTML content to a PDF file after removing unsupported CSS pseudo-selectors.
+#
+#     Args:
+#         html_str (str): HTML content as a string.
+#         pdf_file (str | Path): Path to the output PDF file.
+#
+#     Returns:
+#         bool | None: Returns `True` if PDF generation is successful; `None` otherwise.
+#     """
+#     ...
+#     def preprocess_css(css_content: str) -> str:
+#         """
+#         Remove unsupported pseudo-classes and simplify CSS for xhtml2pdf.
+#
+#         Args:
+#             css_content (str): Original CSS content.
+#
+#         Returns:
+#             str: Preprocessed CSS content without unsupported selectors.
+#         """
+#         # Убираем `:not(...)`
+#         css_content = re.sub(r':not\([^)]*\)', '', css_content)
+#
+#         return css_content
+#     # Убираем неподдерживаемые псевдоклассы, если они есть
+#     html_str = preprocess_css(html_str)
+#
+#     with open(pdf_file, "wb") as f:
+#         pisa_status = pisa.CreatePDF(html_str, dest=f)
+#
+#     if pisa_status.err:
+#         print("Error during PDF generation")
+#         return
+#     else:
+#         return True
+
+
+def html2pdf(html_str: str, pdf_file: str | Path) -> bool | None:
+    """Converts HTML content to a PDF file using WeasyPrint."""
+    try:
+        HTML(string=html_str).write_pdf(pdf_file)
+        return True
+    except Exception as e:
+        print(f"Error during PDF generation: {e}")
+        return
+
+
+def html_to_docx(html_file: str, output_docx: Path | str) -> bool:
+    """Преобразует HTML файл в документ Word с использованием LibreOffice.
+
+    Args:
+        html_file (str): Путь к входному HTML файлу в виде строки.
+        output_docx (Path | str): Путь к выходному DOCX файлу.
+
+    Returns:
+        bool: True, если преобразование выполнено успешно, False в противном случае.
+    """
+    try:
+        # Функция проверяет существование html_file
+        if not os.path.exists(html_file):
+            logger.error(f"HTML file not found: {html_file}")
+            return False
+
+        # Функция проверяет существование директории для выходного файла
+        output_dir = Path(output_docx).parent
+        if not output_dir.exists():
+            os.makedirs(output_dir)
+
+        # Функция строит комманду для LibreOffice
+        command = [
+            "soffice",
+            "--headless",  # Запускает LibreOffice в headless режиме
+            "--convert-to",
+            "docx:HTML",  # Указывает, что входные данные - HTML
+            html_file,  # Использует html_file как есть
+            "--outdir",
+            str(output_dir)
+        ]
+
+        # Функция выполняет комманду LibreOffice
+        process = subprocess.run(
+            command,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+
+        # Функция проверяет на наличие ошибок в выводе процесса
+        if process.stderr:
+            logger.error(f"LibreOffice conversion errors: {process.stderr}")
+
+        return True
+
+    except subprocess.CalledProcessError as ex:
+        logger.error(f"LibreOffice failed to convert HTML file: {html_file} to DOCX file: {output_docx}. Error: {ex.stderr}",
+                     exc_info=True)
+        return False
+    except FileNotFoundError:
+        logger.error(
+            f"LibreOffice executable (soffice) not found. Ensure it is installed and in your system\'s PATH.",
+            exc_info=True)
+        return False
+    except Exception as ex:
+        logger.error(f"An unexpected error occurred during conversion. Error: {ex}", exc_info=True)
+        return False
 ```
 
-#### **2. Диаграмма зависимостей**
+### 1. **Блок-схема**:
 
 ```mermaid
 graph LR
-    subgraph utils.convertors
-    html[html.py]
-    end
+    A[Начало] --> B{Функция html2escape(input_str: str)};
+    B --> C[StringFormatter.escape_html_tags(input_str)];
+    C --> D{Возврат экранированной HTML строки};
+    D --> E[Конец];
 
-    subgraph utils
-    string[StringFormatter]
-    printer[printer.py]
-    end
-    
-    subgraph src
-    logger[logger.py]
-    end
+    F[Начало] --> G{Функция escape2html(input_str: str)};
+    G --> H[StringFormatter.unescape_html_tags(input_str)];
+    H --> I{Возврат HTML строки из экранированной строки};
+    I --> J[Конец];
 
-    subgraph Python
-    re
-    typing
-    pathlib
-    venv
-    types
-    htmlparser[html.parser]
-    subprocess
-    os
-    end
-    
-    html --> re
-    html --> typing
-    html --> pathlib
-    html --> venv
-    html --> logger
-    html --> types
-    html --> htmlparser
-    html --> subprocess
-    html --> os
-    html --> string
-    html --> printer
+    K[Начало] --> L{Функция html2dict(html_str: str)};
+    L --> M[Создание HTMLToDictParser()];
+    M --> N{Парсинг HTML с помощью HTMLToDictParser()};
+    N --> O{Возврат словаря HTML тегов и контента};
+    O --> P[Конец];
 
-    style html fill:#f9f,stroke:#333,stroke-width:2px
-    style string fill:#ccf,stroke:#333,stroke-width:2px
-    style printer fill:#ddf,stroke:#333,stroke-width:2px
-    style logger fill:#dde,stroke:#333,stroke-width:2px
-    style re fill:#ccd,stroke:#333,stroke-width:2px
-    style typing fill:#cdd,stroke:#333,stroke-width:2px
-    style pathlib fill:#ccc,stroke:#333,stroke-width:2px
-    style venv fill:#cce,stroke:#333,stroke-width:2px
-    style types fill:#cac,stroke:#333,stroke-width:2px
-    style htmlparser fill:#cee,stroke:#333,stroke-width:2px
-    style subprocess fill:#cca,stroke:#333,stroke-width:2px
-    style os fill:#aec,stroke:#333,stroke-width:2px
+    Q[Начало] --> R{Функция html2ns(html_str: str)};
+    R --> S[html_dict = html2dict(html_str)];
+    S --> T[Создание SimpleNamespace(**html_dict)];
+    T --> U{Возврат SimpleNamespace объекта};
+    U --> V[Конец];
+
+    W[Начало] --> X{Функция html2pdf(html_str: str, pdf_file: str | Path)};
+    X --> Y{HTML(string=html_str).write_pdf(pdf_file)};
+    Y --> Z{Возврат True при успехе, None при неудаче};
+    Z --> AA[Конец];
+
+    BB[Начало] --> CC{Функция html_to_docx(html_file: str, output_docx: Path | str)};
+    CC --> DD{Проверка существования html_file};
+    DD -- Нет --> EE[Логирование ошибки и возврат False];
+    DD -- Да --> FF{Проверка существования директории для output_docx};
+    FF -- Нет --> GG[Создание директории output_dir];
+    FF -- Да --> HH[Создание команды LibreOffice];
+    HH --> II[Выполнение команды LibreOffice через subprocess.run()];
+    II --> JJ{Проверка ошибок в выводе процесса};
+    JJ -- Есть --> KK[Логирование ошибок];
+    JJ -- Нет --> LL{Возврат True};
+    KK --> LL
+    LL --> MM[Конец];
+```
+
+### 2. **Диаграмма**:
+
+```mermaid
+flowchart TD
+    A[html.py] --> B(re)
+    A --> C(typing)
+    A --> D(pathlib)
+    A --> E(venv)
+    A --> F(src.logger.logger)
+    A --> G(types)
+    A --> H(html.parser)
+    A --> I(xhtml2pdf)
+    A --> J(subprocess)
+    A --> K(os)
+    A --> L(weasyprint)
+
+    B --> M[Regular Expression Operations]
+    C --> N[Type Hints and Annotations]
+    D --> O[Filesystem Path Handling]
+    E --> P[Virtual Environment Support]
+    F --> Q[Logging Functionality]
+    G --> R[Dynamic Attribute Access]
+    H --> S[HTML Parsing]
+    I --> T[PDF Generation from HTML/XML]
+    J --> U[Subprocess Management]
+    K --> V[Operating System Interaction]
+    L --> W[Advanced PDF Rendering]
 ```
 
 **Объяснение зависимостей:**
 
-*   `re`: Модуль Python для работы с регулярными выражениями, используется в функции `html2pdf` для предобработки CSS.
-*   `typing`: Модуль Python для аннотации типов, используется для статической типизации.
-*   `pathlib`: Модуль Python для работы с путями к файлам и директориям.
-*   `venv`: Модуль Python для создания виртуальных окружений.
-*   `types`: Модуль Python для работы с типами, используется для создания `SimpleNamespace`.
-*   `html.parser`: Модуль Python для парсинга HTML, используется в функции `html2dict`.
-*   `subprocess`: Модуль Python для запуска внешних процессов, используется в функции `html_to_docx` для вызова LibreOffice.
-*   `os`: Модуль Python для работы с операционной системой, используется в функции `html_to_docx` для проверки существования файлов и директорий.
-*   `src.logger.logger`: Пользовательский модуль для логирования.
-*   `src.utils.string.StringFormatter`: Пользовательский модуль для форматирования строк (экранирование HTML).
-*   `src.utils.printer.pprint`:  Пользовательский модуль для красивого вывода информации.
+*   **re**: Модуль `re` предоставляет операции для работы с регулярными выражениями. Используется в функции `html2pdf` для удаления неподдерживаемых CSS-псевдоклассов.
+*   **typing**: Модуль `typing` используется для аннотации типов, что повышает читаемость и облегчает отладку кода.
+*   **pathlib**: Модуль `pathlib` предоставляет классы для работы с путями файловой системы. Используется для обработки путей к файлам HTML и PDF.
+*   **venv**: Модуль `venv` используется для создания виртуальных окружений, что позволяет изолировать зависимости проекта.
+*   **src.logger.logger**: Модуль `src.logger.logger` предоставляет функциональность логирования. Используется для записи ошибок и отладочной информации.
+*   **types**: Модуль `types` используется для работы с различными типами данных, включая `SimpleNamespace`.
+*   **html.parser**: Модуль `html.parser` предоставляет классы для разбора HTML. Используется в функции `html2dict` для извлечения данных из HTML-тегов.
+*   **xhtml2pdf**: Модуль `xhtml2pdf` используется для генерации PDF-файлов из HTML/XML.
+*   **subprocess**: Модуль `subprocess` позволяет запускать внешние процессы. Используется в функции `html_to_docx` для вызова LibreOffice для конвертации HTML в DOCX.
+*   **os**: Модуль `os` предоставляет функции для взаимодействия с операционной системой. Используется для проверки существования файлов и директорий.
+*   **weasyprint**: Модуль `weasyprint` используется для расширенного рендеринга PDF.
 
-#### **3. Объяснение кода**
+### 3. **Объяснение**:
 
-Файл `/src/utils/convertors/html.py` содержит набор функций для преобразования HTML в различные форматы.
-
-**Импорты:**
-
-*   `re`:  Используется для работы с регулярными выражениями, например, для удаления CSS-псевдоселекторов.
-*   `typing`: Используется для аннотации типов.
-*   `Path`: Из модуля `pathlib` используется для работы с путями к файлам.
-*   `logger`: Из модуля `venv` используется для логирования. Однако, он переопределяется импортом `from src.logger.logger import logger`.
-*   `logger`: Из модуля `src.logger.logger` используется для логирования ошибок и информации.
-*   `SimpleNamespace`: Из модуля `types` используется для создания объектов, к атрибутам которых можно обращаться как к атрибутам объекта.
-*   `HTMLParser`: Из модуля `html.parser` используется для парсинга HTML-кода.
-*   `pisa`: Из модуля `xhtml2pdf` используется для конвертации HTML в PDF (предположительно, хотя в коде есть альтернативный способ с `weasyprint`).
-*   `subprocess`: Используется для запуска внешних процессов, в частности, LibreOffice для конвертации в DOCX.
-*   `os`: Используется для работы с файловой системой.
-*   `HTML` from `weasyprint`: Используется для конвертации HTML в PDF. Импортируется с обработкой исключения.
-
-**Функции:**
-
-*   `html2escape(input_str: str) -> str`:
-    *   **Аргументы:**
-        *   `input_str` (str): HTML-код для преобразования.
-    *   **Возвращаемое значение:**
-        *   `str`: HTML, преобразованный в escape-последовательности.
-    *   **Назначение:**
-        *   Преобразует HTML-код в escape-последовательности, используя `StringFormatter.escape_html_tags`.
-    *   **Пример:**
-        ```python
-        html = "<p>Hello, world!</p>"
-        result = html2escape(html)
-        print(result)  # Вывод: &lt;p&gt;Hello, world!&lt;/p&gt;
-        ```
-
-*   `escape2html(input_str: str) -> str`:
-    *   **Аргументы:**
-        *   `input_str` (str): Строка с escape-последовательностями.
-    *   **Возвращаемое значение:**
-        *   `str`: HTML-код, полученный из escape-последовательностей.
-    *   **Назначение:**
-        *   Преобразует escape-последовательности обратно в HTML-код, используя `StringFormatter.unescape_html_tags`.
-    *   **Пример:**
-        ```python
-        escaped = "&lt;p&gt;Hello, world!&lt;/p&gt;"
-        result = escape2html(escaped)
-        print(result)  # Вывод: <p>Hello, world!</p>
-        ```
-
-*   `html2dict(html_str: str) -> Dict[str, str]`:
-    *   **Аргументы:**
-        *   `html_str` (str): HTML-код для преобразования.
-    *   **Возвращаемое значение:**
-        *   `Dict[str, str]`: Словарь, где ключи - теги HTML, а значения - их содержимое.
-    *   **Назначение:**
-        *   Преобразует HTML-код в словарь, используя класс `HTMLToDictParser`.
-    *   **Внутренний класс `HTMLToDictParser`:**
-        *   Наследуется от `HTMLParser`.
-        *   `__init__`: Инициализирует словарь `result` и `current_tag`.
-        *   `handle_starttag`: Функция, которая вызывается при обнаружении открывающего тега. Сохраняет имя тега в `current_tag`.
-        *   `handle_endtag`: Функция, которая вызывается при обнаружении закрывающего тега. Обнуляет `current_tag`.
-        *   `handle_data`: Функция, которая вызывается при обнаружении текстовых данных. Если `current_tag` не `None`, добавляет данные в словарь `result`.
-    *   **Пример:**
-        ```python
-        html = "<p>Hello</p><a href='link'>World</a>"
-        result = html2dict(html)
-        print(result)  # Вывод: {'p': 'Hello', 'a': 'World'}
-        ```
-
-*   `html2ns(html_str: str) -> SimpleNamespace`:
-    *   **Аргументы:**
-        *   `html_str` (str): HTML-код для преобразования.
-    *   **Возвращаемое значение:**
-        *   `SimpleNamespace`: Объект `SimpleNamespace`, где атрибуты - теги HTML, а значения - их содержимое.
-    *   **Назначение:**
-        *   Преобразует HTML-код в объект `SimpleNamespace`, используя функцию `html2dict`.
-    *   **Пример:**
-        ```python
-        html = "<p>Hello</p><a href='link'>World</a>"
-        result = html2ns(html)
-        print(result.p)  # Вывод: Hello
-        print(result.a)  # Вывод: World
-        ```
-
-*   `html2pdf(html_str: str, pdf_file: str | Path) -> bool | None`:
-    *   **Аргументы:**
-        *   `html_str` (str): HTML-код для преобразования.
-        *   `pdf_file` (str | Path): Путь к PDF-файлу.
-    *   **Возвращаемое значение:**
-        *   `bool | None`: `True`, если преобразование прошло успешно, `None` - в случае ошибки.
-    *   **Назначение:**
-        *   Преобразует HTML-код в PDF-файл, используя `WeasyPrint`.
-        *   Обрабатывает исключения при конвертации и логирует ошибки.
-
-*   `html_to_docx(html_file: str, output_docx: Path | str) -> bool`:
-    *   **Аргументы:**
-        *   `html_file` (str): Путь к HTML-файлу.
-        *   `output_docx` (str | Path): Путь к DOCX-файлу.
-    *   **Возвращаемое значение:**
-        *   `bool`: `True`, если преобразование прошло успешно, `False` - в случае ошибки.
-    *   **Назначение:**
-        *   Преобразует HTML-файл в DOCX-файл, используя LibreOffice.
-        *   Проверяет существование входного HTML-файла и выходной директории.
-        *   Формирует команду для запуска LibreOffice в headless режиме.
-        *   Логирует ошибки, если процесс завершается с ошибкой или LibreOffice не найден.
-
-**Переменные:**
-
-*   В основном используются локальные переменные внутри функций для хранения промежуточных результатов.
-
-**Потенциальные ошибки и области для улучшения:**
-
-*   В функции `html2pdf` используется `try...except` для обработки ошибок `WeasyPrint`.  Однако, если `WeasyPrint` не установлен, то `...` не реализован.
-*   В функции `html_to_docx` используется `subprocess.run` для запуска LibreOffice. Важно убедиться, что LibreOffice установлен и доступен в системном PATH. Отсутствие проверки версии LibreOffice может привести к проблемам совместимости.
-*   Функция `html2dict` извлекает только текст из тегов, игнорируя атрибуты.
-*   В коде встречается как `logger` из `venv`, так и `logger` из `src.logger.logger`. Необходимо убедиться, что используется правильный объект логгера.
-
-**Взаимосвязи с другими частями проекта:**
-
-*   Использует модуль `src.logger.logger` для логирования.
-*   Использует модуль `src.utils.string.StringFormatter` для экранирования HTML.
-*   Использует модуль `src.utils.printer.pprint` для красивого вывода информации.
-
-Этот модуль предоставляет полезные утилиты для работы с HTML, позволяя преобразовывать его в различные форматы, что может быть полезно для обработки и анализа веб-страниц в проекте `hypotez`.
+*   **Импорты**:
+    *   `re`: Используется для обработки регулярных выражений, например, для удаления CSS-псевдоклассов в функции `html2pdf`.
+    *   `typing`: Используется для статической типизации, что улучшает читаемость и помогает предотвратить ошибки.
+    *   `pathlib`: Используется для представления путей к файлам и директориям, что делает код более читаемым и удобным в работе с файловой системой.
+    *   `venv`: Используется для создания виртуальных окружений.
+    *   `src.logger.logger`: Логирование ошибок и отладочной информации.
+    *   `types`: Предоставляет класс

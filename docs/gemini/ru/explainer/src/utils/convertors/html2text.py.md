@@ -440,6 +440,446 @@ pprint({"name": "Alice", "age": 30}, text_color="green")
 ```
 
 ## \file /src/utils/convertors/html2text.py
-```python
-                ## \file /src/utils/convertors/html2text.py
-# -*- coding: utf-8 -*-\n\n#! .pyenv/bin/python3\n\n\"\"\"\n.. module:: src.utils.convertors.html2text \n\t:platform: Windows, Unix\n\t:synopsis:  HTML -> MD\n\n\"\"\"\n\n\n\n\n\n\n\"\"\"html2text: Turn HTML into equivalent Markdown-structured text.\"\"\"\n__version__ = "3.1"\n__author__ = "Aaron Swartz (me@aaronsw.com)"\n__copyright__ = "(C) 2004-2008 Aaron Swartz. GNU GPL 3."\n__contributors__ = ["Martin \'Joey\' Schulze", "Ricardo Reyes", "Kevin Jay North"]\n\n# TODO:\n#   Support decoded entities with unifiable.\n\ntry:\n    True\nexcept NameError:\n    setattr(__builtins__, \'True\', 1)\n    setattr(__builtins__, \'False\', 0)\n\ndef has_key(x, y):\n    if hasattr(x, \'has_key\'): return x.has_key(y)\n    else: return y in x\n\n\nimport html.entities as htmlentitydefs\nimport urllib.parse as urlparse\nimport html.parser as HTMLParser\nimport urllib.request as urllib\nimport optparse, re, sys, codecs, types\nfrom textwrap import wrap\n\n\n# Use Unicode characters instead of their ascii psuedo-replacements\nUNICODE_SNOB = 0\n\n# Put the links after each paragraph instead of at the end.\nLINKS_EACH_PARAGRAPH = 0\n\n# Wrap long lines at position. 0 for no wrapping. (Requires Python 2.3.)\nBODY_WIDTH = 78\n\n# Don\'t show internal links (href="#local-anchor") -- corresponding link targets\n# won\'t be visible in the plain text file anyway.\nSKIP_INTERNAL_LINKS = True\n\n# Use inline, rather than reference, formatting for images and links\nINLINE_LINKS = True\n\n# Number of pixels Google indents nested lists\nGOOGLE_LIST_INDENT = 36\n\nIGNORE_ANCHORS = False\nIGNORE_IMAGES = False\n\n### Entity Nonsense ###\n\ndef name2cp(k):\n    if k == \'apos\': return ord("\'")\n    if hasattr(htmlentitydefs, "name2codepoint"): # requires Python 2.3\n        return htmlentitydefs.name2codepoint[k]\n    else:\n        k = htmlentitydefs.entitydefs[k]\n        if k.startswith("&#") and k.endswith(";"): return int(k[2:-1]) # not in latin-1\n        return ord(codecs.latin_1_decode(k)[0])\n\nunifiable = {\'rsquo\':"\'", \'lsquo\':"\'", \'rdquo\':\'"\', \'ldquo\':\'"\', \n\'copy\':\'(C)\', \'mdash\':\'--\', \'nbsp\':\' \', \'rarr\':\'->\', \'larr\':\'<-\', \'middot\':\'*\',\n\'ndash\':\'-\', \'oelig\':\'oe\', \'aelig\':\'ae\',\n\'agrave\':\'a\', \'aacute\':\'a\', \'acirc\':\'a\', \'atilde\':\'a\', \'auml\':\'a\', \'aring\':\'a\', \n\'egrave\':\'e\', \'eacute\':\'e\', \'ecirc\':\'e\', \'euml\':\'e\', \n\'igrave\':\'i\', \'iacute\':\'i\', \'icirc\':\'i\', \'iuml\':\'i\',\n\'ograve\':\'o\', \'oacute\':\'o\', \'ocirc\':\'o\', \'otilde\':\'o\', \'ouml\':\'o\', \n\'ugrave\':\'u\', \'uacute\':\'u\', \'ucirc\':\'u\', \'uuml\':\'u\',\n\'lrm\':\'\', \'rlm\':\'\'}\n\nunifiable_n = {}\n\nfor k in unifiable.keys():\n    unifiable_n[name2cp(k)] = unifiable[k]\n\ndef charref(name):\n    if name[0] in [\'x\',\'X\']:\n        c = int(name[1:], 16)\n    else:\n        c = int(name)\n    \n    if not UNICODE_SNOB and c in unifiable_n.keys():\n        return unifiable_n[c]\n    else:\n        try:\n            return chr(c)\n        except NameError: #Python3\n            return chr(c)\n\ndef entityref(c):\n    if not UNICODE_SNOB and c in unifiable.keys():\n        return unifiable[c]\n    else:\n        try: name2cp(c)\n        except KeyError: return "&" + c + \';\'\n        else:\n            try:\n                return chr(name2cp(c))\n            except NameError: #Python3\n                return chr(name2cp(c))\n\ndef replaceEntities(s):\n    s = s.group(1)\n    if s[0] == "#": \n        return charref(s[1:])\n    else: return entityref(s)\n\nr_unescape = re.compile(r"&(#?[xX]?(?:[0-9a-fA-F]+|\\w{1,8}));")\ndef unescape(s):\n    return r_unescape.sub(replaceEntities, s)\n\n### End Entity Nonsense ###\n\ndef onlywhite(line):\n    \"\"\"Return true if the line does only consist of whitespace characters.\"\"\"\n    for c in line:\n        if c is not \' \' and c is not \'  \':\n            return c is \' \'\n    return line\n\ndef optwrap(text):\n    \"\"\"Wrap all paragraphs in the provided text.\"\"\"\n    if not BODY_WIDTH:\n        return text\n    \n    assert wrap, "Requires Python 2.3."\n    result = \'\'\n    newlines = 0\n    for para in text.split("\\n"):\n        if len(para) > 0:\n            if para[0] != \' \' and para[0] != \'-\' and para[0] != \'*\':\n                for line in wrap(para, BODY_WIDTH):\n                    result += line + "\\n"\n                result += "\\n"\n                newlines = 2\n            else:\n                if not onlywhite(para):\n                    result += para + "\\n"\n                    newlines = 1\n        else:\n            if newlines < 2:\n                result += "\\n"\n                newlines += 1\n    return result\n\ndef hn(tag):\n    if tag[0] == \'h\' and len(tag) == 2:\n        try:\n            n = int(tag[1])\n            if n in range(1, 10): return n\n        except ValueError: return 0\n\ndef dumb_property_dict(style):\n    \"\"\"returns a hash of css attributes\"\"\"\n    return dict([(x.strip(), y.strip()) for x, y in [z.split(\':\', 1) for z in style.split(\';\') if \':\' in z]]);\n\ndef dumb_css_parser(data):\n    \"\"\"returns a hash of css selectors, each of which contains a hash of css attributes\"\"\"\n    # remove @import sentences\n    importIndex = data.find(\'@import\')\n    while importIndex != -1:\n        data = data[0:importIndex] + data[data.find(\';\', importIndex) + 1:]\n        importIndex = data.find(\'@import\')\n\n    # parse the css. reverted from dictionary compehension in order to support older pythons\n    elements =  [x.split(\'{\') for x in data.split(\'}\') if \'{\' in x.strip()]\n    elements = dict([(a.strip(), dumb_property_dict(b)) for a, b in elements])\n\n    return elements\n\ndef element_style(attrs, style_def, parent_style):\n    \"\"\"returns a hash of the \'final\' style attributes of the element\"\"\"\n    style = parent_style.copy()\n    if \'class\' in attrs:\n        for css_class in attrs[\'class\'].split():\n            css_style = style_def[\'.\' + css_class]\n            style.update(css_style)\n    if \'style\' in attrs:\n        immediate_style = dumb_property_dict(attrs[\'style\'])\n        style.update(immediate_style)\n    return style\n\ndef google_list_style(style):\n    \"\"\"finds out whether this is an ordered or unordered list\"\"\"\n    if \'list-style-type\' in style:\n        list_style = style[\'list-style-type\']\n        if list_style in [\'disc\', \'circle\', \'square\', \'none\']:\n            return \'ul\'\n    return \'ol\'\n\ndef google_nest_count(style):\n    \"\"\"calculate the nesting count of google doc lists\"\"\"\n    nest_count = 0\n    if \'margin-left\' in style:\n        nest_count = int(style[\'margin-left\'][:-2]) / GOOGLE_LIST_INDENT\n    return nest_count\n\ndef google_has_height(style):\n    \"\"\"check if the style of the element has the \'height\' attribute explicitly defined\"\"\"\n    if \'height\' in style:\n        return True\n    return False\n\ndef google_text_emphasis(style):\n    \"\"\"return a list of all emphasis modifiers of the element\"\"\"\n    emphasis = []\n    if \'text-decoration\' in style:\n        emphasis.append(style[\'text-decoration\'])\n    if \'font-style\' in style:\n        emphasis.append(style[\'font-style\'])\n    if \'font-weight\' in style:\n        emphasis.append(style[\'font-weight\'])\n    return emphasis\n\ndef google_fixed_width_font(style):\n    \"\"\"check if the css of the current element defines a fixed width font\"\"\"\n    font_family = \'\'\n    if \'font-family\' in style:\n        font_family = style[\'font-family\']\n    if \'Courier New\' == font_family or \'Consolas\' == font_family:\n        return True\n    return False\n\ndef list_numbering_start(attrs):\n    \"\"\"extract numbering from list element attributes\"\"\"\n    if \'start\' in attrs:\n        return int(attrs[\'start\']) - 1\n    else:\n        return 0\n\nclass _html2text(HTMLParser.HTMLParser):\n    def __init__(self, out=None, baseurl=\'\'):\n        HTMLParser.HTMLParser.__init__(self)\n        \n        if out is None: self.out = self.outtextf\n        else: self.out = out\n        self.outtextlist = [] # empty list to store output characters before they are  "joined"\n        try:\n            self.outtext = unicode()\n        except NameError: # Python3\n            self.outtext = str()\n        self.quiet = 0\n        self.p_p = 0 # number of newline character to print before next output\n        self.outcount = 0\n        self.start = 1\n        self.space = 0\n        self.a = []\n        self.astack = []\n        self.acount = 0\n        self.list = []\n        self.blockquote = 0\n        self.pre = 0\n        self.startpre = 0\n        self.code = False\n        self.br_toggle = \'\'\n        self.lastWasNL = 0\n        self.lastWasList = False\n        self.style = 0\n        self.style_def = {}\n        self.tag_stack = []\n        self.emphasis = 0\n        self.drop_white_space = 0\n        self.inheader = False\n        self.abbr_title = None # current abbreviation definition\n        self.abbr_data = None # last inner HTML (for abbr being defined)\n        self.abbr_list = {} # stack of abbreviations to write later\n        self.baseurl = baseurl\n\n        if options.google_doc:\n            del unifiable_n[name2cp(\'nbsp\')]\n            unifiable[\'nbsp\'] = \'&nbsp_place_holder;\'\n    \n    def feed(self, data):\n        data = data.replace("</\' + \'script>", "</ignore>")\n        HTMLParser.HTMLParser.feed(self, data)\n    \n    def outtextf(self, s): \n        self.outtextlist.append(s)\n        if s: self.lastWasNL = s[-1] == \'\\n\'\n    \n    def close(self):\n        HTMLParser.HTMLParser.close(self)\n        \n        self.pbr()\n        self.o(\'\', 0, \'end\')\n\n        self.outtext = self.outtext.join(self.outtextlist)\n        \n        if options.google_doc:\n            self.outtext = self.outtext.replace(\'&nbsp_place_holder;\', \' \');\n        \n        return self.outtext\n        \n    def handle_charref(self, c):\n        self.o(charref(c), 1)\n\n    def handle_entityref(self, c):\n        self.o(entityref(c), 1)\n            \n    def handle_starttag(self, tag, attrs):\n        self.handle_tag(tag, attrs, 1)\n    \n    def handle_endtag(self, tag):\n        self.handle_tag(tag, None, 0)\n        \n    def previousIndex(self, attrs):\n        \"\"\" returns the index of certain set of attributes (of a link) in the\n            self.a list\n \n            If the set of attributes is not found, returns None\n        \"\"\"\n        if not has_key(attrs, \'href\'): return\n        \n        i = -1\n        for a in self.a:\n            i += 1\n            match = 0\n            \n            if has_key(a, \'href\') and a[\'href\'] == attrs[\'href\']:\n                if has_key(a, \'title\') or has_key(attrs, \'title\'):\n                        if (has_key(a, \'title\') and has_key(attrs, \'title\') and\n                            a[\'title\'] == attrs[\'title\']):\n                            match = True\n                else:\n                    match = True\n\
+
+# -*- coding: utf-8 -*-
+
+#! .pyenv/bin/python3
+
+"""
+.. module:: src.utils.convertors.html2text
+	:platform: Windows, Unix
+	:synopsis:  HTML -> MD
+
+"""
+
+"""html2text: Turn HTML into equivalent Markdown-structured text."""
+__version__: str = "3.1"
+__author__: str = "Aaron Swartz (me@aaronsw.com)"
+__copyright__: str = "(C) 2004-2008 Aaron Swartz. GNU GPL 3."
+__contributors__: list[str] = ["Martin \'Joey\' Schulze", "Ricardo Reyes", "Kevin Jay North"]
+
+# TODO:
+#   Support decoded entities with unifiable.
+
+try:
+    True
+except NameError:
+    setattr(__builtins__, 'True', 1)
+    setattr(__builtins__, 'False', 0)
+
+
+def has_key(x: dict, y: str) -> bool:
+    """
+    Функция проверяет, содержит ли словарь `x` ключ `y`.
+
+    Args:
+        x (dict): Словарь для проверки.
+        y (str): Ключ для поиска в словаре.
+
+    Returns:
+        bool: `True`, если словарь содержит ключ, иначе `False`.
+    """
+    if hasattr(x, 'has_key'):
+        return x.has_key(y)
+    else:
+        return y in x
+
+
+import html.entities as htmlentitydefs
+import urllib.parse as urlparse
+import html.parser as HTMLParser
+import urllib.request as urllib
+import optparse
+import re
+import sys
+import codecs
+import types
+from textwrap import wrap
+
+# Use Unicode characters instead of their ascii psuedo-replacements
+UNICODE_SNOB: int = 0
+
+# Put the links after each paragraph instead of at the end.
+LINKS_EACH_PARAGRAPH: int = 0
+
+# Wrap long lines at position. 0 for no wrapping. (Requires Python 2.3.)
+BODY_WIDTH: int = 78
+
+# Don't show internal links (href="#local-anchor") -- corresponding link targets
+# won't be visible in the plain text file anyway.
+SKIP_INTERNAL_LINKS: bool = True
+
+# Use inline, rather than reference, formatting for images and links
+INLINE_LINKS: bool = True
+
+# Number of pixels Google indents nested lists
+GOOGLE_LIST_INDENT: int = 36
+
+IGNORE_ANCHORS: bool = False
+IGNORE_IMAGES: bool = False
+
+### Entity Nonsense ###
+
+
+def name2cp(k: str) -> int:
+    """
+    Функция преобразует имя HTML-сущности в кодовую точку Unicode.
+
+    Args:
+        k (str): Имя HTML-сущности.
+
+    Returns:
+        int: Кодовая точка Unicode.
+    """
+    if k == 'apos':
+        return ord("\'")
+    if hasattr(htmlentitydefs, "name2codepoint"):  # requires Python 2.3
+        return htmlentitydefs.name2codepoint[k]
+    else:
+        k = htmlentitydefs.entitydefs[k]
+        if k.startswith("&#") and k.endswith(";"):
+            return int(k[2:-1])  # not in latin-1
+        return ord(codecs.latin_1_decode(k)[0])
+
+
+unifiable: dict[str, str] = {'rsquo': "\'", 'lsquo': "\'", 'rdquo': '"', 'ldquo': '"',
+                             'copy': '(C)', 'mdash': '--', 'nbsp': ' ', 'rarr': '->', 'larr': '<-', 'middot': '*',
+                             'ndash': '-', 'oelig': 'oe', 'aelig': 'ae',
+                             'agrave': 'a', 'aacute': 'a', 'acirc': 'a', 'atilde': 'a', 'auml': 'a', 'aring': 'a',
+                             'egrave': 'e', 'eacute': 'e', 'ecirc': 'e', 'euml': 'e',
+                             'igrave': 'i', 'iacute': 'i', 'icirc': 'i', 'iuml': 'i',
+                             'ograve': 'o', 'oacute': 'o', 'ocirc': 'o', 'otilde': 'o', 'ouml': 'o',
+                             'ugrave': 'u', 'uacute': 'u', 'ucirc': 'u', 'uuml': 'u',
+                             'lrm': '', 'rlm': ''}
+
+unifiable_n: dict[int, str] = {}
+
+for k in unifiable.keys():
+    unifiable_n[name2cp(k)] = unifiable[k]
+
+
+def charref(name: str) -> str:
+    """
+    Функция преобразует символьную ссылку (например, &#160;) в символ Unicode.
+
+    Args:
+        name (str): Символьная ссылка.
+
+    Returns:
+        str: Соответствующий символ Unicode.
+    """
+    if name[0] in ['x', 'X']:
+        c = int(name[1:], 16)
+    else:
+        c = int(name)
+
+    if not UNICODE_SNOB and c in unifiable_n.keys():
+        return unifiable_n[c]
+    else:
+        try:
+            return chr(c)
+        except NameError:  # Python3
+            return chr(c)
+
+
+def entityref(c: str) -> str:
+    """
+    Функция преобразует ссылку на сущность (например, &nbsp;) в символ Unicode.
+
+    Args:
+        c (str): Ссылка на сущность.
+
+    Returns:
+        str: Соответствующий символ Unicode.
+    """
+    if not UNICODE_SNOB and c in unifiable.keys():
+        return unifiable[c]
+    else:
+        try:
+            name2cp(c)
+        except KeyError:
+            return "&" + c + ';'
+        else:
+            try:
+                return chr(name2cp(c))
+            except NameError:  # Python3
+                return chr(name2cp(c))
+
+
+def replaceEntities(s: re.Match) -> str:
+    """
+    Функция заменяет HTML-сущности в строке.
+
+    Args:
+        s (re.Match): Объект совпадения регулярного выражения.
+
+    Returns:
+        str: Строка с замененными сущностями.
+    """
+    s = s.group(1)
+    if s[0] == "#":
+        return charref(s[1:])
+    else:
+        return entityref(s)
+
+
+r_unescape: re.Pattern = re.compile(r"&(#?[xX]?(?:[0-9a-fA-F]+|\w{1,8}));")
+
+
+def unescape(s: str) -> str:
+    """
+    Функция удаляет HTML-сущности из строки.
+
+    Args:
+        s (str): Исходная строка.
+
+    Returns:
+        str: Строка без HTML-сущностей.
+    """
+    return r_unescape.sub(replaceEntities, s)
+
+### End Entity Nonsense ###
+
+
+def onlywhite(line: str) -> bool:
+    """
+    Функция проверяет, состоит ли строка только из пробельных символов.
+
+    Args:
+        line (str): Строка для проверки.
+
+    Returns:
+        bool: `True`, если строка состоит только из пробельных символов, иначе `False`.
+    """
+    for c in line:
+        if c is not ' ' and c is not '  ':
+            return c is ' '
+    return line
+
+
+def optwrap(text: str) -> str:
+    """
+    Функция обертывает все абзацы в предоставленном тексте.
+
+    Args:
+        text (str): Текст для обертывания.
+
+    Returns:
+        str: Обернутый текст.
+    """
+    if not BODY_WIDTH:
+        return text
+
+    assert wrap, "Requires Python 2.3."
+    result: str = ''
+    newlines: int = 0
+    for para in text.split("\\n"):
+        if len(para) > 0:
+            if para[0] != ' ' and para[0] != '-' and para[0] != '*':
+                for line in wrap(para, BODY_WIDTH):
+                    result += line + "\\n"
+                result += "\\n"
+                newlines = 2
+            else:
+                if not onlywhite(para):
+                    result += para + "\\n"
+                    newlines = 1
+        else:
+            if newlines < 2:
+                result += "\\n"
+                newlines += 1
+    return result
+
+
+def hn(tag: str) -> int | None:
+    """
+    Функция проверяет, является ли тег заголовком (h1-h9) и возвращает его уровень.
+
+    Args:
+        tag (str): HTML-тег для проверки.
+
+    Returns:
+        int | None: Уровень заголовка (1-9), если тег является заголовком, иначе `None`.
+    """
+    if tag[0] == 'h' and len(tag) == 2:
+        try:
+            n = int(tag[1])
+            if n in range(1, 10):
+                return n
+        except ValueError:
+            return None
+
+
+def dumb_property_dict(style: str) -> dict[str, str]:
+    """
+    Функция преобразует строку CSS-стилей в словарь атрибутов.
+
+    Args:
+        style (str): Строка CSS-стилей.
+
+    Returns:
+        dict[str, str]: Словарь CSS-атрибутов.
+    """
+    return dict([(x.strip(), y.strip()) for x, y in [z.split(':', 1) for z in style.split(';') if ':' in z]])
+
+
+def dumb_css_parser(data: str) -> dict[str, dict[str, str]]:
+    """
+    Функция разбирает CSS-данные и возвращает словарь селекторов CSS,
+    каждый из которых содержит словарь атрибутов CSS.
+
+    Args:
+        data (str): CSS-данные для разбора.
+
+    Returns:
+        dict[str, dict[str, str]]: Словарь селекторов CSS и их атрибутов.
+    """
+    # remove @import sentences
+    importIndex: int = data.find('@import')
+    while importIndex != -1:
+        data = data[0:importIndex] + data[data.find(';', importIndex) + 1:]
+        importIndex = data.find('@import')
+
+    # parse the css. reverted from dictionary compehension in order to support older pythons
+    elements: list[list[str]] = [x.split('{') for x in data.split('}') if '{' in x.strip()]
+    elements = dict([(a.strip(), dumb_property_dict(b)) for a, b in elements])
+
+    return elements
+
+
+def element_style(attrs: dict[str, str], style_def: dict[str, dict[str, str]], parent_style: dict[str, str]) -> dict[str, str]:
+    """
+    Функция возвращает словарь "окончательных" атрибутов стиля элемента.
+
+    Args:
+        attrs (dict[str, str]): Атрибуты элемента.
+        style_def (dict[str, dict[str, str]]): Определения стилей.
+        parent_style (dict[str, str]): Стили родительского элемента.
+
+    Returns:
+        dict[str, str]: Словарь стилей элемента.
+    """
+    style: dict[str, str] = parent_style.copy()
+    if 'class' in attrs:
+        for css_class in attrs['class'].split():
+            css_style: dict[str, str] = style_def['.' + css_class]
+            style.update(css_style)
+    if 'style' in attrs:
+        immediate_style: dict[str, str] = dumb_property_dict(attrs['style'])
+        style.update(immediate_style)
+    return style
+
+
+def google_list_style(style: dict[str, str]) -> str:
+    """
+    Функция определяет, является ли список упорядоченным или неупорядоченным.
+
+    Args:
+        style (dict[str, str]): Стили элемента списка.
+
+    Returns:
+        str: 'ul', если список неупорядоченный, иначе 'ol'.
+    """
+    if 'list-style-type' in style:
+        list_style: str = style['list-style-type']
+        if list_style in ['disc', 'circle', 'square', 'none']:
+            return 'ul'
+    return 'ol'
+
+
+def google_nest_count(style: dict[str, str]) -> int:
+    """
+    Функция вычисляет уровень вложенности для списков Google Docs.
+
+    Args:
+        style (dict[str, str]): Стили элемента списка.
+
+    Returns:
+        int: Уровень вложенности списка.
+    """
+    nest_count: int = 0
+    if 'margin-left' in style:
+        nest_count = int(style['margin-left'][:-2]) / GOOGLE_LIST_INDENT
+    return nest_count
+
+
+def google_has_height(style: dict[str, str]) -> bool:
+    """
+    Функция проверяет, определен ли атрибут 'height' явно в стиле элемента.
+
+    Args:
+        style (dict[str, str]): Стили элемента.
+
+    Returns:
+        bool: `True`, если атрибут 'height' определен, иначе `False`.
+    """
+    if 'height' in style:
+        return True
+    return False
+
+
+def google_text_emphasis(style: dict[str, str]) -> list[str]:
+    """
+    Функция возвращает список всех модификаторов выделения элемента.
+
+    Args:
+        style (dict[str, str]): Стили элемента.
+
+    Returns:
+        list[str]: Список модификаторов выделения.
+    """
+    emphasis: list[str] = []
+    if 'text-decoration' in style:
+        emphasis.append(style['text-decoration'])
+    if 'font-style' in style:
+        emphasis.append(style['font-style'])
+    if 'font-weight' in style:
+        emphasis.append(style['font-weight'])
+    return emphasis
+
+
+def google_fixed_width_font(style: dict[str, str]) -> bool:
+    """
+    Функция проверяет, определяет ли CSS текущего элемента шрифт фиксированной ширины.
+
+    Args:
+        style (dict[str, str]): Стили элемента.
+
+    Returns:
+        bool: `True`, если шрифт фиксированной ширины, иначе `False`.
+    """
+    font_family: str = ''
+    if 'font-family' in style:
+        font_family = style['font-family']
+    if 'Courier New' == font_family or 'Consolas' == font_family:
+        return True
+    return False
+
+
+def list_numbering_start(attrs: dict[str, str]) -> int:
+    """
+    Функция извлекает начальный номер из атрибутов элемента списка.
+
+    Args:
+        attrs (dict[str, str]): Атрибуты элемента списка.
+
+    Returns:
+        int: Начальный номер списка (на 1 меньше фактического).
+    """
+    if 'start' in attrs:
+        return int(attrs['start']) - 1
+    else:
+        return 0
+
+
+class _html2text(HTMLParser.HTMLParser):
+    """
+    Класс для преобразования HTML в текст в формате Markdown.
+    """
+
+    def __init__(self, out=None, baseurl=''):
+        """
+        Инициализация объекта класса _html2text.
+
+        Args:
+            out (callable, optional): Функция для вывода текста. Defaults to self.outtext
