@@ -73,7 +73,6 @@ class Config:
     response_mime_type:str = config.response_mime_type 
     output_directory_patterns:list = config.output_dirs
     remove_prefixes:str = config.remove_prefixes
-    system_instruction:str = ''
 
     @classmethod
     @property
@@ -115,7 +114,7 @@ class CodeAssistant:
         self,
         role: Optional[str] = 'doc_writer_md',
         lang: Optional[str] = 'en',
-        models_list: Optional[list[str, str] | str] = ['gemini'],
+        model_name:str = 'gemini-2.0-flash-exp',
         system_instruction: Optional[str | Path] = None,
         **kwards,
     ) -> None:
@@ -132,50 +131,22 @@ class CodeAssistant:
         Config.role = role if role else Config.role
         Config.lang = lang if lang else Config.lang
         Config.system_instruction = system_instruction if system_instruction else Config.system_instruction
-        
-        if not self._initialize_models(list(models_list), **kwards):
-            ...
-
-
-    def _initialize_models(self, models_list: list, response_mime_type: Optional[str] = '', **kwards) -> bool:
-        """
-        Инициализация моделей на основе заданных параметров.
-
-        Args:
-            models_list (list[str]): Список моделей для инициализации.
-            **kwards: Дополнительные аргументы для инициализации моделей.
-
-        Returns:
-            bool: Успешность инициализации моделей.
-
-        Raises:
-            Exception: Если произошла ошибка при инициализации моделей.
-        """
-
-        if 'gemini' in models_list:
-            # Определение значений по умолчанию
-
-            try:
-                # Фильтрация kwards для удаления известных аргументов
-                filtered_kwargs = {
+        filtered_kwargs = {
                     k: v
                     for k, v in kwards.items()
                     if k not in ('model_name', 'api_key', 'generation_config', 'system_instruction')
                 }
+        self.gemini = GoogleGenerativeAi(     
+                model_name = model_name,
+                api_key=kwards.get('api_key', Config.gemini.api_key),# Значение из kwards имеет приоритет,
+                system_instruction= system_instruction or Config.system_instruction,
+                generation_config = {'response_mime_type': kwards.get( 'response_mime_type',  Config.response_mime_type)},
+                **filtered_kwargs,
+            )
+        ...
 
-                # Создание экземпляра модели Gemini
-                self.gemini = GoogleGenerativeAi(
- 
-                    api_key=kwards.get('api_key', Config.gemini.api_key),# Значение из kwards имеет приоритет,
-                    system_instruction= kwards.get('system_instruction', Config.system_instruction),
-                    generation_config = {'response_mime_type': kwards.get( 'response_mime_type',  Config.response_mime_type)},
-                    **filtered_kwargs,
-                )
-                ...
-                return True
-            except Exception as ex:
-                logger.error(f'Ошибка при инициализации Gemini:', ex, None)
-                return False
+
+  
 
     def send_file(self, file_path: Path) -> Optional[str | None]:
         """
@@ -217,11 +188,11 @@ class CodeAssistant:
 
             if not process_directory.exists():
                 logger.error(f"Директория не существует: {process_directory}")
-                continue  # Переходим к следующей директории, если текущая не существует
+                continue  # Переход к следующей директории, если текущая не существует
 
             if not process_directory.is_dir():
                 logger.error(f"Это не директория: {process_directory}", None, False)
-                continue  # Переходим к следующей директории, если текущая не является директорией
+                continue  # Переход к следующей директории, если текущая не является директорией
 
             for i, (file_path, content) in enumerate(self._yield_files_content(process_directory)):
                 if not any((file_path, content)):  # <- ошибка чтения файла
@@ -352,32 +323,25 @@ class CodeAssistant:
             return False
 
         try:
-            # Получаение директорию для вывода в зависимости от роли
+            # Получение директории  в зависимости от роли
             _pattern:str = getattr(Config.output_directory_patterns, Config.role)
+
+            for i, part in enumerate(file_path.parts):
+                if part == 'hypotez':
+                    relative_path = Path(*file_path.parts[i+1:])
+                    break
 
             # Формирование целевой директории с учётом подстановки параметров <model> и <lang>
             target_dir: str = (
                 f'docs/{_pattern}'
                 .replace('<model>', model_name)
                 .replace('<lang>', Config.lang)
-                .replace('<module>', file_path.parent.name)
-)
+                .replace('<module>', str(relative_path))
+                )
 
 
-            parts = list(file_path.parts)
-            try:
-                idx = parts.index('hypotez')
-                # Вставляем '_template' сразу после неё
-                new_parts = parts[:idx + 1] + target_dir.split('/') +  [file_path.name]
-                export_path = Path(*new_parts)
-            except ValueError:
-                logger.error("'hypotez' не найдена в пути!")
-                ...
-                #export_path = Path(file_path,target_dir)
-                return False
 
-            # Определяем суффикс для добавления в зависимости от роли
-
+            # суффикс в зависимости от роли
             suffix_map = {
                 'code_checker': '.md',
                 'doc_writer_md': '.md',
@@ -389,7 +353,7 @@ class CodeAssistant:
             }
             suffix = suffix_map.get(Config.role, '.md')  # По умолчанию используется .md
 
-            export_path = Path(f'{export_path}{suffix}')  # добавление суффикса к имени файла, даже к `.md`
+            export_path:Path = Path(f'{__root__/ target_dir}{suffix}')  # Полный путь к конеччому файлу документации
 
             export_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -509,8 +473,8 @@ def main() -> None:
                 assistant_direct = CodeAssistant(
                     role=role,
                     lang=lang,
-                    models_list=['gemini'],
-                    system_instruction = Config.system_instruction,
+                    # model_name = Config.model_name,
+                    # system_instruction = Config.system_instruction,
                 )
                 asyncio.run(assistant_direct.process_files(process_dirs = Config.process_dirs))
 

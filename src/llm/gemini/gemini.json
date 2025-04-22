@@ -1,5 +1,5 @@
 {
-  "model": "gemini-1.5-flash-001-tuning",
+  "model_name": "gemini-1.5-flash-001-tuning",
   "avaiable_models": [
     "gemini-1.5-flash-001-tuning",
     "gemini-1.5-flash-8b-exp-0924",

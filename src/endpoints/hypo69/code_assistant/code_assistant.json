@@ -4,7 +4,7 @@
   "model": [ "gemini" ],
 
   "response_mime_type": "text/plain",
-  "gemini_model_name": "gemini-2.5-flash-preview-04-17",
+  "gemini_model_name": "gemini-2.0-flash-exp",
   "process_dirs": [
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\chrome",
