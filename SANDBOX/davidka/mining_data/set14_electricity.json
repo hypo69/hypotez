@@ -1,0 +1,252 @@
+{
+  "products": [
+    {
+      "product_url": "https://www.se.com/ru/ru/product-category/4200-%D0%B2%D1%8B%D1%81%D0%BE%D0%BA%D0%BE%D0%B2%D0%BE%D0%BB%D1%8C%D1%82%D0%BD%D0%BE%D0%B5-%D0%BE%D0%B1%D0%BE%D1%80%D1%83%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8/",
+      "category": "Высоковольтное оборудование"
+    },
+    {
+      "product_url": "https://new.abb.com/medium-voltage/products",
+      "category": "Высоковольтное оборудование"
+    },
+    {
+      "product_url": "https://www.siemens-energy.com/global/en/offerings/power-transmission/high-voltage-products.html",
+      "category": "Высоковольтное оборудование"
+    },
+    {
+      "product_url": "https://ekfgroup.com/catalog/vysokovoltnoe-oborudovanie",
+      "category": "Высоковольтное оборудование"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/nnk_vysokovoltnoe-oborudovanie",
+      "category": "Высоковольтное оборудование"
+    },
+    {
+      "product_url": "https://www.iek.ru/products/catalog/silovoe-oborudovanie-zashchity-i-kommutatsii/vysokovoltnoe-oborudovanie/",
+      "category": "Высоковольтное оборудование"
+    },
+    {
+      "product_url": "https://rusautomatiсs.ru/catalog/elektrotekhnicheskaya-produktsiya/vysokovoltnoe-oborudovanie/",
+      "category": "Высоковольтное оборудование"
+    },
+    {
+      "product_url": "https://www.se.com/ru/ru/product-category/6100-%D0%BD%D0%B8%D0%B7%D0%BA%D0%BE%D0%B2%D0%BE%D0%BB%D1%8C%D1%82%D0%BD%D0%BE%D0%B5-%D0%BE%D0%B1%D0%BE%D1%80%D1%83%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/",
+      "category": "Низковольтное оборудование"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/nnk_nizkovoltnoe-oborudovanie",
+      "category": "Низковольтное оборудование"
+    },
+    {
+      "product_url": "https://ekfgroup.com/catalog/nizkovoltnoe-oborudovanie",
+      "category": "Низковольтное оборудование"
+    },
+    {
+      "product_url": "https://www.iek.ru/products/catalog/modulnoe-oborudovanie/",
+      "category": "Низковольтное оборудование"
+    },
+    {
+      "product_url": "https://www.legrand.ru/products/protective-devices/",
+      "category": "Низковольтное оборудование"
+    },
+    {
+      "product_url": "https://www.electro-mpo.ru/catalog/nizkovoltnoe-oborudovanie/",
+      "category": "Низковольтное оборудование"
+    },
+    {
+      "product_url": "https://tekfor.ru/catalog/nizkovoltnoe_oborudovanie/",
+      "category": "Низковольтное оборудование"
+    },
+    {
+      "product_url": "https://www.chipdip.ru/catalog/measuring-instruments",
+      "category": "Приборы (Измерительные)"
+    },
+    {
+      "product_url": "https://www.tek.com/en/products/oscilloscopes",
+      "category": "Приборы (Измерительные)"
+    },
+    {
+      "product_url": "https://www.keysight.com/ru/ru/products/oscilloscopes.html",
+      "category": "Приборы (Измерительные)"
+    },
+    {
+      "product_url": "https://rusgeocom.ru/catalog/izmeritelnye-pribory",
+      "category": "Приборы (Измерительные)"
+    },
+    {
+      "product_url": "https://www.vseinstrumenti.ru/izmeritelnyj-instrument/elektroizmeritelnye-pribory/",
+      "category": "Приборы (Измерительные)"
+    },
+    {
+      "product_url": "https://prompribor.ru/catalog/kipia/izmeritelnye-pribory/",
+      "category": "Приборы (Измерительные)"
+    },
+    {
+      "product_url": "https://platan.ru/category/izmeritelnye-pribory",
+      "category": "Приборы (Измерительные)"
+    },
+    {
+      "product_url": "https://www.mouser.com/Test-Measurement/Benchtop-Test-Equipment/_/N-5gff",
+      "category": "Приборы (Измерительные)"
+    },
+    {
+      "product_url": "https://www.digikey.com/en/products/category/test-and-measurement/equipment-oscilloscopes/738",
+      "category": "Приборы (Измерительные)"
+    },
+    {
+      "product_url": "https://www.fluke.com/ru-ru/products/electrical-testing",
+      "category": "Приборы (Измерительные)"
+    },
+    {
+      "product_url": "https://ru.megger.com/products/electrical-testers",
+      "category": "Приборы (Измерительные)"
+    },
+    {
+      "product_url": "https://www.siemens.com/global/en/products/automation/industrial-controls.html",
+      "category": "Промышленная электроника (Управление)"
+    },
+    {
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley.html",
+      "category": "Промышленная электроника (Управление)"
+    },
+    {
+      "product_url": "https://new.abb.com/plc",
+      "category": "Промышленная электроника (Управление)"
+    },
+    {
+      "product_url": "https://www.se.com/ru/ru/product-category/4800-%D0%BF%D1%80%D0%BE%D0%BC%D1%8B%D1%88%D0%BB%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-%D0%B8-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5/",
+      "category": "Промышленная электроника (Автоматизация)"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/ru-ru/produkcija/promyslennaja-elektronika",
+      "category": "Промышленная электроника"
+    },
+    {
+      "product_url": "https://www.mouser.com/Semiconductors/Power-Management-ICs/_/N-6j73k",
+      "category": "Промышленная электроника (Компоненты)"
+    },
+    {
+      "product_url": "https://www.digikey.com/en/products/category/semiconductors/power-management-pmic/734",
+      "category": "Промышленная электроника (Компоненты)"
+    },
+    {
+      "product_url": "https://industrial.omron.ru/ru/products/catalogue/automation_systems",
+      "category": "Промышленная электроника (Автоматизация)"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/promavtomatika",
+      "category": "Промышленная электроника (Автоматизация)"
+    },
+    {
+      "product_url": "https://rusautomatiсs.ru/catalog/promyshlennaya-avtomatizatsiya/",
+      "category": "Промышленная электроника (Автоматизация)"
+    },
+    {
+      "product_url": "https://electronshik.ru/catalog/elektronnie-komponenti",
+      "category": "Электронные компоненты"
+    },
+    {
+      "product_url": "https://www.promelec.ru/",
+      "category": "Электронные компоненты"
+    },
+    {
+      "product_url": "https://www.chipdip.ru/catalog/electronic-components",
+      "category": "Электронные компоненты"
+    },
+    {
+      "product_url": "https://platan.ru/category/elektronnye-komponenty",
+      "category": "Электронные компоненты"
+    },
+    {
+      "product_url": "https://www.compel.ru/catalog",
+      "category": "Электронные компоненты"
+    },
+    {
+      "product_url": "https://www.terraelectronica.ru/catalog",
+      "category": "Электронные компоненты"
+    },
+    {
+      "product_url": "https://www.voltmaster.ru/catalog/elektronnye_komponenty/",
+      "category": "Электронные компоненты"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/svetotehnika",
+      "category": "Светотехника"
+    },
+    {
+      "product_url": "https://www.electro-mpo.ru/catalog/svetotekhnika/",
+      "category": "Светотехника"
+    },
+    {
+      "product_url": "https://www.vseinstrumenti.ru/electrika-i-svet/svet/",
+      "category": "Светотехника"
+    },
+    {
+      "product_url": "https://ekfgroup.com/catalog/svetotehnika",
+      "category": "Светотехника"
+    },
+    {
+      "product_url": "https://www.iek.ru/products/catalog/svetotekhnika/",
+      "category": "Светотехника"
+    },
+    {
+      "product_url": "https://jazz-way.com/catalog/svetotehnika",
+      "category": "Светотехника"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/kabelno-provodnikovaya-produktsiya",
+      "category": "Кабельно-проводниковая продукция"
+    },
+    {
+      "product_url": "https://kabel.ru/kabel/",
+      "category": "Кабельно-проводниковая продукция"
+    },
+    {
+      "product_url": "https://www.electro-mpo.ru/catalog/kabelno-provodnikovaya-produkciya/",
+      "category": "Кабельно-проводниковая продукция"
+    },
+    {
+      "product_url": "https://www.vseinstrumenti.ru/electrika-i-svet/kabel-i-provod/",
+      "category": "Кабельно-проводниковая продукция"
+    },
+    {
+      "product_url": "https://ekfgroup.com/catalog/kabelenesuschie-sistemy",
+      "category": "Кабеленесущие системы"
+    },
+    {
+      "product_url": "https://www.dkc.ru/ru/catalog/1/",
+      "category": "Кабеленесущие системы"
+    },
+    {
+      "product_url": "https://www.legrand.ru/products/cable-management/",
+      "category": "Кабеленесущие системы"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/ehlektroustanovochnye-izdeliya",
+      "category": "Электроустановочные изделия"
+    },
+    {
+      "product_url": "https://www.electro-mpo.ru/catalog/elektroustanovochnye-izdeliya/",
+      "category": "Электроустановочные изделия"
+    },
+    {
+      "product_url": "https://www.legrand.ru/products/wiring-devices/",
+      "category": "Электроустановочные изделия"
+    },
+    {
+      "product_url": "https://www.se.com/ru/ru/product-category/1500-%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BE%D1%87%D0%BD%D1%8B%D0%B5-%D0%B8%D0%B7%D0%B4%D0%B5%D0%BB%D0%B8%D1%8F/",
+      "category": "Электроустановочные изделия"
+    },
+    {
+      "product_url": "https://www.gira.com/ru_RU/produkte/schalterprogramme.html",
+      "category": "Электроустановочные изделия"
+    },
+    {
+      "product_url": "https://www.jung.de/ru/online-katalog/60960981/",
+      "category": "Электроустановочные изделия"
+    },
+    {
+      "product_url": "https://www.merten.de/produkte/schalterprogramme.html",
+      "category": "Электроустановочные изделия"
+    }
+  ]
+}

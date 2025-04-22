@@ -1,0 +1,51 @@
+{
+  "scenarios": {
+    "scenario_hb": {
+      "supplier_prefix": "hb",
+      "url": "https://hbdeadsea.co.il/product-category/aromatherapy/diffusers/",
+      "train_product_url": "https://hbdeadsea.co.il/product/%d7%a7%d7%a8%d7%9d-%d7%a8%d7%92%d7%9c%d7%99%d7%99%d7%9d-%d7%90%d7%99%d7%a0%d7%98%d7%a0%d7%a1%d7%99%d7%91%d7%99-%d7%9e%d7%95%d7%a2%d7%a9%d7%a8-%d7%91%d7%91%d7%95%d7%a5-%d7%9e%d7%99%d7%9d-%d7%94%d7%9e-2/",
+      "name": "מפיצי ריח ומילוי",
+      "condition": "new",
+      "presta_categories": {
+        "default_category": 11246,
+        "additional_categories": []
+      }
+    },
+    "scenario_etzmaleh": {
+      "supplier_prefix": "etzmaleh",
+      "url": "https://www.etzmaleh.co.il/montessori_collection",
+      "train_product_url": "https://www.etzmaleh.co.il/montessori_transition_bed",
+      "name": "הקולקציה המונטסורית",
+      "condition": "new",
+      "presta_categories": {
+        "default_category": 11390,
+        "additional_categories": [
+          11389
+        ]
+      }
+    },
+    "scenario_amazon": {
+      "supplier_prefix": "amazon",
+      "url": "https://amzn.to/3OhRz2g",
+      "train_product_url": "https://www.amazon.com/C%C3%A1-dOro-Hippie-Colored-Murano-Style/dp/B09N53XSQB/ref=sr_1_2_sspa?crid=24Q0ZZYVNOQMP&dib=eyJ2IjoiMSJ9.WhN_5Deyh2Yz9gRyrG1anDCr1UB8tnpHH_pJePpURaaciFWg_5Ft0XuS-e3A67g3rO1RECMmgpmRLEJOI7Zj6JyAd9DJh6dLSwUcHgHnJiKhmBmpa-AlDotmiq0-4Q_b90WkEmSsgIzC4L1Yc_KssvHa7bj6LGl6fMM4VuctS4nDQ3vYigYzB3jzP9Q3nT5BRv5_yRigaF-hDpPc0lL5wvo5gQ4i-9Jcy4vHyHNX04ZpoQBXrwcwLo3XWoruWSmnrgvQ5XxRzLntClGxBSN3cTjsunsHYzzKSp_VYx631JM.U1bRX0eDJ5c13nETwkLbN9BPt6-OtTKUvvRQiGodOd0&dib_tag=se&keywords=Art+Deco+murano+glass&linkCode=sl2&linkId=1a5da5b6a02f09a4d8fe47362e06cf3a&qid=1745171225&sprefix=art+deco+murano+glass%2Caps%2C230&sr=8-2-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1",
+      "condition": "new",
+      "presta_categories": {
+        "default_category": 11209,
+        "additional_categories": [
+          11206,
+          11388
+        ]
+      }
+    },
+    "scenario_aliexpress": {
+      "supplier_prefix": "aliexpress",
+      "url": "https://www.aliexpress.com",
+      "train_product_url": "https://www.aliexpress.com/item/1005008108060545.html?spm=a2g0o.tm1000020483.d1.1.28f9474cPkErMV&sourceType=561&pvid=1a630f56-af44-4a5e-8fa6-ba39f7382734&pdp_ext_f=%7B%22ship_from%22:%22CN%22,%22sku_id%22:%2212000043799911402%22%7D&scm=1007.28480.422277.0&scm-url=1007.28480.422277.0&scm_id=1007.28480.422277.0&pdp_npi=4%40dis%21ILS%21%E2%82%AA%20119.48%21%E2%82%AA%2058.54%21%21%21231.15%21113.26%21%402141131717451712898942519ec7de%2112000043799911402%21gsd%21IL%213690978535%21&channel=sd&aecmd=true",
+      "condition": "new",
+      "presta_categories": {
+        "default_category": 4292,
+        "additional_categories": []
+      }
+    }
+  }
+}

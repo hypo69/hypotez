@@ -51,8 +51,8 @@ def string_for_train(data: Union[str, List[str]]) -> str:
     cleaned_text: str = ""
 
     if isinstance(data, str):
-        # Экранирование кавычек
-        cleaned_text = data.replace('"', '\\"')
+        # Экранирование кавычек и очистка от `\n`
+        cleaned_text = data.replace('"', '\\"').replace('\n','')
         # Удаление повторяющихся пробелов и обрезка краев
         cleaned_text = re.sub(r'\s+', ' ', cleaned_text).strip()
         return cleaned_text
@@ -62,14 +62,14 @@ def string_for_train(data: Union[str, List[str]]) -> str:
         for item in data:
             if isinstance(item, str):
                 # Экранирование кавычек
-                cleaned_item = item.replace('"', '\\"')
+                cleaned_item = item.replace('"', '\\"').replace('\n','')
                 # Нормализация пробелов (но не объединение через re.sub пока)
                 processed_items.append(cleaned_item)
             else:
                 # Пропустить нестроковые элементы или обработать иначе?
                 # В текущей реализации они будут проигнорированы при объединении,
                 # но можно добавить логирование или обработку ошибок.
-                pass
+                ...
         # Объединение элементов списка в одну строку через пробел
         cleaned_text = ' '.join(processed_items)
         # Финальное удаление повторяющихся пробелов и обрезка краев всей строки

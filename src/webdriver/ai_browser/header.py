@@ -1,4 +1,4 @@
-## \file /src/scenario/header.py
+## \file /src/webdriver/ai_browser/header.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 

@@ -1,0 +1,22 @@
+{
+  "models_to_use": {
+    "gemini": {
+      "model_name": "gemini-1.5-flash-latest",
+      "status": "active"
+    },
+    "openai": {
+      "model_name": "gpt-4o",
+      "status": "disabled"
+    },
+    "anthropic": {
+      "model_name": "claude-3-opus-20240229",
+      "status": "disabled"
+    }
+  },
+  "product_pages_list": [
+    "https://www.aliexpress.com/item/1005008108060545.html",
+    "https://hbdeadsea.co.il/product/%d7%a7%d7%a8%d7%9d-%d7%a8%d7%92%d7%9c%d7%99%d7%99%d7%9d-%d7%90%d7%99%d7%a0%d7%98%d7%a0%d7%a1%d7%99%d7%91%d7%99-%d7%9e%d7%95%d7%a2%d7%a9%d7%a8-%d7%91%d7%91%d7%95%d7%a5-%d7%9e%d7%99%d7%9d-%d7%94%d7%9e-2/",
+    "https://www.etzmaleh.co.il/montessori_transition_bed",
+    "https://www.amazon.com/C%C3%A1-dOro-Hippie-Colored-Murano-Style/dp/B09N53XSQB/ref=sr_1_2_sspa?crid=24Q0ZZYVNOQMP&dib=eyJ2IjoiMSJ9.WhN_5Deyh2Yz9gRyrG1anDCr1UB8tnpHH_pJePpURaaciFWg_5Ft0XuS-e3A67g3rO1RECMmgpmRLEJOI7Zj6JyAd9DJh6dLSwUcHgHnJiKhmBmpa-AlDotmiq0-4Q_b90WkEmSsgIzC4L1Yc_KssvHa7bj6LGl6fMM4VuctS4nDQ3vYigYzB3jzP9Q3nT5BRv5_yRigaF-hDpPc0lL5wvo5gQ4i-9Jcy4vHyHNX04ZpoQBXrwcwLo3XWoruWSmnrgvQ5XxRzLntClGxBSN3cTjsunsHYzzKSp_VYx631JM.U1bRX0eDJ5c13nETwkLbN9BPt6-OtTKUvvRQiGodOd0&dib_tag=se&keywords=Art+Deco+murano+glass&linkCode=sl2&linkId=1a5da5b6a02f09a4d8fe47362e06cf3a&qid=1745171225&sprefix=art+deco+murano+glass%2Caps%2C230&sr=8-2-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1"
+  ]
+}

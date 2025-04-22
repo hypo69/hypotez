@@ -1,0 +1,676 @@
+{
+  "products": [
+    {
+      "product_url": "https://www.amazon.co.jp/dp/B09QABCD12/",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.amazon.es/dp/B08DEFGH34/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/Wholesale-Custom-Logo-T-Shirt_60800000001.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.zalando.co.uk/mens-leather-jacket-black-xyz/ZAL123456789.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.ottoversand.at/p/kinder-hochbett-weiss-holz-987654321/",
+      "category": "Furniture"
+    },
+    {
+      "product_url": "https://books.rakuten.co.jp/rb/16000002/",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.bol.com/be/nl/p/draadloze-oplader-smartphone/9200000098765432/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://allegro.pl/oferta/damska-torebka-skorzana-czarna-nowa-1212121212",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.walmart.ca/en/ip/blender-10-speed-500w-black/6000200000001",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.etsy.com/de/listing/123456789/personalisierte-holz-uhr-geschenk",
+      "category": "Handmade"
+    },
+    {
+      "product_url": "https://www.mercadolibre.cl/herramienta-multifuncion-18v-inalambrica/p/MLC14000002",
+      "category": "Tools"
+    },
+    {
+      "product_url": "https://www.darty.com/nav/achat/gros_electromenager/lave-linge/lave_linge_hublot/marque_modele_llh123.html",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.ikea.com/fr/fr/p/billy-bibliotheque-blanc-00263850/",
+      "category": "Furniture"
+    },
+    {
+      "product_url": "https://www.ajio.com/brand/embroidered-straight-kurta-blue/p/460000001_blue",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.asos.com/au/womens-swimwear/bikini-top-triangle-red/prd/212121212",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.target.com.au/p/5-piece-cookware-set-stainless-steel/65000001",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.elcorteingles.pt/electrodomesticos/A9B8C7D6E/maquina-cafe-capsulas-vermelha/",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.bestbuy.com/site/external-hard-drive-4tb-usb-3-0/6500002.p?skuId=6500002",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.thomann.de/gb/yamaha_p_45_b_digital_piano.htm",
+      "category": "Musical Instruments"
+    },
+    {
+      "product_url": "https://www.decathlon.co.uk/p/kids-mountain-bike-24-inch-blue/_/R-p-310002",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.fnac.be/a16000002/BD-Aventure-Titre-Serie-Tome-1",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.mediamarkt.es/es/product/_tv-oled-65-pulgadas-smart-tv-4k-uhd-hdr-1500002.html",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.lazada.com.ph/products/gaming-chair-ergonomic-pu-leather-red-i987654321-s123456789.html",
+      "category": "Furniture"
+    },
+    {
+      "product_url": "https://shopee.com.my/product/555555555/6666666666/",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.casasbahia.com.br/geladeira-frost-free-duplex-400l-inox/p/55000002",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.myer.com.au/p/brand-sheet-set-queen-bed-cotton-grey-665544",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.booksamillion.com/p/Fantasy-Novel-Title/Author-Name/9780123456789",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.sephora.com/product/brand-lipstick-matte-red-P450001",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.newegg.ca/Product/Product.aspx?Item=N82E16820232001",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.nike.com/gb/t/air-force-1-07-shoes-WrLlWX/CW2288-111",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.hm.com/de_de/productpage.1010101010.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.zara.com/uk/en/linen-blend-blazer-light-blue-p02222333444.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.yoox.com/us/women/sneakers-leather-white_cod98765432ba.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.tatacliq.com/home-furnishing/brand/double-bedsheet-cotton-floral/p-mp000000012345678",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.skapiec.pl/site/cat/15/comp/88877766",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.homedepot.ca/product/brand-patio-set-4-piece-brown/1001000123",
+      "category": "Furniture"
+    },
+    {
+      "product_url": "https://www.wayfair.co.uk/lighting/pdp/brand-floor-lamp-metal-black-ukwf1234.html",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.bax-shop.nl/dj-controller/pioneer-ddj-400-dj-controller",
+      "category": "Musical Instruments"
+    },
+    {
+      "product_url": "https://www.cultbeauty.com/brand-face-mask-hydrating-50ml/98765432.html",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.fruugo.co.uk/mens-automatic-watch-stainless-steel/p-60000002-110000002",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.chainreactioncycles.com/mobile/brand-mountain-bike-full-suspension-2023/rp-prod123456",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://global.rakuten.com/zh-cn/store/another-store/item/67890-def/",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.ssg.com/item/itemView.ssg?itemId=1000012345678",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.lamoda.ru/p/MP002XM01234/clothes-brand-plate/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.amazon.com.au/dp/B08JUVWXYZ/",
+      "category": "Toys & Games"
+    },
+    {
+      "product_url": "https://www.amazon.com.mx/dp/B07KLMNOPQ/",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.kaufland.cz/product/400222333/",
+      "category": "Groceries & Household"
+    },
+    {
+      "product_url": "https://www.shopbop.com/designer-jeans-skinny-fit-blue/vp/v=1/1500000001.htm",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.petsmart.com/cat/food-and-treats/dry-food/brand-indoor-cat-dry-food-chicken-recipe-5000001.html",
+      "category": "Pet Supplies"
+    },
+    {
+      "product_url": "https://www.dns-shop.ru/product/a1b2c3d4e5f6/smartfon-brand-model-128-gb-sinij/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.ebay.co.uk/itm/223344556677",
+      "category": "Marketplace"
+    },
+    {
+      "product_url": "https://www.sainsburys.co.uk/gol-ui/product/product_id/1234567",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.argos.ie/static/Product/partNumber/8765432.htm",
+      "category": "General Retail"
+    },
+    {
+      "product_url": "https://www.harrods.com/en-gb/shopping/designer-handbag-leather-tote-16000001",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.superdrug.com/toiletries/brand-deodorant-roll-on-sensitive-50ml/p/789012",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.ao.com/product/abc12345wh-brand-fridge-freezer-white-65432.aspx",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.vente-privee.com/ppl/ficheproduit/vente/123456/produit/9876543",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.euronics.de/produkt/haushalt-wohnen/kaffee-tee/kaffeemaschinen/marke-modell-filterkaffeemaschine-schwarz-123456789",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://global.rakuten.com/fr/store/jp-store/item/item-code-123/",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://biccamera.rakuten.co.jp/item/4900000000001/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://interpark.com/product/MallDisplay.do?_method=detail&sc.shopNo=0000100000&firpg=01&sc.prdNo=123456789&sc.dispNo=016001&sc.dispNo=016001",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.lotteon.com/p/product/LO1234567890",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://market.yandex.ru/product--smartfon-brand-model-6-128gb-zelenyi/123456789",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.submarino.com.br/produto/444555666",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.bigw.com.au/product/brand-kids-pajama-set-size-5-dinosaur/p/1234567/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.harveynorman.com.au/brand-curved-gaming-monitor-32-inch.html",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.canadiantire.ca/en/pdp/canvas-outdoor-dining-chair-grey-0880001p.html",
+      "category": "Furniture"
+    },
+    {
+      "product_url": "https://www.londondrugs.com/brand-electric-toothbrush-rechargeable---white/L1234567.html",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.chapters.indigo.ca/en-ca/books/product/9781234567890-item.html",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://us.shein.com/Solid-Rib-knit-Sweater-p-2000002-cat-1734.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.prettylittlething.com/black-slinky-ruched-bodycon-dress.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.ssense.com/en-us/men/product/designer/black-wool-sweater/10000001",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.matchesfashion.com/us/products/Designer-Silk-Scarf-Print/1400001",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.uniqlo.com/jp/ja/products/E450002-000/00",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.acehardware.com/departments/tools/power-tools/drills/1234567",
+      "category": "Tools"
+    },
+    {
+      "product_url": "https://www.diy.com/departments/brand-cordless-combi-drill-18v-2-batteries/5012345678901_BQ.prd",
+      "category": "Tools"
+    },
+    {
+      "product_url": "https://www.ulta.com/p/brand-setting-spray-long-lasting-pimprod2020002",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.flaconi.de/parfum/marke/duftname/marke-duftname-eau-de-parfum-spray.html",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.adorama.com/ISOLDEPMICPRO.html",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.cabelas.com/shop/en/brand-camping-sleeping-bag-0-degree",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.jd-sports.co.uk/product/black-brand-track-pants-mens/16000001/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.foyles.co.uk/witem/fiction-poetry/book-title-hardback,author-name-9780987654321",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.powells.com/book/-9780000000001",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.hugendubel.de/de/buch_kartoniert/autor_name-buch_titel-30000001.html",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.guitarcenter.com/Brand/Acoustic-Electric-Guitar-Natural-1500000000001.gc",
+      "category": "Musical Instruments"
+    },
+    {
+      "product_url": "https://www.thetoyshop.com/brands/BrandName/BrandName-Doll-Playset/p/543210",
+      "category": "Toys & Games"
+    },
+    {
+      "product_url": "https://www.lego.com/es-es/product/tren-mercancias-60198",
+      "category": "Toys & Games"
+    },
+    {
+      "product_url": "https://www.auchan.fr/marque-distributeur-yaourt-nature-bio-4x125g/pr-C1234567",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.coles.com.au/product/brand-bread-wholemeal-sliced-700g-654321",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.publix.com/pd/brand-orange-juice-no-pulp/RIO-PCI-123456",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.petbarn.com.au/brand-dog-treats-dental-sticks-medium-1kg",
+      "category": "Pet Supplies"
+    },
+    {
+      "product_url": "https://www.fressnapf.de/p/marke-katzenstreu-klumpend-15l-1000012345/",
+      "category": "Pet Supplies"
+    },
+    {
+      "product_url": "https://www.canadiantire.ca/en/pdp/motomaster-synthetic-oil-5w-30-5l-0280001p.html",
+      "category": "Auto Parts"
+    },
+    {
+      "product_url": "https://www.rockauto.com/en/parts/ACDELCO,12345678,brake_pad,1684",
+      "category": "Auto Parts"
+    },
+    {
+      "product_url": "https://www.mscdirect.com/product/details/12345678",
+      "category": "Industrial Supplies"
+    },
+    {
+      "product_url": "https://www.amazon.co.uk/dp/B07BBBBBBB/",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.amazon.fr/dp/B09CCCCCCC/",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.amazon.ca/dp/B08DDDDDDD/",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.amazon.com.au/dp/B07EEEEEEE/",
+      "category": "Pet Supplies"
+    },
+    {
+      "product_url": "https://www.amazon.com.mx/dp/B09FFFFFFF/",
+      "category": "Toys & Games"
+    },
+    {
+      "product_url": "https://www.amazon.nl/dp/B08GGGGGGG/",
+      "category": "Tools"
+    },
+    {
+      "product_url": "https://www.amazon.pl/dp/B07HHHHHHH/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.amazon.se/dp/B09IIIIIII/",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.amazon.in/dp/B08JJJJJJJ/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.amazon.sg/dp/B07KKKKKKK/",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.amazon.ae/dp/B09LLLLLLL/",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.amazon.sa/dp/B08MMMMMMM/",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.amazon.com.tr/dp/B07NNNNNNN/",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.jumia.co.ke/brand-model-blender-1.5l-white-sku123456.html",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.takealot.com/russell-hobbs-steam-iron-purple/PLID98765432",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://shopee.ph/product/777777777/8888888888/",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://bukalapak.com/p/fashion-wanita/tas-wanita/dompet/abcde123-jual-dompet-kulit-asli",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.noon.com/saudi-en/product-slug/N98765432B/p/",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.snapdeal.com/product/brand-formal-shoes-men-black/650000000001",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.citilink.ru/product/videokarta-brand-model-8gb-gddr6-1000001/",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.mall.cz/vysavace/brand-model-roboticky-vysavac",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.morele.net/procesor-brand-model-16-rdzeni-3-5ghz-box-1234567/",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.proshop.de/Produkt/1234567",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.jimms.fi/fi/Product/Show/123456/brand-model-naytonohjain-rtx4070-12gb",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.inet.se/produkt/1234567/brand-model-tangentbord-gaming-rgb-mx-brown",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.coolblue.be/nl/product/800002/brand-laptop-15-inch-intel-i5.html",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.saturn.at/de/product/_brand-smartwatch-gps-schwarz-1800001.html",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.digitec.ch/de/s1/product/marke-modell-drucker-laser-multifunktion-wlan-14000002",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.worten.es/productos/electrodomesticos/pequenos-electrodomesticos/cafeteras/cafetera-automatica-marca-modelo-inox-7000001",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.pcdiga.com/componentes/placas-graficas/placa-grafica-brand-model-oc-16gb-gddr6x-123456789",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.ldlc.com/fiche/PB00123456.html",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.overclockers.co.uk/detail/index/sArticle/123456",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.scan.co.uk/products/123456/brand-model-32gb-ddr5-6000mhz-ram-kit-2x16gb",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.microcenter.com/product/650001/brand-model-ssd-1tb-nvme-pcie-40",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.bhphotovideo.com/c/product/1600001-REG/brand_model_portable_ssd_2tb.html",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.lulus.com/products/romance-language-black-floral-print-maxi-dress/678902.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.urbanoutfitters.com/shop/vinyl-record-artist-album",
+      "category": "Music"
+    },
+    {
+      "product_url": "https://www.anthropologie.com/shop/textured-ceramic-vase-blue",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.freepeople.com/shop/fp-movement-way-home-shorts/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.gap.com/browse/product.do?pid=123456001",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://oldnavy.gap.com/browse/product.do?pid=654321002",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://bananarepublic.gap.com/browse/product.do?pid=987654003",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.athleta.gap.com/browse/product.do?pid=111222004",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.jcrew.com/p/mens/categories/clothing/shirts/casual-shirts/slim-untucked-stretch-secret-wash-shirt-in-gingham/BD123",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.madewell.com/the-perfect-vintage-jean-in-fitzgerald-wash-NA001.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.talbots.com/clothing/sweaters/cardigans/charming-cardigan/P123456789.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.llbean.com/llb/shop/12345?page=bean-boots-8-inch",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.eddiebauer.com/p/12345678/men-s-cirruslite-down-jacket",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.landsend.com/products/womens-starfish-mid-rise-straight-leg-elastic-waist-pull-on-pants/id_248523",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.columbia.com/p/mens-watertight-ii-jacket-1533891.html",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.patagonia.com/product/mens-better-sweater-quarter-zip-fleece/25523.html",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.thenorthface.com/en-us/shop/mens-borealis-backpack-nf0a52qv",
+      "category": "Accessories"
+    },
+    {
+      "product_url": "https://www.underarmour.com/en-us/p/shoes/mens_ua_charged_assert_9_running_shoes/3024590.html",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.puma.com/us/en/pd/suede-classic-xxi-mens-sneakers/374915.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.reebok.com/p/100000001/club-c-85-vintage-shoes",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.newbalance.com/pd/fresh-foam-x-880v13/M880V13-40001.html",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.converse.com/shop/p/chuck-taylor-all-star-classic-unisex-high-top-shoe/M9160.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.vans.com/en-us/shoes-c00081/old-skool-shoe-pvn000d3hy28",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.timberland.com/shop/mens-6-inch-premium-waterproof-boots-wheat-10061024",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.drmartens.com/us/en/1460-smooth-leather-lace-up-boots/p/11822006",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.ugg.com/men-slippers/scuff/1101111.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.birkenstock.com/us/arizona-essentials-eva/arizonaeva-essentials-eva-0-0-00-u_1.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.crocs.com/p/classic-clog/10001.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.dsw.com/en/us/product/brand-womens-pump-black/123456",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.famousfootwear.com/product/womens-brand-sandal-brown-5212345/12345",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.journeys.com/product/mens-brand-skate-shoe-black-white-394123",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.finishline.com/store/product/mens-brand-basketball-shoes/prod1234567",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.footlocker.com/product/~/12345678.html",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.champssports.com/product/model/mens-brand-running-shoes/sku/CP123456.html",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.dickssportinggoods.com/p/brand-baseball-glove-11-5-inch-16brfa115fldglvbbbg/16brfa115fldglvbbbg",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.big5sportinggoods.com/store/details/brand-soccer-ball-size-5/123456789",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.scheels.com/p/brand-fishing-rod-spinning-combo/1234-5678-ABCD.html",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.basspro.com/shop/en/brand-casting-reel",
+      "category": "Sports & Outdoors"
+    }
+  ]
+}

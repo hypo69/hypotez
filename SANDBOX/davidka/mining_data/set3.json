@@ -1,0 +1,796 @@
+{
+  "products": [
+    {
+      "product_url": "https://www.amazon.co.jp/dp/B08STUVW14/",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.amazon.es/dp/B09TUVWXYZ78/",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://made-in-china.com/product-directory/prod_Industrial-Robot-Arm_hot-jtynqnr.html",
+      "category": "Industrial Supplies"
+    },
+    {
+      "product_url": "https://www.zalando.it/scarpe-uomo-eleganti-pelle-nera/ZAL112233445.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.bader.de/shop/produkt/essgruppe-tisch-4-stuehle-eiche-optik-12345678",
+      "category": "Furniture"
+    },
+    {
+      "product_url": "https://www.kinokuniya.co.jp/f/dsg-01-9784000000004",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.bol.com/be/fr/p/roman-graphique-aventure-fantastique/3003003003003003/",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://allegro.pl/oferta/sluchawki-gamingowe-z-mikrofonem-rgb-usb-1414141414",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://super.walmart.com.mx/ip/detergente-liquido-ropa-color-3l/00750100000001",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.etsy.com/uk/listing/1122334455/personalised-leather-journal-notebook",
+      "category": "Handmade"
+    },
+    {
+      "product_url": "https://www.mercadolibre.com.pe/tablet-grafica-digitalizadora-10-pulgadas/p/MPE11000004",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.fnacdarty.com/produit/marque-aspirateur-balai-sans-fil-autonomie-45min-ref456",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.ikea.com/ca/en/p/kallax-shelf-unit-white-80275887/",
+      "category": "Furniture"
+    },
+    {
+      "product_url": "https://www.snapdeal.com/product/brand-casual-shirt-men-checkered/660000000002",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.asos.com/fr/femme/bijoux/collier-argent-plaque-or/prd/232323232",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.biglots.com/product/patio-umbrella-9ft-tilt-crank-navy/prod123456",
+      "category": "Garden & Outdoors"
+    },
+    {
+      "product_url": "https://www.elcorteingles.es/electronica/A2345678C/camara-deportiva-4k-wifi-sumergible/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.bestbuy.ca/en-ca/product/brand-portable-bluetooth-speaker-water-resistant-blue/16000004",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.thomann.de/fr/alesis_recital_pro.htm",
+      "category": "Musical Instruments"
+    },
+    {
+      "product_url": "https://www.decathlon.pl/p/rolki-fitness-damskie-rozmiar-39/_/R-p-330004",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.fnac.ch/a18000004/Livre-Cuisine-Vegetarienne-Recettes-Faciles",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.mediamarkt.at/de/product/_produkt-beschreibung-kaffeemaschine-pads-1700004.html",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.lazada.vn/products/balo-laptop-chong-tham-nuoc-mau-xam-i123123123-s456456456.html",
+      "category": "Accessories"
+    },
+    {
+      "product_url": "https://shopee.co.id/product/232323232/4545454545/",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.magazineluiza.com.br/fritadeira-eletrica-sem-oleo-air-fryer-4l-preta/p/23000003/ep/mael/",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.zanui.com.au/brand-dining-chair-set-of-2-fabric-grey-123456.html",
+      "category": "Furniture"
+    },
+    {
+      "product_url": "https://www.abebooks.com/servlet/BookDetailsPL?bi=12345678901",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.cultbeauty.co.uk/brand-cleansing-balm-100ml/11223344.html",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.newegg.ca/Product/Product.aspx?Item=N82E16824011001",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.adidas.de/samba-og-schuh/B75806.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.hm.com/nl_nl/productpage.1212121212.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.zara.com/au/en/basic-puffer-jacket-black-p04444555666.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.yoox.com/jp/men/t-shirt-cotton-print_cod98765432xy.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.pantaloons.com/c/men/footwear/casual-shoes/product-name-brand-P123456",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.mediaexpert.pl/telewizory-i-rtv/telewizory/telewizor-brand-model-led-55-4k-smart",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/power-tools/drills-drivers/cordless-drills-drivers/18v-cordless-drill-driver-kit-62873.html",
+      "category": "Tools"
+    },
+    {
+      "product_url": "https://www.wayfair.com/rugs/pdp/brand-area-rug-abstract-blue-grey-8x10-w005432109.html",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.pmtonline.co.uk/brand-keyboard-synthesizer-61-key",
+      "category": "Musical Instruments"
+    },
+    {
+      "product_url": "https://www.beautybay.com/p/brand-name/product-highlighter-palette/",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.fruugo.it/occhiali-da-sole-uomo-polarizzati-nero/p-80000004-130000004",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.evanscycles.com/brand-hybrid-bike-mens-2023-EV123456",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://global.rakuten.com/pt/store/another-store-jp/item/item-code-111/",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.hmall.com/pd/1000012345",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.rivegauche.ru/product/brand-tush-dlya-resnits-chernaya-123456789",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.amazon.com.br/dp/B08QWERTYU/",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.amazon.in/dp/B07ASDFGHJ/",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.kaufland.ro/product/600444555/",
+      "category": "Groceries & Household"
+    },
+    {
+      "product_url": "https://www.intermixonline.com/designer/brand/product-name-silk-blouse/123456.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.petsathome.com/shop/en/pets/cat/cat-food/dry-cat-food/brand-adult-cat-biscuits-salmon-2kg",
+      "category": "Pet Supplies"
+    },
+    {
+      "product_url": "https://www.eldorado.ru/cat/detail/noutbuk-igrovoi-brand-model-15-6-ips-i5-rtx3060/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.ebay.it/itm/445566778899",
+      "category": "Marketplace"
+    },
+    {
+      "product_url": "https://www.morrisons.com/groceries/product/brand-baked-beans-in-tomato-sauce/123456789",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.gamestop.ie/Nintendo%20Switch/Games/76543/brand-game-title-switch",
+      "category": "Video Games"
+    },
+    {
+      "product_url": "https://www.houseoffraser.co.uk/brand/product-name-towels-grey-dl123456",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.lloydspharmacy.com/en/product-name-details",
+      "category": "Health & Pharmacy"
+    },
+    {
+      "product_url": "https://www.littlewoods.com/brand-armchair-fabric-teal/prod123456789.prd",
+      "category": "Furniture"
+    },
+    {
+      "product_url": "https://www.veepee.fr/gr/product/details/12345678",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.euronics.it/informatica/pc-desktop/pc-gaming/marca-modello-pc-gaming-i7-rtx4070/eProd12345678/",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.buyma.com/item/123456789/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://wowma.jp/item/123456789",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://auctions.yahoo.co.jp/jp/auction/g123456789",
+      "category": "Marketplace"
+    },
+    {
+      "product_url": "https://lohaco.jp/product/1234567/",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://goods.ru/catalog/details/planshet-brand-model-10-1-64gb-lte-seryi-100000000123/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.shoptime.com.br/produto/777888999",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.officeworks.com.au/shop/officeworks/p/brand-wireless-mouse-ergonomic-black-brwmergblk",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.noelleeming.co.nz/p/brand-smart-watch-gps-silver/N123456.html",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.atmosphere.ca/categories/gear-by-activity/camp-hike/sleeping-bags/product/brand-sleeping-bag-mummy-minus-10c-333111222.html",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://shoppersdrugmart.ca/en/food/pantry/cereal-granola/brand-oatmeal-instant-variety-pack/p/BB_012345678901",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.mec.ca/en/product/5050-123/brand-backpack-daypack-25l",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.zaful.com/plaid-print-button-up-shacket-p_1234567.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.nastygal.com/gb/faux-leather-straight-leg-trousers/AGG12345.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://modesens.com/product/designer-wool-blend-coat-camel-12345678/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.italist.com/us/women/clothing/coats/product-slug/11223344/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.uniqlo.com/fr/fr/products/E470004-000/00",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.northerntool.com/shop/tools/product_123456_123456",
+      "category": "Tools"
+    },
+    {
+      "product_url": "https://www.toolstation.com/brand-cordless-impact-driver-18v-bare/p12345",
+      "category": "Tools"
+    },
+    {
+      "product_url": "https://www.sallybeauty.com/hair-color/shop-by-type/permanent-hair-color/brand-color-creme-5n-light-brown/SBS-123456.html",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.lookfantastic.fr/brand-masque-cheveux-reparateur-200ml/11223344.html",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.parfumo.de/Parfums/Marke/Duftname",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.amazon.com/AmazonBasics-AA-Performance-Alkaline-Batteries/dp/B00NTCH50U",
+      "category": "Household Supplies"
+    },
+    {
+      "product_url": "https://www.target.com/p/up-up-facial-tissues-flat-box-160ct/-/A-13970001",
+      "category": "Household Supplies"
+    },
+    {
+      "product_url": "https://www.walmart.com/ip/Great-Value-Paper-Towels-6-Double-Rolls/16890276",
+      "category": "Household Supplies"
+    },
+    {
+      "product_url": "https://www.costco.com/kirkland-signature-bath-tissue%2c-2-ply%2c-425-sheets%2c-30-count.product.100373585.html",
+      "category": "Household Supplies"
+    },
+    {
+      "product_url": "https://www.samsclub.com/p/members-mark-power-flex-tall-kitchen-bags-13-gallon-200-ct/prod20341110",
+      "category": "Household Supplies"
+    },
+    {
+      "product_url": "https://www.instacart.com/store/items/item_123456789",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.freshdirect.com/product/view.jsp?productId=sku1234567",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://thrivemarket.com/p/thrive-market-organic-coconut-oil-virgin",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.wholefoodsmarket.com/product/365-by-whole-foods-market-organic-almond-butter-creamy-16-oz-b074h5bxsd",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.traderjoes.com/home/products/pdp/mandarin-orange-chicken-01848",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.aldi.us/products/fresh-produce/fruits/detail/ps/p/strawberries-1-lb-package/",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.lidl.com/products/123456",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.safeway.com/shop/product-details.960000001.html",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.albertsons.com/shop/product-details.970000002.html",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.vons.com/shop/product-details.980000003.html",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.jewelosco.com/shop/product-details.990000004.html",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.shaws.com/shop/product-details.1000000005.html",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.starmarket.com/shop/product-details.1100000006.html",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.acmemarkets.com/shop/product-details.1200000007.html",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.foodlion.com/product/nature-s-promise-organic-milk-whole-gallon/1234567.uts",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.giantfood.com/product/giant-natural-spring-water-24-pack-16-9-oz-bottles/123456",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://stopandshop.com/product/stop-shop-italian-bread/123456",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.hannaford.com/product/hannaford-premium-orange-juice-no-pulp/123456",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://weiscomfortfood.com/product/weis-quality-ice-cream-vanilla-bean-48-oz/123456",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://shop.wegmans.com/product/12345",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.heb.com/product-detail/h-e-b-cafe-ole-taste-of-san-antonio-medium-roast-ground-coffee/1234567",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.kroger.com/p/simple-truth-organic-cage-free-large-brown-eggs/0001111000123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.ralphs.com/p/kroger-party-pail-chocolate-ice-cream/0001111050123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.qfc.com/p/private-selection-tuscan-style-sliced-italian-bread/0001111080123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.frysfood.com/p/kroger-deluxe-sharp-cheddar-macaroni-cheese-dinner/0001111070123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.smithsfoodanddrug.com/p/simple-truth-organic-baby-spinach/0001111090123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.kingsoopers.com/p/kroger-carbmaster-white-bread/0001111060123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.citymarket.com/p/private-selection-mediterranean-inspired-thin-crust-pizza/0001111055123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.dillons.com/p/kroger-original-sour-cream/0001111040123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.gerbes.com/p/kroger-cottage-cheese-small-curd-4-milkfat-minimum/0001111030123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.bakersplus.com/p/kroger-string-cheese-low-moisture-part-skim-mozzarella/0001111020123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.pay-less.com/p/kroger-greek-yogurt-plain-nonfat/0001111010123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.marianos.com/p/private-selection-denali-extreme-maximum-fudge-moose-tracks-ice-cream/0001111005123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.metromarket.net/p/kroger-butter-salted-sweet-cream/0001111000012",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.picknsave.com/p/simple-truth-natural-hickory-smoked-uncured-bacon/0001111095123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.copps.com/p/kroger-pepperoni/0001111075123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.jaycfoods.com/p/kroger-boneless-skinless-chicken-breasts/0001111065123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.owensmarket.com/p/kroger-80-lean-ground-beef-fresh/0001111050012",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.fredmeyer.com/p/simple-truth-organic-whole-fryer-chicken/0001111085123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.foodsco.net/p/kroger-cola/0001111035123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.meijer.com/shopping/product/meijer-shredded-mild-cheddar-cheese-16-oz/71928312345.html",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.hy-vee.com/aisles-online/p/1234567/Hy-Vee-Grade-A-Large-Eggs-18-Count",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.wincoFoods.com/product/winco-foods-macaroni-cheese-dinner-original-7-25-oz",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.staterbros.com/product/stater-bros-markets-long-grain-enriched-rice-5-lb/",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.smartandfinal.com/shop/product/first-street-extra-virgin-olive-oil-3-liter/123456",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.food4less.com/p/kroger-potato-chips-classic-wavy/0001111088123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.foodscomarkets.com/p/kroger-pretzel-twists/0001111077123",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.walmart.com/plus",
+      "category": "Subscription Service"
+    },
+    {
+      "product_url": "https://www.amazon.com/amazonprime",
+      "category": "Subscription Service"
+    },
+    {
+      "product_url": "https://www.netflix.com/",
+      "category": "Streaming Service"
+    },
+    {
+      "product_url": "https://www.hulu.com/",
+      "category": "Streaming Service"
+    },
+    {
+      "product_url": "https://www.disneyplus.com/",
+      "category": "Streaming Service"
+    },
+    {
+      "product_url": "https://tv.apple.com/",
+      "category": "Streaming Service"
+    },
+    {
+      "product_url": "https://www.max.com/",
+      "category": "Streaming Service"
+    },
+    {
+      "product_url": "https://www.paramountplus.com/",
+      "category": "Streaming Service"
+    },
+    {
+      "product_url": "https://www.peacocktv.com/",
+      "category": "Streaming Service"
+    },
+    {
+      "product_url": "https://www.spotify.com/us/premium/",
+      "category": "Streaming Service"
+    },
+    {
+      "product_url": "https://music.apple.com/us/browse",
+      "category": "Streaming Service"
+    },
+    {
+      "product_url": "https://music.amazon.com/unlimited",
+      "category": "Streaming Service"
+    },
+    {
+      "product_url": "https://music.youtube.com/premium",
+      "category": "Streaming Service"
+    },
+    {
+      "product_url": "https://tidal.com/",
+      "category": "Streaming Service"
+    },
+    {
+      "product_url": "https://soundcloud.com/go",
+      "category": "Streaming Service"
+    },
+    {
+      "product_url": "https://zoom.us/pricing",
+      "category": "Software & Services"
+    },
+    {
+      "product_url": "https://slack.com/pricing",
+      "category": "Software & Services"
+    },
+    {
+      "product_url": "https://www.microsoft.com/en-us/microsoft-365/buy/compare-all-microsoft-365-products",
+      "category": "Software & Services"
+    },
+    {
+      "product_url": "https://workspace.google.com/pricing.html",
+      "category": "Software & Services"
+    },
+    {
+      "product_url": "https://www.dropbox.com/individual/plans-comparison",
+      "category": "Software & Services"
+    },
+    {
+      "product_url": "https://www.adobe.com/creativecloud/plans.html",
+      "category": "Software & Services"
+    },
+    {
+      "product_url": "https://www.autodesk.com/products/autocad/subscribe",
+      "category": "Software & Services"
+    },
+    {
+      "product_url": "https://unity.com/pricing",
+      "category": "Software & Services"
+    },
+    {
+      "product_url": "https://www.unrealengine.com/en-US/license",
+      "category": "Software & Services"
+    },
+    {
+      "product_url": "https://github.com/pricing",
+      "category": "Software & Services"
+    },
+    {
+      "product_url": "https://about.gitlab.com/pricing/",
+      "category": "Software & Services"
+    },
+    {
+      "product_url": "https://bitbucket.org/product/pricing",
+      "category": "Software & Services"
+    },
+    {
+      "product_url": "https://aws.amazon.com/s3/pricing/",
+      "category": "Cloud Services"
+    },
+    {
+      "product_url": "https://cloud.google.com/storage/pricing",
+      "category": "Cloud Services"
+    },
+    {
+      "product_url": "https://azure.microsoft.com/en-us/pricing/details/storage/blobs/",
+      "category": "Cloud Services"
+    },
+    {
+      "product_url": "https://www.digitalocean.com/pricing/droplets",
+      "category": "Cloud Services"
+    },
+    {
+      "product_url": "https://www.linode.com/pricing/",
+      "category": "Cloud Services"
+    },
+    {
+      "product_url": "https://www.heroku.com/pricing",
+      "category": "Cloud Services"
+    },
+    {
+      "product_url": "https://vercel.com/pricing",
+      "category": "Cloud Services"
+    },
+    {
+      "product_url": "https://www.netlify.com/pricing/",
+      "category": "Cloud Services"
+    },
+    {
+      "product_url": "https://firebase.google.com/pricing",
+      "category": "Cloud Services"
+    },
+    {
+      "product_url": "https://supabase.com/pricing",
+      "category": "Cloud Services"
+    },
+    {
+      "product_url": "https://render.com/pricing",
+      "category": "Cloud Services"
+    },
+    {
+      "product_url": "https://fly.io/pricing",
+      "category": "Cloud Services"
+    },
+    {
+      "product_url": "https://www.cloudflare.com/plans/",
+      "category": "Cloud Services"
+    },
+    {
+      "product_url": "https://godaddy.com/hosting/web-hosting",
+      "category": "Web Hosting"
+    },
+    {
+      "product_url": "https://www.bluehost.com/hosting/shared",
+      "category": "Web Hosting"
+    },
+    {
+      "product_url": "https://www.hostgator.com/web-hosting",
+      "category": "Web Hosting"
+    },
+    {
+      "product_url": "https://www.siteground.com/web-hosting.htm",
+      "category": "Web Hosting"
+    },
+    {
+      "product_url": "https://www.dreamhost.com/hosting/shared/",
+      "category": "Web Hosting"
+    },
+    {
+      "product_url": "https://www.inmotionhosting.com/shared-hosting",
+      "category": "Web Hosting"
+    },
+    {
+      "product_url": "https://a2hosting.com/web-hosting",
+      "category": "Web Hosting"
+    },
+    {
+      "product_url": "https://www.namecheap.com/hosting/shared/",
+      "category": "Web Hosting"
+    },
+    {
+      "product_url": "https://www.hostinger.com/web-hosting",
+      "category": "Web Hosting"
+    },
+    {
+      "product_url": "https://kinsta.com/plans/",
+      "category": "Web Hosting"
+    },
+    {
+      "product_url": "https://wpengine.com/plans/",
+      "category": "Web Hosting"
+    },
+    {
+      "product_url": "https://www.squarespace.com/pricing",
+      "category": "Website Builder"
+    },
+    {
+      "product_url": "https://www.wix.com/premium-purchase-plan/dynamo",
+      "category": "Website Builder"
+    },
+    {
+      "product_url": "https://www.shopify.com/pricing",
+      "category": "eCommerce Platform"
+    },
+    {
+      "product_url": "https://www.bigcommerce.com/pricing/",
+      "category": "eCommerce Platform"
+    },
+    {
+      "product_url": "https://squareup.com/us/en/online-store/pricing",
+      "category": "eCommerce Platform"
+    },
+    {
+      "product_url": "https://godaddy.com/websites/website-builder/plans-and-pricing",
+      "category": "Website Builder"
+    },
+    {
+      "product_url": "https://wordpress.com/pricing/",
+      "category": "Website Builder"
+    },
+    {
+      "product_url": "https://webflow.com/pricing",
+      "category": "Website Builder"
+    },
+    {
+      "product_url": "https://mailchimp.com/pricing/",
+      "category": "Marketing Software"
+    },
+    {
+      "product_url": "https://www.constantcontact.com/pricing",
+      "category": "Marketing Software"
+    },
+    {
+      "product_url": "https://www.hubspot.com/pricing/marketing",
+      "category": "Marketing Software"
+    },
+    {
+      "product_url": "https://www.salesforce.com/editions-pricing/marketing-cloud/account-engagement/",
+      "category": "Marketing Software"
+    },
+    {
+      "product_url": "https://zapier.com/pricing",
+      "category": "Automation Software"
+    },
+    {
+      "product_url": "https://www.make.com/en/pricing",
+      "category": "Automation Software"
+    },
+    {
+      "product_url": "https://ifttt.com/plans",
+      "category": "Automation Software"
+    },
+    {
+      "product_url": "https://pipedream.com/pricing",
+      "category": "Automation Software"
+    }
+  ]
+}

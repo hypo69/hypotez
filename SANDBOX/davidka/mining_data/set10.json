@@ -1,0 +1,744 @@
+{
+  "products": [
+    {
+      "product_url": "https://www.amazon.co.jp/dp/B07CCCCCC/",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.amazon.es/dp/B09EEEEEEE/",
+      "category": "Toys & Games"
+    },
+    {
+      "product_url": "https://www. Alibaba.com/product-detail/Factory-Price-Custom-Design-Metal-Keychain_62000000002.html",
+      "category": "Accessories"
+    },
+    {
+      "product_url": "https://www.zalando.co.uk/womens-handbag-leather-crossbody-tan/ZAL12345678A.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.ottoversand.at/p/gartentisch-ausziehbar-aluminium-anthrazit-98765432A/",
+      "category": "Garden & Outdoors"
+    },
+    {
+      "product_url": "https://books.rakuten.co.jp/event/book/genre/computer/",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.bol.com/nl/nl/l/sportvoeding/N/18210/",
+      "category": "Sports Nutrition"
+    },
+    {
+      "product_url": "https://allegro.pl/kategoria/dom-i-ogrod-posciel-12121",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.walmart.com.mx/ip/colchon-individual-memory-foam-marca/0009876543210",
+      "category": "Furniture"
+    },
+    {
+      "product_url": "https://www.etsy.com/de/listing/12345678A/handgefertigte-silber-ohrringe-naturstein",
+      "category": "Handmade"
+    },
+    {
+      "product_url": "https://www.mercadolibre.cl/set-ollas-acero-inoxidable-7-piezas-tramontina/p/MLC1500000B",
+      "category": "Kitchenware"
+    },
+    {
+      "product_url": "https://www.darty.com/nav/achat/petit_electromenager/beaute_feminine/epilateur/marque_epilateur_lumiere_pulsee.html",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.ikea.com/se/sv/p/ivar-skapa-furu-40033763/",
+      "category": "Furniture"
+    },
+    {
+      "product_url": "https://www.ajio.com/men-watches/c/830216001",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.asos.com/au/men/shoes/boots/chelsea-boots-suede-brown/prd/303030303",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.target.com.au/p/school-backpack-navy-blue/67000003",
+      "category": "Accessories"
+    },
+    {
+      "product_url": "https://www.elcorteingles.pt/beleza/A1C2E3G4I/creme-rosto-anti-idade-dia-50ml/",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.bestbuy.com/site/all-refrigerators/french-door-refrigerators/pcmcat247400050015.c?id=pcmcat247400050015",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.thomann.de/gb/audio_interfaces_usb.html",
+      "category": "Musical Instruments"
+    },
+    {
+      "product_url": "https://www.decathlon.co.uk/p/yoga-mat-5mm-comfort-grey/_/R-p-390010",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.fnac.be/SearchResult/ResultList.aspx?SCat=BOOK&Search=thriller&sft=1&sa=0",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.mediamarkt.es/es/category/_drones-708.html",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.lazada.com.ph/products/gaming-mouse-pad-rgb-large-extended-size-i101010101-s202020202.html",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://shopee.com.my/product/909090909/1111111111/",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.casasbahia.com.br/moveis/guardaroupa/guarda-roupa-casal-6-portas-2-gavetas-branco-marca-modelo/p/5500000005",
+      "category": "Furniture"
+    },
+    {
+      "product_url": "https://www.myer.com.au/c/home/kitchen-dining/dinnerware",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.booksamillion.com/search?filter=product_type%3Abooks%3Bformat%3Apaperback&query=mystery",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.sephora.com/shop/fragrance-sampler-sets",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.newegg.ca/Processors-Desktops/SubCategory/ID-343",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.adidas.com/us/men-shoes",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.hm.com/fr_fr/femme/shop-par-produit/robes.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.zara.com/ca/en/man-shoes-l748.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.yoox.com/de/damen/shoponline/schuhe_mc",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.tatacliq.com/electronics/c-c01",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.ceneo.pl/Sport_i_rekreacja",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.homedepot.ca/en/home/categories/outdoors/patio-furniture.html",
+      "category": "Furniture"
+    },
+    {
+      "product_url": "https://www.wayfair.co.uk/decor-pillows/cat/decorative-pillows-c477231.html",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.bax-shop.nl/studio-monitoren",
+      "category": "Musical Instruments"
+    },
+    {
+      "product_url": "https://www.cultbeauty.com/skincare/cleansers.list",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.fruugo.co.uk/toys-games/building-construction-toys/c-6300-8000",
+      "category": "Toys & Games"
+    },
+    {
+      "product_url": "https://www.chainreactioncycles.com/mobile/clothing/jerseys-cycle",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://global.rakuten.com/en/category/403290/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.ssg.com/disp/category.ssg?dispCtgId=6000094711",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.lamoda.ru/c/4153/default-women/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.amazon.ca/dp/B09ASDFGHJ/",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.amazon.com.mx/dp/B07BNMZXCV/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.kaufland.pl/oferta/artykuly-spozywcze.html",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.shopbop.com/clothing-dresses/br/v=1/13534.htm",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.petsmart.ca/fish/food-and-care/food/",
+      "category": "Pet Supplies"
+    },
+    {
+      "product_url": "https://www.dns-shop.ru/catalog/17a89aab16404e77/videokarty/",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.ebay.de/sch/i.html?_nkw=playstation+5&_sacat=0",
+      "category": "Video Games"
+    },
+    {
+      "product_url": "https://www.tesco.com/groceries/en-GB/shop/fresh-food/all",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.argos.co.uk/browse/technology/laptops-and-pcs/laptops/c:30017/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.harrods.com/en-gb/shopping/men-shoes-sneakers",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.superdrug.com/skin/c/skin",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.ao.com/l/dishwashers/1/10-15-32/",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.vente-privee.com/home/default.aspx",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.euronics.de/produkt/haushalt-wohnen/saugen-reinigen/staubsauger/alle-staubsauger",
+      "category": "Home Appliances"
+    },
+    {
+      "product_url": "https://www.rakuten.com/category/13/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://biccamera.rakuten.co.jp/category/kaden/tv/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://interpark.com/display/sellerAllGoodsAjax.do?_method=main&sc.entNo=12345&sc.supplyCury=KRW&sc.page=1&sc.row=40&_style=list",
+      "category": "General Merchandise"
+    },
+    {
+      "product_url": "https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q=shoes",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://market.yandex.ru/catalog--smartfony/54726/list?hid=91491",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.submarino.com.br/categoria/livros",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.bigw.com.au/c/toys/lego",
+      "category": "Toys & Games"
+    },
+    {
+      "product_url": "https://www.harveynorman.com.au/computers-tablets/computers/laptops",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.canadiantire.ca/en/automotive/tires-wheels.html",
+      "category": "Auto Parts"
+    },
+    {
+      "product_url": "https://www.londondrugs.com/electronics/cameras/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.chapters.indigo.ca/en-ca/home/decor/",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://us.shein.com/Women-Sweaters-c-1734.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.prettylittlething.com.au/shop-by/clothing/tops.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.ssense.com/en-us/women/shoes",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.matchesfashion.com/us/womens/shop/bags",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.uniqlo.com/jp/ja/men/bottoms",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.acehardware.com/departments/outdoor-living/grills-and-smokers",
+      "category": "Garden & Outdoors"
+    },
+    {
+      "product_url": "https://www.diy.com/departments/building-supplies/timber-sheet-materials/c/1000150",
+      "category": "Home Improvement"
+    },
+    {
+      "product_url": "https://www.ulta.com/shop/makeup/face/foundation",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.flaconi.de/make-up/",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.adorama.com/l/Computers/Computer-Components",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.cabelas.com/shop/en/hunting",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.jd-sports.co.uk/mens/mens-footwear/trainers/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.foyles.co.uk/all?term=graphic+novels",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.powells.com/section/science-fiction",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.hugendubel.de/de/category/10/kinderbuecher_jugendbuecher.html",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.guitarcenter.com/Drums-Percussion.gc",
+      "category": "Musical Instruments"
+    },
+    {
+      "product_url": "https://www.thetoyshop.com/c/brands",
+      "category": "Toys & Games"
+    },
+    {
+      "product_url": "https://www.lego.com/en-us/themes/star-wars",
+      "category": "Toys & Games"
+    },
+    {
+      "product_url": "https://www.auchan.fr/epicerie-sucree/petit-dejeuner/c-118709",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.coles.com.au/browse/dairy-eggs-fridge",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.publix.com/products-services/bakery",
+      "category": "Groceries"
+    },
+    {
+      "product_url": "https://www.petbarn.com.au/dogs/dog-toys",
+      "category": "Pet Supplies"
+    },
+    {
+      "product_url": "https://www.fressnapf.de/c/katze/kratzmoebel/",
+      "category": "Pet Supplies"
+    },
+    {
+      "product_url": "https://www.canadiantire.ca/en/automotive/auto-parts.html",
+      "category": "Auto Parts"
+    },
+    {
+      "product_url": "https://www.rockauto.com/en/catalog/",
+      "category": "Auto Parts"
+    },
+    {
+      "product_url": "https://www.mscdirect.com/browse/Safety?navid=12106511",
+      "category": "Industrial Supplies"
+    },
+    {
+      "product_url": "https://www.amazon.co.uk/b?node=11052681",
+      "category": "Books"
+    },
+    {
+      "product_url": "https://www.amazon.fr/b?node=301130",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.amazon.ca/b?node=2224350011",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.amazon.com.au/b?node=4851999051",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.amazon.com.mx/b?node=9727169011",
+      "category": "Beauty"
+    },
+    {
+      "product_url": "https://www.amazon.nl/b?node=16240001031",
+      "category": "Toys & Games"
+    },
+    {
+      "product_url": "https://www.amazon.pl/b?node=20921000031",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.amazon.se/b?node=10617301031",
+      "category": "Pet Supplies"
+    },
+    {
+      "product_url": "https://www.amazon.in/b?node=6648217031",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.amazon.sg/b?node=6316043051",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.amazon.ae/b?node=12463345031",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.amazon.sa/b?node=17676687031",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.amazon.com.tr/b?node=12466395031",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.jumia.com.ng/home-office/",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.takealot.com/all?_sb=1&_r=1&_si=123456789&qsearch=headphones",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://shopee.tw/search?keyword=bag",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://bukalapak.com/c/handphone/hp-smartphone",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.noon.com/saudi-en/sports-and-outdoors/exercise-and-fitness/yoga-and-pilates/",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.snapdeal.com/products/mobiles-accessories",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.citilink.ru/catalog/smartfony/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.mall.cz/notebooky",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.morele.net/kategoria/laptopy-31/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.proshop.de/Notebook",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.jimms.fi/fi/Product/List/000-0MU/komponentit--prosessorit",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.inet.se/kategori/189/spel",
+      "category": "Video Games"
+    },
+    {
+      "product_url": "https://www.coolblue.be/nl/consoles",
+      "category": "Video Games"
+    },
+    {
+      "product_url": "https://www.saturn.at/de/category/_konsolen-gaming-701081.html",
+      "category": "Video Games"
+    },
+    {
+      "product_url": "https://www.digitec.ch/en/s1/producttype/game-console-21",
+      "category": "Video Games"
+    },
+    {
+      "product_url": "https://www.worten.es/gaming/consolas",
+      "category": "Video Games"
+    },
+    {
+      "product_url": "https://www.pcdiga.com/consola",
+      "category": "Video Games"
+    },
+    {
+      "product_url": "https://www.ldlc.com/informatique/ordinateur-portable/pc-portable/c4265/",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.overclockers.co.uk/peripherals/monitors",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.scan.co.uk/shop/computer-hardware/all",
+      "category": "PC Components"
+    },
+    {
+      "product_url": "https://www.microcenter.com/category/4294966937/desktop-computers",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.bhphotovideo.com/c/browse/Computers-Solutions/ci/9581/N/4294542559",
+      "category": "Electronics"
+    },
+    {
+      "product_url": "https://www.lulus.com/categories/13_271/shoes.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.urbanoutfitters.com/mens-clothing",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.anthropologie.com/candles-home-fragrance",
+      "category": "Home Goods"
+    },
+    {
+      "product_url": "https://www.freepeople.com/fpmovement-shop-all/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.gap.com/browse/category.do?cid=65289",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://oldnavy.gap.com/browse/category.do?cid=5475",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://bananarepublic.gap.com/browse/category.do?cid=26219",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.athleta.gap.com/browse/category.do?cid=1023729",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.jcrew.com/c/womens_category/sweaters",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.madewell.com/womens/clothing/denim",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.talbots.com/clothing/pants",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.llbean.com/llb/shop/504714?page=outerwear",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.eddiebauer.com/c/20001/men",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.landsend.com/shop/womens-swimsuits/S-xfe-xez-y5b-xec",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.columbia.com/c/hiking-footwear/",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.patagonia.com/shop/mens-jackets-vests",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.thenorthface.com/en-us/shop/womens-tops",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.underarmour.com/en-us/c/mens/bottoms/shorts/",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.puma.com/us/en/men/shoes/sneakers",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.reebok.com/c/classics",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.newbalance.com/men/shoes/running/",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.converse.com/shop/womens-shoes",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.vans.com/en-us/categories/skate-shoes-c5017",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.timberland.com/shop/mens-boots",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.drmartens.com/us/en/c/womens-boots",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.ugg.com/women-slippers/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.birkenstock.com/us/women/sandals/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.crocs.com/c/shop-by/activity/sandals",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.dsw.com/en/us/category/mens-boots/N-1z141jrZ1z141ju",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.famousfootwear.com/c/brands/nike",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.journeys.com/brand/adidas",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.finishline.com/brands/jordan",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.footlocker.com/category/shoes/running.html",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.champssports.com/category/clothing.html",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.dickssportinggoods.com/f/basketball-hoops-systems",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.big5sportinggoods.com/store/browse/Outdoor-Camping/_/N-25yf",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.scheels.com/c/hunting/firearms",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.basspro.com/shop/en/fishing",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.backcountry.com/ski",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.moosejaw.com/browse/climbing",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.steepandcheap.com/rc/camp-hike-deals",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.evo.com/shop/bike",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.tactics.com/snowboard",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.zumiez.com/skate.html",
+      "category": "Sports & Outdoors"
+    },
+    {
+      "product_url": "https://www.pacsun.com/swim/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.tillys.com/sale/",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.hollisterco.com/shop/us/guys-jeans",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.abercrombie.com/shop/us/mens-shorts",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.ae.com/us/en/c/women/dresses-skirts/cat1310004",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.forever21.com/us/shop/catalog/category/f21/women-new-arrivals",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.windsorstore.com/collections/dresses-prom",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.davidsbridal.com/bridesmaid-dresses",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.theblacktux.com/collection/suits",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.menswearhouse.com/c/suits",
+      "category": "Fashion"
+    },
+    {
+      "product_url": "https://www.josbank.com/c/shirts",
+      "category": "Fashion"
+    }
+  ]
+}

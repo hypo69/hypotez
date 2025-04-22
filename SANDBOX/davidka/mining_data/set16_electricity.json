@@ -1,0 +1,344 @@
+{
+  "products": [
+    {
+      "product_url": "https://www.siemens-energy.com/global/en/offerings/power-transmission/high-voltage-products/instrument-transformers.html",
+      "category": "Высоковольтное оборудование (Измерительные трансформаторы ВН)"
+    },
+    {
+      "product_url": "https://new.abb.com/medium-voltage/switchgear/gas-insulated-switchgear-gis",
+      "category": "Высоковольтное оборудование (Элегазовые КРУЭ)"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/nnk_vysokovoltnoe-oborudovanie/nnk_opornoporodnye-i-prohodnye-izolyatory",
+      "category": "Высоковольтное оборудование (Опорные и проходные изоляторы)"
+    },
+    {
+      "product_url": "https://zeto.ru/catalog/privody_k_razedinitelyam_i_zazemlitelyam/",
+      "category": "Высоковольтное оборудование (Приводы к разъединителям)"
+    },
+    {
+      "product_url": "https://www.iek.ru/products/catalog/silovoe-oborudovanie-zashchity-i-kommutatsii/vyklyuchateli-razediniteli-modulnye/",
+      "category": "Низковольтное оборудование (Модульные выключатели-разъединители)"
+    },
+    {
+      "product_url": "https://www.legrand.ru/products/low-voltage-equipment/transformers/",
+      "category": "Низковольтное оборудование (Трансформаторы НН)"
+    },
+    {
+      "product_url": "https://ekfgroup.com/catalog/nizkovoltnoe-oborudovanie/izmeritelnye-pribory",
+      "category": "Низковольтное оборудование (Измерительные приборы щитовые)"
+    },
+    {
+      "product_url": "https://www.electro-mpo.ru/catalog/nizkovoltnoe-oborudovanie/umnozhiteli-impulsnye-signalov/",
+      "category": "Низковольтное оборудование (Импульсные реле / Умножители сигналов)"
+    },
+    {
+      "product_url": "https://tekfor.ru/catalog/nizkovoltnoe_oborudovanie/rele_kontrolya_faz_cheredovaniya_i_urovnya/",
+      "category": "Низковольтное оборудование (Реле контроля фаз/уровня)"
+    },
+    {
+      "product_url": "https://www.tek.com/en/products/power-analyzers",
+      "category": "Приборы (Анализаторы мощности)"
+    },
+    {
+      "product_url": "https://www.keysight.com/ru/ru/products/function-generators-waveform-generators.html",
+      "category": "Приборы (Генераторы сигналов произвольной формы)"
+    },
+    {
+      "product_url": "https://www.fluke.com/ru-ru/products/electrical-testing/insulation-testers",
+      "category": "Приборы (Измерители сопротивления изоляции)"
+    },
+    {
+      "product_url": "https://ru.megger.com/products/relay-test-equipment",
+      "category": "Приборы (Проверка релейной защиты)"
+    },
+    {
+      "product_url": "https://www.vseinstrumenti.ru/izmeritelnyj-instrument/elektroizmeritelnye-pribory/ostsillografy/",
+      "category": "Приборы (Осциллографы портативные)"
+    },
+    {
+      "product_url": "https://www.siemens.com/global/en/products/automation/distributed-control-system/simatic-pcs-7.html",
+      "category": "Промышленная электроника (АСУ ТП / DCS)"
+    },
+    {
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/power-supplies.html",
+      "category": "Промышленная электроника (Источники питания промышленные)"
+    },
+    {
+      "product_url": "https://new.abb.com/drives/dc-drives",
+      "category": "Промышленная электроника (Приводы постоянного тока)"
+    },
+    {
+      "product_url": "https://industrial.omron.ru/ru/products/catalogue/software",
+      "category": "Промышленная электроника (Программное обеспечение для ПЛК/HMI)"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/ru-ru/produkcija/relejjnye-moduli",
+      "category": "Промышленная электроника (Релейные модули)"
+    },
+    {
+      "product_url": "https://www.mouser.com/Semiconductors/Discrete-Semiconductors/Transistors/_/N-ax1sf",
+      "category": "Электронные компоненты (Транзисторы биполярные/полевые)"
+    },
+    {
+      "product_url": "https://www.digikey.com/en/products/category/integrated-circuits-ic/16",
+      "category": "Электронные компоненты (Интегральные схемы)"
+    },
+    {
+      "product_url": "https://electronshik.ru/catalog/klemme",
+      "category": "Электронные компоненты (Клеммы и клеммники)"
+    },
+    {
+      "product_url": "https://www.promelec.ru/catalog/5/",
+      "category": "Электронные компоненты (Дискретные полупроводники)"
+    },
+    {
+      "product_url": "https://www.chipdip.ru/catalog/leds",
+      "category": "Электронные компоненты (Светодиоды)"
+    },
+    {
+      "product_url": "https://platan.ru/category/rele-avtomobilnye",
+      "category": "Электронные компоненты (Реле автомобильные)"
+    },
+    {
+      "product_url": "https://www.compel.ru/catalog/opt",
+      "category": "Электронные компоненты (Оптоэлектроника)"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/svetotehnika/nnk_vzryvozashchishchennye-svetilniki",
+      "category": "Светотехника (Взрывозащищенные светильники)"
+    },
+    {
+      "product_url": "https://www.electro-mpo.ru/catalog/svetotekhnika/komplektuyushchie-dlya-svetilnikov/bloki-avariynogo-pitaniya-bap/",
+      "category": "Светотехника (Блоки аварийного питания БАП)"
+    },
+    {
+      "product_url": "https://www.vseinstrumenti.ru/electrika-i-svet/svet/sadovo-parkovye-svetilniki/",
+      "category": "Светотехника (Садово-парковые светильники)"
+    },
+    {
+      "product_url": "https://ekfgroup.com/catalog/svetotehnika/arhitekturnaya-podsvetka",
+      "category": "Светотехника (Архитектурная подсветка)"
+    },
+    {
+      "product_url": "https://www.iek.ru/products/catalog/svetotekhnika/systemy-upravleniya-osvescheniem/",
+      "category": "Светотехника (Системы управления освещением)"
+    },
+    {
+      "product_url": "https://jazz-way.com/catalog/svetotehnika/svetilniki_dlya_chistyh_pomescheniy",
+      "category": "Светотехника (Для чистых помещений)"
+    },
+    {
+      "product_url": "https://kabel.ru/kabel/sudovoy/",
+      "category": "Кабельно-проводниковая продукция (Судовой кабель)"
+    },
+    {
+      "product_url": "https://www.electro-mpo.ru/catalog/kabelno-provodnikovaya-produkciya/dlya-podvizhnogo-sostava/",
+      "category": "Кабельно-проводниковая продукция (Для подвижного состава)"
+    },
+    {
+      "product_url": "https://www.vseinstrumenti.ru/electrika-i-svet/kabel-i-provod/samoreguliruyuschijsya-kabel/",
+      "category": "Кабельно-проводниковая продукция (Саморегулирующийся кабель)"
+    },
+    {
+      "product_url": "https://shop.nag.ru/catalog/01110.Kabel-dlja-videonabljudenija",
+      "category": "Кабельно-проводниковая продукция (Для видеонаблюдения)"
+    },
+    {
+      "product_url": "https://www.dkc.ru/ru/catalog/99/",
+      "category": "Кабеленесущие системы (Перфорированные лотки)"
+    },
+    {
+      "product_url": "https://ekfgroup.com/catalog/kabelenesuschie-sistemy/lotki-lestnichnogo-tipa",
+      "category": "Кабеленесущие системы (Лестничные лотки)"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/kabelenesushchie-sistemy/koroba-parapetnye",
+      "category": "Кабеленесущие системы (Парапетные короба)"
+    },
+    {
+      "product_url": "https://www.legrand.ru/products/cable-management/cable-ties-and-accessories/",
+      "category": "Кабеленесущие системы (Стяжки и аксессуары)"
+    },
+    {
+      "product_url": "https://www.electro-mpo.ru/catalog/elektroustanovochnye-izdeliya/informacionnye-rozetki/",
+      "category": "Электроустановочные изделия (Информационные розетки)"
+    },
+    {
+      "product_url": "https://www.vseinstrumenti.ru/electrika-i-svet/rozetki-i-vyklyuchateli/tv-rozetki/",
+      "category": "Электроустановочные изделия (ТВ розетки)"
+    },
+    {
+      "product_url": "https://www.gira.com/ru_RU/produkte/energiesaeulen.html",
+      "category": "Электроустановочные изделия (Энергетические колонны)"
+    },
+    {
+      "product_url": "https://www.jung.de/ru/online-katalog/60960981/60961150/",
+      "category": "Электроустановочные изделия (Акустические розетки)"
+    },
+    {
+      "product_url": "https://www.se.com/ru/ru/product-range/61101-sedna/",
+      "category": "Электроустановочные изделия (Серия Sedna)"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/inzhenernoe-oborudovanie/istochniki-pitaniya/solnechnye-batarei-i-moduli",
+      "category": "Источники питания (Солнечные панели)"
+    },
+    {
+      "product_url": "https://www.vseinstrumenti.ru/silovaya-tehnika/akkumulyatornye-batarei/",
+      "category": "Источники питания (Аккумуляторы общего назначения)"
+    },
+    {
+      "product_url": "https://www.meanwell-web.com/ru-ru/ac-dc-enclosed-power-supply",
+      "category": "Источники питания (AC/DC в корпусе)"
+    },
+    {
+      "product_url": "https://www.electro-mpo.ru/catalog/istochniki-pitaniya/zaryadnye-stancii/",
+      "category": "Источники питания (Портативные зарядные станции)"
+    },
+    {
+      "product_url": "https://tdtransformator.ru/catalog/komplektuyushchie-k-transformatoram/",
+      "category": "Трансформаторы (Комплектующие)"
+    },
+    {
+      "product_url": "https://svel.ru/catalog/dry-type-transformers/",
+      "category": "Трансформаторы (Сухие силовые)"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/nizkovoltnoe-oborudovanie/rele/nnk_rele-proмежуточное",
+      "category": "Реле (Промежуточные)"
+    },
+    {
+      "product_url": "https://meandr.ru/rele-zashchity-dvigateley",
+      "category": "Реле (Защиты двигателей)"
+    },
+    {
+      "product_url": "https://novatek-electro.com/produkciya/rele-napryazheniya-i-toka/",
+      "category": "Реле (Напряжения и тока)"
+    },
+    {
+      "product_url": "https://www.vseinstrumenti.ru/instrument/elektromontazhnyj/nabori-dielektricheskogo-instrumenta/",
+      "category": "Электромонтажный инструмент (Наборы диэлектрические)"
+    },
+    {
+      "product_url": "https://www.kleintools.com/catalog/electricians-tool-sets",
+      "category": "Электромонтажный инструмент (Наборы электрика)"
+    },
+    {
+      "product_url": "https://www.wiha.com/en/produkte/tool-cases-bags.html",
+      "category": "Электромонтажный инструмент (Сумки и кейсы)"
+    },
+    {
+      "product_url": "https://ekfgroup.com/catalog/instrument-i-siz/instrument-izmeritelnyy",
+      "category": "Электромонтажный инструмент (Измерительный)"
+    },
+    {
+      "product_url": "https://www.technoavia.ru/katalog/siz/zashita_ruk/perchatki/dielektricheskie",
+      "category": "Средства защиты от электрического тока (Перчатки диэлектрические)"
+    },
+    {
+      "product_url": "https://www.vostok.ru/catalog/sredstva-zashity/sredstva-zashity-ot-porazheniya-elektricheskim-tokom/plakaty_i_znaki_bezopasnosti/",
+      "category": "Средства защиты от электрического тока (Плакаты, знаки)"
+    },
+    {
+      "product_url": "https://www.electro-mpo.ru/catalog/sredstva-zashchity-ot-pora/izoliruyushchie-nakladki/",
+      "category": "Средства защиты от электрического тока (Изолирующие накладки)"
+    },
+    {
+      "product_url": "https://dkc.ru/ru/catalog/10/",
+      "category": "Щитовое оборудование (Аксессуары для шкафов)"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/nizkovoltnoe-oborudovanie/shchity-i-shkafy-elektrotehnicheskie/nnk_shkafy-nastennye-i-napolnye",
+      "category": "Щитовое оборудование (Шкафы настенные/напольные)"
+    },
+    {
+      "product_url": "https://www.iek.ru/products/catalog/oborudovanie-dlya-raspredeleniya-energii/yashchiki-silovye/",
+      "category": "Щитовое оборудование (Ящики силовые)"
+    },
+    {
+      "product_url": "https://ekfgroup.com/catalog/schitovoe-oborudovanie/obolochki-metallicheskie-napolnye",
+      "category": "Щитовое оборудование (Оболочки напольные)"
+    },
+    {
+      "product_url": "https://ezetek.ru/catalog/zazemlenie/polosa_zazemleniya/",
+      "category": "Заземление (Полоса)"
+    },
+    {
+      "product_url": "https://www.galmar.pl/ru/produkty/molniezashchita/elementy-krepleniya",
+      "category": "Молниезащита (Элементы крепления)"
+    },
+    {
+      "product_url": "https://j-propiska.ru/catalog/molniezashchita/vnutrennyaya-molniezashchita-uzip/",
+      "category": "Молниезащита (УЗИП - Устройства защиты от импульсных перенапряжений)"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/inzhenernoe-oborudovanie/molniezashchita-i-zazemlenie/nnk_zazemliteli",
+      "category": "Заземление (Заземлители)"
+    },
+    {
+      "product_url": "https://www.ruselprom.ru/catalog/elektrodvigateli/sinkhronnye/",
+      "category": "Электродвигатели (Синхронные)"
+    },
+    {
+      "product_url": "https://new.abb.com/motors-generators/iec-low-voltage-motors/motors-for-explosive-atmospheres",
+      "category": "Электродвигатели (Взрывозащищенные НН)"
+    },
+    {
+      "product_url": "https://weg.net/catalog/weg/RU/ru/products/Generators/c/WEG-CAT-002_RU",
+      "category": "Электродвигатели (Генераторы)"
+    },
+    {
+      "product_url": "https://www.siemens.com/global/en/products/drives/electric-motors/low-voltage-motors.html",
+      "category": "Электродвигатели (Низковольтные)"
+    },
+    {
+      "product_url": "https://solargoods.ru/catalog/oborudovanie_dlya_solnechnyh_elektrostantsiy/",
+      "category": "Альтернативная энергетика (Оборудование для СЭС)"
+    },
+    {
+      "product_url": "https://www.invertor.ru/catalog/komplekty-solnechnykh-elektrostantsiy",
+      "category": "Альтернативная энергетика (Комплекты СЭС)"
+    },
+    {
+      "product_url": "https://technoline.ua/ru/shop/category/solnechnye-kollektory",
+      "category": "Альтернативная энергетика (Солнечные коллекторы)"
+    },
+    {
+      "product_url": "https://volta.com.ua/aksessuary-dlia-alternativnoi-energetiki/",
+      "category": "Альтернативная энергетика (Аксессуары)"
+    },
+    {
+      "product_url": "https://devi.danfoss.ru/products/floor-heating-mats/",
+      "category": "Электрообогрев (Нагревательные маты)"
+    },
+    {
+      "product_url": "https://www.teploluxe.ru/catalog/termoregulyatory/",
+      "category": "Электрообогрев (Терморегуляторы)"
+    },
+    {
+      "product_url": "https://www.etm.ru/catalog/inzhenernoe-oborudovanie/elektroobogrev/nnk_sistemy-protiv-obledeneniya",
+      "category": "Электрообогрев (Системы антиобледенения)"
+    },
+    {
+      "product_url": "https://www.sonoff.tech/product-category/smart-plug-socket/",
+      "category": "Умный дом (Умные розетки)"
+    },
+    {
+      "product_url": "https://wirenboard.com/ru/catalog/category/datchiki",
+      "category": "Умный дом (Датчики Wiren Board)"
+    },
+    {
+      "product_url": "https://www.fibaro.com/ru/products/controllers/",
+      "category": "Умный дом (Контроллеры Z-Wave)"
+    },
+    {
+      "product_url": "https://aqara.ru/category/vyklyuchateli/",
+      "category": "Умный дом (Выключатели Zigbee)"
+    },
+    {
+      "product_url": "https://developer.tuya.com/en/docs/iot/product-categories?id=K9gf48r9j5n3y",
+      "category": "Умный дом (Платформа Tuya)"
+    }
+  ]
+}
