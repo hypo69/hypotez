@@ -8,6 +8,10 @@
 Модуль credentials предназначен для хранения глобальных настроек проекта, таких как пути, пароли, логины и параметры API. 
 Он использует паттерн Singleton для обеспечения единственного экземпляра настроек в течение всего времени работы приложения.
 
+
+Документация: 
+ - kepass: `https://github.com/hypo69/hypotez/blob/master/src/keepass.md`
+ - ProgramSettings: `https://github.com/hypo69/hypotez/blob/master/src/credentials.md`
 ```rst
 .. module:: src.header 
 ```

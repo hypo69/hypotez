@@ -9,117 +9,117 @@
 
 
 <TD>
-<A HREF = 'https://github.com/hypo69/hypotez/blob/master/src/readme.ru.md'>Русский</A>
+<A HREF = 'https://github.com/hypo69/hypotez/blob/master/readme.ru.md'>Русский</A>
 </TD>
 </TABLE>
 
-This document provides an overview of `ProgramSettings` class.
+Данный документ предоставляет обзор класса `ProgramSettings` 
 
-ProgramSettings
-==================
+Модуль стартовых установок программы (файл `credentials.py`)
+=============================================================
 
-## Overview
+## Обзор
+ProgramSettings загружает и сохраняет информацию о учетных данных (ключи API, пароли и т.д.)
+из файла базы данных KeePass `credentials.kdbx`. Также он включает функцию `set_project_root` для определения корневого каталога проекта.
 
-ProgramSettings loads and stores credential information (API keys, passwords, etc.) from the `credentials.kdbx` KeePass database file. It also includes the `set_project_root` function to locate the project's root directory.
-
-## Functions
+## Функции
 
 ### `set_project_root`
 
-**Description**: Finds the project's root directory starting from the current directory. The search goes up through the directories until a directory containing one of the files in the `marker_files` list is found.
+**Описание**: Находит корневую директорию проекта, начиная от текущего каталога. Поиск идёт вверх по директориям, пока не найдена директория, содержащая один из файлов из списка `marker_files`.
 
-**Parameters**:
+**Параметры**:
 
-- `marker_files` (tuple): A tuple of strings representing file or directory names used to identify the project's root directory. By default, it looks for the following markers: `pyproject.toml`, `requirements.txt`, `.git`.
+- `marker_files` (tuple): Кортеж строк, представляющих имена файлов или каталогов, которые используются для определения корневой директории проекта. По умолчанию ищутся следующие маркеры: `pyproject.toml`, `requirements.txt`, `.git`.
 
-**Returns**:
+**Возвращает**:
 
-- `Path`: The path to the project's root directory if found, otherwise the path to the directory where the script is located.
+- `Path`: Путь к корневой директории проекта, если она найдена, иначе - путь к директории, в которой расположен скрипт.
 
 ### `singleton`
 
-**Description**: A decorator to create a singleton class.
+**Описание**: Декоратор для создания класса-синглтона.
 
-**Parameters**:
+**Параметры**:
 
-- `cls`: The class that should be converted into a singleton.
+- `cls`: Класс, который должен быть преобразован в синглтон.
 
-**Returns**:
+**Возвращает**:
 
-- `function`: A function that returns an instance of the singleton class.
+- `function`: Функция, возвращающая экземпляр класса-синглтона.
 
-## Classes
+## Классы
 
 ### `ProgramSettings`
 
-**Description**: A class for program settings. It sets up the main parameters and project settings. It loads the configuration from `config.json` and credential data from the `credentials.kdbx` KeePass database file.
+**Описание**: Класс настроек программы. Устанавливает основные параметры и настройки проекта. Загружает конфигурацию из `config.json` и данные учетных данных из файла `credentials.kdbx` в базе данных KeePass.
 
-**Attributes**:
+**Атрибуты**:
 
-- `host_name` (str): The host name.
-- `base_dir` (Path): The path to the project's root directory.
-- `config` (SimpleNamespace): An object containing the project configuration.
-- `credentials` (SimpleNamespace): An object containing the credentials.
-- `MODE` (str): The project's operation mode (e.g., 'dev', 'prod').
-- `path` (SimpleNamespace): An object containing paths to various project directories.
+- `host_name` (str): Имя хоста.
+- `base_dir` (Path): Путь к корневой директории проекта.
+- `config` (SimpleNamespace): Объект, содержащий конфигурацию проекта.
+- `credentials` (SimpleNamespace): Объект, содержащий учетные данные.
+- `MODE` (str): Режим работы проекта (например, 'dev', 'prod').
+- `path` (SimpleNamespace): Объект, содержащий пути к различным директориям проекта.
 
-**Methods**:
+**Методы**:
 
-- `__init__(self, **kwargs)`: Initializes the class instance.
-  - Loads the project configuration from `config.json`.
-  - Initializes the `path` attribute with paths to various project directories.
-  - Calls `check_latest_release` to check for a new project version.
-  - Loads credentials from `credentials.kdbx`.
-- `_load_credentials(self) -> None`: Loads credentials from KeePass.
-- `_open_kp(self, retry: int = 3) -> PyKeePass | None`: Opens the KeePass database. Handles possible exceptions when opening the database.
-- `_load_aliexpress_credentials(self, kp: PyKeePass) -> bool`: Loads Aliexpress credentials from KeePass.
-- `_load_openai_credentials(self, kp: PyKeePass) -> bool`: Loads OpenAI credentials from KeePass.
-- `_load_gemini_credentials(self, kp: PyKeePass) -> bool`: Loads GoogleAI credentials from KeePass.
-- `_load_telegram_credentials(self, kp: PyKeePass) -> bool`: Loads Telegram credentials from KeePass.
-- `_load_discord_credentials(self, kp: PyKeePass) -> bool`: Loads Discord credentials from KeePass.
-- `_load_PrestaShop_credentials(self, kp: PyKeePass) -> bool`: Loads PrestaShop credentials from KeePass.
-- `_load_presta_translations_credentials(self, kp: PyKeePass) -> bool`: Loads PrestaShop Translations credentials from KeePass.
-- `_load_smtp_credentials(self, kp: PyKeePass) -> bool`: Loads SMTP credentials from KeePass.
-- `_load_facebook_credentials(self, kp: PyKeePass) -> bool`: Loads Facebook credentials from KeePass.
-- `_load_gapi_credentials(self, kp: PyKeePass) -> bool`: Loads Google API credentials from KeePass.
-- `now(self) -> str`: Returns the current timestamp in the format specified in the `config.json` file.
+- `__init__(self, **kwargs)`: Инициализирует экземпляр класса.
+  - Загружает конфигурацию проекта из `config.json`.
+  - Инициализирует атрибут `path` с путями к различным директориям проекта.
+  - Вызывает `check_latest_release` для проверки на наличие новой версии проекта.
+  - Загружает учетные данные из `credentials.kdbx`.
+- `_load_credentials(self) -> None`: Загружает учетные данные из KeePass.
+- `_open_kp(self, retry: int = 3) -> PyKeePass | None`: Открывает базу данных KeePass. Обрабатывает возможные исключения при открытии базы данных.
+- `_load_aliexpress_credentials(self, kp: PyKeePass) -> bool`: Загружает учетные данные Aliexpress из KeePass.
+- `_load_openai_credentials(self, kp: PyKeePass) -> bool`: Загружает учетные данные OpenAI из KeePass.
+- `_load_gemini_credentials(self, kp: PyKeePass) -> bool`: Загружает учетные данные GoogleAI из KeePass.
+- `_load_telegram_credentials(self, kp: PyKeePass) -> bool`: Загружает учетные данные Telegram из KeePass.
+- `_load_discord_credentials(self, kp: PyKeePass) -> bool`: Загружает учетные данные Discord из KeePass.
+- `_load_PrestaShop_credentials(self, kp: PyKeePass) -> bool`: Загружает учетные данные PrestaShop из KeePass.
+- `_load_presta_translations_credentials(self, kp: PyKeePass) -> bool`: Загружает учетные данные PrestaShop Translations из KeePass.
+- `_load_smtp_credentials(self, kp: PyKeePass) -> bool`: Загружает учетные данные SMTP из KeePass.
+- `_load_facebook_credentials(self, kp: PyKeePass) -> bool`: Загружает учетные данные Facebook из KeePass.
+- `_load_gapi_credentials(self, kp: PyKeePass) -> bool`: Загружает учетные данные Google API из KeePass.
+- `now(self) -> str`: Возвращает текущую метку времени в формате, указанном в файле `config.json`.
 
-**Possible Exceptions**:
+**Возможные исключения**:
 
-- `BinaryError`: Exception for binary data errors.
-- `CredentialsError`: Exception for credential data errors.
-- `DefaultSettingsException`: Exception for default settings errors.
-- `HeaderChecksumError`: Exception for header checksum errors.
-- `KeePassException`: Exception for KeePass database errors.
-- `PayloadChecksumError`: Exception for payload checksum errors.
-- `UnableToSendToRecycleBin`: Exception for recycle bin sending errors.
-- `Exception`: General exception.
+- `BinaryError`: Исключение для ошибок с бинарными данными.
+- `CredentialsError`: Исключение для ошибок с данными учетных данных.
+- `DefaultSettingsException`: Исключение для ошибок с настройками по умолчанию.
+- `HeaderChecksumError`: Исключение для ошибок проверки контрольной суммы заголовков.
+- `KeePassException`: Исключение для ошибок с базой данных KeePass.
+- `PayloadChecksumError`: Исключение для ошибок проверки контрольной суммы полезной нагрузки.
+- `UnableToSendToRecycleBin`: Исключение для ошибок отправки в корзину.
+- `Exception`: Общее исключение.
 
-## Notes
+## Примечания
 
-- The module uses PyKeePass to work with the `credentials.kdbx` file.
-- Exception handling blocks (`ex`) are present in the code.
-- The password file (`password.txt`) contains passwords in plain text. This is a potential vulnerability. A secure password storage mechanism needs to be developed.
+- Модуль использует PyKeePass для работы с файлом `credentials.kdbx`.
+- В коде присутствуют блоки обработки исключений (`ex`).
+- Файл паролей (`password.txt`) содержит пароли в открытом виде. Это потенциальная уязвимость. Необходимо разработать механизм безопасного хранения паролей.
 
-## Initialization and Configuration
+## Инициализация и Настройка
 
-When the project starts, it initializes and configures various settings and credentials. This document explains how these values are set and managed.
+При запуске проект инициализирует и настраивает различные конфигурации и учетные данные. Этот документ объясняет, как эти значения устанавливаются и управляются.
 
-### Determining the Project's Root Directory
+### Определение Корневой Директории Проекта
 
-The project automatically determines its root directory by searching upwards from the current file directory for specific marker files (`pyproject.toml`, `requirements.txt`, `.git`). This ensures that the project can find its resources regardless of the current working directory.
+Проект автоматически определяет свою корневую директорию, ища вверх от текущей директории файла для определенных маркерных файлов (`pyproject.toml`, `requirements.txt`, `.git`). Это гарантирует, что проект может найти свои ресурсы независимо от текущей рабочей директории.
 
 ```python
 def set_project_root(marker_files=('__root__','.git')) -> Path:
     """
-    Finds the project's root directory starting from the current file directory,
-    searching upwards and stopping at the first directory containing any of the marker files.
+    Находит корневую директорию проекта, начиная с текущей директории файла,
+    ища вверх и останавливаясь на первой директории, содержащей любой из маркерных файлов.
     
     Args:
-        marker_files (tuple): File or directory names for identifying the project's root directory.
+        marker_files (tuple): Имена файлов или директорий для идентификации корневой директории проекта.
     
     Returns:
-        Path: The path to the root directory if found, otherwise the directory where the script is located.
+        Path: Путь к корневой директории, если найдена, иначе директория, где находится скрипт.
     """
     __root__:Path
     current_path:Path = Path(__file__).resolve().parent
@@ -133,69 +133,67 @@ def set_project_root(marker_files=('__root__','.git')) -> Path:
     return __root__
 ```
 
-### Loading Configuration
+### Загрузка Конфигурации
 
-The project loads its default settings from the `config.json` file located in the `src` directory. This JSON file contains various configuration parameters such as:
+Проект загружает свои настройки по умолчанию из файла `config.json`, расположенного в директории `src`. Этот JSON-файл содержит различные параметры конфигурации, такие как:
 
-- **Author Information**: Details about the author.
-- **Available Modes**: Supported modes (`dev`, `debug`, `test`, `prod`).
-- **Paths**: Directories for logs, temporary files, external storage, and Google Drive.
-- **Project Details**: Name, version, and release information of the project.
+- **Информация об Авторе**: Детали об авторе.
+- **Доступные Режимы**: Поддерживаемые режимы (`dev`, `debug`, `test`, `prod`).
+- **Пути**: Директории для логов, временных файлов, внешнего хранилища и Google Drive.
+- **Детали Проекта**: Название, версия и информация о релизе проекта.
 
 ```python
 self.config = j_loads_ns(self.base_dir / 'src' / 'config.json')
 if not self.config:
-    logger.error('Error loading settings')
+    logger.error('Ошибка при загрузке настроек')
     ...
     return
 
 self.config.project_name = self.base_dir.name
 ```
 
-### Managing Credentials Using KeePass
+### Управление Учетными Данными с Использованием KeePass
 
-**What is KeePass?**
+**Что такое KeePass?**
 
-KeePass is a free and open-source password manager that securely stores your passwords and other sensitive information in an encrypted database. The database is protected by a master password, which is the only password you need to remember. KeePass uses strong encryption algorithms (such as AES and Twofish) to ensure the security of your data.
+KeePass — это бесплатный и открытый менеджер паролей, который безопасно хранит ваши пароли и другую чувствительную информацию в зашифрованной базе данных. База данных защищена мастер-паролем, который является единственным паролем, который вам нужно запомнить. KeePass использует сильные алгоритмы шифрования (такие как AES и Twofish), чтобы гарантировать безопасность ваших данных.
 
-**Why is KeePass Good?**
+**Чем хорош KeePass?**
 
-- **Security**: KeePass uses industry-standard encryption to protect your data, making it highly secure against unauthorized access.
-- **Portability**: You can store your KeePass database on a USB drive or in cloud storage and access it from multiple devices.
-- **Customization**: KeePass allows you to organize your passwords into groups and subgroups, making it easier to manage a large number of credentials.
-- **Open Source**: Being an open-source project, KeePass is transparent and can be reviewed by the community for its security.
+- **Безопасность**: KeePass использует отраслевые стандарты шифрования для защиты ваших данных, делая их высокозащищенными от несанкционированного доступа.
+- **Переносимость**: Вы можете хранить свою базу данных KeePass на USB-накопителе или в облачном хранилище и получать к ней доступ с нескольких устройств.
+- **Настройка**: KeePass позволяет организовывать ваши пароли в группы и подгруппы, что упрощает управление большим количеством учетных данных.
+- **Открытый Исходный Код**: Будучи проектом с открытым исходным кодом, KeePass прозрачен и может быть проверен сообществом на предмет его безопасности.
 
-**How KeePass Works in This Project**
+**Как KeePass Работает в Этом Проекте**
 
-Credentials are securely managed using the KeePass database (`credentials.kdbx`). The master password for this database is handled differently depending on the environment:
+Учетные данные безопасно управляются с использованием базы данных KeePass (`credentials.kdbx`). Мастер-пароль для этой базы данных обрабатывается по-разному в зависимости от среды:
 
-- **Development Mode**: The password is read from a file named `password.txt` located in the `secrets` directory.
-- **Production Mode**: The password is entered via the console. (Remove the `password.txt` file from the `secrets` directory)
+- **Режим Разработки**: Пароль считывается из файла с именем `password.txt`, расположенного в директории `secrets`.
+- **Режим Продакшн**: Пароль вводится через консоль. (Удалите файл `password.txt` из директории `secrets`)
 
 ```python
 def _open_kp(self, retry: int = 3) -> PyKeePass | None:
-    """ Opens the KeePass database
+    """ Открывает базу данных KeePass
     Args:
-        retry (int): Number of retries
+        retry (int): Количество попыток
     """
     while retry > 0:
         try:
             password:str = Path( self.path.secrets / 'password.txt').read_text(encoding="utf-8") or None
             kp = PyKeePass(str(self.path.secrets / 'credentials.kdbx'), 
-                           password = password or getpass.getpass(print('Enter KeePass master password: ').lower()))
+                           password = password or getpass.getpass(print('Введите мастер-пароль KeePass: ').lower()))
             return kp
         except Exception as ex:
-            print(f"Failed to open KeePass database. Exception: {ex}, {retry-1} retries left.")
+            print(f"Не удалось открыть базу данных KeePass. Исключение: {ex}, осталось попыток: {retry-1}.")
             ...
             retry -= 1
             if retry < 1:
-                logger.critical('Failed to open KeePass database after multiple attempts', exc_info=True)
+                logger.critical('Не удалось открыть базу данных KeePass после нескольких попыток', exc_info=True)
                 ...
                 sys.exit()
 ```
-
-### KeePass Database Tree Structure
-
+Дерево базы данных `credentials.kdbx`:
 ```
 credentials.kdbx
 ├── suppliers
@@ -227,81 +225,81 @@ credentials.kdbx
         └── entry (Google API credentials)
 ```
 
-### Detailed Structure Description:
+### Подробное описание структуры:
 
 1. **suppliers/aliexpress/api**:
-   - Contains Aliexpress API credentials.
-   - Example entry: `self.credentials.aliexpress.api_key`, `self.credentials.aliexpress.secret`, `self.credentials.aliexpress.tracking_id`, `self.credentials.aliexpress.email`, `self.credentials.aliexpress.password`.
+   - Содержит учетные данные для API Aliexpress.
+   - Пример записи: `self.credentials.aliexpress.api_key`, `self.credentials.aliexpress.secret`, `self.credentials.aliexpress.tracking_id`, `self.credentials.aliexpress.email`, `self.credentials.aliexpress.password`.
 
 2. **openai**:
-   - Contains OpenAI API keys.
-   - Example entry: `self.credentials.openai.api_key`.
+   - Содержит API ключи для OpenAI.
+   - Пример записи: `self.credentials.openai.api_key`.
 
 3. **openai/assistants**:
-   - Contains OpenAI assistant IDs.
-   - Example entry: `self.credentials.openai.assistant_id`.
+   - Содержит идентификаторы ассистентов OpenAI.
+   - Пример записи: `self.credentials.openai.assistant_id`.
 
 4. **gemini**:
-   - Contains GoogleAI credentials.
-   - Example entry: `self.credentials.gemini.api_key`.
+   - Содержит учетные данные для GoogleAI.
+   - Пример записи: `self.credentials.gemini.api_key`.
 
 5. **telegram**:
-   - Contains Telegram credentials.
-   - Example entry: `self.credentials.telegram.token`.
+   - Содержит учетные данные для Telegram.
+   - Пример записи: `self.credentials.telegram.token`.
 
 6. **discord**:
-   - Contains Discord credentials.
-   - Example entry: `self.credentials.discord.application_id`, `self.credentials.discord.public_key`, `self.credentials.discord.bot_token`.
+   - Содержит учетные данные для Discord.
+   - Пример записи: `self.credentials.discord.application_id`, `self.credentials.discord.public_key`, `self.credentials.discord.bot_token`.
 
 7. **prestashop**:
-   - Contains PrestaShop credentials.
-   - Example entry: `self.credentials.presta.client.api_key`, `self.credentials.presta.client.api_domain`, `self.credentials.presta.client.db_server`, `self.credentials.presta.client.db_user`, `self.credentials.presta.client.db_password`.
+   - Содержит учетные данные для PrestaShop.
+   - Пример записи: `self.credentials.presta.client.api_key`, `self.credentials.presta.client.api_domain`, `self.credentials.presta.client.db_server`, `self.credentials.presta.client.db_user`, `self.credentials.presta.client.db_password`.
 
 8. **prestashop/clients**:
-   - Contains PrestaShop client credentials.
-   - Example entry: `self.credentials.presta.client.api_key`, `self.credentials.presta.client.api_domain`, `self.credentials.presta.client.db_server`, `self.credentials.presta.client.db_user`, `self.credentials.presta.client.db_password`.
+   - Содержит учетные данные для клиентов PrestaShop.
+   - Пример записи: `self.credentials.presta.client.api_key`, `self.credentials.presta.client.api_domain`, `self.credentials.presta.client.db_server`, `self.credentials.presta.client.db_user`, `self.credentials.presta.client.db_password`.
 
 9. **prestashop/translation**:
-   - Contains PrestaShop translation credentials.
-   - Example entry: `self.credentials.presta.translations.server`, `self.credentials.presta.translations.port`, `self.credentials.presta.translations.database`, `self.credentials.presta.translations.user`, `self.credentials.presta.translations.password`.
+   - Содержит учетные данные для переводов PrestaShop.
+   - Пример записи: `self.credentials.presta.translations.server`, `self.credentials.presta.translations.port`, `self.credentials.presta.translations.database`, `self.credentials.presta.translations.user`, `self.credentials.presta.translations.password`.
 
 10. **smtp**:
-    - Contains SMTP credentials.
-    - Example entry: `self.credentials.smtp.server`, `self.credentials.smtp.port`, `self.credentials.smtp.user`, `self.credentials.smtp.password`.
+    - Содержит учетные данные для SMTP.
+    - Пример записи: `self.credentials.smtp.server`, `self.credentials.smtp.port`, `self.credentials.smtp.user`, `self.credentials.smtp.password`.
 
 11. **facebook**:
-    - Contains Facebook credentials.
-    - Example entry: `self.credentials.facebook.app_id`, `self.credentials.facebook.app_secret`, `self.credentials.facebook.access_token`.
+    - Содержит учетные данные для Facebook.
+    - Пример записи: `self.credentials.facebook.app_id`, `self.credentials.facebook.app_secret`, `self.credentials.facebook.access_token`.
 
 12. **google/gapi**:
-    - Contains Google API credentials.
-    - Example entry: `self.credentials.gapi.api_key`.
+    - Содержит учетные данные для Google API.
+    - Пример записи: `self.credentials.gapi.api_key`.
 
-### Notes:
-- Each group (`group`) in KeePass corresponds to a specific path (`path`).
-- Each entry (`entry`) in a group contains specific credentials.
-- The `_load_*_credentials` methods load data from the corresponding groups and entries in the KeePass database and store them in the `self.credentials` object attributes.
+### Примечания:
+- Каждая группа (`group`) в KeePass соответствует определенному пути (`path`).
+- Каждая запись (`entry`) в группе содержит конкретные учетные данные.
+- Методы `_load_*_credentials` загружают данные из соответствующих групп и записей в базе данных KeePass и сохраняют их в атрибуты объекта `self.credentials`.
 
-### Global Instance of `ProgramSettings`
+### Глобальный Экземпляр `ProgramSettings`
 
 ```python
 # Global instance of ProgramSettings
 gs: ProgramSettings = ProgramSettings()
 ```
 
-**Why is this needed?**
+**Зачем это нужно?**
 
-This global instance of `ProgramSettings` (`gs`) is created to provide access to the project settings and credentials from anywhere in the code. This way, you don't need to create a new instance of the `ProgramSettings` class every time you need to access settings or credentials.
+Этот глобальный экземпляр `ProgramSettings` (`gs`) создается для того, чтобы обеспечить доступ к настройкам и учетным данным проекта из любого места в коде. Таким образом, вам не нужно каждый раз создавать новый экземпляр класса `ProgramSettings`, когда вам нужно получить доступ к настройкам или учетным данным.
 
-**How is it used?**
+**Как это используется?**
 
-In other project modules, you can import this global instance and use it to access settings and credentials:
+В других модулях проекта вы можете импортировать этот глобальный экземпляр и использовать его для доступа к настройкам и учетным данным:
 
 ```python
 from src import gs
 
-# Example usage
+# Пример использования
 api_key = gs.credentials.openai.api_key
 ```
 
-This simplifies access to settings and credentials, making the code cleaner and more convenient to use.
+Это упрощает доступ к настройкам и учетным данным, делая код более чистым и удобным для использования.
