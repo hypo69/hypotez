@@ -11,7 +11,7 @@
 
 Документация: 
  - kepass: `https://github.com/hypo69/hypotez/blob/master/src/keepass.md`
- - ProgramSettings: `https://github.com/hypo69/hypotez/blob/master/src/credentials.md`
+ - ProgramSettings: `https://github.com/hypo69/hypotez/blob/master/src/credentials.md#programsettings`
 ```rst
 .. module:: src.header 
 ```
