@@ -30,11 +30,16 @@ def check_latest_release(repo: str, owner: str):
     response = requests.get(url)
 
     if response.status_code == 200:
-        latest_release = response.json()
-        print(latest_release)
-        return latest_release['tag_name']
+        try:
+            latest_release = response.json()
+            print(latest_release)
+            return latest_release['tag_name']
+        except Exception as ex:
+            logger.error(f'Ошибка распаковки релиза', ex)
+            ...
+            return
     else:
-        logger.error(f"Error fetching data: {response.status_code}")
+        logger.warning(f"Error fetching data from git: {url}\n {response.status_code=}", None, False)
         #TODO: Код не проверен
         return 
 

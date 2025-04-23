@@ -87,7 +87,7 @@ class GoogleGenerativeAi:
     timestamp: str
     _chat: Any
     chat_history: List[Dict] = []
-    chat_name: str = ''
+    chat_session_name: str = gs.now
     history_dir: Path = Path()
     history_json_file: Path = Path()
     dialogue_txt_path: Path = Path() 
@@ -169,7 +169,7 @@ class GoogleGenerativeAi:
         Returns:
             bool: `True` в случае успешного сохранения, `False` при ошибке.
         """
-        json_file_name: str = f'{self.chat_name}-{self.timestamp}.json'
+        json_file_name: str = f'{self.chat_session_name}-{self.timestamp}.json'
         self.history_json_file = Path(self.history_dir, json_file_name)
 
         # Создание директории, если она не существует
@@ -253,7 +253,7 @@ class GoogleGenerativeAi:
         except Exception as ex:
             logger.error('Ошибка при очистке истории чата.', ex) # Добавлено exc_info
 
-    async def chat(self, q: str, chat_name: str, flag: Optional[str] = 'save_chat') -> Optional[str]:
+    async def chat(self, q: str, chat_session_name: Optional[str] = '', flag: Optional[str] = 'save_chat') -> Optional[str]:
         """
         Функция обрабатывает чат-запрос пользователя, управляет историей и возвращает ответ модели.
 
@@ -271,7 +271,7 @@ class GoogleGenerativeAi:
         Returns:
             Optional[str]: Текстовый ответ модели или `None` в случае ошибки.
         """
-        self.chat_name = chat_name # Установка имени чата для сохранения
+        self.chat_session_name = chat_session_name if chat_session_name else self.chat_session_name 
         response: Any = None # Инициализация переменной ответа
         response_text: Optional[str] = None # Инициализация переменной для текста ответа
 
@@ -316,7 +316,7 @@ class GoogleGenerativeAi:
             except ResourceExhausted as ex:
                 logger.error("Исчерпан ресурс (Resource exhausted)", ex, False)
                 # Попытка перезапуска чата через некоторое время
-                await asyncio.sleep(30) # Пауза перед перезапуском
+                await asyncio.sleep(30000) # Пауза перед перезапуском
                 self._start_chat()
                 # Рекурсивный вызов не рекомендуется, лучше вернуть None или поднять исключение
                 # await self.chat(q, chat_name, flag)
@@ -535,7 +535,7 @@ class GoogleGenerativeAi:
         for attempt in range(attempts):
             try:
                 # Запуск синхронного метода generate_content в отдельном потоке
-                response = await self.model.generate_content_async(q)
+                response = await self.model.generate_content_async(str(q))
 
                 # Проверка наличия текста в ответе
                 if hasattr(response, 'text') and response.text:
@@ -805,94 +805,99 @@ class GoogleGenerativeAi:
 async def main():
     """Основная асинхронная функция для демонстрации работы класса."""
     # Проверка наличия ключа API
-    if not gs.credentials.gemini.api_key:
+    onela:str = gs.credentials.gemini.onela.api_key
+    kazarinov:str = gs.credentials.gemini.kazarinov.api_key
+    system_instruction = 'Ты - полезный ассистент. Отвечай на все вопросы кратко'
+    model_name = 'gemini-2.5-flash-preview-04-17' # Пример имени модели, замените при необходимости
+
+    if not onela and not kazarinov:
         logger.error("Ключ API Gemini не найден в gs.credentials.gemini.api_key.")
+        ...
         return
 
-    # --- Инициализация LLM ---
-    system_instruction = 'Ты - полезный ассистент. Отвечай на все вопросы кратко'
-    model_name = 'gemini-pro' # Пример имени модели, замените при необходимости
+
     try:
         llm = GoogleGenerativeAi(
-            api_key=gs.credentials.gemini.api_key,
-            model_name=model_name, # Передаем имя модели
-            system_instruction=system_instruction
+            api_key = kazarinov,       # <- здесь можно менять ключ API
+            model_name = model_name, #  имя модели
+            system_instruction = system_instruction
         )
-    except Exception as init_ex:
-        logger.error(f"Не удалось инициализировать GoogleGenerativeAi: {init_ex}")
+    except Exception as ех:
+        logger.error(f"Не удалось инициализировать GoogleGenerativeAi:", ех)
+        ...
         return
 
 
-    # --- Пример описания изображения ---
-    image_path = Path('test.jpg')  # Замените на путь к вашему изображению
+    # # --- Пример описания изображения ---
+    # image_path = Path('test.jpg')  # Замените на путь к вашему изображению
 
-    if not image_path.is_file():
-        logger.info(
-            f"Файл изображения {image_path} не существует. Поместите файл с таким именем в корневую папку."
-        )
-    else:
-        # Пример 1: Запрос описания в JSON
-        prompt_json = """Проанализируй это изображение. Выдай ответ в формате JSON,
-        где ключом будет имя объекта, а значением его описание.
-         Если есть люди, опиши их действия."""
+    # if not image_path.is_file():
+    #     logger.info(
+    #         f"Файл изображения {image_path} не существует. Поместите файл с таким именем в корневую папку."
+    #     )
+    # else:
+    #     # Пример 1: Запрос описания в JSON
+    #     prompt_json = """Проанализируй это изображение. Выдай ответ в формате JSON,
+    #     где ключом будет имя объекта, а значением его описание.
+    #      Если есть люди, опиши их действия."""
 
-        description_json = llm.describe_image(image_path, prompt=prompt_json) # describe_image синхронный
-        if description_json:
-            logger.info("Описание изображения (запрос JSON):")
-            logger.info(description_json)
-            # Попытка парсинга JSON
-            parsed_description = j_loads(description_json) # Используем j_loads для безопасного парсинга
-            if parsed_description:
-                 logger.info("JSON успешно распарсен.")
-                 # print(parsed_description, text_color='green') # Используем кастомный print
-            else:
-                 logger.warning("Не удалось распарсить JSON из ответа модели.")
-        else:
-            logger.info("Не удалось получить описание изображения (запрос JSON).")
+    #     description_json = llm.describe_image(image_path, prompt=prompt_json) # describe_image синхронный
+    #     if description_json:
+    #         logger.info("Описание изображения (запрос JSON):")
+    #         logger.info(description_json)
+    #         # Попытка парсинга JSON
+    #         parsed_description = j_loads(description_json) # Используем j_loads для безопасного парсинга
+    #         if parsed_description:
+    #              logger.info("JSON успешно распарсен.")
+    #              # print(parsed_description, text_color='green') # Используем кастомный print
+    #         else:
+    #              logger.warning("Не удалось распарсить JSON из ответа модели.")
+    #     else:
+    #         logger.info("Не удалось получить описание изображения (запрос JSON).")
 
-        # Пример 2: Запрос простого описания
-        prompt_simple = "Проанализируй это изображение. Перечисли все объекты, которые ты можешь распознать."
-        description_simple = llm.describe_image(image_path, prompt=prompt_simple) # describe_image синхронный
-        if description_simple:
-            logger.info("\nОписание изображения (простой запрос):")
-            logger.info(description_simple)
-        else:
-             logger.info("Не удалось получить описание изображения (простой запрос).")
+    #     # Пример 2: Запрос простого описания
+    #     prompt_simple = "Проанализируй это изображение. Перечисли все объекты, которые ты можешь распознать."
+    #     description_simple = llm.describe_image(image_path, prompt=prompt_simple) # describe_image синхронный
+    #     if description_simple:
+    #         logger.info("\nОписание изображения (простой запрос):")
+    #         logger.info(description_simple)
+    #     else:
+    #          logger.info("Не удалось получить описание изображения (простой запрос).")
 
 
-    # --- Пример загрузки файла ---
-    file_path_txt = Path('test.txt')
-    try:
-        with open(file_path_txt, 'w', encoding='utf-8') as f:
-            f.write("Hello, Gemini File API!")
-        logger.info(f"Тестовый файл {file_path_txt} создан.")
+    # # --- Пример загрузки файла ---
+    # file_path_txt = Path('test.txt')
+    # try:
+    #     with open(file_path_txt, 'w', encoding='utf-8') as f:
+    #         f.write("Hello, Gemini File API!")
+    #     logger.info(f"Тестовый файл {file_path_txt} создан.")
 
-        # Асинхронная загрузка файла
-        file_upload_response = await llm.upload_file(file_path_txt, 'test_file_from_sdk.txt')
-        if file_upload_response:
-            logger.info("Ответ API на загрузку файла:")
-            logger.info(file_upload_response) # Логгируем ответ API
-        else:
-             logger.error("Не удалось загрузить файл.")
+    #     # Асинхронная загрузка файла
+    #     file_upload_response = await llm.upload_file(file_path_txt, 'test_file_from_sdk.txt')
+    #     if file_upload_response:
+    #         logger.info("Ответ API на загрузку файла:")
+    #         logger.info(file_upload_response) # Логгируем ответ API
+    #     else:
+    #          logger.error("Не удалось загрузить файл.")
 
-    except IOError as e:
-        logger.error(f"Ошибка при создании тестового файла {file_path_txt}: {e}")
-    except Exception as e:
-         logger.error(f"Ошибка при загрузке файла: {e}")
-    finally:
-        # Опционально: удаление тестового файла
-        if file_path_txt.exists():
-            try:
-                file_path_txt.unlink()
-                logger.info(f"Тестовый файл {file_path_txt} удален.")
-            except OSError as e:
-                logger.error(f"Не удалось удалить тестовый файл {file_path_txt}: {e}")
+    # except IOError as e:
+    #     logger.error(f"Ошибка при создании тестового файла {file_path_txt}: {e}")
+    # except Exception as e:
+    #      logger.error(f"Ошибка при загрузке файла: {e}")
+    # finally:
+    #     # Опционально: удаление тестового файла
+    #     if file_path_txt.exists():
+    #         try:
+    #             file_path_txt.unlink()
+    #             logger.info(f"Тестовый файл {file_path_txt} удален.")
+    #         except OSError as e:
+    #             logger.error(f"Не удалось удалить тестовый файл {file_path_txt}: {e}")
 
 
     # --- Пример чата ---
     logger.info("\nНачало сеанса чата. Введите 'exit' для выхода.")
     chat_session_name = f'chat_session_{gs.now}' # Уникальное имя для сессии чата
-
+    llm_message = await llm.ask_async('Привет! Как дела?') # Пример начального сообщения')
     while True:
         try:
             user_message = input("You: ")

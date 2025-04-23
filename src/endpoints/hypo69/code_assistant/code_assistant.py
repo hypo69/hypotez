@@ -95,7 +95,7 @@ class Config:
 
     gemini: SimpleNamespace = SimpleNamespace(**{
         'model_name': os.getenv('GEMINI_MODEL') if USE_ENV else config.gemini_model_name or None,  
-        'api_key': os.getenv('GEMINI_API_KEY') if USE_ENV else gs.credentials.gemini.onela or None,
+        'api_key': os.getenv('GEMINI_API_KEY') if USE_ENV else gs.credentials.gemini.onela.api_key or None,
         'response_mime_type': 'text/plain',
     })
 
@@ -201,7 +201,7 @@ class CodeAssistant:
 
                 if file_path and content:
                     logger.debug(f'Чтение файла номер: {i+1}\n{file_path}', None, False)
-                    content_request = self._create_request(file_path, content)
+                    content_request:str = self._create_request(file_path, content)
                     response = await self.gemini.ask_async(content_request)
                     #response = await self.gemini.chat(content_request,'coder')
 
