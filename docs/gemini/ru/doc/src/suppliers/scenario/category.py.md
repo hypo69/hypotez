@@ -1,34 +1,32 @@
 # Модуль для работы с категориями, в основном для PrestaShop
 ## Обзор
 
-Модуль предоставляет классы для взаимодействия и обработки данных категорий товаров, что особенно актуально для PrestaShop.
+Модуль `category.py` предназначен для работы с категориями товаров, в частности, для платформы PrestaShop. Он предоставляет классы и функции для сбора, обработки и организации данных о категориях. Основной класс `Category` наследуется от `PrestaCategoryAsync` и предоставляет методы для рекурсивного обхода категорий веб-сайта, построения иерархического словаря категорий, а также сохранения этих данных в файл. Модуль также включает функции для проверки наличия дубликатов URL-адресов и сравнения данных с файлами.
 
 ## Подробнее
 
-Этот модуль предназначен для обработки категорий товаров, что особенно важно для PrestaShop. Он включает в себя функциональность для обхода категорий, создания иерархических структур данных и сохранения этих структур в файлы. Модуль использует асинхронные операции для повышения эффективности, особенно при работе с большим количеством категорий.
+Модуль предназначен для автоматизации процесса сбора и организации категорий товаров с веб-сайтов, особенно тех, которые работают на платформе PrestaShop. Он использует библиотеки `lxml`, `requests` и `Selenium` для обхода веб-страниц и извлечения информации о категориях. Собранные данные структурируются в виде иерархического словаря, который может быть сохранен в файл для дальнейшего использования.
 
 ## Классы
 
-### `Category(PrestaCategoryAsync)`
+### `Category`
 
-**Описание**: Класс `Category` предназначен для обработки категорий товаров. Он наследуется от класса `PrestaCategoryAsync` и расширяет его функциональность.
+**Описание**: Класс `Category` предназначен для обработки категорий товаров. Он наследуется от класса `PrestaCategoryAsync` и предоставляет методы для обхода категорий и построения иерархической структуры.
 
-**Наследует**:
-
--   `PrestaCategoryAsync`: Предоставляет асинхронные методы для взаимодействия с категориями PrestaShop.
+**Наследует**: `PrestaCategoryAsync`
 
 **Атрибуты**:
-
--   `credentials` (Dict): Учетные данные API для доступа к данным категорий.
+- `credentials` (Dict): Учетные данные для доступа к API.
 
 **Методы**:
+- `__init__(self, api_credentials, *args, **kwargs)`: Инициализирует объект `Category`.
+- `crawl_categories_async(self, url, depth, driver, locator, dump_file, default_category_id, category=None)`: Асинхронно обходит категории и строит иерархический словарь.
+- `crawl_categories(self, url, depth, driver, locator, dump_file, default_category_id, category={})`: Рекурсивно обходит категории и строит иерархический словарь.
+- `_is_duplicate_url(self, category, url)`: Проверяет, существует ли URL-адрес уже в словаре категорий.
 
--   `__init__(self, api_credentials, *args, **kwargs)`: Инициализирует объект `Category`.
--   `crawl_categories_async(self, url, depth, driver, locator, dump_file, default_category_id, category=None)`: Асинхронно обходит категории, строя иерархический словарь.
--   `crawl_categories(self, url, depth, driver, locator, dump_file, id_category_default, category={})`: Рекурсивно обходит категории и строит иерархический словарь.
--   `_is_duplicate_url(self, category, url)`: Проверяет, существует ли URL уже в словаре категорий.
+## Методы класса
 
-### `__init__(self, api_credentials, *args, **kwargs)`
+### `__init__`
 
 ```python
 def __init__(self, api_credentials, *args, **kwargs):
@@ -41,89 +39,85 @@ def __init__(self, api_credentials, *args, **kwargs):
     """
 ```
 
-**Назначение**: Инициализирует объект `Category`, вызывая конструктор родительского класса `PrestaCategoryAsync`.
+**Назначение**: Инициализирует объект класса `Category`.
 
 **Параметры**:
+- `api_credentials` (Dict): API credentials for accessing the category data.
+- `*args`: Variable length argument list (unused).
+- `**kwargs`: Keyword arguments (unused).
 
--   `api_credentials` (any): Учетные данные API для доступа к данным категорий.
--   `*args`: Переменное количество позиционных аргументов (не используется).
--   `**kwargs`: Переменное количество именованных аргументов (не используется).
+**Как работает функция**:
+- Вызывает конструктор родительского класса `PrestaCategoryAsync` с переданными аргументами.
 
-**Возвращает**:
-
--   None
-
-**Вызывает исключения**:
-
--   Не вызывает исключений.
-
-### `crawl_categories_async(self, url, depth, driver, locator, dump_file, default_category_id, category=None)`
+### `crawl_categories_async`
 
 ```python
 async def crawl_categories_async(self, url, depth, driver, locator, dump_file, default_category_id, category=None):
     """Асинхронно обходит категории, строя иерархический словарь.
 
     Args:
-        url: The URL of the category page.
-        depth: The depth of the crawling recursion.
-        driver: The Selenium WebDriver instance.
-        locator: The XPath locator for category links.
-        dump_file: The path to the JSON file for saving results.
-        default_category_id: The default category ID.
-        category: (Optional) An existing category dictionary (default=None).
+        url: URL начальной страницы для обхода.
+        depth: Глубина рекурсивного обхода категорий.
+        driver: Экземпляр Selenium WebDriver для управления браузером.
+        locator: XPath-локатор для поиска ссылок на категории.
+        dump_file: Путь к файлу для сохранения результатов обхода.
+        default_category_id: ID категории по умолчанию.
+        category: (Optional) Словарь категорий для добавления новых данных (по умолчанию None).
+
     Returns:
         The updated or new category dictionary.
     """
 ```
 
-**Назначение**: Асинхронно обходит категории, начиная с указанного URL, и строит иерархический словарь, представляющий структуру категорий.
+**Назначение**: Асинхронно обходит категории веб-сайта, начиная с указанного URL, и строит иерархический словарь категорий.
 
 **Параметры**:
-
--   `url` (str): URL страницы категории для начала обхода.
--   `depth` (int): Глубина рекурсии обхода категорий.
--   `driver` (WebDriver): Инстанс Selenium WebDriver для управления браузером.
--   `locator` (dict): XPath-локатор для поиска ссылок на категории.
--   `dump_file` (str): Путь к JSON-файлу для сохранения результатов.
--   `default_category_id` (int): ID категории по умолчанию.
--   `category` (dict, optional): Существующий словарь категорий (по умолчанию `None`).
+- `url` (str): URL начальной страницы для обхода.
+- `depth` (int): Глубина рекурсивного обхода категорий.
+- `driver`: Экземпляр Selenium WebDriver для управления браузером.
+- `locator` (dict): XPath-локатор для поиска ссылок на категории.
+- `dump_file` (str): Путь к файлу для сохранения результатов обхода.
+- `default_category_id` (int): ID категории по умолчанию.
+- `category` (dict, optional): Словарь категорий для добавления новых данных (по умолчанию `None`).
 
 **Возвращает**:
-
--   dict: Обновленный или новый словарь категорий.
+- `dict`: Обновленный или новый словарь категорий.
 
 **Вызывает исключения**:
+- `Exception`: Если возникает ошибка во время обхода категорий.
 
--   `Exception`: Если возникает ошибка во время обхода категорий.
+**Внутренние функции**: Отсутствуют
 
 **Как работает функция**:
-
-1.  Если `category` не предоставлен, создается новый словарь для корневой категории.
-2.  Если глубина рекурсии (`depth`) равна или меньше 0, возвращает текущую категорию.
-3.  Использует `driver.get(url)` для открытия URL в браузере.
-4.  Ожидает загрузки страницы в течение 1 секунды.
-5.  Использует `driver.execute_locator(locator)` для поиска ссылок на категории на странице.
-6.  Если ссылки не найдены, логирует ошибку и возвращает текущую категорию.
-7.  Создает список асинхронных задач для обхода каждой найденной категории.
-8.  Использует `asyncio.gather(*tasks)` для параллельного выполнения задач обхода категорий.
-9.  Возвращает обновленный словарь категорий.
+1. Инициализирует словарь категорий, если он не был передан в качестве аргумента.
+2. Проверяет глубину рекурсии и, если она меньше или равна нулю, возвращает текущий словарь категорий.
+3. Использует Selenium WebDriver для открытия страницы и ожидания ее загрузки.
+4. Извлекает ссылки на категории с помощью указанного локатора.
+5. Если ссылки не найдены, логирует ошибку и возвращает текущий словарь категорий.
+6. Создает список задач для асинхронного обхода каждой найденной категории.
+7. Запускает задачи асинхронно и ожидает их завершения.
+8. Возвращает обновленный словарь категорий.
 
 **Примеры**:
 
 ```python
 # Пример вызова функции crawl_categories_async
-# api_credentials = {...}
-# driver = Driver(Chrome)
+# Предположим, что у вас уже есть настроенный драйвер, локатор и URL
+# url = "https://example.com/categories"
+# depth = 3
+# driver = webdriver.Chrome()
 # locator = {"by": "xpath", "selector": "//a[@class='category-link']"}
 # dump_file = "categories.json"
-# default_category_id = 2
-# category = await Category(api_credentials).crawl_categories_async("https://example.com/category", 2, driver, locator, dump_file, default_category_id)
+# default_category_id = 1
+
+# result = await category_instance.crawl_categories_async(url, depth, driver, locator, dump_file, default_category_id)
+# print(result)
 ```
 
-### `crawl_categories(self, url, depth, driver, locator, dump_file, id_category_default, category={})`
+### `crawl_categories`
 
 ```python
-def crawl_categories(self, url, depth, driver, locator, dump_file, id_category_default, category={}):
+def crawl_categories(self, url, depth, driver, locator, dump_file, default_category_id, category={}):
     """
     Crawls categories recursively and builds a hierarchical dictionary.
 
@@ -138,55 +132,53 @@ def crawl_categories(self, url, depth, driver, locator, dump_file, id_category_d
     """
 ```
 
-**Назначение**: Рекурсивно обходит категории, начиная с указанного URL, и строит иерархический словарь, представляющий структуру категорий.
+**Назначение**: Рекурсивно обходит категории веб-сайта, начиная с указанного URL, и строит иерархический словарь категорий.
 
 **Параметры**:
-
--   `url` (str): URL страницы категории для начала обхода.
--   `depth` (int): Глубина рекурсии обхода категорий.
--   `driver` (WebDriver): Инстанс Selenium WebDriver для управления браузером.
--   `locator` (dict): XPath-локатор для поиска ссылок на категории.
--   `dump_file` (str): Путь к JSON-файлу для сохранения результатов.
--   `id_category_default` (int): ID категории по умолчанию.
--   `category` (dict, optional): Существующий словарь категорий (по умолчанию пустой словарь).
+- `url` (str): URL начальной страницы для обхода.
+- `depth` (int): Глубина рекурсивного обхода категорий.
+- `driver`: Экземпляр Selenium WebDriver для управления браузером.
+- `locator` (dict): XPath-локатор для поиска ссылок на категории.
+- `dump_file` (str): Путь к файлу для сохранения результатов обхода.
+- `default_category_id` (int): ID категории по умолчанию.
+- `category` (dict, optional): Словарь категорий для добавления новых данных (по умолчанию `{}`).
 
 **Возвращает**:
-
--   dict: Иерархический словарь категорий и их URL.
+- `dict`: Иерархический словарь категорий и их URL-адресов.
 
 **Вызывает исключения**:
+- `Exception`: Если возникает ошибка во время обхода категорий.
 
--   `Exception`: Если возникает ошибка во время обхода категорий.
+**Внутренние функции**: Отсутствуют
 
 **Как работает функция**:
-
-1.  Если глубина рекурсии (`depth`) равна или меньше 0, возвращает текущую категорию.
-2.  Использует `driver.get(url)` для открытия URL в браузере.
-3.  Использует `driver.wait(1)` для ожидания загрузки страницы в течение 1 секунды.
-4.  Использует `driver.execute_locator(locator)` для поиска ссылок на категории на странице.
-5.  Если ссылки не найдены, логирует ошибку и возвращает текущую категорию.
-6.  Для каждой найденной ссылки на категорию:
-    -   Проверяет, не является ли URL дубликатом с помощью `self._is_duplicate_url(category, link_url)`.
-    -   Если URL не является дубликатом, создает новый словарь для категории.
-    -   Рекурсивно вызывает `self.crawl_categories` для обхода подкатегорий.
-7.  Загружает данные из файла дампа с помощью `j_loads(dump_file)`.
-8.  Обновляет словарь категорий данными из файла дампа.
-9.  Сохраняет обновленный словарь категорий в файл дампа с помощью `j_dumps(category, dump_file)`.
-10. Возвращает обновленный словарь категорий.
+1. Проверяет глубину рекурсии и, если она меньше или равна нулю, возвращает текущий словарь категорий.
+2. Использует Selenium WebDriver для открытия страницы и ожидания ее загрузки.
+3. Извлекает ссылки на категории с помощью указанного локатора.
+4. Если ссылки не найдены, логирует ошибку и возвращает текущий словарь категорий.
+5. Для каждой найденной ссылки проверяет, не является ли URL-адрес дубликатом.
+6. Если URL-адрес не является дубликатом, создает новый словарь для категории и рекурсивно вызывает себя для обхода подкатегорий.
+7. Загружает данные из файла дампа и объединяет их с текущим словарем категорий.
+8. Сохраняет обновленный словарь категорий в файл дампа.
+9. Возвращает обновленный словарь категорий.
 
 **Примеры**:
 
 ```python
 # Пример вызова функции crawl_categories
-# api_credentials = {...}
-# driver = Driver(Chrome)
+# Предположим, что у вас уже есть настроенный драйвер, локатор и URL
+# url = "https://example.com/categories"
+# depth = 3
+# driver = webdriver.Chrome()
 # locator = {"by": "xpath", "selector": "//a[@class='category-link']"}
 # dump_file = "categories.json"
-# id_category_default = 2
-# category = Category(api_credentials).crawl_categories("https://example.com/category", 2, driver, locator, dump_file, id_category_default)
+# default_category_id = 1
+
+# result = category_instance.crawl_categories(url, depth, driver, locator, dump_file, default_category_id)
+# print(result)
 ```
 
-### `_is_duplicate_url(self, category, url)`
+### `_is_duplicate_url`
 
 ```python
 def _is_duplicate_url(self, category, url):
@@ -199,39 +191,31 @@ def _is_duplicate_url(self, category, url):
     """
 ```
 
-**Назначение**: Проверяет, существует ли URL уже в словаре категорий.
+**Назначение**: Проверяет, существует ли URL-адрес уже в словаре категорий.
 
 **Параметры**:
-
--   `category` (dict): Словарь категорий.
--   `url` (str): URL для проверки.
+- `category` (dict): Словарь категорий.
+- `url` (str): URL-адрес для проверки.
 
 **Возвращает**:
-
--   bool: `True`, если URL является дубликатом, `False` в противном случае.
-
-**Вызывает исключения**:
-
--   Не вызывает исключений.
+- `bool`: `True`, если URL-адрес является дубликатом, `False` в противном случае.
 
 **Как работает функция**:
-
-1.  Проверяет, содержится ли URL в значениях ключа `'url'` словаря `category`.
-2.  Возвращает `True`, если URL найден, и `False` в противном случае.
+- Проверяет, содержится ли URL-адрес в значениях ключа 'url' в словаре категорий.
 
 **Примеры**:
 
 ```python
 # Пример вызова функции _is_duplicate_url
-# category = {"category1": {"url": "https://example.com/category1"}, "category2": {"url": "https://example.com/category2"}}
+# category = {"Category1": {"url": "https://example.com/category1"}, "Category2": {"url": "https://example.com/category2"}}
 # url = "https://example.com/category1"
-# is_duplicate = Category(...)._is_duplicate_url(category, url)
-# print(is_duplicate)  # Вывод: True
+# result = category_instance._is_duplicate_url(category, url)
+# print(result)  # Вывод: True
 ```
 
 ## Функции
 
-### `compare_and_print_missing_keys(current_dict, file_path)`
+### `compare_and_print_missing_keys`
 
 ```python
 def compare_and_print_missing_keys(current_dict, file_path):
@@ -240,27 +224,24 @@ def compare_and_print_missing_keys(current_dict, file_path):
     """
 ```
 
-**Назначение**: Сравнивает текущий словарь с данными в файле и выводит недостающие ключи.
+**Назначение**: Сравнивает текущий словарь с данными в файле и выводит отсутствующие ключи.
 
 **Параметры**:
-
--   `current_dict` (dict): Текущий словарь для сравнения.
--   `file_path` (str): Путь к файлу, содержащему данные для сравнения.
+- `current_dict` (dict): Текущий словарь для сравнения.
+- `file_path` (str): Путь к файлу с данными для сравнения.
 
 **Возвращает**:
-
--   None
+- `None`
 
 **Вызывает исключения**:
-
--   `Exception`: Если возникает ошибка при загрузке данных из файла.
+- `Exception`: Если возникает ошибка при загрузке данных из файла.
 
 **Как работает функция**:
-
-1.  Пытается загрузить данные из файла, используя `j_loads(file_path)`.
-2.  Если возникает ошибка при загрузке данных, логирует ошибку и возвращает `None`.
-3.  Для каждого ключа в данных из файла проверяет, отсутствует ли он в `current_dict`.
-4.  Если ключ отсутствует в `current_dict`, выводит его на экран.
+1. Пытается загрузить данные из файла, используя функцию `j_loads`.
+2. Если загрузка не удалась, логирует ошибку и завершает работу.
+3. Перебирает ключи в данных, загруженных из файла.
+4. Для каждого ключа проверяет, отсутствует ли он в текущем словаре.
+5. Если ключ отсутствует, выводит его на экран.
 
 **Примеры**:
 
@@ -268,6 +249,6 @@ def compare_and_print_missing_keys(current_dict, file_path):
 # Пример вызова функции compare_and_print_missing_keys
 # current_dict = {"key1": "value1", "key2": "value2"}
 # file_path = "data.json"
-# with open(file_path, "w") as f:
-#     json.dump({"key1": "value1", "key2": "value2", "key3": "value3"}, f)
+# # Предположим, что data.json содержит {"key1": "value1", "key3": "value3"}
 # compare_and_print_missing_keys(current_dict, file_path)  # Вывод: key3
+```

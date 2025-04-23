@@ -1,13 +1,13 @@
-# Модуль для загрузки данных о локалях из JSON-файла
+# Модуль для загрузки данных локалей из JSON-файла
 
 ## Обзор
 
-Модуль `locales.py` предназначен для загрузки и обработки данных о локалях из JSON-файла. Он содержит функции для получения списка словарей, содержащих информацию о соответствии локалей и валют.
+Модуль содержит функции для загрузки и обработки данных локалей из JSON-файла. Он предназначен для использования в проекте `hypotez` для получения информации о локалях, такой как соответствие языка и валюты.
 
-## Подробнее
+## Подробней
 
-Этот модуль предоставляет функцию `get_locales`, которая загружает данные из JSON-файла, расположенного по указанному пути, и возвращает список словарей, содержащих пары "локаль - валюта". Эти данные используются для настройки рекламных кампаний.
-Расположение файла в проекте: `/src/suppliers/aliexpress/utils/locales.py`
+Модуль `locales` предоставляет функциональность для загрузки данных локалей из JSON-файла. Он использует функции `j_loads` или `j_loads_ns` из модуля `src.utils.jjson` для чтения JSON-файлов, что обеспечивает более удобный и безопасный способ загрузки данных конфигурации.
+Расположение файла в проекте: `/src/suppliers/suppliers_list/aliexpress/utils/locales.py`
 
 ## Функции
 
@@ -15,65 +15,56 @@
 
 ```python
 def get_locales(locales_path: Path | str) -> list[dict[str, str]] | None:
-    """Загружает данные о локалях из JSON-файла.
+    """
+    Загружает данные локалей из JSON-файла.
 
     Args:
-        locales_path (Path | str): Путь к JSON-файлу, содержащему данные о локалях.
+        locales_path (Path | str): Путь к JSON-файлу, содержащему данные локалей.
 
     Returns:
-        list[dict[str, str]] | None: Список словарей с парами локаль и валюта. Возвращает `None`, если данные не найдены.
+        list[dict[str, str]] | None: Список словарей с парами локаль и валюта.
 
-    Raises:
-        FileNotFoundError: Если файл не найден.
-        JSONDecodeError: Если файл содержит некорректный JSON.
-        TypeError: Если locales_path имеет недопустимый тип.
-
-    Примеры:
-        >>> from src.suppliers.suppliers_list.aliexpress.utils.locales import get_locales
-        >>> from pathlib import Path
-        >>> locales = get_locales(Path('/path/to/locales.json'))
+    Examples:
+        >>> from src.suppliers.suppliers_list.aliexpress.utils.locales import load_locales_data
+        >>> locales = load_locales_data(Path('/path/to/locales.json'))
         >>> print(locales)
         [{'EN': 'USD'}, {'HE': 'ILS'}, {'RU': 'ILS'}, {'EN': 'EUR'}, {'EN': 'GBR'}, {'RU': 'EUR'}]
     """
 ```
 
-**Назначение**: Функция загружает данные о локалях из JSON-файла.
+**Назначение**: Функция `get_locales` загружает данные локалей из JSON-файла, расположенного по указанному пути.
 
 **Параметры**:
-- `locales_path` (Path | str): Путь к JSON-файлу, содержащему данные о локалях.
+- `locales_path` (Path | str): Путь к JSON-файлу, который содержит данные о локалях. Может быть объектом `Path` или строкой.
 
 **Возвращает**:
-- `list[dict[str, str]] | None`: Список словарей, где каждый словарь содержит пару "локаль - валюта". Возвращает `None`, если данные о локалях отсутствуют в файле.
+- `list[dict[str, str]] | None`: Функция возвращает список словарей, где каждый словарь содержит соответствие между локалью (например, 'EN', 'RU') и валютой (например, 'USD', 'EUR'). Если файл не найден или данные не загружены, возвращает `None`.
 
 **Как работает функция**:
-
-1.  Функция `j_loads_ns` используется для загрузки данных из JSON-файла, указанного в `locales_path`. Этот путь может быть объектом `Path` или строкой.
-2.  Из загруженных данных извлекается значение ключа `locales`.
-3.  Если значение `locales` существует, оно возвращается. В противном случае возвращается `None`.
+1. Функция вызывает `j_loads_ns(locales_path)` для загрузки данных из JSON-файла, используя путь `locales_path`.
+2. Функция пытается получить доступ к атрибуту `locales` загруженных данных (`locales.locales`).
+3. Если атрибут `locales` существует и содержит данные, функция возвращает этот список.
+4. Если атрибут `locales` не существует или равен `None`, функция возвращает `None`.
 
 **Примеры**:
 
-Пример 1: Загрузка данных о локалях из файла
-
 ```python
 from pathlib import Path
 from src.suppliers.suppliers_list.aliexpress.utils.locales import get_locales
 
-file_path = Path('path/to/locales.json')
-locales = get_locales(file_path)
-print(locales)
-```
+# Пример 1: Загрузка локалей из файла
+file_path = Path('путь/к/locales.json')  # Замените на актуальный путь к файлу
+locales_data = get_locales(file_path)
+if locales_data:
+    print(locales_data)
+else:
+    print("Не удалось загрузить данные локалей.")
 
-Пример 2: Обработка случая, когда данные о локалях отсутствуют
-
-```python
-from pathlib import Path
-from src.suppliers.suppliers_list.aliexpress.utils.locales import get_locales
-
-file_path = Path('path/to/empty_locales.json')
-locales = get_locales(file_path)
-if locales is None:
-    print("Данные о локалях отсутствуют.")
+# Пример 2: Обработка случая, когда файл не найден
+file_path = 'несуществующий_файл.json'
+locales_data = get_locales(file_path)
+if locales_data is None:
+    print("Файл не найден или данные локалей отсутствуют.")
 ```
 
 ## Переменные
@@ -84,4 +75,20 @@ if locales is None:
 locales: list[dict[str, str]] | None = get_locales (gs.path.src / 'suppliers' / 'suppliers_list' / 'aliexpress' / 'utils' / 'locales.json') # defined locales for campaigns
 ```
 
-**Описание**: Переменная `locales` содержит список словарей с данными о локалях, загруженными из JSON-файла. Этот файл расположен по пути, указанному с использованием объекта `gs.path.src` для определения пути к исходным файлам, и используется для определения локалей для рекламных кампаний. Если загрузка не удалась, переменная будет содержать `None`.
+**Назначение**:  Переменная `locales` хранит список словарей, содержащих данные о локалях, загруженные из JSON-файла.
+
+**Описание**:
+- `locales` (list[dict[str, str]] | None): Эта переменная содержит результат вызова функции `get_locales`, которая загружает данные из файла `locales.json`. Если загрузка прошла успешно, переменная будет содержать список словарей, где каждый словарь представляет собой пару "локаль: валюта". Если произошла ошибка при загрузке или файл не найден, переменная будет равна `None`.
+
+**Примеры**:
+
+```python
+from src.suppliers.suppliers_list.aliexpress.utils.locales import locales
+
+if locales:
+    print("Доступные локали:")
+    for locale_data in locales:
+        for locale, currency in locale_data.items():
+            print(f"{locale}: {currency}")
+else:
+    print("Данные о локалях не загружены.")

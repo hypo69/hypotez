@@ -1,11 +1,14 @@
-# Модуль для преобразования XML и JSON данных
+# Модуль для конвертации XML в JSON и JSON в XML для PrestaShop
 ## Обзор
 
-Модуль `xml_json_convertor.py` предоставляет утилиты для преобразования данных между форматами XML и JSON. Он включает функции для разбора XML-строк и преобразования деревьев элементов XML в представления словарей, а также для преобразования словарей JSON в XML.
+Модуль `xml_json_convertor.py` предоставляет утилиты для преобразования данных XML в словари Python и наоборот. 
+Он включает функции для разбора XML-строк и преобразования деревьев элементов XML в представления словарей.
+Эти утилиты особенно полезны для взаимодействия с API PrestaShop, которые часто используют XML для обмена данными.
 
 ## Подробней
 
-Этот модуль предоставляет набор функций для преобразования данных между форматами XML и JSON. Он включает в себя функции для анализа XML-строк и преобразования деревьев элементов XML в представления словарей, а также для преобразования словарей JSON в XML. Модуль использует библиотеку `xml.etree.ElementTree` для работы с XML и предоставляет гибкие возможности для настройки преобразований.
+Этот модуль облегчает преобразование между форматами данных, используемыми API PrestaShop (XML) и структурами данных Python (словари/JSON).
+Он предоставляет функции для преобразования структур данных Python в XML, а также для разбора XML в структуры данных Python.
 
 ## Функции
 
@@ -13,65 +16,48 @@
 
 ```python
 def dict2xml(json_obj: dict, root_name: str = "product") -> str:
-    """! Converts a JSON dictionary to an XML string.
+    """Конвертирует JSON-словарь в XML-строку.
 
     Args:
-        json_obj (dict): JSON dictionary to convert.
-        root_name (str, optional): Root element name. Defaults to "product".
+        json_obj (dict): JSON-словарь для конвертации.
+        root_name (str, optional): Имя корневого элемента. По умолчанию "product".
 
     Returns:
-        str: XML string representation of the JSON.
+        str: XML-строковое представление JSON.
     """
 ```
 
-**Назначение**: Преобразует словарь JSON в XML-строку.
+**Назначение**: Преобразует JSON-словарь в XML-строку с указанным именем корневого элемента.
 
 **Параметры**:
-- `json_obj` (dict): Словарь JSON, который требуется преобразовать.
-- `root_name` (str, optional): Имя корневого элемента XML. По умолчанию "product".
+- `json_obj` (dict): JSON-словарь, который требуется преобразовать в XML.
+- `root_name` (str, optional): Имя корневого элемента XML. По умолчанию используется "product".
 
 **Возвращает**:
-- `str`: XML-строка, представляющая JSON.
+- `str`: XML-строка, представляющая входной JSON-словарь.
 
 **Как работает функция**:
-Функция `dict2xml` принимает словарь JSON и преобразует его в XML-строку. Она использует рекурсивную функцию `build_xml_element` для построения XML-элементов на основе структуры JSON. Если ключи словаря начинаются с "@", они обрабатываются как атрибуты XML-элемента. Если ключ равен "#text", значение становится текстовым содержимым элемента. Списки в JSON преобразуются в последовательность одноименных XML-элементов.
+- Функция `dict2xml` принимает JSON-словарь и имя корневого элемента в качестве входных данных.
+- Она определяет внутреннюю функцию `build_xml_element`, которая рекурсивно строит XML-элементы на основе JSON-данных.
+- Функция обрабатывает атрибуты (ключи, начинающиеся с "@"), текстовые значения (ключ "#text") и вложенные элементы.
+- Если значение является списком, функция создает несколько дочерних элементов с тем же именем тега.
+- После создания дерева XML, функция преобразует его в строку с кодировкой UTF-8 и возвращает ее.
 
 **Внутренние функции**:
+  *  `build_xml_element(parent, data)`
+        Рекурсивно конструирует XML элементы из JSON данных.
 
-#### `build_xml_element`
+        **Параметры**:
+        *   `parent`: родительский XML элемент, к которому добавляются дочерние элементы.
+        *   `data`: данные в формате JSON, которые необходимо преобразовать в XML.
 
-```python
-def build_xml_element(parent, data):
-    """Recursively constructs XML elements from JSON data."""
-    if isinstance(data, dict):
-        for key, value in data.items():
-            if key.startswith("@"):  # Attribute
-                parent.set(key[1:], value)
-            elif key == "#text":  # Text value
-                parent.text = value
-            else:
-                if isinstance(value, list):
-                    for item in value:
-                        child = ET.SubElement(parent, key)
-                        build_xml_element(child, item)
-                else:
-                    child = ET.SubElement(parent, key)
-                    build_xml_element(child, value)
-    elif isinstance(data, list):
-        for item in data:
-            build_xml_element(parent, item)
-    else:
-        parent.text = str(data)
-```
-
-**Назначение**: Рекурсивно строит XML-элементы на основе JSON-данных.
-
-**Параметры**:
-- `parent`: Родительский XML-элемент, к которому добавляются новые элементы.
-- `data`: Данные JSON (словарь, список или значение), которые необходимо преобразовать в XML.
-
-**Как работает функция**:
-Функция `build_xml_element` рекурсивно строит XML-элементы на основе JSON-данных. Она обрабатывает словари, списки и отдельные значения, создавая соответствующие XML-элементы и атрибуты.
+        **Как работает функция**:
+        *   Функция проверяет тип данных `data`. Если это словарь, то перебирает его элементы.
+        *   Если ключ элемента начинается с `@`, то это атрибут, который устанавливается для родительского элемента.
+        *   Если ключ элемента `#text`, то это текстовое значение, которое устанавливается для родительского элемента.
+        *   Иначе, создается новый дочерний элемент с именем ключа, и функция рекурсивно вызывается для этого элемента.
+        *   Если `data` является списком, функция рекурсивно вызывается для каждого элемента списка, добавляя их как дочерние элементы к `parent`.
+        *   Если `data` не является ни словарем, ни списком, то его строковое представление устанавливается как текст родительского элемента.
 
 **Примеры**:
 
@@ -79,241 +65,194 @@ def build_xml_element(parent, data):
 json_data = {"product": {"name": "Test Product", "price": "10.00"}}
 xml_output = dict2xml(json_data)
 print(xml_output)
-# Expected output: <product><name>Test Product</name><price>10.00</price></product>
 ```
 
 ### `_parse_node`
 
 ```python
 def _parse_node(node: ET.Element) -> dict | str:
-    """Parse an XML node into a dictionary.
+    """Разбирает XML-узел в словарь.
 
     Args:
-        node (ET.Element): The XML element to parse.
+        node (ET.Element): XML-элемент для разбора.
 
     Returns:
-        dict | str: A dictionary representation of the XML node, or a string if the node has no attributes or children.
+        dict | str: Представление XML-узла в виде словаря или строка, если у узла нет атрибутов или дочерних элементов.
     """
 ```
 
-**Назначение**: Разбирает XML-узел в словарь.
+**Назначение**: Разбирает XML-узел в словарь или строку.
 
 **Параметры**:
-- `node` (ET.Element): XML-элемент для разбора.
+- `node` (ET.Element): XML-элемент, который нужно разобрать.
 
 **Возвращает**:
-- `dict | str`: Представление XML-узла в виде словаря или строка, если у узла нет атрибутов или дочерних элементов.
+- `dict | str`: Представление XML-узла в виде словаря. Если у узла нет атрибутов и дочерних элементов, возвращается строка.
 
 **Как работает функция**:
-Функция `_parse_node` преобразует XML-узел в словарь. Атрибуты узла сохраняются в словаре под ключом `attrs`. Если у узла есть дочерние элементы, они рекурсивно обрабатываются и добавляются в словарь. Если у узла нет атрибутов и дочерних элементов, возвращается только текстовое значение узла.
+- Функция `_parse_node` принимает XML-элемент в качестве входных данных.
+- Она извлекает атрибуты узла и сохраняет их в словаре.
+- Затем она извлекает текстовое значение узла, удаляя начальные и конечные пробелы.
+- Если узел имеет атрибуты, они добавляются в словарь под ключом "attrs".
+- Функция рекурсивно обрабатывает дочерние элементы узла, преобразуя их в словари и добавляя в основной словарь.
+- Если узел не имеет дочерних элементов, его текстовое значение сохраняется в словаре под ключом "value".
+- Если в словаре есть только ключ "value", функция возвращает значение напрямую.
 
 **Примеры**:
+
 ```python
-xml_string = '<product name="Test Product"><price>10.00</price></product>'
+import xml.etree.ElementTree as ET
+xml_string = "<product><name>Test Product</name><price>10.00</price></product>"
 element_tree = ET.fromstring(xml_string)
-dict_output = _parse_node(element_tree)
-print(dict_output)
-# Пример вывода (может немного отличаться в зависимости от структуры):
-# {'attrs': {'name': 'Test Product'}, 'price': '10.00'}
+parsed_node = _parse_node(element_tree)
+print(parsed_node)
 ```
 
 ### `_make_dict`
 
 ```python
 def _make_dict(tag: str, value: any) -> dict:
-    """Generate a new dictionary with tag and value.
+    """Создает новый словарь с тегом и значением.
 
     Args:
-        tag (str): The tag name of the XML element.
-        value (any): The value associated with the tag.
+        tag (str): Имя тега XML-элемента.
+        value (any): Значение, связанное с тегом.
 
     Returns:
-        dict: A dictionary with the tag name as the key and the value as the dictionary value.
+        dict: Словарь с именем тега в качестве ключа и значением в качестве значения словаря.
     """
 ```
 
-**Назначение**: Генерирует новый словарь с тегом и значением.
+**Назначение**: Создает словарь, где ключом является тег XML-элемента, а значением — значение этого тега.
 
 **Параметры**:
 - `tag` (str): Имя тега XML-элемента.
 - `value` (any): Значение, связанное с тегом.
 
 **Возвращает**:
-- `dict`: Словарь с именем тега в качестве ключа и значением в качестве значения словаря.
+- `dict`: Словарь, где имя тега является ключом, а значение — значением.
 
 **Как работает функция**:
-Функция `_make_dict` создает словарь, где ключом является имя тега XML-элемента, а значением - переданное значение. Если в имени тега присутствует пространство имен, оно извлекается и добавляется в словарь.
+- Функция `_make_dict` принимает имя тега и значение в качестве входных данных.
+- Она создает словарь, где ключом является имя тега, а значением — переданное значение.
+- Если имя тега содержит пространство имен (например, `"{http://www.w3.org/1999/xlink}href"`), функция извлекает пространство имен и локальное имя тега.
+- Затем она создает словарь со значением и пространством имен, и возвращает его.
 
 **Примеры**:
+
 ```python
-tag = 'product'
-value = {'name': 'Test Product'}
-dict_output = _make_dict(tag, value)
-print(dict_output)
-# Expected output: {'product': {'name': 'Test Product'}}
+tag = "name"
+value = "Test Product"
+result = _make_dict(tag, value)
+print(result)
 ```
 
 ### `xml2dict`
 
 ```python
 def xml2dict(xml: str) -> dict:
-    """Parse XML string into a dictionary.
+    """Преобразует XML-строку в словарь.
 
     Args:
-        xml (str): The XML string to parse.
+        xml (str): XML-строка для преобразования.
 
     Returns:
-        dict: The dictionary representation of the XML.
+        dict: Представление XML в виде словаря.
     """
 ```
 
-**Назначение**: Преобразует XML-строку в словарь.
+**Назначение**: Преобразует XML-строку в словарь Python.
 
 **Параметры**:
-- `xml` (str): XML-строка для разбора.
+- `xml` (str): XML-строка, которую требуется преобразовать.
 
 **Возвращает**:
-- `dict`: Представление XML в виде словаря.
+- `dict`: Словарь, представляющий XML-структуру.
 
 **Как работает функция**:
-Функция `xml2dict` принимает XML-строку, преобразует ее в дерево элементов с помощью `ET.fromstring()` и затем вызывает функцию `ET2dict` для преобразования дерева в словарь.
+- Функция `xml2dict` принимает XML-строку в качестве входных данных.
+- Она использует `ET.fromstring` для преобразования XML-строки в дерево элементов.
+- Затем она вызывает функцию `ET2dict` для преобразования дерева элементов в словарь.
 
 **Примеры**:
+
 ```python
-xml_string = '<product name="Test Product"><price>10.00</price></product>'
-dict_output = xml2dict(xml_string)
-print(dict_output)
-# Пример вывода (может немного отличаться в зависимости от структуры):
-# {'product': {'attrs': {'name': 'Test Product'}, 'price': '10.00'}}
+xml_string = "<product><name>Test Product</name><price>10.00</price></product>"
+xml_dict = xml2dict(xml_string)
+print(xml_dict)
 ```
 
 ### `ET2dict`
 
 ```python
 def ET2dict(element_tree: ET.Element) -> dict:
-    """Convert an XML element tree into a dictionary.
+    """Преобразует дерево элементов XML в словарь.
 
     Args:
-        element_tree (ET.Element): The XML element tree.
+        element_tree (ET.Element): Дерево элементов XML.
 
     Returns:
-        dict: The dictionary representation of the XML element tree.
+        dict: Представление дерева элементов XML в виде словаря.
     """
 ```
 
-**Назначение**: Преобразует дерево элементов XML в словарь.
+**Назначение**: Преобразует дерево элементов XML в словарь Python.
 
 **Параметры**:
-- `element_tree` (ET.Element): Дерево элементов XML.
+- `element_tree` (ET.Element): Дерево элементов XML, которое требуется преобразовать.
 
 **Возвращает**:
-- `dict`: Представление дерева элементов XML в виде словаря.
+- `dict`: Словарь, представляющий дерево элементов XML.
 
 **Как работает функция**:
-Функция `ET2dict` принимает дерево элементов XML и преобразует его в словарь, вызывая функцию `_make_dict` для создания корневого элемента словаря и функцию `_parse_node` для рекурсивной обработки дочерних элементов.
+- Функция `ET2dict` принимает дерево элементов XML в качестве входных данных.
+- Она вызывает функцию `_make_dict` для создания словаря, где ключом является тег корневого элемента, а значением — результат разбора дочерних элементов с помощью функции `_parse_node`.
 
 **Примеры**:
+
 ```python
-xml_string = '<product name="Test Product"><price>10.00</price></product>'
+import xml.etree.ElementTree as ET
+xml_string = "<product><name>Test Product</name><price>10.00</price></product>"
 element_tree = ET.fromstring(xml_string)
-dict_output = ET2dict(element_tree)
-print(dict_output)
-# Пример вывода (может немного отличаться в зависимости от структуры):
-# {'product': {'attrs': {'name': 'Test Product'}, 'price': '10.00'}}
+xml_dict = ET2dict(element_tree)
+print(xml_dict)
 ```
 
 ### `presta_fields_to_xml`
 
 ```python
 def presta_fields_to_xml(presta_fields_dict: dict) -> str:
-    """! Converts a JSON dictionary to an XML string with a fixed root name 'prestashop'.
+    """! Конвертирует JSON-словарь в XML-строку с фиксированным корневым именем 'prestashop'.
 
     Args:
-        presta_fields_dict (dict): JSON dictionary containing the data (without 'prestashop' key).
+        presta_fields_dict (dict): JSON-словарь, содержащий данные (без ключа 'prestashop').
 
     Returns:
-        str: XML string representation of the JSON.
+        str: XML-строковое представление JSON.
     """
 ```
 
-**Назначение**: Преобразует JSON-словарь в XML-строку с фиксированным корневым элементом 'prestashop'.
+**Назначение**: Преобразует JSON-словарь в XML-строку с фиксированным корневым элементом "prestashop".
 
 **Параметры**:
-- `presta_fields_dict` (dict): JSON-словарь, содержащий данные (без ключа 'prestashop').
+- `presta_fields_dict` (dict): JSON-словарь, содержащий данные для преобразования в XML. Словарь не должен содержать ключ "prestashop".
 
 **Возвращает**:
-- `str`: XML-строка, представляющая JSON.
+- `str`: XML-строка, представляющая входной JSON-словарь.
 
 **Как работает функция**:
-Функция `presta_fields_to_xml` принимает JSON-словарь и преобразует его в XML-строку с фиксированным корневым элементом "prestashop". Она использует рекурсивную функцию `build_xml_element` для построения XML-элементов на основе структуры JSON. Ключ первого уровня в словаре используется как имя элемента под корневым элементом "prestashop".
-
-**Внутренние функции**:
-
-#### `build_xml_element`
-
-```python
-def build_xml_element(parent, data):
-    """Recursively constructs XML elements from JSON data."""
-    if isinstance(data, dict):
-        for key, value in data.items():
-            if key.startswith("@"):  # Attribute
-                parent.set(key[1:], value)
-            elif key == "#text":  # Text value
-                parent.text = value
-            else:
-                if isinstance(value, list):
-                    for item in value:
-                        child = ET.SubElement(parent, key)
-                        build_xml_element(child, item)
-                else:
-                    child = ET.SubElement(parent, key)
-                    build_xml_element(child, value)
-    elif isinstance(data, list):
-        for item in data:
-            build_xml_element(parent, item)
-    else:
-        parent.text = str(data)
-```
-
-**Назначение**: Рекурсивно строит XML-элементы на основе JSON-данных.
-
-**Параметры**:
-- `parent`: Родительский XML-элемент, к которому добавляются новые элементы.
-- `data`: Данные JSON (словарь, список или значение), которые необходимо преобразовать в XML.
-
-**Как работает функция**:
-Функция `build_xml_element` рекурсивно строит XML-элементы на основе JSON-данных. Она обрабатывает словари, списки и отдельные значения, создавая соответствующие XML-элементы и атрибуты.
+- Функция `presta_fields_to_xml` принимает JSON-словарь в качестве входных данных.
+- Она проверяет, не пуст ли входной словарь. Если он пуст, функция возвращает пустую строку.
+- Функция извлекает первый ключ из словаря (например, "product", "category" и т. д.).
+- Создается корневой элемент "prestashop", а затем динамический подэлемент с именем, соответствующим извлеченному ключу.
+- Функция вызывает `build_xml_element` для рекурсивного построения XML-элементов на основе JSON-данных.
+- После создания дерева XML, функция преобразует его в строку с кодировкой UTF-8 и возвращает ее.
 
 **Примеры**:
 
 ```python
-json_data = {
-    "product": {
-        "name": {
-            "language": [
-                {
-                    "@id": "1",
-                    "#text": "Test Product"
-                },
-                {
-                    "@id": "2",
-                    "#text": "Test Product"
-                },
-                {
-                    "@id": "3",
-                    "#text": "Test Product"
-                }
-            ]
-        },
-        "price": "10.00",
-        "id_tax_rules_group": "13",
-        "id_category_default": "2"
-    }
-}
-
+json_data = {"product": {"name": "Test Product", "price": "10.00"}}
 xml_output = presta_fields_to_xml(json_data)
 print(xml_output)
 ```
 ```
-# Expected output: 
-# <prestashop><product><name><language @id="1">Test Product</language><language @id="2">Test Product</language><language @id="3">Test Product</language></name><price>10.00</price><id_tax_rules_group>13</id_tax_rules_group><id_category_default>2</id_category_default></product></prestashop>

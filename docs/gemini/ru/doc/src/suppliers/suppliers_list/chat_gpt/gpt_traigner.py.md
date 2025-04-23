@@ -2,199 +2,287 @@
 
 ## Обзор
 
-Модуль `gpt_traigner.py` предназначен для сбора и обработки данных диалогов из HTML-файлов, полученных из ChatGPT, с целью обучения моделей машинного обучения. Он включает в себя функциональность извлечения текста диалогов, определения тональности и сохранения этих данных в различных форматах (CSV, JSONL и TXT) для дальнейшего использования.
+Модуль предназначен для обучения моделей GPT на основе данных, собранных из истории чатов. Он включает в себя функциональность для определения тональности разговоров, сохранения этих разговоров в формате JSONL, сбора данных из HTML-файлов, содержащих историю чатов с ChatGPT, и сохранения этих данных в различных форматах (CSV, JSONL, TXT).
 
-## Подробней
+## Подробнее
 
-Модуль предоставляет класс `GPT_Traigner`, который автоматизирует процесс извлечения данных из HTML-файлов, находящихся в указанной директории, и сохранения их в структурированном виде. Он использует веб-драйвер для загрузки HTML-файлов и извлечения контента. Собранные данные затем сохраняются в файлы форматов CSV, JSONL и TXT, что обеспечивает удобство для различных задач машинного обучения и анализа данных.
+Модуль содержит класс `GPT_Traigner`, который выполняет основные задачи по обработке и подготовке данных для обучения моделей GPT. Он использует веб-драйвер для извлечения данных из HTML-файлов, содержащих историю чатов, и сохраняет эти данные в различных форматах для дальнейшего использования.
 
 ## Классы
 
 ### `GPT_Traigner`
 
-**Описание**: Класс предназначен для сбора и обработки данных диалогов из HTML-файлов, полученных из ChatGPT.
+**Описание**: Класс для обучения моделей GPT на основе истории чатов.
 
 **Атрибуты**:
-- `driver`: Инстанс веб-драйвера (в данном случае, Chrome) для взаимодействия с веб-страницами.
-- `gs`: Инстанс класса `GptGs` для доступа к путям и настройкам, связанным с Google Drive и ChatGPT.
+- `driver`: Инстанс веб-драйвера для взаимодействия с веб-страницами. Определен как `Driver(Chrome)`.
+- `gs`: Инстанс класса `GptGs` для доступа к конфигурационным данным.
 
 **Методы**:
-- `__init__()`: Инициализирует класс, создавая инстанс `GptGs`.
-- `determine_sentiment(conversation_pair: dict[str, str], sentiment: str = 'positive') -> str`: Определяет тональность пары диалога.
-- `save_conversations_to_jsonl(data: list[dict], output_file: str)`: Сохраняет пары диалогов в файл JSONL.
-- `dump_downloaded_conversations()`: Собирает диалоги из HTML-файлов и сохраняет их в файлы CSV, JSONL и TXT.
+
+- `__init__`: Инициализирует класс `GPT_Traigner`, создает инстанс класса `GptGs`.
+- `determine_sentiment`: Определяет тональность пары реплик в разговоре.
+- `save_conversations_to_jsonl`: Сохраняет пары реплик в формате JSONL.
+- `dump_downloaded_conversations`: Собирает разговоры со страниц ChatGPT, сохраняет их в CSV, JSONL и TXT форматы.
+
+## Методы класса
 
 ### `__init__`
 
-**Назначение**: Инициализирует класс `GPT_Traigner`.
+**Назначение**: Инициализация класса `GPT_Traigner`.
 
-**Параметры**:
-- Нет.
-
-**Возвращает**:
-- Нет.
+```python
+def __init__(self):
+    """ """
+    ...
+    self.gs = GptGs()
+```
 
 **Как работает функция**:
-- Создает экземпляр класса `GptGs`.
+- Инициализирует атрибут `gs` как экземпляр класса `GptGs`.
+
+**Примеры**:
+
+```python
+traigner = GPT_Traigner()
+```
 
 ### `determine_sentiment`
 
+**Назначение**: Определяет тональность пары реплик в разговоре.
+
 ```python
 def determine_sentiment(self, conversation_pair: dict[str, str], sentiment: str = 'positive') -> str:
-    """ Определяет метку тональности для пары диалогов """
+    """ Determine sentiment label for a conversation pair """
+    ...
+    if sentiment:
+        return "positive"
+    else:
+        return "negative"
 ```
 
-**Назначение**: Определяет тональность пары диалогов. В текущей реализации всегда возвращает "positive".
-
 **Параметры**:
-- `conversation_pair` (dict[str, str]): Пара диалогов (вопрос-ответ).
-- `sentiment` (str, optional): Заданная тональность. По умолчанию 'positive'.
+- `conversation_pair` (dict[str, str]): Словарь, содержащий пару реплик (вопрос-ответ) из разговора.
+- `sentiment` (str, optional): Предполагаемая тональность разговора. По умолчанию 'positive'.
 
 **Возвращает**:
-- `str`: Строка "positive", если `sentiment` не пустая, иначе "negative".
+- `str`: "positive", если тональность положительная, "negative" в противном случае.
 
 **Как работает функция**:
-- Если значение параметра `sentiment` истинно, функция возвращает строку "positive".
-- В противном случае функция возвращает строку "negative".
+- Если передан аргумент `sentiment`, функция возвращает "positive". В противном случае возвращает "negative".
 
 **Примеры**:
+
 ```python
 traigner = GPT_Traigner()
-print(traigner.determine_sentiment({"user": "Привет", "assistant": "Здравствуйте"}, sentiment="good"))  # Вывод: positive
-print(traigner.determine_sentiment({"user": "Привет", "assistant": "Здравствуйте"}, sentiment=""))      # Вывод: negative
+conversation = {"user": "Привет!", "assistant": "Здравствуйте!"}
+sentiment = traigner.determine_sentiment(conversation)
+print(sentiment)  # Вывод: positive
+
+sentiment = traigner.determine_sentiment(conversation, sentiment='')
+print(sentiment) # Вывод: negative
 ```
 
 ### `save_conversations_to_jsonl`
 
+**Назначение**: Сохраняет пары реплик в формате JSONL в указанный файл.
+
 ```python
 def save_conversations_to_jsonl(self, data: list[dict], output_file: str):
-    """ Сохраняет пары диалогов в JSONL файл """
+    """ Save conversation pairs to a JSONL file """
+    with open(output_file, 'w', encoding='utf-8') as f:
+        for item in data:
+            f.write(j_dumps(clean_string(item)) + "\n")
 ```
 
-**Назначение**: Сохраняет список словарей, представляющих пары диалогов, в файл в формате JSONL (JSON Lines).
-
 **Параметры**:
-- `data` (list[dict]): Список словарей, где каждый словарь представляет собой пару диалогов.
-- `output_file` (str): Путь к файлу, в который будут сохранены данные.
+- `data` (list[dict]): Список словарей, где каждый словарь содержит пару реплик (вопрос-ответ) из разговора.
+- `output_file` (str): Путь к файлу, в который нужно сохранить данные в формате JSONL.
 
 **Как работает функция**:
-- Открывает файл для записи с указанной кодировкой (`utf-8`).
+- Открывает файл в режиме записи (`'w'`) с кодировкой UTF-8.
 - Итерируется по списку `data`.
-- Для каждого элемента (словаря) в списке:
-    - Очищает строки в словаре с помощью функции `clean_string`.
-    - Преобразует очищенный словарь в JSON-формат с помощью `j_dumps`.
-    - Записывает JSON-представление словаря в файл, добавляя символ новой строки (`\n`).
+- Для каждого элемента (словаря) вызывает `j_dumps` для преобразования словаря в JSON-строку.
+- Очищает строку с помощью `clean_string`.
+- Записывает JSON-строку в файл, добавляя символ новой строки (`\n`) для разделения записей.
 
 **Примеры**:
+
 ```python
 from pathlib import Path
-from src.utils.jjson import j_dumps
-from src.utils.string import clean_string
-
-# Пример данных
-data = [{"user": "Привет!", "assistant": "Здравствуйте."}, {"user": "Как дела?", "assistant": "Всё хорошо."}]
-output_file = "conversations.jsonl"
-
-# Сохранение данных в файл
 traigner = GPT_Traigner()
-traigner.save_conversations_to_jsonl(data, output_file)
-
-# Проверка содержимого файла (пример)
-with open(output_file, 'r', encoding='utf-8') as f:
-    print(f.readline())  # {"user": "Привет!", "assistant": "Здравствуйте."}
+data = [{"user": "Привет!", "assistant": "Здравствуйте!"}, {"user": "Как дела?", "assistant": "Все хорошо!"}]
+output_file = Path("conversations.jsonl")
+traigner.save_conversations_to_jsonl(data, str(output_file))
 ```
 
 ### `dump_downloaded_conversations`
 
+**Назначение**: Собирает разговоры со страниц ChatGPT, извлекая данные из HTML-файлов, и сохраняет их в форматах CSV, JSONL и TXT.
+
 ```python
 def dump_downloaded_conversations(self):
-    """ Собирает диалоги со страницы chatgpt """
+    """ Collect conversations from the chatgpt page """
+    ...
+    conversation_directory = Path(gs.path.google_drive / 'chat_gpt' / 'conversation')
+    html_files = conversation_directory.glob("*.html")
+
+    all_data = []
+    counter: int = 0  # <- counter
+
+    for local_file_path in html_files:
+        # Get the HTML content
+        file_uri = local_file_path.resolve().as_uri()
+        self.driver.get_url(file_uri)
+        
+        user_elements = self.driver.execute_locator(locator.user)
+        assistant_elements = self.driver.execute_locator(locator.assistant)
+        
+        user_content = [element.text for element in user_elements] if isinstance(user_elements, list) else [user_elements.text] if user_elements  else None
+        assistant_content = [element.text for element in assistant_elements] if isinstance(assistant_elements, list) else [assistant_elements.text] if assistant_elements  else None
+
+        if not user_content and not assistant_content:
+            logger.error(f"Где данные?")
+            continue
+
+        for user_text, assistant_text in zip_longest(user_content, assistant_content):
+            if user_text and assistant_text:
+                data = {
+                    'role': ['user', 'assistant'],
+                    'content': [clean_string(user_text), clean_string(assistant_text)],
+                    'sentiment': ['neutral', 'neutral']
+                }
+                all_data.append(pd.DataFrame(data))
+                print(f'{counter} - {local_file_path}')
+                counter += 1
+
+    if all_data:
+        all_data_df = pd.concat(all_data, ignore_index=True)
+
+        # Save all accumulated results to a single CSV file
+        csv_file_path = gs.path.google_drive / 'chat_gpt' / 'conversation' / 'all_conversations.csv'
+        all_data_df.to_csv(csv_file_path, index=False, encoding='utf-8')
+
+        # Save all accumulated results to a single JSONL file
+        jsonl_file_path = gs.path.google_drive / 'chat_gpt' / 'conversation' / 'all_conversations.jsonl'
+        all_data_df.to_json(jsonl_file_path, orient='records', lines=True, force_ascii=False)
+        
+        # Save raw conversations to a single line without formatting
+        raw_conversations = ' '.join(all_data_df['content'].dropna().tolist())
+        raw_file_path = gs.path.google_drive / 'chat_gpt' / 'conversation' / 'raw_conversations.txt'
+        with open(raw_file_path, 'w', encoding='utf-8') as raw_file:
+            raw_file.write(raw_conversations)
 ```
 
-**Назначение**: Извлекает диалоги из HTML-файлов, находящихся в указанной директории, и сохраняет их в форматах CSV, JSONL и TXT.
-
 **Как работает функция**:
-1. Определяет директорию, содержащую HTML-файлы с диалогами.
-2. Получает список всех HTML-файлов в этой директории.
-3. Итерируется по каждому HTML-файлу:
-   - Формирует URI файла.
-   - Использует `self.driver.get_url()` для загрузки HTML-контента файла в веб-драйвер.
-   - Использует `self.driver.execute_locator()` с локаторами `locator.user` и `locator.assistant` для извлечения элементов, содержащих сообщения пользователя и ассистента, соответственно.
-   - Извлекает текст из найденных элементов и сохраняет их в списки `user_content` и `assistant_content`.
-   - Проверяет, что оба списка `user_content` и `assistant_content` не пусты. Если они пусты, логирует ошибку и переходит к следующему файлу.
-   - Объединяет содержимое списков `user_content` и `assistant_content` в пары "вопрос-ответ".
-   - Формирует DataFrame из каждой пары, добавляя информацию о ролях ("user", "assistant") и тональности ("neutral").
-   - Накапливает DataFrame'ы в списке `all_data`.
-4. После обработки всех файлов:
-   - Объединяет все DataFrame'ы из `all_data` в один DataFrame `all_data_df`.
-   - Сохраняет `all_data_df` в CSV-файл.
-   - Сохраняет `all_data_df` в JSONL-файл.
-   - Извлекает весь текст из колонки 'content' DataFrame'а, объединяет в одну строку и сохраняет в TXT-файл.
+
+1.  **Подготовка**:
+    *   Определяет директорию, где хранятся HTML-файлы с разговорами, используя `gs.path.google_drive / 'chat_gpt' / 'conversation'`.
+    *   Получает список всех HTML-файлов в этой директории, используя `conversation_directory.glob("*.html")`.
+    *   Инициализирует пустой список `all_data` для хранения данных из всех файлов.
+    *   Инициализирует счетчик `counter` для отслеживания обработанных файлов.
+
+2.  **Обработка файлов**:
+    *   Итерируется по каждому `local_file_path` в списке `html_files`.
+    *   Преобразует путь к файлу в URI (Uniform Resource Identifier), чтобы его можно было открыть в браузере: `file_uri = local_file_path.resolve().as_uri()`.
+    *   Открывает HTML-файл в браузере, используя веб-драйвер: `self.driver.get_url(file_uri)`.
+    *   Извлекает элементы, соответствующие репликам пользователя и ассистента, с использованием локаторов, определенных в `locator.user` и `locator.assistant`:
+        *   `user_elements = self.driver.execute_locator(locator.user)`
+        *   `assistant_elements = self.driver.execute_locator(locator.assistant)`
+    *   Извлекает текстовое содержимое из найденных элементов. Если `user_elements` или `assistant_elements` являются списком, извлекает текст из каждого элемента списка. Если это единичный элемент, извлекает текст из него. Если элементы не найдены, присваивает `None`:
+
+        ```python
+        user_content = [element.text for element in user_elements] if isinstance(user_elements, list) else [user_elements.text] if user_elements  else None
+        assistant_content = [element.text for element in assistant_elements] if isinstance(assistant_elements, list) else [assistant_elements.text] if assistant_elements  else None
+        ```
+    *   Проверяет, что из файла были извлечены какие-либо данные. Если `user_content` и `assistant_content` пусты, логирует ошибку и переходит к следующему файлу:
+
+        ```python
+        if not user_content and not assistant_content:
+            logger.error(f"Где данные?")
+            continue
+        ```
+    *   Итерируется по парам реплик пользователя и ассистента, используя `zip_longest` для обработки случаев, когда количество реплик пользователя и ассистента не совпадает:
+
+        ```python
+        for user_text, assistant_text in zip_longest(user_content, assistant_content):
+            if user_text and assistant_text:
+                data = {
+                    'role': ['user', 'assistant'],
+                    'content': [clean_string(user_text), clean_string(assistant_text)],
+                    'sentiment': ['neutral', 'neutral']
+                }
+                all_data.append(pd.DataFrame(data))
+                print(f'{counter} - {local_file_path}')
+                counter += 1
+        ```
+
+        *   Для каждой пары реплик создается словарь `data`, содержащий роли (`user`, `assistant`), содержимое реплик (очищенное с помощью `clean_string`) и тональность (`neutral`).
+        *   Этот словарь преобразуется в DataFrame с помощью `pd.DataFrame(data)` и добавляется в список `all_data`.
+        *   Выводит сообщение в консоль с номером обработанного файла и его путем.
+        *   Увеличивает счетчик `counter`.
+
+3.  **Сохранение данных**:
+    *   После обработки всех файлов, проверяет, что были собраны какие-либо данные: `if all_data:`.
+    *   Объединяет все DataFrame из списка `all_data` в один DataFrame с помощью `pd.concat(all_data, ignore_index=True)`.
+    *   Определяет пути для сохранения данных в форматах CSV, JSONL и TXT:
+
+        ```python
+        csv_file_path = gs.path.google_drive / 'chat_gpt' / 'conversation' / 'all_conversations.csv'
+        jsonl_file_path = gs.path.google_drive / 'chat_gpt' / 'conversation' / 'all_conversations.jsonl'
+        raw_file_path = gs.path.google_drive / 'chat_gpt' / 'conversation' / 'raw_conversations.txt'
+        ```
+    *   Сохраняет данные в формате CSV:
+
+        ```python
+        all_data_df.to_csv(csv_file_path, index=False, encoding='utf-8')
+        ```
+    *   Сохраняет данные в формате JSONL:
+
+        ```python
+        all_data_df.to_json(jsonl_file_path, orient='records', lines=True, force_ascii=False)
+        ```
+    *   Сохраняет данные в формате TXT:
+
+        ```python
+        raw_conversations = ' '.join(all_data_df['content'].dropna().tolist())
+        with open(raw_file_path, 'w', encoding='utf-8') as raw_file:
+            raw_file.write(raw_conversations)
+        ```
+
+        *   Извлекает содержимое всех реплик из столбца `'content'` DataFrame, удаляя пропущенные значения (`dropna()`), и объединяет их в одну строку через пробел.
+        *   Записывает эту строку в файл `raw_file_path`.
 
 **Примеры**:
 
 ```python
-from pathlib import Path
-import pandas as pd
-from src.utils.jjson import j_loads_ns
-from src.webdriver.driver import Driver, Chrome
-from src.logger.logger import logger
-from src import gs
-from itertools import zip_longest
-from src.utils.jjson import clean_string
-class MockDriver:
-    def __init__(self):
-        pass
-    def get_url(self, file_uri:str):
-        print (f'Чтение файла {file_uri}')
-    def execute_locator(self, locator:dict):
-        if locator == 'user':
-            return ['text user 1', 'text user 2']
-        else:
-            return ['text bot 1', 'text bot 2']
-class MockGs:
-    def __init__(self):
-        self.path = MockPath()
-class MockPath:
-    def __init__(self):
-        self.google_drive = 'path'
-class MockGPT_Traigner(GPT_Traigner):
-    driver = MockDriver()
-    gs = MockGs()
-    def __init__(self):
-        pass
-
-    def determine_sentiment(self, conversation_pair: dict[str, str], sentiment: str = 'positive') -> str:
-        return 'positive'
-output_file_csv = Path('./all_conversations.csv')
-output_file_json = Path('./all_conversations.jsonl')
-output_file_txt = Path('./raw_conversations.txt')
-if output_file_csv.exists():
-    output_file_csv.unlink()
-if output_file_json.exists():
-    output_file_json.unlink()
-if output_file_txt.exists():
-    output_file_txt.unlink()
-traigner = MockGPT_Traigner()
+traigner = GPT_Traigner()
 traigner.dump_downloaded_conversations()
-print (f'Файл csv существует {output_file_csv.exists()}')
-print (f'Файл json существует {output_file_json.exists()}')
-print (f'Файл txt существует {output_file_txt.exists()}')
 ```
+
+## Параметры класса
+
+- `driver`: Инстанс веб-драйвера для управления браузером. Используется Chrome.
+- `gs`: Инстанс класса `GptGs` для доступа к конфигурационным данным.
 
 ## Примеры
 
 ```python
-traigner = GPT_Traigner()
-traigner.dump_downloaded_conversations()
-```
+from pathlib import Path
+from src.suppliers.chat_gpt.gpt_traigner import GPT_Traigner
 
-## Запуск кода
-
-```python
+# Пример создания экземпляра класса GPT_Traigner
 traigner = GPT_Traigner()
-traigner.dump_downloaded_conversations()
-model = Model()
-model.stream_w(data_file_path=Path(gs.path.google_drive / 'chat_gpt' / 'conversation' / 'all_conversations.csv'))
-```
-Здесь создается экземпляр класса `GPT_Traigner`, вызывается метод `dump_downloaded_conversations()` для извлечения и сохранения данных диалогов. Затем создается экземпляр класса `Model` и вызывается метод `stream_w()` для обработки CSV-файла с данными диалогов.
+
+# Пример определения тональности разговора
+conversation = {"user": "Привет!", "assistant": "Здравствуйте!"}
+sentiment = traigner.determine_sentiment(conversation)
+print(f"Sentiment: {sentiment}")
+
+# Пример сохранения разговоров в файл JSONL
+data = [{"user": "Привет!", "assistant": "Здравствуйте!"}, {"user": "Как дела?", "assistant": "Все хорошо!"}]
+output_file = Path("conversations.jsonl")
+traigner.save_conversations_to_jsonl(data, str(output_file))
+
+# Пример сбора и сохранения разговоров из HTML-файлов
+#traigner.dump_downloaded_conversations()  # Закомментировано, чтобы не запускать функцию автоматически

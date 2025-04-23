@@ -2,105 +2,151 @@
 
 ## Обзор
 
-Модуль `requests.py` предназначен для обработки API-запросов к AliExpress. Он содержит функцию `api_request`, которая выполняет запрос, обрабатывает возможные ошибки и возвращает результат в формате, удобном для дальнейшего использования.
+Модуль `requests.py` предназначен для выполнения API-запросов к AliExpress и обработки ответов. Он включает в себя функцию `api_request`, которая отправляет запрос, обрабатывает возможные ошибки и возвращает результат.
 
-## Подробнее
+## Подробней
 
-Модуль обрабатывает ответы от API AliExpress, преобразует их в объекты `SimpleNamespace` для удобного доступа к данным и логирует ошибки.
-Он используется для централизованного выполнения API-запросов и обработки ответов, что упрощает взаимодействие с API AliExpress в других частях проекта.
+Этот модуль является частью подсистемы, взаимодействующей с API AliExpress. Он обеспечивает стандартизированный способ отправки запросов и обработки ответов, что упрощает интеграцию с API и уменьшает дублирование кода. Модуль использует логирование для записи ошибок и предупреждений, что помогает в отладке и мониторинге работы системы.
 
 ## Функции
 
 ### `api_request`
 
-**Назначение**: Выполняет API-запрос, обрабатывает ответ и возвращает результат.
-
 ```python
-def api_request(request, response_name, attemps:int = 1):
-    """ Функция выполняет API-запрос и обрабатывает ответ.
+def api_request(request, response_name: str, attemps: int = 1):
+    """Выполняет API-запрос и обрабатывает ответ.
 
     Args:
-        request: Объект запроса, содержащий метод `getResponse` для выполнения запроса.
-        response_name (str): Ключ в ответе, содержащий полезные данные.
+        request: Объект запроса, содержащий информацию для выполнения API-запроса.
+        response_name (str): Имя поля в ответе, содержащего результат.
         attemps (int): Количество попыток выполнения запроса. По умолчанию 1.
 
     Returns:
-        SimpleNamespace | None: Результат запроса в виде объекта SimpleNamespace или None в случае ошибки.
+        object: Результат API-запроса в виде объекта `SimpleNamespace` или `None` в случае ошибки.
 
     Raises:
-        ApiRequestException: Если во время выполнения запроса возникает исключение.
+        ApiRequestException: Если возникает ошибка при выполнении запроса.
         ApiRequestResponseException: Если код ответа не равен 200.
-
-    Внутренние функции:
-    - нет
     """
+    try:
+        response = request.getResponse()
+    except Exception as error:           
+        if hasattr(error, 'message'):
+            #raise ApiRequestException(error.message) from error
+            #logger.critical(error.message,pprint(error))
+        #raise ApiRequestException(error) from error
+        #logger.critical(error.message,pprint(error))
+            ...    
+            return 
+
+    try:
+        response = response[response_name]['resp_result']
+        response = json.dumps(response)
+        response = json.loads(response, object_hook=lambda d: SimpleNamespace(**d))
+    except Exception as error:
+        #raise ApiRequestResponseException(error) from error
+        logger.critical(error.message, pprint(error), exc_info=False)
+        return 
+    try:
+        if response.resp_code == 200:
+            return response.result
+        else:
+            #raise ApiRequestResponseException(f'Response code {response.resp_code} - {response.resp_msg}')
+            logger.warning(f'Response code {response.resp_code} - {response.resp_msg}',exc_info=False)
+            return 
+    except Exception as ex:
+        logger.error(None, ex, exc_info=False)
+        return 
+
 ```
 
-**Параметры**:
-- `request`: Объект запроса с методом `getResponse`.
-- `response_name` (str): Ключ, используемый для извлечения данных из ответа.
-- `attemps` (int): Количество попыток выполнения запроса.
+#### Как работает функция `api_request`
 
-**Возвращает**:
-- `SimpleNamespace | None`: Результат запроса в виде объекта `SimpleNamespace` или `None` в случае ошибки.
+1.  **Выполнение запроса**:
+    *   Функция пытается выполнить API-запрос с помощью метода `getResponse()` объекта `request`.
 
-**Как работает функция**:
+2.  **Обработка исключений при выполнении запроса**:
 
-1. **Выполнение запроса**:
-   - Функция пытается получить ответ от API с помощью метода `getResponse` объекта `request`.
+    *   Если во время выполнения запроса возникает исключение, функция проверяет, содержит ли исключение атрибут `message`.
 
-2. **Обработка ошибок запроса**:
-   - Если во время выполнения запроса возникает исключение, функция логирует сообщение об ошибке и возвращает `None`.
+    *   В случае наличия сообщения об ошибке, функция логирует критическую ошибку, используя `logger.critical`, и возвращает `None`.
 
-3. **Обработка ответа**:
-   - Функция извлекает данные из ответа, используя ключ `response_name`, и преобразует JSON-ответ в объект `SimpleNamespace` для упрощения доступа к данным.
+3.  **Обработка ответа**:
 
-4. **Проверка кода ответа**:
-   - Функция проверяет код ответа `resp_code`. Если код равен 200, возвращается результат. В противном случае логируется предупреждение и возвращается `None`.
+    *   После успешного выполнения запроса функция извлекает данные из ответа, используя `response_name` и ключ `resp_result`.
 
-5. **Обработка исключений**:
-   - Если во время обработки ответа или проверки кода ответа возникают исключения, функция логирует ошибку и возвращает `None`.
+    *   Полученные данные преобразуются в JSON-строку, а затем обратно в объект `SimpleNamespace` для удобного доступа к атрибутам.
 
-**Примеры**:
+4.  **Обработка исключений при обработке ответа**:
+
+    *   Если во время обработки ответа возникает исключение, функция логирует критическую ошибку с помощью `logger.critical` и возвращает `None`.
+
+5.  **Проверка кода ответа**:
+
+    *   Функция проверяет, равен ли код ответа `resp_code` значению 200.
+    *   Если код ответа равен 200, функция возвращает результат `response.result`.
+    *   Если код ответа не равен 200, функция логирует предупреждение, используя `logger.warning`, и возвращает `None`.
+
+6.  **Обработка общих исключений**:
+
+    *   Если на каком-либо этапе выполнения функции возникает необработанное исключение, функция логирует ошибку, используя `logger.error`, и возвращает `None`.
+
+#### Параметры функции `api_request`
+
+*   `request`: Объект запроса, который должен иметь метод `getResponse()` для выполнения API-запроса.
+*   `response_name` (str): Имя поля в ответе, которое содержит полезные данные.
+*   `attemps` (int, optional): Количество попыток выполнения запроса. По умолчанию равно 1.
+
+#### Возвращаемое значение функции `api_request`
+
+*   `object`: Если запрос выполнен успешно и код ответа равен 200, функция возвращает объект `response.result`.
+*   `None`: Функция возвращает `None` в случае возникновения ошибки на любом этапе выполнения.
+
+#### Примеры вызова функции `api_request`
 
 ```python
-# Пример использования функции api_request
 from types import SimpleNamespace
-
+# Пример объекта request (предположим, что у него есть метод getResponse)
 class MockRequest:
     def getResponse(self):
+        # Имитация успешного ответа
         return {
-            "item_search_v2_by_image": {
-                "resp_result": '{"resp_code": 200, "result": {"items": [{"title": "Example"}]}}'
+            "items_search": {
+                "resp_result": {
+                    "resp_code": 200,
+                    "result": {"item_list": [{"title": "test item"}]}
+                }
             }
         }
 
-request = MockRequest()
-response = api_request(request, "item_search_v2_by_image")
+# Пример использования функции api_request
+request_object = MockRequest()
+response = api_request(request_object, "items_search")
 if response:
-    print(response.items[0].title)  # Вывод: Example
+    print(response.item_list[0].title)  # Вывод: test item
+else:
+    print("Request failed")
 ```
-```python
-# Пример обработки ошибки при выполнении запроса
-class MockRequestWithError:
-    def getResponse(self):
-        raise Exception("Request failed")
 
-request = MockRequestWithError()
-response = api_request(request, "item_search_v2_by_image")
-print(response)  # Вывод: None
-```
 ```python
-# Пример обработки ошибки в ответе
-class MockRequestWithBadResponse:
+from types import SimpleNamespace
+# Пример объекта request (предположим, что у него есть метод getResponse)
+class MockRequest:
     def getResponse(self):
+        # Имитация ответа с ошибкой
         return {
-            "item_search_v2_by_image": {
-                "resp_result": '{"resp_code": 500, "resp_msg": "Server error"}'
+            "items_search": {
+                "resp_result": {
+                    "resp_code": 400,
+                    "resp_msg": "Bad Request"
+                }
             }
         }
 
-request = MockRequestWithBadResponse()
-response = api_request(request, "item_search_v2_by_image")
-print(response)  # Вывод: None
-```
+# Пример использования функции api_request
+request_object = MockRequest()
+response = api_request(request_object, "items_search")
+if response:
+    print(response)
+else:
+    print("Request failed")  # Вывод: Request failed

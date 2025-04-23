@@ -2,19 +2,11 @@
 
 ## Обзор
 
-Модуль предоставляет класс `PrestaShop` для взаимодействия с PrestaShop webservice API, используя JSON и XML для форматирования сообщений. Он поддерживает CRUD операции, поиск и загрузку изображений, с обработкой ошибок для ответов.
+Модуль `api.py` предоставляет класс `PrestaShop` для взаимодействия с PrestaShop webservice API. Он использует JSON и XML для обмена данными. Модуль поддерживает CRUD-операции, поиск и загрузку изображений, а также включает обработку ошибок.
 
 ## Подробнее
 
-Этот модуль предназначен для упрощения взаимодействия с API PrestaShop, предоставляя удобные методы для выполнения различных операций, таких как создание, чтение, обновление и удаление данных, а также для поиска и загрузки изображений. Он использует библиотеки `requests` для выполнения HTTP-запросов и поддерживает форматы данных JSON и XML. Модуль также включает обработку ошибок для обеспечения надежности и информативности при возникновении проблем.
-
-## Содержание
-
-- [Классы](#классы)
-    - [Config](#config)
-    - [PrestaShop](#prestashop)
-- [Функции](#функции)
-    - [main](#main)
+Этот модуль предназначен для упрощения взаимодействия с PrestaShop API. Он предоставляет удобные методы для выполнения различных операций, таких как создание, чтение, обновление и удаление ресурсов, а также для поиска и загрузки изображений.
 
 ## Классы
 
@@ -24,54 +16,56 @@
 
 **Атрибуты**:
 
-- `language` (str): Язык.
-- `ps_version` (str): Версия PrestaShop (по умолчанию: '').
-- `MODE` (str): Определяет конечную точку API (по умолчанию: 'dev'). Возможные значения: `dev`, `dev8`, `prod`.
-- `POST_FORMAT` (str): Формат данных для POST-запросов (по умолчанию: 'JSON').
-- `API_DOMAIN` (str): Домен API.
-- `API_KEY` (str): Ключ API.
+-   `language` (str): Язык.
+-   `ps_version` (str): Версия PrestaShop.
+-   `MODE` (str): Режим работы (`dev`, `dev8`, `prod`), определяет конечную точку API.
+-   `POST_FORMAT` (str): Формат отправляемых данных (`JSON` или `XML`).
+-   `API_DOMAIN` (str): Домен API PrestaShop.
+-   `API_KEY` (str): Ключ API PrestaShop.
 
 **Принцип работы**:
 
-Класс `Config` используется для хранения и управления конфигурационными параметрами, необходимыми для взаимодействия с API PrestaShop. Он автоматически загружает значения из переменных окружения, если `USE_ENV` установлен в `True`. В противном случае используются значения, определенные в соответствии с параметром `MODE`.
+Класс `Config` используется для хранения параметров конфигурации, необходимых для взаимодействия с PrestaShop API. Он определяет режимы работы (разработка, тестирование, продакшн), формат данных и учетные данные для доступа к API.
 
 ### `PrestaShop`
 
-**Описание**: Класс для взаимодействия с PrestaShop webservice API, использующий JSON и XML для обмена сообщениями.
+**Описание**: Класс для взаимодействия с PrestaShop API.
 
 **Атрибуты**:
 
-- `client` (Session): HTTP-клиент для выполнения запросов.
-- `debug` (bool): Флаг отладки. Если `True`, включает режим отладки HTTP-соединения.
-- `language` (Optional[int]): ID языка по умолчанию.
-- `data_format` (str): Формат данных по умолчанию ('JSON' или 'XML').
-- `ps_version` (str): Версия PrestaShop.
-- `api_domain` (str): Домен API PrestaShop.
-- `api_key` (str): Ключ API PrestaShop.
+-   `client` (Session): HTTP-клиент для выполнения запросов.
+-   `debug` (bool): Флаг отладки.
+-   `language` (Optional[int]): ID языка.
+-   `data_format` (str): Формат данных (`JSON` или `XML`).
+-   `ps_version` (str): Версия PrestaShop.
+-   `api_domain` (str): Домен API.
+-   `api_key` (str): Ключ API.
 
 **Методы**:
 
-- [`__init__`](#init)
-- [`ping`](#ping)
-- [`_check_response`](#check_response)
-- [`_parse_response_error`](#parse_response_error)
-- [`_prepare_url`](#prepare_url)
-- [`_exec`](#exec)
-- [`_parse_response`](#parse_response)
-- [`create`](#create)
-- [`read`](#read)
-- [`write`](#write)
-- [`unlink`](#unlink)
-- [`search`](#search)
-- [`create_binary`](#create_binary)
-- [`get_schema`](#get_schema)
-- [`get_data`](#get_data)
-- [`get_apis`](#get_apis)
-- [`upload_image_async`](#upload_image_async)
-- [`upload_image_from_url`](#upload_image_from_url)
-- [`get_product_images`](#get_product_images)
+-   `__init__`: Инициализирует класс `PrestaShop`.
+-   `ping`: Проверяет работоспособность API.
+-   `_check_response`: Проверяет статус ответа и обрабатывает ошибки.
+-   `_parse_response_error`: Обрабатывает ошибки в ответе от PrestaShop API.
+-   `_prepare_url`: Подготавливает URL для запроса.
+-   `_exec`: Выполняет HTTP-запрос к PrestaShop API.
+-   `_parse_response`: Преобразует XML или JSON ответ от API в структуру dict.
+-   `create`: Создает новый ресурс в PrestaShop API.
+-   `read`: Читает ресурс из PrestaShop API.
+-   `write`: Обновляет существующий ресурс в PrestaShop API.
+-   `unlink`: Удаляет ресурс из PrestaShop API.
+-   `search`: Ищет ресурсы в PrestaShop API.
+-   `create_binary`: Загружает бинарный файл в ресурс PrestaShop API.
+-   `get_schema`: Получает схему ресурса из PrestaShop API.
+-   `get_data`: Извлекает данные из ресурса PrestaShop API и сохраняет их.
+-   `get_apis`: Получает список всех доступных API.
+-   `upload_image_async`: Асинхронно загружает изображение в PrestaShop API.
+-   `upload_image_from_url`: Загружает изображение в PrestaShop API.
+-   `get_product_images`: Получает изображения для продукта.
 
-#### `__init__`
+## Методы класса
+
+### `__init__`
 
 ```python
 def __init__(
@@ -82,7 +76,7 @@ def __init__(
     default_lang: int = 1,
     debug: bool = False,
 ) -> None:
-    """Инициализация класса PrestaShop.
+    """Инициализирует класс PrestaShop.
 
     Args:
         api_key (str): Ключ API, сгенерированный в PrestaShop.
@@ -93,29 +87,41 @@ def __init__(
 
     Raises:
         PrestaShopAuthenticationError: Если ключ API неверен или не существует.
-        PrestaShopException: Для общих ошибок веб-сервисов PrestaShop.
+        PrestaShopException: Для общих ошибок PrestaShop WebServices.
     """
 ```
 
-**Назначение**: Инициализирует экземпляр класса `PrestaShop` с заданными параметрами подключения к API PrestaShop.
+**Назначение**: Инициализация экземпляра класса `PrestaShop` с заданными параметрами подключения к API.
 
 **Параметры**:
 
-- `api_key` (str): Ключ API PrestaShop.
-- `api_domain` (str): Домен API PrestaShop.
-- `data_format` (str, optional): Формат данных ('JSON' или 'XML'). По умолчанию 'JSON'.
-- `default_lang` (int, optional): ID языка по умолчанию. По умолчанию 1.
-- `debug` (bool, optional): Включает режим отладки. По умолчанию `False`.
+-   `api_key` (str): Ключ API для аутентификации в PrestaShop.
+-   `api_domain` (str): Доменное имя магазина PrestaShop.
+-   `data_format` (str): Формат данных для обмена с API (JSON или XML). По умолчанию используется значение из `Config.POST_FORMAT`.
+-   `default_lang` (int): Идентификатор языка по умолчанию.
+-   `debug` (bool): Флаг, определяющий, включен ли режим отладки.
 
 **Как работает функция**:
 
-1.  Инициализирует атрибуты экземпляра класса `PrestaShop` с переданными значениями.
-2.  Устанавливает аутентификацию для HTTP-клиента, используя предоставленный ключ API.
-3.  Выполняет HEAD-запрос к API для проверки соединения и получения версии PrestaShop.
-4.  Логирует ошибку и прерывает выполнение, если не удается установить соединение.
-5.  Сохраняет версию PrestaShop, полученную из заголовков ответа.
+1.  Устанавливает значения атрибутов экземпляра класса на основе переданных аргументов.
+2.  Формирует URL API, добавляя `/api/` к домену.
+3.  Устанавливает аутентификацию для HTTP-клиента, используя предоставленный API-ключ.
+4.  Выполняет HEAD-запрос к API для проверки соединения и получения версии PrestaShop.
+5.  Логирует ошибку, если соединение не установлено.
 
-#### `ping`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+```
+
+### `ping`
 
 ```python
 def ping(self) -> bool:
@@ -126,19 +132,32 @@ def ping(self) -> bool:
     """
 ```
 
-**Назначение**: Проверяет доступность API PrestaShop, выполняя HEAD-запрос к домену API.
+**Назначение**: Проверка доступности API PrestaShop.
 
 **Возвращает**:
 
-- `bool`: `True`, если API доступен, `False` в противном случае.
+-   `bool`: `True`, если API доступен, `False` в противном случае.
 
 **Как работает функция**:
 
-1.  Выполняет HEAD-запрос к домену API.
+1.  Выполняет HEAD-запрос к API.
 2.  Вызывает метод `_check_response` для проверки статуса ответа.
-3.  Возвращает результат проверки.
 
-#### `_check_response`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+is_available = api.ping()
+print(f"API доступен: {is_available}")
+```
+
+### `_check_response`
 
 ```python
 def _check_response(
@@ -155,38 +174,53 @@ def _check_response(
     Args:
         status_code (int): Код состояния HTTP-ответа.
         response (requests.Response): Объект HTTP-ответа.
-        method (Optional[str]): HTTP-метод, использованный для запроса.
-        url (Optional[str]): URL запроса.
-        headers (Optional[dict]): Заголовки, использованные в запросе.
+        method (Optional[str]): HTTP-метод, используемый для запроса.
+        url (Optional[str]): URL-адрес запроса.
+        headers (Optional[dict]): Заголовки, используемые в запросе.
         data (Optional[dict]): Данные, отправленные в запросе.
 
     Returns:
-        bool: `True`, если код состояния 200 или 201, иначе `False`.
+        bool: `True`, если код состояния равен 200 или 201, иначе `False`.
     """
 ```
 
-**Назначение**: Проверяет статус код HTTP-ответа и обрабатывает ошибки, если таковые имеются.
+**Назначение**: Проверка статуса HTTP-ответа и обработка ошибок.
 
 **Параметры**:
 
-- `status_code` (int): HTTP код ответа.
-- `response` (requests.Response): Объект HTTP-ответа.
-- `method` (Optional[str]): HTTP-метод запроса (например, 'GET', 'POST').
-- `url` (Optional[str]): URL, на который был отправлен запрос.
-- `headers` (Optional[dict]): Заголовки запроса.
-- `data` (Optional[dict]): Тело запроса (данные).
+-   `status_code` (int): HTTP код ответа.
+-   `response` (requests.Response): Объект ответа `requests`.
+-   `method` (Optional[str]) = None: HTTP метод запроса.
+-   `url` (Optional[str]) = None: URL запроса.
+-   `headers` (Optional[dict]) = None: Заголовки запроса.
+-   `data` (Optional[dict]) = None: Данные запроса.
 
 **Возвращает**:
 
-- `bool`: `True`, если `status_code` равен 200 или 201, иначе `False`.
+-   `bool`: `True`, если статус код 200 или 201, иначе `False`.
 
 **Как работает функция**:
 
-1.  Проверяет, входит ли `status_code` в список успешных (200, 201).
-2.  Если код не успешный, вызывает `_parse_response_error` для обработки ошибки.
-3.  Возвращает `True` или `False` в зависимости от успешности статуса.
+1.  Проверяет, является ли код статуса 200 или 201.
+2.  Если код статуса не 200 и не 201, вызывает метод `_parse_response_error` для обработки ошибки.
 
-#### `_parse_response_error`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+
+response = api.client.request(method='GET', url=api.api_domain)
+is_valid = api._check_response(response.status_code, response)
+print(f"Ответ валиден: {is_valid}")
+```
+
+### `_parse_response_error`
 
 ```python
 def _parse_response_error(
@@ -197,63 +231,92 @@ def _parse_response_error(
     headers: Optional[dict] = None,
     data: Optional[dict] = None,
 ) -> None:
-    """Разбирает ответ об ошибке от API PrestaShop.
+    """Обрабатывает ответ об ошибке от PrestaShop API.
 
     Args:
         response (requests.Response): Объект HTTP-ответа от сервера.
     """
 ```
 
-**Назначение**: Обрабатывает и логирует ошибки, полученные от API PrestaShop.
+**Назначение**: Обработка ошибок, полученных в ответе от API PrestaShop.
 
 **Параметры**:
 
-- `response` (requests.Response): Объект HTTP-ответа, содержащий информацию об ошибке.
-- `method` (Optional[str]): HTTP-метод запроса (например, 'GET', 'POST').
-- `url` (Optional[str]): URL, на который был отправлен запрос.
-- `headers` (Optional[dict]): Заголовки запроса.
-- `data` (Optional[dict]): Тело запроса (данные).
+-   `response` (requests.Response): Объект HTTP-ответа, содержащий информацию об ошибке.
+-   `method` (Optional[str]) = None: HTTP метод запроса.
+-   `url` (Optional[str]) = None: URL запроса.
+-   `headers` (Optional[dict]) = None: Заголовки запроса.
+-   `data` (Optional[dict]) = None: Данные запроса.
 
 **Как работает функция**:
 
-1.  В зависимости от формата данных (`Config.POST_FORMAT`):
-    *   Если формат `JSON`, извлекает код состояния и JSON-содержимое ответа, логирует их как ошибку.
-    *   Если формат `XML`, разбирает XML-ответ и извлекает код и сообщение об ошибке, затем логирует их.
-2.  Использует `logger.error` для записи информации об ошибке.
+1.  Определяет формат данных (`JSON` или `XML`).
+2.  В зависимости от формата данных, извлекает код и сообщение об ошибке из ответа.
+3.  Логирует информацию об ошибке с использованием `logger.error`.
 
-#### `_prepare_url`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+response = requests.Response()
+response.status_code = 400
+response._content = b'{"errors": [{"code": 100, "message": "Bad Request"}]}'
+
+api._parse_response_error(response)
+```
+
+### `_prepare_url`
 
 ```python
 def _prepare_url(self, url: str, params: dict) -> str:
-    """Подготавливает URL для запроса.
+    """Подготавливает URL-адрес для запроса.
 
     Args:
-        url (str): Базовый URL.
+        url (str): Базовый URL-адрес.
         params (dict): Параметры для запроса.
 
     Returns:
-        str: Подготовленный URL с параметрами.
+        str: Подготовленный URL-адрес с параметрами.
     """
 ```
 
-**Назначение**: Формирует URL с параметрами для выполнения запроса к API PrestaShop.
+**Назначение**: Формирование полного URL-адреса с учетом параметров запроса.
 
 **Параметры**:
 
-- `url` (str): Базовый URL API.
-- `params` (dict): Словарь параметров запроса.
+-   `url` (str): Базовый URL-адрес API.
+-   `params` (dict): Словарь параметров запроса.
 
 **Возвращает**:
 
-- `str`: URL с добавленными параметрами.
+-   `str`: Сформированный URL-адрес с параметрами.
 
 **Как работает функция**:
 
 1.  Использует `PreparedRequest` из библиотеки `requests` для подготовки URL.
-2.  Добавляет параметры к базовому URL.
-3.  Возвращает полный URL.
+2.  Вызывает метод `prepare_url` для добавления параметров к базовому URL.
 
-#### `_exec`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+url = api._prepare_url(api.api_domain + 'products', {'limit': '3'})
+print(url)
+```
+
+### `_exec`
 
 ```python
 def _exec(
@@ -271,80 +334,113 @@ def _exec(
     limit: Optional[str] = None,
     language: Optional[int] = None,
     data_format: str = Config.POST_FORMAT,
-    **kwards,
+    **kwargs,
 ) -> Optional[dict]:
-    """Выполняет HTTP-запрос к API PrestaShop."""
+    """Выполняет HTTP-запрос к PrestaShop API."""
 ```
 
-**Назначение**: Выполняет HTTP-запрос к API PrestaShop.
+**Назначение**: Выполнение HTTP-запроса к API PrestaShop с заданными параметрами.
 
 **Параметры**:
 
-- `resource` (str): Ресурс API (например, 'products').
-- `resource_id` (Optional[int  |  str]): ID ресурса.
-- `resource_ids` (Optional[int  |  Tuple[int]]): ID ресурсов.
-- `method` (str): HTTP-метод ('GET', 'POST', 'PUT', 'DELETE'). По умолчанию 'GET'.
-- `data` (Optional[dict  |  str]): Данные для отправки.
-- `headers` (Optional[dict]): Дополнительные заголовки.
-- `search_filter` (Optional[str  |  dict]): Фильтр для поиска.
-- `display` (Optional[str  |  list]): Что отображать. По умолчанию 'full'.
-- `schema` (Optional[str]): Схема.
-- `sort` (Optional[str]): Сортировка.
-- `limit` (Optional[str]): Лимит.
-- `language` (Optional[int]): Язык.
-- `data_format` (str): Формат данных ('JSON' или 'XML'). По умолчанию 'JSON'.
-- `**kwards`: Дополнительные параметры.
+-   `resource` (str): Название ресурса API (например, 'products').
+-   `resource_id` (Optional[int | str]) = None: ID ресурса.
+-   `resource_ids` (Optional[int | Tuple[int]]) = None: ID ресурсов.
+-   `method` (str) = 'GET': HTTP метод запроса (GET, POST, PUT, DELETE).
+-   `data` (Optional[dict | str]) = None: Данные для отправки в запросе.
+-   `headers` (Optional[dict]) = None: Дополнительные заголовки запроса.
+-   `search_filter` (Optional[str | dict]) = None: Фильтр для поиска.
+-   `display` (Optional[str | list]) = 'full': Отображаемые поля.
+-   `schema` (Optional[str]) = None: Схема ресурса.
+-   `sort` (Optional[str]) = None: Параметры сортировки.
+-   `limit` (Optional[str]) = None: Лимит количества возвращаемых записей.
+-   `language` (Optional[int]) = None: ID языка.
+-   `data_format` (str) = Config.POST_FORMAT: Формат данных (JSON или XML).
 
 **Возвращает**:
 
-- `Optional[dict]`: Ответ от API или `False` в случае ошибки.
+-   `Optional[dict]`: Распарсенные данные ответа API или `False` в случае ошибки.
 
 **Как работает функция**:
 
-1.  Устанавливает уровень отладки HTTP-соединения.
-2.  Формирует URL запроса на основе переданных параметров.
-3.  Определяет заголовки запроса в зависимости от формата данных (`data_format`).
-4.  Выполняет HTTP-запрос с использованием библиотеки `requests`.
-5.  Проверяет статус ответа с помощью `self._check_response`.
-6.  В случае ошибки логирует информацию и возвращает `False`.
-7.  Разбирает ответ с помощью `self._parse_response` и возвращает результат.
-8.  Обрабатывает исключения и логирует ошибки.
+1.  Включает режим отладки HTTP-соединения, если `self.debug` установлен в `True`.
+2.  Формирует URL-адрес на основе переданных параметров.
+3.  Определяет заголовки запроса в зависимости от формата данных (JSON или XML).
+4.  Добавляет дополнительные заголовки, если они переданы.
+5.  Выполняет HTTP-запрос с использованием библиотеки `requests`.
+6.  Проверяет статус ответа с помощью метода `_check_response`.
+7.  В случае ошибки логирует информацию об ошибке и возвращает `False`.
+8.  В случае успешного выполнения преобразует ответ с помощью метода `_parse_response` и возвращает результат.
 
-#### `_parse_response`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+products = api._exec(resource='products', method='GET', limit='5')
+print(products)
+```
+
+### `_parse_response`
 
 ```python
 def _parse_response(self, response: Response) -> dict | None:
-    """Разбирает XML или JSON ответ от API в структуру dict
+    """Преобразует XML или JSON ответ от API в структуру dict.
 
     Args:
         text (str): Текст ответа.
 
     Returns:
-        dict: Разобранные данные или `False` при неудаче.
+        dict: Распарсенные данные или `False` в случае сбоя.
     """
 ```
 
-**Назначение**: Разбирает ответ от API PrestaShop в формате JSON или XML и преобразует его в структуру `dict`.
+**Назначение**: Преобразование ответа от API (в формате JSON или XML) в словарь Python.
 
 **Параметры**:
 
-- `response` (Response): Объект ответа HTTP-запроса.
+-   `response` (Response): Объект ответа HTTP-запроса.
 
 **Возвращает**:
 
-- `dict  |  None`: Разобранные данные в виде словаря или `None` в случае ошибки.
+-   `dict | None`: Словарь с данными, полученными из ответа API, или `None` в случае ошибки.
 
 **Как работает функция**:
 
-1.  Пытается разобрать JSON-ответ с помощью `response.json()`.
-2.  Если разбор успешен, возвращает словарь, полученный из JSON.
-3.  Если происходит ошибка при разборе JSON, логирует ошибку и возвращает пустой словарь.
+1.  Извлекает данные из ответа в формате JSON.
+2.  Если в полученном словаре есть ключ 'prestashop', возвращает значение этого ключа.
+3.  В противном случае возвращает исходный словарь.
+4.  В случае возникновения исключения при парсинге ответа, логирует ошибку и возвращает пустой словарь.
 
-#### `create`
+**Примеры**:
 
 ```python
-def create(self, resource: str, data: dict, *args, **kwards) -> Optional[dict]:
-    """Создает новый ресурс в API PrestaShop.
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+
+response = requests.Response()
+response.status_code = 200
+response._content = b'{"prestashop": {"products": [{"id": 1, "name": "Product 1"}]}}'
+
+data = api._parse_response(response)
+print(data)
+```
+
+### `create`
+
+```python
+def create(self, resource: str, data: dict, *args, **kwargs) -> Optional[dict]:
+    """Создает новый ресурс в PrestaShop API.
 
     Args:
         resource (str): API ресурс (например, 'products').
@@ -355,30 +451,43 @@ def create(self, resource: str, data: dict, *args, **kwards) -> Optional[dict]:
     """
 ```
 
-**Назначение**: Создает новый ресурс в API PrestaShop.
+**Назначение**: Создание нового ресурса в API PrestaShop.
 
 **Параметры**:
 
--   `resource` (str): Тип ресурса, который нужно создать (например, `'products'`, `'categories'`).
--   `data` (dict): Данные ресурса для создания.
+-   `resource` (str): Тип ресурса (например, 'products', 'categories').
+-   `data` (dict): Данные для создания ресурса.
+-   `*args`: Произвольные позиционные аргументы, передаваемые в `_exec`.
+-   `**kwargs`: Произвольные именованные аргументы, передаваемые в `_exec`.
 
 **Возвращает**:
 
--   `Optional[dict]`: Ответ от API в случае успеха или `None` в случае ошибки.
+-   `Optional[dict]`: Ответ от API в виде словаря или `None` в случае ошибки.
 
 **Как работает функция**:
 
-1.  Вызывает метод `_exec` с параметрами:
-    *   `resource`: Тип ресурса.
-    *   `method`: `'POST'` (метод создания).
-    *   `data`: Данные для создания ресурса.
-2.  Возвращает результат выполнения метода `_exec`.
+1.  Вызывает метод `_exec` с указанием ресурса, метода `POST` и переданных данных.
 
-#### `read`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+data = {'product': {'name': 'New Product', 'price': 10.0}}
+response = api.create(resource='products', data=data)
+print(response)
+```
+
+### `read`
 
 ```python
 def read(self, resource: str, resource_id: int | str, **kwargs) -> Optional[dict]:
-    """Считывает ресурс из API PrestaShop.
+    """Читает ресурс из PrestaShop API.
 
     Args:
         resource (str): API ресурс (например, 'products').
@@ -389,32 +498,41 @@ def read(self, resource: str, resource_id: int | str, **kwargs) -> Optional[dict
     """
 ```
 
-**Назначение**: Получает информацию о конкретном ресурсе из API PrestaShop.
+**Назначение**: Получение информации о конкретном ресурсе из API PrestaShop.
 
 **Параметры**:
 
--   `resource` (str): Тип ресурса, который нужно получить (например, `'products'`, `'categories'`).
--   `resource_id` (int | str): ID ресурса, который нужно получить.
--   `**kwargs`: Дополнительные параметры запроса.
+-   `resource` (str): Тип ресурса (например, 'products').
+-   `resource_id` (int | str): Идентификатор ресурса.
+-   `**kwargs`: Дополнительные параметры, передаваемые в `_exec`.
 
 **Возвращает**:
 
--   `Optional[dict]`: Ответ от API в случае успеха или `None` в случае ошибки.
+-   `Optional[dict]`: Ответ от API в виде словаря.
 
 **Как работает функция**:
 
-1.  Вызывает метод `_exec` с параметрами:
-    *   `resource`: Тип ресурса.
-    *   `resource_id`: ID ресурса.
-    *   `method`: `'GET'` (метод чтения).
-    *   `**kwargs`: Дополнительные параметры запроса.
-2.  Возвращает результат выполнения метода `_exec`.
+1.  Вызывает метод `_exec` с указанием ресурса, идентификатора ресурса и метода `GET`.
 
-#### `write`
+**Примеры**:
 
 ```python
-def write(self, resource: str, resource_id:int|str, data: dict, **kwards) -> Optional[dict]:
-    """Обновляет существующий ресурс в API PrestaShop.
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+product = api.read(resource='products', resource_id=1)
+print(product)
+```
+
+### `write`
+
+```python
+def write(self, resource: str, resource_id:int|str, data: dict, **kwargs) -> Optional[dict]:
+    """Обновляет существующий ресурс в PrestaShop API.
 
     Args:
         resource (str): API ресурс (например, 'products').
@@ -425,68 +543,87 @@ def write(self, resource: str, resource_id:int|str, data: dict, **kwards) -> Opt
     """
 ```
 
-**Назначение**: Обновляет существующий ресурс в API PrestaShop.
+**Назначение**: Обновление существующего ресурса в API PrestaShop.
 
 **Параметры**:
 
--   `resource` (str): Тип ресурса, который нужно обновить (например, `'products'`, `'categories'`).
--   `resource_id` (int | str): ID ресурса, который нужно обновить.
+-   `resource` (str): Тип ресурса (например, 'products').
+-   `resource_id` (int | str): Идентификатор ресурса.
 -   `data` (dict): Данные для обновления ресурса.
--   `**kwargs`: Дополнительные параметры запроса.
+-   `**kwargs`: Дополнительные параметры, передаваемые в `_exec`.
 
 **Возвращает**:
 
--   `Optional[dict]`: Ответ от API в случае успеха или `None` в случае ошибки.
+-   `Optional[dict]`: Ответ от API в виде словаря.
 
 **Как работает функция**:
 
-1.  Вызывает метод `_exec` с параметрами:
-    *   `resource`: Тип ресурса.
-    *   `resource_id`: ID ресурса.
-    *   `method`: `'PUT'` (метод обновления).
-    *   `data`: Данные для обновления ресурса.
-    *   `**kwargs`: Дополнительные параметры запроса.
-2.  Возвращает результат выполнения метода `_exec`.
+1.  Вызывает метод `_exec` с указанием ресурса, идентификатора ресурса, метода `PUT` и переданных данных.
 
-#### `unlink`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+data = {'product': {'id': 1, 'name': 'Updated Product', 'price': 12.0}}
+response = api.write(resource='products', resource_id=1, data=data)
+print(response)
+```
+
+### `unlink`
 
 ```python
 def unlink(self, resource: str, resource_id: int | str) -> bool:
-    """Удаляет ресурс из API PrestaShop.
+    """Удаляет ресурс из PrestaShop API.
 
     Args:
         resource (str): API ресурс (например, 'products').
         resource_id (int | str): ID ресурса.
 
     Returns:
-        bool: `True`, если успешно, `False` иначе.
+        bool: `True`, если успешно, `False` в противном случае.
     """
 ```
 
-**Назначение**: Удаляет ресурс из API PrestaShop.
+**Назначение**: Удаление ресурса из API PrestaShop.
 
 **Параметры**:
 
--   `resource` (str): Тип ресурса, который нужно удалить (например, `'products'`, `'categories'`).
--   `resource_id` (int | str): ID ресурса, который нужно удалить.
+-   `resource` (str): Тип ресурса (например, 'products').
+-   `resource_id` (int | str): Идентификатор ресурса.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успешного удаления, `False` в случае ошибки.
+-   `bool`: `True`, если удаление прошло успешно, `False` в противном случае.
 
 **Как работает функция**:
 
-1.  Вызывает метод `_exec` с параметрами:
-    *   `resource`: Тип ресурса.
-    *   `resource_id`: ID ресурса.
-    *   `method`: `'DELETE'` (метод удаления).
-2.  Возвращает результат выполнения метода `_exec`.
+1.  Вызывает метод `_exec` с указанием ресурса, идентификатора ресурса и метода `DELETE`.
 
-#### `search`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+result = api.unlink(resource='products', resource_id=1)
+print(f"Удаление успешно: {result}")
+```
+
+### `search`
 
 ```python
 def search(self, resource: str, filter: Optional[str | dict] = None, **kwargs) -> List[dict]:
-    """Ищет ресурсы в API PrestaShop.
+    """Ищет ресурсы в PrestaShop API.
 
     Args:
         resource (str): API ресурс (например, 'products').
@@ -497,67 +634,92 @@ def search(self, resource: str, filter: Optional[str | dict] = None, **kwargs) -
     """
 ```
 
-**Назначение**: Выполняет поиск ресурсов в API PrestaShop с применением фильтра.
+**Назначение**: Поиск ресурсов в API PrestaShop с использованием фильтра.
 
 **Параметры**:
 
--   `resource` (str): Тип ресурса, в котором нужно выполнить поиск (например, `'products'`, `'categories'`).
--   `filter` (Optional[str  |  dict]): Фильтр поиска в виде строки или словаря.
--   `**kwargs`: Дополнительные параметры запроса.
+-   `resource` (str): Тип ресурса (например, 'products').
+-   `filter` (Optional[str  |  dict]) = None: Фильтр для поиска ресурсов.
+-   `**kwargs`: Дополнительные параметры, передаваемые в `_exec`.
 
 **Возвращает**:
 
--   `List[dict]`: Список ресурсов, соответствующих критериям поиска.
+-   `List[dict]`: Список словарей, представляющих найденные ресурсы.
 
 **Как работает функция**:
 
-1.  Вызывает метод `_exec` с параметрами:
-    *   `resource`: Тип ресурса.
-    *   `search_filter`: Фильтр поиска.
-    *   `method`: `'GET'` (метод чтения).
-    *   `**kwargs`: Дополнительные параметры запроса.
-2.  Возвращает результат выполнения метода `_exec`.
+1.  Вызывает метод `_exec` с указанием ресурса, фильтра и метода `GET`.
 
-#### `create_binary`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+products = api.search(resource='products', filter='[name]=%Product%')
+print(products)
+```
+
+### `create_binary`
 
 ```python
 def create_binary(self, resource: str, file_path: str, file_name: str) -> dict:
-    """Загружает двоичный файл в ресурс API PrestaShop."""
+    """Загружает бинарный файл в ресурс PrestaShop API."""
 ```
 
-**Назначение**: Загружает бинарный файл (например, изображение) в указанный ресурс API PrestaShop.
+**Назначение**: Загрузка бинарного файла (например, изображения) в API PrestaShop.
 
 **Параметры**:
 
--   `resource` (str): Путь к ресурсу API, куда нужно загрузить файл (например, `'images/products/22'`).
--   `file_path` (str): Путь к файлу на локальной файловой системе.
--   `file_name` (str): Имя файла, которое будет присвоено загружаемому файлу.
+-   `resource` (str): API ресурс, к которому загружается файл (например, 'images/products/22').
+-   `file_path` (str): Путь к файлу.
+-   `file_name` (str): Имя файла.
 
 **Возвращает**:
 
--   `dict`: Ответ от API в случае успеха или словарь с информацией об ошибке в случае неудачи.
+-   `dict`: Ответ от API в виде словаря.
 
 **Как работает функция**:
 
-1.  Открывает файл, расположенный по пути `file_path`, в режиме чтения байтов (`'rb'`).
-2.  Формирует словарь `files` для передачи в запросе, указывая имя файла (`file_name`), содержимое файла и MIME-тип (`'image/jpeg'`).
-3.  Выполняет POST-запрос к API PrestaShop, передавая файл в параметре `files`.
-4.  Проверяет статус ответа и вызывает исключение `HTTPError`, если произошла ошибка.
-5.  Разбирает ответ от API с помощью метода `_parse_response`.
-6.  В случае возникновения исключений `RequestException` или `Exception`, логирует ошибку и возвращает словарь с информацией об ошибке.
+1.  Открывает файл по указанному пути в бинарном режиме.
+2.  Формирует словарь `files` для передачи файла в запросе.
+3.  Выполняет POST-запрос к API с использованием `requests.post`.
+4.  Проверяет статус ответа и вызывает `raise_for_status()` для обработки HTTP-ошибок.
+5.  Преобразует ответ в формат JSON и возвращает его.
+6.  В случае возникновения исключений логирует ошибку и возвращает словарь с информацией об ошибке.
 
-#### `get_schema`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+file_path = 'path/to/image.jpg'
+file_name = 'image.jpg'
+response = api.create_binary(resource='images/products/22', file_path=file_path, file_name=file_name)
+print(response)
+```
+
+### `get_schema`
 
 ```python
 def get_schema(
-    self, resource: Optional[str] = None, resource_id: Optional[int] = None, schema: Optional[str] = 'blank', **kwards
+    self, resource: Optional[str] = None, resource_id: Optional[int] = None, schema: Optional[str] = 'blank', **kwargs
 ) -> dict | None:
-    """Получает схему заданного ресурса из API PrestaShop.
+    """Получает схему данного ресурса из PrestaShop API.
 
     Args:
         resource (str): Название ресурса (например, 'products', 'customers').
-            Если не указано - вернется список всех схем сущностей, доступных для API ключа.
-        resource_id (Optinal[str]): ID ресурса.
+            Если не указано - вернется список всех схем сущностей, доступных для API-ключа.
+        resource_id (Optinal[str]):
         schema (Optional[str]): Обычно подразумеваются следующие опции:
             - blank: (Самая распространенная опция, как и в вашем коде)
                 Возвращает пустую схему ресурса. Это полезно для определения минимального набора полей,
@@ -578,68 +740,82 @@ def get_schema(
     """
 ```
 
-**Назначение**: Получает схему указанного ресурса из API PrestaShop.
+**Назначение**: Получение схемы ресурса из API PrestaShop.
 
 **Параметры**:
 
--   `resource` (str, optional): Имя ресурса (например, `'products'`, `'customers'`). Если не указано, возвращается список всех схем сущностей, доступных для API-ключа.
--   `resource_id` (int, optional): ID ресурса.
--   `schema` (str, optional): Тип схемы. Возможные значения:
-    -   `'blank'` (по умолчанию): Возвращает пустую схему ресурса.
-    -   `'synopsis'` или `'simplified'`: Возвращает упрощенную схему.
-    -   `'full'` или отсутствует: Возвращает полную схему ресурса.
-    -   `'form'`: Возвращает схему, оптимизированную для отображения в форме редактирования.
--   `**kwargs`: Дополнительные параметры запроса.
+-   `resource` (Optional[str]) = None: Имя ресурса (например, 'products', 'customers'). Если не указан, возвращается список всех доступных схем.
+-   `resource_id` (Optional[int]) = None: ID ресурса.
+-   `schema` (Optional[str]) = 'blank': Тип схемы. Возможные значения: 'blank', 'synopsis', 'full', 'form'.
+-   `**kwargs`: Дополнительные параметры, передаваемые в `_exec`.
 
 **Возвращает**:
 
--   `dict  |  None`: Схема запрошенного ресурса в виде словаря или `None` в случае ошибки.
+-   `dict  |  None`: Схема запрошенного ресурса или `None` в случае ошибки.
 
 **Как работает функция**:
 
-1.  Вызывает метод `_exec` с параметрами:
-    *   `resource`: Имя ресурса.
-    *   `resource_id`: ID ресурса.
-    *   `schema`: Тип схемы.
-    *   `method`: `'GET'` (метод чтения).
-    *   `**kwargs`: Дополнительные параметры запроса.
-2.  Возвращает результат выполнения метода `_exec`.
+1.  Вызывает метод `_exec` с указанием ресурса, ID ресурса, типа схемы и метода `GET`.
 
-#### `get_data`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+schema = api.get_schema(resource='products', schema='blank')
+print(schema)
+```
+
+### `get_data`
 
 ```python
 def get_data(self, resource: str, **kwargs) -> Optional[dict]:
-    """Получает данные из ресурса API PrestaShop и сохраняет их.
+    """Извлекает данные из ресурса PrestaShop API и сохраняет их.
 
     Args:
         resource (str): API ресурс (например, 'products').
-        **kwargs: Дополнительные аргументы для API запроса.
+        **kwargs: Дополнительные аргументы для API-запроса.
 
     Returns:
         dict | None: Данные из API или `False` в случае ошибки.
     """
 ```
 
-**Назначение**: Получает данные из указанного ресурса API PrestaShop.
+**Назначение**: Получение данных из API PrestaShop.
 
 **Параметры**:
 
--   `resource` (str): Имя ресурса, данные которого необходимо получить (например, `'products'`, `'categories'`).
--   `**kwargs`: Дополнительные параметры запроса, которые будут переданы в метод `_exec`.
+-   `resource` (str): Тип ресурса (например, 'products').
+-   `**kwargs`: Дополнительные параметры, передаваемые в `_exec`.
 
 **Возвращает**:
 
--   `dict | None`: Данные, полученные из API, в виде словаря или `None` в случае ошибки.
+-   `Optional[dict]`: Данные, полученные из API, или `None` в случае ошибки.
 
 **Как работает функция**:
 
-1.  Вызывает метод `_exec` с параметрами:
-    *   `resource`: Имя ресурса.
-    *   `method`: `'GET'` (метод чтения).
-    *   `**kwargs`: Дополнительные параметры запроса.
-2.  Возвращает результат выполнения метода `_exec`.
+1.  Вызывает метод `_exec` с указанием ресурса и метода `GET`.
 
-#### `get_apis`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+products = api.get_data(resource='products', limit='5')
+print(products)
+```
+
+### `get_apis`
 
 ```python
 def get_apis(self) -> Optional[dict]:
@@ -650,32 +826,42 @@ def get_apis(self) -> Optional[dict]:
     """
 ```
 
-**Назначение**: Получает список всех доступных API из PrestaShop.
+**Назначение**: Получение списка доступных API из PrestaShop.
 
 **Возвращает**:
 
--   `dict`: Список доступных API.
+-   `Optional[dict]`: Список доступных API в виде словаря.
 
 **Как работает функция**:
 
-1.  Вызывает метод `_exec` с параметрами:
-    *   `'apis'`: Указывает, что нужно получить список API.
-    *   `method`: `'GET'` (метод чтения).
-    *   `data_format`: Формат данных (`self.data_format`).
-2.  Возвращает результат выполнения метода `_exec`.
+1.  Вызывает метод `_exec` с указанием ресурса 'apis' и методом 'GET'.
 
-#### `upload_image_async`
+**Примеры**:
+
+```python
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
+apis = api.get_apis()
+print(apis)
+```
+
+### `upload_image_async`
 
 ```python
 def upload_image_async(
     self, resource: str, resource_id: int, img_url: str, img_name: Optional[str] = None
 ) -> Optional[dict]:
-    """Асинхронно загружает изображение в API PrestaShop.
+    """Асинхронно загружает изображение в PrestaShop API.
 
     Args:
         resource (str): API ресурс (например, 'images/products/22').
         resource_id (int): ID ресурса.
-        img_url (str): URL изображения.
+        img_url (str): URL-адрес изображения.
         img_name (Optional[str]): Имя файла изображения, по умолчанию None.
 
     Returns:
@@ -683,117 +869,35 @@ def upload_image_async(
     """
 ```
 
-**Назначение**: Асинхронно загружает изображение по URL в API PrestaShop.
+**Назначение**: Асинхронная загрузка изображения в API PrestaShop.
 
 **Параметры**:
 
--   `resource` (str): Ресурс API, куда будет загружено изображение (например, `'images/products/22'`).
--   `resource_id` (int): ID ресурса, к которому привязывается изображение.
--   `img_url` (str): URL изображения, которое нужно загрузить.
--   `img_name` (Optional[str]): Имя файла изображения (без расширения). Если не указано, используется `None`.
+-   `resource` (str): API ресурс, куда загружается изображение (например, 'images/products/22').
+-   `resource_id` (int): ID ресурса.
+-   `img_url` (str): URL-адрес изображения.
+-   `img_name` (Optional[str]) = None: Имя изображения.
 
 **Возвращает**:
 
--   `dict | None`: Ответ от API в случае успеха или `None` в случае ошибки.
+-   `Optional[dict]`: Ответ от API или `False` в случае ошибки.
 
 **Как работает функция**:
 
-1.  Разделяет URL изображения на имя файла и расширение.
-2.  Формирует имя файла изображения, используя `resource_id` и `img_name`.
-3.  Сохраняет изображение с использованием `save_image_from_url` и получает путь к сохраненному файлу.
-4.  Вызывает метод `create_binary` для загрузки изображения в API PrestaShop.
-5.  Удаляет временный файл изображения с использованием `self.remove_file`.
+1.  Разделяет URL-адрес изображения на имя файла и расширение.
+2.  Формирует имя файла на основе ID ресурса и имени изображения.
+3.  Сохраняет изображение с использованием функции `save_image_from_url`.
+4.  Вызывает метод `create_binary` для загрузки изображения в API.
+5.  Удаляет временный файл изображения.
 6.  Возвращает ответ от API.
 
-#### `upload_image_from_url`
+**Примеры**:
 
 ```python
-def upload_image_from_url(
-    self, resource: str, resource_id: int, img_url: str, img_name: Optional[str] = None
-) -> Optional[dict]:
-    """Загружает изображение в API PrestaShop.
-
-    Args:
-        resource (str): API ресурс (например, 'images/products/22').
-        resource_id (int): ID ресурса.
-        img_url (str): URL изображения.
-        img_name (Optional[str]): Имя файла изображения, по умолчанию None.
-
-    Returns:
-        dict | None: Ответ от API или `False` в случае ошибки.
-    """
-```
-
-**Назначение**: Загружает изображение по URL в API PrestaShop.
-
-**Параметры**:
-
--   `resource` (str): Ресурс API, куда будет загружено изображение (например, `'images/products/22'`).
--   `resource_id` (int): ID ресурса, к которому привязывается изображение.
--   `img_url` (str): URL изображения, которое нужно загрузить.
--   `img_name` (Optional[str]): Имя файла изображения (без расширения). Если не указано, используется `None`.
-
-**Возвращает**:
-
--   `dict | None`: Ответ от API в случае успеха или `None` в случае ошибки.
-
-**Как работает функция**:
-
-1.  Разделяет URL изображения на имя файла и расширение.
-2.  Формирует имя файла изображения, используя `resource_id` и `img_name`.
-3.  Сохраняет изображение с использованием `save_image_from_url` и получает путь к сохраненному файлу.
-4.  Вызывает метод `create_binary` для загрузки изображения в API PrestaShop.
-5.  Удаляет временный файл изображения с использованием `self.remove_file`.
-6.  Возвращает ответ от API.
-
-#### `get_product_images`
-
-```python
-def get_product_images(self, product_id: int) -> Optional[dict]:
-    """Получает изображения для продукта.
-
-    Args:
-        product_id (int): ID продукта.
-
-    Returns:
-        dict | None: Список изображений продукта или `False` в случае ошибки.
-    """
-```
-
-**Назначение**: Получает список изображений, связанных с указанным продуктом в API PrestaShop.
-
-**Параметры**:
-
--   `product_id` (int): ID продукта, для которого нужно получить изображения.
-
-**Возвращает**:
-
--   `dict | None`: Список изображений продукта или `None` в случае ошибки.
-
-**Как работает функция**:
-
-1.  Формирует URL для запроса списка изображений продукта, используя `product_id`.
-2.  Вызывает метод `_exec` с параметрами:
-    *   `f'products/{product_id}/images'`: URL для запроса списка изображений продукта.
-    *   `method`: `'GET'` (метод чтения).
-    *   `data_format`: Формат данных (`self.data_format`).
-3.  Возвращает результат выполнения метода `_exec`.
-
-## Функции
-
-### `main`
-
-```python
-def main() -> None:
-    """Проверка сущностей Prestashop"""
-```
-
-**Назначение**: Функция для проверки сущностей Prestashop.
-
-**Как работает функция**:
-
-1.  Определяет данные для создания налога (`tax`).
-2.  Создает экземпляр класса `PrestaShop` с параметрами подключения к API.
-3.  Вызывает методы `create` и `write` для создания и записи данных о налоге.
-
-```
+api = PrestaShop(
+    api_key='your_api_key',
+    api_domain='https://your-prestashop-domain.com',
+    data_format='JSON',
+    default_lang=1,
+    debug=True
+)
