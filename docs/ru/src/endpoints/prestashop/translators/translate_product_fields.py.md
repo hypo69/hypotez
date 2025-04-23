@@ -1,12 +1,13 @@
-# Модуль: src.translators.translate_product_fields
+# Модуль для перевода полей товара
 
 ## Обзор
 
-Модуль `translate_product_fields.py` предназначен для управления переводами полей товаров, обеспечивая взаимодействие между словарем полей товара, таблицей переводов и сервисами перевода. Он включает функции для получения переводов из базы данных PrestaShop, добавления новых переводов и перевода отдельных записей.
+Модуль `translate_product_fields.py` предназначен для управления переводами полей товара, обеспечивая связь между словарем полей товара, таблицей переводов и переводчиками. Он включает в себя функции для получения, вставки и выполнения перевода записей о товарах.
 
 ## Подробней
 
-Этот модуль служит связующим звеном между различными компонентами системы перевода товаров. Он обеспечивает получение существующих переводов из базы данных PrestaShop, вставку новых переводов и использование сервисов машинного перевода для автоматического перевода контента.
+Модуль содержит функции для работы с переводами, такие как получение существующих переводов из базы данных, вставка новых переводов и перевод содержимого записей о товарах с использованием внешних сервисов перевода.
+Модуль использует класс `ProductTranslationsManager` для взаимодействия с базой данных и класс `translate` из `src.llm` для выполнения переводов.
 
 ## Функции
 
@@ -14,85 +15,81 @@
 
 ```python
 def get_translations_from_presta_translations_table(product_reference: str, credentials: dict, i18n: str = None) -> list:
-    """Функция возвращает словарь переводов полей товара.
-
-    Args:
-        product_reference (str): Артикул товара, для которого требуется получить переводы.
-        credentials (dict): Параметры подключения к базе данных PrestaShop.
-        i18n (str, optional): Язык перевода в формате en_EN, he_HE, ru-RU. По умолчанию `None`.
-
-    Returns:
-        list: Список словарей, содержащих переводы полей товара.
-
-    Как работает функция:
-        - Функция создает инстанс класса `ProductTranslationsManager` для управления соединениями с базой данных.
-        - Формирует фильтр поиска по артикулу товара.
-        - Выполняет запрос к базе данных для получения записей переводов, соответствующих фильтру.
-        - Возвращает список найденных записей.
-    """
-    ...
+    """Функция возвращает словарь переводов полей товара."""
+    with ProductTranslationsManager(credentials) as translations_manager:
+        search_filter = {'product_reference': product_reference}
+        product_translations = translations_manager.select_record(**search_filter)
+    return product_translations
 ```
 
+**Назначение**:
+Функция извлекает переводы полей товара из таблицы переводов PrestaShop на основе предоставленного референса товара и учетных данных для доступа к базе данных.
+
 **Параметры**:
-- `product_reference` (str): Артикул товара.
-- `credentials` (dict): Параметры подключения к базе данных PrestaShop.
-- `i18n` (str, optional): Язык перевода. По умолчанию `None`.
+- `product_reference` (str): Уникальный идентификатор товара, для которого требуется получить переводы.
+- `credentials` (dict): Словарь, содержащий учетные данные для подключения к базе данных, где хранятся переводы.
+- `i18n` (str, optional): Языковой код перевода (например, 'en_EN', 'he_HE', 'ru-RU'). По умолчанию `None`.
 
 **Возвращает**:
-- `list`: Список словарей с переводами.
+- `list`: Список, содержащий записи переводов полей товара, найденные в базе данных.
 
-**Пример**:
+**Как работает функция**:
+1. Функция принимает референс товара, учетные данные для подключения к базе данных и, опционально, языковой код.
+2. Использует менеджер контекста `ProductTranslationsManager` для автоматического управления подключением к базе данных.
+3. Формирует фильтр поиска по референсу товара.
+4. Выполняет запрос к базе данных через метод `select_record` менеджера переводов.
+5. Возвращает список найденных переводов.
 
+**Примеры**:
 ```python
-product_reference = "REF123"
+# Пример вызова функции
+product_reference = "12345"
 credentials = {
-    "host": "localhost",
-    "user": "user",
-    "password": "password",
-    "database": "prestashop_db"
+    'host': 'localhost',
+    'user': 'user',
+    'password': 'password',
+    'database': 'prestashop_db'
 }
-i18n = "ru_RU"
-
-translations = get_translations_from_presta_translations_table(product_reference, credentials, i18n)
-print(translations) # Вывод: [{'id': 1, 'product_reference': 'REF123', 'name': 'Товар 123', ...}, ...]
+translations = get_translations_from_presta_translations_table(product_reference, credentials, i18n='ru-RU')
+print(translations)
 ```
 
 ### `insert_new_translation_to_presta_translations_table`
 
 ```python
-def insert_new_translation_to_presta_translations_table(record: dict, credentials: dict):
-    """Функция для вставки новой записи перевода в таблицу переводов PrestaShop.
-
-    Args:
-        record (dict): Словарь с данными для новой записи перевода.
-        credentials (dict): Параметры подключения к базе данных PrestaShop.
-
-   Как работает функция:
-        - Функция создает инстанс класса `ProductTranslationsManager` для управления соединениями с базой данных.
-        - Выполняет вставку записи перевода в базу данных.
-    """
-    ...
+def insert_new_translation_to_presta_translations_table(record, credentials):
+    """Функция возвращает словарь переводов полей товара."""
+    with ProductTranslationsManager(credentials) as translations_manager:
+        translations_manager.insert_record(record)
 ```
 
+**Назначение**:
+Функция добавляет новую запись перевода в таблицу переводов PrestaShop.
+
 **Параметры**:
-- `record` (dict): Данные для вставки.
-- `credentials` (dict): Параметры подключения к базе данных PrestaShop.
+- `record` (dict): Словарь, представляющий запись перевода, которую необходимо добавить в базу данных.
+- `credentials` (dict): Словарь, содержащий учетные данные для подключения к базе данных.
 
-**Пример**:
+**Как работает функция**:
+1. Функция принимает запись перевода и учетные данные для подключения к базе данных.
+2. Использует менеджер контекста `ProductTranslationsManager` для автоматического управления подключением к базе данных.
+3. Выполняет вставку записи в базу данных через метод `insert_record` менеджера переводов.
 
+**Примеры**:
 ```python
+# Пример вызова функции
 record = {
-    "product_reference": "REF456",
-    "name": "Новый товар 456",
-    "description": "Описание нового товара 456"
+    'product_reference': '12345',
+    'field_name': 'name',
+    'lang': 'ru-RU',
+    'translation': 'Новое название товара'
 }
 credentials = {
-    "host": "localhost",
-    "user": "user",
-    "password": "password",
-    "database": "prestashop_db"
+    'host': 'localhost',
+    'user': 'user',
+    'password': 'password',
+    'database': 'prestashop_db'
 }
-
 insert_new_translation_to_presta_translations_table(record, credentials)
 ```
 
@@ -100,42 +97,36 @@ insert_new_translation_to_presta_translations_table(record, credentials)
 
 ```python
 def translate_record(record: dict, from_locale: str, to_locale: str) -> dict:
-    """Функция для перевода полей товара.
-
-    Args:
-        record (dict): Словарь с полями товара для перевода.
-        from_locale (str): Исходный язык перевода.
-        to_locale (str): Язык, на который требуется перевести.
-
-    Returns:
-        dict: Словарь с переведенными полями товара.
-
-    Как работает функция:
-        - Функция вызывает функцию `translate` из модуля `src.llm` для выполнения перевода.
-        - Производит обработку полученной переведенной записи (детали обработки не указаны в предоставленном коде).
-        - Возвращает словарь с переведенными данными.
-    """
-    ...
+    """Функция для перевода полей товара."""
+    translated_record = translate(record, from_locale, to_locale)
+    ... # Добавить обработку переведенной записи
+    return translated_record
 ```
+
+**Назначение**:
+Функция переводит поля товара из одного языка на другой с использованием внешнего сервиса перевода.
 
 **Параметры**:
-- `record` (dict): Данные для перевода.
-- `from_locale` (str): Исходный язык.
-- `to_locale` (str): Целевой язык.
+- `record` (dict): Словарь, содержащий поля товара для перевода.
+- `from_locale` (str): Языковой код исходного языка (например, 'en_EN').
+- `to_locale` (str): Языковой код целевого языка (например, 'ru-RU').
 
 **Возвращает**:
-- `dict`: Словарь с переведенными данными.
+- `dict`: Словарь с переведенными полями товара.
 
-**Пример**:
+**Как работает функция**:
+1. Функция принимает запись о товаре, языковой код исходного языка и языковой код целевого языка.
+2. Вызывает функцию `translate` из модуля `src.llm` для выполнения перевода.
+3. Возвращает словарь с переведенными полями.
 
+**Примеры**:
 ```python
+# Пример вызова функции
 record = {
-    "name": "Product 789",
-    "description": "Description of product 789"
+    'name': 'Product Name',
+    'description': 'Product Description'
 }
-from_locale = "en"
-to_locale = "ru"
-
+from_locale = 'en'
+to_locale = 'ru'
 translated_record = translate_record(record, from_locale, to_locale)
-print(translated_record) # Вывод: {'name': 'Товар 789', 'description': 'Описание товара 789'}
-```
+print(translated_record)

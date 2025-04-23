@@ -2,20 +2,11 @@
 
 ## Обзор
 
-Модуль предназначен для взаимодействия с товарами в PrestaShop. Он предоставляет классы и функции для получения информации о товарах, добавления новых товаров, а также для управления категориями товаров.
+Модуль предназначен для взаимодействия с товарами в PrestaShop. Он предоставляет классы и функции для получения информации о товарах, добавления новых товаров и выполнения других операций, связанных с товарами.
 
 ## Подробнее
 
-Модуль `product` является частью проекта `hypotez` и отвечает за взаимодействие с API PrestaShop для управления товарами. Он включает в себя классы для конфигурации подключения к PrestaShop, для работы с API PrestaShop, а также функции для выполнения различных операций с товарами, такими как добавление новых товаров и получение информации о существующих товарах.
-
-## Содержание
-
-- [Классы](#Классы)
-  - [Config](#Config)
-  - [PrestaProduct](#PrestaProduct)
-- [Функции](#Функции)
-  - [example_add_new_product](#example_add_new_product)
-  - [example_get_product](#example_get_product)
+Модуль содержит класс `PrestaProduct`, который наследует от класса `PrestaShop` и реализует методы для работы с API PrestaShop, специфичные для товаров. Он использует другие модули проекта, такие как `src.endpoints.prestashop.api`, `src.endpoints.prestashop.category`, `src.endpoints.prestashop.product_fields` и другие, для выполнения различных задач, таких как преобразование данных, отправка запросов к API и обработка ответов.
 
 ## Классы
 
@@ -25,87 +16,107 @@
 
 **Атрибуты**:
 
--   `MODE` (str): Режим работы (например, `'dev'`). По умолчанию `'dev'`.
+-   `MODE` (str): Режим работы (`dev` или `prod`). По умолчанию `'dev'`.
 -   `API_DOMAIN` (str): Домен API PrestaShop. По умолчанию `''`.
 -   `API_KEY` (str): Ключ API PrestaShop. По умолчанию `''`.
 
 **Принцип работы**:
 
-Класс `Config` предназначен для хранения конфигурационных данных, необходимых для подключения к API PrestaShop. Он использует переменные окружения, если `USE_ENV` установлен в `True`, в противном случае использует значения из `gs.credentials.presta`. В зависимости от значения `MODE` выбираются различные доступы к API.
+Класс `Config` определяет параметры конфигурации для работы с API PrestaShop. Он использует переменные окружения, если `USE_ENV` равно `True`, или значения из `gs.credentials`, если `USE_ENV` равно `False`.
 
 ### `PrestaProduct`
 
-**Описание**: Класс для манипуляций с товарами.
+**Описание**: Класс для управления товарами в PrestaShop.
 
-**Наследует**:
-
--   `PrestaShop`: Наследует функциональность для взаимодействия с API PrestaShop.
-
-**Атрибуты**:
-
--   `api_key` (Optional[str]): Ключ API PrestaShop.
--   `api_domain` (Optional[str]): Домен API PrestaShop.
+**Наследует**: `PrestaShop`
 
 **Методы**:
 
--   `__init__(api_key: Optional[str] = '', api_domain: Optional[str] = '', *args, **kwargs) -> None`
--   `get_product_schema(resource_id: Optional[str | int] = None, schema: Optional[str] = None) -> dict`
--   `get_parent_category(id_category: int) -> Optional[int]`
--   `_add_parent_categories(f: ProductFields) -> None`
--   `get_product(id_product: int, **kwards) -> dict`
--   `add_new_product(f: ProductFields) -> dict`
+-   `__init__(self, api_key: Optional[str] = '', api_domain: Optional[str] = '', *args, **kwargs) -> None`: Инициализирует объект `PrestaProduct`.
+-   `get_product_schema(self, resource_id: Optional[str | int] = None, schema: Optional[str] = None) -> dict`: Возвращает схему для ресурса продукта из PrestaShop.
+-   `get_parent_category(self, id_category: int) -> Optional[int]`: Рекурсивно извлекает родительские категории из PrestaShop для заданной категории.
+-   `_add_parent_categories(self, f: ProductFields) -> None`: Вычисляет и добавляет все уникальные родительские категории для списка ID категорий в объект `ProductFields`.
+-   `get_product(self, id_product: int, **kwargs) -> dict`: Возвращает словарь полей товара из магазина PrestaShop.
+-   `add_new_product(self, f: ProductFields) -> dict`: Добавляет новый продукт в PrestaShop.
 
-#### `__init__`
+## Методы класса
+
+### `__init__`
 
 ```python
-def __init__(self, api_key: Optional[str] = '', api_domain: Optional[str] = '', *args, **kwargs) -> None
+def __init__(self, api_key: Optional[str] = '', api_domain: Optional[str] = '', *args, **kwargs) -> None:
+    """Инициализирует объект `PrestaProduct`.
+
+    Args:
+        api_key (Optional[str], optional): Ключ API PrestaShop. По умолчанию ''.
+        api_domain (Optional[str], optional): Домен API PrestaShop. По умолчанию ''.
+
+    Returns:
+        None
+    """
 ```
 
-**Назначение**: Инициализирует объект `PrestaProduct`.
+**Назначение**: Инициализация объекта класса `PrestaProduct`.
 
 **Параметры**:
 
--   `api_key` (Optional[str], optional): Ключ API PrestaShop. По умолчанию `''`.
--   `api_domain` (Optional[str], optional): Домен API PrestaShop. По умолчанию `''`.
--   `*args`: Произвольные позиционные аргументы, передаваемые в конструктор родительского класса `PrestaShop`.
--   `**kwargs`: Произвольные именованные аргументы, передаваемые в конструктор родительского класса `PrestaShop`.
-
-**Возвращает**:
-
--   `None`
+-   `api_key` (Optional[str], optional): Ключ API PrestaShop. Если не указан, используется значение из `Config.API_KEY`. По умолчанию `''`.
+-   `api_domain` (Optional[str], optional): Домен API PrestaShop. Если не указан, используется значение из `Config.API_DOMAIN`. По умолчанию `''`.
+-   `*args`: Произвольные позиционные аргументы, передаваемые в конструктор родительского класса.
+-   `**kwargs`: Произвольные именованные аргументы, передаваемые в конструктор родительского класса.
 
 **Как работает функция**:
 
-Вызывает конструктор родительского класса `PrestaShop` с переданными ключом API и доменом API, если они указаны, или использует значения по умолчанию из класса `Config`.
+Функция вызывает конструктор родительского класса `PrestaShop` с переданными параметрами или значениями по умолчанию из класса `Config`.
 
-#### `get_product_schema`
+### `get_product_schema`
 
 ```python
-def get_product_schema(self, resource_id: Optional[str | int] = None, schema: Optional[str] = None) -> dict
+def get_product_schema(self, resource_id: Optional[str | int] = None, schema: Optional[str] = None) -> dict:
+    """Возвращает схему для ресурса продукта из PrestaShop.
+
+    Args:
+        resource_id (Optional[str  |  int], optional): ID ресурса продукта. По умолчанию `None`.
+        schema (Optional[str], optional): Тип схемы. По умолчанию `'blank'`.
+            - blank: Пустой шаблон ресурса: все поля присутствуют, но без значений. Обычно используется для создания нового объекта.
+            - synopsis: Минимальный набор полей: только обязательные поля и краткая структура. Подходит для быстрого обзора.
+            - null / не передавать параметр: Возвращает полную схему ресурса со всеми возможными полями, типами и ограничениями.
+
+    Returns:
+        dict: Схема для ресурса продукта.
+    """
 ```
 
-**Назначение**: Получает схему ресурса товара из PrestaShop.
+**Назначение**: Получение схемы для ресурса продукта из PrestaShop.
 
 **Параметры**:
 
--   `resource_id` (Optional[str | int], optional): ID ресурса товара. По умолчанию `None`.
--   `schema` (Optional[str], optional): Тип схемы. Может быть `'blank'`, `'synopsis'` или `None`. По умолчанию `None`.
+-   `resource_id` (Optional[str  |  int], optional): ID ресурса продукта. По умолчанию `None`.
+-   `schema` (Optional[str], optional): Тип схемы. Может быть `blank`, `synopsis` или `None`. По умолчанию `'blank'`.
 
 **Возвращает**:
 
--   `dict`: Схема ресурса товара.
+-   `dict`: Схема для ресурса продукта.
 
 **Как работает функция**:
 
-Вызывает метод `get_schema` родительского класса `PrestaShop` для получения схемы ресурса товара.
+Функция вызывает метод `get_schema` родительского класса `PrestaShop` с указанными параметрами и возвращает полученную схему.
 
-#### `get_parent_category`
+### `get_parent_category`
 
 ```python
-def get_parent_category(self, id_category: int) -> Optional[int]
+def get_parent_category(self, id_category: int) -> Optional[int]:
+    """Рекурсивно извлекает родительские категории из PrestaShop для заданной категории.
+
+    Args:
+        id_category (int): ID категории.
+
+    Returns:
+        Optional[int]: ID родительской категории (int).
+    """
 ```
 
-**Назначение**: Рекурсивно получает родительские категории из PrestaShop для заданной категории.
+**Назначение**: Рекурсивное извлечение родительских категорий из PrestaShop для заданной категории.
 
 **Параметры**:
 
@@ -113,22 +124,27 @@ def get_parent_category(self, id_category: int) -> Optional[int]
 
 **Возвращает**:
 
--   `Optional[int]`: ID родительской категории или `None`, если родительская категория не найдена или произошла ошибка.
+-   `Optional[int]`: ID родительской категории (int).
 
 **Как работает функция**:
 
-1.  Выполняет чтение данных о категории из PrestaShop по заданному `id_category`.
-2.  Извлекает `id_parent` из полученных данных.
-3.  Возвращает `id_parent` в виде целого числа.
-4.  Обрабатывает исключения и логирует ошибки, возвращая `None` в случае неудачи.
+Функция отправляет запрос к API PrestaShop для получения информации о категории с заданным ID. Затем извлекает ID родительской категории из ответа и возвращает его. Если категория не найдена или произошла ошибка, возвращается `None`.
 
-#### `_add_parent_categories`
+### `_add_parent_categories`
 
 ```python
 def _add_parent_categories(self, f: ProductFields) -> None:
+    """
+    Вычисляет и добавляет все уникальные родительские категории
+    для списка ID категорий в объект ProductFields.
+
+    Args:
+        f (ProductFields): Объект ProductFields, в который добавляются
+                           уникальные родительские категории.
+    """
 ```
 
-**Назначение**: Вычисляет и добавляет все уникальные родительские категории для списка ID категорий в объект `ProductFields`.
+**Назначение**: Вычисление и добавление всех уникальных родительских категорий для списка ID категорий в объект `ProductFields`.
 
 **Параметры**:
 
@@ -136,26 +152,41 @@ def _add_parent_categories(self, f: ProductFields) -> None:
 
 **Как работает функция**:
 
-1.  Создает множество `seen_ids` для отслеживания всех ID категорий (начальных и добавленных).
+1.  Создает множество для отслеживания всех ID категорий (начальных и добавленных).
 2.  Заполняет множество ID из начального списка `f.additional_categories`.
-3.  Итерируется по начальным категориям для поиска их родителей.
-4.  Для каждой категории получает родительскую категорию с помощью метода `self.get_parent_category`.
-5.  Если родительская категория найдена и еще не добавлена в `seen_ids`, добавляет ее в `f.additional_categories` и `seen_ids`.
-6.  Повторяет шаги 4 и 5, пока не достигнет корневой категории или не найдет родительскую категорию.
-7.  Логирует финальный набор уникальных ID категорий.
+3.  Итерирует по начальным категориям для поиска их родителей.
+4.  Поднимается по иерархии категорий, пока не дойдет до корня.
+5.  Проверяет, найден ли родитель и не является ли он корнем.
+6.  Проверяет на дубликат перед добавлением.
+7.  Добавляет родителя в `f.additional_categories`.
+8.  Добавляет ID нового родителя в множество отслеживания.
+9.  Переходит к следующему родителю вверх по иерархии.
+10. После завершения итерации `f.additional_categories` содержит исходные категории + уникальные родительские.
 
-#### `get_product`
+### `get_product`
 
 ```python
-def get_product(self, id_product: int, **kwards) -> dict
+def get_product(self, id_product: int, **kwargs) -> dict:
+    """Возваращает словарь полей товара из магазина Prestasop
+
+    Args:
+        id_product (int): значение поля ID в таблице `product` Preastashop
+
+    Returns:
+        dict:
+        {
+            'product':
+                {... product fields}
+        }
+    """
 ```
 
 **Назначение**: Возвращает словарь полей товара из магазина PrestaShop.
 
 **Параметры**:
 
--   `id_product` (int): Значение поля ID в таблице `product` PrestaShop.
--   `**kwards`: Дополнительные параметры запроса.
+-   `id_product` (int): ID товара в таблице `product` PrestaShop.
+-   `**kwargs`: Дополнительные параметры запроса.
 
 **Возвращает**:
 
@@ -163,67 +194,69 @@ def get_product(self, id_product: int, **kwards) -> dict
 
 **Как работает функция**:
 
-1.  Устанавливает параметр `data_format` в `'JSON'` для запроса.
-2.  Вызывает метод `self.read` для получения информации о товаре с заданным `id_product`.
-3.  Возвращает полученный словарь.
+Функция вызывает метод `read` родительского класса `PrestaShop` с указанными параметрами и возвращает полученный словарь.
 
-#### `add_new_product`
+### `add_new_product`
 
 ```python
-def add_new_product(self, f: ProductFields) -> dict
+def add_new_product(self, f: ProductFields) -> dict:
+    """Добавляет новый продукт в PrestaShop.
+
+    Преобразовывает объект `ProducFields` в словарь формата `Prestashop` и отрапавлет его в API Престашоп
+
+    Args:
+        f (ProductFields): Экземпляр класса данных `ProductFields`, содержащий информацию о продукте.
+
+    Returns:
+        dict: Возвращает объект `ProductFields` с установленным `id_product`, если продукт был успешно добавлен, в противном случае `None`.
+    """
 ```
 
-**Назначение**: Добавляет новый товар в PrestaShop.
+**Назначение**: Добавление нового продукта в PrestaShop.
 
 **Параметры**:
 
--   `f` (ProductFields): Экземпляр класса `ProductFields`, содержащий информацию о товаре.
+-   `f` (ProductFields): Объект `ProductFields`, содержащий информацию о продукте.
 
 **Возвращает**:
 
--   `dict`: Объект `SimpleNamespace` с данными добавленного товара, если товар был успешно добавлен, в противном случае - пустой словарь.
+-   `dict`: Объект `ProductFields` с установленным `id_product`, если продукт был успешно добавлен, в противном случае пустой словарь.
 
 **Как работает функция**:
 
-1.  Добавляет `id_category_default` в поле `additional_categories` для поиска ее родительских категорий.
-2.  Вызывает метод `self._add_parent_categories` для добавления родительских категорий.
+1.  Добавляет `id_category_default` в поле `additional_categories` для поиска её родительских категорий.
+2.  Вызывает метод `_add_parent_categories` для добавления родительских категорий.
 3.  Преобразует объект `ProductFields` в словарь формата PrestaShop.
 4.  Преобразует словарь в XML.
-5.  Вызывает метод `self.create` для добавления товара в PrestaShop.
-6.  Сохраняет XML представление запроса в файл.
-7.  Если товар был успешно добавлен, загружает изображение товара (если указано) и возвращает объект `SimpleNamespace` с данными добавленного товара.
-8.  В случае ошибки логирует ошибку и возвращает пустой словарь.
+5.  Отправляет XML в API PrestaShop для создания нового продукта.
+6.  Если продукт успешно добавлен, извлекает ID добавленного продукта из ответа и возвращает объект `ProductFields` с установленным `id_product`.
 
-## Функции
+**Внутренние функции**: Отсутствуют
+
+## Примеры
 
 ### `example_add_new_product`
 
 ```python
-def example_add_new_product() -> None
+def example_add_new_product() -> None:
+    """Пример для добавления товара в Prestashop"""
 ```
 
 **Назначение**: Пример добавления товара в PrestaShop.
 
-**Параметры**:
-
--   `None`
-
-**Возвращает**:
-
--   `None`
-
 **Как работает функция**:
 
 1.  Создает экземпляр класса `PrestaProduct`.
-2.  Загружает пример данных о товаре из JSON-файла.
-3.  Преобразует данные в формат XML.
-4.  Вызывает метод `_exec` для добавления товара в PrestaShop.
-5.  Выводит ответ от API PrestaShop.
+2.  Загружает пример данных из JSON-файла.
+3.  Преобразует данные в XML.
+4.  Отправляет запрос к API PrestaShop для добавления нового продукта.
+5.  Выводит ответ от API.
 
 ### `example_get_product`
 
 ```python
-def example_get_product(id_product: int, **kwards) -> None
+def example_get_product(id_product: int, **kwargs) -> None:
+    """"""
 ```
 
 **Назначение**: Пример получения информации о товаре из PrestaShop.
@@ -231,14 +264,10 @@ def example_get_product(id_product: int, **kwards) -> None
 **Параметры**:
 
 -   `id_product` (int): ID товара.
--   `**kwards`: Дополнительные параметры запроса.
-
-**Возвращает**:
-
--   `None`
+-   `**kwargs`: Дополнительные параметры запроса.
 
 **Как работает функция**:
 
 1.  Создает экземпляр класса `PrestaProduct`.
-2.  Вызывает метод `get_product` для получения информации о товаре с заданным ID.
+2.  Вызывает метод `get_product` для получения информации о товаре.
 3.  Сохраняет полученную информацию в JSON-файл.

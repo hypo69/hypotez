@@ -38,9 +38,8 @@ from src.logger.exceptions import (
     PayloadChecksumError,
     UnableToSendToRecycleBin,
 )
-from src.utils.file import read_text_file
+
 from src.utils.jjson import j_loads, j_loads_ns
-from src.utils.printer import pprint
 
 def set_project_root(marker_files=('__root__','.git')) -> Path:
     """
@@ -304,21 +303,13 @@ class ProgramSettings:
             assistants:list = kp.find_groups(path=['openai','assistants']).entries
 
             for entry in openai_api_keys:
-
-
                 try:
-                    # Создание нового SimpleNamespace для каждого API ключа (по умолчанию `hypotez`)
                     entry_ns = SimpleNamespace()
-        
-                    # Установка атрибута в self.credentials.presta.client с именем entry.title
                     setattr(self.credentials.openai, entry.title, entry_ns)
-        
-                    # Ссылка на созданный объект через entry.title
                     _entry = getattr(self.credentials.openai, entry.title)
-
                     setattr(_entry, 'api_key', entry.custom_properties.get('api_key', None))
                     setattr(_entry, 'project_api', entry.custom_properties.get('project_api', None))
-                
+                    return True
                 except Exception as ex:
                     logger.error(f"Failed to extract OpenAI API key from KeePass ", ex)
                     ...                 
@@ -338,16 +329,19 @@ class ProgramSettings:
         Returns:
             bool: True if loading was successful, False otherwise.
         """
-        try:
-            entries = kp.find_groups(path=['gemini']).entries
+        gemini_api_keys = kp.find_groups(path=['gemini']).entries
 
-            for entry in entries:
-                setattr(self.credentials.gemini, entry.title, entry.custom_properties.get('api_key', None))
-            return True
-        except Exception as ex:
-            print(f"Failed to extract GoogleAI credentials from KeePass {ex}")
-            ...
-            return False
+        for entry in gemini_api_keys:
+            try:
+                entry_ns = SimpleNamespace()
+                setattr(self.credentials.gemini, entry.title, entry_ns)
+                _entry = getattr(self.credentials.gemini, entry.title)
+                setattr(_entry, 'api_key', entry.custom_properties.get('api_key', None))
+            except Exception as ex:
+                print(f"Failed to extract `gemini` credentials from KeePass {ex}")
+                ...
+                return False
+        return True
 
     def _load_telegram_credentials(self, kp: PyKeePass) -> bool:
         """Load Telegram credentials from KeePass.
@@ -397,13 +391,13 @@ class ProgramSettings:
 
          for entry in kp.find_groups(path=['prestashop', 'clients']).entries:
             try:
-                # Создаем новый SimpleNamespace для клиента
+
                 client_ns = SimpleNamespace()
         
-                # Устанавливаем атрибут в self.credentials.presta.client с именем entry.title
+
                 setattr(self.credentials.presta.client, entry.title, client_ns)
         
-                # Получаем ссылку на созданный объект через entry.title
+
                 current_client = getattr(self.credentials.presta.client, entry.title)
 
                 setattr(current_client, 'api_key', entry.custom_properties.get('api_key', None))
@@ -434,13 +428,10 @@ class ProgramSettings:
 
 
                 try:
-                    # Создание нового SimpleNamespace для каждого API ключа (по умолчанию `hypotez`)
                     entry_ns = SimpleNamespace()
         
-                    # Установка атрибута в self.credentials.presta.client с именем entry.title
                     setattr(self.credentials.serpapi, entry.title, entry_ns)
         
-                    # Ссылка на созданный объект через entry.title
                     _entry = getattr(self.credentials.serpapi, entry.title)
                     setattr(_entry, 'api_key', entry.custom_properties.get('api_key', None))
                 

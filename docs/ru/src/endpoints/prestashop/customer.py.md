@@ -2,36 +2,43 @@
 
 ## Обзор
 
-Модуль `customer.py` предназначен для работы с клиентами в PrestaShop. Он включает в себя класс `PrestaCustomer`, который позволяет добавлять, удалять, обновлять и получать информацию о клиентах через API PrestaShop.
+Модуль `src.endpoints.prestashop.customer` предоставляет класс `PrestaCustomer` для работы с клиентами в PrestaShop. Он включает в себя методы для добавления, удаления, обновления и получения информации о клиентах через API PrestaShop.
 
-## Подробнее
+## Подробней
 
-Модуль предоставляет удобный интерфейс для взаимодействия с API PrestaShop, упрощая процесс управления данными клиентов. Он использует классы `PrestaShop` из модуля `api.py` для выполнения HTTP-запросов к API PrestaShop.
+Модуль предназначен для упрощения взаимодействия с API PrestaShop при работе с клиентами. Класс `PrestaCustomer` наследует функциональность из класса `PrestaShop` и предоставляет удобные методы для выполнения стандартных операций с клиентами. Расположение файла в проекте указывает на то, что он является частью подсистемы, отвечающей за интеграцию с PrestaShop.
 
 ## Классы
 
 ### `PrestaCustomer`
 
-**Описание**: Класс для работы с клиентами в PrestaShop. Он позволяет добавлять, удалять, обновлять и получать информацию о клиентах через API PrestaShop.
+**Описание**: Класс для работы с клиентами в PrestaShop.
 
-**Наследует**:
+**Наследует**: `PrestaShop`
 
--   `PrestaShop`: Класс для взаимодействия с API PrestaShop.
-
-**Атрибуты**: Отсутствуют
+**Атрибуты**:
+- Нет явных атрибутов, кроме тех, что наследуются от `PrestaShop`.
 
 **Методы**:
+- `__init__`: Инициализирует экземпляр класса `PrestaCustomer`.
+- `add_customer_PrestaShop`: Добавляет нового клиента в PrestaShop.
+- `delete_customer_PrestaShop`: Удаляет клиента из PrestaShop.
+- `update_customer_PrestaShop`: Обновляет информацию о клиенте в PrestaShop.
+- `get_customer_details_PrestaShop`: Получает детали клиента из PrestaShop.
 
--   `__init__`: Инициализация клиента PrestaShop.
+**Принцип работы**:
+Класс инициализируется с использованием домена API и ключа API PrestaShop. Он предоставляет методы для выполнения операций CRUD (Create, Read, Update, Delete) над клиентами через API PrestaShop.
 
-#### `__init__`
+## Методы класса
+
+### `__init__`
 
 ```python
-def __init__(self,
-             credentials: Optional[dict | SimpleNamespace] = None,
-             api_domain: Optional[str] = None,
-             api_key: Optional[str] = None,
-             *args, **kwards):
+def __init__(self, 
+                 credentials: Optional[dict | SimpleNamespace] = None, 
+                 api_domain: Optional[str] = None, 
+                 api_key: Optional[str] = None, 
+                 *args, **kwargs):
     """Инициализация клиента PrestaShop.
 
     Args:
@@ -41,32 +48,28 @@ def __init__(self,
     """
 ```
 
-**Назначение**: Инициализирует экземпляр класса `PrestaCustomer`.
+**Назначение**: Инициализирует экземпляр класса `PrestaCustomer`, устанавливая домен API и ключ API.
 
 **Параметры**:
+- `credentials` (Optional[dict | SimpleNamespace], optional): Словарь или объект `SimpleNamespace`, содержащий `api_domain` и `api_key`. По умолчанию `None`.
+- `api_domain` (Optional[str], optional): Домен API PrestaShop. По умолчанию `None`.
+- `api_key` (Optional[str], optional): Ключ API PrestaShop. По умолчанию `None`.
 
--   `credentials` (Optional[dict | SimpleNamespace], optional): Словарь или объект `SimpleNamespace` с параметрами `api_domain` и `api_key`. По умолчанию `None`.
--   `api_domain` (Optional[str], optional): Домен API. По умолчанию `None`.
--   `api_key` (Optional[str], optional): Ключ API. По умолчанию `None`.
--   `*args`: Произвольные позиционные аргументы, передаваемые в конструктор родительского класса.
--   `**kwards`: Произвольные именованные аргументы, передаваемые в конструктор родительского класса.
+**Возвращает**:
+- Ничего (None).
+
+**Вызывает исключения**:
+- `ValueError`: Если `api_domain` или `api_key` не предоставлены.
 
 **Как работает функция**:
-
-1.  Проверяет, переданы ли параметры `credentials`. Если да, извлекает значения `api_domain` и `api_key` из словаря `credentials`, если они там есть.
-2.  Проверяет, что `api_domain` и `api_key` не `None`. Если хотя бы один из них `None`, вызывает исключение `ValueError`.
-3.  Вызывает конструктор родительского класса `PrestaShop` с переданными параметрами.
+Функция `__init__` инициализирует класс `PrestaCustomer`. Она проверяет, переданы ли домен API и ключ API через аргументы или через словарь `credentials`. Если ни один из этих параметров не предоставлен, функция выдает исключение `ValueError`. В противном случае функция вызывает метод `__init__` родительского класса `PrestaShop`.
 
 **Примеры**:
 
 ```python
 # Пример 1: Инициализация с использованием api_domain и api_key
-prestacustomer = PrestaCustomer(api_domain='your_api_domain', api_key='your_api_key')
+prestacustomer = PrestaCustomer(api_domain='https://yourdomain.com/api', api_key='your_api_key')
 
-# Пример 2: Инициализация с использованием credentials
-credentials = {'api_domain': 'your_api_domain', 'api_key': 'your_api_key'}
-prestacustomer = PrestaCustomer(credentials=credentials)
-
-# Пример 3: Инициализация с использованием SimpleNamespace
-credentials = SimpleNamespace(api_domain='your_api_domain', api_key='your_api_key')
+# Пример 2: Инициализация с использованием словаря credentials
+credentials = {'api_domain': 'https://yourdomain.com/api', 'api_key': 'your_api_key'}
 prestacustomer = PrestaCustomer(credentials=credentials)

@@ -1,60 +1,48 @@
-# Модуль `product_async.py`
+# Модуль `product_async`
 
 ## Обзор
 
-Модуль `product_async.py` предназначен для управления товарами в PrestaShop посредством асинхронного взаимодействия с API. Он обеспечивает добавление новых товаров, получение информации о категориях и загрузку изображений. Модуль взаимодействует с веб-сайтом, продуктом и PrestaShop, определяя поведение товара в проекте.
+Модуль `product_async` предназначен для взаимодействия с веб-сайтом, базой данных товаров и PrestaShop. Он определяет поведение товара в проекте, позволяя добавлять новые товары, получать информацию о родительских категориях и выполнять другие операции, связанные с товарами, асинхронно. Модуль использует PrestaShop API для управления товарами.
 
 ## Подробнее
 
-Модуль предоставляет класс `PrestaProductAsync`, который расширяет класс `PrestaShopAsync` и включает методы для работы с товарами, такие как добавление новых товаров и получение информации о категориях. Взаимодействие с PrestaShop API осуществляется асинхронно, что позволяет повысить производительность и отзывчивость приложения.
+Модуль содержит класс `PrestaProductAsync`, который наследует `PrestaShopAsync` и предоставляет методы для работы с товарами в PrestaShop. Он позволяет добавлять новые товары, получая данные о товаре с веб-страницы и взаимодействуя с PrestaShop API. Также в модуле определены функции для асинхронного выполнения операций.
 
 ## Классы
 
 ### `PrestaProductAsync`
 
-**Описание**: Класс для управления товарами в PrestaShop.
-
+**Описание**: Класс для выполнения операций с товарами. Инициализирует граббер для получения данных со страницы товара и взаимодействует с PrestaShop API.
 **Наследует**: `PrestaShopAsync`
 
 **Методы**:
+- `__init__`: Инициализирует объект `PrestaProductAsync`.
+- `add_new_product_async`: Добавляет новый товар в PrestaShop.
 
-- `__init__(self, *args, **kwargs)`: Инициализирует объект класса `PrestaProductAsync`.
-- `add_new_product_async(self, f: ProductFields) -> ProductFields | None`: Асинхронно добавляет новый товар в PrestaShop.
-
-## Методы класса
-
-### `__init__(self, *args, **kwargs)`
+#### `__init__`
 
 ```python
 def __init__(self, *args, **kwargs):
     """
-    Инициализирует объект Product.
+    Initializes a Product object.
 
     Args:
-        *args: Список позиционных аргументов.
-        **kwargs: Словарь именованных аргументов.
+        *args: Variable length argument list.
+        **kwargs: Arbitrary keyword arguments.
     """
 ```
 
-**Назначение**: Инициализирует объект класса `PrestaProductAsync`, вызывая конструктор родительского класса `PrestaShopAsync` и инициализируя атрибут `presta_category_async` экземпляром класса `PrestaCategoryAsync`.
+**Назначение**: Инициализирует объект `PrestaProductAsync`, вызывая конструктор родительского класса `PrestaShopAsync` и создавая экземпляр класса `PrestaCategoryAsync`.
 
 **Параметры**:
-
-- `*args`: Список позиционных аргументов, передаваемых в конструктор родительского класса `PrestaShopAsync`.
-- `**kwargs`: Словарь именованных аргументов, передаваемых в конструктор родительского класса `PrestaShopAsync`.
+- `*args`: Список позиционных аргументов, передаваемых в конструктор родительского класса.
+- `**kwargs`: Словарь именованных аргументов, передаваемых в конструктор родительского класса.
 
 **Как работает функция**:
-
 - Вызывает конструктор родительского класса `PrestaShopAsync` с переданными аргументами.
-- Инициализирует атрибут `presta_category_async` экземпляром класса `PrestaCategoryAsync`, также передавая аргументы.
+- Создает экземпляр класса `PrestaCategoryAsync`, который используется для работы с категориями товаров.
 
-**Примеры**:
-
-```python
-product = PrestaProductAsync(api_url='https://example.com/api', api_key='your_api_key')
-```
-
-### `add_new_product_async(self, f: ProductFields) -> ProductFields | None`
+#### `add_new_product_async`
 
 ```python
 async def add_new_product_async(self, f: ProductFields) -> ProductFields | None:
@@ -69,39 +57,59 @@ async def add_new_product_async(self, f: ProductFields) -> ProductFields | None:
     """
 ```
 
-**Назначение**: Асинхронно добавляет новый товар в PrestaShop.
+**Назначение**: Асинхронно добавляет новый товар в PrestaShop, используя API.
 
 **Параметры**:
-
-- `f` (`ProductFields`): Объект класса `ProductFields`, содержащий информацию о товаре.
+- `f` (ProductFields): Объект класса `ProductFields`, содержащий информацию о товаре.
 
 **Возвращает**:
-
-- `ProductFields | None`: Объект `ProductFields` с установленным `id_product` в случае успешного добавления товара, в противном случае - `None`.
+- `ProductFields | None`: Объект `ProductFields` с установленным `id_product`, если товар успешно добавлен, иначе `None`.
 
 **Как работает функция**:
+1.  Функция извлекает дополнительные категории, используя `presta_category_async.get_parent_categories_list(f.id_category_default)`.
+2.  Преобразует объект `ProductFields` в словарь `presta_product_dict`.
+3.  Использует метод `create` для создания товара в PrestaShop. Если товар не создан, функция логирует ошибку и возвращает `None`.
+4.  После успешного создания товара, функция пытается создать бинарное представление изображения товара, используя `create_binary`. Если изображение успешно создано, функция возвращает `True`. В противном случае, функция логирует ошибку и возвращает `None`.
 
-1.  Получает список родительских категорий товара с использованием метода `get_parent_categories_list` класса `PrestaCategoryAsync`.
-2.  Преобразует объект `ProductFields` в словарь.
-3.  Создает новый товар в PrestaShop с использованием метода `create`.
-4.  Если товар не был добавлен, логирует ошибку и возвращает `None`.
-5.  Загружает изображение товара с использованием метода `create_binary`.
-6.  Если загрузка изображения прошла успешно, возвращает `True`, иначе логирует ошибку и возвращает `None`.
+## Функции
 
-**Примеры**:
+### `main`
 
 ```python
+async def main():
+    """
+    Пример использования класса `ProductAsync` и его методов.
+    """
+```
+
+**Назначение**: Пример использования класса `PrestaProductAsync` и его методов.
+
+**Как работает функция**:
+1.  Создает экземпляр класса `PrestaProductAsync`.
+2.  Создает экземпляр класса `ProductFields` с данными о товаре.
+3.  Получает родительские категории товара.
+4.  Добавляет новый товар, используя метод `add_new_product_async`.
+5.  Выводит информацию о результате добавления товара.
+6.  Вызывает метод `fetch_data_async`.
+
+**Примеры**:
+```python
+# Пример использования
+product = PrestaProductAsync()
 product_fields = ProductFields(
-    lang_index=1,
+    lang_index = 1,
     name='Test Product Async',
     price=19.99,
     description='This is an asynchronous test product.',
-    id_category_default=3
 )
 
-new_product = await product.add_new_product_async(product_fields)
+parent_categories = await Product.get_parent_categories(id_category=3)
+print(f'Parent categories: {parent_categories}')
+
+new_product = await product.add_new_product(product_fields)
 if new_product:
     print(f'New product id = {new_product.id_product}')
 else:
-    print('Error add new product')
-```
+    print(f'Error add new product')
+
+await product.fetch_data_async()

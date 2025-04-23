@@ -1,12 +1,13 @@
-# Модуль `login`
+# Модуль `login.py`
 
 ## Обзор
 
-Модуль `login` предназначен для авторизации на веб-сайте C-data через веб-драйвер. Он содержит функцию `login`, которая выполняет вход на сайт, используя предоставленные email и пароль.
+Модуль `login.py` предназначен для реализации интерфейса авторизации на веб-сайте `https://reseller.c-data.co.il/Login` с использованием веб-драйвера. Он содержит функцию `login`, которая выполняет следующие шаги: открывает страницу авторизации, заполняет поля email и пароля, нажимает кнопку входа и логирует успешную авторизацию.
 
 ## Подробнее
 
-Этот модуль является частью проекта `hypotez` и отвечает за автоматизацию процесса входа на сайт поставщика C-data. Он использует локаторы элементов веб-страницы для заполнения полей email и пароля, а также для нажатия кнопки входа.
+Модуль предназначен для автоматизации процесса входа в систему `C-data` через веб-интерфейс. Используется веб-драйвер для взаимодействия с элементами страницы.
+Расположение файла в структуре проекта указывает на его принадлежность к модулю `cdata` в рамках поставщиков (`suppliers`). Это подразумевает, что модуль отвечает за специфическую логику авторизации для данного поставщика.
 
 ## Функции
 
@@ -15,32 +16,103 @@
 ```python
 def login(self) -> bool:
     """
-    Выполняет вход на сайт C-data, используя email и пароль, указанные в локаторах.
+    Выполняет авторизацию на сайте C-data.
 
     Args:
-        self: Экземпляр класса, в котором определена функция.
+        self: Объект класса, в котором определен метод. Предполагается, что объект имеет атрибуты `get_url`, `locators`, `find`, `print` и `log`.
 
     Returns:
-        bool: Возвращает `True`, если вход выполнен успешно.
+        bool: `True` в случае успешной авторизации.
 
     Raises:
-        Exception: Если возникает ошибка при входе на сайт.
-
-    Внутренние функции:
-        Отсутствуют.
-
-    Как работает функция:
-    1.  Функция переходит по URL-адресу страницы входа C-data (`https://reseller.c-data.co.il/Login`).
-    2.  Извлекает email и пароль из `self.locators['login']`.
-    3.  Извлекает локаторы для полей email, пароля и кнопки входа из `self.locators['login']`.
-    4.  Выводит в консоль локаторы для отладки.
-    5.  Находит элементы email и пароля на странице, используя их локаторы, и заполняет их значениями email и пароля.
-    6.  Находит кнопку входа, используя её локатор, и нажимает на неё.
-    7.  Логгирует успешный вход на сайт C-data.
-    8.  Возвращает `True`, если вход выполнен успешно.
-
-    Примеры:
-        # Пример вызова функции login
-        >>> login(self)
-        True
+        Нет явных исключений, но возможны исключения, связанные с работой веб-драйвера,
+        например, `NoSuchElementException`, если не удается найти элементы на странице.
     """
+```
+
+**Назначение**:
+Функция `login` выполняет процесс авторизации на сайте `C-data`. Она открывает страницу входа, заполняет поля email и пароля, нажимает кнопку входа и логирует факт успешной авторизации.
+
+**Параметры**:
+- `self`: Экземпляр класса, содержащего метод `login`. Ожидается, что `self` имеет доступ к атрибутам и методам, необходимым для взаимодействия с веб-драйвером и параметрами авторизации.
+
+**Возвращает**:
+- `True`: Если авторизация прошла успешно.
+
+**Как работает функция**:
+1.  Открывает страницу авторизации, используя метод `self.get_url('https://reseller.c-data.co.il/Login')`.
+2.  Извлекает данные для email и пароля из атрибута `self.locators['login']`.
+3.  Определяет локаторы для полей email, пароля и кнопки входа, извлекая их из `self.locators['login']`.
+4.  Выводит в лог локаторы для email, пароля и кнопки входа, используя `self.print()`.
+5.  Находит элементы email и пароля на странице, используя `self.find()`, и заполняет их значениями email и пароля соответственно.
+6.  Находит и нажимает кнопку входа, используя `self.find(loginbutton_locator).click()`.
+7.  Логирует успешную авторизацию, используя `self.log('C-data logged in')`.
+8.  Возвращает `True`, указывая на успешное завершение процесса авторизации.
+
+**Примеры**:
+
+```python
+# Пример вызова функции login
+# Предполагается, что существует объект класса, у которого есть метод login
+# и необходимые атрибуты (get_url, locators, find, print, log)
+class CDATAClient:
+    def __init__(self, driver):
+        self.driver = driver
+        self.locators = {
+            'login': {
+                'email': 'test@example.com',
+                'password': 'password',
+                'email_locator': {'by': 'XPATH', 'selector': '//input[@id="email"]'},
+                'password_locator': {'by': 'XPATH', 'selector': '//input[@id="password"]'},
+                'loginbutton_locator': {'by': 'XPATH', 'selector': '//button[@id="login"]'}
+            }
+        }
+
+    def get_url(self, url):
+        self.driver.get(url)
+
+    def find(self, locator):
+        from selenium.webdriver.common.by import By
+        by_method = getattr(By, locator[0])
+        return self.driver.find_element(by_method, locator[1])
+
+    def log(self, message):
+        print(message)
+    def print(self, message):
+        print(message)
+    def login(self):
+        self.get_url('https://reseller.c-data.co.il/Login')
+
+        email = self.locators['login']['email']
+        password = self.locators['login']['password']
+
+        email_locator = (self.locators['login']['email_locator']['by'],
+                            self.locators['login']['email_locator']['selector'])
+
+        password_locator = (self.locators['login']['password_locator']['by'],
+                                self.locators['login']['password_locator']['selector'])
+
+        loginbutton_locator =  (self.locators['login']['loginbutton_locator']['by'],
+                                    self.locators['login']['loginbutton_locator']['selector'])
+
+
+        self.print(f''' email_locator {email_locator}
+                password_locator {password_locator}
+                loginbutton_locator {loginbutton_locator}''')
+
+        self.find(email_locator).send_keys(email)
+        self.find(password_locator).send_keys(password)
+        self.find(loginbutton_locator).click()
+        self.log('C-data logged in')
+        return True
+# Пример использования
+# from selenium import webdriver
+# driver = webdriver.Chrome()  # Инициализация веб-драйвера Chrome
+# client = CDATAClient(driver)
+# success = client.login()
+# print(f"Login successful: {success}")
+# driver.quit()  # Закрытие веб-драйвера
+```
+
+В данном примере, создан класс `CDATAClient`, который имитирует взаимодействие с веб-драйвером и содержит необходимую информацию для авторизации. Затем создается экземпляр этого класса, вызывается метод `login`, и результат выводится в консоль.
+Обрати внимание, что для запуска этого примера требуется установленный веб-драйвер (например, ChromeDriver для Chrome) и библиотека Selenium.

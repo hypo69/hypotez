@@ -1,27 +1,25 @@
-# Модуль для генерации прайс-листов Казаринова
+# Модуль для генерации прайс-листов для Казаринова
 
 ## Обзор
 
-Модуль предназначен для генерации HTML и PDF отчётов на основе данных о мехиронах Казаринова. Он использует шаблоны Jinja2 для создания HTML-страниц и библиотеку pdfkit для преобразования HTML в PDF.
+Модуль предназначен для генерации HTML и PDF файлов прайс-листов на основе JSON данных. Он использует шаблоны Jinja2 для создания HTML и библиотеку pdfkit или собственные инструменты для преобразования HTML в PDF.
 
-## Подробней
+## Подробнее
 
-Этот модуль предоставляет функциональность для автоматического создания отчётов о ценах в формате HTML и PDF. Он принимает данные в формате JSON, загружает их, генерирует HTML на основе шаблонов Jinja2 и сохраняет в файл. Затем HTML преобразуется в PDF с использованием `pdfkit`.
+Этот модуль предоставляет класс `ReportGenerator` для создания отчетов на основе данных из JSON файлов. Он поддерживает разные языки для генерации отчетов и использует шаблоны Jinja2 для форматирования HTML. Модуль также включает функциональность для преобразования HTML в PDF.
 
 ## Классы
 
 ### `ReportGenerator`
 
-**Описание**: Класс для генерации HTML- и PDF-отчётов на основе данных из JSON.
+**Описание**: Класс для генерации HTML и PDF отчетов на основе данных из JSON.
 
 **Атрибуты**:
-
-- `env` (Environment): Окружение Jinja2 для загрузки и рендеринга шаблонов. Инициализируется с FileSystemLoader, указывающим на текущую директорию.
+- `env` (Environment): Окружение Jinja2 для загрузки и рендеринга шаблонов.
 
 **Методы**:
-
-- `generate_html(self, data: dict, lang: str) -> str`: Генерирует HTML-контент на основе шаблона и данных.
-- `create_report(self, data: dict, lang: str, html_file: str | Path, pdf_file: str | Path) -> bool`: Полный цикл генерации отчёта.
+- `generate_html(data: dict, lang: str) -> str`: Генерирует HTML-контент на основе шаблона и данных.
+- `create_report(data: dict, lang: str, html_file: str | Path, pdf_file: str | Path) -> bool`: Запускает полный цикл генерации отчёта.
 
 ### `ReportGenerator.generate_html`
 
@@ -31,55 +29,55 @@ async def generate_html(self, data: dict, lang: str) -> str:
     Генерирует HTML-контент на основе шаблона и данных.
 
     Args:
-        data (dict): Словарь с данными для заполнения шаблона.
-        lang (str): Язык отчёта ('he' для иврита, любой другой - для русского).
+        data (dict): Данные для заполнения шаблона.
+        lang (str): Язык отчёта.
 
     Returns:
         str: HTML-контент.
     """
+    ...
 ```
 
-**Назначение**: Генерирует HTML-контент на основе шаблона и переданных данных.
+**Назначение**: Генерирует HTML-контент на основе шаблона и данных.
 
 **Параметры**:
-
-- `data` (dict): Словарь с данными для заполнения шаблона.
-- `lang` (str): Язык отчёта (`'he'` для иврита, любой другой - для русского).
+- `data` (dict): Данные для заполнения шаблона.
+- `lang` (str): Язык отчёта (`ru` или `he`).
 
 **Возвращает**:
-
 - `str`: HTML-контент, сгенерированный на основе шаблона и данных.
 
 **Как работает функция**:
-
-1. Определяет, какой шаблон использовать в зависимости от языка (`lang`). Если язык `'he'`, используется шаблон `'template_table_he.html'`, иначе используется шаблон `'template_table_ru.html'`.
-2. Формирует путь к выбранному шаблону.
-3. Читает содержимое шаблона из файла.
-4. Создаёт Jinja2-шаблон из строки.
-5. Рендерит шаблон с использованием переданных данных (`data`).
-6. Возвращает сгенерированный HTML-контент.
+- Определяет, какой шаблон использовать в зависимости от языка (`template_table_he.html` для иврита и `template_table_ru.html` для русского).
+- Формирует путь к файлу шаблона.
+- Читает содержимое шаблона из файла.
+- Создает объект шаблона Jinja2 из строки.
+- Рендерит шаблон с использованием переданных данных и возвращает полученный HTML-код.
 
 **Примеры**:
 
 ```python
 from pathlib import Path
-from src.endpoints.kazarinov.react.pricelist_generator import ReportGenerator
+from src.endpoints.emil.report_generator.pricelist_generator import ReportGenerator
 import asyncio
-from src.utils.jjson import j_loads
-from src import gs
 
-# Пример использования (требуется наличие файлов шаблонов и данных)
-# gs.path.external_storage = Path('./') # for local test
-# gs.path.endpoints = Path('./') # for local test
+async def main():
+    # Пример данных для отчета
+    data = {
+        "products": [
+            {"product_title": "Товар 1", "specification": "Описание 1", "image_local_saved_path": "path/to/image1.jpg"},
+            {"product_title": "Товар 2", "specification": "Описание 2", "image_local_saved_path": "path/to/image2.jpg"}
+        ]
+    }
+    # Создание экземпляра ReportGenerator
+    report_generator = ReportGenerator()
+    # Генерация HTML на русском языке
+    html_content = await report_generator.generate_html(data, "ru")
+    print(html_content)
+    # Сохранение HTML в файл (опционально)
+    # Path("report.html").write_text(html_content, encoding="UTF-8")
 
-# data = j_loads(gs.path.endpoints / 'kazarinov' / 'pricelist_generator' / 'templates' / 'example_data.json')  # Загрузка данных из JSON-файла
-# report_generator = ReportGenerator()
-# html_content = asyncio.run(report_generator.generate_html(data, 'ru'))
-# print(html_content)
-
-# Пример с ивритским языком
-# html_content_he = asyncio.run(report_generator.generate_html(data, 'he'))
-# print(html_content_he)
+asyncio.run(main())
 ```
 
 ### `ReportGenerator.create_report`
@@ -96,57 +94,67 @@ async def create_report(self, data: dict, lang: str, html_file: str | Path, pdf_
         pdf_file (str | Path): Путь для сохранения PDF-файла.
 
     Returns:
-        bool: True, если отчёт успешно сгенерирован, иначе False.
+        bool: True в случае успешной генерации, False в случае ошибки.
     """
+    ...
 ```
 
-**Назначение**: Генерирует HTML- и PDF-отчёт на основе предоставленных данных и языка.
+**Назначение**: Запускает полный цикл генерации отчёта, включая добавление сервисной информации, генерацию HTML и сохранение в PDF.
 
 **Параметры**:
-
-- `data` (dict): Словарь с данными для отчёта.
-- `lang` (str): Язык отчёта (`'ru'` или `'he'`).
+- `data` (dict): Данные для отчёта.
+- `lang` (str): Язык отчёта (`ru` или `he`).
 - `html_file` (str | Path): Путь для сохранения HTML-файла.
 - `pdf_file` (str | Path): Путь для сохранения PDF-файла.
 
 **Возвращает**:
-
-- `bool`: `True`, если отчёт успешно сгенерирован, иначе `False`.
+- `bool`: `True` в случае успешной генерации, `False` в случае ошибки.
 
 **Как работает функция**:
-
-1. Создаёт словарь `service_dict` для добавления информации об услугах. Этот словарь содержит:
-   - `product_title`: Заголовок продукта ("Сервис" или "שירות" в зависимости от языка).
-   - `specification`: HTML-содержимое спецификации услуги, загруженное из файла и отформатированное.
-   - `image_local_saved_path`: Случайный путь к изображению.
-2. Добавляет `service_dict` в список продуктов в данных (`data['products']`).
-3. Генерирует HTML-контент, вызывая `self.generate_html(data, lang)`.
-4. Сохраняет HTML-контент в файл по пути `html_file`.
-5. Создаёт экземпляр класса `PDFUtils`.
-6. Преобразует HTML-контент в PDF-файл с использованием `pdf.save_pdf_pdfkit(html_content, pdf_file)`.
-7. Если преобразование в PDF не удалось, логирует ошибку и возвращает `False`.
-8. Возвращает `True` в случае успешной генерации отчёта.
+- Определяет словарь `service_dict` с информацией об услуге, адаптированной под язык отчета.
+- Добавляет информацию об услуге в список продуктов (`data['products']`).
+- Генерирует HTML-контент с использованием метода `generate_html`.
+- Сохраняет HTML-контент в файл.
+- Инициализирует утилиту для работы с PDF (`PDFUtils`).
+- Сохраняет HTML-контент в PDF-файл, используя метод `save_pdf_pdfkit` из `PDFUtils`.
+- Логирует ошибку, если не удалось создать PDF.
 
 **Примеры**:
 
 ```python
 from pathlib import Path
-from src.endpoints.kazarinov.react.pricelist_generator import ReportGenerator
-import asyncio
-from src.utils.jjson import j_loads
+from src.endpoints.emil.report_generator.pricelist_generator import ReportGenerator
 from src import gs
+import asyncio
 
-# Пример использования (требуется наличие файлов шаблонов и данных)
-# gs.path.external_storage = Path('./') # for local test
-# gs.path.endpoints = Path('./') # for local test
+async def main():
+    # Пример данных для отчета
+    data = {
+        "products": [
+            {"product_title": "Товар 1", "specification": "Описание 1", "image_local_saved_path": "path/to/image1.jpg"},
+            {"product_title": "Товар 2", "specification": "Описание 2", "image_local_saved_path": "path/to/image2.jpg"}
+        ]
+    }
 
-# data = j_loads(gs.path.endpoints / 'kazarinov' / 'pricelist_generator' / 'templates' / 'example_data.json')
-# report_generator = ReportGenerator()
-# html_file = Path('report.html')
-# pdf_file = Path('report.pdf')
+    # Язык отчета
+    lang = "ru"
 
-# success = asyncio.run(report_generator.create_report(data, 'ru', html_file, pdf_file))
-# print(f"Отчёт создан: {success}")
+    # Пути для сохранения HTML и PDF файлов
+    html_file = Path("report.html")
+    pdf_file = Path("report.pdf")
+
+    # Создание экземпляра ReportGenerator
+    report_generator = ReportGenerator()
+
+    # Запуск генерации отчета
+    success = await report_generator.create_report(data, lang, html_file, pdf_file)
+
+    if success:
+        print(f"Отчет успешно сгенерирован: {html_file}, {pdf_file}")
+    else:
+        print("Ошибка при генерации отчета.")
+
+asyncio.run(main())
 ```
 
 ## Функции
@@ -156,42 +164,40 @@ from src import gs
 ```python
 def main(mexiron: str, lang: str) -> bool:
     """
-    Основная функция для генерации отчёта.
+    Основная функция для запуска генерации отчёта.
 
     Args:
-        mexiron (str): Название мехирона.
-        lang (str): Язык отчёта ('ru' или 'he').
+        mexiron (str): Имя директории mexiron.
+        lang (str): Язык отчёта.
 
     Returns:
-        bool: True, если отчёт успешно сгенерирован, иначе False.
+        bool: True в случае успешной генерации, False в случае ошибки.
     """
+    ...
 ```
 
-**Назначение**: Функция выполняет основную логику для генерации HTML- и PDF-отчётов.
+**Назначение**: Основная функция для запуска генерации отчёта.
 
 **Параметры**:
-
-- `mexiron` (str): Название мехирона (используется для формирования путей к файлам).
-- `lang` (str): Язык отчёта (`'ru'` или `'he'`).
+- `mexiron` (str): Имя директории mexiron.
+- `lang` (str): Язык отчёта (`ru` или `he`).
 
 **Возвращает**:
-
-- `bool`: `True`, если отчёт успешно сгенерирован, иначе `False`.
+- `bool`: `True` в случае успешной генерации, `False` в случае ошибки.
 
 **Как работает функция**:
-
-1. Формирует базовый путь к данным и файлам отчёта на основе `mexiron`.
-2. Загружает данные из JSON-файла.
-3. Определяет пути для HTML- и PDF-файлов.
-4. Создаёт экземпляр класса `ReportGenerator`.
-5. Запускает асинхронную генерацию отчёта с использованием `asyncio.run()`.
+- Формирует базовый путь к директории mexiron.
+- Загружает данные из JSON-файла.
+- Формирует пути для HTML и PDF файлов.
+- Создает экземпляр `ReportGenerator`.
+- Запускает процесс генерации отчета асинхронно.
 
 **Примеры**:
 
 ```python
-from pathlib import Path
-from src.endpoints.kazarinov.react.pricelist_generator import main
+from src.endpoints.emil.report_generator.pricelist_generator import main
 
-# Пример использования (требуется наличие файлов шаблонов и данных)
-# success = main('24_12_01_03_18_24_269', 'ru')
-# print(f"Отчёт создан: {success}")
+# Пример использования функции main
+mexiron = "24_12_01_03_18_24_269"
+lang = "ru"
+main(mexiron, lang)

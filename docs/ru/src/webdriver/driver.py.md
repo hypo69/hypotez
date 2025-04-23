@@ -2,11 +2,11 @@
 
 ## Обзор
 
-Основное назначение модуля - предоставить класс `Driver`, который обеспечивает унифицированный интерфейс для работы с веб-драйверами Selenium. Он упрощает задачи инициализации драйвера, навигации по URL, управления куками и обработки исключений. Код вебдрайверов находится в подмодулях `chrome`, `firefox`, `edge`, `playwright`, а файлы настроек для веб-браузеров - в соответствующих JSON-файлах.
+Модуль предоставляет класс `Driver` для унифицированного взаимодействия с веб-драйверами Selenium, такими как Chrome, Firefox и Edge. Он упрощает задачи инициализации драйвера, навигации по URL, управления куками и обработки исключений.
 
 ## Подробнее
 
-Модуль предназначен для абстрагирования работы с различными веб-браузерами через Selenium WebDriver. Он включает в себя класс `Driver`, который позволяет инициализировать и управлять веб-драйверами, такими как Chrome, Firefox и Edge.  Этот модуль также обрабатывает распространенные исключения, которые могут возникнуть при работе с веб-драйверами, и предоставляет удобные методы для выполнения таких задач, как прокрутка страниц, получение URL и сохранение куки.
+Основное назначение класса `Driver` — обеспечение унифицированного интерфейса для работы с веб-драйверами Selenium. Он предоставляет интерфейс для взаимодействия с веб-браузерами, такими как Chrome, Firefox и Edge. Код вебдрайверов находится в подмодулях `chrome`, `firefox`, `edge`, `playwright` . Файлы настроек для веб-браузеров находятся в: `chrome\\chrome.json`, `firefox\\firefox.json`, `edge\\edge.json`, `playwright\\playwright.json`.
 
 ## Классы
 
@@ -15,27 +15,29 @@
 **Описание**: Класс обеспечивает удобный интерфейс для работы с различными драйверами, такими как Chrome, Firefox и Edge.
 
 **Атрибуты**:
-    - `driver` (selenium.webdriver): Экземпляр Selenium WebDriver.
-    - `current_url` (str): Текущий URL, с которым работает драйвер.
 
-**Методы**:
-    - `__init__(self, webdriver_cls, *args, **kwargs)`: Инициализирует экземпляр класса `Driver`.
-    - `__init_subclass__(cls, *, browser_name: Optional[str] = None, **kwargs)`: Автоматически вызывается при создании подкласса `Driver`.
-    - `__getattr__(self, item: str)`: Прокси для доступа к атрибутам драйвера.
-    - `scroll(self, scrolls: int = 1, frame_size: int = 600, direction: str = 'both', delay: float = .3)`: Прокручивает страницу в указанном направлении.
-    - `locale`: Определяет язык страницы на основе мета-тегов или JavaScript.
-    - `get_url(self, url: str)`: Переходит по указанному URL и сохраняет текущий URL, предыдущий URL и куки.
-    - `window_open(self, url: Optional[str] = None)`: Открывает новую вкладку в текущем окне браузера и переключается на нее.
-    - `wait(self, delay: float = .3)`: Ожидает указанное количество времени.
-    - `_save_cookies_localy(self)`: Сохраняет текущие куки веб-драйвера в локальный файл.
-    - `fetch_html(self, url: Optional[str] = '')`: Извлекает HTML-контент из локального файла или веб-URL и сохраняет его.
+- `driver` (selenium.webdriver): Экземпляр Selenium WebDriver.
+- `current_url` (str): Текущий URL.
 
 **Принцип работы**:
-Класс `Driver` предоставляет унифицированный интерфейс для работы с веб-драйверами Selenium. При инициализации класса передается класс веб-драйвера (например, `Chrome` или `Firefox`), который затем используется для создания экземпляра веб-драйвера. Класс также предоставляет методы для выполнения общих задач, таких как прокрутка страниц, получение URL, сохранение куки и извлечение HTML-контента.
+
+Класс `Driver` инициализируется с указанием класса веб-драйвера (например, `Chrome` или `Firefox`). Он предоставляет методы для навигации по URL, управления куками и выполнения JavaScript-кода.
+
+**Методы**:
+- `__init__(self, webdriver_cls, *args, **kwargs)`: Инициализирует экземпляр класса Driver.
+- `__init_subclass__(cls, *, browser_name: Optional[str] = None, **kwargs)`: Автоматически вызывается при создании подкласса `Driver`.
+- `__getattr__(self, item: str)`: Прокси для доступа к атрибутам драйвера.
+- `scroll(self, scrolls: int = 1, frame_size: int = 600, direction: str = 'both', delay: float = .3) -> bool`: Прокручивает страницу в указанном направлении.
+- `locale(self) -> Optional[str]`: Определяет язык страницы на основе мета-тегов или JavaScript.
+- `get_url(self, url: str) -> bool`: Переходит по указанному URL и сохраняет текущий URL, предыдущий URL и куки.
+- `window_open(self, url: Optional[str] = None) -> None`: Открывает новую вкладку в текущем окне браузера и переключается на неё.
+- `wait(self, delay: float = .3) -> None`: Ожидает указанное количество времени.
+- `_save_cookies_localy(self) -> None`: Сохраняет текущие куки веб-драйвера в локальный файл.
+- `fetch_html(self, url: Optional[str] = '') -> bool`: Извлекает HTML-контент из локального файла или веб-URL и сохраняет его.
 
 ## Методы класса
 
-### `__init__(self, webdriver_cls, *args, **kwargs)`
+### `__init__`
 
 ```python
 def __init__(self, webdriver_cls, *args, **kwargs):
@@ -57,26 +59,26 @@ def __init__(self, webdriver_cls, *args, **kwargs):
     ...
 ```
 
-**Назначение**: Инициализация экземпляра класса `Driver`.
+**Назначение**: Инициализирует экземпляр класса `Driver` с указанным классом веб-драйвера и аргументами.
 
 **Параметры**:
-    - `webdriver_cls`: Класс WebDriver, который будет использоваться (например, `Chrome` или `Firefox`).
-    - `*args`: Позиционные аргументы, передаваемые конструктору `webdriver_cls`.
-    - `**kwargs`: Ключевые аргументы, передаваемые конструктору `webdriver_cls`.
+
+- `webdriver_cls`: Класс WebDriver, например `Chrome` или `Firefox`.
+- `*args`: Позиционные аргументы для драйвера.
+- `**kwargs`: Ключевые аргументы для драйвера.
 
 **Вызывает исключения**:
-    - `TypeError`: Если `webdriver_cls` не является допустимым классом WebDriver (не имеет атрибута `get`).
 
-**Как работает функция**:
-Функция проверяет, является ли переданный класс `webdriver_cls` допустимым классом WebDriver, убедившись, что у него есть атрибут `get`. Если проверка проходит, создается экземпляр класса `webdriver_cls` с переданными аргументами `*args` и `**kwargs`, и этот экземпляр присваивается атрибуту `driver` класса `Driver`.
+- `TypeError`: Если `webdriver_cls` не является допустимым классом WebDriver.
 
 **Примеры**:
+
 ```python
 from selenium.webdriver import Chrome
 driver = Driver(Chrome, executable_path='/path/to/chromedriver')
 ```
 
-### `__init_subclass__(cls, *, browser_name: Optional[str] = None, **kwargs)`
+### `__init_subclass__`
 
 ```python
 def __init_subclass__(cls, *, browser_name: Optional[str] = None, **kwargs):
@@ -93,25 +95,18 @@ def __init_subclass__(cls, *, browser_name: Optional[str] = None, **kwargs):
     ...
 ```
 
-**Назначение**: Инициализация подклассов `Driver`.
+**Назначение**: Автоматически вызывается при создании подкласса `Driver`.
 
 **Параметры**:
-    - `browser_name` (Optional[str]): Имя браузера.
-    - `kwargs`: Дополнительные аргументы.
+
+- `browser_name`: Имя браузера.
+- `kwargs`: Дополнительные аргументы.
 
 **Вызывает исключения**:
-    - `ValueError`: Если `browser_name` не указан.
 
-**Как работает функция**:
-Функция `__init_subclass__` автоматически вызывается при создании подкласса `Driver`. Она проверяет, указано ли имя браузера (`browser_name`). Если имя браузера не указано, вызывается исключение `ValueError`. В противном случае имя браузера сохраняется как атрибут класса (`cls.browser_name`).
+- `ValueError`: Если `browser_name` не указан.
 
-**Примеры**:
-```python
-class MyDriver(Driver, browser_name='Chrome'):
-    pass
-```
-
-### `__getattr__(self, item: str)`
+### `__getattr__`
 
 ```python
 def __getattr__(self, item: str):
@@ -127,21 +122,19 @@ def __getattr__(self, item: str):
     ...
 ```
 
-**Назначение**: Обеспечивает доступ к атрибутам драйвера Selenium.
+**Назначение**: Предоставляет прокси-доступ к атрибутам драйвера Selenium.
 
 **Параметры**:
-    - `item` (str): Имя атрибута, к которому необходимо получить доступ.
 
-**Как работает функция**:
-Функция пытается получить атрибут с именем `item` из экземпляра драйвера Selenium (`self.driver`) и возвращает его. Это позволяет обращаться к атрибутам и методам драйвера Selenium напрямую через экземпляр класса `Driver`.
+- `item`: Имя атрибута.
 
 **Примеры**:
+
 ```python
-driver = Driver(Chrome)
-url = driver.current_url
+driver.current_url
 ```
 
-### `scroll(self, scrolls: int = 1, frame_size: int = 600, direction: str = 'both', delay: float = .3)`
+### `scroll`
 
 ```python
 def scroll(self, scrolls: int = 1, frame_size: int = 600, direction: str = 'both', delay: float = .3) -> bool:
@@ -160,27 +153,61 @@ def scroll(self, scrolls: int = 1, frame_size: int = 600, direction: str = 'both
     Example:
         >>> driver.scroll(scrolls=3, direction='down')
     """
+    def carousel(direction: str = '', scrolls: int = 1, frame_size: int = 600, delay: float = .3) -> bool:
+        """
+        Локальный метод для прокрутки экрана.
+
+        Args:
+            direction: Направление ('down', 'up').
+            scrolls: Количество прокруток.
+            frame_size: Размер прокрутки.
+            delay: Задержка между прокрутками.
+
+        Returns:
+            True, если успешно, иначе False.
+        """
+        try:
+            for _ in range(scrolls):
+                self.execute_script(f'window.scrollBy(0,{direction}{frame_size})')
+                self.wait(delay)
+            return True
+        except Exception as ex:
+            logger.error('Ошибка при прокрутке', exc_info=ex)
+            return False
     ...
 ```
 
-**Назначение**: Прокрутка страницы в заданном направлении.
+**Назначение**: Прокручивает страницу в указанном направлении на заданное количество пикселей с заданной задержкой.
 
 **Параметры**:
-    - `scrolls` (int): Количество прокруток. По умолчанию 1.
-    - `frame_size` (int): Размер прокрутки в пикселях. По умолчанию 600.
-    - `direction` (str): Направление прокрутки (`'both'`, `'down'`, `'up'`). По умолчанию `'both'`.
-    - `delay` (float): Задержка между прокрутками в секундах. По умолчанию 0.3.
+
+- `scrolls` (int): Количество прокруток, по умолчанию 1.
+- `frame_size` (int): Размер прокрутки в пикселях, по умолчанию 600.
+- `direction` (str): Направление прокрутки ('both', 'down', 'up'), по умолчанию 'both'.
+- `delay` (float): Задержка между прокрутками в секундах, по умолчанию 0.3.
 
 **Возвращает**:
-    - `bool`: `True`, если прокрутка выполнена успешно, `False` в противном случае.
+
+- `bool`: `True`, если прокрутка выполнена успешно, `False` в противном случае.
 
 **Внутренние функции**:
-    - `carousel(direction: str = '', scrolls: int = 1, frame_size: int = 600, delay: float = .3) -> bool`: Локальный метод для прокрутки экрана.
+- `carousel(direction: str = '', scrolls: int = 1, frame_size: int = 600, delay: float = .3) -> bool`: Локальный метод для фактической прокрутки экрана.
+    - **Параметры**:
+        - `direction` (str): Направление прокрутки ('down', 'up').
+        - `scrolls` (int): Количество прокруток.
+        - `frame_size` (int): Размер прокрутки.
+        - `delay` (float): Задержка между прокрутками.
+    - **Возвращает**:
+        - `bool`: `True`, если прокрутка выполнена успешно, `False` в противном случае.
+    - Функция выполняет JavaScript-код для прокрутки окна на заданное количество пикселей в указанном направлении.
 
 **Как работает функция**:
-Функция `scroll` прокручивает страницу в указанном направлении (`direction`). Если `direction` равно `'forward'` или `'down'`, страница прокручивается вниз. Если `direction` равно `'backward'` или `'up'`, страница прокручивается вверх. Если `direction` равно `'both'`, страница прокручивается и вниз, и вверх.  Функция использует JavaScript для выполнения прокрутки.
+- Функция `scroll` принимает параметры для управления процессом прокрутки веб-страницы. Она использует внутреннюю функцию `carousel` для выполнения фактической прокрутки. Функция `carousel` выполняет JavaScript-код для прокрутки окна на заданное количество пикселей в указанном направлении. Если указано направление 'both', функция `carousel` вызывается дважды: один раз для прокрутки вниз и один раз для прокрутки вверх.
+- Функция обрабатывает возможные исключения, возникающие во время прокрутки, и регистрирует их с использованием `logger.error`.
+- Функция возвращает `True`, если прокрутка выполнена успешно, и `False` в случае ошибки.
 
 **Примеры**:
+
 ```python
 driver.scroll(scrolls=3, direction='down')
 ```
@@ -203,21 +230,25 @@ def locale(self) -> Optional[str]:
     ...
 ```
 
-**Назначение**: Определение языка страницы на основе мета-тегов или JavaScript.
+**Назначение**: Определяет язык страницы на основе мета-тегов или JavaScript.
 
 **Возвращает**:
-    - `Optional[str]`: Код языка, если найден, иначе `None`.
+
+- `str | None`: Код языка, если найден, иначе `None`.
 
 **Как работает функция**:
-Функция `locale` пытается определить язык страницы, сначала ища мета-тег `Content-Language`. Если мета-тег не найден, функция пытается определить язык с помощью JavaScript. Если ни один из этих методов не срабатывает, функция возвращает `None`.
+- Сначала пытается найти элемент `<meta>` с атрибутом `http-equiv="Content-Language"` и извлечь значение атрибута `content`.
+- Если это не удается, вызывает метод `get_page_lang()` для определения языка с использованием JavaScript.
+- Если ни один из этих методов не дает результата, возвращает `None`.
 
 **Примеры**:
+
 ```python
 lang = driver.locale
 print(lang)  # 'en' или None
 ```
 
-### `get_url(self, url: str)`
+### `get_url`
 
 ```python
 def get_url(self, url: str) -> bool:
@@ -238,28 +269,30 @@ def get_url(self, url: str) -> bool:
     ...
 ```
 
-**Назначение**: Переход по указанному URL.
+**Назначение**: Переходит по указанному URL, сохраняет текущий URL, предыдущий URL и куки.
 
 **Параметры**:
-    - `url` (str): URL для перехода.
+
+- `url` (str): URL для перехода.
 
 **Возвращает**:
-    - `bool`: `True`, если переход успешен, `False` в противном случае.
+
+- `bool`: `True`, если переход успешен и текущий URL совпадает с ожидаемым, `False` в противном случае.
 
 **Вызывает исключения**:
-    - `WebDriverException`: Если возникает ошибка с WebDriver.
-    - `InvalidArgumentException`: Если URL некорректен.
-    - `Exception`: Для любых других ошибок при переходе.
+
+- `WebDriverException`: Если возникает ошибка с WebDriver.
+- `InvalidArgumentException`: Если URL некорректен.
+- `Exception`: Для любых других ошибок при переходе.
 
 **Как работает функция**:
-Функция `get_url` переходит по указанному URL, используя метод `get` драйвера Selenium.  Она также сохраняет текущий URL, предыдущий URL и куки. В случае возникновения исключений, таких как `WebDriverException` или `InvalidArgumentException`, они перехватываются и логируются, а функция возвращает `False`.
+- Функция `get_url` выполняет переход по указанному URL, используя метод `self.driver.get(url)`.
+- Перед переходом функция сохраняет текущий URL в переменную `_previous_url`.
+- После перехода функция сохраняет куки и обновляет значения `self.current_url` и `self.previous_url`.
+- Если во время перехода возникают исключения, они перехватываются, логируются с использованием `logger.error`, и функция возвращает `False`.
+- В случае успешного перехода функция возвращает `True`.
 
-**Примеры**:
-```python
-driver.get_url('https://www.example.com')
-```
-
-### `window_open(self, url: Optional[str] = None)`
+### `window_open`
 
 ```python
 def window_open(self, url: Optional[str] = None) -> None:
@@ -271,20 +304,18 @@ def window_open(self, url: Optional[str] = None) -> None:
     ...
 ```
 
-**Назначение**: Открывает новую вкладку в текущем окне браузера и переключается на нее.
+**Назначение**: Открывает новую вкладку в текущем окне браузера и переключается на неё.
 
 **Параметры**:
-    - `url` (Optional[str]): URL для открытия в новой вкладке. По умолчанию `None`.
+
+- `url` (Optional[str]): URL для открытия в новой вкладке. По умолчанию `None`.
 
 **Как работает функция**:
-Функция `window_open` использует JavaScript для открытия новой вкладки в текущем окне браузера. Затем она переключается на новую вкладку и, если указан URL, переходит по этому URL.
+- Выполняет JavaScript-код `window.open()` для открытия новой вкладки.
+- Переключается на новую вкладку, используя `self.switch_to.window(self.window_handles[-1])`.
+- Если указан URL, переходит по нему, используя метод `self.get(url)`.
 
-**Примеры**:
-```python
-driver.window_open('https://www.example.com')
-```
-
-### `wait(self, delay: float = .3)`
+### `wait`
 
 ```python
 def wait(self, delay: float = .3) -> None:
@@ -300,20 +331,16 @@ def wait(self, delay: float = .3) -> None:
     ...
 ```
 
-**Назначение**: Ожидание в течение заданного времени.
+**Назначение**: Ожидает указанное количество времени.
 
 **Параметры**:
-    - `delay` (float): Время задержки в секундах. По умолчанию 0.3.
+
+- `delay` (float): Время задержки в секундах. По умолчанию 0.3.
 
 **Как работает функция**:
-Функция `wait` приостанавливает выполнение программы на указанное количество секунд, используя функцию `time.sleep`.
+- Использует функцию `time.sleep(delay)` для приостановки выполнения кода на указанное количество секунд.
 
-**Примеры**:
-```python
-driver.wait(1)  # Ожидание в течение 1 секунды
-```
-
-### `_save_cookies_localy(self)`
+### `_save_cookies_localy`
 
 ```python
 def _save_cookies_localy(self) -> None:
@@ -329,15 +356,13 @@ def _save_cookies_localy(self) -> None:
     ...
 ```
 
-**Назначение**: Сохранение куки веб-драйвера в локальный файл.
-
-**Вызывает исключения**:
-    - `Exception`: Если возникает ошибка при сохранении куки.
+**Назначение**: Сохраняет текущие куки веб-драйвера в локальный файл.
 
 **Как работает функция**:
-Функция `_save_cookies_localy` сохраняет текущие куки веб-драйвера в локальный файл, используя модуль `pickle` для сериализации данных. В случае возникновения ошибки при сохранении куки, она логируется.  В текущей реализации функция всегда возвращает `True` и не сохраняет куки (закомментировано для отладки).
+- Пытается сохранить куки в файл, используя `pickle.dump`.
+- Если возникает исключение, оно перехватывается и логируется.
 
-### `fetch_html(self, url: Optional[str] = '')`
+### `fetch_html`
 
 ```python
 def fetch_html(self, url: Optional[str] = '') -> bool:
@@ -345,18 +370,18 @@ def fetch_html(self, url: Optional[str] = '') -> bool:
     Fetches HTML content from a local file or web URL and stores it.
 
     This method attempts to retrieve the HTML source code based on the provided
-        `url`. It supports fetching from local files using the 'file://'
-        protocol and from web pages using 'http://' or 'https://' protocols
-        by calling the instance's `get_url` method.
+    `url`. It supports fetching from local files using the 'file://'
+    protocol and from web pages using 'http://' or 'https://' protocols
+    by calling the instance's `get_url` method.
 
     If the `url` argument is not provided, is None, or is an empty string,
-        the method will attempt to use the value stored in `self.current_url`.
+    the method will attempt to use the value stored in `self.current_url`.
 
     Upon successful retrieval, the HTML content is stored in the instance
-        variable `self.html_content`. If any error occurs during the process
-        (e.g., invalid path format for files, file not found, file read error,
-        network error during web fetch, unsupported URL protocol), the error
-        is logged, and the method returns `False`.
+    variable `self.html_content`. If any error occurs during the process
+    (e.g., invalid path format for files, file not found, file read error,
+    network error during web fetch, unsupported URL protocol), the error
+    is logged, and the method returns `False`.
 
     Note on File Paths:
         - The method expects file paths to be prefixed with `file://`.
@@ -404,7 +429,7 @@ def fetch_html(self, url: Optional[str] = '') -> bool:
         ...     _ = tmp_file.write("<html><body>Local Test Content</body></html>")
         ...     tmp_file_path = tmp_file.name
         >>> # Construct file URI (adjust format for OS if needed, Path.as_uri() is robust)
-        >>> file_uri = Path(tmp_file_path).as_uri() # e.g., file:///tmp/xyz.html or file:///C:/Users/...
+        >>> file_uri = Path(tmp_file_path).as_uri() # e.g., file:///tmp/xyz.html or file:///C:/Users/...\
         >>> # We need to adapt the URI slightly if the regex expects a drive letter explicitly
         >>> if os.name == 'nt':
         ...     # Reconstruct URI to match the regex C:/... if needed by implementation detail
@@ -441,14 +466,14 @@ def fetch_html(self, url: Optional[str] = '') -> bool:
         >>> if os.path.exists(Path(tmp_file_path)): # Ensure temp file still exists
         ...    if os.name == 'nt': # Construct path expected by regex
         ...        cleaned_path_str = tmp_file_path.replace('\\\\', '/') # Ensure forward slashes
-        ...        drive = Path(tmp_file_path).drive # e.g., 'C:\\'
+        ...        drive = Path(tmp_file_path).drive # e.g., 'C:'
         ...        if drive:
         ...             test_uri = f"file://{drive}/{cleaned_path_str.split(':', 1)[1]}"
         ...        else: # If no drive, likely network path, won't match regex
         ...             test_uri = Path(tmp_file_path).as_uri() # Fallback
         ...    else: # Unix
         ...        test_uri = Path(tmp_file_path).as_uri() # e.g., file:///path/to/file
-        ...
+
         >>> # Now, let's simulate the call with the constructed URI or a generic one
         >>> # NOTE: This example is complex due to mocking file system and the regex dependency
         >>> # A simplified test might just check the logic branches
@@ -499,51 +524,171 @@ def fetch_html(self, url: Optional[str] = '') -> bool:
     ...
 ```
 
-**Назначение**: Извлечение HTML-контента из локального файла или веб-URL и сохранение его.
+**Назначение**: Извлекает HTML-контент из локального файла или веб-URL и сохраняет его.
 
 **Параметры**:
-    - `url` (Optional[str]): URL или путь к локальному файлу (с префиксом `'file://'`), из которого нужно извлечь HTML-контент. Поддерживаются протоколы `'file://'`, `'http://'` и `'https://'`. Если не указан, используется значение `self.current_url`. По умолчанию `''`.
+
+- `url` (Optional[str]): URL или путь к локальному файлу (с префиксом 'file://'), из которого нужно извлечь HTML-контент. Поддерживает протоколы 'file://', 'http://' и 'https://'. Если опущен, пуст или `None`, будет использовано значение `self.current_url`. По умолчанию ''.
 
 **Возвращает**:
-    - `bool`: `True`, если HTML-контент успешно извлечен и сохранен в `self.html_content`. `False`, если произошла ошибка во время извлечения или чтения.
+
+- `bool`: `True`, если HTML-контент был успешно извлечен из указанного источника и сохранен в `self.html_content`. `False`, если произошла какая-либо ошибка во время извлечения или чтения, или если протокол URL не поддерживается.
 
 **Как работает функция**:
-Функция `fetch_html` пытается извлечь HTML-код на основе указанного `url`. Если `url` начинается с `'file://'`, функция пытается прочитать HTML из локального файла. Если `url` начинается с `'http://'` или `'https://'`, функция использует метод `get_url` для получения HTML-кода из сети. Полученный HTML-код сохраняется в `self.html_content`.
 
-Если `url` не указан, используется значение `self.current_url`.
+1. **Определение эффективного URL**:
+   - Функция сначала определяет, какой URL использовать для извлечения HTML-контента. Если аргумент `url` передан и является строкой, то используется он. В противном случае используется значение `self.current_url`. Если ни один из них не указан, функция регистрирует ошибку и возвращает `False`.
 
-Если возникает какая-либо ошибка (например, неверный формат пути к файлу, файл не найден, ошибка чтения файла, сетевая ошибка), она логируется, и функция возвращает `False`.
+2. **Обработка на основе протокола**:
+   - **Локальные файлы (file://)**:
+     - Если URL начинается с 'file://', функция удаляет этот префикс и пытается обработать оставшуюся часть как путь к файлу.
+     - Используется регулярное выражение `[a-zA-Z]:[\\/].*` для проверки, является ли путь Windows-подобным (например, `C:/...` или `C:\\...`). Если путь соответствует этому шаблону, функция пытается открыть и прочитать файл.
+     - Если файл успешно прочитан, его содержимое сохраняется в `self.html_content`, и функция возвращает `True`.
+     - Если файл не найден или произошла ошибка при чтении, функция регистрирует ошибку и возвращает `False`.
+   - **Веб-URL (http:// или https://)**:
+     - Если URL начинается с 'http://' или 'https://', функция вызывает метод `self.get_url(url)` для извлечения контента.
+     - Если `self.get_url(url)` возвращает `False` (например, из-за сетевой ошибки), функция регистрирует ошибку и возвращает `False`.
+     - В случае успеха, предполагает, что `self.get_url(url)` сохраняет HTML-контент в `self.page_source` и возвращает `self.page_source`.
+   - **Неподдерживаемые протоколы**:
+     - Если URL не начинается ни с одного из поддерживаемых протоколов, функция регистрирует ошибку и возвращает `False`.
 
 **Примеры**:
+
 ```python
 instance = YourClassName()
 instance.current_url = 'http://default.example.com'
 
 # 1. Извлечение с веб-URL
 success_web = instance.fetch_html('https://example.com/page')
-# Предполагается, что get_url успешно устанавливает self.page_source
+# Предполагается, что get_url успешно получает данные и устанавливает self.page_source
 print(success_web)
 True
 print(instance.html_content) # doctest: +ELLIPSIS
 <html><body>Mock content for https://example.com/page</body></html>
 
-# 2. Извлечение из локального файла (требуется создание фиктивного файла)
+# 2. Извлечение из локального файла (требует создания фиктивного файла)
 import tempfile
 import os
 with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix=".html", encoding='utf-8') as tmp_file:
     _ = tmp_file.write("<html><body>Local Test Content</body></html>")
     tmp_file_path = tmp_file.name
-# Конструкция file URI (скорректируйте формат для OS, если необходимо, Path.as_uri() является надежным)
-file_uri = Path(tmp_file_path).as_uri() # e.g., file:///tmp/xyz.html or file:///C:/Users/...
-# Нам нужно немного адаптировать URI, если regex ожидает букву диска явно
+# Создание URI файла (скорректируйте формат для ОС, Path.as_uri() надежен)
+file_uri = Path(tmp_file_path).as_uri() # например, file:///tmp/xyz.html или file:///C:/Users/...\
+# Нам нужно немного адаптировать URI, если регулярное выражение явно ожидает букву диска
 if os.name == 'nt':
-    # Восстановите URI, чтобы соответствовать regex C:/... при необходимости для детали реализации
-    # Текущий regex '[a-zA-Z]:[\\\\/].*' требует этого в Windows
+    # Реконструируем URI, чтобы соответствовать регулярному выражению C:/..., если это необходимо для реализации
+    # Текущее регулярное выражение '[a-zA-Z]:[\\\\/].*' требует этого в Windows
     # Пример: 'file://C:/Users/...'
     match = re.match(r"file:///(?P<drive>[a-zA-Z]):/(?P<rest>.*)", file_uri)
     if match:
         file_uri_for_func = f"file://{match.group('drive')}:/{match.group('rest')}"
-    else: # Fallback, если разбор не удался, может не работать с функцией
+    else: # Откат, если разбор не удался, может не работать с функцией
         file_uri_for_func = file_uri
-else: # В Unix-подобных системах Path.as_uri() обычно работает, если regex игнорируется
+else: # В Unix-подобных системах Path.as_uri() обычно работает, если регулярное выражение игнорируется
     file_uri_for_func = file_uri
+...
+# Mocking Path.exists() and open() for the example to work without the function's specific regex check
+original_exists = Path.exists
+original_open = open
+def mock_exists(path_obj):
+    return str(path_obj) == tmp_file_path
+def mock_open(path_obj, mode='r', encoding=None):
+    if str(path_obj) == tmp_file_path:
+        # Вернуть реальный дескриптор файла для временного файла
+        return original_open(tmp_file_path, mode, encoding=encoding)
+    else:
+        raise FileNotFoundError
+Path.exists = mock_exists
+builtins_open = __builtins__.open # Store original built-in open
+__builtins__.open = mock_open # Temporarily override built-in open
+
+# Эта часть сильно зависит от детали реализации регулярного выражения:
+# Давайте предположим, что file_uri_for_func теперь правильно отформатирован для регулярного выражения в Windows
+# или что проверка регулярного выражения обходится/изменяется для Unix.
+# Принудительно используем простую строку пути, которая *может* работать с регулярным выражением, если диск C: существует
+test_uri = 'file://C:/path/to/mock/file.html' # Общий заполнитель
+if os.path.exists(Path(tmp_file_path)): # Убедитесь, что временный файл все еще существует
+   if os.name == 'nt': # Создаем путь, ожидаемый регулярным выражением
+       cleaned_path_str = tmp_file_path.replace('\\\\', '/') # Обеспечиваем прямые слэши
+       drive = Path(tmp_file_path).drive # например, 'C:'
+       if drive:
+            test_uri = f"file://{drive}/{cleaned_path_str.split(':', 1)[1]}"
+       else: # Если нет диска, вероятно, сетевой путь, не будет соответствовать регулярному выражению
+            test_uri = Path(tmp_file_path).as_uri() # Откат
+   else: # Unix
+       test_uri = Path(tmp_file_path).as_uri() # например, file:///path/to/file
+...
+# Теперь давайте смоделируем вызов с созданным URI или общим
+# ПРИМЕЧАНИЕ: Этот пример сложен из-за моделирования файловой системы и зависимости от регулярного выражения
+# Упрощенный тест может просто проверить логические ветви
+print(f"Attempting to fetch: {test_uri}") # Show what URI is being used
+Attempting to fetch: ...
+# success_file = instance.fetch_html(test_uri) # Actual call (mocked)
+# print(success_file) # Expected: True
+# print(instance.html_content) # Expected: "<html><body>Local Test Content</body></html>"
+# Clean up mocks and temp file
+Path.exists = original_exists
+__builtins__.open = builtins_open
+os.remove(tmp_file_path)
+print("Skipping actual file test execution in docstring due to complexity") # Placeholder acknowledgment
+Skipping actual file test execution in docstring due to complexity
+
+# 3. Использование URL по умолчанию (self.current_url)
+success_default = instance.fetch_html() # url is '', use self.current_url
+print(success_default)
+True
+print(instance.html_content) # doctest: +ELLIPSIS
+<html><body>Mock content for http://default.example.com</body></html>
+
+# 4. Обработка несуществующего пути к локальному файлу
+success_no_file = instance.fetch_html('file://C:/non/existent/file.html')
+print(success_no_file)
+False
+
+# 5. Обработка пути к файлу с неправильным форматом (не соответствующим регулярному выражению)
+success_bad_format = instance.fetch_html('file:///unix/style/path/without/drive/letter') # Might fail regex check
+print(success_bad_format)
+False
+
+# 6. Обработка сбоя из get_url (например, 404 Not Found simulated)
+success_fail_fetch = instance.fetch_html('http://example.com/notfound')
+print(success_fail_fetch)
+False
+
+# 7. Обработка исключения сетевой ошибки из get_url
+success_network_error = instance.fetch_html('http://error.example.com')
+print(success_network_error)
+False
+
+# 8. Обработка неподдерживаемого протокола
+success_bad_protocol = instance.fetch_html('ftp://example.com/resource')
+print(success_bad_protocol)
+False
+```
+
+## Параметры класса
+
+- `webdriver_cls`: Класс WebDriver, например Chrome или Firefox.
+- `*args`: Позиционные аргументы для драйвера.
+- `**kwargs`: Ключевые аргументы для драйвера.
+- `item` (str): Имя атрибута.
+- `scrolls` (int): Количество прокруток, по умолчанию 1.
+- `frame_size` (int): Размер прокрутки в пикселях, по умолчанию 600.
+- `direction` (str): Направление ('both', 'down', 'up'), по умолчанию 'both'.
+- `delay` (float): Время задержки между прокрутками, по умолчанию 0.3.
+- `url` (str): URL для перехода.
+- `url` (Optional[str]): URL для открытия в новой вкладке. По умолчанию `None`.
+- `delay` (float): Время задержки в секундах. По умолчанию 0.3.
+- `url` (Optional[str]): URL или путь к локальному файлу (с префиксом 'file://'), из которого нужно извлечь HTML-контент. Поддерживает протоколы 'file://', 'http://' и 'https://'. Если опущен, пуст или `None`, будет использовано значение `self.current_url`. По умолчанию ''.
+
+```markdown
+## Оглавление
+
+1. [Классы](#Классы)
+    - [`Driver`](#Driver)
+2. [Методы класса](#Методы-класса)
+    - [`__init__`](#__init__)
+    - [`__init_subclass__`](#__init_subclass__)
+    - [`__getattr__`](#__getattr__)
+    - [`scroll`](#scroll)
+        -

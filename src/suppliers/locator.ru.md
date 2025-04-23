@@ -256,15 +256,17 @@ src/
 │   ├── suppliers_list/
 │   │   ├── supplier_a/
 │   │   │   ├── __init__.py
-│   │   │   ├── handler.py  # <--- Модуль для supplier_a
+│   │   │   ├── graber.py  # <--- Модуль для supplier_a
 │   │   │   └── locators/
-│   │   │       └── category.json
+│   │   │       └── category.json # <--- Локаторы для supplier_a
 │   │   ├── supplier_b/
 │   │   │   ├── __init__.py
-│   │   │   ├── handler.py  # <--- Модуль для supplier_b
+│   │   │   ├── graber.py  # <--- Модуль для supplier_b
 │   │   │   └── locators/
 │   │   │       └── category.json
 │   │   └── ...
 │   └── ...
 └── ...
 ```
+
+Подробней о локаторах можно почитать в `lovator.ru.md` в модуле `webdrivaer`

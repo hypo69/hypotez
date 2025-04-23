@@ -1,238 +1,51 @@
-# Модуль `via_webdriver`
+# Модуль `via_webdriver.py`
 
 ## Обзор
 
-Модуль предназначен для парсинга данных с сайта поставщика Kualastyle с использованием веб-драйвера. Он извлекает список URL товаров из заданной категории.
+Модуль `via_webdriver.py` предназначен для парсинга данных с сайта Kualastyle с использованием веб-драйвера. Он извлекает список URL товаров из заданной категории. Модуль использует библиотеку `selenium` через обертку `src.webdriver.Driver` для управления браузером и навигации по сайту.
 
 ## Подробней
 
-Этот модуль является частью пакета `src.suppliers.kualastyle` и отвечает за получение списка товаров с использованием Selenium WebDriver. Он использует локаторы, определенные для категории товаров, для извлечения ссылок на товары.
+Этот модуль является частью пакета `src.suppliers.kualastyle` и предназначен для автоматизированного сбора информации о товарах с сайта поставщика Kualastyle. Он использует веб-драйвер для взаимодействия с сайтом, прокручивает страницу для загрузки всех товаров в категории и извлекает URL каждого товара.
 
 ## Функции
 
-### `get_list_products_in_category(s)`
+### `get_list_products_in_category(s: object) -> list[str,str,None]`
 
-Функция возвращает список URL товаров со страницы категории.
+Функция извлекает список URL товаров из категории на сайте поставщика.
 
-**Параметры:**
+**Назначение**:
+Получение списка ссылок на товары, представленные на странице категории.
 
-- `s` (объект поставщика): Объект поставщика, содержащий информацию о драйвере и локаторах.
+**Параметры**:
+- `s` (object): Объект поставщика, содержащий информацию о драйвере и локаторах элементов на странице.
 
-**Возвращает:**
+**Возвращает**:
+- `list[str,str,None]`: Список URL товаров или `None` в случае ошибки.
 
-- `list[str, str, None]`: Список URL товаров или `None` в случае ошибки.
-
-**Как работает функция:**
-
-1.  Извлекает инстанс драйвера из объекта поставщика `s`.
-2.  Получает локаторы для категории из объекта поставщика `s`.
-3.  Прокручивает страницу вниз 10 раз для загрузки всех товаров.
-4.  Извлекает список URL товаров, используя локатор `product_links`.
-5.  Возвращает список URL товаров.
-
-**Примеры:**
+**Как работает функция**:
+1.  Извлекает драйвер и локаторы из объекта поставщика `s`.
+2.  Прокручивает страницу вниз несколько раз для загрузки всех товаров в категории.
+3.  Использует метод `execute_locator` драйвера для извлечения списка элементов, соответствующих локатору ссылок на товары.
+4.  Возвращает список URL товаров.
 
 ```python
-# Пример вызова функции
-# from src.suppliers.kualastyle.kualastyle import Kualastyle
-# from src.webdriver import Driver, Chrome
-
-# driver = Driver(Chrome)
-# supplier = Kualastyle(driver)
-# urls = get_list_products_in_category(supplier)
-# if urls:
-#     print(urls)
-# else:
-#     print("Не удалось получить список URL товаров.")
-```
-```python
-def get_list_products_in_category(s) -> list[str,str,None]:    
+def get_list_products_in_category(s) -> list[str,str,None]:
     """ Returns list of products urls from category page
-    Attrs:\
+    Attrs:
         s - Suplier
     @returns
         list of products urls or None
     """
-    d = s.driver
-    l: dict = s.locators.get(\'category\')
-    d.scroll(scroll_count = 10, direction = "forward")
+```
 
-    _ = d.execute_locator
-    list_products_in_category = _(l[\'product_links\'])\
-    #pprint(list_products_in_category)
-    return list_products_in_categoryy
-```
-```
-```
+**Примеры**:
 ```python
-def get_list_products_in_category(s) -> list[str,str,None]:    
-    """
-    Функция возвращает список URL товаров со страницы категории.
-    
-    Args:
-        s: Объект поставщика, содержащий информацию о драйвере и локаторах.
-        
-    Returns:
-        list[str, str, None]: Список URL товаров или None в случае ошибки.
-    """
-    d = s.driver
-    l: dict = s.locators.get('category')
-    d.scroll(scroll_count = 10, direction = "forward")
-
-    _ = d.execute_locator
-    list_products_in_category = _(l['product_links'])
-    #pprint(list_products_in_category)
-    return list_products_in_categoryy
+# Пример использования функции
+# Предположим, что у нас есть объект supplier с настроенным драйвером и локаторами
+# products = get_list_products_in_category(supplier)
+# if products:
+#     print(f"Найдено {len(products)} товаров")
+# else:
+#     print("Не удалось получить список товаров")
 ```
-```
-
-```
-```python
-def get_list_products_in_category(s) -> list[str,str,None]:    
-    """
-    Функция возвращает список URL товаров со страницы категории.
-
-    Args:
-        s: Объект поставщика, содержащий информацию о драйвере и локаторах.
-
-    Returns:
-        list[str, str, None]: Список URL товаров или None в случае ошибки.
-    """
-    d = s.driver
-    l: dict = s.locators.get('category')
-    d.scroll(scroll_count = 10, direction = "forward")
-
-    _ = d.execute_locator
-    list_products_in_category = _(l['product_links'])
-    #pprint(list_products_in_category)
-    return list_products_in_categoryy
-```
-```
-```python
-from src.logger.logger import logger
-from typing import Union
-
-from src import gs
-from src.logger.logger import logger
-
-def get_list_products_in_category(s) -> list[str,str,None]:    
-    """
-    Функция возвращает список URL товаров со страницы категории.
-
-    Args:
-        s: Объект поставщика, содержащий информацию о драйвере и локаторах.
-
-    Returns:
-        list[str, str, None]: Список URL товаров или None в случае ошибки.
-    """
-    d = s.driver
-    l: dict = s.locators.get('category')
-    d.scroll(scroll_count = 10, direction = "forward")
-
-    _ = d.execute_locator
-    list_products_in_category = _(l['product_links'])
-    #pprint(list_products_in_category)
-    return list_products_in_categoryy
-```
-```python
-from src.logger.logger import logger
-from typing import Union
-
-from src import gs
-
-
-def get_list_products_in_category(s) -> list[str | str | None]:
-    """
-    Возвращает список URL товаров со страницы категории.
-
-    Args:
-        s: Объект поставщика, содержащий информацию о драйвере и локаторах.
-
-    Returns:
-        list[str | str | None]: Список URL товаров или None в случае ошибки.
-    """
-    d = s.driver  # Извлечение драйвера из объекта поставщика
-    l: dict = s.locators.get('category')  # Функция извлекает локаторы для категории из объекта поставщика
-    d.scroll(scroll_count=10, direction="forward")  # Функция выполняет прокрутку страницы вниз 10 раз
-
-    _ = d.execute_locator  # Функция присваивает метод execute_locator драйвера локальной переменной _
-    list_products_in_category = _(l['product_links'])  # Функция вызывает execute_locator для получения списка элементов, соответствующих локатору ссылок на товары
-    # pprint(list_products_in_category)
-    return list_products_in_category
-
-
-```
-```
-```python
-from src.logger.logger import logger
-from typing import Union
-
-from src import gs
-
-
-def get_list_products_in_category(s) -> list[str | str | None]:
-    """
-    Возвращает список URL товаров со страницы категории.
-
-    Args:
-        s: Объект поставщика, содержащий информацию о драйвере и локаторах.
-
-    Returns:
-        list[str | str | None]: Список URL товаров или None в случае ошибки.
-    """
-    d = s.driver  # Функция извлекает драйвер из объекта поставщика
-    l: dict = s.locators.get('category')  # Функция извлекает локаторы для категории из объекта поставщика
-    d.scroll(scroll_count=10, direction="forward")  # Функция выполняет прокрутку страницы вниз 10 раз
-
-    _ = d.execute_locator  # Функция присваивает метод execute_locator драйвера локальной переменной _
-    list_products_in_category = _(l['product_links'])  # Функция вызывает execute_locator для получения списка элементов, соответствующих локатору ссылок на товары
-    # pprint(list_products_in_category)
-    return list_products_in_category
-
-
-```
-```
-## \file /src/suppliers/suppliers_list/kualastyle/via_webdriver.py
-# -*- coding: utf-8 -*-
-
-#! .pyenv/bin/python3
-
-"""
-Модуль для получения списка товаров с Kualastyle с использованием webdriver.
-===========================================================================
-
-Модуль содержит функции для извлечения списка URL товаров из категории на сайте Kualastyle с использованием Selenium WebDriver.
-Он использует локаторы, определенные для категории товаров, для извлечения ссылок на товары.
-
-Зависимости:
-    - src.logger.logger
-    - typing
-    - src.gs
-
- .. module:: src.suppliers.kualastyle.via_webdriver
-"""
-
-from src.logger.logger import logger
-from typing import Union
-
-from src import gs
-
-
-def get_list_products_in_category(s) -> list[str | str | None]:
-    """
-    Возвращает список URL товаров со страницы категории.
-
-    Args:
-        s: Объект поставщика, содержащий информацию о драйвере и локаторах.
-
-    Returns:
-        list[str | str | None]: Список URL товаров или None в случае ошибки.
-    """
-    d = s.driver  # Функция извлекает драйвер из объекта поставщика
-    l: dict = s.locators.get('category')  # Функция извлекает локаторы для категории из объекта поставщика
-    d.scroll(scroll_count=10, direction="forward")  # Функция выполняет прокрутку страницы вниз 10 раз
-
-    _ = d.execute_locator  # Функция присваивает метод execute_locator драйвера локальной переменной _
-    list_products_in_category = _(l['product_links'])  # Функция вызывает execute_locator для получения списка элементов, соответствующих локатору ссылок на товары
-    # pprint(list_products_in_category)
-    return list_products_in_category

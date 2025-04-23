@@ -9,4 +9,5 @@
 .. module:: src.webdriver.ai_browser
 """
 
-from .use_ai import Driver
+from .use_llm import Driver
+from .simple_browser import SimpleBrowser

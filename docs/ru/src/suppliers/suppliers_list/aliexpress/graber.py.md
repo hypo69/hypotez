@@ -1,12 +1,15 @@
-# Модуль `graber.py`
+# Модуль для сбора данных о товарах с AliExpress
 
 ## Обзор
 
-Модуль `graber.py` предназначен для сбора данных о товарах с веб-сайта AliExpress. Он содержит класс `Graber`, который наследуется от базового класса `src.suppliers.graber.Graber`. Модуль предоставляет методы для обработки различных полей товара на странице AliExpress и адаптации процесса сбора данных.
+Модуль предназначен для сбора данных о товарах с веб-сайта AliExpress. Он содержит класс `Graber`, который наследуется от базового класса `src.suppliers.graber.Graber` и предоставляет методы для обработки различных полей товара на странице.
 
-## Подробнее
+## Подробней
 
-Этот модуль является частью системы сбора данных о товарах с различных онлайн-платформ в проекте `hypotez`. Он специализируется на сборе информации с AliExpress, используя веб-драйвер для взаимодействия с сайтом и извлечения необходимых данных. Класс `Graber` расширяет функциональность базового класса, добавляя специфические методы и настройки, необходимые для работы с AliExpress.
+Модуль предназначен для сбора данных о товарах с Amazon.
+Класс `Graber` предоставляет методы для обработки различных полей товара на странице. В случае необходимости нестандартной обработки поля, метод может быть переопределен.
+
+Перед отправкой запроса к веб-драйверу могут быть выполнены предварительные действия с использованием декоратора. Декоратор по умолчанию находится в родительском классе. Для активации декоратора необходимо передать значение в `Context.locator`. Также возможно реализовать свой собственный декоратор, раскомментировав соответствующие строки кода и переопределив его поведение.
 
 ## Классы
 
@@ -17,68 +20,86 @@
 **Наследует**: `src.suppliers.graber.Graber`
 
 **Атрибуты**:
-
 - `supplier_prefix` (str): Префикс поставщика, устанавливается как `'aliexpress'`.
 
 **Методы**:
+- `__init__(self, driver: Driver, lang_index: int)`: Инициализирует класс `Graber`.
 
-- `__init__(self, driver: Driver, lang_index: int)`: Инициализирует класс `Graber`, устанавливает префикс поставщика и вызывает конструктор родительского класса.
+#### `__init__(self, driver: Driver, lang_index: int)`
 
-**Принцип работы**:
-
-Класс `Graber` предназначен для сбора информации о товарах с AliExpress. Он использует веб-драйвер для навигации по сайту, извлечения данных и обработки различных полей товара.
-- Конструктор класса инициализирует экземпляр класса, устанавливает префикс поставщика как `'aliexpress'` и вызывает конструктор родительского класса `Graber` для выполнения общих операций инициализации.
-- `Config.locator_for_decorator = None` устанавливает значение локатора для декоратора в `None`. Если будет установленно значение - то оно выполнится в декораторе `@close_pop_up`.
-
-## Методы класса
-
-### `__init__`
-
-```python
-def __init__(self, driver: Driver, lang_index: int):
-    """
-    Инициализация класса сбора полей товара.
-
-    Args:
-        driver (Driver): Экземпляр веб-драйвера для взаимодействия с браузером.
-        lang_index (int):  Индекс языка.
-    """
-```
-
-**Назначение**: Инициализирует экземпляр класса `Graber`, устанавливает префикс поставщика и вызывает конструктор родительского класса.
+**Назначение**: Инициализация класса сбора полей товара.
 
 **Параметры**:
-
 - `driver` (Driver): Экземпляр веб-драйвера для взаимодействия с браузером.
 - `lang_index` (int): Индекс языка.
 
 **Как работает функция**:
 
-- Функция является конструктором класса `Graber`.
-- Устанавливает атрибут `supplier_prefix` экземпляра класса равным `'aliexpress'`.
-- Вызывает конструктор родительского класса `Graber` с установленным префиксом поставщика и экземпляром веб-драйвера.
-- Устанавливает `Config.locator_for_decorator = None`.
+1. Устанавливает `supplier_prefix` в значение `'aliexpress'`.
+2. Вызывает конструктор родительского класса `Graber` из модуля `src.suppliers.graber` с переданными параметрами `supplier_prefix`, `driver` и `lang_index`.
+3. Устанавливает значение `Config.locator_for_decorator` в `None`. Это необходимо для отключения декоратора `@close_pop_up`, если он не нужен.
 
 **Примеры**:
-
 ```python
 from src.webdriver.driver import Driver, Chrome
 from src.suppliers.suppliers_list.aliexpress.graber import Graber
 
-# Пример создания экземпляра класса Graber
+# Создание инстанса драйвера (пример с Chrome)
 driver = Driver(Chrome)
-graber = Graber(driver, lang_index=0)
+# Создание инстанса класса Graber
+graber = Graber(driver=driver, lang_index=0)
 ```
-
 ```python
 from src.webdriver.driver import Driver, Firefox
 from src.suppliers.suppliers_list.aliexpress.graber import Graber
 
-# Пример создания экземпляра класса Graber
+# Создание инстанса драйвера (пример с Firefox)
 driver = Driver(Firefox)
-graber = Graber(driver, lang_index=1)
+
+# Создание инстанса класса Graber
+graber = Graber(driver=driver, lang_index=1)
 ```
+```python
+from src.webdriver.driver import Driver
+from src.suppliers.suppliers_list.aliexpress.graber import Graber
 
-## Переменные класса
+# Создание инстанса класса Graber
+# driver не определен
+# будет ошибка
+#graber = Graber(driver=driver, lang_index=1)
+```
+```python
+from src.webdriver.driver import Driver, Chrome
+from src.suppliers.suppliers_list.aliexpress.graber import Graber
 
-- `supplier_prefix` (str): Префикс поставщика, который указывает на AliExpress.
+# Создание инстанса драйвера (пример с Chrome)
+driver = Driver(Chrome)
+
+# Создание инстанса класса Graber
+# lang_index не определен
+# будет ошибка
+#graber = Graber(driver=driver)
+```
+```python
+from src.webdriver.driver import Driver, Chrome
+from src.suppliers.suppliers_list.aliexpress.graber import Graber
+
+# Создание инстанса драйвера (пример с Chrome)
+driver = Driver(Chrome)
+
+# Создание инстанса класса Graber
+# driver.close()
+# Ошибка - драйвер уже закрыт
+graber = Graber(driver=driver, lang_index=1)
+```
+```python
+from src.webdriver.driver import Driver, Chrome
+from src.suppliers.suppliers_list.aliexpress.graber import Graber
+
+# Создание инстанса драйвера (пример с Chrome)
+driver = Driver(Chrome)
+
+# Создание инстанса класса Graber
+# driver.quit()
+# Ошибка - драйвер уже закрыт
+graber = Graber(driver=driver, lang_index=1)

@@ -1,45 +1,33 @@
-# Модуль для конвертации XLS файлов
+# Модуль для конвертации XLS файлов в словарь
 
 ## Обзор
 
-Модуль предоставляет функции для конвертации XLS файлов в формат словаря Python. Он использует модуль `src.utils.xls` для чтения и сохранения XLS файлов.
+Модуль предоставляет функцию `xls2dict` для преобразования содержимого XLS файла в словарь. Использует функции из модуля `src.utils.xls` для чтения данных из XLS файла.
 
-## Подробнее
+## Подробней
 
-Этот модуль предоставляет удобную обертку для преобразования данных из формата XLS в формат словаря, что облегчает дальнейшую обработку данных в Python. Он включает функции для чтения XLS файлов и сохранения данных в формате XLS.
+Модуль предназначен для упрощения работы с данными, хранящимися в формате XLS, путем их преобразования в удобный для обработки формат словаря.
 
 ## Функции
 
 ### `xls2dict`
 
-**Назначение**: Преобразует XLS файл в словарь Python.
+**Назначение**: Преобразует XLS файл в словарь.
 
 ```python
 def xls2dict(xls_file: str | Path) -> dict | None:
-    """Функция преобразует XLS файл в словарь Python.
-    
-    Args:
-        xls_file (str | Path): Путь к XLS файлу.
-
-    Returns:
-        dict | None: Словарь, представляющий данные из XLS файла, или `None` в случае ошибки.
-    """
-    return read_xls_as_dict(xls_file=xls_file)
+    """"""
+    return read_xls_as_dict(xls_file = xls_file)
 ```
 
 **Параметры**:
-
-- `xls_file` (str | Path): Путь к XLS файлу, который необходимо преобразовать.
+- `xls_file` (str | Path): Путь к XLS файлу.
 
 **Возвращает**:
-
-- `dict | None`: Словарь, представляющий данные из XLS файла, где ключи - это заголовки столбцов, а значения - соответствующие данные. Возвращает `None` в случае ошибки при чтении файла.
+- `dict | None`: Словарь, полученный из XLS файла, или `None` в случае ошибки.
 
 **Как работает функция**:
-
-1. Функция вызывает `read_xls_as_dict` из модуля `src.utils.xls`, передавая путь к XLS файлу.
-2. `read_xls_as_dict` читает данные из XLS файла и преобразует их в словарь.
-3. Функция возвращает полученный словарь.
+Функция принимает путь к XLS файлу, вызывает функцию `read_xls_as_dict` из модуля `src.utils.xls`, которая выполняет чтение данных из XLS файла и преобразует их в словарь. Возвращает полученный словарь.
 
 **Примеры**:
 
@@ -49,16 +37,12 @@ from src.utils.convertors.xls import xls2dict
 
 # Пример использования с указанием пути к файлу строкой
 file_path_str = "example.xls"
-data_dict_str = xls2dict(file_path_str)
-if data_dict_str:
-    print(f"Данные из файла {file_path_str}: {data_dict_str}")
-else:
-    print(f"Не удалось прочитать файл {file_path_str}")
+data_from_xls_str = xls2dict(file_path_str)
+if data_from_xls_str:
+    print(f"Данные из XLS файла ({file_path_str}): {data_from_xls_str}")
 
 # Пример использования с указанием пути к файлу объектом Path
 file_path_path = Path("example.xls")
-data_dict_path = xls2dict(file_path_path)
-if data_dict_path:
-    print(f"Данные из файла {file_path_path}: {data_dict_path}")
-else:
-    print(f"Не удалось прочитать файл {file_path_path}")
+data_from_xls_path = xls2dict(file_path_path)
+if data_from_xls_path:
+    print(f"Данные из XLS файла ({file_path_path}): {data_from_xls_path}")

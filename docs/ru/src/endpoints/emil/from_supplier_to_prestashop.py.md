@@ -2,52 +2,51 @@
 
 ## Обзор
 
-Модуль предназначен для извлечения, обработки и сохранения данных о товарах от поставщиков с последующей интеграцией этих данных в Prestashop. Он включает в себя функциональность для парсинга данных, их обработки с использованием AI, а также сохранения для дальнейшей публикации в Prestashop.
+Модуль предназначен для извлечения, разбора и сохранения данных о продуктах поставщиков, как из внешних сайтов, так и из JSON-файлов. Он обеспечивает подготовку данных, их обработку с использованием искусственного интеллекта и интеграцию с Prestashop для публикации товаров.
 
-## Подробней
+## Подробнее
 
-Этот модуль является частью процесса интеграции данных о товарах с платформы `emil-design.com` в Prestashop. Он автоматизирует получение информации о товарах, при необходимости использует AI для обработки и подготовки данных, и обеспечивает их сохранение и публикацию. Модуль использует веб-драйвер для взаимодействия с веб-страницами поставщиков, а также API Prestashop для обновления информации о товарах.
+Этот модуль является частью системы, автоматизирующей процесс добавления товаров в интернет-магазин Prestashop на основе данных, полученных от поставщиков. Он использует веб-скрапинг для извлечения информации о товарах, а также применяет AI-модели для обработки и улучшения этих данных.
 
 ## Классы
 
 ### `SupplierToPrestashopProvider`
 
-**Описание**: Класс предназначен для извлечения, преобразования и сохранения данных о товарах от поставщиков, как из внешних сайтов, так и из JSON-файлов.
+**Описание**: Класс для обработки данных о продуктах поставщиков, их извлечения, разбора и сохранения. Данные могут быть получены как с сайтов, так и из JSON файлов.
 
 **Атрибуты**:
-- `base_dir` (Path): Базовый путь к директории с информацией о поставщиках.
-- `driver` (Driver): Экземпляр Selenium WebDriver для управления браузером.
-- `export_path` (Path): Путь для экспорта обработанных данных о товарах.
-- `mexiron_name` (str): Название товара.
+- `base_dir` (Path): Базовая директория для поиска файлов поставщиков.
+- `driver` (Driver): Экземпляр Selenium WebDriver.
+- `export_path` (Path): Путь для экспорта данных.
+- `mexiron_name` (str): Имя Mexiron.
 - `price` (float): Цена товара.
 - `timestamp` (str): Временная метка для идентификации данных.
 - `products_list` (list): Список обработанных данных о товарах.
-- `model` (GoogleGenerativeAi): Экземпляр AI-модели Google Gemini для обработки текста.
-- `config` (SimpleNamespace): Конфигурация, загруженная из JSON-файла.
-- `local_images_path` (Path): Путь для локального сохранения изображений товаров.
+- `model` (GoogleGenerativeAi): Модель Google Gemini для обработки текста.
+- `config` (SimpleNamespace): Конфигурация модуля, загруженная из JSON файла.
+- `local_images_path` (Path): Путь для сохранения локальных изображений товаров.
 - `lang` (str): Язык, используемый в процессе обработки данных.
-- `gemini_api` (str): Ключ API для доступа к Gemini.
-- `presta_api` (str): Ключ API для доступа к Prestashop.
-- `presta_url` (str): URL Prestashop.
+- `gemini_api` (str): API ключ для доступа к Google Gemini.
+- `presta_api` (str): API ключ для доступа к Prestashop.
+- `presta_url` (str): URL адрес Prestashop.
 
 **Методы**:
-
-- `__init__`: Инициализирует экземпляр класса `SupplierToPrestashopProvider`, загружает конфигурацию, инициализирует драйвер и AI модель.
-- `initialise_ai_model`: Инициализирует AI модель Gemini с системными инструкциями.
-- `process_graber`: Выполняет парсинг товаров, обрабатывает их через AI и сохраняет данные.
-- `process_scenarios`: Обрабатывает сценарии для заданных поставщиков.
-- `save_product_data`: Сохраняет данные об отдельном товаре в файл.
-- `process_llm`: Обрабатывает список товаров через AI модель для получения дополнительных данных.
+- `__init__`: Инициализирует экземпляр класса `SupplierToPrestashopProvider`.
+- `initialise_ai_model`: Инициализирует AI модель Gemini.
+- `process_graber`: Извлекает данные о товарах со страниц поставщиков.
+- `process_scenarios`: Обрабатывает сценарии для различных поставщиков.
+- `save_product_data`: Сохраняет данные о товаре в файл.
+- `process_llm`: Обрабатывает список товаров с использованием AI модели.
 - `save_in_prestashop`: Сохраняет товары в Prestashop.
-- `post_facebook`: Исполняет сценарий рекламного модуля Facebook.
+- `post_facebook`: Публикует информацию о товаре на Facebook.
 - `create_report`: Создает отчет о товаре в формате HTML и PDF.
 
 ### `Config`
 
-**Описание**: Класс конфигурации.
+**Описание**: Класс, содержащий настройки конфигурации для модуля.
 
 **Атрибуты**:
-- `ENDPOINT` (str): Имя endpoint - `emil`.
+- `ENDPOINT` (str): Имя каталога поставщика.
 
 ## Функции
 
@@ -55,151 +54,171 @@
 
 ```python
 def __init__(self, 
-                 lang:str, 
-                 gemini_api: str,
-                 presta_api: str,
-                 presta_url: str,
-                 driver: Optional [Driver] = None,
-                 ):
+             lang:str, 
+             gemini_api: str,
+             presta_api: str,
+             presta_url: str,
+             driver: Optional [Driver] = None,
+             ):
+    """
+    Initializes SupplierToPrestashopProvider class with required components.
+
+    Args:
+        driver (Driver): Selenium WebDriver instance.
+        
+
+    """
 ```
 
-**Назначение**: Инициализирует класс `SupplierToPrestashopProvider`.
+**Назначение**: Инициализирует класс `SupplierToPrestashopProvider` с необходимыми компонентами.
 
 **Параметры**:
-- `lang` (str): Язык, который будет использоваться при обработке данных.
-- `gemini_api` (str): API ключ для доступа к модели Gemini.
+- `lang` (str): Язык, используемый в процессе обработки данных.
+- `gemini_api` (str): API ключ для доступа к Google Gemini.
 - `presta_api` (str): API ключ для доступа к Prestashop.
 - `presta_url` (str): URL адрес Prestashop.
-- `driver` (Optional[Driver], optional): Экземпляр веб-драйвера. Если не указан, создается новый экземпляр Firefox. По умолчанию `None`.
+- `driver` (Optional[Driver]): Экземпляр Selenium WebDriver. Если не указан, создается новый экземпляр Firefox.
 
 **Как работает функция**:
-
-1.  Сохраняет переданные API ключи и URL в атрибуты экземпляра класса.
-2.  Загружает конфигурацию из JSON-файла, используя `j_loads_ns`.
-3.  Инициализирует временную метку `timestamp`.
-4.  Создает или использует переданный экземпляр веб-драйвера.
-5.  Инициализирует AI модель Gemini, вызывая метод `initialise_ai_model`.
+- Функция инициализирует объект `SupplierToPrestashopProvider`, загружает конфигурацию из JSON-файла, устанавливает временную метку, инициализирует драйвер и AI модель.
 
 ### `initialise_ai_model`
 
 ```python
 def initialise_ai_model(self):
+    """Инициализация модели Gemini"""
 ```
 
-**Назначение**: Инициализирует AI модель Gemini с системными инструкциями.
-
-**Параметры**:
-- `self`: Экземпляр класса `SupplierToPrestashopProvider`.
-
-**Возвращает**:
-- `GoogleGenerativeAi`: Инициализированную AI модель Gemini.
+**Назначение**: Инициализирует модель Gemini.
 
 **Как работает функция**:
-
-1.  Формирует путь к файлу с системными инструкциями для модели Gemini на основе языка `self.lang`.
-2.  Читает содержимое файла с инструкциями.
-3.  Создает экземпляр класса `GoogleGenerativeAi` с использованием ключа API и прочитанных инструкций.
-4.  Устанавливает конфигурацию генерации ответов модели.
+- Функция считывает системные инструкции для модели Gemini из файла, создает экземпляр класса `GoogleGenerativeAi` с использованием этих инструкций и возвращает его.
 
 ### `process_graber`
 
 ```python
 async def process_graber(
-        self, 
-        urls: list[str],\
-        price: Optional[str] = '', \
-        mexiron_name: Optional[str] = '', \
-        scenarios: dict | list[dict,dict] = None,\
-        
-    ) -> bool:
+    self, 
+    urls: list[str],
+    price: Optional[str] = '', 
+    mexiron_name: Optional[str] = '', 
+    scenarios: dict | list[dict,dict] = None,
+    
+) -> bool:
+    """
+    Executes the scenario: parses products, processes them via AI, and stores data.
+
+    Args:
+        system_instruction (Optional[str]): System instructions for the AI model.
+        price (Optional[str]): Price to process.
+        mexiron_name (Optional[str]): Custom Mexiron name.
+        urls (Optional[str | List[str]]): Product page URLs.
+        scenario (Optional[dict]): Сценарий исполнения, который находится в директории `src.suppliers.suppliers_list.<supplier>.sceanarios`
+
+    Returns:
+        bool: True if the scenario executes successfully, False otherwise.
+
+    .. todo:
+        сделать логер перед отрицательным выходом из функции. 
+        Важно! модель ошибается. 
+
+    """
 ```
 
-**Назначение**: Извлекает, обрабатывает и сохраняет данные о товарах с использованием граббера.
+**Назначение**: Извлекает данные о товарах со страниц поставщиков, обрабатывает их с помощью AI и сохраняет данные.
 
 **Параметры**:
-- `urls` (list[str]): Список URL страниц товаров.
-- `price` (Optional[str], optional): Цена товара. По умолчанию пустая строка.
-- `mexiron_name` (Optional[str], optional): Название товара. По умолчанию пустая строка.
-- `scenarios` (dict | list[dict, dict]], optional): Сценарии для граббера. По умолчанию `None`.
+- `urls` (list[str]): Список URL-адресов страниц товаров.
+- `price` (Optional[str]): Цена товара.
+- `mexiron_name` (Optional[str]): Название Mexiron.
+- `scenarios` (dict | list[dict, dict], optional): Сценарии для исполнения. По умолчанию `None`.
 
 **Возвращает**:
-- `bool`: `True`, если успешно, `False` в противном случае.
+- `bool`: `True`, если сценарий выполнен успешно, `False` в противном случае.
 
 **Как работает функция**:
-
-1.  Определяет необходимые поля товара.
-2.  Итерируется по списку URL.
-3.  Получает граббер для каждого URL, используя `get_graber_by_supplier_url`.
-4.  Вызывает метод `process_graber` для получения данных о товаре.
-5.  Конвертирует полученные поля товара, используя `convert_product_fields`.
-6.  Сохраняет данные о товаре, используя `save_product_data`.
-7.  Добавляет данные товара в список `products_list`.
+- Функция проходит по списку URL-адресов, получает граббер для каждого URL, извлекает данные о товаре, преобразует их и сохраняет.
 
 ### `process_scenarios`
 
 ```python
 async def process_scenarios(self, suppliers_prefixes:Optional[str] = '') -> bool:
+    """"""
+    ...
+    suppliers_prefixes = suppliers_prefixes if isinstance(suppliers_prefixes, list) else [suppliers_prefixes] if isinstance(suppliers_prefixes, str) else []
 ```
 
-**Назначение**: Обрабатывает сценарии для заданных поставщиков.
+**Назначение**: Обрабатывает сценарии для различных поставщиков.
 
 **Параметры**:
-- `suppliers_prefixes` (Optional[str], optional): Префиксы поставщиков. По умолчанию пустая строка.
+- `suppliers_prefixes` (Optional[str]): Префиксы поставщиков.
 
 **Возвращает**:
-- `bool`: `True`, если успешно, `False` в противном случае.
+- `bool`: `True`, если обработка сценариев выполнена успешно, `False` в противном случае.
 
 **Как работает функция**:
-
-1.  Преобразует входные префиксы поставщиков в список.
+- Функция обрабатывает сценарии для заданных префиксов поставщиков. Если `suppliers_prefixes` является строкой, она преобразуется в список.
 
 ### `save_product_data`
 
 ```python
 async def save_product_data(self, product_data: dict):
+    """
+    Saves individual product data to a file.
+
+    Args:
+        product_data (dict): Formatted product data.
+    """
 ```
 
-**Назначение**: Сохраняет данные об отдельном товаре в файл.
+**Назначение**: Сохраняет данные о товаре в файл.
 
 **Параметры**:
-- `product_data` (dict): Данные о товаре.
-
-**Возвращает**:
-- `bool`: `True`, если успешно, `False` в противном случае.
+- `product_data` (dict): Отформатированные данные о товаре.
 
 **Как работает функция**:
-
-1.  Формирует путь к файлу для сохранения данных о товаре.
-2.  Сохраняет данные о товаре в файл, используя `j_dumps`.
+- Функция сохраняет данные о товаре в JSON-файл. Имя файла формируется на основе идентификатора товара.
 
 ### `process_llm`
 
 ```python
 async def process_llm(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
+    """
+    Processes the product list through the AI model.
+
+    Args:
+        products_list (str): List of product data dictionaries as a string.
+        attempts (int, optional): Number of attempts to retry in case of failure. Defaults to 3.
+
+    Returns:
+        tuple: Processed response in `ru` and `he` formats.
+        bool: False if unable to get a valid response after retries.
+
+    .. note::
+        Модель может возвращать невелидный результат.
+        В таком случае я переспрашиваю модель разумное количество раз.
+    """
 ```
 
 **Назначение**: Обрабатывает список товаров с использованием AI модели.
 
 **Параметры**:
-- `products_list` (List[str]): Список данных о товарах.
-- `lang` (str): Язык, используемый при обработке данных.
-- `attempts` (int, optional): Количество попыток запроса к модели в случае неудачи. По умолчанию 3.
+- `products_list` (List[str]): Список данных о товарах в виде строки.
+- `lang` (str): Язык, используемый в процессе обработки данных.
+- `attempts` (int, optional): Количество попыток повторной отправки запроса в случае неудачи. По умолчанию `3`.
 
 **Возвращает**:
-- `tuple | bool`: Обработанный ответ в форматах `ru` и `he`, или `False` в случае неудачи.
+- `dict`: Обработанный ответ от AI модели.
+- `bool`: `False`, если не удалось получить валидный ответ после нескольких попыток.
 
 **Как работает функция**:
-
-1.  Проверяет количество оставшихся попыток. Если их нет, возвращает `False`.
-2.  Формирует запрос к модели на основе системных инструкций и данных о товарах.
-3.  Отправляет запрос к модели, используя `self.model.ask`.
-4.  Парсит полученный ответ, используя `j_loads`.
-5.  В случае неудачи повторяет запрос, если остались попытки.
+- Функция отправляет запрос в AI модель с данными о товарах, получает ответ, проверяет его валидность и возвращает обработанные данные. Если ответ невалиден, функция повторяет запрос несколько раз.
 
 ### `save_in_prestashop`
 
 ```python
 async def save_in_prestashop(self, products_list:ProductFields | list[ProductFields]) -> bool:
+    """Функция, которая сохраняет товары в Prestashop emil-design.com """
 ```
 
 **Назначение**: Сохраняет товары в Prestashop.
@@ -207,85 +226,97 @@ async def save_in_prestashop(self, products_list:ProductFields | list[ProductFie
 **Параметры**:
 - `products_list` (ProductFields | list[ProductFields]): Список товаров для сохранения.
 
-**Возвращает**:
-- `bool`: `True`, если успешно, `False` в противном случае.
-
 **Как работает функция**:
-
-1.  Преобразует входные данные в список, если это не список.
-2.  Создает экземпляр класса `PrestaProduct` для взаимодействия с API Prestashop.
-3.  Итерируется по списку товаров и вызывает метод `add_new_product` для добавления каждого товара в Prestashop.
+- Функция проходит по списку товаров и добавляет каждый товар в Prestashop с использованием API.
 
 ### `post_facebook`
 
 ```python
 async def post_facebook(self, mexiron:SimpleNamespace) -> bool:
+    """Функция исполняет сценарий рекламного модуля `facvebook`."""
+    ...
+    self.driver.get_url(r'https://www.facebook.com/profile.php?id=61566067514123')
+    currency = "ש''ח"
+    title = f'{mexiron.title}\n{mexiron.description}\n{mexiron.price} {currency}'
+    if not post_message_title(self.d, title):
+        logger.warning(f'Не получилось отправить название мехирона')
+        ...
+        return
+
+    if not upload_post_media(self.d, media = mexiron.products):
+        logger.warning(f'Не получилось отправить media')
+        ...
+        return
+    if not message_publish(self.d):
+        logger.warning(f'Не получилось отправить media')
+        ...
+        return
+
+    return True
 ```
 
-**Назначение**: Публикует информацию о товаре в Facebook.
+**Назначение**: Публикует информацию о товаре на Facebook.
 
 **Параметры**:
-- `mexiron` (SimpleNamespace): Объект с данными о товаре.
-
-**Возвращает**:
-- `bool`: `True`, если успешно, `False` в противном случае.
+- `mexiron` (SimpleNamespace): Объект, содержащий данные о товаре для публикации.
 
 **Как работает функция**:
-
-1.  Переходит на страницу Facebook.
-2.  Формирует заголовок сообщения с информацией о товаре.
-3.  Публикует сообщение и медиафайлы, используя функции `post_message_title`, `upload_post_media` и `message_publish`.
+- Функция переходит на страницу Facebook, формирует заголовок сообщения, загружает медиафайлы и публикует сообщение.
 
 ### `create_report`
 
 ```python
 async def create_report(self, data: dict, lang:str, html_file: Path, pdf_file: Path) -> bool:
+    """Функция отправляет задание на создание мехирона в формате `html` и `pdf`.
+    Если мехорон в pdf создался (`generator.create_report()` вернул True) - 
+    отправить его боту
+    """
 ```
 
-**Назначение**: Создает отчет о товаре в формате HTML и PDF.
+**Назначение**: Создает отчет о товаре в формате HTML и PDF и отправляет PDF файл боту.
 
 **Параметры**:
 - `data` (dict): Данные для отчета.
-- `lang` (str): Язык отчета.
+- `lang` (str): Язык, используемый в отчете.
 - `html_file` (Path): Путь для сохранения HTML файла.
 - `pdf_file` (Path): Путь для сохранения PDF файла.
 
-**Возвращает**:
-- `bool`: `True`, если успешно, `False` в противном случае.
-
 **Как работает функция**:
-
-1.  Создает экземпляр класса `ReportGenerator`.
-2.  Вызывает метод `create_report` для генерации отчета.
-3.  Отправляет PDF файл боту, если он был успешно создан.
+- Функция создает отчет о товаре в формате HTML и PDF с использованием данных, переданных в функцию, а также отправляет PDF файл боту.
 
 ### `upload_redacted_images_from_emil`
 
 ```python
 async def upload_redacted_images_from_emil():
+    """
+    На данный момент функция читает JSON со списком фотографий , которые были получены от Эмиля
+    """
 ```
 
-**Назначение**: Загружает отредактированные изображения товаров из JSON файла и сохраняет их в Prestashop.
+**Назначение**: Загружает отредактированные изображения из JSON файла, полученного от Эмиля, и сохраняет их в Prestashop.
 
 **Как работает функция**:
-
-1.  Устанавливает язык `lang` в значение `'he'`.
-2.  Загружает данные о товарах из JSON файла, используя `j_loads_ns`.
-3.  Создает экземпляр класса `SupplierToPrestashopProvider`.
-4.  Сохраняет товары в Prestashop, используя метод `save_in_prestashop`.
+- Функция считывает JSON файл, создает экземпляр `SupplierToPrestashopProvider` и сохраняет изображения в Prestashop.
 
 ### `main`
 
 ```python
 async def main():
+    """
+    """
+    await upload_redacted_images_from_emil()
 ```
 
-**Назначение**: Главная функция, запускающая процесс загрузки отредактированных изображений товаров.
+**Назначение**: Главная функция, которая запускает процесс загрузки отредактированных изображений.
 
 **Как работает функция**:
+- Функция вызывает `upload_redacted_images_from_emil` для загрузки изображений.
 
-1.  Вызывает функцию `upload_redacted_images_from_emil` для загрузки и сохранения данных о товарах.
+## Примеры
 
-## Запуск модуля
+Пример использования:
 
-Для запуска модуля необходимо выполнить скрипт `from_supplier_to_prestashop.py`. Скрипт использует асинхронный запуск, поэтому необходимо использовать `asyncio.run(main())`.
+```python
+# Пример использования класса SupplierToPrestashopProvider
+supplier = SupplierToPrestashopProvider(lang='he', gemini_api='your_gemini_api_key', presta_api='your_presta_api_key', presta_url='your_presta_url')
+asyncio.run(supplier.process_graber(urls=['http://example.com/product1', 'http://example.com/product2'], price='100', mexiron_name='Product Name'))

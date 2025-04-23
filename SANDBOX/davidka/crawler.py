@@ -19,7 +19,7 @@ from types import SimpleNamespace
 import header
 from header import __root__
 from src import gs
-from src.webdriver.ai_browser import Driver
+from src.webdriver.ai_browser import Driver, SimpleBrowser
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.file import read_text_file, save_text_file, get_filenames_from_directory 
 from src.utils.printer import pprint as print
@@ -68,7 +68,7 @@ def yield_product_urls_from_files(directory: Path = Config.mining_data_path, pat
 
 async def main():
     """"""
-    driver:Driver = Driver()
+    driver:SimpleBrowser = SimpleBrowser()
 
     # Через генератор для совсем больших данных
     # for product_url in yield_product_urls_from_files():

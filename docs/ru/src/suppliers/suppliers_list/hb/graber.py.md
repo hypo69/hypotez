@@ -1,131 +1,117 @@
-# Модуль: src.suppliers.hb.graber
+# Модуль `graber.py`
 
 ## Обзор
 
-Модуль `graber.py` предназначен для сбора информации о товарах с сайта `hb.co.il`. Он содержит класс `Graber`, который наследует функциональность от базового класса `Graber` (`Grbr`) и переопределяет методы для специфической обработки данных, характерной для данного поставщика. Модуль использует веб-драйвер для взаимодействия с сайтом и извлечения необходимых данных.
+Модуль `graber.py` предназначен для сбора информации о товарах с сайта `hb.co.il`. Он содержит класс `Graber`, который наследует функциональность от базового класса `Graber` (`Grbr`) и адаптирует ее для специфических требований сайта `hb.co.il`. Модуль позволяет извлекать различные поля товаров, такие как короткое описание, URL изображения по умолчанию и цену, используя веб-драйвер и определенные локаторы элементов на странице.
 
 ## Подробней
 
-Этот модуль является частью системы сбора данных о товарах от различных поставщиков в проекте `hypotez`. Он специализируется на сборе данных с сайта `hb.co.il`. Для каждого поля товара на сайте создается функция обработки. Если стандартной обработки недостаточно, функция перегружается в этом классе.
-
-Перед отправкой запроса к веб-драйверу можно выполнить предварительные действия через декоратор. Декоратор по умолчанию находится в родительском классе. Чтобы декоратор сработал, необходимо передать значение в `Context.locator`. Если требуется реализовать собственный декоратор, можно раскомментировать соответствующие строки кода и переопределить его поведение.
+Этот модуль является частью системы сбора данных о товарах от различных поставщиков. Он специализируется на сайте `hb.co.il` и использует веб-драйвер для взаимодействия с сайтом. Класс `Graber` переопределяет некоторые методы родительского класса для обработки специфических особенностей сайта `hb.co.il`.
 
 ## Классы
 
 ### `Graber`
 
-**Описание**: Класс `Graber` предназначен для сбора данных о товарах с сайта `hb.co.il`. Он наследует функциональность от базового класса `Graber` (`Grbr`) и переопределяет методы для специфической обработки данных, характерной для данного поставщика.
+**Описание**: Класс `Graber` предназначен для сбора информации о товарах с сайта `hb.co.il`.
 
-**Наследует**:
-
-- `Grbr` (src.suppliers.graber.Graber): Базовый класс для сбора данных о товарах.
+**Наследует**: `Graber` (`Grbr`)
 
 **Атрибуты**:
 
-- `supplier_prefix` (str): Префикс поставщика, устанавливается в значение `'hb'`.
+-   `supplier_prefix` (str): Префикс поставщика, устанавливается как `'hb'`.
 
 **Методы**:
 
-- `__init__`: Инициализирует экземпляр класса `Graber`, устанавливает префикс поставщика и вызывает конструктор родительского класса.
-- `default_image_url`: Метод-заглушка для получения URL изображения товара по умолчанию.
-- `price`: Метод-заглушка для получения цены товара.
-
-## Методы класса
+-   `__init__(self, driver: Optional['Driver'] = None, lang_index: Optional[int] = None)`: Инициализирует экземпляр класса `Graber`.
+-   `default_image_url(self, value: Optional[Any] = None) -> bool`: Заглушка для URL изображения по умолчанию.
+-   `price(self, value: Optional[Any] = None) -> bool`: Заглушка для цены.
 
 ### `__init__`
 
 ```python
-def __init__(self, driver: Optional['Driver'] = None, lang_index: Optional[int] = None) -> None
+def __init__(self, driver: Optional['Driver'] = None, lang_index: Optional[int] = None) -> None:
+    """Инициализация класса сбора полей товара.
+
+    Args:
+        driver (Optional['Driver'], optional): Экземпляр веб-драйвера. По умолчанию `None`.
+        lang_index (Optional[int], optional): Индекс языка. По умолчанию `None`.
+
+    """
+    self.supplier_prefix = 'hb'
+    super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)
+    # Функция устанавливает глобальные настройки через Context
+    Config.locator_for_decorator = None  # <- если будет установлено значение - то оно выполнится в декораторе `@close_pop_up`
 ```
 
-**Назначение**: Инициализирует экземпляр класса `Graber`, устанавливает префикс поставщика и вызывает конструктор родительского класса.
+**Назначение**: Инициализирует экземпляр класса `Graber`, устанавливая префикс поставщика и вызывая конструктор родительского класса.
 
 **Параметры**:
 
-- `driver` (Optional['Driver'], optional): Экземпляр веб-драйвера для взаимодействия с сайтом. По умолчанию `None`.
-- `lang_index` (Optional[int], optional): Индекс языка. По умолчанию `None`.
+-   `driver` (Optional['Driver'], optional): Экземпляр веб-драйвера. По умолчанию `None`.
+-   `lang_index` (Optional[int], optional): Индекс языка. По умолчанию `None`.
 
 **Как работает функция**:
 
-1. Устанавливает атрибут `supplier_prefix` в значение `'hb'`.
-2. Вызывает конструктор родительского класса `Grbr` с установленным префиксом поставщика, драйвером и индексом языка.
-3. Устанавливает `Config.locator_for_decorator` в `None`, чтобы декоратор `@close_pop_up` не выполнялся по умолчанию.
-
-**Примеры**:
-
-```python
-from src.webdriver.driver import Driver
-from src.webdriver.chrome import Chrome
-driver = Driver(Chrome)
-graber = Graber(driver=driver, lang_index=0)
-print(graber.supplier_prefix)  # Вывод: hb
-```
+1.  Устанавливает атрибут `supplier_prefix` в значение `'hb'`.
+2.  Вызывает конструктор родительского класса `Graber` (`Grbr`) с установленным префиксом поставщика, драйвером и индексом языка.
+3.  Устанавливает атрибут `locator_for_decorator` класса `Config` в значение `None`. Это необходимо для отключения декоратора `@close_pop_up`, если он не требуется.
 
 ### `default_image_url`
 
 ```python
-async def default_image_url(self, value: Optional[Any] = None) -> bool
+async def default_image_url(self, value: Optional[Any] = None) -> bool:
+    """Заглушка для URL изображения по умолчанию
+
+    Args:
+        value (Optional[Any], optional): Значение, которое можно передать в функцию. По умолчанию `None`.
+
+    Returns:
+        bool: Всегда возвращает `True`.
+    """
+    return True
 ```
 
-**Назначение**: Метод-заглушка для получения URL изображения товара по умолчанию.
+**Назначение**: Метод-заглушка для получения URL изображения по умолчанию.
 
 **Параметры**:
 
-- `value` (Optional[Any], optional): Дополнительное значение, которое может быть передано. По умолчанию `None`.
+-   `value` (Optional[Any], optional): Значение, которое можно передать в функцию. По умолчанию `None`.
 
 **Возвращает**:
 
-- `bool`: Всегда возвращает `True`.
+-   `bool`: Всегда возвращает `True`.
 
 **Как работает функция**:
 
-Просто возвращает `True` без каких-либо действий.
-
-**Примеры**:
-
-```python
-from src.webdriver.driver import Driver
-from src.webdriver.chrome import Chrome
-driver = Driver(Chrome)
-import asyncio
-async def main():
-    graber = Graber(driver=driver, lang_index=0)
-    result = await graber.default_image_url()
-    print(result)  # Вывод: True
-asyncio.run(main())
-```
+1.  Всегда возвращает `True`.
 
 ### `price`
 
 ```python
-async def price(self, value: Optional[Any] = None) -> bool
+async def price(self, value: Optional[Any] = None) -> bool:
+    """Заглушка для цены
+
+    Args:
+        value (Optional[Any], optional): Значение, которое можно передать в функцию. По умолчанию `None`.
+
+    Returns:
+        bool: Всегда возвращает `True`.
+    """
+    self.fields.price = 150.00
+    return True
 ```
 
 **Назначение**: Метод-заглушка для получения цены товара.
 
 **Параметры**:
 
-- `value` (Optional[Any], optional): Дополнительное значение, которое может быть передано. По умолчанию `None`.
+-   `value` (Optional[Any], optional): Значение, которое можно передать в функцию. По умолчанию `None`.
 
 **Возвращает**:
 
-- `bool`: Всегда возвращает `True`.
+-   `bool`: Всегда возвращает `True`.
 
 **Как работает функция**:
 
-1. Устанавливает атрибут `self.fields.price` в значение `150.00`.
-2. Возвращает `True`.
-
-**Примеры**:
-
-```python
-from src.webdriver.driver import Driver
-from src.webdriver.chrome import Chrome
-driver = Driver(Chrome)
-import asyncio
-
-async def main():
-    graber = Graber(driver=driver, lang_index=0)
-    await graber.price()
-    print(graber.fields.price)
-asyncio.run(main()) # Вывод: 150.0
+1.  Устанавливает атрибут `price` объекта `self.fields` в значение `150.00`.
+2.  Всегда возвращает `True`.

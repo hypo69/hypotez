@@ -2,11 +2,11 @@
 
 ## Обзор
 
-Этот модуль предоставляет класс `Firefox`, расширяющий стандартный `selenium.webdriver.Firefox` с дополнительными функциями, такими как управление пользовательскими профилями, режим киоска и настройки прокси.
+Модуль предоставляет класс `Firefox`, расширяющий стандартный `selenium.webdriver.Firefox` с дополнительными функциями, такими как управление пользовательским профилем, режим киоска и настройки прокси.
 
 ## Подробнее
 
-Модуль предназначен для управления экземплярами веб-драйвера Firefox с расширенными возможностями конфигурации. Он позволяет настраивать профили Firefox, устанавливать режимы отображения окна (например, киоск), задавать пользовательские агенты и настраивать прокси-серверы. Это обеспечивает гибкость при автоматизации веб-браузеров Firefox для различных задач, таких как тестирование, сбор данных и автоматическое взаимодействие с веб-сайтами.
+Этот модуль расширяет возможности веб-драйвера Firefox, предоставляя дополнительные функции для настройки и управления экземпляром Firefox. Он позволяет использовать пользовательские профили, устанавливать режим киоска, настраивать user-agent и прокси-серверы.
 
 ## Классы
 
@@ -17,183 +17,168 @@
 **Атрибуты**:
 
 - `geckodriver_path` (str): Путь к исполняемому файлу GeckoDriver.
-- `firefox_binary_path` (str): Путь к бинарному файлу Firefox.
-- `profile_directory_default` (str): Значение по умолчанию для директории профиля.
-- `profile_directory_os` (str): Путь к директории профиля, специфичной для операционной системы.
-- `profile_directory_internal` (str): Внутренний путь к директории профиля.
+- `firefox_binary_path` (str): Путь к исполняемому файлу Firefox.
+- `profile_directory_default` (str): Значение по умолчанию для каталога профиля.
+- `profile_directory_os` (str): Каталог профиля, специфичный для операционной системы.
+- `profile_directory_internal` (str): Внутренний каталог профиля.
 - `options` (List[str]): Список опций Firefox.
-- `headers` (Dict[str, Any]): Словарь заголовков для Firefox.
+- `headers` (Dict[str, Any]): Словарь заголовков.
 - `proxy_enabled` (bool): Флаг, указывающий, включен ли прокси.
 
 **Методы**:
 
 - `__init__(config_path: Path)`: Инициализирует объект `Config`, загружая настройки из JSON-файла.
 
-**Принцип работы**:
+   **Параметры**:
+   - `config_path` (Path): Путь к JSON-файлу конфигурации.
 
-Класс `Config` предназначен для загрузки и хранения конфигурационных параметров, необходимых для запуска WebDriver Firefox. Он считывает данные из JSON-файла, указанного в `config_path`, и сохраняет их в виде атрибутов объекта. Это позволяет централизованно управлять настройками, такими как пути к исполняемым файлам, параметры профиля, опции запуска и настройки прокси.
+   **Как работает функция**:
+    - Функция загружает конфигурацию из JSON-файла, используя `j_loads_ns`.
+    - Извлекает пути к исполняемым файлам `geckodriver` и `firefox_binary` из конфигурации и преобразует их в строки.
+    - Загружает параметры каталога профиля, опции командной строки и заголовки из файла конфигурации.
+    - Определяет, включен ли прокси-сервер на основе файла конфигурации.
+    - Все пути формируются относительно корня проекта, используя `gs.path.root`.
+
+   **Примеры**:
+    ```python
+    from pathlib import Path
+    config_path = Path("path/to/firefox.json")  # Замените на актуальный путь к файлу конфигурации
+    config = Config(config_path)
+    print(f"Путь к geckodriver: {config.geckodriver_path}")
+    print(f"Включен ли прокси: {config.proxy_enabled}")
+    ```
 
 ### `Firefox`
 
-**Описание**: Класс, расширяющий `webdriver.Firefox` с улучшенными возможностями.
+**Описание**: Расширяет `webdriver.Firefox` с расширенными возможностями.
 
 **Наследует**:
-
-- `selenium.webdriver.Firefox.webdriver.WebDriver`
+- `selenium.webdriver.Firefox`
 
 **Атрибуты**:
+- `driver_name` (str): Имя драйвера (`"firefox"`).
 
-- `driver_name` (str): Имя драйвера ("firefox").
+**Параметры**:
+
+- `profile_name` (Optional[str], optional): Имя профиля Firefox для использования. По умолчанию `None`.
+- `geckodriver_version` (Optional[str], optional): Версия GeckoDriver. По умолчанию `None`.
+- `firefox_version` (Optional[str], optional): Версия Firefox. По умолчанию `None`.
+- `user_agent` (Optional[str], optional): Строка user agent. Если `None`, используется случайный user agent. По умолчанию `None`.
+- `proxy_file_path` (Optional[str], optional): Путь к файлу прокси. По умолчанию `None`.
+- `options` (Optional[List[str]], optional): Список опций Firefox. По умолчанию `None`.
+- `window_mode` (Optional[str], optional): Режим окна браузера (например, `"windowless"`, `"kiosk"`). По умолчанию `None`.
+
+**Принцип работы**:
+
+1. **Инициализация**:
+   - Инициализирует WebDriver Firefox с пользовательскими настройками, такими как профиль, user-agent, прокси и режим окна.
+   - Загружает конфигурацию из JSON-файла `firefox.json`.
+   - Настраивает параметры службы GeckoDriver и параметры Firefox.
+   - Устанавливает user-agent, прокси (если включен) и каталог профиля.
+2. **Настройка параметров**:
+   - Загружает параметры из файла конфигурации, параметры командной строки и устанавливает user-agent.
+   - Настраивает прокси, если он включен в конфигурации.
+3. **Профиль Firefox**:
+   - Настраивает каталог профиля Firefox, используя либо профиль по умолчанию, либо указанный профиль.
+4. **Запуск WebDriver**:
+   - Инициализирует WebDriver Firefox с заданными параметрами и обрабатывает любые исключения, которые могут возникнуть во время запуска.
+   - Вызывает метод `_payload` для загрузки исполнителей для локаторов и скриптов JavaScript.
 
 **Методы**:
 
 - `__init__(profile_name: Optional[str] = None, geckodriver_version: Optional[str] = None, firefox_version: Optional[str] = None, user_agent: Optional[str] = None, proxy_file_path: Optional[str] = None, options: Optional[List[str]] = None, window_mode: Optional[str] = None, *args, **kwargs)`: Инициализирует WebDriver Firefox с пользовательскими настройками.
+
+   **Параметры**:
+   - `profile_name` (Optional[str], optional): Имя профиля Firefox для использования. По умолчанию `None`.
+   - `geckodriver_version` (Optional[str], optional): Версия GeckoDriver. По умолчанию `None`.
+   - `firefox_version` (Optional[str], optional): Версия Firefox. По умолчанию `None`.
+   - `user_agent` (Optional[str], optional): Строка user agent. Если `None`, используется случайный user agent. По умолчанию `None`.
+   - `proxy_file_path` (Optional[str], optional): Путь к файлу прокси. По умолчанию `None`.
+   - `options` (Optional[List[str]], optional): Список опций Firefox. По умолчанию `None`.
+   - `window_mode` (Optional[str], optional): Режим окна браузера (например, `"windowless"`, `"kiosk"`). По умолчанию `None`.
+   - `*args`: Произвольные позиционные аргументы.
+   - `**kwargs`: Произвольные аргументы ключевого слова.
+
+   **Как работает функция**:
+    - Функция инициализирует WebDriver Firefox с пользовательскими настройками, такими как профиль, user-agent, прокси и режим окна.
+    - Сначала она загружает конфигурацию из JSON-файла `firefox.json`, используя класс `Config`.
+    - Затем она настраивает параметры службы GeckoDriver и параметры Firefox, включая режим окна и любые дополнительные опции, переданные в конструктор.
+    - Если `user_agent` не указан, функция генерирует случайный user-agent с использованием библиотеки `fake_useragent`.
+    - Если включен прокси-сервер, функция вызывает метод `set_proxy` для настройки параметров прокси.
+    - Наконец, она инициализирует WebDriver Firefox с заданными параметрами и обрабатывает любые исключения, которые могут возникнуть во время запуска.
+
+   **Вызывает исключения**:
+   - `WebDriverException`: Если WebDriver не запускается.
+   - `Exception`: Для других непредвиденных ошибок во время инициализации.
+
+   **Примеры**:
+    ```python
+    from src.webdriver.firefox.firefox import Firefox
+    from pathlib import Path
+
+    # Пример 1: Запуск Firefox с профилем по умолчанию и режимом киоска
+    driver1 = Firefox(window_mode="kiosk")
+    driver1.get("https://www.example.com")
+    driver1.quit()
+
+    # Пример 2: Запуск Firefox с пользовательским профилем и user-agent
+    profile_name = "custom_profile"
+    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    driver2 = Firefox(profile_name=profile_name, user_agent=user_agent)
+    driver2.get("https://www.example.com")
+    driver2.quit()
+
+    # Пример 3: Запуск Firefox с пользовательскими опциями
+    options = ["--disable-extensions", "--mute-audio"]
+    driver3 = Firefox(options=options)
+    driver3.get("https://www.example.com")
+    driver3.quit()
+    ```
+
 - `set_proxy(options: Options) -> None`: Настраивает параметры прокси из словаря.
-- `_payload() -> None`: Загружает исполнителей для локаторов и скриптов JavaScript.
 
-**Параметры**:
+   **Параметры**:
+   - `options` (Options): Параметры Firefox для добавления настроек прокси.
 
-- `profile_name` (Optional[str], optional): Имя используемого профиля Firefox. По умолчанию `None`.
-- `geckodriver_version` (Optional[str], optional): Версия GeckoDriver. По умолчанию `None`.
-- `firefox_version` (Optional[str], optional): Версия Firefox. По умолчанию `None`.
-- `user_agent` (Optional[str], optional): Строка пользовательского агента. Если `None`, используется случайный пользовательский агент. По умолчанию `None`.
-- `proxy_file_path` (Optional[str], optional): Путь к файлу прокси. По умолчанию `None`.
-- `options` (Optional[List[str]], optional): Список опций Firefox. По умолчанию `None`.
-- `window_mode` (Optional[str], optional): Режим окна браузера (например, "windowless", "kiosk"). По умолчанию `None`.
+   **Как работает функция**:
+    - Функция настраивает параметры прокси в Firefox, выбирая случайный рабочий прокси из списка, полученного с помощью `get_proxies_dict`.
+    - Она пробует случайным образом прокси из списка, пока не найдет рабочий, используя `check_proxy`.
+    - Если рабочий прокси найден, он устанавливает параметры прокси в Firefox, используя `options.set_preference`.
+    - Поддерживаются протоколы HTTP, SOCKS4 и SOCKS5.
 
-**Принцип работы**:
+   **Примеры**:
+    ```python
+    from selenium.webdriver.firefox.options import Options
+    from src.webdriver.firefox.firefox import Firefox
 
-Класс `Firefox` является основным классом модуля, предназначенным для управления веб-драйвером Firefox. При инициализации он загружает конфигурацию из JSON-файла, настраивает параметры запуска Firefox, устанавливает пользовательский профиль, задает пользовательский агент и настраивает прокси-сервер, если это необходимо. После запуска драйвера он загружает исполнителей для локаторов и JavaScript-скриптов, что позволяет выполнять различные действия на веб-страницах.
+    # Создаем объект Firefox
+    driver = Firefox()
+    options = Options()
+    # Пример вызова функции set_proxy
+    driver.set_proxy(options)
+    ```
 
-## Методы класса
+- `_payload(self) -> None`: Загружает исполнителей для локаторов и скриптов JavaScript.
 
-### `Config.__init__`
+   **Как работает функция**:
+    - Функция загружает и присваивает методы JavaScript и ExecuteLocator экземпляру WebDriver Firefox.
+    - Она инициализирует класс `JavaScript` с экземпляром драйвера и присваивает различные методы JavaScript экземпляру драйвера для использования.
+    - Кроме того, она инициализирует класс `ExecuteLocator` с экземпляром драйвера и присваивает его методы экземпляру драйвера для выполнения поиска элементов и других действий.
 
-**Назначение**: Инициализирует объект `Config`, загружая настройки из JSON-файла.
+   **Примеры**:
+    ```python
+    from src.webdriver.firefox.firefox import Firefox
 
-**Параметры**:
+    # Создаем объект Firefox
+    driver = Firefox()
 
-- `config_path` (Path): Путь к JSON-файлу конфигурации.
+    # Пример вызова функции _payload
+    driver._payload()
+    ```
 
-**Возвращает**:
-
-- `None`
-
-**Как работает функция**:
-
-Функция `__init__` загружает конфигурацию из JSON-файла, используя функцию `j_loads_ns`, и присваивает значения атрибутам экземпляра класса `Config`. Эти атрибуты включают пути к исполняемым файлам GeckoDriver и Firefox, параметры профиля, опции запуска и настройки прокси.
-
-**Примеры**:
-
-```python
-config = Config(Path(gs.path.src, "webdriver", "firefox", "firefox.json"))
-print(config.geckodriver_path)
-```
-
-### `Firefox.__init__`
-
-**Назначение**: Инициализирует WebDriver Firefox с пользовательскими настройками.
-
-**Параметры**:
-
-- `profile_name` (Optional[str], optional): Имя используемого профиля Firefox. По умолчанию `None`.
-- `geckodriver_version` (Optional[str], optional): Версия GeckoDriver. По умолчанию `None`.
-- `firefox_version` (Optional[str], optional): Версия Firefox. По умолчанию `None`.
-- `user_agent` (Optional[str], optional): Строка пользовательского агента. Если `None`, используется случайный пользовательский агент. По умолчанию `None`.
-- `proxy_file_path` (Optional[str], optional): Путь к файлу прокси. По умолчанию `None`.
-- `options` (Optional[List[str]], optional): Список опций Firefox. По умолчанию `None`.
-- `window_mode` (Optional[str], optional): Режим окна браузера (например, "windowless", "kiosk"). По умолчанию `None`.
-- `*args`: Произвольные позиционные аргументы.
-- `**kwargs`: Произвольные именованные аргументы.
-
-**Возвращает**:
-
-- `None`
-
-**Вызывает исключения**:
-
-- `WebDriverException`: Если не удается запустить WebDriver.
-- `Exception`: При других непредвиденных ошибках во время инициализации.
-
-**Как работает функция**:
-
-1.  Логирует начало запуска WebDriver Firefox.
-2.  Создает экземпляр класса `Config`, загружая конфигурацию из JSON-файла.
-3.  Создает объект `Service` с указанием пути к исполняемому файлу GeckoDriver.
-4.  Создает объект `Options` для настройки параметров Firefox.
-5.  Загружает опции из конфигурационного файла и добавляет их в объект `Options`.
-6.  Устанавливает режим окна браузера, если он указан.
-7.  Добавляет опции из конструктора в объект `Options`.
-8.  Добавляет заголовки из конфигурационного файла в объект `Options`.
-9.  Устанавливает пользовательский агент, если он указан, или использует случайный пользовательский агент.
-10. Настраивает прокси-сервер, если он включен.
-11. Конфигурирует директорию профиля.
-12. Инициализирует экземпляр WebDriver Firefox с использованием объекта `Service` и объекта `Options`.
-13. Вызывает метод `_payload` для загрузки исполнителей локаторов и JavaScript-скриптов.
-14. Логирует успешный запуск браузера.
-15. Обрабатывает исключения, которые могут возникнуть при запуске WebDriver, и логирует соответствующие сообщения об ошибках.
-
-**Примеры**:
+## Примеры
 
 ```python
-driver = Firefox(window_mode="kiosk")
-driver.get("https://www.example.com")
-driver.quit()
-```
-
-### `Firefox.set_proxy`
-
-**Назначение**: Настраивает параметры прокси из словаря.
-
-**Параметры**:
-
-- `options` (Options): Объект опций Firefox, к которому добавляются настройки прокси.
-
-**Возвращает**:
-
-- `None`
-
-**Как работает функция**:
-
-1.  Функция `set_proxy` извлекает словарь прокси-серверов с использованием функции `get_proxies_dict()`.
-2.  Объединяет списки прокси-серверов socks4 и socks5.
-3.  Выбирает случайный рабочий прокси-сервер из списка.
-4.  Если рабочий прокси-сервер найден, устанавливает параметры прокси в соответствии с протоколом (http, socks4 или socks5).
-5.  Логирует информацию об установленном прокси-сервере.
-6.  Если рабочий прокси-сервер не найден, логирует предупреждение.
-
-**Примеры**:
-
-```python
-options = Options()
-driver = Firefox()
-driver.set_proxy(options)
-driver.quit()
-```
-
-### `Firefox._payload`
-
-**Назначение**: Загружает исполнителей для локаторов и скриптов JavaScript.
-
-**Параметры**:
-
-- `None`
-
-**Возвращает**:
-
-- `None`
-
-**Как работает функция**:
-
-1.  Создает экземпляр класса `JavaScript` для выполнения JavaScript-скриптов в браузере.
-2.  Присваивает методы класса `JavaScript` атрибутам экземпляра класса `Firefox` для удобного доступа.
-3.  Создает экземпляр класса `ExecuteLocator` для выполнения поиска элементов на веб-странице по локаторам.
-4.  Присваивает методы класса `ExecuteLocator` атрибутам экземпляра класса `Firefox` для удобного доступа.
-
-**Примеры**:
-
-```python
-driver = Firefox()
-driver._payload()
-driver.quit()
-```
+if __name__ == "__main__":
+    driver = Firefox()
+    driver.get("https://google.com")

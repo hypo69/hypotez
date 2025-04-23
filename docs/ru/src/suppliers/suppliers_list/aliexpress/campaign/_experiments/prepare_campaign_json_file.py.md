@@ -1,54 +1,63 @@
-# src.suppliers.suppliers_list.aliexpress.campaign._experiments.prepare_campaign_json_file.py
+# Модуль для подготовки JSON-файла кампании
 
 ## Обзор
 
-Модуль предназначен для подготовки JSON-файла рекламной кампании для AliExpress. Он включает в себя функции для обработки категорий, отдельных кампаний и всех кампаний, а также использует другие утилиты для работы с файлами и директориями.
+Модуль предназначен для подготовки JSON-файлов, необходимых для создания рекламной кампании на платформе AliExpress. Он включает в себя функции для обработки категорий кампании, обработки самой кампании и обработки всех кампаний.
 
 ## Подробней
 
-Этот модуль является частью экспериментов по автоматизации создания и редактирования рекламных кампаний на AliExpress. Он использует функциональность класса `AliCampaignEditor` для управления файлами кампаний и включает функции для обработки различных аспектов кампании, таких как категории и общие параметры. Модуль также использует логирование для отслеживания процесса выполнения и вывода информации.
-
-## Импортированные модули
-
-- `header`: Предположительно, содержит общие заголовки или настройки для проекта.
-- `pathlib.Path`: Используется для работы с путями к файлам и директориям.
-- `src.suppliers.suppliers_list.aliexpress.campaign.AliCampaignEditor`: Класс для редактирования рекламных кампаний AliExpress.
-- `src.gs`: Возможно, модуль для работы с Google Sheets или другими сервисами Google.
-- `src.suppliers.suppliers_list.aliexpress.campaign.process_campaign_category`, `src.suppliers.suppliers_list.aliexpress.campaign.process_campaign`, `src.suppliers.suppliers_list.aliexpress.campaign.process_all_campaigns`: Функции для обработки кампаний.
-- `src.utils.get_filenames`, `src.utils.get_directory_names`: Функции для получения списков файлов и директорий.
-- `src.utils.printer.pprint`: Функция для "красивой" печати данных.
-- `src.logger.logger.logger`: Модуль логирования для записи информации о работе программы.
-
-## Переменные модуля
-
-- `campaign_name (str)`: Имя рекламной кампании (`'lighting'`).
-- `campaign_file (str)`: Имя файла кампании (`'EN_US.JSON'`).
-- `campaign_editor (AliCampaignEditor)`: Экземпляр класса `AliCampaignEditor`, используемый для редактирования кампании.
-
-## Функции
-
-В данном коде не предоставлены функции, но используются импортированные функции, которые обрабатывают рекламные кампании и категории.
+Модуль предоставляет функциональность для автоматизации процесса создания рекламных кампаний на AliExpress. Он использует классы и функции из других модулей проекта `hypotez`, таких как `AliCampaignEditor`, `process_campaign_category`, `process_campaign` и `process_all_campaigns`.
 
 ## Классы
 
-### `AliCampaignEditor`
+В данном модуле классы отсутствуют.
 
-- **Описание**: Класс для редактирования рекламных кампаний AliExpress.
+## Функции
 
-- **Параметры**:
-    - `campaign_name` (str): Имя рекламной кампании.
-    - `campaign_file` (str): Имя файла кампании.
+### `process_campaign_category`
 
-- **Принцип работы**:
-    Класс инициализируется с именем кампании и именем файла.  В предоставленном коде создается экземпляр этого класса с именем кампании `'lighting'` и именем файла `'EN_US.JSON'`.
+Функция отсутствует в предоставленном коде.
 
-## Примеры использования
+### `process_campaign`
 
-В коде есть закомментированные строки, показывающие примеры использования функций для обработки кампаний:
+Функция отсутствует в предоставленном коде.
 
+### `process_all_campaigns`
+
+Функция отсутствует в предоставленном коде.
+
+## Переменные модуля
+
+- `campaign_name` (str): Имя рекламной кампании. В данном случае равно `'lighting'`.
+- `campaign_file` (str): Имя файла конфигурации кампании. В данном случае равно `'EN_US.JSON'`.
+- `campaign_editor` (AliCampaignEditor): Экземпляр класса `AliCampaignEditor`, используемый для редактирования кампании. Инициализируется с именем кампании и файлом конфигурации.
+
+**Пример**:
 ```python
-# process_campaign(campaign_name)
-# process_all_campaigns()
+campaign_name = 'lighting'
+campaign_file = 'EN_US.JSON'
+campaign_editor = AliCampaignEditor(campaign_name=campaign_name, campaign_file=campaign_file)
 ```
 
-Эти строки указывают на то, что модуль может быть использован для обработки как отдельных кампаний, так и всех кампаний в директории.
+**Как работает переменная `campaign_editor`**:
+- Создается экземпляр класса `AliCampaignEditor` с именем кампании и файлом конфигурации. Этот объект используется для дальнейшего редактирования параметров кампании.
+
+## Зависимости
+
+- `header`: Импортируется как `import header`, но не используется в предоставленном коде.
+- `pathlib.Path`: Используется для работы с путями к файлам.
+- `src.suppliers.suppliers_list.aliexpress.campaign.AliCampaignEditor`: Класс для редактирования кампании AliExpress.
+- `src.gs`: Импортируется как `from src import gs`, но не используется в предоставленном коде.
+- `src.suppliers.suppliers_list.aliexpress.campaign.process_campaign_category`, `src.suppliers.suppliers_list.aliexpress.campaign.process_campaign`, `src.suppliers.suppliers_list.aliexpress.campaign.process_all_campaigns`: Функции для обработки кампании.
+- `src.utils.get_filenames`, `src.utils.get_directory_names`: Функции для получения имен файлов и директорий.
+- `src.utils.printer.pprint`: Функция для "красивой" печати данных.
+- `src.logger.logger.logger`: Модуль для логирования.
+
+## Примеры
+
+В коде представлены примеры инициализации переменных, но отсутствуют примеры вызовов функций.
+```python
+campaign_name = 'lighting'
+campaign_file = 'EN_US.JSON'
+campaign_editor = AliCampaignEditor(campaign_name = campaign_name, campaign_file = campaign_file )
+campaign_file

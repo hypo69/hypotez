@@ -1,733 +1,1039 @@
-# Модуль graber.py
+# Модуль грабера
 
 ## Обзор
 
-Модуль `graber.py` предназначен для сбора информации о товарах с веб-страниц поставщиков. Он содержит базовый класс `Graber`, который использует веб-драйвер для извлечения целевых полей, таких как название, описание, спецификация, артикул и цена. Расположение полей определяется локаторами, хранящимися в JSON-файлах в директории `locators` каждого поставщика. Модуль предоставляет возможность переопределения функций для нестандартной обработки полей товара.
+Модуль `graber.py` предназначен для сбора информации о товарах с веб-страниц поставщиков. Он содержит базовый класс `Graber`, который использует веб-драйвер для извлечения целевых полей, таких как название, описание, спецификация, артикул и цена, с HTML-страниц. Локаторы для определения местоположения полей хранятся в JSON-файлах в директории `locators` каждого поставщика.
 
 ## Подробней
 
-Модуль предназначен для автоматизации процесса сбора данных о товарах с веб-страниц различных поставщиков. Он использует веб-драйвер для навигации по страницам и извлечения необходимой информации на основе локаторов, определенных в JSON-файлах.
+Этот модуль предоставляет базовый класс для сбора данных о товарах с веб-страниц поставщиков. Он использует веб-драйвер для навигации по страницам и извлечения информации о товарах. Для нестандартной обработки полей товара можно переопределить соответствующие функции в классах, наследующих `Graber`.
 
 ## Классы
 
 ### `Config`
 
-**Описание**: Класс для хранения глобальных настроек, таких как объект драйвера, локатор для декоратора и префикс поставщика.
+**Описание**: Класс для хранения глобальных настроек, таких как объект драйвера, локатор для декоратора `@close_pop_up` и префикс поставщика.
 
-**Атрибуты**:
+**Аттрибуты**:
 
--   `locator_for_decorator` (Optional[`SimpleNamespace`]): Локатор для декоратора `@close_pop_up`.
--   `supplier_prefix` (Optional[str]): Префикс поставщика.
--   `driver` (\`Driver\`): Экземпляр класса `Driver`.
+- `locator_for_decorator` (Optional[SimpleNamespace]): Локатор для декоратора `@close_pop_up`.
+- `supplier_prefix` (Optional[str]): Префикс поставщика.
+- `driver` (Optional['Driver']): Объект драйвера для управления браузером.
+
+**Принцип работы**:
+
+Класс `Config` используется для хранения глобальных настроек, которые могут быть использованы в различных частях модуля. Он предоставляет удобный способ доступа к этим настройкам через атрибуты класса.
 
 ### `Graber`
 
 **Описание**: Базовый класс для сбора данных со страницы для всех поставщиков.
 
+**Атрибуты**:
+
+- `supplier_prefix` (str): Префикс поставщика.
+- `product_locator` (SimpleNamespace): Локаторы для полей продукта.
+- `category_locator` (SimpleNamespace): Локаторы для полей категорий.
+- `driver` (Driver): Экземпляр класса Driver.
+- `fields` (ProductFields): Объект для хранения полей продукта.
+
+**Принцип работы**:
+
+Класс `Graber` является базовым классом для сбора данных о товарах с веб-страниц поставщиков. Он инициализируется с префиксом поставщика и объектом драйвера. Класс использует локаторы, загруженные из JSON-файлов, для определения местоположения полей на странице.
+
 **Методы**:
 
--   `__init__(supplier_prefix: str, driver: Optional['Driver'] = None, lang_index: Optional[int] = 2)`: Инициализация класса `Graber`.
--   `yield_scenarios_for_supplier(supplier_prefix: str, input_scenarios: Optional[List[Dict[str, Any]] | Dict[str, Any]] = None) -> Generator[Dict[str, Any], None, None]`: Генератор сценариев для поставщика.
--   `process_supplier_scenarios_async(supplier_prefix: str, input_scenarios=None, id_lang: Optional[int] = 1) -> bool`: Метод для обработки сценариев поставщика.
--   `process_scenarios(supplier_prefix: str, input_scenarios: List[Dict[str, Any]] | Dict[str, Any], id_lang: Optional[int] = 1) -> Optional[List[Any]]`: Выполняет один или несколько сценариев для указанного поставщика.
--   `set_field_value(value: Any, locator_func: Callable[[], Any], field_name: str, default: Any = '') -> Any`: Универсальная функция для установки значений полей с обработкой ошибок.
--   `grab_page(self, *args, **kwards) -> ProductFields`: Запускает асинхронную функцию `grab_page_async`.
--   `grab_page_async(self, *args, **kwards) -> ProductFields`: Асинхронная функция для сбора полей товара.
--   `error(self, field: str)`: Обработчик ошибок для полей.
--   `additional_shipping_cost(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает дополнительную стоимость доставки.
--   `delivery_in_stock(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает статус наличия на складе.
--   `active(self, value:bool = True) -> bool`: Извлекает и устанавливает статус активности.
--   `additional_delivery_times(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает дополнительное время доставки.
--   `advanced_stock_management(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает статус расширенного управления запасами (DEPRECATED).
--   `affiliate_short_link(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает короткую ссылку филиала.
--   `affiliate_summary(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает сводку филиала.
--   `affiliate_summary_2(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает сводку филиала 2.
--   `affiliate_text(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает текст филиала.
--   `affiliate_image_large(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает большое изображение филиала.
--   `affiliate_image_medium(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает среднее изображение филиала.
--   `affiliate_image_small(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает маленькое изображение филиала.
--   `available_date(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает доступную дату.
--   `available_for_order(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает статус доступности для заказа.
--   `available_later(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает статус доступности позже.
--   `available_now(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает статус доступности сейчас.
--   `additional_categories(self, value: str | list = None) -> dict`: Устанавливает дополнительные категории.
--   `cache_default_attribute(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает атрибут кэша по умолчанию.
--   `cache_has_attachments(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает статус наличия вложений в кэше.
--   `cache_is_pack(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает статус кэша (является ли пакетом).
--   `condition(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает условие товара.
--   `customizable(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает статус настраиваемости.
--   `date_add(self, value:Optional[str | datetime.date] = None) -> bool`: Извлекает и устанавливает дату добавления.
--   `date_upd(self, value:Optional[str | datetime.date] = None) -> bool`: Извлекает и устанавливает дату обновления.
--   `delivery_out_stock(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает доставку вне склада.
--   `depth(self, value:Optional[float] = None) -> bool`: Извлекает и устанавливает глубину.
--   `description(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает описание.
--   `description_short(self, value:Optional[str] = '') -> bool`: Извлекает и устанавливает краткое описание.
--   `id_category_default(self, value:int) -> bool`: Извлекает и устанавливает ID категории по умолчанию.
--   `id_default_combination(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает ID комбинации по умолчанию.
--   `id_product(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает ID товара.
--   `locale(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает локаль.
--   `id_default_image(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает ID изображения по умолчанию.
--   `ean13(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает код EAN13.
--   `ecotax(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает ecotax.
--   `height(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает высоту.
--   `how_to_use(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает как использовать.
--   `id_manufacturer(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает ID производителя.
--   `id_supplier(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает ID поставщика.
--   `id_tax_rules_group(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает ID налога.
--   `id_type_redirected(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает ID перенаправленного типа.
--   `images_urls(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает URL изображений.
--   `indexed(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает статус индексации.
--   `ingredients(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает ингредиенты.
--   `meta_description(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает мета-описание.
--   `meta_keywords(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает мета-ключевые слова.
--   `meta_title(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает мета-заголовок.
--   `is_virtual(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает виртуальный статус.
--   `isbn(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает ISBN.
--   `link_rewrite(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает перезапись ссылки.
--   `location(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает местоположение.
--   `low_stock_alert(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает оповещение о низком уровне запасов.
--   `low_stock_threshold(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает порог низкого уровня запасов.
--   `minimal_quantity(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает минимальное количество.
--   `mpn(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает MPN (номер детали производителя).
--   `name(self, value:Optional[str] = '') -> bool`: Извлекает и устанавливает наименование товара.
--   `online_only(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает статус "только онлайн".
--   `on_sale(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает статус "в продаже".
--   `out_of_stock(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает статус "нет в наличии".
--   `pack_stock_type(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает тип запаса пакета.
--   `price(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает цену.
--   `product_type(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает тип товара.
--   `quantity(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает количество.
--   `quantity_discount(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает скидку за количество.
--   `redirect_type(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает тип перенаправления.
--   `reference(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает ссылку.
--   `show_condition(self, value:Optional[int] = None) -> bool`: Извлекает и устанавливает условие отображения.
--   `show_price(self, value:Optional[int] = None) -> bool`: Извлекает и устанавливает отображение цены.
--   `state(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает состояние.
--   `text_fields(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает текстовые поля.
--   `unit_price_ratio(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает коэффициент цены за единицу.
--   `unity(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает единство.
--   `upc(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает UPC.
--   `uploadable_files(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает загружаемые файлы.
--   `default_image_url(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает URL изображения по умолчанию.
--   `visibility(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает видимость.
--   `weight(self, value:Optional[float] = None) -> bool`: Извлекает и устанавливает вес.
--   `wholesale_price(self, value:Optional[float] = None) -> bool`: Извлекает и устанавливает оптовую цену.
--   `width(self, value:Optional[float] = None) -> bool`: Извлекает и устанавливает ширину.
--   `specification(self, value:Optional[str|list] = None) -> bool`: Извлекает и устанавливает спецификацию.
--   `link(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает ссылку.
-    `byer_protection(self, value:Optional[str] = None) -> bool`: Извлекает и устанавливает защиту покупателя.
--   `customer_reviews(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает отзывы клиентов.
--   `link_to_video(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает ссылку на видео.
--   `local_image_path(self, value: Optional[str] = None) -> bool`: Сохраняет изображение локально и устанавливает путь.
--   `local_video_path(self, value:Optional[Any] = None) -> bool`: Извлекает и устанавливает локальный путь к видео.
+- `__init__`: Инициализация класса Graber.
+- `yield_scenarios_for_supplier`: Генератор, который выдает словари сценариев для поставщика.
+- `process_supplier_scenarios_async`: Метод, который использует генератор yield_scenarios_for_supplier и вызывает run_scenario для каждого сценария.
+- `process_scenarios`: Выполняет один или несколько сценариев для указанного поставщика.
+- `set_field_value`: Универсальная функция для установки значений полей с обработкой ошибок.
+- `grab_page`: Функция для сбора полей продукта.
+- `grab_page_async`: Асинхронная функция для сбора полей продукта.
+- `error`: Обработчик ошибок для полей.
+- `additional_shipping_cost`: Функция для получения и установки дополнительной стоимости доставки.
+- `delivery_in_stock`: Функция для получения и установки статуса доставки в наличии.
+- `active`: Функция для получения и установки статуса активности.
+- `additional_delivery_times`: Функция для получения и установки дополнительного времени доставки.
+- `advanced_stock_management`: Функция для получения и установки статуса расширенного управления запасами (DEPRECATED).
+- `affiliate_short_link`: Функция для получения и установки короткой ссылки аффилиата.
+- `affiliate_summary`: Функция для получения и установки сводки аффилиата.
+- `affiliate_summary_2`: Функция для получения и установки сводки аффилиата 2.
+- `affiliate_text`: Функция для получения и установки текста аффилиата.
+- `affiliate_image_large`: Функция для получения и установки большого изображения аффилиата.
+- `affiliate_image_medium`: Функция для получения и установки среднего изображения аффилиата.
+- `affiliate_image_small`: Функция для получения и установки маленького изображения аффилиата.
+- `available_date`: Функция для получения и установки доступной даты.
+- `available_for_order`: Функция для получения и установки статуса доступности для заказа.
+- `available_later`: Функция для получения и установки статуса доступности позже.
+- `available_now`: Функция для получения и установки статуса доступности сейчас.
+- `additional_categories`: Функция для установки дополнительных категорий.
+- `cache_default_attribute`: Функция для получения и установки атрибута кэша по умолчанию.
+- `cache_has_attachments`: Функция для получения и установки статуса кэша с вложениями.
+- `cache_is_pack`: Функция для получения и установки статуса кэша как набора.
+- `condition`: Функция для получения и установки условия продукта.
+- `customizable`: Функция для получения и установки статуса настраиваемости.
+- `date_add`: Функция для получения и установки даты добавления.
+- `date_upd`: Функция для получения и установки даты обновления.
+- `delivery_out_stock`: Функция для получения и установки статуса доставки вне склада.
+- `depth`: Функция для получения и установки глубины.
+- `description`: Функция для получения и установки описания.
+- `description_short`: Функция для получения и установки короткого описания.
+- `id_category_default`: Функция для получения и установки идентификатора категории по умолчанию.
+- `id_default_combination`: Функция для получения и установки идентификатора комбинации по умолчанию.
+- `id_product`: Функция для получения и установки идентификатора продукта.
+- `locale`: Функция для получения и установки локали.
+- `id_default_image`: Функция для получения и установки идентификатора изображения по умолчанию.
+- `ean13`: Функция для получения и установки кода EAN13.
+- `ecotax`: Функция для получения и установки ecotax.
+- `height`: Функция для получения и установки высоты.
+- `how_to_use`: Функция для получения и установки инструкции по использованию.
+- `id_manufacturer`: Функция для получения и установки идентификатора производителя.
+- `id_supplier`: Функция для получения и установки идентификатора поставщика.
+- `id_tax_rules_group`: Функция для получения и установки идентификатора налога.
+- `id_type_redirected`: Функция для получения и установки идентификатора перенаправленного типа.
+- `images_urls`: Функция для получения и установки URL изображений.
+- `indexed`: Функция для получения и установки статуса индексации.
+- `ingredients`: Функция для получения и установки ингредиентов.
+- `meta_description`: Функция для получения и установки мета-описания.
+- `meta_keywords`: Функция для получения и установки мета-ключевых слов.
+- `meta_title`: Функция для получения и установки мета-заголовка.
+- `is_virtual`: Функция для получения и установки виртуального статуса.
+- `isbn`: Функция для получения и установки ISBN.
+- `link_rewrite`: Функция для получения и установки перезаписи ссылки.
+- `location`: Функция для получения и установки местоположения.
+- `low_stock_alert`: Функция для получения и установки оповещения о низком уровне запасов.
+- `low_stock_threshold`: Функция для получения и установки порога низкого уровня запасов.
+- `minimal_quantity`: Функция для получения и установки минимального количества.
+- `mpn`: Функция для получения и установки MPN (Manufacturer Part Number).
+- `name`: Функция для получения и установки названия продукта.
+- `online_only`: Функция для получения и установки статуса "только онлайн".
+- `on_sale`: Функция для получения и установки статуса "в продаже".
+- `out_of_stock`: Функция для получения и установки статуса "нет в наличии".
+- `pack_stock_type`: Функция для получения и установки типа запаса упаковки.
+- `price`: Функция для получения и установки цены.
+- `product_type`: Функция для получения и установки типа продукта.
+- `quantity`: Функция для получения и установки количества.
+- `quantity_discount`: Функция для получения и установки скидки на количество.
+- `redirect_type`: Функция для получения и установки типа перенаправления.
+- `reference`: Функция для получения и установки ссылки.
+- `show_condition`: Функция для получения и установки отображения условия.
+- `show_price`: Функция для получения и установки отображения цены.
+- `state`: Функция для получения и установки состояния.
+- `text_fields`: Функция для получения и установки текстовых полей.
+- `unit_price_ratio`: Функция для получения и установки коэффициента цены за единицу.
+- `unity`: Функция для получения и установки единицы измерения.
+- `upc`: Функция для получения и установки UPC.
+- `uploadable_files`: Функция для получения и установки загружаемых файлов.
+- `default_image_url`: Функция для получения и установки URL изображения по умолчанию.
+- `visibility`: Функция для получения и установки видимости.
+- `weight`: Функция для получения и установки веса.
+- `wholesale_price`: Функция для получения и установки оптовой цены.
+- `width`: Функция для получения и установки ширины.
+- `specification`: Функция для получения и установки спецификации.
+- `link`: Функция для получения и установки ссылки.
+- `byer_protection`: Функция для получения и установки защиты покупателя.
+- `customer_reviews`: Функция для получения и установки отзывов клиентов.
+- `link_to_video`: Функция для получения и установки ссылки на видео.
+- `local_image_path`: Функция для получения и сохранения изображения локально.
+- `local_video_path`: Функция для получения и сохранения видео локально.
 
 ## Функции
 
-### `close_pop_up()`
+### `close_pop_up`
 
 **Назначение**: Создает декоратор для закрытия всплывающих окон перед выполнением основной логики функции.
 
 **Параметры**:
 
--   `value` (\`Driver\`): Дополнительное значение для декоратора.
+- `value` ('Driver'): Дополнительное значение для декоратора.
 
 **Возвращает**:
 
--   `Callable`: Декоратор, оборачивающий функцию.
+- `Callable`: Декоратор, оборачивающий функцию.
 
 **Как работает функция**:
 
-Функция `close_pop_up()` создает декоратор, который закрывает всплывающие окна перед выполнением основной логики декорируемой функции. Декоратор проверяет, установлен ли локатор для закрытия всплывающего окна в `Config.locator_for_decorator`. Если локатор установлен, декоратор пытается выполнить локатор с помощью `Config.driver.execute_locator()`. В случае успеха, всплывающее окно закрывается, и выполняется основная логика функции. Если локатор не установлен, основная логика функции выполняется без закрытия всплывающего окна.
-
-**Примеры**:
+Функция создает декоратор, который закрывает всплывающее окно, если `Config.locator_for_decorator` установлен. Декоратор оборачивает функцию и выполняет закрытие всплывающего окна перед выполнением основной логики функции.
 
 ```python
 @close_pop_up()
-async def some_function(self, param: str) -> bool:
-    ...
+async def some_function(self, value: str):
+    # Some code here
+    pass
 ```
 
-### `Graber.__init__`
+## Методы класса
 
-**Назначение**: Инициализация класса `Graber`.
+### `__init__`
+
+```python
+def __init__(self, supplier_prefix: str,  driver: Optional['Driver'] = None,  lang_index:Optional[int] = 2, ):
+```
+
+**Назначение**: Инициализация класса Graber.
 
 **Параметры**:
 
--   `supplier_prefix` (str): Префикс поставщика.
--   `driver` (\`Driver\`, optional): Экземпляр класса `Driver`. По умолчанию `None`.
--   `lang_index` (Optional[int], optional): Индекс языка. По умолчанию `2`.
+- `supplier_prefix` (str): Префикс поставщика.
+- `driver` ('Driver'): Экземпляр класса Driver.
+- `lang_index` (Optional[int]): Индекс языка. По умолчанию 2.
 
 **Как работает функция**:
 
-Функция инициализирует экземпляр класса `Graber`, устанавливая префикс поставщика, загружая локаторы для товаров и категорий из JSON-файлов, создавая экземпляр класса `Driver` (если не передан) и устанавливая базовый язык для полей товара. Также устанавливает конфигурацию для декоратора `@close_pop_up`.
+Функция инициализирует класс `Graber`, устанавливает префикс поставщика, загружает локаторы для продукта и категории, создает экземпляр драйвера, устанавливает язык и настраивает декоратор `@close_pop_up`.
 
 **Примеры**:
 
 ```python
-graber = Graber(supplier_prefix='some_supplier', driver=Driver(Chrome))
+graber = Graber(supplier_prefix='some_supplier', driver=Driver(Firefox))
 ```
 
-### `Graber.yield_scenarios_for_supplier`
+### `yield_scenarios_for_supplier`
+
+```python
+def yield_scenarios_for_supplier(self, supplier_prefix: str, input_scenarios: Optional[List[Dict[str, Any]] | Dict[str, Any]] = None) -> Generator[Dict[str, Any], None, None]:
+```
 
 **Назначение**: Генератор, который выдает (yields) словари сценариев для поставщика.
 
 **Параметры**:
 
--   `supplier_prefix` (str): Префикс (идентификатор) поставщика.
--   `input_scenarios` (Optional[List[Dict[str, Any]] | Dict[str, Any]]): Непосредственно переданные сценарии (один словарь или список словарей).
+- `supplier_prefix` (str): Префикс (идентификатор) поставщика.
+- `input_scenarios` (Optional[List[Dict] | Dict]): Непосредственно переданные сценарии (один словарь или список словарей).
 
 **Возвращает**:
 
--   `Generator[Dict[str, Any], None, None]`: Генератор, возвращающий словари сценариев по одному.
+- `Generator[Dict[str, Any], None, None]`: Генератор, возвращающий словари сценариев по одному.
 
 **Как работает функция**:
 
-Сначала функция обрабатывает сценарии, переданные в `input_scenarios`. Если `input_scenarios` пуст или `None`, функция ищет и загружает `.json` файлы из директории сценариев поставщика.
+Функция сначала обрабатывает сценарии, переданные в `input_scenarios`. Если `input_scenarios` пуст или None, функция ищет и загружает .json файлы из директории сценариев поставщика.
 
 **Примеры**:
 
 ```python
 for scenario in grabber.yield_scenarios_for_supplier(supplier_prefix='some_supplier', input_scenarios=[{'url': 'http://example.com'}])
-    ...
+    print(scenario)
 ```
 
-### `Graber.process_supplier_scenarios_async`
+### `process_supplier_scenarios_async`
 
-**Назначение**: Метод для обработки сценариев поставщика.
+```python
+async def process_supplier_scenarios_async(self, supplier_prefix: str, input_scenarios=None, id_lang:Optional[int]=1) -> bool:
+```
+
+**Назначение**: Метод, который использует генератор `yield_scenarios_for_supplier` и вызывает `run_scenario` для каждого сценария.
 
 **Параметры**:
 
--   `supplier_prefix` (str): Префикс (идентификатор) поставщика.
--   `input_scenarios`: Сценарии, переданные для обработки.
--    `id_lang` (Optional[int], optional): ID языка. По умолчанию `1`.
+- `supplier_prefix` (str): Префикс (идентификатор) поставщика.
+- `input_scenarios` (Optional[List[Dict] | Dict]): Непосредственно переданные сценарии (один словарь или список словарей).
+- `id_lang` (Optional[int]): Идентификатор языка. По умолчанию 1.
 
 **Возвращает**:
 
--   `bool`: Результат выполнения сценариев.
+- `bool`: Список результатов выполнения каждого сценария или None в случае критической ошибки.
 
 **Как работает функция**:
 
-Функция использует генератор `yield_scenarios_for_supplier` для получения сценариев и вызывает `process_scenarios` для каждого сценария.
+Функция получает генератор сценариев с помощью `yield_scenarios_for_supplier`, итерируется по сценариям и вызывает `self.process_scenarios` для каждого сценария.
 
 **Примеры**:
 
 ```python
 result = await grabber.process_supplier_scenarios_async(supplier_prefix='some_supplier', input_scenarios=[{'url': 'http://example.com'}])
+print(result)
 ```
 
-### `Graber.process_scenarios`
+### `process_scenarios`
+
+```python
+async def process_scenarios(self, supplier_prefix: str, input_scenarios: List[Dict[str, Any]] | Dict[str, Any], id_lang:Optional[int]=1) -> Optional[List[Any]]:
+```
 
 **Назначение**: Выполняет один или несколько сценариев для указанного поставщика.
 
 **Параметры**:
 
--   `supplier_prefix` (str): Префикс (идентификатор) поставщика.
--   `input_scenarios` (List[Dict[str, Any]] | Dict[str, Any]): Данные сценариев: либо список словарей сценариев, либо словарь вида `{'scenarios': {'name': dict, ...}}`.
--    `id_lang` (Optional[int], optional): ID языка. По умолчанию `1`.
+- `supplier_prefix` (str): Префикс (идентификатор) поставщика.
+- `input_scenarios` (List[Dict[str, Any]] | Dict[str, Any]): Данные сценариев: либо список словарей сценариев, либо словарь вида {'scenarios': {'name': dict, ...}}.
+- `id_lang` (Optional[int]): Идентификатор языка. По умолчанию 1.
 
 **Возвращает**:
 
--   `Optional[List[Any]]`: Список результатов выполнения каждого сценария (например, списки обработанных URL товаров) или `None` в случае критической ошибки.
+- `Optional[List[Any]]]`: Список результатов выполнения каждого сценария (например, списки обработанных URL товаров) или None в случае критической ошибки.
 
 **Как работает функция**:
 
-Функция нормализует входные данные, динамически импортирует модуль сценария и выполняет сценарии, извлекая URL товаров и собирая данные о товарах.
+Функция нормализует входные данные, динамически импортирует модуль сценария, итерируется по сценариям, переходит по URL сценария, вызывает функцию для получения списка товаров и обрабатывает каждый товар.
 
 **Примеры**:
 
 ```python
 result = await grabber.process_scenarios(supplier_prefix='some_supplier', input_scenarios=[{'url': 'http://example.com'}])
+print(result)
 ```
 
-### `Graber.set_field_value`
+### `set_field_value`
+
+```python
+async def set_field_value(
+        self,
+        value: Any,
+        locator_func: Callable[[], Any],
+        field_name: str,
+        default: Any = ''
+    ) -> Any:
+```
 
 **Назначение**: Универсальная функция для установки значений полей с обработкой ошибок.
 
 **Параметры**:
 
--   `value` (Any): Значение для установки.
--   `locator_func` (Callable[[], Any]): Функция для получения значения из локатора.
--   `field_name` (str): Название поля.
--   `default` (Any, optional): Значение по умолчанию. По умолчанию пустая строка.
+- `value` (Any): Значение для установки.
+- `locator_func` (Callable[[], Any]): Функция для получения значения из локатора.
+- `field_name` (str): Название поля.
+- `default` (Any): Значение по умолчанию. По умолчанию пустая строка.
 
 **Возвращает**:
 
--   `Any`: Установленное значение.
+- `Any`: Установленное значение.
 
 **Как работает функция**:
 
-Функция пытается получить значение из локатора с помощью `locator_func`. Если `value` передано, возвращается `value`. Если `locator_result` получено, возвращается `locator_result`. В противном случае вызывается `self.error` и возвращается `default`.
+Функция устанавливает значение поля, используя значение, переданное в параметре `value`, или значение, полученное из локатора с помощью функции `locator_func`. Если значение не получено, устанавливается значение по умолчанию.
 
 **Примеры**:
 
 ```python
 value = await grabber.set_field_value(value='some_value', locator_func=lambda: 'locator_value', field_name='some_field', default='default_value')
+print(value)
 ```
 
-### `Graber.grab_page`
+### `grab_page`
 
-**Назначение**: Запускает асинхронную функцию `grab_page_async`.
+```python
+def grab_page(self, *args, **kwargs) -> ProductFields:
+```
+
+**Назначение**: Функция для сбора полей продукта.
 
 **Параметры**:
 
--   `*args`: Аргументы, передаваемые в `grab_page_async`.
--   `**kwards`: Ключевые аргументы, передаваемые в `grab_page_async`.
+- `*args`: Список полей для сбора.
+- `**kwargs`: Дополнительные аргументы.
 
 **Возвращает**:
 
--   `ProductFields`: Результат выполнения `grab_page_async`.
+- `ProductFields`: Объект ProductFields с собранными данными.
 
 **Как работает функция**:
 
-Функция запускает асинхронную функцию `grab_page_async` и возвращает результат ее выполнения.
+Функция запускает асинхронную функцию `grab_page_async` и возвращает результат.
 
 **Примеры**:
 
 ```python
-product_fields = grabber.grab_page(id_product='123', name='some_name')
+product_fields = grabber.grab_page(id_product='some_id', name='some_name')
+print(product_fields)
 ```
 
-### `Graber.grab_page_async`
+### `grab_page_async`
 
-**Назначение**: Асинхронная функция для сбора полей товара.
+```python
+async def grab_page_async(self, *args, **kwargs) -> ProductFields:
+```
+
+**Назначение**: Асинхронная функция для сбора полей продукта.
 
 **Параметры**:
 
--   `*args`: Список полей для сбора.
--   `**kwards`: Ключевые аргументы.
+- `*args`: Список полей для сбора.
+- `**kwargs`: Дополнительные аргументы.
 
 **Возвращает**:
 
--   `ProductFields`: Объект `ProductFields` с собранными данными.
+- `ProductFields`: Объект ProductFields с собранными данными.
 
 **Как работает функция**:
 
-Функция динамически вызывает функции для каждого поля из `args` и собирает данные о товаре.
+Функция динамически вызывает функции для каждого поля из `args` и собирает данные в объект `ProductFields`.
 
 **Примеры**:
 
 ```python
-product_fields = await grabber.grab_page_async(id_product='123', name='some_name')
+product_fields = await grabber.grab_page_async(id_product='some_id', name='some_name')
+print(product_fields)
 ```
 
-### `Graber.error`
+### `error`
+
+```python
+async def error(self, field: str):
+```
 
 **Назначение**: Обработчик ошибок для полей.
 
 **Параметры**:
 
--   `field` (str): Название поля.
+- `field` (str): Название поля.
 
 **Как работает функция**:
 
-Функция логирует ошибку заполнения поля.
+Функция логирует отладочное сообщение об ошибке заполнения поля.
 
 **Примеры**:
 
 ```python
-grabber.error(field='some_field')
+await grabber.error(field='some_field')
 ```
 
-### `Graber.additional_shipping_cost`
+### `additional_shipping_cost`
 
-**Назначение**: Извлекает и устанавливает дополнительную стоимость доставки.
+```python
+@close_pop_up()
+async def additional_shipping_cost(self, value:Optional[Any] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки дополнительной стоимости доставки.
 
 **Параметры**:
 
--   `value` (Any, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (Any): Значение дополнительной стоимости доставки.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить значение дополнительной стоимости доставки из локатора и нормализовать его. Если значение передано через `value`, используется оно.
+Функция пытается получить значение дополнительной стоимости доставки из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
 result = await grabber.additional_shipping_cost(value='10.00')
+print(result)
 ```
 
-### `Graber.delivery_in_stock`
+### `delivery_in_stock`
 
-**Назначение**: Извлекает и устанавливает статус наличия на складе.
+```python
+@close_pop_up()
+async def delivery_in_stock(self, value:Optional[str] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки статуса доставки в наличии.
 
 **Параметры**:
 
--   `value` (str, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (str): Статус доставки в наличии.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить статус наличия на складе из локатора и нормализовать его. Если значение передано через `value`, используется оно.
+Функция пытается получить статус доставки в наличии из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
-result = await grabber.delivery_in_stock(value='В наличии')
+result = await grabber.delivery_in_stock(value='In Stock')
+print(result)
 ```
 
-### `Graber.active`
+### `active`
 
-**Назначение**: Извлекает и устанавливает статус активности.
+```python
+@close_pop_up()
+async def active(self, value:bool = True) -> bool:
+```
+
+**Назначение**: Функция для получения и установки статуса активности.
 
 **Параметры**:
 
--   `value` (bool, optional): Значение, передаваемое через kwargs. По умолчанию `True`.
+- `value` (bool): Статус активности.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить статус активности из локатора и нормализовать его. Если значение передано через `value`, используется оно.
+Функция пытается получить статус активности из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
-result = await grabber.active(value=False)
+result = await grabber.active(value=True)
+print(result)
 ```
 
-### `Graber.additional_delivery_times`
+### `additional_delivery_times`
 
-**Назначение**: Извлекает и устанавливает дополнительное время доставки.
+```python
+@close_pop_up()
+async def additional_delivery_times(self, value:Optional[str] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки дополнительного времени доставки.
 
 **Параметры**:
 
--   `value` (str, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (str): Дополнительное время доставки.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить дополнительное время доставки из локатора. Если значение передано через `value`, используется оно.
+Функция пытается получить дополнительное время доставки из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
-result = await grabber.additional_delivery_times(value='3-5 дней')
+result = await grabber.additional_delivery_times(value='3-5 days')
+print(result)
 ```
 
-### `Graber.advanced_stock_management`
+### `advanced_stock_management`
 
-**Назначение**: Извлекает и устанавливает статус расширенного управления запасами (DEPRECATED).
+```python
+@close_pop_up()
+async def advanced_stock_management(self, value:Optional[Any] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки статуса расширенного управления запасами (DEPRECATED).
 
 **Параметры**:
 
--   `value` (Any, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (Any): Статус расширенного управления запасами.
 
 **Возвращает**:
 
--   `bool`: Всегда `True`.
+- `bool`: Всегда True.
 
 **Как работает функция**:
 
-Функция всегда возвращает `True` и устанавливает значение в поле `advanced_stock_management`.
+Функция всегда возвращает True.
 
 **Примеры**:
 
 ```python
 result = await grabber.advanced_stock_management(value=True)
+print(result)
 ```
 
-### `Graber.affiliate_short_link`
+### `affiliate_short_link`
 
-**Назначение**: Извлекает и устанавливает короткую ссылку филиала.
+```python
+@close_pop_up()
+async def affiliate_short_link(self, value:Optional[str] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки короткой ссылки аффилиата.
 
 **Параметры**:
 
--   `value` (str, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (str): Короткая ссылка аффилиата.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить короткую ссылку филиала из локатора. Если значение передано через `value`, используется оно.
+Функция пытается получить короткую ссылку аффилиата из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
 result = await grabber.affiliate_short_link(value='http://short.link')
+print(result)
 ```
 
-### `Graber.affiliate_summary`
+### `affiliate_summary`
 
-**Назначение**: Извлекает и устанавливает сводку филиала.
+```python
+@close_pop_up()
+async def affiliate_summary(self, value:Optional[str] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки сводки аффилиата.
 
 **Параметры**:
 
--   `value` (str, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (str): Сводка аффилиата.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить сводку филиала из локатора и нормализовать ее. Если значение передано через `value`, используется оно.
+Функция пытается получить сводку аффилиата из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
 result = await grabber.affiliate_summary(value='Some summary')
+print(result)
 ```
 
-### `Graber.affiliate_summary_2`
+### `affiliate_summary_2`
 
-**Назначение**: Извлекает и устанавливает сводку филиала 2.
+```python
+@close_pop_up()
+async def affiliate_summary_2(self, value:Optional[Any] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки сводки аффилиата 2.
 
 **Параметры**:
 
--   `value` (Any, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (Any): Сводка аффилиата 2.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить сводку филиала 2 из локатора и нормализовать ее. Если значение передано через `value`, используется оно.
+Функция пытается получить сводку аффилиата 2 из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
 result = await grabber.affiliate_summary_2(value='Some summary 2')
+print(result)
 ```
 
-### `Graber.affiliate_text`
+### `affiliate_text`
 
-**Назначение**: Извлекает и устанавливает текст филиала.
+```python
+@close_pop_up()
+async def affiliate_text(self, value:Optional[str] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки текста аффилиата.
 
 **Параметры**:
 
--   `value` (str, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (Any): Текст аффилиата.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить текст филиала из локатора и нормализовать его. Если значение передано через `value`, используется оно.
+Функция пытается получить текст аффилиата из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
 result = await grabber.affiliate_text(value='Some text')
+print(result)
 ```
 
-### `Graber.affiliate_image_large`
+### `affiliate_image_large`
 
-**Назначение**: Извлекает и устанавливает большое изображение филиала.
+```python
+@close_pop_up()
+async def affiliate_image_large(self, value:Optional[str] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки большого изображения аффилиата.
 
 **Параметры**:
 
--   `value` (str, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (str): URL большого изображения аффилиата.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить большое изображение филиала из локатора. Если значение передано через `value`, используется оно.
+Функция пытается получить URL большого изображения аффилиата из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
 result = await grabber.affiliate_image_large(value='http://example.com/image.jpg')
+print(result)
 ```
 
-### `Graber.affiliate_image_medium`
+### `affiliate_image_medium`
 
-**Назначение**: Извлекает и устанавливает среднее изображение филиала.
+```python
+@close_pop_up()
+async def affiliate_image_medium(self, value:Optional[str] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки среднего изображения аффилиата.
 
 **Параметры**:
 
--   `value` (str, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (str): URL среднего изображения аффилиата.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить среднее изображение филиала из локатора. Если значение передано через `value`, используется оно.
+Функция пытается получить URL среднего изображения аффилиата из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
 result = await grabber.affiliate_image_medium(value='http://example.com/image.jpg')
+print(result)
 ```
 
-### `Graber.affiliate_image_small`
+### `affiliate_image_small`
 
-**Назначение**: Извлекает и устанавливает маленькое изображение филиала.
+```python
+@close_pop_up()
+async def affiliate_image_small(self, value:Optional[str] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки маленького изображения аффилиата.
 
 **Параметры**:
 
--   `value` (str, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (str): URL маленького изображения аффилиата.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить маленькое изображение филиала из локатора. Если значение передано через `value`, используется оно.
+Функция пытается получить URL маленького изображения аффилиата из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
 result = await grabber.affiliate_image_small(value='http://example.com/image.jpg')
+print(result)
 ```
 
-### `Graber.available_date`
+### `available_date`
 
-**Назначение**: Извлекает и устанавливает доступную дату.
+```python
+@close_pop_up()
+async def available_date(self, value:Optional[Any] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки доступной даты.
 
 **Параметры**:
 
--   `value` (Any, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (Any): Доступная дата.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить доступную дату из локатора. Если значение передано через `value`, используется оно.
+Функция пытается получить доступную дату из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
-result = await grabber.available_date(value='2024-12-31')
+result = await grabber.available_date(value='2024-01-01')
+print(result)
 ```
 
-### `Graber.available_for_order`
+### `available_for_order`
 
-**Назначение**: Извлекает и устанавливает статус доступности для заказа.
+```python
+@close_pop_up()
+async def available_for_order(self, value:Optional[str] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки статуса доступности для заказа.
 
 **Параметры**:
 
--   `value` (str, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (str): Статус доступности для заказа.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить статус доступности для заказа из локатора. Если значение передано через `value`, используется оно.
+Функция пытается получить статус доступности для заказа из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
-result = await grabber.available_for_order(value='true')
+result = await grabber.available_for_order(value='Yes')
+print(result)
 ```
 
-### `Graber.available_later`
+### `available_later`
 
-**Назначение**: Извлекает и устанавливает статус доступности позже.
+```python
+@close_pop_up()
+async def available_later(self, value:Optional[str] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки статуса доступности позже.
 
 **Параметры**:
 
--   `value` (str, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (str): Статус доступности позже.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить статус доступности позже из локатора. Если значение передано через `value`, используется оно.
+Функция пытается получить статус доступности позже из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
-result = await grabber.available_later(value='Будет доступно позже')
+result = await grabber.available_later(value='Available Later')
+print(result)
 ```
 
-### `Graber.available_now`
+### `available_now`
 
-**Назначение**: Извлекает и устанавливает статус доступности сейчас.
+```python
+@close_pop_up()
+async def available_now(self, value:Optional[str] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки статуса доступности сейчас.
 
 **Параметры**:
 
--   `value` (Any, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (Any): Статус доступности сейчас.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить статус доступности сейчас из локатора. Если значение передано через `value`, используется оно.
+Функция пытается получить статус доступности сейчас из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
-result = await grabber.available_now(value='В наличии')
+result = await grabber.available_now(value='Available Now')
+print(result)
 ```
 
-### `Graber.additional_categories`
+### `additional_categories`
 
-**Назначение**: Устанавливает дополнительные категории.
+```python
+@close_pop_up()
+async def additional_categories(self, value: str | list = None) -> dict:
+```
+
+**Назначение**: Функция для установки дополнительных категорий.
 
 **Параметры**:
 
--   `value` (str | list, optional): Строка или список категорий. Если не передано, используется пустое значение.
+- `value` (str | list, optional): Строка или список категорий. Если не передано, используется пустое значение.
 
 **Возвращает**:
 
--   `dict`: Словарь с ID категорий.
+- `dict`: Словарь с ID категорий.
 
 **Как работает функция**:
 
-Функция устанавливает дополнительные категории в поле `additional_categories` объекта `ProductFields`. Если `value` не передано, устанавливается пустая строка. Возвращает словарь с ID категорий.
+Функция устанавливает дополнительные категории в поле `additional_categories` объекта `ProductFields`.
 
 **Примеры**:
 
 ```python
-result = await grabber.additional_categories(value=['1', '2', '3'])
+result = await grabber.additional_categories(value=['Category1', 'Category2'])
+print(result)
 ```
 
-### `Graber.cache_default_attribute`
+### `cache_default_attribute`
 
-**Назначение**: Извлекает и устанавливает атрибут кэша по умолчанию.
+```python
+@close_pop_up()
+async def cache_default_attribute(self, value:Optional[Any] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки атрибута кэша по умолчанию.
 
 **Параметры**:
 
--   `value` (Any, optional): Значение, передаваемое через kwargs. По умолчанию `None`.
+- `value` (Any): Атрибут кэша по умолчанию.
 
 **Возвращает**:
 
--   `bool`: `True` в случае успеха, `None` в случае ошибки.
+- `bool`: True в случае успеха, None в случае ошибки.
 
 **Как работает функция**:
 
-Функция пытается получить атрибут кэша по умолчанию из локатора. Если значение передано через `value`, используется оно.
+Функция пытается получить атрибут кэша по умолчанию из локатора или использовать переданное значение.
 
 **Примеры**:
 
 ```python
-result = await grabber.cache_default_attribute(value='some_attribute')
+result = await grabber.cache_default_attribute(value='SomeAttribute')
+print(result)
 ```
 
-### `Graber.cache_has_attachments`
+### `cache_has_attachments`
 
-**Назначение**: Извлекает и устанавливает статус наличия вложений в кэше.
+```python
+@close_pop_up()
+async def cache_has_attachments(self, value:Optional[Any] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки статуса кэша с вложениями.
 
 **Параметры**:
 
--   `value` (Any, optional): Значение, передаваемое через
+- `value` (Any): Статус кэша с вложениями.
+
+**Возвращает**:
+
+- `bool`: True в случае успеха, None в случае ошибки.
+
+**Как работает функция**:
+
+Функция пытается получить статус кэша с вложениями из локатора или использовать переданное значение.
+
+**Примеры**:
+
+```python
+result = await grabber.cache_has_attachments(value=True)
+print(result)
+```
+
+### `cache_is_pack`
+
+```python
+@close_pop_up()
+async def cache_is_pack(self, value:Optional[str] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки статуса кэша как набора.
+
+**Параметры**:
+
+- `value` (str): Статус кэша как набора.
+
+**Возвращает**:
+
+- `bool`: True в случае успеха, None в случае ошибки.
+
+**Как работает функция**:
+
+Функция пытается получить статус кэша как набора из локатора или использовать переданное значение.
+
+**Примеры**:
+
+```python
+result = await grabber.cache_is_pack(value='Yes')
+print(result)
+```
+
+### `condition`
+
+```python
+@close_pop_up()
+async def condition(self, value:Optional[Any] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки условия продукта.
+
+**Параметры**:
+
+- `value` (Any): Условие продукта.
+
+**Возвращает**:
+
+- `bool`: True в случае успеха, None в случае ошибки.
+
+**Как работает функция**:
+
+Функция пытается получить условие продукта из локатора или использовать переданное значение.
+
+**Примеры**:
+
+```python
+result = await grabber.condition(value='new')
+print(result)
+```
+
+### `customizable`
+
+```python
+@close_pop_up()
+async def customizable(self, value:Optional[Any] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки статуса настраиваемости.
+
+**Параметры**:
+
+- `value` (Any): Статус настраиваемости.
+
+**Возвращает**:
+
+- `bool`: True в случае успеха, None в случае ошибки.
+
+**Как работает функция**:
+
+Функция пытается получить статус настраиваемости из локатора или использовать переданное значение.
+
+**Примеры**:
+
+```python
+result = await grabber.customizable(value=True)
+print(result)
+```
+
+### `date_add`
+
+```python
+@close_pop_up()
+async def date_add(self, value:Optional[str | datetime.date] = None) -> bool:
+```
+
+**Назначение**: Функция для получения и установки даты добавления.
+
+**Параметры**:
+
+- `value` (Any): Дата добавления.
+
+**Возвращает**:
+
+- `bool`: True в случае успеха, None в случае ошибки.
+
+**Как работает функция**:
+
+Функция пытается получить дату добавления из локатора или использовать переданное значение.
+
+**Примеры**:
+
+```python
+result = await grabber.date_add(value='2024-01-01')
+print(result)
+```
+
+### `date_upd`
+
+```python
+@close_pop_up()
+async def date_upd(self, value

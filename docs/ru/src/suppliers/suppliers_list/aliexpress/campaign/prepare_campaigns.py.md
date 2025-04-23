@@ -2,22 +2,31 @@
 
 ## Обзор
 
-Модуль `prepare_campaigns.py` предназначен для подготовки рекламных кампаний на AliExpress. Он включает в себя обработку категорий, управление данными кампаний и генерацию рекламных материалов. Модуль позволяет обрабатывать как отдельные кампании, так и все кампании в указанной директории.
+Модуль `prepare_campaigns.py` предназначен для подготовки рекламных кампаний на AliExpress. Он включает в себя обработку категорий, управление данными кампаний и генерацию рекламных материалов.
 
-## Подробнее
+## Подробней
 
-Этот модуль является частью проекта `hypotez` и отвечает за автоматизацию процесса подготовки рекламных кампаний для AliExpress. Он использует другие модули проекта, такие как `AliCampaignEditor`, `locales`, `j_loads_ns` и `logger`, для выполнения своих задач.
-Модуль принимает аргументы командной строки, такие как название кампании, список категорий, язык и валюта, и на основе этих аргументов запускает процесс подготовки кампании.
+Модуль предоставляет функциональность для обработки конкретных категорий в рамках кампании, а также для обработки всех кампаний в указанной директории. Он использует классы и функции из других модулей проекта, таких как `AliCampaignEditor`, `locales`, `j_loads_ns` и `logger`.
 
-## Классы
+Примеры использования:
 
-В данном модуле классы отсутствуют.
+Для запуска скрипта для конкретной кампании:
+
+```
+python src/suppliers/aliexpress/campaigns/prepare_campaigns.py summer_sale -c electronics -l EN -cu USD
+```
+
+Для обработки всех кампаний:
+
+```
+python src/suppliers/aliexpress/campaigns/prepare_campaigns.py --all -l EN -cu USD
+```
 
 ## Функции
 
 ### `process_campaign_category`
 
-**Назначение**: Обрабатывает определенную категорию в рамках кампании для заданного языка и валюты.
+**Назначение**: Обрабатывает конкретную категорию в рамках кампании для заданного языка и валюты.
 
 ```python
 def process_campaign_category(
@@ -39,9 +48,7 @@ def process_campaign_category(
         >>> print(titles)
         ['Product 1', 'Product 2']
     """
-    return AliCampaignEditor(
-        campaign_name=campaign_name, language=language, currency=currency
-    ).process_campaign_category(category_name)
+    ...
 ```
 
 **Параметры**:
@@ -53,24 +60,26 @@ def process_campaign_category(
 
 **Возвращает**:
 
--   `List[str]`: Список наименований товаров в рамках категории.
-
-**Как работает функция**:
-
-Функция создает экземпляр класса `AliCampaignEditor` с переданными параметрами и вызывает метод `process_campaign_category` этого экземпляра, передавая название категории. Результат работы этого метода возвращается как результат работы функции `process_campaign_category`.
-Функция отвечает за обработку конкретной категории в рамках заданной рекламной кампании для определенного языка и валюты. Она использует класс `AliCampaignEditor` для выполнения этой задачи.
+-   `List[str]`: Список названий товаров в категории.
 
 **Примеры**:
 
 ```python
 titles: List[str] = process_campaign_category("summer_sale", "electronics", "EN", "USD")
 print(titles)
-# Результат: ['Product 1', 'Product 2'] (пример)
+# ['Product 1', 'Product 2']
 ```
+
+**Как работает функция**:
+
+1.  Функция `process_campaign_category` принимает название кампании, название категории, язык и валюту в качестве аргументов.
+2.  Создается экземпляр класса `AliCampaignEditor` с переданными параметрами.
+3.  Вызывается метод `process_campaign_category` экземпляра `AliCampaignEditor` с названием категории.
+4.  Метод `process_campaign_category` возвращает список названий товаров в указанной категории, который затем возвращается функцией `process_campaign_category`.
 
 ### `process_campaign`
 
-**Назначение**: Обрабатывает кампанию, настраивает и обрабатывает ее.
+**Назначение**: Обрабатывает кампанию и управляет ее настройкой и обработкой.
 
 ```python
 def process_campaign(
@@ -93,26 +102,7 @@ def process_campaign(
     Returns:
         bool: True if campaign processed, else False.
     """
-    # Преобразуем список словарей в список пар (language, currency)
-    _l = [(lang, curr) for locale in locales for lang, curr in locale.items()]
-    # pprint(_l)
-
-    # Если указаны язык и валюта, фильтруем список по ним
-    if language and currency:
-        _l = [(language, currency)]
-
-    # Обрабатываем каждую пару (language, currency)
-    for language, currency in _l:
-        logger.info(f"Processing campaign: {campaign_name=}, {language=}, {currency=}")
-        editor = AliCampaignEditor(
-            campaign_name=campaign_name,
-            language=language,
-            currency=currency,
-        )
-
-        editor.process_campaign()
-
-    return True  # Предполагаем, что кампания всегда успешно обрабатывается
+    ...
 ```
 
 **Параметры**:
@@ -124,27 +114,25 @@ def process_campaign(
 
 **Возвращает**:
 
--   `bool`: `True`, если кампания обработана, иначе `False`.
+-   `bool`: `True`, если кампания обработана успешно, иначе `False`.
 
 **Как работает функция**:
 
-Функция `process_campaign` выполняет следующие действия:
-
-1.  Определяет список локалей (`_l`) для обработки. Если указаны язык и валюта, список содержит только их. В противном случае, он генерируется на основе всех доступных локалей из модуля `locales`.
-2.  Для каждой локали (языка и валюты) создается экземпляр класса `AliCampaignEditor` с указанным названием кампании, языком и валютой.
-3.  Вызывается метод `process_campaign` для созданного экземпляра `AliCampaignEditor`, который выполняет основную обработку кампании.
-4.  В конце функция возвращает `True`, предполагая, что кампания всегда обрабатывается успешно.
+1.  Функция `process_campaign` принимает название кампании, язык, валюту и путь к файлу кампании в качестве аргументов.
+2.  Создается список кортежей (язык, валюта) на основе доступных локалей. Если указаны язык и валюта, список фильтруется по ним.
+3.  Для каждой пары (язык, валюта) создается экземпляр класса `AliCampaignEditor` с переданными параметрами.
+4.  Вызывается метод `process_campaign` экземпляра `AliCampaignEditor`, который выполняет обработку кампании.
+5.  Функция возвращает `True`, предполагая, что кампания всегда обрабатывается успешно.
 
 **Примеры**:
 
 ```python
 res = process_campaign("summer_sale", "EN", "USD", "campaign_file.json")
-# res будет True после успешной обработки
 ```
 
 ### `process_all_campaigns`
 
-**Назначение**: Обрабатывает все кампании в директории `'campaigns'` для указанного языка и валюты.
+**Назначение**: Обрабатывает все кампании в директории `campaigns` для указанного языка и валюты.
 
 ```python
 def process_all_campaigns(language: Optional[str] = None, currency: Optional[str] = None) -> None:
@@ -157,23 +145,7 @@ def process_all_campaigns(language: Optional[str] = None, currency: Optional[str
     Example:
         >>> process_all_campaigns("EN", "USD")
     """
-    if not language and not currency:
-        # Process all locales if language or currency is not provided
-        _l = [(lang, curr) for locale in locales for lang, curr in locale.items()]
-    else:
-        _l = [(language, currency)]
-    pprint(f"{_l=}")
-    for lang, curr in _l:
-        campaigns_dir = get_directory_names(campaigns_directory)
-        pprint(f"{campaigns_dir=}")
-        for campaign_name in campaigns_dir:
-            logger.info(f"Start processing {campaign_name=}, {lang=}, {curr=}")
-            editor = AliCampaignEditor(
-                campaign_name=campaign_name,
-                language=lang,
-                currency=curr
-            )
-            editor.process_campaign()
+    ...
 ```
 
 **Параметры**:
@@ -183,18 +155,16 @@ def process_all_campaigns(language: Optional[str] = None, currency: Optional[str
 
 **Как работает функция**:
 
-Функция `process_all_campaigns` выполняет следующие действия:
-
-1.  Определяет список локалей (`_l`) для обработки. Если `language` и `currency` не указаны, обрабатываются все локали из модуля `locales`. В противном случае, список содержит только указанные язык и валюту.
-2.  Получает список названий директорий кампаний из директории `campaigns_directory` с помощью функции `get_directory_names`.
-3.  Для каждой кампании в списке и для каждой локали создается экземпляр класса `AliCampaignEditor` с указанным названием кампании, языком и валютой.
-4.  Вызывается метод `process_campaign` для созданного экземпляра `AliCampaignEditor`, который выполняет основную обработку кампании.
+1.  Функция `process_all_campaigns` принимает язык и валюту в качестве аргументов.
+2.  Если язык и валюта не указаны, создается список кортежей (язык, валюта) на основе всех доступных локалей.
+3.  Получается список названий каталогов в директории `campaigns`.
+4.  Для каждого названия каталога создается экземпляр класса `AliCampaignEditor` с переданными параметрами.
+5.  Вызывается метод `process_campaign` экземпляра `AliCampaignEditor`, который выполняет обработку кампании.
 
 **Примеры**:
 
 ```python
 process_all_campaigns("EN", "USD")
-# Будут обработаны все кампании для английского языка и доллара США
 ```
 
 ### `main_process`
@@ -215,50 +185,32 @@ def main_process(campaign_name: str, categories: List[str] | str, language: Opti
         >>> main_process("summer_sale", ["electronics"], "EN", "USD")
         >>> main_process("summer_sale", [], "EN", "USD")
     """
-    # Determine locales based on provided language and currency
-    locales_to_process = [(language, currency)] if language and currency else [(lang, curr) for locale in locales for lang, curr in locale.items()]
-
-    for lang, curr in locales_to_process:
-        if categories:
-            # Process each specified category
-            for category in categories:
-                logger.info(f"Processing specific category {category=}, {lang=}, {curr=}")
-                process_campaign_category(campaign_name, category, lang, curr)
-        else:
-            # Process the entire campaign if no specific categories are provided
-            logger.info(f"Processing entire campaign {campaign_name=}, {lang=}, {curr=}")
-            process_campaign(campaign_name, lang, curr)
+    ...
 ```
 
 **Параметры**:
 
 -   `campaign_name` (str): Название рекламной кампании.
--   `categories` (List[str] | str): Список категорий для кампании. Если пустой, обрабатывается вся кампания без указания конкретных категорий.
+-   `categories` (List[str] | str): Список категорий для кампании. Если пустой, обрабатывается вся кампания без конкретных категорий.
 -   `language` (Optional[str]): Язык для кампании.
 -   `currency` (Optional[str]): Валюта для кампании.
 
 **Как работает функция**:
 
-Функция `main_process` выполняет следующие действия:
-
-1.  Определяет список локалей (`locales_to_process`) для обработки на основе предоставленных языка и валюты. Если язык и валюта указаны, список содержит только их. В противном случае, он генерируется на основе всех доступных локалей из модуля `locales`.
-2.  Для каждой локали (языка и валюты) проверяется, указаны ли категории для обработки.
-3.  Если категории указаны, функция перебирает их и вызывает функцию `process_campaign_category` для каждой категории.
-4.  Если категории не указаны, функция вызывает функцию `process_campaign` для обработки всей кампании.
+1.  Функция `main_process` принимает название кампании, список категорий, язык и валюту в качестве аргументов.
+2.  Определяются локали для обработки на основе предоставленных языка и валюты. Если язык и валюта не указаны, используются все доступные локали.
+3.  Для каждой локали проверяется, указаны ли категории. Если категории указаны, вызывается функция `process_campaign_category` для каждой категории. Если категории не указаны, вызывается функция `process_campaign` для обработки всей кампании.
 
 **Примеры**:
 
 ```python
 main_process("summer_sale", ["electronics"], "EN", "USD")
-# Будет обработана категория "electronics" кампании "summer_sale" для английского языка и доллара США
-
 main_process("summer_sale", [], "EN", "USD")
-# Будет обработана вся кампания "summer_sale" для английского языка и доллара США
 ```
 
 ### `main`
 
-**Назначение**: Основная функция для разбора аргументов и инициации обработки.
+**Назначение**: Главная функция для разбора аргументов и инициации обработки.
 
 ```python
 def main() -> None:
@@ -267,59 +219,18 @@ def main() -> None:
     Example:
         >>> main()
     """
-    parser = argparse.ArgumentParser(description="Prepare AliExpress Campaign")
-    parser.add_argument("campaign_name", type=str, help="Name of the campaign")
-    parser.add_argument(
-        "-c",
-        "--categories",
-        nargs="+",
-        help="List of categories (if not provided, all categories will be used)",
-    )
-    parser.add_argument(
-        "-l", "--language", type=str, default=None, help="Language for the campaign"
-    )
-    parser.add_argument(
-        "-cu", "--currency", type=str, default=None, help="Currency for the campaign"
-    )
-    parser.add_argument("--all", action="store_true", help="Process all campaigns")
-
-    args = parser.parse_args()
-
-    if args.all:
-        process_all_campaigns(args.language, args.currency)
-    else:
-        main_process(
-            args.campaign_name, args.categories or [], args.language, args.currency
-        )
+    ...
 ```
 
 **Как работает функция**:
 
-Функция `main` выполняет следующие действия:
-
-1.  Инициализирует парсер аргументов командной строки с помощью `argparse.ArgumentParser`.
-2.  Определяет аргументы, которые можно передать скрипту:
-    -   `campaign_name`: Название кампании (обязательный аргумент).
-    -   `-c`, `--categories`: Список категорий для обработки (необязательный аргумент).
-    -   `-l`, `--language`: Язык для кампании (необязательный аргумент).
-    -   `-cu`, `--currency`: Валюта для кампании (необязательный аргумент).
-    -   `--all`: Флаг, указывающий на необходимость обработки всех кампаний (необязательный аргумент).
-3.  Разбирает аргументы командной строки с помощью `parser.parse_args()`.
-4.  Проверяет, установлен ли флаг `--all`.
-5.  Если флаг установлен, вызывает функцию `process_all_campaigns` с указанными языком и валютой.
-6.  Если флаг не установлен, вызывает функцию `main_process` с указанным названием кампании, списком категорий (или пустым списком, если категории не указаны), языком и валютой.
+1.  Функция `main` не принимает аргументов.
+2.  Создается экземпляр класса `argparse.ArgumentParser` для разбора аргументов командной строки.
+3.  Определяются аргументы командной строки, такие как название кампании, список категорий, язык, валюта и флаг для обработки всех кампаний.
+4.  Вызывается метод `parse_args` экземпляра `ArgumentParser`, который разбирает аргументы командной строки.
+5.  Если указан флаг для обработки всех кампаний, вызывается функция `process_all_campaigns` с переданными языком и валютой. В противном случае вызывается функция `main_process` с переданными названием кампании, списком категорий, языком и валютой.
 
 **Примеры**:
 
-Запуск скрипта с аргументами:
-
-```bash
-python prepare_campaigns.py summer_sale -c electronics -l EN -cu USD
-# Будет обработана категория "electronics" кампании "summer_sale" для английского языка и доллара США
-
-python prepare_campaigns.py summer_sale -l EN -cu USD
-# Будет обработана вся кампания "summer_sale" для английского языка и доллара США
-
-python prepare_campaigns.py --all -l EN -cu USD
-# Будут обработаны все кампании для английского языка и доллара США
-```
+```python
+main()
