@@ -52,7 +52,7 @@ async def create_async_generator(
     Raises:
         RuntimeError: Если получен поврежденный ответ от сервера.
 
-    Как работает функция:
+    
     - Функция формирует заголовки запроса, включая User-Agent, Accept и Referer.
     - Создается сессия `aiohttp.ClientSession` с заданными заголовками.
     - Формируются данные для отправки в теле запроса, включая `botId`, `chatId`, `contextId`, `messages` и другие параметры.

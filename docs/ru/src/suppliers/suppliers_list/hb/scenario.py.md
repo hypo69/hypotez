@@ -31,7 +31,7 @@ async def get_list_products_in_category (d: Driver, l:'SimpleNamespace') -> list
     Returns:
         list[str, str, None]: Список URL товаров или None, если список не найден.
 
-    Как работает функция:
+    
     - Ожидает загрузки страницы.
     - Выполняет прокрутку страницы для загрузки динамического контента.
     - Извлекает список URL товаров, используя локатор `l.product_links`.
@@ -89,7 +89,7 @@ async def paginator(d:Driver, locator: dict, list_products_in_category: list):
     Returns:
         bool: True, если переход на следующую страницу выполнен успешно, иначе - None.
 
-    Как работает функция:
+    
     - Пытается выполнить нажатие на кнопку пагинации, используя локатор `locator.pagination['<-']`.
     - Если кнопка не найдена или не активна, возвращает None.
     - В случае успешного нажатия возвращает True.

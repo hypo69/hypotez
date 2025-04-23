@@ -31,7 +31,7 @@ async def page_catalog(call: CallbackQuery, session_without_commit: AsyncSession
     Raises:
         Exception: Обрабатывается любое исключение, которое может возникнуть при удалении сообщения.
 
-    Как работает функция:
+    
     - Отвечает на callback-запрос, уведомляя пользователя о загрузке каталога.
     - Пытается удалить предыдущее сообщение с каталогом.
     - Извлекает данные о категориях товаров из базы данных с помощью `CategoryDao.find_all`.
@@ -60,7 +60,7 @@ async def page_catalog_products(call: CallbackQuery, session_without_commit: Asy
     Returns:
         None
 
-    Как работает функция:
+    
     - Извлекает идентификатор категории из данных callback-запроса.
     - Получает список товаров, принадлежащих к данной категории, из базы данных с помощью `ProductDao.find_all`.
     - Если товары в категории найдены, отправляет информацию о каждом товаре, включая название, цену и описание, с использованием клавиатуры `product_kb`.
@@ -91,7 +91,7 @@ async def process_about(call: CallbackQuery, session_without_commit: AsyncSessio
     Returns:
         None
 
-    Как работает функция:
+    
     - Извлекает информацию о пользователе из базы данных с помощью `UserDAO.find_one_or_none`.
     - Извлекает тип платежа, идентификатор товара и цену из данных callback-запроса.
     - В зависимости от типа платежа вызывает соответствующую функцию для отправки счета (ЮKassa, Stars или Robocassa).
@@ -125,7 +125,7 @@ async def send_yukassa_invoice(call, user_info, product_id, price):
     Returns:
         None
 
-    Как работает функция:
+    
     - Отправляет счет на оплату через Telegram API с использованием данных о товаре и пользователе.
     - Устанавливает payload для счета, содержащий информацию о типе платежа, идентификаторе пользователя и товара.
     - Использует `settings.PROVIDER_TOKEN` для указания провайдера платежа (ЮKassa).
@@ -158,7 +158,7 @@ async def send_robocassa_invoice(call, user_info, product_id, price, session: As
     Returns:
         None
 
-    Как работает функция:
+    
     - Получает следующий доступный идентификатор платежа из базы данных с помощью `PurchaseDao.get_next_id`.
     - Формирует описание платежа, содержащее информацию о пользователе и товаре.
     - Генерирует ссылку на оплату с использованием `generate_payment_link`.
@@ -192,7 +192,7 @@ async def send_stars_invoice(call, user_info, product_id, stars_price):
     Returns:
         None
 
-    Как работает функция:
+    
     - Отправляет счет на оплату через Telegram API с использованием данных о товаре и пользователе.
     - Устанавливает payload для счета, содержащий информацию о типе платежа, идентификаторе пользователя и товара.
     - Устанавливает валюту `XTR` (звезды).
@@ -221,7 +221,7 @@ async def pre_checkout_query(pre_checkout_q: PreCheckoutQuery):
     Returns:
         None
 
-    Как работает функция:
+    
     - Отвечает на предварительный запрос, подтверждая готовность к обработке оплаты.
 
     Примеры:
@@ -247,7 +247,7 @@ async def successful_payment(message: Message, session_with_commit: AsyncSession
     Returns:
         None
 
-    Как работает функция:
+    
     - Извлекает информацию о платеже из объекта `message.successful_payment`.
     - Извлекает тип платежа, идентификатор пользователя и товара из payload счета.
     - Определяет цену и валюту платежа.

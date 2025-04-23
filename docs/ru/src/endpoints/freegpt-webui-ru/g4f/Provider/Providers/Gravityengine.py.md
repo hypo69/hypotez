@@ -28,7 +28,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
     Raises:
         Exception: Если возникает ошибка при отправке запроса или обработке ответа.
 
-    Как работает функция:
+    
     - Формирует заголовок запроса с указанием типа контента (`application/json`).
     - Создает словарь `data`, включающий модель, температуру, штраф за присутствие и сообщения.
     - Отправляет POST-запрос к API Gravityengine (`/api/openai/v1/chat/completions`) с заголовками и данными.

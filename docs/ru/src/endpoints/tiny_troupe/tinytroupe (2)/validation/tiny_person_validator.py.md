@@ -44,7 +44,7 @@ def validate_person(person, expectations=None, include_agent_spec=True, max_cont
     """
 ```
 
-**Как работает функция:**
+****
 
 1.  **Инициализация**:
     *   Инициализируется список `current_messages` для хранения сообщений, которыми обменивается валидатор и `TinyPerson`.

@@ -25,7 +25,7 @@
 **Параметры:**
 - `token` (str): Токен Telegram бота. Пример: `gs.credentials.telegram.bot.kazarinov`.
 
-**Как работает функция:**
+****
 - Инициализирует экземпляр класса `TelegramBot` с заданным токеном.
 - Создает экземпляр `Application` из библиотеки `telegram.ext` с использованием предоставленного токена.
 - Инициализирует обработчик бота `BotHandler`.
@@ -40,7 +40,7 @@ bot = TelegramBot(token='YOUR_TELEGRAM_BOT_TOKEN')
 ### `register_handlers(self) -> None`
 Регистрирует обработчики команд и сообщений для Telegram бота.
 
-**Как работает функция:**
+****
 - Регистрирует обработчики для команд `/start`, `/help` и `/sendpdf`, используя `CommandHandler`.
 - Регистрирует обработчик для текстовых сообщений, используя `MessageHandler` и фильтры `filters.TEXT` и `~filters.COMMAND`.
 - Сохраняет ссылку на исходный обработчик сообщений в `self._original_message_handler`.
@@ -60,7 +60,7 @@ bot.register_handlers()
 **Параметры:**
 - `new_handler` (Callable): Новая функция для обработки сообщений.
 
-**Как работает функция:**
+****
 
 1.  **Удаление старого обработчика:**
     *   Проверяет, существует ли текущий обработчик сообщений (`self._original_message_handler`) в списке обработчиков приложения (`self.application.handlers[0]`).
@@ -89,7 +89,7 @@ bot.replace_message_handler(my_new_handler)
 - `update` (Update): Объект обновления от Telegram.
 - `context` (CallbackContext): Контекст обратного вызова.
 
-**Как работает функция:**
+****
 - Логирует информацию о запуске бота пользователем с использованием `logger.info`.
 - Отправляет приветственное сообщение пользователю с помощью `update.message.reply_text`.
 

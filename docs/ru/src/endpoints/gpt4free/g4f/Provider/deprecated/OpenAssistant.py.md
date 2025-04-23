@@ -52,7 +52,7 @@
             RuntimeError: Если в ответе от API содержится сообщение об ошибке.
             aiohttp.ClientResponseError: Если возникает HTTP ошибка.
 
-        Как работает функция:
+        
             1. Проверяет наличие cookies, если их нет, пытается получить их для домена "open-assistant.io".
             2. Создает сессию `aiohttp.ClientSession` с заданными cookies и заголовками.
             3. Отправляет POST-запрос на `"https://open-assistant.io/api/chat"` для создания нового чата и получает `chat_id`.

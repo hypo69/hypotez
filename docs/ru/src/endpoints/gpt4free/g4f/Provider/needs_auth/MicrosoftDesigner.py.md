@@ -57,7 +57,7 @@ async def create_async_generator(
     Yields:
         ImageResponse: Объект ImageResponse, содержащий сгенерированные изображения.
 
-    Как работает функция:
+    
     - Определяет размер изображения на основе выбранной модели.
     - Вызывает метод `generate` для фактической генерации изображения и передает результат в генератор.
     """
@@ -83,7 +83,7 @@ async def generate(cls, prompt: str, image_size: str, proxy: str = None) -> Imag
     Raises:
         NoValidHarFileError: Если не найден валидный HAR-файл.
 
-    Как работает функция:
+    
     - Пытается прочитать токен доступа и user-agent из HAR-файла.
     - В случае неудачи, пытается получить токен доступа и user-agent с использованием `get_access_token_and_user_agent`.
     - Вызывает функцию `create_images` для создания изображений на основе полученных данных.
@@ -111,7 +111,7 @@ async def create_images(prompt: str, access_token: str, user_agent: str, image_s
     Returns:
         list[str]: Список URL сгенерированных изображений.
 
-    Как работает функция:
+    
     - Формирует URL запроса к API Microsoft Designer.
     - Создает заголовки запроса, включая токен доступа и user-agent.
     - Формирует данные формы для отправки запроса, включая запрос, размер изображения и другие параметры.
@@ -140,7 +140,7 @@ def readHAR(url: str) -> tuple[str, str]:
     Raises:
         NoValidHarFileError: Если не найден валидный HAR-файл с токеном доступа.
 
-    Как работает функция:
+    
     - Перебирает HAR-файлы, полученные с помощью `get_har_files()`.
     - Читает содержимое каждого файла и пытается извлечь токен доступа и user-agent для заданного URL.
     - Возвращает извлеченные токен доступа и user-agent.
@@ -167,7 +167,7 @@ async def get_access_token_and_user_agent(url: str, proxy: str = None):
     Raises:
         MissingRequirementsError: Если не установлены необходимые зависимости для playwright.
 
-    Как работает функция:
+    
     - Запускает headless-браузер с использованием `get_nodriver`.
     - Переходит на заданный URL.
     - Извлекает user-agent из браузера.

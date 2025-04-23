@@ -55,7 +55,7 @@ def get_models(cls, **kwargs) -> list[str]:
     Raises:
         Exception: Если не удается получить список моделей с API.
 
-    Как работает функция:
+    
     - Функция отправляет GET-запрос к API Hugging Face для получения списка моделей.
     - Фильтрует модели, оставляя только те, у которых есть "inferenceProviderMapping" со статусом "live" и задачей "text-to-image" или "text-to-video".
     - Формирует списки task_mapping, image_models и video_models для дальнейшего использования.
@@ -84,7 +84,7 @@ async def get_mapping(cls, model: str, api_key: str = None):
     Raises:
         HTTPError: Если HTTP-запрос завершается с ошибкой.
 
-    Как работает функция:
+    
     - Функция отправляет GET-запрос к API Hugging Face для получения информации о модели.
     - Извлекает "inferenceProviderMapping" со статусом "live" из ответа API.
     - Кэширует соответствие в `cls.provider_mapping` для дальнейшего использования.
@@ -146,7 +146,7 @@ async def create_async_generator(
         ModelNotSupportedError: Если модель не поддерживается.
         HTTPError: Если HTTP-запрос завершается с ошибкой.
 
-    Как работает функция:
+    
     - Функция выбирает провайдера для указанной модели.
     - Формирует HTTP-запрос к API провайдера.
     - Отправляет запрос и получает ответ с изображением или видео.

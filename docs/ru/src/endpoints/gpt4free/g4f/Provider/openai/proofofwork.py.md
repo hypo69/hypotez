@@ -26,7 +26,7 @@ def generate_proof_token(required: bool, seed: str = "", difficulty: str = "", u
     Returns:
         str | None: Сгенерированный proof-of-work токен в формате "gAAAAAB" + base64 encoded data или fallback токен, если не удалось сгенерировать токен за 100000 итераций. Возвращает `None`, если `required` is `False`.
 
-    Как работает функция:
+    
     - Если `required` равно `False`, функция не выполняет никаких действий и возвращает `None`.
     - Если `proof_token` не передан, создается случайный `proof_token`.
     - В цикле до 100000 раз:

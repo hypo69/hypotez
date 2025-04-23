@@ -26,7 +26,7 @@ def test_act(setup):
     Raises:
         AssertionError: Если агент не выполняет ни одного действия, не содержит действие типа "TALK" или не завершает действия типом "DONE".
 
-    Как работает функция:
+    
     - Функция перебирает агентов `create_oscar_the_architect()` и `create_lisa_the_data_scientist()`.
     - Для каждого агента вызывается метод `listen_and_act` с запросом "Tell me a bit about your life.".
     - Проверяется, что список действий не пуст, содержит действие типа "TALK" и завершается действием типа "DONE".
@@ -45,7 +45,7 @@ def test_listen(setup):
     Raises:
         AssertionError: Если агент не добавляет сообщения в `current_messages`, не сохраняет роль как 'user', или не сохраняет стимул типа 'CONVERSATION'.
 
-    Как работает функция:
+    
     - Функция перебирает агентов `create_oscar_the_architect()` и `create_lisa_the_data_scientist()`.
     - Для каждого агента вызывается метод `listen` с сообщением "Hello, how are you?".
     - Проверяется, что список `current_messages` не пуст, последнее сообщение имеет роль 'user', стимул имеет тип 'CONVERSATION' и содержимое соответствует переданному сообщению.
@@ -64,7 +64,7 @@ def test_define(setup):
     Raises:
         AssertionError: Если агент не устанавливает значение в `_persona`, не изменяет prompt или не включает новое значение в prompt.
 
-    Как работает функция:
+    
     - Функция перебирает агентов `create_oscar_the_architect()` и `create_lisa_the_data_scientist()`.
     - Для каждого агента сохраняется оригинальный prompt.
     - Определяется новое значение для 'age' (25).
@@ -84,7 +84,7 @@ def test_define_several(setup):
     Raises:
         AssertionError: Если агент не добавляет указанные навыки в `_persona["skills"]`.
 
-    Как работает функция:
+    
     - Функция перебирает агентов `create_oscar_the_architect()` и `create_lisa_the_data_scientist()`.
     - Для каждого агента определяется список навыков "skills" (Python, Machine learning, GPT-3).
     - Проверяется, что каждый навык присутствует в `_persona["skills"]`.
@@ -103,7 +103,7 @@ def test_socialize(setup):
     Raises:
         AssertionError: Если агент не выполняет ни одного действия, не содержит действие типа "TALK" или не упоминает имя другого агента.
 
-    Как работает функция:
+    
     - Создаются агенты `an_oscar` и `a_lisa`.
     - Функция перебирает агентов `an_oscar` и `a_lisa`.
     - Для каждого агента определяется другой агент (если текущий `Oscar`, то другой - `Lisa`, и наоборот).
@@ -125,7 +125,7 @@ def test_see(setup):
     Raises:
         AssertionError: Если агент не выполняет ни одного действия, не содержит действие типа "THINK" или не упоминает увиденное.
 
-    Как работает функция:
+    
     - Функция перебирает агентов `create_oscar_the_architect()` и `create_lisa_the_data_scientist()`.
     - Для каждого агента вызывается метод `see` с описанием "A beautiful sunset over the ocean.".
     - Проверяется, что список действий не пуст, содержит действие типа "THINK" и упоминает увиденное (sunset).
@@ -144,7 +144,7 @@ def test_think(setup):
     Raises:
         AssertionError: Если агент не выполняет ни одного действия, не содержит действие типа "TALK" или не упоминает предмет размышлений.
 
-    Как работает функция:
+    
     - Функция перебирает агентов `create_oscar_the_architect()` и `create_lisa_the_data_scientist()`.
     - Для каждого агента вызывается метод `think` с сообщением "I will tell everyone right now how awesome life is!".
     - Проверяется, что список действий не пуст, содержит действие типа "TALK" и упоминает предмет размышлений (life).
@@ -163,7 +163,7 @@ def test_internalize_goal(setup):
     Raises:
         AssertionError: Если агент не выполняет ни одного действия, не содержит действие типа "THINK" или не упоминает цель.
 
-    Как работает функция:
+    
     - Функция перебирает агентов `create_oscar_the_architect()` и `create_lisa_the_data_scientist()`.
     - Для каждого агента вызывается метод `internalize_goal` с целью "I want to compose in my head a wonderful poem about how cats are glorious creatures.".
     - Проверяется, что список действий не пуст, содержит действие типа "THINK" и упоминает предмет цели (cats).
@@ -182,7 +182,7 @@ def test_move_to(setup):
     Raises:
         AssertionError: Если агент не обновляет местоположение в `_mental_state` или не добавляет контекст.
 
-    Как работает функция:
+    
     - Функция перебирает агентов `create_oscar_the_architect()` и `create_lisa_the_data_scientist()`.
     - Для каждого агента вызывается метод `move_to` с местоположением "New York" и контекстом ["city", "busy", "diverse"].
     - Проверяется, что местоположение обновлено в `_mental_state` и контекст добавлен.
@@ -201,7 +201,7 @@ def test_change_context(setup):
     Raises:
         AssertionError: Если агент не добавляет контекст в `_mental_state`.
 
-    Как работает функция:
+    
     - Функция перебирает агентов `create_oscar_the_architect()` и `create_lisa_the_data_scientist()`.
     - Для каждого агента вызывается метод `change_context` с контекстом ["home", "relaxed", "comfortable"].
     - Проверяется, что контекст добавлен в `_mental_state`.
@@ -220,7 +220,7 @@ def test_save_specification(setup):
     Raises:
         AssertionError: Если файл не сохраняется, загруженный агент имеет другое имя или конфигурацию.
 
-    Как работает функция:
+    
     - Функция перебирает агентов `create_oscar_the_architect()` и `create_lisa_the_data_scientist()`.
     - Для каждого агента вызывается метод `save_specification` для сохранения спецификации в файл.
     - Проверяется, что файл существует.
@@ -238,7 +238,7 @@ def test_programmatic_definitions(setup):
     Args:
         setup: Параметр настройки, предоставляемый `pytest`.
 
-    Как работает функция:
+    
     - Функция перебирает агентов `create_oscar_the_architect_2()` и `create_lisa_the_data_scientist_2()`.
     - Вызывает метод `listen_and_act` с запросом "Tell me a bit about your life." для каждого агента.
     """

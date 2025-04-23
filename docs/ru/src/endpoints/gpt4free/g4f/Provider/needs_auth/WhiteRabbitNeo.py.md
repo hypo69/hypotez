@@ -62,7 +62,7 @@ async def create_async_generator(
     Raises:
         Exception: Если возникает ошибка при создании или использовании асинхронного генератора.
 
-    Как работает функция:
+    
         Функция создает асинхронный генератор, который отправляет сообщения в сервис WhiteRabbitNeo и получает сгенерированный текст.
         Она использует `aiohttp.ClientSession` для отправки запросов и получения ответов.
         Если файлы cookie не предоставлены, они извлекаются с использованием `get_cookies()`.
@@ -108,7 +108,7 @@ async def create_async_generator(
             Raises:
                 Exception: Если возникает ошибка при выполнении запроса или обработке ответа.
 
-            Как работает функция:
+            
                 1. Проверяет наличие переданных cookies, если cookies не переданы - пытается получить их, вызвав `get_cookies("www.whiterabbitneo.com")`.
                 2. Определяет заголовки HTTP-запроса, включая User-Agent, Accept, Referer и Content-Type.
                 3. Создаёт `ClientSession` aiohttp для управления HTTP-соединениями. Использует либо переданный `connector`, либо создает новый с помощью `get_connector(connector, proxy)`.

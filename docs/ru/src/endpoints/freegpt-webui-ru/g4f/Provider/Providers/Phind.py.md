@@ -32,7 +32,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
     Внутренние функции:
         отсутствуют
 
-    Как работает функция:
+    
     - Определяет путь к директории, где расположен файл `phind.py`.
     - Формирует JSON-конфигурацию, включающую модель и сообщения.
     - Запускает subprocess с использованием `python phind.py <config>`.

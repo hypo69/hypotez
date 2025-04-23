@@ -26,7 +26,7 @@ def get_notebooks(folder: str) -> list[str]:
     Returns:
         list[str]: Список путей ко всем файлам Jupyter notebook в папке.
 
-    Как работает функция:
+    
         Функция проходит по всем файлам в указанной папке и возвращает список тех,
         которые заканчиваются на ".ipynb", но не содержат ".executed." или ".local." в имени.
     """
@@ -43,7 +43,7 @@ def test_notebook_execution(notebook_path: str) -> None:
     Args:
         notebook_path (str): Путь к файлу Jupyter notebook.
 
-    Как работает функция:
+    
         Функция открывает notebook, выполняет его с помощью `ExecutePreprocessor`,
         и проверяет, не возникло ли исключений. Если исключение возникло, тест завершается неудачно.
         В любом случае сохраняется копия выполненного notebook.

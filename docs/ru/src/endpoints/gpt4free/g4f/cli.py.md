@@ -22,7 +22,7 @@ def get_api_parser() -> ArgumentParser:
     Returns:
         ArgumentParser: Парсер аргументов для API.
 
-    Как работает функция:
+    
         Функция создает объект `ArgumentParser` с описанием "Run the API and GUI".
         Добавляет различные аргументы, такие как `--bind`, `--port`, `--debug`, `--gui`, `--model`, `--provider`,
         `--image-provider`, `--proxy`, `--workers`, `--disable-colors`, `--ignore-cookie-files`, `--g4f-api-key`,
@@ -44,7 +44,7 @@ def main() -> None:
     Returns:
         None
 
-    Как работает функция:
+    
         Создает главный парсер аргументов с описанием "Run gpt4free".
         Добавляет подпарсеры для режимов "api" и "gui", используя `get_api_parser` и `gui_parser` соответственно.
         Обрабатывает аргументы командной строки.
@@ -65,7 +65,7 @@ def run_api_args(args: argparse.Namespace) -> None:
     Returns:
         None
 
-    Как работает функция:
+    
         Импортирует `AppConfig` и `run_api` из `g4f.api`.
         Устанавливает конфигурацию приложения, используя аргументы командной строки, такие как `ignore_cookie_files`,
         `ignored_providers`, `g4f_api_key`, `provider`, `image_provider`, `proxy`, `model`, `gui`, `demo`.

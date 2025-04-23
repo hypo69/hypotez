@@ -30,7 +30,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
     Raises:
         requests.exceptions.RequestException: Если возникает ошибка при отправке запроса.
 
-    Как работает функция:
+    
     - Формирует строку conversation на основе предоставленных сообщений, добавляя роль и содержимое каждого сообщения.
     - Создает сессию requests.Session для выполнения HTTP-запросов.
     - Устанавливает заголовки для сессии, включая User-Agent, Referer и другие.

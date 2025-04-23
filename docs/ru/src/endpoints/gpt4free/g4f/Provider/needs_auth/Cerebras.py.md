@@ -63,7 +63,7 @@ async def create_async_generator(
     Raises:
         Exception: Если не удается получить ключ API.
 
-    Как работает функция:
+    
     - Функция сначала пытается получить ключ API из cookies, если он не предоставлен явно.
     - Если cookies не предоставлены, функция получает их из домена ".cerebras.ai".
     - Затем функция отправляет запрос к "https://inference.cerebras.ai/api/auth/session", чтобы получить ключ API.

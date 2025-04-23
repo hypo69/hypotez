@@ -27,7 +27,7 @@ def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | b
     Raises:
         requests.exceptions.RequestException: Если возникает ошибка при выполнении HTTP-запроса.
 
-    Как работает функция:
+    
     - Выполняет GET-запрос к указанному URL OneTab.
     - Использует BeautifulSoup для парсинга HTML-содержимого ответа.
     - Извлекает URL-адреса из всех элементов `<a>` с классом `tabLink`.

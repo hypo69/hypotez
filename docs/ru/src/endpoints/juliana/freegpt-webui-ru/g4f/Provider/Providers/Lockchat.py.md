@@ -29,7 +29,7 @@ def _create_completion(model: str, messages: list, stream: bool, temperature: fl
     Raises:
         Exception: Если возникает ошибка при запросе к API или обработке ответа.
 
-    Как работает функция:
+    
     - Функция формирует payload с данными для отправки в Lockchat API, включая температуру, сообщения, модель и флаг потоковой передачи.
     - Устанавливает заголовки запроса, включая user-agent.
     - Отправляет POST-запрос к API Lockchat по адресу "http://super.lockchat.app/v1/chat/completions?auth=FnMNPlwZEnGFqvEc9470Vw==".

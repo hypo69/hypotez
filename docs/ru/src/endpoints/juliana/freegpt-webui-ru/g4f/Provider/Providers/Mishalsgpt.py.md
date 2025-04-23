@@ -32,7 +32,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
     Raises:
         requests.exceptions.RequestException: Если возникает ошибка при отправке запроса к API.
 
-    Как работает функция:
+    
     - Функция формирует заголовок запроса, указывая тип контента как JSON.
     - Функция формирует тело запроса, включая идентификатор модели, температуру и список сообщений.
     - Функция отправляет POST-запрос к API Mishalsgpt с использованием библиотеки `requests`.

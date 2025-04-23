@@ -30,7 +30,7 @@ def calculate_signature(login, cost, inv_id, password, user_id, user_telegram_id
     Returns:
         str: MD5-хеш, представляющий подпись запроса.
 
-    Как работает функция:
+    
     - Определяет строку для вычисления подписи в зависимости от флага `is_result`. Если `is_result` равен `True`, используется формат строки для Result URL, иначе - для initial и Success URL.
     - Создает словарь `additional_params`, содержащий дополнительные параметры запроса: `user_id`, `user_telegram_id` и `product_id`.
     - Сортирует элементы словаря `additional_params` по ключам и добавляет их в строку для вычисления подписи.
@@ -61,7 +61,7 @@ def generate_payment_link(cost: float, number: int, description: str,
     Returns:
         str: Ссылка на страницу оплаты.
 
-    Как работает функция:
+    
     - Вызывает функцию `calculate_signature` для вычисления подписи запроса.
     - Формирует словарь `data`, содержащий параметры запроса для Robokassa, включая логин мерчанта, сумму платежа, номер заказа, описание заказа, подпись, флаг тестового режима и дополнительные параметры.
     - Кодирует словарь `data` в строку запроса с помощью `parse.urlencode`.
@@ -84,7 +84,7 @@ def parse_response(request: str) -> dict:
     Returns:
         dict: Словарь с параметрами.
 
-    Как работает функция:
+    
     - Извлекает строку запроса из URL, используя `urlparse(request).query`.
     - Разбирает строку запроса на параметры с помощью `parse.parse_qsl` и преобразует результат в словарь.
     - Возвращает полученный словарь с параметрами.
@@ -111,7 +111,7 @@ def check_signature_result(out_sum, inv_id, received_signature, password, user_i
     Returns:
         bool: `True`, если подпись верна, `False` в противном случае.
 
-    Как работает функция:
+    
     - Вызывает функцию `calculate_signature` для вычисления подписи на основе параметров ответа.
     - Сравнивает вычисленную подпись с подписью, полученной от Robokassa, приводя обе подписи к нижнему регистру.
     - Возвращает `True`, если подписи совпадают, `False` в противном случае.
@@ -132,7 +132,7 @@ def result_payment(request: str) -> str:
     Returns:
         str: `'OK' + номер заказа`, если оплата прошла успешно, иначе `'bad sign'`.
 
-    Как работает функция:
+    
     - Разбирает строку запроса на параметры с помощью функции `parse_response`.
     - Извлекает значения параметров: `out_sum`, `inv_id`, `signature`, `user_id`, `user_telegram_id` и `product_id`.
     - Вызывает функцию `check_signature_result` для проверки подписи ответа.
@@ -154,7 +154,7 @@ def check_success_payment(request: str) -> str:
     Returns:
         str: Сообщение об успешной оплате или `'bad sign'` при неверной подписи.
 
-    Как работает функция:
+    
     - Разбирает строку запроса на параметры с помощью функции `parse_response`.
     - Извлекает значения параметров: `out_sum`, `inv_id`, `signature`, `user_id`, `user_telegram_id` и `product_id`.
     - Вызывает функцию `check_signature_result` для проверки подписи ответа.

@@ -33,7 +33,7 @@ def search_query(query: str, type_movie: str = 'series') -> dict | None:
     Внутренние функции:
         отсутствуют
 
-    Как работает функция:
+    
     1. Формирует поисковый запрос для Google, включающий указанный `query` и тип контента (`type_movie`).
     2. Выполняет HTTP-запрос к Google с использованием библиотеки `requests`.
     3. Использует `BeautifulSoup` для парсинга HTML-ответа, полученного от Google.

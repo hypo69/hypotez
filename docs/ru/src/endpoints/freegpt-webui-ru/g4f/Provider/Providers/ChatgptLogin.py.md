@@ -31,7 +31,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
     Raises:
         Exception: Если возникает ошибка при выполнении запроса.
 
-    Как работает функция:
+    
     - Получает nonce, необходимый для аутентификации запроса.
     - Преобразует сообщения в формат, ожидаемый API.
     - Формирует JSON-данные для отправки в запросе.
@@ -60,7 +60,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
         Returns:
             str: Строка nonce, извлеченная из HTML-кода страницы.
 
-        Как работает функция:
+        
         - Выполняет GET-запрос к странице `https://chatgptlogin.ac/use-chatgpt-free/`.
         - Извлекает nonce из текста ответа с использованием регулярного выражения.
         - Возвращает извлеченный nonce.
@@ -82,7 +82,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
         Returns:
             list: Преобразованный список сообщений.
 
-        Как работает функция:
+        
         - Применяет HTML-кодирование к содержимому каждого сообщения.
         - Формирует новый список сообщений с добавлением дополнительных полей.
 
@@ -103,7 +103,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
             Returns:
                 str: HTML-кодированная строка.
 
-            Как работает функция:
+            
             - Заменяет специальные символы на их HTML-эквиваленты.
             """
 ```

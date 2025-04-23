@@ -30,7 +30,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
         requests.exceptions.RequestException: В случае ошибки при выполнении HTTP-запроса.
         json.JSONDecodeError: В случае ошибки при декодировании JSON-ответа.
 
-    Как работает функция:
+    
     1. Формирует текстовое представление чата из списка сообщений.
     2. Выполняет GET-запрос к веб-сайту chatgpt.ai для получения значений nonce, post_id и bot_id, необходимых для последующего POST-запроса.
     3. Извлекает nonce, post_id, bot_id из ответа, используя регулярные выражения.

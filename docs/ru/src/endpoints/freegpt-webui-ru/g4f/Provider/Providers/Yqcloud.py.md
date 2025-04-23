@@ -39,7 +39,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
     Внутренние функции:
         Нет
 
-    Как работает функция:
+    
         1. Функция определяет заголовки запроса, включая `authority`, `origin`, `referer` и `user-agent`.
         2. Функция формирует JSON-данные для запроса, включая `prompt`, `userId`, `network`, `apikey`, `system` и `withoutContext`.
            `prompt` содержит последнее сообщение из списка `messages` с префиксом "always respond in english | ".

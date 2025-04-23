@@ -32,7 +32,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
     Внутренние функции:
         - Отсутствуют
 
-    Как работает функция:
+    
     1. Функция определяет заголовки HTTP-запроса, включая `authority`, `origin`, `referer` и `user-agent`.
     2. Формирует JSON-данные для запроса, включающие текст последнего сообщения из списка `messages`, ID пользователя, флаг `network`, ключ API и другие параметры.
     3. Выполняет POST-запрос к API `https://api.aichatos.cloud/api/generateStream` с установленными заголовками и JSON-данными, используя потоковый режим.

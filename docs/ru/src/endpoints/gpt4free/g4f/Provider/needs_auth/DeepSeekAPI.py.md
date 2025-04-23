@@ -54,7 +54,7 @@ async def on_auth_async(cls, proxy: str = None, **kwargs) -> AsyncIterator:
     Raises:
         ImportError: Если библиотека `dsk.api` не установлена.
 
-    Как работает функция:
+    
     - Проверяется наличие атрибута `browser` у класса. Если его нет, то запускается `nodriver` для эмуляции браузера.
     - Отправляется запрос на логин.
     - Запускается асинхронная задача `callback`, которая ожидает появления токена доступа в `localStorage` браузера.
@@ -111,7 +111,7 @@ async def create_authed(
     Raises:
         ImportError: Если библиотека `dsk.api` не установлена.
 
-    Как работает функция:
+    
     - Инициализируется API DeepSeek с использованием токена доступа из `auth_result`.
     - Если `conversation` равен `None`, создается новая чат-сессия и объект `JsonConversation`.
     - Отправляется запрос на завершение чата.
