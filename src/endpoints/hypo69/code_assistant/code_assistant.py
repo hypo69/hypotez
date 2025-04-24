@@ -94,8 +94,8 @@ class Config:
 
 
     gemini: SimpleNamespace = SimpleNamespace(**{
-        'model_name': os.getenv('GEMINI_MODEL') if USE_ENV else config.gemini_model_name or None,  
-        'api_key': os.getenv('GEMINI_API_KEY') if USE_ENV else gs.credentials.gemini.onela.api_key or None,
+        'model_name': os.getenv('GEMINI_MODEL') if USE_ENV else config.gemini_model_name or None,  # <- MODEL_NAME
+        'api_key': os.getenv('GEMINI_API_KEY') if USE_ENV else gs.credentials.gemini.kazarinov.api_key or None,  # <- API_KEY
         'response_mime_type': 'text/plain',
     })
 
@@ -114,7 +114,7 @@ class CodeAssistant:
         self,
         role: Optional[str] = 'doc_writer_md',
         lang: Optional[str] = 'en',
-        model_name:str = 'gemini-2.0-flash-exp',
+        model_name:Optional[str] = '',
         system_instruction: Optional[str | Path] = None,
         **kwargs,
     ) -> None:
@@ -137,7 +137,7 @@ class CodeAssistant:
                     if k not in ('model_name', 'api_key', 'generation_config', 'system_instruction')
                 }
         self.gemini = GoogleGenerativeAi(     
-                model_name = model_name,
+                model_name = model_name or Config.gemini.model_name,
                 api_key=kwargs.get('api_key', Config.gemini.api_key),# Значение из kwargs имеет приоритет,
                 system_instruction= system_instruction or Config.system_instruction,
                 generation_config = {'response_mime_type': kwargs.get( 'response_mime_type',  Config.response_mime_type)},

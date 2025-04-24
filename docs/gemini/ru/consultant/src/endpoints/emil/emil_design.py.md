@@ -183,7 +183,7 @@ class EmilDesign:
             for prefix in supplier_prefix:
                 graber = get_graber_by_supplier_prefix(prefix)
                 if not graber:
-                    logger.warning(f'Не найден граббер для префикса: {prefix}')
+                    logger.warning(f'Не найден грабер для префикса: {prefix}')
                     continue
                 await graber.process_scenarios_async()
                 logger.info(f'Обработка поставщика с префиксом: {prefix}')

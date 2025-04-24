@@ -5,11 +5,11 @@
 #! .pyenv/bin/python3
 
 """
-Модуль для получения граббера на основе URL поставщика
+Модуль для получения грабера на основе URL поставщика
 =========================================================================================
 
-Этот модуль предоставляет функциональность для получения соответствующего объекта граббера
-для заданного URL поставщика. У каждого поставщика есть свой собственный граббер, который
+Этот модуль предоставляет функциональность для получения соответствующего объекта грабера
+для заданного URL поставщика. У каждого поставщика есть свой собственный грабер, который
 извлекает значения полей из целевой HTML-страницы.
 
 Пример использования
@@ -25,10 +25,10 @@
     graber = get_graber_by_supplier_url(driver, url)
 
     if graber:
-        # Использовать граббер для извлечения данных
+        # Использовать грабер для извлечения данных
         pass
     else:
-        # Обработать случай, когда граббер не найден
+        # Обработать случай, когда грабер не найден
         pass
 """
 from typing import Optional
@@ -55,16 +55,16 @@ from src.logger.logger import logger
 
 def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index:int ) -> Graber | None:
     """
-    Функция возвращает соответствующий граббер для заданного URL поставщика.
+    Функция возвращает соответствующий грабер для заданного URL поставщика.
 
-    У каждого поставщика есть свой граббер, который извлекает значения полей из целевой HTML-страницы.
+    У каждого поставщика есть свой грабер, который извлекает значения полей из целевой HTML-страницы.
 
     Args:
         driver: Инстанс драйвера, используемый для граббинга.
         url (str): URL страницы поставщика.
         lang_index (int): Индекс языка для магазина Prestashop.
     Returns:
-        Graber | None: Объект граббера, если соответствие найдено, иначе None.
+        Graber | None: Объект грабера, если соответствие найдено, иначе None.
     """
     driver.get_url(url)
     # Проверка, начинается ли URL с одного из указанных префиксов для каждого поставщика.
@@ -115,15 +115,15 @@ def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index:int ) -> G
 
     if url.startswith(('https://www.wallmart.com', 'https://wallmart.com')):# wallmart
         return WallmartGraber(driver,lang_index)
-    # Логирование, если граббер не найден для данного URL.
+    # Логирование, если грабер не найден для данного URL.
     logger.debug(f'No graber found for URL: {url}')
     ...
     return
 
 def get_graber_by_supplier_prefix(driver: 'Driver', supplier_prefix: str, lang_index:str = '2' ) -> Optional[Graber] | bool:
-    """Функция возвращает граббер по префиксу поставщика"""
+    """Функция возвращает грабер по префиксу поставщика"""
     ...
-    # Проверка соответствия префикса и создание соответствующего граббера.
+    # Проверка соответствия префикса и создание соответствующего грабера.
     if supplier_prefix == 'aliexpress':# aliexpress
         grabber = AliexpressGraber(driver,lang_index)
     if supplier_prefix == 'amazon':# amazon
@@ -150,7 +150,7 @@ def get_graber_by_supplier_prefix(driver: 'Driver', supplier_prefix: str, lang_i
         grabber = WallaShopGraber(driver,lang_index)
     if supplier_prefix == 'wallmart':# wallmart
         grabber = WallmartGraber(driver,lang_index)
-    # Возвращает объект граббера или False, если соответствие не найдено.
+    # Возвращает объект грабера или False, если соответствие не найдено.
     return grabber or False
 ```
 
@@ -173,7 +173,7 @@ def get_graber_by_supplier_prefix(driver: 'Driver', supplier_prefix: str, lang_i
 - Перевести docstring для `get_graber_by_supplier_url` на русский язык.
 - Добавить подробный docstring для функции `get_graber_by_supplier_prefix` на русском языке.
 - Указать тип `lang_index` в функции `get_graber_by_supplier_prefix` как `int`.
-- Избавиться от дублирования проверок URL, используя, например, словарь соответствий URL и грабберов.
+- Избавиться от дублирования проверок URL, используя, например, словарь соответствий URL и граберов.
 - Аннотировать все переменные типами.
 
 **Оптимизированный код:**
@@ -184,11 +184,11 @@ def get_graber_by_supplier_prefix(driver: 'Driver', supplier_prefix: str, lang_i
 #! .pyenv/bin/python3
 
 """
-Модуль для получения граббера на основе URL поставщика
+Модуль для получения грабера на основе URL поставщика
 =========================================================================================
 
-Этот модуль предоставляет функциональность для получения соответствующего объекта граббера
-для заданного URL поставщика. У каждого поставщика есть свой собственный граббер, который
+Этот модуль предоставляет функциональность для получения соответствующего объекта грабера
+для заданного URL поставщика. У каждого поставщика есть свой собственный грабер, который
 извлекает значения полей из целевой HTML-страницы.
 
 Пример использования
@@ -204,10 +204,10 @@ def get_graber_by_supplier_prefix(driver: 'Driver', supplier_prefix: str, lang_i
     graber = get_graber_by_supplier_url(driver, url)
 
     if graber:
-        # Использовать граббер для извлечения данных
+        # Использовать грабер для извлечения данных
         pass
     else:
-        # Обработать случай, когда граббер не найден
+        # Обработать случай, когда грабер не найден
         pass
 """
 from typing import Optional, Type
@@ -234,9 +234,9 @@ from src.logger.logger import logger
 
 def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index: int) -> Graber | None:
     """
-    Функция возвращает соответствующий граббер для заданного URL поставщика.
+    Функция возвращает соответствующий грабер для заданного URL поставщика.
 
-    У каждого поставщика есть свой граббер, который извлекает значения полей из целевой HTML-страницы.
+    У каждого поставщика есть свой грабер, который извлекает значения полей из целевой HTML-страницы.
 
     Args:
         driver: Инстанс драйвера, используемый для граббинга.
@@ -244,9 +244,9 @@ def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index: int) -> G
         lang_index (int): Индекс языка для магазина Prestashop.
 
     Returns:
-        Graber | None: Объект граббера, если соответствие найдено, иначе None.
+        Graber | None: Объект грабера, если соответствие найдено, иначе None.
     """
-    # Словарь соответствий префиксов URL и классов грабберов
+    # Словарь соответствий префиксов URL и классов граберов
     grabbers: dict[tuple[str, ...], Type[Graber]] = {
         ('https://aliexpress.com', 'https://wwww.aliexpress.com'): AliexpressGraber,
         ('https://amazon.com', 'https://wwww.amazon.com'): AmazonGraber,
@@ -266,12 +266,12 @@ def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index: int) -> G
         ('https://www.wallmart.com', 'https://wallmart.com'): WallmartGraber,
     }
     driver.get_url(url)
-    # Функция извлекает граббер на основе URL поставщика
+    # Функция извлекает грабер на основе URL поставщика
     for prefixes, grabber_class in grabbers.items():# итерация по словарю grabbers
         if url.startswith(prefixes):# Если URL начинается с одного из префиксов
-            return grabber_class(driver, lang_index)  # Функция возвращает инстанс граббера для соответствующего URL
+            return grabber_class(driver, lang_index)  # Функция возвращает инстанс грабера для соответствующего URL
 
-    # Логирование, если граббер не найден для данного URL.
+    # Логирование, если грабер не найден для данного URL.
     logger.debug(f'No graber found for URL: {url}')
     ...
     return
@@ -279,7 +279,7 @@ def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index: int) -> G
 
 def get_graber_by_supplier_prefix(driver: 'Driver', supplier_prefix: str, lang_index: int = 2) -> Optional[Graber] | bool:
     """
-    Функция возвращает соответствующий граббер для заданного префикса поставщика.
+    Функция возвращает соответствующий грабер для заданного префикса поставщика.
 
     Args:
         driver: Инстанс драйвера, используемый для граббинга.
@@ -287,10 +287,10 @@ def get_graber_by_supplier_prefix(driver: 'Driver', supplier_prefix: str, lang_i
         lang_index (int): Индекс языка для магазина Prestashop.
 
     Returns:
-        Graber | bool: Объект граббера, если соответствие найдено, иначе False.
+        Graber | bool: Объект грабера, если соответствие найдено, иначе False.
     """
 
-    # Словарь соответствий префиксов поставщиков и классов грабберов
+    # Словарь соответствий префиксов поставщиков и классов граберов
     grabbers: dict[str, Type[Graber]] = {
         'aliexpress': AliexpressGraber,
         'amazon': AmazonGraber,
@@ -306,7 +306,7 @@ def get_graber_by_supplier_prefix(driver: 'Driver', supplier_prefix: str, lang_i
         'wallashop': WallaShopGraber,
         'wallmart': WallmartGraber,
     }
-    # Функция проверяет соответствие префикса и создание соответствующего граббера.
-    grabber: Optional[Graber] = grabbers.get(supplier_prefix)(driver, lang_index) if supplier_prefix in grabbers else None # Функция извлекает граббер на основе префикса поставщика
-    # Возвращает объект граббера или False, если соответствие не найдено.
+    # Функция проверяет соответствие префикса и создание соответствующего грабера.
+    grabber: Optional[Graber] = grabbers.get(supplier_prefix)(driver, lang_index) if supplier_prefix in grabbers else None # Функция извлекает грабер на основе префикса поставщика
+    # Возвращает объект грабера или False, если соответствие не найдено.
     return grabber or False

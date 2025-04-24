@@ -33,6 +33,9 @@ class G(Graber):
 ``` 
 
 Список полей: https://github.com/hypo69/hypotez/blob/master/src/endpoints/prestashop/product_fields/fields_list.txt
+Модуль `graber`: https://github.com/hypo69/hypotez/blob/master/docs/ru/src/suppliers/graber.py.md
+Локатор https://github.com/hypo69/hypotez/blob/master/docs/ru/src/suppliers/locator.md
+Подробно о локаторе https://github.com/hypo69/hypotez/blob/master/src/webdriver/locator.md
 
 """
 
@@ -578,12 +581,12 @@ class Graber:
         value (Any): это значение можно передать в словаре kwargs через ключ {advanced_stock_management = `value`} при определении класса.
         Если `value` был передан, его значение подставляется в поле `ProductFields.advanced_stock_management`.
         """
-        return True
+        return False
 
+        # # Записываем результат в поле `advanced_stock_management` объекта `ProductFields`
+        # self.fields.advanced_stock_management = value
+        # return True
 
-        # Записываем результат в поле `advanced_stock_management` объекта `ProductFields`
-        self.fields.advanced_stock_management = value
-        return True
     @close_pop_up()
     async def affiliate_short_link(self, value:Optional[str] = None) -> bool:
         """Fetch and set affiliate short link.

@@ -1,12 +1,12 @@
-# Модуль для получения граббера на основе URL поставщика
+# Модуль для получения грабера на основе URL поставщика
 
 ## Обзор
 
-Модуль предоставляет функциональность для получения соответствующего объекта граббера для заданного URL поставщика. У каждого поставщика есть свой собственный граббер, который извлекает значения полей из целевой HTML-страницы.
+Модуль предоставляет функциональность для получения соответствующего объекта грабера для заданного URL поставщика. У каждого поставщика есть свой собственный грабер, который извлекает значения полей из целевой HTML-страницы.
 
 ## Более подробно
 
-Этот модуль предназначен для определения подходящего граббера на основе URL поставщика. Он содержит функцию `get_graber_by_supplier_url`, которая принимает URL и возвращает соответствующий объект граббера. Модуль импортирует грабберы для различных поставщиков, таких как Aliexpress, Amazon, Ebay и другие. Если для данного URL не найден соответствующий граббер, возвращается `None`, при этом фиксируется отладочное сообщение с использованием `logger.debug`.
+Этот модуль предназначен для определения подходящего грабера на основе URL поставщика. Он содержит функцию `get_graber_by_supplier_url`, которая принимает URL и возвращает соответствующий объект грабера. Модуль импортирует граберы для различных поставщиков, таких как Aliexpress, Amazon, Ebay и другие. Если для данного URL не найден соответствующий грабер, возвращается `None`, при этом фиксируется отладочное сообщение с использованием `logger.debug`.
 
 ## Функции
 
@@ -15,9 +15,9 @@
 ```python
 def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index: int) -> Graber | None:
     """
-    Функция, которая возвращает соответствующий граббер для заданного URL поставщика.
+    Функция, которая возвращает соответствующий грабер для заданного URL поставщика.
 
-    У каждого поставщика есть свой граббер, который извлекает значения полей из целевой HTML-страницы.
+    У каждого поставщика есть свой грабер, который извлекает значения полей из целевой HTML-страницы.
 
     Args:
         driver (Driver): Экземпляр веб-драйвера, используемый для взаимодействия с веб-страницей.
@@ -101,25 +101,25 @@ driver = Driver(Chrome)
 url = 'https://aliexpress.com/some/product'
 graber = get_graber_by_supplier_url(driver, url, '2')
 if graber:
-    print(f'Нашли граббер: {graber.__class__.__name__}')
+    print(f'Нашли грабер: {graber.__class__.__name__}')
 else:
-    print('Граббер для Aliexpress не найден')
+    print('грабер для Aliexpress не найден')
 
 # Пример вызова функции с URL Amazon
 url = 'https://amazon.com/some/product'
 graber = get_graber_by_supplier_url(driver, url, '2')
 if graber:
-    print(f'Нашли граббер: {graber.__class__.__name__}')
+    print(f'Нашли грабер: {graber.__class__.__name__}')
 else:
-    print('Граббер для Amazon не найден')
+    print('грабер для Amazon не найден')
 
 # Пример вызова функции с неизвестным URL
 url = 'https://unknown.com/some/product'
 graber = get_graber_by_supplier_url(driver, url, '2')
 if graber:
-    print(f'Нашли граббер: {graber.__class__.__name__}')
+    print(f'Нашли грабер: {graber.__class__.__name__}')
 else:
-    print('Граббер для unknown.com не найден')
+    print('грабер для unknown.com не найден')
 ```
 
 ### `get_graber_by_supplier_prefix`
@@ -180,22 +180,22 @@ driver = Driver(Chrome)
 supplier_prefix = 'aliexpress'
 graber = get_graber_by_supplier_prefix(driver, supplier_prefix, '2')
 if graber:
-    print(f'Нашли граббер: {graber.__class__.__name__}')
+    print(f'Нашли грабер: {graber.__class__.__name__}')
 else:
-    print('Граббер для Aliexpress не найден')
+    print('грабер для Aliexpress не найден')
 
 # Пример вызова функции с префиксом Amazon
 supplier_prefix = 'amazon'
 graber = get_graber_by_supplier_prefix(driver, supplier_prefix, '2')
 if graber:
-    print(f'Нашли граббер: {graber.__class__.__name__}')
+    print(f'Нашли грабер: {graber.__class__.__name__}')
 else:
-    print('Граббер для Amazon не найден')
+    print('грабер для Amazon не найден')
 
 # Пример вызова функции с неизвестным префиксом
 supplier_prefix = 'unknown'
 graber = get_graber_by_supplier_prefix(driver, supplier_prefix, '2')
 if graber:
-    print(f'Нашли граббер: {graber.__class__.__name__}')
+    print(f'Нашли грабер: {graber.__class__.__name__}')
 else:
-    print('Граббер для unknown не найден')
+    print('грабер для unknown не найден')
