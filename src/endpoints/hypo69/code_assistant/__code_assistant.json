@@ -6,8 +6,7 @@
   "response_mime_type": "text/plain",
   "gemini_model_name": "gemini-2.5-flash-preview-04-17",
   "process_dirs": [
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\docs\\"
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\"
 
   ],
 

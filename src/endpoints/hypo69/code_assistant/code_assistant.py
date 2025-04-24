@@ -176,7 +176,7 @@ class CodeAssistant:
 
 
     async def process_files(
-        self, process_dirs: Optional[str | Path | list[str | Path]] = None, 
+        self, process_dirs: Optional[str | Path | list[str | Path]] = None, save_response: bool = True 
     ) -> bool:
         """компиляция, отправка запроса и сохранение результата."""
         process_dirs = process_dirs if process_dirs else Config.process_dirs
@@ -207,13 +207,12 @@ class CodeAssistant:
 
                     if response:
                         response: str = self._remove_outer_quotes(response)
-                        if not await self._save_response(file_path, response, 'gemini'):
-                            logger.error(f'Файл {file_path} \n НЕ сохранился')
-                            ...
-                            continue
-
-                        
-                        ...
+                        if Config.role == 'trainer': # трениривка модели, Результат не сохараням
+                            print(response)
+                        elif not await self._save_response(file_path, response, 'gemini'):
+                                    logger.error(f'Файл {file_path} \n НЕ сохранился')
+                                    ...
+                                    continue
                     else:
                         logger.error('Ошибка ответа модели', None, False)
                         ...
@@ -233,13 +232,15 @@ class CodeAssistant:
                 'input_code': f"""```python
                 {content}
                 ```""",
-            }
+            } 
+            return str(content_request)
+
         except Exception as ex:
             logger.error(f'Ошибка в составлении запроса ', ex, False)
             ...
             return str(content)
 
-        return str(content_request)
+        
 
     def _yield_files_content(
         self,

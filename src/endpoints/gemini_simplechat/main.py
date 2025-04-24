@@ -1,13 +1,15 @@
-
-
 ## \file main.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
 """
+
+Простой интерфейс собраный на базе `fast_api`
+================================================
+
+```rst
 .. module:: gemini_simplechat.main
-    :platform: Windows, Unix
-    :synopsis: Простой gemini чат
+```
 """
 import sys, os
 
@@ -22,9 +24,27 @@ import uvicorn
 import header
 from header import __root__
 from src import gs
-from src.llm import GoogleGenerativeAi
+from src.llm.gemini import GoogleGenerativeAi
+from src.utils.get_free_port import get_free_port
 from src.utils.jjson import j_loads_ns
 from src.logger import logger
+
+
+class Config:
+    """"""
+    ENDPOINT:Path = __root__/ 'src'/ 'endpoints'/ 'gemini_simplechat'
+    try:
+        config:'SimpleNamespace' = j_loads_ns(ENDPOINT/'gemini_simplechat.json')
+        HOST:str = config.host
+        PORTS_RANGE:list[int] = config.ports_range
+        GEMINI_API_KEY:str = gs.credentials.gemini.onela.api_key
+        GEMINI_MODEL_NAME:str = config.gemini_model_name #'gemini-1.5-flash-001-tuning' # <- Это модель, которая обучается моему коду
+        system_instruction_path:Path = Path(__root__/ 'src' / 'endpoints' / 'hypo69' / 'code_assistant' / 'instructions' / 'instruction_trainer_ru.md')
+        SYSTEM_INSTRUCTION:str = system_instruction_path.read_text(encoding='UTF-8') 
+
+    except Exception as ex:
+        logger.error(f'Ошибка загрузки конфигурации!')
+        ...
 
 
 app = FastAPI()
@@ -42,17 +62,17 @@ app.add_middleware(
 class ChatRequest(BaseModel):
     message: str
 
-system_instruction:str = Path('instructions', 'system_instruction.md').read_text(encoding='UTF-8') 
-model: GoogleGenerativeAi = GoogleGenerativeAi(api_key = gs.credentials.gemini.api_key, 
-                                               model_name = gs.credentials.gemini.model_name, 
-                                               system_instruction = system_instruction)
+
+model: GoogleGenerativeAi = GoogleGenerativeAi(api_key = Config.GEMINI_API_KEY, 
+                                               model_name = Config.GEMINI_MODEL_NAME, 
+                                               system_instruction = Config.SYSTEM_INSTRUCTION)
 
 # Root route
 @app.get("/", response_class=HTMLResponse)
 async def root():
 
     try:
-        html_content = Path( __root__ / gs.fast_api.index_path).read_text(encoding="utf-8")
+        html_content = Path( __root__/ 'src'/ 'fast_api' / 'html'/ 'index.html').read_text(encoding="utf-8")
         return HTMLResponse(content=html_content)
     except Exception as ex:
         raise HTTPException(status_code=500, detail=f"Error reading templates:{str(ex)}" )
@@ -74,5 +94,5 @@ async def chat(request: ChatRequest):
 
 # Local server execution
 if __name__ == "__main__":
-
-    uvicorn.run(app, host=gs.fast_api.host, port=int(gs.fast_api.port))
+    port:int = get_free_port(Config.HOST, Config.PORTS_RANGE) 
+    uvicorn.run(app, host = Config.host, port = port)

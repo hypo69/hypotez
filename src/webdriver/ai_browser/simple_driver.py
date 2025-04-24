@@ -78,6 +78,7 @@ class SimpleDriver(Config, Driver):
             result: Any = await agent.run() # Ожидание результата работы агента
             result_dict:dict = result.__dict__ # Преобразование результата в словарь
             logger.info("Агент завершил выполнение задачи.")
+            ...
             return result_dict 
         except Exception as agent_err:
             logger.error("Произошла ошибка во время инициализации или выполнения задачи агентом.", agent_err, exc_info=True)
@@ -90,8 +91,8 @@ def main():
     Основная функция для запуска агента и выполнения задачи.
     """
     # Пример использования
-    driver = SimpleDriver()
-    task = "Hello, world!"
+    driver = SimpleDriver(gemini_model_name = 'gemini-2.5-flash-preview-04-17')
+    task = Path(__root__ / 'src' / 'webdriver' / 'ai_browser' / 'instructions' / 'get_news_from_nocamel_site.md').read_text(encoding='utf-8')
     result = asyncio.run(driver.simple_process_task_async(task))
     print(f"Результат выполнения задачи: {result}")
 

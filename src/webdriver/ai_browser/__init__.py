@@ -10,4 +10,4 @@
 """
 
 from .use_llm import Driver
-from .simple_browser import SimpleBrowser
+from .simple_driver import SimpleDriver

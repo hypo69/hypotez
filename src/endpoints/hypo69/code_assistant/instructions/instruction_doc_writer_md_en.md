@@ -1,116 +1,118 @@
-```markdown
+
 # INSTRUCTION
 
-The code provided below is part of the `hypotez` project. The task is to create developer documentation in `Markdown` format for each input Python file.
+The code provided below is part of the `hypotez` project. Task: Create developer documentation in `Markdown` format for each input Python file.
 The documentation must meet the following requirements:
 
-1. **Documentation Format**:
-   - Use standard `Markdown (.md)`.
-   - Each file should start with a title and a brief description of its contents.
+1.  **Documentation Format**:
+    -   Use the `Markdown (.md)` standard.
+    -   Each file must start with a header and a brief description of its content.
 
-   Documentation examples: Example of a module file header:
+    Documentation examples: Example of a module file header:
 
         """
         Module for working with the programmer's assistant
         =================================================
 
-        The module contains the class :class:`CodeAssistant`, which is used to interact with various AI models
-        (e.g., Google Gemini and OpenAI) and perform code processing tasks.
+        The module contains the :class:`CodeAssistant` class, which is used for interacting with various AI models
+        (e.g., Google Gemini and OpenAI) and performing code processing tasks.
 
-        Usage example
+        Usage Example
         ----------------------
 
-        >>>assistant = CodeAssistant(role='code_checker', lang='ru', model=['gemini'])
-        >>>assistant.process_files()
+        >>> assistant = CodeAssistant(role='code_checker', lang='ru', model=['gemini'])
+        >>> assistant.process_files()
         """
 
-   - For all classes and functions, use the following comment format:
-     ```python
-     class MyClass:
-         """Description of the class's purpose
-         Inherits: 
-            If the class inherits from another, provide a description of the inheritance.
+    -   For all classes and functions, use the following comment format:
+        ```python
+        class MyClass:
+            """Description of the class's purpose
+            Inherits:
+               If the class inherits from another - provide a description of the inheritance
 
-         Attributes:
-            param1 (str): Description of the class's parameters (attributes)
+            Attributes:
+               param1 (str): Description of parameters (attributes) of the class
 
-         Methods:
-            function_1(): Description of the purpose of the class's functions/methods
-        """
-     
-         def function(param: str, param1: Optional[str | dict | str] = None) -> dict | None:
-             """ Function performs some action... <Here, You write what the function does> 
-             Args:
-                 param (str): Description of the `param` parameter.
-                 param1 (Optional[str | dict | str], optional): Description of the `param1` parameter. Defaults to `None`.
+            Methods:
+               function_1(): Description of the purpose of the class's functions/methods
+           """
 
-             Returns:
-                 dict | None: Description of the return value. Returns a dictionary or `None`.
+            def function(param: str, param1: Optional[str | dict | str] = None) -> dict | None:
+                """ Function performs some action... <Here you write what the function specifically does>
+                Args:
+                    param (str): Description of the `param` parameter.
+                    param1 (Optional[str | dict | str], optional): Description of the `param1` parameter. Defaults to `None`.
 
-             Raises:
-                 SomeError: Description of the situation in which the `SomeError` exception occurs.
-                ...
-                <DO NOT output the function body. Only docstring>
-             """
-             def inner_function():
-                """ Inner function. Function performs some action... <Here, You write what the function does> 
-                    Args:
-                        param (str): Description of the `param` parameter.
-                        param1 (Optional[str | dict | str], optional): Description of the `param1` parameter. Defaults to `None`.
+                Returns:
+                    dict | None: Description of the return value. Returns a dictionary or `None`.
 
-                    Returns:
-                        dict | None: Description of the return value. Returns a dictionary or `None`.
+                Raises:
+                    SomeError: Description of the situation where the `SomeError` exception is raised.
+                   ...
+                   <DO NOT output the function body. Only the docstring>
+                """
+                def inner_function():
+                   """ Inner function performs some action... <Here you write what the function specifically does>
+                       Args:
+                           param (str): Description of the `param` parameter.
+                           param1 (Optional[str | dict | str], optional): Description of the `param1` parameter. Defaults to `None`.
 
-                    Raises:
-                        SomeError: Description of the situation in which the `SomeError` exception occurs.
+                       Returns:
+                           dict | None: Description of the return value. Returns a dictionary or `None`.
 
-                    ...
-                  
-                      DO NOT OUTPUT THE FUNCTION CODE. ONLY DOCSTR
+                       Raises:
+                           SomeError: Description of the situation where the `SomeError` exception is raised.
 
-                    """
-         ```
-     - All comments in the function and docstring must be in Russian in UTF-8 format
-     - If there are internal functions inside the function under consideration, consider each of them in detail separately.
+                       ...
 
-   - Use `ex` instead of `e` in exception handling blocks.
-   - For logging, use `logger` from my `src.logger` module. For example:
-     ```python
-     from src.logger import logger
-     logger.info('Some information message')
-     ...
-     except SomeError as ex:
-         logger.error('Some error message', ex, exc_info = True), where the error is passed as the second argument. exc_info determines whether or not to output service information.
-    ```
+                         DO NOT OUTPUT FUNCTION CODE. ONLY DOCSTRING
 
-    _ If the code uses a web driver, know how to use it.
-    Inherit Driver, Chrome, Firexox, Playwright
-    Then define it like this
-    # Creating a driver instance (example with Chrome)
-    driver = Drivewr(Chrome)
-    The Driver and Chrome, Firexox, Playwright modules already contain all selenium settings.
-    The main command that is used in the code: `driver.execute_locator(l:dict)`
-    It returns the value of the web element by locator.
+                       """
+            ```
+        -   All comments in the function and docstrings must be in Russian in UTF-8 format.
+        -   If there are inner functions within the function being considered, describe each of them in detail separately.
 
-   - All comments and docstrings must be in Russian in UTF-8 format. If there are English docstrings in the code, translate them to Russian.
+    -   Use `ex` instead of `e` in exception handling blocks.
+    -   For logging, use `logger` from my `src.logger` module. For example:
+        ```python
+        from src.logger import logger
+        logger.info('Some information message')
+        ...
+        except SomeError as ex:
+            logger.error('Some error message', ex, exc_info = True) # where the error is passed as the second argument. exc_info determines whether to output trace information.
+       ```
 
-2. **Table of Contents (TOC)**:
-   - At the beginning of each documentation file, add a section with a table of contents and links to functions and methods within the code.
-   - The table of contents structure should include links to all major sections of the module's documentation.
 
-3. **Documentation Formatting**:
-   - Use Markdown syntax for all headings, lists, and links.
-   - For documenting classes, functions, and methods, include structured sections with descriptions, parameter details, return values, and exceptions raised. Example:
+    _ If webdriver is used in the code, know how to use it
+      inherit Driver, Chrome, Firefox, Playwright
+      Then define it like this
+      # Creating a driver instance (example with Chrome)
+      driver = Driver(Chrome)
+      The Driver, Chrome, Firefox, Playwright modules already contain all Selenium settings.
+      The main command used in the code is: `driver.execute_locator(l:dict)`
+      It returns the value of the web element by locator.
+
+
+    -   All comments and docstrings must be in Russian in UTF-8 format. If the docstring in the code is in English, translate it to Russian.
+
+2.  **Table of Contents (TOC)**:
+    -   At the beginning of each documentation file, add a section with a table of contents and links to functions and methods within the code.
+    -   The TOC structure must include links to all main sections of the module's documentation.
+
+3.  **Documentation Formatting**:
+    -   Use Markdown syntax for all headers, lists, and links.
+    -   For documenting classes, functions, and methods, include structured sections with descriptions, parameter details, return values, and raised exceptions. Example:
 
     ## Classes
 
     ### `class_name`
     Description of the class's purpose
-        **Inherits** 
-            If the class inherits from another, provide a description of the inheritance.
+        **Inherits**:
+            If the class inherits from another - provide a description of the inheritance
 
          **Attributes**:
-            param1 (str): Description of the class's parameters (attributes)
+            param1 (str): Description of parameters (attributes) of the class
 
          **Methods**:
             function_1(): Description of the purpose of the class's functions/methods
@@ -130,36 +132,35 @@ The documentation must meet the following requirements:
      **Returns**:
      - `dict | None`: Description of the return value.
 
-     **Raises**:
-     - `SomeError`: Description of the situation in which the `SomeError` exception occurs.
+     **Raises Exceptions**:
+     - `SomeError`: Description of the situation where the `SomeError` exception is raised.
 
-     If there are internal functions inside the function, consider each of them separately.
-     **Internal functions**: If there are any
+     If there are inner functions within the function, discuss each of them separately.
+     **Inner Functions**: If any
 
-     
 
-     **How the function works**:
-     - Explain the function's purpose in detail. Make a detailed description of what actions and transformations occur in the function body.
+     **How the Function Works**:
+     - Explain the function's purpose in detail. Provide a detailed description of the transformation actions that occur within the function body.
 
 
      **Examples**:
-     - Create several examples of calling the function with different parameters that are passed to the function.
-     
-     
-4. **Section Headings**:
-   - Use first-level (`#`), second-level (`##`), third-level (`###`), and fourth-level (`####`) headings sequentially throughout the file.
+     - Create several examples of calling the function with different parameters passed to it.
 
-5. **Example File**:
+
+4.  **Section Headers**:
+    -   Use first-level (`#`), second-level (`##`), third-level (`###`), and fourth-level (`####`) headers consistently throughout the file.
+
+5.  **Example File**:
 
    # Module Name
 
    ## Overview
 
-   A brief description of the module's purpose.
+   Brief description of the module's purpose.
 
-   ## More details
+   ## Details
 
-   A more detailed description. Explain how and why this code is used in the project.
+   More detailed description. Explain how and why this code is used in the project.
    Analyze the code previously provided to you.
 
    ## Classes
@@ -171,11 +172,11 @@ The documentation must meet the following requirements:
    **Attributes**:
    **Parameters**:
 
-    **Working principle**:
-        Explain how the class works. If the class is complex, make a detailed code analysis.
+    **Principle of Operation**:
+        Explain the class's operation. If the class is complex, provide a detailed code breakdown.
 
-   Document EVERY function or method. Explain the purpose of each variable.
-   - All comments and docstrings must be in Russian in UTF-8 format. If the text in the original code is in English, translate it to Russian.
+   Create documentation for EACH function or method. Explain the purpose of each variable.
+   - All comments and docstrings must be in Russian in UTF-8 format. If the original code text is in English, translate it to Russian.
 
    **Methods**: # if there are methods
    - `method_name`: Brief description of the method.
@@ -184,7 +185,7 @@ The documentation must meet the following requirements:
    - `param` (str): Description of the `param` parameter.
    - `param1` (Optional[str | dict | str], optional): Description of the `param1` parameter. Defaults to `None`.
    **Examples**
-   - Examples of defining the class and working with the class.
+   - Examples of class definition and working with the class.
 
 
    ## Class Methods
@@ -193,7 +194,7 @@ The documentation must meet the following requirements:
 
    ```python
    def my_func(param1:str, param2:Optional[int] = 0) -> bool:
-       """ Function performs some action... <Here, You write what the function does> 
+       """ Function performs some action... <Here you write what the function specifically does>
        Args:
            param1 (str): Description of the `param1` parameter.
            param2 (Optional[int], optional): Description of the `param2` parameter. Defaults to 0.
@@ -201,36 +202,35 @@ The documentation must meet the following requirements:
            bool: Description of the return value. Returns `True` or `False`.
 
         Raises:
-             Execution Error
+             Execution error
 
         Example:
-            Examples of calls with the full range of parameters that can be passed to the function.
+            Examples of calls with the full spectrum of parameters that can be passed to the function.
 
        """
-       - Do not output the function code. Only documentation and examples of calling the function;
-       - All comments and docstrings must be in Russian in UTF-8 format
+       - Do not return the function code. Only the documentation and examples of function calls;
+       - All comments and docstrings must be in Russian in UTF-8 format.
    ```
 
 
 
-   ## Class Parameters
-   - `param` (str): More detailed Description of the `param` parameter.
-   - `param1` (Optional[str | dict | str], optional): More detailed Description of the `param1` parameter. Defaults to `None`.
+   ## Parameter Details
+   - `param` (str): More detailed description of the `param` parameter.
+   - `param1` (Optional[str | dict | str], optional): More detailed description of the `param1` parameter. Defaults to `None`.
 
- 
 
-   **Examples**: # All possible variations of examples of calling the function with different parameters
+
+   **Examples**: # All possible variations of function call examples with different parameters
 
    -------------------------------------------------------------------------------------
-   
 
 
-## Your behavior when analyzing the code:
-- inside the code, you may encounter an expression between `<` ``>``. For example: <instruction for the gemini model: Loading product descriptions into PrestaShop.>, <next, if any>. These are stubs where you insert the relevant value.
-- always look at the system instruction for processing the `hypotez` project code;
-- analyze the file's location in the project. This will help you understand its purpose and relationship to other files. You will find the file location in the very first line of code, starting with `## \file /...`;
-- memorize the provided code and analyze its connection with other parts of the project;
-- In this instruction, do not suggest code improvements. Strictly follow point 5. **Example file** when composing the answer.
+
+## Your Behavior During Code Analysis:
+- Inside the code, you might encounter expressions between `<` `>`. For example: `<instruction for gemini model:Loading product descriptions into PrestaShop.>, <next, if available>. These are placeholders where you insert the relevant value.
+- Always refer to the system instructions for processing code in the `hypotez` project (the first set of instructions you translated);
+- Analyze the file's location within the project. This helps understand its purpose and relationship with other files. You will find the file location in the very first line of code starting with `## \file /...`;
+- Memorize the provided code and analyze its connection with other parts of the project;
+- In these instructions, do not suggest code improvements. Strictly follow point 5. **Example File** when composing the response.
 
 # END OF INSTRUCTION
-```
