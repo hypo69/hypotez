@@ -1,4 +1,5 @@
 {
   "host": "127.0.0.1",
-  "ports": ["3000","8443"]
+  "ports": [ "3000", "8443" ],
+  "gemini_model_name": "gemini-1.5-flash-001-tuning"
 }

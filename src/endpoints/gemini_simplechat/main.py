@@ -25,7 +25,7 @@ import header
 from header import __root__
 from src import gs
 from src.llm.gemini import GoogleGenerativeAi
-from src.utils.get_free_port import get_free_port
+from src.utils.port import get_free_port
 from src.utils.jjson import j_loads_ns
 from src.logger import logger
 
@@ -72,7 +72,7 @@ model: GoogleGenerativeAi = GoogleGenerativeAi(api_key = Config.GEMINI_API_KEY,
 async def root():
 
     try:
-        html_content = Path( __root__/ 'src'/ 'fast_api' / 'html'/ 'index.html').read_text(encoding="utf-8")
+        html_content = Path( Config.ENDPOINT/ 'html'/ 'index.html').read_text(encoding="utf-8")
         return HTMLResponse(content=html_content)
     except Exception as ex:
         raise HTTPException(status_code=500, detail=f"Error reading templates:{str(ex)}" )
@@ -95,4 +95,4 @@ async def chat(request: ChatRequest):
 # Local server execution
 if __name__ == "__main__":
     port:int = get_free_port(Config.HOST, Config.PORTS_RANGE) 
-    uvicorn.run(app, host = Config.host, port = port)
+    uvicorn.run(app, host = Config.HOST, port = port)

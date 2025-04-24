@@ -1,5 +1,5 @@
 {
   "host": "127.0.0.1",
-  "ports_range": [ 7000, 7999 ],
-  "gemini_model_name" : "gemini-1.5-flash-001-tuning"
+  "ports_range": [ "7000 - 7999" ],
+  "gemini_model_name": "gemini-1.5-flash-001-tuning"
 }

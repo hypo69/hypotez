@@ -50,8 +50,8 @@ from src.utils.jjson import j_loads, j_loads_ns
 from src.llm.gemini import GoogleGenerativeAi
 from src.llm.openai import OpenAIModel
 from src.utils.path import get_relative_path
+from src.utils.printer import pprint as print
 from src.logger.logger import logger
-from src.endpoints.hypo69.code_assistant.make_summary import make_summary
 from src import USE_ENV
 
 # -------------------------- file config.py ----------------------------------
@@ -208,7 +208,7 @@ class CodeAssistant:
                     if response:
                         response: str = self._remove_outer_quotes(response)
                         if Config.role == 'trainer': # трениривка модели, Результат не сохараням
-                            print(response)
+                            print(response, text_color = 'yellow')
                         elif not await self._save_response(file_path, response, 'gemini'):
                                     logger.error(f'Файл {file_path} \n НЕ сохранился')
                                     ...

@@ -536,7 +536,7 @@ class GoogleGenerativeAi:
             try:
                 # Запуск синхронного метода generate_content в отдельном потоке
                 response = await self.model.generate_content_async(str(q))
-
+                logger.info(f'Модель {self.model.model_name} Обработала запрос',None, False)
                 # Проверка наличия текста в ответе
                 if hasattr(response, 'text') and response.text:
                     response_text = response.text

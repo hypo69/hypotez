@@ -119,10 +119,12 @@ def get_free_port(host: str, port_range: Optional[str | List[str]] = None) -> in
                     continue  # Skip to the next range in the list if any range fails parsing or no port
 
             logger.error(f'Error: No free port found in specified ranges {port_range}')
+            ...
             raise ValueError(f'No free port found in specified ranges {port_range}')
 
         else:
             logger.error(f'Error: Invalid port range type {type(port_range)}')
+            ...
             raise ValueError(f'Invalid port range type {type(port_range)}')
     else:
         # If no range given, find first available port
@@ -133,4 +135,5 @@ def get_free_port(host: str, port_range: Optional[str | List[str]] = None) -> in
             port += 1
             if port > 65535:
                 logger.error(f'Error: No free port found')
+                ...
                 raise ValueError('No free port found')
