@@ -1,0 +1,48 @@
+{
+  "runSettings": {
+    "temperature": 1.0,
+    "model": "models/gemini-2.0-flash-exp",
+    "candidateCount": 1,
+    "topP": 0.95,
+    "topK": 40,
+    "maxOutputTokens": 8192,
+    "safetySettings": [{
+      "category": "HARM_CATEGORY_HARASSMENT",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_HATE_SPEECH",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_CIVIC_INTEGRITY",
+      "threshold": "BLOCK_LOW_AND_ABOVE"
+    }],
+    "responseMimeType": "text/plain",
+    "enableCodeExecution": false,
+    "enableEnhancedCivicAnswers": true,
+    "enableSearchAsATool": false,
+    "enableBrowseAsATool": false
+  },
+  "systemInstruction": {
+  },
+  "chunkedPrompt": {
+    "chunks": [{
+      "text": "как через xpath получить значение двух локаторов\n[\"//div[@class\u003d\u0027rtl-988706\u0027]\", \"//div[@class\u003d\u0027alignright rtl-76rexf\u0027]\"]\n",
+      "role": "user",
+      "tokenCount": 42
+    }, {
+      "text": "Для получения значения из двух XPath локаторов `[\"//div[@class\u003d\u0027rtl-988706\u0027]\", \"//div[@class\u003d\u0027alignright rtl-76rexf\u0027]\"]` вам понадобится использовать библиотеку для работы с XML/HTML и XPath, например, `lxml` или `BeautifulSoup4` в Python.\n\nВот примеры, как это можно сделать с каждой из библиотек:\n\n**1. Используя lxml:**\n\n```python\nfrom lxml import html\n\nhtml_content \u003d \"\"\"\n\u003chtml\u003e\n    \u003cbody\u003e\n        \u003cdiv class\u003d\"rtl-988706\"\u003eЗначение 1\u003c/div\u003e\n        \u003cdiv class\u003d\"alignright rtl-76rexf\"\u003eЗначение 2\u003c/div\u003e\n        \u003cdiv class\u003d\"other-class\"\u003eДругой элемент\u003c/div\u003e\n    \u003c/body\u003e\n\u003c/html\u003e\n\"\"\"\n\ntree \u003d html.fromstring(html_content)\n\nxpath_list \u003d [\"//div[@class\u003d\u0027rtl-988706\u0027]\", \"//div[@class\u003d\u0027alignright rtl-76rexf\u0027]\"]\nvalues \u003d []\n\nfor xpath in xpath_list:\n    element \u003d tree.xpath(xpath)\n    if element:\n        values.append(element[0].text.strip())  # Получаем текст первого найденного элемента и обрезаем пробелы\n    else:\n        values.append(None) # Если элемент не найден, добавляем None\n\nprint(values)  # Вывод: [\u0027Значение 1\u0027, \u0027Значение 2\u0027]\n\n```\n\n**Пояснения:**\n\n1.  `html.fromstring(html_content)`: Преобразует строку HTML в дерево элементов lxml.\n2.  `tree.xpath(xpath)`:  Выполняет XPath запрос на дереве и возвращает список найденных элементов.\n3.  `element[0].text.strip()`: Получает текст первого найденного элемента (если он есть) и удаляет лишние пробелы в начале и конце.\n4.  Мы проходим по списку XPath и добавляем в результирующий список либо значение, либо `None` если локатор не найден.\n\n**2. Используя BeautifulSoup4:**\n\n```python\nfrom bs4 import BeautifulSoup\n\nhtml_content \u003d \"\"\"\n\u003chtml\u003e\n    \u003cbody\u003e\n        \u003cdiv class\u003d\"rtl-988706\"\u003eЗначение 1\u003c/div\u003e\n        \u003cdiv class\u003d\"alignright rtl-76rexf\"\u003eЗначение 2\u003c/div\u003e\n        \u003cdiv class\u003d\"other-class\"\u003eДругой элемент\u003c/div\u003e\n    \u003c/body\u003e\n\u003c/html\u003e\n\"\"\"\n\nsoup \u003d BeautifulSoup(html_content, \u0027html.parser\u0027)\n\nxpath_list \u003d [\"//div[@class\u003d\u0027rtl-988706\u0027]\", \"//div[@class\u003d\u0027alignright rtl-76rexf\u0027]\"]\nvalues \u003d []\n\nfor xpath in xpath_list:\n    element \u003d soup.select_one(xpath) # select_one вернет первый найденный элемент\n    if element:\n        values.append(element.text.strip()) # Получаем текст первого найденного элемента и обрезаем пробелы\n    else:\n        values.append(None) # Если элемент не найден, добавляем None\n\nprint(values) # Вывод: [\u0027Значение 1\u0027, \u0027Значение 2\u0027]\n\n```\n\n**Пояснения:**\n\n1.  `BeautifulSoup(html_content, \u0027html.parser\u0027)`: Создает объект BeautifulSoup для работы с HTML.\n2.  `soup.select_one(xpath)`: Ищет элемент по CSS-селектору (который соответствует XPath). `select_one` вернет только первое совпадение, в отличие от `select` который вернет список.\n3.  `element.text.strip()`: Получает текст элемента и удаляет пробелы.\n\n**Как установить библиотеки:**\n\nЕсли у вас их нет, установите их с помощью pip:\n\n```bash\npip install lxml beautifulsoup4\n```\n\n**Общие моменты:**\n\n*   **Обработка ошибок:** В примерах я добавил проверку `if element:`.  Это необходимо, чтобы программа не упала, если какой-то из XPath не найдет элемента.\n*   **Тип данных:** В зависимости от вашего конкретного случая, вам может потребоваться преобразовать полученный текст в другой тип данных (например, число).\n*   **Сложные XPath:**  Если у вас сложные XPath запросы, убедитесь, что они работают корректно и возвращают то, что вы ожидаете.\n*   **Динамический контент:** Если контент на странице динамический и создается JavaScript, вы можете столкнуться с трудностями при использовании этих библиотек. В таком случае, вам может потребоваться использовать  `Selenium` или `Playwright`.\n\n**Выбор между lxml и BeautifulSoup4:**\n\n*   `lxml` обычно быстрее и эффективнее для парсинга больших HTML/XML документов.\n*   `BeautifulSoup4` проще в использовании и часто более удобен для простых задач.\n\nВыберите ту библиотеку, которая лучше подходит для ваших конкретных требований.\n\nНадеюсь, это поможет вам!\n",
+      "role": "model",
+      "finishReason": "STOP"
+    }],
+    "pendingInputs": [{
+      "text": "",
+      "role": "user"
+    }]
+  }
+}

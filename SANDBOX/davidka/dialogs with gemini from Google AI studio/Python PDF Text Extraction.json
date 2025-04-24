@@ -1,0 +1,48 @@
+{
+  "runSettings": {
+    "temperature": 1.0,
+    "model": "models/gemini-2.0-flash-exp",
+    "candidateCount": 1,
+    "topP": 0.95,
+    "topK": 40,
+    "maxOutputTokens": 8192,
+    "safetySettings": [{
+      "category": "HARM_CATEGORY_HARASSMENT",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_HATE_SPEECH",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_CIVIC_INTEGRITY",
+      "threshold": "BLOCK_LOW_AND_ABOVE"
+    }],
+    "responseMimeType": "text/plain",
+    "enableCodeExecution": false,
+    "enableEnhancedCivicAnswers": true,
+    "enableSearchAsATool": false,
+    "enableBrowseAsATool": false
+  },
+  "systemInstruction": {
+  },
+  "chunkedPrompt": {
+    "chunks": [{
+      "text": "что делает from pdfminer.high_level import extract_text\n",
+      "role": "user",
+      "tokenCount": 15
+    }, {
+      "text": "`from pdfminer.high_level import extract_text` - это строка импорта в Python, которая импортирует функцию `extract_text` из модуля `high_level` пакета `pdfminer`.\n\nДавайте разберем это по частям:\n\n* **`pdfminer`**: Это Python-пакет (библиотека), предназначенный для извлечения текста из PDF-документов. Он предоставляет широкий набор инструментов для работы с PDF.\n* **`pdfminer.high_level`**: Это подмодуль внутри пакета `pdfminer`, который предоставляет более высокоуровневый и простой интерфейс для работы с PDF-файлами. Он скрывает многие детали низкоуровневой работы и позволяет пользователям сосредоточиться на задаче извлечения текста.\n* **`extract_text`**: Это конкретная функция, определенная в модуле `high_level`. Эта функция принимает путь к PDF-файлу в качестве аргумента и возвращает строку, содержащую весь текст, извлеченный из этого PDF-файла.\n\n**В итоге, эта строка кода делает следующее:**\n\nОна импортирует функцию `extract_text` из пакета `pdfminer`, делая ее доступной для использования в вашем Python-скрипте. После импорта вы сможете использовать эту функцию, передав ей путь к PDF-файлу, чтобы получить текст, содержащийся в этом файле.\n\n**Пример использования:**\n\n```python\nfrom pdfminer.high_level import extract_text\n\npdf_file_path \u003d \"example.pdf\"  # Замените на путь к вашему PDF-файлу\ntext \u003d extract_text(pdf_file_path)\nprint(text)\n```\n\nЭтот код:\n\n1.  Импортирует функцию `extract_text`.\n2.  Определяет переменную `pdf_file_path`, содержащую путь к PDF-файлу.\n3.  Вызывает функцию `extract_text` с путем к PDF-файлу в качестве аргумента.\n4.  Сохраняет извлеченный текст в переменную `text`.\n5.  Выводит извлеченный текст на экран.\n\n**Важно:** Для использования этого кода необходимо, чтобы пакет `pdfminer` был установлен. Вы можете установить его, используя pip:\n\n```bash\npip install pdfminer.six\n```\n\n**Резюме:**\n\nСтрока `from pdfminer.high_level import extract_text` импортирует функцию для простого извлечения текста из PDF-файлов, предоставляемую библиотекой `pdfminer`, делая её готовой к использованию в вашем коде. Эта функция позволяет вам быстро получить текст из PDF-документов, не углубляясь в сложные детали обработки PDF.\n",
+      "role": "model",
+      "finishReason": "STOP"
+    }],
+    "pendingInputs": [{
+      "text": "",
+      "role": "user"
+    }]
+  }
+}

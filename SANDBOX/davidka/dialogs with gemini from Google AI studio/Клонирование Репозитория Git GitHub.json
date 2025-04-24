@@ -1,0 +1,50 @@
+{
+  "runSettings": {
+    "temperature": 1.0,
+    "model": "models/gemini-2.5-pro-preview-03-25",
+    "topP": 0.95,
+    "topK": 64,
+    "maxOutputTokens": 65536,
+    "safetySettings": [{
+      "category": "HARM_CATEGORY_HARASSMENT",
+      "threshold": "OFF"
+    }, {
+      "category": "HARM_CATEGORY_HATE_SPEECH",
+      "threshold": "OFF"
+    }, {
+      "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+      "threshold": "OFF"
+    }, {
+      "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+      "threshold": "OFF"
+    }],
+    "responseMimeType": "text/plain",
+    "enableCodeExecution": false,
+    "enableSearchAsATool": false,
+    "enableBrowseAsATool": false,
+    "enableAutoFunctionResponse": false
+  },
+  "systemInstruction": {
+  },
+  "chunkedPrompt": {
+    "chunks": [{
+      "text": "Как клонировать git iz github?",
+      "role": "user",
+      "tokenCount": 9
+    }, {
+      "text": "Here\u0027s a thinking process for generating the explanation on cloning a Git repository from GitHub:\n\n1.  **Understand the User\u0027s Goal:** The user wants to know \"how to clone a git [repository] from github\". The Russian phrase \"Как клонировать git iz github?\" directly translates to this. They need a practical, step-by-step guide.\n\n2.  **Identify the Core Concept:** The core operation is `git clone`. This command is the heart of the answer.\n\n3.  **Determine Necessary Prerequisites:** What does someone need *before* they can clone?\n    *   Git must be installed on their local machine. This is fundamental.\n    *   They need the URL of the GitHub repository they want to clone.\n\n4.  **Structure the Explanation:** A step-by-step approach is best for instructions.\n    *   **Introduction:** Briefly state what cloning is and why it\u0027s done.\n    *   **Prerequisites:** List the necessary items (Git installation, Repo URL).\n    *   **Step 1: Get the Repository URL:** Explain *how* to find this on GitHub (the green \"Code\" button). Mention the different protocols (HTTPS, SSH, GitHub CLI) and recommend HTTPS for beginners. Briefly explain the difference and when SSH might be preferred (authentication).\n    *   **Step 2: Open a Terminal/Command Prompt:** Specify where the user needs to type the command (Terminal on macOS/Linux, Command Prompt or Git Bash on Windows).\n    *   **Step 3: Navigate to the Desired Directory:** Explain that the clone will happen *inside* the current directory in the terminal. Use the `cd` command as an example.\n    *   **Step 4: Execute the `git clone` Command:** Show the exact command syntax: `git clone \u003cURL\u003e`. Provide a clear example using an HTTPS URL.\n    *   **Step 5 (Optional but Recommended): Specify a Different Directory Name:** Explain the syntax `git clone \u003cURL\u003e \u003cnew_directory_name\u003e` and why someone might want to do this.\n    *   **Step 6: Verification:** Tell the user how to confirm the clone was successful (a new directory with the repo name, containing the files). Mention `ls` or `dir` commands.\n    *   **Summary/Key Points:** Briefly reiterate the main steps.\n    *   **Additional Tips/Considerations:**\n        *   HTTPS vs. SSH (reiterate the authentication aspect).\n        *   Cloning a specific branch (mention the `-b` flag).\n        *   Shallow clones (mention `--depth 1` for large repos).\n\n5.  **Refine the Language (Russian):** Translate the structured steps into clear, concise Russian.\n    *   Use appropriate terminology: \"репозиторий\" (repository), \"клонировать\" (to clone), \"командная строка\" (command line), \"терминал\" (terminal), \"URL-адрес\" (URL address).\n    *   Ensure commands are correctly formatted (`git clone`, `cd`, `ls`).\n    *   Use formatting (bolding, code blocks, bullet points) to improve readability.\n    *   Start with a direct answer and then elaborate.\n\n6.  **Self-Correction/Review:**\n    *   Is the explanation clear for a beginner? Yes, it starts simple.\n    *   Are all necessary steps included? Yes, from getting the URL to verifying the clone.\n    *   Is the command syntax correct? Yes.\n    *   Are common variations (SSH, different directory name, specific branch) mentioned? Yes, as additional tips.\n    *   Is the prerequisite of having Git installed mentioned prominently? Yes, it\u0027s the first prerequisite.\n    *   Is the explanation specific to GitHub, as requested? Yes, it focuses on getting the URL *from* GitHub.\n    *   Is the language natural and easy to understand in Russian? Seems okay, using standard terms.\n\nThis thought process breaks down the request into manageable parts, ensures all necessary information is included, structures it logically, and refines the language for clarity and accuracy.",
+      "role": "model",
+      "tokenCount": 887,
+      "isThought": true
+    }, {
+      "text": "Чтобы клонировать (скопировать) репозиторий Git с GitHub на ваш локальный компьютер, вам нужно выполнить несколько простых шагов:\n\n**Что вам понадобится:**\n\n1.  **Установленный Git:** Убедитесь, что Git установлен на вашем компьютере. Если нет, скачайте и установите его с [официального сайта Git](https://git-scm.com/downloads).\n2.  **URL репозитория на GitHub:** Это адрес репозитория, который вы хотите скопировать.\n\n**Шаги:**\n\n1.  **Найдите URL репозитория на GitHub:**\n    *   Перейдите на страницу нужного репозитория на `github.com`.\n    *   Нажмите на зеленую кнопку **\u003c\u003e Code**.\n    *   В выпадающем меню вы увидите несколько вкладок (HTTPS, SSH, GitHub CLI). Для начала проще всего использовать **HTTPS**. Скопируйте URL-адрес из поля под вкладкой HTTPS. Он будет выглядеть примерно так: `https://github.com/имя_пользователя/имя_репозитория.git`.\n    *   *(Альтернатива: Если вы настроили SSH-ключи для GitHub, вы можете использовать SSH URL. Он выглядит так: `git@github.com:имя_пользователя/имя_репозитория.git`)*\n\n2.  **Откройте терминал или командную строку:**\n    *   **Windows:** Откройте `Git Bash` (рекомендуется, устанавливается вместе с Git), `Command Prompt` (cmd) или `PowerShell`.\n    *   **macOS:** Откройте `Terminal` (Приложения -\u003e Утилиты -\u003e Терминал).\n    *   **Linux:** Откройте ваш любимый эмулятор терминала.\n\n3.  **Перейдите в папку, куда вы хотите сохранить репозиторий:**\n    *   Используйте команду `cd` (change directory), чтобы перейти в нужную директорию. Например:\n        ```bash\n        cd Documents/Projects\n        ```\n        *(Замените `Documents/Projects` на ваш путь)*\n\n4.  **Выполните команду `git clone`:**\n    *   Введите команду `git clone`, а затем вставьте скопированный ранее URL-адрес репозитория:\n        ```bash\n        git clone https://github.com/имя_пользователя/имя_репозитория.git\n        ```\n        *(Замените URL на реальный)*\n    *   Нажмите Enter.\n\n5.  **Дождитесь завершения:**\n    *   Git скачает все файлы репозитория и всю его историю в новую папку. По умолчанию папка будет названа так же, как и репозиторий на GitHub (в нашем примере `имя_репозитория`).\n    *   Если вы используете HTTPS и репозиторий приватный, вас могут попросить ввести имя пользователя и пароль (или Personal Access Token) от GitHub.\n\n**Пример:**\n\nДопустим, вы хотите клонировать репозиторий `https://github.com/octocat/Spoon-Knife.git` в папку `~/dev`:\n\n```bash\n# Переходим в папку dev в домашней директории\ncd ~/dev\n\n# Клонируем репозиторий\ngit clone https://github.com/octocat/Spoon-Knife.git\n\n# После выполнения команды появится папка ~/dev/Spoon-Knife\n# Можно перейти в нее\ncd Spoon-Knife\n```\n\n**Дополнительно:**\n\n*   **Клонирование в папку с другим именем:** Если вы хотите, чтобы локальная папка называлась иначе, чем репозиторий, укажите имя папки после URL:\n    ```bash\n    git clone https://github.com/имя_пользователя/имя_репозитория.git моя_папка_проекта\n    ```\n*   **Клонирование конкретной ветки:** По умолчанию клонируется основная ветка (обычно `main` или `master`). Чтобы сразу клонировать и переключиться на другую ветку:\n    ```bash\n    git clone -b имя_ветки https://github.com/имя_пользователя/имя_репозитория.git\n    ```\n\nТеперь у вас есть полная локальная копия репозитория с GitHub, и вы можете работать с ней.",
+      "role": "model",
+      "finishReason": "STOP",
+      "tokenCount": 972
+    }],
+    "pendingInputs": [{
+      "text": "",
+      "role": "user"
+    }]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "runSettings": {
+    "temperature": 1.0,
+    "model": "models/gemini-2.0-flash-exp",
+    "candidateCount": 1,
+    "topP": 0.95,
+    "topK": 40,
+    "maxOutputTokens": 8192,
+    "safetySettings": [{
+      "category": "HARM_CATEGORY_HARASSMENT",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_HATE_SPEECH",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_CIVIC_INTEGRITY",
+      "threshold": "BLOCK_LOW_AND_ABOVE"
+    }],
+    "responseMimeType": "text/plain",
+    "enableCodeExecution": false,
+    "enableEnhancedCivicAnswers": true,
+    "enableSearchAsATool": false
+  },
+  "citations": [{
+    "uri": "https://github.com/DavidkaBenAvraham/hypotez"
+  }],
+  "systemInstruction": {
+  },
+  "chunkedPrompt": {
+    "chunks": [{
+      "text": " \n    class EnumRedirect(Enum):\n        ERROR_404 \u003d \u0027404\u0027\n        REDIRECT_301_PRODUCT \u003d \u0027301-product\u0027\n        REDIRECT_302_PRODUCT \u003d \u0027302-product\u0027\n        REDIRECT_301_CATEGORY \u003d \u0027301-category\u0027\n        REDIRECT_302_CATEGORY \u003d \u0027302-category\u0027\n        \nname \u0027Enum\u0027 is not defined",
+      "role": "user",
+      "tokenCount": 101
+    }, {
+      "text": "You\u0027re encountering a `NameError` because you\u0027re trying to use `Enum` without importing it first. The `Enum` class is part of the `enum` module in Python\u0027s standard library.\n\nHere\u0027s the corrected code with the necessary import statement:\n\n```python\nfrom enum import Enum\n\nclass EnumRedirect(Enum):\n    ERROR_404 \u003d \u0027404\u0027\n    REDIRECT_301_PRODUCT \u003d \u0027301-product\u0027\n    REDIRECT_302_PRODUCT \u003d \u0027302-product\u0027\n    REDIRECT_301_CATEGORY \u003d \u0027301-category\u0027\n    REDIRECT_302_CATEGORY \u003d \u0027302-category\u0027\n```\n\n**Explanation:**\n\n1. **`from enum import Enum`**: This line imports the `Enum` class from the `enum` module.  Now, you can use `Enum` to create your enumeration.\n\n**How to use the Enum:**\n\n```python\nfrom enum import Enum\n\nclass EnumRedirect(Enum):\n    ERROR_404 \u003d \u0027404\u0027\n    REDIRECT_301_PRODUCT \u003d \u0027301-product\u0027\n    REDIRECT_302_PRODUCT \u003d \u0027302-product\u0027\n    REDIRECT_301_CATEGORY \u003d \u0027301-category\u0027\n    REDIRECT_302_CATEGORY \u003d \u0027302-category\u0027\n\n\n# Access enum members\nprint(EnumRedirect.ERROR_404)          # Output: EnumRedirect.ERROR_404\nprint(EnumRedirect.ERROR_404.value)    # Output: 404\n\n# Compare enum members\nif EnumRedirect.REDIRECT_301_PRODUCT \u003d\u003d EnumRedirect.REDIRECT_301_PRODUCT:\n  print(\"They are the same\")\n\n# Use as a dictionary key\nredirect_map \u003d {\n  EnumRedirect.REDIRECT_301_PRODUCT: \u0027/new-product-url\u0027,\n  EnumRedirect.REDIRECT_301_CATEGORY: \u0027/new-category-url\u0027\n}\nprint(redirect_map[EnumRedirect.REDIRECT_301_PRODUCT]) # Output: /new-product-url\n```\n\n**Key Points about Enums:**\n\n* **Readability and Maintainability:** Enums make your code more readable by giving meaningful names to values. They also make it easier to modify the code if those values change in the future.\n* **Type Safety:** Using enums can prevent typos and make your code more type-safe.  You won\u0027t accidentally assign a string to a variable where an enum member is expected.\n* **Iteration:** You can iterate over the members of an enum.\n* **Comparability:**  You can compare enum members using `\u003d\u003d` and `is`. \n* **Hashing:** Enum members are hashable, so you can use them as dictionary keys.\n\nBy importing `Enum` from the `enum` module, you can correctly define and use your `EnumRedirect` enumeration.\n",
+      "role": "model",
+      "finishReason": "STOP"
+    }],
+    "pendingInputs": [{
+      "text": "",
+      "role": "user"
+    }]
+  }
+}

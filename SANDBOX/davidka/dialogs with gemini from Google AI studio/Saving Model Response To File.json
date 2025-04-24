@@ -1,0 +1,48 @@
+{
+  "runSettings": {
+    "temperature": 1.0,
+    "model": "models/gemini-2.0-flash-exp",
+    "candidateCount": 1,
+    "topP": 0.95,
+    "topK": 40,
+    "maxOutputTokens": 8192,
+    "safetySettings": [{
+      "category": "HARM_CATEGORY_HARASSMENT",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_HATE_SPEECH",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+      "threshold": "BLOCK_NONE"
+    }, {
+      "category": "HARM_CATEGORY_CIVIC_INTEGRITY",
+      "threshold": "BLOCK_LOW_AND_ABOVE"
+    }],
+    "responseMimeType": "text/plain",
+    "enableCodeExecution": false,
+    "enableEnhancedCivicAnswers": true,
+    "enableSearchAsATool": false
+  },
+  "systemInstruction": {
+  },
+  "chunkedPrompt": {
+    "chunks": [{
+      "text": "    async def _save_response(self, file_path: Path, response: str, model_name: str) -\u003e None:\n        \"\"\"Сохранение ответа модели в файл с добавлением суффикса.\n\n        Метод сохраняет ответ модели в файл, добавляя к текущему расширению файла\n        дополнительный суффикс, определяемый ролью. \n        Args:\n            file_path (Path): Исходный путь к файлу, в который будет записан ответ.\n            response (str): Ответ модели, который необходимо сохранить.\n            model_name (str): Имя модели, использованной для генерации ответа.\n\n        Raises:\n            OSError: Если не удаётся создать директорию или записать в файл.\n        \"\"\"\n        try:\n            # Получаем директорию для вывода в зависимости от роли\n            output_directory \u003d getattr(self.config.output_directory, self.role)\n\n            # Формируем целевую директорию с учётом подстановки параметров \u003cmodel\u003e и \u003clang\u003e\n            target_dir \u003d (\n                f\u0027docs/{output_directory}\u0027\n                .replace(\u0027\u003cmodel\u003e\u0027, model_name)\n                .replace(\u0027\u003clang\u003e\u0027, self.lang)\n            )\n\n            # Заменяем часть пути на целевую директорию\n            file_path \u003d str(file_path).replace(\u0027src\u0027, target_dir)\n\n            # Определяем суффикс для добавления в зависимости от роли\n            suffix_map \u003d {\n                \u0027code_checker\u0027: \u0027.md\u0027,\n                \u0027doc_writer_md\u0027: \u0027.md\u0027,\n                \u0027doc_writer_rst\u0027: \u0027.rst\u0027,\n                \u0027doc_writer_html\u0027: \u0027.html\u0027,\n                \u0027code_explainer_md\u0027: \u0027.md\u0027,\n                \u0027code_explainer_html\u0027: \u0027.html\u0027,\n                \u0027pytest\u0027: \u0027.md\u0027,\n            }\n            suffix \u003d suffix_map.get(self.role, \u0027.md\u0027)  # По умолчанию используется .md\n            export_path \u003d Path(f\"{file_path}{suffix}\")\n            export_path.parent.mkdir(parents\u003dTrue, exist_ok\u003dTrue)\n            export_path.write_text(response, encoding\u003d\u0027utf-8\u0027)\n            return True\n\n        except Exception as ex:\n            logger.critical(f\u0027Ошибка сохранения файла: {export_path\u003d}\u0027, ex)\n            #sys.exit(0)\n            ...\n            return False\n\n\n\nЗадача. Если суффикс файла заканчвается на .md - то не добавлять к нему дополнительный md",
+      "role": "user",
+      "tokenCount": 573
+    }, {
+      "text": "```python\nfrom pathlib import Path\nimport logging\n\nlogger \u003d logging.getLogger(__name__)\n\nasync def _save_response(self, file_path: Path, response: str, model_name: str) -\u003e bool:\n    \"\"\"Сохранение ответа модели в файл с добавлением суффикса.\n\n    Метод сохраняет ответ модели в файл, добавляя к текущему расширению файла\n    дополнительный суффикс, определяемый ролью. \n    Args:\n        file_path (Path): Исходный путь к файлу, в который будет записан ответ.\n        response (str): Ответ модели, который необходимо сохранить.\n        model_name (str): Имя модели, использованной для генерации ответа.\n\n    Raises:\n        OSError: Если не удаётся создать директорию или записать в файл.\n    \"\"\"\n    try:\n        # Получаем директорию для вывода в зависимости от роли\n        output_directory \u003d getattr(self.config.output_directory, self.role)\n\n        # Формируем целевую директорию с учётом подстановки параметров \u003cmodel\u003e и \u003clang\u003e\n        target_dir \u003d (\n            f\u0027docs/{output_directory}\u0027\n            .replace(\u0027\u003cmodel\u003e\u0027, model_name)\n            .replace(\u0027\u003clang\u003e\u0027, self.lang)\n        )\n\n        # Заменяем часть пути на целевую директорию\n        file_path \u003d str(file_path).replace(\u0027src\u0027, target_dir)\n\n        # Определяем суффикс для добавления в зависимости от роли\n        suffix_map \u003d {\n            \u0027code_checker\u0027: \u0027.md\u0027,\n            \u0027doc_writer_md\u0027: \u0027.md\u0027,\n            \u0027doc_writer_rst\u0027: \u0027.rst\u0027,\n            \u0027doc_writer_html\u0027: \u0027.html\u0027,\n            \u0027code_explainer_md\u0027: \u0027.md\u0027,\n            \u0027code_explainer_html\u0027: \u0027.html\u0027,\n            \u0027pytest\u0027: \u0027.md\u0027,\n        }\n        suffix \u003d suffix_map.get(self.role, \u0027.md\u0027)  # По умолчанию используется .md\n        \n        export_path \u003d Path(file_path)\n        if export_path.suffix \u003d\u003d \u0027.md\u0027 and suffix \u003d\u003d \u0027.md\u0027:\n          export_path \u003d Path(f\"{file_path}\")\n        else:\n            export_path \u003d Path(f\"{file_path}{suffix}\")\n\n        export_path.parent.mkdir(parents\u003dTrue, exist_ok\u003dTrue)\n        export_path.write_text(response, encoding\u003d\u0027utf-8\u0027)\n        return True\n\n    except Exception as ex:\n        logger.critical(f\u0027Ошибка сохранения файла: {export_path\u003d}\u0027, exc_info\u003dex)\n        #sys.exit(0)\n        return False\n```\n\n**Основные изменения:**\n\n1. **Проверка на `.md`:**\n   - Перед тем, как добавить суффикс, мы проверяем:\n     - Если исходный файл `file_path` уже заканчивается на `.md`.\n     - И если новый суффикс `suffix` также равен `.md`.\n   - Если оба условия выполняются, мы не добавляем новый суффикс, сохраняя исходное расширение.\n2. **Использование `Path` для работы с путями:**\n   - Для более безопасной и удобной работы с путями используем класс `Path` для `file_path`.\n   - `export_path` теперь тоже `Path`, что позволяет легко получить расширение через `.suffix`.\n3. **Логирование ошибки:**\n   - Вместо `ex` выводим `exc_info\u003dex` для получения более полной информации об ошибке.\n\n**Пример работы:**\n\n- Если `file_path` - `src/some/file.md` и `suffix` - `.md`, то `export_path` будет `docs/.../some/file.md` (без двойного `.md`).\n- Если `file_path` - `src/some/file.txt` и `suffix` - `.md`, то `export_path` будет `docs/.../some/file.txt.md`.\n- Если `file_path` - `src/some/file.txt` и `suffix` - `.html`, то `export_path` будет `docs/.../some/file.txt.html`.\n\n**Преимущества:**\n\n* **Устраняет дублирование .md:** Избегает создания файлов с расширением вида `.md.md`.\n* **Безопасность работы с путями:** Использование `Path` делает код более переносимым и менее подверженным ошибкам.\n* **Улучшенное логирование:** Лог ошибки содержит полную трассировку, что облегчает отладку.\n* **Читаемость и ясность:** Код стал более простым для понимания и сопровождения.\n",
+      "role": "model",
+      "finishReason": "STOP",
+      "tokenCount": 1071
+    }],
+    "pendingInputs": [{
+      "text": "",
+      "role": "user"
+    }]
+  }
+}
