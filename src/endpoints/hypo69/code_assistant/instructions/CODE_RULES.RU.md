@@ -109,9 +109,8 @@ if not process_directory.is_dir():
 - Добавляй пробелы вокруг операторов. Например, `x = 5`;
 - Все параметры должны быть аннотированы типами. `def function(param: str, param1: Optional[str | dict | str] = None) -> dict | None:`;
 - Не используй `Union`. Вместо этого используй `|`.
-- Не используй термин `Product`, только `товар`
 
-#### **5. Логирование**:
+#### **5. Логирование**:**
 - Для логгирования Всегда Используй модуль `logger` из `src.logger.logger`.
 - Ошибки должны логироваться с использованием `logger.error`.
 Пример:
@@ -121,13 +120,13 @@ if not process_directory.is_dir():
         except Exception as ex:
             logger.error('Error while processing data', ех, exc_info=True)
     ```
-#### **6. Не используй `Union[]` в коде. Вместо него используй `|`
+#### **6. Не используй `Union[]` в коде. Вместо него используй `|`**
 Например:
 ```python
 x: str | int ...
 ```
 
-#### **7. Не используй глобальные переменные. Если есть надобность - то поределяй их в классе `Config`.
+#### **7. Не используй глобальные переменные. Если есть надобность - то поределяй их в классе `Config`.**
 Пример:
 
 - Неправильно:
@@ -150,7 +149,7 @@ def func():
 
 ```
 
-#### **9. Всегда объявляй переменные вначале функции. Не объявляй их в середине функции.
+#### **9. Всегда объявляй переменные вначале функции. Не объявляй их в середине функции.**
 Пример:
 ```python
 def func():
@@ -173,7 +172,58 @@ def func():
 ```
 ---
 
-### **Основные требования**:
+#### **10 понятие `__root__`**
+- `__root__` путь к корневой директории проекта.
+он определяется в файле `header.py`, который находится в каждой директории проекта.
+Вот код для `header.py`:
+```python
+
+from pathlib import Path
+def set_project_root(marker_files=('__root__','.git')) -> Path:
+    """ Finds the root directory of the project starting from the current file's directory,
+    searching upwards and stopping at the first directory containing any of the marker files.
+
+    Args:
+        marker_files (tuple): Filenames or directory names to identify the project root.
+    
+    Returns:
+        Path: Path to the root directory if found, otherwise the directory where the script is located.
+    """
+    __root__:Path
+    current_path:Path = Path(__file__).resolve().parent
+    __root__ = current_path
+    for parent in [current_path] + list(current_path.parents):
+        if any((parent / marker).exists() for marker in marker_files):
+            __root__ = parent
+            break
+    if __root__ not in sys.path:
+        sys.path.insert(0, str(__root__))
+    return __root__
+
+
+# Get the root directory of the project
+__root__: Path = set_project_root()
+"""__root__ (Path): Path to the root directory of the project"""
+
+```.
+Всегда используй __root__ в импортах
+```python
+import header
+from header import __root__
+```
+
+### **11. Обработка ошибок**
+- Всегда обрабатывай ошибки с помощью `try-except` блоков.
+- Перемнная, которая принимает ошибку, должна называться `ex`.
+Пример:
+```python
+except Exception as ex:
+    logger.error('Error while processing data', ex, exc_info=True)
+```
+параметы `logger(<сообщения>,<ошибка>,<exc_info>)`
+
+
+### **Основные требования к ответу**:
 
 #### **1. Формат ответов в Markdown**:
 - Все ответы должны быть выполнены в формате **Markdown**.
