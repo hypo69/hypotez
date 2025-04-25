@@ -1,85 +1,140 @@
-### Как использовать этот блок кода
+## Как использовать класс UserDAO
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода содержит Data Access Objects (DAO) для работы с базой данных, используя SQLAlchemy. Он включает классы для выполнения операций CRUD (создание, чтение, обновление, удаление) с таблицами `User`, `Purchase`, `Category` и `Product`. Также содержит методы для получения статистики, связанной с пользователями и покупками.
+Класс `UserDAO` предоставляет методы для работы с данными о пользователях в базе данных. В нем реализованы операции для получения информации о пользователях, их покупках, а также общей статистики.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация DAO**:
-   - Создаются классы DAO (`UserDAO`, `PurchaseDao`, `CategoryDao`, `ProductDao`), каждый из которых связан с соответствующей моделью SQLAlchemy.
-
-2. **Получение статистики пользователя (`UserDAO.get_purchase_statistics`)**:
-   - Метод выполняет запрос к базе данных для получения общего числа покупок и общей суммы, потраченной пользователем.
-   - Использует `func.count` и `func.sum` для агрегации данных.
-   - Обрабатывает возможные ошибки при работе с базой данных, логируя их.
-
-3. **Получение списка покупок пользователя (`UserDAO.get_purchased_products`)**:
-   - Метод извлекает пользователя по `telegram_id` и все его покупки с информацией о продуктах.
-   - Использует `selectinload` для оптимизации запроса и избежания "N+1" проблемы.
-
-4. **Получение общей статистики (`UserDAO.get_statistics`)**:
-   - Метод получает общую статистику по пользователям, включая общее количество, новых пользователей за сегодня, за неделю и за месяц.
-   - Использует `func.count` и `func.sum` с условными выражениями (`case`) для подсчета новых пользователей.
-   - Логирует полученную статистику.
-
-5. **Получение статистики платежей (`PurchaseDao.get_payment_stats`)**:
-   - Метод извлекает статистику по типам платежей и общей сумме для каждого типа.
-   - Использует `func.sum` и `group_by` для агрегации данных по типам платежей.
-   - Форматирует результат в виде строки.
-
-6. **Получение общей суммы покупок (`PurchaseDao.get_full_summ`)**:
-   - Метод извлекает общую сумму всех покупок.
-   - Использует `func.sum` для агрегации данных.
-
-7. **Получение следующего свободного ID (`PurchaseDao.get_next_id`)**:
-   - Метод определяет следующий доступный ID для новой записи в таблице `Purchase`.
-   - Использует `func.coalesce` и `func.max` для определения максимального существующего ID и возвращает следующий.
+1. **Инициализация сессии**: Создайте асинхронную сессию базы данных `session` с помощью `AsyncSession`.
+2. **Использование методов**: Вызывайте необходимые методы класса для получения данных:
+   - `get_purchase_statistics(session: AsyncSession, telegram_id: int)`: Возвращает словарь со статистикой покупок пользователя (общее количество покупок и общая сумма).
+   - `get_purchased_products(session: AsyncSession, telegram_id: int)`: Возвращает список покупок пользователя с информацией о приобретенных товарах.
+   - `get_statistics(session: AsyncSession)`: Возвращает словарь с общей статистикой пользователей (количество всех пользователей, новых пользователей за день, неделю и месяц).
 
 Пример использования
 -------------------------
 
 ```python
-from sqlalchemy.ext.asyncio import create_async_engine
-from sqlalchemy.orm import sessionmaker
-import asyncio
+from bot.dao.models import User
+from bot.dao.dao import UserDAO
+from sqlalchemy.ext.asyncio import AsyncSession  # импорт из sqlalchemy
 
-#  Строка подключения к базе данных
-DATABASE_URL = "postgresql+asyncpg://user:password@host:port/database"
-
-#  Создание асинхронного движка
-engine = create_async_engine(DATABASE_URL, echo=True)
-
-#  Создание фабрики сессий
-async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
 async def main():
-    async with async_session() as session:
-        #  Пример использования UserDAO.get_purchase_statistics
-        user_stats = await UserDAO.get_purchase_statistics(session, telegram_id=12345)
-        print(f"Статистика покупок пользователя: {user_stats}")
+    async with AsyncSession() as session:  # создание асинхронной сессии
+        # Получение статистики покупок пользователя
+        purchase_stats = await UserDAO.get_purchase_statistics(session, telegram_id=12345)
 
-        #  Пример использования UserDAO.get_purchased_products
+        # Получение списка покупок пользователя
         user_purchases = await UserDAO.get_purchased_products(session, telegram_id=12345)
-        if user_purchases:
-            print(f"Покупки пользователя: {[purchase.id for purchase in user_purchases]}")
 
-        #  Пример использования UserDAO.get_statistics
-        total_stats = await UserDAO.get_statistics(session)
-        print(f"Общая статистика: {total_stats}")
+        # Получение общей статистики пользователей
+        user_stats = await UserDAO.get_statistics(session)
 
-        #  Пример использования PurchaseDao.get_payment_stats
-        payment_stats = await PurchaseDao.get_payment_stats(session)
-        print(f"Статистика платежей:\n{payment_stats}")
+        print(f"Статистика покупок: {purchase_stats}")
+        print(f"Список покупок: {user_purchases}")
+        print(f"Общая статистика: {user_stats}")
 
-        #  Пример использования PurchaseDao.get_full_summ
-        full_summ = await PurchaseDao.get_full_summ(session)
-        print(f"Общая сумма покупок: {full_summ}")
-
-        #  Пример использования PurchaseDao.get_next_id
-        next_id = await PurchaseDao.get_next_id(session)
-        print(f"Следующий ID для покупки: {next_id}")
 
 if __name__ == "__main__":
+    import asyncio
     asyncio.run(main())
+```
+
+## Как использовать класс PurchaseDao
+=========================================================================================
+
+Описание
+-------------------------
+Класс `PurchaseDao` предоставляет методы для работы с данными о покупках в базе данных. В нем реализованы операции для получения информации о покупках, общей суммы покупок и статистики по типам платежей.
+
+Шаги выполнения
+-------------------------
+1. **Инициализация сессии**: Создайте асинхронную сессию базы данных `session` с помощью `AsyncSession`.
+2. **Использование методов**: Вызывайте необходимые методы класса для получения данных:
+   - `get_payment_stats(session: AsyncSession)`: Возвращает отформатированную строку с информацией о сумме платежей по различным типам (Юкасса, Робокасса, STARS).
+   - `get_full_summ(session: AsyncSession)`: Возвращает общую сумму всех покупок.
+   - `get_next_id(session: AsyncSession)`: Возвращает следующий свободный ID для новой записи.
+
+Пример использования
+-------------------------
+
+```python
+from bot.dao.models import Purchase
+from bot.dao.dao import PurchaseDao
+from sqlalchemy.ext.asyncio import AsyncSession  # импорт из sqlalchemy
+
+
+async def main():
+    async with AsyncSession() as session:  # создание асинхронной сессии
+        # Получение статистики по типам платежей
+        payment_stats = await PurchaseDao.get_payment_stats(session)
+
+        # Получение общей суммы покупок
+        full_summ = await PurchaseDao.get_full_summ(session)
+
+        # Получение следующего свободного ID для новой записи
+        next_id = await PurchaseDao.get_next_id(session)
+
+        print(f"Статистика по типам платежей: {payment_stats}")
+        print(f"Общая сумма покупок: {full_summ}")
+        print(f"Следующий свободный ID: {next_id}")
+
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
+```
+
+## Как использовать классы CategoryDao и ProductDao
+=========================================================================================
+
+Описание
+-------------------------
+Классы `CategoryDao` и `ProductDao`  предоставляют методы для работы с данными о категориях и товарах в базе данных. Они реализуют базовые операции CRUD для соответствующих моделей.
+
+Шаги выполнения
+-------------------------
+1. **Инициализация сессии**: Создайте асинхронную сессию базы данных `session` с помощью `AsyncSession`.
+2. **Использование методов**: Вызывайте необходимые методы для работы с данными:
+    - `get_all(session: AsyncSession)`: Возвращает список всех записей для соответствующей модели.
+    - `get_by_id(session: AsyncSession, id: int)`: Возвращает запись по её ID.
+    - `create(session: AsyncSession, **kwargs)`: Создает новую запись.
+    - `update(session: AsyncSession, id: int, **kwargs)`: Обновляет запись по ID.
+    - `delete(session: AsyncSession, id: int)`: Удаляет запись по ID.
+
+Пример использования
+-------------------------
+
+```python
+from bot.dao.models import Category, Product
+from bot.dao.dao import CategoryDao, ProductDao
+from sqlalchemy.ext.asyncio import AsyncSession  # импорт из sqlalchemy
+
+
+async def main():
+    async with AsyncSession() as session:  # создание асинхронной сессии
+        # Получение списка всех категорий
+        categories = await CategoryDao.get_all(session)
+
+        # Получение категории по ID
+        category = await CategoryDao.get_by_id(session, id=1)
+
+        # Создание новой категории
+        new_category = await CategoryDao.create(session, name="Новая категория")
+
+        # Обновление категории
+        updated_category = await CategoryDao.update(session, id=1, name="Обновленная категория")
+
+        # Удаление категории
+        await CategoryDao.delete(session, id=1)
+
+
+        # ... аналогично для работы с товарами (ProductDao) ...
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
+```

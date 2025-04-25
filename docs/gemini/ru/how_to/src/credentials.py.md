@@ -1,57 +1,34 @@
-### Как использовать блок кода `ProgramSettings`
+## Как использовать модуль `credentials`
 =========================================================================================
 
 Описание
 -------------------------
-Блок кода реализует класс `ProgramSettings`, который предназначен для хранения и управления глобальными настройками проекта, такими как пути к директориям, учетные данные для различных сервисов (например, AliExpress, OpenAI, Telegram) и другие параметры конфигурации. Этот класс использует паттерн Singleton, чтобы гарантировать, что в приложении существует только один экземпляр настроек.
+Модуль `credentials` предназначен для хранения глобальных настроек проекта, таких как пути, пароли, логины и параметры API. 
+Он использует паттерн Singleton для обеспечения единственного экземпляра настроек в течение всего времени работы приложения.
 
 Шаги выполнения
 -------------------------
-1. **Определение класса `ProgramSettings`**: 
-   - Определяется класс `ProgramSettings` с использованием декоратора `@dataclass` для автоматической генерации методов, таких как `__init__`, `__repr__` и т.д.
-   - Декоратор `@singleton` гарантирует, что класс будет создан только один раз (Singleton).
-
-2. **Инициализация атрибутов класса**:
-   - Внутри класса определяются различные атрибуты, такие как `host_name`, `base_dir`, `config`, `credentials` и `path`.
-   - Атрибут `credentials` содержит вложенные `SimpleNamespace` для хранения учетных данных различных сервисов.
-   - Атрибут `path` содержит пути к различным директориям проекта, таким как `root`, `bin`, `src`, `log`, `tmp` и т.д.
-
-3. **Метод `__post_init__`**:
-   - Выполняется после создания экземпляра класса.
-   - Функция загружает конфигурацию из файла `config.json` с использованием функции `j_loads_ns`.
-   - Функция устанавливает значения атрибутов `host`, `git`, `git_user` и `current_release` из конфигурационного файла.
-   - Функция определяет пути к различным директориям, таким как `bin`, `src`, `secrets`, `toolbox`, `log`, `tmp`, `data`, `google_drive` и `external_storage`.
-   - Функция добавляет пути к директориям `gtk_bin_dir`, `ffmpeg_bin_dir`, `graphviz_bin_dir` и `wkhtmltopdf_bin_dir` в системный путь.
-   - Функция загружает учетные данные из KeePass с помощью метода `_load_credentials`.
-
-4. **Метод `_load_credentials`**:
-   - Функция открывает базу данных KeePass с использованием метода `_open_kp`.
-   - Функция загружает учетные данные для различных сервисов, таких как AliExpress, OpenAI, Telegram и т.д., с помощью соответствующих методов (`_load_aliexpress_credentials`, `_load_openai_credentials` и т.д.).
-
-5. **Методы загрузки учетных данных для различных сервисов**:
-   - Методы `_load_aliexpress_credentials`, `_load_openai_credentials`, `_load_telegram_credentials` и т.д. загружают учетные данные для соответствующих сервисов из базы данных KeePass.
-   - Функция извлекает учетные данные из групп и записей в базе данных KeePass и устанавливает их в соответствующие атрибуты класса `ProgramSettings`.
-
-6. **Метод `now`**:
-   - Функция возвращает текущую метку времени в формате `год_месяц_день_часы_минуты_секунды_миллисекунды`.
-
-7. **Создание глобального экземпляра класса `ProgramSettings`**:
-   - Создается глобальный экземпляр класса `ProgramSettings` с именем `gs`.
+1. **Инициализация**: При первом обращении к модулю создаётся экземпляр класса `ProgramSettings`, который хранит все настройки.
+2. **Загрузка настроек**:  При инициализации `ProgramSettings` происходит загрузка конфигурации из файла `src/config.json`.
+3. **Загрузка учетных данных**: Из файла `src/secrets/credentials.kdbx` загружаются учетные данные, такие как ключи API, пароли, логины и т.д., с помощью KeePass.
+4. **Доступ к настройкам**: После загрузки, все настройки доступны через экземпляр `ProgramSettings` (глобальная переменная `gs`).
 
 Пример использования
 -------------------------
 
 ```python
-from src.credentials import ProgramSettings
-
-# Получение экземпляра настроек
-settings = ProgramSettings()
+from src.credentials import gs
 
 # Доступ к настройкам
-print(f"Project name: {settings.config.project_name}")
-print(f"Aliexpress API key: {settings.credentials.aliexpress.api_key}")
-print(f"Log directory: {settings.path.log}")
+print(gs.base_dir)  # Путь к корневой директории проекта
+print(gs.credentials.aliexpress.api_key)  # Алиэкспресс API ключ
+print(gs.credentials.openai.owner.api_key) # OpenAI API ключ
 
-# Использование текущей метки времени
-print(f"Current timestamp: {settings.now}")
+# Доступ к параметрам конфигурации
+print(gs.config.timestamp_format)  # Формат даты и времени
+print(gs.config.project_name)  # Имя проекта
 ```
+
+### Дополнительные сведения
+- Для получения более подробной информации о работе с `ProgramSettings` и настройками проекта, ознакомьтесь с документацией по KeePass: [https://github.com/hypo69/hypotez/blob/master/src/keepass.md](https://github.com/hypo69/hypotez/blob/master/src/keepass.md).
+- Для детального описания класса `ProgramSettings`  обратитесь к документации: [https://github.com/hypo69/hypotez/blob/master/src/credentials.md#programsettings](https://github.com/hypo69/hypotez/blob/master/src/credentials.md#programsettings).

@@ -1,398 +1,367 @@
-## \file /src/keepass_documentation.md
-# -*- coding: utf-8 -*-
-#! .pyenv/bin/python3
-
-"""
-Документация по модулю KeePass для проекта hypotez
-=================================================
-
-Данный документ описывает функциональность и принципы работы подсистемы управления
-учетными данными проекта `hypotez`, использующей базу данных KeePass (`credentials.kdbx`)
-и библиотеку `pykeepass`. Основная задача подсистемы - безопасное хранение и загрузка
-API ключей, логинов, паролей и других конфиденциальных данных, необходимых для работы
-различных компонентов проекта.
-
-Зависимости:
-    - pykeepass (pip install pykeepass)
-
- .. module:: src.keepass
-"""
-
-# ИНСТРУКЦИЯ
-
-# СОДЕРЖАНИЕ
-
-- [Обзор](#обзор)
-- [Подробней: Процесс работы с базой данных KeePass](#подробней-процесс-работы-с-базой-данных-keepass)
-    - [Открытие базы данных](#открытие-базы-данных)
-    - [Загрузка учетных данных](#загрузка-учетных-данных)
-- [Загрузка учетных данных по категориям](#загрузка-учетных-данных-по-категориям)
-    - [Aliexpress](#aliexpress)
-    - [OpenAI](#openai)
-    - [Gemini](#gemini)
-    - [Telegram](#telegram)
-    - [Discord](#discord)
-    - [PrestaShop](#prestashop)
-        - [Клиенты](#клиенты)
-        - [Переводы](#переводы)
-    - [SMTP](#smtp)
-    - [Facebook](#facebook)
-    - [Google API](#google-api)
-
----
-
-# Документация по модулю KeePass
-
+# Модуль `keepass`
 ## Обзор
+Модуль предоставляет функциональность для доступа к учетным данным, хранящимся в файле базы данных KeePass (`credentials.kdbx`).
 
-Модуль `keepass` в проекте `hypotez` предназначен для централизованного и безопасного
-хранения и извлечения конфиденциальных учетных данных, таких как API ключи, логины,
-пароли и настройки доступа к различным сервисам. Для этих целей используется
-зашифрованная база данных KeePass (`credentials.kdbx`) и библиотека `pykeepass`
-для программного доступа к ней.
+## Подробнее
+Модуль использует библиотеку `pykeepass` для взаимодействия с базой данных KeePass. 
+Он  предоставляет следующие возможности:
 
-Вся логика работы с базой данных KeePass инкапсулирована в классе
-`ProgramSettings`. Этот класс реализован как синглтон, обеспечивая
-единственную точку доступа к настроикам и учетным данным в рамках всего приложения.
+*  **Чтение учетных данных из KeePass:** модуль позволяет извлекать учетные данные из KeePass, такие как API ключи, пароли, логины, используя кастомные свойства записей.
+*  **Хранение учетных данных:**  данные, извлеченные из KeePass, сохраняются в объекте `ProgramSettings`, который является синглтоном, что обеспечивает единый доступ к учетным данным из разных частей приложения.
+*  **Использование SimpleNamespace:** для удобного доступа к данным в объекте `ProgramSettings` используются объекты `SimpleNamespace`. Это позволяет обращаться к данным как к атрибутам объекта.
 
-Учетные данные внутри базы данных KeePass организованы иерархически с помощью
-папок и записей. Для хранения специфических данных, не предусмотренных стандартными
-полями записей KeePass, активно используются **кастомные свойства** записей.
+## Классы
+### `ProgramSettings`
+**Описание**: Класс для хранения настроек приложения и учетных данных, извлеченных из KeePass.
+**Наследует**: 
+    - `SimpleNamespace`
+**Атрибуты**:
+    - `credentials`:  Объект `SimpleNamespace`, содержащий учетные данные для различных сервисов:
+    - `credentials.aliexpress`: Объект `SimpleNamespace` для хранения учетных данных Aliexpress.
+    - `credentials.aliexpress.api_key`: API ключ Aliexpress.
+    - `credentials.aliexpress.secret`: Secret ключ Aliexpress.
+    - `credentials.aliexpress.tracking_id`: Tracking ID Aliexpress.
+    - `credentials.aliexpress.email`: Email адрес Aliexpress.
+    - `credentials.aliexpress.password`: Пароль для Aliexpress.
+    - `credentials.openai`: Объект `SimpleNamespace` для хранения учетных данных OpenAI.
+    - `credentials.openai.api_key`: API ключ OpenAI.
+    - `credentials.openai.project_api`: API ключ проекта OpenAI.
+    - `credentials.openai.assistant_id`: ID ассистента OpenAI.
+    - `credentials.gemini`: Объект `SimpleNamespace` для хранения учетных данных Gemini.
+    - `credentials.gemini.api_key`: API ключ Gemini.
+    - `credentials.telegram`: Объект `SimpleNamespace` для хранения учетных данных Telegram.
+    - `credentials.telegram.token`: Токен Telegram.
+    - `credentials.discord`: Объект `SimpleNamespace` для хранения учетных данных Discord.
+    - `credentials.discord.application_id`: ID приложения Discord.
+    - `credentials.discord.public_key`: Public key Discord.
+    - `credentials.discord.bot_token`: Bot token Discord.
+    - `credentials.presta`: Объект `SimpleNamespace` для хранения учетных данных PrestaShop.
+    - `credentials.presta.client`: Список объектов `SimpleNamespace`, содержащих учетные данные для каждого клиента PrestaShop.
+    - `credentials.presta.client.api_key`: API ключ PrestaShop.
+    - `credentials.presta.client.api_domain`: Домен API PrestaShop.
+    - `credentials.presta.client.db_server`: Сервер базы данных PrestaShop.
+    - `credentials.presta.client.db_user`: Пользователь базы данных PrestaShop.
+    - `credentials.presta.client.db_password`: Пароль для базы данных PrestaShop.
+    - `credentials.presta.translations`: Объект `SimpleNamespace` для хранения учетных данных для работы с переводом в PrestaShop.
+    - `credentials.presta.translations.server`: Сервер базы данных для перевода.
+    - `credentials.presta.translations.port`: Порт базы данных для перевода.
+    - `credentials.presta.translations.database`: Название базы данных для перевода.
+    - `credentials.presta.translations.user`: Пользователь базы данных для перевода.
+    - `credentials.presta.translations.password`: Пароль для базы данных для перевода.
+    - `credentials.smtp`: Список объектов `SimpleNamespace`, содержащих учетные данные для каждого SMTP-сервера.
+    - `credentials.smtp.server`: SMTP-сервер.
+    - `credentials.smtp.port`: Порт SMTP-сервера.
+    - `credentials.smtp.user`: Пользователь SMTP-сервера.
+    - `credentials.smtp.password`: Пароль SMTP-сервера.
+    - `credentials.facebook`: Список объектов `SimpleNamespace`, содержащих учетные данные для Facebook.
+    - `credentials.facebook.app_id`: ID приложения Facebook.
+    - `credentials.facebook.app_secret`: Secret ключ приложения Facebook.
+    - `credentials.facebook.access_token`: Access token Facebook.
+    - `credentials.gapi`: Объект `SimpleNamespace` для хранения учетных данных для Google API.
+    - `credentials.gapi.api_key`: API ключ Google API.
+    - `credentials.vk`: Объект `SimpleNamespace` для хранения учетных данных VK API.
+    - `credentials.vk.api_key`: API ключ VK API.
+    - `credentials.vk.client_secret`: Secret ключ VK API.
+    - `credentials.vk.access_token`: Access token VK API.
+    - `credentials.vk.group_id`: ID группы VK.
+    - `credentials.vk.user_id`: ID пользователя VK.
 
-Извлеченные учетные данные хранятся в объектах `SimpleNamespace`, что позволяет
-удобно обращаться к ним как к атрибутам объекта (например, `settings.credentials.aliexpress.api_key`).
-
-## Подробней: Процесс работы с базой данных KeePass
-
-Работа с базой данных KeePass включает два основных этапа: открытие базы данных и
-загрузка необходимых учетных данных.
-
-### Открытие базы данных
-
-**Назначение**: Открытие файла базы данных KeePass (`credentials.kdbx`) с использованием
-пароля.
-
-**Как работает**:
-Процесс открытия базы данных выполняется методом, который:
-1.  Осуществляет попытку чтения пароля из файла `password.txt`, если данный файл
-    существует в файловой системе.
-2.  При отсутствии файла `password.txt` или неудаче чтения, выполняет запрос
-    пароля у пользователя через стандартный ввод (консоль).
-3.  Использует библиотеку `pykeepass` для попытки открытия файла базы данных
-    с использованием полученного пароля.
-4.  При неудачной попытке открытия, процедура повторяет попытку несколько раз,
-    предоставляя возможность повторного ввода пароля или исправления ошибки.
-5.  В случае исчерпания всех попыток и невозможности открыть базу данных,
-    программа завершает свое выполнение, предотвращая дальнейшую работу без доступа
-    к необходимым учетным данным.
-
-### Загрузка учетных данных
-
-**Назначение**: Загрузка всех необходимых учетных данных из открытой базы данных
-KeePass в структуру настроек приложения.
-
-**Как работает**:
-После успешного открытия базы данных вызывается метод, который координирует процесс
-загрузки. Данный метод:
-1.  Вызывает последовательно специализированные методы загрузки, каждый из которых
-    отвечает за извлечение учетных данных для определенной категории сервисов или API
-    (например, Aliexpress, OpenAI, PrestaShop и т.д.).
-2.  Каждый категорийный метод использует функции навигации `pykeepass`, в частности
-    `kp.find_groups()`, для обнаружения соответствующих групп и записей в иерархии
-    базы данных KeePass.
-3.  Из найденных записей извлекаются необходимые данные, используя стандартное поле
-    пароля (`entry.password`) и **кастомные свойства** (`entry.custom_properties`).
-4.  Извлеченные данные организуются и сохраняются в соответствующем разделе
-    структуры `ProgramSettings.credentials`, часто с использованием объектов `SimpleNamespace`
-    для удобства доступа по имени атрибута.
-
-## Загрузка учетных данных по категориям
-
-Данный раздел подробно описывает, как извлекаются учетные данные для различных
-сервисов из базы данных KeePass.
-
-### Aliexpress
-
-**Назначение**: Загрузка API ключей и учетных данных аккаунта Aliexpress.
-
-**Как работает**:
-1.  Выполняется поиск группы с путем `suppliers/aliexpress/api`.
-2.  Из найденной записи извлекаются следующие данные из кастомных свойств:
-    -   `api_key`
-    -   `secret`
-    -   `tracking_id`
-    -   `email`
-3.  Также извлекается пароль записи (`entry.password`).
-4.  Извлеченные данные сохраняются в структуре `ProgramSettings.credentials.aliexpress`.
-    Доступ к ним осуществляется как к атрибутам объекта `SimpleNamespace`:
-    `settings.credentials.aliexpress.api_key`, `settings.credentials.aliexpress.secret`,
-    `settings.credentials.aliexpress.tracking_id`, `settings.credentials.aliexpress.email`,
-    `settings.credentials.aliexpress.password`.
+**Методы**:
+    - `_open_kp()`: Открывает файл базы данных KeePass.
+    - `_load_credentials()`: Загружает учетные данные из KeePass.
+    - `_load_aliexpress()`: Загружает учетные данные для Aliexpress.
+    - `_load_openai()`: Загружает учетные данные для OpenAI.
+    - `_load_gemini()`: Загружает учетные данные для Gemini.
+    - `_load_telegram()`: Загружает учетные данные для Telegram.
+    - `_load_discord()`: Загружает учетные данные для Discord.
+    - `_load_prestashop()`: Загружает учетные данные для PrestaShop.
+    - `_load_smtp()`: Загружает учетные данные для SMTP.
+    - `_load_facebook()`: Загружает учетные данные для Facebook.
+    - `_load_google_api()`: Загружает учетные данные для Google API.
+    - `_load_vk_api()`: Загружает учетные данные для VK API.
 
 **Примеры**:
-Предполагаемое хранение в `ProgramSettings.credentials.aliexpress`:
-```python
-# Пример структуры объекта SimpleNamespace после загрузки
-settings.credentials.aliexpress = SimpleNamespace(
-    api_key='your_aliexpress_api_key',
-    secret='your_aliexpress_secret',
-    tracking_id='your_aliexpress_tracking_id',
-    email='your_aliexpress_email',
-    password='your_aliexpress_password'
-)
-```
+    ```python
+    # Создание экземпляра ProgramSettings
+    settings = ProgramSettings()
 
-### OpenAI
+    # Получение API ключа OpenAI
+    openai_api_key = settings.credentials.openai.api_key
+    ```
+## Параметры класса
+- `credentials`: Объект `SimpleNamespace`, хранящий все учетные данные.
 
-**Назначение**: Загрузка API ключей и идентификаторов ассистентов OpenAI.
 
-**Как работает**:
-1.  Выполняется поиск группы с путем `openai`.
-2.  Из каждой записи в этой группе извлекается кастомное свойство `api_key`.
-3.  Имя записи используется как имя атрибута при сохранении в `ProgramSettings.credentials.openai`.
-4.  Выполняется поиск группы с путем `openai/assistants`.
-5.  Из каждой записи в этой группе извлекается кастомное свойство `assistant_id`.
-6.  Имя записи используется как имя атрибута при сохранении в
-    `ProgramSettings.credentials.openai.assistant_id`.
+## Функции 
+### `get_program_settings()`:
+**Назначение**: Возвращает экземпляр класса `ProgramSettings`, который используется для доступа к настройкам приложения и учетным данным.
 
 **Примеры**:
-Предполагаемое хранение в `ProgramSettings.credentials.openai`:
-```python
-# Пример структуры объекта SimpleNamespace после загрузки API ключей
-settings.credentials.openai = SimpleNamespace(
-    default_api_key='sk-...', # если имя записи 'default_api_key'
-    another_key='sk-...'     # если есть другая запись с именем 'another_key'
-)
+    ```python
+    # Получение экземпляра ProgramSettings
+    settings = get_program_settings()
 
-# Пример структуры объекта SimpleNamespace для ассистентов
-settings.credentials.openai.assistant_id = SimpleNamespace(
-    assistant_checker='asst_...', # если имя записи 'assistant_checker'
-    assistant_writer='asst_...'   # если есть другая запись с именем 'assistant_writer'
-)
-```
-
-### Gemini
-
-**Назначение**: Загрузка API ключей Gemini.
-
-**Как работает**:
-1.  Выполняется поиск группы с путем `gemini`.
-2.  Из каждой записи в этой группе извлекается кастомное свойство `api_key`.
-3.  Имя записи используется как имя атрибута при сохранении в `ProgramSettings.credentials.gemini`.
-
+    # Получение API ключа Aliexpress
+    aliexpress_api_key = settings.credentials.aliexpress.api_key
+    ```
+## Внутренние функции
+### `_open_kp()`:
+**Назначение**: Открывает файл базы данных KeePass.
+**Параметры**:
+    - `path`: Путь к файлу базы данных KeePass.
+**Возвращает**:
+    - Объект `pykeepass.KeePass` - объект, представляющий файл базы данных KeePass.
+**Вызывает исключения**:
+    - `FileNotFoundError`: Если файл базы данных KeePass не найден.
+    - `KeyError`: Если в файле `password.txt` нет пароля или если введенный пароль не верен.
+**Как работает функция**:
+    - Сначала функция проверяет наличие файла `password.txt`.
+    - Если файл существует, она пытается прочитать пароль из него.
+    - Если файл не существует, она запрашивает пароль у пользователя через консоль.
+    - После получения пароля функция пытается открыть файл базы данных KeePass.
+    - Если попытка открытия неудачна, функция повторяет попытку несколько раз.
+    - Если все попытки неудачны, функция вызывает исключение `KeyError`.
 **Примеры**:
-Предполагаемое хранение в `ProgramSettings.credentials.gemini`:
-```python
-# Пример структуры объекта SimpleNamespace после загрузки
-settings.credentials.gemini = SimpleNamespace(
-    default_key='AIza...', # если имя записи 'default_key'
-    another_key='AIza...'  # если есть другая запись с именем 'another_key'
-)
-```
+    ```python
+    # Открытие файла базы данных KeePass
+    kp = _open_kp(path='credentials.kdbx')
+    ```
 
-### Telegram
-
-**Назначение**: Загрузка API токенов Telegram.
-
-**Как работает**:
-1.  Выполняется поиск группы с путем `telegram`.
-2.  Из каждой записи в этой группе извлекается кастомное свойство `token`.
-3.  Имя записи используется как имя атрибута при сохранении в `ProgramSettings.credentials.telegram`.
-
+### `_load_credentials()`:
+**Назначение**: Загружает учетные данные из KeePass.
+**Параметры**:
+    - `kp`: Объект `pykeepass.KeePass` - объект, представляющий файл базы данных KeePass.
+**Возвращает**:
+    - `None`
+**Вызывает исключения**:
+    - `Exception`: Если возникает ошибка при извлечении учетных данных из KeePass.
+**Как работает функция**:
+    - Функция вызывает методы `_load_aliexpress()`, `_load_openai()`, `_load_gemini()`, `_load_telegram()`, `_load_discord()`, `_load_prestashop()`, `_load_smtp()`, `_load_facebook()`, `_load_google_api()`, `_load_vk_api()` для загрузки учетных данных для каждого сервиса.
 **Примеры**:
-Предполагаемое хранение в `ProgramSettings.credentials.telegram`:
-```python
-# Пример структуры объекта SimpleNamespace после загрузки
-settings.credentials.telegram = SimpleNamespace(
-    bot_main='123456:ABC-DEF...', # если имя записи 'bot_main'
-    bot_notifications='789012:GHI-JKL...' # если есть другая запись с именем 'bot_notifications'
-)
-```
-
-### Discord
-
-**Назначение**: Загрузка API ключей и токенов Discord.
-
-**Как работает**:
-1.  Выполняется поиск группы с путем `discord`.
-2.  Из каждой записи в этой группе извлекаются следующие данные из кастомных свойств:
-    -   `application_id`
-    -   `public_key`
-    -   `bot_token`
-3.  Каждый набор извлеченных данных сохраняется как отдельный объект `SimpleNamespace`.
-4.  Эти объекты добавляются в список `ProgramSettings.credentials.discord`.
-
+    ```python
+    # Загрузка учетных данных из KeePass
+    _load_credentials(kp=kp)
+    ```
+### `_load_aliexpress()`:
+**Назначение**: Загружает учетные данные для Aliexpress.
+**Параметры**:
+    - `kp`: Объект `pykeepass.KeePass` - объект, представляющий файл базы данных KeePass.
+**Возвращает**:
+    - `None`
+**Вызывает исключения**:
+    - `Exception`: Если возникает ошибка при извлечении учетных данных для Aliexpress.
+**Как работает функция**:
+    - Функция ищет группу `suppliers/aliexpress/api` в базе данных KeePass.
+    - Если группа найдена, функция извлекает из записи `api_key`, `secret`, `tracking_id`, `email` из кастомных свойств записи и `password` из пароля записи.
+    - Эти данные сохраняются в `ProgramSettings.credentials.aliexpress` в виде атрибутов `api_key`, `secret`, `tracking_id`, `email` и `password`.
 **Примеры**:
-Предполагаемое хранение в `ProgramSettings.credentials.discord`:
-```python
-# Пример структуры списка объектов SimpleNamespace после загрузки
-settings.credentials.discord = [
-    SimpleNamespace(
-        application_id='app_id_1',
-        public_key='public_key_1',
-        bot_token='bot_token_1'
-    ),
-    SimpleNamespace(
-        application_id='app_id_2',
-        public_key='public_key_2',
-        bot_token='bot_token_2'
-    )
-]
-```
-
-### PrestaShop
-
-**Назначение**: Загрузка учетных данных для различных экземпляров PrestaShop (клиентов)
-и настроек доступа к базе данных переводов.
-
-#### Клиенты
-
-**Назначение**: Загрузка учетных данных для доступа к API и базам данных клиентских
-установок PrestaShop.
-
-**Как работает**:
-1.  Выполняется поиск группы с путем `prestashop/clients`.
-2.  Для *каждой* записи в этой группе извлекаются следующие данные из кастомных свойств:
-    -   `api_key`
-    -   `api_domain`
-    -   `db_server`
-    -   `db_user`
-    -   `db_password`
-3.  Каждый набор извлеченных данных сохраняется как отдельный объект `SimpleNamespace`.
-4.  Эти объекты добавляются в список `ProgramSettings.credentials.presta.client`.
-
+    ```python
+    # Загрузка учетных данных для Aliexpress
+    _load_aliexpress(kp=kp)
+    ```
+### `_load_openai()`:
+**Назначение**: Загружает учетные данные для OpenAI.
+**Параметры**:
+    - `kp`: Объект `pykeepass.KeePass` - объект, представляющий файл базы данных KeePass.
+**Возвращает**:
+    - `None`
+**Вызывает исключения**:
+    - `Exception`: Если возникает ошибка при извлечении учетных данных для OpenAI.
+**Как работает функция**:
+    - Функция ищет группу `openai` в базе данных KeePass.
+    - Если группа найдена, функция извлекает из записи `api_key`, `project_api` из кастомных свойств записи. Имя записи становится именем атрибута `ProgramSettings.credentials.openai`.
+    - Далее, из группы `openai/assistants` извлекаются `assistant_id` из кастомных свойств записи. Имя записи становится именем атрибута `ProgramSettings.credentials.openai.assistant_id`.
 **Примеры**:
-Предполагаемое хранение в `ProgramSettings.credentials.presta.client`:
-```python
-# Пример структуры списка объектов SimpleNamespace после загрузки
-settings.credentials.presta.client = [
-    SimpleNamespace(
-        api_key='key1',
-        api_domain='domain1.com',
-        db_server='db_server1',
-        db_user='db_user1',
-        db_password='db_password1'
-    ),
-    SimpleNamespace(
-        api_key='key2',
-        api_domain='domain2.com',
-        db_server='db_server2',
-        db_user='db_user2',
-        db_password='db_password2'
-    )
-]
-```
-
-#### Переводы
-
-**Назначение**: Загрузка учетных данных для доступа к базе данных, содержащей переводы.
-
-**Как работает**:
-1.  Выполняется поиск группы с путем `prestashop/translation`.
-2.  Из *первой* найденной записи в этой группе извлекаются следующие данные из
-    кастомных свойств:
-    -   `server`
-    -   `port`
-    -   `database`
-    -   `user`
-    -   `password`
-3.  Извлеченные данные сохраняются в структуре `ProgramSettings.credentials.presta.translations`
-    как атрибуты объекта `SimpleNamespace`: `settings.credentials.presta.translations.server`,
-    `settings.credentials.presta.translations.port` и т.д.
-
+    ```python
+    # Загрузка учетных данных для OpenAI
+    _load_openai(kp=kp)
+    ```
+### `_load_gemini()`:
+**Назначение**: Загружает учетные данные для Gemini.
+**Параметры**:
+    - `kp`: Объект `pykeepass.KeePass` - объект, представляющий файл базы данных KeePass.
+**Возвращает**:
+    - `None`
+**Вызывает исключения**:
+    - `Exception`: Если возникает ошибка при извлечении учетных данных для Gemini.
+**Как работает функция**:
+    - Функция ищет группу `gemini` в базе данных KeePass.
+    - Если группа найдена, функция извлекает из записи `api_key` из кастомных свойств записи. Имя записи становится именем атрибута `ProgramSettings.credentials.gemini`.
 **Примеры**:
-Предполагаемое хранение в `ProgramSettings.credentials.presta.translations`:
-```python
-# Пример структуры объекта SimpleNamespace после загрузки
-settings.credentials.presta.translations = SimpleNamespace(
-    server='translation_db_server',
-    port='translation_db_port',
-    database='translation_db_name',
-    user='translation_db_user',
-    password='translation_db_password'
-)
-```
-
-### SMTP
-
-**Назначение**: Загрузка учетных данных для доступа к SMTP серверам.
-
-**Как работает**:
-1.  Выполняется поиск группы с путем `smtp`.
-2.  Для *каждой* записи в этой группе извлекаются следующие данные из кастомных свойств:
-    -   `server`
-    -   `port`
-    -   `user`
-    -   `password`
-3.  Каждый набор извлеченных данных сохраняется как отдельный объект `SimpleNamespace`.
-4.  Эти объекты добавляются в список `ProgramSettings.credentials.smtp`.
-
+    ```python
+    # Загрузка учетных данных для Gemini
+    _load_gemini(kp=kp)
+    ```
+### `_load_telegram()`:
+**Назначение**: Загружает учетные данные для Telegram.
+**Параметры**:
+    - `kp`: Объект `pykeepass.KeePass` - объект, представляющий файл базы данных KeePass.
+**Возвращает**:
+    - `None`
+**Вызывает исключения**:
+    - `Exception`: Если возникает ошибка при извлечении учетных данных для Telegram.
+**Как работает функция**:
+    - Функция ищет группу `telegram` в базе данных KeePass.
+    - Если группа найдена, функция извлекает из записи `token` из кастомных свойств записи. Имя записи становится именем атрибута `ProgramSettings.credentials.telegram`.
 **Примеры**:
-Предполагаемое хранение в `ProgramSettings.credentials.smtp`:
-```python
-# Пример структуры списка объектов SimpleNamespace после загрузки
-settings.credentials.smtp = [
-    SimpleNamespace(
-        server='smtp.server1.com',
-        port='587',
-        user='user1@example.com',
-        password='password1'
-    ),
-    SimpleNamespace(
-        server='smtp.server2.com',
-        port='465',
-        user='user2@example.com',
-        password='password2'
-    )
-]
-```
-
-### Facebook
-
-**Назначение**: Загрузка API ключей и токенов Facebook.
-
-**Как работает**:
-1.  Выполняется поиск группы с путем `facebook`.
-2.  Для *каждой* записи в этой группе извлекаются следующие данные из кастомных свойств:
-    -   `app_id`
-    -   `app_secret`
-    -   `access_token`
-3.  Каждый набор извлеченных данных сохраняется как отдельный объект `SimpleNamespace`.
-4.  Эти объекты добавляются в список `ProgramSettings.credentials.facebook`.
-
+    ```python
+    # Загрузка учетных данных для Telegram
+    _load_telegram(kp=kp)
+    ```
+### `_load_discord()`:
+**Назначение**: Загружает учетные данные для Discord.
+**Параметры**:
+    - `kp`: Объект `pykeepass.KeePass` - объект, представляющий файл базы данных KeePass.
+**Возвращает**:
+    - `None`
+**Вызывает исключения**:
+    - `Exception`: Если возникает ошибка при извлечении учетных данных для Discord.
+**Как работает функция**:
+    - Функция ищет группу `discord` в базе данных KeePass.
+    - Если группа найдена, функция извлекает из записи `application_id`, `public_key` и `bot_token` из кастомных свойств записи.
+    - Эти данные сохраняются в `ProgramSettings.credentials.discord` в виде атрибутов `application_id`, `public_key` и `bot_token`.
 **Примеры**:
-Предполагаемое хранение в `ProgramSettings.credentials.facebook`:
-```python
-# Пример структуры списка объектов SimpleNamespace после загрузки
-settings.credentials.facebook = [
-    SimpleNamespace(
-        app_id='app_id_1',
-        app_secret='app_secret_1',
-        access_token='access_token_1'
-    ),
-    SimpleNamespace(
-        app_id='app_id_2',
-        app_secret='app_secret_2',
-        access_token='access_token_2'
-    )
-]
-```
-
-### Google API
-
-**Назначение**: Загрузка API ключей Google.
-
-**Как работает**:
-1.  Выполняется поиск группы с путем `google/gapi`.
-2.  Из каждой записи в этой группе извлекается кастомное свойство `api_key`.
-3.  Извлеченные данные сохраняются в структуре `ProgramSettings.credentials.gapi`
-    по ключу `api_key`.
-
+    ```python
+    # Загрузка учетных данных для Discord
+    _load_discord(kp=kp)
+    ```
+### `_load_prestashop()`:
+**Назначение**: Загружает учетные данные для PrestaShop.
+**Параметры**:
+    - `kp`: Объект `pykeepass.KeePass` - объект, представляющий файл базы данных KeePass.
+**Возвращает**:
+    - `None`
+**Вызывает исключения**:
+    - `Exception`: Если возникает ошибка при извлечении учетных данных для PrestaShop.
+**Как работает функция**:
+    - Функция ищет группу `prestashop/clients` в базе данных KeePass.
+    - Если группа найдена, функция извлекает из каждой записи `api_key`, `api_domain`, `db_server`, `db_user`, `db_password` из кастомных свойств.
+    - Каждый набор данных добавляется как объект `SimpleNamespace` в список `ProgramSettings.credentials.presta.client`.
+    - Далее, функция ищет группу `prestashop/translation` в базе данных KeePass.
+    - Если группа найдена, функция извлекает из первой записи `server`, `port`, `database`, `user`, `password` из кастомных свойств.
+    - Эти данные сохраняются в `ProgramSettings.credentials.presta.translations`.
 **Примеры**:
-Предполагаемое хранение в `ProgramSettings.credentials.gapi`:
-```python
-# Пример структуры после загрузки
-settings.credentials.gapi = {
-    'api_key': 'AIzaSy...' # если имя записи 'default' или подобное
-}
-```
+    ```python
+    # Загрузка учетных данных для PrestaShop
+    _load_prestashop(kp=kp)
+    ```
+### `_load_smtp()`:
+**Назначение**: Загружает учетные данные для SMTP.
+**Параметры**:
+    - `kp`: Объект `pykeepass.KeePass` - объект, представляющий файл базы данных KeePass.
+**Возвращает**:
+    - `None`
+**Вызывает исключения**:
+    - `Exception`: Если возникает ошибка при извлечении учетных данных для SMTP.
+**Как работает функция**:
+    - Функция ищет группу `smtp` в базе данных KeePass.
+    - Если группа найдена, функция извлекает из каждой записи `server`, `port`, `user` и `password` из кастомных свойств.
+    - Каждый набор данных добавляется как объект `SimpleNamespace` в список `ProgramSettings.credentials.smtp`.
+**Примеры**:
+    ```python
+    # Загрузка учетных данных для SMTP
+    _load_smtp(kp=kp)
+    ```
+### `_load_facebook()`:
+**Назначение**: Загружает учетные данные для Facebook.
+**Параметры**:
+    - `kp`: Объект `pykeepass.KeePass` - объект, представляющий файл базы данных KeePass.
+**Возвращает**:
+    - `None`
+**Вызывает исключения**:
+    - `Exception`: Если возникает ошибка при извлечении учетных данных для Facebook.
+**Как работает функция**:
+    - Функция ищет группу `facebook` в базе данных KeePass.
+    - Если группа найдена, функция извлекает из каждой записи `app_id`, `app_secret` и `access_token` из кастомных свойств.
+    - Каждый набор данных добавляется как объект `SimpleNamespace` в список `ProgramSettings.credentials.facebook`.
+**Примеры**:
+    ```python
+    # Загрузка учетных данных для Facebook
+    _load_facebook(kp=kp)
+    ```
+### `_load_google_api()`:
+**Назначение**: Загружает учетные данные для Google API.
+**Параметры**:
+    - `kp`: Объект `pykeepass.KeePass` - объект, представляющий файл базы данных KeePass.
+**Возвращает**:
+    - `None`
+**Вызывает исключения**:
+    - `Exception`: Если возникает ошибка при извлечении учетных данных для Google API.
+**Как работает функция**:
+    - Функция ищет группу `google/gapi` в базе данных KeePass.
+    - Если группа найдена, функция извлекает из записи `api_key` из кастомных свойств записи.
+    - Этот данные сохраняются в `ProgramSettings.credentials.gapi` по ключу `api_key`.
+**Примеры**:
+    ```python
+    # Загрузка учетных данных для Google API
+    _load_google_api(kp=kp)
+    ```
+### `_load_vk_api()`:
+**Назначение**: Загружает учетные данные для VK API.
+**Параметры**:
+    - `kp`: Объект `pykeepass.KeePass` - объект, представляющий файл базы данных KeePass.
+**Возвращает**:
+    - `None`
+**Вызывает исключения**:
+    - `Exception`: Если возникает ошибка при извлечении учетных данных для VK API.
+**Как работает функция**:
+    - Функция ищет группу `vk/api` в базе данных KeePass.
+    - Если группа найдена, функция извлекает из записи `api_key`, `client_secret` и `access_token` из кастомных свойств.
+    - Эти данные сохраняются в `ProgramSettings.credentials.vk` в виде атрибутов `api_key`, `client_secret` и `access_token`.
+    - Далее, функция ищет группу `vk/group_id` в базе данных KeePass.
+    - Если группа найдена, функция извлекает из первой записи `group_id` из кастомных свойств.
+    - Этот данные сохраняются в `ProgramSettings.credentials.vk` по ключу `group_id`.
+    - Далее, функция ищет группу `vk/user_id` в базе данных KeePass.
+    - Если группа найдена, функция извлекает из первой записи `user_id` из кастомных свойств.
+    - Этот данные сохраняются в `ProgramSettings.credentials.vk` по ключу `user_id`.
+**Примеры**:
+    ```python
+    # Загрузка учетных данных для VK API
+    _load_vk_api(kp=kp)
+    ```
+
+
+## Примеры
+    ```python
+    # Получение экземпляра ProgramSettings
+    settings = get_program_settings()
+
+    # Получение API ключа OpenAI
+    openai_api_key = settings.credentials.openai.api_key
+    ```
+    ```python
+    # Открытие файла базы данных KeePass
+    kp = _open_kp(path='credentials.kdbx')
+
+    # Загрузка учетных данных из KeePass
+    _load_credentials(kp=kp)
+
+    # Получение API ключа Aliexpress
+    aliexpress_api_key = settings.credentials.aliexpress.api_key
+
+    # Получение ID ассистента OpenAI
+    assistant_id = settings.credentials.openai.assistant_id
+
+    # Получение токена Telegram
+    telegram_token = settings.credentials.telegram.token
+
+    # Получение ID приложения Discord
+    discord_application_id = settings.credentials.discord.application_id
+
+    # Получение учетных данных для первого клиента PrestaShop
+    prestashop_client = settings.credentials.presta.client[0]
+    prestashop_api_key = prestashop_client.api_key
+
+    # Получение учетных данных для SMTP-сервера
+    smtp_server = settings.credentials.smtp[0]
+    smtp_server_address = smtp_server.server
+
+    # Получение учетных данных для Facebook
+    facebook_app_id = settings.credentials.facebook[0].app_id
+
+    # Получение API ключа Google API
+    google_api_key = settings.credentials.gapi.api_key
+
+    # Получение API ключа VK API
+    vk_api_key = settings.credentials.vk.api_key
+    ```

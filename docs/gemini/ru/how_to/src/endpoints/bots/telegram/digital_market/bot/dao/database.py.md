@@ -1,67 +1,56 @@
-Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода определяет базовую настройку для работы с базой данных, используя SQLAlchemy. Он включает создание асинхронного движка базы данных, определение базового класса для моделей (таблиц) базы данных, а также настройку автоматического обновления временных меток (`created_at` и `updated_at`).
+Этот код реализует базовый класс `Base` для работы с базой данных в проекте телеграм-бота.  
+Он предоставляет общие поля для всех моделей данных: 
+- `id`: первичный ключ, автоинкрементный.
+- `created_at`: дата и время создания записи.
+- `updated_at`: дата и время последнего обновления записи.
+
+Кроме того, он определяет метод `to_dict`, который преобразует экземпляр модели в словарь.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**: Импортируются модули `datetime`, `func`, `TIMESTAMP`, `Integer` из `sqlalchemy`, а также классы для работы с асинхронной базой данных из `sqlalchemy.orm` и `sqlalchemy.ext.asyncio`.
-2. **Настройка подключения к базе данных**:
-   - `database_url` извлекается из `bot.config` и используется для создания асинхронного движка базы данных с помощью `create_async_engine`.
-   - Создается фабрика сессий `async_session_maker` для работы с базой данных в асинхронном режиме.
-3. **Определение базового класса Base**:
-   - Класс `Base` наследуется от `AsyncAttrs` и `DeclarativeBase` и служит базовым классом для всех моделей базы данных.
-   - Определяются общие поля для всех таблиц: `id` (первичный ключ, автоинкремент), `created_at` (дата создания записи) и `updated_at` (дата последнего обновления записи).
-   - Поля `created_at` и `updated_at` автоматически заполняются текущим временем при создании и обновлении записи соответственно.
-4. **Метод to_dict**:
-   -  `to_dict` преобразовывает объект модели в словарь, где ключами являются имена столбцов, а значениями - соответствующие значения атрибутов объекта.
-5. **Автоматическое определение имени таблицы**:
-   - `__tablename__` автоматически генерирует имя таблицы на основе имени класса модели, приводя его к нижнему регистру и добавляя суффикс 's'.
+1. Определяется класс `Base`, наследующий от `AsyncAttrs` и `DeclarativeBase`.
+2. В `Base` определяются атрибуты: `id`, `created_at`, `updated_at`.
+3. Класс `Base`  имеет метод `to_dict`, который преобразует объект в словарь.
+4. Внутри `Base` определен дескриптор `__tablename__`, который возвращает имя таблицы в базе данных, получаемое путем преобразования имени класса в нижний регистр и добавления суффикса "s".
 
 Пример использования
 -------------------------
 
 ```python
-from datetime import datetime
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import Identity
-
 from bot.dao.database import Base, async_session_maker
 
+class User(Base):
+    telegram_id: Mapped[int] = mapped_column(Integer, unique=True)
+    username: Mapped[str] = mapped_column(String)
+    # ... другие поля 
 
-class Пользователь(Base):
-    """
-    Пример класса модели Пользователь, который наследуется от базового класса Base.
-    """
-    __tablename__ = "users"  # Явное задание имени таблицы
-
-    id: Mapped[int] = mapped_column(Identity(), primary_key=True)
-    username: Mapped[String] = mapped_column(String(32), unique=True)
-    email_address: Mapped[String] = mapped_column(String(255))
-    created_at: Mapped[datetime] = mapped_column(TIMESTAMP, server_default=func.now())
-
-    def __repr__(self) -> str:
-        return f"User(id={self.id!r}, name={self.username!r}, email={self.email_address})"
-
+async def create_user(telegram_id: int, username: str) -> User:
+    async with async_session_maker() as session:
+        user = User(telegram_id=telegram_id, username=username)
+        session.add(user)
+        await session.commit()
+        return user
 
 async def main():
-    """
-    Пример использования модели и создания сессии для работы с базой данных.
-    """
-    async with async_session_maker() as session:
-        # Создание нового пользователя
-        new_user = Пользователь(username="example_user", email_address="example@example.com")
-        session.add(new_user)
-        await session.commit()
-
-        # Запрос пользователя из базы данных
-        retrieved_user = await session.get(Пользователь, new_user.id)
-        if retrieved_user:
-            print(retrieved_user.to_dict())
+    user = await create_user(telegram_id=123456789, username='test_user')
+    print(user.to_dict())
 
 if __name__ == "__main__":
     import asyncio
     asyncio.run(main())
+```
+
+**Объяснение**:
+
+В примере кода мы создаем модель `User`, которая наследуется от `Base`, получая  общие атрибуты  `id`, `created_at`, `updated_at`.  
+Затем мы создаем функцию `create_user`, которая создает нового пользователя в базе данных и возвращает его объект.  
+В функции `main`  мы создаем нового пользователя с заданными данными и выводим его в виде словаря с помощью `to_dict()`.
+
+**Важные моменты**:
+-  Этот класс `Base`  может использоваться для создания других моделей данных, добавляя к нему дополнительные атрибуты.
+-  Этот код зависит от  модуля `bot.config`, который должен содержать конфигурацию базы данных.

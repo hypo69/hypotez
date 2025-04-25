@@ -1,75 +1,59 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код предназначен для взаимодействия с сервисом Phind через subprocess для генерации текста на основе предоставленных сообщений и модели. Он запускает Python-скрипт `phind.py` в качестве подпроцесса и передает ему конфигурацию модели и сообщений в формате JSON. Результат работы подпроцесса возвращается построчно.
+Данный блок кода реализует провайдера `Phind` для `g4f`. Провайдер использует внешнюю программу `phind.py` для взаимодействия с API Phind.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются модули `os`, `json`, `time`, и `subprocess`.
-   - Импортируются типы `sha256`, `Dict`, `get_type_hints` из модуля `...typing`.
-2. **Определение глобальных переменных**:
-   - `url`: URL сервиса Phind (`https://phind.com`).
-   - `model`: Список поддерживаемых моделей (`['gpt-4']`).
-   - `supports_stream`: Указывает, поддерживает ли провайдер потоковую передачу данных (`True`).
-3. **Функция `_create_completion`**:
-   - Определяется функция `_create_completion`, которая принимает параметры `model` (модель), `messages` (сообщения) и `stream` (потоковая передача).
-   - Определяется путь к текущему файлу с помощью `os.path.dirname(os.path.realpath(__file__))`.
-   - Конфигурация `model` и `messages` преобразуется в JSON-строку с помощью `json.dumps`, минимизируя пробелы.
-   - Формируется команда для запуска подпроцесса: `cmd = ['python', f'{path}/helpers/phind.py', config]`.
-   - Запускается подпроцесс с помощью `subprocess.Popen`, перехватывая стандартный вывод и ошибки.
-   - Читается вывод подпроцесса построчно:
-     - Если строка содержит `<title>Just a moment...</title>`, это указывает на ошибку Cloudflare. В этом случае выводится сообщение об ошибке и завершается процесс.
-     - Если строка содержит `ping - 2023-`, строка пропускается.
-     - В противном случае строка декодируется из кодировки `cp1251` и возвращается.
-4. **Параметры функции**:
-   - Генерируется строка `params`, содержащая информацию о поддерживаемых типах параметров функции `_create_completion`.
+1. **Импортирование необходимых библиотек**:
+   -  `os`: Работа с файловой системой.
+   -  `json`: Преобразование данных в JSON-формат.
+   -  `time`: Работа с временем.
+   -  `subprocess`: Запуск внешних программ.
+   -  `...typing`:  Определяет типы данных.
+   -  `sha256`: Функция для хэширования.
+   -  `Dict`: Словарь.
+   -  `get_type_hints`: Получение аннотаций типов.
+
+2. **Определение конфигурационных параметров**:
+   -  `url`: Базовый URL-адрес Phind.
+   -  `model`: Список поддерживаемых моделей (в данном случае, только `gpt-4`).
+   -  `supports_stream`: Указывает, поддерживает ли провайдер потоковую передачу данных (True).
+
+3. **Определение функции `_create_completion`**:
+   -  Эта функция используется для генерации завершения (ответа) от модели Phind.
+   -  **Получение пути к файлу `phind.py`**: Используется `os.path.dirname` и `os.path.realpath` для получения абсолютного пути к папке, в которой находится текущий файл.
+   -  **Создание конфигурационного объекта**:  Создается JSON-объект с настройками для Phind: `model` и `messages`.
+   -  **Запуск `phind.py`**: Используется `subprocess.Popen` для запуска внешней программы `phind.py` с указанными аргументами (модель, сообщения).
+   -  **Обработка ответа**: Используется итератор `iter` для получения строк ответа из потока `p.stdout`.
+   -  **Обработка Cloudflare ошибки**:  Проверяет наличие `b'<title>Just a moment...</title>'` в строке ответа. Если ошибка найдена, выводится сообщение об ошибке и завершает работу.
+   -  **Проверка ping**:  Пропускает строку, если она содержит `b'ping - 2023-'`.
+   -  **Декодирование ответа**: Декодирует строку ответа в `cp1251`.
+   -  **Возврат ответа**: Выдача декодированной строки ответа.
+
+
+4. **Вывод поддерживаемых типов**:
+   -  Использует `get_type_hints` для получения аннотаций типов для функции `_create_completion`.
+   -  Выводит информацию о поддерживаемых типах в виде строки.
 
 Пример использования
 -------------------------
 
 ```python
-import os
-import json
-import subprocess
+from g4f.Provider.Providers.Phind import _create_completion
+from g4f.Provider.Providers.Phind import model
 
-from ...typing import sha256, Dict, get_type_hints
-
-url = 'https://phind.com'
-model = ['gpt-4']
-supports_stream = True
-
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-
-    path = os.path.dirname(os.path.realpath(__file__))
-    config = json.dumps({
-        'model': model,
-        'messages': messages}, separators=(',', ':'))
-
-    cmd = ['python', f'{path}/helpers/phind.py', config]
-
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-
-    for line in iter(p.stdout.readline, b''):
-        if b'<title>Just a moment...</title>' in line:
-            os.system('clear' if os.name == 'posix' else 'cls')
-            yield 'Clouflare error, please try again...'
-            os._exit(0)
-        
-        else:
-            if b'ping - 2023-' in line:
-                continue
-            
-            yield line.decode('cp1251') #[:-1]
-            
-params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    '(%s)' % ', '.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
-
-# Пример вызова функции
 messages = [
-    {"role": "user", "content": "Напиши небольшое стихотворение о весне."}
+    {'role': 'user', 'content': 'Привет! Как дела?'}
 ]
-for chunk in _create_completion(model="gpt-4", messages=messages, stream=True):
-    print(chunk, end="")
+
+# Вызов функции _create_completion
+response = _create_completion(model[0], messages, stream=True)
+
+# Обработка ответа (в цикле, так как мы используем stream=True)
+for line in response:
+    print(line)
+
+```

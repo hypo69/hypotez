@@ -1,109 +1,59 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет набор функций для создания различных встроенных клавиатур (InlineKeyboardMarkup) для Telegram-бота. Каждая клавиатура предназначена для выполнения определенных действий, таких как навигация по каталогу, совершение покупок, переход в профиль пользователя или админ-панель. Клавиатуры создаются с использованием библиотеки `aiogram`.
+Данный блок кода реализует набор функций для создания кнопок в боте Telegram. Функции генерируют различные виды клавиатур (inline и reply) с различными кнопками, которые отображаются пользователю в зависимости от контекста.
 
 Шаги выполнения
 -------------------------
-1. **`main_user_kb(user_id: int)`**:
-   - Функция создает главную клавиатуру пользователя с кнопками: "Мои покупки", "Каталог", "О магазине", "Поддержать автора".
-   - Если `user_id` присутствует в списке `settings.ADMIN_IDS`, добавляется кнопка "Админ панель".
-   - Кнопки располагаются в один столбец.
-
-2. **`catalog_kb(catalog_data: List[Category])`**:
-   - Функция создает клавиатуру каталога на основе списка категорий `catalog_data`.
-   - Для каждой категории добавляется кнопка с названием категории.
-   - Добавляется кнопка "На главную" для возврата к главной клавиатуре.
-   - Кнопки располагаются в два столбца.
-
-3. **`purchases_kb()`**:
-   - Функция создает клавиатуру для просмотра покупок с кнопками: "Смотреть покупки" и "На главную".
-   - Кнопки располагаются в один столбец.
-
-4. **`product_kb(product_id, price, stars_price)`**:
-   - Функция создает клавиатуру для отображения вариантов покупки товара с заданным `product_id` и `price`.
-   - Добавляются кнопки для оплаты через ЮКасса, Robocassa и звездами.
-   - Добавляются кнопки "Назад" (к каталогу) и "На главную".
-   - Кнопки располагаются в два столбца.
-
-5. **`get_product_buy_youkassa(price)`**:
-   - Функция создает клавиатуру для оплаты через ЮKassa.
-   - Добавляется кнопка "Оплатить {price}₽" с включенной опцией `pay=True` (для запроса оплаты).
-   - Добавляется кнопка "Отменить" для возврата на главную.
-
-6. **`get_product_buy_robocassa(price: int, payment_link: str)`**:
-   - Функция создает клавиатуру для оплаты через Robocassa.
-   - Добавляется кнопка "Оплатить {price}₽" с использованием `WebAppInfo` для перенаправления на страницу оплаты.
-   - Добавляется кнопка "Отменить" для возврата на главную.
-
-7. **`get_product_buy_stars(price)`**:
-   - Функция создает клавиатуру для оплаты звездами.
-   - Добавляется кнопка "Оплатить {price} ⭐" с включенной опцией `pay=True`.
-   - Добавляется кнопка "Отменить" для возврата на главную.
+1. **Создание InlineKeyboardBuilder**: Используется объект `InlineKeyboardBuilder` для создания inline-клавиатур.
+2. **Добавление кнопок**: К каждой клавиатуре добавляются кнопки с текстом и callback-данными для обработки нажатий.
+3. **Дополнительные функции**:  Для некоторых кнопок используются специальные функции: 
+    - `generate_payment_link` для создания ссылки на платёжную систему
+    - `settings.ADMIN_IDS` для проверки принадлежности пользователя к администраторам
+    - `WebAppInfo` для добавления веб-приложения
+4. **Форматирование**:  Функции `adjust(N)` и `as_markup()` форматируют клавиатуру и возвращают ее в виде `InlineKeyboardMarkup`.
 
 Пример использования
 -------------------------
 
 ```python
-from aiogram import Bot, Dispatcher, types
-from aiogram.filters import CommandStart, Command
-from aiogram.types import Message
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
+from hypotez.src.endpoints.bots.telegram.digital_market.bot.user.kbs import main_user_kb, catalog_kb, product_kb
 
-from bot.config import settings
-from bot.user.kbs import main_user_kb, catalog_kb, product_kb
-from bot.dao.models import Category
+# Отображение главной клавиатуры
+kb = main_user_kb(user_id=12345)
+await bot.send_message(chat_id=user_id, text="Добро пожаловать!", reply_markup=kb)
 
-# Инициализация бота и диспетчера
-bot = Bot(token=settings.BOT_TOKEN)
-dp = Dispatcher()
+# Отображение клавиатуры с категориями
+catalog_data = [
+    Category(id=1, category_name="Одежда"),
+    Category(id=2, category_name="Обувь"),
+]
+kb = catalog_kb(catalog_data=catalog_data)
+await bot.send_message(chat_id=user_id, text="Выберите категорию", reply_markup=kb)
 
-# Обработчик команды /start
-@dp.message(CommandStart())
-async def start(message: Message):
-    """
-    Обработчик команды /start.
+# Отображение клавиатуры для товара
+kb = product_kb(product_id=123, price=1000, stars_price=500)
+await bot.send_message(chat_id=user_id, text="Купить товар", reply_markup=kb)
 
-    Args:
-        message (Message): Объект сообщения от Telegram.
+# Отображение клавиатуры для оплаты ЮКасса
+kb = get_product_buy_youkassa(price=1000)
+await bot.send_message(chat_id=user_id, text="Оплатить ЮКасса", reply_markup=kb)
 
-    """
-    user_id = message.from_user.id
-    keyboard = main_user_kb(user_id)
-    await message.answer("Добро пожаловать в магазин!", reply_markup=keyboard)
+# Отображение клавиатуры для оплаты Robocassa
+payment_link = generate_payment_link(product_id=123, price=1000)
+kb = get_product_buy_robocassa(price=1000, payment_link=payment_link)
+await bot.send_message(chat_id=user_id, text="Оплатить Robocassa", reply_markup=kb)
 
-# Пример использования catalog_kb
-@dp.message(Command("catalog"))
-async def show_catalog(message: Message):
-    """
-    Обработчик команды /catalog.
+# Отображение клавиатуры для оплаты звездами
+kb = get_product_buy_stars(price=500)
+await bot.send_message(chat_id=user_id, text="Оплатить звездами", reply_markup=kb)
+```
 
-    Args:
-        message (Message): Объект сообщения от Telegram.
-
-    """
-    # Подготавливаем данные о категориях (в реальном коде они будут загружаться из БД)
-    categories = [
-        Category(id=1, category_name="Электроника"),
-        Category(id=2, category_name="Одежда"),
-    ]
-    keyboard = catalog_kb(categories)
-    await message.answer("Выберите категорию:", reply_markup=keyboard)
-
-# Пример использования product_kb
-@dp.message(Command("buy"))
-async def show_product(message: Message):
-    """
-    Обработчик команды /buy.
-
-    Args:
-        message (Message): Объект сообщения от Telegram.
-
-    """
-    product_id = 123
-    price = 100
-    stars_price = 50
-    keyboard = product_kb(product_id, price, stars_price)
-    await message.answer("Выберите способ оплаты:", reply_markup=keyboard)
+**Примечание:** 
+- `user_id` - идентификатор пользователя в Telegram
+- `bot` - объект бота Telegram
+- `Category` - модель данных для категории товара
+- `generate_payment_link` - функция для создания ссылки на платёжную систему Robocassa (настройка не показана в примере)
+- Остальные функции используются для создания различных типов клавиатур, как описано в коде.

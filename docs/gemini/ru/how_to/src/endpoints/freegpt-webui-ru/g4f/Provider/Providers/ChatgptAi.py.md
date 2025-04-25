@@ -1,89 +1,39 @@
-Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код реализует взаимодействие с API chatgpt.ai для получения ответов от модели gpt-4. Он отправляет сообщения пользователя в чат и извлекает ответы от ассистента. Код выполняет GET-запрос для получения необходимых параметров nonce, post_id, bot_id из HTML-страницы, а затем отправляет POST-запрос с сообщением пользователя для получения ответа от модели.
+Этот код реализует провайдера для взаимодействия с GPT-4 через веб-интерфейс chatgpt.ai. Он позволяет генерировать текст, используя модель GPT-4, отправляя запросы на сайт chatgpt.ai.
 
 Шаги выполнения
 -------------------------
-1. **Формирование сообщения чата**:
-   - Собирает все сообщения из истории `messages` в единую строку `chat`, добавляя роль и содержимое каждого сообщения.
-   - Добавляет префикс `'assistant: '` к строке, чтобы указать, что ожидается ответ от ассистента.
-
-2. **Выполнение GET-запроса**:
-   - Выполняет GET-запрос к `https://chatgpt.ai/gpt-4/` для получения HTML-контента страницы.
-   - Извлекает значения `nonce`, `post_id`, и `bot_id` из HTML-кода с использованием регулярного выражения `re.findall`.
-
-3. **Формирование заголовков и данных для POST-запроса**:
-   - Определяет `headers` для POST-запроса, включая `user-agent`, `referer` и другие необходимые параметры.
-   - Создает словарь `data` с параметрами, необходимыми для отправки сообщения, такими как `_wpnonce`, `post_id`, `message` и `bot_id`.
-
-4. **Выполнение POST-запроса и получение ответа**:
-   - Выполняет POST-запрос к `https://chatgpt.ai/wp-admin/admin-ajax.php` с использованием сформированных `headers` и `data`.
-   - Извлекает данные ответа в формате JSON и возвращает поле `data` из JSON-ответа.
-
-5. **Генерация строки параметров**:
-   - Создает строку `params`, которая описывает параметры, поддерживаемые функцией `_create_completion`.
-   - Использует `get_type_hints` для получения аннотаций типов параметров и форматирует их в строку.
+1. **Инициализация переменных**:  Определяются базовые параметры, такие как URL сайта, название модели и ее тип (gpt-4).  
+2. **Создание функции _create_completion**: 
+    - Эта функция принимает текст запроса и параметры модели. 
+    - Она формирует строку с текстом запроса, добавив в нее информацию о роли каждого участника диалога.
+    - Отправляет запрос на сайт chatgpt.ai через requests.get.
+    - Извлекает нужные значения (nonce, post_id, bot_id) из ответа с помощью регулярных выражений.
+    - Собирает заголовки запроса (headers) и данные (data).
+    - Отправляет запрос на сервер chatgpt.ai через requests.post.
+    - Возвращает JSON-ответ.
+3. **Параметры функции**: Описывается, какие типы данных поддерживаются функцией _create_completion.
 
 Пример использования
 -------------------------
 
 ```python
-import os
-import requests, re
-from typing import Dict, get_type_hints
+from hypotez.src.endpoints.freegpt-webui-ru.g4f.Provider.Providers.ChatgptAi import _create_completion
 
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    chat = ''
-    for message in messages:
-        chat += '%s: %s\n' % (message['role'], message['content'])
-    chat += 'assistant: '
-
-    response = requests.get('https://chatgpt.ai/gpt-4/')
-
-    nonce, post_id, _, bot_id = re.findall(r'data-nonce="(.*)"\n     data-post-id="(.*)"\n     data-url="(.*)"\n     data-bot-id="(.*)"\n     data-width', response.text)[0]
-
-    headers = {
-        'authority': 'chatgpt.ai',
-        'accept': '*/*',
-        'accept-language': 'en,fr-FR;q=0.9,fr;q=0.8,es-ES;q=0.7,es;q=0.6,en-US;q=0.5,am;q=0.4,de;q=0.3',
-        'cache-control': 'no-cache',
-        'origin': 'https://chatgpt.ai',
-        'pragma': 'no-cache',
-        'referer': 'https://chatgpt.ai/gpt-4/',
-        'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-    }
-    data = {
-        '_wpnonce': nonce,
-        'post_id': post_id,
-        'url': 'https://chatgpt.ai/gpt-4',
-        'action': 'wpaicg_chat_shortcode_message',
-        'message': chat,
-        'bot_id': bot_id
-    }
-
-    response = requests.post('https://chatgpt.ai/wp-admin/admin-ajax.php',
-                            headers=headers, data=data)
-
-    yield (response.json()['data'])
-
-# Пример использования функции
-messages = [{'role': 'user', 'content': 'Hello, how are you?'}]
+messages = [
+    {'role': 'user', 'content': 'Привет! Расскажи мне анекдот.'},
+]
 model = 'gpt-4'
 stream = False
-kwargs = {}
 
-for completion in _create_completion(model, messages, stream, **kwargs):
-    print(completion)
+completion = _create_completion(model, messages, stream)
+print(completion)
+```
 
-params = 'g4f.Providers.ChatgptAi supports: ' + \
-    '(%s)' % ', '.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
-print(params)
+В этом примере:
+- `_create_completion` вызывается с параметрами `model` (название модели), `messages` (список сообщений диалога) и `stream` (флаг потоковой передачи).
+- `completion` содержит JSON-ответ от chatgpt.ai, который можно обработать и вывести на экран.

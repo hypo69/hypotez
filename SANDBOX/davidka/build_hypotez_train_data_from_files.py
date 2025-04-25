@@ -6,160 +6,203 @@
 Модуль для сбора датасета для обучения модели 
 =====================================================
 
+Пример использования:
+```python
+# Ваш словарь (пример структуры "instruction/input/output")
+my_record = {
+  "instruction": "Определи тональность следующего отзыва.",
+  "input": "Обслуживание было отличным, но еда не понравилась.",
+  "output": "смешанная"
+}
+
+# Другой словарь (пример структуры "prompt/completion")
+my_other_record = {
+    "prompt": "Переведи на французский: 'Добрый вечер'",
+    "completion": "Bonsoir"
+}
+
+# Путь к файлу, куда будем записывать
+output_file = 'my_finetuning_data.jsonl'
+
+# Записываем первый словарь
+append_dict_to_jsonl(my_record, output_file)
+
+# Записываем второй словарь (он добавится на новую строку)
+append_dict_to_jsonl(my_other_record, output_file)
+
+print(f"Данные записаны в файл: {output_file}")
+
+# --- Проверка содержимого файла (опционально) ---
+try:
+    with open(output_file, 'r', encoding='utf-8') as f:
+        print("\nСодержимое файла:")
+        print(f.read())
+except FileNotFoundError:
+    print(f"Файл {output_file} не найден.")
+```
 ```rst
 .. module:: sandbox.davidka.build_hypotez_train_data_from_files
 ```
 """
 from pathlib import Path
-# Импорты из вашего проекта
-import header # Предполагаем, что header и __root__ определены правильно
-from header import __root__
-# from src import gs # Закомментировано, т.к. не используется напрямую в генераторе
-# from src.endpoints.hypo69.code_assistant import CodeAssistant # Закомментировано, т.к. не используется
-# Импортируем вашу функцию j_loads и logger (если он используется в j_loads)
-from src.utils.jjson import j_loads 
-# Убедимся, что logger импортирован, если j_loads его использует для вывода ошибок
-try:
-    from src.logger.logger import logger
-except ImportError:
-    # Простой fallback, если logger не найден
-    import logging
-    logger = logging.getLogger(__name__)
-    # Настройка базового логгирования, если ваш logger не настроен
-    if not logger.hasHandlers():
-        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    logger.warning("Модуль 'src.logger.logger' не найден или не настроен, используется стандартный logging.")
+from typing import Generator, Any, Dict, List, Optional, Union # Добавлены аннотации
+
+
+import header 
+from header import __root__ 
+from src import gs
+from src.utils.jjson import j_loads, j_dumps 
+from src.utils.file import save_text_file
+from src.utils.string.ai_string_utils import string_for_train 
+from src.utils.printer import pprint as print
+from src.logger import logger
 
 
 class Config:
+    # Используем импортированный __root__
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
-    # Определим путь к директории с JSON файлами более явно
     DIALOGS_DIR: Path = ENDPOINT / 'dialogs with gemini from Google AI studio'
+    output_file: Path = ENDPOINT / 'code_train_data' / f'dialogs_{gs.now}.jsonl'
 
-def yield_dialog_chunks():
+def yield_dialog_chunks() -> Generator[Any, None, None]:
     """
     Генератор, который находит JSON файлы в директории Config.DIALOGS_DIR,
     читает каждый файл по отдельности с помощью j_loads, 
     извлекает из него списки 'chunks' и выдает (yields) каждый 'chunk'.
+
+    Returns:
+        Generator[Any, None, None]: Генератор, выдающий элементы ('chunks'). 
+                                     Тип 'chunk' предполагается Any, т.к. не указан.
+    
+    Yields:
+        Any: Следующий 'chunk' из найденных файлов.
     """
-    dialogs_dir = Config.DIALOGS_DIR
+    # Объявление переменных в начале функции
+    dialogs_dir: Path = Config.DIALOGS_DIR
+    json_file_paths: Generator[Path, None, None] 
+    found_files: bool = False
+    file_path: Path
+    loaded_data: Union[Dict, List, None] # j_loads возвращает dict или list, или {} (Falsy)
+    items_to_process: List[Dict] 
+    item_index: int
+    item: Dict # Предполагаем, что элементы в items_to_process - словари
+    chunked_prompt: Optional[Dict]
+    chunks: Optional[List]
+    chunk_index: int
+    chunk: Any
+    ex: Exception
 
-    # 1. Проверяем, существует ли директория
+    # 1. Проверка, существует ли директория
     if not dialogs_dir.is_dir():
-        logger.error(f"Директория не найдена: {dialogs_dir}")
-        return # Завершаем генератор, т.к. нечего читать
+        logger.error(f'Директория не найдена: {dialogs_dir}')
+        return # Завершение генератора
 
-    # 2. Получаем итератор путей к JSON файлам в директории
-    #    Использование glob напрямую как итератора экономит память, если файлов очень много
+    # 2. Получение итератора путей к JSON файлам
     json_file_paths = dialogs_dir.glob('*.json')
     
-    found_files = False # Флаг для проверки, были ли найдены файлы
-
-    # 3. Итерируемся по путям к файлам
+    # 3. Итерация по путям к файлам
     for file_path in json_file_paths:
-        found_files = True # Отмечаем, что хотя бы один файл найден
-        # logger.debug(f"Обработка файла: {file_path.name}") # Раскомментировать для детальной отладки
+        found_files = True 
+        # logger.debug(f'Обработка файла: {file_path.name}') 
 
-        # 4. Загружаем содержимое ОДНОГО файла с помощью вашей функции j_loads
-        #    j_loads должен вернуть dict или list при успехе, или Falsy ({}) при ошибке.
+        # 4. Загрузка содержимого ОДНОГО файла с помощью j_loads
         loaded_data = j_loads(file_path) 
 
-        # 5. Проверяем результат загрузки (Falsy check - {} считается Falsy)
+        # 5. Проверка результата загрузки (Falsy check)
         if not loaded_data:
             # j_loads должен был залогировать ошибку внутри себя.
-            logger.warning(f"Пропуск файла из-за ошибки загрузки или пустого содержимого: {file_path.name}")
-            continue # Переходим к следующему файлу
+            logger.warning(f'Пропуск файла из-за ошибки загрузки или пустого содержимого: {file_path.name}')
+            continue # Переход к следующему файлу
 
-        # 6. Обрабатываем успешно загруженные данные.
-        #    Нормализуем данные к списку для единообразной обработки.
+        # 6. Нормализация данных к списку для единообразной обработки
         items_to_process = []
         if isinstance(loaded_data, dict):
-            # Если файл содержит один JSON-объект
             items_to_process.append(loaded_data)
         elif isinstance(loaded_data, list):
-             # Если файл содержит JSON-массив объектов
-             items_to_process = loaded_data
+             # Фильтрация, чтобы убедиться, что обрабатываем только словари из списка
+             original_length: int = len(loaded_data)
+             items_to_process = [d for d in loaded_data if isinstance(d, dict)]
+             if len(items_to_process) != original_length:
+                 logger.warning(f'Некоторые элементы в списке файла {file_path.name} не являются словарями и были проигнорированы.')
         else:
-            # На случай, если j_loads вернет что-то неожиданное, но не Falsy
-            logger.warning(f"Неожиданный тип данных ({type(loaded_data)}) после j_loads для файла: {file_path.name}")
-            continue
+            logger.warning(f'Неожиданный тип данных ({type(loaded_data)}) после j_loads для файла: {file_path.name}')
+            continue # Переход к следующему файлу
 
-        # 7. Итерируемся по элементам (диалогам?) из файла
+        # 7. Итерация по элементам (диалогам?) из файла
         for item_index, item in enumerate(items_to_process):
-            if isinstance(item, dict):
-                try:
-                    # Безопасно извлекаем 'chunks', используя .get() для вложенных словарей
-                    chunked_prompt = item.get('chunkedPrompt')
-                    if isinstance(chunked_prompt, dict):
-                        chunks = chunked_prompt.get('chunks')
-                        if isinstance(chunks, list):
-                            # 8. Если 'chunks' найден и это список, генерируем каждый chunk
-                            for chunk_index, chunk in enumerate(chunks):
-                                yield chunk
-                        # else: # Опционально: логировать, если 'chunks' не список
-                        #     if 'chunks' in chunked_prompt:
-                        #          logger.warning(f"Ключ 'chunks' в элементе {item_index} файла {file_path.name} не является списком.")
-                    # else: # Опционально: логировать, если 'chunkedPrompt' не словарь
-                    #     if 'chunkedPrompt' in item:
-                    #          logger.warning(f"Ключ 'chunkedPrompt' в элементе {item_index} файла {file_path.name} не является словарем.")
-                
-                except Exception as e: 
-                    # Ловим прочие ошибки при доступе к данным внутри элемента
-                    logger.error(f"Неожиданная ошибка при извлечении chunks из элемента {item_index} файла {file_path.name}: {e}", exc_info=False) 
-            else:
-                # Если элемент в JSON-массиве не является словарем
-                logger.warning(f"Элемент {item_index} в файле {file_path.name} не является словарем (тип: {type(item)}), пропускается.")
+            try:
+                # Безопасное извлечение 'chunks'
+                chunked_prompt = item.get('chunkedPrompt')
+                if isinstance(chunked_prompt, dict):
+                    chunks = chunked_prompt.get('chunks')
+                    if isinstance(chunks, list):
+                        # 8. Генерация каждого chunk
+                        for chunk_index, chunk in enumerate(chunks):
+                            yield chunk
+                            
+            except Exception as ex: 
+                # Обработка ошибки с использованием переменной ex
+                logger.error(f'Неожиданная ошибка при извлечении chunks из элемента {item_index} файла {file_path.name}', ex, exc_info=False) 
 
-    # Логируем, если ни одного файла не было найдено (glob вернул пустой итератор)
+    # Логирование, если ни одного файла не было найдено
     if not found_files:
-         logger.warning(f"В директории {dialogs_dir} не найдено *.json файлов.")
+         logger.warning(f'В директории {dialogs_dir} не найдено *.json файлов.')
 
 
-# --- Пример использования генератора ---
-# Этот блок обычно помещают в другое место программы, где реально нужны данные,
-# или оставляют для тестирования модуля.
+def append_dict_to_jsonl(data_dict, file_path: Path | str = '') -> bool:
+  """
+  Добавляет Python-словарь как новую строку в JSONL файл.
+
+  Args:
+    data_dict (dict): Словарь для записи.
+    file_path (str): Путь к JSONL файлу.
+  """
+  file_path = file_path if file_path else Config.output_file
+  return True is j_dumps(data_dict, file_path, ensure_ascii=False) 
+ 
+
+
 if __name__ == "__main__":
-    # --- Предварительные проверки и настройка (для возможности запуска скрипта) ---
-    # Убедитесь, что __root__ инициализирован правильно 
-    if '__root__' not in globals() or not isinstance(__root__, Path):
-         logger.error("Переменная __root__ не определена или имеет неверный тип. Невозможно определить Config.")
-         # Попытка определить __root__ для локального запуска (может не совпадать с вашей структурой)
-         try:
-             current_file_path = Path(__file__).resolve()
-             # Пример: если скрипт лежит в /sandbox/davidka/, а __root__ это корень проекта
-             __root__ = current_file_path.parent.parent.parent 
-             logger.info(f"Установлено предполагаемое значение __root__: {__root__}")
-             # Переопределяем Config с новым __root__
-             class Config:
-                 ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
-                 DIALOGS_DIR: Path = ENDPOINT / 'dialogs with gemini from Google AI studio'
-         except Exception as e:
-             logger.exception(f"Не удалось автоматически определить __root__. Задайте его вручную или запустите из корректного окружения. Ошибка: {e}")
-             exit(1) # Выход, если __root__ не установлен
+    # Объявление переменных в начале блока
+    chunk_count: int = 0
+    all_chunks_received: List[Any] = []
+    i: int
+    chunk_item: Any
+    ex: Exception
+    
+    # Проверка существования директории перед запуском
+    if not Config.DIALOGS_DIR.exists():
+         logger.error(f'Директория для диалогов не существует: {Config.DIALOGS_DIR}')
+         logger.error('Пожалуйста, убедитесь, что путь в Config правильный и директория создана.')
+         exit(1) # Выход при отсутствии директории
 
-    # --- Запуск генератора и вывод результатов ---
-    logger.info(f"--- Запуск генератора yield_dialog_chunks из {Config.DIALOGS_DIR} ---")
-    chunk_count = 0
-    all_chunks_received = []
+    logger.info(f'--- Запуск генератора yield_dialog_chunks из {Config.DIALOGS_DIR} ---')
+
     try:
-        # Итерируемся по генератору
+        # Итерация по генератору
         for i, chunk_item in enumerate(yield_dialog_chunks()):
-            # Здесь вы можете обрабатывать каждый chunk_item
-            # Например, печатать его или передавать в другую функцию
-            logger.info(f"Получен Chunk {i+1}: {str(chunk_item)[:150]}...") # Печатаем начало чанка
-            all_chunks_received.append(chunk_item)
+            #logger.info(f'Получен Chunk {i+1}: {str(chunk_item)[:150]}...')
+            if 'tokenCount' in chunk_item:
+                del chunk_item['tokenCount']
+            chunk_item_trainig_str:str = string_for_train( str(chunk_item) ) # Преобразование в строку
+            all_chunks_received.append( chunk_item)
             chunk_count += 1
-            # Можно добавить условие для остановки при отладке
-            # if chunk_count >= 10:
-            #    logger.info("Достигнуто ограничение вывода в 10 чанков.")
-            #    break 
+            if chunk_count >= 10: # Ограничение для отладки
+               logger.info('Достигнуто ограничение вывода.')
+               Config.output_file = Config.output_file.with_name(f'dialogs_{gs.now}.jsonl')
+               chunk_count = 0
+               ...
+            #append_dict_to_jsonl(chunk_item, Config.output_file) # Запись в файл)JSON
+            if not save_text_file( chunk_item_trainig_str + ',\n', Config.output_file, mode = 'a'): # Запись в файл JSONL Как текст 
+                logger.error(f'Ошибка при записи в файл {Config.output_file}')
+                ...
+                break
+            ...
 
-    except Exception as e:
-         logger.exception(f"Произошла ошибка во время итерации по генератору: {e}")
+    except Exception as ex: # Обработка ошибки с использованием переменной ex
+         logger.error('Произошла ошибка во время итерации по генератору', ex, exc_info=True) 
+         ...
 
-    logger.info(f"--- Генератор завершил работу ---")
-    logger.info(f"Всего получено чанков: {chunk_count}")
-    # logger.debug(f"Все полученные чанки: {all_chunks_received}") # Раскомментировать для полного списка чанков
-
-    # Исходный вызов yeld_dialogs() здесь не нужен и был некорректен для генератора
-    # yeld_dialogs() 
+    logger.info('--- Генератор завершил работу ---')
+    logger.info(f'Всего получено чанков: {chunk_count}')
+    # logger.debug(f'Все полученные чанки: {all_chunks_received}') 

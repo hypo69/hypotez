@@ -3,42 +3,28 @@
 
 Описание
 -------------------------
-Этот блок кода определяет новый тип `sha256` как псевдоним для типа `str`, используя `NewType` из модуля `typing`. Это позволяет создавать более конкретные типы данных, улучшая читаемость и безопасность кода.
+Данный блок кода создает новый тип данных `sha256`, который представляет собой строку, представляющую хэш SHA-256. 
 
 Шаги выполнения
 -------------------------
-1. Импортируется `NewType` из модуля `typing`.
-2. Создается новый тип `sha256` на основе типа `str`. Теперь `sha256` может быть использован как отдельный тип для представления SHA256 хешей.
+1. **Импортируется модуль `typing`**:  `from typing import Dict, NewType, Union, Optional, List, get_type_hints`
+2. **Определение нового типа данных**:  `sha256 = NewType('sha_256_hash', str)` 
+   - Используется функция `NewType` из модуля `typing` для создания нового типа данных.
+   - В качестве имени типа передается строка `'sha_256_hash'`, а в качестве базового типа используется `str` (строка).
 
 Пример использования
 -------------------------
 
 ```python
-from typing import NewType
+from typing import Dict, NewType, Union, Optional, List, get_type_hints
 
-# Определение нового типа sha256
 sha256 = NewType('sha_256_hash', str)
 
-def validate_hash(hash_value: sha256) -> bool:
-    """
-    Функция проверяет, является ли переданное значение корректным SHA256 хешем.
+# Создаем объект типа sha256
+hash_value: sha256 = "e5e9fa1ba31ecd1a07f9786814f00a4c51375b11064f05c0503000c9521a8d1c"
 
-    Args:
-        hash_value (sha256): Значение хеша для проверки.
+# Проверка типа данных
+if isinstance(hash_value, sha256):
+    print("Переменная hash_value имеет тип sha256")
 
-    Returns:
-        bool: True, если хеш корректен, иначе False.
-    """
-    if len(hash_value) != 64:  # SHA256 хеш имеет длину 64 символа
-        return False
-    return True
-
-# Пример использования
-valid_hash: sha256 = sha256("a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3")
-invalid_hash: str = "invalid"
-
-print(f"Valid hash: {validate_hash(valid_hash)}")
-# Функция возвращает: Valid hash: True
-
-print(f"Invalid hash: {validate_hash(sha256(invalid_hash))}")
-# Функция возвращает: Invalid hash: False
+```

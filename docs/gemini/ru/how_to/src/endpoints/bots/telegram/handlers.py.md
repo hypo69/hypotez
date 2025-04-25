@@ -1,92 +1,55 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код содержит класс `BotHandler`, который обрабатывает различные команды и сообщения, отправленные через Telegram-бота. Он включает в себя обработку URL-адресов, текстовых сообщений, голосовых сообщений, документов и команд, таких как `/start`, `/help` и `/sendpdf`.
+Этот блок кода представляет класс `BotHandler`, который является обработчиком событий для Telegram-бота. Он обрабатывает различные типы сообщений, отправленных пользователем, такие как текстовые сообщения, URL-адреса, голосовые сообщения, документы и команды.
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
 1. **Инициализация `BotHandler`**:
-   - Создается экземпляр класса `BotHandler`.
-   - В конструкторе происходит инициализация необходимых параметров.
-     ```python
-     handler = BotHandler()
-     ```
+   - Создается экземпляр класса `BotHandler` с опциональными параметрами.
+   - Класс использует различные библиотеки для обработки событий, включая `telegram`, `bs4`, `header`, `gs`, `requests`, `asyncio`, `random` и др.
+2. **Обработка различных типов событий**: 
+   - **`handle_url(self, update: Update, context: CallbackContext) -> Any`**: 
+     - Обрабатывает URL, отправленный пользователем.
+   - **`handle_next_command(self, update: Update) -> None`**: 
+     - Обрабатывает команду '--next' и ее аналоги.
+   - **`handle_message(self, update: Update, context: CallbackContext) -> None`**: 
+     - Обрабатывает любое текстовое сообщение, отправленное пользователем.
+   - **`start(self, update: Update, context: CallbackContext) -> None`**: 
+     - Обрабатывает команду '/start'.
+   - **`help_command(self, update: Update, context: CallbackContext) -> None`**: 
+     - Обрабатывает команду '/help'.
+   - **`send_pdf(self, update: Update, context: CallbackContext) -> None`**: 
+     - Обрабатывает команду '/sendpdf' и отправляет PDF-файл.
+   - **`handle_voice(self, update: Update, context: CallbackContext) -> None`**: 
+     - Обрабатывает голосовые сообщения и распознает текст из них.
+   - **`transcribe_voice(self, file_path: Path) -> str`**: 
+     - Распознает текст из голосового сообщения. 
+   - **`handle_document(self, update: Update, context: CallbackContext) -> bool`**: 
+     - Обрабатывает полученные документы.
+   - **`handle_log(self, update: Update, context: CallbackContext) -> None`**: 
+     - Обрабатывает сообщения журнала.
+3. **Ответ пользователю**:
+   - В зависимости от типа сообщения, `BotHandler` генерирует и отправляет соответствующий ответ пользователю.
 
-2. **Обработка URL**:
-   - Метод `handle_url` обрабатывает URL-адреса, отправленные пользователем.
-   - Вызывает соответствующие функции для обработки URL.
-     ```python
-     await handler.handle_url(update, context)
-     ```
-
-3. **Обработка текстовых сообщений**:
-   - Метод `handle_message` обрабатывает любые текстовые сообщения, отправленные пользователем.
-   - Логирует полученное сообщение и отвечает пользователю.
-     ```python
-     await handler.handle_message(update, context)
-     ```
-
-4. **Обработка команды `/start`**:
-   - Метод `start` обрабатывает команду `/start`.
-   - Отвечает пользователю приветственным сообщением.
-     ```python
-     await handler.start(update, context)
-     ```
-
-5. **Обработка команды `/help`**:
-   - Метод `help_command` обрабатывает команду `/help`.
-   - Отвечает пользователю списком доступных команд.
-     ```python
-     await handler.help_command(update, context)
-     ```
-
-6. **Обработка команды `/sendpdf`**:
-   - Метод `send_pdf` обрабатывает команду `/sendpdf`.
-   - Отправляет пользователю PDF-файл.
-   - Обрабатывает возможные ошибки при отправке файла.
-     ```python
-     await handler.send_pdf(update, context)
-     ```
-
-7. **Обработка голосовых сообщений**:
-   - Метод `handle_voice` обрабатывает голосовые сообщения, отправленные пользователем.
-   - Получает файл голосового сообщения, скачивает его и транскрибирует текст.
-   - Отвечает пользователю распознанным текстом.
-     ```python
-     await handler.handle_voice(update, context)
-     ```
-
-8. **Обработка документов**:
-   - Метод `handle_document` обрабатывает документы, отправленные пользователем.
-   - Получает файл документа, скачивает его и сохраняет локально.
-   - Отвечает пользователю сообщением об успешном сохранении файла.
-     ```python
-     await handler.handle_document(update, context)
-     ```
-
-9. **Обработка логов**:
-   - Метод `handle_log` обрабатывает логи, отправленные пользователем.
-   - Логирует полученное сообщение и отвечает пользователю.
-     ```python
-     await handler.handle_log(update, context)
-     ```
-
-Пример использования
+### Пример использования
 -------------------------
-
 ```python
-from telegram import Update
-from telegram.ext import CallbackContext
-from src.endpoints.bots.telegram.handlers import BotHandler
-
-# Пример использования BotHandler для обработки команды /start
-async def start_command(update: Update, context: CallbackContext):
+    # Создание обработчика
     handler = BotHandler()
-    await handler.start(update, context)
 
-# Пример использования BotHandler для обработки текстового сообщения
-async def text_message(update: Update, context: CallbackContext):
-    handler = BotHandler()
-    await handler.handle_message(update, context)
+    # Получение обновления от Telegram
+    update = ...
+    context = ...
+
+    # Обработка URL, отправленного пользователем
+    handler.handle_url(update, context)
+
+    # Отправка PDF-файла
+    handler.send_pdf(update, context)
+
+    # Обработка голосового сообщения
+    handler.handle_voice(update, context)
+```

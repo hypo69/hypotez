@@ -1,85 +1,52 @@
-### **Как использовать этот блок кода**
-
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код предназначен для автоматической публикации мероприятий в группы Facebook с использованием веб-драйвера Chrome. Он циклически выполняет публикацию мероприятий, определенных в файлах конфигурации, в различные группы Facebook, списки которых также загружаются из файлов конфигурации.
+Этот блок кода запускает кампанию по продвижению товаров в группах Facebook. Он работает с файлами, содержащими информацию о группах и событиях, и отправляет эти события в указанные группы.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация драйвера**:
-   - Создается экземпляр драйвера Chrome для управления браузером.
-   - Выполняется переход на главную страницу Facebook.
+1. **Инициализация**:
+    - Загружается веб-драйвер Chrome (Driver(Chrome)).
+    - Открыть веб-страницу Facebook (d.get_url(r"https://facebook.com")).
+    - Определяются списки файлов с группами: 
+        - `filenames` - список файлов с группами, для которых будет запущена кампания.
+        - `excluded_filenames` - список файлов с группами, которые будут исключены из кампании. 
+    - Загружается список названий событий: `events_names` - список событий, которые будут отправлены в группы.
+    - Создается объект FacebookPromoter с веб-драйвером, списком файлов с группами и флагом `no_video = True`, который запрещает отправку видео.
 
-2. **Определение файлов конфигурации**:
-   - Определяются списки имен файлов, содержащих информацию о группах Facebook и исключенных файлах.
-   - Определяется список имен мероприятий для публикации.
+2. **Запуск кампании**:
+    - В бесконечном цикле `while True` код выполняет следующие действия:
+        - Выводит сообщение в лог о запуске (`logger.debug`).
+        - Вызывает функцию `run_events` класса FacebookPromoter для отправки событий в группы.
+        - Выводит сообщение в лог о переходе в спящий режим (`logger.debug`).
+        - Устанавливает временной интервал в 7200 секунд (2 часа) (`time.sleep(7200)`).
 
-3. **Инициализация промоутера Facebook**:
-   - Создается экземпляр класса `FacebookPromoter`, который отвечает за публикацию мероприятий в группах Facebook.
-   - Ему передаются драйвер Chrome, пути к файлам с информацией о группах и флаг, указывающий на отсутствие видео.
-
-4. **Запуск цикла публикации мероприятий**:
-   - Запускается бесконечный цикл, который выполняет следующие действия:
-     - Логирует время начала работы.
-     - Вызывает метод `run_events` объекта `FacebookPromoter` для публикации мероприятий, определенных в файлах конфигурации, в группы Facebook.
-     - Логирует время ухода в сон.
-     - Приостанавливает выполнение на 7200 секунд (2 часа).
-
-5. **Обработка прерывания с клавиатуры**:
-   - Если пользователь прерывает выполнение программы с помощью комбинации клавиш, например Ctrl+C, то выводится информационное сообщение о прерывании продвижения кампании.
+3. **Обработка прерывания**:
+    - Если пользователь нажимает `Ctrl+C`, код прерывается, и выводится сообщение в лог о прерывании кампании (`logger.info`).
 
 Пример использования
 -------------------------
 
 ```python
-## \file /src/endpoints/advertisement/facebook/start_event.py
-# -*- coding: utf-8 -*-
-
-#! .pyenv/bin/python3
-
-"""
-.. module:: src.endpoints.advertisement.facebook 
-    :platform: Windows, Unix
-    :synopsis: Отправка мероприятий в группы фейсбук
-
-"""
-
-
-from math import log
-import header
-import time
-from src.utils.jjson import j_loads
-from src.webdriver.driver import Driver, Chrome
 from src.endpoints.advertisement.facebook import FacebookPromoter
+from src.webdriver.driver import Driver, Chrome
 from src.logger.logger import logger
 
+# Инициализация драйвера и FacebookPromoter
 d = Driver(Chrome)
 d.get_url(r"https://facebook.com")
+promoter = FacebookPromoter(d, group_file_paths=["my_managed_groups.json", "usa.json"], no_video=True)
 
-filenames:list[str] = [ "my_managed_groups.json",
-                        "usa.json",
-                        "he_il.json",
-                        "ru_il.json",
-                        "katia_homepage.json",
-                        
-                        "ru_usd.json",
-                        "ger_en_eur.json",            
-                        ]
-excluded_filenames:list[str] = ["my_managed_groups.json",]
-
-events_names:list = ["choice_day_01_10"]
-
-
-promoter:FacebookPromoter = FacebookPromoter(d, group_file_paths=filenames, no_video = True)
-
+# Запуск кампании
 try:
     while True:
-        logger.debug(f"waikig up {time.strftime('%H:%M:%S')}",None,False)
-        promoter.run_events(events_names = events_names, group_file_paths = filenames)
-        logger.debug(f"going to sleep at {time.strftime('%H:%M:%S')}",None,False)
-        time.sleep(7200)
-        
+        logger.debug(f"waikig up {time.strftime('%H:%M:%S')}", None, False)
+        promoter.run_events(events_names=["choice_day_01_10"], group_file_paths=["my_managed_groups.json", "usa.json"])
+        logger.debug(f"going to sleep at {time.strftime('%H:%M:%S')}", None, False)
+        time.sleep(7200)  # Пауза 2 часа
+
 except KeyboardInterrupt:
     logger.info("Campaign promotion interrupted.")
+```

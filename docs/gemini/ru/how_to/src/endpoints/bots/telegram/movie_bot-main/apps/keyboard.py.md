@@ -1,74 +1,29 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код создает два набора кнопок для Telegram-ботов, используя библиотеку `aiogram`. Первый набор (`find_movie`) содержит одну кнопку для поиска новых фильмов. Второй набор (`choice`) предлагает пользователю выбор между фильмами и сериалами.
+Этот код создает две инлайн-клавиатуры для бота Telegram. Первая клавиатура (`find_movie`) содержит одну кнопку "Найти", которая активирует действие `new_movies`. Вторая клавиатура (`choice`) содержит две кнопки: "Сериал" (активирует действие `series`) и "Фильм" (активирует действие `film`).
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются классы `InlineKeyboardButton` и `InlineKeyboardMarkup` из библиотеки `aiogram.types`. `InlineKeyboardButton` используется для создания отдельных кнопок, а `InlineKeyboardMarkup` — для объединения этих кнопок в клавиатуру.
-
-2. **Создание клавиатуры `find_movie`**:
-   - Создается объект `InlineKeyboardMarkup` с именем `find_movie`.
-   - В `inline_keyboard` передается список списков, где каждый внутренний список представляет собой строку кнопок. В данном случае создается одна строка с одной кнопкой.
-   - Кнопка создается с текстом 'Найти' и callback-данными 'new_movies'. Callback-данные используются для обработки нажатия на кнопку.
-
-3. **Создание клавиатуры `choice`**:
-   - Создается объект `InlineKeyboardMarkup` с именем `choice`.
-   - В `inline_keyboard` передается список списков, где каждый внутренний список представляет собой строку кнопок. В данном случае создается одна строка с двумя кнопками.
-   - Первая кнопка создается с текстом 'Сериал' и callback-данными 'series'.
-   - Вторая кнопка создается с текстом 'Фильм' и callback-данными 'film'.
+1. Импортируется модуль `InlineKeyboardButton` и `InlineKeyboardMarkup` из библиотеки `aiogram.types`. 
+2. Создается клавиатура `find_movie` с одной кнопкой "Найти", при нажатии на которую бот выполнит действие `new_movies`.
+3. Создается клавиатура `choice` с двумя кнопками: "Сериал" и "Фильм", которые активируют действия `series` и `film` соответственно.
 
 Пример использования
 -------------------------
 
 ```python
-from aiogram import Bot, Dispatcher, types
-from aiogram.utils import executor
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-# Замените 'YOUR_BOT_TOKEN' на токен вашего бота
-BOT_TOKEN = 'YOUR_BOT_TOKEN'
+# ... (остальной код бота)
 
-bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher(bot)
+@dp.callback_query_handler(text='start')
+async def start_handler(call: CallbackQuery):
+    await call.message.answer("Что вы хотите найти?", reply_markup=choice)
 
-find_movie = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='Найти', callback_data='new_movies')]
-])
+# ... (остальной код бота)
+```
 
-choice = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='Сериал', callback_data='series'),
-     InlineKeyboardButton(text='Фильм', callback_data='film')]
-])
-
-@dp.message_handler(commands=['start'])
-async def send_welcome(message: types.Message):
-    """
-    Функция отправляет приветственное сообщение и предлагает выбрать действие.
-    """
-    await message.reply("Привет! Что вы хотите найти?", reply_markup=choice)
-
-@dp.callback_query_handler(lambda c: c.data == 'new_movies')
-async def process_callback_find_movie(callback_query: types.CallbackQuery):
-    """
-    Обработчик callback-данных для кнопки 'Найти'.
-    """
-    await bot.answer_callback_query(callback_query.id)
-    await bot.send_message(callback_query.from_user.id, 'Вы нажали кнопку "Найти".')
-
-@dp.callback_query_handler(lambda c: c.data in ['series', 'film'])
-async def process_callback_choice(callback_query: types.CallbackQuery):
-    """
-    Обработчик callback-данных для кнопок 'Сериал' и 'Фильм'.
-    """
-    await bot.answer_callback_query(callback_query.id)
-    if callback_query.data == 'series':
-        await bot.send_message(callback_query.from_user.id, 'Вы выбрали Сериал.')
-    elif callback_query.data == 'film':
-        await bot.send_message(callback_query.from_user.id, 'Вы выбрали Фильм.')
-
-if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
+В данном примере, при получении запроса `start` бот отправляет пользователю сообщение "Что вы хотите найти?" с клавиатурой `choice`, содержащей кнопки "Сериал" и "Фильм". После того, как пользователь выберет один из вариантов, бот получит соответствующий callback_data (`series` или `film`) и выполнит соответствующие действия.

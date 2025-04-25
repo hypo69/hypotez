@@ -1,63 +1,47 @@
-### Как использовать блок кода с исключениями
+## Как использовать модуль exceptions
 =========================================================================================
 
 Описание
 -------------------------
-Данный блок кода содержит набор пользовательских исключений, используемых в приложении. Он включает базовый класс `CustomException`, который обеспечивает логирование исключений, а также ряд специфических исключений, таких как `FileNotFoundError`, `ProductFieldException`, `KeePassException`, `DefaultSettingsException`, `WebDriverException`, `ExecuteLocatorException`, `PrestaShopException` и `PrestaShopAuthenticationError`.
+Модуль `exceptions` предоставляет набор пользовательских исключений, которые используются в приложении для обработки различных ошибок. 
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются модули `typing`, `src.logger.logger`, `selenium.common.exceptions` и `pykeepass.exceptions`.
-2. **Определение класса `CustomException`**:
-   - Создается базовый класс исключений `CustomException`, который наследуется от `Exception`.
-   - В конструкторе класса `__init__` инициализируются атрибуты `message`, `original_exception` и `exc_info`.
-   - Метод `handle_exception` используется для логирования информации об исключении и оригинальном исключении, если оно есть.
-3. **Определение специфических классов исключений**:
-   - Определяются классы исключений, такие как `FileNotFoundError`, `ProductFieldException`, `KeePassException`, `DefaultSettingsException`, `WebDriverException`, `ExecuteLocatorException`, `PrestaShopException` и `PrestaShopAuthenticationError`, которые наследуются от `CustomException` или других стандартных исключений.
-   - Каждый класс представляет собой конкретный тип ошибки, который может возникнуть в приложении.
-4. **Использование исключений в коде**:
-   - В коде, где может возникнуть ошибка, генерируется соответствующее исключение.
-   - Исключения перехватываются с помощью блоков `try...except` для обработки ошибок и выполнения необходимых действий, таких как логирование или восстановление после ошибки.
+1. **Определение базового класса исключения `CustomException`**: 
+    - Класс `CustomException` является базовым классом для всех пользовательских исключений. 
+    - Он содержит логику для обработки исключений, включая:
+        - Логирование ошибки с помощью модуля `logger`.
+        - Логирование оригинального исключения (если оно есть) с помощью `logger.debug`.
+        - Возможность добавить логику восстановления, повторов или других действий.
+2. **Создание специализированных классов исключений**:
+    - Модуль `exceptions` содержит специализированные классы исключений для различных сценариев ошибок, таких как:
+        - `FileNotFoundError` - для ошибок при поиске файла.
+        - `ProductFieldException` - для ошибок, связанных с полями товара.
+        - `KeePassException` - для ошибок, связанных с подключением к базе данных KeePass.
+        - `DefaultSettingsException` - для ошибок, связанных с настройками по умолчанию.
+        - `WebDriverException` - для ошибок, связанных с WebDriver.
+        - `ExecuteLocatorException` - для ошибок, связанных с исполнением локаторов.
+        - `PrestaShopException` - для общих ошибок WebService PrestaShop.
+        - `PrestaShopAuthenticationError` - для ошибок аутентификации в PrestaShop WebService.
 
 Пример использования
 -------------------------
 
 ```python
-from src.logger.exceptions import FileNotFoundError, ProductFieldException, CustomException
+from src.logger.exceptions import FileNotFoundError
 
-def process_file(file_path: str):
-    """
-    Функция для обработки файла.
-
-    Args:
-        file_path (str): Путь к файлу.
-
-    Raises:
-        FileNotFoundError: Если файл не найден.
-        ProductFieldException: Если возникла ошибка при обработке полей продукта.
-        CustomException: Если произошла другая ошибка.
-    """
-    try:
-        with open(file_path, 'r') as f:
-            content = f.read()
-            # Дополнительная обработка файла
-            if not content:
-                raise ProductFieldException("Файл пуст")
-            print(f"Содержимое файла: {content}")
-    except FileNotFoundError as e:
-        raise FileNotFoundError(f"Файл не найден: {file_path}", e)
-    except ProductFieldException as e:
-        raise ProductFieldException(f"Ошибка при обработке полей продукта в файле: {file_path}", e)
-    except Exception as e:
-        raise CustomException(f"Произошла ошибка при обработке файла: {file_path}", e)
-
-# Пример использования функции
 try:
-    process_file('example.txt')
+    # Попытка открыть файл, который не существует
+    with open("non_existent_file.txt", "r") as f:
+        # Обработка файла
+        pass
 except FileNotFoundError as e:
-    print(f"Ошибка: {e}")
-except ProductFieldException as e:
-    print(f"Ошибка: {e}")
-except CustomException as e:
-    print(f"Ошибка: {e}")
+    # Обработка исключения FileNotFoundError
+    print(f"Файл не найден: {e}")
+```
+
+В этом примере мы пытаемся открыть файл, которого не существует. Это приводит к вызову исключения `FileNotFoundError`, которое обрабатывается блоком `except`. 
+
+**Важно**:
+- Использование пользовательских исключений обеспечивает более четкое разделение ошибок и позволяет более эффективно обрабатывать их в коде.
+- Пользовательские исключения также упрощают чтение кода, так как они дают более подробную информацию об ошибке.

@@ -1,70 +1,67 @@
-### **Как использовать блок кода `get_graber_by_supplier_url`**
-
+## Как использовать `get_graber_by_supplier_url` и `get_graber_by_supplier_prefix`
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Функция `get_graber_by_supplier_url` определяет и возвращает соответствующий объект-грабер в зависимости от URL поставщика. Каждый поставщик имеет свой собственный грабер, предназначенный для извлечения данных с его страниц.
+Модуль `get_graber_by_supplier` предоставляет функции `get_graber_by_supplier_url` и `get_graber_by_supplier_prefix`, которые  позволяют получить объект грабера для конкретного поставщика на основе URL-адреса или префикса имени поставщика. 
 
-Шаги выполнения
+Каждый поставщик имеет свой собственный класс грабера, который извлекает данные с целевой HTML-страницы.
+
+
+### Шаги выполнения
 -------------------------
-1. Функция `get_graber_by_supplier_url` принимает URL-адрес страницы поставщика (`url`) и индекс языка (`lang_index`) в качестве входных параметров.
-2. Функция выполняет проверку URL-адреса на соответствие известным префиксам URL-адресов поставщиков, таким как "https://aliexpress.com", "https://amazon.com" и т.д.
-3. Если URL-адрес соответствует одному из известных префиксов, функция создает экземпляр соответствующего класса грабера (например, `AliexpressGraber`, `AmazonGraber`) и возвращает его. Класс грабера инициализируется с драйвером и индексом языка.
-4. Если URL-адрес не соответствует ни одному из известных префиксов, функция записывает отладочное сообщение в лог с помощью `logger.debug` и возвращает `None`.
+1. **Импортируйте необходимые модули:**
+   - `get_graber_by_supplier` для доступа к функциям.
+   - `Driver` (веб-драйвер) из `src.webdriver`. 
+   - `Graber` из `src.suppliers.graber` для получения грабера.
+   - `logger` из `src.logger.logger` для логирования.
 
-Пример использования
+2. **Инициализируйте экземпляр веб-драйвера:**
+   - Создайте экземпляр класса `Driver` с нужным типом драйвера (Chrome, Firefox, Playwright и т.д.).
+
+3. **Используйте функцию `get_graber_by_supplier_url` для получения грабера по URL:**
+   - Передайте экземпляр веб-драйвера (`driver`), URL-адрес поставщика (`url`) и индекс языка (`lang_index`) в функцию `get_graber_by_supplier_url`. 
+   - Функция возвращает экземпляр класса `Graber` для соответствующего поставщика, если URL-адрес совпадает с одним из поддерживаемых, в противном случае возвращает `None`.
+   - Проверьте результат. Если грабер найден, вы можете использовать его для извлечения данных.
+   - Если грабер не найден, обработайте эту ситуацию.
+
+4. **Используйте функцию `get_graber_by_supplier_prefix` для получения грабера по префиксу:**
+   - Передайте экземпляр веб-драйвера (`driver`), строковый префикс поставщика (`supplier_prefix`) и индекс языка (`lang_index`) в функцию `get_graber_by_supplier_prefix`.
+   - Функция возвращает экземпляр класса `Graber` для соответствующего поставщика, если префикс совпадает с одним из поддерживаемых, в противном случае возвращает `None`.
+   - Проверьте результат. Если грабер найден, вы можете использовать его для извлечения данных.
+   - Если грабер не найден, обработайте эту ситуацию.
+
+### Пример использования
 -------------------------
-
 ```python
-    from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
-    from src.webdriver import Driver
+    from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url, get_graber_by_supplier_prefix
+    from src.webdriver import Driver # Предполагается, что Driver импортируется так
+    from src.logger.logger import logger
 
-    driver = Driver()
-    url = 'https://www.aliexpress.com/item/1234567890.html'
-    lang_index = 2
-    graber = get_graber_by_supplier_url(driver, url, lang_index)
+    # Инициализация драйвера (пример)
+    driver = Driver() 
+    url = 'https://www.example.com'
+    graber = get_graber_by_supplier_url(driver, url, 2) # Пример с lang_index = 2
 
     if graber:
-        # Используем грабер для извлечения данных
-        product_data = graber.get_data()
-        print(product_data)
+        # Использование грабера для извлечения данных
+        product_data = graber.get_product_data()
+        print(f'Data extracted: {product_data}')
     else:
-        # Обрабатываем случай, когда грабер не найден
-        print(f"грабер для URL {url} не найден")
+        # Обработка случая, когда грабер не найден
+        print(f'No grabber found for URL: {url}')
+
+    # Пример использования get_graber_by_supplier_prefix
+    supplier_prefix = 'ksp'
+    graber = get_graber_by_supplier_prefix(driver, supplier_prefix, 2)
+
+    if graber:
+        # Использование грабера для извлечения данных
+        product_data = graber.get_product_data()
+        print(f'Data extracted: {product_data}')
+    else:
+        # Обработка случая, когда грабер не найден
+        logger.debug(f'грабер для префикса поставщика не найден: {supplier_prefix}')
+        print(f'No grabber found for supplier prefix: {supplier_prefix}')
+
 ```
-```markdown
-### **Как использовать блок кода `get_graber_by_supplier_prefix`**
-
-=========================================================================================
-
-Описание
--------------------------
-Функция `get_graber_by_supplier_prefix` определяет и возвращает соответствующий объект-грабер в зависимости от префикса поставщика.
-
-Шаги выполнения
--------------------------
-1. Функция `get_graber_by_supplier_prefix` принимает префикс поставщика (`supplier_prefix`) и индекс языка (`lang_index`, по умолчанию "2") в качестве входных параметров.
-2. Функция выполняет проверку `supplier_prefix` на соответствие известным префиксам поставщиков, таким как "aliexpress", "amazon" и т.д.
-3. Если `supplier_prefix` соответствует одному из известных префиксов, функция создает экземпляр соответствующего класса грабера (например, `AliexpressGraber`, `AmazonGraber`) и возвращает его. Класс грабера инициализируется с драйвером и индексом языка.
-4. Если `supplier_prefix` не соответствует ни одному из известных префиксов, функция возвращает `grabber or False`.
-
-Пример использования
--------------------------
-
-```python
-    from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_prefix
-    from src.webdriver import Driver
-
-    driver = Driver()
-    supplier_prefix = 'aliexpress'
-    lang_index = '2'
-    graber = get_graber_by_supplier_prefix(driver, supplier_prefix, lang_index)
-
-    if graber:
-        # Используем грабер для извлечения данных
-        product_data = graber.get_data()
-        print(product_data)
-    else:
-        # Обрабатываем случай, когда грабер не найден
-        print(f"грабер для префикса {supplier_prefix} не найден")

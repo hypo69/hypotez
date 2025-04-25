@@ -1,61 +1,39 @@
-### Как использовать этот блок кода
+## Как использовать MishalsGPT Provider
 =========================================================================================
 
 Описание
 -------------------------
-Этот код отвечает за взаимодействие с API `mishalsgpt.vercel.app` для получения ответов от моделей GPT. Он отправляет запросы к API и возвращает контент ответа, полученный от модели.
+Данный блок кода реализует провайдера `MishalsGPT` для использования в проекте `g4f`. Провайдер предоставляет доступ к модели `MishalsGPT`, позволяя генерировать текст, отвечать на вопросы и выполнять другие задачи, используя API MishalsGPT.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**: Импортируются модули `os`, `requests`, `uuid`, а также типы `sha256` и `Dict` и функция `get_type_hints` из пакета `typing`.
-
-2. **Определение глобальных переменных**:
-   - `url`: URL API `mishalsgpt.vercel.app`.
-   - `model`: Список поддерживаемых моделей (`gpt-3.5-turbo-16k-0613`, `gpt-3.5-turbo`).
-   - `supports_stream`: Логическая переменная, указывающая, что провайдер поддерживает потоковую передачу данных.
-   - `needs_auth`: Логическая переменная, указывающая, требуется ли аутентификация для доступа к провайдеру.
-
-3. **Определение функции `_create_completion`**:
-   - Функция принимает параметры `model` (модель), `messages` (список сообщений) и `stream` (флаг потоковой передачи).
-   - Функция формирует заголовки (`headers`) для HTTP-запроса, устанавливая тип контента как `application/json`.
-   - Функция формирует данные (`data`) для отправки в теле запроса, включая модель, температуру и сообщения.
-   - Функция отправляет POST-запрос к API (`/api/openai/v1/chat/completions`) с указанными заголовками и данными, устанавливая `stream=True` для потоковой передачи.
-   - Функция возвращает контент из ответа, извлекая его из структуры JSON (`response.json()['choices'][0]['message']['content']`).
-
-4. **Определение переменной `params`**:
-   - Создается строка `params`, содержащая информацию о поддерживаемых параметрах функции `_create_completion`.
-   - Используется `get_type_hints` для получения аннотаций типов параметров функции.
+1. **Инициализация**:
+   - Определяются константы `url`, `model`, `supports_stream`, `needs_auth`, указывающие на URL API MishalsGPT, доступные модели, поддержку потоковой передачи и необходимость авторизации соответственно.
+2. **Функция `_create_completion`**:
+   - Функция `_create_completion` принимает модель (`model`), список сообщений (`messages`), флаг потоковой передачи (`stream`) и дополнительные аргументы (`**kwargs`).
+   - Она отправляет POST-запрос к API MishalsGPT с заданными параметрами, используя библиотеку `requests`.
+   - Получает ответ от сервера и преобразует его в JSON-формат.
+   - Возвращает содержимое сообщения, полученного от модели.
+3. **Параметры**:
+   - Строка `params` формирует описание параметров, поддерживаемых провайдером, включая типы входных данных. 
 
 Пример использования
 -------------------------
 
 ```python
-import os, requests, uuid
-from typing import Dict, get_type_hints
+from g4f.Provider.Providers import Mishalsgpt
 
-url = 'https://mishalsgpt.vercel.app'
-model = ['gpt-3.5-turbo-16k-0613', 'gpt-3.5-turbo']
-supports_stream = True
-needs_auth = False
+# Инициализация провайдера
+provider = Mishalsgpt.Mishalsgpt()
 
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    headers = {
-        'Content-Type': 'application/json',
-    }
-    data = {
-        'model': model,
-        'temperature': 0.7,
-        'messages': messages
-    }
-    response = requests.post(url + '/api/openai/v1/chat/completions', 
-                             headers=headers, json=data, stream=True)
-    yield response.json()['choices'][0]['message']['content']
+# Создание запроса с текстом
+messages = [
+    {"role": "user", "content": "Привет, мир!"},
+]
 
-params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    '(%s)' % ', '.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
+# Получение ответа от модели
+response = provider.generate(model="gpt-3.5-turbo", messages=messages)
 
-# Пример вызова функции _create_completion
-messages = [{"role": "user", "content": "Hello, how are you?"}]
-for chunk in _create_completion(model='gpt-3.5-turbo', messages=messages, stream=True):
-    print(chunk)
+# Вывод результата
+print(response)
 ```

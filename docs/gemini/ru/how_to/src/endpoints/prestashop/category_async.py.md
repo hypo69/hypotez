@@ -1,52 +1,52 @@
-### Как использовать этот блок кода
+## Как использовать класс `PrestaCategoryAsync`
 =========================================================================================
 
 Описание
 -------------------------
-Данный код определяет асинхронный класс `PrestaCategoryAsync` для управления категориями в PrestaShop, а также функцию `get_parent_categories_list_async`, которая асинхронно извлекает родительские категории для заданной категории.
+Класс `PrestaCategoryAsync` обеспечивает асинхронное взаимодействие с категориями в PrestaShop.  Он позволяет получать список родительских категорий для заданной категории. 
 
 Шаги выполнения
 -------------------------
-1. **Инициализация класса `PrestaCategoryAsync`**:
-   - При создании экземпляра класса `PrestaCategoryAsync` необходимо передать либо словарь `credentials`, содержащий `api_domain` и `api_key`, либо отдельные параметры `api_domain` и `api_key`.
-   - Выполняется проверка наличия `api_domain` и `api_key`. Если они отсутствуют, выбрасывается исключение `ValueError`.
-   - Инициализируется родительский класс `PrestaShopAsync` с переданными `api_domain` и `api_key`.
-
-2. **Вызов метода `get_parent_categories_list_async`**:
-   - Метод принимает `id_category` (идентификатор категории) и опциональный список `additional_categories_list` (дополнительные категории для обработки).
-   - `id_category` преобразуется в целое число. Если преобразование не удаётся, регистрируется ошибка и выполнение продолжается.
-   - `additional_categories_list` преобразуется в список, если это не список. `id_category` добавляется в этот список.
-   - Создаётся пустой список `out_categories_list` для хранения родительских категорий.
-   - Итерируемся по списку `additional_categories_list`. Для каждой категории:
-     - Асинхронно вызывается метод `read` родительского класса `PrestaShopAsync` для получения информации о категории. Если происходит ошибка, она регистрируется, и происходит переход к следующей итерации.
-     - Если полученный `parent` меньше или равен 2, функция возвращает накопленный список `out_categories_list` (так как дерево категорий начинается с 2, это означает, что достигнута корневая категория).
-     - `parent` добавляется в `out_categories_list`.
-
-3. **Завершение работы функции `get_parent_categories_list_async`**:
-   - После обработки всех категорий из `additional_categories_list`, функция возвращает список `out_categories_list`, содержащий идентификаторы родительских категорий.
+1. **Инициализация класса:** 
+    - Создайте экземпляр класса `PrestaCategoryAsync`, передав необходимые параметры:
+        - `credentials`: Словарь или объект `SimpleNamespace` с ключами `api_domain` и `api_key`.
+        - `api_domain`: Домен API PrestaShop.
+        - `api_key`: Ключ API PrestaShop.
+2. **Получение списка родительских категорий:**
+    - Вызовите метод `get_parent_categories_list_async()`, передав:
+        - `id_category`: Идентификатор категории, для которой требуется получить список родительских категорий.
+        - `additional_categories_list`: (необязательно) Дополнительный список идентификаторов категорий, которые также нужно включить в список родительских категорий.
+3. **Обработка результата:**
+    - Метод возвращает список идентификаторов родительских категорий.
 
 Пример использования
 -------------------------
 
 ```python
-import asyncio
-from types import SimpleNamespace
 from src.endpoints.prestashop.category_async import PrestaCategoryAsync
-from src.logger.logger import logger
 
 async def main():
-    # Пример использования класса PrestaCategoryAsync и его методов
-    credentials = SimpleNamespace(api_domain="your_api_domain", api_key="your_api_key")
-    category_manager = PrestaCategoryAsync(credentials=credentials)
+    """Пример использования класса PrestaCategoryAsync"""
 
-    try:
-        # Пример получения родительских категорий для категории с ID 3
-        parent_categories = await category_manager.get_parent_categories_list_async(id_category=3)
-        logger.info(f"Родительские категории: {parent_categories}")
-    except ValueError as ve:
-        logger.error(f"Ошибка инициализации: {ve}")
-    except Exception as e:
-        logger.error(f"Произошла ошибка: {e}")
+    # Инициализация класса
+    credentials = {
+        'api_domain': 'your_api_domain',
+        'api_key': 'your_api_key'
+    }
+    presta_category = PrestaCategoryAsync(credentials=credentials)
 
-if __name__ == "__main__":
+    # Получение списка родительских категорий для категории с id=10
+    parent_categories = await presta_category.get_parent_categories_list_async(id_category=10)
+
+    # Вывод результата
+    print(f"Родительские категории: {parent_categories}")
+
+if __name__ == '__main__':
     asyncio.run(main())
+```
+
+## Дополнительные замечания
+
+- Метод `get_parent_categories_list_async` использует асинхронные операции, что позволяет оптимизировать время выполнения кода, особенно при работе с несколькими категориями.
+-  Функция `j_loads` используется для чтения JSON-данных из API PrestaShop.
+- При возникновении ошибок выводится сообщение в лог с помощью модуля `logger`.

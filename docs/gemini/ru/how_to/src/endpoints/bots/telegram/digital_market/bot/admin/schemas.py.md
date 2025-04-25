@@ -1,62 +1,46 @@
-### **Как использовать этот блок кода**
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода определяет модели данных с использованием библиотеки Pydantic для работы с информацией о товарах в контексте цифрового рынка. Он включает модели для идентификации товара (ProductIDModel) и для представления полной информации о товаре (ProductModel). Модели используются для валидации входящих данных и определения структуры данных для работы с товарами.
+Этот код определяет две модели данных (schemas) для представления информации о товаре в Telegram-боте: `ProductIDModel` и `ProductModel`.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**: Из библиотеки `pydantic` импортируются классы `BaseModel`, `ConfigDict` и `Field`, необходимые для создания и настройки моделей данных.
-2. **Определение модели ProductIDModel**: Создается класс `ProductIDModel`, наследуемый от `BaseModel`. Этот класс содержит единственное поле `id` типа `int`, представляющее идентификатор товара.
-3. **Определение модели ProductModel**: Создается класс `ProductModel`, также наследуемый от `BaseModel`. Этот класс содержит следующие поля:
-   - `name` (str): Название товара, минимальная длина — 5 символов.
-   - `description` (str): Описание товара, минимальная длина — 5 символов.
-   - `price` (int): Цена товара, должна быть больше 0.
-   - `category_id` (int): Идентификатор категории товара, должен быть больше 0.
-   - `file_id` (str | None): Идентификатор файла товара, может быть строкой или `None`.
-   - `hidden_content` (str): Скрытое содержимое товара, минимальная длина — 5 символов.
-4. **Использование `Field` для валидации**: Для полей `name`, `description`, `price`, `category_id` и `hidden_content` используется класс `Field` для задания дополнительных ограничений, таких как минимальная длина строк и значения больше нуля.
-5. **Аннотация типов**: Для каждого поля указан его тип данных (например, `str`, `int`, `str | None`), что позволяет Pydantic автоматически валидировать данные при создании экземпляров моделей.
+1. **Определение модели `ProductIDModel`:** 
+    - Определяется модель `ProductIDModel` с помощью класса `BaseModel` из библиотеки `pydantic`.
+    - Модель имеет единственное поле `id` типа `int`, которое представляет собой идентификатор товара.
+
+2. **Определение модели `ProductModel`:** 
+    - Определяется модель `ProductModel` с помощью класса `BaseModel` из библиотеки `pydantic`.
+    - Модель имеет следующие поля:
+        - `name` (строка): Название товара (не менее 5 символов).
+        - `description` (строка): Описание товара (не менее 5 символов).
+        - `price` (целое число): Цена товара (больше 0).
+        - `category_id` (целое число): Идентификатор категории товара (больше 0).
+        - `file_id` (строка, опционально): Идентификатор файла с изображением товара (может быть None).
+        - `hidden_content` (строка): Скрытое содержимое (не менее 5 символов).
 
 Пример использования
 -------------------------
 
 ```python
-from pydantic import BaseModel, Field
+from hypotez.src.endpoints.bots.telegram.digital_market.bot.admin.schemas import ProductIDModel, ProductModel
 
-class ProductModel(BaseModel):
-    name: str = Field(..., min_length=5)
-    description: str = Field(..., min_length=5)
-    price: int = Field(..., gt=0)
-    category_id: int = Field(..., gt=0)
-    file_id: str | None = None
-    hidden_content: str = Field(..., min_length=5)
+# Создание экземпляра модели ProductIDModel
+product_id = ProductIDModel(id=123)
 
-# Пример создания экземпляра модели
-try:
-    product_data = {
-        "name": "СуперТовар",
-        "description": "Описание супер-товара",
-        "price": 100,
-        "category_id": 1,
-        "hidden_content": "Секретная информация о товаре"
-    }
-    product = ProductModel(**product_data)
-    print(product)
-except ValueError as e:
-    print(f"Ошибка валидации данных: {e}")
+# Создание экземпляра модели ProductModel
+product = ProductModel(
+    name="Ноутбук Acer", 
+    description="Ноутбук Acer Aspire 5 A515-45-R74Z",
+    price=50000,
+    category_id=1,
+    file_id="AgADAgADZPEAAvG4Gw",
+    hidden_content="Скидка 10% при покупке до конца месяца"
+)
 
-# Пример использования модели с неверными данными
-try:
-    product_data = {
-        "name": "Товар",  # Слишком короткое название
-        "description": "Описание",  # Слишком короткое описание
-        "price": 0,  # Недопустимая цена
-        "category_id": 0,  # Недопустимый ID категории
-        "hidden_content": "Секрет"  # Слишком короткое скрытое содержимое
-    }
-    product = ProductModel(**product_data)
-    print(product)
-except ValueError as e:
-    print(f"Ошибка валидации данных: {e}")
+# Вывод данных модели
+print(product_id)  # Output: ProductIDModel(id=123)
+print(product)  # Output: ProductModel(name='Ноутбук Acer', description='Ноутбук Acer Aspire 5 A515-45-R74Z', price=50000, category_id=1, file_id='AgADAgADZPEAAvG4Gw', hidden_content='Скидка 10% при покупке до конца месяца')
+```

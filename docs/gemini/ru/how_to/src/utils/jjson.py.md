@@ -1,43 +1,47 @@
-### Как использовать этот блок кода
+## Как использовать функцию `j_loads` 
 =========================================================================================
 
 Описание
 -------------------------
-Модуль `jjson` предназначен для работы с JSON-данными: загрузки, сохранения и преобразования. Он включает функции для чтения данных из файлов, строк и объектов, а также для записи данных в файлы в различных режимах. Модуль также поддерживает преобразование данных в объекты `SimpleNamespace` для удобного доступа к ним.
+Функция `j_loads` загружает JSON или CSV данные из файла, директории, строки или объекта и возвращает обработанные данные в виде словаря или списка словарей. Она обрабатывает различные типы входных данных и может использовать OrderedDict для сохранения порядка элементов.
 
 Шаги выполнения
 -------------------------
-1. **Импорт модуля**: Импортируйте модуль `jjson` в свой проект.
-2. **Использование `j_dumps`**: Используйте функцию `j_dumps` для записи JSON-данных в файл или получения их в виде словаря.
-3. **Использование `j_loads`**: Используйте функцию `j_loads` для загрузки JSON-данных из файла, строки или объекта.
-4. **Использование `j_loads_ns`**: Используйте функцию `j_loads_ns` для загрузки JSON-данных и преобразования их в объекты `SimpleNamespace`.
+1. **Определите входные данные**: В качестве входных данных может быть использован путь к файлу/директории, строка JSON, объект JSON или список.
+2. **Загрузка данных**: Функция `j_loads` определяет тип входных данных и использует соответствующий метод для загрузки данных.
+3. **Обработка данных**: Загруженные данные преобразуются в словарь или список словарей.
+4. **Сохранение порядка**: Если параметр `ordered` установлен в `True`, функция использует OrderedDict для сохранения порядка элементов в словаре.
+5. **Возврат результата**: Функция возвращает обработанные данные в виде словаря или списка словарей.
 
 Пример использования
 -------------------------
 
 ```python
-    from pathlib import Path
-    from types import SimpleNamespace
-    from src.utils.jjson import j_dumps, j_loads, j_loads_ns
+from src.utils.jjson import j_loads
 
-    # Пример использования j_dumps для записи данных в файл
-    data = {"name": "Alice", "age": 30}
-    file_path = Path("output.json")
-    j_dumps(data, file_path=file_path)
+# Загрузка данных из JSON-файла
+data_from_file = j_loads("path/to/file.json")
 
-    # Пример использования j_loads для чтения данных из файла
-    loaded_data = j_loads(file_path)
-    print(loaded_data)  # Вывод: {'name': 'Alice', 'age': 30}
+# Загрузка данных из строки JSON
+data_from_string = j_loads('{"name": "Alice", "age": 30}')
 
-    # Пример использования j_dumps для получения данных в виде словаря
-    data = {"name": "Bob", "age": 25}
-    json_data = j_dumps(data)
-    print(json_data)  # Вывод: {'name': 'Bob', 'age': 25}
+# Загрузка данных из объекта JSON
+data_from_object = j_loads({"name": "Bob", "age": 25})
 
-    # Пример использования j_loads_ns для преобразования данных в SimpleNamespace
-    ns_data = j_loads_ns(data)
-    print(ns_data.name)  # Вывод: Bob
+# Загрузка данных из списка объектов JSON
+data_from_list = j_loads([{"name": "Charlie", "age": 40}, {"name": "David", "age": 35}])
 
-    # Пример использования j_loads_ns для загрузки данных из файла и преобразования в SimpleNamespace
-    ns_data_from_file = j_loads_ns(file_path)
-    print(ns_data_from_file.name)  # Вывод: Alice
+# Загрузка данных из директории с JSON-файлами
+data_from_directory = j_loads("path/to/directory")
+
+# Загрузка данных из CSV-файла (комментарий - код пока не поддерживает CSV)
+# data_from_csv = j_loads("path/to/file.csv")
+
+# Вывод результатов
+print(f"Data from file: {data_from_file}")
+print(f"Data from string: {data_from_string}")
+print(f"Data from object: {data_from_object}")
+print(f"Data from list: {data_from_list}")
+print(f"Data from directory: {data_from_directory}")
+# print(f"Data from CSV: {data_from_csv}")
+```

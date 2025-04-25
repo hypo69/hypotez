@@ -1,81 +1,44 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код реализует middleware для интеграции базы данных в боты Telegram, использующие библиотеку aiogram. Он создает и управляет сессиями базы данных, обеспечивая их доступность в обработчиках (handlers) и автоматическое выполнение операций commit или rollback в зависимости от типа middleware.
+Блок кода представляет собой базовый класс `BaseDatabaseMiddleware` для работы с базой данных в телеграм-боте, а также два подкласса: `DatabaseMiddlewareWithoutCommit` и `DatabaseMiddlewareWithCommit`.
 
-Шаги выполнения
+`BaseDatabaseMiddleware`  -  базовый класс, который обеспечивает работу с базой данных в телеграм-боте. Он использует `async_session_maker` для создания асинхронной сессии, добавляет сессию в контекст данных `data` и обрабатывает исключения.
+
+`DatabaseMiddlewareWithoutCommit` - подкласс базового класса, который не совершает коммиты в базу данных после успешного выполнения хендлера. 
+
+`DatabaseMiddlewareWithCommit` - подкласс базового класса, который совершает коммиты в базу данных после успешного выполнения хендлера.
+
+### Шаги выполнения
 -------------------------
-1. **Определение базового класса `BaseDatabaseMiddleware`**:
-   - Этот класс является базовым для всех middleware, работающих с базой данных.
-   - Метод `__call__` создает асинхронную сессию базы данных с использованием `async_session_maker`.
-   - Сессия устанавливается в словарь `data`, который передается между middleware и обработчиками.
-   - Вызывается обработчик `handler` с передачей ему события `event` и данных `data`.
-   - После выполнения обработчика вызывается метод `after_handler` для выполнения дополнительных действий (например, commit).
-   - В случае возникновения исключения выполняется откат транзакции (`session.rollback()`).
-   - В блоке `finally` сессия закрывается (`session.close()`).
-   - Методы `set_session` и `after_handler` предназначены для переопределения в подклассах.
+1. **Создание сессии:** При вызове обработчика `__call__`  в `BaseDatabaseMiddleware` создается асинхронная сессия с помощью `async_session_maker`.
+2. **Установка сессии в контекст данных:** Сессия устанавливается в контекст данных `data`  с помощью метода `set_session`, который должен быть реализован в подклассах.
+3. **Вызов обработчика:** Вызывается обработчик `handler` с переданным контекстом данных `data`.
+4. **Обработка исключений:**  При возникновении исключения выполняется откат транзакции `session.rollback()`.
+5. **Закрытие сессии:**  После завершения обработки, сессия закрывается.
 
-2. **Реализация `DatabaseMiddlewareWithoutCommit`**:
-   - Этот класс устанавливает сессию базы данных в словарь `data` под ключом `'session_without_commit'`.
-   - Не выполняет commit транзакции после выполнения обработчика.
-
-3. **Реализация `DatabaseMiddlewareWithCommit`**:
-   - Этот класс устанавливает сессию базы данных в словарь `data` под ключом `'session_with_commit'`.
-   - После выполнения обработчика выполняет commit транзакции, вызывая `await session.commit()`.
-
-Пример использования
+### Пример использования
 -------------------------
-
 ```python
-from aiogram import Dispatcher, types
-from aiogram import F
-from aiogram.filters import CommandStart
+from bot.dao.database_middleware import DatabaseMiddlewareWithCommit
 
-# Предположим, что async_session_maker уже определен и настроен
+# ...
 
-# Подключение middleware к Dispatcher
-async def setup_database_middleware(dp: Dispatcher):
-    # dp.message.middleware(DatabaseMiddlewareWithoutCommit()) # можно использовать так
-    dp.message.outer_middleware(DatabaseMiddlewareWithCommit()) # а лучше вот так - это как пример
-    dp.callback_query.outer_middleware(DatabaseMiddlewareWithCommit())
+# Создаем объект DatabaseMiddlewareWithCommit
+db_middleware = DatabaseMiddlewareWithCommit()
 
-# Пример обработчика, использующего сессию базы данных
-async def start_command(message: types.Message, session_with_commit):
-    """
-    Обработчик команды /start.
-    """
-    # Используем сессию для выполнения операций с базой данных
-    # Например, добавление нового пользователя
-    async with session_with_commit as session:
-        pass
-        # new_user = User(user_id=message.from_user.id, username=message.from_user.username)
-        # session.add(new_user)
-        # await session.commit()
-    await message.answer("Привет! Я бот.")
+# Регистрируем middleware в dispatcher
+dp.middleware.setup(db_middleware)
 
+# ...
 
-async def test_query(query: types.CallbackQuery, session_with_commit):
-    """
-    Обработчик callback query.
-    """
-    await query.answer(
-        text="Успешно!",
-        show_alert=True
-    )
+# В хендлере доступна сессия
+@dp.message_handler(commands=['start'])
+async def start_handler(message: Message, data: Dict[str, Any]):
+    session = data['session_with_commit']
+    # ...
+```
 
-async def main():
-    # dp = Dispatcher(bot)
-    # await setup_database_middleware(dp)
-    # dp.message.register_message_handler(start_command, CommandStart())
-    # try:
-    #     await dp.start_polling()
-    # finally:
-    #     await bot.session.close()
-    pass
-
-# Запуск бота
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+В примере мы создаем объект `DatabaseMiddlewareWithCommit` и регистрируем его в диспетчере. В обработчике `start_handler`  доступна сессия через контекст данных `data` по ключу `'session_with_commit'`.

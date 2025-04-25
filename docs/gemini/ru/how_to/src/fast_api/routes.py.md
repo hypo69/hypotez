@@ -1,30 +1,29 @@
-### **Как использовать этот блок кода**
-
+## Как использовать блок кода `Routes.tegram_message_handler`
 =========================================================================================
 
 Описание
 -------------------------
-Данный блок кода отвечает за настройку обработчика сообщений Telegram-бота в приложении. Он инициализирует класс `BotHandler` и назначает метод `handle_message` этого класса как обработчик сообщений Telegram.
+Блок кода `Routes.tegram_message_handler` инициализирует обработчик сообщений для Telegram-бота. Он создает экземпляр класса `BotHandler` и получает ссылку на метод `handle_message`, который обрабатывает входящие сообщения от Telegram.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация `BotHandler`**: Создается экземпляр класса `BotHandler`, который содержит логику обработки сообщений от Telegram.
-2. **Назначение обработчика**: Метод `handle_message` из экземпляра `BotHandler` присваивается переменной `telega_message_handler`. Это подготавливает функцию для обработки входящих сообщений Telegram.
+1. **Инициализация обработчика**: Создается экземпляр класса `BotHandler` с именем `bot_nahdlers`.
+2. **Получение обработчика сообщений**: Из обработчика `bot_nahdlers` извлекается метод `handle_message` и присваивается переменной `telega_message_handler`.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.bots.telegram.bot_handlers import BotHandler
+from src.fast_api.routes import Routes
 
-class Routes:
-    def tegram_message_handler(self):
-        """ """
-        bot_handlers = BotHandler()
-        telega_message_handler = bot_handlers.handle_message
-
-# Пример использования класса Routes:
+# Создание экземпляра класса Routes
 routes = Routes()
-routes.tegram_message_handler()
-# Теперь telega_message_handler содержит функцию, готовую к обработке сообщений Telegram.
+
+# Получение обработчика сообщений Telegram
+telega_message_handler = routes.tegram_message_handler()
+
+# Использование обработчика для обработки сообщений 
+# (Пример - отправка сообщения в Telegram):
+message = "Привет!"
+telega_message_handler(message) 
 ```

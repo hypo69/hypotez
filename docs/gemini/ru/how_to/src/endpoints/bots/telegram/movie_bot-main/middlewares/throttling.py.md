@@ -1,79 +1,36 @@
-### Как использовать ThrottlingMiddleware
+## Как использовать Middleware для ограничения частоты запросов
 =========================================================================================
 
 Описание
 -------------------------
-`ThrottlingMiddleware` - это middleware для aiogram, который реализует механизм ограничения скорости обработки сообщений от пользователей. Он предотвращает злоупотребление ботом, ограничивая количество запросов от одного и того же пользователя в течение определенного времени.
+Middleware `ThrottlingMiddleware` ограничивает количество запросов от одного пользователя в определенный промежуток времени. Это предотвращает злоупотребление ботом и защищает его от перегрузки.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация**: При создании экземпляра `ThrottlingMiddleware` указывается `time_limit` (в секундах), который определяет, как часто пользователь может отправлять сообщения. По умолчанию установлено значение 2 секунды.
-2. **Проверка**: При получении нового сообщения middleware проверяет, есть ли `chat.id` пользователя в кэше `self.limit`.
-3. **Ограничение**: Если `chat.id` пользователя уже есть в кэше, это означает, что пользователь недавно отправлял сообщение, и middleware не передает сообщение дальше для обработки.
-4. **Добавление в кэш**: Если `chat.id` пользователя отсутствует в кэше, это означает, что пользователь еще не отправлял сообщений в течение установленного времени, и `chat.id` добавляется в кэш.
-5. **Обработка**: После добавления `chat.id` в кэш сообщение передается следующему обработчику.
+1. **Инициализация**: Создается экземпляр `ThrottlingMiddleware` с заданным временным ограничением `time_limit` (по умолчанию 2 секунды). 
+2. **Создание кэша**: Внутри класса создается кэш `self.limit` с использованием `TTLCache`. Кэш хранит информацию о последних запросах пользователей.
+3. **Обработка запроса**: При поступлении нового запроса проверяется, есть ли уже запись в кэше для данного `event.chat.id`. 
+4. **Ограничение**:  Если запись есть, запрос игнорируется. Если записи нет, то она добавляется в кэш, а запрос передается обработчику `handler`. 
 
 Пример использования
 -------------------------
 
 ```python
-from typing import Any, Awaitable, Callable, Dict
+from aiogram import Dispatcher
+from hypotez.src.endpoints.bots.telegram.movie_bot-main.middlewares.throttling import ThrottlingMiddleware
 
-from aiogram import BaseMiddleware, Dispatcher
-from aiogram.types import Message
-from cachetools import TTLCache
+# Инициализация Middleware с временным ограничением 1 секунда
+throttling = ThrottlingMiddleware(time_limit=1)
 
+# Регистрация Middleware в Dispatcher
+dp = Dispatcher(...)
+dp.middleware.setup(throttling)
 
-class ThrottlingMiddleware(BaseMiddleware):
-    def __init__(self, time_limit: int = 2) -> None:
-        """
-        Инициализирует middleware для ограничения скорости обработки сообщений.
+# Обработка запроса
+@dp.message_handler(...)
+async def handle_message(message: Message):
+    # Логика обработки запроса
+    ...
+```
 
-        Args:
-            time_limit (int, optional): Время в секундах, в течение которого сообщения от одного пользователя ограничиваются. По умолчанию 2 секунды.
-        """
-        self.limit = TTLCache(maxsize=10_000, ttl=time_limit)
-
-    async def __call__(
-            self,
-            handler: Callable[[Message, Dict[str, Any]], Awaitable[Any]],
-            event: Message,
-            data: Dict[str, Any]
-    ) -> Any:
-        """
-        Выполняет проверку и ограничение скорости обработки сообщений.
-
-        Args:
-            handler (Callable[[Message, Dict[str, Any]], Awaitable[Any]]): Следующий обработчик сообщения.
-            event (Message): Объект сообщения от пользователя.
-            data (Dict[str, Any]): Дополнительные данные.
-
-        Returns:
-            Any: Результат обработки сообщения следующим обработчиком.
-        """
-        if event.chat.id in self.limit:
-            return  # Игнорируем сообщение, если пользователь отправил его слишком быстро
-        else:
-            self.limit[event.chat.id] = None  # Добавляем пользователя в кэш
-        return await handler(event, data)  # Передаем сообщение следующему обработчику
-
-
-# Пример использования в aiogram:
-async def main():
-    # from aiogram import Bot, Dispatcher
-    # Вместо этого используйте:
-    from aiogram import Bot
-
-    TOKEN = "YOUR_BOT_TOKEN"
-    bot = Bot(token=TOKEN)
-    dp = Dispatcher()
-
-    # Регистрация middleware
-    dp.message.middleware(ThrottlingMiddleware(time_limit=2))
-
-    # Другие обработчики и запуск бота
-    # ...
-
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+В этом примере Middleware будет ограничивать частоту запросов от одного пользователя до одного раза в секунду.

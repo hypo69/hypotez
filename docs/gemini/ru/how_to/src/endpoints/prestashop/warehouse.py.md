@@ -1,32 +1,32 @@
-### **Как использовать этот блок кода**
-
+## Как использовать класс PrestaWarehouse
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода представляет собой начало модуля `src.endpoints.prestashop.warehouse.py`, который, по-видимому, предназначен для взаимодействия с API PrestaShop для управления складами. В коде импортируются необходимые библиотеки и модули, такие как `os`, `sys`, `attr`, `pathlib`, `header`, `src.gs`, `src.utils.printer`, `src.endpoints.prestashop.api` и `src.logger.logger`. Также определяется класс `PrestaWarehouse`, который наследуется от класса `PrestaShop`.
+Класс `PrestaWarehouse`  расширяет класс `PrestaShop` и предоставляет функциональность для работы со складами в PrestaShop. 
 
 Шаги выполнения
 -------------------------
-1. **Импорт модулей**: Импортируются стандартные библиотеки `os`, `sys` и `pathlib` для работы с операционной системой, интерпретатором и путями к файлам соответственно.
-2. **Импорт сторонних библиотек**: Импортируются библиотеки `attr` для определения классов данных, `header` (предположительно, локальный модуль), `src.gs` (предположительно, локальный модуль), `src.utils.printer` для красивой печати и `src.logger.logger` для логирования.
-3. **Импорт модуля API PrestaShop**: Импортируется модуль `PrestaShop` из `src.endpoints.prestashop.api`, который, вероятно, содержит функциональность для взаимодействия с API PrestaShop.
-4. **Определение класса `PrestaWarehouse`**: Определяется класс `PrestaWarehouse`, который наследуется от класса `PrestaShop`. Этот класс, вероятно, будет содержать методы для управления складами через API PrestaShop.
+1. **Инициализация**:  Создайте экземпляр класса `PrestaWarehouse` с помощью аргументов,  определенных в базовом классе `PrestaShop`.
+2. **Использование методов**: Используйте доступные методы класса `PrestaWarehouse` для работы со складами в PrestaShop.
 
 Пример использования
 -------------------------
 
 ```python
-# Пример использования класса PrestaWarehouse
 from src.endpoints.prestashop.warehouse import PrestaWarehouse
 
-# Предположим, что у вас есть необходимые параметры для инициализации API PrestaShop
-url = "your_prestashop_url"
-api_key = "your_api_key"
+# Инициализация класса
+warehouse = PrestaWarehouse(
+    api_url='http://your-prestashop-domain.com/api/',
+    api_key='your-api-key',
+)
 
-# Создание экземпляра класса PrestaWarehouse
-warehouse_manager = PrestaWarehouse(url, api_key)
+# Пример вызова метода: получить список складов 
+warehouses = warehouse.get_warehouses()
 
-# Дальнейшее использование методов класса для управления складами
-# Например, warehouse_manager.get_warehouses()
+# Вывод результатов
+pprint(warehouses)
 ```
+
+**Важно**: Замените  `'http://your-prestashop-domain.com/api/'` и `'your-api-key'` на свои действительные значения.

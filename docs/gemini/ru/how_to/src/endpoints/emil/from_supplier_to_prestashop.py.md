@@ -1,79 +1,87 @@
-### **Инструкции по использованию блока кода**
-
+## Как использовать класс `SupplierToPrestashopProvider` 
 =========================================================================================
 
-Как использовать этот блок кода
-=========================================================================================
-
-Описание
+### Описание
 -------------------------
-Этот блок кода реализует класс `SupplierToPrestashopProvider`, предназначенный для извлечения, обработки и сохранения данных о товарах от поставщиков с последующей интеграцией этих данных в Prestashop. Он включает в себя функциональность для получения данных как с сайтов поставщиков, так и из JSON-файлов, обработки данных с использованием AI, а также сохранения обработанных данных в Prestashop.
+Класс `SupplierToPrestashopProvider` отвечает за обработку данных о товарах поставщиков. Он извлекает, разбирает и сохраняет информацию о продуктах, полученную с сайтов поставщиков или из JSON-файлов. Класс также обрабатывает данные с помощью искусственного интеллекта (ИИ) и интегрирует их в систему Prestashop для публикации товаров. 
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Инициализация класса `SupplierToPrestashopProvider`**:
-   - Создается экземпляр класса `SupplierToPrestashopProvider` с передачей необходимых параметров, таких как язык (`lang`), ключи API для Gemini и Prestashop, а также URL Prestashop.
-   - При инициализации загружается конфигурация из JSON-файла, инициализируется Selenium WebDriver (если не передан), и настраивается AI модель Gemini.
+1. **Инициализация**:
+    - Создайте экземпляр класса `SupplierToPrestashopProvider`, передав в конструктор необходимые параметры: 
+        - `lang`: Язык, на котором будут обрабатываться данные (например, 'he' для иврита).
+        - `gemini_api`: Ключ API для доступа к модели Gemini.
+        - `presta_api`: Ключ API для доступа к Prestashop.
+        - `presta_url`: URL-адрес магазина Prestashop.
+        - `driver`: Опционально, экземпляр Selenium WebDriver для автоматизации браузера. Если не задан, по умолчанию будет использоваться WebDriver с браузером Firefox.
 
-2. **Обработка данных о товарах**:
-   - Используется метод `process_graber` для получения данных о товарах с использованием URL поставщиков. Этот метод выполняет следующие действия:
-     - Получает грабер (парсер) для каждого URL поставщика.
-     - Извлекает данные о товаре с использованием грабера.
-     - Преобразует полученные данные о товаре в нужный формат.
-     - Сохраняет преобразованные данные.
+2. **Обработка данных**:
+    - Используйте метод `process_graber` для обработки данных с сайтов поставщиков:
+        - Передайте в метод список `urls` - URL-адреса страниц с товарами.
+        - Опционально можно передать:
+            - `price`: Цену товара.
+            - `mexiron_name`: Название товара.
+            - `scenarios`: Сценарий исполнения для обработки данных, который находится в директории `src.suppliers.suppliers_list.<supplier>.sceanarios`.
+    - Используйте метод `process_scenarios` для обработки данных из JSON-файлов.
+        - Передайте в метод список `suppliers_prefixes` - префиксы поставщиков, для которых необходимо обработать данные.
 
-3. **Преобразование данных о товаре**:
-   - Метод `convert_product_fields` преобразует извлеченные поля товара в формат, подходящий для дальнейшей обработки и сохранения.
+3. **Обработка с помощью ИИ**:
+    - Метод `process_llm` обрабатывает список данных о товарах с помощью модели ИИ (Gemini):
+        - Передайте в метод список `products_list` - данные о товарах в виде списка словарей.
+        - `lang`: Язык для обработки данных (например, 'he' для иврита).
+        - `attempts`: Количество попыток повтора, если модель не возвращает правильный результат.
 
-4. **Сохранение данных о товаре**:
-   - Метод `save_product_data` сохраняет данные о товаре в JSON-файл.
+4. **Сохранение в Prestashop**:
+    - Метод `save_in_prestashop` сохраняет данные о товарах в систему Prestashop:
+        - Передайте в метод `products_list` - список данных о товарах в виде объектов `ProductFields`.
 
-5. **Обработка данных с использованием AI**:
-   - Метод `process_llm` отправляет данные о товарах в AI модель Gemini для дальнейшей обработки, например, для генерации описаний или других атрибутов товара.
+5. **Публикация в Facebook**:
+    - Метод `post_facebook` публикует информацию о товаре в Facebook:
+        - Передайте в метод `mexiron` - объект SimpleNamespace, содержащий данные о товаре (название, описание, цена).
 
-6. **Сохранение данных в Prestashop**:
-   - Метод `save_in_prestashop` сохраняет обработанные данные о товарах в Prestashop с использованием API Prestashop.
+6. **Создание отчета**:
+    - Метод `create_report` генерирует отчеты о товарах в форматах HTML и PDF:
+        - Передайте в метод:
+            - `data`: Данные о товаре в виде словаря.
+            - `lang`: Язык для создания отчета.
+            - `html_file`: Путь к файлу HTML.
+            - `pdf_file`: Путь к файлу PDF.
 
-7. **Публикация в Facebook (опционально)**:
-   - Метод `post_facebook` публикует информацию о товаре в Facebook, используя Selenium WebDriver для взаимодействия с интерфейсом Facebook.
-
-8. **Создание отчета (опционально)**:
-   - Метод `create_report` генерирует отчет о товаре в формате HTML и PDF и отправляет PDF-файл боту.
-
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
-import asyncio
-from src.endpoints.emil.from_supplier_to_prestashop import SupplierToPrestashopProvider
-from src.webdriver.firefox import Firefox
-from src.webdriver.driver import Driver
+from src.endpoints.emil.scenarios.from_supplier_to_prestashop import SupplierToPrestashopProvider
 
-async def main():
-    # Инициализация параметров
-    lang = 'he'
-    gemini_api = 'your_gemini_api_key'
-    presta_api = 'your_prestashop_api_key'
-    presta_url = 'your_prestashop_url'
-    urls = ['https://example.com/product1', 'https://example.com/product2']
+# Инициализация класса
+supplier_to_prestashop = SupplierToPrestashopProvider(
+    lang='he',
+    gemini_api='YOUR_GEMINI_API_KEY',
+    presta_api='YOUR_PRESTASHOP_API_KEY',
+    presta_url='YOUR_PRESTASHOP_URL'
+)
 
-    # Инициализация класса SupplierToPrestashopProvider
-    driver = Driver(Firefox)
-    supplier_to_presta = SupplierToPrestashopProvider(
-        lang=lang,
-        gemini_api=gemini_api,
-        presta_api=presta_api,
-        presta_url=presta_url,
-        driver=driver
-    )
+# Обработка товаров с сайта поставщика
+urls = [
+    'https://www.example.com/product1',
+    'https://www.example.com/product2'
+]
+await supplier_to_prestashop.process_graber(urls=urls)
 
-    # Обработка данных о товарах
-    await supplier_to_presta.process_graber(urls=urls)
+# Сохранение товаров в Prestashop
+products_list = [
+    {'product_id': 1, 'name': 'Товар 1', 'description': 'Описание товара 1'},
+    {'product_id': 2, 'name': 'Товар 2', 'description': 'Описание товара 2'}
+]
+await supplier_to_prestashop.save_in_prestashop(products_list)
 
-    # Необязательные шаги:
-    # await supplier_to_presta.post_facebook(...)
-    # await supplier_to_presta.create_report(...)
+# Публикация в Facebook
+mexiron = SimpleNamespace(title='Название товара', description='Описание товара', price=100)
+await supplier_to_prestashop.post_facebook(mexiron)
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# Создание отчета
+data = {'product_id': 1, 'name': 'Товар 1', 'description': 'Описание товара 1'}
+html_file = Path('report.html')
+pdf_file = Path('report.pdf')
+await supplier_to_prestashop.create_report(data, 'he', html_file, pdf_file)
 ```

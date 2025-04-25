@@ -1,42 +1,37 @@
-### Как использовать класс `TelegramBot`
+## Как использовать `TelegramBot.replace_message_handler()`
 =========================================================================================
 
 Описание
 -------------------------
-Класс `TelegramBot` представляет собой интерфейс для взаимодействия с Telegram ботом. Он инициализирует бота, регистрирует обработчики команд и сообщений, а также предоставляет методы для управления обработчиками сообщений.
+Функция `replace_message_handler()` позволяет заменить стандартный обработчик текстовых сообщений на новый, пользовательский. Это полезно для реализации специальных сценариев, которые не охватываются стандартным обработчиком.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация бота**: Создается экземпляр класса `TelegramBot` с указанием токена бота.
-2. **Регистрация обработчиков**: В конструкторе класса вызывается метод `register_handlers`, который регистрирует обработчики для команд `/start`, `/help`, `/sendpdf`, текстовых сообщений, голосовых сообщений и документов.
-3. **Замена обработчика сообщений**: При необходимости можно заменить текущий обработчик текстовых сообщений на новый с помощью метода `replace_message_handler`.
-4. **Запуск бота**: Для запуска бота необходимо вызвать метод `start_polling` у объекта `application`.
+1. **Удаление старого обработчика:** Функция удаляет из списка обработчиков приложения Telegram текущий обработчик текстовых сообщений, который был установлен в конструкторе `TelegramBot`. 
+2. **Создание нового обработчика:**  Создается новый обработчик, используя переданную в аргумент `new_handler` функцию,  которая будет обрабатывать текстовые сообщения.
+3. **Регистрация нового обработчика:**  Новый обработчик добавляется в список обработчиков приложения Telegram.
 
 Пример использования
 -------------------------
 
 ```python
-import asyncio
 from src.endpoints.bots.telegram.bot_long_polling import TelegramBot
+from telegram.ext import MessageHandler, filters, CallbackContext
 from telegram import Update
-from telegram.ext import CallbackContext
 
-# 1. Инициализация бота
-TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"  # Замените на токен вашего бота
-bot = TelegramBot(TOKEN)
+def my_custom_handler(update: Update, context: CallbackContext) -> None:
+    """Обработчик текстовых сообщений, который просто печатает в лог."""
+    user_message = update.message.text
+    logger.info(f"Получено сообщение от пользователя: {user_message}")
 
-# 2. Пример замены обработчика сообщений
-async def new_message_handler(update: Update, context: CallbackContext) -> None:
-    """Новый обработчик сообщений."""
-    await update.message.reply_text("Это новый обработчик сообщений!")
+# Создаем экземпляр TelegramBot
+telegram_bot = TelegramBot('your_telegram_bot_token')
 
-bot.replace_message_handler(new_message_handler)
+# Заменяем стандартный обработчик на наш собственный
+telegram_bot.replace_message_handler(my_custom_handler)
 
-# 3. Пример запуска бота (необязательно, если бот запускается в другом месте)
-async def main():
-    await bot.application.initialize()
-    await bot.application.start_polling()
-    await bot.application.idle()
+# Запускаем бота
+telegram_bot.application.run_polling() 
+```
 
-if __name__ == '__main__':
-    asyncio.run(main())
+В этом примере мы создаем функцию `my_custom_handler`, которая просто печатает полученное сообщение в лог. Затем мы передаем эту функцию `replace_message_handler()` для замены стандартного обработчика. После этого, все текстовые сообщения будут обрабатываться функцией `my_custom_handler`.

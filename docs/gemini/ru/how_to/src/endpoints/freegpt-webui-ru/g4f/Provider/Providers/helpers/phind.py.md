@@ -1,109 +1,90 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код отправляет запрос к API `www.phind.com` для получения ответа на вопрос, используя предоставленные параметры запроса. Он обрабатывает ответ потоково, удаляя метаданные и форматируя вывод для отображения пользователю. В случае ошибки, код автоматически повторяет запрос.
+Данный фрагмент кода реализует отправку запроса к API Phind для получения ответов на основе заданного текста (prompt). Он использует библиотеку `requests` для отправки POST-запроса к API, формирует заголовок и тело запроса с необходимыми параметрами, а также обрабатывает ответ, выводя его на консоль.
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Импорт необходимых библиотек**: Импортируются библиотеки `sys`, `json`, `datetime` и `urllib.parse` для работы с данными, JSON, временем и URL. Также импортируется `requests` из `curl_cffi` для выполнения HTTP-запросов.
-2. **Чтение конфигурации**: Из аргументов командной строки загружается JSON-конфигурация с использованием `sys.argv[1]` и `json.loads()`.
-3. **Извлечение запроса**: Из конфигурации извлекается текст вопроса (prompt) из последнего сообщения в списке `messages`.
-4. **Определение уровня экспертизы**: На основе значения `config['model']` определяется уровень экспертизы (`skill`) как `'expert'` для модели `'gpt-4'` или `'intermediate'` для других моделей.
-5. **Формирование JSON-данных**: Создаются JSON-данные для запроса к API, включающие вопрос, параметры (уровень экспертизы, дату, язык и др.) и форматируются с использованием `json.dumps()` для минимизации размера.
-6. **Формирование заголовков HTTP-запроса**: Создаются заголовки HTTP-запроса, включающие тип контента, параметры кэширования, User-Agent, Referer и другие необходимые параметры.
-7. **Определение функции `output`**: Определяется функция `output(chunk)`, которая обрабатывает каждый чанк данных, полученный от API.
-    - Функция проверяет наличие метаданных `PHIND_METADATA` и удаляет их.
-    - Функция декодирует чанк данных из байтов в строку.
-    - Функция выполняет замену специфических последовательностей символов для форматирования данных.
-    - Функция выводит обработанный чанк данных в консоль с использованием `print(chunk, flush=True, end = '')`.
-8. **Выполнение запроса в цикле**: В бесконечном цикле `while True` выполняется попытка отправки POST-запроса к API `https://www.phind.com/api/infer/answer`.
-    - Используется функция `requests.post()` для отправки запроса с указанными заголовками и данными.
-    - Функция `output` используется как `content_callback` для потоковой обработки данных ответа.
-    - В случае успешного выполнения запроса, скрипт завершается с кодом `0`.
-9. **Обработка ошибок**: Если во время выполнения запроса возникает исключение, оно перехватывается.
-    - Выводится сообщение об ошибке в консоль с использованием `print('an error occured, retrying... |', e, flush=True)`.
-    - Цикл повторяется, и происходит повторная попытка отправки запроса.
+1. **Импорт необходимых библиотек:**
+    - `sys`: для доступа к аргументам командной строки.
+    - `json`: для работы с JSON-данными.
+    - `datetime`: для получения текущей даты и времени.
+    - `urllib.parse`: для кодирования строки в URL-формате.
+    - `curl_cffi.requests`: для отправки HTTP-запросов.
+2. **Извлечение конфигурации и текста запроса:**
+    - `config = json.loads(sys.argv[1])`: Загружает конфигурацию из первого аргумента командной строки в формате JSON.
+    - `prompt = config['messages'][-1]['content']`: Получает текст запроса из конфигурации.
+3. **Определение уровня сложности:**
+    - `skill = 'expert' if config['model'] == 'gpt-4' else 'intermediate'`: Устанавливает уровень сложности (`skill`) в зависимости от модели GPT (`gpt-4` или другая).
+4. **Формирование тела запроса:**
+    - `json_data = json.dumps({...})`: Создание JSON-данных для отправки к API Phind.
+        - `'question'`: текст запроса (`prompt`).
+        - `'options'`:
+            - `'skill'`: уровень сложности.
+            - `'date'`: текущая дата.
+            - `'language'`: язык запроса (английский).
+            - `'detailed'`:  true - получить более подробный ответ.
+            - `'creative'`: true -  получить ответ в креативном стиле.
+            - `'customLinks'`: список дополнительных ссылок (пустой в данном случае).
+5. **Формирование заголовков запроса:**
+    - `headers = {...}`: Создание словаря с заголовками запроса.
+        - `'Content-Type'`: тип данных, отправляемых в запросе (JSON).
+        - `'Pragma'`: "no-cache" - отключение кэширования.
+        - `'Accept'`:  "/*/" -  принятие любых типов данных в ответе.
+        - `'Sec-Fetch-Site'`: "same-origin" - доступ к ресурсам с того же домена.
+        - `'Accept-Language'`:  "en-GB,en;q=0.9" -  установка языка запроса.
+        - `'Cache-Control'`:  "no-cache" -  отключение кэширования.
+        - `'Sec-Fetch-Mode'`:  "cors" -  установка режима запроса.
+        - `'Content-Length'`: размер тела запроса в байтах.
+        - `'Origin'`:  "https://www.phind.com" -  установка домена отправки запроса.
+        - `'User-Agent'`:  "Mozilla/5.0 (...)" -  установка user-agent.
+        - `'Referer'`:  "https://www.phind.com/search?... " -  установка страницы, с которой пришел запрос.
+        - `'Connection'`:  "keep-alive" -  установка режима соединения.
+        - `'Host'`:  "www.phind.com" -  установка хоста.
+        - `'Sec-Fetch-Dest'`:  "empty" -  установка назначения запроса.
+6. **Определение функции для вывода ответов:**
+    - `def output(chunk): ...`: Функция для обработки ответа от API Phind.
+        - `if b'PHIND_METADATA' in chunk`: Проверка наличия метаданных в ответе, если да - пропускаем обработку.
+        - `if chunk == b'data:  \\r\\ndata: \\r\\ndata: \\r\\n\\r\\n'`: Проверка наличия специфического формата ответа, если да - корректируем ответ.
+        - `chunk = chunk.decode()`: Декодирование ответа в строковый формат.
+        - `chunk = chunk.replace('data: \\r\\n\\r\\ndata: ', 'data: \\n')`: Замена ненужных символов в ответе.
+        - `chunk = chunk.replace('\\r\\n\\r\\n', '\\n\\r\\n\\r\\n')`: Замена ненужных символов в ответе.
+        - `chunk = chunk.replace('data: ', '').replace('\\r\\n\\r\\n', '')`: Замена ненужных символов в ответе.
+        - `print(chunk, flush=True, end = '')`: Вывод обработанного ответа на консоль.
+7. **Отправка запроса к API:**
+    - `while True: ...`: Бесконечный цикл для повторной отправки запроса в случае ошибки.
+    - `response = requests.post('https://www.phind.com/api/infer/answer', headers=headers, data=json_data, content_callback=output, timeout=999999, impersonate='safari15_5')`:  Отправка POST-запроса к API Phind.
+        - `'https://www.phind.com/api/infer/answer'`: URL API Phind.
+        - `headers`:  Заголовки запроса.
+        - `data`:  Тело запроса в формате JSON.
+        - `content_callback=output`: Функция для обработки ответов от API.
+        - `timeout=999999`: Таймаут запроса (очень большой для предотвращения таймаута).
+        - `impersonate='safari15_5'`:  Имитация user-agent браузера.
+    - `exit(0)`: Выход из программы с кодом 0 (успешное завершение).
+8. **Обработка ошибок:**
+    - `except Exception as e: ...`:  Блок обработки исключений, если возникает ошибка при отправке запроса.
+        - `print('an error occured, retrying... |', e, flush=True)`:  Вывод сообщения об ошибке и повторная попытка отправки запроса.
+        - `continue`:  Переход к следующей итерации цикла.
 
-Пример использования
+### Пример использования
 -------------------------
-
 ```python
+# Код для получения ответа от Phind API
 import sys
 import json
-import datetime
-import urllib.parse
 
-from curl_cffi import requests
-
-# Пример конфигурации, которая может быть передана как аргумент командной строки
-config_data = {
-    'messages': [{'content': 'Explain the concept of quantum entanglement.'}],
-    'model': 'gpt-4'
-}
-
-# Преобразуем конфигурацию в строку JSON и передаем как аргумент командной строки
-sys.argv = ['script_name.py', json.dumps(config_data)]
-
+# Загружаем конфигурацию из первого аргумента командной строки
 config = json.loads(sys.argv[1])
+
+# Получаем текст запроса
 prompt = config['messages'][-1]['content']
 
-skill = 'expert' if config['model'] == 'gpt-4' else 'intermediate'
+# Вызываем функцию для отправки запроса к API
+from src.endpoints.freegpt-webui-ru.g4f.Provider.Providers.helpers.phind import main
+main(config)
 
-json_data = json.dumps({
-    'question': prompt,
-    'options': {
-        'skill': skill,
-        'date': datetime.datetime.now().strftime('%d/%m/%Y'),
-        'language': 'en',
-        'detailed': True,
-        'creative': True,
-        'customLinks': []}}, separators=(',', ':'))
-
-headers = {
-    'Content-Type': 'application/json',
-    'Pragma': 'no-cache',
-    'Accept': '*/*',
-    'Sec-Fetch-Site': 'same-origin',
-    'Accept-Language': 'en-GB,en;q=0.9',
-    'Cache-Control': 'no-cache',
-    'Sec-Fetch-Mode': 'cors',
-    'Content-Length': str(len(json_data)),
-    'Origin': 'https://www.phind.com',
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Safari/605.1.15',
-    'Referer': f'https://www.phind.com/search?q={urllib.parse.quote(prompt)}&source=searchbox',
-    'Connection': 'keep-alive',
-    'Host': 'www.phind.com',
-    'Sec-Fetch-Dest': 'empty'
-}
-
-def output(chunk):
-    try:
-        if b'PHIND_METADATA' in chunk:
-            return
-        
-        if chunk == b'data:  \\r\\ndata: \\r\\ndata: \\r\\n\\r\\n':
-            chunk = b'data:  \\n\\r\\n\\r\\n'
-
-        chunk = chunk.decode()
-
-        chunk = chunk.replace('data: \\r\\n\\r\\ndata: ', 'data: \\n')
-        chunk = chunk.replace('\\r\\ndata: \\r\\ndata: \\r\\n\\r\\n', '\\n\\r\\n\\r\\n')
-        chunk = chunk.replace('data: ', '').replace('\\r\\n\\r\\n', '')
-
-        print(chunk, flush=True, end = '')
-        
-    except json.decoder.JSONDecodeError:
-        pass
-
-while True:
-    try:
-        response = requests.post('https://www.phind.com/api/infer/answer',
-                         headers=headers, data=json_data, content_callback=output, timeout=999999, impersonate='safari15_5')
-        
-        exit(0)
-    
-    except Exception as e:
-        print('an error occured, retrying... |', e, flush=True)
-        continue
+# Выводим ответ на консоль
+print(response)
+```

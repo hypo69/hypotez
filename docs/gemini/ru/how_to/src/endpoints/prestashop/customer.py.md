@@ -1,39 +1,53 @@
-### Как использовать этот блок кода
+## Как использовать класс `PrestaCustomer`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет класс `PrestaCustomer`, который предоставляет интерфейс для взаимодействия с API PrestaShop для управления клиентами. Класс позволяет добавлять, удалять, обновлять и получать информацию о клиентах в PrestaShop.
+Класс `PrestaCustomer` предоставляет набор методов для работы с клиентами в системе PrestaShop. 
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**: Импортируются необходимые модули, включая `sys`, `os`, `attr`, `Path`, `typing`, `SimpleNamespace`, `header`, `gs`, `logger`, `j_loads`, `PrestaShop`, `PrestaShopException` и `Optional`.
-2. **Определение класса `PrestaCustomer`**: Создается класс `PrestaCustomer`, который наследуется от класса `PrestaShop`.
-3. **Инициализация класса**: В методе `__init__` происходит инициализация клиента PrestaShop. Проверяется наличие параметров `api_domain` и `api_key`, которые могут быть переданы как отдельные аргументы или через словарь `credentials`. Если параметры отсутствуют, вызывается исключение `ValueError`.
-4. **Инициализация родительского класса**: Вызывается метод `__init__` родительского класса `PrestaShop` с передачей параметров `api_domain` и `api_key`.
-
+1. **Инициализация объекта `PrestaCustomer`**: 
+    - Передайте необходимые параметры в конструктор класса:
+        - `credentials` (Optional[dict | SimpleNamespace]): Словарь или объект SimpleNamespace с параметрами `api_domain` и `api_key`. 
+        - `api_domain` (Optional[str]): Домен API.
+        - `api_key` (Optional[str]): Ключ API. 
+    - Если переданы `credentials`, класс автоматически извлечёт значения `api_domain` и `api_key` из них.
+    - Если `credentials` не передан, то необходимо передать `api_domain` и `api_key` отдельно.
+    - Если ни один из параметров не передан, то будет вызвана ошибка `ValueError`
+2. **Использование методов**:
+    - Класс `PrestaCustomer` предоставляет следующие методы:
+        - `add_customer_PrestaShop(customer_name: str, customer_email: str)`: Добавляет нового клиента в PrestaShop.
+        - `delete_customer_PrestaShop(customer_id: int)`: Удаляет клиента из PrestaShop по его ID.
+        - `update_customer_PrestaShop(customer_id: int, customer_name: str)`: Обновляет имя клиента в PrestaShop по его ID.
+        - `get_customer_details_PrestaShop(customer_id: int)`: Возвращает информацию о клиенте в виде словаря.
+   
 Пример использования
 -------------------------
 
 ```python
 from src.endpoints.prestashop.customer import PrestaCustomer
-from types import SimpleNamespace
 
-# Пример использования с передачей параметров через SimpleNamespace
-credentials = SimpleNamespace(api_domain='your_api_domain', api_key='your_api_key')
+# Пример 1: Использование credentials
+credentials = {
+    'api_domain': 'example.com',
+    'api_key': 'your_api_key'
+}
 prestacustomer = PrestaCustomer(credentials=credentials)
 
-# или с передачей параметров напрямую
-prestacustomer = PrestaCustomer(api_domain='your_api_domain', api_key='your_api_key')
+# Пример 2: Использование api_domain и api_key
+prestacustomer = PrestaCustomer(api_domain='example.com', api_key='your_api_key')
 
 # Добавление нового клиента
-#prestacustomer.add_customer_PrestaShop('John Doe', 'johndoe@example.com')
+prestacustomer.add_customer_PrestaShop('John Doe', 'johndoe@example.com')
 
-# Удаление клиента
-#prestacustomer.delete_customer_PrestaShop(3)
+# Удаление клиента по ID
+prestacustomer.delete_customer_PrestaShop(3)
 
-# Обновление информации о клиенте
-#prestacustomer.update_customer_PrestaShop(4, 'Updated Customer Name')
+# Обновление имени клиента по ID
+prestacustomer.update_customer_PrestaShop(4, 'Updated Customer Name')
 
-# Получение информации о клиенте
-#print(prestacustomer.get_customer_details_PrestaShop(5))
+# Получение информации о клиенте по ID
+customer_details = prestacustomer.get_customer_details_PrestaShop(5)
+print(customer_details)
+```

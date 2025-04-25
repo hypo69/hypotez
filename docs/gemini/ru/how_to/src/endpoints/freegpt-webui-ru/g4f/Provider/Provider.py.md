@@ -1,57 +1,45 @@
-### **Как использовать этот блок кода**
-
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода задает основные параметры и структуру для провайдеров в библиотеке `g4f`. Он определяет URL, модель, поддержку потоковой передачи и необходимость аутентификации, а также подготавливает параметры для функции `_create_completion`.
+Данный блок кода определяет метаданные для конкретного провайдера, реализованного в файле `Provider.py`. 
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются модули `os` для работы с операционной системой и `sha256`, `Dict`, `get_type_hints` из пакета `..typing` для аннотации типов и получения информации о типах.
-
-2. **Инициализация переменных**:
-   - `url` устанавливается как `None`.
-   - `model` устанавливается как `None`.
-   - `supports_stream` устанавливается как `False`.
-   - `needs_auth` устанавливается как `False`.
-
-3. **Определение функции `_create_completion`**:
-   - Определяется функция `_create_completion`, которая принимает параметры `model` (строка), `messages` (список), `stream` (логическое значение) и произвольные аргументы `**kwargs`.
-   - Функция ничего не выполняет (`return`).
-
-4. **Формирование строки параметров**:
-   - Формируется строка `params`, которая описывает поддерживаемые типы данных для параметров функции `_create_completion`.
-   - Используется `os.path.basename(__file__)[:-3]` для получения имени текущего файла без расширения `.py`.
-   - Используется `get_type_hints(_create_completion)` для получения аннотаций типов параметров функции `_create_completion`.
-   - Строка параметров содержит информацию о типах аргументов функции `_create_completion`.
+1. **Определение метаданных**: 
+    - `url` - адрес API провайдера (в данном случае, `None`).
+    - `model` - название модели (в данном случае, `None`).
+    - `supports_stream` - поддерживает ли провайдер потоковую обработку (в данном случае, `False`).
+    - `needs_auth` - требует ли провайдер аутентификации (в данном случае, `False`).
+2. **Описание функции `_create_completion`**:
+    - Определяет функцию, которая создает завершение для модели. 
+    - Принимает модель, список сообщений и флаг потоковой обработки в качестве аргументов.
+    - В данном случае, функция ничего не возвращает. 
+3. **Генерация строки с метаданными**: 
+    - Формирует строку с описанием метаданных провайдера. 
+    - Включает имя файла, типы аргументов функции `_create_completion` и их названия.
 
 Пример использования
 -------------------------
 
 ```python
+from ..Provider import Provider
+from ..typing import sha256, Dict, get_type_hints
 import os
-from typing import Dict, get_type_hints
 
-# Инициализация параметров
-url = "https://example.com/api"
-model = "gpt-3.5-turbo"
-supports_stream = True
-needs_auth = False
+#  Этот код определяет метаданные провайдера,
+#  который реализован в файле Provider.py. 
+class MyProvider(Provider):
+    url = None
+    model = None
+    supports_stream = False
+    needs_auth = False
 
-# Функция для создания завершений
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    """
-    Создает завершение для заданной модели и сообщений.
-    """
-    print(f"Creating completion for model: {model}, stream: {stream}")
-    return  # Временная заглушка
+    def _create_completion(self, model: str, messages: list, stream: bool, **kwargs):
+        return
 
-# Формирование строки параметров
-params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    '(%s)' % ', '.join(
-        [f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
-
-print(params)
-# Вывод: g4f.Providers.Provider supports: (model: str, messages: list, stream: bool)
+    params = f\'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: \' + \\\
+        \'(%s)\' % \', \'.join(\n
+            [f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
+```

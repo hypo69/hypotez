@@ -1,56 +1,42 @@
-### Как использовать этот блок кода
+## Как использовать класс `PrestaSupplier`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет класс `PrestaSupplier`, который предназначен для работы с поставщиками в PrestaShop. Он наследуется от класса `PrestaShop` и предоставляет функциональность для инициализации и настройки соединения с API PrestaShop.
+Класс `PrestaSupplier`  предназначен для взаимодействия с API платформы PrestaShop, предоставляя  функциональность  для управления данными поставщиков.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются модули `SimpleNamespace`, `Optional` и `header`.
-   - Импортируются модули `gs`, `logger` из `src`, `j_loads_ns` из `src.utils.jjson` и `PrestaShop` из `.api`.
+1. **Инициализация:**
+   - Создайте экземпляр класса `PrestaSupplier`, передав необходимые параметры:
+     - `credentials` (необязательно): Словарь или объект `SimpleNamespace` с ключами `api_domain` и `api_key`, содержащими  домен и ключ API PrestaShop.
+     - `api_domain` (необязательно): Домен API PrestaShop.
+     - `api_key` (необязательно): Ключ API PrestaShop.
+     -  Если  `credentials`  не указан, должны быть заданы `api_domain` и `api_key` как отдельные аргументы.
 
-2. **Определение класса `PrestaSupplier`**:
-   - Определяется класс `PrestaSupplier`, который наследуется от `PrestaShop`.
-
-3. **Инициализация класса `PrestaSupplier` (`__init__`)**:
-   - Метод `__init__` принимает параметры `credentials` (словарь или объект `SimpleNamespace` с `api_domain` и `api_key`), `api_domain` и `api_key`.
-   - Если `credentials` переданы, из них извлекаются значения `api_domain` и `api_key`.
-   - Проверяется, что `api_domain` и `api_key` не пусты. Если хотя бы один из них отсутствует, выбрасывается исключение `ValueError`.
-   - Вызывается конструктор родительского класса `PrestaShop` с переданными параметрами.
+2. **Использование методов:**
+   -  После инициализации вы можете использовать  методы класса `PrestaSupplier` для взаимодействия с API. 
+   - Доступные методы зависят от конкретной реализации класса.
 
 Пример использования
 -------------------------
 
 ```python
-from types import SimpleNamespace
 from src.endpoints.prestashop.supplier import PrestaSupplier
 
-# Пример 1: Инициализация с использованием отдельных параметров
-supplier = PrestaSupplier(
-    api_domain='your_api_domain',
-    api_key='your_api_key'
-)
-
-# Пример 2: Инициализация с использованием словаря credentials
-credentials_dict = {
-    'api_domain': 'your_api_domain',
-    'api_key': 'your_api_key'
+# Используйте объект `credentials` с доменом и ключом API
+credentials = {
+    'api_domain': 'https://your-prestashop-domain.com',
+    'api_key': 'your-api-key'
 }
-supplier = PrestaSupplier(credentials=credentials_dict)
 
-# Пример 3: Инициализация с использованием SimpleNamespace credentials
-credentials_ns = SimpleNamespace(
-    api_domain='your_api_domain',
-    api_key='your_api_key'
-)
-supplier = PrestaSupplier(credentials=credentials_ns)
+# Инициализация класса `PrestaSupplier` с помощью объекта `credentials`
+supplier = PrestaSupplier(credentials=credentials)
 
-# Пример 4: Обработка ошибки при отсутствии api_domain или api_key
-try:
-    supplier = PrestaSupplier()
-except ValueError as e:
-    print(f"Ошибка: {e}")
+# Или инициализация  с  `api_domain`  и  `api_key`  как отдельные аргументы
+supplier = PrestaSupplier(api_domain='https://your-prestashop-domain.com', api_key='your-api-key')
 
+# Пример вызова метода для получения информации о поставщике
+# (метод должен быть реализован в классе)
+supplier_info = supplier.get_supplier_info(supplier_id=123)
 ```

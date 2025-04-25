@@ -1,80 +1,49 @@
-Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет функцию `_create_completion`, которая отправляет запрос к API `chat-gpt.org` для генерации текстового ответа на основе предоставленных сообщений. Функция формирует запрос с использованием истории сообщений, настраивает заголовки и параметры запроса, отправляет POST-запрос и возвращает ответ, полученный от API.
+Блок кода реализует провайдер для `g4f`, который использует API chat-gpt.org для генерации текста. Он определяет URL API, поддерживаемые модели, а также методы для отправки запросов и получения ответов.
 
 Шаги выполнения
 -------------------------
-1. **Импорт модулей**: Импортируются необходимые модули `os`, `requests` и типы из пакета `typing`.
-2. **Определение URL и модели**: Определяются базовый URL для API (`https://chat-gpt.org/chat`) и поддерживаемая модель (`gpt-3.5-turbo`). Также указывается, что стриминг не поддерживается и аутентификация не требуется.
-3. **Формирование тела запроса**:
-   - Функция `_create_completion` принимает параметры `model`, `messages`, `stream` и `kwargs`.
-   - Формируется строка `base` путем объединения ролей и содержимого сообщений из списка `messages`.
-   - Добавляется префикс `'assistant:'` к строке `base`.
-4. **Настройка заголовков запроса**:
-   - Определяется словарь `headers` с необходимыми HTTP-заголовками для запроса.
-5. **Настройка данных запроса**:
-   - Определяется словарь `json_data` с сообщением, температурой и штрафами для частотности и присутствия.
-6. **Отправка POST-запроса**:
-   - Отправляется POST-запрос к API `https://chat-gpt.org/api/text` с использованием библиотеки `requests`.
-   - В запросе передаются заголовки `headers` и данные `json_data`.
-7. **Обработка ответа**:
-   - Извлекается сообщение из JSON-ответа и возвращается с использованием `yield`, что делает функцию генератором.
-8. **Параметры**:
-   - Формируется строка `params` для описания поддерживаемых параметров функции `_create_completion`.
+1. **Определяет URL API**:  `url = 'https://chat-gpt.org/chat'` -  задаёт  URL API сервиса.
+2. **Определяет поддерживаемые модели**: `model = ['gpt-3.5-turbo']` - устанавливает список доступных моделей, в данном случае - `gpt-3.5-turbo`.
+3. **Определяет поддержку потоковой передачи**: `supports_stream = False` - указывает, что провайдер не поддерживает потоковую передачу данных.
+4. **Определяет необходимость авторизации**: `needs_auth = False` -  показывает, что авторизация не требуется.
+5. **Определяет функцию `_create_completion`**:  
+   -  `def _create_completion(model: str, messages: list, stream: bool, **kwargs):`  -  функция, которая создаёт запрос к API.
+   -  **Сборка запроса**:   
+     -  Создает строку `base` с сообщениями из `messages` в формате "role: content".
+     -  Добавляет  "assistant:" для обозначения ответа.
+   -  **Заголовки запроса**:  
+     -  Устанавливает заголовки для HTTP-запроса, используя  `requests.post`.
+   -  **Отправка запроса**: 
+     -  Отправляет запрос к API с помощью `requests.post` и получает JSON-ответ.
+   -  **Обработка ответа**: 
+     -  Извлекает ответ из поля `message`  JSON-объекта и  возвращает его.
+6. **Проверка типов**:
+   -  `params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
+    ' (%s)' % ', '.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])`
+   -  Определяет типы всех параметров в `_create_completion` для документации.
 
 Пример использования
 -------------------------
 
 ```python
-import os, requests
-from typing import sha256, Dict, get_type_hints
+from g4f.Provider.Providers.Aichat import _create_completion
+messages = [
+    {'role': 'user', 'content': 'Привет, как дела?'},
+]
+completion = _create_completion(model='gpt-3.5-turbo', messages=messages, stream=False)
+print(completion) 
+```
 
-url = 'https://chat-gpt.org/chat'
-model = ['gpt-3.5-turbo']
-supports_stream = False
-needs_auth = False
+**Дополнительные замечания**:
 
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    base = ''
-    for message in messages:
-        base += '%s: %s\n' % (message['role'], message['content'])
-    base += 'assistant:'
-    
-    headers = {
-        'authority': 'chat-gpt.org',
-        'accept': '*/*',
-        'cache-control': 'no-cache',
-        'content-type': 'application/json',
-        'origin': 'https://chat-gpt.org',
-        'pragma': 'no-cache',
-        'referer': 'https://chat-gpt.org/chat',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36',
-    }
+-  `_create_completion`  -  это вспомогательная функция для создания запроса.
+-  `requests.post`  -  библиотека для отправки HTTP-запросов. 
+-  `get_type_hints` -  функция для получения типа данных.
+-  `os.path.basename` -  функция для получения имени файла.
 
-    json_data = {
-        'message': base,
-        'temperature': 1,
-        'presence_penalty': 0,
-        'top_p': 1,
-        'frequency_penalty': 0
-    }
-    
-    response = requests.post('https://chat-gpt.org/api/text', headers=headers, json=json_data)
-    yield response.json()['message']
-
-# Пример вызова функции _create_completion
-messages = [{'role': 'user', 'content': 'Hello, how are you?'}]
-generator = _create_completion(model='gpt-3.5-turbo', messages=messages, stream=False)
-for response in generator:
-    print(response)
-
-params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    '(%s)' % ', '.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
+**Этот провайдер может использоваться в `g4f` для взаимодействия с API chat-gpt.org.**

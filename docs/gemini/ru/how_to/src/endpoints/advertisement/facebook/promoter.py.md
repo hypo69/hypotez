@@ -1,79 +1,65 @@
-### Как использовать этот блок кода
+## Как использовать FacebookPromoter
 =========================================================================================
 
 Описание
 -------------------------
-Этот код предназначен для продвижения товаров и событий в группах Facebook. Он содержит классы и функции для автоматизации процесса публикации рекламных материалов, проверки интервалов между публикациями и обработки различных сценариев продвижения.
+Класс `FacebookPromoter` предназначен для продвижения товаров и мероприятий на Facebook. 
+
+Он автоматизирует публикацию рекламных постов в группах, гарантируя, что категории и события рекламируются, избегая дублирования.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация класса `FacebookPromoter`**:
-   - Создается экземпляр класса `FacebookPromoter`, который принимает драйвер WebDriver, имя промоутера и пути к файлам групп Facebook.
-
-2. **Метод `promote`**:
-   - Определяет, является ли продвигаемый элемент событием или сообщением.
-   - Проверяет соответствие языка и валюты группы.
-   - Вызывает соответствующие функции (`post_event` или `post_message`) для публикации в группе.
-   - Обновляет данные группы после успешной публикации.
-
-3. **Метод `process_groups`**:
-   - Проходит по списку файлов групп Facebook.
-   - Загружает данные групп из JSON-файла.
-   - Фильтрует группы на основе категорий и статуса.
-   - Получает элемент для продвижения (категорию или событие).
-   - Проверяет, был ли уже продвинут данный элемент в группе.
-   - Вызывает метод `promote` для публикации в группе.
-   - Обновляет данные группы и сохраняет их в файл.
-
-4. **Метод `get_category_item`**:
-   - Получает информацию о категории для продвижения в зависимости от промоутера (`aliexpress` или другой).
-   - Для `aliexpress` использует класс `AliCampaignEditor` для получения категорий и продуктов.
-   - Для других промоутеров загружает данные из JSON-файла и выбирает случайную категорию.
-
-5. **Метод `check_interval`**:
-   - Проверяет, прошло ли достаточно времени с момента последней публикации в группе.
-
-6. **Метод `get_event_url`**:
-   - Формирует URL для создания события в Facebook группе на основе URL группы.
+1. **Инициализация:** Создается экземпляр класса `FacebookPromoter`. 
+    - **Ввод**:
+        - `d`: Экземпляр `Driver` (например, `Chrome`, `Firefox`, `Playwright`) для управления браузером.
+        - `group_file_paths`: Список путей к файлам с данными групп Facebook (по умолчанию используется каталог `'facebook/groups'`).
+        - `no_video`: Флаг, отключающий видео в постах.
+2. **Продвижение:** Метод `promote`  продвигает категорию или событие в группе Facebook.
+    - **Ввод**:
+        - `group`: Данные группы Facebook (объект `SimpleNamespace`).
+        - `item`: Данные товара или события (объект `SimpleNamespace`).
+        - `is_event`: Флаг, указывающий, является ли `item` событием.
+3. **Обработка групп:** Метод `process_groups` обрабатывает все группы в списке `group_file_paths`.
+    - **Ввод**:
+        - `campaign_name`: Имя кампании.
+        - `events`: Список событий для продвижения.
+        - `is_event`: Флаг, указывающий, является ли `item` событием.
+        - `group_categories_to_adv`: Список категорий товаров для продвижения.
+        - `language`: Язык для продвижения.
+        - `currency`: Валюта для продвижения.
+    - **Действие**:
+        - Проходит по каждой группе в списке `group_file_paths`.
+        - Проверяет, соответствует ли группа указанным критериям (категория, язык, валюта, активность).
+        - Продвигает выбранный товар или событие в группе, используя метод `promote`.
+        - Обновляет данные группы после публикации.
+    - **Вывод**:  
+        - Обновленный список групп с информацией о последних продвижениях.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.advertisement.facebook.promoter import FacebookPromoter, get_event_url
-from src.webdriver.driver import Driver, Chrome
-from types import SimpleNamespace
-import pytest
+from src.webdriver.driver import Driver, Firefox
+from src.endpoints.advertisement.facebook.promoter import FacebookPromoter
+from src.endpoints.advertisement.facebook.scenarios import post_message, post_event
+from src.utils.jjson import j_loads_ns
 
-@pytest.fixture
-def promoter_instance():
-    # Инициализация драйвера и промоутера для тестов
-    driver = Driver(Chrome)
-    promoter = FacebookPromoter(d=driver, promoter='test_promoter')
-    yield promoter
-    driver.close()
+# Создаем экземпляр Driver
+driver = Driver(Firefox)
 
-def test_promote_method(promoter_instance):
-    # Подготовка данных для теста
-    group_data = {
-        "group_url": "https://www.facebook.com/groups/1234567890",
-        "group_categories": ["sales"],
-        "status": "active",
-        "language": "EN",
-        "currency": "USD",
-        "promoted_categories": [],
-        "last_promo_sended": None
-    }
-    group = SimpleNamespace(**group_data)
-    item = SimpleNamespace(category_name='Test Category', language=SimpleNamespace(EN='Test Message'))
+# Создаем экземпляр FacebookPromoter
+promoter = FacebookPromoter(d=driver, promoter='aliexpress', group_file_paths='path/to/group_files')
 
-    # Вызов метода promote
-    result = promoter_instance.promote(group=group, item=item)
-    assert result is None
+# Проверяем, что мы можем отправлять сообщения
+message = j_loads_ns('path/to/message_data.json')
+if post_message(d=driver, message=message, no_video=False, without_captions=False):
+    print('Сообщение отправлено!')
 
-def test_get_event_url():
-    group_url = "https://www.facebook.com/groups/1234567890"
-    event_url = get_event_url(group_url)
-    assert "https://www.facebook.com/events/create/" in event_url
-    assert "group_id=1234567890" in event_url
+# Продвигаем событие
+event = j_loads_ns('path/to/event_data.json')
+if promoter.promote(group=j_loads_ns('path/to/group_data.json'), item=event, is_event=True):
+    print('Событие успешно продвинуто!')
+
+# Обрабатываем группы для кампании 'new_year_sale'
+promoter.process_groups(campaign_name='new_year_sale', group_categories_to_adv=['sales'], language='ru', currency='USD')
 ```
