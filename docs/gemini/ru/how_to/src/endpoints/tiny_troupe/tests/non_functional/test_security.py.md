@@ -1,67 +1,52 @@
-### Как использовать этот блок кода
+## Как использовать тест `test_default_llmm_api`
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода выполняет тестирование основных свойств API языковой модели (LLM), используемого по умолчанию в библиотеке TinyTroupe. Он проверяет, что ответы от LLM API соответствуют минимальным требованиям, таким как наличие ключей `content` и `role`, непустое содержимое этих ключей, а также соответствие длины ответа определенным пределам.
+Тест `test_default_llmm_api` проверяет базовые свойства и ограничения API, используемого по умолчанию для TinyTroupe. 
+Он отправляет тестовое сообщение в API и проверяет, что полученный ответ удовлетворяет минимальным требованиям, а также ограничениям по размеру и кодировке.
 
 Шаги выполнения
 -------------------------
-1. **Создание тестового сообщения**: Формируется тестовое сообщение, имитирующее вопрос к коту о секрете счастливой жизни. Используется функция `create_test_system_user_message`.
-2. **Отправка сообщения в LLM API**: Тестовое сообщение отправляется в LLM API с помощью метода `send_message` объекта `openai_utils.client()`.
-3. **Проверка ответа на `None`**: Утверждается, что ответ от LLM API не равен `None`.
-4. **Проверка наличия ключей**: Проверяется, что ответ содержит ключи `content` и `role`.
-5. **Проверка содержимого ключей**: Утверждается, что содержимое ключей `content` и `role` не пустое.
-6. **Преобразование ответа в строку**: Ответ преобразуется в строку для дальнейших проверок.
-7. **Проверка длины строки**: Утверждается, что длина строкового представления ответа находится в пределах от 1 до 2000000 символов.
-8. **Проверка кодировки**: Утверждается, что ответ может быть закодирован в UTF-8 без исключений.
+1. **Создание тестового сообщения**: Тестовое сообщение создается с использованием функции `create_test_system_user_message`. Эта функция создает тестовое сообщение типа "система-пользователь" с заданным текстом.
+2. **Отправка сообщения в API**: Используя клиент `openai_utils.client()`, тестовое сообщение отправляется в API.
+3. **Проверка полученного ответа**: Тест проверяет следующие свойства ответа:
+    - Ответ не должен быть пустым (`assert next_message is not None`).
+    - Ответ должен содержать ключ `content` (`assert "content" in next_message`).
+    - Ключ `content` должен содержать непустую строку (`assert len(next_message["content"]) >= 1`).
+    - Ответ должен содержать ключ `role` (`assert "role" in next_message`).
+    - Ключ `role` должен содержать непустую строку (`assert len(next_message["role"]) >= 1`).
+4. **Преобразование ответа в строку**: Ответ, который изначально находится в формате словаря, преобразуется в строку для дальнейших проверок.
+5. **Проверка длины ответа**: Тест проверяет, что длина ответа в символах находится в допустимых пределах:
+    - Ответ должен содержать хотя бы один символ (`assert len(next_message_str) >= 1`).
+    - Ответ не должен превышать 2000000 символов (`assert len(next_message_str) <= 2000000`).
+6. **Проверка кодировки**: Тест проверяет, что ответ можно закодировать в UTF-8 без ошибок (`assert next_message_str.encode('utf-8')`).
 
 Пример использования
 -------------------------
 
 ```python
-import pytest
-import textwrap
-import logging
-import sys
+    messages = create_test_system_user_message("If you ask a cat what is the secret to a happy life, what would the cat say?")
 
-# Добавление путей к модулям для импорта
-sys.path.append('../../tinytroupe/')
-sys.path.append('../../')
-sys.path.append('../')
-
-# Импорт необходимых модулей из TinyTroupe
-from tinytroupe import openai_utils
-from testing_utils import create_test_system_user_message
-
-def test_default_llmm_api():
-    """
-    Тестирует основные свойства API языковой модели (LLM) по умолчанию, настроенного для TinyTroupe.
-    """
-
-    # Формирование тестового сообщения
-    messages = create_test_system_user_message("Если вы спросите кота, в чем секрет счастливой жизни, что бы он ответил?")
-
-    # Отправка сообщения в LLM API
     next_message = openai_utils.client().send_message(messages)
 
-    print(f"Следующее сообщение в виде словаря: {next_message}")
+    print(f"Next message as dict: {next_message}")
 
-    # Проверки ответа
-    assert next_message is not None, "Ответ от LLM API не должен быть None."
-    assert "content" in next_message, "Ответ от LLM API должен содержать ключ 'content'."
-    assert len(next_message["content"]) >= 1, "Ответ от LLM API должен содержать непустой ключ 'content'."
-    assert "role" in next_message, "Ответ от LLM API должен содержать ключ 'role'."
-    assert len(next_message["role"]) >= 1, "Ответ от LLM API должен содержать непустой ключ 'role'."
+    # checks that the response meets minimum requirements
+    assert next_message is not None, "The response from the LLM API should not be None."
+    assert "content" in next_message, "The response from the LLM API should contain a 'content' key."
+    assert len(next_message["content"]) >= 1, "The response from the LLM API should contain a non-empty 'content' key."
+    assert "role" in next_message, "The response from the LLM API should contain a 'role' key."
+    assert len(next_message["role"]) >= 1, "The response from the LLM API should contain a non-empty 'role' key."
 
-    # Преобразование ответа в строку
+    # convert to the dict to string
     next_message_str = str(next_message)
-    print(f"Следующее сообщение в виде строки: {next_message_str}")
+    print(f"Next message as string: {next_message_str}")
 
-    # Проверки длины строки
-    assert len(next_message_str) >= 1, "Ответ от LLM API должен содержать хотя бы один символ."
-    assert len(next_message_str) <= 2000000, "Ответ от LLM API должен содержать не более 2000000 символов."
+    # checks max and min characters
+    assert len(next_message_str) >= 1, "The response from the LLM API should contain at least one character."
+    assert len(next_message_str) <= 2000000, "The response from the LLM API should contain at most 2000000 characters."
 
-    # Проверка кодировки
-    assert next_message_str.encode('utf-8'), "Ответ от LLM API должен быть кодируемым в UTF-8 без исключений."
+    # checks encoding is UTF-8
+    assert next_message_str.encode('utf-8'), "The response from the LLM API should be encodable in UTF-8 without exceptions."
 ```

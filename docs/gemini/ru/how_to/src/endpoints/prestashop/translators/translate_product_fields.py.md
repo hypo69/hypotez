@@ -1,67 +1,73 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода предоставляет набор функций для работы с переводами полей товара, предназначенных для использования с PrestaShop. Он включает в себя извлечение существующих переводов из базы данных, вставку новых переводов и перевод записей с одного языка на другой с использованием LLM.
+Этот блок кода предоставляет функции для получения, добавления и перевода записей в таблице переводов продуктов PrestaShop.
 
 Шаги выполнения
 -------------------------
-1. **Извлечение переводов из таблицы PrestaShop**:
-   - Функция `get_translations_from_presta_translations_table` принимает референс товара (`product_reference`), учетные данные для подключения к базе данных (`credentials`) и код языка (`i18n`).
-   - Она использует `ProductTranslationsManager` для подключения к базе данных и выполняет запрос для получения переводов продукта на основе `product_reference`.
-   - Возвращает список найденных переводов.
-
-2. **Вставка нового перевода в таблицу PrestaShop**:
-   - Функция `insert_new_translation_to_presta_translations_table` принимает запись (`record`) с данными для вставки и учетные данные для подключения к базе данных (`credentials`).
-   - Она использует `ProductTranslationsManager` для подключения к базе данных и выполняет операцию вставки записи (`record`) в таблицу переводов.
-
-3. **Перевод записи**:
-   - Функция `translate_record` принимает запись (`record`) для перевода, исходный язык (`from_locale`) и целевой язык (`to_locale`).
-   - Она вызывает функцию `translate` (из модуля `src.llm`) для выполнения перевода записи с одного языка на другой.
-   - Возвращает переведенную запись.
+1. **Получение переводов:**  
+    - `get_translations_from_presta_translations_table(product_reference, credentials, i18n)` извлекает переводы полей товара из таблицы переводов PrestaShop.
+    - Функция принимает референс товара (`product_reference`), параметры подключения к базе (`credentials`) и язык перевода (`i18n`).
+    - Она создает запрос для выборки данных и возвращает список найденных записей.
+2. **Добавление нового перевода:**
+    - `insert_new_translation_to_presta_translations_table(record, credentials)` вставляет новую запись перевода в таблицу переводов PrestaShop.
+    - Функция принимает словарь записи перевода (`record`) и параметры подключения к базе (`credentials`).
+    - Она использует объект `ProductTranslationsManager` для выполнения операции вставки.
+3. **Перевод записи:**
+    - `translate_record(record, from_locale, to_locale)` переводит поля товара с помощью модели LLM (Large Language Model).
+    - Функция принимает словарь с полями товара (`record`), исходный язык (`from_locale`) и целевой язык (`to_locale`).
+    - Она использует функцию `translate` из модуля `src.llm` для выполнения перевода.
+    - После перевода запись должна быть обработана (необходимая обработка не указана).
+    - Возвращает переведенную запись.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.prestashop.translators.translate_product_fields import (
-    get_translations_from_presta_translations_table,
-    insert_new_translation_to_presta_translations_table,
-    translate_record
-)
+from src.endpoints.PrestaShop import PrestaShop
+from src.product.product_fields.product_fields import record
+from src.db import ProductTranslationsManager
 
-# Пример использования get_translations_from_presta_translations_table
-product_reference = "REF123"
-credentials = {
-    "host": "localhost",
-    "user": "user",
-    "password": "password",
-    "database": "prestashop_db"
-}
-i18n = "ru-RU"
-translations = get_translations_from_presta_translations_table(product_reference, credentials, i18n)
-if translations:
-    print(f"Найдены переводы: {translations}")
-else:
-    print("Переводы не найдены.")
+# Получение настроек подключения к PrestaShop
+credentials = PrestaShop.get_credentials()
 
-# Пример использования insert_new_translation_to_presta_translations_table
-new_record = {
-    "product_reference": "REF456",
-    "field_name": "description",
-    "locale": "en-US",
-    "translation": "New description"
-}
-insert_new_translation_to_presta_translations_table(new_record, credentials)
-print("Новый перевод добавлен.")
+# Получение референса товара
+product_reference = "12345"
 
-# Пример использования translate_record
-record_to_translate = {
-    "name": "Product Name",
-    "description": "Product Description"
+# Получение переводов
+translations = get_translations_from_presta_translations_table(product_reference, credentials, i18n="ru-RU")
+
+# Вывод полученных переводов
+print(translations)
+
+# Создание новой записи для перевода
+new_translation = {
+    'product_reference': product_reference,
+    'field_name': 'Название',
+    'field_value': 'Название товара на русском',
+    'locale': 'ru-RU'
 }
-from_locale = "en"
-to_locale = "fr"
-translated_record = translate_record(record_to_translate, from_locale, to_locale)
-print(f"Переведенная запись: {translated_record}")
+
+# Добавление новой записи в таблицу переводов
+insert_new_translation_to_presta_translations_table(new_translation, credentials)
+
+# Перевод записи товара с английского на русский
+record = {
+    'Название': 'Product Name',
+    'Описание': 'Product description'
+}
+translated_record = translate_record(record, from_locale='en_EN', to_locale='ru-RU')
+
+# Вывод переведенной записи
+print(translated_record)
+```
+
+### **Дополнительно:**
+
+- Модуль `src.llm` предоставляет функции для перевода с помощью моделей LLM.
+- Модуль `src.db` обеспечивает доступ к менеджеру таблицы переводов `ProductTranslationsManager`, который позволяет работать с данными в таблице.
+- Модуль `src.product.product_fields.product_fields` предоставляет структуру `record` для хранения полей товара.
+
+**Важно:** Не забывайте заменять примеры значений (`product_reference`, `credentials` и т.д.) на ваши реальные данные.

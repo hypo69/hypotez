@@ -1,20 +1,29 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код выполняет сценарий мозгового штурма в симулированной среде `focus_group_world`, где агенты (представленные классом `TinyPerson`) обсуждают идеи для новых функций продукта. В данном случае, агенты генерируют идеи для добавления AI-функций в Microsoft Word. После обсуждения, один из агентов (Lisa Carter) запрашивает обобщение предложенных идей, которые затем извлекаются и проверяются на соответствие ожидаемым результатам.
+Этот код представляет собой сценарий тестирования для агента TinyPerson в проекте TinyTroupe. Он имитирует сеанс мозгового штурма в фокус-группе, где агент TinyPerson "слушает" идеи, а затем анализирует результаты, извлекая из них сводку идей. 
 
 Шаги выполнения
 -------------------------
-1. **Инициализация мира**: Получает объект мира `focus_group_world` из параметра `setup`.
-2. **Трансляция задачи**: Отправляет сообщение всем агентам в мире с заданием сгенерировать идеи для новых AI-функций в Microsoft Word.
-3. **Запуск симуляции**: Запускает мир на один шаг, чтобы агенты могли обсудить идеи.
-4. **Получение агента**: Получает конкретного агента (Lisa Carter) по имени.
-5. **Запрос на обобщение**: Агент Lisa Carter запрашивает обобщение предложенных идей.
-6. **Извлечение результатов**: Использует класс `ResultsExtractor` для извлечения и обобщения идей, предложенных группой.
-7. **Проверка результатов**: Проверяет, что извлеченные результаты содержат идеи для новых функций продукта или новых продуктов, используя функцию `proposition_holds`.
-8. **Логирование результатов**: Выводит извлеченные результаты в консоль.
+1. **Инициализация мира**:
+    - Создается экземпляр `focus_group_world`, представляющий мир фокус-группы.
+    - Инициализируется агент TinyPerson с именем "Lisa Carter".
+
+2. **Запуск мозгового штурма**:
+    - В мир фокус-группы транслируется сообщение, стимулирующее участников к мозговому штурму идей.
+    - Мир фокус-группы "прокручивается" на один шаг, чтобы позволить участникам выразить свои идеи.
+
+3. **Анализ результатов**:
+    - Агент TinyPerson "слушает" идеи, задавая вопрос о том, чтобы получить сводку.
+    - Инициализируется экземпляр класса `ResultsExtractor` для извлечения результатов из сообщения агента.
+    - Вызывается метод `extract_results_from_agent` для извлечения сводки идей, описанных агентом.
+
+4. **Проверка результата**:
+    - Выводится на печать сводка идей.
+    - Проверяется, выполняется ли предложение, основанное на полученном результате.
+
 
 Пример использования
 -------------------------
@@ -30,45 +39,14 @@ sys.path.append('../../')
 sys.path.append('..')
 
 from tinytroupe.agent import TinyPerson
-from tinytroupe.extraction import ResultsExtractor
+
 from testing_utils import *
 
 def test_brainstorming_scenario(setup, focus_group_world):
-    """
-    Тест сценария мозгового штурма для генерации идей AI-функций Microsoft Word.
-    
-    Args:
-        setup: Параметр настройки теста.
-        focus_group_world: Симулированная среда, в которой агенты обсуждают идеи.
-    """
-    world = focus_group_world
+    # ... (код сценария) ... 
+```
 
-    # Рассылка задачи всем агентам
-    world.broadcast("""
-        Folks, we need to brainstorm ideas for a new product. Your mission is to discuss potential AI feature ideas
-        to add to Microsoft Word. In general, we want features that make you or your industry more productive,
-        taking advantage of all the latest AI technologies.
-
-        Please start the discussion now.
-    """)
-    
-    world.run(1)
-
-    # Получение агента Lisa Carter
-    agent = TinyPerson.get_agent_by_name("Lisa Carter")
-
-    # Агент запрашивает обобщение идей
-    agent.listen_and_act("Can you please summarize the ideas that the group came up with?")
-
-    # Извлечение результатов
-    extractor = ResultsExtractor()
-    results = extractor.extract_results_from_agent(
-        agent, 
-        extraction_objective="Summarize the the ideas that the group came up with, explaining each idea as an item of a list. Describe in details the benefits and drawbacks of each.", 
-        situation="A focus group to brainstorm ideas for a new product."
-    )
-
-    print("Brainstorm Results: ", results)
-
-    # Проверка результатов
-    assert proposition_holds(f"The following contains some ideas for new product features or entirely new products: '{results}'"), "Proposition is false according to the LLM."
+В данном примере кода:
+- Сценарий `test_brainstorming_scenario` запускается с использованием `pytest`.
+- Используется функция `setup` для настройки среды, а `focus_group_world` для создания мира фокус-группы.
+-  Остальной код соответствует шагам, описанным выше.

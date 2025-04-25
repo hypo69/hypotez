@@ -1,178 +1,35 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код определяет функцию `_create_completion`, которая взаимодействует с API `gpt-gm.h2o.ai` для генерации текста на основе предоставленных сообщений. Он создает разговорный контекст, отправляет запросы к API и возвращает токены сгенерированного текста.
+Этот блок кода реализует функцию `_create_completion`, которая генерирует текст с помощью модели GPT от H2O.ai. 
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Подготовка контекста разговора**:
-   - Функция принимает список сообщений (`messages`), каждое из которых содержит роль (`role`) и содержание (`content`).
-   - Формируется строка `conversation`, представляющая собой контекст разговора, где каждое сообщение добавляется с указанием его роли (пользователь или ассистент).
+1. **Инициализация:** Создает сессию `requests` для отправки HTTP-запросов.
+2. **Настройка заголовков:** Задает заголовки HTTP-запросов. 
+3. **Установка настроек:** Отправляет POST-запрос на `https://gpt-gm.h2o.ai/settings` для установки настроек пользователя (активная модель, согласие на этические условия и т.д.).
+4. **Создание диалога:** Отправляет POST-запрос на `https://gpt-gm.h2o.ai/conversation` для создания нового диалога.
+5. **Генерация текста:** Отправляет POST-запрос на `https://gpt-gm.h2o.ai/conversation/{conversationId}` для генерации текста.
+6. **Обработка потока:** Получает ответ от сервера в виде потока (stream) и декодирует его,  извлекая текст токен за токеном.
+7. **Окончание генерации:**  Цикл продолжается до тех пор, пока не встретится маркер окончания текста `<|endoftext|>`, после чего генерация прекращается.
 
-2. **Настройка HTTP-клиента**:
-   - Создается сессия `requests.Session()` для выполнения HTTP-запросов.
-   - Устанавливаются заголовки (`headers`) для имитации запроса от браузера, включая информацию о браузере, типе содержимого и источнике запроса.
-
-3. **Начальная настройка на сервере**:
-   - Выполняется GET-запрос к корневому URL (`https://gpt-gm.h2o.ai/`) для установки cookie.
-   - Отправляется POST-запрос к `/settings` для установки различных параметров, таких как принятие условий использования, разрешение на обмен данными и выбор активной модели.
-
-4. **Запрос на создание разговора**:
-   - Отправляется POST-запрос к `/conversation` с указанием используемой модели.
-   - Извлекается идентификатор разговора (`conversationId`) из ответа сервера.
-
-5. **Отправка запроса на генерацию текста**:
-   - Отправляется POST-запрос к `f'https://gpt-gm.h2o.ai/conversation/{conversationId}'` с параметрами генерации текста, такими как температура, максимальное количество токенов и другие.
-   - Параметр `stream=True` указывает на использование потоковой передачи данных.
-
-6. **Обработка потока данных**:
-   - Функция итерируется по каждой строке в ответе (`completion.iter_lines()`).
-   - Проверяется наличие `b'data'` в строке, что указывает на наличие данных сгенерированного текста.
-   - Извлекается JSON из строки, удаляя префикс `data:`.
-   - Извлекается токен (`token`) из JSON.
-   - Если токен равен `<|endoftext|>`, генерация завершается.
-   - В противном случае, токен возвращается как часть сгенерированного текста.
-
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
-from g4f.Provider.Providers import H2o
+from g4f.Provider.Providers.H2o import _create_completion
 
+# Список сообщений для диалога
 messages = [
-    {"role": "user", "content": "What is the capital of France?"}
+    {'role': 'user', 'content': 'Привет! Расскажи о себе.'},
+    {'role': 'assistant', 'content': 'Я — большая языковая модель, обученная Google.'}
 ]
 
-for token in H2o._create_completion(model='falcon-7b', messages=messages, stream=True):
-    print(token, end="")
+# Вызов функции _create_completion для генерации ответа
+for token in _create_completion(model='falcon-7b', messages=messages, stream=True):
+    print(token, end='')
 ```
-```python
-from requests import Session
-from uuid import uuid4
-from json import loads
-import os
-import json
-import requests
-from ...typing import sha256, Dict, get_type_hints
 
-url: str = 'https://gpt-gm.h2o.ai'
-model: list = ['falcon-40b', 'falcon-7b', 'llama-13b']
-supports_stream: bool = True
-needs_auth: bool = False
-
-models: Dict[str, str] = {
-    'falcon-7b': 'h2oai/h2ogpt-gm-oasst1-en-2048-falcon-7b-v3',
-    'falcon-40b': 'h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1',
-    'llama-13b': 'h2oai/h2ogpt-gm-oasst1-en-2048-open-llama-13b'
-}
-
-def _create_completion(model: str, messages: list, stream: bool, **kwargs) -> Generator[str, None, None]:
-    """
-    Создает запрос к API gpt-gm.h2o.ai для генерации текста на основе предоставленных сообщений.
-
-    Args:
-        model (str): Модель для генерации текста.
-        messages (list): Список сообщений, каждое из которых содержит роль и содержание.
-        stream (bool): Флаг, указывающий на использование потоковой передачи данных.
-        **kwargs: Дополнительные параметры для настройки генерации текста.
-
-    Yields:
-        str: Токены сгенерированного текста.
-
-    Raises:
-        requests.exceptions.RequestException: Если возникает ошибка при выполнении HTTP-запроса.
-
-    Example:
-        >>> messages = [{"role": "user", "content": "What is the capital of France?"}]
-        >>> for token in _create_completion(model='falcon-7b', messages=messages, stream=True):
-        ...     print(token, end="")
-        Paris
-    """
-    conversation: str = 'instruction: this is a conversation beween, a user and an AI assistant, respond to the latest message, referring to the conversation if needed\n'
-    for message in messages:
-        conversation += '%s: %s\n' % (message['role'], message['content'])
-    conversation += 'assistant:'
-    
-    client: Session = Session()
-    client.headers = {
-        'authority': 'gpt-gm.h2o.ai',
-        'origin': 'https://gpt-gm.h2o.ai',
-        'referer': 'https://gpt-gm.h2o.ai/',
-        'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'document',
-        'sec-fetch-mode': 'navigate',
-        'sec-fetch-site': 'same-origin',
-        'sec-fetch-user': '?1',
-        'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-    }
-
-    client.get('https://gpt-gm.h2o.ai/')
-    response: Response = client.post('https://gpt-gm.h2o.ai/settings', data={
-        'ethicsModalAccepted': 'true',
-        'shareConversationsWithModelAuthors': 'true',
-        'ethicsModalAcceptedAt': '',
-        'activeModel': 'h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1',
-        'searchEnabled': 'true',
-    })
-
-    headers: Dict[str, str] = {
-        'authority': 'gpt-gm.h2o.ai',
-        'accept': '*/*',
-        'accept-language': 'en,fr-FR;q=0.9,fr;q=0.8,es-ES;q=0.7,es;q=0.6,en-US;q=0.5,am;q=0.4,de;q=0.3',
-        'origin': 'https://gpt-gm.h2o.ai',
-        'referer': 'https://gpt-gm.h2o.ai/',
-        'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-    }
-
-    json_data: Dict[str, str] = {
-        'model': models[model]
-    }
-
-    response: Response = client.post('https://gpt-gm.h2o.ai/conversation',
-                            headers=headers, json=json_data)
-    conversationId: str = response.json()['conversationId']
-
-
-    completion: Response = client.post(f'https://gpt-gm.h2o.ai/conversation/{conversationId}', stream=True, json = {
-        'inputs': conversation,
-        'parameters': {
-            'temperature': kwargs.get('temperature', 0.4),
-            'truncate': kwargs.get('truncate', 2048),
-            'max_new_tokens': kwargs.get('max_new_tokens', 1024),
-            'do_sample': kwargs.get('do_sample', True),
-            'repetition_penalty': kwargs.get('repetition_penalty', 1.2),
-            'return_full_text': kwargs.get('return_full_text', False)
-        },
-        'stream': True,
-        'options': {
-            'id': kwargs.get('id', str(uuid4())),
-            'response_id': kwargs.get('response_id', str(uuid4())),
-            'is_retry': False,
-            'use_cache': False,
-            'web_search_id': ''
-        }
-    })
-
-    for line in completion.iter_lines():
-        if b'data' in line:
-            line: str = loads(line.decode('utf-8').replace('data:', ''))
-            token: str = line['token']['text']
-            
-            if token == '<|endoftext|>':
-                break
-            else:
-                yield (token)
-            
-params: str = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    '(%s)' % ', '.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
+**Важно:**  В примере используются `model='falcon-7b'`, `messages` и `stream=True`. Замените значения на соответствующие вашим потребностям.

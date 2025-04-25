@@ -1,81 +1,94 @@
-### Как использовать этот блок кода
+## Как использовать класс `ArtifactExporter` для экспорта артефактов
 =========================================================================================
 
 Описание
 -------------------------
-Этот код содержит набор тестов для проверки функциональности модулей `ArtifactExporter` и `Normalizer` из библиотеки `tinytroupe`. `ArtifactExporter` используется для экспорта данных в различных форматах (JSON, текст, DOCX), а `Normalizer` — для нормализации текстовых концепций. Тесты проверяют, что данные экспортируются и нормализуются корректно.
+Класс `ArtifactExporter` позволяет экспортировать артефакты в различных форматах (JSON, текстовый файл, DOCX). 
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**: Импортируются модули `pytest`, `os`, `json`, `random`, `logging` и классы `ArtifactExporter`, `Normalizer` из `tinytroupe`, а также вспомогательные функции из `testing_utils`.
-2. **Определение фикстуры `exporter`**: Фикстура `exporter` инициализирует экземпляр класса `ArtifactExporter` с базовой папкой для экспорта.
-3. **Тест экспорта в JSON (`test_export_json`)**:
-    - Определяются данные артефакта в формате словаря.
-    - Вызывается метод `exporter.export` для экспорта данных в формате JSON.
-    - Проверяется, что файл JSON был создан в ожидаемой директории.
-    - Проверяется, что экспортированные данные соответствуют исходным.
-4. **Тест экспорта в текст (`test_export_text`)**:
-    - Определяются текстовые данные артефакта.
-    - Вызывается метод `exporter.export` для экспорта данных в текстовый файл.
-    - Проверяется, что текстовый файл был создан в ожидаемой директории.
-    - Проверяется, что экспортированные данные соответствуют исходным.
-5. **Тест экспорта в DOCX (`test_export_docx`)**:
-    - Определяются данные артефакта в формате Markdown.
-    - Вызывается метод `exporter.export` для экспорта данных в формат DOCX.
-    - Проверяется, что файл DOCX был создан в ожидаемой директории.
-    - Проверяется, что экспортированные данные содержат часть исходного контента, но без Markdown-разметки.
-6. **Тест нормализации (`test_normalizer`)**:
-    - Определяется список концепций для нормализации.
-    - Инициализируется экземпляр класса `Normalizer` с заданным количеством нормализованных элементов.
-    - Проверяется, что количество нормализованных элементов соответствует ожидаемому значению.
-    - Создаются случайные наборы концепций.
-    - Для каждого набора концепций вызывается метод `normalizer.normalize`.
-    - Проверяется, что метод возвращает непустой результат.
-    - Проверяется, что длина нормализованного списка совпадает с длиной исходного списка.
-    - Проверяется, что все элементы исходного списка присутствуют в карте нормализации.
-    - Проверяется, что размер кеша увеличивается после каждой нормализации.
+1. **Создай экземпляр класса `ArtifactExporter`**: 
+    - Задай базовый каталог для экспорта (`base_output_folder`).
+2. **Вызови метод `export`**:
+    - Передай имя артефакта (`name`).
+    - Передай данные артефакта (`data`).
+    - Задай тип контента (`content_type`).
+    - Задай формат контента (`content_format`, если применимо).
+    - Задай целевой формат (`target_format`).
+3. **Проверь экспорт**:
+    - Проверь наличие экспортированного файла в соответствующем каталоге.
+    - Проверь содержимое файла, чтобы убедиться, что данные экспортированы корректно.
 
 Пример использования
 -------------------------
 
 ```python
-import pytest
-import os
-import json
-import random
+from tinytroupe.extraction import ArtifactExporter
 
-import logging
-logger = logging.getLogger("tinytroupe")
+# Создаем экземпляр класса ArtifactExporter
+exporter = ArtifactExporter(base_output_folder="path/to/output/folder")
 
-import sys
-sys.path.append('../../tinytroupe/')
-sys.path.append('../../')
-sys.path.append('..')
+# Экспортируем данные в формате JSON
+artifact_data = {"name": "John Doe", "age": 30}
+exporter.export("test_artifact", artifact_data, content_type="record", target_format="json")
 
-from testing_utils import *
-from tinytroupe.extraction import ArtifactExporter, Normalizer
-from tinytroupe import utils
+# Экспортируем текст в формате TXT
+artifact_data = "This is a sample text."
+exporter.export("test_artifact", artifact_data, content_type="text", target_format="txt")
 
-@pytest.fixture
-def exporter():
-    return ArtifactExporter(base_output_folder=EXPORT_BASE_FOLDER)
+# Экспортируем Markdown в формате DOCX
+artifact_data = """
+# This is a sample markdown text
+This is a **bold** text.
+This is an *italic* text.
+This is a [link](https://www.example.com).
+"""
+exporter.export("test_artifact", artifact_data, content_type="Document", content_format="markdown", target_format="docx")
+```
 
-def test_export_json(exporter):
-    # Define the artifact data
-    artifact_data = {
-        "name": "John Doe",
-        "age": 30,
-        "occupation": "Engineer",
-        "content": "This is a sample JSON data."
-    }
-    
-    # Export the artifact data as JSON
-    exporter.export("test_artifact", artifact_data, content_type="record", target_format="json")
-    
-    # Проверка, что JSON файл был экспортирован
-    assert os.path.exists(f"{EXPORT_BASE_FOLDER}/record/test_artifact.json"), "The JSON file should have been exported."
+## Как использовать класс `Normalizer` для нормализации концепций
+=========================================================================================
 
-    # Проверка, что данные соответствуют исходным
-    with open(f"{EXPORT_BASE_FOLDER}/record/test_artifact.json", "r") as f:
-        exported_data = json.load(f)
-        assert exported_data == artifact_data, "The exported JSON data should match the original data."
+Описание
+-------------------------
+Класс `Normalizer` нормализует концепции (например, названия тем или областей знаний) до заданного количества уникальных элементов.
+
+Шаги выполнения
+-------------------------
+1. **Создай экземпляр класса `Normalizer`**:
+    - Передай список концепций (`concepts`).
+    - Задай количество уникальных элементов для нормализации (`n`).
+2. **Вызови метод `normalize`**:
+    - Передай список концепций для нормализации.
+3. **Получи результат**:
+    - Метод `normalize` возвращает список нормализованных концепций.
+
+Пример использования
+-------------------------
+
+```python
+from tinytroupe.extraction import Normalizer
+
+# Создаем список концепций
+concepts = [
+    'Antique Book Collection', 'Medical Research', 'Electrical safety', 'Reading', 'Technology',
+    'Entrepreneurship', 'Multimedia Teaching Tools', 'Photography', 'Smart home technology',
+    'Gardening', 'Travel', 'Outdoors', 'Hiking', 'Yoga', 'Finance', 'Health and wellness',
+    'Sustainable Living', 'Barista Skills', 'Oral health education', 'Patient care',
+    'Professional Development', 'Project safety', 'Coffee', 'Literature', 'Continuous learning',
+    'Model trains', 'Education', 'Mental and Physical Balance', 'Kayaking', 'Social Justice',
+    'National Park Exploration', 'Outdoor activities', 'Dental technology', 'Teaching electrical skills',
+    'Volunteering', 'Cooking', 'Industry trends', 'Energy-efficient systems', 'Mentoring',
+    'Empathetic communication', 'Medical Technology', 'Historical Research', 'Public Speaking',
+    'Museum Volunteering', 'Conflict Resolution'
+]
+
+# Создаем экземпляр класса Normalizer
+normalizer = Normalizer(concepts, n=10, verbose=True)
+
+# Нормализуем список концепций
+normalized_concepts = normalizer.normalize(concepts)
+
+# Выводим нормализованные концепции
+print(f"Normalized concepts: {normalized_concepts}")
+```

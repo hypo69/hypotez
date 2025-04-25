@@ -1,67 +1,56 @@
-Как использовать этот блок кода
+## Как использовать MishalsGPT в проекте `hypotez`
 =========================================================================================
 
 Описание
 -------------------------
-Данный код предоставляет функцию `_create_completion` для отправки запросов к API Mishalsgpt для генерации текста на основе заданной модели и списка сообщений. Он также определяет параметры для логирования информации о поддержке типов данных в функции `_create_completion`.
+Этот код предоставляет провайдера MishalsGPT для использования в проекте `hypotez`. Он позволяет взаимодействовать с моделью MishalsGPT через API,  отправлять запросы на генерацию текста и получать ответы.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**: Импортируются модули `os`, `requests` и `uuid`. Также импортируются `sha256`, `Dict`, и `get_type_hints` из пакета `...typing`.
-2. **Определение глобальных переменных**:
-   - `url`: Устанавливается URL для API Mishalsgpt (`https://mishalsgpt.vercel.app`).
-   - `model`: Определяется список поддерживаемых моделей (`gpt-3.5-turbo-16k-0613`, `gpt-3.5-turbo`).
-   - `supports_stream`: Указывается, что данный провайдер поддерживает потоковую передачу (`True`).
-   - `needs_auth`: Указывается, что для доступа к API не требуется аутентификация (`False`).
+1. **Импорт необходимых модулей:** `os`, `requests`, `uuid`, `sha256` из `...typing`, `Dict`, `get_type_hints`.
+2. **Определение параметров подключения к API:**
+    - `url`: URL-адрес API MishalsGPT.
+    - `model`: Список доступных моделей MishalsGPT, например, `gpt-3.5-turbo-16k-0613`, `gpt-3.5-turbo`.
+    - `supports_stream`: Флаг, указывающий, поддерживает ли API потоковую передачу данных.
+    - `needs_auth`: Флаг, указывающий, требуется ли авторизация для доступа к API.
 3. **Определение функции `_create_completion`**:
-   - Функция принимает следующие аргументы:
-     - `model` (str): Название модели для генерации текста.
-     - `messages` (list): Список сообщений для передачи в API.
-     - `stream` (bool): Флаг, указывающий на использование потоковой передачи.
-     - `**kwargs`: Дополнительные именованные аргументы.
-   - Функция формирует HTTP-запрос к API Mishalsgpt (`/api/openai/v1/chat/completions`) с использованием библиотеки `requests`.
-   - Заголовки запроса устанавливаются для указания типа контента (`application/json`).
-   - Данные запроса включают название модели, температуру (0.7) и список сообщений.
-   - Функция отправляет POST-запрос к API и возвращает сгенерированный текст из ответа.
-   - Используется `yield` для потоковой передачи ответа.
-4. **Определение параметров для логирования**:
-   - `params`: Формируется строка с информацией о поддержке типов данных в функции `_create_completion`.
-   - Используется `get_type_hints` для получения аннотаций типов аргументов функции.
-   - Строка содержит имя файла (`os.path.basename(__file__)[:-3]`) и список аргументов с их типами.
+    - Принимает на вход:
+        - `model`: имя модели MishalsGPT.
+        - `messages`: список сообщений для контекста.
+        - `stream`: флаг, указывающий, использовать ли потоковую передачу.
+        - `**kwargs`: дополнительные аргументы.
+    - Формирует запрос к API MishalsGPT, используя `requests.post`.
+    - Отправляет запрос на API, передавая модель, температуру, сообщения и дополнительные параметры.
+    - Выполняет итерацию по ответам API, используя `yield response.json()[\'choices\'][0][\'message\'][\'content\']`, и генерирует текст.
+4. **Определение переменной `params`**:
+    - Собирает информацию о поддерживаемых типах параметров для функции `_create_completion`.
+    - Выводит информацию о поддерживаемых параметрах в удобочитаемом формате.
 
 Пример использования
 -------------------------
 
 ```python
-import os, requests, uuid
-from typing import sha256, Dict, get_type_hints
+from hypotez.src.endpoints.juliana.freegpt-webui-ru.g4f.Provider.Providers import Mishalsgpt
 
-url = 'https://mishalsgpt.vercel.app'
-model = ['gpt-3.5-turbo-16k-0613', 'gpt-3.5-turbo']
-supports_stream = True
-needs_auth = False
+# Создание объекта MishalsGPT
+provider = Mishalsgpt.Mishalsgpt()
 
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    headers = {
-        'Content-Type': 'application/json',
-    }
-    data = {
-        'model': model,
-        'temperature': 0.7,
-        'messages': messages
-    }
-    response = requests.post(url + '/api/openai/v1/chat/completions', 
-                             headers=headers, json=data, stream=True)
-    yield response.json()['choices'][0]['message']['content']
-
-# Пример вызова функции _create_completion
+# Создание запроса
 messages = [
-    {"role": "system", "content": "Ты полезный ассистент."},
-    {"role": "user", "content": "Расскажи о себе."}
+    {"role": "user", "content": "Привет! Расскажи мне анекдот."},
 ]
-for chunk in _create_completion(model='gpt-3.5-turbo', messages=messages, stream=True):
-    print(chunk)
 
-params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    '(%s)' % ', '.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
-print(params)
+# Генерация текста
+for response in provider._create_completion(model='gpt-3.5-turbo', messages=messages, stream=True):
+    print(response)
+
+# Получение информации о поддерживаемых параметрах
+print(provider.params)
+
+```
+
+**Важно:** 
+- Замените `model` на имя модели, которую вы хотите использовать.
+- Добавьте в `messages` список сообщений, необходимых для контекста.
+- В зависимости от ваших потребностей, вы можете изменить параметры `stream`, `temperature` и другие.
+- Используйте `provider.params` для получения подробной информации о поддерживаемых параметрах MishalsGPT.

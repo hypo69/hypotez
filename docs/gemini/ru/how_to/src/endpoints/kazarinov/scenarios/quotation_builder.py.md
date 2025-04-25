@@ -1,72 +1,68 @@
-### Как использовать класс `QuotationBuilder`
+## Как использовать класс `QuotationBuilder`
+
 =========================================================================================
 
-Описание
--------------------------
-Класс `QuotationBuilder` предназначен для извлечения, разбора и сохранения данных о товарах от различных поставщиков. Он инициализирует веб-драйвер, модель машинного обучения Gemini и выполняет различные операции, такие как преобразование полей товара, обработка данных с использованием модели машинного обучения и сохранение данных о товарах.
+### Описание
 
-Шаги выполнения
 -------------------------
-1. **Инициализация класса**: Создайте экземпляр класса `QuotationBuilder`, указав имя процесса Mexiron и экземпляр веб-драйвера. Если веб-драйвер не указан, будет использован Firefox по умолчанию.
-2. **Преобразование полей товара**: Используйте метод `convert_product_fields` для преобразования объекта `ProductFields` в словарь, пригодный для использования в модели машинного обучения.
-3. **Обработка данных с использованием LLM**: Используйте методы `process_llm` или `process_llm_async` для обработки списка товаров с помощью модели машинного обучения Gemini. Эти методы отправляют данные в модель, получают ответы и возвращают обработанные ответы в формате `ru` и `he`.
-4. **Сохранение данных о товарах**: Используйте метод `save_product_data` для сохранения отдельных данных о товарах в JSON-файл.
-5. **Размещение в Facebook**: Используйте метод `post_facebook_async` для размещения рекламных материалов в Facebook, используя данные, обработанные моделью машинного обучения.
 
-Пример использования
+Класс `QuotationBuilder` предназначен для обработки данных о продуктах от поставщиков, включая извлечение, разбор и сохранение информации, а также генерацию отчетов и публикации в Facebook.
+
+### Шаги выполнения
+
+-------------------------
+
+1. **Инициализация экземпляра класса `QuotationBuilder`**:
+    - При создании объекта `QuotationBuilder` необходимо указать название Mexiron-процесса (имя каталога для сохранения информации). 
+    - Опционально можно передать экземпляр Selenium WebDriver. 
+    - Если вебдрайвер не указан, используется Firefox по умолчанию. 
+2. **Обработка данных о продуктах**: 
+    - Класс имеет метод `convert_product_fields`, который принимает объект `ProductFields` с информацией о продукте и преобразует ее в простой словарь.
+    - Для перевода текстов о продуктах, используется метод `process_llm` с использованием модели Google Generative AI.
+    - Метод `process_llm` отправляет запросы в модель с текстом о продуктах, получает перевод на русский и иврит и сохраняет в словарь.
+3. **Сохранение данных о продуктах**: 
+    - Метод `save_product_data` сохраняет обработанные данные о продукте в файл формата JSON.
+4. **Генерация отчетов**: 
+    - Метод `create_reports` генерирует отчеты о продуктах в HTML, PDF и DOCX форматах.
+5. **Публикация в Facebook**: 
+    - Метод `post_facebook_async` публикует данные о продукте в Facebook (использует сценарии `facvebook` модуля).
+
+### Пример использования
+
 -------------------------
 
 ```python
 from src.endpoints.kazarinov.scenarios.quotation_builder import QuotationBuilder
-from src.webdriver.firefox import Firefox
 from src.endpoints.prestashop.product_fields import ProductFields
-from pathlib import Path
-from types import SimpleNamespace
-import asyncio
+from src.utils.jjson import j_loads
 
-# 1. Инициализация класса QuotationBuilder
-mexiron_name = 'test_mexiron'
-driver = Firefox() # или Playwrid()
-quotation_builder = QuotationBuilder(mexiron_name=mexiron_name, driver=driver)
+# Загружаем данные о продукте из JSON-файла
+product_data = j_loads(Path('/path/to/product_data.json'))
 
-# 2. Пример преобразования полей товара
-# Допустим, у вас есть объект ProductFields
-product_fields = ProductFields(
-    id_product='123',
-    name={'language': {'value': 'Test Product'}},
-    description_short={'language': {'value': 'Short description'}},
-    description={'language': {'value': 'Long description'}},
-    specification={'language': {'value': 'Specification'}},
-    local_image_path=Path('/path/to/image.jpg')
-)
-product_data = quotation_builder.convert_product_fields(product_fields)
-print(product_data)
+# Создаем объект ProductFields из данных о продукте
+product_fields = ProductFields(**product_data)
 
-# 3. Пример обработки списка товаров с использованием LLM
-async def process_data():
-    products_list = [product_data]
-    lang = 'ru'
-    processed_data = await quotation_builder.process_llm_async(products_list, lang)
-    print(processed_data)
+# Создаем экземпляр QuotationBuilder
+quotation_builder = QuotationBuilder(mexiron_name='my_mexiron_name')
 
-# Запуск асинхронной функции
-asyncio.run(process_data())
+# Преобразуем данные о продукте в словарь
+product_dict = quotation_builder.convert_product_fields(product_fields)
 
-# 4. Пример сохранения данных о товаре
-async def save_data():
-    await quotation_builder.save_product_data(product_data)
+# Обрабатываем текст о продукте с помощью AI
+response = quotation_builder.process_llm([product_dict], lang='ru')
 
-asyncio.run(save_data())
+# Сохраняем обработанные данные о продукте
+quotation_builder.save_product_data(product_dict)
 
-# 5. Пример размещения в Facebook
-async def post_to_facebook():
-    # Создаем объект SimpleNamespace с необходимыми данными для размещения
-    mexiron = SimpleNamespace(
-        title='Заголовок для Facebook',
-        description='Описание для Facebook',
-        price='100',
-        products=['/path/to/image.jpg']
-    )
-    await quotation_builder.post_facebook_async(mexiron)
+# Генерируем отчеты
+quotation_builder.create_reports(product_dict, mexiron_name='my_mexiron_name', lang='ru', html_path='/path/to/report.html', pdf_path='/path/to/report.pdf', docx_path='/path/to/report.docx')
 
-asyncio.run(post_to_facebook())
+# Публикуем данные о продукте в Facebook
+quotation_builder.post_facebook_async(product_dict)
+```
+
+### Замечания
+
+- Метод `post_facebook_async` работает асинхронно, поэтому необходимо использовать `asyncio.run` для его запуска.
+- Метод `process_llm` использует модель Google Generative AI, для ее работы требуется API-ключ.
+- Класс `QuotationBuilder` использует файлы конфигурации, которые должны быть доступны в каталоге проекта.

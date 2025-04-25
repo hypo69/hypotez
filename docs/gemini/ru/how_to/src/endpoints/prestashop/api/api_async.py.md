@@ -1,132 +1,50 @@
-Как использовать этот блок кода
+## Как использовать класс `PrestaShopAsync`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код представляет собой асинхронный клиент для взаимодействия с API PrestaShop, который позволяет выполнять различные операции, такие как создание, чтение, обновление, удаление и поиск ресурсов, а также загрузку изображений.
+Класс `PrestaShopAsync` предоставляет асинхронные методы для взаимодействия с API PrestaShop, 
+позволяя выполнять CRUD операции, поиск и загрузку изображений. 
+Он также включает обработку ошибок для ответов и методы для обработки данных API.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация класса `PrestaShopAsync`**:
-   - Создается экземпляр класса `PrestaShopAsync` с указанием домена API, ключа API, формата данных и режима отладки.
-   - Пример:
-     ```python
-     api = PrestaShopAsync(
-         api_domain='https://your-prestashop-domain.com',
-         api_key='your_api_key',
-         data_format='JSON',
-         debug=True
-     )
-     ```
-
-2. **Проверка соединения с API**:
-   - Вызывается метод `ping()` для проверки доступности API.
-   - Пример:
-     ```python
-     await api.ping()
-     ```
-
-3. **Создание ресурса**:
-   - Подготавливаются данные для создания нового ресурса, например, налога.
-   - Вызывается метод `create()` с указанием типа ресурса и данных.
-   - Пример:
-     ```python
-     data = {
-         'tax': {
-             'rate': 3.000,
-             'active': '1',
-             'name': {
-                 'language': {
-                     'attrs': {'id': '1'},
-                     'value': '3% tax'
-                 }
-             }
-         }
-     }
-     rec = await api.create('taxes', data)
-     ```
-
-4. **Чтение ресурса**:
-   - Вызывается метод `read()` для получения данных о конкретном ресурсе по его ID.
-   - Пример:
-     ```python
-     resource_id = 123
-     resource = await api.read('products', resource_id)
-     ```
-
-5. **Обновление ресурса**:
-   - Подготавливаются данные для обновления существующего ресурса.
-   - Вызывается метод `write()` с указанием типа ресурса и обновленных данных.
-   - Пример:
-     ```python
-     update_data = {
-         'tax': {
-             'id': str(rec['id']),
-             'rate': 3.000,
-             'active': '1',
-             'name': {
-                 'language': {
-                     'attrs': {'id': '1'},
-                     'value': '3% tax'
-                 }
-             }
-         }
-     }
-     update_rec = await api.write('taxes', update_data)
-     ```
-
-6. **Удаление ресурса**:
-   - Вызывается метод `unlink()` для удаления ресурса по его ID.
-   - Пример:
-     ```python
-     await api.unlink('taxes', str(rec['id']))
-     ```
-
-7. **Поиск ресурсов**:
-   - Вызывается метод `search()` с указанием типа ресурса и фильтра для поиска.
-   - Пример:
-     ```python
-     recs = await api.search('taxes', filter='[name]=%[5]%', limit='3')
-     for rec in recs:
-         pprint(rec)
-     ```
-
-8. **Загрузка изображения**:
-   - Вызывается метод `create_binary()` для загрузки бинарного файла (изображения) в API.
-   - Пример:
-     ```python
-     await api.create_binary('images/products/22', 'img.jpeg', 'image')
-     ```
-
-9. **Асинхронная загрузка изображения**:
-   - Вызывается метод `upload_image_async()` для асинхронной загрузки изображения по URL.
-   - Пример:
-     ```python
-     resource = 'images/products/22'
-     resource_id = 22
-     img_url = 'https://example.com/image.jpg'
-     img_name = 'my_image'
-     response = await api.upload_image_async(resource, resource_id, img_url, img_name)
-     ```
+1. **Инициализация:** Создайте экземпляр класса `PrestaShopAsync`, передав домен API, ключ API и необязательные аргументы.
+2. **Проверка связи:** Используйте метод `ping()` для проверки связи с API.
+3. **CRUD операции:**
+    - `create()`: Создает новый ресурс в PrestaShop API.
+    - `read()`: Читает ресурс из PrestaShop API.
+    - `write()`: Обновляет существующий ресурс в PrestaShop API.
+    - `unlink()`: Удаляет ресурс из PrestaShop API.
+4. **Поиск:**
+    - `search()`: Ищет ресурсы в PrestaShop API, используя фильтры.
+5. **Загрузка изображений:**
+    - `create_binary()`: Загружает бинарный файл (например, изображение) на ресурс PrestaShop API.
+    - `upload_image()`: Загружает изображение из URL на ресурс PrestaShop API.
+6. **Дополнительные методы:**
+    - `get_apis()`: Возвращает список всех доступных API.
+    - `get_languages_schema()`: Возвращает схему для языков.
+    - `get_data()`: Получает данные из ресурса PrestaShop API и сохраняет их в файл.
+    - `get_product_images()`: Получает изображения для продукта.
 
 Пример использования
 -------------------------
 
 ```python
 import asyncio
-from src.endpoints.prestashop.api.api_async import PrestaShopAsync
-from src.utils.printer import pprint as print
 
 async def main():
     api = PrestaShopAsync(
-        api_domain='https://your-prestashop-domain.com/api',
-        api_key='your_api_key',
+        API_DOMAIN='https://your-prestashop-domain.com',
+        API_KEY='your_api_key',
+        debug=True,
         data_format='JSON',
-        debug=True
     )
 
-    await api.ping()
+    # Проверка связи
+    await api.ping() 
 
+    # Создание нового ресурса
     data = {
         'tax': {
             'rate': 3.000,
@@ -139,12 +57,12 @@ async def main():
             }
         }
     }
+    new_tax_record = await api.create('taxes', data)
 
-    rec = await api.create('taxes', data)
-
+    # Обновление ресурса
     update_data = {
         'tax': {
-            'id': str(rec['id']),
+            'id': str(new_tax_record['id']),
             'rate': 3.000,
             'active': '1',
             'name': {
@@ -155,17 +73,19 @@ async def main():
             }
         }
     }
+    updated_tax_record = await api.write('taxes', update_data)
 
-    update_rec = await api.write('taxes', update_data)
+    # Удаление ресурса
+    await api.unlink('taxes', str(new_tax_record['id']))
 
-    await api.unlink('taxes', str(rec['id']))
+    # Поиск ресурсов
+    taxes = await api.search('taxes', filter='[name]=%[5]%', limit='3')
+    for tax in taxes:
+        print(tax)
 
-    recs = await api.search('taxes', filter='[name]=%[5]%', limit='3')
-
-    for rec in recs:
-        print(rec)
-
-    await api.create_binary('images/products/22', 'img.jpeg', 'image')
+    # Загрузка изображения из URL
+    await api.upload_image('images/products/22', 22, 'https://example.com/image.jpg', 'product_image')
 
 if __name__ == "__main__":
     asyncio.run(main())
+```

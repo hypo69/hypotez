@@ -1,121 +1,63 @@
-### **Как использовать этот блок кода**
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код предназначен для взаимодействия с API `you.com` с целью получения ответов на запросы, используя историю сообщений. Он преобразует формат сообщений, отправляет запрос к API и выводит полученные токены чата.
+Данный код реализует взаимодействие с API you.com для получения ответов от чат-бота. Код преобразует историю диалога в формат, понятный для API, отправляет запрос и получает ответ.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых библиотек**: Импортируются библиотеки `sys`, `json`, `urllib.parse` и `curl_cffi`.
-2. **Чтение конфигурации**: Из аргументов командной строки считывается JSON-конфигурация.
-3. **Извлечение сообщений**: Из конфигурации извлекается список сообщений.
-4. **Преобразование сообщений**: Функция `transform` преобразует список сообщений в формат, ожидаемый API `you.com`.
-   - Сообщения пользователя и ассистента объединяются в пары вопрос-ответ.
-   - Сообщения с ролью "system" добавляются как отдельные вопросы без ответов.
-5. **Формирование заголовков**: Определяются HTTP-заголовки для запроса к API, включая `Content-Type`, `Accept`, `User-Agent` и другие.
-6. **Подготовка параметров запроса**:
-   - Если последнее сообщение имеет роль "user", оно извлекается как `prompt`, а остальные сообщения используются для формирования истории чата.
-   - Параметры запроса кодируются в URL-формат с использованием `urllib.parse.urlencode`.
-7. **Функция вывода `output`**: Определяет функцию `output`, которая обрабатывает каждый чанк ответа от API.
-   - Ищет в чанке токен `youChatToken`, извлекает его из JSON и выводит в консоль.
-8. **Отправка запроса и обработка ответа**:
-   - В цикле отправляется `GET`-запрос к API `you.com` с заданными параметрами и заголовками.
-   - Используется функция `output` для обработки каждого чанка ответа.
-   - В случае ошибки выполняется повторная попытка запроса.
+1. **Инициализация**: 
+    - Загружаем конфигурацию из аргумента командной строки (`sys.argv[1]`).
+    - Извлекаем список сообщений из конфигурации (`config['messages']`).
+    - Инициализируем пустую строку для хранения последнего пользовательского сообщения (`prompt = ''`).
+2. **Преобразование истории диалога**:
+    - Функция `transform(messages: list)` принимает список сообщений и преобразует его в формат, необходимый для API.
+    - Функция итерирует по списку сообщений, группируя их по ролям (`user`, `assistant`, `system`).
+    - Для сообщений пользователя (`role: user`) сохраняется текст вопроса (`question`) и текст ответа (`answer`).
+    - Для сообщений бота (`role: assistant`) сохраняется пустой вопрос и текст ответа.
+    - Для системных сообщений (`role: system`) сохраняется текст вопроса и пустой ответ.
+    - Функция возвращает преобразованный список.
+3. **Подготовка запроса**:
+    - Проверяется, является ли последнее сообщение в истории сообщением пользователя (`messages[-1]['role'] == 'user'`).
+    - Если да, то текст сообщения пользователя записывается в переменную `prompt`, а последнее сообщение удаляется из истории.
+    - Формируется словарь параметров запроса (`params`), который включает:
+        - `q`: Последний вопрос пользователя (`prompt`).
+        - `domain`: Домен чат-бота (`youchat`).
+        - `chat`: Преобразованная история диалога (`transform(messages)`).
+    - Параметры кодируются с помощью `urllib.parse.urlencode`.
+4. **Отправка запроса**:
+    - Задаются заголовки запроса (`headers`) с информацией о языке, агенте пользователя, типе содержимого и т. д.
+    - Инициализируется бесконечный цикл.
+    - Внутри цикла отправляется GET-запрос к API you.com (`https://you.com/api/streamingSearch?{params}`) с использованием `requests.get`.
+    - Запрос отправляется с заголовками `headers`, а также с параметрами `content_callback=output` и `impersonate='safari15_5'`, которые позволяют обрабатывать ответ потоком.
+5. **Обработка ответа**:
+    - Функция `output(chunk)` вызывается при поступлении части ответа от API.
+    - Функция проверяет наличие токена чата (`"youChatToken"`) в части ответа.
+    - Если токен найден, то извлекается JSON-объект с токеном чата и печатается на консоль.
+    - Если в процессе работы возникла ошибка, то сообщение об ошибке печатается на консоль, и цикл продолжается.
+
 
 Пример использования
 -------------------------
 
 ```python
-import sys
-import json
-import urllib.parse
-from curl_cffi import requests
-
-# Пример конфигурации (обычно передается через sys.argv[1])
-config_json = """
-{
-    "messages": [
-        {"role": "user", "content": "Привет!"},
-        {"role": "assistant", "content": "Здравствуйте! Как я могу вам помочь?"},
-        {"role": "user", "content": "Какая сегодня погода?"}
+# Пример конфигурации, передаваемой в качестве аргумента командной строки
+config = {
+    'messages': [
+        {'role': 'user', 'content': 'Привет! Как дела?'},
+        {'role': 'assistant', 'content': 'Привет! У меня все отлично, а у тебя?'},
+        {'role': 'user', 'content': 'Хорошо, спасибо.'}
     ]
 }
-"""
 
-# Эмулируем передачу аргумента командной строки
-sys.argv = ["script_name.py", config_json]
+# Передача конфигурации в виде JSON-строки
+sys.argv = ['you.py', json.dumps(config)]
 
-config = json.loads(sys.argv[1])
-messages = config['messages']
-prompt = ''
+# Выполнение кода
+import you
+```
 
-def transform(messages: list) -> list:
-    result = []
-    i = 0
-
-    while i < len(messages):
-        if messages[i]['role'] == 'user':
-            question = messages[i]['content']
-            i += 1
-
-            if i < len(messages) and messages[i]['role'] == 'assistant':
-                answer = messages[i]['content']
-                i += 1
-            else:
-                answer = ''
-
-            result.append({'question': question, 'answer': answer})
-
-        elif messages[i]['role'] == 'assistant':
-            result.append({'question': '', 'answer': messages[i]['content']})
-            i += 1
-
-        elif messages[i]['role'] == 'system':
-            result.append({'question': messages[i]['content'], 'answer': ''})
-            i += 1
-            
-    return result
-
-headers = {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Sec-Fetch-Site': 'same-origin',
-    'Accept-Language': 'en-GB,en;q=0.9',
-    'Sec-Fetch-Mode': 'navigate',
-    'Host': 'you.com',
-    'Origin': 'https://you.com',
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Safari/605.1.15',
-    'Referer': 'https://you.com/api/streamingSearch?q=nice&safeSearch=Moderate&onShoppingPage=false&mkt=&responseFilter=WebPages,Translations,TimeZone,Computation,RelatedSearches&domain=youchat&queryTraceId=7a6671f8-5881-404d-8ea3-c3f8301f85ba&chat=%5B%7B%22question%22%3A%22hi%22%2C%22answer%22%3A%22Hello!%20How%20can%20I%20assist%20you%20today%3F%22%7D%5D&chatId=7a6671f8-5881-404d-8ea3-c3f8301f85ba&__cf_chl_tk=ex2bw6vn5vbLsUm8J5rDYUC0Bjzc1XZqka6vUl6765A-1684108495-0-gaNycGzNDtA',
-    'Connection': 'keep-alive',
-    'Sec-Fetch-Dest': 'document',
-    'Priority': 'u=0, i',
-}
-
-if messages[-1]['role'] == 'user':
-    prompt = messages[-1]['content']
-    messages = messages[:-1]
-
-params = urllib.parse.urlencode({
-    'q': prompt,
-    'domain': 'youchat',
-    'chat': transform(messages)
-})
-
-def output(chunk):
-    if b'"youChatToken"' in chunk:
-        chunk_json = json.loads(chunk.decode().split('data: ')[1])
-        print(chunk_json['youChatToken'], flush=True, end='')
-
-# Этот код здесь не будет выполняться из-за отсутствия реального ответа от API
-# while True:
-#     try:
-#         response = requests.get(f'https://you.com/api/streamingSearch?{params}',
-#                         headers=headers, content_callback=output, impersonate='safari15_5')
-        
-#         exit(0)
-    
-#     except Exception as e:
-#         print('an error occured, retrying... |', e, flush=True)
-#         continue
+**Важно:** 
+- Необходимо заменить `config` на актуальную конфигурацию с историей диалога.
+- Этот код предназначен для работы в качестве скрипта, получающего конфигурацию из аргумента командной строки.

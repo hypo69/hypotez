@@ -1,62 +1,27 @@
-### Как использовать этот блок кода
-
-=========================================================================================
+## Как использовать pytest-addoption и pytest_generate_tests
+========================================================================================
 
 Описание
 -------------------------
-Этот блок кода предназначен для настройки и управления параметрами тестирования в проекте `hypotez` с использованием `pytest`. Он позволяет управлять использованием кэша API, обновлением кэша и запуском примеров в процессе тестирования. Глобальные параметры тестирования настраиваются через аргументы командной строки pytest.
+Данный блок кода предоставляет механизм для настройки глобальных параметров тестирования через командную строку при запуске тестов pytest.
 
 Шаги выполнения
 -------------------------
-1. **Определение глобальных переменных**:
-   - Объявляются глобальные переменные `refresh_cache`, `use_cache` и `test_examples` для хранения настроек тестирования.
-
-2. **Регистрация аргументов командной строки**:
-   - Функция `pytest_addoption(parser)` добавляет аргументы командной строки:
-     - `--refresh_cache`: указывает, следует ли обновлять кэш API для тестов.
-     - `--use_cache`: указывает, следует ли использовать кэш API для тестов.
-     - `--test_examples`: указывает, следует ли перезапускать все примеры для проверки их работоспособности.
-
-3. **Обработка аргументов командной строки**:
-   - Функция `pytest_generate_tests(metafunc)` извлекает значения аргументов командной строки, переданных при запуске `pytest`:
-     - Обновляет значения глобальных переменных `refresh_cache`, `use_cache` и `test_examples` на основе аргументов командной строки.
-
-4. **Вывод информации о настройках теста**:
-   - Внутри `pytest_generate_tests(metafunc)` выводится информация о текущих настройках теста, включая название теста, использование кэша, обновление кэша и запуск примеров.
+1. **Определение параметров**: В функции `pytest_addoption` определяются три параметра командной строки:
+    - `--refresh_cache`: Очищает кэш API перед запуском тестов, чтобы использовать актуальные данные.
+    - `--use_cache`: Использует кэш API для тестов, чтобы сократить количество обращений к API.
+    - `--test_examples`: Дополнительно запускает все примеры кода, чтобы убедиться в их корректной работе. Это может значительно увеличить время тестирования.
+2. **Получение параметров**: В функции `pytest_generate_tests` значения параметров, заданных в командной строке, сохраняются в глобальные переменные `refresh_cache`, `use_cache` и `test_examples`.
+3. **Вывод информации**: Функция `pytest_generate_tests` также выводит в консоль информацию о текущем тестовом случае, включая значения полученных параметров.
 
 Пример использования
 -------------------------
-
 ```python
-# conftest.py
-refresh_cache = False
-use_cache = False
-test_examples = False
+# Запуск тестов с параметром --refresh_cache:
+pytest --refresh_cache
 
-def pytest_addoption(parser):
-    parser.addoption("--refresh_cache", action="store_true", help="Refreshes the API cache for the tests.")
-    parser.addoption("--use_cache", action="store_true", help="Uses the API cache for the tests.")
-    parser.addoption("--test_examples", action="store_true", help="Reruns all examples to make sure they still work.")
-
-def pytest_generate_tests(metafunc):
-    global refresh_cache, use_cache, test_examples
-    refresh_cache = metafunc.config.getoption("refresh_cache")
-    use_cache = metafunc.config.getoption("use_cache")
-    test_examples = metafunc.config.getoption("test_examples")
-
-    test_case_name = metafunc.function.__name__
-
-    print(f"Test case: {test_case_name}")
-    print(f"  - refresh_cache: {refresh_cache}")
-    print(f"  - use_cache: {use_cache}")
-    print(f"  - test_examples: {test_examples}")
-    print("")
+# Запуск тестов с параметрами --use_cache и --test_examples:
+pytest --use_cache --test_examples
 ```
 
-Для запуска тестов с определенными параметрами используйте команду `pytest` с соответствующими аргументами:
-
-```bash
-pytest --refresh_cache --use_cache --test_examples
-```
-
-Этот пример покажет, как можно управлять параметрами тестирования через командную строку, что позволяет гибко настраивать тесты в зависимости от потребностей.
+В результате выполнения этих команд параметры `refresh_cache`, `use_cache` и `test_examples` будут установлены соответственно. Информация о текущем тестовом случае, включая значения параметров, будет выведена в консоль.

@@ -1,86 +1,76 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот модуль предоставляет набор утилит для тестирования, включая функции для работы с файлами, проверки действий и стимулов, а также для взаимодействия с LLM (Large Language Model). Он также содержит фикстуры pytest для настройки тестовой среды.
+Блок кода предоставляет набор вспомогательных функций для тестирования модуля `tinytroupe`. 
+Он реализует функции для управления файлами, проверки результатов симуляции, создания тестовых сообщений для LLM и сравнения персон агентов. 
+Кроме того, определяются фикстуры `focus_group_world` и `setup`, которые используются для создания тестовых миров и настройки окружения перед каждым тестом.
 
 Шаги выполнения
 -------------------------
-1. **Настройка путей**:
-   - В начале модуля настраиваются пути к директориям `tinytroupe`, `../../` и `..`, чтобы обеспечить доступ к необходимым модулям.
-   - Определяются глобальные константы, такие как `CACHE_FILE_NAME`, `EXPORT_BASE_FOLDER` и `TEMP_SIMULATION_CACHE_FILE_NAME`, которые используются для управления файлами кэша и экспорта.
+1. **Импорт необходимых модулей:**
+   -  `os`, `sys`, `time`: для работы с файлами и времени.
+   -  `tinytroupe.openai_utils`: для взаимодействия с API OpenAI.
+   -  `tinytroupe.agent`, `tinytroupe.environment`: для работы с агентами и мирами.
+   -  `pytest`: для запуска тестов.
+   -  `importlib`: для импорта модулей.
+   -  `conftest`: для доступа к настройкам конфигурации тестов. 
 
-2. **Кэширование API**:
-   - В зависимости от значений `conftest.refresh_cache` и `conftest.use_cache` выполняется удаление или принудительное включение/выключение кэширования API с использованием функций из модуля `tinytroupe.openai_utils`.
+2. **Настройка кэширования:**
+   -  Проверяет флаги `conftest.refresh_cache` и `conftest.use_cache` для определения, нужно ли обновить кэш API или использовать существующий кэш.
 
-3. **Управление файлами**:
-   - Функция `remove_file_if_exists` удаляет файл по указанному пути, если он существует.
-   - В начале модуля вызывается `remove_file_if_exists` для удаления временного файла `TEMP_SIMULATION_CACHE_FILE_NAME`.
+3. **Управление файлами:**
+   -  Определяет функцию `remove_file_if_exists`, которая удаляет файл по заданному пути, если он существует.
+   -  Удаляет временный файл `TEMP_SIMULATION_CACHE_FILE_NAME`.
 
-4. **Проверка действий**:
-   - `contains_action_type` проверяет, содержит ли список действий действие заданного типа.
-   - `contains_action_content` проверяет, содержит ли список действий действие с заданным содержимым.
-   - `terminates_with_action_type` проверяет, завершается ли список действий действием заданного типа.
+4. **Функции проверки результатов симуляции:**
+   -  `contains_action_type`: Проверяет, содержит ли список действий действие определенного типа.
+   -  `contains_action_content`: Проверяет, содержит ли список действий действие с заданным содержимым.
+   -  `contains_stimulus_type`: Проверяет, содержит ли список стимулов стимул определенного типа.
+   -  `contains_stimulus_content`: Проверяет, содержит ли список стимулов стимул с заданным содержимым.
+   -  `terminates_with_action_type`: Проверяет, заканчивается ли список действий действием определенного типа.
 
-5. **Проверка стимулов**:
-   - `contains_stimulus_type` проверяет, содержит ли список стимулов стимул заданного типа.
-   - `contains_stimulus_content` проверяет, содержит ли список стимулов стимул с заданным содержимым.
+5. **Функция проверки предложения:**
+   -  `proposition_holds`: Проверяет, является ли заданное предложение истинным, обращаясь к LLM.
 
-6. **Взаимодействие с LLM**:
-   - `proposition_holds` проверяет, является ли заданное утверждение истинным, используя вызов LLM.
-   - `only_alphanumeric` возвращает строку, содержащую только буквенно-цифровые символы из входной строки.
-   - `create_test_system_user_message` создает список сообщений для взаимодействия с LLM, содержащий системное и пользовательское сообщения.
+6. **Функции создания сообщений:**
+   -  `only_alphanumeric`: Возвращает строку, содержащую только буквенно-цифровые символы.
+   -  `create_test_system_user_message`: Создает список, содержащий одно системное сообщение и одно сообщение пользователя.
 
-7. **Сравнение агентов**:
-   - `agents_personas_are_equal` сравнивает конфигурации двух агентов, игнорируя (опционально) имя агента.
-    - Функция проходит по ключам в `_persona` атрибуте `agent1`.
-    - Если ключ находится в списке игнорируемых ключей, он пропускается.
-    - Если значение для текущего ключа в `agent1._persona` не равно значению для того же ключа в `agent2._persona`, функция возвращает `False`.
-    - Если все значения совпадают, функция возвращает `True`.
-8. **Работа с именами агентов**:
-   - `agent_first_name` возвращает имя агента.
+7. **Функция сравнения персон:**
+   -  `agents_personas_are_equal`: Проверяет, равны ли конфигурации двух агентов.
+   -  `agent_first_name`: Возвращает имя агента.
 
-9. **Работа с путями**:
-   - `get_relative_to_test_path` возвращает путь к тестовому файлу с заданным суффиксом.
+8. **Функции ввода-вывода:**
+   -  `get_relative_to_test_path`: Возвращает путь к тестовому файлу с заданным суффиксом.
 
-10. **Фикстуры pytest**:
-    - `focus_group_world` создает тестовый мир (`TinyWorld`) с несколькими агентами (`TinyPerson`).
-    - `setup` является фикстурой для очистки агентов и окружений перед каждым тестом.
+9. **Фикстуры:**
+   -  `focus_group_world`: Создает тестовый мир с фокус-группой.
+   -  `setup`: Очищает список агентов и список миров перед каждым тестом.
 
 Пример использования
 -------------------------
 
 ```python
 import pytest
-from src.endpoints.tiny_troupe.tests.testing_utils import contains_action_type, proposition_holds, create_test_system_user_message
+from hypotez.src.endpoints.tiny_troupe.tests.testing_utils import focus_group_world, contains_action_type
 
-def test_contains_action_type():
-    actions = [{"action": {"type": "message", "content": "Hello"}}]
-    assert contains_action_type(actions, "message") == True
-    assert contains_action_type(actions, "other_type") == False
+@pytest.mark.parametrize("action_type", ["ask", "answer", "agree", "disagree"])
+def test_contains_action_type(focus_group_world, action_type):
+    # create some test actions
+    actions = [
+        {"action": {"type": "ask", "content": "What is your name?"}},
+        {"action": {"type": "answer", "content": "My name is Lisa."}},
+        {"action": {"type": "agree", "content": "I agree."}},
+    ]
+    
+    assert contains_action_type(actions, action_type) 
 
-def test_proposition_holds():
-    # Mock openai_utils.client().send_message to avoid actual API calls during testing
-    from unittest.mock import patch
-    with patch('src.endpoints.tiny_troupe.tests.testing_utils.openai_utils.client') as mock_client:
-        mock_client.return_value.send_message.return_value = {"content": "true"}
-        assert proposition_holds("Test proposition") == True
+# This will create a test world with Lisa, Oscar and Marcos.
+# Can be used in other tests. 
+def test_focus_group_world(focus_group_world):
+    assert len(focus_group_world.agents) == 3
+    assert focus_group_world.name == "Focus group"
 
-def test_create_test_system_user_message():
-    messages = create_test_system_user_message("Hello", "System message")
-    assert messages == [{"role": "system", "content": "System message"}, {"role": "user", "content": "Hello"}]
-
-@pytest.mark.asyncio  # Ensure pytest knows this is an async test
-async def test_agents_personas_are_equal():
-    from src.endpoints.tiny_troupe.tests.testing_utils import agents_personas_are_equal
-    from tinytroupe.agent import TinyPerson
-    agent1 = TinyPerson(persona={"name": "Alice", "age": 30, "occupation": "Engineer"}, world="test")
-    agent2 = TinyPerson(persona={"name": "Bob", "age": 30, "occupation": "Engineer"}, world="test")
-
-    # Test when names are different but other attributes are the same
-    assert agents_personas_are_equal(agent1, agent2, ignore_name=True) == True
-
-    # Test when an attribute other than name is different
-    agent3 = TinyPerson(persona={"name": "Alice", "age": 35, "occupation": "Engineer"}, world="test")
-    assert agents_personas_are_equal(agent1, agent3, ignore_name=True) == False
+```

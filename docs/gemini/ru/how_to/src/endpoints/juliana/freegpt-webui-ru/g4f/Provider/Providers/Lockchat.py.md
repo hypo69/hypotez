@@ -1,75 +1,57 @@
-### **Как использовать этот блок кода**
-
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код предоставляет функциональность для взаимодействия с Lockchat API для генерации текста на основе предоставленных сообщений. Он отправляет запросы к API и обрабатывает ответы, возвращая сгенерированный текст.
+Этот код реализует провайдера для модели GPT-4 от Lockchat. Он использует API Lockchat для генерации текста. 
 
 Шаги выполнения
 -------------------------
-1. **Импорт библиотек**:
-   - Импортируются необходимые библиотеки: `requests` для выполнения HTTP-запросов, `os` для работы с файловой системой, `json` для обработки данных в формате JSON и `sha256` из `...typing` для хеширования.
-2. **Определение параметров**:
-   - `url`: URL-адрес API Lockchat (`http://super.lockchat.app`).
-   - `model`: Список поддерживаемых моделей (`gpt-4`, `gpt-3.5-turbo`).
-   - `supports_stream`: Указывает, поддерживает ли API потоковую передачу данных (`True`).
-   - `needs_auth`: Указывает, требуется ли аутентификация (`False`).
-3. **Определение функции `_create_completion`**:
-   - Функция принимает параметры:
-     - `model` (str): Используемая модель.
-     - `messages` (list): Список сообщений для генерации текста.
-     - `stream` (bool): Флаг потоковой передачи данных.
-     - `temperature` (float): Температура для генерации текста (по умолчанию 0.7).
-     - `**kwargs`: Дополнительные параметры.
-   - Формируется `payload` с данными для запроса.
-   - Формируются `headers` с User-Agent.
-   - Отправляется POST-запрос к API (`http://super.lockchat.app/v1/chat/completions?auth=FnMNPlwZEnGFqvEc9470Vw==`) с использованием `requests.post`.
-   - Обрабатывается ответ:
-     - Если в ответе содержится сообщение об ошибке (`The model: gpt-4 does not exist`), функция повторно вызывает себя.
-     - Если в ответе содержится ключ `content`, извлекается сгенерированный текст из JSON и возвращается как генератор.
-4. **Определение параметра `params`**:
-   - Формируется строка `params`, содержащая информацию о поддерживаемых типах данных функцией `_create_completion`.
+1. **Импортирует необходимые модули**:  `requests`, `os`, `json`, `sha256` (не используется в этом фрагменте), `Dict`, `get_type_hints`  из библиотеки `typing`.
+2. **Определяет константы**:
+    - `url`: адрес API Lockchat
+    - `model`: список доступных моделей (в данном случае `gpt-4` и `gpt-3.5-turbo`)
+    - `supports_stream`:  указываеь, что провайдер поддерживает потоковую передачу текста
+    - `needs_auth`: указывает, что для использования провайдера нужна авторизация. 
+3. **Определяет функцию `_create_completion`**:
+    - Принимает параметры: `model`, `messages`, `stream`, `temperature` (по умолчанию 0.7) и **kwargs** (дополнительные параметры).
+    - **Формирует запрос к API Lockchat**:
+        - Создает `payload` с данными для запроса (модель, сообщения, режим потоковой передачи, температура).
+        - Устанавливает заголовки запроса.
+        - Отправляет POST запрос к API `http://super.lockchat.app/v1/chat/completions?auth=FnMNPlwZEnGFqvEc9470Vw==`.
+    - **Обрабатывает ответ**:
+        - Проверяет, не содержит ли ответ информацию об ошибке.
+        - Если ответ содержит текст, генерирует его по частям (потоковая передача).
+    - **Возвращает**: генератор текста (если `stream` установлен в True). 
+4. **Определяет переменную `params`**: строка, содержащая информацию о поддержке параметров функцией `_create_completion`.
 
 Пример использования
 -------------------------
 
 ```python
-import requests
-import os
-import json
-from typing import Dict, get_type_hints
-url = 'http://super.lockchat.app'
-model = ['gpt-4', 'gpt-3.5-turbo']
-supports_stream = True
-needs_auth = False
+from g4f.Provider.Providers import Lockchat
 
-def _create_completion(model: str, messages: list, stream: bool, temperature: float = 0.7, **kwargs):
-
-    payload = {
-        "temperature": 0.7,
-        "messages": messages,
-        "model": model,
-        "stream": True,
-    }
-    headers = {
-        "user-agent": "ChatX/39 CFNetwork/1408.0.4 Darwin/22.5.0",
-    }
-    response = requests.post("http://super.lockchat.app/v1/chat/completions?auth=FnMNPlwZEnGFqvEc9470Vw==", 
-                            json=payload, headers=headers, stream=True)
-    for token in response.iter_lines():
-        if b'The model: `gpt-4` does not exist' in token:
-            print('error, retrying...')
-            _create_completion(model=model, messages=messages, stream=stream, temperature=temperature, **kwargs)
-        if b"content" in token:
-            token = json.loads(token.decode('utf-8').split('data: ')[1])['choices'][0]['delta'].get('content')
-            if token: yield (token)
-            
-params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    '(%s)' % ', '.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
-
-# Пример вызова функции
-messages = [{"role": "user", "content": "Hello, world!"}]
-for token in _create_completion(model="gpt-3.5-turbo", messages=messages, stream=True):
+provider = Lockchat()
+messages = [
+    {"role": "user", "content": "Привет! Как дела?"},
+]
+response = provider.create_completion(
+    model="gpt-4",
+    messages=messages,
+    stream=True, 
+)
+for token in response:
     print(token, end="")
 ```
+
+**Важно**:  
+- В коде используется ключ `auth`  в URL запроса к API  Lockchat.  Замените `FnMNPlwZEnGFqvEc9470Vw==`  на ваш ключ.
+- Дополнительные параметры можно передавать в функцию `_create_completion` через словарь `kwargs`.  
+- Документацию к API Lockchat смотрите на [https://super.lockchat.app](https://super.lockchat.app). 
+
+**Дополнительные комментарии**:
+
+- Функция `_create_completion`  имеет аргумент `stream`.  Это означает, что она может возвращать текст как генератор (потоковая передача).  
+- В функции используются асинхронные операции для обработки ответа от API, что позволяет оптимизировать производительность.
+- В коде используется `requests` для отправки HTTP запросов.
+- Используются бинарные сравнения  (`b'content' in token`)  для проверки содержимого ответа от API, так как он возвращается в виде байтов.

@@ -1,20 +1,24 @@
-Как использовать этот блок кода
+## Как использовать блок кода для создания отчетов
 =========================================================================================
 
 Описание
 -------------------------
-Данный блок кода создает отчеты в формате HTML и PDF на двух языках (иврит и русский) на основе данных, полученных из словарей `response_he_dict` и `response_ru_dict`. Он использует класс `ReportGenerator` для генерации отчетов и сохраняет их в указанных файлах.
+Этот блок кода генерирует два HTML- и PDF-файла, содержащих прайс-лист в двух языковых версиях: на иврите и русском. 
 
 Шаги выполнения
 -------------------------
-1. **Инициализация `ReportGenerator`**: Создается экземпляр класса `ReportGenerator`, который отвечает за генерацию отчетов.
-2. **Определение путей к файлам**: Указываются пути для сохранения HTML и PDF файлов для каждого языка.
-3. **Создание отчета на иврите**:
-   - Извлекаются данные для иврита из словаря `response_he_dict['he']`.
-   - Вызывается метод `create_report` объекта `report_generator` с данными, языком ('he'), путем к HTML файлу (`html_file_he`) и путем к PDF файлу (`pdf_file_he`).
-4. **Создание отчета на русском**:
-   - Извлекаются данные для русского языка из словаря `response_ru_dict['ru']`.
-   - Вызывается метод `create_report` объекта `report_generator` с данными, языком ('ru'), путем к HTML файлу (`html_file_ru`) и путем к PDF файлу (`pdf_file_ru`).
+1. **Загружает необходимые модули**: Импортирует библиотеки `pathlib`, `header`, `gs`, `ReportGenerator`, `ask_model`, необходимые для работы с файлами, генерирования прайс-листа и работы с AI-моделями. 
+2. **Инициализирует генератор отчетов**: Создает экземпляр класса `ReportGenerator`, который будет использоваться для генерации отчетов.
+3. **Определяет пути к файлам**:  Задает пути к HTML- и PDF-файлам для ивритской и русской версии прайс-листа, используя `test_directory` как базовую директорию.
+4. **Создает отчеты**: Вызывает метод `create_report` класса `ReportGenerator` дважды, передавая в него данные о прайс-листе, язык и пути к выходным файлам. 
+    -  `response_he_dict['he']`: Данные прайс-листа на иврите.
+    -  `response_ru_dict['ru']`: Данные прайс-листа на русском.
+    -  `'he'`: Язык для ивритской версии.
+    -  `'ru'`: Язык для русской версии.
+    -  `html_file_he`: Путь к HTML-файлу для ивритской версии.
+    -  `pdf_file_he`: Путь к PDF-файлу для ивритской версии.
+    -  `html_file_ru`: Путь к HTML-файлу для русской версии.
+    -  `pdf_file_ru`: Путь к PDF-файлу для русской версии.
 
 Пример использования
 -------------------------
@@ -22,20 +26,21 @@
 ```python
 from pathlib import Path
 
+from src import gs
 from src.endpoints.kazarinov.pricelist_generator import ReportGenerator
+from src.endpoints.kazarinov.scenarios._experiments.ask_model import *
 
-# Предположим, что test_directory, response_he_dict, response_ru_dict уже определены
+test_directory = Path('/path/to/test/directory')  # Замените на ваш реальный путь
+
+# Предполагаем, что response_he_dict и response_ru_dict уже определены
+response_he_dict = {'he': ...}
+response_ru_dict = {'ru': ...} 
 
 report_generator = ReportGenerator()
-html_file_he: Path = test_directory / 'he.html'
-pdf_file_he: Path = test_directory / 'he.pdf'
-html_file_ru: Path = test_directory / 'ru.html'
-pdf_file_ru: Path = test_directory / 'ru.pdf'
-
-# response_he_dict и response_ru_dict должны содержать данные для отчетов
-# Например:
-# response_he_dict = {'he': {'product1': 'data1', 'product2': 'data2'}}
-# response_ru_dict = {'ru': {'product1': 'data1', 'product2': 'data2'}}
+html_file_he:Path = test_directory / 'he.html'
+pdf_file_he:Path = test_directory / 'he.pdf'
+html_file_ru:Path = test_directory / 'ru.html'
+pdf_file_ru:Path = test_directory / 'ru.pdf'
 
 report_generator.create_report(response_he_dict['he'], 'he', html_file_he, pdf_file_he)
 report_generator.create_report(response_ru_dict['ru'], 'ru', html_file_ru, pdf_file_ru)

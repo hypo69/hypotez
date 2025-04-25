@@ -1,90 +1,42 @@
-### **Как использовать этот блок кода**
-
+## Как использовать блок кода `_create_completion`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код предоставляет реализацию взаимодействия с API `chat.getgpt.world` для получения ответов от модели `gpt-3.5-turbo`. Он включает в себя функции для шифрования данных, формирования запроса и обработки потоковых ответов.
+Этот блок кода представляет функцию `_create_completion`, которая отправляет запрос к API `chat.getgpt.world` для получения ответа от модели GPT-3.5-turbo. 
 
 Шаги выполнения
 -------------------------
-1. **Определение функций шифрования**:
-   - Функция `encrypt(e)` шифрует входные данные `e` с использованием алгоритма AES. Она генерирует случайные векторы инициализации и соли, шифрует данные с дополнением и возвращает шестнадцатеричное представление зашифрованного текста вместе с векторами инициализации и соли.
-   - Функция `pad_data(data)` дополняет входные данные до размера блока AES, чтобы обеспечить правильное шифрование.
-
-2. **Формирование заголовков запроса**:
-   - Определяются заголовки HTTP-запроса, включающие `Content-Type`, `Referer` и `user-agent`.
-
-3. **Формирование данных запроса**:
-   - Создается JSON-объект с параметрами запроса, такими как сообщения, параметры штрафов, максимальное количество токенов, модель, температура и другие параметры. Также генерируется уникальный UUID для идентификации запроса.
-
-4. **Отправка запроса и обработка потока ответов**:
-   - Отправляется POST-запрос на `https://chat.getgpt.world/api/chat/stream` с зашифрованными данными.
-   - Функция `_create_completion` итерируется по строкам потокового ответа, извлекает содержимое из JSON-строк и генерирует его.
+1. **Подготовка данных**: Функция принимает на вход модель (`model`), сообщения (`messages`), параметр `stream` для определения потоковой передачи ответа и дополнительные параметры (`kwargs`).
+2. **Шифрование данных**: Функция `encrypt` шифрует данные с помощью алгоритма AES в режиме CBC.
+3. **Формирование заголовков**: Функция создает заголовки HTTP-запроса, включая `Content-Type`, `Referer` и `user-agent`.
+4. **Формирование данных**: Функция формирует JSON-объект с данными для запроса, включающий сообщения, параметры модели и UUID.
+5. **Отправка запроса**: Функция отправляет POST-запрос к API `https://chat.getgpt.world/api/chat/stream` с зашифрованными данными и заголовками.
+6. **Обработка ответа**: Функция получает ответы от API в потоковом режиме и выдает их в виде генератора.
 
 Пример использования
 -------------------------
 
 ```python
-import os
-import json
-import uuid
-import requests
-from Crypto.Cipher import AES
-from typing import Dict, get_type_hints
+from g4f.Provider.Providers.GetGpt import _create_completion
 
-url = 'https://chat.getgpt.world/'
-model = ['gpt-3.5-turbo']
-supports_stream = True
-needs_auth = False
+# Пример использования
+messages = [
+    {"role": "user", "content": "Привет!"},
+]
+stream = True
 
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    def encrypt(e):
-        t = os.urandom(8).hex().encode('utf-8')
-        n = os.urandom(8).hex().encode('utf-8')
-        r = e.encode('utf-8')
-        cipher = AES.new(t, AES.MODE_CBC, n)
-        ciphertext = cipher.encrypt(pad_data(r))
-        return ciphertext.hex() + t.decode('utf-8') + n.decode('utf-8')
+# Отправка запроса
+response_generator = _create_completion(model="gpt-3.5-turbo", messages=messages, stream=stream)
 
-    def pad_data(data: bytes) -> bytes:
-        block_size = AES.block_size
-        padding_size = block_size - len(data) % block_size
-        padding = bytes([padding_size] * padding_size)
-        return data + padding
+# Получение и обработка ответа
+for chunk in response_generator:
+    print(chunk)
+```
 
-    headers = {
-        'Content-Type': 'application/json',
-        'Referer': 'https://chat.getgpt.world/',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
-    }
+**Дополнительная информация:**
 
-    data = json.dumps({
-        'messages': messages,
-        'frequency_penalty': kwargs.get('frequency_penalty', 0),
-        'max_tokens': kwargs.get('max_tokens', 4000),
-        'model': 'gpt-3.5-turbo',
-        'presence_penalty': kwargs.get('presence_penalty', 0),
-        'temperature': kwargs.get('temperature', 1),
-        'top_p': kwargs.get('top_p', 1),
-        'stream': True,
-        'uuid': str(uuid.uuid4())
-    })
-
-    res = requests.post('https://chat.getgpt.world/api/chat/stream', 
-                        headers=headers, json={'signature': encrypt(data)}, stream=True)
-
-    for line in res.iter_lines():
-        if b'content' in line:
-            line_json = json.loads(line.decode('utf-8').split('data: ')[1])
-            yield (line_json['choices'][0]['delta']['content'])
-
-
-# Пример использования функции _create_completion
-messages = [{"role": "user", "content": "Привет, как дела?"}]
-for chunk in _create_completion(model='gpt-3.5-turbo', messages=messages, stream=True):
-    print(chunk, end="")
-
-params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    '(%s)' % ', '.join(
-        [f'{name}: {get_type_hints(_create_completion)[name].__name__}' for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
+* Функция `_create_completion` использует шифрование AES для обеспечения безопасности передачи данных.
+* Функция `pad_data` используется для доведения длины данных до кратного размера блока шифрования AES.
+* Функция `uuid.uuid4` генерирует уникальный идентификатор для каждого запроса. 
+* Параметр `stream=True` позволяет получать ответы от API в потоковом режиме, что значительно улучшает производительность.
