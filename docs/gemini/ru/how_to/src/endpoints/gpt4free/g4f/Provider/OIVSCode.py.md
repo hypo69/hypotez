@@ -1,47 +1,47 @@
-### **Инструкция по использованию блока кода**
-
+## Как использовать класс `OIVSCode`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет класс `OIVSCode`, который является подклассом `OpenaiTemplate`. Он предоставляет конфигурацию для использования модели `gpt-4o-mini-2024-07-18` через сервер OI VSCode. Класс определяет URL-адреса API, поддерживает потоковую передачу, системные сообщения и историю сообщений.
+Класс `OIVSCode` представляет собой реализацию класса `OpenaiTemplate`, который используется для взаимодействия с сервером `OI VSCode Server`. Он предоставляет набор свойств и методов, которые позволяют использовать различные модели GPT-4 и DeepSeek для обработки текста и изображений.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируется `OpenaiTemplate` из `.template`.
-
-2. **Определение класса `OIVSCode`**:
-   - Класс `OIVSCode` наследуется от `OpenaiTemplate`.
-   - Устанавливаются атрибуты класса:
-     - `label`: Отображаемое имя провайдера ("OI VSCode Server").
-     - `url`: Базовый URL сервера ("https://oi-vscode-server.onrender.com").
-     - `api_base`: URL для API ("https://oi-vscode-server-2.onrender.com/v1").
-     - `working`: Указывает, что провайдер работает (`True`).
-     - `needs_auth`: Указывает, что не требуется аутентификация (`False`).
-     - `supports_stream`: Указывает, что поддерживается потоковая передача (`True`).
-     - `supports_system_message`: Указывает, что поддерживаются системные сообщения (`True`).
-     - `supports_message_history`: Указывает, что поддерживается история сообщений (`True`).
-     - `default_model`: Модель, используемая по умолчанию ("gpt-4o-mini-2024-07-18").
-     - `default_vision_model`: Модель для обработки изображений по умолчанию (`default_model`).
-     - `vision_models`: Список моделей, поддерживающих обработку изображений.
-     - `models`: Список всех поддерживаемых моделей, включая `vision_models` и "deepseek-ai/DeepSeek-V3".
-     - `model_aliases`: Словарь псевдонимов моделей для упрощения использования.
+1. **Инициализация**: Создайте объект класса `OIVSCode`.
+2. **Настройка параметров**: 
+    - Установите желаемую модель GPT-4 или DeepSeek, используя свойство `model`.
+    - Укажите, нужен ли доступ к истории сообщений, используя свойство `supports_message_history`.
+    - Настройте другие свойства, такие как `supports_stream`, `supports_system_message`, `needs_auth` и т.д.
+3. **Вызов API**: Используйте методы объекта `OIVSCode` для вызова API сервера `OI VSCode Server`, например, для отправки запросов с текстом или изображениями.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.OIVSCode import OIVSCode
+from hypotez.src.endpoints.gpt4free.g4f.Provider.OIVSCode import OIVSCode
 
-# Создание экземпляра класса OIVSCode
-oivscode = OIVSCode()
+# Инициализация
+provider = OIVSCode()
 
-# Вывод информации о провайдере
-print(f"Label: {oivscode.label}")
-print(f"URL: {oivscode.url}")
-print(f"Default model: {oivscode.default_model}")
+# Настройка модели
+provider.model = "gpt-4o-mini" 
 
-# Пример использования псевдонима модели
-default_model = oivscode.model_aliases.get("gpt-4o-mini")
-print(f"Alias for gpt-4o-mini: {default_model}")
+# Отправка запроса с текстом
+response = provider.send_message("Привет, как дела?")
+
+# Обработка ответа
+print(response.content)
+
+# Отправка запроса с изображением (если модель поддерживает обработку изображений)
+response = provider.send_image("path/to/image.jpg")
+
+# Обработка ответа
+print(response.content)
+```
+
+**Дополнительно**:
+
+- Класс `OIVSCode` использует URL-адреса сервера `OI VSCode Server` для отправки запросов. 
+- Он поддерживает потоковую передачу данных (`supports_stream`) и использование системных сообщений (`supports_system_message`).
+- Для некоторых моделей может потребоваться авторизация (`needs_auth`).
+- Дополнительные свойства и методы класса `OIVSCode` описаны в документации к классу `OpenaiTemplate`.

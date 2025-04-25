@@ -1,62 +1,48 @@
-### Как использовать блок кода HuggingFaceInference
+## Как использовать HuggingFaceInference
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет класс `HuggingFaceInference`, который является асинхронным генератором для взаимодействия с моделями Hugging Face Inference API. Он поддерживает как текстовые, так и графические модели, а также предоставляет методы для получения списка доступных моделей и их метаданных.
+Этот блок кода представляет класс `HuggingFaceInference`, который реализует асинхронный генератор ответов, основанный на моделях из Hugging Face. Он позволяет генерировать текст, изображения и выполнять другие задачи машинного обучения с использованием моделей Hugging Face.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация класса**:
-   - Класс `HuggingFaceInference` наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`.
-   - Определяются основные атрибуты, такие как `url`, `parent`, `working`, `default_model`, `default_image_model` и `model_aliases`.
-
-2. **Получение списка моделей**:
-   - Метод `get_models` получает список поддерживаемых моделей.
-   - Он запрашивает список моделей для генерации текста и преобразования текста в изображение с API Hugging Face.
-   - Объединяет полученные списки и возвращает общий список моделей.
-
-3. **Получение метаданных модели**:
-   - Метод `get_model_data` получает метаданные для конкретной модели.
-   - Если метаданные уже закэшированы, они возвращаются из `cls.model_data`.
-   - В противном случае выполняется запрос к API Hugging Face для получения метаданных и сохранения их в кэше.
-
-4. **Создание асинхронного генератора**:
-   - Метод `create_async_generator` создает асинхронный генератор для взаимодействия с моделью.
-   - Он принимает параметры, такие как `model`, `messages`, `stream`, `proxy`, `timeout`, `api_base`, `api_key`, `max_tokens`, `temperature`, `prompt`, `action`, `extra_data`, `seed`, `aspect_ratio`, `width` и `height`.
-   - В зависимости от типа модели (текстовая или графическая) формируется соответствующий запрос к API Hugging Face.
-   - Для графических моделей используется `provider_together_urls`, если модель поддерживается.
-   - Для текстовых моделей формируется полезная нагрузка (`payload`) с входными данными и параметрами.
-   - Ответ от API обрабатывается потоково, если `stream=True`, или целиком, если `stream=False`.
-
-5. **Форматирование входных данных**:
-   - Используются различные методы форматирования входных данных (`format_prompt_*`) в зависимости от типа модели.
-   - Метод `get_inputs` выбирает правильный метод форматирования на основе метаданных модели.
+1. **Инициализация**: Класс `HuggingFaceInference` использует асинхронные методы для взаимодействия с API Hugging Face.
+2. **Получение списка моделей**: Метод `get_models()` получает список доступных моделей из Hugging Face.
+3. **Получение информации о модели**: Метод `get_model_data()` извлекает данные о модели из API Hugging Face.
+4. **Создание асинхронного генератора**: Метод `create_async_generator()` создает асинхронный генератор, который итерирует по ответам модели Hugging Face.
+5. **Обработка ответов**: В зависимости от модели и типа задачи, код обрабатывает ответы, генерируя текст, изображения или другие типы данных.
+6. **Вызов генератора**: После создания асинхронного генератора, он может быть использован для получения ответов модели.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.hf.HuggingFaceInference import HuggingFaceInference
-from src.requests import StreamSession
+from hypotez.src.endpoints.gpt4free.g4f.Provider.hf.HuggingFaceInference import HuggingFaceInference
 
 async def main():
-    # Пример использования текстовой модели
-    model = "google/gemma-7b-it"
-    messages = [
-        {"role": "user", "content": "Напиши короткое стихотворение о весне."}
-    ]
-    async for chunk in HuggingFaceInference.create_async_generator(model=model, messages=messages):
-        print(chunk, end="")
+    # Инициализация объекта HuggingFaceInference
+    provider = HuggingFaceInference()
 
-    # Пример использования графической модели
-    model = "stabilityai/stable-diffusion-2-1"
-    messages = [
-        {"role": "user", "content": "A beautiful landscape."}
-    ]
-    async for chunk in HuggingFaceInference.create_async_generator(model=model, messages=messages):
-        print(chunk, end="")
+    # Получение списка моделей
+    models = provider.get_models()
+
+    # Выбор модели
+    model = "google/flan-t5-xxl"
+
+    # Создание асинхронного генератора
+    async_generator = await provider.create_async_generator(
+        model=model,
+        messages=[
+            {"role": "user", "content": "Что такое искусственный интеллект?"}
+        ],
+    )
+
+    # Вывод ответов
+    async for chunk in async_generator:
+        print(chunk)
 
 if __name__ == "__main__":
     import asyncio
     asyncio.run(main())
+```

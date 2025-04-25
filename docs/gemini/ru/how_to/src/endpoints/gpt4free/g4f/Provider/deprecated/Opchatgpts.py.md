@@ -1,59 +1,40 @@
-### **Как использовать этот блок кода**
+## Как использовать класс `Opchatgpts`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код реализует асинхронный генератор для взаимодействия с API Opchatgpts. Он отправляет сообщения в чат и возвращает ответы в режиме реального времени.
+Класс `Opchatgpts` - это асинхронный генераторный провайдер для работы с API Opchatgpts.net. Он реализует интерфейс `AsyncGeneratorProvider` и предоставляет функциональность для асинхронного получения ответов от модели GPT-3.5 Turbo с использованием истории сообщений.
 
 Шаги выполнения
 -------------------------
-1. **Подготовка заголовков**:
-   - Формируются заголовки запроса, включая `User-Agent`, `Accept`, `Origin`, `Referer` и другие необходимые параметры.
-
-2. **Создание асинхронной сессии**:
-   - Создается асинхронная сессия `ClientSession` с заданными заголовками для выполнения HTTP-запросов.
-
-3. **Формирование данных запроса**:
-   - Подготавливаются данные для отправки в запросе, включая `botId`, `chatId`, `contextId`, `messages` и другие параметры.
-
-4. **Отправка POST-запроса**:
-   - Отправляется POST-запрос к API `f"{cls.url}/wp-json/mwai-ui/v1/chats/submit"` с данными и прокси (если указан).
-
-5. **Обработка потока ответов**:
-   - Читаются данные из потока ответов сервера построчно.
-   - Проверяется, начинается ли строка с `b"data: "`.
-   - Если строка является данными, она декодируется из JSON.
-   - Проверяется наличие ключа `type` в декодированной строке.
-   - Если `type` равен `"live"`, возвращается значение `data` из строки.
-   - Если `type` равен `"end"`, цикл завершается.
+1. **Инициализация**: Создайте экземпляр класса `Opchatgpts`, указав модель и сообщения.
+2. **Вызов метода `create_async_generator`**: Вызовите метод `create_async_generator`, передав ему модель, сообщения и необязательные аргументы, такие как прокси-сервер.
+3. **Итерация по генератору**: Получите асинхронный генератор с помощью метода `create_async_generator`. Итерируйте по генератору, чтобы получить ответы от модели GPT-3.5 Turbo.
+4. **Обработка ответов**: Каждый элемент генератора содержит ответ от модели. Ответы могут быть обработанны в соответствии с вашими требованиями.
 
 Пример использования
 -------------------------
 
 ```python
-from aiohttp import ClientSession
-from typing import AsyncGenerator
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Opchatgpts import Opchatgpts
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-from g4f.Provider.deprecated import Opchatgpts
-from g4f.typing import Messages
+# Создание экземпляра класса Opchatgpts
+provider = Opchatgpts(model="gpt-3.5-turbo", messages=[
+    {"role": "user", "content": "Привет! Как дела?"},
+    {"role": "assistant", "content": "Хорошо, а у тебя?"},
+])
 
-async def main():
-    # Подготовка списка сообщений для отправки
-    messages: Messages = [
-        {"role": "user", "content": "Привет!"}
-    ]
+# Получение асинхронного генератора
+async_generator = await provider.create_async_generator(
+    model="gpt-3.5-turbo",
+    messages=provider.messages
+)
 
-    # Вызов асинхронного генератора для получения ответа от Opchatgpts
-    result: AsyncGenerator = Opchatgpts.create_async_generator(
-        model="default",
-        messages=messages
-    )
+# Итерация по генератору и обработка ответов
+async for response in async_generator:
+    print(f"Ответ от модели: {response}")
 
-    # Асинхронный перебор результатов генератора и вывод их в консоль
-    async for message in result:
-        print(message)
+```
 
-# Запуск асинхронной функции main
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+**Важно:** Класс `Opchatgpts` помечен как **устаревший** и **не рекомендуется к использованию**. Используйте другие провайдеры из `hypotez.src.endpoints.gpt4free.g4f.Provider` для работы с API GPT-4Free.

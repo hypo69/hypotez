@@ -1,37 +1,44 @@
-### **Как использовать этот блок кода**
-
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода предназначен для импорта необходимых модулей и классов, используемых для работы с провайдерами, типами данных, ответами, источниками, причинами завершения, вспомогательными функциями и форматированием подсказок. Он подготавливает окружение для дальнейшей работы с функциональностью GPT4Free.
+Этот блок кода импортирует необходимые модули для работы с провайдерами, типами данных и ответами.
 
 Шаги выполнения
 -------------------------
-1. **Импорт базового провайдера**:
-   - `from ..providers.base_provider import *` импортирует все классы и функции из модуля `base_provider`, который находится в родительском каталоге `providers`. Это позволяет использовать общие компоненты для работы с различными провайдерами.
-
-2. **Импорт типа Streaming**:
-   - `from ..providers.types import Streaming` импортирует класс `Streaming` из модуля `types`, расположенного в родительском каталоге `providers`. Этот класс используется для обработки потоковых ответов.
-
-3. **Импорт классов для работы с ответами**:
-   - `from ..providers.response import BaseConversation, Sources, FinishReason` импортирует классы `BaseConversation`, `Sources` и `FinishReason` из модуля `response`, расположенного в родительском каталоге `providers`. Эти классы используются для структурирования и обработки ответов, информации об источниках и причинах завершения.
-
-4. **Импорт вспомогательных функций**:
-   - `from .helper import get_cookies, format_prompt` импортирует функции `get_cookies` и `format_prompt` из модуля `helper`, находящегося в текущем каталоге. Функция `get_cookies` используется для получения cookie, а `format_prompt` — для форматирования подсказок перед отправкой.
+1. Импортирует базовый класс `BaseProvider` для работы с провайдерами.
+2. Импортирует тип данных `Streaming` для потоковой передачи данных.
+3. Импортирует класс `BaseConversation` для представления беседы с использованием провайдера.
+4. Импортирует класс `Sources` для представления источников данных.
+5. Импортирует класс `FinishReason` для представления причины завершения беседы.
+6. Импортирует функцию `get_cookies` из модуля `helper`, которая извлекает куки-файлы.
+7. Импортирует функцию `format_prompt` из модуля `helper`, которая форматирует приглашение к беседe.
 
 Пример использования
 -------------------------
 
 ```python
-from ..providers.base_provider import *
+from ..providers.base_provider import BaseProvider
 from ..providers.types import Streaming
 from ..providers.response import BaseConversation, Sources, FinishReason
 from .helper import get_cookies, format_prompt
 
-# Пример использования импортированных классов и функций
-cookies = get_cookies("https://example.com")
-prompt = "Расскажи о GPT-4."
-formatted_prompt = format_prompt(prompt)
+# Создание объекта провайдера
+provider = BaseProvider(...)
 
-# Далее можно использовать BaseConversation, Streaming, Sources и FinishReason для обработки данных
+# Получение куки-файлов
+cookies = get_cookies(...)
+
+# Форматирование приглашения
+prompt = format_prompt(...)
+
+# Использование провайдера для отправки запроса
+response = provider.send_request(prompt, cookies=cookies, streaming=Streaming.TRUE)
+
+# Обработка ответа
+if response:
+    # Обработка беседы
+    conversation = BaseConversation(response.conversation_history, response.sources, response.finish_reason)
+    # ...
+```

@@ -1,204 +1,92 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода содержит набор вспомогательных функций, предназначенных для обработки и форматирования данных, используемых в различных запросах и ответах, особенно при взаимодействии с большими языковыми моделями (LLM). Функции охватывают преобразование данных в строки, форматирование промптов, получение системных промптов, обработку сообщений пользователей, генерацию случайных строк и шестнадцатеричных значений, фильтрацию None значений, конкатенацию чанков и форматирование куки.
+Блок кода содержит набор вспомогательных функций для работы с  `Messages`  (списка словарей, представляющих сообщения в чате),  `Cookies`  (словаря с куки-файлами),  `AsyncIterator`  (асинхронного итератора) и  `Iterator`  (итератора).
 
 Шаги выполнения
 -------------------------
+1. **Функция `to_string(value)`**: Преобразует различные типы данных в строку. Принимает значение любого типа (`value`) и возвращает строковое представление (`str`).
+   - Если `value` - строка, возвращает ее неизменной.
+   - Если `value` - словарь:
+     - Проверяет, есть ли ключ `"name"`  или `"bucket_id"`. Если есть, извлекает соответствующую информацию и возвращает строку.
+     - Если ключ `"type"`  равен `"text"`, возвращает значение по ключу `"text"`.
+     - В остальных случаях возвращает пустую строку.
+   - Если `value` - список, рекурсивно применяет функцию `to_string`  к каждому элементу списка и объединяет полученные строки.
+   - В остальных случаях преобразует значение в строку с помощью `str(value)`.
+2. **Функция `format_prompt(messages, add_special_tokens, do_continue, include_system)`**: Форматирует список сообщений в строку, опционально добавляя специальные токены.
+   - Принимает список словарей `messages`, где каждый словарь содержит `role` (роль отправителя) и `content` (содержимое сообщения).
+   - Опционально принимает `add_special_tokens` (флаг добавления специальных токенов), `do_continue` (флаг продолжения вывода) и `include_system` (флаг включения системных сообщений).
+   - Если `add_special_tokens`  равен `False` и в списке только одно сообщение, возвращает строковое представление содержания первого сообщения.
+   - Преобразует список `messages`  в список пар `(role, content)`, где `content`  преобразован в строку с помощью функции `to_string`.
+   - Объединяет пары `(role, content)`  в строку, добавляя в начало каждой строки `role.capitalize() + ": "`  и `content`.
+   - Если `do_continue`  равен `True`, возвращает полученную строку.
+   - В остальных случаях добавляет в конец строки `"Assistant:"`  и возвращает результат.
+3. **Функция `get_system_prompt(messages)`**: Возвращает строку, составленную из содержимого системных сообщений.
+   - Принимает список сообщений `messages`.
+   - Извлекает из `messages`  сообщения с `role`  равным `"system"`  и объединяет их содержимое в строку, разделяя элементы символом перевода строки (`"\n"`).
+4. **Функция `get_last_user_message(messages)`**: Возвращает строку, составленную из содержимого последних сообщений от пользователя.
+   - Принимает список сообщений `messages`.
+   - Итерирует по списку `messages`  в обратном порядке.
+   - Если текущее сообщение имеет `role`  равный `"user"`, добавляет его содержимое в список `user_messages`.
+   - Если текущее сообщение имеет `role`  не равный `"user"`, возвращает строку, составленную из элементов списка `user_messages`, объединенных символом перевода строки (`"\n"`).
+   - Возвращает строку, составленную из элементов списка `user_messages`, объединенных символом перевода строки (`"\n"`).
+5. **Функция `format_image_prompt(messages, prompt)`**: Форматирует строку подсказки для изображения.
+   - Принимает список сообщений `messages`  и опционально строку подсказки `prompt`.
+   - Если `prompt`  равен `None`, использует функцию `get_last_user_message`  для извлечения последнего сообщения от пользователя и возвращает его.
+   - В остальных случаях возвращает `prompt`.
+6. **Функция `format_prompt_max_length(messages, max_lenght)`**:  Форматирует подсказку для модели, ограничивая ее максимальную длину.
+   - Принимает список сообщений `messages`  и максимальную длину подсказки `max_lenght`.
+   - Форматирует подсказку с помощью `format_prompt(messages)`.
+   - Если длина подсказки превышает `max_lenght`:
+     - Если в `messages`  более 6 элементов, сокращает список до первых 3 и последних 3 элементов.
+     - Если длина подсказки все еще превышает `max_lenght`, сокращает список до системных сообщений и последнего сообщения от пользователя.
+     - Если длина подсказки все еще превышает `max_lenght`, использует только содержимое последнего сообщения от пользователя.
+   - Записывает в лог информацию о сокращении подсказки.
+   - Возвращает отформатированную подсказку.
+7. **Функция `get_random_string(length)`**: Генерация случайной строки.
+    - Принимает целое число `length`, которое задает желаемую длину строки.
+    - Возвращает строку, состоящую из `length`  случайных символов - строчных латинских букв и цифр.
+8. **Функция `get_random_hex(length)`**:  Генерирует случайную шестнадцатеричную строку заданной длины.
+    - Принимает целое число `length` (по умолчанию 32).
+    - Возвращает строку, состоящую из `length`  случайных символов (hex-кодов от a до f и цифр).
+9. **Функция `filter_none(**kwargs**)**: Фильтрует словарь, удаляя пары ключ-значение, где значение равно `None`.
+    - Принимает словарь `kwargs`.
+    - Возвращает новый словарь, содержащий только пары ключ-значение, где значение не равно `None`.
+10. **Асинхронная функция `async_concat_chunks(chunks)`**: Объединяет асинхронные куски данных в одну строку.
+    - Принимает асинхронный итератор `chunks`.
+    - Вызывает функцию `concat_chunks`  для объединения асинхронных кусков в одну строку.
+11. **Функция `concat_chunks(chunks)`**: Объединяет куски данных в одну строку.
+    - Принимает итератор `chunks`.
+    - Объединяет все элементы `chunks`  в одну строку, игнорируя значения, равные `None`  или являющиеся исключениями.
+12. **Функция `format_cookies(cookies)`**:  Форматирует куки-файлы в строку.
+    - Принимает словарь `cookies`, где ключи - имена куки, а значения - их значения.
+    - Возвращает строку, где все куки-файлы разделены точкой с запятой и пробелом (`"; "`), а имя и значение куки-файла разделены знаком равенства (`"="`).
 
-1. **Преобразование значений в строку (to_string)**:
-   - Проверяет тип входного значения.
-   - Если значение является строкой, функция возвращает его без изменений.
-   - Если значение является словарем, функция проверяет наличие ключей `name`, `bucket_id` или `type`. В зависимости от наличия ключей возвращает пустую строку, содержимое файла из указанной директории (bucket), или значение ключа `text`.
-   - Если значение является списком, функция рекурсивно вызывает `to_string` для каждого элемента списка и объединяет результаты в одну строку.
-
-2. **Форматирование промпта (format_prompt)**:
-   - Преобразует список сообщений в единую строку, добавляя специальные токены форматирования при необходимости.
-   - Если `add_special_tokens` равно `False` и в списке сообщений не более одного элемента, возвращает содержимое первого сообщения, преобразованное в строку.
-   - Форматирует каждое сообщение в виде `role.capitalize(): content`, где `role` – роль сообщения (например, "User" или "Assistant"), а `content` – содержимое сообщения.
-   - Объединяет все отформатированные сообщения в одну строку, разделяя их символом новой строки (`\n`).
-
-3. **Получение системного промпта (get_system_prompt)**:
-   - Извлекает содержимое всех сообщений с ролью "system" и объединяет их в одну строку, разделяя символом новой строки.
-
-4. **Получение последнего сообщения пользователя (get_last_user_message)**:
-   - Итерируется по списку сообщений в обратном порядке, пока не найдет сообщение с ролью "user".
-   - Возвращает содержимое этого сообщения, предварительно удалив пробелы в начале и конце строки.
-
-5. **Форматирование промпта для изображений (format_image_prompt)**:
-   - Если передан `prompt`, возвращает его. В противном случае вызывает `get_last_user_message` для извлечения последнего сообщения пользователя.
-
-6. **Ограничение максимальной длины промпта (format_prompt_max_length)**:
-   - Форматирует промпт и обрезает его, если длина превышает `max_lenght`.
-   - Если длина промпта превышает `max_lenght`, пытается укоротить его, оставляя только первые и последние три сообщения.
-   - Если и это не помогает, оставляет только системные сообщения и последнее сообщение.
-   - Если и это не помогает, оставляет только последнее сообщение.
-
-7. **Генерация случайной строки (get_random_string)**:
-   - Генерирует случайную строку заданной длины, состоящую из строчных букв и цифр.
-
-8. **Генерация случайного шестнадцатеричного значения (get_random_hex)**:
-   - Генерирует случайную шестнадцатеричную строку заданной длины.
-
-9. **Фильтрация None значений (filter_none)**:
-   - Создает новый словарь, исключая элементы, значения которых равны `None`.
-
-10. **Конкатенация чанков (concat_chunks)**:
-    - Объединяет чанки в одну строку, исключая пустые чанки и чанки, являющиеся экземплярами исключений.
-
-11. **Форматирование куки (format_cookies)**:
-    - Форматирует куки в строку, разделяя их символом `; `.
 
 Пример использования
 -------------------------
 
 ```python
-from __future__ import annotations
+from src.endpoints.gpt4free.g4f.providers.helper import format_prompt, to_string, format_cookies
 
-import random
-import string
-from pathlib import Path
-
-# from ..typing import Messages, Cookies, AsyncIterator, Iterator
-# from ..tools.files import get_bucket_dir, read_bucket
-# from .. import debug
-
-Messages = list[dict[str, str]]
-Cookies = dict[str, str]
-AsyncIterator = object
-Iterator = object
-
-
-def to_string(value: str | dict | list) -> str:
-    if isinstance(value, str):
-        return value
-    elif isinstance(value, dict):
-        if "name" in value:
-            return ""
-        elif "bucket_id" in value:
-            # bucket_dir = Path(get_bucket_dir(value.get("bucket_id")))
-            # return "".join(read_bucket(bucket_dir))
-            return "bucket_content"
-        elif value.get("type") == "text":
-            return value.get("text", "")
-        return ""
-    elif isinstance(value, list):
-        return "".join([to_string(v) for v in value if isinstance(v, dict) and v.get("type", "text") == "text"])
-    return str(value)
-
-
-def format_prompt(messages: Messages, add_special_tokens: bool = False, do_continue: bool = False,
-                  include_system: bool = True) -> str:
-    if not add_special_tokens and len(messages) <= 1:
-        return to_string(messages[0]["content"])
-    messages = [
-        (message["role"], to_string(message["content"]))
-        for message in messages
-        if include_system or message.get("role") != "system"
-    ]
-    formatted = "\n".join([
-        f'{role.capitalize()}: {content}'
-        for role, content in messages
-        if content.strip()
-    ])
-    if do_continue:
-        return formatted
-    return f"{formatted}\nAssistant:"
-
-
-def get_system_prompt(messages: Messages) -> str:
-    return "\n".join([m["content"] for m in messages if m["role"] == "system"])
-
-
-def get_last_user_message(messages: Messages) -> str:
-    user_messages = []
-    last_message = None if len(messages) == 0 else messages[-1]
-    messages = messages.copy()
-    while last_message is not None and messages:
-        last_message = messages.pop()
-        if last_message["role"] == "user":
-            content = to_string(last_message["content"]).strip()
-            if content:
-                user_messages.append(content)
-        else:
-            return "\n".join(user_messages[::-1])
-    return "\n".join(user_messages[::-1])
-
-
-def format_image_prompt(messages: Messages, prompt: str = None) -> str:
-    if prompt is None:
-        return get_last_user_message(messages)
-    return prompt
-
-
-def format_prompt_max_length(messages: Messages, max_lenght: int) -> str:
-    prompt = format_prompt(messages)
-    start = len(prompt)
-    if start > max_lenght:
-        if len(messages) > 6:
-            prompt = format_prompt(messages[:3] + messages[-3:])
-        if len(prompt) > max_lenght:
-            if len(messages) > 2:
-                prompt = format_prompt([m for m in messages if m["role"] == "system"] + messages[-1:])
-            if len(prompt) > max_lenght:
-                prompt = messages[-1]["content"]
-        # debug.log(f"Messages trimmed from: {start} to: {len(prompt)}")
-    return prompt
-
-
-def get_random_string(length: int = 10) -> str:
-    return ''.join(
-        random.choice(string.ascii_lowercase + string.digits)
-        for _ in range(length)
-    )
-
-
-def get_random_hex(length: int = 32) -> str:
-    return ''.join(
-        random.choice("abcdef" + string.digits)
-        for _ in range(length)
-    )
-
-
-def filter_none(**kwargs) -> dict:
-    return {
-        key: value
-        for key, value in kwargs.items()
-        if value is not None
-    }
-
-
-async def async_concat_chunks(chunks: AsyncIterator) -> str:
-    # return concat_chunks([chunk async for chunk in chunks])
-    return "async concat"
-
-
-def concat_chunks(chunks: Iterator) -> str:
-    return "".join([
-        str(chunk) for chunk in chunks
-        if chunk and not isinstance(chunk, Exception)
-    ])
-
-
-def format_cookies(cookies: Cookies) -> str:
-    return "; ".join([f"{k}={v}" for k, v in cookies.items()])
-
-
-# Пример использования format_prompt
 messages = [
-    {"role": "system", "content": "Ты полезный ассистент."},
-    {"role": "user", "content": "Привет!"}
+    {"role": "user", "content": "Привет!"},
+    {"role": "assistant", "content": "Привет! Как дела?"},
 ]
 
-formatted_prompt = format_prompt(messages, add_special_tokens=True)
-print(f"Formatted prompt: {formatted_prompt}")
+# Форматирование подсказки с использованием специальных токенов
+prompt = format_prompt(messages, add_special_tokens=True)
+print(f"Prompt: {prompt}")
 
-# Пример использования get_random_string
-random_string = get_random_string(15)
-print(f"Random string: {random_string}")
+# Преобразование словаря в строку
+data = {"name": "Alice", "age": 30}
+string_data = to_string(data)
+print(f"String data: {string_data}")
 
-# Пример использования filter_none
-filtered_dict = filter_none(a=1, b=None, c=3)
-print(f"Filtered dict: {filtered_dict}")
+# Форматирование куки-файлов
+cookies = {"session_id": "1234567890", "user_id": "9876543210"}
+formatted_cookies = format_cookies(cookies)
+print(f"Formatted cookies: {formatted_cookies}")
+```

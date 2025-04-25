@@ -1,139 +1,75 @@
-### Как использовать этот блок кода
+## Как использовать класс `HailuoAI`
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код определяет класс `HailuoAI`, который является асинхронным провайдером для работы с Hailuo AI API. Он включает методы для аутентификации, создания запросов и обработки ответов от API, поддерживая потоковую передачу данных.
+Класс `HailuoAI` представляет собой асинхронный провайдер для Hailuo AI API, который позволяет взаимодействовать с моделью MiniMax для генерации текста. 
 
-Шаги выполнения
+Класс реализует интерфейсы `AsyncAuthedProvider` и `ProviderModelMixin`, что позволяет использовать его в качестве стандартного провайдера для API в проекте `hypotez`. 
+
+### Шаги выполнения
 -------------------------
-1. **Аутентификация**:
-   - Метод `on_auth_async` используется для аутентификации пользователя.
-   - Сначала проверяется наличие URL для логина в переменных окружения (`G4F_LOGIN_URL`). Если он есть, генерируется запрос на логин.
-   - Затем используется `get_browser_callback` для получения данных аутентификации из браузера.
-   - Результаты аутентификации возвращаются в виде объекта `AuthResult`.
+1. **Инициализация класса:** 
+    -  Создается экземпляр класса `HailuoAI`.
+    -  Используется метод `on_auth_async()` для аутентификации с API.
+    -  Аутентификация включает в себя получение токена доступа и дополнительных параметров, необходимых для взаимодействия с API. 
+2. **Создание авторизованного экземпляра:**
+    -  Используется метод `create_authed()` для создания авторизованного экземпляра, который может генерировать текст. 
+    -  Метод принимает в качестве параметров: 
+        -  `model`: модель, которая будет использоваться для генерации текста (например, "MiniMax").
+        -  `messages`: история сообщений чата. 
+        -  `auth_result`: результат аутентификации.
+        -  `return_conversation`: флаг, указывающий, нужно ли возвращать объект `Conversation` (для последующего продолжения чата).
+3. **Отправка запроса на генерацию:**
+    -  Метод `create_authed()` отправляет запрос на API Hailuo AI с использованием библиотеки `aiohttp`. 
+    -  В запросе передаются:
+        -  `chatID`: идентификатор чата.
+        -  `characterID`: идентификатор персонажа.
+        -  `msgContent`: текст запроса.
+4. **Обработка ответа:**
+    -  Метод `create_authed()` обрабатывает ответ от API, декодируя JSON-данные и возвращая результаты генерации текста.
+    -  Если `return_conversation`  равно `True`, метод возвращает объект `Conversation`, который позволяет продолжить чат с помощью того же токена доступа.
 
-2. **Создание запроса**:
-   - Метод `create_authed` создает аутентифицированный запрос к API Hailuo AI.
-   - Извлекаются параметры аутентификации (токен, путь и запрос, временная метка) из объекта `auth_result`.
-   - Формируется тело запроса (`form_data`) с использованием предоставленных сообщений и параметров разговора.
-   - Создается объект `FormData` и добавляются поля из `form_data`.
-   - Генерируются заголовки запроса, включая токен и заголовок `yy`.
 
-3. **Отправка и обработка ответа**:
-   - Отправляется POST-запрос к API Hailuo AI с использованием `ClientSession`.
-   - Проверяется статус ответа с помощью `raise_for_status`.
-   - Асинхронно обрабатываются строки ответа.
-   - Если строка начинается с `event:`, извлекается тип события.
-   - Если строка начинается с `data:`, извлекаются данные JSON.
-   - В зависимости от типа события (`send_result` или `message_result`), извлекаются и передаются заголовок чата, ID чата и содержимое сообщения.
-   - Поддерживается потоковая передача содержимого сообщения.
-
-Пример использования
+### Пример использования
 -------------------------
-
 ```python
-from __future__ import annotations
+from hypotez.src.endpoints.gpt4free.g4f.Provider.mini_max.HailuoAI import HailuoAI
+from hypotez.src.endpoints.gpt4free.g4f.Provider.mini_max.HailuoAI import Conversation
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-import os
-import json
-from typing import AsyncIterator, Optional
-from aiohttp import ClientSession, FormData
+# Инициализация класса HailuoAI
+hailuo_ai = HailuoAI()
 
-from ...typing import AsyncResult, Messages
-from ..base_provider import AsyncAuthedProvider, ProviderModelMixin, format_prompt
-from ..mini_max.crypt import CallbackResults, get_browser_callback, generate_yy_header, get_body_to_yy
-from ...requests import get_args_from_nodriver, raise_for_status
-from ...providers.response import AuthResult, JsonConversation, RequestLogin, TitleGeneration
-from ..helper import get_last_user_message
-from ... import debug
+# Аутентификация
+async for auth_result in hailuo_ai.on_auth_async():
+    print(f"Auth Result: {auth_result}")
 
-class Conversation(JsonConversation):
-    def __init__(self, token: str, chatID: str, characterID: str = 1):
-        self.token = token
-        self.chatID = chatID
-        self.characterID = characterID
+# Создание авторизованного экземпляра
+async for result in hailuo_ai.create_authed(
+    model="MiniMax",
+    messages=[
+        {"role": "user", "content": "Привет! Как дела?"},
+    ],
+    auth_result=auth_result,
+    return_conversation=True,
+):
+    if isinstance(result, Conversation):
+        conversation = result
+        print(f"Conversation ID: {conversation.chatID}")
+    elif isinstance(result, str):
+        print(f"Generated text: {result}")
 
-class HailuoAI(AsyncAuthedProvider, ProviderModelMixin):
-    label = "Hailuo AI"
-    url = "https://www.hailuo.ai"
-    working = True
-    use_nodriver = True
-    supports_stream = True
-    default_model = "MiniMax"
 
-    @classmethod
-    async def on_auth_async(cls, proxy: str = None, **kwargs) -> AsyncIterator:
-        login_url = os.environ.get("G4F_LOGIN_URL")
-        if login_url:
-            yield RequestLogin(cls.label, login_url)
-        callback_results = CallbackResults()
-        yield AuthResult(
-            **await get_args_from_nodriver(
-                cls.url,
-                proxy=proxy,
-                callback=await get_browser_callback(callback_results)
-            ),
-            **callback_results.get_dict()
-        )
-
-    @classmethod
-    async def create_authed(
-        cls,
-        model: str,
-        messages: Messages,
-        auth_result: AuthResult,
-        return_conversation: bool = False,
-        conversation: Optional[Conversation] = None,
-        **kwargs
-    ) -> AsyncResult:
-        args = auth_result.get_dict().copy()
-        args.pop("impersonate")
-        token = args.pop("token")
-        path_and_query = args.pop("path_and_query")
-        timestamp = args.pop("timestamp")
-
-        async with ClientSession(**args) as session:
-            if conversation is not None and conversation.token != token:
-                conversation = None
-            form_data = {
-                "characterID": 1 if conversation is None else getattr(conversation, "characterID", 1),
-                "msgContent": format_prompt(messages) if conversation is None else get_last_user_message(messages),
-                "chatID": 0 if conversation is None else getattr(conversation, "chatID", 0),
-                "searchMode": 0
-            }
-            data = FormData(default_to_multipart=True)
-            for name, value in form_data.items():
-                form_data[name] = str(value)
-                data.add_field(name, str(value))
-            headers = {
-                "token": token,
-                "yy": generate_yy_header(auth_result.path_and_query, get_body_to_yy(form_data), timestamp)
-            }
-            async with session.post(f"{cls.url}{path_and_query}", data=data, headers=headers) as response:
-                await raise_for_status(response)
-                event = None
-                yield_content_len = 0
-                async for line in response.content:
-                    if not line:
-                        continue
-                    if line.startswith(b"event:"):\n                        event = line[6:].decode(errors="replace").strip()
-                        if event == "close_chunk":
-                            break
-                    if line.startswith(b"data:"):
-                        try:
-                            data = json.loads(line[5:])
-                        except json.JSONDecodeError as e:
-                            debug.log(f"Failed to decode JSON: {line}, error: {e}")
-                            continue
-                        if event == "send_result":
-                            send_result = data["data"]["sendResult"]
-                            if "chatTitle" in send_result:
-                                yield TitleGeneration(send_result["chatTitle"])
-                            if "chatID" in send_result and return_conversation:
-                                yield Conversation(token, send_result["chatID"])
-                        elif event == "message_result":
-                            message_result = data["data"]["messageResult"]
-                            if "content" in message_result:
-                                yield message_result["content"][yield_content_len:]
-                                yield_content_len = len(message_result["content"])
+# Продолжение чата
+async for result in hailuo_ai.create_authed(
+    model="MiniMax",
+    messages=[
+        {"role": "user", "content": "Что ты любишь делать?"},
+    ],
+    auth_result=auth_result,
+    conversation=conversation,
+):
+    if isinstance(result, str):
+        print(f"Generated text: {result}")
+```

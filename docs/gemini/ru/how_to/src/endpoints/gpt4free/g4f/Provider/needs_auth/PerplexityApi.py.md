@@ -1,52 +1,39 @@
-### Как использовать этот блок кода
+## Как использовать блок кода `PerplexityApi`
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода определяет класс `PerplexityApi`, который наследуется от `OpenaiTemplate`. Он содержит конфигурацию для работы с API Perplexity AI, включая URL, информацию об аутентификации, базовый URL API и список поддерживаемых моделей. Класс предназначен для интеграции с системой, использующей шаблоны OpenAI для взаимодействия с различными API.
+Этот блок кода определяет класс `PerplexityApi`, который представляет собой API для взаимодействия с сервисом Perplexity.ai.  Класс наследуется от `OpenaiTemplate`, предоставляя базовую функциональность для работы с API.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируется `OpenaiTemplate` из `..template`.
-
-2. **Определение класса `PerplexityApi`**:
-   - Создается класс `PerplexityApi`, наследуемый от `OpenaiTemplate`.
-   - Устанавливаются атрибуты класса:
-     - `label`: Отображаемое имя API ("Perplexity API").
-     - `url`: URL веб-сайта Perplexity AI.
-     - `login_url`: URL страницы настроек API для получения ключа.
-     - `working`: Логическое значение, указывающее, работает ли API (в данном случае `True`).
-     - `needs_auth`: Логическое значение, указывающее, требуется ли аутентификация для работы с API (в данном случае `True`).
-     - `api_base`: Базовый URL API Perplexity AI.
-     - `default_model`: Модель, используемая по умолчанию ("llama-3-sonar-large-32k-online").
-     - `models`: Список поддерживаемых моделей API.
+1. Определяется название API `label = "Perplexity API"`.
+2. Задается URL адрес сервиса `url = "https://www.perplexity.ai"`.
+3. Указывается URL для входа в аккаунт `login_url = "https://www.perplexity.ai/settings/api"`.
+4. Устанавливается статус работоспособности API `working = True`.
+5. Указывается, требуется ли авторизация `needs_auth = True`.
+6. Определяется базовый URL для API `api_base = "https://api.perplexity.ai"`.
+7. Указывается модель по умолчанию `default_model = "llama-3-sonar-large-32k-online"`.
+8. Создается список доступных моделей `models`.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.template import OpenaiTemplate
 from src.endpoints.gpt4free.g4f.Provider.needs_auth import PerplexityApi
 
-# Создание экземпляра класса PerplexityApi
+# Создаем экземпляр PerplexityApi
 perplexity_api = PerplexityApi()
 
-# Вывод информации о Perplexity API
-print(f"Label: {perplexity_api.label}")
-print(f"URL: {perplexity_api.url}")
-print(f"Login URL: {perplexity_api.login_url}")
-print(f"Working: {perplexity_api.working}")
-print(f"Needs Auth: {perplexity_api.needs_auth}")
-print(f"API Base: {perplexity_api.api_base}")
-print(f"Default Model: {perplexity_api.default_model}")
-print(f"Models: {perplexity_api.models}")
+# Получаем базовый URL для API
+api_base = perplexity_api.api_base
 
-# Пример использования атрибутов для настройки запросов к API
-api_label = perplexity_api.label
-api_base_url = perplexity_api.api_base
-default_model = perplexity_api.default_model
+# Проверяем статус работоспособности API
+is_working = perplexity_api.working
 
-print(f"Используем API: {api_label}")
-print(f"Базовый URL API: {api_base_url}")
-print(f"Модель по умолчанию: {default_model}")
+# Проверяем, требуется ли авторизация для API
+needs_auth = perplexity_api.needs_auth
+
+# Получаем список доступных моделей
+available_models = perplexity_api.models
+```

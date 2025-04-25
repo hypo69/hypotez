@@ -1,79 +1,41 @@
-### **Как использовать этот блок кода**
-
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода определяет асинхронного провайдера `CodeLinkAva` для взаимодействия с API по генерации текста. Он использует `aiohttp` для выполнения асинхронных HTTP-запросов и обрабатывает потоковую передачу данных от API. Провайдер предназначен для использования с моделями, совместимыми с `gpt-3.5-turbo`.
+Этот блок кода реализует класс `CodeLinkAva`, представляющий собой асинхронный генератор ответов от модели ИИ, работающий с API CodeLink. 
 
 Шаги выполнения
 -------------------------
-1. **Определение класса `CodeLinkAva`**:
-   - Создается класс `CodeLinkAva`, наследуемый от `AsyncGeneratorProvider`.
-   - Определяются атрибуты класса: `url` (URL API), `supports_gpt_35_turbo` (поддержка моделей `gpt-3.5-turbo`) и `working` (статус работоспособности провайдера).
-
-2. **Создание асинхронного генератора**:
-   - Метод `create_async_generator` создает асинхронный генератор для получения ответов от API.
-   - Формируются заголовки запроса, включающие `User-Agent`, `Accept`, `Origin`, `Referer` и другие необходимые параметры.
-
-3. **Выполнение POST-запроса к API**:
-   - Используется `aiohttp.ClientSession` для выполнения асинхронного POST-запроса к API (`https://ava-alpha-api.codelink.io/api/chat`).
-   - В тело запроса передаются сообщения, температура и флаг потоковой передачи (`stream`).
-
-4. **Обработка потокового ответа**:
-   - Асинхронно перебираются строки ответа, полученные от API.
-   - Каждая строка декодируется и проверяется на наличие префикса `data: `.
-   - Если строка начинается с `data: [DONE]`, обработка завершается.
-   - Извлекается содержимое сообщения из JSON-формата (`line["choices"][0]["delta"].get("content")`).
-   - Если содержимое присутствует, оно передается через `yield`, делая функцию генератором.
+1. **Инициализация класса:** Создается экземпляр класса `CodeLinkAva`.
+2. **Запрос к API:** Инициализируется асинхронная сессия с заданными заголовками (headers), которые указывают на пользователя как браузер.
+3. **Отправка запроса:** Отправляется POST-запрос на API CodeLink с JSON-данными, содержащими историю сообщений (`messages`), параметры (`temperature`) и другие опции, такие как `stream` для получения ответов в потоковом режиме.
+4. **Обработка ответа:** Ответ от сервера обрабатывается построчно. Каждая строка, начинающаяся с "data: ", анализируется, извлекается текст (`content`) и передается в генератор.
+5. **Генерация ответов:**  Функция `create_async_generator` возвращает асинхронный генератор (`AsyncGenerator`), который генерирует текст ответов по мере их получения от API.
 
 Пример использования
 -------------------------
 
 ```python
-from aiohttp import ClientSession
-import json
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.CodeLinkAva import CodeLinkAva
 
-from ...typing import AsyncGenerator
-from ..base_provider import AsyncGeneratorProvider
+async def main():
+    # Создание экземпляра класса
+    provider = CodeLinkAva()
 
+    # История сообщений
+    messages = [
+        {"role": "user", "content": "Привет!"},
+        {"role": "assistant", "content": "Привет, как дела?"}
+    ]
 
-class CodeLinkAva(AsyncGeneratorProvider):
-    url = "https://ava-ai-ef611.web.app"
-    supports_gpt_35_turbo = True
-    working = False
+    # Запуск асинхронного генератора
+    async for response in provider.create_async_generator(model="gpt-3.5-turbo", messages=messages):
+        print(response)
 
-    @classmethod
-    async def create_async_generator(
-        cls,
-        model: str,
-        messages: list[dict[str, str]],
-        **kwargs
-    ) -> AsyncGenerator:
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
-            "Accept": "*/*",
-            "Accept-language": "en,fr-FR;q=0.9,fr;q=0.8,es-ES;q=0.7,es;q=0.6,en-US;q=0.5,am;q=0.4,de;q=0.3",
-            "Origin": cls.url,
-            "Referer": f"{cls.url}/",
-            "Sec-Fetch-Dest": "empty",
-            "Sec-Fetch-Mode": "cors",
-            "Sec-Fetch-Site": "same-origin",
-        }
-        async with ClientSession(
-                headers=headers
-            ) as session:
-            data = {
-                "messages": messages,
-                "temperature": 0.6,
-                "stream": True,
-                **kwargs
-            }
-            async with session.post("https://ava-alpha-api.codelink.io/api/chat", json=data) as response:
-                response.raise_for_status()
-                async for line in response.content:
-                    line = line.decode()
-                    if line.startswith("data: "):\n                        if line.startswith("data: [DONE]"):\n                            break\n                        line = json.loads(line[6:-1])\n
-                        content = line["choices"][0]["delta"].get("content")
-                        if content:
-                            yield content
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
+```
+
+**Важно:** Этот класс помечен как устаревший (`deprecated`), так как API CodeLink больше не работает.

@@ -1,61 +1,40 @@
-### Как использовать этот блок кода
+## Как использовать блок кода `TestIterListProvider`
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода содержит набор юнит-тестов для проверки функциональности `AsyncClient` при работе с различными провайдерами изображений, включая обработку ошибок, пропуск неработающих провайдеров и корректную обработку ответов.
+Блок кода `TestIterListProvider` содержит набор юнит-тестов для проверки работы класса `IterListProvider` из библиотеки `g4f`. Класс `IterListProvider` используется для последовательного вызова нескольких провайдеров, предоставляющих данные для генерации изображений. Тесты проверяют различные сценарии, такие как пропуск провайдеров, обработка пустых результатов, исключений и обработку только одного результата.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**: Импортируются модули `asyncio`, `unittest`, `AsyncClient`, `ImagesResponse` и различные моки провайдеров (`YieldImageResponseProviderMock`, `MissingAuthProviderMock`, `AsyncRaiseExceptionProviderMock`, `YieldNoneProviderMock`).
-2. **Определение константы**: Определяется константа `DEFAULT_MESSAGES` для использования в тестах.
-3. **Создание тестового класса**: Создается класс `TestIterListProvider`, наследующийся от `unittest.IsolatedAsyncioTestCase`, который позволяет запускать асинхронные тесты.
-4. **Тест `test_skip_provider`**:
-   - Инициализируется `AsyncClient` с `IterListProvider`, который содержит `MissingAuthProviderMock` (мокирующий отсутствующую авторизацию) и `YieldImageResponseProviderMock` (мокирующий успешный ответ).
-   - Вызывается `client.images.generate` для генерации изображения.
-   - Проверяется, что полученный ответ является экземпляром `ImagesResponse` и что URL первого изображения в ответе равен "Hello". Это показывает, что тест успешно пропустил `MissingAuthProviderMock` и использовал `YieldImageResponseProviderMock`.
-5. **Тест `test_only_one_result`**:
-   - Инициализируется `AsyncClient` с `IterListProvider`, который содержит два `YieldImageResponseProviderMock`.
-   - Вызывается `client.images.generate` для генерации изображения.
-   - Проверяется, что полученный ответ является экземпляром `ImagesResponse` и что URL первого изображения в ответе равен "Hello". Это показывает, что клиент берет результат только из первого успешного провайдера.
-6. **Тест `test_skip_none`**:
-   - Инициализируется `AsyncClient` с `IterListProvider`, который содержит `YieldNoneProviderMock` (мокирующий возврат `None`) и `YieldImageResponseProviderMock`.
-   - Вызывается `client.images.generate` для генерации изображения.
-   - Проверяется, что полученный ответ является экземпляром `ImagesResponse` и что URL первого изображения в ответе равен "Hello". Это показывает, что тест успешно пропустил `YieldNoneProviderMock` и использовал `YieldImageResponseProviderMock`.
-7. **Тест `test_raise_exception`**:
-   - Определяется асинхронная функция `run_exception`, которая инициализирует `AsyncClient` с `IterListProvider`, содержащим `YieldNoneProviderMock` и `AsyncRaiseExceptionProviderMock` (мокирующий выбрасывание исключения).
-   - Вызывается `client.images.generate`, который должен вызвать исключение.
-   - Проверяется, что при запуске `run_exception` через `asyncio.run` выбрасывается исключение `RuntimeError`.
-8. **Запуск тестов**: Если скрипт запускается напрямую, запускаются все тесты с помощью `unittest.main()`.
+1. **Инициализация `AsyncClient`**: Создается экземпляр класса `AsyncClient` с использованием `IterListProvider`, который содержит список из нескольких провайдеров. 
+2. **Вызов метода `images.generate`**: Вызывается метод `images.generate` для генерации изображения с заданными параметрами.
+3. **Проверка результата**:  Проверяется, что результат является экземпляром класса `ImagesResponse` и содержит ожидаемые данные.
+4. **Проверка исключения**: В некоторых тестах проверяется, что при вызове метода `images.generate` возникает определенное исключение (например, `RuntimeError`).
 
 Пример использования
 -------------------------
 
 ```python
 import asyncio
-import unittest
-
-from g4f.client import AsyncClient, ImagesResponse
+from g4f.client import AsyncClient
 from g4f.providers.retry_provider import IterListProvider
-from unittest.mock import MagicMock
+from .mocks import YieldImageResponseProviderMock, MissingAuthProviderMock
 
-DEFAULT_MESSAGES = [{'role': 'user', 'content': 'Hello'}]
-
-class MockImageResponse:
-    def __init__(self, data):
-        self.data = data
-
-class MockProvider:
-    async def generate(self, prompt: str, model: str = None, **kwargs) -> MockImageResponse:
-        return MockImageResponse([MagicMock(url=prompt)])
-
-class TestIterListProvider(unittest.IsolatedAsyncioTestCase):
-
-    async def test_skip_provider(self):
-        client = AsyncClient(image_provider=IterListProvider([MockProvider(), MockProvider()], False))
-        response = await client.images.generate("Hello", "", response_format="orginal")
-        self.assertIsInstance(response, ImagesResponse)
-        self.assertEqual("Hello", response.data[0].url)
+async def run_test():
+    """
+    Пример использования `TestIterListProvider`
+    """
+    # Создаем `IterListProvider` с двумя провайдерами
+    image_provider = IterListProvider([MissingAuthProviderMock, YieldImageResponseProviderMock], False)
+    # Инициализируем `AsyncClient`
+    client = AsyncClient(image_provider=image_provider)
+    # Вызываем метод `images.generate`
+    response = await client.images.generate("Hello", "", response_format="original")
+    # Проверяем результат
+    assert isinstance(response, ImagesResponse)
+    assert "Hello" in response.data[0].url
 
 if __name__ == '__main__':
-    unittest.main()
+    asyncio.run(run_test())
+```

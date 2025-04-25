@@ -1,50 +1,39 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода предназначен для интеграции с библиотекой `langchain` и `g4f` для работы с моделями OpenAI. Он переопределяет функцию преобразования сообщений и создает класс `ChatAI`, который использует клиент `g4f` для взаимодействия с моделями чата.
+Данный блок кода  настраивает и расширяет функциональность библиотеки `langchain` для работы с API GPT4Free.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются классы и типы из библиотек `langchain` и `g4f`.
-   - `AsyncClient` и `Client` используются для асинхронного и синхронного взаимодействия с API `g4f`.
-   - `ChatOpenAI` и другие классы из `langchain` используются для интеграции с моделями OpenAI.
-
-2. **Переопределение функции `convert_message_to_dict`**:
-   - Определяется новая функция `new_convert_message_to_dict`, которая преобразует объекты сообщений в словари, пригодные для использования в API `g4f`.
-   - Эта функция обрабатывает сообщения типа `ChatCompletionMessage` и преобразует их в формат, ожидаемый `g4f`.
-   - Если в сообщении есть `tool_calls`, они также преобразуются и добавляются в словарь.
-   - Функция заменяет оригинальную `convert_message_to_dict` в модуле `openai` из `langchain`.
-
-3. **Создание класса `ChatAI`**:
-   - Создается класс `ChatAI`, наследующийся от `ChatOpenAI`.
-   - Указывается `model_name` по умолчанию как "gpt-4o".
-   - Метод `validate_environment` используется для настройки клиента `g4f` на основе переданных параметров, таких как `api_key` и `provider`.
-   - Создаются экземпляры `Client` и `AsyncClient` с переданными параметрами и сохраняются в `values["client"]` и `values["async_client"]` соответственно.
+1. **Определяет функцию `new_convert_message_to_dict`**: Эта функция преобразует объект `BaseMessage` в словарь, совместимый с API GPT4Free. 
+2. **Переопределяет функцию `convert_message_to_dict` в модуле `openai`**: Заменяет стандартную функцию `convert_message_to_dict` на `new_convert_message_to_dict`, чтобы обеспечить правильное преобразование сообщений.
+3. **Создает класс `ChatAI`**: Этот класс наследует от `ChatOpenAI` и предоставляет специальную настройку для работы с API GPT4Free.
+4. **Определяет метод `validate_environment`**: Этот метод проверяет наличие необходимых параметров для подключения к API GPT4Free, включая `api_key` и `provider`.
+5. **Создает объекты `Client` и `AsyncClient`**:  Этот метод  инициализирует объекты `Client` и `AsyncClient` для взаимодействия с API GPT4Free. 
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.integration.langchain import ChatAI
-from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
+from langchain_community.chat_models import openai
+from g4f.integration.langchain import ChatAI
 
-# Инициализация модели ChatAI с указанием провайдера
-chat_model = ChatAI(model_kwargs={"provider": "g4f.Provider.Ails"})
+# Настройка API_key и provider
+api_key = "your_api_key"
+provider = "gpt4free"
 
-# Создание шаблона промпта
-template = "Вопрос: {question}\nОтвет:"
-prompt = PromptTemplate(template=template, input_variables=["question"])
+# Инициализация модели ChatAI
+model = ChatAI(
+    model="gpt-4o",
+    api_key=api_key,
+    model_kwargs={"provider": provider}
+)
 
-# Создание цепочки LLMChain
-llm_chain = LLMChain(prompt=prompt, llm=chat_model)
+# Отправка запроса к модели 
+response = model.predict("Привет, как дела?")
 
-# Запуск цепочки с вопросом
-question = "Как дела?"
-response = llm_chain.run(question)
-
+# Вывод ответа
 print(response)
 ```

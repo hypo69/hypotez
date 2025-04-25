@@ -1,81 +1,45 @@
-Как использовать этот блок кода
+## Как использовать блок кода `CohereForAI_C4AI_Command`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код реализует асинхронный генератор для взаимодействия с моделью CohereForAI C4AI Command через API. Он поддерживает создание и ведение бесед, отправку сообщений и получение ответов в реальном времени.
+Блок кода реализует класс `CohereForAI_C4AI_Command`, представляющий собой асинхронный генератор для взаимодействия с моделью CohereForAI C4AI Command, доступной через Hugging Face Spaces. 
+
+Он наследует классы `AsyncGeneratorProvider` и `ProviderModelMixin` и предоставляет возможность генерировать текст с использованием различных моделей CohereForAI C4AI Command, используя метод `create_async_generator()`.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация**:
-   - Функция `create_async_generator` принимает параметры, такие как модель, сообщения, API-ключ, прокси и существующую беседу (если есть).
-   - Извлекает модель с помощью `cls.get_model(model)`, чтобы убедиться, что используется правильный псевдоним модели.
+1. **Инициализация**: Создайте экземпляр класса `CohereForAI_C4AI_Command`.
+2. **Выбор модели**: Используйте метод `get_model()` для выбора нужной модели (например, `command-a`, `command-r-plus`, `command-r` или `command-r7b`). 
+3. **Запуск генерации**: Запустите метод `create_async_generator()`, передав модель, список сообщений (`messages`), а также необязательные параметры, такие как `api_key` (для аутентификации), `proxy` (для использования прокси-сервера) и `conversation` (для сохранения контекста разговора).
+4. **Обработка результата**: Метод `create_async_generator()` возвращает асинхронный генератор, который будет выдавать куски текста, пока не завершится генерация. 
+5. **Дополнительные параметры**:  
+    - Параметр `return_conversation` позволяет вернуть объект `JsonConversation`, хранящий контекст разговора. 
+    - Параметр `conversation` позволяет передать объект `JsonConversation` с сохранением контекста предыдущего разговора. 
 
-2. **Подготовка заголовков**:
-   - Создает заголовки HTTP-запроса, включая `Origin`, `User-Agent`, `Accept` и другие необходимые параметры.
-   - Если предоставлен `api_key`, добавляет его в заголовок `Authorization`.
-
-3. **Создание сессии**:
-   - Использует `ClientSession` из библиотеки `aiohttp` для управления HTTP-соединением.
-   - Если предоставлена существующая беседа (`conversation`), использует её cookies.
-
-4. **Обработка сообщений**:
-   - Разделяет сообщения на системные и пользовательские.
-   - Форматирует входные данные (`inputs`) на основе того, является ли это началом новой беседы или продолжением существующей.
-
-5. **Создание или обновление беседы**:
-   - Если беседа не существует или модель/системный промпт отличаются от текущих, создает новую беседу, отправляя POST-запрос на `cls.conversation_url`.
-   - Сохраняет полученные cookies и данные беседы в объекте `JsonConversation`.
-
-6. **Получение ID сообщения**:
-   - Отправляет GET-запрос для получения ID последнего сообщения в беседе.
-   - Извлекает данные из JSON, полученного из ответа.
-
-7. **Отправка данных**:
-   - Создает объект `FormData` и добавляет входные данные, ID сообщения и другие параметры в формате JSON.
-   - Отправляет POST-запрос с данными на URL беседы.
-
-8. **Получение и обработка ответов**:
-   - Получает ответы от сервера в виде чанков.
-   - Преобразует каждый чанк в JSON и обрабатывает его в зависимости от типа (`stream`, `title`, `finalAnswer`).
-   - Для типа `stream` возвращает текст токена, заменяя `\u0000` на пустую строку.
-   - Для типа `title` возвращает заголовок.
-   - Завершает обработку при получении типа `finalAnswer`.
-
-9. **Обработка ошибок**:
-   - Проверяет наличие ошибок в ответе и вызывает исключение `RuntimeError` в случае их обнаружения.
-   - Обрабатывает ошибки JSON при декодировании чанков ответа и вызывает исключение `RuntimeError`.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.hf_space.CohereForAI_C4AI_Command import CohereForAI_C4AI_Command
-from src.endpoints.gpt4free.g4f.providers.response import JsonConversation
+from hypotez.src.endpoints.gpt4free.g4f.Provider.hf_space.CohereForAI_C4AI_Command import CohereForAI_C4AI_Command
 
-async def main():
-    model = "command-r-plus"
-    messages = [
-        {"role": "system", "content": "You are a helpful AI assistant."},
-        {"role": "user", "content": "Как дела?"}
-    ]
-    api_key = "YOUR_API_KEY"
-    proxy = None
-    conversation = None  # Может быть передан существующий JsonConversation
+# Инициализация класса
+provider = CohereForAI_C4AI_Command()
 
-    async for response in CohereForAI_C4AI_Command.create_async_generator(
-        model=model, 
-        messages=messages, 
-        api_key=api_key, 
-        proxy=proxy,
-        conversation=conversation,
-        return_conversation=True
-    ):
-        if isinstance(response, JsonConversation):
-            print(f"New conversation: {response.conversationId}")
-        else:
-            print(response, end="")
+# Выбор модели
+model = provider.get_model("command-r-plus")
 
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+# Список сообщений
+messages = [
+    {"role": "system", "content": "Ты - умный и дружелюбный помощник."},
+    {"role": "user", "content": "Расскажи мне анекдот."},
+]
+
+# Запуск генерации
+async for chunk in provider.create_async_generator(model, messages):
+    print(chunk, end="")
+
+# Вывод:
+# [Анекдот]
+```

@@ -1,159 +1,41 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код реализует асинхронного провайдера `Phind` для взаимодействия с API `Phind` для получения ответов на вопросы. Он поддерживает потоковую передачу ответов, историю сообщений и использует сложные вычисления для генерации challenge, необходимого для запросов.
+Этот блок кода представляет собой класс `Phind`, который реализует асинхронный генератор для получения ответов от модели Phind.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация**: Определяются заголовки, необходимые для запросов к API `Phind`.
-2. **Получение challengeSeeds**: Извлекаются значения `challengeSeeds` из HTML ответа `Phind`, необходимые для генерации `challenge`.
-3. **Формирование данных запроса**: Создается структура данных, включающая вопрос, историю сообщений, параметры запроса и вычисленный `challenge`.
-4. **Отправка запроса**: Отправляется POST-запрос к API `Phind` с сформированными данными.
-5. **Обработка ответа**: Полученные данные построчно анализируются, отфильтровываются служебные сообщения, и полезные данные передаются в виде потока.
-6. **Генерация challenge**: Используются функции `deterministic_stringify`, `generate_challenge_seed`, `simple_hash` и `prng_general` для создания `challenge`, необходимого для запроса к API.
+1. **Инициализация**: Создается экземпляр класса `Phind` с использованием метода `create_async_generator`. 
+2. **Настройка запроса**: В метод передаются параметры `model` (имя модели), `messages` (история переписки), `proxy` (прокси-сервер), `timeout` (таймаут запроса), `creative_mode` (режим творчества) и другие.
+3. **Отправка запроса**: Класс отправляет запрос к API Phind с помощью библиотеки `StreamSession`.
+4. **Обработка ответа**: Класс обрабатывает полученный ответ, извлекая данные из HTML-кода и преобразуя их в JSON-формат. 
+5. **Генерация ответа**: Метод генерирует ответ на основе полученных данных и отправляет его по частям с помощью асинхронного генератора. 
+6. **Генерация вызова**: Метод `generate_challenge` создает уникальный идентификатор для каждого запроса, используя хеш-функцию `simple_hash` и генератор случайных чисел `prng_general`. 
 
 Пример использования
 -------------------------
 
 ```python
-from __future__ import annotations
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Phind import Phind
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-import re
-import json
-from urllib import parse
-from datetime import datetime
+messages: Messages = [
+    {"role": "user", "content": "Привет!"},
+    {"role": "assistant", "content": "Привет!"},
+]
 
-from ...typing import AsyncResult, Messages
-from ..base_provider import AsyncGeneratorProvider
-from ...requests import StreamSession
+async def main():
+    async for chunk in Phind.create_async_generator(model='phind-34b', messages=messages):
+        print(chunk)
 
-class Phind(AsyncGeneratorProvider):
-    url = "https://www.phind.com"
-    working = False
-    lockdown = True
-    supports_stream = True
-    supports_message_history = True
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
+```
 
-    @classmethod
-    async def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        proxy: str = None,
-        timeout: int = 120,
-        creative_mode: bool = False,
-        **kwargs
-    ) -> AsyncResult:
-        headers = {
-            "Accept": "*/*",
-            "Origin": cls.url,
-            "Referer": f"{cls.url}/search",
-            "Sec-Fetch-Dest": "empty", 
-            "Sec-Fetch-Mode": "cors", 
-            "Sec-Fetch-Site": "same-origin",
-        }
-        async with StreamSession(
-            headers=headers,
-            impersonate="chrome",
-            proxies={"https": proxy},
-            timeout=timeout
-        ) as session:
-            url = "https://www.phind.com/search?home=true"
-            async with session.get(url) as response:
-                text = await response.text()
-                match = re.search(r'<script id="__NEXT_DATA__" type="application/json">(?P<json>[\S\s]+?)</script>', text)
-                data = json.loads(match.group("json"))
-                challenge_seeds = data["props"]["pageProps"]["challengeSeeds"]
-                
-            prompt = messages[-1]["content"]
-            data = {
-                "question": prompt,
-                "question_history": [
-                    message["content"] for message in messages[:-1] if message["role"] == "user"
-                ],
-                "answer_history": [
-                    message["content"] for message in messages if message["role"] == "assistant"
-                ],
-                "webResults": [],
-                "options": {
-                    "date": datetime.now().strftime("%d.%m.%Y"),
-                    "language": "en-US",
-                    "detailed": True,
-                    "anonUserId": "",
-                    "answerModel": "GPT-4" if model.startswith("gpt-4") else "Phind-34B",
-                    "creativeMode": creative_mode,
-                    "customLinks": []
-                },
-                "context": "\n".join([message["content"] for message in messages if message["role"] == "system"]),
-            }
-            data["challenge"] = generate_challenge(data, **challenge_seeds)
-            async with session.post(f"https://https.api.phind.com/infer/", headers=headers, json=data) as response:
-                new_line = False
-                async for line in response.iter_lines():
-                    if line.startswith(b"data: "):
-                        chunk = line[6:]
-                        if chunk.startswith(b'<PHIND_DONE/>'):
-                            break
-                        if chunk.startswith(b'<PHIND_BACKEND_ERROR>'):
-                            raise RuntimeError(f"Response: {chunk.decode()}")
-                        if chunk.startswith(b'<PHIND_WEBRESULTS>') or chunk.startswith(b'<PHIND_FOLLOWUP>'):
-                            pass
-                        elif chunk.startswith(b"<PHIND_METADATA>") or chunk.startswith(b"<PHIND_INDICATOR>"):
-                            pass
-                        elif chunk.startswith(b"<PHIND_SPAN_BEGIN>") or chunk.startswith(b"<PHIND_SPAN_END>"):
-                            pass
-                        elif chunk:
-                            yield chunk.decode()
-                        elif new_line:
-                            yield "\n"
-                            new_line = False
-                        else:
-                            new_line = True
-
-def deterministic_stringify(obj):
-    def handle_value(value):
-        if isinstance(value, (dict, list)):
-            if isinstance(value, list):
-                return '[' + ','.join(sorted(map(handle_value, value))) + ']'
-            else:  # It's a dict
-                return '{' + deterministic_stringify(value) + '}'
-        elif isinstance(value, bool):
-            return 'true' if value else 'false'
-        elif isinstance(value, (int, float)):
-            return format(value, '.8f').rstrip('0').rstrip('.')
-        elif isinstance(value, str):
-            return f'"{value}"'
-        else:
-            return 'null'
-
-    items = sorted(obj.items(), key=lambda x: x[0])
-    return ','.join([f'{k}:{handle_value(v)}' for k, v in items if handle_value(v) is not None])
-
-def prng_general(seed, multiplier, addend, modulus):
-    a = seed * multiplier + addend
-    if a < 0:
-        return ((a%modulus)-modulus)/modulus
-    else:
-        return a%modulus/modulus
-
-def generate_challenge_seed(l):
-    I = parse.quote(l, safe='')
-    return simple_hash(I)
-
-def simple_hash(s):
-    d = 0
-    for char in s:
-        if len(char) > 1 or ord(char) >= 256:
-            continue
-        d = ((d << 5) - d + ord(char[0])) & 0xFFFFFFFF
-        if d > 0x7FFFFFFF: # 2147483647
-            d -= 0x100000000 # Subtract 2**32
-    return d
-
-def generate_challenge(obj, **kwargs):
-    return prng_general(
-        seed=generate_challenge_seed(obj),
-        **kwargs
-    )
+**Важно**: 
+- Класс `Phind` в данный момент устарел и может не работать.
+- Используйте другие классы поставщиков, например `OpenAI` или `Bard`, для получения ответов от моделей ИИ.
+- Документация к другим классам поставщиков находится в каталоге `/hypotez/src/endpoints/gpt4free/g4f/Provider`.

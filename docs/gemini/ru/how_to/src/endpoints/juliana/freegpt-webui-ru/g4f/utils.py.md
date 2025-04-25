@@ -1,86 +1,36 @@
-### Как использовать этот блок кода
+## Как использовать блок кода `get_cookies`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код предоставляет утилиты для извлечения кукисов из различных веб-браузеров. Он использует библиотеку `browser_cookie3` для доступа к кукисам браузеров, таких как Chrome, Safari, Firefox, Edge, Opera, Brave, Opera GX и Vivaldi. Класс `Utils` содержит список поддерживаемых браузеров и метод `get_cookies` для получения кукисов для определенного домена.
+Блок кода `get_cookies` позволяет получить куки из всех браузеров, установленных на устройстве. Функция принимает имя домена и опционально имя куки (setName) и имя браузера (setBrowser). Если имя куки задано, функция возвращает словарь с именем куки и её значением. Если имя куки не задано, функция возвращает словарь с именами всех куки и их значениями.
 
 Шаги выполнения
 -------------------------
-1. **Определение класса `Utils`**: Класс содержит статический список `browsers`, включающий функции для доступа к кукисам различных браузеров.
-2. **Метод `get_cookies`**:
-   - Принимает домен (`domain`), имя конкретного кукиса (`setName`, необязательный) и название конкретного браузера (`setBrowser`, необязательный).
-   - Инициализирует пустой словарь `cookies` для хранения кукисов.
-   - Если `setBrowser` указан, пытается получить кукисы только из указанного браузера.
-   - Если `setBrowser` не указан, пытается получить кукисы из всех поддерживаемых браузеров.
-   - Для каждого браузера перебирает кукисы, извлеченные для указанного домена, и добавляет их в словарь `cookies`, избегая дублирования.
-   - Если `setName` указан, возвращает словарь, содержащий только указанный кукис. Если кукис не найден, выводит сообщение об ошибке и завершает программу.
-   - Если `setName` не указан, возвращает словарь со всеми найденными кукисами.
-   - Обрабатывает исключения, которые могут возникнуть при доступе к кукисам браузера.
+1. Функция определяет список браузеров, для которых она может получить куки. Список браузеров включает в себя: Chrome, Safari, Firefox, Edge, Opera, Brave, Opera GX и Vivaldi. 
+2. Если имя браузера задано, функция ищет куки в заданном браузере.
+3. Если имя браузера не задано, функция ищет куки во всех браузерах.
+4. Для каждого браузера функция получает список всех куки для заданного домена.
+5. Для каждой куки функция проверяет, есть ли она уже в словаре cookies. Если нет, она добавляет куки в словарь. 
+6. Если имя куки задано, функция возвращает словарь с именем куки и её значением.
+7. Если имя куки не задано, функция возвращает словарь с именами всех куки и их значениями.
+
 
 Пример использования
 -------------------------
 
 ```python
-import browser_cookie3
+from src.endpoints.juliana.freegpt-webui-ru.g4f.utils import Utils
 
-class Utils:
-    browsers = [ 
-        browser_cookie3.chrome,   # 62.74% market share
-        browser_cookie3.safari,   # 24.12% market share
-        browser_cookie3.firefox,  #  4.56% market share
-        browser_cookie3.edge,     #  2.85% market share 
-        browser_cookie3.opera,    #  1.69% market share
-        browser_cookie3.brave,    #  0.96% market share
-        browser_cookie3.opera_gx, #  0.64% market share
-        browser_cookie3.vivaldi,  #  0.32% market share
-    ]
+# Получение всех куки для домена example.com
+all_cookies = Utils.get_cookies(domain='example.com')
+print(all_cookies)
 
-    def get_cookies(domain: str, setName: str = None, setBrowser: str = False) -> dict:
-        cookies = {}
-        
-        if setBrowser != False:
-            for browser in Utils.browsers:
-                if browser.__name__ == setBrowser:
-                    try:
-                        for c in browser(domain_name=domain):
-                            if c.name not in cookies:
-                                cookies = cookies | {c.name: c.value} 
-                    
-                    except Exception as e:
-                        pass
-        
-        else:
-            for browser in Utils.browsers:
-                try:
-                    for c in browser(domain_name=domain):
-                        if c.name not in cookies:
-                            cookies = cookies | {c.name: c.value} 
-                
-                except Exception as e:
-                    pass
-        
-        if setName:
-            try:
-                return {setName: cookies[setName]}
-            
-            except ValueError:
-                print(f'Error: could not find {setName} cookie in any browser.')
-                exit(1)
-        
-        else:
-            return cookies
+# Получение куки с именем session_id для домена example.com
+session_id_cookie = Utils.get_cookies(domain='example.com', setName='session_id')
+print(session_id_cookie)
 
-# Пример использования:
-domain = 'example.com'
-cookies = Utils.get_cookies(domain)
-print(cookies)
-
-# Пример получения конкретного кукиса:
-cookie_name = 'sessionid'
-session_cookie = Utils.get_cookies(domain, setName=cookie_name)
-print(session_cookie)
-
-# Пример получения кукисов только из Chrome:
-chrome_cookies = Utils.get_cookies(domain, setBrowser='chrome')
+# Получение всех куки для домена example.com в браузере Chrome
+chrome_cookies = Utils.get_cookies(domain='example.com', setBrowser='chrome')
 print(chrome_cookies)
+```

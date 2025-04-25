@@ -1,58 +1,80 @@
-### **Как использовать этот блок кода**
+## Как использовать класс Jmuz
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет класс `Jmuz`, который является подклассом `OpenaiTemplate`. `Jmuz` предоставляет интерфейс для взаимодействия с API, специфичным для Jmuz, и предназначен для генерации текста на основе предоставленных сообщений. Он содержит настройки для работы с API, такие как URL, API-ключ, и поддерживает потоковую передачу данных.
+Класс `Jmuz` - это провайдер для взаимодействия с API Jmuz.me, предоставляющим доступ к различным моделям GPT, таким как `gpt-4o`, `qwq-32b`, `gemini-1.5-flash` и т.д. 
+
+Он наследует класс `OpenaiTemplate` и предоставляет ряд методов для работы с API, в том числе:
+- `get_models()`: Возвращает список доступных моделей.
+- `create_async_generator()`: Создает асинхронный генератор для получения ответов от модели.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация класса `Jmuz`**:
-   - Класс `Jmuz` наследуется от `OpenaiTemplate` и переопределяет некоторые атрибуты, такие как `url`, `api_base`, `api_key`, `working` и `supports_system_message`.
-   - Определяются псевдонимы моделей в словаре `model_aliases`.
-2. **Получение списка моделей**:
-   - Метод `get_models` используется для получения списка доступных моделей. Если список моделей пуст, он заполняется путем вызова метода `get_models` из суперкласса `OpenaiTemplate` с использованием API-ключа и базового URL класса `Jmuz`.
-3. **Создание асинхронного генератора**:
-   - Метод `create_async_generator` является асинхронным генератором, который отправляет запросы к API и возвращает чанки данных.
-   - Метод принимает параметры, такие как `model` (модель для использования), `messages` (список сообщений для отправки), `stream` (флаг, указывающий на потоковую передачу данных) и другие параметры.
-   - Формируются заголовки запроса, включая `Authorization` с API-ключом, `Content-Type` и `user-agent`.
-   - Вызывается метод `create_async_generator` из суперкласса `OpenaiTemplate` для получения чанков данных.
-   - Чанки данных фильтруются и очищаются от нежелательных подстрок, таких как "Join for free" и "https://discord.gg/".
-   - Если чанк является строкой, он добавляется в буфер, и после очистки буфер возвращается как результат генератора.
-   - Если чанк не является строкой, он возвращается как есть.
+1. **Импорт класса**: Импортируй класс `Jmuz` из соответствующего модуля:
+```python
+from hypotez.src.endpoints.gpt4free.g4f.Provider.Jmuz import Jmuz
+```
+
+2. **Создание объекта**: Создай экземпляр класса `Jmuz`:
+```python
+provider = Jmuz()
+```
+
+3. **Получение списка доступных моделей**: Используй метод `get_models()` для получения доступных моделей:
+```python
+models = provider.get_models()
+print(models)
+```
+
+4. **Создание асинхронного генератора**: Используй метод `create_async_generator()` для создания асинхронного генератора для получения ответов от модели.
+```python
+messages = [
+    {"role": "user", "content": "Привет!"},
+]
+
+async_generator = provider.create_async_generator(
+    model="gpt-4o",
+    messages=messages,
+)
+
+async for chunk in async_generator:
+    print(chunk)
+```
+
+5. **Обработка ответа**: Получай ответы от модели с помощью цикла `async for` и обрабатывай их как нужно.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.Jmuz import Jmuz
-from src.endpoints.gpt4free.g4f.typing import Messages
+from hypotez.src.endpoints.gpt4free.g4f.Provider.Jmuz import Jmuz
 
-async def generate_text(model: str, messages: Messages) -> str:
-    """
-    Генерирует текст с использованием модели Jmuz.
+provider = Jmuz()
 
-    Args:
-        model (str): Имя модели для использования.
-        messages (Messages): Список сообщений для отправки.
+# Получение списка доступных моделей
+models = provider.get_models()
+print("Доступные модели:", models)
 
-    Returns:
-        str: Сгенерированный текст.
-    """
-    result_text = ""
-    async for chunk in Jmuz.create_async_generator(model=model, messages=messages):
-        result_text += chunk
-    return result_text
-
-# Пример использования
-messages: Messages = [
-    {"role": "user", "content": "Напиши короткий рассказ о приключениях."},
+# Создание асинхронного генератора для модели "gpt-4o"
+messages = [
+    {"role": "user", "content": "Как дела?"},
 ]
-model = "gpt-4o"  # или другая доступная модель
-import asyncio
-async def main():
-    text = await generate_text(model, messages)
-    print(text)
+async_generator = provider.create_async_generator(
+    model="gpt-4o",
+    messages=messages,
+)
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# Получение ответов от модели
+async for chunk in async_generator:
+    print(chunk)
+```
+
+**Дополнительные сведения**:
+
+- Метод `create_async_generator()` принимает следующие аргументы:
+    - `model`: Название модели.
+    - `messages`: Список сообщений для отправки в модель.
+    - `stream`: Флаг, указывающий, нужно ли получать ответ потоком (True) или в виде единой строки (False).
+- Класс `Jmuz` поддерживает обработку ошибок, связанных с использованием API Jmuz.me.
+- Обрати внимание, что класс `Jmuz` может быть изменен в будущем, поэтому проверь документацию перед использованием.

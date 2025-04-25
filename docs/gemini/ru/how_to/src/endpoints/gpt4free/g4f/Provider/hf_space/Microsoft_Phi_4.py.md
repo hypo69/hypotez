@@ -1,65 +1,55 @@
-### **Как использовать этот блок кода**
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Данный код определяет класс `Microsoft_Phi_4`, который является асинхронным провайдером для взаимодействия с моделью Microsoft Phi-4 Multimodal через Hugging Face Spaces. Он поддерживает потоковую передачу данных, системные сообщения и историю сообщений. Код содержит методы для отправки запросов к API, загрузки медиафайлов и создания асинхронного генератора для получения ответов от модели.
+Этот блок кода представляет собой класс `Microsoft_Phi_4`, который реализует асинхронный генератор для работы с моделью Microsoft Phi-4, доступной на платформе Hugging Face. 
+
+Он обеспечивает следующие возможности:
+
+- **Асинхронная генерация ответов**: Использует асинхронные методы для более быстрого и эффективного взаимодействия с моделью.
+- **Поддержка мультимодальных запросов**:  Позволяет отправлять текстовые и мультимодальные (изображения, аудио) запросы.
+- **Потоковая обработка ответов**:  Обрабатывает ответы модели в потоковом режиме, что позволяет получать части ответа по мере их формирования.
+- **Сохранение контекста**:  Сохраняет и использует историю предыдущих взаимодействий для поддержания контекста в беседе.
+
 
 Шаги выполнения
 -------------------------
-1. **Определение класса `Microsoft_Phi_4`**:
-   - Класс наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`.
-   - Определяются атрибуты класса, такие как `label`, `space`, `url`, `api_url`, `referer`, `working`, `supports_stream`, `supports_system_message`, `supports_message_history`, `default_model`, `default_vision_model`, `model_aliases`, `vision_models` и `models`.
+1. **Инициализация**:  Создается экземпляр класса `Microsoft_Phi_4` с помощью `provider = Microsoft_Phi_4()`.
+2. **Подготовка данных**:  Подготавливаются запросы, включающие текстовые сообщения, мультимодальные данные (изображения) и, при необходимости, история предыдущих взаимодействий.
+3. **Запуск генератора**:  Используется метод `async def create_async_generator` для создания асинхронного генератора, который будет генерировать ответы модели.
+4. **Обработка ответов**:  Используется цикл `async for` для итерации по генератору и получения ответов модели в потоковом режиме.
 
-2. **Метод `run`**:
-   - Функция выполняет HTTP-запросы к API в зависимости от переданного метода (`predict`, `post`, `get`).
-   - Формирует заголовки запроса, включая `content-type`, `x-zerogpu-token`, `x-zerogpu-uuid` и `referer`.
-   - Для метода `predict` отправляет POST-запрос с текстом и медиафайлами.
-   - Для метода `post` отправляет POST-запрос с сообщениями пользователя и медиафайлами.
-   - Для метода `get` отправляет GET-запрос для получения данных в формате `text/event-stream`.
-
-3. **Метод `create_async_generator`**:
-   - Функция создает асинхронный генератор для взаимодействия с моделью.
-   - Форматирует промпт, используя `format_prompt` и `format_image_prompt`.
-   - Создает или использует существующий `JsonConversation` для хранения состояния сессии.
-   - Загружает медиафайлы на сервер, если они предоставлены.
-   - Вызывает методы `run` для отправки запросов и получения ответов от модели.
-   - Обрабатывает ответы в формате `text/event-stream`, извлекая данные JSON и возвращая их через генератор.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.hf_space.Microsoft_Phi_4 import Microsoft_Phi_4
-from src.endpoints.gpt4free.g4f.typing import Messages, MediaListType
-from src.endpoints.gpt4free.g4f.providers.response import JsonConversation
+from hypotez.src.endpoints.gpt4free.g4f.Provider.hf_space.Microsoft_Phi_4 import Microsoft_Phi_4
+from hypotez.src.endpoints.gpt4free.g4f.Provider.base_provider import Messages
+from hypotez.src.endpoints.gpt4free.g4f.Provider.response import JsonConversation
 
-async def main():
-    model = "phi-4-multimodal"
-    messages: Messages = [{"role": "user", "content": "Напиши стихотворение о весне."}]
-    media: MediaListType = []
-    prompt = None
-    proxy = None
-    cookies = None
-    api_key = None
-    zerogpu_uuid = "[object Object]"
-    return_conversation = False
-    conversation = JsonConversation(session_hash="test_session")
+# Инициализация класса
+provider = Microsoft_Phi_4()
 
-    async for response in Microsoft_Phi_4.create_async_generator(
-        model=model,
-        messages=messages,
-        media=media,
-        prompt=prompt,
-        proxy=proxy,
-        cookies=cookies,
-        api_key=api_key,
-        zerogpu_uuid=zerogpu_uuid,
-        return_conversation=return_conversation,
-        conversation=conversation
-    ):
-        print(response)
+# Подготовка данных
+messages = Messages(
+    [
+        {"role": "user", "content": "Привет! Как дела?"},
+        {"role": "assistant", "content": "Хорошо, а у тебя как?"},
+    ]
+)
 
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+# Запуск генератора 
+async for response in provider.create_async_generator(messages=messages):
+    print(response)
+
+# Ожидаемый вывод
+# > Хорошо, а у тебя как? 
+```
+
+**Важно**: 
+
+- В данном коде реализована работа с API Hugging Face. Для корректной работы необходимо получить API ключ и UUID.
+- Для запуска кода необходимо установить библиотеки `aiohttp`, `json`, `uuid`, а также `hypotez`.
+- Для работы с изображениями необходимо использовать библиотеки для обработки изображений, например `pillow` или `opencv`.

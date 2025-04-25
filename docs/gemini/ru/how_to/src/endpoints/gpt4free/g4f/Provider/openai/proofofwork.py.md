@@ -1,89 +1,34 @@
-### **Как использовать этот блок кода**
-
+## Как использовать блок кода для генерации Proof-of-Work токена
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода генерирует токен доказательства работы (Proof-of-Work token), который используется для проверки выполнения определенной вычислительной задачи. Это может быть необходимо для защиты от злоупотреблений и автоматических запросов при взаимодействии с API. Если задача не выполнена за 100000 итераций, возвращается резервный токен.
+Данный блок кода генерирует Proof-of-Work токен, который используется для аутентификации запросов к API OpenAI. Он работает путем создания хеша, который соответствует заданной сложности (difficulty).
 
 Шаги выполнения
 -------------------------
-1. **Проверка необходимости токена**:
-   - Функция проверяет, требуется ли генерация токена, опираясь на аргумент `required`. Если `required` равен `False`, функция завершается и ничего не возвращает.
-
-2. **Инициализация токена (если `proof_token` не предоставлен)**:
-   - Если `proof_token` не предоставлен, генерируются случайные данные для его инициализации:
-     - Выбирается случайное разрешение экрана (`screen`).
-     - Получается текущее UTC-время и форматируется в строку.
-     - Создается список `proof_token` с различными параметрами, включая разрешение экрана, текущее время, URL и случайные строки.
-
-3. **Цикл вычисления доказательства работы**:
-   - Запускается цикл, который повторяется до 100000 раз.
-   - На каждой итерации:
-     - Обновляется значение `proof_token[3]` счетчиком `i`.
-     - `proof_token` преобразуется в JSON-строку.
-     - JSON-строка кодируется в Base64.
-     - Вычисляется SHA3-512 хеш от конкатенации `seed` и закодированной строки.
-     - Проверяется, удовлетворяет ли хеш требованию сложности (`difficulty`).
-
-4. **Проверка сложности хеша**:
-   - Если первые `diff_len` символов хеша меньше или равны значению `difficulty`, функция возвращает токен, начинающийся с префикса `"gAAAAAB"`, за которым следует Base64 представление JSON-данных.
-
-5. **Обработка неудачи**:
-   - Если после 100000 итераций подходящий хеш не найден, функция кодирует `seed` в Base64 и возвращает резервный токен с префиксом `"gAAAAABwQ8Lk5FbGpA2NcR9dShT6gYjU7VxZ4D"`.
+1. **Проверка необходимости**: Если параметр `required` равен `False`, то функция возвращает `None` и ничего не делает.
+2. **Генерация начального токена**: Если `proof_token` равен `None`, то функция генерирует начальный токен, содержащий информацию, такую как:
+    - `screen`: случайное число, умноженное на 1, 2 или 4
+    - `parse_time`: текущее время в формате UTC
+    - `user_agent`: агент пользователя, если указан
+    - Другие параметры, специфичные для OpenAI API.
+3. **Итерация и хеширование**: Функция итерирует по числам от 0 до 100000, каждый раз обновляя `proof_token[3]`, кодируя его в JSON, затем кодируя в base64 и создавая хеш SHA3-512, используя seed (если указан) и закодированный токен.
+4. **Проверка сложности**: Функция проверяет, соответствует ли начальные символы (по длине `diff_len`) хеша заданной сложности. Если да, то функция кодирует базовый токен в base64 и возвращает токен в формате "gAAAAAB" + base64.
+5. **Фолбек**: Если ни один из хешей не соответствует сложности, то функция создает резервный токен, используя seed, кодирует его в base64 и возвращает токен в формате "gAAAAABwQ8Lk5FbGpA2NcR9dShT6gYjU7VxZ4D" + base64.
 
 Пример использования
 -------------------------
 
 ```python
-import random
-import hashlib
-import json
-import base64
-from datetime import datetime, timezone
+# Генерирует proof-of-work токен с seed "my_secret" и сложностью "0000"
+proof_token = generate_proof_token(required=True, seed="my_secret", difficulty="0000")
+print(proof_token)  # Например, "gAAAAABj7hT33O65gR3D4r4R3Q21H09G0C3e433r1234567890123456789012345678901234567890"
+```
 
-def generate_proof_token(required: bool, seed: str = "", difficulty: str = "", user_agent: str = None, proof_token: str = None):
-    if not required:
-        return
+**Важные замечания**:
 
-    if proof_token is None:
-        screen = random.choice([3008, 4010, 6000]) * random.choice([1, 2, 4])
-        # Функция форматирует текущее UTC-время в строку
-        now_utc = datetime.now(timezone.utc)
-        parse_time = now_utc.strftime('%a, %d %b %Y %H:%M:%S GMT')
-        proof_token = [
-            screen, parse_time,
-            None, 0, user_agent,
-            "https://tcr9i.chat.openai.com/v2/35536E1E-65B4-4D96-9D97-6ADB7EFF8147/api.js",
-            "dpl=1440a687921de39ff5ee56b92807faaadce73f13","en","en-US",
-            None,
-            "plugins−[object PluginArray]",
-            random.choice(["_reactListeningcfilawjnerp", "_reactListening9ne2dfo1i47", "_reactListening410nzwhan2a"]),
-            random.choice(["alert", "ontransitionend", "onprogress"])
-        ]
-
-    diff_len = len(difficulty)
-    for i in range(100000):
-        proof_token[3] = i
-        json_data = json.dumps(proof_token)
-        base = base64.b64encode(json_data.encode()).decode()
-        # Функция вычисляет SHA3-512 хеш от конкатенации seed и закодированной строки
-        hash_value = hashlib.sha3_512((seed + base).encode()).digest()
-
-        if hash_value.hex()[:diff_len] <= difficulty:
-            return "gAAAAAB" + base
-
-    fallback_base = base64.b64encode(f'"{seed}"'.encode()).decode()
-    return "gAAAAABwQ8Lk5FbGpA2NcR9dShT6gYjU7VxZ4D" + fallback_base
-
-# Пример вызова функции
-required = True
-seed = "test_seed"
-difficulty = "00000000000000000000"
-user_agent = "Mozilla/5.0"
-token = generate_proof_token(required, seed, difficulty, user_agent)
-
-if token:
-    print(f"Generated proof token: {token}")
-else:
-    print("Proof token is not required.")
+- В этом коде используются хеш-функции SHA3-512 и base64 для создания и кодирования токенов.
+- Используются случайные числа и текущее время для создания уникального Proof-of-Work токена.
+- Параметры `seed` и `difficulty` должны быть заданы, если требуется генерация Proof-of-Work токена.
+- Токен, созданный этим кодом, необходим для аутентификации запросов к OpenAI API.

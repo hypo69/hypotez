@@ -1,38 +1,59 @@
-Как использовать этот блок кода
+## Как использовать класс `CablyAI`
 =========================================================================================
 
 Описание
 -------------------------
-Этот класс `CablyAI` наследуется от `OpenaiTemplate` и предназначен для взаимодействия с API CablyAI. Он определяет URL, базовый URL API, указывает на необходимость аутентификации и поддерживает потоковую передачу данных и системные сообщения. Он переопределяет метод `create_async_generator` для настройки заголовков запроса, включая токен авторизации.
+Класс `CablyAI` предоставляет возможность использовать API CablyAI для взаимодействия с моделями искусственного интеллекта. 
+Он наследует базовый класс `OpenaiTemplate` и реализует специфические для CablyAI методы и настройки.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация класса**: Создается экземпляр класса `CablyAI`.
-2. **Настройка заголовков**: В методе `create_async_generator` формируются заголовки запроса, необходимые для аутентификации и взаимодействия с API CablyAI. Заголовки включают токен авторизации, тип контента, источник запроса и User-Agent.
-3. **Вызов родительского метода**: Вызывается метод `create_async_generator` родительского класса `OpenaiTemplate` с переданными параметрами, включая настроенные заголовки.
+1. **Инициализация класса**:  Создайте объект класса `CablyAI`, который будет представлять ваше соединение с API CablyAI.
+2. **Установка API ключа**:  Установите `api_key`, используя `api_key=your_api_key` при инициализации класса или через метод `set_api_key`.
+3. **Создание асинхронного генератора**:  Используйте метод `create_async_generator` для получения асинхронного генератора, который будет генерировать ответы от модели.
+4. **Взаимодействие с моделью**:  Используйте полученный генератор для отправки запросов к модели и получения ответов. 
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.needs_auth.CablyAI import CablyAI
-from src.endpoints.gpt4free.g4f.typing import Messages
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.CablyAI import CablyAI
+from hypotez.src.endpoints.gpt4free.g4f.Messages import Messages
 
-# Пример использования класса CablyAI
-model = "gpt-3.5-turbo"
-messages: Messages = [
-    {"role": "system", "content": "Ты полезный ассистент."},
-    {"role": "user", "content": "Привет!"}
-]
-api_key = "YOUR_API_KEY" # Замените на ваш реальный API ключ
+# Инициализация класса CablyAI
+cably_ai = CablyAI(api_key="ваш_api_key")
 
 # Создание асинхронного генератора
-async_result = CablyAI.create_async_generator(
-    model=model,
-    messages=messages,
-    api_key=api_key,
-    stream=True  # Установите в True, если хотите использовать потоковую передачу
+messages = Messages(
+    user_messages=[
+        {
+            "role": "user",
+            "content": "Привет, как дела?"
+        }
+    ]
 )
 
-# Здесь можно добавить код для обработки async_result
-# Например, получение ответа от API
+async_generator = cably_ai.create_async_generator(
+    model="gpt-3.5-turbo",  # Выберите модель
+    messages=messages
+)
+
+# Получение ответа от модели
+async for response in async_generator:
+    print(response)
+```
+
+**Описание кода:**
+
+-  `from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.CablyAI import CablyAI`: Импортирует класс `CablyAI` для работы с API CablyAI.
+-  `from hypotez.src.endpoints.gpt4free.g4f.Messages import Messages`: Импортирует класс `Messages` для создания объекта с сообщениями.
+-  `cably_ai = CablyAI(api_key="ваш_api_key")`:  Создает объект класса `CablyAI` с использованием вашего API ключа.
+-  `messages = Messages(...)`: Создает объект `Messages` с заданным пользователем сообщением.
+-  `async_generator = cably_ai.create_async_generator(...)`:  Создает асинхронный генератор для отправки запросов к модели.
+-  `async for response in async_generator:`:  Использует цикл `async for` для получения ответов от модели.
+-  `print(response)`: Выводит полученный ответ на экран.
+
+**Дополнительные замечания**:
+
+-  Класс `CablyAI` предоставляет ряд дополнительных функций, таких как поддержка потоковой передачи (streaming) и настройки заголовков запросов. 
+-  Ознакомьтесь с документацией CablyAI для получения более подробной информации о доступных моделях и параметрах.

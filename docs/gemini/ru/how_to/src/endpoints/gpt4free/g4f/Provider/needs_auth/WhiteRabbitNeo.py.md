@@ -1,59 +1,45 @@
-### Как использовать этот блок кода
+## Как использовать класс `WhiteRabbitNeo`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет асинхронный провайдер `WhiteRabbitNeo` для взаимодействия с API `www.whiterabbitneo.com`. Он предназначен для генерации ответов на основе предоставленных сообщений, используя асинхронные запросы. Класс `WhiteRabbitNeo` наследуется от `AsyncGeneratorProvider` и предоставляет метод `create_async_generator` для создания асинхронного генератора, который отправляет запросы к API и возвращает чанки данных.
+Класс `WhiteRabbitNeo` представляет собой асинхронный генератор, который позволяет взаимодействовать с API сервиса WhiteRabbitNeo для генерации текста с помощью модели большой языковой модели (LLM). 
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются модули `__future__`, `ClientSession`, `BaseConnector`, `AsyncResult`, `Messages`, `Cookies`, `raise_for_status`, `AsyncGeneratorProvider`, `get_cookies`, `get_connector`, `get_random_string`.
-2. **Определение класса `WhiteRabbitNeo`**:
-   - Определяется класс `WhiteRabbitNeo`, который наследуется от `AsyncGeneratorProvider`.
-   - Устанавливаются атрибуты класса:
-     - `url`: URL API (`https://www.whiterabbitneo.com`).
-     - `working`: Флаг, указывающий, что провайдер работает (`True`).
-     - `supports_message_history`: Флаг, указывающий, что провайдер поддерживает историю сообщений (`True`).
-     - `needs_auth`: Флаг, указывающий, что провайдер требует аутентификацию (`True`).
-3. **Определение метода `create_async_generator`**:
-   - Определяется асинхронный метод `create_async_generator`, который принимает следующие аргументы:
-     - `model` (str): Модель для генерации ответов.
-     - `messages` (Messages): Список сообщений для отправки.
-     - `cookies` (Cookies, optional): Куки для аутентификации. По умолчанию `None`.
-     - `connector` (BaseConnector, optional): Коннектор для асинхронных запросов. По умолчанию `None`.
-     - `proxy` (str, optional): Прокси-сервер для запросов. По умолчанию `None`.
-     - `**kwargs`: Дополнительные аргументы.
-4. **Получение или установка куки**:
-   - Если `cookies` не предоставлены, они получаются с помощью `get_cookies("www.whiterabbitneo.com")`.
-5. **Определение заголовков**:
-   - Определяются заголовки для HTTP-запроса, включая `User-Agent`, `Accept`, `Accept-Language`, `Accept-Encoding`, `Referer`, `Content-Type`, `Origin`, `Connection`, `Sec-Fetch-Dest`, `Sec-Fetch-Mode`, `Sec-Fetch-Site`, `TE`.
-6. **Создание асинхронной сессии**:
-   - Создается асинхронная сессия `ClientSession` с использованием предоставленных заголовков, куки и коннектора.
-7. **Формирование данных для отправки**:
-   - Формируются данные для отправки в формате JSON, включая `messages`, `id` (случайная строка), `enhancePrompt` (False) и `useFunctions` (False).
-8. **Отправка POST-запроса**:
-   - Отправляется POST-запрос к API (`f"{cls.url}/api/chat"`) с использованием асинхронной сессии, JSON-данных и прокси.
-9. **Обработка ответа**:
-   - Проверяется статус ответа с помощью `raise_for_status(response)`.
-   - Асинхронно итерируются чанки данных из ответа и декодируются, после чего возвращаются через `yield`.
+1. **Инициализация**: Создается экземпляр класса `WhiteRabbitNeo`.
+2. **Авторизация**:  Перед использованием необходимо авторизоваться в сервисе WhiteRabbitNeo, используя cookies. 
+3. **Подготовка запроса**: Создается объект `Messages` с текстом запроса к LLM.
+4. **Отправка запроса**: Метод `create_async_generator` отправляет запрос к API WhiteRabbitNeo с необходимыми параметрами:
+    - `model`: Имя модели LLM.
+    - `messages`: Объект `Messages` с текстом запроса.
+    - `cookies`: Cookies для авторизации в сервисе.
+    - `connector`:  Подключение, используемое для отправки запросов.
+    - `proxy`: Прокси-сервер.
+    - `kwargs`:  Дополнительные параметры.
+5. **Обработка ответа**: Получение ответа от API WhiteRabbitNeo.
+6. **Получение чат-истории**:  Извлекается чат-история, содержащая обмен сообщениями между пользователем и LLM.
 
 Пример использования
 -------------------------
 
 ```python
-from aiohttp import ClientSession
-from src.endpoints.gpt4free.g4f.Provider.needs_auth import WhiteRabbitNeo
-from src.endpoints.gpt4free.g4f import Messages
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.WhiteRabbitNeo import WhiteRabbitNeo
+from hypotez.src.endpoints.gpt4free.g4f.requests.messages import Messages
 
-async def main():
-    model = "default"
-    messages: Messages = [{"role": "user", "content": "Hello, World!"}]
-    cookies = {"cookie_name": "cookie_value"}  # Замените на реальные куки
+# Создание экземпляра класса WhiteRabbitNeo
+provider = WhiteRabbitNeo()
 
-    async for chunk in WhiteRabbitNeo.create_async_generator(model=model, messages=messages, cookies=cookies):
-        print(chunk, end="")
+# Создание объекта Messages с текстом запроса
+messages = Messages(["Привет, как дела?"])
 
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+# Отправка запроса
+async for chunk in provider.create_async_generator(model="gpt-3.5-turbo", messages=messages):
+    # Обработка полученных ответов
+    print(chunk)
+```
+
+**Важно**: 
+- Для корректной работы необходимо иметь авторизацию в сервисе WhiteRabbitNeo, используя cookies.
+- Класс `Messages`  предоставляет возможность  создавать чат-историю, содержащую обмен сообщениями между пользователем и LLM.
+- Метод `create_async_generator` возвращает асинхронный генератор, который  позволяет получать ответы от API WhiteRabbitNeo по частям.

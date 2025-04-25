@@ -1,77 +1,58 @@
-Как использовать этот блок кода
+## Как использовать класс `Hashnode`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет асинхронный провайдер `Hashnode` для взаимодействия с API Hashnode Rix. Он поддерживает модели GPT-3.5 Turbo и позволяет выполнять поисковые запросы различных типов (быстрый, код, веб-поиск). Класс `Hashnode` использует `aiohttp` для асинхронных HTTP-запросов к API Hashnode, чтобы генерировать ответы на основе предоставленных сообщений и поисковых данных.
+Класс `Hashnode` реализует асинхронный генератор, который использует API сайта `hashnode.com` для получения ответов от модели GPT-3.5 Turbo.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация класса `Hashnode`**:
-   - Определяется класс `Hashnode`, наследующийся от `AsyncGeneratorProvider`.
-   - Указывается URL `https://hashnode.com` как базовый для API Hashnode.
-   - Устанавливается флаг `working = False`, который, вероятно, указывает на работоспособность провайдера (требуется актуализация).
-   - Включается поддержка истории сообщений (`supports_message_history = True`) и модели GPT-3.5 Turbo (`supports_gpt_35_turbo = True`).
-   - Инициализируется пустой список `_sources` для хранения результатов поиска.
-
-2. **Метод `create_async_generator`**:
-   - Этот метод является асинхронным генератором, который отправляет запросы к API Hashnode и возвращает чанки данных.
-   - Принимает параметры:
-     - `model` (str): Не используется в коде, но подразумевается для указания используемой модели.
-     - `messages` (Messages): Список сообщений для контекста запроса.
-     - `search_type` (str): Тип поиска (`quick`, `code`, `websearch`). По умолчанию используется `websearch`.
-     - `proxy` (str): URL прокси-сервера для использования.
-     - `**kwargs`: Дополнительные параметры.
-
-3. **Формирование заголовков**:
-   - Создаются HTTP-заголовки для запроса, включающие `User-Agent`, `Accept`, `Referer`, `Content-Type` и другие необходимые параметры.
-
-4. **Создание асинхронной сессии**:
-   - Используется `aiohttp.ClientSession` для выполнения асинхронных HTTP-запросов.
-
-5. **Подготовка данных для запроса**:
-   - Извлекается последний элемент из списка `messages` и берется его содержимое (`content`) в качестве `prompt`.
-   - Очищается список `cls._sources`.
-
-6. **Выполнение поискового запроса (если `search_type == "websearch"`):**
-   - Отправляется POST-запрос к `f"{cls.url}/api/ai/rix/search"` с параметром `prompt`.
-   - Извлекаются результаты поиска из JSON-ответа и сохраняются в `cls._sources`.
-
-7. **Формирование данных для запроса на завершение**:
-   - Создается словарь `data`, включающий:
-     - `chatId`: Случайный шестнадцатеричный идентификатор, полученный с помощью `get_random_hex()`.
-     - `history`: Список сообщений `messages`.
-     - `prompt`: Текст запроса.
-     - `searchType`: Тип поиска.
-     - `urlToScan`: Всегда `None`.
-     - `searchResults`: Результаты поиска `cls._sources`.
-
-8. **Отправка запроса на завершение**:
-   - Отправляется POST-запрос к `f"{cls.url}/api/ai/rix/completion"` с данными `data`.
-   - Полученные чанки данных из ответа декодируются и генерируются через `yield`.
-
-9. **Метод `get_sources`**:
-   - Возвращает список источников (источники поиска) в формате словарей, содержащих `title` и `url` для каждого источника.
+1. **Инициализация генератора**: Вызывается метод `Hashnode.create_async_generator`, который создает асинхронный генератор. Метод принимает в качестве аргументов:
+    - `model`: Имя модели (например, `gpt-3.5-turbo`).
+    - `messages`: Список сообщений в истории диалога.
+    - `search_type`: Тип поиска (по умолчанию `SearchTypes.websearch`).
+    - `proxy`: Прокси-сервер (необязательно).
+2. **Инициализация заголовков запроса**: Создается словарь `headers` с необходимыми заголовками для запроса к API `hashnode.com`.
+3. **Инициализация `prompt`**: Извлекается текст последнего сообщения из списка `messages`.
+4. **Поиск в интернете (при необходимости)**:
+    - Если `search_type` равен `SearchTypes.websearch`, отправляется POST-запрос к `https://hashnode.com/api/ai/rix/search` с текстом `prompt`.
+    - Полученный ответ преобразуется в JSON и сохраняется в атрибуте `cls._sources`.
+5. **Отправка запроса на генерацию текста**:
+    - Формируется словарь `data`, содержащий информацию о чате, истории сообщений, тексте `prompt`, типе поиска и результатах поиска (если они были).
+    - Отправляется POST-запрос к `https://hashnode.com/api/ai/rix/completion` с JSON-данными из `data`.
+6. **Получение ответа**: 
+    - Генератор последовательно выдает полученные от API данные в виде отдельных кусков текста.
+7. **Получение источников (при наличии)**:
+    -  Метод `Hashnode.get_sources()` возвращает список источников, полученных в процессе поиска (если он был запущен).
 
 Пример использования
 -------------------------
-
 ```python
-from src.endpoints.gpt4free.g4f.Provider.deprecated import Hashnode
-from src.endpoints.gpt4free.g4f.Provider.deprecated.Hashnode import SearchTypes
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Hashnode import Hashnode, SearchTypes
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Hashnode import Messages
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Hashnode import AsyncResult
 
 async def main():
-    messages = [{"role": "user", "content": "What is the capital of France?"}]
+    messages: Messages = [
+        {"role": "user", "content": "Привет, как дела?"},
+        {"role": "assistant", "content": "Хорошо, а у тебя?"},
+    ]
     async for chunk in Hashnode.create_async_generator(
-        model="gpt-3.5-turbo", 
+        model='gpt-3.5-turbo',
         messages=messages,
         search_type=SearchTypes.websearch
     ):
-        print(chunk, end="")
+        print(chunk, end='')
 
-    sources = Hashnode.get_sources()
-    print(f"\nSources: {sources}")
+    print(Hashnode.get_sources())
 
 if __name__ == "__main__":
     import asyncio
     asyncio.run(main())
+```
+
+**Важные замечания**:
+- Данный фрагмент кода использует API сайта `hashnode.com` для получения ответов от модели GPT-3.5 Turbo.
+- Метод `Hashnode.create_async_generator` создает асинхронный генератор, который последовательно выдает полученные от API данные в виде отдельных кусков текста.
+- Метод `Hashnode.get_sources` возвращает список источников, полученных в процессе поиска (если он был запущен).
+- Класс `Hashnode` помечен как `deprecated`, что означает, что он может быть устаревшим и не рекомендуется к использованию в новых проектах.

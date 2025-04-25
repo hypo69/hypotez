@@ -1,114 +1,42 @@
-### Как использовать блок кода `ThebApi`
+## Как использовать блок кода ThebApi
 =========================================================================================
 
 Описание
 -------------------------
-Класс `ThebApi` является частью модуля `g4f.Provider` и предназначен для взаимодействия с API сервиса TheB.AI. Он наследуется от класса `OpenaiTemplate` и предоставляет методы для создания асинхронных генераторов на основе моделей, поддерживаемых TheB.AI. Класс определяет URL, базовый URL API, необходимость аутентификации, а также список поддерживаемых моделей.
+Этот блок кода определяет класс `ThebApi`, который реализует API для TheB.AI, предоставляющего доступ к различным языковым моделям. 
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются классы `CreateResult` и `Messages` из модуля `...typing`.
-   - Импортируются функции `filter_none` из модуля `..helper` и `OpenaiTemplate` из модуля `..template`.
-
-2. **Определение словаря моделей**:
-   - Создается словарь `models`, который содержит соответствия между именами моделей, используемыми в коде, и их отображаемыми названиями на сервисе TheB.AI.
-     ```python
-     models = {
-         "theb-ai": "TheB.AI",
-         "gpt-3.5-turbo": "GPT-3.5",
-         "gpt-4-turbo": "GPT-4 Turbo",
-         "gpt-4": "GPT-4",
-         "claude-3.5-sonnet": "Claude",
-         "llama-2-7b-chat": "Llama 2 7B",
-         "llama-2-13b-chat": "Llama 2 13B",
-         "llama-2-70b-chat": "Llama 2 70B",
-         "code-llama-7b": "Code Llama 7B",
-         "code-llama-13b": "Code Llama 13B",
-         "code-llama-34b": "Code Llama 34B",
-         "qwen-2-72b": "Qwen"
-     }
-     ```
-
-3. **Определение класса `ThebApi`**:
-   - Класс `ThebApi` наследуется от `OpenaiTemplate` и определяет атрибуты, специфичные для TheB.AI API:
-     ```python
-     class ThebApi(OpenaiTemplate):
-         label = "TheB.AI API"
-         url = "https://theb.ai"
-         login_url = "https://beta.theb.ai/home"
-         api_base = "https://api.theb.ai/v1"
-         working = True
-         needs_auth = True
-
-         default_model = "theb-ai"
-         fallback_models = list(models)
-     ```
-     - `label`: Отображаемое название API.
-     - `url`: URL сервиса TheB.AI.
-     - `login_url`: URL для входа в сервис.
-     - `api_base`: Базовый URL API TheB.AI.
-     - `working`: Указывает, что API в рабочем состоянии.
-     - `needs_auth`: Указывает, что для работы с API требуется аутентификация.
-     - `default_model`: Модель, используемая по умолчанию.
-     - `fallback_models`: Список моделей, которые могут быть использованы в качестве запасных.
-
-4. **Определение метода `create_async_generator`**:
-   - Метод `create_async_generator` создает асинхронный генератор для получения ответов от API TheB.AI.
-     ```python
-     @classmethod
-     def create_async_generator(
-         cls,
-         model: str,
-         messages: Messages,
-         temperature: float = None,
-         top_p: float = None,
-         **kwargs
-     ) -> CreateResult:
-         system_message = "\\n".join([message["content"] for message in messages if message["role"] == "system"])
-         messages = [message for message in messages if message["role"] != "system"]
-         data = {
-             "model_params": filter_none(
-                 system_prompt=system_message,
-                 temperature=temperature,
-                 top_p=top_p,
-             )
-         }
-         return super().create_async_generator(model, messages, extra_data=data, **kwargs)
-     ```
-     - `model`: Имя модели, которую необходимо использовать.
-     - `messages`: Список сообщений для отправки в API.
-     - `temperature`: Параметр температуры для управления случайностью генерации.
-     - `top_p`: Параметр `top_p` для управления разнообразием генерации.
-     - `system_message`: Извлекается системное сообщение из списка сообщений.
-     - `messages`: Оставляются только сообщения, не являющиеся системными.
-     - `data`: Формируется словарь данных для отправки в API, включающий параметры модели.
-     - Вызывается метод `create_async_generator` родительского класса `OpenaiTemplate` с передачей необходимых параметров.
+1. **Определение класса `ThebApi`**: Класс наследует `OpenaiTemplate` и предоставляет информацию о TheB.AI API, такую как базовый URL, URL для входа, модель по умолчанию, доступные модели и информацию о необходимости авторизации.
+2. **Создание асинхронного генератора `create_async_generator`**: Метод класса, который создает асинхронный генератор для взаимодействия с TheB.AI API.
+    - Метод принимает параметры `model` (имя модели), `messages` (список сообщений для чата), `temperature`, `top_p` и другие.
+    - Он извлекает системные сообщения из `messages` и создает словарь `data`, который содержит параметры модели, такие как `system_prompt`, `temperature`, `top_p`.
+    - Метод вызовет суперкласс `create_async_generator` с `model`, `messages`, `extra_data` (словарь `data`) и другими параметрами.
 
 Пример использования
 -------------------------
 
 ```python
- from g4f.Provider.needs_auth import ThebApi
- from g4f.typing import Message
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.ThebApi import ThebApi
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.models import Models
 
- # Создание экземпляра класса ThebApi
- theb_api = ThebApi()
+messages = [
+    {"role": "system", "content": "Ты - дружелюбный помощник."},
+    {"role": "user", "content": "Привет! Как дела?"}
+]
 
- # Определение списка сообщений
- messages: list[Message] = [
-     {"role": "system", "content": "You are a helpful assistant."},
-     {"role": "user", "content": "What is the capital of France?"}
- ]
+# Инициализация ThebApi с моделью "theb-ai"
+theb_api = ThebApi(model="theb-ai")
 
- # Вызов метода create_async_generator для получения асинхронного генератора
- generator = theb_api.create_async_generator(
-     model="theb-ai",
-     messages=messages,
-     temperature=0.7,
-     top_p=0.9
- )
+# Создание асинхронного генератора с использованием метода `create_async_generator`
+async_generator = theb_api.create_async_generator(model="theb-ai", messages=messages, temperature=0.7)
 
- # Асинхронный перебор генератора для получения ответов
- async for response in generator:
-     print(response)
+# Получение результатов из генератора
+async for response in async_generator:
+    print(f"Ответ модели: {response['content']}")
+```
+
+**Важно**: 
+- Для использования API необходимо пройти авторизацию.
+-  Используйте `models.Models` для получения списка доступных моделей. 
+- `temperature` и `top_p`  - параметры, влияющие на творчество и разнообразие ответа.

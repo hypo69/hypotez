@@ -1,64 +1,48 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Данный код определяет класс `Yqcloud`, который является асинхронным провайдером для работы с языковой моделью, размещенной на `chat9.yqcloud.top`. Он позволяет отправлять запросы к API `api.binjie.fun` для генерации текста в потоковом режиме. Класс поддерживает системные сообщения и историю сообщений, что позволяет вести контекстные диалоги.
+Этот блок кода представляет класс `Yqcloud`, который реализует асинхронный генератор для получения ответов от модели GPT-4 через API Yqcloud. 
 
 Шаги выполнения
 -------------------------
-1. **Определение класса `Conversation`**:
-   - Создается класс `Conversation` для хранения истории сообщений и идентификатора пользователя.
-   - При инициализации класса устанавливается модель и генерируется уникальный `userId` на основе текущего времени.
-
-2. **Определение класса `Yqcloud`**:
-   - Класс `Yqcloud` наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`.
-   - Устанавливаются базовые атрибуты, такие как `url`, `api_endpoint`, `working`, `supports_stream`, `supports_system_message`, `supports_message_history`, `default_model` и `models`.
-
-3. **Метод `create_async_generator`**:
-   - Принимает параметры: `model` (языковая модель), `messages` (список сообщений), `stream` (флаг потоковой передачи), `proxy` (прокси-сервер), `conversation` (объект `Conversation`) и `return_conversation` (флаг возврата объекта `Conversation`).
-   - Извлекает модель с помощью `cls.get_model(model)`.
-   - Формирует заголовки запроса (`headers`), включая `origin` и `referer` на основе `cls.url`.
-   - Если объект `conversation` не передан, создает новый объект `Conversation` и инициализирует его историю сообщений. В противном случае добавляет последнее сообщение в историю.
-
-4. **Обработка системного сообщения**:
-   - Извлекает системное сообщение из истории сообщений, если оно присутствует.
-   - Если первое сообщение имеет роль "system", то его содержимое сохраняется в `system_message`, и это сообщение удаляется из текущего списка сообщений.
-
-5. **Формирование запроса и отправка данных**:
-   - Использует `aiohttp.ClientSession` для выполнения асинхронных HTTP-запросов.
-   - Форматирует запрос с помощью `format_prompt(current_messages)`.
-   - Формирует данные запроса (`data`), включая `prompt`, `userId`, `network`, `system`, `withoutContext` и `stream`.
-   - Отправляет POST-запрос к `cls.api_endpoint` с использованием `session.post`.
-
-6. **Обработка потокового ответа**:
-   - Обрабатывает ответ от API в потоковом режиме.
-   - Для каждого чанка данных декодирует его и передает через `yield message`.
-   - Собирает все чанки в `full_message`.
-
-7. **Возврат объекта `Conversation` и сигнала остановки**:
-   - Если `return_conversation` установлен в `True`, добавляет сообщение от ассистента в историю сообщений и возвращает объект `conversation`.
-   - В конце возвращает `FinishReason("stop")`, чтобы указать на завершение генерации.
+1. **Инициализация**: Создается экземпляр класса `Yqcloud` с указанием модели (например, `Yqcloud(model='gpt-4')`).
+2. **Создание асинхронного генератора**: Вызывается метод `create_async_generator` для получения асинхронного генератора. 
+3. **Настройка генератора**: В метод `create_async_generator` передаются параметры:
+    - `model`: Имя модели (например, `gpt-4`).
+    - `messages`: Список сообщений в диалоге.
+    - `stream`: Флаг, указывающий, следует ли использовать потоковую обработку (по умолчанию `True`).
+    - `proxy`: Прокси-сервер (необязательно).
+    - `conversation`: Объект `Conversation`, хранящий информацию о диалоге (необязательно).
+    - `return_conversation`: Флаг, указывающий, следует ли возвращать обновленный объект `Conversation` (необязательно).
+4. **Получение ответа**: Асинхронный генератор  выдает фрагменты текста по мере их получения от API Yqcloud.
+5. **Завершение**: Генератор завершает работу, когда модель GPT-4 заканчивает генерировать текст, и выдает событие `FinishReason`.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.Yqcloud import Yqcloud, Conversation
-from src.endpoints.gpt4free.g4f.typing import Messages
-import asyncio
+from hypotez.src.endpoints.gpt4free.g4f.Provider.Yqcloud import Yqcloud, Conversation, Messages
 
 async def main():
-    model = "gpt-4"
-    messages: Messages = [
-        {"role": "user", "content": "Привет, как дела?"}
-    ]
-    
-    async for message in Yqcloud.create_async_generator(model=model, messages=messages, stream=True, return_conversation=True):
-        if isinstance(message, Conversation):
-            print(f"Conversation: {message.message_history}")
-        else:
-            print(f"Message: {message}")
+    # Создаем экземпляр класса Yqcloud
+    provider = Yqcloud(model='gpt-4')
 
-if __name__ == "__main__":
+    # Создаем список сообщений
+    messages: Messages = [
+        {"role": "user", "content": "Привет! Как дела?"},
+        {"role": "assistant", "content": "Привет! У меня все хорошо, а у тебя?"},
+    ]
+
+    # Получаем асинхронный генератор
+    async for chunk in provider.create_async_generator(model='gpt-4', messages=messages):
+        print(chunk, end='')
+
+    # Выводим завершающее событие
+    print(f"Finish reason: {chunk}")
+
+if __name__ == '__main__':
+    import asyncio
     asyncio.run(main())
+```

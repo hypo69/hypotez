@@ -32,6 +32,8 @@ from typing import Optional, List, Dict
 
 from pykeepass import PyKeePass
 
+import header
+from header import __root__
 #from src.check_release import check_latest_release
 from src.logger.logger import logger
 from src.logger.exceptions import (
@@ -44,29 +46,9 @@ from src.logger.exceptions import (
 )
 
 from src.utils.jjson import j_loads, j_loads_ns
+from src.utils.printer import pprint as print
 
-def set_project_root(marker_files=('__root__','.git')) -> Path:
-    """
-    Finds the root directory of the project starting from the current file's directory,
-    searching upwards and stopping at the first directory containing any of the marker files.
-    
 
-    Args:
-        marker_files (tuple): Filenames or directory names to identify the project root.
-    
-    Returns:
-        Path: Path to the root directory if found, otherwise the directory where the script is located.
-    """
-    __root__:Path
-    current_path:Path = Path(__file__).resolve().parent
-    __root__ = current_path
-    for parent in [current_path] + list(current_path.parents):
-        if any((parent / marker).exists() for marker in marker_files):
-            __root__ = parent
-            break
-    if __root__ not in sys.path:
-        sys.path.insert(0, str(__root__))
-    return __root__
 
 def singleton(cls):
     """Декоратор для реализации Singleton."""
@@ -88,8 +70,6 @@ class ProgramSettings:
     Синглтон, хранящий основные параметры и настройки проекта.
     """
     host_name:str = field(default_factory=lambda: socket.gethostname())
-    
-    base_dir: Path = field(default_factory=lambda: set_project_root())
     config: SimpleNamespace = field(default_factory=lambda: SimpleNamespace())
     credentials: SimpleNamespace = field(default_factory=lambda: SimpleNamespace(
         aliexpress=SimpleNamespace(
@@ -162,30 +142,30 @@ class ProgramSettings:
 
     def __post_init__(self):
         """Выполняет инициализацию после создания экземпляра класса."""
-        self.config = j_loads_ns(self.base_dir / 'src' / 'config.json')
+        self.config = j_loads_ns(__root__ / 'src' / 'config.json')
         if not self.config:
             logger.error('Ошибка при загрузке настроек')
             ...
             sys.exit()
         self.config.timestamp_format = getattr(self.config, 'timestamp_format', '%y_%m_%d_%H_%M_%S_%f')
-        self.config.project_name = self.base_dir.name
+        self.config.project_name = __root__.name
         self.host = getattr( self.config,'host', '0.0.0.0')
         self.git = getattr( self.config,'git', 'hypo') 
         self.git_user = getattr( self.config,'git_user', 'hypo69')
         self.current_release = getattr( self.config,'current_release', '')
         self.path:SimpleNamespace = SimpleNamespace(
-            root = Path(self.base_dir),
-            bin = Path(self.base_dir / 'bin'), # <- тут бинарники (chrome, firefox, ffmpeg, ...)
-            src = Path(self.base_dir) / 'src', # <- тут весь код
-            endpoints = Path(self.base_dir) / 'src' / 'endpoints', # <- тут все клиенты
-            secrets = Path(self.base_dir / 'secrets'),  # <- это папка с паролями и базой данных ! Ей нельзя попадать в гит!!!
+            root = Path(__root__),
+            bin = Path(__root__ / 'bin'), # <- тут бинарники (chrome, firefox, ffmpeg, ...)
+            src = Path(__root__) / 'src', # <- тут весь код
+            endpoints = Path(__root__) / 'src' / 'endpoints', # <- тут все клиенты
+            secrets = Path(__root__ / 'secrets'),  # <- это папка с паролями и базой данных ! Ей нельзя попадать в гит!!!
 
-            toolbox = Path(self.base_dir / 'toolbox'), # <- служебные утилиты
-            log = Path( getattr(self.config.path, 'log', self.base_dir / 'log')), 
-            tmp = Path( getattr(self.config.path, 'tmp', self.base_dir / 'tmp')),
-            data = Path( getattr(self.config.path, 'data', self.base_dir / 'data')), # <- дата от endpoints (hypo69, kazarinov, prestashop, etc ...)
-            google_drive = Path( getattr(self.config.path, 'google_drive', self.base_dir / 'google_drive')), # <- GOOGLE DRIVE ЧЕРЕЗ ЛОКАЛЬНЫЙ ДИСК (NOT API) 
-            external_storage = Path(getattr(self.config.path, 'external_storage',  self.base_dir / 'external_storage') ), # <- Внешний диск 
+            toolbox = Path(__root__ / 'toolbox'), # <- служебные утилиты
+            log = Path( getattr(self.config.path, 'log', __root__ / 'log')), 
+            tmp = Path( getattr(self.config.path, 'tmp', __root__ / 'tmp')),
+            data = Path( getattr(self.config.path, 'data', __root__ / 'data')), # <- дата от endpoints (hypo69, kazarinov, prestashop, etc ...)
+            google_drive = Path( getattr(self.config.path, 'google_drive', __root__ / 'google_drive')), # <- GOOGLE DRIVE ЧЕРЕЗ ЛОКАЛЬНЫЙ ДИСК (NOT API) 
+            external_storage = Path(getattr(self.config.path, 'external_storage',  __root__ / 'external_storage') ), # <- Внешний диск 
         )
 
 
@@ -193,11 +173,11 @@ class ProgramSettings:
     
         # Paths to bin directories
         gtk_bin_dir = self.path.bin  / 'gtk' / 'gtk-nsis-pack' / 'bin'
-        ffmpeg_bin_dir = self.base_dir  / 'bin' / 'ffmpeg' / 'bin'
-        graphviz_bin_dir = self.base_dir  / 'bin' / 'graphviz' / 'bin'
-        wkhtmltopdf_bin_dir = self.base_dir  / 'bin' / 'wkhtmltopdf' / 'files' / 'bin'
+        ffmpeg_bin_dir = __root__  / 'bin' / 'ffmpeg' / 'bin'
+        graphviz_bin_dir = __root__  / 'bin' / 'graphviz' / 'bin'
+        wkhtmltopdf_bin_dir = __root__  / 'bin' / 'wkhtmltopdf' / 'files' / 'bin'
 
-        for bin_path in [self.base_dir, gtk_bin_dir, ffmpeg_bin_dir, graphviz_bin_dir, wkhtmltopdf_bin_dir]:
+        for bin_path in [__root__, gtk_bin_dir, ffmpeg_bin_dir, graphviz_bin_dir, wkhtmltopdf_bin_dir]:
             if bin_path not in sys.path:
                 sys.path.insert(0, str(bin_path))  # <- определяю пути к бунарникам в системных путях
 
@@ -253,24 +233,35 @@ class ProgramSettings:
         Args:
             retry (int): Number of retries
         """
+        password:str = ''
         while retry > 0:
             try:
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG ~~~~~~~ ⚠️ ФАЙЛ ПАРОЛЯ В ОТКРЫТОМ ВИДЕ ⚠️ ~~~~~~~~~~~~~~~~~~~~~~~
-                password:str = Path( self.path.google_drive / '..' / 'secrets' / 'password.txt').read_text(encoding="utf-8") or None
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG ~~~~~~~ ⚠️ ФАЙЛ ПАРОЛЯ В ОТКРЫТОМ ВИДЕ ⚠️ ~~~~~~~~~~~~~~~~~~~~~~~
+                password = Path( self.path.secrets / 'password.txt').read_text(encoding="utf-8") or None
                 """password: содержит строку пароля в ⚠️ открытом ⚠️ виде. Можно удалить или сам файл или вытереть его содржимое """
-                
-                kp = PyKeePass(str(self.path.secrets / 'credentials.kdbx'), 
-                               password = password or getpass.getpass(print('🔐 Enter KeePass master password: ').lower()))
-               
-                return kp
             except Exception as ex:
-                print(f"😔 Failed to open KeePass database Exception: {ex}\n {retry-1} retries left.")
+                print(f"😔 Failed to find password file: {ex}\n {retry-1} retries left.") 
                 ...
-                retry -= 1
-                if retry < 1:
-                    logger.critical('🚨 Failed to open KeePass database after multiple attempts', None, False)
+
+                try:
+                    prompt_message = '🔐 Enter KeePass master password: '
+                    password = getpass.getpass(prompt=prompt_message)
                     ...
-                    sys.exit()
+                    kp = PyKeePass(str(self.path.secrets / 'credentials.kdbx'), 
+                                       password = password )
+               
+                    return kp
+                except Exception as ex:
+                    print(f"😔 Failed to open KeePass database Exception: {ex}\n {retry-1} retries left.")
+                    ...
+                    retry -= 1
+                    if retry < 1:
+                        logger.critical('🚨 Failed to open KeePass database after multiple attempts', None, False)
+                        ...
+                        sys.exit()
+                    else:
+                        self._open_kp(retry - 1)
+
 
     # Define methods for loading various credentials
     def _load_aliexpress_credentials(self, kp: PyKeePass) -> bool:

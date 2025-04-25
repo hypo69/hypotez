@@ -1,86 +1,57 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода определяет различные классы и функции, предназначенные для обработки и форматирования ответов от различных сервисов, особенно в контексте работы с медиа-контентом, URL-адресами и текстом. Он включает в себя функции для квотирования URL-адресов и заголовков, форматирования ссылок и изображений в Markdown, а также классы для представления различных типов ответов, таких как JSON, скрытые ответы, сообщения о завершении, вызовы инструментов, использование, результаты аутентификации, заголовки, отладочные сообщения, рассуждения, источники, YouTube-видео, аудио, базовые и JSON-беседы, синтезированные данные, предлагаемые последующие действия, запросы на вход, медиа-ответы, ответы изображений, видео-ответы, превью изображений, ответы превью, параметры и информацию о провайдере.
+Данный блок кода предоставляет набор функций для форматирования текста и URL-адресов в виде Markdown, а также несколько классов для представления различных типов ответов от API. 
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются различные модули, такие как `re`, `base64`, `typing`, `abc`, и `urllib.parse`.
-
-2. **Определение функций для обработки URL и текста**:
-   - `quote_url(url: str) -> str`: Экранирует части URL, сохраняя структуру домена. Функция проверяет, есть ли символы `%` в URL, и если есть, то сначала убирает экранирование, чтобы избежать двойного экранирования. Затем разделяет URL на части (протокол и остальная часть), экранирует только путь, сохраняя протокол и домен.
-   - `quote_title(title: str) -> str`: Нормализует пробелы в заголовке, заменяя множественные пробелы на одинарные.
-   - `format_link(url: str, title: Optional[str] = None) -> str`: Форматирует URL и заголовок как ссылку в Markdown. Если заголовок не указан, пытается извлечь его из URL.
-   - `format_image(image: str, alt: str, preview: Optional[str] = None) -> str`: Форматирует изображение как строку в Markdown, используя URL изображения, альтернативный текст и URL превью (если указан).
-   - `format_images_markdown(images: Union[str, List[str]], alt: str, preview: Union[str, List[str]] = None) -> str`: Форматирует одно или несколько изображений как строку в Markdown.
-
-3. **Определение базовых классов для представления ответов**:
-   - `ResponseType`: Абстрактный базовый класс для всех типов ответов. Определяет абстрактный метод `__str__`, который должен возвращать строковое представление ответа.
-   - `JsonMixin`: Класс, предоставляющий функциональность для работы с JSON. Позволяет инициализировать объект с помощью именованных аргументов и преобразовывать объект в словарь.
-   - `RawResponse(ResponseType, JsonMixin)`: Пустой класс для представления необработанных ответов.
-   - `HiddenResponse(ResponseType)`: Базовый класс для скрытых ответов, возвращает пустую строку при преобразовании в строку.
-   - `FinishReason(JsonMixin, HiddenResponse)`: Класс для представления причины завершения запроса.
-   - `ToolCalls(HiddenResponse)`: Класс для представления вызовов инструментов.
-   - `Usage(JsonMixin, HiddenResponse)`: Класс для представления информации об использовании ресурсов.
-   - `AuthResult(JsonMixin, HiddenResponse)`: Класс для представления результатов аутентификации.
-   - `TitleGeneration(HiddenResponse)`: Класс для представления сгенерированного заголовка.
-   - `DebugResponse(HiddenResponse)`: Класс для представления отладочных сообщений.
-   - `Reasoning(ResponseType)`: Класс для представления рассуждений, включает токен, статус и состояние "размышления".
-   - `Sources(ResponseType)`: Класс для представления источников, включает список URL-адресов и заголовков.
-   - `YouTube(HiddenResponse)`: Класс для представления YouTube-видео, включает список идентификаторов видео.
-   - `AudioResponse(ResponseType)`: Класс для представления аудиоданных, позволяет преобразовать данные в URI.
-   - `BaseConversation(ResponseType)`: Базовый класс для представлений бесед.
-   - `JsonConversation(BaseConversation, JsonMixin)`: Класс для представления бесед в формате JSON.
-   - `SynthesizeData(HiddenResponse, JsonMixin)`: Класс для представления синтезированных данных.
-   - `SuggestedFollowups(HiddenResponse)`: Класс для представления предложенных последующих действий.
-   - `RequestLogin(HiddenResponse)`: Класс для представления запроса на вход в систему.
-   - `MediaResponse(ResponseType)`: Базовый класс для медиа-ответов, включает URL-адреса и альтернативный текст.
-   - `ImageResponse(MediaResponse)`: Класс для представления ответов изображений.
-   - `VideoResponse(MediaResponse)`: Класс для представления ответов видео.
-   - `ImagePreview(ImageResponse)`: Класс для предварительного просмотра изображений.
-   - `PreviewResponse(HiddenResponse)`: Класс для представления ответов предварительного просмотра.
-   - `Parameters(ResponseType, JsonMixin)`: Класс для представления параметров.
-   - `ProviderInfo(JsonMixin, HiddenResponse)`: Класс для представления информации о провайдере.
+1. **`quote_url(url: str)`**: Функция принимает URL-адрес в качестве аргумента и возвращает его, закодированный для безопасного использования в Markdown. 
+    - Она разделят URL-адрес на протокол, домен и путь.
+    - Если URL-адрес является относительным, она кодирует весь URL-адрес.
+    - Если URL-адрес является абсолютным, она кодирует только путь.
+2. **`quote_title(title: str)`**: Функция принимает заголовок в качестве аргумента и возвращает его с нормализованными пробелами. 
+    - Она заменяет несколько пробелов одним.
+3. **`format_link(url: str, title: Optional[str] = None)`**:  Функция принимает URL-адрес и необязательный заголовок в качестве аргументов и возвращает их отформатированными как Markdown-ссылка. 
+    - Она использует `quote_url` и `quote_title` для кодирования URL-адреса и заголовка.
+4. **`format_image(image: str, alt: str, preview: Optional[str] = None)`**: Функция форматирует изображение как Markdown-код.
+    - Она принимает URL изображения, альтернативный текст (alt) и необязательный URL для предварительного просмотра.
+    - Она использует `quote_url` для кодирования URL-адресов.
+5. **`format_images_markdown(images: Union[str, List[str]], alt: str, preview: Union[str, List[str]] = None)`**: Функция форматирует изображение или список изображений как Markdown-код.
+    - Она принимает URL изображения или список URL-адресов, альтернативный текст (alt) и необязательный URL для предварительного просмотра или список URL-адресов для предварительного просмотра.
+    - Она использует `format_image` для форматирования каждого изображения.
+6. **Классы `ResponseType`, `JsonMixin`, `RawResponse`**:  Эти классы используются для представления различных типов ответов от API.
+    - `ResponseType` - базовый класс для всех типов ответов.
+    - `JsonMixin` - класс для сериализации объектов в JSON.
+    - `RawResponse` - класс для представления необработанных ответов.
+7. **`FinishReason`, `ToolCalls`, `Usage`, `AuthResult`, `TitleGeneration`, `DebugResponse`, `Reasoning`, `Sources`, `YouTube`, `AudioResponse`, `BaseConversation`, `JsonConversation`, `SynthesizeData`, `SuggestedFollowups`, `RequestLogin`, `MediaResponse`, `ImageResponse`, `VideoResponse`, `ImagePreview`, `PreviewResponse`, `Parameters`, `ProviderInfo`**:  Эти классы реализуют конкретные типы ответов.
 
 Пример использования
 -------------------------
-
 ```python
-from typing import List, Dict, Optional
+from hypotez.src.endpoints.gpt4free.g4f.providers.response import format_link, format_image, format_images_markdown
 
-# Пример использования функций форматирования URL и текста
-url = "https://www.example.com/path?param1=value1&param2=value2"
-title = "Example Title with  multiple   spaces"
-formatted_link = format_link(url, title)
-print(f"Formatted link: {formatted_link}")
+# Форматирование ссылки
+url = "https://example.com/article"
+title = "Пример статьи"
+link = format_link(url, title)
+print(link)  # Вывод: [Пример статьи](https://example.com/article)
 
-image_url = "https://www.example.com/image.jpg"
-alt_text = "Example Image"
-formatted_image = format_image(image_url, alt_text)
-print(f"Formatted image: {formatted_image}")
+# Форматирование изображения
+image_url = "https://example.com/image.jpg"
+alt_text = "Пример изображения"
+image_markdown = format_image(image_url, alt_text)
+print(image_markdown)  # Вывод: [![Пример изображения](https://example.com/image.jpg)](https://example.com/image.jpg)
 
-images = ["https://www.example.com/image1.jpg", "https://www.example.com/image2.jpg"]
-alt_text = "Example Images"
-formatted_images = format_images_markdown(images, alt_text)
-print(f"Formatted images: {formatted_images}")
+# Форматирование списка изображений
+images = ["https://example.com/image1.jpg", "https://example.com/image2.jpg"]
+alt_text = "Изображение"
+images_markdown = format_images_markdown(images, alt_text)
+print(images_markdown)  # Вывод: 
+# <!-- generated images start -->
+# [![#1 Изображение](https://example.com/image1.jpg)](https://example.com/image1.jpg)
+# [![#2 Изображение](https://example.com/image2.jpg)](https://example.com/image2.jpg)
+# <!-- generated images end -->
 
-# Пример использования классов для представления ответов
-from typing import List
-
-sources: List[Dict[str, str]] = [{"url": "https://www.example.com/source1", "title": "Source 1"}, {"url": "https://www.example.com/source2", "title": "Source 2"}]
-sources_response = Sources(sources)
-print(f"Sources response: {sources_response}")
-
-youtube_ids: List[str] = ["video_id_1", "video_id_2"]
-youtube_response = YouTube(youtube_ids)
-print(f"YouTube response: {youtube_response.to_string()}")
-
-audio_data = b"audio data bytes"
-audio_response = AudioResponse(audio_data)
-print(f"Audio response: {audio_response}")
-
-image_response = ImageResponse(urls=["https://example.com/image1.jpg", "https://example.com/image2.jpg"], alt="Example Images", options={"preview": "https://example.com/preview/{image}"})
-print(f"Image response: {image_response}")
+```

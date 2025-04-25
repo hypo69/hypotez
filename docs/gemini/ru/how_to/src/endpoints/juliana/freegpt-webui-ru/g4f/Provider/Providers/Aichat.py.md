@@ -1,70 +1,57 @@
-Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет поставщика `Aichat` для работы с API `chat-gpt.org`. Он содержит функцию `_create_completion`, которая отправляет запрос к API и возвращает ответ.
+Этот код представляет собой провайдер для использования с моделью GPT, реализованной в проекте FreeGPT.  Он взаимодействует с API  `chat-gpt.org` для отправки запросов и получения ответов от модели GPT-3.5-turbo. 
 
 Шаги выполнения
 -------------------------
-1. **Подготовка заголовков**:
-   - Определяются необходимые HTTP-заголовки для запроса к API. Эти заголовки имитируют запрос из браузера.
-2. **Формирование JSON-данных**:
-   - Создается JSON-структура с сообщением (`message`), температурой (`temperature`) и другими параметрами для запроса. Сообщение формируется путем объединения ролей и содержимого всех сообщений в списке.
-3. **Отправка POST-запроса**:
-   - Функция отправляет POST-запрос к `https://chat-gpt.org/api/text` с указанными заголовками и JSON-данными.
-4. **Обработка ответа**:
-   - Извлекается сообщение из JSON-ответа и возвращается как генератор.
+1. **Импорт необходимых модулей:** 
+    - `os` для работы с файловой системой.
+    - `requests` для отправки HTTP-запросов.
+    - `...typing` для типов данных.
+2. **Определение констант:** 
+    - `url`: URL API, к которому отправляются запросы.
+    - `model`: Список поддерживаемых моделей GPT (в данном случае, только `gpt-3.5-turbo`).
+    - `supports_stream`: Определяет, поддерживает ли провайдер потоковую передачу ответов (в данном случае, нет).
+    - `needs_auth`: Определяет, требуется ли авторизация для использования провайдера (в данном случае, нет).
+3. **Определение функции `_create_completion`:**
+    - Функция принимает на вход:
+        - `model`: Имя модели GPT.
+        - `messages`: Список сообщений в истории чата.
+        - `stream`: Определяет, использовать ли потоковую передачу.
+        - `kwargs`: Дополнительные аргументы.
+    - Функция выполняет следующие действия:
+        - Формирует строку `base` из истории чата.
+        - Создает заголовок запроса `headers`.
+        - Собирает данные для запроса в `json_data`.
+        - Отправляет POST-запрос на API `chat-gpt.org/api/text` с помощью `requests.post`.
+        - Возвращает ответ от API (`response.json()['message']`) в виде генератора.
+4. **Определение параметра `params`:**
+    - Строка, которая описывает типы данных, которые функция `_create_completion` принимает на вход.
 
 Пример использования
 -------------------------
 
 ```python
-import os, requests
-from typing import get_type_hints
+from g4f.Provider.Providers import Aichat
 
-url = 'https://chat-gpt.org/chat'
-model = ['gpt-3.5-turbo']
-supports_stream = False
-needs_auth = False
+# Создаем объект провайдера
+provider = Aichat.Aichat()
 
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    base = ''
-    for message in messages:
-        base += '%s: %s\n' % (message['role'], message['content'])
-    base += 'assistant:'
-    
-    headers = {
-        'authority': 'chat-gpt.org',
-        'accept': '*/*',
-        'cache-control': 'no-cache',
-        'content-type': 'application/json',
-        'origin': 'https://chat-gpt.org',
-        'pragma': 'no-cache',
-        'referer': 'https://chat-gpt.org/chat',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36',
-    }
+# Формируем историю чата
+messages = [
+    {"role": "user", "content": "Привет, как дела?"},
+    {"role": "assistant", "content": "Хорошо, а у тебя?"},
+]
 
-    json_data = {
-        'message': base,
-        'temperature': 1,
-        'presence_penalty': 0,
-        'top_p': 1,
-        'frequency_penalty': 0
-    }
-    
-    response = requests.post('https://chat-gpt.org/api/text', headers=headers, json=json_data)
-    yield response.json()['message']
+# Выполняем запрос к API
+response = provider.create_completion(model="gpt-3.5-turbo", messages=messages, stream=False)
 
-# Пример вызова функции
-messages = [{'role': 'user', 'content': 'Hello, how are you?'}]
-for message in _create_completion(model='gpt-3.5-turbo', messages=messages, stream=False):
-    print(message)
+# Получаем ответ от модели
+for part in response:
+    print(part)
+```
 
-params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    '(%s)' % ', '.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
+**Важно:** Обратите внимание, что этот провайдер использует API `chat-gpt.org`, который может иметь ограничения по количеству запросов или доступности.

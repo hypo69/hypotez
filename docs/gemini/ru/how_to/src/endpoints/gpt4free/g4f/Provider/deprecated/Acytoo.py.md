@@ -1,80 +1,49 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Данный код определяет асинхронного провайдера `Acytoo` для взаимодействия с API `chat.acytoo.com`. Он использует `aiohttp` для отправки запросов и получения потоковых ответов, которые затем передаются как асинхронный генератор. Провайдер поддерживает модели `gpt-3.5-turbo` и может работать с историей сообщений.
+Этот блок кода реализует класс `Acytoo`, который представляет собой провайдера для асинхронного взаимодействия с API чат-бота `Acytoo`. Класс `Acytoo`  является подклассом `AsyncGeneratorProvider`, определяющим базовую функциональность для работы с асинхронными генераторами ответов.
+
 
 Шаги выполнения
 -------------------------
-1. **Инициализация**: Создается класс `Acytoo`, который наследуется от `AsyncGeneratorProvider`. Указывается URL (`https://chat.acytoo.com`) и поддерживаемые возможности.
-2. **Создание асинхронного генератора**: Метод `create_async_generator` создает асинхронный генератор, который отправляет POST-запрос к API и возвращает поток данных.
-3. **Создание сессии**: Используется `aiohttp.ClientSession` для управления HTTP-соединением. Заголовки и payload создаются с помощью функций `_create_header` и `_create_payload`.
-4. **Отправка запроса**: POST-запрос отправляется на URL `/api/completions` с использованием `session.post`. При этом используется прокси, если он указан.
-5. **Обработка ответа**: Полученный ответ обрабатывается потоково через `response.content.iter_any()`. Каждый чанк данных декодируется и передается через `yield`, что делает функцию асинхронным генератором.
-6. **Создание заголовков**: Функция `_create_header` создает заголовок для запроса, указывая `accept` и `content-type`.
-7. **Создание payload**: Функция `_create_payload` создает JSON payload с параметрами, такими как модель, сообщения и температура.
+1. **Инициализация класса:**  
+    - Создается экземпляр класса `Acytoo`. 
+    - Задаются базовые параметры: `url`, `working`, `supports_message_history`, `supports_gpt_35_turbo`.
+2. **Создание асинхронного генератора:**
+    - Вызывается метод `create_async_generator` класса `Acytoo`.
+    - Передаются следующие аргументы:
+        - `model`:  имя модели (например, `gpt-3.5-turbo`).
+        - `messages`: список сообщений в формате `Messages`.
+        - `proxy`:  (опционально) прокси для подключения к API.
+        - `kwargs`: дополнительные аргументы (например, `temperature`).
+3. **Отправка запроса к API:**
+    - Создается асинхронный клиент `ClientSession`.
+    - Отправляется POST-запрос на `/api/completions` API `Acytoo`.
+    - Формируется заголовок запроса (`_create_header`).
+    - Формируется JSON-payload запроса (`_create_payload`).
+    - Обрабатываются ошибки (с помощью `response.raise_for_status`).
+4. **Получение ответа в виде потока:**
+    - Используется `response.content.iter_any()` для итерации по потоку ответов.
+    - Декодируется и возвращается каждый полученный блок.
 
 Пример использования
 -------------------------
 
 ```python
-from aiohttp import ClientSession
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Acytoo import Acytoo
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-from ...typing import AsyncResult, Messages
-from ..base_provider import AsyncGeneratorProvider
+# Создание экземпляра класса Acytoo
+acytoo_provider = Acytoo()
 
+# Формирование списка сообщений
+messages: Messages = [
+    {"role": "user", "content": "Привет, как дела?"},
+]
 
-class Acytoo(AsyncGeneratorProvider):
-    url = 'https://chat.acytoo.com'
-    working = False
-    supports_message_history = True
-    supports_gpt_35_turbo = True
-
-    @classmethod
-    async def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        proxy: str = None,
-        **kwargs
-    ) -> AsyncResult:
-        async with ClientSession(
-            headers=_create_header()
-        ) as session:
-            async with session.post(
-                f'{cls.url}/api/completions',
-                proxy=proxy,
-                json=_create_payload(messages, **kwargs)
-            ) as response:
-                response.raise_for_status()
-                async for stream in response.content.iter_any():
-                    if stream:
-                        yield stream.decode()
-
-
-def _create_header():
-    return {
-        'accept': '*/*',
-        'content-type': 'application/json',
-    }
-
-
-def _create_payload(messages: Messages, temperature: float = 0.5, **kwargs):
-    return {
-        'key': '',
-        'model': 'gpt-3.5-turbo',
-        'messages': messages,
-        'temperature': temperature,
-        'password': ''
-    }
-
-# Пример использования:
-async def main():
-    messages = [{"role": "user", "content": "Hello, Acytoo!"}]
-    async for message in Acytoo.create_async_generator(model="gpt-3.5-turbo", messages=messages):
-        print(message, end="")
-
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+# Получение ответа от API Acytoo
+async for stream in acytoo_provider.create_async_generator(model='gpt-3.5-turbo', messages=messages):
+    print(stream)
+```

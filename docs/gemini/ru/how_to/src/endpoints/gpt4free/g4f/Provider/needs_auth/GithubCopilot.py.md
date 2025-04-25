@@ -1,71 +1,65 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код реализует асинхронный провайдер `GithubCopilot` для взаимодействия с GitHub Copilot API. Он создает асинхронный генератор, который отправляет сообщения и получает ответы от GitHub Copilot, обеспечивая поддержку стриминга и аутентификации.
+Этот код реализует асинхронный генератор для взаимодействия с API GitHub Copilot. 
+Он позволяет отправлять запросы с использованием моделей Copilot (gpt-4o, o1-mini, o1-preview, claude-3.5-sonnet) и получать асинхронные ответы в виде потока текста.
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
 1. **Инициализация**:
-   - Определяются необходимые импорты и базовые классы.
-   - Класс `Conversation` используется для хранения ID беседы.
-   - Класс `GithubCopilot` наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin` и определяет основные параметры провайдера, такие как `label`, `url`, `working`, `needs_auth`, `supports_stream`, `default_model` и `models`.
+    - **Создание объекта `Conversation`**: В случае, если требуется использовать существующую беседу с Copilot, создаётся объект `Conversation` с  ID беседы.
+    - **Создание объекта `GithubCopilot`**: Создаётся экземпляр класса `GithubCopilot`, который отвечает за взаимодействие с API Copilot.
+2. **Установка параметров**:
+    - **Выбор модели**: Устанавливается  модель Copilot (gpt-4o, o1-mini, o1-preview, claude-3.5-sonnet)  для взаимодействия.
+    - **Создание списка сообщений**:  Создаётся список `messages` с историей общения с Copilot.
+3. **Авторизация**:
+    - **Получение токена доступа**: Если api_key не предоставлен, делается запрос для получения токена доступа к Copilot.
+4. **Отправка запроса**: 
+    - **Создание беседы**: Если ID беседы не предоставлен, создаётся новая беседа с Copilot.
+    - **Формирование запроса**: Собираются данные для запроса, включая текст запроса, текущий URL, модель и другие параметры.
+    - **Отправка запроса**: Делается HTTP POST запрос к API Copilot с подготовленными данными.
+5. **Получение и обработка ответа**:
+    - **Обработка ответа**: Получение ответа в виде потока текста (streaming).
+    - **Обработка данных**:  Извлечение текста ответа из полученного JSON.
+    - **Возврат результата**: Возврат текста ответа в виде потока.
 
-2. **Создание асинхронного генератора**:
-   - Метод `create_async_generator` является ключевым для создания асинхронного генератора.
-   - Принимает параметры: `model` (модель для использования), `messages` (список сообщений), `stream` (флаг стриминга), `api_key` (ключ API), `proxy` (прокси-сервер), `cookies` (куки), `conversation_id` (ID беседы), `conversation` (объект беседы), `return_conversation` (флаг возврата объекта беседы) и `kwargs` (дополнительные аргументы).
-   - Если `model` не указана, используется `default_model`.
-   - Если `cookies` не указаны, они извлекаются для домена "github.com".
-
-3. **Создание сессии `aiohttp`**:
-   - Создается асинхронная сессия `aiohttp` с использованием `ClientSession`.
-   - Устанавливаются заголовки для сессии, включая `User-Agent`, `Accept-Language`, `Referer`, `Content-Type` и другие.
-
-4. **Получение токена API (при необходимости)**:
-   - Если `api_key` не указан, он получается из эндпоинта `https://github.com/github-copilot/chat/token`.
-   - Отправляется POST-запрос для получения токена, и полученный токен извлекается из JSON-ответа.
-
-5. **Определение ID беседы**:
-   - Если `conversation` передан, `conversation_id` берется из него.
-   - Если `conversation_id` не указан, он создается через POST-запрос к `https://api.individual.githubcopilot.com/github/chat/threads`.
-   - ID беседы извлекается из JSON-ответа.
-
-6. **Подготовка данных для запроса**:
-   - Если `return_conversation` установлен в `True`, возвращается объект `Conversation` с `conversation_id`.
-   - В противном случае, формируется контент запроса либо как последний вопрос пользователя (`get_last_user_message`), либо как полный промпт (`format_prompt`).
-   - Формируется JSON-данные `json_data` с контентом, интентом, ссылками, контекстом, текущим URL, флагом стриминга, подтверждениями, пользовательскими инструкциями, моделью и режимом.
-
-7. **Отправка запроса и обработка ответа**:
-   - Отправляется POST-запрос к `https://api.individual.githubcopilot.com/github/chat/threads/{conversation_id}/messages` с JSON-данными и заголовками.
-   - Асинхронно итерируется по строкам ответа.
-   - Если строка начинается с `b"data: "`, она загружается как JSON.
-   - Если тип данных (`data.get("type")`) равен `"content"`, извлекается тело сообщения (`data.get("body")`) и возвращается как часть генератора.
-
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.needs_auth import GithubCopilot
-from src.endpoints.gpt4free.g4f.typing import Messages, Cookies
-import asyncio
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.GithubCopilot import GithubCopilot, Conversation
 
 async def main():
-    messages: Messages = [{"role": "user", "content": "Hello, GitHub Copilot!"}]
-    api_key: str = "YOUR_GITHUB_API_KEY"  # Замените на ваш реальный API-ключ
-    cookies: Cookies = {}  # Замените, если необходимо
+    # Создание объекта Conversation для существующей беседы
+    conversation = Conversation("your_conversation_id")
     
-    generator = await GithubCopilot.create_async_generator(
-        model="gpt-4o",
-        messages=messages,
-        stream=True,
-        api_key=api_key,
-        cookies=cookies
-    )
-    
-    async for response in generator:
-        print(response)
+    # Создание объекта GithubCopilot
+    provider = GithubCopilot()
 
-if __name__ == "__main__":
-    asyncio.run(main())
+    # Создание списка сообщений
+    messages = [
+        {"role": "user", "content": "Привет, Copilot! Как дела?"},
+        {"role": "assistant", "content": "Привет! У меня все хорошо."},
+        {"role": "user", "content": "Пожалуйста, напиши код для функции, которая ..."},
+    ]
+
+    # Инициализация асинхронного генератора
+    async for response in provider.create_async_generator(
+        model="gpt-4o", 
+        messages=messages,
+        conversation=conversation
+    ):
+        print(response)
 ```
+
+**Объяснение**:
+
+1. **Импортируем необходимые классы**: `GithubCopilot` и `Conversation` из модуля `hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.GithubCopilot`.
+2. **Создание объекта `Conversation`**:  Создаётся объект `Conversation` для  существующей беседы.
+3. **Создание объекта `GithubCopilot`**: Создаётся экземпляр класса `GithubCopilot`.
+4. **Создание списка сообщений**: Формируется список `messages` с историей общения.
+5. **Запуск асинхронного генератора**: Вызывается метод `create_async_generator` с указанием модели, списка сообщений и объекта `Conversation`.
+6. **Обработка ответа**: Используется цикл `async for` для  получения ответов в виде потока текста.
+7. **Вывод результата**:  Печать полученного ответа в консоль.

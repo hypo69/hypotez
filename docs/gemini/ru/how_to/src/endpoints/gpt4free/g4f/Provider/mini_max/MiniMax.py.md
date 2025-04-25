@@ -1,39 +1,41 @@
-### **Как использовать этот блок кода**
-
+## Как использовать MiniMax API
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода определяет класс `MiniMax`, который является подклассом `OpenaiTemplate`. Он содержит конфигурации для взаимодействия с API MiniMax, включая URL, требования к аутентификации, список поддерживаемых моделей и их псевдонимы.
+Этот блок кода определяет класс `MiniMax`, который представляет собой реализацию `OpenaiTemplate` для взаимодействия с API MiniMax. Класс содержит информацию о параметрах API, таких как URL, аутентификация, доступные модели и т.д.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых классов**: Импортируется `OpenaiTemplate` из модуля `..template`.
-2. **Определение класса `MiniMax`**: Создается класс `MiniMax`, наследующий `OpenaiTemplate`.
-3. **Настройка атрибутов класса**:
-   - `label`: Устанавливается название API ("MiniMax API").
-   - `url`: Указывается URL для доступа к чату MiniMax.
-   - `login_url`: Указывается URL для страницы получения ключа API.
-   - `api_base`: Указывается базовый URL для API MiniMax.
-   - `working`: Устанавливается в `True`, что означает, что API работает.
-   - `needs_auth`: Устанавливается в `True`, указывая на необходимость аутентификации.
-   - `default_model`: Устанавливается модель по умолчанию ("MiniMax-Text-01").
-   - `default_vision_model`: Устанавливается модель по умолчанию для vision ("MiniMax-Text-01").
-   - `models`: Указывается список поддерживаемых моделей, включая "MiniMax-Text-01" и "abab6.5s-chat".
-   - `model_aliases`: Указывается псевдоним для модели "MiniMax", сопоставляя его с "MiniMax-Text-01".
+1. **Определение класса `MiniMax`:** Класс наследуется от `OpenaiTemplate`, что позволяет использовать его в рамках проекта.
+2. **Определение атрибутов класса:**
+    - `label`: Текстовое описание API ("MiniMax API").
+    - `url`: Основной URL для отправки запросов к API ("https://www.hailuo.ai/chat").
+    - `login_url`: URL для аутентификации ("https://intl.minimaxi.com/user-center/basic-information/interface-key").
+    - `api_base`: Базовый URL для API ("https://api.minimaxi.chat/v1").
+    - `working`: Флаг, указывающий на работоспособность API (True).
+    - `needs_auth`: Флаг, указывающий на необходимость аутентификации (True).
+    - `default_model`: Имя модели по умолчанию ("MiniMax-Text-01").
+    - `default_vision_model`: Имя модели по умолчанию для обработки изображений (то же, что и `default_model`).
+    - `models`: Список доступных моделей для использования с API ([default_model, "abab6.5s-chat"]).
+    - `model_aliases`: Словарь с альтернативными названиями моделей, где "MiniMax"  - это псевдоним для `default_model`.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.mini_max.MiniMax import MiniMax
+from hypotez.src.endpoints.gpt4free.g4f.Provider.mini_max.MiniMax import MiniMax
 
-# Создание экземпляра класса MiniMax
-minimax_api = MiniMax()
+# Создание объекта MiniMax
+mini_max = MiniMax()
 
-# Вывод информации о конфигурации API
-print(f"API Label: {minimax_api.label}")
-print(f"API URL: {minimax_api.url}")
-print(f"Требуется аутентификация: {minimax_api.needs_auth}")
-print(f"Модель по умолчанию: {minimax_api.default_model}")
-print(f"Список поддерживаемых моделей: {minimax_api.models}")
+# Получение списка доступных моделей
+print(mini_max.models)  # Выведет ['MiniMax-Text-01', 'abab6.5s-chat']
+
+# Использование модели по умолчанию
+response = mini_max.generate_text("Привет, как дела?")
+
+# Использование другой модели
+response = mini_max.generate_text("Привет, как дела?", model="abab6.5s-chat")
+
+```

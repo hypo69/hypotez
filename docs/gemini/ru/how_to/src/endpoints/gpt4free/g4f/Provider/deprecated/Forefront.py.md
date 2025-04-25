@@ -1,51 +1,37 @@
-### Как использовать этот блок кода
+## Как использовать Forefront в проекте hypotez
 =========================================================================================
 
 Описание
 -------------------------
-Данный блок кода определяет класс `Forefront`, который является провайдером для работы с API Forefront. Класс позволяет отправлять запросы на генерацию текста с использованием модели GPT-4 и поддерживает потоковую передачу результатов.
+Класс `Forefront` реализует провайдера `gpt-4` для использования с помощью библиотеки `requests` на бесплатной платформе `Forefront.com`. Данный класс позволяет генерировать текст, используя модель `gpt-4` в режиме потоковой передачи, а также поддерживает модель `gpt-3.5-turbo`.
 
 Шаги выполнения
 -------------------------
-1. **Определение класса `Forefront`**: Создается класс `Forefront`, наследующийся от `AbstractProvider`.
-2. **Настройка атрибутов класса**:
-   - `url`: Устанавливается URL для Forefront.
-   - `supports_stream`: Указывается, что провайдер поддерживает потоковую передачу данных.
-   - `supports_gpt_35_turbo`: Указывается, что провайдер поддерживает модель `gpt-35-turbo`.
-3. **Метод `create_completion`**: Определяется статический метод `create_completion`, который принимает параметры:
-   - `model` (str): Название используемой модели (в данном случае всегда "gpt-4").
-   - `messages` (list[dict[str, str]]): Список сообщений для отправки в API.
-   - `stream` (bool): Флаг, указывающий на необходимость потоковой передачи данных.
-   - `**kwargs` (Any): Дополнительные аргументы.
-4. **Подготовка данных для запроса**: Формируется словарь `json_data` с данными для отправки в API Forefront:
-   - `text`: Последнее сообщение из списка `messages` используется как текст запроса.
-   - `action`: Устанавливается значение "noauth".
-   - `id`, `parentId`, `workspaceId`: Устанавливаются пустые строки.
-   - `messagePersona`: Устанавливается ID персоны сообщения.
-   - `model`: Устанавливается значение "gpt-4".
-   - `messages`: Все сообщения, кроме последнего, добавляются в список `messages`.
-   - `internetMode`: Устанавливается значение "auto".
-5. **Отправка POST-запроса**: Отправляется POST-запрос к API Forefront с использованием библиотеки `requests`:
-   - URL: `"https://streaming.tenant-forefront-default.knative.chi.coreweave.com/free-chat"`.
-   - Данные: `json_data`.
-   - `stream`: Устанавливается в `True` для потоковой передачи.
-6. **Обработка ответа**:
-   - Проверяется статус ответа с помощью `response.raise_for_status()`.
-   - Итерируемся по строкам ответа, используя `response.iter_lines()`.
-   - Для каждой строки проверяется наличие подстроки `b"delta"`.
-   - Если подстрока найдена, строка декодируется, разделяется по `"data: "` и загружается как JSON.
-   - Извлекается значение `"delta"` из JSON и возвращается как результат.
+1. **Инициализация**: Класс `Forefront` создается как экземпляр класса `AbstractProvider`.
+2. **Создание запроса**: Метод `create_completion` принимает в качестве аргументов название модели, список сообщений, режим потоковой передачи и дополнительные параметры.
+3. **Формирование JSON-запроса**: В методе `create_completion` формируется JSON-запрос, содержащий информацию о модели, сообщениях, режиме потоковой передачи и других параметрах.
+4. **Отправка запроса**: Используется `requests.post` для отправки запроса на сервер `Forefront` по адресу "https://streaming.tenant-forefront-default.knative.chi.coreweave.com/free-chat".
+5. **Обработка ответа**: Метод `iter_lines` используется для получения строк из ответа сервера. Каждая строка, содержащая "delta", декодируется и парсится с помощью `json.loads`. 
+6. **Возврат результата**: Генератор `yield` возвращает значения "delta" из декодированного JSON-ответа, которые представляют собой части генерируемого текста.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.deprecated.Forefront import Forefront
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Forefront import Forefront
+
+provider = Forefront()
 
 messages = [
-    {"role": "system", "content": "You are a helpful assistant."},
-    {"role": "user", "content": "Как дела?"}
+    {"role": "user", "content": "Привет!"},
+    {"role": "assistant", "content": "Привет! Как дела?"},
 ]
 
-for token in Forefront.create_completion(model="gpt-4", messages=messages, stream=True):
-    print(token, end="")
+# Создание запроса для модели gpt-4 в режиме потоковой передачи
+for token in provider.create_completion(model="gpt-4", messages=messages, stream=True):
+    print(token)
+
+# Создание запроса для модели gpt-3.5-turbo
+for token in provider.create_completion(model="gpt-3.5-turbo", messages=messages, stream=False):
+    print(token)
+```

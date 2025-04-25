@@ -1,53 +1,55 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет набор классов-заглушек (моков) для имитации различных поставщиков (провайдеров) в системе `g4f` (Generative for free). Эти моки используются для юнит-тестирования, позволяя изолировать компоненты и проверять их поведение в контролируемых условиях. Моки охватывают различные сценарии, такие как успешное выполнение, асинхронное выполнение, генерация последовательности результатов, возвращение изображений, возникновение ошибок аутентификации и другие исключения.
+Блок кода предоставляет набор моков для различных провайдеров и моделей, используемых в рамках библиотеки g4f, которая взаимодействует с API gpt4free. Моки предназначены для тестирования функций библиотеки без фактического обращения к API.
 
 Шаги выполнения
 -------------------------
-1. **Определение базовых классов**:
-   - Классы `ProviderMock`, `AsyncProviderMock`, `AsyncGeneratorProviderMock`, `ModelProviderMock`, `YieldProviderMock`, `YieldImageResponseProviderMock`, `MissingAuthProviderMock`, `RaiseExceptionProviderMock`, `AsyncRaiseExceptionProviderMock`, `YieldNoneProviderMock` наследуются от `AbstractProvider`, `AsyncProvider` или `AsyncGeneratorProvider`.
-   - Каждый класс переопределяет метод `create_completion` или `create_async_generator` (в зависимости от типа провайдера) для имитации поведения реального провайдера.
-
-2. **Имитация успешного выполнения**:
-   - Классы `ProviderMock`, `AsyncProviderMock` и `AsyncGeneratorProviderMock` имитируют успешное выполнение, возвращая строку "Mock" в качестве результата.
-
-3. **Имитация возврата модели**:
-   - Класс `ModelProviderMock` возвращает название модели (`model`) в качестве результата.
-
-4. **Имитация генерации последовательности результатов**:
-   - Класс `YieldProviderMock` генерирует последовательность результатов на основе содержимого сообщений (`messages`), возвращая содержимое каждого сообщения.
-
-5. **Имитация возврата изображения**:
-   - Класс `YieldImageResponseProviderMock` возвращает объект `ImageResponse` с имитацией изображения.
-
-6. **Имитация ошибки аутентификации**:
-   - Класс `MissingAuthProviderMock` выбрасывает исключение `MissingAuthError`, имитируя отсутствие аутентификации.
-
-7. **Имитация возникновения исключений**:
-   - Классы `RaiseExceptionProviderMock` и `AsyncRaiseExceptionProviderMock` выбрасывают исключение `RuntimeError`, имитируя возникновение ошибки во время выполнения.
-
-8. **Имитация возврата `None`**:
-   - Класс `YieldNoneProviderMock` генерирует `None` в качестве результата.
+1. **Импорт моков**: Импортируйте необходимые моки из модуля `hypotez/src/endpoints/gpt4free/etc/unittest/mocks.py`. 
+2. **Инициализация**: Создайте экземпляр нужного мока, который будет использоваться в тесте.
+3. **Использование**: Вызывайте методы мока, например `create_completion`, `create_async` или `create_async_generator`, в зависимости от типа провайдера.
 
 Пример использования
 -------------------------
 
 ```python
-from g4f.models import Model
+from hypotez.src.endpoints.gpt4free.etc.unittest.mocks import ProviderMock, AsyncProviderMock, ModelProviderMock
 
-async def test_provider_mock():
-    # Пример использования AsyncProviderMock
-    model = Model.gpt_35_turbo
-    messages = [{"role": "user", "content": "Hello"}]
-    result = await AsyncProviderMock.create_async(model=model, messages=messages)
-    print(result)
+# Инициализация мока для стандартного провайдера
+provider_mock = ProviderMock()
 
-# Пример использования MissingAuthProviderMock (вызовет исключение)
-try:
-    for chunk in MissingAuthProviderMock.create_completion(model=Model.gpt_35_turbo, messages=[{"role": "user", "content": "test"}], stream=True):
-        print(chunk, end='')
-except MissingAuthError as e:
-    print(f"Исключение: {e}")
+# Использование мока
+result = provider_mock.create_completion(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Hello, world!"}], stream=False)
+
+# Вывод результата
+print(result)  # "Mock"
+
+# Инициализация мока для асинхронного провайдера
+async_provider_mock = AsyncProviderMock()
+
+# Использование асинхронного мока
+result = await async_provider_mock.create_async(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Hello, world!"}])
+
+# Вывод результата
+print(result)  # "Mock"
+
+# Инициализация мока для модели
+model_provider_mock = ModelProviderMock()
+
+# Использование мока для модели
+result = model_provider_mock.create_completion(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Hello, world!"}], stream=False)
+
+# Вывод результата
+print(result)  # "gpt-3.5-turbo"
+```
+
+**Дополнительные сведения:**
+
+- `MissingAuthProviderMock` - mock, имитирующий ошибку авторизации.
+- `RaiseExceptionProviderMock` - mock, имитирующий ошибку во время выполнения.
+- `AsyncRaiseExceptionProviderMock` - mock, имитирующий асинхронную ошибку.
+- `YieldNoneProviderMock` - mock, имитирующий провайдер, который возвращает `None`.
+
+Данные моки позволяют протестировать различные сценарии работы библиотеки g4f с GPT4Free, не затрагивая реальный API и не создавая зависимости от внешних сервисов.

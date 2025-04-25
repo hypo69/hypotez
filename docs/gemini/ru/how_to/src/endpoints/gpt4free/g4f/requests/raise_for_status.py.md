@@ -1,71 +1,51 @@
-### Как использовать этот блок кода
+## Как использовать `raise_for_status` и `raise_for_status_async` 
 =========================================================================================
 
 Описание
 -------------------------
-Функция `raise_for_status` проверяет статус ответа от сервера и вызывает исключение, если статус указывает на ошибку. 
-Она обрабатывает различные типы ответов (async/sync, aiohttp/requests) и специфические ошибки, такие как Cloudflare, OpenAI Bot Detection, Rate Limit и другие.
+Функции `raise_for_status` и `raise_for_status_async` проверяют статус ответа HTTP-запроса и генерируют соответствующее исключение, если статус не равен 200 (OK). 
 
 Шаги выполнения
 -------------------------
-1. **Проверка типа ответа**:
-   - Функция проверяет, является ли `response` асинхронным (aiohttp) или синхронным (requests) ответом. Если `response` имеет атрибут `status`, то вызывается асинхронная версия `raise_for_status_async`.
-
-2. **Асинхронная обработка `raise_for_status_async`**:
-   - Если ответ успешен (`response.ok`), функция возвращается без ошибок.
-   - Функция пытается получить сообщение об ошибке из тела ответа. Если `content-type` - `application/json`, то сообщение извлекается из JSON. Если `content-type` - `text/html` или ответ начинается с `<!DOCTYPE`, то сообщение берется как текст ответа.
-   - Если статус ответа равен 401, вызывается исключение `MissingAuthError`.
-   - Если статус ответа равен 403 и обнаружен Cloudflare, вызывается исключение `CloudflareError`.
-   - Если статус ответа равен 403 и обнаружен OpenAI Bot, вызывается исключение `ResponseStatusError`.
-   - Если статус ответа равен 502, вызывается исключение `ResponseStatusError` с сообщением "Bad Gateway".
-   - Если статус ответа равен 504, вызывается исключение `RateLimitError` с сообщением "Gateway Timeout".
-   - В противном случае вызывается исключение `ResponseStatusError` с кодом статуса и сообщением об ошибке.
-
-3. **Синхронная обработка**:
-   - Если ответ успешен (`response.ok`), функция возвращается без ошибок.
-   - Функция проверяет, является ли ответ HTML-страницей.
-   - Функция пытается получить сообщение об ошибке из тела ответа.
-   - Если статус ответа равен 401, вызывается исключение `MissingAuthError`.
-   - Если статус ответа равен 403 и обнаружен Cloudflare, вызывается исключение `CloudflareError`.
-   - Если статус ответа равен 403 и обнаружен OpenAI Bot, вызывается исключение `ResponseStatusError`.
-   - Если статус ответа равен 502, вызывается исключение `ResponseStatusError` с сообщением "Bad Gateway".
-   - Если статус ответа равен 504, вызывается исключение `RateLimitError` с сообщением "Gateway Timeout".
-   - В противном случае вызывается исключение `ResponseStatusError` с кодом статуса и сообщением об ошибке.
+1. **Проверяет статус ответа**: Функции `raise_for_status` и `raise_for_status_async` проверяют статус ответа HTTP-запроса.
+2. **Анализирует содержимое ответа**: Если статус ответа не равен 200 (OK), функции извлекают содержимое ответа, анализируют его тип (JSON или HTML) и определяют тип ошибки.
+3. **Генерирует исключение**: В зависимости от статуса ответа и типа ошибки, функции генерируют соответствующее исключение:
+    - `ResponseStatusError` - общая ошибка ответа.
+    - `RateLimitError` - ошибка лимита запросов.
+    - `MissingAuthError` - ошибка авторизации.
+    - `CloudflareError` - ошибка, связанная с Cloudflare.
+4. **Возвращает None**: Если статус ответа равен 200 (OK), функции ничего не делают и возвращают `None`.
 
 Пример использования
 -------------------------
 
 ```python
-from aiohttp import ClientSession
-import asyncio
+from hypotez.src.endpoints.gpt4free.g4f.requests.raise_for_status import raise_for_status, raise_for_status_async
 
-async def make_request(url: str):
-    """
-    Функция выполняет асинхронный HTTP-запрос и обрабатывает ответ.
+async def send_request_async(url: str, headers: dict = None) -> str:
+    """Отправляет асинхронный HTTP-запрос и обрабатывает ответ."""
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, headers=headers) as response:
+            await raise_for_status_async(response) # Проверяем статус ответа
+            return await response.text()
 
-    Args:
-        url (str): URL для запроса.
+def send_request(url: str, headers: dict = None) -> str:
+    """Отправляет синхронный HTTP-запрос и обрабатывает ответ."""
+    response = requests.get(url, headers=headers)
+    raise_for_status(response) # Проверяем статус ответа
+    return response.text
 
-    Returns:
-        None
-
-    Raises:
-        ResponseStatusError: Если статус ответа не равен 200.
-    """
-    async with ClientSession() as session:
-        async with session.get(url) as response:
-            try:
-                await raise_for_status_async(response)
-                print(f"Request to {url} was successful!")
-            except ResponseStatusError as e:
-                print(f"Request to {url} failed: {e}")
-
+# Пример использования
 async def main():
-    """
-    Основная асинхронная функция для демонстрации работы `make_request`.
-    """
-    await make_request("https://example.com")
-    await make_request("https://example.com/nonexistent")  # Вызовет исключение
+    response_text = await send_request_async('https://example.com')
+    print(response_text)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     asyncio.run(main())
+
+```
+
+### Дополнительная информация:
+- Функция `raise_for_status_async` предназначена для асинхронных HTTP-запросов, а `raise_for_status` для синхронных.
+- Функции анализируют содержимое ответа на наличие признаков ошибок, связанных с Cloudflare и OpenAI.
+- Вы можете использовать функции `raise_for_status` и `raise_for_status_async` для обработки ошибок HTTP-ответов в ваших приложениях.

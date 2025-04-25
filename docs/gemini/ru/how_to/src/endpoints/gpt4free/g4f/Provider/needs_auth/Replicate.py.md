@@ -1,59 +1,46 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код реализует асинхронного провайдера `Replicate` для работы с API replicate.com. Он позволяет генерировать текст на основе предоставленных сообщений, используя указанную модель и API-ключ. Код поддерживает потоковую передачу результатов, прокси и различные параметры модели, такие как температура, top_p и max_tokens.
+Блок кода реализует класс `Replicate`, представляющий провайдера Replicate для модели генерации текста. Класс `Replicate` наследует от `AsyncGeneratorProvider` и `ProviderModelMixin`, предоставляя асинхронный генератор и поддержку различных моделей.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Извлекает классы `AsyncGeneratorProvider` и `ProviderModelMixin` из `..base_provider`.
-   - Извлекает функции `format_prompt` и `filter_none` из `..helper`.
-   - Извлекает типы `AsyncResult` и `Messages` из `...typing`.
-   - Извлекает функции `raise_for_status` из `...requests`.
-   - Извлекает класс `StreamSession` из `...requests.aiohttp`.
-   - Извлекает классы `ResponseError` и `MissingAuthError` из `...errors`.
-
-2. **Определение класса `Replicate`**:
-   - Определяет класс `Replicate`, который наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`.
-   - Устанавливает атрибуты класса, такие как `url`, `login_url`, `working`, `needs_auth`, `default_model` и `models`.
-
-3. **Реализация метода `create_async_generator`**:
-   - Метод принимает параметры, такие как `model`, `messages`, `api_key`, `proxy`, `timeout`, `system_prompt`, `max_tokens`, `temperature`, `top_p`, `top_k`, `stop`, `extra_data` и `headers`.
-   - Проверяет наличие API-ключа, если требуется аутентификация.
-   - Формирует URL для запроса к API replicate.com.
-   - Создает асинхронную сессию с использованием `StreamSession`.
-   - Формирует данные запроса, включая параметры модели и промпт.
-   - Отправляет POST-запрос к API replicate.com для получения предсказания.
-   - Обрабатывает ответ от API, проверяет наличие ошибок и извлекает идентификатор предсказания.
-   - Отправляет GET-запрос к API для получения потока событий.
-   - Итерирует по строкам ответа и извлекает текст из событий `output`.
-   - Генерирует текст по мере поступления данных из потока.
+1. **Инициализация**: Создание объекта `Replicate` с необходимыми параметрами, такими как `model`, `messages`, `api_key`, `proxy`, `timeout` и т.д.
+2. **Аутентификация**: Если API-ключ не задан, возникает ошибка `MissingAuthError`. В случае наличия API-ключа, устанавливается заголовок авторизации.
+3. **Формирование запроса**: Создание тела запроса с данными, включая `prompt`, `system_prompt`, `max_tokens`, `temperature`, `top_p`, `top_k`, `stop_sequences` и `extra_data`.
+4. **Отправка запроса**: Отправка POST-запроса на API Replicate для получения результата. 
+5. **Обработка ответа**: Обработка ответа Replicate и извлечение данных о `stream`.
+6. **Генерация текста**: Асинхронная генерация текста по частям, передаваемого через поток (`stream`) от Replicate.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.needs_auth import Replicate
-from src.endpoints.gpt4free.g4f.typing import Messages
-import asyncio
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.Replicate import Replicate
 
 async def main():
-    messages: Messages = [
-        {"role": "user", "content": "Hello, who are you?"}
+    """Пример использования класса Replicate."""
+    api_key = "your_api_key"  # Замените на ваш API-ключ Replicate
+    model = "meta/meta-llama-3-70b-instruct"
+    messages = [
+        {"role": "user", "content": "Напишите стихотворение про любовь."}
     ]
-    api_key = "your_api_key"  # Замените на ваш фактический API-ключ
-    
-    try:
-        async for message in Replicate.create_async_generator(
-            model="meta/meta-llama-3-70b-instruct",
-            messages=messages,
-            api_key=api_key
-        ):
-            print(message, end="")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+
+    provider = Replicate(model=model, api_key=api_key)
+    async for chunk in provider.create_async_generator(messages=messages):
+        print(chunk, end="")
 
 if __name__ == "__main__":
+    import asyncio
     asyncio.run(main())
+```
+
+В примере кода:
+
+1. Импортируется класс `Replicate`
+2. Задается `api_key`, `model` и `messages`
+3. Создается объект `Replicate` с заданными параметрами
+4. Вызывается метод `create_async_generator` с `messages`
+5. В цикле по частям выводится результат генерации текста

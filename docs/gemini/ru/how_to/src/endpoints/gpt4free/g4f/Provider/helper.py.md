@@ -1,47 +1,42 @@
-Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода предназначен для импорта необходимых модулей и функций для работы с провайдерами, куками и асинхронными HTTP-запросами в контексте g4f (gpt4free).
+Этот блок кода импортирует необходимые модули для работы с API GPT4Free:
+- **`from ..providers.helper import *`:** импортирует все функции и классы из модуля `helper`, который предоставляет вспомогательные функции для работы с API.
+- **`from ..cookies import get_cookies`:** импортирует функцию `get_cookies` из модуля `cookies`, которая позволяет получить куки для авторизации в API.
+- **`from ..requests.aiohttp import get_connector`:** импортирует функцию `get_connector` из модуля `aiohttp`, которая позволяет получить соединение для асинхронных запросов.
 
 Шаги выполнения
 -------------------------
-1. **Импорт `*` из `..providers.helper`**:
-   - Импортирует все доступные функции и классы из модуля `helper`, расположенного в родительском каталоге `providers`.
-   - Это позволяет использовать вспомогательные функции, специфичные для работы с провайдерами.
-
-2. **Импорт `get_cookies` из `..cookies`**:
-   - Импортирует функцию `get_cookies` из модуля `cookies`, расположенного в родительском каталоге.
-   - Эта функция используется для получения кук, необходимых для аутентификации или взаимодействия с определенными сервисами.
-
-3. **Импорт `get_connector` из `..requests.aiohttp`**:
-   - Импортирует функцию `get_connector` из модуля `aiohttp`, расположенного в каталоге `requests`.
-   - Эта функция используется для получения объекта `aiohttp.ClientSession`, который управляет HTTP-соединениями для асинхронных запросов.
+1. Импортирует все функции и классы из модуля `helper`.
+2. Импортирует функцию `get_cookies` из модуля `cookies`.
+3. Импортирует функцию `get_connector` из модуля `aiohttp`.
 
 Пример использования
 -------------------------
 
 ```python
-from ..providers.helper import get_browser_instance
+from ..providers.helper import *
 from ..cookies import get_cookies
 from ..requests.aiohttp import get_connector
 
-async def example_function():
-    """
-    Пример использования импортированных модулей и функций.
-    """
-    # Пример использования функции из providers.helper
-    browser = await get_browser_instance()
-    print(f"Браузер: {browser}")
-    
-    # Пример использования функции из cookies
-    cookies = get_cookies()
-    print(f"Куки: {cookies}")
-    
-    # Пример использования функции из requests.aiohttp
-    connector = get_connector()
-    print(f"Коннектор: {connector}")
+# Получение куки для авторизации
+cookies = get_cookies()
 
-# Запуск примера
-# asyncio.run(example_function())
+# Создание соединения для асинхронных запросов
+connector = get_connector()
+
+# Выполнение запроса к API GPT4Free
+response = await get_response(
+    url='https://api.gpt4free.com/v1/chat',
+    method='POST',
+    data={'message': 'Hello world!'},
+    cookies=cookies,
+    connector=connector,
+)
+
+# Обработка ответа
+print(response.json())
+```

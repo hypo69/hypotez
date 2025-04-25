@@ -1,46 +1,47 @@
-Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код представляет собой класс `AiService`, который является провайдером для взаимодействия с API сервиса AiService (https://aiservice.vercel.app/) для генерации текста на основе предоставленных сообщений. Он отправляет POST-запрос к API и возвращает сгенерированный текст.
+Этот блок кода реализует класс `AiService`, который предоставляет API для взаимодействия с моделью GPT-3.5 Turbo. Он наследует класс `AbstractProvider` и использует библиотеку `requests` для отправки HTTP-запросов.
 
 Шаги выполнения
 -------------------------
-1. **Определение класса `AiService`**:
-   - Создается класс `AiService`, наследуемый от `AbstractProvider`.
-   - Устанавливается URL сервиса `https://aiservice.vercel.app/`.
-   - Указывается, что провайдер не работает (`working = False`) и поддерживает модель `gpt-3.5-turbo` (`supports_gpt_35_turbo = True`).
-
-2. **Метод `create_completion`**:
-   - Принимает параметры: `model` (строка, представляющая модель), `messages` (список сообщений), `stream` (булево значение, указывающее на потоковую передачу) и `**kwargs` (дополнительные аргументы).
-   - Форматирует сообщения в виде текста, объединяя роль и контент каждого сообщения.
-   - Формирует заголовки запроса, включая `accept`, `content-type`, `sec-fetch-dest`, `sec-fetch-mode`, `sec-fetch-site` и `Referer`.
-   - Подготавливает данные для отправки в теле запроса в формате JSON, включая форматированный текст сообщений.
-   - Отправляет POST-запрос к API `https://aiservice.vercel.app/api/chat/answer` с заголовками и данными.
-   - Проверяет статус ответа и вызывает исключение в случае ошибки.
-   - Извлекает данные из JSON-ответа и возвращает их как результат генератора.
+1. Инициализирует класс `AiService` с указанием URL-адреса API.
+2. Определяет атрибуты `working` и `supports_gpt_35_turbo`, которые показывают статус работы сервиса и его поддержку модели GPT-3.5 Turbo.
+3. Определяет статический метод `create_completion`, который принимает следующие аргументы:
+    - `model`: Название модели GPT.
+    - `messages`: Список сообщений чата, представляющих историю разговора.
+    - `stream`: Флаг, указывающий, нужно ли возвращать ответ потоком (по частям).
+    - `kwargs`: Дополнительные аргументы, которые можно передать API GPT.
+4. Формирует запрос к API, включая историю сообщений чата в текстовом формате.
+5. Отправляет запрос к API `https://aiservice.vercel.app/api/chat/answer` с помощью `requests.post`.
+6. Проверяет статус ответа, используя `response.raise_for_status()`.
+7. Возвращает ответ API в виде потока данных, используя `yield response.json()["data"]`.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.deprecated import AiService
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.AiService import AiService
 
-# Пример сообщений
+# Инициализация класса AiService
+service = AiService()
+
+# Определение истории сообщений чата
 messages = [
     {"role": "user", "content": "Привет!"},
-    {"role": "assistant", "content": "Здравствуйте!"},
-    {"role": "user", "content": "Как дела?"}
+    {"role": "assistant", "content": "Привет! Как дела?"},
 ]
 
-# Вызов метода create_completion
-result = AiService.create_completion(
+# Выполнение запроса к API GPT-3.5 Turbo
+response = service.create_completion(
     model="gpt-3.5-turbo",
     messages=messages,
-    stream=False
+    stream=True,
 )
 
-# Вывод результата
-for item in result:
-    print(item)
+# Обработка ответа в виде потока
+for part in response:
+    print(part)
+```

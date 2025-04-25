@@ -1,57 +1,37 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код определяет класс `MetaAIAccount`, который является подклассом `MetaAI`. Класс предназначен для работы с Meta AI, требующей аутентификации. Он настраивает необходимые параметры, такие как `needs_auth`, `parent` и `image_models`, и предоставляет метод `create_async_generator` для создания асинхронного генератора, который взаимодействует с Meta AI через прокси и cookie.
+Этот код представляет собой класс `MetaAIAccount`, который наследуется от класса `MetaAI` и предназначен для работы с API MetaAI. Класс реализует асинхронный генератор, который выдает результаты выполнения запросов к модели MetaAI.
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются `AsyncResult`, `Messages`, `Cookies` из модуля `...typing`.
-   - Импортируются `format_prompt` и `get_cookies` из модуля `..helper`.
-   - Импортируется класс `MetaAI` из модуля `.MetaAI`.
+1. **Проверка наличия аутентификации:** Класс `MetaAIAccount` требует аутентификации (`needs_auth = True`).
+2. **Создание асинхронного генератора:** Метод `create_async_generator` создает асинхронный генератор для получения результатов от модели MetaAI.
+3. **Получение cookies:**  Метод `get_cookies` извлекает cookies для аутентификации с сайта `meta.ai`. Если cookies не предоставлены в качестве аргумента, метод пытается получить их из файла.
+4. **Форматирование запроса:** Метод `format_prompt` преобразует список сообщений `messages` в формат, подходящий для API MetaAI.
+5. **Инициализация класса `MetaAI`:**  Создает объект класса `MetaAI` с заданным прокси.
+6. **Вызов метода `prompt`:**  Метод `prompt`  отправляет запрос к API MetaAI с использованием сформированного запроса и cookies. 
+7. **Итерация по частям ответа:**  Асинхронный генератор итерирует по частям ответа от API MetaAI и выдает их по мере поступления. 
 
-2. **Определение класса `MetaAIAccount`**:
-   - Класс `MetaAIAccount` наследуется от класса `MetaAI`.
-   - Устанавливается атрибут `needs_auth` в `True`, указывая на необходимость аутентификации.
-   - Устанавливается атрибут `parent` в `"MetaAI"`, обозначая родительский класс.
-   - Устанавливается атрибут `image_models` в `["meta"]`, указывая поддерживаемые модели изображений.
-
-3. **Определение метода `create_async_generator`**:
-   - Этот метод является асинхронным и предназначен для создания асинхронного генератора, который взаимодействует с Meta AI.
-   - Принимает параметры: `model` (строка), `messages` (сообщения), `proxy` (строка, опционально), `cookies` (cookie, опционально) и `kwargs` (дополнительные аргументы).
-   - Функция извлекает cookie из домена ".meta.ai" если параметр `cookies` не определен.
-   - Создается экземпляр класса `MetaAIAccount` с использованием прокси.
-   - Вызывается метод `prompt` с форматированными сообщениями и cookie, итерируясь по чанкам, которые генерирует метод `prompt`.
-   - Каждый чанк передается через `yield`, создавая асинхронный генератор.
-
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.needs_auth.MetaAIAccount import MetaAIAccount
-from src.endpoints.gpt4free.g4f.typing import Messages
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth import MetaAIAccount
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-async def main():
-    # Пример сообщений для отправки
-    messages: Messages = [
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Hello, how are you?"}
-    ]
+# Создаем список сообщений для отправки к API MetaAI
+messages: Messages = [
+    {"role": "user", "content": "Привет! Расскажи мне о Python."}
+]
 
-    # Создание асинхронного генератора
-    generator = MetaAIAccount.create_async_generator(
-        model="default",  # Укажите нужную модель
-        messages=messages,
-        proxy=None,  # Укажите прокси, если необходимо
-        cookies=None  # Укажите cookie, если необходимо
-    )
+# Создаем асинхронный генератор для получения результатов
+async_generator = MetaAIAccount.create_async_generator(model="meta", messages=messages)
 
-    # Асинхронный перебор чанков и их вывод
-    async for chunk in await generator:
-        print(chunk, end="")
+# Выводим результаты по мере поступления
+async for chunk in async_generator:
+    print(chunk)
 
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+```

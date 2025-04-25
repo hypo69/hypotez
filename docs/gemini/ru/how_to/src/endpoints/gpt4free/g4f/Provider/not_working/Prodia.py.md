@@ -1,53 +1,52 @@
-### Как использовать этот блок кода
+## Как использовать класс Prodia для генерации изображений
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет класс `Prodia`, который является асинхронным провайдером для генерации изображений с использованием API Prodia. Он позволяет генерировать изображения на основе текстового запроса (prompt) с использованием различных моделей и параметров.
+Класс `Prodia` предоставляет функционал для генерации изображений с использованием API Prodia. 
 
 Шаги выполнения
 -------------------------
-1. **Инициализация класса**: Класс `Prodia` наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`. Он определяет URL, endpoint API, список поддерживаемых моделей изображений и параметры по умолчанию.
-2. **Получение модели**: Метод `get_model` проверяет, существует ли запрошенная модель в списке поддерживаемых моделей или алиасов. Если модель не найдена, возвращается модель по умолчанию.
-3. **Создание асинхронного генератора**: Метод `create_async_generator` принимает текстовый запрос, модель и другие параметры генерации изображения. Он отправляет запрос к API Prodia и возвращает URL сгенерированного изображения.
-4. **Опрос статуса задачи**: Метод `_poll_job` периодически проверяет статус задачи генерации изображения, отправляя запросы к API Prodia. Когда задача завершается успешно, возвращается URL изображения. Если задача завершается с ошибкой или истекает время ожидания, выбрасывается исключение.
+1. **Импорт необходимых модулей**:
+    - Импортируй класс `Prodia` из модуля `hypotez/src/endpoints/gpt4free/g4f/Provider/not_working/Prodia.py`.
+2. **Инициализация класса**:
+    - Создай экземпляр класса `Prodia`.
+3. **Генерация изображения**:
+    - Вызови метод `create_async_generator` класса `Prodia`. 
+    - Передай необходимые параметры, такие как `model` (модель, которую нужно использовать), `messages` (текстовые подсказки для генерации), `seed` (случайное число для инициализации генератора). 
+    - Метод `create_async_generator` возвращает асинхронный генератор, который генерирует объекты `ImageResponse` с URL-адресом полученного изображения. 
+4. **Обработка результатов**:
+    - Используй цикл `async for` для получения каждого `ImageResponse` из генератора.
+    - Доступ к URL-адресу изображения можно получить с помощью свойства `image_url` объекта `ImageResponse`.
 
 Пример использования
 -------------------------
 
 ```python
-import asyncio
-from src.endpoints.gpt4free.g4f.Provider.not_working.Prodia import Prodia
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.Prodia import Prodia
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-async def main():
-    # Настройка параметров
-    model = "absolutereality_v181.safetensors [3d9d4d2b]"
-    messages = [{"role": "user", "content": "A beautiful landscape"}]
-    negative_prompt = "ugly, distorted"
-    steps = 25
-    cfg = 8
-    seed = 42
-    sampler = "DPM++ 2M Karras"
-    aspect_ratio = "landscape"
+async def generate_image():
+    """
+    Пример использования класса Prodia для генерации изображения.
+    """
+    provider = Prodia()
 
-    # Создание асинхронного генератора
-    generator = await Prodia.create_async_generator(
-        model=model,
-        messages=messages,
-        negative_prompt=negative_prompt,
-        steps=steps,
-        cfg=cfg,
-        seed=seed,
-        sampler=sampler,
-        aspect_ratio=aspect_ratio
-    )
+    # Текстовые подсказки для генерации изображения
+    messages: Messages = [
+        {
+            'role': 'user',
+            'content': 'Котик сидит на столе, смотрит на камеру, кружок свежий',
+        }
+    ]
 
-    # Получение результата
-    async for image_response in generator:
-        if image_response.url:
-            print(f"Image URL: {image_response.url}")
-        else:
-            print("Image generation failed.")
+    # Запуск асинхронного генератора
+    async for image_response in provider.create_async_generator(model='absolutereality_v181.safetensors [3d9d4d2b]', messages=messages):
+        # Получение URL-адреса изображения
+        image_url = image_response.image_url
+        # Обработка изображения (сохранение, отображение и т.д.)
+        print(f'Image generated: {image_url}')
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# Запуск асинхронной функции
+asyncio.run(generate_image())
+```

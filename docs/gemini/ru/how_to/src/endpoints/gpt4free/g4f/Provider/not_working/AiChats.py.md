@@ -1,53 +1,57 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код реализует асинхронный провайдер `AiChats` для взаимодействия с API ai-chats.org. Он поддерживает как текстовые запросы (chat), так и генерацию изображений (dalle). Класс использует `aiohttp` для выполнения асинхронных HTTP-запросов и предоставляет методы для создания асинхронного генератора ответов и получения ответа.
+Этот блок кода реализует класс `AiChats`, который представляет собой асинхронный провайдер для взаимодействия с API сервиса `ai-chats.org`. Он позволяет отправлять запросы в чат-бот, генерировать изображения с помощью DALL-E и получать ответы. 
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Инициализация**:
-   - Определяются URL, endpoint API, флаг `working` (работоспособность), поддержка истории сообщений и список доступных моделей (`gpt-4`, `dalle`).
-2. **`create_async_generator`**:
-   - Функция `create_async_generator` является асинхронным генератором, который отправляет запросы к API `ai-chats.org` и обрабатывает ответы.
-   - **Формирование заголовков**: Создаются HTTP-заголовки, включая `user-agent`, `content-type` и `referer`.
-   - **Создание сессии `aiohttp`**: Используется `ClientSession` для управления асинхронными HTTP-запросами.
-   - **Подготовка данных**:
-     - Для модели `dalle` извлекается последний `content` из списка сообщений.
-     - Для других моделей используется функция `format_prompt` для форматирования сообщений.
-   - **Отправка запроса**:
-     - Отправляется POST-запрос к `cls.api_endpoint` с данными в формате JSON.
-   - **Обработка ответа**:
-     - Для модели `dalle`:
-       - Извлекается URL изображения из JSON-ответа.
-       - Если URL найден, скачивается изображение, кодируется в base64 и возвращается в формате `ImageResponse`.
-       - В случае ошибки возвращается сообщение об ошибке.
-     - Для других моделей:
-       - Извлекаются данные из каждой строки ответа, начиная с `data:`.
-       - Возвращается собранное сообщение.
-   - **Обработка исключений**:
-     - В случае возникновения исключения возвращается сообщение об ошибке.
-3. **`create_async`**:
-   - Функция `create_async` использует `create_async_generator` для получения асинхронных ответов.
-   - Если ответ является `ImageResponse`, возвращается URL первого изображения.
-   - В противном случае возвращается текстовый ответ.
+1. **Инициализация класса:**  Создается экземпляр класса `AiChats` с использованием `AiChats()`.
+2. **Выбор модели:** 
+    - Для чата используйте модель `gpt-4`.
+    - Для генерации изображений используйте модель `dalle`. 
+3. **Отправка запросов:** Вызывается асинхронная функция `create_async` или `create_async_generator`:
+    - `create_async` отправляет запрос и возвращает ответ в виде строки (для чата) или ссылки на изображение (для DALL-E).
+    - `create_async_generator` отправляет запрос и возвращает генератор ответов. Это позволяет получить несколько ответов, если чат-бот выдает их постепенно.
+4. **Формирование запроса:** 
+    - В `create_async` и `create_async_generator` передаются параметры:
+        - `model`: имя модели (gpt-4 или dalle).
+        - `messages`: список сообщений в истории диалога.
+        - `proxy`: прокси-сервер (опционально).
+5. **Обработка ответов:** 
+    - Для чата ответы получаются в виде строк.
+    - Для DALL-E ответы получаются в виде объекта `ImageResponse`, который содержит ссылку на изображение в формате base64.
 
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.not_working import AiChats
-from src.endpoints.gpt4free.g4f.typing import Messages
-import asyncio
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.AiChats import AiChats
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
+from hypotez.src.endpoints.gpt4free.g4f.providers.response import ImageResponse
 
 async def main():
-    model = "gpt-4"  # или "dalle"
-    messages: Messages = [{"role": "user", "content": "Hello, how are you?"}]  # Пример текстового запроса
-    # messages: Messages = [{"role": "user", "content": "Generate a picture of cat"}]  # Пример запроса генерации изображения
+    # Создаем экземпляр класса AiChats
+    ai_chats = AiChats()
 
-    async for response in AiChats.create_async_generator(model=model, messages=messages):
+    # Отправка запроса в чат
+    messages: Messages = [
+        {"role": "user", "content": "Привет, как дела?"},
+        {"role": "assistant", "content": "Хорошо, а у тебя?"},
+        {"role": "user", "content": "Тоже отлично! Расскажи анекдот."},
+    ]
+    response = await ai_chats.create_async(model="gpt-4", messages=messages)
+    print(response)
+
+    # Генерация изображения с помощью DALL-E
+    response = await ai_chats.create_async(model="dalle", messages=[{"role": "user", "content": "Кошка на луне"}] )
+    if isinstance(response, ImageResponse):
+        print(response.images[0])
+    else:
         print(response)
 
 if __name__ == "__main__":
+    import asyncio
     asyncio.run(main())
+```

@@ -1,54 +1,40 @@
-### **Как использовать этот блок кода**
-
+## Как использовать класс `Client`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет структуру клиента для взаимодействия с API, предоставляющими функциональность чат-ботов и обработки изображений. Он включает в себя классы и типы, необходимые для работы с различными провайдерами, прокси и асинхронными итераторами.
+Класс `Client` представляет собой основную точку входа для взаимодействия с API gpt4free. Он позволяет установить соединение с API, используя API ключ и прокси-сервер.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются модули `os` для работы с переменными окружения.
-   - Из `.stubs` импортируются `ChatCompletion` и `ChatCompletionChunk` для работы с ответами чат-бота.
-   - Из `..providers.types` импортируется `BaseProvider` как базовый класс для провайдеров.
-   - Из `typing` импортируются `Union`, `Iterator`, `AsyncIterator` для определения типов.
-
-2. **Определение типов**:
-   - `ImageProvider` определяется как `Union[BaseProvider, object]`, представляющий провайдера изображений.
-   - `Proxies` определяется как `Union[dict, str]`, представляющий прокси для HTTP-запросов.
-   - `IterResponse` определяется как `Iterator[Union[ChatCompletion, ChatCompletionChunk]]`, представляющий итератор для синхронных ответов чат-бота.
-   - `AsyncIterResponse` определяется как `AsyncIterator[Union[ChatCompletion, ChatCompletionChunk]]`, представляющий асинхронный итератор для ответов чат-бота.
-
-3. **Определение класса `Client`**:
-   - Класс `Client` инициализируется с параметрами: `api_key` (ключ API), `proxies` (прокси) и `**kwargs` (дополнительные аргументы).
-   - В конструкторе `__init__` устанавливаются значения `api_key` и `proxies`, а также вызывается метод `get_proxy` для определения используемого прокси.
-
-4. **Метод `get_proxy`**:
-   - Метод `get_proxy` проверяет тип `self.proxies` и возвращает соответствующий прокси:
-     - Если `self.proxies` является строкой, она возвращается как прокси.
-     - Если `self.proxies` равен `None`, возвращается значение переменной окружения `G4F_PROXY`.
-     - Если в `self.proxies` есть ключ `"all"`, возвращается его значение.
-     - Если в `self.proxies` есть ключ `"https"`, возвращается его значение.
+1. **Инициализация клиента:**
+    - При создании экземпляра `Client` передается API ключ и прокси-сервер (опционально).
+    - API ключ хранится в свойстве `api_key`.
+    - Прокси-сервер хранится в свойстве `proxies`.
+    - Прокси-сервер выбирается в методе `get_proxy()` с учетом приоритета:
+        - Если `proxies` - строка, то она используется как прокси-сервер.
+        - Если `proxies` - `None`, то используется переменная окружения `G4F_PROXY`.
+        - Если `proxies` - словарь, то выбирается прокси-сервер из ключей `all` или `https`, если они есть.
+    - Выбранный прокси-сервер сохраняется в свойстве `proxy`.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.client.types import Client
+from hypotez.src.endpoints.gpt4free.g4f.client.types import Client
 
-# Пример 1: Инициализация клиента без прокси и ключа API
-client = Client()
-print(f"Прокси: {client.proxy}")
+# Инициализация клиента с API ключом и прокси-сервером
+client = Client(api_key="YOUR_API_KEY", proxies="http://proxy_server:port")
 
-# Пример 2: Инициализация клиента с прокси в виде строки
-client_with_string_proxy = Client(proxies="http://example.com:8080")
-print(f"Прокси (строка): {client_with_string_proxy.proxy}")
+# Доступ к свойствам клиента
+print(client.api_key)  # Вывод: YOUR_API_KEY
+print(client.proxy)    # Вывод: http://proxy_server:port
 
-# Пример 3: Инициализация клиента с прокси в виде словаря
-client_with_dict_proxy = Client(proxies={"https": "http://example.com:8080"})
-print(f"Прокси (словарь): {client_with_dict_proxy.proxy}")
+# Инициализация клиента без прокси-сервера
+client = Client(api_key="YOUR_API_KEY")
+print(client.proxy)    # Вывод: None (если G4F_PROXY не задан)
 
-# Пример 4: Инициализация клиента с API ключом
-client_with_api_key = Client(api_key="YOUR_API_KEY")
-print(f"API ключ: {client_with_api_key.api_key}")
+# Инициализация клиента с прокси-сервером из словаря
+client = Client(api_key="YOUR_API_KEY", proxies={"all": "http://proxy_server:port"})
+print(client.proxy)    # Вывод: http://proxy_server:port
+```

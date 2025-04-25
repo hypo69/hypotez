@@ -1,51 +1,115 @@
-Как использовать этот блок кода
+```python
+                from __future__ import annotations
+
+import json
+
+import requests
+
+from ...typing import CreateResult, Messages
+from ..base_provider import AbstractProvider
+
+
+class Raycast(AbstractProvider):
+    url                     = "https://raycast.com"
+    supports_stream         = True
+    needs_auth              = True
+    working                 = False
+
+    models = [
+        "gpt-3.5-turbo",
+        "gpt-4"
+    ]
+
+    @staticmethod
+    def create_completion(
+        model: str,
+        messages: Messages,
+        stream: bool,
+        proxy: str = None,
+        **kwargs,
+    ) -> CreateResult:
+        auth = kwargs.get('auth')
+        if not auth:
+            raise ValueError("Raycast needs an auth token, pass it with the `auth` parameter")
+
+        headers = {
+            'Accept': 'application/json',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Authorization': f'Bearer {auth}',
+            'Content-Type': 'application/json',
+            'User-Agent': 'Raycast/0 CFNetwork/1410.0.3 Darwin/22.6.0',
+        }
+        parsed_messages = [
+            {'author': message['role'], 'content': {'text': message['content']}}
+            for message in messages
+        ]
+        data = {
+            "debug": False,
+            "locale": "en-CN",
+            "messages": parsed_messages,
+            "model": model,
+            "provider": "openai",
+            "source": "ai_chat",
+            "system_instruction": "markdown",
+            "temperature": 0.5
+        }
+        response = requests.post(
+            "https://backend.raycast.com/api/v1/ai/chat_completions",
+            headers=headers,
+            json=data,
+            stream=True,
+            proxies={"https": proxy}
+        )
+        for token in response.iter_lines():
+            if b'data: ' not in token:
+                continue
+            completion_chunk = json.loads(token.decode().replace('data: ', ''))
+            token = completion_chunk['text']
+            if token != None:
+                yield token
+
+                ```
+```markdown
+## Как использовать этот блок кода
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код реализует взаимодействие с API Raycast для получения ответов от языковой модели, такой как GPT-3.5-turbo или GPT-4. Он отправляет сообщения пользователя в Raycast и возвращает ответ в режиме реального времени (stream).
+Данный блок кода представляет собой класс `Raycast`, реализующий интерфейс `AbstractProvider` для работы с API Raycast. 
+Он позволяет отправлять запросы к модели GPT-3.5-turbo или GPT-4, получать ответы в режиме потоковой передачи и 
+использовать аутентификацию для доступа к API.
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Подготовка**: Импортируются необходимые библиотеки, такие как `json`, `requests` и типы данных из `typing`. Также импортируется базовый класс `AbstractProvider`.
-2. **Определение класса `Raycast`**: Создается класс `Raycast`, наследующийся от `AbstractProvider`. В классе определяются параметры, такие как URL, поддержка потоковой передачи, необходимость аутентификации и список поддерживаемых моделей.
-3. **Метод `create_completion`**: Этот метод принимает параметры, такие как модель, сообщения, флаг потоковой передачи и прокси.
-4. **Аутентификация**: Проверяется наличие токена аутентификации (`auth`). Если токен отсутствует, вызывается исключение `ValueError`.
-5. **Формирование заголовков**: Создаются заголовки запроса, включающие токен аутентификации.
-6. **Формирование данных**: Сообщения пользователя преобразуются в формат, ожидаемый API Raycast.
-7. **Отправка запроса**: Отправляется POST-запрос к API Raycast с использованием библиотеки `requests`. Указывается URL, заголовки, данные и флаг потоковой передачи.
-8. **Обработка ответа**: Полученный ответ обрабатывается построчно. Каждая строка проверяется на наличие префикса `data: `. Если префикс найден, строка декодируется, извлекается текст ответа и возвращается как часть генератора.
+1. **Инициализация**: Создается объект класса `Raycast`, передавая в него необходимые параметры.
+2. **Аутентификация**: Проверяется наличие токена аутентификации в параметрах. 
+3. **Формирование запроса**: Подготавливаются данные для запроса, включая модель, сообщения, 
+    прокси-сервер (при необходимости) и прочие параметры. 
+4. **Отправка запроса**: Используется `requests.post` для отправки POST-запроса к API Raycast.
+5. **Обработка ответа**: 
+    - Ответ считывается по частям (в потоковом режиме) с помощью `response.iter_lines()`.
+    - Из каждой части ответа извлекается текст, который затем отправляется в качестве результата. 
 
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.not_working import Raycast
-from src.endpoints.gpt4free.g4f.typing import Message
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.Raycast import Raycast
 
-# Пример использования провайдера Raycast для получения ответа от модели GPT-3.5-turbo
-try:
-    messages: list[Message] = [
-        {"role": "user", "content": "Hello, how are you?"}
-    ]
-    auth_token = "YOUR_AUTH_TOKEN"  # Замените на ваш токен аутентификации
-    
-    # Вызов метода create_completion для получения ответа от Raycast
-    completion = Raycast.create_completion(
-        model="gpt-3.5-turbo",
-        messages=messages,
-        stream=True,
-        auth=auth_token
-    )
-    
-    # Итерация по ответу и вывод каждого токена
-    if completion:
-        for token in completion:
-            print(token, end="", flush=True)
-    else:
-        print("Completion is None")
+# Токен аутентификации
+auth_token = "YOUR_RAYCAST_API_TOKEN"
 
-except ValueError as e:
-    print(f"Error: {e}")
-except Exception as e:
-    print(f"An unexpected error occurred: {e}")
+# Создание объекта класса Raycast
+raycast_provider = Raycast(auth=auth_token)
+
+# Сообщения для отправки
+messages = [
+    {"role": "user", "content": "Привет, как дела?"},
+    {"role": "assistant", "content": "У меня все хорошо, спасибо!"},
+]
+
+# Отправка запроса к модели GPT-4
+for token in raycast_provider.create_completion(model="gpt-4", messages=messages, stream=True):
+    print(token)
+```
+```

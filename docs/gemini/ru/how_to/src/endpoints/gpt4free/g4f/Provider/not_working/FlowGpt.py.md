@@ -1,40 +1,37 @@
-Как использовать этот блок кода
+## Как использовать FlowGpt
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет класс `FlowGpt`, который является асинхронным провайдером для работы с языковыми моделями через API FlowGPT. Он позволяет генерировать текст на основе предоставленных сообщений, поддерживая историю сообщений и системные сообщения.
+Данный код реализует класс `FlowGpt`, который является асинхронным генератором ответов от модели FlowGPT. Он позволяет взаимодействовать с разными моделями, в том числе GPT-3.5, GPT-4, Google Gemini и другими.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация**: Класс `FlowGpt` наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`. Устанавливаются параметры, такие как URL, поддержка истории сообщений, системных сообщений, модель по умолчанию и список поддерживаемых моделей.
-2. **Создание асинхронного генератора**: Метод `create_async_generator` создает асинхронный генератор для получения ответов от FlowGPT.
-3. **Подготовка данных**:
-   - Извлекается модель, метка времени, создается nonce и подпись для запроса.
-   - Формируются заголовки запроса, включая User-Agent, Authorization, x-flow-device-id, x-nonce, x-signature и x-timestamp.
-   - Подготавливаются данные для отправки в запросе, включая модель, вопрос, историю сообщений, системное сообщение, температуру и другие параметры.
-4. **Отправка запроса и получение ответа**:
-   - Используется `ClientSession` для отправки POST-запроса к API FlowGPT.
-   - Обрабатывается ответ по частям (chunks) и извлекается текст из каждого chunk, если он содержит событие "text".
-   - Сгенерированный текст передается через yield, что делает функцию асинхронным генератором.
+1. **Инициализация**: Класс `FlowGpt` создается с использованием статического метода `create_async_generator()`.
+2. **Параметры**: Метод принимает следующие параметры:
+    - `model`:  Название модели, например "gpt-3.5-turbo", "gpt-4-turbo", "google-gemini".
+    - `messages`: Список сообщений в формате `Messages` (см. документацию проекта).
+    - `proxy`: Прокси-сервер для доступа к FlowGPT (опционально).
+    - `temperature`: Параметр, влияющий на творческий потенциал модели (0.7 по умолчанию).
+3. **Генерация ответов**: Метод возвращает асинхронный генератор `AsyncResult`, который по мере получения ответов от модели возвращает текст ответа.
 
 Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.not_working.FlowGpt import FlowGpt
-from src.endpoints.gpt4free.g4f.typing import Messages
-import asyncio
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.FlowGpt import FlowGpt
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
+
+messages: Messages = [
+    {"role": "user", "content": "Привет! Как дела?"},
+]
 
 async def main():
-    model = "gpt-3.5-turbo"
-    messages: Messages = [
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Как дела?"}
-    ]
-
-    async for message in FlowGpt.create_async_generator(model=model, messages=messages):
-        print(message, end="")
+    async for response in FlowGpt.create_async_generator(model="gpt-3.5-turbo", messages=messages):
+        print(response)
 
 if __name__ == "__main__":
+    import asyncio
     asyncio.run(main())
+
+```

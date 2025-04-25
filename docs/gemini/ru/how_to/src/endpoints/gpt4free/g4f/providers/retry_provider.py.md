@@ -1,66 +1,47 @@
-### **Как использовать блок кода `RetryProvider`**
-
+## Как использовать RetryProvider
 =========================================================================================
 
 Описание
 -------------------------
-Блок кода реализует класс `RetryProvider`, который предназначен для повторных попыток использования различных провайдеров для получения ответа на запрос. Если один провайдер не отвечает или возвращает ошибку, `RetryProvider` автоматически переключается на следующий провайдер из списка и повторяет попытку.
+RetryProvider - это класс, который предоставляет механизм повторных попыток для доступа к разным API-провайдерам. Он принимает список провайдеров и предоставляет удобный способ переключаться между ними в случае, если один провайдер недоступен или возвращает ошибку.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация `RetryProvider`**:
-   - Класс `RetryProvider` принимает список провайдеров (`providers`), флаг перемешивания списка (`shuffle`), флаг повтора только для одного провайдера (`single_provider_retry`) и максимальное количество попыток (`max_retries`).
-   - При инициализации вызывается конструктор родительского класса `IterListProvider` с указанием списка провайдеров и флага перемешивания.
-   - Устанавливаются значения атрибутов `single_provider_retry` и `max_retries`.
-
-2. **Метод `create_completion`**:
-   - Этот метод пытается получить ответ от провайдеров, выполняя повторные попытки в случае ошибок.
-   - Если `single_provider_retry` установлен в `True`, метод пытается использовать только первого провайдера из списка `providers` `max_retries` раз.
-   - Если `single_provider_retry` установлен в `False`, метод перебирает всех провайдеров из списка, пока не получит ответ.
-   - Внутри цикла `try` вызывается метод `get_create_function()` текущего провайдера для получения ответа.
-   - Ответ передается по частям через `yield`, и если часть ответа получена, устанавливается флаг `started`.
-   - Если во время получения ответа происходит исключение, оно записывается в словарь `exceptions`.
-
-3. **Метод `create_async_generator`**:
-   - Аналогичен методу `create_completion`, но предназначен для асинхронного выполнения.
-   - Также поддерживает флаг `single_provider_retry` для повторных попыток с одним провайдером.
-   - Использует `get_async_create_function()` для получения асинхронного генератора ответов.
-   - Асинхронно перебирает части ответа и передает их через `yield`.
-
-4. **Функция `raise_exceptions`**:
-   - Если во время работы `RetryProvider` возникли исключения, эта функция генерирует исключение `RetryProviderError` или `RetryNoProviderError`.
-   - `RetryProviderError` генерируется, если хотя бы один провайдер вернул ошибку.
-   - `RetryNoProviderError` генерируется, если ни один провайдер не был найден.
+1. **Инициализация RetryProvider:**
+    - Создайте экземпляр класса RetryProvider, передав список провайдеров, которые нужно использовать.
+    - Укажите, нужно ли перемешивать список провайдеров (shuffle), а также настройки для повторных попыток (single_provider_retry, max_retries).
+2. **Создание завершения (completion):**
+    - Вызовите метод `create_completion()` для генерации текста.
+    - Передайте в качестве параметров модель (model), сообщения (messages) и флаг `stream` (если нужно получить поток данных).
+    - Метод `create_completion()` попробует выполнить запрос к каждому провайдеру в списке, переключаясь на следующий, если текущий провайдер недоступен.
+3. **Обработка результатов:**
+    - Метод `create_completion()` возвращает генератор, который выдает токены или результат завершения.
+    - Пройдемся по результатам генератора и обработаем данные.
+4. **Обработка исключений:**
+    - Если все провайдеры недоступны, RetryProvider выбросит исключение RetryProviderError или RetryNoProviderError, содержащее информацию об ошибках, которые произошли в каждом провайдере.
 
 Пример использования
 -------------------------
 
 ```python
-from typing import List
-from g4f.providers import RetryProvider, GeminiProChat, ChatgptAi
+from hypotez.src.endpoints.gpt4free.g4f.providers import RetryProvider
+from hypotez.src.endpoints.gpt4free.g4f.providers.types import BaseProvider
+from hypotez.src.endpoints.gpt4free.g4f.providers.openai import OpenAI
+from hypotez.src.endpoints.gpt4free.g4f.providers.gpt4free import GPT4Free
 
-# Пример использования RetryProvider
-providers: List = [
-    GeminiProChat,
-    ChatgptAi
+# Создайте список провайдеров
+providers: List[Type[BaseProvider]] = [OpenAI, GPT4Free]
+
+# Создайте экземпляр RetryProvider
+retry_provider = RetryProvider(providers, shuffle=True, single_provider_retry=True, max_retries=3)
+
+# Сообщение для завершения
+messages = [
+    {"role": "user", "content": "Привет! Расскажи мне о себе."},
 ]
 
-retry_provider = RetryProvider(
-    providers=providers,
-    shuffle=True,
-    single_provider_retry=False,
-    max_retries=3
-)
+# Сгенерируйте завершение
+for chunk in retry_provider.create_completion(model="text-davinci-003", messages=messages):
+    print(chunk)
 
-try:
-    # Используем retry_provider для получения ответа
-    response = retry_provider.create_completion(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": "Hello, World!"}],
-        stream=False
-    )
-    for chunk in response:
-        print(chunk)
-except Exception as e:
-    print(f"An error occurred: {e}")
 ```

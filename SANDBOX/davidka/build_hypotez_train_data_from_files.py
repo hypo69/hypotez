@@ -169,34 +169,36 @@ if __name__ == "__main__":
     i: int
     chunk_item: Any
     ex: Exception
-    
-    # Проверка существования директории перед запуском
-    if not Config.DIALOGS_DIR.exists():
-         logger.error(f'Директория для диалогов не существует: {Config.DIALOGS_DIR}')
-         logger.error('Пожалуйста, убедитесь, что путь в Config правильный и директория создана.')
-         exit(1) # Выход при отсутствии директории
+    tarin_dict:dict = {}
 
-    logger.info(f'--- Запуск генератора yield_dialog_chunks из {Config.DIALOGS_DIR} ---')
 
     try:
         # Итерация по генератору
         for i, chunk_item in enumerate(yield_dialog_chunks()):
             #logger.info(f'Получен Chunk {i+1}: {str(chunk_item)[:150]}...')
-            if 'tokenCount' in chunk_item:
-                del chunk_item['tokenCount']
-            chunk_item_trainig_str:str = string_for_train( str(chunk_item) ) # Преобразование в строку
+            if "role" in chunk_item and "text" in chunk_item:
+
+                role_value = chunk_item["role"]
+                text_value = chunk_item["text"]
+
+                question:str = ''
+                if role_value == "user":
+                    chunk_item["text"] = string_for_train(text_value)
+                    
+                elif role_value == "model":
+                    chunk_item["output"] = string_for_train(text_value)
+                    tarin_dict.update({'text_input':chunk_item["text"],'output':chunk_item["output"]})
+
+           
             all_chunks_received.append( chunk_item)
             chunk_count += 1
             if chunk_count >= 10: # Ограничение для отладки
                logger.info('Достигнуто ограничение вывода.')
                Config.output_file = Config.output_file.with_name(f'dialogs_{gs.now}.jsonl')
+               j_dumps(tarin_dict, Config.ENDPOINT/'code_train_data'/f'train_from_ai_studio_{gs.now}.jsonl')
                chunk_count = 0
                ...
-            #append_dict_to_jsonl(chunk_item, Config.output_file) # Запись в файл)JSON
-            if not save_text_file( chunk_item_trainig_str + ',\n', Config.output_file, mode = 'a'): # Запись в файл JSONL Как текст 
-                logger.error(f'Ошибка при записи в файл {Config.output_file}')
-                ...
-                break
+
             ...
 
     except Exception as ex: # Обработка ошибки с использованием переменной ex

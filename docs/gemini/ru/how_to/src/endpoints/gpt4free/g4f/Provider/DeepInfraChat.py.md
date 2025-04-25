@@ -1,53 +1,52 @@
-### Как использовать блок кода DeepInfraChat
+## Как использовать DeepInfraChat
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет класс `DeepInfraChat`, который наследуется от `OpenaiTemplate`. Он предназначен для взаимодействия с сервисом DeepInfra Chat, предоставляя информацию о поддерживаемых моделях, URL и базовый API. Класс содержит списки моделей, включая стандартные и vision-модели, а также псевдонимы моделей для упрощения их использования.
+Класс `DeepInfraChat` представляет собой провайдер, который предоставляет доступ к API DeepInfra для генерации текста и ответов на вопросы с помощью моделей больших языков. Этот провайдер наследует базовый класс `OpenaiTemplate` и предоставляет доступ к дополнительным моделям и параметрам, специфичным для DeepInfra.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируется `OpenaiTemplate` из `.template`.
-
-2. **Определение класса `DeepInfraChat`**:
-   - Класс `DeepInfraChat` наследуется от `OpenaiTemplate`.
-   - Определяются атрибуты класса:
-     - `url` (str): URL сервиса DeepInfra Chat.
-     - `api_base` (str): Базовый URL API DeepInfra.
-     - `working` (bool): Указывает, что провайдер рабочий.
-     - `default_model` (str): Модель, используемая по умолчанию (`deepseek-ai/DeepSeek-V3`).
-     - `default_vision_model` (str): Vision-модель, используемая по умолчанию (`openbmb/MiniCPM-Llama3-V-2_5`).
-     - `vision_models` (list): Список vision-моделей.
-     - `models` (list): Список поддерживаемых моделей, включая vision-модели.
-     - `model_aliases` (dict): Словарь псевдонимов моделей для удобства использования.
-
-3. **Использование класса `DeepInfraChat`**:
-   - Создается экземпляр класса `DeepInfraChat`.
-   - Используются атрибуты класса для получения информации о моделях и API.
+1. **Инициализация**:
+   - Создайте экземпляр класса `DeepInfraChat`. 
+   - В качестве параметра можно указать модель, которую вы хотите использовать.
+   - По умолчанию используется `default_model`, который задан в классе `DeepInfraChat`.
+2. **Вызов методов**:
+   - После инициализации вы можете использовать методы для выполнения запросов к API.
+   - Для генерации текста используйте метод `generate_text`.
+   - Для получения ответов на вопросы используйте метод `get_answer`.
 
 Пример использования
 -------------------------
 
 ```python
-    from src.endpoints.gpt4free.g4f.Provider.DeepInfraChat import DeepInfraChat
+from hypotez.src.endpoints.gpt4free.g4f.Provider import DeepInfraChat
 
-    # Создание экземпляра класса DeepInfraChat
-    deep_infra_chat = DeepInfraChat()
+# Инициализируйте DeepInfraChat с использованием модели "deepseek-ai/DeepSeek-R1"
+provider = DeepInfraChat(model="deepseek-ai/DeepSeek-R1")
 
-    # Вывод URL сервиса
-    print(f"URL сервиса: {deep_infra_chat.url}")
+# Задайте текст для генерации
+text = "Напишите рассказ о кошке, которая умеет летать."
 
-    # Вывод базового URL API
-    print(f"Базовый URL API: {deep_infra_chat.api_base}")
+# Вызовите метод `generate_text` для генерации текста
+generated_text = provider.generate_text(text)
 
-    # Вывод списка поддерживаемых моделей
-    print("Поддерживаемые модели:")
-    for model in deep_infra_chat.models:
-        print(f"- {model}")
+# Выведите результат
+print(generated_text)
 
-    # Вывод псевдонимов моделей
-    print("Псевдонимы моделей:")
-    for alias, model in deep_infra_chat.model_aliases.items():
-        print(f"- {alias}: {model}")
+# Задайте вопрос для получения ответа
+question = "Какая самая высокая гора в мире?"
+
+# Вызовите метод `get_answer` для получения ответа на вопрос
+answer = provider.get_answer(question)
+
+# Выведите результат
+print(answer)
 ```
+
+**Важно**: 
+
+- В классе `DeepInfraChat` заданы списки доступных моделей `models` и `vision_models`.
+- Вы можете использовать эти списки для получения информации о доступных моделях.
+- Ключи `model_aliases` позволяют использовать краткие имена моделей.
+- Например, вместо "meta-llama/Llama-3.1-8B-Instruct" можно использовать "llama-3.1-8b".

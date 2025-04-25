@@ -1,62 +1,57 @@
-### **Как использовать этот блок кода**
-
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код представляет собой набор модульных тестов для проверки асинхронной функциональности `ChatCompletion` в библиотеке `g4f`. Он включает тесты для обработки исключений, создания чат-сессий с использованием различных провайдеров (синхронных, асинхронных и генераторов), а также тесты для работы вложенных асинхронных операций с использованием `nest_asyncio`.
+Блок кода содержит набор юнит-тестов для класса `ChatCompletion` из модуля `g4f`. Он проверяет корректность работы функций `create`, `create_async` и `create_generator` в различных сценариях, включая работу с асинхронным кодом и использование библиотеки `nest_asyncio`.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются модули `asyncio`, `unittest`, а также специфичные компоненты из библиотеки `g4f` (например, `ChatCompletion`, `Client`, моки провайдеров).
-   - Проверяется наличие библиотеки `nest_asyncio` для поддержки вложенных асинхронных операций.
-
-2. **Определение константы `DEFAULT_MESSAGES`**:
-   - Создается список сообщений, используемый в тестах как стандартный набор входных данных для чат-сессий.
-
-3. **Создание тестового класса `TestChatCompletion`**:
-   - Определяется класс `TestChatCompletion`, наследующийся от `unittest.TestCase`, для тестирования синхронных операций `ChatCompletion`.
-   - `run_exception`: Асинхронная функция, предназначенная для вызова исключения `NestAsyncioError`, если `nest_asyncio` не используется.
-   - `test_exception`: Проверяет, что при попытке запуска асинхронной функции без `nest_asyncio` выбрасывается исключение `NestAsyncioError`.
-   - `test_create`: Проверяет успешное создание чат-сессии с использованием асинхронного провайдера (`AsyncProviderMock`) и сравнивает результат с ожидаемым значением "Mock".
-   - `test_create_generator`: Аналогично `test_create`, но использует асинхронный провайдер-генератор (`AsyncGeneratorProviderMock`).
-   - `test_await_callback`: Тестирует асинхронный вызов через клиент `Client` с использованием `AsyncGeneratorProviderMock`.
-
-4. **Создание тестового класса `TestChatCompletionAsync`**:
-   - Определяется класс `TestChatCompletionAsync`, наследующийся от `unittest.IsolatedAsyncioTestCase`, для тестирования асинхронных операций `ChatCompletion`.
-   - `test_base`: Проверяет асинхронное создание чат-сессии с использованием синхронного провайдера (`ProviderMock`).
-   - `test_async`: Проверяет асинхронное создание чат-сессии с использованием асинхронного провайдера (`AsyncProviderMock`).
-   - `test_create_generator`: Проверяет асинхронное создание чат-сессии с использованием асинхронного провайдера-генератора (`AsyncGeneratorProviderMock`).
-
-5. **Создание тестового класса `TestChatCompletionNestAsync`**:
-   - Определяется класс `TestChatCompletionNestAsync`, также наследующийся от `unittest.IsolatedAsyncioTestCase`, для тестирования вложенных асинхронных операций с применением `nest_asyncio`.
-   - `setUp`: Метод, который вызывается перед каждым тестом. Проверяет наличие `nest_asyncio` и применяет его, если он установлен. Если `nest_asyncio` не установлен, тест пропускается.
-   - `test_create`: Проверяет асинхронное создание чат-сессии с использованием синхронного провайдера (`ProviderMock`) во вложенной асинхронной среде.
-   - `_test_nested`: Проверяет создание чат-сессии с использованием асинхронного провайдера (`AsyncProviderMock`) во вложенной асинхронной среде.
-   - `_test_nested_generator`: Проверяет создание чат-сессии с использованием асинхронного провайдера-генератора (`AsyncGeneratorProviderMock`) во вложенной асинхронной среде.
-
-6. **Запуск тестов**:
-   - В блоке `if __name__ == '__main__':` вызывается `unittest.main()` для запуска всех тестов, определенных в модуле.
+1. **Проверка наличия `nest_asyncio`**: Проверяется наличие библиотеки `nest_asyncio` в среде. Если библиотека не доступна, тесты, использующие ее, пропускаются.
+2. **Инициализация `ChatCompletion`**: В тестах создаются экземпляры класса `ChatCompletion` с использованием различных типов провайдеров (синхронный, асинхронный, асинхронный с использованием генератора).
+3. **Проверка исключений**: Тест `test_exception` проверяет, что в случае отсутствия `nest_asyncio` при вызове функции `create` с асинхронным провайдером возникает исключение `g4f.errors.NestAsyncioError`.
+4. **Проверка корректности возвращаемого значения**: Тесты `test_create`, `test_create_generator`, `test_base`, `test_async`, `test_create_generator` и `test_create` проверяют, что функции `create`, `create_async` и `create_generator` возвращают ожидаемые значения, которые в данном случае - строка "Mock".
+5. **Проверка асинхронных функций**: В тестах `test_await_callback`, `test_base`, `test_async`, `test_create_generator` и `test_create` проверяется корректность работы функций `create_async`, `create_generator` и `create` при использовании асинхронных провайдеров.
+6. **Проверка работы с `nest_asyncio`**: Тесты `test_create` и `_test_nested` проверяют работу функций `create` и `create_async` при использовании асинхронных провайдеров с включенным `nest_asyncio`.
 
 Пример использования
 -------------------------
 
 ```python
-import asyncio
 import unittest
+import asyncio
 
 import g4f
 from g4f import ChatCompletion
+from g4f.client import Client
 from .mocks import ProviderMock, AsyncProviderMock, AsyncGeneratorProviderMock
 
 DEFAULT_MESSAGES = [{'role': 'user', 'content': 'Hello'}]
 
-class TestChatCompletionAsync(unittest.IsolatedAsyncioTestCase):
+class TestChatCompletion(unittest.TestCase):
 
-    async def test_base(self):
-        result = await ChatCompletion.create_async(g4f.models.default, DEFAULT_MESSAGES, ProviderMock)
-        self.assertEqual("Mock",result)
+    async def run_exception(self):
+        return ChatCompletion.create(g4f.models.default, DEFAULT_MESSAGES, AsyncProviderMock)
+
+    def test_exception(self):
+        # Проверяем, что исключение `NestAsyncioError` возникает, если `nest_asyncio` не установлен
+        self.assertRaises(g4f.errors.NestAsyncioError, asyncio.run, self.run_exception())
+
+    def test_create(self):
+        # Проверяем корректность работы функции `create` с синхронным провайдером
+        result = ChatCompletion.create(g4f.models.default, DEFAULT_MESSAGES, ProviderMock)
+        self.assertEqual("Mock", result)
+
+    def test_create_generator(self):
+        # Проверяем корректность работы функции `create` с асинхронным провайдером с использованием генератора
+        result = ChatCompletion.create(g4f.models.default, DEFAULT_MESSAGES, AsyncGeneratorProviderMock)
+        self.assertEqual("Mock", result)
+
+    def test_await_callback(self):
+        # Проверяем корректность работы функции `create` в асинхронном режиме
+        client = Client(provider=AsyncGeneratorProviderMock)
+        response = client.chat.completions.create(DEFAULT_MESSAGES, "", max_tokens=0)
+        self.assertEqual("Mock", response.choices[0].message.content)
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,59 +1,36 @@
-### Как использовать этот блок кода
+## Как использовать блок кода `run.py`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код предназначен для запуска графического интерфейса (GUI) для библиотеки `g4f` (GPT4Free). Он обрабатывает аргументы командной строки, устанавливает настройки отладки, загружает файлы cookie, определяет список используемых браузеров для cookie и отключает указанных провайдеров. После этого запускается сам графический интерфейс.
+Блок кода `run.py` запускает графический интерфейс (GUI) для взаимодействия с GPT-4 Free API. Он обрабатывает аргументы командной строки, настраивает необходимые параметры и запускает GUI.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**: Импортируются модули для разбора аргументов командной строки (`gui_parser`), чтения файлов cookie (`read_cookie_files`), запуска графического интерфейса (`run_gui`) и управления провайдерами (`ProviderUtils`).
-2. **Функция `run_gui_args(args)`**:
-   - Принимает аргументы командной строки `args`.
-   - Если установлен флаг отладки (`args.debug`), включается логирование отладочной информации `g4f.debug.logging = True`.
-   - Если не указано игнорировать файлы cookie (`not args.ignore_cookie_files`), файлы cookie считываются функцией `read_cookie_files()`.
-   - Извлекаются значения хоста (`args.host`) и порта (`args.port`) для GUI.
-   - Определяется список браузеров, из которых будут использоваться cookie, на основе аргумента `args.cookie_browsers`.
-   - Отключаются указанные провайдеры, если они есть в `args.ignored_providers`.
-   - Запускается графический интерфейс с указанными хостом, портом и флагом отладки: `run_gui(host, port, debug)`.
-3. **Основной блок `if __name__ == "__main__":`**:
-   - Создается парсер аргументов командной строки `parser = gui_parser()`.
-   - Аргументы командной строки разбираются с помощью `args = parser.parse_args()`.
-   - Функция `run_gui_args(args)` вызывается для запуска GUI с переданными аргументами.
+1. **Обработка аргументов командной строки**: 
+    - Считываются аргументы командной строки, переданные при запуске скрипта.
+    - Проверяется, включен ли режим отладки (`args.debug`).
+    - Проверяется, нужно ли игнорировать файлы cookie (`args.ignore_cookie_files`).
+    - Считывается хост и порт для подключения к API (`args.host`, `args.port`).
+    - Определяется список браузеров, для которых необходимо использовать файлы cookie (`args.cookie_browsers`).
+    - Проверяется, нужно ли игнорировать какие-то провайдеры (`args.ignored_providers`).
+2. **Настройка параметров**:
+    - Если включен режим отладки, устанавливается флаг `g4f.debug.logging` в `True`.
+    - Если не нужно игнорировать файлы cookie, вызывается функция `read_cookie_files()` для загрузки файлов cookie.
+    - Задается список браузеров, для которых используются файлы cookie (`g4f.cookies.browsers`).
+    - Если есть список игнорируемых провайдеров, для каждого провайдера в списке устанавливается флаг `working` в `False`.
+3. **Запуск GUI**:
+    - Вызывается функция `run_gui(host, port, debug)` для запуска GUI с заданными параметрами.
 
 Пример использования
 -------------------------
 
 ```python
-# В данном случае предполагается, что у вас есть файл gui_parser.py, который определяет парсер аргументов командной строки.
-# Также предполагается, что у вас есть функции read_cookie_files() и run_gui(), которые выполняют соответствующие действия.
-# Пример запуска из командной строки: python run.py --host 127.0.0.1 --port 5000 --debug --cookie_browsers Chrome Firefox --ignored_providers Bing
+    # Запуск GUI с хостом 'localhost', портом 5000 и включенным режимом отладки
+    python run.py --host localhost --port 5000 --debug 
+```
 
-from .gui_parser import gui_parser
-from ..cookies import read_cookie_files
-from ..gui import run_gui
-from ..Provider import ProviderUtils
-
-import g4f.cookies
-import g4f.debug
-
-def run_gui_args(args):
-    if args.debug:
-        g4f.debug.logging = True
-    if not args.ignore_cookie_files:
-        read_cookie_files()
-    host = args.host
-    port = args.port
-    debug = args.debug
-    g4f.cookies.browsers = [g4f.cookies[browser] for browser in args.cookie_browsers]
-    if args.ignored_providers:
-        for provider in args.ignored_providers:
-            if provider in ProviderUtils.convert:
-                ProviderUtils.convert[provider].working = False
-
-    run_gui(host, port, debug)
-
-if __name__ == "__main__":
-    parser = gui_parser()
-    args = parser.parse_args()
-    run_gui_args(args)
+В этом примере:
+- `--host localhost` задает хост для подключения к API.
+- `--port 5000` задает порт для подключения к API.
+- `--debug` включает режим отладки.

@@ -1,56 +1,45 @@
-### Как использовать этот блок кода
+## Как использовать TeachAnything
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код определяет асинхронного провайдера `TeachAnything` для взаимодействия с API `teach-anything.com`. Он позволяет генерировать текст на основе предоставленных сообщений, используя модели `gemini-1.5-pro` или `gemini-1.5-flash`. Провайдер использует `aiohttp` для выполнения асинхронных HTTP-запросов.
+Класс `TeachAnything` предоставляет асинхронный генератор, который взаимодействует с API TeachAnything для получения ответов от модели. 
+Он реализует интерфейс `AsyncGeneratorProvider` и использует `aiohttp` для отправки запросов к API.
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются модули `__future__`, `typing`, `aiohttp` и другие необходимые компоненты.
+1. **Создание экземпляра класса:** Создается экземпляр класса `TeachAnything` с помощью метода `create_async_generator`.
+2. **Настройка параметров:** В метод `create_async_generator` передаются следующие параметры:
+    - `model`: Имя модели для использования (например, `gemini-1.5-pro`).
+    - `messages`: Список сообщений для использования в качестве контекста для запроса.
+    - `proxy`: (опционально) Прокси-сервер для использования при отправке запросов.
+3. **Отправка запроса:** Метод `create_async_generator` формирует запрос к API TeachAnything с помощью `aiohttp` и отправляет его.
+4. **Обработка ответа:** После получения ответа от API, метод `create_async_generator` преобразует поток байтов в текст, декодирует его с помощью `utf-8` и возвращает его в виде асинхронного генератора. 
+5. **Обработка ошибок:** В случае ошибок, метод `create_async_generator` пытается обработать их, генерируя соответствующие исключения. 
 
-2. **Определение класса `TeachAnything`**:
-   - Класс наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`.
-   - Устанавливаются базовые атрибуты, такие как `url`, `api_endpoint`, `working` и `default_model`.
 
-3. **Реализация метода `create_async_generator`**:
-   - Метод является асинхронным и создает асинхронный генератор для получения результатов от API.
-   - **Подготовка**:
-     - Извлекает заголовки с помощью `cls._get_headers()`.
-     - Определяет модель для использования.
-   - **Выполнение запроса**:
-     - Создает `ClientSession` для выполнения HTTP-запросов.
-     - Форматирует сообщение с использованием `format_prompt(messages)`.
-     - Определяет данные для отправки в теле запроса (`data = {"prompt": prompt}`).
-     - Устанавливает `timeout` для запроса.
-   - **Обработка ответа**:
-     - Отправляет `POST` запрос на `f"{cls.url}{cls.api_endpoint}"` с использованием `session.post`.
-     - Проверяет статус ответа с помощью `response.raise_for_status()`.
-     - Итерирует по частям ответа (`response.content.iter_any()`).
-     - Буферизирует полученные чанки и пытается их декодировать в `utf-8`.
-     - Если декодирование успешно, возвращает декодированный текст через `yield`.
-     - Обрабатывает исключение `UnicodeDecodeError`, если декодирование не удалось, и ожидает новые данные.
-   - **Обработка остаточных данных**:
-     - После завершения итерации обрабатывает остаточные данные в буфере, декодирует их и возвращает.
-     - В случае ошибки декодирования выводит сообщение об ошибке.
-
-4. **Реализация метода `_get_headers`**:
-   - Статический метод, который возвращает словарь с необходимыми HTTP-заголовками.
-
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider import TeachAnything
-import asyncio
+from hypotez.src.endpoints.gpt4free.g4f.Provider.TeachAnything import TeachAnything
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
+
+messages: Messages = [
+    {"role": "user", "content": "Привет, как дела?"},
+    {"role": "assistant", "content": "Отлично, а у тебя как?"},
+    {"role": "user", "content": "Тоже хорошо.  Расскажи мне анекдот."},
+]
 
 async def main():
-    messages = [{"role": "user", "content": "Hello, tell me a joke"}]
-    model = "gemini-1.5-pro"
-    
-    async for message in TeachAnything.create_async_generator(model=model, messages=messages):
-        print(message, end="")
+    generator = await TeachAnything.create_async_generator(
+        model="gemini-1.5-pro",
+        messages=messages
+    )
+    async for chunk in generator:
+        print(chunk, end="")
 
 if __name__ == "__main__":
+    import asyncio
     asyncio.run(main())
+```
