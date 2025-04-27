@@ -1,924 +1,124 @@
 {
   "products": [
     {
-      "product_url": "https://www.amazon.co.jp/dp/B08XCCCCCC/",
-      "category": "Office Supplies"
+      "product_name": "Fisher™ FIELDVUE™ DVC6200 Digital Valve Controller",
+      "product_url": "https://www.emerson.com/en-us/catalog/fisher-sku-dvc6200-digital-valve-controller",
+      "category_name": "Valve Positioners",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.amazon.es/dp/B09FFFFFFF/",
-      "category": "Kitchenware"
+      "product_name": "Yokogawa YTA610 Temperature Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/temperature-transmitters/yta610-yta710/",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.europages.com/product/1234567/machine-tools.html",
-      "category": "Industrial Supplies"
+      "product_name": "WIKA model TI.30 / TI.50 Bimetal thermometer",
+      "product_url": "https://www.wika.com/en-us/products/temperature/mechanical_temperature_measurement/bimetal_thermometers/productoverview/bimetal_thermometer_models_ti_30_ti_50.WIKA",
+      "category_name": "Bimetal Thermometers",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.zalando.nl/kinderen-schoenen-sneakers-wit/ZAL98765432A.html",
-      "category": "Fashion"
+      "product_name": "Endress+Hauser Micropilot FMR60 Radar Level Sensor",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/level-measurement/radar-level-sensor-micropilot-fmr60",
+      "category_name": "Radar Level Transmitters",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.xxxlutz.at/p/schreibtisch-eiche-optik-metall-schwarz-001234567A",
-      "category": "Furniture"
+      "product_name": "Siemens SITRANS TH320/420 Temperature Transmitter",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/temperature-measurement/head-transmitters/sitrans-th320-420.html",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://store.tsite.jp/item-detail/book/12345.html",
-      "category": "Books"
+      "product_name": "KROHNE OPTITEMP TRA-S12 RTD Temperature Sensor",
+      "product_url": "https://krohne.com/en/products/temperature-measurement/temperature-sensors/rtd-temperature-sensors/optitemp-tra-s12",
+      "category_name": "RTD Temperature Sensors",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://kobo.com/us/en/List/Search?Query=non-fiction",
-      "category": "eBooks"
+      "product_name": "VEGA VEGABAR 82 Pressure Transmitter",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/pressure/process-pressure/vegabar-82",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://allegro.pl/oferta/filtr-powietrza-do-samochodu-marka-model-2121212121",
-      "category": "Auto Parts"
+      "product_name": "ABB PxS100 Pressure Transmitter",
+      "product_url": "https://new.abb.com/products/measurement-products/pressure/pressure-transmitters/pxs100",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.soriana.com/soriana/es/c/Hogar-y-Electrodomésticos/Línea-Blanca/Refrigeradores/p/12345678",
-      "category": "Home Appliances"
+      "product_name": "Omega DP41 Universal Digital Panel Meter",
+      "product_url": "https://www.omega.com/en-us/control-monitoring/panel-meters/digital-panel-meters/dp41-series/p/DP41-TC-A",
+      "category_name": "Digital Panel Meters",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.etsy.com/listing/1098765432/handmade-macrame-wall-hanging-boho",
-      "category": "Handmade"
+      "product_name": "Honeywell SmartLine® STG800 Gauge Pressure Transmitters",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/field-instruments/pressure-transmitters/stg800-gauge-pressure-transmitter",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.mercadolibre.com.ar/silla-oficina-ergonomica-mesh-negra/p/MLA1600000C",
-      "category": "Furniture"
+      "product_name": "METTLER TOLEDO InPro 6860i Dissolved Oxygen Sensor",
+      "product_url": "https://www.mt.com/us/en/home/products/Process-Analytics/DO-sensor/dissolved-oxygen-sensor-amperometric/InPro_6860i.html",
+      "category_name": "Dissolved Oxygen Sensors",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.boulanger.com/c/tablette-tactile",
-      "category": "Electronics"
+      "product_name": "Dwyer Instruments Series 477AV Handheld Digital Manometer",
+      "product_url": "https://www.dwyer-inst.com/Product/TestEquipment/Manometers/HandheldDigital/Series477AV",
+      "category_name": "Digital Manometers",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.ikea.com/gb/en/cat/bookcases-shelving-units-st002/",
-      "category": "Furniture"
+      "product_name": "Fluke 789 ProcessMeter™",
+      "product_url": "https://www.fluke.com/en-us/product/calibration-tools/ma-loop-calibrators/fluke-789",
+      "category_name": "Process Calibrators",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.limeroad.com/search/men%20shirts",
-      "category": "Fashion"
+      "product_name": "Samson GROUP 3241 Globe Valve",
+      "product_url": "https://www.samson.de/en/products/valves/globe-valves/3241-group/",
+      "category_name": "Control Valves",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.asos.com/us/men/jewellery/watches/cat/?cid=5034",
-      "category": "Fashion"
+      "product_name": "GF Signet 3-2751 pH/ORP Smart Sensor Electronics",
+      "product_url": "https://www.gfps.com/en-us/products-solutions/products/sensors/ph-orp-sensors/2751-ph-orp-smart-sensor-electronics.html",
+      "category_name": "pH/ORP Sensors/Electronics",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.kmart.com/appliances-kitchen-small-appliances-coffee-makers/b-13311",
-      "category": "Home Appliances"
+      "product_name": "Burkert Type 8619 multiCELL Multi-channel and multi-function transmitter/controller",
+      "product_url": "https://www.burkert.com/en/products/valves-sensors-controllers/transmitters-controllers/8619",
+      "category_name": "Multi-Parameter Controllers",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.hipercor.es/moda-mujer/vestidos/",
-      "category": "Fashion"
+      "product_name": "Flowserve Logix 3800 Digital Positioner",
+      "product_url": "https://www.flowserve.com/en/products/positioners/digital-positioners/logix-3800-digital-positioner/",
+      "category_name": "Valve Positioners",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.bestbuy.com/site/tv-home-theater/projectors/abcat0101000.c?id=abcat0101000",
-      "category": "Electronics"
+      "product_name": "Ashcroft® 1130 Differential Pressure Gauge",
+      "product_url": "https://www.ashcroft.com/products/pressure/pressure-gauges/1130-differential-pressure-gauge/",
+      "category_name": "Differential Pressure Gauges",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.thomann.de/de/mikrofone.html",
-      "category": "Musical Instruments"
+      "product_name": "Draeger Polytron 8100 EC Gas Detector",
+      "product_url": "https://www.draeger.com/en-us_us/Products/Polytron-8100-EC",
+      "category_name": "Gas Detectors",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.decathlon.it/browse/c0-tutti-gli-sport/c1-fitness-cardio-training/_/N-808484",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.fnac.es/Libros/ct10090/w-4",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.mediamarkt.ch/fr/category/_aspirateurs-507.html",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.lazada.co.id/beli-hard-disk-eksternal/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://shopee.vn/search?keyword=t%C3%BAi%20x%C3%A1ch%20n%E1%BB%AF",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.pontofrio.com.br/informatica/Notebooks/cat20002",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.davidjones.com/brand/sheridan",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.strandbooks.com/fiction",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.sephora.ca/shop/skincare",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.newegg.com/Processors-CPUs/SubCategory/ID-34",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.adidas.ca/en/men-originals-shoes",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hm.com/es_es/mujer/shop-por-producto/camisetas-y-tops.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.zara.com/au/en/woman-accessories-bags-l1005.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.yoox.com/us/men/shoponline/clothing_mc",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.shoppersstop.com/men/clothing/c-A1010",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.empik.com/gry-planszowe,31,k",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.lowes.ca/dept/tools-a1001.html",
-      "category": "Tools"
-    },
-    {
-      "product_url": "https://www.wayfair.de/moebel/cat/betten-c1859939.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.andertons.co.uk/drums",
-      "category": "Musical Instruments"
-    },
-    {
-      "product_url": "https://www.spacenk.com/uk/en_GB/haircare.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.fruugo.nl/kantoorartikelen/c-5120",
-      "category": "Office Supplies"
-    },
-    {
-      "product_url": "https://www.probikekit.co.uk/cycling-clothing.list",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://global.rakuten.com/en/category/watches/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.coupang.com/np/categories/315284",
-      "category": "Kitchenware"
-    },
-    {
-      "product_url": "https://www.letu.ru/browse/uhod-za-kozhei/dlya-litsa/c/301",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.amazon.it/dp/B08YZZZAAA/",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.amazon.de/dp/B09AAAAAAA/",
-      "category": "Tools"
-    },
-    {
-      "product_url": "https://www.kaufland.cz/sortiment/drogerie.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.revolve.com/mobile/shoes/br/4064a7/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.petsathome.com/shop/en/pets/small-pet",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://www.eldorado.ru/c/vstraivaemye-dukhovye-shkafy/",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.ebay.it/sch/i.html?_from=R40&_nkw=lego+star+wars&_sacat=0",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.morrisons.com/groceries/browse/frozen-food-177199",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.smythstoys.com/ie/en-ie/toys/c/SM0601",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.debenhams.com/category/beauty",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.hollandandbarrett.com/shop/food-drink/healthy-snacks/",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.very.co.uk/gaming-dvd/consoles/e/b/1750.end",
-      "category": "Video Games"
-    },
-    {
-      "product_url": "https://showroomprive.com/univers/jouets",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.mediamarkt.pl/telefony-i-smartfony/smartfony",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.rakuten.com/category/56/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://biccamera.rakuten.co.jp/category/kaden/camera/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.gsshop.com/shop/beauty/main.gs",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.cjmall.com/shop/planshop/plan_shop.jsp?shop_id=2021010001",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://beru.ru/catalog/knigi/91501",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.shoptime.com.br/categoria/celulares-e-smartphones",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.officeworks.com.au/shop/officeworks/c/technology/networking-wifi",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.noelleeming.co.nz/c/computers/laptops",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.atmosphere.ca/categories/gear-by-activity/camp-hike/tents.html",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://shoppersdrugmart.ca/en/food-and-home/household-supplies",
-      "category": "Household Supplies"
-    },
-    {
-      "product_url": "https://www.mec.ca/en/products/gear/packs-and-bags/c/1198",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.zaful.com/swimwear-e_11.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.nastygal.com/gb/womens/clothing/tops",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://modesens.com/shop/women/shoes/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.italist.com/us/men/shoes/sneakers/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.uniqlo.com/fr/fr/femme/vetements-dinterieur",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.northerntool.com/shop/tools/automotive",
-      "category": "Tools"
-    },
-    {
-      "product_url": "https://www.toolstation.com/hand-tools/c1",
-      "category": "Tools"
-    },
-    {
-      "product_url": "https://www.sallybeauty.com/hair/hair-care/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.lookfantastic.fr/soin-du-visage.list",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.parfumo.com/Perfumes/Brands",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.amazon.com/electronics-store/b?ie=UTF8&node=172282",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.target.com/c/grocery/-/N-5xt1a",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.walmart.com/cp/clothing/5438",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.costco.com/furniture.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.samsclub.com/c/office-supplies/1444",
-      "category": "Office Supplies"
-    },
-    {
-      "product_url": "https://www.instacart.com/categories",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.freshdirect.com/browse.jsp?catId=beh_bev",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://thrivemarket.com/c/food",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.wholefoodsmarket.com/products/supplements",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.traderjoes.com/home/products/category/snacks-sweets-8",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.aldi.us/products/",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.lidl.com/weekly-specials",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.safeway.com/shop/aisle/baby.12510.html",
-      "category": "Baby Products"
-    },
-    {
-      "product_url": "https://www.albertsons.com/shop/aisle/pets.12511.html",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://www.vons.com/shop/aisle/household-essentials.12512.html",
-      "category": "Household Supplies"
-    },
-    {
-      "product_url": "https://www.jewelosco.com/shop/aisle/beauty-personal-care.12513.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.shaws.com/shop/aisle/health-wellness.12514.html",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.starmarket.com/shop/aisle/wine-beer-spirits.12515.html",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.acmemarkets.com/shop/aisle/deli-prepared-food.12516.html",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.foodlion.com/departments/floral/",
-      "category": "Garden & Outdoors"
-    },
-    {
-      "product_url": "https://www.giantfood.com/departments/pharmacy/",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://stopandshop.com/departments/bakery/",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.hannaford.com/departments/meat-and-seafood",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://weiscomfortfood.com/departments/produce",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://shop.wegmans.com/shop/categories/50",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.heb.com/category/shop/home-outdoor/kitchen-dining/490004",
-      "category": "Kitchenware"
-    },
-    {
-      "product_url": "https://www.kroger.com/c/natural-organic/10001",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.ralphs.com/c/toys-games/10006",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.qfc.com/c/electronics/10007",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.frysfood.com/c/home-garden/10008",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.smithsfoodanddrug.com/c/apparel/10009",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.kingsoopers.com/c/seasonal/10010",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.citymarket.com/c/books-magazines/10011",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.dillons.com/c/gift-cards/10012",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.gerbes.com/c/photo/10013",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.bakersplus.com/c/fuel/10014",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.pay-less.com/c/money-services/10015",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.marianos.com/c/recipes/10016",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.metromarket.net/c/weekly-ad/10017",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.picknsave.com/c/digital-coupons/10018",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.copps.com/c/rewards/10019",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.jaycfoods.com/c/delivery/10020",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.owensmarket.com/c/pickup/10021",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.fredmeyer.com/c/ship/10022",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.foodsco.net/c/mobile-app/10023",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.meijer.com/shopping/departments/clothing.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hy-vee.com/aisles-online/Diet-Nutrition",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.wincoFoods.com/departments/bulk-foods",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.staterbros.com/departments/floral/",
-      "category": "Garden & Outdoors"
-    },
-    {
-      "product_url": "https://www.smartandfinal.com/shop/departments/beverages/10003",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.food4less.com/c/international-foods/10004",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.foodscomarkets.com/c/party-platters/10005",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://zoro.com/tools-machining/c/10/",
-      "category": "Tools"
-    },
-    {
-      "product_url": "https://uline.com/Grp_11/Boxes-Corrugated",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.amazon.com/business",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.mcmaster.com/",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://fastenal.com/product/abrasives/600948",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.applied.com/categories/bearings",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.motionindustries.com/products/Bearings/Mounted%20Bearings",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.globalindustrial.com/c/hvac",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://airgas.com/category/Welding-Products/c/1000000",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.praxair.com/gases",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.linde-gas.com/en/products_and_supply/gases/index.html",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.graybar.com/store/en/gb/automation",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.rexelusa.com/c/Electrical-Distribution/1010",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.cesco.com/Electrical-Supplies/LED-Lighting/c/01010100",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.platt.com/platt-electric-supply/Wire-Cable/Building-Wire/c/1010",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.grainger.ca/en/category/Electrical/c/200",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.acklandsgrainger.com/en/category/Safety/c/700",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.wescomarine.com/shop/en/wescomarine/marine-hardware",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://jamestowndistributors.com/electrical",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://defender.com/en_us/shop/electrical",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.westmarine.com/boating-supplies/electrical/",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.fisheriessupply.com/electrical",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.go2marine.com/boat-parts/electrical-parts",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.pbsboatstore.com/marine-electrical.htm",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.partsvu.com/marine-electrical-supplies.html",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.iboats.com/shop/electrical-lighting.html",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.wholesalemarine.com/boat-electrical-supplies/",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.cwrwholesale.com/category/Electrical",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.kelloggmarine.com/marine-electrical.html",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.donovanmarine.com/c-12-electrical.aspx",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://landnsea.com/distribution/electrical",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://paurent.com/electrical-tools-equipment/",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://sunbeltrentals.com/equipment/cat/98/electrical-tools-equipment/",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.unitedrentals.com/equipment/tools-industrial/electrical-tools",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.hercrentals.com/us/rental-equipment/electrical-tools.html",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.catrentalstore.com/en_US/products/power-generation.html",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.aggreko.com/en-us/products/power-generation-rentals",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.zinio.com/ca/magazines/category/science-technology-mz121",
-      "category": "Magazines"
-    },
-    {
-      "product_url": "https://www.magazines.com/lifestyle-magazines",
-      "category": "Magazines"
-    },
-    {
-      "product_url": "https://www.discountmags.com/browse/fashion-and-style",
-      "category": "Magazines"
-    },
-    {
-      "product_url": "https://www.magazinecafestore.com/collections/food-wine-magazines",
-      "category": "Magazines"
-    },
-    {
-      "product_url": "https://www.barnesandnoble.com/b/magazines/_/N-1pbl",
-      "category": "Magazines"
-    },
-    {
-      "product_url": "https://amazon.com/magazines",
-      "category": "Magazines"
-    },
-    {
-      "product_url": "https://www.wsj.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.nytimes.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.washingtonpost.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.theguardian.com/international",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.bbc.com/news",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.cnn.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.reuters.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://apnews.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.bloomberg.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.ft.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.economist.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://time.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.newyorker.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.theatlantic.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.wired.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.nationalgeographic.com/magazine/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.smithsonianmag.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://foreignpolicy.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.foreignaffairs.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.scientificamerican.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.technologyreview.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://hbr.org/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.inc.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.fastcompany.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.entrepreneur.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.forbes.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://fortune.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.businessinsider.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.espn.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://bleacherreport.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://theathletic.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.si.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://deadspin.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://kotaku.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://ign.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.gamespot.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://polygon.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.eurogamer.net/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.rockpapershotgun.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://pitchfork.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.rollingstone.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.billboard.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.nme.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://consequence.net/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.stereogum.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.avclub.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://variety.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.hollywoodreporter.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://deadline.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.indiewire.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.rottentomatoes.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.metacritic.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.imdb.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://letterboxd.com/",
-      "category": "News & Media"
-    },
-    {
-      "product_url": "https://www.goodreads.com/",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://app.thestorygraph.com/",
-      "category": "Books"
+      "product_name": "JUMO DELOS SI Precision pressure transmitter with switching contacts and display",
+      "product_url": "https://www.jumo.net/en/products/pressure/pressure-transmitters-with-switch-contacts/delos-si/405052",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Instrumentation and Control"
     }
   ]
 }

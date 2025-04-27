@@ -27,11 +27,11 @@ from src.logger.logger import logger
 
 class Config(SimpleNamespace):
     ENDPOINT:Path = __root__/'SANDBOX'/'davidka'
-    mining_data_path:Path = ENDPOINT/'minig_data'
-    instructions_path:Path = ENDPOINT/'instructions'
+    mining_data_path:Path = ENDPOINT/'random_urls'
     crawl_files_list:list = get_filenames_from_directory(mining_data_path, 'json')
-    instruction_grab_product_page:str =  Path(instructions_path/ 'generate_product_links.md').read_text(encoding='utf-8')
-
+    generate_product_links_instruction:str =  Path(ENDPOINT/ 'instructions'/ 'generate_product_links.md').read_text(encoding='utf-8')
+    grab_product_page_instruction:str =  Path(ENDPOINT/ 'instructions'/ 'grab_product_page.md').read_text(encoding='utf-8')
+    driver:SimpleDriver = SimpleDriver()
 
 def get_products_urls_list_from_files(crawl_files_list:list = []) -> list:
     """
@@ -65,24 +65,67 @@ def yield_product_urls_from_files(directory: Path = Config.mining_data_path, pat
             logger.error(f'Ошибка при обработке файла {filename=}', ex)
             ...
 
+def get_categories(crawl_files_list:list = []) -> list:
+    """Возвращает все категории из файлов словарей для майнинга"""
+    categories_list:list = []
+    for filename in crawl_files_list or Config.crawl_files_list:
+        try:
+            file_path = Config.mining_data_path / filename
+            crawl_data = j_loads(file_path)['products']
+            for product in crawl_data:
+                try:
+                    categories_list.append(product['parent_category'])
+                except:
+                    ...
+                try:    
+                    categories_list.append(product['category_name'])
+                except:
+                    ...
+        except Exception as ex:
+            logger.error(f'Ошибка при обработке файла/n {filename=}/n', ex)
+            ...
+            return categories_list
+            ...
+    categories_list = list(set(categories_list))
+    random.shuffle(categories_list)
+    return categories_list 
+
+async def get_products_by_category(category:str, num_of_links:str = '5'):
+        try:
+            driver:SimpleDriver = Config.driver
+            logger.info(f'Обработка {category=}')
+            task = Config.generate_product_links_instruction.replace('<product category name>', category).replace('<num of links>', num_of_links)
+            extracted_data = await driver.simple_process_task_async(task)
+            print('EXTRACTED DATA')
+            print(extracted_data['history']['AgentHistory'])
+            ...
+            return extracted_data
+        except Exception as ex:
+            logger.error(f'Ошибка при обработке {category=}', ex)
+            ...
 
 
 async def main():
     """"""
     driver:SimpleDriver = SimpleDriver()
-
-    # Через генератор для совсем больших данных
-    # for product_url in yield_product_urls_from_files():
+    # ------------------ товары из списка -------------------
+    # # Через генератор для совсем больших данных
+    # # for product_url in yield_product_urls_from_files():
     for product_url in get_products_urls_list_from_files():
         try:
             logger.info(f'Обработка URL: {product_url}')
-            task = Config.instruction.replace('<URL>', product_url)
+            task = Config.grab_product_page_instruction.replace('<URL>', product_url)
             final_answer_stream, stream_chunks = await driver.stream_task(task, use_gemini=True)
             print(final_answer_stream)
             print(stream_chunks)
             ...
         except Exception as ex:
             logger.error(f'Ошибка при обработке {product_url=}', ex)
+
+
+    # ------------------ товары из категорий из списка -------------------
+    # for category in get_categories():
+    #     await get_products_by_category(category)
 
 asyncio.run(main())
 

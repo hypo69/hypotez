@@ -1,764 +1,124 @@
 {
   "products": [
     {
-      "product_url": "https://www.amazon.co.jp/dp/B09GGGGGGG/",
-      "category": "Books"
+      "product_name": "Rosemount™ 8700 Series Magnetic Flow Meter Systems",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-sku-8700-magnetic-flow-meter-platform",
+      "category_name": "Magnetic Flowmeters",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.amazon.es/dp/B07HHHHHHH/",
-      "category": "Electronics"
+      "product_name": "Yokogawa SMARTDAC+ GX/GP Series Paperless Recorders",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/data-acquisition/recorders/paperless-recorders/gx-gp/",
+      "category_name": "Paperless Recorders",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.ecplaza.net/products/led-light-bulbs_123456",
-      "category": "Electronics"
+      "product_name": "WIKA model UPT-20 / UPT-21 Process transmitter",
+      "product_url": "https://www.wika.com/en-us/products/pressure/sensors_transmitters/productoverview/process_transmitter_model_upt_20_upt_21.WIKA",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.zalando.no/dame-veske-skinn-sort-crossbody/ZAL12345678B.html",
-      "category": "Fashion"
+      "product_name": "Endress+Hauser Promass F 300 Coriolis Flowmeter",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/flow-measurement-product-overview/coriolis-flowmeter-promass-f-300",
+      "category_name": "Coriolis Flowmeters",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.roller.de/p/kommode-mit-4-schubladen-weiss-matt-01234567",
-      "category": "Furniture"
+      "product_name": "Siemens SITRANS F US SONO 3100/FUS060 Clamp-on Ultrasonic Flowmeter",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/flow-measurement/ultrasonic-clamp-on/sitrans-fus-sono3100-fus060.html",
+      "category_name": "Ultrasonic Flowmeters (Clamp-on)",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.maruzenjunkudo.co.jp/maruzen/top/search/list.html?kw=science",
-      "category": "Books"
+      "product_name": "KROHNE OPTITEMP TCA-P60 Thermocouple Assembly",
+      "product_url": "https://krohne.com/en/products/temperature-measurement/temperature-assemblies/thermocouple-assemblies/optitemp-tca-p60",
+      "category_name": "Thermocouple Assemblies",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.chirpbooks.com/audiobooks/9780000000003",
-      "category": "Audiobooks"
+      "product_name": "VEGA VEGAFLEX 81 Guided Wave Radar Sensor",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/level/guided-wave-radar/vegaflex-81",
+      "category_name": "Guided Wave Radar Level Sensors",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://allegro.pl/kategoria/kuchnia-akcesoria-kuchenne-77692?string=chochla",
-      "category": "Kitchenware"
+      "product_name": "ABB Aztek 600 Colorimetric Analyzers (Water)",
+      "product_url": "https://new.abb.com/products/measurement-products/analytical/liquid-analyzers/colorimetric-analyzers/aztec-600",
+      "category_name": "Water Analyzers (Colorimetric)",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.lacomer.com.mx/lacomer/#!/categoria/farmacia",
-      "category": "Health & Pharmacy"
+      "product_name": "Omega CN16PT Series PID Temperature/Process Controller",
+      "product_url": "https://www.omega.com/en-us/control-monitoring/controllers/pid-controllers/cn16pt-series/p/CN16PT-330",
+      "category_name": "PID Controllers",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.etsy.com/fr/listing/111222333/boucles-doreilles-argile-polymere",
-      "category": "Handmade"
+      "product_name": "Honeywell UDC3200 Universal Digital Controller",
+      "product_url": "https://process.honeywell.com/us/en/products/control-systems/universal-digital-controller/udc3200-universal-digital-controller",
+      "category_name": "Digital Controllers",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.mercadolibre.com.uy/patineta-skateboard-completa-maple-ruedas-pu/p/MLU1100000A",
-      "category": "Sports & Outdoors"
+      "product_name": "METTLER TOLEDO EasySense pH Sensor",
+      "product_url": "https://www.mt.com/us/en/home/products/Process-Analytics/pH-sensor/pH-sensor-digital/EasySense_pH.html",
+      "category_name": "pH Sensors",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.conforama.es/electrodomesticos/grandes-electrodomesticos/lavadoras",
-      "category": "Home Appliances"
+      "product_name": "Dwyer Instruments Series ISDP Differential Pressure Transmitter (Intrinsically Safe)",
+      "product_url": "https://www.dwyer-inst.com/Product/Pressure/DifferentialPressure/Transmitters/SeriesISDP",
+      "category_name": "Differential Pressure Transmitters (IS)",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.ikea.cn/cn/zh/cat/sofas-fu003/",
-      "category": "Furniture"
+      "product_name": "Fluke 709H Precision Loop Calibrator with HART Communications/Diagnostics",
+      "product_url": "https://www.fluke.com/en-us/product/calibration-tools/ma-loop-calibrators/fluke-709h",
+      "category_name": "Loop Calibrators",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.koovs.com/category/accessories",
-      "category": "Fashion"
+      "product_name": "Samson GROUP 3510 Pneumatic Control Valve",
+      "product_url": "https://www.samson.de/en/products/valves/globe-valves/3510-group/",
+      "category_name": "Control Valves",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.asos.com/nl/heren/accessoires/horloges/cat/?cid=4931",
-      "category": "Fashion"
+      "product_name": "GF Signet 2850 Conductivity/Resistivity Sensor Electronics",
+      "product_url": "https://www.gfps.com/en-us/products-solutions/products/sensors/conductivity-resistivity-sensors/2850-conductivity-resistivity-sensor-electronics.html",
+      "category_name": "Conductivity Sensors/Electronics",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.bedbathandbeyond.ca/store/category/bedding/sheets-pillowcases/10506",
-      "category": "Home Goods"
+      "product_name": "Burkert Type 8222 Compact conductivity meter",
+      "product_url": "https://www.burkert.com/en/products/valves-sensors-controllers/conductivity-sensors-transmitters-controllers/8222",
+      "category_name": "Conductivity Meters",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.elcorteingles.es/lencerie/sujetadores/",
-      "category": "Fashion"
+      "product_name": "Rotork IQ3 Intelligent Electric Actuator",
+      "product_url": "https://www.rotork.com/en/products/actuators/iq3",
+      "category_name": "Electric Actuators",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.bestbuy.ca/en-ca/collection/wearable-technology/31718",
-      "category": "Electronics"
+      "product_name": "Ashcroft® 1209 Process Pressure Gauge",
+      "product_url": "https://www.ashcroft.com/products/pressure/pressure-gauges/1209-process-pressure-gauge/",
+      "category_name": "Process Pressure Gauges",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.thomann.de/it/chitarre_e_bassi.html",
-      "category": "Musical Instruments"
+      "product_name": "MSA ALTAIR 4XR Multigas Detector",
+      "product_url": "https://us.msasafety.com/Portable-Gas-Detection/Multi-Gas-Detectors/ALTAIR%C2%AE-4XR-Multigas-Detector/p/000060000200001045",
+      "category_name": "Multigas Detectors",
+      "parent_category": "Instrumentation and Control"
     },
     {
-      "product_url": "https://www.decathlon.com.mx/search?Ntt=bicicleta",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.casadellibro.com/libros/ciencias-humanas/108000000",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.mediamarkt.at/de/category/_fernseher-701041.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.lazada.com.ph/tag/air-conditioner/",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://shopee.tw/search?keyword=%E8%80%B3%E6%A9%9F",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.magazineluiza.com.br/busca/tablet/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.zanui.com.au/furniture/dining-room/dining-tables/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.abebooks.com/collections/scifi",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.bluemercury.com/collections/hair-care",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.newegg.ca/Video-Cards-Video-Devices/SubCategory/ID-48",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.adidas.nl/heren-schoenen",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hm.com/at/de_at/damen/shop-by-product/hosen.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.zara.com/de/de/damen-taschen-l1024.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.yoox.com/jp/men/shoponline/clothing_mc",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.pantaloons.com/c/women/western-wear/dresses-jumpsuits/product-name-brand-D123456",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.mediaexpert.pl/komputery-i-tablety/drukarki-i-urzadzenia-biurowe/urzadzenia-wielofunkcyjne",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.harborfreight.com/hand-tools.html",
-      "category": "Tools"
-    },
-    {
-      "product_url": "https://www.wayfair.com/bed-bath/cat/bedding-c413871.html",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.pmtonline.co.uk/keyboards-pianos",
-      "category": "Musical Instruments"
-    },
-    {
-      "product_url": "https://www.beautybay.com/l/makeup/palettes/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.fruugo.be/kantoorbehoeften/pennenhouders/c-5120-8243",
-      "category": "Office Supplies"
-    },
-    {
-      "product_url": "https://www.evanscycles.com/clothing/shorts-bib-shorts",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://global.rakuten.com/en/category/toys/plush/",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.hmall.com/sl/search?q=%EB%8B%B9%EA%B7%BC",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.rivegauche.ru/category/parfyumeriya",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.amazon.com.br/dp/B09ASDFGHJ/",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.amazon.in/dp/B07BNMZXCV/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.kaufland.ro/sortiment/alimente-de-baza.html",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.intermixonline.com/designer/sale/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.petsathome.com/shop/en/pets/dog/dog-food/dry-dog-food",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://www.eldorado.ru/c/televizory/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.ebay.fr/sch/i.html?_from=R40&_nkw=montre+femme&_sacat=0",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.morrisons.com/groceries/browse/household-177231",
-      "category": "Household Supplies"
-    },
-    {
-      "product_url": "https://www.gamestop.ie/SearchResult/QuickSearch?q=xbox",
-      "category": "Video Games"
-    },
-    {
-      "product_url": "https://www.houseoffraser.co.uk/brand/home/all-bedding",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.lloydspharmacy.com/en/info/vitamins-and-supplements",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.littlewoods.com/electricals/laptops/e/b/4294967292.end",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.veepee.fr/ns/fr-fr/operation/123456/category/shoes",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.euronics.it/informatica/accessori-pc/",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.buyma.us/mens/shop/shoes/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://wowma.jp/category/1001",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://auctions.yahoo.co.jp/category/list/23336/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://lohaco.jp/ksearch/?searchWord=%E3%83%91%E3%82%B9%E3%82%BF",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://goods.ru/catalog/kompyutery/komplektuyuschie-dlya-pk/",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.shoptime.com.br/categoria/eletrodomesticos",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.officeworks.com.au/shop/officeworks/c/furniture/office-chairs",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.noelleeming.co.nz/c/mobile/smartphones",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.sportchek.ca/categories/gear-by-activity/camp-hike.html",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://shoppersdrugmart.ca/en/food-and-home/food/snacks",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.mec.ca/en/products/clothing/jackets/c/1089",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.zaful.com/dresses-e_10.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.nastygal.com/gb/womens/shoes",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://modesens.com/shop/men/clothing/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.italist.com/us/women/bags/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.uniqlo.com/sg/en/men/tops",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.ruralking.com/pets/dogs/dog-food",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://www.wickes.co.uk/Products/Gardening-Landscaping/c/1000809",
-      "category": "Garden & Outdoors"
-    },
-    {
-      "product_url": "https://www.sephora.co.uk/c/fragrance",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.notino.fr/soin-des-cheveux/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.allbeauty.com/gb/en/c/skincare",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.vitacost.com/herb",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.iherb.com/c/bath-personal-care",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.swansonvitamins.com/c/food-beverage",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.gnc.com/performance/protein/",
-      "category": "Sports Nutrition"
-    },
-    {
-      "product_url": "https://www.vitaminshoppe.com/c/weight-support/weight-management",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.bodybuilding.com/store/goalpreworkout.htm",
-      "category": "Sports Nutrition"
-    },
-    {
-      "product_url": "https://www.myprotein.com/vitamins.list",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://uk.optimumnutrition.com/collections/protein-bars-snacks",
-      "category": "Sports Nutrition"
-    },
-    {
-      "product_url": "https://ca.shop.gymshark.com/collections/shorts/mens",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.aloyoga.com/collections/mens",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://shop.lululemon.com/c/men/_/N-1z13zi2",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://vuoriclothing.com/collections/womens",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://outdoorvoices.com/collections/bestsellers",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.fabletics.com/shop/men/tops",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.bombas.com/collections/womens-socks",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://everlane.com/collections/womens-jeans",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.asket.com/us/mens/shirts",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://mackweldon.com/collections/underwear",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://ministryofsupply.com/collections/mens-pants",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://westernrise.com/collections/shirts",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://bluffworks.com/collections/womens",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://publicrec.com/collections/womens-tops",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://rhone.com/collections/bottoms",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://tenthousand.cc/collections/shirts",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://hylete.com/mens/shorts",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://nobullproject.com/collections/womens-footwear",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.on-running.com/en-us/shop/womens/shoes",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hoka.com/en/us/mens-trail/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.brooksrunning.com/en_us/womens-trail-running-shoes/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.saucony.com/en/originals/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.altrarunning.com/shop/womens-shoes-trail",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.topoathletic.com/womens-road-running-shoes",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.newtonrunning.com/collections/womens-running-shoes",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.mizunousa.com/category/sports/running/shoes/mens.do",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.asics.com/us/en-us/mens-shoes/c/aa10100000/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.karhu.com/usa/all-footwear.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.veja-store.com/en_us/137-men",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.allbirds.com/collections/womens-shoes",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://rothys.com/collections/womens-shoes",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://thursdayboots.com/collections/womens-boots",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.tecovas.com/collections/womens-boots",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lucchese.com/collections/womens/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.ariat.com/english-footwear",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.justinboots.com/en/mens",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.redwingshoes.com/heritage/womens/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.wolverine.com/US/en/mens-work-boots/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.chippewaboots.com/en/original-collection",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://thorogoodusa.com/product-category/boots/work/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.danner.com/men/work",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.keenfootwear.com/collections/mens-sandals",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.merrell.com/US/en/womens-hiking-boots/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.salomon.com/en-us/shop/men/shoes/hiking-shoes.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lasportivausa.com/climbing/climbing-shoes.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.scarpa.com/mountaineering",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.mammut.com/us/en/products/category/3000/footwear",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lowaboots.com/womens/backpacking",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hanwag.com/us/en-us/women/trek-light",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.fjallraven.com/us/en-us/men/trousers",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.osprey.com/us/en/category/travel/carry-on-luggage/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.deuter.com/us-en/shop/backpacks/travel",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.gregorypacks.com/packs-bags/travel-packs/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.mysteryranch.com/travel-packs",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.hyperlitemountaingear.com/collections/packs",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.ula-equipment.com/shop/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://zpacks.com/collections/backpacks",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://gossamergear.com/collections/backpacks",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.tumi.com/c/luggage/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.briggs-riley.com/collections/luggage",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://awaytravel.com/suitcases/carry-on",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://monos.com/collections/luggage",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://herschel.com/shop/luggage",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.jansport.com/shop/en/jansport-us/luggage-travel",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.eastpak.com/us-en/luggage-c140/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://kipling-usa.com/luggage/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://bellroy.com/products/category/travel",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.aersf.com/shop?category=Travel",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://peakdesign.com/collections/travel-bags",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.nomatic.com/collections/all-travel",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.chromeindustries.com/bags/travel-bags/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://missionworkshop.com/collections/travel-bags",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://ilequipment.com/collections/travel",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://topodesigns.com/collections/travel-bags",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.filson.com/bags-luggage/travel-bags.html",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.duluthpack.com/collections/travel-bags",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://frostriver.com/collections/luggage-travel-bags",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.goruck.com/collections/bags",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://tripleaughtdesign.com/shop/category/packs-bags/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://prometheusdesignwerx.com/collections/hard-goods",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://varuste.net/en/c123/bags-backpacks-and-accessories",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://hillpeoplegear.com/Products/tabid/762/Default.aspx",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://kifaru.net/store/packs/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://eberlestock.com/collections/packs",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.camelbak.com/recreation/shop/packs/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.rei.com/c/backpacks",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.backcountry.com/backpacks",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.moosejaw.com/category/packs",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.steepandcheap.com/rc/packs-on-sale",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.evo.com/shop/accessories/backpacks",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.tactics.com/backpacks",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.zumiez.com/accessories/backpacks.html",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.pacsun.com/accessories/backpacks/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.tillys.com/accessories/backpacks-bags/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.hollisterco.com/shop/us/girls-accessories-bags",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.abercrombie.com/shop/us/mens-accessories",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.ae.com/us/en/c/men/accessories-bags/cat4840018",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.forever21.com/us/shop/catalog/category/f21/acc",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.windsorstore.com/collections/accessories-handbags",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.davidsbridal.com/accessories/shoes",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.theblacktux.com/collection/accessories",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.menswearhouse.com/c/accessories",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.josbank.com/c/accessories",
-      "category": "Fashion"
+      "product_name": "JUMO flowTRANS MAG H01 Electromagnetic flowmeter for hygienic applications",
+      "product_url": "https://www.jumo.net/en/products/flow/electromagnetic-flowmeters/flowtrans-mag-h01/406015",
+      "category_name": "Magnetic Flowmeters (Hygienic)",
+      "parent_category": "Instrumentation and Control"
     }
   ]
 }

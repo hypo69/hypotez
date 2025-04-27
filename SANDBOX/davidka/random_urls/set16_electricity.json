@@ -1,344 +1,920 @@
 {
   "products": [
     {
-      "product_url": "https://www.siemens-energy.com/global/en/offerings/power-transmission/high-voltage-products/instrument-transformers.html",
-      "category": "Высоковольтное оборудование (Измерительные трансформаторы ВН)"
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/feed-through-terminal-block-st-25-3031212",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://new.abb.com/medium-voltage/switchgear/gas-insulated-switchgear-gis",
-      "category": "Высоковольтное оборудование (Элегазовые КРУЭ)"
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/2-conductor-through-terminal-block/p/2002-1201",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/nnk_vysokovoltnoe-oborudovanie/nnk_opornoporodnye-i-prohodnye-izolyatory",
-      "category": "Высоковольтное оборудование (Опорные и проходные изоляторы)"
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1020000000",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://zeto.ru/catalog/privody_k_razedinitelyam_i_zazemlitelyam/",
-      "category": "Высоковольтное оборудование (Приводы к разъединителям)"
+      "product_url": "https://www.se.com/ww/en/product/NSYTRV42/screw-terminal-block-feed-through-2-points-4mm-gray/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.iek.ru/products/catalog/silovoe-oborudovanie-zashchity-i-kommutatsii/vyklyuchateli-razediniteli-modulnye/",
-      "category": "Низковольтное оборудование (Модульные выключатели-разъединители)"
+      "product_url": "https://new.abb.com/low-voltage/products/connection-devices/terminal-blocks/snk-series-pivoting-screw-clamp",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.legrand.ru/products/low-voltage-equipment/transformers/",
-      "category": "Низковольтное оборудование (Трансформаторы НН)"
+      "product_url": "https://www.eaton.com/us/en-us/catalog/terminal-blocks/xbut.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://ekfgroup.com/catalog/nizkovoltnoe-oborudovanie/izmeritelnye-pribory",
-      "category": "Низковольтное оборудование (Измерительные приборы щитовые)"
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/connection-devices/iec-terminal-blocks/1492-j-iec-screw-type-terminal-blocks.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.electro-mpo.ru/catalog/nizkovoltnoe-oborudovanie/umnozhiteli-impulsnye-signalov/",
-      "category": "Низковольтное оборудование (Импульсные реле / Умножители сигналов)"
+      "product_url": "https://www.klemsan.com.tr/en/urunler/klemensler/puk-serisi-universal-yay-baskili-klemensler/puk-2-5t-coklu-girisli-universal-yay-baskili-klemens/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://tekfor.ru/catalog/nizkovoltnoe_oborudovanie/rele_kontrolya_faz_cheredovaniya_i_urovnya/",
-      "category": "Низковольтное оборудование (Реле контроля фаз/уровня)"
+      "product_url": "https://www.wieland-electric.com/en-int/products/terminal-blocks/feed-through-terminals/fasis-wtp-feed-through-terminal-push-in",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.tek.com/en/products/power-analyzers",
-      "category": "Приборы (Анализаторы мощности)"
+      "product_url": "https://www.conta-clip.com/en/products/connection-technology/terminal-blocks/srk-series/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.keysight.com/ru/ru/products/function-generators-waveform-generators.html",
-      "category": "Приборы (Генераторы сигналов произвольной формы)"
+      "product_url": "https://www.te.com/usa-en/product-1SNK506010R0000.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.fluke.com/ru-ru/products/electrical-testing/insulation-testers",
-      "category": "Приборы (Измерители сопротивления изоляции)"
+      "product_url": "https://eshop.krybus.de/Reihenklemmen-Zubehoer/Reihenklemmen/Durchgangsklemmen/Phoenix-Contact-Durchgangsklemme-UT-4-3044102.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://ru.megger.com/products/relay-test-equipment",
-      "category": "Приборы (Проверка релейной защиты)"
+      "product_url": "https://www.degson.com/en/product/din-rail-terminal-blocks/screw-terminal-blocks/uslkg-2.5.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vseinstrumenti.ru/izmeritelnyj-instrument/elektroizmeritelnye-pribory/ostsillografy/",
-      "category": "Приборы (Осциллографы портативные)"
+      "product_url": "https://www.murrelektronik.com/products/interfaces/terminal-blocks/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.siemens.com/global/en/products/automation/distributed-control-system/simatic-pcs-7.html",
-      "category": "Промышленная электроника (АСУ ТП / DCS)"
+      "product_url": "https://www.lappkabel.de/produkte/online-katalog-shop/kabelverschraubungen-anbaugehaeuse-durchfuehrungen/reihenklemmen/durchgangsklemmen-mehrstockklemmen-schraubanschluss/durchgangsklemme-fleximark.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/power-supplies.html",
-      "category": "Промышленная электроника (Источники питания промышленные)"
+      "product_url": "https://www.lovatoelectric.com/product/8LM2TBV004",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://new.abb.com/drives/dc-drives",
-      "category": "Промышленная электроника (Приводы постоянного тока)"
+      "product_url": "https://www.emetal.com/product/block-terminal-din-rail-mtl-blk-10a-300v-22-14awg-22-14awg-20a-600v-12pos/A-306434/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://industrial.omron.ru/ru/products/catalogue/software",
-      "category": "Промышленная электроника (Программное обеспечение для ПЛК/HMI)"
+      "product_url": "https://uk.rs-online.com/web/p/din-rail-terminal-blocks/2205211",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.phoenixcontact.com/ru-ru/produkcija/relejjnye-moduli",
-      "category": "Промышленная электроника (Релейные модули)"
+      "product_url": "https://www.distrelec.de/de/reihenklemme-polyamid-grau-2-mm-wago-2002-1201/p/30035793",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.mouser.com/Semiconductors/Discrete-Semiconductors/Transistors/_/N-ax1sf",
-      "category": "Электронные компоненты (Транзисторы биполярные/полевые)"
+      "product_url": "https://www.adels-contact.de/en/products/terminal-blocks/din-rail-terminal-blocks-series-ak-akz",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.digikey.com/en/products/category/integrated-circuits-ic/16",
-      "category": "Электронные компоненты (Интегральные схемы)"
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/feed-through-terminal-block-ut-25-3044076",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://electronshik.ru/catalog/klemme",
-      "category": "Электронные компоненты (Клеммы и клеммники)"
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/3-conductor-through-terminal-block/p/2002-1301",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.promelec.ru/catalog/5/",
-      "category": "Электронные компоненты (Дискретные полупроводники)"
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1020100000",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.chipdip.ru/catalog/leds",
-      "category": "Электронные компоненты (Светодиоды)"
+      "product_url": "https://www.se.com/ww/en/product/NSYTRV22/screw-terminal-block-feed-through-2-points-2-5mm-gray/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://platan.ru/category/rele-avtomobilnye",
-      "category": "Электронные компоненты (Реле автомобильные)"
+      "product_url": "https://new.abb.com/low-voltage/products/connection-devices/terminal-blocks/snk-series-spring-clamp",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.compel.ru/catalog/opt",
-      "category": "Электронные компоненты (Оптоэлектроника)"
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/connection-devices/iec-terminal-blocks/1492-w-iec-spring-clamp-terminal-blocks.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/svetotehnika/nnk_vzryvozashchishchennye-svetilniki",
-      "category": "Светотехника (Взрывозащищенные светильники)"
+      "product_url": "https://www.klemsan.com.tr/en/urunler/klemensler/avk-serisi- Vidalı-klemensler/avk-2-5t- Vidalı-klemens/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.electro-mpo.ru/catalog/svetotekhnika/komplektuyushchie-dlya-svetilnikov/bloki-avariynogo-pitaniya-bap/",
-      "category": "Светотехника (Блоки аварийного питания БАП)"
+      "product_url": "https://www.wieland-electric.com/en-int/products/terminal-blocks/feed-through-terminals/fasis-wkr-feed-through-terminal-screw-connection",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vseinstrumenti.ru/electrika-i-svet/svet/sadovo-parkovye-svetilniki/",
-      "category": "Светотехника (Садово-парковые светильники)"
+      "product_url": "https://www.conta-clip.com/en/products/connection-technology/terminal-blocks/prk-series/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://ekfgroup.com/catalog/svetotehnika/arhitekturnaya-podsvetka",
-      "category": "Светотехника (Архитектурная подсветка)"
+      "product_url": "https://www.te.com/usa-en/product-1SNK505310R0000.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.iek.ru/products/catalog/svetotekhnika/systemy-upravleniya-osvescheniem/",
-      "category": "Светотехника (Системы управления освещением)"
+      "product_url": "https://www.degson.com/en/product/din-rail-terminal-blocks/push-in-terminal-blocks/dp-2.5.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://jazz-way.com/catalog/svetotehnika/svetilniki_dlya_chistyh_pomescheniy",
-      "category": "Светотехника (Для чистых помещений)"
+      "product_url": "https://www.murrplastik.com/products/cable-entry-cable-fixing/terminals/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://kabel.ru/kabel/sudovoy/",
-      "category": "Кабельно-проводниковая продукция (Судовой кабель)"
+      "product_url": "https://www.lovatoelectric.com/product/8LM2TBC004",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.electro-mpo.ru/catalog/kabelno-provodnikovaya-produkciya/dlya-podvizhnogo-sostava/",
-      "category": "Кабельно-проводниковая продукция (Для подвижного состава)"
+      "product_url": "https://www.block.eu/en_US/products/terminal-blocks/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vseinstrumenti.ru/electrika-i-svet/kabel-i-provod/samoreguliruyuschijsya-kabel/",
-      "category": "Кабельно-проводниковая продукция (Саморегулирующийся кабель)"
+      "product_url": "https://www.cembre.com/products/Screw-Terminal-Blocks/Terminal-Blocks/2419/c1",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://shop.nag.ru/catalog/01110.Kabel-dlja-videonabljudenija",
-      "category": "Кабельно-проводниковая продукция (Для видеонаблюдения)"
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/terminal_blocks/din_rail_terminal_blocks/screw-clamp_terminal_blocks/dn-t12",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.dkc.ru/ru/catalog/99/",
-      "category": "Кабеленесущие системы (Перфорированные лотки)"
+      "product_url": "https://www.molex.com/en-us/products/connectors/terminal-blocks/din-rail-terminal-blocks",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://ekfgroup.com/catalog/kabelenesuschie-sistemy/lotki-lestnichnogo-tipa",
-      "category": "Кабеленесущие системы (Лестничные лотки)"
+      "product_url": "https://www.marathonsp.com/terminal-blocks-din.php",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/kabelenesushchie-sistemy/koroba-parapetnye",
-      "category": "Кабеленесущие системы (Парапетные короба)"
+      "product_url": "https://catalog.expectra.com/item/terminal-blocks/din-rail-terminal-blocks/3001511",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.legrand.ru/products/cable-management/cable-ties-and-accessories/",
-      "category": "Кабеленесущие системы (Стяжки и аксессуары)"
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/feed-through-terminal-block-pt-25-3209510",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.electro-mpo.ru/catalog/elektroustanovochnye-izdeliya/informacionnye-rozetki/",
-      "category": "Электроустановочные изделия (Информационные розетки)"
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/4-conductor-through-terminal-block/p/2002-1401",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vseinstrumenti.ru/electrika-i-svet/rozetki-i-vyklyuchateli/tv-rozetki/",
-      "category": "Электроустановочные изделия (ТВ розетки)"
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1521480000",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.gira.com/ru_RU/produkte/energiesaeulen.html",
-      "category": "Электроустановочные изделия (Энергетические колонны)"
+      "product_url": "https://www.se.com/ww/en/product/AB1VV435U/terminal-block-v-4mm-grey/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.jung.de/ru/online-katalog/60960981/60961150/",
-      "category": "Электроустановочные изделия (Акустические розетки)"
+      "product_url": "https://new.abb.com/low-voltage/products/connection-devices/terminal-blocks/snk-series-idc-clamp",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.se.com/ru/ru/product-range/61101-sedna/",
-      "category": "Электроустановочные изделия (Серия Sedna)"
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/connection-devices/iec-terminal-blocks/1492-p-push-in-terminal-blocks.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/inzhenernoe-oborudovanie/istochniki-pitaniya/solnechnye-batarei-i-moduli",
-      "category": "Источники питания (Солнечные панели)"
+      "product_url": "https://www.klemsan.com.tr/en/urunler/klemensler/pyk-serisi-push-in-klemensler/pyk-2-5-coklu-girisli-push-in-klemens/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vseinstrumenti.ru/silovaya-tehnika/akkumulyatornye-batarei/",
-      "category": "Источники питания (Аккумуляторы общего назначения)"
+      "product_url": "https://www.wieland-electric.com/en-int/products/terminal-blocks/multi-tier-terminals/fasis-wtp-double-level-terminal-push-in",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.meanwell-web.com/ru-ru/ac-dc-enclosed-power-supply",
-      "category": "Источники питания (AC/DC в корпусе)"
+      "product_name": "Conta-Clip FRK Push-In Feed-Through Terminals",
+      "product_url": "https://www.conta-clip.com/en/products/connection-technology/terminal-blocks/frk-series/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.electro-mpo.ru/catalog/istochniki-pitaniya/zaryadnye-stancii/",
-      "category": "Источники питания (Портативные зарядные станции)"
+      "product_url": "https://www.te.com/usa-en/product-1SNK506310R0000.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://tdtransformator.ru/catalog/komplektuyushchie-k-transformatoram/",
-      "category": "Трансформаторы (Комплектующие)"
+      "product_url": "https://www.degson.com/en/product/din-rail-terminal-blocks/spring-terminal-blocks/ds2.5-3l.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://svel.ru/catalog/dry-type-transformers/",
-      "category": "Трансформаторы (Сухие силовые)"
+      "product_url": "https://www.schrack.com/shop/din-rail-terminal-block-4mm-screw-type-grey-ik2504--g.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/nizkovoltnoe-oborudovanie/rele/nnk_rele-proмежуточное",
-      "category": "Реле (Промежуточные)"
+      "product_url": "https://www.lovatoelectric.com/product/8LM2TBV006",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://meandr.ru/rele-zashchity-dvigateley",
-      "category": "Реле (Защиты двигателей)"
+      "product_url": "https://www.cembre.com/products/Spring-Terminal-Blocks/Terminal-Blocks/2417/c1",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://novatek-electro.com/produkciya/rele-napryazheniya-i-toka/",
-      "category": "Реле (Напряжения и тока)"
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/terminal_blocks/din_rail_terminal_blocks/spring-clamp_terminal_blocks/dn-fs14-a",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vseinstrumenti.ru/instrument/elektromontazhnyj/nabori-dielektricheskogo-instrumenta/",
-      "category": "Электромонтажный инструмент (Наборы диэлектрические)"
+      "product_url": "https://www.molex.com/en-us/products/part-detail/1970010002",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.kleintools.com/catalog/electricians-tool-sets",
-      "category": "Электромонтажный инструмент (Наборы электрика)"
+      "product_url": "https://www.marathonsp.com/Downloads/DIN-Rail-Mount-Terminal-Blocks.pdf",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.wiha.com/en/produkte/tool-cases-bags.html",
-      "category": "Электромонтажный инструмент (Сумки и кейсы)"
+      "product_url": "https://www.altechcorp.com/terminal-blocks/din-rail-blocks-screw.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://ekfgroup.com/catalog/instrument-i-siz/instrument-izmeritelnyy",
-      "category": "Электромонтажный инструмент (Измерительный)"
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/multi-level-terminal-block-sttb-25-3031270",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.technoavia.ru/katalog/siz/zashita_ruk/perchatki/dielektricheskie",
-      "category": "Средства защиты от электрического тока (Перчатки диэлектрические)"
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/2-conductor-ground-terminal-block/p/2002-1207",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vostok.ru/catalog/sredstva-zashity/sredstva-zashity-ot-porazheniya-elektricheskim-tokom/plakaty_i_znaki_bezopasnosti/",
-      "category": "Средства защиты от электрического тока (Плакаты, знаки)"
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1039500000",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.electro-mpo.ru/catalog/sredstva-zashchity-ot-pora/izoliruyushchie-nakladki/",
-      "category": "Средства защиты от электрического тока (Изолирующие накладки)"
+      "product_url": "https://www.se.com/ww/en/product/NSYTRV702/screw-terminal-block-feed-through-2-points-70mm-grey/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://dkc.ru/ru/catalog/10/",
-      "category": "Щитовое оборудование (Аксессуары для шкафов)"
+      "product_url": "https://new.abb.com/low-voltage/products/connection-devices/terminal-blocks/pluggable-blocks",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/nizkovoltnoe-oborudovanie/shchity-i-shkafy-elektrotehnicheskie/nnk_shkafy-nastennye-i-napolnye",
-      "category": "Щитовое оборудование (Шкафы настенные/напольные)"
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/connection-devices/iec-terminal-blocks/1492-ld-iec-sensor-terminal-blocks.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.iek.ru/products/catalog/oborudovanie-dlya-raspredeleniya-energii/yashchiki-silovye/",
-      "category": "Щитовое оборудование (Ящики силовые)"
+      "product_url": "https://www.klemsan.com.tr/en/urunler/klemensler/ysk-serisi-yay-baskili-sigorta-klemensler/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://ekfgroup.com/catalog/schitovoe-oborudovanie/obolochki-metallicheskie-napolnye",
-      "category": "Щитовое оборудование (Оболочки напольные)"
+      "product_url": "https://www.wieland-electric.com/en-int/products/terminal-blocks/functional-terminals/fasis-wtp-disconnect-terminal-push-in",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://ezetek.ru/catalog/zazemlenie/polosa_zazemleniya/",
-      "category": "Заземление (Полоса)"
+      "product_url": "https://www.conta-clip.com/en/products/connection-technology/terminal-blocks/sl-series/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.galmar.pl/ru/produkty/molniezashchita/elementy-krepleniya",
-      "category": "Молниезащита (Элементы крепления)"
+      "product_url": "https://www.te.com/usa-en/product-1SNK508010R0000.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://j-propiska.ru/catalog/molniezashchita/vnutrennyaya-molniezashchita-uzip/",
-      "category": "Молниезащита (УЗИП - Устройства защиты от импульсных перенапряжений)"
+      "product_url": "https://www.degson.com/en/product/din-rail-terminal-blocks/transformer-terminal-blocks/dg35c.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/inzhenernoe-oborudovanie/molniezashchita-i-zazemlenie/nnk_zazemliteli",
-      "category": "Заземление (Заземлители)"
+      "product_url": "https://www.schrack.com/shop/din-rail-terminal-block-2-5mm-push-in-type-grey-ik15p25g.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.ruselprom.ru/catalog/elektrodvigateli/sinkhronnye/",
-      "category": "Электродвигатели (Синхронные)"
+      "product_url": "https://www.lovatoelectric.com/product/8LM2TBE004",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://new.abb.com/motors-generators/iec-low-voltage-motors/motors-for-explosive-atmospheres",
-      "category": "Электродвигатели (Взрывозащищенные НН)"
+      "product_url": "https://www.cembre.com/products/IDC-Terminal-Blocks/Terminal-Blocks/2420/c1",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://weg.net/catalog/weg/RU/ru/products/Generators/c/WEG-CAT-002_RU",
-      "category": "Электродвигатели (Генераторы)"
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/terminal_blocks/din_rail_terminal_blocks/power_distribution_blocks/dn-pd101-a",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.siemens.com/global/en/products/drives/electric-motors/low-voltage-motors.html",
-      "category": "Электродвигатели (Низковольтные)"
+      "product_url": "https://www.molex.com/en-us/products/part-detail/1970010010",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://solargoods.ru/catalog/oborudovanie_dlya_solnechnyh_elektrostantsiy/",
-      "category": "Альтернативная энергетика (Оборудование для СЭС)"
+      "product_url": "https://www.altechcorp.com/terminal-blocks/din-rail-blocks-spring.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.invertor.ru/catalog/komplekty-solnechnykh-elektrostantsiy",
-      "category": "Альтернативная энергетика (Комплекты СЭС)"
+      "product_url": "https://www.ftg-germany.de/en/products/rail-mounted-terminal-blocks/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://technoline.ua/ru/shop/category/solnechnye-kollektory",
-      "category": "Альтернативная энергетика (Солнечные коллекторы)"
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/fuse-terminal-block-st-4-hesi-5x20-3036369",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://volta.com.ua/aksessuary-dlia-alternativnoi-energetiki/",
-      "category": "Альтернативная энергетика (Аксессуары)"
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/2-conductor-disconnect-terminal-block/p/2002-1661",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://devi.danfoss.ru/products/floor-heating-mats/",
-      "category": "Электрообогрев (Нагревательные маты)"
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1010100000",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.teploluxe.ru/catalog/termoregulyatory/",
-      "category": "Электрообогрев (Терморегуляторы)"
+      "product_url": "https://www.se.com/ww/en/product/NSYTRALV24/voltage-limiter-terminal-block-4mm-grey/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/inzhenernoe-oborudovanie/elektroobogrev/nnk_sistemy-protiv-obledeneniya",
-      "category": "Электрообогрев (Системы антиобледенения)"
+      "product_url": "https://new.abb.com/low-voltage/products/connection-devices/terminal-blocks/distribution-blocks",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.sonoff.tech/product-category/smart-plug-socket/",
-      "category": "Умный дом (Умные розетки)"
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/connection-devices/iec-terminal-blocks/1492-x-high-density-terminal-blocks.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://wirenboard.com/ru/catalog/category/datchiki",
-      "category": "Умный дом (Датчики Wiren Board)"
+      "product_url": "https://www.klemsan.com.tr/en/urunler/klemensler/ask-serisi- Vidalı-sigorta-klemensler/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.fibaro.com/ru/products/controllers/",
-      "category": "Умный дом (Контроллеры Z-Wave)"
+      "product_url": "https://www.wieland-electric.com/en-int/products/terminal-blocks/functional-terminals/fasis-wkr-disconnect-terminal-screw-connection",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://aqara.ru/category/vyklyuchateli/",
-      "category": "Умный дом (Выключатели Zigbee)"
+      "product_url": "https://www.conta-clip.com/en/products/connection-technology/terminal-blocks/plk-series/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://developer.tuya.com/en/docs/iot/product-categories?id=K9gf48r9j5n3y",
-      "category": "Умный дом (Платформа Tuya)"
+      "product_url": "https://www.te.com/usa-en/product-1SNK510010R0000.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.degson.com/en/product/din-rail-terminal-blocks/uk-universal-screw-terminal-blocks/uk-10n.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.schrack.com/shop/terminal-block-accessories.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.lovatoelectric.com/product/8LM2TBVF004",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.cembre.com/products/Terminal-Blocks-Accessories/Terminal-Blocks/2421/c1",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/terminal_blocks/din_rail_terminal_blocks/disconnect_terminal_blocks_-a-_fuse_holders/dn-k10",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.molex.com/en-us/products/part-detail/1970100002",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.altechcorp.com/terminal-blocks/din-rail-blocks-high-current.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.ftg-germany.de/en/products/distribution-blocks/distribution-blocks-for-top-hat-rail-mounting/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/knife-disconnect-terminal-block-st-25-mt-3036297",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/2-conductor-fuse-terminal-block-with-pivoting-fuse-holder/p/2002-1611",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1855610000",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product/NSYTRR22/spring-terminal-block-feed-through-2-points-2-5mm-grey/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/connection-devices/terminal-blocks/fuse-holder-blocks",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/connection-devices/iec-terminal-blocks/1492-n-iec-nema-terminal-blocks.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.klemsan.com.tr/en/urunler/klemensler/toprak-klemensler/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.wieland-electric.com/en-int/products/terminal-blocks/ground-terminals/fasis-wtp-pe-ground-terminal-push-in",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.conta-clip.com/en/products/connection-technology/terminal-blocks/hik-series/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.te.com/usa-en/product-1SNK512010R0000.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.degson.com/en/product/din-rail-terminal-blocks/measurement-and-test-terminal-blocks/uk-5-mtk-p-p.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.schrack.com/shop/din-rail-terminal-block-ground-4mm-screw-type-green-yellow-ik2504pegy.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.lovatoelectric.com/product/8LM2TBS004",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.cembre.com/products/Earth-Terminal-Blocks/Terminal-Blocks/2418/c1",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/terminal_blocks/din_rail_terminal_blocks/grounding_terminal_blocks/dn-peg12",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.molex.com/en-us/products/part-detail/1970100010",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.altechcorp.com/terminal-blocks/din-rail-blocks-fuse.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.ftg-germany.de/en/products/busbars-accessories/busbars-for-terminal-blocks/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/sensor-actuator-terminal-block-ptio-15-s-3244480",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/3-conductor-through-terminal-block-with-push-button/p/870-503",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1521560000",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product/NSYTRV22BL/screw-terminal-block-feed-through-2-points-2-5mm-blue/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/connection-devices/terminal-blocks/testing-disconnect-blocks",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/connection-devices/iec-terminal-blocks/1492-t-knife-switch-disconnect-terminal-blocks.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.klemsan.com.tr/en/urunler/klemensler/olk-serisi-optocoupler-klemensler/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.wieland-electric.com/en-int/products/terminal-blocks/functional-terminals/fasis-wtp-measurement-disconnect-terminal-push-in",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.conta-clip.com/en/products/connection-technology/terminal-blocks/srkd-series/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.te.com/usa-en/product-1SNK516010R0000.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.degson.com/en/product/din-rail-terminal-blocks/high-current-terminal-blocks/dg-35ub.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.schrack.com/shop/din-rail-terminal-block-4mm-screw-type-blue-ik2504--b.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.lovatoelectric.com/product/8LM2TBU004",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.cembre.com/products/Accessories/Terminal-Blocks/2422/c1",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/terminal_blocks/din_rail_terminal_blocks/multi-level_-a-_multi-conductor_terminal_blocks/dn-tl14",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.molex.com/en-us/products/part-detail/1970100003",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.altechcorp.com/terminal-blocks/din-rail-blocks-disconnect.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.ftg-germany.de/en/products/earth-terminal-blocks/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/feed-through-terminal-block-ut-4-mt-3046179",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/4-conductor-ground-terminal-block/p/2002-1407",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1020200000",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product/NSYTRV42AR/screw-terminal-block-feed-through-2-points-4mm-orange/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/connection-devices/terminal-blocks/earth-terminal-blocks",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/connection-devices/iec-terminal-blocks/1492-m-miniature-terminal-blocks.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.klemsan.com.tr/en/urunler/klemensler/olk-serisi-diotlu-klemensler/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.wieland-electric.com/en-int/products/terminal-blocks/ground-terminals/fasis-wkr-pe-ground-terminal-screw-connection",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.conta-clip.com/en/products/connection-technology/terminal-blocks/rk-series/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.te.com/usa-en/product-1SNK525010R0000.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.degson.com/en/product/din-rail-terminal-blocks/dp-push-in-terminal-blocks/dp-10.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.schrack.com/shop/din-rail-terminal-block-ground-2-5mm-push-in-type-green-yellow-ik15p25pegy.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.lovatoelectric.com/product/8LM2TBG004",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.cembre.com/products/Screw-Terminal-Blocks/Components-Terminal-Blocks/2424/c1",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/terminal_blocks/din_rail_terminal_blocks/thermocouple_terminal_blocks/dn-th",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.molex.com/en-us/products/part-detail/1970100004",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.altechcorp.com/terminal-blocks/din-rail-blocks-double-level.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.ftg-germany.de/en/products/special-terminal-blocks/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/feed-through-terminal-block-uk-5-n-3004302",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/2-conductor-through-terminal-block/p/280-637",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1020300000",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product/NSYTRV42FE/screw-terminal-block-fuse-holder-2-points-4mm-grey/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/connection-devices/terminal-blocks/mini-blocks",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/connection-devices/iec-terminal-blocks/1492-gs-iec-fuse-terminal-blocks.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.klemsan.com.tr/en/urunler/klemensler/olk-serisi-roleli-klemensler/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.wieland-electric.com/en-int/products/terminal-blocks/functional-terminals/fasis-wtp-fuse-terminal-push-in",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.conta-clip.com/en/products/connection-technology/terminal-blocks/sbk-series/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.te.com/usa-en/product-1SNK705011R0000.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.degson.com/en/product/din-rail-terminal-blocks/ds-spring-terminal-blocks/ds4-lst.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.schrack.com/shop/din-rail-terminal-block-4mm-screw-type-black-ik2504--s.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.lovatoelectric.com/product/8LM2TBF004",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.cembre.com/products/Fuse-Holders-Terminal-Blocks/Terminal-Blocks/2423/c1",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/terminal_blocks/din_rail_terminal_blocks/sensor_terminal_blocks/dn-sen14",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.molex.com/en-us/products/part-detail/1970100005",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.altechcorp.com/terminal-blocks/din-rail-blocks-triple-level.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.ftg-germany.de/en/products/accessories/accessories-for-terminal-blocks/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/component-terminal-block-st-25-dio-1n-5448-r-3036040",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/2-conductor-diode-terminal-block/p/2002-1681",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1039600000",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product/NSYTREDD115/terminal-block-disconnect-with-blade-2-points-1-5mm-grey/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/connection-devices/terminal-blocks/power-blocks",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/connection-devices/iec-terminal-blocks/1492-q-insulation-displacement-terminal-blocks.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.klemsan.com.tr/en/urunler/klemensler/olk-serisi-varistorlu-klemensler/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.wieland-electric.com/en-int/products/terminal-blocks/functional-terminals/fasis-wkr-fuse-terminal-screw-connection",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.conta-clip.com/en/products/connection-technology/terminal-blocks/srk-bolted-connection/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.te.com/usa-en/product-1SNK805010R0000.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.degson.com/en/product/din-rail-terminal-blocks/through-type-terminal-blocks/dg221v.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.schrack.com/shop/din-rail-terminal-block-4mm-screw-type-red-ik2504--r.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.lovatoelectric.com/product/8LM2TBY004",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.cembre.com/products/Disconnect-Terminal-Blocks/Terminal-Blocks/2425/c1",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/terminal_blocks/din_rail_terminal_blocks/component_-a-_plug-in_terminal_blocks/dn-c14",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.molex.com/en-us/products/part-detail/1970100006",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.altechcorp.com/terminal-blocks/din-rail-blocks-power-distribution.html",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.ftg-germany.de/en/products/connection-terminal-blocks/",
+      "category_name": "DIN Rail Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     }
   ]
 }

@@ -1,780 +1,124 @@
 {
   "products": [
     {
-      "product_url": "https://www.amazon.co.jp/dp/B08ZZZZZZZ/",
-      "category": "Groceries"
+      "product_name": "Scalance X Industrial Ethernet Switches",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-communication/industrial-ethernet/scalance-x-switches.html",
+      "category_name": "Промышленные коммутаторы Ethernet",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.amazon.es/dp/B09CCCCCCC/",
-      "category": "Industrial Supplies"
+      "product_name": "Allen-Bradley Stratix 5700 Managed Industrial Ethernet Switches",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/network-security-infrastructure/ethernet-switches/layer-2-managed-switches/stratix-5700-managed-switches.html",
+      "category_name": "Промышленные коммутаторы Ethernet",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.indiamart.com/proddetail/product-name-1234567890.html",
-      "category": "Industrial Supplies"
+      "product_name": "TeSys Deca Motor Starters",
+      "product_url": "https://www.se.com/ww/en/product-range/65719-tesys-deca/",
+      "category_name": "Пускатели двигателей",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.zalando.be/chemise-homme-lin-blanc-casuel/ZAL543210987.html",
-      "category": "Fashion"
+      "product_name": "OMRON Sysmac NJ Machine Automation Controller",
+      "product_url": "https://industrial.omron.eu/en/products/nj-series",
+      "category_name": "Программируемые контроллеры автоматизации (PAC)",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.moemax.de/p/marke-sideboard-hochglanz-weiss-mit-led-0098765432",
-      "category": "Furniture"
+      "product_name": "Mitsubishi Electric MELSEC iQ-F Series (FX5U) Compact PLC",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/cnt/plcf/items/iq_f/index.html",
+      "category_name": "Программируемые логические контроллеры (ПЛК)",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.ebookjapan.jp/ebj/123456/volume1/",
-      "category": "eBooks"
+      "product_name": "ABB CP600 Control Panels (HMI)",
+      "product_url": "https://new.abb.com/plc/hmi/cp600",
+      "category_name": "Человеко-машинные интерфейсы (HMI)",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://play.google.com/store/audiobooks/details/Author_Name_Book_Title?id=AUDI0000000001",
-      "category": "Audiobooks"
+      "product_name": "Phoenix Contact UNO POWER Power Supplies",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/power-supplies-and-ups/power-supplies/uno-power",
+      "category_name": "Источники питания",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://allegro.pl/oferta/smartwatch-meski-sportowy-wodoodporny-czarny-1919191919",
-      "category": "Electronics"
+      "product_name": "Beckhoff TwinCAT 3 Automation Software",
+      "product_url": "https://www.beckhoff.com/en-en/products/automation/twincat/twincat-3/",
+      "category_name": "Программное обеспечение для автоматизации",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.walmart.com.ar/lavarropas-automatico-carga-frontal-6kg-blanco/p",
-      "category": "Home Appliances"
+      "product_name": "Keyence MD-X Series Hybrid Laser Marker",
+      "product_url": "https://www.keyence.com/products/marker/laser-marker/md-x/",
+      "category_name": "Лазерные маркираторы",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.etsy.com/listing/876543210/hand-knitted-baby-blanket-merino-wool",
-      "category": "Handmade"
+      "product_name": "SICK WTB4 Miniature Photoelectric sensors",
+      "product_url": "https://www.sick.com/gb/en/photoelectric-sensors/miniature-photoelectric-sensors/w4/c/g182485",
+      "category_name": "Фотоэлектрические датчики",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.mercadolibre.com.co/impresora-multifuncional-tinta-continua-wifi/p/MCO14000008",
-      "category": "Electronics"
+      "product_name": "Pepperl+Fuchs VisuNet Industrial Monitors",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_1934.htm",
+      "category_name": "Промышленные мониторы",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.cdiscount.com/maison/meubles-mobilier/table-basse-design-bois-metal-noir/f-117600101-tab123456.html",
-      "category": "Furniture"
+      "product_name": "WAGO Touch Panel 600 (HMI)",
+      "product_url": "https://www.wago.com/global/hmi-panels/touch-panel-600",
+      "category_name": "Человеко-машинные интерфейсы (HMI)",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.ikea.com/au/en/p/micke-desk-white-80213074/",
-      "category": "Furniture"
+      "product_name": "IFM Electronic IO-Link Masters",
+      "product_url": "https://www.ifm.com/us/en/category/100/100_010",
+      "category_name": "Модули IO-Link",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.tatacliq.com/footwear/brand/mens-formal-leather-shoes-black/p-mp000000023456789",
-      "category": "Fashion"
+      "product_name": "Banner Engineering SI-RF Series Safety RFID Switches",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-interlock-switches/rfid-safety-switches/si-rf-series.html",
+      "category_name": "Датчики безопасности RFID",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.asos.com/gb/women/accessories/scarves/oversized-check-scarf-neutral/prd/282828282",
-      "category": "Fashion"
+      "product_name": "Turck IMX12 Interface Modules (Intrinsic Safety)",
+      "product_url": "https://www.turck.us/en/product_group/interface_technology_ex_imx12-1334/",
+      "category_name": "Искробезопасные барьеры",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.burlington.com/product/1234567_brand-comforter-set-queen-floral",
-      "category": "Home Goods"
+      "product_name": "Balluff BNI IO-Link Master Modules",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0001/groups/G0107/products/P010701",
+      "category_name": "Модули IO-Link",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.hipercor.es/juguetes/A5678901F/coche-teledirigido-todoterreno-escala-1-16/",
-      "category": "Toys & Games"
+      "product_name": "Endress+Hauser Liquiphant Tuning Fork Level Switch",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/level-measurement/vibronic-point-level-switch-liquiphant",
+      "category_name": "Датчики уровня",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.bestbuy.com/site/external-ssd-1tb-portable-usb-c/6900006.p?skuId=6900006",
-      "category": "Electronics"
+      "product_name": "Weidmüller ACT20P Signal Converters",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group30708462697083",
+      "category_name": "Преобразователи сигналов",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.thomann.de/gb/native_instruments_komplete_kontrol_s61_mk2.htm",
-      "category": "Musical Instruments"
+      "product_name": "Pilz PSS 4000 Automation System",
+      "product_url": "https://www.pilz.com/en-INT/products/control-technology/automation-system-pss-4000",
+      "category_name": "Системы автоматизации (с безопасностью)",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.decathlon.be/fr/p/velo-ville-cadre-bas-adulte-vert/_/R-p-370008",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.gibert.com/livre-manga-shonen-titre-volume-1-10000006.html",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.mediamarkt.es/es/product/_patinete-electrico-marca-modelo-autonomia-25km-negro-1600010.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.lazada.co.id/products/kipas-angin-dinding-16-inci-remote-putih-i1234567890-s0987654321.html",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://shopee.com.br/product/787878787/9090909090/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.pontofrio.com.br/TelefoneseCelulares/Smartphones/smartphone-marca-modelo-256gb-camera-tripla-azul/p/1500000005",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.pillowtalk.com.au/brand-bath-towel-cotton-charcoal-pt123456/",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://powells.com/book/-9780060000001",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.dermstore.com/product_Facial+Cleanser_23456.htm",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.newegg.com/Product/Product.aspx?Item=N82E16817139001",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.adidas.com/us/nmd_r1-shoes/GY1234.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hm.com/de_de/productpage.1717171717.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.zara.com/uk/en/textured-weave-overshirt-khaki-p09999000111.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.yoox.com/it/uomo/sneakers-pelle-bianco-rosso_cod11223344ef.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.westside.com/en/in/product/brand-men-slim-fit-check-shirt-blue/012345678901_BLUE",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.morele.net/obudowa-komputerowa-brand-model-atx-midi-tower-biala-1234568/",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.lowes.com/pd/Brand-Tool-Chest-Combo-41-in-10-Drawer-Black/5002000002",
-      "category": "Tools"
-    },
-    {
-      "product_url": "https://www.wayfair.de/aufbewahrung/pdp/marke-regal-wandmontage-holz-natur-dy56789.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.gak.co.uk/en/brand-model-digital-piano/123456",
-      "category": "Musical Instruments"
-    },
-    {
-      "product_url": "https://www.cultbeauty.com/brand-product-name-eye-shadow-stick-bronze/12345678.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.fruugo.jp/led-%E3%83%86%E3%83%BC%E3%83%97%E3%83%A9%E3%82%A4%E3%83%88-5m-rgb-%E3%83%AA%E3%83%A2%E3%82%B3%E3%83%B3%E4%BB%98%E3%81%8D/p-130000009-180000009",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.sigmasports.com/item/Brand/Model-GPS-Cycling-Computer/XYZ1",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://global.rakuten.com/en/store/cosmebox/item/j4901000000001/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.galleria.co.kr/item/show.do?item_cd=1234567890123",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lenta.com/catalog/bakaleya/krupy/grechka-marka-800g-123456/",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.amazon.com.au/dp/B07ZYXWVUT/",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.amazon.sg/dp/B09BQWERTY/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.kaufland.com.hr/product/110999000/",
-      "category": "Groceries & Household"
-    },
-    {
-      "product_url": "https://www.mytheresa.com/en-de/designer-brand-wool-scarf-16000002.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.maxizoo.nl/p/merknaam-natvoer-kat-zalm-85g-x12-1234567",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://rozetka.com.ua/ua/brand_300000000/p300000001/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.ebay.com.sg/itm/990011223344",
-      "category": "Marketplace"
-    },
-    {
-      "product_url": "https://www.waitrose.com/ecom/shop/browse/groceries/fresh_and_chilled/milk_butter_and_eggs",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.amazon.ca/Brand-Model-Board-Game-Strategy/dp/B07RSTUVWX/",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.harrods.com/en-us/shopping/brand-model-candle-fragranced-17000002",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.hollandandbarrett.ie/shop/product/brand-multivitamin-gummies-for-kids-60023456",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.argos.co.uk/product/1212121",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://showroomprive.it/ficheproduit.aspx?produit=87654321",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.mediamarkt.ch/de/product/_marke-modell-staubsauger-beutellos-blau-1900011.html",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://books.rakuten.co.jp/",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.joshinweb.jp/hobby/12345/4900000000002.html",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://lotte.com/goods/viewGoodsDetail.lotte?goods_no=123456789",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.hyundaihmall.com/front/pda/itemPtc.do?slitmCd=1234567890",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://market.yandex.ru/product--kholodilnik-dvukhkamernyi-marka-model-belyi/987654321",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.extra.com.br/moveis/SaladeEstar/Estantes/estante-para-livros-5-prateleiras-madeira-cor-tabaco/p/1500000006",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.bigw.com.au/product/brand-storage-container-set-5-piece-clear/p/7654321/",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.harveynorman.co.nz/tv-and-audio/televisions/brand-65-inch-4k-uhd-smart-led-tv.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.sportsexperts.ca/fr-CA/p-chandail-a-capuchon-polaire-homme-marque/1234567",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.well.ca/products/brand-probiotic-capsules-30-count_765432.html",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.indigo.ca/en-ca/gifts/brand-scented-candle-vanilla/881900000001-item.html",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.aliexpress.com/item/1006000000000002.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.gearbest.com/smart-watches/pp_009123456789.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.banggood.com/product-p-1234567.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.dx.com/p/product-name-sku123456",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.joybuy.com/product/1234567890.html",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.yesstyle.com/en/brand-korean-skincare-product/info.html/pid.1070000001",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.stylevana.com/en_US/brand-beauty-of-joseon-ginseng-essence-water.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://sokoglam.com/products/product-name-essence",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://peachandlily.com/products/glass-skin-refining-serum",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://glowrecipe.com/products/watermelon-glow-niacinamide-dew-drops",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.farmacybeauty.com/products/green-clean-100ml",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://youthtothepeople.com/products/superfood-cleanser",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://summerfridays.com/products/jet-lag-mask",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.tatcha.com/product/dewy-skin-cream/CA00110T.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://drunkelephant.com/products/c-firma-fresh-day-serum",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://sundayriley.com/products/good-genes-all-in-one-lactic-acid-treatment",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://biossance.com/products/squalane-vitamin-c-rose-oil",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://herbivorebotanicals.com/products/phoenix-facial-oil",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.odacite.com/products/all-embracing-serum",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://oseamalibu.com/products/hyaluronic-sea-serum",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://indariskincare.com/products/vitalize-cleansing-serum",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://maylindstrom.com/products/the-blue-cocoon",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://vintnersdaughter.com/products/active-botanical-serum",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.goop.com/goop-beauty/all-in-one-nourishing-face-cream/p/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://credobeauty.com/products/product-name",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://thedetoxmarket.com/products/product-name",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://follain.com/products/product-name",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.violetgrey.com/product/AUGUSTINUS-BADER-The-Rich-Cream/ABA-001-R",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://revolvebeauty.com/product/category/skincare",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.nordstrom.ca/browse/beauty",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.thebay.com/c/beauty",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://shoppersdrugmart.ca/en/beauty",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.boots.com/beauty",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.superdrug.com/make-up/c/makeup",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.feelunique.com/makeup",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.douglas.de/de/c/parfum/01",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.notino.com/fragrance/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.marionnaud.fr/marionnaud/parfum/c/1",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.iciparisxl.nl/nl/parfum/c/100",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.parfumo.net/Perfumes",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.fragrantica.com/perfumes/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://basenotes.com/fragrances/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://luckyscent.com/category/1/fragrances",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://ministryofsillywalks.com/",
-      "category": "Novelty"
-    },
-    {
-      "product_url": "https://www.sideshow.com/collectibles/marvel-iron-man-mark-vii-hot-toys-903794",
-      "category": "Collectibles"
-    },
-    {
-      "product_url": "https://www.bigbadtoystore.com/Product/VariationDetails/123456",
-      "category": "Collectibles"
-    },
-    {
-      "product_url": "https://www.entertainmentearth.com/product/action-figures/dc-comics/batman/hsfg12345",
-      "category": "Collectibles"
-    },
-    {
-      "product_url": "https://www.funko.com/shop/details/12345-pop-disney-mickey-mouse",
-      "category": "Collectibles"
-    },
-    {
-      "product_url": "https://www.hottopic.com/product/funko-marvel-pop-venom-vinyl-bobble-head/11111111.html",
-      "category": "Collectibles"
-    },
-    {
-      "product_url": "https://www.boxlunch.com/product/studio-ghibli-my-neighbor-totoro-plush/12345678.html",
-      "category": "Collectibles"
-    },
-    {
-      "product_url": "https://shopdisney.com/parks/collectibles/pins/",
-      "category": "Collectibles"
-    },
-    {
-      "product_url": "https://www.toynk.com/products/star-wars-the-mandalorian-grogu-plush",
-      "category": "Collectibles"
-    },
-    {
-      "product_url": "https://mcmcomiccon.com/birmingham/en-us/home.html",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.comic-con.org/cci",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://nycc23.mapyourshow.com/8_0/explore/exhibitor-gallery.cfm",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.fanexpohq.com/fanexpocanada/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://dragoncon.org/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://animenyc.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.anime-expo.org/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://e3expo.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://gamescom.global/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://blizzcon.com/en-us/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://pax.paxsite.com/west",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://twitchcon.com/en/sandiego-2023/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://vidcon.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.ces.tech/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://sxsw.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.sundance.org/festivals/sundance-film-festival/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.tiff.net/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.festival-cannes.com/en",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.berlinale.de/en/home.html",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.labiennale.org/en/cinema/2023",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.metopera.org/season/calendar/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.broadway.com/shows/tickets/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.londontheatre.co.uk/whats-on",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.viagogo.com/Concert-Tickets",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.vividseats.com/concerts/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.gametime.co/concerts",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.axs.com/events",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.ticketweb.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://dice.fm/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://ra.co/events",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.songkick.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.bandsintown.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.telecharge.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.ticketmaster.co.uk/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.seetickets.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.ticketline.co.uk/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.fatsoma.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.skiddle.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.wegottickets.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://tickets.london/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.atgtickets.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.ticketcorner.ch/en/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.starticket.ch/en",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.oeticket.com/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.eventim.de/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.ticketmaster.fr/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.ticketmaster.es/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.ticketone.it/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.ticketmaster.com.au/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.ticketek.com.au/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.moshtix.com.au/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.oztix.com.au/",
-      "category": "Tickets & Events"
-    },
-    {
-      "product_url": "https://www.udemy.com/topic/python/",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.coursera.org/browse/data-science",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.edx.org/learn/computer-science",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.khanacademy.org/math",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.codecademy.com/catalog",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.pluralsight.com/browse",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://frontendmasters.com/courses/",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.datacamp.com/courses/all",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.linkedin.com/learning/",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://skillshare.com/browse/creative",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.masterclass.com/categories/arts-entertainment",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.brilliant.org/courses/",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://ocw.mit.edu/courses/",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://online-learning.harvard.edu/catalog",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://online.stanford.edu/courses-programs",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.futurelearn.com/courses",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.udacity.com/school/nanodegree",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://iversity.org/en/courses",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.skillsoft.com/courses",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.simplilearn.com/all-courses",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.edureka.co/all-courses",
-      "category": "Online Courses"
+      "product_name": "Yaskawa GA700 Industrial AC Drives",
+      "product_url": "https://www.yaskawa.com/products/drives/industrial-ac-drives/general-purpose/ga700-industrial-drive",
+      "category_name": "Преобразователи частоты",
+      "parent_category": "промэлектроника и автоматика"
     }
   ]
 }

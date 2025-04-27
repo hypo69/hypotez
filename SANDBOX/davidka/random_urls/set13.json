@@ -1,876 +1,124 @@
 {
   "products": [
     {
-      "product_url": "https://www.amazon.co.jp/dp/B08WCCCCCC/",
-      "category": "Toys & Games"
+      "product_name": "Siemens SIRIUS 3RT Contactors",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/switching-devices/contactors.html",
+      "category_name": "Contactors",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.amazon.es/dp/B07KDDDDDD/",
-      "category": "Garden & Outdoors"
+      "product_name": "Schneider Electric Acti9 Miniature Circuit Breakers (MCB)",
+      "product_url": "https://www.se.com/ww/en/product-range/61054-acti9-mcb/",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.made-in-china.com/products-search/hot-china-products/Plastic_Molding.html",
-      "category": "Industrial Supplies"
+      "product_name": "ABB S200 Series Miniature Circuit Breakers",
+      "product_url": "https://new.abb.com/low-voltage/products/modular-din-rail-products/miniature-circuit-breakers-mcbs/s200-series",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.zalando.be/lunettes-de-soleil-unisexe-monture-metal-noir/ZAL12345678C.html",
-      "category": "Fashion"
+      "product_name": "Phoenix Contact CLIPLINE complete Terminal Block System",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/terminal-blocks/clipline-complete-terminal-block-system",
+      "category_name": "Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.poco.de/c/gartenmoebel",
-      "category": "Garden & Outdoors"
+      "product_name": "Rittal AX Compact Enclosures",
+      "product_url": "https://www.rittal.com/com-en/products/pg/enclosures/pg_compact_enclosures/pg_compact_enclosures_ax/PGR_135197_10983",
+      "category_name": "Enclosures",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.junkudo.co.jp/mj/products/list.php?genre_id=01",
-      "category": "Books"
+      "product_name": "Weidmüller Klippon® Connect Terminal Blocks",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group29339912260935",
+      "category_name": "Terminal Blocks",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://libro.fm/categories/fiction-audiobooks",
-      "category": "Audiobooks"
+      "product_name": "Eaton Moeller Easy E4 Nano PLC",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/machinery-controls/easye4.html",
+      "category_name": "Programmable Logic Controllers (PLC)",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://allegro.pl/kategoria/oswietlenie-lampy-sufitowe-45581",
-      "category": "Home Goods"
+      "product_name": "WAGO 221 Series Splicing Connectors",
+      "product_url": "https://www.wago.com/global/installation-terminal-blocks-and-connectors/splicing-connector-for-all-conductor-types/221",
+      "category_name": "Wire Connectors",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.walmart.com.ar/electrodomesticos/pequenos-electrodomesticos/cafeteras",
-      "category": "Home Appliances"
+      "product_name": "Siemens LOGO! Logic Modules",
+      "product_url": "https://new.siemens.com/global/en/products/automation/systems/industrial/plc/logo.html",
+      "category_name": "Logic Modules / Mini PLC",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etsy.com/ca/listing/121212121/personalized-engraved-wooden-watch-box",
-      "category": "Handmade"
+      "product_name": "Schneider Electric TeSys GV Motor Circuit Breakers",
+      "product_url": "https://www.se.com/ww/en/product-range/656-tesys-gv/",
+      "category_name": "Motor Circuit Breakers",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.mercadolibre.com.ve/monitor-led-24-pulgadas-full-hd-hdmi-vga/p/MVE1100000B",
-      "category": "Electronics"
+      "product_name": "ABB AF Contactors",
+      "product_url": "https://new.abb.com/low-voltage/products/motor-protection/contactors/3-pole-contactors/af-contactors",
+      "category_name": "Contactors",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.conforama.it/arredamento-mobili/soggiorno/pareti-attrezzate",
-      "category": "Furniture"
+      "product_name": "Phoenix Contact STEP POWER Power Supplies",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/power-supplies-and-ups/power-supplies/step-power",
+      "category_name": "Power Supplies",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.ikea.com/es/es/cat/armarios-st004/",
-      "category": "Furniture"
+      "product_name": "Rittal VX25 Baying Enclosure System",
+      "product_url": "https://www.rittal.com/com-en/products/pg/enclosures/pg_large_enclosure_systems/pg_baying_systems_vx25/PGR_135197_10978",
+      "category_name": "Enclosures",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.koovs.com/category/clothing",
-      "category": "Fashion"
+      "product_name": "Weidmüller PROeco Power Supplies",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group30708462697081",
+      "category_name": "Power Supplies",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.asos.com/pl/kobiety/bielizna-nocna/pizamy/cat/?cid=22014",
-      "category": "Fashion"
+      "product_name": "Eaton M22 Modular Pushbuttons",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/machinery-controls/m22.html",
+      "category_name": "Pushbuttons & Pilot Devices",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.christmastreeshops.com/browse/kitchen-dining/dinnerware/_/N-12345",
-      "category": "Kitchenware"
+      "product_name": "WAGO EPSITRON® Power Supplies",
+      "product_url": "https://www.wago.com/global/power-supplies",
+      "category_name": "Power Supplies",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.elcorteingles.pt/desporto/ciclismo/",
-      "category": "Sports & Outdoors"
+      "product_name": "Legrand DX³ DIN Rail Equipment (MCB, RCCB, RCBO)",
+      "product_url": "https://www.legrandgroup.com/en/products/wiring-devices-and-electrical-equipment/din-rail-equipment",
+      "category_name": "DIN Rail Circuit Protection",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.bestbuy.ca/en-ca/category/headphones/20006",
-      "category": "Electronics"
+      "product_name": "Omron MY General-purpose Relay",
+      "product_url": "https://www.omron.com/global/en/products/product-detail/my.html",
+      "category_name": "Relays",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.thomann.de/at/studio_und_recording_equipment.html",
-      "category": "Musical Instruments"
+      "product_name": "Allen-Bradley 1492-SPM Miniature Circuit Breakers",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/circuit-and-load-protection/miniature-circuit-breakers/1492-spm-miniature-circuit-breakers.html",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.decathlon.com.br/esportes/futebol",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.fnac.pt/livros/Livros-em-Ingles/s57318",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.mediamarkt.pt/pt/category/_portateis-665.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.lazada.sg/shop/home-appliances/small-kitchen-appliances/blenders-juicers/",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://shopee.com.my/search?keyword=camera",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.extra.com.br/bebes/brinquedosparaBebe/cat440136",
-      "category": "Baby Products"
-    },
-    {
-      "product_url": "https://www.spotlightstores.com/craft-hobbies/yarn-needle-art",
-      "category": "Arts & Crafts"
-    },
-    {
-      "product_url": "https://www.thriftbooks.com/browse/?b.search=history",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.dermstore.com/shop/Hair+Care.list",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.newegg.com/Computer-Cases/SubCategory/ID-7",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.adidas.fr/femmes-chaussures",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hm.com/nl_nl/heren/shop-by-product/jeans.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.zara.com/it/it/donna-scarpe-l1251.html?v1=12345",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.yoox.com/ca/en/men/shoponline/accessories_mc",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lifestyle.com/in/en/department/men-footwear",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.ceneo.pl/Sprzet_AGD",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.canadiantire.ca/en/kitchen.html",
-      "category": "Kitchenware"
-    },
-    {
-      "product_url": "https://www.wayfair.ca/decor-pillows/cat/area-rugs-c413397.html",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.long-mcquade.com/departments/15/Drums_Percussion.htm",
-      "category": "Musical Instruments"
-    },
-    {
-      "product_url": "https://www.naturisimo.com/collections/makeup",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.fruugo.dk/sportsudstyr/c-6150",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.rutlandcycling.com/clothing/jerseys/",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://global.rakuten.com/en/category/mens_fashion/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.e-mart.co.kr/category/main.do?categoryId=001001",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://goldapple.ru/makiyazh",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.amazon.nl/dp/B08XDDDDDD/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.amazon.se/dp/B09EEEEEEE/",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.kaufland.sk/sortiment/potraviny/maso-udeniny.html",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.fwrd.com/mobile/products/?aliasURL=mens&department=Men",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.petcircle.com.au/fish",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://www.svyaznoy.ru/catalog/audiovideo/1816",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.ebay.com.au/sch/i.html?_nkw=art+prints&_sacat=0",
-      "category": "Arts & Crafts"
-    },
-    {
-      "product_url": "https://groceries.asda.com/cat/drinks/1215686349633",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.mastermindtoys.com/collections/games-puzzles",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.marksandspencer.com/l/home/furniture/living-room-furniture/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://well.ca/categories/vitamins-supplements_114.html",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.studio.co.uk/shop/gifts---toys/toys-by-age",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.monoprix.fr/courses/produits-bio-R11",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.galaxus.de/de/s1/producttype/kopfhoerer-67",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://jp.mercari.com/search?keyword=cd",
-      "category": "Music"
-    },
-    {
-      "product_url": "https://zozo.jp/men-shop/accessories/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://ymall.jp/search?searchbox=1&cid=10000",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://monotaro.com/c/100/",
-      "category": "Tools"
-    },
-    {
-      "product_url": "https://uteka.ru/catalog/materinstvo-i-detstvo/",
-      "category": "Baby Products"
-    },
-    {
-      "product_url": "https://www.shopfans.com/categories/electronics",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.kmart.co.nz/category/home-living/bedroom/bedding/",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.warehouse.co.nz/c/clothing-shoes-accessories/womens",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.backcountryedge.com/footwear.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.london Drugs.com/personal-care/skin-care/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.cabelas.ca/category/hunting/2",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.abercrombiekids.com/shop/us/girls-bottoms",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hollisterco.com/shop/us/guys-tops",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.pacsun.com/mens/graphic-tees/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.zumiez.com/brands.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.tillys.com/men/clothing/shirts/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.princesspolly.com/collections/tops",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.showpo.com/us/dresses/party-dresses.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://petalandpup.com/us/collections/all-bottoms",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://hellomolly.com/collections/accessories",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://beginningboutique.com/collections/shoes",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.whitefoxboutique.com/collections/swim",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lounge.com/collections/lingerie",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://adoreme.com/sleepwear",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.thirdlove.com/collections/underwear",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.victoriassecret.com/us/vs/sleepwear-and-lingerie-catalog",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.savagex.com/shop/lingerie",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.agentprovocateur.com/us/swimwear",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lasenza.ca/bras/push-up",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://knix.com/collections/underwear",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://truekind.com/collections/all",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.spanx.com/clothing/leggings",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://wearpepper.com/collections/bras",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://cuup.com/collections/underwear",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://fleurdumal.com/collections/slips-chemises",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.bluebella.us/collections/pajamas",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.honeybirdette.com/collections/bodysuits",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.laperla.com/us/nightwear/pajamas/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.chantelle.com/shapewear.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.simone-perele.com/collections/briefs",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.aubade.com/collections/bras",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.wolfordshop.com/bodysuits",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.calzedonia.com/category/legwear/SC0001.uts",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.intimissimi.com/category/bras/pc/4804",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://yamamay.com/us_en/woman/briefs.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.tezenis.com/us/category/woman/pajamas/pc/50102",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://shop.nordstrom.com/c/mens-clothing",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.macys.com/shop/furniture?id=29391",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.bloomingdales.com/shop/jewelry-accessories?id=3376",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.saksfifthavenue.com/c/shoes/all-shoes",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.neimanmarcus.com/c/handbags-cat17740747",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.bergdorfgoodman.com/c/beauty-cat10000",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.kohls.com/catalog/womens-tops.jsp?CN=Gender:Womens+Category:Tops",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.jcpenney.com/g/men/view-all-mens-clothing",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.dillards.com/c/kids",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.vonmaur.com/Departments.aspx?departmentId=13",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.belk.com/home/bed-bath/",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.lordandtaylor.com/collections/kitchen",
-      "category": "Kitchenware"
-    },
-    {
-      "product_url": "https://www.steinmart.com/category/home/decor.do",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.boscovs.com/shop/department/shoes/10150",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://tjmaxx.tjx.com/store/shop/home-decor/_/N-3981824513",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.marshalls.com/us/store/shop/kids-toys/_/N-1389396171",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.homegoods.com/us/store/shop/kitchen-dining/_/N-98765432",
-      "category": "Kitchenware"
-    },
-    {
-      "product_url": "https://www.sierra.com/mens-clothing~d~4/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.homesense.com/us/store/shop/decor-accessories/_/N-12345678",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.ikea.com/us/en/cat/kitchen-dining-ka001/",
-      "category": "Kitchenware"
-    },
-    {
-      "product_url": "https://www.ashleyfurniture.com/c/furniture/bedroom/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.ethanallen.com/en_US/shop-furniture-dining-room",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.havertys.com/furniture/bedroom",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.bassettfurniture.com/dining/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.raymourflanigan.com/bedrooms",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.la-z-boy.com/c/recliners",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.roomsanddreams.com/dining-room/dining-sets/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.americanfreight.com/br/c/bedroom-furniture/1000",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.costplusworldmarket.com/category/furniture/dining-room.do",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.pier1.com/collections/dining-furniture",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.overstock.com/Home-Garden/Bedroom-Furniture/2018/subcat.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.houzz.com/products/dining-room-furniture",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.allmodern.com/furniture/sb0/bedroom-furniture-c365861.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.birchlane.com/furniture/sb0/dining-room-kitchen-furniture-c1789638.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.perigold.com/furniture/sb0/office-furniture-c1859978.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://design-within-reach.com/dining",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.roveconcepts.com/dining/dining-tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.aptdeco.com/catalog/dining",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.chairish.com/collection/dining-chairs",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://franceandson.com/collections/office-furniture",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://scandinaviandesigns.com/collections/office-desks-chairs",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://modshop.com/collections/beds",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://industrywest.com/collections/beds",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.castlery.com/us/dining-room/dining-tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://insidestoreldn.com/collections/dining",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://sohohome.com/us/categories/bedroom",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.arhaus.com/furniture/dining-room-furniture/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.mgbwhome.com/bedroom/C1002.aspx",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.boconcept.com/en-us/shop/dining/dining-tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.ligneroset.com/us/shop/dining/tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.poltronafrau.com/en/catalogue/dining-tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.cassina.com/en/collection/tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.bebitalia.com/en/tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.flexform.it/en/products/dining-tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.minotti.com/en/tables-complementary-units",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://roche-bobois.com/en-US/products/dining-tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.kartell.com/us/en/ct/shop/tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.knoll.com/shop/furniture/tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.hermanmiller.com/products/tables/occasional-tables/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://store.moma.org/collections/furniture-tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://eq3.com/us/en/category/living/accent-tables/coffee-tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://gusmodern.com/collections/tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://bludot.com/tables.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.schoolhouse.com/collections/tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.rejuvenation.com/catalog/categories/furniture/tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.urbanoutfitters.com/tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.anthropologie.com/tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.westelm.com/shop/furniture/coffee-tables/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.potterybarn.com/shop/furniture-upholstery/coffee-tables/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.crateandbarrel.com/furniture/coffee-tables/1",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.roomandboard.com/catalog/living/coffee-tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.cb2.com/furniture/coffee-tables/1",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.article.com/browse/1/coffee-tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.apt2b.com/collections/coffee-tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://joybird.com/coffee-tables/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://burrow.com/nomad-fabric/tables",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://floydhome.com/products/the-floyd-coffee-table",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://casper.com/furniture/nightstands/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://purple.com/furniture/nightstands",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.tuftandneedle.com/furniture/nightstand/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://nectarsleep.com/furniture",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://leesa.com/products/platform-bed",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://helixsleep.com/products/helix-frame-foundation",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.brooklinen.com/collections/furniture",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://parachutehome.com/collections/furniture",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://bollandbranch.com/collections/furniture",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://coyuchi.com/shop/furniture.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.williams-sonoma.com/shop/furniture/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.surlatable.com/furniture/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.zwilling.com/us/furniture/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.kitchenaid.com/",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.vitamix.com/us/en_us/",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.nespresso.com/us/en/",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.dyson.com/en",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.irobot.com/en_US",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.sonos.com/en-us/home",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.bose.com/en_us/index.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://electronics.sony.com/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.lg.com/us",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.samsung.com/us/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.apple.com/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://store.google.com/us/?hl=en-US",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.microsoft.com/en-us/surface",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.dell.com/en-us",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.hp.com/us-en/home.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.lenovo.com/us/en/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.razer.com/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://us.msi.com/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.asus.com/us/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.acer.com/us-en",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.oculus.com/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.playstation.com/en-us/",
-      "category": "Video Games"
-    },
-    {
-      "product_url": "https://www.xbox.com/en-US/",
-      "category": "Video Games"
-    },
-    {
-      "product_url": "https://www.nintendo.com/us/",
-      "category": "Video Games"
+      "product_name": "Siemens SENTRON 3VA Molded Case Circuit Breakers (MCCB)",
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-protection-devices/molded-case-circuit-breakers/3va-molded-case-circuit-breakers.html",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     }
   ]
 }

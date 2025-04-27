@@ -321,58 +321,183 @@ class Driver:
         final_answer, all_chunks = await stream_agent_execution(executor=agent_executor, task_input={"input": task}, logger_instance=logger)
         return final_answer, all_chunks
 
-# --- Функция main для демонстрации ---
-async def main():
+# # --- Функция main для демонстрации ---
+# async def main():
 
-    driver:Driver = None
+#     driver:Driver = None
+#     try:
+#         # Инициализируем Driver, который попытается создать инструменты
+#         driver = Driver(start_browser=True) # Поставьте False, если браузер не нужен
+#     except Exception as ex:
+#         logger.error("Критическая ошибка при инициализации Driver.", ex, exc_info=True); return
+#     if not driver: logger.error("Объект Driver не был создан.", None, exc_info=False); return
+#     logger.info("Driver инициализирован.")
+
+#     # Проверяем, какие инструменты реально доступны
+#     if not driver.tools:
+#         logger.warning("Инструменты НЕ доступны. Тестирование ограничено задачами без внешнего доступа.", exc_info=False)
+#         task_to_run = "Напиши короткий стих о программировании." # Задача без инструментов
+#     else:
+#         logger.info(f"Доступные инструменты: {[tool.name for tool in driver.tools]}")
+#         # Задача, которая, скорее всего, потребует поиска (WebSearchAPI или BrowserSearch)
+#         task_to_run = "Какая столица Австралии и какая там сейчас погода?"
+#         # Или задача для браузера, если он доступен
+#         # task_to_run = "Найди 'LangChain python quickstart', перейди на страницу и извлеки первый пример кода."
+
+#     print(f"\nТестовая задача: {task_to_run}")
+
+#     # --- Тест run_task ---
+#     print("\n" + "="*10 + " Тест run_task " + "="*10)
+#     llm_to_test_run = []
+#     if driver.gemini: llm_to_test_run.append(("Gemini", True))
+#     if driver.openai: llm_to_test_run.append(("OpenAI", False)) # Можно добавить OpenAI, если настроен
+#     if not llm_to_test_run: print("Нет активных LLM для запуска run_task.")
+#     else:
+#         for name, flag in llm_to_test_run:
+#             print(f"\n--- Запуск run_task ({name}) ---")
+#             result = await driver.run_task(task_to_run, use_gemini=flag)
+#             print(f"[Результат run_task ({name})]: {result if result is not None else 'Ошибка или нет ответа'}")
+
+#     # --- Тест stream_task ---
+#     print("\n" + "="*10 + " Тест stream_task " + "="*10)
+#     # Запустим стриминг только для Gemini для краткости примера
+#     llm_to_test_stream = [("Gemini", True)] if driver.gemini else []
+#     if not llm_to_test_stream: print("Нет активных LLM для запуска stream_task.")
+#     else:
+#         for name, flag in llm_to_test_stream:
+#             print(f"\n--- Запуск stream_task ({name}) ---")
+#             final_answer, chunks = await driver.stream_task(task_to_run, use_gemini=flag)
+#             print(f"\nСтриминг ({name}) завершен. Чанков: {len(chunks)}")
+#             print(f"[Финальный ответ ({name})]: {final_answer if final_answer is not None else 'Нет ответа или ошибка'}")
+
+#     logger.info("="*20 + " Завершение main " + "="*20)
+
+
+
+# --- Функция main для демонстрации сбора информации о товаре ---
+async def main():
+    driver: Driver = None
+    BROWSER_TOOLS_AVAILABLE = False # Флаг доступности браузерных инструментов
+
     try:
-        # Инициализируем Driver, который попытается создать инструменты
-        driver = Driver(start_browser=True) # Поставьте False, если браузер не нужен
+        # Инициализируем Driver, ОБЯЗАТЕЛЬНО разрешая запуск браузера
+        logger.info("Попытка инициализации Driver с start_browser=True...")
+        driver = Driver(start_browser=True) # <-- Важно для браузерных инструментов
     except Exception as ex:
-        logger.error("Критическая ошибка при инициализации Driver.", ex, exc_info=True); return
-    if not driver: logger.error("Объект Driver не был создан.", None, exc_info=False); return
+        logger.error("Критическая ошибка при инициализации Driver.", ex, exc_info=True)
+        return
+
+    if not driver:
+        logger.error("Объект Driver не был создан.", None, exc_info=False)
+        return
+
     logger.info("Driver инициализирован.")
 
-    # Проверяем, какие инструменты реально доступны
-    if not driver.tools:
-        logger.warning("Инструменты НЕ доступны. Тестирование ограничено задачами без внешнего доступа.", exc_info=False)
-        task_to_run = "Напиши короткий стих о программировании." # Задача без инструментов
+    # Проверяем, были ли реально добавлены браузерные инструменты
+    available_tool_names = [tool.name for tool in driver.tools]
+    if "BrowserNavigate" in available_tool_names and "BrowserScrapeText" in available_tool_names:
+        BROWSER_TOOLS_AVAILABLE = True
+        logger.info(f"Браузерные инструменты доступны: {available_tool_names}")
     else:
-        logger.info(f"Доступные инструменты: {[tool.name for tool in driver.tools]}")
-        # Задача, которая, скорее всего, потребует поиска (WebSearchAPI или BrowserSearch)
-        task_to_run = "Какая столица Австралии и какая там сейчас погода?"
-        # Или задача для браузера, если он доступен
-        # task_to_run = "Найди 'LangChain python quickstart', перейди на страницу и извлеки первый пример кода."
+        logger.warning(f"Браузерные инструменты НЕ доступны. Доступные инструменты: {available_tool_names}. Сбор информации со страницы НЕВОЗМОЖЕН.", exc_info=False)
+        # Можно завершить выполнение или поставить другую задачу
+        # return # Раскомментируйте, если без браузера продолжать нет смысла
 
-    print(f"\nТестовая задача: {task_to_run}")
+    # --- Формулируем задачу для сбора информации ---
 
-    # --- Тест run_task ---
-    print("\n" + "="*10 + " Тест run_task " + "="*10)
-    llm_to_test_run = []
-    if driver.gemini: llm_to_test_run.append(("Gemini", True))
-    if driver.openai: llm_to_test_run.append(("OpenAI", False)) # Можно добавить OpenAI, если настроен
-    if not llm_to_test_run: print("Нет активных LLM для запуска run_task.")
-    else:
-        for name, flag in llm_to_test_run:
-            print(f"\n--- Запуск run_task ({name}) ---")
-            result = await driver.run_task(task_to_run, use_gemini=flag)
-            print(f"[Результат run_task ({name})]: {result if result is not None else 'Ошибка или нет ответа'}")
+    # ВАРИАНТ 1: Если URL товара известен
+    product_url = "https://www.ozon.ru/product/smartfon-apple-iphone-15-pro-max-256-gb-naturalnyy-titan-global-dual-sim-esim-sim-1262189900/" # Пример URL
+    task_to_run = f"""
+    Перейди по URL: {product_url}
+    Внимательно изучи страницу товара.
+    Извлеки следующую информацию:
+    1. Полное название товара.
+    2. Текущую цену (если есть скидка, укажи обе цены).
+    3. Краткое описание или основные характеристики (1-2 предложения).
+    4. Рейтинг товара (если есть, например, 4.5 из 5).
+    5. Количество отзывов (если есть).
 
-    # --- Тест stream_task ---
-    print("\n" + "="*10 + " Тест stream_task " + "="*10)
-    # Запустим стриминг только для Gemini для краткости примера
-    llm_to_test_stream = [("Gemini", True)] if driver.gemini else []
+    Предоставь результат в виде четких пунктов или просто текстом.
+    """
+
+    # ВАРИАНТ 2: Если нужно сначала найти товар (требует рабочего WebSearchAPI или BrowserSearch)
+    # product_name = "Смартфон Apple iPhone 15 Pro Max 256 ГБ натуральный титан"
+    # website = "ozon.ru" # Можно указать сайт для точности
+    # task_to_run = f"""
+    # Используй поиск (WebSearchAPI предпочтительнее), чтобы найти страницу товара '{product_name}' на сайте {website}.
+    # Перейди на найденную страницу товара.
+    # Внимательно изучи страницу.
+    # Извлеки следующую информацию:
+    # 1. Полное название товара.
+    # 2. Текущую цену (если есть скидка, укажи обе цены).
+    # 3. Краткое описание или основные характеристики (1-2 предложения).
+    # 4. Рейтинг товара (если есть).
+    # 5. Количество отзывов (если есть).
+    # Предоставь результат в виде четких пунктов или просто текстом.
+    # """
+
+
+    if not BROWSER_TOOLS_AVAILABLE:
+         print("\nБраузерные инструменты недоступны. Запуск задачи сбора информации со страницы невозможен.")
+         logger.warning("Пропуск задачи из-за отсутствия браузерных инструментов.")
+         task_to_run = "Напиши короткий стих о коде." # Альтернативная задача
+         # Или просто выходим
+         # return
+
+    print(f"\nТестовая задача для агента:\n--- НАЧАЛО ЗАДАЧИ ---\n{task_to_run}\n--- КОНЕЦ ЗАДАЧИ ---")
+
+    # # --- Тест run_task ---
+    # print("\n" + "="*10 + " Тест run_task для сбора данных " + "="*10)
+    # llm_to_test_run = []
+    # # Выбираем модель (можно проверить обе, если активны)
+    # if driver.gemini: llm_to_test_run.append(("Gemini", True))
+    # if driver.openai: llm_to_test_run.append(("OpenAI", False))
+
+    # if not llm_to_test_run:
+    #     print("Нет активных LLM для запуска run_task.")
+    # else:
+    #     for name, flag in llm_to_test_run:
+    #         print(f"\n--- Запуск run_task ({name}) ---")
+    #         # Увеличиваем таймаут, если нужно (по умолчанию LangChain может иметь свой)
+    #         # Агент может долго думать и взаимодействовать с браузером
+    #         try:
+    #             result = await driver.run_task(task_to_run, use_gemini=flag)
+    #             print(f"\n[Результат run_task ({name})]:\n{result if result is not None else 'Ошибка или нет ответа'}")
+    #         except asyncio.TimeoutError:
+    #              print(f"Выполнение задачи ({name}) превысило таймаут!")
+    #              logger.error(f"Таймаут при выполнении run_task ({name})", None, exc_info=False)
+    #         except Exception as e:
+    #              print(f"Произошла ошибка во время run_task ({name}): {e}")
+    #              logger.error(f"Ошибка во время run_task ({name})", e, exc_info=True)
+
+
+    # --- Тест stream_task (для отладки) ---
+    print("\n" + "="*10 + " Тест stream_task для сбора данных (отладка) " + "="*10)
+    llm_to_test_stream = [("Gemini", True)] if driver.gemini else [] # Тестируем только Gemini для краткости
     if not llm_to_test_stream: print("Нет активных LLM для запуска stream_task.")
     else:
         for name, flag in llm_to_test_stream:
+            if not BROWSER_TOOLS_AVAILABLE and "Перейди по URL" in task_to_run:
+                 print(f"Пропуск stream_task ({name}), так как браузерные инструменты недоступны.")
+                 continue
             print(f"\n--- Запуск stream_task ({name}) ---")
             final_answer, chunks = await driver.stream_task(task_to_run, use_gemini=flag)
             print(f"\nСтриминг ({name}) завершен. Чанков: {len(chunks)}")
             print(f"[Финальный ответ ({name})]: {final_answer if final_answer is not None else 'Нет ответа или ошибка'}")
+            # Можно добавить вывод чанков для детальной отладки
+            # print("\n--- Все чанки ---")
+            # for i, chunk in enumerate(chunks):
+            #     print(f"Chunk {i}: {chunk}")
+            # print("--- Конец чанков ---")
+
 
     logger.info("="*20 + " Завершение main " + "="*20)
+    # Важно: Driver.__del__ попытается закрыть браузер, если он был открыт
 
 if __name__ == "__main__":
-    # Убедитесь, что ключ SERPAPI_API_KEY установлен в .env или переменных окружения,
-    # если хотите использовать WebSearchAPI.
+    # Убедитесь, что:
+    # 1. Установлены все зависимости (langchain*, google-search-results, dotenv, ваш browser_use).
+    # 2. API ключи (GEMINI, OPENAI, SERPAPI) доступны в .env или переменных окружения и gs.credentials.
+    # 3. Файл конфигурации use_ai.json существует и корректен.
+    # 4. Ваш BrowserController (если используется) работает корректно.
     asyncio.run(main())

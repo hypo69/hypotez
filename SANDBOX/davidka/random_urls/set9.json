@@ -1,760 +1,124 @@
 {
   "products": [
     {
-      "product_url": "https://www.amazon.co.jp/dp/B07BBBBCCC/",
-      "category": "Electronics"
+      "product_name": "Rosemount™ 3051 Pressure Transmitter",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-sku-3051s-series-pressure-transmitter",
+      "category_name": "Датчики давления",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.amazon.es/dp/B09DDDDDDD/",
-      "category": "Home Goods"
+      "product_name": "Yokogawa EJX-A Series Pressure/Differential Pressure Transmitters",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/pressure-transmitters/differential-pressure-transmitters-ejx-a-series/",
+      "category_name": "Датчики давления",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.hktdc.com/sourcing/products/electronics/LED-Display-Screen/1X000001",
-      "category": "Electronics"
+      "product_name": "WIKA model CPT6100 / CPT6180 Precision Pressure Sensor",
+      "product_url": "https://www.wika.com/en-us/products/pressure/sensors_transmitters/productoverview/precision_pressure_sensor_model_cpt6100_cpt6180.WIKA",
+      "category_name": "Датчики давления",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.zalando.dk/herre-skjorte-bomuld-bla-stribet/ZAL123456789.html",
-      "category": "Fashion"
+      "product_name": "Endress+Hauser iTEMP TMT162 Temperature Transmitter",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/temperature-measurement/temperature-transmitter-itemp-TMT162",
+      "category_name": "Преобразователи температуры",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.poco.de/p/boxspringbett-180x200-cm-grau-inkl-topper-501234500",
-      "category": "Furniture"
+      "product_name": "Siemens SITRANS P DS III Pressure Transmitter",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/pressure-measurement/transmitters-for-gauge-and-absolute-pressure/sitrans-p-dsiii.html",
+      "category_name": "Датчики давления",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://online.books.or.jp/product/book/1234567.html",
-      "category": "Books"
+      "product_name": "KROHNE OPTIFLUX 4000 Electromagnetic flowmeter",
+      "product_url": "https://krohne.com/en/products/flow-measurement/flowmeters/electromagnetic-flowmeters/optiflux-4000",
+      "category_name": "Электромагнитные расходомеры",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://libro.fm/audiobooks/9780000000002",
-      "category": "Audiobooks"
+      "product_name": "VEGA VEGAPULS 64 Radar Level Sensor for Liquids",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/level/radar/vegapuls-64",
+      "category_name": "Радарные уровнемеры",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://allegro.pl/oferta/zestaw-garnkow-nierdzewnych-indukcja-10el-2020202020",
-      "category": "Kitchenware"
+      "product_name": "ABB 266 Multivariable Transmitter",
+      "product_url": "https://new.abb.com/products/measurement-products/pressure/absolute-pressure-transmitters/266mst-multivariable-transmitter",
+      "category_name": "Датчики давления (многопараметрические)",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.heb.com.mx/p/shampoo-pantene-restauracion-750-ml/12345678",
-      "category": "Beauty"
+      "product_name": "Omega PX409 Series High Accuracy Pressure Transducers",
+      "product_url": "https://www.omega.com/en-us/pressure-measurement/pressure-transducers/high-accuracy-transducers/px409-series/p/PX409-015A5V",
+      "category_name": "Датчики давления",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.etsy.com/jp/listing/987654321/japanese-style-ceramic-bowl-handmade",
-      "category": "Handmade"
+      "product_name": "Honeywell STT850 Smart Temperature Transmitter",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/temperature-transmitters/stt850-smart-temperature-transmitter",
+      "category_name": "Преобразователи температуры",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.mercadolibre.com.uy/auriculares-gamer-rgb-usb-cancelacion-ruido/p/MLU10000009",
-      "category": "Electronics"
+      "product_name": "Rosemount™ 5300 Level Transmitter - Guided Wave Radar",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-level-measurement/rosemount-sku-5300-level-transmitter",
+      "category_name": "Волноводные радарные уровнемеры",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.electrodepot.fr/petit-electromenager/cafe/cafetiere-expresso-marque-modele.html",
-      "category": "Home Appliances"
+      "product_name": "Yokogawa AXG Electromagnetic Flow Meter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/flowmeters/electromagnetic-flowmeters/admag-axg-electromagnetic-flow-meter/",
+      "category_name": "Электромагнитные расходомеры",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.ikea.com/kr/ko/p/malm-ottoman-bed-white-12345678/",
-      "category": "Furniture"
+      "product_name": "WIKA Model TR10-B Resistance thermometer for sanitary applications",
+      "product_url": "https://www.wika.com/en-us/products/temperature/electrical_temperature_measurement/resistance_thermometers/productoverview/resistance_thermometer_for_sanitary_applications_model_tr10_b.WIKA",
+      "category_name": "Термометры сопротивления",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.ajio.com/women-kurtas/c/830316001",
-      "category": "Fashion"
+      "product_name": "Endress+Hauser Liquiline CM44 Multi-parameter Controller",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/liquid-analysis/transmitter-liquiline-cm44",
+      "category_name": "Контроллеры / Анализаторы жидкости",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.asos.com/de/herren/schmuck/ketten/halskette-silber-anhaenger/prd/292929292",
-      "category": "Fashion"
+      "product_name": "Siemens SITRANS F M MAG 5100 W Electromagnetic Flow Sensor",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/flow-measurement/electromagnetic/sitrans-f-m-mag-5100w.html",
+      "category_name": "Электромагнитные расходомеры",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.christmastreeshops.com/product/12345678/outdoor-solar-path-lights-6pk",
-      "category": "Garden & Outdoors"
+      "product_name": "KROHNE OPTISONIC 3400 Ultrasonic flowmeter",
+      "product_url": "https://krohne.com/en/products/flow-measurement/flowmeters/ultrasonic-flowmeters/optisonic-3400",
+      "category_name": "Ультразвуковые расходомеры",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.elcorteingles.es/hogar/A6789012G/vajilla-18-piezas-porcelana-blanca/",
-      "category": "Home Goods"
+      "product_name": "VEGA VEGADIF 85 Differential pressure transmitter",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/pressure/differential-pressure/vegadif-85",
+      "category_name": "Датчики дифференциального давления",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.bestbuy.ca/en-ca/product/brand-name-4k-hdr-smart-tv-65-inch/19000010",
-      "category": "Electronics"
+      "product_name": "ABB LMT Series Magnetostrictive Level Transmitters",
+      "product_url": "https://new.abb.com/products/measurement-products/level/magnetostrictive-transmitters/lmt-series",
+      "category_name": "Магнитострикционные уровнемеры",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.thomann.de/pt/korg_minilogue_xd.htm",
-      "category": "Musical Instruments"
+      "product_name": "Omega CL540 Series Temperature Calibrator",
+      "product_url": "https://www.omega.com/en-us/control-monitoring/calibration/temperature-calibrators/cl540-series/p/CL540ZA",
+      "category_name": "Калибраторы температуры",
+      "parent_category": "КИП"
     },
     {
-      "product_url": "https://www.decathlon.pt/p/tenda-campismo-3-pessoas-azul/_/R-p-380009",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.fnac.pt/Livro-Autor-Titulo-Ficcao-Cientifica/a20000010",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.mediamarkt.nl/nl/category/_monitoren-487969.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.lazada.co.th/products/smart-watch-fitness-tracker-heart-rate-monitor-i121212121-s343434343.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://shopee.sg/product/898989898/1010101010/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.casasbahia.com.br/Moveis/colchao-casal-molas-ensacadas-marca-modelo/p/5500000004",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.myer.com.au/p/brand-mens-business-shirt-regular-fit-white",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.blackwells.co.uk/bookshop/product/9780141000001",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.sephora.fr/p/mascara-volume-allongeant-noir-P470003.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.newegg.com/Product/Product.aspx?Item=N82E16811139001",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.adidas.ca/en/ultraboost-light-shoes/HQ6351.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hm.com/sv_se/productpage.1818181818.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.zara.com/fr/fr/chemise-en-popeline-imprimee-bleu-ciel-p01111222333.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.yoox.com/nl/dames/jurk-zijde-zwart_cod32109876ih.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.myntra.com/jewellery/brand/silver-plated-earrings-ethnic/17000003/buy",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.skapiec.pl/site/cat/319/comp/999888776",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.homedepot.ca/product/brand-ceiling-fan-52-inch-led-light-white/1002000123",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.wayfair.co.uk/storage-organisation/pdp/brand-shoe-storage-cabinet-wood-brown-ukwf9876.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.gear4music.de/de/Keyboard-and-Piano/Digitalpiano-Marke-Modell-Schwarz/XYZ2",
-      "category": "Musical Instruments"
-    },
-    {
-      "product_url": "https://www.cultbeauty.co.uk/makeup/lips/lipstick/brand-matte-lipstick-nude.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.fruugo.es/juego-de-construccion-magnetico-100-piezas/p-140000010-190000010",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.chainreactioncycles.com/mobile/helmets/mtb-helmets/brand-mountain-bike-helmet-black/rp-prod654321",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://global.rakuten.com/en/store/beauty-shop/item/skincare-set-123/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.gmarket.co.kr/challenge/neo_goods/goods.asp?goodscode=1122334455",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.ozon.ru/product/sumka-zhenskaya-kozhanaya-chernaya-cherez-plecho-3344556677/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.amazon.com.br/dp/B08YZZZZZZ/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.amazon.co.uk/dp/B09DDDDDDD/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.kaufland.de/product/121212121/",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.revolve.com/clothing/tops/cat/123/?navsrc=main",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.chewy.com/brand-cat-tower-multi-level-beige/dp/765432",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://www.mvideo.ru/products/kofemashina-avtomaticheskaya-marka-model-serebristaya-400700123",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.ebay.com.au/itm/112233445566",
-      "category": "Collectibles"
-    },
-    {
-      "product_url": "https://www.sainsburys.co.uk/gol-ui/product/category/cheese/all",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.argos.ie/static/Product/partNumber/3232323.htm",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.johnlewis.com/brand-duvet-cover-set-king-size-cotton-blue/p7000003",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.boots.com/health-pharmacy/vitamins-supplements/multivitamins/brand-multivitamin-tablets-for-adults-10400003",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.currys.co.uk/products/brand-sound-bar-with-subwoofer-dolby-atmos-black-10233333.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.privalia.com/it/product/detail/20000002_002",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.unieuro.it/online/Frigoriferi/Marca-Modello-combinato-inox-pidUNI987654321",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://zozo.jp/category/fashion/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.yodobashi.com/product/200000002006000002/",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.coupang.com/vp/products/112233445?itemId=556677889",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.11st.co.kr/products/2233445566",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.wildberries.ru/catalog/98765432/detail.aspx",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.americanas.com.br/produto/222333444",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.kmart.com.au/product/glass-food-storage-container-set-3-pack-43100002/",
-      "category": "Kitchenware"
-    },
-    {
-      "product_url": "https://www.jbhifi.com.au/products/brand-model-vinyl-record-player-bluetooth",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.canadiantire.ca/en/pdp/simoniz-car-wash-concentrate-1-89l-0390001p.html",
-      "category": "Auto Parts"
-    },
-    {
-      "product_url": "https://www.bestbuy.ca/en-ca/product/brand-name-digital-photo-frame-10-inch-wifi/11000012",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.indigo.ca/en-ca/gifts/journals-notebooks/brand-hardcover-journal-lined-black/9780123456789-item.html",
-      "category": "Stationery"
-    },
-    {
-      "product_url": "https://www.shein.co.uk/Solid-Crop-Tank-Top-p-5000005-cat-1779.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.boohoo.com.au/floral-wrap-front-midi-dress/GZZ12345",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.net-a-porter.com/en-gb/shop/product/designer/shoes/sandals/leather-sandals/18000002",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.farfetch.com/pt/shopping/men/designer-sunglasses-item-19000002.aspx",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.uniqlo.com/de/de/products/E410007-000/00",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lowes.com/pd/Brand-Gardening-Gloves-Leather-Medium/5003000003",
-      "category": "Garden & Outdoors"
-    },
-    {
-      "product_url": "https://www.b-and-q.co.uk/departments/brand-outdoor-wall-light-pir-sensor-black/5023456789012_BQ.prd",
-      "category": "Home Improvement"
-    },
-    {
-      "product_url": "https://www.ulta.com/p/brand-mascara-volumizing-black-pimprod2030003",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.douglas.at/p/parfum/marke/duftname/marke-duftname-body-lotion-200ml-prod654321.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.bhphotovideo.com/c/product/1700002-REG/brand_model_microphone_stand_desktop.html",
-      "category": "Musical Instruments"
-    },
-    {
-      "product_url": "https://www.rei.com/product/170002/brand-hiking-poles-trekking-pair",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.sportsdirect.com/brand-running-shorts-womens-450002",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.waterstones.com/category/cookery-food-drink",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.barnesandnoble.com/b/science-fiction-fantasy/_/N-29Z8q8Z1dww",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.thalia.at/shop/home/rubrikartikel/ID160000002.html",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.sweetwater.com/store/detail/AudioInterfaceX--brand-usb-audio-interface",
-      "category": "Musical Instruments"
-    },
-    {
-      "product_url": "https://www.smythstoys.com/ie/en-ie/toys/preschool-educational-toys/brand-learning-tablet-for-toddlers/p/110002",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.lego.com/en-gb/product/lego-city-police-station-60316",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.carrefour.it/p/pasta-di-semola-spaghetti-marca-500g-8001234567890",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.woolworths.co.za/prod/Food/Pantry/Canned-Food-Soups/Brand-Canned-Tomatoes-Chopped-400g/_/A-6001000000001",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.kroger.com/p/simple-truth-organic-ketchup/0001111000002",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.chewy.com/brand-clumping-cat-litter-unscented/dp/876543",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://www.zooplus.co.uk/shop/cats/dry_cat_food/brand/adult_chicken/67890",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://www.autozone.com/filters-and-pcv/air-filter/p/brand-air-filter/765432_0_0",
-      "category": "Auto Parts"
-    },
-    {
-      "product_url": "https://www.oreillyauto.com/detail/c/brand/batteries/battery---automotive/wxyz/1234567",
-      "category": "Auto Parts"
-    },
-    {
-      "product_url": "https://www.grainger.com/product/BRAND-Hard-Hat-White-2ABC2",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.amazon.co.uk/dp/B08EEEEEEE/",
-      "category": "Kitchenware"
-    },
-    {
-      "product_url": "https://www.amazon.fr/dp/B09FFFFFFF/",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.amazon.ca/dp/B07GGGGGGG/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.amazon.com.au/dp/B08HHHHHHH/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.amazon.com.mx/dp/B09IIIIIII/",
-      "category": "Tools"
-    },
-    {
-      "product_url": "https://www.amazon.nl/dp/B07JJJJJJJ/",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.amazon.pl/dp/B08KKKKKKK/",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.amazon.se/dp/B09LLLLLLL/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.amazon.in/dp/B07MMMMMMM/",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.amazon.sg/dp/B08NNNNNNN/",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.amazon.ae/dp/B09OOOOOOO/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.amazon.sa/dp/B07PPPPPPP/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.amazon.com.tr/dp/B08QQQQQQQ/",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.jumia.com.gh/brand-model-earphones-wireless-white-sku654321.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.takealot.com/brand-yoga-mat-6mm-blue/PLID11223344",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://shopee.tw/product/101010101/1111111111/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://tokopedia.com/super-store/nama-produk-detail-98765432",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.noon.com/egypt-en/product-slug/N11223344C/p/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.digikala.com/product/dkp-7654321/nama-produk-farsi/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://allo.ua/ru/products/mobile/brand-model-smartfon-128gb-gold.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.emag.bg/smartfon-marka-model-64gb-dual-sim-sin/pd/DZZABCBB/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.alza.sk/EN/brand-model-product-d7654321.htm",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.komplett.dk/product/1200222/hardware/pc-komponenter/grafikkort/brand-model-grafikkort-rtx-4060-8gb",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.webhallen.com/fi/product/340002-Brand-Wireless-Gaming-Headset",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.coolblue.de/produkt/800003/marke-modell-kaffeemaschine-filter.html",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.saturn.pl/rtv-i-telewizory/telewizory/telewizor-brand-model-oled-55-cali-4k",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.galaxus.it/it/s1/product/marca-modello-tablet-10-pollici-wifi-16000003",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.fnac.com/Smartphone-Marque-Modele-256Go-Noir/a21000011",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.worten.pt/produtos/tablet-marca-modelo-10-polegadas-64gb-cinzento-mrkean987654321",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.pccomponentes.com/brand-teclado-mecanico-gaming-rgb-switch-red",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.backmarket.co.uk/en-gb/p/laptop-refurbished-brand-model-core-i5-8gb-ram-256gb-ssd/e6f7g8h9-i0j1-2345-klmn-op6789012345",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://shop.mango.com/gb/women/skirts-midi/pleated-satin-skirt_123456789",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.massimodutti.com/es/en/women/knitwear/sweaters/cashmere-blend-sweater-l023456789",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.bershka.com/es/en/wide-leg-trousers-c0p120000002.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.pullandbear.com/gb/en/basic-bomber-jacket-c0p504000002.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.stradivarius.com/de/en/oversized-blazer-c0p309000002.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://de.calzedonia.com/product/thermo-leggings-mit-kaschmir-MIC04A.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.reserved.com/gb/en/dress-with-belt-1234b-09x",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.mohito.com/pl/pl/plaszcz-z-welnianej-mieszanki-1234c-87x",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.cropp.com/cz/en/kalhoty-jogger-s-potiskem-1234d-99x",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.sinsay.com/pl/pl/sweter-z-golfem-1234e-08x",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.housebrand.com/pl/pl/kurtka-pikowana-z-kapturem-1234f-59x",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.sprintersports.com/es-es/zapatillas-casual-mujer-fila-modelo-y-blancas-001_98765",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hofer.at/de/p.marke-bio-joghurt-natur.00000001234567.html",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.notino.ie/brand/product-name-shower-gel/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.lookfantastic.ie/brand-product-name-face-wash-150ml/12345679.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://eu.feelunique.com/p/Brand-Product-Name-Conditioner",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.farmaciasdirect.com/marca/producto-solar-facial-spf50-color-12345/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.chemistwarehouse.co.nz/buy/54321/brand-fish-oil-1000mg-400-capsules",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.lifepharmacy.co.nz/product/1234567/Brand-Product-Name-Probiotic",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.lego.com/fr-fr/product/le-commissariat-de-police-10278",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.playmobil.fr/commissariat-de-police-avec-prison/6919.html",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.toysrus.com/product?productId=12345678",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.buildabear.co.uk/online-exclusive-build-a-bear-promise-pets-golden-retriever/428001.html",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.gamestop.ca/Platform/Games/777888/game-title-new-release",
-      "category": "Video Games"
-    },
-    {
-      "product_url": "https://store.steampowered.com/app/1091500/Cyberpunk_2077/",
-      "category": "Digital Games"
-    },
-    {
-      "product_url": "https://www.gog.com/en/game/the_witcher_3_wild_hunt_game_of_the_year_edition",
-      "category": "Digital Games"
-    },
-    {
-      "product_url": "https://www.epicgames.com/store/en-US/p/rocket-league",
-      "category": "Digital Games"
-    },
-    {
-      "product_url": "https://www.ubisoft.com/en-us/game/assassins-creed/valhalla",
-      "category": "Digital Games"
-    },
-    {
-      "product_url": "https://us.shop.battle.net/en-us/product/diablo-iv",
-      "category": "Digital Games"
-    },
-    {
-      "product_url": "https://store.playstation.com/en-ca/product/UP1004-PPSA01617_00-MARVELSPIDERMAN2",
-      "category": "Digital Games"
-    },
-    {
-      "product_url": "https://www.xbox.com/en-CA/games/store/starfield/9NCZHX1WJJ4G",
-      "category": "Digital Games"
-    },
-    {
-      "product_url": "https://www.nintendo.com/en-ca/store/products/super-mario-bros-wonder-switch/",
-      "category": "Digital Games"
-    },
-    {
-      "product_url": "https://artistname.bandcamp.com/merch",
-      "category": "Music"
-    },
-    {
-      "product_url": "https://www.discogs.com/artist/12345-Artist-Name",
-      "category": "Music"
-    },
-    {
-      "product_url": "https://tidal.com/browse/album/123456789",
-      "category": "Music"
-    },
-    {
-      "product_url": "https://www.audible.ca/pd/Fiction/Book-Title-Audiobook/B012345678",
-      "category": "Audiobooks"
-    },
-    {
-      "product_url": "https://www.kobo.com/jp/ja/ebook/manga-title-volume-1",
-      "category": "eBooks"
-    },
-    {
-      "product_url": "https://play.google.com/store/apps/details?id=com.example.app",
-      "category": "Mobile Apps"
-    },
-    {
-      "product_url": "https://apps.apple.com/us/app/app-name/id123456789",
-      "category": "Mobile Apps"
-    },
-    {
-      "product_url": "https://www.udemy.com/topic/graphic-design/",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.coursera.org/certificates/google-project-management",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.edx.org/masters/online-master-science-analytics-georgia-tech",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.masterclass.com/classes/annie-leibovitz-teaches-photography",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://skillshare.com/browse/illustration",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://www.linkedin.com/learning/topics/leadership-management",
-      "category": "Online Courses"
-    },
-    {
-      "product_url": "https://depositphotos.com/photos/business-meeting.html",
-      "category": "Stock Media"
-    },
-    {
-      "product_url": "https://www.istockphoto.com/photo/happy-family-playing-on-the-beach-gm123456789-12345678",
-      "category": "Stock Media"
-    },
-    {
-      "product_url": "https://pixabay.com/videos/nature-waterfall-forest-river-12345/",
-      "category": "Stock Media"
-    },
-    {
-      "product_url": "https://videohive.net/item/corporate-slideshow/12345678",
-      "category": "Digital Assets"
-    },
-    {
-      "product_url": "https://audiojungle.net/item/upbeat-corporate/12345678",
-      "category": "Digital Assets"
-    },
-    {
-      "product_url": "https://themeforest.net/category/wordpress",
-      "category": "Digital Assets"
-    },
-    {
-      "product_url": "https://codecanyon.net/category/plugins",
-      "category": "Digital Assets"
-    },
-    {
-      "product_url": "https://graphicriver.net/category/graphics",
-      "category": "Digital Assets"
-    },
-    {
-      "product_url": "https://photodune.net/category/all",
-      "category": "Stock Media"
-    },
-    {
-      "product_url": "https://3docean.net/category/3d-models",
-      "category": "Digital Assets"
-    },
-    {
-      "product_url": "https://fonts.adobe.com/fonts/source-sans",
-      "category": "Digital Assets"
-    },
-    {
-      "product_url": "https://www.myfonts.com/collections/helvetica-font-family",
-      "category": "Digital Assets"
-    },
-    {
-      "product_url": "https://www.dafont.com/theme.php?cat=501",
-      "category": "Digital Assets"
-    },
-    {
-      "product_url": "https://www.1001fonts.com/sans-serif-fonts.html",
-      "category": "Digital Assets"
-    },
-    {
-      "product_url": "https://fontawesome.com/search?o=r&m=free",
-      "category": "Digital Assets"
-    },
-    {
-      "product_url": "https://heroicons.com/",
-      "category": "Digital Assets"
-    },
-    {
-      "product_url": "https://icons.getbootstrap.com/",
-      "category": "Digital Assets"
-    },
-    {
-      "product_url": "https://iconmonstr.com/",
-      "category": "Digital Assets"
+      "product_name": "Honeywell Versatilis™ Transmitter",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/field-instruments/pressure-transmitters/versatilis-transmitter",
+      "category_name": "Беспроводные датчики давления",
+      "parent_category": "КИП"
     }
   ]
 }

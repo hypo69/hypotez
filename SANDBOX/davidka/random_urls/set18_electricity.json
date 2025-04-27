@@ -1,312 +1,679 @@
 {
   "products": [
     {
-      "product_url": "https://www.siemens-energy.com/global/en/offerings/power-transmission/high-voltage-products/circuit-breakers.html",
-      "category": "Высоковольтное оборудование (Выключатели)"
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/wiring-duct-accessories/wiring-duct/g1x1lg6.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://new.abb.com/medium-voltage/apparatus/instrument-transformers",
-      "category": "Высоковольтное оборудование (Измерительные трансформаторы СН)"
+      "product_url": "https://www.hellermanntyton.us/products/wire-ducts-and-routing/wire-ducts-slotted/ts1-1010/18-21013",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/nnk_vysokovoltnoe-oborudovanie/nnk_vysokovoltnye-predohraniteli",
-      "category": "Высоковольтное оборудование (Предохранители)"
+      "product_url": "https://new.abb.com/low-voltage/products/wire-cable-management/wiring-ducts",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://zeto.ru/catalog/izolyatory/",
-      "category": "Высоковольтное оборудование (Изоляторы)"
+      "product_url": "https://www.se.com/ww/en/product-range/740-thalassa-wiring-ducts/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.se.com/ru/ru/product-range/61084-tesys-gv2/",
-      "category": "Низковольтное оборудование (Автоматы защиты двигателя)"
+      "product_url": "https://www.iboco.com/catalog/page/10",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.iek.ru/products/catalog/silovoe-oborudovanie-zashchity-i-kommutatsii/vyklyuchateli-nagruzki-rubilniki/",
-      "category": "Низковольтное оборудование (Рубильники)"
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/wiring-duct-cd-100x100-3240195",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://ekfgroup.com/catalog/nizkovoltnoe-oborudovanie/knopki-upravleniya",
-      "category": "Низковольтное оборудование (Кнопки управления)"
+      "product_url": "https://www.rittal.com/com-en/products/pg/enclosures/pg_cable_routing/pg_wiring_plan_pockets_cable_duct_systems/PGR_135197_10962",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.legrand.ru/products/low-voltage-equipment/contactors/",
-      "category": "Низковольтное оборудование (Контакторы)"
+      "product_url": "https://www.eaton.com/us/en-us/catalog/cable-management/wiring-duct.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.electro-mpo.ru/catalog/nizkovoltnoe-oborudovanie/signalnaya-armatura/",
-      "category": "Низковольтное оборудование (Сигнальная арматура)"
+      "product_url": "https://www.obo-bettermann.com/en-gb/products/cable-support-systems/cable-trunking-systems/wireways-for-control-panel-wiring.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.tek.com/en/products/keithley/keithley-dc-power-supplies",
-      "category": "Приборы (Источники питания Keithley)"
+      "product_url": "https://legrand.us/wire-and-cable-management/raceway/wire-duct/wire-duct-systems/narrow-slot-duct/wdns22wh6.aspx",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.keysight.com/ru/ru/products/digital-multimeters-dmms.html",
-      "category": "Приборы (Измерительные - Мультиметры)"
+      "product_url": "https://www.conta-clip.com/en/products/cable-management-systems/vk-wiring-ducts/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.fluke.com/ru-ru/products/industrial-imaging",
-      "category": "Приборы (Тепловизоры)"
+      "product_url": "https://www.wieland-electric.com/en-int/products/cabinet-infrastructure/cable-ducts",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://ru.megger.com/products/insulation-testers",
-      "category": "Приборы (Мегаомметры / Измерители изоляции)"
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/wiring_solutions/wiring_duct_-a-_covers/slotted_duct/dn-d1010gy-6",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vseinstrumenti.ru/izmeritelnyj-instrument/elektroizmeritelnye-pribory/analizatory-kachestva-elektroenergii/",
-      "category": "Приборы (Анализаторы качества электроэнергии)"
+      "product_url": "https://uk.rs-online.com/web/p/slotted-panel-trunking/7837346",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.siemens.com/global/en/products/automation/process-instrumentation.html",
-      "category": "Промышленная электроника (Контрольно-измерительные приборы)"
+      "product_url": "https://www.tme.eu/gb/en/details/dk-50x75-pcv/wire-ducts/elektro-plast-opatówek/w-dk-50x75/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/relays-and-timers.html",
-      "category": "Промышленная электроника (Реле и таймеры)"
+      "product_url": "https://www.distrelec.de/de/verdrahtungskanal-80x80mm-pvc-grau-beta-systems-80-80-grey/p/18028631",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://new.abb.com/drives/softstarters",
-      "category": "Промышленная электроника (Устройства плавного пуска)"
+      "product_url": "https://www.grainger.com/product/PANDUIT-Wiring-Duct-Slotted-Narrow-31TU34",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://industrial.omron.ru/ru/products/catalogue/safety",
-      "category": "Промышленная электроника (Компоненты безопасности)"
+      "product_url": "https://www.alliedelec.com/product/panduit/f2x2lg6/70103595/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.phoenixcontact.com/ru-ru/produkcija/razemy-dlja-ustrojstv-i-elektronnyh-korpusov",
-      "category": "Промышленная электроника (Разъемы и корпуса)"
+      "product_url": "https://www.digikey.com/en/products/detail/panduit-corp/G1-5X1-5LG6/304332",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/promavtomatika/datchiki",
-      "category": "Промышленная электроника (Датчики)"
+      "product_url": "https://www.newark.com/panduit/mc50x50ig2/wiring-duct-cover-pvc-50mm-1-8m/dp/95M2775",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://electronshik.ru/catalog/aktivnye-komponenty",
-      "category": "Электронные компоненты (Активные)"
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/wiring-duct-accessories/wiring-duct/f1x1lg6.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.promelec.ru/catalog/11/",
-      "category": "Электронные компоненты (Кварцевые резонаторы и генераторы)"
+      "product_url": "https://www.hellermanntyton.us/products/wire-ducts-and-routing/wire-ducts-solid-wall/swdn1-5x1-5wh10/18-21093",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.chipdip.ru/catalog/varistors",
-      "category": "Электронные компоненты (Варисторы)"
+      "product_url": "https://products.industrialsolutions.abb.com/products/wiring-duct-and-cable-management/tayduct®-wire-duct",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://platan.ru/category/integralnye-shemy-operatsionnye-usiliteli",
-      "category": "Электронные компоненты (Операционные усилители)"
+      "product_url": "https://www.se.com/ww/en/product/NSYCVF85/pvc-wiring-duct-85x50mm-slotted-cover-included/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.compel.ru/catalog/pass",
-      "category": "Электронные компоненты (Пассивные)"
+      "product_url": "https://www.iboco.com/catalog/page/26",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.terraelectronica.ru/catalog/tiristory-i-simistory",
-      "category": "Электронные компоненты (Тиристоры, симисторы)"
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/wiring-duct-halogen-free-cd-hf-60x80-3240938",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.voltmaster.ru/catalog/elektromagnitnye_rele/",
-      "category": "Электронные компоненты (Электромагнитные реле)"
+      "product_url": "https://www.rittal.com/com-en/products/pg/enclosures/pg_cable_routing/pg_wiring_plan_pockets_cable_duct_systems/PGR_PRO67131_1486",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/svetotehnika/komplektuyushchie-dlya-svetotehniki",
-      "category": "Светотехника (Комплектующие)"
+      "product_url": "https://www.obo-bettermann.com/en-gb/products/cable-support-systems/cable-trunking-systems/halogen-free-trunking-systems/lk4-control-panel-trunking-system.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.electro-mpo.ru/catalog/svetotekhnika/bytovye-svetilniki/",
-      "category": "Светотехника (Бытовые светильники)"
+      "product_url": "https://legrand.us/wire-and-cable-management/raceway/wire-duct/wire-duct-systems/solid-wall-duct/wdsw22wh6.aspx",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vseinstrumenti.ru/electrika-i-svet/svet/trekovye-svetilniki/",
-      "category": "Светотехника (Трековые светильники)"
+      "product_url": "https://www.conta-clip.com/en/products/cable-management-systems/bvk-wire-ducts/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://ekfgroup.com/catalog/svetotehnika/nizkovoltnoe-osveschenie",
-      "category": "Светотехника (Низковольтное освещение)"
+      "product_url": "https://www.wieland-electric.com/en-int/products/cabinet-infrastructure/cable-ducts/slotted-cable-duct-standard",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.iek.ru/products/catalog/svetotekhnika/puskoreguliruyushchaya-apparatura-pra/",
-      "category": "Светотехника (ПРА - Пускорегулирующая аппаратура)"
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/wiring_solutions/wiring_duct_-a-_covers/solid_duct/dn-sd1515gy-6",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://jazz-way.com/catalog/svetotehnika/dekorativnye-svetilniki",
-      "category": "Светотехника (Декоративные светильники)"
+      "product_url": "https://uk.rs-online.com/web/p/slotted-panel-trunking/2186103",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://kabel.ru/kabel/telekommunikacionnyj/",
-      "category": "Кабельно-проводниковая продукция (Телекоммуникационный кабель)"
+      "product_url": "https://www.tme.eu/gb/en/details/ldh-25x40/halogen-free-wire-ducts/elektro-plast-opatówek/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.electro-mpo.ru/catalog/kabelno-provodnikovaya-produkciya/radiochastotnyy/",
-      "category": "Кабельно-проводниковая продукция (Радиочастотный кабель)"
+      "product_url": "https://www.distrelec.de/de/verdrahtungskanal-80x60mm-halogenfrei-grau-beta-systems-80-60-hf-grey/p/18028676",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vseinstrumenti.ru/electrika-i-svet/kabel-i-provod/termostojkij/",
-      "category": "Кабельно-проводниковая продукция (Термостойкий кабель)"
+      "product_url": "https://www.grainger.com/product/HOFFMAN-Wiring-Trough-Screw-Cover-1UK12",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://shop.nag.ru/catalog/15156.Mednyj-kabel-i-komponenty-SKS",
-      "category": "Кабельно-проводниковая продукция (Медный кабель СКС)"
+      "product_url": "https://www.alliedelec.com/product/hellermanntyton/ts1-1010c2/70136961/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.dkc.ru/ru/catalog/89/",
-      "category": "Кабеленесущие системы (Пластиковые короба)"
+      "product_url": "https://www.digikey.com/en/products/detail/hellermanntyton/H1-5X1LG6/1164130",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://ekfgroup.com/catalog/kabelenesuschie-sistemy/metallorukav",
-      "category": "Кабеленесущие системы (Металлорукав)"
+      "product_url": "https://www.newark.com/ibo/t1-40x60/wiring-duct-slotted-pvc-40mm-x/dp/55K3058",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/kabelenesushchie-sistemy/aksessuary-dlya-trub",
-      "category": "Кабеленесущие системы (Аксессуары для труб)"
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/wiring-duct-accessories/wiring-duct/g2x2lg6.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.legrand.ru/products/cable-management/cable-tray-systems/",
-      "category": "Кабеленесущие системы (Кабельные лотки)"
+      "product_url": "https://www.hellermanntyton.us/products/wire-ducts-and-routing/wire-ducts-slotted/h1-5x1-5lg6/18-21020",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.electro-mpo.ru/catalog/elektroustanovochnye-izdeliya/vyklyuchateli-s-podsvetkoy/",
-      "category": "Электроустановочные изделия (Выключатели с подсветкой)"
+      "product_url": "https://new.abb.com/low-voltage/products/wire-cable-management/wiring-ducts/standard-slot-pvc-ducts",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vseinstrumenti.ru/electrika-i-svet/rozetki-i-vyklyuchateli/bloki-rozetok/",
-      "category": "Электроустановочные изделия (Блоки розеток)"
+      "product_url": "https://www.se.com/ww/en/product/NSYCVF100H/pvc-wiring-duct-100x50mm-slotted-halogen-free-cover/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.gira.com/ru_RU/produkte/gebaeudesystemtechnik.html",
-      "category": "Электроустановочные изделия (Системы умного дома)"
+      "product_url": "https://www.iboco.com/catalog/page/12",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.jung.de/ru/online-katalog/60960981/60961060/",
-      "category": "Электроустановочные изделия (Розетки мультимедиа)"
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/wiring-duct-cd-sb-50x80-3240622",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.se.com/ru/ru/product-range/61098-mureva-styl/",
-      "category": "Электроустановочные изделия (Влагозащищенные)"
+      "product_url": "https://www.rittal.com/com-en/products/pg/enclosures/pg_cable_routing/pg_wiring_plan_pockets_cable_duct_systems/PG0168KLIMA1",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/inzhenernoe-oborudovanie/istochniki-pitaniya/bloki-pitaniya",
-      "category": "Источники питания (Блоки питания)"
+      "product_url": "https://www.obo-bettermann.com/en-at/products/cable-support-systems/cable-trunking-systems/wireways-for-control-panel-wiring/lk4-control-panel-trunking-system.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vseinstrumenti.ru/electrika-i-svet/zaryadnye-ustrojstva-dlya-akkumulyatorov/",
-      "category": "Источники питания (Зарядные устройства)"
+      "product_url": "https://legrand.us/wire-and-cable-management/raceway/wire-duct/wire-duct-systems/round-hole-duct/wdrh22wh6.aspx",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.meanwell-web.com/ru-ru/led-driver",
-      "category": "Источники питания (Драйверы для LED)"
+      "product_url": "https://www.conta-clip.com/en/products/cable-management-systems/vk-hf-wiring-ducts/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.electro-mpo.ru/catalog/istochniki-pitaniya/laboratornye-bloki-pitaniya/",
-      "category": "Источники питания (Лабораторные)"
+      "product_url": "https://www.wieland-electric.com/en-int/products/cabinet-infrastructure/cable-ducts/slotted-cable-duct-halogen-free",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://tdtransformator.ru/catalog/suhie_transformatory/",
-      "category": "Трансформаторы (Сухие)"
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/wiring_solutions/wiring_duct_-a-_covers/round_hole_duct/dn-rh1515gy-6",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://svel.ru/catalog/power-transformers/",
-      "category": "Трансформаторы (Силовые)"
+      "product_url": "https://uk.rs-online.com/web/p/solid-wall-panel-trunking/7837453",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/nizkovoltnoe-oborudovanie/rele/nnk_rele-kontrolya-faz",
-      "category": "Реле (Реле контроля фаз)"
+      "product_url": "https://www.tme.eu/gb/en/details/t1-e-100x100/wire-ducts/iboco/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://meandr.ru/rele-urovnya",
-      "category": "Реле (Реле уровня)"
+      "product_url": "https://www.distrelec.de/de/verdrahtungskanal-40x40mm-pvc-grau-beta-systems-40-40-grey/p/18028609",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://novatek-electro.com/produkciya/promezhutochnye-rele/",
-      "category": "Реле (Промежуточные)"
+      "product_url": "https://www.grainger.com/product/WIREDUCT-Slotted-Wiring-Duct-45KK23",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vseinstrumenti.ru/instrument/elektromontazhnyj/press-kleschi/",
-      "category": "Электромонтажный инструмент (Пресс-клещи)"
+      "product_url": "https://www.alliedelec.com/product/legrand-wiremold/wdns22wh6/70077840/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.kleintools.com/catalog/pliers",
-      "category": "Электромонтажный инструмент (Плоскогубцы, пассатижи)"
+      "product_url": "https://www.digikey.com/en/products/detail/omega-engineering-inc/WD-1169/10143945",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.wiha.com/en/produkte/torque-tools.html",
-      "category": "Электромонтажный инструмент (Динамометрический инструмент)"
+      "product_url": "https://www.newark.com/c/wire-cable-circuit-protection/cable-wire-management/wire-duct-raceways",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://ekfgroup.com/catalog/instrument-i-siz/instrument-dlya-udaleniya-izolyacii",
-      "category": "Электромонтажный инструмент (Снятие изоляции)"
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/wiring-duct-accessories/wiring-duct/f2x3lg6.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.technoavia.ru/katalog/siz/ot_porazheniya_elektricheskim_tokom/obuv",
-      "category": "Средства защиты от электрического тока (Обувь)"
+      "product_url": "https://www.hellermanntyton.us/products/wire-ducts-and-routing/wire-ducts-slotted/tsg1-5x3/18-21026",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.vostok.ru/catalog/sredstva-zashity/zashita-lica-i-glaz/shchitki-zashchitnye-licevye/",
-      "category": "Средства защиты от электрического тока (Щитки лицевые)"
+      "product_url": "https://new.abb.com/low-voltage/products/wire-cable-management/wiring-ducts/narrow-slot-pvc-ducts",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.electro-mpo.ru/catalog/sredstva-zashchity-ot-pora/",
-      "category": "Средства защиты от электрического тока"
+      "product_url": "https://www.se.com/ww/en/product/NSYCVF25/pvc-wiring-duct-25x40mm-slotted-cover-included/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://dkc.ru/ru/catalog/13/",
-      "category": "Щитовое оборудование (Пластиковые корпуса)"
+      "product_url": "https://www.iboco.com/catalog/page/14",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/nizkovoltnoe-oborudovanie/shchity-i-shkafy-elektrotehnicheskie/nnk_aksessuary-dlya-shchitov-i-shkafov",
-      "category": "Щитовое оборудование (Аксессуары)"
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/wiring-duct-cd-25x40-3240137",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.iek.ru/products/catalog/oborudovanie-dlya-raspredeleniya-energii/shchity-raspredelitelnye-navesnye-i-vstraivaemye/",
-      "category": "Щитовое оборудование (Щиты распределительные)"
+      "product_url": "https://www.rittal.com/com-en/products/pg/enclosures/pg_cable_routing/pg_wiring_plan_pockets_cable_duct_systems/PG0168KLIMA3",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://ezetek.ru/catalog/zazemlenie/komplekty-zazemleniya/",
-      "category": "Заземление (Комплекты)"
+      "product_url": "https://www.obo-bettermann.com/en-hu/products/cable-support-systems/cable-trunking-systems/wireways-for-control-panel-wiring/vk-control-panel-trunking-system.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.etm.ru/catalog/inzhenernoe-oborudovanie/molniezashchita-i-zazemlenie/zazhimy-i-soediniteli-dlya-zazemleniya",
-      "category": "Заземление (Зажимы, соединители)"
+      "product_url": "https://legrand.us/wire-and-cable-management/raceway/wire-duct/wire-duct-systems/high-density-narrow-slot-duct/wdhdns22wh6.aspx",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.legrand.ru/products/protective-devices/lightning-arresters/",
-      "category": "Молниезащита (Разрядники)"
+      "product_url": "https://www.conta-clip.com/en/products/cable-management-systems/vk-flex-wiring-ducts/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://j-propiska.ru/catalog/molniezashchita/molniepriemniki/",
-      "category": "Молниезащита (Молниеприемники)"
+      "product_url": "https://www.wieland-electric.com/en-int/products/cabinet-infrastructure/cable-ducts/accessories-cable-ducts",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.ruselprom.ru/catalog/elektrodvigateli/vzryvozashchishchennye/",
-      "category": "Электродвигатели (Взрывозащищенные)"
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/wiring_solutions/wiring_duct_-a-_covers/flexible_duct/dn-fx1515gy-1-64",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://new.abb.com/motors-generators/iec-high-voltage-induction-motors",
-      "category": "Электродвигатели (Высоковольтные)"
+      "product_url": "https://uk.rs-online.com/web/p/flexible-panel-trunking/2186112",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://weg.net/catalog/weg/RU/ru/products/Automation/Servo-Technology/c/WEG-CAT-100_RU",
-      "category": "Электродвигатели (Сервоприводы)"
+      "product_url": "https://www.tme.eu/gb/en/details/t1-60x40/wire-ducts/iboco/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.siemens.com/global/en/products/drives/electric-motors/servo-motors.html",
-      "category": "Электродвигатели (Серводвигатели)"
+      "product_url": "https://www.distrelec.de/de/verdrahtungskanal-halogenfrei-75x75mm-hellermann-tyton-htwd-hf-75x75-wh/p/30090290",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://solargoods.ru/catalog/kontrollery_zaryada/",
-      "category": "Альтернативная энергетика (Контроллеры заряда)"
+      "product_url": "https://www.grainger.com/product/PANDUIT-Cover-For-Wiring-Duct-Type-31TU81",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://www.invertor.ru/catalog/akkumulyatory",
-      "category": "Альтернативная энергетика (Аккумуляторы)"
+      "product_url": "https://www.alliedelec.com/product/omega-engineering/wd-1050/71939850/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://technoline.ua/ru/shop/category/vetrogeneratory",
-      "category": "Альтернативная энергетика (Ветрогенераторы)"
+      "product_url": "https://www.digikey.com/en/products/detail/rittal-corporation/3113100/4690266",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     },
     {
-      "product_url": "https://volta.com.ua/komplekty-solnechnykh-elektrostantsiy/",
-      "category": "Альтернативная энергетика (Комплекты СЭС)"
+      "product_url": "https://www.newark.com/obo-bettermann/5137004/wiring-duct-w-cover-pvc-40-x/dp/97W9966",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/wiring-duct-accessories/wiring-duct/g3x1lg6.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.hellermanntyton.us/products/wire-ducts-and-routing/wire-ducts-solid-wall/swdn2x2wh6/18-21094",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/wire-cable-management/wiring-ducts/solid-wall-pvc-ducts",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product/NSYCVF60/pvc-wiring-duct-60x40mm-slotted-cover-included/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.iboco.com/catalog/page/16",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/wiring-duct-cd-40x60-3240144",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.rittal.com/com-en/products/pg/enclosures/pg_cable_routing/pg_wiring_plan_pockets_cable_duct_systems/PGR_PRO67131_1487",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.obo-bettermann.com/de-de/produkte/kbs-kabeltragsysteme/kabelrinnen-systeme/verdrahtungskanaele/verdrahtungskanal-lk4-halogenfrei.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://legrand.us/wire-and-cable-management/raceway/wire-duct/wire-duct-accessories/hinged-covers/hdchc22wh6.aspx",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.conta-clip.com/en/products/cable-management-systems/accessories-vk-wiring-ducts/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.wieland-electric.com/en-int/products/cabinet-infrastructure/cable-ducts/cable-duct-cutting-and-punching-tool",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/wiring_solutions/wiring_duct_-a-_covers/wiring_duct_accessories/dn-dr-tn",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://uk.rs-online.com/web/p/slotted-panel-trunking/0552754",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.tme.eu/gb/en/details/t1-80x80/wire-ducts/iboco/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.distrelec.de/de/deckel-fuer-verdrahtungskanal-80mm-pvc-grau-beta-systems-c-80-grey/p/18028644",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/PANDUIT-Wiring-Duct-Cover-31TU74",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.alliedelec.com/product/eaton-bussmann-series/chduk6/70193018/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.digikey.com/en/products/detail/phoenix-contact/3240182/2527718",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.newark.com/schneider-electric/nsycvf85/wiring-duct-cover-pvc-85mm-x/dp/41W1020",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/wiring-duct-accessories/wiring-duct/g4x2lg6.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.hellermanntyton.us/products/wire-ducts-and-routing/wire-ducts-slotted/h2x2lg6/18-21031",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/wire-cable-management/wiring-ducts/halogen-free-noryl-ducts",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product/NSYCVF120/pvc-wiring-duct-120x50mm-slotted-cover-included/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.iboco.com/catalog/page/18",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/wiring-duct-cd-60x80-3240151",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.rittal.com/com-en/products/pg/enclosures/pg_cable_routing/pg_wiring_plan_pockets_cable_duct_systems/PG0168KLIMA5",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.obo-bettermann.com/en-nl/products/cable-support-systems/cable-trunking-systems/wireways-for-control-panel-wiring/wiring-duct-covers.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://legrand.us/wire-and-cable-management/raceway/wire-duct/wire-duct-systems/narrow-slot-duct/wdns33wh6.aspx",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.conta-clip.com/en/products/cable-management-systems/bvk-hf-wire-ducts/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.wieland-electric.com/en-int/products/cabinet-infrastructure/cable-ducts/slotted-cable-duct-narrow-slots",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/wiring_solutions/wiring_duct_-a-_covers/slotted_duct/dn-d2020gy-6",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://uk.rs-online.com/web/p/slotted-panel-trunking/8773103",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.tme.eu/gb/en/details/dkc-60x60/wire-ducts/dkc/01012/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.distrelec.de/de/verdrahtungskanal-60x60mm-halogenfrei-grau-beta-systems-60-60-hf-grey/p/18028673",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/IBOCO-Wiring-Duct-30UN01",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.alliedelec.com/product/rittal/sz-2585-000/70185026/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.digikey.com/en/products/detail/automationdirect/DN-D3030GY-6/11200242",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.newark.com/lapp/83230144/wire-duct-25x25-mm-halogen-free/dp/18AC5465",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/wiring-duct-accessories/wiring-duct/f1x2lg6.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.hellermanntyton.us/products/wire-ducts-and-routing/wire-ducts-slotted/h3x3lg6/18-21040",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/wire-cable-management/wiring-ducts/accessories",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product/NSYCVF100/pvc-wiring-duct-100x50mm-slotted-cover-included/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.iboco.com/catalog/page/20",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/wiring-duct-cd-80x80-3240168",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.rittal.com/com-en/products/pg/enclosures/pg_cable_routing/pg_wiring_plan_pockets_cable_duct_systems/PGR_PRO67131_1488",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.obo-bettermann.com/es-es/productos/sistemas-portacables/sistemas-de-canales-portacables/canales-de-cableado/canales-de-cableado-lk4-halogenos.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://legrand.us/wire-and-cable-management/raceway/wire-duct/wire-duct-systems/solid-wall-duct/wdsw33wh6.aspx",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.conta-clip.com/en/products/cable-management-systems/dvk-wire-ducts/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.wieland-electric.com/en-int/products/cabinet-infrastructure/cable-ducts/solid-cable-duct-standard",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.automationdirect.com/adc/shopping/catalog/wiring_solutions/wiring_duct_-a-_covers/slotted_duct/dn-d4040gy-6",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://uk.rs-online.com/web/p/wire-duct-cable-trunking-accessories/2186109",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.tme.eu/gb/en/details/ba7-40040-hf/halogen-free-wire-ducts/obo-bettermann/7813874/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.distrelec.de/de/verdrahtungskanal-25x40mm-pvc-grau-beta-systems-25-40-grey/p/18028599",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/PANDUIT-Wiring-Duct-Solid-Wall-31TU57",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.alliedelec.com/product/hellermanntyton/swdn1-5x1-5wh10c2/70137013/",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.digikey.com/en/products/detail/conta-clip-inc/VK-100X100/9945806",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.newark.com/wieland/86-000-0020-0/wire-duct-pvc-60x25mm-2m-grey/dp/41AC1109",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
+    },
+    {
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/wiring-duct-accessories/wiring-duct/g2x1lg6.html",
+      "category_name": "Wiring Ducts / Trunking",
+      "parent_category": "Electrical Cabinet and Distribution Automation Components"
     }
   ]
 }
