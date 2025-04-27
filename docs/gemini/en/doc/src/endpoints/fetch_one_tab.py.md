@@ -1,74 +1,112 @@
-# Модуль `fetch_one_tab.py`
+# Module fetch_one_tab
 
-## Обзор
+## Overview
 
-Модуль предназначен для разбора ссылок из OneTab. Он извлекает URL-адреса и информацию о цене и описании из указанной страницы OneTab.
+This module provides functionality for parsing target URLs from a provided OneTab URL. It utilizes the `BeautifulSoup` library for HTML parsing and `requests` for making HTTP requests.
 
-## Подробнее
+## Details
 
-Модуль использует библиотеки `BeautifulSoup` и `requests` для получения и обработки содержимого веб-страницы OneTab. Он предназначен для извлечения целевых URL-адресов и метаданных, таких как цена и описание, из структуры HTML страницы OneTab. Этот модуль помогает автоматизировать процесс сбора и анализа ссылок, организованных через OneTab.
+This module is responsible for extracting target URLs and related information from a OneTab URL. It first retrieves the HTML content of the OneTab page and then parses it using BeautifulSoup. The extracted information includes:
 
-## Классы
+- **URLs**: A list of target URLs found on the OneTab page.
+- **Price**: The price associated with the OneTab entry (if available).
+- **Description**: A description of the OneTab entry. If no description is found, the current timestamp is used as a placeholder.
 
-В данном модуле классы отсутствуют.
-
-## Функции
+## Functions
 
 ### `fetch_target_urls_onetab`
 
+**Purpose**: This function parses target URLs, a price, and a description from a given OneTab URL.
+
+**Parameters**:
+
+- `one_tab_url` (str): The OneTab URL to parse.
+
+**Returns**:
+
+- `tuple[str, str, list[str]] | bool`: A tuple containing the extracted price, description, and a list of URLs. If an error occurs, it returns `False`.
+
+**Raises Exceptions**:
+
+- `requests.exceptions.RequestException`: If an error occurs during the HTTP request.
+
+**How the Function Works**:
+
+1. **HTTP Request**: The function sends an HTTP GET request to the provided OneTab URL.
+2. **HTML Parsing**: The response content is parsed using BeautifulSoup to extract the relevant information.
+3. **URL Extraction**: URLs are extracted from anchor tags with the class "tabLink".
+4. **Price and Description Extraction**: The price and description are extracted from a `<div>` element with the class "tabGroupLabel".
+5. **Data Handling**: The extracted price is converted to an integer if it's a valid number, and a default timestamp is used if no description is found.
+6. **Return Values**: The function returns a tuple containing the price, description, and a list of URLs.
+
+**Examples**:
+
 ```python
+# Example 1: Successful parsing
+one_tab_url = "https://onetab.com/page/your-onetab-url"
+price, description, urls = fetch_target_urls_onetab(one_tab_url)
+print(f"Price: {price}")
+print(f"Description: {description}")
+print(f"URLs: {urls}")
+
+# Example 2: Error during HTTP request
+one_tab_url = "https://invalid-url.com"
+result = fetch_target_urls_onetab(one_tab_url)
+if result:
+    # Process the result
+else:
+    print("Error occurred during request.")
+```
+```python
+                ## \\file /src/endpoints/fetch_one_tab.py
+# -*- coding: utf-8 -*-
+#! .pyenv/bin/python3
+"""
+Разбор ссылок из OneTab
+========================
+.. module:: src.endpoints.fetch_one_tab 
+    :platform: Windows, Unix
+    :synopsis: Разбор ссылок из OneTab
+"""
+
+from bs4 import BeautifulSoup
+import requests
+
+import header
+from src import gs
+from src.logger import logger
+
 def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
     """
-    Функция парсит целевые URL из полученного OneTab.
-
-    Args:
-        one_tab_url (str): URL страницы OneTab для парсинга.
-
-    Returns:
-        tuple[str, str, list[str]] | bool: Кортеж, содержащий цену (str), описание (str) и список URL-адресов (list[str]).
-        Возвращает `False`, `False`, `False` в случае ошибки.
+    Функция паресит целевые URL из полученного OneTab.
     """
-```
+    try:
+        response = requests.get(one_tab_url, timeout=10)
+        response.raise_for_status()
 
-**Назначение**: Извлекает целевые URL-адреса, цену и описание из OneTab URL.
+        soup = BeautifulSoup(response.content, "html.parser")
 
-**Параметры:**
-- `one_tab_url` (str): URL страницы OneTab, из которой требуется извлечь данные.
+        # Извлечение ссылок
+        urls = [a["href"] for a in soup.find_all("a", class_="tabLink")]
 
-**Возвращает:**
-- `tuple[str, str, list[str]] | bool`: Кортеж, содержащий цену (str), описание (str) и список URL-адресов (list[str]).
-   Возвращает `False`, `False`, `False` в случае ошибки.
+        # Извлечение данных из div с классом \'tabGroupLabel\'
+        element = soup.find("div", class_="tabGroupLabel")
+        data = element.get_text() if element else None
 
-**Как работает функция:**
+        if not data:
+            price = ""
+            description = gs.now
+        else:
+            # Разбивка данных на цену и имя
+            parts = data.split(maxsplit=1)
+            price = int(parts[0]) if parts[0].isdigit() else ""
+            description = parts[1] if len(parts) > 1 else gs.now
 
-1. **Выполнение HTTP-запроса**:
-   - Функция выполняет GET-запрос к указанному `one_tab_url` с таймаутом в 10 секунд.
+        return price, description, urls
 
-2. **Обработка ответа**:
-   - Проверяет статус ответа и вызывает исключение `HTTPError`, если статус код указывает на ошибку.
-   - Использует `BeautifulSoup` для парсинга содержимого HTML ответа.
+    except requests.exceptions.RequestException as ex:
+        logger.error(f"Ошибка при выполнении запроса: {one_tab_url=}", ex)
+        ...
+        return False, False, False
 
-3. **Извлечение URL-адресов**:
-   - Находит все элементы `<a>` с классом `tabLink` и извлекает из них атрибуты `href`, формируя список URL-адресов.
-
-4. **Извлечение метаданных**:
-   - Пытается найти элемент `<div>` с классом `tabGroupLabel`.
-   - Если элемент найден, извлекает текст и разбивает его на части, предполагая, что первая часть — это цена, а остальная часть — описание.
-   - Если элемент не найден, устанавливает цену в пустую строку, а описание в текущее время.
-
-5. **Обработка ошибок**:
-   - В случае возникновения ошибки при выполнении запроса (например, `requests.exceptions.RequestException`), логирует ошибку с использованием `logger.error` и возвращает `False`, `False`, `False`.
-
-**Примеры:**
-
-Пример вызова функции:
-
-```python
-one_tab_url = "https://www.one-tab.com/..."
-price, description, urls = fetch_target_urls_onetab(one_tab_url)
-if price and description and urls:
-    print(f"Цена: {price}, Описание: {description}")
-    for url in urls:
-        print(url)
-else:
-    print("Не удалось получить данные из OneTab.")
+                ```

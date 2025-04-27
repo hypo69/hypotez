@@ -1,48 +1,60 @@
-# Модуль `defaults.py`
+# Module for Setting Default Headers in `gpt4free` Requests
 
-## Обзор
+## Overview
 
-Модуль `defaults.py` определяет стандартные HTTP-заголовки, используемые в запросах `gpt4free` для имитации запросов браузера. Он также включает поддержку сжатия `brotli`, если установлена соответствующая библиотека.
+This module defines default headers for requests to the `gpt4free` API. It includes the `DEFAULT_HEADERS` dictionary for general requests and the `WEBVIEW_HAEDERS` dictionary for webview-specific requests. 
 
-## Более подробно
+## Details
 
-Этот файл содержит определения словарей, которые представляют собой наборы HTTP-заголовков, используемых по умолчанию при выполнении запросов к различным сервисам через `gpt4free`. Эти заголовки важны для обеспечения совместимости и корректной обработки запросов серверами. В частности, наличие или отсутствие поддержки сжатия `brotli` определяется в зависимости от наличия установленной библиотеки `brotli`.
+The code utilizes the `brotli` library for compression if available, otherwise it uses `gzip` and `deflate`. The headers are designed to mimic a typical user agent, including information about the operating system, browser, and language preferences. These headers are crucial for ensuring successful communication with the `gpt4free` API.
 
-## Переменные
 
-### `DEFAULT_HEADERS`
+## Classes
 
-**Описание**: Словарь, содержащий стандартные HTTP-заголовки, используемые по умолчанию.
+###  `None`
 
-**Атрибуты**:
-- `"accept"` (str): Типы контента, которые клиент готов принять (`"*/*"` означает любой тип).
-- `"accept-encoding"` (str): Поддерживаемые методы сжатия (`"gzip, deflate"` и, опционально, `", br"` для `brotli`).
-- `"accept-language"` (str): Предпочитаемый язык (`"en-US"`).
-- `"referer"` (str): URL-адрес страницы, с которой был сделан запрос (по умолчанию пустая строка).
-- `"sec-ch-ua"` (str): Информация о браузере (значения для Chrome).
-- `"sec-ch-ua-mobile"` (str): Указывает, является ли устройство мобильным (`"?0"` означает нет).
-- `"sec-ch-ua-platform"` (str): Платформа (`"Windows"`).
-- `"sec-fetch-dest"` (str): Место назначения запроса (`"empty"`).
-- `"sec-fetch-mode"` (str): Режим запроса (`"cors"`).
-- `"sec-fetch-site"` (str): Сайт запроса (`"same-origin"`).
-- `"user-agent"` (str): Строка User-Agent, имитирующая браузер Chrome.
+**Description**: This module does not contain any classes.
 
-**Принцип работы**:
-Этот словарь используется в качестве базового набора заголовков для HTTP-запросов, отправляемых `gpt4free`. В зависимости от ситуации, отдельные заголовки могут быть изменены или дополнены.
+## Functions
 
-### `WEBVIEW_HAEDERS`
+###  `None`
 
-**Описание**: Словарь, содержащий HTTP-заголовки, используемые для `WebView`.
+**Description**: This module does not contain any functions.
 
-**Атрибуты**:
-- `"Accept"` (str): Типы контента, которые клиент готов принять (`"*/*"` означает любой тип).
-- `"Accept-Encoding"` (str): Поддерживаемые методы сжатия (`"gzip, deflate, br"`).
-- `"Accept-Language"` (str): Предпочитаемый язык (пустая строка, что означает использование настроек по умолчанию).
-- `"Referer"` (str): URL-адрес страницы, с которой был сделан запрос (по умолчанию пустая строка).
-- `"Sec-Fetch-Dest"` (str): Место назначения запроса (`"empty"`).
-- `"Sec-Fetch-Mode"` (str): Режим запроса (`"cors"`).
-- `"Sec-Fetch-Site"` (str): Сайт запроса (`"same-origin"`).
-- `"User-Agent"` (str): Строка User-Agent (по умолчанию пустая строка).
+## Parameter Details
 
-**Принцип работы**:
-Аналогично `DEFAULT_HEADERS`, этот словарь предоставляет базовый набор заголовков, но предназначен для использования в контексте `WebView`. Отличается тем, что некоторые значения по умолчанию являются пустыми строками, что позволяет `WebView` заполнять их значениями по умолчанию.
+- `accept`: This header specifies the types of content the client is willing to accept in response to the request.
+- `accept-encoding`: This header indicates the compression formats the client supports.
+- `accept-language`: This header specifies the preferred language the client wants to receive in the response.
+- `referer`: This header provides the address of the previous webpage from which the current request was initiated.
+- `sec-ch-ua`: This header provides information about the browser used to make the request, including its version and platform.
+- `sec-ch-ua-mobile`: This header indicates whether the request is coming from a mobile device.
+- `sec-ch-ua-platform`: This header indicates the platform the request is coming from.
+- `sec-fetch-dest`: This header specifies the type of destination the request is targeting, such as a document or an image.
+- `sec-fetch-mode`: This header indicates the mode the request is using, such as navigate or cors.
+- `sec-fetch-site`: This header specifies the source of the request, such as a same-origin or a cross-origin request.
+- `user-agent`: This header provides information about the client making the request, including the operating system, browser, and version.
+
+## Examples
+
+```python
+# Example usage of the DEFAULT_HEADERS dictionary
+import requests
+
+headers = DEFAULT_HEADERS
+headers["referer"] = "https://www.example.com"
+
+response = requests.get("https://www.example.com", headers=headers)
+
+print(response.text)
+
+# Example usage of the WEBVIEW_HAEDERS dictionary
+import requests
+
+headers = WEBVIEW_HAEDERS
+headers["Referer"] = "https://www.example.com"
+
+response = requests.get("https://www.example.com", headers=headers)
+
+print(response.text)
+```

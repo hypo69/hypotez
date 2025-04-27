@@ -1,99 +1,84 @@
-# Документация для модуля `ChatGptEs`
+# ChatGptEs Provider
+## Overview
 
-## Обзор
+This module implements the `ChatGptEs` class, which provides an asynchronous generator-based interface for interacting with the ChatGPT.es API. It leverages the `curl_cffi` library for handling requests and implements logic for automatically bypassing Cloudflare protection. 
 
-Модуль `ChatGptEs` предоставляет асинхронный генератор для взаимодействия с сервисом ChatGpt.es. Он использует библиотеку `curl_cffi` для выполнения HTTP-запросов и обходит защиту Cloudflare. Модуль поддерживает потоковую передачу данных и предоставляет несколько моделей, включая `gpt-4` и `gpt-4o`.
+## Details
 
-## Детали
+The `ChatGptEs` class is a subclass of `AsyncGeneratorProvider` and `ProviderModelMixin`, inheriting functionalities for asynchronous generation and model management. The provider uses the ChatGPT.es website for its functionality, sending requests to the specified API endpoint. 
 
-Модуль предназначен для использования в проектах, требующих взаимодействия с ChatGpt.es для генерации текста на основе предоставленных сообщений. Он автоматически обрабатывает получение nonce и post_id, необходимых для запросов к API.
+This provider supports streaming responses, enabling users to receive parts of the response as they become available. However, it doesn't support system messages or message history features, meaning conversations are treated independently. 
 
-## Классы
+## Classes
 
 ### `ChatGptEs`
 
-**Описание**: Класс для взаимодействия с ChatGpt.es через асинхронный генератор.
+**Description**: This class represents the ChatGPT.es provider, handling asynchronous interactions with the ChatGPT.es API.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Предоставляет базовую функциональность для асинхронных генераторов.
-- `ProviderModelMixin`: Позволяет использовать общие методы для работы с моделями.
+**Inherits**:
+    - `AsyncGeneratorProvider`: Provides asynchronous generation capabilities.
+    - `ProviderModelMixin`: Provides functionality for managing supported models.
 
-**Атрибуты**:
-- `url` (str): URL сервиса ChatGpt.es (`"https://chatgpt.es"`).
-- `api_endpoint` (str): URL API для отправки сообщений (`"https://chatgpt.es/wp-admin/admin-ajax.php"`).
-- `working` (bool): Флаг, указывающий, что провайдер работает (`True`).
-- `supports_stream` (bool): Флаг, указывающий, что поддерживается потоковая передача (`True`).
-- `supports_system_message` (bool): Флаг, указывающий, что поддерживаются системные сообщения (`False`).
-- `supports_message_history` (bool): Флаг, указывающий, что поддерживается история сообщений (`False`).
-- `default_model` (str): Модель, используемая по умолчанию (`'gpt-4o'`).
-- `models` (List[str]): Список поддерживаемых моделей (`['gpt-4', default_model, 'gpt-4o-mini']`).
-- `SYSTEM_PROMPT` (str): Системное сообщение, используемое для форматирования запросов (`"Your default language is English. Always respond in English unless the user\'s message is in a different language. If the user\'s message is not in English, respond in the language of the user\'s message. Maintain this language behavior throughout the conversation unless explicitly instructed otherwise. User input:"`).
+**Attributes**:
+    - `url` (str): The base URL of the ChatGPT.es website.
+    - `api_endpoint` (str): The URL of the API endpoint for sending requests.
+    - `working` (bool): Indicates whether the provider is operational (True).
+    - `supports_stream` (bool): Indicates support for streaming responses (True).
+    - `supports_system_message` (bool): Indicates support for system messages (False).
+    - `supports_message_history` (bool): Indicates support for message history (False).
+    - `default_model` (str): The default model used for communication.
+    - `models` (list): A list of supported models.
+    - `SYSTEM_PROMPT` (str): A prompt used to set the language context for the model.
 
-## Методы класса
+**Methods**:
+    - `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`: Asynchronously generates responses from the ChatGPT.es API based on the provided model, messages, and optional proxy settings.
+
+## Class Methods
 
 ### `create_async_generator`
 
+**Purpose**:  Asynchronously generates responses from the ChatGPT.es API.
+
+**Parameters**:
+    - `model` (str): The name of the model to use for communication.
+    - `messages` (Messages): A list of messages representing the conversation history.
+    - `proxy` (str, optional): An optional proxy server URL. Defaults to `None`.
+
+**Returns**:
+    - `AsyncResult`: An asynchronous result object containing the generated responses.
+
+**Raises Exceptions**:
+    - `MissingRequirementsError`: Raised if the `curl_cffi` package is not installed.
+
+**How the Function Works**:
+
+1. **Check for `curl_cffi` dependency**:  Ensures that the `curl_cffi` package is installed. If not, raises a `MissingRequirementsError`.
+2. **Model selection**: Retrieves the model from the `models` list based on the provided `model` parameter.
+3. **Prompt formatting**: Constructs the final prompt by combining the `SYSTEM_PROMPT` with the formatted conversation history.
+4. **Session setup**: Creates a `curl_cffi` session with custom headers for Cloudflare bypass. Optionally configures proxy settings.
+5. **Initial request**: Sends a GET request to the ChatGPT.es base URL to retrieve necessary data (nonce, post_id).
+6. **Nonce extraction**: Extracts the `nonce` value from the response using regular expressions, searching for different potential patterns.
+7. **Post ID extraction**:  Extracts the `post_id` from the response using regular expressions.
+8. **Data preparation**: Creates a dictionary with data to send to the API endpoint, including the `nonce`, `post_id`, prompt, client ID, and conversation history.
+9. **API request**: Sends a POST request to the `api_endpoint` with the prepared data.
+10. **Response handling**: Parses the response and yields the generated text if the request was successful. If there are errors, raises an appropriate exception.
+
+**Examples**:
+
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    **kwargs
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для взаимодействия с ChatGpt.es.
+# Example 1: Using the default model with a simple message
+messages = [
+    {"role": "user", "content": "Hello, how are you?"}
+]
+async_result = await ChatGptEs.create_async_generator(model="gpt-4o", messages=messages)
+for response in async_result:
+    print(response)
 
-    Args:
-        model (str): Используемая модель.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы.
-
-    Returns:
-        AsyncResult: Асинхронный генератор, возвращающий результаты от ChatGpt.es.
-
-    Raises:
-        MissingRequirementsError: Если не установлена библиотека `curl_cffi`.
-        ValueError: Если получен неожиданный статус ответа или формат данных.
-
-    Как работает функция:
-    - Проверяет наличие библиотеки `curl_cffi`. Если её нет, вызывает исключение `MissingRequirementsError`.
-    - Получает модель, используя метод `get_model`.
-    - Форматирует запрос, добавляя системное сообщение и сообщения пользователя.
-    - Создает сессию `curl_cffi.requests.Session` для выполнения запросов.
-    - Обновляет заголовки сессии, добавляя `user-agent`, `referer`, `origin`, `accept`, `accept-language` и `content-type`.
-    - Если указан прокси, устанавливает его для сессии.
-    - Выполняет первый GET-запрос для получения `nonce` и `post_id`.
-    - Извлекает `nonce` и `post_id` из HTML-ответа, используя регулярные выражения.
-    - Генерирует случайный `client_id`.
-    - Подготавливает данные для POST-запроса, включая `_wpnonce`, `post_id`, `url`, `action`, `message`, `bot_id`, `chatbot_identity` и `wpaicg_chat_client_id`.
-    - Выполняет POST-запрос к `api_endpoint` с использованием сессии.
-    - Обрабатывает ответ, проверяя статус код и формат данных.
-    - Генерирует данные из ответа, если они присутствуют в формате JSON.
-
-    """
-    ...
+# Example 2: Using a specific model and specifying a proxy
+messages = [
+    {"role": "user", "content": "What is the meaning of life?"}
+]
+async_result = await ChatGptEs.create_async_generator(model="gpt-4", messages=messages, proxy="http://proxy.example.com:8080")
+for response in async_result:
+    print(response)
 ```
-
-## Примеры
-
-```python
-# Пример использования create_async_generator
-import asyncio
-from src.endpoints.gpt4free.g4f.Provider.ChatGptEs import ChatGptEs
-from src.endpoints.gpt4free.g4f.typing import Messages
-
-async def main():
-    messages: Messages = [{"role": "user", "content": "Hello, how are you?"}]
-    model = "gpt-4o"
-    
-    try:
-        async for message in ChatGptEs.create_async_generator(model=model, messages=messages):
-            print(message)
-    except Exception as ex:
-        print(f"Error: {ex}")
-
-if __name__ == "__main__":
-    asyncio.run(main())

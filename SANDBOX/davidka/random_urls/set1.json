@@ -1,748 +1,688 @@
 {
   "products": [
     {
+      "product_name": "Amazon Product B09B1V5C7Q",
       "product_url": "https://www.amazon.com/dp/B09B1V5C7Q/",
-      "category": "Electronics"
+      "category_name": "Electronics",
+      "parent_category": "Electronics"
     },
     {
+      "product_name": "Amazon DE Product B08H95Y452",
       "product_url": "https://www.amazon.de/dp/B08H95Y452/",
-      "category": "Home Appliances"
+      "category_name": "Home Appliances",
+      "parent_category": "Home & Kitchen"
     },
     {
+      "product_name": "AliExpress Item 1005003867123456",
       "product_url": "https://www.aliexpress.com/item/1005003867123456.html",
-      "category": "Accessories"
+      "category_name": "Accessories",
+      "parent_category": "Fashion Accessories"
     },
     {
-      "product_url": "https://www.zalando.fr/robe-ete-fleurie-modele-xyz/",
-      "category": "Fashion"
-    },
-    {
+      "product_name": "Otto Wohnlandschaft Grau Stoffbezug",
       "product_url": "https://www.otto.de/p/wohnlandschaft-grau-stoffbezug-123456789/",
-      "category": "Furniture"
+      "category_name": "Furniture",
+      "parent_category": "Home & Kitchen"
     },
     {
+      "product_name": "Rakuten Book 17000001",
       "product_url": "https://item.rakuten.co.jp/book/17000001/",
-      "category": "Books"
+      "category_name": "Books",
+      "parent_category": "Books & Media"
     },
     {
-      "product_url": "https://www.bol.com/nl/nl/p/spannend-boek-auteur-naam/9300000012345678/",
-      "category": "Books"
-    },
-    {
+      "product_name": "Allegro Buty Sportowe Meskie Rozmiar 42",
       "product_url": "https://allegro.pl/oferta/buty-sportowe-meskie-rozmiar42-1100100100",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Walmart Smart LED TV 55 Inch 4K UHD",
       "product_url": "https://www.walmart.com/ip/Smart-LED-TV-55-Inch-4K-UHD/987654321",
-      "category": "Electronics"
+      "category_name": "Electronics",
+      "parent_category": "Electronics"
     },
     {
+      "product_name": "Etsy Handmade Silver Necklace Moon Pendant",
       "product_url": "https://www.etsy.com/listing/789123456/handmade-silver-necklace-moon-pendant",
-      "category": "Handmade"
+      "category_name": "Handmade",
+      "parent_category": "Handmade Products"
     },
     {
+      "product_name": "MercadoLibre Zapatillas Urbanas Cuero Hombre Modelo A",
       "product_url": "https://www.mercadolibre.com.ar/zapatillas-urbanas-cuero-hombre-modelo-a/p/MLA15000001",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Cdiscount Casque Bluetooth Reduction Bruit Actif Noir",
       "product_url": "https://www.cdiscount.com/telephonie/casques-audio/casque-bluetooth-reduction-bruit-actif-noir/f-14405-auc12345.html",
-      "category": "Electronics"
+      "category_name": "Electronics",
+      "parent_category": "Electronics"
     },
     {
+      "product_name": "IKEA FADO Bordslampa Vit",
       "product_url": "https://www.ikea.com/se/sv/p/fado-bordslampa-vit-10096375/",
-      "category": "Home Goods"
+      "category_name": "Home Goods",
+      "parent_category": "Home & Kitchen"
     },
     {
-      "product_url": "https://www.flipkart.com/beautiful-silk-saree-party-wear/p/itmabcdefghijk",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.asos.com/brand-name/organic-cotton-t-shirt-in-white/prd/201010101",
-      "category": "Fashion"
-    },
-    {
+      "product_name": "Target Strategy Board Game Settlers Catan",
       "product_url": "https://www.target.com/p/strategy-board-game-settlers-catan/-/A-12345678",
-      "category": "Toys & Games"
+      "category_name": "Toys & Games",
+      "parent_category": "Toys & Games"
     },
     {
+      "product_name": "El Corte Ingles Eau De Parfum Mujer Floral 100 Ml",
       "product_url": "https://www.elcorteingles.es/perfumeria/A1B2C3D4E/eau-de-parfum-mujer-floral-100-ml/",
-      "category": "Beauty"
+      "category_name": "Beauty",
+      "parent_category": "Beauty & Personal Care"
     },
     {
+      "product_name": "Best Buy Mirrorless Camera Body Only Black",
       "product_url": "https://www.bestbuy.com/site/mirrorless-camera-body-only-black/6400001.p?skuId=6400001",
-      "category": "Electronics"
+      "category_name": "Electronics",
+      "parent_category": "Electronics"
     },
     {
+      "product_name": "Thomann Fender Stratocaster Standard MN BK",
       "product_url": "https://www.thomann.de/de/fender_stratocaster_standard_mn_bk.htm",
-      "category": "Musical Instruments"
+      "category_name": "Musical Instruments",
+      "parent_category": "Musical Instruments"
     },
     {
+      "product_name": "Decathlon Tente De Camping 2 Places Modele Rapide",
       "product_url": "https://www.decathlon.fr/p/tente-de-camping-2-places-modele-rapide/_/R-p-300001",
-      "category": "Sports & Outdoors"
+      "category_name": "Sports & Outdoors",
+      "parent_category": "Sports & Outdoors"
     },
     {
-      "product_url": "https://www.fnac.com/a15000001/Livre-Roman-Policier-Titre-Du-Livre",
-      "category": "Books"
-    },
-    {
+      "product_name": "MediaMarkt Gaming Laptop Intel Core i7 RTX3060",
       "product_url": "https://www.mediamarkt.de/de/product/_gaming-laptop-intel-core-i7-rtx3060-2700001.html",
-      "category": "Electronics"
+      "category_name": "Electronics",
+      "parent_category": "Computers"
     },
     {
+      "product_name": "Lazada Wireless Earbuds Bluetooth 5.2 IPX7",
       "product_url": "https://www.lazada.com.my/products/wireless-earbuds-bluetooth-52-ipx7-i123456789-s987654321.html",
-      "category": "Electronics"
+      "category_name": "Electronics",
+      "parent_category": "Electronics"
     },
     {
+      "product_name": "Shopee Product 111111111/2222222222",
       "product_url": "https://shopee.co.th/product/111111111/2222222222/",
-      "category": "General Merchandise"
+      "category_name": "General Merchandise",
+      "parent_category": "General Merchandise"
     },
     {
+      "product_name": "Magazine Luiza Smartphone 128GB Tela 6.5 Camera Dupla",
       "product_url": "https://www.magazineluiza.com.br/smartphone-128gb-tela-6-5-camera-dupla/p/22000001/te/celu/",
-      "category": "Electronics"
+      "category_name": "Electronics",
+      "parent_category": "Electronics"
     },
     {
+      "product_name": "The Iconic Running Shoes Model X Men's",
       "product_url": "https://www.theiconic.com.au/running-shoes-model-x-men-s-111111.html",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
-      "product_url": "https://www.bookdepository.com/Non-Fiction-Book-Title/9781234567890",
-      "category": "Books"
-    },
-    {
+      "product_name": "Sephora Creme Hydratante Visage Peau Sensible 50ml",
       "product_url": "https://www.sephora.fr/p/creme-hydratante-visage-peau-sensible-50ml-P123456.html",
-      "category": "Beauty"
+      "category_name": "Beauty",
+      "parent_category": "Beauty & Personal Care"
     },
     {
+      "product_name": "Newegg Product N82E16814105001",
       "product_url": "https://www.newegg.com/Product/Product.aspx?Item=N82E16814105001",
-      "category": "PC Components"
+      "category_name": "PC Components",
+      "parent_category": "Computers"
     },
     {
+      "product_name": "Adidas Ultraboost 22 Shoes",
       "product_url": "https://www.adidas.co.uk/ultraboost-22-shoes/GX1234.html",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "H&M Product 0987654321",
       "product_url": "https://www.hm.com/ja_jp/productpage.0987654321.html",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Zara Vestido Midi Satinado Color Verde",
       "product_url": "https://www.zara.com/es/es/vestido-midi-satinado-color-verde-p01111222333.html",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Yoox Camicia Cotone Righe",
       "product_url": "https://www.yoox.com/it/uomo/camicia-cotone-righe_cod12345678ab.html",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
-      "product_url": "https://www.myntra.com/kurta-sets/brand/ethnic-printed-kurta-with-palazzos/15000001/buy",
-      "category": "Fashion"
-    },
-    {
+      "product_name": "Ceneo Product 99988877",
       "product_url": "https://www.ceneo.pl/99988877",
-      "category": "General Merchandise"
+      "category_name": "General Merchandise",
+      "parent_category": "General Merchandise"
     },
     {
+      "product_name": "Home Depot Power Drill Kit 18V",
       "product_url": "https://www.homedepot.com/p/Power-Drill-Kit-18V-Lithium-Ion-Battery-Charger-Included/205555123",
-      "category": "Tools"
+      "category_name": "Tools",
+      "parent_category": "Tools & Home Improvement"
     },
     {
-      "product_url": "https://www.wayfair.com/furniture/pdp/brand-accent-chair-with-ottoman-w001234567.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.gear4music.com/Guitar-and-Bass/Acoustic-Guitar-Natural/XYZ1",
-      "category": "Musical Instruments"
-    },
-    {
-      "product_url": "https://www.cultbeauty.co.uk/brand-name-vitamin-c-serum-30ml/12345678.html",
-      "category": "Beauty"
-    },
-    {
+      "product_name": "Fruugo Kids Building Blocks Set 1000 Pieces",
       "product_url": "https://www.fruugo.us/kids-building-blocks-set-1000-pieces/p-50000001-100000001",
-      "category": "Toys & Games"
+      "category_name": "Toys & Games",
+      "parent_category": "Toys & Games"
     },
     {
-      "product_url": "https://www.wiggle.co.uk/cycle/road-bikes/brand-model-road-bike-2023",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://global.rakuten.com/en/store/some-store/item/12345-abc/",
-      "category": "General Merchandise"
-    },
-    {
+      "product_name": "Gmarket Goods 1234567890",
       "product_url": "https://www.gmarket.co.kr/challenge/neo_goods/goods.asp?goodscode=1234567890",
-      "category": "General Merchandise"
+      "category_name": "General Merchandise",
+      "parent_category": "General Merchandise"
     },
     {
+      "product_name": "Ozon Chemodan Plastikovyy Seryy Srednego Razmera",
       "product_url": "https://www.ozon.ru/product/chemodan-plastikovyy-seryy-srednego-razmera-1122334455/",
-      "category": "Luggage"
+      "category_name": "Luggage",
+      "parent_category": "Luggage & Travel Gear"
     },
     {
+      "product_name": "Amazon IT Product B07XYZ1234",
       "product_url": "https://www.amazon.it/dp/B07XYZ1234/",
-      "category": "Books"
+      "category_name": "Books",
+      "parent_category": "Books & Media"
     },
     {
+      "product_name": "Amazon BR Product B08ABCDEF0",
       "product_url": "https://www.amazon.com.br/dp/B08ABCDEF0/",
-      "category": "Electronics"
+      "category_name": "Electronics",
+      "parent_category": "Electronics"
     },
     {
+      "product_name": "Kaufland Product 300111222",
       "product_url": "https://www.kaufland.de/product/300111222/",
-      "category": "Groceries & Household"
+      "category_name": "Groceries & Household",
+      "parent_category": "Groceries & Household"
     },
     {
-      "product_url": "https://www.revolve.com/brand-designer-dress-in-black/dp/BRND-WD123/",
-      "category": "Fashion"
-    },
-    {
+      "product_name": "Petco Dog Food Dry Lamb Rice 30lb Bag",
       "product_url": "https://www.petco.com/shop/en/petcostore/product/dog-food-dry-lamb-rice-30lb-bag",
-      "category": "Pet Supplies"
+      "category_name": "Pet Supplies",
+      "parent_category": "Pet Supplies"
     },
     {
-      "product_url": "https://www.mvideo.ru/products/naushniki-besprovodnye-model-belye-300600123",
-      "category": "Electronics"
-    },
-    {
+      "product_name": "eBay Item 123456789012",
       "product_url": "https://www.ebay.com/itm/123456789012",
-      "category": "Marketplace"
+      "category_name": "Marketplace",
+      "parent_category": "Marketplace"
     },
     {
+      "product_name": "Tesco Groceries Product 255000001",
       "product_url": "https://www.tesco.com/groceries/en-GB/products/255000001",
-      "category": "Groceries"
+      "category_name": "Groceries",
+      "parent_category": "Groceries & Household"
     },
     {
+      "product_name": "Argos Product 9876543",
       "product_url": "https://www.argos.co.uk/product/9876543",
-      "category": "General Retail"
+      "category_name": "General Retail",
+      "parent_category": "General Retail"
     },
     {
-      "product_url": "https://www.johnlewis.com/brand-toaster-2-slice-stainless-steel/p5000001",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.boots.com/brand-shampoo-for-dry-hair-400ml-10200001",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.currys.co.uk/products/brand-washing-machine-8kg-load-white-10211111.html",
-      "category": "Home Appliances"
-    },
-    {
+      "product_name": "Privalia Product Detail 10000001_001",
       "product_url": "https://www.privalia.com/es/product/detail/10000001_001",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
-      "product_url": "https://www.unieuro.it/online/Asciugatrici/Nome-Modello-pidUNI123456789",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://zozotown.jp/shop/brand/goods/12345678/",
-      "category": "Fashion"
-    },
-    {
+      "product_name": "Yodobashi Product 100000001005000001",
       "product_url": "https://www.yodobashi.com/product/100000001005000001/",
-      "category": "Electronics"
+      "category_name": "Electronics",
+      "parent_category": "Electronics"
     },
     {
+      "product_name": "Coupang Product 123456789",
       "product_url": "https://www.coupang.com/vp/products/123456789?itemId=987654321",
-      "category": "General Merchandise"
+      "category_name": "General Merchandise",
+      "parent_category": "General Merchandise"
     },
     {
+      "product_name": "11st Product 1122334455",
       "product_url": "https://www.11st.co.kr/products/1122334455",
-      "category": "General Merchandise"
+      "category_name": "General Merchandise",
+      "parent_category": "General Merchandise"
     },
     {
+      "product_name": "Wildberries Catalog 12345678",
       "product_url": "https://www.wildberries.ru/catalog/12345678/detail.aspx",
-      "category": "General Merchandise"
+      "category_name": "General Merchandise",
+      "parent_category": "General Merchandise"
     },
     {
+      "product_name": "Americanas Produto 111222333",
       "product_url": "https://www.americanas.com.br/produto/111222333",
-      "category": "General Merchandise"
+      "category_name": "General Merchandise",
+      "parent_category": "General Merchandise"
     },
     {
+      "product_name": "Kmart Kids Balance Bike Blue",
       "product_url": "https://www.kmart.com.au/product/kids-balance-bike-blue-43000001/",
-      "category": "Toys & Games"
+      "category_name": "Toys & Games",
+      "parent_category": "Toys & Games"
     },
     {
-      "product_url": "https://www.jbhifi.com.au/products/brand-noise-cancelling-headphones-black",
-      "category": "Electronics"
-    },
-    {
+      "product_name": "Canadian Tire Mastercraft Tool Set 150 pc",
       "product_url": "https://www.canadiantire.ca/en/pdp/mastercraft-tool-set-150-pc-0580001p.html",
-      "category": "Tools"
+      "category_name": "Tools",
+      "parent_category": "Tools & Home Improvement"
     },
     {
-      "product_url": "https://www.bestbuy.ca/en-ca/product/brand-4k-webcam-with-microphone/1500001",
-      "category": "Electronics"
-    },
-    {
+      "product_name": "Indigo Product 9780744000011",
       "product_url": "https://www.indigo.ca/en-ca/shop/product/9780744000011.html",
-      "category": "Books"
+      "category_name": "Books",
+      "parent_category": "Books & Media"
     },
     {
+      "product_name": "Shein Crop Top Solid Color Summer",
       "product_url": "https://www.shein.com/Crop-Top-Solid-Color-Summer-p-1000001-cat-1738.html",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Boohoo Midi Dress Floral Print",
       "product_url": "https://www.boohoo.com/womens/dresses/midi-dress-floral-print/FZZ12345",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
-      "product_url": "https://www.net-a-porter.com/en-gb/shop/product/designer/bag-leather-shoulder/1234567",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.farfetch.com/uk/shopping/women/designer-sneakers-item-18000001.aspx",
-      "category": "Fashion"
-    },
-    {
+      "product_name": "Uniqlo Product E440001-000",
       "product_url": "https://www.uniqlo.com/us/en/products/E440001-000/00",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
-      "product_url": "https://www.lowes.com/pd/Brand-Cordless-Leaf-Blower-20V/5001000001",
-      "category": "Tools"
-    },
-    {
-      "product_url": "https://www.b-and-q.co.uk/departments/brand-emulsion-paint-matt-white-2-5l/5000000000001_BQ.prd",
-      "category": "Home Improvement"
-    },
-    {
-      "product_url": "https://www.ulta.com/p/brand-eyeshadow-palette-neutral-pimprod2010001",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.douglas.de/p/parfum/marke/duftname-eau-de-toilette-50ml-prod123456.html",
-      "category": "Beauty"
-    },
-    {
+      "product_name": "B&H Photo Compact Digital Camera Waterproof",
       "product_url": "https://www.bhtp.com/product/compact-digital-camera-waterproof/654321",
-      "category": "Electronics"
+      "category_name": "Electronics",
+      "parent_category": "Electronics"
     },
     {
-      "product_url": "https://www.rei.com/product/160001/brand-backpacking-tent-3-person",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.sportsdirect.com/brand-football-boots-mens-203001",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.waterstones.com/book/new-thriller-novel/author-name/9781999888777",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.barnesandnoble.com/w/historical-fiction-book-title-author/1130000001",
-      "category": "Books"
-    },
-    {
+      "product_name": "Thalia Artikel ID150000001",
       "product_url": "https://www.thalia.de/shop/home/artikeldetails/ID150000001.html",
-      "category": "Books"
+      "category_name": "Books",
+      "parent_category": "Books & Media"
     },
     {
-      "product_url": "https://www.sweetwater.com/store/detail/MicrophoneX--brand-condenser-microphone",
-      "category": "Musical Instruments"
-    },
-    {
-      "product_url": "https://www.smythstoys.com/uk/en-gb/toys/action-figures-and-playsets/brand-superhero-action-figure/p/190001",
-      "category": "Toys & Games"
-    },
-    {
+      "product_name": "Lego Classic Space Mission 11022",
       "product_url": "https://www.lego.com/en-us/product/classic-space-mission-11022",
-      "category": "Toys & Games"
+      "category_name": "Toys & Games",
+      "parent_category": "Toys & Games"
     },
     {
+      "product_name": "Carrefour Cafe Moulu Pur Arabica",
       "product_url": "https://www.carrefour.fr/p/cafe-moulu-pur-arabica-marque-distributeur-250g-3270190000001",
-      "category": "Groceries"
+      "category_name": "Groceries",
+      "parent_category": "Groceries & Household"
     },
     {
-      "product_url": "https://www.woolworths.com.au/shop/productdetails/123456/brand-organic-milk-full-cream-1l",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.kroger.com/p/brand-natural-peanut-butter-creamy-16-oz/0001111000001",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.chewy.com/brand-grain-free-cat-food-salmon/dp/123456",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://www.zooplus.de/shop/hunde/hundefutter_trockenfutter/marke/adult_lamm_reis/12345",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://www.autozone.com/ignition-tune-up-and-routine-maintenance/spark-plug/p/brand-platinum-spark-plug/123456_0_0",
-      "category": "Auto Parts"
-    },
-    {
-      "product_url": "https://www.oreillyauto.com/detail/c/brand/filters/oil-filter/xyz123/4567890",
-      "category": "Auto Parts"
-    },
-    {
-      "product_url": "https://www.grainger.com/product/BRAND-Safety-Glasses-Clear-Lens-1ABC1",
-      "category": "Industrial Supplies"
-    },
-    {
+      "product_name": "Amazon UK Product B07AAAAAAA",
       "product_url": "https://www.amazon.co.uk/dp/B07AAAAAAA/",
-      "category": "Electronics"
+      "category_name": "Electronics",
+      "parent_category": "Electronics"
     },
     {
+      "product_name": "Amazon FR Product B08BBBBBBB",
       "product_url": "https://www.amazon.fr/dp/B08BBBBBBB/",
-      "category": "Home Goods"
+      "category_name": "Home Goods",
+      "parent_category": "Home & Kitchen"
     },
     {
+      "product_name": "Amazon CA Product B07CCCCCC",
       "product_url": "https://www.amazon.ca/dp/B07CCCCCC/",
-      "category": "Books"
+      "category_name": "Books",
+      "parent_category": "Books & Media"
     },
     {
+      "product_name": "Amazon AU Product B09DDDDDDD",
       "product_url": "https://www.amazon.com.au/dp/B09DDDDDDD/",
-      "category": "Sports & Outdoors"
+      "category_name": "Sports & Outdoors",
+      "parent_category": "Sports & Outdoors"
     },
     {
+      "product_name": "Amazon MX Product B08EEEEEEE",
       "product_url": "https://www.amazon.com.mx/dp/B08EEEEEEE/",
-      "category": "Beauty"
+      "category_name": "Beauty",
+      "parent_category": "Beauty & Personal Care"
     },
     {
+      "product_name": "Amazon NL Product B07FFFFFFF",
       "product_url": "https://www.amazon.nl/dp/B07FFFFFFF/",
-      "category": "Toys & Games"
+      "category_name": "Toys & Games",
+      "parent_category": "Toys & Games"
     },
     {
+      "product_name": "Amazon PL Product B09GGGGGGG",
       "product_url": "https://www.amazon.pl/dp/B09GGGGGGG/",
-      "category": "Tools"
+      "category_name": "Tools",
+      "parent_category": "Tools & Home Improvement"
     },
     {
+      "product_name": "Amazon SE Product B08HHHHHHH",
       "product_url": "https://www.amazon.se/dp/B08HHHHHHH/",
-      "category": "Pet Supplies"
+      "category_name": "Pet Supplies",
+      "parent_category": "Pet Supplies"
     },
     {
+      "product_name": "Amazon IN Product B07IIIIIII",
       "product_url": "https://www.amazon.in/dp/B07IIIIIII/",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Amazon SG Product B09JJJJJJJ",
       "product_url": "https://www.amazon.sg/dp/B09JJJJJJJ/",
-      "category": "Home Goods"
+      "category_name": "Home Goods",
+      "parent_category": "Home & Kitchen"
     },
     {
+      "product_name": "Amazon AE Product B08KKKKKKK",
       "product_url": "https://www.amazon.ae/dp/B08KKKKKKK/",
-      "category": "Electronics"
+      "category_name": "Electronics",
+      "parent_category": "Electronics"
     },
     {
+      "product_name": "Amazon SA Product B07LLLLLLL",
       "product_url": "https://www.amazon.sa/dp/B07LLLLLLL/",
-      "category": "Beauty"
+      "category_name": "Beauty",
+      "parent_category": "Beauty & Personal Care"
     },
     {
+      "product_name": "Amazon TR Product B09MMMMMMM",
       "product_url": "https://www.amazon.com.tr/dp/B09MMMMMMM/",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Jumia Generic Bluetooth Speaker Waterproof Black",
       "product_url": "https://www.jumia.com.ng/generic-bluetooth-speaker-waterproof-black-mpg123456.html",
-      "category": "Electronics"
+      "category_name": "Electronics",
+      "parent_category": "Electronics"
     },
     {
-      "product_url": "https://www.takealot.com/brand-non-stick-frying-pan-28cm/PLID12345678",
-      "category": "Home Goods"
-    },
-    {
+      "product_name": "Shopee SG Product 333333333/4444444444",
       "product_url": "https://shopee.sg/product/333333333/4444444444/",
-      "category": "General Merchandise"
+      "category_name": "General Merchandise",
+      "parent_category": "General Merchandise"
     },
     {
-      "product_url": "https://tokopedia.com/some-shop/product-name-detail-12345678",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.noon.com/uae-en/product-slug-name/N12345678A/p/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.digikala.com/product/dkp-1234567/product-name-persian/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://rozetka.com.ua/ua/brand_123456/p12345678/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.emag.ro/telefon-mobil-brand-model-128gb-dual-sim-negru/pd/DXY123MBM/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.alza.cz/EN/brand-model-product-d1234567.htm",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.komplett.no/product/1100111/datautstyr/pc-komponenter/hovedkort/intel-socket/brand-motherboard-z690",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.webhallen.com/se/product/330001-Brand-Gaming-Mouse-RGB",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.coolblue.nl/product/800001/brand-soundbar-dolby-atmos.html",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.saturn.de/de/product/_brand-kaffeevollautomat-edelstahl-2600001.html",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.galaxus.ch/de/s1/product/marke-modell-kopfhoerer-bluetooth-15000001",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.fnac.pt/Console-Marca-Modelo-Nova-Geracao/a9000001",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.worten.pt/produtos/smartphone-marca-modelo-128gb-preto-mrkean123456789",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.pccomponentes.com/brand-monitor-gaming-27-qhd-165hz",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.backmarket.fr/fr-fr/p/smartphone-reconditionne-marque-modele-128-go-noir/a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://shop.mango.com/fr/femme/robes-et-combinaisons_c12345678?_={id}=123456",
-      "category": "Fashion"
-    },
-    {
+      "product_name": "Massimo Dutti Plain Cotton Shirt",
       "product_url": "https://www.massimodutti.com/pt/en/men/shirts/plain-cotton-shirt-l012345678",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Bershka Printed Hoodie",
       "product_url": "https://www.bershka.com/tr/en/printed-hoodie-c0p110000001.html",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Pull&Bear Basic Jogger Waist Trousers",
       "product_url": "https://www.pullandbear.com/es/en/basic-jogger-waist-trousers-c0p503000001.html",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Stradivarius Wide Leg Jeans",
       "product_url": "https://www.stradivarius.com/it/en/wide-leg-jeans-c0p308000001.html",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Calzedonia Seamless Leggings",
       "product_url": "https://www.calzedonia.com/uk/product/seamless_leggings-MIP040.html",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Reserved Sweter Z Golfem",
       "product_url": "https://www.reserved.com/pl/pl/sweter-z-golfem-1234a-99x",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Mohito Bluzka S Vystrihem Do V",
       "product_url": "https://www.mohito.com/cz/en/bluzka-s-vystrihem-do-v-1234b-01x",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Cropp Mikina S Kapuci A Potiskem",
       "product_url": "https://www.cropp.com/de/de/mikina-s-kapuci-a-potiskem-1234c-59x",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Sinsay Tricou Cu Imprimeu",
       "product_url": "https://www.sinsay.com/ro/ro/tricou-cu-imprimeu-1234d-00x",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "House Bunda S Kapucnou",
       "product_url": "https://www.housebrand.com/sk/sk/bunda-s-kapucnou-1234e-99x",
-      "category": "Fashion"
+      "category_name": "Fashion",
+      "parent_category": "Clothing, Shoes & Jewelry"
     },
     {
+      "product_name": "Decimas Zapatillas De Running Hombre Tenth Modelo X",
       "product_url": "https://www.decimas.es/es-es/zapatillas-de-running-hombre-tenth-modelo-x/001_12345.html",
-      "category": "Sports & Outdoors"
+      "category_name": "Sports & Outdoors",
+      "parent_category": "Sports & Outdoors"
     },
     {
-      "product_url": "https://www.interspar.at/shop/lebensmittel/produkt-name-detail/p/1234567",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.notino.co.uk/brand/product-name-details/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.lookfantastic.com/brand-product-name-125ml/12345678.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.feelunique.com/p/Brand-Product-Name-50ml",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.perfumesclub.com/es/marca/perfume-nombre/p_12345/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.chemistwarehouse.com.au/buy/12345/brand-vitamin-d3-1000iu-100-capsules",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.priceline.com.au/brand/product-name-details-100g",
-      "category": "Health & Pharmacy"
-    },
-    {
+      "product_name": "Lego Feuerwehrstation 60319",
       "product_url": "https://www.lego.com/de-de/product/feuerwehrstation-60319",
-      "category": "Toys & Games"
+      "category_name": "Toys & Games",
+      "parent_category": "Toys & Games"
     },
     {
-      "product_url": "https://www.playmobil.de/produkt-name/70187.html",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.toysrus.ca/en/Brand---Product-Name/TRUEN-12345678.html",
-      "category": "Toys & Games"
-    },
-    {
+      "product_name": "Build-A-Bear Online Exclusive Teddy Bear",
       "product_url": "https://www.buildabear.com/online-exclusive-teddy-bear/12345.html",
-      "category": "Toys & Games"
+      "category_name": "Toys & Games",
+      "parent_category": "Toys & Games"
     },
     {
-      "product_url": "https://www.gamestop.com/video-games/products/new-release-video-game---ps5/11100001.html",
-      "category": "Video Games"
-    },
-    {
+      "product_name": "Steam Counter-Strike: Global Offensive",
       "product_url": "https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/",
-      "category": "Digital Games"
+      "category_name": "Digital Games",
+      "parent_category": "Video Games & Software"
     },
     {
+      "product_name": "GOG Cyberpunk 2077",
       "product_url": "https://www.gog.com/en/game/cyberpunk_2077",
-      "category": "Digital Games"
+      "category_name": "Digital Games",
+      "parent_category": "Video Games & Software"
     },
     {
+      "product_name": "Epic Games Fortnite",
       "product_url": "https://www.epicgames.com/store/en-US/p/fortnite",
-      "category": "Digital Games"
+      "category_name": "Digital Games",
+      "parent_category": "Video Games & Software"
     },
     {
-      "product_url": "https://www.origin.com/usa/en-us/store/ea-app",
-      "category": "Digital Games"
-    },
-    {
+      "product_name": "Battle.net World of Warcraft: Dragonflight",
       "product_url": "https://eu.shop.battle.net/en-gb/product/world-of-warcraft-dragonflight",
-      "category": "Digital Games"
+      "category_name": "Digital Games",
+      "parent_category": "Video Games & Software"
     },
     {
+      "product_name": "PlayStation Store The Last of Us Part I",
       "product_url": "https://store.playstation.com/en-us/product/UP9000-CUSA00001_00-LASTOFUSPARTIREM",
-      "category": "Digital Games"
+      "category_name": "Digital Games",
+      "parent_category": "Video Games & Software"
     },
     {
+      "product_name": "Xbox Store Elden Ring",
       "product_url": "https://www.xbox.com/en-US/games/store/elden-ring/9P3J32CTXLRZ",
-      "category": "Digital Games"
+      "category_name": "Digital Games",
+      "parent_category": "Video Games & Software"
     },
     {
+      "product_name": "Nintendo Store The Legend of Zelda: Tears of the Kingdom",
       "product_url": "https://www.nintendo.com/store/products/the-legend-of-zelda-tears-of-the-kingdom-switch/",
-      "category": "Digital Games"
+      "category_name": "Digital Games",
+      "parent_category": "Video Games & Software"
     },
     {
-      "product_url": "https://bandcamp.com/album/album-name-by-artist",
-      "category": "Music"
-    },
-    {
-      "product_url": "https://www.discogs.com/release/1234567-Artist-Album-Title",
-      "category": "Music"
-    },
-    {
-      "product_url": "https://www.qobuz.com/gb-en/album/album-title-artist/0884977000001",
-      "category": "Music"
-    },
-    {
+      "product_name": "Audible Project Hail Mary",
       "product_url": "https://www.audible.com/pd/Project-Hail-Mary-Audiobook/B08G9PRS1K",
-      "category": "Audiobooks"
+      "category_name": "Audiobooks",
+      "parent_category": "Books & Media"
     },
     {
+      "product_name": "Kobo The Great Gatsby",
       "product_url": "https://www.kobo.com/us/en/ebook/the-great-gatsby-4",
-      "category": "eBooks"
+      "category_name": "eBooks",
+      "parent_category": "Books & Media"
     },
     {
+      "product_name": "Google Play Books Nineteen Eighty-Four",
       "product_url": "https://play.google.com/store/books/details/George_Orwell_Nineteen_Eighty_Four?id=AAAAAQAAQBAJ",
-      "category": "eBooks"
+      "category_name": "eBooks",
+      "parent_category": "Books & Media"
     },
     {
+      "product_name": "Apple Books Dune",
       "product_url": "https://books.apple.com/us/book/dune/id388910434",
-      "category": "eBooks"
+      "category_name": "eBooks",
+      "parent_category": "Books & Media"
     },
     {
+      "product_name": "Udemy Python for Beginners Course",
       "product_url": "https://www.udemy.com/course/pythonforbeginners/",
-      "category": "Online Courses"
+      "category_name": "Online Courses",
+      "parent_category": "Education"
     },
     {
+      "product_name": "Coursera Machine Learning Course",
       "product_url": "https://www.coursera.org/learn/machine-learning",
-      "category": "Online Courses"
+      "category_name": "Online Courses",
+      "parent_category": "Education"
     },
     {
+      "product_name": "edX Introduction to Computer Science (CS50x)",
       "product_url": "https://www.edx.org/course/introduction-computer-science-harvardx-cs50x",
-      "category": "Online Courses"
+      "category_name": "Online Courses",
+      "parent_category": "Education"
     },
     {
+      "product_name": "MasterClass Gordon Ramsay Teaches Cooking",
       "product_url": "https://www.masterclass.com/classes/gordon-ramsay-teaches-cooking",
-      "category": "Online Courses"
+      "category_name": "Online Courses",
+      "parent_category": "Education"
     },
     {
+      "product_name": "Skillshare Graphic Design Basics",
       "product_url": "https://skillshare.com/classes/Graphic-Design-Basics-Core-Principles-for-Visual-Design/1917782902",
-      "category": "Online Courses"
+      "category_name": "Online Courses",
+      "parent_category": "Education"
     },
     {
+      "product_name": "LinkedIn Learning Become a Project Manager Path",
       "product_url": "https://www.linkedin.com/learning/paths/become-a-project-manager",
-      "category": "Online Courses"
+      "category_name": "Online Courses",
+      "parent_category": "Education"
     },
     {
+      "product_name": "Getty Images Business People Working",
       "product_url": "https://www.gettyimages.com/detail/photo/business-people-working-on-laptop-in-office-royalty-free-image/123456789",
-      "category": "Stock Media"
+      "category_name": "Stock Media",
+      "parent_category": "Stock Media & Assets"
     },
     {
+      "product_name": "Shutterstock Abstract Background Geometric Shapes",
       "product_url": "https://www.shutterstock.com/image-vector/abstract-background-geometric-shapes-modern-design-1234567890",
-      "category": "Stock Media"
+      "category_name": "Stock Media",
+      "parent_category": "Stock Media & Assets"
     },
     {
+      "product_name": "Adobe Stock Team of Scientists Working",
       "product_url": "https://stock.adobe.com/images/team-of-scientists-working-in-laboratory/123456789",
-      "category": "Stock Media"
+      "category_name": "Stock Media",
+      "parent_category": "Stock Media & Assets"
     },
     {
+      "product_name": "Unsplash Person Walking on Beach at Sunset",
       "product_url": "https://unsplash.com/photos/a-person-walking-on-a-beach-at-sunset-ABCDEFGHI",
-      "category": "Stock Media"
+      "category_name": "Stock Media",
+      "parent_category": "Stock Media & Assets"
     },
     {
+      "product_name": "Pexels Close-Up Photo of Gray Kitten",
       "product_url": "https://www.pexels.com/photo/close-up-photo-of-gray-kitten-1234567/",
-      "category": "Stock Media"
+      "category_name": "Stock Media",
+      "parent_category": "Stock Media & Assets"
     },
     {
+      "product_name": "Pixabay Tree Sunset Clouds Sky Silhouette",
       "product_url": "https://pixabay.com/illustrations/tree-sunset-clouds-sky-silhouette-123456/",
-      "category": "Stock Media"
+      "category_name": "Stock Media",
+      "parent_category": "Stock Media & Assets"
     },
     {
+      "product_name": "Envato Elements WordPress Theme for Business",
       "product_url": "https://elements.envato.com/wordpress-theme-for-business-ABCDE12",
-      "category": "Digital Assets"
+      "category_name": "Digital Assets",
+      "parent_category": "Stock Media & Assets"
     },
     {
+      "product_name": "ThemeForest Avada Responsive Multipurpose Theme",
       "product_url": "https://themeforest.net/item/avada-responsive-multipurpose-theme/2833226",
-      "category": "Digital Assets"
+      "category_name": "Digital Assets",
+      "parent_category": "Stock Media & Assets"
     },
     {
+      "product_name": "TemplateMonster Monstroid2 Multipurpose Website Template",
       "product_url": "https://www.templatemonster.com/website-templates/monstroid2-multipurpose-website-template-69032.html",
-      "category": "Digital Assets"
+      "category_name": "Digital Assets",
+      "parent_category": "Stock Media & Assets"
     },
     {
-      "product_url": "https://creativemarket.com/fonts/1234567-Awesome-Script-Font",
-      "category": "Digital Assets"
-    },
-    {
+      "product_name": "Fontspring Proxima Nova Font",
       "product_url": "https://www.fontspring.com/fonts/font-foundry/proxima-nova",
-      "category": "Digital Assets"
+      "category_name": "Digital Assets",
+      "parent_category": "Stock Media & Assets"
     },
     {
+      "product_name": "Google Fonts Roboto Font",
       "product_url": "https://fonts.google.com/specimen/Roboto",
-      "category": "Digital Assets"
+      "category_name": "Digital Assets",
+      "parent_category": "Stock Media & Assets"
     },
     {
+      "product_name": "Font Awesome House Icon",
       "product_url": "https://fontawesome.com/icons/house?s=solid",
-      "category": "Digital Assets"
+      "category_name": "Digital Assets",
+      "parent_category": "Stock Media & Assets"
     },
     {
+      "product_name": "The Noun Project Arrow Icon",
       "product_url": "https://thenounproject.com/icon/arrow-12345/",
-      "category": "Digital Assets"
+      "category_name": "Digital Assets",
+      "parent_category": "Stock Media & Assets"
     },
     {
+      "product_name": "Flaticon Settings Icon",
       "product_url": "https://www.flaticon.com/free-icon/settings_123456",
-      "category": "Digital Assets"
+      "category_name": "Digital Assets",
+      "parent_category": "Stock Media & Assets"
     }
   ]
 }

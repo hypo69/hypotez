@@ -1,91 +1,88 @@
-# Module Wewordle
+# Provider.deprecated.Wewordle Module
 
 ## Overview
 
-This module defines the `Wewordle` class, which is a provider for interacting with the Wewordle service to generate text using a GPT-3.5 Turbo model. It uses asynchronous HTTP requests to communicate with the Wewordle API.
+This module contains the `Wewordle` class, which implements a deprecated version of the `AsyncProvider` interface for interacting with the `wewordle.org` API. It provides functionality for sending requests to the API and receiving responses.
 
-## More details
+## Details
 
-The `Wewordle` class inherits from `AsyncProvider` and is designed to asynchronously generate text based on provided messages. It constructs specific headers and a JSON payload to interact with the Wewordle API endpoint. The module handles creating a unique user and app ID for each request.
+The `Wewordle` class is marked as deprecated, which means it's no longer actively maintained and might be removed in future updates. The module relies on the `aiohttp` library for asynchronous HTTP requests and utilizes a randomized user ID and application ID for API authentication.
 
 ## Classes
 
-### `Wewordle`
+### `class Wewordle`
 
-**Description**: A class that provides asynchronous text generation using the Wewordle service.
+**Description**:  The `Wewordle` class implements a deprecated version of the `AsyncProvider` interface for interacting with the `wewordle.org` API.
 
-**Inherits**:
-- `AsyncProvider`: Inherits asynchronous request handling capabilities.
+**Inherits**:  `AsyncProvider`
 
 **Attributes**:
-- `url` (str): The base URL for the Wewordle API.
-- `working` (bool): A flag indicating whether the provider is currently working (deprecated).
-- `supports_gpt_35_turbo` (bool): A flag indicating support for the GPT-3.5 Turbo model.
+
+- `url (str)`: Base URL for the `wewordle.org` API.
+- `working (bool)`: Indicates whether the provider is currently active.
+- `supports_gpt_35_turbo (bool)`: Indicates support for the GPT-3.5 Turbo model.
 
 **Methods**:
-- `create_async`: Asynchronously generates text using the Wewordle service.
 
-### `create_async`
+- `create_async(model: str, messages: list[dict[str, str]], proxy: str = None, **kwargs) -> str`: Asynchronously sends a request to the `wewordle.org` API with a list of messages, using the provided model and optional proxy. Returns the content of the response message if successful, otherwise returns `None`.
 
-```python
-@classmethod
-async def create_async(
-    cls,
-    model: str,
-    messages: list[dict[str, str]],
-    proxy: str = None,
-    **kwargs
-) -> str:
-    """ Асинхронно генерирует текст, используя сервис Wewordle.
+**How the Method Works**:
 
-    Args:
-        cls: Класс Wewordle.
-        model (str): Модель для использования (в данном случае, GPT-3.5 Turbo).
-        messages (list[dict[str, str]]): Список сообщений для отправки в API.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы.
-
-    Returns:
-        str: Сгенерированный текст.
-
-    Raises:
-        aiohttp.ClientResponseError: Если HTTP-запрос завершается с ошибкой.
-
-    Example:
-        >>> result = await Wewordle.create_async(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Hello"}])
-        >>> print(result)
-        "Hello, how can I assist you today?"
-    """
-```
-
-**Parameters**:
-- `cls`: The class itself.
-- `model` (str): The model to use (in this case, GPT-3.5 Turbo).
-- `messages` (list[dict[str, str]]): A list of messages to send to the API.
-- `proxy` (str, optional): A proxy server to use. Defaults to `None`.
-- `**kwargs`: Additional keyword arguments.
-
-**Returns**:
-- `str`: The generated text.
-
-**How the function works**:
-1. **Настройка заголовков**: Функция определяет заголовки HTTP-запроса, включая `accept`, `pragma`, `Content-Type` и `Connection`.
-2. **Генерация идентификаторов**: Генерирует случайные идентификаторы пользователя (`_user_id`) и приложения (`_app_id`).
-3. **Формирование данных запроса**: Создает структуру данных, включающую идентификаторы, сообщения и информацию о подписчике. В данных подписчика включается информация о дате запроса и анонимные идентификаторы.
-4. **Выполнение асинхронного запроса**: Использует `aiohttp.ClientSession` для выполнения POST-запроса к API Wewordle (`{cls.url}/gptapi/v1/android/turbo`) с использованием указанного прокси и JSON-данных.
-5. **Обработка ответа**: Извлекает содержимое сообщения из ответа JSON и возвращает его. Если содержимое отсутствует, возвращает `None`.
-6. **Обработка ошибок**: В случае ошибки HTTP-запроса вызывается исключение `aiohttp.ClientResponseError`.
+1. The method generates a random user ID and application ID using `random.choices`.
+2. It constructs a request payload with the user ID, messages, and subscriber information (including a timestamp and dummy data).
+3. The method uses the `aiohttp` library to send a POST request to the API endpoint with the generated payload, specifying the model, proxy, and headers.
+4. If the request succeeds, the method parses the JSON response and returns the content of the message.
 
 **Examples**:
+
 ```python
-# Пример вызова функции create_async
-result = await Wewordle.create_async(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Hello"}])
-print(result)
-# Вывод: "Hello, how can I assist you today?"
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Wewordle import Wewordle
+
+messages = [
+    {"role": "user", "content": "Hello, world!"},
+    {"role": "assistant", "content": "Hello to you too!"},
+]
+model = "gpt-3.5-turbo"
+
+response = await Wewordle.create_async(model, messages)
+print(response)
 ```
 
-## Class Parameters
+**Inner Functions**:
 
-- `url` (str): The base URL for the Wewordle API.
-- `working` (bool): A flag indicating whether the provider is currently working (deprecated).
-- `supports_gpt_35_turbo` (bool): A flag indicating support for the GPT-3.5 Turbo model.
+- None
+
+## Parameter Details
+
+- `model (str)`: The name of the AI model to use for the request.
+- `messages (list[dict[str, str]])`: A list of messages to be sent to the API. Each message is a dictionary containing the role (`user` or `assistant`) and the content of the message.
+- `proxy (str)`: Optional proxy server to use for the request. Defaults to `None`.
+- `**kwargs`:  Additional keyword arguments that are passed to the `aiohttp` session.
+
+## Examples
+
+```python
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Wewordle import Wewordle
+
+messages = [
+    {"role": "user", "content": "Hello, how are you?"},
+    {"role": "assistant", "content": "I'm doing well, thank you! How are you?"},
+]
+
+model = "gpt-3.5-turbo"
+response = await Wewordle.create_async(model, messages)
+
+if response:
+    print(response)
+
+messages = [
+    {"role": "user", "content": "What is the meaning of life?"},
+    {"role": "assistant", "content": "The meaning of life is a philosophical question that has been pondered by people for centuries. There is no one definitive answer, and what it means to each individual may vary depending on their personal beliefs and experiences."},
+]
+
+response = await Wewordle.create_async(model, messages)
+
+if response:
+    print(response)
+
+```

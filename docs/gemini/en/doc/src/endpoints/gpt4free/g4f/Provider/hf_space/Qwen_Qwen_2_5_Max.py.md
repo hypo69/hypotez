@@ -1,107 +1,115 @@
-# Модуль `Qwen_Qwen_2_5_Max`
+# Qwen_Qwen_2_5_Max Provider
 
-## Обзор
+## Overview
 
-Модуль `Qwen_Qwen_2_5_Max` предоставляет асинхронный генератор для взаимодействия с моделью Qwen Qwen-2.5-Max через API. Он поддерживает потоковую передачу данных и системные сообщения, а также предоставляет средства для форматирования запросов.
+This module provides the `Qwen_Qwen_2_5_Max` class, which implements an asynchronous generator provider for the Qwen Qwen-2.5-Max model hosted on Hugging Face Spaces. The provider allows for interacting with the model, sending messages, and receiving responses, all within an asynchronous context. 
 
-## Подробнее
+## Details
 
-Этот модуль предназначен для интеграции с API Qwen Qwen-2.5-Max, размещенным на платформе Hugging Face Space. Он использует асинхронные запросы для получения ответов от модели и поддерживает как потоковую передачу данных, так и передачу системных сообщений. Модуль включает в себя функции для генерации уникальных идентификаторов сессий и форматирования запросов для API.
+The `Qwen_Qwen_2_5_Max` class inherits from `AsyncGeneratorProvider` and `ProviderModelMixin`, providing capabilities for asynchronous message generation and model-related configurations. 
 
-## Классы
+The provider connects to the Qwen Qwen-2.5-Max model hosted on Hugging Face Spaces using a specific API endpoint and handles the communication via HTTP requests. It supports streaming responses, allowing for the delivery of parts of the response as they are generated. 
 
-### `Qwen_Qwen_2_5_Max`
+## Classes
 
-**Описание**: Класс предоставляет функциональность асинхронного генератора для взаимодействия с моделью Qwen Qwen-2.5-Max.
+### `class Qwen_Qwen_2_5_Max(AsyncGeneratorProvider, ProviderModelMixin)`
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает базовую функциональность для асинхронных генераторов.
-- `ProviderModelMixin`: Предоставляет общие методы для работы с моделями провайдеров.
+**Description**: This class provides an asynchronous generator provider for the Qwen Qwen-2.5-Max model. It handles communication with the model, formats prompts, and streams responses.
 
-**Атрибуты**:
-- `label` (str): Метка провайдера, `"Qwen Qwen-2.5-Max"`.
-- `url` (str): URL API, `"https://qwen-qwen2-5-max-demo.hf.space"`.
-- `api_endpoint` (str): URL конечной точки API для присоединения к очереди, `"https://qwen-qwen2-5-max-demo.hf.space/gradio_api/queue/join?"`.
-- `working` (bool): Указывает, работает ли провайдер, `True`.
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу, `True`.
-- `supports_system_message` (bool): Указывает, поддерживает ли провайдер системные сообщения, `True`.
-- `supports_message_history` (bool): Указывает, поддерживает ли провайдер историю сообщений, `False`.
-- `default_model` (str): Модель по умолчанию, `"qwen-qwen2-5-max"`.
-- `model_aliases` (dict): Псевдонимы моделей, `{"qwen-2-5-max": default_model}`.
-- `models` (list): Список поддерживаемых моделей, полученный из ключей `model_aliases`.
+**Inherits**: 
+    - `AsyncGeneratorProvider`: Provides asynchronous message generation capabilities.
+    - `ProviderModelMixin`: Enables model-specific configuration and settings.
 
-**Принцип работы**:
-Класс использует асинхронные HTTP-запросы для взаимодействия с API Qwen Qwen-2.5-Max. Он генерирует уникальные идентификаторы сессий для каждого запроса и форматирует сообщения в соответствии с требованиями API. Поддерживается потоковая передача данных, что позволяет получать ответы от модели по частям.
+**Attributes**:
 
-## Методы класса
+    - `label (str)`: Label for the provider, "Qwen Qwen-2.5-Max".
+    - `url (str)`: Base URL of the Hugging Face Spaces deployment.
+    - `api_endpoint (str)`: API endpoint for interacting with the model.
+    - `working (bool)`: Indicates if the provider is operational (True).
+    - `supports_stream (bool)`: Indicates support for streaming responses (True).
+    - `supports_system_message (bool)`: Indicates support for system messages (True).
+    - `supports_message_history (bool)`: Indicates support for message history (False).
+    - `default_model (str)`: Default model name.
+    - `model_aliases (dict)`: Mapping of model aliases to the default model name.
+    - `models (list)`: List of supported models.
 
-### `create_async_generator`
+**Methods**:
+
+    - `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`: 
+        - **Purpose**: This class method generates an asynchronous generator for interacting with the model.
+        - **Parameters**:
+            - `model (str)`: The model name to use.
+            - `messages (Messages)`: A list of messages containing user input and potential system messages.
+            - `proxy (str, optional)`: A proxy server address if needed. Defaults to None.
+        - **Returns**:
+            - `AsyncResult`: An asynchronous result object containing the generator. 
+        - **How the Function Works**:
+            - Generates a unique session hash for the interaction.
+            - Prepares HTTP headers and a payload containing the formatted prompt and system message.
+            - Sends a "join" request to the API endpoint to join the model's queue.
+            - Extracts the event ID from the response.
+            - Prepares a data stream request using the event ID and session hash.
+            - Sends the data stream request and iterates through the response content.
+            - Parses JSON data from the response stream.
+            - Yields fragments of the response as they are received. 
+            - Handles completion signals and yields the final response.
+        - **Examples**:
+            ```python
+            async def main():
+                messages = [
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": "What is the capital of France?"}
+                ]
+                async_result = await Qwen_Qwen_2_5_Max.create_async_generator(model="qwen-qwen2-5-max", messages=messages)
+                async for response_part in async_result.generator:
+                    print(response_part, end="")
+            ```
+
+## Inner Functions
+
+### `generate_session_hash()`
+
+**Purpose**: This function generates a unique session hash for the interaction with the model.
+
+**Parameters**: None
+
+**Returns**: 
+    - `str`: A unique session hash.
+
+**How the Function Works**:
+
+- The function combines two randomly generated UUIDs, removing hyphens and taking the first 8 characters of the first UUID and the first 4 characters of the second UUID.
+- The result is returned as a string.
+
+
+## Parameter Details
+
+- `messages (Messages)`: A list of messages representing the conversation history. Each message is a dictionary with keys `role`, `content`, and optionally `name`, `time`.  
+
+    - `role (str)`: Indicates the role of the message sender. Possible values are "user", "system", and "assistant".
+    - `content (str)`: The message content.
+    - `name (str, optional)`: The name of the message sender.
+    - `time (datetime, optional)`: The timestamp of the message.
+
+- `proxy (str, optional)`: A proxy server address to be used for the communication with the model. 
+
+## Examples
 
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    **kwargs
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для взаимодействия с моделью Qwen Qwen-2.5-Max.
+# Example usage:
+from hypotez.src.endpoints.gpt4free.g4f.Provider.hf_space.Qwen_Qwen_2_5_Max import Qwen_Qwen_2_5_Max
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-    Args:
-        cls (Qwen_Qwen_2_5_Max): Класс, для которого создается генератор.
-        model (str): Название модели.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы.
+async def main():
+    messages: Messages = [
+        {"role": "system", "content": "You are a helpful and informative AI assistant."},
+        {"role": "user", "content": "What is the capital of France?"},
+    ]
+    async_result = await Qwen_Qwen_2_5_Max.create_async_generator(model="qwen-qwen2-5-max", messages=messages)
+    async for response_part in async_result.generator:
+        print(response_part, end="")
 
-    Returns:
-        AsyncResult: Асинхронный генератор, выдающий ответы от модели.
-
-    Как работает функция:
-    - Генерирует уникальный идентификатор сессии (`session_hash`).
-    - Формирует заголовки (`headers_join`) и полезную нагрузку (`payload_join`) для отправки запроса на присоединение к очереди.
-    - Отправляет POST-запрос к `api_endpoint` для присоединения к очереди и получает `event_id`.
-    - Формирует заголовки (`headers_data`) и параметры (`params_data`) для запроса потока данных.
-    - Отправляет GET-запрос к `url_data` для получения потока данных и обрабатывает каждый фрагмент ответа.
-    - Извлекает и обрабатывает данные JSON из каждого фрагмента, ища этапы генерации (`process_generating`) и завершения (`process_completed`).
-    - Выдает фрагменты сгенерированного текста по мере их поступления.
-    - Очищает и выдает оставшуюся часть ответа после завершения генерации.
-
-    Внутренние функции:
-        - `generate_session_hash()`: генерирует уникальный session_hash для каждого запроса.
-
-    Примеры:
-        Пример вызова функции:
-        ```python
-        model = "qwen-2-5-max"
-        messages = [{"role": "system", "content": "You are a helpful assistant."}, {"role": "user", "content": "Hello!"}]
-        generator = await Qwen_Qwen_2_5_Max.create_async_generator(model=model, messages=messages)
-        async for fragment in generator:
-            print(fragment)
-        ```
-    """
-
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
 ```
-
-### `generate_session_hash` (внутренняя функция)
-
-```python
-def generate_session_hash():
-    """Generate a unique session hash."""
-    return str(uuid.uuid4()).replace('-', '')[:8] + str(uuid.uuid4()).replace('-', '')[:4]
-```
-
-## Параметры класса
-
-- `label` (str): Метка провайдера.
-- `url` (str): URL API.
-- `api_endpoint` (str): URL конечной точки API для присоединения к очереди.
-- `working` (bool): Указывает, работает ли провайдер.
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу.
-- `supports_system_message` (bool): Указывает, поддерживает ли провайдер системные сообщения.
-- `supports_message_history` (bool): Указывает, поддерживает ли провайдер историю сообщений.
-- `default_model` (str): Модель по умолчанию.
-- `model_aliases` (dict): Псевдонимы моделей.
-- `models` (list): Список поддерживаемых моделей.

@@ -1,149 +1,242 @@
-# Module `client.models`
+# Модуль моделей для GPT4Free
 
 ## Обзор
 
-Модуль `client.models` предназначен для управления и получения информации о моделях, поддерживаемых различными провайдерами. Он предоставляет классы и методы для взаимодействия с моделями, включая текстовые, визуальные и медиа-модели. Модуль позволяет клиенту получать список доступных моделей, а также фильтровать их по различным критериям.
+Модуль `models.py` предоставляет класс `ClientModels`, который используется для взаимодействия с различными моделями GPT4Free. 
+Класс позволяет получить список доступных моделей, моделей для обработки изображений, видео и других типов данных, а также 
+извлечь информацию о конкретной модели.
 
-## Более подробная информация
+## Детали
 
-Модуль `client.models` является частью системы, которая позволяет взаимодействовать с различными AI-провайдерами. Он абстрагирует детали реализации каждого провайдера и предоставляет унифицированный интерфейс для получения информации о доступных моделях. Это упрощает выбор и использование моделей, а также позволяет легко переключаться между провайдерами.
+Модуль `models.py` использует класс `ClientModels` для работы с различными моделями GPT4Free, которые доступны через API. 
+Он позволяет определить тип провайдера (например, `ProviderType.G4F_VISION` или `ProviderType.G4F_MEDIA`) и, используя 
+методы класса, получить список доступных моделей, моделей для обработки изображений, видео и других типов данных.
 
 ## Классы
 
 ### `ClientModels`
 
-**Описание**:
-Класс `ClientModels` предназначен для управления моделями, предоставляемыми различными провайдерами. Он позволяет получать списки моделей, фильтровать их по типу (текстовые, визуальные, медиа) и взаимодействовать с ними через унифицированный интерфейс.
+**Описание**: Класс `ClientModels` предоставляет набор методов для работы с моделями GPT4Free.
 
 **Атрибуты**:
-- `client`: Экземпляр класса `Client`, используемый для взаимодействия с API провайдеров.
-- `provider` (Optional[ProviderType]): Провайдер текстовых моделей.
-- `media_provider` (Optional[ProviderType]): Провайдер медиа-моделей.
 
-**Принцип работы**:
-Класс инициализируется экземпляром клиента и, возможно, провайдерами для текстовых и медиа-моделей. Он предоставляет методы для получения списков всех моделей, визуальных моделей и медиа-моделей. Каждый метод проверяет, доступен ли соответствующий провайдер, и возвращает список моделей, предоставляемых этим провайдером. Если провайдер недоступен, возвращается пустой список или список моделей по умолчанию.
+- `client`: Объект клиента GPT4Free.
+- `provider`: Тип провайдера для работы с моделями GPT4Free.
+- `media_provider`: Тип провайдера для работы с медиа-моделями (например, модели для обработки изображений и видео).
 
 **Методы**:
-- `__init__(self, client, provider: ProviderType = None, media_provider: ProviderType = None)`: Конструктор класса.
-- `get(self, name, default=None) -> ProviderType`: Получает провайдера по имени модели.
-- `get_all(self, api_key: str = None, **kwargs) -> list[str]`: Получает список всех моделей, предоставляемых текущим провайдером.
-- `get_vision(self, **kwargs) -> list[str]`: Получает список визуальных моделей.
-- `get_media(self, api_key: str = None, **kwargs) -> list[str]`: Получает список медиа-моделей.
-- `get_image(self, **kwargs) -> list[str]`: Получает список моделей для работы с изображениями.
-- `get_video(self, **kwargs) -> list[str]`: Получает список моделей для работы с видео.
 
-## Методы класса
+- `get(name, default=None) -> ProviderType`: Возвращает тип провайдера для заданного имени модели.
+- `get_all(api_key: str = None, **kwargs) -> list[str]`: Возвращает список доступных моделей для заданного провайдера.
+- `get_vision(**kwargs) -> list[str]`: Возвращает список моделей для обработки изображений.
+- `get_media(api_key: str = None, **kwargs) -> list[str]`: Возвращает список моделей для работы с медиа-данными.
+- `get_image(**kwargs) -> list[str]`: Возвращает список моделей для обработки изображений.
+- `get_video(**kwargs) -> list[str]`: Возвращает список моделей для обработки видео.
 
-### `__init__`
+## Функции
+
+### `get(name, default=None) -> ProviderType`
+
+**Цель**: Возвращает тип провайдера для заданного имени модели.
+
+**Параметры**:
+
+- `name` (str): Имя модели.
+- `default` (Any): Значение по умолчанию, если модель не найдена.
+
+**Возвращает**:
+
+- `ProviderType`: Тип провайдера для заданной модели.
+
+**Пример**:
 
 ```python
-def __init__(self, client, provider: ProviderType = None, media_provider: ProviderType = None):
-    """
-    Инициализирует экземпляр класса `ClientModels`.
+from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
 
-    Args:
-        client: Экземпляр класса `Client`, используемый для взаимодействия с API провайдеров.
-        provider (Optional[ProviderType], optional): Провайдер текстовых моделей. По умолчанию `None`.
-        media_provider (Optional[ProviderType], optional): Провайдер медиа-моделей. По умолчанию `None`.
-    """
-    ...
+# Создаем экземпляр ClientModels
+models = ClientModels(client)
+
+# Получаем тип провайдера для модели 'text-davinci-003'
+provider_type = models.get('text-davinci-003')
+
+# Выводим тип провайдера
+print(provider_type)
 ```
 
-### `get`
+### `get_all(api_key: str = None, **kwargs) -> list[str]`
+
+**Цель**: Возвращает список доступных моделей для заданного провайдера.
+
+**Параметры**:
+
+- `api_key` (str): Ключ API для доступа к моделям.
+- `**kwargs`: Дополнительные аргументы для запроса к API.
+
+**Возвращает**:
+
+- `list[str]`: Список доступных моделей.
+
+**Пример**:
 
 ```python
-def get(self, name, default=None) -> ProviderType:
-    """
-    Возвращает провайдера по имени модели.
+from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
 
-    Args:
-        name: Имя модели.
-        default: Значение по умолчанию, если модель не найдена.
+# Создаем экземпляр ClientModels
+models = ClientModels(client)
 
-    Returns:
-        ProviderType: Провайдер, соответствующий указанной модели, или значение по умолчанию, если модель не найдена.
-    """
-    ...
+# Получаем список доступных моделей
+available_models = models.get_all(api_key='your_api_key')
+
+# Выводим список моделей
+print(available_models)
 ```
 
-### `get_all`
+### `get_vision(**kwargs) -> list[str]`
+
+**Цель**: Возвращает список моделей для обработки изображений.
+
+**Параметры**:
+
+- `**kwargs`: Дополнительные аргументы для запроса к API.
+
+**Возвращает**:
+
+- `list[str]`: Список моделей для обработки изображений.
+
+**Пример**:
 
 ```python
-def get_all(self, api_key: str = None, **kwargs) -> list[str]:
-    """
-    Возвращает список всех моделей, предоставляемых текущим провайдером.
+from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
 
-    Args:
-        api_key (str, optional): API-ключ для аутентификации. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы для передачи в метод `get_models` провайдера.
+# Создаем экземпляр ClientModels
+models = ClientModels(client)
 
-    Returns:
-        list[str]: Список идентификаторов моделей.
-    """
-    ...
+# Получаем список моделей для обработки изображений
+vision_models = models.get_vision()
+
+# Выводим список моделей
+print(vision_models)
 ```
 
-### `get_vision`
+### `get_media(api_key: str = None, **kwargs) -> list[str]`
+
+**Цель**: Возвращает список моделей для работы с медиа-данными.
+
+**Параметры**:
+
+- `api_key` (str): Ключ API для доступа к моделям.
+- `**kwargs`: Дополнительные аргументы для запроса к API.
+
+**Возвращает**:
+
+- `list[str]`: Список моделей для работы с медиа-данными.
+
+**Пример**:
 
 ```python
-def get_vision(self, **kwargs) -> list[str]:
-    """
-    Возвращает список визуальных моделей.
+from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
 
-    Args:
-        **kwargs: Дополнительные аргументы для передачи в метод `get_models` провайдера.
+# Создаем экземпляр ClientModels
+models = ClientModels(client)
 
-    Returns:
-        list[str]: Список идентификаторов визуальных моделей.
-    """
-    ...
+# Получаем список моделей для работы с медиа-данными
+media_models = models.get_media(api_key='your_api_key')
+
+# Выводим список моделей
+print(media_models)
 ```
 
-### `get_media`
+### `get_image(**kwargs) -> list[str]`
+
+**Цель**: Возвращает список моделей для обработки изображений.
+
+**Параметры**:
+
+- `**kwargs`: Дополнительные аргументы для запроса к API.
+
+**Возвращает**:
+
+- `list[str]`: Список моделей для обработки изображений.
+
+**Пример**:
 
 ```python
-def get_media(self, api_key: str = None, **kwargs) -> list[str]:
-    """
-    Возвращает список медиа-моделей.
+from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
 
-    Args:
-        api_key (str, optional): API-ключ для аутентификации. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы для передачи в метод `get_models` провайдера.
+# Создаем экземпляр ClientModels
+models = ClientModels(client)
 
-    Returns:
-        list[str]: Список идентификаторов медиа-моделей.
-    """
-    ...
+# Получаем список моделей для обработки изображений
+image_models = models.get_image()
+
+# Выводим список моделей
+print(image_models)
 ```
 
-### `get_image`
+### `get_video(**kwargs) -> list[str]`
+
+**Цель**: Возвращает список моделей для обработки видео.
+
+**Параметры**:
+
+- `**kwargs`: Дополнительные аргументы для запроса к API.
+
+**Возвращает**:
+
+- `list[str]`: Список моделей для обработки видео.
+
+**Пример**:
 
 ```python
-def get_image(self, **kwargs) -> list[str]:
-    """
-    Возвращает список моделей для работы с изображениями.
+from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
 
-    Args:
-        **kwargs: Дополнительные аргументы для передачи в метод `get_models` провайдера.
+# Создаем экземпляр ClientModels
+models = ClientModels(client)
 
-    Returns:
-        list[str]: Список идентификаторов моделей для работы с изображениями.
-    """
-    ...
+# Получаем список моделей для обработки видео
+video_models = models.get_video()
+
+# Выводим список моделей
+print(video_models)
 ```
 
-### `get_video`
+## Примечания
+
+- Все методы класса `ClientModels` используют API GPT4Free для получения информации о моделях.
+- Модуль `models.py` использует модули `ModelUtils`, `ImageModel`, `VisionModel` и `ProviderUtils` для определения типов моделей и 
+провайдеров.
+- Для работы с API GPT4Free требуется ключ API, который можно получить на сайте GPT4Free.
+
+## Как работает код
+
+Этот модуль позволяет получить доступ к моделям GPT4Free через API. Класс `ClientModels` предоставляет методы для получения списка 
+доступных моделей, моделей для обработки изображений, видео и других типов данных, а также для получения информации о конкретной модели.
+
+## Примеры
 
 ```python
-def get_video(self, **kwargs) -> list[str]:
-    """
-    Возвращает список моделей для работы с видео.
+from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
+from hypotez.src.endpoints.gpt4free.g4f.client.client import Client
 
-    Args:
-        **kwargs: Дополнительные аргументы для передачи в метод `get_models` провайдера.
+# Создаем объект клиента GPT4Free
+client = Client(api_key='your_api_key')
 
-    Returns:
-        list[str]: Список идентификаторов моделей для работы с видео.
-    """
-    ...
+# Создаем экземпляр ClientModels
+models = ClientModels(client)
+
+# Получаем список доступных моделей
+available_models = models.get_all()
+print(f'Available models: {available_models}')
+
+# Получаем список моделей для обработки изображений
+vision_models = models.get_vision()
+print(f'Vision models: {vision_models}')
+
+# Получаем список моделей для работы с медиа-данными
+media_models = models.get_media()
+print(f'Media models: {media_models}')
+
+# Получаем тип провайдера для модели 'text-davinci-003'
+provider_type = models.get('text-davinci-003')
+print(f'Provider type for model "text-davinci-003": {provider_type}')
 ```

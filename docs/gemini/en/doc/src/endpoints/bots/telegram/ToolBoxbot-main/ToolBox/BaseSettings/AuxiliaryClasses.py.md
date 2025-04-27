@@ -1,156 +1,82 @@
-# Документация модуля AuxiliaryClasses.py
+# Module for Auxiliary Classes in Telegram Bot
+## Overview
 
-## Обзор
+This module contains auxiliary classes used within the `ToolBoxbot-main` Telegram bot. The primary classes include:
 
-Модуль `AuxiliaryClasses.py` содержит вспомогательные классы для работы с Telegram-ботом ToolBox.
-Он включает классы для создания клавиатур (`keyboards`) и сжатия промптов (`PromptsCompressor`),
-а также функцию для вставки HTML-тегов в текст.
+- `keyboards`: This class provides functions for creating and managing keyboards for the bot.
+- `PromptsCompressor`: This class handles the compression and retrieval of prompts for the bot's responses.
 
-## Подробнее
+## Details
 
-Этот модуль предоставляет инструменты для упрощения взаимодействия с пользователем через Telegram-бота,
-позволяя динамически создавать клавиатуры и формировать промпты на основе заданных параметров.
-Он также включает функциональность для форматирования текста с использованием HTML-тегов,
-что позволяет улучшить визуальное представление сообщений, отправляемых ботом.
+This module aims to improve the bot's functionality by providing organized and efficient methods for handling keyboards, compressing prompts, and inserting HTML tags into bot responses. It promotes code reusability and enhances the bot's user experience.
 
-## Классы
+## Classes
 
 ### `keyboards`
 
-**Описание**: Класс `keyboards` предназначен для создания различных типов клавиатур для Telegram-бота.
+**Description**: This class defines functions for creating and managing keyboards for the bot. It provides methods for generating inline keyboards and reply keyboards, allowing the bot to present interactive menus to users.
 
-**Методы**:
+**Methods**:
 
-- `_keyboard_two_blank(data: list[str], name: list[str]) -> types.InlineKeyboardMarkup`
-- `_reply_keyboard(self, name: list[str])`
+- `_keyboard_two_blank(data: list[str], name: list[str]) -> types.InlineKeyboardMarkup`: Generates an inline keyboard with two columns, where each button has a corresponding `callback_data` value.
+- `_reply_keyboard(name: list[str]) -> types.ReplyKeyboardMarkup`: Generates a reply keyboard with buttons specified in the `name` list.
 
 ### `PromptsCompressor`
 
-**Описание**: Класс `PromptsCompressor` предназначен для сжатия и форматирования промптов для Telegram-бота.
+**Description**: This class is responsible for compressing and retrieving prompts used in the bot's responses. It handles prompt formatting and simplifies the process of creating dynamic prompts based on user input.
 
-**Атрибуты**:
+**Attributes**:
 
-- `commands_size (list[list[str]])`: Список, содержащий размеры команд для разных типов промптов.
+- `commands_size (list[list[str]])`: Stores the structure of prompt commands, defining the expected order of parameters for each command type.
 
-**Методы**:
+**Methods**:
 
-- `get_prompt(self, info: list[str], ind: int) -> str`
-- `html_tags_insert(response: str) -> str`
+- `__init__(self)`: Initializes the `PromptsCompressor` instance by defining the `commands_size` attribute.
+- `get_prompt(self, info: list[str], ind: int) -> str`: Retrieves a prompt from the `prompts.json` file, replacing placeholders with the provided information.
+- `html_tags_insert(response: str) -> str`: Inserts HTML tags into the response text, formatting it for display within the Telegram bot.
 
-## Методы класса `keyboards`
+## Parameter Details
 
-### `_keyboard_two_blank`
+- `data (list[str])`: A list of data values used to generate `callback_data` for inline keyboard buttons.
+- `name (list[str])`: A list of button names for the inline keyboard or reply keyboard.
+- `info (list[str])`: A list of information values used to replace placeholders in the prompt.
+- `ind (int)`: The index of the prompt command in the `commands_size` list.
+- `response (str)`: The text response to be formatted with HTML tags.
+
+## Examples
+
+### Creating Inline Keyboards:
 
 ```python
-def _keyboard_two_blank(self, data: list[str], name: list[str]) -> types.InlineKeyboardMarkup:
-    """
-    Создает встроенную клавиатуру с двумя полями в каждом ряду.
-
-    Args:
-        data (list[str]): Список данных для кнопок обратного вызова.
-        name (list[str]): Список имен кнопок, отображаемых пользователю.
-
-    Returns:
-        types.InlineKeyboardMarkup: Объект встроенной клавиатуры.
-
-    Как работает функция:
-    - Функция создает объект встроенной клавиатуры `types.InlineKeyboardMarkup`.
-    - Создаются кнопки на основе переданных данных и имен.
-    - Если количество кнопок четное, они добавляются парами в каждый ряд клавиатуры.
-    - Если количество кнопок нечетное, все кнопки, кроме последней, добавляются парами, а последняя кнопка добавляется в отдельный ряд.
-    - Возвращается созданная клавиатура.
-
-    Примеры:
-        >>> keyboard = keyboards()._keyboard_two_blank(['data1', 'data2'], ['name1', 'name2'])
-    """
+from hypotez.src.endpoints.bots.telegram.ToolBoxbot-main.ToolBox.BaseSettings.AuxiliaryClasses import keyboards
+keyboard_instance = keyboards()
+data = ["data1", "data2", "data3"]
+name = ["Name 1", "Name 2", "Name 3"]
+inline_keyboard = keyboard_instance._keyboard_two_blank(data, name)
 ```
 
-### `_reply_keyboard`
+### Creating Reply Keyboards:
 
 ```python
-def _reply_keyboard(self, name: list[str]):
-    """
-    Создает клавиатуру ответа с кнопками, соответствующими переданным именам.
-
-    Args:
-        name (list[str]): Список имен кнопок для клавиатуры ответа.
-
-    Returns:
-        types.ReplyKeyboardMarkup: Объект клавиатуры ответа.
-
-    Как работает функция:
-    - Функция создает объект клавиатуры ответа `types.ReplyKeyboardMarkup` с возможностью изменения размера.
-    - Создаются кнопки на основе переданных имен.
-    - Каждая кнопка добавляется в клавиатуру.
-    - Возвращается созданная клавиатура.
-
-    Примеры:
-        >>> keyboard = keyboards()._reply_keyboard(['name1', 'name2'])
-    """
+from hypotez.src.endpoints.bots.telegram.ToolBoxbot-main.ToolBox.BaseSettings.AuxiliaryClasses import keyboards
+keyboard_instance = keyboards()
+button_names = ["Button 1", "Button 2", "Button 3"]
+reply_keyboard = keyboard_instance._reply_keyboard(button_names)
 ```
 
-## Методы класса `PromptsCompressor`
-
-### `__init__`
+### Retrieving Prompts:
 
 ```python
-def __init__(self):
-    """
-    Инициализирует класс `PromptsCompressor`, устанавливая размеры команд для различных типов промптов.
-
-    Как работает функция:
-    - Функция инициализирует атрибут `commands_size`, который представляет собой список списков,
-      определяющих размеры команд для разных типов промптов.
-    """
+from hypotez.src.endpoints.bots.telegram.ToolBoxbot-main.ToolBox.BaseSettings.AuxiliaryClasses import PromptsCompressor
+prompts_compressor = PromptsCompressor()
+info = ["topic", "text", "tone", "structure", "length", "extra"]
+prompt = prompts_compressor.get_prompt(info, 0)
 ```
 
-### `get_prompt`
+### Inserting HTML Tags:
 
 ```python
-def get_prompt(self, info: list[str], ind: int) -> str:
-    """
-    Получает промпт из файла `prompts.json` и заменяет в нем переменные на основе переданной информации.
-
-    Args:
-        info (list[str]): Список значений для замены переменных в промпте.
-        ind (int): Индекс типа промпта.
-
-    Returns:
-        str: Сформированный промпт.
-
-    Как работает функция:
-    - Функция открывает файл `prompts.json` и загружает команды из него.
-    - Извлекается команда с индексом `ind`.
-    - В цикле перебираются элементы списка `self.commands_size[ind]` и заменяются соответствующие переменные в команде.
-    - Возвращается сформированный промпт.
-
-    Примеры:
-        >>> compressor = PromptsCompressor()
-        >>> prompt = compressor.get_prompt(['topic', 'keywords', 'info', 'length'], 0)
-    """
-```
-
-### `html_tags_insert`
-
-```python
-@staticmethod
-def html_tags_insert(response: str) -> str:
-    """
-    Вставляет HTML-теги в текст ответа на основе заданных шаблонов.
-
-    Args:
-        response (str): Текст ответа, в который необходимо вставить HTML-теги.
-
-    Returns:
-        str: Текст ответа с вставленными HTML-тегами.
-
-    Как работает функция:
-    - Функция принимает текст ответа и применяет к нему ряд регулярных выражений для замены определенных шаблонов на HTML-теги.
-    - Используются шаблоны для вставки тегов `<b><u>`, `<u>`, `<b>`, `<i>`, `<pre><code>` и `<code>`.
-    - Возвращается текст с вставленными HTML-тегами.
-
-    Примеры:
-        >>> text = "#### Заголовок"
-        >>> html_text = PromptsCompressor.html_tags_insert(text)
-    """
+from hypotez.src.endpoints.bots.telegram.ToolBoxbot-main.ToolBox.BaseSettings.AuxiliaryClasses import PromptsCompressor
+response = "#### This is a heading\n### This is a subheading\n**Bold text**\n*Italic text*\n```python\nprint('Hello, World!')\n```\n`Code snippet`"
+formatted_response = PromptsCompressor.html_tags_insert(response)
 ```

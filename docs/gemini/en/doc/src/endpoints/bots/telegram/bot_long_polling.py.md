@@ -1,113 +1,186 @@
-# Module `bot_long_polling.py`
+# Telegram Bot: Long Polling
 
 ## Overview
 
-The `bot_long_polling.py` module implements a Telegram bot using long polling to listen for updates. It includes functionalities to handle commands, text messages, voice messages, and documents. The bot uses a separate `BotHandler` class to manage command and message processing logic.
+This module provides a class for interacting with a Telegram bot using long polling. 
 
-## More details
+The `TelegramBot` class facilitates communication between the bot and users, handling commands, messages, voice messages, and document files. It utilizes long polling to continuously check for updates from the Telegram server.
 
-This module sets up the Telegram bot, registers command handlers, and message handlers for various types of incoming data. It initializes the `BotHandler` and integrates it with the bot to manage different commands and message types. The module also includes functionalities for speech recognition, text-to-speech conversion, and file processing.
-It can be used to replace the current message handler with a new one. This is useful for dynamically changing the bot's behavior based on context or user input.
+## Details
+
+The `TelegramBot` class implements the following features:
+
+- **Initialization:**  It takes the Telegram bot token as input during initialization and constructs a `telegram.ext.Application` object for handling updates.
+- **Handler Registration:** It registers command handlers for `start`, `help`, and `sendpdf`.  It also registers a message handler for text messages and another handler for voice and document files.
+- **Message Handling:** It provides methods for handling various types of messages (text, voice, documents) and executing appropriate actions based on the received message. 
+- **Long Polling:** The `TelegramBot` class leverages long polling to continuously check for updates from Telegram, ensuring the bot is always responsive to user interactions.
 
 ## Classes
 
 ### `TelegramBot`
 
-**Description**: Represents the Telegram bot interface.
+**Description**: This class represents the Telegram bot interface. It handles communication with the bot and processes incoming updates.
 
 **Attributes**:
-- `application` (Application): The Telegram bot application instance.
-- `handler` (BotHandler): An instance of the `BotHandler` class for handling commands and messages.
-- `_original_message_handler` (MessageHandler): ссылка на исходный обработчик сообщений для последующей замены.
 
-**Working principle**:
-The `TelegramBot` class is initialized with a bot token, sets up the bot application, registers command and message handlers, and manages the bot's interaction with the Telegram API. It also provides method for replacing message handlers.
+- `application`:  An instance of `telegram.ext.Application` for managing bot interactions.
+- `handler`:  An instance of `BotHandler` for handling incoming messages and executing commands.
+- `_original_message_handler`:  A reference to the original message handler for text messages.
 
 **Methods**:
-- `__init__`: Initializes the Telegram bot.
-- `register_handlers`: Registers bot commands and message handlers.
-- `start`: Handles the `/start` command.
-- `replace_message_handler`: Replaces the current text message handler with a new one.
+
+- `__init__(self, token: str)`: Initializes the Telegram bot with the provided token.
+- `register_handlers(self) -> None`: Registers handlers for bot commands and messages.
+- `replace_message_handler(self, new_handler: Callable) -> None`:  Replaces the default text message handler with a custom one.
+- `start(self, update: Update, context: CallbackContext) -> None`: Handles the `/start` command.
 
 ## Class Methods
 
-### `__init__`
-
-```python
-def __init__(self, token: str):
-    """Инициализирует Telegram-бота.
-
-    Args:
-        token (str): Telegram bot token, e.g., `gs.credentials.telegram.bot.kazarinov`.
-    """
-    ...
-```
-
-**Purpose**: Initializes the `TelegramBot` instance with a bot token.
-
-**Parameters**:
-- `token` (str): The Telegram bot token.
-
-**How the function works**:
-The function initializes the Telegram bot application with the provided token, creates an instance of `BotHandler`, and registers the command and message handlers.
-
 ### `register_handlers`
 
+**Purpose**: This method registers handlers for bot commands and messages, including `start`, `help`, `sendpdf`, and handlers for text messages, voice messages, and documents.
+
+**Parameters**:
+
+- None
+
+**Returns**:
+
+- None
+
+**Raises Exceptions**:
+
+- None
+
+**How the Function Works**:
+
+1. Registers the `/start` command handler using `CommandHandler('start', self.handler.start)`, which calls the `start` method of the `BotHandler` class.
+2. Registers the `/help` command handler using `CommandHandler('help', self.handler.help_command)`, which calls the `help_command` method of the `BotHandler` class.
+3. Registers the `/sendpdf` command handler using `CommandHandler('sendpdf', self.handler.send_pdf)`, which calls the `send_pdf` method of the `BotHandler` class.
+4. Registers a message handler for text messages that are not commands using `MessageHandler(filters.TEXT & ~filters.COMMAND, self.handler.handle_message)`, which calls the `handle_message` method of the `BotHandler` class.
+5. Registers a message handler for voice messages using `MessageHandler(filters.VOICE, self.handler.handle_voice)`, which calls the `handle_voice` method of the `BotHandler` class.
+6. Registers a message handler for document files using `MessageHandler(filters.Document.ALL, self.handler.handle_document)`, which calls the `handle_document` method of the `BotHandler` class.
+
+**Examples**:
+
 ```python
-def register_handlers(self) -> None:
-    """Регистрирует команды бота и обработчики сообщений."""
-    ...
+# Registering handlers for the Telegram bot
+bot = TelegramBot(token='your_bot_token')
+bot.register_handlers()
 ```
-
-**Purpose**: Registers the command and message handlers for the Telegram bot.
-
-**How the function works**:
-The function registers command handlers for `/start`, `/help`, and `/sendpdf` commands. It also registers message handlers for text messages (excluding commands), voice messages, and documents.
 
 ### `replace_message_handler`
 
-```python
-def replace_message_handler(self, new_handler: Callable) -> None:
-    """
-    Заменяет текущий обработчик текстовых сообщений на новый.
-
-    Args:
-        new_handler (Callable): Новая функция для обработки сообщений.
-    """
-    ...
-```
-
-**Purpose**: Replaces the current text message handler with a new handler.
+**Purpose**: This method allows for replacing the default text message handler with a custom one. This can be used to modify the bot's behavior for handling text messages.
 
 **Parameters**:
-- `new_handler` (Callable): The new message handler function.
 
-**How the function works**:
-The function removes the old message handler, creates a new message handler with the provided function, and registers the new handler.
+- `new_handler (Callable)`: The new handler function for processing messages.
+
+**Returns**:
+
+- None
+
+**Raises Exceptions**:
+
+- None
+
+**How the Function Works**:
+
+1. Removes the existing message handler from the application's handlers.
+2. Creates a new message handler using the provided `new_handler` function.
+3. Registers the new message handler with the application.
+
+**Examples**:
+
+```python
+# Define a custom message handler
+def custom_message_handler(update: Update, context: CallbackContext) -> None:
+    # Custom logic for handling text messages
+    ...
+
+# Replace the default message handler
+bot = TelegramBot(token='your_bot_token')
+bot.replace_message_handler(custom_message_handler)
+```
+
 
 ### `start`
 
-```python
-async def start(self, update: Update, context: CallbackContext) -> None:
-    """Обрабатывает команду /start."""
-    ...
-```
-
-**Purpose**: Handles the `/start` command.
+**Purpose**: This method handles the `/start` command, which is typically used to initiate a conversation with the bot.
 
 **Parameters**:
-- `update` (Update): The update object from Telegram.
-- `context` (CallbackContext): The context object for the handler.
 
-**How the function works**:
-The function logs the start event and sends a welcome message to the user.
+- `update (Update)`:  An instance of `telegram.Update` representing the received update.
+- `context (CallbackContext)`:  An instance of `telegram.ext.CallbackContext` for accessing context information related to the update.
+
+**Returns**:
+
+- None
+
+**Raises Exceptions**:
+
+- None
+
+**How the Function Works**:
+
+1. Logs a message indicating that the bot has been started by the user.
+2. Sends a welcome message to the user.
+
+**Examples**:
+
+```python
+# Handling the /start command
+bot = TelegramBot(token='your_bot_token')
+bot.application.add_handler(CommandHandler('start', bot.start))
+```
+
+## Parameter Details
+
+- `token` (str): The Telegram bot token. This is a unique identifier for your bot obtained from the BotFather on Telegram.
+- `update` (Update): An instance of `telegram.Update`, which represents the received update from Telegram. This object contains information about the user, message, and other relevant details.
+- `context` (CallbackContext): An instance of `telegram.ext.CallbackContext`, which provides access to context information related to the update. This includes data passed between handlers and other useful information.
+- `new_handler (Callable)`: This is a function or callable object that will handle incoming text messages. 
 
 ## Examples
 
-**Creating and initializing a Telegram bot**:
+**Example 1: Initializing a bot with a token**
 
 ```python
-from src.endpoints.bots.telegram.bot_long_polling import TelegramBot
+# Initializing a Telegram bot with a token
+token = 'your_bot_token'
+bot = TelegramBot(token)
+```
 
-# Replace 'YOUR_BOT_TOKEN' with your actual bot token
-bot = TelegramBot(token='YOUR_BOT_TOKEN')
+**Example 2: Starting the bot and handling messages**
+
+```python
+# Starting the bot
+async def main():
+    bot = TelegramBot(token='your_bot_token')
+    await bot.application.run_polling()
+
+if __name__ == '__main__':
+    asyncio.run(main())
+```
+
+**Example 3: Replacing the default message handler**
+
+```python
+# Defining a custom message handler
+def custom_message_handler(update: Update, context: CallbackContext) -> None:
+    # Custom logic for handling text messages
+    message = update.message.text
+    await update.message.reply_text(f"You said: {message}")
+
+# Replacing the default handler
+bot = TelegramBot(token='your_bot_token')
+bot.replace_message_handler(custom_message_handler)
+
+# Starting the bot
+async def main():
+    await bot.application.run_polling()
+
+if __name__ == '__main__':
+    asyncio.run(main())
+```

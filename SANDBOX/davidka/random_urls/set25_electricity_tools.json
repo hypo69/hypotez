@@ -1,0 +1,130 @@
+{
+  "products": [
+    {
+      "product_name": "CRAFTSMAN V20 Cordless Drill Combo Kit, 2 Tool (CMCK200C2)",
+      "product_url": "https://www.amazon.com/CRAFTSMAN-V20-Cordless-Drill-CMCK200C2/dp/B07KFL1TB1/",
+      "category_name": "Аккумуляторные дрели-шуруповерты",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Einhell Akku-Bohrhammer Herocco 18/20 Power X-Change (Li-Ion, 18 V, 2,2 J, 4 Funktionen, bürstenloser Motor, LED-Licht, ohne Akku und Ladegerät)",
+      "product_url": "https://www.amazon.de/Einhell-Akku-Bohrhammer-Funktionen-b%C3%BCrstenloser-Ladeger%C3%A4t/dp/B07FX45F45/",
+      "category_name": "Перфораторы",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "RYOBI ONE+ 18V Cordless 3/8 in. 4-Position Ratchet (Tool Only)",
+      "product_url": "https://www.homedepot.com/p/RYOBI-ONE-18V-Cordless-3-8-in-4-Position-Ratchet-Tool-Only-P344/311303590",
+      "category_name": "Гайковерты и винтоверты",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Metabo WEV 15-125 HT Lock-on Meuleuse d'angle",
+      "product_url": "https://www.amazon.fr/Metabo-WEV-15-125-Lock-Meuleuse/dp/B00J5K3V5I/",
+      "category_name": "Угловые шлифмашины (УШМ, Болгарки)",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Makita GD0601 1/4\" Die Grinder",
+      "product_url": "https://www.amazon.com/Makita-GD0601-4-Inch-Die-Grinder/dp/B0000789HG/",
+      "category_name": "Прямые шлифмашины (Граверы)",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "PORTER-CABLE Ponceuse à bande, 3 po x 21 po (352VS)",
+      "product_url": "https://www.amazon.ca/PORTER-CABLE-352VS-8-Amp-3-Inch-21-Inch-Variable-Speed/dp/B0000223DW/",
+      "category_name": "Ленточные шлифмашины",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Makita BO4556K 2.0 Amp 4-1/2-Inch Finishing Sander with Case",
+      "product_url": "https://www.amazon.com/Makita-BO4556K-2-0-4-1-Finishing/dp/B0000789H3/",
+      "category_name": "Вибрационные шлифмашины",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Festool 576079 Ponceuse Excentrique ETS EC 150/3 EQ-Plus",
+      "product_url": "https://www.amazon.fr/Festool-576079-Ponceuse-Excentrique-EQ-Plus/dp/B07HMH94R1/",
+      "category_name": "Эксцентриковые (орбитальные) шлифмашины",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Flex PE14-2-150 Polisseuse rotative professionnelle",
+      "product_url": "https://www.amazon.fr/Flex-Polisseuse-Rotative-Professionnelle-PE14-2-150/dp/B005OMNVCE/",
+      "category_name": "Полировальные машины",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "SKIL 5280-01 15-Amp 7-1/4-Inch Circular Saw with Laser Guide",
+      "product_url": "https://www.amazon.com/SKIL-5280-01-Circular-Laser-15-Amp/dp/B00O6KEEVI/",
+      "category_name": "Циркулярные (дисковые) пилы",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "CRAFTSMAN V20 Cordless Jig Saw (CMCS600B)",
+      "product_url": "https://www.amazon.com/CRAFTSMAN-V20-Cordless-Saw-CMCS600B/dp/B07KGLCCXL/",
+      "category_name": "Лобзики электрические",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Milwaukee 2720-20 M18 SAWZALL Reciprocating Saw (Bare Tool)",
+      "product_url": "https://www.homedepot.com/p/Milwaukee-M18-18-Volt-Lithium-Ion-Cordless-Sawzall-Reciprocating-Saw-Tool-Only-2720-20/205191253",
+      "category_name": "Сабельные пилы",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Bosch CM10GD Sierra ingletadora deslizante de doble bisel de 10 pulgadas y 15 amperios",
+      "product_url": "https://www.amazon.es/Bosch-Power-Tools-CM10GD-Sierra/dp/B00C9U5K3K/",
+      "category_name": "Торцовочные пилы",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Dremel MM50-01 Multi-Max Oscillating Tool Kit",
+      "product_url": "https://www.amazon.com/Dremel-MM50-01-Multi-Max-Oscillating-Tool/dp/B07NQP87KN/",
+      "category_name": "Многофункциональный инструмент (Реноваторы)",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Triton TRA001 Affleureuse/Défonceuse de précision bi-mode 2400 W",
+      "product_url": "https://www.amazon.fr/Triton-TRA001-Affleureuse-Pr%C3%A9cision-Bi-Mode/dp/B001RPY07M/",
+      "category_name": "Фрезеры",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Bosch GHO 18V-LI Professional Akku-Hobel (ohne Akku und Lader, in L-BOXX)",
+      "product_url": "https://www.amazon.de/Bosch-Professional-Akku-Hobel-Hobelbreite-Spandicke/dp/B009ATHTF2/",
+      "category_name": "Электрические рубанки",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Makita HG6530VK Pistola de calor, 2000 W, 240 V",
+      "product_url": "https://www.amazon.es/Makita-HG6530VK-2000W-Heat-240V/dp/B07NRYY9N5/",
+      "category_name": "Строительные (технические) фены",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Surebonder PRO2-100 100-Watt High Temp Industrial Glue Gun",
+      "product_url": "https://www.amazon.com/Surebonder-PRO2-100-100-Watt-Industrial/dp/B000FH9SOI/",
+      "category_name": "Клеевые пистолеты",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "ARROW T50AC Professional Electric Staple Gun and Nailer",
+      "product_url": "https://www.amazon.com/Arrow-Fastener-T50AC-Professional-Electric/dp/B07G3D2Q18/",
+      "category_name": "Электрические степлеры и нейлеры",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Makita HM1213C Martillo Demoledor SDS-MAX 1510W 18.6 Julios AVT 9kg",
+      "product_url": "https://www.amazon.es/Makita-HM1213C-Martillo-Demoledor-SDS-MAX/dp/B0048EJZ3S/",
+      "category_name": "Отбойные молотки",
+      "parent_category": "электрические инструменты"
+    },
+    {
+      "product_name": "Bosch Wall and Floor Scanner D-TECT 120",
+      "product_url": "https://www.amazon.co.uk/Bosch-Professional-Detector-D-tect-detection/dp/B00GO5Y1L8/",
+      "category_name": "Оснастка и принадлежности (сверла, буры, биты, диски, полотна)",
+      "parent_category": "электрические инструменты"
+    }
+  ]
+}

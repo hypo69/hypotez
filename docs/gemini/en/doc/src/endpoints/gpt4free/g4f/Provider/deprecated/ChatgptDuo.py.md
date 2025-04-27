@@ -1,180 +1,135 @@
-# Модуль `ChatgptDuo.py`
+# ChatgptDuo.py
 
-## Обзор
+## Overview
 
-Модуль предоставляет асинхронный класс `ChatgptDuo`, который является провайдером для взаимодействия с моделью, расположенной по адресу "https://chatgptduo.com". Он поддерживает модель `gpt-3.5-turbo` и предназначен для обработки запросов к этой модели.
+This module provides the `ChatgptDuo` class, an asynchronous provider for accessing the ChatGPT Duo API. The class implements the `AsyncProvider` interface and is designed to interact with ChatGPT Duo's API for generating responses based on user prompts. 
 
-## Подробнее
+## Details
 
-Этот модуль интегрируется с асинхронными запросами через `StreamSession` для отправки запросов к API `ChatgptDuo`. Он форматирует сообщения, отправляет их на сервер и извлекает ответы, а также информацию об источниках, использованных для формирования ответа.
+This module is part of the `hypotez` project's `endpoints` package, specifically within the `gpt4free` directory. This indicates that it's responsible for handling communication with the ChatGPT Duo API, which is a service providing free access to OpenAI's GPT models. 
 
-## Классы
+The `ChatgptDuo` class inherits from the `AsyncProvider` base class, meaning it supports asynchronous communication with the API. It defines the following attributes:
+
+- `url`: The base URL of the ChatGPT Duo API.
+- `supports_gpt_35_turbo`: A boolean indicating whether the provider supports the GPT-3.5 Turbo model.
+- `working`: A boolean flag to track the provider's active status.
+
+## Classes
 
 ### `ChatgptDuo`
 
-**Описание**: Асинхронный провайдер для взаимодействия с моделью `ChatgptDuo`.
+**Description**: This class represents an asynchronous provider for interacting with the ChatGPT Duo API. It inherits from the `AsyncProvider` base class, providing a standardized interface for communication with different AI providers.
 
-**Наследует**:
-- `AsyncProvider`: Этот класс наследует функциональность асинхронного провайдера.
+**Attributes**:
 
-**Атрибуты**:
-- `url` (str): URL-адрес сервиса `ChatgptDuo` ("https://chatgptduo.com").
-- `supports_gpt_35_turbo` (bool): Указывает, поддерживает ли провайдер модель `gpt-3.5-turbo` (`True`).
-- `working` (bool): Указывает, находится ли провайдер в рабочем состоянии (`False`).
-- `_sources` (list): Список источников, используемых для формирования ответа.
+- `url (str)`: The base URL of the ChatGPT Duo API.
+- `supports_gpt_35_turbo (bool)`: Indicates if the provider supports the GPT-3.5 Turbo model.
+- `working (bool)`: Tracks the provider's active status.
 
-**Методы**:
-- `create_async`: Асинхронный метод для создания запроса и получения ответа от `ChatgptDuo`.
-- `get_sources`: Метод для получения источников, использованных при формировании ответа.
+**Methods**:
 
-## Методы класса
+#### `create_async`
 
-### `create_async`
+**Purpose**:  Asynchronously creates an instance of the `ChatgptDuo` provider and makes a request to the API to generate a response based on the provided prompt. 
 
-```python
-@classmethod
-async def create_async(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    timeout: int = 120,
-    **kwargs
-) -> str:
-    """
-    Асинхронно создает запрос к ChatgptDuo и возвращает ответ.
+**Parameters**:
 
-    Args:
-        cls (ChatgptDuo): Ссылка на класс.
-        model (str): Имя используемой модели.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-        timeout (int, optional): Время ожидания запроса в секундах. По умолчанию `120`.
-        **kwargs: Дополнительные аргументы.
+- `model (str)`: Specifies the language model to use for the response.
+- `messages (Messages)`: A list of messages representing the conversation history.
+- `proxy (str, optional)`: A proxy server address for accessing the API. Defaults to None.
+- `timeout (int, optional)`:  Specifies the timeout for the request. Defaults to 120 seconds.
 
-    Returns:
-        str: Ответ от ChatgptDuo.
-    """
-```
+**Returns**:
 
-**Описание**:
-Метод `create_async` является асинхронным методом класса, который отправляет запрос к `ChatgptDuo` и возвращает ответ. Он использует `StreamSession` для выполнения HTTP-запроса с заданными параметрами, такими как прокси и таймаут.
+- `str`: The generated response from the ChatGPT Duo API. 
 
-**Параметры**:
-- `cls` (ChatgptDuo): Ссылка на класс.
-- `model` (str): Имя используемой модели.
-- `messages` (Messages): Список сообщений для отправки.
-- `proxy` (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-- `timeout` (int, optional): Время ожидания запроса в секундах. По умолчанию `120`.
-- `**kwargs`: Дополнительные аргументы.
+**Raises Exceptions**:
 
-**Как работает функция**:
-1. Создается асинхронная сессия с использованием `StreamSession` с заданными параметрами, такими как `impersonate`, `proxies` и `timeout`.
-2. Форматируется запрос из списка сообщений с использованием `format_prompt`.
-3. Подготавливаются данные для отправки в теле запроса, включающие `prompt`, `search` и `purpose`.
-4. Отправляется POST-запрос на URL-адрес `ChatgptDuo` с подготовленными данными.
-5. Проверяется статус ответа и генерируется исключение, если статус не 200.
-6. Извлекается JSON-ответ из ответа сервера.
-7. Извлекаются источники, использованные для формирования ответа, и сохраняются в `cls._sources`.
-8. Возвращается текст ответа из JSON-данных.
+- `requests.exceptions.HTTPError`:  Raised if the API request encounters an HTTP error.
 
-**Примеры**:
+#### `get_sources`
+
+**Purpose**: Retrieves the list of sources used by the ChatGPT Duo API to generate the last response. 
+
+**Returns**:
+
+- `list`: A list of source information dictionaries, each containing:
+  - `title`: The title of the source.
+  - `url`: The URL of the source.
+  - `snippet`: A snippet of text from the source.
+
+**Example**:
 
 ```python
-# Пример асинхронного вызова create_async
-import asyncio
-from typing import List, Dict, Any, Optional
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.ChatgptDuo import ChatgptDuo
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-class ChatgptDuo:
-    url: str = "https://chatgptduo.com"
-    supports_gpt_35_turbo: bool = True
-    working: bool = False
-    _sources: List[Dict[str, str]] = []
-
-    @classmethod
-    async def create_async(
-        cls,
-        model: str,
-        messages: List[Dict[str, str]],
-        proxy: Optional[str] = None,
-        timeout: int = 120,
-        **kwargs: Any,
-    ) -> str:
-        """
-        Асинхронно создает запрос к ChatgptDuo и возвращает ответ.
-
-        Args:
-            cls (ChatgptDuo): Ссылка на класс.
-            model (str): Имя используемой модели.
-            messages (List[Dict[str, str]]): Список сообщений для отправки.
-            proxy (Optional[str], optional): Прокси-сервер для использования. По умолчанию `None`.
-            timeout (int, optional): Время ожидания запроса в секундах. По умолчанию `120`.
-            **kwargs: Дополнительные аргументы.
-
-        Returns:
-            str: Ответ от ChatgptDuo.
-        """
-        return "Пример ответа от ChatgptDuo"  # Заглушка для примера
-
-    @classmethod
-    def get_sources(cls) -> List[Dict[str, str]]:
-        """
-        Возвращает источники, использованные при формировании ответа.
-
-        Returns:
-            List[Dict[str, str]]: Список источников.
-        """
-        return cls._sources  # Заглушка для примера
+messages: Messages = [
+    {"role": "user", "content": "What is the capital of France?"},
+]
 
 async def main():
-    messages = [{"role": "user", "content": "Hello, ChatgptDuo!"}]
-    answer = await ChatgptDuo.create_async(model="gpt-3.5-turbo", messages=messages)
-    print(answer)
+    response = await ChatgptDuo.create_async(model="gpt-3.5-turbo", messages=messages)
+    print(response)
 
 if __name__ == "__main__":
+    import asyncio
     asyncio.run(main())
 ```
 
-### `get_sources`
+## Parameter Details
+
+- `model (str)`: Specifies the language model used for generating the response.  
+- `messages (Messages)`: A list of messages, where each message is a dictionary with a `role` ("user" or "assistant") and `content` (the text of the message). This represents the conversation history.
+- `proxy (str, optional)`:  A proxy server address to be used for the API request, allowing for access through a proxy. 
+- `timeout (int, optional)`: Sets the maximum time (in seconds) to wait for a response from the API. If the timeout expires, an exception is raised. 
+
+
+## Examples
 
 ```python
-@classmethod
-def get_sources(cls):
-    """
-    Возвращает источники, использованные при формировании ответа.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.ChatgptDuo import ChatgptDuo
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-    Returns:
-        list: Список источников.
-    """
-```
+# Example 1: Basic Usage
+messages: Messages = [
+    {"role": "user", "content": "What is the capital of France?"},
+]
+response = await ChatgptDuo.create_async(model="gpt-3.5-turbo", messages=messages)
+print(response)
 
-**Описание**:
-Метод `get_sources` является методом класса, который возвращает список источников, использованных при формировании ответа.
+# Example 2: Using a Proxy
+messages: Messages = [
+    {"role": "user", "content": "What is the meaning of life?"},
+]
+response = await ChatgptDuo.create_async(model="gpt-3.5-turbo", messages=messages, proxy="http://127.0.0.1:8080")
+print(response)
 
-**Параметры**:
-- `cls` (ChatgptDuo): Ссылка на класс.
+# Example 3: Setting a Timeout
+messages: Messages = [
+    {"role": "user", "content": "Tell me a joke."},
+]
+response = await ChatgptDuo.create_async(model="gpt-3.5-turbo", messages=messages, timeout=60)
+print(response)
 
-**Как работает функция**:
-Функция просто возвращает значение атрибута `cls._sources`.
-
-**Примеры**:
-
-```python
-# Пример вызова get_sources
-class ChatgptDuo:
-    _sources: list = [{"title": "Example", "url": "http://example.com", "snippet": "Example snippet"}]
-
-    @classmethod
-    def get_sources(cls):
-        """
-        Возвращает источники, использованные при формировании ответа.
-
-        Returns:
-            list: Список источников.
-        """
-        return cls._sources
-
+# Example 4: Retrieving Sources
+messages: Messages = [
+    {"role": "user", "content": "What are the main causes of climate change?"},
+]
+response = await ChatgptDuo.create_async(model="gpt-3.5-turbo", messages=messages)
+print(response)
 sources = ChatgptDuo.get_sources()
 print(sources)
-# Вывод: [{'title': 'Example', 'url': 'http://example.com', 'snippet': 'Example snippet'}]
 ```
+
+## Notes
+
+- The `ChatgptDuo` class has been marked as deprecated, suggesting that there might be a more up-to-date or preferred alternative available within the `hypotez` project. 
+- The code indicates that the provider supports the GPT-3.5 Turbo model (`supports_gpt_35_turbo = True`).
+- The `working` flag likely indicates whether the provider is currently functioning or has encountered an issue.
+
+**Further Improvements**:
+
+-  The documentation should include information about the specific API endpoints used by the `ChatgptDuo` class.
+- It would be helpful to provide more details about the `format_prompt` function used to prepare the prompt for the API request.
+-  Additional examples could be added, illustrating the usage of the `get_sources` method.

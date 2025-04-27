@@ -1,127 +1,67 @@
-# Документация для `model.py`
+# Unit Tests for GPT4Free Models 
 
-## Обзор
+## Overview
 
-Этот модуль содержит набор юнит-тестов для проверки корректной работы моделей, используемых в `gpt4free`. В частности, он проверяет, что модели правильно инстанцируются и возвращают ожидаемые результаты.
+This module contains unit tests for the `gpt4free` models implemented within the `hypotez` project. The tests are designed to validate the functionality of the `ChatCompletion` class and its interaction with different model providers. 
 
-## Более подробно
+## Details
 
-Модуль использует библиотеку `unittest` для создания тестовых случаев и `g4f` для взаимодействия с моделями. В модуле определена тестовая модель `test_model` и класс `TestPassModel`, который содержит методы для проверки различных аспектов работы с моделями.
+The unit tests utilize a mock `ModelProviderMock` to simulate the behavior of actual model providers used by the `gpt4free` models. These tests cover various aspects of the `ChatCompletion` class, including:
 
-## Классы
+- Model instance creation and usage.
+- Model selection based on name.
+- Model provider specification.
+
+## Classes
 
 ### `TestPassModel`
 
-**Описание**: Класс `TestPassModel` предназначен для тестирования функциональности передачи и использования моделей в `ChatCompletion`.
+**Description**: This class defines unit tests for validating the interaction with the `gpt4free` models and their providers.
 
-**Наследует**:
-- `unittest.TestCase`: Класс наследуется от `unittest.TestCase`, что позволяет использовать фреймворк `unittest` для организации и запуска тестов.
+**Inherits**:  `unittest.TestCase`
 
-**Атрибуты**:
-- Отсутствуют явно определенные атрибуты.
+**Attributes**: None
 
-**Методы**:
-- `test_model_instance()`: Проверяет, что модель может быть инстанцирована и возвращает ожидаемый результат.
-- `test_model_name()`: Проверяет, что модель может быть передана по имени и возвращает ожидаемый результат.
-- `test_model_pass()`: Проверяет, что модель может быть передана как аргумент и возвращает ожидаемый результат.
+**Methods**:
 
-#### `test_model_instance`
+- `test_model_instance()`: This method tests the creation of a model instance using the `test_model` defined in the module. It verifies that the model's name is returned correctly in the response from `ChatCompletion.create`. 
+- `test_model_name()`: This method tests model selection by name. It verifies that the response from `ChatCompletion.create` returns the name of the `test_model` when provided with the model's name as a string. 
+- `test_model_pass()`: This method tests the ability to specify a model provider explicitly. It verifies that the response from `ChatCompletion.create` returns the name of the `test_model` when both the model name and the `ModelProviderMock` are provided as parameters.
 
-```python
-def test_model_instance(self):
-    """
-    Функция проверяет, что модель может быть инстанцирована и возвращает ожидаемый результат.
-    """
-```
+## Functions
 
-**Описание**: Проверяет, что при создании `ChatCompletion` с использованием экземпляра модели возвращается ожидаемый результат.
+### `test_model`
 
-**Параметры**:
-- `self`: Ссылка на экземпляр класса `TestPassModel`.
+**Purpose**:  Defines a test `g4f.models.Model` instance for use in unit tests.
 
-**Возвращает**:
-- `None`
+**Parameters**: None
 
-**Вызывает**:
-- `ChatCompletion.create()`: Для создания чата с использованием тестовой модели.
-- `self.assertEqual()`: Для проверки, что результат соответствует ожидаемому.
+**Returns**: `g4f.models.Model` instance
 
-**Принцип работы**:
-- Создает запрос к `ChatCompletion.create` с использованием экземпляра тестовой модели `test_model` и стандартных сообщений `DEFAULT_MESSAGES`.
-- Проверяет, что возвращенное значение соответствует имени тестовой модели.
+**Raises Exceptions**: None
 
-**Примеры**:
+**How the Function Works**: This function creates a new `g4f.models.Model` instance with the following properties:
+
+- **name**: `"test/test_model"` - Specifies the unique name of the test model.
+- **base_provider**: `""` - Represents the default provider, usually left empty in unit tests.
+- **best_provider**: `ModelProviderMock` - Assigns the mock provider class for unit testing.
+
+This `test_model` is then registered within the `g4f.models.ModelUtils.convert` dictionary, enabling its selection and use in the unit tests.
+
+## Inner Functions: None
+
+## Examples:
 
 ```python
-test_case = TestPassModel()
-test_case.test_model_instance()
+# Example usage:
+response = ChatCompletion.create(test_model, DEFAULT_MESSAGES)
+# Expected response: "test/test_model"
+
+# Example usage:
+response = ChatCompletion.create("test_model", DEFAULT_MESSAGES)
+# Expected response: "test/test_model"
+
+# Example usage:
+response = ChatCompletion.create("test/test_model", DEFAULT_MESSAGES, ModelProviderMock)
+# Expected response: "test/test_model"
 ```
-
-#### `test_model_name`
-
-```python
-def test_model_name(self):
-    """
-    Функция проверяет, что модель может быть передана по имени и возвращает ожидаемый результат.
-    """
-```
-
-**Описание**: Проверяет, что при создании `ChatCompletion` с использованием имени модели возвращается ожидаемый результат.
-
-**Параметры**:
-- `self`: Ссылка на экземпляр класса `TestPassModel`.
-
-**Возвращает**:
-- `None`
-
-**Вызывает**:
-- `ChatCompletion.create()`: Для создания чата с использованием имени тестовой модели.
-- `self.assertEqual()`: Для проверки, что результат соответствует ожидаемому.
-
-**Принцип работы**:
-- Создает запрос к `ChatCompletion.create` с использованием имени тестовой модели `"test_model"` и стандартных сообщений `DEFAULT_MESSAGES`.
-- Проверяет, что возвращенное значение соответствует имени тестовой модели.
-
-**Примеры**:
-
-```python
-test_case = TestPassModel()
-test_case.test_model_name()
-```
-
-#### `test_model_pass`
-
-```python
-def test_model_pass(self):
-    """
-    Функция проверяет, что модель может быть передана как аргумент и возвращает ожидаемый результат.
-    """
-```
-
-**Описание**: Проверяет, что при создании `ChatCompletion` с передачей модели в качестве аргумента возвращается ожидаемый результат.
-
-**Параметры**:
-- `self`: Ссылка на экземпляр класса `TestPassModel`.
-
-**Возвращает**:
-- `None`
-
-**Вызывает**:
-- `ChatCompletion.create()`: Для создания чата с передачей имени тестовой модели и мока провайдера модели.
-- `self.assertEqual()`: Для проверки, что результат соответствует ожидаемому.
-
-**Принцип работы**:
-- Создает запрос к `ChatCompletion.create` с использованием имени тестовой модели `"test/test_model"`, стандартных сообщений `DEFAULT_MESSAGES` и мока провайдера модели `ModelProviderMock`.
-- Проверяет, что возвращенное значение соответствует имени тестовой модели.
-
-**Примеры**:
-
-```python
-test_case = TestPassModel()
-test_case.test_model_pass()
-```
-
-## Переменные
-
-- `DEFAULT_MESSAGES`: Список, содержащий стандартное сообщение для использования в тестах.
-- `test_model`: Экземпляр класса `g4f.models.Model`, представляющий тестовую модель.

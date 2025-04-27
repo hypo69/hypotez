@@ -1,96 +1,69 @@
-# Module Wuguokai
+# Wuguokai Provider
 
-## Обзор
+## Overview
 
-Модуль предоставляет класс `Wuguokai`, который является провайдером для работы с языковой моделью. Он использует API `chat.wuguokai.xyz` для генерации ответов на основе входных сообщений. Модуль поддерживает модель `gpt-3.5-turbo`.
+This module provides the `Wuguokai` class, which implements the `AbstractProvider` interface for interacting with the Wuguokai API, a free GPT-3.5-turbo-like service. This provider is deprecated and no longer functional, as the Wuguokai API has been discontinued.
 
-## Более подробная информация
+## Details
 
-Этот модуль предназначен для интеграции с сервисом `wuguokai.xyz`, предоставляющим доступ к языковым моделям. Он отправляет запросы к API этого сервиса и обрабатывает ответы для получения сгенерированного текста. В коде реализована функция для создания запросов к API с использованием библиотеки `requests`.
+The `Wuguokai` class allows users to send text prompts to the Wuguokai API and receive responses. However, it is crucial to note that the Wuguokai API is no longer available.  This class is preserved as a reference for historical purposes.
 
-## Классы
+## Classes
 
 ### `Wuguokai`
 
-**Описание**: Класс `Wuguokai` является провайдером для работы с API `chat.wuguokai.xyz`.
+**Description**: This class represents a provider for the Wuguokai API. It implements the `AbstractProvider` interface and defines methods for generating responses from the Wuguokai API.
 
-**Наследует**:
-- `AbstractProvider`: Абстрактный класс, определяющий интерфейс для всех провайдеров.
+**Inherits**: `AbstractProvider`
 
-**Атрибуты**:
-- `url` (str): URL-адрес сервиса `chat.wuguokai.xyz`.
-- `supports_gpt_35_turbo` (bool): Указывает, поддерживает ли провайдер модель `gpt-3.5-turbo`.
-- `working` (bool): Указывает, работает ли провайдер в данный момент.
+**Attributes**:
 
-**Принцип работы**:
-Класс `Wuguokai` использует статический метод `create_completion` для отправки запросов к API `chat.wuguokai.xyz` и получения ответов. Запросы формируются на основе входных сообщений, а ответы возвращаются в виде генератора текста.
+- `url` (str): Base URL for the Wuguokai API.
+- `supports_gpt_35_turbo` (bool): Indicates whether the provider supports GPT-3.5-turbo.
+- `working` (bool): Indicates whether the provider is currently functional.
 
-### Методы класса
+**Methods**:
 
 #### `create_completion`
 
-```python
-def create_completion(
-    model: str,
-    messages: list[dict[str, str]],
-    stream: bool,
-    **kwargs: Any,
-) -> CreateResult:
-    """Функция отправляет запрос к API wuguokai.xyz и возвращает результат генерации текста.
+**Purpose**: This method handles the interaction with the Wuguokai API to generate responses based on provided prompts. It is responsible for formatting the prompt, sending a request to the API, and parsing the response.
 
-    Args:
-        model (str): Имя используемой модели.
-        messages (list[dict[str, str]]): Список сообщений, используемых для формирования запроса.
-        stream (bool): Флаг, указывающий, следует ли возвращать результат в виде потока.
-        **kwargs (Any): Дополнительные параметры, такие как прокси.
+**Parameters**:
 
-    Returns:
-        CreateResult: Результат генерации текста.
+- `model` (str): The model to use for generating responses.
+- `messages` (list[dict[str, str]]): A list of messages representing the conversation history.
+- `stream` (bool): Whether to stream the response.
+- `**kwargs` (Any): Additional keyword arguments for the API request.
 
-    Raises:
-        Exception: Если возникает ошибка при выполнении запроса или обработке ответа.
+**Returns**:
 
-    **Внутренние функции**:
-        Отсутствуют
+- `CreateResult`: A result object containing the generated response.
 
-    **Принцип работы**:
-    1. Формируются заголовки запроса (`headers`) и данные (`data`) для отправки к API.
-    2. Выполняется POST-запрос к API `https://ai-api20.wuguokai.xyz/api/chat-process` с использованием библиотеки `requests`.
-    3. Проверяется статус код ответа. Если статус код не равен 200, выбрасывается исключение.
-    4. Разделяется текст ответа на части по разделителю "> 若回答失败请重试或多刷新几次界面后重试".
-    5. Если разделение успешно, возвращается вторая часть, иначе - первая часть.
+**Raises Exceptions**:
 
-    """
-```
+- `Exception`: If the API request fails or returns an error.
 
-#### Параметры `create_completion`
+**Inner Functions**:
 
-- `model` (str): Имя используемой модели.
-- `messages` (list[dict[str, str]]): Список сообщений, используемых для формирования запроса.
-- `stream` (bool): Флаг, указывающий, следует ли возвращать результат в виде потока.
-- `**kwargs` (Any): Дополнительные параметры, такие как прокси.
+None
 
-#### Примеры `create_completion`
+**How the Function Works**:
+
+1. Formats the prompt using `format_prompt` function.
+2. Constructs the API request headers and data.
+3. Sends a POST request to the Wuguokai API endpoint.
+4. Parses the response and yields the generated text.
+
+**Examples**:
 
 ```python
-# Пример вызова функции create_completion
-model = "gpt-3.5-turbo"
-messages = [{"role": "user", "content": "Hello, world!"}]
-stream = False
-kwargs = {"proxy": {}}
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Wuguokai import Wuguokai
 
-result = Wuguokai.create_completion(model, messages, stream, **kwargs)
-for item in result:
-    print(item)
-```
-```python
-# Пример вызова функции create_completion с прокси
-model = "gpt-3.5-turbo"
-messages = [{"role": "user", "content": "Как дела?"}]
-stream = False
-kwargs = {"proxy": {"http": "http://example.com:8080", "https": "https://example.com:8080"}}
-
-result = Wuguokai.create_completion(model, messages, stream, **kwargs)
-for item in result:
-    print(item)
+provider = Wuguokai()
+messages = [
+    {"role": "user", "content": "Hello!"},
+]
+response = provider.create_completion(model="gpt-3.5-turbo", messages=messages, stream=False)
+for chunk in response:
+    print(chunk)
 ```

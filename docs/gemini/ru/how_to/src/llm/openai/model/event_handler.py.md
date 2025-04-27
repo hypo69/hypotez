@@ -1,60 +1,71 @@
-### **Как использовать этот блок кода**
+## Как использовать блок кода  `EventHandler`
+
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода определяет класс `EventHandler`, который наследуется от `AssistantEventHandler` из библиотеки `openai`. `EventHandler` переопределяет методы для обработки различных событий, возникающих в процессе выполнения ассистента OpenAI, таких как создание текста, изменение текста, создание вызова инструмента и изменение вызова инструмента. Это позволяет настроить поведение приложения в зависимости от событий, генерируемых ассистентом.
-
+Блок кода `EventHandler`  определяет обработчик событий для  Assistant API,  который обрабатывает  ответы от  Assistant  в реальном времени.  
+ 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются классы `AssistantEventHandler`, `OpenAI` из библиотеки `openai`.
-   - Импортируются классы `Text`, `TextDelta`, `ToolCall`, `ToolCallDelta` из библиотеки `openai.types.beta.threads.runs`.
-   - Импортируется декоратор `override` из библиотеки `typing_extensions`.
-
-2. **Создание класса `EventHandler`**:
-   - Определяется класс `EventHandler`, наследующий `AssistantEventHandler`.
-
-3. **Переопределение метода `on_text_created`**:
-   - Метод вызывается при создании текстового объекта.
-   - Функция выводит в консоль строку "assistant >".
-
-4. **Переопределение метода `on_text_delta`**:
-   - Метод вызывается при изменении текстового объекта.
-   - Функция выводит в консоль добавленное значение (`delta.value`).
-
-5. **Переопределение метода `on_tool_call_created`**:
-   - Метод вызывается при создании вызова инструмента.
-   - Функция выводит в консоль тип вызванного инструмента (`tool_call.type`).
-
-6. **Переопределение метода `on_tool_call_delta`**:
-   - Метод вызывается при изменении вызова инструмента.
-   - Функция проверяет, является ли тип инструмента `code_interpreter`.
-   - Если тип инструмента `code_interpreter`, то функция выводит в консоль входные и выходные данные интерпретатора кода.
+1. **Инициализация:**  Создается  экземпляр  класса  `EventHandler`,  который наследуется от `AssistantEventHandler`  из  библиотеки  `openai`. 
+2. **Обработка событий:**   Определяются  методы  для  обработки  событий,  связанных с  Assistant  API:
+   - `on_text_created`:  Вызывается при создании  нового  текстового  сообщения  от  Assistant.
+   - `on_text_delta`:  Вызывается при обновлении  текстового  сообщения  от  Assistant.
+   - `on_tool_call_created`:  Вызывается при  создании  вызова  инструмента  от  Assistant.
+   - `on_tool_call_delta`:  Вызывается при  обновлении  вызова  инструмента  от  Assistant.
+3. **Обработка данных:**   В  методах  обработки  событий  происходит  вывод  соответствующих  данных  на  консоль  в  формате  потока  данных  в  реальном  времени.
 
 Пример использования
 -------------------------
 
 ```python
-    from openai import OpenAI
+from typing_extensions import override
+from openai import AssistantEventHandler, OpenAI
+from openai.types.beta.threads import Text, TextDelta
+from openai.types.beta.threads.runs import ToolCall, ToolCallDelta
 
-    client = OpenAI()
+# ... (другой код)
 
-    thread = client.beta.threads.create()
-    message = client.beta.threads.messages.create(
-        thread_id=thread.id,
-        role="user",
-        content="Посчитай сколько будет 10 + 20",
-    )
+# First, we create a EventHandler class to define
+# how we want to handle the events in the response stream.
 
-    run = client.beta.threads.runs.create(
-        thread_id=thread.id,
-        assistant_id="asst_E5Kxx2QV0WjQzk7avyRcWMVa",
-        # events are printed to the console
-        event_handler=EventHandler(),
-    )
+class EventHandler(AssistantEventHandler):
+  """ """
 
-    # stream events to the handler
-    run = client.beta.threads.runs.stream(run.id, thread_id=thread.id, event_handler=EventHandler())
-    run.join()
+  @override
+  def on_text_created(self, text: Text) -> None:
+    print(f"\nassistant > ", end="", flush=True)
+
+  @override
+  def on_text_delta(self, delta: TextDelta, snapshot: Text):
+    print(delta.value, end="", flush=True)
+
+  @override
+  def on_tool_call_created(self, tool_call: ToolCall):
+    print(f"\nassistant > {tool_call.type}\n", flush=True)
+
+  @override
+  def on_tool_call_delta(self, delta: ToolCallDelta, snapshot: ToolCall):
+    if delta.type == "code_interpreter" and delta.code_interpreter:
+      if delta.code_interpreter.input:
+        print(delta.code_interpreter.input, end="", flush=True)
+      if delta.code_interpreter.outputs:
+        print(f"\n\noutput >", flush=True)
+        for output in delta.code_interpreter.outputs:
+          if output.type == "logs":
+            print(f"\n{output.logs}", flush=True)
+
+# Then, we use the `stream` SDK helper
+# with the `EventHandler` class to create the Run
+# and stream the response.
+
+# ... (другой код)
+
 ```
+
+**Дополнительная информация:**
+
+-  `flush=True`  в  методах  `print`  обеспечивает  немедленный  вывод  данных  на  консоль. 
+-   `EventHandler`  может  быть  использован  для  отладки  Assistant  API,  поскольку  он  позволяет  просматривать  данные  ответа  в  реальном  времени. 
+-  Этот  класс  можно  настроить  для  обработки  других  событий  Assistant  API  и  выполнения  других  действий,  таких  как  запись  данных  в  файл  или  отправка  данных  на  сервер.

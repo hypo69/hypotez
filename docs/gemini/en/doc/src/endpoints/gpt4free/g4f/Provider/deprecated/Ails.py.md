@@ -1,144 +1,137 @@
-# Модуль `Ails.py`
+# Provider for Ails.ai
 
-## Обзор
+## Overview
 
-Модуль `Ails.py` предоставляет асинхронный генератор для взаимодействия с провайдером Ails (ai.ls) для получения ответов от модели GPT-3.5-turbo. Он включает в себя функции для создания асинхронного генератора запросов и обработки ответов, а также вспомогательные функции для форматирования временных меток и создания хешей. Модуль предназначен для использования в проектах, требующих асинхронного взаимодействия с AI сервисами через API.
+This module implements the `Ails` class, a provider for the Ails.ai API. It inherits from the `AsyncGeneratorProvider` class, providing a mechanism for asynchronous generation of responses from the Ails.ai model. 
 
-## Подробнее
+## Details
 
-Модуль предназначен для асинхронного взаимодействия с API сервиса Ails для получения ответов от языковой модели GPT-3.5-turbo. Он использует библиотеку `aiohttp` для выполнения HTTP запросов и предоставляет функциональность для стриминга ответов. Важной особенностью модуля является поддержка истории сообщений и возможность работы через прокси.
+The `Ails` class utilizes the Ails.ai API to generate responses based on user input. It supports both GPT-3.5-turbo and GPT-4 models.  The class offers features for managing message history, handling proxy settings, and customizing parameters.
 
-## Классы
+## Classes
 
 ### `Ails`
 
-**Описание**: Класс `Ails` является асинхронным генератором провайдера, который взаимодействует с сервисом ai.ls.
+**Description:** This class provides an interface for interacting with the Ails.ai API.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Базовый класс для асинхронных генераторов провайдеров.
+**Inherits:** `AsyncGeneratorProvider`
 
-**Атрибуты**:
-- `url` (str): URL сервиса ai.ls.
-- `working` (bool): Флаг, указывающий, работает ли провайдер.
-- `supports_message_history` (bool): Флаг, указывающий, поддерживает ли провайдер историю сообщений.
-- `supports_gpt_35_turbo` (bool): Флаг, указывающий, поддерживает ли провайдер модель GPT-3.5-turbo.
+**Attributes:**
 
-**Методы**:
-- `create_async_generator()`: Создает асинхронный генератор для запросов к API.
+- `url (str):` The base URL for the Ails.ai API.
+- `working (bool):` Indicates if the provider is currently working.
+- `supports_message_history (bool):` Indicates whether the provider supports message history.
+- `supports_gpt_35_turbo (bool):` Indicates whether the provider supports the GPT-3.5-turbo model.
 
-### `create_async_generator`
+**Methods:**
+
+#### `create_async_generator(model: str, messages: Messages, stream: bool, proxy: str = None, **kwargs) -> AsyncResult:`
+
+**Purpose:** This method creates an asynchronous generator that yields responses from the Ails.ai model.
+
+**Parameters:**
+
+- `model (str):` The name of the model to use.
+- `messages (Messages):` A list of messages containing the conversation history.
+- `stream (bool):` Indicates whether to stream the response.
+- `proxy (str, optional):` A proxy server to use. Defaults to `None`.
+- `**kwargs:` Additional keyword arguments for the model.
+
+**Returns:**
+
+- `AsyncResult`: An asynchronous result object containing the generated response.
+
+**How the Function Works:**
+
+1. The function initializes the `ClientSession` with appropriate headers for communication with the Ails.ai API.
+2. It constructs a JSON payload containing the model parameters, message history, and other settings.
+3. It sends a POST request to the Ails.ai API endpoint using the `ClientSession`.
+4. The function iterates over the streamed response lines, extracting the generated tokens and yielding them as a stream.
+5. It handles potential errors by raising an exception if the response contains error codes.
+
+#### `_hash(json_data: dict[str, str]) -> SHA256:`
+
+**Purpose:** This helper function calculates a SHA256 hash of the provided JSON data.
+
+**Parameters:**
+
+- `json_data (dict[str, str]):` The JSON data to hash.
+
+**Returns:**
+
+- `SHA256`: The SHA256 hash of the JSON data.
+
+**How the Function Works:**
+
+1. It constructs a string combining the timestamp, message content, and other identifiers.
+2. It encodes the string and calculates the SHA256 hash using the `hashlib` module.
+3. It returns the hexadecimal representation of the hash.
+
+#### `_format_timestamp(timestamp: int) -> str:`
+
+**Purpose:** This helper function formats a timestamp.
+
+**Parameters:**
+
+- `timestamp (int):` The timestamp to format.
+
+**Returns:**
+
+- `str`: The formatted timestamp.
+
+**How the Function Works:**
+
+1. It extracts the last digit of the timestamp.
+2. It adjusts the last digit based on its parity (even or odd).
+3. It returns the formatted timestamp as a string.
+
+## Parameter Details
+
+- `model (str):` The name of the Ails.ai model to use. Currently, it supports "gpt-3.5-turbo."
+- `messages (Messages):` A list of messages that represent the conversation history. Each message is a dictionary containing the role (e.g., "user" or "assistant") and content of the message.
+- `stream (bool):`  Indicates whether to stream the response as it is generated. Set to `True` for real-time output.
+- `proxy (str, optional):`  A proxy server to use for communication with the Ails.ai API. Defaults to `None`.
+- `**kwargs:` Additional keyword arguments for the model. This allows for customization of parameters like temperature, top_p, etc.
+
+## Examples
 
 ```python
-    @staticmethod
-    async def create_async_generator(
-        model: str,
-        messages: Messages,
-        stream: bool,
-        proxy: str = None,
-        **kwargs
-    ) -> AsyncResult:
-        """ Функция создает асинхронный генератор для взаимодействия с API сервиса Ails.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Ails import Ails
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-        Args:
-            model (str): Модель, используемая для генерации ответа.
-            messages (Messages): Список сообщений для отправки в API.
-            stream (bool): Флаг, указывающий, следует ли использовать потоковую передачу.
-            proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-            **kwargs: Дополнительные аргументы, такие как температура.
+# Example 1: Simple message generation
+messages: Messages = [{"role": "user", "content": "Hello, how are you?"}]
+provider = Ails()
+async for token in provider.create_async_generator(model="gpt-3.5-turbo", messages=messages, stream=True):
+    print(token, end="")
 
-        Returns:
-            AsyncResult: Асинхронный генератор, возвращающий токены из ответа API.
+# Example 2: Generating response with a proxy
+messages: Messages = [{"role": "user", "content": "What is the meaning of life?"}]
+provider = Ails()
+async for token in provider.create_async_generator(model="gpt-3.5-turbo", messages=messages, stream=True, proxy="http://myproxy:8080"):
+    print(token, end="")
 
-        Raises:
-            Exception: Если ответ содержит запрещенные токены, такие как "ai.ls" или "ai.ci".
-        """
+# Example 3: Using additional keyword arguments
+messages: Messages = [{"role": "user", "content": "Write a poem about the stars."}]
+provider = Ails()
+async for token in provider.create_async_generator(model="gpt-3.5-turbo", messages=messages, stream=True, temperature=0.8):
+    print(token, end="")
 ```
 
-**Как работает функция**:
+## Usage
 
-1.  **Формирование заголовков**: Функция создает заголовки для HTTP запроса, включая `authorization`, `client-id`, `client-v`, и другие необходимые параметры.
-2.  **Создание асинхронной сессии**: Используется `aiohttp.ClientSession` для выполнения асинхронных HTTP запросов.
-3.  **Формирование данных запроса**: Создается JSON payload с информацией о модели, температуре, сообщениях и временных метках.
-4.  **Отправка запроса**: Отправляется POST запрос к API сервиса Ails.
-5.  **Обработка потока ответов**: Читает ответ построчно, извлекает токены из JSON, и генерирует их.
-6.  **Проверка на ошибки**: Проверяет наличие запрещенных токенов в ответе и вызывает исключение, если они найдены.
-
-**Примеры**:
+1. **Import:** Import the `Ails` class from the `hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated` module.
+2. **Instantiate:** Create an instance of the `Ails` class.
+3. **Prepare Messages:** Prepare a list of messages (`Messages`) containing the conversation history.
+4. **Generate Response:** Call the `create_async_generator` method with the desired model, messages, and any additional parameters.
+5. **Process Response:** Iterate over the yielded tokens to receive the generated response.
 
 ```python
-# Пример использования create_async_generator
-import asyncio
-from typing import List, Dict, AsyncGenerator, Any
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Ails import Ails
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-async def main():
-    model: str = "gpt-3.5-turbo"
-    messages: List[Dict[str, str]] = [{"role": "user", "content": "Привет!"}]
-    stream: bool = True
-    proxy: str | None = None
-
-    async def result_handler(result: AsyncGenerator[str, Any]):
-        async for token in result:
-            print(token, end="")
-
-    result: AsyncGenerator[str, Any] = await Ails.create_async_generator(model, messages, stream, proxy)
-    await result_handler(result)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+messages: Messages = [{"role": "user", "content": "What is the meaning of life?"}]
+provider = Ails()
+async for token in provider.create_async_generator(model="gpt-3.5-turbo", messages=messages, stream=True):
+    print(token, end="")
 ```
-
-## Функции
-
-### `_hash`
-
-```python
-def _hash(json_data: dict[str, str]) -> SHA256:
-    """ Функция создает SHA256 хеш из переданных данных.
-
-    Args:
-        json_data (dict[str, str]): Словарь с данными для хеширования.
-
-    Returns:
-        SHA256: SHA256 хеш в виде строки.
-    """
-```
-
-**Как работает функция**:
-
-1.  **Формирование строки**: Функция формирует строку, объединяя временную метку и сообщение с фиксированным ключом и длиной сообщения.
-2.  **Хеширование**: Использует `hashlib.sha256` для создания хеша SHA256 от сформированной строки.
-
-**Примеры**:
-
-```python
-# Пример использования функции _hash
-json_data: dict[str, str] = {"t": "1678886400000", "m": "Hello"}
-hashed_value: SHA256 = _hash(json_data)
-print(hashed_value)
-```
-
-### `_format_timestamp`
-
-```python
-def _format_timestamp(timestamp: int) -> str:
-    """ Функция форматирует временную метку.
-
-    Args:
-        timestamp (int): Временная метка в формате Unix timestamp.
-
-    Returns:
-        str: Отформатированная временная метка в виде строки.
-    """
-```
-
-**Как работает функция**:
-
-1.  **Преобразование временной метки**: Функция изменяет временную метку, добавляя или вычитая единицу в зависимости от четности последней цифры временной метки.
-
-**Примеры**:
-
-```python
-# Пример использования функции _format_timestamp
-timestamp: int = 1678886405000
-formatted_timestamp: str = _format_timestamp(timestamp)
-print(formatted_timestamp)

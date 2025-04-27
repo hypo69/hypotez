@@ -1,114 +1,174 @@
-# Модуль для текстового стриминга с использованием GPT-4
+# Streaming Text Completions with GPT-4
 
-## Обзор
+## Overview
 
-Этот модуль демонстрирует, как использовать синхронный и асинхронный стриминг для получения текстовых завершений от модели GPT-4. Он содержит функции для выполнения этих операций и примеры их использования.
+This module demonstrates how to use GPT-4's text completion API with streaming functionality, enabling real-time display of the model's response as it generates text. It provides two methods for streaming: synchronous and asynchronous.
 
-## Детали
+## Details
 
-Модуль использует библиотеку `g4f` для взаимодействия с моделью GPT-4. Он предоставляет примеры как синхронного, так и асинхронного стриминга, что позволяет пользователям выбирать наиболее подходящий подход в зависимости от их потребностей.
+The code showcases how to utilize the `g4f` library for interacting with GPT-4. The primary focus is on leveraging the `stream=True` parameter in the `chat.completions.create` method to enable streaming text completions. This allows the application to progressively display the generated text as it's produced by the model, offering a more interactive and engaging user experience.
 
-## Функции
+## Functions
 
 ### `sync_stream`
 
-**Описание**:
-Функция выполняет синхронный стриминг запроса к модели GPT-4 и выводит полученные чанки текста.
+**Purpose**: This function demonstrates synchronous streaming of text completions from GPT-4. 
+
+**How the Function Works**:
+- Initializes a `Client` object from the `g4f` library.
+- Sends a text completion request to GPT-4 with the `stream=True` parameter enabled.
+- Iterates through the received stream chunks and prints each chunk's content to the console.
+
+**Example**:
+```python
+>>> sync_stream()
+Hey! How can I recursively list all files in a directory in Python?
 
 ```python
-def sync_stream():
-    """
-    Функция выполняет синхронный стриминг запроса к модели GPT-4 и выводит полученные чанки текста.
-
-    Функция создает синхронный клиент, отправляет запрос на завершение текста к модели GPT-4 и печатает полученные чанки.
-
-    Raises:
-        Exception: Если возникает ошибка при создании стрима или обработке чанков.
-    """
-    ...
-```
-
-**Как работает**:
-- Создается экземпляр класса `Client` из библиотеки `g4f`.
-- Вызывается метод `chat.completions.create` для создания стрима с моделью GPT-4.
-- В цикле перебираются чанки, полученные из стрима, и печатается их содержимое.
-
-**Пример**:
-```python
-sync_stream()
+import os
+def list_files(startpath):
+    for root, dirs, files in os.walk(startpath):
+        level = root.replace(startpath, '').count(os.sep)
+        indent = ' ' * 4 * level
+        print('{}{}/'.format(indent, os.path.basename(root)))
+        subindent = ' ' * 4 * (level + 1)
+        for f in files:
+            print('{}{}'.format(subindent, f))
 ```
 
 ### `async_stream`
 
-**Описание**:
-Асинхронная функция для стриминга запроса к модели GPT-4 и вывода полученных чанков текста.
+**Purpose**: This function demonstrates asynchronous streaming of text completions from GPT-4.
+
+**How the Function Works**:
+- Initializes an `AsyncClient` object from the `g4f` library.
+- Sends a text completion request to GPT-4 with the `stream=True` parameter enabled.
+- Uses an `async for` loop to iteratively process the stream chunks and print each chunk's content to the console.
+
+**Example**:
+```python
+>>> asyncio.run(async_stream())
+Hey! How can I recursively list all files in a directory in Python?
 
 ```python
-async def async_stream():
-    """
-    Асинхронная функция для стриминга запроса к модели GPT-4 и вывода полученных чанков текста.
-
-    Функция создает асинхронный клиент, отправляет асинхронный запрос на завершение текста к модели GPT-4 и печатает полученные чанки.
-
-    Raises:
-        Exception: Если возникает ошибка при создании стрима или обработке чанков.
-    """
-    ...
-```
-
-**Как работает**:
-- Создается экземпляр класса `AsyncClient` из библиотеки `g4f`.
-- Вызывается метод `chat.completions.create` для создания асинхронного стрима с моделью GPT-4.
-- В асинхронном цикле перебираются чанки, полученные из стрима, и печатается их содержимое.
-
-**Пример**:
-```python
-import asyncio
-asyncio.run(async_stream())
+import os
+def list_files(startpath):
+    for root, dirs, files in os.walk(startpath):
+        level = root.replace(startpath, '').count(os.sep)
+        indent = ' ' * 4 * level
+        print('{}{}/'.format(indent, os.path.basename(root)))
+        subindent = ' ' * 4 * (level + 1)
+        for f in files:
+            print('{}{}'.format(subindent, f))
 ```
 
 ### `main`
 
-**Описание**:
-Главная функция, которая запускает как синхронный, так и асинхронный стриминг.
+**Purpose**: This function orchestrates the execution of both synchronous and asynchronous streaming functions, showcasing the differences in their implementation.
+
+**How the Function Works**:
+- Calls the `sync_stream` function to demonstrate synchronous streaming.
+- Uses `asyncio.run` to execute the `async_stream` function, showcasing asynchronous streaming.
+
+**Example**:
+```python
+>>> main()
+Synchronous Stream:
+Hey! How can I recursively list all files in a directory in Python?
 
 ```python
-def main():
-    """
-    Главная функция, которая запускает как синхронный, так и асинхронный стриминг.
+import os
+def list_files(startpath):
+    for root, dirs, files in os.walk(startpath):
+        level = root.replace(startpath, '').count(os.sep)
+        indent = ' ' * 4 * level
+        print('{}{}/'.format(indent, os.path.basename(root)))
+        subindent = ' ' * 4 * (level + 1)
+        for f in files:
+            print('{}{}'.format(subindent, f))
 
-    Функция вызывает `sync_stream` для выполнения синхронного стриминга и `async_stream` для выполнения асинхронного стриминга.
-    """
-    ...
-```
 
-**Как работает**:
-- Выводит сообщение "Synchronous Stream:".
-- Вызывает функцию `sync_stream` для выполнения синхронного стриминга.
-- Выводит сообщение "Asynchronous Stream:".
-- Запускает асинхронную функцию `async_stream` с помощью `asyncio.run`.
-
-**Пример**:
-```python
-main()
-```
-
-## Запуск модуля
-
-Для запуска модуля необходимо выполнить файл `text_completions_streaming.py`.
-
-**Пример**:
-```bash
-python text_completions_streaming.py
-```
-
-## Обработка ошибок
-
-В случае возникновения ошибки при выполнении модуля, будет выведено сообщение об ошибке.
+Asynchronous Stream:
+Hey! How can I recursively list all files in a directory in Python?
 
 ```python
-if __name__ == "__main__":
-    try:
-        main()
-    except Exception as ex:
-        print(f"An error occurred: {str(ex)}")
+import os
+def list_files(startpath):
+    for root, dirs, files in os.walk(startpath):
+        level = root.replace(startpath, '').count(os.sep)
+        indent = ' ' * 4 * level
+        print('{}{}/'.format(indent, os.path.basename(root)))
+        subindent = ' ' * 4 * (level + 1)
+        for f in files:
+            print('{}{}'.format(subindent, f))
+```
+
+## Parameter Details
+
+- **`model`**:  (str, optional) The GPT-4 model to use. Defaults to "gpt-4".
+- **`messages`**: (List[Dict[str, str]], optional) A list of messages to send to the model. Defaults to `[{"role": "user", "content": question}]`.
+- **`stream`**: (bool, optional) If True, return a stream of tokens. Defaults to `True`.
+
+## Examples
+
+```python
+>>> sync_stream()
+Hey! How can I recursively list all files in a directory in Python?
+
+```python
+import os
+def list_files(startpath):
+    for root, dirs, files in os.walk(startpath):
+        level = root.replace(startpath, '').count(os.sep)
+        indent = ' ' * 4 * level
+        print('{}{}/'.format(indent, os.path.basename(root)))
+        subindent = ' ' * 4 * (level + 1)
+        for f in files:
+            print('{}{}'.format(subindent, f))
+```
+```python
+>>> asyncio.run(async_stream())
+Hey! How can I recursively list all files in a directory in Python?
+
+```python
+import os
+def list_files(startpath):
+    for root, dirs, files in os.walk(startpath):
+        level = root.replace(startpath, '').count(os.sep)
+        indent = ' ' * 4 * level
+        print('{}{}/'.format(indent, os.path.basename(root)))
+        subindent = ' ' * 4 * (level + 1)
+        for f in files:
+            print('{}{}'.format(subindent, f))
+```
+```python
+>>> main()
+Synchronous Stream:
+Hey! How can I recursively list all files in a directory in Python?
+
+```python
+import os
+def list_files(startpath):
+    for root, dirs, files in os.walk(startpath):
+        level = root.replace(startpath, '').count(os.sep)
+        indent = ' ' * 4 * level
+        print('{}{}/'.format(indent, os.path.basename(root)))
+        subindent = ' ' * 4 * (level + 1)
+        for f in files:
+            print('{}{}'.format(subindent, f))
+
+
+Asynchronous Stream:
+Hey! How can I recursively list all files in a directory in Python?
+
+```python
+import os
+def list_files(startpath):
+    for root, dirs, files in os.walk(startpath):
+        level = root.replace(startpath, '').count(os.sep)
+        indent = ' ' * 4 * level
+        print('{}{}/'.format(indent, os.path.basename(root)))
+        subindent = ' ' * 4 * (level + 1)
+        for f in files:
+            print('{}{}'.format(subindent, f))
+```

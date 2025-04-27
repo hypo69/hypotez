@@ -1,96 +1,50 @@
-# Модуль webview
+# Module: `hypotez/src/endpoints/gpt4free/g4f/gui/webview.py`
 
-## Обзор
+## Overview
 
-Модуль `webview` предназначен для запуска графического интерфейса (GUI) `g4f` с использованием библиотеки `webview`. Он предоставляет функции для создания окна с веб-интерфейсом, настройки параметров отладки и хранения данных.
+This module handles the creation and management of the webview for the `g4f` application. It utilizes the `webview` library to create a window for the user interface, which interacts with the application's logic through a JavaScript API.
 
-## Более подробно
+## Details
 
-Этот модуль является частью проекта `hypotez` и отвечает за визуальное представление интерфейса пользователя `g4f`. Он использует библиотеку `webview` для отображения HTML-страниц в нативном окне приложения. Модуль также обрабатывает аргументы командной строки для настройки параметров запуска, таких как режим отладки, порт HTTP и использование SSL. Расположение файла в проекте указывает на то, что это один из основных компонентов графического интерфейса `g4f`.
+The module sets up the webview window, enabling features like text selection, downloads, and communication with the JavaScript API. The `run_webview()` function is responsible for initiating the webview, setting up the necessary settings, and launching the interface.
 
-## Функции
+## Functions
 
-### `run_webview`
+### `run_webview()`
+
+**Purpose**: This function initializes and starts the webview for the `g4f` application. It configures basic webview settings, creates a window, and then launches the interface.
+
+**Parameters**:
+
+- `debug` (bool, optional): Enables debugging mode. Defaults to `False`.
+- `http_port` (int, optional): Specifies the HTTP port for the webview server. Defaults to `None`.
+- `ssl` (bool, optional): Enables SSL for the webview server. Defaults to `True`.
+- `storage_path` (str, optional): Sets the storage path for the webview data. Defaults to `None`.
+- `gui` (str, optional):  Specifies the GUI to use. Defaults to `None`.
+
+**Returns**: None
+
+**Raises Exceptions**:
+
+- `ImportError`: If the `platformdirs` library is not available.
+
+**How the Function Works**:
+
+1. The function checks if the application is running as a frozen executable.
+2. It sets webview settings to allow external link opening and downloads.
+3. It creates a webview window, specifying the title, HTML file path, enabling text selection, and initializing the JavaScript API.
+4. If `platformdirs` is available and `storage_path` is not specified, the function sets the default storage path for webview data.
+5. The webview is started with configured parameters, including private mode, storage path, debug settings, HTTP port, and SSL.
+
+**Examples**:
 
 ```python
-def run_webview(
-    debug: bool = False,
-    http_port: int = None,
-    ssl: bool = True,
-    storage_path: str = None,
-    gui: str = None
-) -> None:
-    """
-    Запускает графический интерфейс g4f с использованием библиотеки webview.
+# Running the webview with default settings
+run_webview()
 
-    Args:
-        debug (bool, optional): Включает режим отладки. По умолчанию `False`.
-        http_port (int, optional): Порт HTTP для запуска сервера. По умолчанию `None`.
-        ssl (bool, optional): Использовать SSL. По умолчанию `True`.
-        storage_path (str, optional): Путь для хранения данных. По умолчанию `None`.
-        gui (str, optional): Интерфейс пользователя. По умолчанию `None`.
+# Running the webview with debugging enabled and a specific port
+run_webview(debug=True, http_port=8080)
 
-    Raises:
-        ImportError: Если библиотека `platformdirs` не установлена и `storage_path` не указан.
-
-    How the function works:
-        Функция определяет путь к каталогу с файлами интерфейса, создает окно webview,
-        настраивает параметры webview и запускает приложение. Если указан `storage_path`,
-        он используется для хранения данных приложения. В противном случае, если установлена
-        библиотека `platformdirs`, используется каталог конфигурации пользователя.
-
-    Example:
-        >>> run_webview(debug=True, http_port=8080, ssl=False)
-        # Запуск webview в режиме отладки на порту 8080 без SSL
-    """
+# Running the webview with SSL disabled and a custom storage path
+run_webview(ssl=False, storage_path="/path/to/storage")
 ```
-
-## Classes
-
-### `JsApi`
-
-```python
-class JsApi:
-    """
-    Предоставляет API для взаимодействия JavaScript-кода в webview с Python-кодом.
-
-    Working principle:
-        Этот класс служит мостом между JavaScript-кодом, выполняющимся в webview, и Python-кодом.
-        Он позволяет вызывать Python-функции из JavaScript и передавать данные между ними.
-
-    Methods:
-        - `function_name`: Brief description of the method.
-        - `function_name`: Brief description of the method.
-
-    Examples:
-        >>> api = JsApi()
-        >>> # Пример использования методов api
-    """
-```
-
-### `gui_parser`
-
-```python
-class gui_parser:
-    """
-    Обеспечивает парсинг аргументов командной строки для настройки графического интерфейса.
-    """
-```
-
-### `ArgumentParser`
-
-```python
-class ArgumentParser:
-    """
-    Обеспечивает парсинг аргументов командной строки для настройки графического интерфейса.
-    """
-```
-```python
-## \file hypotez/src/endpoints/gpt4free/g4f/gui/webview.py
-# -*- coding: utf-8 -*-
-#! .pyenv/bin/python3
-
-"""
-Модуль для запуска графического интерфейса g4f с использованием библиотеки webview.
-=========================================================================================
-"""

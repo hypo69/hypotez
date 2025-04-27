@@ -1,39 +1,57 @@
-### Как использовать класс `JupyterCampaignEditorWidgets`
+## Как использовать класс `JupyterCampaignEditorWidgets`
+
 =========================================================================================
 
 Описание
 -------------------------
-Класс `JupyterCampaignEditorWidgets` предоставляет набор виджетов для взаимодействия с редактором кампаний AliExpress в Jupyter Notebook. Он позволяет выбирать кампании, категории и языки, а также выполнять действия, такие как инициализация редактора, сохранение кампании и отображение товаров.
+Класс `JupyterCampaignEditorWidgets` предоставляет набор виджетов для управления кампаниями AliExpress в Jupyter Notebook. Виджеты позволяют:
+
+- Выбрать кампанию и категорию товаров.
+- Установить язык и валюту для кампании.
+- Инициализировать редактор кампаний.
+- Сохранить кампанию.
+- Отобразить товары в выбранной категории.
+- Открыть Google Spreadsheet с данными кампании.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация класса**:
-   - Создайте экземпляр класса `JupyterCampaignEditorWidgets`. Это настроит все необходимые виджеты и установит значения по умолчанию.
+1. Импортируйте класс `JupyterCampaignEditorWidgets`:
+
    ```python
-   editor_widgets: JupyterCampaignEditorWidgets = JupyterCampaignEditorWidgets()
+   from src.suppliers.aliexpress.campaign import JupyterCampaignEditorWidgets
    ```
-2. **Отображение виджетов**:
-   - Вызовите метод `display_widgets`, чтобы отобразить виджеты в Jupyter Notebook.
+
+2. Создайте экземпляр класса:
+
+   ```python
+   editor_widgets = JupyterCampaignEditorWidgets()
+   ```
+
+3. Отобразите виджеты:
+
    ```python
    editor_widgets.display_widgets()
    ```
-3. **Взаимодействие с виджетами**:
-   - Используйте выпадающие списки для выбора имени кампании, категории и языка/валюты.
-   - Нажмите кнопку "Initialize Campaign Editor", чтобы инициализировать редактор кампании с выбранными параметрами.
-   - Нажмите кнопку "Save Campaign", чтобы сохранить кампанию и ее категории.
-   - Нажмите кнопку "Show Products", чтобы отобразить товары в выбранной категории.
-   - Нажмите кнопку "Open Google Spreadsheet", чтобы открыть Google Spreadsheet кампании в браузере.
+   - В Jupyter Notebook появятся виджеты для выбора кампании, категории, языка и валюты, а также кнопки для инициализации редактора, сохранения кампании, отображения товаров и открытия Google Spreadsheet.
+
+4. Выберите кампанию, категорию, язык и валюту.
+
+5. Нажмите кнопку "Initialize Campaign Editor", чтобы инициализировать редактор кампании.
+
+6. Используйте редактор для управления кампанией AliExpress.
+
+7. Нажмите кнопку "Save Campaign", чтобы сохранить изменения в кампании.
+
+8. Нажмите кнопку "Show Products", чтобы отобразить товары в выбранной категории.
+
+9. Нажмите кнопку "Open Google Spreadsheet", чтобы открыть Google Spreadsheet с данными кампании.
 
 Пример использования
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign.ali_campaign_editor_jupyter_widgets import JupyterCampaignEditorWidgets
+from src.suppliers.aliexpress.campaign import JupyterCampaignEditorWidgets
 
-# Инициализация виджетов редактора кампаний
-editor_widgets: JupyterCampaignEditorWidgets = JupyterCampaignEditorWidgets()
-
-# Отображение виджетов в Jupyter Notebook
+editor_widgets = JupyterCampaignEditorWidgets()
 editor_widgets.display_widgets()
-
-# После выполнения этого кода в Jupyter Notebook отобразятся виджеты, с которыми можно взаимодействовать для управления кампаниями AliExpress.
+```

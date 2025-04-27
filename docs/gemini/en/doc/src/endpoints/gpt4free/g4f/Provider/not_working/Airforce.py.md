@@ -1,291 +1,152 @@
-# Модуль: Airforce
+# Airforce Provider Module
 
-## Обзор
+## Overview
 
-Модуль `Airforce` представляет собой асинхронный провайдер для работы с API Airforce, который предоставляет возможности генерации текста и изображений. Он поддерживает потоковую передачу данных, системные сообщения и историю сообщений. Модуль включает в себя методы для получения списка доступных моделей, фильтрации содержимого и обработки ответов от API.
+This module provides an implementation of the `Airforce` provider for the `hypotez` project. The `Airforce` provider enables interaction with the Airforce API for generating text and images.
 
-## Подробнее
+## Details
 
-Модуль предназначен для интеграции с API Airforce для предоставления функциональности генерации текста и изображений. Он обрабатывает запросы к API, фильтрует ответы и предоставляет результаты в удобном формате. Airforce использует `aiohttp` для асинхронных запросов.
+The `Airforce` provider is designed to leverage the capabilities of the Airforce API for text completion and image generation. It supports various models, including both text-based models like `llama-3.1-70b-chat` and image-based models like `flux`.
 
-## Классы
+The module offers functionality for splitting messages into chunks, fetching available models, applying aliases, and filtering responses. It also includes asynchronous generator methods for text and image generation, enabling streaming capabilities for text responses.
+
+## Classes
 
 ### `Airforce`
 
-**Описание**:
-Класс `Airforce` является асинхронным провайдером, который предоставляет методы для генерации текста и изображений с использованием API Airforce.
+**Description:** The `Airforce` class represents the provider for interacting with the Airforce API. It inherits from `AsyncGeneratorProvider` and `ProviderModelMixin`, enabling asynchronous generation of text and images.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
-- `ProviderModelMixin`: Предоставляет функциональность для работы с моделями.
+**Inherits:** `AsyncGeneratorProvider`, `ProviderModelMixin`
 
-**Атрибуты**:
-- `url` (str): Базовый URL API Airforce.
-- `api_endpoint_completions` (str): URL для запросов на генерацию текста.
-- `api_endpoint_imagine2` (str): URL для запросов на генерацию изображений.
-- `working` (bool): Указывает, работает ли провайдер в данный момент.
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу данных.
-- `supports_system_message` (bool): Указывает, поддерживает ли провайдер системные сообщения.
-- `supports_message_history` (bool): Указывает, поддерживает ли провайдер историю сообщений.
-- `default_model` (str): Модель, используемая по умолчанию для генерации текста.
-- `default_image_model` (str): Модель, используемая по умолчанию для генерации изображений.
-- `models` (List[str]): Список доступных моделей для генерации текста.
-- `image_models` (List[str]): Список доступных моделей для генерации изображений.
-- `hidden_models` (Set[str]): Набор скрытых моделей, которые не должны отображаться в списке доступных моделей.
-- `additional_models_imagine` (List[str]): Список дополнительных моделей для генерации изображений.
-- `model_aliases` (Dict[str, str]): Словарь, содержащий псевдонимы моделей.
+**Attributes:**
 
-**Принцип работы**:
-Класс `Airforce` предоставляет методы для взаимодействия с API Airforce для генерации текста и изображений. Он использует `aiohttp` для асинхронных HTTP-запросов. Класс также содержит методы для фильтрации содержимого и обработки ответов от API.
+- `url (str):` Base URL for the Airforce API.
+- `api_endpoint_completions (str):` URL for the completions endpoint.
+- `api_endpoint_imagine2 (str):` URL for the imagine2 endpoint.
+- `working (bool):` Indicates whether the provider is currently working (not used in this implementation).
+- `supports_stream (bool):` Whether the provider supports streaming responses.
+- `supports_system_message (bool):` Whether the provider supports system messages.
+- `supports_message_history (bool):` Whether the provider supports message history.
+- `default_model (str):` Default text model to use.
+- `default_image_model (str):` Default image model to use.
+- `models (list):` List of available text models.
+- `image_models (list):` List of available image models.
+- `hidden_models (set):` Set of models that are hidden from the user.
+- `additional_models_imagine (list):` Additional models to include for image generation.
+- `model_aliases (dict):` Mapping of model aliases to actual model names.
 
-## Методы класса
+**Methods:**
 
-- `get_models`: Получение доступных моделей с обработкой ошибок.
-- `get_model`: Получение имени модели из псевдонима.
-- `_filter_content`: Фильтрация нежелательного содержимого из частичного ответа.
-- `_filter_response`: Фильтрация полного ответа для удаления системных ошибок и нежелательного текста.
-- `generate_image`: Асинхронная генерация изображений на основе запроса.
-- `generate_text`: Асинхронная генерация текста на основе запроса.
-- `create_async_generator`: Создание асинхронного генератора для генерации текста или изображений.
+- `get_models() -> list:` Fetches available models from the Airforce API, including text and image models.
+- `get_model(model: str) -> str:` Gets the actual model name from the alias, if provided.
+- `_filter_content(part_response: str) -> str:` Filters out unwanted content from the partial response, such as error messages and discord invites.
+- `_filter_response(response: str) -> str:` Filters the full response to remove system errors and other unwanted text, such as tokens and prefixes.
+- `generate_image(model: str, prompt: str, size: str, seed: int, proxy: str = None) -> AsyncResult:` Generates an image based on the provided prompt, size, seed, and model.
+- `generate_text(model: str, messages: Messages, max_tokens: int, temperature: float, top_p: float, stream: bool, proxy: str = None) -> AsyncResult:` Generates text based on the provided messages, model, and parameters.
+- `create_async_generator(model: str, messages: Messages, prompt: str = None, proxy: str = None, max_tokens: int = 512, temperature: float = 1, top_p: float = 1, stream: bool = True, size: str = "1:1", seed: int = None, **kwargs) -> AsyncResult:` Creates an asynchronous generator for either text or image generation based on the provided model and parameters.
 
-### `get_models`
+
+## Class Methods
+
+### `split_message(message: str, max_length: int = 1000) -> List[str]`
+
+**Purpose:** Splits the message into parts up to the specified `max_length`.
+
+**Parameters:**
+
+- `message (str):` The message to be split.
+- `max_length (int, optional):` Maximum length of each part. Defaults to 1000.
+
+**Returns:**
+
+- `List[str]:` A list of message parts.
+
+**Example:**
 
 ```python
-    @classmethod
-    def get_models(cls) -> List[str]:
-        """
-        Получает список доступных моделей с обработкой ошибок.
-
-        Returns:
-            List[str]: Список доступных моделей.
-        """
-        ...
+message = "This is a very long message that needs to be split into parts."
+parts = split_message(message, max_length=20)
+print(parts)  # Output: ['This is a very long', 'message that needs to be', 'split into parts.']
 ```
 
-**Описание**:
-Метод класса `get_models` получает список доступных моделей из API Airforce. Если список моделей еще не был получен, он выполняет HTTP-запрос для получения списка моделей для генерации текста и изображений. В случае ошибки при получении списка моделей, он логирует ошибку и возвращает список псевдонимов моделей.
+## Functions
 
-**Как работает**:
-1. Проверяет, был ли уже получен список моделей для генерации изображений (`cls.image_models`).
-2. Если список моделей для генерации изображений пуст, выполняет HTTP-запрос к API Airforce для получения списка моделей для генерации изображений.
-3. Обрабатывает ответ от API, извлекая список моделей для генерации изображений.
-4. Если произошла ошибка при получении списка моделей для генерации изображений, логирует ошибку и использует локальный список дополнительных моделей.
-5. Проверяет, был ли уже получен список моделей для генерации текста (`cls.models`).
-6. Если список моделей для генерации текста пуст, выполняет HTTP-запрос к API Airforce для получения списка моделей для генерации текста.
-7. Обрабатывает ответ от API, извлекая список моделей для генерации текста.
-8. Если произошла ошибка при получении списка моделей для генерации текста, логирует ошибку и использует локальный список псевдонимов моделей.
-9. Возвращает список доступных моделей.
+### `_filter_content(part_response: str) -> str`
 
-**Примеры**:
+**Purpose:** Filters out unwanted content from the partial response, such as error messages and discord invites.
+
+**Parameters:**
+
+- `part_response (str):` The partial response to filter.
+
+**Returns:**
+
+- `str:` The filtered partial response.
+
+**How the Function Works:**
+
+- The function uses regular expressions to replace specific patterns in the response, including error messages related to rate limits and discord invites.
+
+**Example:**
+
 ```python
-models = Airforce.get_models()
-print(models)
+partial_response = "One message exceeds the 4000chars per message limit...https://discord.com/invite/xyz"
+filtered_response = _filter_content(partial_response)
+print(filtered_response)  # Output: "One message exceeds the 4000chars per message limit..."
 ```
 
-### `get_model`
+### `_filter_response(response: str) -> str`
+
+**Purpose:** Filters the full response to remove system errors and other unwanted text.
+
+**Parameters:**
+
+- `response (str):` The full response to filter.
+
+**Returns:**
+
+- `str:` The filtered response.
+
+**How the Function Works:**
+
+- The function uses regular expressions to replace specific patterns in the response, including system errors, tokens, and prefixes.
+
+**Example:**
 
 ```python
-    @classmethod
-    def get_model(cls, model: str) -> str:
-        """
-        Получает фактическое имя модели из псевдонима.
-
-        Args:
-            model (str): Псевдоним модели.
-
-        Returns:
-            str: Фактическое имя модели.
-        """
-        ...
+response = "[ERROR] '1234-5678-9012-3456-78901234' <|im_end|>"
+filtered_response = _filter_response(response)
+print(filtered_response)  # Output: ""
 ```
 
-**Описание**:
-Метод класса `get_model` получает фактическое имя модели из псевдонима, используя словарь `model_aliases`. Если псевдоним не найден, возвращает сам псевдоним или модель по умолчанию.
+## Parameter Details
 
-**Как работает**:
-1. Проверяет, есть ли псевдоним модели в словаре `model_aliases`.
-2. Если псевдоним найден, возвращает соответствующее ему фактическое имя модели.
-3. Если псевдоним не найден, возвращает сам псевдоним или модель по умолчанию (`cls.default_model`), если псевдоним пуст.
+- `model (str):` The name of the model to use.
+- `messages (Messages):` A list of messages to use as context for text generation.
+- `prompt (str):` The prompt for image generation.
+- `max_tokens (int):` Maximum number of tokens to generate.
+- `temperature (float):` Temperature parameter for text generation.
+- `top_p (float):` Nucleus sampling parameter for text generation.
+- `stream (bool):` Whether to stream the text response.
+- `size (str):` The size of the generated image.
+- `seed (int):` Seed for image generation.
+- `proxy (str):` Proxy server address (optional).
 
-**Примеры**:
-```python
-model_name = Airforce.get_model("openchat-3.5")
-print(model_name)  # openchat-3.5-0106
-
-model_name = Airforce.get_model("unknown_model")
-print(model_name)  # unknown_model
-```
-
-### `_filter_content`
+## Examples
 
 ```python
-    @classmethod
-    def _filter_content(cls, part_response: str) -> str:
-        """
-        Фильтрует нежелательное содержимое из частичного ответа.
-        """
-        ...
-```
+# Creating a driver instance
+driver = Driver(Chrome)
 
-**Описание**:
-Метод класса `_filter_content` фильтрует нежелательное содержимое из частичного ответа, удаляя сообщения о превышении лимита символов и превышении лимита запросов.
-
-**Как работает**:
-1. Использует регулярные выражения для удаления сообщений о превышении лимита символов.
-2. Использует регулярные выражения для удаления сообщений о превышении лимита запросов.
-3. Возвращает отфильтрованный ответ.
-
-**Примеры**:
-```python
-filtered_content = Airforce._filter_content("One message exceeds the \\d+chars per message limit\\..+https:\\/\\/discord\\.com\\/invite\\/\\S+")
-print(filtered_content)
-
-filtered_content = Airforce._filter_content("Rate limit \\(\\d+\\/minute\\) exceeded\\. Join our discord for more: .+https:\\/\\/discord\\.com\\/invite\\/\\S+")
-print(filtered_content)
-```
-
-### `_filter_response`
-
-```python
-    @classmethod
-    def _filter_response(cls, response: str) -> str:\n        """\n        Фильтрует полный ответ для удаления системных ошибок и другого нежелательного текста.\n        """
-        ...
-```
-
-**Описание**:
-Метод класса `_filter_response` фильтрует полный ответ для удаления системных ошибок и другого нежелательного текста, такого как токены и префиксы.
-
-**Как работает**:
-1. Проверяет, содержит ли ответ сообщение об ошибке "Model not found or too long input. Or any other error (xD)". Если да, вызывает исключение `ValueError`.
-2. Использует регулярные выражения для удаления системных ошибок, токенов и префиксов.
-3. Вызывает метод `_filter_content` для дополнительной фильтрации содержимого.
-4. Возвращает отфильтрованный ответ.
-
-**Примеры**:
-```python
-filtered_response = Airforce._filter_response("Model not found or too long input. Or any other error (xD)")
-print(filtered_response)
-
-filtered_response = Airforce._filter_response("\\[ERROR\\] \'\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}\'")
-print(filtered_response)
-
-filtered_response = Airforce._filter_response("<\\|im_end\\|>")
-print(filtered_response)
-
-filtered_response = Airforce._filter_response("</s>")
-print(filtered_response)
-
-filtered_response = Airforce._filter_response("Assistant: ")
-print(filtered_response)
-
-filtered_response = Airforce._filter_response("AI: ")
-print(filtered_response)
-
-filtered_response = Airforce._filter_response("ANSWER: ")
-print(filtered_response)
-
-filtered_response = Airforce._filter_response("Output: ")
-print(filtered_response)
-```
-
-### `generate_image`
-
-```python
-    @classmethod
-    async def generate_image(\n        cls,\n        model: str,\n        prompt: str,\n        size: str,\n        seed: int,\n        proxy: str = None\n    ) -> AsyncResult:\n        """\n        Асинхронно генерирует изображения на основе запроса.\n        """
-        ...
-```
-
-**Описание**:
-Метод класса `generate_image` асинхронно генерирует изображения на основе запроса к API Airforce. Он отправляет HTTP-запрос с указанными параметрами и возвращает URL сгенерированного изображения.
-
-**Параметры**:
-- `model` (str): Модель для генерации изображения.
-- `prompt` (str): Текст запроса для генерации изображения.
-- `size` (str): Размер изображения.
-- `seed` (int): Зерно для генерации случайных чисел.
-- `proxy` (str, optional): Прокси-сервер для подключения к API. По умолчанию `None`.
-
-**Как работает**:
-1. Формирует заголовки HTTP-запроса.
-2. Формирует параметры запроса.
-3. Отправляет GET-запрос к API Airforce с использованием `aiohttp`.
-4. Если запрос выполнен успешно (status code 200), извлекает URL изображения из ответа и возвращает объект `ImageResponse`.
-5. Если запрос не выполнен успешно, вызывает исключение `RuntimeError` с описанием ошибки.
-
-**Примеры**:
-```python
-async for result in Airforce.generate_image(model="flux", prompt="cat", size="1:1", seed=123):
+# Example of generating text with the default model
+messages = [
+    {"role": "user", "content": "Hello, how are you?"}
+]
+async for result in Airforce.create_async_generator(messages=messages):
     print(result)
-```
 
-### `generate_text`
-
-```python
-    @classmethod
-    async def generate_text(\n        cls,\n        model: str,\n        messages: Messages,\n        max_tokens: int,\n        temperature: float,\n        top_p: float,\n        stream: bool,\n        proxy: str = None\n    ) -> AsyncResult:\n        """\n        Генерирует текст, буферизует ответ, фильтрует его и возвращает окончательный результат.\n        """
-        ...
-```
-
-**Описание**:
-Метод класса `generate_text` генерирует текст на основе запроса к API Airforce. Он отправляет HTTP-запрос с указанными параметрами и возвращает сгенерированный текст.
-
-**Параметры**:
-- `model` (str): Модель для генерации текста.
-- `messages` (Messages): Список сообщений для генерации текста.
-- `max_tokens` (int): Максимальное количество токенов в ответе.
-- `temperature` (float): Температура для генерации текста.
-- `top_p` (float): Top-p для генерации текста.
-- `stream` (bool): Указывает, использовать ли потоковую передачу данных.
-- `proxy` (str, optional): Прокси-сервер для подключения к API. По умолчанию `None`.
-
-**Как работает**:
-1. Формирует заголовки HTTP-запроса.
-2. Разбивает сообщения на части, если они превышают максимальную длину.
-3. Формирует данные запроса.
-4. Отправляет POST-запрос к API Airforce с использованием `aiohttp`.
-5. Если используется потоковая передача данных, обрабатывает ответ по частям, фильтрует его и возвращает.
-6. Если потоковая передача данных не используется, обрабатывает полный ответ, фильтрует его и возвращает.
-
-**Примеры**:
-```python
-messages = [{"role": "user", "content": "Hello, world!"}]
-async for result in Airforce.generate_text(model="llama-3.1-70b-chat", messages=messages, max_tokens=512, temperature=1, top_p=1, stream=True):
-    print(result)
-```
-
-### `create_async_generator`
-
-```python
-    @classmethod
-    async def create_async_generator(\n        cls,\n        model: str,\n        messages: Messages,\n        prompt: str = None,\n        proxy: str = None,\n        max_tokens: int = 512,\n        temperature: float = 1,\n        top_p: float = 1,\n        stream: bool = True,\n        size: str = "1:1",\n        seed: int = None,\n        **kwargs\n    ) -> AsyncResult:\n        """\n        Создает асинхронный генератор для генерации текста или изображений.\n        """
-        ...
-```
-
-**Описание**:
-Метод класса `create_async_generator` создает асинхронный генератор для генерации текста или изображений на основе указанных параметров.
-
-**Параметры**:
-- `model` (str): Модель для генерации.
-- `messages` (Messages): Список сообщений для генерации текста.
-- `prompt` (str, optional): Текст запроса для генерации изображения. По умолчанию `None`.
-- `proxy` (str, optional): Прокси-сервер для подключения к API. По умолчанию `None`.
-- `max_tokens` (int, optional): Максимальное количество токенов в ответе. По умолчанию 512.
-- `temperature` (float, optional): Температура для генерации текста. По умолчанию 1.
-- `top_p` (float, optional): Top-p для генерации текста. По умолчанию 1.
-- `stream` (bool, optional): Указывает, использовать ли потоковую передачу данных. По умолчанию `True`.
-- `size` (str, optional): Размер изображения. По умолчанию "1:1".
-- `seed` (int, optional): Зерно для генерации случайных чисел. По умолчанию `None`.
-- `**kwargs`: Дополнительные параметры.
-
-**Как работает**:
-1. Получает фактическое имя модели из псевдонима с помощью метода `get_model`.
-2. Если модель является моделью для генерации изображений, генерирует изображение с помощью метода `generate_image`.
-3. Если модель не является моделью для генерации изображений, генерирует текст с помощью метода `generate_text`.
-
-**Примеры**:
-```python
-messages = [{"role": "user", "content": "Hello, world!"}]
-async for result in Airforce.create_async_generator(model="llama-3.1-70b-chat", messages=messages):
+# Example of generating an image with the Flux model
+prompt = "A beautiful sunset over the ocean."
+async for result in Airforce.create_async_generator(model="flux", prompt=prompt):
     print(result)
 ```

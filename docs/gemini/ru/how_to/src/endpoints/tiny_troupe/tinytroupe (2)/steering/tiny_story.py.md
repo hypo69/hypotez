@@ -1,57 +1,54 @@
-### Как использовать класс `TinyStory`
+## Как использовать класс `TinyStory`
 =========================================================================================
 
 Описание
 -------------------------
-Класс `TinyStory` предназначен для создания и развития истории в контексте симуляции `TinyTroupe`. Он позволяет сгенерировать начало истории и продолжить её, основываясь на взаимодействиях агентов или изменениях в окружающей среде. Класс использует OpenAI для генерации текста истории, учитывая заданные параметры и контекст симуляции.
+Класс `TinyStory` используется для создания и управления историей, связанной с симуляциями в TinyTroupe. Он может создавать истории об агенте или среде, используя заданную цель и контекст. 
 
 Шаги выполнения
 -------------------------
-1. **Инициализация класса `TinyStory`**:
-   - Создается экземпляр класса `TinyStory` с указанием либо окружения (`environment`), либо агента (`agent`), вокруг которого будет строиться история.
-   - Задаются цели (`purpose`) и начальный контекст (`context`) истории.
-   - Определяется, какое количество первых (`first_n`) и последних (`last_n`) взаимодействий будет учтено в истории, а также нужно ли включать информацию об опущенных взаимодействиях (`include_omission_info`).
-
-2. **Генерация начала истории**:
-   - Вызывается метод `start_story` с указанием дополнительных требований к истории (`requirements`), количества слов (`number_of_words`) и необходимости включения сюжетного поворота (`include_plot_twist`).
-   - Метод `start_story` формирует запросы к OpenAI, используя шаблоны сообщений и текущий контекст симуляции.
-   - OpenAI генерирует начало истории, которое добавляется к текущему контексту истории (`current_story`).
-
-3. **Продолжение истории**:
-   - Вызывается метод `continue_story` с аналогичными параметрами, как и `start_story`.
-   - Метод `continue_story` формирует запросы к OpenAI для генерации продолжения истории, основываясь на текущем контексте и новых требованиях.
-   - OpenAI генерирует продолжение истории, которое добавляется к текущему контексту истории (`current_story`).
-
-4. **Получение текущей истории**:
-   - Метод `_current_story` используется для получения текущего состояния истории, включая информацию о взаимодействиях агентов или изменениях в окружающей среде.
-   - Этот метод форматирует информацию о взаимодействиях и добавляет её к текущему контексту истории.
+1. **Инициализация**: 
+    - Создайте экземпляр класса `TinyStory`, передав в конструктор объект `TinyWorld` (среда) или `TinyPerson` (агент), а также цель истории (`purpose`), контекст (`context`), количество первых и последних взаимодействий (`first_n`, `last_n`) и флаг, указывающий, нужно ли включать информацию об упущенных взаимодействиях (`include_omission_info`).
+2. **Начало истории**: 
+    - Вызовите метод `start_story()`, чтобы начать новую историю. Передайте в него требования к истории (`requirements`), желаемое количество слов (`number_of_words`) и флаг, указывающий, нужно ли включать неожиданный поворот в сюжет (`include_plot_twist`).
+3. **Продолжение истории**: 
+    - Вызовите метод `continue_story()`, чтобы предложить продолжение истории. Параметры метода аналогичны параметрам `start_story()`.
+4. **Получение текущей истории**: 
+    - Метод `_current_story()` возвращает текущую историю, включая контекст и историю взаимодействий.
 
 Пример использования
 -------------------------
 
 ```python
-from tinytroupe.environment import TinyWorld
+from tinytroupe.extraction import logger
 from tinytroupe.agent import TinyPerson
+from tinytroupe.environment import TinyWorld
+import tinytroupe.utils as utils
+from tinytroupe import openai_utils
 from tinytroupe.steering.tiny_story import TinyStory
 
-# Пример создания окружения и агента (предположим, они уже созданы)
-environment = TinyWorld()
-agent = TinyPerson()
+# Создаем агента и среду
+agent = TinyPerson(name="Alice", age=30, job="Software Engineer")
+environment = TinyWorld(name="City", description="A bustling city with diverse population and vibrant culture.")
 
-# Инициализация TinyStory с окружением
-story_env = TinyStory(environment=environment, purpose="Рассказать о жизни в городе.")
+# Создаем историю об агенте
+story = TinyStory(agent=agent, purpose="Tell a story about a software engineer who moves to a new city.", context="Once upon a time...")
 
-# Инициализация TinyStory с агентом
-story_agent = TinyStory(agent=agent, purpose="Раскрыть характер персонажа.")
+# Начинаем историю
+start = story.start_story(requirements="The story should start with Alice arriving in the city and finding a place to live.", number_of_words=100)
 
-# Начало истории
-start = story_env.start_story(requirements="Начать с описания города.", number_of_words=150)
-print(f"Начало истории об окружении: {start}")
+# Печатаем начало истории
+print(start)
 
-# Продолжение истории
-continuation = story_agent.continue_story(requirements="Пусть персонаж встретит друга.", number_of_words=120)
-print(f"Продолжение истории об агенте: {continuation}")
+# Продолжаем историю
+continuation = story.continue_story(requirements="Alice meets a new friend in the city who helps her navigate the new environment.")
 
-# Получение текущей истории
-current_story = story_env._current_story()
-print(f"Текущая история: {current_story}")
+# Печатаем продолжение истории
+print(continuation)
+
+# Получаем текущую историю
+current_story = story._current_story()
+
+# Печатаем текущую историю
+print(current_story)
+```

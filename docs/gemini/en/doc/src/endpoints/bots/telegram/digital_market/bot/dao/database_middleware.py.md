@@ -1,166 +1,121 @@
-# Модуль database_middleware.py
+# Модуль `database_middleware.py`
 
 ## Обзор
 
-Этот модуль предоставляет middleware для интеграции базы данных с ботом Telegram. Он содержит базовый класс `BaseDatabaseMiddleware` и его подклассы `DatabaseMiddlewareWithoutCommit` и `DatabaseMiddlewareWithCommit`, которые управляют сессиями базы данных и транзакциями.
+Данный модуль содержит базовый класс `BaseDatabaseMiddleware`, который предоставляет функциональность для управления сессиями базы данных в Telegram-боте. Модуль также включает два класса-наследника: `DatabaseMiddlewareWithoutCommit` и `DatabaseMiddlewareWithCommit`, которые предоставляют разные варианты работы с сессиями базы данных:
 
-## Подробности
+- `DatabaseMiddlewareWithoutCommit`: класс, который добавляет сессию базы данных в словарь данных без автоматического коммита изменений.
+- `DatabaseMiddlewareWithCommit`: класс, который добавляет сессию базы данных в словарь данных с автоматическим коммитом изменений после завершения обработки хендлера.
 
-Этот код обеспечивает интеграцию базы данных в обработчики aiogram, гарантируя, что каждая операция выполняется в контексте сессии базы данных. Он также включает обработку транзакций, позволяя откатывать изменения в случае ошибок.
+## Детали
+
+Модуль `database_middleware.py` представляет собой ядро для управления сессиями базы данных в Telegram-боте. Он реализует базовый класс `BaseDatabaseMiddleware`, который служит основой для создания middleware, взаимодействующих с базой данных. Этот класс предоставляет два ключевых метода:
+
+- `set_session`: устанавливает сессию базы данных в словарь данных.
+- `after_handler`: выполняет действия после обработки хендлера (например, коммит изменений).
+
+Классы-наследники `DatabaseMiddlewareWithoutCommit` и `DatabaseMiddlewareWithCommit` реализуют различные стратегии работы с сессиями:
+
+- `DatabaseMiddlewareWithoutCommit`: Этот класс создает сессию базы данных, но не коммитит изменения автоматически. Это позволяет разработчику вручную управлять коммитом изменений.
+- `DatabaseMiddlewareWithCommit`: Этот класс автоматически коммитит изменения после успешного завершения обработки хендлера.
+
+Использование `database_middleware.py` позволяет организовать взаимодействие с базой данных в Telegram-боте, гарантируя правильное управление сессиями и коммитом изменений.
 
 ## Классы
 
 ### `BaseDatabaseMiddleware`
 
-**Описание**: Базовый класс middleware для управления сессиями базы данных.
+**Описание**: Базовый класс для middleware, работающих с сессиями базы данных.
 
-**Наследует**: `aiogram.BaseMiddleware`
+**Наследует**:  `aiogram.BaseMiddleware`
 
 **Атрибуты**:
-- Нет специфических атрибутов, кроме тех, что предоставляются базовым классом `aiogram.BaseMiddleware`.
 
 **Методы**:
 
-- `__call__(self, handler: Callable[[Message | CallbackQuery, Dict[str, Any]], Awaitable[Any]], event: Message | CallbackQuery, data: Dict[str, Any]) -> Any`
-- `set_session(self, data: Dict[str, Any], session) -> None`
-- `after_handler(self, session) -> None`
-
-### `BaseDatabaseMiddleware.__call__`
-
-```python
-async def __call__(
-    self,
-    handler: Callable[[Message | CallbackQuery, Dict[str, Any]], Awaitable[Any]],
-    event: Message | CallbackQuery,
-    data: Dict[str, Any]
-) -> Any:
-    """
-    Выполняет middleware, управляя сессией базы данных.
-
-    Args:
-        handler (Callable[[Message | CallbackQuery, Dict[str, Any]], Awaitable[Any]]): Обработчик события.
-        event (Message | CallbackQuery): Событие (сообщение или callback-запрос).
-        data (Dict[str, Any]): Словарь данных, передаваемый между middleware и обработчиком.
-
-    Returns:
-        Any: Результат выполнения обработчика.
-
-    Raises:
-        Exception: Если в процессе выполнения обработчика возникает исключение, транзакция откатывается.
-
-    Как работает:
-    - Создает асинхронную сессию базы данных.
-    - Устанавливает сессию в словаре данных.
-    - Вызывает обработчик события.
-    - Выполняет действия после вызова обработчика (например, коммит).
-    - В случае исключения откатывает транзакцию.
-    - Закрывает сессию.
-
-    Пример:
-        # Пример использования middleware
-        async def my_handler(event: Message, data: Dict[str, Any]):
-            session = data['session']
-            # ... логика обработчика ...
-            return ...
-    """
-```
-
-### `BaseDatabaseMiddleware.set_session`
-
-```python
-def set_session(self, data: Dict[str, Any], session) -> None:
-    """
-    Устанавливает сессию в словарь данных.
-
-    Args:
-        data (Dict[str, Any]): Словарь данных, в который нужно установить сессию.
-        session: Сессия базы данных.
-
-    Raises:
-        NotImplementedError: Если метод не реализован в подклассе.
-
-    Как работает:
-    - Этот метод должен быть переопределен в подклассах для установки сессии в словаре данных.
-    """
-```
-
-### `BaseDatabaseMiddleware.after_handler`
-
-```python
-async def after_handler(self, session) -> None:
-    """
-    Выполняет действия после вызова обработчика (например, коммит).
-
-    Args:
-        session: Сессия базы данных.
-
-    Как работает:
-    - Этот метод может быть переопределен в подклассах для выполнения действий после вызова обработчика.
-    """
-```
+- `__call__`:  Обработчик, который вызывается при обработке событий. Метод устанавливает сессию базы данных, вызывает хендлер и выполняет действия после обработки хендлера.
+- `set_session`: Абстрактный метод, который должен быть реализован в подклассах для установки сессии базы данных в словарь данных.
+- `after_handler`: Метод для выполнения действий после вызова хендлера (например, коммит).
 
 ### `DatabaseMiddlewareWithoutCommit`
 
-**Описание**: Middleware для работы с базой данных без автоматического коммита транзакций.
+**Описание**: Класс, который добавляет сессию базы данных в словарь данных без автоматического коммита изменений.
 
 **Наследует**: `BaseDatabaseMiddleware`
 
+**Атрибуты**:
+
 **Методы**:
-- `set_session(self, data: Dict[str, Any], session) -> None`
 
-### `DatabaseMiddlewareWithoutCommit.set_session`
-
-```python
-def set_session(self, data: Dict[str, Any], session) -> None:
-    """
-    Устанавливает сессию в словарь данных под ключом 'session_without_commit'.
-
-    Args:
-        data (Dict[str, Any]): Словарь данных, в который нужно установить сессию.
-        session: Сессия базы данных.
-
-    Как работает:
-    - Устанавливает сессию базы данных в словаре данных под ключом 'session_without_commit'.
-    """
-```
+- `set_session`: Устанавливает сессию базы данных в словарь данных под ключом `session_without_commit`.
 
 ### `DatabaseMiddlewareWithCommit`
 
-**Описание**: Middleware для работы с базой данных с автоматическим коммитом транзакций после обработки.
+**Описание**: Класс, который добавляет сессию базы данных в словарь данных с автоматическим коммитом изменений после завершения обработки хендлера.
 
 **Наследует**: `BaseDatabaseMiddleware`
 
+**Атрибуты**:
+
 **Методы**:
-- `set_session(self, data: Dict[str, Any], session) -> None`
-- `after_handler(self, session) -> None`
 
-### `DatabaseMiddlewareWithCommit.set_session`
+- `set_session`: Устанавливает сессию базы данных в словарь данных под ключом `session_with_commit`.
+- `after_handler`: Выполняет коммит изменений в сессии базы данных.
 
-```python
-def set_session(self, data: Dict[str, Any], session) -> None:
-    """
-    Устанавливает сессию в словарь данных под ключом 'session_with_commit'.
+## Функции
 
-    Args:
-        data (Dict[str, Any]): Словарь данных, в который нужно установить сессию.
-        session: Сессия базы данных.
+## Параметры
 
-    Как работает:
-    - Устанавливает сессию базы данных в словаре данных под ключом 'session_with_commit'.
-    """
-```
+## Примеры
 
-### `DatabaseMiddlewareWithCommit.after_handler`
+**Пример использования `BaseDatabaseMiddleware`:**
 
 ```python
-async def after_handler(self, session) -> None:
-    """
-    Выполняет коммит транзакции после вызова обработчика.
+from bot.dao.database_middleware import BaseDatabaseMiddleware
 
-    Args:
-        session: Сессия базы данных.
+class MyDatabaseMiddleware(BaseDatabaseMiddleware):
+    def set_session(self, data: Dict[str, Any], session) -> None:
+        data['session'] = session
 
-    Как работает:
-    - Выполняет коммит транзакции, сохраняя изменения в базе данных.
-    """
+    async def after_handler(self, session) -> None:
+        await session.commit()
+
+# Использование в Telegram-боте
+dp.middleware.setup(MyDatabaseMiddleware())
 ```
+
+**Пример использования `DatabaseMiddlewareWithoutCommit`:**
+
+```python
+from bot.dao.database_middleware import DatabaseMiddlewareWithoutCommit
+
+# Использование в Telegram-боте
+dp.middleware.setup(DatabaseMiddlewareWithoutCommit())
+```
+
+**Пример использования `DatabaseMiddlewareWithCommit`:**
+
+```python
+from bot.dao.database_middleware import DatabaseMiddlewareWithCommit
+
+# Использование в Telegram-боте
+dp.middleware.setup(DatabaseMiddlewareWithCommit())
+```
+
+## Как работает `database_middleware.py`
+
+Модуль `database_middleware.py` предоставляет базовый класс `BaseDatabaseMiddleware`, который реализует функциональность для управления сессиями базы данных в Telegram-боте. Этот класс устанавливает сессию базы данных в словарь данных и предоставляет возможность выполнять действия после обработки хендлера.
+
+Классы-наследники `DatabaseMiddlewareWithoutCommit` и `DatabaseMiddlewareWithCommit` реализуют разные варианты работы с сессиями базы данных. `DatabaseMiddlewareWithoutCommit` добавляет сессию базы данных в словарь данных без автоматического коммита изменений, в то время как `DatabaseMiddlewareWithCommit` автоматически коммитит изменения после завершения обработки хендлера.
+
+## Примеры использования `database_middleware.py`
+
+В примерах показано, как использовать модуль `database_middleware.py` в Telegram-боте.
+
+**Пример 1:**
+
+В этом примере создается класс `MyDatabaseMiddleware`, который наследует от `BaseDatabaseMiddleware`. В классе `MyDatabaseMiddleware` реализованы методы `set_session` и `after_handler`, которые устанавливают сессию базы данных и выполняют коммит изменений соответственно.
+
+**Пример 2:**
+
+Этот пример демонстрирует использование `DatabaseMiddlewareWithoutCommit` и `DatabaseMiddlewareWithCommit` для управления сессиями базы данных в Telegram-боте.

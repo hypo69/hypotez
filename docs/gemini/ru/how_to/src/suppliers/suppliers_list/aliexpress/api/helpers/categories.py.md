@@ -1,58 +1,47 @@
-### **Как использовать этот блок кода**
+## Как использовать блок кода для фильтрации категорий и подкатегорий API Aliexpress
 =========================================================================================
 
 Описание
 -------------------------
-Данный блок кода содержит функции для фильтрации категорий и подкатегорий, полученных из API Aliexpress. Он включает две функции: `filter_parent_categories` и `filter_child_categories`, которые позволяют извлекать категории верхнего уровня и дочерние категории соответственно.
+Этот блок кода предоставляет две функции для фильтрации категорий и подкатегорий API Aliexpress:
+
+1. `filter_parent_categories`: извлекает список категорий, которые не имеют родительской категории.
+2. `filter_child_categories`: извлекает список подкатегорий, которые принадлежат заданной родительской категории.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются типы `List` и `Union` из модуля `typing` для аннотации типов.
-   - Импортируется модуль `models` из текущего пакета (`..`) для работы с объектами категорий.
-
-2. **Функция `filter_parent_categories`**:
-   - **Описание**: Эта функция фильтрует список категорий, чтобы вернуть только те, у которых нет родительской категории (то есть категории верхнего уровня).
-   - **Шаги выполнения**:
-     1. Инициализируется пустой список `filtered_categories` для хранения отфильтрованных категорий.
-     2. Проверяется, является ли входной параметр `categories` экземпляром `str`, `int` или `float`. Если да, он преобразуется в список, чтобы избежать ошибок при итерации.
-     3. Перебираются все элементы в списке `categories`.
-     4. Для каждого элемента проверяется, отсутствует ли атрибут `parent_category_id`. Если атрибут отсутствует, категория добавляется в список `filtered_categories`.
-     5. Возвращается список `filtered_categories`, содержащий только категории без родительской категории.
-
-3. **Функция `filter_child_categories`**:
-   - **Описание**: Эта функция фильтрует список категорий, чтобы вернуть только те, которые являются дочерними категориями для указанной родительской категории.
-   - **Шаги выполнения**:
-     1. Инициализируется пустой список `filtered_categories` для хранения отфильтрованных категорий.
-     2. Проверяется, является ли входной параметр `categories` экземпляром `str`, `int` или `float`. Если да, он преобразуется в список, чтобы избежать ошибок при итерации.
-     3. Перебираются все элементы в списке `categories`.
-     4. Для каждого элемента проверяется наличие атрибута `parent_category_id` и соответствие значения этого атрибута значению `parent_category_id`, переданному в функцию. Если оба условия выполняются, категория добавляется в список `filtered_categories`.
-     5. Возвращается список `filtered_categories`, содержащий только дочерние категории с указанным `parent_category_id`.
+1. **`filter_parent_categories(categories: List[models.Category | models.ChildCategory]) -> List[models.Category]`**:
+    - Принимает список объектов категорий или подкатегорий.
+    - Проверяет, имеет ли каждый объект атрибут `parent_category_id`.
+    - Если атрибут отсутствует, объект добавляется в список `filtered_categories`.
+    - Возвращает список объектов категорий, которые не имеют родительской категории.
+2. **`filter_child_categories(categories: List[models.Category | models.ChildCategory], parent_category_id: int) -> List[models.ChildCategory]`**:
+    - Принимает список объектов категорий или подкатегорий, а также ID родительской категории.
+    - Проверяет, имеет ли каждый объект атрибут `parent_category_id`, и совпадает ли его значение с переданным `parent_category_id`.
+    - Если объект имеет `parent_category_id` и он совпадает с переданным ID, объект добавляется в список `filtered_categories`.
+    - Возвращает список объектов подкатегорий, которые принадлежат заданной родительской категории.
 
 Пример использования
 -------------------------
 
 ```python
-from typing import List
-from .. import models
-# Assuming you have defined models.Category and models.ChildCategory
+from src.suppliers.aliexpress.api.helpers.categories import filter_parent_categories, filter_child_categories
+from src.suppliers.aliexpress.api import models
 
-# Example data
-categories: List[models.Category | models.ChildCategory] = [
-    models.Category(category_id=1, category_name="Electronics"),
-    models.Category(category_id=2, category_name="Clothing"),
-    models.ChildCategory(category_id=3, category_name="Smartphones", parent_category_id=1),
-    models.ChildCategory(category_id=4, category_name="T-Shirts", parent_category_id=2),
-    models.Category(category_id=5, category_name="Home & Garden")
+# Пример списка категорий и подкатегорий
+categories = [
+    models.Category(category_id=1, name="Electronics"),
+    models.ChildCategory(category_id=2, parent_category_id=1, name="Smartphones"),
+    models.Category(category_id=3, name="Clothing"),
+    models.ChildCategory(category_id=4, parent_category_id=3, name="T-shirts"),
+    models.ChildCategory(category_id=5, parent_category_id=3, name="Dresses"),
 ]
 
-# Filter parent categories
+# Получение списка категорий без родительской категории
 parent_categories = filter_parent_categories(categories)
-for cat in parent_categories:
-    print(f"Parent Category: {cat.category_name}")
+print(f"Parent categories: {parent_categories}") # Output: Parent categories: [<Category: category_id=1, name=Electronics>, <Category: category_id=3, name=Clothing>]
 
-# Filter child categories for parent category ID 1
+# Получение списка подкатегорий, принадлежащих категории "Electronics" (category_id=1)
 child_categories = filter_child_categories(categories, parent_category_id=1)
-for cat in child_categories:
-    print(f"Child Category for ID 1: {cat.category_name}")
+print(f"Child categories of Electronics: {child_categories}") # Output: Child categories of Electronics: [<ChildCategory: category_id=2, parent_category_id=1, name=Smartphones>]
 ```

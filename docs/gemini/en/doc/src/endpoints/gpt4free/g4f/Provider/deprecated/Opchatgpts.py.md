@@ -1,101 +1,85 @@
-# Документация модуля `Opchatgpts`
+# Module: Opchatgpts
 
-## Обзор
+## Overview
 
-Модуль `Opchatgpts` представляет собой асинхронный провайдер для взаимодействия с сервисом Opchatgpts.net.
-Он позволяет генерировать ответы на основе предоставленных сообщений, используя GPT-3.5 Turbo. Модуль поддерживает историю сообщений.
+This module provides an implementation of the `Opchatgpts` class, which is a subclass of `AsyncGeneratorProvider`. This class utilizes the `opchatgpts.net` API to interact with GPT-3.5 Turbo and obtain responses through an asynchronous generator.
 
-## Более подробная информация
+## Details
 
-Модуль предназначен для интеграции с другими частями проекта, где требуется взаимодействие с Opchatgpts.net для генерации текста.
-Он использует асинхронные запросы для неблокирующей работы.
+The `Opchatgpts` class leverages the `opchatgpts.net` API for GPT-3.5 Turbo interactions. The class is designed to support message history and utilize an asynchronous generator for efficient response generation.
 
-## Классы
+## Classes
 
-### `Opchatgpts`
+### `class Opchatgpts(AsyncGeneratorProvider)`
 
-**Описание**: Класс `Opchatgpts` является асинхронным провайдером.
+**Description**: The `Opchatgpts` class utilizes the `opchatgpts.net` API to interact with GPT-3.5 Turbo. It inherits from the `AsyncGeneratorProvider` class and provides functionality for asynchronous response generation.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: базовый класс для асинхронных провайдеров, генерирующих данные.
+**Inherits**: `AsyncGeneratorProvider`
 
-**Атрибуты**:
-- `url` (str): URL-адрес сервиса Opchatgpts.net.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений.
-- `supports_gpt_35_turbo` (bool): Флаг, указывающий на поддержку модели GPT-3.5 Turbo.
+**Attributes**:
 
-**Принцип работы**:
-Класс `Opchatgpts` предназначен для асинхронного взаимодействия с API Opchatgpts.net. Он отправляет сообщения и получает ответы, используя асинхронные генераторы.
-Класс использует `aiohttp.ClientSession` для выполнения HTTP-запросов.
+- `url (str)`: The base URL for the `opchatgpts.net` API.
+- `working (bool)`: Indicates whether the provider is currently working.
+- `supports_message_history (bool)`: Indicates whether the provider supports message history.
+- `supports_gpt_35_turbo (bool)`: Indicates whether the provider supports GPT-3.5 Turbo.
 
-### Методы класса
+**Methods**:
 
-#### `create_async_generator`
+- `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`: This method asynchronously generates responses from the GPT-3.5 Turbo model. It takes the model name, messages, and optional proxy information as input.
+
+## Class Methods
+
+### `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`
+
+**Purpose**: This method asynchronously generates responses from the GPT-3.5 Turbo model. It establishes a connection with the `opchatgpts.net` API and handles the communication to obtain the desired response.
+
+**Parameters**:
+
+- `model (str)`: The name of the GPT-3.5 Turbo model to utilize for response generation.
+- `messages (Messages)`: A list of messages, including the user's prompt and previous interactions, to be sent to the model.
+- `proxy (str, optional)`: A proxy server address for accessing the API. Defaults to `None`.
+
+**Returns**:
+
+- `AsyncResult`: An asynchronous result object representing the generated response.
+
+**Raises Exceptions**:
+
+- `RuntimeError`: If the response from the API is malformed or invalid.
+
+**How the Function Works**:
+
+1. Sets up a connection with the `opchatgpts.net` API using `aiohttp`.
+2. Creates a dictionary `data` with essential information, including the `botId`, `chatId`, `contextId`, `customId`, `messages`, `newMessage`, `session`, and `stream`.
+3. Sends a POST request to the API endpoint `/wp-json/mwai-ui/v1/chats/submit` with the `data` and optional `proxy` parameters.
+4. Iterates through the response content and parses the received lines.
+5. If the line indicates a "live" response, the `data` from the line is yielded.
+6. If the line indicates an "end" response, the generator loop breaks.
+7. The generated response is returned as an asynchronous result object.
+
+**Examples**:
 
 ```python
-    @classmethod
-    async def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        proxy: str = None, **kwargs) -> AsyncResult:
-        """Создает асинхронный генератор для получения ответов от Opchatgpts.net.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated import Opchatgpts
 
-        Args:
-            cls (Opchatgpts): Ссылка на класс.
-            model (str): Модель для использования (например, "gpt-3.5-turbo").
-            messages (Messages): Список сообщений для отправки.
-            proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-            **kwargs: Дополнительные аргументы.
+# Example usage with a simple prompt
+messages = [
+    {"role": "user", "content": "Hello, how are you?"}
+]
+async_result = await Opchatgpts.create_async_generator(model='gpt-3.5-turbo', messages=messages)
+response = await async_result
 
-        Returns:
-            AsyncResult: Асинхронный генератор, выдающий текстовые ответы.
+# Access the response content
+print(response)
 
-        Raises:
-            RuntimeError: Если получен поврежденный ответ от сервера.
-            aiohttp.ClientResponseError: В случае неудачного HTTP-ответа.
+# Example usage with a more complex prompt and a proxy
+messages = [
+    {"role": "user", "content": "Can you write a short story about a cat named Whiskers?"}
+]
+proxy = 'http://proxy_server:port'
+async_result = await Opchatgpts.create_async_generator(model='gpt-3.5-turbo', messages=messages, proxy=proxy)
+response = await async_result
 
-        Как работает функция:
-        - Функция создает заголовки для HTTP-запроса.
-        - Инициализирует асинхронную сессию `ClientSession` с заданными заголовками.
-        - Формирует JSON-данные для отправки, включая `botId`, `chatId`, `contextId`, `messages` и другие параметры.
-        - Отправляет POST-запрос к API Opchatgpts.net.
-        - Получает ответ в виде потока данных и обрабатывает его построчно.
-        - Проверяет, начинается ли строка с `b"data: "`. Если да, пытается загрузить JSON из этой строки.
-        - Проверяет наличие ключа `"type"` в загруженном JSON.
-        - Если `line["type"] == "live"`, выдает данные (`line["data"]`).
-        - Если `line["type"] == "end"`, завершает генератор.
-        """
+# Access the response content
+print(response)
 ```
-
-#### Параметры функции `create_async_generator`
-
-- `cls` (Opchatgpts): Ссылка на класс.
-- `model` (str): Модель для использования (например, "gpt-3.5-turbo").
-- `messages` (Messages): Список сообщений для отправки.
-- `proxy` (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы.
-
-**Примеры**:
-
-```python
-# Пример вызова create_async_generator
-messages = [{"role": "user", "content": "Hello, world!"}]
-async for message in Opchatgpts.create_async_generator(model="gpt-3.5-turbo", messages=messages):
-    print(message)
-```
-```python
-# Пример вызова create_async_generator c прокси
-messages = [{"role": "user", "content": "Hello, world!"}]
-async for message in Opchatgpts.create_async_generator(model="gpt-3.5-turbo", messages=messages, proxy="http://proxy.example.com"):
-    print(message)
-```
-```python
-# Пример обработки ошибки при вызове create_async_generator
-messages = [{"role": "user", "content": "Hello, world!"}]
-try:
-    async for message in Opchatgpts.create_async_generator(model="gpt-3.5-turbo", messages=messages):
-        print(message)
-except RuntimeError as ex:
-    logger.error("Ошибка при получении ответа от Opchatgpts", ex, exc_info=True)

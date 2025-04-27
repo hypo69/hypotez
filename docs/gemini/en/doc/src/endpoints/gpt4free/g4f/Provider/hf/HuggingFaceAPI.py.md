@@ -1,157 +1,69 @@
-# Module HuggingFaceAPI
+# HuggingFaceAPI Provider
 
 ## Overview
 
-The `HuggingFaceAPI` module is designed to interact with the Hugging Face API for text generation. It extends the `OpenaiTemplate` class and provides methods for retrieving models, creating asynchronous generators, and handling API requests. The module supports both text and vision models and includes mechanisms for managing API keys and handling potential errors such as unsupported models or payment requirements.
+This module provides the `HuggingFaceAPI` class, which is a provider class for interacting with the Hugging Face API. It handles authentication, model selection, and stream-based communication with the API.
 
-## More details
+## Details
 
-This module is an essential part of the `hypotez` project, enabling integration with Hugging Face's models for various tasks such as conversational AI. It handles model selection, authentication, and request generation, streamlining the process of using Hugging Face's capabilities within the project.
+The `HuggingFaceAPI` class extends the `OpenaiTemplate` class, which is used for all providers. It has a `get_model` method that allows you to specify the model to use and a `get_models` method that retrieves a list of available models from the Hugging Face API.
 
 ## Classes
 
 ### `HuggingFaceAPI`
 
-**Description**:
-This class inherits from `OpenaiTemplate` and provides specific methods for interacting with the Hugging Face API, including model selection, asynchronous generation, and error handling.
+**Description**: This class provides the functionality for interacting with the Hugging Face API. It implements the `get_model`, `get_models`, and `create_async_generator` methods for interacting with the API.
 
-**Inherits**:
-- `OpenaiTemplate`: Inherits methods for generating requests and processing responses in a format compatible with OpenAI's API.
+**Inherits**: `OpenaiTemplate`
 
 **Attributes**:
-- `label` (str): The label of the provider, set to "HuggingFace (Text Generation)".
-- `parent` (str): The parent provider, set to "HuggingFace".
-- `url` (str): The base URL for the Hugging Face API, set to "https://api-inference.huggingface.com".
-- `api_base` (str): The API base URL, set to "https://api-inference.huggingface.co/v1".
-- `working` (bool): A flag indicating whether the provider is currently working, set to `True`.
-- `needs_auth` (bool): A flag indicating whether authentication is required, set to `True`.
-- `default_model` (str): The default model to use for text generation, set to `default_llama_model`.
-- `default_vision_model` (str): The default model to use for vision tasks, set to `default_vision_model`.
-- `vision_models` (list[str]): A list of supported vision models.
-- `model_aliases` (dict[str, str]): A dictionary of model aliases.
-- `fallback_models` (list[str]): A list of fallback models to use if the primary models are unavailable.
-- `provider_mapping` (dict[str, dict]): A dictionary mapping models to their provider-specific configurations.
+
+- `label` (str): Label of the provider.
+- `parent` (str): Parent provider.
+- `url` (str): Base URL of the API.
+- `api_base` (str): Base URL for the API calls.
+- `working` (bool): Indicates if the provider is working.
+- `needs_auth` (bool): Indicates if the provider requires authentication.
+- `default_model` (str): Default model for text generation.
+- `default_vision_model` (str): Default model for image generation.
+- `vision_models` (list[str]): List of available vision models.
+- `model_aliases` (dict[str, str]): Mapping of model aliases.
+- `fallback_models` (list[str]): List of fallback models.
+- `provider_mapping` (dict[str, dict]): Mapping of provider models to their corresponding task and providerId.
 
 **Methods**:
-- `get_model(model: str, **kwargs) -> str`: Retrieves the model name, handling potential `ModelNotSupportedError` exceptions.
-- `get_models(**kwargs) -> list[str]`: Retrieves a list of supported models from the Hugging Face API.
-- `get_mapping(cls, model: str, api_key: str = None)`: Retrieves provider mapping for a specific model.
-- `create_async_generator(model: str, messages: Messages, api_base: str = None, api_key: str = None, max_tokens: int = 2048, max_inputs_lenght: int = 10000, media: MediaListType = None, **kwargs)`: Creates an asynchronous generator for processing messages using the Hugging Face API.
-- `calculate_lenght(messages: Messages) -> int`: Calculates the length of the messages.
 
-## Class Methods
+- `get_model(model: str, **kwargs) -> str`: Retrieves the model identifier based on the provided model name and optional arguments.
+- `get_models(**kwargs) -> list[str]`: Retrieves a list of available models from the Hugging Face API.
+- `get_mapping(model: str, api_key: str = None) -> dict`: Retrieves the provider mapping for the specified model.
+- `create_async_generator(model: str, messages: Messages, api_base: str = None, api_key: str = None, max_tokens: int = 2048, max_inputs_lenght: int = 10000, media: MediaListType = None, **kwargs) -> Generator[ProviderInfo, None, None]`: Creates an asynchronous generator for streaming responses from the API.
 
-### `get_model`
+## Functions
 
-```python
-@classmethod
-def get_model(cls, model: str, **kwargs) -> str:
-    """
-    Функция извлекает имя модели, обрабатывая исключение ModelNotSupportedError, если модель не поддерживается.
+### `calculate_lenght(messages: Messages) -> int`:
 
-    Args:
-        model (str): Имя модели, которую нужно получить.
-        **kwargs: Дополнительные аргументы.
+**Purpose**: Calculates the total length of the messages in a chat history.
 
-    Returns:
-        str: Имя модели.
+**Parameters**:
 
-    Raises:
-        ModelNotSupportedError: Если запрошенная модель не поддерживается.
-    """
-    ...
-```
+- `messages` (Messages): Chat history messages.
 
-### `get_models`
+**Returns**:
+
+- `int`: Total length of the messages.
+
+**How the Function Works**:
+
+This function iterates through the provided chat history messages and calculates the total length of the messages. It takes into account the length of each message's content and adds a constant value (16) to account for the message metadata.
+
+**Examples**:
 
 ```python
-@classmethod
-def get_models(cls, **kwargs) -> list[str]:
-    """
-    Функция извлекает список поддерживаемых моделей из API Hugging Face.
-    Если список моделей еще не получен, функция отправляет запрос к API Hugging Face для получения списка моделей.
-    Если запрос успешен, функция фильтрует модели, чтобы включить только те, которые поддерживают conversational task.
-    Если запрос не успешен, функция использует список fallback_models.
-
-    Args:
-        **kwargs: Дополнительные аргументы.
-
-    Returns:
-        list[str]: Список поддерживаемых моделей.
-    """
-    ...
+messages = [
+    {"role": "user", "content": "Hello, how are you?"},
+    {"role": "assistant", "content": "I'm doing well, thanks for asking."},
+]
+length = calculate_lenght(messages)
+print(f"Total length of messages: {length}") # Output: Total length of messages: 49
 ```
-
-### `get_mapping`
-
 ```python
-@classmethod
-async def get_mapping(cls, model: str, api_key: str = None):
-    """
-    Функция извлекает provider mapping для указанной модели.
-
-    Args:
-        model (str): Имя модели, для которой нужно получить provider mapping.
-        api_key (str, optional): API-ключ для аутентификации. По умолчанию `None`.
-
-    Returns:
-        dict: Provider mapping для указанной модели.
-    """
-    ...
-```
-
-### `create_async_generator`
-
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    api_base: str = None,
-    api_key: str = None,
-    max_tokens: int = 2048,
-    max_inputs_lenght: int = 10000,
-    media: MediaListType = None,
-    **kwargs
-):
-    """
-    Функция создает асинхронный генератор для обработки сообщений с использованием API Hugging Face.
-
-    Args:
-        model (str): Имя модели для использования.
-        messages (Messages): Список сообщений для обработки.
-        api_base (str, optional): Базовый URL API. По умолчанию `None`.
-        api_key (str, optional): API-ключ для аутентификации. По умолчанию `None`.
-        max_tokens (int, optional): Максимальное количество токенов в ответе. По умолчанию 2048.
-        max_inputs_lenght (int, optional): Максимальная длина входных данных. По умолчанию 10000.
-        media (MediaListType, optional): Список медиафайлов для обработки. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы.
-
-    Yields:
-        ProviderInfo: Информация о провайдере.
-        str: Часть сгенерированного текста.
-
-    Raises:
-        ModelNotSupportedError: Если модель не поддерживается.
-        PaymentRequiredError: Если требуется оплата для использования модели.
-
-    """
-    ...
-```
-
-### `calculate_lenght`
-
-```python
-def calculate_lenght(messages: Messages) -> int:
-    """
-    Функция вычисляет длину сообщений.
-
-    Args:
-        messages (Messages): Список сообщений.
-
-    Returns:
-        int: Суммарная длина сообщений.
-    """
-    ...
-```

@@ -1,195 +1,128 @@
-# Модуль `Prodia`
+# Prodia Provider for GPT4Free
 
-## Обзор
+## Overview
 
-Модуль `Prodia` предоставляет асинхронный генератор изображений с использованием API [Prodia](https://app.prodia.com). Он позволяет генерировать изображения на основе текстовых запросов, используя различные модели и параметры. Модуль включает в себя выбор модели, настройку параметров генерации и асинхронный опрос статуса задачи для получения готового изображения.
+This module provides the `Prodia` class, an implementation of an asynchronous image generation provider for the `gpt4free` project. It utilizes the Prodia API to generate images based on text prompts. 
 
-## Подробнее
+The `Prodia` class is designed to be used within the `gpt4free` framework to offer image generation capabilities. It integrates with the `gpt4free` messaging system and provides an asynchronous generator interface for handling image generation tasks. 
 
-Этот модуль используется для интеграции с сервисом генерации изображений Prodia. Он предоставляет функциональность для асинхронной генерации изображений на основе предоставленных текстовых запросов и параметров.  Он позволяет выбирать модель, указывать негативные запросы, настраивать количество шагов, коэффициент конфигурации (CFG), начальное зерно (seed), метод выборки (sampler) и соотношение сторон изображения (aspect ratio). Модуль асинхронно опрашивает API Prodia для получения статуса задачи и возвращает URL готового изображения.
+## Details
 
-## Классы
+The `Prodia` provider leverages the Prodia API for image generation. It provides a wide range of models, including realistic, stylized, and anime-focused options. Users can customize various generation parameters, including:
+
+- **Model:** Choose from a selection of pre-trained models.
+- **Prompt:**  The text description for the desired image.
+- **Negative prompt:**  Text describing what should **not** be included in the image.
+- **Steps:**  The number of generation steps (higher values can lead to more detailed images).
+- **CFG Scale:**  A parameter that controls how closely the generated image adheres to the prompt (higher values can lead to more consistent results but might make the image less creative).
+- **Seed:**  A random seed value for controlling the generated image's randomness. 
+- **Sampler:**  The algorithm used for image generation, impacting image quality and speed. 
+- **Aspect Ratio:**  The desired aspect ratio for the generated image (square, portrait, landscape).
+
+The provider handles asynchronous communication with the Prodia API, polling the job status until the image generation is complete. It returns an `ImageResponse` object containing the generated image URL and a description of the prompt. 
+
+## Classes
 
 ### `Prodia`
 
-**Описание**:
-Класс `Prodia` является асинхронным провайдером генерации изображений, который взаимодействует с API Prodia для создания изображений на основе текстовых запросов.
+**Description**: This class represents the Prodia image generation provider.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
-- `ProviderModelMixin`: Предоставляет функциональность для работы с моделями.
+**Inherits**: 
+- `AsyncGeneratorProvider`:  Provides asynchronous image generation functionality. 
+- `ProviderModelMixin`:  Offers model selection and management capabilities.
 
-**Атрибуты**:
-- `url` (str): URL сервиса Prodia.
-- `api_endpoint` (str): URL API для генерации изображений.
-- `working` (bool): Указывает, работает ли провайдер.
-- `default_model` (str): Модель, используемая по умолчанию.
-- `default_image_model` (str): Модель изображения, используемая по умолчанию.
-- `image_models` (List[str]): Список доступных моделей изображений.
-- `models` (List[str]): Список всех доступных моделей.
+**Attributes**:
 
-**Принцип работы**:
-Класс использует асинхронные запросы к API Prodia для генерации изображений. Он предоставляет методы для выбора модели, создания запроса и опроса статуса задачи до получения готового изображения.
+- `url`: The base URL of the Prodia website. 
+- `api_endpoint`: The endpoint for sending generation requests.
+- `working`: A boolean flag indicating whether the provider is currently working.
+- `default_model`:  The default model to use if no specific model is provided.
+- `default_image_model`:  The default model for image generation.
+- `image_models`:  A list of supported models for image generation.
+- `models`: A combined list of all supported models.
 
-**Методы**:
-- `get_model(model: str) -> str`: Возвращает имя модели на основе предоставленного алиаса или имени, или модель по умолчанию, если модель не найдена.
-- `create_async_generator(model: str, messages: Messages, proxy: str = None, negative_prompt: str = "", steps: str = 20, cfg: str = 7, seed: Optional[int] = None, sampler: str = "DPM++ 2M Karras", aspect_ratio: str = "square", **kwargs) -> AsyncResult`: Создает асинхронный генератор для генерации изображений на основе предоставленных параметров.
-- `_poll_job(cls, session: ClientSession, job_id: str, proxy: str, max_attempts: int = 30, delay: int = 2) -> str`: Опрашивает API Prodia для получения статуса задачи генерации изображения.
+**Methods**:
 
-## Методы класса
+#### `get_model(cls, model: str) -> str`: 
 
-### `get_model`
+**Purpose**: Determines the model to be used for image generation based on the provided model name.
+
+**Parameters**:
+
+- `model` (str): The name of the desired model.
+
+**Returns**:
+
+- `str`:  The model name to be used.
+
+#### `create_async_generator(cls, model: str, messages: Messages, proxy: str = None, negative_prompt: str = "", steps: str = 20, cfg: str = 7, seed: Optional[int] = None, sampler: str = "DPM++ 2M Karras", aspect_ratio: str = "square", **kwargs) -> AsyncResult`: 
+
+**Purpose**:  Creates an asynchronous generator that sends a request to the Prodia API for image generation and yields the generated image response.
+
+**Parameters**:
+
+- `model` (str): The name of the desired model.
+- `messages` (Messages):  A list of messages containing the prompt for image generation.
+- `proxy` (str, optional):  A proxy server address to use. Defaults to `None`.
+- `negative_prompt` (str, optional):  Text describing what should **not** be included in the image. Defaults to "".
+- `steps` (str, optional): The number of generation steps (higher values can lead to more detailed images). Defaults to "20".
+- `cfg` (str, optional):  A parameter that controls how closely the generated image adheres to the prompt (higher values can lead to more consistent results but might make the image less creative). Defaults to "7".
+- `seed` (Optional[int], optional): A random seed value for controlling the generated image's randomness. Defaults to `None`.
+- `sampler` (str, optional):  The algorithm used for image generation, impacting image quality and speed. Defaults to "DPM++ 2M Karras".
+- `aspect_ratio` (str, optional): The desired aspect ratio for the generated image (square, portrait, landscape). Defaults to "square".
+- `**kwargs`: Additional keyword arguments passed to the API request.
+
+**Returns**:
+
+- `AsyncResult`:  An asynchronous result object representing the image generation process.
+
+#### `_poll_job(cls, session: ClientSession, job_id: str, proxy: str, max_attempts: int = 30, delay: int = 2) -> str`:
+
+**Purpose**:  Polls the Prodia API to check the status of a generation job until it completes.
+
+**Parameters**:
+
+- `session` (ClientSession): An `aiohttp` client session for making API requests.
+- `job_id` (str): The ID of the generation job.
+- `proxy` (str, optional):  A proxy server address to use. Defaults to `None`.
+- `max_attempts` (int, optional): The maximum number of attempts to poll the job status. Defaults to 30.
+- `delay` (int, optional):  The delay between attempts in seconds. Defaults to 2.
+
+**Returns**:
+
+- `str`:  The URL of the generated image if the job succeeds.
+
+**Raises**:
+
+- `Exception`:  If the generation job fails or times out.
+
+## Inner Functions 
+**Inner Functions**:  None
+
+## How the Function Works: 
+
+The `Prodia` class functions as an asynchronous image generation provider.  When a request is made to generate an image, the `create_async_generator` function takes the desired parameters and sends a request to the Prodia API. 
+
+The API responds with a job ID. The `_poll_job` function then continuously checks the status of the job until it completes.  If the job succeeds, it returns the URL of the generated image; otherwise, it raises an exception.
+
+The `create_async_generator` function then yields an `ImageResponse` object containing the generated image URL and a description of the prompt.
+
+## Examples
 
 ```python
-@classmethod
-def get_model(cls, model: str) -> str:
-    """
-    Функция выбирает подходящую модель из списка доступных или использует модель по умолчанию.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.Prodia import Prodia
 
-    Args:
-        model (str): Название модели, которую необходимо получить.
+# Create a Prodia provider instance
+provider = Prodia()
 
-    Returns:
-        str: Строка с именем модели.
-    """
+# Define a prompt for image generation
+prompt = "A beautiful sunset over a calm ocean."
+
+# Generate an image asynchronously
+async def generate_image():
+    async for image in provider.create_async_generator(model="absolutereality_v181.safetensors [3d9d4d2b]", messages=[{"content": prompt}]):
+        print(f"Generated image URL: {image.image_url}")
+
+# Run the asynchronous function
+asyncio.run(generate_image())
 ```
-
-**Назначение**:
-Метод `get_model` определяет, какая модель должна использоваться для генерации изображений. Если запрошенная модель есть в списке доступных моделей, она и будет использована. В противном случае будет использована модель по умолчанию.
-
-**Параметры**:
-- `model` (str): Название запрошенной модели.
-
-**Возвращает**:
-- `str`: Строка с именем модели, которую следует использовать.
-
-### `create_async_generator`
-
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    negative_prompt: str = "",
-    steps: str = 20,  # 1-25
-    cfg: str = 7,  # 0-20
-    seed: Optional[int] = None,
-    sampler: str = "DPM++ 2M Karras",
-    aspect_ratio: str = "square",  # "square", "portrait", "landscape"
-    **kwargs,
-) -> AsyncResult:
-    """
-    Функция создает асинхронный генератор для создания изображений на основе текстового запроса.
-
-    Args:
-        model (str): Название используемой модели.
-        messages (Messages): Список сообщений, содержащих текстовый запрос.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-        negative_prompt (str, optional): Негативный запрос, описывающий, чего не должно быть на изображении. По умолчанию "".
-        steps (str, optional): Количество шагов для генерации изображения. Должно быть в диапазоне 1-25. По умолчанию "20".
-        cfg (str, optional): Коэффициент конфигурации. Должен быть в диапазоне 0-20. По умолчанию "7".
-        seed (Optional[int], optional): Зерно для генерации случайных чисел. По умолчанию `None`.
-        sampler (str, optional): Метод выборки. По умолчанию "DPM++ 2M Karras".
-        aspect_ratio (str, optional): Соотношение сторон изображения. Должно быть "square", "portrait" или "landscape". По умолчанию "square".
-        **kwargs: Дополнительные параметры.
-
-    Returns:
-        AsyncResult: Асинхронный генератор, возвращающий `ImageResponse` с URL изображения.
-    """
-```
-
-**Назначение**:
-Метод `create_async_generator` создает асинхронный генератор, который отправляет запрос к API Prodia для генерации изображения на основе заданных параметров.
-
-**Параметры**:
-- `model` (str): Название модели для генерации.
-- `messages` (Messages): Список сообщений, содержащий текстовый запрос для генерации изображения.
-- `proxy` (str, optional): URL прокси-сервера для использования. По умолчанию `None`.
-- `negative_prompt` (str, optional): Негативный запрос, описывающий, чего не должно быть на изображении. По умолчанию пустая строка.
-- `steps` (str, optional): Количество шагов для генерации изображения. По умолчанию "20".
-- `cfg` (str, optional): Коэффициент конфигурации. По умолчанию "7".
-- `seed` (Optional[int], optional): Зерно для генерации случайных чисел. Если не указано, генерируется случайное число. По умолчанию `None`.
-- `sampler` (str, optional): Метод выборки. По умолчанию "DPM++ 2M Karras".
-- `aspect_ratio` (str, optional): Соотношение сторон изображения. По умолчанию "square".
-- `**kwargs`: Дополнительные параметры.
-
-**Возвращает**:
-- `AsyncResult`: Асинхронный генератор, возвращающий объект `ImageResponse` с URL сгенерированного изображения.
-
-### `_poll_job`
-
-```python
-@classmethod
-async def _poll_job(
-    cls,
-    session: ClientSession,
-    job_id: str,
-    proxy: str,
-    max_attempts: int = 30,
-    delay: int = 2,
-) -> str:
-    """
-    Функция асинхронно опрашивает API Prodia для получения статуса задачи генерации изображения.
-
-    Args:
-        session (ClientSession): Асинхронная HTTP-сессия.
-        job_id (str): Идентификатор задачи.
-        proxy (str): Прокси-сервер для использования.
-        max_attempts (int, optional): Максимальное количество попыток опроса. По умолчанию 30.
-        delay (int, optional): Задержка между попытками опроса в секундах. По умолчанию 2.
-
-    Returns:
-        str: URL сгенерированного изображения.
-
-    Raises:
-        Exception: Если генерация изображения не удалась или истекло время ожидания.
-    """
-```
-
-**Назначение**:
-Метод `_poll_job` асинхронно опрашивает API Prodia, чтобы узнать статус выполнения задачи генерации изображения.
-
-**Параметры**:
-- `session` (ClientSession): Асинхронная HTTP-сессия для выполнения запросов.
-- `job_id` (str): Идентификатор задачи генерации изображения.
-- `proxy` (str): URL прокси-сервера для использования.
-- `max_attempts` (int, optional): Максимальное количество попыток опроса API. По умолчанию 30.
-- `delay` (int, optional): Задержка в секундах между попытками опроса. По умолчанию 2.
-
-**Возвращает**:
-- `str`: URL сгенерированного изображения, если задача успешно выполнена.
-
-**Вызывает исключения**:
-- `Exception`: Если задача завершилась неудачей или истекло время ожидания.
-
-## Переменные класса
-
-- `url` (str): URL сервиса Prodia.
-- `api_endpoint` (str): URL API для генерации изображений.
-- `working` (bool): Указывает, работает ли провайдер.
-- `default_model` (str): Модель, используемая по умолчанию.
-- `default_image_model` (str): Модель изображения, используемая по умолчанию.
-- `image_models` (List[str]): Список доступных моделей изображений.
-- `models` (List[str]): Список всех доступных моделей.
-
-## Примеры
-
-Пример использования класса `Prodia` для генерации изображения:
-
-```python
-import asyncio
-from src.endpoints.gpt4free.g4f.Provider.not_working.Prodia import Prodia
-from src.typing import Messages
-
-async def main():
-    messages: Messages = [{"role": "user", "content": "A beautiful landscape"}]
-    model = Prodia.default_model
-    async for image_response in Prodia.create_async_generator(model=model, messages=messages):
-        if image_response:
-            print(f"Image URL: {image_response.url}")
-            break
-
-if __name__ == "__main__":
-    asyncio.run(main())

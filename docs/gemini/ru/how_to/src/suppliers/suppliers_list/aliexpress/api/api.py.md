@@ -1,17 +1,37 @@
-### Как использовать класс `AliexpressApi`
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Класс `AliexpressApi` предоставляет интерфейс для взаимодействия с API AliExpress, позволяя получать информацию о товарах, категориях и создавать партнерские ссылки.
+Этот код представляет собой класс `AliexpressApi`, который является оберткой для AliExpress API. Класс предоставляет методы для извлечения информации о продуктах, генерации партнерских ссылок, поиска товаров с высокой комиссией и получения категорий продуктов. 
 
 Шаги выполнения
 -------------------------
-1. **Инициализация класса**: Создайте экземпляр класса `AliexpressApi`, передав необходимые параметры аутентификации и настройки.
-2. **Получение информации о товарах**: Вызовите метод `retrieve_product_details` для получения детальной информации о товарах по их ID.
-3. **Создание партнерских ссылок**: Используйте метод `get_affiliate_links` для генерации партнерских ссылок на товары.
-4. **Получение списка горячих товаров**: Вызовите метод `get_hotproducts` для поиска товаров с высокой комиссией.
-5. **Получение категорий**: Используйте методы `get_categories`, `get_parent_categories` и `get_child_categories` для получения списка категорий товаров.
+1. **Инициализация класса:**
+    - Для использования API необходимо создать экземпляр класса `AliexpressApi`, передав API ключ, API секрет, код языка, код валюты и необязательный идентификатор отслеживания (tracking_id). 
+    - В конструкторе класса устанавливаются необходимые параметры, такие как ключ, секрет, язык, валюта, идентификатор отслеживания и приложение для API.
+
+2. **Извлечение данных о продуктах (retrieve_product_details):**
+    - Метод `retrieve_product_details` позволяет получить информацию о продуктах AliExpress по их ID или URL-адресам. 
+    - Можно указать поля, которые необходимо включить в результаты, а также страну для фильтрации продуктов. 
+
+3. **Генерация партнерских ссылок (get_affiliate_links):**
+    - Метод `get_affiliate_links` генерирует партнерские ссылки для заданных URL-адресов.
+    - Можно выбрать тип ссылки: стандартная ссылка или ссылка на популярный продукт. 
+    - Для этого необходимо передать параметр `link_type`, который может принимать значение `model_LinkType.NORMAL` или `model_LinkType.HOTLINK`.
+
+4. **Поиск товаров с высокой комиссией (get_hotproducts):**
+    - Метод `get_hotproducts` позволяет найти популярные продукты с высокой комиссией. 
+    - Метод принимает ряд параметров для фильтрации товаров, таких как идентификаторы категорий, количество дней доставки, диапазон цен, ключевые слова и другие. 
+
+5. **Получение категорий (get_categories):**
+    - Метод `get_categories` возвращает список всех доступных категорий, как родительских, так и дочерних. 
+
+6. **Получение родительских категорий (get_parent_categories):**
+    - Метод `get_parent_categories` возвращает список всех родительских категорий. 
+
+7. **Получение дочерних категорий (get_child_categories):**
+    - Метод `get_child_categories` возвращает список дочерних категорий для конкретной родительской категории.
 
 Пример использования
 -------------------------
@@ -20,50 +40,43 @@
 from src.suppliers.suppliers_list.aliexpress.api.api import AliexpressApi
 from src.suppliers.suppliers_list.aliexpress.api.models import Language, Currency, LinkType
 
-# Параметры аутентификации и настройки
-api_key = "your_api_key"
-api_secret = "your_api_secret"
-language = Language.RU  # или другой поддерживаемый язык
-currency = Currency.RUB  # или другая поддерживаемая валюта
-tracking_id = "your_tracking_id"  # Обязателен для создания партнерских ссылок
-
-# Инициализация API
-aliexpress_api = AliexpressApi(
-    key=api_key,
-    secret=api_secret,
-    language=language,
-    currency=currency,
-    tracking_id=tracking_id
+# Создаем экземпляр класса AliexpressApi
+api = AliexpressApi(
+    key="YOUR_API_KEY",
+    secret="YOUR_API_SECRET",
+    language=Language.EN,
+    currency=Currency.USD,
+    tracking_id="YOUR_TRACKING_ID"
 )
 
-# Получение информации о товарах
-product_ids = ["1234567890", "0987654321"]
-products = aliexpress_api.retrieve_product_details(product_ids=product_ids)
-if products:
-    print(f"Информация о товарах: {products}")
+# Получаем информацию о продукте по ID
+product_id = '123456789'
+product_details = api.retrieve_product_details(product_id)
+print(product_details)
 
-# Создание партнерских ссылок
-links = ["https://aliexpress.com/item/1234567890.html", "https://aliexpress.com/item/0987654321.html"]
-affiliate_links = aliexpress_api.get_affiliate_links(links=links, link_type=LinkType.HOTLINK)
-if affiliate_links:
-    print(f"Партнерские ссылки: {affiliate_links}")
+# Создаем партнерскую ссылку
+link = 'https://www.aliexpress.com/item/123456789.html'
+affiliate_links = api.get_affiliate_links(link)
+print(affiliate_links)
 
-# Получение списка горячих товаров
-hot_products = aliexpress_api.get_hotproducts(category_ids=["200000348"])
-if hot_products:
-    print(f"Список горячих товаров: {hot_products.products}")
+# Поиск товаров с высокой комиссией
+hotproducts = api.get_hotproducts(
+    category_ids='123456789',
+    min_sale_price=100,
+    max_sale_price=1000,
+    keywords='smartwatch'
+)
+print(hotproducts)
 
-# Получение категорий
-categories = aliexpress_api.get_categories()
-if categories:
-    print(f"Список категорий: {categories}")
+# Получение всех доступных категорий
+categories = api.get_categories()
+print(categories)
 
 # Получение родительских категорий
-parent_categories = aliexpress_api.get_parent_categories()
-if parent_categories:
-    print(f"Родительские категории: {parent_categories}")
+parent_categories = api.get_parent_categories()
+print(parent_categories)
 
-# Получение дочерних категорий для родительской категории с ID 2
-child_categories = aliexpress_api.get_child_categories(parent_category_id=2)
-if child_categories:
-    print(f"Дочерние категории: {child_categories}")
+# Получение дочерних категорий для родительской категории с ID 123456789
+child_categories = api.get_child_categories(parent_category_id=123456789)
+print(child_categories)
+```

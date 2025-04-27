@@ -1,113 +1,173 @@
-# Module src.endpoints.gpt4free.g4f.Provider.deprecated.Cromicle
+# Cromicle Provider
 
-## Обзор
+## Overview
 
-Модуль `Cromicle` предоставляет класс `Cromicle`, который является асинхронным генераторным провайдером для взаимодействия с сервисом cromicle.top.
-Он использует `aiohttp` для выполнения асинхронных HTTP-запросов и предоставляет функциональность для генерации текста на основе модели GPT-3.5 Turbo.
-Модуль включает функции для создания заголовков и полезной нагрузки запроса.
+This module defines the `Cromicle` class, which is an asynchronous provider for the `hypotez` project. It provides a mechanism for interacting with the `cromicle.top` API to generate responses using various language models.
 
-## Подробнее
+## Details
 
-Этот модуль предназначен для интеграции с другими частями проекта `hypotez`, где требуется взаимодействие с API cromicle.top для генерации текста. Он обеспечивает асинхронный интерфейс, что позволяет эффективно обрабатывать запросы без блокировки основного потока выполнения.
+The `Cromicle` class inherits from the `AsyncGeneratorProvider` and provides a mechanism to interact with the `cromicle.top` API. It utilizes `aiohttp` for asynchronous HTTP requests and `hashlib` for message hashing to ensure security.
 
-## Классы
+The class features a `create_async_generator` method, which takes a language model name, a list of messages, and optional proxy settings. This method constructs the necessary request payload, sends it to the API, and returns an asynchronous generator that yields the received response streams.
+
+## Classes
 
 ### `Cromicle`
 
-**Описание**:
-Класс `Cromicle` является асинхронным генераторным провайдером для взаимодействия с API cromicle.top.
+**Description**: This class provides a mechanism for interacting with the `cromicle.top` API to generate responses using various language models.
 
-**Наследует**:
-`AsyncGeneratorProvider`
+**Inherits**: `AsyncGeneratorProvider`
 
-**Атрибуты**:
-- `url` (str): URL-адрес сервиса cromicle.top.
-- `working` (bool): Флаг, указывающий, работает ли провайдер.
-- `supports_gpt_35_turbo` (bool): Флаг, указывающий, поддерживает ли провайдер модель GPT-3.5 Turbo.
+**Attributes**:
 
-**Методы**:
-- `create_async_generator`: Создает асинхронный генератор для получения ответов от API cromicle.top.
+- `url` (str): The base URL of the `cromicle.top` API.
+- `working` (bool): Indicates whether the provider is currently active.
+- `supports_gpt_35_turbo` (bool): Indicates whether the provider supports the GPT-3.5 Turbo model.
+
+**Methods**:
+
+- `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`: This method creates an asynchronous generator that yields the responses received from the `cromicle.top` API.
+
+## Class Methods
 
 ### `create_async_generator`
 
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    **kwargs
-) -> AsyncResult:
-    """Создает асинхронный генератор для получения ответов от API cromicle.top.
-
-    Args:
-        cls (type[Cromicle]): Класс `Cromicle`.
-        model (str): Имя модели для использования.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы.
-
-    Returns:
-        AsyncResult: Асинхронный генератор, выдающий текст ответа.
-
-    Принцип работы:
-        1. Создает HTTP-сессию с заголовками, созданными функцией `_create_header`.
-        2. Выполняет POST-запрос к API cromicle.top с использованием `aiohttp`.
-        3. Отправляет данные в формате JSON, созданные функцией `_create_payload`.
-        4. Получает ответ в виде потока данных.
-        5. Декодирует поток данных и выдает его частями через генератор.
-
-    Примеры:
-        Пример использования функции с указанием модели и сообщений:
-
-        >>> model = "gpt-3.5-turbo"
-        >>> messages = [{"role": "user", "content": "Hello, world!"}]
-        >>> async def example():
-        ...     async for message in Cromicle.create_async_generator(model=model, messages=messages):
-        ...         print(message)
-        >>> import asyncio
-        >>> asyncio.run(example())
-    """
+    @classmethod
+    async def create_async_generator(
+        cls,
+        model: str,
+        messages: Messages,
+        proxy: str = None,
+        **kwargs
+    ) -> AsyncResult:
+        async with ClientSession(
+            headers=_create_header()
+        ) as session:
+            async with session.post(
+                f'{cls.url}/chat',
+                proxy=proxy,
+                json=_create_payload(format_prompt(messages))
+            ) as response:
+                response.raise_for_status()
+                async for stream in response.content.iter_any():
+                    if stream:
+                        yield stream.decode()
 ```
 
-## Функции
+**Purpose**: This method creates an asynchronous generator that yields the responses received from the `cromicle.top` API.
+
+**Parameters**:
+
+- `model` (str): The name of the language model to use for response generation.
+- `messages` (Messages): A list of messages representing the conversation history.
+- `proxy` (str, optional): A proxy server URL to use for the request. Defaults to `None`.
+
+**Returns**:
+
+- `AsyncResult`: An asynchronous generator that yields the received response streams.
+
+**Raises Exceptions**:
+
+- `HTTPError`: If an HTTP error occurs during the request.
+
+**How the Function Works**:
+
+1. Creates an asynchronous `ClientSession` object with the specified headers.
+2. Sends a POST request to the `cromicle.top` API with the formatted prompt and optional proxy settings.
+3. Raises an `HTTPError` if the request fails.
+4. Iterates over the response content stream using `iter_any()`.
+5. Decodes the stream into a string and yields it to the caller.
+
+**Examples**:
+
+```python
+    async def main():
+        messages = [
+            {'role': 'user', 'content': 'Hello, how are you?'},
+            {'role': 'assistant', 'content': 'I am doing well, thank you.'},
+        ]
+        async for stream in Cromicle.create_async_generator(model='gpt-3.5-turbo', messages=messages):
+            print(stream)
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+```
+
+## Parameter Details
+
+- `model` (str): The name of the language model to use for response generation.
+- `messages` (Messages): A list of messages representing the conversation history.
+- `proxy` (str, optional): A proxy server URL to use for the request. Defaults to `None`.
+
+
+## Inner Functions
 
 ### `_create_header`
 
 ```python
 def _create_header() -> Dict[str, str]:
-    """Создает словарь с заголовками для HTTP-запроса.
+    return {
+        'accept': '*/*',
+        'content-type': 'application/json',
+    }
+```
 
-    Returns:
-        Dict[str, str]: Словарь с заголовками.
+**Purpose**: This function creates a dictionary of headers for the HTTP request to the `cromicle.top` API.
 
-    Принцип работы:
-        Функция создает словарь, содержащий заголовки 'accept' и 'content-type', необходимые для выполнения HTTP-запроса.
+**Parameters**: None
 
-    Примеры:
-        >>> _create_header()
-        {'accept': '*/*', 'content-type': 'application/json'}
-    """
+**Returns**:
+
+- `Dict[str, str]`: A dictionary containing the request headers.
+
+**How the Function Works**:
+
+1. Creates a dictionary with two key-value pairs:
+    - `accept`: `*/*` indicates that the client accepts any data type in the response.
+    - `content-type`: `application/json` specifies that the request payload will be in JSON format.
+
+**Examples**:
+
+```python
+    headers = _create_header()
+    print(headers)  # Output: {'accept': '*/*', 'content-type': 'application/json'}
 ```
 
 ### `_create_payload`
 
 ```python
 def _create_payload(message: str) -> Dict[str, str]:
-    """Создает словарь с полезной нагрузкой для HTTP-запроса.
+    return {
+        'message': message,
+        'token': 'abc',
+        'hash': sha256('abc'.encode() + message.encode()).hexdigest()
+    }
+```
 
-    Args:
-        message (str): Сообщение для отправки.
+**Purpose**: This function creates the JSON payload for the HTTP request to the `cromicle.top` API.
 
-    Returns:
-        Dict[str, str]: Словарь с полезной нагрузкой.
+**Parameters**:
 
-    Принцип работы:
-        Функция создает словарь, содержащий сообщение, токен и хеш сообщения.
-        Хеш вычисляется с использованием SHA256.
+- `message` (str): The text message to be sent to the API.
 
-    Примеры:
-        >>> _create_payload("Hello")
-        {'message': 'Hello', 'token': 'abc', 'hash': '68d54a9d2ee960b66161c964a9314f15a5974adef27bb149e48106589a4dd294'}
-    """
+**Returns**:
+
+- `Dict[str, str]`: A dictionary representing the JSON payload.
+
+**How the Function Works**:
+
+1. Creates a dictionary with three key-value pairs:
+    - `message`: The text message to be sent to the API.
+    - `token`: A hardcoded token value (`'abc'`).
+    - `hash`: A SHA-256 hash of the concatenated token and message, ensuring security.
+
+**Examples**:
+
+```python
+    message = 'Hello, world!'
+    payload = _create_payload(message)
+    print(payload)  # Output: {'message': 'Hello, world!', 'token': 'abc', 'hash': ...}
+```
+
+This concludes the documentation for the `Cromicle` provider.

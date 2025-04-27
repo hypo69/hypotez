@@ -1,143 +1,100 @@
-# Модуль для модульного тестирования веб-поиска
+# Unit Tests for Web Search Functionality
 
-## Обзор
+## Overview
 
-Этот модуль содержит модульные тесты для функциональности веб-поиска в проекте `hypotez`. Он использует библиотеку `duckduckgo_search` для выполнения поисковых запросов и проверяет интеграцию с `AsyncClient`.
+This module contains unit tests for the web search functionality within the `hypotez` project. These tests focus on verifying the integration of the `search_tool` with the GPT-4Free API and ensure proper handling of web search results.
 
-## Подробнее
+## Details
 
-Модуль проверяет, что функция веб-поиска правильно интегрирована в систему и возвращает ожидаемые результаты.  Он выполняет поиск с различными параметрами и проверяет, содержит ли ответ ожидаемые строки.
+The tests in this file utilize `YieldProviderMock` to simulate the behavior of the actual web search provider and verify that the `search_tool` is correctly invoked with the expected arguments. The tests also validate the format of the tool calls and the expected responses from the GPT-4Free API when using the `search_tool`.
 
-## Классы
+## Classes
 
 ### `TestIterListProvider`
 
-**Описание**: Класс для модульного тестирования интеграции веб-поиска.
+**Description**: This class defines a set of unit tests for verifying the web search functionality within the GPT-4Free API.
 
-**Наследует**:
-- `unittest.IsolatedAsyncioTestCase`: Обеспечивает основу для написания асинхронных тестов.
+**Inherits**: `unittest.IsolatedAsyncioTestCase`
 
-**Атрибуты**:
-- Нет специфических атрибутов, кроме тех, что предоставляются базовым классом `unittest.IsolatedAsyncioTestCase`.
+**Attributes**: None
 
-**Принцип работы**:
-   - Класс `TestIterListProvider` предназначен для модульного тестирования интеграции веб-поиска.
-   - При инициализации класса проверяется наличие необходимых зависимостей (`duckduckgo_search`, `bs4`). Если зависимости не установлены, тест пропускается.
-   - Определены три асинхронных тестовых метода (`test_search`, `test_search2`, `test_search3`), каждый из которых выполняет поисковый запрос с различными параметрами и проверяет, содержит ли ответ ожидаемые строки.
-   - Используется `AsyncClient` с моковым провайдером (`YieldProviderMock`) для имитации ответа веб-поиска.
-   - В случае возникновения исключения `DuckDuckGoSearchException`, тест пропускается.
+**Methods**:
 
-## Методы класса
+- `test_search()`: Tests the web search functionality by sending a user request to the GPT-4Free API and checking the presence of the `search_tool` invocation in the generated response.
 
-### `setUp`
+- `test_search2()`: Performs another test for web search functionality, similar to `test_search()`, but focuses on different aspects of the web search configuration.
 
-```python
-def setUp(self) -> None:
-    """
-    Выполняет настройку перед каждым тестом.
+- `test_search3()`: Conducts a third test for web search functionality, verifying the use of JSON encoding in the `search_tool` call.
 
-    Args:
-        self: Экземпляр класса `TestIterListProvider`.
+## Functions
 
-    Returns:
-        None
+## Parameter Details
 
-    Пример:
-        >>> test_instance = TestIterListProvider()
-        >>> test_instance.setUp()
-    """
-```
+- `query` (str): The search query to be used for the web search.
 
-**Назначение**:
-   - Этот метод настраивает тестовую среду перед выполнением каждого теста.
-   - Проверяет, установлены ли необходимые зависимости (`duckduckgo_search`, `bs4`). Если зависимости не установлены, тест пропускается.
+- `max_results` (int): The maximum number of search results to retrieve.
 
-**Как работает**:
-   - Проверяет наличие переменной `has_requirements`. Если она `False`, то вызывается `self.skipTest()` с сообщением о пропуске теста из-за отсутствия необходимых зависимостей.
+- `max_words` (int): The maximum number of words to use from the search results for generating the response.
 
-### `test_search`
+- `backend` (str): Specifies the backend used for web search. Options include "html" or "lite".
+
+- `add_text` (bool): Indicates whether to scrape websites and include extracted text in the response.
+
+- `timeout` (int): The timeout in seconds for scraping websites.
+
+- `region` (str): The geographical region for the search.
+
+- `instructions` (str): Specific instructions for the GPT-4Free API when generating a response based on the search results.
+
+## Examples
 
 ```python
+# Example of a call to the search_tool:
+tool_calls = [
+    {
+        "function": {
+            "arguments": {
+                "query": "search query",
+                "max_results": 5,
+                "max_words": 500,
+                "backend": "html",
+                "add_text": True,
+                "timeout": 5,
+                "region": "wt-wt",
+                "instructions": "Using the provided web search results, to write a comprehensive reply to the user request.\n"
+                                "Make sure to add the sources of cites using [[Number]](Url) notation after the reference. Example: [[0]](http://google.com)",
+            },
+            "name": "search_tool"
+        },
+        "type": "function"
+    }
+]
+
+# Example of a test case:
 async def test_search(self):
-    """
-    Проверяет интеграцию веб-поиска с подробными параметрами.
-
-    Args:
-        self: Экземпляр класса `TestIterListProvider`.
-
-    Returns:
-        None
-
-    Пример:
-        >>> test_instance = TestIterListProvider()
-        >>> await test_instance.test_search()
-    """
+    client = AsyncClient(provider=YieldProviderMock)
+    tool_calls = [
+        {
+            "function": {
+                "arguments": {
+                    "query": "search query",  # content of last message: messages[-1]["content"]
+                    "max_results": 5,  # maximum number of search results
+                    "max_words": 500,  # maximum number of used words from search results for generating the response
+                    "backend": "html",  # or "lite", "api": change it to pypass rate limits
+                    "add_text": True,  # do scraping websites
+                    "timeout": 5,  # in seconds for scraping websites
+                    "region": "wt-wt",
+                    "instructions": "Using the provided web search results, to write a comprehensive reply to the user request.\n"
+                                    "Make sure to add the sources of cites using [[Number]](Url) notation after the reference. Example: [[0]](http://google.com)",
+                },
+                "name": "search_tool"
+            },
+            "type": "function"
+        }
+    ]
+    try:
+        response = await client.chat.completions.create([{"content": "", "role": "user"}], "", tool_calls=tool_calls)
+        self.assertIn("Using the provided web search results", response.choices[0].message.content)
+    except DuckDuckGoSearchException as e:
+        self.skipTest(f'DuckDuckGoSearchException: {e}')
 ```
-
-**Назначение**:
-   - Этот метод проверяет интеграцию веб-поиска с подробными параметрами, такими как `query`, `max_results`, `max_words`, `backend`, `add_text`, `timeout`, `region` и `instructions`.
-   - Отправляет запрос к `AsyncClient` с инструментом `search_tool` и проверяет, содержит ли ответ ожидаемую строку "Using the provided web search results".
-
-**Как работает**:
-   - Создает экземпляр `AsyncClient` с моковым провайдером `YieldProviderMock`.
-   - Определяет `tool_calls` с подробными параметрами для инструмента `search_tool`.
-   - Вызывает `client.chat.completions.create` с `tool_calls` и проверяет, содержит ли ответ строку "Using the provided web search results".
-   - Если возникает исключение `DuckDuckGoSearchException`, тест пропускается.
-
-### `test_search2`
-
-```python
-async def test_search2(self):
-    """
-    Проверяет интеграцию веб-поиска с минимальными параметрами.
-
-    Args:
-        self: Экземпляр класса `TestIterListProvider`.
-
-    Returns:
-        None
-
-    Пример:
-        >>> test_instance = TestIterListProvider()
-        >>> await test_instance.test_search2()
-    """
-```
-
-**Назначение**:
-   - Этот метод проверяет интеграцию веб-поиска с минимальными параметрами, такими как только `query`.
-   - Отправляет запрос к `AsyncClient` с инструментом `search_tool` и проверяет, содержит ли ответ ожидаемую строку "Using the provided web search results".
-
-**Как работает**:
-   - Создает экземпляр `AsyncClient` с моковым провайдером `YieldProviderMock`.
-   - Определяет `tool_calls` с минимальными параметрами (только `query`) для инструмента `search_tool`.
-   - Вызывает `client.chat.completions.create` с `tool_calls` и проверяет, содержит ли ответ строку "Using the provided web search results".
-   - Если возникает исключение `DuckDuckGoSearchException`, тест пропускается.
-
-### `test_search3`
-
-```python
-async def test_search3(self):
-    """
-    Проверяет интеграцию веб-поиска с параметрами, переданными в формате JSON.
-
-    Args:
-        self: Экземпляр класса `TestIterListProvider`.
-
-    Returns:
-        None
-
-    Пример:
-        >>> test_instance = TestIterListProvider()
-        >>> await test_instance.test_search3()
-    """
-```
-
-**Назначение**:
-   - Этот метод проверяет интеграцию веб-поиска с параметрами, переданными в формате JSON.
-   - Отправляет запрос к `AsyncClient` с инструментом `search_tool` и проверяет, содержит ли ответ ожидаемую строку "Using the provided web search results".
-
-**Как работает**:
-   - Создает экземпляр `AsyncClient` с моковым провайдером `YieldProviderMock`.
-   - Определяет `tool_calls` с параметрами в формате JSON для инструмента `search_tool`.
-   - Вызывает `client.chat.completions.create` с `tool_calls` и проверяет, содержит ли ответ строку "Using the provided web search results".
-   - Если возникает исключение `DuckDuckGoSearchException`, тест пропускается.

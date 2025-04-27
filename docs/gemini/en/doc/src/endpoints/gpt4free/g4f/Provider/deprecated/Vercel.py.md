@@ -1,162 +1,155 @@
-## Модуль `Vercel.py`
+# Vercel Provider for GPT-4Free
 
-## Обзор
+## Overview
 
-Модуль `Vercel.py` предоставляет интерфейс для работы с сервисом Vercel AI для создания текстовых завершений. Он поддерживает различные модели, включая `gpt-3.5-turbo`, и обеспечивает потоковую передачу данных. Модуль использует библиотеку `requests` для выполнения HTTP-запросов и `execjs` для выполнения JavaScript-кода, необходимого для получения токена защиты от ботов.
+This module provides the `Vercel` class, which implements the `AbstractProvider` interface and enables interaction with the Vercel AI platform for generating text completions using various AI models. This provider leverages Vercel's `sdk.vercel.ai` API and supports different models, including `gpt-3.5-turbo`, `llama70b-v2-chat`, and `bloom`.
 
-## Подробнее
+## Details
 
-Модуль определяет класс `Vercel`, который наследуется от `AbstractProvider` и реализует методы для создания запросов к Vercel AI. Он также содержит функции для получения токена защиты от ботов, используемого для аутентификации запросов. Кроме того, в модуле определена структура данных `ModelInfo`, содержащая информацию о поддерживаемых моделях и их параметрах по умолчанию.
+The `Vercel` provider offers a way to access and utilize Vercel's AI capabilities for text completion tasks. It supports a range of AI models, providing flexibility for users to choose the most suitable option for their needs. This module allows developers to integrate Vercel's AI services into their applications, facilitating text generation, conversation simulation, and other AI-powered tasks.
 
-## Классы
+## Classes
 
-### `Vercel`
+### `class Vercel`
 
-**Описание**: Класс `Vercel` предоставляет интерфейс для взаимодействия с сервисом Vercel AI.
+**Description**: This class represents a provider for generating text completions using the Vercel AI platform. It implements the `AbstractProvider` interface and provides methods for creating completions with various supported AI models.
 
-**Наследует**: `AbstractProvider`
+**Inherits**: `AbstractProvider`
 
-**Атрибуты**:
-- `url` (str): URL-адрес сервиса Vercel AI.
-- `working` (bool): Флаг, указывающий, работает ли провайдер.
-- `supports_message_history` (bool): Флаг, указывающий, поддерживает ли провайдер историю сообщений.
-- `supports_gpt_35_turbo` (bool): Флаг, указывающий, поддерживает ли провайдер модель `gpt-3.5-turbo`.
-- `supports_stream` (bool): Флаг, указывающий, поддерживает ли провайдер потоковую передачу данных.
+**Attributes**:
 
-**Методы**:
-- `create_completion()`: Создает запрос к Vercel AI и возвращает результат.
+- `url (str)`: Base URL for the Vercel AI API.
+- `working (bool)`: Indicates whether the provider is currently operational.
+- `supports_message_history (bool)`: Flag indicating whether the provider supports message history.
+- `supports_gpt_35_turbo (bool)`: Flag indicating whether the provider supports the `gpt-3.5-turbo` model.
+- `supports_stream (bool)`: Flag indicating whether the provider supports streaming responses.
 
-### `Vercel.create_completion`
+**Methods**:
 
-```python
-@staticmethod
-def create_completion(
-    model: str,
-    messages: Messages,
-    stream: bool,
-    proxy: str = None,
-    **kwargs
-) -> CreateResult:
-    """Функция создает запрос к Vercel AI и возвращает результат.
+- `create_completion(model: str, messages: Messages, stream: bool, proxy: str = None, **kwargs) -> CreateResult`: This method is responsible for generating text completions using the specified AI model. It takes a model name, a list of messages, a flag indicating whether to stream the response, an optional proxy server address, and keyword arguments.
 
-    Args:
-        model (str): Имя модели для использования.
-        messages (Messages): Список сообщений для отправки в Vercel AI.
-        stream (bool): Флаг, указывающий, использовать ли потоковую передачу данных.
-        proxy (str, optional): URL-адрес прокси-сервера. По умолчанию `None`.
-        **kwargs: Дополнительные параметры для передачи в Vercel AI.
+### `class ModelInfo`
 
-    Returns:
-        CreateResult: Результат запроса.
+**Description**: This class represents the information associated with an AI model supported by the Vercel provider.
 
-    Raises:
-        MissingRequirementsError: Если не установлен пакет `PyExecJS`.
-        ValueError: Если указанная модель не поддерживается Vercel.
-    """
-```
+**Attributes**:
 
-**Параметры**:
-- `model` (str): Имя модели для использования.
-- `messages` (Messages): Список сообщений для отправки в Vercel AI.
-- `stream` (bool): Флаг, указывающий, использовать ли потоковую передачу данных.
-- `proxy` (str, optional): URL-адрес прокси-сервера. По умолчанию `None`.
-- `**kwargs`: Дополнительные параметры для передачи в Vercel AI.
+- `id (str)`: The unique identifier for the model within the Vercel platform.
+- `default_params (dict[str, Any])`: Default parameters for the model.
 
-**Как работает**:
+## Functions
 
-1. **Проверка зависимостей**:
-   - Проверяется, установлен ли пакет `PyExecJS`. Если нет, вызывается исключение `MissingRequirementsError`.
+### `get_anti_bot_token() -> str`
 
-2. **Выбор модели**:
-   - Если `model` не указана, используется модель `"gpt-3.5-turbo"`.
-   - Если указанная модель не найдена в `model_info`, вызывается исключение `ValueError`.
+**Purpose**: This function retrieves an anti-bot token from the Vercel platform, ensuring that requests from the provider are not blocked by the API.
 
-3. **Формирование заголовков**:
-   - Формируются заголовки HTTP-запроса, включая токен защиты от ботов, полученный с помощью функции `get_anti_bot_token()`.
+**How the Function Works**:
 
-4. **Формирование данных запроса**:
-   - Формируются данные JSON для отправки в Vercel AI, включающие идентификатор модели, сообщения, идентификатор игровой площадки и параметры модели по умолчанию.
+1. The function sends a GET request to the `https://sdk.vercel.ai/openai.jpeg` endpoint with appropriate headers.
+2. It decodes the base64-encoded response and extracts relevant data.
+3. Using `execjs`, the function executes a JavaScript script to generate the anti-bot token.
+4. The token is then encoded in base64 format and returned.
 
-5. **Выполнение запроса**:
-   - Выполняется HTTP-запрос методом `POST` к адресу `'https://chat.vercel.ai/api/chat'` с использованием библиотеки `requests`.
-   - В случае ошибки при выполнении запроса, выполняется повторная попытка в течение `max_retries` раз.
+### `create_completion(model: str, messages: Messages, stream: bool, proxy: str = None, **kwargs) -> CreateResult`
 
-6. **Обработка ответа**:
-   - Если `stream` установлен в `True`, функция возвращает генератор, который выдает токены из ответа по мере их поступления.
-   - Если `stream` установлен в `False`, функция возвращает строку, содержащую полный ответ от Vercel AI.
+**Purpose**: This method is responsible for generating text completions using the specified AI model. It takes a model name, a list of messages, a flag indicating whether to stream the response, an optional proxy server address, and keyword arguments.
 
-**Примеры**:
+**Parameters**:
 
-Пример вызова функции:
+- `model (str)`: The name of the AI model to use for generating the completion.
+- `messages (Messages)`: A list of messages representing the conversation history.
+- `stream (bool)`: Flag indicating whether to stream the response.
+- `proxy (str, optional)`: The address of a proxy server to use for making API requests. Defaults to `None`.
+- `**kwargs`: Additional keyword arguments to be passed to the AI model.
 
-```python
-model = "gpt-3.5-turbo"
-messages = [{"role": "user", "content": "Hello, Vercel!"}]
-stream = True
-proxy = None
-kwargs = {}
+**Returns**:
 
-result = Vercel.create_completion(model, messages, stream, proxy, **kwargs)
-for token in result:
-    print(token, end="")
-```
+- `CreateResult`: A dictionary containing the generated response.
 
-## Функции
+**Raises Exceptions**:
 
-### `get_anti_bot_token`
+- `MissingRequirementsError`: If the `PyExecJS` package is not installed.
+- `ValueError`: If the specified model is not supported by the Vercel provider.
 
-```python
-def get_anti_bot_token() -> str:
-    """Функция получает токен защиты от ботов с сервиса Vercel AI.
+**How the Function Works**:
 
-    Returns:
-        str: Токен защиты от ботов.
-    """
-```
+1. It checks if the necessary requirements (`PyExecJS`) are installed.
+2. It verifies that the specified model is supported.
+3. It prepares the request headers, including an anti-bot token.
+4. It constructs the JSON data for the API request, including the model ID, messages, playground ID, chat index, and other model-specific parameters.
+5. It performs multiple retries (up to 20) to handle potential network issues.
+6. It sends a POST request to the `https://chat.vercel.ai/api/chat` endpoint with the prepared data.
+7. It iterates through the streamed response and yields each token as a decoded string.
 
-**Как работает**:
+## Parameter Details
 
-1. **Формирование заголовков**:
-   - Формируются заголовки HTTP-запроса.
+- `model (str)`: The name of the AI model to use for generating the completion. Supported models include:
+    - `gpt-3.5-turbo`
+    - `replicate/llama70b-v2-chat`
+    - `a16z-infra/llama7b-v2-chat`
+    - `a16z-infra/llama13b-v2-chat`
+    - `replicate/llama-2-70b-chat`
+    - `bigscience/bloom`
+    - `google/flan-t5-xxl`
+    - `EleutherAI/gpt-neox-20b`
+    - `OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5`
+    - `OpenAssistant/oasst-sft-1-pythia-12b`
+    - `bigcode/santacoder`
+    - `command-light-nightly`
+    - `command-nightly`
+    - `code-davinci-002`
+    - `text-ada-001`
+    - `text-babbage-001`
+    - `text-curie-001`
+    - `text-davinci-002`
+    - `text-davinci-003`
 
-2. **Выполнение запроса**:
-   - Выполняется HTTP-запрос методом `GET` к адресу `'https://sdk.vercel.ai/openai.jpeg'` с использованием библиотеки `requests`.
+- `messages (Messages)`: A list of messages representing the conversation history. Each message should be a dictionary with the following keys:
+    - `role (str)`: The role of the speaker (e.g., 'user', 'assistant').
+    - `content (str)`: The text content of the message.
 
-3. **Обработка ответа**:
-   - Декодируется ответ, полученный в формате base64, и загружается как JSON.
-   - Извлекаются данные `c` и `a` из JSON.
-   - Формируется JavaScript-скрипт, который выполняет функцию, полученную от сервера.
-   - Выполняется JavaScript-скрипт с использованием библиотеки `execjs`.
-   - Формируется JSON с результатами выполнения скрипта и данными `t` из JSON.
-   - Кодируется JSON в base64 и возвращается.
+- `stream (bool)`: Flag indicating whether to stream the response. If set to `True`, the method will yield each token of the response as it becomes available.
 
-### `ModelInfo`
+- `proxy (str, optional)`: The address of a proxy server to use for making API requests. Defaults to `None`.
 
-**Описание**: `TypedDict`, описывающий структуру информации о модели.
+- `**kwargs`: Additional keyword arguments to be passed to the AI model. These arguments may include:
+    - `temperature (float)`: Controls the randomness of the generated text.
+    - `maximumLength (int)`: The maximum length of the generated response.
+    - `topP (float)`: The probability threshold for sampling from the model's vocabulary.
+    - `topK (int)`: The number of top-k candidates to consider for sampling.
+    - `presencePenalty (float)`: A penalty for generating tokens that have already appeared in the context.
+    - `frequencyPenalty (float)`: A penalty for generating tokens that have appeared frequently in the context.
+    - `stopSequences (list[str])`: A list of sequences that signal the end of the response.
 
-**Поля**:
-- `id` (str): Идентификатор модели.
-- `default_params` (dict[str, Any]): Параметры модели по умолчанию.
-
-### `model_info`
-
-**Описание**: Словарь, содержащий информацию о поддерживаемых моделях.
-
-**Пример**:
+## Examples
 
 ```python
-model_info: dict[str, ModelInfo] = {
-    'gpt-3.5-turbo': {
-        'id': 'openai:gpt-3.5-turbo',
-        'default_params': {
-            'temperature': 0.7,
-            'maximumLength': 4096,
-            'topP': 1,
-            'topK': 1,
-            'presencePenalty': 1,
-            'frequencyPenalty': 1,
-            'stopSequences': [],
-        },
-    },
-}
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Vercel import Vercel
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Vercel import model_info
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Vercel import get_anti_bot_token
+
+# Create an instance of the Vercel provider
+provider = Vercel()
+
+# Example of generating text completions using the "gpt-3.5-turbo" model
+messages = [
+    {'role': 'user', 'content': 'Hello, how are you?'},
+]
+
+# Generate a text completion using the "gpt-3.5-turbo" model
+for token in provider.create_completion(model='gpt-3.5-turbo', messages=messages, stream=True):
+    print(token, end='')
+
+# Example of generating text completions using the "replicate/llama70b-v2-chat" model
+messages = [
+    {'role': 'user', 'content': 'What is the meaning of life?'},
+]
+
+# Generate a text completion using the "replicate/llama70b-v2-chat" model
+for token in provider.create_completion(model='replicate/llama70b-v2-chat', messages=messages, stream=True):
+    print(token, end='')
 ```
+
+## Conclusion
+
+The `Vercel` provider provides a robust and versatile mechanism for leveraging Vercel's AI capabilities for text generation and other AI-driven tasks. Its support for various models, streaming responses, and integration with the `AbstractProvider` interface makes it a valuable component for developers working with AI-powered applications.

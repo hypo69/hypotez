@@ -1,93 +1,51 @@
-### Как использовать этот блок кода
+## Как использовать класс `Category`
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код предоставляет функциональность для асинхронного и синхронного обхода категорий на веб-сайте, с целью создания иерархического словаря категорий. Он использует Selenium WebDriver для навигации по страницам и извлечения ссылок на категории, а также сохраняет результаты в JSON-файл.
 
-Шаги выполнения
+Класс `Category` реализует функционал для работы с категориями товаров, преимущественно в контексте PrestaShop. 
+Он наследует функционал от `PrestaCategoryAsync` и обеспечивает асинхронное сканирование категорий сайта с построением иерархической структуры категорий в виде словаря.
+
+### Шаги выполнения
 -------------------------
-1. **Инициализация Category**: Создание экземпляра класса `Category`, который наследуется от `PrestaCategoryAsync`. При инициализации передаются учетные данные API.
-   ```python
-   category_handler = Category(api_credentials={'api_url': 'your_api_url', 'api_key': 'your_api_key'})
-   ```
 
-2. **Асинхронный обход категорий (crawl_categories_async)**:
-   - Функция `crawl_categories_async` асинхронно обходит категории, начиная с заданного URL, на указанную глубину.
-   - Для каждой категории извлекаются ссылки с использованием XPath локатора.
-   - Если URL новой категории не дублируется, создается задача для рекурсивного обхода этой категории.
-   - Результаты сохраняются в иерархический словарь.
-     ```python
-   async def main():
-       url = "https://example.com/categories"
-       depth = 3
-       driver = YourWebDriver()  # Инициализация вашего WebDriver
-       locator = {"by": "XPATH", "selector": "//a[@class='category-link']"}
-       dump_file = "categories.json"
-       default_category_id = 1
+1. **Инициализация объекта**:
+    - Создайте объект `Category` с передачей API-ключа доступа к данным категорий.
+2. **Асинхронное сканирование**:
+    - Используйте метод `crawl_categories_async` для асинхронного сканирования категорий с указанием URL, глубины рекурсии, веб-драйвера, локатора для ссылок на категории, файла для сохранения результатов, идентификатора категории по умолчанию и (опционально) существующего словаря категорий.
+3. **Синхронное сканирование**:
+    - Используйте метод `crawl_categories` для синхронного сканирования категорий с теми же параметрами, что и в асинхронном варианте.
+4. **Проверка на дубликаты**:
+    - Метод `_is_duplicate_url` проверяет, существует ли URL в словаре категорий.
+5. **Сравнение и печать отсутствующих ключей**:
+    - Функция `compare_and_print_missing_keys` сравнивает текущий словарь с данными из файла и печатает отсутствующие ключи.
 
-       category_dict = await category_handler.crawl_categories_async(url, depth, driver, locator, dump_file, default_category_id)
-       print(category_dict)
-   ```
-
-3. **Синхронный обход категорий (crawl_categories)**:
-   - Функция `crawl_categories` выполняет аналогичные действия, но в синхронном режиме.
-   - Она также обходит категории, начиная с заданного URL, на указанную глубину, извлекая ссылки с использованием XPath локатора.
-   - Если URL новой категории не дублируется, выполняется рекурсивный обход этой категории.
-   - Результаты сохраняются в иерархический словарь и записываются в JSON-файл.
-     ```python
-   url = "https://example.com/categories"
-   depth = 2
-   driver = YourWebDriver()  # Инициализация вашего WebDriver
-   locator = {"by": "XPATH", "selector": "//a[@class='category-link']"}
-   dump_file = "categories.json"
-   default_category_id = 1
-
-   category_dict = category_handler.crawl_categories(url, depth, driver, locator, dump_file, default_category_id)
-   print(category_dict)
-   ```
-
-4. **Проверка на дубликаты URL (_is_duplicate_url)**:
-   - Функция `_is_duplicate_url` проверяет, существует ли уже URL в словаре категорий, чтобы избежать повторного обхода одних и тех же категорий.
-     ```python
-   category_dict = {'Category1': {'url': 'https://example.com/category1'}}
-   url_to_check = 'https://example.com/category1'
-   is_duplicate = category_handler._is_duplicate_url(category_dict, url_to_check)
-   print(is_duplicate)  # Вывод: True
-   ```
-
-5. **Сравнение и вывод отсутствующих ключей (compare_and_print_missing_keys)**:
-   - Функция `compare_and_print_missing_keys` сравнивает ключи в текущем словаре с данными, загруженными из файла, и выводит отсутствующие ключи.
-     ```python
-   current_dict = {'key1': 'value1', 'key2': 'value2'}
-   file_path = 'data.json'  # Предполагается, что data.json содержит {"key2": "old_value2", "key3": "value3"}
-   compare_and_print_missing_keys(current_dict, file_path)  # Вывод: key3
-   ```
-
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
-import asyncio
-from src.suppliers.scenario.category import Category
-from src.webdriver import Driver, Firefox
+from src.suppliers.scenario.category.category import Category
 
-# Создание экземпляра класса Category с учетными данными API
-category_handler = Category(api_credentials={'api_url': 'your_api_url', 'api_key': 'your_api_key'})
+# Инициализация объекта Category с API-ключами
+category_handler = Category(api_credentials={'key': 'your_api_key'})
 
-# Параметры для обхода категорий
-url = "https://example.com/categories"
-depth = 2
-driver = Driver(Firefox)  # Инициализация вашего WebDriver
-locator = {"by": "XPATH", "selector": "//a[@class='category-link']"}
-dump_file = "categories.json"
-default_category_id = 1
+# Параметры для сканирования
+url = 'https://www.example.com/categories/'
+depth = 2  # Глубина рекурсии
+locator = {'by': 'XPATH', 'selector': '//a[contains(@class, "category-link")]'}
+dump_file = 'categories.json'
+default_category_id = 100
 
+# Асинхронное сканирование
+categories = asyncio.run(category_handler.crawl_categories_async(url, depth, driver, locator, dump_file, default_category_id))
 
-async def main():
-    # Асинхронный обход категорий
-    category_dict = await category_handler.crawl_categories_async(url, depth, driver, locator, dump_file, default_category_id)
-    print(category_dict)
+# Синхронное сканирование
+categories = category_handler.crawl_categories(url, depth, driver, locator, dump_file, default_category_id)
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# Проверка на дубликаты
+is_duplicate = category_handler._is_duplicate_url(categories, 'https://www.example.com/categories/new-category')
+
+# Сравнение и печать отсутствующих ключей
+compare_and_print_missing_keys(categories, 'categories_old.json')
+```

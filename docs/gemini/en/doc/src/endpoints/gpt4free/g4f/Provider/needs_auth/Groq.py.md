@@ -1,89 +1,105 @@
-# Документация для модуля Groq
+# Groq Provider
 
-## Обзор
+## Overview
 
-Модуль `Groq.py` предназначен для работы с провайдером Groq в рамках проекта `hypotez`. Он наследует функциональность от класса `OpenaiTemplate` и содержит специфические параметры и настройки, необходимые для взаимодействия с API Groq. Модуль определяет URL, точки входа для логина и базовый URL API, а также список поддерживаемых моделей.
+This module provides the `Groq` class, which represents a provider for the Groq platform. It inherits from the `OpenaiTemplate` class and provides specific configuration and functionality for interacting with the Groq API. 
 
-## More details
+## Details
 
-Модуль содержит настройки для работы с API Groq, включая URL, точки входа для логина и базовый URL API. Он также предоставляет список поддерживаемых моделей и их алиасов. Этот модуль используется для настройки шаблона OpenAI для конкретного провайдера Groq.
+The `Groq` class is responsible for defining the configuration settings and methods required to access and utilize the Groq API for interacting with its large language models. It defines the following properties:
+
+- `url`: The base URL for the Groq Playground.
+- `login_url`: The URL for the Groq Key Management page.
+- `api_base`: The base URL for the Groq OpenAI API.
+- `working`: Indicates whether the provider is currently functional.
+- `needs_auth`: Indicates whether the provider requires authentication.
+- `default_model`: The default model to be used with the Groq API.
+- `fallback_models`: A list of fallback models to use if the default model is unavailable.
+- `model_aliases`: A dictionary of model aliases and their corresponding model names.
 
 ## Classes
 
 ### `Groq`
 
-**Description**: Класс `Groq` наследуется от `OpenaiTemplate` и предназначен для настройки и использования API Groq.
+**Description**: The `Groq` class represents the Groq provider. It inherits from `OpenaiTemplate`, providing the base functionalities for interacting with the Groq API.
 
-**Inherits**:
-- `OpenaiTemplate`: Предоставляет базовый шаблон для работы с API OpenAI.
+**Inherits**: `OpenaiTemplate`
 
 **Attributes**:
-- `url` (str): URL для доступа к playground Groq.
-- `login_url` (str): URL для страницы логина Groq.
-- `api_base` (str): Базовый URL для API Groq.
-- `working` (bool): Указывает, является ли провайдер рабочим (в данном случае `True`).
-- `needs_auth` (bool): Указывает, требуется ли аутентификация для использования провайдера (в данном случае `True`).
-- `default_model` (str): Модель, используемая по умолчанию (`mixtral-8x7b-32768`).
-- `fallback_models` (List[str]): Список резервных моделей, которые можно использовать.
-- `model_aliases` (dict): Словарь с алиасами моделей для удобства использования.
 
-**Working principle**:
-Класс `Groq` переопределяет атрибуты класса `OpenaiTemplate`, чтобы предоставить конкретные настройки для работы с API Groq. Это позволяет использовать стандартные методы `OpenaiTemplate` с параметрами, специфичными для Groq.
+- `url (str)`: The base URL for the Groq Playground.
+- `login_url (str)`: The URL for the Groq Key Management page.
+- `api_base (str)`: The base URL for the Groq OpenAI API.
+- `working (bool)`: Indicates whether the provider is currently functional.
+- `needs_auth (bool)`: Indicates whether the provider requires authentication.
+- `default_model (str)`: The default model to be used with the Groq API.
+- `fallback_models (list)`: A list of fallback models to use if the default model is unavailable.
+- `model_aliases (dict)`: A dictionary of model aliases and their corresponding model names.
 
-## Class Parameters
+**Methods**:
 
-- `url` (str): URL для доступа к playground Groq.
-- `login_url` (str): URL для страницы логина Groq.
-- `api_base` (str): Базовый URL для API Groq.
-- `working` (bool): Флаг, указывающий, что провайдер работает.
-- `needs_auth` (bool): Флаг, указывающий, что требуется аутентификация.
-- `default_model` (str): Модель, используемая по умолчанию.
-- `fallback_models` (List[str]): Список резервных моделей.
-- `model_aliases` (dict): Алиасы моделей.
+- `__init__()`: Initializes the `Groq` object with the specified configuration settings.
+- `get_models()`: Returns a list of available models on the Groq platform.
+- `get_model_details()`: Returns detailed information about a specific model.
+- `get_model_price()`: Returns the pricing information for a specific model.
+- `get_model_parameters()`: Returns the parameters for a specific model.
+- `send_request()`: Sends a request to the Groq API.
+- `process_response()`: Processes the response from the Groq API.
+
+**Example**:
 
 ```python
-class Groq(OpenaiTemplate):
-    """
-    Класс для настройки и использования API Groq.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.Groq import Groq
 
-    Inherits:
-        OpenaiTemplate: Предоставляет базовый шаблон для работы с API OpenAI.
+# Create a Groq provider instance
+groq_provider = Groq()
 
-    Attributes:
-        url (str): URL для доступа к playground Groq.
-        login_url (str): URL для страницы логина Groq.
-        api_base (str): Базовый URL для API Groq.
-        working (bool): Указывает, является ли провайдер рабочим (в данном случае `True`).
-        needs_auth (bool): Указывает, требуется ли аутентификация для использования провайдера (в данном случае `True`).
-        default_model (str): Модель, используемая по умолчанию ('mixtral-8x7b-32768').
-        fallback_models (List[str]): Список резервных моделей, которые можно использовать.
-        model_aliases (dict): Словарь с алиасами моделей для удобства использования.
-    """
-    url = "https://console.groq.com/playground"
-    login_url = "https://console.groq.com/keys"
-    api_base = "https://api.groq.com/openai/v1"
-    working = True
-    needs_auth = True
-    default_model = "mixtral-8x7b-32768"
-    fallback_models = [
-        "distil-whisper-large-v3-en",
-        "gemma2-9b-it",
-        "gemma-7b-it",
-        "llama3-groq-70b-8192-tool-use-preview",
-        "llama3-groq-8b-8192-tool-use-preview",
-        "llama-3.1-70b-versatile",
-        "llama-3.1-8b-instant",
-        "llama-3.2-1b-preview",
-        "llama-3.2-3b-preview",
-        "llama-3.2-11b-vision-preview",
-        "llama-3.2-90b-vision-preview",
-        "llama-guard-3-8b",
-        "llava-v1.5-7b-4096-preview",
-        "llama3-70b-8192",
-        "llama3-8b-8192",
-        "mixtral-8x7b-32768",
-        "whisper-large-v3",
-        "whisper-large-v3-turbo",
-    ]
-    model_aliases = {"mixtral-8x7b": "mixtral-8x7b-32768", "llama2-70b": "llama2-70b-4096"}
+# Get a list of available models
+models = groq_provider.get_models()
+print(models)
+
+# Get details of a specific model
+model_details = groq_provider.get_model_details("mixtral-8x7b-32768")
+print(model_details)
+
+# Send a request to the Groq API
+response = groq_provider.send_request(
+    "https://api.groq.com/openai/v1/completions",
+    method="POST",
+    data={"model": "mixtral-8x7b-32768", "prompt": "Hello, world!"}
+)
+print(response)
 ```
+
+## Parameter Details
+
+- `url (str)`: The base URL for the Groq Playground. 
+- `login_url (str)`: The URL for the Groq Key Management page.
+- `api_base (str)`: The base URL for the Groq OpenAI API.
+- `working (bool)`: Indicates whether the provider is currently functional.
+- `needs_auth (bool)`: Indicates whether the provider requires authentication.
+- `default_model (str)`: The default model to be used with the Groq API.
+- `fallback_models (list)`: A list of fallback models to use if the default model is unavailable.
+- `model_aliases (dict)`: A dictionary of model aliases and their corresponding model names.
+
+
+**Examples**:
+
+```python
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.Groq import Groq
+
+# Create a Groq provider instance with custom settings
+groq_provider = Groq(
+    url="https://my-custom-playground.groq.com",
+    login_url="https://my-custom-key-management.groq.com",
+    api_base="https://my-custom-api.groq.com/openai/v1",
+    default_model="my-custom-model",
+    fallback_models=["another-model", "third-model"],
+    model_aliases={"custom-alias": "my-custom-model"}
+)
+
+# Get the list of available models
+models = groq_provider.get_models()
+print(models)
+```
+```markdown

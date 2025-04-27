@@ -1,107 +1,87 @@
-# Документация для модуля `include.py`
+# Модуль `include.py`
 
 ## Обзор
 
-Файл `include.py` содержит модульные тесты для проекта `hypotez`. В частности, проверяется корректность импорта функций и классов из библиотеки `g4f`. Модуль использует `unittest` для организации и запуска тестов.
+Модуль `include.py` содержит набор юнит-тестов для проверки корректности импортов и работы основных функций из библиотеки `g4f`.
 
-## Более детально
+## Подробности
 
-Этот файл предназначен для автоматической проверки работоспособности основных функций библиотеки `g4f` при изменении кода. Он проверяет, что функции и классы импортируются правильно и доступны для использования.
+Этот модуль используется для тестирования корректности работы модулей `g4f.cookies` и `g4f.requests`. Тесты проверяют, что импортированные функции и классы доступны и работают как ожидается.
 
 ## Классы
 
 ### `TestImport`
 
-**Описание**: Класс `TestImport` наследуется от `unittest.TestCase` и содержит набор тестов для проверки импортов.
+**Описание**: Класс `TestImport`  представляет набор юнит-тестов для проверки корректности импортов из библиотеки `g4f`. 
 
-**Наследует**:
-- `unittest.TestCase`: Базовый класс для создания модульных тестов в Python.
+**Inherits**: `unittest.TestCase`
 
-**Атрибуты**:
-- Отсутствуют.
+**Attributes**: None
 
-**Методы**:
-- `test_get_cookies`: Проверяет корректность импорта и алиаса функции `get_cookies` из модуля `g4f.cookies`.
-- `test_requests`: Проверяет наличие класса `StreamSession` в модуле `g4f.requests`.
+**Methods**:
+- `test_get_cookies()`: Проверяет, что функция `get_cookies`  импортируется правильно из `g4f`  и `g4f.cookies`.
+- `test_requests()`: Проверяет, что класс `StreamSession`  импортируется правильно из `g4f.requests`.
 
-**Принцип работы**:
-Класс содержит методы, каждый из которых является тестовым случаем. Эти методы используют функции `assert` для проверки ожидаемых условий. Если какое-либо условие не выполняется, тест считается проваленным.
+## Тесты
 
-## Методы класса
+### `test_get_cookies()`
 
-### `test_get_cookies`
+**Цель**: Проверить, что функция `get_cookies` импортируется правильно из `g4f` и `g4f.cookies`.
 
+**Параметры**: None
+
+**Возвращает**: None
+
+**Поднимает исключения**: None
+
+**Как работает функция**:
+- Функция `test_get_cookies` использует ассерты для проверки того, что функция `get_cookies`, импортированная из `g4f`, совпадает с функцией `get_cookies`, импортированной из `g4f.cookies`.
+
+**Примеры**:
 ```python
-def test_get_cookies(self):
-    """
-    Проверяет корректность импорта и алиаса функции `get_cookies` из модуля `g4f.cookies`.
-
-    Args:
-        self: Экземпляр класса `TestImport`.
-
-    Returns:
-        None
-
-    Raises:
-        AssertionError: Если импортированная функция `get_cookies_alias` не совпадает с `get_cookies`.
-    """
-    from g4f import get_cookies as get_cookies_alias
-    from g4f.cookies import get_cookies
-    self.assertEqual(get_cookies_alias, get_cookies)
+>>> from hypotez.src.endpoints.gpt4free.etc.unittest.include import TestImport
+>>> test_import = TestImport()
+>>> test_import.test_get_cookies()
 ```
 
-**Параметры**:
-- `self`: Экземпляр класса `TestImport`.
 
-**Пример**:
+### `test_requests()`
+
+**Цель**: Проверить, что класс `StreamSession` импортируется правильно из `g4f.requests`.
+
+**Параметры**: None
+
+**Возвращает**: None
+
+**Поднимает исключения**: None
+
+**Как работает функция**:
+- Функция `test_requests` использует ассерты для проверки того, что класс `StreamSession`, импортированный из `g4f.requests`, является типом.
+
+**Примеры**:
 ```python
-import unittest
-
-class TestImport(unittest.TestCase):
-    def test_get_cookies(self):
-        from g4f import get_cookies as get_cookies_alias
-        from g4f.cookies import get_cookies
-        self.assertEqual(get_cookies_alias, get_cookies)
+>>> from hypotez.src.endpoints.gpt4free.etc.unittest.include import TestImport
+>>> test_import = TestImport()
+>>> test_import.test_requests()
 ```
 
-### `test_requests`
+## Примечания
+
+- Этот модуль не содержит никаких переменных.
+- Модуль содержит только юнит-тесты, которые не затрагивают реальные операции.
+
+## Примеры
 
 ```python
-def test_requests(self):
-    """
-    Проверяет наличие класса `StreamSession` в модуле `g4f.requests`.
+# Импорт модуля с юнит-тестами
+from hypotez.src.endpoints.gpt4free.etc.unittest.include import TestImport
 
-    Args:
-        self: Экземпляр класса `TestImport`.
+# Создание экземпляра класса `TestImport`
+test_import = TestImport()
 
-    Returns:
-        None
+# Запуск теста для проверки импорта `get_cookies`
+test_import.test_get_cookies()
 
-    Raises:
-        AssertionError: Если `StreamSession` не является типом.
-    """
-    from g4f.requests import StreamSession
-    self.assertIsInstance(StreamSession, type)
+# Запуск теста для проверки импорта `StreamSession`
+test_import.test_requests()
 ```
-
-**Параметры**:
-- `self`: Экземпляр класса `TestImport`.
-
-**Пример**:
-```python
-import unittest
-
-class TestImport(unittest.TestCase):
-    def test_requests(self):
-        from g4f.requests import StreamSession
-        self.assertIsInstance(StreamSession, type)
-```
-
-## Запуск тестов
-
-```python
-if __name__ == '__main__':
-    unittest.main()
-```
-
-Этот блок кода запускает все тесты, определенные в модуле, если файл запущен как основная программа.

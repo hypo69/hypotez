@@ -1,176 +1,166 @@
-# Модуль kbs
+# Module for Keyboard Buttons for Telegram Bot
+## Overview
 
-## Обзор
+This module provides functions for generating keyboard buttons for a Telegram bot. These buttons are used for various actions within the bot, such as navigating through the catalog, purchasing products, and accessing user profiles.
 
-Модуль `kbs.py` предназначен для создания и управления клавиатурами (инлайн и обычными) для Telegram-бота. Он содержит функции для генерации различных типов клавиатур, используемых для навигации, отображения каталога, управления покупками и осуществления платежей.
+## Details
 
-## Более детально
+The module utilizes the `aiogram.types` and `aiogram.utils.keyboard` libraries for constructing and customizing keyboard buttons. The functions defined here generate various keyboard layouts, including inline keyboards and reply keyboards, each tailored for different functionalities. The buttons are used to guide users through the bot's features and allow for seamless interaction.
 
-Модуль предоставляет набор функций, которые упрощают создание интерактивных клавиатур для Telegram-бота. Клавиатуры создаются с использованием библиотеки `aiogram` и включают в себя кнопки для навигации по каталогу, управления профилем пользователя, совершения покупок и взаимодействия с административной панелью. Кроме того, модуль содержит функции для генерации ссылок на оплату через различные платежные системы, такие как ЮКасса и Robocassa.
+## Classes
+**No Classes**
 
-## Классы
-
-В данном модуле классы отсутствуют.
-
-## Функции
+## Functions
 
 ### `main_user_kb`
 
+**Purpose**: Generates the main keyboard for the user interface.
+
+**Parameters**:
+- `user_id` (int): The ID of the user interacting with the bot.
+
+**Returns**:
+- `InlineKeyboardMarkup`: An inline keyboard markup with buttons for user actions, including profile access, catalog navigation, information about the store, and support for the author.
+
+**Example**:
+
 ```python
-def main_user_kb(user_id: int) -> InlineKeyboardMarkup:
-    """ Функция создает главную клавиатуру пользователя.
+from src.endpoints.bots.telegram.digital_market.bot.user.kbs import main_user_kb
 
-    Args:
-        user_id (int): ID пользователя.
-
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    
-    Как работает функция:
-    - Создает инлайн-клавиатуру с кнопками "👤 Мои покупки", "🛍 Каталог", "ℹ️ О магазине" и "🌟 Поддержать автора 🌟".
-    - Если `user_id` присутствует в списке `settings.ADMIN_IDS`, добавляет кнопку "⚙️ Админ панель".
-    - Устанавливает расположение кнопок в один столбец.
-
-    Пример:
-        >>> main_user_kb(12345)
-        <InlineKeyboardMarkup object>
-    """
-    ...
+# Example usage:
+user_id = 1234567890
+keyboard = main_user_kb(user_id)
+# keyboard will be an InlineKeyboardMarkup object
 ```
 
 ### `catalog_kb`
 
+**Purpose**: Generates a keyboard for navigating the catalog.
+
+**Parameters**:
+- `catalog_data` (List[Category]): A list of `Category` objects representing different product categories.
+
+**Returns**:
+- `InlineKeyboardMarkup`: An inline keyboard markup with buttons for each category in the catalog, allowing users to browse products based on category.
+
+**Example**:
+
 ```python
-def catalog_kb(catalog_data: List[Category]) -> InlineKeyboardMarkup:
-    """ Функция создает клавиатуру каталога на основе списка категорий.
+from src.endpoints.bots.telegram.digital_market.bot.user.kbs import catalog_kb
+from bot.dao.models import Category
 
-    Args:
-        catalog_data (List[Category]): Список объектов категорий.
-
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    
-    Как работает функция:
-    - Создает инлайн-клавиатуру, добавляя кнопки для каждой категории из списка `catalog_data`.
-    - Добавляет кнопку "🏠 На главную".
-    - Устанавливает расположение кнопок в два столбца.
-
-    Пример:
-        >>> catalog_kb([Category(id=1, category_name="Category 1"), Category(id=2, category_name="Category 2")])
-        <InlineKeyboardMarkup object>
-    """
-    ...
+# Example usage:
+catalog_data = [Category(id=1, category_name="Category 1"), Category(id=2, category_name="Category 2")]
+keyboard = catalog_kb(catalog_data)
+# keyboard will be an InlineKeyboardMarkup object
 ```
 
 ### `purchases_kb`
 
+**Purpose**: Generates a keyboard for accessing user purchases.
+
+**Parameters**:
+- None
+
+**Returns**:
+- `InlineKeyboardMarkup`: An inline keyboard markup with buttons for viewing purchase history and returning to the main menu.
+
+**Example**:
+
 ```python
-def purchases_kb() -> InlineKeyboardMarkup:
-    """ Функция создает клавиатуру для управления покупками.
+from src.endpoints.bots.telegram.digital_market.bot.user.kbs import purchases_kb
 
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    
-    Как работает функция:
-    - Создает инлайн-клавиатуру с кнопками "🗑 Смотреть покупки" и "🏠 На главную".
-    - Устанавливает расположение кнопок в один столбец.
-
-    Пример:
-        >>> purchases_kb()
-        <InlineKeyboardMarkup object>
-    """
-    ...
+# Example usage:
+keyboard = purchases_kb()
+# keyboard will be an InlineKeyboardMarkup object
 ```
 
 ### `product_kb`
 
+**Purpose**: Generates a keyboard for interacting with a specific product.
+
+**Parameters**:
+- `product_id` (int): The ID of the product.
+- `price` (int): The price of the product in rubles.
+- `stars_price` (int): The price of the product in stars.
+
+**Returns**:
+- `InlineKeyboardMarkup`: An inline keyboard markup with buttons for purchasing the product using different payment methods (ЮКасса, Robocassa, stars) and navigation buttons.
+
+**Example**:
+
 ```python
-def product_kb(product_id, price, stars_price) -> InlineKeyboardMarkup:
-    """ Функция создает клавиатуру продукта с вариантами оплаты.
+from src.endpoints.bots.telegram.digital_market.bot.user.kbs import product_kb
 
-    Args:
-        product_id: ID продукта.
-        price: Цена продукта в рублях.
-        stars_price: Цена продукта в звездах.
-
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    
-    Как работает функция:
-    - Создает инлайн-клавиатуру с кнопками для оплаты через ЮКасса, Robocassa и звездами.
-    - Добавляет кнопки "🛍 Назад" и "🏠 На главную".
-    - Устанавливает расположение кнопок в два столбца.
-
-    Пример:
-        >>> product_kb(123, 100, 50)
-        <InlineKeyboardMarkup object>
-    """
-    ...
+# Example usage:
+product_id = 1001
+price = 1500
+stars_price = 1000
+keyboard = product_kb(product_id, price, stars_price)
+# keyboard will be an InlineKeyboardMarkup object
 ```
 
 ### `get_product_buy_youkassa`
 
+**Purpose**: Generates a keyboard for purchasing a product using ЮКасса.
+
+**Parameters**:
+- `price` (int): The price of the product.
+
+**Returns**:
+- `InlineKeyboardMarkup`: An inline keyboard markup with a button for payment through ЮКасса and a button for canceling the purchase.
+
+**Example**:
+
 ```python
-def get_product_buy_youkassa(price) -> InlineKeyboardMarkup:
-    """ Функция создает клавиатуру для оплаты продукта через ЮКасса.
+from src.endpoints.bots.telegram.digital_market.bot.user.kbs import get_product_buy_youkassa
 
-    Args:
-        price: Цена продукта.
-
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    
-    Как работает функция:
-    - Создает инлайн-клавиатуру с кнопкой для оплаты через ЮКасса и кнопкой "Отменить".
-
-    Пример:
-        >>> get_product_buy_youkassa(100)
-        <InlineKeyboardMarkup object>
-    """
-    ...
+# Example usage:
+price = 1500
+keyboard = get_product_buy_youkassa(price)
+# keyboard will be an InlineKeyboardMarkup object
 ```
 
 ### `get_product_buy_robocassa`
 
+**Purpose**: Generates a keyboard for purchasing a product using Robocassa.
+
+**Parameters**:
+- `price` (int): The price of the product.
+- `payment_link` (str): The payment link provided by Robocassa.
+
+**Returns**:
+- `InlineKeyboardMarkup`: An inline keyboard markup with a button for payment through Robocassa (using a web app) and a button for canceling the purchase.
+
+**Example**:
+
 ```python
-def get_product_buy_robocassa(price: int, payment_link: str) -> InlineKeyboardMarkup:
-    """ Функция создает клавиатуру для оплаты продукта через Robocassa.
+from src.endpoints.bots.telegram.digital_market.bot.user.kbs import get_product_buy_robocassa
 
-    Args:
-        price (int): Цена продукта.
-        payment_link (str): Ссылка на оплату в Robocassa.
-
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    
-    Как работает функция:
-    - Создает инлайн-клавиатуру с кнопкой для оплаты через Robocassa (открывается в WebApp) и кнопкой "Отменить".
-
-    Пример:
-        >>> get_product_buy_robocassa(100, "https://robokassa.ru/payment_link")
-        <InlineKeyboardMarkup object>
-    """
-    ...
+# Example usage:
+price = 1500
+payment_link = "https://example.com/payment"
+keyboard = get_product_buy_robocassa(price, payment_link)
+# keyboard will be an InlineKeyboardMarkup object
 ```
 
 ### `get_product_buy_stars`
 
+**Purpose**: Generates a keyboard for purchasing a product using stars.
+
+**Parameters**:
+- `price` (int): The price of the product in stars.
+
+**Returns**:
+- `InlineKeyboardMarkup`: An inline keyboard markup with a button for payment using stars and a button for canceling the purchase.
+
+**Example**:
+
 ```python
-def get_product_buy_stars(price) -> InlineKeyboardMarkup:
-    """ Функция создает клавиатуру для оплаты продукта звездами.
+from src.endpoints.bots.telegram.digital_market.bot.user.kbs import get_product_buy_stars
 
-    Args:
-        price: Цена продукта в звездах.
-
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    
-    Как работает функция:
-    - Создает инлайн-клавиатуру с кнопкой для оплаты звездами и кнопкой "Отменить".
-
-    Пример:
-        >>> get_product_buy_stars(50)
-        <InlineKeyboardMarkup object>
-    """
-    ...
+# Example usage:
+price = 1000
+keyboard = get_product_buy_stars(price)
+# keyboard will be an InlineKeyboardMarkup object
 ```

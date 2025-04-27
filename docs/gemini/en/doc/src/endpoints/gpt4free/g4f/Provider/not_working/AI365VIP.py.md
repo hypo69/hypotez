@@ -1,88 +1,71 @@
-# Module for interacting with the AI365VIP provider
+# AI365VIP Provider
 
 ## Overview
 
-This module implements the `AI365VIP` class, which is used to interact with the AI365VIP provider's API. It supports models such as `gpt-3.5-turbo` and `gpt-4o`. The module is designed to asynchronously generate responses from the AI365VIP API based on provided messages.
+This module provides the `AI365VIP` class, which is a provider for accessing the AI365VIP API. It implements the `AsyncGeneratorProvider` and `ProviderModelMixin` interfaces for asynchronous generation of responses from the AI365VIP service.
 
-## More details
+## Details
 
-This module facilitates communication with the AI365VIP service, providing an interface for sending messages to the AI model and receiving responses. It is used to asynchronously generate responses from the AI365VIP API based on provided messages.
-The module uses `aiohttp` for asynchronous HTTP requests and includes functionality for formatting prompts and handling API responses.
+The `AI365VIP` provider interacts with the AI365VIP API to generate responses using various AI models, including GPT-3.5, GPT-3.5-16k, and GPT-4. It handles model selection, prompt formatting, and communication with the API.
 
 ## Classes
 
-### `AI365VIP`
+### `class AI365VIP(AsyncGeneratorProvider, ProviderModelMixin)`
 
-**Description**: Class for interacting with the AI365VIP provider.
+**Description**: This class represents the AI365VIP provider, responsible for interacting with the AI365VIP API and generating responses from AI models.
 
 **Inherits**:
-- `AsyncGeneratorProvider`: Provides an asynchronous generator interface.
-- `ProviderModelMixin`: Provides model-related functionalities.
+  - `AsyncGeneratorProvider`: Provides asynchronous response generation using a generator.
+  - `ProviderModelMixin`: Provides model management and selection functionality.
 
 **Attributes**:
-- `url` (str): The base URL of the AI365VIP service.
-- `api_endpoint` (str): The API endpoint for chat requests.
-- `working` (bool): Indicates whether the provider is working.
-- `default_model` (str): The default model to use if none is specified.
-- `models` (list): A list of supported models.
-- `model_aliases` (dict): Aliases for model names.
 
-**Working principle**:
-The class defines methods for asynchronously generating responses from the AI365VIP API. It formats the messages into a prompt, sends it to the API, and yields the responses as they are received.
+  - `url`: Base URL of the AI365VIP API.
+  - `api_endpoint`: API endpoint for chat requests.
+  - `working`: Flag indicating whether the provider is functional.
+  - `default_model`: The default AI model used for responses.
+  - `models`: List of supported AI models.
+  - `model_aliases`: Mapping of model names to their aliases.
 
 **Methods**:
-- `create_async_generator`: Creates an asynchronous generator for streaming responses from the AI365VIP API.
+
+  - `create_async_generator()`: Creates an asynchronous generator for receiving responses from the AI365VIP API.
 
 ## Class Methods
 
-### `create_async_generator`
+### `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    **kwargs
-) -> AsyncResult:
-    """ Создает асинхронный генератор для получения ответов от API AI365VIP.
+**Purpose**: This method creates an asynchronous generator for receiving responses from the AI365VIP API. It sends a request to the API with the specified model, messages, and optional proxy settings, and yields chunks of the response as they are received.
 
-    Args:
-        cls (AI365VIP): Класс AI365VIP.
-        model (str): Имя используемой модели.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы.
+**Parameters**:
 
-    Returns:
-        AsyncResult: Асинхронный генератор, выдающий ответы от API.
+  - `model` (str): The AI model to use for generating responses.
+  - `messages` (Messages): A list of messages in the conversation.
+  - `proxy` (str, optional): Proxy server address to use for the request. Defaults to `None`.
+  - `**kwargs`: Additional keyword arguments for customization.
 
-    Raises:
-        Exception: Если происходит ошибка при запросе к API.
+**Returns**:
 
-    Example:
-        >>> async for chunk in AI365VIP.create_async_generator(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello'}]):
-        ...     print(chunk)
-    """
-    ...
-```
+  - `AsyncResult`: An asynchronous result object that represents the response generator.
 
-## Class Parameters
+**How the Function Works**:
 
-- `cls` (AI365VIP): The `AI365VIP` class.
-- `model` (str): The name of the model to use.
-- `messages` (Messages): A list of messages to send.
-- `proxy` (str, optional): The URL of the proxy server. Defaults to `None`.
-- `**kwargs`: Additional arguments.
+1. Sets up the request headers with information about the user agent, origin, and other necessary parameters.
+2. Creates an asynchronous client session using `aiohttp`.
+3. Constructs the request data with the selected model, conversation messages, and other optional parameters.
+4. Sends a POST request to the AI365VIP API using the configured session and data.
+5. Processes the response by iterating over its content chunks and yielding each decoded chunk to the generator.
+6. Raises an exception if there are errors during the API request.
 
 **Examples**:
 
-Example call:
-
 ```python
-async for chunk in AI365VIP.create_async_generator(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello'}]):
-    print(chunk)
-```
+async def example():
+    messages = [
+        {"role": "user", "content": "Hello!"},
+        {"role": "assistant", "content": "Hello! How can I help you today?"},
+    ]
+    async for chunk in await AI365VIP.create_async_generator(model="gpt-3.5-turbo", messages=messages):
+        print(chunk)
 
--------------------------------------------------------------------------------------
+```

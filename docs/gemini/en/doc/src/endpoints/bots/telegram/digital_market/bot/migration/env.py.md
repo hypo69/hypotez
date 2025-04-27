@@ -1,110 +1,114 @@
-# Документация для модуля `env.py`
+# Module for Environment Configuration and Migrations
 
-## Описание
+## Overview
 
-Модуль `env.py` используется для настройки и запуска миграций базы данных в проекте `hypotez`. Он содержит функции для выполнения миграций как в онлайн, так и в оффлайн режимах, а также настройки для подключения к базе данных.
+This module defines the environment configuration and migration logic for the Telegram bot, specifically for the digital market's migration process. It handles setting up database connections, configuring the environment, and running database migrations.
 
-## Содержание
+## Details
 
-1.  [Обзор](#обзор)
-2.  [Функции](#функции)
-    *   [run_migrations_offline](#run_migrations_offline)
-    *   [do_run_migrations](#do_run_migrations)
-    *   [run_async_migrations](#run_async_migrations)
-    *   [run_migrations_online](#run_migrations_online)
+This module is crucial for managing the database structure and its updates during the migration process. It ensures the bot's database is consistent and synchronized with the latest schema changes.
 
-## Обзор
+## Functions
 
-Файл `env.py` предназначен для управления миграциями базы данных, используя библиотеку Alembic. Он определяет различные режимы запуска миграций, а также параметры подключения к базе данных, что позволяет автоматизировать процесс обновления схемы базы данных.
+### `run_migrations_offline()`
 
-## Функции
+**Purpose**: Runs migrations in offline mode, which means it doesn't require an active database connection. This mode is useful for testing or scenarios where a database is not immediately available.
 
-### `run_migrations_offline`
+**Parameters**: None
 
-```python
-def run_migrations_offline() -> None:
-    """Run migrations in 'offline' mode.
+**Returns**: None
 
-    This configures the context with just a URL
-    and not an Engine, though an Engine is acceptable
-    here as well.  By skipping the Engine creation
-    we don't even need a DBAPI to be available.
+**Raises Exceptions**: None
 
-    Calls to context.execute() here emit the given string to the
-    script output.
+**How the Function Works**:
 
-    """
-```
+1. Retrieves the database URL from the configuration.
+2. Configures the migration context with the URL, target metadata, and other options.
+3. Starts a transaction.
+4. Executes the migrations using the `context.run_migrations()` function.
 
-Функция запускает миграции в "оффлайн" режиме.
+### `do_run_migrations(connection)`
 
-**Описание**:
-В "оффлайн" режиме функция настраивает контекст, используя только URL базы данных, без создания Engine. Это позволяет запускать миграции без необходимости доступности DBAPI.
+**Purpose**: Runs migrations using an existing database connection. This function is typically called from within a transaction to ensure data consistency.
 
-**Как работает**:
+**Parameters**:
 
-1.  Извлекает URL базы данных из конфигурации.
-2.  Конфигурирует контекст Alembic с использованием URL и метаданных целевой базы данных.
-3.  Запускает миграции в рамках транзакции.
+- `connection` (`sqlalchemy.engine.Connection`): An active database connection object.
 
-### `do_run_migrations`
+**Returns**: None
 
-```python
-def do_run_migrations(connection: Connection) -> None:
-    context.configure(connection=connection, target_metadata=target_metadata)
+**Raises Exceptions**: None
 
-    with context.begin_transaction():
-        context.run_migrations()
-```
+**How the Function Works**:
 
-Функция выполняет миграции, используя предоставленное соединение.
+1. Configures the migration context with the provided connection and target metadata.
+2. Starts a transaction.
+3. Executes the migrations using the `context.run_migrations()` function.
 
-**Параметры**:
+### `run_async_migrations()`
 
-*   `connection` (Connection): Объект соединения с базой данных.
+**Purpose**: Runs migrations asynchronously using an asynchronous database engine. This function is designed for environments where asynchronous operations are preferred.
 
-**Описание**:
-Эта функция настраивает контекст Alembic с использованием предоставленного соединения и выполняет миграции в рамках транзакции.
+**Parameters**: None
 
-**Как работает**:
+**Returns**: None
 
-1.  Конфигурирует контекст Alembic с использованием предоставленного соединения и метаданных целевой базы данных.
-2.  Запускает миграции в рамках транзакции.
+**Raises Exceptions**: None
 
-### `run_async_migrations`
+**How the Function Works**:
 
-```python
-async def run_async_migrations() -> None:
-    """In this scenario we need to create an Engine
-    and associate a connection with the context.
+1. Creates an asynchronous engine from the configuration, using a `pool.NullPool` to avoid connection pooling.
+2. Connects to the database using `connectable.connect()`.
+3. Executes the migrations synchronously within the connection using `connection.run_sync(do_run_migrations)`.
+4. Disposes of the engine to release resources.
 
-    """
-```
+### `run_migrations_online()`
 
-Асинхронная функция для запуска миграций.
+**Purpose**: Runs migrations in online mode, which means it connects to the database and executes the migrations directly. This mode is typically used for production environments where a database is readily accessible.
 
-**Описание**:
-Эта функция создает Engine и связывает соединение с контекстом, чтобы выполнить миграции асинхронно.
+**Parameters**: None
 
-**Как работает**:
+**Returns**: None
 
-1.  Создает асинхронный Engine из конфигурации.
-2.  Устанавливает соединение с базой данных.
-3.  Запускает миграции, используя `do_run_migrations`.
-4.  Закрывает соединение.
+**Raises Exceptions**: None
 
-### `run_migrations_online`
+**How the Function Works**:
+
+1. Executes the `run_async_migrations()` function to run migrations asynchronously.
+
+## Parameter Details
+
+- `database_url` (`str`): This is the database connection string, formatted according to the chosen database dialect. It's typically obtained from environment variables or configuration files.
+
+## Examples
 
 ```python
-def run_migrations_online() -> None:
-    """Run migrations in 'online' mode."""
+# Example usage of the `run_migrations_offline()` function
+run_migrations_offline()
+
+# Example usage of the `run_migrations_online()` function
+run_migrations_online()
+
+# Example of configuring the migration context
+context.configure(
+    url="postgresql://user:password@host:port/database",
+    target_metadata=target_metadata,
+    literal_binds=True,
+    dialect_opts={"paramstyle": "named"},
+)
+
+# Example of running migrations within a transaction
+with context.begin_transaction():
+    context.run_migrations()
 ```
 
-Функция запускает миграции в "онлайн" режиме.
+## Class Methods
 
-**Описание**:
-Функция запускает асинхронные миграции, используя `asyncio`.
+- `do_run_migrations(connection)`: Runs migrations using an existing database connection. 
+- `run_async_migrations()`: Runs migrations asynchronously using an asynchronous database engine. 
 
-**Как работает**:
+**Parameters**: # if there are parameters
+- `connection` (`sqlalchemy.engine.Connection`): An active database connection object.
 
-1.  Запускает асинхронную функцию `run_async_migrations` с использованием `asyncio.run`.
+**Examples**
+- Examples of class definition and working with the class.

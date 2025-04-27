@@ -1,38 +1,31 @@
-### Как использовать этот блок кода
+## Как использовать класс AliRequests
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода определяет класс `AliRequests`, который используется для выполнения HTTP-запросов к AliExpress с использованием библиотеки `requests`. Он включает в себя функциональность для управления cookies, обновления сессий и создания коротких партнерских ссылок.
+Класс `AliRequests`  предназначен для работы с API AliExpress. Он использует библиотеку `requests` для отправки запросов и хранит файлы `cookies` из браузера для авторизации. 
 
 Шаги выполнения
 -------------------------
-1. **Инициализация класса `AliRequests`**:
-   - При создании экземпляра класса `AliRequests` происходит инициализация сессии `requests.Session()`, устанавливаются заголовки User-Agent и вызывается метод `_load_webdriver_cookies_file()` для загрузки cookies из файла, специфичного для указанного веб-драйвера.
-
-2. **Загрузка cookies из файла**:
-   - Метод `_load_webdriver_cookies_file()` пытается загрузить cookies из файла, расположенного в директории `gs.dir_cookies/aliexpress.com/{webdriver_for_cookies}/cookie`.
-   - Cookies загружаются из файла, используя `pickle.load()`, и устанавливаются в `self.cookies_jar`.
-   - После успешной загрузки вызывается метод `self._refresh_session_cookies()` для обновления cookies сессии.
-
-3. **Обновление cookies сессии**:
-   - Метод `_refresh_session_cookies()` выполняет GET-запрос к `https://portals.aliexpress.com` для обновления cookies сессии.
-   - Если `self.cookies_jar` не пуст, cookies передаются в запросе.
-   - После выполнения запроса вызывается метод `self._handle_session_id()` для обработки JSESSIONID.
-
-4. **Обработка JSESSIONID**:
-   - Метод `_handle_session_id()` проверяет наличие cookie с именем `JSESSIONID` в переданных cookies.
-   - Если `JSESSIONID` найден и его значение отличается от текущего `self.session_id`, он обновляет `self.session_id` и устанавливает cookie в `self.cookies_jar`.
-
-5. **Выполнение GET-запроса**:
-   - Метод `make_get_request()` выполняет GET-запрос к указанному URL с использованием `requests.Session()`.
-   - Cookies из `self.cookies_jar` добавляются в сессию перед выполнением запроса.
-   - После выполнения запроса вызывается метод `self._handle_session_id()` для обработки JSESSIONID.
-   - В случае успеха возвращает объект `requests.Response`, иначе возвращает `False`.
-
-6. **Получение короткой партнерской ссылки**:
-   - Метод `short_affiliate_link()` генерирует короткую партнерскую ссылку на основе переданного URL.
-   - Использует метод `self.make_get_request()` для выполнения GET-запроса к AliExpress API.
+1. **Инициализация класса:**
+   - Создается экземпляр класса `AliRequests` с указанием типа браузера (`webdriver_for_cookies`)  для загрузки `cookies`.
+   -  `cookies` загружаются из файла, находящегося в директории `src/utils/cookies/aliexpress.com/chrome/cookie`
+   - Загруженные `cookies` добавляются в объект `requests.Session`  в качестве `self.cookies_jar`.
+   - При каждом вызове `make_get_request`  обновляются `cookies` в `requests.Session`
+   -  В методе `_refresh_session_cookies`  обновляется  `JSESSIONID`  и `cookies`  в `requests.Session`.
+2. **Загрузка файлов `cookies`:**
+   -  Функция `_load_webdriver_cookies_file`  загружает  `cookies` из файла с помощью `pickle.load`  и добавляет их в  `self.cookies_jar`.
+   -  `cookies`  сохраняются в  `self.cookies_jar`  с помощью `RequestsCookieJar.set`.
+   -  `cookies`  добавленные в  `self.cookies_jar`  используются при каждом вызове `make_get_request`.
+3. **Обновление `cookies`:**
+   -  `_refresh_session_cookies`  делает GET-запрос к  `https://portals.aliexpress.com`  и обновляет  `cookies`  в `self.cookies_jar`.
+   - `_handle_session_id`  ищет  `JSESSIONID`  в  `cookies`  и обновляет его в `self.cookies_jar`.
+4. **Отправка GET-запроса:**
+   - `make_get_request`  отправляет GET-запрос к указанному  URL  с помощью `requests.Session.get`.
+   - `headers`  и  `cookies`  используются для отправки запроса.
+   - После успешной отправки запроса  `_handle_session_id`  обновляет  `JSESSIONID`  в `self.cookies_jar`.
+5. **Сокращение ссылок:**
+   - `short_affiliate_link`  сокращает ссылку с помощью  `https://portals.aliexpress.com/affiportals/web/link_generator.htm`  и возвращает  `requests.Response`  объект.
 
 Пример использования
 -------------------------
@@ -40,32 +33,27 @@
 ```python
 from src.suppliers.suppliers_list.aliexpress.alirequests import AliRequests
 
-# Инициализация класса AliRequests
+# Инициализация класса
 ali_requests = AliRequests(webdriver_for_cookies='chrome')
 
-# URL для выполнения GET-запроса
-url = 'https://aliexpress.com/some/path'
-
-# Выполнение GET-запроса
+# Отправка GET-запроса
+url = 'https://www.aliexpress.com/wholesale?SearchText=phone+case'
 response = ali_requests.make_get_request(url)
 
-if response:
-    print(f"Запрос выполнен успешно. Статус код: {response.status_code}")
-    # Обработка данных из ответа
-    data = response.text
-else:
-    print("Запрос не удался.")
-
-# URL для получения короткой партнерской ссылки
-link_url = 'https://aliexpress.com/product/1234567890'
-
-# Получение короткой партнерской ссылки
+# Сокращение ссылки
+link_url = 'https://www.aliexpress.com/item/1005002558149163.html'
 short_link_response = ali_requests.short_affiliate_link(link_url)
 
-if short_link_response:
-    print(f"Короткая партнерская ссылка получена. Статус код: {short_link_response.status_code}")
-    # Обработка данных из ответа
-    short_link = short_link_response.url
-    print(f"Короткая ссылка: {short_link}")
+# Обработка ответа
+if response:
+    print(f"Статус ответа: {response.status_code}")
+    print(f"Текст ответа: {response.text}")
 else:
-    print("Не удалось получить короткую партнерскую ссылку.")
+    print("Ошибка при отправке запроса")
+
+if short_link_response:
+    print(f"Сокращенная ссылка: {short_link_response.url}")
+else:
+    print("Ошибка при сокращении ссылки")
+
+```

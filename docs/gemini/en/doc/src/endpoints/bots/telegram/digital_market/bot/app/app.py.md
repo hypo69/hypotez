@@ -1,80 +1,161 @@
-# Модуль app.py
+#  Module for processing Telegram bot requests
+===================================================
 
-## Обзор
+This module implements the core logic for processing Telegram bot requests, handling webhooks, and managing user data.
 
-Модуль содержит основные обработчики веб-запросов для взаимодействия с Telegram ботом и системой Robokassa. Он включает обработку вебхуков от Telegram, отображение главной страницы и обработку ответов от Robokassa.
+## Table of Contents
 
-## Детали
+- [Classes](#classes)
+    - [`app`](#app)
+- [Functions](#functions)
+    - [`handle_webhook`](#handle_webhook)
+    - [`home_page`](#home_page)
+    - [`robokassa_result`](#robokassa_result)
+    - [`robokassa_fail`](#robokassa_fail)
 
-Модуль предоставляет функциональность для приема и обработки данных от Telegram и Robokassa, что позволяет боту взаимодействовать с внешними сервисами и пользователями.
+## Classes
 
-## Функции
+### `app`
+
+**Description**: This class represents the main application logic for the Telegram bot, handling requests, routing, and processing user data.
+
+**Inherits**: None
+
+**Attributes**: None
+
+**Methods**:
+- [`handle_webhook`](#handle_webhook)
+- [`home_page`](#home_page)
+- [`robokassa_result`](#robokassa_result)
+- [`robokassa_fail`](#robokassa_fail)
+
+
+## Functions
 
 ### `handle_webhook`
 
+**Purpose**:  Обработчик для обработки вебхуков от Telegram. 
+**Parameters**:
+- `request` (web.Request): HTTP-запрос от Telegram.
+**Returns**:
+- web.Response: Ответ с кодом 200 (успех) или 500 (ошибка).
+
+**Raises Exceptions**:
+- Exception:  Возникает, если произошла ошибка при обработке вебхука.
+
+**How the Function Works**:
+
+1. Извлекает данные из HTTP-запроса.
+2. Создает объект `Update` из полученных данных.
+3. Передает объект `Update` в обработчик бота `dp`.
+4. Возвращает ответ с кодом 200 (успех) или 500 (ошибка) в зависимости от результата обработки.
+
+**Examples**:
 ```python
-async def handle_webhook(request: web.Request):
-    """
-    Обрабатывает вебхук, полученный от Telegram.
-
-    Args:
-        request (web.Request): HTTP-запрос с данными от Telegram.
-
-    Returns:
-        web.Response: HTTP-ответ со статусом 200 в случае успешной обработки, иначе - 500.
-
-    Raises:
-        Exception: Если возникает ошибка при обработке вебхука.
-
-    Как работает:
-        - Извлекает данные из запроса в формате JSON.
-        - Преобразует данные в объект `Update` из библиотеки `aiogram`.
-        - Передает обновление в диспетчер `dp` для дальнейшей обработки.
-        - В случае ошибки логирует информацию об ошибке и возвращает статус 500.
-    """
+>>> # Пример использования
+>>> async def main():
+...     app = web.Application()
+...     app.router.add_post('/', handle_webhook)
+...     runner = web.AppRunner(app)
+...     await runner.setup()
+...     site = web.TCPSite(runner, host='0.0.0.0', port=80)
+...     await site.start()
+...     
+>>> asyncio.run(main())
 ```
 
 ### `home_page`
 
+**Purpose**:  Обработчик для отображения главной страницы с информацией о сервисе.
+**Parameters**:
+- `request` (web.Request): HTTP-запрос.
+**Returns**:
+- web.Response:  HTML-страница с информацией о сервисе.
+
+**How the Function Works**:
+
+1.  Создает HTML-контент с информацией о сервисе и текущим временем сервера.
+2.  Возвращает ответ с HTML-контентом.
+
+**Examples**:
 ```python
-async def home_page(request: web.Request) -> web.Response:
-    """
-    Обработчик для отображения главной страницы с информацией о сервисе.
-
-    Args:
-        request (web.Request): HTTP-запрос.
-
-    Returns:
-        web.Response: HTTP-ответ с HTML-контентом главной страницы.
-    """
+>>> # Пример использования
+>>> async def main():
+...     app = web.Application()
+...     app.router.add_get('/', home_page)
+...     runner = web.AppRunner(app)
+...     await runner.setup()
+...     site = web.TCPSite(runner, host='0.0.0.0', port=80)
+...     await site.start()
+...     
+>>> asyncio.run(main())
 ```
 
 ### `robokassa_result`
 
+**Purpose**:  Обрабатывает запрос от Робокассы на ResultURL.
+
+**Parameters**:
+- `request` (web.Request): HTTP-запрос от Робокассы.
+
+**Returns**:
+- web.Response:  Текстовый ответ с результатами проверки.
+
+**Raises Exceptions**:
+- None
+
+**How the Function Works**:
+
+1. Извлекает параметры из POST-запроса.
+2. Проверяет подпись, полученную от Робокассы, с использованием функции `check_signature_result`.
+3. Если подпись верна, то:
+    - Сохраняет информацию о платеже в базу данных с использованием функции `successful_payment_logic`.
+    - Возвращает ответ с кодом OK и InvId.
+4. Если подпись неверна, то:
+    - Возвращает ответ с кодом bad sign.
+
+**Examples**:
 ```python
-async def robokassa_result(request: web.Request) -> web.Response:
-    """
-    Обрабатывает запрос от Робокассы на ResultURL.
-
-    Args:
-        request (web.Request): HTTP-запрос.
-
-    Returns:
-        web.Response: Текстовый ответ с результатами проверки.
-    """
+>>> # Пример использования
+>>> async def main():
+...     app = web.Application()
+...     app.router.add_post('/result', robokassa_result)
+...     runner = web.AppRunner(app)
+...     await runner.setup()
+...     site = web.TCPSite(runner, host='0.0.0.0', port=80)
+...     await site.start()
+...     
+>>> asyncio.run(main())
 ```
 
 ### `robokassa_fail`
 
+**Purpose**: Обрабатывает запрос от Робокассы на FailURL.
+
+**Parameters**:
+- `request` (web.Request): HTTP-запрос от Робокассы.
+
+**Returns**:
+- web.Response:  Текстовый ответ с сообщением о неудачном платеже.
+
+**Raises Exceptions**:
+- None
+
+**How the Function Works**:
+
+1.  Извлекает информацию о неудачном платеже из GET-запроса.
+2.  Возвращает ответ с сообщением о неудачном платеже.
+
+**Examples**:
 ```python
-async def robokassa_fail(request):
-    """
-    Обрабатывает запрос от Робокассы в случае неуспешной оплаты.
-
-    Args:
-        request: HTTP-запрос.
-
-    Returns:
-        web.Response: Текстовый ответ с информацией о неуспешной оплате.
-    """
+>>> # Пример использования
+>>> async def main():
+...     app = web.Application()
+...     app.router.add_get('/fail', robokassa_fail)
+...     runner = web.AppRunner(app)
+...     await runner.setup()
+...     site = web.TCPSite(runner, host='0.0.0.0', port=80)
+...     await site.start()
+...     
+>>> asyncio.run(main())
 ```

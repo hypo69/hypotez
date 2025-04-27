@@ -1,140 +1,124 @@
-# Модуль рекламы в Facebook
+# Module Name: `src.endpoints.advertisement.facebook.facebook`
 
-## Обзор
+## Overview
 
-Модуль `facebook.py` предназначен для автоматизации взаимодействия с Facebook через веб-драйвер, включая вход в систему, переключение аккаунтов, продвижение постов и загрузку медиафайлов.
+This module is designed to facilitate interactions with Facebook through web automation. It utilizes Selenium and web driver functionalities to perform various tasks, such as logging in, posting messages, uploading media, and promoting content. 
 
-## Более подробно
+## Details
 
-Этот модуль предоставляет класс `Facebook`, который использует веб-драйвер для выполнения различных сценариев взаимодействия с Facebook. Он включает в себя функции для входа в систему, продвижения текстовых сообщений и загрузки медиафайлов. Модуль предназначен для упрощения и автоматизации рекламных действий в Facebook.
+The `facebook.py` module provides functionalities to manage advertisements on Facebook through a web driver interface.  The module is designed to be part of the `hypotez` project, likely for automated posting or promotion of content. It includes a `Facebook` class that encapsulates interactions with Facebook. 
 
-## Содержание
-
-- [Классы](#Классы)
-  - [`Facebook`](#Facebook)
-- [Функции](#Функции)
-  - [`login`](#login)
-  - [`promote_post`](#promote_post)
-  - [`promote_event`](#promote_event)
-
-## Классы
+## Classes
 
 ### `Facebook`
 
-**Описание**: Класс для взаимодействия с Facebook через веб-драйвер.
+**Description**:  A class that provides methods for interacting with Facebook through a web driver. 
 
-**Атрибуты**:
-- `d` (Driver): Экземпляр веб-драйвера для управления браузером.
-- `start_page` (str): URL начальной страницы Facebook. По умолчанию 'https://www.facebook.com/hypotez.promocodes'.
-- `promoter` (str): Имя пользователя, используемого для продвижения.
+**Attributes**:
+- `d`: A web driver instance (of type `Driver`) for managing browser automation.  
+- `start_page`: The URL of the Facebook page to navigate to (a Facebook page URL). 
+- `promoter`: A string representing the name or identifier of the account promoting content.
 
-**Параметры**:
-- `driver` (Driver): Экземпляр веб-драйвера.
-- `promoter` (str): Имя пользователя, используемого для продвижения.
-- `group_file_paths` (list[str]): Список путей к файлам групп.
+**Methods**:
 
-**Принцип работы**:
-Класс `Facebook` инициализируется с экземпляром веб-драйвера и именем пользователя для продвижения. Он предоставляет методы для выполнения различных действий на Facebook, таких как вход в систему, переключение учетных записей и продвижение сообщений.
+- `__init__(self, driver: 'Driver', promoter: str, group_file_paths: list[str], *args, **kwargs)`:  The constructor for the class. This function initializes the `Facebook` object. It takes the web driver instance, promoter name, and a list of file paths as arguments. It sets up the initial state of the object, possibly initiating a login or other setup tasks. 
 
-**Методы**:
-- `__init__`: Инициализирует экземпляр класса `Facebook`.
-- `login`: Выполняет сценарий входа в систему.
-- `promote_post`: Отправляет текст в форму сообщения для продвижения.
-- `promote_event`: Функция для продвижения события (пример).
+- `login(self) -> bool`:  This method handles the login process for a Facebook account. It likely uses the `login` scenario function to perform the login sequence. The method returns a boolean indicating whether the login was successful.
 
-## Методы класса
+- `promote_post(self, item: SimpleNamespace) -> bool`: This method handles the promotion of a Facebook post. It takes an `item` object (likely containing post data) and uses the `promote_post` scenario function to post the content. It returns a boolean indicating the success of the operation.
 
-### `__init__`
+- `promote_event(self, event: SimpleNamespace)`: This method provides an example function for promoting a Facebook event. It takes an `event` object as an argument and likely leverages the `event` scenario function to interact with the Facebook event page. 
 
-```python
-def __init__(self, driver: 'Driver', promoter: str, group_file_paths: list[str], *args, **kwargs):
-    """
-    Инициализирует экземпляр класса `Facebook`.
+## Functions
 
-    Args:
-        driver (Driver): Экземпляр веб-драйвера.
-        promoter (str): Имя пользователя, используемого для продвижения.
-        group_file_paths (list[str]): Список путей к файлам групп.
+### `login(self) -> bool`
 
-    """
-```
-### `login`
+**Purpose**: This function handles the login process for a Facebook account. It likely uses the `login` scenario function to perform the login sequence. 
 
-```python
-def login(self) -> bool:
-    """
-    Выполняет сценарий входа в систему Facebook.
+**Parameters**: 
+- `self`: The instance of the `Facebook` class.
 
-    Returns:
-        bool: `True`, если вход выполнен успешно, иначе `False`.
+**Returns**: 
+- `bool`: Returns a boolean indicating whether the login was successful.
 
-    """
-```
+**How the Function Works**:
+- The `login` function calls the `login` scenario function, which likely executes a series of actions to authenticate with the Facebook platform. It uses the web driver (`self.d`) to interact with the web page. 
 
-### `promote_post`
+**Examples**:
+- `facebook_instance.login()`
 
-```python
-def promote_post(self, item: SimpleNamespace) -> bool:
-    """
-    Отправляет текст в форму сообщения для продвижения.
+## Functions
 
-    Args:
-        item (SimpleNamespace): Объект с данными для продвижения поста.
+### `promote_post(self, item: SimpleNamespace) -> bool`
 
-    Returns:
-        bool: `True`, если отправка выполнена успешно, иначе `False`.
+**Purpose**: This function handles the promotion of a Facebook post. It takes an `item` object (likely containing post data) and uses the `promote_post` scenario function to post the content. 
 
-    """
-```
+**Parameters**:
+- `self`: The instance of the `Facebook` class.
+- `item`: A `SimpleNamespace` object representing the post data to be promoted. 
 
-### `promote_event`
+**Returns**: 
+- `bool`: Returns a boolean indicating whether the promotion was successful.
 
-```python
-def promote_event(self, event: SimpleNamespace):
-    """
-    Пример функции для продвижения события.
+**How the Function Works**:
+- The `promote_post` function takes the `item` object and passes it to the `promote_post` scenario function. The scenario function likely performs the following steps:
+    - Utilizes the web driver (`self.d`) to interact with the Facebook web page.
+    - Opens the post creation form or identifies the appropriate post area.
+    - Populates the post form with data from the `item` object (such as text, images, links).
+    - Submits the post.
 
-    Args:
-        event (SimpleNamespace): Объект с данными события для продвижения.
+**Examples**:
+- `facebook_instance.promote_post(post_data)`
 
-    """
-```
-## Функции
+## Functions
 
-### `login`
+### `promote_event(self, event: SimpleNamespace)`
 
-```python
-def login(self) -> bool:
-    """
-    Выполняет сценарий входа в систему Facebook.
+**Purpose**: This function provides an example of promoting a Facebook event. It takes an `event` object as an argument and likely leverages the `event` scenario function to interact with the Facebook event page.
 
-    Returns:
-        bool: `True`, если вход выполнен успешно, иначе `False`.
-    """
-```
+**Parameters**:
+- `self`: The instance of the `Facebook` class.
+- `event`: A `SimpleNamespace` object representing the event data to be promoted. 
 
-### `promote_post`
+**How the Function Works**:
+- The `promote_event` function takes the `event` object and passes it to the `event` scenario function. The scenario function likely performs the following steps:
+    - Uses the web driver (`self.d`) to navigate to the Facebook event creation page or the event page itself.
+    - Fills in the event creation form or interacts with the event page based on the data provided in the `event` object.
+    - Publishes or promotes the event.
+
+**Examples**:
+- `facebook_instance.promote_event(event_data)`
+
+## Inner Functions
+
+- `login()`:  This function is used to perform the login process for a Facebook account. 
+- `promote_post()`:  This function is used to promote a Facebook post.
+- `promote_event()`:  This function is used to promote a Facebook event. 
+
+## Parameter Details
+
+- `driver`: An instance of the `Driver` class from the `src.webdirver` module. It represents a Selenium WebDriver instance used to control a browser for web automation. 
+- `promoter`: A string representing the name or identifier of the account promoting content on Facebook.
+- `item`: A `SimpleNamespace` object representing the post data to be promoted. It likely contains fields such as text, images, and other post details.
+- `event`: A `SimpleNamespace` object representing the event data to be promoted. It likely contains fields such as event name, date, time, description, and other event details.
+
+## Examples
 
 ```python
-def promote_post(self, item: SimpleNamespace) -> bool:
-    """
-    Отправляет текст в форму сообщения для продвижения.
-    Args:
-        item (SimpleNamespace): Объект с данными для продвижения поста.
+# Creating a driver instance (example with Chrome)
+driver = Driver(Chrome)
 
-    Returns:
-        bool: `True`, если отправка выполнена успешно, иначе `False`.
-    """
-```
+# Creating a Facebook instance with the driver and promoter information
+facebook_instance = Facebook(driver, "Hypotez Promocdes", ["path/to/group/file.json"])
 
-### `promote_event`
+# Logging into Facebook
+login_result = facebook_instance.login() 
 
-```python
-def promote_event(event: SimpleNamespace):
-    """
-    Пример функции для продвижения события.
-
-    Args:
-        event (SimpleNamespace): Объект с данными события для продвижения.
-    """
+# Example of promoting a post
+post_data = SimpleNamespace(
+    text="This is an example post.",
+    images=["path/to/image1.jpg", "path/to/image2.jpg"],
+    link="https://www.example.com",
+)
+promote_post_result = facebook_instance.promote_post(post_data)
 ```

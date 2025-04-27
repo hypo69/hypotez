@@ -1,106 +1,124 @@
-# Module `Aura.py`
+# Aura Provider
 
 ## Overview
 
-This module implements the `Aura` class, which is an asynchronous generator provider for interacting with the `openchat.team` service. It allows sending messages to the service and asynchronously processing responses. The module is designed to work with aiohttp for making asynchronous HTTP requests and supports the use of proxies. The module extracts arguments from a browser instance.
+This module provides the `Aura` class, which acts as an asynchronous generator provider for the OpenChat.team API. It extends the `AsyncGeneratorProvider` base class and implements asynchronous generation of responses from the Aura model.
 
-## More details
+## Details
 
-This module is part of the `gpt4free` providers in the `hypotez` project and provides an interface for interacting with the `openchat.team` service. It is used to send a series of messages to the service and asynchronously process the responses.
-The `Aura` class inherits from `AsyncGeneratorProvider`, allowing it to asynchronously yield message chunks as they are received from the service. It constructs HTTP POST requests to the service's API endpoint and streams the response back to the caller.
+The `Aura` class is designed to interact with the OpenChat.team API, enabling the retrieval of responses from the Aura model. It utilizes the `aiohttp` library for asynchronous HTTP requests and handles message formatting and processing.
 
 ## Classes
 
-### `Aura`
+### `class Aura`
 
-**Description**:
-The `Aura` class is an asynchronous generator provider for interacting with the `openchat.team` service.
-It inherits from `AsyncGeneratorProvider` and implements the logic for sending messages and asynchronously processing responses.
+**Description**: This class represents the Aura provider for the OpenChat.team API. It inherits from `AsyncGeneratorProvider` and implements methods for asynchronous response generation.
 
-**Inherits**:
-- `AsyncGeneratorProvider`: Provides a base class for asynchronous generator-based providers.
+**Inherits**: `AsyncGeneratorProvider`
 
 **Attributes**:
-- `url` (str): The base URL of the `openchat.team` service (`https://openchat.team`).
-- `working` (bool): Indicates whether the provider is currently working (set to `False`).
+
+- `url (str)`: Base URL for the OpenChat.team API.
+- `working (bool)`: Flag indicating whether the provider is currently working or not.
 
 **Methods**:
-- `create_async_generator()`: Creates an asynchronous generator that sends messages to the `openchat.team` service and yields the responses.
 
-## Class Methods
+- `create_async_generator(model: str, messages: Messages, proxy: str = None, temperature: float = 0.5, max_tokens: int = 8192, webdriver = None, **kwargs) -> AsyncResult`: This method initiates an asynchronous process for generating responses from the Aura model.
 
-### `create_async_generator`
+#### `create_async_generator`
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    temperature: float = 0.5,
-    max_tokens: int = 8192,
-    webdriver = None,
-    **kwargs
-) -> AsyncResult:
-    """ Function creates an asynchronous generator that sends messages to the `openchat.team` service and yields the responses.
-    Args:
-        cls (Type[Aura]): The class itself (`Aura`).
-        model (str): The model name (not used in the function body, but required by the interface).
-        messages (Messages): A list of messages to be sent to the service.
-        proxy (str, optional): The proxy URL to be used for the connection. Defaults to `None`.
-        temperature (float, optional): The temperature setting for the model. Defaults to 0.5.
-        max_tokens (int, optional): The maximum number of tokens in the response. Defaults to 8192.
-        webdriver: web driver instance
-        **kwargs: Additional keyword arguments.
-
-    Returns:
-        AsyncResult: An asynchronous generator that yields message chunks.
-
-    Raises:
-        aiohttp.ClientError: If there is an error during the HTTP request.
-        Exception: If any other error occurs during the process.
-    """
-```
+**Purpose**:  This method sets up the asynchronous generation of responses from the Aura model, utilizing the OpenChat.team API.
 
 **Parameters**:
-- `cls` (Type[`Aura`]): The class itself (`Aura`).
-- `model` (str): The model name (not used in the function body but required by the interface).
-- `messages` (`Messages`): A list of messages to be sent to the service.
-- `proxy` (str, optional): The proxy URL to be used for the connection. Defaults to `None`.
-- `temperature` (float, optional): The temperature setting for the model. Defaults to 0.5.
-- `max_tokens` (int, optional): The maximum number of tokens in the response. Defaults to 8192.
-- `webdriver`: web driver instance
+
+- `model (str)`: Name of the model (e.g., "openchat_3.6").
+- `messages (Messages)`: A list of messages representing the conversation history.
+- `proxy (str, optional)`: Optional proxy server to use for requests. Defaults to `None`.
+- `temperature (float, optional)`: Controls the randomness of the generated responses. Defaults to `0.5`.
+- `max_tokens (int, optional)`: Maximum number of tokens allowed in the response. Defaults to `8192`.
+- `webdriver (Optional[webdriver.WebDriver], optional)`: Optional Selenium WebDriver instance to use for interacting with the browser. Defaults to `None`.
 - `**kwargs`: Additional keyword arguments.
 
-**How the function works**:
+**Returns**:
 
-1. **Preparation**:
-   - The function extracts arguments from a browser instance.
-   - It filters system messages from the list of messages.
-   - It forms the data payload for the POST request, including model settings, messages, key, prompt, and temperature.
-2. **Sending a Request**:
-   - An asynchronous `aiohttp.ClientSession` is created.
-   - An HTTP POST request is sent to the `openchat.team` service's API endpoint.
-3. **Processing the Response**:
-   - The function iterates over the response content in chunks.
-   - Each chunk is decoded and yielded, allowing for asynchronous processing of the response.
-4. **Error Handling**:
-   - If the HTTP response has an error status, `response.raise_for_status()` raises an exception.
-   - Errors during the HTTP request are caught and logged.
+- `AsyncResult`: An asynchronous result object representing the ongoing response generation process.
+
+**Raises Exceptions**:
+
+- `Exception`: If there's an error during the request or response processing.
+
+**How the Function Works**:
+
+1.  The method retrieves arguments from the browser using the `get_args_from_browser` function, which potentially uses a WebDriver instance for interaction.
+2.  It creates an asynchronous `ClientSession` using the retrieved arguments.
+3.  The method separates system messages from user messages in the provided `messages` list.
+4.  It constructs a data dictionary containing the model information, messages, key, prompt, and temperature settings.
+5.  It sends a POST request to the OpenChat.team API endpoint `/api/chat` with the prepared data.
+6.  The method iterates through the chunks of the response content, decodes them, and yields each chunk to the `AsyncResult` object, enabling the asynchronous generation of the response.
 
 **Examples**:
 
-Example call:
+```python
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.Aura import Aura
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
+
+# Example usage with a simple message history
+messages: Messages = [
+    {"role": "user", "content": "Hello, how are you?"},
+]
+
+# Creating an asynchronous generator for Aura model responses
+async_generator = Aura.create_async_generator(model="openchat_3.6", messages=messages)
+
+# Iterating through the generated response chunks
+async for chunk in async_generator:
+    print(chunk) 
+
+```
+
+**Inner Functions**:
+
+- `get_args_from_browser(url: str, webdriver: Optional[webdriver.WebDriver], proxy: str = None) -> Dict[str, Any]`: This function retrieves arguments for the `aiohttp.ClientSession` from the browser, potentially using a WebDriver instance for interaction.
+
+**Parameter Details**:
+
+- `model (str)`: The name of the model to use for generating responses. It is a key identifier for the model being requested.
+- `messages (Messages)`: A list of messages representing the conversation history. This is used to provide context to the model.
+- `proxy (str, optional)`: An optional proxy server to use for making requests. This can be helpful for bypassing network restrictions or improving network performance.
+- `temperature (float, optional)`: A value that controls the randomness of the generated responses. A higher temperature will result in more creative and unpredictable responses, while a lower temperature will produce more conservative and predictable responses.
+- `max_tokens (int, optional)`: The maximum number of tokens allowed in the generated response. This limits the length of the response and helps to prevent excessive generation time.
+- `webdriver (Optional[webdriver.WebDriver], optional)`: An optional Selenium WebDriver instance to use for interacting with the browser. This allows for interaction with web pages and extraction of data.
+- `**kwargs`: Additional keyword arguments. This allows for flexibility and the inclusion of other parameters specific to the provider or the API.
+
+##  Class Methods
+
+- `create_async_generator`: This method is responsible for initiating the asynchronous generation of responses from the OpenChat.team API. It uses the `aiohttp` library for making HTTP requests and handles the processing and formatting of responses.
+
+## Parameter Details
+
+- `model (str)`: This parameter specifies the name of the model to use for generating responses. It is a key identifier for the model being requested.
+- `messages (Messages)`: This parameter represents the conversation history, which is used to provide context to the model. 
+- `proxy (str, optional)`: An optional proxy server that can be used for making requests. This can be helpful for bypassing network restrictions or improving network performance.
+- `temperature (float, optional)`: A value that controls the randomness of the generated responses. A higher temperature will result in more creative and unpredictable responses, while a lower temperature will produce more conservative and predictable responses.
+- `max_tokens (int, optional)`: The maximum number of tokens allowed in the generated response. This limits the length of the response and helps to prevent excessive generation time.
+- `webdriver (Optional[webdriver.WebDriver], optional)`: An optional Selenium WebDriver instance that can be used for interacting with the browser. This allows for interaction with web pages and extraction of data.
+- `**kwargs`: Additional keyword arguments. This allows for flexibility and the inclusion of other parameters specific to the provider or the API.
+
+## Examples
 
 ```python
-# Assuming messages is a list of message dictionaries
-messages = [
-    {"role": "system", "content": "You are a helpful assistant."},
-    {"role": "user", "content": "Hello, how are you?"}
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.Aura import Aura
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
+
+# Example usage with a simple message history
+messages: Messages = [
+    {"role": "user", "content": "Hello, how are you?"},
 ]
-# Create async generator
-async_gen = Aura.create_async_generator(model="openchat_3.6", messages=messages, proxy="http://your-proxy:8080")
-# Use async generator to get responses
-async for chunk in async_gen:
-    print(chunk)
+
+# Creating an asynchronous generator for Aura model responses
+async_generator = Aura.create_async_generator(model="openchat_3.6", messages=messages)
+
+# Iterating through the generated response chunks
+async for chunk in async_generator:
+    print(chunk) 
+```

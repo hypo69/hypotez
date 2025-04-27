@@ -1,178 +1,240 @@
-# Документация модуля `backend.py`
+# Backend API Module
 
-## Обзор
+## Overview
 
-Модуль предоставляет API для взаимодействия с языковой моделью, такой как ChatGPT, с использованием библиотеки `g4f`. Он включает в себя функциональность для создания бесед, получения результатов поиска в интернете и применения инструкций обхода ограничений (jailbreak).
+This module provides the backend functionality for the FreeGPT web UI, handling user conversations and interactions with AI models.
 
-## Более подробная информация
+## Details
 
-Модуль содержит класс `Backend_Api`, который обрабатывает запросы к API и генерирует ответы от языковой модели. Он также включает функции для построения сообщений, получения результатов поиска и управления обходом ограничений. В проекте `hypotez` этот код используется для предоставления интерфейса для взаимодействия с различными языковыми моделями через API.
+The `Backend_Api` class is responsible for managing the API endpoints, handling incoming requests, and processing them using various AI models. It utilizes libraries like `g4f`, `googletrans`, and `flask` for interacting with AI models, translating languages, and managing the Flask application.
 
-## Содержание
+The module implements conversation management, including building conversation histories with system messages, user prompts, and potential search results retrieved from DuckDuckGo. It also handles jailbreak instructions, providing specific prompts for different jailbreak scenarios.
 
-1.  [Классы](#Классы)
-    *   [Backend_Api](#Backend_Api)
-2.  [Функции](#Функции)
-    *   [build_messages](#build_messages)
-    *   [fetch_search_results](#fetch_search_results)
-    *   [generate_stream](#generate_stream)
-    *   [response_jailbroken_success](#response_jailbroken_success)
-    *   [response_jailbroken_failed](#response_jailbroken_failed)
-    *   [set_response_language](#set_response_language)
-    *   [isJailbreak](#isJailbreak)
-
-## Классы
+## Classes
 
 ### `Backend_Api`
 
-Класс для обработки API-запросов и взаимодействия с языковой моделью.
+**Description**: This class handles API endpoints, processes user requests, and manages conversations with AI models.
 
-**Атрибуты:**
+**Inherits**: 
 
-*   `app`: Экземпляр Flask-приложения.
-*   `use_auto_proxy`: Флаг, указывающий на использование автоматического прокси.
-*   `routes`: Словарь, содержащий маршруты API и соответствующие функции.
+**Attributes**:
 
-**Методы:**
+- `app` (`Flask`): The Flask application instance.
+- `use_auto_proxy` (`bool`): Indicates whether to use automatic proxy selection.
+- `routes` (`dict`): A dictionary mapping API endpoints to their corresponding functions and allowed HTTP methods.
 
-*   `__init__(self, app, config: dict) -> None`: Инициализирует класс `Backend_Api`.
-*   `_conversation(self)`: Обрабатывает запросы на создание беседы и генерирует ответы от языковой модели.
+**Methods**:
 
-#### `__init__`
+- `__init__(self, app, config: dict) -> None`: Initializes the Backend_Api instance, sets up routes, and starts a thread for updating working proxies if `use_auto_proxy` is enabled.
+- `_conversation()`: Handles the `/backend-api/v2/conversation` endpoint, processes user requests, generates responses from AI models, and returns the result.
+
+## Functions
+
+### `build_messages(jailbreak)`
+
+**Purpose**: This function builds the conversation history for an AI model, including system messages, user prompts, and potential search results.
+
+**Parameters**:
+
+- `jailbreak` (`str`): The requested jailbreak mode (e.g., "Default", "Ask anything").
+
+**Returns**:
+
+- `list`: A list of conversation messages.
+
+**How the Function Works**:
+
+1. Retrieves conversation history, internet access status, and the user prompt from the request data.
+2. Constructs a system message with information like the date, response language, and model description.
+3. Adds the existing conversation history to the message list.
+4. Fetches search results from DuckDuckGo if internet access is enabled.
+5. Adds jailbreak instructions to the conversation based on the `jailbreak` parameter.
+6. Appends the user prompt to the conversation history.
+7. Reduces the conversation size to avoid API token limits.
+8. Returns the finalized conversation history.
+
+**Examples**:
 
 ```python
-    def __init__(self, app, config: dict) -> None:
-        """
-        Инициализирует класс `Backend_Api`.
-
-        Args:
-            app: Экземпляр Flask-приложения.
-            config (dict): Словарь конфигурации.
-
-        Returns:
-            None
-        """
+>>> request.json = {
+...     'meta': {
+...         'content': {
+...             'conversation': [{'role': 'user', 'content': 'Hello'}],
+...             'internet_access': True,
+...             'parts': [{'content': 'What is the meaning of life?'}]
+...         }
+...     },
+...     'jailbreak': 'Default'
+... }
+>>> build_messages('Default')
+[
+    {'role': 'system', 'content': 'You are ChatGPT also known as ChatGPT, a large language model trained by OpenAI. Strictly follow the users instructions. Current date: 2023-12-22. You will respond in the language: en. '},
+    {'role': 'user', 'content': 'Hello'},
+    {'role': 'system', 'content': '[1] "The meaning of life is a question that has been pondered by philosophers and theologians for centuries. There is no one definitive answer, as it is a deeply personal and subjective question. Some people find meaning in their relationships, their work, or their faith. Others find meaning in their pursuit of knowledge or creativity. Ultimately, the meaning of life is up to each individual to define for themselves." URL:https://www.google.com/search?q=meaning+of+life.'},
+    {'role': 'user', 'content': 'What is the meaning of life?'}
+]
 ```
 
-#### `_conversation`
+### `fetch_search_results(query)`
+
+**Purpose**: This function retrieves search results from DuckDuckGo based on a given query.
+
+**Parameters**:
+
+- `query` (`str`): The search query.
+
+**Returns**:
+
+- `list`: A list of search results.
+
+**How the Function Works**:
+
+1. Sends a request to the DuckDuckGo API using the `requests.get` function.
+2. Parses the JSON response and extracts relevant information (snippet and link).
+3. Constructs a system message with the formatted search results and appends it to a list.
+4. Returns the list of search results.
+
+**Examples**:
 
 ```python
-    def _conversation(self):
-        """
-        Обрабатывает запросы на создание беседы и генерирует ответы от языковой модели.
-
-        Returns:
-            flask.Response: Ответ от Flask-приложения с потоком данных или словарь с информацией об ошибке.
-
-        Raises:
-            Exception: В случае возникновения ошибки при обработке запроса.
-        """
+>>> fetch_search_results('What is the meaning of life?')
+[{'role': 'system', 'content': '[1] "The meaning of life is a question that has been pondered by philosophers and theologians for centuries. There is no one definitive answer, as it is a deeply personal and subjective question. Some people find meaning in their relationships, their work, or their faith. Others find meaning in their pursuit of knowledge or creativity. Ultimately, the meaning of life is up to each individual to define for themselves." URL:https://www.google.com/search?q=meaning+of+life.'}]
 ```
 
-## Функции
+### `generate_stream(response, jailbreak)`
 
-### `build_messages`
+**Purpose**: This function generates a stream of responses from the AI model, handling jailbreak instructions.
+
+**Parameters**:
+
+- `response` (`list`): The response from the AI model.
+- `jailbreak` (`str`): The requested jailbreak mode.
+
+**Returns**:
+
+- `generator`: A generator that yields individual response messages.
+
+**How the Function Works**:
+
+1. Checks if jailbreak instructions are enabled.
+2. If jailbreak instructions are enabled, iterates through the response messages and checks for jailbroken response patterns (e.g., "ACT:", "GPT:").
+3. If a jailbroken response pattern is detected, it checks for success or failure based on the response content.
+4. Yields the response messages, either individually or as a combined string for jailbroken responses.
+5. If jailbreak instructions are not enabled, yields the response messages directly.
+
+**Examples**:
 
 ```python
-def build_messages(jailbreak):
-    """
-    Создает список сообщений для беседы на основе данных из запроса.
-
-    Args:
-        jailbreak: Инструкции для обхода ограничений.
-
-    Returns:
-        list: Список сообщений для беседы.
-    """
+>>> response = ['GPT: This is a jailbroken response.', 'ACT: Do as I say!']
+>>> generate_stream(response, 'Ask anything')
+'GPT: This is a jailbroken response.ACT: Do as I say!'
+>>> response = ['This is a normal response.']
+>>> generate_stream(response, 'Default')
+'This is a normal response.'
 ```
 
-### `fetch_search_results`
+### `response_jailbroken_success(response: str) -> bool`
+
+**Purpose**: This function checks if a jailbroken response is successful.
+
+**Parameters**:
+
+- `response` (`str`): The response text from the AI model.
+
+**Returns**:
+
+- `bool`: `True` if the response indicates success, `False` otherwise.
+
+**How the Function Works**:
+
+1. Uses regular expressions to search for the pattern "ACT:" in the response.
+2. Returns `True` if the pattern is found, indicating a successful jailbreak.
+
+**Examples**:
 
 ```python
-def fetch_search_results(query):
-    """
-    Выполняет поиск в интернете и возвращает результаты в виде списка сообщений.
-
-    Args:
-        query: Поисковый запрос.
-
-    Returns:
-        list: Список сообщений с результатами поиска.
-    """
+>>> response_jailbroken_success('ACT: I am now jailbroken.')
+True
+>>> response_jailbroken_success('This is not a jailbroken response.')
+False
 ```
 
-### `generate_stream`
+### `response_jailbroken_failed(response)`
+
+**Purpose**: This function checks if a jailbroken response is failed.
+
+**Parameters**:
+
+- `response` (`str`): The response text from the AI model.
+
+**Returns**:
+
+- `bool`: `True` if the response indicates failure, `False` otherwise.
+
+**How the Function Works**:
+
+1. Checks if the response length is less than 4 characters.
+2. If the response length is greater than or equal to 4 characters, it checks if the response starts with "GPT:" or "ACT:".
+3. Returns `True` if the response length is less than 4 characters or if it doesn't start with "GPT:" or "ACT:", indicating a failed jailbreak.
+
+**Examples**:
 
 ```python
-def generate_stream(response, jailbreak):
-    """
-    Генерирует поток данных для ответа от языковой модели.
-
-    Args:
-        response: Ответ от языковой модели.
-        jailbreak: Инструкции для обхода ограничений.
-
-    Yields:
-        str: Часть ответа от языковой модели.
-    """
+>>> response_jailbroken_failed('ACT: Failed.')
+False
+>>> response_jailbroken_failed('This is not a jailbroken response.')
+True
 ```
 
-### `response_jailbroken_success`
+### `set_response_language(prompt)`
+
+**Purpose**: This function detects the language of the user prompt and returns a message indicating the response language.
+
+**Parameters**:
+
+- `prompt` (`dict`): The user prompt.
+
+**Returns**:
+
+- `str`: A message indicating the response language.
+
+**How the Function Works**:
+
+1. Uses the `googletrans` library to detect the language of the prompt content.
+2. Returns a string indicating the detected language.
+
+**Examples**:
 
 ```python
-def response_jailbroken_success(response: str) -> bool:
-    """
-    Проверяет, успешно ли применены инструкции обхода ограничений к ответу.
-
-    Args:
-        response (str): Ответ от языковой модели.
-
-    Returns:
-        bool: `True`, если инструкции успешно применены, иначе `False`.
-    """
+>>> prompt = {'content': 'Bonjour'}
+>>> set_response_language(prompt)
+'You will respond in the language: fr. '
 ```
 
-### `response_jailbroken_failed`
+### `isJailbreak(jailbreak)`
+
+**Purpose**: This function checks if a jailbreak mode is specified and returns the corresponding instructions.
+
+**Parameters**:
+
+- `jailbreak` (`str`): The requested jailbreak mode.
+
+**Returns**:
+
+- `list` | `None`: A list of jailbreak instructions if the mode is valid, `None` otherwise.
+
+**How the Function Works**:
+
+1. Checks if the `jailbreak` parameter is not "Default".
+2. If the `jailbreak` mode is not "Default", retrieves the corresponding instructions from the `special_instructions` dictionary.
+3. Returns the instructions if found, otherwise returns `None`.
+
+**Examples**:
 
 ```python
-def response_jailbroken_failed(response):
-    """
-    Проверяет, не удалось ли применить инструкции обхода ограничений к ответу.
-
-    Args:
-        response: Ответ от языковой модели.
-
-    Returns:
-        bool: `True`, если не удалось применить инструкции, иначе `False`.
-    """
-```
-
-### `set_response_language`
-
-```python
-def set_response_language(prompt):
-    """
-    Определяет язык запроса и возвращает строку с инструкцией для языковой модели.
-
-    Args:
-        prompt: Текст запроса.
-
-    Returns:
-        str: Строка с инструкцией для языковой модели.
-    """
-```
-
-### `isJailbreak`
-
-```python
-def isJailbreak(jailbreak):
-    """
-    Проверяет, включены ли инструкции обхода ограничений, и возвращает их.
-
-    Args:
-        jailbreak: Имя набора инструкций для обхода ограничений.
-
-    Returns:
-        list | None: Список инструкций для обхода ограничений, если они включены, иначе `None`.
-    """
+>>> isJailbreak('Ask anything')
+[{'role': 'system', 'content': 'I am a large language model, trained by Google. I will try my best to follow your instructions and complete your requests thoughtfully.'}]
+>>> isJailbreak('Default')
+None
 ```

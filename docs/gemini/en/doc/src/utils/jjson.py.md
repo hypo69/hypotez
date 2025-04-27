@@ -1,275 +1,286 @@
-# Модуль для работы с JSON и SimpleNamespace
+# Module `jjson`
 
-## Обзор
+## Overview
 
-Модуль `jjson` предоставляет функции для загрузки и сохранения данных в формате JSON, а также для преобразования данных в объекты `SimpleNamespace`. Он включает в себя функции для чтения JSON из файлов, строк и объектов, а также для записи данных в файлы. Модуль также поддерживает объединение JSON-данных и преобразование строк с escape-последовательностями Unicode.
+This module provides functions for working with JSON data in Python. It simplifies loading, dumping, merging, and converting JSON data in various formats, including dictionaries, lists, and SimpleNamespace objects. It offers features for handling file paths, custom file modes, and error handling with logging.
 
-## Более подробно
+## Details
 
-Модуль `jjson` предоставляет удобные инструменты для работы с данными в формате JSON. Он облегчает чтение, запись и преобразование данных, а также предоставляет возможности для обработки ошибок и логирования. Этот модуль используется для работы с файлами конфигурации, обмена данными между компонентами системы и хранения структурированной информации.
+The `jjson` module aims to streamline JSON operations within the `hypotez` project. It offers several key features:
 
-## Классы
+- **Robust JSON loading:** `j_loads` handles loading JSON from files, directories, strings, or objects while handling various potential errors with logging.
+- **Flexible JSON dumping:** `j_dumps` allows dumping JSON data to files or returning it as a dictionary. It supports various file modes and handles potential errors with logging.
+- **SimpleNamespace conversion:** `j_loads_ns` converts loaded JSON data into SimpleNamespace objects for easier access to attributes.
+- **Data merging:** The `_merge_data` function allows merging new data with existing data based on different modes (append at the beginning, append at the end).
+- **Error handling and logging:** The module uses the `logger` from the `src.logger` module to log potential errors and provide detailed information.
 
-### `Config`
-
-**Описание**: Класс для хранения констант, используемых при работе с файлами.
-
-**Атрибуты**:
-- `MODE_WRITE` (str): Режим записи файла ("w").
-- `MODE_APPEND_START` (str): Режим добавления в начало файла ("a+").
-- `MODE_APPEND_END` (str): Режим добавления в конец файла ("+a").
-
-```python
-@dataclass
-class Config:
-    MODE_WRITE:str = "w"
-    MODE_APPEND_START:str = "a+"
-    MODE_APPEND_END:str = "+a"
-```
-
-## Функции
-
-### `_convert_to_dict`
-
-**Назначение**: Преобразует объекты `SimpleNamespace` и списки в словари.
-
-**Параметры**:
-- `value` (Any): Значение, которое нужно преобразовать.
-
-**Возвращает**:
-- Any: Преобразованное значение в виде словаря или списка.
-
-**Как работает функция**:
-- Функция рекурсивно преобразует объекты `SimpleNamespace` и списки в словари, чтобы обеспечить совместимость с JSON.
-
-**Примеры**:
-```python
-from types import SimpleNamespace
-data = SimpleNamespace(name="John", age=30)
-result = _convert_to_dict(data)
-print(result)  # {'name': 'John', 'age': 30}
-```
-```python
-data = [SimpleNamespace(name="John"), SimpleNamespace(name="Jane")]
-result = _convert_to_dict(data)
-print(result)  # [{'name': 'John'}, {'name': 'Jane'}]
-```
-```python
-data = {'name': SimpleNamespace(first="John", last="Doe")}
-result = _convert_to_dict(data)
-print(result) # {'name': {'first': 'John', 'last': 'Doe'}}
-```
-
-### `_read_existing_data`
-
-**Назначение**: Читает существующие JSON-данные из файла.
-
-**Параметры**:
-- `path` (Path): Путь к файлу.
-- `exc_info` (bool): Флаг, определяющий, нужно ли логировать информацию об исключении. По умолчанию `True`.
-
-**Возвращает**:
-- dict: Словарь с данными из файла или пустой словарь в случае ошибки.
-
-**Как работает функция**:
-- Функция пытается прочитать JSON-данные из файла, используя указанный путь. В случае ошибки декодирования JSON или других исключений, функция логирует ошибку и возвращает пустой словарь.
-
-**Примеры**:
-```python
-from pathlib import Path
-file_path = Path("data.json")
-file_path.write_text('{"name": "John", "age": 30}')
-result = _read_existing_data(file_path)
-print(result)  # {'name': 'John', 'age': 30}
-```
-```python
-from pathlib import Path
-file_path = Path("nonexistent.json")
-result = _read_existing_data(file_path)
-print(result)  # {}
-```
-
-### `_merge_data`
-
-**Назначение**: Объединяет новые данные с существующими данными в зависимости от режима.
-
-**Параметры**:
-- `data` (Dict): Новые данные для объединения.
-- `existing_data` (Dict): Существующие данные.
-- `mode` (str): Режим объединения (Config.MODE_APPEND_START, Config.MODE_APPEND_END).
-
-**Возвращает**:
-- Dict: Объединенные данные.
-
-**Как работает функция**:
-- Функция объединяет новые данные с существующими данными в зависимости от указанного режима. Если режим `Config.MODE_APPEND_START`, новые данные добавляются в начало существующих данных. Если режим `Config.MODE_APPEND_END`, новые данные добавляются в конец существующих данных.
-
-**Примеры**:
-```python
-data = {"new": "value"}
-existing_data = {"old": "value"}
-mode = Config.MODE_APPEND_START
-result = _merge_data(data, existing_data, mode)
-print(result)  # {'old': 'value', 'new': 'value'}
-```
-```python
-data = {"new": "value"}
-existing_data = {"old": "value"}
-mode = Config.MODE_APPEND_END
-result = _merge_data(data, existing_data, mode)
-print(result)  # {'new': 'value', 'old': 'value'}
-```
+## Functions
 
 ### `j_dumps`
 
-**Назначение**: Записывает JSON-данные в файл или возвращает JSON-данные в виде словаря.
+**Purpose**: Dump JSON data to a file or return the JSON data as a dictionary.
 
-**Параметры**:
-- `data` (Union[Dict, SimpleNamespace, List[Dict], List[SimpleNamespace]]): JSON-совместимые данные или объекты `SimpleNamespace` для записи.
-- `file_path` (Optional[Path], optional): Путь к выходному файлу. Если `None`, возвращает JSON в виде словаря. По умолчанию `None`.
-- `ensure_ascii` (bool, optional): Если `True`, экранирует не-ASCII символы в выводе. По умолчанию `True`.
-- `mode` (str, optional): Режим открытия файла ('w', 'a+', '+a'). По умолчанию 'w'.
-- `exc_info` (bool, optional): Если `True`, логирует исключения с трассировкой. По умолчанию `True`.
+**Parameters**:
 
-**Возвращает**:
-- Optional[Dict]: JSON-данные в виде словаря в случае успеха или `None`, если произошла ошибка.
+- `data (Dict | SimpleNamespace | List[Dict] | List[SimpleNamespace])`: JSON-compatible data or SimpleNamespace objects to dump.
+- `file_path (Optional[Path], optional)`: Path to the output file. If None, returns JSON as a dictionary. Defaults to None.
+- `ensure_ascii (bool, optional)`: If True, escapes non-ASCII characters in output. Defaults to True.
+- `mode (str, optional)`: File open mode ('w', 'a+', '+a'). Defaults to 'w'.
+- `exc_info (bool, optional)`: If True, logs exceptions with traceback. Defaults to True.
 
-**Вызывает**:
-- ValueError: Если указан неподдерживаемый режим файла.
+**Returns**:
 
-**Как работает функция**:
-- Функция преобразует входные данные в словарь, объединяет их с существующими данными (если указан путь к файлу и режим добавления), а затем записывает данные в файл в формате JSON. Если `file_path` не указан, функция возвращает JSON-данные в виде словаря.
+- `Optional[Dict]`: JSON data as a dictionary if successful, or nothing if an error occurs.
 
-**Примеры**:
+**Raises Exceptions**:
+
+- `ValueError`: If the file mode is unsupported.
+
+**Example**:
+
 ```python
-from pathlib import Path
-data = {"name": "John", "age": 30}
-file_path = Path("data.json")
-result = j_dumps(data, file_path)
-print(result)  # {'name': 'John', 'age': 30}
-```
-```python
-data = {"name": "John", "age": 30}
-result = j_dumps(data)
-print(result)  # {'name': 'John', 'age': 30}
-```
+from src.utils.jjson import j_dumps
 
-### `_decode_strings`
+data = {"name": "Alice", "age": 30}
 
-**Назначение**: Рекурсивно декодирует строки в структуре данных.
+# Dump to a file
+j_dumps(data, file_path="data.json")
 
-**Параметры**:
-- `data` (Any): Данные для декодирования.
+# Return as a dictionary
+json_data = j_dumps(data)
 
-**Возвращает**:
-- Any: Декодированные данные.
+# Append data to an existing file
+j_dumps(data, file_path="data.json", mode="a+")
 
-**Как работает функция**:
-- Функция рекурсивно проходит по структуре данных и декодирует все строки, используя кодировку `unicode_escape`.
-
-**Примеры**:
-```python
-data = {"name": "John\\u0020Doe", "age": 30}
-result = _decode_strings(data)
-print(result)  # {'name': 'John Doe', 'age': 30}
-```
-```python
-data = ["John\\u0020Doe", 30]
-result = _decode_strings(data)
-print(result)  # ['John Doe', 30]
-```
-
-### `_string_to_dict`
-
-**Назначение**: Удаляет markdown-кавычки и преобразует JSON-строку в словарь.
-
-**Параметры**:
-- `json_string` (str): JSON-строка.
-
-**Возвращает**:
-- dict: Словарь, полученный из JSON-строки, или пустой словарь в случае ошибки.
-
-**Как работает функция**:
-- Функция удаляет markdown-кавычки (если они есть) из JSON-строки и преобразует строку в словарь. В случае ошибки парсинга JSON, функция логирует ошибку и возвращает пустой словарь.
-
-**Примеры**:
-```python
-json_string = "```json\n{\"name\": \"John\", \"age\": 30}\n```"
-result = _string_to_dict(json_string)
-print(result)  # {'name': 'John', 'age': 30}
-```
-```python
-json_string = "{\"name\": \"John\", \"age\": 30}"
-result = _string_to_dict(json_string)
-print(result)  # {'name': 'John', 'age': 30}
-```
-```python
-json_string = "```\n{\"name\": \"John\", \"age\": 30}\n```"
-result = _string_to_dict(json_string)
-print(result)  # {'name': 'John', 'age': 30}
+# Handle potential errors
+try:
+    j_dumps(data, file_path="data.json", mode="invalid_mode")
+except ValueError as ex:
+    logger.error(f"Invalid file mode: {ex}")
 ```
 
 ### `j_loads`
 
-**Назначение**: Загружает JSON или CSV-данные из файла, каталога, строки или объекта.
+**Purpose**: Load JSON or CSV data from a file, directory, string, or object.
 
-**Параметры**:
-- `jjson` (Union[dict, SimpleNamespace, str, Path, list]): Путь к файлу/каталогу, JSON-строка или JSON-объект.
-- `ordered` (bool, optional): Использовать `OrderedDict` для сохранения порядка элементов. По умолчанию `True`.
+**Parameters**:
 
-**Возвращает**:
-- Union[dict, list]: Обработанные данные (словарь или список словарей).
+- `jjson (dict | SimpleNamespace | str | Path | list)`: Path to file/directory, JSON string, or JSON object.
+- `ordered (bool, optional)`: Use OrderedDict to preserve element order. Defaults to True.
 
-**Вызывает**:
-- FileNotFoundError: Если указанный файл не найден.
-- json.JSONDecodeError: Если JSON-данные не могут быть распарсены.
+**Returns**:
 
-**Как работает функция**:
-- Функция загружает JSON-данные из файла, каталога, строки или объекта. Если указан путь к каталогу, функция загружает все JSON-файлы из этого каталога. Если указана JSON-строка, функция преобразует строку в словарь.
+- `dict | list`: Processed data (dictionary or list of dictionaries).
 
-**Примеры**:
+**Raises Exceptions**:
+
+- `FileNotFoundError`: If the specified file is not found.
+- `json.JSONDecodeError`: If the JSON data cannot be parsed.
+
+**Example**:
+
 ```python
-from pathlib import Path
-file_path = Path("data.json")
-file_path.write_text('{"name": "John", "age": 30}')
-result = j_loads(file_path)
-print(result)  # {'name': 'John', 'age': 30}
-```
-```python
-json_string = "{\"name\": \"John\", \"age\": 30}"
-result = j_loads(json_string)
-print(result)  # {'name': 'John', 'age': 30}
+from src.utils.jjson import j_loads
+
+# Load from a file
+data = j_loads("data.json")
+
+# Load from a directory
+data = j_loads("data_dir")
+
+# Load from a string
+data = j_loads('{"name": "Alice", "age": 30}')
+
+# Load from a SimpleNamespace object
+data = j_loads(SimpleNamespace(name="Alice", age=30))
+
+# Handle potential errors
+try:
+    data = j_loads("nonexistent_file.json")
+except FileNotFoundError as ex:
+    logger.error(f"File not found: {ex}")
 ```
 
 ### `j_loads_ns`
 
-**Назначение**: Загружает JSON/CSV-данные и преобразует их в `SimpleNamespace`.
+**Purpose**: Load JSON/CSV data and convert to SimpleNamespace.
 
-**Параметры**:
-- `jjson` (Union[Path, SimpleNamespace, Dict, str]): Путь, объект `SimpleNamespace`, словарь или строка с JSON/CSV-данными.
-- `ordered` (bool, optional): Использовать `OrderedDict` для сохранения порядка элементов. По умолчанию `True`.
+**Parameters**:
 
-**Возвращает**:
-- Union[SimpleNamespace, List[SimpleNamespace], Dict]: Данные, преобразованные в `SimpleNamespace` или список `SimpleNamespace`.
+- `jjson (Path | SimpleNamespace | Dict | str)`: Path to file/directory, JSON string, or JSON object.
+- `ordered (bool, optional)`: Use OrderedDict to preserve element order. Defaults to True.
 
-**Как работает функция**:
-- Функция загружает JSON/CSV-данные с использованием `j_loads` и преобразует их в объекты `SimpleNamespace`. Если данные представлены в виде списка, функция преобразует каждый элемент списка в `SimpleNamespace`.
+**Returns**:
 
-**Примеры**:
+- `SimpleNamespace | List[SimpleNamespace] | Dict`: Processed data as SimpleNamespace objects or a dictionary.
+
+**Example**:
+
 ```python
-from pathlib import Path
-file_path = Path("data.json")
-file_path.write_text('{"name": "John", "age": 30}')
-result = j_loads_ns(file_path)
-print(result)  # namespace(name='John', age=30)
+from src.utils.jjson import j_loads_ns
+
+# Load from a file and convert to SimpleNamespace
+data = j_loads_ns("data.json")
+
+# Load from a directory and convert to a list of SimpleNamespace objects
+data = j_loads_ns("data_dir")
+
+# Load from a string and convert to SimpleNamespace
+data = j_loads_ns('{"name": "Alice", "age": 30}')
 ```
+
+## Inner Functions
+
+### `_convert_to_dict`
+
+**Purpose**: Convert SimpleNamespace and lists to dict.
+
+**Parameters**:
+
+- `value (Any)`: The value to convert.
+
+**Returns**:
+
+- `Any`: Converted value as a dictionary.
+
+**How the Function Works**:
+
+The function recursively traverses the input data structure and converts SimpleNamespace objects and lists to dictionaries.
+
+### `_read_existing_data`
+
+**Purpose**: Read existing JSON data from a file.
+
+**Parameters**:
+
+- `path (Path)`: Path to the JSON file.
+- `exc_info (bool, optional)`: If True, logs exceptions with traceback. Defaults to True.
+
+**Returns**:
+
+- `dict`: Existing JSON data as a dictionary.
+
+**How the Function Works**:
+
+The function reads the contents of the specified file and parses it as JSON data using `json.loads`. It handles potential errors during reading and parsing, logging them with detailed information.
+
+### `_merge_data`
+
+**Purpose**: Merge new data with existing data based on mode.
+
+**Parameters**:
+
+- `data (Dict)`: New data to merge.
+- `existing_data (Dict)`: Existing data to merge with.
+- `mode (str)`: Mode for merging ('w', 'a+', '+a').
+
+**Returns**:
+
+- `Dict`: Merged data as a dictionary.
+
+**How the Function Works**:
+
+The function merges new data with existing data based on the specified mode. It supports appending new data at the beginning or end of existing lists or dictionaries.
+
+### `_decode_strings`
+
+**Purpose**: Recursively decode strings in a data structure.
+
+**Parameters**:
+
+- `data (Any)`: The data structure to decode.
+
+**Returns**:
+
+- `Any`: The data structure with decoded strings.
+
+**How the Function Works**:
+
+The function recursively traverses the input data structure and decodes strings using `codecs.decode` with the `unicode_escape` encoding.
+
+### `_string_to_dict`
+
+**Purpose**: Remove markdown quotes and parse JSON string.
+
+**Parameters**:
+
+- `json_string (str)`: The JSON string to parse.
+
+**Returns**:
+
+- `dict`: The parsed JSON data as a dictionary.
+
+**How the Function Works**:
+
+The function removes markdown quotes (`````, ````json`) from the input string and then attempts to parse it as JSON data using `json.loads`. It handles potential errors during parsing, logging them with detailed information.
+
+## Class `Config`
+
+**Description**: Class for storing configuration settings.
+
+**Attributes**:
+
+- `MODE_WRITE (str)`: File open mode for writing (default: 'w').
+- `MODE_APPEND_START (str)`: File open mode for appending at the beginning (default: 'a+').
+- `MODE_APPEND_END (str)`: File open mode for appending at the end (default: '+a').
+
+**Examples**:
+
 ```python
-json_string = "{\"name\": \"John\", \"age\": 30}"
-result = j_loads_ns(json_string)
-print(result)  # namespace(name='John', age=30)
+from src.utils.jjson import Config
+
+# Accessing configuration settings
+print(Config.MODE_WRITE)  # Output: 'w'
+print(Config.MODE_APPEND_START)  # Output: 'a+'
 ```
+
+## Parameter Details
+
+- `file_path (Optional[Path], optional)`:  A file path (string or Path object) that points to the JSON file to load or dump data. If this parameter is `None`, then the function will return a dictionary object. Defaults to `None`.
+
+- `ensure_ascii (bool, optional)`:  A boolean value that controls the handling of non-ASCII characters during the JSON encoding. If set to `True`, non-ASCII characters will be escaped. Defaults to `True`.
+
+- `mode (str, optional)`:  A string that specifies the mode used to open a file for writing or appending data. It can be one of the following values:
+  -  `'w'`:  Opens the file for writing, overwriting any existing content.
+  -  `'a+'`:  Opens the file for appending, and creates the file if it does not exist. It allows reading and writing from the end of the file.
+  -  `'+a'`:  Opens the file for appending, and creates the file if it does not exist. It allows reading and writing from the beginning of the file. Defaults to `'w'`.
+
+- `exc_info (bool, optional)`: A boolean value that determines whether to log error information with stack traces. If set to `True`, detailed information about the exception will be logged, including the traceback. If set to `False`, only the error message will be logged. Defaults to `True`.
+
+- `ordered (bool, optional)`:  A boolean value that controls whether the data should be stored in an ordered dictionary (OrderedDict) to preserve the order of elements. If set to `True`, an OrderedDict will be used, preserving the element order. If set to `False`, a regular dictionary will be used, where the order is not guaranteed. Defaults to `True`.
+
+## Examples
+
 ```python
-from types import SimpleNamespace
-jjson = SimpleNamespace(name="John", age=30)
-result = j_loads_ns(jjson)
-print(result)  # namespace(name='John', age=30)
+from src.utils.jjson import j_dumps, j_loads, j_loads_ns, Config
+
+# Example 1: Dumping JSON data to a file
+data = {"name": "Alice", "age": 30, "city": "New York"}
+j_dumps(data, file_path="user_data.json")
+
+# Example 2: Loading JSON data from a file
+data = j_loads("user_data.json")
+print(data)  # Output: {'name': 'Alice', 'age': 30, 'city': 'New York'}
+
+# Example 3: Appending data to an existing file
+new_data = {"occupation": "Software Engineer"}
+j_dumps(new_data, file_path="user_data.json", mode=Config.MODE_APPEND_START)
+
+# Example 4: Loading JSON data from a string
+data = j_loads('{"name": "Bob", "age": 25}')
+print(data)  # Output: {'name': 'Bob', 'age': 25}
+
+# Example 5: Loading JSON data from a SimpleNamespace object
+data = j_loads_ns(SimpleNamespace(name="Charlie", age=35))
+print(data)  # Output: SimpleNamespace(name='Charlie', age=35)
+
+# Example 6: Loading JSON data from a directory
+data = j_loads_ns("data_dir")
+print(data)  # Output: [SimpleNamespace(name='Alice', age=30), SimpleNamespace(name='Bob', age=25), SimpleNamespace(name='Charlie', age=35)]
+
+# Example 7: Handling potential errors
+try:
+    data = j_loads("nonexistent_file.json")
+except FileNotFoundError as ex:
+    logger.error(f"File not found: {ex}")
+```

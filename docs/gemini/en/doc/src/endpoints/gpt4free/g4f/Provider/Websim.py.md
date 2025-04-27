@@ -1,230 +1,254 @@
-# Модуль `Websim`
+# Websim.py
 
-## Обзор
+## Overview
 
-Модуль `Websim` предоставляет асинхронтный интерфейс для взаимодействия с API Websim AI, позволяя генерировать текст и изображения. Он поддерживает как текстовые запросы, так и запросы на генерацию изображений, используя различные модели, предоставляемые Websim AI.
+This module provides the `Websim` class, which is a provider for the GPT-4 Free API. It allows for the creation of a `Websim` object that can be used to generate responses from the GPT-4 Free AI model. The class implements methods for both chat and image generation requests.
 
-## Детали
+## Details
 
-Модуль предназначен для использования в асинхронных приложениях и предоставляет методы для генерации идентификаторов проектов, обработки запросов к API Websim AI и возврата результатов в виде асинхронного генератора.
+The `Websim` class extends the `AsyncGeneratorProvider` and `ProviderModelMixin` classes, enabling it to handle asynchronous requests and model selection. The class utilizes the `aiohttp` library for making asynchronous requests to the GPT-4 Free API. It supports features such as system messages, message history, and stream responses.
 
-## Классы
+## Classes
 
 ### `Websim`
 
-**Описание**: Класс `Websim` является асинхронным провайдером и миксином моделей, предназначенным для взаимодействия с API Websim AI.
+**Description**: The `Websim` class is a provider for the GPT-4 Free API, enabling communication with the GPT-4 Free AI model for both chat and image generation.
 
-**Наследуется от**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию результатов.
-- `ProviderModelMixin`: Предоставляет функциональность для работы с моделями.
+**Inherits**:
+  - `AsyncGeneratorProvider`: For asynchronous request handling.
+  - `ProviderModelMixin`: For model selection and management.
 
-**Атрибуты**:
-- `url` (str): URL Websim AI.
-- `login_url` (None): URL для входа (не используется).
-- `chat_api_endpoint` (str): URL API для генерации текста.
-- `image_api_endpoint` (str): URL API для генерации изображений.
-- `working` (bool): Указывает, что провайдер работает.
-- `needs_auth` (bool): Указывает, требуется ли аутентификация (не требуется).
-- `use_nodriver` (bool): Указывает, использовать ли драйвер (не используется).
-- `supports_stream` (bool): Указывает, поддерживает ли потоковую передачу (не поддерживает).
-- `supports_system_message` (bool): Указывает, поддерживает ли системные сообщения.
-- `supports_message_history` (bool): Указывает, поддерживает ли историю сообщений.
-- `default_model` (str): Модель, используемая по умолчанию для генерации текста (`gemini-1.5-pro`).
-- `default_image_model` (str): Модель, используемая по умолчанию для генерации изображений (`flux`).
-- `image_models` (list[str]): Список поддерживаемых моделей для генерации изображений.
-- `models` (list[str]): Список всех поддерживаемых моделей (текстовых и графических).
+**Attributes**:
 
-**Принцип работы**:
-Класс `Websim` использует API Websim AI для генерации текста и изображений. Он предоставляет методы для создания идентификаторов проектов, обработки запросов к API и возврата результатов в виде асинхронного генератора.
+  - `url` (str): The base URL for the GPT-4 Free API.
+  - `login_url` (str): The login URL for the GPT-4 Free API.
+  - `chat_api_endpoint` (str): The API endpoint for chat requests.
+  - `image_api_endpoint` (str): The API endpoint for image generation requests.
+  - `working` (bool): Indicates whether the provider is operational.
+  - `needs_auth` (bool): Indicates whether the provider requires authentication.
+  - `use_nodriver` (bool): Indicates whether the provider uses a headless browser.
+  - `supports_stream` (bool): Indicates whether the provider supports stream responses.
+  - `supports_system_message` (bool): Indicates whether the provider supports system messages.
+  - `supports_message_history` (bool): Indicates whether the provider supports message history.
+  - `default_model` (str): The default model for chat requests.
+  - `default_image_model` (str): The default model for image generation requests.
+  - `image_models` (list): A list of available models for image generation requests.
+  - `models` (list): A list of available models for both chat and image generation requests.
 
-**Методы**:
+**Methods**:
 
-- `generate_project_id(for_image: bool = False) -> str`
-- `create_async_generator(model: str, messages: Messages, prompt: str = None, proxy: str = None, aspect_ratio: str = "1:1", project_id: str = None, **kwargs) -> AsyncResult`
-- `_handle_image_request(project_id: str, messages: Messages, prompt: str, aspect_ratio: str, headers: dict, proxy: str = None, **kwargs) -> AsyncResult`
-- `_handle_chat_request(project_id: str, messages: Messages, headers: dict, proxy: str = None, **kwargs) -> AsyncResult`
+  - `generate_project_id(for_image=False)`: Generates a unique project ID for requests.
+  - `create_async_generator(model: str, messages: Messages, prompt: str = None, proxy: str = None, aspect_ratio: str = "1:1", project_id: str = None, **kwargs) -> AsyncResult`: Creates an asynchronous generator to process chat or image requests.
+  - `_handle_image_request(project_id: str, messages: Messages, prompt: str, aspect_ratio: str, headers: dict, proxy: str = None, **kwargs) -> AsyncResult`: Handles image generation requests.
+  - `_handle_chat_request(project_id: str, messages: Messages, headers: dict, proxy: str = None, **kwargs) -> AsyncResult`: Handles chat requests.
 
-## Методы класса
+## Functions
 
-### `generate_project_id`
+### `generate_project_id(for_image=False)`
 
-```python
-    @staticmethod
-    def generate_project_id(for_image=False):
-        """
-        Generate a project ID in the appropriate format
-        
-        For chat: format like \'ke3_xh5gai3gjkmruomu\'
-        For image: format like \'kx0m131_rzz66qb2xoy7\'
-        """
-```
+**Purpose**: Generates a unique project ID for chat and image generation requests.
 
-**Назначение**:
-Генерирует идентификатор проекта в соответствующем формате.
+**Parameters**:
 
-**Параметры**:
-- `for_image` (bool, optional): Указывает, генерируется ли идентификатор для запроса изображения. По умолчанию `False`.
+  - `for_image` (bool, optional): Indicates whether the project ID is for an image generation request. Defaults to `False`.
 
-**Возвращает**:
-- `str`: Сгенерированный идентификатор проекта.
+**Returns**:
 
-**Как работает функция**:
-- В зависимости от значения `for_image` генерирует идентификатор проекта в формате, требуемом для запросов чата или изображений.
-- Для чата идентификатор имеет формат `xxx_xxxxxxxxxxxxxxx`, где `x` - случайный символ из букв нижнего регистра и цифр.
-- Для изображений идентификатор имеет формат `xxxxxxx_xxxxxxxxxxxx`, где `x` - случайный символ из букв нижнего регистра и цифр.
+  - `str`: A unique project ID in the appropriate format for chat or image generation.
 
-**Примеры**:
-```python
-project_id_chat = Websim.generate_project_id()
-project_id_image = Websim.generate_project_id(for_image=True)
-print(f"Идентификатор проекта для чата: {project_id_chat}")
-print(f"Идентификатор проекта для изображения: {project_id_image}")
-```
+**How the Function Works**:
 
-### `create_async_generator`
+  - The function generates a random string of characters using `string.ascii_lowercase` and `string.digits`.
+  - For chat requests, the project ID is formatted like `ke3_xh5gai3gjkmruomu`.
+  - For image generation requests, the project ID is formatted like `kx0m131_rzz66qb2xoy7`.
 
-```python
-    @classmethod
-    async def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        prompt: str = None,
-        proxy: str = None,
-        aspect_ratio: str = "1:1",
-        project_id: str = None,
-        **kwargs
-    ) -> AsyncResult:
-        """
-        """
-```
+**Examples**:
 
-**Назначение**:
-Создает асинхронный генератор для обработки запросов к API Websim AI.
+  ```python
+  >>> Websim.generate_project_id()
+  'ke3_xh5gai3gjkmruomu'
 
-**Параметры**:
-- `model` (str): Модель, используемая для генерации.
-- `messages` (Messages): Список сообщений для запроса.
-- `prompt` (str, optional): Дополнительный текст для запроса. По умолчанию `None`.
-- `proxy` (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-- `aspect_ratio` (str, optional): Соотношение сторон изображения. По умолчанию `"1:1"`.
-- `project_id` (str, optional): Идентификатор проекта. Если `None`, генерируется новый.
-- `**kwargs`: Дополнительные аргументы.
+  >>> Websim.generate_project_id(for_image=True)
+  'kx0m131_rzz66qb2xoy7'
+  ```
 
-**Возвращает**:
-- `AsyncResult`: Асинхронный генератор результатов.
+### `create_async_generator(model: str, messages: Messages, prompt: str = None, proxy: str = None, aspect_ratio: str = "1:1", project_id: str = None, **kwargs) -> AsyncResult`
 
-**Как работает функция**:
-- Определяет, является ли запрос запросом изображения на основе модели.
-- Генерирует идентификатор проекта, если он не предоставлен.
-- Устанавливает заголовки для запроса.
-- Вызывает `_handle_image_request` для запросов изображений или `_handle_chat_request` для текстовых запросов.
-- Возвращает асинхронный генератор, предоставляющий результаты.
+**Purpose**: Creates an asynchronous generator to process chat or image generation requests based on the provided model, messages, and other parameters.
 
-**Примеры**:
-```python
-messages = [{"role": "user", "content": "Generate a cat image"}]
-async for result in Websim.create_async_generator(model='flux', messages=messages):
-    print(result)
-```
+**Parameters**:
 
-### `_handle_image_request`
+  - `model` (str): The model to use for the request.
+  - `messages` (Messages): A list of messages for the conversation.
+  - `prompt` (str, optional): The prompt for the request. Defaults to `None`.
+  - `proxy` (str, optional): A proxy to use for the request. Defaults to `None`.
+  - `aspect_ratio` (str, optional): The aspect ratio for image generation requests. Defaults to "1:1".
+  - `project_id` (str, optional): A project ID for the request. Defaults to `None`.
+  - `**kwargs`: Additional keyword arguments to pass to the API request.
 
-```python
-    @classmethod
-    async def _handle_image_request(
-        cls,
-        project_id: str,
-        messages: Messages,
-        prompt: str,
-        aspect_ratio: str,
-        headers: dict,
-        proxy: str = None,
-        **kwargs
-    ) -> AsyncResult:
-        """
-        """
-```
+**Returns**:
 
-**Назначение**:
-Обрабатывает запросы на генерацию изображений.
+  - `AsyncResult`: An asynchronous generator that yields the responses from the GPT-4 Free API.
 
-**Параметры**:
-- `project_id` (str): Идентификатор проекта.
-- `messages` (Messages): Список сообщений для запроса.
-- `prompt` (str): Текст для запроса.
-- `aspect_ratio` (str): Соотношение сторон изображения.
-- `headers` (dict): Заголовки для запроса.
-- `proxy` (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы.
+**How the Function Works**:
 
-**Возвращает**:
-- `AsyncResult`: Асинхронный генератор результатов.
+  - The function first determines if the request is for image generation based on the specified model.
+  - If a project ID is not provided, it generates a unique project ID using the `generate_project_id` function.
+  - It sets the appropriate headers for the request, including a `referer` header based on the type of request.
+  - The function then handles the request based on its type:
+    - For image generation requests, it calls the `_handle_image_request` method.
+    - For chat requests, it calls the `_handle_chat_request` method.
 
-**Как работает функция**:
-- Форматирует запрос изображения с использованием `format_image_prompt`.
-- Отправляет POST-запрос к `image_api_endpoint` с идентификатором проекта, текстом запроса и соотношением сторон.
-- Извлекает URL изображения из ответа JSON и возвращает `ImageResponse`.
+**Examples**:
 
-**Примеры**:
-```python
-messages = [{"role": "user", "content": "Generate a cat image"}]
-headers = {
-    'accept': '*/*',
-    'accept-language': 'en-US,en;q=0.9',
-    'content-type': 'text/plain;charset=UTF-8',
-    'origin': 'https://websim.ai',
-    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
-    'websim-flags;': ''
-}
-async for result in Websim._handle_image_request(project_id='test_id', messages=messages, prompt='cat', aspect_ratio='1:1', headers=headers):
-    print(result)
-```
+  ```python
+  >>> async def main():
+  ...     messages = [
+  ...         {"role": "user", "content": "Hello, how are you?"},
+  ...     ]
+  ...     async for response in Websim.create_async_generator(model='gemini-1.5-pro', messages=messages):
+  ...         print(response)
 
-### `_handle_chat_request`
+  >>> asyncio.run(main())
+  I'm doing well, thank you for asking! How can I help you today?
+  ```
 
-```python
-    @classmethod
-    async def _handle_chat_request(
-        cls,
-        project_id: str,
-        messages: Messages,
-        headers: dict,
-        proxy: str = None,
-        **kwargs
-    ) -> AsyncResult:
-        """
-        """
-```
+### `_handle_image_request(project_id: str, messages: Messages, prompt: str, aspect_ratio: str, headers: dict, proxy: str = None, **kwargs) -> AsyncResult`
 
-**Назначение**:
-Обрабатывает запросы на генерацию текста.
+**Purpose**: Handles image generation requests using the `image_api_endpoint`.
 
-**Параметры**:
-- `project_id` (str): Идентификатор проекта.
-- `messages` (Messages): Список сообщений для запроса.
-- `headers` (dict): Заголовки для запроса.
-- `proxy` (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы.
+**Parameters**:
 
-**Возвращает**:
-- `AsyncResult`: Асинхронный генератор результатов.
+  - `project_id` (str): The project ID for the request.
+  - `messages` (Messages): A list of messages for the conversation.
+  - `prompt` (str): The prompt for the image generation request.
+  - `aspect_ratio` (str): The aspect ratio for the generated image.
+  - `headers` (dict): The headers for the API request.
+  - `proxy` (str, optional): A proxy to use for the request. Defaults to `None`.
+  - `**kwargs`: Additional keyword arguments to pass to the API request.
 
-**Как работает функция**:
-- Отправляет POST-запрос к `chat_api_endpoint` с идентификатором проекта и списком сообщений.
-- Обрабатывает ошибки статуса ответа, такие как `429` (превышение лимита запросов), и выполняет повторные попытки.
-- Извлекает содержимое из ответа JSON и возвращает его.
+**Returns**:
 
-**Примеры**:
-```python
-messages = [{"role": "user", "content": "Hello, how are you?"}]
-headers = {
-    'accept': '*/*',
-    'accept-language': 'en-US,en;q=0.9',
-    'content-type': 'text/plain;charset=UTF-8',
-    'origin': 'https://websim.ai',
-    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
-    'websim-flags;': ''
-}
-async for result in Websim._handle_chat_request(project_id='test_id', messages=messages, headers=headers):
-    print(result)
+  - `AsyncResult`: An asynchronous generator that yields an `ImageResponse` object containing the generated image URL.
+
+**How the Function Works**:
+
+  - The function uses the `aiohttp` library to send a POST request to the `image_api_endpoint` with the provided parameters.
+  - The request body includes the project ID, the prompt, and the aspect ratio.
+  - The response is checked for errors using the `raise_for_status` function.
+  - If the request is successful, the generated image URL is extracted from the response and yielded as an `ImageResponse` object.
+
+**Examples**:
+
+  ```python
+  >>> async def main():
+  ...     messages = [
+  ...         {"role": "user", "content": "Generate an image of a cat."},
+  ...     ]
+  ...     async for response in Websim.create_async_generator(model='flux', messages=messages):
+  ...         print(response)
+
+  >>> asyncio.run(main())
+  <ImageResponse object at ...>
+  ```
+
+### `_handle_chat_request(project_id: str, messages: Messages, headers: dict, proxy: str = None, **kwargs) -> AsyncResult`
+
+**Purpose**: Handles chat requests using the `chat_api_endpoint`.
+
+**Parameters**:
+
+  - `project_id` (str): The project ID for the request.
+  - `messages` (Messages): A list of messages for the conversation.
+  - `headers` (dict): The headers for the API request.
+  - `proxy` (str, optional): A proxy to use for the request. Defaults to `None`.
+  - `**kwargs`: Additional keyword arguments to pass to the API request.
+
+**Returns**:
+
+  - `AsyncResult`: An asynchronous generator that yields the generated text response.
+
+**How the Function Works**:
+
+  - The function uses the `aiohttp` library to send a POST request to the `chat_api_endpoint` with the provided parameters.
+  - The request body includes the project ID and the messages.
+  - The response is checked for errors using the `raise_for_status` function.
+  - If the request is successful, the generated text response is extracted from the response and yielded as a string.
+  - The function includes retry logic to handle rate limiting issues, retrying up to three times with exponential backoff.
+
+**Examples**:
+
+  ```python
+  >>> async def main():
+  ...     messages = [
+  ...         {"role": "user", "content": "What is the meaning of life?"},
+  ...     ]
+  ...     async for response in Websim.create_async_generator(model='gemini-1.5-pro', messages=messages):
+  ...         print(response)
+
+  >>> asyncio.run(main())
+  The meaning of life is a question that has been pondered by philosophers and theologians for centuries. There is no one definitive answer, as the meaning of life is subjective and personal. Some people find meaning in their relationships, their work, their hobbies, or their spiritual beliefs. Others find meaning in helping others, making a difference in the world, or simply experiencing the beauty of life. Ultimately, the meaning of life is up to each individual to decide.
+  ```
+
+## Parameter Details
+
+- `model` (str): The model to use for the request. It should be one of the supported models, like `gemini-1.5-pro` or `flux`.
+- `messages` (Messages): A list of messages for the conversation. Each message is a dictionary with keys `role` (user or assistant) and `content` (the message text).
+- `prompt` (str, optional): The prompt for the request. It is used for both chat and image generation requests. 
+- `proxy` (str, optional): A proxy to use for the request. This is useful if you are behind a firewall or need to route requests through a specific proxy server.
+- `aspect_ratio` (str, optional): The aspect ratio for image generation requests. It determines the proportions of the generated image.
+- `project_id` (str, optional): A project ID for the request. It is generated automatically if not provided. 
+
+## Examples
+
+- **Chat Request**:
+  ```python
+  >>> async def main():
+  ...     messages = [
+  ...         {"role": "user", "content": "What is the capital of France?"},
+  ...     ]
+  ...     async for response in Websim.create_async_generator(model='gemini-1.5-pro', messages=messages):
+  ...         print(response)
+
+  >>> asyncio.run(main())
+  The capital of France is Paris.
+  ```
+
+- **Image Generation Request**:
+  ```python
+  >>> async def main():
+  ...     messages = [
+  ...         {"role": "user", "content": "Generate an image of a cat sitting on a couch."},
+  ...     ]
+  ...     async for response in Websim.create_async_generator(model='flux', messages=messages):
+  ...         print(response)
+
+  >>> asyncio.run(main())
+  <ImageResponse object at ...>
+  ```
+
+- **Using Proxy**:
+  ```python
+  >>> async def main():
+  ...     messages = [
+  ...         {"role": "user", "content": "What is the weather like in London?"},
+  ...     ]
+  ...     async for response in Websim.create_async_generator(model='gemini-1.5-pro', messages=messages, proxy='http://your-proxy-server:port'):
+  ...         print(response)
+
+  >>> asyncio.run(main())
+  # ... the response from the GPT-4 Free model
+  ```
+
+- **Specifying Aspect Ratio for Image Generation**:
+  ```python
+  >>> async def main():
+  ...     messages = [
+  ...         {"role": "user", "content": "Generate an image of a landscape."},
+  ...     ]
+  ...     async for response in Websim.create_async_generator(model='flux', messages=messages, aspect_ratio='16:9'):
+  ...         print(response)
+
+  >>> asyncio.run(main())
+  <ImageResponse object at ...>
+  ```

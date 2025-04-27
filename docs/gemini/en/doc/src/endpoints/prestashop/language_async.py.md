@@ -1,134 +1,84 @@
-# Модуль `language_async.py`
+# PrestaShop Language API Async
 
-## Обзор
+## Overview
 
-Модуль `language_async.py` предназначен для асинхронного взаимодействия с API PrestaShop для управления языками в интернет-магазине. Он содержит класс `PrestaLanguageAync`, который позволяет добавлять, удалять, обновлять и получать информацию о языках, используемых в PrestaShop.
+This module provides an asynchronous interface for interacting with the PrestaShop language settings API. It inherits from the `PrestaShopAsync` base class, allowing for asynchronous operations related to managing languages within a PrestaShop store.
 
-## Детальное описание
+## Details
 
-Модуль предоставляет асинхронные методы для работы с языками PrestaShop, что позволяет эффективно управлять языковыми настройками магазина. Он использует асинхронные запросы к API PrestaShop для выполнения операций, таких как получение схемы языков и получение имени языка по индексу.
+The `PrestaLanguageAync` class simplifies interactions with the PrestaShop API, allowing you to easily perform operations such as:
 
-## Классы
+- **Retrieving language names by index:**  The `get_lang_name_by_index()` method retrieves the ISO language code based on its index in the PrestaShop language table.
+
+- **Retrieving language schema:** The `get_languages_schema()` method retrieves the entire language schema from the PrestaShop API, providing details about each available language.
+
+## Classes
 
 ### `PrestaLanguageAync`
 
-**Описание**: Класс `PrestaLanguageAync` предоставляет интерфейс для взаимодействия с языками в PrestaShop. Он наследуется от класса `PrestaShopAsync` и использует его методы для выполнения API-запросов.
+**Description**: This class represents the asynchronous interface for managing PrestaShop language settings. It inherits from `PrestaShopAsync`, which handles communication with the PrestaShop API.
 
-**Наследует**:
-- `PrestaShopAsync`: Предоставляет базовые методы для асинхронного взаимодействия с API PrestaShop.
+**Inherits**: `PrestaShopAsync`
 
-**Атрибуты**:
-- Отсутствуют явно определенные атрибуты, но используются атрибуты родительского класса `PrestaShopAsync` для хранения параметров подключения к API.
+**Attributes**:
 
-**Методы**:
-- `__init__(self, *args, **kwargs)`: Конструктор класса.
-- `get_lang_name_by_index(self, lang_index: int | str) -> str`: Асинхронно возвращает имя языка (ISO код) по его индексу в таблице PrestaShop.
-- `get_languages_schema(self) -> dict`: Асинхронно получает и возвращает схему языков из PrestaShop.
+- `lang_string` (str):  ISO language code (e.g., 'en', 'ru', 'he').
 
-## Методы класса
+**Methods**:
 
-### `__init__`
+- `get_lang_name_by_index(lang_index:int|str ) -> str`:  Retrieves the ISO language code based on its index in the PrestaShop language table.
+
+- `get_languages_schema() -> dict`: Retrieves the entire language schema from the PrestaShop API.
+
+**Examples**:
 
 ```python
-def __init__(self, *args, **kwargs):
-    """Класс интерфейс взаимодействия языками в Prestashop
-    Важно помнить, что у каждого магазина своя нумерация языков
-    :lang_string: ISO названия языка. Например: en, ru, he
-    """
-    ...
+# Creating a PrestaLanguageAync instance
+lang_class = PrestaLanguageAync()
+
+# Retrieving the language schema
+languagas_schema = await lang_class.get_languages_schema()
+
+# Printing the language schema
+print(languagas_schema)
 ```
 
-**Описание**:
-Конструктор класса `PrestaLanguageAync`.
+## Functions
 
-**Параметры**:
-- `*args`: Произвольные позиционные аргументы, передаваемые в конструктор родительского класса.
-- `**kwargs`: Произвольные именованные аргументы, передаваемые в конструктор родительского класса.
+### `main()`
 
-**Как работает**:
-- Определяет интерфейс взаимодействия с языками в PrestaShop. Важно помнить, что нумерация языков может отличаться для каждого магазина.  `lang_string` - это ISO-код языка, например: `en`, `ru`, `he`.
+**Purpose**: This function serves as the entry point for the asynchronous execution of the module. It demonstrates how to utilize the `PrestaLanguageAync` class for retrieving the language schema.
 
-**Примеры**:
-```python
-presta_language = PrestaLanguageAync(API_DOMAIN="your_api_domain", API_KEY="your_api_key")
-```
+**How the Function Works**:
 
-### `get_lang_name_by_index`
+- Creates an instance of the `PrestaLanguageAync` class.
+- Calls the `get_languages_schema()` method to retrieve the language schema asynchronously.
+- Prints the retrieved language schema to the console.
+
+**Examples**:
 
 ```python
-async def get_lang_name_by_index(self, lang_index: int | str) -> str:
-    """Возвращает имя языка ISO по его индексу в таблице Prestashop"""
-    try:
-        return super().get('languagaes', resource_id=str(lang_index), display='full', io_format='JSON')
-    except Exception as ex:
-        logger.error(f"Ошибка получения языка по индексу {lang_index=}", ex)
-        return ''
-```
-
-**Описание**:
-Асинхронно получает имя языка (ISO код) по его индексу в таблице PrestaShop.
-
-**Параметры**:
-- `lang_index` (int | str): Индекс языка в таблице PrestaShop.
-
-**Возвращает**:
-- `str`: Имя языка (ISO код) или пустую строку в случае ошибки.
-
-**Как работает**:
-- Функция пытается получить имя языка, используя метод `get` родительского класса `PrestaShopAsync`.
-- В случае возникновения ошибки, она логируется, и функция возвращает пустую строку.
-
-**Примеры**:
-```python
-lang_name = await presta_language.get_lang_name_by_index(1)
-print(lang_name)
-```
-
-### `get_languages_schema`
-
-```python
-async def get_languages_schema(self) -> dict:
-    lang_dict = super().get_languages_schema()
-    print(lang_dict)
-```
-
-**Описание**:
-Асинхронно получает схему языков из PrestaShop.
-
-**Возвращает**:
-- `dict`: Схема языков.
-
-**Как работает**:
-- Функция вызывает метод `get_languages_schema` родительского класса `PrestaShopAsync` для получения схемы языков.
-- Полученная схема выводится в консоль с использованием функции `print`.
-
-**Примеры**:
-```python
-languages_schema = await presta_language.get_languages_schema()
-print(languages_schema)
-```
-
-## Функции
-
-### `main`
-
-```python
-async def main():
-    """"""
-    ...
-    lang_class = PrestaLanguageAync()
-    languagas_schema = await  lang_class.get_languages_schema()
-    print(languagas_schema)
-```
-
-**Описание**:
-Асинхронная функция `main` выполняет основные действия, необходимые для демонстрации работы класса `PrestaLanguageAync`.
-
-**Как работает**:
-- Создает экземпляр класса `PrestaLanguageAync`.
-- Получает схему языков с помощью метода `get_languages_schema`.
-- Выводит полученную схему языков в консоль.
-
-**Примеры**:
-```python
+# Running the main function
 asyncio.run(main())
+```
+
+## Parameter Details
+
+### `lang_index` (int|str)
+
+- **Description**: The index of the language in the PrestaShop language table. This value can be an integer or a string representation of the index.
+
+## Examples
+
+```python
+# Creating a PrestaLanguageAync instance with API domain and API key
+lang_class = PrestaLanguageAync(API_DOMAIN='your_api_domain', API_KEY='your_api_key')
+
+# Retrieving the language name for index 1
+lang_name = await lang_class.get_lang_name_by_index(1)
+print(f'Language name for index 1: {lang_name}')
+
+# Retrieving the language schema
+language_schema = await lang_class.get_languages_schema()
+print(f'Language schema:\n{language_schema}')
+```

@@ -1,94 +1,71 @@
-# Модуль CablyAI
+# CablyAI Provider
 
-## Обзор
+## Overview
 
-Модуль `CablyAI` предоставляет класс для взаимодействия с сервисом CablyAI. Он наследуется от класса `OpenaiTemplate` и предназначен для генерации асинхронных результатов.
+This module provides the `CablyAI` class, which acts as a provider for the CablyAI chat service within the `hypotez` project. This provider enables the use of the CablyAI API for text generation and other conversational tasks. It inherits functionalities from the `OpenaiTemplate` base class, ensuring compatibility and consistent interaction within the project.
 
-## Подробнее
+## Details
 
-Модуль содержит настройки для работы с CablyAI, включая URL, базовый адрес API и поддержку потоковой передачи. Для работы требуется аутентификация.
+The `CablyAI` provider implements the necessary features for seamless integration with the CablyAI platform. It defines the API base URL, login URL, and other essential parameters required for authentication and communication. It also establishes the provider's capabilities, indicating support for streaming, system messages, and message history features. The `CablyAI` provider ensures correct authentication with the CablyAI API using an API key provided by the user.
 
-## Классы
+## Classes
 
 ### `CablyAI`
 
-**Описание**: Класс для взаимодействия с сервисом CablyAI.
-**Наследует**: `OpenaiTemplate`
+**Description:** The `CablyAI` class represents the CablyAI provider, providing a convenient interface for interacting with the CablyAI service.
 
-**Атрибуты**:
-- `url` (str): URL сервиса CablyAI ("https://cablyai.com/chat").
-- `login_url` (str): URL для входа в сервис CablyAI ("https://cablyai.com").
-- `api_base` (str): Базовый URL API сервиса CablyAI ("https://cablyai.com/v1").
-- `working` (bool): Указывает, что сервис работает (True).
-- `needs_auth` (bool): Указывает, что для работы требуется аутенентификация (True).
-- `supports_stream` (bool): Указывает, что сервис поддерживает потоковую передачу данных (True).
-- `supports_system_message` (bool): Указывает, что сервис поддерживает системные сообщения (True).
-- `supports_message_history` (bool): Указывает, что сервис поддерживает историю сообщений (True).
+**Inherits:** `OpenaiTemplate`
 
-**Принцип работы**:
-Класс `CablyAI` настраивает параметры подключения к сервису CablyAI. Он также переопределяет метод `create_async_generator` для добавления специфических заголовков запроса, необходимых для аутентификации и взаимодействия с API CablyAI.
+**Attributes:**
 
-## Методы класса
+- `url (str)`: The base URL for the CablyAI chat service.
+- `login_url (str)`: The URL for logging into the CablyAI platform.
+- `api_base (str)`: The base URL for the CablyAI API.
+- `working (bool)`: Indicates whether the provider is functional (set to `True`).
+- `needs_auth (bool)`: Indicates whether the provider requires authentication (set to `True`).
+- `supports_stream (bool)`: Indicates whether the provider supports streaming responses (set to `True`).
+- `supports_system_message (bool)`: Indicates whether the provider supports system messages (set to `True`).
+- `supports_message_history (bool)`: Indicates whether the provider supports message history (set to `True`).
 
-### `create_async_generator`
+**Methods:**
 
-```python
-@classmethod
-def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    api_key: str = None,
-    stream: bool = False,
-    **kwargs
-) -> AsyncResult:
-    """Создает асинхронный генератор для взаимодействия с API CablyAI.
+- `create_async_generator(model: str, messages: Messages, api_key: str = None, stream: bool = False, **kwargs) -> AsyncResult`
 
-    Args:
-        cls (CablyAI): Класс CablyAI.
-        model (str): Модель для генерации.
-        messages (Messages): Список сообщений для отправки.
-        api_key (str, optional): API ключ для аутентификации. По умолчанию `None`.
-        stream (bool, optional): Флаг для включения потоковой передачи. По умолчанию `False`.
-        **kwargs: Дополнительные параметры.
+    **Purpose:** Creates an asynchronous generator for sending requests to the CablyAI API.
 
-    Returns:
-        AsyncResult: Асинхронный результат.
+    **Parameters:**
 
-    Как работает функция:
-    Функция `create_async_generator` создает заголовки, необходимые для аутентификации и взаимодействия с API CablyAI, включая токен авторизации, тип контента, источник и User-Agent. Затем вызывает метод `create_async_generator` родительского класса `OpenaiTemplate`, передавая необходимые параметры, включая заголовки.
+    - `model (str)`: The CablyAI model to use (e.g., 'gpt-3.5-turbo').
+    - `messages (Messages)`: A list of messages representing the conversation history.
+    - `api_key (str)`: The API key for authenticating with the CablyAI API. Defaults to `None`.
+    - `stream (bool)`: Indicates whether to stream the response. Defaults to `False`.
+    - `**kwargs`: Additional keyword arguments.
 
-    """
-    headers = {
-        "Accept": "*/*",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-        "Origin": cls.url,
-        "Referer": f"{cls.url}/chat",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
-    }
-    return super().create_async_generator(
-        model=model,
-        messages=messages,
-        api_key=api_key,
-        stream=stream,
-        headers=headers,
-        **kwargs
+    **Returns:**
+
+    - `AsyncResult`: An asynchronous result object representing the API response.
+
+    **How the Method Works:**
+
+    1.  Sets up headers for the API request, including authorization with the provided API key.
+    2.  Calls the `create_async_generator` method of the parent `OpenaiTemplate` class, passing the necessary parameters.
+    3.  Returns the `AsyncResult` object.
+
+    **Examples:**
+
+    ```python
+    from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.CablyAI import CablyAI
+    from hypotez.src.endpoints.gpt4free.g4f.models.Messages import Messages
+
+    api_key = 'YOUR_CABLE_API_KEY'
+    model = 'gpt-3.5-turbo'
+    messages = Messages(
+        [
+            {"role": "user", "content": "Hello, how are you?"},
+            {"role": "assistant", "content": "I am doing well. How about you?"},
+        ]
     )
-```
 
-## Примеры
-
-Пример вызова `create_async_generator`:
-
-```python
-# from src.endpoints.gpt4free.g4f.Provider.needs_auth.CablyAI import CablyAI
-# from g4f.models import gpt_35_turbo
-# from g4f.message import Message
-# from typing import List
-
-# messages: List[Message] = [Message(role="user", content="Hello")]
-# api_key = "ваш_api_ключ"  # Замените на ваш фактический API ключ
-# result = CablyAI.create_async_generator(model=gpt_35_turbo.name, messages=messages, api_key=api_key, stream=False)
-# print(result)
+    cablyai = CablyAI()
+    async_generator = cablyai.create_async_generator(model=model, messages=messages, api_key=api_key)
+    ```

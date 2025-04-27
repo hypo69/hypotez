@@ -1,134 +1,184 @@
-# Модуль для работы с языками в PrestaShop.
+# Модуль для работы с языками в PrestaShop
 
 ## Обзор
 
-Модуль предоставляет интерфейс взаимодействия с сущностью `language` в CMS `Prestashop` через `API Prestashop`.
+Модуль предоставляет интерфейс для взаимодействия с сущностью `language` в CMS `Prestashop` через `API PrestaShop`.
 
 ## Детали
 
-Этот модуль упрощает управление языками в PrestaShop, предоставляя методы для добавления, удаления, обновления и получения информации о языках через API PrestaShop. Он использует классы `PrestaShop` и `gs` из других модулей для выполнения HTTP-запросов и обработки данных.
+Модуль используется для выполнения следующих задач:
+
+- Получение списка языков, доступных в магазине PrestaShop.
+- Получение деталей конкретного языка по его идентификатору.
+- Добавление нового языка в магазин.
+- Обновление данных существующего языка.
+- Удаление языка из магазина.
 
 ## Классы
 
 ### `PrestaLanguage`
 
-Класс, отвечающий за настройки языков магазина PrestaShop.
+**Описание**: Класс, отвечающий за настройки языков магазина PrestaShop.
 
-**Наследует**:
-- `PrestaShop`: Класс для взаимодействия с API PrestaShop.
+**Наследует**: `PrestaShop`
 
-**Пример использования**:
-```python
-    >>> prestalanguage = PrestaLanguage(API_DOMAIN=API_DOMAIN, API_KEY=API_KEY)
-    >>> prestalanguage.add_language_PrestaShop('English', 'en')
-    >>> prestalanguage.delete_language_PrestaShop(3)
-    >>> prestalanguage.update_language_PrestaShop(4, 'Updated Language Name')
-    >>> print(prestalanguage.get_language_details_PrestaShop(5))
-```
+**Атрибуты**:
+
+- `API_DOMAIN` (str): Домен API PrestaShop.
+- `API_KEY` (str): Ключ API PrestaShop.
 
 **Методы**:
-- `__init__`: Инициализирует экземпляр класса `PrestaLanguage`.
-- `get_lang_name_by_index`: Извлекает ISO код языка из магазина `Prestashop`.
-- `get_languages_schema`: Извлекает словарь актуальных языков для данного магазина.
 
-## Методы класса
+- `get_lang_name_by_index(lang_index: int | str) -> str`: Функция извлекает ISO код языка из магазина `Prestashop`.
+- `get_languages_schema() -> Optional[dict]`: Функция извлекает словарь актуальных языков для данного магазина.
 
-### `__init__`
+#### `get_lang_name_by_index`
 
-```python
-def __init__(self, *args, **kwargs):
-    """
-    Инициализирует экземпляр класса `PrestaLanguage`.
+**Цель**: Функция извлекает ISO код языка из магазина `Prestashop`.
 
-    Args:
-        *args: Произвольные аргументы.
-        **kwargs: Произвольные именованные аргументы.
+**Параметры**:
 
-    Note:
-        Важно помнить, что у каждого магазина своя нумерация языков.
-        Я определяю языки в своих базах в таком порядке:
-        `en` - 1;
-        `he` - 2;
-        `ru` - 3.
-    """
-    ...
-```
-### `get_lang_name_by_index`
+- `lang_index` (int | str): Индекс языка в таблице PrestaShop.
 
-```python
-def get_lang_name_by_index(self, lang_index: int | str) -> str:
-    """
-    Функция извлекает ISO код языка из магазина `Prestashop`.
+**Возвращает**:
 
-    Args:
-        lang_index: Индекс языка в таблице PrestaShop.
+- `str`: Имя языка ISO по его индексу в таблице PrestaShop.
 
-    Returns:
-        str: Имя языка ISO по его индексу в таблице PrestaShop.
-    
-    Raises:
-        PrestaShopException: Если происходит ошибка при получении языка по индексу.
-    """
-```
+**Возможные исключения**:
+
+- `Exception`: В случае ошибки при получении языка по индексу.
 
 **Как работает функция**:
-- Функция `get_lang_name_by_index` пытается получить язык из PrestaShop по указанному индексу, используя метод `get` суперкласса (`PrestaShop`).
-- В случае успеха возвращается ISO код языка. Если происходит ошибка, она логируется, и возвращается пустая строка.
-    
-### `get_languages_schema`
+
+Функция отправляет запрос к API PrestaShop для получения информации о языке по его индексу. 
+
+**Примеры**:
 
 ```python
-def get_languages_schema(self) -> Optional[dict]:
-    """
-    Функция извлекает словарь актуальных языков для данного магазина.
-
-    Returns:
-        Optional[dict]: Language schema or `None` on failure.
-
-    Examples:
-        # Возвращаемый словарь:
-        {
-            "languages": {
-                    "language": [
-                                    {
-                                    "attrs": {
-                                        "id": "1"
-                                    },
-                                    "value": ""
-                                    },
-                                    {
-                                    "attrs": {
-                                        "id": "2"
-                                    },
-                                    "value": ""
-                                    },
-                                    {
-                                    "attrs": {
-                                        "id": "3"
-                                    },
-                                    "value": ""
-                                    }
-                                ]
-            }
-        }
-    
-    Raises:
-        PrestaShopException: Если происходит ошибка при выполнении запроса к API PrestaShop.
-    """
+>>> prestalanguage = PrestaLanguage(API_DOMAIN=API_DOMAIN, API_KEY=API_KEY)
+>>> prestalanguage.get_lang_name_by_index(1)
+'en'
+>>> prestalanguage.get_lang_name_by_index(2)
+'he'
 ```
 
+#### `get_languages_schema`
+
+**Цель**: Функция извлекает словарь актуальных языков для данного магазина.
+
+**Параметры**:
+
+- Отсутствуют.
+
+**Возвращает**:
+
+- `Optional[dict]`:  Схема языков или `None` в случае ошибки.
+
+**Возможные исключения**:
+
+- `Exception`: В случае ошибки при получении схемы языков.
+
 **Как работает функция**:
-- Функция `get_languages_schema` отправляет запрос к API PrestaShop для получения схемы языков.
-- Она вызывает метод `_exec` с параметрами `'languages'`, `display='full'`, и `io_format='JSON'`.
-- В случае успеха возвращается словарь, представляющий схему языков. Если происходит ошибка, она логируется, и возвращается `None`.
+
+Функция отправляет запрос к API PrestaShop для получения схемы языков.
+
+**Примеры**:
+
+```python
+>>> prestalanguage = PrestaLanguage(API_DOMAIN=API_DOMAIN, API_KEY=API_KEY)
+>>> prestalanguage.get_languages_schema()
+{
+    "languages": {
+            "language": [
+                            {
+                            "attrs": {
+                                "id": "1"
+                            },
+                            "value": ""
+                            },
+                            {
+                            "attrs": {
+                                "id": "2"
+                            },
+                            "value": ""
+                            },
+                            {
+                            "attrs": {
+                                "id": "3"
+                            },
+                            "value": ""
+                            }
+                        ]
+    }
+}
+```
 
 ## Функции
 
 ### `main`
 
+**Цель**:  Функция, запускаемая при выполнении модуля.
+
+**Параметры**:
+
+- Отсутствуют.
+
+**Возвращает**:
+
+- Отсутствует.
+
+**Как работает функция**:
+
+Функция создает экземпляр класса `PrestaLanguage`, получает схему языков и выводит ее на консоль.
+
+**Примеры**:
+
 ```python
-async def main():
-    """
-    Пример асинхронного вызова методов класса `PrestaLanguage`.
-    """
-    ...
+>>> asyncio.run(main())
+{
+    "languages": {
+            "language": [
+                            {
+                            "attrs": {
+                                "id": "1"
+                            },
+                            "value": ""
+                            },
+                            {
+                            "attrs": {
+                                "id": "2"
+                            },
+                            "value": ""
+                            },
+                            {
+                            "attrs": {
+                                "id": "3"
+                            },
+                            "value": ""
+                            }
+                        ]
+    }
+}
+```
+
+## Примеры
+
+```python
+# Создание экземпляра класса PrestaLanguage
+prestalanguage = PrestaLanguage(API_DOMAIN=API_DOMAIN, API_KEY=API_KEY)
+
+# Получение ISO кода языка по индексу
+lang_name = prestalanguage.get_lang_name_by_index(1)
+print(f"Имя языка по индексу 1: {lang_name}")
+
+# Получение схемы языков
+languages_schema = prestalanguage.get_languages_schema()
+print(f"Схема языков: {languages_schema}")
+```
+
+##  Дополнительные замечания
+
+- Модуль использует модуль `logger` для вывода логов.
+- Для получения схемы языков используется метод `_exec` класса `PrestaShop`, который отправляет запрос к API PrestaShop.
+- Модуль предполагает, что у каждого магазина своя нумерация языков.
+-  Модуль импортирует модули `asyncio`, `header`, `gs`, `PrestaShop`, `PrestaShopException`, `pprint` (как `print`) и `logger`.

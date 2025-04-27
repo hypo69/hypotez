@@ -1,343 +1,216 @@
-# Модуль `run_tools.py`
-
+# Модуль run_tools
 ## Обзор
+Этот модуль предоставляет функции и классы для обработки вызовов инструментов в рамках взаимодействия с моделями генерации текста, такими как GPT-4 Free.
 
-Модуль `run_tools.py` предназначен для обработки различных инструментов, используемых в проекте `hypotez`, таких как поиск в интернете, продолжение генерации текста и работа с хранилищем (bucket). Он содержит классы и функции для валидации аргументов инструментов, выполнения поисковых запросов, управления ключами API и обработки результатов работы инструментов.
-
-## Подробности
-
-Модуль включает в себя следующие основные компоненты:
-
-- Класс `ToolHandler`: Обрабатывает различные типы инструментов, такие как поиск, продолжение и работа с хранилищем.
-- Класс `AuthManager`: Управляет ключами API для различных провайдеров.
-- Класс `ThinkingProcessor`: Обрабатывает "размышления" (thinking) в процессе генерации текста.
-- Функции `perform_web_search`, `async_iter_run_tools`, `iter_run_tools`: Выполняют поиск в интернете, асинхронно и синхронно запускают инструменты.
-
-## Содержание
-
-- [Классы](#Классы)
-    - [ToolHandler](#ToolHandler)
-        - [validate_arguments](#validate_arguments)
-        - [process_search_tool](#process_search_tool)
-        - [process_continue_tool](#process_continue_tool)
-        - [process_bucket_tool](#process_bucket_tool)
-        - [process_tools](#process_tools)
-    - [AuthManager](#AuthManager)
-        - [get_api_key_file](#get_api_key_file)
-        - [load_api_key](#load_api_key)
-    - [ThinkingProcessor](#ThinkingProcessor)
-        - [process_thinking_chunk](#process_thinking_chunk)
-- [Функции](#Функции)
-    - [perform_web_search](#perform_web_search)
-    - [async_iter_run_tools](#async_iter_run_tools)
-    - [iter_run_tools](#iter_run_tools)
+## Детали
+Модуль `run_tools` обеспечивает функциональность для обработки различных типов вызовов инструментов, таких как поиск в Интернете, продолжение текста и использование хранилища данных (Bucket). 
 
 ## Классы
-
-### `ToolHandler`
-
-Обработчик различных типов инструментов.
-
-#### `validate_arguments`
-
-```python
-    @staticmethod
-    def validate_arguments(data: dict) -> dict:
-```
-
-Выполняет валидацию и парсинг аргументов инструментов.
-
-**Параметры:**
-
-- `data` (dict): Словарь с данными, содержащий аргументы инструмента.
-
-**Возвращает:**
-
-- `dict`: Отфильтрованный словарь аргументов.
-
-**Как работает:**
-
-- Проверяет наличие ключа `"arguments"` в словаре `data`.
-- Если аргументы представлены в виде строки, пытается преобразовать их в словарь JSON.
-- Проверяет, является ли тип данных аргументов словарем. Если нет, вызывает исключение `ValueError`.
-- Фильтрует `None` значения из словаря аргументов.
-
-#### `process_search_tool`
-
-```python
-    @staticmethod
-    async def process_search_tool(messages: Messages, tool: dict) -> Messages:
-```
-
-Обрабатывает запросы инструмента поиска.
-
-**Параметры:**
-
-- `messages` (Messages): Список сообщений.
-- `tool` (dict): Словарь с информацией об инструменте.
-
-**Возвращает:**
-
-- `Messages`: Обновленный список сообщений.
-- `Sources`: Источники.
-
-**Как работает:**
-
-- Копирует список сообщений.
-- Валидирует и извлекает аргументы инструмента.
-- Выполняет поиск с использованием функции `do_search`.
-- Обновляет содержимое последнего сообщения результатом поиска и источниками.
-
-#### `process_continue_tool`
-
-```python
-    @staticmethod
-    def process_continue_tool(messages: Messages, tool: dict, provider: Any) -> Tuple[Messages, Dict[str, Any]]:
-```
-
-Обрабатывает запросы инструмента продолжения.
-
-**Параметры:**
-
-- `messages` (Messages): Список сообщений.
-- `tool` (dict): Словарь с информацией об инструменте.
-- `provider` (Any): Провайдер.
-
-**Возвращает:**
-
-- `Tuple[Messages, Dict[str, Any]]`: Обновленный список сообщений и словарь дополнительных аргументов.
-
-**Как работает:**
-
-- Создает копию списка сообщений.
-- Если провайдер не `"OpenaiAccount"` и не `"HuggingFaceAPI"`, добавляет новое сообщение с запросом на продолжение с последней строки предыдущего сообщения.
-- Иначе устанавливает параметр `"action"` в `"continue"` для поддержки продолжения на стороне провайдера.
-
-#### `process_bucket_tool`
-
-```python
-    @staticmethod
-    def process_bucket_tool(messages: Messages, tool: dict) -> Messages:
-```
-
-Обрабатывает запросы инструмента хранилища (bucket).
-
-**Параметры:**
-
-- `messages` (Messages): Список сообщений.
-- `tool` (dict): Словарь с информацией об инструменте.
-
-**Возвращает:**
-
-- `Messages`: Обновленный список сообщений.
-
-**Как работает:**
-
-- Копирует список сообщений.
-- Определяет функцию `on_bucket` для чтения содержимого хранилища по `bucket_id`.
-- Заменяет в содержимом каждого сообщения шаблоны `{"bucket_id":"([^"]*)"}` на содержимое соответствующего хранилища.
-- Добавляет инструкции по цитированию источников, если в последнем сообщении есть упоминание источника.
-
-#### `process_tools`
-
-```python
-    @staticmethod
-    async def process_tools(messages: Messages, tool_calls: List[dict], provider: Any) -> Tuple[Messages, Dict[str, Any]]:
-```
-
-Обрабатывает все вызовы инструментов и возвращает обновленные сообщения и аргументы.
-
-**Параметры:**
-
-- `messages` (Messages): Список сообщений.
-- `tool_calls` (List[dict]): Список вызовов инструментов.
-- `provider` (Any): Провайдер.
-
-**Возвращает:**
-
-- `Tuple[Messages, Dict[str, Any]]`: Обновленный список сообщений, источники и словарь дополнительных аргументов.
-
-**Как работает:**
-
-- Копирует список сообщений.
-- Итерируется по списку вызовов инструментов.
-- Для каждого вызова определяет имя функции и вызывает соответствующий обработчик (`process_search_tool`, `process_continue_tool`, `process_bucket_tool`).
-- Обновляет список сообщений и собирает дополнительные аргументы.
-
-### `AuthManager`
-
-Управляет ключами API.
-
-#### `get_api_key_file`
-
-```python
-    @staticmethod
-    def get_api_key_file(cls) -> Path:
-```
-
-Получает путь к файлу ключа API для указанного провайдера.
-
-**Параметры:**
-
-- `cls`: Класс провайдера.
-
-**Возвращает:**
-
-- `Path`: Путь к файлу ключа API.
-
-**Как работает:**
-
-- Формирует имя файла ключа API на основе имени класса провайдера.
-- Возвращает путь к файлу в директории cookies.
-
-#### `load_api_key`
-
-```python
-    @staticmethod
-    def load_api_key(provider: Any) -> Optional[str]:
-```
-
-Загружает ключ API из конфигурационного файла, если это необходимо.
-
-**Параметры:**
-
-- `provider` (Any): Провайдер.
-
-**Возвращает:**
-
-- `Optional[str]`: Ключ API или `None`, если ключ не требуется или не найден.
-
-**Как работает:**
-
-- Проверяет, требуется ли провайдеру аутентификация.
-- Формирует путь к файлу ключа API.
-- Пытается прочитать ключ из файла.
-- В случае ошибки логирует информацию об ошибке и возвращает `None`.
-
-### `ThinkingProcessor`
-
-Обрабатывает части "размышлений" (thinking chunks).
-
-#### `process_thinking_chunk`
-
-```python
-    @staticmethod
-    def process_thinking_chunk(chunk: str, start_time: float = 0) -> Tuple[float, List[Union[str, Reasoning]]]:
-```
-
-Обрабатывает часть "размышлений" и возвращает время и результаты.
-
-**Параметры:**
-
-- `chunk` (str): Часть текста для обработки.
-- `start_time` (float, optional): Время начала обработки. По умолчанию `0`.
-
-**Возвращает:**
-
-- `Tuple[float, List[Union[str, Reasoning]]]`: Время и список результатов.
-
-**Как работает:**
-
-- Обрабатывает различные случаи:
-    - Не "размышления".
-    - Начало "размышлений" (`<think>`).
-    - Окончание "размышлений" (`</think>`).
-    - Продолжение "размышлений".
-- Формирует объекты `Reasoning` для представления статуса обработки.
-- Вычисляет продолжительность "размышлений".
+### `class ToolHandler`
+**Описание**: Класс `ToolHandler` отвечает за обработку различных типов вызовов инструментов.
+
+**Атрибуты**:  Нет
+
+**Методы**: 
+
+ - `validate_arguments(data: dict) -> dict`:  
+    **Описание**: Проверяет и парсит аргументы для функций инструментов.
+    **Параметры**:
+     - `data (dict)`: Словарь, содержащий аргументы функции инструмента.
+    **Возвращает**:
+     - `dict`: Словарь с отфильтрованными аргументами.
+    **Исключения**:
+     - `ValueError`: Если аргументы функции инструмента не являются словарем или строкой JSON.
+
+ - `process_search_tool(messages: Messages, tool: dict) -> Messages`: 
+    **Описание**: Обрабатывает запросы к инструменту поиска.
+    **Параметры**:
+     - `messages (Messages)`: Список сообщений.
+     - `tool (dict)`: Словарь с описанием инструмента.
+    **Возвращает**:
+     - `Messages`: Обновленный список сообщений с результатами поиска.
+
+ - `process_continue_tool(messages: Messages, tool: dict, provider: Any) -> Tuple[Messages, Dict[str, Any]]`: 
+    **Описание**: Обрабатывает запросы к инструменту продолжения текста.
+    **Параметры**:
+     - `messages (Messages)`: Список сообщений.
+     - `tool (dict)`: Словарь с описанием инструмента.
+     - `provider (Any)`: Провайдер модели.
+    **Возвращает**:
+     - `Tuple[Messages, Dict[str, Any]]`: Кортеж, содержащий обновленный список сообщений и дополнительные аргументы.
+
+ - `process_bucket_tool(messages: Messages, tool: dict) -> Messages`: 
+    **Описание**: Обрабатывает запросы к инструменту хранилища данных (Bucket).
+    **Параметры**:
+     - `messages (Messages)`: Список сообщений.
+     - `tool (dict)`: Словарь с описанием инструмента.
+    **Возвращает**:
+     - `Messages`: Обновленный список сообщений с данными из хранилища.
+
+ - `process_tools(messages: Messages, tool_calls: List[dict], provider: Any) -> Tuple[Messages, Dict[str, Any]]`: 
+    **Описание**: Обрабатывает все вызовы инструментов и возвращает обновленные сообщения и дополнительные аргументы.
+    **Параметры**:
+     - `messages (Messages)`: Список сообщений.
+     - `tool_calls (List[dict])`: Список вызовов инструментов.
+     - `provider (Any)`: Провайдер модели.
+    **Возвращает**:
+     - `Tuple[Messages, Dict[str, Any]]`: Кортеж, содержащий обновленный список сообщений, источники информации (sources) и дополнительные аргументы.
+  
+### `class AuthManager`
+**Описание**: Класс `AuthManager` отвечает за управление ключами API.
+
+**Атрибуты**:  Нет
+
+**Методы**:
+
+ - `get_api_key_file(cls) -> Path`: 
+    **Описание**: Возвращает путь к файлу с ключом API для провайдера.
+    **Параметры**:
+     - `cls`: Класс провайдера.
+    **Возвращает**:
+     - `Path`: Путь к файлу с ключом API.
+
+ - `load_api_key(provider: Any) -> Optional[str]`: 
+    **Описание**: Загружает ключ API из конфигурационного файла, если необходимо.
+    **Параметры**:
+     - `provider (Any)`: Провайдер модели.
+    **Возвращает**:
+     - `Optional[str]`: Ключ API, если он найден.
+
+### `class ThinkingProcessor`
+**Описание**: Класс `ThinkingProcessor` отвечает за обработку фрагментов размышлений (thinking chunks).
+
+**Атрибуты**:  Нет
+
+**Методы**: 
+
+ - `process_thinking_chunk(chunk: str, start_time: float = 0) -> Tuple[float, List[Union[str, Reasoning]]]`: 
+    **Описание**: Обрабатывает фрагмент размышлений и возвращает время обработки и результаты.
+    **Параметры**:
+     - `chunk (str)`: Фрагмент текста.
+     - `start_time (float, optional):`: Время начала размышления. По умолчанию 0.
+    **Возвращает**:
+     - `Tuple[float, List[Union[str, Reasoning]]]`: Кортеж, содержащий время конца размышления и список результатов (строки или объекты Reasoning).
+ 
 
 ## Функции
+### `async def perform_web_search(messages: Messages, web_search_param: Any) -> Tuple[Messages, Optional[Sources]]`
+**Описание**: Выполняет поиск в Интернете и возвращает обновленные сообщения и источники информации.
+**Параметры**:
+ - `messages (Messages)`: Список сообщений.
+ - `web_search_param (Any)`: Параметр, определяющий запрос поиска (может быть строкой или `True` для автоматического поиска).
+**Возвращает**:
+ - `Tuple[Messages, Optional[Sources]]`: Кортеж, содержащий обновленный список сообщений и источники информации.
+**Исключения**:
+ - `Exception`: Если возникла ошибка при выполнении поиска.
 
-### `perform_web_search`
+### `async def async_iter_run_tools(provider: ProviderType, model: str, messages: Messages, tool_calls: Optional[List[dict]] = None, **kwargs) -> AsyncIterator`
+**Описание**: Асинхронно запускает инструменты и возвращает результаты.
+**Параметры**:
+ - `provider (ProviderType)`: Провайдер модели.
+ - `model (str)`: Название модели.
+ - `messages (Messages)`: Список сообщений.
+ - `tool_calls (Optional[List[dict]], optional)`: Список вызовов инструментов. По умолчанию `None`.
+ - `kwargs (dict)`: Дополнительные аргументы.
+**Возвращает**:
+ - `AsyncIterator`: Асинхронный итератор, который позволяет получить результаты работы инструментов.
 
+### `def iter_run_tools(iter_callback: Callable, model: str, messages: Messages, provider: Optional[str] = None, tool_calls: Optional[List[dict]] = None, **kwargs) -> Iterator`
+**Описание**: Запускает инструменты синхронно и возвращает результаты.
+**Параметры**:
+ - `iter_callback (Callable)`: Функция-обработчик, возвращающая результаты работы инструментов.
+ - `model (str)`: Название модели.
+ - `messages (Messages)`: Список сообщений.
+ - `provider (Optional[str], optional)`: Провайдер модели. По умолчанию `None`.
+ - `tool_calls (Optional[List[dict]], optional)`: Список вызовов инструментов. По умолчанию `None`.
+ - `kwargs (dict)`: Дополнительные аргументы.
+**Возвращает**:
+ - `Iterator`: Итератор, который позволяет получить результаты работы инструментов.
+
+## Параметры
+- `messages (Messages)`: Список сообщений, представляющий историю взаимодействия с моделью.
+- `tool_calls (List[dict])`: Список вызовов инструментов, где каждый элемент представляет описание инструмента и его аргументов.
+- `provider (Any)`: Провайдер модели, определяющий, какая модель используется (например, GPT-4 Free, Google Gemini).
+- `model (str)`: Название модели, например, "gpt-4", "gemini-pro".
+- `web_search_param (Any)`: Параметр, определяющий запрос поиска (может быть строкой или `True` для автоматического поиска).
+- `api_key (str)`: Ключ API для провайдера модели.
+- `chunk (str)`: Фрагмент текста, который нужно обработать.
+- `start_time (float)`: Время начала размышления.
+- `data (dict)`: Словарь с аргументами функции инструмента.
+- `tool (dict)`: Словарь с описанием инструмента, включая его тип и аргументы.
+
+## Примеры
+- **Пример вызова `ToolHandler.process_tools()`**: 
 ```python
-async def perform_web_search(messages: Messages, web_search_param: Any) -> Tuple[Messages, Optional[Sources]]:
+# Список вызовов инструментов
+tool_calls = [
+    {"type": "function", "function": {"name": "search_tool", "arguments": {"query": "What is the capital of France?"}}},
+    {"type": "function", "function": {"name": "continue_tool"}}
+]
+
+# Список сообщений
+messages = [
+    {"role": "user", "content": "What is the capital of France?"}
+]
+
+# Провайдер модели
+provider = "OpenaiAccount"
+
+# Вызов функции
+messages, sources, extra_kwargs = await ToolHandler.process_tools(messages, tool_calls, provider)
 ```
 
-Выполняет поиск в интернете и возвращает обновленные сообщения и источники.
-
-**Параметры:**
-
-- `messages` (Messages): Список сообщений.
-- `web_search_param` (Any): Параметр для поиска в интернете.
-
-**Возвращает:**
-
-- `Tuple[Messages, Optional[Sources]]`: Обновленный список сообщений и источники.
-
-**Как работает:**
-
-- Копирует список сообщений.
-- Если параметр для поиска не указан, возвращает исходные сообщения и `None` в качестве источников.
-- Выполняет поиск с использованием функции `do_search`.
-- В случае ошибки логирует информацию об ошибке.
-
-### `async_iter_run_tools`
-
+- **Пример вызова `ThinkingProcessor.process_thinking_chunk()`**: 
 ```python
-async def async_iter_run_tools(
-    provider: ProviderType, 
-    model: str, 
-    messages: Messages, 
-    tool_calls: Optional[List[dict]] = None, 
-    **kwargs
-) -> AsyncIterator:
+# Фрагмент текста
+chunk = "The capital of France is <think>Paris</think>."
+
+# Время начала размышления
+start_time = 0
+
+# Вызов функции
+thinking_start_time, results = ThinkingProcessor.process_thinking_chunk(chunk, start_time)
+
+# Вывод результатов
+print(f"Thinking start time: {thinking_start_time}")
+print(f"Results: {results}")
 ```
 
-Асинхронно запускает инструменты и возвращает результаты.
-
-**Параметры:**
-
-- `provider` (ProviderType): Провайдер.
-- `model` (str): Модель.
-- `messages` (Messages): Список сообщений.
-- `tool_calls` (Optional[List[dict]], optional): Список вызовов инструментов. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы.
-
-**Возвращает:**
-
-- `AsyncIterator`: Асинхронный итератор результатов.
-
-**Как работает:**
-
-- Выполняет поиск в интернете, если указан параметр `web_search`.
-- Загружает ключ API, если это необходимо.
-- Обрабатывает вызовы инструментов с использованием `ToolHandler.process_tools`.
-- Генерирует ответ с использованием `provider.get_async_create_function`.
-- Возвращает результаты и источники (если есть).
-
-### `iter_run_tools`
-
+- **Пример вызова `async_iter_run_tools()`**:
 ```python
-def iter_run_tools(
-    iter_callback: Callable,
-    model: str,
-    messages: Messages,
-    provider: Optional[str] = None,
-    tool_calls: Optional[List[dict]] = None,
-    **kwargs
-) -> Iterator:
+# Провайдер модели
+provider = "OpenaiAccount"
+
+# Название модели
+model = "gpt-4"
+
+# Список сообщений
+messages = [
+    {"role": "user", "content": "What is the capital of France?"}
+]
+
+# Вызов функции
+async for result in async_iter_run_tools(provider, model, messages):
+    print(f"Result: {result}")
 ```
 
-Синхронно запускает инструменты и возвращает результаты.
+- **Пример вызова `iter_run_tools()`**:
+```python
+# Функция-обработчик
+def iter_callback(model: str, messages: Messages, provider: Any, **kwargs) -> Iterator:
+    # Логика обработки модели
+    ...
+    yield chunk
+    ...
 
-**Параметры:**
+# Название модели
+model = "gpt-4"
 
-- `iter_callback` (Callable): Функция обратного вызова для итерации.
-- `model` (str): Модель.
-- `messages` (Messages): Список сообщений.
-- `provider` (Optional[str], optional): Провайдер. По умолчанию `None`.
-- `tool_calls` (Optional[List[dict]], optional): Список вызовов инструментов. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы.
+# Список сообщений
+messages = [
+    {"role": "user", "content": "What is the capital of France?"}
+]
 
-**Возвращает:**
-
-- `Iterator`: Итератор результатов.
-
-**Как работает:**
-
-- Выполняет поиск в интернете, если указан параметр `web_search`.
-- Загружает ключ API, если это необходимо.
-- Обрабатывает вызовы инструментов.
-- Обрабатывает части ответа с использованием `ThinkingProcessor`.
-- Возвращает результаты и источники (если есть).
+# Вызов функции
+for result in iter_run_tools(iter_callback, model, messages):
+    print(f"Result: {result}")

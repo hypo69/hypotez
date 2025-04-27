@@ -1,20 +1,19 @@
-### Как использовать этот блок кода
+## Как использовать блок кода `prepare_new_campaign.py`
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода инициализирует и запускает процесс создания новой рекламной кампании на AliExpress. Он использует класс `AliCampaignEditor` для управления процессом создания кампании и включает в себя импорт необходимых модулей и настройку переменных.
+Этот блок кода реализует сценарий создания новой рекламной кампании на AliExpress. Он использует класс `AliCampaignEditor` для обработки и управления кампаниями.
 
 Шаги выполнения
 -------------------------
 1. **Импорт необходимых модулей**:
-   - Импортируются модули `header`, `Path`, `gs`, `AliCampaignEditor`, `get_filenames`, `get_directory_names`, `pprint` и `logger`.
-2. **Инициализация имени кампании**:
-   - Задаётся имя кампании `campaign_name` как `'rc'`.
-3. **Создание экземпляра `AliCampaignEditor`**:
-   - Создается экземпляр класса `AliCampaignEditor` с именем кампании `campaign_name`.
-4. **Запуск процесса создания кампании**:
-   - Вызывается метод `process_new_campaign` экземпляра `aliexpress_editor` с именем кампании `campaign_name` для запуска процесса создания новой рекламной кампании.
+   - Импортируются модули `header`, `Path`, `gs`, `AliCampaignEditor`, `get_filenames`, `get_directory_names`, `pprint`, `logger`.
+2. **Инициализация переменных**:
+   - Определяется название кампании (`campaign_name = 'rc'`).
+   - Создается объект `AliCampaignEditor` с именем `aliexpress_editor` для взаимодействия с кампанией.
+3. **Запуск процесса создания новой кампании**:
+   - Вызывается метод `process_new_campaign` объекта `aliexpress_editor`, передавая название кампании в качестве аргумента. Этот метод запускает процесс создания новой кампании на AliExpress.
 
 Пример использования
 -------------------------
@@ -27,23 +26,32 @@
 
 """
 .. module:: src.suppliers.suppliers_list.aliexpress.campaign._experiments 
-	:platform: Windows, Unix
-	:synopsis:
+    :platform: Windows, Unix
+    :synopsis:
 
 """
 
 
 """
-	:platform: Windows, Unix
-	:synopsis:
+    :platform: Windows, Unix
+    :synopsis:
 
 """
 
-"""
-	:platform: Windows, Unix
-	:synopsis:
 
 """
+    :platform: Windows, Unix
+    :synopsis:
+
+"""
+
+
+"""
+    :platform: Windows, Unix
+    :synopsis:
+
+"""
+
 
 """
   :platform: Windows, Unix
@@ -55,8 +63,8 @@
   :synopsis:
 """
   
-""" module: src.suppliers.suppliers_list.aliexpress.campaign._experiments """
 
+""" module: src.suppliers.suppliers_list.aliexpress.campaign._experiments """
 
 
 
@@ -76,3 +84,4 @@ from src.logger.logger import logger
 campaign_name = 'rc'
 aliexpress_editor =  AliCampaignEditor(campaign_name)
 aliexpress_editor.process_new_campaign(campaign_name)
+```

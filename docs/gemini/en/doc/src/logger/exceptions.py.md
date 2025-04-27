@@ -1,139 +1,72 @@
-# Модуль src.logger.exceptions
+# Модуль `src.logger.exceptions`
 
 ## Обзор
 
-Модуль определяет пользовательские исключения, используемые в приложении.
+Этот модуль содержит определения пользовательских исключений, используемых в приложении `hypotez`. Он обеспечивает структурированный подход к обработке ошибок, связанных с различными компонентами приложения, включая операции с файлами, поля продуктов, подключение к базе данных KeePass и ошибки PrestaShop WebService.
 
-Подробное описание. Содержит несколько пользовательских классов исключений для обработки ошибок, связанных с различными компонентами приложения, включая файловые операции, поля товаров, подключения к базам данных KeePass и ошибки веб-служб PrestaShop.
+## Подробности
 
-## Подробнее
-
-В этом модуле определены пользовательские исключения для обработки различных ошибок, возникающих в приложении. Это позволяет более эффективно управлять исключительными ситуациями и предоставляет подробную информацию для отладки и обработки ошибок. Этот код используется для обеспечения стабильности и надежности работы приложения путем обработки потенциальных проблем.
+Модуль `src.logger.exceptions` служит для централизованного управления исключениями, возникающими в разных частях приложения. Это позволяет повысить читаемость кода, организовать обработку ошибок и сделать код более устойчивым к ошибкам.
 
 ## Классы
 
 ### `CustomException`
 
-**Описание**: Базовый класс пользовательских исключений.
+**Описание**: Базовый класс для всех пользовательских исключений в приложении.
 
-Этот класс является базовым для всех пользовательских исключений в приложении. Он обрабатывает логирование исключения и предоставляет механизм для работы с исходным исключением, если оно существует.
-
-**Наследует**:
-
-- `Exception`: Стандартный класс исключений Python.
+**Наследует**: `Exception`
 
 **Атрибуты**:
 
-- `original_exception` (Optional[Exception]): Исходное исключение, вызвавшее данное пользовательское исключение, если таковое имеется.
-- `exc_info` (bool): Флаг, указывающий, следует ли логировать информацию об исключении.
+- `original_exception` (Optional[Exception]): Исходное исключение, которое вызвало это пользовательское исключение, если таковое имеется.
+- `exc_info` (bool): Флаг, указывающий, должна ли информация об исключении записываться в журнал.
 
 **Методы**:
 
-- `__init__(self, message: str, e: Optional[Exception] = None, exc_info: bool = True)`: Инициализирует `CustomException` с сообщением и необязательным исходным исключением.
-- `handle_exception(self)`: Обрабатывает исключение, логируя ошибку и исходное исключение, если оно доступно.
-
-#### `__init__`
-
-```python
-def __init__(self, message: str, e: Optional[Exception] = None, exc_info: bool = True):
-    """Инициализирует CustomException с сообщением и необязательным исходным исключением."""
-```
-
-**Параметры**:
-
-- `message` (str): Сообщение об ошибке.
-- `e` (Optional[Exception], optional): Исходное исключение, вызвавшее данное исключение. По умолчанию `None`.
-- `exc_info` (bool, optional): Флаг, указывающий, следует ли включать информацию об исключении в лог. По умолчанию `True`.
-
-**Пример**:
-
-```python
-try:
-    raise ValueError("Неверное значение")
-except ValueError as ex:
-    custom_exception = CustomException("Произошла ошибка", ex)
-```
-
-#### `handle_exception`
-
-```python
-def handle_exception(self):
-    """Обрабатывает исключение, логируя ошибку и исходное исключение, если оно доступно."""
-```
-
-**Как работает**:
-
-- Вызывает `logger.error` для записи сообщения об исключении.
-- Если присутствует исходное исключение (`self.original_exception`), вызывает `logger.debug` для записи информации об исходном исключении.
-
-**Пример**:
-
-```python
-try:
-    raise ValueError("Неверное значение")
-except ValueError as ex:
-    custom_exception = CustomException("Произошла ошибка", ex)
-    custom_exception.handle_exception()
-```
+- `__init__(self, message: str, e: Optional[Exception] = None, exc_info: bool = True)`: Инициализирует `CustomException` с заданным сообщением и необязательным исходным исключением.
+- `handle_exception(self)`: Обрабатывает исключение, записывая ошибку и исходное исключение (если доступно) в журнал.
 
 ### `FileNotFoundError`
 
-**Описание**: Исключение, возникающее, когда файл не найден.
+**Описание**: Возникает, когда файл не найден.
 
-**Наследует**:
-
-- `CustomException`: Базовый класс пользовательских исключений.
-- `IOError`: Класс исключений для ошибок ввода-вывода.
+**Наследует**: `CustomException`, `IOError`
 
 ### `ProductFieldException`
 
-**Описание**: Исключение, возникающее при ошибках, связанных с полями товара.
+**Описание**: Возникает при ошибках, связанных с полями продукта.
 
-**Наследует**:
-
-- `CustomException`: Базовый класс пользовательских исключений.
+**Наследует**: `CustomException`
 
 ### `KeePassException`
 
-**Описание**: Исключение, возникающее при проблемах с подключением к базе данных KeePass.
+**Описание**: Возникает при проблемах с подключением к базе данных KeePass.
 
-**Наследует**:
-
-- `CredentialsError`: Исключение, возникающее при ошибке аутентификации.
-- `BinaryError`: Исключение, возникающее при бинарной ошибке.
-- `HeaderChecksumError`: Исключение, возникающее при ошибке контрольной суммы заголовка.
-- `PayloadChecksumError`: Исключение, возникающее при ошибке контрольной суммы полезной нагрузки.
-- `UnableToSendToRecycleBin`: Исключение, возникающее, когда не удается отправить в корзину.
+**Наследует**: `CredentialsError`, `BinaryError`, `HeaderChecksumError`, `PayloadChecksumError`, `UnableToSendToRecycleBin`
 
 ### `DefaultSettingsException`
 
-**Описание**: Исключение, возникающее при проблемах с настройками по умолчанию.
+**Описание**: Возникает при проблемах с настройками по умолчанию.
 
-**Наследует**:
-
-- `CustomException`: Базовый класс пользовательских исключений.
+**Наследует**: `CustomException`
 
 ### `WebDriverException`
 
-**Описание**: Исключение, возникающее при проблемах, связанных с WebDriver.
+**Описание**: Возникает при проблемах, связанных с WebDriver.
 
-**Наследует**:
-
-- `WDriverException`: Исключение, возникающее при ошибках, связанных с WebDriver.
+**Наследует**: `WDriverException`
 
 ### `ExecuteLocatorException`
 
-**Описание**: Исключение, возникающее при ошибках, связанных с исполнителями локаторов.
+**Описание**: Возникает при ошибках, связанных с исполнителем локатора.
 
-**Наследует**:
-
-- `CustomException`: Базовый класс пользовательских исключений.
+**Наследует**: `CustomException`
 
 ### `PrestaShopException`
 
-**Описание**: Общее исключение для ошибок веб-служб PrestaShop.
+**Описание**: Общее исключение для ошибок PrestaShop WebService.
 
-Этот класс используется для обработки ошибок, возникающих при взаимодействии с веб-службой PrestaShop.
+**Наследует**: `Exception`
 
 **Атрибуты**:
 
@@ -144,55 +77,46 @@ except ValueError as ex:
 
 **Методы**:
 
-- `__init__(self, msg: str, error_code: Optional[int] = None, ps_error_msg: str = '', ps_error_code: Optional[int] = None)`: Инициализирует `PrestaShopException` с предоставленным сообщением и деталями ошибки.
+- `__init__(self, msg: str, error_code: Optional[int] = None, ps_error_msg: str = '', ps_error_code: Optional[int] = None)`: Инициализирует `PrestaShopException` с заданным сообщением и деталями ошибки.
 - `__str__(self)`: Возвращает строковое представление исключения.
-
-#### `__init__`
-
-```python
-def __init__(self, msg: str, error_code: Optional[int] = None, 
-             ps_error_msg: str = '', ps_error_code: Optional[int] = None):
-    """Инициализирует PrestaShopException с предоставленным сообщением и деталями ошибки."""
-```
-
-**Параметры**:
-
-- `msg` (str): Пользовательское сообщение об ошибке.
-- `error_code` (Optional[int], optional): Код ошибки. По умолчанию `None`.
-- `ps_error_msg` (str, optional): Сообщение об ошибке от PrestaShop. По умолчанию ''.
-- `ps_error_code` (Optional[int], optional): Код ошибки PrestaShop. По умолчанию `None`.
-
-**Пример**:
-
-```python
-try:
-    raise PrestaShopException("Ошибка при подключении к PrestaShop", ps_error_msg="Ошибка аутентификации")
-except PrestaShopException as ex:
-    print(ex)
-```
-
-#### `__str__`
-
-```python
-def __str__(self):
-    """Возвращает строковое представление исключения."""
-```
-
-**Как работает**:
-
-- Возвращает строковое представление исключения, используя `ps_error_msg` или `msg`.
-
-**Пример**:
-
-```python
-exception = PrestaShopException("Ошибка", ps_error_msg="Ошибка аутентификации")
-print(str(exception))  # Вывод: Ошибка аутентификации
-```
 
 ### `PrestaShopAuthenticationError`
 
-**Описание**: Исключение, возникающее при ошибках аутентификации PrestaShop (несанкционированный доступ).
+**Описание**: Возникает при ошибках аутентификации PrestaShop (неавторизованный доступ).
 
-**Наследует**:
+**Наследует**: `PrestaShopException`
 
-- `PrestaShopException`: Общее исключение для ошибок веб-служб PrestaShop.
+## Примеры
+
+### `CustomException`
+
+```python
+from src.logger.exceptions import CustomException
+
+try:
+    # Some code that might raise an exception
+    raise ValueError("This is a test error")
+except ValueError as ex:
+    custom_exception = CustomException("Error during processing", ex)
+```
+
+### `PrestaShopException`
+
+```python
+from src.logger.exceptions import PrestaShopException
+
+try:
+    # Code that interacts with PrestaShop WebService
+    response =  # ... some API call
+    if response.status_code != 200:
+        raise PrestaShopException("Error during PrestaShop API call", error_code=response.status_code, ps_error_msg=response.text)
+except PrestaShopException as ex:
+    print(f"PrestaShop error: {ex}")
+```
+
+## Дополнительные сведения
+
+- При возникновении исключения метод `handle_exception` класса `CustomException` записывает информацию об ошибке в журнал.
+- Модуль использует модуль `logger` из `src.logger` для журналирования.
+- Классы исключений предоставляют структурированный способ обработки ошибок, связанных с конкретными компонентами приложения.
+- Модуль `src.logger.exceptions` помогает улучшить надежность и устойчивость приложения, обеспечивая централизованное управление исключениями.

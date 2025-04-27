@@ -1,40 +1,53 @@
-### **Инструкция по использованию кода для грабера Grandadvance**
-
+## Как использовать класс `Graber` для сбора данных с Grandadvance
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода определяет класс `Graber`, который наследуется от класса `Graber` из модуля `src.suppliers.graber`. Класс `Graber` предназначен для сбора данных о товарах с веб-сайта Grandadvance. Он инициализируется драйвером веб-браузера и индексом языка, а также загружает конфигурационные файлы и локаторы, специфичные для Grandadvance.
+Класс `Graber` предназначен для сбора данных о товарах с веб-сайта `grandadvance.com`. Он наследуется от базового класса `src.suppliers.graber.Graber` и предоставляет методы для обработки различных полей товара на странице. В случае необходимости нестандартной обработки поля, метод может быть переопределен.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируются необходимые модули, такие как `typing`, `SimpleNamespace`, `header`, `gs`, `Graber` (как `Grbr`), `j_loads_ns`, `Driver` и `logger`.
-
-2. **Определение класса `Graber`**:
-   - Создается класс `Graber`, который наследуется от класса `Grbr` (базового грабера).
-
-3. **Инициализация класса `Graber`**:
-   - В методе `__init__` класса `Graber` выполняются следующие действия:
-     - Загрузка конфигурации из JSON-файла `grandadvance.json` с использованием функции `j_loads_ns`.
-     - Загрузка локаторов элементов продукта из JSON-файла `product.json` с использованием функции `j_loads_ns`.
-     - Вызов конструктора родительского класса `Grbr` с передачей префикса поставщика (`ENDPOINT`), драйвера и индекса языка.
-     - Установка локатора для декоратора из атрибута `click_to_specifications` объекта `self.product_locator`.
+1. **Инициализация:**  Создайте экземпляр класса `Graber`, передав в конструктор объект WebDriver и индекс языка. 
+    - `driver`: объект WebDriver, используемый для взаимодействия с браузером.
+    - `lang_index`: индекс языка, определяющий версию сайта Grandadvance. 
+2. **Загрузка конфигурации:**  Конструктор класса загружает конфигурацию из JSON-файла, расположенного в папке `src/suppliers/grandadvance/grandadvance.json`, а также локаторы элементов для обработки данных в `src/suppliers/grandadvance/locators/product.json`.
+3. **Использование методов:**  Используйте методы класса `Graber` для сбора данных с Grandadvance. 
+    -  **`get_product_data`**:  Получает данные о товаре с текущей страницы.
+    - **`get_specifications_data`**:  Получает данные о спецификациях товара.
+    - **`get_pictures_data`**:  Получает информацию об изображениях товара. 
+    - **`get_price_data`**:  Получает данные о цене товара. 
 
 Пример использования
 -------------------------
 
 ```python
-    from src.webdriver.driver import Driver
-    from src.webdriver import Firefox
+from src.suppliers.grandadvance.graber import Graber
+from src.webdriver.driver import Driver
+from src.webdriver.drivers.chrome import Chrome
 
-    # Инициализация драйвера (например, Firefox)
-    driver = Driver(browser=Firefox)
+driver = Driver(Chrome)
+graber = Graber(driver, lang_index=0)  # Инициализация экземпляра Graber
 
-    # Создание экземпляра класса Graber для Grandadvance
-    lang_index = 0  # Индекс языка (например, 0 для русского)
-    graber = Graber(driver=driver, lang_index=lang_index)
+# Получаем данные о товаре
+product_data = graber.get_product_data() 
 
-    # Теперь можно использовать методы класса graber для сбора данных о товарах с Grandadvance
-    # Например, graber.grab_product_data()
+# Получаем данные о спецификациях
+specifications_data = graber.get_specifications_data()
+
+# Получаем изображения товара
+pictures_data = graber.get_pictures_data()
+
+# Получаем данные о цене
+price_data = graber.get_price_data() 
+
+print(product_data)
+print(specifications_data)
+print(pictures_data)
+print(price_data) 
 ```
+
+**Важно:**
+
+- Перед использованием класса `Graber` убедитесь, что WebDriver инициализирован и открыта страница Grandadvance. 
+- Класс `Graber` может быть расширен для добавления новых методов или переопределения существующих, чтобы обеспечить специфическую обработку данных.
+- В случае нестандартной обработки данных вы можете переопределить методы класса `Graber`, чтобы удовлетворить потребности вашего приложения.

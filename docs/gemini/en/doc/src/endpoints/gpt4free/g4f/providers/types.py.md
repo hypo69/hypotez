@@ -1,189 +1,114 @@
-# Module `types.py`
+# hypotez/src/endpoints/gpt4free/g4f/providers/types.py
 
 ## Overview
 
-This module defines abstract base classes for providers used in the `gpt4free` package. It includes base classes for standard providers and providers with retry logic. The module also defines a type alias for provider types.
+This module defines the types and base classes for providers used in the `gpt4free` endpoint.
 
-## More details
+## Details
 
-This module defines the basic structure for creating different providers, including those with retry functionality. It ensures that all providers have a consistent interface. This facilitates easy switching and management of different providers within the system.
+This module provides the fundamental building blocks for integrating different GPT providers, like OpenAI and Gemini, into the `hypotez` project. It defines base classes and interfaces that govern how providers interact with the system, ensuring consistent behavior and allowing for easy extension with new providers.
 
 ## Classes
 
 ### `BaseProvider`
 
-**Description**: Abstract base class for a provider. Serves as the base for all specific provider implementations.
+**Description**: An abstract base class representing a GPT provider. It defines the common functionality and attributes shared by all providers.
 
 **Attributes**:
-- `url` (str): URL of the provider.
-- `working` (bool): Indicates whether the provider is currently working.
-- `needs_auth` (bool): Indicates whether the provider requires authentication.
-- `supports_stream` (bool): Indicates whether the provider supports streaming.
-- `supports_message_history` (bool): Indicates whether the provider supports message history.
-- `supports_system_message` (bool): Indicates whether the provider supports system messages.
-- `params` (str): List of parameters for the provider.
 
-**Working principle**:
-This class establishes a common interface for all providers. It defines attributes related to the provider's capabilities and status, and abstract methods that must be implemented by subclasses.
+- `url` (str): The URL of the provider's API endpoint.
+- `working` (bool): Indicates whether the provider is currently functional and accessible.
+- `needs_auth` (bool): Whether the provider requires authentication to access its API.
+- `supports_stream` (bool): Whether the provider supports streaming responses, allowing for incremental output delivery.
+- `supports_message_history` (bool): Whether the provider supports preserving and utilizing previous conversation history.
+- `supports_system_message` (bool): Whether the provider allows for setting a system message to provide context for the conversation.
+- `params` (str): List of parameters specific to the provider, used for configuration and customization.
 
 **Methods**:
-- `get_create_function()`: Abstract method to get the create function for the provider.
-- `get_async_create_function()`: Abstract method to get the async create function for the provider.
-- `get_dict()`: Method to get a dictionary representation of the provider.
 
-### `BaseProvider.get_create_function()`
-
-```python
-def get_create_function() -> callable:
-    """
-    Get the create function for the provider.
-
-    Returns:
-        callable: The create function.
-    """
-```
-
-**Purpose**: Abstract method for retrieving the synchronous create function of the provider.
-
-**Parameters**:
-- None
-
-**Returns**:
-- `callable`: The synchronous create function.
-
-**Raises**:
-- `NotImplementedError`: Always raised because this is an abstract method.
-
-**How the function works**:
-This function is intended to be overridden in subclasses. It should return a callable that represents the synchronous implementation for creating something (e.g., generating text).
-
-### `BaseProvider.get_async_create_function()`
-
-```python
-def get_async_create_function() -> callable:
-    """
-    Get the async create function for the provider.
-
-    Returns:
-        callable: The create function.
-    """
-```
-
-**Purpose**: Abstract method for retrieving the asynchronous create function of the provider.
-
-**Parameters**:
-- None
-
-**Returns**:
-- `callable`: The asynchronous create function.
-
-**Raises**:
-- `NotImplementedError`: Always raised because this is an abstract method.
-
-**How the function works**:
-This function is intended to be overridden in subclasses. It should return a callable that represents the asynchronous implementation for creating something (e.g., generating text).
-
-### `BaseProvider.get_dict()`
-
-```python
-def get_dict(cls) -> Dict[str, str]:
-    """
-    Get a dictionary representation of the provider.
-
-    Returns:
-        Dict[str, str]: A dictionary with provider's details.
-    """
-```
-
-**Purpose**: Returns a dictionary representation of the provider, containing its name, URL, and label.
-
-**Parameters**:
-- `cls`: The class itself (`BaseProvider`).
-
-**Returns**:
-- `Dict[str, str]`: A dictionary with the provider's details.
-
-**How the function works**:
-This class method creates and returns a dictionary that contains the name, URL, and label of the provider. The `getattr` function is used to safely access the `label` attribute, returning `None` if it does not exist.
-
-**Examples**:
-```python
-provider_dict = BaseProvider.get_dict()
-print(provider_dict)
-```
+- `get_create_function() -> callable`: Returns the function responsible for creating a new instance of the provider.
+- `get_async_create_function() -> callable`: Returns the asynchronous function for creating a new provider instance.
+- `get_dict() -> Dict[str, str]`: Returns a dictionary representation of the provider, containing its name, URL, and label.
 
 ### `BaseRetryProvider`
 
-**Description**: Base class for a provider that implements retry logic.
-
-**Inherits**:
-- `BaseProvider`: Inherits attributes and methods from `BaseProvider`.
+**Description**: Base class for providers that implement retry logic. It inherits from `BaseProvider` and adds functionality for handling failures and attempting to connect with alternative providers in a sequence.
 
 **Attributes**:
-- `providers` (List[Type[BaseProvider]]): List of providers to use for retries.
-- `shuffle` (bool): Whether to shuffle the providers list.  <next, if any>.
-- `exceptions` (Dict[str, Exception]): Dictionary of exceptions encountered.
-- `last_provider` (Type[BaseProvider]): The last provider used.
 
-**Working principle**:
-This class extends `BaseProvider` and provides a mechanism for retrying requests using a list of different providers. It manages the list of providers, tracks exceptions, and stores the last used provider.
+- `providers` (List[Type[BaseProvider]]): A list of providers to attempt in case of failures.
+- `shuffle` (bool): Whether to randomize the order of providers in the retry sequence.
+- `exceptions` (Dict[str, Exception]): A dictionary to store exceptions encountered during retries.
+- `last_provider` (Type[BaseProvider]): The last provider that was used in the retry sequence.
 
 ### `Streaming`
 
-**Description**: Class for handling streaming data.
+**Description**: This class defines the structure for streaming data, allowing for the incremental delivery of responses from GPT providers.
 
 **Attributes**:
-- `data` (str): The streaming data.
+
+- `data` (str): The content of the stream response, which is continuously updated as new data is received.
 
 **Methods**:
-- `__str__()`: Returns the streaming data as a string.
 
-**Working principle**:
-This class is a simple wrapper around a string, representing streaming data. The `__str__` method allows the object to be easily converted to a string.
+- `__str__() -> str`: Returns the current content of the stream response as a string.
 
-### `Streaming.__init__()`
+## Parameter Details
 
-```python
-def __init__(self, data: str) -> None:
-    """
-    Initializes a new instance of the Streaming class.
+- `url` (str): The URL of the provider's API endpoint. This is used to communicate with the provider and send requests.
+- `working` (bool): Indicates whether the provider is currently functional and accessible. If `False`, the provider may be unavailable or experiencing technical issues.
+- `needs_auth` (bool): Indicates whether the provider requires authentication to access its API. If `True`, users may need to provide credentials before interacting with the provider.
+- `supports_stream` (bool): Indicates whether the provider supports streaming responses. This allows for the incremental delivery of output, improving performance and user experience.
+- `supports_message_history` (bool): Indicates whether the provider supports preserving and utilizing previous conversation history. If `True`, the provider can maintain context and provide more coherent responses based on past interactions.
+- `supports_system_message` (bool): Indicates whether the provider allows for setting a system message to provide context for the conversation. This enables users to define initial instructions and constraints for the AI model.
+- `params` (str): List of parameters specific to the provider. This allows for customizing the behavior of the provider, such as setting API keys, configuring output format, or specifying model preferences.
 
-    Args:
-        data (str): The streaming data.
-    """
-```
+## How the Code Works
 
-**Purpose**: Initializes a new instance of the `Streaming` class.
+This module provides the foundation for integrating GPT providers into the `hypotez` project. By defining base classes like `BaseProvider` and `BaseRetryProvider`, it ensures that all providers follow a consistent structure and behavior. 
 
-**Parameters**:
-- `data` (str): The streaming data.
+The `BaseProvider` class defines the core functionalities that are expected from all providers, such as retrieving the create function, handling authentication, and supporting streaming responses. This standardization makes it easier to manage and extend the project with new providers without major code rewrites. 
 
-**How the function works**:
-This is the constructor for the `Streaming` class. It takes a string `data` as input and assigns it to the `self.data` attribute.
+The `BaseRetryProvider` further enhances the robustness by implementing retry logic. This means that if one provider fails to provide a response, the system can attempt to use another provider in the sequence, improving the likelihood of success. 
 
-### `Streaming.__str__()`
+Finally, the `Streaming` class provides a way to manage the incremental delivery of responses from GPT providers. This improves the user experience by allowing users to see partial responses as they are generated, rather than waiting for the entire response to be completed.
+
+## Examples
 
 ```python
-def __str__(self) -> str:
-    """
-    Returns the streaming data as a string.
+from hypotez.src.endpoints.gpt4free.g4f.providers.types import BaseProvider
 
-    Returns:
-        str: The streaming data.
+class MyProvider(BaseProvider):
     """
+    Example provider implementation.
+    """
+    url: str = "https://example.com/api"
+    working: bool = True
+    needs_auth: bool = False
+    supports_stream: bool = False
+    supports_message_history: bool = False
+    supports_system_message: bool = False
+    params: str = ""
+
+    def get_create_function(self) -> callable:
+        """
+        Returns a function to create a new instance of the provider.
+        """
+        def create_provider():
+            return MyProvider()
+        return create_provider
+
+    def get_async_create_function(self) -> callable:
+        """
+        Returns an asynchronous function to create a new instance of the provider.
+        """
+        async def create_provider():
+            return MyProvider()
+        return create_provider
 ```
 
-**Purpose**: Returns the streaming data as a string.
+This example shows how to implement a custom provider class that inherits from `BaseProvider`. The class must define the necessary attributes and methods, including the `get_create_function` and `get_async_create_function` methods.
 
-**Parameters**:
-- None
+## Conclusion
 
-**Returns**:
-- `str`: The streaming data.
-
-**How the function works**:
-This method returns the streaming data stored in the `self.data` attribute as a string.
-
-## Type Aliases
-
-- `ProviderType` (Union[Type[BaseProvider], BaseRetryProvider]): Represents either a standard provider or a retry provider.
+This module plays a critical role in the `gpt4free` endpoint by defining the core types and interfaces for interacting with GPT providers. It promotes consistency and extensibility, allowing for easy integration of new providers and enhancing the overall reliability of the endpoint.

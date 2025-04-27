@@ -1,47 +1,60 @@
-### **Как использовать блок кода `ArtifactExporter`**
+## Как использовать класс ArtifactExporter
 =========================================================================================
 
 Описание
 -------------------------
-Класс `ArtifactExporter` предназначен для экспорта артефактов (данных) из элементов `TinyTroupe` в различные форматы файлов, такие как JSON, TXT и DOCX. Это полезно, например, для создания синтетических данных из симуляций.
+Класс `ArtifactExporter` предназначен для экспорта артефактов из элементов TinyTroupe. Артефакт представляет собой файл с данными, полученными из симуляции TinyTroupe. Класс позволяет экспортировать различные типы данных в различные форматы.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация `ArtifactExporter`**:
-   - Создается экземпляр класса `ArtifactExporter` с указанием базовой папки для вывода файлов.
-2. **Вызов метода `export`**:
-   - Метод `export` принимает имя артефакта, данные для экспорта (словарь или строку), тип контента, формат контента (например, 'md', 'csv') и целевой формат (например, 'json', 'txt', 'docx').
-   - Внутри метода происходит дедупликация (удаление лишних отступов) данных, очистка имени артефакта от недопустимых символов.
-   - Вызывается метод `_compose_filepath` для формирования полного пути к файлу.
-   - В зависимости от целевого формата вызывается соответствующий метод экспорта (`_export_as_json`, `_export_as_txt`, `_export_as_docx`).
-3. **Метод `_compose_filepath`**:
-   - Формирует путь к файлу на основе базовой папки, типа контента, имени артефакта и расширения файла.
-   - Создает промежуточные директории, если они не существуют.
-4. **Методы экспорта (`_export_as_json`, `_export_as_txt`, `_export_as_docx`)**:
-   - Записывают данные в файл в соответствующем формате.
-   - `_export_as_json` сохраняет словарь в формате JSON.
-   - `_export_as_txt` записывает строку в текстовый файл.
-   - `_export_as_docx` преобразует данные в формат DOCX с использованием библиотеки `pypandoc`.
+1. **Создание экземпляра класса:** Создайте экземпляр класса `ArtifactExporter`, передав ему базовый путь для сохранения экспортируемых файлов.
+2. **Вызов метода `export`:** Вызовите метод `export` для экспорта артефакта. Передайте в качестве аргументов:
+    - `artifact_name`: Имя артефакта.
+    - `artifact_data`: Данные, которые нужно экспортировать. 
+        - Если `artifact_data` - это словарь, он будет сохранен как JSON.
+        - Если `artifact_data` - это строка, она будет сохранена как есть.
+    - `content_type`: Тип содержимого артефакта.
+    - `content_format`: Формат содержимого артефакта (например, md, csv, etc).
+    - `target_format`: Формат, в который нужно экспортировать артефакт (например, json, txt, docx, etc).
+    - `verbose`: Флаг, определяющий, нужно ли выводить сообщения о ходе выполнения.
 
 Пример использования
 -------------------------
 
 ```python
-    from tinytroupe.extraction.artifact_exporter import ArtifactExporter
+from tinytroupe.extraction import ArtifactExporter
 
-    # 1. Создание экземпляра класса ArtifactExporter
-    base_output_folder = "output_folder"
-    exporter = ArtifactExporter(base_output_folder)
+# Создаем экземпляр класса ArtifactExporter
+exporter = ArtifactExporter(base_output_folder="artifacts")
 
-    # 2. Пример данных для экспорта
-    artifact_name = "example_artifact"
-    artifact_data = {
-        "content": "This is an example artifact.",
-        "metadata": {"type": "example"}
-    }
-    content_type = "text"
-    content_format = "md"
-    target_format = "docx"
+# Экспортируем данные в JSON файл
+artifact_data = {
+    "content": "Это пример текста для экспорта.",
+    "meta": {"author": "John Doe"}
+}
+exporter.export(
+    artifact_name="my_artifact",
+    artifact_data=artifact_data,
+    content_type="text",
+    target_format="json"
+)
 
-    # 3. Экспорт данных в файл
-    exporter.export(artifact_name, artifact_data, content_type, content_format, target_format, verbose=True)
+# Экспортируем данные в текстовый файл
+artifact_data = "Это текст для экспорта."
+exporter.export(
+    artifact_name="my_text_artifact",
+    artifact_data=artifact_data,
+    content_type="text",
+    target_format="txt"
+)
+
+# Экспортируем данные в DOCX файл
+artifact_data = "# Заголовок документа\n\nЭто пример текста в Markdown формате."
+exporter.export(
+    artifact_name="my_docx_artifact",
+    artifact_data=artifact_data,
+    content_type="text",
+    content_format="md",
+    target_format="docx"
+)
+```

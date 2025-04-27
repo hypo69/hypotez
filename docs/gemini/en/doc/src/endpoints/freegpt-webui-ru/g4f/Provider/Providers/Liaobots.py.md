@@ -1,70 +1,155 @@
-# Документация для `Liaobots.py`
+# Liaobots Provider
 
-## Обзор
+## Overview
 
-В этом файле содержится реализация провайдера `Liaobots` для проекта `hypotez`. Он обеспечивает взаимодействие с сервисом `liaobots.com` для генерации текста на основе предоставленных сообщений с использованием моделей `gpt-3.5-turbo` и `gpt-4`.
+This module defines a provider for interacting with Liaobots, a service for accessing large language models (LLMs) like GPT-3.5 and GPT-4. 
 
-## Подробнее
+## Details
 
-Этот код определяет параметры подключения к сервису `Liaobots`, включая URL, поддерживаемые модели и необходимость аутентификации. Он также содержит функцию `_create_completion`, которая отправляет запросы к API `Liaobots` и возвращает сгенерированный текст.
+This provider allows you to interact with Liaobots through the `_create_completion` function, which sends requests to the Liaobots API for generating text completions. 
+
+The provider requires authentication and supports streaming for real-time responses. 
 
 ## Classes
 
-В данном файле классы отсутствуют.
-
-## Functions
-
 ### `_create_completion`
 
+**Description:** This function sends requests to the Liaobots API for generating text completions.
+
+**Parameters:**
+
+- `model` (str): The name of the LLM model to use.
+- `messages` (list): A list of messages in the conversation.
+- `stream` (bool): Whether to stream the response.
+- `**kwargs`:  Additional keyword arguments.
+
+**Returns:**
+
+- Generator[str, None, None]: A generator that yields individual tokens of the generated text.
+
+**Raises Exceptions:**
+
+- `Exception`: If an error occurs during API request.
+
+**How the Function Works:**
+
+1. Constructs a JSON request payload with details like conversation ID, model, messages, API key, and a default prompt.
+2. Sends a POST request to the Liaobots API endpoint `https://liaobots.com/api/chat`.
+3. If `stream` is True, iterates through the response using `response.iter_content` to retrieve individual tokens in chunks.
+4. Decodes each token using `utf-8` and yields it to the caller.
+
+**Examples:**
+
 ```python
+messages = [
+    {'role': 'user', 'content': 'Hello, how are you?'},
+    {'role': 'assistant', 'content': 'I am doing well, thank you! How can I assist you today?'},
+]
+
+model = 'gpt-3.5-turbo'
+
+# Authenticate with Liaobots
+auth_token = 'your_auth_token'
+
+# Use the provider
+response = _create_completion(model, messages, stream=True, auth=auth_token)
+
+# Process the streaming response
+for token in response:
+    print(token, end='')
+```
+
+## Parameter Details
+
+- `model` (str):  The name of the LLM model to use. Supported models are `gpt-3.5-turbo` and `gpt-4`.
+- `messages` (list): A list of message objects in the conversation. Each message object has the format: `{'role': 'user' | 'assistant', 'content': 'message text'}`.
+- `stream` (bool): Whether to stream the response for real-time feedback. 
+- `**kwargs`: Additional keyword arguments, including: 
+    - `auth` (str): The authentication token for accessing the Liaobots API.
+
+## Examples
+
+### Basic usage with streaming
+
+```python
+import os, uuid, requests
+from ...typing import sha256, Dict, get_type_hints
+
+url = 'https://liaobots.com'
+model = ['gpt-3.5-turbo', 'gpt-4']
+supports_stream = True
+needs_auth = True
+
+models = {
+    'gpt-4': {
+        "id":"gpt-4",
+        "name":"GPT-4",
+        "maxLength":24000,
+        "tokenLimit":8000
+    },
+    'gpt-3.5-turbo': {
+        "id":"gpt-3.5-turbo",
+        "name":"GPT-3.5",
+        "maxLength":12000,
+        "tokenLimit":4000
+    },
+}
+
 def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    """ Функция создает запрос к API Liaobots и возвращает сгенерированный текст.
 
-    Args:
-        model (str): Идентификатор используемой модели (например, 'gpt-3.5-turbo', 'gpt-4').
-        messages (list): Список сообщений для отправки в API.
-        stream (bool): Флаг, указывающий, использовать ли потоковую передачу данных.
-        **kwargs: Дополнительные параметры, такие как ключ аутентификации (`auth`).
+    print(kwargs)
 
-    Returns:
-        Generator[str, None, None]: Генератор токенов сгенерированного текста.
+    headers = {
+        'authority': 'liaobots.com',
+        'content-type': 'application/json',
+        'origin': 'https://liaobots.com',
+        'referer': 'https://liaobots.com/',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
+        'x-auth-code': kwargs.get('auth')
+    }
 
-    Raises:
-        requests.exceptions.RequestException: Если возникает ошибка при отправке запроса к API.
+    json_data = {
+        'conversationId': str(uuid.uuid4()),
+        'model': models[model],
+        'messages': messages,
+        'key': '',
+        'prompt': "You are ChatGPT, a large language model trained by OpenAI. Follow the user's instructions carefully. Respond using markdown.",
+    }
 
-    Пример:
-        >>> for token in _create_completion(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello'}], stream=True, auth='ключ_авторизации'):
-        ...     print(token)
-    """
+    response = requests.post('https://liaobots.com/api/chat', 
+                             headers=headers, json=json_data, stream=True)
+
+    for token in response.iter_content(chunk_size=2046):
+        yield (token.decode('utf-8'))
+
+params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
+    '(%s)' % ', '.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
 ```
 
-**Параметры**:
-- `model` (str): Идентификатор модели, используемой для генерации текста.
-- `messages` (list): Список сообщений, отправляемых в API. Каждое сообщение представляет собой словарь с ключами `role` и `content`.
-- `stream` (bool): Флаг, указывающий, следует ли использовать потоковую передачу для получения ответа.
-- `kwargs` (dict): Дополнительные параметры, передаваемые в API, такие как ключ аутентификации.
-
-**Как работает функция**:
-
-1. Функция принимает параметры модели, сообщения, флаг потоковой передачи и дополнительные аргументы.
-2. Формирует заголовки запроса, включая `authority`, `content-type`, `origin`, `referer`, `user-agent` и ключ аутентификации (`x-auth-code`).
-3. Создает JSON-данные для отправки в API, включая `conversationId`, `model`, `messages`, `key` и `prompt`.
-4. Отправляет POST-запрос к API `https://liaobots.com/api/chat` с использованием библиотеки `requests`.
-5. Итерируется по содержимому ответа, декодирует каждый токен и возвращает его через генератор.
-
-**Примеры**:
+###  Authentication and Response Handling
 
 ```python
-# Пример использования функции _create_completion
-for token in _create_completion(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello'}], stream=True, auth='ключ_авторизации'):
-    print(token)
+# Example usage:
+messages = [
+    {'role': 'user', 'content': 'What is the meaning of life?'},
+    {'role': 'assistant', 'content': 'That is a question that has been pondered by philosophers for centuries.'}
+]
+
+model = 'gpt-4'  # Choose a model
+auth_token = 'your_auth_token'  # Obtain your auth token from Liaobots 
+
+response_stream = _create_completion(model, messages, stream=True, auth=auth_token)
+
+# Process the streaming response
+for token in response_stream:
+    print(token, end='')
 ```
 
-## Global Variables
+###  Error Handling
 
-- `url`: URL адрес сервиса `Liaobots` (`https://liaobots.com`).
-- `model`: Список поддерживаемых моделей (`gpt-3.5-turbo`, `gpt-4`).
-- `supports_stream`: Флаг, указывающий на поддержку потоковой передачи (`True`).
-- `needs_auth`: Флаг, указывающий на необходимость аутентификации (`True`).
-- `models`: Словарь, содержащий информацию о поддерживаемых моделях, включая их идентификаторы, имена, максимальную длину и лимит токенов.
-- `params`: Строка, формирующая параметры для `g4f.Providers`, включающая типы данных аргументов функции `_create_completion`.
+```python
+try:
+    # ...
+except Exception as ex:
+    logger.error('Error while requesting completion from Liaobots', ex, exc_info=True)
+```

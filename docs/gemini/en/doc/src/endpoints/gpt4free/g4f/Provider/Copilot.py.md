@@ -1,145 +1,137 @@
-## Модуль `Copilot.py`
+# Microsoft Copilot Provider for GPT4Free
 
-### Обзор
+## Overview
 
-Этот модуль предоставляет интерфейс для взаимодействия с Microsoft Copilot через API. Он включает в себя функции для создания запросов, обработки ответов и управления сессиями разговоров. Модуль поддерживает потоковую передачу данных, работу с медиа-файлами и аутентификацию.
+The `Copilot.py` file defines a provider class for using Microsoft Copilot (also known as GitHub Copilot) in the GPT4Free framework. This provider allows users to interact with the Copilot AI model for code completion, code generation, and other coding tasks.
 
-### Подробности
+## Details
 
-Модуль `Copilot` предназначен для интеграции с сервисом Microsoft Copilot, предоставляя возможности для обмена сообщениями и получения ответов. Он использует библиотеки `curl_cffi` и `nodriver` для выполнения HTTP-запросов и управления сессиями. В случае отсутствия необходимых библиотек, модуль предусматривает обработку исключений и предлагает установить недостающие зависимости.
+The `Copilot` class implements the `AbstractProvider` interface, providing the necessary methods for handling requests to the Copilot API. It leverages the `curl_cffi` library for making HTTP requests, and it includes functionality for managing access tokens, cookies, and conversation state.
 
-## Классы
+## Classes
 
-### `Conversation`
+### `class Conversation`
 
-**Описание**: Класс для представления разговора с Copilot.
+**Description**: Represents a conversation with Copilot, storing the conversation ID.
 
-**Наследует**: `JsonConversation`
+**Attributes**:
 
-**Атрибуты**:
+- `conversation_id` (str): Unique identifier for the conversation.
 
--   `conversation_id` (str): Идентификатор разговора.
+**Methods**:
 
-**Методы**:
+- `__init__(self, conversation_id: str)`: Initializes a new conversation with the specified ID.
 
-*   `__init__(self, conversation_id: str)`
-    *   **Описание**: Инициализирует экземпляр класса `Conversation`.
-    *   **Параметры**:
-        *   `conversation_id` (str): Идентификатор разговора.
-    *   **Возвращает**: `None`
+### `class Copilot`
 
-### `Copilot`
+**Description**: Provider class for interacting with Microsoft Copilot.
 
-**Описание**: Класс для взаимодействия с Microsoft Copilot.
+**Inherits**:
 
-**Наследует**: `AbstractProvider`, `ProviderModelMixin`
+- `AbstractProvider`: Defines basic methods for all GPT4Free providers.
+- `ProviderModelMixin`: Provides functionality for model selection and alias handling.
 
-**Атрибуты**:
+**Attributes**:
 
--   `label` (str): Метка провайдера ("Microsoft Copilot").
--   `url` (str): URL сервиса Copilot ("https://copilot.microsoft.com").
--   `working` (bool): Флаг, указывающий на работоспособность провайдера (True).
--   `supports_stream` (bool): Флаг, указывающий на поддержку потоковой передачи данных (True).
--   `default_model` (str): Модель по умолчанию ("Copilot").
--   `models` (list): Список поддерживаемых моделей (\["Copilot", "Think Deeper"] ).
--   `model_aliases` (dict): Псевдонимы моделей.
--   `websocket_url` (str): URL для подключения к WebSocket ("wss://copilot.microsoft.com/c/api/chat?api-version=2").
--   `conversation_url` (str): URL для управления разговорами ("https://copilot.microsoft.com/c/api/conversations").
--   `_access_token` (str): Токен доступа.
--   `_cookies` (dict): Куки.
+- `label` (str): Human-readable name of the provider ("Microsoft Copilot").
+- `url` (str): Base URL for the Copilot API.
+- `working` (bool): Indicates whether the provider is currently functional (`True`).
+- `supports_stream` (bool): Indicates whether the provider supports streaming responses (`True`).
+- `default_model` (str): Default Copilot model to use ("Copilot").
+- `models` (list): List of supported Copilot models.
+- `model_aliases` (dict): Mapping of model aliases to actual model names.
+- `websocket_url` (str): URL for the Copilot websocket API.
+- `conversation_url` (str): URL for creating new conversations.
+- `_access_token` (str): The access token for the Copilot API (stored as a class attribute).
+- `_cookies` (dict): The cookies associated with the Copilot API (stored as a class attribute).
 
-**Принцип работы**:
+**Methods**:
 
-Класс `Copilot` предоставляет методы для создания запросов к Microsoft Copilot, обработки ответов и управления сессиями разговоров. Он использует библиотеки `curl_cffi` и `nodriver` для выполнения HTTP-запросов и управления сессиями. Класс поддерживает потоковую передачу данных, работу с медиа-файлами и аутентификацию.
+- `create_completion(cls, model: str, messages: Messages, stream: bool = False, proxy: str = None, timeout: int = 900, prompt: str = None, media: MediaListType = None, conversation: BaseConversation = None, return_conversation: bool = False, api_key: str = None, **kwargs) -> CreateResult`: Sends a completion request to Copilot.
+    - **Purpose**: Sends a prompt to the Copilot model and receives a response.
+    - **Parameters**:
+        - `model` (str): The Copilot model to use (e.g., "Copilot", "Think Deeper").
+        - `messages` (Messages): List of messages in the conversation.
+        - `stream` (bool, optional): Whether to stream the response. Defaults to `False`.
+        - `proxy` (str, optional): Proxy server to use for requests. Defaults to `None`.
+        - `timeout` (int, optional): Timeout for the request in seconds. Defaults to 900.
+        - `prompt` (str, optional): Prompt to send to the model. Defaults to `None`.
+        - `media` (MediaListType, optional): List of media files to upload. Defaults to `None`.
+        - `conversation` (BaseConversation, optional): Existing conversation object to use. Defaults to `None`.
+        - `return_conversation` (bool, optional): Whether to return the conversation object. Defaults to `False`.
+        - `api_key` (str, optional): API key to use for authentication. Defaults to `None`.
+    - **Returns**:
+        - `CreateResult`: A generator that yields responses from the Copilot model.
+    - **Raises Exceptions**:
+        - `MissingRequirementsError`: If the `curl_cffi` package is not installed.
+        - `NoValidHarFileError`: If no valid HAR file is found for authentication.
+        - `MissingAuthError`: If the access token is invalid.
+        - `RuntimeError`: If the response from Copilot is invalid.
 
-**Методы**:
+- `get_model(cls, model: str) -> str`: Retrieves the actual model name based on an alias.
+    - **Purpose**: Handles model aliases to ensure consistent model names are used.
+    - **Parameters**:
+        - `model` (str): The model name or alias.
+    - **Returns**:
+        - `str`: The actual model name.
 
-*   `create_completion(cls, model: str, messages: Messages, stream: bool = False, proxy: str = None, timeout: int = 900, prompt: str = None, media: MediaListType = None, conversation: BaseConversation = None, return_conversation: bool = False, api_key: str = None, **kwargs) -> CreateResult`
-    *   **Описание**: Создает запрос к Copilot и обрабатывает ответ.
-    *   **Параметры**:
-        *   `model` (str): Модель для использования.
-        *   `messages` (Messages): Список сообщений для отправки.
-        *   `stream` (bool): Флаг, указывающий на необходимость потоковой передачи данных.
-        *   `proxy` (str): URL прокси-сервера.
-        *   `timeout` (int): Время ожидания ответа.
-        *   `prompt` (str): Текст запроса.
-        *   `media` (MediaListType): Список медиа-файлов для отправки.
-        *   `conversation` (BaseConversation): Объект разговора.
-        *   `return_conversation` (bool): Флаг, указывающий на необходимость возврата объекта разговора.
-        *   `api_key` (str): API ключ для аутентификации.
-        *   `**kwargs`: Дополнительные аргументы.
-    *   **Возвращает**: `CreateResult`
-    *   **Вызывает**:
-        *   `MissingRequirementsError`: Если не установлена библиотека `curl_cffi`.
-        *   `NoValidHarFileError`: Если не найден валидный HAR-файл.
-        *   `MissingAuthError`: Если отсутствует токен доступа.
+## Inner Functions
 
-## Функции
+### `async def get_access_token_and_cookies(url: str, proxy: str = None, target: str = "ChatAI",)`
 
-### `get_access_token_and_cookies(url: str, proxy: str = None, target: str = "ChatAI")`
+- **Purpose**: Extracts the access token and cookies from the user's browser data (using `nodriver`).
+- **Parameters**:
+    - `url` (str): The URL of the Copilot website.
+    - `proxy` (str, optional): Proxy server to use for requests. Defaults to `None`.
+    - `target` (str, optional): The target for the access token. Defaults to "ChatAI".
+- **Returns**:
+    - `tuple`: A tuple containing the access token and cookies.
+- **How the Function Works**:
+    - Uses `nodriver` to launch a browser instance and navigate to the Copilot website.
+    - Extracts the access token from the browser's local storage.
+    - Retrieves cookies from the browser's network settings.
 
-**Описание**: Асинхронная функция для получения токена доступа и куки из браузера.
+### `def readHAR(url: str)`
 
-**Параметры**:
+- **Purpose**: Extracts the access token and cookies from a HAR file.
+- **Parameters**:
+    - `url` (str): The URL of the Copilot website.
+- **Returns**:
+    - `tuple`: A tuple containing the access token and cookies.
+- **How the Function Works**:
+    - Iterates through HAR files in the specified directory.
+    - Parses each HAR file to find requests matching the Copilot URL.
+    - Extracts the access token and cookies from the matching request.
 
--   `url` (str): URL для получения токена доступа.
--   `proxy` (str, optional): URL прокси-сервера. По умолчанию `None`.
--   `target` (str, optional): Цель для получения токена доступа. По умолчанию "ChatAI".
+### `def get_clarity() -> bytes`
 
-**Возвращает**:
+- **Purpose**: Generates a clarity token for tracking user behavior.
+- **Returns**:
+    - `bytes`: The clarity token data.
+- **How the Function Works**:
+    - Decodes a base64 encoded string to generate the clarity token.
 
--   `tuple[str, dict]`: Кортеж, содержащий токен доступа и словарь куки.
-
-**Как работает функция**:
-
-1.  Запускает браузер с использованием `nodriver`.
-2.  Переходит по указанному `url`.
-3.  Выполняет JavaScript-код для извлечения токена доступа из `localStorage`.
-4.  Получает куки из браузера.
-5.  Закрывает страницу и останавливает браузер.
-6.  Возвращает токен доступа и куки.
-
-### `readHAR(url: str)`
-
-**Описание**: Функция для чтения токена доступа и куки из HAR-файла.
-
-**Параметры**:
-
--   `url` (str): URL для поиска в HAR-файлах.
-
-**Возвращает**:
-
--   `tuple[str, dict]`: Кортеж, содержащий токен доступа и словарь куки.
-
-**Вызывает**:
-
--   `NoValidHarFileError`: Если не найден токен доступа в HAR-файлах.
-
-**Как работает функция**:
-
-1.  Перебирает HAR-файлы, полученные с помощью `get_har_files()`.
-2.  Читает содержимое каждого файла.
-3.  Ищет записи, URL которых начинаются с указанного `url`.
-4.  Извлекает токен доступа из заголовка `authorization`.
-5.  Извлекает куки из запроса.
-6.  Если токен доступа не найден, вызывает исключение `NoValidHarFileError`.
-7.  Возвращает токен доступа и куки.
-
-### `get_clarity() -> bytes`
-
-**Описание**: Функция для получения тела запроса Clarity.
-
-**Возвращает**:
-
--   `bytes`: Тело запроса Clarity в виде байтов.
-
-**Как работает функция**:
-
-1.  Декодирует строку base64.
-2.  Возвращает декодированные байты.
-
-**Примеры**:
+## Examples
 
 ```python
-body = get_clarity()
-print(body)
+# Creating a driver instance (example with Chrome)
+driver = Driver(Chrome)
+
+# Example of a request to Copilot (using `create_completion`)
+response = Copilot.create_completion(model='Copilot', messages=[{'role': 'user', 'content': 'Write a function that reverses a string.'}])
+
+# Iterate through responses
+for part in response:
+    print(part)
+
+```
+
+## Additional Notes
+
+- The `Copilot` provider relies on authentication through HAR files or by using a browser instance with `nodriver`.
+- The provider includes support for streaming responses and media uploads.
+- The `get_clarity()` function generates a clarity token for tracking user behavior, but it is not currently used in the code.
+- The `Copilot` class includes a `model_aliases` dictionary for mapping common model names to their actual names.
+- The code includes extensive logging using the `src.logger` module for debugging purposes.
+- The `Copilot` provider utilizes the `src.webdirver` module for interacting with the browser.
+- The code is structured to allow for seamless integration with the `hypotez` framework.

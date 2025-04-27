@@ -1,40 +1,48 @@
-# Module `Koala.py`
+# Koala.py
 
 ## Overview
 
-Модуль предоставляет асинхронтный генератор для взаимодействия с сервисом Koala.sh, используя его API для обмена сообщениями с моделью `gpt-4o-mini` или другой указанной моделью. Поддерживает прокси и передачу истории сообщений.
+This module implements the `Koala` class, which is a provider for the Koala AI model. It inherits from `AsyncGeneratorProvider` and `ProviderModelMixin` and provides an asynchronous generator for interacting with the Koala API.
 
-## More details
+## Details
 
-Модуль предназначен для интеграции с сервисом Koala.sh, предоставляющим доступ к различным моделям GPT. Он отправляет запросы к API Koala.sh и обрабатывает ответы в режиме реального времени. Модуль использует `aiohttp` для асинхронных HTTP-запросов и поддерживает проксирование.
+The `Koala` class provides a method `create_async_generator` which takes the following arguments:
+
+- `model`: The desired Koala model (default is `gpt-4o-mini`).
+- `messages`: A list of messages in the conversation history.
+- `proxy`: An optional proxy server to use.
+- `connector`: An optional aiohttp connector to use.
+- `**kwargs`: Additional keyword arguments.
+
+The `create_async_generator` method returns an asynchronous generator that yields dictionaries containing the responses from the Koala API.
 
 ## Classes
 
-### `Koala`
+### `class Koala`
 
-**Description**: Класс `Koala` является асинхронным генератором провайдера и реализует взаимодействие с API Koala.sh.
+**Description:** This class represents the Koala AI model provider.
 
-**Inherits**:
-- `AsyncGeneratorProvider`: Базовый класс для асинхронных генераторов провайдеров.
-- `ProviderModelMixin`: Миксин для работы с моделями провайдера.
+**Inherits:**
 
-**Attributes**:
-- `url` (str): URL сервиса Koala.sh.
-- `api_endpoint` (str): URL API Koala.sh для обмена сообщениями.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений.
-- `default_model` (str): Модель, используемая по умолчанию, если не указана другая.
+- `AsyncGeneratorProvider`: Provides the base functionality for asynchronous generators.
+- `ProviderModelMixin`: Provides common model-related functionality.
 
-**Working principle**:
-Класс `Koala` использует асинхронные генераторы для обмена сообщениями с API Koala.sh. Он формирует HTTP-запросы с необходимыми заголовками и данными, отправляет их на сервер и обрабатывает ответы в режиме реального времени. Класс также поддерживает проксирование и передачу истории сообщений.
+**Attributes:**
 
-**Methods**:
-- `create_async_generator`: Создает асинхронный генератор для обмена сообщениями.
-- `_parse_event_stream`: Разбирает поток событий, возвращаемый сервером.
+- `url`: The base URL for the Koala chat interface.
+- `api_endpoint`: The endpoint for the Koala API.
+- `working`: A boolean flag indicating whether the provider is working (default is `False`).
+- `supports_message_history`: A boolean flag indicating whether the provider supports message history (default is `True`).
+- `default_model`: The default model to use if no model is specified (default is `gpt-4o-mini`).
+
+**Methods:**
+
+- `create_async_generator()`: Returns an asynchronous generator that yields responses from the Koala API.
+- `_parse_event_stream()`: Parses event stream chunks from the API response.
 
 ## Class Methods
 
-### `create_async_generator`
+### `create_async_generator()`
 
 ```python
     @classmethod
@@ -46,73 +54,70 @@
         connector: Optional[BaseConnector] = None,
         **kwargs: Any
     ) -> AsyncGenerator[Dict[str, Union[str, int, float, List[Dict[str, Any]], None]], None]:
-        """Создает асинхронный генератор для обмена сообщениями с API Koala.sh.
+        """ 
+        Создает асинхронный генератор, который получает ответы от API Koala.
 
         Args:
-            model (str): Модель, используемая для генерации ответов.
-            messages (Messages): Список сообщений для отправки на сервер.
-            proxy (Optional[str], optional): URL прокси-сервера. Defaults to None.
-            connector (Optional[BaseConnector], optional): Aiohttp коннектор. Defaults to None.
-            **kwargs (Any): Дополнительные параметры.
+            model (str): Имя модели Koala.
+            messages (Messages): Список сообщений в истории чата.
+            proxy (Optional[str], optional): Прокси-сервер. По умолчанию None.
+            connector (Optional[BaseConnector], optional): Асинхронный соединитель. По умолчанию None.
+            **kwargs (Any): Дополнительные аргументы.
 
         Returns:
-            AsyncGenerator[Dict[str, Union[str, int, float, List[Dict[str, Any]], None]], None]: Асинхронный генератор, возвращающий словари с данными от сервера.
-
-        Raises:
-            Exception: Если возникает ошибка при отправке запроса или обработке ответа.
-
-        Принцип работы:
-            Функция создает асинхронный генератор, который отправляет POST-запрос к API Koala.sh с использованием `aiohttp`.
-            Она формирует заголовки и данные запроса, включая историю сообщений и параметры модели.
-            Затем она разбирает поток событий, возвращаемый сервером, и передает данные через генератор.
-
+            AsyncGenerator[Dict[str, Union[str, int, float, List[Dict[str, Any]], None]], None]: Асинхронный генератор, 
+                который возвращает ответы от API Koala в виде словарей.
         """
-        ...
 ```
 
-**Examples**:
+This method sets up the HTTP headers and sends a POST request to the Koala API with the input text and conversation history. It then parses the response from the API using the `_parse_event_stream` method and yields the parsed chunks as dictionaries.
 
-```python
-# Example of creating an asynchronous generator
-# Assuming you have defined 'messages' and 'model'
-# async for chunk in Koala.create_async_generator(model=model, messages=messages):
-#     print(chunk)
-```
 
-### `_parse_event_stream`
+### `_parse_event_stream()`
 
 ```python
     @staticmethod
     async def _parse_event_stream(response: ClientResponse) -> AsyncGenerator[Dict[str, Any], None]:
-        """Разбирает поток событий, возвращаемый сервером Koala.sh.
+        """ 
+        Парсит данные из потока событий API.
 
         Args:
-            response (ClientResponse): Объект ответа `aiohttp.ClientResponse`.
+            response (ClientResponse): Ответ от API.
 
         Returns:
-            AsyncGenerator[Dict[str, Any], None]: Асинхронный генератор, возвращающий словари с данными из потока событий.
-
-        Принцип работы:
-            Функция асинхронно итерируется по содержимому ответа и извлекает данные, начинающиеся с префикса "data: ".
-            Она преобразует эти данные из JSON-формата в словарь и передает их через генератор.
-
+            AsyncGenerator[Dict[str, Any], None]: Асинхронный генератор, который возвращает словари с данными.
         """
-        ...
 ```
 
-**Examples**:
+This method iterates over the chunks of the API response, extracts the data from the `data: ` lines, and yields them as dictionaries.
+
+## Parameter Details
+
+- `model` (str): The name of the Koala model to use.
+- `messages` (Messages): A list of messages in the conversation history. Each message is a dictionary containing the `role` (user or assistant) and `content` of the message.
+- `proxy` (Optional[str]): An optional proxy server to use.
+- `connector` (Optional[BaseConnector]): An optional aiohttp connector to use.
+- `**kwargs`: Additional keyword arguments.
+
+## Examples
 
 ```python
-# Example of parsing an event stream
-# Assuming you have 'response' from a request
-# async for chunk in Koala._parse_event_stream(response):
-#     print(chunk)
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.Koala import Koala
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
+
+# Create a list of messages for the conversation history
+messages: Messages = [
+    {"role": "user", "content": "Hello, how are you?"},
+    {"role": "assistant", "content": "I am doing well, thank you for asking. How can I help you today?"},
+]
+
+# Create an instance of the Koala class
+koala = Koala()
+
+# Create an asynchronous generator for the conversation
+async_generator = koala.create_async_generator(model="gpt-4o-mini", messages=messages)
+
+# Iterate over the responses from the API
+async for chunk in async_generator:
+    print(chunk)
 ```
-
-## Class Parameters
-
-- `url` (str): URL сервиса Koala.sh. Используется для формирования ссылок и заголовков запросов.
-- `api_endpoint` (str): URL API Koala.sh для обмена сообщениями. Используется для отправки POST-запросов с данными.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера. Может использоваться для проверки доступности сервиса.
-- `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений. Определяет, будет ли история сообщений передаваться в запросах.
-- `default_model` (str): Модель, используемая по умолчанию, если не указана другая. Например, "gpt-4o-mini".

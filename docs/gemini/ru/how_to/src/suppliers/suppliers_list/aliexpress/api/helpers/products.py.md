@@ -1,73 +1,46 @@
-## \file /src/suppliers/aliexpress/api/helpers/products.py
-# -*- coding: utf-8 -*-
- # <- venv win
-## ~~~~~~~~~~~~
-
-""" module: src.suppliers.suppliers_list.aliexpress.api.helpers """
-
-Как использовать этот блок кода
+## Как использовать блок кода `parse_product` и `parse_products`
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода предоставляет две функции: `parse_product` и `parse_products`. Функция `parse_product` извлекает строковое значение из атрибута `product_small_image_urls` объекта `product`. Функция `parse_products` применяет функцию `parse_product` к каждому элементу в списке `products`.
+Данный блок кода предназначен для обработки данных о продуктах AliExpress. Функция `parse_product` преобразует объект `product`, извлекая из него список URL-адресов изображений товара в маленьком формате (`product_small_image_urls`). 
+
+Функция `parse_products` обрабатывает список объектов `products`, применяя функцию `parse_product` к каждому объекту. В результате возвращается новый список обработанных продуктов.
 
 Шаги выполнения
 -------------------------
-1. **Функция `parse_product(product)`**:
-   - Функция принимает объект `product` в качестве аргумента.
-   - Извлекает строковое значение из атрибута `product.product_small_image_urls.string` и присваивает его обратно атрибуту `product.product_small_image_urls`.
-   - Функция возвращает измененный объект `product`.
-
-2. **Функция `parse_products(products)`**:
-   - Функция принимает список объектов `products` в качестве аргумента.
-   - Инициализирует пустой список `new_products`.
-   - Функция итерируется по каждому `product` в списке `products`.
-   - Для каждого `product` функция вызывает функцию `parse_product(product)` и добавляет возвращенный результат в список `new_products`.
-   - Функция возвращает список `new_products`, содержащий измененные объекты `product`.
+1. **`parse_product`**:
+    - Извлекает строковое значение из атрибута `product_small_image_urls` объекта `product`.
+    - Возвращает объект `product` с обновленным атрибутом `product_small_image_urls`, содержащим список URL-адресов в виде строки.
+2. **`parse_products`**:
+    - Создает новый список `new_products`.
+    - Проходит по каждому продукту `product` в списке `products`.
+    - Вызывает функцию `parse_product` для каждого `product` и добавляет результат в список `new_products`.
+    - Возвращает новый список `new_products` с обработанными данными.
 
 Пример использования
 -------------------------
 
 ```python
-# Пример использования
-from bs4 import BeautifulSoup
+from src.suppliers.aliexpress.api.helpers.products import parse_products
 
-# Пример объекта product (имитация)
-html = """
-<div class="product">
-    <div class="product_small_image_urls">
-        <p>https://example.com/image1.jpg</p>
-    </div>
-</div>
-"""
-soup = BeautifulSoup(html, 'html.parser')
-product = soup.find('div', class_='product')
-product.product_small_image_urls = product.find('div', class_='product_small_image_urls')
+# Предположим, у нас есть список объектов продуктов:
+products = [
+    {
+        "product_small_image_urls": "<a href='https://images.example.com/image1.jpg'>Image 1</a><a href='https://images.example.com/image2.jpg'>Image 2</a>",
+        # ... другие поля продукта
+    },
+    {
+        "product_small_image_urls": "<a href='https://images.example.com/image3.jpg'>Image 3</a>",
+        # ... другие поля продукта
+    },
+    # ... другие продукты
+]
 
-
-def parse_product(product):
-    product.product_small_image_urls = product.product_small_image_urls.string
-    return product
-
-
-def parse_products(products):
-    new_products = []
-
-    for product in products:
-        new_products.append(parse_product(product))
-
-    return new_products
-
-
-# Вызов функции parse_product
-parsed_product = parse_product(product)
-print(parsed_product.product_small_image_urls)
-
-# Пример списка products (имитация)
-products = [product] * 3
-
-# Вызов функции parse_products
+# Обрабатываем список продуктов
 parsed_products = parse_products(products)
-for p in parsed_products:
-    print(p.product_small_image_urls)
+
+# Теперь список `parsed_products` содержит обработанные продукты:
+print(parsed_products[0]["product_small_image_urls"])  # Вывод: https://images.example.com/image1.jpg,https://images.example.com/image2.jpg
+print(parsed_products[1]["product_small_image_urls"])  # Вывод: https://images.example.com/image3.jpg
+```

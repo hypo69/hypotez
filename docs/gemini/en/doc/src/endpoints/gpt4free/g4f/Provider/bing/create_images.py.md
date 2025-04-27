@@ -1,197 +1,93 @@
-# Module for Creating Images Using Bing Service
+# Модуль для создания изображений с помощью Bing Image Creator
 
-## Overview
+## Обзор
 
-This module provides functionality to generate images based on a given text prompt using the Bing image creation service. It handles session creation, request submission, polling for results, and extraction of image URLs from the response.
+Модуль `create_images.py` предоставляет функциональность для создания изображений на основе текстовых подсказок с помощью сервиса Bing Image Creator. Он использует асинхронные операции для оптимизации работы и обработки различных ошибок, возникающих во время взаимодействия с API.
 
-## More details
+## Подробности
 
-This module is a part of the `hypotez` project and allows users to programmatically generate images using the Bing image creation service. It is used to automate the process of creating images from text prompts. The module ensures that the necessary requirements are installed, handles potential errors such as rate limits and blocked prompts, and extracts the generated image URLs for further use.
+Этот модуль является частью проекта `hypotez` и используется для реализации функции создания изображений с помощью сервиса Bing Image Creator. Модуль обеспечивает взаимодействие с API Bing Image Creator, обработку ответов, извлечение сгенерированных изображений и управление ошибками.
 
-## Classes
-
-### `create_session`
-
-**Description**: Creates a new client session with specified cookies and headers.
-
-**Parameters**:
-- `cookies` (Dict[str, str]): Cookies to be used for the session.
-- `proxy` (str, optional): Proxy configuration.
-- `connector` (BaseConnector, optional): The connector to use for the session.
-
-**Working principle**:
-The function initializes a client session with custom headers and cookies. It configures the session to mimic a browser request, setting headers such as `accept`, `accept-encoding`, `accept-language`, and `user-agent`. If cookies are provided, they are added to the headers. The session also uses a connector, which can be customized using `get_connector` for proxy support.
-
-**Methods**:
-- None
-
-```python
-def create_session(cookies: Dict[str, str], proxy: str = None, connector: BaseConnector = None) -> ClientSession:
-    """
-    Creates a new client session with specified cookies and headers.
-
-    Args:
-        cookies (Dict[str, str]): Cookies to be used for the session.
-        proxy (str, optional): Proxy configuration.
-        connector (BaseConnector, optional): The connector to use for the session.
-
-    Returns:
-        ClientSession: The created client session.
-    """
-```
-
-### `create_images`
-
-**Description**: Creates images based on a given prompt using Bing's service.
-
-**Parameters**:
-- `session` (ClientSession): Active client session.
-- `prompt` (str): Prompt to generate images.
-- `timeout` (int, optional): Timeout for the request. Defaults to `TIMEOUT_IMAGE_CREATION`.
-
-**Working principle**:
-This function takes an active client session and a prompt to generate images using Bing's image creation service. It first checks if the `beautifulsoup4` package is installed and raises an error if it is not. The function then URL-encodes the prompt and sends a POST request to the Bing image creation endpoint. It handles potential errors such as rate limits, blocked prompts, and timeouts. Upon success, it extracts the redirect URL and request ID, and polls the image creation service until the images are generated. Finally, it calls the `read_images` function to extract the image URLs from the HTML content.
-
-**Internal functions**:
-- None
-
-```python
-async def create_images(session: ClientSession, prompt: str, timeout: int = TIMEOUT_IMAGE_CREATION) -> List[str]:
-    """
-    Creates images based on a given prompt using Bing's service.
-
-    Args:
-        session (ClientSession): Active client session.
-        prompt (str): Prompt to generate images.
-        timeout (int): Timeout for the request.
-
-    Returns:
-        List[str]: A list of URLs to the created images.
-
-    Raises:
-        RuntimeError: If image creation fails or times out.
-    """
-```
-
-### `read_images`
-
-**Description**: Extracts image URLs from the HTML content.
-
-**Parameters**:
-- `html_content` (str): HTML content containing image URLs.
-
-**Working principle**:
-This function parses the HTML content using BeautifulSoup to extract image URLs. It searches for `img` tags with specific classes (`mimg` or `gir_mmimg`) and extracts the `src` attribute, which contains the image URL. The function also checks for bad images and raises an error if any are found.
-
-**Internal functions**:
-- None
-
-```python
-def read_images(html_content: str) -> List[str]:
-    """
-    Extracts image URLs from the HTML content.
-
-    Args:
-        html_content (str): HTML content containing image URLs.
-
-    Returns:
-        List[str]: A list of image URLs.
-    """
-```
-
-## Functions
+## Классы
 
 ### `create_session`
 
-**Purpose**: Creates a new client session with specified cookies and headers.
+**Описание**:  Функция создает новый сеанс клиента с заданными куки и заголовками.
 
-**Parameters**:
-- `cookies` (Dict[str, str]): Cookies to be used for the session.
-- `proxy` (str, optional): Proxy configuration.
-- `connector` (BaseConnector, optional): The connector to use for the session.
+**Параметры**:
 
-**Returns**:
-- `ClientSession`: The created client session.
+- `cookies` (Dict[str, str]): Словарь с куки для сеанса.
 
-**Raises**:
-- None
+**Возвращает**:
 
-**How the function works**:
-The function initializes an `aiohttp.ClientSession` with custom headers and cookies. It sets headers such as `accept`, `accept-encoding`, `accept-language`, and `user-agent` to mimic a browser request. If cookies are provided, they are added to the headers. The session also uses a connector, which can be customized for proxy support.
-
-**Examples**:
-
-```python
-# Пример использования функции create_session
-cookies = {"cookie1": "value1", "cookie2": "value2"}
-session = create_session(cookies=cookies)
-```
+- ClientSession: Созданный сеанс клиента.
 
 ### `create_images`
 
-**Purpose**: Creates images based on a given prompt using Bing's service.
+**Описание**: Создает изображения на основе заданной подсказки с помощью сервиса Bing Image Creator.
 
-**Parameters**:
-- `session` (ClientSession): Active client session.
-- `prompt` (str): Prompt to generate images.
-- `timeout` (int, optional): Timeout for the request. Defaults to `TIMEOUT_IMAGE_CREATION`.
+**Параметры**:
 
-**Returns**:
-- `List[str]`: A list of URLs to the created images.
+- `session` (ClientSession): Активный сеанс клиента.
+- `prompt` (str): Текстовая подсказка для генерации изображений.
+- `proxy` (str, optional): Настройки прокси. По умолчанию - `None`.
+- `timeout` (int): Время ожидания запроса. По умолчанию - `TIMEOUT_IMAGE_CREATION`.
 
-**Raises**:
-- `MissingRequirementsError`: If the `beautifulsoup4` package is not installed.
-- `RateLimitError`: If there are no coins left to create images.
-- `RuntimeError`: If image creation fails or times out.
+**Возвращает**:
 
-**How the function works**:
-The function takes an active client session and a prompt to generate images using Bing's image creation service. It first checks if the `beautifulsoup4` package is installed and raises an error if it is not. The function then URL-encodes the prompt and sends a POST request to the Bing image creation endpoint. It handles potential errors such as rate limits, blocked prompts, and timeouts. Upon success, it extracts the redirect URL and request ID, and polls the image creation service until the images are generated. Finally, it calls the `read_images` function to extract the image URLs from the HTML content.
+- List[str]: Список URL-адресов созданных изображений.
 
-**Internal functions**:
-- None
+**Исключения**:
 
-**Examples**:
+- RuntimeError: В случае ошибки создания изображения или превышения времени ожидания.
+- MissingRequirementsError: Если не установлен пакет `beautifulsoup4`.
 
-```python
-# Пример использования функции create_images
-import asyncio
-from aiohttp import ClientSession
+**Как работает функция**:
 
-async def main():
-    cookies = {"cookie1": "value1", "cookie2": "value2"}
-    prompt = "A futuristic cityscape"
-    async with ClientSession() as session:
-        image_urls = await create_images(session, prompt)
-        print(image_urls)
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
+1. Проверяет наличие пакета `beautifulsoup4`.
+2. Кодирует подсказку с помощью `quote`.
+3. Формирует URL-адрес запроса и данные для отправки POST-запроса.
+4. Отправляет POST-запрос на API Bing Image Creator.
+5. Обрабатывает ответ: проверяет наличие ошибок, наличие кредитов и успешность создания изображения.
+6. В случае успешной отправки запроса, извлекает URL-адрес перенаправления.
+7. Ожидает завершения процесса генерации, отслеживая статус по URL-адресу опроса.
+8. Извлекает URL-адреса сгенерированных изображений из HTML-кода.
+9. Возвращает список URL-адресов изображений.
 
 ### `read_images`
 
-**Purpose**: Extracts image URLs from the HTML content.
+**Описание**: Извлекает URL-адреса изображений из HTML-кода.
 
-**Parameters**:
-- `html_content` (str): HTML content containing image URLs.
+**Параметры**:
 
-**Returns**:
-- `List[str]`: A list of image URLs.
+- `html_content` (str): HTML-код, содержащий URL-адреса изображений.
 
-**Raises**:
-- `RuntimeError`: If no images are found or if bad images are found.
+**Возвращает**:
 
-**How the function works**:
-This function parses the HTML content using BeautifulSoup to extract image URLs. It searches for `img` tags with specific classes (`mimg` or `gir_mmimg`) and extracts the `src` attribute, which contains the image URL. The function also checks for bad images and raises an error if any are found.
+- List[str]: Список URL-адресов изображений.
 
-**Examples**:
+**Исключения**:
+
+- RuntimeError: В случае отсутствия тегов изображений или наличия некорректных URL-адресов изображений.
+
+**Как работает функция**:
+
+1. Парсит HTML-код с помощью BeautifulSoup.
+2. Извлекает теги изображений с определенными классами.
+3. Извлекает URL-адреса изображений из атрибута `src` тегов изображений.
+4. Проверяет наличие некорректных URL-адресов.
+5. Возвращает список URL-адресов изображений.
+
+## Примеры
 
 ```python
-# Пример использования функции read_images
-html_content = """
-<img class="mimg" src="https://example.com/image1.jpg?w=300">
-<img class="mimg" src="https://example.com/image2.jpg?w=300">
-"""
-image_urls = read_images(html_content)
-print(image_urls) # Output: ['https://example.com/image1.jpg', 'https://example.com/image2.jpg']
+# Создание сеанса клиента с заданными куки
+session = create_session(cookies={'some_cookie': 'some_value'})
+
+# Создание изображения на основе подсказки
+images_urls = create_images(session, prompt='A cat sitting on a chair')
+
+# Вывод URL-адресов сгенерированных изображений
+print(images_urls)
 ```
+```markdown

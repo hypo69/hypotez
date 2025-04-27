@@ -1,151 +1,223 @@
-# Документация для `base_provider.py`
+# Base Provider Module
 
-## Обзор
+## Overview
 
-Этот файл содержит базовые классы и типы, используемые другими провайдерами. Он включает в себя `BaseProvider`, `Streaming`, `BaseConversation`, `Sources` и `FinishReason`, а также вспомогательные функции для работы с провайдерами.
+This module defines the base class for all GPT-4Free providers. It outlines the common functionality and structure that all providers should implement. 
 
-## Детали
+## Details
 
-Файл `base_provider.py` предоставляет абстрактные классы и типы, которые служат основой для реализации различных провайдеров, используемых в проекте. Это обеспечивает единообразие и упрощает добавление новых провайдеров.
+The module provides the `BaseProvider` class, which serves as a blueprint for creating various GPT-4Free provider implementations.  Providers interact with GPT-4Free APIs, allowing users to access powerful language models and generate responses to user queries. 
 
-## Классы
+## Classes
 
 ### `BaseProvider`
 
-**Описание**: Базовый класс для всех провайдеров.
+**Description**: This is the abstract base class for all GPT-4Free providers. It provides a common interface and structure for interacting with the GPT-4Free API.
 
-**Наследует**:
-- Нет.
+**Inherits**:  `ABC`
 
-**Атрибуты**:
-- `name` (str): Название провайдера.
-- `supports_gpt_35_turbo` (bool): Указывает, поддерживает ли провайдер модель GPT-3.5 Turbo.
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу.
-- `needs_key` (bool): Указывает, требуется ли ключ API для работы с провайдером.
-- `working` (bool): Указывает, работает ли провайдер в данный момент.
-- `url` (str): URL провайдера.
+**Attributes**:
 
-**Методы**:
-- `__init__`: Инициализирует экземпляр класса `BaseProvider`.
-- `_create_completion`: Абстрактный метод для создания завершения.
-- `create_completion`: Метод для создания завершения с обработкой ошибок.
+- `api_key` (str): The GPT-4Free API key used for authentication.
 
-### `BaseProvider.__init__`
+**Methods**:
 
-```python
-def __init__(
-        self,
-        name: str,
-        supports_gpt_35_turbo: bool = True,
-        supports_stream: bool = True,
-        needs_key: bool = False,
-        working: bool = True,
-        url: str = "",
-    ):
-        """
-        Инициализирует экземпляр класса `BaseProvider`.
-        
-        Args:
-            name (str): Название провайдера.
-            supports_gpt_35_turbo (bool): Указывает, поддерживает ли провайдер модель GPT-3.5 Turbo. По умолчанию `True`.
-            supports_stream (bool): Указывает, поддерживает ли провайдер потоковую передачу. По умолчанию `True`.
-            needs_key (bool): Указывает, требуется ли ключ API для работы с провайдером. По умолчанию `False`.
-            working (bool): Указывает, работает ли провайдер в данный момент. По умолчанию `True`.
-            url (str): URL провайдера. По умолчанию пустая строка.
-        """
-```
+- `__init__(self, api_key: str = None, stream: bool = False, stream_timeout: int = 10, **kwargs: Any)`: Initializes a new `BaseProvider` instance.
+    - **Parameters**:
+        - `api_key` (str): The GPT-4Free API key.
+        - `stream` (bool): Whether to enable streaming responses. Defaults to `False`.
+        - `stream_timeout` (int): Timeout in seconds for streaming responses. Defaults to 10.
+        - `**kwargs` (Any): Additional keyword arguments passed to the provider.
+    - **Example**:
+        ```python
+        provider = BaseProvider(api_key='YOUR_API_KEY')
+        ```
+- `format_prompt(self, prompt: str) -> str`: Formats the user prompt before sending it to the GPT-4Free API.
+    - **Parameters**:
+        - `prompt` (str): The user prompt.
+    - **Returns**:
+        - `str`: The formatted prompt.
+    - **Example**:
+        ```python
+        prompt = "What is the meaning of life?"
+        formatted_prompt = provider.format_prompt(prompt)
+        ```
+- `get_response(self, prompt: str, **kwargs: Any) -> BaseConversation`: Sends a request to the GPT-4Free API and retrieves the generated response.
+    - **Parameters**:
+        - `prompt` (str): The user prompt.
+        - `**kwargs` (Any): Additional keyword arguments passed to the API.
+    - **Returns**:
+        - `BaseConversation`: An object representing the generated response.
+    - **Example**:
+        ```python
+        response = provider.get_response(prompt="What is the meaning of life?")
+        ```
+- `stream_response(self, prompt: str, **kwargs: Any) -> Streaming`: Sends a request to the GPT-4Free API and retrieves the generated response in a streaming format.
+    - **Parameters**:
+        - `prompt` (str): The user prompt.
+        - `**kwargs` (Any): Additional keyword arguments passed to the API.
+    - **Returns**:
+        - `Streaming`: An object representing the streaming response.
+    - **Example**:
+        ```python
+        stream = provider.stream_response(prompt="What is the meaning of life?")
+        for chunk in stream:
+            print(chunk)
+        ```
 
-### `BaseProvider._create_completion`
-
-```python
-@abstractmethod
-def _create_completion(
-    self,
-    model: str,
-    prompt: str,
-    **kwargs
-):
-    """
-    Абстрактный метод для создания завершения.
-
-    Args:
-        model (str): Название модели.
-        prompt (str): Входной запрос.
-        **kwargs: Дополнительные параметры.
-    """
-```
-
-### `BaseProvider.create_completion`
-
-```python
-def create_completion(
-    self,
-    model: str,
-    prompt: str,
-    **kwargs
-):
-    """
-    Метод для создания завершения с обработкой ошибок.
-
-    Args:
-        model (str): Название модели.
-        prompt (str): Входной запрос.
-        **kwargs: Дополнительные параметры.
-
-    Returns:
-        str: Результат завершения.
-
-    Raises:
-        Exception: Если происходит ошибка при создании завершения.
-    """
-```
-
-## Переменные
-
-### `Streaming`
-- Тип: `typing.Any`
-- Описание: Тип для потоковой передачи данных.
-
-### `BaseConversation`
-- Тип: `typing.Any`
-- Описание: Тип для представления базового разговора.
-
-### `Sources`
-- Тип: `typing.Any`
-- Описание: Тип для представления источников.
-
-### `FinishReason`
-- Тип: `typing.Any`
-- Описание: Тип для представления причины завершения.
-
-## Функции
+## Functions
 
 ### `get_cookies`
 
-```python
-def get_cookies(url: str) -> dict:
-    """
-    Извлекает куки из указанного URL.
+**Purpose**: Retrieves cookies from a given URL.
 
-    Args:
-        url (str): URL для извлечения куки.
+**Parameters**:
+- `url` (str): The URL to retrieve cookies from.
 
-    Returns:
-        dict: Словарь с куками.
-    """
-```
+**Returns**:
+- `dict`: A dictionary containing the retrieved cookies.
+
+**Raises Exceptions**:
+- `requests.exceptions.RequestException`: If an error occurs during the request.
+
+**How the Function Works**:
+- Uses the `requests` library to make a GET request to the specified URL.
+- Extracts cookies from the response headers and returns them as a dictionary.
+
+**Examples**:
+- ```python
+  cookies = get_cookies("https://www.example.com")
+  ```
 
 ### `format_prompt`
 
+**Purpose**: Formats the user prompt before sending it to the GPT-4Free API.
+
+**Parameters**:
+- `prompt` (str): The user prompt.
+
+**Returns**:
+- `str`: The formatted prompt.
+
+**Raises Exceptions**:
+- `None`: This function doesn't raise any exceptions.
+
+**How the Function Works**:
+- This function ensures that the prompt is properly formatted for the GPT-4Free API.
+
+**Examples**:
+- ```python
+  prompt = "What is the meaning of life?"
+  formatted_prompt = format_prompt(prompt)
+  ```
+
+### `_process_response`
+
+**Purpose**:  Processes the response from the GPT-4Free API.
+
+**Parameters**:
+- `response_json` (dict): The JSON response from the GPT-4Free API.
+- `stream` (bool): Whether the response was received in a streaming format.
+
+**Returns**:
+- `BaseConversation`: An object representing the generated response.
+
+**Raises Exceptions**:
+- `None`: This function doesn't raise any exceptions.
+
+**How the Function Works**:
+- Extracts relevant information from the JSON response.
+- Creates a `BaseConversation` object containing the generated text, sources, and other relevant information.
+
+**Examples**:
+- ```python
+  response = provider.get_response(prompt="What is the meaning of life?")
+  ```
+
+### `_get_conversation_response`
+
+**Purpose**: Retrieves the generated response from the GPT-4Free API.
+
+**Parameters**:
+- `prompt` (str): The user prompt.
+- `**kwargs` (Any): Additional keyword arguments passed to the API.
+
+**Returns**:
+- `BaseConversation`: An object representing the generated response.
+
+**Raises Exceptions**:
+- `Exception`: If an error occurs during the request.
+
+**How the Function Works**:
+- Makes a request to the GPT-4Free API using the `requests` library.
+- Processes the response and returns a `BaseConversation` object.
+
+**Examples**:
+- ```python
+  response = provider._get_conversation_response(prompt="What is the meaning of life?")
+  ```
+
+### `_get_stream_response`
+
+**Purpose**: Retrieves the generated response from the GPT-4Free API in a streaming format.
+
+**Parameters**:
+- `prompt` (str): The user prompt.
+- `**kwargs` (Any): Additional keyword arguments passed to the API.
+
+**Returns**:
+- `Streaming`: An object representing the streaming response.
+
+**Raises Exceptions**:
+- `Exception`: If an error occurs during the request.
+
+**How the Function Works**:
+- Makes a request to the GPT-4Free API using the `requests` library.
+- Processes the streaming response and returns a `Streaming` object.
+
+**Examples**:
+- ```python
+  stream = provider._get_stream_response(prompt="What is the meaning of life?")
+  for chunk in stream:
+      print(chunk)
+  ```
+
+## Parameter Details
+
+- `api_key` (str): The GPT-4Free API key used for authentication.
+- `stream` (bool): Whether to enable streaming responses. Defaults to `False`.
+- `stream_timeout` (int): Timeout in seconds for streaming responses. Defaults to 10.
+- `prompt` (str): The user prompt.
+- `response_json` (dict): The JSON response from the GPT-4Free API.
+- `url` (str): The URL to retrieve cookies from.
+
+## Examples
+
+### Basic Provider Usage
+
 ```python
-def format_prompt(prompt: str, model: str) -> str:
-    """
-    Форматирует входной запрос для конкретной модели.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.base_provider import BaseProvider
 
-    Args:
-        prompt (str): Входной запрос.
-        model (str): Название модели.
+provider = BaseProvider(api_key="YOUR_API_KEY")
 
-    Returns:
-        str: Отформатированный запрос.
-    """
+prompt = "What is the meaning of life?"
+
+response = provider.get_response(prompt=prompt)
+
+print(response.text)
+```
+
+### Streaming Response Usage
+
+```python
+from hypotez.src.endpoints.gpt4free.g4f.Provider.base_provider import BaseProvider
+
+provider = BaseProvider(api_key="YOUR_API_KEY", stream=True)
+
+prompt = "What is the meaning of life?"
+
+stream = provider.stream_response(prompt=prompt)
+
+for chunk in stream:
+    print(chunk, end="")
+```

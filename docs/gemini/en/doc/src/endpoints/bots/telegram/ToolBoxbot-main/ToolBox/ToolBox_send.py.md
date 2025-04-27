@@ -1,54 +1,76 @@
-# Документация для `ToolBox_send.py`
+# ToolBox_send.py
 
-## Обзор
+## Overview
 
-Этот файл (`ToolBox_send.py`) предназначен для рассылки сообщений пользователям Telegram-бота с использованием промокода. Он подключается к базе данных SQLite для получения списка пользователей и отправляет им сообщения через Telegram Bot API.
+This module is responsible for sending promotional messages to Telegram users who have not yet activated a promocode.
 
-## Более подробная информация
+## Details
 
-Скрипт выполняет следующие действия:
+This script uses the `telebot` and `sqlite3` libraries to interact with a Telegram bot and a local SQLite database. It retrieves a list of users from the `users_data_table` who have not activated a promocode (`promocode != 1`). For each user, the script attempts to send a promotional message explaining the benefits of the PRO tariff and how to activate the `FREE24` promocode. If the message is sent successfully, it logs the user ID with "yes"; otherwise, it logs the user ID with "no."
 
-1.  Импортирует необходимые библиотеки: `telebot`, `sqlite3` и `os`.
-2.  Загружает переменные окружения из файла `.env` с использованием `load_dotenv()`.
-3.  Инициализирует Telegram-бота с использованием токена, полученного из переменной окружения `TOKEN`.
-4.  Подключается к базе данных SQLite `UsersData.db`.
-5.  Извлекает идентификаторы пользователей из таблицы `users_data_table`, у которых промокод не равен 1.
-6.  Перебирает полученные идентификаторы пользователей и отправляет им сообщение с информацией о промокоде.
-7.  Обрабатывает возможные исключения при отправке сообщений и логирует результаты отправки.
+## Functions
 
-## Функции
-
-### `send_message_to_users`
+### `send_promo_messages`
 
 ```python
-def send_message_to_users():
-    """ Функция выполняет рассылку сообщений пользователям Telegram-бота с информацией о промокоде.
+def send_promo_messages():
+    """
+    Отправляет рекламные сообщения Telegram-пользователям, которые не активировали промокод.
 
-    Args:
-        Нет аргументов.
-
-    Returns:
-        None
+    Эта функция использует библиотеки `telebot` и `sqlite3` для взаимодействия с Telegram-ботом и локальной базой данных SQLite. 
+    Она извлекает список пользователей из таблицы `users_data_table`, у которых не активирован промокод (`promocode != 1`). 
+    Для каждого пользователя функция пытается отправить рекламное сообщение с описанием преимуществ тарифа PRO и инструкциями по 
+    активации промокода `FREE24`. Если сообщение отправлено успешно, она записывает в журнал ID пользователя с "yes"; 
+    в противном случае - с "no".
 
     Raises:
-        telebot.apihelper.ApiException: Если возникает ошибка при отправке сообщения пользователю.
-        sqlite3.Error: Если возникает ошибка при работе с базой данных.
-
-    Пример:
-        >>> send_message_to_users()
+        Exception: Если возникает ошибка при отправке сообщения.
     """
+    import telebot, sqlite3, os
+    from dotenv import load_dotenv
+    load_dotenv()
+    bot = telebot.TeleBot(token=os.environ['TOKEN'])
+    conn = sqlite3.connect('UsersData.db')
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT id FROM users_data_table WHERE promocode != 1")
+    users = cursor.fetchall()
+    for us in users:
+        try:
+            bot.send_message(chat_id=us[0], text="Успейте воспользоваться промокодом FREE24 до 21 декабря!\\n\\nПо нему вы получите бесплатный месяц тарифа PRO — это безлимит на генерацию текста и изображений 💥 \\n\\nЧтобы ввести промокод, перейдите на вкладку Тарифы и нажмите кнопку «Промокод».", parse_mode='html')
+        except:
+            print(us[0], "no")
+        else:
+            print(us[0], "yes")
 ```
 
-**Как работает функция**:
+## Parameter Details
 
-1.  **Подключение к базе данных**: Устанавливает соединение с базой данных SQLite `UsersData.db` и создает курсор для выполнения SQL-запросов.
-2.  **Извлечение пользователей**: Выполняет SQL-запрос для получения идентификаторов пользователей из таблицы `users_data_table`, у которых значение поля `promocode` не равно 1. Результат запроса сохраняется в переменной `users`.
-3.  **Рассылка сообщений**: Перебирает идентификаторы пользователей, полученные из базы данных. Для каждого пользователя пытается отправить сообщение с информацией о промокоде. Использует `bot.send_message` для отправки сообщения в HTML-формате.
-4.  **Обработка исключений**: Если при отправке сообщения возникает исключение (например, пользователь заблокировал бота), оно перехватывается. В случае успеха или ошибки отправки в консоль выводится соответствующая информация.
-5.  **Закрытие соединения с базой данных**: После завершения рассылки сообщений закрывает соединение с базой данных.
+- `chat_id` (int): ID пользователя Telegram, которому отправляется сообщение.
+- `text` (str): Текст сообщения, отправляемого пользователю.
+- `parse_mode` (str, optional): Формат парсинга текста. По умолчанию `None`.
 
-**Примеры**:
+## Examples
 
 ```python
-# Пример вызова функции
-send_message_to_users()
+# Пример вызова функции send_promo_messages():
+send_promo_messages()
+```
+
+## How the Function Works
+
+1. **Import Libraries:** Imports the necessary libraries: `telebot`, `sqlite3`, and `os`.
+2. **Load Environment Variables:** Loads environment variables from a `.env` file using the `load_dotenv()` function. This is assumed to contain the Telegram bot token.
+3. **Initialize Telegram Bot:** Creates a `TeleBot` instance using the loaded bot token.
+4. **Connect to Database:** Establishes a connection to the `UsersData.db` SQLite database.
+5. **Retrieve Users:** Executes an SQL query to select user IDs from the `users_data_table` where the `promocode` field is not equal to 1 (meaning the promocode is not activated).
+6. **Iterate through Users:** Loops through the retrieved user IDs.
+7. **Send Message:** Attempts to send a promotional message to each user using the `bot.send_message()` function.
+8. **Log Results:** Prints the user ID and "yes" if the message was sent successfully or "no" if an error occurred.
+
+## Principle of Operation
+
+The function iterates through a list of Telegram users who have not yet activated a promocode. For each user, it attempts to send a promotional message. The success or failure of each message is logged.
+
+## Conclusion
+
+This module is a simple yet effective way to send targeted promotional messages to Telegram users. It relies on the `telebot` library for interaction with Telegram and `sqlite3` for database access. The code is well-structured and easy to understand.

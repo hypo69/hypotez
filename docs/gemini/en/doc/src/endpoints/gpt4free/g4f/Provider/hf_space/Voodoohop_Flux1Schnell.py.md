@@ -1,111 +1,81 @@
-# Документация для `Voodoohop_Flux1Schnell.py`
+# Voodoohop Flux-1-Schnell Provider
 
-## Описание
+## Overview
 
-Модуль `Voodoohop_Flux1Schnell.py` предоставляет реализацию асинхронного провайдера для генерации изображений с использованием API `Voodoohop Flux-1-Schnell`. Он позволяет взаимодействовать с сервисом для создания изображений на основе текстовых запросов.
+This module implements a provider for the `Voodoohop Flux-1-Schnell` AI model, enabling the generation of images based on prompts using the Hugging Face Space API. This provider inherits from the `AsyncGeneratorProvider` and `ProviderModelMixin` base classes.
 
-## Содержание
+## Details
 
-- [Описание](#описание)
-- [Классы](#классы)
-    - [Voodoohop_Flux1Schnell](#voodoohop_flux1schnell)
-- [Параметры класса](#параметры-класса)
-- [Методы класса](#методы-класса)
-    - [create_async_generator](#create_async_generator)
+The `Voodoohop_Flux1Schnell` provider utilizes the Hugging Face Space API to generate images based on user-provided prompts. It leverages asynchronous programming for efficient image generation, enabling the streaming of images as they are created.
 
-## Классы
+## Classes
 
 ### `Voodoohop_Flux1Schnell`
 
-**Описание**:
-Класс `Voodoohop_Flux1Schnell` реализует асинхронный провайдер для генерации изображений с использованием API `Voodoohop Flux-1-Schnell`.
-**Наследует**:
-- `AsyncGeneratorProvider`: Предоставляет базовый функционал для асинхронных генераторов.
-- `ProviderModelMixin`: Добавляет поддержку выбора модели.
+**Description**: This class represents a provider for the `Voodoohop Flux-1-Schnell` model, allowing users to generate images using the specified model.
 
-**Атрибуты**:
-- `label` (str): Метка провайдера, отображаемая пользователю.
-- `url` (str): URL главной страницы провайдера.
-- `api_endpoint` (str): URL API для взаимодействия.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `default_model` (str): Модель, используемая по умолчанию.
-- `default_image_model` (str): Модель для генерации изображений по умолчанию.
-- `model_aliases` (dict): Псевдонимы моделей.
-- `image_models` (list): Список поддерживаемых моделей для генерации изображений.
-- `models` (list): Список поддерживаемых моделей.
+**Inherits**:
+- `AsyncGeneratorProvider`: Provides asynchronous image generation functionality.
+- `ProviderModelMixin`: Offers model-specific attributes and methods for interacting with the model.
 
-**Принцип работы**:
-Класс предоставляет интерфейс для взаимодействия с API `Voodoohop Flux-1-Schnell` с целью генерации изображений на основе текстового запроса. Он использует асинхронные запросы для отправки запроса к API и получения результата в виде изображения.
+**Attributes**:
 
-## Параметры класса
+- `label`: The name of the model, "Voodoohop Flux-1-Schnell".
+- `url`: The URL of the Hugging Face Space, "https://voodoohop-flux-1-schnell.hf.space".
+- `api_endpoint`: The endpoint for making API requests, "https://voodoohop-flux-1-schnell.hf.space/call/infer".
+- `working`: Flag indicating whether the model is operational.
+- `default_model`: The default model name, "voodoohop-flux-1-schnell".
+- `default_image_model`: Same as `default_model`.
+- `model_aliases`: A dictionary mapping model aliases to the default model name.
+- `image_models`: A list of supported image models, which is the same as `model_aliases`.
+- `models`: Alias for `image_models`.
 
-- `label` (str): "Voodoohop Flux-1-Schnell" - Название провайдера.
-- `url` (str): "https://voodoohop-flux-1-schnell.hf.space" - URL-адрес сервиса.
-- `api_endpoint` (str): "https://voodoohop-flux-1-schnell.hf.space/call/infer" - URL-адрес API для запросов.
-- `working` (bool): True - Указывает, что провайдер работает.
-- `default_model` (str): "voodoohop-flux-1-schnell" - Модель, используемая по умолчанию.
-- `default_image_model` (str): default_model - Модель для генерации изображений по умолчанию.
-- `model_aliases` (dict): {"flux-schnell": default_model, "flux": default_model} - Псевдонимы моделей.
-- `image_models` (list): list(model_aliases.keys()) - Список моделей для изображений.
-- `models` (list): image_models - Список моделей.
+**Methods**:
 
-## Методы класса
+#### `create_async_generator`
 
-### `create_async_generator`
+**Purpose**: Asynchronously generates images based on the provided prompt and model settings.
+
+**Parameters**:
+
+- `model`: The name of the model to use for image generation.
+- `messages`: A list of messages containing the prompt for image generation.
+- `proxy`: Optional proxy server address.
+- `prompt`: Optional custom prompt for image generation.
+- `width`: Desired width of the generated image in pixels.
+- `height`: Desired height of the generated image in pixels.
+- `num_inference_steps`: Number of inference steps for the model.
+- `seed`: Random seed for image generation.
+- `randomize_seed`: Flag indicating whether to randomize the seed.
+
+**Returns**:
+
+- `AsyncResult`: An asynchronous result containing the generated image data.
+
+**Raises Exceptions**:
+
+- `ResponseError`: Raised if there is an error during image generation or API communication.
+
+**How the Function Works**:
+
+1. Formats the prompt using the `format_image_prompt` helper function.
+2. Constructs a payload containing the formatted prompt, model settings, and other parameters.
+3. Makes an API request to the Hugging Face Space using `aiohttp.ClientSession.post`.
+4. Processes the API response and extracts the event ID.
+5. Continuously polls the status of the image generation process until it is complete.
+6. Yields the generated image data as an `ImageResponse` object upon successful image generation.
+
+**Examples**:
 
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    prompt: str = None,
-    width: int = 768,
-    height: int = 768,
-    num_inference_steps: int = 2,
-    seed: int = 0,
-    randomize_seed: bool = True,
-    **kwargs
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для получения изображений от API `Voodoohop Flux-1-Schnell`.
-
-    Args:
-        cls (type[Voodoohop_Flux1Schnell]): Класс провайдера.
-        model (str): Используемая модель.
-        messages (Messages): Список сообщений для формирования запроса.
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-        prompt (str, optional): Текст запроса. По умолчанию `None`.
-        width (int, optional): Ширина изображения. По умолчанию 768.
-        height (int, optional): Высота изображения. По умолчанию 768.
-        num_inference_steps (int, optional): Количество шагов для генерации изображения. По умолчанию 2.
-        seed (int, optional): Зерно для генерации случайных чисел. По умолчанию 0.
-        randomize_seed (bool, optional): Флаг для рандомизации зерна. По умолчанию `True`.
-        **kwargs: Дополнительные аргументы.
-
-    Returns:
-        AsyncResult: Асинхронный генератор, возвращающий объекты `ImageResponse` с URL изображений.
-
-    Raises:
-        ResponseError: Если при генерации изображения возникает ошибка.
-
-    Как работает функция:
-    - Функция принимает параметры для генерации изображения, включая модель, текст запроса, размеры изображения и другие настройки.
-    - Происходит форматирование текста запроса `format_image_prompt`.
-    - Создается полезная нагрузка (payload) с данными для запроса к API.
-    - Устанавливается минимальный размер сторон изображения в 32 пикселя и выравнивание по 8.
-    - Отправляется асинхронный POST-запрос к API с использованием `ClientSession`.
-    - В цикле проверяется статус ответа, и при получении события `complete` извлекается URL изображения.
-    - Если возникает ошибка, выбрасывается исключение `ResponseError`.
-    - Функция возвращает асинхронный генератор, который выдает объекты `ImageResponse` с URL изображений.
-
-    Пример:
-        >>> model = "voodoohop-flux-1-schnell"
-        >>> messages = [{"role": "user", "content": "A cat in space"}]
-        >>> async for response in Voodoohop_Flux1Schnell.create_async_generator(model=model, messages=messages):
-        ...     print(response)
-        ...
-        <src.providers.response.ImageResponse object at 0x...>
-    """
+async def generate_image(messages: Messages, width: int = 768, height: int = 768):
+    """Example of using the Voodoohop_Flux1Schnell provider to generate an image."""
+    async for image in Voodoohop_Flux1Schnell.create_async_generator(
+        model="voodoohop-flux-1-schnell",
+        messages=messages,
+        width=width,
+        height=height
+    ):
+        print(image.images[0])  # Print the URL of the generated image
 ```
+```python

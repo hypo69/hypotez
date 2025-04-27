@@ -1,338 +1,132 @@
-# Модуль curl_cffi.requests.curl_cffi
+# Модуль для работы с HTTP запросами на основе CURL
 
 ## Обзор
 
-Модуль предоставляет классы для работы с асинхронными потоковыми HTTP-запросами, используя библиотеку `curl_cffi`. Он включает поддержку потоковых ответов, форм данных и WebSocket соединений.
+Этот модуль предоставляет класс `StreamSession`, который позволяет выполнять HTTP запросы с использованием CURL и обрабатывать потоковые ответы. Он включает в себя различные методы для отправки разных типов запросов (GET, POST, PUT, DELETE и т.д.) и обработку ответов в формате JSON, текста или потока байтов.
 
-## Подробнее
+## Подробности
 
-Модуль содержит классы `StreamResponse`, `StreamSession`, `FormData` и `WebSocket`, которые позволяют выполнять асинхронные HTTP-запросы с потоковой передачей данных, обрабатывать ответы, создавать и отправлять формы данных, а также устанавливать и поддерживать WebSocket соединения. Модуль обеспечивает удобный интерфейс для работы с `curl_cffi` в асинхронном режиме.
+Модуль использует библиотеку `curl_cffi`, которая предоставляет интерфейс для CURL на Python. Он также использует `AsyncSession` из библиотеки `requests`, чтобы позволить выполнять асинхронные HTTP запросы.
 
 ## Классы
 
-### `StreamResponse`
+### `class StreamResponse`
 
-**Описание**: Класс-обертка для обработки асинхронных потоковых ответов.
+**Описание**: Класс для обработки потоковых ответов от HTTP запросов.
 
 **Атрибуты**:
-- `inner` (Response): Оригинальный объект `Response`.
+
+- `inner (Response)`: Исходный объект `Response` библиотеки `requests`.
 
 **Методы**:
-- `__init__`: Инициализирует экземпляр класса `StreamResponse`.
-- `text`: Асинхронно получает текст ответа.
-- `raise_for_status`: Вызывает исключение `HTTPError`, если произошла ошибка.
-- `json`: Асинхронно разбирает содержимое JSON ответа.
-- `iter_lines`: Асинхронно итерирует по строкам ответа.
-- `iter_content`: Асинхронно итерирует по содержимому ответа.
-- `sse`: Асинхронно итерирует по событиям, отправленным сервером (Server-Sent Events).
-- `__aenter__`: Асинхронно входит в контекст выполнения для объекта ответа.
-- `__aexit__`: Асинхронно выходит из контекста выполнения для объекта ответа.
 
-### `StreamSession`
+- `text()`: Асинхронно получает текст ответа.
+- `raise_for_status()`: Вызывает исключение `HTTPError` если оно произошло.
+- `json()`: Асинхронно парсит JSON контент ответа.
+- `iter_lines()`: Асинхронно итерируется по строкам ответа.
+- `iter_content()`: Асинхронно итерируется по контенту ответа.
+- `sse()`: Асинхронно итерируется по Server-Sent Events ответа.
+- `__aenter__()`: Асинхронно входит в контекст выполнения для объекта ответа.
+- `__aexit__()`: Асинхронно выходит из контекста выполнения для объекта ответа.
 
-**Описание**: Асинхронный класс сессии для обработки HTTP-запросов с потоковой передачей данных.
+### `class StreamSession`
 
-**Наследует**:
-- `AsyncSession`
+**Описание**: Асинхронный сессионный класс для обработки HTTP запросов с потоковой обработкой.
 
-**Методы**:
-- `request`: Создает и возвращает объект `StreamResponse` для заданного HTTP-запроса.
-- `ws_connect`: Устанавливает WebSocket соединение.
-- `_ws_connect`: Внутренний метод для установки WebSocket соединения.
-- `head`: Отправляет HTTP-запрос методом HEAD.
-- `get`: Отправляет HTTP-запрос методом GET.
-- `post`: Отправляет HTTP-запрос методом POST.
-- `put`: Отправляет HTTP-запрос методом PUT.
-- `patch`: Отправляет HTTP-запрос методом PATCH.
-- `delete`: Отправляет HTTP-запрос методом DELETE.
-- `options`: Отправляет HTTP-запрос методом OPTIONS.
-
-### `FormData`
-
-**Описание**: Класс для создания и управления формами данных.
-
-**Условия**:
-- Если `curl_cffi.CurlMime` доступен, наследует `CurlMime`. Иначе предоставляет заглушку.
+**Наследуется от**: `AsyncSession`
 
 **Методы**:
-- `__init__`: Инициализирует экземпляр класса `FormData`.
-- `add_field`: Добавляет поле в форму данных.
 
-### `WebSocket`
+- `request()`: Создает и возвращает объект `StreamResponse` для заданного HTTP запроса.
+- `ws_connect()`: Создает соединение с WebSocket.
+- `_ws_connect()`: Внутренний метод для создания соединения с WebSocket.
+- `head()`: Метод HEAD для HTTP запроса.
+- `get()`: Метод GET для HTTP запроса.
+- `post()`: Метод POST для HTTP запроса.
+- `put()`: Метод PUT для HTTP запроса.
+- `patch()`: Метод PATCH для HTTP запроса.
+- `delete()`: Метод DELETE для HTTP запроса.
+- `options()`: Метод OPTIONS для HTTP запроса.
+
+### `class FormData`
+
+**Описание**: Класс для создания форм данных, используемых в HTTP запросах.
+
+**Методы**:
+
+- `add_field()`: Добавляет поле в форму данных.
+
+### `class WebSocket`
 
 **Описание**: Класс для работы с WebSocket соединениями.
 
 **Атрибуты**:
-- `session` (StreamSession): Объект сессии.
-- `url` (str): URL для подключения.
-- `options` (dict): Опции подключения.
+
+- `session (StreamSession)`: Сессия, используемая для соединения.
+- `url (str)`: URL WebSocket сервера.
+- `options (dict)`: Опции соединения.
 
 **Методы**:
-- `__init__`: Инициализирует экземпляр класса `WebSocket`.
-- `__aenter__`: Асинхронно входит в контекст выполнения для объекта WebSocket.
-- `__aexit__`: Асинхронно выходит из контекста выполнения для объекта WebSocket.
-- `receive_str`: Асинхронно получает строковые данные из WebSocket соединения.
-- `send_str`: Асинхронно отправляет строковые данные через WebSocket соединение.
 
-## Методы классов
+- `__aenter__()`: Асинхронно входит в контекст выполнения для объекта WebSocket.
+- `__aexit__()`: Асинхронно выходит из контекста выполнения для объекта WebSocket.
+- `receive_str()`: Асинхронно получает строку из WebSocket.
+- `send_str()`: Асинхронно отправляет строку в WebSocket.
 
-### `StreamResponse`
-
-#### `__init__`
+## Примеры
 
 ```python
-def __init__(self, inner: Response) -> None:
-    """
-    Инициализирует объект StreamResponse с предоставленным объектом Response.
+from hypotez.src.endpoints.gpt4free.g4f.requests.curl_cffi import StreamSession, FormData
+import asyncio
 
-    Args:
-        inner (Response): Объект Response, который будет обернут.
-    """
-    ...
+async def main():
+    # Создание сессии
+    session = StreamSession()
+
+    # Создание форм данных
+    form_data = FormData()
+    form_data.add_field("name", "John Doe")
+    form_data.add_field("age", 30)
+
+    # Отправка POST запроса
+    async with session.post("https://example.com/api/users", data=form_data) as response:
+        # Обработка ответа
+        if response.ok:
+            print(f"Успешно отправлено: {response.text}")
+        else:
+            print(f"Ошибка: {response.status} - {response.reason}")
+
+# Запуск асинхронной функции
+asyncio.run(main())
 ```
-
-#### `text`
 
 ```python
-async def text(self) -> str:
-    """
-    Асинхронно получает текст ответа.
+from hypotez.src.endpoints.gpt4free.g4f.requests.curl_cffi import StreamSession, WebSocket
+import asyncio
 
-    Returns:
-        str: Текст ответа.
-    """
-    ...
+async def main():
+    # Создание сессии
+    session = StreamSession()
+
+    # Создание WebSocket соединения
+    async with session.ws_connect("ws://example.com/chat") as websocket:
+        # Отправка сообщения
+        await websocket.send_str("Hello, world!")
+
+        # Получение сообщения
+        message = await websocket.receive_str()
+        print(f"Получено сообщение: {message}")
+
+# Запуск асинхронной функции
+asyncio.run(main())
 ```
 
-#### `raise_for_status`
+## Примечания
 
-```python
-def raise_for_status(self) -> None:
-    """
-    Вызывает исключение HTTPError, если произошла ошибка.
-    """
-    ...
-```
+- Модуль требует установки библиотеки `curl_cffi`: `pip install -U curl_cffi`
+- Используйте `logger` из модуля `src.logger` для логирования.
 
-#### `json`
+## Дополнительные сведения
 
-```python
-async def json(self, **kwargs) -> Any:
-    """
-    Асинхронно разбирает содержимое JSON ответа.
-
-    Args:
-        **kwargs: Дополнительные аргументы, передаваемые в json.loads.
-
-    Returns:
-        Any: Разобранное содержимое JSON.
-    """
-    ...
-```
-
-#### `iter_lines`
-
-```python
-def iter_lines(self) -> AsyncGenerator[bytes, None]:
-    """
-    Асинхронно итерирует по строкам ответа.
-
-    Returns:
-        AsyncGenerator[bytes, None]: Асинхронный генератор строк ответа.
-    """
-    ...
-```
-
-#### `iter_content`
-
-```python
-def iter_content(self) -> AsyncGenerator[bytes, None]:
-    """
-    Асинхронно итерирует по содержимому ответа.
-
-    Returns:
-        AsyncGenerator[bytes, None]: Асинхронный генератор содержимого ответа.
-    """
-    ...
-```
-
-#### `sse`
-
-```python
-async def sse(self) -> AsyncGenerator[dict, None]:
-    """
-    Асинхронно итерирует по событиям, отправленным сервером (Server-Sent Events) ответа.
-
-    Yields:
-        dict: Событие, отправленное сервером.
-    """
-    ...
-```
-
-#### `__aenter__`
-
-```python
-async def __aenter__(self):
-    """
-    Асинхронно входит в контекст выполнения для объекта ответа.
-
-    Returns:
-        self: Объект StreamResponse.
-    """
-    ...
-```
-
-#### `__aexit__`
-
-```python
-async def __aexit__(self, *args):
-    """
-    Асинхронно выходит из контекста выполнения для объекта ответа.
-
-    Args:
-        *args: Аргументы для выхода из контекста.
-    """
-    ...
-```
-
-### `StreamSession`
-
-#### `request`
-
-```python
-def request(
-    self, method: str, url: str, ssl = None, **kwargs
-) -> StreamResponse:
-    """
-    Создает и возвращает объект StreamResponse для заданного HTTP-запроса.
-
-    Args:
-        method (str): HTTP метод запроса (GET, POST, и т.д.).
-        url (str): URL запроса.
-        ssl: Параметры SSL.
-        **kwargs: Дополнительные аргументы, передаваемые в базовый метод request.
-
-    Returns:
-        StreamResponse: Объект StreamResponse для обработки ответа.
-    """
-    ...
-```
-
-#### `ws_connect`
-
-```python
-def ws_connect(self, url, *args, **kwargs):
-    """
-    Устанавливает WebSocket соединение.
-
-    Args:
-        url (str): URL для подключения.
-        *args: Дополнительные позиционные аргументы.
-        **kwargs: Дополнительные именованные аргументы.
-    """
-    ...
-```
-
-#### `_ws_connect`
-
-```python
-def _ws_connect(self, url, **kwargs):
-    """
-    Внутренний метод для установки WebSocket соединения.
-
-    Args:
-        url (str): URL для подключения.
-        **kwargs: Дополнительные именованные аргументы.
-    """
-    ...
-```
-
-### `FormData`
-
-#### `add_field`
-
-```python
-def add_field(self, name, data=None, content_type: str = None, filename: str = None) -> None:
-    """
-    Добавляет поле в форму данных.
-
-    Args:
-        name: Имя поля.
-        data: Данные поля.
-        content_type (str, optional): Тип содержимого. Defaults to None.
-        filename (str, optional): Имя файла. Defaults to None.
-    """
-    ...
-```
-
-### `WebSocket`
-
-#### `__init__`
-
-```python
-def __init__(self, session, url, **kwargs) -> None:
-    """
-    Инициализирует объект WebSocket.
-
-    Args:
-        session: Объект сессии.
-        url (str): URL для подключения.
-        **kwargs: Дополнительные именованные аргументы.
-    """
-    ...
-```
-
-#### `__aenter__`
-
-```python
-async def __aenter__(self):
-    """
-    Асинхронно входит в контекст выполнения для объекта WebSocket.
-
-    Returns:
-        self: Объект WebSocket.
-    """
-    ...
-```
-
-#### `__aexit__`
-
-```python
-async def __aexit__(self, *args):
-    """
-    Асинхронно выходит из контекста выполнения для объекта WebSocket.
-
-    Args:
-        *args: Аргументы для выхода из контекста.
-    """
-    ...
-```
-
-#### `receive_str`
-
-```python
-async def receive_str(self, **kwargs) -> str:
-    """
-    Асинхронно получает строковые данные из WebSocket соединения.
-
-    Args:
-        **kwargs: Дополнительные именованные аргументы.
-
-    Returns:
-        str: Полученные строковые данные.
-    """
-    ...
-```
-
-#### `send_str`
-
-```python
-async def send_str(self, data: str):
-    """
-    Асинхронно отправляет строковые данные через WebSocket соединение.
-
-    Args:
-        data (str): Строковые данные для отправки.
-    """
-    ...
-```
+- Библиотека `curl_cffi`: https://pypi.org/project/curl-cffi/
+- Библиотека `requests`: https://requests.readthedocs.io/en/latest/

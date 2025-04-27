@@ -1,58 +1,40 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот блок кода инициализирует окружение для работы с поставщиком `kualastyle` в проекте `hypotez`. Он добавляет корневую директорию проекта в `sys.path`, импортирует необходимые библиотеки и модули, а также определяет функцию `start_supplier` для запуска поставщика.
+Этот код создает класс `Supplier`  и запускает работу поставщика с определенным префиксом.
+**Класс `Supplier`**:  содержит информацию о поставщике и методы для работы с его данными. 
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Добавление корневой директории в `sys.path`**:
-   - Определяется путь к корневой директории проекта `hypotez` с использованием `os.getcwd()` и `rfind()`.
-   - Добавляет корневую директорию в `sys.path`, чтобы можно было импортировать модули из этой директории.
+1. **Импорт необходимых модулей:** 
+    - `sys`: для работы с путями к файлам.
+    - `os`: для работы с операционной системой.
+    - `pathlib`: для работы с путями к файлам.
+    - `json`: для работы с JSON-данными.
+    - `re`: для работы с регулярными выражениями.
+    - `gs`: для работы с Google Sheets.
+    - `Product`: класс, описывающий товар.
+    - `Category`: класс, описывающий категорию товара.
+    - `StringFormatter`, `StringNormalizer`, `translate`: функции для форматирования и обработки текста.
+    - `pprint`: функция для вывода информации в консоль.
 
-2. **Импорт необходимых библиотек и модулей**:
-   - Импортируются стандартные библиотеки, такие как `pathlib`, `json` и `re`.
-   - Импортируются модули проекта, такие как `gs`, `Product`, `Category`, `StringFormatter`, `StringNormalizer`, `translate` и `pprint`.
+2. **Добавление корневой папки в `sys.path`:** 
+    -  Код добавляет путь к корневой папке проекта в `sys.path`, чтобы можно было импортировать модули из других частей проекта.
 
-3. **Определение функции `start_supplier`**:
-   - Определяется функция `start_supplier`, которая принимает префикс поставщика (`supplier_prefix`) в качестве аргумента. По умолчанию `supplier_prefix` равен `'kualastyle'`.
-   - Функция создает словарь `params` с префиксом поставщика.
-   - Функция возвращает экземпляр класса `Supplier` (предположительно импортированного, хотя в предоставленном коде импорт не указан), инициализированный с параметрами `params`.
+3. **Создание функции `start_supplier()`:**
+    -  Функция принимает один аргумент `supplier_prefix`, который по умолчанию равен `'kualastyle'`. 
+    -  Функция создает словарь `params` с ключом `supplier_prefix` и значением `supplier_prefix`.
+    -  Функция возвращает экземпляр класса `Supplier`, созданный с использованием словаря `params`. 
 
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
-import sys
-import os
-path = os.getcwd()[:os.getcwd().rfind(r'hypotez')+7]
-sys.path.append(path)  # Добавляю корневую папку в sys.path
+# Запуск поставщика с префиксом 'kualastyle'
+supplier = start_supplier() 
 
-# ----------------
-from pathlib import Path
-import json
-import re
-# ----------------
-
-from src import gs
-
-from src.product import Product, ProductFields
-from categories import Category
-from src.utils import StringFormatter, StringNormalizer, translate
-from src.utils.printer import  pprint
-
-# Предпологаем, что Supplier импортирован из модуля suppliers
-from src.suppliers import Supplier
-
-def start_supplier(supplier_prefix: str = 'kualastyle'):
-    """ Функция инициализирует и запускает поставщика. """
-    params: dict = {
-        'supplier_prefix': supplier_prefix
-    }
-    
-    return Supplier(**params)
-
-# Пример вызова функции start_supplier
-supplier_instance = start_supplier()
-print(f"Supplier instance: {supplier_instance}")
+# Или запуск поставщика с другим префиксом
+supplier = start_supplier(supplier_prefix='another_supplier') 
+```

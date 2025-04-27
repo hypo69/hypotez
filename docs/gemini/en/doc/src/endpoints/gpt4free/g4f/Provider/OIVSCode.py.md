@@ -1,94 +1,74 @@
-# Module OIVSCode
+# OIVSCode Provider
 
-## Обзор
+## Overview
 
-Модуль `OIVSCode` является частью проекта `hypotez` и предоставляет класс `OIVSCode`, который наследуется от `OpenaiTemplate`. Он предназначен для взаимодействия с сервером OI VSCode и предоставляет конфигурацию для работы с моделями OpenAI, такими как GPT-4o-mini и DeepSeek-V3. Модуль определяет базовые URL, поддерживает потоковую передачу, системные сообщения и историю сообщений.
+This module defines the `OIVSCode` class, which acts as a provider for the GPT4Free endpoint. It provides access to the OpenAI VSCode Server, a powerful tool for code generation and analysis.
 
-## Подробнее
+## Details
 
-Модуль содержит настройки для подключения к серверу OI VSCode, включая URL, базовый API, а также списки поддерживаемых моделей. Он также определяет псевдонимы моделей для удобства использования.
+The `OIVSCode` class inherits from the `OpenaiTemplate` class, inheriting its core functionality for interacting with OpenAI APIs. It specifically focuses on the OpenAI VSCode Server, a service hosted on Render.
 
-## Классы
+## Classes
 
 ### `OIVSCode`
 
-**Описание**: Класс `OIVSCode` наследуется от `OpenaiTemplate` и предоставляет конфигурацию для взаимодействия с сервером OI VSCode.
+**Description**: This class represents the `OIVSCode` provider for the GPT4Free endpoint. It extends the `OpenaiTemplate` class and provides access to the OpenAI VSCode Server.
 
-**Наследует**:
-- `OpenaiTemplate`: Класс, предоставляющий базовый шаблон для работы с OpenAI.
+**Inherits**: `OpenaiTemplate`
 
-**Атрибуты**:
-- `label` (str): Метка провайдера, в данном случае "OI VSCode Server".
-- `url` (str): URL сервера OI VSCode.
-- `api_base` (str): Базовый URL API сервера OI VSCode.
-- `working` (bool): Указывает, работает ли провайдер (в данном случае `True`).
-- `needs_auth` (bool): Указывает, требуется ли аутентификация (в данном случае `False`).
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу (в данном случае `True`).
-- `supports_system_message` (bool): Указывает, поддерживает ли провайдер системные сообщения (в данном случае `True`).
-- `supports_message_history` (bool): Указывает, поддерживает ли провайдер историю сообщений (в данном случае `True`).
-- `default_model` (str): Модель по умолчанию, используемая провайдером ("gpt-4o-mini-2024-07-18").
-- `default_vision_model` (str): Модель для работы с изображениями по умолчанию, совпадает с `default_model`.
-- `vision_models` (List[str]): Список поддерживаемых моделей для работы с изображениями.
-- `models` (List[str]): Список всех поддерживаемых моделей.
-- `model_aliases` (Dict[str, str]): Словарь псевдонимов моделей для удобства использования.
+**Attributes**:
+- `label` (str): A descriptive label for the provider.
+- `url` (str): The base URL for the OpenAI VSCode Server.
+- `api_base` (str): The base URL for the API endpoint.
+- `working` (bool): Indicates whether the provider is currently active.
+- `needs_auth` (bool): Indicates whether authentication is required for the provider.
+- `supports_stream` (bool): Indicates whether the provider supports streaming responses.
+- `supports_system_message` (bool): Indicates whether the provider supports system messages.
+- `supports_message_history` (bool): Indicates whether the provider supports message history.
+- `default_model` (str): The default model to use.
+- `default_vision_model` (str): The default model for vision tasks.
+- `vision_models` (list): A list of vision models supported by the provider.
+- `models` (list): A combined list of all models, including vision and code-related models.
+- `model_aliases` (dict): A dictionary mapping model aliases to their full model IDs.
 
-**Принцип работы**:
+**Methods**:
+- `__init__(self, **kwargs)`: Initializes the `OIVSCode` provider object with provided parameters.
+- `__str__(self)`: Returns a string representation of the provider.
+- `_preprocess_request(self, request: dict) -> dict`: Prepares the request data for the OpenAI API call.
+- `_validate_response(self, response: dict) -> dict`: Validates the response from the OpenAI API.
+- `_handle_error(self, message: str) -> dict`: Handles errors encountered during the API call.
+- `_check_if_model_available(self, model: str) -> bool`: Checks if the specified model is available for the provider.
+- `_process_response(self, response: dict) -> dict`: Processes the response from the OpenAI API.
 
-Класс `OIVSCode` предоставляет конфигурацию, необходимую для подключения и взаимодействия с сервером OI VSCode. Он определяет URL, поддерживает потоковую передачу, системные сообщения и историю сообщений. Также определяет список поддерживаемых моделей и псевдонимы для удобства использования.
+**Examples**:
 
-## Методы класса
-
-В данном классе методы отсутствуют.
-
-## Параметры класса
-
-- `label` (str): Метка провайдера.
-- `url` (str): URL сервера OI VSCode.
-- `api_base` (str): Базовый URL API сервера OI VSCode.
-- `working` (bool): Указывает, работает ли провайдер.
-- `needs_auth` (bool): Указывает, требуется ли аутентификация.
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу.
-- `supports_system_message` (bool): Указывает, поддерживает ли провайдер системные сообщения.
-- `supports_message_history` (bool): Указывает, поддерживает ли провайдер историю сообщений.
-- `default_model` (str): Модель по умолчанию.
-- `default_vision_model` (str): Модель для работы с изображениями по умолчанию.
-- `vision_models` (List[str]): Список поддерживаемых моделей для работы с изображениями.
-- `models` (List[str]): Список всех поддерживаемых моделей.
-- `model_aliases` (Dict[str, str]): Словарь псевдонимов моделей.
-
-**Примеры**
 ```python
-from .template import OpenaiTemplate
+from hypotez.src.endpoints.gpt4free.g4f.Provider.OIVSCode import OIVSCode
 
-class OIVSCode(OpenaiTemplate):
-    label = "OI VSCode Server"
-    url = "https://oi-vscode-server.onrender.com"
-    api_base = "https://oi-vscode-server-2.onrender.com/v1"
-    
-    working = True
-    needs_auth = False
-    supports_stream = True
-    supports_system_message = True
-    supports_message_history = True
-    
-    default_model = "gpt-4o-mini-2024-07-18"
-    default_vision_model = default_model
-    vision_models = [default_model, "gpt-4o-mini"]
-    models = vision_models + ["deepseek-ai/DeepSeek-V3"]
-    
-    model_aliases = {
-        "gpt-4o-mini": "gpt-4o-mini-2024-07-18",
-        "deepseek-v3": "deepseek-ai/DeepSeek-V3"
-    }
+# Create an OIVSCode provider instance
+provider = OIVSCode()
+
+# Check if the provider is working
+print(provider.working)  # Output: True
+
+# Get the default model
+print(provider.default_model)  # Output: gpt-4o-mini-2024-07-18
+
+# Check if a specific model is available
+print(provider.check_if_model_available("gpt-4o-mini-2024-07-18"))  # Output: True
+
+# Prepare a request
+request = {"prompt": "Generate a Python code snippet to calculate the factorial of a number."}
+
+# Preprocess the request
+preprocessed_request = provider._preprocess_request(request)
+
+# Send the request to the OpenAI API and get the response
+response = provider._send_request(preprocessed_request)
+
+# Process the response
+processed_response = provider._process_response(response)
+
+# Print the generated code snippet
+print(processed_response["content"]) 
 ```
-```python
-# Создание экземпляра класса OIVSCode
-oivscode = OIVSCode()
-
-# Получение URL сервера
-url = oivscode.url
-print(f"URL сервера: {url}")  # Вывод: URL сервера: https://oi-vscode-server.onrender.com
-
-# Получение списка поддерживаемых моделей
-models = oivscode.models
-print(f"Поддерживаемые модели: {models}")  # Вывод: Поддерживаемые модели: ['gpt-4o-mini-2024-07-18', 'gpt-4o-mini', 'deepseek-ai/DeepSeek-V3']

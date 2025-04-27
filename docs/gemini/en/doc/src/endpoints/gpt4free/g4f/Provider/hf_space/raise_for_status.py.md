@@ -1,97 +1,102 @@
-# Модуль raise_for_status.py
+# Module for Handling Response Status Errors
 
-## Обзор
+## Overview
 
-Модуль содержит асинхронную функцию `raise_for_status`, предназначенную для проверки статуса HTTP-ответа и возбуждения исключения в случае ошибки. Она анализирует контент ответа для предоставления более информативного сообщения об ошибке.
+This module contains the `raise_for_status` function, which is responsible for handling HTTP response status errors. The function analyzes the response from an HTTP request and raises a `ResponseStatusError` if the response status code indicates an error. This function is essential for gracefully handling errors that occur during communication with external APIs or services. 
 
-## Подробнее
+## Details
 
-Этот модуль предоставляет функцию, которая проверяет, успешен ли HTTP-ответ. Если ответ не успешен, функция пытается извлечь сообщение об ошибке из тела ответа (если это JSON) или возвращает текстовое содержимое ответа. В конце возбуждается исключение `ResponseStatusError` с сообщением об ошибке.
+The `raise_for_status` function checks the response status code from an HTTP request. If the status code is not `200 OK`, it analyzes the response content, attempting to extract a more specific error message. If the content type is "application/json", it attempts to parse the JSON data and extract an error message. If the content type is "text/html" or the response starts with "<!DOCTYPE", it assumes HTML content and sets the error message accordingly. Otherwise, it uses the plain response text as the error message. Finally, it raises a `ResponseStatusError` with the extracted error message and the HTTP status code.
 
-## Функции
+## Functions
 
 ### `raise_for_status`
 
 ```python
 async def raise_for_status(response: Union[StreamResponse, ClientResponse], message: str = None):
     """
-    Проверяет статус HTTP-ответа и возбуждает исключение, если ответ содержит ошибку.
+    Проверяет HTTP-ответ на наличие ошибок и генерирует исключение в случае ошибки.
 
     Args:
-        response (Union[StreamResponse, ClientResponse]): Объект HTTP-ответа, который необходимо проверить.
-        message (str, optional): Дополнительное сообщение об ошибке. По умолчанию `None`.
+        response (Union[StreamResponse, ClientResponse]): HTTP-ответ, полученный от запроса.
+        message (str, optional): Дополнительное сообщение об ошибке. Defaults to None.
 
     Raises:
-        ResponseStatusError: Если HTTP-ответ не успешен.
+        ResponseStatusError: Если в HTTP-ответе содержится ошибка (код состояния не 200 OK).
 
-    Пример:
-        Примеры вызовов с полным диапазоном параметров, которые могут быть переданы в функцию.
+    Example:
+        >>> response = await get_data_from_api()
+        >>> await raise_for_status(response)
+        >>> data = await response.json()  # Продолжаем работу с данными, если нет ошибки
 
     """
+    ...
 ```
 
-#### Параметры:
+**Purpose**: This function checks the HTTP response for errors and raises an exception if an error occurs.
 
-- `response` (Union[StreamResponse, ClientResponse]): Объект HTTP-ответа, который требуется проверить. Это может быть либо `StreamResponse`, либо `ClientResponse`.
-- `message` (str, optional): Дополнительное сообщение об ошибке, которое можно передать. По умолчанию `None`.
+**Parameters**:
 
-#### Возвращает:
+- `response` (Union[StreamResponse, ClientResponse]): The HTTP response received from the request.
+- `message` (str, optional): An additional error message. Defaults to None.
 
-- Отсутствует. Функция ничего не возвращает при успешном выполнении.
+**Returns**:
+- None: If the response is successful (status code 200 OK).
 
-#### Возбуждает:
+**Raises Exceptions**:
+- `ResponseStatusError`: If there is an error in the HTTP response (status code is not 200 OK).
 
-- `ResponseStatusError`: Возбуждается, если `response.ok` имеет значение `False`.
+**How the Function Works**:
 
-#### Как работает функция:
+1. The function first checks if the response status code is `200 OK`. If it is, the function returns without doing anything.
+2. If the response status code is not `200 OK`, the function attempts to extract an error message from the response content. It first checks if the content type is "application/json". If it is, the function attempts to parse the JSON data and extract an error message.
+3. If the content type is not "application/json", the function checks if the content type is "text/html" or if the response starts with "<!DOCTYPE". If it is, the function assumes HTML content and sets the error message accordingly.
+4. If the content type is not "application/json" or "text/html", the function uses the plain response text as the error message.
+5. Finally, the function raises a `ResponseStatusError` with the extracted error message and the HTTP status code.
 
-1. **Проверка на успех**: Функция проверяет, успешен ли HTTP-ответ, анализируя атрибут `response.ok`. Если ответ успешен (код состояния в диапазоне 200-299), функция завершается без каких-либо действий.
-2. **Анализ типа контента**: Если ответ не успешен, функция пытается получить тип контента из заголовков ответа. Если контент является JSON (`application/json`), функция пытается извлечь сообщение об ошибке из JSON-тела.
-3. **Извлечение сообщения из JSON**: Если контент является JSON, функция пытается проанализировать JSON и извлечь сообщение об ошибке из полей `error` или `message` в JSON-данных.
-4. **Получение текстового содержимого**: Если контент не является JSON или не удалось извлечь сообщение об ошибке из JSON, функция пытается получить текстовое содержимое ответа.
-5. **Определение HTML-контента**: Если не удалось получить сообщение из JSON, функция проверяет, является ли контент HTML, анализируя заголовок `content-type` или начало текстового содержимого. Если контент является HTML, устанавливается сообщение `'HTML content'`.
-6. **Возбуждение исключения**: В конце функция возбуждает исключение `ResponseStatusError` с сообщением, которое включает код состояния HTTP-ответа и сообщение об ошибке.
+**Examples**:
 
-#### Примеры:
-
-Примеры вызовов с полным диапазоном параметров, которые могут быть переданы в функцию.
 ```python
-# Пример 1: Успешный ответ
-response = MockResponse(status=200, ok=True)
-await raise_for_status(response)  # Ничего не произойдет
+# Example 1: Successful response
+>>> response = await get_data_from_api() # Function returning the response
+>>> await raise_for_status(response)
+>>> data = await response.json() # Processing data if there is no error
 
-# Пример 2: Ошибка с JSON-ответом
-response = MockResponse(
-    status=400,
-    ok=False,
-    headers={"content-type": "application/json"},
-    json_data={"error": "Invalid request"}
-)
-try:
-    await raise_for_status(response)
-except ResponseStatusError as ex:
-    print(ex)  # Выведет: Response 400: Invalid request
+# Example 2: Error response with JSON content
+>>> response = await get_data_from_api() 
+>>> await raise_for_status(response)
+Traceback (most recent call last):
+  ...
+ResponseStatusError: Response 400: Invalid request parameters
 
-# Пример 3: Ошибка с HTML-ответом
-response = MockResponse(
-    status=500,
-    ok=False,
-    headers={"content-type": "text/html"},
-    text="<!DOCTYPE html><html><body><h1>Error</h1></body></html>"
-)
-try:
-    await raise_for_status(response)
-except ResponseStatusError as ex:
-    print(ex)  # Выведет: Response 500: HTML content
+# Example 3: Error response with HTML content
+>>> response = await get_data_from_api()
+>>> await raise_for_status(response)
+Traceback (most recent call last):
+  ...
+ResponseStatusError: Response 500: HTML content
 
-# Пример 4: Ошибка с текстовым ответом и дополнительным сообщением
-response = MockResponse(
-    status=404,
-    ok=False,
-    text="Not Found"
-)
-try:
-    await raise_for_status(response, message="Custom message")
-except ResponseStatusError as ex:
-    print(ex)  # Выведет: Response 404: Custom message
+# Example 4: Error response with plain text content
+>>> response = await get_data_from_api()
+>>> await raise_for_status(response)
+Traceback (most recent call last):
+  ...
+ResponseStatusError: Response 404: Not Found
 ```
+
+**Inner Functions**: None.
+
+**Parameter Details**:
+
+- `response` (Union[StreamResponse, ClientResponse]): This parameter represents the HTTP response object received from the request. It can be either a `StreamResponse` object, which represents a stream of data, or a `ClientResponse` object, which represents a full response. The function uses the `response` object to access its attributes, such as the status code, headers, and content.
+
+- `message` (str, optional): This parameter is an optional additional error message. It can be used to provide more context or details about the error. For example, if the function detects a specific error condition, it can set this parameter to a descriptive message that explains the error. The function uses the `message` parameter to augment the error message that it ultimately raises.
+
+**How the Function Works**:
+
+- The function first checks if the response is successful. If it is (the response status code is 200 OK), the function simply returns without doing anything.
+- If the response is not successful, the function attempts to extract a more specific error message from the response content. 
+- First, it tries to extract a JSON error message. If successful, it extracts the `error` or `message` key from the JSON data.
+- If there is no JSON content, the function checks if the response is HTML. If it is, the function assumes that the error message is contained in the HTML content. 
+- Otherwise, the function uses the plain response text as the error message.
+- Finally, the function raises a `ResponseStatusError` with the extracted error message and the HTTP status code.

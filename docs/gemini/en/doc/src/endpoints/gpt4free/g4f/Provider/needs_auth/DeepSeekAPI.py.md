@@ -1,109 +1,60 @@
-# Module `DeepSeekAPI.py`
+# DeepSeekAPI Provider
 
-## Обзор
+## Overview
 
-Модуль `DeepSeekAPI.py` предназначен для работы с API DeepSeek, предоставляя асинхронный интерфейс для взаимодействия с моделями DeepSeek. Он включает в себя аутентификацию через веб-драйвер и создание чат-сессий.
+This module implements the `DeepSeekAPI` class, an asynchronous provider for the `hypotez` project, designed for interacting with the DeepSeek chat API. This provider supports authentication, model selection, and message handling for generating responses from DeepSeek models.
 
-## Подробнее
+## Details
 
-Этот модуль обеспечивает интеграцию с API DeepSeek, позволяя пользователям аутентифицироваться и взаимодействовать с моделями DeepSeek v3 и r1. Он использует веб-драйвер для получения токена доступа и предоставляет асинхронные методы для создания и управления чат-сессиями. Модуль также поддерживает веб-поиск и отображение процесса обдумывания (thinking) модели.
+The `DeepSeekAPI` provider utilizes the `dsk` library to communicate with the DeepSeek chat API. It supports authentication using a user token stored in the browser's local storage. The provider also offers model selection, allowing users to choose between different DeepSeek models for generating responses.
 
-## Классы
+## Classes
 
-### `DeepSeekAPI`
+### `class DeepSeekAPI(AsyncAuthedProvider, ProviderModelMixin)`
 
-**Описание**: Класс `DeepSeekAPI` реализует асинхронного провайдера, требующего аутентификации, и предоставляет методы для взаимодействия с API DeepSeek.
+**Description**: The `DeepSeekAPI` class represents an asynchronous provider for interacting with the DeepSeek chat API. It inherits from `AsyncAuthedProvider` for authentication and `ProviderModelMixin` for model selection.
 
-**Наследует**:
-- `AsyncAuthedProvider`: Обеспечивает асинхронную аутентификацию.
-- `ProviderModelMixin`: Предоставляет функциональность для работы с моделями провайдера.
+**Inherits**:
+    - `AsyncAuthedProvider`: Provides methods for authenticating with the API.
+    - `ProviderModelMixin`:  Allows selecting different DeepSeek models for generating responses.
 
-**Атрибуты**:
-- `url` (str): URL для доступа к API DeepSeek (`"https://chat.deepseek.com"`).
-- `working` (bool): Указывает, работает ли API DeepSeek (зависит от наличия библиотеки `dsk`).
-- `needs_auth` (bool): Указывает, требуется ли аутентификация (всегда `True`).
-- `use_nodriver` (bool): Указывает, использовать ли бездрайверный режим (всегда `True`).
-- `_access_token` (str | None): Токен доступа для аутентификации.
-- `default_model` (str): Модель, используемая по умолчанию (`"deepseek-v3"`).
-- `models` (list[str]): Список поддерживаемых моделей (`["deepseek-v3", "deepseek-r1"]`).
+**Attributes**:
+    - `url` (str): The base URL of the DeepSeek chat API.
+    - `working` (bool): Indicates if the DeepSeek library is available and the provider can function correctly.
+    - `needs_auth` (bool):  Indicates if the provider requires authentication.
+    - `use_nodriver` (bool): Indicates if the provider uses `get_nodriver` for interacting with the browser.
+    - `_access_token` (str): The user's access token for authentication.
+    - `default_model` (str): The default DeepSeek model to use.
+    - `models` (list): A list of available DeepSeek models.
 
-**Принцип работы**:
-Класс использует веб-драйвер для аутентификации и получения токена доступа. Он также предоставляет методы для создания чат-сессий и взаимодействия с моделями DeepSeek.
+**Methods**:
 
-**Методы**:
-- `on_auth_async`: Асинхронный метод для аутентификации.
-- `create_authed`: Асинхронный метод для создания аутентифицированного запроса.
+    - `on_auth_async(proxy: str = None, **kwargs) -> AsyncIterator`: Performs asynchronous authentication with the DeepSeek API.
+        - **Purpose**:  This method authenticates with the DeepSeek API using the user's access token stored in the browser's local storage.
+        - **Parameters**:
+            - `proxy` (str, optional):  A proxy server address. Defaults to `None`.
+            - `**kwargs`: Additional keyword arguments.
+        - **Returns**:  An asynchronous iterator yielding `RequestLogin` and `AuthResult` objects.
+        - **Raises Exceptions**:  If the authentication process fails.
 
-## Методы класса
+    - `create_authed(model: str, messages: Messages, auth_result: AuthResult, conversation: JsonConversation = None, web_search: bool = False, **kwargs) -> AsyncResult`:  Creates an authenticated chat session with the DeepSeek API.
+        - **Purpose**:  This method creates an authenticated chat session with the DeepSeek API, allowing users to send messages and receive responses from the chosen model.
+        - **Parameters**:
+            - `model` (str): The DeepSeek model to use for generating responses.
+            - `messages` (Messages): A list of messages in the current conversation.
+            - `auth_result` (AuthResult):  Authentication result containing the user's access token.
+            - `conversation` (JsonConversation, optional):  A conversation object containing the chat session ID. Defaults to `None`.
+            - `web_search` (bool, optional): Indicates if web search is enabled for the model. Defaults to `False`.
+            - `**kwargs`: Additional keyword arguments.
+        - **Returns**:  An asynchronous iterator yielding `JsonConversation`, `Reasoning`, and `FinishReason` objects.
 
-### `on_auth_async`
+## Table of Contents
 
-```python
-@classmethod
-async def on_auth_async(cls, proxy: str = None, **kwargs) -> AsyncIterator:
-    """Асинхронно выполняет процесс аутентификации для получения токена доступа.
-
-    Args:
-        proxy (str, optional): URL прокси-сервера для использования при подключении. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы.
-
-    Yields:
-        RequestLogin: Объект, содержащий информацию о необходимости входа в систему.
-        AuthResult: Объект с результатом аутентификации, содержащий токен доступа.
-
-    Как работает:
-        - Инициализирует веб-драйвер, если он еще не был инициализирован.
-        - Отправляет запрос на вход в систему.
-        - Ожидает получения токена доступа из localStorage.
-        - Возвращает результат аутентификации с токеном доступа.
-
-    Пример:
-        >>> async for result in DeepSeekAPI.on_auth_async():
-        ...     print(result)
-    """
-    ...
-```
-
-### `create_authed`
-
-```python
-@classmethod
-async def create_authed(
-    cls,
-    model: str,
-    messages: Messages,
-    auth_result: AuthResult,
-    conversation: JsonConversation = None,
-    web_search: bool = False,
-    **kwargs
-) -> AsyncResult:
-    """Создает аутентифицированный запрос к API DeepSeek для получения ответа от модели.
-
-    Args:
-        model (str): Имя модели для использования.
-        messages (Messages): Список сообщений для отправки в модель.
-        auth_result (AuthResult): Результат аутентификации, содержащий токен доступа.
-        conversation (JsonConversation, optional): Объект разговора для поддержания контекста. По умолчанию `None`.
-        web_search (bool, optional): Флаг, указывающий, следует ли использовать веб-поиск. По умолчанию `False`.
-        **kwargs: Дополнительные аргументы.
-
-    Yields:
-        JsonConversation: Объект разговора с идентификатором чата.
-        Reasoning: Объект, содержащий статус "Is thinking..." и содержимое размышлений модели.
-        str: Часть ответа модели.
-        FinishReason: Объект, содержащий причину завершения работы модели.
-
-    Как работает:
-        - Инициализирует API DeepSeek с использованием токена доступа.
-        - Создает новую чат-сессию, если не предоставлен объект разговора.
-        - Отправляет сообщения в модель и возвращает чанки ответа.
-        - Обрабатывает различные типы чанков, такие как "thinking" (размышления) и "text" (текст).
-        - Возвращает причину завершения работы модели.
-
-    Пример:
-        >>> auth_result = AuthResult(api_key='test_key')
-        >>> messages = [{'role': 'user', 'content': 'Hello'}]
-        >>> async for result in DeepSeekAPI.create_authed(model='deepseek-v3', messages=messages, auth_result=auth_result):
-        ...     print(result)
-    """
-    ...
+- [DeepSeekAPI Provider](#deepseekapi-provider)
+    - [Overview](#overview)
+    - [Details](#details)
+    - [Classes](#classes)
+        - [`class DeepSeekAPI(AsyncAuthedProvider, ProviderModelMixin)`](#class-deepseekapiasyncauthedproviderprovidermodelmixin)
+            - [Attributes](#attributes)
+            - [Methods](#methods)
+    - [Table of Contents](#table-of-contents)

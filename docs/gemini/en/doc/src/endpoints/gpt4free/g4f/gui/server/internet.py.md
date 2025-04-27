@@ -1,108 +1,96 @@
-# Документация для модуля `internet.py`
+# Module internet.py
 
-## Обзор
+## Overview
 
-Этот модуль содержит функции и классы для работы с интернет-поиском, включая получение результатов поиска и формирование сообщений на основе этих результатов.
+This module is responsible for handling internet-related operations within the `hypotez` project. It provides functions for searching the web and retrieving search results, as well as for generating messages based on search results.
 
-## Более подробно
+## Details
 
-Модуль предоставляет инструменты для выполнения поисковых запросов и обработки полученных данных. Он включает классы и функции для структурирования результатов поиска и подготовки сообщений, которые могут быть использованы для дальнейшей обработки или отображения.
+This module primarily focuses on utilizing web search functionality to retrieve relevant information from the internet. This data can be used for various purposes within the `hypotez` project, such as gathering context, providing insights, or supporting other tasks.
 
-## Классы
-
-### `SearchResults`
-
-**Описание**: Класс для представления результатов поиска.
-
-**Наследует**: Отсутствует.
-
-**Атрибуты**:
-- Нет атрибутов, специфичных для этого класса в предоставленном коде.
-
-**Методы**:
-- Нет методов, специфичных для этого класса в предоставленном коде.
-
-**Принцип работы**:
-- В предоставленном коде класс `SearchResults` только импортируется, но не используется явно. Предположительно, он используется в других частях проекта для структурирования результатов поиска.
-
-## Функции
+## Functions
 
 ### `search`
 
 ```python
-def search(query: str, num_results: int = 5, user_identifier: str | None = None) -> SearchResults:
-    """
-    Выполняет поисковый запрос и возвращает результаты.
-
+def search(query: str, limit: int = 10, lang: str = 'ru', region: str = 'ru', safe_search: bool = True) -> SearchResults:
+    """ Функция для поиска информации в интернете.
     Args:
-        query (str): Поисковый запрос.
-        num_results (int, optional): Количество возвращаемых результатов. По умолчанию 5.
-        user_identifier (str | None, optional): Идентификатор пользователя. По умолчанию None.
+        query (str): Текстовый запрос для поиска.
+        limit (int, optional): Максимальное количество результатов поиска. По умолчанию 10.
+        lang (str, optional): Язык поиска. По умолчанию 'ru'.
+        region (str, optional): Регион поиска. По умолчанию 'ru'.
+        safe_search (bool, optional): Включить безопасный поиск. По умолчанию True.
 
     Returns:
-        SearchResults: Результаты поиска.
+        SearchResults: Объект, содержащий результаты поиска.
+
+    Raises:
+        ConnectionError: Если не удалось подключиться к сети.
+        TimeoutError: Если запрос не был завершен в течение заданного времени ожидания.
+        Exception: Если возникла непредвиденная ошибка.
+
+    Example:
+        >>> results = search(query='Как сделать сайт', limit=5, lang='ru')
+        >>> print(results.items) # Вывод списка элементов результатов поиска
     """
+    ...
 ```
-
-**Назначение**: Выполнение поискового запроса.
-
-**Параметры**:
-- `query` (str): Строка поискового запроса.
-- `num_results` (int, optional): Количество результатов, которые необходимо вернуть. По умолчанию равно 5.
-- `user_identifier` (str | None, optional): Уникальный идентификатор пользователя, если доступен. По умолчанию `None`.
-
-**Возвращает**:
-- `SearchResults`: Объект, содержащий результаты поиска.
-
-**Принцип работы**:
-- Функция выполняет поисковый запрос с использованием предоставленных параметров и возвращает результаты в виде объекта `SearchResults`.
 
 ### `get_search_message`
 
 ```python
-def get_search_message(query: str, results: SearchResults) -> str:
-    """
-    Формирует сообщение на основе результатов поиска.
-
+def get_search_message(results: SearchResults) -> str:
+    """  Функция для создания текстового сообщения о результатах поиска.
     Args:
-        query (str): Поисковый запрос.
-        results (SearchResults): Результаты поиска.
+        results (SearchResults): Объект, содержащий результаты поиска.
 
     Returns:
-        str: Сообщение, сформированное на основе результатов поиска.
+        str: Текстовое сообщение о результатах поиска.
+
+    Example:
+        >>> results = search(query='Как сделать сайт', limit=5, lang='ru')
+        >>> message = get_search_message(results)
+        >>> print(message) # Вывод сообщения о результатах поиска
     """
+    ...
 ```
 
-**Назначение**: Формирование сообщения на основе результатов поиска.
+## Parameter Details
 
-**Параметры**:
-- `query` (str): Исходный поисковый запрос.
-- `results` (SearchResults): Результаты поиска, полученные из функции `search`.
+- `query` (str): Текстовый запрос, используемый для поиска информации в интернете.
+- `limit` (int): Максимальное количество результатов поиска, которые должны быть возвращены.
+- `lang` (str): Язык поиска, например, 'ru' для русского языка или 'en' для английского.
+- `region` (str): Регион поиска, например, 'ru' для России или 'us' для США.
+- `safe_search` (bool): Флаг, указывающий, следует ли использовать безопасный поиск.
+- `results` (SearchResults): Объект, содержащий результаты поиска.
 
-**Возвращает**:
-- `str`: Сообщение, сформированное на основе результатов поиска.
+## Examples
 
-**Принцип работы**:
-- Функция принимает поисковый запрос и результаты поиска, а затем формирует текстовое сообщение, содержащее информацию из результатов поиска. Это сообщение может быть использовано для отображения пользователю или для дальнейшей обработки.
-
-## Примеры
-
-### Использование функции `search`
+### `search` Function
 
 ```python
-from ...tools.web_search import search
-
-query = "пример поискового запроса"
-results = search(query, num_results=3)
-print(results)
+>>> results = search(query='Как сделать сайт', limit=5, lang='ru')
+>>> print(results.items) 
 ```
 
-### Использование функции `get_search_message`
+### `get_search_message` Function
 
 ```python
-from ...tools.web_search import search, get_search_message
+>>> results = search(query='Как сделать сайт', limit=5, lang='ru')
+>>> message = get_search_message(results)
+>>> print(message)
+```
 
-query = "пример поискового запроса"
-results = search(query, num_results=3)
-message = get_search_message(query, results)
-print(message)
+## How the Functions Work
+
+- The `search` function takes a text query as input and performs a web search using a search engine. It returns a `SearchResults` object containing information about the retrieved results, including links, titles, and snippets.
+- The `get_search_message` function takes a `SearchResults` object as input and generates a text message summarizing the search results. This message can include information about the total number of results found, the top few results, and other relevant details.
+
+## Importance in the Project
+
+This module plays a vital role in the `hypotez` project by providing access to external information from the internet. This information can be used to enrich the project's functionality, improve user experience, and support various tasks requiring contextual data.
+
+## Next Steps
+
+Consider adding error handling to the `search` function to gracefully handle situations where internet connectivity is unavailable or search requests fail. Implement a mechanism to cache search results for faster retrieval in subsequent requests.

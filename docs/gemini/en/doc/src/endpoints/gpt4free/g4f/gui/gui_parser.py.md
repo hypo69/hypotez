@@ -1,56 +1,47 @@
-# Документация для `gui_parser.py`
+# GUI Parser
 
-## Обзор
+## Overview
 
-В этом файле находится функция `gui_parser`, которая создает и настраивает парсер аргументов командной строки для запуска графического интерфейса (GUI). Парсер позволяет задавать различные параметры, такие как хост, порт, режим отладки, игнорирование файлов cookie и список игнорируемых провайдеров и браузеров.
+This module provides a function for parsing command-line arguments for the GUI application.
 
-## Подробнее
+## Details
 
-Этот код используется для настройки параметров запуска графического интерфейса. Анализ аргументов командной строки позволяет гибко управлять поведением GUI, например, указывать адрес и порт для запуска, включать режим отладки или игнорировать определенные источники cookie.
+The `gui_parser()` function creates an `ArgumentParser` object and adds various command-line arguments for customizing the GUI's behavior.
 
-## Функции
+## Functions
 
 ### `gui_parser`
 
-**Назначение**: Создает и настраивает парсер аргументов командной строки для запуска GUI.
+**Purpose**: Creates an `ArgumentParser` object and adds arguments for controlling the GUI.
+
+**Parameters**: None
+
+**Returns**:
+- `ArgumentParser`: The `ArgumentParser` object configured with GUI-specific arguments.
+
+**How the Function Works**:
+- Creates an `ArgumentParser` object with the description "Run the GUI".
+- Adds arguments for the following:
+    - `--host`: The hostname for the server. Defaults to "0.0.0.0".
+    - `--port`: The port for the server. Defaults to 8080.
+    - `--debug`: Enables debug mode.
+    - `--ignore-cookie-files`: Prevents reading cookie files.
+    - `--ignored-providers`: Specifies a list of providers to ignore.
+    - `--cookie-browsers`: Specifies a list of browsers to access or retrieve cookies from.
+- Returns the configured `ArgumentParser` object.
+
+**Examples**:
 
 ```python
-def gui_parser():
-    """
-    Создает парсер аргументов командной строки для запуска GUI.
-
-    Args:
-        None
-
-    Returns:
-        ArgumentParser: Объект парсера аргументов.
-    """
-```
-
-**Параметры**:
-
-- Отсутствуют.
-
-**Возвращает**:
-
-- `ArgumentParser`: Объект парсера аргументов, настроенный для обработки аргументов командной строки, необходимых для запуска GUI.
-
-**Как работает функция**:
-
-1. Создает экземпляр класса `ArgumentParser` с описанием "Run the GUI".
-2. Добавляет аргумент `--host` для указания имени хоста, по умолчанию "0.0.0.0".
-3. Добавляет аргумент `--port` (или `-p`) для указания порта, по умолчанию 8080.
-4. Добавляет аргумент `--debug` (или `-d`, или `-debug`) для включения режима отладки.
-5. Добавляет аргумент `--ignore-cookie-files` для указания, следует ли игнорировать файлы cookie.
-6. Добавляет аргумент `--ignored-providers` для указания списка провайдеров, которых следует игнорировать при обработке запроса.
-7. Добавляет аргумент `--cookie-browsers` для указания списка браузеров, из которых следует получать cookies.
-8. Возвращает настроенный объект `ArgumentParser`.
-
-**Примеры**:
-
-```python
-import argparse
+# Parsing arguments with default values
 parser = gui_parser()
-args = parser.parse_args(['--port', '9000', '--debug'])
-print(args.port)  # Вывод: 9000
-print(args.debug) # Вывод: True
+args = parser.parse_args()
+print(args)
+# Output: Namespace(debug=False, host='0.0.0.0', ignore_cookie_files=False, ignored_providers=[], port=8080, cookie_browsers=[])
+
+# Parsing arguments with custom values
+parser = gui_parser()
+args = parser.parse_args(["--host", "127.0.0.1", "--port", "8081", "--debug", "--ignore-cookie-files", "--ignored-providers", "Google", "Bing"])
+print(args)
+# Output: Namespace(debug=True, host='127.0.0.1', ignore_cookie_files=True, ignored_providers=['Google', 'Bing'], port=8081, cookie_browsers=[])
+```

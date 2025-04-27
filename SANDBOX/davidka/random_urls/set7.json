@@ -1,644 +1,124 @@
 {
   "products": [
     {
-      "product_url": "https://www.amazon.co.jp/dp/B07AAAAXYZ/",
-      "category": "Sports & Outdoors"
+      "product_name": "SIMATIC IPC Industrial PCs",
+      "product_url": "https://new.siemens.com/global/en/products/automation/pc-based/industrial-pc.html",
+      "category_name": "Промышленные ПК",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.amazon.es/dp/B08BBBCDEF/",
-      "category": "Pet Supplies"
+      "product_name": "Allen-Bradley GuardLogix 5580 Safety Controllers",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/programmable-controllers/controllogix-control-systems/guardlogix-5580-safety-controllers.html",
+      "category_name": "Контроллеры безопасности",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.ecvv.com/product/1234567.html",
-      "category": "Industrial Supplies"
+      "product_name": "Modicon M580 High End PAC",
+      "product_url": "https://www.se.com/ww/en/product-range/62099-modicon-m580/",
+      "category_name": "Программируемые контроллеры автоматизации (PAC)",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.zalando.ch/accessoires-homme-echarpe-laine-gris/ZAL123456789.html",
-      "category": "Fashion"
+      "product_name": "OMRON E2E NEXT Proximity Sensor",
+      "product_url": "https://industrial.omron.eu/en/products/e2e-next",
+      "category_name": "Индуктивные датчики",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.moebel-kraft.de/produkt/wohnwand-modern-eiche-weiss-id123456",
-      "category": "Furniture"
+      "product_name": "Mitsubishi Electric MR-J5 Series Servo Amplifiers & Motors",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/drv/servo/items/mr_j5/index.html",
+      "category_name": "Сервоприводы",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.junkudo.co.jp/mj/products/detail.php?isbn=9784700000007",
-      "category": "Books"
+      "product_name": "ABB Jokab Safety Safety Relays",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/safety-relays",
+      "category_name": "Реле безопасности",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.storytel.com/se/sv/books/1234567-Sp%C3%A4nningsroman-Titel",
-      "category": "Audiobooks"
+      "product_name": "Phoenix Contact PTFIX Distribution Blocks",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/terminal-blocks/distribution-blocks/ptfix",
+      "category_name": "Клеммные блоки",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://allegro.pl/oferta/klawiatura-mechaniczna-gamingowa-rgb-niebieska-1818181818",
-      "category": "PC Components"
+      "product_name": "Beckhoff AX5000 Servo Drives",
+      "product_url": "https://www.beckhoff.com/en-en/products/motion/servo-drives/ax5000-1-channel-servo-drive/",
+      "category_name": "Сервоприводы",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.chedraui.com.mx/Departamentos/Alimentos/Aceites/Aceite-Vegetal-Comestible-Marca-1L/p/0000000123456",
-      "category": "Groceries"
+      "product_name": "Keyence GT2 Series High-Accuracy Digital Contact Sensor",
+      "product_url": "https://www.keyence.com/products/measure/micrometer/gt2/",
+      "category_name": "Контактные датчики",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.etsy.com/au/listing/765432109/handmade-leather-wallet-minimalist",
-      "category": "Handmade"
+      "product_name": "SICK RFU62x RFID Read/Write Device",
+      "product_url": "https://www.sick.com/gb/en/identification-solutions/rfid/rfu62x/c/g288253",
+      "category_name": "Системы RFID",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.mercadolibre.cl/microfono-condensador-usb-podcast-streaming/p/MLC13000007",
-      "category": "Electronics"
+      "product_name": "Pepperl+Fuchs RVI58 Incremental Rotary Encoder",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_149.htm?view=productoverview",
+      "category_name": "Энкодеры",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.but.fr/produits/123456/Fauteuil-Relax-Manuel-Tissu-Beige.html",
-      "category": "Furniture"
+      "product_name": "WAGO TOPJOB® S Terminal Blocks",
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/topjob-s",
+      "category_name": "Клеммные блоки",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.ikea.com/nl/nl/p/hemnes-ladekast-3-laden-wit-gebeitst-20355608/",
-      "category": "Furniture"
+      "product_name": "IFM Electronic Efector T Temperature Sensors",
+      "product_url": "https://www.ifm.com/us/en/category/030/030_010",
+      "category_name": "Датчики температуры",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.koovs.com/product/brand-mens-sneakers-white-pid123456",
-      "category": "Fashion"
+      "product_name": "Banner Engineering Q4X Series Rugged Laser Distance Sensor",
+      "product_url": "https://www.bannerengineering.com/us/en/products/part/108422.html",
+      "category_name": "Лазерные датчики",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.asos.com/au/men/jewellery/rings/sterling-silver-band-ring/prd/272727272",
-      "category": "Fashion"
+      "product_name": "Turck Capacitive Sensors BC Series",
+      "product_url": "https://www.turck.us/en/product_group/capacitive-sensors-140/",
+      "category_name": "Емкостные датчики",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.tjmaxx.tjx.com/store/jump/product/home-decor-pillows/Brand-Name-Decorative-Pillow/1000123456",
-      "category": "Home Goods"
+      "product_name": "Balluff BTL Micropulse Linear Position Sensors",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0001/groups/G0103/products/P010301",
+      "category_name": "Датчики линейного положения",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.elcorteingles.pt/brinquedos/A4567890E/puzzle-1000-pecas-paisagem-montanha/",
-      "category": "Toys & Games"
+      "product_name": "Endress+Hauser Cerabar Pressure Transmitter",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/pressure-measurement-product-overview/absolute-gauge-pressure-cerabar",
+      "category_name": "Датчики давления",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.bestbuy.ca/en-ca/product/brand-name-action-camera-4k-waterproof/18000008",
-      "category": "Electronics"
+      "product_name": "Weidmüller U-Remote Distributed I/O System",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group29339912260932",
+      "category_name": "Распределенные системы ввода/вывода",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.thomann.de/pl/roland_fp_30x_bk.htm",
-      "category": "Musical Instruments"
+      "product_name": "Pilz PSENmag Magnetic Safety Switches",
+      "product_url": "https://www.pilz.com/en-INT/products/sensor-technology/safety-switches/magnetic-safety-switches-psenmag",
+      "category_name": "Датчики безопасности",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.decathlon.in/p/8500008/adult-hiking-shoes-waterproof-grey",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.livrariacultura.com.br/p/livros/literatura-nacional/romance/titulo-do-livro-autor-nacional-9788500000002",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.mediamarkt.pt/pt/product/_marca-modelo-maquina-de-barbear-wet-dry-azul-1900009.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.lazada.com.my/products/bluetooth-keyboard-wireless-multi-device-white-i112233445-s667788990.html",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://shopee.ph/product/676767676/8989898989/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.pontofrio.com.br/CamaMesaBanho/Travesseiros/Travesseiro-Nasa-Viscoelastico-Marca-Modelo/p/1500000004",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.bedbathntable.com.au/bed/sheet-sets/brand-egyptian-cotton-sheet-set-queen-white-1000tc.html",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.betterworldbooks.com/product/detail/Classic-Novel-Title-9780199535569",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.lookfantastic.com/brand-product-argan-oil-hair-treatment-100ml/10300003.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.newegg.ca/Product/Product.aspx?Item=N82E16827135001",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.adidas.com.au/ozweego-shoes/EE6464.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www2.hm.com/en_eur/productpage.1616161616.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.zara.com/pt/pt/calcas-cargo-estampadas-verde-p08888999000.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.yoox.com/pl/kobiety/sweter-welna-szary_cod43210987hg.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.maxfashion.in/in/en/SHOP-BRAND-Men-Printed-Crew-Neck-T-shirt/p/1000008765432",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.x-kom.pl/p/123456-dysk-ssd-brand-model-1tb-m2-pcie-nvme.html",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.princessauto.com/en/product/PA0001234567",
-      "category": "Tools"
-    },
-    {
-      "product_url": "https://www.jossandmain.com/furniture/pdp/brand-upholstered-ottoman-velvet-blue-j001234567.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.soundsliveshop.com/p/Brand_Model_Synthesizer_Keyboard/12345",
-      "category": "Musical Instruments"
-    },
-    {
-      "product_url": "https://www.cloud10beauty.com/products/brand-product-tan-remover-scrub",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.fruugo.pl/etui-na-telefon-skorzane-czarne-iphone-13/p-120000008-170000008",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.merlincycles.com/brand-road-cycling-shoes-boa-dial-white-123456.html",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://global.rakuten.com/en/store/kitchen-market/item/km-12345/",
-      "category": "Kitchenware"
-    },
-    {
-      "product_url": "https://www.tmon.co.kr/deal/1234567890",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.magnit.ru/promo/123456/",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.amazon.com.br/dp/B07BNMZXCV/",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.amazon.co.uk/dp/B08CDEFGHI/",
-      "category": "Garden & Outdoors"
-    },
-    {
-      "product_url": "https://www.kaufland.bg/product/100888999/",
-      "category": "Groceries & Household"
-    },
-    {
-      "product_url": "https://theoutnet.com/en-us/shop/product/designer-brand/dresses/midi-dress/silk-satin-midi-dress/1600000001",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.petsplace.nl/merk-krabpaal-kat-hoog-grijs-s123456",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://hard.rozetka.com.ua/monitory/c80089/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.ebay.com.my/itm/889900112233",
-      "category": "Marketplace"
-    },
-    {
-      "product_url": "https://www.ocado.com/products/product-name-brand-123456011",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.scholastic.ca/books/view/book-title-for-kids",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.selfridges.com/GB/en/cat/brand-model-watch-stainless-steel_R01234567/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.chemist-direct.co.uk/product-name/prd-123456",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.freemans.com/products/brand-sofa-bed-corner-grey/_/A-123456_B7C8D9",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://westwing.de/produkt/schoener-kerzenstaender-goldfarben-metall-123456",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.emag.hu/laptop-gaming-marka-modell-i5-rtx3050-fekete/pd/DXABC1MBM/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.amazon.co.jp/gp/product/B07PQRSABC/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://store.ponparemall.com/shopname/goods/123456/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://dmm.com/mono/hobby/-/detail/=/cid=123456/",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.suruga-ya.jp/product/detail/123456789",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://uteka.ru/product/lekarstvo-nazvanie-tabletki-10sht-300000001/",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.shopfans.com/product/view/id/123456789",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.kmart.co.nz/product/brand-toaster-4-slice-stainless-steel/123456",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.warehouse.co.nz/p/brand-mens-fleece-hoodie-black-s/R2000001.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.backcountryedge.com/brand-model-tent-footprint.html",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.london Drugs.com/brand-multivitamin-tablets---100s/L9876543.html",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.cabelas.ca/product/123456/brand-fishing-reel-spinning",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.abercrombiekids.com/shop/us/p/logo-graphic-tee-54321012",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hollisterco.com/shop/us/gilly-hicks/p/gilly-hicks-sleep-shorts-54321098",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.pacsun.com/womens/shorts/brand/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.zumiez.com/brands/brand-name/accessories/hats.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.tillys.com/brands/brand/accessories/sunglasses/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.princesspolly.com/products/product-name-mini-dress-floral",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.showpo.com/us/amalfi-strapless-maxi-dress-in-blue-floral.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://petalandpup.com/us/products/dress-name-midi-dress-white",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://hellomolly.com/products/dress-name-maxi-dress-pink",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://beginningboutique.com/products/cut-out-mini-dress-black",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.whitefoxboutique.com/products/hoodie-oversized-ash",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lounge.com/products/balcony-bra-set-black",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://adoreme.com/bras/push-up/product-name",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.thirdlove.com/products/24-7-classic-t-shirt-bra-taupe",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.victoriassecret.com/us/vs/bras-catalog/bombshell-add-2-cups-push-up-bra-5000000001",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.savagex.com/shop/product/womens-bras-bralettes-unlined-lace-bralette-BA1234567-0001-12345678",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.agentprovocateur.com/us/poppy-underwired-bra-red-110000",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lasenza.ca/pd/lightly-lined-demi-bra-11200001.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://knix.com/products/evolution-bra-beige",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://truekind.com/products/truekind-daily-comfort-wireless-shaper-bra",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.spanx.com/bras/bralettes/bra-llelujah-unlined-bralette",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://wearpepper.com/products/limitless-wirefree-scoop-bra",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://cuup.com/products/the-balconette-mesh-black",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://fleurdumal.com/products/lily-embroidery-demi-bra-black",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.bluebella.us/products/marseille-bra-black",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.honeybirdette.com/products/belinda-black-bra",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.laperla.com/us/bras/balconette-bra/maison-balconette-bra.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.chantelle.com/basic-invisible-smooth-custom-fit-plunge-bra.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.simone-perele.com/products/wish-demi-cup-bra",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.aubade.com/products/rosessence-comfort-half-cup-bra",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.wolfordshop.com/fatal-dress/50706.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.calzedonia.com/product/cashmere_blend_ultralight_tights-MODC1367.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://us.intimissimi.com/product/silk_satin_pajama_set-PCL71S.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://yamamay.com/us_en/basic-lace-push-up-bra-basic-yamamay-ibzd123456.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.tezenis.com/us/product/paris_microfiber_balconette_bra-1RI01A.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://shop.nordstrom.com/s/brand-name-product-title/1234567",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://www.macys.com/shop/product/product-name?ID=1234567",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://www.bloomingdales.com/shop/product/brand-product-name?ID=1234567",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://www.saksfifthavenue.com/product/brand-product-name-0400012345678.html",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://www.neimanmarcus.com/p/brand-product-name-prod123456789",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://www.bergdorfgoodman.com/p/brand-product-name-prod12345678",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://www.kohls.com/product/prd-1234567/product-name.jsp",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://www.jcpenney.com/p/product-name/pp5001234567",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://www.dillards.com/p/brand-product-name/501234567",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://www.vonmaur.com/Product.aspx?ID=123456",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://www.belk.com/p/product-name/1800123456789.html",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://www.lordandtaylor.com/products/product-name",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://www.steinmart.com/product/12345678+product+name.do",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://www.boscovs.com/shop/prod/product-name/123456.htm",
-      "category": "Department Store"
-    },
-    {
-      "product_url": "https://tjmaxx.tjx.com/store/shop/womens-clothing/_/N-123456789",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.marshalls.com/us/store/shop/womens-shoes/_/N-1234567890",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.homegoods.com/us/store/shop/home-decor-lighting/_/N-1122334455",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.sierra.com/s~hiking-boots/",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.homesense.com/us/store/shop/furniture-living-room-furniture/_/N-987654321",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.ikea.com/us/en/cat/living-room-fu001/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.ethanallen.com/en_US/shop-furniture-living-room-sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.havertys.com/furniture/living-room/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.bassettfurniture.com/living/sofas/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.raymourflanigan.com/living-rooms/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.la-z-boy.com/c/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.roomsanddreams.com/living-room/sofas/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.americanfreight.com/br/c/living-room-furniture/sofas/1011",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.costplusworldmarket.com/category/furniture/living-room/sofas.do",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.pier1.com/collections/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.overstock.com/Home-Garden/Sofas-Couches/2022/subcat.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.houzz.com/products/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.allmodern.com/furniture/sb0/sofas-c365836.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.birchlane.com/furniture/sb0/sofas-c365836.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.perigold.com/furniture/sb0/sofas-c365836.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://design-within-reach.com/living/seating/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.roveconcepts.com/living/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.aptdeco.com/catalog/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.chairish.com/collection/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://franceandson.com/collections/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://scandinaviandesigns.com/collections/living-room-seating-sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://modshop.com/collections/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://industrywest.com/collections/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.castlery.com/us/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://insidestoreldn.com/collections/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://sohohome.com/us/categories/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.arhaus.com/furniture/living-room-furniture/sofas/",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.mgbwhome.com/sofas/C1001.aspx",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.boconcept.com/en-us/shop/sofas/all-sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.ligneroset.com/us/shop/living/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.poltronafrau.com/en/catalogue/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.cassina.com/en/collection/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.bebitalia.com/en/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.flexform.it/en/products/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.minotti.com/en/sofas",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://roche-bobois.com/en-US/products/sofas",
-      "category": "Furniture"
+      "product_name": "SMC Pneumatics JXC Series Step Motor Controller",
+      "product_url": "https://www.smcworld.com/en-jp/products/electric-actuator/jxc/jxc-global/",
+      "category_name": "Контроллеры шаговых двигателей",
+      "parent_category": "промэлектроника и автоматика"
     }
   ]
 }

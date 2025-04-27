@@ -1,95 +1,121 @@
-# Модуль `Theb.py`
+# TheB.AI Provider
 
-## Обзор
+## Overview
 
-Модуль `Theb.py` предоставляет реализацию провайдера `TheB.AI` для проекта `hypotez`. Он позволяет взаимодействовать с различными моделями `TheB.AI`, такими как `GPT-3.5 Turbo`, `GPT-4`, `Claude 2` и другими, используя веб-драйвер для обхода защиты от автоматизированного доступа. Модуль поддерживает потоковую передачу ответов и использует `selenium` для взаимодействия с веб-интерфейсом `TheB.AI`.
+This module implements the `Theb` class, a provider for the `TheB.AI` language model. It enables interaction with the `TheB.AI` service through a web interface and utilizes Selenium for browser automation.
 
-## Более детально
+## Details
 
-Этот модуль предназначен для интеграции с платформой `TheB.AI`, предоставляя удобный интерфейс для отправки запросов к различным моделям и получения ответов в потоковом режиме. Он использует веб-драйвер для автоматизации взаимодействия с веб-сайтом `TheB.AI`, что позволяет обходить ограничения, накладываемые на автоматизированный доступ. Модуль также содержит вспомогательные функции для форматирования запросов и обработки ответов.
+The `Theb` class is a subclass of `AbstractProvider`, defining the core functionalities for interacting with the `TheB.AI` model. It leverages the `WebDriverSession` class to manage the browser instance and provides methods for sending prompts and receiving responses.
 
-## Классы
+The provider utilizes a custom JavaScript snippet injected into the browser to intercept responses and stream them back to the user. It features robust error handling and retry mechanisms to ensure consistent and reliable communication with the `TheB.AI` service.
+
+## Classes
 
 ### `Theb`
 
-**Описание**: Класс `Theb` является провайдером для взаимодействия с `TheB.AI`. Он наследуется от `AbstractProvider` и реализует метод `create_completion` для отправки запросов к моделям `TheB.AI` и получения ответов.
+**Description**: Класс-провайдер для модели `TheB.AI`, позволяющий взаимодействовать с моделью через веб-интерфейс.
 
-**Наследует**:
-- `AbstractProvider`: Абстрактный базовый класс для всех провайдеров.
+**Inherits**: `AbstractProvider`
 
-**Атрибуты**:
-- `label` (str): Метка провайдера, `"TheB.AI"`.
-- `url` (str): URL веб-сайта `TheB.AI`, `"https://beta.theb.ai"`.
-- `working` (bool): Указывает, работает ли провайдер в данный момент, `False`.
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу ответов, `True`.
-- `models` (dict): Словарь доступных моделей и их отображаемые имена.
+**Attributes**:
 
-**Принцип работы**:
-Класс `Theb` использует веб-драйвер `selenium` для автоматизации взаимодействия с веб-сайтом `TheB.AI`. Он открывает веб-сайт, выбирает указанную модель (если она указана) и отправляет запрос. Ответ получается в потоковом режиме с использованием JavaScript и `selenium`.
+- `label (str)`: Метка провайдера, соответствующая модели.
+- `url (str)`: Базовый URL для доступа к веб-интерфейсу `TheB.AI`.
+- `working (bool)`: Флаг, указывающий на доступность провайдера.
+- `supports_stream (bool)`: Флаг, указывающий на поддержку потоковой передачи ответов.
+- `models (dict)`: Словарь с доступными моделями и их названиями.
 
-**Методы**:
-- `create_completion`: Метод для создания запроса к модели и получения ответа.
+**Methods**:
 
-## Методы класса
+- `create_completion(model: str, messages: Messages, stream: bool, proxy: str = None, webdriver: WebDriver = None, virtual_display: bool = True, **kwargs) -> CreateResult`
 
-### `create_completion`
+#### `create_completion`
+
+**Purpose**: Функция отправки запроса с prompt`ом к модели `TheB.AI` и получения ответа.
+
+**Parameters**:
+
+- `model (str)`: Имя модели.
+- `messages (Messages)`: История сообщений.
+- `stream (bool)`: Флаг, указывающий на потоковую передачу ответа.
+- `proxy (str, optional)`: Прокси-сервер для подключения. Defaults to `None`.
+- `webdriver (WebDriver, optional)`: Экземпляр драйвера браузера. Defaults to `None`.
+- `virtual_display (bool, optional)`: Флаг, указывающий на использование виртуального дисплея. Defaults to `True`.
+
+**Returns**:
+
+- `CreateResult`: Результат запроса с prompt`ом к модели.
+
+**Raises Exceptions**:
+
+- `Exception`: Если возникают ошибки во время обработки запроса к модели `TheB.AI`.
+
+**How the Function Works**:
+
+1. **Preparation:**
+    - Проверка наличия модели в словаре `models`.
+    - Форматирование `prompt` из истории сообщений `messages`.
+    - Создание экземпляра `WebDriverSession` для управления браузером, указав параметры `webdriver`, `virtual_display` и `proxy`.
+    - Запуск блока `with` для управления контекстом `driver`.
+
+2. **Browser Automation:**
+    - Загрузка `TheB.AI` веб-страницы.
+    - Ожидание появления текстового поля `textareaAutosize`.
+    - Регистрация хука для перехвата запросов `fetch`.
+    - Добавление скрипта в браузер для перехвата и обработки ответов с помощью `driver.execute_cdp_cmd`.
+
+3. **Model Selection:**
+    - Если модель не задана (`model` - `None`), то используется модель по умолчанию.
+    - Если модель задана, то:
+        - Ожидание появления панели выбора модели.
+        - Клик по панели выбора модели.
+        - Ожидание появления списка доступных моделей.
+        - Нажатие на кнопку выбора заданной модели.
+
+4. **Prompt Submission:**
+    - Ожидание появления текстового поля `textareaAutosize`.
+    - Ввод prompt`а в текстовое поле.
+    - Клик по кнопке отправки prompt`а.
+
+5. **Response Handling:**
+    - Использование JavaScript-кода для чтения потока ответа.
+    - Выдача фрагментов ответа по мере их получения.
+
+**Examples**:
 
 ```python
-    @classmethod
-    def create_completion(
-        cls,
-        model: str,
-        messages: Messages,
-        stream: bool,
-        proxy: str = None,
-        webdriver: WebDriver = None,
-        virtual_display: bool = True,
-        **kwargs
-    ) -> CreateResult:
-        """ Функция отправляет запрос к модели TheB.AI и возвращает результат.
+from ...typing import Messages
+from ..base_provider import AbstractProvider
+from ..helper import format_prompt
 
-        Args:
-            model (str): Имя модели для использования.
-            messages (Messages): Список сообщений для отправки.
-            stream (bool): Указывает, следует ли возвращать ответ в потоковом режиме.
-            proxy (str, optional): Прокси-сервер для использования. Defaults to None.
-            webdriver (WebDriver, optional): Экземпляр веб-драйвера для использования. Defaults to None.
-            virtual_display (bool, optional): Использовать ли виртуальный дисплей. Defaults to True.
-            **kwargs: Дополнительные аргументы.
+# Создание экземпляра провайдера
+provider = Theb(label="TheB.AI")
 
-        Returns:
-            CreateResult: Результат выполнения запроса.
+# Определение истории сообщений
+messages = Messages(messages=[
+    {"role": "user", "content": "Привет, как дела?"},
+    {"role": "assistant", "content": "Хорошо, спасибо за вопрос. А у тебя как?"}
+])
 
-        Пример:
-            Примеры вызовов с полным набором параметров, которые могут быть переданы в функцию.
-        """
+# Отправка запроса к модели с prompt`ом
+result = provider.create_completion(model="theb-ai-free", messages=messages, stream=False)
+
+# Получение ответа от модели
+print(result.content)
 ```
-
-### Как работает функция:
-
-1. **Преобразование имени модели**: Если `model` находится в словаре `models`, то происходит замена имени модели на соответствующее значение для `TheB.AI`.
-2. **Форматирование промпта**: Используется функция `format_prompt` для преобразования списка сообщений в строку промпта.
-3. **Создание сессии веб-драйвера**: Создается экземпляр класса `WebDriverSession` для управления веб-драйвером.
-4. **Запуск веб-драйвера**: Внутри контекстного менеджера `web_session` запускается или используется существующий веб-драйвер.
-5. **Внедрение JavaScript**: Внедряется JavaScript-код для перехвата запросов к API `/api/conversation` и получения потоковых ответов.
-6. **Открытие веб-сайта**: Открывается главная страница `TheB.AI` (`f"{cls.url}/home"`).
-7. **Ожидание загрузки**: Ожидается, пока не станет видимым элемент с `ID "textareaAutosize"`.
-8. **Обработка оверлея**: Предпринимаются попытки кликнуть на элементы с классом `driver-overlay`, чтобы закрыть всплывающие окна.
-9. **Выбор модели (если указана)**: Если указана модель, выполняется выбор модели на веб-сайте.
-   - Кликается на элемент `#SelectModel svg`, чтобы открыть панель выбора моделей.
-   - Выбирается нужная модель из списка и нажимается кнопка подтверждения.
-10. **Отправка промпта**: В поле `textareaAutosize` вводится отформатированный промпт.
-11. **Чтение ответа**: Используется JavaScript-код для чтения потоковых данных из `window._reader` и извлечения полезной информации из JSON-ответов.
-12. **Генерация результата**: Функция возвращает генератор, который выдает чанки данных по мере их поступления.
-
-## Примеры
-
 ```python
-# Пример вызова create_completion
-model = "gpt-3.5-turbo"
-messages = [{"role": "user", "content": "Hello, world!"}]
-stream = True
+## \file hypotez/src/endpoints/gpt4free/g4f/Provider/not_working/Theb.py
+# -*- coding: utf-8 -*-
+#! .pyenv/bin/python3
 
-# response_generator = Theb.create_completion(model=model, messages=messages, stream=stream)
-# for chunk in response_generator:
-#     print(chunk)
+"""
+Модуль для провайдера TheB.AI
+===============================================================
+Модуль обеспечивает взаимодействие с моделью TheB.AI через веб-интерфейс. 
+Использует Selenium для автоматизации браузера.
+
+Использует WebDriverSession для управления экземпляром браузера, 
+предоставляет методы для отправки prompt`ов и получения ответов. 
+Загружает страницу TheB.AI,  вводит prompt`ы и получает ответы, 
+используя JavaScript-код для обработки потока ответов.

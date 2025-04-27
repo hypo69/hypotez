@@ -1,0 +1,684 @@
+{
+  "products": [
+    {
+      "product_url": "https://www.amazon.com/dp/B08KH3FD7P/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/DEWALT-20-Volt-MAX-XR-Cordless-Brushless-Hammer-Drill-Impact-Driver-Combo-Kit-DCK299P2/204780693",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/CRAFTSMAN-V20-Cordless-Drill-Combo-Kit/1000578979",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.makitatools.com/products/details/XDT16Z",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.boschtools.com/us/en/p/gsb18v-490b12-18v-ec-brushless-1-2-in-hammer-drill-driver-kit-gsb18v-490b12--230420",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/20v-lithium-ion-cordless-12-in-drilldriver-kit-64754.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/milwaukee-m18-fuel-hammer-drill-impact-driver-combo-kit-2997-22",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.co.jp/dp/B07YFGHJ5K/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/MILWAUKEE-M18-FUEL-Cordless-Hammer-Drill-49KL53",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/High-Quality-18V-Cordless-Drill-Electric_62015897345.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.de/dp/B07PPMSQ17/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/RYOBI-ONE-18V-Cordless-1-2-in-Drill-Driver-Kit-with-1-5-Ah-Battery-and-Charger-P215K/309676813",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/DEWALT-XR-20-Volt-Max-1-2-in-Brushless-Cordless-Drill-2-Batteries-Included/1000140151",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.toolstation.com/dewalt-dcd796p1-18v-xr-brushless-combi-drill/p11345",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.screwfix.com/p/makita-dhp482 LXT-18v-li-ion-cordless-combi-drill-bare/989fg",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B07NQX1XF8/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/7-amp-12-in-impact-wrench-with-rocker-switch-61173.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.boschtools.com/us/en/p/gxl18v-232b22-18v-2-tool-combo-kit-with-1-2-in-drill-driver-1-4-in-hex-impact-driver-and-2-2-ah-batteries-gxl18v-232b22--230467",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/makita-cordless-drills-drivers-xt269m",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.fr/dp/B07FCRMLT6/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/Milwaukee-M18-FUEL-18-Volt-Lithium-Ion-Brushless-Cordless-Hammer-Drill-and-Impact-Driver-Combo-Kit-2-Tool-2997-22/305063033",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/Kobalt-24-Volt-Max-1-2-in-Brushless-Cordless-Drill-1-Battery-Included/1000351657",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.makitatools.com/products/details/XPH12Z",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/Professional-Power-Tools-20V-Cordless-Impact_62439871123.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.ca/dp/B07XJ19M4T/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/DEWALT-20V-MAX-XR-Cordless-Drill-38D556",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.screwfix.com/p/erbauer-ext-18v-brushless-cordless-combi-drill-bare/171fv",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.toolstation.com/makita-dhr202zj-18v-lxt-sds-plus-rotary-hammer-drill-body-only/p65311",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/20v-cordless-14-in-hex-impact-driver-kit-63380.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B07QG5J98B/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/Makita-18-Volt-LXT-Lithium-Ion-Brushless-Cordless-Hammer-Drill-and-Impact-Driver-Combo-Kit-2-Tool-with-2-4-0Ah-Batteries-XT269M/207054612",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/Metabo-HPT-18-Volt-1-2-in-Cordless-Drill-2-Batteries-Included/1000791150",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.boschtools.com/us/en/p/ddh181x-01-18v-brute-tough-1-2-in-drill-driver-bare-tool-ddh181x-01--34532",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/dewalt-dcf887b-20v-max-xr-impact-driver",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.co.uk/dp/B07QXT46H9/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/Factory-Supply-Lithium-Battery-Electric-Cordless_60786543210.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/BOSCH-18V-Cordless-Drill-Driver-40L123",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.screwfix.com/p/bosch-gsb-18v-55-18v-brushless-cordless-combi-drill-bare/709gy",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.toolstation.com/hikoki-dv18dbl2-18v-brushless-combi-drill/p88111",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B01NARQF81/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/Bosch-18-Volt-Lithium-Ion-1-2-in-Cordless-Hammer-Drill-Driver-Kit-with-2-2-0-Ah-Batteries-Charger-and-Bag-GSB18V-490B12/303060114",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/Bosch-18-Volt-1-2-in-Cordless-Drill-2-Batteries-Included/1000363289",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.makitatools.com/products/details/XFD131",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/12-amp-heavy-duty-variable-speed-reversible-hammer-drill-64120.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/bosch-power-tools-gdx18v-1800cb15",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.it/dp/B07M5J8W8Y/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/MAKITA-18V-LXT-Cordless-Hammer-Drill-45NX75",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/21V-Lithium-Electric-Screwdriver-Power-Tool_1600058794123.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.screwfix.com/p/milwaukee-m18-fdd2-0-18v-li-ion-redlithium-brushless-cordless-drill-driver-bare/435pf",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B07KMXL159/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/RIDGID-18-Volt-SubCompact-Lithium-Ion-Cordless-Brushless-1-2-in-Drill-Driver-Kit-with-2-0-Ah-Battery-and-Charger-R8701K/313306836",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/CRAFTSMAN-V20-1-2-in-20-Volt-Max-Variable-Speed-Brushless-Cordless-Hammer-Drill-Tool-Only/1000578761",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.boschtools.com/us/en/p/hds183-01-18v-ec-brushless-1-2-in-hammer-drill-driver-kit-hds183-01--131468",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.makitatools.com/products/details/XPH14Z",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/bauer-20v-brushless-cordless-12-in-high-torque-impact-wrench-tool-only-63629.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/metabo-hpt-cordless-drill-driver-ds18dbsl",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.es/dp/B07XVLKWB5/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/RIDGID-18V-Cordless-Drill-Driver-55GE80",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/12V-Max-Power-Tools-Combo-Kit_62019573185.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.toolstation.com/einhell-power-x-change-te-cd-18-li-i-bl-cordless-brushless-impact-drill-bare/p64323",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B07WJ3T4XN/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/HART-20-Volt-Cordless-1-2-inch-Drill-Driver-Kit-1-1-5Ah-Lithium-Ion-Battery-HPDD01B/312400771",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/SKIL-PWRCore-20-Volt-1-2-in-Cordless-Drill-1-Battery-Included/1000716978",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.makitatools.com/products/details/GPH01Z",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.boschtools.com/us/en/p/gdr18v-1800cb15-18v-ec-brushless-1-4-in-hex-impact-driver-kit-gdr18v-1800cb15--230403",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/hercules-20v-lithium-cordless-12-in-compact-hammer-drilldriver-kit-63384.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/flex-24v-1-2-in-2-speed-hammer-drill-driver-kit-fx1271t-2b",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.co.jp/dp/B08P5Q6X7Y/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/FLEX-24V-MAX-Cordless-Hammer-Drill-782Y35",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/High-Performance-Electric-Drill-Machine-18V_1600123456789.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.screwfix.com/p/dewalt-dcd778s2t-sfgb-18v-2-x-1-5ah-li-ion-xr-brushless-cordless-combi-drill/506gy",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.toolstation.com/stanley-fatmax-v20-18v-brushless-sds-plus-hammer-drill-body/p36197",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B0842Q4XPQ/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/Metabo-HPT-18-Volt-Lithium-Ion-Brushless-Cordless-Sub-Compact-Drill-Driver-Tool-Only-DS18DDXQ4/312115817",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/FLEX-24-Volt-1-2-in-Brushless-Cordless-Drill-1-Battery-Included/5001914707",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.makitatools.com/products/details/XDT13Z",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.boschtools.com/us/en/p/gsr18v-535cb15-18v-ec-brushless-connected-ready-1-2-in-drill-driver-kit-gsr18v-535cb15--230395",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/warrior-18v-cordless-38-in-drilldriver-kit-64118.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/skil-pwr-core-20-brushless-hammer-drill-hd529401",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.de/dp/B08BRBYY83/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/SKIL-PWRCore-20-Cordless-Drill-712M17",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/OEM-ODM-Brushless-Motor-Electric-Impact_1600098765432.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.screwfix.com/p/titan-ttb631sds-6-2kg-sds-plus-drill-230-240v/97533",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.toolstation.com/ryobi-r18pd3-0-one-18v-cordless-combi-drill-body/p77867",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B07QG1V9Y3/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/FLEX-24-Volt-Brushless-1-2-in-2-Speed-Hammer-Drill-Kit-with-2-5-0Ah-Lithium-Ion-Batteries-and-Charger-FX1271T-2B/316371384",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/Metabo-HPT-MultiVolt-36-Volt-1-2-in-Brushless-Cordless-Drill-1-Battery-Included/1001053562",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.makitatools.com/products/details/XFD11ZB",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.boschtools.com/us/en/p/idhm182-01-18v-ec-brushless-socket-ready-impact-driver-kit-idhm182-01--131472",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/8-amp-12-in-variable-speed-hammer-drill-64119.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/milwaukee-m12-fuel-hammer-drill-impact-driver-kit-2598-22",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.fr/dp/B07N1K9YST/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/METABO-HPT-36V-Cordless-Hammer-Drill-55GE78",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/Cordless-Drill-Set-20V-Power-Tool_1600076543210.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.screwfix.com/p/mac-allister-msds1500-10kg-sds-max-drill-230-240v/8135j",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.toolstation.com/worx-wx373-9-20v-max-brushless-hammer-drill-body/p95585",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B071GN1W8V/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/DEWALT-ATOMIC-20-Volt-MAX-Cordless-Brushless-Compact-1-2-in-Drill-Driver-2-20-Volt-1-3Ah-Batteries-Charger-Bag-DCD708C2/308067566",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/CRAFTSMAN-V20-RP-Brushless-1-2-in-Drill-Driver-Kit/5001861203",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.makitatools.com/products/details/XPH07Z",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.boschtools.com/us/en/p/gsb12v-300b22-12v-max-ec-brushless-3-8-in-hammer-drill-driver-kit-gsb12v-300b22--230442",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/20v-cordless-12-in-hammer-drill-tool-only-63529.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/makita-sub-compact-brushless-driver-drill-kit-cx200rb",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.ca/dp/B07H9X1V1J/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/CRAFTSMAN-V20-Cordless-Drill-Driver-697A89",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/Ronix-Model-8900K-Cordless-Brushless-Drill_62518734567.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.screwfix.com/p/erbauer-ext-18v-brushless-cordless-sds-plus-drill-bare/661gy",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.toolstation.com/metabo-sb-18-ltx-bl-i-18v-brushless-combi-drill/p41938",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B07FDKN3R6/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/Milwaukee-M12-FUEL-12-Volt-Li-Ion-Brushless-Cordless-Hammer-Drill-and-Impact-Driver-Combo-Kit-2-Tool-w-2-Batteries-Bag-2598-22/303101201",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/DEWALT-20V-MAX-XR-Tool-Connect-1-2-in-Hammer-Drill-Bare-Tool/1000378871",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.makitatools.com/products/details/XFD14Z",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.boschtools.com/us/en/p/dds183-01-18v-ec-brushless-1-2-in-drill-driver-kit-dds183-01--131467",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/10-amp-1-18-in-sds-variable-speed-pro-rotary-hammer-kit-64288.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/dewalt-20v-max-atomic-compact-hammer-drill-dcd799b",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.co.uk/dp/B07RWF6XCR/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/HART-20V-Cordless-Drill-Driver-782Y31",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/Tork-Kraft-Power-Tool-18V-Li_60798765432.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.screwfix.com/p/hikoki-dv18dbsl-jjz-18v-2-x-5-0ah-li-ion-brushless-cordless-combi-drill/151gv",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.toolstation.com/bauer-1-2-in-corded-hammer-drill/p12345",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B07YQBGS77/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/RYOBI-ONE-18V-Cordless-3-8-in-Drill-Driver-Kit-with-1-5-Ah-Battery-and-Charger-PSDD01K/314109407",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/Kobalt-XTR-24-volt-Max-1-2-in-Brushless-Cordless-Hammer-Drill-2-Batteries-Included/1002278076",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.makitatools.com/products/details/XFD061",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.boschtools.com/us/en/p/ps31-2a-12v-max-3-8-in-drill-driver-kit-ps31-2a--131478",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/chicago-electric-power-tools-12-in-heavy-duty-drill-with-variable-speed-reversible-63114.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/bosch-12v-max-flexiclick-5-in-1-drill-driver-system-gsr12v-300fcb22",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.it/dp/B08JPRZ56G/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/BOSCH-12V-MAX-Cordless-Drill-Driver-40L118",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/Wholesale-Power-Tools-Electric-Screwdriver-Drill_1600087654321.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.screwfix.com/p/stanley-fatmax-fmc625d2-gb-18v-2-x-2-0ah-li-ion-cordless-combi-drill/4787f",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.toolstation.com/draper-d20-20v-brushless-combi-drill-kit-2-x-2ah/p98765",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B08GYG7YQ2/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/RIDGID-18-Volt-OCTANE-Cordless-Brushless-1-2-in-Hammer-Drill-Driver-Tool-Only-R8611506B/308095218",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/Bosch-GSR18V-535FCB15-18V-EC-Brushless-Connected-Ready-Flexiclick-5-In-1-Drill-Driver-System-Kit/1001832776",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.makitatools.com/products/details/XSH03Z",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.boschtools.com/us/en/p/gdx18v-1600b12-18v-freak-1-4-in-1-2-in-two-in-one-bit-socket-impact-driver-kit-gdx18v-1600b12--230436",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/38-in-variable-speed-reversible-drill-60614.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/metabo-hpt-multivolt-hammer-drill-dv36da",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.es/dp/B07SYWMPNL/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/Kobalt-24V-MAX-XTR-Cordless-Hammer-697A92",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/New-Arrival-12V-Electric-Cordless-Drill_62087654321.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.toolstation.com/black-decker-bdchd18k-18v-hammer-drill-kit/p12121",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B07VWBFV3K/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/BLACK-DECKER-20-Volt-MAX-Lithium-Ion-Cordless-1-2-in-Drill-Driver-with-Battery-1-5Ah-and-Charger-LDX120C/205163002",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/BLACK-DECKER-20-Volt-Max-3-8-in-Cordless-Drill-1-Battery-Included/50041653",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.makitatools.com/products/details/XDT11Z",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.boschtools.com/us/en/p/gsr12v-140fcb22-12v-max-flexiclick-5-in-1-drill-driver-system-kit-gsr12v-140fcb22--131477",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/drill-master-18v-38-in-cordless-drilldriver-kit-with-keyless-chuck-21-clutch-settings-62868.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/skil-20v-drill-driver-and-impact-driver-combo-kit-cb739601",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.co.jp/dp/B07X1XZYJ7/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/BLACK-DECKER-20V-MAX-Cordless-Drill-49YY11",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/Mini-Electric-Hand-Drill-Machine-DC_1600065432109.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.screwfix.com/p/ryobi-r18dd3-0-18v-li-ion-one-cordless-drill-driver-bare/687hp",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.toolstation.com/evolution-r185sdsplus-18v-ext-cordless-sds-hammer-drill-bare/p54321",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B081TD1L19/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/SKIL-PWRCore-12-Brushless-12V-1-2-in-Cordless-Drill-Driver-Kit-with-2-0Ah-Lithium-Battery-and-PWRJump-Charger-DL529302/311963199",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/SKIL-PWRCore-12-12-Volt-1-2-in-Brushless-Cordless-Drill-1-Battery-Included/1001062984",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.makitatools.com/products/details/XTR01Z",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.boschtools.com/us/en/p/ps21-2a-12v-max-two-speed-pocket-driver-kit-ps21-2a--131479",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.harborfreight.com/chicago-electric-12-in-heavy-duty-spade-handle-drill-63112.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.acmetools.com/shop/tools/festool-cordless-drills-drivers-576451",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.de/dp/B07KWHDJ8R/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.grainger.com/product/CHICAGO-PNEUMATIC-3-8-Drive-Cordless-Drill-21RV65",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.alibaba.com/product-detail/Ingco-CDLI20021-Power-Tools-20V-Lithium_62087654321.html",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.screwfix.com/p/worx-wx354-slammer-20v-power-share-brushless-sds-plus-drill-bare/569kh",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.toolstation.com/ferm-pdm1051-710w-impact-drill/p87654",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.amazon.com/dp/B07P7X6YBG/",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.homedepot.com/p/WEN-20-Volt-MAX-Lithium-Ion-Cordless-1-2-in-Drill-Driver-with-Bits-Battery-and-Charger-20121/312740295",
+      "category": "электрические инструменты"
+    },
+    {
+      "product_url": "https://www.lowes.com/pd/PORTER-CABLE-20-Volt-Max-1-2-in-Cordless-Drill-2-Batteries-Included/50198831",
+      "category": "электрические инструменты"
+    }
+  ]
+}

@@ -1,194 +1,240 @@
-# Модуль `bot_aiogram.py`
+# Telegram Bot via FastAPI Server Using RPC
 
-## Обзор
+## Overview
 
-Модуль `bot_aiogram.py` реализует телеграм-бота с использованием фреймворка `aiogram` и сервера `FastAPI` через `RPC`. Он обеспечивает взаимодействие с пользователями через телеграм, обрабатывает команды и сообщения, а также поддерживает интеграцию с другими сервисами через удаленный вызов процедур (RPC).
+This module implements a Telegram bot that utilizes a FastAPI server for handling webhook requests. The bot communicates with the FastAPI server via RPC (Remote Procedure Call) for efficient and scalable communication. The module relies on the `aiogram` library for Telegram bot interaction.
 
-## Более подробно
+## Details
 
-Этот модуль создает экземпляр телеграм-бота, регистрирует обработчики команд и сообщений, настраивает вебхук для получения обновлений от телеграма и запускает `FastAPI`-сервер для обработки входящих запросов.
+The module's main functionality resides in the `TelegramBot` class, which acts as an interface for interacting with the Telegram bot. The bot is initialized with a Telegram bot token and a webhook route for the FastAPI server. 
 
-## Классы
+This module also sets up an RPC (Remote Procedure Call) connection for communication with the FastAPI server. This connection allows the bot to register routes and start the server remotely.
+
+## Classes
 
 ### `TelegramBot`
 
-**Описание**:
-Класс `TelegramBot` представляет собой интерфейс телеграм-бота. Он инициализирует бота, регистрирует обработчики, настраивает вебхук и управляет жизненным циклом бота.
+**Description**: The `TelegramBot` class represents the interface for interacting with the Telegram bot. It handles initialization, webhook setup, and running the bot.
 
-**Атрибуты**:
-- `token` (str): Токен телеграм-бота.
-- `port` (int): Порт для вебхука (по умолчанию 443).
-- `route` (str): Маршрут вебхука для `FastAPI` (по умолчанию `telegram_webhook`).
-- `config` (SimpleNamespace): Конфигурация бота, загруженная из файла `telegram.json`.
-- `bot` (Bot): Экземпляр бота `aiogram`.
-- `dp` (Dispatcher): Диспетчер `aiogram` для обработки обновлений.
-- `bot_handler` (BotHandler): Обработчик команд и сообщений бота.
-- `app` (Optional[web.Application]): Веб-приложение `aiohttp` для вебхука.
-- `rpc_client` (Optional[ServerProxy]): RPC-клиент для взаимодействия с сервером.
+**Inherits**: None
 
-**Методы**:
-- `__init__`: Инициализирует экземпляр класса `TelegramBot`.
-- `run`: Запускает бота, инициализирует `RPC` и вебхук.
-- `_register_default_handlers`: Регистрирует обработчики команд по умолчанию.
-- `_handle_message`: Обрабатывает текстовые сообщения.
-- `initialize_bot_webhook`: Инициализирует вебхук бота.
-- `_register_route_via_rpc`: Регистрирует маршрут телеграм-вебхука через `RPC`.
-- `stop`: Останавливает бота и удаляет вебхук.
+**Attributes**:
 
-### `TelegramBot.__init__`
+- `token`:  The Telegram bot token (str).
+- `port`: The port used for the FastAPI server (int).
+- `route`: The webhook route for the FastAPI server (str).
+- `config`: Configuration settings loaded from a JSON file (SimpleNamespace).
+- `bot`: The `aiogram` bot instance (Bot).
+- `dp`: The `aiogram` dispatcher instance (Dispatcher).
+- `bot_handler`: An instance of `BotHandler` responsible for handling different bot commands and messages (BotHandler).
+- `app`: The FastAPI application instance (web.Application).
+- `rpc_client`: An instance of `ServerProxy` for RPC communication (ServerProxy).
 
-```python
-    def __init__(self, token: str, route: str = 'telegram_webhook'):
-        """
-        Инициализация экземпляра класса TelegramBot.
+**Methods**:
 
-        Args:
-            token (str): Токен телеграм-бота.
-            route (str): Webhook route for FastAPI. Defaults to '/telegram_webhook'.
-        """
-```
+- `run()`: Runs the bot, establishes the RPC connection, and sets up the webhook.
+- `_register_default_handlers()`: Registers default handlers for bot commands, messages, and media types.
+- `_handle_message(message: types.Message)`: Handles text messages sent to the bot.
+- `initialize_bot_webhook(route: str)`: Initializes the bot webhook and sets up a secure connection if needed.
+- `_register_route_via_rpc(rpc_client: ServerProxy)`: Registers the Telegram webhook route via RPC.
+- `stop()`: Stops the bot and deletes the webhook.
 
-**Параметры**:
-- `token` (str): Токен телеграм-бота.
-- `route` (str): Маршрут вебхука для `FastAPI`. По умолчанию '/telegram_webhook'.
+**Principle of Operation**:
 
-**Описание работы**:
-- Инициализирует атрибуты экземпляра класса, включая токен, маршрут, конфигурацию, бота, диспетчер, обработчик бота, веб-приложение и `RPC`-клиент.
+1. **Initialization**: The `TelegramBot` class is initialized with a bot token and a webhook route. The configuration is loaded from a JSON file and the `aiogram` bot and dispatcher instances are created.
+2. **RPC Connection**: An RPC connection is established with the FastAPI server. This connection allows the bot to start the server remotely and register routes.
+3. **Webhook Setup**: The bot's webhook is initialized. If the FastAPI server is running on a local machine, a secure connection is established using `ngrok`.
+4. **Route Registration**: The Telegram webhook route is registered via RPC on the FastAPI server.
+5. **Bot Running**: The bot is run using either polling or webhook-based message handling depending on the server's setup.
+6. **Message Handling**: The `BotHandler` instance handles incoming messages and commands, performing actions based on the user's input.
+7. **Stopping the Bot**: The `stop()` method shuts down the FastAPI application, disables the bot's webhook, and stops the bot.
 
-**Примеры**:
-```python
-bot = TelegramBot(token='YOUR_TELEGRAM_TOKEN', route='/custom_webhook')
-```
 
-### `TelegramBot.run`
+## Functions
 
-```python
-    def run(self):
-        """Запуск бота и инициализация RPC и вебхука."""
-```
+### `_register_default_handlers()`
 
-**Описание работы**:
-- Пытается инициализировать `RPC`-клиент и запустить `RPC`-сервер.
-- Инициализирует вебхук телеграм-бота.
-- Регистрирует маршрут через `RPC`.
-- Запускает веб-приложение для обработки вебхука или запускает поллинг, если не удалось установить вебхук.
+**Purpose**: Registers the default handlers for the bot, including commands for start, help, sending PDFs, and handling various message types.
 
-**Примеры**:
-```python
-bot = TelegramBot(token='YOUR_TELEGRAM_TOKEN')
-bot.run()
-```
+**Parameters**: None
 
-### `TelegramBot._register_default_handlers`
+**Returns**: None
+
+**Raises Exceptions**: None
+
+**Inner Functions**: None
+
+**How the Function Works**: 
+
+This function registers various handlers for the Telegram bot using the `aiogram` dispatcher. These handlers cover common bot commands like `/start`, `/help`, `/sendpdf`, and respond to various message types like text, voice notes, documents, and logs. The `bot_handler` instance handles the logic for these handlers.
+
+**Examples**:
 
 ```python
-    def _register_default_handlers(self):
-        """Регистрация обработчиков по умолчанию с использованием экземпляра BotHandler."""
+# Example usage in the TelegramBot class:
+self.dp.message.register(self.bot_handler.start, Command('start'))  # Registers handler for `/start` command
+self.dp.message.register(self.bot_handler.help_command, Command('help'))  # Registers handler for `/help` command
 ```
 
-**Описание работы**:
-- Регистрирует обработчики команд `/start`, `/help`, `/sendpdf`, а также обработчики текстовых сообщений, голосовых сообщений и документов.
+### `_handle_message(message: types.Message)`
 
-**Примеры**:
-```python
-bot = TelegramBot(token='YOUR_TELEGRAM_TOKEN')
-bot._register_default_handlers()
-```
+**Purpose**: Handles text messages sent to the bot.
 
-### `TelegramBot._handle_message`
+**Parameters**:
 
-```python
-    async def _handle_message(self, message: types.Message):
-        """Обработка любого текстового сообщения."""
-```
+- `message`: The Telegram message object (types.Message).
 
-**Параметры**:
-- `message` (types.Message): Объект сообщения от `aiogram`.
+**Returns**: None
 
-**Описание работы**:
-- Вызывает метод `handle_message` у экземпляра `BotHandler` для обработки текстового сообщения.
+**Raises Exceptions**: None
 
-**Примеры**:
-```python
-async def some_function(message: types.Message):
-    bot = TelegramBot(token='YOUR_TELEGRAM_TOKEN')
-    await bot._handle_message(message)
-```
+**Inner Functions**: None
 
-### `TelegramBot.initialize_bot_webhook`
+**How the Function Works**:
+
+This function is called whenever a text message is received by the bot. It uses the `bot_handler` instance to process the message and send a response to the user.
+
+**Examples**:
 
 ```python
-    def initialize_bot_webhook(self, route: str):
-        """Инициализация вебхука бота."""
+# Example usage in the TelegramBot class:
+self.dp.message.register(self._handle_message)  # Registers handler for text messages
 ```
 
-**Параметры**:
-- `route` (str): Маршрут вебхука.
+### `initialize_bot_webhook(route: str)`
 
-**Описание работы**:
-- Формирует URL вебхука на основе хоста и маршрута.
-- Если хост локальный, использует `ngrok` для создания публичного URL.
-- Устанавливает вебхук для бота и возвращает URL вебхука.
+**Purpose**: Initializes the bot webhook and sets up a secure connection if the FastAPI server is running locally.
 
-**Примеры**:
-```python
-bot = TelegramBot(token='YOUR_TELEGRAM_TOKEN')
-webhook_url = bot.initialize_bot_webhook(route='/telegram_webhook')
-```
+**Parameters**:
 
-### `TelegramBot._register_route_via_rpc`
+- `route`: The webhook route for the FastAPI server (str).
 
-```python
-    def _register_route_via_rpc(self, rpc_client: ServerProxy):
-        """Регистрация маршрута телеграм-вебхука через RPC."""
-```
+**Returns**:
 
-**Параметры**:
-- `rpc_client` (ServerProxy): `RPC`-клиент.
+- `str | bool`: The webhook URL if successful, otherwise `False`.
 
-**Описание работы**:
-- Регистрирует маршрут телеграм-вебхука через `RPC`-сервер.
+**Raises Exceptions**: None
 
-**Примеры**:
-```python
-from xmlrpc.client import ServerProxy
-rpc_client = ServerProxy(f"http://{gs.host}:{port}", allow_none=True)
-bot = TelegramBot(token='YOUR_TELEGRAM_TOKEN')
-bot._register_route_via_rpc(rpc_client)
-```
+**Inner Functions**: None
 
-### `TelegramBot.stop`
+**How the Function Works**:
+
+1. **Route Validation**: Ensures that the route starts with a forward slash ('/') and constructs a full webhook URL.
+2. **Local Server Detection**: Checks if the FastAPI server is running on a local machine (`127.0.0.1` or `localhost`).
+3. **Secure Connection Setup**: If the server is local, it uses `ngrok` to create a secure tunnel and obtain a public URL for the webhook.
+4. **Webhook Setting**: Attempts to set the bot's webhook using the generated or provided URL.
+5. **Success/Error Handling**: Logs success or error messages depending on the outcome of the webhook setup process.
+
+**Examples**:
 
 ```python
-    def stop(self):
-        """Остановка бота и удаление вебхука."""
+# Example usage in the TelegramBot class:
+webhook_url = self.initialize_bot_webhook(self.route)  # Initializes the webhook and sets up a secure connection if needed
 ```
 
-**Описание работы**:
-- Останавливает веб-приложение и удаляет вебхук телеграм-бота.
+### `_register_route_via_rpc(rpc_client: ServerProxy)`
 
-**Примеры**:
+**Purpose**: Registers the Telegram webhook route via RPC on the FastAPI server.
+
+**Parameters**:
+
+- `rpc_client`: The RPC client instance (ServerProxy).
+
+**Returns**: None
+
+**Raises Exceptions**: None
+
+**Inner Functions**: None
+
+**How the Function Works**:
+
+This function uses the RPC client to register the Telegram webhook route on the FastAPI server. It ensures that the route is properly formatted and passes the route information to the server for registration.
+
+**Examples**:
+
 ```python
-bot = TelegramBot(token='YOUR_TELEGRAM_TOKEN')
-bot.stop()
+# Example usage in the TelegramBot class:
+self._register_route_via_rpc(self.rpc_client)  # Registers the webhook route via RPC
 ```
 
-## Запуск бота
+### `stop()`
+
+**Purpose**: Stops the bot and deletes the webhook.
+
+**Parameters**: None
+
+**Returns**: None
+
+**Raises Exceptions**: None
+
+**Inner Functions**: None
+
+**How the Function Works**:
+
+1. **Application Shutdown**: If the FastAPI application is running, it is shut down and cleaned up.
+2. **Webhook Deletion**: Attempts to delete the bot's webhook using the `aiogram` library.
+3. **Success/Error Handling**: Logs success or error messages depending on the outcome of the shutdown and webhook deletion processes.
+
+**Examples**:
 
 ```python
-if __name__ == "__main__":
-    from dotenv import load_dotenv
-    load_dotenv()
-    bot = TelegramBot(os.getenv('TELEGRAM_TOKEN'))
-    bot.run()
+# Example usage in the TelegramBot class:
+bot.stop()  # Stops the bot and deletes the webhook
 ```
 
-**Описание работы**:
-- Загружает переменные окружения из файла `.env`.
-- Создает экземпляр класса `TelegramBot` с использованием токена из переменной окружения `TELEGRAM_TOKEN`.
-- Запускает бота.
 
-**Примеры**:
-Установите `TELEGRAM_TOKEN` в `.env` файл и запустите скрипт.
-```bash
-TELEGRAM_TOKEN=YOUR_TELEGRAM_TOKEN python src/endpoints/bots/telegram/bot_aiogram.py
+## Parameter Details
+
+- `token`: The Telegram bot token (str).
+- `route`: The webhook route for the FastAPI server (str).
+- `port`: The port used for the FastAPI server (int).
+- `message`: The Telegram message object (types.Message).
+- `rpc_client`: The RPC client instance (ServerProxy).
+
+## Examples
+
+**Example 1: Creating a TelegramBot instance and running it**
+
+```python
+from src.endpoints.bots.telegram.bot_aiogram import TelegramBot
+
+bot = TelegramBot(token='YOUR_TELEGRAM_BOT_TOKEN')
+bot.run() 
+```
+
+**Example 2: Handling a text message**
+
+```python
+# Inside the `TelegramBot` class
+async def _handle_message(self, message: types.Message):
+    """Handles text messages sent to the bot."""
+    await self.bot_handler.handle_message(message)
+```
+
+**Example 3: Registering a default handler**
+
+```python
+# Inside the `TelegramBot` class
+self.dp.message.register(self.bot_handler.start, Command('start'))  # Registers handler for `/start` command
+```
+
+**Example 4: Initializing the bot webhook**
+
+```python
+# Inside the `TelegramBot` class
+webhook_url = self.initialize_bot_webhook(self.route)  # Initializes the webhook and sets up a secure connection if needed
+```
+
+**Example 5: Registering a route via RPC**
+
+```python
+# Inside the `TelegramBot` class
+self._register_route_via_rpc(self.rpc_client)  # Registers the webhook route via RPC
+```
+
+**Example 6: Stopping the bot**
+
+```python
+# Inside the `TelegramBot` class
+bot.stop()  # Stops the bot and deletes the webhook
+```

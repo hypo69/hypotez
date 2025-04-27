@@ -1,181 +1,121 @@
-# Документация для `js_api.py`
+# JsApi Module
 
-## Обзор
+## Overview
 
-Файл `js_api.py` является частью проекта `hypotez` и содержит класс `JsApi`, который расширяет класс `Api`. Этот файл предоставляет API для взаимодействия с веб-интерфейсом, включая получение ответов, выбор изображений, работу с камерой и установку выбранных элементов.
+The `JsApi` module defines a class that acts as an interface between the server-side Python code and the client-side JavaScript code in the GPT4Free GUI application. It handles communication between the two components, allowing the JavaScript front-end to interact with the server's functionality, including:
 
-## Подробности
+- Managing conversations with AI models
+- Selecting and uploading images
+- Capturing images from the camera
+- Retrieving available models and providers
 
-В этом файле реализован класс `JsApi`, который наследуется от класса `Api`. Он предназначен для обработки запросов от JavaScript-клиента и выполнения соответствующих действий, таких как получение сообщений, выбор изображений и управление камерой.
+## Details
 
-## Классы
+The `JsApi` class inherits from the `Api` class and extends its functionality with methods specific to the GUI application. 
 
-### `JsApi`
+## Classes
 
-**Описание**: Класс `JsApi` расширяет класс `Api` и предоставляет API для взаимодействия с веб-интерфейсом.
+### `class JsApi`
 
-**Наследует**:
-- `Api`: Описывает базовый API.
+**Description**: The `JsApi` class represents an interface for the client-side JavaScript code. It handles communication between the server-side Python code and the client-side JavaScript code in the GPT4Free GUI application, allowing the JavaScript front-end to interact with the server's functionality.
 
-**Атрибуты**:
-- Нет специфических атрибутов, кроме наследованных от `Api`.
+**Inherits**: `Api`
 
-**Методы**:
-- `get_conversation(options: dict, message_id: str = None, scroll: bool = None) -> Iterator`: Получает разговор.
-- `choose_image()`: Открывает диалоговое окно выбора изображения.
-- `take_picture()`: Делает снимок с камеры.
-- `on_image_selection(filename)`: Обрабатывает выбор изображения пользователем.
-- `on_camera(filename)`: Обрабатывает снимок, сделанный камерой.
-- `set_selected(input_id: str = None)`: Устанавливает выбранный элемент в интерфейсе.
-- `get_version()`: Возвращает версию API.
-- `get_models()`: Возвращает список доступных моделей.
-- `get_providers()`: Возвращает список доступных провайдеров.
-- `get_provider_models(provider: str, **kwargs)`: Возвращает список моделей для указанного провайдера.
+**Methods**:
 
-#### `get_conversation`
+- `get_conversation(self, options: dict, message_id: str = None, scroll: bool = None) -> Iterator`: This method handles the sending of messages to the AI model and retrieves the response. It allows the client-side to interact with the server-side conversation logic.
+    - **Purpose**:  This method handles the sending of messages to the AI model and retrieves the response. It allows the client-side to interact with the server-side conversation logic.
+    - **Parameters**:
+        - `options (dict)`: A dictionary containing options for the conversation.
+        - `message_id (str, optional)`: The ID of the message being sent. Defaults to None.
+        - `scroll (bool, optional)`:  Whether to scroll to the bottom of the conversation after the message is added. Defaults to None.
+    - **Returns**: `Iterator`: An iterator that yields responses from the AI model.
+- `choose_image()`: This method opens a file dialog for the user to select an image file.
+    - **Purpose**:  This method opens a file dialog for the user to select an image file.
+- `take_picture()`: This method triggers the camera to capture a picture and saves it to the user's picture directory.
+    - **Purpose**:  This method triggers the camera to capture a picture and saves it to the user's picture directory.
+- `on_image_selection(self, filename)`: This method handles the selection of an image from the file dialog.
+    - **Purpose**: This method handles the selection of an image from the file dialog.
+    - **Parameters**:
+        - `filename (str)`: The path to the selected image file.
+- `on_camera(self, filename)`: This method handles the capture of an image from the camera.
+    - **Purpose**:  This method handles the capture of an image from the camera.
+    - **Parameters**:
+        - `filename (str)`: The path to the captured image file.
+- `set_selected(self, input_id: str = None)`: This method updates the selected input element (image or camera) in the GUI.
+    - **Purpose**:  This method updates the selected input element (image or camera) in the GUI.
+    - **Parameters**:
+        - `input_id (str, optional)`: The ID of the input element to select. Defaults to None.
+- `get_version()`: This method retrieves the current version of the GPT4Free server.
+    - **Purpose**: This method retrieves the current version of the GPT4Free server.
+- `get_models()`: This method retrieves a list of available AI models.
+    - **Purpose**:  This method retrieves a list of available AI models.
+- `get_providers()`: This method retrieves a list of available AI model providers.
+    - **Purpose**: This method retrieves a list of available AI model providers.
+- `get_provider_models(self, provider: str, **kwargs)`: This method retrieves a list of AI models supported by a specific provider.
+    - **Purpose**:  This method retrieves a list of AI models supported by a specific provider.
+    - **Parameters**:
+        - `provider (str)`: The name of the provider.
 
-```python
-def get_conversation(self, options: dict, message_id: str = None, scroll: bool = None) -> Iterator:
-    """
-    Функция получает разговор, отправляя чанки сообщений в веб-интерфейс.
+## Inner Functions
 
-    Args:
-        options (dict): Параметры для создания ответа.
-        message_id (str, optional): Идентификатор сообщения. По умолчанию `None`.
-        scroll (bool, optional): Нужно ли прокручивать окно. По умолчанию `None`.
+None
 
-    Returns:
-        Iterator: Итератор по сообщениям.
-    """
-```
+## How the JsApi Class Works
 
-**Как работает функция**:
-- Функция `get_conversation` получает параметры разговора из аргумента `options`. Если у экземпляра класса есть атрибут `image`, он открывается в бинарном режиме и добавляется в `options`.
-- Затем вызывается функция `_create_response_stream` для получения сообщений.
-- Для каждого сообщения вызывается JavaScript-функция `add_message_chunk` для добавления чанка сообщения в веб-интерфейс.
-- Если `is_stopped()` возвращает `true`, цикл прерывается.
+The `JsApi` class functions as a communication bridge between the client-side JavaScript code and the server-side Python code. It provides methods for interacting with AI models, handling image input, and managing user interface elements.  
 
-#### `choose_image`
+## Examples
 
-```python
-def choose_image(self):
-    """
-    Функция открывает диалоговое окно выбора изображения.
-    """
-```
-
-**Как работает функция**:
-- Функция `choose_image` вызывает функцию `user_select_image`, которая открывает диалоговое окно для выбора файла изображения. После выбора изображения вызывается функция `on_image_selection`.
-
-#### `take_picture`
-
-```python
-def take_picture(self):
-    """
-    Функция делает снимок с камеры.
-    """
-```
-
-**Как работает функция**:
-- Функция `take_picture` создает имя файла для снимка и вызывает функцию `camera.take_picture` для захвата изображения с камеры. После завершения вызывается функция `on_camera`.
-
-#### `on_image_selection`
+### Creating a `JsApi` instance:
 
 ```python
-def on_image_selection(self, filename):
-    """
-    Функция обрабатывает выбор изображения пользователем.
+from hypotez.src.endpoints.gpt4free.g4f.gui.server.js_api import JsApi
 
-    Args:
-        filename: Имя выбранного файла.
-    """
+js_api = JsApi()
 ```
 
-**Как работает функция**:
-- Функция `on_image_selection` получает имя файла, выбранного пользователем. Если файл существует, он устанавливается в качестве атрибута `image` экземпляра класса. Затем вызывается функция `set_selected` для обновления выбранного элемента в интерфейсе.
-
-#### `on_camera`
+### Sending a message to an AI model:
 
 ```python
-def on_camera(self, filename):
-    """
-    Функция обрабатывает снимок, сделанный камерой.
+# Example of sending a message with some options
+options = {"provider": "openai", "model": "gpt-3.5-turbo"}
+messages = js_api.get_conversation(options, message_id="1234", scroll=True)
 
-    Args:
-        filename: Имя файла снимка.
-    """
+# Iterate over responses from the AI model
+for message in messages:
+    print(message)
 ```
 
-**Как работает функция**:
-- Функция `on_camera` получает имя файла, созданного камерой. Если файл существует, он устанавливается в качестве атрибута `image` экземпляра класса. Затем вызывается функция `set_selected` для обновления выбранного элемента в интерфейсе.
-
-#### `set_selected`
+### Selecting an image:
 
 ```python
-def set_selected(self, input_id: str = None):
-    """
-    Функция устанавливает выбранный элемент в интерфейсе.
-
-    Args:
-        input_id (str, optional): Идентификатор выбранного элемента. По умолчанию `None`.
-    """
+js_api.choose_image()
 ```
 
-**Как работает функция**:
-- Функция `set_selected` удаляет класс `selected` у всех элементов с классом `image-label.selected`. Если `input_id` имеет значение "image" или "camera", добавляет класс `selected` к соответствующему элементу `label` в интерфейсе.
-
-#### `get_version`
+### Capturing a picture from the camera:
 
 ```python
-def get_version(self):
-    """
-    Функция возвращает версию API.
-    """
+js_api.take_picture()
 ```
 
-**Как работает функция**:
-- Функция `get_version` вызывает метод `get_version` родительского класса `Api` и возвращает его результат.
-
-#### `get_models`
+### Retrieving available AI models:
 
 ```python
-def get_models(self):
-    """
-    Функция возвращает список доступных моделей.
-    """
+models = js_api.get_models()
+print(models)
 ```
 
-**Как работает функция**:
-- Функция `get_models` вызывает метод `get_models` родительского класса `Api` и возвращает его результат.
-
-#### `get_providers`
+### Retrieving available providers:
 
 ```python
-def get_providers(self):
-    """
-    Функция возвращает список доступных провайдеров.
-    """
+providers = js_api.get_providers()
+print(providers)
 ```
 
-**Как работает функция**:
-- Функция `get_providers` вызывает метод `get_providers` родительского класса `Api` и возвращает его результат.
-
-#### `get_provider_models`
+### Retrieving AI models for a specific provider:
 
 ```python
-def get_provider_models(self, provider: str, **kwargs):
-    """
-    Функция возвращает список моделей для указанного провайдера.
-
-    Args:
-        provider (str): Имя провайдера.
-        **kwargs: Дополнительные аргументы.
-    """
+models = js_api.get_provider_models(provider="openai")
+print(models)
 ```
-
-**Как работает функция**:
-- Функция `get_provider_models` вызывает метод `get_provider_models` родительского класса `Api` с переданными аргументами и возвращает его результат.
-
-## Примеры
-
-Примеры использования методов класса `JsApi` можно увидеть в коде веб-интерфейса, где вызываются эти методы для выполнения различных действий, таких как получение сообщений, выбор изображений и управление камерой.

@@ -1,205 +1,188 @@
-# Модуль `Pi`
+# Pi Provider for GPT4Free
 
-## Обзор
+## Overview
 
-Модуль `Pi` представляет собой асинхронный провайдер для взаимодействия с сервисом `pi.ai`. Он позволяет вести диалог с использованием API `pi.ai`, поддерживая потоковую передачу данных и асинхронные запросы. Модуль использует `StreamSession` для эффективного управления HTTP-сессиями и обработки потоковых ответов.
+This module implements the `Pi` class, a provider for interacting with the Pi AI service within the `gpt4free` project. This provider allows users to communicate with Pi AI using natural language and receive responses in a stream format. 
 
-## Более подробно
+## Details
 
-Модуль `Pi` предназначен для интеграции с `pi.ai` через его API. Он предоставляет функциональность для начала разговора, отправки запросов и получения ответов в режиме реального времени. В модуле реализована поддержка управления cookies и заголовками, а также обработка ошибок при взаимодействии с API.
+The `Pi` class inherits from the `AsyncGeneratorProvider` base class, providing a common interface for asynchronous communication with various AI models. This provider specifically handles communication with the Pi AI API, enabling interactions through its chat feature.
 
-## Классы
+## Classes
 
-### `Pi`
+### `class Pi`
 
-**Описание**: Асинхронный провайдер для взаимодействия с `pi.ai`.
+**Description**:  This class provides a Python interface to interact with the Pi AI service. It inherits from the `AsyncGeneratorProvider` base class and implements asynchronous functions for sending messages and receiving responses from Pi AI.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
+**Inherits**:  `AsyncGeneratorProvider`
 
-**Атрибуты**:
-- `url` (str): URL для взаимодействия с `pi.ai` (`https://pi.ai/talk`).
-- `working` (bool): Указывает, работает ли провайдер (`True`).
-- `use_nodriver` (bool): Указывает, использовать ли бездрайверный режим (`True`).
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу данных (`True`).
-- `default_model` (str): Модель, используемая по умолчанию (`pi`).
-- `models` (List[str]): Список поддерживаемых моделей (`[default_model]`).
-- `_headers` (dict): Заголовки HTTP-запросов.
-- `_cookies` (Cookies): Cookies для HTTP-запросов.
+**Attributes**:
+  - `url` (str): The base URL for the Pi AI API.
+  - `working` (bool): Indicates whether the provider is currently functional (True).
+  - `use_nodriver` (bool): Determines whether the provider uses a WebDriver for interaction (True).
+  - `supports_stream` (bool): Specifies whether the provider supports streaming responses (True).
+  - `use_nodriver` (bool): Determines whether the provider uses a WebDriver for interaction (True).
+  - `default_model` (str): The default model used for interactions.
+  - `models` (List[str]): A list of supported models.
+  - `_headers` (dict):  Stores the headers used for API requests.
+  - `_cookies` (dict):  Stores the cookies used for API requests.
 
-**Принцип работы**:
-Класс `Pi` использует асинхронные запросы для взаимодействия с API `pi.ai`. Он поддерживает начало разговора, отправку сообщений и получение ответов в потоковом режиме. Для управления сессиями используется `StreamSession`, что позволяет эффективно обрабатывать потоковые данные. Класс также обеспечивает управление cookies и заголовками для поддержания сессии с сервером.
 
-## Методы класса
+**Methods**:
 
-### `create_async_generator`
+- `create_async_generator(model: str, messages: Messages, stream: bool, proxy: str = None, timeout: int = 180, conversation_id: str = None, **kwargs) -> AsyncResult`
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    stream: bool,
-    proxy: str = None,
-    timeout: int = 180,
-    conversation_id: str = None,
-    **kwargs
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для получения ответов от `pi.ai`.
+    **Purpose**: This method creates an asynchronous generator to send messages and receive responses from Pi AI. It handles the entire interaction process, including starting a conversation, sending prompts, and receiving responses.
 
-    Args:
-        model (str): Модель для использования (в данном случае всегда "pi").
-        messages (Messages): Список сообщений для отправки.
-        stream (bool): Указывает, использовать ли потоковый режим.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-        timeout (int, optional): Время ожидания запроса в секундах. По умолчанию 180.
-        conversation_id (str, optional): Идентификатор существующего разговора. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы.
+    **Parameters**:
+      - `model` (str): The model to use for communication.
+      - `messages` (List[dict]): A list of messages to send to the model.
+      - `stream` (bool): Specifies whether to receive responses in a streaming format.
+      - `proxy` (str):  The proxy to use for API requests.
+      - `timeout` (int):  The timeout for API requests in seconds.
+      - `conversation_id` (str): The unique ID of the conversation.
+      - `**kwargs`: Additional keyword arguments.
 
-    Returns:
-        AsyncResult: Асинхронный генератор, выдающий ответы от `pi.ai`.
+    **Returns**:
+      - `AsyncResult`:  An asynchronous result object representing the response from Pi AI.
 
-    Как работает:
-        Если заголовки не инициализированы, функция извлекает их и cookies из `pi.ai` с использованием `get_args_from_nodriver`.
-        Затем, используя `StreamSession`, отправляет запросы к `pi.ai` для получения ответов.
-        Если `conversation_id` не предоставлен, начинается новый разговор с использованием `start_conversation`.
-        После этого отправляется запрос с сообщением пользователя (`prompt`) и асинхронно обрабатываются ответы, извлекая текст из каждой строки ответа.
-    """
-    ...
-```
+    **Raises Exceptions**:
+      - `Exception`: If there are any errors during the interaction process.
 
-**Параметры**:
-- `model` (str): Модель для использования (в данном случае всегда "pi").
-- `messages` (Messages): Список сообщений для отправки.
-- `stream` (bool): Указывает, использовать ли потоковый режим.
-- `proxy` (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-- `timeout` (int, optional): Время ожидания запроса в секундах. По умолчанию 180.
-- `conversation_id` (str, optional): Идентификатор существующего разговора. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы.
+- `start_conversation(session: StreamSession) -> str`
 
-**Примеры**:
+    **Purpose**: This method initiates a new conversation with Pi AI and returns the conversation ID.
 
-```python
-# Пример использования create_async_generator
-messages = [{"role": "user", "content": "Привет, как дела?"}]
-async for response in Pi.create_async_generator(model="pi", messages=messages, stream=True):
-    print(response)
-```
+    **Parameters**:
+      - `session` (StreamSession): The `StreamSession` object used for API requests.
 
-### `start_conversation`
+    **Returns**:
+      - `str`:  The conversation ID for the newly created conversation.
 
-```python
-@classmethod
-async def start_conversation(cls, session: StreamSession) -> str:
-    """
-    Начинает новый разговор с `pi.ai` и возвращает идентификатор разговора.
+    **Raises Exceptions**:
+      - `Exception`: If there are any errors during conversation initiation.
 
-    Args:
-        session (StreamSession): Асинхронная HTTP-сессия.
+- `get_chat_history(session: StreamSession, conversation_id: str)` 
 
-    Returns:
-        str: Идентификатор нового разговора.
-    """
-    ...
-```
+    **Purpose**: This method retrieves the chat history for a given conversation ID.
 
-**Параметры**:
-- `session` (StreamSession): Асинхронная HTTP-сессия.
+    **Parameters**:
+      - `session` (StreamSession): The `StreamSession` object used for API requests.
+      - `conversation_id` (str): The ID of the conversation to retrieve the history for.
 
-**Примеры**:
+    **Returns**:
+      - `dict`: A dictionary containing the chat history for the specified conversation.
+
+    **Raises Exceptions**:
+      - `Exception`: If there are any errors retrieving the chat history.
+
+- `ask(session: StreamSession, prompt: str, conversation_id: str)`
+
+    **Purpose**: This method sends a message to Pi AI using a given prompt and conversation ID. It retrieves responses from the service in a streaming format.
+
+    **Parameters**:
+      - `session` (StreamSession): The `StreamSession` object used for API requests.
+      - `prompt` (str): The message or prompt to send to Pi AI.
+      - `conversation_id` (str): The ID of the conversation to send the message to.
+
+    **Returns**:
+      - `AsyncGenerator[dict, None, None]`: An asynchronous generator yielding the responses from Pi AI.
+
+    **Raises Exceptions**:
+      - `Exception`: If there are any errors sending the message or receiving responses.
+
+**Principle of Operation**:
+
+The `Pi` class acts as a wrapper around the Pi AI API, enabling interactions with the chat service.  The `create_async_generator` method manages the entire conversation flow, including starting, sending messages, and receiving responses in a stream. The `start_conversation` method creates a new conversation with Pi AI. `get_chat_history` retrieves the chat history for a given conversation. `ask` sends a message to Pi AI using a provided prompt. These methods employ the `StreamSession` class for asynchronous communication, allowing for real-time responses. 
+
+## Examples
 
 ```python
-# Пример использования start_conversation
-import asyncio
-from src.requests import StreamSession
+from hypotez.src.endpoints.gpt4free.g4f.Provider.Pi import Pi
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
+# Creating a message list
+messages: Messages = [
+    {"role": "user", "content": "Hello, Pi! What is the meaning of life?"}
+]
+
+# Using the Pi provider
 async def main():
-    async with StreamSession() as session:
-        conversation_id = await Pi.start_conversation(session)
-        print(f"ID разговора: {conversation_id}")
+    pi_provider = Pi()
+    async for response in pi_provider.create_async_generator(model="pi", messages=messages, stream=True):
+        print(response)
 
 if __name__ == "__main__":
+    import asyncio
     asyncio.run(main())
 ```
 
-### `get_chat_history`
+## Parameter Details
+
+- `model` (str): The model to use for communication.
+- `messages` (List[dict]): A list of messages to send to the model. Each message is a dictionary with keys `role` (e.g., "user", "assistant") and `content` (the message text).
+- `stream` (bool): Specifies whether to receive responses in a streaming format.
+- `proxy` (str):  The proxy to use for API requests.
+- `timeout` (int):  The timeout for API requests in seconds.
+- `conversation_id` (str): The unique ID of the conversation.
+- `**kwargs`: Additional keyword arguments.
+
+## Inner Functions
+
+This class does not contain inner functions.
+
+## How the Function Works
+
+The `Pi` class operates as a bridge between the `gpt4free` project and the Pi AI service. The primary function, `create_async_generator`, orchestrates the entire interaction process. 
+
+1.  **Initialization**: The method initializes the `_headers` and `_cookies` attributes for API requests.
+2.  **Conversation Start**: If no conversation ID is provided, it starts a new conversation using the `start_conversation` method, receiving a unique conversation ID.
+3.  **Message Sending**: It constructs a message using the provided messages list and sends it to Pi AI via the `ask` method.
+4.  **Streaming Responses**: The `ask` method retrieves responses from Pi AI in a streaming format, yielding each response line to the caller.
+5.  **Async Generator**: The entire process is wrapped in an asynchronous generator (`create_async_generator`), enabling users to iterate over responses as they arrive.
+
+## Examples
 
 ```python
-async def get_chat_history(session: StreamSession, conversation_id: str):
-    """
-    Получает историю чата по идентификатору разговора.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.Pi import Pi
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-    Args:
-        session (StreamSession): Асинхронная HTTP-сессия.
-        conversation_id (str): Идентификатор разговора.
+# Example 1: Starting a new conversation
+async def start_new_conversation():
+    pi_provider = Pi()
+    conversation_id = await pi_provider.start_conversation(session)
+    print(f"New conversation started with ID: {conversation_id}")
 
-    Returns:
-        json: Возвращает историю сообщений.
-    """
-    ...
+# Example 2: Sending a message to a conversation
+async def send_message():
+    pi_provider = Pi()
+    conversation_id = "your_conversation_id"  # Replace with the actual ID
+    message = {"role": "user", "content": "What is the weather like today?"}
+    async for response in pi_provider.ask(session, message, conversation_id):
+        print(response)
+
+# Example 3: Retrieving conversation history
+async def get_history():
+    pi_provider = Pi()
+    conversation_id = "your_conversation_id"  # Replace with the actual ID
+    history = await pi_provider.get_chat_history(session, conversation_id)
+    print(history)
+
+# Example 4: Using create_async_generator for multiple messages
+async def multiple_messages():
+    messages: Messages = [
+        {"role": "user", "content": "Hello, Pi!"},
+        {"role": "user", "content": "How are you today?"}
+    ]
+    pi_provider = Pi()
+    async for response in pi_provider.create_async_generator(model="pi", messages=messages, stream=True):
+        print(response)
 ```
 
-**Параметры**:
-- `session` (StreamSession): Асинхронная HTTP-сессия.
-- `conversation_id` (str): Идентификатор разговора.
+## Your Behavior During Code Analysis:
 
-**Примеры**:
-
-```python
-# Пример использования get_chat_history
-import asyncio
-from src.requests import StreamSession
-
-async def main():
-    async with StreamSession() as session:
-        conversation_id = "some_conversation_id"  # Укажите существующий ID разговора
-        history = await Pi.get_chat_history(session, conversation_id)
-        print(f"История чата: {history}")
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
-
-### `ask`
-
-```python
-@classmethod
-async def ask(cls, session: StreamSession, prompt: str, conversation_id: str):
-    """
-    Отправляет запрос к `pi.ai` и возвращает ответ.
-
-    Args:
-        session (StreamSession): Асинхронная HTTP-сессия.
-        prompt (str): Текст запроса.
-        conversation_id (str): Идентификатор разговора.
-
-    Yields:
-        str: Части ответа от `pi.ai`.
-    """
-    ...
-```
-
-**Параметры**:
-- `session` (StreamSession): Асинхронная HTTP-сессия.
-- `prompt` (str): Текст запроса.
-- `conversation_id` (str): Идентификатор разговора.
-
-**Примеры**:
-
-```python
-# Пример использования ask
-import asyncio
-from src.requests import StreamSession
-
-async def main():
-    async with StreamSession() as session:
-        conversation_id = "some_conversation_id"  # Укажите существующий ID разговора
-        prompt = "Как дела?"
-        async for line in Pi.ask(session, prompt, conversation_id):
-            print(line)
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
+- Inside the code, you might encounter expressions between `<` `>`. For example: `<instruction for gemini model:Loading product descriptions into PrestaShop.>, <next, if available>. These are placeholders where you insert the relevant value.
+- Always refer to the system instructions for processing code in the `hypotez` project (the first set of instructions you translated);
+- Analyze the file's location within the project. This helps understand its purpose and relationship with other files. You will find the file location in the very first line of code starting with `## \\file /...`;
+- Memorize the provided code and analyze its connection with other parts of the project;
+- In these instructions, do not suggest code improvements. Strictly follow point 5. **Example File** when composing the response.

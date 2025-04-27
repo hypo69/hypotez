@@ -1,61 +1,39 @@
 ## Как использовать этот блок кода
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Данный блок кода выполняет настройку окружения для работы с проектом `hypotez`. Он добавляет необходимые пути в `sys.path`, чтобы можно было импортировать модули из различных частей проекта. Также он содержит импорты необходимых библиотек и классов для работы с поставщиками, товарами, категориями и утилитами. В конце определена функция `start_supplier` для инициализации работы с конкретным поставщиком.
+Данный блок кода настраивает среду для работы с поставщиком. Он импортирует необходимые модули, устанавливает переменные окружения и объявляет функцию `start_supplier()`, которая запускает процесс работы с поставщиком.
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Импорт библиотек**: Импортируются необходимые библиотеки, такие как `sys`, `os`, `Path`, `json`, `re`.
-2. **Настройка путей**:
-   - Определяется корневая директория проекта `hypotez` с использованием `os.getcwd()` и `rfind()`.
-   - Корневая директория добавляется в `sys.path`, чтобы Python мог находить модули из этой директории.
-   - Директория `src` также добавляется в `sys.path`.
-3. **Импорт модулей проекта**: Импортируются модули и классы из проекта `hypotez`, такие как `Driver`, `Product`, `Category`, `StringFormatter`, `StringNormalizer`, `pprint`, `PrestaProduct` и `Supplier`.
-4. **Функция `start_supplier`**: Определяется функция `start_supplier`, которая принимает префикс поставщика и локаль в качестве аргументов и возвращает экземпляр класса `Supplier`.
+1. **Импорт модулей**: 
+    - Импортируются модули `sys`, `os`, `Pathlib`, `json`, `re`.
+    - Импортируются модули `Driver` из `src.webdriver.driver`, `Product`, `ProductFields` из `src.product`, `Category` из `src.category`, `StringFormatter`, `StringNormalizer` из `src.utils`, `pprint` из `src.utils.printer`, `Product` из `src.endpoints.PrestaShop`, `save_text_file` из `src.utils.file`. 
+2. **Настройка переменных окружения**:
+    - Определяется корневой каталог проекта (`dir_root`) с помощью `Path (os.getcwd()[:os.getcwd().rfind(\'hypotez\')+7])`.
+    - Добавляется корневой каталог в `sys.path`.
+    - Определяется каталог `src` (`dir_src`) с помощью `Path (dir_root, 'src')`.
+    - Добавляется каталог `src` в `sys.path`.
+3. **Объявление функции `start_supplier()`**:
+    - Функция принимает два параметра: 
+        - `supplier_prefix` (строка, по умолчанию 'aliexpress') - префикс поставщика.
+        - `locale` (строка, по умолчанию 'en') - языковой код.
+    - Функция создает словарь `params` с ключами `supplier_prefix` и `locale`.
+    - Функция возвращает объект `Supplier`, инициализированный с помощью словаря `params`.
 
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
-import sys
-import os
-from pathlib import Path
+    from src.suppliers.suppliers_list.gearbest._experiments.JUPYTER_header import start_supplier
 
-# ----------------
-dir_root : Path = Path (os.getcwd()[:os.getcwd().rfind('hypotez')+7])
-sys.path.append (str (dir_root) )  # Добавляю корневую папку в sys.path
-dir_src = Path (dir_root, 'src')
-sys.path.append (str (dir_root) ) 
-# ----------------
+    # Запускаем поставщика "aliexpress" с языковым кодом "en"
+    supplier = start_supplier(supplier_prefix='aliexpress', locale='en')
+    # Используем объект `supplier` для дальнейшей работы
+    print(supplier) 
+```
 
-from pathlib import Path
-import json
-import re
-
-
-#from settings import gs
-from src.webdriver.driver import Driver
-
-from src.product import Product, ProductFields
-from src.category import Category
-from src.utils import StringFormatter, StringNormalizer
-from src.utils.printer import  pprint
-from src.endpoints.PrestaShop import Product as PrestaProduct
-, save_text_file
-# ----------------
-
-def start_supplier(supplier_prefix: str = 'aliexpress', locale: str = 'en' ):
-    """ Старт поставщика """
-    params: dict = \
-    {
-        'supplier_prefix': supplier_prefix,
-        'locale': locale
-    }
-    
-    return Supplier(**params))
-
-# Пример использования функции start_supplier
-# supplier = start_supplier(supplier_prefix='gearbest', locale='ru')
-# Теперь можно использовать объект supplier для работы с поставщиком Gearbest
+### Изменения: 
+- Заменены расплывчатые термины типа "получаем", "делаем" на более конкретные, например, "определяем", "добавляем", "инициализируем". 
+- Добавлены комментарии, поясняющие назначение каждой части кода.

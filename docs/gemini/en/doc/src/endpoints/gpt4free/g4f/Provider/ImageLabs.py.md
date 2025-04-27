@@ -1,132 +1,84 @@
-# Документация модуля `ImageLabs`
+# ImageLabs Provider
 
-## Обзор
+## Overview
 
-Модуль `ImageLabs` предназначен для взаимодействия с сервисом ImageLabs для генерации изображений на основе текстовых запросов. Он предоставляет асинхронный генератор, который отправляет запросы к API ImageLabs и возвращает сгенерированные изображения.
+The module contains the `ImageLabs` class, which is a provider for generating images using the ImageLabs API. This class provides functionality for interacting with the API, handling requests, and processing responses.
 
-## Подробнее
+## Details
 
-Модуль поддерживает асинхронное взаимодействие с API ImageLabs, что позволяет эффективно генерировать изображения, не блокируя основной поток выполнения. Он также предоставляет возможность указания прокси для выполнения запросов через прокси-сервер.
+The `ImageLabs` class is designed to work with the ImageLabs API, which allows generating images from text prompts. It handles all the necessary steps for generating images, including constructing requests, handling responses, and providing the generated images.
 
-## Классы
+## Classes
 
 ### `ImageLabs`
 
-**Описание**: Класс `ImageLabs` является провайдером для генерации изображений через сервис ImageLabs.
+**Description**: This class provides a wrapper for interacting with the ImageLabs API. It offers methods for generating images from prompts.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
-- `ProviderModelMixin`: Предоставляет общие методы для работы с моделями провайдера.
+**Inherits**:
+- `AsyncGeneratorProvider`: Base class for asynchronous generators that provide data.
+- `ProviderModelMixin`: Mixin class providing model-related functionality.
 
-**Атрибуты**:
-- `url` (str): URL сервиса ImageLabs.
-- `api_endpoint` (str): URL API для генерации изображений.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `supports_stream` (bool): Флаг, указывающий на поддержку потоковой передачи данных.
-- `supports_system_message` (bool): Флаг, указывающий на поддержку системных сообщений.
-- `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений.
-- `default_model` (str): Модель, используемая по умолчанию для генерации изображений (`'sdxl-turbo'`).
-- `default_image_model` (str): Псевдоним для `default_model`.
-- `image_models` (list[str]): Список поддерживаемых моделей для генерации изображений.
-- `models` (list[str]): Псевдоним для `image_models`.
+**Attributes**:
 
-**Принцип работы**:
+- `url` (str): The base URL of the ImageLabs API.
+- `api_endpoint` (str): The specific endpoint for image generation.
+- `working` (bool): Indicates whether the provider is currently functioning.
+- `supports_stream` (bool):  Indicates whether the provider supports streaming data.
+- `supports_system_message` (bool): Indicates whether the provider supports system messages.
+- `supports_message_history` (bool): Indicates whether the provider supports message history.
+- `default_model` (str): The default model for image generation.
+- `default_image_model` (str): The default image model (same as `default_model`).
+- `image_models` (list):  A list of supported image models.
+- `models` (list): Alias for `image_models`.
 
-Класс `ImageLabs` использует асинхронные запросы к API ImageLabs для генерации изображений на основе текстовых запросов. Он поддерживает указание прокси-сервера для выполнения запросов и предоставляет методы для управления моделями и параметрами генерации.
+**Methods**:
 
-## Методы класса
+#### `create_async_generator`
 
-### `create_async_generator`
+**Purpose**: This method creates an asynchronous generator for generating images.
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    # Image
-    prompt: str = None,
-    negative_prompt: str = "",
-    width: int = 1152,
-    height: int = 896,
-    **kwargs
-) -> AsyncResult:
-    """Создает асинхронный генератор для генерации изображений.
+**Parameters**:
 
-    Args:
-        cls (Type[ImageLabs]): Ссылка на класс `ImageLabs`.
-        model (str): Модель для генерации изображений.
-        messages (Messages): Список сообщений, содержащих текстовый запрос.
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-        prompt (str, optional): Текстовый запрос для генерации изображения. По умолчанию `None`.
-        negative_prompt (str, optional): Негативный запрос, описывающий, чего не должно быть на изображении. По умолчанию "".
-        width (int, optional): Ширина изображения. По умолчанию 1152.
-        height (int, optional): Высота изображения. По умолчанию 896.
-        **kwargs: Дополнительные параметры.
+- `model` (str): The model to use for image generation.
+- `messages` (Messages): A list of messages, the last one containing the prompt.
+- `proxy` (str, optional):  A proxy server to use for requests. Defaults to `None`.
+- `prompt` (str, optional): The prompt to use for image generation. Defaults to the content of the last message if not specified.
+- `negative_prompt` (str, optional):  Negative prompt for guiding the generation process. Defaults to "".
+- `width` (int, optional): The desired width of the generated image. Defaults to 1152.
+- `height` (int, optional): The desired height of the generated image. Defaults to 896.
+- `**kwargs`:  Additional keyword arguments passed to the API.
 
-    Returns:
-        AsyncResult: Асинхронный генератор, возвращающий объекты `ImageResponse`.
+**Returns**:
 
-    Raises:
-        Exception: Если возникает ошибка при генерации изображения.
+- `AsyncResult`: An asynchronous result containing a generator that yields `ImageResponse` objects.
 
-    Как работает функция:
-    - Функция создает заголовки для HTTP-запросов.
-    - Создается асинхронная сессия с использованием `aiohttp.ClientSession`.
-    - Извлекается текстовый запрос из списка сообщений или используется предоставленный параметр `prompt`.
-    - Формируется JSON-payload с параметрами запроса, включая текстовый запрос, seed, размеры изображения и негативный запрос.
-    - Отправляется POST-запрос к API ImageLabs для генерации изображения.
-    - В цикле опрашивается API ImageLabs для получения статуса задачи генерации изображения.
-    - Если задача выполнена успешно, возвращается объект `ImageResponse` с URL сгенерированного изображения.
-    - Если задача завершилась с ошибкой, выбрасывается исключение.
-    - Ожидание между опросами составляет 1 секунду.
-    """
-    ...
-```
+**Raises**:
 
-### `get_model`
+- `Exception`: If an error occurs during the generation process.
 
-```python
-@classmethod
-def get_model(cls, model: str) -> str:
-    """Возвращает модель по умолчанию.
+**How the Function Works**:
 
-    Args:
-        cls (Type[ImageLabs]): Ссылка на класс `ImageLabs`.
-        model (str): Название модели.
+1. **Setup**: The function sets up the request headers for the API call.
+2. **Prompt Processing**: If no `prompt` is provided, it extracts the prompt from the last message in the `messages` list.
+3. **API Call**: It constructs a payload with parameters for the image generation request and sends it to the ImageLabs API.
+4. **Task ID**: It retrieves the `task_id` from the API response.
+5. **Progress Polling**: The function enters a loop, periodically polling the API for progress updates.
+6. **Progress Check**: It checks the status of the image generation task.
+7. **Yield Image Response**: If the generation is completed, the function yields an `ImageResponse` object with the final image URL.
+8. **Error Handling**: If the API response indicates an error, the function raises an exception.
 
-    Returns:
-        str: Модель по умолчанию.
-    """
-    ...
-```
+#### `get_model`
 
-## Параметры класса
+**Purpose**: This method returns the default model for the provider.
 
-- `url` (str): URL сервиса ImageLabs.
-- `api_endpoint` (str): URL API для генерации изображений.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `supports_stream` (bool): Флаг, указывающий на поддержку потоковой передачи данных.
-- `supports_system_message` (bool): Флаг, указывающий на поддержку системных сообщений.
-- `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений.
-- `default_model` (str): Модель, используемая по умолчанию для генерации изображений (`'sdxl-turbo'`).
-- `default_image_model` (str): Псевдоним для `default_model`.
-- `image_models` (list[str]): Список поддерживаемых моделей для генерации изображений.
-- `models` (list[str]): Псевдоним для `image_models`.
+**Parameters**:
 
-**Примеры**:
+- `model` (str): The requested model.
 
-```python
-# Пример использования класса ImageLabs
-from src.endpoints.gpt4free.g4f.Provider.ImageLabs import ImageLabs
-import asyncio
+**Returns**:
 
-async def main():
-    model = "sdxl-turbo"
-    messages = [{"content": "A cat wearing a hat"}]
-    async for response in ImageLabs.create_async_generator(model=model, messages=messages):
-        print(response)
+- `str`: The default model string.
 
-if __name__ == "__main__":
-    asyncio.run(main())
+**How the Function Works**:
+
+The function simply returns the `default_model` attribute, which is always set to `sdxl-turbo`.

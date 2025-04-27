@@ -1,71 +1,54 @@
-# Документация для `messages_stream.py`
+# `messages_stream.py`
 
-## Обзор
+## Overview
 
-Файл `messages_stream.py` демонстрирует асинхронное взаимодействие с моделью GPT-4 для получения потоковых ответов. Он использует библиотеку `g4f` для создания асинхронного клиента и отправки запроса на генерацию текста в потоковом режиме.
+This Python script demonstrates how to use the `g4f` library for streaming responses from a GPT-4 model. The code showcases a basic chat interaction where the user sends a message and receives a streaming response from the model.
 
-## Более подробно
+## Details
 
-Этот код используется для демонстрации получения ответа от модели GPT-4 в виде потока данных. Это позволяет отображать частичные результаты генерации текста в реальном времени, что может быть полезно для пользовательских интерфейсов и приложений, требующих интерактивного взаимодействия с пользователем. Асинхронный подход позволяет избежать блокировки основного потока выполнения программы во время ожидания ответа от модели.
+The script utilizes the `AsyncClient` from the `g4f` library to establish an asynchronous connection with the GPT-4 model. It then sends a message to the model and uses a streaming loop to receive and display incremental responses.
 
-## Функции
+## Functions
 
-### `main`
+### `main()`
 
+**Purpose**: The primary function that initiates the chat interaction with the GPT-4 model and processes the streamed response.
+
+**Parameters**: 
+- None
+
+**Returns**:
+- None
+
+**Raises Exceptions**: 
+- `Exception`: Handles potential errors during the streaming process.
+
+**How the Function Works**:
+- The function creates an `AsyncClient` object to connect with the GPT-4 model.
+- It sends a user message ("Say hello there!") to the model using the `client.chat.completions.create()` method with the `stream` parameter set to `True`. This enables streaming responses.
+- It then enters a loop to handle the streaming response chunks:
+    - `async for chunk in stream`: Iterates over the streaming response chunks.
+    - `if chunk.choices and chunk.choices[0].delta.content`: Checks if the current chunk contains content.
+    - `content = chunk.choices[0].delta.content`: Extracts the content from the chunk.
+    - `accumulated_text += content`: Appends the content to the `accumulated_text` variable.
+    - `print(content, end="", flush=True)`: Prints the content to the console without adding a newline character and ensures immediate output.
+- The `try...except...finally` block handles potential exceptions during the streaming process.
+- The `finally` block prints the complete accumulated text once the streaming is finished.
+
+**Example**:
 ```python
-async def main():
-    """
-    Основная асинхронная функция для демонстрации потоковой генерации текста с использованием GPT-4.
+>>> asyncio.run(main())
+Say hello there!
+Hello there!
 
-    Returns:
-        None
-
-    Raises:
-        Exception: Если возникает ошибка во время выполнения запроса к модели.
-
-    Как работает функция:
-    - Создает асинхронный клиент для взаимодействия с API.
-    - Отправляет запрос на генерацию текста модели GPT-4 в потоковом режиме.
-    - Итерируется по потоку чанков данных, получаемых от модели.
-    - Накапливает текст из каждого чанка.
-    - Выводит каждый чанк текста на экран.
-    - Обрабатывает возможные ошибки во время выполнения запроса.
-    - Выводит итоговый накопленный текст после завершения потока.
-
-    Пример:
-        >>> asyncio.run(main())
-        Hello there!
-        <BLANKLINE>
-        Final accumulated text: Hello there!
-    """
-    ...
+Final accumulated text: Hello there!
 ```
 
-## Функции
+## Inner Functions:
+- This function does not contain inner functions.
 
-### `main`
+## Parameter Details
+- None
 
-**Назначение**: Основная асинхронная функция для демонстрации потоковой генерации текста с использованием GPT-4.
-
-**Параметры**:
-- Отсутствуют.
-
-**Возвращает**:
-- `None`
-
-**Возможные исключения**:
-- `Exception`: Возникает при ошибке во время запроса к модели.
-
-**Внутренние функции**: Нет
-
-**Как работает функция**:
-- Функция создает асинхронный клиент `AsyncClient` из библиотеки `g4f` для взаимодействия с API.
-- Затем отправляется запрос на генерацию текста модели GPT-4 в потоковом режиме. Запрос включает сообщение с ролью "user" и содержанием "Say hello there!".
-- Функция итерируется по потоку чанков данных, получаемых от модели. Для каждого чанка проверяется наличие содержимого в `chunk.choices[0].delta.content`.
-- Если содержимое присутствует, оно добавляется к переменной `accumulated_text` и выводится на экран с помощью `print(content, end="", flush=True)`, чтобы избежать переноса строки и немедленно отобразить текст.
-- В случае возникновения исключения выводится сообщение об ошибке.
-- После завершения потока или возникновения ошибки выводится итоговый накопленный текст.
-
-**Примеры**:
-```python
-asyncio.run(main())
+**Examples**:
+- The script demonstrates a single example of interaction with the GPT-4 model, sending the message "Say hello there!". You can modify this message and test different user inputs.

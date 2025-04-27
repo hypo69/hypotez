@@ -1,79 +1,86 @@
-# Модуль `TypeGPT`
+# TypeGPT Provider
 
-## Обзор
+## Overview
 
-Модуль `TypeGPT` предоставляет класс `TypeGPT`, который является подклассом `OpenaiTemplate` и предназначен для взаимодействия с сервисом TypeGPT. Он содержит информацию о URL, API, заголовках и моделях, используемых для связи с TypeGPT.
+This module defines the `TypeGPT` class, which acts as a provider for the `gpt4free` endpoint within the `hypotez` project. It provides functionality for interacting with the TypeGPT API and utilizes the `OpenaiTemplate` class for common API interactions.
 
-## Детали
+## Details
 
-Этот модуль определяет настройки и параметры, необходимые для подключения к TypeGPT, включая URL, заголовки запросов и список поддерживаемых моделей. Он также включает методы для получения списка доступных моделей. Этот код важен для настройки и использования TypeGPT в проекте `hypotez`.
+The `TypeGPT` class inherits from the `OpenaiTemplate` class, leveraging its methods for sending requests, processing responses, and handling common API operations. It defines specific attributes and methods relevant to the TypeGPT API, such as:
 
-## Классы
+- **`label`**: Identifies the provider as "TypeGpt".
+- **`url`**: Sets the base URL for the TypeGPT website.
+- **`api_base`**: Specifies the base URL for the TypeGPT API.
+- **`working`**: Indicates whether the provider is currently functional (set to `True`).
+- **`headers`**: Defines the default headers for API requests.
+- **`default_model`**: Specifies the default GPT model used by the provider.
+- **`default_vision_model`**: Defines the default model for image processing tasks.
+- **`vision_models`**: Lists available models for image processing.
+- **`fallback_models`**: Lists backup models to use if the primary model is unavailable.
+- **`image_models`**: Lists models specifically designed for image generation.
+- **`model_aliases`**: Maps model aliases to their actual model names.
+- **`get_models`**: A class method that retrieves a list of available models from the TypeGPT API.
+
+## Classes
 
 ### `TypeGPT`
 
-**Описание**: Класс `TypeGPT` является подклассом `OpenaiTemplate` и предоставляет интерфейс для взаимодействия с API TypeGPT.
+**Description**: This class represents the TypeGPT provider, handling interactions with the TypeGPT API.
 
-**Наследует**:
-- `OpenaiTemplate`: Этот класс наследует базовый функционал для работы с OpenAI-подобными API из класса `OpenaiTemplate`.
+**Inherits**: `OpenaiTemplate`
 
-**Атрибуты**:
-- `label` (str): Метка провайдера, в данном случае `"TypeGpt"`.
-- `url` (str): URL сервиса TypeGPT, `"https://chat.typegpt.net"`.
-- `api_base` (str): Базовый URL API TypeGPT, `"https://chat.typegpt.net/api/openai/v1"`.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера, `True`.
-- `headers` (dict): Заголовки HTTP-запроса для взаимодействия с API.
-- `default_model` (str): Модель, используемая по умолчанию, `'gpt-4o-mini-2024-07-18'`.
-- `default_vision_model` (str): Модель для обработки изображений, используемая по умолчанию, совпадает с `default_model`.
-- `vision_models` (list): Список моделей, поддерживающих обработку изображений.
-- `fallback_models` (list): Список моделей, используемых в качестве запасных вариантов.
-- `image_models` (list): Список моделей, предназначенных для генерации изображений.
-- `model_aliases` (dict): Словарь псевдонимов моделей.
+**Attributes**:
 
-**Принцип работы**:
+- `label` (str): Provider identifier, "TypeGpt".
+- `url` (str): Base URL for the TypeGPT website.
+- `api_base` (str): Base URL for the TypeGPT API.
+- `working` (bool): Indicates the provider's functionality (True).
+- `headers` (dict): Default headers for API requests.
+- `default_model` (str): The default GPT model used by the provider.
+- `default_vision_model` (str): The default model for image processing tasks.
+- `vision_models` (list): List of available models for image processing.
+- `fallback_models` (list): List of backup models for when the primary model is unavailable.
+- `image_models` (list): List of models specialized for image generation.
+- `model_aliases` (dict): Mapping of model aliases to actual model names.
 
-Класс `TypeGPT` настраивает параметры подключения к сервису TypeGPT, включая URL, заголовки и список поддерживаемых моделей. Он также предоставляет метод `get_models` для получения актуального списка доступных моделей из API. Эти параметры используются для выполнения запросов к TypeGPT и обработки ответов.
+**Methods**:
 
-## Методы класса
+- `get_models`(): A class method that retrieves a list of available models from the TypeGPT API.
+
+## Class Methods
 
 ### `get_models`
 
 ```python
-@classmethod
-def get_models(cls, **kwargs):
-    """
-    Получает список доступных моделей из API TypeGPT.
-
-    Args:
-        **kwargs: Дополнительные параметры.
-
-    Returns:
-        list: Список доступных моделей.
-    """
+    @classmethod
+    def get_models(cls, **kwargs):
+        if not cls.models:
+            cls.models = requests.get(f"{cls.url}/api/config").json()["customModels"].split(",")
+            cls.models = [model.split("@")[0][1:] for model in cls.models if model.startswith("+") and model not in cls.image_models]
+        return cls.models
 ```
 
-**Описание**:
-Метод класса `get_models` получает список доступных моделей из API TypeGPT.
+**Purpose**: This method retrieves a list of available GPT models from the TypeGPT API.
 
-**Параметры**:
-- `cls` (Type[TypeGPT]): Ссылка на класс `TypeGPT`.
-- `**kwargs`: Дополнительные параметры.
+**Parameters**:
 
-**Возвращает**:
-- `list`: Список доступных моделей.
+- `**kwargs`: This method accepts any additional keyword arguments, but they are not currently used.
 
-**Как работает функция**:
-1. Проверяет, был ли уже получен список моделей (хранится в `cls.models`).
-2. Если список моделей не был получен, выполняет GET-запрос к `f"{cls.url}/api/config"` для получения конфигурации.
-3. Извлекает список моделей из JSON-ответа, используя ключ `"customModels"`.
-4. Разделяет строку моделей на список, используя `,` в качестве разделителя.
-5. Извлекает имя каждой модели, удаляя префиксы `+` и `@<версия>`, если они присутствуют.
-6. Фильтрует модели, исключая те, которые указаны в `cls.image_models`.
-7. Сохраняет полученный список моделей в `cls.models` для последующего использования.
-8. Возвращает список доступных моделей.
+**Returns**:
 
-**Примеры**:
+- `list`: A list of available GPT models.
+
+**How the Function Works**:
+
+1. **Check if `models` is empty**: If the `models` attribute is not yet populated, it proceeds to fetch the model list.
+2. **Fetch API response**: Makes a GET request to the `api/config` endpoint of the TypeGPT website.
+3. **Parse API response**: Extracts the `customModels` list from the JSON response.
+4. **Filter and format model names**: Splits each model string at `"@"` and extracts the part after `"+"`. This ensures only valid models are included.
+5. **Return model list**: Returns the filtered and formatted list of models.
+
+**Examples**:
+
 ```python
-models = TypeGPT.get_models()
-print(models)
-# Output: ['gpt-4o-mini-2024-07-18', 'gpt-3.5-turbo', ...]
+>>> TypeGPT.get_models()
+['gpt-4o-mini-2024-07-18', 'gpt-3.5-turbo', 'gpt-3.5-turbo-202201', ..., 'o3-mini']
+```

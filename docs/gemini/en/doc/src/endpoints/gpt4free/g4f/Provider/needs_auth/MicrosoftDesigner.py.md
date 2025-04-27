@@ -1,260 +1,173 @@
-# Module MicrosoftDesigner
+# MicrosoftDesigner Provider
 
 ## Overview
 
-The module `MicrosoftDesigner` implements an asynchronous provider for generating images using the Microsoft Designer service. It supports different image models and handles authentication using HAR files or by fetching an access token and user agent through a browser.
+The `MicrosoftDesigner` class is a provider for generating images using the Microsoft Designer API. This class inherits from `AsyncGeneratorProvider` and `ProviderModelMixin`, which provide asynchronous generation capabilities and model management features respectively.
 
-## More details
+## Details
 
-This module is designed to interact with the Microsoft Designer API to create images from textual prompts. It is used within the `hypotez` project to provide image generation capabilities. The module supports different image models and handles the authentication process, which can involve reading HAR files or using a browser to obtain an access token.
+The `MicrosoftDesigner` provider leverages Microsoft Designer's API to generate images from text prompts. It utilizes the "Dall-E 3" model by default, but allows the user to select different image sizes like "1024x1024", "1024x1792", and "1792x1024". 
+
+The provider uses a `HAR` file containing authentication tokens and user-agent information for the Microsoft Designer API. If no valid `HAR` file is found, it attempts to retrieve the tokens and user-agent asynchronously from the browser.
 
 ## Classes
 
-### `MicrosoftDesigner`
+### `class MicrosoftDesigner`
 
-**Description**: The class `MicrosoftDesigner` is an asynchronous provider for generating images using the Microsoft Designer service.
+**Description:** A provider for generating images using the Microsoft Designer API.
 
-**Inherits**: `AsyncGeneratorProvider`, `ProviderModelMixin`
+**Inherits:**
+    - `AsyncGeneratorProvider`: Provides asynchronous generation capabilities.
+    - `ProviderModelMixin`: Provides model management features.
 
-**Attributes**:
-- `label` (str): The label of the provider, set to "Microsoft Designer".
-- `url` (str): The URL of the Microsoft Designer service, set to "https://designer.microsoft.com".
-- `working` (bool): A flag indicating whether the provider is currently working, set to `True`.
-- `use_nodriver` (bool): A flag indicating whether the provider uses a browser-less setup, set to `True`.
-- `needs_auth` (bool): A flag indicating whether authentication is required, set to `True`.
-- `default_image_model` (str): The default image model, set to "dall-e-3".
-- `image_models` (list): A list of supported image models, including "dall-e-3", "1024x1024", "1024x1792", and "1792x1024".
-- `models` (list): An alias for `image_models`.
+**Attributes:**
+    - `label` (str): "Microsoft Designer"
+    - `url` (str): "https://designer.microsoft.com"
+    - `working` (bool): `True`
+    - `use_nodriver` (bool): `True`
+    - `needs_auth` (bool): `True`
+    - `default_image_model` (str): "dall-e-3"
+    - `image_models` (list): ["dall-e-3", "1024x1024", "1024x1792", "1792x1024"]
+    - `models` (list): same as `image_models`
 
-**Working principle**:
-The `MicrosoftDesigner` class inherits from `AsyncGeneratorProvider` and `ProviderModelMixin`, providing the structure for asynchronous image generation. It handles authentication, image size selection, and interaction with the Microsoft Designer API.
+**Methods:**
 
-**Methods**:
-- `create_async_generator`: Creates an asynchronous generator for generating images.
-- `generate`: Generates images based on a prompt and image size.
+    - `create_async_generator()`: Creates an asynchronous generator for generating images.
+    - `generate()`: Generates images using the Microsoft Designer API.
 
-## Class Methods
+#### `create_async_generator()`
 
-### `create_async_generator`
+**Purpose:** Creates an asynchronous generator for generating images.
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    prompt: str = None,
-    proxy: str = None,
-    **kwargs
-) -> AsyncResult:
-    """ Создает асинхронный генератор для генерации изображений.
+**Parameters:**
+    - `model` (str): The model to use for generation (e.g., "dall-e-3", "1024x1024", "1024x1792", "1792x1024").
+    - `messages` (Messages): A list of messages representing the conversation history.
+    - `prompt` (str, optional): The text prompt for image generation. Defaults to `None`.
+    - `proxy` (str, optional): The proxy server to use for network requests. Defaults to `None`.
+    - `kwargs`: Additional keyword arguments.
 
-    Args:
-        cls (MicrosoftDesigner): Класс MicrosoftDesigner.
-        model (str): Модель изображения для использования ("dall-e-3", "1024x1024", "1024x1792", "1792x1024").
-        messages (Messages): Список сообщений для формирования запроса.
-        prompt (str, optional): Текст запроса. По умолчанию `None`.
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
+**Returns:**
+    - `AsyncResult`: An asynchronous result containing the generated image.
 
-    Returns:
-        AsyncResult: Асинхронный результат, который является генератором изображений.
-    """
-    ...
-```
+**How the Function Works:**
 
-**Purpose**: Creates an asynchronous generator that yields image responses based on the provided model, messages, prompt, and proxy.
+1. Extracts the image size from the `model` argument.
+2. Yields the result of calling the `generate()` method with the formatted prompt, image size, and proxy.
 
-**Parameters**:
-- `cls` (MicrosoftDesigner): The class `MicrosoftDesigner`.
-- `model` (str): The image model to use (e.g., "dall-e-3", "1024x1024").
-- `messages` (Messages): A list of messages to format the prompt.
-- `prompt` (str, optional): The text prompt. Defaults to `None`.
-- `proxy` (str, optional): The proxy server URL. Defaults to `None`.
-- `**kwargs`: Additional keyword arguments.
+#### `generate()`
 
-**Returns**:
-- `AsyncResult`: An asynchronous result, which is an image generator.
+**Purpose:** Generates images using the Microsoft Designer API.
 
-**How the function works**:
-The function selects the image size based on the provided model and yields the result of the `generate` method, which performs the actual image generation.
+**Parameters:**
+    - `prompt` (str): The text prompt for image generation.
+    - `image_size` (str): The desired image size (e.g., "1024x1024", "1024x1792", "1792x1024").
+    - `proxy` (str, optional): The proxy server to use for network requests. Defaults to `None`.
 
-**Examples**:
-```python
-# Example of calling create_async_generator
-model = "1024x1024"
-messages = [{"role": "user", "content": "Generate an image of a cat"}]
-prompt = "A cat"
-proxy = None
-generator = await MicrosoftDesigner.create_async_generator(model, messages, prompt, proxy)
-```
+**Returns:**
+    - `ImageResponse`: An object containing the generated image and the prompt.
 
-### `generate`
+**Raises Exceptions:**
+    - `NoValidHarFileError`: If no valid `HAR` file is found containing authentication tokens.
 
-```python
-@classmethod
-async def generate(cls, prompt: str, image_size: str, proxy: str = None) -> ImageResponse:
-    """ Генерирует изображения на основе запроса и размера изображения.
+**How the Function Works:**
 
-    Args:
-        cls (MicrosoftDesigner): Класс MicrosoftDesigner.
-        prompt (str): Текст запроса для генерации изображения.
-        image_size (str): Размер изображения ("1024x1024", "1024x1792", "1792x1024").
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-
-    Returns:
-        ImageResponse: Объект ImageResponse, содержащий сгенерированные изображения.
-
-    Raises:
-        NoValidHarFileError: Если не найден действительный HAR-файл.
-    """
-    ...
-```
-
-**Purpose**: Generates images based on the provided prompt and image size.
-
-**Parameters**:
-- `cls` (MicrosoftDesigner): The class `MicrosoftDesigner`.
-- `prompt` (str): The text prompt for image generation.
-- `image_size` (str): The image size (e.g., "1024x1024").
-- `proxy` (str, optional): The proxy server URL. Defaults to `None`.
-
-**Returns**:
-- `ImageResponse`: An `ImageResponse` object containing the generated images.
-
-**Raises**:
-- `NoValidHarFileError`: If no valid HAR file is found.
-
-**How the function works**:
-The function first tries to read authentication details from a HAR file. If that fails, it attempts to fetch an access token and user agent using a browser. It then calls the `create_images` function to generate the images and returns an `ImageResponse` object.
-
-**Examples**:
-```python
-# Example of calling generate
-prompt = "A futuristic city"
-image_size = "1024x1024"
-proxy = None
-image_response = await MicrosoftDesigner.generate(prompt, image_size, proxy)
-```
+1. Attempts to read authentication tokens and the user-agent from a `HAR` file.
+2. If the `HAR` file is not found or invalid, attempts to retrieve the tokens and user-agent asynchronously from the browser.
+3. Calls the `create_images()` method to generate images using the retrieved credentials.
+4. Returns an `ImageResponse` object containing the generated images and the prompt.
 
 ## Functions
 
-### `create_images`
+### `create_images()`
+
+**Purpose:** Generates images using the Microsoft Designer API with the provided credentials.
+
+**Parameters:**
+    - `prompt` (str): The text prompt for image generation.
+    - `access_token` (str): The access token for the Microsoft Designer API.
+    - `user_agent` (str): The user-agent string for the request.
+    - `image_size` (str): The desired image size (e.g., "1024x1024", "1024x1792", "1792x1024").
+    - `proxy` (str, optional): The proxy server to use for network requests. Defaults to `None`.
+    - `seed` (int, optional): A random seed for image generation. Defaults to `None`.
+
+**Returns:**
+    - list: A list of generated image URLs.
+
+**How the Function Works:**
+
+1. Generates a random seed if none is provided.
+2. Constructs a request with the provided parameters and data.
+3. Sends the request to the Microsoft Designer API.
+4. Polls the API for generated images until they are available.
+5. Returns a list of generated image URLs.
+
+### `readHAR()`
+
+**Purpose:** Reads authentication tokens and the user-agent from a `HAR` file.
+
+**Parameters:**
+    - `url` (str): The URL of the website from which to retrieve the tokens.
+
+**Returns:**
+    - tuple: A tuple containing the access token and the user-agent.
+
+**Raises Exceptions:**
+    - `NoValidHarFileError`: If no valid `HAR` file is found containing authentication tokens.
+
+**How the Function Works:**
+
+1. Iterates through a list of `HAR` files.
+2. Parses the JSON content of each file.
+3. Extracts the access token and user-agent from the `HAR` file entry corresponding to the provided URL.
+4. Returns the retrieved token and user-agent.
+
+### `get_access_token_and_user_agent()`
+
+**Purpose:** Retrieves the access token and user-agent asynchronously from the browser.
+
+**Parameters:**
+    - `url` (str): The URL of the website from which to retrieve the tokens.
+    - `proxy` (str, optional): The proxy server to use for network requests. Defaults to `None`.
+
+**Returns:**
+    - tuple: A tuple containing the access token and the user-agent.
+
+**How the Function Works:**
+
+1. Launches a headless browser using `get_nodriver` function and navigates to the specified URL.
+2. Extracts the user-agent from the browser.
+3. Searches for the access token in the browser's local storage.
+4. Returns the retrieved access token and user-agent.
+
+## Parameter Details
+
+**General Parameters:**
+
+- `prompt` (str): The text prompt used to generate the image. It should be a clear and concise description of the desired image.
+- `model` (str): The model to use for image generation. The default model is "dall-e-3," but the following image sizes are also available: "1024x1024," "1024x1792," "1792x1024."
+- `image_size` (str): The desired image size. It should be a string representing the width and height of the image, separated by an "x," like "1024x1024."
+- `proxy` (str, optional): A proxy server that can be used for network requests. This parameter is optional. 
+- `seed` (int, optional): A random seed for image generation. This parameter is optional.
+
+**Specific Parameters:**
+
+- `access_token` (str): The access token for the Microsoft Designer API. This token is required to access the API and generate images.
+- `user_agent` (str): The user-agent string for the request. This string identifies the browser used to make the request.
+
+## Examples
 
 ```python
-async def create_images(prompt: str, access_token: str, user_agent: str, image_size: str, proxy: str = None, seed: int = None):
-    """ Создает изображения с использованием API Microsoft Designer.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth import MicrosoftDesigner
 
-    Args:
-        prompt (str): Текст запроса для генерации изображения.
-        access_token (str): Токен доступа для аутентификации.
-        user_agent (str): User-Agent для HTTP-запросов.
-        image_size (str): Размер изображения ("1024x1024", "1024x1792", "1792x1024").
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-        seed (int, optional): Зерно для случайной генерации. По умолчанию `None`.
+# Example 1: Generate an image using the default Dall-E 3 model with a custom prompt
+prompt = "A beautiful sunset over a tropical beach"
+images = await MicrosoftDesigner.generate(prompt=prompt, image_size="1024x1024")
 
-    Returns:
-        list[str]: Список URL-адресов сгенерированных изображений.
-    """
-    ...
-```
+# Example 2: Generate an image with a specific image size
+prompt = "A futuristic city skyline"
+images = await MicrosoftDesigner.generate(prompt=prompt, image_size="1792x1024")
 
-**Purpose**: Creates images using the Microsoft Designer API.
-
-**Parameters**:
-- `prompt` (str): The text prompt for image generation.
-- `access_token` (str): The access token for authentication.
-- `user_agent` (str): The User-Agent string for HTTP requests.
-- `image_size` (str): The image size (e.g., "1024x1024").
-- `proxy` (str, optional): The proxy server URL. Defaults to `None`.
-- `seed` (int, optional): The seed for random generation. Defaults to `None`.
-
-**Returns**:
-- `list[str]`: A list of generated image URLs.
-
-**How the function works**:
-The function constructs a POST request to the Microsoft Designer API with the provided parameters, including the prompt, access token, and image size. It polls the API until the images are generated and returns a list of image URLs.
-
-**Examples**:
-```python
-# Example of calling create_images
-prompt = "A landscape with mountains"
-access_token = "example_access_token"
-user_agent = "Example User Agent"
-image_size = "1024x1024"
-proxy = None
-images = await create_images(prompt, access_token, user_agent, image_size, proxy)
-```
-
-### `readHAR`
-
-```python
-def readHAR(url: str) -> tuple[str, str]:
-    """ Читает HAR-файлы для извлечения токена доступа и User-Agent.
-
-    Args:
-        url (str): URL для поиска в HAR-файлах.
-
-    Returns:
-        tuple[str, str]: Кортеж, содержащий токен доступа и User-Agent.
-
-    Raises:
-        NoValidHarFileError: Если токен доступа не найден в HAR-файлах.
-    """
-    ...
-```
-
-**Purpose**: Reads HAR files to extract the access token and User-Agent.
-
-**Parameters**:
-- `url` (str): The URL to search for in the HAR files.
-
-**Returns**:
-- `tuple[str, str]`: A tuple containing the access token and User-Agent.
-
-**Raises**:
-- `NoValidHarFileError`: If no access token is found in the HAR files.
-
-**How the function works**:
-The function iterates through HAR files, searches for a matching URL, and extracts the access token and User-Agent from the request headers.
-
-**Examples**:
-```python
-# Example of calling readHAR
-url = "https://designerapp.officeapps.live.com"
-access_token, user_agent = readHAR(url)
-```
-
-### `get_access_token_and_user_agent`
-
-```python
-async def get_access_token_and_user_agent(url: str, proxy: str = None):
-    """ Получает токен доступа и User-Agent с использованием браузера.
-
-    Args:
-        url (str): URL для посещения в браузере.
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-
-    Returns:
-        tuple[str, str]: Кортеж, содержащий токен доступа и User-Agent.
-    """
-    ...
-```
-
-**Purpose**: Gets the access token and User-Agent using a browser.
-
-**Parameters**:
-- `url` (str): The URL to visit in the browser.
-- `proxy` (str, optional): The proxy server URL. Defaults to `None`.
-
-**Returns**:
-- `tuple[str, str]`: A tuple containing the access token and User-Agent.
-
-**How the function works**:
-The function launches a browser, navigates to the specified URL, extracts the User-Agent, and retrieves the access token from local storage.
-
-**Examples**:
-```python
-# Example of calling get_access_token_and_user_agent
-url = "https://designer.microsoft.com"
-access_token, user_agent = await get_access_token_and_user_agent(url, proxy)
+# Example 3: Use a proxy server for network requests
+prompt = "A portrait of a dog wearing a hat"
+images = await MicrosoftDesigner.generate(prompt=prompt, image_size="1024x1024", proxy="http://myproxy.com:8080")
 ```

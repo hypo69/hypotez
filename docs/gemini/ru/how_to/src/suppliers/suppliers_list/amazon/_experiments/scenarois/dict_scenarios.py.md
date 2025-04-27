@@ -1,74 +1,36 @@
-### Как использовать этот блок кода
+## Как использовать словарь сценариев
+
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода определяет словарь `scenario`, который содержит информацию о сценариях поиска товаров на Amazon. В данном случае, представлен один сценарий для "Murano Glass". Он включает URL для поиска, условие товара ("new"), соответствие категориям PrestaShop и правило ценообразования.
+Словарь `scenario` содержит набор сценариев для работы с поставщиком Amazon. Каждый сценарий описывает набор параметров для поиска товаров, их условия (новые, б/у) и правила сопоставления с категориями магазина PrestaShop.
 
 Шаги выполнения
 -------------------------
-1. **Определение словаря `scenario`**: Создается словарь с ключом "Murano Glass", внутри которого содержатся параметры поиска и обработки товаров.
-2. **Указание URL**: Определяется URL для поиска товаров "Art Deco murano glass" на Amazon.
-3. **Условие товара**: Указывается, что ищем только новые товары ("condition": "new").
-4. **Соответствие категориям PrestaShop**: Определяется соответствие категории товара в PrestaShop, где категория с ID "11209" называется "MURANO GLASS".
-5. **Правило ценообразования**: Указывается правило ценообразования с ID "1".
+1. **Создание сценария**: 
+   - Добавьте новый элемент в словарь `scenario` с уникальным ключом, например, `'New Product'`.
+2. **Определение параметров**:
+   - Укажите `url` для поиска на Amazon, `condition` (новое или б/у), `presta_categories` - словарь с категориями PrestaShop, которым соответствует товар, и `price_rule` - правило расчета цены.
+3. **Сопоставление категорий**: 
+   -  В `presta_categories` укажите ключ `default_category`, который будет сопоставляться с категориями товара в PrestaShop.
+   - Значения `default_category` - это словарь, где ключи - это идентификаторы категорий в PrestaShop, а значения - это название категории. 
 
 Пример использования
 -------------------------
 
 ```python
-# Пример использования словаря scenario для получения информации о сценарии "Murano Glass"
+from src.suppliers.amazon._experiments.scenarois.dict_scenarios import scenario
 
-scenario: dict = {
-    "Murano Glass": {
-        "url": "https://www.amazon.com/s?k=Art+Deco+murano+glass&crid=24Q0ZZYVNOQMP&sprefix=art+deco+murano+glass%2Caps%2C230&ref=nb_sb_noss",
-        "condition": "new",
-        "presta_categories": {
-            "default_category": {"11209": "MURANO GLASS"}
-        },
-        "price_rule": 1
-    }
-}
+# Получение сценария по ключу
+new_product_scenario = scenario['Murano Glass']
 
-# Функция извлекает URL для поиска
-def get_url(scenario_name: str) -> str:
-    """
-    Args:
-        scenario_name (str): Название сценария.
+# Доступ к параметрам сценария
+print(f'URL for search: {new_product_scenario["url"]}')
+print(f'Condition: {new_product_scenario["condition"]}')
+print(f'PrestaShop categories: {new_product_scenario["presta_categories"]}')
+print(f'Price rule: {new_product_scenario["price_rule"]}')
 
-    Returns:
-        str: URL для поиска.
-    """
-    return scenario[scenario_name]["url"]
-
-# Функция извлекает правило для цены
-def get_price_rule(scenario_name: str) -> int:
-    """
-    Args:
-        scenario_name (str): Название сценария.
-
-    Returns:
-        int: ID правила цены.
-    """
-    return scenario[scenario_name]["price_rule"]
-
-# Функция извлекает категорию для PrestaShop
-def get_presta_category(scenario_name: str) -> dict:
-    """
-    Args:
-        scenario_name (str): Название сценария.
-
-    Returns:
-        dict:  категория для PrestaShop.
-    """
-    return scenario[scenario_name]["presta_categories"]
-
-# Пример использования функций
-murano_glass_url = get_url("Murano Glass")
-print(f"URL для Murano Glass: {murano_glass_url}")
-
-price_rule = get_price_rule("Murano Glass")
-print(f"Правило цены для Murano Glass: {price_rule}")
-
-presta_category = get_presta_category("Murano Glass")
-print(f"Правило цены для PrestaShop: {presta_category}")
+# Использование сценария для поиска товаров
+# ...
+```

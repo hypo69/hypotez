@@ -1,161 +1,118 @@
-# Module BlackForestLabs_Flux1Dev
+# BlackForestLabs_Flux1Dev Provider
 
 ## Overview
 
-Модуль предоставляет класс `BlackForestLabs_Flux1Dev` для взаимодействия с моделью BlackForestLabs Flux-1-Dev через API Hugging Face Space.
-Он поддерживает генерацию изображений на основе текстовых запросов.
+This module provides the `BlackForestLabs_Flux1Dev` class, which implements an asynchronous generator provider for the BlackForestLabs Flux-1-Dev model hosted on Hugging Face Spaces. 
 
-## More details
+## Details
 
-Этот модуль позволяет генерировать изображения, используя модель BlackForestLabs Flux-1-Dev, размещенную на Hugging Face Space.
-Он включает в себя функции для установки соединения, отправки запросов и обработки ответов для получения сгенерированных изображений.
-Модуль обрабатывает как промежуточные результаты (просмотры изображений и статусы генерации), так и окончательные результаты (URL-адреса изображений).
+This provider utilizes the Hugging Face Spaces API to interact with the Flux-1-Dev model for generating images based on provided prompts. It handles sending prompts, receiving streaming responses, and parsing the results into a user-friendly format.
 
 ## Classes
 
-### `BlackForestLabs_Flux1Dev`
+### `class BlackForestLabs_Flux1Dev(AsyncGeneratorProvider, ProviderModelMixin)`
 
-**Description**:
-Класс для взаимодействия с моделью BlackForestLabs Flux-1-Dev для генерации изображений.
+**Description**: This class represents the BlackForestLabs Flux-1-Dev provider for image generation. It inherits from `AsyncGeneratorProvider` for asynchronous streaming responses and `ProviderModelMixin` for model-related functionality.
 
 **Inherits**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
-- `ProviderModelMixin`: Добавляет функциональность для работы с моделями провайдера.
+    - `AsyncGeneratorProvider`: Enables asynchronous generation of image previews and results during the image generation process.
+    - `ProviderModelMixin`: Provides common methods and attributes related to handling models, such as aliases, default models, and model lists.
 
 **Attributes**:
-- `label` (str): Название провайдера ("BlackForestLabs Flux-1-Dev").
-- `url` (str): URL Hugging Face Space ("https://black-forest-labs-flux-1-dev.hf.space").
-- `space` (str): Имя Space на Hugging Face ("black-forest-labs/FLUX.1-dev").
-- `referer` (str): Referer URL для запросов.
-- `working` (bool): Указывает, что провайдер работает (True).
-- `default_model` (str): Модель, используемая по умолчанию ('black-forest-labs-flux-1-dev').
-- `default_image_model` (str): Модель изображения, используемая по умолчанию (совпадает с `default_model`).
-- `model_aliases` (dict): Псевдонимы моделей для удобства использования.
-- `image_models` (list): Список моделей изображений.
-- `models` (list): Список всех поддерживаемых моделей (в данном случае, моделей изображений).
+    - `label`: A descriptive label for the provider, "BlackForestLabs Flux-1-Dev".
+    - `url`: The base URL of the Hugging Face Space hosting the model, "https://black-forest-labs-flux-1-dev.hf.space".
+    - `space`: The Hugging Face Space name, "black-forest-labs/FLUX.1-dev".
+    - `referer`: The URL used as a referer header for requests, "https://black-forest-labs-flux-1-dev.hf.space/?__theme=light".
+    - `working`: Boolean flag indicating the provider's status. True indicates that the provider is operational.
+    - `default_model`: The default model name, "black-forest-labs-flux-1-dev".
+    - `default_image_model`: The default model name for image generation, "black-forest-labs-flux-1-dev".
+    - `model_aliases`: A dictionary mapping aliases to model names, {"flux-dev": "black-forest-labs-flux-1-dev", "flux": "black-forest-labs-flux-1-dev"}.
+    - `image_models`: A list of image model names, ["flux-dev", "flux"].
+    - `models`: A list of model names, which includes image models.
 
 **Methods**:
-- `run`: Выполняет HTTP-запрос к API Hugging Face Space.
-- `create_async_generator`: Асинхронно генерирует изображения на основе текстового запроса.
 
-## Class Methods
+#### `run(method: str, session: StreamSession, conversation: JsonConversation, data: list = None)`
 
-### `run`
+**Purpose**: This class method handles HTTP requests to the Hugging Face Space API. It sends POST requests to join the queue and GET requests to retrieve streaming data.
 
-```python
-@classmethod
-def run(cls, method: str, session: StreamSession, conversation: JsonConversation, data: list = None):
-    """Выполняет HTTP-запрос к API Hugging Face Space.
+**Parameters**:
+    - `method` (str): The HTTP method to use, either "post" or "get".
+    - `session` (`StreamSession`): An instance of `StreamSession` for handling asynchronous requests.
+    - `conversation` (`JsonConversation`): Contains conversation-specific information, including the zerogpu token, UUID, and session hash.
+    - `data` (list, optional): Data to be sent in the request body for POST requests. Defaults to `None`.
 
-    Args:
-        cls (type): Класс `BlackForestLabs_Flux1Dev`.
-        method (str): HTTP-метод ("post" или "get").
-        session (StreamSession): Асинхровая сессия для выполнения запросов.
-        conversation (JsonConversation): Объект, содержащий данные для conversation (токен, UUID, hash сессии).
-        data (list, optional): Данные для отправки в запросе (для метода "post"). По умолчанию `None`.
+**Returns**:
+    - `StreamSession.post` or `StreamSession.get`: Returns the response object for the corresponding HTTP request.
 
-    Returns:
-        aiohttp.ClientResponse: Объект ответа от API.
+**Raises Exceptions**:
+    - `None`
 
-    Raises:
-        ResponseError: Если возникает ошибка при выполнении запроса.
+#### `create_async_generator(model: str, messages: Messages, prompt: str = None, proxy: str = None, aspect_ratio: str = "1:1", width: int = None, height: int = None, guidance_scale: float = 3.5, num_inference_steps: int = 28, seed: int = 0, randomize_seed: bool = True, cookies: dict = None, api_key: str = None, zerogpu_uuid: str = "[object Object]", **kwargs) -> AsyncResult`
 
-    How the function works:
-    - Формирует заголовки запроса, включая токен и UUID.
-    - Если метод "post", отправляет POST-запрос с данными.
-    - Если метод "get", отправляет GET-запрос для получения данных о событии.
-    - Возвращает объект ответа от API.
-    """
-```
+**Purpose**: This class method creates an asynchronous generator to handle the image generation process. It sends the prompt to the model, manages streaming responses, and parses the results.
 
-### `create_async_generator`
+**Parameters**:
+    - `model` (str): The model name to use.
+    - `messages` (`Messages`): Contains the conversation history.
+    - `prompt` (str, optional): The prompt to use for image generation. Defaults to `None`.
+    - `proxy` (str, optional): Proxy URL to use for requests. Defaults to `None`.
+    - `aspect_ratio` (str, optional): Aspect ratio of the generated image. Defaults to "1:1".
+    - `width` (int, optional): Desired width of the generated image. Defaults to `None`.
+    - `height` (int, optional): Desired height of the generated image. Defaults to `None`.
+    - `guidance_scale` (float, optional): Guidance scale for image generation. Defaults to 3.5.
+    - `num_inference_steps` (int, optional): Number of inference steps for image generation. Defaults to 28.
+    - `seed` (int, optional): Random seed for image generation. Defaults to 0.
+    - `randomize_seed` (bool, optional): Whether to randomize the seed for image generation. Defaults to `True`.
+    - `cookies` (dict, optional): Cookies to use for requests. Defaults to `None`.
+    - `api_key` (str, optional): API key for the Hugging Face Space. Defaults to `None`.
+    - `zerogpu_uuid` (str, optional): Unique identifier for the user session. Defaults to "[object Object]".
 
-```python
-@classmethod
-async def create_async_generator(
-    cls, 
-    model: str, 
-    messages: Messages,
-    prompt: str = None,
-    proxy: str = None,
-    aspect_ratio: str = "1:1",
-    width: int = None,
-    height: int = None,
-    guidance_scale: float = 3.5,
-    num_inference_steps: int = 28,
-    seed: int = 0,
-    randomize_seed: bool = True,
-    cookies: dict = None,
-    api_key: str = None,
-    zerogpu_uuid: str = "[object Object]",
-    **kwargs
-) -> AsyncResult:
-    """Асинхронно генерирует изображения на основе текстового запроса.
+**Returns**:
+    - `AsyncResult`: An asynchronous result object representing the ongoing image generation process.
 
-    Args:
-        cls (type): Класс `BlackForestLabs_Flux1Dev`.
-        model (str): Название модели для генерации изображений.
-        messages (Messages): Список сообщений для формирования запроса.
-        prompt (str, optional): Текст запроса. По умолчанию `None`.
-        proxy (str, optional): Proxy server URL. Defaults to `None`.
-        aspect_ratio (str, optional): Соотношение сторон изображения. По умолчанию "1:1".
-        width (int, optional): Ширина изображения. По умолчанию `None`.
-        height (int, optional): Высота изображения. По умолчанию `None`.
-        guidance_scale (float, optional): Масштаб соответствия запросу. По умолчанию 3.5.
-        num_inference_steps (int, optional): Количество шагов для генерации изображения. По умолчанию 28.
-        seed (int, optional): Зерно для генерации случайных чисел. По умолчанию 0.
-        randomize_seed (bool, optional): Флаг для рандомизации зерна. По умолчанию `True`.
-        cookies (dict, optional): Cookies для отправки в запросе. По умолчанию `None`.
-        api_key (str, optional): API key для доступа к сервису. По умолчанию `None`.
-        zerogpu_uuid (str, optional): UUID для zerogpu. По умолчанию "[object Object]".
-        **kwargs: Дополнительные параметры.
+**Raises Exceptions**:
+    - `RuntimeError`: Raised if there are errors parsing messages from the streaming response.
 
-    Returns:
-        AsyncResult: Асинхронный генератор, выдающий промежуточные и конечные результаты генерации изображений.
+**Inner Functions**:
+    - `None`
 
-    Raises:
-        RuntimeError: Если не удается распарсить сообщение от API.
-        ResponseError: Если API возвращает ошибку.
+**How the Function Works**:
 
-   How the function works:
-    - Инициализирует асинхровую сессию и формирует запрос на основе входных параметров.
-    - Получает токен zerogpu, если он не был предоставлен.
-    - Отправляет POST-запрос для запуска генерации.
-    - Отправляет GET-запрос для получения данных о событии в режиме реального времени.
-    - Обрабатывает чанки данных, извлекая сообщения о прогрессе, предварительные просмотры изображений и окончательные URL-адреса изображений.
-    - Возвращает результаты через асинхронный генератор.
-    """
-```
+1. **Initialization**:
+   - Creates a `StreamSession` with specified proxy settings.
+   - Formats the prompt using `format_image_prompt`.
+   - Uses `use_aspect_ratio` to handle image dimensions.
+   - Creates a `JsonConversation` object for storing conversation-specific data.
+   - Retrieves a zeroGPU token if necessary using `get_zerogpu_token`.
 
-## Class Parameters
+2. **Request**:
+   - Sends a POST request to join the generation queue with the formatted data.
+   - Retrieves the `event_id` from the response to identify the specific generation process.
 
-- `label` (str): Название провайдера.
-- `url` (str): URL Hugging Face Space.
-- `space` (str): Имя Space на Hugging Face.
-- `referer` (str): Referer URL для запросов.
-- `working` (bool): Указывает, что провайдер работает.
-- `default_model` (str): Модель, используемая по умолчанию.
-- `default_image_model` (str): Модель изображения, используемая по умолчанию.
-- `model_aliases` (dict): Псевдонимы моделей.
-- `image_models` (list): Список моделей изображений.
-- `models` (list): Список всех поддерживаемых моделей.
+3. **Streaming Response**:
+   - Sends a GET request to retrieve streaming data.
+   - Iterates through the streaming response lines.
 
-## Examples
+4. **Parsing**:
+   - Decodes the received JSON data.
+   - Parses progress messages, image previews, and generation status updates.
+   - Raises `ResponseError` if an error is encountered during generation.
 
-Пример использования класса `BlackForestLabs_Flux1Dev` для создания изображения:
+5. **Result**:
+   - Yields the final generated image.
+   - Closes the stream session.
+
+**Examples**:
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.hf_space.BlackForestLabs_Flux1Dev import BlackForestLabs_Flux1Dev
-from src.requests import StreamSession
-import asyncio
+from hypotez.src.endpoints.gpt4free.g4f.Provider.hf_space.BlackForestLabs_Flux1Dev import BlackForestLabs_Flux1Dev
+from hypotez.src.endpoints.gpt4free.g4f.requests import StreamSession
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-async def main():
-    model = "black-forest-labs-flux-1-dev"
-    messages = [{"role": "user", "content": "A cat"}]
-    api_key = None  #  <instruction for the gemini model: Вставьте свой API key, если необходимо.>
-
-    async for item in BlackForestLabs_Flux1Dev.create_async_generator(model=model, messages=messages, api_key=api_key):
-        print(item)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+async def generate_image(prompt: str, messages: Messages):
+  provider = BlackForestLabs_Flux1Dev()
+  async with StreamSession(impersonate="chrome") as session:
+    async for result in provider.create_async_generator(messages=messages, prompt=prompt, session=session):
+      # Process the generated image preview or result
+      print(result)

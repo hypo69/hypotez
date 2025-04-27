@@ -1,47 +1,35 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода настраивает окружение Python для работы с проектом `hypotez`, добавляя необходимые пути в `sys.path`, чтобы обеспечить доступ к модулям проекта. Он также импортирует необходимые библиотеки и модули, используемые в проекте. Кроме того, он определяет функцию `start_supplier`, которая создает экземпляр класса `Supplier` с заданными параметрами.
+Блок кода настраивает среду выполнения для работы с поставщиками, задавая путь к корневому каталогу проекта, импортируя необходимые модули и определяя функцию `start_supplier`.
 
 Шаги выполнения
 -------------------------
-1. **Импорт библиотек**: Импортируются необходимые библиотеки, такие как `sys`, `os`, `Path`, `json`, `re` и другие модули проекта (`webdriver`, `Product`, `Category`, `StringFormatter`, `StringNormalizer`, `PrestaProduct`, `Supplier`).
-2. **Настройка путей**:
-   - Определяется корневая директория проекта `hypotez` с использованием `os.getcwd()` и `rfind()`.
-   - Корневая директория добавляется в `sys.path`, чтобы Python мог находить модули проекта.
-   - Определяется директория `src` и также добавляется в `sys.path`.
-3. **Определение функции `start_supplier`**:
-   - Функция `start_supplier` принимает два аргумента: `supplier_prefix` (префикс поставщика, по умолчанию `'aliexpress'`) и `locale` (локаль, по умолчанию `'en'`).
-   - Создается словарь `params` с этими параметрами.
-   - Создается и возвращается экземпляр класса `Supplier` с переданными параметрами.
+1. Определяет корневой каталог проекта (`dir_root`) и добавляет его в системный путь (`sys.path`).
+2. Импортирует необходимые модули из проекта `hypotez`, включая:
+    - `Driver` из `src.webdriver.driver`: для работы с браузером.
+    - `Product`, `ProductFields` из `src.product`: для работы с продуктами.
+    - `Category` из `src.category`: для работы с категориями.
+    - `StringFormatter`, `StringNormalizer` из `src.utils`: для работы со строками.
+    - `pprint` из `src.utils.printer`: для вывода информации.
+    - `Product` из `src.endpoints.PrestaShop`: для работы с продуктами PrestaShop.
+    - `save_text_file` из `src.utils`: для сохранения текста в файл.
+3. Определяет функцию `start_supplier(supplier_prefix: str = 'aliexpress', locale: str = 'en' )`, которая:
+    - Принимает префикс поставщика (`supplier_prefix`) и язык (`locale`) в качестве аргументов.
+    - Создает словарь `params` с данными о поставщике.
+    - Возвращает объект `Supplier` с заданными параметрами.
 
 Пример использования
 -------------------------
 
 ```python
-import sys
-import os
-from pathlib import Path
+from src.suppliers.ivory._experiments.JUPYTER_header import start_supplier
 
-# ----------------
-dir_root : Path = Path (os.getcwd()[:os.getcwd().rfind('hypotez')+7])
-sys.path.append (str (dir_root) )  # Добавляю корневую папку в sys.path
-dir_src = Path (dir_root, 'src')
-sys.path.append (str (dir_root) ) 
-# ----------------
+# Запуск поставщика AliExpress на английском языке
+supplier = start_supplier(supplier_prefix='aliexpress', locale='en')
 
-from src.suppliers import Supplier  # Предполагается, что класс Supplier находится в модуле src.suppliers
-
-def start_supplier(supplier_prefix: str = 'aliexpress', locale: str = 'en' ):
-    """ Старт поставщика """
-    params: dict = {
-        'supplier_prefix': supplier_prefix,
-        'locale': locale
-    }
-    return Supplier(**params)
-
-# Пример использования функции start_supplier
-supplier = start_supplier(supplier_prefix='my_supplier', locale='fr')
+# Вывод информации о поставщике
 print(supplier)
+```

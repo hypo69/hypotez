@@ -1,115 +1,52 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Класс `TinyFactory` представляет собой базовый класс для различных типов фабрик, упрощающий расширение системы, особенно в отношении кэширования транзакций. Он предоставляет механизмы для управления и кэширования фабрик, а также методы для кодирования и декодирования состояния фабрики.
+Этот код реализует базовый класс `TinyFactory`, который служит шаблоном для создания различных фабрик в системе. Фабрики используются для генерации объектов, таких как агенты, которые могут быть использованы в симуляциях. Класс `TinyFactory` обеспечивает механизмы для хранения и управления всеми созданными фабриками, а также для хранения состояния фабрики с помощью сериализации.
 
 Шаги выполнения
 -------------------------
-1. **Инициализация фабрики**:
-   - При создании экземпляра `TinyFactory` генерируется уникальное имя для фабрики и присваивается идентификатор симуляции (если указан).
-   - Функция `TinyFactory.add_factory(self)` добавляет созданную фабрику в глобальный список всех фабрик `TinyFactory.all_factories`.
-2. **Управление фабриками**:
-   - Метод `set_simulation_for_free_factories(simulation)` позволяет привязать "свободные" фабрики (без указанного `simulation_id`) к определенной симуляции.
-   - Метод `clear_factories()` очищает глобальный список фабрик, удаляя все зарегистрированные фабрики.
-3. **Кэширование состояния фабрики**:
-   - Метод `encode_complete_state()` кодирует полное состояние фабрики в словарь для кэширования или сериализации. Подклассы могут переопределять этот метод, если содержат несериализуемые элементы.
-   - Метод `decode_complete_state(state: dict)` декодирует состояние фабрики из словаря, восстанавливая состояние объекта.
+1. **Создание фабрики**: 
+    - Создается экземпляр класса `TinyFactory`, передавая в конструктор `simulation_id` (необязательный параметр) для идентификации симуляции, к которой относится фабрика. 
+    - Фабрике автоматически присваивается уникальное имя `name`.
+    - Фабрика добавляется в список всех фабрик (`TinyFactory.all_factories`).
+
+2. **Установка симуляции для незакрепленных фабрик**: 
+    - Используя статический метод `set_simulation_for_free_factories`, можно установить симуляцию для всех фабрик, которые не имеют `simulation_id`. 
+    - Это позволяет объединить фабрики в контексте конкретной симуляции.
+
+3. **Добавление фабрики в список**: 
+    - Статический метод `add_factory` добавляет новую фабрику в список `TinyFactory.all_factories`. 
+    - Имя фабрики (`factory.name`) должно быть уникальным, иначе возникнет ошибка.
+
+4. **Очистка списка фабрик**:
+    - Статический метод `clear_factories` очищает список всех фабрик (`TinyFactory.all_factories`).
+
+5. **Сериализация состояния**: 
+    - Метод `encode_complete_state` сериализует полное состояние фабрики в словарь. 
+    - Если фабрика имеет несериализуемые элементы, этот метод должен быть переопределен в подклассах.
+
+6. **Десериализация состояния**: 
+    - Метод `decode_complete_state` десериализует состояние фабрики из словаря. 
+    - Если фабрика имеет несериализуемые элементы, этот метод должен быть переопределен в подклассах.
 
 Пример использования
 -------------------------
 
 ```python
-import copy
+from tinytroupe.factory import TinyFactory
 
-from tinytroupe.factory import logger
-import tinytroupe.utils as utils
+# Создаем фабрику
+factory = TinyFactory()
 
-class TinyFactory:
-    """
-    A base class for various types of factories. This is important because it makes it easier to extend the system, particularly 
-    regarding transaction caching.
-    """
+# Выводим имя фабрики
+print(f"Имя фабрики: {factory.name}")
 
-    # A dict of all factories created so far.
-    all_factories = {} # name -> factories
-    
-    def __init__(self, simulation_id:str=None) -> None:
-        """
-        Initialize a TinyFactory instance.
+# Выводим все фабрики
+print(f"Список фабрик: {TinyFactory.all_factories}")
 
-        Args:
-            simulation_id (str, optional): The ID of the simulation. Defaults to None.
-        """
-        self.name = f"Factory {utils.fresh_id()}" # we need a name, but no point in making it customizable
-        self.simulation_id = simulation_id
-
-        TinyFactory.add_factory(self)
-    
-    def __repr__(self):
-        return f"TinyFactory(name=\'{self.name}\')"
-    
-    @staticmethod
-    def set_simulation_for_free_factories(simulation):
-        """
-        Sets the simulation if it is None. This allows free environments to be captured by specific simulation scopes
-        if desired.
-        """
-        for factory in TinyFactory.all_factories.values():
-            if factory.simulation_id is None:
-                simulation.add_factory(factory)
-
-    @staticmethod
-    def add_factory(factory):
-        """
-        Adds a factory to the list of all factories. Factory names must be unique,\n
-        so if an factory with the same name already exists, an error is raised.
-        """
-        if factory.name in TinyFactory.all_factories:
-            raise ValueError(f"Factory names must be unique, but \'{factory.name}\' is already defined.")
-        else:
-            TinyFactory.all_factories[factory.name] = factory
-    
-    @staticmethod
-    def clear_factories():
-        """
-        Clears the global list of all factories.
-        """
-        TinyFactory.all_factories = {}
-
-    ################################################################################################
-    # Caching mechanisms
-    #
-    # Factories can also be cached in a transactional way. This is necessary because the agents they
-    # generate can be cached, and we need to ensure that the factory itself is also cached in a 
-    # consistent way.
-    ################################################################################################
-
-    def encode_complete_state(self) -> dict:
-        """
-        Encodes the complete state of the factory. If subclasses have elmements that are not serializable, they should override this method.
-        """
-
-        state = copy.deepcopy(self.__dict__)
-        return state
-
-    def decode_complete_state(self, state:dict):
-        """
-        Decodes the complete state of the factory. If subclasses have elmements that are not serializable, they should override this method.
-        """
-        state = copy.deepcopy(state)
-
-        self.__dict__.update(state)
-        return self
- 
-# Пример использования
-factory1 = TinyFactory(simulation_id="sim1")
-print(factory1)
-
-factory_state = factory1.encode_complete_state()
-print(f"Encoded state: {factory_state}")
-
-factory2 = TinyFactory()
-factory2.decode_complete_state(factory_state)
-print(factory2)
+# Очищаем список фабрик
+TinyFactory.clear_factories()
+print(f"Список фабрик после очистки: {TinyFactory.all_factories}")
+```

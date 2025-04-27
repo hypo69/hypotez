@@ -1,91 +1,111 @@
-# Модуль для обработки вебхуков Telegram
-
+# Телеграм вебхуки через FastAPI
 ## Обзор
 
-Модуль `src.endpoints.bots.telegram.webhooks` предназначен для обработки входящих вебхуков от Telegram через сервер FastAPI с использованием RPC. Он содержит функции для асинхронной обработки запросов и взаимодействия с ботом Telegram.
+Этот модуль содержит функции вебхуков для Telegram-бота, работающего через FastAPI-сервер. Вебхуки обрабатывают входящие запросы от Telegram API и позволяют боту реагировать на события, такие как сообщения от пользователей.
 
-## Подробнее
+## Детали
 
-Этот модуль обеспечивает интеграцию с Telegram ботом, позволяя обрабатывать обновления, отправляемые через вебхуки. Он использует библиотеку `telegram.ext` для управления ботом и обработки входящих сообщений.
-Основная цель - обеспечить стабильное и надежное взаимодействие с Telegram API через асинхронные функции.
+Модуль использует библиотеку `fastapi` для создания веб-сервера, `telegram` для работы с Telegram API и `asyncio` для асинхронной обработки запросов. Вебхуки обрабатываются функцией `telegram_webhook` и `telegram_webhook_async`, которые принимают запрос `Request` и экземпляр `Application` от библиотеки `telegram.ext`.
 
 ## Функции
 
-### `telegram_webhook`
+### `telegram_webhook(request: Request, application: Application)`
+
+#### Цель
+
+Функция `telegram_webhook` обрабатывает входящие запросы от Telegram API и запускает асинхронную функцию `telegram_webhook_async` для обработки запроса.
+
+#### Параметры
+
+- `request (Request)`: Объект запроса от FastAPI.
+- `application (Application)`: Экземпляр Telegram `Application`.
+
+#### Возвращает
+
+- `Response`: Объект ответа FastAPI.
+
+#### Пример
 
 ```python
-def telegram_webhook(request: Request, application: Application):
-    """
-    Функция обрабатывает входящие вебхук запросы от Telegram.
+from fastapi import Request
+from telegram.ext import Application
 
-    Args:
-        request (Request): Объект запроса FastAPI.
-        application (Application): Объект приложения Telegram.
+# Создание экземпляра Telegram Application
+application = Application.builder().token('YOUR_TELEGRAM_BOT_TOKEN').build()
 
-    Returns:
-        None
+# Обработка запроса
+response = telegram_webhook(request, application)
 
-    Вызывает:
-        telegram_webhook_async: Для асинхронной обработки запроса.
-
-    Как работает функция:
-    - Функция принимает объект запроса FastAPI и объект приложения Telegram.
-    - Она вызывает асинхронную функцию `telegram_webhook_async` для фактической обработки запроса, используя `asyncio.run` для запуска асинхронной функции в синхронном контексте.
-
-    Пример:
-        В коде FastAPI:
-        >>> telegram_webhook(request, application)
-    """
-    asyncio.run(telegram_webhook_async(request, application))
+# Отправка ответа
+return response
 ```
 
-### `telegram_webhook_async`
+### `telegram_webhook_async(request: Request, application: Application)`
+
+#### Цель
+
+Асинхронная функция `telegram_webhook_async` обрабатывает входящие запросы от Telegram API и обрабатывает обновления (updates) от Telegram.
+
+#### Параметры
+
+- `request (Request)`: Объект запроса от FastAPI.
+- `application (Application)`: Экземпляр Telegram `Application`.
+
+#### Возвращает
+
+- `Response`: Объект ответа FastAPI.
+
+#### Как работает функция
+
+1. Функция извлекает JSON-данные из тела запроса.
+2. Она использует метод `de_json` класса `Update` для создания объекта `Update` из JSON-данных.
+3. Она запускает метод `process_update` класса `Application` для обработки обновления (update) и обработки событий от Telegram API.
+4. Она возвращает ответ с кодом состояния `200` (успех) или код состояния `400` (неверные данные) в случае ошибки декодирования JSON.
+5. В случае других ошибок функция возвращает ответ с кодом состояния `500` (внутренняя ошибка сервера).
+
+#### Пример
 
 ```python
-async def telegram_webhook_async(request: Request, application: Application):
-    """
-    Асинхронная функция для обработки входящих вебхук запросов.
+from fastapi import Request
+from telegram.ext import Application
 
-    Args:
-        request (Request): Объект запроса FastAPI.
-        application (Application): Объект приложения Telegram.
+# Создание экземпляра Telegram Application
+application = Application.builder().token('YOUR_TELEGRAM_BOT_TOKEN').build()
 
-    Returns:
-        Response: Объект ответа FastAPI.
+# Обработка запроса
+async def handle_request(request: Request):
+    response = await telegram_webhook_async(request, application)
+    return response
 
-    Raises:
-        json.JSONDecodeError: Если не удается декодировать JSON из запроса.
-        Exception: Если возникает ошибка при обработке вебхука.
-
-    Как работает функция:
-    - Функция принимает объект запроса FastAPI и объект приложения Telegram.
-    - Извлекает данные из запроса в формате JSON.
-    - Использует асинхронный контекстный менеджер для управления приложением Telegram.
-    - Десериализует JSON данные в объект `Update` с использованием `Update.de_json`.
-    - Обрабатывает обновление с помощью `application.process_update`.
-    - В случае успеха возвращает ответ со статусом 200.
-    - В случае ошибки декодирования JSON, логирует ошибку и возвращает ответ со статусом 400.
-    - В случае другой ошибки при обработке вебхука, логирует ошибку и возвращает ответ со статусом 500.
-
-    Пример:
-        >>> request = Request(...)
-        >>> application = Application(...)
-        >>> response = await telegram_webhook_async(request, application)
-        >>> print(response.status_code)
-        200
-    """
-    return request
-
-    try:
-        data = await request.json()
-        async with application:
-            update = Update.de_json(data, application.bot)
-            await application.process_update(update)
-        return Response(status_code=200)
-    except json.JSONDecodeError as ex:
-        logger.error(f'Error decoding JSON: ', ex)
-        return Response(status_code=400, content=f'Invalid JSON: {ex}')
-    except Exception as ex:
-        logger.error(f'Error processing webhook: {type(ex)} - {ex}')
-        return Response(status_code=500, content=f'Error processing webhook: {ex}')
+# Запуск FastAPI-сервера
+app = FastAPI()
+app.post('/webhook', handle_request)
 ```
+
+## Примеры
+
+```python
+from fastapi import FastAPI
+from src.endpoints.bots.telegram.webhooks import telegram_webhook
+
+app = FastAPI()
+
+# Обработка запросов
+@app.post('/webhook')
+async def webhook_handler(request: Request):
+    # Создание экземпляра Telegram Application
+    application = Application.builder().token('YOUR_TELEGRAM_BOT_TOKEN').build()
+
+    # Обработка запроса
+    return await telegram_webhook(request, application)
+```
+
+## Использование
+
+Этот модуль используется для реализации вебхуков для Telegram-бота. Он обеспечивает асинхронную обработку входящих запросов от Telegram API и позволяет боту реагировать на события, такие как сообщения от пользователей. Вебхуки необходимы для того, чтобы бот мог получать обновления (updates) от Telegram API, а не просто отправлять запросы.
+
+## Дополнительная информация
+
+- Документация по библиотеке `fastapi`: [https://fastapi.tiangolo.com/](https://fastapi.tiangolo.com/)
+- Документация по библиотеке `telegram`: [https://python-telegram-bot.readthedocs.io/](https://python-telegram-bot.readthedocs.io/)
+- Документация по библиотеке `asyncio`: [https://docs.python.org/3/library/asyncio.html](https://docs.python.org/3/library/asyncio.html)

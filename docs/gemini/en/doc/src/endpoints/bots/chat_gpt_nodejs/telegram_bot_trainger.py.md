@@ -1,214 +1,182 @@
-# Модуль для тренировки Telegram-бота с использованием OpenAI моделей
+# Telegram Bot Trainer for OpenAI Models
 
-## Обзор
+## Overview
 
-Этот модуль создает простого Telegram-бота, использующего библиотеку `python-telegram-bot`. Он предназначен для обработки текстовых и голосовых сообщений, а также документов, отправляемых пользователями, и обучения на их основе моделей OpenAI.
+This module provides a framework for training an OpenAI model using a simple Telegram bot. The bot allows users to interact with the model through text and voice messages, providing training data and receiving responses.
 
-## Подробнее
+## Details
 
-Модуль содержит функции для обработки команд `/start` и `/help`, а также для обработки текстовых, голосовых сообщений и документов. Он использует модель OpenAI для генерации ответов на сообщения пользователей и отправляет их обратно пользователю. Также реализована функция преобразования текста в речь для озвучивания ответов бота.
+The Telegram bot utilizes the `python-telegram-bot` library for communication and the `OpenAI` library for model interaction. Users can interact with the bot by sending text messages, voice recordings, or document files. The bot processes the input, sends it to the OpenAI model for training, and returns the model's response to the user.
 
-## Классы
+## Classes
 
-В данном модуле классы отсутствуют.
+### `Model`
 
-## Функции
+**Description**: This class provides a simple interface for interacting with the OpenAI model, allowing the bot to send training data and receive responses.
 
-### `start`
+**Inherits**: N/A
 
-```python
-async def start(update: Update, context: CallbackContext) -> None:
-    """ Обрабатывает команду /start.
+**Attributes**: N/A
 
-    Args:
-        update (Update): Объект Update от Telegram.
-        context (CallbackContext): Объект CallbackContext от Telegram.
+**Methods**:
 
-    Returns:
-        None
+- `send_message(message: str) -> str`: Sends a message to the OpenAI model for training and returns the model's response.
 
-    Пример:
-        Пример вызова команды /start пользователем.
-    """
-```
+## Functions
 
-**Описание**:
-Функция обрабатывает команду `/start`, отправляя приветственное сообщение пользователю.
+### `start(update: Update, context: CallbackContext) -> None`
 
-**Параметры**:
-- `update` (Update): Объект, представляющий входящее обновление от Telegram.
-- `context` (CallbackContext): Объект, предоставляющий контекст для обработчика.
+**Purpose**: Handles the `/start` command.
 
-**Возвращает**:
-- `None`
+**Parameters**:
 
-**Как работает**:
-- Функция отправляет текстовое сообщение в ответ на команду `/start`.
+- `update`:  The update object containing information about the Telegram update.
+- `context`: The context object containing information about the bot's current state.
 
-**Примеры**:
-- Пример вызова команды `/start` пользователем.
+**Returns**: N/A
 
-### `help_command`
+**Raises Exceptions**: N/A
+
+**How the Function Works**: 
+- This function responds to the `/start` command by sending a greeting message to the user.
+
+**Examples**:
 
 ```python
-async def help_command(update: Update, context: CallbackContext) -> None:
-    """ Обрабатывает команду /help.
-
-    Args:
-        update (Update): Объект Update от Telegram.
-        context (CallbackContext): Объект CallbackContext от Telegram.
-
-    Returns:
-        None
-    
-    Пример:
-        Пример вызова команды /help пользователем.
-    """
+>>> start(update, context)
+Hello! I am your simple bot. Type /help to see available commands.
 ```
 
-**Описание**:
-Функция обрабатывает команду `/help`, отправляя пользователю список доступных команд.
+### `help_command(update: Update, context: CallbackContext) -> None`
 
-**Параметры**:
-- `update` (Update): Объект, представляющий входящее обновление от Telegram.
-- `context` (CallbackContext): Объект, предоставляющий контекст для обработчика.
+**Purpose**: Handles the `/help` command.
 
-**Возвращает**:
-- `None`
+**Parameters**:
 
-**Как работает**:
-- Функция отправляет текстовое сообщение со списком доступных команд в ответ на команду `/help`.
+- `update`: The update object containing information about the Telegram update.
+- `context`: The context object containing information about the bot's current state.
 
-**Примеры**:
-- Пример вызова команды `/help` пользователем.
+**Returns**: N/A
 
-### `handle_document`
+**Raises Exceptions**: N/A
+
+**How the Function Works**: 
+- This function responds to the `/help` command by sending a list of available commands to the user.
+
+**Examples**:
 
 ```python
-async def handle_document(update: Update, context: CallbackContext):
-    """ Обрабатывает отправленные документы, обучает модель на их содержимом и отправляет ответ.
-
-    Args:
-        update (Update): Объект Update от Telegram.
-        context (CallbackContext): Объект CallbackContext от Telegram.
-
-    Returns:
-        None
-    """
+>>> help_command(update, context)
+Available commands:
+/start - Start the bot
+/help - Show this help message
 ```
 
-**Описание**:
-Функция обрабатывает отправленные пользователем документы, извлекает содержимое файла, отправляет его в модель для обучения и отправляет ответ пользователю.
+### `handle_document(update: Update, context: CallbackContext) -> None`
 
-**Параметры**:
-- `update` (Update): Объект, представляющий входящее обновление от Telegram.
-- `context` (CallbackContext): Объект, предоставляющий контекст для обработчика.
+**Purpose**: Handles document files received from the user.
 
-**Возвращает**:
-- `None`
+**Parameters**:
 
-**Как работает**:
-1. Извлекает файл из объекта `update`.
-2. Загружает файл на диск.
-3. Читает содержимое файла.
-4. Отправляет содержимое файла в модель для обучения.
-5. Отправляет ответ пользователю.
+- `update`: The update object containing information about the Telegram update.
+- `context`: The context object containing information about the bot's current state.
 
-**Примеры**:
-- Пример отправки текстового файла боту для обучения модели.
+**Returns**: N/A
 
-### `handle_message`
+**Raises Exceptions**: N/A
+
+**How the Function Works**: 
+- This function downloads the document file, reads its contents, and sends it to the OpenAI model for training. Then, it sends the model's response to the user.
+
+**Examples**:
 
 ```python
-async def handle_message(update: Update, context: CallbackContext) -> None:
-    """ Обрабатывает текстовые сообщения, отправляет их в модель и отправляет ответ.
-
-    Args:
-        update (Update): Объект Update от Telegram.
-        context (CallbackContext): Объект CallbackContext от Telegram.
-
-    Returns:
-        None
-    """
+>>> # User sends a document file
+>>> handle_document(update, context)
+[Response from the OpenAI model based on the document content]
 ```
 
-**Описание**:
-Функция обрабатывает текстовые сообщения, отправляет их в модель для получения ответа и отправляет ответ пользователю.
+### `handle_message(update: Update, context: CallbackContext) -> None`
 
-**Параметры**:
-- `update` (Update): Объект, представляющий входящее обновление от Telegram.
-- `context (CallbackContext)`: Объект, предоставляющий контекст для обработчика.
+**Purpose**: Handles text messages received from the user.
 
-**Возвращает**:
-- `None`
+**Parameters**:
 
-**Как работает**:
-1. Извлекает текст сообщения из объекта `update`.
-2. Отправляет текст сообщения в модель.
-3. Получает ответ от модели.
-4. Отправляет ответ пользователю.
+- `update`: The update object containing information about the Telegram update.
+- `context`: The context object containing information about the bot's current state.
 
-**Примеры**:
-- Пример отправки текстового сообщения боту и получения ответа.
+**Returns**: N/A
 
-### `handle_voice`
+**Raises Exceptions**: N/A
+
+**How the Function Works**: 
+- This function extracts the text message from the `update` object, sends it to the OpenAI model for training, and returns the model's response to the user.
+
+**Examples**:
 
 ```python
-async def handle_voice(update: Update, context: CallbackContext) -> None:
-    """ Обрабатывает голосовые сообщения, распознает текст из голоса, отправляет его в модель и отправляет ответ.
-
-    Args:
-        update (Update): Объект Update от Telegram.
-        context (CallbackContext): Объект CallbackContext от Telegram.
-
-    Returns:
-        None
-    """
+>>> # User sends a text message "Hello, bot!"
+>>> handle_message(update, context)
+[Response from the OpenAI model based on the message]
 ```
 
-**Описание**:
-Функция обрабатывает голосовые сообщения, преобразует их в текст, отправляет текст сообщения в модель для получения ответа и отправляет ответ пользователю, озвучивая его.
+### `handle_voice(update: Update, context: CallbackContext) -> None`
 
-**Параметры**:
-- `update` (Update): Объект, представляющий входящее обновление от Telegram.
-- `context` (CallbackContext): Объект, предоставляющий контекст для обработчика.
+**Purpose**: Handles voice messages received from the user.
 
-**Возвращает**:
-- `None`
+**Parameters**:
 
-**Как работает**:
-1. Извлекает голосовое сообщение из объекта `update`.
-2. Преобразует голосовое сообщение в текст с использованием `recognizer`.
-3. Отправляет текст сообщения в модель.
-4. Получает ответ от модели.
-5. Преобразует ответ в речь с использованием `text_to_speech`.
-6. Отправляет голосовое сообщение пользователю.
+- `update`: The update object containing information about the Telegram update.
+- `context`: The context object containing information about the bot's current state.
 
-**Примеры**:
-- Пример отправки голосового сообщения боту и получения озвученного ответа.
+**Returns**: N/A
 
-### `main`
+**Raises Exceptions**: N/A
+
+**How the Function Works**: 
+- This function downloads the voice message, converts it to text using speech recognition, sends the text to the OpenAI model for training, and returns the model's response to the user. The response is then converted to speech and sent back as an audio message.
+
+**Examples**:
 
 ```python
-def main() -> None:
-    """ Запускает бота.
-
-    Returns:
-        None
-    """
+>>> # User sends a voice message "Hello, bot!"
+>>> handle_voice(update, context)
+[Response from the OpenAI model based on the voice message]
+[Audio message containing the model's response]
 ```
 
-**Описание**:
-Функция `main` является точкой входа в приложение. Она создает и запускает Telegram-бота.
+### `main() -> None`
 
-**Возвращает**:
-- `None`
+**Purpose**: Starts the Telegram bot.
 
-**Как работает**:
-1. Создает экземпляр `Application` с использованием токена Telegram.
-2. Регистрирует обработчики команд (`/start`, `/help`).
-3. Регистрирует обработчики сообщений (текст, голос, документы).
-4. Запускает бота в режиме опроса (`polling`).
+**Parameters**: N/A
 
-**Примеры**:
-- Пример запуска бота.
+**Returns**: N/A
+
+**Raises Exceptions**: N/A
+
+**How the Function Works**: 
+- This function sets up the bot using the Telegram token and registers command and message handlers. It then starts the bot's polling loop, which continuously listens for updates from the Telegram server.
+
+**Examples**:
+
+```python
+>>> main()
+# Bot starts running and listens for updates from Telegram.
+```
+
+## Parameter Details
+
+- `update`: The update object contains information about the Telegram update, such as the user ID, message text, and other relevant data.
+- `context`: The context object holds information about the bot's current state, including user data and previous interactions.
+- `message`: A string representing the message sent to the OpenAI model for training.
+- `response`: A string representing the OpenAI model's response to the message.
+
+## Examples
+
+- `start(update, context)`: Starts the bot and provides information about available commands.
+- `help_command(update, context)`: Displays a list of available commands.
+- `handle_document(update, context)`: Processes a document file, trains the model, and sends the response back.
+- `handle_message(update, context)`: Processes a text message, trains the model, and sends the response back.
+- `handle_voice(update, context)`: Processes a voice message, converts it to text, trains the model, sends the response back as both text and audio.
+- `main()`: Starts the bot and sets up handlers for various interactions.

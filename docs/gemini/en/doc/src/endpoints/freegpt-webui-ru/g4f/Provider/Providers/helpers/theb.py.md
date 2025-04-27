@@ -1,82 +1,67 @@
-# Модуль `theb.py`
+# Theb Provider Helper Module
 
-## Обзор
+## Overview
 
-Модуль `theb.py` предназначен для взаимодействия с чат-ботом `chatbot.theb.ai`. Он отправляет запросы к API чат-бота и обрабатывает ответы, извлекая полезную информацию. Модуль использует библиотеку `curl_cffi` для выполнения HTTP-запросов и регулярные выражения для разбора ответов.
+This module provides a helper function for interacting with the Theb chatbot API. It handles sending requests to the API and parsing the response to extract the chatbot's generated content. This module is part of the FreeGPT-Webui-Ru project and specifically designed to work with the Theb provider.
 
-## Более подробно
+## Details
 
-Этот модуль используется для интеграции с чат-ботом `chatbot.theb.ai`. Он получает запросы, отправляет их в API и извлекает данные из ответов.
+The module primarily utilizes the `curl_cffi` library to send HTTP requests to the Theb chatbot API. It constructs a JSON payload containing the user's prompt and sends it to the API endpoint `/api/chat-process`. The `format` function is used to process chunks of the response, extracting the relevant text content from the chatbot's generated response.
 
-## Функции
+## Functions
 
-### `format(chunk)`
+### `format`
+
+**Purpose**: This function processes chunks of the chatbot's response, extracting the relevant text content from the chatbot's generated response.
+
+**Parameters**:
+- `chunk` (bytes): A chunk of the response data received from the Theb API.
+
+**Returns**:
+- `None`: Returns `None` if an error occurs during processing.
+
+**Raises Exceptions**:
+- `Exception`: Raises an exception if an error occurs during processing, such as an invalid response format or an error while decoding the data.
+
+**How the Function Works**:
+
+1. The function uses a regular expression to extract the text content from the `chunk` using `findall`. 
+2. It extracts the `content` value from the JSON object within the `chunk` using `json.loads`. 
+3. If an exception occurs, it prints an error message to the console and returns `None`.
+
+**Examples**:
 
 ```python
-def format(chunk):
-    """ Функция обрабатывает полученный чанк данных от сервера, извлекая полезную информацию.
-
-    Args:
-        chunk (bytes): Чанк данных, полученный от сервера.
-
-    Returns:
-        None
-
-    Raises:
-        Exception: Если происходит ошибка при обработке чанка, выводится сообщение об ошибке и функция возвращается.
-
-    Как работает функция:
-    - Функция пытается извлечь содержимое из чанка данных, используя регулярное выражение `r'content":"(.*)"},"fin'`.
-    - Если извлечение успешно, содержимое выводится в консоль.
-    - Если происходит ошибка, выводится сообщение об ошибке и содержимое чанка.
-
-    Примеры:
-    - Пример успешной обработки чанка:
-      >>> chunk = b'{"content":"Hello, world!"},"fin"'
-      >>> format(chunk)
-      Hello, world!
-    - Пример обработки чанка с ошибкой:
-      >>> chunk = b'{"error":"Something went wrong"}'
-      >>> format(chunk)
-      [ERROR] an error occured, retrying... | [[b'{"error":"Something went wrong"}']]
-    """
-    try:
-        completion_chunk = findall(r'content":"(.*)"},"fin', chunk.decode())[0]
-        print(completion_chunk, flush=True, end='')
-
-    except Exception as ex:
-        print(f'[ERROR] an error occured, retrying... | [[{chunk.decode()}]]', flush=True)
-        return
+>>> chunk = b'{"content":"This is the chatbot's response.", "fin":true}'
+>>> format(chunk)
+This is the chatbot's response.
 ```
 
-## Переменные
+## Inner Functions
 
-- `config` (dict): Загруженная конфигурация из аргументов командной строки.
-- `prompt` (str): Содержимое последнего сообщения из конфигурации, используемое в качестве запроса.
-- `headers` (dict): Заголовки HTTP-запроса, необходимые для взаимодействия с API.
-- `json_data` (dict): Данные в формате JSON, отправляемые в теле запроса.
+### `format`
 
-## Как работает код
+**Purpose**: This function processes chunks of the chatbot's response, extracting the relevant text content from the chatbot's generated response.
 
-1.  **Чтение конфигурации**:
-    *   Код начинает с чтения конфигурации из аргументов командной строки, используя `json.loads(sys.argv[1])`. Переменная `config` содержит словарь с параметрами конфигурации.
-2.  **Подготовка запроса**:
-    *   Извлекается последний элемент из списка сообщений в конфигурации (`config['messages'][-1]['content']`) и присваивается переменной `prompt`.
-    *   Определяются заголовки HTTP-запроса (`headers`), которые включают `user-agent`, `content-type` и другие необходимые параметры.
-    *   Формируются данные JSON (`json_data`), включающие `prompt` и пустой словарь `options`.
-3.  **Цикл запросов**:
-    *   Код входит в бесконечный цикл `while True:`, в котором отправляются POST-запросы к API `https://chatbot.theb.ai/api/chat-process`.
-    *   Используется функция `requests.post` из библиотеки `curl_cffi` для отправки запроса. Параметр `content_callback=format` указывает на функцию `format`, которая будет вызываться для обработки каждого чанка данных из ответа сервера.
-    *   Если запрос выполняется успешно, вызывается `exit(0)` для завершения программы.
-4.  **Обработка ошибок**:
-    *   Если в процессе выполнения запроса или обработки ответа происходит исключение, выводится сообщение об ошибке (`print('[ERROR] an error occured, retrying... |', ex, flush=True)`), и цикл продолжается.
+**Parameters**:
+- `chunk` (bytes): A chunk of the response data received from the Theb API.
 
-## Примеры
+**Returns**:
+- `None`: Returns `None` if an error occurs during processing.
 
-Пример запуска скрипта с конфигурацией:
+**Raises Exceptions**:
+- `Exception`: Raises an exception if an error occurs during processing, such as an invalid response format or an error while decoding the data.
 
-```bash
-python theb.py '{"messages": [{"content": "Hello, world!"}]}'
+**How the Function Works**:
+
+1. The function uses a regular expression to extract the text content from the `chunk` using `findall`. 
+2. It extracts the `content` value from the JSON object within the `chunk` using `json.loads`. 
+3. If an exception occurs, it prints an error message to the console and returns `None`.
+
+**Examples**:
+
+```python
+>>> chunk = b'{"content":"This is the chatbot's response.", "fin":true}'
+>>> format(chunk)
+This is the chatbot's response.
 ```
-
-В этом примере скрипт отправит запрос к `chatbot.theb.ai` с сообщением "Hello, world!".

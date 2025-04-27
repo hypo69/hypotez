@@ -1,31 +1,62 @@
-# Документация для `openaichat.py`
+# OpenAI Chat Example 
 
-## Обзор
+## Overview
 
-Этот файл содержит пример использования библиотеки `g4f` для взаимодействия с OpenAI Chat API через прокси. Он демонстрирует, как создать клиента, настроить прокси и провайдера, а также отправить запрос на получение ответа от модели `gpt-3.5-turbo`.
+This example demonstrates using the `g4f` library to interact with the OpenAI chat API. The code establishes a connection with the OpenAI API, sends a message, and receives a response. 
 
-## Более подробно
+## Details
 
-Этот код используется для подключения к OpenAI API через прокси-сервер, что позволяет обходить географические ограничения или другие ограничения доступа. Здесь создается клиент с использованием прокси и провайдера `RetryProvider`, который автоматически повторяет запросы в случае сбоев. Далее отправляется сообщение пользователем и выводится полученный ответ.
+This script utilizes the `g4f` library to connect to the OpenAI Chat API, enabling natural language conversations with AI models.
 
-## Классы
+1. **Import Libraries**: It starts by importing necessary modules: `Client` from `g4f.client` for interacting with the API, `OpenaiChat` and `RetryProvider` from `g4f.Provider` for handling API requests.
 
-В данном файле классы не определены.
+2. **Initialization**: The script creates a `Client` instance, specifying a proxy configuration and a retry provider. The proxy configuration requires a working proxy in a country compatible with OpenAI's services. The `RetryProvider` ensures the client retries requests up to 5 times if they fail.
 
-## Функции
+3. **Message Preparation**: A list of messages is created, representing the conversation flow. In this case, it starts with a single message: `{'role': 'user', 'content': 'Hello'}`.
 
-В данном файле функции не определены.
+4. **API Call**: The `chat.completions.create` method is called on the client object to send a message to the OpenAI API. The `model` parameter specifies the desired OpenAI model (`gpt-3.5-turbo` in this example). The `messages` parameter includes the conversation history (the prepared messages). The `stream` parameter enables streaming of the response.
 
-## Переменные
+5. **Response Processing**: The script iterates through the streamed response, printing the `content` of each message in the `delta` field.
 
-- `client`: экземпляр класса `Client` из библиотеки `g4f`, используемый для взаимодействия с API.
-- `proxies`: словарь, содержащий настройки прокси-сервера для HTTP и HTTPS.
-- `provider`: экземпляр класса `RetryProvider`, используемый для автоматической повторной отправки запросов в случае сбоев.
-- `messages`: список словарей, представляющий историю сообщений для чата. В данном случае содержит одно сообщение от пользователя.
-- `response`: результат вызова метода `create` для получения ответа от модели. Представляет собой генератор, выдающий чанки ответа.
-- `message`: переменная цикла, представляющая собой отдельные чанки ответа от модели.
+## Classes
 
-## Примеры использования
+### `Client` 
+
+**Description**: Represents a connection to the OpenAI API.
+
+**Attributes**:
+
+- `proxies (dict)`: A dictionary specifying proxy server details.
+- `provider (RetryProvider)`: An instance of the `RetryProvider` class for handling API requests.
+
+**Methods**:
+
+- `chat.completions.create(model: str, messages: list, stream: bool)`: Sends a message to the OpenAI Chat API, specifying the model, messages, and whether to stream the response.
+
+
+## Inner Functions
+
+### `RetryProvider`
+
+**Description**: A class for handling API requests and retrying them if they fail.
+
+**Attributes**:
+
+- `providers (list)`: A list of providers to use for API requests.
+- `single_provider_retry (bool)`: Whether to retry only with the current provider or all providers.
+- `max_retries (int)`: Maximum number of retries before giving up.
+
+**Methods**:
+
+- `__call__(self, *args, **kwargs) -> Any`: Executes an API request, retrying it if necessary.
+
+## Parameter Details
+
+- `model (str)`: The name of the OpenAI model to use for chat.
+- `messages (list)`: A list of messages representing the conversation history.
+- `stream (bool)`: Whether to stream the response or wait for the entire response.
+
+## Examples
 
 ```python
 from g4f.client   import Client
@@ -51,3 +82,4 @@ response = client.chat.completions.create(model='gpt-3.5-turbo',
 
 for message in response:
     print(message.choices[0].delta.content or "")
+```

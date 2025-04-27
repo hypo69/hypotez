@@ -1,83 +1,81 @@
-### **Как использовать этот блок кода**
-
+## Как использовать модуль `src.suppliers.aliexpress.api.errors.exceptions`
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот блок кода определяет набор пользовательских исключений для работы с AliExpress API.
-Он включает базовый класс `AliexpressException` и несколько подклассов, каждый из которых представляет конкретную ошибку,
-которая может возникнуть при взаимодействии с API AliExpress.
+Модуль `src.suppliers.aliexpress.api.errors.exceptions` определяет набор пользовательских исключений для обработки ошибок, возникающих при работе с AliExpress API. Эти исключения расширяют базовый класс `AliexpressException` и предоставляют более конкретную информацию об ошибке.
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Определение базового класса `AliexpressException`**:
-   - Создается класс `AliexpressException`, который наследуется от стандартного класса `Exception`.
-   - Конструктор `__init__` принимает аргумент `reason: str`, который сохраняется в атрибуте `self.reason`.
-   - Метод `__str__` переопределен для возврата строки с описанием причины исключения.
+1. **Импорт модуля:** Импортируйте модуль `src.suppliers.aliexpress.api.errors.exceptions` в ваш код:
 
-2. **Определение подклассов исключений**:
-   - `InvalidArgumentException`: Вызывается, когда аргументы, переданные в API, некорректны.
-   - `ProductIdNotFoundException`: Вызывается, если ID товара не найден.
-   - `ApiRequestException`: Вызывается, если запрос к AliExpress API завершается неудачей.
-   - `ApiRequestResponseException`: Вызывается, если ответ на запрос к AliExpress API невалиден.
-   - `ProductsNotFoudException`: Вызывается, если товары не найдены.
-   - `CategoriesNotFoudException`: Вызывается, если категории не найдены.
-   - `InvalidTrackingIdException`: Вызывается, если ID отслеживания отсутствует или невалиден.
+   ```python
+   from src.suppliers.aliexpress.api.errors.exceptions import AliexpressException, InvalidArgumentException, ProductIdNotFoundException, ApiRequestException, ApiRequestResponseException, ProductsNotFoudException, CategoriesNotFoudException, InvalidTrackingIdException
+   ```
 
-3. **Использование исключений в коде**:
-   - Для каждой конкретной ситуации, когда может возникнуть ошибка, вызывается соответствующее исключение.
+2. **Использование исключений:** В вашем коде используйте соответствующие исключения для обработки ошибок:
 
-Пример использования
+   * **InvalidArgumentException**: Используйте это исключение, если аргументы функции некорректны.
+
+   * **ProductIdNotFoundException**: Используйте это исключение, если не найден идентификатор продукта.
+
+   * **ApiRequestException**: Используйте это исключение, если запрос к AliExpress API не удался.
+
+   * **ApiRequestResponseException**: Используйте это исключение, если ответ API не соответствует ожидаемому формату.
+
+   * **ProductsNotFoudException**: Используйте это исключение, если не найдены продукты.
+
+   * **CategoriesNotFoudException**: Используйте это исключение, если не найдены категории.
+
+   * **InvalidTrackingIdException**: Используйте это исключение, если идентификатор отслеживания отсутствует или неверен.
+
+3. **Обработка исключений:** Используйте оператор `try-except` для обработки исключений, возникающих во время работы с AliExpress API:
+
+   ```python
+   try:
+       # Вызов функции, которая может вызвать исключение
+       product_details = get_product_details(product_id)
+   except ProductIdNotFoundException:
+       print("Идентификатор продукта не найден.")
+   except ApiRequestException:
+       print("Произошла ошибка при запросе к API.")
+   except InvalidArgumentException:
+       print("Неверные аргументы для функции.")
+   except Exception as ex:
+       print(f"Произошла непредвиденная ошибка: {ex}")
+   ```
+
+### Пример использования
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api.errors.exceptions import (
-    AliexpressException,
-    InvalidArgumentException,
-    ProductIdNotFoundException,
-    ApiRequestException,
-    ApiRequestResponseException,
-    ProductsNotFoudException,
-    CategoriesNotFoudException,
-    InvalidTrackingIdException
-)
+from src.suppliers.aliexpress.api.errors.exceptions import AliexpressException, InvalidArgumentException, ProductIdNotFoundException, ApiRequestException, ApiRequestResponseException, ProductsNotFoudException, CategoriesNotFoudException, InvalidTrackingIdException
 
-def get_product_details(product_id: str) -> dict:
-    """
-    Функция пытается получить детали товара по его ID.
-
-    Args:
-        product_id (str): ID товара.
-
-    Returns:
-        dict: Детали товара, если товар найден.
-
-    Raises:
-        ProductIdNotFoundException: Если товар с указанным ID не найден.
-        ApiRequestException: Если запрос к API завершается неудачей.
-    """
-    if not product_id:
-        raise InvalidArgumentException("Product ID cannot be empty.")
-
+def get_product_details(product_id: str):
+    """Функция для получения деталей продукта по его ID."""
     try:
-        # Имитация запроса к API
-        if product_id == "12345":
-            product_details = {"id": "12345", "name": "Example Product"}
-        else:
-            raise ProductIdNotFoundException(f"Product with ID {product_id} not found.")
+        # ... логика получения данных о продукте из AliExpress API ...
         return product_details
-    except ProductIdNotFoundException as e:
-        raise e
-    except Exception as e:
-        raise ApiRequestException(f"Failed to get product details: {e}")
+    except ProductIdNotFoundException:
+        # Обработка ошибки, если идентификатор продукта не найден
+        print("Идентификатор продукта не найден.")
+        raise
+    except ApiRequestException:
+        # Обработка ошибки, если запрос к API не удался
+        print("Произошла ошибка при запросе к API.")
+        raise
+    except InvalidArgumentException:
+        # Обработка ошибки, если аргументы функции некорректны
+        print("Неверные аргументы для функции.")
+        raise
+    except Exception as ex:
+        # Обработка непредвиденных ошибок
+        print(f"Произошла непредвиденная ошибка: {ex}")
+        raise
 
 try:
-    product = get_product_details("123")
-    print(product)
-except ProductIdNotFoundException as e:
-    print(f"Error: {e}")
-except ApiRequestException as e:
-    print(f"Error: {e}")
-except InvalidArgumentException as e:
-    print(f"Error: {e}")
+    product_details = get_product_details("1234567890")
+    print(product_details)
+except Exception as ex:
+    print(f"Ошибка: {ex}")
 ```

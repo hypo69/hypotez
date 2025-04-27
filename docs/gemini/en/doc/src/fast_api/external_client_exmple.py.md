@@ -1,120 +1,90 @@
-# Модуль `external_client.py`
+# External RPC Client for Fast API Server
 
-## Обзор
+## Overview
 
-Модуль предоставляет пример XML-RPC клиента для управления сервером Fast API из внешнего кода. Он позволяет запускать, останавливать и получать статус серверов, а также добавлять новые маршруты.
+This module provides an example of an XML-RPC client for managing a Fast API server from external Python code. It demonstrates how to interact with the server remotely using XML-RPC to perform various tasks, such as starting/stopping the server, adding new routes, and checking its status.
 
-## Подробнее
+## Details
 
-Этот модуль предназначен для демонстрации взаимодействия с сервером Fast API через XML-RPC. Он позволяет управлять сервером из внешнего кода, что может быть полезно для автоматизации задач, мониторинга и управления сервером.
+The `external_client.py` file serves as a demonstration of how to interact with the Fast API server from external code. The `ServerProxy` class from the `xmlrpc.client` library is used to establish a connection with the server. This code leverages the XML-RPC protocol to execute commands remotely, allowing for control of the server's behavior.
 
-## Функции
+## Functions
 
 ### `main`
 
+**Purpose**: The main function for managing the Fast API server via RPC from external code. 
+
+**How the Function Works**:
+1. **Connect to the RPC server**:  The function establishes a connection to the RPC server using `ServerProxy`. The server URL is specified as an argument (`"http://localhost:9000"`).
+2. **Start and Stop Server**: Demonstrates the ability to start and stop the server on a specific port (`8001` in this case).
+3. **Add a New Route**: Shows how to dynamically add new routes to the server with their respective HTTP methods.
+4. **Check Server Status**: Provides an example of querying the server's status.
+5. **Shut down RPC server**: The `shutdown` method of the `rpc_client` is called to cleanly terminate the RPC connection.
+
+**Example**:
 ```python
 def main():
-    """Основная функция для управления сервером через RPC из внешнего кода.
-
-    Функция выполняет следующие действия:
-    - Создает XML-RPC клиент для взаимодействия с сервером.
-    - Запускает сервер на порту 8001.
-    - Добавляет новый маршрут /test_route.
-    - Получает статус серверов.
-    - Останавливает сервер на порту 8001.
-    - Получает статус серверов после остановки.
-    - Завершает работу RPC сервера.
-
-    При возникновении ошибки выводит сообщение об ошибке.
-
-    Пример:
-        >>> main()
-        Starting server on port 8001...
-        Adding new route /test_route...
-        Getting server status...
-        Stopping server on port 8001...
-        Getting server status...
-        Shutting down RPC server
-    """
-```
-
-**Как работает функция**:
-
-1.  Создается экземпляр `ServerProxy` для взаимодействия с XML-RPC сервером по адресу `http://localhost:9000`. Параметр `allow_none=True` разрешает передачу значений `None`.
-2.  Блок `try` используется для выполнения последовательности действий:
-    *   Выводится сообщение о запуске сервера на порту 8001.
-    *   Вызывается метод `start_server` на RPC сервере для запуска сервера на порту 8001 и IP-адресе "127.0.0.1".
-    *   Производится задержка в 1 секунду для ожидания запуска сервера.
-    *   Выводится сообщение о добавлении нового маршрута `/test_route`.
-    *   Вызывается метод `add_new_route` на RPC сервере для добавления нового маршрута `/test_route` с функцией, возвращающей JSON-ответ `{"message": "Hello from test_route"}`. Метод `GET` указан как разрешенный для этого маршрута.
-    *   Производится задержка в 1 секунду для ожидания добавления маршрута.
-    *   Выводится сообщение о получении статуса серверов.
-    *   Вызывается метод `status_servers` на RPC сервере для получения статуса серверов.
-    *   Производится задержка в 1 секунду для ожидания получения статуса.
-    *   Выводится сообщение об остановке сервера на порту 8001.
-    *   Вызывается метод `stop_server` на RPC сервере для остановки сервера на порту 8001.
-    *   Производится задержка в 1 секунду для ожидания остановки сервера.
-    *   Выводится сообщение о повторном получении статуса серверов.
-    *   Повторно вызывается метод `status_servers` на RPC сервере для получения статуса серверов после остановки.
-    *   Производится задержка в 1 секунду для ожидания получения статуса.
-3.  Блок `except` перехватывает любые исключения, которые могут возникнуть в блоке `try`, и выводит сообщение об ошибке.
-4.  Блок `finally` выполняется в любом случае, независимо от того, возникло исключение или нет. В этом блоке:
-    *   Выводится сообщение о завершении работы RPC сервера.
-    *   Вызывается метод `shutdown` на RPC сервере для завершения работы сервера.
-
-**Примеры**:
-
-```python
-rpc_client = ServerProxy("http://localhost:9000", allow_none=True)
-rpc_client.start_server(8001, "127.0.0.1")
-rpc_client.add_new_route("/test_route", 'lambda: {"message": "Hello from test_route"}', ["GET"])
-rpc_client.status_servers()
-rpc_client.stop_server(8001)
-rpc_client.shutdown()
-```
-```python
-if __name__ == "__main__":
-    main()
-```
-```python
+    """Основная функция для управления сервером через RPC из внешнего кода."""
     rpc_client = ServerProxy("http://localhost:9000", allow_none=True)
-```
-Переменная `rpc_client` — это XML-RPC клиент для взаимодействия с сервером.
+    
+    try:
+        # Пример: Запуск сервера на порту 8001
+        print("Starting server on port 8001...")
+        rpc_client.start_server(8001, "127.0.0.1")
+        time.sleep(1)
+        
+        # Пример: Добавление нового маршрута /test_route
+        print("Adding new route /test_route...")
+        rpc_client.add_new_route("/test_route", 'lambda: {"message": "Hello from test_route"}\', ["GET"])
+        time.sleep(1)
 
-```python
-    rpc_client.start_server(8001, "127.0.0.1")
-```
-Метод `start_server` запускает сервер на порту 8001 и IP-адресе "127.0.0.1".
-```python
-    rpc_client.add_new_route("/test_route", 'lambda: {"message": "Hello from test_route"}', ["GET"])
-```
-Метод `add_new_route` добавляет новый маршрут `/test_route` с функцией, возвращающей JSON-ответ `{"message": "Hello from test_route"}`. Метод `GET` указан как разрешенный для этого маршрута.
-```python
-    rpc_client.status_servers()
-```
-Метод `status_servers` получает статус серверов.
-```python
-    rpc_client.stop_server(8001)
-```
-Метод `stop_server` останавливает сервер на порту 8001.
-```python
-   rpc_client.shutdown()
-```
-Метод `shutdown` завершает работу RPC сервера.
-```python
-     except Exception as ex:
+        # Пример: Получение статуса серверов
+        print("Getting server status...")
+        rpc_client.status_servers()
+        time.sleep(1)
+
+       # Пример: Остановка сервера на порту 8001
+        print("Stopping server on port 8001...")
+        rpc_client.stop_server(8001)
+        time.sleep(1)
+        
+        # Пример: Получение статуса серверов
+        print("Getting server status...")
+        rpc_client.status_servers()
+        time.sleep(1)
+
+    except Exception as ex:
         print(f"An error occurred: {ex}")
-```
-Блок `except` перехватывает любые исключения, которые могут возникнуть в блоке `try`, и выводит сообщение об ошибке.
-```python
     finally:
         print("Shutting down RPC server")
         rpc_client.shutdown()
+
 ```
-Блок `finally` выполняется в любом случае, независимо от того, возникло исключение или нет. В этом блоке:
-Выводится сообщение о завершении работы RPC сервера. Вызывается метод `shutdown` на RPC сервере для завершения работы сервера.
+
+## Parameter Details
+
+- `rpc_client` (`ServerProxy`): An instance of `ServerProxy` that handles communication with the XML-RPC server.
+- `8001` (int): The port on which the server is being started or stopped.
+- `/test_route` (str): The path of the new route being added.
+- `lambda: {"message": "Hello from test_route"}\'` (lambda): A lambda function that defines the response for the `/test_route` endpoint.
+- `["GET"]` (list): A list of HTTP methods allowed for the new route.
+
+
+## Examples
+
+**Example 1**: Starting and stopping the server on port `8001`.
 ```python
-    if __name__ == "__main__":
-        main()
+rpc_client.start_server(8001, "127.0.0.1")
+time.sleep(1)
+rpc_client.stop_server(8001)
 ```
-Запуск функции `main`, если скрипт запущен как основной.
+
+**Example 2**: Adding a new route `"/test_route"` with GET method.
+```python
+rpc_client.add_new_route("/test_route", 'lambda: {"message": "Hello from test_route"}\', ["GET"])
+```
+
+**Example 3**: Getting the server status.
+```python
+rpc_client.status_servers()
+```

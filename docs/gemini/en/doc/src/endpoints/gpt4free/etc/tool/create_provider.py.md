@@ -1,127 +1,134 @@
-# Модуль для создания провайдеров G4F
+# Module for Creating GPT4Free Providers
+## Overview
 
-## Обзор
+This module provides a tool for creating new GPT4Free providers by generating Python code based on a provided cURL command. The module prompts the user for a provider name, captures the cURL command, and uses the GPT-4 language model to generate a provider class definition. The generated code is then saved to a file within the project's provider directory.
 
-Этот модуль предназначен для автоматического создания файлов провайдеров на основе команд cURL для библиотеки `g4f`. Он принимает имя провайдера, команду cURL и генерирует код провайдера, используя модель GPT-4o. Модуль также включает функциональность для чтения кода из текстовых блоков и добавления нового провайдера в файл `__init__.py`.
+## Details
 
-## Детали
+The module utilizes GPT-4's code generation capabilities to create a new provider class that conforms to the GPT4Free project's conventions. This includes implementing essential attributes and methods for interacting with the provider's API.
 
-Модуль автоматизирует процесс создания новых провайдеров для библиотеки `g4f`. Он запрашивает у пользователя имя провайдера и команду cURL, затем использует модель GPT-4o для генерации кода провайдера на основе предоставленной команды cURL и примера. Сгенерированный код сохраняется в файл провайдера, и провайдер добавляется в файл `__init__.py`.
+## Functions
 
-## Функции
+### `read_code(text)`
 
-### `read_code`
+**Purpose**: Extracts code from a string containing formatted code blocks.
 
+**Parameters**:
+- `text` (str): The input string that may contain code blocks.
+
+**Returns**:
+- str: The code extracted from the input string, or `None` if no code block is found.
+
+**How the Function Works**:
+- The function uses a regular expression to identify code blocks enclosed in triple backticks (`````) with language specifiers (e.g., `python`, `py`).
+- If a code block is found, the function extracts the code content within the block.
+
+**Examples**:
+- Example 1:
 ```python
-def read_code(text):
-    """Извлекает код Python из текстового блока, заключенного в тройные обратные кавычки.
-
-    Args:
-        text (str): Текст, содержащий блок кода Python.
-
-    Returns:
-        str | None: Извлеченный код Python или None, если код не найден.
-
-    Как работает:
-        Функция использует регулярное выражение для поиска блока кода Python, заключенного в тройные обратные кавычки.
-        Если блок кода найден, функция извлекает код и возвращает его.
-        Если блок кода не найден, функция возвращает None.
-    """
-    if match := re.search(r"```(python|py|)\\n(?P<code>[\\S\\s]+?)\\n```", text):
-        return match.group("code")
+>>> text = "```python\nprint('Hello, World!')\n```"
+>>> code = read_code(text)
+>>> print(code)
+print('Hello, World!')
 ```
 
-### `input_command`
-
+- Example 2:
 ```python
-def input_command():
-    """Получает команду cURL от пользователя через стандартный ввод.
-
-    Returns:
-        str: Объединенные строки ввода, представляющие команду cURL.
-
-    Как работает:
-        Функция предлагает пользователю ввести или вставить команду cURL.
-        Она считывает ввод построчно до тех пор, пока пользователь не завершит ввод с помощью Ctrl-D или Ctrl-Z (в Windows).
-        Затем она объединяет все введенные строки в одну строку и возвращает ее.
-    """
-    print("Enter/Paste the cURL command. Ctrl-D or Ctrl-Z ( windows ) to save it.")
-    contents = []
-    while True:
-        try:
-            line = input()
-        except EOFError:
-            break
-        contents.append(line)
-    return "\\n".join(contents)
+>>> text = "This is a text without code blocks."
+>>> code = read_code(text)
+>>> print(code)
+None
 ```
 
-## Основная часть модуля
+### `input_command()`
 
-Основная часть модуля запрашивает у пользователя имя провайдера и проверяет, существует ли файл провайдера. Если файл не существует, он запрашивает команду cURL, создает запрос для модели GPT-4o для генерации кода провайдера на основе команды cURL и примера, сохраняет сгенерированный код в файл провайдера и добавляет провайдера в файл `__init__.py`. Если файл провайдера существует, он считывает код из файла.
+**Purpose**: Prompts the user to enter or paste a cURL command and returns the entered command as a string.
 
-## Переменные
+**Parameters**: None
 
-- `name` (str): Имя провайдера, введенное пользователем.
-- `provider_path` (str): Путь к файлу провайдера.
-- `example` (str): Пример кода провайдера, используемый в запросе.
-- `command` (str): Команда cURL, введенная пользователем.
-- `prompt` (str): Запрос для модели GPT-4o.
-- `response` (str): Ответ от модели GPT-4o.
-- `code` (str): Извлеченный код провайдера из ответа.
+**Returns**:
+- str: The cURL command entered by the user.
 
-## Как работает модуль
+**How the Function Works**:
+- The function prints a prompt instructing the user to enter or paste the cURL command.
+- It then reads lines of input from the user until the user signals the end of input (Ctrl-D or Ctrl-Z).
+- The entered lines are joined together into a single string and returned.
 
-1. **Запрос имени провайдера**:
-   - Модуль запрашивает у пользователя имя нового провайдера.
+**Examples**:
+- Example 1:
+```bash
+Enter/Paste the cURL command. Ctrl-D or Ctrl-Z ( windows ) to save it.
+curl -X POST "https://example.com/api/completion" -H "authority: example.com" -H "accept: application/json" -H "origin: https://example.com" -H "referer: https://example.com/chat" -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" -H "content-type: application/json" -d "{\"prompt\": \"Hello, World!\", \"model\": \"gpt-3.5-turbo\"}"
+```
 
-2. **Проверка существования файла провайдера**:
-   - Проверяется, существует ли файл провайдера.
+### `main` (Entry Point)
 
-3. **Запрос команды cURL (если файл не существует)**:
-   - Если файл не существует, модуль запрашивает у пользователя команду cURL.
+**Purpose**: The main entry point for the script. Handles the process of creating a new provider class based on user input.
 
-4. **Создание запроса для GPT-4o**:
-   - Формируется запрос для модели GPT-4o, включающий команду cURL, пример кода провайдера и имя провайдера.
+**Parameters**: None
 
-5. **Генерация кода провайдера**:
-   - Модель GPT-4o генерирует код провайдера на основе запроса.
+**Returns**: None
 
-6. **Сохранение кода провайдера (если файл не существует)**:
-   - Если файл не существовал, сгенерированный код сохраняется в файл провайдера.
-   - Пример:
-     ```python
-     with open(provider_path, "w") as file:
-         file.write(code)
-     ```
+**How the Function Works**:
+- The function prompts the user for a provider name.
+- It checks if a provider file with the given name already exists.
+- If the file does not exist, the function prompts the user for the cURL command and constructs a prompt for the GPT-4 model.
+- The prompt includes the cURL command, an example provider class, and instructions for generating the code.
+- It then calls the GPT-4 model to generate code based on the prompt.
+- The generated code is written to a file in the `g4f/Provider` directory.
+- The file is named after the provider name provided by the user.
+- Finally, the module updates the `g4f/Provider/__init__.py` file to import the newly created provider.
+- If the provider file already exists, the module reads the existing code from the file.
 
-7. **Добавление провайдера в `__init__.py` (если файл не существует)**:
-   - Если файл не существовал, провайдер добавляется в файл `__init__.py`.
-   - Пример:
-     ```python
-     with open("g4f/Provider/__init__.py", "a") as file:
-         file.write(f"\\nfrom .{name} import {name}")
-     ```
+**Examples**:
+- Example 1:
+```bash
+Name: MyProvider
+Enter/Paste the cURL command. Ctrl-D or Ctrl-Z ( windows ) to save it.
+curl -X POST "https://example.com/api/completion" -H "authority: example.com" -H "accept: application/json" -H "origin: https://example.com" -H "referer: https://example.com/chat" -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" -H "content-type: application/json" -d "{\"prompt\": \"Hello, World!\", \"model\": \"gpt-3.5-turbo\"}"
+Create code...
+```
+- The module then uses the GPT-4 model to generate code based on the provided cURL command and example provider class. The generated code is saved in the `g4f/Provider/MyProvider.py` file.
+- Example 2:
+```bash
+Name: MyProvider
+```
+- The module reads the existing code from the `g4f/Provider/MyProvider.py` file.
 
-8. **Чтение кода провайдера (если файл существует)**:
-   - Если файл существует, код считывается из файла.
-   - Пример:
-     ```python
-     with open(provider_path, "r") as file:
-         code = file.read()
-     ```
+## Inner Functions (None)
 
-## Примеры
+## Parameter Details
 
-### Пример создания файла провайдера
+- `text` (str): The input string to be processed.
+- `name` (str): The name of the provider class to be created.
+- `command` (str): The cURL command provided by the user.
+- `provider_path` (str): The path to the provider file.
+- `example` (str): An example provider class definition used as a template for code generation.
+- `prompt` (str): The prompt provided to the GPT-4 model for code generation.
+- `code` (str): The code generated by the GPT-4 model.
+- `chunk` (str): A portion of the code generated by the GPT-4 model in a streaming response.
+- `response` (list): A list of code chunks generated by the GPT-4 model.
+- `file` (file object): An open file object for writing generated code to.
+- `model` (str): The GPT-4 model used for code generation.
+- `messages` (list): A list of messages to be sent to the GPT-4 model, including the prompt.
+- `timeout` (int): The timeout value for the GPT-4 model request.
+- `stream` (bool): Whether to receive the GPT-4 model response in streaming mode.
 
-```python
-name = input("Name: ")  # Ввод: MyProvider
-provider_path = f"g4f/Provider/{name}.py"
-if not path.isfile(provider_path):
-    command = input_command()  # Ввод команды cURL
-    # ... (генерация кода провайдера с использованием g4f.ChatCompletion.create)
-    with open(provider_path, "w") as file:
-        file.write(code)
-    with open("g4f/Provider/__init__.py", "a") as file:
-        file.write(f"\\nfrom .{name} import {name}")
+## Examples
+
+- Example 1 (Creating a new provider):
+```bash
+Name: MyProvider
+Enter/Paste the cURL command. Ctrl-D or Ctrl-Z ( windows ) to save it.
+curl -X POST "https://example.com/api/completion" -H "authority: example.com" -H "accept: application/json" -H "origin: https://example.com" -H "referer: https://example.com/chat" -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" -H "content-type: application/json" -d "{\"prompt\": \"Hello, World!\", \"model\": \"gpt-3.5-turbo\"}"
+Create code...
+... (GPT-4 generated code output) ...
+Saved at: g4f/Provider/MyProvider.py
+```
+
+- Example 2 (Reading an existing provider):
+```bash
+Name: MyProvider
+```
+- The module reads the existing code from `g4f/Provider/MyProvider.py`.
+```markdown

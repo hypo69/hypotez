@@ -19,7 +19,7 @@ from types import SimpleNamespace
 import header
 from header import __root__
 from src import gs
-from src.webdriver.ai_browser import Driver, SimpleBrowser
+from src.webdriver.llm_driver.simple_driver import SimpleDriver
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.file import read_text_file, save_text_file, get_filenames_from_directory 
 from src.utils.printer import pprint as print
@@ -27,9 +27,10 @@ from src.logger.logger import logger
 
 class Config(SimpleNamespace):
     ENDPOINT:Path = __root__/'SANDBOX'/'davidka'
-    mining_data_path:Path = ENDPOINT/'mining_data'
+    mining_data_path:Path = ENDPOINT/'minig_data'
+    instructions_path:Path = ENDPOINT/'instructions'
     crawl_files_list:list = get_filenames_from_directory(mining_data_path, 'json')
-    task_description =  Path(ENDPOINT/ 'tasks'/ 'grab_product_page.md').read_text(encoding='utf-8')
+    instruction_grab_product_page:str =  Path(instructions_path/ 'generate_product_links.md').read_text(encoding='utf-8')
 
 
 def get_products_urls_list_from_files(crawl_files_list:list = []) -> list:
@@ -68,14 +69,14 @@ def yield_product_urls_from_files(directory: Path = Config.mining_data_path, pat
 
 async def main():
     """"""
-    driver:SimpleBrowser = SimpleBrowser()
+    driver:SimpleDriver = SimpleDriver()
 
     # Через генератор для совсем больших данных
     # for product_url in yield_product_urls_from_files():
     for product_url in get_products_urls_list_from_files():
         try:
             logger.info(f'Обработка URL: {product_url}')
-            task = Config.task_description.replace('<URL>', product_url)
+            task = Config.instruction.replace('<URL>', product_url)
             final_answer_stream, stream_chunks = await driver.stream_task(task, use_gemini=True)
             print(final_answer_stream)
             print(stream_chunks)

@@ -1,118 +1,40 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода предназначен для инициализации и настройки окружения для тестирования и сбора данных о товарах с сайта поставщика HB (hbdeadsea.co.il). Он добавляет необходимые пути в систему, импортирует нужные модули и классы, а также настраивает объекты `Supplier`, `Product`, `Driver` и `ProductFields` для выполнения сценариев.
+Этот блок кода представляет собой сценарий для сбора данных о товарах с сайта hbdeadsea.co.il. Он включает в себя настройку драйвера браузера, определение свойств товара (Product) и его полей (ProductFields), а также запуск сценария для сбора данных.
 
 Шаги выполнения
 -------------------------
-1. **Импорт модулей и классов**:
-   - Импортируются необходимые модули, такие как `os`, `sys`, `Path`, `List`, `Union`, `Dict` и `WebElement`.
-   - Добавляется корневая директория проекта в `sys.path`, чтобы можно было импортировать модули из `src`.
-   - Импортируются классы `Supplier`, `Product`, `ProductFields`, `Driver`, `StringFormatter`, `StringNormalizer` и другие.
-
-2. **Инициализация объектов**:
-   - Создается экземпляр класса `Supplier` с префиксом `'hb'`.
-   - Создается экземпляр класса `Product`, связанный с поставщиком `s`.
-   - Извлекаются локаторы продукта из `s.locators['product']` в словарь `l`.
-   - Создается экземпляр класса `Driver`, связанный с поставщиком `s`.
-   - Создается экземпляр класса `ProductFields`, связанный с поставщиком `s`.
-
-3. **Настройка текущего сценария**:
-   - Определяется словарь `s.current_scenario`, содержащий URL, название, условие и категории PrestaShop для текущего сценария.
-
-4. **Выполнение сценариев**:
-   - Вызывается функция `run_scenarios` для выполнения сценариев с использованием настроенных объектов и текущего сценария.
+1. **Инициализация**: 
+   - Определяется корневая директория проекта `hypotez`.
+   - Добавляется корневая директория проекта в `sys.path`.
+   - Импортируются необходимые модули: `gs`, `Product`, `ProductFields`, `run_scenarios`, `logger`, `Driver`, `StringFormatter`, `StringNormalizer`.
+2. **Создание объектов**:
+   - Создается объект `Supplier` с префиксом `hb`.
+   - Создается объект `Product` на основе `Supplier`.
+   - Создается словарь `l` с локаторами для поиска элементов на странице.
+   - Создается объект `Driver` для управления браузером.
+   - Создается объект `ProductFields` для работы с полями товара.
+3. **Определение сценария**: 
+   - Создается словарь `s.current_scenario`, который содержит информацию о текущем сценарии:
+     - URL-адрес страницы, с которой необходимо собирать данные.
+     - Название товара (используется для идентификации).
+     - Состояние товара (новое или существующее).
+     - Категории товара на платформе PrestaShop.
+4. **Запуск сценария**:
+   - Вызывается функция `run_scenarios`, которая запускает сбор данных по сценарию, указанному в `s.current_scenario`.
 
 Пример использования
 -------------------------
 
 ```python
-## \file /src/suppliers/hb/_experiments/ide_experiments_scenario_.py
-# -*- coding: utf-8 -*-
+from src.suppliers.suppliers_list.hb._experiments.ide_experiments_scenario_ import s, run_scenarios
 
-#! .pyenv/bin/python3
-
-"""
-.. module:: src.suppliers.hb._experiments
-    :platform: Windows, Unix
-    :synopsis:
-
-"""
-
-
-"""
-    :platform: Windows, Unix
-    :synopsis:
-
-"""
-
-"""
-    :platform: Windows, Unix
-    :synopsis:
-
-"""
-
-"""
-  :platform: Windows, Unix
-
-"""
-"""
-  :platform: Windows, Unix
-  :platform: Windows, Unix
-  :synopsis:
-"""
-
-""" module: src.suppliers.hb._experiments """
-
-
-"""  Файл проверки наполнения полей HB -> product_fields """
-
-
-
-#from math import prod
-import os, sys
-from pathlib import Path
-from typing import List, Union, Dict
-from selenium.webdriver.remote.webelement import WebElement
-
-################# добавление корневой директории позволяет мне плясать от печки ###################
-dir_root: Path = Path(os.getcwd()[:os.getcwd().rfind('hypotez') + 7])
-sys.path.append(str(dir_root))  # Функция добавляет корневую папку в sys.path
-dir_src = Path(dir_root, 'src')
-sys.path.append(str(dir_root))
-from src.webdriver import executor
-"""  добавление корневой директории позволяет мне плясать от печки. """
-####################################################################################################
-
-
-from src import gs
-
-from src.product import Product, ProductFields
-from src.scenario import run_scenarios
-
-from src.logger.logger import logger, ExecuteLocatorException
-from src.webdriver.driver import Driver
-from src.utils import StringFormatter, StringNormalizer
-
-
-s: Supplier = Supplier(supplier_prefix = 'hb')
-p: Product = Product(s)
-l: dict = s.locators['product']
-d: Driver = s.driver
-f: ProductFields = ProductFields(s)
-
-
-s.current_scenario: dict =  {
-      "url": "https://hbdeadsea.co.il/product-category/bodyspa/feet-hand-treatment/",
-      "name": "טיפוח כפות ידיים ורגליים",
-      "condition": "new",
-      "presta_categories": {
-        "default_category": 11259,
-        "additional_categories": []
-      }
-    }
-
+# Запуск сценария для сбора данных о товарах 
 ret = run_scenarios(s, s.current_scenario)
-...
+
+# Обработка результата сбора данных
+# ...
+```

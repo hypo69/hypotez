@@ -1,77 +1,91 @@
-# Модуль: src.endpoints.advertisement.facebook.facebook_fields
+# Facebook Fields
 
-## Обзор
+## Overview
 
-Модуль `facebook_fields.py` предназначен для работы с полями, используемыми в рекламных объявлениях и событиях Facebook. Он загружает поля из JSON-файла и делает их доступными через атрибуты класса.
+This module defines the fields used for Facebook advertisements and events within the `hypotez` project. It utilizes a JSON configuration file to load and store the field definitions.
 
-## Подробнее
+## Details
 
-Модуль `facebook_fields` облегчает управление и использование полей, необходимых для взаимодействия с API Facebook в контексте рекламных кампаний. Он загружает данные из файла `facebook_feilds.json`, расположенного в директории `src/advertisement/facebok/`, и динамически создает атрибуты класса на основе этих данных.
+This file is responsible for loading field definitions from a JSON file and making them accessible through class attributes. These fields are likely used in constructing Facebook ad and event data structures.
 
-## Классы
+## Classes
 
 ### `FacebookFields`
 
-**Описание**: Класс `FacebookFields` предназначен для хранения и предоставления доступа к полям, используемым в рекламных объявлениях и событиях Facebook.
+**Description**: This class represents a container for Facebook field definitions. It loads the field names and their corresponding values from a JSON file.
 
-**Атрибуты**:
-- нет явно определенных атрибутов класса, т.к. атрибуты создаются динамически из JSON-файла.
+**Inherits**: N/A
 
-**Методы**:
-- `__init__`: Конструктор класса.
-- `_payload`: Загружает данные из JSON-файла и создает атрибуты класса.
+**Attributes**:
 
-**Принцип работы**:
-1. При инициализации класса вызывается метод `_payload`.
-2. Метод `_payload` загружает данные из JSON-файла `facebook_feilds.json` с использованием функции `j_loads`.
-3. Если загрузка прошла успешно, для каждого элемента в загруженных данных создается атрибут класса с именем элемента и соответствующим значением.
-4. Если загрузка не удалась, в лог записывается сообщение об ошибке.
+- `self._payload`:  A private method used to load field definitions from the JSON file. 
 
-## Методы класса
+**Methods**:
 
-### `__init__`
+- `__init__`: Initializes the `FacebookFields` instance and calls `self._payload` to load field definitions.
 
-```python
-def __init__(self):
-    """"""
-    ...
-    self._payload()
-```
+- `_payload`:  
+    - Loads field definitions from the JSON file located at `gs.path.src/advertisement/facebok/facebook_feilds.json`.
+    - If the file loading fails, it logs an error message and returns.
+    - If successful, it iterates through the loaded data, assigns each field name as an attribute of the class, and sets its value.
 
-**Назначение**: Конструктор класса `FacebookFields`.
+## Example Usage
 
-**Как работает**:
-- Инициализирует класс `FacebookFields`.
-- Вызывает метод `self._payload()` для загрузки и установки полей из JSON-файла.
-
-### `_payload`
-
-```python
-def _payload(self):
-    """"""
-    ...
-    data = j_loads (Path (gs.path.src, 'advertisement', 'facebok', 'facebook_feilds.json'))
-    if not data:
-        logger.debug(f"Ошибка загрузки полей из файла {gs.path.src}/advertisement/facebok/facebook_feilds.json")
-        return 
-    for name, value in data.items():
-        setattr(self, f'{name}', value)
-    return True
-```
-
-**Назначение**: Метод загружает данные из JSON-файла и создает атрибуты класса на основе этих данных.
-
-**Как работает**:
-1. Определяет путь к файлу `facebook_feilds.json`, используя `gs.path.src` и другие компоненты пути.
-2. Загружает данные из JSON-файла с использованием функции `j_loads`.
-3. Проверяет, успешно ли загружены данные. Если данные не загружены, записывает сообщение об ошибке в лог с уровнем `DEBUG` и возвращает `None`.
-4. Если данные загружены успешно, итерируется по элементам словаря `data`. Для каждого элемента устанавливает атрибут класса с именем `name` и значением `value` с использованием функции `setattr`.
-5. Возвращает `True` после успешной загрузки и установки атрибутов.
-
-**Примеры**:
 ```python
 from src.endpoints.advertisement.facebook.facebook_fields import FacebookFields
 
-fb_fields = FacebookFields()
-print(fb_fields.some_field)
+facebook_fields = FacebookFields()
+
+# Access a field by name
+field_value = facebook_fields.field_name
+
+# Print all loaded fields
+for field_name in dir(facebook_fields):
+    if not field_name.startswith('_'):
+        print(f"{field_name}: {getattr(facebook_fields, field_name)}")
 ```
+
+## Inner Functions
+
+N/A
+
+## How the Function Works
+
+The `_payload` function follows these steps:
+
+1. Loads the JSON data from the specified file path.
+2. Checks if the data was successfully loaded.
+3. If the data is loaded, it iterates through each key-value pair in the JSON data.
+4. For each pair, it dynamically creates an attribute of the `FacebookFields` class with the key as the attribute name and the value as the attribute value.
+
+## Examples
+
+```python
+# Example JSON data in facebook_feilds.json
+{
+  "ad_id": "id of the advertisement",
+  "ad_name": "name of the advertisement",
+  "ad_set_id": "id of the ad set",
+  "ad_set_name": "name of the ad set",
+  "campaign_id": "id of the campaign",
+  "campaign_name": "name of the campaign",
+  "event_name": "Name of the event",
+  "event_time": "Time of the event",
+  "event_location": "Location of the event",
+  "event_description": "Description of the event",
+  "event_link": "Link to the event"
+}
+```
+
+```python
+# Accessing field values
+field_value = facebook_fields.ad_id  # Retrieves the value for 'ad_id'
+```
+
+## Parameter Details
+
+N/A
+
+## Examples
+
+N/A

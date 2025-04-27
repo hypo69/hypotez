@@ -1,48 +1,65 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код предоставляет класс `AliCampaignGoogleSheet` для работы с Google Sheets в контексте управления рекламными кампаниями AliExpress. Он позволяет автоматизировать создание и обновление листов Google Sheets с данными о кампаниях, категориях и товарах, а также предоставляет функции для форматирования этих листов.
+Класс `AliCampaignGoogleSheet` предоставляет инструменты для работы с таблицей Google Sheets, связанной с рекламными кампаниями AliExpress. 
+
+Он наследует класс `SpreadSheet` и расширяет его функциональность для:
+
+* Управления листами Google Sheets
+* Записи данных о категориях и продуктах
+* Форматирования листов
 
 Шаги выполнения
 -------------------------
-1. **Инициализация класса `AliCampaignGoogleSheet`**:
-   - Создается экземпляр класса `AliCampaignGoogleSheet` с указанием имени кампании, языка и валюты.
-   - При инициализации происходит очистка существующих данных, создание листов для кампании и категорий, а также открытие Google Sheets в браузере.
-
-2. **Очистка данных**:
-   - Метод `clear` удаляет все листы продуктов, чтобы начать с чистого листа.
-
-3. **Установка данных кампании**:
-   - Метод `set_campaign_worksheet` записывает данные о кампании (имя, заголовок, язык, валюта, описание) в лист 'campaign' в Google Sheets.
-
-4. **Установка данных категорий**:
-   - Метод `set_categories_worksheet` записывает данные о категориях (имя, заголовок, описание, теги, количество продуктов) в лист 'categories' в Google Sheets.
-
-5. **Установка данных товаров**:
-   - Метод `set_products_worksheet` копирует лист 'product' и переименовывает его в соответствии с именем категории, затем записывает данные о товарах в этот лист.
-
-6. **Форматирование листов**:
-   - Методы `_format_categories_worksheet` и `_format_category_products_worksheet` форматируют листы категорий и товаров, устанавливая ширину столбцов, высоту строк и стили заголовков.
+1. **Инициализация**:
+    - Создайте экземпляр `AliCampaignGoogleSheet`, передав в конструктор имя кампании, язык и валюту.
+    - При инициализации класс создает новый экземпляр `AliCampaignEditor` для управления данными кампании, очищает существующую таблицу Google Sheets, создает листы для кампании, категорий и продукта, а также открывает таблицу в браузере Chrome.
+2. **Очистка таблицы**:
+    - Метод `clear()` очищает таблицу от всех листов, кроме "categories" и "product_template". 
+    - Использует метод `delete_products_worksheets()` для удаления ненужных листов. 
+3. **Запись данных**:
+    - Используйте `set_campaign_worksheet()` для записи данных кампании в лист "campaign". 
+    - Метод `set_products_worksheet()` записывает данные о продуктах в новый лист, соответствующий категории.
+    - `set_categories_worksheet()` записывает данные о категориях в лист "categories".
+4. **Форматирование**:
+    - Используйте методы `_format_categories_worksheet()` и `_format_category_products_worksheet()` для форматирования листов "categories" и с продуктами категорий. 
 
 Пример использования
 -------------------------
-
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign.gsheets_check_this_code import AliCampaignGoogleSheet
+from src.suppliers.aliexpress.campaign.gsheets_check_this_code import AliCampaignGoogleSheet
 
-# Инициализация класса для работы с Google Sheets кампании AliExpress
-campaign_name = "Test Campaign"
-language = "EN"
-currency = "USD"
-ali_campaign_google_sheet = AliCampaignGoogleSheet(campaign_name=campaign_name, language=language, currency=currency)
+# Инициализация экземпляра AliCampaignGoogleSheet с именем кампании, языком и валютой
+campaign_gsheet = AliCampaignGoogleSheet(
+    campaign_name="My Campaign",
+    language="ru",
+    currency="RUB"
+)
 
-# (Опционально) Получение данных из таблицы Google Sheets
-data = ali_campaign_google_sheet.get_categories()
-print(data)
+# Запись данных о кампании
+campaign_gsheet.set_campaign_worksheet(
+    campaign=campaign_gsheet.editor.campaign
+)
 
-# (Опционально) Установка данных о товарах для определенной категории
-category_name = "Example Category"
-products = [{"product_id": "123", "product_title": "Example Product"}]
-ali_campaign_google_sheet.set_category_products(category_name=category_name, products=products)
+# Запись данных о категории
+campaign_gsheet.set_categories_worksheet(
+    categories=campaign_gsheet.editor.campaign.category
+)
+
+# Запись данных о продуктах
+campaign_gsheet.set_products_worksheet(
+    category_name="category_name"
+)
+```
+
+**Дополнительные возможности**:
+
+* Метод `get_categories()` позволяет извлечь данные о категориях из листа "categories" в виде списка словарей.
+* Метод `set_category_products()` позволяет записать данные о продуктах в новый лист, соответствующий категории. 
+
+**Важно**:
+
+* Класс использует `logger` для записи сообщений о работе и ошибках.
+* В коде используются дополнительные библиотеки, такие как `gspread` для работы с Google Sheets, `gspread_formatting` для форматирования, `webdriver` для управления браузером и `j_dumps` для сериализации данных в JSON.

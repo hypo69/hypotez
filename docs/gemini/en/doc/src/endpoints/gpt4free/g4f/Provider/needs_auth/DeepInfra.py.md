@@ -1,209 +1,110 @@
-# Модуль `DeepInfra.py`
+# DeepInfra Provider for GPT4Free
 
-## Обзор
+## Overview
 
-Модуль `DeepInfra.py` предназначен для взаимодействия с сервисом DeepInfra для выполнения задач генерации текста и изображений. Он содержит класс `DeepInfra`, который наследуется от `OpenaiTemplate` и предоставляет методы для получения моделей, создания асинхронных генераторов текста и создания асинхронных изображений. Модуль требует аутентификации для работы.
+This module provides the `DeepInfra` class, which implements a provider for the GPT4Free project. It allows users to utilize the DeepInfra API for text generation and image creation.
 
-## Подробнее
+## Details
 
-Модуль предоставляет интерфейс для работы с DeepInfra API, позволяя пользователям использовать различные модели для генерации текста и изображений. Он также обрабатывает запросы к API, устанавливает необходимые заголовки и обрабатывает ответы, возвращая результаты в удобном формате.
+The `DeepInfra` class extends the `OpenaiTemplate` class. It leverages the DeepInfra API for text generation and image creation. It requires authentication and provides a range of functionalities, including:
 
-## Классы
+- Retrieving a list of available models (text and image generation).
+- Generating text using specified models.
+- Generating images using specified models.
 
-### `DeepInfra`
+## Classes
 
-**Описание**:
-Класс `DeepInfra` предназначен для взаимодействия с API DeepInfra.
+### `class DeepInfra(OpenaiTemplate)`
 
-**Наследует**:
-- `OpenaiTemplate`: Класс наследуется от `OpenaiTemplate`, который, вероятно, предоставляет базовый функционал для работы с API OpenAI.
+**Description**: This class implements the DeepInfra provider for GPT4Free. It inherits from `OpenaiTemplate` and provides functionalities for interacting with the DeepInfra API for text generation and image creation.
 
-**Атрибуты**:
-- `url` (str): URL главной страницы DeepInfra.
-- `login_url` (str): URL страницы для получения API ключей.
-- `api_base` (str): Базовый URL для API DeepInfra.
-- `working` (bool): Флаг, указывающий, что провайдер работает.
-- `needs_auth` (bool): Флаг, указывающий, что для работы требуется аутенфикация.
-- `default_model` (str): Модель, используемая по умолчанию для генерации текста.
-- `default_image_model` (str): Модель, используемая по умолчанию для генерации изображений.
-- `models` (list): Список доступных моделей для генерации текста и изображений.
-- `image_models` (list): Список доступных моделей для генерации изображений.
+**Attributes**:
 
-**Методы**:
-- `get_models()`: Получает список доступных моделей.
-- `get_image_models()`: Получает список доступных моделей для генерации изображений.
-- `create_async_generator()`: Создает асинхронный генератор для генерации текста или изображения.
-- `create_async_image()`: Создает асинхронное изображение.
+- `url`: The base URL for DeepInfra.
+- `login_url`: The login URL for DeepInfra's dashboard.
+- `api_base`: The base URL for DeepInfra's API.
+- `working`: Indicates whether the provider is currently working.
+- `needs_auth`:  Indicates whether the provider requires authentication.
+- `default_model`: The default model used for text generation.
+- `default_image_model`: The default model used for image generation.
 
-## Методы класса
+**Methods**:
 
-### `get_models`
+- `get_models(**kwargs)`: Retrieves a list of available models from the DeepInfra API.
+- `get_image_models(**kwargs)`: Retrieves a list of available image generation models from the DeepInfra API.
+- `create_async_generator(model: str, messages: Messages, stream: bool, prompt: str = None, temperature: float = 0.7, max_tokens: int = 1028, **kwargs) -> AsyncResult`: Creates an asynchronous generator for text generation.
+- `create_async_image(prompt: str, model: str, api_key: str = None, api_base: str = "https://api.deepinfra.com/v1/inference", proxy: str = None, timeout: int = 180, extra_data: dict = {}, **kwargs) -> ImageResponse`: Creates an asynchronous generator for image generation.
+
+## Functions
+
+### `format_image_prompt(messages: Messages, prompt: str = None) -> str`
+
+**Purpose**: Formats the prompt for image generation.
+
+**Parameters**:
+
+- `messages` (Messages): A list of messages containing context for the prompt.
+- `prompt` (str, optional): The user-provided prompt. Defaults to `None`.
+
+**Returns**:
+
+- `str`: The formatted prompt for image generation.
+
+**How the Function Works**:
+
+This function combines the context from the `messages` list and the user-provided `prompt` to create a formatted prompt for image generation.
+
+**Examples**:
 
 ```python
-@classmethod
-def get_models(cls, **kwargs) -> list[str]:
-    """
-    Функция получает список доступных моделей из API DeepInfra.
+>>> messages = [{"role": "user", "content": "Create a picture of a cat."}]
+>>> format_image_prompt(messages, prompt=None)
+'Create a picture of a cat.'
 
-    Args:
-        **kwargs: Произвольные аргументы.
-
-    Returns:
-        list[str]: Список доступных моделей.
-    """
+>>> messages = [{"role": "user", "content": "What does a cat look like?"}, {"role": "assistant", "content": "A cat is a furry, four-legged animal with pointy ears and a tail."}]
+>>> format_image_prompt(messages, prompt="A cat sitting on a couch.")
+'A cat is a furry, four-legged animal with pointy ears and a tail. A cat sitting on a couch.'
 ```
 
-**Назначение**:
-Метод `get_models` используется для получения списка доступных моделей из API DeepInfra. Если список моделей еще не был получен, он запрашивает его из API и сохраняет в атрибуте класса `models`.
+## Parameter Details
 
-**Как работает**:
-1. Проверяется, был ли уже получен список моделей (проверяется атрибут `cls.models`).
-2. Если список моделей не был получен, выполняется GET-запрос к API DeepInfra для получения списка моделей.
-3. Полученный JSON-ответ преобразуется в список моделей и сохраняется в атрибуте класса `models` и `image_models`.
-4. Возвращается список доступных моделей.
+- `messages` (Messages): A list of messages containing context for the prompt.
+- `prompt` (str, optional): The user-provided prompt. Defaults to `None`.
+- `model` (str): The model to use for text or image generation.
+- `api_key` (str, optional): The API key for authentication with DeepInfra. Defaults to `None`.
+- `api_base` (str, optional): The base URL for the DeepInfra API. Defaults to `https://api.deepinfra.com/v1/inference`.
+- `proxy` (str, optional): The proxy to use for making requests. Defaults to `None`.
+- `timeout` (int, optional): The timeout for requests in seconds. Defaults to `180`.
+- `extra_data` (dict, optional): Additional data to be included in the request payload. Defaults to `{}`.
 
-**Примеры**:
+## Examples
+
+### Using `DeepInfra` for Text Generation
 
 ```python
-models = DeepInfra.get_models()
-print(models)
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.DeepInfra import DeepInfra
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.DeepInfra import Messages
+
+# Create a DeepInfra provider instance
+provider = DeepInfra()
+
+# Define the messages for the prompt
+messages = Messages([{"role": "user", "content": "Write a short story about a cat."}])
+
+# Generate text using the DeepInfra provider
+async for response in provider.create_async_generator(model="meta-llama/Meta-Llama-3.1-70B-Instruct", messages=messages, stream=True):
+    print(response)
 ```
 
-### `get_image_models`
+### Using `DeepInfra` for Image Generation
 
 ```python
-@classmethod
-def get_image_models(cls, **kwargs) -> list[str]:
-    """
-    Функция получает список доступных моделей для генерации изображений из API DeepInfra.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.DeepInfra import DeepInfra
 
-    Args:
-        **kwargs: Произвольные аргументы.
+# Create a DeepInfra provider instance
+provider = DeepInfra()
 
-    Returns:
-        list[str]: Список доступных моделей для генерации изображений.
-    """
+# Generate an image using the DeepInfra provider
+async for response in provider.create_async_image(prompt="A cat sitting on a couch.", model="stabilityai/sd3.5"):
+    print(response)
 ```
-
-**Назначение**:
-Метод `get_image_models` используется для получения списка доступных моделей для генерации изображений из API DeepInfra. Если список моделей еще не был получен, он вызывает метод `get_models` для его получения.
-
-**Как работает**:
-1. Проверяется, был ли уже получен список моделей для генерации изображений (проверяется атрибут `cls.image_models`).
-2. Если список моделей не был получен, вызывается метод `get_models` для его получения.
-3. Возвращается список доступных моделей для генерации изображений.
-
-**Примеры**:
-
-```python
-image_models = DeepInfra.get_image_models()
-print(image_models)
-```
-
-### `create_async_generator`
-
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    stream: bool,
-    prompt: str = None,
-    temperature: float = 0.7,
-    max_tokens: int = 1028,
-    **kwargs
-) -> AsyncResult:
-    """
-    Функция создает асинхронный генератор для генерации текста или изображения.
-
-    Args:
-        model (str): Название модели для генерации.
-        messages (Messages): Список сообщений для генерации.
-        stream (bool): Флаг, указывающий, нужно ли использовать потоковую передачу данных.
-        prompt (str, optional): Промпт для генерации изображения. По умолчанию `None`.
-        temperature (float, optional): Температура для генерации текста. По умолчанию 0.7.
-        max_tokens (int, optional): Максимальное количество токенов для генерации текста. По умолчанию 1028.
-        **kwargs: Произвольные аргументы.
-
-    Yields:
-        AsyncResult: Асинхронный результат генерации.
-    """
-```
-
-**Назначение**:
-Метод `create_async_generator` используется для создания асинхронного генератора, который генерирует текст или изображения на основе переданных параметров.
-
-**Как работает**:
-1. Проверяется, является ли указанная модель моделью для генерации изображений.
-2. Если модель является моделью для генерации изображений, вызывается метод `create_async_image` для создания изображения.
-3. Если модель не является моделью для генерации изображений, устанавливаются заголовки для запроса к API.
-4. Вызывается метод `create_async_generator` базового класса `OpenaiTemplate` для генерации текста.
-5. Возвращается асинхронный результат генерации.
-
-**Примеры**:
-
-```python
-async for chunk in DeepInfra.create_async_generator(
-    model="meta-llama/Meta-Llama-3.1-70B-Instruct",
-    messages=[{"role": "user", "content": "Hello, how are you?"}],
-    stream=True
-):
-    print(chunk)
-```
-
-### `create_async_image`
-
-```python
-@classmethod
-async def create_async_image(
-    cls,
-    prompt: str,
-    model: str,
-    api_key: str = None,
-    api_base: str = "https://api.deepinfra.com/v1/inference",
-    proxy: str = None,
-    timeout: int = 180,
-    extra_data: dict = {},
-    **kwargs
-) -> ImageResponse:
-    """
-    Функция создает асинхронное изображение.
-
-    Args:
-        prompt (str): Промпт для генерации изображения.
-        model (str): Название модели для генерации изображения.
-        api_key (str, optional): API ключ для аутентификации. По умолчанию `None`.
-        api_base (str, optional): Базовый URL для API DeepInfra. По умолчанию "https://api.deepinfra.com/v1/inference".
-        proxy (str, optional): Прокси сервер для использования. По умолчанию `None`.
-        timeout (int, optional): Максимальное время ожидания ответа от API. По умолчанию 180.
-        extra_data (dict, optional): Дополнительные данные для передачи в запросе. По умолчанию {}.
-        **kwargs: Произвольные аргументы.
-
-    Returns:
-        ImageResponse: Объект `ImageResponse`, содержащий сгенерированное изображение.
-    """
-```
-
-**Назначение**:
-Метод `create_async_image` используется для создания асинхронного изображения на основе переданных параметров.
-
-**Как работает**:
-1. Устанавливаются заголовки для запроса к API.
-2. Если передан API ключ, он добавляется в заголовки.
-3. Создается асинхронная сессия с использованием `StreamSession`.
-4. Получается название модели.
-5. Формируются данные для запроса.
-6. Выполняется POST-запрос к API DeepInfra для генерации изображения.
-7. Обрабатывается ответ от API и извлекается изображение.
-8. Возвращается объект `ImageResponse`, содержащий сгенерированное изображение.
-
-**Примеры**:
-
-```python
-image = await DeepInfra.create_async_image(
-    prompt="A cat sitting on a mat",
-    model="stabilityai/sd3.5",
-    api_key="YOUR_API_KEY"
-)
-print(image.image)

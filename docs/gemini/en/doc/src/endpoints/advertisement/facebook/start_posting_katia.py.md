@@ -1,66 +1,107 @@
-# Документация для модуля `start_posting_katia.py`
+# Модуль для отправки рекламных объявлений в Facebook
 
 ## Обзор
 
-Модуль предназначен для отправки рекламных объявлений в группы Facebook. В данном случае, используется некий `FacebookPromoter` для запуска рекламных кампаний на основе предоставленных файлов конфигурации.
+Этот модуль отвечает за отправку рекламных объявлений в группы Facebook. Он реализует логику работы с Facebook API и использует WebDriver для взаимодействия с веб-сайтом Facebook.
 
-## Более подробно
+## Детали
 
-Модуль использует `FacebookPromoter` для автоматизации процесса публикации рекламы в группах Facebook. Он инициализирует веб-драйвер Chrome, получает URL Facebook, а затем запускает рекламные кампании на основе списка файлов конфигурации и списка кампаний.
+Модуль использует `FacebookPromoter` класс для управления процессом отправки объявлений. `FacebookPromoter` класс инициализируется с помощью `Driver` объекта (который представляет собой экземпляр WebDriver) и списком путей к файлам, содержащим информацию о группах Facebook, в которые нужно отправлять объявления. Класс также принимает опциональный параметр `no_video`, который определяет, нужно ли отправлять видео объявления.
+
+`FacebookPromoter` класс предоставляет метод `run_campaigns`, который принимает список кампаний и запускает процесс отправки объявлений в группы Facebook.
 
 ## Классы
 
-В данном коде классы не определены.
+### `FacebookPromoter`
+
+**Описание**: Класс для управления процессом отправки рекламных объявлений в Facebook.
+
+**Атрибуты**:
+
+- `driver` (Driver): Экземпляр WebDriver, используемый для взаимодействия с Facebook.
+- `group_file_paths` (list): Список путей к файлам, содержащим информацию о группах Facebook.
+- `no_video` (bool): Флаг, определяющий, нужно ли отправлять видео объявления.
+
+**Методы**:
+
+- `run_campaigns(campaigns: list)`: Запускает процесс отправки рекламных объявлений в группы Facebook.
 
 ## Функции
 
-В данном коде функции не определены.
+### `start_posting_katia`
 
-## Переменные
+**Цель**:  Основная функция для запуска процесса отправки рекламных объявлений.
 
-- `d`: экземпляр класса `Driver` с использованием браузера Chrome.
-- `filenames`: список имен файлов (`katia_homepage.json`), используемых для конфигурации групп.
-- `campaigns`: список кампаний (`sport_and_activity`, `bags_backpacks_suitcases`, `pain`, `brands`, `mom_and_baby`, `house`).
-- `promoter`: экземпляр класса `FacebookPromoter`, который используется для запуска и управления рекламными кампаниями.
+**Параметры**:  -  (не используются)
 
-## Использование веб-драйвера
+**Возвращает**:  -  (не возвращает значение)
 
-В коде используется веб-драйвер для автоматизации действий в браузере Chrome. `Driver` инициализируется с `Chrome`, затем открывается сайт Facebook (`d.get_url(r"https://facebook.com")`). Класс `FacebookPromoter` использует этот драйвер для выполнения операций на сайте.
+**Описание**:  -  Создает экземпляр `Driver` объекта для работы с Chrome, а затем инициализирует `FacebookPromoter` класс.
+-  Запускает процесс отправки рекламных объявлений в группы Facebook, используя метод `run_campaigns` класса `FacebookPromoter`.
+-  Обрабатывает исключения `KeyboardInterrupt` для прерывания процесса.
 
-## Запуск рекламных кампаний
-
-### `promoter.run_campaigns(campaigns)`
-
-Функция запускает рекламные кампании на основе списка `campaigns`.
-
-**Параметры:**
-
-- `campaigns` (list): список строк, представляющих имена кампаний.
-
-**Пример:**
+**Примеры**:
 
 ```python
-promoter.run_campaigns(['sport_and_activity', 'bags_backpacks_suitcases'])
-```
+## \file /src/endpoints/advertisement/facebook/start_posting_katia.py
+# -*- coding: utf-8 -*-
 
-**Как работает:**
+#! .pyenv/bin/python3
 
-1.  Вызывается метод `run_campaigns` у экземпляра `promoter` класса `FacebookPromoter`.
-2.  Внутри этого метода происходит итерация по списку кампаний.
-3.  Для каждой кампании выполняются действия по размещению рекламы в соответствующих группах Facebook, используя веб-драйвер и информацию из файлов конфигурации.
-4.  В случае прерывания с клавиатуры (KeyboardInterrupt), программа завершает выполнение, логируя сообщение "Campaign promotion interrupted."
+"""
+.. module:: src.endpoints.advertisement.facebook 
+	:platform: Windows, Unix
+	:synopsis: Отправка рекламных объявлений в группы фейсбук (Katia?)
 
-## Обработка исключений
+"""
 
-В коде используется блок `try...except` для обработки исключения `KeyboardInterrupt`, которое возникает при прерывании программы с клавиатуры. В случае возникновения исключения, в лог записывается сообщение о прерывании рекламной кампании.
-```python
+
+
+import header 
+from src.webdriver.driver import Driver, Chrome
+from src.endpoints.advertisement.facebook.promoter import FacebookPromoter
+from src.logger.logger import logger
+
+d = Driver(Chrome)
+d.get_url(r"https://facebook.com")
+
+filenames:list = ['katia_homepage.json',]
+campaigns:list = [ 'sport_and_activity',
+                  'bags_backpacks_suitcases',
+                    'pain',
+                    'brands',
+                    'mom_and_baby',
+                    'house',
+                ]
+promoter = FacebookPromoter(d, group_file_paths = filenames, no_video = False)
+
 try:
     promoter.run_campaigns(campaigns)
 except KeyboardInterrupt:
     logger.info("Campaign promotion interrupted.")
 ```
-## Логирование
 
-Для логирования используется модуль `logger` из `src.logger.logger`. В случае прерывания с клавиатуры, в лог записывается информационное сообщение.
+## Параметры
+
+- `filenames` (list): Список имен файлов, содержащих информацию о группах Facebook.
+- `campaigns` (list): Список кампаний, которые нужно запустить.
+
+## Примеры
+
 ```python
-logger.info("Campaign promotion interrupted.")
+# Пример использования
+filenames:list = ['katia_homepage.json',]
+campaigns:list = [ 'sport_and_activity',
+                  'bags_backpacks_suitcases',
+                    'pain',
+                    'brands',
+                    'mom_and_baby',
+                    'house',
+                ]
+promoter = FacebookPromoter(d, group_file_paths = filenames, no_video = False)
+
+try:
+    promoter.run_campaigns(campaigns)
+except KeyboardInterrupt:
+    logger.info("Campaign promotion interrupted.")
+```

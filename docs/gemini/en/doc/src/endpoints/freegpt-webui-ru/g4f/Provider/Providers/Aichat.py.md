@@ -1,112 +1,78 @@
-# Документация модуля `Aichat.py`
+# Aichat Provider
 
-## Обзор
+## Overview
 
-Модуль предоставляет класс для взаимодействия с провайдером Aichat, используя API `chat-gpt.org`. Он включает функцию `_create_completion` для генерации текста на основе предоставленных сообщений.
+This module provides the `Aichat` provider for the `g4f` framework, which utilizes the chat-gpt.org API for generating text completions.
 
-## Подробнее
+## Details
 
-Модуль предназначен для работы с API `chat-gpt.org` и предоставляет функциональность для отправки запросов на генерацию текста. Он определяет URL, поддерживаемые модели, а также указывает на отсутствие необходимости в аутентификации.
+The `Aichat` provider is designed to interact with the chat-gpt.org API to generate text completions. It leverages the `requests` library for sending HTTP requests to the API endpoint. 
 
-## Функции
+This provider is particularly relevant for users seeking a lightweight and readily available text generation service without requiring authentication. However, it's crucial to note that the chat-gpt.org API might not be as robust or comprehensive as other options like OpenAI or Google Gemini.
+
+## Classes
 
 ### `_create_completion`
 
+**Description**: This function is responsible for generating text completions based on provided messages. It uses the chat-gpt.org API to send a POST request with the messages and specified parameters.
+
+**Parameters**:
+
+- `model (str)`: The name of the model to use for text generation. 
+- `messages (list)`: A list of messages to use as context for generating the completion. Each message is a dictionary containing `role` and `content` keys.
+- `stream (bool)`: Indicates whether to stream the completion response.
+
+**Returns**:
+
+- `Generator[str, None, None]`: A generator that yields text completions.
+
+**Raises Exceptions**:
+
+- `Exception`: If an error occurs while sending the request or processing the response.
+
+**How the Function Works**:
+
+1.  **Message Composition**: The function iterates over the provided `messages` and constructs a string containing the messages and their respective roles. This string represents the input context for the API.
+2.  **Request Preparation**:  The function assembles HTTP headers for the request, including essential information about the request origin, content type, and user agent. It also creates a JSON payload containing the messages and generation parameters.
+3.  **API Call**:  The function sends a POST request to the chat-gpt.org API endpoint using the prepared headers and JSON data. 
+4.  **Response Processing**:  The function retrieves the completion response from the API and yields the text completion from the response's JSON data.
+
+**Examples**:
+
 ```python
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    """
-    Функция для создания запроса к API для генерации текста.
+messages = [
+    {'role': 'user', 'content': 'Hello, how are you?'},
+    {'role': 'assistant', 'content': 'I am doing well, thank you. How about you?'}
+]
 
-    Args:
-        model (str): Идентификатор используемой модели.
-        messages (list): Список сообщений для формирования запроса.
-        stream (bool): Флаг, указывающий на необходимость потоковой передачи данных.
-        **kwargs: Дополнительные параметры запроса.
-
-    Returns:
-        Generator[str, None, None]: Генератор, возвращающий сгенерированный текст.
-    """
+for completion in _create_completion(model='gpt-3.5-turbo', messages=messages, stream=False):
+    print(completion)
 ```
 
-**Описание**: Функция `_create_completion` отвечает за отправку запроса к API `chat-gpt.org` и получение сгенерированного текста. Она формирует запрос на основе переданных сообщений и параметров, а затем отправляет его, используя библиотеку `requests`.
+## Parameter Details
 
-**Параметры**:
-- `model` (str): Идентификатор используемой модели.
-- `messages` (list): Список сообщений для формирования запроса. Каждое сообщение содержит роль и контент.
-- `stream` (bool): Флаг, указывающий, нужно ли использовать потоковую передачу данных.
-- `**kwargs`: Дополнительные параметры запроса.
+- `model (str)`: The name of the model to use for text generation. It's currently fixed to `gpt-3.5-turbo`.
+- `messages (list)`: A list of messages to use as context for generating the completion. Each message is a dictionary containing `role` and `content` keys.
+- `stream (bool)`: Indicates whether to stream the completion response.
 
-**Возвращает**:
-- `Generator[str, None, None]`: Генератор, который возвращает сгенерированный текст.
-
-**Как работает функция**:
-1. Формирует базовый текст запроса, объединяя сообщения с указанием их ролей.
-2. Определяет заголовки HTTP-запроса, включая `authority`, `accept`, `content-type` и другие.
-3. Формирует JSON-данные для отправки, включая сообщение, температуру, штрафы за присутствие и частоту, а также верхний предел `p`.
-4. Отправляет POST-запрос к API `chat-gpt.org/api/text` с указанными заголовками и данными.
-5. Получает ответ от API и извлекает сгенерированное сообщение из JSON-ответа.
-6. Возвращает сгенерированный текст через генератор.
-
-**Пример**:
+## Examples
 
 ```python
-messages = [{"role": "user", "content": "Hello, how are you?"}]
-model = "gpt-3.5-turbo"
-stream = False
-for response in _create_completion(model=model, messages=messages, stream=stream):
-    print(response)
-```
+# Example 1: Simple completion
+messages = [
+    {'role': 'user', 'content': 'What is the capital of France?'}
+]
 
-## Переменные
+for completion in _create_completion(model='gpt-3.5-turbo', messages=messages, stream=False):
+    print(completion)
 
-### `url`
+# Example 2: Conversation-style completion
+messages = [
+    {'role': 'user', 'content': 'Hi, I'm looking for a good book to read.'},
+    {'role': 'assistant', 'content': 'What kind of books do you like?'},
+    {'role': 'user', 'content': 'I like science fiction.'}
+]
 
-```python
-url = 'https://chat-gpt.org/chat'
-```
-
-**Описание**: URL для взаимодействия с `chat-gpt.org`.
-
-### `model`
-
-```python
-model = ['gpt-3.5-turbo']
-```
-
-**Описание**: Список поддерживаемых моделей.
-
-### `supports_stream`
-
-```python
-supports_stream = False
-```
-
-**Описание**: Флаг, указывающий на поддержку потоковой передачи данных.
-
-### `needs_auth`
-
-```python
-needs_auth = False
-```
-
-**Описание**: Флаг, указывающий на необходимость аутентификации.
-
-### `params`
-
-```python
-params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' +     \'(%s)\' % \', \'.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
-```
-
-**Описание**: Строка, содержащая информацию о поддерживаемых параметрах функции `_create_completion`.
-
-## Примеры
-
-Пример вызова функции `_create_completion`:
-
-```python
-messages = [{"role": "user", "content": "Напиши короткий стих о весне."}]
-model = "gpt-3.5-turbo"
-stream = False
-for response in _create_completion(model=model, messages=messages, stream=stream):
-    print(response)
+for completion in _create_completion(model='gpt-3.5-turbo', messages=messages, stream=False):
+    print(completion)
 ```

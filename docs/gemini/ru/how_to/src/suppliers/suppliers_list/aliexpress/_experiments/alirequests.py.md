@@ -1,37 +1,79 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода инициализирует веб-драйвер Firefox и открывает главную страницу AliExpress. Это необходимо для автоматизации взаимодействия с сайтом AliExpress, например, для сбора данных о товарах или выполнения других задач.
+Данный код импортирует модуль `header` и создает экземпляр объекта `Driver` из `src.webdriver.driver` с использованием браузера Firefox. Затем с помощью `driver.get_url()` открывает URL-адрес "https://www.aliexpress.com".
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируется модуль `header`. Описание отсутствует.
-   - Импортируются классы `Driver` и `Firefox` из модуля `src.webdriver.driver`.
-2. **Инициализация драйвера**:
-   - Создается экземпляр класса `Driver` с использованием `Firefox` в качестве аргумента, что указывает на использование браузера Firefox.
-   - `d = Driver(Firefox)`: Эта строка создает объект драйвера, который будет управлять браузером Firefox.
-3. **Открытие URL**:
-   - `d.get_url(r"https://www.aliexpress.com")`: Функция открывает указанный URL в браузере, управляемом драйвером.
-4. **Многоточие**:
-   - `...`: Указывает на пропущенный код.
+1. Импортирует модуль `header`, который предоставляет необходимую функциональность для работы с AliExpress.
+2. Создает объект `Driver` с использованием браузера Firefox.
+3. Использует метод `get_url()` объекта `Driver` для открытия URL-адреса "https://www.aliexpress.com".
 
 Пример использования
 -------------------------
 
 ```python
+## \file /src/suppliers/aliexpress/_experiments/alirequests.py
+# -*- coding: utf-8 -*-
+
+#! .pyenv/bin/python3
+
+"""
+.. module:: src.suppliers.suppliers_list.aliexpress._experiments 
+	:platform: Windows, Unix
+	:synopsis:
+
+"""
+
+
+
+"""
+	:platform: Windows, Unix
+	:synopsis:
+
+"""
+
+
+
+"""
+	:platform: Windows, Unix
+	:synopsis:
+
+"""
+
+
+
+"""
+	:platform: Windows, Unix
+	:synopsis:
+
+"""
+
+
+
+"""
+  :platform: Windows, Unix
+
+"""
+"""
+  :platform: Windows, Unix
+  :platform: Windows, Unix
+  :synopsis:
+"""
+  
+
+""" module: src.suppliers.suppliers_list.aliexpress._experiments """
+
+
+""" HERE SHOULD BE A DESCRIPTION OF THE MODULE OPERATION ! """
+
 import header   
 
 from src.webdriver.driver import Driver, Chrome, Firefox
 
-# Инициализация драйвера Firefox для взаимодействия с веб-страницами
-driver = Driver(Firefox)
-
-# Открытие главной страницы AliExpress в браузере
-driver.get_url("https://www.aliexpress.com")
-
-# Дальнейшие действия по взаимодействию с сайтом, например, поиск товаров
-# ...
+d = Driver(Firefox)
+d.get_url(r"https://www.aliexpress.com")
+...
 ```

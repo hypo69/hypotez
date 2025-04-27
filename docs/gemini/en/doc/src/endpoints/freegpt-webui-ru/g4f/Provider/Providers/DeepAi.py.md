@@ -1,97 +1,77 @@
-# Модуль `DeepAi.py`
+# DeepAi Provider
 
-## Обзор
+## Overview
 
-Модуль `DeepAi.py` предоставляет интерфейс для работы с моделью `gpt-3.5-turbo` через сервис DeepAI. Он включает в себя функцию для создания запросов к API DeepAI и получения ответов в потоковом режиме. Модуль предназначен для интеграции с другими частями проекта `hypotez`, обеспечивая доступ к возможностям генерации текста на основе модели GPT.
+This module defines a provider for interacting with the DeepAi API for generating text completions. It provides functions to send requests and handle responses for text completion tasks.
 
-## Более подробно
+## Details
 
-Модуль содержит функции для генерации API-ключа, необходимого для аутентификации запросов к DeepAI. Он использует потоковый режим для получения ответов, что позволяет обрабатывать большие объемы данных более эффективно.
+The DeepAi Provider utilizes the DeepAi API for generating text completions. The code is designed to be user-friendly and supports streaming responses.
 
-## Функции
+## Classes
 
-### `_create_completion`
+### `class DeepAi`
+
+**Description**: This class represents the DeepAi Provider, handling interactions with the DeepAi API.
+
+**Attributes**:
+
+- `url (str)`: The base URL for the DeepAi API.
+- `model (list)`: A list of supported models for text completion.
+- `supports_stream (bool)`: Flag indicating whether the provider supports streaming responses.
+- `needs_auth (bool)`: Flag indicating whether the provider requires authentication.
+
+**Methods**:
+
+- `_create_completion(model: str, messages: list, stream: bool, **kwargs)`: This private method sends a request to the DeepAi API for text completion and handles the response.
+
+## Functions
+
+### `_create_completion(model: str, messages: list, stream: bool, **kwargs)`
+
+**Purpose**: This function sends a request to the DeepAi API for text completion and handles the response.
+
+**Parameters**:
+
+- `model (str)`: The model to use for text completion.
+- `messages (list)`: A list of messages to be sent to the model.
+- `stream (bool)`: A flag indicating whether to stream the response.
+- `**kwargs`: Additional keyword arguments for the API request.
+
+**Returns**:
+
+- `Generator[str, None, None]`: A generator yielding the response chunks in string format.
+
+**Raises Exceptions**:
+
+- `requests.exceptions.RequestException`: If there is an error during the request.
+
+**Inner Functions**:
+
+- `md5(text: str) -> str`: This inner function calculates the MD5 hash of the provided text.
+- `get_api_key(user_agent: str) -> str`: This inner function generates an API key based on the provided user agent.
+
+**How the Function Works**:
+
+1. It generates an API key based on the user agent.
+2. It constructs a POST request to the DeepAi API endpoint with the user agent, API key, and provided messages as input data.
+3. It sends the request and iterates through the response chunks.
+4. It decodes the response chunks into strings and yields them as a generator.
+
+**Examples**:
 
 ```python
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    """Функция создает запрос к API DeepAI и возвращает ответы в потоковом режиме.
+from g4f.Provider.Providers.DeepAi import DeepAi
 
-    Args:
-        model (str): Идентификатор модели, используемой для генерации текста.
-        messages (list): Список сообщений, представляющих историю разговора.
-        stream (bool): Флаг, указывающий, следует ли использовать потоковый режим.
-        **kwargs: Дополнительные параметры запроса.
+provider = DeepAi()
 
-    Returns:
-        Generator[str, None, None]: Генератор, возвращающий ответы от API DeepAI в потоковом режиме.
+# Example 1: Simple text completion with streaming
+messages = [{"role": "user", "content": "Hello, world!"}]
+for chunk in provider._create_completion(model="gpt-3.5-turbo", messages=messages, stream=True):
+    print(chunk, end="")
 
-    Raises:
-        requests.exceptions.HTTPError: Если HTTP-запрос завершается с ошибкой.
-
-    Как работает функция:
-    - Функция принимает идентификатор модели, список сообщений и флаг потокового режима.
-    - Внутри функции определены вспомогательные функции `md5` и `get_api_key`.
-    - `md5` используется для генерации хеша MD5 из текста.
-    - `get_api_key` генерирует API-ключ на основе user-agent и случайных чисел.
-    - Функция формирует заголовки запроса, включая API-ключ и user-agent.
-    - Затем отправляет POST-запрос к API DeepAI с использованием библиотеки `requests`.
-    - Получает ответы в потоковом режиме и возвращает их с помощью генератора.
-    - В случае ошибки HTTP-запроса вызывает исключение `HTTPError`.
-
-    Примеры:
-    Примеры использования функции с различными параметрами
-    >>> model = 'gpt-3.5-turbo'
-    >>> messages = [{'role': 'user', 'content': 'Hello, DeepAI!'}]
-    >>> stream = True
-    >>> generator = _create_completion(model=model, messages=messages, stream=stream)
-    >>> for chunk in generator:
-    ...     print(chunk)
-    """
+# Example 2: Text completion with additional parameters
+messages = [{"role": "user", "content": "Write a poem about the moon."}]
+for chunk in provider._create_completion(model="gpt-3.5-turbo", messages=messages, stream=True, temperature=0.7):
+    print(chunk, end="")
 ```
-
-#### `md5`
-
-```python
-def md5(text: str) -> str:
-    """Функция вычисляет MD5-хеш строки.
-
-    Args:
-        text (str): Строка для вычисления хеша.
-
-    Returns:
-        str: MD5-хеш строки.
-
-    Как работает функция:
-    - Функция принимает строку в качестве аргумента.
-    - Кодирует строку в байты, вычисляет MD5-хеш и возвращает его в виде шестнадцатеричной строки.
-    - Хеш возвращается в обратном порядке.
-
-    Примеры:
-    Пример вызова функции с различными параметрами
-    >>> md5('test')
-    '9e107d9d372bb6826bd81d3542a419d6'
-    """
-```
-
-#### `get_api_key`
-
-```python
-def get_api_key(user_agent: str) -> str:
-    """Функция генерирует API-ключ на основе user-agent.
-
-    Args:
-        user_agent (str): User-agent для генерации ключа.
-
-    Returns:
-        str: Сгенерированный API-ключ.
-
-    Как работает функция:
-    - Функция принимает user-agent в качестве аргумента.
-    - Генерирует случайное число, вычисляет MD5-хеш на основе user-agent и случайного числа.
-    - Формирует API-ключ в определенном формате и возвращает его.
-
-    Примеры:
-    Пример вызова функции с различными параметрами
-    >>> get_api_key('Mozilla/5.0')
-    'tryit-67464746474-4644646464646464'
-    """

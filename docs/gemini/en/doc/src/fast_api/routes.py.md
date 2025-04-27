@@ -1,60 +1,33 @@
-# Документация для `src.fast_api.routes.py`
+# Routes
 
-## Обзор
+## Overview
 
-Этот модуль определяет маршруты для FastAPI приложения, в частности, для обработки сообщений от Telegram-бота. Он включает в себя класс `Routes`, который содержит методы для настройки обработчиков сообщений.
+This module defines the routes for the `hypotez` server, primarily handling interactions with the Telegram bot.
 
-## Подробнее
+## Details
 
-Модуль `src.fast_api.routes` отвечает за определение и связывание обработчиков с конкретными маршрутами в FastAPI приложении. Это позволяет приложению правильно реагировать на входящие запросы, такие как сообщения от Telegram-бота.
+The `Routes` class contains a single method, `tegram_message_handler`, responsible for processing messages received from the Telegram bot. This method initializes a `BotHandler` instance, which handles message processing logic.
 
-## Классы
+## Classes
 
 ### `Routes`
 
-**Описание**: Класс `Routes` предназначен для управления маршрутами в FastAPI приложении.
+**Description:** This class manages routes for the server, primarily focused on handling Telegram bot interactions.
 
-**Атрибуты**:
-- Отсутствуют явно определенные атрибуты класса.
+**Methods:**
 
-**Методы**:
-- `tegram_message_handler()`: Регистрирует обработчик для входящих сообщений от Telegram-бота.
-
-**Принцип работы**:
-Класс `Routes` создается для организации и связывания обработчиков с маршрутами. В данном случае, он содержит метод `tegram_message_handler`, который регистрирует обработчик сообщений Telegram-бота.
-
-## Методы класса
-
-### `tegram_message_handler`
+- `tegram_message_handler()`: This method processes incoming messages from the Telegram bot. 
 
 ```python
-def tegram_message_handler(self):
-    """
-    Регистрирует обработчик для входящих сообщений от Telegram-бота.
+class Routes:
 
-    Функция инициализирует обработчик бота `BotHandler` и назначает метод `handle_message` этого обработчика для обработки входящих сообщений.
+    def tegram_message_handler(self):
+        """
+        Обрабатывает сообщения, полученные от бота Telegram.
 
-    Args:
-        self: Ссылка на экземпляр класса `Routes`.
-
-    Returns:
-        None
-
-    Пример:
-        >>> routes = Routes()
-        >>> routes.tegram_message_handler()
-    """
-    bot_nahdlers = BotHandler()
-    telega_message_handler = bot_nahdlers.handle_message
+        Создает экземпляр класса `BotHandler` для обработки сообщений.
+        
+        """
+        bot_nahdlers = BotHandler()
+        telega_message_handler = bot_nahdlers.handle_message
 ```
-
-**Как работает функция**:
-
-1. Создается экземпляр класса `BotHandler`.
-2. Метод `handle_message` из экземпляра `BotHandler` присваивается переменной `telega_message_handler`.
-
-**Примеры**:
-
-```python
-routes = Routes()
-routes.tegram_message_handler()

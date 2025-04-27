@@ -1,43 +1,45 @@
-# Документация для модуля OpenaiAPI
+# OpenAI API Provider
 
-## Обзор
+## Overview
 
-Этот модуль определяет класс `OpenaiAPI`, который является подклассом `OpenaiTemplate`. Он предназначен для работы с API OpenAI, предоставляя информацию о URL-адресах для входа в систему, базовом API и статусе доступности.
+This module provides a class `OpenaiAPI` that implements the `OpenaiTemplate` interface. It is responsible for interacting with the OpenAI API, including authentication and data access. The `OpenaiAPI` class encapsulates the necessary logic and settings for working with the OpenAI platform.
 
-## Подробнее
+## Details
 
-Модуль содержит класс `OpenaiAPI`, который наследует функциональность от `OpenaiTemplate`. Он определяет статические атрибуты, специфичные для API OpenAI, такие как URL-адрес платформы, URL-адрес для управления ключами API, базовый URL-адрес API и флаг, указывающий на необходимость аутентификации.
+The module utilizes the `OpenaiTemplate` class as a base, inheriting its properties and methods for generic API interactions. The `OpenaiAPI` class specifically defines attributes related to OpenAI's platform, including the base URL, login URL, and API endpoint. It also includes flags indicating whether the provider is currently active and requires authentication.
 
-## Классы
+This module is designed to be integrated with the `hypotez` project and serves as a provider for accessing OpenAI's services. It provides a standardized and reusable way to interact with the OpenAI platform, ensuring consistency and maintainability in code.
+
+## Classes
 
 ### `OpenaiAPI`
 
-**Описание**: Класс предназначен для работы с API OpenAI.
+**Description**: This class represents the OpenAI API provider, implementing the `OpenaiTemplate` interface and providing specific settings and methods for interacting with the OpenAI platform.
 
-**Наследует**:
-- `OpenaiTemplate`: Предоставляет базовый шаблон для взаимодействия с API OpenAI.
+**Inherits**: `OpenaiTemplate`
 
-**Атрибуты**:
-- `label` (str): Метка для API OpenAI (значение: "OpenAI API").
-- `url` (str): URL-адрес платформы OpenAI (значение: "https://platform.openai.com").
-- `login_url` (str): URL-адрес для управления ключами API OpenAI (значение: "https://platform.openai.com/settings/organization/api-keys").
-- `api_base` (str): Базовый URL-адрес API OpenAI (значение: "https://api.openai.com/v1").
-- `working` (bool): Флаг, указывающий, работает ли API (значение: `True`).
-- `needs_auth` (bool): Флаг, указывающий на необходимость аутентификации для доступа к API (значение: `True`).
+**Attributes**:
 
-**Принцип работы**:
-Класс `OpenaiAPI` наследует от `OpenaiTemplate` и устанавливает специфические атрибуты, необходимые для взаимодействия с API OpenAI. Эти атрибуты включают URL-адреса для доступа к платформе и API, а также флаги, указывающие на работоспособность API и необходимость аутентификации.
+- `label` (str): A descriptive label for the provider, set to "OpenAI API".
+- `url` (str): The base URL of the OpenAI platform.
+- `login_url` (str): The URL for the OpenAI API key settings page.
+- `api_base` (str): The base URL for the OpenAI API endpoints.
+- `working` (bool): A flag indicating whether the provider is currently active.
+- `needs_auth` (bool): A flag indicating whether authentication is required to use the provider.
 
-## Примеры
+**Methods**:
+
+- None (inherits methods from `OpenaiTemplate`)
+
+## Example
 
 ```python
-from __future__ import annotations
-from ..template import OpenaiTemplate
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.OpenaiAPI import OpenaiAPI
 
-class OpenaiAPI(OpenaiTemplate):
-    label = "OpenAI API"
-    url = "https://platform.openai.com"
-    login_url = "https://platform.openai.com/settings/organization/api-keys"
-    api_base = "https://api.openai.com/v1"
-    working = True
-    needs_auth = True
+# Creating an instance of the OpenaiAPI provider
+openai_provider = OpenaiAPI()
+
+# Accessing provider attributes
+print(openai_provider.label)  # Output: OpenAI API
+print(openai_provider.api_base)  # Output: https://api.openai.com/v1
+```

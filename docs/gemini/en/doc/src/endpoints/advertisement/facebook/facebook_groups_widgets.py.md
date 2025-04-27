@@ -1,116 +1,95 @@
-# Module src.endpoints.advertisement.facebook.facebook_groups_widgets
+# Facebook Groups Widget
 
 ## Overview
 
-Модуль предназначен для создания раскрывающегося меню выбора групп Facebook для подачи объявлений. Он использует библиотеку `ipywidgets` для создания интерактивного элемента Dropdown, который отображает список URL групп Facebook, загруженных из JSON-файла.
+This module provides the `FacebookGroupsWidget` class for creating a dropdown list of Facebook group URLs from a provided JSON file. 
 
-## More details
+## Details
 
-Этот модуль облегчает выбор целевой группы Facebook для рекламных кампаний. Он загружает список групп из JSON-файла, создает виджет выпадающего списка и отображает его для пользователя. Файл `facebook_groups_widgets.py` находится в каталоге `src/endpoints/advertisement/facebook/` проекта `hypotez` и отвечает за предоставление графического интерфейса выбора групп Facebook на основе данных из JSON-файла.
+This module is used for creating a user-friendly interface within the `hypotez` project, specifically for handling Facebook advertising campaigns. 
+
+The `FacebookGroupsWidget` class allows users to select specific Facebook groups from a dropdown list, enabling the targeting of these groups with advertisements. 
+
+The data for the groups is loaded from a JSON file, making it easy to update the list of available groups. 
 
 ## Classes
 
 ### `FacebookGroupsWidget`
 
-**Description**: Класс для создания выпадающего списка с URL групп Facebook из предоставленного JSON.
-**Inherits**: Нет.
+**Description**:  This class creates a dropdown list of Facebook groups based on data from a JSON file.
+
+**Inherits**: 
 
 **Attributes**:
-- `groups_data` (SimpleNamespace):  Объект, содержащий данные о группах Facebook, загруженные из JSON-файла.
-- `dropdown` (Dropdown): Виджет выпадающего списка с URL групп Facebook.
-
-**Parameters**:
-- `json_file_path` (Path): Путь к JSON-файлу, содержащему информацию о группах Facebook.
-
-**Working principle**:
-Класс `FacebookGroupsWidget` инициализируется путем передачи пути к JSON-файлу, содержащему данные о группах Facebook. При инициализации происходит загрузка данных из JSON-файла и создание виджета выпадающего списка. Класс предоставляет метод для отображения этого виджета.
+- `groups_data (SimpleNamespace)`: A namespace object containing data about Facebook groups from the provided JSON file.
 
 **Methods**:
-- `__init__(self, json_file_path: Path)`: Инициализирует виджет с выпадающим списком для групп Facebook.
-- `create_dropdown(self) -> Dropdown`: Создает и возвращает виджет выпадающего списка на основе данных групп.
-- `display_widget(self)`: Отображает виджет выпадающего списка.
 
-## Class Methods
+- `__init__(self, json_file_path: Path)`: Initializes the widget with a dropdown list of Facebook groups based on the provided JSON file. 
+- `create_dropdown(self) -> Dropdown`: Creates and returns a dropdown widget with the group URLs. 
+- `display_widget(self)`: Displays the dropdown widget.
 
-### `__init__(self, json_file_path: Path)`
+## Functions
 
-```python
-def __init__(self, json_file_path: Path):
-    """
-    Инициализация виджета с выпадающим списком для групп Facebook.
+### `j_loads_ns`
 
-    Args:
-        json_file_path (Path): Путь к JSON-файлу, содержащему информацию о группах Facebook.
-    """
-    ...
-```
+**Purpose**: Loads a JSON file and returns a `SimpleNamespace` object, which provides a more convenient way to access data using dot notation.
 
-**Purpose**: Инициализирует экземпляр класса `FacebookGroupsWidget`.
-**Parameters**:
-- `json_file_path` (Path): Путь к JSON-файлу, содержащему информацию о группах Facebook.
+**Parameters**: 
+- `json_file_path (Path)`: The path to the JSON file.
 
-**How the function works**:
-1. Функция принимает путь к JSON-файлу (`json_file_path`) как аргумент.
-2. Загружает данные из JSON-файла, используя функцию `j_loads_ns` и сохраняет их в атрибуте `groups_data`.
-3. Вызывает метод `create_dropdown` для создания виджета выпадающего списка и сохраняет его в атрибуте `dropdown`.
+**Returns**: 
+- `SimpleNamespace`: A namespace object with data loaded from the JSON file.
 
-**Examples**:
+**Example**: 
 ```python
 from pathlib import Path
-file_path = Path("path/to/your/groups.json")
-widget = FacebookGroupsWidget(file_path)
+from src.utils.jjson import j_loads_ns
+
+json_file_path = Path('groups.json')
+groups_data = j_loads_ns(json_file_path)
+
+print(groups_data.group1)  # Accessing the data using dot notation. 
 ```
 
-### `create_dropdown(self) -> Dropdown`
+## Parameter Details
+- `json_file_path (Path)`:  The path to the JSON file containing data about Facebook groups. The format of the JSON file is expected to have group URLs as keys and their corresponding information as values. For example: 
 
-```python
-def create_dropdown(self) -> Dropdown:
-    """ Создает и возвращает виджет выпадающего списка на основе данных групп.
-
-    Returns:
-        Dropdown: Виджет выпадающего списка с URL групп Facebook.
-    """
-    ...
+```json
+{
+  "https://www.facebook.com/groups/1234567890/": {
+    "group_name": "Example Group",
+    "description": "This is a description of the group",
+    "members": 1000
+  },
+  "https://www.facebook.com/groups/9876543210/": {
+    "group_name": "Another Group",
+    "description": "Another group description",
+    "members": 500
+  }
+}
 ```
 
-**Purpose**: Создает и возвращает виджет выпадающего списка на основе данных групп.
+## Examples
 
-**Returns**:
-- `Dropdown`: Виджет выпадающего списка с URL групп Facebook.
-
-**How the function works**:
-1. Извлекает ключи (URL групп) из атрибута `groups_data`.
-2. Создает виджет `Dropdown` из библиотеки `ipywidgets`, используя извлеченные URL групп в качестве опций.
-3. Устанавливает описание виджета как "Facebook Groups:".
-4. Отключает виджет (`disabled=False`).
-5. Возвращает созданный виджет `Dropdown`.
-
-**Examples**:
-```python
-from pathlib import Path
-file_path = Path("path/to/your/groups.json")
-widget = FacebookGroupsWidget(file_path)
-dropdown = widget.create_dropdown()
-```
-
-### `display_widget(self)`
-
-```python
-def display_widget(self):
-    """ Отображает виджет выпадающего списка."""
-    ...
-```
-
-**Purpose**: Отображает виджет выпадающего списка.
-**Parameters**: None
-
-**How the function works**:
-1. Использует функцию `display` из модуля `IPython.display` для отображения виджета `dropdown`.
-
-**Examples**:
 ```python
 from pathlib import Path
-file_path = Path("path/to/your/groups.json")
-widget = FacebookGroupsWidget(file_path)
-widget.display_widget()
+from src.endpoints.advertisement.facebook.facebook_groups_widgets import FacebookGroupsWidget
+
+json_file_path = Path('groups.json')  # Path to the JSON file
+widget = FacebookGroupsWidget(json_file_path) 
+
+# Display the widget
+widget.display_widget() 
+
+# Accessing the selected group URL
+selected_group_url = widget.dropdown.value  
 ```
+
+## Your Behavior During Code Analysis:
+
+- Inside the code, you might encounter expressions between `<` `>`. For example: `<instruction for gemini model:Loading product descriptions into PrestaShop.>, <next, if available>. These are placeholders where you insert the relevant value.
+- Always refer to the system instructions for processing code in the `hypotez` project (the first set of instructions you translated);
+- Analyze the file's location within the project. This helps understand its purpose and relationship with other files. You will find the file location in the very first line of code starting with `## \\file /...`;
+- Memorize the provided code and analyze its connection with other parts of the project;
+- In these instructions, do not suggest code improvements. Strictly follow point 5. **Example File** when composing the response.

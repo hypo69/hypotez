@@ -1,325 +1,166 @@
-# Модуль kbs.py
+# Module: `hypotez/src/endpoints/bots/telegram/digital_market/bot/admin/kbs.py`
 
-## Обзор
+## Overview
 
-Модуль `kbs.py` предназначен для создания различных инлайн-клавиатур для Telegram-бота, используемых в административной панели. Он содержит функции для генерации клавиатур для управления каталогом, отправки файлов, администрирования, подтверждения действий и т.д. Клавиатуры создаются с использованием `InlineKeyboardBuilder` из библиотеки `aiogram`.
+This module contains functions for creating inline keyboard markup for the Telegram bot's admin panel. The keyboard markup is used for navigating between various features and actions within the admin panel.
 
-## Подробнее
+## Details
 
-Модуль предоставляет набор функций для создания инлайн-клавиатур, которые используются для взаимодействия администратора с ботом. Каждая функция создает определенную клавиатуру с заданным набором кнопок и callback-data, которые обрабатываются ботом для выполнения соответствующих действий.
+This file is part of the `hypotez` project, which provides a framework for developing Telegram bots for digital markets. This specific file focuses on creating keyboard markup for the admin panel, offering interactive options for managing products, statistics, and general administration tasks.
 
-## Функции
+## Table of Contents
+
+- [Functions](#functions)
+    - [catalog_admin_kb](#catalog_admin_kb)
+    - [admin_send_file_kb](#admin_send_file_kb)
+    - [admin_kb](#admin_kb)
+    - [admin_kb_back](#admin_kb_back)
+    - [dell_product_kb](#dell_product_kb)
+    - [product_management_kb](#product_management_kb)
+    - [cancel_kb_inline](#cancel_kb_inline)
+    - [admin_confirm_kb](#admin_confirm_kb)
+
+## Functions
 
 ### `catalog_admin_kb`
 
-```python
-def catalog_admin_kb(catalog_data: List[Category]) -> InlineKeyboardMarkup:
-    """Создает инлайн-клавиатуру для управления категориями каталога в административной панели.
+**Purpose**: Creates an inline keyboard markup for selecting categories within the catalog.
 
-    Args:
-        catalog_data (List[Category]): Список объектов `Category`, для которых нужно создать кнопки.
+**Parameters**:
 
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    """
-```
+- `catalog_data` (List[Category]): A list of `Category` objects representing available categories.
 
-**Назначение**:
-Функция создает инлайн-клавиатуру для администратора, отображающую список категорий каталога. Каждая категория представлена кнопкой, при нажатии на которую происходит добавление категории.
+**Returns**:
 
-**Параметры**:
-- `catalog_data` (List[Category]): Список объектов `Category`, содержащих информацию о категориях.
+- InlineKeyboardMarkup: An inline keyboard markup with buttons for each category and an "Отмена" (Cancel) button.
 
-**Возвращаемое значение**:
-- `InlineKeyboardMarkup`: Объект инлайн-клавиатуры, готовый для отправки пользователю.
+**How the Function Works**:
 
-**Как работает**:
-1. Создается экземпляр `InlineKeyboardBuilder`.
-2. Для каждой категории из списка `catalog_data` добавляется кнопка с названием категории и callback_data, содержащим id категории.
-3. Добавляется кнопка "Отмена" с callback_data "admin_panel".
-4. Клавиатура формируется с расположением кнопок в 2 столбца.
-5. Возвращается объект `InlineKeyboardMarkup`.
-
-**Примеры**:
-
-```python
-from aiogram.types import InlineKeyboardMarkup
-from bot.dao.models import Category
-from typing import List
-
-# Пример данных о категориях
-catalog_data: List[Category] = [
-    Category(id=1, category_name="Электроника"),
-    Category(id=2, category_name="Одежда"),
-    Category(id=3, category_name="Обувь")
-]
-
-# Создание клавиатуры
-keyboard: InlineKeyboardMarkup = catalog_admin_kb(catalog_data)
-
-# Вывод клавиатуры (в реальном коде отправляется ботом)
-print(keyboard)
-```
+1.  The function iterates through the provided `catalog_data`, creating a button for each category with the category name as the text and the category ID as the callback data.
+2.  An "Отмена" (Cancel) button is added to the keyboard, with "admin_panel" as the callback data.
+3.  The keyboard buttons are arranged in two columns (`kb.adjust(2)`).
 
 ### `admin_send_file_kb`
 
-```python
-def admin_send_file_kb() -> InlineKeyboardMarkup:
-    """Создает инлайн-клавиатуру для выбора отправки файла в административной панели.
+**Purpose**: Creates an inline keyboard markup for choosing whether to send a file or not.
 
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    """
-```
+**Parameters**:
 
-**Назначение**:
-Функция создает инлайн-клавиатуру с кнопками для выбора отправки файла или отказа от нее.
+- None
 
-**Возвращаемое значение**:
-- `InlineKeyboardMarkup`: Объект инлайн-клавиатуры.
+**Returns**:
 
-**Как работает**:
-1. Создается экземпляр `InlineKeyboardBuilder`.
-2. Добавляется кнопка "Без файла" с callback_data "without_file".
-3. Добавляется кнопка "Отмена" с callback_data "admin_panel".
-4. Клавиатура формируется с расположением кнопок в 2 столбца.
-5. Возвращается объект `InlineKeyboardMarkup`.
+- InlineKeyboardMarkup: An inline keyboard markup with buttons for "Без файла" (Without file) and "Отмена" (Cancel).
 
-**Примеры**:
+**How the Function Works**:
 
-```python
-from aiogram.types import InlineKeyboardMarkup
-
-# Создание клавиатуры
-keyboard: InlineKeyboardMarkup = admin_send_file_kb()
-
-# Вывод клавиатуры (в реальном коде отправляется ботом)
-print(keyboard)
-```
+1.  The function creates two buttons: "Без файла" (Without file) and "Отмена" (Cancel).
+2.  The "Без файла" button has the callback data "without_file", and the "Отмена" button has "admin_panel".
+3.  The buttons are arranged in two columns (`kb.adjust(2)`).
 
 ### `admin_kb`
 
-```python
-def admin_kb() -> InlineKeyboardMarkup:
-    """Создает основную инлайн-клавиатуру административной панели.
+**Purpose**: Creates an inline keyboard markup for the main admin panel.
 
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    """
-```
+**Parameters**:
 
-**Назначение**:
-Функция создает основную инлайн-клавиатуру для административной панели с кнопками для статистики, управления товарами и возврата на главную страницу.
+- None
 
-**Возвращаемое значение**:
-- `InlineKeyboardMarkup`: Объект инлайн-клавиатуры.
+**Returns**:
 
-**Как работает**:
-1. Создается экземпляр `InlineKeyboardBuilder`.
-2. Добавляется кнопка "📊 Статистика" с callback_data "statistic".
-3. Добавляется кнопка "🛍️ Управлять товарами" с callback_data "process_products".
-4. Добавляется кнопка "🏠 На главную" с callback_data "home".
-5. Клавиатура формируется с расположением кнопок в 2 столбца.
-6. Возвращается объект `InlineKeyboardMarkup`.
+- InlineKeyboardMarkup: An inline keyboard markup with buttons for "📊 Статистика" (Statistics), "🛍️ Управлять товарами" (Manage products), and "🏠 На главную" (Home).
 
-**Примеры**:
+**How the Function Works**:
 
-```python
-from aiogram.types import InlineKeyboardMarkup
-
-# Создание клавиатуры
-keyboard: InlineKeyboardMarkup = admin_kb()
-
-# Вывод клавиатуры (в реальном коде отправляется ботом)
-print(keyboard)
-```
+1.  The function creates buttons for "📊 Статистика" (Statistics), "🛍️ Управлять товарами" (Manage products), and "🏠 На главную" (Home).
+2.  Each button is assigned a corresponding callback data: "statistic", "process_products", and "home", respectively.
+3.  The buttons are arranged in two columns (`kb.adjust(2)`).
 
 ### `admin_kb_back`
 
-```python
-def admin_kb_back() -> InlineKeyboardMarkup:
-    """Создает инлайн-клавиатуру с кнопками для возврата в административную панель и на главную страницу.
+**Purpose**: Creates an inline keyboard markup for going back to the admin panel or the main screen.
 
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    """
-```
+**Parameters**:
 
-**Назначение**:
-Функция создает инлайн-клавиатуру с кнопками для возврата в административную панель и на главную страницу.
+- None
 
-**Возвращаемое значение**:
-- `InlineKeyboardMarkup`: Объект инлайн-клавиатуры.
+**Returns**:
 
-**Как работает**:
-1. Создается экземпляр `InlineKeyboardBuilder`.
-2. Добавляется кнопка "⚙️ Админ панель" с callback_data "admin_panel".
-3. Добавляется кнопка "🏠 На главную" с callback_data "home".
-4. Клавиатура формируется с расположением кнопок в 1 столбец.
-5. Возвращается объект `InlineKeyboardMarkup`.
+- InlineKeyboardMarkup: An inline keyboard markup with buttons for "⚙️ Админ панель" (Admin Panel) and "🏠 На главную" (Home).
 
-**Примеры**:
+**How the Function Works**:
 
-```python
-from aiogram.types import InlineKeyboardMarkup
-
-# Создание клавиатуры
-keyboard: InlineKeyboardMarkup = admin_kb_back()
-
-# Вывод клавиатуры (в реальном коде отправляется ботом)
-print(keyboard)
-```
+1.  The function creates two buttons: "⚙️ Админ панель" (Admin Panel) and "🏠 На главную" (Home).
+2.  Each button is assigned a corresponding callback data: "admin_panel" and "home", respectively.
+3.  The buttons are arranged in one column (`kb.adjust(1)`).
 
 ### `dell_product_kb`
 
-```python
-def dell_product_kb(product_id: int) -> InlineKeyboardMarkup:
-    """Создает инлайн-клавиатуру для подтверждения удаления товара.
+**Purpose**: Creates an inline keyboard markup for confirming deletion of a product.
 
-    Args:
-        product_id (int): ID товара, который нужно удалить.
+**Parameters**:
 
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    """
-```
+- `product_id` (int): The ID of the product to be deleted.
 
-**Назначение**:
-Функция создает инлайн-клавиатуру для подтверждения удаления товара с кнопками "Удалить", "Админ панель" и "На главную".
+**Returns**:
 
-**Параметры**:
-- `product_id` (int): ID товара, который нужно удалить.
+- InlineKeyboardMarkup: An inline keyboard markup with buttons for "🗑️ Удалить" (Delete), "⚙️ Админ панель" (Admin Panel), and "🏠 На главную" (Home).
 
-**Возвращаемое значение**:
-- `InlineKeyboardMarkup`: Объект инлайн-клавиатуры.
+**How the Function Works**:
 
-**Как работает**:
-1. Создается экземпляр `InlineKeyboardBuilder`.
-2. Добавляется кнопка "🗑️ Удалить" с callback_data, содержащим id товара для удаления.
-3. Добавляется кнопка "⚙️ Админ панель" с callback_data "admin_panel".
-4. Добавляется кнопка "🏠 На главную" с callback_data "home".
-5. Кнопки размещаются в три ряда: 2, 2 и 1 кнопка.
-6. Возвращается объект `InlineKeyboardMarkup`.
-
-**Примеры**:
-
-```python
-from aiogram.types import InlineKeyboardMarkup
-
-# ID товара для удаления
-product_id: int = 123
-
-# Создание клавиатуры
-keyboard: InlineKeyboardMarkup = dell_product_kb(product_id)
-
-# Вывод клавиатуры (в реальном коде отправляется ботом)
-print(keyboard)
-```
+1.  The function creates three buttons: "🗑️ Удалить" (Delete), "⚙️ Админ панель" (Admin Panel), and "🏠 На главную" (Home).
+2.  The "🗑️ Удалить" button has the callback data `f"dell_{product_id}"`. The "⚙️ Админ панель" and "🏠 На главную" buttons have the callback data "admin_panel" and "home", respectively.
+3.  The buttons are arranged in a specific layout with two buttons in the first two rows and one button in the third row (`kb.adjust(2, 2, 1)`).
 
 ### `product_management_kb`
 
-```python
-def product_management_kb() -> InlineKeyboardMarkup:
-    """Создает инлайн-клавиатуру для управления товарами (добавление, удаление).
+**Purpose**: Creates an inline keyboard markup for managing products within the admin panel.
 
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    """
-```
+**Parameters**:
 
-**Назначение**:
-Функция создает инлайн-клавиатуру для управления товарами с кнопками "Добавить товар", "Удалить товар", "Админ панель" и "На главную".
+- None
 
-**Возвращаемое значение**:
-- `InlineKeyboardMarkup`: Объект инлайн-клавиатуры.
+**Returns**:
 
-**Как работает**:
-1. Создается экземпляр `InlineKeyboardBuilder`.
-2. Добавляется кнопка "➕ Добавить товар" с callback_data "add_product".
-3. Добавляется кнопка "🗑️ Удалить товар" с callback_data "delete_product".
-4. Добавляется кнопка "⚙️ Админ панель" с callback_data "admin_panel".
-5. Добавляется кнопка "🏠 На главную" с callback_data "home".
-6. Кнопки размещаются в три ряда: 2, 2 и 1 кнопка.
-7. Возвращается объект `InlineKeyboardMarkup`.
+- InlineKeyboardMarkup: An inline keyboard markup with buttons for "➕ Добавить товар" (Add product), "🗑️ Удалить товар" (Delete product), "⚙️ Админ панель" (Admin Panel), and "🏠 На главную" (Home).
 
-**Примеры**:
+**How the Function Works**:
 
-```python
-from aiogram.types import InlineKeyboardMarkup
-
-# Создание клавиатуры
-keyboard: InlineKeyboardMarkup = product_management_kb()
-
-# Вывод клавиатуры (в реальном коде отправляется ботом)
-print(keyboard)
-```
+1.  The function creates four buttons: "➕ Добавить товар" (Add product), "🗑️ Удалить товар" (Delete product), "⚙️ Админ панель" (Admin Panel), and "🏠 На главную" (Home).
+2.  Each button is assigned a corresponding callback data: "add_product", "delete_product", "admin_panel", and "home", respectively.
+3.  The buttons are arranged in a specific layout with two buttons in the first two rows and one button in the third row (`kb.adjust(2, 2, 1)`).
 
 ### `cancel_kb_inline`
 
-```python
-def cancel_kb_inline() -> InlineKeyboardMarkup:
-    """Создает инлайн-клавиатуру с кнопкой "Отмена".
+**Purpose**: Creates an inline keyboard markup with a single "Отмена" (Cancel) button.
 
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    """
-```
+**Parameters**:
 
-**Назначение**:
-Функция создает инлайн-клавиатуру с кнопкой "Отмена".
+- None
 
-**Возвращаемое значение**:
-- `InlineKeyboardMarkup`: Объект инлайн-клавиатуры.
+**Returns**:
 
-**Как работает**:
-1. Создается экземпляр `InlineKeyboardBuilder`.
-2. Добавляется кнопка "Отмена" с callback_data "cancel".
-3. Возвращается объект `InlineKeyboardMarkup`.
+- InlineKeyboardMarkup: An inline keyboard markup with a single "Отмена" (Cancel) button.
 
-**Примеры**:
+**How the Function Works**:
 
-```python
-from aiogram.types import InlineKeyboardMarkup
-
-# Создание клавиатуры
-keyboard: InlineKeyboardMarkup = cancel_kb_inline()
-
-# Вывод клавиатуры (в реальном коде отправляется ботом)
-print(keyboard)
-```
+1.  The function creates a single button: "Отмена" (Cancel).
+2.  The button has the callback data "cancel".
 
 ### `admin_confirm_kb`
 
-```python
-def admin_confirm_kb() -> InlineKeyboardMarkup:
-    """Создает инлайн-клавиатуру для подтверждения действия администратором.
+**Purpose**: Creates an inline keyboard markup for confirming an action.
 
-    Returns:
-        InlineKeyboardMarkup: Объект инлайн-клавиатуры.
-    """
-```
+**Parameters**:
 
-**Назначение**:
-Функция создает инлайн-клавиатуру для подтверждения действия администратором с кнопками "Все верно" и "Отмена".
+- None
 
-**Возвращаемое значение**:
-- `InlineKeyboardMarkup`: Объект инлайн-клавиатуры.
+**Returns**:
 
-**Как работает**:
-1. Создается экземпляр `InlineKeyboardBuilder`.
-2. Добавляется кнопка "Все верно" с callback_data "confirm_add".
-3. Добавляется кнопка "Отмена" с callback_data "admin_panel".
-4. Клавиатура формируется с расположением кнопок в 1 столбец.
-5. Возвращается объект `InlineKeyboardMarkup`.
+- InlineKeyboardMarkup: An inline keyboard markup with buttons for "Все верно" (All correct) and "Отмена" (Cancel).
 
-**Примеры**:
+**How the Function Works**:
 
-```python
-from aiogram.types import InlineKeyboardMarkup
-
-# Создание клавиатуры
-keyboard: InlineKeyboardMarkup = admin_confirm_kb()
-
-# Вывод клавиатуры (в реальном коде отправляется ботом)
-print(keyboard)
-```
+1.  The function creates two buttons: "Все верно" (All correct) and "Отмена" (Cancel).
+2.  The "Все верно" button has the callback data "confirm_add", and the "Отмена" button has "admin_panel".
+3.  The buttons are arranged in one column (`kb.adjust(1)`).

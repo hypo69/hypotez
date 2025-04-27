@@ -1,95 +1,111 @@
-# Module for interacting with the ChatGpt platform
+# ChatGptt Provider Module
 
 ## Overview
 
-This module provides an asynchronous implementation for interacting with the ChatGpt platform. It includes functionalities for creating asynchronous generators to handle responses, managing message histories, and supporting system messages. This module is designed to be used with the `hypotez` project.
+This module implements the `ChatGptt` class, providing a provider for interacting with the ChatGptt.me API. It inherits from `AsyncGeneratorProvider` and `ProviderModelMixin` to facilitate asynchronous message generation and model selection.
 
-## More details
+## Details
 
-The `ChatGptt` class inherits from `AsyncGeneratorProvider` and `ProviderModelMixin`, providing functionalities for asynchronous request handling and model management. It is designed to interact with the ChatGpt platform through its API, handling authentication and data streaming. This module is located in the `hypotez/src/endpoints/gpt4free/g4f/Provider/not_working/` directory, indicating that it may not be fully functional or under development.
+The ChatGptt provider is designed to use the ChatGptt.me API, offering access to various GPT models, including `gpt-4`, `gpt-4o`, and `gpt-4o-mini`. The provider supports streaming, system messages, and message history for more interactive and contextually aware interactions.
 
 ## Classes
 
-### `ChatGptt`
+### `class ChatGptt`
 
-**Description**:
-This class extends `AsyncGeneratorProvider` and `ProviderModelMixin` to provide an interface for interacting with the ChatGpt platform. It handles the creation of asynchronous generators, manages message histories, and supports system messages.
+**Description**:  This class represents the ChatGptt provider, enabling interaction with the ChatGptt.me API for generating text using GPT models. 
 
 **Inherits**:
-- `AsyncGeneratorProvider`: Provides asynchronous generator functionalities.
-- `ProviderModelMixin`: Manages model-related functionalities.
+    - `AsyncGeneratorProvider`: Implements asynchronous message generation using a generator.
+    - `ProviderModelMixin`: Provides functionality for model selection and management.
 
 **Attributes**:
-- `url` (str): The base URL for the ChatGpt platform.
-- `api_endpoint` (str): The API endpoint for sending messages.
-- `working` (bool): Indicates whether the provider is currently working.
-- `supports_stream` (bool): Indicates whether the provider supports streaming responses.
-- `supports_system_message` (bool): Indicates whether the provider supports system messages.
-- `supports_message_history` (bool): Indicates whether the provider supports message history.
-- `default_model` (str): The default model to use if none is specified.
-- `models` (list): A list of supported models.
-
-**Working principle**:
-The `ChatGptt` class uses asynchronous requests to interact with the ChatGpt platform. It first retrieves authentication tokens from the initial page content and then sends a payload containing the message and other required parameters to the API endpoint. The response is streamed back to the caller via an asynchronous generator.
+    - `url` (str): The base URL of the ChatGptt.me website.
+    - `api_endpoint` (str): The URL of the API endpoint for sending requests.
+    - `working` (bool): Indicates whether the provider is currently functional.
+    - `supports_stream` (bool): Indicates whether the provider supports streaming responses.
+    - `supports_system_message` (bool): Indicates whether the provider supports system messages.
+    - `supports_message_history` (bool): Indicates whether the provider supports message history.
+    - `default_model` (str): The default model to use for text generation.
+    - `models` (list): A list of available GPT models supported by the provider.
 
 **Methods**:
-- `create_async_generator()`: Creates an asynchronous generator for handling responses from the ChatGpt platform.
 
-## Class Methods
+#### `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`
 
-### `create_async_generator`
+**Purpose**: This method creates an asynchronous generator for interacting with the ChatGptt.me API, allowing streaming responses.
+
+**Parameters**:
+    - `model` (str): The desired GPT model to use for text generation.
+    - `messages` (Messages): A list of messages to be sent to the API.
+    - `proxy` (str, optional): A proxy server URL to use for requests. Defaults to `None`.
+
+**Returns**:
+    - `AsyncResult`: An asynchronous result object representing the generator.
+
+**Raises**:
+    - `RuntimeError`: If the required authentication tokens are not found in the page HTML.
+
+**How the Method Works**:
+
+1. **Initialization**: The method initializes the necessary headers and session for making API requests.
+2. **Initial Page Retrieval**: Retrieves the initial page content from the ChatGptt.me website.
+3. **Authentication Token Extraction**: Extracts the necessary authentication tokens (nonce and post ID) from the page HTML.
+4. **Payload Preparation**: Prepares the payload with the session data, including messages, authentication tokens, and other relevant information.
+5. **API Request and Response**: Sends the prepared payload to the ChatGptt.me API endpoint and handles the response.
+6. **Streaming Response**: The method streams the response from the API, yielding the generated text as it becomes available.
+
+**Examples**:
 
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    **kwargs
-) -> AsyncResult:
-    """ Создает асинхронный генератор для обработки ответов от платформы ChatGpt.
+async def generate_text(model: str, messages: Messages) -> str:
+    """
+    Generates text using the ChatGptt provider.
+
     Args:
-        cls (ChatGptt): Ссылка на класс.
-        model (str): Модель для использования.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
+        model (str): The GPT model to use.
+        messages (Messages): The messages to send to the API.
 
     Returns:
-        AsyncResult: Асинхронный генератор, возвращающий результаты.
-
-    Raises:
-        RuntimeError: Если не удается найти токены аутентификации на странице HTML.
-
-    How the function works:
-        - Извлекает параметры модели.
-        - Формирует заголовки запроса.
-        - Создает сессию клиента для асинхронных запросов.
-        - Отправляет запрос на начальную страницу для получения токенов аутентификации.
-        - Извлекает токены nonce и post_id из HTML-кода страницы.
-        - Подготавливает полезную нагрузку с данными сессии и сообщением.
-        - Отправляет POST-запрос к API-endpoint и возвращает результат через генератор.
+        str: The generated text.
     """
+    async for chunk in ChatGptt.create_async_generator(model, messages):
+        return chunk 
+
+# Example usage:
+messages = [
+    {"role": "user", "content": "Hello, how are you?"},
+]
+text = await generate_text(model='gpt-4', messages=messages)
+print(text)
 ```
 
-### Parameters:
-- `cls` (ChatGptt): Ссылка на класс.
-- `model` (str): Модель для использования.
-- `messages` (Messages): Список сообщений для отправки.
-- `proxy` (str, optional): Прокси-сервер для использования. Defaults to `None`.
-- `**kwargs`: Дополнительные параметры.
+## Parameter Details
 
-### Examples:
+- `model` (str): The desired GPT model for text generation, e.g., 'gpt-4', 'gpt-4o', 'gpt-4o-mini'.
+- `messages` (Messages): A list of messages to send to the API. Each message is a dictionary with keys like 'role' and 'content'.
+- `proxy` (str, optional): An optional proxy server URL to use for requests.
+
+## Examples
 
 ```python
-# Пример использования create_async_generator
-messages = [{"role": "user", "content": "Hello, ChatGpt!"}]
-async for message in ChatGptt.create_async_generator(model='gpt-4', messages=messages):
-    print(message)
-```
-```python
-# Пример использования create_async_generator с прокси
-messages = [{"role": "user", "content": "Hello, ChatGpt!"}]
-async for message in ChatGptt.create_async_generator(model='gpt-4', messages=messages, proxy='http://proxy.example.com'):
-    print(message)
+# Example usage:
+messages = [
+    {"role": "user", "content": "What is the meaning of life?"},
+]
+async for response in ChatGptt.create_async_generator(model='gpt-4', messages=messages):
+    print(response)
+
+# Using a different model:
+messages = [
+    {"role": "user", "content": "Write a poem about a cat."},
+]
+async for response in ChatGptt.create_async_generator(model='gpt-4o-mini', messages=messages):
+    print(response)
+
+# Using a proxy:
+messages = [
+    {"role": "user", "content": "Translate 'Hello, world!' to Spanish."},
+]
+async for response in ChatGptt.create_async_generator(model='gpt-4', messages=messages, proxy='http://proxy_server:port'):
+    print(response)
 ```

@@ -1,110 +1,93 @@
-# Документация для модуля `AutonomousAI.py`
+# AutonomousAI Provider
 
-## Обзор
+## Overview
 
-Модуль предоставляет асинхронную реализацию взаимодействия с API AutonomousAI для генерации текста.
-Он поддерживает потоковую передачу данных, системные сообщения и историю сообщений.
-Модуль включает в себя поддержку различных моделей, таких как "llama", "qwen_coder", "hermes", "vision" и "summary".
+This module provides the `AutonomousAI` class, a provider for accessing AutonomousAI's API for various large language models. It inherits from `AsyncGeneratorProvider` and `ProviderModelMixin` for asynchronous stream-based generation and model selection capabilities. 
 
-## Более подробная информация
+The module supports multiple AutonomousAI models, including:
 
-Этот модуль является частью проекта `hypotez` и предназначен для интеграции с другими компонентами,
-требующими доступа к API AutonomousAI. Модуль использует библиотеку `aiohttp` для выполнения асинхронных HTTP-запросов
-и `base64` для кодирования сообщений. Важной особенностью является поддержка потоковой передачи данных, что позволяет
-получать ответы от API частями, не дожидаясь полной генерации текста.
+- `llama`: Llama model
+- `qwen_coder`: Qwen-2.5-Coder model
+- `hermes`: Hermes model
+- `vision`: Llama-3.2-90b model (specifically for vision tasks)
+- `summary`: Llama-3.2-70b model (specifically for summarization tasks)
 
-## Классы
+## Details
+
+The `AutonomousAI` provider allows you to interact with the AutonomousAI API to send messages and receive generated responses from various models. It uses aiohttp for asynchronous communication with the API. The provider supports streaming responses, enabling real-time display of generated text.
+
+## Classes
 
 ### `AutonomousAI`
 
-**Описание**: Класс для взаимодействия с API AutonomousAI.
+**Description:**
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
-- `ProviderModelMixin`: Предоставляет общие методы для работы с моделями.
+This class provides an asynchronous generator-based interface for interacting with the AutonomousAI API. It allows sending messages to the API and receiving responses, either as a stream or as a single chunk.
 
-**Атрибуты**:
-- `url` (str): Базовый URL для AutonomousAI.
-- `api_endpoints` (dict): Словарь с конечными точками API для различных моделей.
-- `working` (bool): Указывает, работает ли провайдер.
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу.
-- `supports_system_message` (bool): Указывает, поддерживает ли провайдер системные сообщения.
-- `supports_message_history` (bool): Указывает, поддерживает ли провайдер историю сообщений.
-- `default_model` (str): Модель по умолчанию.
-- `models` (list): Список поддерживаемых моделей.
-- `model_aliases` (dict): Словарь псевдонимов моделей.
+**Inherits:**
 
-**Принцип работы**:
-Класс использует `aiohttp.ClientSession` для выполнения асинхронных POST-запросов к API AutonomousAI.
-Сообщения кодируются в base64 для передачи в запросе. Поддерживается потоковая передача данных, при которой ответы от API
-обрабатываются по частям.
+- `AsyncGeneratorProvider`: Implements the asynchronous generator interface for stream-based responses.
+- `ProviderModelMixin`: Enables model selection and management.
 
-## Методы класса
+**Attributes:**
 
-### `create_async_generator`
+- `url (str):` Base URL for AutonomousAI's API.
+- `api_endpoints (dict):` Dictionary mapping model names to their corresponding API endpoints.
+- `working (bool):` Flag indicating whether the provider is currently operational (default: `False`).
+- `supports_stream (bool):` Whether the provider supports stream-based responses (default: `True`).
+- `supports_system_message (bool):` Whether the provider supports system messages (default: `True`).
+- `supports_message_history (bool):` Whether the provider supports message history (default: `True`).
+- `default_model (str):` Default model to use (default: `"llama"`).
+- `models (list):` List of supported model names.
+- `model_aliases (dict):` Mapping of model aliases to their corresponding model names.
+
+**Methods:**
+
+#### `create_async_generator(model: str, messages: Messages, proxy: str = None, stream: bool = False, **kwargs) -> AsyncResult`
+
+**Purpose:**
+
+Creates an asynchronous generator that communicates with the AutonomousAI API to generate responses based on the provided messages and model.
+
+**Parameters:**
+
+- `model (str):` Name of the model to use.
+- `messages (Messages):` A list of message objects containing the user input and system messages.
+- `proxy (str, optional):` Proxy server to use for the API request. Defaults to `None`.
+- `stream (bool, optional):` Whether to stream the response or return it as a single chunk. Defaults to `False`.
+- `**kwargs`: Additional keyword arguments for the API request.
+
+**Returns:**
+
+- `AsyncResult`: An asynchronous result object that yields the generated response either as a stream or a single chunk.
+
+**Raises Exceptions:**
+
+- `ValueError`: If the provided model is not supported.
+- `HTTPError`: If the API request fails with an error.
+
+**How the Function Works:**
+
+1. The function first retrieves the appropriate API endpoint based on the provided `model`.
+2. It then prepares the request headers and data, encoding the message objects into a base64 string.
+3. Using `aiohttp`, the function sends a POST request to the API endpoint with the prepared data and headers.
+4. If the request is successful, the function iterates through the response stream.
+5. For each received chunk, the function attempts to parse it as JSON, extracting the generated text and finish reason.
+6. The function yields the generated text and finish reason to the asynchronous generator, allowing the caller to consume the response either as a stream or a single chunk.
+
+**Examples:**
 
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    stream: bool = False,
-    **kwargs
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для получения ответов от API AutonomousAI.
+# Example usage with the "llama" model
+messages = [
+    {"role": "user", "content": "Hello, how are you?"}
+]
 
-    Args:
-        cls (AutonomousAI): Класс AutonomousAI.
-        model (str): Название модели для использования.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-        stream (bool, optional): Включить потоковую передачу данных. По умолчанию `False`.
-        **kwargs: Дополнительные параметры.
+async def main():
+    async with AutonomousAI.create_async_generator(model="llama", messages=messages) as result:
+        async for chunk in result:
+            print(chunk)
 
-    Returns:
-        AsyncResult: Асинхронный генератор, выдающий части ответа.
-
-    Raises:
-        Exception: В случае ошибки при выполнении запроса.
-
-    Как работает функция:
-    1. Функция определяет конечную точку API на основе выбранной модели.
-    2. Формирует заголовки запроса, включая `content-type`, `user-agent` и другие необходимые параметры.
-    3. Кодирует сообщения в формат JSON и затем в base64.
-    4. Создает тело запроса с закодированными сообщениями, идентификатором потока, флагом потоковой передачи и выбранной моделью.
-    5. Выполняет асинхронный POST-запрос к API.
-    6. Обрабатывает ответ от API, извлекая и выдавая части контента (delta) из JSON-ответов.
-    7. Обрабатывает ошибки JSON при декодировании ответа.
-    8. При получении `finish_reason` генерирует соответствующее значение `FinishReason`.
-    """
+if __name__ == "__main__":
+    asyncio.run(main())
 ```
-
-**Параметры**:
-- `model` (str): Название модели для использования.
-- `messages` (Messages): Список сообщений для отправки.
-- `proxy` (str, optional): URL прокси-сервера. По умолчанию `None`.
-- `stream` (bool, optional): Включить потоковую передачу данных. По умолчанию `False`.
-- `**kwargs`: Дополнительные параметры.
-
-**Примеры**:
-
-```python
-# Пример использования create_async_generator
-messages = [{"role": "user", "content": "Hello, how are you?"}]
-async for chunk in AutonomousAI.create_async_generator(model="llama", messages=messages, stream=True):
-    print(chunk)
-```
-```python
-# Пример использования create_async_generator без потоковой передачи
-messages = [{"role": "user", "content": "Tell me a joke."}]
-async for chunk in AutonomousAI.create_async_generator(model="qwen_coder", messages=messages, stream=False):
-    print(chunk)
-```
-```python
-# Пример использования create_async_generator с прокси-сервером
-messages = [{"role": "user", "content": "Write a short story."}]
-async for chunk in AutonomousAI.create_async_generator(model="hermes", messages=messages, proxy="http://proxy.example.com", stream=True):
-    print(chunk)

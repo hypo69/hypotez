@@ -1,61 +1,90 @@
-# Модуль запуска веб-интерфейса FreeGPT
+# Модуль `run.py`
 
 ## Обзор
 
-Модуль предназначен для запуска веб-интерфейса FreeGPT с использованием Flask. Он настраивает маршруты для веб-сайта и backend API, а также запускает Flask-сервер.
+Этот модуль отвечает за запуск сервера Flask для веб-приложения. Он настраивает маршруты как для веб-сайта, так и для API-интерфейса.
 
-## Более подробная информация
+## Детали
 
-Этот модуль является точкой входа для запуска веб-интерфейса FreeGPT. Он загружает конфигурацию из файла `config.json`, настраивает маршруты для веб-сайта и backend API, а затем запускает Flask-сервер. Модуль использует классы `Website` и `Backend_Api` для настройки маршрутов и обработки запросов.
+Этот модуль используется для запуска веб-приложения, которое предоставляет доступ к различным функциям, предоставляемым `hypotez`. Он загружает конфигурацию из файла `config.json`, настраивает маршруты для веб-сайта и API-интерфейса, а затем запускает сервер Flask.
+
+## Классы
+
+### `Website`
+
+**Описание:**
+Класс `Website` отвечает за обработку маршрутов веб-сайта.
+
+**Атрибуты:**
+
+- `app`: Объект Flask приложения.
+
+**Методы:**
+
+- `__init__(app: Flask)`: Инициализирует объект `Website`.
+- `routes`: Словарь, содержащий список маршрутов веб-сайта, их функции обработки и методы HTTP.
 
 ## Функции
 
-### `__main__`
+### `j_loads(path: Path) -> dict`:
+
+**Описание:**
+Функция `j_loads` используется для загрузки JSON-файла с заданного пути.
+
+**Параметры:**
+
+- `path (Path)`: Путь к JSON-файлу.
+
+**Возвращает:**
+
+- `dict`: Словарь, содержащий данные из JSON-файла.
+
+**Примеры:**
 
 ```python
-if __name__ == '__main__':
-    # Load configuration from config.json
-    config = j_loads(__root__ / 'src' / 'endpoints'/ 'freegpt-webui-ru' / 'config.json')
-    site_config = config['site_config']
-
-    # Set up the website routes
-    site = Website(app)
-    for route in site.routes:
-        app.add_url_rule(
-            route,
-            view_func=site.routes[route]['function'],
-            methods=site.routes[route]['methods'],
-        )
-
-    # Set up the backend API routes
-    backend_api = Backend_Api(app, config)
-    for route in backend_api.routes:
-        app.add_url_rule(
-            route,
-            view_func=backend_api.routes[route]['function'],
-            methods=backend_api.routes[route]['methods'],
-        )
-
-    # Run the Flask server
-    print(f"Running on port {site_config['port']}")
-    app.run(**site_config)
-    print(f"Closing port {site_config['port']}")
+>>> from pathlib import Path
+>>> path = Path('path/to/file.json')
+>>> data = j_loads(path)
+>>> print(data)
+{'key1': 'value1', 'key2': 'value2'}
 ```
 
-**Назначение**: Точка входа в приложение. Загружает конфигурацию, настраивает маршруты и запускает Flask-сервер.
 
-**Как работает функция**:
+## Как работает код:
 
-1.  Загружает конфигурацию из файла `config.json` с помощью функции `j_loads`.
-2.  Извлекает конфигурацию сайта из загруженной конфигурации.
-3.  Создает экземпляр класса `Website` и настраивает маршруты для веб-сайта, используя метод `add_url_rule` объекта `app`.
-4.  Создает экземпляр класса `Backend_Api` и настраивает маршруты для backend API, используя метод `add_url_rule` объекта `app`.
-5.  Запускает Flask-сервер с использованием конфигурации сайта.
-6.  Выводит в консоль сообщение о запуске сервера и закрытии порта.
+- Модуль `run.py` начинает с импорта необходимых модулей, включая `app` из `server`, `Website` из `server`, `Backend_Api` из `server`, а также `j_loads` из `src.utils.jjson`.
+- Затем он загружает конфигурацию из файла `config.json`.
+- Далее он создает объект `Website` и добавляет маршруты для веб-сайта в приложение Flask.
+- После этого он создает объект `Backend_Api` и добавляет маршруты для API-интерфейса в приложение Flask.
+- Наконец, он запускает сервер Flask.
 
-**Примеры**:
+## Примеры:
 
 ```python
-# Пример запуска приложения
-# (Предполагается, что config.json существует и содержит необходимые настройки)
-# Этот код будет запущен при выполнении файла run.py
+>>> from server.app import app
+>>> from server.website import Website
+>>> from server.backend import Backend_Api
+>>> from json import load
+>>> import header
+>>> from header import __root__
+>>> from src import gs
+>>> from src.utils.jjson import j_loads
+
+>>> if __name__ == '__main__':
+...     config = j_loads(__root__ / 'src' / 'endpoints' / 'freegpt-webui-ru' / 'config.json')
+...     site_config = config['site_config']
+...     site = Website(app)
+...     for route in site.routes:
+...         app.add_url_rule(route, view_func=site.routes[route]['function'], methods=site.routes[route]['methods'])
+...     backend_api = Backend_Api(app, config)
+...     for route in backend_api.routes:
+...         app.add_url_rule(route, view_func=backend_api.routes[route]['function'], methods=backend_api.routes[route]['methods'])
+...     print(f"Running on port {site_config['port']}")
+...     app.run(**site_config)
+...     print(f"Closing port {site_config['port']}")
+```
+
+##  Дополнительная информация:
+
+- Для получения более подробной информации о структуре веб-сайта и API-интерфейса обратитесь к документации модулей `server.website` и `server.backend`.
+- Для получения более подробной информации о конфигурации приложения обратитесь к документации файла `config.json`.

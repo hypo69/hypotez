@@ -1,28 +1,80 @@
-### **Как использовать этот блок кода**
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода отвечает за добавление товара в базу данных PrestaShop, если товара еще нет в базе. Он также обрабатывает случай, когда товар уже существует в базе данных, обновляя его изображение.
+Данный блок кода представляет собой сценарий для загрузки товара из Amazon в PrestaShop. Сценарий анализирует страницу товара на Amazon, извлекает необходимую информацию и создает или обновляет запись товара в PrestaShop.
 
 Шаги выполнения
 -------------------------
-1. **Определение ASIN и product_reference**: Извлекается ASIN товара со страницы и формируется уникальный идентификатор товара (`product_reference`).
-2. **Проверка наличия товара в базе данных**: С использованием `Product.check_if_product_in_presta_db` проверяется, существует ли товар с данным `product_reference` в базе данных PrestaShop. Результат сохраняется в `product_id`.
-3. **Обработка случая, когда товар уже существует в базе данных**:
-   - Если `product_id` не является `False` (то есть товар найден в базе данных), извлекается URL изображения товара (`default_image_url`).
-   - Вызывается метод `Product.upload_image2presta` для обновления изображения товара в PrestaShop.
-4. **Обработка случая, когда товара нет в базе данных**:
-   - Если `product_id` является `False` (то есть товар не найден в базе данных), вызывается метод `Product.grab_product_page` для сбора информации о товаре со страницы.
-   - Формируется словарь `product_dict` с информацией о товаре.
-   - Извлекается название товара (`product_name`) и очищается от лишних символов.
-   - Название товара присваивается полю `name` в словаре `product_dict`.
-   - Выводится словарь `product_dict` для отладки.
+1. **Инициализация сценария**:
+   - Задаётся ссылка на страницу товара на Amazon.
+   - Определяются категории в PrestaShop, в которые будет добавлен товар.
+   - Устанавливается правило для определения цены товара.
+
+2. **Получение данных о товаре**:
+   - Загружается страница товара на Amazon.
+   - Извлекается ASIN товара.
+   - Проверяется, существует ли товар в базе данных PrestaShop по ASIN.
+
+3. **Обработка товара**:
+   - Если товар уже в базе данных PrestaShop:
+     - Загружается изображение товара в PrestaShop.
+     -  ... (дальнейшие действия по обновлению товара)
+   - Если товар не в базе данных PrestaShop:
+     - Извлекаются данные о товаре с страницы Amazon.
+     - Формируется словарь с данными товара для PrestaShop.
+     - Создаётся товар в PrestaShop.
 
 Пример использования
 -------------------------
 
 ```python
+                ## \\file /src/suppliers/amazon/_experiments/scenarois/all_scenarios_from_amazon/murano_glass/test_1_murano_glass_scenario.py
+# -*- coding: utf-8 -*-
+
+#! .pyenv/bin/python3
+
+"""
+.. module:: src.suppliers.amazon._experiments.scenarois.all_scenarios_from_amazon.murano_glass 
+	:platform: Windows, Unix
+	:synopsis:
+
+"""
+
+
+
+"""
+	:platform: Windows, Unix
+	:synopsis:
+
+"""
+
+"""
+	:platform: Windows, Unix
+	:synopsis:
+
+"""
+
+"""
+	:platform: Windows, Unix
+	:synopsis:
+
+"""
+
+"""
+  :platform: Windows, Unix
+
+"""
+"""
+  :platform: Windows, Unix
+  :platform: Windows, Unix
+  :synopsis:
+"""
+  
+""" module: src.suppliers.amazon._experiments.scenarois.all_scenarios_from_amazon.murano_glass """
+
+
 from pathlib import Path
 from typing import Union
 
@@ -66,13 +118,13 @@ product_reference = f"{s.supplier_id}-{ASIN}"
 product_id = Product.check_if_product_in_presta_db(product_reference)
 print(f' Если товар в бд получу id_product, иначе False. Получил: {product_id}')
 
-defaul_image_url = _(l['additional_images_urls'])[0]
+default_image_url = _(l['additional_images_urls'])[0]
 
 if not isinstance(product_id, bool):
     """ Если не вернулся False, значит товар уже в бд, я полуну его id_product
     здесь обработка product_update
     """
-    Product.upload_image2presta(image_url = defaul_image_url, product_id = product_id)
+    Product.upload_image2presta(image_url = default_image_url, product_id = product_id)
     ...
 
 else:
@@ -83,11 +135,13 @@ else:
     product_dict['product']: dict = dict(product_fields.fields)
     #product_dict['product']['wholesale_price'] = product_dict['product']['price'] = float(product_dict['product']['wholesale_price'] )
     #
+
     product_name = _(l['name'])[0]
     
     res_product_name = ''
     for n in product_name:
         res_product_name += n
-    product_dict['product']['name'] = res_product_name.strip("\'").strip('\"').strip('\n')
+    product_dict['product']['name'] = res_product_name.strip("\'").strip('"\').strip('\n')
     pprint(product_dict)
-    #pprint(PrestaProduct.add(product_dict))
+    #pprint(PrestaProduct.add(product_dict)))\
+```

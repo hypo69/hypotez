@@ -1,68 +1,51 @@
-# Документация для `test_api.py`
+# Module for GPT-4Free API Testing
 
-## Обзор
+## Overview
 
-Этот файл содержит пример кода для тестирования API OpenAI. Он демонстрирует, как отправлять запросы к API OpenAI и обрабатывать ответы, как потоковые, так и не потоковые.
+This module provides a basic example of interacting with the GPT-4Free API using the `openai` library. It demonstrates how to send a request to the API to generate a poem and handle the response, both in streaming and non-streaming modes.
 
-## Детали
+## Details
 
-Этот код используется для демонстрации взаимодействия с API OpenAI, например, для генерации текста на основе запроса пользователя. Он показывает, как установить API-ключ и базовый URL, а также как обрабатывать ответы API в различных форматах.
+The code utilizes the `openai` library to communicate with the GPT-4Free API. It defines a `main` function that sets up a chat completion request with the "gpt-3.5-turbo" model, asking for a poem about a tree. The response is handled depending on whether streaming is enabled:
 
-## Функции
+- If streaming is disabled, the response is a dictionary and the poem is printed directly.
+- If streaming is enabled, the response is a stream of tokens. Each token is processed, and its content is printed incrementally.
 
-### `main`
+## Functions
 
-```python
-def main():
-    """
-    Функция для демонстрации взаимодействия с API OpenAI.
+### `main()`
 
-    Функция отправляет запрос к API OpenAI для генерации стихотворения о дереве и обрабатывает ответ.
-    Обрабатываются как потоковые, так и не потоковые ответы.
+**Purpose**: This function interacts with the GPT-4Free API to generate a poem about a tree.
 
-    Raises:
-        Exception: Если происходит ошибка при взаимодействии с API.
+**Parameters**: None
 
-    Пример:
-        >>> main()
-        # Вывод: Стихотворение о дереве, сгенерированное API OpenAI.
-    """
-```
+**Returns**: None
 
-**Как работает функция**:
+**Raises Exceptions**: None
 
-1.  **Отправка запроса к API OpenAI**:
-    *   Используется `openai.ChatCompletion.create` для отправки запроса к API OpenAI.
-    *   `model` устанавливается в `"gpt-3.5-turbo"`.
-    *   `messages` содержит запрос пользователя: `"write a poem about a tree"`.
-    *   `stream=True` указывает, что ожидается потоковый ответ.
-2.  **Обработка ответа**:
-    *   Проверяется тип ответа: `dict` для не потокового или другой тип для потокового.
-    *   Если ответ не потоковый (тип `dict`):
-        *   Извлекается содержимое сообщения из `response.choices[0].message.content`.
-        *   Содержимое выводится на экран.
-    *   Если ответ потоковый:
-        *   Итерируется по токенам в ответе.
-        *   Извлекается содержимое из `token["choices"][0]["delta"].get("content")`.
-        *   Если содержимое не `None`, оно выводится на экран без добавления новой строки (`end=""`) и с немедленным сбросом буфера (`flush=True`).
+**How the Function Works**:
 
-**Примеры**:
+1. The function sets up a chat completion request with the GPT-4Free API, using the "gpt-3.5-turbo" model and providing the prompt "write a poem about a tree".
+2. It checks if the response is a dictionary (non-streaming) or a stream of tokens (streaming).
+3. If the response is a dictionary, it extracts the poem content from the `choices` field and prints it to the console.
+4. If the response is a stream, it iterates through the tokens and prints each token's content incrementally, ensuring a smooth display of the poem as it is generated.
+
+**Examples**:
 
 ```python
-# Пример вызова функции main
-main()
+>>> main()
+# The function sends a request to the GPT-4Free API and prints a poem about a tree to the console, either directly or incrementally depending on whether streaming is enabled.
 ```
-## Параметры
 
-В коде используются следующие параметры:
+## Parameter Details
 
--   `openai.api_key` (str): API-ключ OpenAI.
--   `openai.api_base` (str): Базовый URL API OpenAI.
--   `model` (str): Идентификатор модели OpenAI.
--   `messages` (list): Список сообщений для отправки в API OpenAI.
--   `stream` (bool): Флаг, указывающий, следует ли использовать потоковый режим.
+- `model="gpt-3.5-turbo"`: The GPT model to be used for generating text. In this case, it is set to "gpt-3.5-turbo".
+- `messages=[{"role": "user", "content": "write a poem about a tree"}]`: This defines the messages to be sent to the chat completion API. Here, it includes a single message from the user with the prompt "write a poem about a tree".
+- `stream=True`: This flag indicates whether the response should be streamed or not. If set to `True`, the API will return a stream of tokens, allowing for incremental printing of the generated text.
 
-```markdown
-## Дополнительные детали
+## Examples
 
-Код демонстрирует, как установить API-ключ OpenAI и базовый URL, а также как обрабатывать ответы API в различных форматах (потоковом и не потоковом).
+```python
+>>> main()
+# The function sends a request to the GPT-4Free API and prints a poem about a tree to the console, either directly or incrementally depending on whether streaming is enabled.
+```

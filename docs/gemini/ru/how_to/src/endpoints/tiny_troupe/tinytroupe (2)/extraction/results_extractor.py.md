@@ -1,67 +1,47 @@
-### Как использовать класс `ResultsExtractor`
+## Как использовать класс ResultsExtractor
 =========================================================================================
 
 Описание
 -------------------------
-Класс `ResultsExtractor` предназначен для извлечения результатов из взаимодействий агентов (`TinyPerson`) и окружений (`TinyWorld`). Он использует шаблоны для формирования запросов к OpenAI и извлекает структурированные данные из ответов.
+Класс ResultsExtractor предназначен для извлечения результатов из истории взаимодействия агентов TinyPerson и TinyWorld. Он использует OpenAI API для выполнения запросов на извлечение ключевых моментов из текста. 
 
 Шаги выполнения
 -------------------------
-1. **Инициализация `ResultsExtractor`**:
-   - Создание экземпляра класса `ResultsExtractor` с указанием пути к шаблону промпта, целей извлечения, контекста ситуации, полей для извлечения и настроек verbosity.
-
-2. **Извлечение результатов из агента**:
-   - Использование метода `extract_results_from_agent` для извлечения данных из объекта `TinyPerson`.
-   - Этот метод формирует запрос к OpenAI на основе истории взаимодействий агента и извлекает результаты в формате JSON.
-
-3. **Извлечение результатов из окружения**:
-   - Использование метода `extract_results_from_world` для извлечения данных из объекта `TinyWorld`.
-   - Этот метод аналогично формирует запрос к OpenAI на основе истории взаимодействий агентов в окружении и извлекает результаты.
-
-4. **Сохранение результатов**:
-   - Использование метода `save_as_json` для сохранения извлеченных результатов в файл JSON.
-
-5. **Получение значений по умолчанию**:
-   - Использование метода `_get_default_values_if_necessary` для получения значений по умолчанию, если не предоставлены аргументы для целей извлечения, контекста ситуации, полей или настроек verbosity.
+1. **Инициализация**:  Создается экземпляр класса ResultsExtractor, используя путь к шаблону запроса для извлечения, дефолтные цели извлечения,  ситуацию,  поля для извлечения и их подсказки, а также уровень детализации.
+2. **Извлечение результатов**: Вызываются методы  `extract_results_from_agents` или `extract_results_from_world` для извлечения информации из агентов или мира.
+3. **Обработка результатов**:  Извлеченные результаты сохраняются в кэш и могут быть сохранены в файл JSON с помощью метода `save_as_json`.
 
 Пример использования
 -------------------------
 
 ```python
-    import os
-    from tinytroupe.extraction.results_extractor import ResultsExtractor
-    from tinytroupe.agent.person import TinyPerson
-    from tinytroupe.environment import TinyWorld
+from tinytroupe.extraction import ResultsExtractor
 
-    # Путь к файлу с шаблоном промпта
-    extraction_prompt_template_path = os.path.join(os.path.dirname(__file__), './prompts/interaction_results_extractor.mustache')
+# Инициализация класса ResultsExtractor
+extractor = ResultsExtractor(extraction_objective="Извлеките ключевые моменты из истории взаимодействия агентов.")
 
-    # Инициализация ResultsExtractor
-    results_extractor = ResultsExtractor(
-        extraction_prompt_template_path=extraction_prompt_template_path,
-        extraction_objective="Extract key information about the agent's goals and actions.",
-        situation="The agent is in a negotiation scenario.",
-        fields=["goal", "actions", "outcome"],
-        verbose=True
-    )
+# Создаем список агентов 
+agents = [
+    TinyPerson(name="Alice", role="friend"),
+    TinyPerson(name="Bob", role="enemy")
+]
 
-    # Пример TinyPerson (необходимо создать экземпляр агента)
-    agent = TinyPerson(name="Alice", description="A negotiator")
-    agent.add_message(role="user", content="I want to buy your product for $100.")
-    agent.add_message(role="assistant", content="I can sell it for $120.")
+# Извлекаем результаты из списка агентов
+results = extractor.extract_results_from_agents(agents, situation="Агенты обсуждают план.")
 
-    # Извлечение результатов из агента
-    agent_results = results_extractor.extract_results_from_agent(tinyperson=agent)
-    print(f"Agent Results: {agent_results}")
-
-    # Пример TinyWorld (необходимо создать экземпляр окружения)
-    world = TinyWorld(name="NegotiationWorld")
-    world.add_agent(agent)
-
-    # Извлечение результатов из окружения
-    world_results = results_extractor.extract_results_from_world(tinyworld=world)
-    print(f"World Results: {world_results}")
-
-    # Сохранение результатов в файл
-    results_extractor.save_as_json(filename="extraction_results.json", verbose=True)
+# Сохраняем результаты в файл
+extractor.save_as_json("extraction_results.json")
 ```
+
+**Дополнительные сведения:**
+
+- **`extract_results_from_agents(agents, extraction_objective, situation, fields, fields_hints, verbose)`**: Извлекает информацию из списка агентов.
+- **`extract_results_from_agent(tinyperson, extraction_objective, situation, fields, fields_hints, verbose)`**: Извлекает информацию из одного агента.
+- **`extract_results_from_world(tinyworld, extraction_objective, situation, fields, fields_hints, verbose)`**: Извлекает информацию из мира TinyWorld.
+- **`save_as_json(filename, verbose)`**: Сохраняет результаты извлечения в файл JSON.
+
+**Важно**:
+
+-  В классах `TinyPerson` и `TinyWorld` должна быть доступна история взаимодействия агентов.
+- Класс `ResultsExtractor` использует шаблон запроса для извлечения, который находится в файле `interaction_results_extractor.mustache`.
+-  В зависимости от ситуации, можно использовать различные цели извлечения, поля и подсказки для оптимизации результатов.

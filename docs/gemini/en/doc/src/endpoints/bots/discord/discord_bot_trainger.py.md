@@ -1,314 +1,150 @@
-# Модуль discord_bot_trainger
+# Discord Bot Trainer for Hypotez
 
-## Обзор
+## Overview
 
-Модуль `discord_bot_trainger.py` предназначен для создания и управления Discord-ботом, способным выполнять различные задачи, такие как обучение моделей, тестирование данных, архивирование файлов, выбор наборов данных и взаимодействие с голосовыми каналами. Он использует библиотеку `discord.py` для интеграции с Discord API и другие библиотеки, такие как `speech_recognition` и `gTTS`, для обработки речи и текста.
+This module provides a Discord bot capable of training, testing, and interacting with a machine learning model for text processing. It utilizes the `discord.py` library to handle interaction with Discord servers and integrate with various APIs for model training and testing.
 
-## Подробнее
+## Details
 
-Этот модуль является частью проекта `hypotez` и обеспечивает функциональность Discord-бота, который может быть использован для обучения моделей машинного обучения, тестирования данных и выполнения других задач, связанных с обработкой данных. Он включает в себя обработку текстовых команд, взаимодействие с голосовыми каналами и интеграцию с другими модулями проекта.
+The Discord bot utilizes the `commands.Bot` class from `discord.ext` to handle command parsing and execution. It leverages a `Model` object, which is responsible for interacting with the machine learning model used for text processing. The bot responds to various commands, enabling users to:
 
-## Классы
+- **Train the model:**  Train the model using provided data from a text file or attachment.
+- **Test the model:** Test the model with specific data and retrieve predictions.
+- **Select a dataset:** Select a dataset from a specific directory for training the model.
+- **Archive files:** Archive files in a specified directory.
+- **Correct previous responses:** Correct the bot's previous responses by providing the message ID and correction.
+- **Provide feedback:** Submit feedback about the model's responses.
+- **Retrieve files:** Attach files from the specified path.
+- **Interact with the model:**  Send messages and receive responses from the trained model. 
 
-### `commands.Bot`
-
-**Описание**: Этот класс представляет собой Discord-бота.
-
-**Наследует**:
-- `discord.ext.commands.Bot`
-
-**Атрибуты**:
-- `command_prefix` (str): Префикс для команд бота.
-- `intents` (discord.Intents): Намерения бота, определяющие, к каким событиям он будет подключаться.
-
-**Методы**:
-- `__init__(self, command_prefix, intents)`: Конструктор класса.
-
-**Принцип работы**:
-- Инициализирует объект бота с заданным префиксом команд и намерениями.
-- Определяет обработчики событий и команд, которые бот может выполнять.
+## Classes
 
 ### `Model`
 
-**Описание**: Этот класс представляет собой модель для обучения и тестирования данных.
+**Description**: This class represents the machine learning model responsible for text processing tasks. It handles model training, testing, and interaction with the user.
 
-**Атрибуты**:
-- Нет документированных атрибутов.
+**Attributes**:
 
-**Методы**:
-- `train(data: str = None, data_dir: str = None, positive: bool = True) -> str`: Обучает модель с предоставленными данными.
-- `predict(test_data: str) -> str`: Тестирует модель с предоставленными тестовыми данными.
-- `archive_files(directory: str)`: Архивирует файлы в указанном каталоге.
-- `select_dataset_and_archive(path_to_dir_positive: str, positive: bool = True) -> str`: Выбирает набор данных для обучения модели.
-- `handle_errors(predictions: str, test_data: str)`: Обрабатывает ошибки, возникшие в процессе тестирования модели.
+- `model_name` (str): The name of the machine learning model used for text processing (e.g., "GPT-3").
+- `api_key` (str): The API key for accessing the model's services.
+- `parameters` (dict): A dictionary containing parameters for the model (e.g., temperature, max_tokens).
 
-**Принцип работы**:
-- Класс предоставляет методы для обучения, тестирования и управления данными модели.
-- Он взаимодействует с другими модулями проекта для выполнения этих задач.
+**Methods**:
 
-## Функции
+- `train(data: str, data_dir: str, positive: bool)`: Trains the model with provided data from a text file or directory.
+- `predict(test_data: dict)`: Predicts outputs based on the given test data.
+- `handle_errors(predictions: list, test_data: dict)`: Handles errors during model prediction and logs them for future analysis.
+- `select_dataset_and_archive(path_to_dir_positive: str, positive: bool)`: Selects a dataset from a directory and archives it for future use.
+- `archive_files(directory: str)`: Archives files in the specified directory.
+- `save_job_id(job_id: str, job_status: str)`: Saves the job ID and status for tracking model training progress.
+- `send_message(message: str)`: Sends a message to the model and receives a response. 
 
-### `on_ready()`
-
-**Описание**: Функция вызывается, когда бот готов к работе.
-
-**Параметры**:
-- Нет параметров.
-
-**Возвращает**:
-- Нет возвращаемого значения.
-
-**Принцип работы**:
-- Регистрирует информацию о входе бота в систему с использованием логгера.
-
-### `hi(ctx)`
-
-**Описание**: Функция отправляет приветственное сообщение.
-
-**Параметры**:
-- `ctx` (discord.ext.commands.Context): Контекст команды, содержащий информацию об отправителе и канале.
-
-**Возвращает**:
-- `bool`: Возвращает `True` после отправки приветственного сообщения.
-
-**Принцип работы**:
-- Отправляет приветственное сообщение "HI!" в канал, из которого была вызвана команда.
-
-**Пример**:
-```python
-await hi(ctx)
-```
-
-### `join(ctx)`
-
-**Описание**: Функция подключает бота к голосовому каналу.
-
-**Параметры**:
-- `ctx` (discord.ext.commands.Context): Контекст команды, содержащий информацию об отправителе и канале.
-
-**Возвращает**:
-- Нет возвращаемого значения.
-
-**Принцип работы**:
-- Подключает бота к голосовому каналу, в котором находится автор сообщения.
-
-### `leave(ctx)`
-
-**Описание**: Функция отключает бота от голосового канала.
-
-**Параметры**:
-- `ctx` (discord.ext.commands.Context): Контекст команды, содержащий информацию об отправителе и канале.
-
-**Возвращает**:
-- Нет возвращаемого значения.
-
-**Принцип работы**:
-- Отключает бота от текущего голосового канала.
-
-### `train(ctx, data: str = None, data_dir: str = None, positive: bool = True, attachment: discord.Attachment = None)`
-
-**Описание**: Функция обучает модель с предоставленными данными.
-
-**Параметры**:
-- `ctx` (discord.ext.commands.Context): Контекст команды, содержащий информацию об отправителе и канале.
-- `data` (str, optional): Текстовые данные для обучения.
-- `data_dir` (str, optional): Путь к каталогу с данными для обучения.
-- `positive` (bool, optional): Указывает, являются ли данные положительными или отрицательными. По умолчанию `True`.
-- `attachment` (discord.Attachment, optional): Прикрепленный файл с данными для обучения.
-
-**Возвращает**:
-- Нет возвращаемого значения.
-
-**Принцип работы**:
-- Обучает модель с использованием предоставленных данных или прикрепленного файла.
-
-**Пример**:
-```python
-await train(ctx, data="example data", positive=True)
-```
-
-### `test(ctx, test_data: str)`
-
-**Описание**: Функция тестирует модель с предоставленными тестовыми данными.
-
-**Параметры**:
-- `ctx` (discord.ext.commands.Context): Контекст команды, содержащий информацию об отправителе и канале.
-- `test_data` (str): Тестовые данные в формате JSON.
-
-**Возвращает**:
-- Нет возвращаемого значения.
-
-**Принцип работы**:
-- Тестирует модель с использованием предоставленных тестовых данных в формате JSON.
-
-**Пример**:
-```python
-await test(ctx, test_data='{"input": "test"}')
-```
-
-### `archive(ctx, directory: str)`
-
-**Описание**: Функция архивирует файлы в указанном каталоге.
-
-**Параметры**:
-- `ctx` (discord.ext.commands.Context): Контекст команды, содержащий информацию об отправителе и канале.
-- `directory` (str): Путь к каталогу для архивации.
-
-**Возвращает**:
-- Нет возвращаемого значения.
-
-**Принцип работы**:
-- Архивирует файлы в указанном каталоге.
-
-**Пример**:
-```python
-await archive(ctx, directory="/path/to/directory")
-```
-
-### `select_dataset(ctx, path_to_dir_positive: str, positive: bool = True)`
-
-**Описание**: Функция выбирает набор данных для обучения модели.
-
-**Параметры**:
-- `ctx` (discord.ext.commands.Context): Контекст команды, содержащий информацию об отправителе и канале.
-- `path_to_dir_positive` (str): Путь к каталогу с положительными данными.
-- `positive` (bool, optional): Указывает, являются ли данные положительными или отрицательными. По умолчанию `True`.
-
-**Возвращает**:
-- Нет возвращаемого значения.
-
-**Принцип работы**:
-- Выбирает набор данных для обучения модели из указанного каталога.
-
-**Пример**:
-```python
-await select_dataset(ctx, path_to_dir_positive="/path/to/positive/data", positive=True)
-```
-
-### `instruction(ctx)`
-
-**Описание**: Функция отображает сообщение с инструкциями из внешнего файла.
-
-**Параметры**:
-- `ctx` (discord.ext.commands.Context): Контекст команды, содержащий информацию об отправителе и канале.
-
-**Возвращает**:
-- Нет возвращаемого значения.
-
-**Принцип работы**:
-- Отображает сообщение с инструкциями из файла `_docs/bot_instruction.md`.
-
-**Пример**:
-```python
-await instruction(ctx)
-```
-
-### `correct(ctx, message_id: int, *, correction: str)`
-
-**Описание**: Функция принимает исправление для предыдущего ответа, указывая идентификатор сообщения и текст исправления.
-
-**Параметры**:
-- `ctx` (discord.ext.commands.Context): Контекст команды, содержащий информацию об отправителе и канале.
-- `message_id` (int): Идентификатор сообщения, которое нужно исправить.
-- `correction` (str): Текст исправления.
-
-**Возвращает**:
-- Нет возвращаемого значения.
-
-**Принцип работы**:
-- Получает исправление для предыдущего ответа и сохраняет его.
-
-**Пример**:
-```python
-await correct(ctx, message_id=1234567890, correction="This is the correct response.")
-```
+## Functions
 
 ### `store_correction(original_text: str, correction: str)`
 
-**Описание**: Функция сохраняет исправление для дальнейшего использования или переобучения.
+**Purpose**: This function stores the correction for future reference or retraining.
 
-**Параметры**:
-- `original_text` (str): Оригинальный текст сообщения.
-- `correction` (str): Текст исправления.
+**Parameters**:
 
-**Возвращает**:
-- Нет возвращаемого значения.
+- `original_text` (str): The original text of the message that was corrected.
+- `correction` (str): The provided correction to the original text.
 
-**Принцип работы**:
-- Сохраняет оригинальный текст сообщения и его исправление в файл `corrections_log.txt`.
+**Returns**:
 
-### `feedback(ctx, *, feedback_text: str)`
+- `None`
 
-**Описание**: Функция принимает отзыв о ответе модели.
+**Raises Exceptions**:
 
-**Параметры**:
-- `ctx` (discord.ext.commands.Context): Контекст команды, содержащий информацию об отправителе и канале.
-- `feedback_text` (str): Текст отзыва.
+- `None`
 
-**Возвращает**:
-- Нет возвращаемого значения.
+**How the Function Works**:
 
-**Принцип работы**:
-- Принимает отзыв о ответе модели и сохраняет его.
+- The function opens a file named "corrections_log.txt" in append mode.
+- It writes the original text and the correction to the file, separated by a newline character.
+- This allows storing corrections for potential future retraining of the model or analysis.
 
-**Пример**:
+### `recognizer(audio_url: str, language: str = 'ru-RU') -> str` 
+
+**Purpose**: This function downloads an audio file from a provided URL, recognizes speech in the audio using Google Speech Recognition, and returns the recognized text.
+
+**Parameters**:
+
+- `audio_url` (str): The URL of the audio file to download and recognize speech from.
+- `language` (str): The language of the audio file. Defaults to "ru-RU" (Russian).
+
+**Returns**:
+
+- `str`: The recognized text from the audio file.
+
+**Raises Exceptions**:
+
+- `sr.UnknownValueError`: If Google Speech Recognition could not understand the audio.
+- `sr.RequestError`: If there was an error requesting results from the Google Speech Recognition service.
+
+**How the Function Works**:
+
+1. **Download audio:** The function downloads the audio file from the provided URL and saves it to a temporary file.
+2. **Convert to WAV:** If the downloaded file is not in WAV format, it is converted to WAV for compatibility with the Speech Recognition library.
+3. **Speech recognition:** The function uses the SpeechRecognition library to recognize speech from the WAV file using Google Speech Recognition.
+4. **Return recognized text:** The recognized text is returned as a string.
+
+### `text_to_speech_and_play(text: str, channel: discord.VoiceChannel)`
+
+**Purpose**: This function converts text to speech using Google Text-to-Speech (gTTS) and plays the audio in a Discord voice channel.
+
+**Parameters**:
+
+- `text` (str): The text to convert to speech.
+- `channel` (discord.VoiceChannel): The Discord voice channel where the audio will be played.
+
+**Returns**:
+
+- `None`
+
+**How the Function Works**:
+
+1. **Text-to-speech:** The function uses the gTTS library to convert the input text into speech.
+2. **Save audio:** The synthesized speech is saved as an MP3 file to a temporary location.
+3. **Connect to voice channel:** If the bot is not already connected to the voice channel, it connects.
+4. **Play audio:** The bot plays the MP3 audio file in the voice channel using `discord.FFmpegPCMAudio`.
+5. **Wait for playback:** The function waits until the audio playback is complete.
+6. **Disconnect:** The bot disconnects from the voice channel after playback.
+
+## Examples
+
+**Example 1: Training the model with a text file**
+
 ```python
-await feedback(ctx, feedback_text="This response was helpful.")
+!train data=data.txt  # Train the model with the data in 'data.txt'
 ```
 
-### `getfile(ctx, file_path: str)`
+**Example 2: Testing the model with specific data**
 
-**Описание**: Функция отправляет файл из указанного пути.
-
-**Параметры**:
-- `ctx` (discord.ext.commands.Context): Контекст команды, содержащий информацию об отправителе и канале.
-- `file_path` (str): Путь к файлу.
-
-**Возвращает**:
-- Нет возвращаемого значения.
-
-**Принцип работы**:
-- Отправляет файл из указанного пути в канал Discord.
-
-**Пример**:
 ```python
-await getfile(ctx, file_path="/path/to/file.txt")
+!test test_data='{"text": "Hello, world!"}'
 ```
 
-### `text_to_speech_and_play(text, channel)`
+**Example 3: Selecting a dataset for training**
 
-**Описание**: Функция преобразует текст в речь и воспроизводит его в голосовом канале.
-
-**Параметры**:
-- `text` (str): Текст для преобразования в речь.
-- `channel` (discord.VoiceChannel): Голосовой канал для воспроизведения речи.
-
-**Возвращает**:
-- Нет возвращаемого значения.
-
-**Принцип работы**:
-- Преобразует текст в речь с использованием `gTTS`, сохраняет его во временный файл и воспроизводит в указанном голосовом канале.
-
-### `on_message(message)`
-
-**Описание**: Функция обрабатывает входящие сообщения и реагирует на голосовые команды.
-
-**Параметры**:
-- `message` (discord.Message): Объект сообщения, содержащий информацию об отправителе и содержимом сообщения.
-
-**Возвращает**:
-- Нет возвращаемого значения.
-
-**Принцип работы**:
-- Обрабатывает входящие сообщения, реагирует на команды и голосовые сообщения.
-
-## Запуск бота
-
-### `if __name__ == "__main__":`
-
-**Описание**: Запускает бота при выполнении скрипта.
-
-**Принцип работы**:
-- Инициализирует и запускает бота с использованием токена из `gs.credentials.discord.bot_token`.
 ```python
-bot.run(gs.credentials.discord.bot_token)
+!select_dataset path_to_dir_positive=dataset_dir positive=True
+```
+
+**Example 4: Submitting feedback**
+
+```python
+!feedback "The model's response was accurate and helpful."
+```
+
+**Example 5: Retrieving a file**
+
+```python
+!getfile file_path=my_file.txt
+```
+
+**Example 6: Sending a message to the model**
+
+```python
+!send_message "What is the capital of France?"
+```

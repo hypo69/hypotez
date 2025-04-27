@@ -1,117 +1,76 @@
-# Модуль `tool_support.py`
+# Module for working with tools
+=================================================
 
-## Обзор
+The module contains the :class:`ToolSupportProvider` class, which is used for interacting with various AI models (e.g., Google Gemini and OpenAI) and performing code processing tasks.
 
-Модуль предназначен для поддержки инструментов в асинхронных запросах к различным провайдерам моделей. Он позволяет использовать инструменты (tools) при взаимодействии с моделями, такими как Google Gemini и OpenAI, и обрабатывает ответы в формате JSON.
+## Details
+The module defines the `ToolSupportProvider` class. It utilizes the `AsyncGeneratorProvider` to access the asynchronous data generation functionality of the `hypotez` framework.
+The `ToolSupportProvider` is responsible for handling interactions with external tools, such as function calls.
 
-## Более подробно
-
-Модуль `tool_support.py` предоставляет класс `ToolSupportProvider`, который является асинхронным провайдером. Он позволяет создавать асинхронные генераторы для взаимодействия с различными моделями и провайдерами, поддерживающими инструменты. Модуль обрабатывает запросы с использованием инструментов, форматирует запросы и ответы в формате JSON и возвращает результаты в виде асинхронного генератора.
-
-## Классы
+## Classes
 
 ### `ToolSupportProvider`
 
-**Описание**:
-Класс `ToolSupportProvider` является асинхронным провайдером для поддержки инструментов при взаимодействии с моделями.
+**Description**: The `ToolSupportProvider` class provides the ability to use external tools within the conversational context of the `hypotez` project. It allows developers to invoke functions and receive results, integrating external functionality directly into the AI-powered dialogue.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Наследует функциональность асинхронного генератора от базового класса `AsyncGeneratorProvider`.
+**Inherits**:
+ - `AsyncGeneratorProvider`
 
-**Атрибуты**:
-- `working` (bool): Указывает, работает ли провайдер. По умолчанию `True`.
+**Attributes**:
 
-**Методы**:
-- `create_async_generator()`: Создает асинхронный генератор для выполнения запросов с использованием инструментов.
+- `working`: `bool`, a flag that indicates whether the provider is actively working or not.
 
-## Методы класса
+**Methods**:
+
+- `create_async_generator()`: Asynchronously creates a generator for handling tool interactions and processing messages within the AI model.
+
+## Functions
 
 ### `create_async_generator`
 
+**Purpose**: The `create_async_generator` method is responsible for setting up the asynchronous generation process for handling tool interactions. It retrieves the necessary AI model and provider, sets up the request parameters, and prepares the asynchronous generator for streaming responses.
+
+**Parameters**:
+
+- `model (str)`: The name of the AI model to use for processing messages.
+- `messages (Messages)`: A list of messages representing the conversation history, including user input and previous responses.
+- `stream (bool)`: Indicates whether to stream the response in chunks or receive it as a whole. Defaults to `True`, which enables streaming.
+- `media (MediaListType)`: A list of media objects, such as images or audio files, that can be used by the AI model during processing. Defaults to `None`.
+- `tools (list[str])`: A list of tools available for the AI model to use. Currently, only one tool is supported at a time.
+- `response_format (dict)`: The desired format for the response. Defaults to `{"type": "json"}`.
+- `**kwargs`: Additional keyword arguments that can be passed to the AI model.
+
+**Returns**:
+
+- `AsyncResult`: An asynchronous generator that yields chunks of the response, usage information, and completion status.
+
+**Raises Exceptions**:
+
+- `ValueError`: If more than one tool is provided in the `tools` parameter.
+
+**How the Function Works**:
+ - The function starts by initializing the `provider` and `model` variables.
+ - It then checks if multiple tools are provided. If so, it raises a `ValueError` as only one tool is currently supported.
+ - The function then prepares a message for the AI model, informing it of the tool's capabilities and the desired response format.
+ - An asynchronous generator is created using `provider.get_async_create_function()` and is utilized to process the messages, stream responses, and handle tool interactions.
+ - The function yields chunks of the response, usage information, and completion status to the asynchronous generator.
+
+**Examples**:
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    stream: bool = True,
-    media: MediaListType = None,
-    tools: list[str] = None,
-    response_format: dict = None,
-    **kwargs
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для выполнения запросов к моделям с поддержкой инструментов.
+# Example 1: Using a single tool with JSON response format
+model = "gemini:1.0"
+tools = ["translate"]
+messages = [
+    {"role": "user", "content": "Translate this text into Spanish: Hello world!"}
+]
+async_generator = await ToolSupportProvider.create_async_generator(model=model, messages=messages, tools=tools)
+# Process the async_generator
 
-    Args:
-        cls (type): Ссылка на класс.
-        model (str): Имя модели для использования. Может включать имя провайдера через `:`.
-        messages (Messages): Список сообщений для отправки в модель.
-        stream (bool, optional): Флаг потоковой передачи данных. По умолчанию `True`.
-        media (MediaListType, optional): Список медиафайлов для отправки. По умолчанию `None`.
-        tools (list[str], optional): Список инструментов для использования. Поддерживается только один инструмент. По умолчанию `None`.
-        response_format (dict, optional): Формат ответа. По умолчанию `None`, но устанавливается в `{"type": "json"}`, если используются инструменты.
-        **kwargs: Дополнительные аргументы для передачи в провайдер модели.
-
-    Returns:
-        AsyncResult: Асинхронный генератор, возвращающий чанки данных от провайдера модели.
-
-    Raises:
-        ValueError: Если передано более одного инструмента.
-        Exception: Прочие исключения, возникающие в процессе выполнения запроса.
-
-    Как работает функция:
-    - Извлекает провайдера и имя модели из входного параметра `model`.
-    - Если указаны инструменты (`tools`):
-        - Проверяет, что указан только один инструмент. Если передано более одного инструмента, вызывает исключение `ValueError`.
-        - Устанавливает формат ответа в `{"type": "json"}`, если он не был установлен ранее.
-        - Формирует структуру запроса, добавляя описание формата ответа в виде JSON.
-    - Вызывает асинхронный генератор провайдера модели для получения чанков данных.
-    - Обрабатывает чанки данных:
-        - Если чанк является строкой, добавляет его в список `chunks`.
-        - Если чанк является объектом `Usage`, возвращает его и устанавливает флаг `has_usage`.
-        - Если чанк является объектом `FinishReason`, завершает генерацию.
-        - В противном случае возвращает чанк.
-    - После завершения генерации:
-        - Объединяет все строковые чанки в одну строку.
-        - Если использовались инструменты, формирует объект `ToolCalls` с информацией об имени инструмента и аргументах в формате JSON.
-        - Возвращает итоговую строку или объект `ToolCalls`.
-        - Возвращает объект `FinishReason`, если он был получен.
-    """
-    ...
+# Example 2: Using no tools with default response format
+model = "gemini:1.0"
+messages = [
+    {"role": "user", "content": "What is the capital of France?"}
+]
+async_generator = await ToolSupportProvider.create_async_generator(model=model, messages=messages)
+# Process the async_generator
 ```
-
-## Примеры вызова функции
-
-```python
-# Пример использования create_async_generator с указанием модели, сообщений и инструментов
-model = "gemini:test"
-messages = [{"role": "user", "content": "Напиши JSON с информацией о товаре."}]
-tools = [{"function": {"name": "get_product", "parameters": {"properties": {"name": {"type": "string"}}}}}]
-
-async def test():
-    result = ToolSupportProvider.create_async_generator(model=model, messages=messages, tools=tools)
-    async for item in result:
-        print(item)
-```
-```python
-# Пример использования create_async_generator с указанием модели, сообщений, инструментов и формата ответа
-model = "openai:gpt-3.5-turbo-16k"
-messages = [{"role": "user", "content": "Напиши JSON с информацией о погоде."}]
-tools = [{"function": {"name": "get_weather", "parameters": {"properties": {"city": {"type": "string"}}}}}]
-response_format = {"type": "json_object"}
-
-async def test():
-    result = ToolSupportProvider.create_async_generator(model=model, messages=messages, tools=tools, response_format=response_format)
-    async for item in result:
-        print(item)
-```
-```python
-# Пример использования create_async_generator без указания инструментов
-model = "openai:gpt-4"
-messages = [{"role": "user", "content": "Привет!"}]
-
-async def test():
-    result = ToolSupportProvider.create_async_generator(model=model, messages=messages)
-    async for item in result:
-        print(item)

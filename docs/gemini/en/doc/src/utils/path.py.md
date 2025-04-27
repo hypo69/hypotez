@@ -1,101 +1,58 @@
-# Модуль `src.utils.path`
+# Модуль `path`
 
 ## Обзор
 
-Модуль `src.utils.path` предназначен для работы с путями в файловой системе. Он определяет функцию `get_relative_path`, которая позволяет получить относительный путь от заданного полного пути, начиная с определенного сегмента.
+Модуль `path` предоставляет функции для работы с путями к файлам и каталогам в проекте. 
 
-## Более подробно
+## Подробности
 
-Этот модуль упрощает работу с путями, особенно когда необходимо получить часть пути относительно известного сегмента. Это может быть полезно, например, для работы с конфигурационными файлами или при построении путей к ресурсам в проекте.
+Модуль `path` определяет корневой путь к проекту `hypotez`. Все импорты строятся относительно этого пути.
 
 ## Функции
 
 ### `get_relative_path`
 
-```python
-def get_relative_path(full_path: str, relative_from: str) -> Optional[str]:
-    """
-    Возвращает часть пути начиная с указанного сегмента и до конца.
+**Purpose**: Эта функция извлекает часть пути к файлу или каталогу, начиная с заданного сегмента пути и до конца.
 
-    Args:
-        full_path (str): Полный путь.
-        relative_from (str): Сегмент пути, с которого нужно начать извлечение.
+**Parameters**:
 
-    Returns:
-        Optional[str]: Относительный путь начиная с `relative_from`, или None, если сегмент не найден.
-    """
-```
+- `full_path` (str): Полный путь к файлу или каталогу.
+- `relative_from` (str): Сегмент пути, с которого нужно начать извлечение.
 
-**Назначение**:
-Функция `get_relative_path` извлекает относительный путь из полного пути, начиная с указанного сегмента.
+**Returns**:
 
-**Параметры**:
-- `full_path` (str): Полный путь к файлу или директории.
-- `relative_from` (str): Сегмент пути, начиная с которого необходимо получить относительный путь.
+- `Optional[str]`: Относительный путь, начиная с `relative_from`, или `None`, если сегмент не найден.
 
-**Возвращает**:
-- `Optional[str]`: Относительный путь в виде строки, начиная с сегмента `relative_from`. Если сегмент `relative_from` не найден в `full_path`, возвращает `None`.
+**Raises Exceptions**:
 
-**Как работает функция**:
-1. Преобразует входные строки `full_path` в объект `Path`.
-2. Разбивает путь на отдельные сегменты.
-3. Ищет индекс сегмента `relative_from` в списке сегментов.
-4. Если сегмент `relative_from` найден, формирует новый путь, начиная с этого сегмента и до конца.
-5. Возвращает полученный относительный путь в виде строки.
-6. Если сегмент `relative_from` не найден, возвращает `None`.
+- None
 
-**Примеры**:
+**How the Function Works**:
+
+1. Функция преобразует строки `full_path` и `relative_from` в объекты `Path`.
+2. Извлекает все сегменты пути из объекта `Path` для `full_path` и сохраняет их в списке `parts`.
+3. Находит индекс сегмента `relative_from` в списке `parts`.
+4. Если `relative_from` найден, функция создает новый объект `Path` из всех сегментов пути, начиная с `start_index` (индекс найденного сегмента) до конца списка.
+5. Возвращает строковое представление нового объекта `Path` в виде относительного пути.
+6. Если `relative_from` не найден, функция возвращает `None`.
+
+
+**Examples**:
 
 ```python
-from pathlib import Path
-from typing import Optional
+>>> full_path = '/home/user/project/src/utils/path.py'
+>>> relative_from = 'src'
+>>> get_relative_path(full_path, relative_from)
+'src/utils/path.py'
 
-def get_relative_path(full_path: str, relative_from: str) -> Optional[str]:
-    """
-    Возвращает часть пути начиная с указанного сегмента и до конца.
+>>> full_path = '/home/user/project/src/utils/path.py'
+>>> relative_from = 'project'
+>>> get_relative_path(full_path, relative_from)
+'project/src/utils/path.py'
 
-    Args:
-        full_path (str): Полный путь.
-        relative_from (str): Сегмент пути, с которого нужно начать извлечение.
+>>> full_path = '/home/user/project/src/utils/path.py'
+>>> relative_from = 'nonexistent'
+>>> get_relative_path(full_path, relative_from)
+None
 
-    Returns:
-        Optional[str]: Относительный путь начиная с `relative_from`, или None, если сегмент не найден.
-    """
-    # Преобразуем строки в объекты Path
-    path = Path(full_path)
-    parts = path.parts
-
-    # Находим индекс сегмента relative_from
-    if relative_from in parts:
-        start_index = parts.index(relative_from)
-        # Формируем путь начиная с указанного сегмента
-        relative_path = Path(*parts[start_index:])
-        return relative_path.as_posix()
-    else:
-        return None
-```
-
-Пример 1:
-```python
-full_path = "/home/user/project/src/utils/file.py"
-relative_from = "src"
-result = get_relative_path(full_path, relative_from)
-print(result)  # Вывод: src/utils/file.py
-```
-
-Пример 2:
-```python
-full_path = "/home/user/project/src/utils/file.py"
-relative_from = "project"
-result = get_relative_path(full_path, relative_from)
-print(result)  # Вывод: project/src/utils/file.py
-```
-
-Пример 3:
-```python
-full_path = "/home/user/project/src/utils/file.py"
-relative_from = "nonexistent"
-result = get_relative_path(full_path, relative_from)
-print(result)  # Вывод: None
-```
 ```

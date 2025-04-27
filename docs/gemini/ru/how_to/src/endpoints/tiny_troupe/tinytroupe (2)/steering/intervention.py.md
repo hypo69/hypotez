@@ -1,66 +1,44 @@
-### Как использовать этот блок кода
+## Как использовать Intervention
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет класс `Intervention`, который позволяет задавать условия (preconditions) и эффекты для воздействия на `TinyPerson` или `TinyWorld` в рамках системы `tinytroupe`. Он предоставляет функциональность для проверки предусловий и применения эффектов, если предусловия выполнены.
+Intervention - это класс, который описывает вмешательство в симуляцию. Вмешательство  - это изменение, которое может быть произведено в TinyWorld или TinyPerson. Вмешательство  - это  комбинация из preconditions (предварительных условий) и эффектов.  
 
 Шаги выполнения
 -------------------------
-1. **Инициализация Intervention**:
-   - Создается экземпляр класса `Intervention` с указанием цели (target), которой может быть `TinyPerson`, `TinyWorld` или список таких объектов.
-   - Задаются параметры `first_n` и `last_n`, определяющие, какие взаимодействия учитывать при проверке предусловий.
-   - Инициализируются атрибуты для хранения текстового и функционального предусловий, а также эффекта.
+1. Создайте объект Intervention с помощью конструктора. 
+2. Установите преconditions с помощью методов  set_textual_precondition или  set_functional_precondition.
+3. Установите эффект с помощью метода set_effect.
+4. Выполните Intervention с помощью метода `execute` или вызвав Intervention как функцию.
 
-2. **Задание предусловий**:
-   - Используется метод `set_textual_precondition` для установки текстового предусловия, которое будет интерпретироваться языковой моделью.
-   - Используется метод `set_functional_precondition` для установки функционального предусловия в виде функции, которая должна принимать цель в качестве аргумента и возвращать булево значение.
-
-3. **Задание эффекта**:
-   - Используется метод `set_effect` для установки функции, которая будет применяться в качестве эффекта при выполнении предусловий.
-
-4. **Выполнение Intervention**:
-   - Вызывается метод `execute`, который проверяет предусловия с помощью метода `check_precondition`.
-   - Если предусловия выполнены, применяется эффект с помощью метода `apply_effect`.
-
-5. **Проверка предусловий**:
-   - Метод `check_precondition` создает объект `Proposition` для проверки текстового предусловия с использованием языковой модели.
-   - Проверяется также функциональное предусловие, если оно задано.
-   - Возвращается `True`, если оба предусловия (текстовое и функциональное) выполнены, иначе `False`.
-
-6. **Применение эффекта**:
-   - Метод `apply_effect` применяет функцию эффекта к цели.
 
 Пример использования
 -------------------------
 
 ```python
-    from tinytroupe.agent import TinyPerson
-    from tinytroupe.environment import TinyWorld
+from tinytroupe.experimentation import Proposition
+from tinytroupe.environment import TinyWorld
+from tinytroupe.agent import TinyPerson
+from tinytroupe.steering.intervention import Intervention
 
-    # Пример TinyPerson и TinyWorld (предположим, что они уже определены)
-    person = TinyPerson()
-    world = TinyWorld()
 
-    # 1. Создание Intervention, нацеленного на TinyPerson
-    intervention = Intervention(targets=person, name="ExampleIntervention")
+# Создайте мир с одним агентом
+world = TinyWorld()
+person = TinyPerson(world)
 
-    # 2. Установка текстового предусловия
-    intervention.set_textual_precondition("The person is happy")
+# Создайте Intervention, которая заставляет агента говорить "Привет!"
+intervention = Intervention(targets=person)
+intervention.set_textual_precondition("Агент должен быть счастлив")
+intervention.set_effect(lambda targets: targets.say("Привет!"))
 
-    # 3. Установка функционального предусловия (пример)
-    def is_person_active(target):
-        # Здесь должна быть логика проверки активности TinyPerson
-        return True  # или False в зависимости от состояния
 
-    intervention.set_functional_precondition(is_person_active)
+# Проверьте Intervention
+intervention.execute()
 
-    # 4. Установка эффекта (пример)
-    def increase_person_happiness(target):
-        # Здесь должна быть логика увеличения счастья TinyPerson
-        print("Увеличиваем счастье TinyPerson")
 
-    intervention.set_effect(increase_person_happiness)
+# Вывод
+# "Агент сказал: 'Привет!'"
+```
 
-    # 5. Выполнение Intervention
-    intervention.execute()
+В данном примере Intervention будет выполнена, только если агент счастлив.

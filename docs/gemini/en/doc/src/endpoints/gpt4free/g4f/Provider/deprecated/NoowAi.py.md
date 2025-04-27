@@ -1,90 +1,72 @@
-# Module `NoowAi.py`
+# Provider: NoowAi
 
-## Обзор
+## Overview
 
-Модуль `NoowAi.py` представляет собой асинхронный провайдер для взаимодействия с сервисом NoowAi. Он позволяет генерировать ответы от модели GPT-3.5 Turbo и поддерживает историю сообщений. Модуль использует `aiohttp` для выполнения асинхронных HTTP-запросов.
+This module provides an asynchronous generator provider for NoowAi, a GPT-4 powered chatbot service. It allows integration with NoowAi for chat-based interactions and utilizes `aiohttp` for asynchronous communication.
 
-## More details
+## Details
 
-Модуль предназначен для работы с API NoowAi, предоставляя функциональность для отправки сообщений и получения потоковых ответов. В модуле реализована поддержка прокси, что позволяет использовать его в различных сетевых конфигурациях.
-Анализ кода показывает, что он отправляет POST-запросы к API NoowAi и обрабатывает потоковые ответы, разбирая JSON-формат данных.
+The `NoowAi` class extends the base `AsyncGeneratorProvider` class, providing a framework for handling interactions with the NoowAi service. It implements methods for creating asynchronous generators that stream responses from NoowAi, enabling continuous conversation with the chatbot.
 
 ## Classes
 
 ### `NoowAi`
 
-**Описание**:
-Класс `NoowAi` является асинхронным провайдером, который взаимодействует с API NoowAi для генерации ответов на основе модели GPT-3.5 Turbo.
+**Description**:  This class represents a provider for the NoowAi GPT-4 powered chatbot. It allows interactions with the NoowAi service and manages the flow of messages between the user and the chatbot.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Базовый класс для асинхронных провайдеров, генерирующих ответы.
+**Inherits**: `AsyncGeneratorProvider`
 
-**Атрибуты**:
-- `url` (str): URL сервиса NoowAi.
-- `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений.
-- `supports_gpt_35_turbo` (bool): Флаг, указывающий на поддержку модели GPT-3.5 Turbo.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
+**Attributes**:
 
-**Working principle**:
-Класс использует `aiohttp.ClientSession` для отправки асинхронных POST-запросов к API NoowAi. Он формирует заголовки и данные запроса, включая идентификаторы бота и чата, а также сообщения для модели. Полученные потоковые ответы разбираются, и извлекаются данные для генерации ответа.
+- `url`: The base URL of the NoowAi service.
+- `supports_message_history`: Indicates whether the provider supports message history.
+- `supports_gpt_35_turbo`: Indicates whether the provider supports the `gpt-3.5-turbo` model.
+- `working`: Flag to track whether the provider is currently working.
 
-## Class Methods
+**Methods**:
 
-### `create_async_generator`
+- `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`: This method creates an asynchronous generator that streams messages from NoowAi. It sends requests to the NoowAi API with the given model, messages, and optional proxy. It iterates through the server's response, yields each message as a dictionary, and handles different response types (`live`, `end`, `error`).
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    **kwargs
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для взаимодействия с API NoowAi.
+##  How the `create_async_generator` Method Works:
 
-    Args:
-        cls: Ссылка на класс.
-        model (str): Используемая модель (например, "gpt-3.5-turbo").
-        messages (Messages): Список сообщений для отправки в API.
-        proxy (str, optional): URL прокси-сервера. Defaults to None.
-        **kwargs: Дополнительные параметры.
+1.  **Setting up the Request**: Initializes request headers with information about the user-agent, acceptance types, encoding, referer, content-type, origin, etc.
 
-    Returns:
-        AsyncResult: Асинхронный генератор, возвращающий ответы от API.
+2.  **Preparing Data**: Assembles request data in a dictionary including:
+    - `botId`: Bot identifier.
+    - `customId`: Custom identifier.
+    - `session`: Session information (N/A in this case).
+    - `chatId`: Randomly generated chat identifier.
+    - `contextId`: Context identifier.
+    - `messages`: The entire chat history (messages).
+    - `newMessage`: The latest message from the user.
+    - `stream`: True for streaming responses.
 
-    Raises:
-        RuntimeError: Если получен некорректный ответ от API.
-    """
-    ...
-```
+3.  **Sending the Request**: Sends a POST request to the NoowAi API endpoint `"/wp-json/mwai-ui/v1/chats/submit"` with the prepared data and optional proxy.
 
-**How the function works**:
+4.  **Processing the Response**: Iterates through the response content, line by line.
+    - **Data Handling**: If the line starts with `b"data: "`, it decodes the JSON data and yields the `data` part if the `type` is `live`.
+    - **End of Response**: If the `type` is `end`, the generator loop breaks.
+    - **Error Handling**: If the `type` is `error`, it raises a `RuntimeError` with the error data.
 
-1.  Формируются заголовки запроса, включая User-Agent, Accept, Referer и Content-Type.
-2.  Создается `aiohttp.ClientSession` с заданными заголовками.
-3.  Формируются данные запроса в формате JSON, включая идентификаторы бота и чата, контекст и сообщения.
-4.  Отправляется POST-запрос к API NoowAi.
-5.  Обрабатываются потоковые ответы, проверяется наличие префикса `data: `.
-6.  JSON-ответ разбирается, проверяется наличие поля `type`.
-7.  В зависимости от значения поля `type` генерируются данные, завершается генерация или выбрасывается исключение.
-
-**Examples**:
+## Example
 
 ```python
-# Пример использования create_async_generator
-model = "gpt-3.5-turbo"
-messages = [{"role": "user", "content": "Привет, как дела?"}]
-proxy = "http://proxy.example.com"
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.NoowAi import NoowAi
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
+from hypotez.src.logger import logger
 
-async for response in NoowAi.create_async_generator(model=model, messages=messages, proxy=proxy):
-    print(response)
+async def example():
+    messages: Messages = [
+        {"role": "user", "content": "Hello, how are you?"},
+        {"role": "assistant", "content": "I am doing well, thank you. How can I help you?"},
+    ]
+    async for response in NoowAi.create_async_generator(model="gpt-3.5-turbo", messages=messages):
+        logger.info(f"Response from NoowAi: {response}")
+
 ```
 
-## Class Parameters
+## Inner Functions
 
--   `url` (str): URL сервиса NoowAi, используемый для формирования запросов.
--   `supports_message_history` (bool): Флаг, указывающий, поддерживает ли провайдер историю сообщений для контекста диалога.
--   `supports_gpt_35_turbo` (bool): Флаг, указывающий, поддерживает ли провайдер модель GPT-3.5 Turbo.
--   `working` (bool): Флаг, указывающий, находится ли провайдер в рабочем состоянии.
+-  No inner functions are defined within the `NoowAi` class.
+
+```python

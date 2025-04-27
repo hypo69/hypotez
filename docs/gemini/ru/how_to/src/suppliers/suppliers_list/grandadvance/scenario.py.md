@@ -1,116 +1,40 @@
-### Как использовать этот блок кода
+## Как использовать блок кода `get_list_products_in_category`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код извлекает список URL-адресов товаров со страницы категории поставщика. Он также обрабатывает закрытие баннеров и прокрутку страницы.
+Блок кода `get_list_products_in_category` извлекает список URL-адресов товаров со страницы категории поставщика. Функция принимает объект `Supplier` в качестве аргумента и возвращает список URL-адресов товаров или `None`, если ссылки на товары не найдены.
 
 Шаги выполнения
 -------------------------
-1. **Получение драйвера**:
-   - Извлекает объект драйвера из объекта поставщика (`s.driver`).
-
-2. **Получение локаторов**:
-   - Извлекает локаторы для категории из объекта поставщика (`s.locators['category']`).
-
-3. **Закрытие баннера**:
-   - Вызывает метод `execute_locator` для закрытия баннера, используя локаторы из `s.locators['product']['close_banner']`.
-
-4. **Проверка наличия локаторов**:
-   - Проверяет, существуют ли локаторы. Если локаторы отсутствуют, записывает сообщение об ошибке в лог и возвращает `None`.
-
-5. **Прокрутка страницы**:
-   - Вызывает метод `scroll` для прокрутки страницы.
-
-6. **Извлечение ссылок на товары**:
-   - Вызывает метод `execute_locator` для извлечения списка URL-адресов товаров, используя локаторы из `l['product_links']`.
-
-7. **Проверка наличия ссылок**:
-   - Проверяет, найдены ли ссылки на товары. Если ссылки отсутствуют, записывает предупреждение в лог и возвращает `None`.
-
-8. **Преобразование ссылок в список**:
-   - Преобразует результат в список, если он является строкой.
-
-9. **Логгирование количества найденных товаров**:
-   - Записывает в лог количество найденных товаров.
-
-10. **Возврат списка товаров**:
-    - Возвращает список URL-адресов товаров.
+1. **Инициализация**: Функция получает объект `Supplier` в качестве аргумента `s`.
+2. **Получение локатора**: Извлекает локатор `category` из объекта `Supplier`.
+3. **Проверка локатора**: Проверяет наличие локатора `category`. Если локатор не найден, функция выводит сообщение об ошибке в лог и возвращает `None`.
+4. **Прокрутка страницы**: Прокручивает страницу вниз, чтобы сделать видимыми все элементы на странице.
+5. **Сбор ссылок на товары**: Извлекает список ссылок на товары с использованием локатора `product_links` из объекта `Supplier`.
+6. **Проверка наличия ссылок**: Проверяет, найдены ли ссылки на товары. Если нет, функция выводит предупреждение в лог и возвращает `None`.
+7. **Обработка результата**: Преобразует результат `list_products_in_category` в список, если результат является строкой.
+8. **Логгирование**: Выводит в лог сообщение о количестве найденных товаров.
+9. **Возврат результата**: Возвращает список URL-адресов товаров.
 
 Пример использования
 -------------------------
 
 ```python
-from src.suppliers.grandadvance.scenario import get_list_products_in_category
-from src.suppliers.supplier import Supplier
-from src.webdriver import Driver, Chrome  # Предполагается, что Chrome - один из доступных драйверов
+from src.suppliers.suppliers_list.bangood.scenario import get_list_products_in_category
+from src.suppliers.suppliers_list.bangood.supplier import Supplier
 
-# Инициализация объекта поставщика (Supplier)
-driver = Driver(Chrome)
-supplier = Supplier(
-    name="GrandAdvance",
-    home_url="https://grandadvance.com",
-    driver=driver,
-    # Другие необходимые параметры
-)
+# Создаем объект Supplier
+supplier = Supplier()
 
-# Определение структуры locators (временная структура, поскольку реальные локаторы отсутствуют)
-supplier.locators = {
-    'category': {
-        'product_links': {
-            'by': 'css',
-            'selector': '.product-item a',  # пример селектора
-            'if_list': 'all',
-            'attribute': 'href'
-        }
-    },
-    'product': {
-        'close_banner': {
-            'by': 'xpath',
-            'selector': '//button[@class="close-banner"]',  # пример селектора
-            'event': 'click()'
-        }
-    }
-}
+# Получаем список URL-адресов товаров
+product_urls = get_list_products_in_category(supplier)
 
-# Вызов функции для получения списка товаров
-list_products = get_list_products_in_category(supplier)
-
-if list_products:
-    print(f"Найдено {len(list_products)} товаров.")
-    for product_url in list_products:
-        print(product_url)
+# Выводим результаты
+if product_urls:
+    print(f"Найдено {len(product_urls)} товаров:")
+    for url in product_urls:
+        print(url)
 else:
-    print("Не удалось получить список товаров.")
-
+    print("Ссылки на товары не найдены.")
 ```
-```python
-def get_list_products_in_category (s: Supplier) -> list[str] | None:    
-    """
-    Возвращает список URL товаров со страницы категории.
-
-    Args:
-        s (Supplier): Объект поставщика.
-
-    Returns:
-        list[str] | None: Список URL товаров или None в случае ошибки.
-    """
-    d = s.driver
-    l: dict = s.locators['category']
-    d.execute_locator(s.locators['product']['close_banner'])
-
-    if not l:
-        logger.error(f"Локаторы отсутствуют: {l}")
-        return None
-
-    d.scroll()
-    list_products_in_category = d.execute_locator(l['product_links'])
-    
-    if not list_products_in_category:
-        logger.warning('Список URL товаров пуст.')
-        return None
-
-    list_products_in_category = [list_products_in_category] if isinstance(list_products_in_category, str) else list_products_in_category
-
-    logger.info(f"Найдено {len(list_products_in_category)} товаров")
-    return list_products_in_category

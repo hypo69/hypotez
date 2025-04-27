@@ -1,63 +1,43 @@
-# Module Name
-
+# Module for checking the latest release version
 ## Overview
 
-The `check_release.py` module is designed to verify the latest release version of a GitHub repository. It interacts with the GitHub API to fetch information about the most recent release and returns the version tag. This module is essential for applications needing to stay updated with the latest versions of software or libraries hosted on GitHub.
+This module provides a function for checking the latest release version of a GitHub repository. The `check_latest_release` function utilizes the GitHub API to retrieve information about the latest release and returns the tag name.
 
-## More details
-
-This module provides a function, `check_latest_release`, that takes the repository owner and name as input, constructs an API request to GitHub, and retrieves the latest release tag. It handles HTTP responses, extracts the tag name, and logs errors if fetching fails. The module uses the `requests` library to make HTTP requests and the `logger` from the `src.logger` module for logging errors.
-
-## Classes
-
-There are no classes defined in this module.
+## Details
+The module utilizes the GitHub API to retrieve information about the latest release. It checks the status code of the response and if successful, extracts the tag name from the JSON response. If there are any issues, the module logs an error message and returns None.
 
 ## Functions
-
 ### `check_latest_release`
-
-```python
-def check_latest_release(repo: str, owner: str):
-    """Check the latest release version of a GitHub repository.
-
-    Args:
-        owner (str): The owner of the repository.
-        repo (str): The name of the repository.
-
-    Returns:
-        str: The latest release version if available, else None.
-    """
-```
-
-**Purpose**: This function checks the latest release version of a specified GitHub repository.
+**Purpose**:  Проверяет последнюю версию релиза репозитория GitHub.
 
 **Parameters**:
-- `repo` (str): The name of the repository.
-- `owner` (str): The owner (username or organization) of the repository.
+- `repo` (str): Имя репозитория.
+- `owner` (str): Владелец репозитория.
 
 **Returns**:
-- `str`: The latest release version tag if available.
-- `None`: If the request fails or if there are any errors.
+- `str`: Тег последней версии, если она доступна; иначе None.
 
-**How the function works**:
-1. The function constructs a URL to the GitHub API endpoint for retrieving the latest release of the specified repository.
-2. It makes an HTTP GET request to the constructed URL using the `requests` library.
-3. It checks the HTTP status code of the response:
-   - If the status code is 200 (OK), it parses the JSON response to extract the `tag_name` (which represents the latest release version).
-   - If the status code is not 200, it logs an error message with the status code and returns `None`.
+**Raises Exceptions**:
+- `None`
+
+**How the Function Works**:
+- The function constructs the URL for the GitHub API endpoint that provides information about the latest release of the specified repository.
+- It uses the `requests` library to send a GET request to the API endpoint.
+- The function checks the status code of the response. If the status code is 200 (successful), it attempts to parse the JSON response and extract the tag name (`tag_name`).
+- If there is an error parsing the JSON response, the function logs an error message and returns None.
+- If the status code is not 200, the function logs a warning message and returns None.
 
 **Examples**:
 
 ```python
 from src.check_release import check_latest_release
-from src.logger.logger import logger
 
-# Пример вызова функции для репозитория "google/gson"
-repo_name = "gson"
-repo_owner = "google"
-latest_version = check_latest_release(repo_name, repo_owner)
+# Get the latest release version for the "hypotez" repository owned by "hypotez-dev"
+latest_release_version = check_latest_release(repo="hypotez", owner="hypotez-dev")
 
-if latest_version:
-    logger.info(f"Latest release version of {repo_owner}/{repo_name}: {latest_version}")
-else:
-    logger.error(f"Could not retrieve the latest release version of {repo_owner}/{repo_name}")
+# Print the latest release version
+print(f"Latest release version: {latest_release_version}")
+```
+
+**Inner Functions**:
+- None

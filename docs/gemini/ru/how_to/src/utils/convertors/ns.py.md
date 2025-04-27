@@ -1,45 +1,75 @@
-### Как использовать этот блок кода
+## Как использовать модуль для преобразования SimpleNamespace
+
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот модуль предоставляет набор функций для преобразования объектов `SimpleNamespace` в различные форматы: словарь, JSON, CSV, XML и XLS. Каждая функция предназначена для упрощения процесса преобразования данных и сохранения их в соответствующем формате.
+Модуль `src.utils.convertors.ns` предоставляет набор функций для преобразования объекта `SimpleNamespace` в различные форматы, такие как `dict`, `JSON`, `CSV`, `XML` и `XLS`. 
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Импорт модуля**: Импортируйте модуль `src.utils.convertors.ns` в свой проект.
-2. **Использование функций**: Выберите необходимую функцию в зависимости от требуемого формата преобразования.
+1. **Импортируйте необходимые функции:**
+    ```python
+    from src.utils.convertors.ns import ns2dict, ns2json, ns2csv, ns2xml, ns2xls
+    ```
+2. **Создайте объект `SimpleNamespace`:**
+    ```python
+    from types import SimpleNamespace
+    data = SimpleNamespace(name='John Doe', age=30, city='New York')
+    ```
+3. **Преобразуйте объект `SimpleNamespace` в нужный формат:**
+    -  **В словарь:**
+        ```python
+        dict_data = ns2dict(data)
+        ```
+    - **В JSON:**
+        ```python
+        json_data = ns2json(data)
+        ```
+    - **В CSV:**
+        ```python
+        csv_file_path = 'data.csv' 
+        result = ns2csv(data, csv_file_path)
+        ```
+    - **В XML:**
+        ```python
+        xml_data = ns2xml(data, root_tag='person')
+        ```
+    - **В XLS:**
+        ```python
+        xls_file_path = 'data.xls'
+        result = ns2xls(data, xls_file_path)
+        ```
 
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
+from src.utils.convertors.ns import ns2dict, ns2json, ns2csv, ns2xml, ns2xls
 from types import SimpleNamespace
 from pathlib import Path
-from src.utils.convertors.ns import ns2dict, ns2csv, ns2xml, ns2xls
 
-# Пример объекта SimpleNamespace
-data = SimpleNamespace(
-    name="Example",
-    value=123,
-    items=[SimpleNamespace(id=1, label="A"), SimpleNamespace(id=2, label="B")]
-)
+data = SimpleNamespace(name='John Doe', age=30, city='New York')
 
 # Преобразование в словарь
 dict_data = ns2dict(data)
-print(dict_data)
-# {'name': 'Example', 'value': 123, 'items': [{ 'id': 1, 'label': 'A'}, { 'id': 2, 'label': 'B'}]}
+print(f'Словарь: {dict_data}')
+
+# Преобразование в JSON
+json_data = ns2json(data)
+print(f'JSON: {json_data}')
 
 # Преобразование в CSV
-csv_file = Path("example.csv")
-ns2csv(data, csv_file)
+csv_file_path = Path('data.csv') 
+result = ns2csv(data, csv_file_path)
+print(f'CSV файл: {result}')
 
 # Преобразование в XML
-xml_data = ns2xml(data, root_tag="root")
-print(xml_data)
-# <?xml version="1.0" encoding="UTF-8"?>
-# <root><name>Example</name><value>123</value><items><item><id>1</id><label>A</label></item><item><id>2</id><label>B</label></item></items></root>
+xml_data = ns2xml(data, root_tag='person')
+print(f'XML: {xml_data}')
 
 # Преобразование в XLS
-xls_file = Path("example.xls")
-ns2xls(data, xls_file)
+xls_file_path = Path('data.xls')
+result = ns2xls(data, xls_file_path)
+print(f'XLS файл: {result}')
+```

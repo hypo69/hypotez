@@ -1,303 +1,274 @@
-# Module openai.har_file
+# Модуль для работы с файлами HAR
 
-## Overview
+## Обзор
 
-This module is designed to handle the reading and parsing of HAR (HTTP Archive) files to extract necessary configuration parameters for interacting with the OpenAI API. It includes functionality for reading HAR files, extracting headers, and parsing specific entries related to Arkose Labs for generating tokens.
+Модуль содержит классы и функции для работы с файлами HAR, которые используются для хранения информации о сетевых запросах и ответах. Он предоставляет функциональность для чтения и парсинга файлов HAR, извлечения информации о куки, токенах доступа и других параметрах, а также для генерации запросов к защищенным серверам.
 
-## More details
+## Детали
 
-This module is crucial for automating the retrieval of authentication tokens and configuration details directly from HAR files, which can be obtained from browser developer tools. It simplifies the process of setting up requests to the OpenAI API by automatically extracting and decrypting relevant parameters. The module specifically focuses on handling Arkose Labs tokens, which are used for security and authentication purposes.
+Этот модуль предназначен для взаимодействия с веб-сервисами, которые используют механизм защиты от ботов с использованием файлов HAR. HAR (HTTP Archive) - это стандартный формат, используемый для записи и анализа трафика HTTP.
 
-## Classes
+## Классы
 
 ### `RequestConfig`
 
-**Description**: Класс для хранения конфигурационных параметров запроса, извлеченных из HAR-файлов.
+**Описание**: Класс, хранящий конфигурацию запроса к серверу.
 
-**Attributes**:
-- `cookies` (dict): Куки для запросов.
-- `headers` (dict): Заголовки для запросов.
-- `access_token` (str): Токен доступа для авторизации.
-- `proof_token` (list): Токен подтверждения.
-- `turnstile_token` (str): Токен Turnstile.
-- `arkose_request` (`arkReq`): Объект запроса Arkose.
-- `arkose_token` (str): Токен Arkose.
-- `data_build` (str): Версия сборки данных.
+**Атрибуты**:
 
-**Methods**:
-- Нет явных методов, только атрибуты.
+- `cookies` (dict): Словарь с куки, полученными из файла HAR.
+- `headers` (dict): Словарь с заголовками запроса, полученными из файла HAR.
+- `access_token` (str): Токен доступа, полученный из файла HAR.
+- `proof_token` (list): Список токенов подтверждения, полученных из файла HAR.
+- `turnstile_token` (str): Токен Turnstile, полученный из файла HAR.
+- `arkose_request` (arkReq): Объект `arkReq`, содержащий информацию о запросе к серверу Arkose.
+- `arkose_token` (str): Токен Arkose, полученный после успешного запроса к серверу Arkose.
+- `data_build` (str): Идентификатор сборки данных.
 
 ### `arkReq`
 
-**Description**: Класс для хранения параметров запроса Arkose.
+**Описание**: Класс, хранящий информацию о запросе к серверу Arkose.
 
-**Attributes**:
-- `arkURL` (str): URL для запроса Arkose.
-- `arkBx` (str): Зашифрованное тело запроса Arkose.
-- `arkHeader` (dict): Заголовки запроса Arkose.
-- `arkBody` (dict): Тело запроса Arkose.
-- `arkCookies` (dict): Куки запроса Arkose.
-- `userAgent` (str): User-Agent для запроса Arkose.
+**Атрибуты**:
 
-**Parameters**:
-- `arkURL` (str): URL для запроса Arkose.
-- `arkBx` (str): Зашифрованное тело запроса Arkose.
-- `arkHeader` (dict): Заголовки запроса Arkose.
-- `arkBody` (dict): Тело запроса Arkose.
-- `arkCookies` (dict): Куки запроса Arkose.
-- `userAgent` (str): User-Agent для запроса Arkose.
+- `arkURL` (str): URL-адрес сервера Arkose.
+- `arkBx` (str): Зашифрованная строка с информацией о запросе.
+- `arkHeader` (dict): Словарь с заголовками запроса к серверу Arkose.
+- `arkBody` (dict): Словарь с телом запроса к серверу Arkose.
+- `arkCookies` (dict): Словарь с куки, используемыми при запросе к серверу Arkose.
+- `userAgent` (str): Строка User-Agent, используемая при запросе к серверу Arkose.
 
-**Working principle**:
-Класс используется для хранения и передачи параметров, необходимых для выполнения запросов Arkose. Он инициализируется с параметрами, извлеченными из HAR-файла.
+## Функции
 
-## Functions
+### `get_har_files()`
 
-### `get_har_files`
+**Цель**: Функция возвращает список путей к файлам HAR в директории с куки.
 
-**Purpose**: Функция для поиска HAR-файлов в директории с куками.
+**Параметры**: 
 
-**Returns**:
-- `list`: Список путей к HAR-файлам.
+- None.
 
-**Raises**:
-- `NoValidHarFileError`: Если директория с куками недоступна для чтения или HAR-файлы не найдены.
+**Возвращает**:
 
-**How the function works**:
-Функция проверяет доступность директории с куками для чтения, затем проходит по всем файлам в этой директории и добавляет пути к HAR-файлам в список. Если HAR-файлы не найдены, выбрасывается исключение.
+- `list[str]`: Список путей к файлам HAR.
 
-**Examples**:
+**Возникающие исключения**:
+
+- `NoValidHarFileError`: Если директория с куки не доступна для чтения или не содержит файлов HAR.
+
+**Пример**:
+
 ```python
-try:
-    har_files = get_har_files()
-    print(f"Found HAR files: {har_files}")
-except NoValidHarFileError as ex:
-    print(f"Error: {ex}")
+>>> get_har_files()
+['/home/user/.config/hypotez/har_and_cookies/2023-12-01_12-00-00.har']
 ```
 
-### `readHAR`
+### `readHAR(request_config: RequestConfig)`
 
-**Purpose**: Функция для чтения HAR-файлов и извлечения конфигурационных параметров запроса.
+**Цель**: Функция читает файлы HAR и извлекает информацию о куки, токенах доступа, токенах Arkose и других параметрах.
 
-**Parameters**:
-- `request_config` (`RequestConfig`): Объект конфигурации запроса, который будет заполнен данными из HAR-файла.
+**Параметры**:
 
-**Raises**:
-- `NoValidHarFileError`: Если `proof_token` не найден в HAR-файлах.
+- `request_config` (`RequestConfig`): Объект `RequestConfig`, в который записываются извлеченные данные.
 
-**How the function works**:
-Функция проходит по всем HAR-файлам, найденным с помощью `get_har_files`, и извлекает из них данные, необходимые для конфигурации запроса. Извлекаются URL Arkose, токен доступа, заголовки и куки. Если `proof_token` не найден, выбрасывается исключение.
+**Возвращает**:
 
-**Examples**:
+- `None`: Функция не возвращает значение.
+
+**Возникающие исключения**:
+
+- `NoValidHarFileError`: Если не найдены валидные файлы HAR или не найден `proof_token`.
+
+**Пример**:
+
 ```python
-request_config = RequestConfig()
-try:
-    readHAR(request_config)
-    print(f"Access Token: {request_config.access_token}")
-    print(f"Proof Token: {request_config.proof_token}")
-except NoValidHarFileError as ex:
-    print(f"Error: {ex}")
+>>> request_config = RequestConfig()
+>>> readHAR(request_config)
 ```
 
-### `get_headers`
+### `get_headers(entry)`
 
-**Purpose**: Функция для извлечения заголовков из записи HAR-файла.
+**Цель**: Функция возвращает словарь с заголовками запроса, исключая `Content-Length`, `Cookie` и заголовки, начинающиеся с `:`.
 
-**Parameters**:
-- `entry` (dict): Запись HAR-файла.
+**Параметры**:
 
-**Returns**:
-- `dict`: Словарь заголовков, приведенных к нижнему регистру.
+- `entry` (dict): Словарь с информацией о запросе, полученной из файла HAR.
 
-**How the function works**:
-Функция извлекает заголовки из записи HAR-файла, приводит их к нижнему регистру и фильтрует заголовки `content-length` и `cookie`, а также заголовки, начинающиеся с `:`.
+**Возвращает**:
 
-**Examples**:
+- `dict`: Словарь с заголовками запроса.
+
+**Пример**:
+
 ```python
-entry = {'request': {'headers': [{'name': 'Content-Type', 'value': 'application/json'}, {'name': 'Cookie', 'value': 'test'}]}}
-headers = get_headers(entry)
-print(f"Headers: {headers}")
+>>> entry = {'request': {'headers': [{'name': 'User-Agent', 'value': 'Mozilla/5.0'}]}}
+>>> get_headers(entry)
+{'user-agent': 'Mozilla/5.0'}
 ```
 
-### `parseHAREntry`
+### `parseHAREntry(entry)`
 
-**Purpose**: Функция для разбора записи HAR-файла и извлечения параметров запроса Arkose.
+**Цель**: Функция парсит запись из файла HAR и возвращает объект `arkReq`.
 
-**Parameters**:
-- `entry` (dict): Запись HAR-файла.
+**Параметры**:
 
-**Returns**:
-- `arkReq`: Объект запроса Arkose.
+- `entry` (dict): Словарь с информацией о запросе, полученной из файла HAR.
 
-**How the function works**:
-Функция извлекает URL, заголовки, тело и куки запроса из записи HAR-файла и создает объект `arkReq`. Затем она расшифровывает тело запроса Arkose с использованием User-Agent и заголовка `x-ark-esync-value`.
+**Возвращает**:
 
-**Examples**:
+- `arkReq`: Объект `arkReq`, содержащий информацию о запросе к серверу Arkose.
+
+**Пример**:
+
 ```python
-entry = {
-    'request': {
-        'url': 'https://tcr9i.chat.openai.com/fc/gt2/public_key/35536E1E-65B4-4D96-9D97-6ADB7EFF8147',
-        'headers': [{'name': 'User-Agent', 'value': 'test'}],
-        'postData': {'params': [{'name': 'bda', 'value': 'test'}]},
-        'cookies': []
-    }
-}
-ark_req = parseHAREntry(entry)
-print(f"Arkose URL: {ark_req.arkURL}")
+>>> entry = {'request': {'url': 'https://tcr9i.chat.openai.com/fc/gt2/public_key/35536E1E-65B4-4D96-9D97-6ADB7EFF8147', 'headers': [{'name': 'User-Agent', 'value': 'Mozilla/5.0'}]}}
+>>> parseHAREntry(entry)
+<arkReq: arkURL='https://tcr9i.chat.openai.com/fc/gt2/public_key/35536E1E-65B4-4D96-9D97-6ADB7EFF8147', arkBx='...', arkHeader='...', arkBody='...', arkCookies='...', userAgent='Mozilla/5.0'>
 ```
 
-### `genArkReq`
+### `genArkReq(chatArk: arkReq)`
 
-**Purpose**: Функция для генерации запроса Arkose.
+**Цель**: Функция генерирует новый объект `arkReq`, заменяя значение `bda` и `rnd`, а также обновляя заголовок `x-ark-esync-value`.
 
-**Parameters**:
-- `chatArk` (`arkReq`): Объект запроса Arkose.
+**Параметры**:
 
-**Returns**:
-- `arkReq`: Сгенерированный объект запроса Arkose.
+- `chatArk` (`arkReq`): Объект `arkReq`, содержащий информацию о запросе к серверу Arkose.
 
-**Raises**:
-- `RuntimeError`: Если HAR-файл не валиден.
+**Возвращает**:
 
-**How the function works**:
-Функция создает копию объекта запроса Arkose, генерирует новые параметры `bda` и `bw`, кодирует `bda` в Base64 и устанавливает новые значения заголовков.
+- `arkReq`: Объект `arkReq`, с измененными значениями.
 
-**Examples**:
+**Возникающие исключения**:
+
+- `RuntimeError`: Если файл HAR не валидный.
+
+**Пример**:
+
 ```python
-chat_ark = arkReq(arkURL='test', arkBx='test', arkHeader={'User-Agent': 'test'}, arkBody={'bda': 'test'}, arkCookies={}, userAgent='test')
-try:
-    tmp_ark = genArkReq(chat_ark)
-    print(f"Generated Arkose Body: {tmp_ark.arkBody}")
-    print(f"Generated Arkose Header: {tmp_ark.arkHeader}")
-except RuntimeError as ex:
-    print(f"Error: {ex}")
+>>> chatArk = arkReq(arkURL='https://tcr9i.chat.openai.com/fc/gt2/public_key/35536E1E-65B4-4D96-9D97-6ADB7EFF8147', arkBx='...', arkHeader='...', arkBody='...', arkCookies='...', userAgent='Mozilla/5.0')
+>>> genArkReq(chatArk)
+<arkReq: arkURL='https://tcr9i.chat.openai.com/fc/gt2/public_key/35536E1E-65B4-4D96-9D97-6ADB7EFF8147', arkBx='...', arkHeader='...', arkBody='...', arkCookies='...', userAgent='Mozilla/5.0'>
 ```
 
-### `sendRequest`
+### `sendRequest(tmpArk: arkReq, proxy: str = None)`
 
-**Purpose**: Асинхронная функция для отправки запроса Arkose.
+**Цель**: Функция отправляет запрос к серверу Arkose и возвращает токен Arkose.
 
-**Parameters**:
-- `tmpArk` (`arkReq`): Объект запроса Arkose.
-- `proxy` (str, optional): Прокси для запроса. Defaults to `None`.
+**Параметры**:
 
-**Returns**:
+- `tmpArk` (`arkReq`): Объект `arkReq`, содержащий информацию о запросе к серверу Arkose.
+- `proxy` (str): Прокси-сервер для отправки запроса.
+
+**Возвращает**:
+
 - `str`: Токен Arkose.
 
-**Raises**:
-- `RuntimeError`: Если не удалось сгенерировать валидный токен Arkose.
+**Возникающие исключения**:
 
-**How the function works**:
-Функция отправляет POST-запрос с использованием `StreamSession` с заголовками, куками и телом запроса, полученными из объекта `arkReq`. После получения ответа извлекается токен Arkose.
+- `RuntimeError`: Если не сгенерирован валидный токен Arkose.
 
-**Examples**:
+**Пример**:
+
 ```python
-import asyncio
-async def main():
-    tmp_ark = arkReq(arkURL='test', arkBx='test', arkHeader={'User-Agent': 'test'}, arkBody={'bda': 'test'}, arkCookies={}, userAgent='test')
-    try:
-        arkose_token = await sendRequest(tmp_ark)
-        print(f"Arkose Token: {arkose_token}")
-    except RuntimeError as ex:
-        print(f"Error: {ex}")
-
-asyncio.run(main())
+>>> tmpArk = arkReq(arkURL='https://tcr9i.chat.openai.com/fc/gt2/public_key/35536E1E-65B4-4D96-9D97-6ADB7EFF8147', arkBx='...', arkHeader='...', arkBody='...', arkCookies='...', userAgent='Mozilla/5.0')
+>>> sendRequest(tmpArk, proxy='http://127.0.0.1:8080')
+'sup=1|rid=...'
 ```
 
-### `getBDA`
+### `getBDA(arkReq: arkReq)`
 
-**Purpose**: Функция для получения параметров `bda` и `bw`.
+**Цель**: Функция генерирует зашифрованную строку `bda` и строку `bw`, используя информацию из объекта `arkReq`.
 
-**Parameters**:
-- `arkReq` (`arkReq`): Объект запроса Arkose.
+**Параметры**:
 
-**Returns**:
-- `tuple`: Зашифрованный `bx` и `bw`.
+- `arkReq` (`arkReq`): Объект `arkReq`, содержащий информацию о запросе к серверу Arkose.
 
-**How the function works**:
-Функция заменяет значение ключа `"n"` в `bx` на новое значение, генерирует новый UUID и заменяет старый UUID на новый, вычисляет `bw` и шифрует `bx` с использованием User-Agent и `bw`.
+**Возвращает**:
 
-**Examples**:
+- `tuple[str, str]`: Кортеж, содержащий зашифрованную строку `bda` и строку `bw`.
+
+**Пример**:
+
 ```python
-ark_req = arkReq(arkURL='test', arkBx='"key":"n","value":"old"', arkHeader={'User-Agent': 'test'}, arkBody={'bda': 'test'}, arkCookies={}, userAgent='test')
-encrypted_bx, bw = getBDA(ark_req)
-print(f"Encrypted BX: {encrypted_bx}")
-print(f"BW: {bw}")
+>>> arkReq = arkReq(arkURL='https://tcr9i.chat.openai.com/fc/gt2/public_key/35536E1E-65B4-4D96-9D97-6ADB7EFF8147', arkBx='...', arkHeader='...', arkBody='...', arkCookies='...', userAgent='Mozilla/5.0')
+>>> getBDA(arkReq)
+('...', '...')
 ```
 
-### `getBt`
+### `getBt()`
 
-**Purpose**: Функция для получения текущего времени в формате Unix timestamp.
+**Цель**: Функция возвращает текущее время в секундах.
 
-**Returns**:
-- `int`: Текущее время в формате Unix timestamp.
+**Параметры**:
 
-**How the function works**:
-Функция возвращает текущее время, полученное с помощью `time.time()`, в виде целого числа.
+- None.
 
-**Examples**:
+**Возвращает**:
+
+- `int`: Текущее время в секундах.
+
+**Пример**:
+
 ```python
-bt = getBt()
-print(f"BT: {bt}")
+>>> getBt()
+1701587200
 ```
 
-### `getBw`
+### `getBw(bt: int)`
 
-**Purpose**: Функция для получения значения `bw`.
+**Цель**: Функция возвращает строку `bw`, которая представляет собой timestamp, округленный до 21600 секунд (6 часов).
 
-**Parameters**:
-- `bt` (int): Время в формате Unix timestamp.
+**Параметры**:
 
-**Returns**:
-- `str`: Значение `bw`.
+- `bt` (int): Timestamp в секундах.
 
-**How the function works**:
-Функция вычисляет значение `bw` путем вычитания остатка от деления `bt` на 21600 из `bt`.
+**Возвращает**:
 
-**Examples**:
+- `str`: Строка `bw`.
+
+**Пример**:
+
 ```python
-bt = int(time.time())
-bw = getBw(bt)
-print(f"BW: {bw}")
+>>> getBw(1701587200)
+'1701575600'
 ```
 
-### `getN`
+### `getN()`
 
-**Purpose**: Функция для получения значения `n`.
+**Цель**: Функция генерирует строку `n`, которая представляет собой base64-закодированное текущее время в секундах.
 
-**Returns**:
-- `str`: Значение `n`, закодированное в Base64.
+**Параметры**:
 
-**How the function works**:
-Функция получает текущее время в формате timestamp, кодирует его в Base64 и возвращает результат.
+- None.
 
-**Examples**:
+**Возвращает**:
+
+- `str`: Строка `n`.
+
+**Пример**:
+
 ```python
-n = getN()
-print(f"N: {n}")
+>>> getN()
+'MTYwMTU4NzIwMA=='
 ```
 
-### `get_request_config`
+### `get_request_config(request_config: RequestConfig, proxy: str)`
 
-**Purpose**: Асинхронная функция для получения конфигурации запроса.
+**Цель**: Функция получает конфигурацию запроса, считывает информацию из файлов HAR, генерирует токен Arkose и обновляет объект `RequestConfig`.
 
-**Parameters**:
-- `request_config` (`RequestConfig`): Объект конфигурации запроса.
-- `proxy` (str): Прокси для запроса.
+**Параметры**:
 
-**Returns**:
-- `RequestConfig`: Объект конфигурации запроса с заполненными данными.
+- `request_config` (`RequestConfig`): Объект `RequestConfig`, который необходимо обновить.
+- `proxy` (str): Прокси-сервер для отправки запросов.
 
-**How the function works**:
-Функция сначала проверяет, установлен ли `proof_token`. Если нет, вызывает `readHAR` для чтения HAR-файлов. Затем, если `arkose_request` установлен, вызывает `sendRequest` для получения токена Arkose.
+**Возвращает**:
 
-**Examples**:
+- `RequestConfig`: Объект `RequestConfig` с обновленной информацией.
+
+**Пример**:
+
 ```python
-import asyncio
-async def main():
-    request_config = RequestConfig()
-    proxy = None
-    request_config = await get_request_config(request_config, proxy)
-    print(f"Access Token: {request_config.access_token}")
-    print(f"Arkose Token: {request_config.arkose_token}")
-
-asyncio.run(main())
+>>> request_config = RequestConfig()
+>>> get_request_config(request_config, proxy='http://127.0.0.1:8080')
+<RequestConfig: cookies='...', headers='...', access_token='...', proof_token='...', turnstile_token='...', arkose_request='...', arkose_token='...', data_build='prod-db8e51e8414e068257091cf5003a62d3d4ee6ed0'>
+```

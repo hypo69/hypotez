@@ -1,219 +1,181 @@
-# Документация для `apps.hendlers.py`
+# Hendlers Module
 
-## Обзор
+## Overview
 
-Файл `apps/hendlers.py` содержит обработчики (handlers) для Telegram-бота, отвечающие за обработку команд пользователя, таких как старт и поиск фильмов. Используются `aiogram` для создания и управления Telegram-ботом, а также конечные автоматы (FSM) для управления состоянием диалога с пользователем.
+This module contains the handlers for the movie bot, responsible for processing user interactions and providing relevant information. It leverages the Aiogram framework for asynchronous event handling in Telegram bots.
 
-## Более детально
+## Details
 
-Файл определяет роутер (`router`) для обработки входящих сообщений и запросов обратного вызова от Telegram. Он обрабатывает команду `/start`, запросы на поиск фильмов и сериалов, а также ввод названия фильма пользователем. Используется FSM (`aiogram.fsm`) для управления состоянием поиска фильма: тип фильма (фильм или сериал) и название.
+The module utilizes state machines (`Params`) to manage user interactions and gather information for movie searches. It interacts with the `search_query` function from the `apps.search` module to fetch movie data based on user input. The module defines a `router` instance to handle various user commands and callbacks.
 
-## Классы
+## Classes
 
 ### `Params`
 
-**Описание**: Класс состояний для конечного автомата, используется для хранения состояния поиска фильма.
+**Description**: This class defines a state machine for tracking user input during the movie search process.
 
-**Наследует**:
-- `StatesGroup` из `aiogram.fsm.state`
+**Inherits**:  `aiogram.fsm.state.StatesGroup` 
 
-**Атрибуты**:
-- `type_movie` (State): Состояние для хранения типа фильма (фильм или сериал).
-- `name` (State): Состояние для хранения названия фильма.
+**Attributes**:
 
-**Принцип работы**:
-Класс определяет два состояния: `type_movie` и `name`. `type_movie` хранит тип искомого контента (фильм или сериал), а `name` — название искомого фильма или сериала. Эти состояния используются для последовательного получения информации от пользователя.
+- `type_movie (State)`: State for selecting the type of movie (film or series).
+- `name (State)`: State for entering the name of the movie.
 
-## Функции
+## Functions
 
 ### `command_start_handler`
 
-```python
-async def command_start_handler(message: Message) -> None:
-    """
-    Приветствует пользователя при вводе команды /start и предлагает начать поиск фильма.
+**Purpose**: Handles the `/start` command, welcoming the user and presenting a menu to find a movie.
 
-    Args:
-        message (Message): Объект сообщения от Telegram.
+**Parameters**:
 
-    Returns:
-        None
+- `message (Message)`:  The incoming message object containing user details and the message text.
 
-    Example:
-        Пользователь вводит /start.
-    """
-```
+**Returns**: None
 
-**Назначение**:
-Обработчик команды `/start`. Отправляет приветственное сообщение пользователю и предлагает начать поиск фильма.
+**Raises Exceptions**: None
 
-**Параметры**:
-- `message` (Message): Объект сообщения от Telegram.
+**How the Function Works**:
 
-**Возвращает**:
-- `None`
+- Welcomes the user with a message including their full name.
+- Sends a message prompting the user to find a movie and provides a menu (`kb.find_movie`) to initiate the search.
 
-**Как работает функция**:
-1. Отправляет приветственное сообщение пользователю с его именем.
-2. Предлагает пользователю начать поиск фильма, используя клавиатуру `kb.find_movie`.
 
 ### `movie_handler`
 
-```python
-async def movie_handler(callback: CallbackQuery, state: FSMContext) -> None:
-    """
-    Обрабатывает запрос на поиск нового фильма, устанавливает состояние `type_movie` и предлагает выбрать тип фильма.
+**Purpose**: Handles the callback query when the user selects "New Movies" from the initial menu.
 
-    Args:
-        callback (CallbackQuery): Объект обратного вызова от Telegram.
-        state (FSMContext): Контекст конечного автомата.
+**Parameters**:
 
-    Returns:
-        None
+- `callback (CallbackQuery)`: The incoming callback query object containing the user's selection.
+- `state (FSMContext)`: Context object for managing the state machine.
 
-    Example:
-        Пользователь нажимает кнопку "Найти фильм".
-    """
-```
+**Returns**: None
 
-**Назначение**:
-Обработчик запроса на поиск нового фильма. Устанавливает состояние `Params.type_movie` и предлагает пользователю выбрать тип фильма (фильм или сериал).
+**Raises Exceptions**: None
 
-**Параметры**:
-- `callback` (CallbackQuery): Объект обратного вызова от Telegram.
-- `state` (FSMContext): Контекст конечного автомата.
+**How the Function Works**:
 
-**Возвращает**:
-- `None`
-
-**Как работает функция**:
-1. Устанавливает состояние `Params.type_movie` для ожидания выбора типа фильма.
-2. Отправляет пользователю сообщение с предложением выбрать тип фильма, используя клавиатуру `kb.choice`.
+- Sets the state to `Params.type_movie`, prompting the user to choose between "Film" or "Series."
+- Edits the previous message to ask for the type of movie and presents a choice menu (`kb.choice`).
 
 ### `series_handler`
 
-```python
-async def series_handler(callback: CallbackQuery, state: FSMContext) -> None:
-    """
-    Обрабатывает выбор типа "сериал", удаляет предыдущее сообщение, обновляет данные состояния и запрашивает название сериала.
+**Purpose**: Handles the callback query when the user selects "Series" from the type selection menu.
 
-    Args:
-        callback (CallbackQuery): Объект обратного вызова от Telegram.
-        state (FSMContext): Контекст конечного автомата.
+**Parameters**:
 
-    Returns:
-        None
+- `callback (CallbackQuery)`: The incoming callback query object containing the user's selection.
+- `state (FSMContext)`: Context object for managing the state machine.
 
-    Example:
-        Пользователь выбирает "Сериал".
-    """
-```
+**Returns**: None
 
-**Назначение**:
-Обработчик выбора типа "сериал". Удаляет предыдущее сообщение, обновляет данные состояния и запрашивает название сериала.
+**Raises Exceptions**: None
 
-**Параметры**:
-- `callback` (CallbackQuery): Объект обратного вызова от Telegram.
-- `state` (FSMContext): Контекст конечного автомата.
+**How the Function Works**:
 
-**Возвращает**:
-- `None`
-
-**Как работает функция**:
-1. Удаляет предыдущее сообщение пользователя.
-2. Обновляет данные состояния, устанавливая `type_movie` в `series`.
-3. Устанавливает состояние `Params.name` для ожидания ввода названия сериала.
-4. Отправляет пользователю сообщение с запросом названия сериала.
+- Deletes the previous message.
+- Updates the state data to indicate that the user has selected "Series" (`type_movie='series'`).
+- Transitions to the `Params.name` state, prompting the user to enter the series name.
+- Sends a message asking the user to input the series name.
 
 ### `film_handler`
 
-```python
-async def film_handler(callback: CallbackQuery, state: FSMContext) -> None:
-    """
-    Обрабатывает выбор типа "фильм", удаляет предыдущее сообщение, обновляет данные состояния и запрашивает название фильма.
+**Purpose**: Handles the callback query when the user selects "Film" from the type selection menu.
 
-    Args:
-        callback (CallbackQuery): Объект обратного вызова от Telegram.
-        state (FSMContext): Контекст конечного автомата.
+**Parameters**:
 
-    Returns:
-        None
+- `callback (CallbackQuery)`: The incoming callback query object containing the user's selection.
+- `state (FSMContext)`: Context object for managing the state machine.
 
-    Example:
-        Пользователь выбирает "Фильм".
-    """
-```
+**Returns**: None
 
-**Назначение**:
-Обработчик выбора типа "фильм". Удаляет предыдущее сообщение, обновляет данные состояния и запрашивает название фильма.
+**Raises Exceptions**: None
 
-**Параметры**:
-- `callback` (CallbackQuery): Объект обратного вызова от Telegram.
-- `state` (FSMContext): Контекст конечного автомата.
+**How the Function Works**:
 
-**Возвращает**:
-- `None`
-
-**Как работает функция**:
-1. Удаляет предыдущее сообщение пользователя.
-2. Обновляет данные состояния, устанавливая `type_movie` в `film`.
-3. Устанавливает состояние `Params.name` для ожидания ввода названия фильма.
-4. Отправляет пользователю сообщение с запросом названия фильма.
+- Deletes the previous message.
+- Updates the state data to indicate that the user has selected "Film" (`type_movie='film'`).
+- Transitions to the `Params.name` state, prompting the user to enter the film name.
+- Sends a message asking the user to input the film name.
 
 ### `name_handler`
 
-```python
-async def name_handler(message: Message, state: FSMContext) -> None:
-    """
-    Обрабатывает ввод названия фильма, выполняет поиск фильма и отправляет результат пользователю.
+**Purpose**: Handles the message received from the user after they have entered the movie name.
 
-    Args:
-        message (Message): Объект сообщения от Telegram.
-        state (FSMContext): Контекст конечного автомата.
+**Parameters**:
 
-    Returns:
-        None
+- `message (Message)`: The incoming message object containing the movie name.
+- `state (FSMContext)`: Context object for managing the state machine.
 
-    Example:
-        Пользователь вводит название фильма.
-    """
+**Returns**: None
+
+**Raises Exceptions**: None
+
+**How the Function Works**:
+
+- Updates the state data with the movie name (`name=message.text`).
+- Retrieves the stored state data.
+- Calls `search_query` to search for the movie based on name and type.
+- Displays the movie name and type to the user.
+- If a movie is found, it displays the movie title, description, and link.
+- If no movie is found, it informs the user that the movie was not found.
+- Provides a message to find another movie and presents the initial movie search menu (`kb.find_movie`).
+- Clears the state machine.
+
+## Inner Functions: None 
+
+## Examples
+
+**Example 1: Starting the bot:**
+
+```
+/start
 ```
 
-**Назначение**:
-Обработчик ввода названия фильма. Выполняет поиск фильма и отправляет результат пользователю.
+**Output:**
 
-**Параметры**:
-- `message` (Message): Объект сообщения от Telegram.
-- `state` (FSMContext): Контекст конечного автомата.
+```
+Добро пожаловать, **[User's Full Name]** 😎
+Найти интересующий фильм
+```
 
-**Возвращает**:
-- `None`
+**Example 2: Searching for a series:**
 
-**Как работает функция**:
-1. Обновляет данные состояния, устанавливая `name` в введенное пользователем название.
-2. Получает данные из состояния (`name` и `type_movie`).
-3. Выполняет поиск фильма, используя функцию `search_query`.
-4. Отправляет пользователю информацию о запросе (название и тип фильма).
-5. Если фильм найден, отправляет информацию о фильме (название, описание и ссылку).
-6. Если фильм не найден, отправляет сообщение об отсутствии фильма.
-7. Предлагает пользователю начать новый поиск фильма, используя клавиатуру `kb.find_movie`.
-8. Очищает состояние конечного автомата.
+```
+/start
+Найти интересующий фильм
+Series
+Введите название
+Game of Thrones
+```
 
-## Переменные
+**Output:**
 
-- `router` (Router): Роутер для обработки сообщений и запросов обратного вызова.
-- `type_movies` (dict): Словарь, содержащий соответствия между типом фильма (ключ) и его отображаемым названием (значение).
+```
+Название: **Game of Thrones**
+Тип: **Сериал**
+По вашему запросу найдено ✨✨✨:
+**[Series Title]**
+[Series Description]
+[Series Link]
+Найти новый фильм
+```
 
-## Table of Contents
+**Example 3: Searching for a film that doesn't exist:**
 
-- [Обзор](#обзор)
-- [Более детально](#более-детально)
-- [Классы](#классы)
-  - [`Params`](#params)
-- [Функции](#функции)
-  - [`command_start_handler`](#command_start_handler)
-  - [`movie_handler`](#movie_handler)
-  - [`series_handler`](#series_handler)
-  - [`film_handler`](#film_handler)
-  - [`name_handler`](#name_handler)
-- [Переменные](#переменные)
+```
+/start
+Найти интересующий фильм
+Film
+The Nonexistent Movie
+```
+
+**Output:**
+
+```
+Название: **The Nonexistent Movie**
+Тип: **Фильм**
+Ваш Фильм не найден 😢
+Найти новый фильм
+```

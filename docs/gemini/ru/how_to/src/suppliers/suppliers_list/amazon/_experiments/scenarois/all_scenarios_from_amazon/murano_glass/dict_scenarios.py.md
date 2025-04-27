@@ -1,45 +1,39 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Данный блок кода содержит словарь `scenario`, который определяет сценарий для поиска и обработки товаров "Murano Glass" на платформе Amazon. В словаре указаны URL для поиска, состояние товара, категории PrestaShop и правило для определения цены.
+Данный блок кода определяет словарь `scenario`, который содержит информацию о сценарии для поиска товаров "Murano Glass" на платформе Amazon. Словарь `scenario` содержит следующие ключи:
+
+* **`Murano Glass`**: Ключ, представляющий название сценария. 
+* **`url`**: Строка, содержащая URL-адрес страницы поиска на Amazon для товаров "Murano Glass".
+* **`condition`**: Строка, определяющая состояние товара (в данном случае "new").
+* **`presta_categories`**: Словарь,  сопоставляющий категории PrestaShop с соответствующими категориями Amazon. В этом случае категория "MURANO GLASS" в PrestaShop соответствует категории с ID "11209" на Amazon.
+* **`price_rule`**: Целое число,  определяющее правило ценообразования для данного сценария.
 
 Шаги выполнения
 -------------------------
-1. **Определение URL**: Указывается URL для поиска товаров "Art Deco murano glass" на Amazon.
-2. **Определение состояния товара**: Устанавливается состояние товара как "new".
-3. **Определение категорий PrestaShop**: Задается соответствие категории "MURANO GLASS" в PrestaShop идентификатору 11209.
-4. **Определение правила цены**: Указывается правило цены с идентификатором 1.
+1. **Определение словаря `scenario`**:  Создается словарь `scenario` с ключом `Murano Glass`, который содержит всю необходимую информацию для выполнения сценария поиска товаров.
+2. **Заполнение ключа `url`**:  В качестве значения ключа `url` задается URL-адрес страницы поиска товаров "Murano Glass" на Amazon.
+3. **Заполнение ключа `condition`**: Значением ключа `condition` задается "new", что означает поиск только новых товаров.
+4. **Заполнение ключа `presta_categories`**:  Создается вложенный словарь `presta_categories`, который сопоставляет категорию "MURANO GLASS" из PrestaShop с категорией "11209" на Amazon.
+5. **Заполнение ключа `price_rule`**:  В качестве значения ключа `price_rule` задается целое число, которое определяет правило ценообразования для данного сценария.
 
 Пример использования
 -------------------------
 
 ```python
-scenario: dict = {
-    "Murano Glass": {
-        "url": "https://www.amazon.com/s?k=Art+Deco+murano+glass&crid=24Q0ZZYVNOQMP&sprefix=art+deco+murano+glass%2Caps%2C230&ref=nb_sb_noss",
-        "condition": "new",
-        "presta_categories": {
-            "default_category":{"11209":"MURANO GLASS"}
-        },
-        "price_rule": 1
-    }
-}
+from src.suppliers.amazon._experiments.scenarois.all_scenarios_from_amazon.murano_glass.dict_scenarios import scenario
 
-# Пример использования:
-# Доступ к URL
-url = scenario["Murano Glass"]["url"]
-print(f"URL для поиска: {url}")
+# Получение URL-адреса страницы поиска для сценария "Murano Glass"
+murano_glass_url = scenario['Murano Glass']['url']
 
-# Доступ к состоянию товара
-condition = scenario["Murano Glass"]["condition"]
-print(f"Состояние товара: {condition}")
+# Получение категории PrestaShop, соответствующей категории "11209" на Amazon
+presta_category_id = scenario['Murano Glass']['presta_categories']['default_category']['11209']
 
-# Доступ к категориям PrestaShop
-presta_categories = scenario["Murano Glass"]["presta_categories"]
-print(f"Категории PrestaShop: {presta_categories}")
-
-# Доступ к правилу цены
-price_rule = scenario["Murano Glass"]["price_rule"]
-print(f"Правило цены: {price_rule}")
+# Вывод информации о сценарии
+print(f'Сценарий: {scenario}')
+print(f'URL страницы поиска: {murano_glass_url}')
+print(f'Состояние товара: {scenario["Murano Glass"]["condition"]}')
+print(f'Категория PrestaShop: {presta_category_id}')
+```

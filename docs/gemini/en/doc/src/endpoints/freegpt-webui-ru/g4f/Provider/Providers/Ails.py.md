@@ -1,125 +1,87 @@
-# Документация для модуля `Ails.py`
+# Ails Provider for g4f
+## Overview
+This module implements the `Ails` provider for the g4f API. The `Ails` provider utilizes the `ai.ls` service to provide access to the `gpt-3.5-turbo` model. It offers a streamlined interface for generating text responses based on user input.
 
-## Обзор
+## Details
+The `Ails` provider is designed to work seamlessly with the g4f system, handling communication with the `ai.ls` service. It leverages the `gpt-3.5-turbo` model for text generation, allowing users to engage in conversational interactions or generate creative content. This provider encapsulates the complexities of interacting with the API, making it easy for developers to integrate text generation capabilities into their applications.
 
-Модуль предоставляет реализацию провайдера Ails для работы с языковой моделью `gpt-3.5-turbo` через API `ai.ls`.
-Он включает функции для создания запросов к API и обработки ответов в потоковом режиме.
+## Classes
+### `Utils`
+**Description**: 
+The `Utils` class provides utility functions for hashing data and formatting timestamps. 
 
-## Детали
+**Attributes**:
+- None
 
-Модуль содержит функции для форматирования временных меток, расчета хешей и создания запросов к API `ai.ls`.
-Он использует библиотеку `requests` для отправки HTTP-запросов и обработки потоковых ответов.
+**Methods**:
+- `hash(json_data: Dict[str, str]) -> sha256`:  
+   **Purpose**:  Calculates a SHA-256 hash of the provided JSON data.
+   **Parameters**:
+    - `json_data (Dict[str, str])`: The JSON data to be hashed.
+   **Returns**:
+    - `sha256`: The SHA-256 hash of the JSON data.
+- `format_timestamp(timestamp: int) -> str`: 
+   **Purpose**: Formats a timestamp for use with the `ai.ls` service.
+   **Parameters**:
+    - `timestamp (int)`: The timestamp to be formatted.
+   **Returns**:
+    - `str`: The formatted timestamp.
 
-## Содержание
+## Functions
+### `_create_completion(model: str, messages: list, temperature: float = 0.6, stream: bool = False, **kwargs)`
+**Purpose**:  
+Generates a text completion using the `gpt-3.5-turbo` model through the `ai.ls` service.
 
-1.  [Описание модуля](#описание-модуля)
-2.  [Классы](#классы)
-    *   [Класс `Utils`](#класс-utils)
-3.  [Функции](#функции)
-    *   [Функция `_create_completion`](#функция-_create_completion)
+**Parameters**:
+- `model (str)`: The name of the model to use (currently only supports `gpt-3.5-turbo`).
+- `messages (list)`: A list of messages to provide as context for the completion.
+- `temperature (float, optional)`: The sampling temperature for the model. Defaults to 0.6.
+- `stream (bool, optional)`: Whether to stream the response. Defaults to `False`.
+- `**kwargs`:  Additional keyword arguments.
 
-## Описание модуля
+**Returns**:
+- `Generator[str, None, None] | str`: A generator yielding tokens of the completion (if `stream` is `True`) or the complete completion (if `stream` is `False`).
 
-```rst
- .. module:: src.endpoints.freegpt-webui-ru.g4f.Provider.Providers.Ails
+**Raises Exceptions**:
+- `Exception`: If an error occurs during the API request.
+
+**How the Function Works**: 
+- The function constructs a request to the `ai.ls` API, including model name, messages, and other parameters. 
+- It includes a timestamp and a hash for security purposes.
+- The function handles both streaming and non-streaming responses. If streaming is enabled, it yields individual tokens of the completion; otherwise, it returns the complete completion as a string.
+
+**Examples**:
+```python
+# Example 1: Generating a single completion
+completion = _create_completion(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello, how are you?'}])
+print(completion)
+
+# Example 2: Streaming completion
+for token in _create_completion(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'What is the meaning of life?'}], stream=True):
+    print(token, end='')
 ```
 
-## Классы
+## Parameter Details
+- `model (str)`: This parameter specifies the model used for generating text responses. Currently, only `gpt-3.5-turbo` is supported.
+- `messages (list)`:  A list of messages passed to the model as context for generating a response. Each message is represented as a dictionary containing a `role` (e.g., `user`, `assistant`) and `content`.
+- `temperature (float, optional)`: Determines the randomness of the generated text. A higher temperature leads to more creative and unpredictable results, while a lower temperature produces more predictable and coherent responses.
+- `stream (bool, optional)`: Specifies whether to receive the generated text in a streamed format. If set to `True`, the function will yield individual tokens of the completion, allowing for real-time updates. If set to `False`, the function will return the complete completion once it's finished.
 
-### Класс `Utils`
+**Inner Functions**: None
 
+**Examples**:
 ```python
-class Utils:
-    """
-    Вспомогательный класс, содержащий статические методы для вычисления хешей и форматирования временных меток.
+# Example 1: Non-Streaming Completion
+_create_completion(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'What is the meaning of life?'}], stream=False)
 
-    Методы:
-        hash(json_data: Dict[str, str]) -> sha256: Вычисляет хеш на основе переданных данных JSON.
-        format_timestamp(timestamp: int) -> str: Форматирует временную метку.
-    """
+# Example 2: Streaming Completion
+_create_completion(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Write a poem about a cat.'}], stream=True) 
+
+# Example 3: Using a different model (not supported)
+_create_completion(model='text-davinci-003', messages=[{'role': 'user', 'content': 'What is the meaning of life?'}], stream=False) 
 ```
 
-#### Метод `hash`
-
-```python
-def hash(json_data: Dict[str, str]) -> sha256:
-    """
-    Вычисляет SHA256 хеш на основе переданных данных JSON.
-
-    Args:
-        json_data (Dict[str, str]): Словарь с данными для хеширования.
-
-    Returns:
-        sha256: SHA256 хеш в шестнадцатеричном формате.
-
-    Как работает функция:
-        - Функция принимает словарь `json_data`, содержащий данные для хеширования.
-        - Формирует строку `base_string` из значений по ключам `t` и `m` словаря `json_data`, а также секретной строки и длины значения по ключу `m`.
-        - Вычисляет SHA256 хеш от `base_string`.
-
-    Пример:
-        >>> json_data = {'t': '1687929600', 'm': 'test message'}
-        >>> Utils.hash(json_data)
-        'e5b7b9b0a3a7c73b3e3a2a5b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b'
-    """
-```
-
-#### Метод `format_timestamp`
-
-```python
-def format_timestamp(timestamp: int) -> str:
-    """
-    Форматирует временную метку, изменяя последнюю цифру в зависимости от её чётности.
-
-    Args:
-        timestamp (int): Временная метка в формате UNIX timestamp (миллисекунды).
-
-    Returns:
-        str: Отформатированная временная метка в виде строки.
-
-    Как работает функция:
-        - Функция принимает временную метку `timestamp`.
-        - Вычисляет последнюю цифру `n` временной метки.
-        - Если `n` четная, то `r` присваивается `n + 1`, иначе `n`.
-        - Возвращает временную метку, из которой вычли `n` и прибавили `r`.
-
-    Пример:
-        >>> Utils.format_timestamp(1687929600000)
-        '1687929600001'
-        >>> Utils.format_timestamp(1687929600001)
-        '1687929600001'
-    """
-```
-
-## Функции
-
-### Функция `_create_completion`
-
-```python
-def _create_completion(model: str, messages: list, temperature: float = 0.6, stream: bool = False, **kwargs):
-    """
-    Создает запрос к API `ai.ls` и возвращает ответ в потоковом режиме.
-
-    Args:
-        model (str): Идентификатор модели.
-        messages (list): Список сообщений для отправки в API.
-        temperature (float, optional): Температура модели. По умолчанию 0.6.
-        stream (bool, optional): Флаг потоковой передачи. По умолчанию False.
-        **kwargs: Дополнительные параметры.
-
-    Yields:
-        str: Части ответа от API.
-
-    Как работает функция:
-        - Функция принимает параметры модели, список сообщений и дополнительные параметры.
-        - Формирует HTTP-заголовки, включая `authorization`, `client-id`, `content-type` и `user-agent`.
-        - Формирует JSON-данные для запроса, включая параметры модели, температуру, флаг потоковой передачи, сообщения и сигнатуру.
-        - Отправляет POST-запрос к API `https://api.caipacity.com/v1/chat/completions` с потоковой передачей.
-        - Итерируется по ответу, извлекая контент из каждого чанка и возвращая его через `yield`.
-
-    Примеры:
-        >>> messages = [{"role": "user", "content": "Hello, world!"}]
-        >>> for token in _create_completion(model="gpt-3.5-turbo", messages=messages, stream=True):
-        ...     print(token, end="")
-        Привет, мир!
-    """
+## Additional Notes
+- The `Ails` provider utilizes the `ai.ls` service, which offers access to the `gpt-3.5-turbo` model. 
+- The provided code includes several security measures, such as a timestamp and a hash, to ensure the integrity of the requests made to the API.
+- The `Utils` class provides helper functions for hashing and formatting timestamps, simplifying the implementation of the provider.

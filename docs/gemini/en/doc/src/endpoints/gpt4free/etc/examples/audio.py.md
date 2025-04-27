@@ -1,70 +1,74 @@
-# Модуль для работы с аудио
+# Audio Generation and Transcription Using GPT-4Free
 
-## Обзор
+## Overview
 
-Модуль содержит примеры асинхронной работы с аудио, используя библиотеку `g4f` для генерации и транскрибирования аудиофайлов.
-Он демонстрирует взаимодействие с провайдерами `PollinationsAI` и `Microsoft_Phi_4` для выполнения задач, связанных с аудио.
+This module provides a Python script demonstrating the capabilities of the `g4f` library for generating audio and transcribing audio files using the GPT-4Free API. The code leverages the `PollinationsAI` and `Microsoft_Phi_4` providers for audio generation and transcription, respectively. 
 
-## Более подробно
+## Details
 
-Этот модуль показывает, как можно использовать асинхронный клиент `AsyncClient` из библиотеки `g4f` для генерации аудиофайлов и их транскрибирования.
-Он содержит примеры создания аудио с использованием голоса `alloy` через провайдера `PollinationsAI`, а также транскрибирования аудиофайла с использованием провайдера `Microsoft_Phi_4`.
-Этот код может быть полезен для автоматической генерации и обработки аудиоконтента в различных приложениях.
+The script utilizes the `AsyncClient` from the `g4f` library to interact with the GPT-4Free API asynchronously. It performs two key tasks:
 
-## Функции
+1. **Audio Generation**: The script uses the `openai-audio` model from the `PollinationsAI` provider to synthesize audio from a text prompt. The `voice` and `format` parameters can be customized to generate audio in different voices and formats.
+2. **Audio Transcription**:  The script leverages the `Microsoft_Phi_4` provider to transcribe an audio file (in WAV format). It transmits the audio file to the API and retrieves the transcribed text output. 
 
-### `main`
+## Functions
 
+### `main()`
+
+**Purpose**: This function orchestrates the audio generation and transcription tasks.
+
+**Parameters**: None
+
+**Returns**: None
+
+**Raises Exceptions**: 
+- `Exception`: If an error occurs during audio generation or transcription.
+
+**How the Function Works**:
+- It establishes an asynchronous client connection with the `PollinationsAI` provider.
+- It sends a text prompt to the `openai-audio` model, specifying the desired voice and audio format.
+- The generated audio is saved as an MP3 file.
+- The function then opens a WAV audio file and sends it to the `Microsoft_Phi_4` provider for transcription.
+- The transcribed text is printed to the console.
+
+**Examples**:
 ```python
-async def main():
-    """Асинхронная функция для демонстрации работы с аудио.
+# Generate audio with a custom prompt and voice
+response = await client.chat.completions.create(
+    model="openai-audio",
+    messages=[{"role": "user", "content": "This is a test audio for hypotez."}],
+    audio={ "voice": "alloy", "format": "mp3" },
+)
+response.choices[0].message.save("test.mp3") 
 
-    Функция демонстрирует два основных сценария:
-    1. Генерация аудио с использованием провайдера PollinationsAI и сохранение его в файл "alloy.mp3".
-    2. Транскрибирование аудиофайла "audio.wav" с использованием провайдера Microsoft_Phi_4 и вывод результата в консоль.
-
-    Пример:
-        Запуск функции приводит к генерации и транскрибированию аудиофайлов с использованием указанных провайдеров.
-    """
+# Transcribe an audio file
+with open("audio.wav", "rb") as audio_file:
+    response = await client.chat.completions.create(
+        messages="Transcribe this audio",
+        provider=g4f.Provider.Microsoft_Phi_4,
+        media=[[audio_file, "audio.wav"]],
+        modalities=["text"],
+    )
+    print(response.choices[0].message.content) 
 ```
 
-**Как работает функция**:
+## Parameter Details
 
-1.  Создается асинхронный клиент `AsyncClient` с указанием провайдера `PollinationsAI`.
-2.  Выполняется запрос к модели `openai-audio` для генерации аудио с текстом "Say good day to the world", используя голос `alloy` и формат `mp3`.
-3.  Полученный аудиофайл сохраняется под именем "alloy.mp3".
-4.  Открывается аудиофайл "audio.wav" для транскрибирования.
-5.  Выполняется запрос к провайдеру `Microsoft_Phi_4` для транскрибирования аудиофайла.
-6.  Результат транскрибирования выводится в консоль.
+- `model`: (str) Specifies the AI model to be used. In this case, `openai-audio` for audio generation and `microsoft-phi-4` for transcription.
+- `messages`: (list) A list of messages representing the conversation with the AI model. Each message is a dictionary with keys: `role` (str), `content` (str), and optional `audio` (dict).
+- `audio`: (dict)  A dictionary defining the audio parameters for generation.  Keys include: `voice` (str) for the desired voice, and `format` (str) for the audio file format (e.g., "mp3", "wav").
+- `provider`: (str) Specifies the provider for accessing the AI model. The code utilizes `g4f.Provider.PollinationsAI` and `g4f.Provider.Microsoft_Phi_4`.
+- `media`: (list) A list of media files to be processed. In this case, a single WAV audio file. Each item is a list containing the file object and file name.
+- `modalities`: (list) Specifies the modalities (types) of content expected in the response. In this case, "text" for text-based transcription. 
 
-**Примеры**:
+## Examples
 
 ```python
-import asyncio
-from g4f.client import AsyncClient
-import g4f.Provider
-import g4f.models
+# Example 1: Generate audio with a custom prompt and voice
+# Example 2: Transcribe an audio file
+# ...
+```
 
-async def main():
-    client = AsyncClient(provider=g4f.Provider.PollinationsAI)
+## Conclusion
 
-    # Generate audio with PollinationsAI
-    response = await client.chat.completions.create(
-        model="openai-audio",
-        messages=[{"role": "user", "content": "Say good day to the world"}],
-        audio={ "voice": "alloy", "format": "mp3" },
-    )
-    response.choices[0].message.save("alloy.mp3")
-
-    # Transcribe a audio file
-    with open("audio.wav", "rb") as audio_file:
-        response = await client.chat.completions.create(
-            messages="Transcribe this audio",
-            provider=g4f.Provider.Microsoft_Phi_4,
-            media=[[audio_file, "audio.wav"]],\
-            modalities=["text"],
-        )
-        print(response.choices[0].message.content)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+This script illustrates a practical use case of the `g4f` library for interacting with GPT-4Free providers. The code demonstrates how to generate audio with different voices and formats and transcribe existing audio files, showcasing the library's versatility for audio processing tasks.

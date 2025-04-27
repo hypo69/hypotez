@@ -1,80 +1,63 @@
-### **Как использовать этот блок кода**
+## Как использовать класс AliCampaignEditor
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Данный код предоставляет класс `AliCampaignEditor`, предназначенный для редактирования рекламных кампаний, таких как добавление, удаление и обновление продуктов, категорий и других параметров кампании. Этот класс расширяет класс `AliPromoCampaign` и включает методы для работы с данными, хранящимися в файлах JSON и текстовых файлах.
+Класс `AliCampaignEditor` предоставляет функционал для редактирования рекламных кампаний на AliExpress. 
+Он наследует от `AliPromoCampaign` и расширяет его возможности. 
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Инициализация `AliCampaignEditor`**:
-   - Создается экземпляр класса `AliCampaignEditor` с указанием имени кампании, языка и валюты.
-   - Функция `__init__` вызывает конструктор родительского класса `AliPromoCampaign` для инициализации основных параметров кампании.
+1. **Инициализация:**
+   - Создайте экземпляр класса `AliCampaignEditor` с помощью конструктора `__init__`, передав в него имя кампании, язык и валюту.
+   - Конструктор инициализирует все необходимые атрибуты класса, например, пути к файлам, список продуктов, категорию и т.д.
+2. **Редактирование товаров:**
+   - Используйте методы `delete_product` и `update_product` для управления списком товаров в кампании.
+     - Метод `delete_product` удаляет товар по его ID, если он не имеет аффилированной ссылки.
+     - Метод `update_product` обновляет информацию о товаре в заданной категории.
+3. **Обновление кампании:**
+   - Метод `update_campaign` позволяет обновлять параметры кампании, например, описание, теги и т.д.
+4. **Работа с категориями:**
+   - Методы `update_category`, `get_category` и `list_categories` позволяют редактировать, получать информацию о категории и получать список всех категорий в кампании.
+   - Метод `update_category` обновляет информацию о категории в файле.
+   - Метод `get_category` возвращает объект `SimpleNamespace` с информацией о категории по ее имени.
+   - Метод `list_categories` возвращает список названий категорий в кампании.
+5. **Получение товаров для категории:**
+   - Метод `get_category_products` позволяет получить список объектов `SimpleNamespace`, представляющих товары в заданной категории.
+   - Метод выполняет чтение данных о товарах из JSON-файлов для заданной категории.
 
-2. **Удаление продукта (`delete_product`)**:
-   - Вызывается метод `delete_product` с указанием `product_id` продукта, который нужно удалить.
-   - Функция проверяет наличие аффилиатной ссылки и удаляет продукт из списка `sources.txt` или переименовывает HTML-файл продукта, если аффилиатной ссылки нет.
-
-3. **Обновление продукта (`update_product`)**:
-   - Вызывается метод `update_product` с указанием имени категории, языка и словаря с данными продукта.
-   - Функция вызывает метод `dump_category_products_files` для обновления данных о продукте в соответствующей категории.
-
-4. **Обновление кампании (`update_campaign`)**:
-   - Вызывается метод `update_campaign` для обновления общих свойств кампании, таких как описание и теги.
-
-5. **Обновление категории (`update_category`)**:
-   - Вызывается метод `update_category` с указанием пути к JSON-файлу и объекта категории `SimpleNamespace`.
-   - Функция загружает данные из JSON-файла, обновляет информацию о категории и сохраняет изменения обратно в файл.
-
-6. **Получение категории (`get_category`)**:
-   - Вызывается метод `get_category` с указанием имени категории.
-   - Функция возвращает объект `SimpleNamespace`, представляющий категорию, или `None`, если категория не найдена.
-
-7. **Получение списка категорий (`list_categories`)**:
-   - Вызывается метод `list_categories` для получения списка категорий в текущей кампании.
-   - Функция возвращает список имен категорий или `None`, если категории не найдены.
-
-8. **Получение продуктов категории (`get_category_products`)**:
-   - Вызывается асинхронный метод `get_category_products` с указанием имени категории.
-   - Функция считывает данные о товарах из JSON-файлов для указанной категории и возвращает список объектов `SimpleNamespace`, представляющих товары.
-
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
 from src.suppliers.suppliers_list.aliexpress.campaign.ali_campaign_editor import AliCampaignEditor
-from pathlib import Path
-from types import SimpleNamespace
 
-# 1. Инициализация редактора кампании
+# Создание экземпляра класса AliCampaignEditor
 editor = AliCampaignEditor(campaign_name="Summer Sale", language="EN", currency="USD")
 
-# 2. Удаление продукта
-editor.delete_product(product_id="12345")
+# Удаление товара по ID
+editor.delete_product("12345")
 
-# 3. Обновление продукта
-editor.update_product(category_name="Electronics", lang="EN", product={"product_id": "12345", "title": "Smartphone"})
+# Обновление товара в категории "Electronics"
+editor.update_product("Electronics", "EN", {"product_id": "12345", "title": "Smartphone"})
 
-# 4. Обновление категории
-category = SimpleNamespace(name="New Category", description="Updated description")
-result = editor.update_category(json_path=Path("category.json"), category=category)
-print(result)
-
-# 5. Получение категории
-category = editor.get_category(category_name="Electronics")
-print(category)
-
-# 6. Получение списка категорий
+# Получение списка категорий
 categories = editor.list_categories
-print(categories)
+print(categories)  # ['Electronics', 'Fashion', 'Home']
 
-# 7. Получение продуктов категории (асинхронный вызов)
-async def main():
-    products = await editor.get_category_products(category_name="Electronics")
-    if products:
-        print(len(products))
+# Получение товаров для категории "Electronics"
+products = editor.get_category_products("Electronics")
+print(len(products))  # 15
 
-# Запуск асинхронной функции
-import asyncio
-asyncio.run(main())
+# Обновление категории "Electronics"
+category = SimpleNamespace(name="Electronics", description="Updated description")
+editor.update_category(Path("category.json"), category)
 ```
+
+### Дополнительные замечания
+
+- Класс `AliCampaignEditor` использует различные вспомогательные функции для работы с файлами, данными и API AliExpress.
+- Методы `delete_product`, `update_product` и `update_campaign` предоставляют функционал для редактирования содержимого кампании.
+- Методы `update_category`, `get_category` и `list_categories` позволяют работать с категориями в кампании.
+- Метод `get_category_products` позволяет получить список товаров для заданной категории.
+- Класс `AliCampaignEditor` предоставляет мощные инструменты для управления и редактирования рекламных кампаний на AliExpress.

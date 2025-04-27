@@ -1,116 +1,109 @@
-# Документация для `backend.py`
+# Module for testing backend API
 
-## Обзор
+## Overview
 
-Этот файл содержит модульные тесты для `Backend_Api` класса, который является частью графического интерфейса `g4f`. Он проверяет основные функции API, такие как получение версии, моделей, провайдеров и выполнение поисковых запросов.
+This module contains unit tests for the `Backend_Api` class, which is responsible for handling backend API requests in the `hypotez` project.
 
-## Подробнее
+## Details
 
-Этот файл необходим для обеспечения стабильности и корректности работы `Backend_Api`. Тесты охватывают различные аспекты API, чтобы убедиться, что все компоненты функционируют правильно.
+The tests cover various aspects of the `Backend_Api` class, including:
 
-## Классы
+- Checking the returned version information.
+- Ensuring that the list of available models is correctly retrieved.
+- Verifying that the list of providers is properly returned.
+- Testing the `search` functionality using a mocked search function.
+
+## Classes
 
 ### `TestBackendApi`
 
-**Описание**: Класс для тестирования API `Backend_Api`.
+**Description**: This class contains unit tests for the `Backend_Api` class.
 
-**Наследует**: `unittest.TestCase`
+**Inherits**: `unittest.TestCase`
 
-**Атрибуты**:
-- `app` (MagicMock): Mock-объект для имитации приложения.
-- `api` (Backend_Api): Экземпляр `Backend_Api` для тестирования.
+**Methods**:
 
-**Принцип работы**:
-Класс `TestBackendApi` содержит набор тестовых методов, каждый из которых проверяет определенную функцию API `Backend_Api`. Перед выполнением каждого теста выполняется метод `setUp`, который создает необходимые объекты и проверяет наличие необходимых зависимостей.
-
-**Методы**:
-- `setUp()`: Подготовка к тестам, проверяет наличие установленных зависимостей и создает экземпляры `MagicMock` и `Backend_Api`.
-- `test_version()`: Проверяет метод `get_version()`.
-- `test_get_models()`: Проверяет метод `get_models()`.
-- `test_get_providers()`: Проверяет метод `get_providers()`.
-- `test_search()`: Проверяет функцию поиска.
-
-## Методы класса
-
-### `setUp`
+- `test_version()`: Checks if the returned version information contains "version" and "latest_version".
+- `test_get_models()`: Verifies that the `get_models()` method returns a list of models with length greater than 0.
+- `test_get_providers()`: Ensures that the `get_providers()` method returns a list of providers with length greater than 0.
+- `test_search()`: Tests the `search` functionality using a mocked search function, handling potential exceptions like `DuckDuckGoSearchException` and `MissingRequirementsError`.
 
 ```python
-def setUp(self):
-    """
-    Подготовка к тестам.
+class TestBackendApi(unittest.TestCase):
 
-    Проверяет наличие установленных зависимостей и создает экземпляры `MagicMock` и `Backend_Api`.
+    """Класс для тестирования `Backend_Api`.
+
+    Attributes:
+        app (MagicMock): Заглушка для приложения.
+        api (Backend_Api): Экземпляр класса `Backend_Api`.
+
+    Methods:
+        test_version(): Проверяет, содержит ли возвращаемая информация о версии "version" и "latest_version".
+        test_get_models(): Проверяет, возвращает ли метод `get_models()` список моделей с длиной больше 0.
+        test_get_providers(): Проверяет, возвращает ли метод `get_providers()` список провайдеров с длиной больше 0.
+        test_search(): Тестирует функциональность `search` с использованием заглушки для функции поиска, обрабатывая возможные исключения, такие как `DuckDuckGoSearchException` и `MissingRequirementsError`.
     """
-    ...
+
+    def setUp(self):
+        """Настройка тестового окружения."""
+        if not has_requirements:
+            self.skipTest("gui is not installed")
+        self.app = MagicMock()
+        self.api = Backend_Api(self.app)
+
+    def test_version(self):
+        """Проверка версии."""
+        response = self.api.get_version()
+        self.assertIn("version", response)
+        self.assertIn("latest_version", response)
+
+    def test_get_models(self):
+        """Проверка получения списка моделей."""
+        response = self.api.get_models()
+        self.assertIsInstance(response, list)
+        self.assertTrue(len(response) > 0)
+
+    def test_get_providers(self):
+        """Проверка получения списка провайдеров."""
+        response = self.api.get_providers()
+        self.assertIsInstance(response, list)
+        self.assertTrue(len(response) > 0)
+
+    def test_search(self):
+        """Проверка функциональности поиска."""
+        from g4f.gui.server.internet import search
+        try:
+            result = asyncio.run(search("Hello"))
+        except DuckDuckGoSearchException as ex:
+            self.skipTest(ex)
+        except MissingRequirementsError:
+            self.skipTest("search is not installed")
+        self.assertGreater(len(result), 0)
 ```
 
-### `test_version`
+## Parameter Details
+
+- `app` (MagicMock): A mock object representing the application for testing purposes.
+- `api` (Backend_Api): An instance of the `Backend_Api` class being tested.
+
+## Examples
 
 ```python
-def test_version(self):
-    """
-    Проверяет метод `get_version()`.
-
-    Получает версию API и проверяет, что в ответе содержатся ключи "version" и "latest_version".
-    """
-    ...
+# Example usage of the TestBackendApi class
+test_backend_api = TestBackendApi()
+test_backend_api.setUp()
+test_backend_api.test_version()
+test_backend_api.test_get_models()
+test_backend_api.test_get_providers()
+test_backend_api.test_search()
 ```
 
-### `test_get_models`
+## How the Code Works
 
-```python
-def test_get_models(self):
-    """
-    Проверяет метод `get_models()`.
+This test file focuses on verifying the functionality of the `Backend_Api` class. It uses a mock application object and performs various tests to check if the API responses are as expected. The `test_search` method attempts to use the `search` function, but handles potential exceptions like `DuckDuckGoSearchException` and `MissingRequirementsError` to ensure test stability. 
 
-    Получает список моделей и проверяет, что это список и содержит хотя бы один элемент.
-    """
-    ...
-```
+## Additional Notes
 
-### `test_get_providers`
-
-```python
-def test_get_providers(self):
-    """
-    Проверяет метод `get_providers()`.
-
-    Получает список провайдеров и проверяет, что это список и содержит хотя бы один элемент.
-    """
-    ...
-```
-
-### `test_search`
-
-```python
-def test_search(self):
-    """
-    Проверяет функцию поиска.
-
-    Выполняет поисковый запрос и проверяет, что результат содержит текст.
-    В случае отсутствия зависимостей или ошибок поиска тест пропускается.
-    """
-    ...
-```
-
-## Примеры
-
-### Пример создания и запуска тестов
-
-```python
-import unittest
-from unittest.mock import MagicMock
-
-# Создаем mock-объект для приложения
-app_mock = MagicMock()
-
-# Создаем экземпляр класса TestBackendApi
-test_api = TestBackendApi()
-test_api.app = app_mock
-test_api.api = Backend_Api(app_mock)
-
-# Запускаем тесты
-suite = unittest.TestSuite()
-suite.addTest(test_api)
-runner = unittest.TextTestRunner()
-runner.run(suite)
+- The `has_requirements` variable checks for the presence of necessary dependencies for the `Backend_Api` class. This is essential for ensuring that the tests can be run successfully. 
+- The `MissingRequirementsError` exception suggests that certain libraries or dependencies might be missing, which could be addressed by installing them.
+- The test suite provides a comprehensive check of the `Backend_Api` functionality, ensuring that it performs as intended and handles potential issues gracefully.

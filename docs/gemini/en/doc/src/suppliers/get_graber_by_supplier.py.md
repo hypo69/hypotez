@@ -2,200 +2,103 @@
 
 ## Обзор
 
-Модуль предоставляет функциональность для получения соответствующего объекта грабера для заданного URL поставщика. У каждого поставщика есть свой собственный грабер, который извлекает значения полей из целевой HTML-страницы.
+Модуль `get_graber_by_supplier` предоставляет функциональность для получения соответствующего объекта грабера для заданного URL поставщика. У каждого поставщика есть свой собственный грабер, который извлекает значения полей с целевой HTML-страницы. Модуль использует классы граберов, определенные в модулях `src.suppliers.suppliers_list.*.graber`.
 
-## Более подробно
+## Детали
 
-Этот модуль предназначен для определения подходящего грабера на основе URL поставщика. Он содержит функцию `get_graber_by_supplier_url`, которая принимает URL и возвращает соответствующий объект грабера. Модуль импортирует граберы для различных поставщиков, таких как Aliexpress, Amazon, Ebay и другие. Если для данного URL не найден соответствующий грабер, возвращается `None`, при этом фиксируется отладочное сообщение с использованием `logger.debug`.
+Этот модуль предназначен для определения соответствующего грабера для URL поставщика. 
+Он предоставляет две функции:
+
+1. `get_graber_by_supplier_url(driver: Driver, url: str, lang_index: int) -> Graber | None`: 
+    - Возвращает соответствующий грабер для заданного URL поставщика.
+    - Используется для определения грабера на основе полного URL-адреса.
+    - Принимает объект WebDriver, URL и индекс языка.
+    - Проверяет начало URL на соответствие доменам поставщиков и возвращает соответствующий объект грабера. 
+2. `get_graber_by_supplier_prefix(driver: Driver, supplier_prefix: str, lang_index: int = 2) -> Graber | None`:
+    - Возвращает соответствующий грабер по префиксу имени поставщика.
+    - Используется для определения грабера на основе префикса URL-адреса.
+    - Принимает объект WebDriver, префикс поставщика (в нижнем регистре) и индекс языка.
+    - Проверяет префикс на соответствие именам поставщиков и возвращает соответствующий объект грабера.
+
+## TOC
+
+- **Функции:**
+    - `get_graber_by_supplier_url`
+    - `get_graber_by_supplier_prefix`
 
 ## Функции
 
 ### `get_graber_by_supplier_url`
 
-```python
-def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index: int) -> Graber | None:
-    """
-    Функция, которая возвращает соответствующий грабер для заданного URL поставщика.
+**Цель**:  Функция возвращает соответствующий грабер для заданного URL поставщика.
 
-    У каждого поставщика есть свой грабер, который извлекает значения полей из целевой HTML-страницы.
+**Параметры**:
 
-    Args:
-        driver (Driver): Экземпляр веб-драйвера, используемый для взаимодействия с веб-страницей.
-        url (str): URL страницы поставщика.
-        lang_index (int): Указывает индекс языка в магазине Prestashop
+- `driver` (Driver): Экземпляр веб-драйвера для взаимодействия со страницей.
+- `url` (str): URL страницы поставщика.
+- `lang_index` (int): Индекс языка в магазине Prestashop (например, для локализации).
 
-    Returns:
-        Graber | None: Экземпляр Graber, если найдено соответствие, иначе None.
-    """
-    driver.get_url(url)
-    if url.startswith(('https://aliexpress.com', 'https://wwww.aliexpress.com')):
-        return AliexpressGraber(driver,lang_index)
+**Возвращает**:
 
-    if url.startswith(('https://amazon.com', 'https://wwww.amazon.com')):
-        return AmazonGraber(driver,lang_index)
-
-    if url.startswith(('https://bangood.com', 'https://wwww.bangood.com')):
-        return BangoodGraber(driver,lang_index)
-
-    if url.startswith(('https://cdata.co.il', 'https://wwww.cdata.co.il')):
-        return CdataGraber(driver,lang_index)
-
-    if url.startswith(('https://ebay.', 'https://wwww.ebay.')):
-        return EbayGraber(driver,lang_index)
-
-    if url.startswith(('https://etzmaleh.co.il','https://www.etzmaleh.co.il')):
-        return EtzmalehGraber(driver,lang_index)
-
-    if url.startswith(('https://gearbest.com', 'https://wwww.gearbest.com')):
-        return GearbestGraber(driver,lang_index)
-
-    if url.startswith(('https://grandadvance.co.il', 'https://www.grandadvance.co.il')):
-        return GrandadvanceGraber(driver,lang_index)
-
-    if url.startswith(('https://hb-digital.co.il', 'https://www.hb-digital.co.il')):
-        return HBGraber(driver,lang_index)
-
-    if url.startswith(('https://ivory.co.il', 'https://www.ivory.co.il')):
-        return IvoryGraber(driver,lang_index)
-
-    if url.startswith(('https://ksp.co.il', 'https://www.ksp.co.il')):
-        return KspGraber(driver,lang_index)
-
-    if url.startswith(('https://kualastyle.com', 'https://www.kualastyle.com')):
-        return KualaStyleGraber(driver,lang_index)
-
-    if url.startswith(('https://morlevi.co.il', 'https://www.morlevi.co.il')):
-        return MorleviGraber(driver,lang_index)
-
-    if url.startswith(('https://www.visualdg.com', 'https://visualdg.com')):
-        return VisualDGGraber(driver,lang_index)
-
-    if url.startswith(('https://wallashop.co.il', 'https://www.wallashop.co.il')):
-        return WallaShopGraber(driver,lang_index)
-
-    if url.startswith(('https://www.wallmart.com', 'https://wallmart.com')):
-        return WallmartGraber(driver,lang_index)
-
-    logger.debug(f'No graber found for URL: {url}')
-    ...
-    return
-```
-
-**Описание работы**:
-
-1.  Функция принимает URL страницы поставщика и индекс языка.
-2.  Использует метод `startswith()` для проверки, соответствует ли URL известным префиксам URL поставщиков.
-3.  Если URL соответствует префиксу, функция возвращает экземпляр соответствующего класса Graber, передавая ему драйвер и индекс языка.
-4.  Если URL не соответствует ни одному из известных префиксов, в журнал записывается отладочное сообщение с использованием `logger.debug`, и функция возвращает `None`.
+- `Graber | None`: Экземпляр соответствующего класса Graber, если совпадение найдено, иначе None.
 
 **Примеры**:
 
 ```python
-from src.webdriver import Driver, Chrome
-from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
-
-# Создание экземпляра драйвера (пример с Chrome)
-driver = Driver(Chrome)
-
-# Пример вызова функции с URL Aliexpress
-url = 'https://aliexpress.com/some/product'
-graber = get_graber_by_supplier_url(driver, url, '2')
-if graber:
-    print(f'Нашли грабер: {graber.__class__.__name__}')
-else:
-    print('грабер для Aliexpress не найден')
-
-# Пример вызова функции с URL Amazon
-url = 'https://amazon.com/some/product'
-graber = get_graber_by_supplier_url(driver, url, '2')
-if graber:
-    print(f'Нашли грабер: {graber.__class__.__name__}')
-else:
-    print('грабер для Amazon не найден')
-
-# Пример вызова функции с неизвестным URL
-url = 'https://unknown.com/some/product'
-graber = get_graber_by_supplier_url(driver, url, '2')
-if graber:
-    print(f'Нашли грабер: {graber.__class__.__name__}')
-else:
-    print('грабер для unknown.com не найден')
+from src.webdriver import Driver # Пример импорта
+driver_instance = Driver() # Пример создания экземпляра
+supplier_url = 'https://ksp.co.il/item/12345'
+lang_id = 2
+grabber_instance = get_graber_by_supplier_url(driver_instance, supplier_url, lang_id)
+if grabber_instance:
+    print(f'Grabber found: {type(grabber_instance).__name__}')
+# Вывод: Grabber found: KspGraber
 ```
+
+**Как работает функция**:
+
+- Функция сначала переходит по URL с помощью драйвера.
+- Затем она последовательно проверяет начало URL на соответствие спискам доменов, связанных с каждым поставщиком. 
+- Если найден совпадающий префикс, возвращается объект грабера, соответствующий данному поставщику.
+- Если совпадение не найдено, функция выводит сообщение в лог и возвращает `None`.
 
 ### `get_graber_by_supplier_prefix`
 
-```python
-def get_graber_by_supplier_prefix(driver: 'Driver', supplier_prefix: str, lang_index:str = '2' ) -> Optional[Graber] | bool:
-    """
-    ...
-    """
-    ...
+**Цель**:  Функция возвращает соответствующий грабер по префиксу имени поставщика.
 
-    if supplier_prefix == 'aliexpress':
-        grabber = AliexpressGraber(driver,lang_index)
-    if supplier_prefix == 'amazon':
-        grabber = AmazonGraber(driver,lang_index)
-    if supplier_prefix == 'ebay':
-        grabber = EbayGraber(driver,lang_index)
-    if supplier_prefix == 'gearbest':
-        grabber = GearbestGraber(driver,lang_index)
-    if supplier_prefix == 'grandadvance':
-        grabber = GrandadvanceGraber(driver,lang_index)
-    if supplier_prefix == 'hb':
-        grabber = HBGraber(driver,lang_index)
-    if supplier_prefix == 'ivory':
-        grabber = IvoryGraber(driver,lang_index)
-    if supplier_prefix == 'ksp':
-        grabber = KspGraber(driver,lang_index)
-    if supplier_prefix == 'kualastyle':
-        grabber = KualaStyleGraber(driver,lang_index)
-    if supplier_prefix == 'morlevi':
-        grabber = MorleviGraber(driver,lang_index)
-    if supplier_prefix == 'visualdg':
-        grabber = VisualDGGraber(driver,lang_index)
-    if supplier_prefix == 'wallashop':
-        grabber = WallaShopGraber(driver,lang_index)
-    if supplier_prefix == 'wallmart':
-        grabber = WallmartGraber(driver,lang_index)
+**Параметры**:
 
-    return grabber or False
-```
+- `driver` (Driver): Экземпляр веб-драйвера.
+- `supplier_prefix` (str): Строковый префикс или идентификатор поставщика (в нижнем регистре).
+- `lang_index` (int, optional): Индекс языка. По умолчанию 2.
 
-**Описание работы**:
+**Возвращает**:
 
-1.  Функция принимает префикс поставщика, экземпляр веб-драйвера и индекс языка.
-2.  В зависимости от префикса поставщика, функция создает экземпляр соответствующего класса Graber, передавая ему драйвер и индекс языка.
-3.  Если префикс поставщика не соответствует ни одному из известных, функция вернет `False`.
+- `Graber | None`: Экземпляр соответствующего класса Graber, если префикс совпадает, иначе None.
 
 **Примеры**:
 
 ```python
-from src.webdriver import Driver, Chrome
-from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_prefix
+from src.webdriver import Driver # Пример импорта
+driver_instance = Driver() # Пример создания экземпляра
+prefix = 'ksp'
+lang_id = 2
+grabber_instance = get_graber_by_supplier_prefix(driver_instance, prefix, lang_id)
+if grabber_instance:
+    print(f'Grabber found: {type(grabber_instance).__name__}')
+# Вывод: Grabber found: KspGraber
+```
 
-# Создание экземпляра драйвера (пример с Chrome)
-driver = Driver(Chrome)
+**Как работает функция**:
 
-# Пример вызова функции с префиксом Aliexpress
-supplier_prefix = 'aliexpress'
-graber = get_graber_by_supplier_prefix(driver, supplier_prefix, '2')
-if graber:
-    print(f'Нашли грабер: {graber.__class__.__name__}')
-else:
-    print('грабер для Aliexpress не найден')
+- Функция принимает строку префикса поставщика в нижнем регистре.
+- Затем она последовательно сравнивает полученный префикс с именами поставщиков.
+- Если совпадение найдено, возвращается объект грабера, соответствующий данному поставщику.
+- Если совпадение не найдено, функция выводит сообщение в лог и возвращает `None`.
 
-# Пример вызова функции с префиксом Amazon
-supplier_prefix = 'amazon'
-graber = get_graber_by_supplier_prefix(driver, supplier_prefix, '2')
-if graber:
-    print(f'Нашли грабер: {graber.__class__.__name__}')
-else:
-    print('грабер для Amazon не найден')
+## Дополнительные сведения
 
-# Пример вызова функции с неизвестным префиксом
-supplier_prefix = 'unknown'
-graber = get_graber_by_supplier_prefix(driver, supplier_prefix, '2')
-if graber:
-    print(f'Нашли грабер: {graber.__class__.__name__}')
-else:
-    print('грабер для unknown не найден')
+- Модуль `get_graber_by_supplier` использует словарь `graber_classes` для сопоставления имен поставщиков с соответствующими классами граберов.
+- Классы граберов должны иметь метод `get_product_data()`, который извлекает данные о продукте с целевой HTML-страницы.
+-  Вместо `Union[]` используйте `|` в аннотациях типов.
+- Используйте функцию `logger.debug` для вывода сообщений в лог, чтобы отслеживать работу модуля.

@@ -1,130 +1,122 @@
-# Module `Aibn`
+# Aibn Provider Module
 
 ## Overview
 
-Модуль предоставляет асинхронный генератор для взаимодействия с провайдером Aibn.cc.
-Он поддерживает GPT-3.5 Turbo, предоставляет возможности для работы с историей сообщений,
-а также обеспечивает генерацию подписи для запросов.
+This module provides the `Aibn` class, which implements an asynchronous generator provider for interacting with the Aibn.cc API. It handles sending requests, receiving responses, and iterating through the content of the response.
 
-## More details
+## Details
 
-Этот модуль используется для асинхронной генерации ответов от модели Aibn.cc.
-Он включает в себя функции для создания асинхронного генератора и генерации подписи для обеспечения безопасности запросов.
+This module is part of the `hypotez` project and acts as a wrapper for accessing the Aibn.cc API, which allows users to utilize AI models for various tasks. 
+
+The `Aibn` class inherits from the base `AsyncGeneratorProvider`, providing a common framework for interacting with different AI providers. It handles sending messages, receiving responses, and managing the communication with the Aibn.cc API.
 
 ## Classes
 
 ### `Aibn`
 
-**Description**:
-Класс `Aibn` является асинхронным генераторным провайдером, который взаимодействует с сервисом Aibn.cc.
+**Description**: 
+This class implements an asynchronous generator provider for the Aibn.cc API. It handles the communication with the API, sending messages, and receiving responses.
 
-**Inherits**:
-Наследуется от класса `AsyncGeneratorProvider`.
+**Inherits**: 
+- `AsyncGeneratorProvider`
 
 **Attributes**:
-- `url` (str): URL адрес сервиса Aibn.cc.
-- `working` (bool): Флаг, указывающий, работает ли провайдер в данный момент.
-- `supports_message_history` (bool): Флаг, указывающий, поддерживает ли провайдер историю сообщений.
-- `supports_gpt_35_turbo` (bool): Флаг, указывающий, поддерживает ли провайдер модель GPT-3.5 Turbo.
+
+- `url` (str): URL of the Aibn.cc API.
+- `working` (bool): Indicates whether the provider is currently active.
+- `supports_message_history` (bool): Indicates whether the provider supports message history.
+- `supports_gpt_35_turbo` (bool): Indicates whether the provider supports the GPT-3.5 Turbo model.
 
 **Methods**:
-- `create_async_generator`: Создает асинхронный генератор для получения ответов от Aibn.cc.
 
-### `create_async_generator`
+#### `create_async_generator`
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    timeout: int = 120,
-    **kwargs
-) -> AsyncResult:
-    """ Функция создает асинхронный генератор для получения ответов от Aibn.cc.
+**Purpose**: This method creates an asynchronous generator for interacting with the Aibn.cc API. It sends messages to the API and receives responses, iterating through the content of the response.
 
-    Args:
-        cls (Aibn): Класс Aibn.
-        model (str): Название модели.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): Прокси-сервер для использования. Defaults to None.
-        timeout (int, optional): Время ожидания ответа. Defaults to 120.
-        **kwargs: Дополнительные аргументы.
+**Parameters**:
 
-    Returns:
-        AsyncResult: Асинхронный генератор, выдающий ответы от Aibn.cc.
+- `model` (str): The name of the AI model to use.
+- `messages` (Messages): A list of messages representing the conversation history.
+- `proxy` (str, optional): A proxy server to use. Defaults to None.
+- `timeout` (int, optional): Timeout for the request in seconds. Defaults to 120.
 
-    How the function works:
-        - Функция принимает параметры модели, сообщений, прокси и таймаута.
-        - Создается асинхронная сессия с использованием `StreamSession`.
-        - Формируются данные для отправки, включая подпись запроса.
-        - Отправляется POST запрос к Aibn.cc.
-        - Асинхронно читаются чанки ответа и декодируются.
+**Returns**:
 
-    """
-```
+- `AsyncResult`: An asynchronous result object containing the generated response.
 
-### Class Parameters
+**Raises Exceptions**:
 
-- `model` (str): Имя модели, используемой для генерации ответа.
-- `messages` (Messages): Список сообщений, отправляемых в запросе.
-- `proxy` (str, optional): Адрес прокси-сервера для использования при подключении. По умолчанию `None`.
-- `timeout` (int, optional): Максимальное время ожидания ответа от сервера в секундах. По умолчанию 120.
-- `**kwargs`: Дополнительные параметры, которые могут быть переданы.
+- `Exception`: If an error occurs during communication with the Aibn.cc API.
 
-**Examples**:
+**How the Function Works**:
+
+1. The method initializes a `StreamSession` with the specified proxy and timeout.
+2. It generates a timestamp and calculates a signature for the request using the `generate_signature` function.
+3. The method sends a POST request to the Aibn.cc API endpoint with the messages, signature, and timestamp.
+4. It iterates through the content of the response, decoding each chunk and yielding it as a string.
+
+**Example**:
 
 ```python
-# Пример использования create_async_generator
-model = "gpt-3.5-turbo"
-messages = [{"role": "user", "content": "Hello, Aibn!"}]
-proxy = "http://your_proxy:8080"
-timeout = 120
+# Example of using create_async_generator
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Aibn import Aibn
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Вызов функции create_async_generator
-async def main():
-    async for chunk in Aibn.create_async_generator(model=model, messages=messages, proxy=proxy, timeout=timeout):
-        print(chunk)
+# Define a list of messages
+messages: Messages = [
+    {"role": "user", "content": "Hello, world!"},
+]
+
+# Create an instance of the Aibn class
+aibn_provider = Aibn()
+
+# Call create_async_generator to generate the response
+async_result = await aibn_provider.create_async_generator(
+    model="gpt-3.5-turbo", messages=messages
+)
+
+# Iterate through the response content
+async for chunk in async_result:
+    print(chunk)
 ```
 
 ## Functions
 
 ### `generate_signature`
 
-```python
-def generate_signature(timestamp: int, message: str, secret: str = "undefined"):
-    """ Функция генерирует подпись запроса на основе временной метки, сообщения и секретного ключа.
+**Purpose**: Generates a SHA256 signature for a message based on timestamp, message content, and a secret key.
 
-    Args:
-        timestamp (int): Временная метка.
-        message (str): Сообщение для подписи.
-        secret (str, optional): Секретный ключ. Defaults to "undefined".
+**Parameters**:
 
-    Returns:
-        str: SHA256 хэш, представляющий подпись.
+- `timestamp` (int): Timestamp to include in the signature.
+- `message` (str): Message content to include in the signature.
+- `secret` (str, optional): Secret key used for signature generation. Defaults to "undefined".
 
-    How the function works:
-        - Функция принимает временную метку, сообщение и секретный ключ.
-        - Формируется строка данных для подписи.
-        - Вычисляется SHA256 хэш от строки данных.
-        - Возвращается хэш в шестнадцатеричном формате.
-    """
-```
+**Returns**:
 
-### Function Parameters
+- `str`: The generated SHA256 signature in hexadecimal format.
 
-- `timestamp` (int): Временная метка для генерации подписи.
-- `message` (str): Сообщение, которое необходимо подписать.
-- `secret` (str, optional): Секретный ключ, используемый при генерации подписи. По умолчанию `"undefined"`.
+**How the Function Works**:
 
-**Examples**:
+1. The function concatenates the timestamp, message, and secret key into a string.
+2. It encodes the string using UTF-8 encoding.
+3. It calculates the SHA256 hash of the encoded string.
+4. It returns the hash in hexadecimal format.
+
+**Example**:
 
 ```python
-# Пример использования generate_signature
+# Example of using generate_signature
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Aibn import generate_signature
+
+# Define a timestamp, message, and secret key
 timestamp = int(time.time())
-message = "Hello, Aibn!"
+message = "Hello, world!"
 secret = "my_secret_key"
 
-signature = generate_signature(timestamp=timestamp, message=message, secret=secret)
+# Generate the signature
+signature = generate_signature(timestamp, message, secret)
+
+# Print the signature
 print(signature)
+```

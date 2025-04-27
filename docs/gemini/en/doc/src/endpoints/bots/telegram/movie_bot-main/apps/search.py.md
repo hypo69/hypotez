@@ -1,91 +1,69 @@
-# Модуль `search`
+# Module: `apps/search.py`
 
-## Обзор
+## Overview
 
-Модуль `search` предназначен для выполнения поисковых запросов к сайту Kinopoisk через поисковую систему Google и извлечения результатов поиска. Он использует библиотеки `BeautifulSoup` для парсинга HTML-кода и `requests` для выполнения HTTP-запросов. Модуль позволяет искать фильмы и сериалы на Kinopoisk, получая ссылки, заголовки и описания найденных ресурсов.
+This module provides functionality for searching for movies and TV series using the Kinopoisk website. It utilizes Google Search to retrieve relevant results, then parses the HTML response to extract key information such as the movie's title, description, and Kinopoisk link.
 
-## Более детально
+## Details
 
-Этот модуль играет роль поискового инструмента, который позволяет пользователям находить информацию о фильмах и сериалах на сайте Kinopoisk, используя поисковую систему Google. Он отправляет поисковой запрос, анализирует полученный HTML-код и извлекает необходимые данные. Это может быть полезно для автоматизации поиска информации о фильмах и сериалах, например, для создания ботов или скриптов, собирающих данные о кинопродукции.
+This module is part of the `hypotez` project and is designed to be integrated into the `movie_bot-main` application for Telegram. The `search_query` function is the core component of this module and leverages Google Search to locate relevant information for movie and TV series titles.
 
-## Функции
+## Classes
 
 ### `search_query`
 
+**Description**: This function performs a search query for movies or TV series using Google Search and retrieves information about the results from the Kinopoisk website.
+
+**Parameters**:
+
+- `query` (str): The search term (movie or TV series title) to be used in the Google Search query.
+- `type_movie` (str): The type of movie or TV series to search for (either `series` or `movie`). Defaults to `series`.
+
+**Returns**:
+
+- `dict | None`:  If successful, it returns a dictionary containing the title, description, and Kinopoisk link of the movie or TV series. If no relevant results are found, it returns `None`.
+
+**Raises Exceptions**:
+
+- `Exception`: If there is an error during the web request or HTML parsing process.
+
+**How the Function Works**:
+
+1. **Formulates a search query**: It constructs a search term specifically for Kinopoisk using the provided `query` and `type_movie` arguments.
+2. **Sends a Google Search request**: It utilizes the `requests` library to send a GET request to Google Search with the formulated search term and relevant headers.
+3. **Parses the HTML response**: It uses `BeautifulSoup` to parse the HTML content returned from Google Search.
+4. **Extracts relevant information**: The parsed HTML is then analyzed to identify and extract the title, description, and link to the movie or TV series on the Kinopoisk website.
+5. **Returns the result**: The extracted information is packaged into a dictionary and returned. If no relevant results are found, it returns `None`.
+
+**Examples**:
+
 ```python
-def search_query(query, type_movie='series'):
-    """
-    Выполняет поисковой запрос к сайту Kinopoisk через поисковую систему Google и извлекает результаты.
-
-    Args:
-        query (str): Поисковой запрос.
-        type_movie (str): Тип искомого контента ('series' или 'movie'). По умолчанию 'series'.
-
-    Returns:
-        dict | None: Словарь с информацией о найденном фильме/сериале (ссылка, заголовок, описание) или None, если ничего не найдено.
-
-    Raises:
-        requests.exceptions.RequestException: Если возникает ошибка при выполнении HTTP-запроса.
-        bs4.exceptions.BeautifulSoup: Если возникает ошибка при парсинге HTML-кода.
-
-    Принцип работы:
-        - Формирует поисковой запрос для Google с указанием сайта Kinopoisk и типа контента.
-        - Отправляет HTTP-запрос к Google с использованием случайного User-Agent.
-        - Парсит HTML-код ответа с помощью BeautifulSoup.
-        - Находит блоки с результатами поиска.
-        - Извлекает ссылку, заголовок и описание из каждого результата.
-        - Проверяет, является ли ссылка ссылкой на Kinopoisk.
-        - Если все условия выполнены, возвращает словарь с информацией о фильме/сериале.
-        - Если ничего не найдено, возвращает None.
-
-    Примеры:
-        >>> search_query('теория большого взрыва')
-        {'link': 'https://w2.kpfr.wiki/series/666', 'title': 'Теория большого взрыва', 'description': 'Описание сериала...'}
-
-        >>> search_query('Игра престолов', type_movie='series')
-        {'link': 'https://w2.kpfr.wiki/series/46131', 'title': 'Игра престолов', 'description': 'Описание сериала...'}
-
-        >>> search_query('Звездные войны', type_movie='movie')
-        {'link': 'https://w2.kpfr.wiki/movie/111', 'title': 'Звездные войны', 'description': 'Описание фильма...'}
-    """
-    term = f'site:www.kinopoisk.ru/{type_movie} {query}'
-    resp = get(
-        url="https://www.google.com/search",
-        headers={"User-Agent": get_useragent()},
-        params={"q": term, "hl": "ru"},
-        timeout=5
-    )
-    soup = BeautifulSoup(resp.text, "html.parser")
-    result_block = soup.find_all("div", attrs={"class": "g"})
-    if result_block:
-        for result in result_block:
-            link = result.find("a", href=True)
-            title = result.find("h3")
-            description = result.find("div", {"style": "-webkit-line-clamp:2"})
-            if link and title and description:
-                if link["href"].split("/")[-2].isdigit():
-                    return {
-                        'link': f'https://w2.kpfr.wiki/{type_movie}/'
-                                f'{link["href"].split("/")[-2]}',
-                        'title': title.text,
-                        'description': description.text[:-4] + '...',
-                    }
-    return None
-
+>>> print(search_query('теория большого взрыва')) # Searching for the TV series 'The Big Bang Theory'
+{'link': 'https://w2.kpfr.wiki/series/8246', 'title': 'Теория большого взрыва', 'description': '«Теория большого взрыва» — американский ситком о жизни группы молодых людей, работающих в Калифорнийском технологическом институте в ...'}
 ```
-## Параметры функции `search_query`
+```python
+>>> print(search_query('Властелин колец', type_movie='movie')) # Searching for the movie 'The Lord of the Rings'
+{'link': 'https://w2.kpfr.wiki/movie/1075', 'title': 'Властелин колец: Братство Кольца', 'description': 'Война за Средиземье приближается. Темный властелин Саурон, желающий захватить ...'}
+```
 
--   `query` (str): Поисковой запрос.
--   `type_movie` (str, optional): Тип искомого контента ('series' или 'movie'). По умолчанию 'series'.
+## Inner Functions
 
-## Примеры вызова функции `search_query`
+This module does not contain any inner functions.
+
+## Parameter Details
+
+- `query` (str): The search term (movie or TV series title) to be used in the Google Search query.
+- `type_movie` (str): The type of movie or TV series to search for (either `series` or `movie`). Defaults to `series`.
+
+
+## Examples
 
 ```python
-search_query('теория большого взрыва')
-# {'link': 'https://w2.kpfr.wiki/series/666', 'title': 'Теория большого взрыва', 'description': 'Описание сериала...'}
+>>> print(search_query('теория большого взрыва'))
+{'link': 'https://w2.kpfr.wiki/series/8246', 'title': 'Теория большого взрыва', 'description': '«Теория большого взрыва» — американский ситком о жизни группы молодых людей, работающих в Калифорнийском технологическом институте в ...'}
+```
 
-search_query('Игра престолов', type_movie='series')
-# {'link': 'https://w2.kpfr.wiki/series/46131', 'title': 'Игра престолов', 'description': 'Описание сериала...'}
-
-search_query('Звездные войны', type_movie='movie')
-# {'link': 'https://w2.kpfr.wiki/movie/111', 'title': 'Звездные войны', 'description': 'Описание фильма...'}
+```python
+>>> print(search_query('Властелин колец', type_movie='movie'))
+{'link': 'https://w2.kpfr.wiki/movie/1075', 'title': 'Властелин колец: Братство Кольца', 'description': 'Война за Средиземье приближается. Темный властелин Саурон, желающий захватить ...'}
+```

@@ -1,219 +1,121 @@
-# Модуль для звуковых оповещений
+# Beeper Module
 
-## Обзор
+## Overview
 
-Модуль `beeper.py` предназначен для воспроизведения звуковых сигналов различных уровней важности для оповещения пользователя о происходящих событиях в системе. Он использует библиотеку `winsound` для воспроизведения звуков в Windows и предоставляет возможность настройки частоты и длительности сигналов.
+This module implements a `Beeper` class that provides audio notifications based on different event levels. It uses the `winsound` library to play beeps of varying frequencies and durations, allowing for different sounds to indicate various events like success, information, warning, error, and critical alerts.
 
-## Более подробно
+## Details
 
-Этот модуль позволяет визуально уведомлять пользователя о различных событиях, происходящих в системе, с помощью звуковых сигналов. Он определяет различные уровни событий, такие как `SUCCESS`, `INFO`, `WARNING`, `ERROR` и другие, и связывает их с определенными мелодиями или звуками.
+The module utilizes a predefined dictionary `note_freq` that maps note names to corresponding frequencies. These frequencies are used to generate different beeps. The `BeepLevel` Enum class defines different event levels with associated melodies (lists of notes and durations) for each level.
 
-## Классы
+The `BeepHandler` class provides a method to play sounds based on the log record's level. It uses the `BeepLevel` Enum to determine the appropriate melody to play for each level. 
+
+The `Beeper` class provides a static method `beep` which allows for customizable audio notifications based on the provided event level, frequency, and duration. It also incorporates a `silent_mode` decorator that enables the user to mute all sound notifications.
+
+## Classes
 
 ### `BeepLevel`
 
-**Описание**: Класс-перечисление, определяющий типы событий, которые могут быть оповещены звуковым сигналом.
+**Description**:  Enum class defining different event levels with associated melodies.
 
-**Наследует**: `Enum`
+**Attributes**:
 
-**Атрибуты**:
-- `SUCCESS`: Список кортежей, содержащих ноту и длительность для события `SUCCESS`.
-- `INFO_LONG`: Список кортежей, содержащих ноту и длительность для события `INFO_LONG`.
-- `INFO`: Список кортежей, содержащих ноту и длительность для события `INFO`.
-- `ATTENTION`: Список кортежей, содержащих ноту и длительность для события `ATTENTION`.
-- `WARNING`: Список кортежей, содержащих ноту и длительность для события `WARNING`.
-- `DEBUG`: Список кортежей, содержащих ноту и длительность для события `DEBUG`.
-- `ERROR`: Список кортежей, содержащих ноту и длительность для события `ERROR`.
-- `LONG_ERROR`: Список кортежей, содержащих ноту и длительность для события `LONG_ERROR`.
-- `CRITICAL`: Список кортежей, содержащих ноту и длительность для события `CRITICAL`.
-- `BELL`: Список кортежей, содержащих ноту и длительность для события `BELL`.
-
-**Принцип работы**:
-Класс `BeepLevel` использует перечисление `Enum` для определения различных уровней событий. Каждому уровню события соответствует список кортежей, где каждый кортеж содержит ноту и длительность звукового сигнала. Это позволяет задавать разные мелодии для разных типов событий.
+- `SUCCESS`: Melody for successful events.
+- `INFO`: Melody for informational events.
+- `ATTENTION`: Melody for attention-grabbing events.
+- `WARNING`: Melody for warnings.
+- `DEBUG`: Melody for debugging messages.
+- `ERROR`: Melody for errors.
+- `LONG_ERROR`: Melody for long error messages.
+- `CRITICAL`: Melody for critical errors.
+- `BELL`: Melody for a general alert sound.
 
 ### `BeepHandler`
 
-**Описание**: Класс для обработки звуковых сигналов на основе записей логов.
+**Description**: Class for handling audio notifications based on log record level.
 
-**Атрибуты**:
-- Отсутствуют явно заданные атрибуты.
+**Attributes**:
 
-**Методы**:
-- `emit(self, record)`: Воспроизводит звук в зависимости от уровня записи лога.
-- `beep(self, level: BeepLevel | str = BeepLevel.INFO, frequency: int = 400, duration: int = 1000)`: Воспроизводит звуковой сигнал с заданной частотой и длительностью.
+- None.
+
+**Methods**:
+
+- `emit(self, record)`: Plays a sound based on the log record's level.
 
 ### `Beeper`
 
-**Описание**: Класс для воспроизведения звуковых сигналов.
+**Description**: Class for managing and generating audio notifications.
 
-**Атрибуты**:
-- `silent`: Флаг, определяющий, включен ли беззвучный режим. По умолчанию `False`.
+**Attributes**:
 
-**Методы**:
-- `beep(level: BeepLevel | str = BeepLevel.INFO, frequency: int = 400, duration: int = 1000)`: Статический асинхронный метод для воспроизведения звукового сигнала.
+- `silent`: Boolean flag to enable/disable silent mode.
 
-## Функции
+**Methods**:
 
-### `silent_mode`
+- `beep(level: BeepLevel | str = BeepLevel.INFO, frequency: int = 400, duration: int = 1000) -> None`: Plays a beep based on the given level, frequency, and duration.
 
-```python
-def silent_mode(func):
-    """
-     Функция-декоратор для управления режимом "беззвучия".
-    
-    @details Принимает один аргумент - функцию, которую нужно декорировать.
-    
-    @param func: Функция для декорирования.
-    
-    @return: Обернутая функция, добавляющая проверку режима "беззвучия".
-    """
-    def wrapper(*args, **kwargs):
-        """
-         Внутренняя функция-обертка для проверки режима "беззвучия" перед выполнением функции.
-        
-        @details Если режим "беззвучия" включен, выводит сообщение о пропуске воспроизведения звука и завершает выполнение функции beep.
-        В противном случае вызывает оригинальную функцию, переданную как аргумент (func(*args, **kwargs)).
-        
-        @param args: Позиционные аргументы, переданные в оборачиваемую функцию.
-        @param kwargs: Именованные аргументы, переданные в оборачиваемую функцию.
-        
-        @return: Результат выполнения оборачиваемой функции или None, если режим "беззвучия" включен.
-        """
-        if Beeper.silent:
-            print("Silent mode is enabled. Skipping beep.")
-            return
-        return func(*args, **kwargs)
-    return wrapper
-```
+## Functions
 
-**Назначение**: Функция-декоратор для управления режимом "беззвучия".
+### `silent_mode(func)`
 
-**Параметры**:
-- `func`: Функция для декорирования.
+**Purpose**: Decorator function to manage silent mode.
 
-**Возвращает**:
-- Обернутая функция, добавляющая проверку режима "беззвучия".
+**Parameters**:
 
-**Внутренние функции**:
-- `wrapper(*args, **kwargs)`: Внутренняя функция-обертка для проверки режима "беззвучия" перед выполнением функции.
+- `func`: Function to be decorated.
 
-**Принцип работы**:
-Декоратор `silent_mode` принимает функцию в качестве аргумента и возвращает новую функцию (`wrapper`), которая оборачивает исходную. Внутри `wrapper` проверяется, включен ли режим "беззвучия" (`Beeper.silent`). Если режим включен, выводится сообщение о пропуске воспроизведения звука и возвращается `None`. В противном случае вызывается оригинальная функция с переданными аргументами и возвращается результат ее выполнения.
+**Returns**:
 
-**Примеры**:
+- Wrapped function, including silent mode check.
+
+**Raises Exceptions**:
+
+- None.
+
+**Inner Functions**:
+
+- `wrapper(*args, **kwargs)`: Internal wrapper function to check silent mode before executing the function.
+
+**How the Function Works**:
+
+The `silent_mode` decorator is used to wrap functions that generate audio notifications. When the `silent` attribute of the `Beeper` class is set to `True`, the `wrapper` function checks this attribute and if it's `True`, prints a message indicating that silent mode is active and skips the execution of the decorated function. Otherwise, it executes the decorated function with the provided arguments.
+
+**Examples**:
+
 ```python
 @silent_mode
-async def beep(level: BeepLevel | str = BeepLevel.INFO, frequency: int = 400, duration: int = 1000) -> None:
-    ...
+def my_function():
+    # ... some code ...
 ```
 
-## Методы класса `BeepHandler`
+## Parameter Details
 
-### `emit`
+- `level (BeepLevel | str)`: Specifies the event level. It can be a `BeepLevel` Enum value or a string representation of the level: `'success'`, `'info'`, `'attention'`, `'warning'`, `'debug'`, `'error'`, `'long_error'`, `'critical'`, or `'bell'`.
+- `frequency (int)`: The frequency of the beep in Hz, ranging from 37 to 32000.
+- `duration (int)`: The duration of the beep in milliseconds.
+- `record (dict)`: Log record containing information about the event, including the event level.
 
-```python
- def emit(self, record):
-        try:
-            level = record["level"].name
-            if level == 'ERROR':
-                self.play_sound(880, 500)  # Проиграть "бип" для ошибок
-            elif level == 'WARNING':
-                self.play_sound(500, 300)  # Проиграть другой звук для предупреждений
-            elif level == 'INFO':
-                self.play_sound(300, 200)  # И так далее...
-            else:
-                self.play_default_sound()  # Дефолтный звук для других уровней логгирования
-        except Exception as ex:
-            print(f'Ошибка воспроизведения звука: {ex}' )
-```
+## Examples
 
-**Назначение**: Обрабатывает запись лога и воспроизводит соответствующий звук.
-
-**Параметры**:
-- `record`: Запись лога, содержащая информацию об уровне события.
-
-**Принцип работы**:
-Метод `emit` извлекает уровень события из записи лога и воспроизводит соответствующий звук с помощью метода `play_sound`. Если уровень события равен `ERROR`, `WARNING` или `INFO`, воспроизводится соответствующий звук. В противном случае воспроизводится звук по умолчанию. Если возникает ошибка при воспроизведении звука, выводится сообщение об ошибке.
-
-### `beep`
-
-```python
-def beep(self, level: BeepLevel | str = BeepLevel.INFO, frequency: int = 400, duration: int = 1000):
-        Beeper.beep(level, frequency, duration)
-```
-
-**Назначение**: Воспроизводит звуковой сигнал с заданной частотой и длительностью.
-
-**Параметры**:
-- `level` (BeepLevel | str): Уровень сигнала (по умолчанию `BeepLevel.INFO`).
-- `frequency` (int): Частота сигнала (по умолчанию 400 Гц).
-- `duration` (int): Длительность сигнала (по умолчанию 1000 мс).
-
-**Принцип работы**:
-Метод `beep` вызывает статический метод `beep` класса `Beeper` с переданными параметрами. Это позволяет воспроизвести звуковой сигнал с заданной частотой и длительностью.
-
-## Методы класса `Beeper`
-
-### `beep`
-
-```python
-    @staticmethod
-    @silent_mode
-    async def beep(level: BeepLevel | str = BeepLevel.INFO, frequency: int = 400, duration: int = 1000) -> None:
-        """  
-         Звуковой сигнал оповещения 
-        @details дает мне возможность на слух определить, что происходит в системе
-        @param mode `BeepLevel | str`  :  тип события: `info`, `attention`, `warning`, `debug`, `error`, `long_error`, `critical`, `bell`  
-        /t /t или `Beep.SUCCESS`, `Beep.INFO`, `Beep.ATTENTION`, `Beep.WARNING`, `Beep.DEBUG`, `Beep.ERROR`, `Beep.LONG_ERROR`, `Beep.CRITICAL`, `Beep.BELL`
-        @param frequency частота сигнала в значениях от 37 до 32000
-        @param duration длительность сигнала
-        """
-        
-        if isinstance(level, str):
-            if level == 'success':
-                melody = BeepLevel.SUCCESS.value[0]
-            # ... остальные условия ...
-        elif isinstance(level, BeepLevel):
-            melody = level.value[0]
-
-        for note, duration in melody:
-            frequency = note_freq[note]
-            try:
-                winsound.Beep(int(frequency), duration)
-            except Exception as ex:
-                print(f'''Не бибикает :| 
-                              Ошибка - {ex}, 
-                              нота - {note},
-                              продолжительность - {duration}
-                                мелодия - {melody}
-                    ''')
-                return
-            time.sleep(0.0)
-```
-
-**Назначение**: Воспроизводит звуковой сигнал оповещения.
-
-**Параметры**:
-- `level` (BeepLevel | str): Тип события (`info`, `attention`, `warning`, `debug`, `error`, `long_error`, `critical`, `bell`) или соответствующая константа `BeepLevel`. По умолчанию `BeepLevel.INFO`.
-- `frequency` (int): Частота сигнала в диапазоне от 37 до 32000 Гц.
-- `duration` (int): Длительность сигнала в миллисекундах.
-
-**Принцип работы**:
-Метод `beep` воспроизводит звуковой сигнал оповещения. Он принимает тип события (`level`), частоту (`frequency`) и длительность (`duration`) сигнала в качестве параметров. В зависимости от типа события выбирается соответствующая мелодия из перечисления `BeepLevel`. Затем для каждой ноты в мелодии воспроизводится звук с заданной частотой и длительностью с помощью функции `winsound.Beep`. Если возникает ошибка при воспроизведении звука, выводится сообщение об ошибке.
-
-## Переменные
-
-- `note_freq`: словарь, содержащий соответствия между названиями нот и их частотами.
-
-**Пример использования**:
 ```python
 from src.logger.beeper import Beeper, BeepLevel
 
-# Воспроизведение звукового сигнала уровня INFO
-Beeper.beep(level=BeepLevel.INFO)
+# Play a beep for success
+Beeper.beep(BeepLevel.SUCCESS)
 
-# Воспроизведение звукового сигнала уровня ERROR
-Beeper.beep(level=BeepLevel.ERROR)
+# Play a beep for warning
+Beeper.beep('warning', frequency=500, duration=300)
 
-# Воспроизведение звукового сигнала с заданной частотой и длительностью
-Beeper.beep(frequency=800, duration=500)
+# Play a beep for error
+Beeper.beep('error')
+
+# Enable silent mode
+Beeper.silent = True
+
+# Play a beep (will be skipped because silent mode is enabled)
+Beeper.beep('info')
+```
+
+## Conclusion
+
+The `beeper` module offers a convenient way to provide audio feedback in applications. It allows developers to customize beeps based on different event levels, frequencies, and durations, making it easy to incorporate audio alerts into a project. The silent mode feature provides an option to mute all sound notifications when necessary.

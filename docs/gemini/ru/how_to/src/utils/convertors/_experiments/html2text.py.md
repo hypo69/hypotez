@@ -1,53 +1,79 @@
-### **Инструкции для генерации документации к коду**
-
-=========================================================================================
-
-1. **Анализируй код**: Пойми логику и действия, выполняемые данным фрагментом кода.
-
-2. **Создай пошаговую инструкцию**:
-    - **Описание**: Объясни, что делает данный блок кода.
-    - **Шаги выполнения**: Опиши последовательность действий в коде.
-    - **Пример использования**: Приведи пример кода, как использовать данный фрагмент в проекте.
-
-3. **Промер**:
-3. 
-Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Данный код демонстрирует процесс преобразования HTML-контента в текст. Он считывает HTML-файл, преобразует его в текстовый формат и сохраняет полученный текст в новый файл.
+Данный код демонстрирует процесс преобразования HTML-файла в текстовый файл. Он считывает HTML-код из файла, преобразует его в текст и затем сохраняет текст в новый файл.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**: Импортируются модули `header`, `gs` (из `src`), `html2text`, `html2text_file` (из `src.utils.convertors`), `read_text_file`, и `save_text_file` (из `src.utils.file`).
-2. **Чтение HTML-файла**: Функция `read_text_file` используется для чтения содержимого HTML-файла по указанному пути (`gs.path.google_drive / 'html2text' / 'index.html'`). Результат сохраняется в переменной `html`.
-3. **Преобразование HTML в текст**: Функция `html2text` вызывается для преобразования HTML-контента (из переменной `html`) в текстовый формат. Результат сохраняется в переменной `text_from_html`.
-4. **Сохранение текста в файл**: Функция `save_text_file` используется для сохранения преобразованного текста (из переменной `text_from_html`) в текстовый файл по указанному пути (`gs.path.google_drive / 'html2text' / 'index.txt'`).
+1. **Считывание HTML-кода:**
+   - Задается путь к файлу `index.html`, расположенному в директории `html2text` на Google Drive.
+   - Функция `read_text_file` считывает содержимое файла и возвращает его в виде строки.
+2. **Преобразование HTML в текст:**
+   - Функция `html2text` преобразует полученный HTML-код в текст, удаляя все теги и форматирование.
+3. **Сохранение текста в файл:**
+   - Задается путь к файлу `index.txt`, расположенному в директории `html2text` на Google Drive.
+   - Функция `save_text_file` сохраняет полученный текстовый файл в указанном месте.
 
 Пример использования
 -------------------------
 
 ```python
+    ## \file /src/utils/convertors/_experiments/html2text.py
+# -*- coding: utf-8 -*-
+
+#! .pyenv/bin/python3
+
+"""
+.. module:: src.utils.convertors._experiments 
+\t:platform: Windows, Unix
+\t:synopsis:
+
+"""
+
+
+"""
+\t:platform: Windows, Unix
+\t:synopsis:
+
+"""
+
+"""
+\t:platform: Windows, Unix
+\t:synopsis:
+
+"""
+
+"""
+\t:platform: Windows, Unix
+\t:synopsis:
+
+"""
+
+"""
+  :platform: Windows, Unix
+
+"""
+"""
+  :platform: Windows, Unix
+  :platform: Windows, Unix
+  :synopsis:
+"""
+  
+
+""" module: src.utils.convertors._experiments """
+
+
+""" HERE SHOULD BE A DESCRIPTION OF THE MODULE OPERATION ! """
+
 import header
 from src import gs
 from src.utils.convertors import html2text, html2text_file
 from src.utils.file import read_text_file, save_text_file
 
-# Укажите путь к вашему HTML-файлу
-html_file_path = gs.path.google_drive / 'html2text' / 'index.html'
-
-# Укажите путь для сохранения текстового файла
-text_file_path = gs.path.google_drive / 'html2text' / 'index.txt'
-
-# Чтение HTML-файла
-html = read_text_file(html_file_path)
-
-# Преобразование HTML в текст
+html = read_text_file(gs.path.google_drive / 'html2text' / 'index.html')
 text_from_html = html2text(html)
-
-# Сохранение текста в файл
-save_text_file(text_from_html, text_file_path)
+save_text_file(text_from_html, gs.path.google_drive / 'html2text' / 'index.txt')
+...
 ```
-
-4. **Избегай расплывчатых терминов** вроде "получаем" или "делаем". Будь конкретным, что именно делает код, например: "проверяет", "валидирует" или "отправляет".

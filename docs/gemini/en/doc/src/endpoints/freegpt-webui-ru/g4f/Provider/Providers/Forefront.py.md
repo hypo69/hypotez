@@ -1,62 +1,56 @@
-# Документация для `Forefront.py`
+# Forefront Provider
 
-## Обзор
+## Overview
 
-Файл `Forefront.py` предоставляет реализацию провайдера Forefront для работы с моделью `gpt-3.5-turbo`. Он включает в себя функцию для создания запросов к API Forefront и получения ответов в потоковом режиме.
+This module provides a Forefront provider implementation for the `hypotez` project. This provider is designed to interact with the Forefront API to enable access to the Forefront AI models. 
 
-## Более подробно
+## Details
 
-Этот файл определяет способ взаимодействия с Forefront API для получения ответов от модели `gpt-3.5-turbo`. Он использует библиотеку `requests` для отправки POST-запросов и обработки потоковых ответов. Этот код важен для интеграции Forefront в проект `hypotez`.
+The Forefront provider offers an integration with the Forefront AI models. It utilizes the `requests` library to send requests to the Forefront API and receives responses in a streaming format. This approach is suitable for large language models (LLMs) that generate text iteratively.
 
-## Функции
+The `_create_completion` function, which is the primary function for generating responses from Forefront models, interacts with the Forefront API by sending JSON data. The response from the API is then streamed and processed to yield individual tokens, representing parts of the generated text.
+
+## Functions
 
 ### `_create_completion`
 
+**Purpose**: This function handles the generation of completions from the Forefront AI models. It sends a request to the Forefront API with a specific JSON structure containing the input messages, model selection, and other settings. The response from the API is streamed, and the function yields individual tokens from the generated text.
+
+**Parameters**:
+
+- `model` (str): The Forefront model to be used for generating the response.
+- `messages` (list): A list of messages in the conversation. Each message is a dictionary with keys 'role' (e.g., 'user', 'assistant') and 'content' (the message text).
+- `stream` (bool): Indicates whether to receive the response in a streaming format.
+
+**Returns**:
+
+- Generator: A generator that yields individual tokens from the generated text.
+
+**Raises Exceptions**:
+
+- RequestsError: If there is an error sending the request to the Forefront API.
+- JSONDecodeError: If there is an error decoding the JSON response from the Forefront API.
+
+**Inner Functions**:
+
+- None
+
+**How the Function Works**:
+
+1. The function constructs a JSON payload containing the input messages, model selection, and other settings.
+2. It uses the `requests` library to send a POST request to the Forefront API endpoint `https://streaming.tenant-forefront-default.knative.chi.coreweave.com/free-chat`.
+3. The API response is streamed and processed iteratively.
+4. For each line in the streamed response, the function checks if it contains a 'delta' key. 
+5. If present, the 'delta' key represents a token in the generated text. This token is decoded from JSON and yielded to the caller.
+
+**Examples**:
+
 ```python
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    """
-    Создает запрос к API Forefront и возвращает ответ в потоковом режиме.
-
-    Args:
-        model (str): Имя используемой модели.
-        messages (list): Список сообщений для отправки в запросе.
-        stream (bool): Флаг, указывающий, следует ли возвращать ответ в потоковом режиме.
-        **kwargs: Дополнительные аргументы.
-
-    Yields:
-        str: Часть ответа от API.
-
-    Как работает функция:
-    - Функция формирует JSON-данные для отправки POST-запроса к API Forefront.
-    - Данные включают текст сообщения, информацию о персоне и модели, а также предыдущие сообщения.
-    - Отправляется POST-запрос к указанному URL с потоковой передачей данных.
-    - Функция итерируется по строкам ответа и извлекает полезные данные (токены) из JSON-формата.
-    - Каждый токен передается через `yield`, что позволяет получать ответ в потоковом режиме.
-    """
-```
-
-**Параметры**:
-
-- `model` (str): Имя модели, используемой для генерации ответа.
-- `messages` (list): Список сообщений, отправляемых в API.
-- `stream` (bool): Определяет, возвращается ли ответ в потоковом режиме.
-- `**kwargs`: Дополнительные параметры.
-
-**Возвращает**:
-
-- `str`: Часть ответа от API (токен).
-
-**Пример**:
-```python
-messages = [{"role": "user", "content": "Привет, как дела?"}]
-for token in _create_completion(model='gpt-3.5-turbo', messages=messages, stream=True):
+messages = [
+    {'role': 'user', 'content': 'Hello, how are you?'},
+    {'role': 'assistant', 'content': 'I am doing well, thank you for asking.'},
+]
+tokens = _create_completion(model='gpt-4', messages=messages, stream=True)
+for token in tokens:
     print(token)
 ```
-
-## Переменные
-
-- `url` (str): URL для API Forefront.
-- `model` (list): Список поддерживаемых моделей (в данном случае `gpt-3.5-turbo`).
-- `supports_stream` (bool): Флаг, указывающий, поддерживает ли провайдер потоковую передачу данных (True).
-- `needs_auth` (bool): Флаг, указывающий, требуется ли аутентификация для доступа к API (False).
-- `params` (str): Строка, содержащая информацию о поддержке типов параметров функцией `_create_completion`.

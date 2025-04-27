@@ -1,61 +1,132 @@
-# Модуль Provider
+# Provider.py
 
-## Обзор
+## Overview
 
-Модуль предоставляет базовый класс для провайдеров G4F (GenerativeForFree) и определяет основные атрибуты и параметры, которые должны быть реализованы в каждом конкретном провайдере. Этот модуль служит основой для создания различных провайдеров, каждый из которых может использовать разные модели и методы для генерации текста.
+This module defines a provider for the `g4f` system, which is used for generating responses from various AI models. 
 
-## Более подробная информация
+## Details
 
-Этот модуль определяет основные переменные и функции, необходимые для работы с провайдерами. В частности, он задает параметры для создания завершений (completions) и предоставляет информацию о поддержке стриминга, необходимости аутентификации и других параметрах. Анализ местоположения файла в проекте показывает, что он находится в каталоге `g4f/Provider/` и, вероятно, используется для определения интерфейса провайдеров в G4F.
+This file defines a specific provider for the `g4f` system, allowing the system to interact with different AI models like OpenAI and Google Gemini. The provider handles the specific requirements of the model, such as authentication, parameters, and stream support.
 
-## Переменные
+## Classes
 
-- `url`: URL-адрес провайдера. Изначально установлен в `None`.
-- `model`: Модель, используемая провайдером. Изначально установлена в `None`.
-- `supports_stream`: Флаг, указывающий, поддерживает ли провайдер потоковую передачу данных. Изначально установлен в `False`.
-- `needs_auth`: Флаг, указывающий, требуется ли аутентификация для использования провайдера. Изначально установлен в `False`.
-- `params`: Строка, содержащая информацию о поддерживаемых параметрах функции `_create_completion`.
+### `Provider`
 
-## Функции
+**Description**: This class serves as the base provider for the `g4f` system. It defines the fundamental methods and properties that all providers should inherit.
 
-### `_create_completion`
+**Attributes**:
+
+- **url**: The URL endpoint of the provider. 
+- **model**: The name of the AI model.
+- **supports_stream**: Indicates whether the provider supports streaming responses. 
+- **needs_auth**: Indicates whether the provider requires authentication.
+
+**Methods**:
+
+- **`_create_completion(model: str, messages: list, stream: bool, **kwargs)`**: This method is responsible for generating a completion (response) from the AI model based on the provided `model`, `messages`, `stream` flag, and any additional `kwargs`. This method should be overridden in each specific provider class to handle the unique requirements of the chosen model.
+
+## Functions
+
+### `_create_completion(model: str, messages: list, stream: bool, **kwargs)`
+
+**Purpose**: This function creates a completion from the AI model based on the provided arguments.
+
+**Parameters**:
+
+- `model` (str): The name of the AI model.
+- `messages` (list): A list of messages to send to the model.
+- `stream` (bool): A flag indicating whether to stream the response.
+- `**kwargs`: Additional keyword arguments to pass to the model.
+
+**Returns**:
+
+- The generated completion (response) from the AI model.
+
+**How the Function Works**:
+
+This function is designed to be a placeholder for a specific implementation of the `_create_completion` method. It should be overridden by each provider class to define the logic for interacting with the chosen AI model. The function takes the model name, a list of messages to send to the model, a flag indicating whether to stream the response, and any additional keyword arguments. The function returns the generated completion from the AI model.
+
+**Examples**:
 
 ```python
+# Example of how the _create_completion function might be used in a specific provider class
+from ..typing import sha256, Dict, get_type_hints
+
 def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    """
-    Функция создает завершение (completion) на основе переданных параметров.
+    # Implement logic for interacting with the specific AI model here
+    # This example assumes a hypothetical model with a 'generate_response' method
+    response = model.generate_response(messages, stream, **kwargs)
+    return response
 
-    Args:
-        model (str): Имя модели для генерации.
-        messages (list): Список сообщений для контекста генерации.
-        stream (bool): Флаг, указывающий, использовать ли потоковую передачу.
-        **kwargs: Дополнительные аргументы.
+# Example of using _create_completion in a specific provider
+class MyProvider:
+    def __init__(self, model: str, url: str):
+        self.model = model
+        self.url = url
+        # ... other initialization code
 
-    Returns:
-        None: Функция ничего не возвращает, только создает завершение.
-
-    Как работает функция:
-    - Функция принимает параметры, необходимые для создания завершения.
-    - В текущей реализации функция ничего не делает (возвращает `None`).
-    - Предполагается, что в конкретных реализациях провайдеров эта функция будет переопределена
-      для выполнения фактической генерации текста.
-    """
+    def _create_completion(self, model: str, messages: list, stream: bool, **kwargs):
+        # Override the base _create_completion method with specific logic
+        # This example uses the hypothetical model with a 'generate_response' method
+        response = model.generate_response(messages, stream, **kwargs)
+        return response
 ```
 
-### `params`
+## Inner Functions
 
-Строка, содержащая информацию о поддерживаемых параметрах функции `_create_completion`.
+### `get_type_hints(obj)`
+
+**Purpose**: This function retrieves the type hints from an object.
+
+**Parameters**:
+
+- `obj`: The object to retrieve the type hints from.
+
+**Returns**:
+
+- A dictionary containing the type hints for the object.
+
+**How the Function Works**:
+
+This function uses the `get_type_hints` function from the typing module to retrieve type hints from the provided object. The type hints are returned as a dictionary, where the keys are the parameter names and the values are the corresponding types.
+
+**Examples**:
 
 ```python
-params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    '(%s)' % ', '.join(
-        [f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
+from ..typing import get_type_hints
+
+def my_function(param1: str, param2: int) -> bool:
+    # Function body...
+
+type_hints = get_type_hints(my_function)
+print(type_hints)  # Output: {'param1': <class 'str'>, 'param2': <class 'int'>, 'return': <class 'bool'>}
 ```
 
-**Описание**: Строка форматируется для предоставления информации о поддерживаемых типах параметров функции `_create_completion`.
+## Parameter Details
 
-**Принцип работы**:
-1. Извлекается имя файла текущего модуля (`os.path.basename(__file__)[:-3]`).
-2. Извлекаются аннотации типов параметров функции `_create_completion` с использованием `get_type_hints`.
-3. Формируется строка с именами параметров и их типами.
-4. Строка объединяется в общий формат, указывающий, какие параметры поддерживает данный провайдер.
+- `model` (str): The name of the AI model used for generating responses.
+- `messages` (list): A list of messages passed to the AI model for generating responses.
+- `stream` (bool): A flag indicating whether the response should be streamed.
+- `**kwargs`: Additional keyword arguments passed to the AI model for generating responses.
+
+## Examples
+
+```python
+# Example of using the Provider class with a hypothetical model
+from ..typing import sha256, Dict, get_type_hints
+
+class MyProvider:
+    def __init__(self, model: str, url: str):
+        self.model = model
+        self.url = url
+
+    def _create_completion(self, model: str, messages: list, stream: bool, **kwargs):
+        response = model.generate_response(messages, stream, **kwargs)
+        return response
+
+# Example of creating a provider instance and using it to generate a completion
+provider = MyProvider(model='my_model', url='http://example.com/api')
+messages = ['Hello, AI!']
+completion = provider._create_completion(provider.model, messages, stream=False)
+print(completion)  # Output: The generated response from the AI model
+```

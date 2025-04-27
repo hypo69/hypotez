@@ -1,65 +1,33 @@
-# Модуль для работы с изображениями через Reka
+# Image Chat with Reka
 
-## Обзор
+## Overview
 
-Модуль предоставляет пример кода для взаимодействия с моделью Reka для анализа изображений. Он демонстрирует, как загрузить изображение и отправить запрос на его анализ, используя API `g4f`.
+This Python script demonstrates how to use the `g4f` library to interact with the Reka AI model for image-based chat. It leverages the Reka model to analyze an image and provide a textual description of its contents.
 
-## Более подробно
+## Details
 
-Этот код предназначен для демонстрации возможностей анализа изображений с использованием модели `reka-core` через библиотеку `g4f`. Для успешной работы требуется наличие учетной записи и авторизация на сайте `chat.reka.ai`, а также наличие изображения `cat.jpeg` в директории `docs/images/`. Код отправляет изображение модели и запрашивает описание содержимого изображения.
+This script utilizes the `g4f` library, which provides a convenient interface for interacting with various AI models, including Reka. The code showcases the following steps:
 
-## Классы
+1. **Initialization**:
+   - Creates a `Client` object from the `g4f` library, specifying the `provider` as `Reka`.
+2. **Image Chat Request**:
+   - Uses the `chat.completions.create` method to initiate a chat conversation with the `reka-core` model.
+   - Provides the following parameters:
+     - `model`: Specifies the model to use (`reka-core` in this case).
+     - `messages`: Defines the initial user prompt, which is "What can you see in the image?".
+     - `stream`: Enables streaming of the response, allowing for real-time output.
+     - `image`: Opens the specified image file ("docs/images/cat.jpeg" in this example) as a file object and provides it to the model.
+3. **Response Processing**:
+   - Iterates through the streamed responses from the model (`completion`).
+   - Prints the content of each message, effectively displaying the Reka model's description of the image.
 
-В данном модуле классы не используются.
-
-## Функции
-
-### `Client`
-
-```python
-from g4f.client import Client
-```
-
-### `create`
-
-```python
-completion = client.chat.completions.create(
-    model = "reka-core",
-    messages = [
-        {
-            "role": "user",
-            "content": "What can you see in the image ?"
-        }
-    ],
-    stream = True,
-    image = open("docs/images/cat.jpeg", "rb")
-)
-```
-
-**Описание**: Функция выполняет запрос к модели `reka-core` для анализа изображения.
-
-**Параметры**:
-
-*   `model` (str): Имя используемой модели (`reka-core`).
-*   `messages` (list): Список сообщений для отправки модели. В данном случае содержит запрос на анализ изображения.
-*   `stream` (bool): Указывает, следует ли использовать потоковый режим получения ответа.
-*   `image` (file): Объект файла изображения для анализа.
-
-**Возвращает**:
-
-*   `Generator[str, None, None]`: Генератор, возвращающий части ответа модели.
-
-**Как работает функция**:
-
-1.  Создается клиент для взаимодействия с API `g4f`.
-2.  Формируется запрос к модели `reka-core` с указанием роли пользователя и содержимого запроса ("What can you see in the image ?").
-3.  Открывается файл изображения `cat.jpeg` в режиме чтения байтов (`"rb"`).
-4.  Вызывается метод `create` клиента `client.chat.completions` для отправки запроса на анализ изображения.
-5.  Результат представляет собой генератор, из которого извлекаются части ответа модели.
-
-**Примеры**:
+##  Code Breakdown
 
 ```python
+                # Image Chat with Reca
+# !! YOU NEED COOKIES / BE LOGGED IN TO chat.reka.ai
+# download an image and save it as test.png in the same folder
+
 from g4f.client import Client
 from g4f.Provider import Reka
 
@@ -76,57 +44,61 @@ completion = client.chat.completions.create(
         }
     ],
     stream = True,
-    image = open("docs/images/cat.jpeg", "rb")
+    image = open("docs/images/cat.jpeg", "rb") # open("path", "rb"), do not use .read(), etc. it must be a file object
 )
 
 for message in completion:
     print(message.choices[0].delta.content or "")
+    
+    # >>> In the image there is ...
+
 ```
+
+##  How it works
+
+The script utilizes the `g4f` library, specifically its `Client` object, to interact with the Reka AI model. The `chat.completions.create` method is called to initiate a chat conversation, providing the model name, initial user prompt, and image data. The `stream` parameter enables streaming of the response, allowing for incremental output. The script then iterates through the streamed responses, printing each message to the console.
+
+##  Examples
+
 ```python
+# Example Usage
 from g4f.client import Client
 from g4f.Provider import Reka
 
-client = Client(
-    provider = Reka # Optional if you set model name to reka-core
-)
+# Initialize the client
+client = Client(provider=Reka)
 
+# Define the user prompt
+user_prompt = "What can you see in the image?"
+
+# Specify the image path
+image_path = "docs/images/cat.jpeg"
+
+# Initiate the chat with the Reka model
 completion = client.chat.completions.create(
-    model = "reka-core",
-    messages = [
-        {
-            "role": "user",
-            "content": "Опиши, что ты видишь на картинке?"
-        }
-    ],
-    stream = True,
-    image = open("docs/images/cat.jpeg", "rb")
+    model="reka-core",
+    messages=[{"role": "user", "content": user_prompt}],
+    stream=True,
+    image=open(image_path, "rb"),
 )
 
+# Process and print the streamed responses
 for message in completion:
     print(message.choices[0].delta.content or "")
+
 ```
 
-## Цикл for для обработки ответа
+##  Parameter Details
 
-```python
-for message in completion:
-    print(message.choices[0].delta.content or "")
-```
+- `provider`: Specifies the AI model provider (in this case, Reka).
+- `model`: Indicates the specific AI model to use (`reka-core`).
+- `messages`: Defines the messages exchanged in the chat conversation.
+- `stream`: Enables streaming of the response, allowing for incremental output.
+- `image`: Provides the image data for analysis.
 
-**Описание**: Цикл обрабатывает ответ модели, полученный в потоковом режиме.
+##  Important Notes
 
-**Как работает цикл**:
+- You need to have cookies or be logged in to chat.reka.ai.
+- The image file must be opened as a file object using `open("path", "rb")`. Do not use `.read()` or other methods that read the entire file into memory.
 
-1.  Перебирает сообщения, возвращаемые генератором `completion`.
-2.  Извлекает содержимое каждого сообщения (`message.choices[0].delta.content`).
-3.  Выводит содержимое сообщения в консоль. Если содержимое отсутствует, выводит пустую строку.
-
-**Примеры**:
-
-```python
-for message in completion:
-    print(message.choices[0].delta.content or "")
-```
-```python
-for message in completion:
-    print(message.choices[0].delta.content or "")
+This script offers a basic example of how to use the Reka model for image-based chat. You can extend this script to incorporate additional features, such as user input, image processing, and more complex AI interactions.

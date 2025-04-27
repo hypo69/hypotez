@@ -1,142 +1,60 @@
 # Модуль FakeGpt
-
 ## Обзор
+Модуль `FakeGpt` предоставляет класс `FakeGpt` для работы с фейковым API GPT, 
+который имитирует поведение реального API OpenAI GPT.
 
-Модуль `FakeGpt` предоставляет асинхронный генератор для взаимодействия с сервисом `chat-shared2.zhile.io`. Он имитирует GPT и использует API для генерации текстовых ответов на основе входных сообщений. Этот модуль предназначен для использования в качестве одного из провайдеров в системе, где требуется асинхронная генерация текста.
+## Details
+Данный модуль используется для тестирования и отладки кода, 
+взаимодействующего с API OpenAI GPT. Он предоставляет альтернативный 
+API, который не отправляет запросы в реальный API GPT, 
+а вместо этого генерирует случайные ответы. 
 
-## Детали
+## Classes
+### `class FakeGpt`
+**Description**: Класс `FakeGpt` реализует интерфейс `AsyncGeneratorProvider` 
+и предоставляет фейковый API, имитирующий поведение реального API OpenAI GPT.
 
-Модуль содержит класс `FakeGpt`, который является асинхронным генератором. Он поддерживает модель `gpt-3.5-turbo` и использует `aiohttp` для выполнения HTTP-запросов. Для работы требуется получение токена доступа и управление cookie.
+**Inherits**: 
+    - `AsyncGeneratorProvider`: Класс `FakeGpt` наследует от 
+    `AsyncGeneratorProvider`, который обеспечивает базовый интерфейс 
+    для асинхронных генераторов, предоставляющих ответы от GPT-моделей.
 
-## Классы
+**Attributes**:
+    - `url (str)`: URL-адрес фейкового API.
+    - `supports_gpt_35_turbo (bool)`: Указывает, поддерживается ли модель GPT-3.5 Turbo.
+    - `working (bool)`: Указывает, работает ли API.
+    - `_access_token (str)`: Токен доступа, используемый для аутентификации в API.
+    - `_cookie_jar`: Хранит cookie-файлы, используемые для сессии.
 
-### `FakeGpt`
+**Methods**:
+    - `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`:
+        - **Purpose**:  Асинхронный генератор для получения ответов от фейкового API.
+        - **Parameters**:
+            - `model (str)`: Название модели GPT.
+            - `messages (Messages)`: Список сообщений в истории чата.
+            - `proxy (str, optional)`: Прокси-сервер для использования с API. По умолчанию `None`.
+        - **Returns**:
+            - `AsyncResult`: Объект `AsyncResult` для асинхронного доступа к ответам.
+        - **Raises Exceptions**:
+            - `RuntimeError`: Если не получен допустимый ответ.
+    - `inner_function()`: 
+        - **Purpose**:  Внутренняя функция, которая имитирует отправку запроса в API.
+        - **Parameters**: None
+        - **Returns**: None
+        - **Raises Exceptions**: None
 
-**Описание**: Класс `FakeGpt` является асинхронным провайдером, который взаимодействует с API `chat-shared2.zhile.io` для генерации текста.
+## Functions
+### `format_prompt(messages: Messages) -> str`:
+    - **Purpose**: Форматирует текст запроса, объединяя сообщения из истории чата.
+    - **Parameters**:
+        - `messages (Messages)`: Список сообщений в истории чата.
+    - **Returns**:
+        - `str`: Текст запроса, готовый к отправке в API.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Базовый класс для асинхронных провайдеров.
+## Parameter Details
+    - `messages (Messages)`: Список сообщений в истории чата. Каждый элемент списка 
+     представляет собой словарь с ключами `id`, `author`, `content`, `metadata`, 
+     который описывает конкретное сообщение. 
 
-**Атрибуты**:
-- `url` (str): URL сервиса `chat-shared2.zhile.io`.
-- `supports_gpt_35_turbo` (bool): Указывает, что провайдер поддерживает модель `gpt-3.5-turbo`.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `_access_token` (str | None): Токен доступа для авторизации запросов.
-- `_cookie_jar` (aiohttp.CookieJar | None): Хранилище cookie для сессии.
-
-**Принцип работы**:
-1. Класс использует URL `https://chat-shared2.zhile.io` для взаимодействия с сервером.
-2. При первом запросе, если отсутствует токен доступа (`_access_token`), он получает список токенов (`token_ids`) с сервера.
-3. Выбирает случайный `token_key` из списка и получает `session_password`.
-4. Выполняет POST-запрос для аутентификации (`/auth/login`) с использованием `token_key` и `session_password`.
-5. После успешной аутентификации получает токен доступа (`accessToken`) из `/api/auth/session`.
-6. Для каждого запроса на генерацию текста формирует JSON-запрос с использованием предоставленных сообщений (`messages`).
-7. Отправляет POST-запрос на `/api/conversation` с заголовками, включающими токен доступа.
-8. Получает ответ в виде event-stream и извлекает сгенерированный текст из каждого события.
-9. Генерирует текст асинхронно, возвращая его частями.
-
-## Методы класса
-
-### `create_async_generator`
-
-```python
-    @classmethod
-    async def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        proxy: str = None,
-        **kwargs
-    ) -> AsyncResult:
-        """ Создает асинхронный генератор для получения ответов от FakeGpt.
-
-        Args:
-            model (str): Модель для генерации текста.
-            messages (Messages): Список сообщений для отправки.
-            proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-            **kwargs: Дополнительные параметры.
-
-        Returns:
-            AsyncResult: Асинхронный генератор, возвращающий сгенерированный текст.
-
-        Raises:
-            RuntimeError: Если не получен допустимый ответ.
-
-        Как работает функция:
-        1. Функция принимает модель, список сообщений и прокси (опционально) в качестве аргументов.
-        2. Формирует заголовки (`headers`) для HTTP-запросов, включая User-Agent, Referer и другие необходимые параметры.
-        3. Использует асинхронную сессию (`ClientSession`) для выполнения запросов.
-        4. Если отсутствует токен доступа (`cls._access_token`), выполняет следующие действия:
-           - Получает список токенов с сервера (`/api/loads`).
-           - Выбирает случайный токен и пароль сессии.
-           - Выполняет POST-запрос для аутентификации (`/auth/login`).
-           - Получает токен доступа из `/api/auth/session`.
-           - Обновляет хранилище cookie (`cls._cookie_jar`) для сессии.
-        5. Формирует JSON-запрос (`data`) с использованием предоставленных сообщений.
-        6. Отправляет POST-запрос на `/api/conversation` с заголовками, включающими токен доступа.
-        7. Получает ответ в виде event-stream и извлекает сгенерированный текст из каждого события.
-        8. Генерирует текст асинхронно, возвращая его частями.
-        9. Если не получен допустимый ответ, вызывает исключение `RuntimeError`.
-
-        Примеры:
-            Пример 1: Генерация текста с использованием FakeGpt без прокси.
-
-            ```python
-            model = "gpt-3.5-turbo"
-            messages = [{"role": "user", "content": "Hello, how are you?"}]
-            generator = FakeGpt.create_async_generator(model=model, messages=messages)
-            ```
-
-            Пример 2: Генерация текста с использованием FakeGpt с прокси.
-
-            ```python
-            model = "gpt-3.5-turbo"
-            messages = [{"role": "user", "content": "What is the capital of France?"}]
-            proxy = "http://your_proxy_url"
-            generator = FakeGpt.create_async_generator(model=model, messages=messages, proxy=proxy)
-            ```
-        """
-```
-
-## Параметры класса
-
-- `url` (str): URL сервиса `chat-shared2.zhile.io`.
-- `supports_gpt_35_turbo` (bool): Указывает, что провайдер поддерживает модель `gpt-3.5-turbo`.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `_access_token` (str | None): Токен доступа для авторизации запросов.
-- `_cookie_jar` (aiohttp.CookieJar | None): Хранилище cookie для сессии.
-
-## Примеры
-
-Пример 1: Создание и использование асинхронного генератора `FakeGpt`.
-
-```python
-import asyncio
-from src.endpoints.gpt4free.g4f.Provider.deprecated import FakeGpt
-
-async def main():
-    model = "gpt-3.5-turbo"
-    messages = [{"role": "user", "content": "Tell me a joke."}]
-    async for message in FakeGpt.create_async_generator(model=model, messages=messages):
-        print(message, end="")
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
-
-Пример 2: Использование прокси с асинхронным генератором `FakeGpt`.
-
-```python
-import asyncio
-from src.endpoints.gpt4free.g4f.Provider.deprecated import FakeGpt
-
-async def main():
-    model = "gpt-3.5-turbo"
-    messages = [{"role": "user", "content": "Translate 'hello' to French."}]
-    proxy = "http://your_proxy_url"  # Замените на URL вашего прокси-сервера
-    async for message in FakeGpt.create_async_generator(model=model, messages=messages, proxy=proxy):
-        print(message, end="")
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
+    - `proxy (str)`: Прокси-сервер, используемый для обхода блокировок или 
+     для доступа к интернет-ресурсам из заблокированных сетей.

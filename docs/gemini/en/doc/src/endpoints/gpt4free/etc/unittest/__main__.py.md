@@ -1,52 +1,54 @@
-# Модуль unittest для gpt4free
+# Module for Running Unit Tests
+## Overview
 
-## Обзор
+This module is responsible for running unit tests for the `gpt4free` endpoint within the `hypotez` project. It imports and executes various test modules related to the `gpt4free` functionality.
 
-Этот модуль предназначен для запуска модульных тестов для различных частей библиотеки `gpt4free`. Он импортирует модули тестов и запускает их с помощью `unittest.main()`.
+## Details
 
-## Более подробно
+This module acts as an entry point for executing unit tests within the `gpt4free` endpoint. It leverages the `unittest` framework to run tests defined in different submodules.
 
-Этот модуль является точкой входа для выполнения всех модульных тестов, определенных для проекта `gpt4free`. Он импортирует различные тестовые наборы, охватывающие асинхронные операции, серверную часть, основной функционал, модели, клиентские реализации, работу с изображениями, включения, повторные попытки провайдеров, процессы мышления, веб-поиск и специфические модели. Отключение `g4f.debug.version_check` необходимо для стабильной работы тестов.
+## Classes
 
-## Модули
+This module doesn't contain any classes.
 
-В этом модуле импортируются и запускаются следующие тестовые модули:
-
-- `asyncio`: Асинхронные тесты.
-- `backend`: Тесты серверной части.
-- `main`: Основные тесты.
-- `model`: Тесты моделей.
-- `client`: Тесты клиентской части.
-- `image_client`: Тесты для работы с изображениями.
-- `include`: Тесты включений.
-- `retry_provider`: Тесты повторных попыток провайдеров.
-- `thinking`: Тесты процессов мышления.
-- `web_search`: Тесты веб-поиска.
-- `models`: Тесты конкретных моделей.
-
-## Функции
+## Functions
 
 ### `unittest.main()`
 
+**Purpose**: This function is the primary entry point for running the unit tests. It uses `unittest` framework to discover and execute all tests within the `gpt4free` endpoint.
+
+**Parameters**: None
+
+**Returns**: None
+
+**Raises Exceptions**: None
+
+**How the Function Works**: This function initiates the `unittest` framework, causing it to search for test classes and methods within the `gpt4free` endpoint modules. It then executes the tests in order.
+
+**Examples**:
+
 ```python
+import unittest
+
+# ... (rest of the code)
+
 unittest.main()
 ```
 
-**Назначение**: Запускает все обнаруженные тесты в импортированных модулях.
+## Parameter Details
 
-**Параметры**:
-- Нет параметров.
+This module does not utilize any parameters.
 
-**Возвращает**:
-- Нет возвращаемого значения.
-
-**Принцип работы**:
-- Функция `unittest.main()` автоматически обнаруживает и запускает все тесты, определенные в импортированных модулях. Она ищет классы, наследуемые от `unittest.TestCase`, и выполняет их методы, начинающиеся с `test`. Результаты тестов выводятся в консоль.
-
-**Примеры**:
+## Examples
 
 ```python
+# This code demonstrates how the module runs unit tests.
+
+import unittest
+
+# ... (rest of the code)
+
 unittest.main()
 ```
 
-В этом примере функция вызывается без параметров, что приводит к выполнению всех тестов в текущем контексте.
+This module demonstrates the basic functionality of running unit tests within the `gpt4free` endpoint of the `hypotez` project.

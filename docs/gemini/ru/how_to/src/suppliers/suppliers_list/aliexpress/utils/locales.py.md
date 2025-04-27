@@ -1,31 +1,27 @@
-### Как использовать блок кода `locales.py`
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода предназначен для загрузки данных о локалях из JSON-файла и предоставления их в виде списка словарей. Каждый словарь содержит информацию о соответствии языка и валюты.
+Данный блок кода загружает список локализованных валют из JSON-файла.
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**: Импортируются модули `pathlib` для работы с путями к файлам, `j_loads_ns` для загрузки данных из JSON-файла и `gs` для получения пути к файлу с локалями.
-2. **Определение функции `get_locales`**: Функция `get_locales` принимает путь к JSON-файлу с данными о локалях и загружает эти данные с использованием `j_loads_ns`.
-3. **Извлечение данных о локалях**: Функция извлекает список локалей из загруженных данных (предполагается, что в JSON есть ключ `locales`).
-4. **Определение переменной `locales`**: Переменная `locales` инициализируется путем вызова функции `get_locales` с путем к файлу `locales.json`, который находится в структуре каталогов проекта.
+1. Функция `get_locales` принимает путь к JSON-файлу в качестве аргумента.
+2. Функция использует `j_loads_ns` для загрузки данных из JSON-файла.
+3. Функция возвращает список словарей, где каждый словарь содержит пару "язык-валюта".
+4. Переменная `locales` инициализируется путем вызова функции `get_locales` с путем к JSON-файлу, содержащему локализованные валюты.
 
 Пример использования
 -------------------------
 
 ```python
-from pathlib import Path
-from src.suppliers.suppliers_list.aliexpress.utils.locales import get_locales
-from src import gs
+    from src.suppliers.suppliers_list.aliexpress.utils.locales import get_locales
+    from src import gs
 
-# Получение данных о локалях из файла locales.json
-locales_path = gs.path.src / 'suppliers' / 'suppliers_list' / 'aliexpress' / 'utils' / 'locales.json'
-locales_data = get_locales(locales_path)
+    locales_path = gs.path.src / 'suppliers' / 'suppliers_list' / 'aliexpress' / 'utils' / 'locales.json'
+    locales = get_locales(locales_path)
 
-if locales_data:
-    # Вывод данных о локалях
-    print(locales_data)
-else:
-    print("Данные о локалях не найдены.")
+    if locales:
+        print(locales) # Вывод: [{'EN': 'USD'}, {'HE': 'ILS'}, {'RU': 'ILS'}, {'EN': 'EUR'}, {'EN': 'GBR'}, {'RU': 'EUR'}]
+```

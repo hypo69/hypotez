@@ -1,94 +1,40 @@
-### **Инструкция по использованию блока кода `api_request`**
-
+## Как использовать блок кода `api_request`
 =========================================================================================
 
 Описание
 -------------------------
-Функция `api_request` выполняет API-запрос, обрабатывает ответ и возвращает результат. Она принимает объект запроса, имя ожидаемого ответа и количество попыток выполнения запроса. В случае успеха возвращает результат из ответа, в противном случае логирует ошибки и возвращает `None`.
+Блок кода `api_request` реализует функцию для отправки запросов к API и обработки ответов. 
 
 Шаги выполнения
 -------------------------
-1. **Выполнение запроса**:
-   - Функция пытается выполнить API-запрос с помощью метода `getResponse()` объекта `request`.
-   - Если во время выполнения запроса возникает исключение, функция логирует критическую ошибку и возвращает `None`.
+1. **Инициализация**: Функция принимает два обязательных аргумента: `request` - объект запроса к API, `response_name` - название поля в ответе API, которое содержит результат.
+2. **Отправка запроса**: Функция пытается получить ответ от API.
+3. **Обработка ошибок**: В случае возникновения ошибки при отправке запроса, записывается сообщение об ошибке в лог.
+4. **Парсинг ответа**:  Ответ API парсится в структурированный формат (dict). 
+5. **Проверка кода ответа**: Проверяется код ответа API (поле `resp_code`).
+6. **Возвращение результата**: Если код ответа равен 200, функция возвращает результат (`result`) из ответа. В противном случае, в лог записывается предупреждение о нестандартном коде ответа.
 
-2. **Обработка ответа**:
-   - Извлекает данные из ответа, используя `response_name` и ключ `'resp_result'`.
-   - Преобразует JSON-ответ в объект `SimpleNamespace` для удобного доступа к данным.
-
-3. **Проверка кода ответа**:
-   - Проверяет, равен ли код ответа `response.resp_code` значению `200`.
-   - Если код ответа равен `200`, функция возвращает `response.result`.
-   - Если код ответа не равен `200`, функция логирует предупреждение с кодом и сообщением ответа и возвращает `None`.
-
-4. **Обработка исключений**:
-   - Если во время обработки ответа или проверки кода ответа возникает исключение, функция логирует ошибку и возвращает `None`.
 
 Пример использования
 -------------------------
 
 ```python
-from types import SimpleNamespace
-import json
-from src.logger.logger import logger
-from src.utils.printer import pprint
+from src.suppliers.aliexpress.api.helpers.requests import api_request
 
-def api_request(request, response_name, attemps:int = 1):
-    """
-    Выполняет API-запрос, обрабатывает ответ и возвращает результат.
+# Создать объект запроса к API
+request = ... # Инициализация объекта запроса
 
-    Args:
-        request: Объект запроса с методом getResponse().
-        response_name (str): Имя ожидаемого ответа.
-        attemps (int): Количество попыток выполнения запроса.
+# Отправить запрос и получить результат
+response = api_request(request, response_name='aliexpress_product_detail')
 
-    Returns:
-        SimpleNamespace | None: Результат из ответа, если запрос успешен, иначе None.
+# Обработка результата
+if response is not None:
+    pprint(response)
+```
 
-    Raises:
-        ApiRequestException: Если возникает ошибка при выполнении запроса.
-        ApiRequestResponseException: Если возникает ошибка при обработке ответа.
-    """
-    try:
-        response = request.getResponse()
-    except Exception as error:
-        logger.critical(f"Ошибка при выполнении запроса: {error}", exc_info=True)
-        return None
-
-    try:
-        response = response[response_name]['resp_result']
-        response = json.dumps(response)
-        response = json.loads(response, object_hook=lambda d: SimpleNamespace(**d))
-    except Exception as error:
-        logger.critical(f"Ошибка при обработке ответа: {error}", exc_info=True)
-        return None
-
-    try:
-        if response.resp_code == 200:
-            return response.result
-        else:
-            logger.warning(f"Неудачный код ответа: {response.resp_code} - {response.resp_msg}")
-            return None
-    except Exception as ex:
-        logger.error(f"Неизвестная ошибка: {ex}", exc_info=True)
-        return None
-
-# Пример использования
-class MockRequest:
-    def getResponse(self):
-        # Эмулируем успешный ответ
-        return {
-            "test_response": {
-                "resp_result": {
-                    "resp_code": 200,
-                    "result": {"data": "some data"}
-                }
-            }
-        }
-
-request_object = MockRequest()
-result = api_request(request_object, "test_response")
-if result:
-    print(f"Результат: {result.data}")
-else:
-    print("Запрос не удался.")
+**Важно**:
+- При возникновении ошибок в процессе отправки запроса, в лог записывается критическая ошибка.
+- При получении ответа API с нестандартным кодом ответа, в лог записывается предупреждение.
+- Функция `api_request` не предназначена для обработки ошибок. 
+- Она только отправляет запрос и пытается получить структурированный результат. 
+-  Ошибки обрабатываются в других частях кода.

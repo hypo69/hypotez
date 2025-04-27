@@ -1,44 +1,65 @@
-# Документация для `Custom.py`
+# Custom Provider for GPT4Free
 
-## Обзор
+## Overview
 
-Файл `Custom.py` определяет класс `Custom`, который является подклассом `OpenaiTemplate`. Этот класс предназначен для настройки пользовательских провайдеров, работающих с OpenAI API. Также содержит класс `Feature`, являющийся наследником `Custom`.
+This module defines custom providers for the GPT4Free service, extending the `OpenaiTemplate` class. 
 
-## Более подробная информация
+## Details
 
-Файл содержит классы для настройки провайдеров, использующих OpenAI API, в частности, `Custom` и `Feature`. `Custom` позволяет задавать базовый URL и другие параметры. Класс `Feature` наследуется от `Custom` и представляет собой прототип для будущих провайдеров.
+This file contains two classes: `Custom` and `Feature`. Both classes inherit from `OpenaiTemplate` and provide custom configurations for interacting with the GPT4Free service.
 
-## Классы
+## Classes
 
 ### `Custom`
 
-**Описание**: Класс `Custom` предоставляет базовую конфигурацию для пользовательских провайдеров, работающих с OpenAI API.
+**Description**: The `Custom` class represents a custom provider for GPT4Free. This provider has a label, working status, and authentication requirements. It also defines an API base URL and a setting to sort models.
 
-**Наследует**: `OpenaiTemplate`
+**Inherits**: `OpenaiTemplate`
 
-**Атрибуты**:
-- `label` (str): Метка провайдера ("Custom Provider").
-- `working` (bool): Указывает, работает ли провайдер (True).
-- `needs_auth` (bool): Указывает, требуется ли аутентификация (False).
-- `api_base` (str): Базовый URL API ("http://localhost:8080/v1").
-- `sort_models` (bool): Указывает, нужно ли сортировать модели (False).
+**Attributes**:
 
-**Принцип работы**:
-Класс `Custom` наследуется от `OpenaiTemplate` и устанавливает значения атрибутов, специфичные для пользовательских провайдеров. Это позволяет использовать локальный сервер для тестирования и разработки, не требуя аутентификации.
+- `label (str)`: The label of the provider, which is "Custom Provider".
+- `working (bool)`: A boolean indicating whether the provider is currently operational (set to `True`).
+- `needs_auth (bool)`: A boolean indicating whether the provider requires authentication (set to `False`).
+- `api_base (str)`: The base URL for the provider's API, set to `"http://localhost:8080/v1"`.
+- `sort_models (bool)`: A boolean indicating whether models should be sorted (set to `False`).
+
+**Methods**: None
 
 ### `Feature`
 
-**Описание**: Класс `Feature` является примером провайдера, который в данный момент не работает.
+**Description**: The `Feature` class represents another custom provider for GPT4Free. It inherits from the `Custom` class and provides a specific label and working status.
 
-**Наследует**: `Custom`
+**Inherits**: `Custom`
 
-**Атрибуты**:
-- `label` (str): Метка провайдера ("Feature Provider").
-- `working` (bool): Указывает, работает ли провайдер (False).
+**Attributes**:
 
-**Принцип работы**:
-Класс `Feature` наследуется от `Custom` и переопределяет некоторые атрибуты, в частности, устанавливает `working` в `False`, указывая, что данный провайдер в данный момент не предназначен для использования.
+- `label (str)`: The label of the provider, which is "Feature Provider".
+- `working (bool)`: A boolean indicating whether the provider is currently operational (set to `False`).
 
-## Методы класса
+**Methods**: None
 
-В данном файле нет методов, требующих документирования, так как основные атрибуты определены как атрибуты класса.
+## Examples
+
+```python
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.Custom import Custom
+
+# Creating a Custom provider instance
+custom_provider = Custom()
+
+# Accessing attributes
+print(custom_provider.label) # Output: "Custom Provider"
+print(custom_provider.working) # Output: True
+print(custom_provider.api_base) # Output: "http://localhost:8080/v1"
+```
+
+```python
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.Custom import Feature
+
+# Creating a Feature provider instance
+feature_provider = Feature()
+
+# Accessing attributes
+print(feature_provider.label) # Output: "Feature Provider"
+print(feature_provider.working) # Output: False
+```

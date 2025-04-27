@@ -1,69 +1,148 @@
-# Модуль `src.utils.xml`
+# Module: `src.utils.xml`
 
-## Обзор
+## Overview
 
-Модуль `src.utils.xml` предназначен для работы с XML-данными. Он включает функции для очистки XML от пустых элементов, форматирования XML-строк и сохранения XML-данных в файлы.
+This module provides utility functions for working with XML data. It includes functions for cleaning empty CDATA sections and unnecessary whitespace in XML strings, and for saving formatted XML data to a file.
 
-## Более подробно
+## Details
 
-Модуль предоставляет инструменты для обработки XML, такие как удаление пустых элементов и форматирование XML-кода для улучшения читаемости. Это особенно полезно при работе с XML-данными, полученными из внешних источников или сгенерированными автоматически, где может потребоваться дополнительная очистка и форматирование.
+This module is used to handle XML data in the project. It's likely used for parsing, cleaning, and formatting XML files. Here's a breakdown:
 
-## Функции
+- `clean_empty_cdata(xml_string: str) -> str`: This function cleans up the XML data, removing unnecessary whitespace and empty CDATA sections, ensuring that the XML remains valid and well-structured.
+- `save_xml(xml_string: str, file_path: str) -> None`: This function takes an XML string and saves it to a file with appropriate indentation. It uses `minidom` to format the XML for better readability.
+
+## Table of Contents
+
+- [Functions](#functions)
+    - [`clean_empty_cdata`](#clean_empty_cdata)
+    - [`save_xml`](#save_xml)
+
+## Functions
 
 ### `clean_empty_cdata`
 
-**Назначение**: Очищает пустые секции CDATA и удаляет лишние пробелы в XML-строке.
+```python
+def clean_empty_cdata(xml_string: str) -> str:
+    """! Cleans empty CDATA sections and unnecessary whitespace in XML string.
 
-**Параметры**:
-- `xml_string` (str): XML-контент в виде строки.
+    Args:
+        xml_string (str): Raw XML content.
 
-**Возвращает**:
-- `str`: Очищенный и отформатированный XML-контент.
+    Returns:
+        str: Cleaned and formatted XML content.
+    """
+    root = ET.fromstring(xml_string)
+    
+    def remove_empty_elements(element):
+        for child in list(element):
+            remove_empty_elements(child)
+            if not (child.text and child.text.strip()) and not child.attrib and not list(child):
+                element.remove(child)
 
-**Как работает**:
-1. Преобразует XML-строку в дерево элементов с помощью `ET.fromstring()`.
-2. Определяет внутреннюю функцию `remove_empty_elements`, которая рекурсивно удаляет пустые элементы из дерева XML.
-3. Преобразует очищенное дерево XML обратно в строку с помощью `ET.tostring()`.
-4. Удаляет лишние пробелы между тегами с помощью регулярного выражения `re.sub()`.
-5. Возвращает очищенную и отформатированную XML-строку.
+    remove_empty_elements(root)
+    cleaned_xml = ET.tostring(root, encoding="utf-8").decode("utf-8")
+    cleaned_xml = re.sub(r">\\s+<", "><", cleaned_xml)  # Remove unnecessary whitespace
+    return cleaned_xml
+```
 
-**Примеры**:
+**Purpose**: This function cleans XML data by removing empty CDATA sections and unnecessary whitespace.
+
+**Parameters**:
+
+- `xml_string` (str): The raw XML content to be cleaned.
+
+**Returns**:
+
+- `str`: The cleaned and formatted XML content.
+
+**How the Function Works**:
+
+1. The function parses the provided XML string into an `ElementTree` object using `ET.fromstring`.
+2. It recursively traverses the XML tree using the `remove_empty_elements` function.
+3. For each element in the tree, `remove_empty_elements` checks if the element has any content (text or attributes), or any child elements. If not, the element is removed.
+4. After cleaning, the function converts the `ElementTree` object back to a string using `ET.tostring`.
+5. The function then uses a regular expression to remove unnecessary whitespace between tags, replacing `>\\s+<` with `><`.
+6. Finally, the cleaned and formatted XML string is returned.
+
+**Example**:
 
 ```python
-xml_data = "<root><item>Value</item><empty></empty><item attr=\"test\">Another</item></root>"
+# Example XML string
+xml_data = """<root><item>Value</item><item attr="test"></item><empty/></root>"""
+
+# Clean the XML string
 cleaned_xml = clean_empty_cdata(xml_data)
+
+# Print the cleaned XML
 print(cleaned_xml)
-# Output: <root><item>Value</item><item attr="test">Another</item></root>
+```
+
+**Output**:
+
+```xml
+<root><item>Value</item><item attr="test">Another</item></root>
 ```
 
 ### `save_xml`
 
-**Назначение**: Сохраняет очищенные XML-данные из строки в файл с отступами.
+```python
+def save_xml(xml_string: str, file_path: str) -> None:
+    """! Saves cleaned XML data from a string to a file with indentation.
 
-**Параметры**:
-- `xml_string` (str): XML-контент в виде строки.
-- `file_path` (str): Путь к выходному файлу.
+    Args:
+        xml_string (str): XML content as a string.
+        file_path (str): Path to the output file.
 
-**Возвращает**:
-- `None`
+    Returns:
+        None
+    """
+    # Очистка XML от пустых элементов
+    cleaned_xml = clean_empty_cdata(xml_string)
+    
+    # Парсим XML-строку
+    xml_tree = ET.ElementTree(ET.fromstring(cleaned_xml))
+    
+    # Преобразуем в строку с отступами
+    rough_string = ET.tostring(xml_tree.getroot(), encoding="utf-8")
+    parsed_xml = minidom.parseString(rough_string)
+    pretty_xml = parsed_xml.toprettyxml(indent="  ")
 
-**Как работает**:
-1. Очищает XML-строку от пустых элементов с помощью функции `clean_empty_cdata()`.
-2. Парсит очищенную XML-строку с помощью `ET.fromstring()` и создает дерево элементов.
-3. Преобразует дерево элементов в строку с отступами с помощью `minidom.parseString()` и `toprettyxml()`.
-4. Записывает отформатированную XML-строку в файл, указанный в `file_path`.
+    # Записываем в файл
+    with open(file_path, "w", encoding="utf-8") as file:
+        file.write(pretty_xml)
+```
 
-**Примеры**:
+**Purpose**: This function saves a cleaned XML string to a file with indentation, improving its readability.
+
+**Parameters**:
+
+- `xml_string` (str): The cleaned XML content as a string.
+- `file_path` (str): The path to the output file where the XML data will be saved.
+
+**Returns**:
+
+- `None`: The function does not return any value.
+
+**How the Function Works**:
+
+1. The function first cleans the provided XML string using the `clean_empty_cdata` function.
+2. It then parses the cleaned XML string into an `ElementTree` object.
+3. The function converts the `ElementTree` object back to a string with indentation using `minidom.parseString` and `toprettyxml`.
+4. Finally, it opens the specified output file in write mode and writes the formatted XML string to the file.
+
+**Example**:
 
 ```python
-xml_data = "<root><item>Value</item><item attr=\"test\">Another</item></root>"
+# Example XML string
+xml_data = """<root><item>Value</item><item attr="test">Another</item></root>"""
+
+# Save the XML data to a file
 save_xml(xml_data, "output.xml")
 ```
 
-В результате выполнения кода будет создан файл `output.xml` с отформатированным XML-контентом.
+**Output**: The `output.xml` file will contain the following formatted XML:
 
 ```xml
-<?xml version="1.0" ?>
 <root>
   <item>Value</item>
   <item attr="test">Another</item>

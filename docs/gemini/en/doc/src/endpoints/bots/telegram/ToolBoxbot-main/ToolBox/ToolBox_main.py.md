@@ -1,295 +1,194 @@
-# Модуль `ToolBox_main.py`
+# Telegram Bot Main Script
 
-## Обзор
+## Overview
 
-Модуль `ToolBox_main.py` является основным модулем для Telegram-бота `ToolBox`, который предоставляет пользователям различные инструменты для генерации текста и изображений. Он обрабатывает команды, запросы и платежи, а также управляет подписками пользователей.
+This script is the main file for the Telegram bot, handling user interactions and managing bot functionalities. It uses the `telebot` library for Telegram API interaction, `ToolBox_requests` for bot commands, and `ToolBox_DataBase` for user data storage. The script includes functions for handling bot commands, processing payment requests, managing user profiles, and interacting with the user via text messages and images.
 
-## Подробнее
+## Details
 
-Модуль инициализирует и настраивает Telegram-бота, подключается к базе данных для хранения данных пользователей и обрабатывает различные типы запросов, включая текстовые команды, запросы изображений и платежи. Он также включает логику для управления тарифными планами и проверки времени окончания подписки.
+The bot utilizes a user-centric approach, storing and updating user data in a SQLite database. It provides various functionalities, including text generation, image generation, and subscription management. The bot's behavior is primarily driven by user commands, callback queries, and text messages.  
 
-## Классы
+**Key Components:**
 
-### `DataBase`
+- **User Data Management:** The script maintains a database (`db`) containing user information, including subscription status, usage details, and recent interactions. 
+- **Command Handling:** The bot responds to commands like `/start`, `/profile`, and `/stat` with appropriate actions based on the user's data.
+- **Payment Processing:** The script processes payment requests for basic and PRO subscriptions, updating user data accordingly.
+- **Text Generation:** The bot allows users to generate different types of text, such as social media content, advertising copy, and SEO text.
+- **Image Generation:** Users with a PRO subscription can generate images.
+- **Free Mode:** The bot provides a limited free mode with daily text generation limits.
+- **Subscription Management:** The script handles user subscription changes, activating PRO subscriptions and updating user data.
+- **Promo Codes:** The script allows users to redeem promo codes for PRO subscriptions.
 
-**Описание**: Класс для управления базой данных пользователей.
-
-**Наследует**:
-
-**Атрибуты**:
-    - `db_name` (str): Имя файла базы данных.
-    - `table_name` (str): Имя таблицы в базе данных.
-    - `titles` (dict): Словарь, содержащий заголовки столбцов таблицы базы данных.
-
-**Методы**:
-    - `create()`: Создает таблицу в базе данных, если она не существует.
-    - `load_data_from_db()`: Загружает данные из базы данных в словарь.
-    - `insert_or_update_data(user_id, data)`: Вставляет или обновляет данные пользователя в базе данных.
+## Classes
 
 ### `ToolBox`
 
-**Описание**: Класс, содержащий различные методы и функции для обработки запросов пользователей. Более подробное описание функциональности смотрите в документации к соответствующим модулям.
+**Description**: This class is used for handling various functions related to the bot, including user interactions, command execution, and data storage.
 
-**Наследует**:
+**Attributes**:
 
-**Атрибуты**:
-    - `bot`: Объект Telegram-бота.
-    - `data`: Список данных для обработки.
-    - Различные параметры конфигурации и обработчики.
+- `bot`: The `telebot` object, representing the Telegram bot instance.
+- `data`: A dictionary containing data for callback queries.
 
-**Методы**:
-   - `start_request(message)`: Обрабатывает команду `/start` и отправляет приветственное сообщение пользователю.
-   - `Text_types(message)`: Отправляет пользователю список типов текстов для генерации.
-   - `ImageSize(message)`: Отправляет пользователю список размеров изображений для генерации.
-   - `FreeArea(message)`: Активирует бесплатный режим для пользователя.
-   - `TariffArea(message)`: Отправляет пользователю информацию о доступных тарифах.
-   - `Basic_tariff(message)`: Обрабатывает запрос на подключение базового тарифа.
-   - `Pro_tariff(message)`: Обрабатывает запрос на подключение профессионального тарифа.
-   - `TariffExit(message)`: Выводит из области выбора тарифа.
-   - `OneTextArea(message, index)`: Обрабатывает запрос на генерацию одного текста.
-   - `SomeTextsArea(message, index)`: Обрабатывает запрос на генерацию нескольких текстов.
-   - `FreeCommand(message, sessions_messages)`: Обрабатывает команду в бесплатном режиме.
-   - `TextCommands(message, i)`: Обрабатывает команду для генерации текста определенного типа.
-   - `SomeTextsCommand(message, i)`: Обрабатывает команду для генерации нескольких текстов определенного типа.
-   - `ImageCommand(message, prompt, size)`: Обрабатывает команду для генерации изображения.
-   - `Image_Regen_And_Upscale(message, prompt, size, seed, timeout)`: Генерирует изображение и увеличивает его разрешение.
-   - `BeforeUpscale(message)`: Отправляет сообщение перед увеличением разрешения изображения.
-   - `ImageChange(message)`: Выводит информацию о сгенерированном изображении.
-   - `FreeTariffEnd(message)`: Выводит сообщение об окончании бесплатного тарифа.
-   - `TarrifEnd(message)`: Выводит сообщение об окончании тарифа.
-   - `restart(message)`: Перезапускает бота.
-   - `restart_markup(message)`: Перезапускает разметку бота.
+**Methods**:
 
-## Функции
+- `start_request(message)`: Displays the initial menu to the user.
+- `Text_types(message)`: Presents a selection of text types for generation.
+- `ImageSize(message)`: Offers image size options for PRO users.
+- `FreeArea(message)`: Provides the free mode area for users.
+- `TariffArea(message)`: Displays options for subscriptions.
+- `ImageArea(message)`: Handles image generation requests.
+- `Image_Regen_And_Upscale(message, prompt, size, seed, upscale_ratio=None)`: Generates, regenerates, and upscales images.
+- `Basic_tariff(message)`: Handles the BASIC subscription request.
+- `Pro_tariff(message)`: Handles the PRO subscription request.
+- `SomeTexts(message, i)`: Presents a list of texts for specific purposes.
+- `OneTextArea(message, i)`: Provides a single text field for specific purposes.
+- `SomeTextsArea(message, i)`: Handles text generation requests for multiple purposes.
+- `FreeCommand(message, sessions_messages)`: Processes text generation in free mode.
+- `TextCommands(message, i)`: Processes text generation requests for specific types.
+- `SomeTextsCommand(message, i, tokens)`: Processes text generation requests for multiple purposes.
+- `FreeTariffEnd(message)`: Informs the user about the end of the free mode.
+- `TarrifEnd(message)`: Informs the user about the end of their paid subscription.
+- `ImageCommand(message, prompt, size)`: Generates an image based on user input.
+- `restart_markup(message)`: Clears the keyboard and returns the user to the main menu.
+- `TariffExit(message)`: Exits the subscription selection area.
+- `restart(message)`: Resets the bot's state and returns to the main menu.
 
-### `process_pre_checkout_query(pre_checkout_query)`
-
-**Назначение**: Обрабатывает предварительный запрос перед оплатой.
-
-**Параметры**:
-   - `pre_checkout_query` (telebot.types.PreCheckoutQuery): Объект запроса перед оплатой.
-
-**Возвращает**:
-   - `None`
-
-**Как работает**:
-   - Функция отвечает на предварительный запрос перед оплатой, подтверждая возможность проведения платежа.
-
-**Примеры**:
-   ```python
-   # Пример вызова функции (обычно вызывается автоматически библиотекой telebot)
-   process_pre_checkout_query(pre_checkout_query)
-   ```
-
-### `successful_payment(message)`
-
-**Назначение**: Обрабатывает успешный платеж.
-
-**Параметры**:
-   - `message` (telebot.types.Message): Объект сообщения с информацией об успешном платеже.
-
-**Возвращает**:
-   - `None`
-
-**Как работает**:
-   - Функция извлекает ID пользователя из сообщения.
-   - Определяет, какой тариф был оплачен (basic или pro).
-   - Активирует соответствующие параметры подписки для пользователя в базе данных.
-   - Начисляет токены пользователю.
-   - Устанавливает дату окончания подписки.
-   - Обновляет данные пользователя в базе данных.
-   - Отправляет пользователю сообщение об успешной активации подписки.
-   - Перезапускает бота для пользователя.
-
-**Примеры**:
-   ```python
-   # Пример вызова функции (обычно вызывается автоматически библиотекой telebot)
-   successful_payment(message)
-   ```
-
-### `StartProcessing(message)`
-
-**Назначение**: Обрабатывает команду `/start`.
-
-**Параметры**:
-   - `message` (telebot.types.Message): Объект сообщения с командой `/start`.
-
-**Возвращает**:
-   - `None`
-
-**Как работает**:
-   - Функция извлекает ID пользователя из сообщения.
-   - Инициализирует данные пользователя, если их нет в базе данных, или загружает существующие данные.
-   - Обновляет или вставляет данные пользователя в базу данных.
-   - Вызывает функцию `start_request` из объекта `tb` для отправки стартового сообщения пользователю.
-
-**Примеры**:
-   ```python
-   # Пример вызова функции (обычно вызывается автоматически библиотекой telebot)
-   StartProcessing(message)
-   ```
-
-### `personal_account(message)`
-
-**Назначение**: Отображает информацию о тарифном плане пользователя.
-
-**Параметры**:
-   - `message` (telebot.types.Message): Объект сообщения с командой `/profile`.
-
-**Возвращает**:
-   - `None`
-
-**Как работает**:
-   - Функция извлекает ID пользователя из сообщения.
-   - Проверяет, какой тарифный план активен у пользователя (basic, pro или отсутствие подписки).
-   - Отправляет пользователю сообщение с информацией о его тарифном плане.
-
-**Примеры**:
-   ```python
-   # Пример вызова функции (обычно вызывается автоматически библиотекой telebot)
-   personal_account(message)
-   ```
-
-### `show_stat(message)`
-
-**Назначение**: Отображает статистику бота (только для администраторов).
-
-**Параметры**:
-   - `message` (telebot.types.Message): Объект сообщения с командой `/stat`.
-
-**Возвращает**:
-   - `None`
-
-**Как работает**:
-   - Функция извлекает ID пользователя из сообщения.
-   - Проверяет, является ли пользователь администратором (ID пользователя находится в списке разрешенных).
-   - Отправляет пользователю сообщение со статистикой бота, включая общее количество пользователей и количество пользователей с промокодом.
-
-**Примеры**:
-   ```python
-   # Пример вызова функции (обычно вызывается автоматически библиотекой telebot)
-   show_stat(message)
-   ```
+## Functions
 
 ### `generate_promo_code(length)`
 
-**Назначение**: Генерирует случайный промокод заданной длины.
+**Purpose**: Generates a random promo code with a specified length.
 
-**Параметры**:
-   - `length` (int): Длина промокода.
+**Parameters**:
 
-**Возвращает**:
-   - `str`: Сгенерированный промокод.
+- `length`: The desired length of the promo code.
 
-**Как работает**:
-   - Функция генерирует случайный промокод заданной длины, используя символы из `string.ascii_letters` и `string.digits`.
+**Returns**:
 
-**Примеры**:
-   ```python
-   # Пример вызова функции
-   promo_code = generate_promo_code(10)
-   print(promo_code)  # Вывод: случайный промокод длиной 10 символов
-   ```
+- `str`: The generated promo code.
 
-### `CallsProcessing(call)`
+**How the Function Works**:
 
-**Назначение**: Обрабатывает callback-запросы от кнопок в Telegram-боте.
+The function generates a random string of characters using the specified length. It includes lowercase letters, uppercase letters, and digits.
 
-**Параметры**:
-   - `call` (telebot.types.CallbackQuery): Объект callback-запроса.
+**Examples**:
 
-**Возвращает**:
-   - `None`
+```python
+>>> generate_promo_code(10)
+'g4bT3hV5k2'
+```
 
-**Как работает**:
-   - Функция извлекает ID пользователя из callback-запроса.
-   - Создает данные пользователя, если их нет в базе данных.
-   - Определяет, какая кнопка была нажата, и выполняет соответствующие действия.
-   - Обновляет данные пользователя в базе данных.
-   - Вызывает различные методы объекта `tb` для обработки запроса.
+### `DATA_PATTERN`
 
-**Примеры**:
-   ```python
-   # Пример вызова функции (обычно вызывается автоматически библиотекой telebot)
-   CallsProcessing(call)
-   ```
+**Purpose**: Creates a dictionary representing user data.
 
-### `TokensCancelletionPattern(user_id, func, message, i=None)`
+**Parameters**:
 
-**Назначение**: Обрабатывает списание токенов или бесплатных запросов для пользователя.
+- `text`: A list representing the user's text generation preferences.
+- `sessions_messages`: A list containing the conversation history.
+- `some`: A boolean indicating whether the user wants to generate text for multiple purposes.
+- `images`: A string representing the user's image generation preferences.
+- `free`: A boolean indicating whether the user is in free mode.
+- `basic`: A boolean indicating whether the user has a BASIC subscription.
+- `pro`: A boolean indicating whether the user has a PRO subscription.
+- `incoming_tokens`: The number of incoming tokens available to the user.
+- `outgoing_tokens`: The number of outgoing tokens available to the user.
+- `free_requests`: The number of free text generation requests available to the user.
+- `datetime_sub`: The date and time of the user's subscription expiration.
+- `promocode`: A boolean indicating whether the user has redeemed a promo code.
+- `ref`: The user's referral code.
 
-**Параметры**:
-   - `user_id` (str): ID пользователя.
-   - `func` (callable): Функция для обработки запроса (генерация текста или изображения).
-   - `message` (telebot.types.Message): Объект сообщения.
-   - `i` (int, optional): Индекс для текстовых команд. По умолчанию `None`.
+**Returns**:
 
-**Возвращает**:
-   - `None`
+- `dict`: A dictionary containing the user's data.
 
-**Как работает**:
-   - Функция извлекает информацию о токенах и бесплатных запросах пользователя из базы данных.
-   - Проверяет, достаточно ли токенов или бесплатных запросов для выполнения запроса.
-   - Вызывает функцию `func` для обработки запроса.
-   - Списывает токены или бесплатные запросы.
-   - Обновляет данные пользователя в базе данных.
-   - Если токены или бесплатные запросы закончились, отправляет пользователю сообщение об окончании тарифа.
+### `TokensCancelletionPattern(user_id: str, func, message, i: int = None)`
 
-**Примеры**:
-   ```python
-   # Пример вызова функции
-   TokensCancelletionPattern(user_id, tb.TextCommands, message, 0)
-   ```
+**Purpose**: Handles token consumption and user data updates during text generation.
 
-### `TasksProcessing(message)`
+**Parameters**:
 
-**Назначение**: Обрабатывает входящие текстовые сообщения и фотографии от пользователя.
+- `user_id`: The unique ID of the user.
+- `func`: The function to be executed for text generation.
+- `message`: The user's message containing the text generation request.
+- `i`: The index of the text type being generated.
 
-**Параметры**:
-   - `message` (telebot.types.Message): Объект сообщения.
+**Returns**:
 
-**Возвращает**:
-   - `None`
+- `None`
 
-**Как работает**:
-   - Функция извлекает ID пользователя из сообщения.
-   - Обрабатывает запросы на генерацию изображений, если они активны.
-   - Обрабатывает сообщения в бесплатном режиме.
-   - Обрабатывает текстовые команды.
-   - Обновляет данные пользователя в базе данных.
+**How the Function Works**:
 
-**Примеры**:
-   ```python
-   # Пример вызова функции (обычно вызывается автоматически библиотекой telebot)
-   TasksProcessing(message)
-   ```
+This function checks the user's token balance and free requests, deducting tokens or decreasing free requests as necessary based on the type of text generation. It then calls the `func` to execute the text generation process and updates the user's data accordingly.
 
 ### `end_check_tariff_time()`
 
-**Назначение**: Проверяет время окончания действия тарифа для всех пользователей.
+**Purpose**: Periodically checks user subscription expiration and updates user data accordingly.
 
-**Параметры**:
-   - `None`
+**Parameters**:
 
-**Возвращает**:
-   - `None`
+- None
 
-**Как работает**:
-   - Функция асинхронно проверяет для каждого пользователя в базе данных, не истекло ли время действия его тарифа.
-   - Если время истекло, обнуляет параметры подписки пользователя.
-   - Обновляет данные пользователя в базе данных.
-   - Функция выполняется в бесконечном цикле с интервалом в 10 секунд.
+**Returns**:
 
-**Примеры**:
-   ```python
-   # Пример вызова функции (обычно вызывается автоматически asyncio.run())
-   asyncio.run(end_check_tariff_time())
-   ```
+- `None`
 
-## Запуск бота
+**How the Function Works**:
 
-В блоке `if __name__ == "__main__":` запускается бот в отдельном потоке и асинхронно выполняется проверка времени окончания действия тарифа.
+This function runs asynchronously, checking the subscription expiration date of each user. If a user's subscription has expired, it updates their data to reflect free mode or disables their subscription privileges.
+
+## Inner Functions
+
+### `get_promo_code(message)`
+
+**Purpose**: Processes user input for promo code redemption.
+
+**Parameters**:
+
+- `message`: The user's message containing the promo code.
+
+**Returns**:
+
+- `None`
+
+**How the Function Works**:
+
+This function validates the user's input, checking if the promo code is "free24" or matches the user's referral code. If valid, it activates the PRO subscription and updates user data.
+
+## Parameter Details
+
+- `user_id`: A string representing the unique ID of the user.
+- `message`: A `telebot` message object containing the user's request or interaction.
+- `i`: An integer index representing the specific type of text generation or task.
+- `func`: A function that performs the actual text generation or task based on user requests.
+- `sessions_messages`: A list containing the history of messages exchanged between the user and the bot during a specific conversation.
+- `tokens`: A dictionary containing the user's token balance.
+
+## Examples
+
+**Example of `start_request(message)`**:
+
 ```python
-if __name__ == "__main__":
-    Thread(target=bot.infinity_polling).start()
-    asyncio.run(end_check_tariff_time())
+>>> from ToolBox import ToolBox
+>>> tb = ToolBox()
+>>> message = # a telebot message object
+>>> tb.start_request(message) # Displays the initial menu
+```
+
+**Example of `TextCommands(message, i)`**:
+
+```python
+>>> from ToolBox import ToolBox
+>>> tb = ToolBox()
+>>> message = # a telebot message object
+>>> i = 1 # index of the text type
+>>> tb.TextCommands(message, i) # Processes the text generation request
+```
+
+**Example of `generate_promo_code(length)`**:
+
+```python
+>>> generate_promo_code(10)
+'g4bT3hV5k2'
+```

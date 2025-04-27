@@ -1,61 +1,67 @@
-### **Как использовать этот блок кода**
+## Как использовать класс `HotProductsResponse`
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код определяет структуру данных для представления ответа, содержащего список популярных товаров с AliExpress. Класс `HotProductsResponse` включает информацию о текущей странице, количестве записей на странице, общем количестве записей и списке товаров, представленных классом `Product`.
+Класс `HotProductsResponse` представляет собой модель данных для ответа от API AliExpress, содержащего информацию о популярных товарах.
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**:
-   - Импортируется класс `Product` из модуля `.product`.
-   - Импортируется `List` из модуля `typing` для аннотации типов.
+1. **Инициализация объекта:** Создайте экземпляр класса `HotProductsResponse` и присвойте значения атрибутам:
+    - `current_page_no` - номер текущей страницы результатов.
+    - `current_record_count` - количество записей на текущей странице.
+    - `total_record_count` - общее количество записей.
+    - `products` - список объектов `Product`, представляющих популярные товары.
+2. **Доступ к данным:** После инициализации объекта вы можете получить доступ к его атрибутам, таким как:
+    - `hot_products.current_page_no` - возвращает номер текущей страницы.
+    - `hot_products.products` - возвращает список товаров.
 
-2. **Определение класса `HotProductsResponse`**:
-   - Создается класс `HotProductsResponse`, который представляет структуру ответа, содержащего список популярных товаров.
-   - Определяются атрибуты класса:
-     - `current_page_no` (int): Номер текущей страницы.
-     - `current_record_count` (int): Количество записей на текущей странице.
-     - `total_record_count` (int): Общее количество записей.
-     - `products` (List[Product]): Список объектов класса `Product`, представляющих товары.
-
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api.models.hotproducts import HotProductsResponse
-from src.suppliers.suppliers_list.aliexpress.api.models.product import Product
-from typing import List
+from src.suppliers.aliexpress.api.models.hotproducts import HotProductsResponse
+from src.suppliers.aliexpress.api.models.product import Product
 
-# Пример создания экземпляра класса Product
-product1 = Product(
-    product_id="12345",
-    product_title="Cool Gadget",
-    product_price=25.00,
-    product_url="https://example.com/gadget123"
+# Пример данных из API AliExpress
+api_response = {
+    "current_page_no": 1,
+    "current_record_count": 20,
+    "total_record_count": 100,
+    "products": [
+        {
+            "product_id": 1234567890,
+            "product_name": "Товар 1",
+            # ... другие атрибуты товара ...
+        },
+        {
+            "product_id": 9876543210,
+            "product_name": "Товар 2",
+            # ... другие атрибуты товара ...
+        },
+        # ... другие товары ...
+    ]
+}
+
+# Создание объекта HotProductsResponse из данных API
+hot_products = HotProductsResponse(
+    current_page_no=api_response["current_page_no"],
+    current_record_count=api_response["current_record_count"],
+    total_record_count=api_response["total_record_count"],
+    products=[Product(**product) for product in api_response["products"]],
 )
 
-product2 = Product(
-    product_id="67890",
-    product_title="Awesome Device",
-    product_price=50.00,
-    product_url="https://example.com/device678"
-)
+# Доступ к данным из объекта
+print(f"Текущая страница: {hot_products.current_page_no}")
+print(f"Всего записей: {hot_products.total_record_count}")
 
-# Пример создания списка товаров
-products_list: List[Product] = [product1, product2]
+# Использование данных о товарах
+for product in hot_products.products:
+    print(f"ID товара: {product.product_id}")
+    print(f"Название товара: {product.product_name}")
+```
 
-# Пример создания экземпляра класса HotProductsResponse
-hot_products_response = HotProductsResponse()
-hot_products_response.current_page_no = 1
-hot_products_response.current_record_count = 2
-hot_products_response.total_record_count = 20
-hot_products_response.products = products_list
-
-# Вывод информации о полученных данных
-print(f"Current Page No: {hot_products_response.current_page_no}")
-print(f"Current Record Count: {hot_products_response.current_record_count}")
-print(f"Total Record Count: {hot_products_response.total_record_count}")
-print("Products:")
-for product in hot_products_response.products:
-    print(f"  - ID: {product.product_id}, Title: {product.product_title}, Price: {product.product_price}")
+### Дополнительные замечания:
+- Класс `HotProductsResponse` является моделью данных для ответа от API AliExpress, содержащего информацию о популярных товарах.
+- Для создания объекта `HotProductsResponse` нужно предоставить значения атрибутов, которые соответствуют данным, полученным из API AliExpress.
+- После создания объекта вы можете получить доступ к его атрибутам и использовать информацию о товарах.

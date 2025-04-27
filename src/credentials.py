@@ -234,33 +234,29 @@ class ProgramSettings:
             retry (int): Number of retries
         """
         password:str = ''
-        while retry > 0:
-            try:
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG ~~~~~~~ ⚠️ ФАЙЛ ПАРОЛЯ В ОТКРЫТОМ ВИДЕ ⚠️ ~~~~~~~~~~~~~~~~~~~~~~~
-                password = Path( self.path.secrets / 'password.txt').read_text(encoding="utf-8") or None
-                """password: содержит строку пароля в ⚠️ открытом ⚠️ виде. Можно удалить или сам файл или вытереть его содржимое """
-            except Exception as ex:
-                print(f"😔 Failed to find password file: {ex}\n {retry-1} retries left.") 
-                ...
+        try:
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG ~~~~~~~ ⚠️ ФАЙЛ ПАРОЛЯ В ОТКРЫТОМ ВИДЕ ⚠️ ~~~~~~~~~~~~~~~~~~~~~~~
+            password = Path( self.path.secrets / 'password.txt').read_text(encoding="utf-8") or None
+            """password: содержит строку пароля в ⚠️ открытом ⚠️ виде. Можно удалить или сам файл или вытереть его содржимое """
+        except Exception as ex:
+            print(f"password file not exist") 
 
+        while retry > 0:
                 try:
                     prompt_message = '🔐 Enter KeePass master password: '
-                    password = getpass.getpass(prompt=prompt_message)
+                    password = password or getpass.getpass(prompt=prompt_message)
                     ...
                     kp = PyKeePass(str(self.path.secrets / 'credentials.kdbx'), 
                                        password = password )
-               
                     return kp
                 except Exception as ex:
-                    print(f"😔 Failed to open KeePass database Exception: {ex}\n {retry-1} retries left.")
-                    ...
                     retry -= 1
-                    if retry < 1:
-                        logger.critical('🚨 Failed to open KeePass database after multiple attempts', None, False)
-                        ...
-                        sys.exit()
+                    print(f"😔 Failed to open KeePass database Exception: {ex}\n {retry} retries left.")
+
+                    if retry: continue 
                     else:
-                        self._open_kp(retry - 1)
+                        logger.critical('🚨 Failed to open KeePass database after multiple attempts', None, False)
+                        sys.exit(-1)
 
 
     # Define methods for loading various credentials

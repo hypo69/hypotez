@@ -1,98 +1,120 @@
-# Модуль `OpenAssistant.py`
+# OpenAssistant.py
 
-## Обзор
+## Overview
 
-Модуль `OpenAssistant.py` предназначен для взаимодействия с сервисом Open Assistant для генерации текста на основе предоставленных сообщений. Он использует асинхронные запросы для обмена данными с API Open Assistant.
+This module defines the `OpenAssistant` class, which implements the `AsyncGeneratorProvider` interface for generating text responses from the Open Assistant model using the `aiohttp` library.
 
-## Подробнее
+## Details
 
-Модуль содержит класс `OpenAssistant`, который является асинхронным генератором, способным отправлять сообщения в Open Assistant и получать ответы в виде потока токенов. Он также обрабатывает аутентификацию с использованием cookies.
+This module provides a class `OpenAssistant` that serves as a wrapper for the Open Assistant API. It allows for asynchronous text generation using the `aiohttp` library, enabling efficient handling of requests and responses. The module supports the use of proxy servers and custom cookies for enhanced flexibility.
 
-## Классы
+## Classes
 
-### `OpenAssistant`
+### `class OpenAssistant(AsyncGeneratorProvider)`
 
-**Описание**:
-Класс `OpenAssistant` предоставляет функциональность для взаимодействия с сервисом Open Assistant.
+**Description**: Implements the `AsyncGeneratorProvider` interface for the Open Assistant model.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Наследует функциональность асинхронного генератора.
+**Inherits**: `AsyncGeneratorProvider`
 
-**Атрибуты**:
-- `url` (str): URL для взаимодействия с Open Assistant ("https://open-assistant.io/chat").
-- `needs_auth` (bool): Требуется ли аутентификация (True).
-- `working` (bool): Указывает, работает ли провайдер в данный момент (False).
-- `model` (str): Используемая модель ("OA_SFT_Llama_30B_6").
+**Attributes**:
+- `url` (str): The base URL for the Open Assistant API.
+- `needs_auth` (bool): Indicates whether authentication is required for accessing the API.
+- `working` (bool): A flag to track whether the provider is currently active.
+- `model` (str): The default model used for text generation.
 
-**Методы**:
-- `create_async_generator()`: Создает асинхронный генератор для получения ответов от Open Assistant.
+**Methods**:
+- `create_async_generator()`: Creates an asynchronous generator for generating text responses from the Open Assistant API.
 
-## Методы класса
 
-### `create_async_generator`
+## Functions
 
+### `create_async_generator(model: str, messages: Messages, proxy: str = None, cookies: dict = None, **kwargs) -> AsyncResult`
+
+**Purpose**: Creates an asynchronous generator for generating text responses from the Open Assistant API.
+
+**Parameters**:
+- `model` (str): The Open Assistant model to use for text generation (e.g., "OA_SFT_Llama_30B_6").
+- `messages` (Messages): A list of messages in the conversation.
+- `proxy` (str, optional): A proxy server address to use for requests. Defaults to `None`.
+- `cookies` (dict, optional): A dictionary of cookies for authentication. Defaults to `None`.
+- `kwargs`: Additional keyword arguments passed to the `sampling_parameters` dictionary.
+
+**Returns**:
+- `AsyncResult`: An asynchronous result object that yields text tokens from the generated response.
+
+**Raises Exceptions**:
+- `RuntimeError`: If an error occurs during the API request or response processing.
+
+**How the Function Works**:
+1. The function first checks if cookies are provided; if not, it retrieves them from the "open-assistant.io" website.
+2. It then creates an `aiohttp` client session with the provided cookies and headers.
+3. The function initiates a POST request to the Open Assistant API to start a new chat.
+4. It sends a prompt message to the chat using a POST request to the `/prompter_message` endpoint.
+5. It sends a message to the assistant model using a POST request to the `/assistant_message` endpoint, specifying the model, sampling parameters, and any plugins.
+6. The function then initiates a POST request to the `/events` endpoint to stream the generated text tokens.
+7. The generator yields each text token as it is received.
+8. Finally, the function deletes the chat using a DELETE request to the `/chat` endpoint.
+
+
+**Examples**:
 ```python
-    @classmethod
-    async def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        proxy: str = None,
-        cookies: dict = None,
-        **kwargs
-    ) -> AsyncResult:
-        """
-        Создает асинхронный генератор для получения ответов от Open Assistant.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated import OpenAssistant
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-        Args:
-            model (str): Название модели для использования.
-            messages (Messages): Список сообщений для отправки в Open Assistant.
-            proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-            cookies (dict, optional): Cookies для аутентификации. По умолчанию `None`.
-            **kwargs: Дополнительные параметры для настройки генератора.
+messages = Messages(
+    [
+        {"role": "user", "content": "Hello, how are you?"},
+    ]
+)
 
-        Returns:
-            AsyncResult: Асинхронный генератор, выдающий ответы от Open Assistant.
-
-        Raises:
-            RuntimeError: Если в ответе от Open Assistant содержится сообщение об ошибке.
-            Exception: Если возникает ошибка при выполнении HTTP-запроса.
-
-        Как работает функция:
-        - Функция принимает сообщения и параметры для настройки запроса к API Open Assistant.
-        - Если cookies не предоставлены, функция пытается получить их, используя домен "open-assistant.io".
-        - Формирует заголовки User-Agent для имитации запроса от браузера.
-        - Создает сессию aiohttp для выполнения асинхронных HTTP-запросов.
-        - Отправляет POST-запрос для создания чата и получает ID чата.
-        - Форматирует сообщения для отправки в формате, требуемом Open Assistant.
-        - Отправляет POST-запрос с сообщением пользователя и получает ID родительского сообщения.
-        - Формирует данные для запроса к API assistant_message, включая ID чата, ID родительского сообщения, название модели и параметры выборки.
-        - Отправляет POST-запрос к API assistant_message и получает ID сообщения ответа.
-        - Отправляет POST-запрос к API events для получения потока токенов ответа.
-        - Итерируется по потоку данных, декодирует каждую строку и извлекает текст токенов, которые выдает как результат работы генератора.
-        - После завершения получения ответа отправляет DELETE-запрос для удаления чата.
-
-        Примеры:
-            Пример вызова функции с минимальными параметрами:
-            >>> model = "OA_SFT_Llama_30B_6"
-            >>> messages = [{"role": "user", "content": "Hello, Open Assistant!"}]
-            >>> async for token in OpenAssistant.create_async_generator(model, messages):
-            ...     print(token, end="")
-
-            Пример вызова функции с использованием прокси и cookies:
-            >>> model = "OA_SFT_Llama_30B_6"
-            >>> messages = [{"role": "user", "content": "Hello, Open Assistant!"}]
-            >>> proxy = "http://your_proxy:8080"
-            >>> cookies = {"session_id": "your_session_id"}
-            >>> async for token in OpenAssistant.create_async_generator(model, messages, proxy=proxy, cookies=cookies):
-            ...     print(token, end="")
-        """
-        ...
+async def main():
+    async for token in OpenAssistant.create_async_generator(model='OA_SFT_Llama_30B_6', messages=messages):
+        print(token)
 ```
 
-## Параметры класса
+## Parameter Details
 
-- `url` (str): URL для взаимодействия с Open Assistant.
-- `needs_auth` (bool): Требуется ли аутентификация.
-- `working` (bool): Указывает, работает ли провайдер в данный момент.
-- `model` (str): Используемая модель.
+- `model` (str): The Open Assistant model name to use for text generation.
+- `messages` (Messages): A list of messages in the conversation, each message containing a role (`user` or `assistant`) and content.
+- `proxy` (str, optional): A proxy server address to use for requests.
+- `cookies` (dict, optional): A dictionary of cookies for authentication with the Open Assistant API.
+- `kwargs`: Additional keyword arguments for the `sampling_parameters` dictionary, which includes options like `top_k`, `top_p`, `typical_p`, `temperature`, `repetition_penalty`, and `max_new_tokens` to customize text generation behavior. 
+
+**Example of usage with different parameters**:
+```python
+# Example 1: Using default model and no proxy or cookies
+async for token in OpenAssistant.create_async_generator(model='OA_SFT_Llama_30B_6', messages=messages):
+    print(token)
+
+# Example 2: Using a specific model, a proxy server, and custom cookies
+async for token in OpenAssistant.create_async_generator(
+    model='OA_SFT_Llama_30B_6', 
+    messages=messages, 
+    proxy='http://proxy.example.com:8080',
+    cookies={'session_id': '1234567890'}
+):
+    print(token)
+
+# Example 3: Using a different model and specific sampling parameters
+async for token in OpenAssistant.create_async_generator(
+    model='OA_SFT_Llama_13B_6',
+    messages=messages,
+    top_k=10,
+    top_p=0.8,
+    temperature=0.5
+):
+    print(token)
+
+```
+
+## Inner Functions
+
+None
+
+## Additional Notes
+- The `OpenAssistant` class is deprecated, as Open Assistant API is no longer available. This class is retained for reference purposes only.
+- This code is designed for use with the Open Assistant API and requires authentication with the service.
+- The code uses `aiohttp` library to handle asynchronous requests and responses.
+- The `sampling_parameters` dictionary allows fine-tuning the text generation process based on the specific requirements of the application.
+- The code supports the use of proxy servers and custom cookies for enhanced flexibility.
+- The module uses `logger` from the `src.logger` module for logging information and errors.

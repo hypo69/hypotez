@@ -1,117 +1,78 @@
-# Модуль для работы с Phind API
+# Phind Provider Helper Module
 
-## Обзор
+## Overview
 
-Модуль предоставляет функциональность для взаимодействия с API Phind для получения ответов на вопросы.
-Он использует библиотеку `curl_cffi` для выполнения HTTP-запросов и обрабатывает ответы, возвращаемые API.
+This module provides a helper function for interacting with the Phind API, specifically for generating responses based on user prompts. It leverages the `requests` library for making HTTP requests and handles JSON data serialization/deserialization.
 
-## Более подробно
+## Details
 
-Этот код отправляет запросы к API Phind для получения ответов на вопросы, используя предоставленные параметры конфигурации.
-Он обрабатывает ответ потоково, извлекая полезные данные и выводя их в консоль. Код также включает обработку ошибок и повторные попытки в случае сбоев.
+This file defines the `output()` function, which is responsible for processing the streamed responses received from the Phind API. It parses the data, decodes it from bytes to strings, and outputs the relevant parts to the console. The module also includes code for sending a POST request to the Phind API endpoint, passing user prompt and other relevant information in the request body.
 
-## Функции
+## Functions
 
 ### `output(chunk)`
 
-```python
-def output(chunk):
-    """Обрабатывает фрагмент данных, полученный от API Phind.
+**Purpose**: Processes chunks of streamed data received from the Phind API. Extracts relevant information from the data, decodes it, and prints it to the console.
 
-    Args:
-        chunk (bytes): Фрагмент данных в байтовом формате, полученный от API.
+**Parameters**:
 
-    Returns:
-        None
+- `chunk` (bytes): A chunk of data received from the Phind API.
 
-    Raises:
-        json.decoder.JSONDecodeError: Если не удается декодировать JSON из фрагмента данных.
-   """
-```
+**Returns**: None.
 
-**Назначение**:
+**Raises Exceptions**:
 
-Функция `output` предназначена для обработки данных, получаемых от API Phind в виде фрагментов (chunks). Она фильтрует метаданные Phind, удаляет ненужные символы и декодирует фрагмент данных из байтового формата в строку. Затем функция выводит очищенные данные в консоль.
+- `json.decoder.JSONDecodeError`: If an error occurs during JSON decoding.
 
-**Как работает функция**:
+**How the Function Works**:
 
-1. **Проверка наличия метаданных**:
-   - Проверяет, содержит ли фрагмент данных маркер `b'PHIND_METADATA'`. Если да, функция завершает выполнение, чтобы избежать обработки метаданных.
+1. The function first checks if the chunk contains metadata related to Phind, indicated by the presence of `b'PHIND_METADATA'`. If it does, it does nothing and returns.
 
-2. **Обработка специальных случаев**:
-   - Проверяет, равен ли фрагмент данных определенной последовательности байтов, указывающей на пустые данные (`b'data:  \\r\\ndata: \\r\\ndata: \\r\\n\\r\\n'`). Если да, заменяет его на `b'data:  \\n\\r\\n\\r\\n'`.
+2. If the chunk contains empty data (such as `b'data:  \\r\\ndata: \\r\\ndata: \\r\\n\\r\\n'`), it's replaced with `b'data:  \\n\\r\\n\\r\\n'`.
 
-3. **Декодирование фрагмента**:
-   - Декодирует фрагмент данных из байтов в строку, используя кодировку UTF-8.
+3. The function then attempts to decode the chunk from bytes to a string. If successful, it performs the following replacements:
+    - Replaces `'data: \\r\\n\\r\\ndata: '` with `'data: \\n'`.
+    - Replaces `'\\r\\ndata: \\r\\ndata: \\r\\n\\r\\n'` with `'\\n\\r\\n\\r\\n'`.
+    - Removes `'data: '` and `'\\r\\n\\r\\n'` from the string.
 
-4. **Замена символов**:
-   - Выполняет замену определенных последовательностей символов для очистки данных:
-     - Заменяет `'data: \\r\\n\\r\\ndata: '` на `'data: \\n'`.
-     - Заменяет `'\\r\\ndata: \\r\\ndata: \\r\\n\\r\\n'` на `'\\n\\r\\n\\r\\n'`.
-     - Заменяет `'data: '` на `''` и `'\\r\\n\\r\\n'` на `''`.
+4. The decoded and processed string is then printed to the console, ensuring that the output is flushed immediately.
 
-5. **Вывод в консоль**:
-   - Выводит очищенный фрагмент данных в консоль с помощью `print(chunk, flush=True, end = '')`. Параметр `flush=True` обеспечивает немедленный вывод данных, а `end = ''` предотвращает добавление новой строки после каждого фрагмента.
+5. If the decoding fails, the function catches the `json.decoder.JSONDecodeError` and ignores the error.
 
-6. **Обработка исключений**:
-   - Обрабатывает исключение `json.decoder.JSONDecodeError`, которое может возникнуть, если фрагмент данных не является корректным JSON. В случае ошибки исключение игнорируется, и функция продолжает выполнение.
-
-**Примеры**:
+**Examples**:
 
 ```python
-# Пример вызова функции output с фиктивными данными
-chunk = b"data:  This is a test chunk\\r\\n\\r\\n"
+# Example 1: Processing a chunk containing relevant data
+chunk = b'data: Some text data\\r\\n\\r\\n'
 output(chunk)
+
+# Output:
+# Some text data
+
+# Example 2: Processing a chunk containing empty data
+chunk = b'data:  \\r\\ndata: \\r\\ndata: \\r\\n\\r\\n'
+output(chunk)
+
+# Output:
+# (No output as the chunk is empty)
 ```
 
-## Classes
+## Inner Functions: None
 
-### `No classes`
+## Parameter Details:
 
-В данном модуле классы отсутствуют.
+- `chunk` (bytes): A chunk of data received from the Phind API. This data can be in the form of a JSON object or a string, and it represents a portion of the overall response.
 
-## Переменные
+## Examples:
 
-- `config (dict)`: Словарь, содержащий параметры конфигурации, полученные из аргументов командной строки.
-- `prompt (str)`: Текст запроса, извлеченный из конфигурации.
-- `skill (str)`: Уровень квалификации, определяемый на основе модели, указанной в конфигурации.
-- `json_data (str)`: JSON-представление данных запроса, отправляемых в API Phind.
-- `headers (dict)`: Словарь, содержащий заголовки HTTP-запроса.
-- `response (requests.Response)`: Объект ответа, полученный от API Phind.
-- `e (Exception)`: Объект исключения, возникающего при выполнении запроса.
+```python
+# Example 1: Using the output function to process a chunk of data
+chunk = b'data: Some text data\\r\\n\\r\\n'
+output(chunk)
 
-## Как работает код:
-
-1. **Импорт библиотек**:
-   - Импортирует необходимые библиотеки: `sys`, `json`, `datetime` и `urllib.parse`.
-   - Импортирует `requests` из библиотеки `curl_cffi` для выполнения HTTP-запросов.
-
-2. **Загрузка конфигурации**:
-   - Загружает конфигурацию из аргументов командной строки, используя `json.loads(sys.argv[1])`.
-   - Извлекает текст запроса из конфигурации: `prompt = config['messages'][-1]['content']`.
-   - Определяет уровень квалификации (`skill`) на основе модели, указанной в конфигурации.
-
-3. **Формирование JSON-данных**:
-   - Формирует JSON-данные для отправки в API Phind, включая текст запроса, уровень квалификации, текущую дату и другие параметры.
-   - Преобразует JSON-данные в строку с помощью `json.dumps()`.
-
-4. **Формирование заголовков**:
-   - Формирует словарь `headers`, содержащий заголовки HTTP-запроса, включая `Content-Type`, `User-Agent`, `Referer` и другие.
-
-5. **Отправка запроса и обработка ответа**:
-   - Входит в бесконечный цикл `while True`.
-   - Пытается отправить POST-запрос к API Phind с использованием `requests.post()`.
-   - В качестве `content_callback` передает функцию `output` для обработки потоковых данных ответа.
-   - Устанавливает таймаут для запроса и имитирует браузер Safari.
-   - В случае успешного выполнения запроса выходит из цикла с помощью `exit(0)`.
-   - В случае возникновения ошибки выводит сообщение об ошибке и повторяет попытку.
-
-## Примеры
-
-Пример запуска скрипта с параметрами конфигурации:
-
-```bash
-python your_script_name.py '{"model": "gpt-4", "messages": [{"content": "What is the capital of France?"}]}'
+# Example 2: Sending a POST request to the Phind API
+prompt = "What is the capital of France?"
+json_data = json.dumps({'question': prompt, 'options': {'skill': 'intermediate', 'date': datetime.datetime.now().strftime('%d/%m/%Y'), 'language': 'en', 'detailed': True, 'creative': True, 'customLinks': []}}, separators=(',', ':'))
+headers = { ... }
+response = requests.post('https://www.phind.com/api/infer/answer', headers=headers, data=json_data, content_callback=output, timeout=999999, impersonate='safari15_5')
 ```
-
-В этом примере скрипт будет отправлять запрос в API Phind с вопросом "What is the capital of France?" и моделью "gpt-4".

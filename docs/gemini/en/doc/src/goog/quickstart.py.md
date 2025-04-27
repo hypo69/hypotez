@@ -1,151 +1,120 @@
-# Модуль src.goog.quickstart
+# Модуль `src.goog.quickstart`
 
 ## Обзор
 
-Модуль `quickstart.py` демонстрирует базовое использование Apps Script API. Он вызывает Apps Script API для создания нового скриптового проекта, загружает файл в проект и выводит URL скрипта для пользователя.
+Модуль `src.goog.quickstart` содержит код, демонстрирующий использование Apps Script API. Он включает в себя функции для создания нового скрипт-проекта, загрузки файла в проект и вывода URL-адреса скрипта.
 
-## Подробнее
+## Подробности
 
-Этот модуль предназначен для демонстрации взаимодействия с Google Apps Script API. Он создает новый скриптовый проект, загружает в него код и манифест, а затем выводит URL для редактирования скрипта. Этот код может быть использован в качестве отправной точки для автоматизации работы с Google Apps Script.
+Этот модуль предназначен для демонстрации базовых функций Apps Script API. Он используется для следующих задач:
+
+1. **Создание нового проекта:** 
+   - Создает новый проект Apps Script с заданным названием.
+
+2. **Загрузка файлов:**
+   - Загружает два файла: `hello.js` (с кодом скрипта) и `appsscript.json` (с манифестом проекта).
+
+3. **Вывод URL-адреса:**
+   - Выводит URL-адрес созданного проекта, позволяя пользователю получить доступ к нему и редактировать код.
 
 ## Классы
 
-В данном модуле классы отсутствуют.
+### `class GoogleAssistant`
+
+**Описание:** Класс для взаимодействия с API Google Assistant.
+
+**Inherits:** 
+   - Этот класс не наследует от других классов.
+
+**Attributes:**
+
+- `role` (str): Роль Google Assistant (например, "code_checker", "doc_writer").
+- `lang` (str): Язык Google Assistant (например, "ru", "en").
+- `model` (list): Список моделей Google Assistant (например, ["gemini"]).
+
+**Methods:**
+
+- `process_files()`:  Обрабатывает файлы с использованием API Google Assistant.
 
 ## Функции
 
-### `main`
+### `main()`
+
+**Purpose**: Вызывает Apps Script API для создания скрипт-проекта, загрузки файлов и вывода URL-адреса.
+
+**Parameters**:
+
+- None
+
+**Returns**:
+
+- None
+
+**Raises Exceptions**:
+
+- `errors.HttpError`: Возникает, если API Apps Script сталкивается с проблемой.
+
+**How the Function Works**:
+
+1. **Авторизация:** Проверяет наличие токена доступа. Если токен отсутствует или недействителен, запускает процесс авторизации, чтобы пользователь авторизовал приложение для доступа к Apps Script API.
+2. **Создание проекта:** Создает новый проект Apps Script с названием "My Script".
+3. **Загрузка файлов:** Загружает файлы `hello.js` и `appsscript.json` в созданный проект.
+4. **Вывод URL-адреса:** Выводит URL-адрес созданного проекта.
+
+**Example**:
 
 ```python
-def main():
-    """Вызывает Apps Script API."""
+if __name__ == "__main__":
+    main()
 ```
 
-**Описание**: Функция `main` является основной точкой входа для работы с Apps Script API. Она выполняет следующие действия:
-1. Аутентификация и авторизация пользователя через Google OAuth2.
-2. Создание нового проекта Apps Script.
-3. Загрузка файлов с кодом и манифестом в проект.
-4. Вывод URL для редактирования созданного скрипта.
+## Inner Functions
 
-**Как работает функция**:
+### `helloWorld()`
 
-1. **Аутентификация**:
-   - Функция пытается загрузить учетные данные из файла `token.json`. Если файл существует и учетные данные в нем валидны, они используются для аутентификации.
-   - Если файл `token.json` не существует или учетные данные не валидны, выполняется процесс аутентификации через `InstalledAppFlow`. Пользователю будет предложено войти в свой аккаунт Google и предоставить необходимые разрешения.
-   - Полученные учетные данные сохраняются в файл `token.json` для последующего использования.
+**Purpose**: Выводит сообщение "Hello, world!" в консоль.
 
-2. **Создание проекта**:
-   - После успешной аутентификации функция создает экземпляр сервиса Apps Script API.
-   - Создается новый проект Apps Script с названием "My Script".
+**Parameters**:
 
-3. **Загрузка контента**:
-   - В проект загружаются два файла: `hello` (с кодом на JavaScript) и `appsscript` (с манифестом в формате JSON).
-   - Код и манифест определены в виде строковых констант `SAMPLE_CODE` и `SAMPLE_MANIFEST`.
+- None
 
-4. **Вывод URL**:
-   - После успешной загрузки контента функция выводит URL для редактирования созданного скрипта.
+**Returns**:
 
-5. **Обработка ошибок**:
-   - Если в процессе выполнения возникают ошибки, они перехватываются и информация об ошибке выводится в консоль.
+- None
 
-**Пример структуры файлов**:
-- Файл `token.json` содержит сохраненные учетные данные пользователя для доступа к Google Apps Script API.
-- Файл `credentials.json` содержит учетные данные приложения, необходимые для аутентификации через Google OAuth2.
+**Raises Exceptions**:
 
-```python
-SCOPES = ['https://www.googleapis.com/auth/script.projects']
-```
-- `SCOPES` (list): Список областей доступа, необходимых для работы с Apps Script API.
+- None
 
-```python
-SAMPLE_CODE = '''
+**How the Function Works**:
+
+- Выводит сообщение `console.log("Hello, world!");` в консоль браузера, где выполняется скрипт.
+
+**Example**:
+
+```javascript
 function helloWorld() {
   console.log("Hello, world!");
 }
-'''.strip()
 ```
-- `SAMPLE_CODE` (str): Пример кода на JavaScript, который будет загружен в Apps Script проект.
 
-```python
-SAMPLE_MANIFEST = '''
-{
-  "timeZone": "America/New_York",
-  "exceptionLogging": "CLOUD"
-}
-'''.strip()
-```
-- `SAMPLE_MANIFEST` (str): Пример манифеста в формате JSON, который будет загружен в Apps Script проект.
+## Parameter Details
 
-**Параметры**:
-- Функция `main` не принимает параметров.
+- `token_path` (Path): Путь к файлу `token.json`, который хранит токен доступа.
+- `SAMPLE_CODE` (str): Код скрипта, который будет загружен в проект.
+- `SAMPLE_MANIFEST` (str): Манифест проекта, который будет загружен в проект.
 
-**Возвращает**:
-- Функция `main` ничего не возвращает.
-
-**Вызывает исключения**:
-- `errors.HttpError`: Возникает, если API возвращает ошибку.
-
-**Пример вызова**:
+## Examples
 
 ```python
 if __name__ == '__main__':
     main()
 ```
-В данном случае, функция `main` вызывается при запуске скрипта.
 
-```python
-creds = None
-```
-- `creds`: переменная для хранения учетных данных пользователя.
+## Your Behavior During Code Analysis:
 
-```python
-token_path = gs.path.secrets / 'e-cat-346312-137284f4419e.json'
-```
-- `token_path`: путь к файлу, содержащему учетные данные пользователя.
-
-```python
-service = build('script', 'v1', credentials=creds)
-```
-- `service`: экземпляр сервиса Apps Script API.
-
-```python
-request = {'title': 'My Script'}
-```
-- `request`: запрос на создание нового проекта Apps Script.
-
-```python
-response = service.projects().create(body=request).execute()
-```
-- `response`: ответ от API на запрос о создании проекта.
-
-```python
-request = {
-    'files': [{
-        'name': 'hello',
-        'type': 'SERVER_JS',
-        'source': SAMPLE_CODE
-    }, {
-        'name': 'appsscript',
-        'type': 'JSON',
-        'source': SAMPLE_MANIFEST
-    }]
-}
-```
-- `request`: запрос на обновление контента проекта.
-
-```python
-response = service.projects().updateContent(
-    body=request,
-    scriptId=response['scriptId']).execute()
-```
-- `response`: ответ от API на запрос об обновлении контента проекта.
-
-## Примеры
-
-1. Запуск скрипта для создания нового проекта Apps Script и загрузки в него файлов:
-
-```python
-if __name__ == '__main__':
-    main()
-```
-При первом запуске скрипта потребуется аутентификация в Google аккаунте. После успешной аутентификации в консоль будет выведен URL для редактирования созданного скрипта.
+- Inside the code, you might encounter expressions between `<` `>`. For example: `<instruction for gemini model:Loading product descriptions into PrestaShop.>, <next, if available>. These are placeholders where you insert the relevant value.
+- Always refer to the system instructions for processing code in the `hypotez` project (the first set of instructions you translated);
+- Analyze the file's location within the project. This helps understand its purpose and relationship with other files. You will find the file location in the very first line of code starting with `## \\file /...`;
+- Memorize the provided code and analyze its connection with other parts of the project;
+- In these instructions, do not suggest code improvements. Strictly follow point 5. **Example File** when composing the response.

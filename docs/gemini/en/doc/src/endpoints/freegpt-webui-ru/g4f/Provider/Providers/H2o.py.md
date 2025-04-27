@@ -1,74 +1,82 @@
-# Module `H2o.py`
+# Provider for H2o.ai's Falcon and Llama Models
 
-## Обзор
+## Overview
 
-Модуль `H2o.py` предоставляет реализацию провайдера `H2o` для работы с моделями генерации текста, такими как `falcon-40b`, `falcon-7b` и `llama-13b`. Он использует API `gpt-gm.h2o.ai` для создания и ведения бесед с ИИ, отправляя запросы к API и обрабатывая ответы в потоковом режиме.
+This module provides a provider for interacting with H2o.ai's Falcon and Llama language models through their web API. The provider utilizes the `requests` library to make HTTP requests to the H2o.ai server, allowing users to send prompts and receive responses from the models.
 
-## Подробнее
+## Details
 
-Модуль включает в себя функции для установки соединения с сервером `H2o`, отправки сообщений и получения ответов в реальном времени. Он также обрабатывает параметры, такие как температуру, максимальное количество новых токенов и другие параметры конфигурации, чтобы настроить поведение модели.
+The module defines the following key components:
+
+- **`url`**: The base URL for the H2o.ai API endpoint.
+- **`model`**: A list of supported models, currently including `falcon-40b`, `falcon-7b`, and `llama-13b`.
+- **`models`**: A dictionary mapping model names to their corresponding H2o.ai model IDs.
+- **`_create_completion`**: A function responsible for sending prompts to the H2o.ai API and handling responses, including streaming support.
 
 ## Classes
 
-Здесь нет классов.
+### `class H2o`
+
+**Description**: This class represents the provider for H2o.ai's Falcon and Llama models, handling interactions with the models through their web API.
+
+**Attributes**:
+
+- **`url`**: The base URL for the H2o.ai API endpoint.
+- **`model`**: A list of supported models, currently including `falcon-40b`, `falcon-7b`, and `llama-13b`.
+- **`supports_stream`**: Indicates whether the provider supports streaming responses from the model.
+- **`needs_auth`**: Indicates whether the provider requires authentication to access the models.
+
+**Methods**:
+
+- **`_create_completion`**: Handles the creation of completions from the H2o.ai model, sending prompts and receiving responses.
 
 ## Functions
 
 ### `_create_completion`
 
-```python
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    """Создает запрос к H2O AI для генерации текста на основе предоставленных сообщений.
+**Purpose**: Sends a prompt to the H2o.ai API, using the specified model, and returns a generator that yields tokens of the response.
 
-    Args:
-        model (str): Имя используемой модели.
-        messages (list): Список сообщений для формирования запроса. Каждое сообщение содержит роль и контент.
-        stream (bool): Определяет, возвращать ли ответ в потоковом режиме.
-        **kwargs: Дополнительные параметры для настройки генерации текста, такие как температура, максимальное количество токенов и т. д.
+**Parameters**:
 
-    Returns:
-        Generator[str, None, None]: Генератор токенов, если `stream=True`.
+- **`model`**: The name of the H2o.ai model to use.
+- **`messages`**: A list of messages in the conversation, each represented as a dictionary with keys `role` and `content`.
+- **`stream`**: Boolean indicating whether to stream the response from the model.
+- **`kwargs`**: Additional keyword arguments to be passed to the H2o.ai API request, such as `temperature`, `truncate`, and `max_new_tokens`.
 
-    Raises:
-        requests.exceptions.RequestException: Если возникает ошибка при выполнении HTTP-запроса.
-        json.JSONDecodeError: Если не удается декодировать ответ JSON.
+**Returns**:
 
-    How it works:
-    - Формирует беседу, объединяя сообщения с указанием роли и содержимого каждого сообщения.
-    - Создает HTTP-клиента `Session` и устанавливает необходимые заголовки для взаимодействия с API `gpt-gm.h2o.ai`.
-    - Отправляет POST-запрос к API для начала беседы и получает `conversationId`.
-    - Отправляет POST-запрос для генерации текста, используя `conversationId`, параметры модели и настройки потоковой передачи.
-    - Итерируется по строкам ответа, извлекая токены и возвращая их через генератор.
+- A generator that yields tokens of the model's response.
 
-    """
-```
+**Raises Exceptions**:
 
-### Parameters:
+- **`requests.exceptions.RequestException`**: If an error occurs during the HTTP request.
 
-- `model` (str): Имя используемой модели.
-- `messages` (list): Список сообщений для формирования запроса.
-- `stream` (bool): Определяет, возвращать ли ответ в потоковом режиме.
-- `**kwargs`: Дополнительные параметры для настройки генерации текста.
+**Inner Functions**: None
 
-### Examples:
+**How the Function Works**:
+
+1. The function constructs a `conversation` string by concatenating the provided messages, along with the `instruction` prefix.
+2. It creates a `Session` object from the `requests` library and sets necessary headers for the API request.
+3. It makes a POST request to the `/settings` endpoint to set initial configuration for the conversation.
+4. It makes a POST request to the `/conversation` endpoint to create a new conversation with the selected model.
+5. It extracts the `conversationId` from the response.
+6. It makes a POST request to the `/conversation/{conversationId}` endpoint, sending the constructed `conversation` string and `parameters` as JSON data.
+7. The function iterates over the `completion` object's `iter_lines` generator and yields each line as a token.
+8. If the token is `<|endoftext|>` it breaks the loop.
+
+**Examples**:
 
 ```python
-messages = [{"role": "user", "content": "Tell me a joke."}]
-model = "falcon-7b"
-stream = True
-
-# Вызов функции для создания запроса и получения ответа в потоковом режиме
-response_generator = _create_completion(model=model, messages=messages, stream=stream)
-for token in response_generator:
-    print(token, end="")
+>>> from g4f.Provider.Providers.H2o import H2o
+>>> provider = H2o()
+>>> model = 'falcon-40b'
+>>> messages = [
+...     {'role': 'user', 'content': 'Hello, how are you?'},
+...     {'role': 'assistant', 'content': 'I am doing well, thank you for asking.'}
+... ]
+>>> for token in provider._create_completion(model, messages, stream=False, temperature=0.7):
+...     print(token)
+...
+I am doing well, thank you for asking. How can I help you today?
 ```
-
-### `params`
-
 ```python
-params = f\'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: \' + \\\n    \'(%s)\' % \', \'.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
-```
-
-Эта строка создает строку с информацией о поддержке параметров в `g4f.Providers`.
-Она использует `os.path.basename(__file__)[:-3]` для получения имени текущего файла без расширения `.py`.
-Затем она извлекает аннотации типов функции `_create_completion` и формирует строку с именами параметров и их типами.

@@ -1,29 +1,62 @@
-### Как использовать этот блок кода
+## Как использовать модуль `webp2png`
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот блок кода предназначен для конвертации изображений из формата WebP в формат PNG. Он сканирует указанную директорию на наличие WebP файлов, конвертирует их и сохраняет в другую директорию в формате PNG.
+Модуль `webp2png` предоставляет функцию `webp2png` для преобразования изображений в формате WebP в PNG. Он также включает функцию `convert_images`, которая обрабатывает пакетное преобразование всех WebP-файлов в указанном каталоге.
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Определение директорий**: Определяются пути к директориям с WebP изображениями и директории, куда будут сохраняться PNG изображения.
-2. **Поиск WebP файлов**: Используется функция `get_filenames` для получения списка всех файлов WebP в указанной директории.
-3. **Конвертация каждого файла**: Для каждого найденного WebP файла генерируется имя для соответствующего PNG файла. Затем вызывается функция `webp2png` для выполнения конвертации.
-4. **Сохранение PNG файла**: Конвертированный PNG файл сохраняется в указанную директорию.
-5. **Вывод результата**: Функция `print` выводит результат конвертации каждого файла.
+1. **Импорт модулей:**
+    - Импортируйте модуль `webp2png` из `src.utils.convertors.webp2png`.
+    - Импортируйте необходимые модули, такие как `Path` из `pathlib`, `gs` для доступа к путям к файлам и `get_filenames` для получения списка файлов в каталоге.
+2. **Определение каталогов:**
+    - Укажите директорию, содержащую исходные WebP-файлы (`webp_dir`).
+    - Укажите директорию, куда будут сохраняться преобразованные PNG-файлы (`png_dir`).
+3. **Запуск преобразования:**
+    - Вызовите функцию `convert_images` с `webp_dir` и `png_dir` в качестве аргументов.
+    - Функция `convert_images` ищет WebP-файлы в `webp_dir`, преобразует их в PNG с помощью `webp2png` и сохраняет полученные изображения в `png_dir`.
 
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
-    from pathlib import Path
-    from src.utils.convertors._experiments.webp2png import convert_images
-    from src import gs
+from src.utils.convertors.webp2png import webp2png
+from pathlib import Path
+from src import gs
+from src.utils.file import get_filenames
 
-    # Определяем директории для WebP и PNG
-    webp_dir = gs.path.google_drive / 'emil' / 'raw_images_from_openai'
-    png_dir = gs.path.google_drive / 'emil' / 'converted_images'
+def convert_images(webp_dir: Path, png_dir: Path) -> None:
+    """ Преобразует все WebP-изображения в указанном каталоге в формат PNG.
 
-    # Запускаем конвертацию
+    Args:
+        webp_dir (Path): Каталог, содержащий исходные WebP-изображения.
+        png_dir (Path): Каталог для сохранения преобразованных PNG-изображений.
+
+    Example:
+        convert_images(
+            gs.path.google_drive / 'emil' / 'raw_images_from_openai',
+            gs.path.google_drive / 'emil' / 'converted_images'
+        )
+    """
+    webp_files: list = get_filenames(webp_dir)
+
+    for webp in webp_files:
+        png = png_dir / f"{Path(webp).stem}.png"  # Используйте `stem` для получения имени файла без расширения
+        webp_path = webp_dir / webp
+        result = webp2png(webp_path, png)
+        print(result)
+
+if __name__ == '__main__':
+    # Определите каталоги для WebP и PNG-изображений
+    webp_dir = gs.path.google_drive / 'kazarinov' / 'raw_images_from_openai'
+    png_dir = gs.path.google_drive / 'kazarinov' / 'converted_images'
+    print(f"from: {webp_dir=}\nto:{png_dir=}")
+    # Запустите преобразование
     convert_images(webp_dir, png_dir)
+```
+
+**Заметка:**
+-  `gs`  - это модуль проекта `hypotez`, который предоставляет доступ к путям к файлам.
+-  `get_filenames`  - это функция, которая получает список файлов в указанном каталоге.
+-  `stem`  - это атрибут `Path`, который возвращает имя файла без расширения.

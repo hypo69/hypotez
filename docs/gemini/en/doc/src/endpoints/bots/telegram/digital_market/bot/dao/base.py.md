@@ -1,379 +1,214 @@
-# Модуль `base.py`
+# Модуль BaseDAO
 
 ## Обзор
 
-Модуль `base.py` содержит базовый класс `BaseDAO` для работы с базой данных в асинхронном режиме. Он предоставляет набор методов для выполнения операций CRUD (создание, чтение, обновление, удаление) с использованием SQLAlchemy. Класс `BaseDAO` является универсальным и может использоваться с любой моделью, наследующей от `Base`.
+Модуль `BaseDAO` предоставляет базовый класс для работы с данными в базе данных, используя SQLAlchemy. 
+Он содержит набор универсальных методов для выполнения общих операций с данными, таких как 
+поиск, добавление, обновление, удаление и подсчет записей. 
 
 ## Детали
 
-Модуль содержит класс `BaseDAO`, который предоставляет методы для выполнения основных операций с базой данных, таких как поиск, добавление, обновление и удаление записей. Все методы являются асинхронными и используют `AsyncSession` для взаимодействия с базой данных.
+`BaseDAO` является абстрактным классом, который должен быть расширен для работы со 
+конкретными моделями данных. Он использует дженерики для работы с любым типом модели, 
+который наследует от `Base`.
 
 ## Классы
 
 ### `BaseDAO`
 
-**Описание**:
-Базовый класс для доступа к данным. Предоставляет методы для выполнения операций CRUD с использованием SQLAlchemy.
+**Описание**: Базовый класс для работы с данными в базе данных. 
+**Inherits**: `Generic[T]`
+**Attributes**:
+- `model` (type[T]): Тип модели данных, с которой работает DAO.
 
-**Наследуется**:
-Не наследуется от других классов.
+**Methods**:
 
-**Атрибуты**:
-- `model` (type[T]): Тип модели, с которой работает DAO.
+#### `find_one_or_none_by_id(cls, data_id: int, session: AsyncSession)`
 
-**Методы**:
-- `find_one_or_none_by_id(cls, data_id: int, session: AsyncSession)`: Находит запись по ID.
-- `find_one_or_none(cls, session: AsyncSession, filters: BaseModel)`: Находит одну запись по фильтрам.
-- `find_all(cls, session: AsyncSession, filters: BaseModel | None = None)`: Находит все записи по фильтрам.
-- `add(cls, session: AsyncSession, values: BaseModel)`: Добавляет одну запись.
-- `add_many(cls, session: AsyncSession, instances: List[BaseModel])`: Добавляет несколько записей.
-- `update(cls, session: AsyncSession, filters: BaseModel, values: BaseModel)`: Обновляет записи по фильтрам.
-- `delete(cls, session: AsyncSession, filters: BaseModel)`: Удаляет записи по фильтру.
-- `count(cls, session: AsyncSession, filters: BaseModel | None = None)`: Подсчитывает количество записей.
-- `paginate(cls, session: AsyncSession, page: int = 1, page_size: int = 10, filters: BaseModel = None)`: Пагинация записей.
-- `find_by_ids(cls, session: AsyncSession, ids: List[int]) -> List[Any]`: Находит несколько записей по списку ID.
-- `upsert(cls, session: AsyncSession, unique_fields: List[str], values: BaseModel)`: Создает запись или обновляет существующую.
-- `bulk_update(cls, session: AsyncSession, records: List[BaseModel]) -> int`: Массовое обновление записей.
+**Описание**: Находит запись по ID.
 
-## Методы класса `BaseDAO`
+**Параметры**:
+- `data_id` (int): ID записи.
+- `session` (AsyncSession): Сессия SQLAlchemy.
 
-### `find_one_or_none_by_id`
+**Возвращает**:
+- `T | None`: Запись с указанным ID или `None`, если запись не найдена.
 
-```python
-@classmethod
-async def find_one_or_none_by_id(cls, data_id: int, session: AsyncSession):
-    """
-    Находит запись по ID.
+**Raises**:
+- `SQLAlchemyError`: В случае ошибки при выполнении запроса.
 
-    Args:
-        data_id (int): ID записи.
-        session (AsyncSession): Асинхронная сессия SQLAlchemy.
+#### `find_one_or_none(cls, session: AsyncSession, filters: BaseModel)`
 
-    Returns:
-        T | None: Найденная запись или None, если запись не найдена.
+**Описание**: Находит одну запись по фильтрам.
 
-    Raises:
-        SQLAlchemyError: Если возникает ошибка при поиске записи.
+**Параметры**:
+- `session` (AsyncSession): Сессия SQLAlchemy.
+- `filters` (BaseModel): Объект Pydantic, содержащий фильтры.
 
-    Как работает функция:
-    - Функция формирует запрос на выборку записи из базы данных по указанному ID.
-    - Выполняет запрос с использованием асинхронной сессии.
-    - Возвращает найденную запись, если она существует, или None, если запись не найдена.
-    - Логирует информацию о поиске и результате.
-    """
-    ...
-```
+**Возвращает**:
+- `T | None`: Запись, соответствующая фильтрам, или `None`, если запись не найдена.
 
-### `find_one_or_none`
+**Raises**:
+- `SQLAlchemyError`: В случае ошибки при выполнении запроса.
 
-```python
-@classmethod
-async def find_one_or_none(cls, session: AsyncSession, filters: BaseModel):
-    """
-    Найти одну запись по фильтрам.
+#### `find_all(cls, session: AsyncSession, filters: BaseModel | None = None)`
 
-    Args:
-        session (AsyncSession): Асинхронная сессия SQLAlchemy.
-        filters (BaseModel): Фильтры для поиска записи.
+**Описание**: Находит все записи по фильтрам.
 
-    Returns:
-        T | None: Найденная запись или None, если запись не найдена.
+**Параметры**:
+- `session` (AsyncSession): Сессия SQLAlchemy.
+- `filters` (BaseModel | None, optional): Объект Pydantic, содержащий фильтры. По умолчанию `None`.
 
-    Raises:
-        SQLAlchemyError: Если возникает ошибка при поиске записи.
+**Возвращает**:
+- `List[T]`: Список записей, соответствующих фильтрам.
 
-    Как работает функция:
-    - Функция преобразует фильтры из BaseModel в словарь.
-    - Формирует запрос на выборку записи из базы данных по указанным фильтрам.
-    - Выполняет запрос с использованием асинхронной сессии.
-    - Возвращает найденную запись, если она существует, или None, если запись не найдена.
-    - Логирует информацию о поиске и результате.
-    """
-    ...
-```
+**Raises**:
+- `SQLAlchemyError`: В случае ошибки при выполнении запроса.
 
-### `find_all`
+#### `add(cls, session: AsyncSession, values: BaseModel)`
 
-```python
-@classmethod
-async def find_all(cls, session: AsyncSession, filters: BaseModel | None = None):
-    """
-    Найти все записи по фильтрам.
+**Описание**: Добавляет одну запись.
 
-    Args:
-        session (AsyncSession): Асинхронная сессия SQLAlchemy.
-        filters (BaseModel | None, optional): Фильтры для поиска записей. Defaults to None.
+**Параметры**:
+- `session` (AsyncSession): Сессия SQLAlchemy.
+- `values` (BaseModel): Объект Pydantic, содержащий значения для новой записи.
 
-    Returns:
-        List[T]: Список найденных записей.
+**Возвращает**:
+- `T`: Новая добавленная запись.
 
-    Raises:
-        SQLAlchemyError: Если возникает ошибка при поиске записей.
+**Raises**:
+- `SQLAlchemyError`: В случае ошибки при добавлении записи.
 
-    Как работает функция:
-    - Функция преобразует фильтры из BaseModel в словарь.
-    - Формирует запрос на выборку всех записей из базы данных по указанным фильтрам.
-    - Выполняет запрос с использованием асинхронной сессии.
-    - Возвращает список найденных записей.
-    - Логирует информацию о поиске и результате.
-    """
-    ...
-```
+#### `add_many(cls, session: AsyncSession, instances: List[BaseModel])`
 
-### `add`
+**Описание**: Добавляет несколько записей.
 
-```python
-@classmethod
-async def add(cls, session: AsyncSession, values: BaseModel):
-    """
-    Добавить одну запись.
+**Параметры**:
+- `session` (AsyncSession): Сессия SQLAlchemy.
+- `instances` (List[BaseModel]): Список объектов Pydantic, содержащих значения для новых записей.
 
-    Args:
-        session (AsyncSession): Асинхронная сессия SQLAlchemy.
-        values (BaseModel): Значения для добавления записи.
+**Возвращает**:
+- `List[T]`: Список добавленных записей.
 
-    Returns:
-        T: Новая запись.
+**Raises**:
+- `SQLAlchemyError`: В случае ошибки при добавлении записей.
 
-    Raises:
-        SQLAlchemyError: Если возникает ошибка при добавлении записи.
+#### `update(cls, session: AsyncSession, filters: BaseModel, values: BaseModel)`
 
-    Как работает функция:
-    - Функция преобразует значения из BaseModel в словарь.
-    - Создает новый экземпляр модели с указанными значениями.
-    - Добавляет новую запись в базу данных.
-    - Фиксирует изменения в базе данных.
-    - Логирует информацию о добавлении записи.
-    """
-    ...
-```
+**Описание**: Обновляет записи по фильтрам.
 
-### `add_many`
+**Параметры**:
+- `session` (AsyncSession): Сессия SQLAlchemy.
+- `filters` (BaseModel): Объект Pydantic, содержащий фильтры.
+- `values` (BaseModel): Объект Pydantic, содержащий значения для обновления.
 
-```python
-@classmethod
-async def add_many(cls, session: AsyncSession, instances: List[BaseModel]):
-    """
-    Добавить несколько записей.
+**Возвращает**:
+- `int`: Количество обновленных записей.
 
-    Args:
-        session (AsyncSession): Асинхронная сессия SQLAlchemy.
-        instances (List[BaseModel]): Список экземпляров BaseModel для добавления.
+**Raises**:
+- `SQLAlchemyError`: В случае ошибки при обновлении записей.
 
-    Returns:
-        List[T]: Список новых записей.
+#### `delete(cls, session: AsyncSession, filters: BaseModel)`
 
-    Raises:
-        SQLAlchemyError: Если возникает ошибка при добавлении записей.
+**Описание**: Удаляет записи по фильтру.
 
-    Как работает функция:
-    - Функция преобразует значения из списка BaseModel в список словарей.
-    - Создает новые экземпляры модели с указанными значениями.
-    - Добавляет новые записи в базу данных.
-    - Фиксирует изменения в базе данных.
-    - Логирует информацию о добавлении записей.
-    """
-    ...
-```
+**Параметры**:
+- `session` (AsyncSession): Сессия SQLAlchemy.
+- `filters` (BaseModel): Объект Pydantic, содержащий фильтры.
 
-### `update`
+**Возвращает**:
+- `int`: Количество удаленных записей.
 
-```python
-@classmethod
-async def update(cls, session: AsyncSession, filters: BaseModel, values: BaseModel):
-    """
-    Обновить записи по фильтрам.
+**Raises**:
+- `SQLAlchemyError`: В случае ошибки при удалении записей.
+- `ValueError`: Если не указан хотя бы один фильтр.
 
-    Args:
-        session (AsyncSession): Асинхронная сессия SQLAlchemy.
-        filters (BaseModel): Фильтры для обновления записей.
-        values (BaseModel): Значения для обновления записей.
+#### `count(cls, session: AsyncSession, filters: BaseModel | None = None)`
 
-    Returns:
-        int: Количество обновленных записей.
+**Описание**: Подсчитывает количество записей.
 
-    Raises:
-        SQLAlchemyError: Если возникает ошибка при обновлении записей.
+**Параметры**:
+- `session` (AsyncSession): Сессия SQLAlchemy.
+- `filters` (BaseModel | None, optional): Объект Pydantic, содержащий фильтры. По умолчанию `None`.
 
-    Как работает функция:
-    - Функция преобразует фильтры и значения из BaseModel в словари.
-    - Формирует запрос на обновление записей в базе данных по указанным фильтрам с указанными значениями.
-    - Выполняет запрос с использованием асинхронной сессии.
-    - Фиксирует изменения в базе данных.
-    - Возвращает количество обновленных записей.
-    - Логирует информацию об обновлении записей.
-    """
-    ...
-```
+**Возвращает**:
+- `int`: Количество записей, соответствующих фильтрам.
 
-### `delete`
+**Raises**:
+- `SQLAlchemyError`: В случае ошибки при подсчете записей.
+
+#### `paginate(cls, session: AsyncSession, page: int = 1, page_size: int = 10, filters: BaseModel = None)`
+
+**Описание**: Пагинация записей.
+
+**Параметры**:
+- `session` (AsyncSession): Сессия SQLAlchemy.
+- `page` (int, optional): Номер страницы. По умолчанию `1`.
+- `page_size` (int, optional): Размер страницы. По умолчанию `10`.
+- `filters` (BaseModel, optional): Объект Pydantic, содержащий фильтры. По умолчанию `None`.
+
+**Возвращает**:
+- `List[T]`: Список записей для текущей страницы.
+
+**Raises**:
+- `SQLAlchemyError`: В случае ошибки при пагинации.
+
+#### `find_by_ids(cls, session: AsyncSession, ids: List[int]) -> List[Any]`
+
+**Описание**: Найти несколько записей по списку ID
+
+**Параметры**:
+- `session` (AsyncSession): Сессия SQLAlchemy.
+- `ids` (List[int]): Список ID записей.
+
+**Возвращает**:
+- `List[Any]`: Список записей, соответствующих ID из списка.
+
+**Raises**:
+- `SQLAlchemyError`: В случае ошибки при поиске записей по списку ID.
+
+#### `upsert(cls, session: AsyncSession, unique_fields: List[str], values: BaseModel)`
+
+**Описание**: Создать запись или обновить существующую.
+
+**Параметры**:
+- `session` (AsyncSession): Сессия SQLAlchemy.
+- `unique_fields` (List[str]): Список полей, которые определяют уникальность записи.
+- `values` (BaseModel): Объект Pydantic, содержащий значения для записи.
+
+**Возвращает**:
+- `T`: Созданная или обновленная запись.
+
+**Raises**:
+- `SQLAlchemyError`: В случае ошибки при upsert.
+
+#### `bulk_update(cls, session: AsyncSession, records: List[BaseModel]) -> int`
+
+**Описание**: Массовое обновление записей.
+
+**Параметры**:
+- `session` (AsyncSession): Сессия SQLAlchemy.
+- `records` (List[BaseModel]): Список объектов Pydantic, содержащих значения для обновления.
+
+**Возвращает**:
+- `int`: Количество обновленных записей.
+
+**Raises**:
+- `SQLAlchemyError`: В случае ошибки при массовом обновлении записей.
+
+## Примеры
 
 ```python
-@classmethod
-async def delete(cls, session: AsyncSession, filters: BaseModel):
-    """
-    Удалить записи по фильтру.
+from bot.dao.database import Base
+from bot.dao.base import BaseDAO
 
-    Args:
-        session (AsyncSession): Асинхронная сессия SQLAlchemy.
-        filters (BaseModel): Фильтры для удаления записей.
+# Определение модели данных
+class MyModel(Base):
+    # ... определение полей
 
-    Returns:
-        int: Количество удаленных записей.
+# Создание DAO для MyModel
+class MyModelDAO(BaseDAO[MyModel]):
+    model = MyModel
 
-    Raises:
-        SQLAlchemyError: Если возникает ошибка при удалении записей.
-        ValueError: Если не указан ни один фильтр для удаления.
-
-    Как работает функция:
-    - Функция преобразует фильтры из BaseModel в словарь.
-    - Формирует запрос на удаление записей из базы данных по указанным фильтрам.
-    - Выполняет запрос с использованием асинхронной сессии.
-    - Фиксирует изменения в базе данных.
-    - Возвращает количество удаленных записей.
-    - Логирует информацию об удалении записей.
-    """
-    ...
-```
-
-### `count`
-
-```python
-@classmethod
-async def count(cls, session: AsyncSession, filters: BaseModel | None = None):
-    """
-    Подсчитать количество записей.
-
-    Args:
-        session (AsyncSession): Асинхронная сессия SQLAlchemy.
-        filters (BaseModel | None, optional): Фильтры для подсчета записей. Defaults to None.
-
-    Returns:
-        int: Количество записей.
-
-    Raises:
-        SQLAlchemyError: Если возникает ошибка при подсчете записей.
-
-    Как работает функция:
-    - Функция преобразует фильтры из BaseModel в словарь.
-    - Формирует запрос на подсчет количества записей в базе данных по указанным фильтрам.
-    - Выполняет запрос с использованием асинхронной сессии.
-    - Возвращает количество записей.
-    - Логирует информацию о подсчете записей.
-    """
-    ...
-```
-
-### `paginate`
-
-```python
-@classmethod
-async def paginate(cls, session: AsyncSession, page: int = 1, page_size: int = 10, filters: BaseModel = None):
-    """
-    Пагинация записей.
-
-    Args:
-        session (AsyncSession): Асинхронная сессия SQLAlchemy.
-        page (int, optional): Номер страницы. Defaults to 1.
-        page_size (int, optional): Размер страницы. Defaults to 10.
-        filters (BaseModel, optional): Фильтры для пагинации записей. Defaults to None.
-
-    Returns:
-        List[T]: Список записей на странице.
-
-    Raises:
-        SQLAlchemyError: Если возникает ошибка при пагинации записей.
-
-    Как работает функция:
-    - Функция преобразует фильтры из BaseModel в словарь.
-    - Формирует запрос на выборку записей из базы данных с учетом пагинации и фильтров.
-    - Выполняет запрос с использованием асинхронной сессии.
-    - Возвращает список записей на странице.
-    - Логирует информацию о пагинации записей.
-    """
-    ...
-```
-
-### `find_by_ids`
-
-```python
-@classmethod
-async def find_by_ids(cls, session: AsyncSession, ids: List[int]) -> List[Any]:
-    """
-    Найти несколько записей по списку ID.
-
-    Args:
-        session (AsyncSession): Асинхронная сессия SQLAlchemy.
-        ids (List[int]): Список ID записей.
-
-    Returns:
-        List[Any]: Список найденных записей.
-
-    Raises:
-        SQLAlchemyError: Если возникает ошибка при поиске записей по списку ID.
-
-    Как работает функция:
-    - Функция формирует запрос на выборку записей из базы данных по списку ID.
-    - Выполняет запрос с использованием асинхронной сессии.
-    - Возвращает список найденных записей.
-    - Логирует информацию о поиске записей.
-    """
-    ...
-```
-
-### `upsert`
-
-```python
-@classmethod
-async def upsert(cls, session: AsyncSession, unique_fields: List[str], values: BaseModel):
-    """
-    Создать запись или обновить существующую.
-
-    Args:
-        session (AsyncSession): Асинхронная сессия SQLAlchemy.
-        unique_fields (List[str]): Список уникальных полей для поиска существующей записи.
-        values (BaseModel): Значения для создания или обновления записи.
-
-    Returns:
-        T: Созданная или обновленная запись.
-
-    Raises:
-        SQLAlchemyError: Если возникает ошибка при выполнении операции.
-
-    Как работает функция:
-    - Функция ищет существующую запись по уникальным полям.
-    - Если запись существует, она обновляется.
-    - Если запись не существует, она создается.
-    - Логирует информацию о создании или обновлении записи.
-    """
-    ...
-```
-
-### `bulk_update`
-
-```python
-@classmethod
-async def bulk_update(cls, session: AsyncSession, records: List[BaseModel]) -> int:
-    """
-    Массовое обновление записей.
-
-    Args:
-        session (AsyncSession): Асинхронная сессия SQLAlchemy.
-        records (List[BaseModel]): Список записей для обновления.
-
-    Returns:
-        int: Количество обновленных записей.
-
-    Raises:
-        SQLAlchemyError: Если возникает ошибка при массовом обновлении.
-
-    Как работает функция:
-    - Функция итерируется по списку записей.
-    - Для каждой записи формирует запрос на обновление.
-    - Выполняет запросы на обновление.
-    - Фиксирует изменения в базе данных.
-    - Возвращает количество обновленных записей.
-    - Логирует информацию о массовом обновлении.
-    """
-    ...
+# ... дальнейшие действия, используя методы BaseDAO
 ```

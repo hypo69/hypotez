@@ -1,93 +1,116 @@
-# Документация для модуля `Chatgpt4o.py`
+# Chatgpt4o Provider
+## Overview
 
-## Обзор
+The `Chatgpt4o` provider is a class responsible for communicating with the chatgpt4o.one API to generate responses from the GPT-4O model. 
 
-Модуль `Chatgpt4o.py` предназначен для асинхронного взаимодействия с провайдером ChatGPT4o. Он предоставляет функциональность для отправки сообщений и получения ответов, используя при этом асинхронные запросы. Модуль включает в себя определение URL, статуса работоспособности, идентификатора поста, nonce, модели по умолчанию, списка поддерживаемых моделей и псевдонимов моделей.
+## Details
 
-## Подробнее
+The Chatgpt4o provider utilizes a StreamSession to make asynchronous HTTP requests to the chatgpt4o.one API. It handles tasks such as:
 
-Модуль предназначен для интеграции с другими частями проекта `hypotez`, обеспечивая возможность использования ChatGPT4o в качестве одного из провайдеров для обработки и генерации текста.
+* **Authentication and Authorization:** Retrieves necessary parameters, such as `_post_id` and `_nonce`, from the chatgpt4o.one website.
+* **Request Formatting:** Formats messages into a structure compatible with the chatgpt4o.one API.
+* **Response Handling:** Processes responses from the API, extracts relevant data, and checks for errors.
 
-## Классы
+## Classes
 
-### `Chatgpt4o`
+### `class Chatgpt4o`
 
-**Описание**: Класс `Chatgpt4o` является асинхронным провайдером и предоставляет методы для взаимодействия с моделью ChatGPT4o.
+**Description:** Provides an asynchronous interface for interacting with the chatgpt4o.one API. 
 
-**Наследует**:
-- `AsyncProvider`: Обеспечивает асинхронное взаимодействие.
-- `ProviderModelMixin`: Предоставляет общие методы для работы с моделями провайдеров.
+**Inherits:** 
+* `AsyncProvider`: Defines methods for asynchronous interaction with a provider.
+* `ProviderModelMixin`: Provides functionality for managing model options and aliases.
 
-**Атрибуты**:
-- `url` (str): URL-адрес провайдера ChatGPT4o.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `_post_id` (str | None): Идентификатор поста, необходимый для запросов.
-- `_nonce` (str | None): Nonce, используемый для защиты от CSRF.
-- `default_model` (str): Модель, используемая по умолчанию (`gpt-4o-mini-2024-07-18`).
-- `models` (list[str]): Список поддерживаемых моделей.
-- `model_aliases` (dict[str, str]): Псевдонимы моделей для удобства использования.
+**Attributes:**
 
-**Принцип работы**:
-Класс использует асинхронные сессии для отправки запросов к ChatGPT4o. Он получает `post_id` и `nonce` из главной страницы, если они еще не установлены, а затем отправляет сообщения, используя полученные данные.
+* `url`: The base URL for the chatgpt4o.one API.
+* `working`: Indicates whether the provider is currently functional (set to `False` as this provider is not working).
+* `_post_id`: A unique identifier used in API requests.
+* `_nonce`: A security token used in API requests.
+* `default_model`: The default GPT-4O model to use.
+* `models`: A list of supported GPT-4O models.
+* `model_aliases`: A dictionary mapping aliases to actual model names.
 
-## Методы класса
+**Methods:**
 
-### `create_async`
+* `create_async(model: str, messages: Messages, proxy: str = None, timeout: int = 120, cookies: dict = None, **kwargs) -> str`
+
+**Purpose:** Sends a request to the chatgpt4o.one API with the given `model`, `messages`, and optional parameters.
+
+**Parameters:**
+
+* `model (str)`: The GPT-4O model to use.
+* `messages (Messages)`: A list of messages to be sent to the model.
+* `proxy (str, optional)`: A proxy server to use for the request. Defaults to `None`.
+* `timeout (int, optional)`: The timeout for the request in seconds. Defaults to `120`.
+* `cookies (dict, optional)`: A dictionary of cookies to send with the request. Defaults to `None`.
+* `**kwargs`: Additional keyword arguments to pass to the `StreamSession`.
+
+**Returns:**
+
+* `str`: The response from the API as a string.
+
+**Raises Exceptions:**
+
+* `RuntimeError`: Raised if there are errors retrieving necessary parameters (`_post_id`, `_nonce`) from the chatgpt4o.one website.
+* `RuntimeError`: Raised if the API response does not contain the expected `'data'` field.
+
+**How the Function Works:**
+
+1. **Retrieve Parameters:** The function checks if `_post_id` and `_nonce` have been initialized. If not, it performs a GET request to the chatgpt4o.one homepage to extract these parameters from the HTML response. 
+2. **Format Prompt:** The `messages` are formatted into a prompt string using the `format_prompt` function. 
+3. **Send Request:** A POST request is sent to the `/wp-admin/admin-ajax.php` endpoint with the formatted prompt, `_post_id`, `_nonce`, and other necessary parameters.
+4. **Process Response:** The response is parsed as JSON. If the `'data'` field is present, it is returned as a string.
+
+**Example:**
 
 ```python
-@classmethod
-async def create_async(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    timeout: int = 120,
-    cookies: dict = None,
-    **kwargs
-) -> str:
-    """ Асинхронно создает запрос к ChatGPT4o и возвращает ответ.
+# Creating a Chatgpt4o instance
+provider = Chatgpt4o()
 
-    Args:
-        cls (Chatgpt4o): Класс.
-        model (str): Название используемой модели.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-        timeout (int, optional): Время ожидания запроса в секундах. По умолчанию 120.
-        cookies (dict, optional): Куки для отправки с запросом. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы.
+# Example messages to be sent to the model
+messages = [
+    {"role": "user", "content": "Hello, what is the meaning of life?"},
+]
 
-    Returns:
-        str: Ответ от ChatGPT4o.
+# Sending a request to the API
+response = await provider.create_async(model='gpt-4o-mini-2024-07-18', messages=messages)
 
-    Raises:
-        RuntimeError: Если не удается найти `post_id` или `nonce`, или если структура ответа неожиданная.
-
-    Как работает функция:
-    - Функция сначала проверяет, установлены ли `_post_id` и `_nonce`. Если нет, она выполняет GET-запрос к главной странице, извлекает `post_id` и `nonce` с использованием регулярных выражений и сохраняет их.
-    - Затем функция форматирует сообщения в строку, используя функцию `format_prompt`.
-    - После этого она формирует данные для POST-запроса, включая `_wpnonce`, `post_id`, `url`, `action`, `message` и `bot_id`.
-    - Функция отправляет POST-запрос к `/wp-admin/admin-ajax.php` с данными и куками.
-    - Полученный JSON-ответ проверяется на наличие поля `data`, и его значение возвращается.
-
-    Пример:
-        >>> messages = [{"role": "user", "content": "Hello!"}]
-        >>> Chatgpt4o.create_async(model="gpt-4o-mini-2024-07-18", messages=messages)
-        "ответ от ChatGPT4o"
-    """
+# Printing the response
+print(response)
 ```
 
-## Параметры класса
+## Parameter Details
 
-- `cls`: Ссылка на класс `Chatgpt4o`.
-- `model` (str): Имя используемой модели.
-- `messages` (Messages): Список сообщений для отправки.
-- `proxy` (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-- `timeout` (int, optional): Время ожидания запроса в секундах. По умолчанию 120.
-- `cookies` (dict, optional): Куки для отправки с запросом. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы.
+* `model (str)`: The specific GPT-4O model to use for generating responses. Supported models include `gpt-4o-mini-2024-07-18`, `gpt-4o-mini`, and potentially others.
+* `messages (Messages)`: A list of messages to be processed by the model. Each message should be a dictionary containing the following keys:
+    * `role (str)`: Indicates the role of the speaker (e.g., `'user'`, `'assistant'`).
+    * `content (str)`: The text content of the message.
+* `proxy (str, optional)`: A proxy server to use for the HTTP request. This allows users to bypass network restrictions or improve privacy.
+* `timeout (int, optional)`: The maximum time in seconds to wait for a response from the API. 
+* `cookies (dict, optional)`: A dictionary of cookies to be sent with the request. These can be used for session management or personalization.
+* `**kwargs`: Allows for passing additional keyword arguments to the `StreamSession`.
 
-## Примеры
+## Examples
 
 ```python
-messages = [{"role": "user", "content": "Hello!"}]
-Chatgpt4o.create_async(model="gpt-4o-mini-2024-07-18", messages=messages)
+# Example 1: Simple request with default model
+messages = [
+    {"role": "user", "content": "What is the capital of France?"},
+]
+response = await Chatgpt4o.create_async(model='gpt-4o-mini-2024-07-18', messages=messages)
+print(response)  # Output: "Paris"
+
+# Example 2: Request with a specific model
+messages = [
+    {"role": "user", "content": "Write a poem about a cat."},
+]
+response = await Chatgpt4o.create_async(model='gpt-4o-mini', messages=messages)
+print(response)  # Output: A poem about a cat
+
+# Example 3: Request with a proxy server
+messages = [
+    {"role": "user", "content": "What is the weather like today?"},
+]
+response = await Chatgpt4o.create_async(model='gpt-4o-mini-2024-07-18', messages=messages, proxy='http://proxy.example.com:8080')
+print(response)  # Output: The weather forecast for today

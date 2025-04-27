@@ -1,48 +1,62 @@
-# Документация для модуля `MiniMax`
+# MiniMax.py
 
-## Обзор
+## Overview
 
-Модуль `MiniMax` предоставляет класс для работы с API MiniMax. Он наследуется от `OpenaiTemplate` и содержит информацию о URL, необходимости аутентификации, базовом URL API и поддерживаемых моделях.
+This module defines the `MiniMax` class, a provider for the `hypotez` project, which implements the OpenAI template for interacting with the MiniMax API.
 
-## Подробнее
+## Details
 
-Модуль предназначен для упрощения взаимодействия с MiniMax API, предоставляя стандартный интерфейс через класс `MiniMax`. Он определяет параметры подключения и модели, используемые для запросов к API. Расположение файла в проекте `hypotez` указывает на его роль как одного из провайдеров API.
+The `MiniMax` class inherits from the `OpenaiTemplate` class, providing a standardized interface for interacting with the MiniMax API. It defines specific parameters and configurations related to MiniMax API interactions, including:
 
-## Классы
+- **URL**: The base URL for the MiniMax API.
+- **Login URL**: The URL for accessing the MiniMax login interface.
+- **API Base**: The base URL for the MiniMax API endpoints.
+- **Working**: Flag indicating whether the provider is currently active and functional.
+- **Needs Auth**: Flag indicating whether the provider requires authentication for API requests.
+- **Default Model**: The default language model used for text-based interactions.
+- **Default Vision Model**: The default language model used for image-based interactions.
+- **Models**: A list of supported language models.
+- **Model Aliases**: A dictionary mapping common model names to their corresponding model IDs.
+
+## Classes
 
 ### `MiniMax`
 
-**Описание**: Класс для взаимодействия с API MiniMax.
+**Description**: This class represents the provider for the MiniMax API, implementing the `OpenaiTemplate` interface for interacting with the API. 
 
-**Наследует**:
-- `OpenaiTemplate`: Предоставляет базовый функционал для работы с OpenAI-подобными API.
+**Inherits**: `OpenaiTemplate`
 
-**Атрибуты**:
-- `label` (str): Метка для API ("MiniMax API").
-- `url` (str): URL главной страницы MiniMax ("https://www.hailuo.ai/chat").
-- `login_url` (str): URL страницы для получения ключа API ("https://intl.minimaxi.com/user-center/basic-information/interface-key").
-- `api_base` (str): Базовый URL API ("https://api.minimaxi.chat/v1").
-- `working` (bool): Флаг, указывающий на работоспособность API (True).
-- `needs_auth` (bool): Флаг, указывающий на необходимость аутентификации (True).
-- `default_model` (str): Модель, используемая по умолчанию ("MiniMax-Text-01").
-- `default_vision_model` (str): Модель для работы с изображениями по умолчанию (совпадает с `default_model`).
-- `models` (list[str]): Список поддерживаемых моделей ([`default_model`, "abab6.5s-chat"]).
-- `model_aliases` (dict[str, str]): Псевдонимы моделей ({`"MiniMax"`: `default_model`}).
+**Attributes**:
 
-**Принцип работы**:
-Класс `MiniMax` определяет все необходимые атрибуты для подключения и работы с API MiniMax. Он наследует от `OpenaiTemplate`, что позволяет использовать общую логику для работы с API, такими как отправка запросов и обработка ответов. Атрибуты класса содержат информацию о URL, необходимости аутентификации и поддерживаемых моделях.
+- `label` (str): Provider label - "MiniMax API".
+- `url` (str): Base URL for the MiniMax API.
+- `login_url` (str): URL for accessing the MiniMax login interface.
+- `api_base` (str): Base URL for the MiniMax API endpoints.
+- `working` (bool): Flag indicating whether the provider is currently active and functional.
+- `needs_auth` (bool): Flag indicating whether the provider requires authentication for API requests.
+- `default_model` (str): The default language model used for text-based interactions.
+- `default_vision_model` (str): The default language model used for image-based interactions.
+- `models` (list): A list of supported language models.
+- `model_aliases` (dict): A dictionary mapping common model names to their corresponding model IDs. 
 
-## Методы класса
+**Methods**:
 
-В данном классе отсутствуют явно определенные методы, поскольку он наследует методы от класса `OpenaiTemplate`. Однако, можно предположить, что методы из `OpenaiTemplate` будут использоваться для взаимодействия с API MiniMax.
+- **`__init__`**: Initializes the `MiniMax` object with specific API configurations.
 
-## Примеры
+## Inner Functions
 
-Пример использования класса `MiniMax`:
+- **`__init__`**: This is the constructor for the `MiniMax` class. It initializes the class attributes with specific values for the MiniMax API provider, including base URL, login URL, API endpoints, and model information. 
+
+**Examples**:
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.mini_max.MiniMax import MiniMax
+from hypotez.src.endpoints.gpt4free.g4f.Provider.mini_max.MiniMax import MiniMax
 
-minimax = MiniMax()
-print(minimax.label)
-print(minimax.api_base)
+# Creating a MiniMax provider instance
+mini_max = MiniMax()
+
+# Accessing attributes
+print(mini_max.label) # Output: "MiniMax API"
+print(mini_max.url) # Output: "https://www.hailuo.ai/chat"
+print(mini_max.default_model) # Output: "MiniMax-Text-01"
+```

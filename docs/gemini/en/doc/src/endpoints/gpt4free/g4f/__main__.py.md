@@ -1,73 +1,134 @@
-# Документация для модуля `__main__.py`
+#  g4f/__main__.py Module
 
-## Обзор
+## Overview
 
-Модуль является точкой входа для запуска API gpt4free. Он использует `argparse` для обработки аргументов командной строки и запуска API с переданными аргументами.
+This module serves as the entry point for running the GPT-4Free API, handling command-line arguments and launching the API server.
 
-## Детали
+## Details
 
-Этот модуль отвечает за запуск API gpt4free. Он использует `argparse` для обработки аргументов командной строки, которые могут быть переданы при запуске скрипта. Если аргумент `gui` не указан, он устанавливается в `True`. Затем модуль вызывает функцию `run_api_args` для запуска API с переданными аргументами.
+This file defines the main execution logic for the GPT-4Free API. It parses command-line arguments, sets up the API server based on the provided settings, and starts the API server to handle requests from clients.
 
-## Функции
+## Functions
 
-### `get_api_parser`
+### `get_api_parser()`
 
-```python
-def get_api_parser():
-    """ Функция возвращает настроенный парсер аргументов командной строки.
+**Purpose**: This function creates and returns an argument parser object for the GPT-4Free API. This parser is responsible for interpreting the command-line arguments provided when running the API.
 
-    Args:
-        Нет
+**Parameters**: None.
 
-    Returns:
-        ArgumentParser: Объект парсера аргументов.
+**Returns**: `argparse.ArgumentParser`: Returns an argument parser object configured with various options and flags.
 
-    Raises:
-        Нет
-    """
-    # Функция возвращает настроенный парсер аргументов командной строки.
-    # Подробное описание работы парсера можно найти в модуле `cli.py`.
+**How the Function Works**:
 
-### `run_api_args`
+1. The function imports the `get_api_parser` function from the `cli` module.
+2. It calls the `get_api_parser` function to obtain an argument parser object.
+3. This parser object is then returned to the caller.
+
+**Examples**:
 
 ```python
-def run_api_args(args):
-    """ Функция запускает API с переданными аргументами.
-
-    Args:
-        args (Namespace): Объект, содержащий аргументы командной строки.
-
-    Returns:
-        Нет
-
-    Raises:
-        Нет
-    """
-    # Функция запускает API gpt4free с аргументами, переданными из командной строки.
-    # Подробное описание работы функции можно найти в модуле `cli.py`.
-
-## Логика работы
-
-1.  Импортируются необходимые модули: `get_api_parser` и `run_api_args` из `./cli.py`.
-2.  Создается парсер аргументов командной строки с помощью функции `get_api_parser()`.
-3.  Аргументы командной строки парсятся с помощью метода `parse_args()` парсера.
-4.  Проверяется, был ли указан аргумент `gui`. Если он не был указан (то есть `args.gui is None`), то ему присваивается значение `True`.
-5.  Вызывается функция `run_api_args(args)` для запуска API с переданными аргументами.
-
-## Примеры
-
-Запуск API с аргументами по умолчанию:
-
-```bash
-python -m g4f
+# Example: Using the Argument Parser
+parser = get_api_parser()
+args = parser.parse_args()
 ```
 
-Запуск API с указанием аргумента `gui`:
+### `run_api_args()`
+
+**Purpose**: This function processes the parsed command-line arguments and starts the GPT-4Free API server. It takes the parsed arguments and configures the API server based on those settings.
+
+**Parameters**:
+
+- `args` (`argparse.Namespace`): An object containing the parsed command-line arguments.
+
+**Returns**: None.
+
+**How the Function Works**:
+
+1. The function imports the `run_api_args` function from the `cli` module.
+2. It calls the `run_api_args` function, passing the parsed command-line arguments.
+3. This function handles the configuration of the API server and starts the server.
+
+**Examples**:
+
+```python
+# Example: Running the API Server
+parser = get_api_parser()
+args = parser.parse_args()
+run_api_args(args)
+```
+
+## Code Breakdown
+
+```python
+from __future__ import annotations
+
+from .cli import get_api_parser, run_api_args
+
+parser = get_api_parser()
+args = parser.parse_args()
+if args.gui is None:
+    args.gui = True
+run_api_args(args)
+```
+
+**Explanation**:
+
+1. **Import Statements**: The code imports the `get_api_parser` and `run_api_args` functions from the `cli` module. These functions are used to handle command-line arguments and start the API server.
+2. **Argument Parsing**: The code creates an argument parser object using `get_api_parser()`. Then, it parses command-line arguments using `parser.parse_args()`. The parsed arguments are stored in the `args` object.
+3. **GUI Default**: The code checks if the `gui` argument is set. If it's `None`, it sets it to `True`, enabling the GUI interface by default.
+4. **API Server Launch**: The code calls `run_api_args(args)` to start the API server using the parsed command-line arguments. This function handles the configuration of the server and starts it.
+
+## Example Usage
 
 ```bash
+# Start the GPT-4Free API with the GUI enabled (default behavior)
+python -m g4f
+
+# Start the GPT-4Free API with the GUI disabled
 python -m g4f --gui False
 ```
 
-## Зависимости
+## Inner Functions
 
--   `.cli`: Содержит функции для парсинга аргументов командной строки и запуска API.
+### `get_api_parser()`
+
+**Purpose**: This function is defined in the `cli` module and is responsible for creating the argument parser object used to parse command-line arguments.
+
+**Parameters**: None.
+
+**Returns**: `argparse.ArgumentParser`: Returns an argument parser object with various options and flags.
+
+**How the Function Works**:
+
+1. It creates an `ArgumentParser` object.
+2. It adds various arguments, including options for enabling/disabling the GUI, specifying the port, and choosing the model.
+3. It returns the configured parser object.
+
+### `run_api_args()`
+
+**Purpose**: This function is defined in the `cli` module and handles the processing of parsed command-line arguments and starts the API server.
+
+**Parameters**:
+
+- `args` (`argparse.Namespace`): An object containing the parsed command-line arguments.
+
+**Returns**: None.
+
+**How the Function Works**:
+
+1. It retrieves the necessary settings from the parsed arguments, including the GUI mode, port, and model.
+2. It configures the API server based on these settings.
+3. It starts the API server to listen for client requests.
+
+**Examples**:
+
+```python
+# Example: Using the Argument Parser
+parser = get_api_parser()
+args = parser.parse_args()
+
+# Example: Running the API Server
+run_api_args(args)
+```
+
+This module serves as the entry point for running the GPT-4Free API and handles the initial setup and launch of the API server.

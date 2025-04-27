@@ -1,361 +1,236 @@
-# Модуль для работы с copilot для pull request.
+# Модуль для работы с помощником программиста
+=================================================
 
-## Обзор
+Модуль содержит функции для взаимодействия с моделями искусственного интеллекта (например, Google Gemini и OpenAI) и выполнения задач по обработке кода.
 
-Модуль предназначен для автоматического анализа pull request и создания комментариев с предложениями по улучшению кода. Он использует API g4f для получения комментариев по коду и публикует их в pull request на GitHub.
+## Содержание
+- [Введение](#Введение)
+- [Функции](#Функции)
+    - [`get_pr_details(github: Github) -> PullRequest`](#get_pr_detailsgithub-github--pullrequest)
+    - [`get_diff(diff_url: str) -> str`](#get_diffdiff_url-str--str)
+    - [`read_json(text: str) -> dict`](#read_jsontext-str--dict)
+    - [`read_text(text: str) -> str`](#read_texttext-str--str)
+    - [`get_ai_response(prompt: str, as_json: bool = True) -> Union[dict, str]`](#get_ai_responseprompt-str-as_json-bool--true--uniondict-str)
+    - [`analyze_code(pull: PullRequest, diff: str) -> list[dict]`](#analyze_codepull-pullrequest-diff-str--listdict)
+    - [`create_analyze_prompt(changed_lines: list[str], pull: PullRequest, file_path: str)`](#create_analyze_promptchanged_lines-liststr-pull-pullrequest-file_path-str)
+    - [`create_review_prompt(pull: PullRequest, diff: str)`](#create_review_promptpull-pullrequest-diff-str)
+    - [`main()`](#main)
+- [Пример использования](#Пример-использования)
 
-## Подробнее
+## Введение
 
-Этот модуль предназначен для автоматизации процесса анализа pull request и предоставления обратной связи разработчикам. Он использует модель g4f для анализа изменений кода и создания комментариев с предложениями по улучшению. Модуль интегрируется с GitHub API для получения информации о pull request и публикации комментариев.
-
-## Классы
-
-### `PullRequest`
-
-**Описание**: Класс представляет pull request на GitHub.
-
-**Наследует**:
-- Нет
-
-**Атрибуты**:
-- Нет
-
-**Методы**:
-- Нет
+Модуль предназначен для автоматизированной проверки и анализа кода pull-запросов на GitHub. 
+Он взаимодействует с моделями искусственного интеллекта (AI) для генерации комментариев к коду и создания обзоров pull-запросов.
 
 ## Функции
 
-### `get_pr_details`
+### `get_pr_details(github: Github) -> PullRequest`
+
+Функция извлекает информацию о pull-запросе из GitHub.
+
+#### Параметры:
+
+- `github (Github)`: Объект Github, используемый для взаимодействия с API GitHub.
+
+#### Возвращает:
+
+- `PullRequest`: Объект, представляющий pull-запрос.
+
+#### Пример использования:
 
 ```python
-def get_pr_details(github: Github) -> PullRequest:
-    """
-    Извлекает детали pull request из GitHub.
+from github import Github
 
-    Args:
-        github (Github): Объект Github для взаимодействия с GitHub API.
-
-    Returns:
-        PullRequest: Объект, представляющий pull request.
-    """
-```
-
-**Назначение**: Извлечение деталей pull request из GitHub.
-
-**Параметры**:
-- `github` (Github): Объект Github для взаимодействия с GitHub API.
-
-**Возвращает**:
-- `PullRequest`: Объект, представляющий pull request.
-
-**Как работает**:
-- Функция читает номер pull request из файла `./pr_number`.
-- Если номер отсутствует, функция возвращает `None`.
-- Функция использует объект `github` для получения pull request по номеру из репозитория `GITHUB_REPOSITORY`.
-- Функция возвращает объект `pull`, представляющий pull request.
-
-**Пример использования**:
-
-```python
-github = Github(GITHUB_TOKEN)
+github = Github("YOUR_GITHUB_TOKEN")
 pull = get_pr_details(github)
-if pull:
-    print(f"Pull request title: {pull.title}")
 ```
 
-### `get_diff`
+### `get_diff(diff_url: str) -> str`
+
+Функция извлекает diff-код pull-запроса по заданному URL.
+
+#### Параметры:
+
+- `diff_url (str)`: URL diff-файла pull-запроса.
+
+#### Возвращает:
+
+- `str`: Diff-код pull-запроса.
+
+#### Пример использования:
 
 ```python
-def get_diff(diff_url: str) -> str:
-    """
-    Получает diff pull request по заданному URL.
-
-    Args:
-        diff_url (str): URL для diff pull request.
-
-    Returns:
-        str: Diff pull request.
-    """
-```
-
-**Назначение**: Получение diff pull request по заданному URL.
-
-**Параметры**:
-- `diff_url` (str): URL для diff pull request.
-
-**Возвращает**:
-- `str`: Diff pull request.
-
-**Как работает**:
-- Функция отправляет GET-запрос по указанному `diff_url`.
-- Функция проверяет статус ответа и вызывает исключение, если произошла ошибка.
-- Функция возвращает текст ответа, содержащий diff pull request.
-
-**Пример использования**:
-
-```python
-diff_url = pull.diff_url
+diff_url = "https://github.com/example/repo/pull/123/files"
 diff = get_diff(diff_url)
-print(f"Diff: {diff[:100]}...")
 ```
 
-### `read_json`
+### `read_json(text: str) -> dict`
+
+Функция парсит JSON-код из строки.
+
+#### Параметры:
+
+- `text (str)`: Строка, содержащая JSON-код.
+
+#### Возвращает:
+
+- `dict`: Словарь, полученный из JSON-кода.
+
+#### Пример использования:
 
 ```python
-def read_json(text: str) -> dict:
-    """
-    Разбирает блок кода JSON из строки.
-
-    Args:
-        text (str): Строка, содержащая блок кода JSON.
-
-    Returns:
-        dict: Словарь, разобранный из блока кода JSON.
-    """
+text = '{"name": "Alice", "age": 30}'
+data = read_json(text)
 ```
 
-**Назначение**: Разбор JSON из текста.
+### `read_text(text: str) -> str`
 
-**Параметры**:
-- `text` (str): Строка, содержащая JSON.
+Функция извлекает текст из markdown-блока кода.
 
-**Возвращает**:
-- `dict`: Словарь, полученный из JSON.
+#### Параметры:
 
-**Как работает**:
-- Функция ищет блок кода JSON в строке с использованием регулярного выражения.
-- Функция извлекает JSON из блока кода.
-- Функция пытается разобрать JSON и возвращает словарь.
-- Если JSON недействителен, функция вызывает исключение `RuntimeError`.
+- `text (str)`: Строка, содержащая markdown-блок кода.
 
-**Пример использования**:
+#### Возвращает:
 
-```python
-json_string = "```json\\n{\\"key\\": \\"value\\"}\\n```"
-data = read_json(json_string)
-print(f"Data: {data}")
-```
-
-### `read_text`
-
-```python
-def read_text(text: str) -> str:
-    """
-    Извлекает текст из блока кода markdown.
-
-    Args:
-        text (str): Строка, содержащая блок кода markdown.
-
-    Returns:
-        str: Извлеченный текст.
-    """
-```
-
-**Назначение**: Извлечение текста из блока кода markdown.
-
-**Параметры**:
-- `text` (str): Строка, содержащая блок кода markdown.
-
-**Возвращает**:
 - `str`: Извлеченный текст.
 
-**Как работает**:
-- Функция ищет блок кода markdown в строке с использованием регулярного выражения.
-- Функция извлекает текст из блока кода.
-- Если блок кода markdown не найден, функция вызывает исключение `RuntimeError`.
-
-**Пример использования**:
+#### Пример использования:
 
 ```python
-markdown_string = "```markdown\\nSome text\\n```"
-text = read_text(markdown_string)
-print(f"Text: {text}")
+text = "```markdown\nThis is a markdown code block.\n```"
+markdown_text = read_text(text)
 ```
 
-### `get_ai_response`
+### `get_ai_response(prompt: str, as_json: bool = True) -> Union[dict, str]`
+
+Функция получает ответ от AI-модели (g4f) на основе заданного запроса.
+
+#### Параметры:
+
+- `prompt (str)`: Запрос для отправки AI-модели.
+- `as_json (bool)`: Флаг, указывающий, следует ли парсить ответ как JSON. По умолчанию `True`.
+
+#### Возвращает:
+
+- `Union[dict, str]`: Парсированный ответ AI-модели в виде словаря или строки.
+
+#### Пример использования:
 
 ```python
-def get_ai_response(prompt: str, as_json: bool = True) -> Union[dict, str]:
-    """
-    Получает ответ от g4f API на основе запроса.
-
-    Args:
-        prompt (str): Запрос для отправки в g4f.
-        as_json (bool): Определяет, следует ли разбирать ответ как JSON.
-
-    Returns:
-        Union[dict, str]: Разобранный ответ от g4f, либо в виде словаря, либо в виде строки.
-    """
-```
-
-**Назначение**: Получение ответа от g4f API.
-
-**Параметры**:
-- `prompt` (str): Запрос для отправки в g4f.
-- `as_json` (bool): Определяет, следует ли разбирать ответ как JSON.
-
-**Возвращает**:
-- `Union[dict, str]`: Разобранный ответ от g4f, либо в виде словаря, либо в виде строки.
-
-**Как работает**:
-- Функция отправляет запрос в g4f API с использованием предоставленного `prompt`.
-- Функция использует `g4f.ChatCompletion.create` для отправки запроса.
-- Если `as_json` имеет значение `True`, функция разбирает ответ как JSON с использованием функции `read_json`.
-- Если `as_json` имеет значение `False`, функция извлекает текст из ответа с использованием функции `read_text`.
-- Функция возвращает разобранный ответ.
-
-**Пример использования**:
-
-```python
-prompt = "Review this code."
+prompt = "Write a short story about a cat."
 response = get_ai_response(prompt)
-print(f"Response: {response}")
 ```
 
-### `analyze_code`
+### `analyze_code(pull: PullRequest, diff: str) -> list[dict]`
 
-```python
-def analyze_code(pull: PullRequest, diff: str)-> list[dict]:
-    """
-    Анализирует изменения кода в pull request.
+Функция анализирует изменения кода в pull-запросе и генерирует комментарии.
 
-    Args:
-        pull (PullRequest): Объект pull request.
-        diff (str): Diff pull request.
+#### Параметры:
 
-    Returns:
-        list[dict]: Список комментариев, сгенерированных анализом.
-    """
-```
+- `pull (PullRequest)`: Объект pull-запроса.
+- `diff (str)`: Diff-код pull-запроса.
 
-**Назначение**: Анализ изменений кода в pull request.
+#### Возвращает:
 
-**Параметры**:
-- `pull` (PullRequest): Объект pull request.
-- `diff` (str): Diff pull request.
+- `list[dict]`: Список сгенерированных комментариев.
 
-**Возвращает**:
-- `list[dict]`: Список комментариев, сгенерированных анализом.
-
-**Как работает**:
-- Функция анализирует diff pull request построчно.
-- Функция определяет измененные строки кода и формирует запрос к g4f для анализа этих строк.
-- Функция получает комментарии от g4f и добавляет их в список.
-- Функция возвращает список комментариев.
-
-**Пример использования**:
+#### Пример использования:
 
 ```python
 comments = analyze_code(pull, diff)
-print(f"Comments: {comments}")
 ```
 
-### `create_analyze_prompt`
+### `create_analyze_prompt(changed_lines: list[str], pull: PullRequest, file_path: str)`
+
+Функция формирует запрос для AI-модели для анализа кода.
+
+#### Параметры:
+
+- `changed_lines (list[str])`: Список строк кода, которые были изменены.
+- `pull (PullRequest)`: Объект pull-запроса.
+- `file_path (str)`: Путь к файлу, который анализируется.
+
+#### Возвращает:
+
+- `str`: Сгенерированный запрос для AI-модели.
+
+#### Пример использования:
 
 ```python
-def create_analyze_prompt(changed_lines: list[str], pull: PullRequest, file_path: str):\n
-    """
-    Создает запрос для модели g4f.
-
-    Args:
-        changed_lines (list[str]): Строки кода, которые были изменены.
-        pull (PullRequest): Объект pull request.
-        file_path (str): Путь к файлу, который проверяется.
-
-    Returns:
-        str: Сгенерированный запрос.
-    """
-```
-
-**Назначение**: Создание запроса для модели g4f.
-
-**Параметры**:
-- `changed_lines` (list[str]): Список измененных строк кода.
-- `pull` (PullRequest): Объект pull request.
-- `file_path` (str): Путь к анализируемому файлу.
-
-**Возвращает**:
-- `str`: Сгенерированный запрос.
-
-**Как работает**:
-- Функция создает запрос для модели g4f, включающий инструкции по анализу кода.
-- Функция форматирует измененные строки кода и добавляет их в запрос.
-- Функция добавляет заголовок и описание pull request в запрос.
-- Функция возвращает сгенерированный запрос.
-
-**Пример использования**:
-
-```python
-changed_lines = ["+line1", "-line2", "+line3"]
-file_path = "example.py"
 prompt = create_analyze_prompt(changed_lines, pull, file_path)
-print(f"Prompt: {prompt}")
 ```
 
-### `create_review_prompt`
+### `create_review_prompt(pull: PullRequest, diff: str)`
 
-```python
-def create_review_prompt(pull: PullRequest, diff: str):\n
-    """
-    Создает запрос для создания комментария к обзору.
+Функция формирует запрос для AI-модели для создания обзора pull-запроса.
 
-    Args:
-        pull (PullRequest): Объект pull request.
-        diff (str): Diff pull request.
+#### Параметры:
 
-    Returns:
-        str: Сгенерированный запрос для обзора.
-    """
-```
+- `pull (PullRequest)`: Объект pull-запроса.
+- `diff (str)`: Diff-код pull-запроса.
 
-**Назначение**: Создание запроса для создания комментария к обзору.
+#### Возвращает:
 
-**Параметры**:
-- `pull` (PullRequest): Объект pull request.
-- `diff` (str): Diff pull request.
+- `str`: Сгенерированный запрос для AI-модели.
 
-**Возвращает**:
-- `str`: Сгенерированный запрос для обзора.
-
-**Как работает**:
-- Функция создает запрос для модели g4f, включающий инструкции по созданию комментария к обзору.
-- Функция добавляет информацию об авторе, заголовке и описании pull request в запрос.
-- Функция добавляет diff pull request в запрос.
-- Функция возвращает сгенерированный запрос.
-
-**Пример использования**:
+#### Пример использования:
 
 ```python
 prompt = create_review_prompt(pull, diff)
-print(f"Prompt: {prompt}")
 ```
 
-### `main`
+### `main()`
+
+Функция, которая запускает основной процесс анализа pull-запроса и публикации отзыва.
+
+#### Пример использования:
 
 ```python
-def main():
-    """
-    Основная функция для запуска анализа pull request и создания комментариев.
-    """
+main()
 ```
 
-**Назначение**: Основная функция для запуска анализа pull request и создания комментариев.
-
-**Параметры**:
-- Отсутствуют.
-
-**Возвращает**:
-- Отсутствует.
-
-**Как работает**:
-- Функция получает детали pull request и diff.
-- Функция создает комментарий к обзору с использованием g4f API.
-- Функция анализирует код и создает комментарии с предложениями по улучшению.
-- Функция публикует комментарии в pull request.
-
-**Пример использования**:
+## Пример использования
 
 ```python
-if __name__ == "__main__":
-    main()
+# Загрузка необходимых библиотек
+from github import Github
+from hypotez.src.endpoints.gpt4free.etc.tool.copilot import get_pr_details, get_diff, analyze_code, create_review_prompt
+
+# Получение токена GitHub из переменной окружения
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+
+# Инициализация объекта GitHub
+github = Github(GITHUB_TOKEN)
+
+# Получение информации о pull-запросе
+pull = get_pr_details(github)
+
+# Получение diff-кода pull-запроса
+diff = get_diff(pull.diff_url)
+
+# Анализ изменений кода и генерация комментариев
+comments = analyze_code(pull, diff)
+
+# Создание запроса для AI-модели для обзора pull-запроса
+review_prompt = create_review_prompt(pull, diff)
+
+# Вывод сгенерированных комментариев
+print("Comments:", comments)
+
+# Вывод запроса для AI-модели
+print("Review prompt:", review_prompt)
+
+# Отправка запроса AI-модели и получение ответа (не показано в этом примере)
+# ...
+
+# Публикация обзора pull-запроса на GitHub (не показано в этом примере)
+# ...
 ```
+
+## Замечания
+- Модуль использует g4f для взаимодействия с AI-моделями. 
+- В нем используется библиотека `github` для взаимодействия с GitHub API.
+- Для проверки pull-запросов используется `driver` из `src.webdirver`.
+-  `Driver`, `Chrome`, `Firefox`, `Playwright` modules уже содержат все настройки Selenium.
+-  Основная команда, используемая в коде: `driver.execute_locator(l:dict)`. Она возвращает значение веб-элемента по локатору.

@@ -1,63 +1,49 @@
-# Документация для `types.py`
+# Hypotez: GPT4Free Client Types Module
 
-## Обзор
+## Overview
 
-Файл `types.py` определяет типы данных, используемые в клиенте `g4f` для работы с различными провайдерами, такими как `BaseProvider`. В нём определены типы для работы с прокси, итераторами и асинхронными итераторами.
+This module defines types and classes used for interacting with the GPT4Free API. It sets up the foundation for handling API requests and responses.
 
-## Детали
+## Details
 
-Файл содержит определения типов для работы с различными провайдерами, прокси, итераторами и асинхронными итераторами.
+The `types.py` file defines type aliases and a basic client class for working with the GPT4Free API. 
 
-## Типы
+- `ImageProvider` defines a union type, allowing the use of either a `BaseProvider` object or a generic object. This provides flexibility for handling different image providers.
+- `Proxies` allows passing either a dictionary of proxy settings or a simple proxy string. This supports both specific and generic proxy configurations.
+- `IterResponse` and `AsyncIterResponse` define types for iterating through GPT4Free responses. These types represent the API's responses as iterators for efficient processing.
 
-### `ImageProvider`
+The `Client` class provides a base for interacting with the GPT4Free API, setting up initial configurations including API key and proxy settings. 
 
-```python
-ImageProvider = Union[BaseProvider, object]
-```
-
-Тип, представляющий провайдера изображений. Может быть экземпляром `BaseProvider` или любым объектом.
-
-### `Proxies`
-
-```python
-Proxies = Union[dict, str]
-```
-
-Тип, представляющий прокси. Может быть словарём или строкой.
-
-### `IterResponse`
-
-```python
-IterResponse = Iterator[Union[ChatCompletion, ChatCompletionChunk]]
-```
-
-Тип, представляющий итератор для ответов чат-завершений. Возвращает итератор, который выдаёт экземпляры `ChatCompletion` или `ChatCompletionChunk`.
-
-### `AsyncIterResponse`
-
-```python
-AsyncIterResponse = AsyncIterator[Union[ChatCompletion, ChatCompletionChunk]]
-```
-
-Тип, представляющий асинхронный итератор для ответов чат-завершений. Возвращает асинхронный итератор, который выдаёт экземпляры `ChatCompletion` или `ChatCompletionChunk`.
-
-## Классы
+## Classes
 
 ### `Client`
+
+**Description**: The `Client` class provides a basic structure for interacting with the GPT4Free API.
+
+**Attributes**:
+
+- `api_key` (str): The GPT4Free API key used for authentication.
+- `proxies` (Proxies): Proxy settings for API requests.
+- `proxy` (str): The selected proxy string, determined from `proxies`.
+
+**Methods**:
+
+- `get_proxy()`:  Retrieves the appropriate proxy string from the `proxies` attribute. It prioritizes a specific proxy for the `https` protocol, then the `all` proxy if available, and finally falls back to an environment variable `G4F_PROXY`.
 
 ```python
 class Client():
     """
-    Клиент для работы с различными провайдерами.
+    Базовый класс для взаимодействия с GPT4Free API.
 
     Attributes:
-        api_key (str): Ключ API для аутентификации.
-        proxies (Proxies): Прокси для использования при подключении к провайдерам.
-        proxy (str): Строка прокси, полученная из `proxies`.
+        api_key (str): API-ключ GPT4Free для аутентификации.
+        proxies (Proxies): Параметры прокси для API-запросов.
+        proxy (str): Выбранная строка прокси, определенная из `proxies`.
 
     Methods:
-        get_proxy(): Получает прокси из различных источников.
+        get_proxy(): Извлекает соответствующую строку прокси из атрибута `proxies`. 
+            Сначала проверяется наличие прокси для `https`, затем `all`, 
+            и, в качестве последнего средства, используется переменная окружения `G4F_PROXY`.
     """
     def __init__(
         self,
@@ -66,23 +52,24 @@ class Client():
         **kwargs
     ) -> None:
         """
-        Инициализирует экземпляр класса `Client`.
+        Инициализирует клиент GPT4Free.
 
         Args:
-            api_key (str, optional): Ключ API для аутентификации. По умолчанию `None`.
-            proxies (Proxies, optional): Прокси для использования при подключении к провайдерам. По умолчанию `None`.
+            api_key (str, optional): API-ключ GPT4Free. Defaults to None.
+            proxies (Proxies, optional): Настройки прокси. Defaults to None.
             **kwargs: Дополнительные аргументы.
         """
         self.api_key: str = api_key
         self.proxies= proxies 
         self.proxy: str = self.get_proxy()
 
-    def get_proxy(self) -> str | None:
+    def get_proxy(self) -> Union[str, None]:
         """
-        Получает прокси из различных источников: из переданных `proxies`, из переменной окружения `G4F_PROXY`.
+        Извлекает соответствующую строку прокси из атрибута `proxies`.
 
         Returns:
-            str | None: Прокси в виде строки или `None`, если прокси не найден.
+            Union[str, None]: Выбранная строка прокси или `None`, 
+                если прокси не найден.
         """
         if isinstance(self.proxies, str):
             return self.proxies
@@ -93,37 +80,3 @@ class Client():
         elif "https" in self.proxies:
             return self.proxies["https"]
 ```
-
-#### `Client` Методы
-
-### `get_proxy`
-
-```python
-def get_proxy(self) -> str | None:
-```
-
-**Назначение**: Функция извлекает прокси-сервер из различных источников: если `self.proxies` является строкой, то возвращает её; если `self.proxies` не установлен, то пытается получить значение из переменной окружения `"G4F_PROXY"`; если в `self.proxies` есть ключ `"all"` или `"https"`, то возвращает соответствующее значение.
-
-**Возвращаемое значение**:
-- `str | None`: Значение прокси-сервера, если он найден, или `None`, если прокси-сервер не найден.
-
-**Принцип работы**:
-- Проверяет, является ли `self.proxies` строкой. Если да, то функция возвращает это значение.
-- Если `self.proxies` равен `None`, функция пытается получить значение переменной окружения `"G4F_PROXY"` и возвращает его.
-- Если `self.proxies` является словарём, функция проверяет наличие ключей `"all"` и `"https"` и возвращает соответствующее значение, если оно есть.
-- Если ни один из вышеперечисленных вариантов не сработал, функция возвращает `None`.
-
-**Примеры**:
-```python
-client = Client(proxies="http://proxy.example.com")
-print(client.get_proxy())  # Вывод: http://proxy.example.com
-
-os.environ["G4F_PROXY"] = "http://env_proxy.example.com"
-client = Client()
-print(client.get_proxy())  # Вывод: http://env_proxy.example.com
-
-client = Client(proxies={"all": "http://all_proxy.example.com"})
-print(client.get_proxy())  # Вывод: http://all_proxy.example.com
-
-client = Client(proxies={"https": "http://https_proxy.example.com"})
-print(client.get_proxy())  # Вывод: http://https_proxy.example.com

@@ -1,41 +1,40 @@
-### **Как использовать блок кода класса `OpenAIModel` для обучения модели OpenAI**
-
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода демонстрирует, как использовать класс `OpenAIModel` для обучения модели OpenAI. Он показывает, как инициализировать модель, загружать данные для обучения и запускать процесс обучения.
+Этот блок кода предоставляет функцию `describe_image_by_requests`, которая отправляет изображение на OpenAI API и получает описание.  
 
 Шаги выполнения
 -------------------------
-1. **Инициализация модели**: Создается экземпляр класса `OpenAIModel` с указанием необходимых параметров, таких как `api_key`, `system_instruction` и `assistant_id`.
-2. **Указание данных для обучения**: Определяется, какие данные будут использоваться для обучения. Это может быть путь к CSV-файлу (`data_file`), строка в формате CSV (`data`) или директория с CSV-файлами (`data_dir`).
-3. **Запуск обучения**: Вызывается метод `train()` с указанием данных для обучения и флагом `positive`, указывающим, являются ли данные позитивными или негативными.
-4. **Сохранение ID задачи**: После запуска обучения возвращается ID задачи (`job_id`), который можно сохранить для последующего отслеживания статуса обучения.
-5. **Обработка ошибок**: В случае возникновения ошибок во время обучения, они логируются с использованием `logger.error()`.
+1. **Получение base64-кодированного изображения**: Используя функцию `base64encode(image_path)` из модуля `src.utils.convertors.base64`, кодирует изображение в base64-формат.
+2. **Подготовка заголовков и данных для запроса**:
+    - Создает словарь `headers`, содержащий заголовки для запроса, включая `Content-Type` и `Authorization`.
+    - Создает словарь `payload`, содержащий данные для запроса, такие как `model`, `messages` и `max_tokens`. 
+    - В `messages`  запрос содержит текстовый запрос (prompt), если он задан, и base64-кодированное изображение,  отправленное в виде `image_url`.
+3. **Отправка запроса на OpenAI API**:  Использует функцию `requests.post` для отправки запроса на API `https://api.openai.com/v1/chat/completions` с заголовками `headers` и данными `payload`.
+4. **Обработка ответа**: 
+    - Проверяет, был ли запрос успешен (status code 200).
+    - В случае успеха преобразует полученный JSON-ответ в словарь `response_json`.
 
 Пример использования
 -------------------------
 
 ```python
-from pathlib import Path
 from src.llm.openai.model.training import OpenAIModel
-from src import gs
 
-# Инициализация модели с API-ключом и системными инструкциями
-model = OpenAIModel(api_key=gs.credentials.openai.api_key, system_instruction="You are a helpful assistant.")
+# Инициализация модели OpenAI
+model = OpenAIModel(api_key='YOUR_API_KEY')
 
-# Указание пути к файлу с данными для обучения
-training_data_file = gs.path.google_drive / 'AI' / 'training_data.csv'
+# Путь к изображению
+image_path = gs.path.google_drive / 'images' / 'example_image.jpg'
 
-# Запуск обучения модели
-training_result = model.train(data_file=training_data_file, positive=True)
+# Необязательный запрос (prompt)
+prompt = "Что на этом изображении?"
 
-# Проверка, успешно ли завершилось обучение
-if training_result:
-    print(f"Training job ID: {training_result}")
-    # Сохранение ID задачи обучения
-    model.save_job_id(training_result, "Training model with new data", filename="job_ids.json")
-    print(f"Saved training job ID: {training_result}")
-else:
-    print("Training failed.")
+# Вызов функции describe_image_by_requests
+description = model.describe_image_by_requests(image_path, prompt)
+
+# Вывод описания
+print(f"Описание изображения: {description}")
+```

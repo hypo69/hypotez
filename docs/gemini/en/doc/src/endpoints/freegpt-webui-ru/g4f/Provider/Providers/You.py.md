@@ -1,64 +1,100 @@
-# Документация для `You.py`
+# Provider You
 
-## Обзор
+## Overview
 
-Этот модуль предоставляет функциональность для взаимодействия с сервисом You.com для создания завершений текста на основе предоставленных сообщений. Он использует подпроцесс для запуска скрипта `you.py`, который взаимодействует с API You.com.
+This module provides the `You` provider class for interacting with the `you.com` AI model. The class is responsible for sending user requests to the `you.com` API and receiving responses.
 
-## Более подробно
+## Details
 
-Модуль предназначен для работы с моделью `gpt-3.5-turbo` через API You.com. Он поддерживает потоковую передачу ответов и не требует аутентификации. Для взаимодействия используется скрипт `you.py`, запускаемый как подпроцесс.
+The `You` provider implements the `Provider` interface, allowing it to be used within the larger `g4f` framework. It utilizes a Python subprocess to interact with a separate helper script (`you.py`) to handle communication with the `you.com` API. 
 
-## Функции
+## Classes
+
+### `You`
+
+**Description**: This class represents the `you.com` provider, which allows interacting with the `you.com` AI model. It implements the `Provider` interface.
+
+**Inherits**: `Provider`
+
+**Attributes**:
+- `url` (str): The base URL for the `you.com` API.
+- `model` (str): The specific `you.com` model to use, such as `gpt-3.5-turbo`.
+- `supports_stream` (bool): Indicates whether the provider supports streaming responses.
+- `needs_auth` (bool): Indicates whether the provider requires authentication.
+
+**Methods**:
+- `_create_completion(model: str, messages: list, stream: bool, **kwargs)`:  Creates a completion (response) from the `you.com` model.
+
+## Class Methods
 
 ### `_create_completion`
 
 ```python
 def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    """
-    Создает завершение текста, используя сервис You.com.
 
+    """ 
+    Создает завершение (ответ) от модели `you.com`.
+    
     Args:
-        model (str): Имя модели для использования (в данном случае 'gpt-3.5-turbo').
-        messages (list): Список сообщений для отправки в API You.com.
-        stream (bool): Флаг, указывающий, следует ли использовать потоковую передачу.
-        **kwargs: Дополнительные аргументы (не используются).
-
+        model (str): Имя модели `you.com`, например, `gpt-3.5-turbo`.
+        messages (list): Список сообщений для отправки в модель.
+        stream (bool): Флаг, указывающий, нужно ли использовать потоковую передачу.
+        **kwargs: Дополнительные аргументы, передаваемые модели.
+    
     Returns:
-        Generator[str, None, None]: Генератор строк, представляющих собой части завершения текста.
-
-    How the function works:
-        Функция принимает модель, список сообщений и флаг потоковой передачи. Она определяет путь к скрипту `you.py`,
-        преобразует сообщения в JSON-формат и запускает скрипт как подпроцесс. Затем она итерируется по выводу подпроцесса,
-        декодирует каждую строку из байтов в UTF-8 и возвращает ее как часть генератора.
-
+        Generator[str, None, None]: Генератор строк, представляющий ответ модели.
+    
+    Raises:
+        Exception: В случае ошибки при создании завершения.
+    
     Example:
-        Примеры вызова с полным набором параметров, которые могут быть переданы в функцию.
-        >>> model = 'gpt-3.5-turbo'
-        >>> messages = [{'role': 'user', 'content': 'Hello, You.com!'}]
-        >>> stream = True
-        >>> generator = _create_completion(model, messages, stream)
-        >>> for line in generator:
-        ...     print(line)
+        >>> _create_completion(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello, world!'}], stream=True)
+        <generator object _create_completion.<locals>.<genexpr> at 0x7f8e68911b80>
     """
+    path = os.path.dirname(os.path.realpath(__file__))
+    config = json.dumps({'messages': messages}, separators=(',', ':'))
+    
+    cmd = ['python3', f'{path}/helpers/you.py', config]
+
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+    for line in iter(p.stdout.readline, b''):
+        yield line.decode('utf-8') #[:-1]
 ```
 
-```python
-        path = os.path.dirname(os.path.realpath(__file__))
-        config = json.dumps({
-            'messages': messages}, separators=(',', ':'))
-```
-- `path`: Функция извлекает путь к текущему файлу.
-- `config`: Функция преобразует входящий список сообщений в JSON-формат.
+**Purpose**: This method handles communication with the `you.com` API through a subprocess. It constructs a command to execute the helper script (`you.py`), passes the user messages as configuration, and iterates through the subprocess output to generate the response.
 
-```python
-        cmd = ['python3', f'{path}/helpers/you.py', config]
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-```
-- `cmd`: Команда для запуска подпроцесса, включающая интерпретатор Python, путь к скрипту `you.py` и JSON-конфигурацию.
-- `p`: Запуск подпроцесса с перенаправлением стандартного вывода и стандартного потока ошибок в канал.
+**Parameters**:
+- `model` (str): The `you.com` model to use.
+- `messages` (list): List of messages to send to the model.
+- `stream` (bool): Indicates whether streaming is enabled.
+- `**kwargs`: Additional arguments passed to the model.
 
+**Returns**:
+- `Generator[str, None, None]`: A generator that yields lines of the response from the model.
+
+**Raises Exceptions**:
+- `Exception`: If an error occurs during completion creation.
+
+**How the Function Works**:
+1. Retrieves the current file's directory path.
+2. Serializes the user messages into JSON format.
+3. Constructs a command to execute the helper script (`you.py`) with the serialized messages as input.
+4. Starts a subprocess to run the command, capturing both standard output and error streams.
+5. Iterates through the subprocess's output line by line, decoding each line into a UTF-8 string, and yielding it as part of the response.
+
+**Examples**:
 ```python
-        for line in iter(p.stdout.readline, b''):
-            yield line.decode('utf-8')
+>>> _create_completion(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello, world!'}], stream=True)
+<generator object _create_completion.<locals>.<genexpr> at 0x7f8e68911b80>
 ```
-- Функция итерируется по строкам, выводимым подпроцессом, декодирует каждую строку из байтов в UTF-8 и передает ее как часть генератора.
+
+## Parameter Details
+- `model` (str): The name of the `you.com` model to use.
+- `messages` (list): A list of messages that will be sent to the model. Each message is a dictionary with the keys `role` (user, assistant, system) and `content` (the message itself).
+- `stream` (bool): This flag controls whether the response will be streamed or returned as a single string. Setting `stream` to `True` enables streaming, allowing for responses to be processed progressively as they are generated by the model.
+- `**kwargs`: This allows passing additional parameters to the `you.com` model. These parameters are typically model-specific and can include settings like temperature, top_p, etc.
+
+## Examples
+- `_create_completion(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello, world!'}], stream=True)`: This example demonstrates a typical usage of `_create_completion`. It sets the `model` to `gpt-3.5-turbo`, sends a single message (`Hello, world!`) from the user, and enables streaming with `stream=True`.
+- `_create_completion(model='you-code-generator', messages=[{'role': 'user', 'content': 'Generate Python code to sort a list'}], stream=True, temperature=0.5)`: This example utilizes the `you-code-generator` model to generate Python code. It sets the `temperature` parameter to 0.5, influencing the model's creativity and randomness in generating code.

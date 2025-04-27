@@ -1,63 +1,60 @@
-# Документация модуля `LambdaChat.py`
+# LambdaChat Provider for gpt4free
 
-## Обзор
+## Overview
 
-Модуль `LambdaChat.py` предоставляет класс `LambdaChat`, который является подклассом `HuggingChat`. Этот класс предназначен для взаимодействия с сервисом Lambda Chat, используя модели, поддерживаемые Hugging Face. Модуль определяет конфигурацию для подключения к Lambda Chat, включая URL, список моделей и их псевдонимы.
+This module defines the `LambdaChat` class, a provider class for the `gpt4free` project that allows interaction with the Lambda Chat platform. It inherits from the `HuggingChat` class and provides specific configuration and model details for Lambda Chat.
 
-## Более детально
+## Details
 
-Этот модуль специфичен для интеграции с Lambda Chat через API Hugging Face. Он задает параметры подключения, такие как URL, и предоставляет список моделей, которые можно использовать для общения. Псевдонимы моделей позволяют использовать более короткие и понятные имена для обращения к конкретным моделям.
+The `LambdaChat` class is responsible for interfacing with the Lambda Chat platform and managing model selection and execution. It extends the functionality of the `HuggingChat` class with specific parameters and models related to Lambda Chat.
 
-## Классы
+## Classes
 
-### `LambdaChat`
+### `class LambdaChat`
 
-**Описание**: Класс `LambdaChat` расширяет `HuggingChat` и представляет собой интеграцию с платформой Lambda Chat.
+**Description**: A provider class for the `gpt4free` project that allows interaction with the Lambda Chat platform. It inherits from the `HuggingChat` class and provides specific configuration and model details for Lambda Chat.
 
-**Наследует**:
-- `HuggingChat`: Этот класс наследует функциональность для взаимодействия с моделями Hugging Face.
+**Inherits**: `HuggingChat`
 
-**Атрибуты**:
-- `label` (str): Метка для данного провайдера, `"Lambda Chat"`.
-- `domain` (str): Доменное имя сервиса Lambda Chat, `"lambda.chat"`.
-- `origin` (str): Базовый URL сервиса Lambda Chat, `"https://lambda.chat"`.
-- `url` (str): Полный URL сервиса Lambda Chat, совпадает с `origin`.
-- `working` (bool): Указывает, что данный провайдер в рабочем состоянии, `True`.
-- `use_nodriver` (bool): Указывает, что использование веб-драйвера не требуется, `False`.
-- `needs_auth` (bool): Указывает, что для доступа не требуется аутентификация, `False`.
-- `default_model` (str): Модель, используемая по умолчанию, `"deepseek-llama3.3-70b"`.
-- `reasoning_model` (str): Модель, используемая для рассуждений, `"deepseek-r1"`.
-- `image_models` (list): Список моделей для обработки изображений, пустой список `[]`.
-- `fallback_models` (list): Список запасных моделей, используемых в случае недоступности основной модели.
-- `models` (list): Список доступных моделей, инициализируется копией `fallback_models`.
-- `model_aliases` (dict): Словарь псевдонимов моделей для удобства использования.
+**Attributes**:
 
-**Принцип работы**:
-Класс `LambdaChat` настраивает параметры, необходимые для подключения и взаимодействия с сервисом Lambda Chat. Он определяет, какие модели можно использовать, и предоставляет псевдонимы для упрощения выбора моделей. Фактически, он переопределяет атрибуты класса `HuggingChat`, чтобы адаптировать его для работы с конкретным сервисом.
+- `label (str)`: The name of the provider ("Lambda Chat").
+- `domain (str)`: The domain name of the Lambda Chat platform ("lambda.chat").
+- `origin (str)`: The base URL for the Lambda Chat platform (constructed using the `domain`).
+- `url (str)`: The URL of the Lambda Chat platform.
+- `working (bool)`: Indicates whether the provider is currently working.
+- `use_nodriver (bool)`: Determines whether the provider uses a web driver.
+- `needs_auth (bool)`: Indicates whether the provider requires authentication.
+- `default_model (str)`: The default model used by the provider ("deepseek-llama3.3-70b").
+- `reasoning_model (str)`: The model used for reasoning tasks ("deepseek-r1").
+- `image_models (list)`: A list of models supporting image processing (empty in this case).
+- `fallback_models (list)`: A list of fallback models that can be used if the preferred model is unavailable.
+- `models (list)`: A copy of the `fallback_models` list.
+- `model_aliases (dict)`: A dictionary mapping aliases to actual model names.
 
-## Переменные класса
+**Methods**: 
 
-- `label`: Строка, представляющая метку для класса `LambdaChat` ("Lambda Chat").
-- `domain`: Строка, содержащая доменное имя Lambda Chat ("lambda.chat").
-- `origin`: Строка, представляющая базовый URL Lambda Chat ("https://lambda.chat").
-- `url`: Строка, представляющая URL для доступа к Lambda Chat (совпадает с `origin`).
-- `working`: Логическое значение, указывающее, что Lambda Chat работает (True).
-- `use_nodriver`: Логическое значение, указывающее, что веб-драйвер не требуется (False).
-- `needs_auth`: Логическое значение, указывающее, что аутентификация не требуется (False).
-- `default_model`: Строка, представляющая модель по умолчанию ("deepseek-llama3.3-70b").
-- `reasoning_model`: Строка, представляющая модель рассуждений ("deepseek-r1").
-- `image_models`: Список моделей, связанных с изображениями (пустой список).
-- `fallback_models`: Список строк, содержащих имена запасных моделей.
-- `models`: Список доступных моделей (копия `fallback_models`).
-- `model_aliases`: Словарь, сопоставляющий псевдонимы с именами моделей.
+- `__init__(self, **kwargs)`: Initializes the `LambdaChat` object with the specified attributes.
+- `get_available_models(self, model: str | None = None) -> List[str]`: Returns a list of available models based on the specified `model` or using the provider's default models.
+- `get_model_by_alias(self, model_alias: str) -> str`: Returns the actual model name based on the provided alias.
+- `get_preferred_model(self, model: str | None = None) -> str`: Returns the preferred model for the current task, either the specified `model` or the default model.
 
-## Примеры
-
-Пример создания экземпляра класса `LambdaChat`:
+**Example**:
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.LambdaChat import LambdaChat
-
+# Creating a LambdaChat instance
 lambda_chat = LambdaChat()
-print(lambda_chat.url)
+
+# Accessing the default model
+default_model = lambda_chat.default_model
+
+# Getting a list of available models
+available_models = lambda_chat.get_available_models()
+
+# Getting the model based on an alias
+model_name = lambda_chat.get_model_by_alias("deepseek-v3")
 ```
+
+**How the Class Works**: 
+
+The `LambdaChat` class serves as a wrapper for interacting with the Lambda Chat platform. It provides a convenient way to access and utilize models available on Lambda Chat. The `default_model`, `reasoning_model`, `image_models`, and `fallback_models` attributes define the models that the provider can use. The `model_aliases` attribute allows users to refer to models using more user-friendly aliases.

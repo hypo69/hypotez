@@ -1,45 +1,34 @@
-### Как использовать этот блок кода
-
+## Как использовать блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода предназначен для настройки окружения и импорта необходимых модулей для работы с поставщиками в проекте `hypotez`. Он добавляет корневую директорию проекта и директорию `src` в `sys.path`, что позволяет импортировать модули из этих директорий. Также он импортирует различные модули, такие как `pathlib`, `json`, `re`, `Driver`, `Product`, `Category`, `StringFormatter`, `StringNormalizer`, `pprint`, `PrestaProduct` и `Supplier`. Кроме того, он определяет функцию `start_supplier` для инициализации поставщика.
+Блок кода настраивает среду Python для работы с проектом `hypotez`. Он добавляет необходимые директории в `sys.path`, импортирует необходимые модули и создает функцию `start_supplier` для запуска поставщика.
 
 Шаги выполнения
 -------------------------
-1. **Определение корневой директории**: Определяется корневая директория проекта `hypotez` на основе текущей рабочей директории.
-2. **Добавление в `sys.path`**: Корневая директория и директория `src` добавляются в `sys.path`, что позволяет импортировать модули из этих директорий.
-3. **Импорт модулей**: Импортируются необходимые модули, такие как `pathlib`, `json`, `re`, `Driver`, `Product`, `Category`, `StringFormatter`, `StringNormalizer`, `pprint`, `PrestaProduct` и `Supplier`.
-4. **Определение функции `start_supplier`**: Определяется функция `start_supplier`, которая принимает префикс поставщика и локаль в качестве аргументов и возвращает экземпляр класса `Supplier`.
+1. **Настройка пути**:
+    - Определяет `dir_root` как путь к корневой директории проекта `hypotez`.
+    - Добавляет `dir_root` и `dir_src` (поддиректория `src`) в `sys.path`.
+2. **Импорт модулей**:
+    - Импортирует необходимые модули из проекта `hypotez`, такие как `Driver` из `src.webdriver.driver`, `Product`, `ProductFields`, `Category`, `StringFormatter`, `StringNormalizer`, `pprint`, `PrestaProduct`, `save_text_file`.
+3. **Создание функции `start_supplier`**:
+    - Функция `start_supplier` принимает два параметра: `supplier_prefix` и `locale`.
+    - Собирает параметры в словарь `params`.
+    - Возвращает экземпляр класса `Supplier` с указанными параметрами.
 
 Пример использования
 -------------------------
 
 ```python
-import sys
-import os
-from pathlib import Path
-
-# Определение корневой директории проекта
-dir_root = Path(os.getcwd()[:os.getcwd().rfind('hypotez') + 7])
-sys.path.append(str(dir_root))  # Добавление корневой папки в sys.path
-dir_src = Path(dir_root, 'src')
-sys.path.append(str(dir_src))
-
-# Импорт необходимых модулей
-from src.suppliers.supplier import Supplier
-from src.utils.printer import pprint
-
-def start_supplier(supplier_prefix: str = 'aliexpress', locale: str = 'en'):
-    """ Функция для старта поставщика """
-    params = {
-        'supplier_prefix': supplier_prefix,
-        'locale': locale
-    }
-    return Supplier(**params)
-
-# Пример использования функции start_supplier
-supplier = start_supplier(supplier_prefix='aliexpress', locale='en')
-pprint(f"Поставщик: {supplier}")
+    # Запуск поставщика "aliexpress" с локали "ru"
+    supplier = start_supplier(supplier_prefix='aliexpress', locale='ru')
 ```
+
+**Описание:**
+- `start_supplier` создает экземпляр `Supplier` для поставщика "aliexpress" с локализацией "ru".
+- Этот экземпляр `Supplier` можно использовать для дальнейшей работы с данным поставщиком.
+
+**Важно:** 
+- Функция `start_supplier` использует класс `Supplier`, который не определен в этом блоке кода. 
+- Возможно, класс `Supplier` определен в другом файле проекта `hypotez`.

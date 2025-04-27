@@ -1,219 +1,147 @@
-# Module `MetaAI.py`
+# Meta AI Provider 
 
 ## Overview
 
-This module implements the `MetaAI` class, which serves as an asynchronous provider for interacting with the Meta AI service. It handles tasks such as updating access tokens, sending prompts, fetching sources, and managing cookies to ensure proper communication with the Meta AI platform. The module also defines custom exceptions and utility functions to facilitate error handling and data extraction.
+This module provides the `MetaAI` class, a subclass of `AsyncGeneratorProvider` and `ProviderModelMixin`, which is used to interact with the Meta AI API. It handles authentication, sending prompts, and retrieving responses from the Meta AI model.
 
-## More details
+## Details
 
-The `MetaAI` class extends `AsyncGeneratorProvider` and `ProviderModelMixin`, providing an interface for generating responses asynchronously from the Meta AI service. It manages cookies, access tokens, and session details to maintain authenticated communication. The module is designed to support text-based prompts and image generation requests, handling various response formats and potential errors.
-
-The module is located in the project at `hypotez/src/endpoints/gpt4free/g4f/Provider/needs_auth/MetaAI.py`. This indicates that it is part of a larger system designed to provide free access to various AI models, with this specific file handling the Meta AI integration, including necessary authentication mechanisms.
+The `MetaAI` class is designed to function as an asynchronous generator provider for the Meta AI model. It leverages the Meta AI API for generating responses based on given prompts. The class handles authentication using cookies, access tokens, and  `lsd` and `dtsg` values obtained from the Meta AI website. 
 
 ## Classes
 
-### `Sources`
-
-**Description**:
-Represents a list of sources with their titles and links.
-
-**Attributes**:
-- `list` (List[Dict[str, str]]): List of dictionaries, where each dictionary contains the title and link of a source.
-
-**Methods**:
-- `__init__(self, link_list: List[Dict[str, str]]) -> None`: Initializes the `Sources` object with a list of links.
-- `__str__(self) -> str`: Returns a formatted string representation of the list of sources.
-
-### `AbraGeoBlockedError`
-
-**Description**:
-Custom exception raised when Meta AI is not available in the user's country due to geographic restrictions.
-
 ### `MetaAI`
 
-**Description**:
-Class for interacting with the Meta AI service. It extends `AsyncGeneratorProvider` and `ProviderModelMixin` to provide asynchronous response generation capabilities.
+**Description:** Class for interacting with the Meta AI API.
+**Inherits:**
+- `AsyncGeneratorProvider`: Provides asynchronous generation capabilities for the Meta AI model.
+- `ProviderModelMixin`: Provides common functionality for model providers.
 
-**Inherits**:
-- `AsyncGeneratorProvider`: Provides a base class for asynchronous providers that generate responses in chunks.
-- `ProviderModelMixin`: Provides a mixin for handling model-related functionalities.
+**Attributes:**
+- `label`: Identifies the provider as "Meta AI".
+- `url`: Specifies the base URL of the Meta AI website.
+- `working`: Indicates the provider's status, currently set to `True`.
+- `default_model`: The default model name, set to 'meta-ai'.
+- `session`: A `ClientSession` object for making HTTP requests.
+- `cookies`: A dictionary storing cookies used for authentication.
+- `access_token`: An access token for the Meta AI API.
 
-**Attributes**:
-- `label` (str): Label identifying the provider as "Meta AI".
-- `url` (str): Base URL for the Meta AI service.
-- `working` (bool): Boolean indicating whether the provider is currently operational.
-- `default_model` (str): Default model used by the provider, set to 'meta-ai'.
-- `session` (ClientSession): Asynchronous client session for making HTTP requests.
-- `cookies` (Cookies): Dictionary storing cookies required for authentication.
-- `access_token` (str): Access token used for authenticated requests.
+**Methods:**
 
-**Methods**:
-- `__init__(self, proxy: str = None, connector: BaseConnector = None)`: Initializes the `MetaAI` object with optional proxy and connector.
-- `create_async_generator(cls, model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`: Creates an asynchronous generator for processing prompts.
-- `update_access_token(self, birthday: str = "1999-01-01")`: Updates the access token for authenticated requests.
-- `prompt(self, message: str, cookies: Cookies = None) -> AsyncResult`: Sends a prompt to the Meta AI service and yields the response in chunks.
-- `update_cookies(self, cookies: Cookies = None)`: Updates the cookies required for authentication.
-- `fetch_sources(self, fetch_id: str) -> Sources`: Fetches sources related to a specific fetch ID.
-- `extract_value(text: str, key: str = None, start_str = None, end_str = '\',\') -> str`: Extracts a value from a given text using specified start and end strings.
+- `create_async_generator`: Creates an asynchronous generator for the Meta AI model.
+- `update_access_token`: Updates the access token for the Meta AI API.
+- `prompt`: Sends a prompt to the Meta AI API and returns an asynchronous generator for responses.
+- `update_cookies`: Updates cookies used for authentication.
+- `fetch_sources`: Retrieves sources related to a specific fetch ID.
+- `extract_value`: Extracts a specific value from a string.
+- `generate_offline_threading_id`: Generates a unique offline threading ID.
 
 ## Class Methods
 
-### `__init__`
-
-```python
-def __init__(self, proxy: str = None, connector: BaseConnector = None) -> None:
-    """Инициализирует объект `MetaAI`.
-
-    Args:
-        proxy (str, optional): Прокси-сервер для использования при подключении. По умолчанию `None`.
-        connector (BaseConnector, optional): Кастомный коннектор для `aiohttp.ClientSession`. По умолчанию `None`.
-    """
-    ...
-```
-
 ### `create_async_generator`
+**Purpose:** Creates an asynchronous generator to interact with the Meta AI model.
+**Parameters:**
+- `model` (str): The name of the Meta AI model.
+- `messages` (Messages): A list of messages representing the conversation history.
+- `proxy` (str): Optional proxy server address.
+- `**kwargs`: Other keyword arguments.
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    **kwargs
-) -> AsyncResult:
-    """Создает асинхронный генератор для обработки подсказок.
+**Returns:**
+- `AsyncResult`: An asynchronous generator that yields response chunks.
 
-    Args:
-        model (str): Модель для использования.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): Прокси-сервер для использования при подключении. По умолчанию `None`.
-        **kwargs: Дополнительные параметры.
-
-    Returns:
-        AsyncResult: Асинхронный генератор, выдающий фрагменты ответа.
-    """
-    ...
-```
+**How the Function Works:**
+- Initializes a `MetaAI` instance using the provided model, messages, and proxy.
+- Calls the `prompt` method to send the formatted messages as a prompt to the Meta AI API.
+- Iterates over the response chunks from the `prompt` method and yields each chunk asynchronously.
 
 ### `update_access_token`
 
-```python
-async def update_access_token(self, birthday: str = "1999-01-01") -> None:
-    """Обновляет токен доступа для аутентифицированных запросов.
+**Purpose:** Updates the access token for the Meta AI API.
+**Parameters:**
+- `birthday` (str, optional): Date of birth in the format "YYYY-MM-DD". Defaults to "1999-01-01".
 
-    Args:
-        birthday (str, optional): Дата рождения для использования при обновлении токена. По умолчанию "1999-01-01".
+**Returns:**
+- `None`
 
-    Raises:
-        ResponseError: Если не удается получить токен доступа.
-    """
-    ...
-```
+**How the Function Works:**
+- Sends a POST request to the Meta AI API's GraphQL endpoint to accept terms of service and obtain a temporary access token.
+- Sets the `access_token` attribute with the obtained token.
 
 ### `prompt`
 
-```python
-async def prompt(self, message: str, cookies: Cookies = None) -> AsyncResult:
-    """Отправляет запрос в сервис Meta AI и возвращает ответ по частям.
+**Purpose:** Sends a prompt to the Meta AI API and returns an asynchronous generator for responses.
+**Parameters:**
+- `message` (str): The prompt to be sent to the Meta AI model.
+- `cookies` (Cookies, optional): Optional cookies for authentication. Defaults to `None`.
 
-    Args:
-        message (str): Текст сообщения для отправки.
-        cookies (Cookies, optional): Куки для использования при запросе. По умолчанию `None`.
+**Returns:**
+- `AsyncResult`: An asynchronous generator that yields response chunks.
 
-    Yields:
-        AsyncResult: Части ответа от сервиса Meta AI.
-
-    Raises:
-        ResponseError: Если возникает ошибка при получении ответа.
-    """
-    ...
-```
+**How the Function Works:**
+- Checks if cookies are provided. If not, updates cookies by calling `update_cookies`.
+- If no access token is available and no cookies are provided, updates the access token by calling `update_access_token`.
+- Sends a POST request to the Meta AI API's GraphQL endpoint with the provided message and necessary headers.
+- Parses the response stream for text and image data.
+- Yields each chunk of text and image data asynchronously.
 
 ### `update_cookies`
 
-```python
-async def update_cookies(self, cookies: Cookies = None) -> None:
-    """Обновляет куки, необходимые для аутентификации.
+**Purpose:** Updates cookies used for authentication.
+**Parameters:**
+- `cookies` (Cookies, optional): Optional cookies for authentication. Defaults to `None`.
 
-    Args:
-        cookies (Cookies, optional): Куки для обновления. По умолчанию `None`.
+**Returns:**
+- `None`
 
-    Raises:
-        AbraGeoBlockedError: Если Meta AI недоступна в стране пользователя.
-        ResponseError: Если не удается получить куки.
-    """
-    ...
-```
+**How the Function Works:**
+- Sends a GET request to the Meta AI website to retrieve cookies.
+- Extracts `_js_datr`, `abra_csrf`, and `datr` cookies from the response text.
+- Updates the `cookies` attribute with the retrieved cookies.
+- Extracts `lsd` and `dtsg` values from the response text.
+- Sets the `lsd` and `dtsg` attributes with the extracted values.
+
 
 ### `fetch_sources`
 
-```python
-async def fetch_sources(self, fetch_id: str) -> Sources:
-    """Извлекает источники, связанные с определенным идентификатором извлечения.
+**Purpose:** Retrieves sources related to a specific fetch ID.
+**Parameters:**
+- `fetch_id` (str): The fetch ID for which sources are to be retrieved.
 
-    Args:
-        fetch_id (str): Идентификатор извлечения для получения источников.
+**Returns:**
+- `Sources`: An object containing a list of sources.
 
-    Returns:
-        Sources: Объект `Sources`, содержащий список источников.
-
-    Raises:
-        RuntimeError: Если возникает ошибка при обработке ответа.
-        ResponseError: Если не удается получить источники.
-    """
-    ...
-```
+**How the Function Works:**
+- Sends a POST request to the Meta AI API's GraphQL endpoint with the provided fetch ID.
+- Parses the response text for sources.
+- Returns a `Sources` object containing the retrieved sources.
 
 ### `extract_value`
 
-```python
-@staticmethod
-def extract_value(text: str, key: str = None, start_str = None, end_str = '\',\') -> str:
-    """Извлекает значение из текста, используя указанные начальные и конечные строки.
+**Purpose:** Extracts a specific value from a string.
+**Parameters:**
+- `text` (str): The string from which to extract the value.
+- `key` (str, optional): The key associated with the value to be extracted. Defaults to `None`.
+- `start_str` (str, optional): The starting string delimiter. Defaults to `None`.
+- `end_str` (str, optional): The ending string delimiter. Defaults to `\'`,\'.
 
-    Args:
-        text (str): Текст для извлечения значения.
-        key (str, optional): Ключ для поиска начальной строки. По умолчанию `None`.
-        start_str (str, optional): Начальная строка для поиска значения. По умолчанию `None`.
-        end_str (str, optional): Конечная строка для поиска значения. По умолчанию '\',\''.
+**Returns:**
+- `str`: The extracted value.
 
-    Returns:
-        str: Извлеченное значение.
-    """
-    ...
-```
-
-## Functions
+**How the Function Works:**
+- Finds the starting and ending positions of the desired value within the text using the provided delimiters.
+- Returns the substring between the start and end positions.
 
 ### `generate_offline_threading_id`
 
-```python
-def generate_offline_threading_id() -> str:
-    """Генерирует автономный идентификатор потока.
+**Purpose:** Generates a unique offline threading ID.
+**Parameters:**
+- `None`
 
-    Returns:
-        str: Сгенерированный автономный идентификатор потока.
-    """
-    ...
-```
+**Returns:**
+- `str`: The generated offline threading ID.
 
-## Function Details
-
-### `generate_offline_threading_id`
-
-**Purpose**: Generates a unique ID for offline threading.
-
-**Returns**:
-- `str`: A string representing the generated offline threading ID.
-
-**How the function works**:
+**How the Function Works:**
 - Generates a random 64-bit integer.
 - Gets the current timestamp in milliseconds.
-- Combines the timestamp and random value using bitwise operations.
-- Returns the combined value as a string.
-
-**Examples**:
-```python
-threading_id = generate_offline_threading_id()
-print(f"Generated threading ID: {threading_id}")
+- Combines the timestamp and random value to create a unique identifier.
+- Returns the identifier as a string.

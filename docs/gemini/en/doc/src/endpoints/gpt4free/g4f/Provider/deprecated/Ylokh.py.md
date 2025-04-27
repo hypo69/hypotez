@@ -1,112 +1,108 @@
-# Документация для модуля `Ylokh.py`
+# Ylokh Provider
 
-## Описание
+## Overview
 
-Модуль `Ylokh.py` предоставляет реализацию асинхронного генератора для взаимодействия с сервисом `chat.ylokh.xyz`. Он позволяет отправлять запросы к API для получения ответов в режиме стриминга или полной выдачи, поддерживая модели GPT-3.5 Turbo.
+This module provides the `Ylokh` class, which implements the `AsyncGeneratorProvider` interface for interacting with the `Ylokh` API. This provider is deprecated and should not be used for new projects.
 
-## Оглавление
+## Details
 
-- [Описание](#описание)
-- [Классы](#классы)
-    - [Ylokh](#ylokh)
-        - [create_async_generator](#create_async_generator)
+The `Ylokh` class inherits from the `AsyncGeneratorProvider` base class and provides functionality for sending messages to the `Ylokh` API and receiving responses. The `Ylokh` API allows you to interact with various language models, including GPT-3.5 Turbo. This class provides a simple interface for interacting with the API, enabling developers to use the service within their applications.
 
-## Классы
+## Classes
 
 ### `Ylokh`
 
-**Описание**:
-Класс `Ylokh` является провайдером асинхронного генератора, предназначенным для взаимодействия с API `chat.ylokh.xyz`.
+**Description**: This class implements the `AsyncGeneratorProvider` interface for interacting with the `Ylokh` API. 
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Класс наследует функциональность асинхронного генератора от `AsyncGeneratorProvider`.
+**Inherits**: `AsyncGeneratorProvider`
 
-**Атрибуты**:
-- `url` (str): URL сервиса `chat.ylokh.xyz`.
-- `working` (bool): Индикатор работоспособности провайдера (в данном случае `False`).
-- `supports_message_history` (bool): Поддержка истории сообщений (`True`).
-- `supports_gpt_35_turbo` (bool): Поддержка модели GPT-3.5 Turbo (`True`).
+**Attributes**:
 
-#### `create_async_generator`
+- `url` (str): The base URL of the `Ylokh` API.
+- `working` (bool): Indicates whether the provider is currently working.
+- `supports_message_history` (bool):  Indicates if the API supports message history.
+- `supports_gpt_35_turbo` (bool):  Indicates if the API supports GPT-3.5 Turbo model.
+
+**Methods**:
+
+- `create_async_generator(model: str, messages: Messages, stream: bool = True, proxy: str = None, timeout: int = 120, **kwargs) -> AsyncResult`: This method creates an asynchronous generator for streaming messages to the `Ylokh` API.
+
+#### `create_async_generator(model: str, messages: Messages, stream: bool = True, proxy: str = None, timeout: int = 120, **kwargs) -> AsyncResult`
+
+**Purpose**: This method creates an asynchronous generator to send messages to the `Ylokh` API and receive responses.
+
+**Parameters**:
+
+- `model` (str): The name of the language model to use. Defaults to `"gpt-3.5-turbo"`.
+- `messages` (Messages): A list of messages to send to the API.
+- `stream` (bool, optional): Indicates whether to stream the response. Defaults to `True`.
+- `proxy` (str, optional):  The proxy server address for the request. Defaults to `None`.
+- `timeout` (int, optional): The timeout for the request in seconds. Defaults to `120`.
+- `**kwargs`: Additional keyword arguments to pass to the API.
+
+**Returns**:
+
+- `AsyncResult`: An asynchronous result object that represents the response from the API.
+
+**How the Function Works**:
+
+1. **Set up the request headers and data**: 
+    - Sets the `Origin` and `Referer` headers for the request.
+    - Creates a dictionary (`data`) containing the request parameters, including the list of `messages`, model name, and other optional parameters.
+
+2. **Initiate the API request**:
+    - Uses `StreamSession` to create a session with the specified headers and proxies.
+    - Sends a POST request to the `Ylokh` API endpoint (`https://chatapi.ylokh.xyz/v1/chat/completions`) with the prepared `data`.
+
+3. **Handle the response**:
+    - Checks if the request was successful (status code 200) and raises an exception if not.
+    - If `stream` is True, creates an asynchronous generator to stream the response:
+        - Iterates over the response lines.
+        - Extracts the `content` from the received JSON data.
+        - Yields the `content` for each received line.
+    - If `stream` is False, retrieves the entire response as JSON and yields the `content` from the response.
+
+**Examples**:
 
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    stream: bool = True,
-    proxy: str = None,
-    timeout: int = 120,
-    **kwargs
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для взаимодействия с API `chat.ylokh.xyz`.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated import Ylokh
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-    Args:
-        cls (Ylokh): Ссылка на класс `Ylokh`.
-        model (str): Используемая модель (например, "gpt-3.5-turbo").
-        messages (Messages): Список сообщений для отправки в API.
-        stream (bool, optional): Флаг для включения стриминга ответов. По умолчанию `True`.
-        proxy (str, optional): Адрес прокси-сервера для использования. По умолчанию `None`.
-        timeout (int, optional): Время ожидания запроса в секундах. По умолчанию 120.
-        **kwargs: Дополнительные параметры для передачи в API.
+# Example 1: Send a message with GPT-3.5-turbo model and stream the response
+messages: Messages = [{"role": "user", "content": "Hello, how are you?"}]
+async for content in Ylokh.create_async_generator(messages=messages):
+    print(content)
 
-    Returns:
-        AsyncResult: Асинхронный генератор, выдающий части ответа или полный ответ.
-
-    Raises:
-        Exception: Возникает при ошибках HTTP-запроса или обработки данных.
-    """
+# Example 2: Send a message with a custom model and retrieve the entire response
+messages: Messages = [{"role": "user", "content": "What is the meaning of life?"}]
+response = await Ylokh.create_async_generator(messages=messages, model="my_custom_model", stream=False)
+print(response)
 ```
 
-**Как работает функция**:
+## Parameter Details
 
-1. **Подготовка параметров**:
-   - Функция извлекает или устанавливает параметры, такие как используемая модель, заголовки запроса и данные для отправки.
-2. **Создание асинхронной сессии**:
-   - Используется `StreamSession` для выполнения асинхронных HTTP-запросов с поддержкой стриминга.
-   - Устанавливаются заголовки `Origin` и `Referer` для имитации запроса от веб-страницы.
-   - Формируется полезная нагрузка (`data`) с сообщениями, моделью, параметрами температуры, штрафами и другими настройками.
-3. **Отправка запроса и обработка ответа**:
-   - Отправляется `POST`-запрос к API `https://chatapi.ylokh.xyz/v1/chat/completions`.
-   - Если включен режим стриминга (`stream=True`), функция итерируется по строкам ответа:
-     - Каждая строка декодируется.
-     - Если строка начинается с `data: `, она обрабатывается как JSON.
-     - Если строка `data: [DONE]`, генерация завершается.
-     - Извлекается содержимое (`content`) из JSON и передается через `yield`.
-   - Если режим стриминга выключен (`stream=False`), функция ожидает полный JSON-ответ:
-     - Извлекается содержимое (`content`) из полного ответа и возвращается через `yield`.
-4. **Обработка ошибок**:
-   - `response.raise_for_status()` вызывает исключение для HTTP-кодов ошибок.
+- `model` (str): The name of the language model to use for generating responses. Defaults to "gpt-3.5-turbo". The API supports various models, including GPT-3.5-turbo.
+- `messages` (Messages): A list of messages to send to the API for context. It is a list of dictionaries, where each dictionary represents a message with the following keys:
+    - `role` (str): The role of the message sender (e.g., "user", "assistant").
+    - `content` (str): The message content.
+- `stream` (bool, optional): Indicates whether to stream the response or retrieve the entire response at once. If set to `True`, the function returns an asynchronous generator that yields response chunks as they are received from the API. If set to `False`, the function returns the entire response as a string. Defaults to `True`.
+- `proxy` (str, optional):  The proxy server address to use for the request. Defaults to `None`.
+- `timeout` (int, optional):  The timeout in seconds for the request. Defaults to `120`.
+- `**kwargs`:  Additional keyword arguments to pass to the `Ylokh` API. These arguments may include parameters like `temperature`, `presence_penalty`, `top_p`, `frequency_penalty`, and `allow_fallback`.
 
-**Примеры**:
-
-Пример использования функции `create_async_generator` для получения стримингового ответа:
+## Examples
 
 ```python
-import asyncio
-from src.endpoints.gpt4free.g4f.Provider.deprecated.Ylokh import Ylokh
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated import Ylokh
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-async def main():
-    messages = [{"role": "user", "content": "Привет, как дела?"}]
-    async for token in Ylokh.create_async_generator(model="gpt-3.5-turbo", messages=messages):
-        print(token, end="")
+# Example 1: Send a message with GPT-3.5-turbo model and stream the response
+messages: Messages = [{"role": "user", "content": "Hello, how are you?"}]
+async for content in Ylokh.create_async_generator(messages=messages):
+    print(content)
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# Example 2: Send a message with a custom model and retrieve the entire response
+messages: Messages = [{"role": "user", "content": "What is the meaning of life?"}]
+response = await Ylokh.create_async_generator(messages=messages, model="my_custom_model", stream=False)
+print(response)
 ```
-
-Пример использования функции `create_async_generator` для получения полного ответа без стриминга:
-
-```python
-import asyncio
-from src.endpoints.gpt4free.g4f.Provider.deprecated.Ylokh import Ylokh
-
-async def main():
-    messages = [{"role": "user", "content": "Привет, как дела?"}]
-    result = [token async for token in Ylokh.create_async_generator(model="gpt-3.5-turbo", messages=messages, stream=False)]
-    print("".join(result))
-
-if __name__ == "__main__":
-    asyncio.run(main())

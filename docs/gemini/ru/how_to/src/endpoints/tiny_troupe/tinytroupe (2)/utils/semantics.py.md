@@ -1,50 +1,48 @@
-### **Как использовать блок кода для семантических операций**
+## Как использовать блок кода `semantics.py`
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода содержит функции для семантической обработки текста, такие как перефразирование и структурирование текста на основе ожиданий. Функции используют декоратор `@llm()`, который, предположительно, обрабатывает логику вызовов языковой модели.
+Этот блок кода предоставляет две функции, связанные с семантическим анализом текста: `rephrase` и `restructure_as_observed_vs_expected`.
+
+**`rephrase`** - Эта функция принимает на вход наблюдение и правило, и модифицирует наблюдение в соответствии с этим правилом.
+
+**`restructure_as_observed_vs_expected`** - Эта функция принимает на вход описание какого-либо события или абстрактной концепции и извлекает из него определенные элементы: наблюдаемое событие, нарушенное/выполненное ожидание и обоснование для ожидания.
+
 
 Шаги выполнения
 -------------------------
-1. **Функция `rephrase`**:
-   - Принимает текст наблюдения и правило.
-   - Перефразирует или изменяет наблюдение в соответствии с заданным правилом.
-   - Декоратор `@llm()` отвечает за фактическое выполнение перефразирования с использованием языковой модели.
+1. **Импорт необходимых модулей**: 
+   - `from tinytroupe.utils import llm` - импортирует декоратор `llm`, который позволяет вызывать функции с помощью моделей больших языков. 
 
-2. **Функция `restructure_as_observed_vs_expected`**:
-   - Принимает описание события или концепции.
-   - Извлекает элементы, такие как "OBSERVED" (наблюдение), "BROKEN EXPECTATION" (нарушенное ожидание) и "REASONING" (обоснование), если описание содержит нарушение ожидания.
-   - Если ожидание не нарушено, извлекает "OBSERVED", "MET EXPECTATION" (выполненное ожидание) и "REASONING".
-   - Декоратор `@llm()` обрабатывает логику структурирования с использованием языковой модели.
+2. **Определение функций**:
+   - **`rephrase(observation, rule)`**:
+      - Принимает на вход `observation` (наблюдение) и `rule` (правило) как аргументы.
+      - Использует декоратор `@llm()`, который обрабатывает тело функции с помощью модели большого языка (LLM). 
+   - **`restructure_as_observed_vs_expected(description)`**:
+      - Принимает на вход `description` (описание события) как аргумент.
+      - Использует декоратор `@llm()`, который обрабатывает тело функции с помощью модели большого языка (LLM).
+
+3. **Обработка тела функции**:
+    - Тела функций `rephrase` и `restructure_as_observed_vs_expected` пусты, так как их логика реализована в декораторе `@llm()`.
+    - Декоратор `@llm()` обрабатывает входные данные и генерирует модифицированное наблюдение или структурированное описание с помощью модели большого языка.
+
 
 Пример использования
 -------------------------
-
 ```python
-from tinytroupe.utils import llm
+from tinytroupe.utils import semantics
 
-@llm()
-def rephrase(observation, rule) -> str:
-    """
-    Перефразирует наблюдение в соответствии с заданным правилом.
-    """
-    # llm decorator will handle the body of this function
+# Используем функцию rephrase
+observation = "You know, I am so sad these days."
+rule = "I am always happy and depression is unknown to me"
+modified_observation = semantics.rephrase(observation, rule)
+print(f"Modified observation: {modified_observation}")  # Выведет модифицированное наблюдение
 
-@llm()
-def restructure_as_observed_vs_expected(description) -> str:
-    """
-    Структурирует описание события, выделяя наблюдение, ожидание и обоснование.
-    """
-    # llm decorator will handle the body of this function
+# Используем функцию restructure_as_observed_vs_expected
+description = "Ana mentions she loved the proposed new food, a spicier flavor of gazpacho. However, this goes agains her known dislike of spicy food."
+restructured_description = semantics.restructure_as_observed_vs_expected(description)
+print(f"Restructured description:\n{restructured_description}")  # Выведет структурированное описание
+```
 
-# Пример использования функции rephrase
-observation = "Мне грустно в последнее время."
-rule = "Я всегда счастлив, и депрессия мне неизвестна."
-modified_observation = rephrase(observation, rule)
-print(f"Перефразированное наблюдение: {modified_observation}")
-
-# Пример использования функции restructure_as_observed_vs_expected
-description = "Аня сказала, что ей понравилась новая острая гаспачо, хотя она не любит острое."
-restructured_description = restructure_as_observed_vs_expected(description)
-print(f"Структурированное описание: {restructured_description}")
+**Примечание:** В этом примере  функции `rephrase` и `restructure_as_observed_vs_expected` вызываются с помощью импортированного модуля `semantics`.

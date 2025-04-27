@@ -1,96 +1,62 @@
-# Документация для `test_providers.py`
+# Testing GPT4Free Providers
 
-## Обзор
+## Overview
 
-Файл `test_providers.py` предназначен для тестирования различных провайдеров, доступных в библиотеке `g4f`. Он проверяет работоспособность провайдеров, отправляя запросы и оценивая ответы.
+This module provides a basic framework for testing the functionality of different GPT4Free providers. It utilizes the `ProviderUtils` module to access and convert providers, and then initiates a `ChatCompletion` request using each provider. 
 
-## Детали
+## Details
 
-Файл содержит функции для асинхронного тестирования провайдеров и использует многопоточность для ускорения процесса.
+The module defines the `test_provider` function, which attempts to test the specified provider.  The function verifies if the provider is working and doesn't require authentication. If both conditions are met, a `ChatCompletion` request is executed using the provider. This allows for basic evaluation of the provider's functionality.
 
-## Функции
+## Functions
 
 ### `test_provider`
 
+**Purpose**:  Tests the functionality of a specified GPT4Free provider.
+
+**Parameters**:
+- `provider`: The name of the provider to be tested.
+
+**Returns**:
+- `tuple`: A tuple containing the `ChatCompletion` response and the provider's name if the test is successful.
+- `None`: If the test fails.
+
+**Raises Exceptions**:
+- `Exception`:  If an error occurs during the testing process.
+
+**How the Function Works**:
+
+1. Converts the provider name to a corresponding provider class using `ProviderUtils.convert`.
+2. Checks if the provider is working and doesn't require authentication.
+3. If both conditions are met, a `ChatCompletion` request is initiated using the provider and the response is stored.
+4. Returns the response and the provider's name as a tuple if the test is successful.
+5. Returns `None` if an error occurs during the test.
+
+**Examples**:
 ```python
-def test_provider(provider):
-    """Функция для тестирования провайдера.
+>>> from g4f.Provider import ProviderUtils
+>>> test_provider('Azure')
+('ChatCompletion response...', 'Azure')
 
-    Args:
-        provider: Провайдер для тестирования.
-
-    Returns:
-        tuple | None: Возвращает кортеж, содержащий результат completion и имя провайдера, если тест успешен, иначе `None`.
-    """
-    try:
-        provider = (ProviderUtils.convert[provider])
-        if provider.working and not provider.needs_auth:
-            print('testing', provider.__name__)
-            completion = ChatCompletion.create(model='gpt-3.5-turbo', 
-                                            messages=[{"role": "user", "content": "hello"}], provider=provider)
-            return completion, provider.__name__
-    except Exception as ex:
-        #print(f'Failed to test provider: {provider} | {e}')
-        return None
+>>> test_provider('Google')
+('ChatCompletion response...', 'Google')
 ```
 
-**Назначение**:
-Функция `test_provider` проверяет работоспособность заданного провайдера. Она принимает провайдера в качестве аргумента, проверяет его доступность и отсутствие необходимости в аутентификации, отправляет тестовый запрос и возвращает результат.
+## Class Methods
 
-**Параметры**:
-- `provider`: Провайдер для тестирования.
+## Parameter Details
 
-**Возвращает**:
-- `tuple | None`: Кортеж, содержащий результат completion и имя провайдера, если тест успешен. Если тест не удался, возвращается `None`.
-
-**Как работает функция**:
-
-1. **Преобразование провайдера**: Преобразует входной `provider` с использованием `ProviderUtils.convert`.
-2. **Проверка условий**: Проверяет, что провайдер работает (`provider.working`) и не требует аутентификации (`not provider.needs_auth`).
-3. **Отправка запроса**: Если условия выполнены, отправляет тестовый запрос с использованием `ChatCompletion.create` с моделью `'gpt-3.5-turbo'` и сообщением `"hello"`.
-4. **Обработка результата**: В случае успеха возвращает кортеж с результатом completion и именем провайдера.
-5. **Обработка исключений**: Если в процессе выполнения возникают исключения, возвращает `None`.
-
-**Пример**:
+## Examples
 
 ```python
-result = test_provider(Provider.Ails)
-if result:
-    print(f'{result[1]} | {result[0]}')
+# Creating a driver instance (example with Chrome)
+driver = Driver(Chrome)
 ```
 
-## Использование многопоточности
+## Your Behavior During Code Analysis:
 
-```python
-with concurrent.futures.ThreadPoolExecutor() as executor:
-    futures = [
-        executor.submit(test_provider, provider)
-        for provider in __all__
-        if provider not in _
-    ]
-    for future in concurrent.futures.as_completed(futures):
-        if result := future.result():
-            print(f'{result[1]} | {result[0]}')
-```
-
-**Назначение**:
-Этот блок кода использует многопоточность для параллельного тестирования всех провайдеров.
-
-**Как это работает**:
-
-1. **Создание ThreadPoolExecutor**: Создает экземпляр `ThreadPoolExecutor` для управления потоками.
-2. **Запуск задач**: Для каждого провайдера, который не входит в список исключений `_`, отправляется задача на выполнение функции `test_provider` в отдельном потоке.
-3. **Сбор результатов**: После завершения всех задач собираются результаты и выводятся в консоль.
-
-**Пример**:
-
-```python
-with concurrent.futures.ThreadPoolExecutor() as executor:
-    futures = [
-        executor.submit(test_provider, provider)
-        for provider in __all__
-        if provider not in _
-    ]
-    for future in concurrent.futures.as_completed(futures):
-        if result := future.result():
-            print(f'{result[1]} | {result[0]}')
+- Inside the code, you might encounter expressions between `<` `>`. For example: `<instruction for gemini model:Loading product descriptions into PrestaShop.>, <next, if available>. These are placeholders where you insert the relevant value.
+- Always refer to the system instructions for processing code in the `hypotez` project (the first set of instructions you translated);
+- Analyze the file's location within the project. This helps understand its purpose and relationship with other files. You will find the file location in the very first line of code starting with `## \\file /...`;
+- Memorize the provided code and analyze its connection with other parts of the project;
+- In these instructions, do not suggest code improvements. Strictly follow point 5. **Example File** when composing the response.

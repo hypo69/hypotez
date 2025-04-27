@@ -1,103 +1,46 @@
-### Как использовать этот блок кода
+## Как использовать функцию `extract_prod_ids`
 =========================================================================================
 
 Описание
 -------------------------
-Функция `extract_prod_ids` извлекает идентификаторы товаров (product IDs) из URL-адресов AliExpress или возвращает их, если они уже предоставлены в виде строки или списка строк. Она использует регулярное выражение для поиска числовых идентификаторов в URL-адресах, содержащих "item/" или заканчивающихся на ".html".
+Функция `extract_prod_ids` извлекает идентификаторы товаров (`product_id`) из списка URL-адресов или из отдельных URL-адресов. 
+Если в качестве аргумента переданы непосредственно идентификаторы товаров, функция возвращает их без изменений.
 
 Шаги выполнения
 -------------------------
-1. **Определение регулярного выражения**: Определяется регулярное выражение `pattern` для поиска идентификаторов товаров в URL-адресах AliExpress.
-2. **Функция `extract_id`**: 
-   - Принимает URL или идентификатор товара в качестве аргумента.
-   - Проверяет, является ли входная строка числовым идентификатором товара. Если да, возвращает её.
-   - Если входная строка не является идентификатором, пытается извлечь идентификатор из URL с помощью регулярного выражения.
-   - Если идентификатор найден, возвращает его; в противном случае возвращает `None`.
-3. **Обработка входных данных**:
-   - Если входные данные являются списком URL-адресов или идентификаторов, функция применяет `extract_id` к каждому элементу списка, исключая `None` значения.
-   - Если входные данные являются строкой (URL или идентификатор), функция вызывает `extract_id` для этой строки.
-4. **Возврат результата**:
-   - Если входные данные были списком, функция возвращает список извлеченных идентификаторов, исключая `None` значения. Если список пуст, возвращает `None`.
-   - Если входные данные были строкой, функция возвращает извлеченный идентификатор или `None`, если идентификатор не найден.
+1. **Проверка типа входных данных**:  
+    - Если функция получает список URL-адресов (`list[str]`), то она перебирает каждый URL и извлекает идентификатор.
+    - Если функция получает отдельный URL (`str`), она извлекает идентификатор из него.
+    - Если функция получает `product_id` в виде строки (`str`), она возвращает его без изменений.
+2. **Извлечение идентификатора**: 
+    - Функция использует регулярное выражение (`pattern = re.compile(r"(?:item/|/)?(\\d+)\\.html)`) для поиска идентификатора товара в URL-адресе.
+    - Если идентификатор найден, функция возвращает его. 
+    - Если идентификатор не найден, функция возвращает `None`.
+3. **Обработка списка**: 
+    - Если функция получает список URL-адресов (`list[str]`), она возвращает новый список, содержащий только найденные идентификаторы.
+    - Если в списке нет найденных идентификаторов, функция возвращает `None`.
 
 Пример использования
 -------------------------
 
 ```python
-import re
-from src.logger.logger import logger
+    # Извлечение идентификатора из одного URL-адреса
+    url = "https://www.aliexpress.com/item/123456.html"
+    product_id = extract_prod_ids(url)
+    print(f"Product ID: {product_id}")  # Output: Product ID: 123456
 
-def extract_prod_ids(urls: str | list[str]) -> str | list[str] | None:
-    """ Извлекает item IDs из списка URL-адресов или непосредственно возвращает IDs, если они предоставлены.
+    # Извлечение идентификаторов из списка URL-адресов
+    urls = ["https://www.aliexpress.com/item/123456.html", "https://www.aliexpress.com/item/7891011.html"]
+    product_ids = extract_prod_ids(urls)
+    print(f"Product IDs: {product_ids}") # Output: Product IDs: ['123456', '7891011']
 
-    Args:
-        urls (str | list[str]): URL, список URL-адресов или product IDs.
+    # Передача идентификатора товара напрямую
+    product_id = "7891011"
+    extracted_id = extract_prod_ids(product_id)
+    print(f"Extracted ID: {extracted_id}")  # Output: Extracted ID: 7891011
 
-    Returns:
-        str | list[str] | None: Список извлеченных item IDs, одиночный ID или `None`, если не найден действительный ID.
-
-    Examples:
-        >>> extract_prod_ids("https://www.aliexpress.com/item/123456.html")
-        '123456'
-
-        >>> extract_prod_ids(["https://www.aliexpress.com/item/123456.html", "7891011.html"])
-        ['123456', '7891011']
-
-        >>> extract_prod_ids(["https://www.example.com/item/123456.html", "https://www.example.com/item/abcdef.html"])
-        ['123456']
-
-        >>> extract_prod_ids("7891011")
-        '7891011'
-
-        >>> extract_prod_ids("https://www.example.com/item/abcdef.html")
-        None
-    """
-    # Регулярное выражение для поиска идентификаторов товаров
-    pattern = re.compile(r"(?:item/|/)?(\d+)\.html")
-
-    def extract_id(url: str) -> str | None:
-        """ Извлекает product ID из заданного URL или проверяет product ID.
-
-        Args:
-            url (str): URL или product ID.
-
-        Returns:
-            str | None: Извлеченный product ID или сам ввод, если это действительный ID, или `None`, если не найден действительный ID.
-
-        Examples:
-            >>> extract_id("https://www.aliexpress.com/item/123456.html")
-            '123456'
-
-            >>> extract_id("7891011")
-            '7891011'
-
-            >>> extract_id("https://www.example.com/item/abcdef.html")
-            None
-        """
-        # Проверка, является ли ввод действительным product ID
-        if url.isdigit():
-            return url
-
-        # В противном случае попытка извлечь ID из URL
-        match = pattern.search(url)
-        if match:
-            return match.group(1)
-        return
-
-    if isinstance(urls, list):
-        extracted_ids = [extract_id(url) for url in urls if extract_id(url) is not None]
-        return extracted_ids if extracted_ids else None
-    else:
-        return extract_id(urls)
-
-
-# Пример использования
-url1 = "https://www.aliexpress.com/item/123456.html"
-url2 = "7891011"
-url3 = "https://www.example.com/item/abcdef.html"
-url_list = ["https://www.aliexpress.com/item/123456.html", "7891011.html", "https://www.example.com/item/abcdef.html"]
-
-print(extract_prod_ids(url1))
-print(extract_prod_ids(url2))
-print(extract_prod_ids(url3))
-print(extract_prod_ids(url_list))
+    # URL, из которого нельзя извлечь идентификатор
+    url = "https://www.example.com/item/abcdef.html"
+    product_id = extract_prod_ids(url)
+    print(f"Product ID: {product_id}")  # Output: Product ID: None
+```

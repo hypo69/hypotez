@@ -1,89 +1,34 @@
-# Module src.utils.autodoc
-
+# Module for Automatic Documentation Update
 ## Overview
+This module provides the `autodoc` decorator, which automatically updates the documentation string (`docstring`) of a function by adding the time of the last function call. This allows you to keep track of when a function was last executed. The decorator wraps the function, updating its docstring before each call, thus ensuring that the documentation is up-to-date.
 
-Модуль `src.utils.autodoc` предоставляет декоратор `autodoc` для автоматического обновления docstring функции с добавлением информации о времени последнего вызова. Это полезно для отслеживания времени выполнения функций и логирования в целях отладки.
-
-## More details
-
-Этот модуль содержит декоратор `autodoc`, который обновляет строку документации функции, добавляя время последнего вызова функции. Декоратор оборачивает функцию, обновляя её docstring перед вызовом, добавляя в него строку с текущим временем. Для получения текущего времени используется библиотека `time`.
+## Details
+The `autodoc` decorator works by modifying the function's docstring before it's called. The decorator calls the `update_docstring` function to add the current timestamp to the docstring. The `time` library is used to get the current time. The module also provides an example of how to use the `autodoc` decorator with the `example_function`.
 
 ## Classes
-
 ### `autodoc`
+**Description**:  This decorator automatically updates the docstring of a function with the time of its last call. 
 
-**Description**:
-Декоратор для автоматического обновления docstring функции.
-
-**Attributes**:
-- Нет атрибутов.
+**Inherits**:  `functools.wraps`
 
 **Methods**:
-- `wrapper(*args, **kwargs)`: Обертка для декорируемой функции, которая обновляет docstring перед вызовом функции.
-
-### `update_docstring`
-
-**Description**:
-Функция для обновления docstring функции.
-
-**Attributes**:
-- Нет атрибутов.
-
-**Methods**:
-- Нет методов.
+- `wrapper(*args, **kwargs)`: Calls the function and updates its docstring before execution.
 
 ## Functions
-
 ### `autodoc(func)`
-
-**Purpose**:
-Декоратор для автоматического обновления docstring функции перед её вызовом.
+**Purpose**: This decorator automatically updates the docstring of a function by adding the time of its last call.
 
 **Parameters**:
-- `func` (function): Функция, для которой необходимо обновить docstring.
+- `func`: The function whose docstring will be updated.
 
-**Returns**:
-- `wrapper`: Обернутая функция, которая обновляет docstring перед вызовом исходной функции.
-
-**How the function works**:
-1. Декоратор `autodoc` принимает функцию `func` в качестве аргумента.
-2. Внутри декоратора определяется функция `wrapper`, которая будет заменять исходную функцию.
-3. Функция `wrapper` вызывает функцию `update_docstring(func)` для обновления docstring исходной функции.
-4. Затем `wrapper` вызывает исходную функцию `func` с переданными аргументами и возвращает результат её выполнения.
-5. Декоратор `autodoc` возвращает функцию `wrapper`, которая заменяет исходную функцию.
+**Returns**: 
+- `wrapper`: A wrapper function that updates the docstring and then calls the original function.
 
 **Examples**:
-
 ```python
-import functools
-import time
-
-def autodoc(func):
-    """Декоратор для автоматического обновления docstring функции."""
-
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        # Обновляем docstring перед вызовом функции
-        update_docstring(func)
-        return func(*args, **kwargs)
-
-    return wrapper
-
-def update_docstring(func):
-    """Обновляет docstring функции."""
-    current_time = time.strftime("%Y-%m-%d %H:%M:%S")
-    
-    # Проверяем, существует ли docstring
-    if func.__doc__:
-        # Добавляем информацию о времени последнего вызова
-        func.__doc__ += f"\n\nLast called at: {current_time}"
-    else:
-        func.__doc__ = f"Last called at: {current_time}"
-
 @autodoc
 def example_function(param1: int, param2: str) -> None:
     """Пример функции.
-
     Args:
         param1 (int): Первое значение.
         param2 (str): Второе значение.
@@ -92,76 +37,25 @@ def example_function(param1: int, param2: str) -> None:
 
 example_function(1, "test")
 print(example_function.__doc__)
-example_function(2, "another test")
-print(example_function.__doc__)
 ```
+
+**How the Function Works**:
+- The `autodoc` decorator calls the `update_docstring` function to add the current timestamp to the function's docstring before executing the wrapped function.
 
 ### `update_docstring(func)`
-
-**Purpose**:
-Обновляет docstring функции, добавляя информацию о времени последнего вызова.
+**Purpose**:  Updates the function's docstring by adding the current timestamp.
 
 **Parameters**:
-- `func` (function): Функция, docstring которой необходимо обновить.
+- `func`: The function whose docstring will be updated.
 
-**How the function works**:
-1. Функция `update_docstring` принимает функцию `func` в качестве аргумента.
-2. Получает текущее время с использованием `time.strftime("%Y-%m-%d %H:%M:%S")`.
-3. Проверяет, существует ли у функции docstring.
-4. Если docstring существует, добавляет в конец docstring строку с информацией о времени последнего вызова.
-5. Если docstring не существует, создает новый docstring с информацией о времени последнего вызова.
+**Returns**:
+- `None`
 
 **Examples**:
-
-```python
-import time
-
-def update_docstring(func):
-    """Обновляет docstring функции."""
-    current_time = time.strftime("%Y-%m-%d %H:%M:%S")
-    
-    # Проверяем, существует ли docstring
-    if func.__doc__:
-        # Добавляем информацию о времени последнего вызова
-        func.__doc__ += f"\n\nLast called at: {current_time}"
-    else:
-        func.__doc__ = f"Last called at: {current_time}"
-
-def example_function(param1: int, param2: str) -> None:
-    """Пример функции.
-
-    Args:
-        param1 (int): Первое значение.
-        param2 (str): Второе значение.
-    """
-    print(f"Processing {param1} and {param2}")
-
-update_docstring(example_function)
-print(example_function.__doc__)
-```
-
-### `example_function(param1: int, param2: str) -> None`
-
-**Purpose**:
-Пример функции, использующей декоратор `autodoc`.
-
-**Parameters**:
-- `param1` (int): Первое значение.
-- `param2` (str): Второе значение.
-
-**How the function works**:
-1. Функция `example_function` принимает два аргумента: `param1` типа `int` и `param2` типа `str`.
-2. Функция выводит строку, содержащую значения `param1` и `param2`.
-3. Функция не возвращает никакого значения (`None`).
-4. Перед вызовом функции декоратор `autodoc` обновляет её docstring, добавляя информацию о времени последнего вызова.
-
-**Examples**:
-
 ```python
 @autodoc
 def example_function(param1: int, param2: str) -> None:
     """Пример функции.
-
     Args:
         param1 (int): Первое значение.
         param2 (str): Второе значение.
@@ -169,23 +63,43 @@ def example_function(param1: int, param2: str) -> None:
     print(f"Processing {param1} and {param2}")
 
 example_function(1, "test")
-# Processing 1 and test
-# Пример функции.
-#
-#     Args:
-#         param1 (int): Первое значение.
-#         param2 (str): Второе значение.
-#
-# Last called at: 2024-07-04 15:23:00
+print(example_function.__doc__)
+```
 
-example_function(2, "another test")
-# Processing 2 and another test
-# Пример функции.
-#
-#     Args:
-#         param1 (int): Первое значение.
-#         param2 (str): Второе значение.
-#
-# Last called at: 2024-07-04 15:23:00
-#
-# Last called at: 2024-07-04 15:23:00
+**How the Function Works**:
+- The `update_docstring` function gets the current time using `time.strftime("%Y-%m-%d %H:%M:%S")`. 
+- Then it checks if the function already has a docstring. 
+- If it does, it appends the current timestamp to the existing docstring. 
+- Otherwise, it sets the docstring to the current timestamp. 
+- This ensures that the docstring is always updated with the time of the last call.
+
+### `example_function(param1: int, param2: str) -> None`
+**Purpose**: This is an example function that demonstrates the use of the `autodoc` decorator. 
+
+**Parameters**:
+- `param1 (int)`: The first value.
+- `param2 (str)`: The second value.
+
+**Returns**: 
+- `None`
+
+**Examples**:
+```python
+@autodoc
+def example_function(param1: int, param2: str) -> None:
+    """Пример функции.
+    Args:
+        param1 (int): Первое значение.
+        param2 (str): Второе значение.
+    """
+    print(f"Processing {param1} and {param2}")
+
+example_function(1, "test")
+print(example_function.__doc__)  # Output: "Пример функции.\n\nLast called at: YYYY-MM-DD HH:MM:SS"
+```
+
+**How the Function Works**:
+- The `example_function` prints the values of `param1` and `param2` to the console. 
+- When called, the `autodoc` decorator updates its docstring by adding the current timestamp. 
+- The output of the updated docstring will include the current time. 
+- This provides a clear timestamp of when the function was last executed.

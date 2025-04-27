@@ -1,138 +1,100 @@
-# Документация для модуля `AIChatFree.py`
+# AIChatFree Provider
 
-## Обзор
+## Overview
 
-Модуль `AIChatFree.py` предоставляет асинхронный генератор для взаимодействия с сервисом AIChatFree. Он позволяет отправлять запросы к модели `gemini-1.5-pro` и получать ответы в виде асинхронного потока. Модуль также включает в себя функцию для генерации подписи запроса, необходимой для аутентификации.
+This module provides the `AIChatFree` class, which implements an asynchronous generator provider for the AIChatFree API. This class is designed to interact with the AIChatFree API and provides functionalities for sending messages and retrieving responses.
 
-## Подробнее
+## Details
 
-Этот модуль используется для интеграции с сервисом AIChatFree, который предоставляет API для работы с моделью `gemini-1.5-pro`. Он особенно полезен в случаях, когда требуется асинхронное взаимодействие с сервисом, например, в веб-приложениях. В коде реализована поддержка прокси и обработка ошибок, связанных с ограничением скорости запросов.
+The `AIChatFree` class extends `AsyncGeneratorProvider` and `ProviderModelMixin`, inheriting functionalities for asynchronous generation and model handling. It defines its base URL, indicates support for streaming and message history, and sets a default model. 
 
-## Классы
+The `create_async_generator` class method is responsible for creating an asynchronous generator that sends messages to the API and yields responses in chunks. It handles request headers, prepares the request body, sends the POST request, and iterates through the response content to yield decoded chunks.
+
+## Classes
 
 ### `AIChatFree`
 
-**Описание**: Класс `AIChatFree` предоставляет методы для асинхронного взаимодействия с сервисом AIChatFree.
+**Description:**  The `AIChatFree` class implements an asynchronous generator provider for the AIChatFree API, allowing for sending messages and retrieving responses.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
-- `ProviderModelMixin`: Добавляет функциональность для работы с моделями.
+**Inherits:**
+    - `AsyncGeneratorProvider`: Provides functionalities for asynchronous generation.
+    - `ProviderModelMixin`: Provides functionalities for handling models.
 
-**Атрибуты**:
-- `url` (str): URL сервиса AIChatFree (`"https://aichatfree.info"`).
-- `working` (bool): Указывает, работает ли провайдер (по умолчанию `False`).
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу данных (по умолчанию `True`).
-- `supports_message_history` (bool): Указывает, поддерживает ли провайдер историю сообщений (по умолчанию `True`).
-- `default_model` (str): Модель, используемая по умолчанию (`"gemini-1.5-pro"`).
+**Attributes:**
+    - `url` (str): The base URL of the AIChatFree API.
+    - `working` (bool): Indicates whether the provider is currently working.
+    - `supports_stream` (bool): Indicates whether the provider supports streaming responses.
+    - `supports_message_history` (bool): Indicates whether the provider supports message history.
+    - `default_model` (str): The default model used by the provider.
 
-**Принцип работы**:
-Класс использует `aiohttp` для отправки асинхронных запросов к сервису AIChatFree. Он генерирует подпись для каждого запроса с помощью функции `generate_signature` и обрабатывает возможные ошибки, такие как превышение лимита запросов.
+**Methods:**
+    - `create_async_generator(model: str, messages: Messages, proxy: str = None, connector: BaseConnector = None, **kwargs)`:  Creates an asynchronous generator that sends messages to the API and yields responses in chunks.
 
-## Методы класса
+## Class Methods
 
 ### `create_async_generator`
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    connector: BaseConnector = None,
-    **kwargs,
-) -> AsyncResult:
-    """Создает асинхронный генератор для взаимодействия с сервисом AIChatFree.
+**Purpose**: This method creates an asynchronous generator that sends messages to the AIChatFree API and yields responses in chunks.
 
-    Args:
-        model (str): Модель для использования.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): URL прокси-сервера. Defaults to None.
-        connector (BaseConnector, optional): Aiohttp коннектор. Defaults to None.
-        **kwargs: Дополнительные аргументы.
+**Parameters**:
+    - `model` (str): The model to use for generating responses.
+    - `messages` (Messages): A list of messages representing the conversation history.
+    - `proxy` (str, optional): Proxy server address. Defaults to None.
+    - `connector` (BaseConnector, optional): Custom connector for the HTTP client session. Defaults to None.
+    - `**kwargs`: Additional keyword arguments.
 
-    Returns:
-        AsyncResult: Асинхронный генератор, возвращающий ответы от сервиса.
+**Returns**:
+    - `AsyncResult`: An asynchronous result representing the generator.
 
-    Raises:
-        RateLimitError: Если достигнут лимит запросов.
-        Exception: При других ошибках во время запроса.
-    """
-    ...
-```
+**Raises Exceptions**:
+    - `RateLimitError`: Raised when the rate limit for the API is exceeded.
 
-**Параметры**:
-- `cls`: Ссылка на класс.
-- `model` (str): Модель для использования.
-- `messages` (Messages): Список сообщений для отправки.
-- `proxy` (str, optional): URL прокси-сервера. По умолчанию `None`.
-- `connector` (BaseConnector, optional): Aiohttp коннектор. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы.
+**How the Function Works**:
+    - The method prepares request headers, including user agent, accept types, encoding, and content type.
+    - It creates an HTTP client session with optional proxy and connector.
+    - The method generates a timestamp and constructs a data dictionary containing the conversation history, timestamp, and a signature generated using the `generate_signature` function.
+    - It sends a POST request to the API endpoint `/api/generate` with the prepared data.
+    - The method checks the response status. If it's 500 and contains the "Quota exceeded" message, it raises a `RateLimitError`.
+    - After ensuring the request was successful, the method iterates through the response content and yields decoded chunks.
 
-**Как работает функция**:
-- Функция создает заголовки запроса, включая User-Agent, Accept и Content-Type.
-- Генерирует timestamp и подпись запроса с использованием функции `generate_signature`.
-- Формирует данные запроса, включая сообщения, timestamp и подпись.
-- Отправляет POST-запрос к сервису AIChatFree с использованием `aiohttp`.
-- Обрабатывает возможные ошибки, такие как превышение лимита запросов (RateLimitError).
-- Возвращает асинхронный генератор, который выдает ответы от сервиса по частям.
-
-**Примеры**:
+**Example**:
 
 ```python
-import asyncio
-from src.endpoints.gpt4free.g4f.Provider.not_working.AIChatFree import AIChatFree
-from typing import List, Dict
-
-async def main():
-    messages: List[Dict[str, str]] = [
-        {"role": "user", "content": "Привет, как дела?"},
-        {"role": "assistant", "content": "У меня все хорошо, спасибо!"},
-        {"role": "user", "content": "Что ты умеешь?"}
+async def example_usage():
+    messages = [
+        {"role": "user", "content": "Hello, how are you?"},
+        {"role": "assistant", "content": "I'm doing well, thank you for asking. How can I help you today?"},
     ]
-    async for response in AIChatFree.create_async_generator(model="gemini-1.5-pro", messages=messages):
-        print(response, end="")
+    async for chunk in AIChatFree.create_async_generator(model='gemini-1.5-pro', messages=messages):
+        print(chunk)
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# Run the example (replace with your own event loop if needed)
+import asyncio
+asyncio.run(example_usage())
 ```
 
-## Функции
+## Inner Functions
 
 ### `generate_signature`
 
-```python
-def generate_signature(time: int, text: str, secret: str = ""):
-    """Генерирует подпись для запроса к сервису AIChatFree.
+**Purpose**: This function generates a signature for the request based on the provided time, text, and a secret key.
 
-    Args:
-        time (int): Timestamp запроса.
-        text (str): Текст сообщения.
-        secret (str, optional): Секретный ключ. Defaults to "".
+**Parameters**:
+    - `time` (int): The timestamp in milliseconds.
+    - `text` (str): The text used for generating the signature.
+    - `secret` (str, optional): The secret key. Defaults to an empty string.
 
-    Returns:
-        str: Подпись запроса в виде SHA256 хеша.
-    """
-    ...
-```
+**Returns**:
+    - `str`: The generated SHA256 signature in hexadecimal format.
 
-**Параметры**:
-- `time` (int): Timestamp запроса.
-- `text` (str): Текст сообщения.
-- `secret` (str, optional): Секретный ключ. По умолчанию `""`.
+**How the Function Works**:
+    - The function combines the provided time, text, and secret key into a single string.
+    - It encodes the message into bytes and generates the SHA256 hash.
+    - Finally, it returns the hexadecimal representation of the hash. 
 
-**Как работает функция**:
-- Функция создает строку сообщения, объединяя timestamp, текст сообщения и секретный ключ.
-- Вычисляет SHA256 хеш от этой строки.
-- Возвращает хеш в шестнадцатеричном формате.
-
-**Примеры**:
+**Example**:
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.not_working.AIChatFree import generate_signature
-
-time = 1678886400
-text = "Привет, как дела?"
-signature = generate_signature(time, text)
+signature = generate_signature(time=1694585535000, text="Hello, world!", secret="your_secret_key")
 print(signature)
 ```

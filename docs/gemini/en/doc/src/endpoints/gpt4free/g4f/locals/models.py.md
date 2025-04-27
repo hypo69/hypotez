@@ -1,178 +1,209 @@
-# Модуль для загрузки и форматирования моделей GPT4Free
+# Модуль models
 
 ## Обзор
 
-Модуль `models.py` предназначен для загрузки, форматирования и хранения информации о моделях, используемых в проекте `hypotez`. Он обеспечивает получение списка доступных моделей, их сохранение в локальном файле и чтение из него.
+Модуль `models.py` отвечает за управление и хранение моделей, используемых в проекте `hypotez`. Он содержит набор функций для загрузки, формата, чтения, сохранения и получения моделей. Модуль взаимодействует с API GPT4All.io, чтобы получить список доступных моделей и их информацию.
 
 ## Детали
 
-Модуль содержит функции для получения списка моделей с удаленного ресурса, форматирования этих данных и сохранения их в локальный файл `models.json`. При отсутствии файла с моделями производится его загрузка с удаленного ресурса, сохранение и последующее чтение.
+Модуль взаимодействует с файлом `models.json`, который хранит информацию о моделях, доступных в проекте. Он использует следующие методы:
+
+- `load_models()`: Загружает список доступных моделей из API GPT4All.io.
+- `get_model_name()`: Извлекает имя модели из имени файла.
+- `format_models()`: Преобразует данные о моделях в удобный формат.
+- `read_models()`: Чтение данных о моделях из файла `models.json`.
+- `save_models()`: Сохраняет данные о моделях в файл `models.json`.
+- `get_model_dir()`: Возвращает путь к каталогу, где хранятся модели.
+- `get_models()`: Получает список доступных моделей, загружая их из API GPT4All.io или из файла `models.json`.
+
+## Классы
+
+###  `None`
+
+**Description**: Данный модуль не содержит собственных классов.
 
 ## Функции
 
-### `load_models`
+### `load_models()`
 
+**Purpose**: Загружает список доступных моделей из API GPT4All.io.
+
+**Parameters**: 
+- `None`
+
+**Returns**: 
+- `dict`: Возвращает словарь с информацией о моделях, полученной из API GPT4All.io.
+
+**Raises Exceptions**:
+- `requests.exceptions.RequestException`: Если возникает ошибка при выполнении запроса к API GPT4All.io.
+- `src.endpoints.gpt4free.g4f.locals.requests.raise_for_status.HTTPError`: Если получен ответ с ошибкой от API GPT4All.io.
+
+**How the Function Works**:
+- Делает GET-запрос к API GPT4All.io, чтобы получить список доступных моделей.
+- Вызывает `raise_for_status()` для обработки ошибок в запросе.
+- Возвращает данные о моделях в формате словаря.
+
+**Examples**:
 ```python
-def load_models() -> dict:
-    """
-    Функция загружает список моделей с удаленного ресурса.
-
-    Returns:
-        dict: Возвращает словарь с информацией о моделях.
-
-    Raises:
-        requests.exceptions.HTTPError: Если HTTP-запрос завершается с ошибкой.
-
-    Как работает:
-    - Отправляет GET-запрос к адресу "https://gpt4all.io/models/models3.json".
-    - Вызывает функцию `raise_for_status` для проверки статуса ответа.
-    - Форматирует полученные данные с помощью функции `format_models`.
-
-    Пример:
-        >>> models = load_models()
-        >>> print(type(models))
-        <class 'dict'>
-    """
+>>> models = load_models()
+>>> print(models)
+{'gpt4all-lora-quantized-12b': {'path': 'gpt4all-lora-quantized-12b.bin', 'ram': 10, 'prompt': 'Prompt: {input}', 'system': 'System prompt: {system}'}, ...}
 ```
 
-### `get_model_name`
+### `get_model_name()`
 
+**Purpose**: Извлекает имя модели из имени файла.
+
+**Parameters**: 
+- `filename (str)`: Имя файла модели.
+
+**Returns**: 
+- `str`: Возвращает имя модели.
+
+**Raises Exceptions**:
+- `None`
+
+**How the Function Works**:
+- Разбивает имя файла по точке, чтобы получить только часть до расширения.
+- Заменяет все нежелательные суффиксы в имени файла, чтобы получить только имя модели.
+- Возвращает имя модели.
+
+**Examples**:
 ```python
-def get_model_name(filename: str) -> str:
-    """
-    Функция извлекает имя модели из имени файла.
-
-    Args:
-        filename (str): Имя файла модели.
-
-    Returns:
-        str: Возвращает имя модели без расширения и версий.
-
-    Как работает:
-    - Разделяет имя файла по первому вхождению точки (`.`).
-    - Последовательно удаляет из имени различные суффиксы, такие как "-v1_5", "-v1", "-q4_0", "_v01", "-v0", "-f16", "-gguf2", "-newbpe".
-
-    Пример:
-        >>> get_model_name("gpt4all-j-v1.3-groovy.bin")
-        'gpt4all-j-groovy'
-    """
+>>> get_model_name("gpt4all-lora-quantized-12b.bin")
+'gpt4all-lora-quantized-12b'
 ```
 
-### `format_models`
+### `format_models()`
 
+**Purpose**: Преобразует данные о моделях в удобный формат.
+
+**Parameters**: 
+- `models (list)`: Список данных о моделях, полученный из API GPT4All.io.
+
+**Returns**: 
+- `dict`: Возвращает словарь с информацией о моделях в удобном формате.
+
+**Raises Exceptions**:
+- `None`
+
+**How the Function Works**:
+- Использует функцию `get_model_name()` для извлечения имени модели из имени файла.
+- Создает словарь, где ключом является имя модели, а значением - словарь с информацией о модели:
+    - `path`: Путь к файлу модели.
+    - `ram`: Требуемый объем оперативной памяти.
+    - `prompt`: Шаблон для подсказки.
+    - `system`: Системная подсказка.
+- Возвращает словарь с информацией о моделях.
+
+**Examples**:
 ```python
-def format_models(models: list) -> dict:
-    """
-    Функция форматирует список моделей в словарь.
-
-    Args:
-        models (list): Список моделей.
-
-    Returns:
-        dict: Возвращает словарь, где ключом является имя модели, а значением - информация о модели.
-
-    Как работает:
-    - Для каждой модели в списке извлекает имя файла, требуемый объем оперативной памяти (`ramrequired`), шаблон промпта (`promptTemplate`) и системный промпт (`systemPrompt`).
-    - Формирует словарь, где ключом является имя модели (полученное через функцию `get_model_name`), а значением - словарь с информацией о модели.
-
-    Пример:
-        >>> models = [{"filename": "gpt4all-j-v1.3-groovy.bin", "ramrequired": "8 GB", "promptTemplate": "<prompt>", "systemPrompt": "<system>"}]
-        >>> formatted_models = format_models(models)
-        >>> print(formatted_models)
-        {'gpt4all-j-groovy': {'path': 'gpt4all-j-v1.3-groovy.bin', 'ram': '8 GB', 'prompt': '<prompt>', 'system': '<system>'}}
-    """
+>>> models = [{'filename': 'gpt4all-lora-quantized-12b.bin', 'ramrequired': 10, 'promptTemplate': 'Prompt: {input}', 'systemPrompt': 'System prompt: {system}'}, ...]
+>>> formatted_models = format_models(models)
+>>> print(formatted_models)
+{'gpt4all-lora-quantized-12b': {'path': 'gpt4all-lora-quantized-12b.bin', 'ram': 10, 'prompt': 'Prompt: {input}', 'system': 'System prompt: {system}'}, ...}
 ```
 
-### `read_models`
+### `read_models()`
 
+**Purpose**: Чтение данных о моделях из файла `models.json`.
+
+**Parameters**: 
+- `file_path (str)`: Путь к файлу `models.json`.
+
+**Returns**: 
+- `dict`: Возвращает словарь с данными о моделях, прочитанными из файла.
+
+**Raises Exceptions**:
+- `IOError`: Если файл `models.json` не найден.
+- `json.decoder.JSONDecodeError`: Если файл `models.json` некорректный.
+
+**How the Function Works**:
+- Открывает файл `models.json` в режиме чтения.
+- Вызывает `json.load()` для чтения данных из файла.
+- Возвращает словарь с данными о моделях.
+
+**Examples**:
 ```python
-def read_models(file_path: str) -> dict:
-    """
-    Функция читает данные о моделях из файла.
-
-    Args:
-        file_path (str): Путь к файлу с данными о моделях.
-
-    Returns:
-        dict: Возвращает словарь с данными о моделях.
-
-    Как работает:
-    - Открывает файл по указанному пути в бинарном режиме для чтения.
-    - Загружает JSON-данные из файла.
-
-    Пример:
-        >>> file_path = "models/models.json"
-        >>> models = read_models(file_path)
-        >>> print(type(models))
-        <class 'dict'>
-    """
+>>> models = read_models("models.json")
+>>> print(models)
+{'gpt4all-lora-quantized-12b': {'path': 'gpt4all-lora-quantized-12b.bin', 'ram': 10, 'prompt': 'Prompt: {input}', 'system': 'System prompt: {system}'}, ...}
 ```
 
-### `save_models`
+### `save_models()`
 
+**Purpose**: Сохраняет данные о моделях в файл `models.json`.
+
+**Parameters**: 
+- `file_path (str)`: Путь к файлу `models.json`.
+- `data`: Данные о моделях в формате словаря.
+
+**Returns**: 
+- `None`
+
+**Raises Exceptions**:
+- `IOError`: Если файл `models.json` не может быть открыт для записи.
+
+**How the Function Works**:
+- Открывает файл `models.json` в режиме записи.
+- Вызывает `json.dump()` для записи данных в файл.
+
+**Examples**:
 ```python
-def save_models(file_path: str, data: dict) -> None:
-    """
-    Функция сохраняет данные о моделях в файл.
-
-    Args:
-        file_path (str): Путь к файлу для сохранения данных.
-        data (dict): Данные для сохранения.
-
-    Returns:
-        None
-
-    Как работает:
-    - Открывает файл по указанному пути для записи.
-    - Записывает JSON-данные в файл с отступами для читаемости.
-
-    Пример:
-        >>> file_path = "models/models.json"
-        >>> data = {"model1": {"path": "path1"}, "model2": {"path": "path2"}}
-        >>> save_models(file_path, data)
-    """
+>>> models = {'gpt4all-lora-quantized-12b': {'path': 'gpt4all-lora-quantized-12b.bin', 'ram': 10, 'prompt': 'Prompt: {input}', 'system': 'System prompt: {system}'}, ...}
+>>> save_models("models.json", models)
 ```
 
-### `get_model_dir`
+### `get_model_dir()`
 
+**Purpose**: Возвращает путь к каталогу, где хранятся модели.
+
+**Parameters**: 
+- `None`
+
+**Returns**: 
+- `str`: Путь к каталогу с моделями.
+
+**Raises Exceptions**:
+- `None`
+
+**How the Function Works**:
+- Получает текущий каталог.
+- Находит каталог проекта `hypotez`.
+- Создает каталог `models` в каталоге проекта, если он не существует.
+- Возвращает путь к каталогу с моделями.
+
+**Examples**:
 ```python
-def get_model_dir() -> str:
-    """
-    Функция определяет и возвращает путь к директории с моделями.
-
-    Returns:
-        str: Возвращает путь к директории с моделями.
-
-    Как работает:
-    - Определяет абсолютный путь к текущему файлу.
-    - Определяет путь к родительской директории (директории проекта).
-    - Формирует путь к директории `models` внутри директории проекта.
-    - Если директория не существует, создает её.
-
-    Пример:
-        >>> model_dir = get_model_dir()
-        >>> print(model_dir)
-        '/path/to/project/models'
-    """
+>>> model_dir = get_model_dir()
+>>> print(model_dir)
+/path/to/hypotez/models
 ```
 
-### `get_models`
+### `get_models()`
 
+**Purpose**: Получает список доступных моделей, загружая их из API GPT4All.io или из файла `models.json`.
+
+**Parameters**: 
+- `None`
+
+**Returns**: 
+- `dict`: Возвращает словарь с информацией о моделях.
+
+**Raises Exceptions**:
+- `None`
+
+**How the Function Works**:
+- Получает путь к каталогу с моделями.
+- Проверяет наличие файла `models.json` в каталоге.
+    - Если файл найден, то читает данные из него с помощью `read_models()`.
+    - Если файл не найден, то загружает данные о моделях из API GPT4All.io с помощью `load_models()`.
+- Сохраняет данные о моделях в файл `models.json` с помощью `save_models()`.
+- Возвращает словарь с информацией о моделях.
+
+**Examples**:
 ```python
-def get_models() -> dict[str, dict]:
-    """
-    Функция возвращает словарь с моделями.
-
-    Returns:
-        dict[str, dict]: Возвращает словарь, где ключом является имя модели, а значением - информация о модели.
-
-    Как работает:
-    - Определяет путь к файлу `models.json` в директории с моделями.
-    - Если файл существует, читает данные из файла с помощью функции `read_models`.
-    - Если файл не существует, загружает данные с удаленного ресурса с помощью функции `load_models`, сохраняет их в файл с помощью функции `save_models` и возвращает полученные данные.
-
-    Пример:
-        >>> models = get_models()
-        >>> print(type(models))
-        <class 'dict'>
-    """
+>>> models = get_models()
+>>> print(models)
+{'gpt4all-lora-quantized-12b': {'path': 'gpt4all-lora-quantized-12b.bin', 'ram': 10, 'prompt': 'Prompt: {input}', 'system': 'System prompt: {system}'}, ...}
+```

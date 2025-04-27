@@ -1,128 +1,124 @@
-# Документация для `provider.py`
+# LocalProvider Module
 
-## Обзор
+## Overview
 
-Файл `provider.py` предназначен для работы с локальными моделями GPT4All в проекте `hypotez`. Он содержит функции для поиска, загрузки и создания завершений с использованием локальных моделей.
+This module provides functionality for interacting with GPT4All models for generating text. It includes a `LocalProvider` class that encapsulates methods for creating text completions using locally stored GPT4All models.
 
-## Подробнее
+## Details
 
-Этот модуль позволяет использовать локально установленные модели GPT4All для генерации текста. Он включает функции для поиска директории с моделями, загрузки моделей и создания завершений на основе предоставленных сообщений. Это позволяет избежать необходимости в онлайн-сервисах для выполнения задач генерации текста, что может быть полезно в условиях ограниченного доступа к интернету или для обеспечения конфиденциальности данных.
+This module is designed to be used within a larger project that requires access to GPT4All models. It handles tasks like:
 
-## Функции
+- Loading model configurations from a `MODEL_LIST` dictionary.
+- Finding the directory containing the specified GPT4All model file.
+- Downloading the model file if it's not found locally.
+- Using the `GPT4All` library to generate text completions based on a given prompt and conversation history.
 
-### `find_model_dir`
-
-```python
-def find_model_dir(model_file: str) -> str:
-    """
-    Функция выполняет поиск директории, содержащей файл модели.
-
-    Args:
-        model_file (str): Имя файла модели.
-
-    Returns:
-        str: Путь к директории, содержащей файл модели.
-             Если файл не найден, возвращает путь к новой директории для моделей.
-
-    Как работает функция:
-    - Функция пытается найти директорию, содержащую указанный файл модели, в нескольких местах:
-      - В локальной директории модуля.
-      - В директории `models` на уровень выше.
-      - В текущей рабочей директории, обходя все поддиректории.
-    - Если файл модели найден, функция возвращает путь к этой директории.
-    - Если файл не найден ни в одном из указанных мест, функция возвращает путь к новой директории для моделей.
-    """
-```
-
-### Классы
+## Classes
 
 ### `LocalProvider`
 
-**Описание**:
-Класс `LocalProvider` предоставляет статический метод для создания завершений с использованием локальных моделей GPT4All.
+**Description**: This class is used for interacting with GPT4All models and generating text completions.
 
-**Атрибуты**:
-- Отсутствуют атрибуты класса.
+**Methods**:
 
-**Методы**:
-- `create_completion`: Статический метод для создания завершений.
+- `create_completion(model: str, messages: Messages, stream: bool = False, **kwargs)`: This method generates a text completion based on the specified model, messages (conversation history), and streaming options.
 
-### Методы класса
+## Functions
 
-### `create_completion`
+### `find_model_dir(model_file: str) -> str`
+
+**Purpose**: This function finds the directory containing the specified GPT4All model file (`model_file`). It searches in various locations, including the project's `models` directory and the local directory, and returns the path to the directory.
+
+**Parameters**:
+
+- `model_file` (str): The name of the GPT4All model file.
+
+**Returns**:
+
+- `str`: The path to the directory containing the model file.
+
+**How the Function Works**:
+
+- The function first tries to find the model file in the project's `models` directory.
+- If not found there, it checks the local directory.
+- If still not found, it walks through the current working directory to find the model file.
+- If the file is not found in any of these locations, the function returns the path to the project's `models` directory.
+
+**Examples**:
+
+- If the model file `gpt4all-lora-quantized.bin` exists in the project's `models` directory, the function will return the path to that directory.
+- If the model file `gpt4all-lora-quantized.bin` exists in the local directory, the function will return the path to that directory.
+- If the model file `gpt4all-lora-quantized.bin` exists in a subdirectory named `models` within the working directory, the function will return the path to that subdirectory.
+
+### `create_completion(model: str, messages: Messages, stream: bool = False, **kwargs)`
+
+**Purpose**: This method generates a text completion based on the specified model, messages (conversation history), and streaming options.
+
+**Parameters**:
+
+- `model` (str): The name of the GPT4All model to use.
+- `messages` (Messages): A list of messages representing the conversation history.
+- `stream` (bool): If `True`, the completion will be generated in a streaming fashion, returning tokens one by one. Defaults to `False`.
+
+**Returns**:
+
+- `Generator[str, None, None] | str`: A generator of tokens if `stream` is `True`, otherwise a string containing the complete generated text.
+
+**How the Function Works**:
+
+- The function first checks if the specified model exists in the `MODEL_LIST` dictionary.
+- If not found, it raises a `ValueError`.
+- It then retrieves the model file path and directory from the `MODEL_LIST`.
+- If the model file is not found, it prompts the user to download it.
+- It then initializes a `GPT4All` instance using the model file path and directory.
+- It extracts the system message from the `messages` list.
+- It constructs a prompt template and a conversation string based on the messages.
+- It uses the `GPT4All` model to generate a completion, either streaming or non-streaming, based on the `stream` parameter.
+- Finally, it returns the generated text or a generator of tokens.
+
+**Examples**:
+
+- `create_completion(model="gpt4all-lora-quantized", messages=[{"role": "user", "content": "Hello, world!"}], stream=False)`: This call will generate a text completion using the "gpt4all-lora-quantized" model, based on the prompt "Hello, world!" and will return the complete text.
+- `create_completion(model="gpt4all-lora-quantized", messages=[{"role": "user", "content": "Hello, world!"}], stream=True)`: This call will generate a text completion using the "gpt4all-lora-quantized" model, based on the prompt "Hello, world!" and will return a generator of tokens, allowing for streaming output.
+
+## Parameter Details
+
+- `model_file` (str): The name of the GPT4All model file to be used.
+- `messages` (Messages): A list of messages representing the conversation history. Each message is a dictionary with the following structure:
+    - `role` (str): The role of the message sender (e.g., "user", "system", "assistant").
+    - `content` (str): The content of the message.
+- `stream` (bool): If `True`, the completion will be generated in a streaming fashion, returning tokens one by one. Defaults to `False`.
+
+## Examples
+
+### Example 1: Generating Text Completion
 
 ```python
-    @staticmethod
-    def create_completion(model: str, messages: Messages, stream: bool = False, **kwargs):
-        """
-        Создает завершение с использованием локальной модели GPT4All.
+from hypotez.src.endpoints.gpt4free.g4f.locals.provider import LocalProvider
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-        Args:
-            model (str): Имя модели.
-            messages (Messages): Список сообщений для создания контекста завершения.
-            stream (bool, optional): Определяет, должен ли вывод быть потоковым. По умолчанию `False`.
-            **kwargs: Дополнительные аргументы.
+provider = LocalProvider()
 
-        Returns:
-            Generator[str, None, None] | str: Генератор токенов, если `stream` равен `True`, иначе строка с завершением.
+messages: Messages = [
+    {"role": "user", "content": "What is the meaning of life?"},
+]
 
-        Raises:
-            ValueError: Если модель не найдена или не реализована.
-            ValueError: Если файл модели не найден.
-
-         Как работает функция:
-         - Проверяет, инициализирован ли список моделей (`MODEL_LIST`). Если нет, то вызывает функцию `get_models()` для его инициализации.
-         - Проверяет, есть ли указанная модель в списке доступных моделей. Если нет, вызывает исключение `ValueError`.
-         - Извлекает путь к файлу модели из списка моделей.
-         - Определяет директорию, в которой находится файл модели, с помощью функции `find_model_dir()`.
-         - Если файл модели не найден в указанной директории, предлагает пользователю загрузить его.
-         - Инициализирует модель GPT4All с указанными параметрами.
-         - Формирует системное сообщение и контекст разговора на основе предоставленных сообщений.
-         - Создает сессию чата с моделью и генерирует завершение.
-         - Если `stream` равен `True`, возвращает генератор токенов. В противном случае возвращает строку с завершением.
-
-        Пример:
-            >>> messages = [{"role": "user", "content": "Hello, how are you?"}]
-            >>> model = "ggml-model-gpt4all-falcon-q4_0.bin"
-            >>> completion = LocalProvider.create_completion(model, messages)
-        """
+completion = provider.create_completion(model="gpt4all-lora-quantized", messages=messages, stream=False)
+print(completion)
 ```
 
-### Внутренние функции
-
-Внутри метода `create_completion` определена функция `should_not_stop`.
-
-#### `should_not_stop`
+### Example 2: Streaming Text Completion
 
 ```python
-        def should_not_stop(token_id: int, token: str):
-            """
-            Определяет, следует ли остановить генерацию токенов.
+from hypotez.src.endpoints.gpt4free.g4f.locals.provider import LocalProvider
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-            Args:
-                token_id (int): Идентификатор текущего токена.
-                token (str): Текущий токен.
+provider = LocalProvider()
 
-            Returns:
-                bool: `True`, если генерацию следует продолжить, `False` в противном случае.
+messages: Messages = [
+    {"role": "user", "content": "What is the capital of France?"},
+]
 
-           Как работает функция:
-           - Функция проверяет, содержит ли текущий токен слово "USER".
-           - Если токен содержит "USER", функция возвращает `False`, указывая на необходимость остановить генерацию.
-           - В противном случае функция возвращает `True`, указывая на необходимость продолжить генерацию.
-           - Это позволяет остановить генерацию, когда модель возвращает запрос пользователя.
-        """
+for token in provider.create_completion(model="gpt4all-lora-quantized", messages=messages, stream=True):
+    print(token, end="")
 ```
-
-### Параметры класса
-
-Нет параметров класса.
-
-### Примеры
-
-#### Пример использования `create_completion`
-
-```python
-messages = [{"role": "user", "content": "Hello, how are you?"}]
-model = "ggml-model-gpt4all-falcon-q4_0.bin"
-completion = LocalProvider.create_completion(model, messages)

@@ -1,764 +1,124 @@
 {
   "products": [
     {
-      "product_url": "https://www.amazon.co.jp/dp/B07YAAAAAA/",
-      "category": "Fashion"
+      "product_name": "Klein Tools 11055 Kurve Wire Stripper/Cutter",
+      "product_url": "https://www.kleintools.com/catalog/wire-stripperscutters/klein-kurve-wire-strippercutter-solid-and-stranded-wire",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.amazon.es/dp/B08ZBBBBBB/",
-      "category": "Books"
+      "product_name": "Knipex 00 20 16 P Tool Case \"Robust23\" Electric",
+      "product_url": "https://www.knipex.com/products/tool-cases-and-bags/tool-cases-robust/tool-case-robust23-electric/002016P",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.lightinthebox.com/en/p/men-s-linen-shirt-plain-color-casual-daily_p1234567.html",
-      "category": "Fashion"
+      "product_name": "Fluke 117 Electrician's Multimeter with Non-Contact Voltage",
+      "product_url": "https://www.fluke.com/en-us/product/electrical-testing/digital-multimeters/fluke-117",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.zalando.de/damen-stiefel-leder-braun-modell/ZAL543210987.html",
-      "category": "Fashion"
+      "product_name": "Greenlee LS50LFLEX Battery-Powered Knockout Driver",
+      "product_url": "https://www.greenlee.com/us/en/battery-powered-knockout-driver-ls50lflex",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.home24.de/produkt/ecksofa-webstoff-blau-mit-schlaffunktion",
-      "category": "Furniture"
+      "product_name": "Milwaukee M18™ FORCE LOGIC™ 750 MCM Crimper (2779-20)",
+      "product_url": "https://www.milwaukeetool.com/Products/Power-Tools/Electrical-Installation/Crimpers-and-Cutters/2779-20",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://7net.omni7.jp/detail/1107000004",
-      "category": "Books"
+      "product_name": "Wiha 32897 Insulated Industrial Pliers/Cutters/Drivers Master Set, 80 Piece",
+      "product_url": "https://www.wihatools.com/products/insulated-industrial-pliers-cutters-drivers-master-set-80-piece",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.kobo.com/nl/nl/ebook/thriller-psychologique-auteur-celebre",
-      "category": "eBooks"
+      "product_name": "IDEAL Electrical 61-025 Vol-Test® Solenoid Voltage Tester",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/testers/voltage-testers/61-025.html",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://allegro.pl/oferta/lampka-biurkowa-led-regulowana-usb-biala-1515151515",
-      "category": "Home Goods"
+      "product_name": "Fluke 376 FC True-RMS Clamp Meter with iFlex®",
+      "product_url": "https://www.fluke.com/en-us/product/electrical-testing/clamp-meters/fluke-376-fc",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.liverpool.com.mx/tienda/pdp/smartphone-marca-modelo-256gb-negro/1098765432",
-      "category": "Electronics"
+      "product_name": "Knipex 95 17 200 Cable Shears with twin cutting edge, insulated",
+      "product_url": "https://www.knipex.com/products/cable-and-wire-rope-shears/cable-shears/cable-shearstwin-cutting-edge-insulated/9517200",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.etsy.com/listing/543210987/custom-pet-portrait-oil-painting-from",
-      "category": "Handmade"
+      "product_name": "Greenlee 881CT Cam Track® Bender for One-Shot 90° Bends in 2-1/2\", 3\" and 4\" Rigid Conduit",
+      "product_url": "https://www.greenlee.com/us/en/cam-track-bender-for-one-shot-90-bends-in-2-1-2-3-and-4-rigid-conduit-881ct",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://listado.mercadolibre.com.ar/electrodomesticos/pequenos/cafeteras",
-      "category": "Home Appliances"
+      "product_name": "Klein Tools 50611 Magnetic Wire Puller",
+      "product_url": "https://www.kleintools.com/catalog/fish-tape-conduit-tools/magnetic-wire-puller",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.ubaldi.com/tv/televiseur-lcd/marque/tv-led-4k-165-cm-smart-tv--ref123456.php",
-      "category": "Electronics"
+      "product_name": "Wiha 32888 Insulated Metric Nut Driver Set, 8 Piece",
+      "product_url": "https://www.wihatools.com/products/insulated-metric-nut-driver-set-8-piece",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.ikea.com/jp/ja/p/poaeng-armchair-birch-veneer-knisa-light-beige-s19240849/",
-      "category": "Furniture"
+      "product_name": "IDEAL Electrical 35-478 Punchmaster™ II Punchdown Tool Kit",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/connectors-termination/termination/punchdown/35-478.html",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.bewakoof.com/p/mens-red-graphic-printed-t-shirt",
-      "category": "Fashion"
+      "product_name": "Milwaukee M12™ 600 MCM Cable Cutter Kit (2472-21XC)",
+      "product_url": "https://www.milwaukeetool.com/Products/Power-Tools/Electrical-Installation/Crimpers-and-Cutters/2472-21XC",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.asos.com/pl/mezczyzni/zegarki/zegarek-cyfrowy-czarny/prd/242424242",
-      "category": "Fashion"
+      "product_name": "Knipex 87 26 250 Cobra® High-Tech Water Pump Pliers, VDE-tested",
+      "product_url": "https://www.knipex.com/products/pipe-wrenches-and-water-pump-pliers/knipex-cobra-high-tech-water-pump-pliers/knipex-cobrahigh-tech-water-pump-pliersvde-tested/8726250",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.dollargeneral.com/product/brand-laundry-detergent-fresh-scent-100oz.html",
-      "category": "Household Supplies"
+      "product_name": "Fluke T6-1000 PRO Electrical Tester",
+      "product_url": "https://www.fluke.com/en-us/product/electrical-testing/basic-testers/fluke-t6-1000-pro",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.carrefour.es/robot-aspirador-marca-modelo-mapeo-laser/VC4A-1234567/p",
-      "category": "Home Appliances"
+      "product_name": "Greenlee UT10-2S Cable Puller (Ultra Tugger® 10)",
+      "product_url": "https://www.greenlee.com/us/en/cable-puller-ultra-tugger-10-ut10-2s",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.bestbuy.com/site/wireless-router-wifi-6-ax3000/6700004.p?skuId=6700004",
-      "category": "Electronics"
+      "product_name": "Wiha 28523 TorqueVario-S Torque Screwdriver, 15-80 In/oz",
+      "product_url": "https://www.wihatools.com/products/torquevario-s-torque-screwdriver-15-80-in-oz",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.thomann.de/intl/shure_sm58_lc.htm",
-      "category": "Musical Instruments"
+      "product_name": "IDEAL Electrical 35-3028 Master Electrician's Tool Kit, 28-Piece",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/hand-tools/tool-kits-carriers/master-electrician-s-tool-kit-28-piece-35-3028.html",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     },
     {
-      "product_url": "https://www.decathlon.es/es/p/patinete-electrico-adulto-plegable-negro/_/R-p-340005",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.cultura.com/p-titre-du-livre-de-cuisine-asiatique-9782000000001.html",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.mediamarkt.de/de/product/_rasierer-elektrisch-marke-modell-wet-dry-2500005.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.lazada.com.my/products/office-chair-mesh-ergonomic-adjustable-grey-i456456456-s123123123.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://shopee.com.br/product/343434343/5656565656/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.extra.com.br/ArCondicionado/ArCondicionadoSplit/Ar-Condicionado-Split-Inverter-12000-BTUs-Frio-Marca-Modelo/p/5500000002",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.spotlightstores.com/sewing-fabrics/dress-apparel-fabrics/linen-fabric/brand-linen-blend-fabric-natural/BP80000001",
-      "category": "Arts & Crafts"
-    },
-    {
-      "product_url": "https://www.thriftbooks.com/w/book-title_author-name/1234567/",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.dermstore.com/product_Sunscreen+SPF+50+_12345.htm",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.newegg.com/Product/Product.aspx?Item=N82E16822179001",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.adidas.fr/chaussure-gazelle/BB5476.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hm.com/es_es/productpage.1313131313.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.zara.com/it/it/gonna-plissettata-stampa-floreale-p05555666777.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.yoox.com/ca/en/women/boots-leather-ankle_cod87654321za.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lifestyle.com/in/en/SHOP-BRAND-Men-Solid-Regular-Fit-Casual-Shirt/p/1000001234567",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.ceneo.pl/komputery;szukaj-monitor+led+24+cale",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.canadiantire.ca/en/pdp/woods-camping-chair-folding-oversized-blue-0760001p.html",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.wayfair.co.uk/furniture/pdp/brand-tv-stand-wood-white-ukwf5678.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.dv247.com/en_GB/GBP/product/123456",
-      "category": "Musical Instruments"
-    },
-    {
-      "product_url": "https://www.net-a-porter.com/en-de/shop/product/brand/beauty/face-oil/product-name/1122334",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.fruugo.co.nz/womens-running-shoes-lightweight-breathable-pink/p-90000005-140000005",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.tredz.co.uk/.Brand-Model-Mountain-Bike-Hardtail-29er_123456.htm",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://global.rakuten.com/en/store/shop-japan/item/10001234/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.e-mart.co.kr/product/item.do?itemId=1234567890123",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://goldapple.ru/1234567890123-product-name",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.amazon.com.au/dp/B07ZXCVBNM/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.amazon.nl/dp/B09ASDFGHJ/",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.kaufland.sk/product/700555666/",
-      "category": "Groceries & Household"
-    },
-    {
-      "product_url": "https://www.fwrd.com/product-brand-designer-leather-pants/FWRD-WP12/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.petcircle.com.au/product/brand-advance-dog-food-adult-chicken-15kg",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://www.svyaznoy.ru/catalog/phone/224/1234567",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.ebay.com.au/itm/556677889900",
-      "category": "Marketplace"
-    },
-    {
-      "product_url": "https://groceries.asda.com/product/123456789",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.mastermindtoys.com/products/brand-model-building-set-space-rocket",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.marksandspencer.com/brand-linen-rich-wide-leg-trousers/p/clp60000001",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://well.ca/categories/baby-kids/diapering/disposable-diapers_601.html",
-      "category": "Baby Products"
-    },
-    {
-      "product_url": "https://www.studio.co.uk/shop/home---furniture/home-furnishings/rugs-runners/brand-shaggy-rug-grey-120x170cm",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.monoprix.fr/courses/yaourt-bio-a-la-vanille-marque-monoprix-bio-4x100g-p-12345678",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.digitec.ch/fr/s1/product/marque-modele-disque-dur-externe-ssd-1to-usb-c-13000005",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://paypaymall.yahoo.co.jp/store/some-store/item/itemcode123/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://shopping.yahoo.co.jp/product/j/1234567890abcdef/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://item.mercari.com/jp/m12345678901",
-      "category": "Marketplace"
-    },
-    {
-      "product_url": "https://www.askul.co.jp/p/1234567/",
-      "category": "Office Supplies"
-    },
-    {
-      "product_url": "https://svyaznoy.ru/catalog/notebook/1738/1234567",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.americanas.com.br/produto/111222333444",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.bunnings.com.au/brand-bbq-4-burner-gas-black_p1234567",
-      "category": "Garden & Outdoors"
-    },
-    {
-      "product_url": "https://www.briscoes.co.nz/product/1012345/brand-dinner-set-16-piece-white/",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.altitude-sports.com/products/brand-insulated-jacket-mens-llll-brd-12345",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://rexall.ca/products/123456",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.sail.ca/en/brand-fishing-lure-spinnerbait-1-2-oz-123456",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.cupshe.com/products/solid-color-ruffled-one-piece-swimsuit",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.fashionnova.com/products/classic-high-waist-skinny-jeans-medium-blue-wash",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.revolve.com/clothing/dresses/cat/430/?navsrc=main",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.coggles.com/man/clothing/brand/product-name/11223344.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.uniqlo.com/sg/en/products/E480005-000/00",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.ruralking.com/product/12345/brand-dog-food-performance-formula-50-lb",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://www.wickes.co.uk/Brand-Interior-Matt-Emulsion-Paint---White-5L/p/123456",
-      "category": "Home Improvement"
-    },
-    {
-      "product_url": "https://www.sephora.co.uk/p/Product-Name-Brand-XYZ",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.notino.fr/marque/produit-details/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.allbeauty.com/gb/en/1234567-brand-product-name-eau-de-toilette-spray-100ml",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.vitacost.com/brand-vitamin-b12-5000-mcg-tablets",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.iherb.com/pr/brand-omega-3-fish-oil-1000-mg-softgels/12345",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.swansonvitamins.com/p/brand-probiotic-formula-capsules",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.gnc.com/brands/brand-name/product-name.html",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.vitaminshoppe.com/p/product-name-brand-1234567",
-      "category": "Health & Pharmacy"
-    },
-    {
-      "product_url": "https://www.bodybuilding.com/store/brand/product.html",
-      "category": "Sports Nutrition"
-    },
-    {
-      "product_url": "https://www.myprotein.com/sports-nutrition/impact-whey-protein/10530943.html",
-      "category": "Sports Nutrition"
-    },
-    {
-      "product_url": "https://uk.optimumnutrition.com/products/gold-standard-100-whey-protein-powder",
-      "category": "Sports Nutrition"
-    },
-    {
-      "product_url": "https://ca.shop.gymshark.com/products/gymshark-adapt-animal-seamless-leggings-black-ss23",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.aloyoga.com/products/w5583r-high-waist-airlift-legging-black",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://shop.lululemon.com/p/women-pants/Align-Pant-28/_/prod8 aligning-pant-full-length-28",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://vuoriclothing.com/products/mens-kore-short-black",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://outdoorvoices.com/products/w-doing-things-bra",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.fabletics.com/products/DEFINE-POWERHOLD-HIGH-WAISTED-LEGGING-LG1935804-0001",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.bombas.com/products/mens-ankle-sock-4-pack?variant=multi",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://everlane.com/products/mens-performance-chino-uniform",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.asket.com/us/mens/t-shirts/t-shirt-white",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://mackweldon.com/products/ace-sweatpant-total-eclipse-blue",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://ministryofsupply.com/products/mens-aero-zero-carbon-neutral-dress-shirt-slim-fit",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://westernrise.com/products/evolution-pant",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://bluffworks.com/products/ascender-chino-regular-fit-khaki",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://publicrec.com/products/all-day-every-day-pant",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://rhone.com/products/reign-short-sleeve",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://tenthousand.cc/products/interval-short",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://hylete.com/circuit-ii-cross-training-shoe-mens",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://nobullproject.com/products/black-gum-trainer-mens",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.on-running.com/en-us/products/cloud-5/mens/all-black",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hoka.com/en/us/mens-road/clifton-9/1127895.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.brooksrunning.com/en_us/ghost-15-mens-road-running-shoe/110393.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.saucony.com/en/kinvara-14/55610M.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.altrarunning.com/shop/mens-shoes-road/mens-torin-6-al0a7r6t",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.topoathletic.com/mens-fli-lyte-4",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.newtonrunning.com/collections/mens-running-shoes/products/mens-gravity-12",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.mizunousa.com/product/running-wave-rider-26-mens/411367",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.asics.com/us/en-us/gel-kayano-29/p/ANA_1011B440-002.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.karhu.com/usa/men/footwear/fusion-2-0-jet-black-dawn-blue.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.veja-store.com/en_us/campo-chromefree-extra-white-natural-cp0502429.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.allbirds.com/products/mens-wool-runners",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://rothys.com/products/mens-driving-loafer-navy",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://thursdayboots.com/products/mens-captain-boot-brandy",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.tecovas.com/products/the-earl",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lucchese.com/products/l1234-classic-handmade-boot-black-cherry/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.ariat.com/P16076_M_FOO.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.justinboots.com/en/commander-x5-waterproof-work-boot-11-inch-WK4500.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.redwingshoes.com/heritage/mens/8-inch-boots/Classic-Moc-00877.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.wolverine.com/US/en/1000-mile-boot/17616M.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.chippewaboots.com/en/general-utility-service-boot-1901M24.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://thorogoodusa.com/american-heritage-6-moc-toe-maxwear-wedge-814-4200/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.danner.com/men/hike/mountain-light.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.keenfootwear.com/products/mens-targhee-iii-waterproof-bison-mulch",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.merrell.com/US/en/moab-3/52465M.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.salomon.com/en-us/shop/product/xa-pro-3d-v8.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lasportivausa.com/bushido-ii.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.scarpa.com/approach/mescalito-trk-gtx",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.mammut.com/us/en/products/3030-03540/sertig-ii-low-gore-tex-men",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.lowaboots.com/mens/all-terrain-classic/renegade-gtx-mid?v=45941",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hanwag.com/us/en-us/men/trekking/banks-gtx",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.fjallraven.com/us/en-us/bags-gear/kanken/kanken-backpacks/kanken",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.osprey.com/us/en/product/farpoint-40-FARPNT40_526.html",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.deuter.com/us-en/shop/backpacks/p225805-hiking-backpack-futura-27",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.gregorypacks.com/packs-bags/day-packs/nano-18-111498XXXX.html",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.mysteryranch.com/urban-assault-21-pack",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.hyperlitemountaingear.com/products/daybreak-ultralight-daypack",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.ula-equipment.com/product/cdt/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://zpacks.com/products/nero-backpack-38l",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://gossamergear.com/products/kumo-36-superlight-backpack",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.tumi.com/p/alpha-bravo-navigation-backpack-01424801041/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.briggs-riley.com/collections/backpacks/products/zipprolite-backpack-kp428",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://awaytravel.com/travel-bags/large-everywhere-bag",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://monos.com/products/metro-backpack",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://herschel.com/shop/backpacks/herschel-little-america-backpack",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.jansport.com/shop/en/jansport-us/backpacks/right-pack-backpack-js0a4qvk",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.eastpak.com/us-en/backpacks-c120/padded-pak-r-ek0006200081-001.html",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://kipling-usa.com/seoul-large-15-laptop-backpack/KI5029.html",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://bellroy.com/products/classic-backpack",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.aersf.com/travel-pack-3-black",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://peakdesign.com/products/everyday-backpack",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.nomatic.com/products/the-nomatic-travel-pack",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.chromeindustries.com/product/barrage-cargo-backpack/BG-163.html",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://missionworkshop.com/collections/backpacks/products/the-rambler",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://ilequipment.com/collections/backpacks/products/default-backpack",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://topodesigns.com/products/rover-pack-classic",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.filson.com/bags-luggage/backpacks/journeyman-backpack.html",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.duluthpack.com/products/standard-backpack",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://frostriver.com/collections/backpacks-bags/products/arrowhead-trail-rolltop-pack",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.goruck.com/products/gr1",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://tripleaughtdesign.com/shop/fast-pack-edc/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://prometheusdesignwerx.com/collections/packs-bags/products/shapeshifter-pack-24l-universal-field-grey",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://varuste.net/en/p12345/savotta-jaakari-m-backpack",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://hillpeoplegear.com/Products/CategoryID/3/ProductID/9",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://kifaru.net/store/packs/day-packs/shape-charge/",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://eberlestock.com/collections/packs/products/switchblade",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.camelbak.com/recreation/shop/packs/multi-sport/m.u.l.e.-12-hydration-pack/CB-2653XXX.html",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.rei.com/product/168484/rei-co-op-flash-22-pack",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.backcountry.com/brand-name-backpack-model",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.moosejaw.com/product/brand-model-hiking-boot_10123456",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.steepandcheap.com/brand-model-ski-jacket",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.evo.com/shop/snowboard/snowboards/brand/model",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.tactics.com/brand/model/skateboard-deck",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.zumiez.com/brands/brand-name/clothing/hoodies.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.pacsun.com/mens/jeans/brand/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.tillys.com/brands/brand/shoes/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hollisterco.com/shop/us/p/logo-graphic-hoodie-12345678",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.abercrombie.com/shop/us/p/90s-straight-jean-54321098",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.ae.com/us/en/p/men/graphic-t-shirts/ae-super-soft-graphic-t-shirt/1234_5678_901",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.forever21.com/us/2000123456.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.windsorstore.com/products/product-name-formal-dress-050021234",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.davidsbridal.com/product/wedding-dress-style-wg1234",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.theblacktux.com/collection/tuxedos/peak-lapel-tuxedo",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.menswearhouse.com/p/product-sku-12345678",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.josbank.com/p/traveler-collection-tailored-fit-spread-collar-dress-shirt-123456",
-      "category": "Fashion"
+      "product_name": "Milwaukee Electrician's Work Belt w/ Suspension Rig (48-22-8120)",
+      "product_url": "https://www.milwaukeetool.com/Products/Storage-Solutions/Soft-Storage/Tool-Belts-and-Aprons/48-22-8120",
+      "category_name": "профессиональные инструменты для электриков",
+      "parent_category": "электрические инструменты"
     }
   ]
 }

@@ -1,35 +1,42 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода предназначен для создания рекламной кампании на AliExpress. Он использует класс `AliPromoDeal` для получения информации о товарах и дальнейшей работы с ними. В примере создается экземпляр класса `AliPromoDeal` с идентификатором `'150624_baseus_deals'` и извлекаются данные обо всех товарах, связанных с этой акцией.
+Данный код создает рекламную кампанию для товаров на AliExpress. Он использует класс `AliPromoDeal` для работы с конкретным предложением ("150624_baseus_deals"). 
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**: Импортируется модуль `header` (содержимое которого не указано) и класс `AliPromoDeal` из модуля `src.suppliers.suppliers_list.aliexpress.scenarios`.
-2. **Создание экземпляра класса `AliPromoDeal`**: Создается объект `deal` класса `AliPromoDeal` с идентификатором `'150624_baseus_deals'`. Этот объект, вероятно, используется для взаимодействия с API AliExpress и управления рекламной кампанией.
-3. **Извлечение данных о товарах**: Вызывается метод `get_all_products_details()` объекта `deal` для получения информации обо всех товарах, связанных с данной рекламной акцией. Результат сохраняется в переменной `products`.
+1. Импортируются необходимые модули: `header` и `AliPromoDeal` из `src.suppliers.suppliers_list.aliexpress.scenarios`.
+2. Создается объект `deal` класса `AliPromoDeal` с указанием идентификатора предложения "150624_baseus_deals".
+3. Получаются подробные сведения о всех товарах в этом предложении с помощью `deal.get_all_products_details()`.
 
 Пример использования
 -------------------------
 
 ```python
+## \file /src/suppliers/aliexpress/scenarios/_experiments/promote_deal.py
+# -*- coding: utf-8 -*-
+
+#! .pyenv/bin/python3
+
+"""
+.. module:: src.suppliers.suppliers_list.aliexpress.scenarios._experiments 
+	:platform: Windows, Unix
+	:synopsis:
+
+"""
+
+""" Создание рекламной кампании """
+
 import header
+
 from src.suppliers.suppliers_list.aliexpress.scenarios import AliPromoDeal
 
-# Создание экземпляра класса AliPromoDeal для работы с рекламной акцией
 deal = AliPromoDeal('150624_baseus_deals')
 
-# Получение информации обо всех товарах, участвующих в акции
+#product = deal.get_next_product()
 products = deal.get_all_products_details()
 
-# Дальнейшая обработка полученных данных о товарах
-# Например, можно вывести информацию о первом товаре в списке
-if products:
-    first_product = products[0]
-    print(f"Информация о первом товаре: {first_product}")
-else:
-    print("Нет информации о товарах для данной акции.")
-
 ...
+```

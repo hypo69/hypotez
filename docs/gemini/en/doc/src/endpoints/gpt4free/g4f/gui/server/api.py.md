@@ -1,225 +1,223 @@
-# Модуль API
+# API Модуль для сервера G4F
 
 ## Обзор
 
-Модуль `api.py` содержит классы и функции для обработки запросов к различным моделям и провайдерам,
-включая управление разговорами, подготовку аргументов для запросов и создание потоков ответов.
-Он также обеспечивает доступ к информации о моделях, провайдерах и версиях, а также обработку изображений.
+Этот модуль предоставляет API для сервера G4F, который обрабатывает запросы от графического интерфейса (GUI) и взаимодействует с различными моделями искусственного интеллекта (ИИ) для выполнения задач обработки текста и изображений.
 
-## Более подробная информация
+## Подробности
 
-Этот модуль является частью веб-сервера `g4f` и предоставляет API для взаимодействия с различными
-AI-моделями и провайдерами. Он включает в себя функции для получения списка доступных моделей и
-провайдеров, управления разговорами, подготовки аргументов для запросов и создания потоков ответов.
+API обрабатывает запросы от графического интерфейса (GUI) и взаимодействует с различными моделями искусственного интеллекта (ИИ), такими как Google Gemini и OpenAI, для выполнения задач обработки текста и изображений. Он обеспечивает интерфейс для получения списка доступных моделей, получения моделей для конкретного провайдера, получения списка провайдеров, получения текущей и последней версии, а также обработки разговоров с использованием выбранных моделей.
 
 ## Классы
 
-### `Api`
+### `class Api`
 
-**Описание**: Класс `Api` содержит статические методы и методы экземпляра для обработки API-запросов.
+**Описание**: Класс `Api` предоставляет набор статических методов для взаимодействия с различными моделями ИИ и провайдерами.
+
+**Атрибуты**:
+
+- `None`
 
 **Методы**:
 
-- `get_models()`: Возвращает список доступных моделей.
-- `get_provider_models(provider: str, api_key: str = None, api_base: str = None)`: Возвращает список моделей, поддерживаемых указанным провайдером.
-- `get_providers()`: Возвращает список доступных провайдеров.
-- `get_version()`: Возвращает информацию о версии.
-- `serve_images(name)`: Обслуживает запросы на изображения.
-- `_prepare_conversation_kwargs(self, json_data: dict)`: Подготавливает аргументы для создания или продолжения разговора.
-- `_create_response_stream(self, kwargs: dict, conversation_id: str, provider: str, download_media: bool = True)`: Создает поток ответов на основе переданных аргументов.
-- `_yield_logs(self)`: Генерирует логи отладки.
-- `_format_json(self, response_type: str, content = None, **kwargs)`: Форматирует JSON-ответ.
-- `handle_provider(self, provider_handler, model)`: Обрабатывает информацию о провайдере.
+- `get_models()`: Возвращает список доступных моделей ИИ, включая информацию о их типах (текст, изображения, видение) и доступных провайдерах.
 
-## Методы класса
+  ```python
+  def get_models():
+      """
+      Возвращает список доступных моделей ИИ, включая информацию о их типах (текст, изображения, видение) и доступных провайдерах.
 
-### `get_models`
+      Returns:
+          list: Список словарей с информацией о каждой модели.
+      """
+  ```
 
-```python
-@staticmethod
-def get_models() -> list[dict]:
-    """
-    Возвращает список доступных моделей с информацией о каждой модели.
+- `get_provider_models(provider: str, api_key: str = None, api_base: str = None)`: Возвращает список моделей для указанного провайдера.
 
-    Returns:
-        list[dict]: Список словарей, где каждый словарь содержит информацию о модели, включая ее имя,
-                    поддержку изображений и видео, а также список провайдеров, поддерживающих эту модель.
-    """
-    ...
-```
+  ```python
+  def get_provider_models(provider: str, api_key: str = None, api_base: str = None):
+      """
+      Возвращает список моделей для указанного провайдера.
 
-### `get_provider_models`
+      Args:
+          provider (str): Имя провайдера.
+          api_key (str, optional): Ключ API для провайдера. Defaults to None.
+          api_base (str, optional): Базовый URL API для провайдера. Defaults to None.
 
-```python
-@staticmethod
-def get_provider_models(provider: str, api_key: str = None, api_base: str = None) -> list[dict]:
-    """
-    Возвращает список моделей, поддерживаемых указанным провайдером.
+      Returns:
+          list: Список словарей с информацией о каждой модели для заданного провайдера.
+      """
+  ```
 
-    Args:
-        provider (str): Имя провайдера.
-        api_key (str, optional): API-ключ для провайдера. Defaults to `None`.
-        api_base (str, optional): Базовый URL API для провайдера. Defaults to `None`.
+- `get_providers() -> dict[str, str]`: Возвращает словарь с информацией о доступных провайдерах.
 
-    Returns:
-        list[dict]: Список словарей, где каждый словарь содержит информацию о модели, включая ее имя,
-                    является ли она моделью по умолчанию, поддерживает ли она изображения и видео,
-                    а также задачу, которую она выполняет.
-    """
-    ...
-```
+  ```python
+  def get_providers() -> dict[str, str]:
+      """
+      Возвращает словарь с информацией о доступных провайдерах.
 
-### `get_providers`
+      Returns:
+          dict: Словарь, содержащий информацию о провайдерах, включая их имена, метки, типы (изображения, видение), 
+          требования к аутентификации и другие атрибуты.
+      """
+  ```
 
-```python
-@staticmethod
-def get_providers() -> list[dict]:
-    """
-    Возвращает список доступных провайдеров с информацией о каждом провайдере.
+- `get_version() -> dict`: Возвращает словарь с информацией о текущей и последней доступной версиях приложения.
 
-    Returns:
-        list[dict]: Список словарей, где каждый словарь содержит информацию о провайдере, включая его имя,
-                    отображаемое имя, родительский провайдер (если есть), поддержку изображений и видео,
-                    требуется ли аутентификация и URL для входа.
-    """
-    ...
-```
+  ```python
+  def get_version() -> dict:
+      """
+      Возвращает словарь с информацией о текущей и последней доступной версиях приложения.
 
-### `get_version`
+      Returns:
+          dict: Словарь, содержащий текущую и последнюю версии приложения.
+      """
+  ```
 
-```python
-@staticmethod
-def get_version() -> dict:
-    """
-    Возвращает информацию о текущей и последней доступной версии.
+- `serve_images(self, name)`: Возвращает изображение из папки `images_dir`.
 
-    Returns:
-        dict: Словарь, содержащий информацию о текущей и последней доступной версии.
-              Если информация о версии недоступна, возвращает `None` для обеих версий.
+  ```python
+  def serve_images(self, name):
+      """
+      Возвращает изображение из папки `images_dir`.
 
-    Raises:
-        VersionNotFoundError: Если не удается получить информацию о версии.
-    """
-    ...
-```
+      Args:
+          name (str): Имя файла изображения.
 
-## Методы экземпляра класса
+      Returns:
+          flask.Response: Ответ с изображением.
+      """
+  ```
 
-### `serve_images`
+- `_prepare_conversation_kwargs(self, json_data: dict)`: Подготавливает параметры для функции `ChatCompletion.create` на основе данных из запроса.
 
-```python
-def serve_images(self, name: str) -> Response:
-    """
-    Обслуживает запросы на изображения из каталога изображений.
+  ```python
+  def _prepare_conversation_kwargs(self, json_data: dict):
+      """
+      Подготавливает параметры для функции `ChatCompletion.create` на основе данных из запроса.
 
-    Args:
-        name (str): Имя файла изображения.
+      Args:
+          json_data (dict): Данные запроса.
 
-    Returns:
-        Response: Объект ответа Flask, содержащий запрошенное изображение.
-    """
-    ...
-```
+      Returns:
+          dict: Словарь с параметрами для `ChatCompletion.create`.
+      """
+  ```
 
-### `_prepare_conversation_kwargs`
+- `_create_response_stream(self, kwargs: dict, conversation_id: str, provider: str, download_media: bool = True) -> Iterator`: Создает поток ответов для обработки запроса.
 
-```python
-def _prepare_conversation_kwargs(self, json_data: dict) -> dict:
-    """
-    Подготавливает аргументы для создания или продолжения разговора на основе JSON-данных.
+  ```python
+  def _create_response_stream(self, kwargs: dict, conversation_id: str, provider: str, download_media: bool = True) -> Iterator:
+      """
+      Создает поток ответов для обработки запроса.
 
-    Args:
-        json_data (dict): JSON-данные, содержащие параметры разговора, такие как модель, провайдер,
-                           сообщения и идентификатор разговора.
+      Args:
+          kwargs (dict): Параметры для `ChatCompletion.create`.
+          conversation_id (str): Идентификатор разговора.
+          provider (str): Имя провайдера.
+          download_media (bool, optional): Флаг для загрузки медиафайлов. Defaults to True.
 
-    Returns:
-        dict: Словарь с подготовленными аргументами для создания или продолжения разговора.
-    """
-    ...
-```
+      Returns:
+          Iterator: Итератор, выдающий части ответа.
+      """
+  ```
 
-### `_create_response_stream`
+- `_yield_logs()`: Выдает записи из буфера логов.
 
-```python
-def _create_response_stream(self, kwargs: dict, conversation_id: str, provider: str, download_media: bool = True) -> Iterator:
-    """
-    Создает поток ответов на основе переданных аргументов.
+  ```python
+  def _yield_logs():
+      """
+      Выдает записи из буфера логов.
+      """
+  ```
 
-    Args:
-        kwargs (dict): Аргументы для создания потока ответов, такие как модель, провайдер и сообщения.
-        conversation_id (str): Идентификатор разговора.
-        provider (str): Имя провайдера.
-        download_media (bool, optional): Флаг, указывающий, нужно ли загружать медиафайлы. Defaults to `True`.
+- `_format_json(self, response_type: str, content = None, **kwargs)`: Форматирует ответ в JSON.
 
-    Yields:
-        Iterator: Поток ответов, который может содержать информацию о провайдере, сообщения, изображения,
-                  аудио и другие данные.
-    """
-    ...
-```
+  ```python
+  def _format_json(self, response_type: str, content = None, **kwargs):
+      """
+      Форматирует ответ в JSON.
 
-### `_yield_logs`
+      Args:
+          response_type (str): Тип ответа.
+          content (any, optional): Содержимое ответа. Defaults to None.
+          **kwargs: Дополнительные параметры для ответа.
 
-```python
-def _yield_logs(self) -> Iterator:
-    """
-    Генерирует логи отладки, если они есть, и очищает список логов.
+      Returns:
+          dict: Ответ в формате JSON.
+      """
+  ```
 
-    Yields:
-        Iterator: Поток логов отладки.
-    """
-    ...
-```
+- `handle_provider(self, provider_handler, model)`: Обрабатывает информацию о провайдере и модели.
 
-### `_format_json`
+  ```python
+  def handle_provider(self, provider_handler, model):
+      """
+      Обрабатывает информацию о провайдере и модели.
 
-```python
-def _format_json(self, response_type: str, content = None, **kwargs) -> dict:
-    """
-    Форматирует JSON-ответ.
+      Args:
+          provider_handler (ProviderModelMixin): Объект провайдера.
+          model (str): Имя модели.
 
-    Args:
-        response_type (str): Тип ответа.
-        content (Any, optional): Содержимое ответа. Defaults to `None`.
-        **kwargs: Дополнительные аргументы для включения в JSON-ответ.
-
-    Returns:
-        dict: Словарь, представляющий JSON-ответ.
-    """
-    ...
-```
-
-### `handle_provider`
-
-```python
-def handle_provider(self, provider_handler, model) -> dict:
-    """
-    Обрабатывает информацию о провайдере.
-
-    Args:
-        provider_handler: Обработчик провайдера.
-        model: Модель, используемая провайдером.
-
-    Returns:
-        dict: Словарь, содержащий информацию о провайдере.
-    """
-    ...
-```
+      Returns:
+          dict: Словарь с информацией о провайдере и модели.
+      """
+  ```
 
 ## Функции
 
-### `get_error_message`
+### `get_error_message(exception: Exception) -> str`
+
+**Цель**: Преобразует исключение в строку ошибки.
+
+**Параметры**:
+
+- `exception (Exception)`: Исключение, которое необходимо преобразовать в строку.
+
+**Возвращает**:
+
+- `str`: Строка с описанием ошибки.
+
+**Примеры**:
 
 ```python
-def get_error_message(exception: Exception) -> str:
-    """
-    Форматирует сообщение об ошибке на основе переданного исключения.
-
-    Args:
-        exception (Exception): Объект исключения.
-
-    Returns:
-        str: Отформатированное сообщение об ошибке, содержащее имя типа исключения и сообщение.
-    """
-    return f"{type(exception).__name__}: {exception}"
+>>> get_error_message(ValueError("Invalid value"))
+'ValueError: Invalid value'
 ```
+
+## Примеры
+
+### Пример использования класса `Api`
+
+```python
+from hypotez.src.endpoints.gpt4free.g4f.gui.server.api import Api
+
+api = Api()
+models = api.get_models()
+print(models)
+
+# Пример получения моделей для провайдера "OpenAI"
+provider_models = api.get_provider_models(provider="OpenAI")
+print(provider_models)
+
+# Пример получения информации о версии
+version_info = api.get_version()
+print(version_info)
+```
+
+## Дополнительная информация
+
+- Этот модуль является частью проекта `hypotez` и используется для управления API сервера G4F.
+- Сервер G4F работает на Flask и обеспечивает взаимодействие с GUI-интерфейсом.
+- `j_loads`, `j_loads_ns` используются для чтения JSON и конфигурационных файлов.
+-  Используется `driver`  из модуля `src.webdirver`
+- `print`  используется из модуля `src.utils.printer`
+- Используются логгеры из модуля `src.logger`. 
+
+## Ссылки
+- [hypotez project repository](https://github.com/hypotez/hypotez)
+- [Flask documentation](https://flask.palletsprojects.com/en/2.3.x/)
+- [OpenAI API documentation](https://platform.openai.com/docs/api-reference)
+- [Google Gemini documentation](https://developers.google.com/gemini)
+- [Selenium documentation](https://www.selenium.dev/)
+- [Playwright documentation](https://playwright.dev/)

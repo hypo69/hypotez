@@ -1,71 +1,88 @@
-# Документация для модуля `Gravityengine.py`
+# Gravityengine Provider for g4f
 
-## Обзор
+## Overview
 
-Модуль предоставляет реализацию провайдера `Gravityengine` для работы с моделями GPT через API `gpt4.gravityengine.cc`. Он поддерживает модели `gpt-3.5-turbo-16k` и `gpt-3.5-turbo-0613`, а также потоковую передачу данных. Не требует аутентификации.
+This module implements the `Gravityengine` provider for the `g4f` module within the `hypotez` project. The `Gravityengine` provider utilizes the Gravity Engine API for generating text responses. It offers several features including support for stream responses and various GPT models.
 
-## Более подробно
+## Details
 
-Этот модуль используется для взаимодействия с API Gravityengine для генерации текста на основе предоставленных сообщений. Он отправляет POST-запросы к API и возвращает сгенерированный контент. Модуль включает функцию `_create_completion`, которая формирует запрос к API и обрабатывает ответ.
+The `Gravityengine` provider is designed to interact with the Gravity Engine API for text generation tasks. It exposes a single function `_create_completion` which handles the API requests and returns text responses. The provider supports different GPT models, including `gpt-3.5-turbo-16k` and `gpt-3.5-turbo-0613`.
 
-## Функции
+## Classes
+
+None
+
+## Functions
 
 ### `_create_completion`
 
-```python
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    """ Функция создает запрос к API Gravityengine для генерации текста на основе предоставленных сообщений.
-    Args:
-        model (str): Имя используемой модели.
-        messages (list): Список сообщений, используемых для генерации текста.
-        stream (bool): Флаг, указывающий, следует ли использовать потоковую передачу.
-        **kwargs: Дополнительные аргументы.
+**Purpose**: This function sends a request to the Gravity Engine API to generate a text completion based on the provided model, messages, and other parameters.
 
-    Returns:
-        Generator[str, None, None]: Генератор, возвращающий сгенерированный контент.
+**Parameters**:
 
-    Raises:
-        Exception: Если возникает ошибка при отправке запроса или обработке ответа.
+- `model` (str): The GPT model to use for text generation. Supported models are `gpt-3.5-turbo-16k` and `gpt-3.5-turbo-0613`.
+- `messages` (list): A list of message objects containing the conversation history.
+- `stream` (bool): Indicates whether to use streaming responses.
+- `**kwargs`: Additional parameters to be passed to the Gravity Engine API.
 
-    Пример:
-        >>> model = 'gpt-3.5-turbo-16k'
-        >>> messages = [{'role': 'user', 'content': 'Hello, how are you?'}]
-        >>> stream = True
-        >>> for chunk in _create_completion(model, messages, stream):
-        ...     print(chunk)
-    """
-```
+**Returns**:
 
-**Описание работы**:
+- `Generator[str, None, None]`: A generator that yields text responses.
 
-1.  Функция принимает параметры, необходимые для запроса к API, такие как имя модели (`model`), список сообщений (`messages`) и флаг потоковой передачи (`stream`).
-2.  Определяются заголовки запроса, включающие `Content-Type: application/json`.
-3.  Формируется тело запроса `data` с указанием модели, температуры, штрафа за присутствие и сообщений.
-4.  Отправляется POST-запрос к адресу `url + '/api/openai/v1/chat/completions'` с указанными заголовками и телом запроса.
-5.  Функция ожидает потоковый ответ от API и извлекает контент из каждого полученного чанка.
-6.  Возвращается генератор, который выдает контент каждого чанка.
+**Raises Exceptions**:
 
-## Параметры
+- `ConnectionError`: If the connection to the Gravity Engine API fails.
+- `HTTPError`: If the Gravity Engine API returns an error.
 
-*   `model` (str): Имя модели, используемой для генерации текста.
-*   `messages` (list): Список сообщений, передаваемых в API для генерации текста.
-*   `stream` (bool): Флаг, указывающий, следует ли использовать потоковую передачу.
-*   `**kwargs`: Дополнительные аргументы, которые могут быть переданы в API.
+**How the Function Works**:
 
-**Примеры**:
+1. The function builds a request payload with the provided `model`, `messages`, and other parameters.
+2. It sends a POST request to the Gravity Engine API endpoint.
+3. If the request is successful, it iterates through the response stream and yields each text response.
+
+**Examples**:
 
 ```python
-model = 'gpt-3.5-turbo-16k'
-messages = [{'role': 'user', 'content': 'Hello, how are you?'}]
-stream = True
-for chunk in _create_completion(model, messages, stream):
-    print(chunk)
+# Example usage of _create_completion function
+from ...typing import Dict, List
+
+# Define a list of message objects
+messages: List[Dict] = [
+    {"role": "user", "content": "Hello, how are you?"},
+]
+
+# Generate text using the gpt-3.5-turbo-16k model with streaming responses
+for response in _create_completion(model="gpt-3.5-turbo-16k", messages=messages, stream=True):
+    print(response)
+
+# Generate text using the gpt-3.5-turbo-0613 model without streaming responses
+response = _create_completion(model="gpt-3.5-turbo-0613", messages=messages, stream=False)
+print(response)
 ```
 
-## Переменные
+## Parameter Details
 
-*   `url` (str): URL-адрес API `gpt4.gravityengine.cc`.
-*   `model` (list): Список поддерживаемых моделей (`gpt-3.5-turbo-16k`, `gpt-3.5-turbo-0613`).
-*   `supports_stream` (bool): Флаг, указывающий, поддерживается ли потоковая передача (True).
-*   `needs_auth` (bool): Флаг, указывающий, требуется ли аутентификация (False).
-*   `params` (str): Строка, содержащая информацию о поддерживаемых параметрах функции `_create_completion`.
+- `url` (str): The base URL of the Gravity Engine API.
+- `model` (list): A list of supported GPT models for text generation.
+- `supports_stream` (bool): Indicates whether the provider supports streaming responses.
+- `needs_auth` (bool): Indicates whether the provider requires authentication.
+
+## Examples
+
+```python
+# Example usage of _create_completion function
+from ...typing import Dict, List
+
+# Define a list of message objects
+messages: List[Dict] = [
+    {"role": "user", "content": "Hello, how are you?"},
+]
+
+# Generate text using the gpt-3.5-turbo-16k model with streaming responses
+for response in _create_completion(model="gpt-3.5-turbo-16k", messages=messages, stream=True):
+    print(response)
+
+# Generate text using the gpt-3.5-turbo-0613 model without streaming responses
+response = _create_completion(model="gpt-3.5-turbo-0613", messages=messages, stream=False)
+print(response)
+```

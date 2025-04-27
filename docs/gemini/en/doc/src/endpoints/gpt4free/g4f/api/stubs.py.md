@@ -1,170 +1,164 @@
-# Модуль stubs.py
+# Stubs for `gpt4free` API
 
-## Обзор
+## Overview
 
-Этот модуль содержит определения моделей данных, используемых для конфигурации и ответов API g4f (GPT4Free). Он включает классы для конфигурации завершения чата, генерации изображений, ответов провайдеров, моделей и ошибок.
+This module provides stubs for the `gpt4free` API, including data models and configuration classes. It defines Pydantic models for various requests and responses, enabling structured data validation and serialization.
 
-## Детали
+## Details
 
-Этот модуль определяет структуры данных, используемые для взаимодействия с API g4f. Он включает классы для представления конфигураций запросов, ответов API и ошибок. Модуль использует библиотеку pydantic для определения схем данных и проверки типов.
+This module serves as a foundational element for interacting with the `gpt4free` API. By defining clear data models, it ensures type safety and enhances code maintainability. It's particularly useful when constructing API requests and processing API responses.
 
-## Классы
+## Classes
 
 ### `ChatCompletionsConfig`
 
-**Описание**: Класс конфигурации для запросов завершения чата.
-**Наследует**: `pydantic.BaseModel`
+**Description**: Represents configuration parameters for chat completions requests, including model selection, message history, and various generation settings.
 
-**Атрибуты**:
-- `messages` (Messages): Список сообщений для чата. Пример: `[[{"role": "system", "content": ""}, {"role": "user", "content": ""}]]`.
-- `model` (str): Имя модели для использования. По умолчанию "".
-- `provider` (Optional[str]): Провайдер модели. По умолчанию `None`.
-- `stream` (bool): Определяет, использовать ли потоковую передачу. По умолчанию `False`.
-- `image` (Optional[str]): URL изображения. По умолчанию `None`.
-- `image_name` (Optional[str]): Имя изображения. По умолчанию `None`.
-- `images` (Optional[list[tuple[str, str]]]): Список изображений в формате (URL, имя). По умолчанию `None`.
-- `media` (Optional[list[tuple[str, str]]]): Список медиафайлов в формате (URL, имя). По умолчанию `None`.
-- `modalities` (Optional[list[str]]): Список модальностей (например, "text", "audio"). По умолчанию `["text", "audio"]`.
-- `temperature` (Optional[float]): Температура для генерации. По умолчанию `None`.
-- `presence_penalty` (Optional[float]): Штраф за присутствие. По умолчанию `None`.
-- `frequency_penalty` (Optional[float]): Штраф за частоту. По умолчанию `None`.
-- `top_p` (Optional[float]): Top-p значение. По умолчанию `None`.
-- `max_tokens` (Optional[int]): Максимальное количество токенов. По умолчанию `None`.
-- `stop` (Union[list[str], str, None]): Условия остановки генерации. По умолчанию `None`.
-- `api_key` (Optional[str]): Ключ API. По умолчанию `None`.
-- `api_base` (str): Базовый URL API. По умолчанию `None`.
-- `web_search` (Optional[bool]): Определяет, использовать ли веб-поиск. По умолчанию `None`.
-- `proxy` (Optional[str]): URL прокси-сервера. По умолчанию `None`.
-- `conversation_id` (Optional[str]): Идентификатор разговора. По умолчанию `None`.
-- `conversation` (Optional[dict]): Объект разговора. По умолчанию `None`.
-- `return_conversation` (Optional[bool]): Определяет, возвращать ли разговор. По умолчанию `None`.
-- `history_disabled` (Optional[bool]): Отключает историю. По умолчанию `None`.
-- `timeout` (Optional[int]): Время ожидания запроса. По умолчанию `None`.
-- `tool_calls` (list): Список вызовов инструментов. Пример:  [{ "function": { "arguments": {"query":"search query", "max_results":5, "max_words": 2500, "backend": "auto", "add_text": True, "timeout": 5}, "name": "search_tool" }, "type": "function" }]
-- `tools` (list): Список доступных инструментов. По умолчанию `None`.
-- `parallel_tool_calls` (bool): Разрешить параллельные вызовы инструментов. По умолчанию `None`.
-- `tool_choice` (Optional[str]): Выбор инструмента. По умолчанию `None`.
-- `reasoning_effort` (Optional[str]): Уровень усилий для рассуждений. По умолчанию `None`.
-- `logit_bias` (Optional[dict]): Смещение логитов. По умолчанию `None`.
-- `modalities` (Optional[list[str]]): Список модальностей. По умолчанию `None`.
-- `audio` (Optional[dict]): Конфигурация аудио. По умолчанию `None`.
-- `response_format` (Optional[dict]): Формат ответа. По умолчанию `None`.
-- `extra_data` (Optional[dict]): Дополнительные данные. По умолчанию `None`.
+**Inherits**: `pydantic.BaseModel`
 
-**Принцип работы**:
-Этот класс используется для представления конфигурации запроса к API завершения чата. Он содержит все необходимые параметры для настройки запроса, такие как сообщения, модель, провайдер и другие параметры генерации.
+**Attributes**:
+
+- `messages`:  `Messages` - List of chat messages used to provide context for the completion.
+- `model`: `str` - The ID of the model to use for completion.
+- `provider`: `Optional[str]` - The provider (e.g., OpenAI, Google) to use for the request.
+- `stream`: `bool` - Whether to stream the response as it's being generated.
+- `image`: `Optional[str]` - URL of the image to be analyzed by the model.
+- `image_name`: `Optional[str]` - Name for the image.
+- `images`: `Optional[list[tuple[str, str]]]` - List of image URLs and names.
+- `media`: `Optional[list[tuple[str, str]]]` - List of media URLs and names.
+- `modalities`: `Optional[list[str]]` - List of modalities (e.g., "text", "audio") supported by the model.
+- `temperature`: `Optional[float]` - Controls the randomness of the generated response.
+- `presence_penalty`: `Optional[float]` - Penalizes the model for repeating previous tokens.
+- `frequency_penalty`: `Optional[float]` - Penalizes the model for using the same token too often.
+- `top_p`: `Optional[float]` - Controls the diversity of the generated response.
+- `max_tokens`: `Optional[int]` - Maximum number of tokens to be generated.
+- `stop`: `Union[list[str], str, None]` - Stop sequences to signal the end of generation.
+- `api_key`: `Optional[str]` - API key for the provider.
+- `api_base`: `str` - Base URL for the API.
+- `web_search`: `Optional[bool]` - Whether to enable web search for the request.
+- `proxy`: `Optional[str]` - Proxy server to use for the request.
+- `conversation_id`: `Optional[str]` - ID of the conversation to continue.
+- `conversation`: `Optional[dict]` - Conversation history.
+- `return_conversation`: `Optional[bool]` - Whether to return the updated conversation history.
+- `history_disabled`: `Optional[bool]` - Whether to disable the use of message history.
+- `timeout`: `Optional[int]` - Timeout for the request in seconds.
+- `tool_calls`: `list` - List of tool calls for the model to use.
+- `tools`: `list` - List of tools that the model can use.
+- `parallel_tool_calls`: `bool` - Whether to allow parallel tool calls.
+- `tool_choice`: `Optional[str]` - Name of the tool to use.
+- `reasoning_effort`: `Optional[str]` - Controls the reasoning effort of the model.
+- `logit_bias`: `Optional[dict]` - A dictionary of logit bias values.
+- `audio`: `Optional[dict]` - Audio-related parameters.
+- `response_format`: `Optional[dict]` - Specifies the format of the response.
+- `extra_data`: `Optional[dict]` - Additional data to be passed to the model.
 
 ### `ImageGenerationConfig`
 
-**Описание**: Класс конфигурации для запросов генерации изображений.
-**Наследует**: `pydantic.BaseModel`
+**Description**: Configuration for image generation requests, including prompt, model, and generation parameters.
 
-**Атрибуты**:
-- `prompt` (str): Текстовое описание изображения для генерации.
-- `model` (Optional[str]): Имя модели для использования. По умолчанию `None`.
-- `provider` (Optional[str]): Провайдер модели. По умолчанию `None`.
-- `response_format` (Optional[str]): Формат ответа. По умолчанию `None`.
-- `api_key` (Optional[str]): Ключ API. По умолчанию `None`.
-- `proxy` (Optional[str]): URL прокси-сервера. По умолчанию `None`.
-- `width` (Optional[int]): Ширина изображения. По умолчанию `None`.
-- `height` (Optional[int]): Высота изображения. По умолчанию `None`.
-- `num_inference_steps` (Optional[int]): Количество шагов вывода. По умолчанию `None`.
-- `seed` (Optional[int]): Зерно для генерации. По умолчанию `None`.
-- `guidance_scale` (Optional[int]): Масштаб соответствия запросу. По умолчанию `None`.
-- `aspect_ratio` (Optional[str]): Соотношение сторон изображения. По умолчанию `None`.
-- `n` (Optional[int]): Количество сгенерированных изображений. По умолчанию `None`.
-- `negative_prompt` (Optional[str]): Негативный запрос. По умолчанию `None`.
-- `resolution` (Optional[str]): Разрешение изображения. По умолчанию `None`.
+**Inherits**: `pydantic.BaseModel`
 
-**Принцип работы**:
-Этот класс используется для представления конфигурации запроса к API генерации изображений. Он содержит текстовое описание изображения, а также параметры, определяющие процесс генерации, такие как модель, провайдер, размеры изображения и другие.
+**Attributes**:
+
+- `prompt`: `str` - Text description of the desired image.
+- `model`: `Optional[str]` - ID of the image generation model.
+- `provider`: `Optional[str]` - Provider for image generation.
+- `response_format`: `Optional[str]` - Format of the response.
+- `api_key`: `Optional[str]` - API key for the provider.
+- `proxy`: `Optional[str]` - Proxy server to use.
+- `width`: `Optional[int]` - Width of the generated image.
+- `height`: `Optional[int]` - Height of the generated image.
+- `num_inference_steps`: `Optional[int]` - Number of inference steps for image generation.
+- `seed`: `Optional[int]` - Random seed for image generation.
+- `guidance_scale`: `Optional[int]` - Guidance scale for image generation.
+- `aspect_ratio`: `Optional[str]` - Aspect ratio of the generated image.
+- `n`: `Optional[int]` - Number of images to generate.
+- `negative_prompt`: `Optional[str]` - Text description of what not to include in the image.
+- `resolution`: `Optional[str]` - Resolution of the generated image.
 
 ### `ProviderResponseModel`
 
-**Описание**: Класс для представления ответа от провайдера.
-**Наследует**: `pydantic.BaseModel`
+**Description**: Base model for provider responses.
 
-**Атрибуты**:
-- `id` (str): Идентификатор ответа.
-- `object` (str): Тип объекта. Всегда "provider".
-- `created` (int): Временная метка создания.
-- `url` (Optional[str]): URL. По умолчанию `None`.
-- `label` (Optional[str]): Метка. По умолчанию `None`.
+**Inherits**: `pydantic.BaseModel`
 
-**Принцип работы**:
-Этот класс используется для представления базовой информации об ответе от провайдера API, такой как идентификатор, тип объекта и временная метка создания.
+**Attributes**:
+
+- `id`: `str` - Unique identifier for the response.
+- `object`: `str` - Type of the response, always "provider".
+- `created`: `int` - Timestamp of the response creation.
+- `url`: `Optional[str]` - URL associated with the response.
+- `label`: `Optional[str]` - Label for the response.
 
 ### `ProviderResponseDetailModel`
 
-**Описание**: Класс для представления детальной информации об ответе от провайдера.
-**Наследует**: `ProviderResponseModel`
+**Description**: Model for detailed provider responses.
 
-**Атрибуты**:
-- `models` (list[str]): Список поддерживаемых моделей.
-- `image_models` (list[str]): Список поддерживаемых моделей изображений.
-- `vision_models` (list[str]): Список моделей зрения.
-- `params` (list[str]): Список поддерживаемых параметров.
+**Inherits**: `ProviderResponseModel`
 
-**Принцип работы**:
-Этот класс расширяет `ProviderResponseModel` и предоставляет дополнительную информацию об ответе от провайдера, такую как список поддерживаемых моделей, параметров и т.д.
+**Attributes**:
+
+- `models`: `list[str]` - List of available models.
+- `image_models`: `list[str]` - List of available image generation models.
+- `vision_models`: `list[str]` - List of available vision models.
+- `params`: `list[str]` - List of available parameters.
 
 ### `ModelResponseModel`
 
-**Описание**: Класс для представления ответа о модели.
-**Наследует**: `pydantic.BaseModel`
+**Description**: Model for model responses.
 
-**Атрибуты**:
-- `id` (str): Идентификатор модели.
-- `object` (str): Тип объекта. Всегда "model".
-- `created` (int): Временная метка создания.
-- `owned_by` (Optional[str]): Владелец модели. По умолчанию `None`.
+**Inherits**: `pydantic.BaseModel`
 
-**Принцип работы**:
-Этот класс используется для представления информации о модели, такой как идентификатор, тип объекта, временная метка создания и владелец.
+**Attributes**:
+
+- `id`: `str` - Unique identifier for the model.
+- `object`: `str` - Type of the response, always "model".
+- `created`: `int` - Timestamp of the model creation.
+- `owned_by`: `Optional[str]` - Owner of the model.
 
 ### `UploadResponseModel`
 
-**Описание**: Класс для представления ответа на загрузку.
-**Наследует**: `pydantic.BaseModel`
+**Description**: Model for upload responses.
 
-**Атрибуты**:
-- `bucket_id` (str): Идентификатор бакета.
-- `url` (str): URL для доступа к загруженному файлу.
+**Inherits**: `pydantic.BaseModel`
 
-**Принцип работы**:
-Этот класс используется для представления ответа на запрос загрузки файла, содержащего идентификатор бакета и URL для доступа к загруженному файлу.
+**Attributes**:
+
+- `bucket_id`: `str` - ID of the storage bucket.
+- `url`: `str` - URL of the uploaded file.
 
 ### `ErrorResponseModel`
 
-**Описание**: Класс для представления ответа об ошибке.
-**Наследует**: `pydantic.BaseModel`
+**Description**: Model for error responses.
 
-**Атрибуты**:
-- `error` (ErrorResponseMessageModel): Сообщение об ошибке.
-- `model` (Optional[str]): Модель, вызвавшая ошибку. По умолчанию `None`.
-- `provider` (Optional[str]): Провайдер, вызвавший ошибку. По умолчанию `None`.
+**Inherits**: `pydantic.BaseModel`
 
-**Принцип работы**:
-Этот класс используется для представления информации об ошибке, такой как сообщение об ошибке, модель и провайдер, вызвавшие ошибку.
+**Attributes**:
+
+- `error`: `ErrorResponseMessageModel` - Error message details.
+- `model`: `Optional[str]` - Model associated with the error.
+- `provider`: `Optional[str]` - Provider associated with the error.
 
 ### `ErrorResponseMessageModel`
 
-**Описание**: Класс для представления сообщения об ошибке.
-**Наследует**: `pydantic.BaseModel`
+**Description**: Model for error message details.
 
-**Атрибуты**:
-- `message` (str): Текст сообщения об ошибке.
+**Inherits**: `pydantic.BaseModel`
 
-**Принцип работы**:
-Этот класс используется для представления текста сообщения об ошибке.
+**Attributes**:
+
+- `message`: `str` - Error message.
 
 ### `FileResponseModel`
 
-**Описание**: Класс для представления ответа о файле.
-**Наследует**: `pydantic.BaseModel`
+**Description**: Model for file responses.
 
-**Атрибуты**:
-- `filename` (str): Имя файла.
+**Inherits**: `pydantic.BaseModel`
 
-**Принцип работы**:
-Этот класс используется для представления информации о файле, такой как имя файла.
+**Attributes**:
+
+- `filename`: `str` - Name of the file.
+
+## Inner Functions
+
+None

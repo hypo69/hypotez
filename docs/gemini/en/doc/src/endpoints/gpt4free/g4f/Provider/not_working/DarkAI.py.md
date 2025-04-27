@@ -1,99 +1,92 @@
-# Module DarkAI
+# DarkAI Provider
 
 ## Overview
 
-Модуль `DarkAI` представляет собой асинхронный провайдер для работы с API DarkAI. Он позволяет генерировать текст на основе предоставленных сообщений, используя различные модели, такие как `gpt-4o`, `gpt-3.5-turbo` и `llama-3-70b`. Модуль поддерживает потоковую передачу данных и использует `aiohttp` для асинхронных HTTP-запросов.
+This module provides the `DarkAI` class, which implements an asynchronous generator provider for interacting with the DarkAI API. The `DarkAI` provider allows you to use the DarkAI models (like `llama-3-70b`) for text generation and other NLP tasks.
 
-## More details
+## Details
 
-Модуль предназначен для интеграции с другими частями проекта `hypotez`, где требуется взаимодействие с API DarkAI для генерации текста. Он обеспечивает асинхронное взаимодействие, что позволяет избежать блокировки основного потока выполнения.
+The `DarkAI` class inherits from `AsyncGeneratorProvider` and `ProviderModelMixin` and provides functionality for making asynchronous API calls to the DarkAI endpoint.  The provider supports streaming responses for a more interactive and efficient communication with the AI model.
 
 ## Classes
 
-### `DarkAI`
+### `class DarkAI`
 
-**Description**: Класс `DarkAI` является асинхронным провайдером и реализует методы для взаимодействия с API DarkAI.
+**Description**: This class implements an asynchronous generator provider for the DarkAI API. 
 
-**Inherits**:
-- `AsyncGeneratorProvider`: Обеспечивает поддержку асинхронной генерации данных.
-- `ProviderModelMixin`: Предоставляет общие методы для работы с моделями провайдера.
+**Inherits**: 
+- `AsyncGeneratorProvider`:  Provides a base implementation for asynchronous generator providers.
+- `ProviderModelMixin`:  Provides utility methods for managing and accessing models.
 
 **Attributes**:
-- `url` (str): URL API DarkAI.
-- `api_endpoint` (str): Конечная точка API DarkAI для отправки запросов.
-- `working` (bool): Указывает, работает ли провайдер в данный момент.
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу данных.
-- `default_model` (str): Модель, используемая по умолчанию (llama-3-70b).
-- `models` (List[str]): Список поддерживаемых моделей.
-- `model_aliases` (Dict[str, str]): Словарь псевдонимов моделей.
 
-**Working principle**:
-Класс `DarkAI` использует `aiohttp` для отправки асинхронных POST-запросов к API DarkAI. Он форматирует входные сообщения в формат, ожидаемый API, и обрабатывает потоковый ответ, генерируя текст по частям.
+- `url` (str): Base URL of the DarkAI API endpoint.
+- `api_endpoint` (str):  Specific endpoint for interacting with the chat service.
+- `working` (bool): Flag indicating whether the provider is currently working (set to `False` initially).
+- `supports_stream` (bool): Indicates whether the provider supports streaming responses (`True` in this case).
+- `default_model` (str): Default model to use when none is specified (`llama-3-70b` by default).
+- `models` (list): List of supported models.
+- `model_aliases` (dict): Dictionary for mapping model aliases to their canonical names. 
 
 **Methods**:
-- `create_async_generator`: Создает асинхронный генератор для получения текста от API DarkAI.
 
-## Class Methods
+- `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`: This method creates an asynchronous generator that interacts with the DarkAI API to generate text or perform other NLP tasks.
 
-### `create_async_generator`
+## Functions
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    **kwargs
-) -> AsyncResult:
-    """Создает асинхронный генератор для получения текста от API DarkAI.
+### `create_async_generator()`
 
-    Args:
-        cls (DarkAI): Ссылка на класс.
-        model (str): Имя модели для использования.
-        messages (Messages): Список сообщений для отправки в API.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы.
+**Purpose**: This function initiates an asynchronous generator for communication with the DarkAI API.
 
-    Returns:
-        AsyncResult: Асинхронный генератор, выдающий текст от API.
+**Parameters**:
 
-    How the function works:
-    - Функция принимает модель, сообщения и прокси (опционально).
-    - Извлекает имя модели с помощью `cls.get_model(model)`.
-    - Форматирует сообщения с помощью `format_prompt(messages)`.
-    - Создает заголовок запроса, содержащий `accept`, `content-type` и `user-agent`.
-    - Создает асинхронную сессию с `ClientSession` с заданными заголовками и таймаутом.
-    - Отправляет POST-запрос к `cls.api_endpoint` с форматированными сообщениями и моделью.
-    - Читает ответ по частям и декодирует его, извлекая текстовые фрагменты.
-    - Генерирует текстовые фрагменты, полученные от API.
+- `model` (str): The DarkAI model to use (e.g., `llama-3-70b`). 
+- `messages` (Messages):  A list of message objects, each containing a message content and a role (user or assistant).
+- `proxy` (str, optional):  A proxy server to use for making requests. Defaults to `None`.
+- `kwargs`: Additional keyword arguments for customizing requests.
 
-    Internal functions:
-    - Отсутствуют.
+**Returns**:
 
-    """
-```
+- `AsyncResult`: An asynchronous result object that provides access to the generated text as a stream.
 
-## Class Parameters
+**How the Function Works**:
 
-- `cls`: Ссылка на класс `DarkAI`. Используется для доступа к атрибутам класса, таким как `api_endpoint` и `get_model`.
-- `model` (str): Имя модели, которую необходимо использовать для генерации текста. Это значение передается в API DarkAI для указания, какая модель должна быть использована для генерации ответа.
-- `messages` (Messages): Список сообщений, которые будут отправлены в API DarkAI. Эти сообщения содержат контекст и запрос, на основе которого API должен сгенерировать текст.
-- `proxy` (str, optional): Адрес прокси-сервера, который будет использоваться для отправки запроса. Если прокси не указан, запрос будет отправлен напрямую.
-- `**kwargs`: Дополнительные параметры, которые могут быть переданы в API.
+1. **Model Selection**: The function uses `get_model` to resolve the model name (handling aliases if needed).
+2. **Setting Headers**:  The function prepares headers for the API request, including `accept`, `content-type`, and `user-agent`.
+3. **Asynchronous Session**: It establishes an asynchronous session with `aiohttp` for making API calls.
+4. **Formatting Prompt**: The function formats the prompt using the `format_prompt` helper.
+5. **API Call**: The function sends a POST request to the DarkAI API endpoint with the formatted prompt, the model name, and any additional kwargs.
+6. **Error Handling**:  The function checks the response status code using `raise_for_status` to handle potential API errors.
+7. **Streaming Data**: The function reads the response content as a stream (using `StreamReader`) and iterates through it in chunks. It extracts the text data and yields it as a generator, enabling streaming of the AI model's response.
+8. **End of Stream**:  When the response stream ends, the function returns. 
 
-## Examples
+
+**Examples**:
 
 ```python
-# Пример использования create_async_generator
-import asyncio
-from src.endpoints.gpt4free.g4f.Provider.not_working.DarkAI import DarkAI
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.DarkAI import DarkAI
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
+# Example messages list
+messages: Messages = [
+    {'role': 'user', 'content': 'Tell me a joke.'},
+]
+
+# Using DarkAI with the default model (llama-3-70b)
 async def main():
-    model = "gpt-3.5-turbo"
-    messages = [{"role": "user", "content": "Hello, how are you?"}]
-    async for chunk in DarkAI.create_async_generator(model=model, messages=messages):
-        print(chunk, end="")
+    async for chunk in DarkAI.create_async_generator(model='llama-3-70b', messages=messages):
+        print(chunk, end='')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
+    import asyncio
+    asyncio.run(main())
+```
+```python
+# Example with a custom model
+async def main():
+    async for chunk in DarkAI.create_async_generator(model='gpt-3.5-turbo', messages=messages):
+        print(chunk, end='')
+
+if __name__ == '__main__':
+    import asyncio
     asyncio.run(main())

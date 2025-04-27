@@ -1,22 +1,27 @@
-# Модуль для обработки изображений с использованием g4f
+# Vision Images Example
 
-## Обзор
+## Overview
 
-Этот модуль демонстрирует, как использовать библиотеку `g4f` для обработки изображений, как удаленных, так и локальных, и получения описаний содержимого изображений. Он использует модель машинного зрения по умолчанию (`g4f.models.default_vision`) для анализа изображений и ответа на вопросы о них.
+This file demonstrates how to process images using GPT-4 Free, a powerful open-source implementation of GPT-4. This example showcases the usage of GPT-4 Free for image recognition tasks.
 
-## Подробнее
+## Details
 
-Этот код используется для демонстрации возможностей анализа изображений с использованием библиотеки `g4f`. Он показывает, как отправить изображение в модель машинного зрения и получить текстовое описание содержимого этого изображения.
+This script utilizes GPT-4 Free's image processing capabilities to analyze both remote and local images.  It utilizes the `g4f` library to interact with the GPT-4 Free API and perform image-based text generation.
 
-## Классы
+## Classes
 
-В данном модуле классы отсутствуют.
+This example doesn't involve defining any custom classes. It relies on existing classes from the `g4f` library.
 
-## Функции
+## Functions
 
-### Обработка удаленного изображения
+This example does not define any functions.
+
+## Code Breakdown
+
+### Example with Remote Image
 
 ```python
+# Processing remote image
 remote_image = requests.get("https://raw.githubusercontent.com/xtekky/gpt4free/refs/heads/main/docs/images/cat.jpeg", stream=True).content
 response_remote = client.chat.completions.create(
     model=g4f.models.default_vision,
@@ -28,48 +33,14 @@ response_remote = client.chat.completions.create(
 print("Response for remote image:")
 print(response_remote.choices[0].message.content)
 ```
+1. **Fetching a remote image**: The code retrieves a remote image by making an HTTP request to a GitHub repository using the `requests` library. The `stream=True` parameter helps handle large images efficiently.
+2. **Sending the image to GPT-4 Free**: The retrieved image is sent to the GPT-4 Free API using the `client.chat.completions.create` method. The `model` argument is set to `g4f.models.default_vision`, which specifies the vision-capable model for image analysis. The prompt "What are on this image?" is included in the `messages` list, instructing the model to describe the image content.
+3. **Receiving and printing the response**: GPT-4 Free returns a text description based on the image. The `response_remote.choices[0].message.content` attribute extracts the generated text, which is then printed to the console.
 
-**Назначение**: Обработка удаленного изображения, загруженного по URL.
-
-**Параметры**:
-- `remote_image` (bytes): Содержимое изображения, полученное из удаленного источника.
-- `response_remote` (g4f.ChatCompletion): Объект ответа от API `g4f` с описанием изображения.
-
-**Возвращает**:
-- None
-
-**Как работает**:
-1. Функция загружает изображение из удаленного источника с использованием библиотеки `requests`.
-2. Создается запрос к API `g4f` с использованием модели машинного зрения по умолчанию.
-3. Запрос содержит сообщение с вопросом о содержимом изображения.
-4. Полученный ответ содержит текстовое описание содержимого изображения.
-5. Описание выводится в консоль.
-
-**Примеры**:
-```python
-import g4f
-import requests
-
-from g4f.client import Client
-
-client = Client()
-
-# Обработка удаленного изображения
-remote_image = requests.get("https://raw.githubusercontent.com/xtekky/gpt4free/refs/heads/main/docs/images/cat.jpeg", stream=True).content
-response_remote = client.chat.completions.create(
-    model=g4f.models.default_vision,
-    messages=[
-        {"role": "user", "content": "What are on this image?"}
-    ],
-    image=remote_image
-)
-print("Response for remote image:")
-print(response_remote.choices[0].message.content)
-```
-
-### Обработка локального изображения
+### Example with Local Image
 
 ```python
+# Processing local image
 local_image = open("docs/images/cat.jpeg", "rb")
 response_local = client.chat.completions.create(
     model=g4f.models.default_vision,
@@ -82,43 +53,20 @@ print("Response for local image:")
 print(response_local.choices[0].message.content)
 local_image.close()  # Close file after use
 ```
+1. **Opening the local image**: The code opens a local image file (`"docs/images/cat.jpeg"`) in binary read mode (`"rb"`).
+2. **Sending the image to GPT-4 Free**: The opened image file is passed to the `client.chat.completions.create` method, following the same procedure as with the remote image.
+3. **Receiving and printing the response**:  GPT-4 Free generates a text description for the local image. The description is printed to the console, and the image file is closed to prevent resource leaks.
 
-**Назначение**: Обработка локального изображения из файла.
+## Example Usage
 
-**Параметры**:
-- `local_image` (file): Объект файла, представляющий локальное изображение.
-- `response_local` (g4f.ChatCompletion): Объект ответа от API `g4f` с описанием изображения.
+This example demonstrates how to use GPT-4 Free to analyze both remote and local images:
+1. **Remote image**: 
+  - Download an image from the internet or use an image that is publicly available on the internet.
+  - Replace `"https://raw.githubusercontent.com/xtekky/gpt4free/refs/heads/main/docs/images/cat.jpeg"` with the URL of your image.
+2. **Local image**: 
+  - Place an image in the `docs/images` directory.
+  - Modify `"docs/images/cat.jpeg"` to reflect the path of your image file.
 
-**Возвращает**:
-- None
+## Conclusion
 
-**Как работает**:
-1. Функция открывает локальное изображение в бинарном режиме для чтения.
-2. Создается запрос к API `g4f` с использованием модели машинного зрения по умолчанию.
-3. Запрос содержит сообщение с вопросом о содержимом изображения.
-4. Полученный ответ содержит текстовое описание содержимого изображения.
-5. Описание выводится в консоль.
-6. Файл изображения закрывается после использования.
-
-**Примеры**:
-```python
-import g4f
-import requests
-
-from g4f.client import Client
-
-client = Client()
-
-# Обработка локального изображения
-local_image = open("docs/images/cat.jpeg", "rb")
-response_local = client.chat.completions.create(
-    model=g4f.models.default_vision,
-    messages=[
-        {"role": "user", "content": "What are on this image?"}
-    ],
-    image=local_image
-)
-print("Response for local image:")
-print(response_local.choices[0].message.content)
-local_image.close()  # Close file after use
-```
+This script provides a comprehensive guide to using GPT-4 Free for image processing. It demonstrates how to analyze both remote and local images and receive descriptive responses. The script showcases the versatility of GPT-4 Free and how it can be integrated into various applications involving image analysis.

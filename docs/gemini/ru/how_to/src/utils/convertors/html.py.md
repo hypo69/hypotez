@@ -1,67 +1,95 @@
-### **Как использовать этот блок кода**
+## Как использовать этот блок кода
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот модуль содержит набор утилит для преобразования HTML в различные форматы, такие как escape-последовательности, словари, объекты SimpleNamespace и PDF-файлы. Он также предоставляет функцию для конвертации HTML-файлов в документы Word с использованием LibreOffice.
+Этот блок кода содержит набор функций для преобразования HTML-кода. Он предоставляет следующие возможности:
 
-Шаги выполнения
+* **`html2escape(input_str: str) -> str`**: Преобразует HTML-код в escape-последовательности.
+* **`escape2html(input_str: str) -> str`**: Преобразует escape-последовательности обратно в HTML-код.
+* **`html2dict(html_str: str) -> Dict[str, str]`**: Преобразует HTML-код в словарь, где ключи - это теги, а значения - их содержимое.
+* **`html2ns(html_str: str) -> SimpleNamespace`**: Преобразует HTML-код в объект `SimpleNamespace`, где теги - это атрибуты, а значения - их содержимое.
+* **`html2pdf(html_str: str, pdf_file: str | Path) -> bool | None`**: Преобразует HTML-код в PDF-файл с помощью библиотеки `WeasyPrint`. 
+* **`html_to_docx(html_file: str, output_docx: Path | str) -> bool`**: Преобразует HTML-файл в документ Word (.docx) с помощью LibreOffice.
+
+### Шаги выполнения
 -------------------------
-1. **Установка зависимостей**:
-   - Убедитесь, что установлены необходимые библиотеки, такие как `beautifulsoup4`, `lxml`, `xhtml2pdf` и `weasyprint`.
-   - Для конвертации в DOCX требуется установленный LibreOffice.
+1. **Импорт необходимых модулей**: 
+    - `re` (регулярные выражения)
+    - `typing` (типизация)
+    - `pathlib` (работа с путями)
+    - `logger` (модуль логгирования)
+    - `types` (работа с типами данных)
+    - `html.parser` (работа с HTML-парсером)
+    - `xhtml2pdf` (преобразование HTML в PDF)
+    - `subprocess` (выполнение командной строки)
+    - `weasyprint` (преобразование HTML в PDF)
 
-2. **Импорт модуля**:
-   - Импортируйте модуль `src.utils.convertors.html` в свой проект.
+2. **Определение функций**: 
+    - **`html2escape(input_str: str) -> str`**: 
+        - Принимает строку HTML-кода в качестве аргумента.
+        - Возвращает строку с escape-последовательностями, соответствующими HTML-тегам.
+    - **`escape2html(input_str: str) -> str`**: 
+        - Принимает строку с escape-последовательностями в качестве аргумента.
+        - Возвращает строку с HTML-тегами, полученными из escape-последовательностей.
+    - **`html2dict(html_str: str) -> Dict[str, str]`**: 
+        - Принимает строку HTML-кода в качестве аргумента.
+        - Возвращает словарь, где ключи - это теги HTML, а значения - их содержимое.
+        - Для этого использует класс `HTMLToDictParser`, который наследуется от `HTMLParser`.
+    - **`html2ns(html_str: str) -> SimpleNamespace`**:
+        - Принимает строку HTML-кода в качестве аргумента.
+        - Возвращает объект `SimpleNamespace`, где атрибуты - это теги HTML, а значения - их содержимое.
+        - Использует функцию `html2dict` для преобразования HTML в словарь.
+    - **`html2pdf(html_str: str, pdf_file: str | Path) -> bool | None`**:
+        - Принимает строку HTML-кода и путь к выходному PDF-файлу в качестве аргументов.
+        - Преобразует HTML в PDF с помощью библиотеки `WeasyPrint`. 
+        - Возвращает `True`, если преобразование успешно, и `None` в случае ошибки. 
+    - **`html_to_docx(html_file: str, output_docx: Path | str) -> bool`**:
+        - Принимает путь к входному HTML-файлу и путь к выходному DOCX-файлу в качестве аргументов.
+        - Преобразует HTML в DOCX с помощью LibreOffice. 
+        - Возвращает `True`, если преобразование успешно, и `False` в случае ошибки.
 
-3. **Использование функций**:
-   - Используйте функции `html2escape`, `escape2html`, `html2dict`, `html2ns`, `html2pdf` и `html_to_docx` для выполнения нужных преобразований.
-
-Пример использования
+### Пример использования
 -------------------------
-
 ```python
-from src.utils.convertors.html import (
-    html2escape,
-    escape2html,
-    html2dict,
-    html2ns,
-    html2pdf,
-    html_to_docx,
-)
-from pathlib import Path
+from src.utils.convertors.html import html2escape, escape2html, html2dict, html2ns, html2pdf, html_to_docx
 
 # Преобразование HTML в escape-последовательности
-html = "<p>Hello, world!</p>"
-escaped_html = html2escape(html)
-print(f"Escaped HTML: {escaped_html}")
+html_code = "<p>Hello, world!</p>"
+escaped_html = html2escape(html_code)
+print(escaped_html)  # Вывод: &lt;p&gt;Hello, world!&lt;/p&gt;
 
-# Преобразование escape-последовательностей обратно в HTML
-unescaped_html = escape2html(escaped_html)
-print(f"Unescaped HTML: {unescaped_html}")
+# Преобразование escape-последовательностей в HTML
+escaped_html = "&lt;p&gt;Hello, world!&lt;/p&gt;"
+html_code = escape2html(escaped_html)
+print(html_code)  # Вывод: <p>Hello, world!</p>
 
 # Преобразование HTML в словарь
-html_dict = html2dict("<p>Hello</p><a href='link'>World</a>")
-print(f"HTML as dictionary: {html_dict}")
+html_code = "<p>Hello</p><a href='link'>World</a>"
+html_dict = html2dict(html_code)
+print(html_dict)  # Вывод: {'p': 'Hello', 'a': 'World'}
 
 # Преобразование HTML в SimpleNamespace
-html_ns = html2ns("<p>Hello</p><a href='link'>World</a>")
-print(f"HTML as SimpleNamespace: {html_ns.p}, {html_ns.a}")
+html_code = "<p>Hello</p><a href='link'>World</a>"
+html_ns = html2ns(html_code)
+print(html_ns.p)  # Вывод: Hello
+print(html_ns.a)  # Вывод: World
 
 # Преобразование HTML в PDF
-html_content = "<html><body><h1>Hello, world!</h1></body></html>"
+html_code = "<p>This is a sample HTML document.</p>"
 pdf_file = "output.pdf"
-if html2pdf(html_content, pdf_file):
-    print(f"PDF успешно создан: {pdf_file}")
+result = html2pdf(html_code, pdf_file)
+if result:
+    print(f"PDF file {pdf_file} successfully created.")
 else:
-    print("Не удалось создать PDF")
+    print(f"Error during PDF generation.")
 
-# Преобразование HTML-файла в DOCX
+# Преобразование HTML в DOCX
 html_file = "input.html"
 docx_file = "output.docx"
-# Создайте файл input.html для примера
-Path(html_file).write_text(html_content)
-if html_to_docx(html_file, docx_file):
-    print(f"DOCX успешно создан: {docx_file}")
+result = html_to_docx(html_file, docx_file)
+if result:
+    print(f"DOCX file {docx_file} successfully created.")
 else:
-    print("Не удалось создать DOCX")
+    print(f"Error during DOCX generation.")
+```

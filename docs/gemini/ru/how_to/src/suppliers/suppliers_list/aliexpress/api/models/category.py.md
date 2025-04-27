@@ -1,60 +1,43 @@
-## \file /src/suppliers/aliexpress/api/models/category.py
-# -*- coding: utf-8 -*-
-#! .pyenv/bin/python3
-
-"""
-Модуль определяет модели данных для представления категорий товаров.
-=====================================================================
-
-Этот модуль содержит классы `Category` и `ChildCategory`, которые используются
-для структурированного представления информации о категориях товаров,
-полученных из API AliExpress.
-
- .. module:: src.suppliers.suppliers_list.aliexpress.api.models
-"""
-
-
-class Category:
-    category_id: int
-    category_name: str
-
-
-class ChildCategory(Category):
-    parent_category_id: int
-
-
-Как использовать этот блок кода
+## Как использовать класс `Category`
 =========================================================================================
 
 Описание
 -------------------------
-Этот код определяет две модели данных: `Category` и `ChildCategory`. Класс `Category` используется для представления основной информации о категории, такой как её идентификатор (`category_id`) и название (`category_name`). Класс `ChildCategory` наследуется от `Category` и добавляет информацию об идентификаторе родительской категории (`parent_category_id`).
+Классы `Category` и `ChildCategory` представляют собой модели данных, которые используются для представления категорий товаров на AliExpress. 
+
+**`Category`** - базовый класс, который содержит идентификатор (id) и название категории. 
+**`ChildCategory`** - наследуется от `Category` и добавляет атрибут для идентификатора родительской категории.
 
 Шаги выполнения
 -------------------------
-1. **Определение класса `Category`**: Определяется класс `Category` с полями `category_id` (целое число) и `category_name` (строка). Эти поля представляют идентификатор и название категории товара соответственно.
-2. **Определение класса `ChildCategory`**: Определяется класс `ChildCategory`, наследуемый от класса `Category`. Он добавляет поле `parent_category_id` (целое число), которое указывает на идентификатор родительской категории.
+1. **Инициализация**:
+    - Создайте объект класса `Category` или `ChildCategory` и укажите значения для атрибутов `category_id` и `category_name`. В случае с `ChildCategory` также задайте значение для `parent_category_id`.
+2. **Доступ к данным**: 
+    - Доступ к атрибутам (id, название, id родительской категории) осуществляется через имя атрибута объекта, например: `category.category_id`, `category.category_name`, `child_category.parent_category_id`.
 
 Пример использования
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api.models import Category, ChildCategory
+from src.suppliers.aliexpress.api.models.category import Category, ChildCategory
 
-# Пример создания экземпляра класса Category
-category = Category()
-category.category_id = 12345
-category.category_name = "Electronics"
+# Создание объекта Category
+category = Category(category_id=1234, category_name="Одежда")
 
-print(f"Category ID: {category.category_id}")
-print(f"Category Name: {category.category_name}")
+# Вывод информации о категории
+print(f"ID категории: {category.category_id}")
+print(f"Название категории: {category.category_name}")
 
-# Пример создания экземпляра класса ChildCategory
-child_category = ChildCategory()
-child_category.category_id = 67890
-child_category.category_name = "Smartphones"
-child_category.parent_category_id = 12345
+# Создание объекта ChildCategory
+child_category = ChildCategory(category_id=5678, category_name="Платья", parent_category_id=1234)
 
-print(f"Child Category ID: {child_category.category_id}")
-print(f"Child Category Name: {child_category.category_name}")
-print(f"Parent Category ID: {child_category.parent_category_id}")
+# Вывод информации о дочерней категории
+print(f"ID категории: {child_category.category_id}")
+print(f"Название категории: {child_category.category_name}")
+print(f"ID родительской категории: {child_category.parent_category_id}")
+```
+
+## Дополнительные замечания
+-------------------------
+- Классы `Category` и `ChildCategory` служат для удобной работы с данными о категориях, которые вы получаете из API AliExpress. 
+- Используйте эти классы для сохранения и обработки информации о категориях в вашем проекте.

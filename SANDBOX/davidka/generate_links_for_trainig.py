@@ -21,4 +21,4 @@ class Config:
 
 agent = GoogleGenerativeAi()
 
-ca.
+

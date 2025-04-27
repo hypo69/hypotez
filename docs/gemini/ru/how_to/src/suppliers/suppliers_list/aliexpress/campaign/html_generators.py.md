@@ -1,246 +1,85 @@
-## \file /src/suppliers/aliexpress/campaign/html_generators.py
-# -*- coding: utf-8 -*-
-#! .pyenv/bin/python3
-
-"""
-.. module:: src.suppliers.suppliers_list.aliexpress.campaign
-	:platform: Windows, Unix
-	:synopsis: Генератор HTML контента рекламной кампании
-
-"""
-
-
-import header
-
-from pathlib import Path
-from types import SimpleNamespace
-from src.utils.file import save_text_file
-import html
-
-class ProductHTMLGenerator:
-    """ Class for generating HTML for individual products."""
-
-    @staticmethod
-    def set_product_html(product: SimpleNamespace, category_path: str | Path):
-        """ Creates an HTML file for an individual product.
-
-        Args:
-            product (SimpleNamespace): The product details to include in the HTML.
-            category_path (str | Path): The path to save the HTML file.
-        """
-        category_name = Path(category_path).name
-        html_path = Path(category_path) / 'html' / f"{product.product_id}.html"
-
-        html_content = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{html.escape(product.product_title)}</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css"> <!-- Link to custom CSS file -->
-</head>
-<body>
-    <div class="container">
-        <h1 class="my-4">{html.escape(product.product_title)}</h1>
-        <div class="card">
-            <img src="{Path(product.local_image_path).as_posix()}" alt="{html.escape(product.product_title)}" class="card-img-top">
-            <div class="card-body">
-                <p class="card-text">Price: <span class="product-price">{product.target_sale_price} {product.target_sale_price_currency}</span></p>
-                <p class="card-text">Original Price: <span class="product-original-price">{product.target_original_price} {product.target_original_price_currency}</span></p>
-                <p class="card-text">Category: <span class="product-category">{html.escape(product.second_level_category_name)}</span></p>
-                <a href="{product.promotion_link}" class="btn btn-primary">Buy Now</a>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-"""
-        save_text_file(html_content, html_path)
-
-class CategoryHTMLGenerator:
-    """ Class for generating HTML for product categories."""
-
-    @staticmethod
-    def set_category_html(products_list: list[SimpleNamespace] | SimpleNamespace, category_path: str | Path):
-        """ Creates an HTML file for the category.
-
-        Args:
-            products_list (list[SimpleNamespace] | SimpleNamespace): List of products to include in the HTML.
-            category_path (str | Path): Path to save the HTML file.
-        """
-        products_list = products_list if isinstance(products_list, list) else [products_list]
-
-        category_name = Path(category_path).name
-        html_path = Path(category_path) / 'html' / 'index.html'
-
-        html_content = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{html.escape(category_name)} Products</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css"> <!-- Link to custom CSS file -->
-</head>
-<body>
-    <div class="container">
-        <h1 class="my-4">{html.escape(category_name)} Products</h1>
-        <div class="row product-grid">
-    """
-
-        for product in products_list:
-            image_url = Path(product.local_image_path).as_posix()
-            html_content += f"""
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="{image_url}" alt="{html.escape(product.product_title)}" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title">{html.escape(product.product_title)}</h5>
-                            <p class="card-text">Price: <span class="product-price">{product.target_sale_price} {product.target_sale_price_currency}</span></p>
-                            <p class="card-text">Original Price: <span class="product-original-price">{product.target_original_price} {product.target_original_price_currency}</span></p>
-                            <p class="card-text">Category: <span class="product-category">{html.escape(product.second_level_category_name)}</span></p>
-                            <a href="{product.promotion_link}" class="btn btn-primary">Buy Now</a>
-                        </div>
-                    </div>
-                </div>
-            """
-
-        html_content += """
-        </div>
-    </div>
-
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-"""
-        save_text_file(html_content, html_path)
-
-class CampaignHTMLGenerator:
-    """ Class for generating HTML for a campaign."""
-
-    @staticmethod
-    def set_campaign_html(categories: list[str], campaign_path: str | Path):
-        """ Creates an HTML file for the campaign, listing all categories.
-
-        Args:
-            categories (list[str]): List of category names.
-            campaign_path (str | Path): Path to save the HTML file.
-        """
-        html_path = Path(campaign_path) / 'index.html'
-
-        html_content = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campaign Overview</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css"> <!-- Link to custom CSS file -->
-</head>
-<body>
-    <div class="container">
-        <h1 class="my-4">Campaign Overview</h1>
-        <ul class="list-group">
-    """
-
-        for category in categories:
-            html_content += f"""
-                <li class="list-group-item">
-                    <a href="{category}/index.html">{html.escape(category)}</a>
-                </li>
-            """
-
-        html_content += """
-        </ul>
-    </div>
-
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-"""
-        save_text_file(html_content, html_path)
-```
-
-Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот код содержит классы для автоматической генерации HTML-страниц для товаров, категорий и кампаний AliExpress. Он использует строковые шаблоны и сохраняет их в HTML-файлы.
+Этот блок кода предоставляет классы для генерации HTML-файлов для рекламных кампаний AliExpress, отдельных категорий товаров и товаров. 
 
 Шаги выполнения
 -------------------------
-1. **ProductHTMLGenerator**:
-   - Функция `set_product_html` создает HTML-страницу для отдельного товара.
-   - Извлекает детали товара из объекта `product` (например, название, цену, изображение).
-   - Формирует HTML-контент, заполняя шаблон данными товара.
-   - Сохраняет HTML-файл в указанный `category_path` в поддиректории `html`.
-
-2. **CategoryHTMLGenerator**:
-   - Функция `set_category_html` создает HTML-страницу для списка товаров в категории.
-   - Проверяет, является ли входной параметр `products_list` списком, и преобразует его в список, если это не так.
-   - Формирует HTML-контент, перебирая список товаров и добавляя информацию о каждом товаре в HTML-шаблон.
-   - Сохраняет HTML-файл (`index.html`) в указанный `category_path` в поддиректории `html`.
-
-3. **CampaignHTMLGenerator**:
-   - Функция `set_campaign_html` создает HTML-страницу для кампании, содержащую список категорий.
-   - Формирует HTML-контент, перебирая список категорий и создавая ссылки на HTML-страницы каждой категории.
-   - Сохраняет HTML-файл (`index.html`) в указанный `campaign_path`.
+1. **Инициализация:**  Создаются объекты классов `ProductHTMLGenerator`, `CategoryHTMLGenerator` и `CampaignHTMLGenerator`. 
+2. **Генерация HTML для отдельных товаров:**
+    - Метод `set_product_html` в классе `ProductHTMLGenerator` генерирует HTML-файл для конкретного товара, используя данные о товаре и путь к директории категории. 
+    - В HTML-файле отображается название товара, изображение, цены (обычная и со скидкой), категория и ссылка для покупки. 
+3. **Генерация HTML для категорий товаров:**
+    - Метод `set_category_html` в классе `CategoryHTMLGenerator` генерирует HTML-файл для категории,  отображая список товаров, входящих в нее. 
+    - HTML-файл представляет собой сетку товаров, где каждый товар отображается с названием, изображением, ценами, категорией и кнопкой покупки.
+4. **Генерация HTML для рекламной кампании:**
+    - Метод `set_campaign_html` в классе `CampaignHTMLGenerator` генерирует HTML-файл для рекламной кампании, отображая список категорий товаров, участвующих в ней. 
+    - HTML-файл представляет собой список категорий, каждая из которых ведет на HTML-страницу категории, сгенерированную на предыдущем шаге. 
 
 Пример использования
 -------------------------
 
 ```python
+from src.suppliers.aliexpress.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator
 from types import SimpleNamespace
 from pathlib import Path
-from src.suppliers.suppliers_list.aliexpress.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator
 
-# Пример использования ProductHTMLGenerator
-product_data = SimpleNamespace(
-    product_id='12345',
-    product_title='Cool Gadget',
-    local_image_path='images/gadget.jpg',
-    target_sale_price=25.00,
+
+# Пример данных товара
+product = SimpleNamespace(
+    product_id='123456789',
+    product_title='Название товара',
+    local_image_path='images/product.jpg',
+    target_sale_price=10.99,
     target_sale_price_currency='USD',
-    target_original_price=30.00,
+    target_original_price=15.99,
     target_original_price_currency='USD',
-    second_level_category_name='Electronics',
-    promotion_link='http://example.com/gadget'
+    second_level_category_name='Category Name',
+    promotion_link='https://aliexpress.com/product/123456789'
 )
-category_path = 'output/electronics'
-ProductHTMLGenerator.set_product_html(product_data, category_path)
 
-# Пример использования CategoryHTMLGenerator
-product_list = [
+# Пример данных категорий
+categories = [
+    'Category 1',
+    'Category 2',
+    'Category 3'
+]
+
+# Пример данных о категории
+products_list = [
     SimpleNamespace(
-        product_id='12345',
-        product_title='Cool Gadget',
-        local_image_path='images/gadget.jpg',
-        target_sale_price=25.00,
+        product_id='123456789',
+        product_title='Название товара 1',
+        local_image_path='images/product1.jpg',
+        target_sale_price=10.99,
         target_sale_price_currency='USD',
-        target_original_price=30.00,
+        target_original_price=15.99,
         target_original_price_currency='USD',
-        second_level_category_name='Electronics',
-        promotion_link='http://example.com/gadget'
+        second_level_category_name='Category Name',
+        promotion_link='https://aliexpress.com/product/123456789'
     ),
     SimpleNamespace(
-        product_id='67890',
-        product_title='Awesome Device',
-        local_image_path='images/device.jpg',
-        target_sale_price=45.00,
+        product_id='987654321',
+        product_title='Название товара 2',
+        local_image_path='images/product2.jpg',
+        target_sale_price=12.99,
         target_sale_price_currency='USD',
-        target_original_price=50.00,
+        target_original_price=19.99,
         target_original_price_currency='USD',
-        second_level_category_name='Electronics',
-        promotion_link='http://example.com/device'
+        second_level_category_name='Category Name',
+        promotion_link='https://aliexpress.com/product/987654321'
     )
 ]
-CategoryHTMLGenerator.set_category_html(product_list, category_path)
 
-# Пример использования CampaignHTMLGenerator
-categories = ['electronics', 'clothing', 'home']
-campaign_path = 'output/campaign'
-CampaignHTMLGenerator.set_campaign_html(categories, campaign_path)
+
+# Генерация HTML для товара
+ProductHTMLGenerator.set_product_html(product, Path('path/to/category'))
+
+# Генерация HTML для категории
+CategoryHTMLGenerator.set_category_html(products_list, Path('path/to/category'))
+
+# Генерация HTML для кампании
+CampaignHTMLGenerator.set_campaign_html(categories, Path('path/to/campaign'))
+```

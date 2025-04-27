@@ -1,115 +1,193 @@
-# Документация для модуля `ChatgptFree.py`
+# ChatgptFree Provider
 
-## Описание
-Модуль предоставляет асинхронный генератор для взаимодействия с моделью `gpt-4o-mini-2024-07-18` через сервис `chatgptfree.ai`. Он содержит класс `ChatgptFree`, который реализует функциональность асинхронного генератора и предоставляет методы для создания и обработки запросов к указанному сервису.
+## Overview
 
-## Подробности
-Модуль предназначен для использования в асинхронных приложениях, требующих генерации текста на основе предоставленных сообщений. Он автоматически получает необходимые идентификаторы (post_id и nonce) с веб-сайта `chatgptfree.ai` и отправляет запросы на генерацию текста.
+This module provides the `ChatgptFree` class, a provider for interacting with the ChatgptFree AI service. It enables users to send messages and receive responses from the ChatgptFree model.
 
-## Содержание
+## Details
 
-- [Классы](#Классы)
-    - [ChatgptFree](#ChatgptFree)
-- [Методы классов](#Методы-классов)
-    - [create_async_generator](#create_async_generator)
+The `ChatgptFree` provider implements a simple mechanism for interacting with ChatgptFree's API. It uses HTTP requests with specifically crafted data to send messages and receive responses. The responses are streamed and yielded as they arrive, ensuring a more efficient handling of long responses.
 
-## Классы
+The provider is designed to be used asynchronously and relies on the `StreamSession` class from the `hypotez` project to manage HTTP requests.
 
-### `ChatgptFree`
-**Описание**: Класс `ChatgptFree` предоставляет реализацию асинхронного генератора для взаимодействия с сервисом `chatgptfree.ai`.
+## Classes
 
-**Наследует**:
-- `AsyncGeneratorProvider`: базовый класс для асинхронных провайдеров генераторов.
-- `ProviderModelMixin`: примесь, предоставляющая общие методы для работы с моделями.
+### `class ChatgptFree(AsyncGeneratorProvider, ProviderModelMixin)`
 
-**Атрибуты**:
-- `url` (str): URL-адрес сервиса `chatgptfree.ai`.
-- `working` (bool): Флаг, указывающий, работает ли провайдер.
-- `_post_id` (str | None): Идентификатор поста, необходимый для запросов.
-- `_nonce` (str | None): Одноразовый код, необходимый для запросов.
-- `default_model` (str): Модель, используемая по умолчанию (`gpt-4o-mini-2024-07-18`).
-- `models` (list[str]): Список поддерживаемых моделей.
-- `model_aliases` (dict[str, str]): Псевдонимы моделей для удобства использования.
+**Description**: This class represents a ChatgptFree provider and handles communication with the service.
 
-**Принцип работы**:
-1. При первом вызове `create_async_generator` класс выполняет GET-запрос к `cls.url` для получения `_post_id` и `_nonce`.
-2. Формируется запрос к `f"{cls.url}/wp-admin/admin-ajax.php"` с использованием полученных `_post_id` и `_nonce`, а также предоставленных сообщений.
-3. Ответ от сервера обрабатывается построчно, извлекая контент из JSON-ответов и генерируя его как асинхронный поток.
+**Inherits**: 
+  - `AsyncGeneratorProvider`: Provides a base class for asynchronous providers that yield data.
+  - `ProviderModelMixin`: Provides a base class for providers that support multiple models.
 
-## Методы класса
+**Attributes**:
 
-### `create_async_generator`
+  - `url (str)`: The base URL for the ChatgptFree service.
+  - `working (bool)`: Indicates whether the provider is currently working.
+  - `_post_id (str)`: The post ID used in the ChatgptFree API request.
+  - `_nonce (str)`: The nonce (a security token) used in the ChatgptFree API request.
+  - `default_model (str)`: The default model used by the provider.
+  - `models (List[str])`: A list of supported models.
+  - `model_aliases (dict)`: A dictionary mapping model aliases to their actual names.
+
+**Methods**:
+
+  - `create_async_generator(model: str, messages: Messages, proxy: str = None, timeout: int = 120, cookies: dict = None, **kwargs) -> AsyncGenerator[str, None]`: Creates an asynchronous generator that yields responses from the ChatgptFree model.
+
+**How the Class Works**:
+
+1. **Initialization**: When instantiated, the `ChatgptFree` class sets the base URL, working status, and initializes the `_post_id` and `_nonce` attributes to `None`. It also defines default models and aliases.
+2. **Asynchronous Generator**: The `create_async_generator` method is responsible for handling the interaction with the ChatgptFree API. It creates an asynchronous generator that yields responses from the model.
+3. **Requesting Data**: The method uses a `StreamSession` to send a POST request to the ChatgptFree API endpoint. The request includes a formatted prompt, the `_nonce`, and the `_post_id`.
+4. **Response Handling**: The method iterates over the streamed response lines. If a line starts with `data: `, it assumes it's a JSON response and attempts to decode it. If successful, it yields the content from the response. If the line is not a JSON response, it accumulates it in a buffer.
+5. **Final Response**: The method processes the remaining buffer, attempting to decode it as a JSON response. If successful, it yields the decoded data.
+
+**Examples**:
 
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    timeout: int = 120,
-    cookies: dict = None,
-    **kwargs
-) -> AsyncGenerator[str, None]:
-    """
-    Создает асинхронный генератор для получения ответов от сервиса `chatgptfree.ai`.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.ChatgptFree import ChatgptFree
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-    Args:
-        model (str): Имя используемой модели.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-        timeout (int, optional): Максимальное время ожидания запроса в секундах. По умолчанию `120`.
-        cookies (dict, optional): Куки для отправки с запросом. По умолчанию `None`.
-        **kwargs: Дополнительные параметры.
+# Example 1: Sending a simple message to the default model
+async def example_1():
+    provider = ChatgptFree()
+    messages = Messages(
+        [
+            {
+                'role': 'user',
+                'content': 'Hello, how are you?'
+            }
+        ]
+    )
+    async for response in provider.create_async_generator(model=provider.default_model, messages=messages):
+        print(response)
 
-    Returns:
-        AsyncGenerator[str, None]: Асинхронный генератор, выдающий текстовые ответы от модели.
+# Example 2: Sending a message to a specific model
+async def example_2():
+    provider = ChatgptFree()
+    messages = Messages(
+        [
+            {
+                'role': 'user',
+                'content': 'Translate this into French: "Hello, how are you?"'
+            }
+        ]
+    )
+    async for response in provider.create_async_generator(model='gpt-4o-mini-2024-07-18', messages=messages):
+        print(response)
 
-    Raises:
-        RuntimeError: Если не удается найти `post_id` или `nonce` на веб-странице.
-        Exception: Если возникает ошибка при выполнении HTTP-запроса.
+# Example 3: Using a proxy
+async def example_3():
+    provider = ChatgptFree()
+    messages = Messages(
+        [
+            {
+                'role': 'user',
+                'content': 'What is the capital of France?'
+            }
+        ]
+    )
+    async for response in provider.create_async_generator(model=provider.default_model, messages=messages, proxy='http://your.proxy.server:port'):
+        print(response)
 
-    Как работает функция:
-    1. Функция извлекает параметры `model`, `messages`, `proxy`, `timeout` и `cookies` из входных данных.
-    2. Формирует HTTP-заголовки, необходимые для запроса к сервису `chatgptfree.ai`.
-    3. Создает асинхронную сессию с использованием `StreamSession` для выполнения потоковых запросов.
-    4. Проверяет, были ли уже получены `_nonce` и `_post_id`. Если нет, выполняет GET-запрос к главной странице `chatgptfree.ai` для их извлечения с использованием регулярных выражений.
-    5. Формирует данные для POST-запроса, включая `_wpnonce`, `post_id`, `url`, `action`, `message` и `bot_id`.
-    6. Отправляет POST-запрос к `chatgptfree.ai/wp-admin/admin-ajax.php` с использованием асинхронной сессии.
-    7. Обрабатывает ответ построчно, извлекая данные JSON из каждой строки, начиная с `data:`.
-    8. Извлекает содержимое (`content`) из JSON-ответа и передает его через генератор.
-    9. Если возникает ошибка декодирования JSON, пропускает строку.
-    10. После завершения потока проверяет наличие остаточного буфера (`buffer`) и пытается декодировать его как JSON.
-    11. Если декодирование удается и в JSON-ответе есть ключ `data`, передает его через генератор.
-    12. В случае неудачи декодирования выводит сообщение об ошибке.
+# Run the examples (replace with your own async event loop)
+asyncio.run(example_1())
+asyncio.run(example_2())
+asyncio.run(example_3())
+```
 
-    Внутренние функции:
-    - Отсутствуют.
+## Class Methods
 
-    Примеры:
-        Пример 1: Создание асинхронного генератора с минимальными параметрами.
-        ```python
-        messages = [{"role": "user", "content": "Hello, world!"}]
-        generator = ChatgptFree.create_async_generator(model="gpt-4o-mini-2024-07-18", messages=messages)
-        ```
+### `create_async_generator(model: str, messages: Messages, proxy: str = None, timeout: int = 120, cookies: dict = None, **kwargs) -> AsyncGenerator[str, None]`:
 
-        Пример 2: Создание асинхронного генератора с использованием прокси и куки.
-        ```python
-        messages = [{"role": "user", "content": "Translate to French: Hello, world!"}]
-        cookies = {"example_cookie": "value"}
-        generator = ChatgptFree.create_async_generator(
-            model="gpt-4o-mini-2024-07-18", messages=messages, proxy="http://proxy.example.com", cookies=cookies
-        )
-        ```
+**Purpose**: Creates an asynchronous generator that yields responses from the ChatgptFree model.
 
-        Пример 3: Обработка асинхронного генератора.
-        ```python
-        import asyncio
-        async def main():
-            messages = [{"role": "user", "content": "Tell me a joke."}]
-            generator = ChatgptFree.create_async_generator(model="gpt-4o-mini-2024-07-18", messages=messages)
-            async for message in generator:
-                print(message, end="")
-        asyncio.run(main())
-        ```
-    """
+**Parameters**:
+
+  - `model (str)`: The model to use for generating responses.
+  - `messages (Messages)`: A list of messages to send to the model.
+  - `proxy (str, optional)`: A proxy server URL. Defaults to `None`.
+  - `timeout (int, optional)`: The timeout for the request in seconds. Defaults to `120`.
+  - `cookies (dict, optional)`: A dictionary of cookies to use for the request. Defaults to `None`.
+  - `**kwargs`: Additional keyword arguments for the request.
+
+**Returns**:
+
+  - `AsyncGenerator[str, None]`: An asynchronous generator that yields responses from the model.
+
+**Raises Exceptions**:
+
+  - `RuntimeError`: If the post ID or nonce is not found in the initial response.
+
+**How the Function Works**:
+
+1. **Initial Setup**: The method sets up the necessary headers for the API request.
+2. **Nonce and Post ID Retrieval**: If the `_nonce` and `_post_id` are not set, the method makes a GET request to the ChatgptFree service to retrieve them.
+3. **Prompt Formatting**: The `messages` are formatted into a prompt suitable for the ChatgptFree API.
+4. **API Request**: The method sends a POST request to the ChatgptFree API with the formatted prompt and the retrieved nonce and post ID.
+5. **Response Processing**: The method iterates over the streamed response lines, processing them as JSON responses if available.
+6. **Final Response**: The method processes the remaining buffer, attempting to decode it as a JSON response.
+
+
+**Examples**:
+
+```python
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.ChatgptFree import ChatgptFree
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
+
+# Example 1: Sending a simple message to the default model
+async def example_1():
+    provider = ChatgptFree()
+    messages = Messages(
+        [
+            {
+                'role': 'user',
+                'content': 'Hello, how are you?'
+            }
+        ]
+    )
+    async for response in provider.create_async_generator(model=provider.default_model, messages=messages):
+        print(response)
+
+# Example 2: Sending a message to a specific model
+async def example_2():
+    provider = ChatgptFree()
+    messages = Messages(
+        [
+            {
+                'role': 'user',
+                'content': 'Translate this into French: "Hello, how are you?"'
+            }
+        ]
+    )
+    async for response in provider.create_async_generator(model='gpt-4o-mini-2024-07-18', messages=messages):
+        print(response)
+
+# Example 3: Using a proxy
+async def example_3():
+    provider = ChatgptFree()
+    messages = Messages(
+        [
+            {
+                'role': 'user',
+                'content': 'What is the capital of France?'
+            }
+        ]
+    )
+    async for response in provider.create_async_generator(model=provider.default_model, messages=messages, proxy='http://your.proxy.server:port'):
+        print(response)
+
+# Run the examples (replace with your own async event loop)
+asyncio.run(example_1())
+asyncio.run(example_2())
+asyncio.run(example_3())
+```
+
+## Parameter Details
+
+  - `model (str)`: The model to use for generating responses. It should be one of the models listed in the `models` attribute.
+  - `messages (Messages)`: A list of messages to send to the model. Each message is represented as a dictionary with `role` and `content` keys.
+  - `proxy (str, optional)`: A proxy server URL. Defaults to `None`.
+  - `timeout (int, optional)`: The timeout for the request in seconds. Defaults to `120`.
+  - `cookies (dict, optional)`: A dictionary of cookies to use for the request. Defaults to `None`.
+  - `**kwargs`: Additional keyword arguments for the request.

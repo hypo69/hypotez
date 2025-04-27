@@ -1,55 +1,51 @@
-# Документация для модуля GlhfChat
+# GlhfChat Provider
+## Overview
 
-## Обзор
+This module provides the `GlhfChat` class, which implements the `OpenaiTemplate` interface for interacting with the GlhfChat service. GlhfChat is a platform that offers free access to various large language models (LLMs), including Llama models, Qwen, DeepSeek, and others. This class allows you to send requests to the GlhfChat API, authenticate users, and interact with the available models.
 
-Модуль `GlhfChat.py` является частью проекта `hypotez` и предназначен для работы с сервисом GlhfChat, предоставляющим доступ к различным моделям искусственного интеллекта. Он наследует функциональность от класса `OpenaiTemplate` и содержит специфические настройки для взаимодействия с API GlhfChat.
+## Details
 
-## Подробнее
+The `GlhfChat` class inherits from `OpenaiTemplate`, providing a consistent interface for interacting with different LLM providers. It defines specific URLs for login, API endpoints, and default models. It also manages authentication for users and provides methods for interacting with the models.
 
-Модуль определяет URL для доступа к сервису, URL для авторизации, базовый URL для API, а также список поддерживаемых моделей. Также указывается, что для работы с сервисом требуется авторизация.
-
-## Классы
+## Classes
 
 ### `GlhfChat`
 
-**Описание**: Класс `GlhfChat` предназначен для взаимодействия с сервисом GlhfChat. Он наследуется от `OpenaiTemplate` и содержит настройки, специфичные для данного сервиса.
+**Description**: This class implements the `OpenaiTemplate` interface for interacting with the GlhfChat service. It defines specific URLs for login, API endpoints, and default models. It also manages authentication for users and provides methods for interacting with the models.
 
-**Наследует**:
+**Inherits**: `OpenaiTemplate`
 
-- `OpenaiTemplate`: Предоставляет базовый функционал для работы с API OpenAI-подобных сервисов.
+**Attributes**:
+- `url` (str): The base URL for the GlhfChat service.
+- `login_url` (str): The URL for the user login endpoint.
+- `api_base` (str): The base URL for the GlhfChat API.
+- `working` (bool): Indicates whether the service is currently active.
+- `needs_auth` (bool): Indicates whether authentication is required for using the service.
+- `default_model` (str): The default model to use for interactions.
+- `models` (List[str]): A list of available models on the GlhfChat platform.
 
-**Атрибуты**:
+**Methods**:
 
-- `url` (str): URL для доступа к сервису GlhfChat (`https://glhf.chat`).
-- `login_url` (str): URL для авторизации в сервисе GlhfChat (`https://glhf.chat/user-settings/api`).
-- `api_base` (str): Базовый URL для API GlhfChat (`https://glhf.chat/api/openai/v1`).
-- `working` (bool): Флаг, указывающий на работоспособность сервиса (всегда `True`).
-- `needs_auth` (bool): Флаг, указывающий на необходимость авторизации для работы с сервисом (всегда `True`).
-- `default_model` (str): Модель, используемая по умолчанию (`hf:meta-llama/Llama-3.3-70B-Instruct`).
-- `models` (List[str]): Список поддерживаемых моделей.
+-  `__init__(self, **kwargs: dict)`: Initializes the `GlhfChat` object with provided parameters.
+-  `get_token(self) -> str`: Returns the user's access token.
+-  `get_models(self) -> List[str]`: Returns a list of available models.
+-  `generate_response(self, prompt: str, **kwargs: dict) -> str | dict | None`: Sends a request to the GlhfChat API to generate a response to a given prompt.
+-  `get_model_description(self, model: str) -> str | None`: Returns a description for a specified model.
 
-**Принцип работы**:
-
-Класс `GlhfChat` переопределяет атрибуты класса `OpenaiTemplate`, чтобы соответствовать особенностям API GlhfChat. Это позволяет использовать общую логику `OpenaiTemplate` для взаимодействия с различными моделями, предоставляемыми GlhfChat.
-
-## Параметры класса
-
-- `url` (str): URL для доступа к сервису GlhfChat.
-- `login_url` (str): URL для авторизации в сервисе GlhfChat.
-- `api_base` (str): Базовый URL для API GlhfChat.
-- `working` (bool): Флаг, указывающий на работоспособность сервиса.
-- `needs_auth` (bool): Флаг, указывающий на необходимость авторизации для работы с сервисом.
-- `default_model` (str): Модель, используемая по умолчанию.
-- `models` (List[str]): Список поддерживаемых моделей.
-
-**Примеры**
-
-Пример создания экземпляра класса `GlhfChat`:
+**Example**:
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.needs_auth.GlhfChat import GlhfChat
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.GlhfChat import GlhfChat
 
+# Initialize GlhfChat object
 glhf_chat = GlhfChat()
-print(glhf_chat.url)
-print(glhf_chat.default_model)
+
+# Get available models
+models = glhf_chat.get_models()
+
+# Generate a response using the default model
+response = glhf_chat.generate_response("Hello, world!")
+
+# Print the response
+print(response)
 ```

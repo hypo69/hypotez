@@ -1,117 +1,85 @@
-# Module BlackForestLabs_Flux1Schnell
+# BlackForestLabs_Flux1Schnell Provider
 
 ## Overview
 
-Этот модуль реализует асинхронный провайдер для генерации изображений с использованием модели BlackForestLabs Flux-1-Schnell. Он позволяет генерировать изображения на основе текстового запроса (prompt) с возможностью настройки параметров, таких как ширина, высота, количество шагов inference и seed.
+Этот модуль предоставляет класс `BlackForestLabs_Flux1Schnell`, который используется для асинхронной генерации изображений с помощью модели Flux-1-Schnell от BlackForestLabs. Модель доступна через Hugging Face Spaces.
 
-## More details
+## Details
 
-Модуль предоставляет класс `BlackForestLabs_Flux1Schnell`, который наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`. Он использует `aiohttp` для выполнения асинхронных HTTP-запросов к API BlackForestLabs Flux-1-Schnell.
+Класс `BlackForestLabs_Flux1Schnell` реализует интерфейс `AsyncGeneratorProvider` и `ProviderModelMixin` из `hypotez`. Он обеспечивает следующие функции:
+
+- **Асинхронная генерация изображений**: Класс позволяет асинхронно генерировать изображения с помощью модели Flux-1-Schnell.
+- **Обработка подсказок**: Класс принимает текст подсказки и преобразует его в формат, подходящий для модели.
+- **Обработка ответов**: Класс получает ответ от модели и преобразует его в формат `ImageResponse` для удобства использования.
 
 ## Classes
 
-### `BlackForestLabs_Flux1Schnell`
+### `class BlackForestLabs_Flux1Schnell(AsyncGeneratorProvider, ProviderModelMixin)`
 
-**Description**: Класс для взаимодействия с моделью BlackForestLabs Flux-1-Schnell для генерации изображений.
-**Inherits**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию результатов.
-- `ProviderModelMixin`: Предоставляет функциональность для работы с моделями провайдера.
+**Описание**: Класс `BlackForestLabs_Flux1Schnell` реализует асинхронную генерацию изображений с использованием модели Flux-1-Schnell от BlackForestLabs.
 
-**Attributes**:
-- `label` (str): Метка провайдера.
-- `url` (str): URL главной страницы BlackForestLabs Flux-1-Schnell.
-- `api_endpoint` (str): URL API для вызова inference.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `default_model` (str): Модель, используемая по умолчанию.
-- `default_image_model` (str): Модель изображения, используемая по умолчанию.
-- `model_aliases` (dict): Псевдонимы моделей.
-- `image_models` (list): Список моделей изображений.
-- `models` (list): Список моделей.
+**Наследует**:
+    - `AsyncGeneratorProvider`: Предоставляет функции для асинхронной генерации данных.
+    - `ProviderModelMixin`: Предоставляет базовые функции для работы с моделями.
 
-**Working principle**:
-Класс использует асинхронные HTTP-запросы для взаимодействия с API BlackForestLabs Flux-1-Schnell. Он отправляет POST-запрос с параметрами генерации изображения и получает результат в виде URL изображения. Результат возвращается как `ImageResponse`.
+**Атрибуты**:
 
-## Class Methods
+- `label`: Строка, которая используется для идентификации провайдера.
+- `url`: Строка, которая указывает на адрес Hugging Face Spaces, где размещена модель.
+- `api_endpoint`: Строка, которая указывает на конечную точку API для модели.
+- `working`: Булево значение, которое указывает, доступна ли модель.
+- `default_model`: Строка, которая содержит имя модели по умолчанию.
+- `default_image_model`: Строка, которая содержит имя модели по умолчанию для генерации изображений.
+- `model_aliases`: Словарь, который содержит псевдонимы для модели.
+- `image_models`: Список строк, которые содержат имена доступных моделей для генерации изображений.
+- `models`: Список строк, которые содержат имена доступных моделей.
 
-### `create_async_generator`
+**Методы**:
+
+#### `create_async_generator(model: str, messages: Messages, proxy: str = None, prompt: str = None, width: int = 768, height: int = 768, num_inference_steps: int = 2, seed: int = 0, randomize_seed: bool = True, **kwargs) -> AsyncResult`
+
+**Описание**: Функция, которая создает асинхронный генератор для получения изображений, сгенерированных моделью Flux-1-Schnell.
+
+**Параметры**:
+
+- `model`: Строка, которая указывает на модель, которую нужно использовать для генерации изображений.
+- `messages`: Список `Messages`, содержащий текст подсказки для модели.
+- `proxy`: Строка, которая указывает на прокси-сервер, который нужно использовать для доступа к модели.
+- `prompt`: Строка, которая содержит текст подсказки для модели.
+- `width`: Целое число, которое указывает на желаемую ширину изображения.
+- `height`: Целое число, которое указывает на желаемую высоту изображения.
+- `num_inference_steps`: Целое число, которое указывает на количество шагов для генерации изображения.
+- `seed`: Целое число, которое указывает на начальное значение для генератора случайных чисел.
+- `randomize_seed`: Булево значение, которое указывает, нужно ли использовать случайное начальное значение для генератора случайных чисел.
+- `**kwargs`: Дополнительные параметры, которые могут быть переданы в модель.
+
+**Возвращает**:
+    - `AsyncResult`: Асинхронный генератор, который генерирует изображения.
+
+**Примеры**:
 
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    prompt: str = None,
-    width: int = 768,
-    height: int = 768,
-    num_inference_steps: int = 2,
-    seed: int = 0,
-    randomize_seed: bool = True,
-    **kwargs
-) -> AsyncResult:
-    """Создает асинхронный генератор для генерации изображений.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.hf_space.BlackForestLabs_Flux1Schnell import BlackForestLabs_Flux1Schnell
 
-    Args:
-        cls (type): Класс BlackForestLabs_Flux1Schnell.
-        model (str): Модель для генерации изображения.
-        messages (Messages): Список сообщений для формирования запроса.
-        proxy (str, optional): Адрес прокси-сервера. По умолчанию `None`.
-        prompt (str, optional): Текстовый запрос для генерации изображения. По умолчанию `None`.
-        width (int, optional): Ширина изображения. По умолчанию 768.
-        height (int, optional): Высота изображения. По умолчанию 768.
-        num_inference_steps (int, optional): Количество шагов inference. По умолчанию 2.
-        seed (int, optional): Seed для генерации изображения. По умолчанию 0.
-        randomize_seed (bool, optional): Флаг для рандомизации seed. По умолчанию `True`.
-        **kwargs: Дополнительные параметры.
+# Создание провайдера
+provider = BlackForestLabs_Flux1Schnell()
 
-    Returns:
-        AsyncResult: Асинхронный генератор, возвращающий `ImageResponse` с URL изображения.
+# Создание асинхронного генератора
+async_generator = await provider.create_async_generator(
+    model="flux-schnell",
+    messages=[
+        {
+            "role": "user",
+            "content": "Сгенерируй изображение с котиком."
+        }
+    ],
+    width=512,
+    height=512
+)
 
-    Raises:
-        ResponseError: Если возникает ошибка при генерации изображения.
-
-    How the function works:
-        1. Функция принимает параметры для генерации изображения, такие как модель, текстовый запрос, размеры изображения, seed и другие.
-        2. Формируется полезная нагрузка (payload) с данными для POST-запроса к API.
-        3. Выполняется POST-запрос к API `cls.api_endpoint` с использованием `aiohttp.ClientSession`.
-        4. Проверяется статус ответа с помощью `raise_for_status`.
-        5. Извлекается `event_id` из JSON-ответа.
-        6. В цикле выполняются GET-запросы к API для получения статуса генерации изображения.
-        7. Читаются события из потока ответа.
-        8. Если тип события `error`, выбрасывается исключение `ResponseError`.
-        9. Если тип события `complete`, извлекается URL изображения из JSON-данных и возвращается `ImageResponse`.
-
-    """
+# Получение сгенерированного изображения
+async for image_response in async_generator:
+    # Обработка изображения
+    image_url = image_response.images[0]
+    # ...
 ```
-
-### Class Parameters
-- `cls` (type): Класс `BlackForestLabs_Flux1Schnell`.
-- `model` (str): Модель для генерации изображения.
-- `messages` (Messages): Список сообщений для формирования запроса.
-- `proxy` (str, optional): Адрес прокси-сервера. По умолчанию `None`.
-- `prompt` (str, optional): Текстовый запрос для генерации изображения. По умолчанию `None`.
-- `width` (int, optional): Ширина изображения. По умолчанию 768.
-- `height` (int, optional): Высота изображения. По умолчанию 768.
-- `num_inference_steps` (int, optional): Количество шагов inference. По умолчанию 2.
-- `seed` (int, optional): Seed для генерации изображения. По умолчанию 0.
-- `randomize_seed` (bool, optional): Флаг для рандомизации seed. По умолчанию `True`.
-- `**kwargs`: Дополнительные параметры.
-
-**Examples**:
-Пример вызова функции `create_async_generator` с различными параметрами:
-
-```python
-# from src.endpoints.gpt4free.g4f.typing import Messages
-# messages: Messages = [{"role": "user", "content": "Generate a futuristic cityscape"}]
-# result = await BlackForestLabs_Flux1Schnell.create_async_generator(
-#     model="black-forest-labs-flux-1-schnell",
-#     messages=messages,
-#     width=512,
-#     height=512,
-#     num_inference_steps=5,
-#     seed=42,
-#     randomize_seed=False
-# )
-# async for item in result:
-#     print(item)

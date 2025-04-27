@@ -1,23 +1,22 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код предназначен для подготовки JSON-файлов для рекламных кампаний AliExpress. Он использует модуль `AliCampaignEditor` для управления и обработки данных кампаний, а также функции для обработки категорий и самих кампаний.
+Блок кода импортирует необходимые модули и создает экземпляр класса `AliCampaignEditor`. Затем он объявляет переменные `locales`, `campaign_name` и `campaign_file`. В конце концов, код запускает функции `process_campaign` и `process_all_campaigns`, но эти вызовы закомментированы.
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей**: Импортируются модули `header`, `Path`, `AliCampaignEditor`, `gs`, функции `process_campaign_category`, `process_campaign`, `process_all_campaigns`, `get_filenames`, `get_directory_names`, `pprint` и `logger`.
-2. **Инициализация переменных**:
-   - Задается имя кампании (`campaign_name`) как `'lighting'`.
-   - Задается имя файла кампании (`campaign_file`) как `'EN_US.JSON'`.
-3. **Создание экземпляра `AliCampaignEditor`**: Создается экземпляр класса `AliCampaignEditor` с именем кампании и файлом кампании.
-4. **Вывод имени файла кампании**: Выводится значение переменной `campaign_file`.
-5. **Закомментированные вызовы функций**: В коде закомментированы вызовы функций `process_campaign` и `process_all_campaigns`, что указывает на то, что они могут быть использованы для обработки кампании или всех кампаний соответственно.
+1. Импортирует необходимые модули: `header`, `Path`, `AliCampaignEditor`, `gs`, `process_campaign_category`, `process_campaign`, `process_all_campaigns`, `get_filenames`, `get_directory_names`, `pprint` и `logger`.
+2. Объявляет словарь `locales`, содержащий информацию о валютах для разных языков.
+3. Объявляет строковую переменную `campaign_name` с именем кампании.
+4. Объявляет строковую переменную `campaign_file` с именем файла кампании.
+5. Создает экземпляр класса `AliCampaignEditor` с именем `campaign_editor` и передаёт в него значения `campaign_name` и `campaign_file`.
+6. Выводит значение переменной `campaign_file`.
+7. Запускает функции `process_campaign` и `process_all_campaigns`, но эти вызовы закомментированы.
 
-Пример использования
+### Пример использования
 -------------------------
-
 ```python
 import header
 from pathlib import Path
@@ -28,12 +27,12 @@ from src.utils import get_filenames, get_directory_names
 from src.utils.printer import pprint
 from src.logger.logger import logger
 
+#locales = {'EN': 'USD', 'HE': 'ILS', 'RU': 'ILS'}
 campaign_name = 'lighting'
 campaign_file = 'EN_US.JSON'
-campaign_editor = AliCampaignEditor(campaign_name = campaign_name, campaign_file = campaign_file)
+campaign_editor = AliCampaignEditor(campaign_name = campaign_name, campaign_file = campaign_file )
+campaign_file
+#process_campaign(campaign_name)
+#process_all_campaigns()
 
-# Пример вызова функции для обработки конкретной кампании
-# process_campaign(campaign_name)
-
-# Пример вызова функции для обработки всех кампаний
-# process_all_campaigns()
+```

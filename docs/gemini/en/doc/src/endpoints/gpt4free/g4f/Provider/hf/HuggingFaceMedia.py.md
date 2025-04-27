@@ -1,202 +1,334 @@
-# Модуль: HuggingFaceMedia
+## \file hypotez/src/endpoints/gpt4free/g4f/Provider/hf/HuggingFaceMedia.py
+# -*- coding: utf-8 -*-
+#! .pyenv/bin/python3
 
-## Обзор
+"""
+Модуль для работы с сервисом HuggingFace для генерации изображений и видео
+===============================================================
 
-Модуль `HuggingFaceMedia` предоставляет асинхронный интерфейс для генерации изображений и видео с использованием моделей Hugging Face. Он поддерживает различные задачи, такие как преобразование текста в изображение и текста в видео, и интегрируется с разными провайдерами через API Hugging Face.
+Модуль предоставляет класс `HuggingFaceMedia`, который реализует 
+генерацию изображений и видео на основе моделей HuggingFace.
+Класс наследует от `AsyncGeneratorProvider` и `ProviderModelMixin`, 
+что позволяет асинхронно получать данные и 
+использовать различные модели, доступные на платформе.
 
-## Более подробно
+## Содержание
+- Класс `HuggingFaceMedia`
+    - Метод `get_models`
+    - Метод `get_mapping`
+    - Метод `create_async_generator`
 
-Этот модуль является частью проекта `hypotez` и предназначен для работы с моделями Hugging Face для генерации мультимедийного контента. Он использует асинхронные запросы для эффективного взаимодействия с API и поддерживает различные параметры конфигурации для управления процессом генерации. Модуль также обрабатывает ошибки и обеспечивает гибкость выбора провайдера для каждой задачи.
+"""
 
-## Классы
+from __future__ import annotations
 
-### `HuggingFaceMedia`
+import time
+import asyncio
+import random
+import requests
 
-**Описание**:
-Класс `HuggingFaceMedia` является асинхронным провайдером для генерации изображений и видео с использованием моделей Hugging Face. Он расширяет `AsyncGeneratorProvider` и `ProviderModelMixin`.
+from ...providers.types import Messages
+from ...requests import StreamSession, raise_for_status
+from ...errors import ModelNotSupportedError
+from ...providers.helper import format_image_prompt
+from ...providers.base_provider import AsyncGeneratorProvider, ProviderModelMixin
+from ...providers.response import ProviderInfo, ImageResponse, VideoResponse, Reasoning
+from ...image.copy_images import save_response_media
+from ...image import use_aspect_ratio
+from ... import debug
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
-- `ProviderModelMixin`: Предоставляет функциональность для работы с моделями провайдера.
 
-**Атрибуты**:
-- `label` (str): Метка провайдера ("HuggingFace (Image/Video Generation)").
-- `parent` (str): Родительский провайдер ("HuggingFace").
-- `url` (str): URL Hugging Face ("https://huggingface.co").
-- `working` (bool): Флаг, указывающий, что провайдер работает (True).
-- `needs_auth` (bool): Флаг, указывающий необходимость аутентификации (True).
-- `tasks` (list[str]): Список поддерживаемых задач (["text-to-image", "text-to-video"]).
-- `provider_mapping` (dict[str, dict]): Словарь соответствия провайдеров.
-- `task_mapping` (dict[str, str]): Словарь соответствия задач.
-- `models` (list[str]): Список поддерживаемых моделей.
-- `image_models` (list[str]): Список моделей для генерации изображений.
-- `video_models` (list[str]): Список моделей для генерации видео.
-
-**Принцип работы**:
-Класс `HuggingFaceMedia` использует API Hugging Face для генерации изображений и видео на основе предоставленного текста. Он поддерживает различные модели и провайдеры, позволяя пользователям выбирать наиболее подходящий вариант для их нужд. Класс также обеспечивает обработку ошибок и асинхронное выполнение задач для повышения производительности.
-
-**Методы**:
-- `get_models(**kwargs)`: Возвращает список доступных моделей.
-- `get_mapping(model: str, api_key: str = None)`: Получает соответствие провайдеров для указанной модели.
-- `create_async_generator(model: str, messages: Messages, api_key: str = None, extra_data: dict = {}, prompt: str = None, proxy: str = None, timeout: int = 0, n: int = 1, aspect_ratio: str = None, height: int = None, width: int = None, resolution: str = "480p", **kwargs)`: Создает асинхронный генератор для выполнения задачи генерации.
-
-## Методы класса
-
-### `get_models`
-
-```python
-@classmethod
-def get_models(cls, **kwargs) -> list[str]:
+class HuggingFaceMedia(AsyncGeneratorProvider, ProviderModelMixin):
     """
-    Возвращает список доступных моделей Hugging Face для генерации изображений и видео.
+    Класс для работы с сервисом HuggingFace для генерации изображений и видео
 
-    Args:
-        **kwargs: Дополнительные аргументы (не используются).
+    **Наследует**:
+        - `AsyncGeneratorProvider`: Для асинхронной генерации данных
+        - `ProviderModelMixin`: Для работы с различными моделями
 
-    Returns:
-        list[str]: Список доступных моделей.
+    **Атрибуты**:
+        - `label` (str): Метка провайдера
+        - `parent` (str): Родительский провайдер
+        - `url` (str): URL провайдера
+        - `working` (bool): Флаг активности провайдера
+        - `needs_auth` (bool): Флаг необходимости аутентификации
+        - `tasks` (list[str]): Список поддерживаемых задач
+        - `provider_mapping` (dict[str, dict]): Карта провайдеров
+        - `task_mapping` (dict[str, str]): Карта задач
+
+    **Методы**:
+        - `get_models`(): Получение списка доступных моделей
+        - `get_mapping`(): Получение карты провайдеров для модели
+        - `create_async_generator`(): Создание асинхронного генератора для генерации изображений и видео
     """
-```
+    label = "HuggingFace (Image/Video Generation)"
+    parent = "HuggingFace"
+    url = "https://huggingface.co"
+    working = True
+    needs_auth = True
 
-**Назначение**:
-Метод `get_models` получает список доступных моделей из API Hugging Face. Если список моделей еще не был получен, он делает запрос к API и сохраняет полученные модели в атрибуте класса `cls.models`.
+    tasks = ["text-to-image", "text-to-video"]
+    provider_mapping: dict[str, dict] = {}
+    task_mapping: dict[str, str] = {}
 
-**Как работает**:
-1. Проверяет, если `cls.models` пуст. Если да, то выполняется запрос к API Hugging Face.
-2. Формирует URL для запроса к API Hugging Face.
-3. Выполняет GET-запрос к API.
-4. Обрабатывает ответ API, извлекая информацию о моделях и их провайдерах.
-5. Формирует списки моделей для изображений и видео.
-6. Сохраняет полученные модели в атрибуте класса `cls.models`.
+    @classmethod
+    def get_models(cls, **kwargs) -> list[str]:
+        """
+        Получение списка доступных моделей на платформе HuggingFace
 
-### `get_mapping`
+        Args:
+            **kwargs: Дополнительные аргументы
 
-```python
-@classmethod
-async def get_mapping(cls, model: str, api_key: str = None):
-    """
-    Получает соответствие провайдеров для указанной модели.
+        Returns:
+            list[str]: Список моделей
 
-    Args:
-        model (str): Имя модели.
-        api_key (str, optional): API-ключ. Defaults to None.
+        """
+        if not cls.models:
+            url = "https://huggingface.co/api/models?inference=warm&expand[]=inferenceProviderMapping"
+            response = requests.get(url)
+            if response.ok:
+                models = response.json()
+                providers = {
+                    model["id"]: [
+                        provider
+                        for provider in model.get("inferenceProviderMapping")
+                        if provider.get("status") == "live" and provider.get("task") in cls.tasks
+                    ]
+                    for model in models
+                    if [
+                        provider
+                        for provider in model.get("inferenceProviderMapping")
+                        if provider.get("status") == "live" and provider.get("task") in cls.tasks
+                    ]
+                }
+                new_models = []
+                for model, provider_keys in providers.items():
+                    new_models.append(model)
+                    for provider_data in provider_keys:
+                        new_models.append(f"{model}:{provider_data.get('provider')}")
+                cls.task_mapping = {
+                    model["id"]: [
+                        provider.get("task")
+                        for provider in model.get("inferenceProviderMapping")
+                    ].pop()
+                    for model in models
+                }
+                prepend_models = []
+                for model, provider_keys in providers.items():
+                    task = cls.task_mapping.get(model)
+                    if task == "text-to-video":
+                        prepend_models.append(model)
+                        for provider_data in provider_keys:
+                            prepend_models.append(f"{model}:{provider_data.get('provider')}")
+                cls.models = prepend_models + [model for model in new_models if model not in prepend_models]
+                cls.image_models = [model for model, task in cls.task_mapping.items() if task == "text-to-image"]
+                cls.video_models = [model for model, task in cls.task_mapping.items() if task == "text-to-video"]
+            else:
+                cls.models = []
+        return cls.models
 
-    Returns:
-        dict: Словарь соответствия провайдеров.
-    """
-```
+    @classmethod
+    async def get_mapping(cls, model: str, api_key: str = None):
+        """
+        Получение карты провайдеров для модели
 
-**Назначение**:
-Метод `get_mapping` получает соответствие провайдеров для указанной модели из API Hugging Face. Если соответствие уже существует в `cls.provider_mapping`, оно возвращается из кэша.
+        Args:
+            model (str): Имя модели
+            api_key (str, optional): API-ключ. По умолчанию `None`.
 
-**Как работает**:
-1. Проверяет, если соответствие для данной модели уже существует в `cls.provider_mapping`.
-2. Если соответствие не найдено, выполняется запрос к API Hugging Face для получения информации о модели и её провайдерах.
-3. Формирует заголовок запроса, включая API-ключ, если он предоставлен.
-4. Выполняет GET-запрос к API.
-5. Обрабатывает ответ API, извлекая информацию о соответствии провайдеров.
-6. Сохраняет полученное соответствие в `cls.provider_mapping`.
+        Returns:
+            dict: Карта провайдеров
 
-### `create_async_generator`
+        """
+        if model in cls.provider_mapping:
+            return cls.provider_mapping[model]
+        headers = {
+            'Content-Type': 'application/json',
+        }
+        if api_key is not None:
+            headers["Authorization"] = f"Bearer {api_key}"
+        async with StreamSession(
+            timeout=30,
+            headers=headers,
+        ) as session:
+            async with session.get(f"https://huggingface.co/api/models/{model}?expand[]=inferenceProviderMapping") as response:
+                await raise_for_status(response)
+                model_data = await response.json()
+                cls.provider_mapping[model] = {key: value for key, value in model_data.get("inferenceProviderMapping").items() if value["status"] == "live"}
+        return cls.provider_mapping[model]
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    api_key: str = None,
-    extra_data: dict = {},
-    prompt: str = None,
-    proxy: str = None,
-    timeout: int = 0,
-    # Video & Image Generation
-    n: int = 1,
-    aspect_ratio: str = None,
-    # Only for Image Generation
-    height: int = None,
-    width: int = None,
-    # Video Generation
-    resolution: str = "480p",
-    **kwargs
-):
-    """
-    Создает асинхронный генератор для выполнения задачи генерации изображений или видео.
+    @classmethod
+    async def create_async_generator(
+        cls,
+        model: str,
+        messages: Messages,
+        api_key: str = None,
+        extra_data: dict = {},
+        prompt: str = None,
+        proxy: str = None,
+        timeout: int = 0,
+        # Video & Image Generation
+        n: int = 1,
+        aspect_ratio: str = None,
+        # Only for Image Generation
+        height: int = None,
+        width: int = None,
+        # Video Generation
+        resolution: str = "480p",
+        **kwargs
+    ):
+        """
+        Создание асинхронного генератора для генерации изображений и видео
 
-    Args:
-        model (str): Имя модели.
-        messages (Messages): Список сообщений для генерации.
-        api_key (str, optional): API-ключ. Defaults to None.
-        extra_data (dict, optional): Дополнительные данные для запроса. Defaults to {}.
-        prompt (str, optional): Текст запроса. Defaults to None.
-        proxy (str, optional): Proxy-сервер. Defaults to None.
-        timeout (int, optional): Время ожидания запроса. Defaults to 0.
-        n (int, optional): Количество генераций. Defaults to 1.
-        aspect_ratio (str, optional): Соотношение сторон. Defaults to None.
-        height (int, optional): Высота изображения. Defaults to None.
-        width (int, optional): Ширина изображения. Defaults to None.
-        resolution (str, optional): Разрешение видео. Defaults to "480p".
-        **kwargs: Дополнительные аргументы.
+        Args:
+            model (str): Имя модели
+            messages (Messages): Сообщения для генерации
+            api_key (str, optional): API-ключ. По умолчанию `None`.
+            extra_data (dict, optional): Дополнительные данные для запроса. По умолчанию `{}`.
+            prompt (str, optional): Текст запроса. По умолчанию `None`.
+            proxy (str, optional): Прокси-сервер. По умолчанию `None`.
+            timeout (int, optional): Таймаут запроса. По умолчанию `0`.
+            n (int, optional): Количество результатов генерации. По умолчанию `1`.
+            aspect_ratio (str, optional): Соотношение сторон. По умолчанию `None`.
+            height (int, optional): Высота изображения. По умолчанию `None`.
+            width (int, optional): Ширина изображения. По умолчанию `None`.
+            resolution (str, optional): Разрешение видео. По умолчанию `"480p"`.
+            **kwargs: Дополнительные аргументы
 
-    Yields:
-        Reasoning: Информация о процессе генерации.
-        ProviderInfo: Информация о провайдере.
-        ImageResponse | VideoResponse: Сгенерированные изображения или видео.
-    """
-```
+        Returns:
+            AsyncGenerator: Асинхронный генератор
 
-**Назначение**:
-Метод `create_async_generator` создает асинхронный генератор для выполнения задачи генерации изображений или видео. Он выбирает подходящего провайдера, формирует запрос к API и возвращает сгенерированные результаты.
+        """
+        selected_provider = None
+        if model and ":" in model:
+            model, selected_provider = model.split(":", 1)
+        elif not model:
+            model = cls.get_models()[0]
+        prompt = format_image_prompt(messages, prompt)
+        provider_mapping = await cls.get_mapping(model, api_key)
+        headers = {
+            'Accept-Encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+        }
+        new_mapping = {
+            "hf-free" if key == "hf-inference" else key: value for key, value in provider_mapping.items()
+            if key in ["replicate", "together", "hf-inference"]
+        }
+        provider_mapping = {**new_mapping, **provider_mapping}
+        async def generate(extra_data: dict, aspect_ratio: str = None):
+            """
+            Внутренняя функция для генерации изображений и видео
 
-**Как работает**:
-1. Определяет выбранного провайдера и модель.
-2. Форматирует текст запроса.
-3. Получает соответствие провайдеров для модели.
-4. Определяет параметры запроса, такие как URL, заголовки и данные.
-5. Выполняет асинхронные запросы к API выбранного провайдера.
-6. Обрабатывает ответы API, возвращая сгенерированные изображения или видео.
-7. Поддерживает генерацию нескольких результатов (`n`).
-8. Логирует процесс выполнения.
+            Args:
+                extra_data (dict): Дополнительные данные для запроса
+                aspect_ratio (str, optional): Соотношение сторон. По умолчанию `None`.
 
-**Внутренние функции**: Если есть какие-либо внутренние функции, то их нужно рассмотреть отдельно.
-- `generate(extra_data: dict, aspect_ratio: str = None)`:
+            Returns:
+                tuple: Информация о провайдере и результат генерации
 
-```python
-async def generate(extra_data: dict, aspect_ratio: str = None):
-    """
-    Выполняет генерацию изображения или видео с использованием выбранного провайдера.
+            """
+            last_response = None
+            for provider_key, provider in provider_mapping.items():
+                if selected_provider is not None and selected_provider != provider_key:
+                    continue
+                provider_info = ProviderInfo(**{**cls.get_dict(), "label": f"HuggingFace ({provider_key})", "url": f"{cls.url}/{model}"})
 
-    Args:
-        extra_data (dict): Дополнительные данные для запроса.
-        aspect_ratio (str, optional): Соотношение сторон. Defaults to None.
+                api_base = f"https://router.huggingface.co/{provider_key}"
+                task = provider["task"]
+                provider_id = provider["providerId"]
+                if task not in cls.tasks:
+                    raise ModelNotSupportedError(f"Model is not supported: {model} in: {cls.__name__} task: {task}")
 
-    Yields:
-        ProviderInfo: Информация о провайдере.
-        ImageResponse | VideoResponse: Сгенерированные изображения или видео.
-    """
-```
-   **Назначение**:
-   Внутренняя функция `generate` выполняет фактическую генерацию изображения или видео с использованием выбранного провайдера.
+                if aspect_ratio is None:
+                    aspect_ratio = "1:1" if task == "text-to-image" else "16:9"
+                if task == "text-to-video" and provider_key != "novita":
+                    extra_data = {
+                        "num_inference_steps": 20,
+                        "resolution": resolution,
+                        "aspect_ratio": aspect_ratio,
+                        **extra_data
+                    }
+                else:
+                    extra_data = use_aspect_ratio({
+                        **extra_data,
+                        "height": height,
+                        "width": width,
+                    }, aspect_ratio)
+                url = f"{api_base}/{provider_id}"
+                data = {
+                    "prompt": prompt,
+                    **extra_data
+                }
+                if provider_key == "fal-ai" and task == "text-to-image":
+                    data = {
+                        "image_size": extra_data,
+                        **data
+                    }
+                elif provider_key == "novita":
+                    url = f"{api_base}/v3/hf/{provider_id}"
+                elif provider_key == "replicate":
+                    url = f"{api_base}/v1/models/{provider_id}/predictions"
+                    data = {
+                        "input": data
+                    }
+                elif provider_key in ("hf-inference", "hf-free"):
+                    api_base = "https://api-inference.huggingface.co"
+                    url = f"{api_base}/models/{provider_id}"
+                    data = {
+                        "inputs": prompt,
+                        "parameters": {
+                            "seed": random.randint(0, 2**32),
+                            **extra_data
+                        }
+                    }
+                elif task == "text-to-image":
+                    url = f"{api_base}/v1/images/generations"
+                    data = {
+                        "response_format": "url",
+                        "model": provider_id,
+                        **data
+                    }
 
-   **Как работает**:
-   1. Перебирает доступных провайдеров и выбирает подходящего.
-   2. Формирует параметры запроса, такие как URL, заголовки и данные.
-   3. Выполняет асинхронный запрос к API выбранного провайдера.
-   4. Обрабатывает ответ API, возвращая сгенерированное изображение или видео.
-   5. Обрабатывает возможные ошибки и исключения.
+                async with StreamSession(
+                    headers=headers if provider_key == "hf-free" or api_key is None else {**headers, "Authorization": f"Bearer {api_key}"},
+                    proxy=proxy,
+                    timeout=timeout
+                ) as session:
+                    async with session.post(url, json=data) as response:
+                        if response.status in (400, 401, 402):
+                            last_response = response
+                            debug.error(f"{cls.__name__}: Error {response.status} with {provider_key} and {provider_id}")
+                            continue
+                        if response.status == 404:
+                            raise ModelNotSupportedError(f"Model is not supported: {model}")
+                        await raise_for_status(response)
+                        async for chunk in save_response_media(response, prompt, [aspect_ratio, model]):
+                            return provider_info, chunk
+                        result = await response.json()
+                        if "video" in result:
+                            return provider_info, VideoResponse(result.get("video").get("url", result.get("video").get("video_url")), prompt)
+                        elif task == "text-to-image":
+                            return provider_info, ImageResponse([item["url"] for item in result.get("images", result.get("data"))], prompt)
+                        elif task == "text-to-video":
+                            return provider_info, VideoResponse(result["output"], prompt)
+            await raise_for_status(last_response)
 
-**Примеры**:
-```python
-# Пример вызова create_async_generator
-model = "stabilityai/stable-diffusion-2"
-messages = [{"role": "user", "content": "generate a cat image"}]
-async for item in HuggingFaceMedia.create_async_generator(model=model, messages=messages, n=1):
-    print(item)
-```
-```python
-# Пример вызова с указанием API-ключа и дополнительных параметров
-model = "stabilityai/stable-diffusion-2"
-messages = [{"role": "user", "content": "generate a cat image"}]
-extra_data = {"num_inference_steps": 30}
-async for item in HuggingFaceMedia.create_async_generator(model=model, messages=messages, api_key="YOUR_API_KEY", extra_data=extra_data, n=2):
-    print(item)
+        background_tasks = set()
+        running_tasks = set()
+        started = time.time()
+        while n > 0:
+            n -= 1
+            task = asyncio.create_task(generate(extra_data, aspect_ratio))
+            background_tasks.add(task)
+            running_tasks.add(task)
+            task.add_done_callback(running_tasks.discard)
+        while running_tasks:
+            diff = time.time() - started
+            if diff > 1:
+                yield Reasoning(label="Generating", status=f"{diff:.2f}s")
+            await asyncio.sleep(0.2)
+        for task in background_tasks:
+            provider_info, media_response = await task
+            yield Reasoning(label="Finished", status=f"{time.time() - started:.2f}s")
+            yield provider_info
+            yield media_response

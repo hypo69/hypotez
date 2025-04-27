@@ -1,243 +1,260 @@
-# Документация модуля dao.py
+# DAO for Telegram Digital Market Bot
 
-## Описание
+## Overview
 
-Модуль `dao.py` содержит классы для взаимодействия с базой данных, используя SQLAlchemy. Он предоставляет DAO (Data Access Object) для моделей `User`, `Purchase`, `Category` и `Product`. Включает методы для получения статистической информации о пользователях и покупках, а также для работы с категориями и продуктами.
+This module contains data access objects (DAO) for interacting with the database related to the Telegram Digital Market bot. It provides functions for retrieving and managing user data, purchase information, product details, and category information.
 
-## Содержание
+## Details
 
-- [UserDAO](#UserDAO)
-  - [get_purchase_statistics](#get_purchase_statistics)
-  - [get_purchased_products](#get_purchased_products)
-  - [get_statistics](#get_statistics)
-- [PurchaseDao](#PurchaseDao)
-  - [get_payment_stats](#get_payment_stats)
-  - [get_full_summ](#get_full_summ)
-  - [get_next_id](#get_next_id)
-- [CategoryDao](#CategoryDao)
-- [ProductDao](#ProductDao)
+The DAO classes in this module use SQLAlchemy to interact with the database. They provide a layer of abstraction over the database operations, simplifying the process of retrieving and manipulating data from the database.
 
-## Детали
+## Classes
 
 ### `UserDAO`
 
-Класс для доступа к данным модели `User`.
-**Наследуется от**: `BaseDAO[User]`
+**Description**: This class provides methods for interacting with the `User` table in the database. It inherits from the base `BaseDAO` class.
 
-#### `get_purchase_statistics`
+**Inherits**: `BaseDAO[User]`
 
-```python
-@classmethod
-async def get_purchase_statistics(cls, session: AsyncSession, telegram_id: int) -> Optional[Dict[str, int]]:
-    """
-    Функция получает статистику покупок пользователя.
+**Attributes**:
 
-    Args:
-        session (AsyncSession): Асинхронная сессия базы данных.
-        telegram_id (int): Telegram ID пользователя.
+- `model`:  The `User` model class.
 
-    Returns:
-        Optional[Dict[str, int]]: Словарь со статистикой покупок пользователя или `None` в случае ошибки.
-                                  Содержит ключи `'total_purchases'` (общее количество покупок) и `'total_amount'` (общая сумма покупок).
+**Methods**:
 
-    Raises:
-        SQLAlchemyError: При возникновении ошибки при работе с базой данных.
-
-    Example:
-        Пример вызова:
-        >>> await UserDAO.get_purchase_statistics(session, 123456789)
-        {'total_purchases': 10, 'total_amount': 1000}
-    """
-```
-
-**Как работает**:
-
-1.  Формируется запрос к базе данных для подсчета общего числа покупок и общей суммы покупок для указанного `telegram_id`.
-2.  Выполняется запрос с использованием `session.execute`.
-3.  Извлекаются результаты запроса.
-4.  В случае отсутствия данных возвращается `None`.
-5.  Возвращается словарь с ключами `'total_purchases'` и `'total_amount'`.
-6.  При возникновении ошибки SQLAlchemyError, она регистрируется в логе, и возвращается `None`.
-
-#### `get_purchased_products`
-
-```python
-@classmethod
-async def get_purchased_products(cls, session: AsyncSession, telegram_id: int) -> Optional[List[Purchase]]:
-    """
-    Функция получает список приобретенных товаров пользователем.
-
-    Args:
-        session (AsyncSession): Асинхронная сессия базы данных.
-        telegram_id (int): Telegram ID пользователя.
-
-    Returns:
-        Optional[List[Purchase]]: Список покупок пользователя или `None` в случае ошибки.
-
-    Raises:
-        SQLAlchemyError: При возникновении ошибки при работе с базой данных.
-
-    Example:
-        Пример вызова:
-        >>> await UserDAO.get_purchased_products(session, 123456789)
-        [<Purchase object at 0x...>, <Purchase object at 0x...>]
-    """
-```
-
-**Как работает**:
-
-1.  Формируется запрос к базе данных для получения пользователя с его покупками и связанными продуктами на основе `telegram_id`.
-2.  Используется `selectinload` для оптимизации загрузки связанных данных.
-3.  Выполняется запрос с использованием `session.execute`.
-4.  Извлекается объект пользователя.
-5.  В случае отсутствия пользователя возвращается `None`.
-6.  Возвращается список покупок пользователя.
-7.  При возникновении ошибки SQLAlchemyError, она регистрируется в логе, и возвращается `None`.
-
-#### `get_statistics`
-
-```python
-@classmethod
-async def get_statistics(cls, session: AsyncSession):
-    """
-    Функция получает статистику по пользователям (общее количество, новые за сегодня, неделю, месяц).
-
-    Args:
-        session (AsyncSession): Асинхронная сессия базы данных.
-
-    Returns:
-        Dict[str, int]: Словарь со статистикой пользователей.
-
-    Raises:
-        SQLAlchemyError: При возникновении ошибки при работе с базой данных.
-
-    Example:
-        Пример вызова:
-        >>> await UserDAO.get_statistics(session)
-        {'total_users': 100, 'new_today': 5, 'new_week': 20, 'new_month': 50}
-    """
-```
-
-**Как работает**:
-
-1.  Получает текущее время в UTC.
-2.  Формирует запрос к базе данных для подсчета общего количества пользователей, новых пользователей за сегодня, за неделю и за месяц.
-3.  Используется `case` для условного подсчета новых пользователей.
-4.  Выполняется запрос с использованием `session.execute`.
-5.  Извлекаются результаты запроса.
-6.  Формируется и возвращается словарь со статистикой.
-7.  В случае возникновения ошибки SQLAlchemyError, она регистрируется в логе и вызывается исключение.
+- `get_purchase_statistics(session: AsyncSession, telegram_id: int) -> Optional[Dict[str, int]]`: Retrieves purchase statistics for a user based on their Telegram ID.
+- `get_purchased_products(session: AsyncSession, telegram_id: int) -> Optional[List[Purchase]]`: Retrieves a list of purchases made by a user, including product information.
+- `get_statistics(session: AsyncSession) -> Dict[str, int]`: Retrieves overall statistics about users, including the total number of users and the number of new users in the last day, week, and month.
 
 ### `PurchaseDao`
 
-Класс для доступа к данным модели `Purchase`.
+**Description**: This class provides methods for interacting with the `Purchase` table in the database. It inherits from the base `BaseDAO` class.
 
-**Наследуется от**: `BaseDAO[Purchase]`
+**Inherits**: `BaseDAO[Purchase]`
 
-#### `get_payment_stats`
+**Attributes**:
 
-```python
-@classmethod
-async def get_payment_stats(cls, session: AsyncSession) -> str:
-    """
-    Функция получает статистику по типам оплат.
+- `model`: The `Purchase` model class.
 
-    Args:
-        session (AsyncSession): Асинхронная сессия базы данных.
+**Methods**:
 
-    Returns:
-        str: Форматированная строка со статистикой по типам оплат.
-
-    Raises:
-        SQLAlchemyError: При возникновении ошибки при работе с базой данных.
-
-    Example:
-        Пример вызова:
-        >>> await PurchaseDao.get_payment_stats(session)
-        '💳 Юкасса: 5000.00 ₽\\n🤖 Робокасса: 3000.00 ₽\\n⭐ STARS: 100\\n\\nСтатистика актуальна на данный момент.'
-    """
-```
-
-**Как работает**:
-
-1.  Формируется запрос к базе данных для получения статистики по типам оплат (payment\_type) и сумме цен (price).
-2.  Выполняется запрос с использованием `session.execute`.
-3.  Извлекаются результаты запроса.
-4.  Формируется словарь `totals` для хранения результатов по каждому типу оплаты.
-5.  Заполняется словарь результатами запроса.
-6.  Форматируется строка со статистикой.
-7.  Возвращается форматированная строка.
-
-#### `get_full_summ`
-
-```python
-@classmethod
-async def get_full_summ(cls, session: AsyncSession) -> int:
-    """
-    Функция получает полную сумму всех покупок.
-
-    Args:
-        session (AsyncSession): Асинхронная сессия базы данных.
-
-    Returns:
-        int: Полная сумма всех покупок.
-
-    Raises:
-        SQLAlchemyError: При возникновении ошибки при работе с базой данных.
-
-    Example:
-        Пример вызова:
-        >>> await PurchaseDao.get_full_summ(session)
-        8000
-    """
-```
-
-**Как работает**:
-
-1.  Формируется запрос к базе данных для получения полной суммы всех покупок.
-2.  Выполняется запрос с использованием `session.execute`.
-3.  Извлекается результат запроса.
-4.  Возвращается полная сумма всех покупок.
-
-#### `get_next_id`
-
-```python
-@classmethod
-async def get_next_id(cls, session: AsyncSession) -> int:
-    """
-    Функция возвращает следующий свободный ID для новой записи.
-
-    Args:
-        session (AsyncSession): Асинхронная сессия базы данных.
-
-    Returns:
-        int: Следующий свободный ID.
-
-    Raises:
-        SQLAlchemyError: При возникновении ошибки при работе с базой данных.
-
-    Example:
-        Пример вызова:
-        >>> await PurchaseDao.get_next_id(session)
-        6
-    """
-```
-
-**Как работает**:
-
-1.  Формируется запрос к базе данных для получения максимального значения ID и добавления 1 для получения следующего свободного ID. Если таблица пуста, возвращается 1.
-2.  Выполняется запрос с использованием `session.execute`.
-3.  Извлекается результат запроса.
-4.  Возвращается следующий свободный ID.
+- `get_payment_stats(session: AsyncSession) -> str`: Retrieves payment statistics, showing the total amount of money paid using different payment methods.
+- `get_full_summ(session: AsyncSession) -> int`: Calculates the total amount of money paid for all purchases.
+- `get_next_id(session: AsyncSession) -> int`: Retrieves the next available ID for a new purchase record.
 
 ### `CategoryDao`
 
-Класс для доступа к данным модели `Category`.
+**Description**: This class provides methods for interacting with the `Category` table in the database. It inherits from the base `BaseDAO` class.
 
-**Наследуется от**: `BaseDAO[Category]`
+**Inherits**: `BaseDAO[Category]`
+
+**Attributes**:
+
+- `model`: The `Category` model class.
 
 ### `ProductDao`
 
-Класс для доступа к данным модели `Product`.
+**Description**: This class provides methods for interacting with the `Product` table in the database. It inherits from the base `BaseDAO` class.
 
-**Наследуется от**: `BaseDAO[Product]`
+**Inherits**: `BaseDAO[Product]`
+
+**Attributes**:
+
+- `model`: The `Product` model class.
+
+
+## Functions
+
+### `get_purchase_statistics(session: AsyncSession, telegram_id: int) -> Optional[Dict[str, int]]`
+
+**Purpose**: Retrieves purchase statistics for a user based on their Telegram ID.
+
+**Parameters**:
+
+- `session` (AsyncSession): An asynchronous database session.
+- `telegram_id` (int): The Telegram ID of the user.
+
+**Returns**:
+
+- `Optional[Dict[str, int]]`: A dictionary containing the total number of purchases and the total amount spent, or `None` if no purchases were found.
+
+**Raises Exceptions**:
+
+- `SQLAlchemyError`: If an error occurs while interacting with the database.
+
+**How the Function Works**:
+
+1. The function executes a SQL query to count the number of purchases and sum the prices for a specific user based on their Telegram ID.
+2. The result is extracted as a tuple containing the total number of purchases and the total amount spent.
+3. The function returns a dictionary containing the extracted statistics.
+
+**Examples**:
+
+```python
+# Example usage:
+stats = await UserDAO.get_purchase_statistics(session, telegram_id=123456789)
+if stats:
+    print(f"Total purchases: {stats['total_purchases']}")
+    print(f"Total amount spent: {stats['total_amount']}")
+else:
+    print("User has no purchases.")
+```
+
+### `get_purchased_products(session: AsyncSession, telegram_id: int) -> Optional[List[Purchase]]`
+
+**Purpose**: Retrieves a list of purchases made by a user, including product information.
+
+**Parameters**:
+
+- `session` (AsyncSession): An asynchronous database session.
+- `telegram_id` (int): The Telegram ID of the user.
+
+**Returns**:
+
+- `Optional[List[Purchase]]`: A list of purchase objects, or `None` if no purchases were found.
+
+**Raises Exceptions**:
+
+- `SQLAlchemyError`: If an error occurs while interacting with the database.
+
+**How the Function Works**:
+
+1. The function executes a SQL query to retrieve the user based on their Telegram ID.
+2. The query uses `selectinload` to eagerly load related purchases and products.
+3. The function returns the list of purchases associated with the user.
+
+**Examples**:
+
+```python
+# Example usage:
+purchases = await UserDAO.get_purchased_products(session, telegram_id=123456789)
+if purchases:
+    for purchase in purchases:
+        print(f"Product: {purchase.product.name}")
+        print(f"Price: {purchase.price}")
+else:
+    print("User has no purchases.")
+```
+
+### `get_statistics(session: AsyncSession) -> Dict[str, int]`
+
+**Purpose**: Retrieves overall statistics about users, including the total number of users and the number of new users in the last day, week, and month.
+
+**Parameters**:
+
+- `session` (AsyncSession): An asynchronous database session.
+
+**Returns**:
+
+- `Dict[str, int]`: A dictionary containing the overall statistics.
+
+**Raises Exceptions**:
+
+- `SQLAlchemyError`: If an error occurs while interacting with the database.
+
+**How the Function Works**:
+
+1. The function executes a SQL query to count the total number of users and use `CASE` expressions to count the number of users created in the last day, week, and month.
+2. The query uses `func.count()` to count the total number of users.
+3. The query uses `func.sum()` to calculate the count of users based on the `CASE` expressions.
+4. The function returns a dictionary containing the extracted statistics.
+
+**Examples**:
+
+```python
+# Example usage:
+stats = await UserDAO.get_statistics(session)
+print(f"Total users: {stats['total_users']}")
+print(f"New users today: {stats['new_today']}")
+print(f"New users this week: {stats['new_week']}")
+print(f"New users this month: {stats['new_month']}")
+```
+
+### `get_payment_stats(session: AsyncSession) -> str`
+
+**Purpose**: Retrieves payment statistics, showing the total amount of money paid using different payment methods.
+
+**Parameters**:
+
+- `session` (AsyncSession): An asynchronous database session.
+
+**Returns**:
+
+- `str`: A formatted string representing the payment statistics.
+
+**Raises Exceptions**:
+
+- `SQLAlchemyError`: If an error occurs while interacting with the database.
+
+**How the Function Works**:
+
+1. The function executes a SQL query to group purchases by payment type and calculate the total price for each type.
+2. The result is a list of tuples containing the payment type and the total amount.
+3. The function iterates through the results and constructs a formatted string representing the payment statistics.
+
+**Examples**:
+
+```python
+# Example usage:
+stats = await PurchaseDao.get_payment_stats(session)
+print(stats)
+```
+
+### `get_full_summ(session: AsyncSession) -> int`
+
+**Purpose**: Calculates the total amount of money paid for all purchases.
+
+**Parameters**:
+
+- `session` (AsyncSession): An asynchronous database session.
+
+**Returns**:
+
+- `int`: The total amount of money paid.
+
+**Raises Exceptions**:
+
+- `SQLAlchemyError`: If an error occurs while interacting with the database.
+
+**How the Function Works**:
+
+1. The function executes a SQL query to sum the prices of all purchases.
+2. The result is extracted as a scalar value representing the total price.
+
+**Examples**:
+
+```python
+# Example usage:
+total_price = await PurchaseDao.get_full_summ(session)
+print(f"Total price: {total_price}")
+```
+
+### `get_next_id(session: AsyncSession) -> int`
+
+**Purpose**: Retrieves the next available ID for a new purchase record.
+
+**Parameters**:
+
+- `session` (AsyncSession): An asynchronous database session.
+
+**Returns**:
+
+- `int`: The next available ID.
+
+**Raises Exceptions**:
+
+- `SQLAlchemyError`: If an error occurs while interacting with the database.
+
+**How the Function Works**:
+
+1. The function executes a SQL query to find the maximum ID of existing purchase records.
+2. If no records exist, the query returns 1.
+3. The function returns the maximum ID plus 1, which represents the next available ID.
+
+**Examples**:
+
+```python
+# Example usage:
+next_id = await PurchaseDao.get_next_id(session)
+print(f"Next available ID: {next_id}")
+```

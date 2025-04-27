@@ -1,30 +1,27 @@
-# Документация для `run.py`
+#  Telegram Movie Bot Run File
 
-## Обзор
+## Overview
 
-Файл `run.py` является точкой входа для Telegram-бота, отвечающего за взаимодействие с пользователями через Telegram API. Он инициализирует и запускает бота, регистрирует обработчики сообщений и настраивает промежуточное ПО для управления нагрузкой.
+This module defines the entry point for the Telegram movie bot application. It sets up the bot, dispatcher, and event loop, allowing the bot to receive and respond to user messages.
 
-## Детали
+## Details
 
-Файл содержит основную логику для запуска и управления Telegram-ботом. Он использует библиотеки `aiogram` для взаимодействия с Telegram API, `dotenv` для загрузки переменных окружения из файла `.env`, и `betterlogging` для настройки логирования.
+This file orchestrates the bot's functionality. It establishes a connection to the Telegram API, configures the dispatcher for handling incoming messages, and starts the polling loop to continuously check for new messages.
 
-## Структура файла
+## Classes
 
-- Импорты необходимых библиотек и модулей.
-- Инициализация диспетчера `dp`.
-- Определение асинхронной функции `main` для запуска бота.
-- Регистрация промежуточного ПО и обработчиков сообщений.
-- Запуск бота в режиме опроса (polling).
-- Настройка логирования.
+### `None`
 
-## Функции
+This module doesn't have any defined classes.
+
+## Functions
 
 ### `main`
 
 ```python
 async def main() -> None:
     """
-    Асинхронная функция для запуска Telegram-бота.
+    Основная функция, запускающая Telegram-бота.
 
     Args:
         None
@@ -33,35 +30,60 @@ async def main() -> None:
         None
 
     Raises:
-        None
-
-    Как работает функция:
-    - Инициализирует бота с использованием токена, полученного из переменных окружения.
-    - Добавляет промежуточное ПО для управления частотой запросов (throttling).
-    - Включает маршрутизатор (router) для обработки сообщений.
-    - Запускает бота в режиме опроса (polling), чтобы получать обновления от Telegram.
-
-    Пример:
-    ```python
-    async def main():
-        bot = Bot(os.getenv('TOKEN'))
-        dp.message.middleware(ThrottlingMiddleware())
-        dp.include_router(router)
-        await dp.start_polling(bot)
-    ```
+        Exception: В случае возникновения ошибок во время работы бота.
     """
+    bot = Bot(os.getenv('TOKEN'),)
+    dp.message.middleware(ThrottlingMiddleware())
+    dp.include_router(router)
+    await dp.start_polling(bot)
 ```
 
-## Прочее
+**Purpose**: This function sets up and runs the Telegram movie bot.
 
-- Настройка логирования с использованием `betterlogging` для записи информации, предупреждений и ошибок в консоль.
+**Parameters**:
+- None
+
+**Returns**:
+- None
+
+**Raises Exceptions**:
+- Exception: If any errors occur during the bot's operation.
+
+**How the Function Works**:
+1. **Bot Initialization**:
+   - Creates a `Bot` instance using the Telegram API token retrieved from the environment variable `TOKEN`.
+2. **Middleware Application**:
+   - Applies the `ThrottlingMiddleware` to the dispatcher. This middleware helps prevent rate limiting issues by limiting the number of requests the bot can send to the Telegram API within a specific time frame.
+3. **Router Inclusion**:
+   - Includes the `router` object, which defines the bot's logic for handling incoming messages.
+4. **Polling Start**:
+   - Initiates the polling loop using `dp.start_polling(bot)`. This loop constantly checks for new messages from Telegram and triggers the corresponding handlers within the `router` to process them.
+
+**Examples**:
+-  ```python
+    asyncio.run(main())
+   ```
+
+## Inner Functions
+
+### `None`
+
+This function doesn't have any inner functions. 
+
+## Parameter Details
+
+- `TOKEN` (str): The Telegram API token required to authenticate the bot. It is retrieved from the environment variable.
+
+## Examples
 
 ```python
-if __name__ == "__main__":
-    logging.basic_colorized_config(
-        level=logging.INFO,
-        format='%(asctime)s - [%(levelname)s] - %(name)s - '
-               '(%(filename)s).%(funcName)s(%(lineno)d) - %(message)s',
-        datefmt='%H:%M:%S'
-    )
-    asyncio.run(main())
+logging.basic_colorized_config(
+    level=logging.INFO,
+    format='%(asctime)s - [%(levelname)s] - %(name)s - '
+           '(%(filename)s).%(funcName)s(%(lineno)d) - %(message)s',
+    datefmt='%H:%M:%S'
+)
+asyncio.run(main())
+```
+
+This code demonstrates how to configure basic logging and run the main function. It sets up the logging level, format, and date format, and then uses `asyncio.run(main())` to execute the `main` function asynchronously.

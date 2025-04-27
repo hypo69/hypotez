@@ -1,367 +1,156 @@
-# Документация для `base_provider.py`
+# Base Provider 
+## Overview
+This module defines the base class for all GPT4Free providers, which provides a common interface for interacting with different GPT4Free models. It also defines several utility functions used by providers for handling parameters, creating completions, and managing authentication.
 
-## Обзор
+## Details
+The core functionality is implemented in the `AbstractProvider` class, which defines abstract methods for creating completions and retrieving parameters. This class is further extended by `AsyncProvider` and `AsyncGeneratorProvider` for asynchronous completion creation and asynchronous generator support, respectively. The `ProviderModelMixin` and `RaiseErrorMixin` classes provide functionality for managing models and handling errors, respectively.
 
-Файл `base_provider.py` содержит абстрактные классы и миксины, которые служат основой для реализации различных провайдеров в проекте `hypotez`. Он определяет интерфейсы для создания завершений, асинхронной обработки и работы с параметрами моделей.
+This module plays a crucial role in the `hypotez` project by defining the foundation for interacting with different GPT4Free models. It ensures that all providers adhere to a consistent interface and provides mechanisms for managing essential parameters, including the `model`, `messages`, `stream`, and `timeout` parameters.
 
-## Подробнее
-
-В этом файле определены базовые классы и утилиты, необходимые для интеграции различных поставщиков API, таких как OpenAI и Google Gemini, в систему `hypotez`. Он включает в себя абстрактные классы для синхронного и асинхронного взаимодействия, а также вспомогательные функции для обработки параметров и ошибок.
-
-## Содержание
-
-1.  [Константы](#константы)
-2.  [Классы](#классы)
-    *   [AbstractProvider](#abstractprovider)
-    *   [AsyncProvider](#asyncprovider)
-    *   [AsyncGeneratorProvider](#asyncgeneratorprovider)
-    *   [ProviderModelMixin](#providermodelmixin)
-    *   [RaiseErrorMixin](#raiseerrormixin)
-    *   [AuthFileMixin](#authfilemixin)
-    *   [AsyncAuthedProvider](#asyncauthedprovider)
-
-## Константы
-
-### `SAFE_PARAMETERS`
-
-Список безопасных параметров, которые можно использовать при создании запросов к API.
-
-### `BASIC_PARAMETERS`
-
-Словарь, содержащий базовые параметры для запросов к API, такие как провайдер, модель, сообщения и т. д.
-
-### `PARAMETER_EXAMPLES`
-
-Словарь с примерами значений параметров, используемых при создании запросов к API.
-
-## Классы
-
+## Classes
 ### `AbstractProvider`
-
-Абстрактный класс, определяющий интерфейс для провайдеров.
-
-**Описание**:
-Этот класс служит базовым классом для всех провайдеров и определяет основные методы, которые должны быть реализованы в производных классах.
-
-**Методы**:
-
-*   `create_completion(model: str, messages: Messages, stream: bool, **kwargs) -> CreateResult`
-    *   **Назначение**: Создает завершение с заданными параметрами.
-    *   **Параметры**:
-        *   `model` (str): Модель для использования.
-        *   `messages` (Messages): Сообщения для обработки.
-        *   `stream` (bool): Использовать ли потоковую передачу.
-        *   `kwargs: dict[str, Any]`: Дополнительные параметры.
-    *   **Возвращает**:
-        *   `CreateResult`: Результат процесса создания.
-    *   **Вызывает**:
-        *   `NotImplementedError`: Если метод не реализован в производном классе.
-*   `create_async(model: str, messages: Messages, *, timeout: int = None, loop: AbstractEventLoop = None, executor: ThreadPoolExecutor = None, **kwargs) -> str`
-    *   **Назначение**: Асинхронно создает результат на основе заданной модели и сообщений.
-    *   **Параметры**:
-        *   `model` (str): Модель для использования при создании.
-        *   `messages` (Messages): Сообщения для обработки.
-        *   `timeout` (int, optional): Время ожидания для асинхронной операции. По умолчанию `None`.
-        *   `loop` (AbstractEventLoop, optional): Используемый event loop. По умолчанию `None`.
-        *   `executor` (ThreadPoolExecutor, optional): Executor для выполнения асинхронных задач. По умолчанию `None`.
-        *   `**kwargs`: Дополнительные параметры.
-    *   **Возвращает**:
-        *   `str`: Созданный результат в виде строки.
-
-    **Внутренние функции**:
-
-    *   `create_func() -> str`:
-        *   **Назначение**: Функция создает результат завершения и объединяет его в строку.
-        *   **Возвращает**:
-            *   `str`: Объединенная строка результата завершения.
-        *   **Принцип работы**:
-            *   Вызывает `cls.create_completion` с переданными параметрами, получает результат и объединяет его в строку с помощью `concat_chunks`.
-
-    **Пример**:
-
-    ```python
-    result = await AbstractProvider.create_async(model="test_model", messages=[{"role": "user", "content": "test message"}])
-    ```
-
-*   `get_create_function() -> callable`
-    *   **Назначение**: Возвращает функцию для создания завершений.
-    *   **Возвращает**:
-        *   `callable`: Функция для создания завершений.
-*   `get_async_create_function() -> callable`
-    *   **Назначение**: Возвращает асинхронную функцию для создания завершений.
-    *   **Возвращает**:
-        *   `callable`: Асинхронная функция для создания завершений.
-*   `get_parameters(as_json: bool = False) -> dict[str, Parameter]`
-    *   **Назначение**: Возвращает параметры, поддерживаемые провайдером.
-    *   **Параметры**:
-        *   `as_json` (bool, optional): Вернуть ли параметры в формате JSON. По умолчанию `False`.
-    *   **Возвращает**:
-        *   `dict[str, Parameter]`: Словарь параметров.
-
-    **Внутренние функции**:
-
-    *   `get_type_as_var(annotation: type, key: str, default)`:
-        *   **Назначение**: Определяет тип переменной на основе аннотации и возвращает соответствующее значение.
-        *   **Параметры**:
-            *   `annotation` (type): Аннотация типа переменной.
-            *   `key` (str): Ключ параметра.
-            *   `default`: Значение по умолчанию.
-        *   **Возвращает**:
-            *   Различные типы данных в зависимости от аннотации.
-        *   **Принцип работы**:
-            *   В зависимости от типа аннотации возвращает пример значения для параметра.
-            Например, для `int` возвращает `0`, для `str` возвращает `""`.
-*   `params: str`
-    *   **Назначение**: Возвращает параметры, поддерживаемые провайдером, в виде строки.
+**Description**: Abstract base class for all GPT4Free providers.
+**Attributes**:
+  - `supports_stream` (bool):  Indicates whether the provider supports streaming responses.
+**Methods**:
+  - `create_completion(model: str, messages: Messages, stream: bool, **kwargs) -> CreateResult`: Abstract method for creating a completion with the given parameters.
+  - `create_async(model: str, messages: Messages, *timeout: int = None, loop: AbstractEventLoop = None, executor: ThreadPoolExecutor = None, **kwargs) -> str`: Asynchronously creates a result based on the given model and messages.
+  - `get_create_function() -> callable`: Returns the callable function used for creating completions.
+  - `get_async_create_function() -> callable`: Returns the callable function used for creating asynchronous completions.
+  - `get_parameters(as_json: bool = False) -> dict[str, Parameter]`: Returns the parameters supported by the provider.
+  - `params`: Returns the parameters supported by the provider as a string.
 
 ### `AsyncProvider`
-
-Класс, предоставляющий асинхронную функциональность для создания завершений.
-
-**Описание**:
-Этот класс расширяет `AbstractProvider` и предоставляет методы для асинхронного создания завершений.
-
-**Методы**:
-
-*   `create_completion(model: str, messages: Messages, stream: bool = False, **kwargs) -> CreateResult`
-    *   **Назначение**: Создает результат завершения синхронно.
-    *   **Параметры**:
-        *   `model` (str): Модель для использования при создании.
-        *   `messages` (Messages): Сообщения для обработки.
-        *   `stream` (bool): Указывает, следует ли передавать результаты потоком. По умолчанию `False`.
-        *   `**kwargs`: Дополнительные параметры.
-    *   **Возвращает**:
-        *   `CreateResult`: Результат создания завершения.
-
-    **Пример**:
-
-    ```python
-    result = AsyncProvider.create_completion(model="test_model", messages=[{"role": "user", "content": "test message"}])
-    ```
-
-*   `create_async(model: str, messages: Messages, **kwargs) -> str`
-    *   **Назначение**: Абстрактный метод для создания асинхронных результатов.
-    *   **Параметры**:
-        *   `model` (str): Модель для использования при создании.
-        *   `messages` (Messages): Сообщения для обработки.
-        *   `**kwargs`: Дополнительные параметры.
-    *   **Вызывает**:
-        *   `NotImplementedError`: Если этот метод не переопределен в производных классах.
-    *   **Возвращает**:
-        *   `str`: Созданный результат в виде строки.
-*   `get_create_function() -> callable`
-    *   **Назначение**: Возвращает функцию для создания завершений.
-    *   **Возвращает**:
-        *   `callable`: Функция для создания завершений.
-*   `get_async_create_function() -> callable`
-    *   **Назначение**: Возвращает асинхронную функцию для создания завершений.
-    *   **Возвращает**:
-        *   `callable`: Асинхронная функция для создания завершений.
+**Description**: Provides asynchronous functionality for creating completions.
+**Attributes**:
+  - `supports_stream` (bool):  Indicates whether the provider supports streaming responses.
+**Methods**:
+  - `create_completion(model: str, messages: Messages, stream: bool = False, **kwargs) -> CreateResult`: Creates a completion result synchronously.
+  - `create_async(model: str, messages: Messages, **kwargs) -> str`: Abstract method for creating asynchronous results.
+  - `get_create_function() -> callable`: Returns the callable function used for creating completions.
+  - `get_async_create_function() -> callable`: Returns the callable function used for creating asynchronous completions.
 
 ### `AsyncGeneratorProvider`
-
-Класс, предоставляющий функциональность асинхронного генератора для потоковой передачи результатов.
-
-**Описание**:
-Этот класс расширяет `AbstractProvider` и предоставляет методы для создания потоковых завершений с использованием асинхронных генераторов.
-
-**Методы**:
-
-*   `create_completion(model: str, messages: Messages, stream: bool = True, **kwargs) -> CreateResult`
-    *   **Назначение**: Создает результат потоковой передачи завершения синхронно.
-    *   **Параметры**:
-        *   `model` (str): Модель для использования при создании.
-        *   `messages` (Messages): Сообщения для обработки.
-        *   `stream` (bool): Указывает, следует ли передавать результаты потоком. По умолчанию `True`.
-        *   `**kwargs`: Дополнительные параметры.
-    *   **Возвращает**:
-        *   `CreateResult`: Результат создания потоковой передачи завершения.
-
-    **Пример**:
-
-    ```python
-    result = AsyncGeneratorProvider.create_completion(model="test_model", messages=[{"role": "user", "content": "test message"}])
-    ```
-
-*   `create_async_generator(model: str, messages: Messages, stream: bool = True, **kwargs) -> AsyncResult`
-    *   **Назначение**: Абстрактный метод для создания асинхронного генератора.
-    *   **Параметры**:
-        *   `model` (str): Модель для использования при создании.
-        *   `messages` (Messages): Сообщения для обработки.
-        *   `stream` (bool): Указывает, следует ли передавать результаты потоком. По умолчанию `True`.
-        *   `**kwargs`: Дополнительные параметры.
-    *   **Вызывает**:
-        *   `NotImplementedError`: Если этот метод не переопределен в производных классах.
-    *   **Возвращает**:
-        *   `AsyncResult`: Асинхронный генератор, выдающий результаты.
-*   `get_create_function() -> callable`
-    *   **Назначение**: Возвращает функцию для создания завершений.
-    *   **Возвращает**:
-        *   `callable`: Функция для создания завершений.
-*   `get_async_create_function() -> callable`
-    *   **Назначение**: Возвращает асинхронную функцию для создания генератора завершений.
-    *   **Возвращает**:
-        *   `callable`: Асинхронная функция для создания генератора завершений.
+**Description**: Provides asynchronous generator functionality for streaming results.
+**Attributes**:
+  - `supports_stream` (bool):  Indicates whether the provider supports streaming responses.
+**Methods**:
+  - `create_completion(model: str, messages: Messages, stream: bool = True, **kwargs) -> CreateResult`: Creates a streaming completion result synchronously.
+  - `create_async_generator(model: str, messages: Messages, stream: bool = True, **kwargs) -> AsyncResult`: Abstract method for creating an asynchronous generator.
+  - `get_create_function() -> callable`: Returns the callable function used for creating completions.
+  - `get_async_create_function() -> callable`: Returns the callable function used for creating asynchronous completions.
 
 ### `ProviderModelMixin`
-
-Миксин для добавления информации о моделях, поддерживаемых провайдером.
-
-**Описание**:
-Этот миксин предоставляет атрибуты и методы для управления информацией о моделях, таких как модель по умолчанию, список поддерживаемых моделей и псевдонимы моделей.
-
-**Атрибуты**:
-
-*   `default_model` (str): Модель, используемая по умолчанию.
-*   `models` (list[str]): Список поддерживаемых моделей.
-*   `model_aliases` (dict[str, str]): Словарь псевдонимов моделей.
-*    `image_models` (list): Список моделей для изображений.
-*    `vision_models` (list): Список моделей для работы с видео.
-*   `last_model` (str): Последняя использованная модель.
-
-**Методы**:
-
-*   `get_models(**kwargs) -> list[str]`
-    *   **Назначение**: Возвращает список поддерживаемых моделей.
-    *   **Параметры**:
-        *   `**kwargs`: Дополнительные параметры.
-    *   **Возвращает**:
-        *   `list[str]`: Список поддерживаемых моделей.
-
-    **Пример**:
-
-    ```python
-    models = ProviderModelMixin.get_models()
-    ```
-
-*   `get_model(model: str, **kwargs) -> str`
-    *   **Назначение**: Возвращает модель на основе заданного имени или псевдонима.
-    *   **Параметры**:
-        *   `model` (str): Имя модели или псевдоним.
-        *   `**kwargs`: Дополнительные параметры.
-    *   **Возвращает**:
-        *   `str`: Имя модели.
-    *   **Вызывает**:
-        *   `ModelNotSupportedError`: Если модель не поддерживается.
+**Description**: Provides functionality for managing models.
+**Attributes**:
+  - `default_model`: The default model used by the provider.
+  - `models`: A list of models supported by the provider.
+  - `model_aliases`: A dictionary mapping aliases to model names.
+  - `image_models`: A list of models that support image generation.
+  - `vision_models`: A list of models that support vision tasks.
+  - `last_model`: The last model used by the provider.
+**Methods**:
+  - `get_models(**kwargs) -> list[str]`: Returns the list of models supported by the provider.
+  - `get_model(model: str, **kwargs) -> str`: Returns the model to use, validating it against the supported models and applying any aliases.
 
 ### `RaiseErrorMixin`
-
-Миксин для обработки ошибок, возвращаемых провайдером.
-
-**Описание**:
-Этот миксин предоставляет метод для обработки ошибок, возвращаемых API провайдера.
-
-**Методы**:
-
-*   `raise_error(data: dict, status: int = None)`
-    *   **Назначение**: Вызывает исключение на основе данных об ошибке.
-    *   **Параметры**:
-        *   `data` (dict): Данные об ошибке.
-        *   `status` (int, optional): HTTP-статус ответа. По умолчанию `None`.
-    *   **Вызывает**:
-        *   `ResponseError`: Если в данных есть сообщение об ошибке.
-        *   `MissingAuthError`: Если статус 401 (отсутствует аутентификация).
-        *   `PaymentRequiredError`: Если статус 402 (требуется оплата).
-
-    **Пример**:
-
-    ```python
-    RaiseErrorMixin.raise_error({"error_message": "Test error"})
-    ```
+**Description**: Provides functionality for raising errors.
+**Methods**:
+  - `raise_error(data: dict, status: int = None)`: Raises an appropriate exception based on the error data provided.
 
 ### `AuthFileMixin`
-
-Миксин для работы с файлами аутентификации.
-
-**Описание**:
-Этот миксин предоставляет методы для получения пути к файлу кэша аутентификации.
-
-**Методы**:
-
-*   `get_cache_file() -> Path`
-    *   **Назначение**: Возвращает путь к файлу кэша.
-    *   **Возвращает**:
-        *   `Path`: Путь к файлу кэша.
-
-    **Пример**:
-
-    ```python
-    cache_file = AuthFileMixin.get_cache_file()
-    ```
+**Description**: Provides functionality for managing authentication files.
+**Methods**:
+  - `get_cache_file() -> Path`: Returns the path to the authentication cache file.
 
 ### `AsyncAuthedProvider`
+**Description**: Abstract base class for providers that require authentication.
+**Attributes**:
+  - `supports_stream` (bool):  Indicates whether the provider supports streaming responses.
+**Methods**:
+  - `on_auth_async(**kwargs) -> AuthResult`: Asynchronously authenticates the provider.
+  - `on_auth(**kwargs) -> AuthResult`: Synchronously authenticates the provider.
+  - `get_create_function() -> callable`: Returns the callable function used for creating completions.
+  - `get_async_create_function() -> callable`: Returns the callable function used for creating asynchronous completions.
+  - `write_cache_file(cache_file: Path, auth_result: AuthResult = None)`: Writes the authentication result to the cache file.
+  - `create_completion(model: str, messages: Messages, **kwargs) -> CreateResult`: Creates a completion result synchronously.
+  - `create_async_generator(model: str, messages: Messages, **kwargs) -> AsyncResult`: Creates an asynchronous generator for streaming results.
 
-Класс, предоставляющий асинхронную аутентификацию для провайдеров.
+## Parameter Details
+- `model` (str): The GPT4Free model to use for generating text or images. It must be a valid model name supported by the provider.
+- `messages` (Messages): A list of messages to be processed by the model. Each message should be a dictionary with the following keys: `role`, `content`, `name`, `function_call`, `tool_code`, `content_type`.
+- `stream` (bool): Indicates whether to stream the results.
+- `timeout` (int): The maximum time to wait for the completion process to finish.
+- `proxy` (str):  The proxy server to use when connecting to the GPT4Free API.
+- `media` (list): A list of media items to be used as input to the model.
+- `response_format` (dict): Defines the format of the response.
+- `conversation` (dict):  A dictionary containing information about the conversation, including the conversation ID and message ID.
+- `seed` (int): The seed value to use for random number generation.
+- `tools` (list): A list of tools that the model can use during the completion process.
+- `api_key` (str): The API key required for authentication.
+- `api_base` (str): The base URL of the GPT4Free API.
+- `max_retries` (int): The maximum number of retries in case of errors.
+- `web_search` (bool):  Indicates whether to use web search for the completion process.
+- `guidance_scale` (float): The guidance scale to use for text generation.
+- `num_inference_steps` (int): The number of inference steps to use for text generation.
+- `randomize_seed` (bool):  Indicates whether to use a randomized seed for text generation.
+- `safe` (bool): Indicates whether to use safe mode for text generation.
+- `enhance` (bool):  Indicates whether to enhance the quality of the generated text.
+- `private` (bool):  Indicates whether to use private mode for text generation.
+- `aspect_ratio` (str):  The aspect ratio of the generated image.
+- `n` (int): The number of responses to generate.
 
-**Описание**:
-Этот класс расширяет `AsyncGeneratorProvider` и `AuthFileMixin` и предоставляет методы для асинхронной аутентификации и кэширования результатов аутентификации.
 
-**Методы**:
+## Examples
+```python
+# Example 1: Creating a completion using the default model.
+response = provider.create_completion(model="text-davinci-003", messages=[
+    {"role": "user", "content": "Write a short story about a cat."}
+])
+print(response)
 
-*   `on_auth_async(**kwargs) -> AuthResult`
-    *   **Назначение**: Асинхронно выполняет аутентификацию.
-    *   **Параметры**:
-        *   `**kwargs`: Дополнительные параметры.
-    *   **Возвращает**:
-        *   `AuthResult`: Результат аутентификации.
-    *   **Вызывает**:
-        *   `MissingAuthError`: Если отсутствует API-ключ.
+# Example 2: Creating a completion with a specific model and streaming the results.
+response = provider.create_completion(model="text-davinci-003", messages=[
+    {"role": "user", "content": "Write a short story about a cat."}
+], stream=True)
+for chunk in response:
+    print(chunk)
 
-    **Пример**:
+# Example 3: Creating a completion with custom parameters.
+response = provider.create_completion(model="text-davinci-003", messages=[
+    {"role": "user", "content": "Write a short story about a cat."}
+], temperature=0.5, max_tokens=50)
+print(response)
+```
+```python
+# Example 4: Creating a completion with a proxy server.
+response = provider.create_completion(model="text-davinci-003", messages=[
+    {"role": "user", "content": "Write a short story about a cat."}
+], proxy="http://user:password@127.0.0.1:3128")
+print(response)
 
-    ```python
-    auth_result = await AsyncAuthedProvider.on_auth_async(api_key="test_key")
-    ```
+# Example 5: Creating a completion with a custom seed value.
+response = provider.create_completion(model="text-davinci-003", messages=[
+    {"role": "user", "content": "Write a short story about a cat."}
+], seed=42)
+print(response)
+```
+```python
+# Example 6: Creating a completion with a custom response format.
+response = provider.create_completion(model="text-davinci-003", messages=[
+    {"role": "user", "content": "Write a short story about a cat."}
+], response_format={"type": "json_object"})
+print(response)
 
-*   `on_auth(**kwargs) -> AuthResult`
-    *   **Назначение**: Выполняет аутентификацию синхронно.
-    *   **Параметры**:
-        *   `**kwargs`: Дополнительные параметры.
-    *   **Возвращает**:
-        *   `AuthResult`: Результат аутентификации.
-*   `get_create_function() -> callable`
-    *   **Назначение**: Возвращает функцию для создания завершений.
-    *   **Возвращает**:
-        *   `callable`: Функция для создания завершений.
-*   `get_async_create_function() -> callable`
-    *   **Назначение**: Возвращает асинхронную функцию для создания генератора завершений.
-    *   **Возвращает**:
-        *   `callable`: Асинхронная функция для создания генератора завершений.
-*   `write_cache_file(cache_file: Path, auth_result: AuthResult = None)`
-    *   **Назначение**: Записывает результаты аутентификации в файл кэша.
-    *   **Параметры**:
-        *   `cache_file` (Path): Путь к файлу кэша.
-        *   `auth_result` (AuthResult, optional): Результат аутентификации. По умолчанию `None`.
-
-    **Пример**:
-
-    ```python
-    AsyncAuthedProvider.write_cache_file(cache_file, auth_result)
-    ```
-
-*   `create_completion(model: str, messages: Messages, **kwargs) -> CreateResult`
-    *   **Назначение**: Создает завершение с использованием аутентификации.
-    *   **Параметры**:
-        *   `model` (str): Модель для использования.
-        *   `messages` (Messages): Сообщения для обработки.
-        *   `**kwargs`: Дополнительные параметры.
-    *   **Возвращает**:
-        *   `CreateResult`: Результат создания процесса.
-
-    **Принцип работы**:
-
-    *   Пытается загрузить результаты аутентификации из файла кэша.
-    *   Если файл отсутствует или аутентификация не удалась, выполняет аутентификацию и сохраняет результаты в файл кэша.
-*   `create_async_generator(model: str, messages: Messages, **kwargs) -> AsyncResult`
-    *   **Назначение**: Создает асинхронный генератор с использованием аутентификации.
-    *   **Параметры**:
-        *   `model` (str): Модель для использования.
-        *   `messages` (Messages): Сообщения для обработки.
-        *   `**kwargs`: Дополнительные параметры.
-    *   **Возвращает**:
-        *   `AsyncResult`: Асинхронный генератор, выдающий результаты.
-
-    **Принцип работы**:
-
-    *   Пытается загрузить результаты аутентификации из файла кэша.
-    *   Если файл отсутствует или аутентификация не удалась, выполняет аутентификацию и сохраняет результаты в файл кэша.
+# Example 7: Creating a completion with a custom conversation ID.
+response = provider.create_completion(model="text-davinci-003", messages=[
+    {"role": "user", "content": "Write a short story about a cat."}
+], conversation={"conversation_id": "550e8400-e29b-11d4-a716-...", "message_id": "550e8400-e29b-11d4-a716-..."})
+print(response)
+```
+```python
+# Example 8: Creating a completion with a custom tool.
+response = provider.create_completion(model="text-davinci-003", messages=[
+    {"role": "user", "content": "Write a short story about a cat."}
+], tools=[{"type": "code", "function": "get_weather"}])
+print(response)

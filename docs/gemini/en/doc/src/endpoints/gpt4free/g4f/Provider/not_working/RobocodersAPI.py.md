@@ -1,366 +1,238 @@
-# Модуль `RobocodersAPI.py`
+# Robocoders API Provider
 
-## Обзор
+## Overview
 
-Модуль `RobocodersAPI.py` предоставляет реализацию асинхронного провайдера для взаимодействия с API Robocoders AI. Он позволяет общаться с различными агентами, такими как `GeneralCodingAgent`, `RepoAgent` и `FrontEndAgent`. Модуль поддерживает сохранение истории сообщений и использует кэширование для хранения токена доступа и идентификатора сессии.
+This module implements the `RobocodersAPI` class, which acts as a provider for interacting with the Robocoders AI API for code generation and assistance. 
 
-## Более подробная информация
+## Details
 
-Модуль предназначен для интеграции с системой `hypotez` и предоставляет удобный интерфейс для взаимодействия с Robocoders AI. Он автоматически обновляет и кэширует необходимые данные для авторизации, что упрощает использование API.
+The `RobocodersAPI` class inherits from `AsyncGeneratorProvider` and `ProviderModelMixin` to provide asynchronous code generation capabilities and support for different AI models. The class leverages the Robocoders AI API to handle requests, process responses, and return generated code.
 
-## Классы
+## Classes
 
-### `RobocodersAPI`
+### `class RobocodersAPI(AsyncGeneratorProvider, ProviderModelMixin)`
 
-**Описание**: Класс `RobocodersAPI` реализует асинхронный провайдер для взаимодействия с API Robocoders AI.
+**Description**: This class provides an asynchronous interface to interact with the Robocoders AI API. It handles communication with the API, manages access tokens, and parses responses.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Предоставляет базовую функциональность для асинхронных генераторов.
-- `ProviderModelMixin`: Добавляет поддержку выбора модели.
+**Inherits**:
+- `AsyncGeneratorProvider`: This class provides an asynchronous generator interface for iterating over generated responses.
+- `ProviderModelMixin`: This mixin class provides support for selecting and using different AI models from Robocoders AI.
 
-**Атрибуты**:
-- `label` (str): Метка провайдера ("API Robocoders AI").
-- `url` (str): URL документации API ("https://api.robocoders.ai/docs").
-- `api_endpoint` (str): URL конечной точки API ("https://api.robocoders.ai/chat").
-- `working` (bool): Флаг, указывающий, работает ли провайдер (False).
-- `supports_message_history` (bool): Флаг, указывающий, поддерживает ли провайдер историю сообщений (True).
-- `default_model` (str): Модель по умолчанию ('GeneralCodingAgent').
-- `agent` (List[str]): Список доступных агентов.
-- `models` (List[str]): Список доступных моделей.
-- `CACHE_DIR` (Path): Директория для кэширования данных.
-- `CACHE_FILE` (Path): Файл для кэширования данных (robocoders.json).
+**Attributes**:
 
-**Принцип работы**:
+- `label (str)`: A descriptive label for the provider, "API Robocoders AI".
+- `url (str)`: The base URL for the Robocoders AI documentation.
+- `api_endpoint (str)`: The endpoint URL for sending chat requests to the Robocoders AI API.
+- `working (bool)`:  Indicates whether the provider is currently working or not.
+- `supports_message_history (bool)`:  Indicates whether the provider supports message history.
+- `default_model (str)`: The default AI model used by the provider, "GeneralCodingAgent".
+- `agent (List[str])`: A list of available AI agents, including "GeneralCodingAgent", "RepoAgent", and "FrontEndAgent".
+- `models (List[str])`:  A list of all supported AI models, derived from the `agent` list.
+- `CACHE_DIR (Path)`: The directory path where access tokens and session IDs are cached.
+- `CACHE_FILE (Path)`: The path to the cache file for storing access token and session data.
 
-Класс использует асинхронные запросы для взаимодействия с API Robocoders AI. Он автоматически получает и кэширует токен доступа и идентификатор сессии, что упрощает процесс аутентификации. При отправке запросов класс обрабатывает возможные ошибки, такие как неавторизованный доступ, ошибки валидации и серверные ошибки.
+**Methods**:
 
-### Методы класса
+- `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`: This method initializes an asynchronous generator that interacts with the Robocoders AI API to generate code. It handles authentication, sending requests, and parsing responses.
+- `_get_or_create_access_and_session(session: aiohttp.ClientSession) -> Tuple[str, str]`:  This method handles authentication with the Robocoders AI API by retrieving or generating an access token and session ID. It checks the cache for existing credentials, and if necessary, fetches a new access token and creates a new session ID.
+- `_fetch_and_cache_access_token(session: aiohttp.ClientSession) -> str`: This method fetches a new access token from the Robocoders AI API and caches it locally for future use.
+- `_create_and_cache_session(session: aiohttp.ClientSession, access_token: str) -> str`: This method creates a new session ID with the Robocoders AI API, using the provided access token, and caches the session ID for subsequent requests.
+- `_save_cached_data(new_data: dict)`: This method saves new data to the cache file.
+- `_update_cached_data(updated_data: dict)`: This method updates existing cache data with new values.
+- `_clear_cached_data()`: This method removes the cache file.
+- `_get_cached_data() -> dict`: This method retrieves all cached data from the cache file.
 
-- `create_async_generator`
-- `_get_or_create_access_and_session`
-- `_fetch_and_cache_access_token`
-- `_create_and_cache_session`
-- `_save_cached_data`
-- `_update_cached_data`
-- `_clear_cached_data`
-- `_get_cached_data`
-
-## Методы
-
-### `create_async_generator`
-
+**Examples**:
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    **kwargs
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для взаимодействия с API Robocoders AI.
+# Example Usage
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.RobocodersAPI import RobocodersAPI
 
-    Args:
-        cls (RobocodersAPI): Класс RobocodersAPI.
-        model (str): Модель для использования.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы.
+async def main():
+    model = "GeneralCodingAgent"
+    messages = [
+        {"role": "user", "content": "Generate a Python function to reverse a string."},
+    ]
+    async for response in RobocodersAPI.create_async_generator(model=model, messages=messages):
+        print(response)
 
-    Returns:
-        AsyncResult: Асинхронный генератор, возвращающий сообщения от API.
-
-    Raises:
-        Exception: Если не удалось инициализировать взаимодействие с API, возникла ошибка авторизации,
-                   ошибка валидации или серверная ошибка.
-    """
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
 ```
 
-**Назначение**:
-Создает асинхронный генератор для взаимодействия с API Robocoders AI. Генератор отправляет сообщения в API и возвращает ответы в асинхронном режиме.
-
-**Параметры**:
-- `cls` (RobocodersAPI): Класс `RobocodersAPI`.
-- `model` (str): Модель для использования.
-- `messages` (Messages): Список сообщений для отправки.
-- `proxy` (str, optional): Прокси-сервер для использования. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы.
-
-**Возвращает**:
-- `AsyncResult`: Асинхронный генератор, возвращающий сообщения от API.
-
-**Исключения**:
-- `Exception`: Если не удалось инициализировать взаимодействие с API, возникла ошибка авторизации, ошибка валидации или серверная ошибка.
-
-**Как работает функция**:
-1. Устанавливает таймаут для HTTP-клиента.
-2. Создает асинхронную сессию HTTP-клиента.
-3. Получает или создает токен доступа и идентификатор сессии.
-4. Формирует заголовки запроса с токеном доступа.
-5. Формирует данные запроса, включая идентификатор сессии, промпт и модель.
-6. Отправляет POST-запрос к API.
-7. Обрабатывает различные коды состояния HTTP-ответа, такие как 401 (неавторизованный доступ), 422 (ошибка валидации) и 500+ (серверные ошибки).
-8. Итерируется по содержимому ответа, декодирует JSON и извлекает сообщения из полей `args.content` или `message`.
-9. Проверяет, достигнут ли лимит ресурсов, и автоматически продолжает диалог, если это необходимо.
-
-**Примеры**:
-
-```python
-# Пример использования асинхронного генератора
-async for message in RobocodersAPI.create_async_generator(model='GeneralCodingAgent', messages=[{'role': 'user', 'content': 'Привет!'}]):
-    print(message)
-```
+## Class Methods
 
 ### `_get_or_create_access_and_session`
 
-```python
-@staticmethod
-async def _get_or_create_access_and_session(session: aiohttp.ClientSession):
-    """
-    Получает или создает токен доступа и идентификатор сессии.
+**Purpose**: This method handles authentication with the Robocoders AI API by retrieving or generating an access token and session ID.
 
-    Args:
-        session (aiohttp.ClientSession): Асинхронная сессия HTTP-клиента.
+**Parameters**:
 
-    Returns:
-        Tuple[str, str]: Токен доступа и идентификатор сессии.
+- `session (aiohttp.ClientSession)`:  An instance of the `aiohttp.ClientSession` class used for making HTTP requests.
 
-    Raises:
-        Exception: Если не удалось получить токен доступа или создать сессию.
-    """
-```
+**Returns**:
 
-**Назначение**:
-Получает токен доступа и идентификатор сессии из кэша, если они существуют и валидны. В противном случае создает новые токен и сессию и сохраняет их в кэше.
+- `Tuple[str, str]`: A tuple containing the access token and session ID, or `None` if authentication fails.
 
-**Параметры**:
-- `session` (aiohttp.ClientSession): Асинхронная сессия HTTP-клиента.
+**Raises Exceptions**:
 
-**Возвращает**:
-- `Tuple[str, str]`: Токен доступа и идентификатор сессии.
+- `Exception`: If there is an error initializing API interaction.
 
-**Исключения**:
-- `Exception`: Если не удалось получить токен доступа или создать сессию.
+**How the Function Works**:
 
-**Как работает функция**:
-1. Создает директорию для кэширования, если она не существует.
-2. Проверяет, существует ли файл кэша.
-3. Если файл кэша существует, загружает данные из файла.
-4. Проверяет, валидны ли токен доступа и идентификатор сессии.
-5. Если токен и сессия валидны, возвращает их.
-6. Если токен или сессия невалидны, получает новый токен доступа и создает новый идентификатор сессии.
-7. Сохраняет новые токен и сессию в кэше.
+- The method first attempts to load cached access token and session ID from the `CACHE_FILE`.
+- If the cached data is valid, it returns the loaded values.
+- If the cached data is invalid, it calls `_fetch_and_cache_access_token` to fetch a new access token and `_create_and_cache_session` to create a new session ID.
+- The newly generated access token and session ID are then returned.
 
-**Примеры**:
+**Examples**:
 
 ```python
-# Пример получения токена и сессии
-async with aiohttp.ClientSession() as session:
+# Example Usage
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.RobocodersAPI import RobocodersAPI
+
+async def get_access_and_session(session):
     access_token, session_id = await RobocodersAPI._get_or_create_access_and_session(session)
-    print(f"Access Token: {access_token}, Session ID: {session_id}")
+    print(f"Access Token: {access_token}")
+    print(f"Session ID: {session_id}")
+
+if __name__ == "__main__":
+    import asyncio
+    import aiohttp
+    async with aiohttp.ClientSession() as session:
+        asyncio.run(get_access_and_session(session))
 ```
 
 ### `_fetch_and_cache_access_token`
 
-```python
-@staticmethod
-async def _fetch_and_cache_access_token(session: aiohttp.ClientSession) -> str:
-    """
-    Получает и кэширует токен доступа.
+**Purpose**: This method fetches a new access token from the Robocoders AI API and caches it locally for future use.
 
-    Args:
-        session (aiohttp.ClientSession): Асинхронная сессия HTTP-клиента.
+**Parameters**:
 
-    Returns:
-        str: Токен доступа.
+- `session (aiohttp.ClientSession)`:  An instance of the `aiohttp.ClientSession` class used for making HTTP requests.
 
-    Raises:
-        MissingRequirementsError: Если отсутствует библиотека BeautifulSoup4.
-    """
-```
+**Returns**:
 
-**Назначение**:
-Получает токен доступа с использованием BeautifulSoup4 для парсинга HTML-страницы и кэширует его.
+- `str`: The newly fetched access token, or `None` if the fetch fails.
 
-**Параметры**:
-- `session` (aiohttp.ClientSession): Асинхронная сессия HTTP-клиента.
+**Raises Exceptions**:
 
-**Возвращает**:
-- `str`: Токен доступа.
+- `MissingRequirementsError`: If the "beautifulsoup4" package is not installed.
 
-**Исключения**:
-- `MissingRequirementsError`: Если отсутствует библиотека BeautifulSoup4.
+**How the Function Works**:
 
-**Как работает функция**:
-1. Проверяет, установлена ли библиотека BeautifulSoup4.
-2. Отправляет GET-запрос к URL аутентификации.
-3. Парсит HTML-ответ с помощью BeautifulSoup4.
-4. Ищет элемент `<pre>` с id `token`.
-5. Извлекает текст из элемента, который является токеном доступа.
-6. Кэширует токен доступа.
+- The method first checks if the "beautifulsoup4" package is installed. If not, it raises a `MissingRequirementsError`.
+- The method makes a GET request to the Robocoders AI authorization endpoint (`url_auth`) to retrieve the access token.
+- The response is parsed using BeautifulSoup to extract the token from the HTML content.
+- The extracted token is then saved to the `CACHE_FILE` for future use.
+- The method returns the fetched access token.
 
-**Примеры**:
+**Examples**:
 
 ```python
-# Пример получения и кэширования токена
-async with aiohttp.ClientSession() as session:
-    token = await RobocodersAPI._fetch_and_cache_access_token(session)
-    print(f"Access Token: {token}")
+# Example Usage
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.RobocodersAPI import RobocodersAPI
+
+async def fetch_access_token(session):
+    access_token = await RobocodersAPI._fetch_and_cache_access_token(session)
+    print(f"Access Token: {access_token}")
+
+if __name__ == "__main__":
+    import asyncio
+    import aiohttp
+    async with aiohttp.ClientSession() as session:
+        asyncio.run(fetch_access_token(session))
 ```
 
 ### `_create_and_cache_session`
 
-```python
-@staticmethod
-async def _create_and_cache_session(session: aiohttp.ClientSession, access_token: str) -> str:
-    """
-    Создает и кэширует идентификатор сессии.
+**Purpose**: This method creates a new session ID with the Robocoders AI API, using the provided access token, and caches the session ID for subsequent requests.
 
-    Args:
-        session (aiohttp.ClientSession): Асинхронная сессия HTTP-клиента.
-        access_token (str): Токен доступа.
+**Parameters**:
 
-    Returns:
-        str: Идентификатор сессии.
+- `session (aiohttp.ClientSession)`: An instance of the `aiohttp.ClientSession` class used for making HTTP requests.
+- `access_token (str)`: The access token used for authentication.
 
-    Raises:
-        Exception: Если произошла ошибка авторизации или ошибка валидации.
-    """
-```
+**Returns**:
 
-**Назначение**:
-Создает идентификатор сессии, отправляя запрос к API, и кэширует его.
+- `str`: The newly created session ID, or `None` if the creation fails.
 
-**Параметры**:
-- `session` (aiohttp.ClientSession): Асинхронная сессия HTTP-клиента.
-- `access_token` (str): Токен доступа.
+**Raises Exceptions**:
 
-**Возвращает**:
-- `str`: Идентификатор сессии.
+- `Exception`: If the API response indicates an unauthorized error.
+- `Exception`: If the API response indicates a validation error.
 
-**Исключения**:
-- `Exception`: Если произошла ошибка авторизации или ошибка валидации.
+**How the Function Works**:
 
-**Как работает функция**:
-1. Формирует заголовки запроса с токеном доступа.
-2. Отправляет GET-запрос к URL создания сессии.
-3. Извлекает идентификатор сессии из JSON-ответа.
-4. Кэширует идентификатор сессии.
+- The method makes a GET request to the Robocoders AI session creation endpoint (`url_create_session`), using the provided access token.
+- The response is parsed to extract the session ID (`sid`).
+- The session ID is then saved to the `CACHE_FILE`.
+- The method returns the newly created session ID.
 
-**Примеры**:
+**Examples**:
 
 ```python
-# Пример создания и кэширования сессии
-async with aiohttp.ClientSession() as session:
-    access_token = "your_access_token"
+# Example Usage
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.RobocodersAPI import RobocodersAPI
+
+async def create_session(session, access_token):
     session_id = await RobocodersAPI._create_and_cache_session(session, access_token)
     print(f"Session ID: {session_id}")
+
+if __name__ == "__main__":
+    import asyncio
+    import aiohttp
+    async with aiohttp.ClientSession() as session:
+        access_token = "YOUR_ACCESS_TOKEN"  # Replace with your actual access token
+        asyncio.run(create_session(session, access_token))
 ```
 
-### `_save_cached_data`
+## Parameter Details
+
+- `model (str)`:  The AI model to use for code generation.
+- `messages (Messages)`: A list of messages containing user input and previous responses, used for context.
+- `proxy (str)`:  Optional proxy server to use for network requests.
+- `session (aiohttp.ClientSession)`: An instance of the `aiohttp.ClientSession` class used for making HTTP requests.
+- `access_token (str)`: The access token used for authentication with the Robocoders AI API.
+- `new_data (dict)`: New data to save to the cache file.
+- `updated_data (dict)`:  New values to update the existing cache data with.
+
+## Examples
 
 ```python
-@staticmethod
-def _save_cached_data(new_data: dict):
-    """Save new data to cache file"""
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.RobocodersAPI import RobocodersAPI
+
+async def generate_code(model, messages):
+    async for response in RobocodersAPI.create_async_generator(model=model, messages=messages):
+        print(response)
+
+if __name__ == "__main__":
+    import asyncio
+    import aiohttp
+
+    # Example 1: Basic code generation
+    model = "GeneralCodingAgent"
+    messages = [
+        {"role": "user", "content": "Generate a Python function to reverse a string."},
+    ]
+    asyncio.run(generate_code(model, messages))
+
+    # Example 2: Using a different model
+    model = "RepoAgent"
+    messages = [
+        {"role": "user", "content": "Create a Git commit with the message 'Updated documentation'."},
+    ]
+    asyncio.run(generate_code(model, messages))
+
+    # Example 3: Using a proxy server
+    model = "GeneralCodingAgent"
+    messages = [
+        {"role": "user", "content": "What are the benefits of using a proxy server?"},
+    ]
+    proxy = "http://your_proxy_server:port"  # Replace with your proxy server details
+    asyncio.run(generate_code(model, messages, proxy=proxy))
 ```
 
-**Назначение**:
-Сохраняет новые данные в файл кэша.
+## Conclusion
 
-**Параметры**:
-- `new_data` (dict): Новые данные для сохранения.
-
-**Как работает функция**:
-1. Создает директорию кэша, если она не существует.
-2. Создает файл кэша, если он не существует.
-3. Открывает файл кэша для записи.
-4. Записывает данные в файл в формате JSON.
-
-**Примеры**:
-
-```python
-# Пример сохранения данных в кэш
-RobocodersAPI._save_cached_data({"access_token": "new_token"})
-```
-
-### `_update_cached_data`
-
-```python
-@staticmethod
-def _update_cached_data(updated_data: dict):
-    """Update existing cache data with new values"""
-```
-
-**Назначение**:
-Обновляет существующие данные в файле кэша новыми значениями.
-
-**Параметры**:
-- `updated_data` (dict): Обновленные данные для сохранения.
-
-**Как работает функция**:
-1. Инициализирует пустой словарь для хранения данных.
-2. Проверяет, существует ли файл кэша.
-3. Если файл кэша существует, пытается загрузить данные из него.
-4. Если файл кэша поврежден, начинает с пустого словаря.
-5. Обновляет загруженные данные новыми значениями.
-6. Записывает обновленные данные в файл кэша в формате JSON.
-
-**Примеры**:
-
-```python
-# Пример обновления данных в кэше
-RobocodersAPI._update_cached_data({"sid": "new_session_id"})
-```
-
-### `_clear_cached_data`
-
-```python
-@staticmethod
-def _clear_cached_data():
-    """Remove cache file"""
-```
-
-**Назначение**:
-Удаляет файл кэша.
-
-**Как работает функция**:
-1. Проверяет, существует ли файл кэша.
-2. Если файл кэша существует, пытается его удалить.
-3. Ловит исключения, если возникают ошибки при удалении файла.
-
-**Примеры**:
-
-```python
-# Пример очистки кэша
-RobocodersAPI._clear_cached_data()
-```
-
-### `_get_cached_data`
-
-```python
-@staticmethod
-def _get_cached_data() -> dict:
-    """Get all cached data"""
-```
-
-**Назначение**:
-Получает все кэшированные данные из файла.
-
-**Возвращает**:
-- `dict`: Кэшированные данные.
-
-**Как работает функция**:
-1. Проверяет, существует ли файл кэша.
-2. Если файл кэша существует, пытается загрузить данные из него.
-3. Если файл кэша поврежден, возвращает пустой словарь.
-4. Если файл кэша не существует, возвращает пустой словарь.
-
-**Примеры**:
-
-```python
-# Пример получения данных из кэша
-cached_data = RobocodersAPI._get_cached_data()
-print(cached_data)
-```
+The `RobocodersAPI` class provides a streamlined interface to interact with the Robocoders AI API for code generation and assistance. It handles authentication, caching of credentials, and asynchronous response processing, making it convenient to integrate with other applications.

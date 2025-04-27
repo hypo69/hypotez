@@ -1,114 +1,112 @@
-# Документация для модуля `Ollama.py`
+# Ollama Provider
 
-## Описание
+## Overview
 
-Модуль `Ollama.py` предназначен для работы с локальными моделями Ollama в рамках проекта `hypotez`. Он предоставляет класс `Ollama`, который наследуется от `OpenaiAPI` и реализует методы для получения списка моделей и создания асинхронного генератора для взаимодействия с моделью.
+This module provides the `Ollama` class, which implements the `OpenaiAPI` interface for interacting with the Ollama language model. It allows users to send messages to the Ollama model and receive responses. 
 
-## Более подробно
+## Details
 
-Этот модуль обеспечивает интеграцию с локально развернутыми моделями Ollama, позволяя использовать их для генерации текста и других задач обработки естественного языка. Он использует переменные окружения `OLLAMA_HOST` и `OLLAMA_PORT` для определения адреса и порта сервера Ollama.
+The `Ollama` class is designed to work with the Ollama API, providing a simplified interface for sending messages and receiving responses. It handles the necessary configuration, authentication, and API calls to interact with the Ollama model. 
 
-## Классы
+## Classes
 
-### `Ollama`
+### `class Ollama(OpenaiAPI)`
 
-**Описание**: Класс для взаимодействия с локальными моделями Ollama.
-**Наследуется от**: `OpenaiAPI`
+**Description**: This class provides an interface for interacting with the Ollama language model. It inherits from the `OpenaiAPI` class and implements the necessary methods for sending messages and receiving responses.
 
-**Атрибуты**:
-- `label` (str): Метка провайдера - "Ollama".
-- `url` (str): URL сайта Ollama - "https://ollama.com".
-- `login_url` (None): URL для логина (отсутствует).
-- `needs_auth` (bool): Требуется ли аутентификация - `False`.
-- `working` (bool): Статус работоспособности провайдера - `True`.
-- `models` (list): Список доступных моделей (заполняется при первом запросе).
-- `default_model` (str): Модель по умолчанию.
+**Inherits**: `OpenaiAPI`
 
-**Принцип работы**:
-Класс `Ollama` предоставляет методы для получения списка доступных моделей Ollama и создания асинхронного генератора для взаимодействия с моделью. Он использует переменные окружения `OLLAMA_HOST` и `OLLAMA_PORT` для определения адреса и порта сервера Ollama. При первом запросе списка моделей, класс обращается к API Ollama и сохраняет список доступных моделей в атрибуте `models`.
+**Attributes**:
+- `label` (str): The label for the provider, which is "Ollama" in this case.
+- `url` (str): The base URL of the Ollama API.
+- `login_url` (None): The login URL for the provider, which is `None` as Ollama does not require authentication.
+- `needs_auth` (bool): Indicates whether the provider requires authentication. Set to `False` for Ollama.
+- `working` (bool): Indicates whether the provider is currently working. Set to `True` for Ollama.
 
-**Методы**:
-- `get_models`: Возвращает список доступных моделей Ollama.
-- `create_async_generator`: Создает асинхронный генератор для взаимодействия с моделью.
+**Methods**:
+- `get_models(api_base: str = None, **kwargs)`: Retrieves a list of available Ollama models.
+    - **Args**:
+        - `api_base` (str): Optional base URL for the API. If `None`, uses environment variables `OLLAMA_HOST` and `OLLAMA_PORT`.
+        - `**kwargs`: Additional keyword arguments.
+    - **Returns**: A list of available Ollama models.
+- `create_async_generator(model: str, messages: Messages, api_base: str = None, **kwargs) -> AsyncResult`: Creates an asynchronous generator for interacting with the Ollama model.
+    - **Args**:
+        - `model` (str): The name of the Ollama model to use.
+        - `messages` (Messages): A list of messages to be sent to the model.
+        - `api_base` (str): Optional base URL for the API. If `None`, uses environment variables `OLLAMA_HOST` and `OLLAMA_PORT`.
+        - `**kwargs`: Additional keyword arguments.
+    - **Returns**: An asynchronous result object.
 
-## Методы класса
+## Inner Functions
 
-### `get_models`
+### `get_models(cls, api_base: str = None, **kwargs)`
+
+**Purpose**:  The function retrieves a list of available Ollama models.
+
+**Parameters**:
+- `api_base` (str): Optional base URL for the API. If `None`, uses environment variables `OLLAMA_HOST` and `OLLAMA_PORT`.
+- `**kwargs`: Additional keyword arguments.
+
+**Returns**: A list of available Ollama models.
+
+**How the Function Works**:
+1. The function first checks if the `models` attribute is empty. If it is, it proceeds to retrieve the models.
+2. If `api_base` is `None`, it uses environment variables `OLLAMA_HOST` and `OLLAMA_PORT` to construct the API URL. Otherwise, it uses the provided `api_base` with the appropriate path.
+3. The function sends a GET request to the API endpoint to retrieve the list of models.
+4. The response is parsed as JSON, and the model names are extracted from the `models` field.
+5. The extracted model names are stored in the `models` attribute and the first model is set as the default.
+6. The function returns the list of available Ollama models.
+
+### `create_async_generator(cls, model: str, messages: Messages, api_base: str = None, **kwargs) -> AsyncResult`
+
+**Purpose**: Creates an asynchronous generator for interacting with the Ollama model.
+
+**Parameters**:
+- `model` (str): The name of the Ollama model to use.
+- `messages` (Messages): A list of messages to be sent to the model.
+- `api_base` (str): Optional base URL for the API. If `None`, uses environment variables `OLLAMA_HOST` and `OLLAMA_PORT`.
+- `**kwargs`: Additional keyword arguments.
+
+**Returns**: An asynchronous result object.
+
+**How the Function Works**:
+1. The function first checks if `api_base` is `None`. If it is, it uses environment variables `OLLAMA_HOST` and `OLLAMA_PORT` to construct the base URL.
+2. The function calls the `create_async_generator` method of the parent class (`OpenaiAPI`) to initiate the asynchronous interaction with the model.
+3. It passes the provided `model`, `messages`, and `api_base` to the parent class method.
+4. The parent class method handles the asynchronous communication with the model and returns an asynchronous result object.
+5. This result object allows the user to access the response from the model asynchronously.
+
+## Parameter Details
+
+- `model` (str):  The name of the Ollama model to be used for the request.
+- `messages` (Messages):  A list of messages to be sent to the model. Each message is represented as a dictionary.
+- `api_base` (str): The base URL of the API. If `None`, defaults to `http://localhost:11434/v1`.
+- `**kwargs`: Additional keyword arguments that may be specific to the Ollama API.
+
+## Examples
+
+**Example of retrieving Ollama models:**
 
 ```python
-    @classmethod
-    def get_models(cls, api_base: str = None, **kwargs):
-        """
-        Получает список доступных моделей Ollama.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.local.Ollama import Ollama
 
-        Args:
-            api_base (str, optional): Базовый URL API. Defaults to None.
-            **kwargs: Дополнительные аргументы.
-
-        Returns:
-            list: Список доступных моделей Ollama.
-        """
-        ...
-```
-
-**Назначение**:
-Метод `get_models` получает список доступных моделей Ollama. Если список моделей еще не был получен, метод обращается к API Ollama и сохраняет список в атрибуте `models` класса.
-
-**Параметры**:
-- `api_base` (str, optional): Базовый URL API. Если не указан, используется значение из переменных окружения `OLLAMA_HOST` и `OLLAMA_PORT`. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы.
-
-**Возвращает**:
-- `list`: Список доступных моделей Ollama.
-
-**Пример вызова**:
-
-```python
 models = Ollama.get_models()
-print(models)
+print(models) 
 ```
 
-### `create_async_generator`
+**Example of sending a message to Ollama:**
 
 ```python
-    @classmethod
-    def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        api_base: str = None,
-        **kwargs
-    ) -> AsyncResult:
-        """
-        Создает асинхронный генератор для взаимодействия с моделью Ollama.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.local.Ollama import Ollama
+from hypotez.src.endpoints.gpt4free.g4f.Provider.local.Ollama import Messages
 
-        Args:
-            model (str): Имя модели.
-            messages (Messages): Список сообщений для отправки модели.
-            api_base (str, optional): Базовый URL API. Defaults to None.
-            **kwargs: Дополнительные аргументы.
+messages: Messages = [
+    {"role": "user", "content": "Hello, world!"},
+]
 
-        Returns:
-            AsyncResult: Асинхронный генератор для взаимодействия с моделью.
-        """
-        ...
-```
+response = Ollama.create_async_generator(
+    model="Ollama", messages=messages
+).get_response()
 
-**Назначение**:
-Метод `create_async_generator` создает асинхронный генератор для взаимодействия с моделью Ollama. Он использует базовый класс `OpenaiAPI` для создания генератора.
-
-**Параметры**:
-- `model` (str): Имя модели.
-- `messages` (Messages): Список сообщений для отправки модели.
-- `api_base` (str, optional): Базовый URL API. Если не указан, используется значение из переменных окружения `OLLAMA_HOST` и `OLLAMA_PORT`. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы.
-
-**Возвращает**:
-- `AsyncResult`: Асинхронный генератор для взаимодействия с моделью.
-
-**Пример вызова**:
-
-```python
-messages = [{"role": "user", "content": "Hello, Ollama!"}]
-generator = Ollama.create_async_generator(model="llama2", messages=messages)
+print(response)
 ```

@@ -1,363 +1,227 @@
-# Модуль `src.goog.google_search`
+# Module: Google HTML Parser 
 
-## Обзор
+## Overview
 
-Модуль `src.goog.google_search` предназначен для парсинга HTML-кода, полученного из поисковой выдачи Google. Он позволяет извлекать различные данные, такие как органические результаты поиска, featured snippet, карточки знаний и другие элементы. Модуль содержит класс `GoogleHtmlParser`, который предоставляет методы для очистки, нормализации и извлечения данных из HTML-кода.
+This module provides the `GoogleHtmlParser` class, designed for parsing HTML content from Google Search results pages. It converts the HTML structure into a structured dictionary, making it easier to extract and analyze the information presented.  The parser supports both mobile and desktop versions of Google Search results. 
 
-## Подробнее
+## Details
 
-Этот модуль используется для автоматизированного анализа результатов поиска Google. Он может быть полезен для SEO-специалистов, маркетологов и исследователей, которым необходимо собирать данные о поисковой выдаче в больших масштабах. Модуль поддерживает как десктопную, так и мобильную версии HTML Google Search.
+The `GoogleHtmlParser` class utilizes the `lxml` library for parsing HTML content. It extracts various components from the results page, such as:
 
-## Классы
+- **Organic Results:** Regular search results, excluding snippets, featured snippets, and other additional features.
+- **Featured Snippet:** Provides the title and URL of the featured snippet, if present.
+- **Knowledge Card:** Extracts the title, subtitle, description, and additional information from the knowledge card, if available.
+- **Scrolling Sections:**  Gathers data from scrollable widgets like "Top Stories" or "Tweets."
+
+The parser processes the HTML structure, identifies relevant elements, and converts them into a dictionary containing the extracted information. This approach simplifies the process of extracting meaningful data from Google Search results.
+
+## Classes
 
 ### `GoogleHtmlParser`
 
-**Описание**:
-Класс `GoogleHtmlParser` предназначен для парсинга HTML-кода, полученного из поисковой выдачи Google. Он преобразует HTML-код в словарь, содержащий различные элементы поисковой выдачи.
+**Description**: This class parses HTML content from Google Search results pages and extracts relevant information into a dictionary. 
 
-**Атрибуты**:
-- `tree` (html.Element): Дерево документа, полученное с использованием `html.fromstring()`.
-- `user_agent` (str): User agent, использованный для получения HTML Google Search. Может принимать значения `'mobile'` или `'desktop'`.
+**Attributes**:
 
-**Методы**:
-- `__init__`: Инициализирует экземпляр класса `GoogleHtmlParser`.
-- `_clean`: Очищает строку от лишних символов.
-- `_normalize_dict_key`: Нормализует строку для использования в качестве ключа словаря.
-- `_get_estimated_results`: Получает количество результатов поиска.
-- `_get_organic`: Получает органические результаты поиска.
-- `_get_featured_snippet`: Получает featured snippet.
-- `_get_knowledge_card`: Получает карточку знаний.
-- `_get_scrolling_sections`: Получает данные из скроллируемых виджетов.
-- `get_data`: Получает итоговые данные с поисковой страницы.
+- `tree (html.Element)`: The HTML document tree obtained through `html.fromstring()`.
+- `user_agent (str)`: The user agent used to fetch the Google Search HTML. It can be "mobile" or "desktop".
 
-#### Принцип работы:
-1. **Инициализация**: При создании экземпляра класса `GoogleHtmlParser` HTML-код преобразуется в дерево документа с использованием `html.fromstring()`. Также определяется user agent.
-2. **Парсинг данных**: Методы, начинающиеся с `_get`, используются для извлечения различных элементов из дерева документа.
-3. **Очистка и нормализация**: Методы `_clean` и `_normalize_dict_key` используются для очистки и нормализации извлеченных данных.
-4. **Сбор данных**: Метод `get_data` собирает все извлеченные данные в один словарь и возвращает его.
+**Methods**:
 
-### `__init__`
+- `__init__(self, html_str: str, user_agent: str = 'desktop')`: Initializes the parser, creating the document tree from the provided HTML string.
+- `_clean(self, content: str) -> str`: Removes extra spaces and characters from a string.
+- `_normalize_dict_key(self, content: str) -> str`: Normalizes a string for use as a dictionary key by replacing spaces with underscores, removing colons, converting to lowercase, and trimming underscores.
+- `_get_estimated_results(self) -> int`:  Retrieves the estimated number of search results.
+- `_get_organic(self) -> list`: Extracts organic search results without additional features.
+- `_get_featured_snippet(self) -> dict | None`: Retrieves the featured snippet, if available.
+- `_get_knowledge_card(self) -> dict | None`: Extracts data from the knowledge card.
+- `_get_scrolling_sections(self) -> list`: Collects data from scrollable widgets.
+- `get_data(self) -> dict`: Returns a dictionary containing all the extracted data from the search results page.
+
+## Functions
+
+### `_clean(self, content: str) -> str`
+
+**Purpose**: This function cleans a string by removing extra spaces and characters.
+
+**Parameters**:
+
+- `content (str)`: The string to clean.
+
+**Returns**:
+
+- `str`: The cleaned string.
+
+**How the Function Works**:
+
+- The function first strips any leading and trailing spaces from the input string.
+- It then splits the string into words and joins them back together with a single space between each word.
+
+**Example**:
 
 ```python
-def __init__(self, html_str: str, user_agent: str = 'desktop') -> None:
-    """
-    Инициализация парсера.
-
-    Создает дерево документа из строки HTML.
-
-    Args:
-        html_str (str): HTML Google Search в виде строки.
-        user_agent (str): User agent для получения HTML. Может быть 'mobile' или 'desktop'.
-
-    Returns:
-        None
-    """
-    self.tree = html.fromstring(html_str)
-    if user_agent in ['mobile', 'desktop']:
-        self.user_agent = user_agent
-    else:
-        self.user_agent = 'desktop'
+>>> parser = GoogleHtmlParser('<p>  This is an example  string  with extra spaces.  </p>')
+>>> parser._clean('  This is an example  string  with extra spaces.  ')
+'This is an example string with extra spaces.'
 ```
 
-**Описание**:
-Инициализирует класс `GoogleHtmlParser`, преобразуя HTML в дерево документа и устанавливая user agent.
 
-**Параметры**:
-- `html_str` (str): HTML Google Search в виде строки.
-- `user_agent` (str, optional): User agent для получения HTML. Может быть `'mobile'` или `'desktop'`. По умолчанию `'desktop'`.
+### `_normalize_dict_key(self, content: str) -> str`
 
-**Пример**:
+**Purpose**: This function normalizes a string for use as a dictionary key.
+
+**Parameters**:
+
+- `content (str)`: The string to normalize.
+
+**Returns**:
+
+- `str`: The normalized string.
+
+**How the Function Works**:
+
+- The function replaces spaces with underscores, removes colons, converts the string to lowercase, and trims any leading or trailing underscores. This ensures that the string can be safely used as a dictionary key.
+
+**Example**:
+
 ```python
-parser = GoogleHtmlParser(html_str='<html>...</html>', user_agent='mobile')
+>>> parser = GoogleHtmlParser('<p>  This is an example  string  with extra spaces.  </p>')
+>>> parser._normalize_dict_key('  This: is an example  string  with extra spaces.  ')
+'this_is_an_example_string_with_extra_spaces'
 ```
 
-### `_clean`
+
+### `_get_estimated_results(self) -> int`
+
+**Purpose**: This function retrieves the estimated number of search results for desktop Google Search.
+
+**Returns**:
+
+- `int`: The estimated number of search results.
+
+**How the Function Works**:
+
+- The function uses XPath to find the element containing the estimated results count. 
+- It then extracts the number from the text content and returns it as an integer.
+
+**Example**:
 
 ```python
-def _clean(self, content: str) -> str:
-    """
-    Очистка строки от лишних символов.
-
-    Очищает строку от пробелов и лишних символов.
-
-    Args:
-        content (str): Строка для очистки.
-
-    Returns:
-        str: Очищенная строка.
-    """
-    if content:
-        content = content.strip()
-        content = ' '.join(content.split())
-        return content
-    return ''
+>>> parser = GoogleHtmlParser('<div id="result-stats">About 1,000,000 results (0.58 seconds)</div>')
+>>> parser._get_estimated_results()
+1000000
 ```
 
-**Описание**:
-Очищает строку от лишних пробелов и символов.
 
-**Параметры**:
-- `content` (str): Строка для очистки.
+### `_get_organic(self) -> list`
 
-**Возвращает**:
-- `str`: Очищенная строка.
+**Purpose**: This function extracts organic search results from the Google Search page, excluding any additional features like snippets or featured snippets.
 
-**Пример**:
+**Returns**:
+
+- `list`: A list of dictionaries, each representing an organic search result.
+
+**How the Function Works**:
+
+- The function iterates over each "g" div element in the HTML, representing a search result.
+- It extracts the URL, title, snippet, and rich snippet (if present) for each result.
+- It uses XPath to locate the relevant information within each "g" div. 
+- The extracted data is then organized into dictionaries and appended to the list.
+
+**Example**:
+
 ```python
-cleaned_string = parser._clean(content='  Пример строки  ')
+>>> parser = GoogleHtmlParser('<div class="g"><h3 class="r"><a href="https://www.example.com">Example Title</a></h3><div class="s"><span class="st">This is a snippet.</span></div></div>')
+>>> parser._get_organic()
+[{'url': 'https://www.example.com', 'title': 'Example Title', 'snippet': 'This is a snippet.', 'rich_snippet': None}]
 ```
 
-### `_normalize_dict_key`
+
+### `_get_featured_snippet(self) -> dict | None`
+
+**Purpose**: This function extracts the featured snippet from the Google Search page, if it exists.
+
+**Returns**:
+
+- `dict | None`: A dictionary containing the title and URL of the featured snippet, or `None` if no featured snippet is found.
+
+**How the Function Works**:
+
+- The function uses XPath to locate the "kp-blk" div element, which represents the featured snippet.
+- It then extracts the title and URL from within this element. 
+- If both title and URL are found, they are returned as a dictionary; otherwise, `None` is returned.
+
+**Example**:
 
 ```python
-def _normalize_dict_key(self, content: str) -> str:
-    """
-    Нормализация строки для использования в качестве ключа словаря.
-
-    Заменяет пробелы на подчеркивания, убирает двоеточия, приводит к нижнему регистру.
-
-    Args:
-        content (str): Строка для нормализации.
-
-    Returns:
-        str: Нормализованная строка.
-    """
-    content = str(content).replace(' ', '_').replace(':', '').lower().strip('_')
-    return content
+>>> parser = GoogleHtmlParser('<div class="kp-blk"><h3 class="r"><a href="https://www.example.com">Example Featured Snippet</a></h3></div>')
+>>> parser._get_featured_snippet()
+{'title': 'Example Featured Snippet', 'url': 'https://www.example.com'}
 ```
 
-**Описание**:
-Нормализует строку для использования в качестве ключа словаря. Заменяет пробелы на подчеркивания, убирает двоеточия и приводит к нижнему регистру.
+### `_get_knowledge_card(self) -> dict | None`
 
-**Параметры**:
-- `content` (str): Строка для нормализации.
+**Purpose**: This function extracts data from the knowledge card, if it exists.
 
-**Возвращает**:
-- `str`: Нормализованная строка.
+**Returns**:
 
-**Пример**:
+- `dict | None`: A dictionary containing the title, subtitle, description, and additional information from the knowledge card, or `None` if no knowledge card is found.
+
+**How the Function Works**:
+
+- The function uses XPath to locate the "kp-wholepage" div element, which represents the knowledge card.
+- It then extracts the title, subtitle, and description from within this element.
+- It also extracts additional information from "div" elements containing attributes that include ":/". 
+- If a knowledge card is found, the extracted data is returned as a dictionary; otherwise, `None` is returned.
+
+**Example**:
+
 ```python
-normalized_key = parser._normalize_dict_key(content='Пример строки: ')
+>>> parser = GoogleHtmlParser('<div class="kp-wholepage"><h2 class="r"><span>Example Knowledge Card</span></h2><div data-attrid="example:/topic"><span>Example Topic</span><span>Example Description</span></div></div>')
+>>> parser._get_knowledge_card()
+{'title': 'Example Knowledge Card', 'subtitle': '', 'description': '', 'more_info': [{'example_topic': 'Example Description'}]}
 ```
 
-### `_get_estimated_results`
+### `_get_scrolling_sections(self) -> list`
+
+**Purpose**: This function extracts data from scrollable widgets, such as "Top Stories" or "Tweets".
+
+**Returns**:
+
+- `list`: A list of dictionaries, each representing a scrollable widget.
+
+**How the Function Works**:
+
+- The function uses XPath to locate "g-section-with-header" elements, representing scrollable sections.
+- It extracts the title of each section and then iterates over the "g-inner-card" elements within the section.
+- For each "g-inner-card", it extracts the title and URL of the data within the section.
+- The extracted data is organized into dictionaries and appended to the list.
+
+**Example**:
 
 ```python
-def _get_estimated_results(self) -> int:
-    """
-    Получение количества результатов поиска.
-
-    Возвращает количество найденных результатов для десктопной версии Google Search.
-
-    Returns:
-        int: Число результатов поиска.
-    """
-    estimated_results = 0
-    estimated_el = self.tree.xpath('//*[@id="result-stats"]/text()')
-    if len(estimated_el) > 0:
-        estimated_results = int(estimated_el[0].split()[1].replace(',', ''))
-    return estimated_results
+>>> parser = GoogleHtmlParser('<div class="g-section-with-header"><h3>Top Stories</h3><div class="g-inner-card"><div role="heading">Example Story Title</div><a href="https://www.example.com">Example URL</a></div></div>')
+>>> parser._get_scrolling_sections()
+[{'section_title': 'Top Stories', 'section_data': [{'title': 'Example Story Title', 'url': 'https://www.example.com'}]}]
 ```
 
-**Описание**:
-Извлекает количество результатов поиска из HTML-кода (только для десктопной версии).
+### `get_data(self) -> dict`
 
-**Возвращает**:
-- `int`: Число результатов поиска.
+**Purpose**: This function gathers all the extracted data from the Google Search results page and returns it as a dictionary.
 
-**Пример**:
-```python
-estimated_results = parser._get_estimated_results()
-```
+**Returns**:
 
-### `_get_organic`
+- `dict`: A dictionary containing all the extracted data, including organic results, knowledge card, featured snippet, and data from scrollable widgets.
 
-```python
-def _get_organic(self) -> list:
-    """
-    Получение органических результатов поиска.
+**How the Function Works**:
 
-    Возвращает список органических результатов без дополнительных фич (snippet, featured snippet и т.д.).
+- The function calls the respective extraction methods (`_get_estimated_results`, `_get_featured_snippet`, `_get_knowledge_card`, `_get_organic`, `_get_scrolling_sections`) to retrieve the data.
+- The extracted data is organized into a single dictionary.
 
-    Returns:
-        list: Список словарей с органическими результатами.
-    """
-    organic = []
-    for g in self.tree.xpath('//div[@class="g"]'):
-        snippets = g.xpath('.//div/div/div[2]/div')
-        snippet, rich_snippet = None, None
-        if len(snippets) == 1:
-            snippet = snippets[0].text_content()
-        elif len(snippets) > 1:
-            if snippets[1].xpath('.//g-review-stars'):
-                rich_snippet = snippets[1].text_content()
-                snippet = snippets[0].text_content()
-            else:
-                snippet = snippets[1].text_content()
-                rich_snippet = snippets[0].text_content()
-
-        res = {
-            'url': self._clean(g.xpath('.//@href[1]')[0]),
-            'title': self._clean(g.xpath('.//h3/text()')[0]),
-            'snippet': self._clean(snippet),
-            'rich_snippet': self._clean(rich_snippet),
-        }
-        organic.append(res)
-    return organic
-```
-
-**Описание**:
-Извлекает органические результаты поиска из HTML-кода.
-
-**Возвращает**:
-- `list`: Список словарей с органическими результатами (URL, заголовок, snippet, rich snippet).
-
-**Пример**:
-```python
-organic_results = parser._get_organic()
-```
-
-### `_get_featured_snippet`
+**Example**:
 
 ```python
-def _get_featured_snippet(self) -> dict | None:
-    """
-    Получение featured snippet.
-
-    Если существует, возвращает featured snippet с заголовком и URL.
-
-    Returns:
-        dict | None: Словарь с заголовком и URL или None.
-    """
-    fs = None
-    snippet_el = self.tree.xpath('//div[contains(@class, "kp-blk")]')
-    if snippet_el:
-        snippet_el = snippet_el[0]
-        heading = snippet_el.xpath('.//h3/text()')
-        url = snippet_el.xpath('.//a/@href')
-        if heading and url:
-            fs = {'title': heading[0], 'url': url[-1]}
-    return fs
-```
-
-**Описание**:
-Извлекает featured snippet из HTML-кода.
-
-**Возвращает**:
-- `dict | None`: Словарь с заголовком и URL featured snippet, или `None`, если featured snippet отсутствует.
-
-**Пример**:
-```python
-featured_snippet = parser._get_featured_snippet()
-```
-
-### `_get_knowledge_card`
-
-```python
-def _get_knowledge_card(self) -> dict | None:
-    """
-    Получение карточки знаний.
-
-    Возвращает карточку знаний с заголовком, подзаголовком и описанием, если существует.
-
-    Returns:
-        dict | None: Словарь с данными карточки знаний или None.
-    """
-    kc_el = self.tree.xpath('//div[contains(@class, "kp-wholepage")]')
-    if kc_el:
-        kc_el = kc_el[0]
-        more_info = []
-        for el in kc_el.xpath('.//div[contains(@data-attrid, ":/")]'):
-            el_parts = el.xpath('.//span')
-            if len(el_parts) == 2:
-                more_info.append({self._normalize_dict_key(el_parts[0].text_content()): el_parts[1].text_content()})
-        return {
-            'title': kc_el.xpath('.//h2/span')[0].text_content(),
-            'subtitle': kc_el.xpath('.//div[contains(@data-attrid, "subtitle")]')[0].text_content(),
-            'description': kc_el.xpath('.//div[@class="kno-rdesc"]/span')[0].text_content(),
-            'more_info': more_info
-        }
-    return None
-```
-
-**Описание**:
-Извлекает карточку знаний из HTML-кода.
-
-**Возвращает**:
-- `dict | None`: Словарь с данными карточки знаний (заголовок, подзаголовок, описание, дополнительная информация) или `None`, если карточка знаний отсутствует.
-
-**Пример**:
-```python
-knowledge_card = parser._get_knowledge_card()
-```
-
-### `_get_scrolling_sections`
-
-```python
-def _get_scrolling_sections(self) -> list:
-    """
-    Получение данных из скроллируемых виджетов.
-
-    Возвращает список данных из виджетов, например, топовые истории или твиты.
-
-    Returns:
-        list: Список словарей с данными из виджетов.
-    """
-    sections = self.tree.xpath('//g-section-with-header')
-    data = []
-    for section in sections:
-        title = section.xpath('.//h3')[0].text_content()
-        section_data = []
-        for data_section in section.xpath('.//g-inner-card'):
-            data_title = data_section.xpath('.//div[@role="heading"]/text()')[0]
-            data_url = data_section.xpath('.//a/@href')[0]
-            section_data.append({'title': self._clean(data_title), 'url': self._clean(data_url)})
-        data.append({'section_title': title, 'section_data': section_data})
-    return data
-```
-
-**Описание**:
-Извлекает данные из скроллируемых виджетов (например, топовые истории или твиты) из HTML-кода.
-
-**Возвращает**:
-- `list`: Список словарей с данными из виджетов (заголовок секции, данные секции).
-
-**Пример**:
-```python
-scrolling_sections = parser._get_scrolling_sections()
-```
-
-### `get_data`
-
-```python
-def get_data(self) -> dict:
-    """
-    Получение итоговых данных с поисковой страницы.
-
-    Собирает данные с результатов поиска: органические результаты, карточка знаний и др.
-
-    Returns:
-        dict: Словарь с данными поисковой страницы.
-    """
-    data = {}
-    if self.user_agent == 'desktop':
-        data = {
-            'estimated_results': self._get_estimated_results(),
-            'featured_snippet': self._get_featured_snippet(),
-            'knowledge_card': self._get_knowledge_card(),
-            'organic_results': self._get_organic(),
-            'scrolling_widgets': self._get_scrolling_sections()
-        }
-    return data
-```
-
-**Описание**:
-Собирает все данные с поисковой страницы и возвращает их в виде словаря.
-
-**Возвращает**:
-- `dict`: Словарь с данными поисковой страницы (количество результатов, featured snippet, карточка знаний, органические результаты, скроллируемые виджеты).
-
-**Пример**:
-```python
-search_data = parser.get_data()
+>>> parser = GoogleHtmlParser('<div class="g-section-with-header"><h3>Top Stories</h3><div class="g-inner-card"><div role="heading">Example Story Title</div><a href="https://www.example.com">Example URL</a></div></div>')
+>>> parser.get_data()
+{'estimated_results': 0, 'featured_snippet': None, 'knowledge_card': None, 'organic_results': [], 'scrolling_widgets': [{'section_title': 'Top Stories', 'section_data': [{'title': 'Example Story Title', 'url': 'https://www.example.com'}]}]}
 ```

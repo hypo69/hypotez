@@ -1,60 +1,63 @@
-# Документация модуля `Local.py`
+# Local Provider for GPT4Free
 
-## Обзор
+## Overview
 
-Модуль `Local.py` предоставляет класс `Local`, который является адаптером для локальных моделей, таких как GPT4All. Он позволяет использовать эти модели через интерфейс, совместимый с другими провайдерами в проекте `hypotez`. Модуль поддерживает сохранение истории сообщений, системные сообщения и потоковую передачу данных.
+This module defines the `Local` class, which acts as a provider for the GPT4Free endpoint using local models. It leverages the `gpt4all` library for local model interactions. 
 
-## Более детально
+## Details
 
-Модуль предназначен для интеграции локальных моделей в систему `hypotez`, позволяя использовать их наравне с удаленными API. Это полезно для случаев, когда требуется конфиденциальность, отсутствует подключение к интернету или необходимо снизить задержки. Модуль проверяет наличие необходимых зависимостей (`gpt4all`) и предоставляет метод для создания завершений на основе выбранной модели и входных сообщений.
+The `Local` class inherits from `AbstractProvider` and `ProviderModelMixin`, inheriting base functionality and model management capabilities. It provides a simple interface for interacting with local GPT-4-like models via the `gpt4all` library.
 
-## Классы
+## Classes
 
-### `Local`
+### `class Local`
 
-**Описание**: Класс `Local` является адаптером для локальных моделей, такими как GPT4All.
+**Description**: This class represents a local GPT-4Free provider, enabling interactions with local models using the `gpt4all` library.
 
-**Наследует**:
-- `AbstractProvider`: Абстрактный базовый класс для всех провайдеров.
-- `ProviderModelMixin`: Миксин для работы с моделями провайдера.
+**Inherits**: `AbstractProvider`, `ProviderModelMixin`
 
-**Атрибуты**:
-- `label` (str): Метка провайдера, в данном случае `"GPT4All"`.
-- `working` (bool): Флаг, указывающий, что провайдер работает, в данном случае `True`.
-- `supports_message_history` (bool): Флаг, указывающий, что провайдер поддерживает историю сообщений, в данном случае `True`.
-- `supports_system_message` (bool): Флаг, указывающий, что провайдер поддерживает системные сообщения, в данном случае `True`.
-- `supports_stream` (bool): Флаг, указывающий, что провайдер поддерживает потоковую передачу, в данном случае `True`.
-- `models` (list): Список доступных моделей.
-- `default_model` (str): Модель по умолчанию.
+**Attributes**:
 
-**Принцип работы**:
-1. При инициализации класса проверяется наличие необходимых зависимостей (`gpt4all`). Если они отсутствуют, выбрасывается исключение `MissingRequirementsError`.
-2. Метод `create_completion` создает запрос на завершение текста, используя локальную модель.
-3. Метод `get_models` возвращает список доступных моделей.
+- `label` (str): The name of the provider, set to "GPT4All".
+- `working` (bool): Indicates whether the provider is active. Set to `True` for this provider.
+- `supports_message_history` (bool): Indicates whether the provider supports message history. Set to `True` for this provider.
+- `supports_system_message` (bool): Indicates whether the provider supports system messages. Set to `True` for this provider.
+- `supports_stream` (bool): Indicates whether the provider supports streaming responses. Set to `True` for this provider.
 
-**Методы**:
-- `get_models(cls)`: Возвращает список доступных моделей.
-- `create_completion(cls, model: str, messages: Messages, stream: bool, **kwargs) -> CreateResult`: Создает завершение текста на основе выбранной модели и входных сообщений.
+**Methods**:
 
-## Методы класса
+- `get_models()`: Returns a list of available local models for this provider.
+- `create_completion()`: Generates a completion based on the provided messages and model.
 
-### `get_models`
+## Class Methods
+
+### `get_models()`
 
 ```python
     @classmethod
     def get_models(cls):
-        """
-        Получает список доступных моделей.
-
-        Args:
-            cls: Ссылка на класс `Local`.
-
-        Returns:
-            list: Список доступных моделей.
-        """
+        if not cls.models:
+            cls.models = list(get_models())
+            cls.default_model = cls.models[0]
+        return cls.models
 ```
 
-### `create_completion`
+**Purpose**: Retrieves the list of available local models.
+
+**Parameters**: None
+
+**Returns**: 
+- `list`: A list of available local model names.
+
+**How the Function Works**:
+
+- Checks if the `models` attribute is already populated.
+- If not, it calls the `get_models()` function from the `locals.models` module to retrieve a list of models.
+- It sets the first model in the list as the default model.
+- It returns the list of available models.
+
+
+### `create_completion()`
 
 ```python
     @classmethod
@@ -65,46 +68,50 @@
         stream: bool,
         **kwargs
     ) -> CreateResult:
-        """
-        Создает завершение текста на основе выбранной модели и входных сообщений.
-
-        Args:
-            cls: Ссылка на класс `Local`.
-            model (str): Название модели.
-            messages (Messages): Список сообщений для модели.
-            stream (bool): Флаг, указывающий, нужно ли использовать потоковую передачу.
-            **kwargs: Дополнительные аргументы.
-
-        Returns:
-            CreateResult: Результат создания завершения.
-
-        Raises:
-            MissingRequirementsError: Если отсутствуют необходимые зависимости (`gpt4all`).
-
-        """
+        if not has_requirements:
+            raise MissingRequirementsError('Install "gpt4all" package | pip install -U g4f[local]')
+        return LocalProvider.create_completion(
+            cls.get_model(model),
+            messages,
+            stream,
+            **kwargs
+        )
 ```
 
-## Параметры класса
+**Purpose**: Generates a completion using a local GPT-4-like model.
 
-- `label` (str): Метка провайдера, в данном случае `"GPT4All"`.
-- `working` (bool): Флаг, указывающий, что провайдер работает, в данном случае `True`.
-- `supports_message_history` (bool): Флаг, указывающий, что провайдер поддерживает историю сообщений, в данном случае `True`.
-- `supports_system_message` (bool): Флаг, указывающий, что провайдер поддерживает системные сообщения, в данном случае `True`.
-- `supports_stream` (bool): Флаг, указывающий, что провайдер поддерживает потоковую передачу, в данном случае `True`.
-- `models` (list): Список доступных моделей.
-- `default_model` (str): Модель по умолчанию.
+**Parameters**:
 
-**Примеры**
+- `model` (str): The name of the local model to use for completion.
+- `messages` (Messages): A list of messages to provide as context for the completion.
+- `stream` (bool): Indicates whether to stream the response or wait for the full response.
+- `**kwargs`: Additional keyword arguments to pass to the `gpt4all` completion function.
+
+**Returns**: 
+- `CreateResult`: An object containing the generated completion and other information.
+
+**Raises Exceptions**:
+
+- `MissingRequirementsError`: If the `gpt4all` package is not installed.
+
+**How the Function Works**:
+
+- Checks if the `gpt4all` package is installed. If not, raises a `MissingRequirementsError`.
+- Retrieves the model object using `cls.get_model(model)`.
+- Calls the `create_completion()` method of the `LocalProvider` class to generate the completion.
+- Passes the selected model, messages, stream flag, and additional keyword arguments to the `LocalProvider` method.
+- Returns the result of the completion process as a `CreateResult` object.
+
+## Examples
 
 ```python
-# Пример получения списка моделей
-models = Local.get_models()
-print(models)
+from hypotez.src.endpoints.gpt4free.g4f.Provider.local.Local import Local
 
-# Пример создания завершения
-messages = [{"role": "user", "content": "Hello, how are you?"}]
-try:
-    result = Local.create_completion(model="default", messages=messages, stream=False)
-    print(result)
-except MissingRequirementsError as ex:
-    print(f"Error: {ex}")
+# Get the list of available local models
+models = Local.get_models()
+print(models)  # Output: ['gpt4all-j-6b-v2', 'gpt4all-lora-13b', ...]
+
+# Create a completion using the 'gpt4all-j-6b-v2' model
+completion = Local.create_completion(model='gpt4all-j-6b-v2', messages=[{'role': 'user', 'content': 'Hello world!'}], stream=False)
+print(completion) # Output:  <CreateResult object>
+```

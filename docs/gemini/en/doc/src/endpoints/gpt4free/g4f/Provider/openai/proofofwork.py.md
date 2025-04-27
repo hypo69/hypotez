@@ -1,74 +1,38 @@
-# Module for generating Proof-of-Work tokens
-## Overview
+# Модуль для генерации токенов проверки работы (Proof of Work)
+## Обзор
+Этот модуль предоставляет функцию для генерации токенов проверки работы (Proof of Work), которые используются в некоторых API OpenAI. Токены проверки работы используются для предотвращения злоупотребления API, ограничение количества запросов и для проверки подлинности пользователей.
 
-This module provides functionality for generating Proof-of-Work tokens, used to verify the client's computational effort. It includes functions for creating tokens based on provided seeds, difficulty levels, and user agents. The module is designed to be used in systems requiring verification of client-side processing, such as preventing abuse or ensuring fair resource allocation.
+## Подробности
+Функция `generate_proof_token` генерирует уникальный токен проверки работы, который используется для проверки подлинности пользователей и ограничения количества запросов к API OpenAI. Токен генерируется с использованием хэширования SHA3-512.
 
-## More details
+## Функции
+### `generate_proof_token(required: bool, seed: str = "", difficulty: str = "", user_agent: str = None, proof_token: str = None)`
 
-This module is essential for systems that need to verify the computational work done by the client. Proof-of-Work tokens are generated based on parameters such as seed, difficulty, and user agent. The tokens are generated using a hashing algorithm (SHA3-512) and are validated based on the specified difficulty. If the required number of iterations is reached without finding a suitable hash, a fallback token is generated.
+**Описание**: Функция генерирует уникальный токен проверки работы, который используется для проверки подлинности пользователей и ограничения количества запросов к API OpenAI.
 
-## Functions
+**Параметры**:
+- `required (bool)`: Указывает, требуется ли генерировать токен.
+- `seed (str, optional)`: Строка, используемая как начальное значение для генерации хеша. По умолчанию используется пустая строка.
+- `difficulty (str, optional)`: Строка, определяющая сложность генерации токена. Чем сложнее токен, тем больше времени требуется для его генерации. По умолчанию используется пустая строка.
+- `user_agent (str, optional)`: Строка, содержащая информацию о браузере пользователя. По умолчанию используется `None`.
+- `proof_token (str, optional)`:  Токен проверки работы, который был получен ранее. Если он не `None`, функция попытается найти подходящий токен, который удовлетворяет критериям сложности. По умолчанию используется `None`.
 
-### `generate_proof_token`
+**Возвращает**:
+- `str`: Уникальный токен проверки работы, если `required` равен `True`.
+- `None`: Если `required` равен `False`.
 
+**Пример**:
 ```python
-def generate_proof_token(required: bool, seed: str = "", difficulty: str = "", user_agent: str = None, proof_token: str = None) -> str | None:
-    """ Функция генерирует Proof-of-Work токен для подтверждения вычислительной работы клиента.
-
-    Args:
-        required (bool): Указывает, требуется ли генерация токена. Если `False`, функция не выполняет никаких действий и возвращает `None`.
-        seed (str, optional): Исходная строка, используемая для генерации токена. По умолчанию "".
-        difficulty (str, optional): Строка, определяющая сложность вычисления.  Хэш должен начинаться с этой строки. По умолчанию "".
-        user_agent (str, optional): User agent клиента, который включается в токен. По умолчанию `None`.
-        proof_token (str, optional): Если предоставлен, используется как основа для генерации нового токена. По умолчанию `None`.
-
-    Returns:
-        str | None: Возвращает Proof-of-Work токен в виде строки, если `required` истинно. Если `required` ложно, возвращает `None`.
-
-    Raises:
-        Нет особых исключений.
-
-    Example:
-        >>> generate_proof_token(required=True, seed="test_seed", difficulty="000")
-        'gAAAAAB...'
-    """
-    ...
+>>> generate_proof_token(required=True, seed="example_seed", difficulty="0000")
+'gAAAAABXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 ```
 
-#### Parameters:
+**Как работает функция**:
+- Функция генерирует случайные значения для различных параметров, таких как `screen`, `parse_time`, `user_agent`, и т. д.
+- Затем функция создает список `proof_token`, который включает эти значения, а также некоторые предопределенные строки.
+- Затем функция запускает цикл, в котором она итеративно увеличивает значение `proof_token[3]`, кодирует список в JSON, шифрует его в base64 и вычисляет хеш SHA3-512 с использованием `seed` и зашифрованного текста.
+- Если значение хеша удовлетворяет `difficulty`, то функция возвращает зашифрованный в base64 JSON.
+- Если цикл завершился, и не было найдено подходящего токена, функция использует `fallback_base` и возвращает зашифрованный в base64 JSON.
 
-- `required` (bool): Определяет, необходимо ли генерировать токен. Если `False`, функция не выполняет генерацию.
-- `seed` (str): Исходная строка, используемая в процессе хеширования для генерации токена.
-- `difficulty` (str): Строка, определяющая сложность. Чем длиннее строка, тем сложнее задача PoW.
-- `user_agent` (str): User agent клиента, включаемый в структуру токена.
-- `proof_token` (str): Если передан, используется как шаблон для создания нового токена.
-
-#### How the function works:
-
-1. **Проверка необходимости**:
-   - Функция начинает с проверки параметра `required`. Если `required` равен `False`, функция немедленно возвращает `None`.
-2. **Инициализация `proof_token`**:
-   - Если `proof_token` не передан, он генерируется случайным образом. В противном случае используется переданный `proof_token`.
-3. **Цикл вычислений**:
-   - Функция выполняет цикл до 100000 итераций.
-   - На каждой итерации:
-     - Устанавливается значение `proof_token[3]` равным текущему индексу итерации `i`.
-     - Преобразует массив `proof_token` в JSON-строку, кодирует её в Base64 и декодирует обратно в строку.
-     - Вычисляет SHA3-512 хэш от конкатенации `seed` и полученной строки Base64.
-     - Проверяет, начинается ли шестнадцатеричное представление хэша с заданной `difficulty`.
-     - Если условие выполнено, возвращает строку, начинающуюся с "gAAAAAB", за которой следует строка Base64.
-4. **Обработка неудачи**:
-   - Если после 100000 итераций подходящий хэш не найден, функция кодирует `seed` в Base64 и возвращает строку, начинающуюся с "gAAAAABwQ8Lk5FbGpA2NcR9dShT6gYjU7VxZ4D", за которой следует строка Base64.
-
-#### Examples:
-
-```python
-# Пример вызова функции с обязательным требованием и параметрами
-result = generate_proof_token(required=True, seed="test_seed", difficulty="000", user_agent="TestAgent")
-print(result)
-# Пример вызова функции без обязательного требования
-result = generate_proof_token(required=False)
-print(result)
-# Пример вызова функции с предоставленным proof_token
-result = generate_proof_token(required=True, seed="test_seed", difficulty="000", proof_token="custom_token")
-print(result)
+**Принцип работы**:
+Функция генерирует уникальный токен проверки работы, который используется для проверки подлинности пользователей и ограничения количества запросов к API OpenAI.  Она  использует хэширование SHA3-512, чтобы  предотвратить злоупотребления и ограничения, и генерирует токен, который соответствует заданному уровню сложности.

@@ -1,30 +1,32 @@
-# Модуль gs.py
+# Module Name: `gs`
 
-## Обзор
+## Overview
 
-Модуль `gs.py` предназначен для загрузки параметров конфигурации программы из файла `config.json`, если не используется хранилище `keepass`. В этом случае предполагается, что константа `USE_ENV` установлена в `True`, и данные о ключах, API, паролях и прочих параметрах загружаются из файла `.env`. Этот способ считается неудобным и не рекомендуется к использованию.
+This module provides a simple mechanism for loading program parameters without using the KeePass password manager. It's highly discouraged to use this method for storing sensitive information as it lacks security and convenience compared to KeePass.
 
-## Подробнее
+## Details
 
-Модуль предоставляет простой способ загрузки конфигурационных параметров из JSON-файла. Он использует функцию `j_loads_ns` из модуля `src.utils.jjson` для чтения и обработки данных. Расположение файла `config.json` определяется относительно корневой директории проекта.
+The module defines a global variable `gs` which is populated with data from the `config.json` file located within the project. This file contains key configurations, API keys, passwords, and other program-specific settings. 
 
-## Классы
+**Important Considerations:**
 
-В данном модуле классы отсутствуют.
+- **Security:** Storing credentials in plain text files (.env) is highly insecure. Sensitive information should always be encrypted and stored securely, ideally in a dedicated password manager like KeePass.
+- **Maintainability:** This approach can lead to difficulties in managing and updating configurations as the application grows.  KeePass provides a more structured and organized way to store and manage sensitive data.
 
-## Функции
 
-В данном модуле функции отсутствуют.
+## Classes
 
-## Переменные
+This module does not define any classes.
 
-### `gs`
+## Functions
 
-- **Описание**: Переменная `gs` содержит загруженные конфигурационные параметры из файла `config.json`.
-- **Тип**: `dict`
-- **Значение**: Словарь, содержащий конфигурационные параметры, загруженные из файла `config.json`.
+This module does not define any functions.
 
-## Примеры использования
+## Parameter Details
+
+- **`gs`:** This global variable stores the contents of the `config.json` file as a dictionary. It is intended to hold key program parameters and configurations.
+
+## Examples
 
 ```python
 import header
@@ -33,9 +35,14 @@ from src.utils.jjson import j_loads_ns
 from pathlib import Path
 
 gs = j_loads_ns(__root__ / 'src' / 'config.json')
-
-# Теперь переменная gs содержит данные из файла config.json
-print(gs)
 ```
 
-В этом примере переменная `gs` будет содержать словарь с параметрами, загруженными из файла `config.json`.
+In this example, the module loads the configuration data from the `config.json` file and stores it in the `gs` dictionary. This allows the application to access the configuration parameters throughout its execution. 
+
+**For example, to access the API key:**
+
+```python
+api_key = gs['api_key']
+```
+
+**Note:** This approach is strongly discouraged for storing sensitive information like API keys or passwords. You should use KeePass for this purpose.

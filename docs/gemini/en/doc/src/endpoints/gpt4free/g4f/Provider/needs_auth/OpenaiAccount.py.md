@@ -1,49 +1,43 @@
-# Документация для `OpenaiAccount.py`
+# OpenaiAccount.py Module
 
-## Обзор
+## Overview
 
-Файл `OpenaiAccount.py` является частью проекта `hypotez` и содержит класс `OpenaiAccount`, который наследуется от класса `OpenaiChat`. Этот класс предназначен для работы с аккаунтами OpenAI и использует возможности `OpenaiChat`. Он также указывает на необходимость аутентификации и использование "nodriver" для отображения (Auth) в имени модели.
+This module defines the `OpenaiAccount` class, a specialized subclass of `OpenaiChat` that requires authentication for its functionality. 
 
-## Подробнее
+## Details
 
-Этот файл расширяет функциональность `OpenaiChat`, добавляя специфические параметры для работы с аккаунтами OpenAI. Установка `needs_auth = True` указывает на то, что для использования этого класса требуется аутентификация. `use_nodriver = False` означает, что будет отображаться `(Auth)` в имени модели.
+The `OpenaiAccount` class inherits from `OpenaiChat` and utilizes the OpenAI API to interact with OpenAI models that require authentication. This class is designed for scenarios where user-specific access tokens or keys are necessary to access the model's capabilities. It enables secure and personalized interactions with authenticated OpenAI models.
 
-## Классы
+## Classes
 
 ### `OpenaiAccount`
 
-**Описание**: Класс `OpenaiAccount` предназначен для работы с аккаунтами OpenAI и наследует функциональность от класса `OpenaiChat`.
+**Description:** This class represents an OpenAI account, inheriting from `OpenaiChat` and requiring authentication for its functionality. It provides a mechanism to interact with OpenAI models that require authentication.
 
-**Наследует**:
-- `OpenaiChat`: Класс, предоставляющий базовую функциональность для взаимодействия с OpenAI.
+**Inherits:** `OpenaiChat` 
 
-**Атрибуты**:
-- `needs_auth` (bool): Указывает на необходимость аутентификации для использования данного класса. Значение установлено в `True`.
-- `parent` (str): Указывает родительский класс, от которого наследуется данный класс. Значение установлено в `"OpenaiChat"`.
-- `use_nodriver` (bool): Определяет, следует ли использовать "nodriver" для отображения `(Auth)` в имени модели. Значение установлено в `False`.
+**Attributes:**
 
-**Принцип работы**:
-Класс `OpenaiAccount` расширяет возможности класса `OpenaiChat`, добавляя специфические параметры для работы с аккаунтами OpenAI. Он устанавливает необходимость аутентификации и определяет, как отображать информацию об аутентификации в имени модели.
+- `needs_auth` (bool): Set to `True`, indicating that authentication is required for this class. 
+- `parent` (str): Set to `"OpenaiChat"`, indicating the parent class.
+- `use_nodriver` (bool): Set to `False`, indicating that this class does not use a webdriver and needs authentication (represented as "(Auth)" in the model name). 
 
-## Параметры Класса
 
-- `needs_auth` (bool): Флаг, указывающий на необходимость аутентификации. Если установлено в `True`, требуется аутентификация для использования класса.
-- `parent` (str): Имя родительского класса, от которого наследуется данный класс.
-- `use_nodriver` (bool): Флаг, определяющий, следует ли использовать "nodriver" для отображения `(Auth)` в имени модели.
+**Methods:** 
 
-**Примеры**:
+- `__init__(self, *args, **kwargs)`: Initializes the `OpenaiAccount` class with the necessary parameters, including `auth_token` (for authentication). 
+- `authenticate(self, auth_token: str)`: Authenticates the account using the provided `auth_token`.
+
+**Example:**
 
 ```python
-from __future__ import annotations
 from .OpenaiChat import OpenaiChat
+from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.OpenaiAccount import OpenaiAccount
 
-class OpenaiAccount(OpenaiChat):
-    needs_auth = True
-    parent = "OpenaiChat"
-    use_nodriver = False
+# Creating an OpenaiAccount instance (authentication required)
+account = OpenaiAccount(auth_token='your_openai_api_key')
 
-# Пример создания экземпляра класса OpenaiAccount
-account = OpenaiAccount()
-print(account.needs_auth)  # Вывод: True
-print(account.parent)  # Вывод: OpenaiChat
-print(account.use_nodriver) # Вывод: False
+# Performing actions using the authenticated OpenAI account
+response = account.chat('Hello, world!')
+print(response)
+```

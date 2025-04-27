@@ -1,119 +1,143 @@
-# Модуль для взаимодействия с товарами в PrestaShop
-
+# Модуль PrestaShop Product
 ## Обзор
+Модуль `src/endpoints/prestashop/product.py` предназначен для работы с товарами в PrestaShop. Он содержит классы и функции для взаимодействия с товарами через API PrestaShop, включая добавление новых товаров, получение информации о товарах, управление категориями и загрузку изображений.
 
-Модуль `product.py` предназначен для взаимодействия с API PrestaShop для управления товарами. Он предоставляет классы и методы для получения информации о товарах, добавления новых товаров и выполнения других операций, связанных с товарами.
+## Детали
+Модуль `src/endpoints/prestashop/product.py` реализует взаимодействие с товарами в PrestaShop. Он использует API PrestaShop для добавления новых товаров, обновления информации о товарах, получения данных о товарах и загрузки изображений. Модуль интегрирован с другими модулями проекта `hypotez` для обработки данных, вызова API и логирования.
 
-## Более подробно
-
-Модуль содержит класс `PrestaProduct`, который наследуется от класса `PrestaShop` и реализует методы для работы с товарами. Он также использует другие модули, такие как `ProductFields` и `dict2xml`, для преобразования данных и взаимодействия с API PrestaShop.
-
-## Содержание
-
-1.  [Классы](#Классы)
-    *   [Config](#Config)
-    *   [PrestaProduct](#PrestaProduct)
-2.  [Функции](#Функции)
-    *   [example_add_new_product](#example_add_new_product)
-    *   [example_get_product](#example_get_product)
-
-## Классы
-
+##  Классы
 ### `Config`
+**Описание**: Класс конфигурации для настроек товаров в PrestaShop.
 
-Класс конфигурации для настроек товаров PrestaShop.
+**Атрибуты**:
+- `MODE` (str): Режим работы.
+- `API_DOMAIN` (str): Домен API PrestaShop.
+- `API_KEY` (str): Ключ API PrestaShop.
 
-**Атрибуты:**
-
-*   `MODE` (str): Режим работы (по умолчанию `'dev'`).
-*   `API_DOMAIN` (str): Домен API PrestaShop (инициализируется из переменных окружения или настроек).
-*   `API_KEY` (str): Ключ API PrestaShop (инициализируется из переменных окружения или настроек).
-
-**Принцип работы:**
-
-Класс `Config` предназначен для хранения параметров конфигурации, необходимых для подключения к API PrestaShop. Значения параметров могут быть заданы через переменные окружения (`USE_ENV = True`) или через атрибуты класса в зависимости от режима работы (`MODE`). Если `USE_ENV = True`, то используются переменные окружения `HOST` и `API_KEY`. В противном случае используются значения из `gs.credentials.presta.client`.
+**Принцип работы**:
+- Класс `Config` содержит конфигурационные параметры для подключения к API PrestaShop. 
+- Значения для `API_DOMAIN` и `API_KEY` могут быть установлены из переменных окружения или из конфигурационного файла `keepass`.
 
 ### `PrestaProduct`
+**Описание**: Класс, отвечающий за взаимодействие с товарами в PrestaShop.
 
-Класс для манипуляций с товарами.
+**Наследует**: `PrestaShop`
 
-**Описание:**
+**Атрибуты**: 
+- `api_key` (Optional[str]): Ключ API PrestaShop.
+- `api_domain` (Optional[str]): Домен API PrestaShop.
 
-Изначально, класс предназначен для получения данных со страницы товара, а затем для работы с API PrestaShop.
+**Принцип работы**:
+- Класс `PrestaProduct` наследует от класса `PrestaShop` и предоставляет дополнительные методы для работы с товарами.
+- Класс использует `Config` для получения ключа и домена API.
+- При создании экземпляра класса `PrestaProduct`, он автоматически подключается к API PrestaShop с помощью ключа и домена, полученных из `Config`.
 
-**Наследует:**
 
-*   `PrestaShop`: Класс для взаимодействия с API PrestaShop.
+**Методы**:
+- `get_product_schema`: Возвращает схему для ресурса товара из PrestaShop.
+- `get_parent_category`: Получает родительские категории из PrestaShop для заданной категории рекурсивно.
+- `_add_parent_categories`: Добавляет все родительские категории в объект `ProductFields`.
+- `get_product`: Возвращает словарь полей товара из магазина Prestashop.
+- `add_new_product`: Добавляет новый товар в PrestaShop.
 
-**Параметры:**
+**Как работает**:
+- `get_product_schema`: Этот метод использует `self.get_schema`, чтобы получить схему ресурса товара из PrestaShop. 
+- `get_parent_category`: Метод использует `self.read` для получения данных о категории из PrestaShop и возвращает ID родительской категории.
+- `_add_parent_categories`: Метод вычисляет и добавляет все уникальные родительские категории в объект `ProductFields`. 
+- `get_product`: Этот метод использует `self.read` для получения данных о товаре из PrestaShop и возвращает словарь полей товара.
+- `add_new_product`: Этот метод преобразовывает объект `ProductFields` в словарь формата PrestaShop, преобразует словарь в XML, отправляет XML-данные в API PrestaShop и возвращает ID добавленного товара.
 
-*   `api_key` (Optional[str], optional): Ключ API PrestaShop. По умолчанию ''.
-*   `api_domain` (Optional[str], optional): Домен API PrestaShop. По умолчанию ''.
+**Примеры**:
+```python
+# Создание экземпляра класса PrestaProduct
+p = PrestaProduct()
 
-**Методы:**
+# Получение схемы для товара с ID 24
+schema = p.get_product_schema(resource_id=24)
 
-*   `get_product_schema(resource_id: Optional[str | int] = None, schema: Optional[str] = None) -> dict`: Возвращает схему ресурса товара из PrestaShop.
-*   `get_parent_category(id_category: int) -> Optional[int]`: Извлекает родительские категории из PrestaShop для указанной категории рекурсивно.
-*   `_add_parent_categories(f: ProductFields) -> None`: Вычисляет и добавляет все уникальные родительские категории для списка ID категорий в объект `ProductFields`.
-*   `get_product(id_product: int, **kwargs) -> dict`: Возвращает словарь полей товара из магазина PrestaShop.
-*   `add_new_product(self, f: ProductFields) -> dict`: Добавляет новый товар в PrestaShop.
+# Получение ID родительской категории для категории с ID 123
+parent_category_id = p.get_parent_category(id_category=123)
 
-**Принцип работы:**
+# Получение данных о товаре с ID 456
+product_data = p.get_product(id_product=456)
 
-Класс `PrestaProduct` предоставляет методы для взаимодействия с API PrestaShop для выполнения различных операций с товарами. Он использует класс `PrestaShop` для выполнения HTTP-запросов к API PrestaShop и другие вспомогательные классы и функции для преобразования данных и обработки ответов API.
+# Добавление нового товара
+f = ProductFields(...) # Заполнить объект ProductFields данными о товаре
+new_product_id = p.add_new_product(f)
+```
 
-## Функции
-
+##  Функции
 ### `example_add_new_product`
+**Цель**: Пример для добавления товара в Prestashop
 
+**Пример**:
 ```python
 def example_add_new_product() -> None:
     """Пример для добавления товара в Prestashop"""
-```
+    p = PrestaProduct(API_KEY=Config.API_KEY, API_DOMAIN=Config.API_DOMAIN)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # resource_id = 2191
+    # schema = p.get_product_schema(resource_id = resource_id)
+    # j_dumps(schema, gs.path.endpoints / 'emil' / '_experiments' / f'product_schema.{resource_id}_{gs.now}.json')
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Назначение**:
-Пример добавления товара в PrestaShop.
+    example_data: dict = j_loads(
+        gs.path.endpoints / 'emil' / '_experiments' / 'product_schema.2191_250319224027026.json'
+    )  # <- XML like
+    """"""
+    if not example_data:
+        logger.error(f'Файл не существует или неправильный формат файла')
+        ...
+        return
 
-**Как работает**:
+    presta_product_xml = dict2xml(example_data)  # <- XML
+    save_xml(presta_product_xml, gs.path.endpoints / 'emil' / '_experiments' / f'{gs.now}_presta_product.xml')
 
-1.  Создается экземпляр класса `PrestaProduct` с использованием ключа API и домена API из класса `Config`.
-2.  Загружаются примерные данные из JSON-файла, представляющие структуру товара в формате, близком к XML.
-3.  Если файл не существует или имеет неправильный формат, регистрируется ошибка и функция завершается.
-4.  Данные преобразуются в XML с использованием функции `dict2xml`.
-5.  XML сохраняется в файл для отладки.
-6.  Выполняется POST-запрос к API PrestaShop для добавления товара, используя либо JSON, либо XML в качестве данных.
-7.  Ответ от сервера выводится на экран.
+    # 1. JSON | XML
+    kwargs: dict = {
+        'io_format': 'JSON',
+    }
 
-**Пример вызова**:
+    response = p._exec(
+        resource='products',
+        method='POST',
+        data=example_data if kwargs['io_format'] == 'JSON' else presta_product_xml,
+        **kwargs,
+    )
+    # response = p.create('products', data=presta_product_dict  if kwargs['io_format'] == 'JSON' else presta_product_xml, **kwargs)
+    # j_dumps(response if kwargs['io_format'] == 'JSON' else xml2dict(response), gs.path.endpoints / 'emil' / '_experiments' / f"{gs.now}_presta_response_new_product_added.json")
 
-```python
-example_add_new_product()
+    print(response)
+    ...
 ```
 
 ### `example_get_product`
+**Цель**: Пример для получения информации о товаре по ID.
 
+**Пример**:
 ```python
 def example_get_product(id_product: int, **kwargs) -> None:
-    """ """
+    """"""
+
+    p = PrestaProduct(API_KEY=Config.API_KEY, API_DOMAIN=Config.API_DOMAIN)
+    # kwargs: dict = {
+    #     'data_format': 'JSON',
+    #     'display': 'full',
+    #     'schema': 'blank',
+    # }
+    presta_product = p.get_product(id_product, **kwargs)
+    presta_product = presta_product[0] if isinstance(presta_product, list) else presta_product
+    ...
+    j_dumps(
+        presta_product, gs.path.endpoints / 'emil' / '_experiments' / f'presta_response_product_{id_product}.json'
+    )
+    ...
 ```
 
-**Назначение**:
+## Детали параметров
+- `id_product` (int): ID товара в PrestaShop.
 
-Получение товара из PrestaShop по его ID.
-
-**Параметры**:
-
-*   `id_product` (int): ID товара в PrestaShop.
-*   `**kwargs`: Дополнительные параметры запроса.
-
-**Как работает**:
-
-1.  Создается экземпляр класса `PrestaProduct` с использованием ключа API и домена API из класса `Config`.
-2.  Вызывается метод `get_product` для получения информации о товаре по его ID.
-3.  Если возвращается список, берется первый элемент.
-4.  Информация о товаре сохраняется в JSON-файл для отладки.
-
-**Пример вызова**:
-
+##  Примеры
 ```python
-example_get_product(2191)
+# Пример получения информации о товаре с ID 2191
+example_get_product(id_product=2191)

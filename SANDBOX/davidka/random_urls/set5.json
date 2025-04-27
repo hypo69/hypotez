@@ -1,612 +1,124 @@
 {
   "products": [
     {
-      "product_url": "https://www.amazon.co.jp/dp/B09XYZABCD/",
-      "category": "Beauty"
+      "product_name": "SIMATIC S7-1500 Controller",
+      "product_url": "https://new.siemens.com/global/en/products/automation/systems/industrial/plc/s7-1500.html",
+      "category_name": "Программируемые логические контроллеры (ПЛК)",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.amazon.es/dp/B07ABCDEFG/",
-      "category": "Sports & Outdoors"
+      "product_name": "Allen-Bradley PanelView 800 Graphic Terminals",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/human-machine-interface/graphic-terminals/panelview-800-graphic-terminals.html",
+      "category_name": "Человеко-машинные интерфейсы (HMI)",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.globalsources.com/Solar-Panels/product_id-1180000001.htm",
-      "category": "Industrial Supplies"
+      "product_name": "Modicon M241 Logic Controller",
+      "product_url": "https://www.se.com/ww/en/product-range/61068-modicon-m241/",
+      "category_name": "Программируемые логические контроллеры (ПЛК)",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.zalando.pl/kozaki-damskie-skora-braz/ZAL987654321.html",
-      "category": "Fashion"
+      "product_name": "OMRON E3Z Miniature Photoelectric Sensor",
+      "product_url": "https://www.omron.com/global/en/products/product-detail/e3z.html",
+      "category_name": "Фотоэлектрические датчики",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.otto.de/extern/?page=%2Fp%2Fmarke-tv-lowboard-weiss-hochglanz-CI12345678",
-      "category": "Furniture"
+      "product_name": "Mitsubishi Electric MELSEC iQ-R Series PLC",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/cnt/plcr/index.html",
+      "category_name": "Программируемые логические контроллеры (ПЛК)",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.tsutaya.co.jp/products/00000000000000000005.html",
-      "category": "Music"
+      "product_name": "ABB ACS580 General Purpose Drive",
+      "product_url": "https://new.abb.com/drives/low-voltage-ac/general-purpose/acs580",
+      "category_name": "Преобразователи частоты",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.kobo.com/ca/en/audiobook/science-fiction-epic-1",
-      "category": "Audiobooks"
+      "product_name": "Phoenix Contact QUINT POWER Power Supply",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/power-supplies-and-ups/power-supplies/quint-power",
+      "category_name": "Источники питания",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://allegro.pl/oferta/myszka-bezprzewodowa-optyczna-usb-czarna-1616161616",
-      "category": "Electronics"
+      "product_name": "Beckhoff CP67xx Panel PCs with ARM Cortex™-A8",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/panel-pcs/cp67xx-built-in-panel-pc/",
+      "category_name": "Панельные ПК",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.walmart.ca/en/ip/organic-baby-food-puree-apple-banana/6000198765432",
-      "category": "Groceries"
+      "product_name": "Keyence LR-Z Series CMOS Laser Sensor",
+      "product_url": "https://www.keyence.com/products/sensor/photoelectric/lr-z/",
+      "category_name": "Лазерные датчики",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.etsy.com/shop/UniqueCeramicsShop?section_id=12345678",
-      "category": "Handmade"
+      "product_name": "SIMATIC HMI Comfort Panels",
+      "product_url": "https://new.siemens.com/global/en/products/automation/simatic-hmi/panels/comfort-panels.html",
+      "category_name": "Человеко-машинные интерфейсы (HMI)",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.mercadolibre.com.ve/laptop-gaming-i7-16gb-ram-rtx3060/p/MVE10000005",
-      "category": "Electronics"
+      "product_name": "Allen-Bradley PowerFlex 525 AC Drives",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/drives/low-voltage-ac-drives/powerflex-520-series-ac-drives/powerflex-525-ac-drives.html",
+      "category_name": "Преобразователи частоты",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.conforama.fr/p/canape-d-angle-reversible-tissu-gris-clair/123456",
-      "category": "Furniture"
+      "product_name": "Harmony XB5 Plastic Push Buttons, Switches, Pilot Lights",
+      "product_url": "https://www.se.com/ww/en/product-range/618-harmony-xb5/",
+      "category_name": "Кнопки и переключатели",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.ikea.com/de/de/p/brimnes-bettgestell-mit-schubladen-weiss-s09902934/",
-      "category": "Furniture"
+      "product_name": "OMRON G2RV Slim I/O Relay",
+      "product_url": "https://industrial.omron.eu/en/products/g2rv-sr",
+      "category_name": "Реле",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.nykaafashion.com/brand-name-floral-print-maxi-dress/p/1234567",
-      "category": "Fashion"
+      "product_name": "Mitsubishi Electric GOT2000 Series HMI",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/hmi/got/items/got2000/index.html",
+      "category_name": "Человеко-машинные интерфейсы (HMI)",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.asos.com/es/mujer/bolsos/bolso-shopper-cuero-negro/prd/252525252",
-      "category": "Fashion"
+      "product_name": "ABB PSTX Softstarters",
+      "product_url": "https://new.abb.com/low-voltage/products/softstarters/pstx",
+      "category_name": "Устройства плавного пуска",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.ollies.us/product/brand-memory-foam-bath-mat-grey/123456/",
-      "category": "Home Goods"
+      "product_name": "Phoenix Contact TRIO POWER Power Supply",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/power-supplies-and-ups/power-supplies/trio-power",
+      "category_name": "Источники питания",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.hipercor.es/supermercado/producto/marca-aceite-oliva-virgen-extra-botella-1l/A12345678",
-      "category": "Groceries"
+      "product_name": "Beckhoff CX5100 Embedded PC series",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/embedded-pcs/cx5100-intel-atom/",
+      "category_name": "Встраиваемые ПК",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.bestbuy.com/site/smart-home-security-camera-indoor-white/6800005.p?skuId=6800005",
-      "category": "Electronics"
+      "product_name": "Keyence IV3 Series Vision Sensor",
+      "product_url": "https://www.keyence.com/products/vision/vision-sensor/iv3/",
+      "category_name": "Датчики машинного зрения",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.thomann.de/at/fender_player_telecaster_mn_3ts.htm",
-      "category": "Musical Instruments"
+      "product_name": "SIMATIC ET 200SP Distributed I/O System",
+      "product_url": "https://new.siemens.com/global/en/products/automation/systems/industrial/io-systems/simatic-et200sp.html",
+      "category_name": "Распределенные системы ввода/вывода",
+      "parent_category": "промэлектроника и автоматика"
     },
     {
-      "product_url": "https://www.decathlon.com.br/p/bola-de-futebol-campo-tamanho-5-branca/_/R-p-350006",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.fnac.com/Comic-Auteur-Titre-Serie/a19000005",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.mediamarkt.nl/nl/product/_merk-model-wasmachine-voorlader-9kg-energieklasse-a-1800006.html",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://www.lazada.sg/products/robot-vacuum-cleaner-mop-wifi-app-control-i789789789-s987987987.html",
-      "category": "Home Appliances"
-    },
-    {
-      "product_url": "https://shopee.com.my/product/454545454/6767676767/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.casasbahia.com.br/smart-tv-50-polegadas-4k-uhd-led-hdr-marca-modelo/p/5500000003",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.templeandwebster.com.au/Brand-Velvet-Armchair-Green-TMPL1234.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.bookshop.org/shop/fiction",
-      "category": "Books"
-    },
-    {
-      "product_url": "https://www.bluemercury.com/products/brand-product-eye-cream",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.newegg.com/Product/Product.aspx?Item=N82E16820147001",
-      "category": "PC Components"
-    },
-    {
-      "product_url": "https://www.adidas.nl/superstar-schoenen/EG4958.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.hm.com/at/de_at/productpage.1414141414.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.zara.com/de/de/hose-mit-weiten-beinen-leinenmischung-natur-p06666777888.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.yoox.com/au/women/dress-cotton-print_cod65432109fe.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.ajio.com/s/clothing-3571-54881",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.electro.pl/komputery-i-tablety/myszy-komputerowe/mysz-brand-model-bezprzewodowa-gamingowa",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.rona.ca/en/product/brand-pressure-washer-electric-1800-psi-1234567",
-      "category": "Tools"
-    },
-    {
-      "product_url": "https://www.wayfair.ca/furniture/pdp/brand-console-table-wood-metal-c001234567.html",
-      "category": "Furniture"
-    },
-    {
-      "product_url": "https://www.long-mcquade.com/123456/Guitars/Acoustic-Guitars/Brand/Model-Acoustic-Guitar.htm",
-      "category": "Musical Instruments"
-    },
-    {
-      "product_url": "https://www.naturisimo.com/products/brand-natural-deodorant-stick",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.fruugo.se/smyckeskrin-lader-med-spegel-rosa/p-100000006-150000006",
-      "category": "Accessories"
-    },
-    {
-      "product_url": "https://www.rutlandcycling.com/bikes/road-bikes/brand-model-endurance-road-bike-2023_123456",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://global.rakuten.com/zh-tw/store/shop-name/item/item-code-456/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://shinsegaemall.ssg.com/item/itemView.ssg?itemId=2000012345678",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://iledebeaute.ru/shop/care/face/cream/product12345678/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.amazon.ca/dp/B08QWERTYZ/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.amazon.com.mx/dp/B07ZXCVBNA/",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.kaufland.hr/product/800666777/",
-      "category": "Groceries & Household"
-    },
-    {
-      "product_url": "https://www.brownsfashion.com/uk/shopping/designer-cashmere-sweater-18000001",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.jollyes.co.uk/brand-dog-chew-toy-durable-large.html",
-      "category": "Pet Supplies"
-    },
-    {
-      "product_url": "https://www.technopark.ru/planshet-brand-model-11-128gb-wi-fi-seryy/",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://www.ebay.fr/itm/667788990011",
-      "category": "Marketplace"
-    },
-    {
-      "product_url": "https://groceries.iceland.co.uk/product-name/123456.p",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.chapters.indigo.ca/en-ca/toys/brand-model-wooden-puzzle-animals/887961000001-item.html",
-      "category": "Toys & Games"
-    },
-    {
-      "product_url": "https://www.next.co.uk/style/st123456/T12345",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.mothercare.com/clothing/babygrows-sleepsuits/brand-sleepsuit-3-pack-newborn/123456789.html",
-      "category": "Baby Products"
-    },
-    {
-      "product_url": "https://www.dunelm.com/product/brand-blackout-eyelet-curtains-grey-168x183cm-1000123456",
-      "category": "Home Goods"
-    },
-    {
-      "product_url": "https://www.franprix.fr/p/compote-pomme-bio-marque-franprix-bio-4x100g-3263850000001",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.galaxus.de/de/s1/product/marke-modell-monitor-27-zoll-qhd-ips-12345678",
-      "category": "Electronics"
-    },
-    {
-      "product_url": "https://jp.mercari.com/item/m98765432109",
-      "category": "Marketplace"
-    },
-    {
-      "product_url": "https://zozo.jp/shop/brand/goods-sale/12345678/?did=98765432",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://ymall.jp/store/some-store/item/ITEM123456/",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://monotaro.com/g/00012345/",
-      "category": "Industrial Supplies"
-    },
-    {
-      "product_url": "https://www.okmarket.ru/product/syrok-glazirovannyi-marka-vanilnyi-20-40-g-123456",
-      "category": "Groceries"
-    },
-    {
-      "product_url": "https://www.mercadolivre.com.br/secador-de-cabelo-profissional-2000w-preto-110v/p/MLB10000006",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.mitre10.com.au/brand-garden-hose-15m-with-fittings-123456",
-      "category": "Garden & Outdoors"
-    },
-    {
-      "product_url": "https://www.farmers.co.nz/brand-pyrex-glass-measuring-jug-1l-1234567",
-      "category": "Kitchenware"
-    },
-    {
-      "product_url": "https://www.sportium.ca/fr/p/123456/brand-velo-de-montagne-adulte",
-      "category": "Sports & Outdoors"
-    },
-    {
-      "product_url": "https://www.jeancoutu.com/magasiner/produit/marque-creme-solaire-fps-60-tube-100ml/123456/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.lavieenrose.com/en/bra-style-brand-model-123456",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.aliexpress.us/item/32800000001.html",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://www.wish.com/product/60a1b2c3d4e5f60001234567",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://temu.com/goods.html?_bg_fs=1&goods_id=1234567890123",
-      "category": "General Merchandise"
-    },
-    {
-      "product_url": "https://ca.shein.com/Floral-Print-Off-Shoulder-Dress-p-4000004-cat-1727.html",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.uniqlo.com/au/en/products/E490006-000/00",
-      "category": "Fashion"
-    },
-    {
-      "product_url": "https://www.familydollar.com/product/123456_brand-paper-plates-10-inch-50ct",
-      "category": "Household Supplies"
-    },
-    {
-      "product_url": "https://www.homebase.co.uk/brand-shelf-bracket-white-150x125mm-2-pack/128123456.html",
-      "category": "Home Improvement"
-    },
-    {
-      "product_url": "https://www.kiehls.com/skincare/face-serums/ultra-facial-cream/622.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.laroche-posay.us/our-products/sun/face-sunscreen/anthelios-melt-in-milk-sunscreen-spf-60-883140012345.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.cerave.com/skincare/moisturizers/daily-moisturizing-lotion",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://theordinary.com/en-us/niacinamide-10-zinc-1-serum-100436.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.clinique.com/product/1687/4769/skincare/moisturizers/dramatically-different-moisturizing-lotion",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.esteelauder.com/product/689/26959/product-catalog/skincare/repair-serum/advanced-night-repair-synchronized-multi-recovery-complex",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.lancome-usa.com/skincare/genifique-anti-aging-serum/1000303.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.shiseido.com/us/en/ultimune-power-infusing-concentrate-0768614154749.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.sk-ii.com/product/facial-treatment-essence.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.lamer.com/product/5834/12343/face/moisturizers/creme-de-la-mer",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.charlottetilbury.com/us/product/magic-cream-moisturiser-50ml",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.fentybeauty.com/pro-filtr-soft-matte-longwear-liquid-foundation/FB30006.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.kyliecosmetics.com/products/matte-lip-kit",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://hudabeauty.com/us/en_US/shop/fauxfilter-luminous-matte-foundation-HB00409.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://anastasiabeverlyhills.com/products/brow-wiz",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.maccosmetics.com/product/13854/310/products/makeup/lips/lipstick/matte-lipstick?shade=Ruby_Woo",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.narscosmetics.com/USA/radiant-creamy-concealer/999NACRCC0001.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.urbandecay.com/all-nighter-setting-spray/ud803.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://tartecosmetics.com/shop/shape-tape-concealer-831.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://toofaced.com/product/23790/59003/eye-makeup/eyeshadow-palettes/better-than-chocolate-eye-shadow-palette",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://benefitcosmetics.com/en-us/product/precisely-my-brow-pencil",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.glossier.com/products/boy-brow",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://milkmakeup.com/products/kush-mascara",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.bareminerals.com/makeup/face/foundation/original-loose-powder-foundation-spf-15/USmasteroriginal.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.itcosmetics.com/face/foundation/cc-cream-with-spf-50/ITC_0001.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.smashbox.com/product/6038/22769/face/primer/photo-finish-smooth-blur-oil-free-foundation-primer",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.lauramercier.com/makeup/face/setting-powder/translucent-loose-setting-powder-prod12321001.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.bobbibrowncosmetics.com/product/14017/22170/makeup/face/foundation/skin-long-wear-weightless-foundation-spf-15",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.chanel.com/us/makeup/p/158310/les-beiges-healthy-glow-foundation-hydration-and-longwear/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.dior.com/en_us/products/beauty-Y099600046-dior-forever-skin-glow-foundation-spf-15",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.yslbeautyus.com/makeup/face-makeup/foundation/all-hours-foundation/WW-50530YSL.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.guerlain.com/us/en-us/p/abeille-royale-advanced-youth-watery-oil-G061698.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.giorgioarmanibeauty-usa.com/makeup/foundation/luminous-silk-foundation/A041.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.givenchybeauty.com/us/p/prism-libre-skin-caring-glow-foundation-F20100127.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.tomford.com/beauty/makeup/face/foundation/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.patmcgrath.com/products/sublime-perfection-foundation",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.cledepeaubeaute.com/radiant-fluid-foundation-matte/0730852161800.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.sisley-paris.com/en-US/phyto-teint-ultra-eclat-151530.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.byredo.com/us_en/eau-de-parfum-gypsy-water-50ml",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://lelabofragrances.com/us/en/fragrances/santal-33-87",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.jomalone.com/product/26016/12550/colognes/wood-sage-sea-salt-cologne",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://diptyqueparis.com/en_us/p/eau-de-parfum-do-son-75ml.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.creedboutique.com/products/aventus",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://us.maisonfranciskurkdjian.com/products/baccarat-rouge-540-eau-de-parfum",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://kilianparis.com/products/love-dont-be-shy",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.penhaligons.com/us/en/product/portraits-the-tragedy-of-lord-george-000000000065135918",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.fredericmalle.com/product/19667/50117/perfume/portrait-of-a-lady/by-dominique-ropion",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://officialbyredo.com",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.olaplex.com/products/olaplex-no-3-hair-perfector",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://livingproof.com/products/perfect-hair-day-phd-dry-shampoo",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.kerastase-usa.com/collections/elixir-ultime/elixir-ultime-original-oil.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.pureology.com/hydrate-shampoo/PUR103.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.redken.com/products/hair-care/all-soft/all-soft-shampoo",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.bumbleandbumble.com/product/19055/22884/style/cremes/hairdressers-invisible-oil-heatuv-protective-primer",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://oribe.com/gold-lust-repair-restore-shampoo.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.moroccanoil.com/us_en/hair-care-moroccanoil-treatment-original-us",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://briogeohair.com/products/dont-despair-repair-deep-conditioning-mask",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.paulmitchell.com/tea-tree/tea-tree-special/tea-tree-special-shampoo",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.matrix.com/total-results/brass-off/shampoo",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.joico.com/k-pak/color-therapy-luster-lock-treatment/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://kenraprofessional.com/product/platinum-blow-dry-spray/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.nioxin.com/en-US/products/systems/system-kits/system-1-kit-for-natural-hair-with-light-thinning",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.aveda.com/product/5311/16959/hair-care/shampoo/invati-advancedtm-exfoliating-shampoo-light",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.amika.com/products/perk-up-dry-shampoo",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://functionofbeauty.com/products/shampoo-conditioner-set/",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://prose.com/consultation/hair-shampoo",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.ghdhair.com/us/platinum-styler",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.t3micro.com/product/cura-luxe-professional-ionic-hair-dryer",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://drybar.com/products/buttercup-blow-dryer",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.bioionic.com/products/long-barrel-styler",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.hottools.com/professional-black-gold-one-step-volumizer-and-hair-dryer",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://conair.com/product/infinitipro-by-conair-1875-watt-ionic-ceramic-hair-dryer",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://revlonhairtools.com/products/one-step-hair-dryer-and-volumizer-hot-air-brush",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://babylisspro.com/prima3000-stainless-steel-straightening-iron-1-1-4-inch/BABSS3000T.html",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.remingtonproducts.com/products/hair-care/flat-irons/s9500pp-pearl-pro-ceramic-flat-iron.aspx",
-      "category": "Beauty"
-    },
-    {
-      "product_url": "https://www.chihaircare.com/chi-original-ceramic-hairstyling-iron-1/",
-      "category": "Beauty"
+      "product_name": "Allen-Bradley CompactLogix 5380 Controllers",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/programmable-controllers/compactlogix-control-systems/compactlogix-5380-controllers.html",
+      "category_name": "Программируемые логические контроллеры (ПЛК)",
+      "parent_category": "промэлектроника и автоматика"
     }
   ]
 }

@@ -1,68 +1,43 @@
-### Как использовать этот блок кода
+## Как использовать блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода предназначен для инициализации и настройки среды выполнения для работы с поставщиками данных в проекте `hypotez`. Он добавляет необходимые пути в `sys.path`, импортирует нужные модули и классы, а также предоставляет функцию для запуска поставщика с заданными параметрами.
+Данный блок кода инициализирует рабочую среду для работы с поставщиками. Он настраивает пути к необходимым файлам и модулям, а также импортирует необходимые классы и функции для дальнейшей работы. 
 
 Шаги выполнения
 -------------------------
-1. **Инициализация путей**:
-   - Определяется корневая директория проекта `hypotez` на основе текущей рабочей директории.
-   - Корневая директория добавляется в `sys.path`, что позволяет импортировать модули из проекта.
-   - Определяется директория `src` и также добавляется в `sys.path`.
-
-2. **Импорт модулей**:
-   - Импортируются необходимые модули и классы, такие как `Path`, `json`, `re`, `Driver`, `Product`, `Category`, `StringFormatter`, `StringNormalizer`, `PrestaProduct`, `pprint` и `save_text_file`.
-
-3. **Функция `start_supplier`**:
-   - Определяется функция `start_supplier`, которая принимает префикс поставщика (`supplier_prefix`) и локаль (`locale`) в качестве аргументов.
-   - Функция создает словарь `params` с переданными аргументами.
-   - Возвращает экземпляр класса `Supplier`, инициализированный с переданными параметрами.
+1. **Определение корневого каталога проекта**:
+    - Используется переменная `dir_root` для определения корневого каталога проекта `hypotez`. 
+    - `os.getcwd()` возвращает текущий каталог, а `os.getcwd()[:os.getcwd().rfind('hypotez')+7]` ищет в текущем каталоге слово "hypotez" и возвращает путь до него, добавляя 7 символов (длина слова "hypotez" + 1).
+2. **Добавление корневого каталога в `sys.path`**: 
+    - `sys.path.append(str(dir_root))` добавляет корневой каталог проекта в список путей, где Python будет искать импортируемые модули.
+3. **Определение каталога `src`**:
+    - `dir_src = Path(dir_root, 'src')` создает объект `Path` (путь к файлу), который указывает на каталог `src` внутри корневого каталога проекта.
+4. **Добавление каталога `src` в `sys.path`**:
+    - `sys.path.append(str(dir_root))` добавляет каталог `src` в список путей, где Python будет искать импортируемые модули.
+5. **Импорт необходимых модулей**: 
+    - `from pathlib import Path` импортирует модуль `Path` для работы с путями к файлам.
+    - `import json` импортирует модуль `json` для работы с JSON-файлами.
+    - `import re` импортирует модуль `re` для работы с регулярными выражениями.
+    - `from src.webdriver.driver import Driver` импортирует класс `Driver` из модуля `driver` в каталоге `src/webdriver`.
+    - `from src.product import Product, ProductFields` импортирует класс `Product` и `ProductFields` из модуля `product` в каталоге `src`.
+    - `from src.category import Category` импортирует класс `Category` из модуля `category` в каталоге `src`.
+    - `from src.utils import StringFormatter, StringNormalizer` импортирует классы `StringFormatter` и `StringNormalizer` из модуля `utils` в каталоге `src`.
+    - `from src.utils.printer import pprint` импортирует функцию `pprint` из модуля `printer` в каталоге `src/utils`.
+    - `from src.endpoints.PrestaShop import Product as PrestaProduct` импортирует класс `Product` как `PrestaProduct` из модуля `PrestaShop` в каталоге `src/endpoints`.
+    - `from src.utils.file.text_file import save_text_file` импортирует функцию `save_text_file` из модуля `text_file` в каталоге `src/utils/file`.
+6. **Определение функции `start_supplier`**:
+    - Функция `start_supplier` принимает два параметра: 
+        - `supplier_prefix` (строка): префикс имени поставщика, по умолчанию "aliexpress".
+        - `locale` (строка): язык, по умолчанию "en".
+    - Функция создает словарь `params` с ключами `supplier_prefix` и `locale`, в который записывает переданные значения параметров.
+    - Функция возвращает объект `Supplier` (имя класса не указано, предположительно, он должен быть импортирован из другого модуля), инициализированный с помощью словаря `params`.
 
 Пример использования
 -------------------------
 
 ```python
-import sys
-import os
-from pathlib import Path
-
-# ----------------
-dir_root : Path = Path (os.getcwd()[:os.getcwd().rfind('hypotez')+7])
-sys.path.append (str (dir_root) )  # Добавляю корневую папку в sys.path
-dir_src = Path (dir_root, 'src')
-sys.path.append (str (dir_root) ) 
-# ----------------
-
-from pathlib import Path
-import json
-import re
-
-
-#from settings import gs
-from src.webdriver.driver import Driver
-
-from src.product import Product, ProductFields
-from src.category import Category
-from src.utils import StringFormatter, StringNormalizer
-from src.utils.printer import  pprint
-from src.endpoints.PrestaShop import Product as PrestaProduct
-from src.suppliers import Supplier # Ensure this import exists
-from src.utils.file import save_text_file
-# ----------------
-
-def start_supplier(supplier_prefix: str = 'aliexpress', locale: str = 'en' ):
-    """ Старт поставщика """
-    params: dict = \
-    {
-        'supplier_prefix': supplier_prefix,
-        'locale': locale
-    }
-    
-    return Supplier(**params)
-
-# Пример использования функции start_supplier
-supplier = start_supplier(supplier_prefix='my_supplier', locale='fr')
-# Теперь можно работать с объектом supplier
-print(f"Supplier prefix: {supplier.supplier_prefix}, locale: {supplier.locale}")
+    # Запуск поставщика "aliexpress" на английском языке
+    supplier = start_supplier(supplier_prefix='aliexpress', locale='en') 
+```

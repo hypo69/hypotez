@@ -1,35 +1,36 @@
-### Как использовать этот блок кода
+## Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода содержит набор тестов для проверки функциональности класса `TinyWorld` и его взаимодействия с агентами. Он проверяет, как `TinyWorld` запускается, как агенты получают и обрабатывают сообщения, а также как сохраняется и восстанавливается состояние мира.
+Этот код представляет набор тестов для класса `TinyWorld`, который моделирует мир с агентами и взаимодействием между ними. 
 
 Шаги выполнения
 -------------------------
-1. **`test_run(setup, focus_group_world)`**:
-   - Создает пустой мир (`world_1`) и запускает его на два шага. Это проверяет, что мир может функционировать без агентов.
-   - Использует мир с агентами (`world_2`), предоставленный через фикстуру `focus_group_world`.
-   - Отправляет сообщение всем агентам в `world_2` и запускает мир на два шага.
-   - Проверяет целостность сообщений в памяти агентов: убеждается, что ни один агент не является целью действия в своих собственных сообщениях.
-
-2. **`test_broadcast(setup, focus_group_world)`**:
-   - Получает мир с агентами (`focus_group_world`).
-   - Отправляет широковещательное сообщение всем агентам.
-   - Проверяет, получили ли агенты сообщение, сравнивая содержимое первого сообщения в их памяти с отправленным сообщением.
-
-3. **`test_encode_complete_state(setup, focus_group_world)`**:
-   - Получает мир с агентами (`focus_group_world`).
-   - Кодирует текущее состояние мира с помощью `encode_complete_state()`.
-   - Проверяет, что закодированное состояние не равно `None`, содержит имя мира и список агентов.
-
-4. **`test_decode_complete_state(setup, focus_group_world)`**:
-   - Получает мир с агентами (`focus_group_world`).
-   - Сохраняет имя мира и количество агентов.
-   - Кодирует состояние мира.
-   - Изменяет имя мира и очищает список агентов, чтобы имитировать повреждение данных.
-   - Восстанавливает состояние мира из закодированного состояния с помощью `decode_complete_state()`.
-   - Проверяет, что восстановленный мир не равен `None`, имеет исходное имя и содержит исходное количество агентов.
+1. **Тестирование запуска мира:**
+    - Создается пустой мир `world_1`.
+    - Запускается мир `world_1` на два шага (`run(2)`).
+    - Создается мир `world_2` с агентами.
+    - В мир `world_2` рассылается сообщение `broadcast()`.
+    - Запускается мир `world_2` на два шага (`run(2)`).
+    - Проверяется целостность разговора:
+        - Для каждого агента проверяется, что ни у одного из них нет сообщений с самим собой в качестве цели (`target`).
+        - **TODO:**  Проверка целостности стимула.
+2. **Тестирование рассылки сообщения:**
+    - В мир `world` рассылается сообщение `broadcast()`.
+    - Для каждого агента проверяется, что он получил сообщение.
+3. **Тестирование кодирования полного состояния мира:**
+    - Кодируется полное состояние мира `encode_complete_state()`.
+    - Проверяется, что полученное состояние не равно `None`.
+    - Проверяется, что состояние содержит имя мира `world.name`.
+    - Проверяется, что состояние содержит агентов `world.agents`.
+4. **Тестирование декодирования полного состояния мира:**
+    - Кодируется полное состояние мира `encode_complete_state()`.
+    - Изменяются имя и агенты мира.
+    - Декодируется состояние обратно в мир `decode_complete_state()`.
+    - Проверяется, что мир не равен `None`.
+    - Проверяется, что мир имеет исходное имя.
+    - Проверяется, что мир имеет исходное количество агентов.
 
 Пример использования
 -------------------------
@@ -48,22 +49,45 @@ from tinytroupe.examples import create_lisa_the_data_scientist, create_oscar_the
 from tinytroupe.environment import TinyWorld
 from testing_utils import *
 
+@pytest.fixture
+def focus_group_world():
+    """Создает мир с несколькими агентами для тестирования."""
+    agents = [
+        create_lisa_the_data_scientist(),
+        create_oscar_the_architect(),
+        create_marcos_the_physician(),
+    ]
+    world = TinyWorld("Focus Group", agents)
+    return world
+
+@pytest.fixture
+def setup():
+    """Настройка тестов."""
+    logging.basicConfig(level=logging.INFO)
+    logger.info("Tests started.")
+
 def test_run(setup, focus_group_world):
-    # Тест проверяет запуск мира без агентов и с агентами, а также целостность сообщений.
+
+    # empty world
     world_1 = TinyWorld("Empty land", [])   
     world_1.run(2)
 
+    # world with agents
     world_2 = focus_group_world
     world_2.broadcast("Discuss ideas for a new AI product you'd love to have.")
     world_2.run(2)
 
+    # check integrity of conversation
     for agent in world_2.agents:
         for msg in agent.episodic_memory.retrieve_all():
             if 'action' in msg['content'] and 'target' in msg['content']['action']:
                 assert msg['content']['action']['target'] != agent.name, f"{agent.name} should not have any messages with itself as the target."
-
+            
+            # TODO stimulus integrity check?
+        
+        
 def test_broadcast(setup, focus_group_world):
-    # Тест проверяет, что агенты получают широковещательные сообщения.
+
     world = focus_group_world
     world.broadcast("""
                 Folks, we need to brainstorm ideas for a new baby product. Something moms have been asking for centuries and never got.
@@ -72,12 +96,13 @@ def test_broadcast(setup, focus_group_world):
                 """)
     
     for agent in focus_group_world.agents:
+        # did the agents receive the message?
         assert "Folks, we need to brainstorm" in agent.episodic_memory.retrieve_first(1)[0]['content']['stimuli'][0]['content'], f"{agent.name} should have received the message."
 
 def test_encode_complete_state(setup, focus_group_world):
-    # Тест проверяет кодирование состояния мира.
     world = focus_group_world
 
+    # encode the state
     state = world.encode_complete_state()
     
     assert state is not None, "The state should not be None."
@@ -85,19 +110,23 @@ def test_encode_complete_state(setup, focus_group_world):
     assert state['agents'] is not None, "The state should have the agents."
 
 def test_decode_complete_state(setup, focus_group_world):
-    # Тест проверяет декодирование состояния мира.
     world = focus_group_world
 
     name_1 = world.name
     n_agents_1 = len(world.agents)
 
+    # encode the state
     state = world.encode_complete_state()
     
+    # screw up the world
     world.name = "New name"
     world.agents = []
 
+    # decode the state back into the world
     world_2 = world.decode_complete_state(state)
 
     assert world_2 is not None, "The world should not be None."
     assert world_2.name == name_1, "The world should have the same name."
     assert len(world_2.agents) == n_agents_1, "The world should have the same number of agents."
+
+```

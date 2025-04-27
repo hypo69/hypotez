@@ -1,144 +1,91 @@
-# Module: ChatgptLogin
+# ChatgptLogin Provider Documentation
 
 ## Overview
 
-This module implements a provider for interacting with the ChatGPT model through the chatgptlogin.ac website. It includes functions for creating completions based on user messages, transforming messages into the format required by the API, and retrieving a nonce for authentication. The module supports `gpt-3.5-turbo` model.
+This module provides the `ChatgptLogin` provider for the `g4f` framework. It utilizes a third-party service (`https://chatgptlogin.ac`) to offer free access to OpenAI's `gpt-3.5-turbo` model.
 
-## More details
+## Details
 
-This module is designed to facilitate interaction with the ChatGPT model via the chatgptlogin.ac service. It handles the process of creating API requests, transforming input messages, and parsing responses. It retrieves a nonce for authentication, which is necessary to access the service. The transformation of messages involves HTML encoding to ensure proper formatting in the chat interface.
+The `ChatgptLogin` provider intercepts user requests and forwards them to the `https://chatgptlogin.ac` service, which interacts with the `gpt-3.5-turbo` model. This allows users to access the model without needing to provide their own OpenAI API key.
 
 ## Classes
 
-This module does not contain classes.
+### `ChatgptLogin`
+
+**Description**: This class implements the `ChatgptLogin` provider for the `g4f` framework. 
+
+**Inherits**: None
+
+**Attributes**:
+
+- `url`: URL of the third-party service.
+- `model`: List of supported AI models.
+- `supports_stream`: Flag indicating whether the provider supports streaming responses.
+- `needs_auth`: Flag indicating whether the provider requires authentication.
+
+**Methods**:
+
+- `_create_completion(model: str, messages: list, stream: bool, **kwargs)`:  Creates a completion request for the `gpt-3.5-turbo` model.
 
 ## Functions
 
-### `_create_completion`
+### `_create_completion(model: str, messages: list, stream: bool, **kwargs)`
+
+**Purpose**: Creates a completion request for the `gpt-3.5-turbo` model.
+
+**Parameters**:
+
+- `model` (str): The name of the AI model to use. 
+- `messages` (list): A list of messages to send to the model.
+- `stream` (bool): Flag indicating whether to stream the response.
+- `**kwargs`: Additional keyword arguments for the model.
+
+**Returns**:
+
+- `str`: The generated completion text.
+
+**Raises Exceptions**:
+
+- `None`: There are no specific exceptions handled by this function.
+
+**Inner Functions**:
+
+- `get_nonce()`:  Extracts a nonce value from the third-party service's webpage.
+- `transform(messages: list) -> list`: Transforms the messages list to a format suitable for sending to the third-party service.
+- `html_encode(string: str) -> str`: Encodes HTML characters in a string.
+
+**How the Function Works**:
+
+1. `get_nonce()` extracts a nonce value from the `https://chatgptlogin.ac` webpage. This is necessary for authenticating requests to the service.
+2. `transform(messages: list)` prepares the message list by adding additional information, including message IDs, roles, and HTML-encoded content.
+3. The function constructs a JSON object containing the transformed messages, model parameters, and other relevant data.
+4. It sends a POST request to the `https://chatgptlogin.ac/wp-json/ai-chatbot/v1/chat` endpoint with the constructed JSON payload.
+5. The response from the service, which includes the completion text, is returned by the function.
+
+**Examples**:
 
 ```python
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    """
-    Создает завершение на основе предоставленных сообщений, используя модель ChatGPT.
-
-    Args:
-        model (str): Имя используемой модели.
-        messages (list): Список сообщений для генерации завершения.
-        stream (bool): Указывает, использовать ли потоковую передачу.
-        **kwargs: Дополнительные аргументы.
-
-    Returns:
-        str: Ответ от ChatGPT.
-
-    Raises:
-        Exception: Если происходит ошибка при взаимодействии с API.
-
-    Internal functions:
-      - `get_nonce`: Функция извлекает `nonce` из веб-страницы.
-      - `transform`: Функция преобразует сообщения в формат HTML.
-
-    How the function works:
-    - Извлекает `nonce` с веб-страницы, необходимой для аутентификации.
-    - Преобразует список сообщений в формат, необходимый для API chatgptlogin.ac, используя HTML-кодирование.
-    - Отправляет POST-запрос к API с преобразованными сообщениями и заголовками.
-    - Возвращает ответ от API.
-
-    Examples:
-        >>> _create_completion(model='gpt-3.5-turbo', messages=[{'role': 'user', 'content': 'Hello'}], stream=False)
-        'Hello! How can I assist you today?'
-    """
+>>> messages = [
+    {'role': 'user', 'content': 'Hello, how are you?'},
+    {'role': 'assistant', 'content': 'I am doing well, thank you.'},
+]
+>>> _create_completion(model='gpt-3.5-turbo', messages=messages, stream=False)
+'I am doing well, thank you.  What can I help you with today?'
 ```
 
-### Внутренняя функция `get_nonce`
+## Parameter Details
+
+- `model` (str): The name of the AI model to use. This provider currently only supports `gpt-3.5-turbo`.
+- `messages` (list): A list of messages to send to the model. Each message should be a dictionary with keys `role` (e.g., 'user', 'assistant') and `content` (the message text).
+- `stream` (bool): Flag indicating whether to stream the response. This provider does not currently support streaming.
+- `**kwargs`: Additional keyword arguments for the model. These arguments are passed directly to the third-party service.
+
+**Examples**:
 
 ```python
-def get_nonce():
-    """
-    Извлекает nonce из веб-страницы.
-
-    Args:
-        None
-
-    Returns:
-        str: Значение nonce, необходимое для аутентификации.
-
-    Raises:
-        Exception: Если не удается извлечь nonce из веб-страницы.
-
-    How the function works:
-    - Выполняет GET-запрос к URL-адресу.
-    - Извлекает значение nonce из ответа, используя регулярное выражение.
-    - Возвращает извлеченный nonce.
-
-    Examples:
-        >>> get_nonce()
-        'nonce_value'
-    """
+>>> messages = [
+    {'role': 'user', 'content': 'What is the meaning of life?'},
+]
+>>> _create_completion(model='gpt-3.5-turbo', messages=messages, stream=False, temperature=0.5)
+'The meaning of life is a question that has been pondered by philosophers and theologians for centuries. There is no one definitive answer, as the meaning of life is subjective and personal. However, some possible answers include finding happiness, making a difference in the world, or simply living a fulfilling life.'
 ```
-
-### Внутренняя функция `transform`
-
-```python
-def transform(messages: list) -> list:
-    """
-    Преобразует сообщения в формат HTML.
-
-    Args:
-        messages (list): Список сообщений для преобразования.
-
-    Returns:
-        list: Список преобразованных сообщений в формате HTML.
-
-    Raises:
-        None
-
-    Internal functions:
-        html_encode(string: str) -> str: Кодирует специальные HTML-символы в строке.
-
-    How the function works:
-    - Преобразует каждое сообщение в списке сообщений в формат, необходимый для API chatgptlogin.ac.
-    - Использует функцию html_encode для кодирования содержимого сообщения в HTML.
-    - Возвращает список преобразованных сообщений.
-
-    Examples:
-        >>> transform([{'role': 'user', 'content': 'Hello'}])
-        [{'id': 'random_id', 'role': 'user', 'content': 'Hello', 'who': 'User: ', 'html': 'Hello'}]
-    """
-```
-
-### Внутренняя функция `html_encode`
-
-```python
-def html_encode(string: str) -> str:
-    """
-    Кодирует специальные HTML-символы в строке.
-
-    Args:
-        string (str): Строка для кодирования.
-
-    Returns:
-        str: Строка с закодированными HTML-символами.
-
-    Raises:
-        None
-
-    How the function works:
-    - Заменяет специальные HTML-символы их соответствующими HTML-эквивалентами.
-    - Возвращает строку с закодированными символами.
-
-    Examples:
-        >>> html_encode("Hello <World>")
-        'Hello &lt;World&gt;'
-    """
-```
-
-### `params`
-
-```python
-params = f'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: ' + \
-    '({0})'.format(', '.join(
-        [f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]]))
-```
-
-- **Описание**: Строка, содержащая информацию о поддерживаемых параметрах функции `_create_completion`.
-- **Назначение**: Используется для отображения поддерживаемых параметров провайдера.

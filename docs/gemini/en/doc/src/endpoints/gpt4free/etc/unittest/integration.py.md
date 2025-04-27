@@ -1,166 +1,167 @@
-# Модуль интеграционных тестов для провайдеров g4f
+## Модуль Integration Tests для gpt4free
 
 ## Обзор
 
-Этот модуль содержит интеграционные тесты для проверки работы различных провайдеров, таких как Copilot и DDG, с использованием библиотеки `g4f`. Он включает как синхронные, так и асинхронные тесты для проверки функциональности `ChatCompletion`.
+Этот модуль содержит интеграционные тесты для проверки правильной работы клиента gpt4free с разными поставщиками (Copilot и DDG). Тесты проверяют, что клиент может успешно выполнить запросы к API и получить корректный ответ в формате JSON. 
 
-## Подробнее
+## Детали
 
-Модуль предназначен для автоматизированного тестирования интеграции с различными провайдерами, используемыми в проекте `hypotez`. Тесты проверяют, что ответы от провайдеров соответствуют ожидаемому формату (JSON) и содержат необходимые ключи. Это обеспечивает надежность и стабильность работы с внешними API.
+Этот модуль используется для тестирования взаимодействия клиента gpt4free с различными поставщиками, такими как Copilot и DDG.  Он проверяет, что клиент может успешно выполнять запросы к API и получать корректный ответ в формате JSON.
 
 ## Классы
 
 ### `TestProviderIntegration`
 
-**Описание**: Класс, содержащий интеграционные тесты для синхронного выполнения запросов к провайдерам.
-
-**Наследует**:
-- `unittest.TestCase`: Базовый класс для создания тестов.
+**Описание**:  Этот класс содержит тесты для проверки интеграции клиента gpt4free с поставщиками Copilot и DDG в синхронном режиме.
 
 **Атрибуты**:
-- Нет.
+
+- `self`: Ссылка на текущий объект класса.
 
 **Методы**:
 
-- `test_bing()`: Тест для проверки интеграции с провайдером Copilot.
-- `test_openai()`: Тест для проверки интеграции с провайдером DDG.
+- `test_bing()`: Проверка интеграции клиента gpt4free с Copilot.
+- `test_openai()`: Проверка интеграции клиента gpt4free с DDG.
 
 ### `TestChatCompletionAsync`
 
-**Описание**: Класс, содержащий интеграционные тесты для асинхронного выполнения запросов к провайдерам.
-
-**Наследует**:
-- `unittest.IsolatedAsyncioTestCase`: Базовый класс для создания асинхронных тестов.
+**Описание**:  Этот класс содержит тесты для проверки интеграции клиента gpt4free с поставщиками Copilot и DDG в асинхронном режиме.
 
 **Атрибуты**:
-- Нет.
+
+- `self`: Ссылка на текущий объект класса.
 
 **Методы**:
-- `test_bing()`: Асинхронный тест для проверки интеграции с провайдером Copilot.
-- `test_openai()`: Асинхронный тест для проверки интеграции с провайдером DDG.
 
-## Класс `TestProviderIntegration`
+- `test_bing()`: Проверка интеграции асинхронного клиента gpt4free с Copilot.
+- `test_openai()`: Проверка интеграции асинхронного клиента gpt4free с DDG.
 
-### `test_bing`
 
-```python
-def test_bing(self):
-    """
-    Функция тестирует интеграцию с провайдером Copilot.
+## Функции
 
-    Args:
-        self: Экземпляр класса `TestProviderIntegration`.
+## Класс-методы
 
-    Returns:
-        None
+### `test_bing()` 
 
-    Raises:
-        AssertionError: Если ответ от провайдера не соответствует ожидаемому формату или не содержит ключ "success".
+**Purpose**: Проверка правильной работы клиента gpt4free с поставщиком Copilot в синхронном режиме.
 
-    Как работает функция:
-    - Создает экземпляр клиента `g4f.Client` с провайдером `Copilot`.
-    - Выполняет запрос `chat.completions.create` с заданными параметрами (сообщения, формат ответа).
-    - Проверяет, что полученный ответ является экземпляром класса `ChatCompletion`.
-    - Проверяет, что ответ содержит ключ "success" после преобразования в JSON.
+**Parameters**:
 
-    Примеры:
-        >>> test = TestProviderIntegration()
-        >>> test.test_bing()
-    """
-    ...
-```
+- `self`: Ссылка на текущий объект класса.
 
-### `test_openai`
+**Returns**:
+
+-  `None`: Функция не возвращает значения, но проводит тест.
+
+**Raises Exceptions**:
+
+- `AssertionError`:  Если тест не пройден, генерирует исключение `AssertionError`.
+
+**How the Function Works**:
+
+-  Функция создает экземпляр клиента gpt4free с поставщиком Copilot.
+-  Использует метод `client.chat.completions.create()` для отправки запроса к API.
+-  Проверяет, что ответ является объектом класса `ChatCompletion`.
+-  Проверяет, что в полученном ответе присутствует ключ "success" в JSON-объекте.
+
+**Examples**:
 
 ```python
-def test_openai(self):
-    """
-    Функция тестирует интеграцию с провайдером DDG.
-
-    Args:
-        self: Экземпляр класса `TestProviderIntegration`.
-
-    Returns:
-        None
-
-    Raises:
-        AssertionError: Если ответ от провайдера не соответствует ожидаемому формату или не содержит ключ "success".
-
-    Как работает функция:
-    - Создает экземпляр клиента `g4f.Client` с провайдером `DDG`.
-    - Выполняет запрос `chat.completions.create` с заданными параметрами (сообщения, формат ответа).
-    - Проверяет, что полученный ответ является экземпляром класса `ChatCompletion`.
-    - Проверяет, что ответ содержит ключ "success" после преобразования в JSON.
-
-    Примеры:
-        >>> test = TestProviderIntegration()
-        >>> test.test_openai()
-    """
-    ...
+>>> from hypotez.src.endpoints.gpt4free.etc.unittest.integration import TestProviderIntegration
+>>> test = TestProviderIntegration()
+>>> test.test_bing() # Выполнить тест
 ```
 
-## Класс `TestChatCompletionAsync`
+### `test_openai()` 
 
-### `test_bing`
+**Purpose**: Проверка правильной работы клиента gpt4free с поставщиком DDG в синхронном режиме.
+
+**Parameters**:
+
+- `self`: Ссылка на текущий объект класса.
+
+**Returns**:
+
+-  `None`: Функция не возвращает значения, но проводит тест.
+
+**Raises Exceptions**:
+
+- `AssertionError`:  Если тест не пройден, генерирует исключение `AssertionError`.
+
+**How the Function Works**:
+
+-  Функция создает экземпляр клиента gpt4free с поставщиком DDG.
+-  Использует метод `client.chat.completions.create()` для отправки запроса к API.
+-  Проверяет, что ответ является объектом класса `ChatCompletion`.
+-  Проверяет, что в полученном ответе присутствует ключ "success" в JSON-объекте.
+
+**Examples**:
 
 ```python
-async def test_bing(self):
-    """
-    Асинхронная функция тестирует интеграцию с провайдером Copilot.
-
-    Args:
-        self: Экземпляр класса `TestChatCompletionAsync`.
-
-    Returns:
-        None
-
-    Raises:
-        AssertionError: Если ответ от провайдера не соответствует ожидаемому формату или не содержит ключ "success".
-
-    Как работает функция:
-    - Создает экземпляр асинхронного клиента `g4f.AsyncClient` с провайдером `Copilot`.
-    - Выполняет асинхронный запрос `chat.completions.create` с заданными параметрами (сообщения, формат ответа).
-    - Проверяет, что полученный ответ является экземпляром класса `ChatCompletion`.
-    - Проверяет, что ответ содержит ключ "success" после преобразования в JSON.
-
-    Примеры:
-        >>> import asyncio
-        >>> test = TestChatCompletionAsync()
-        >>> asyncio.run(test.test_bing())
-    """
-    ...
+>>> from hypotez.src.endpoints.gpt4free.etc.unittest.integration import TestProviderIntegration
+>>> test = TestProviderIntegration()
+>>> test.test_openai() # Выполнить тест
 ```
 
-### `test_openai`
+### `test_bing()` 
+
+**Purpose**: Проверка правильной работы асинхронного клиента gpt4free с поставщиком Copilot.
+
+**Parameters**:
+
+- `self`: Ссылка на текущий объект класса.
+
+**Returns**:
+
+-  `None`: Функция не возвращает значения, но проводит тест.
+
+**Raises Exceptions**:
+
+- `AssertionError`:  Если тест не пройден, генерирует исключение `AssertionError`.
+
+**How the Function Works**:
+
+-  Функция создает экземпляр асинхронного клиента gpt4free с поставщиком Copilot.
+-  Использует метод `client.chat.completions.create()` для отправки запроса к API.
+-  Проверяет, что ответ является объектом класса `ChatCompletion`.
+-  Проверяет, что в полученном ответе присутствует ключ "success" в JSON-объекте.
+
+**Examples**:
 
 ```python
-async def test_openai(self):
-    """
-    Асинхронная функция тестирует интеграцию с провайдером DDG.
-
-    Args:
-        self: Экземпляр класса `TestChatCompletionAsync`.
-
-    Returns:
-        None
-
-    Raises:
-        AssertionError: Если ответ от провайдера не соответствует ожидаемому формату или не содержит ключ "success".
-
-    Как работает функция:
-    - Создает экземпляр асинхронного клиента `g4f.AsyncClient` с провайдером `DDG`.
-    - Выполняет асинхронный запрос `chat.completions.create` с заданными параметрами (сообщения, формат ответа).
-    - Проверяет, что полученный ответ является экземпляром класса `ChatCompletion`.
-    - Проверяет, что ответ содержит ключ "success" после преобразования в JSON.
-
-    Примеры:
-        >>> import asyncio
-        >>> test = TestChatCompletionAsync()
-        >>> asyncio.run(test.test_openai())
-    """
-    ...
+>>> from hypotez.src.endpoints.gpt4free.etc.unittest.integration import TestChatCompletionAsync
+>>> test = TestChatCompletionAsync()
+>>> await test.test_bing() # Выполнить тест
 ```
 
-## Общие переменные
 
-- `DEFAULT_MESSAGES`: Список сообщений, используемых по умолчанию для запросов к провайдерам. Содержит системное сообщение с указанием формата ответа (JSON) и пользовательское сообщение с запросом на подтверждение успеха.
+### `test_openai()` 
+
+**Purpose**: Проверка правильной работы асинхронного клиента gpt4free с поставщиком DDG.
+
+**Parameters**:
+
+- `self`: Ссылка на текущий объект класса.
+
+**Returns**:
+
+-  `None`: Функция не возвращает значения, но проводит тест.
+
+**Raises Exceptions**:
+
+- `AssertionError`:  Если тест не пройден, генерирует исключение `AssertionError`.
+
+**How the Function Works**:
+
+-  Функция создает экземпляр асинхронного клиента gpt4free с поставщиком DDG.
+-  Использует метод `client.chat.completions.create()` для отправки запроса к API.
+-  Проверяет, что ответ является объектом класса `ChatCompletion`.
+-  Проверяет, что в полученном ответе присутствует ключ "success" в JSON-объекте.
+
+**Examples**:
+
+```python
+>>> from hypotez.src.endpoints.gpt4free.etc.unittest.integration import TestChatCompletionAsync
+>>> test = TestChatCompletionAsync()
+>>> await test.test_openai() # Выполнить тест
+```

@@ -1,74 +1,64 @@
-# Документация модуля `messages.py`
+# Messages Module 
 
-## Обзор
+## Overview
 
-Модуль содержит пример реализации обработчика диалогов с использованием g4f (GPT4Free). Он демонстрирует, как можно поддерживать историю диалога и взаимодействовать с моделью GPT-4 для получения ответов на сообщения пользователя.
+This module provides a `ConversationHandler` class, designed for managing conversations with AI models. It utilizes the `g4f.client` module for interacting with a specific model (e.g., "gpt-4") and maintains a history of messages exchanged during the conversation. 
 
-## Более детально
+## Details
 
-Этот код демонстрирует пример использования библиотеки `g4f` для создания диалогового интерфейса. Он включает класс `ConversationHandler`, который управляет историей диалога и взаимодействует с моделью GPT-4 для генерации ответов. Этот модуль может быть использован в проектах, где требуется интеграция с большими языковыми моделями для создания чат-ботов или других диалоговых приложений.
+The module facilitates a conversational interaction with AI models by:
 
-## Классы
+- Creating a `ConversationHandler` object.
+- Storing the model to be used for conversation.
+- Keeping track of the conversation history (user messages and assistant responses).
+- Allowing the user to add their messages to the history.
+- Retrieving responses from the AI model based on the conversation history.
+
+## Classes
 
 ### `ConversationHandler`
 
-**Описание**: Класс для управления историей диалога и взаимодействия с моделью GPT-4.
-**Атрибуты**:
-    - `client` (g4f.client.Client): Клиент для взаимодействия с API g4f.
-    - `model` (str): Имя модели, используемой для генерации ответов (по умолчанию "gpt-4").
-    - `conversation_history` (list): Список, хранящий историю диалога в формате сообщений.
+**Description**:  This class manages a conversation with an AI model, keeping track of the conversation history and enabling interaction with the model.
 
-**Принцип работы**:
-Класс инициализируется с клиентом g4f и моделью. Он предоставляет методы для добавления сообщений пользователя в историю диалога и получения ответа от модели на основе этой истории. История диалога хранится в списке, где каждое сообщение представлено словарем с ролями "user" (пользователь) и "assistant" (ассистент) и их соответствующим содержанием.
+**Inherits**: N/A
 
-**Методы**:
-- `__init__(self, model="gpt-4")`: Инициализирует экземпляр класса `ConversationHandler`.
-- `add_user_message(self, content)`: Добавляет сообщение пользователя в историю диалога.
-- `get_response(self)`: Отправляет историю диалога в модель и возвращает ответ ассистента.
+**Attributes**:
+ - `client` (`Client`): An instance of the `Client` class from the `g4f.client` module for communicating with the AI model.
+ - `model` (`str`): The name of the AI model used for conversation (e.g., "gpt-4"). 
+ - `conversation_history` (`list`): A list containing messages exchanged during the conversation, in the format of dictionaries with `role` and `content` keys.
 
-## Методы класса
+**Methods**:
 
-### `__init__`
+ - `add_user_message(content)`:
+    **Purpose**: Adds a user message to the conversation history.
+    **Parameters**:
+      - `content` (`str`): The text of the user's message.
+    **Returns**: None.
 
-```python
-def __init__(self, model="gpt-4"):
-    """
-    Инициализирует экземпляр класса `ConversationHandler`.
-    Args:
-        model (str, optional): Имя модели, используемой для генерации ответов. По умолчанию "gpt-4".
-    """
-```
+ - `get_response()`:
+    **Purpose**: Retrieves a response from the AI model based on the current conversation history.
+    **Parameters**: None.
+    **Returns**: `str`: The AI model's response as a string.
 
-### `add_user_message`
 
-```python
-def add_user_message(self, content):
-    """
-    Добавляет сообщение пользователя в историю диалога.
-    Args:
-        content (str): Содержание сообщения пользователя.
-    """
-```
+## Functions
+N/A
 
-### `get_response`
+
+## Inner Functions
+N/A
+
+## Examples
 
 ```python
-def get_response(self):
-    """
-    Отправляет историю диалога в модель и возвращает ответ ассистента.
-    Returns:
-        str: Содержание ответа ассистента.
-    """
-```
-
-## Примеры использования класса
-
-```python
-# Пример использования
+# Creating a conversation handler instance with the 'gpt-4' model
 conversation = ConversationHandler()
-conversation.add_user_message("Hello!")
-print("Assistant:", conversation.get_response())
 
+# Adding a user message to the conversation history
+conversation.add_user_message("Hello!")
+print("Assistant:", conversation.get_response())  # Output: "Assistant: Hello!" 
+
+# Adding another user message and getting the response
 conversation.add_user_message("How are you?")
-print("Assistant:", conversation.get_response())
+print("Assistant:", conversation.get_response())  # Output: "Assistant: I am an AI language model, so I don't have feelings. But I'm here to assist you with your questions!"
 ```

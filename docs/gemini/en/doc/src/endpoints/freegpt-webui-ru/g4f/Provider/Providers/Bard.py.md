@@ -1,64 +1,97 @@
-# Документация модуля Bard.py
+# Bard Provider for g4f
 
-## Обзор
+## Overview
 
-Модуль `Bard.py` предоставляет интерфейс для взаимодействия с моделью Google Bard. Он использует cookies браузера для аутентификации и отправляет запросы к API Bard для генерации ответов на основе предоставленных сообщений. Модуль поддерживает установку прокси-сервера.
+This module provides the `Bard` provider for the `g4f` module, which enables communication with the Google Bard AI model.
 
-## Более подробно
+## Details
 
-Этот модуль позволяет отправлять запросы к модели Google Bard и получать сгенерированные ответы. Он включает в себя функции для форматирования сообщений, установки прокси и обработки ответов от API Bard. Важно отметить, что для работы с этим модулем требуется аутентификация через cookies браузера.
+The `Bard` provider is responsible for handling interactions with the Google Bard service, including sending prompts and receiving responses. It relies on the `requests` library for HTTP communication and the `browser_cookie3` library for managing Google account cookies. 
 
-## Классы
+The provider ensures that communication occurs through a proxy server. This is because many countries have restrictions on accessing Google Bard, and using a proxy can help circumvent these limitations.
 
-В данном модуле классы отсутствуют.
+## Classes
 
-## Функции
+### `class _create_completion`
 
-### `_create_completion`
+**Description**: This function handles the interaction with the Google Bard service, sending prompts and receiving responses.
+
+**Parameters**:
+
+- `model` (str): Specifies the AI model to use (currently only "Palm2" is supported).
+- `messages` (list): A list of messages that form the context for the prompt.
+- `stream` (bool):  Indicates whether to stream the response.
+- `**kwargs`: Additional keyword arguments.
+
+**Returns**:
+
+- `Generator[str, None, None]`:  A generator that yields the response chunks from the Bard service.
+
+**Raises Exceptions**:
+
+- `Exception`:  If an error occurs during communication with the Bard service.
+
+**How the Function Works**:
+
+1. **Retrieve Google Account Cookies**:  It uses the `browser_cookie3` library to retrieve the `__Secure-1PSID` cookie from the user's Chrome browser, which is essential for authentication with Google Bard.
+2. **Format Prompt**: The `messages` list is formatted into a string representing the conversation history. The prompt is then constructed by appending "Assistant:" to the formatted messages.
+3. **Handle Proxy**: The `proxy` argument is used to configure the request session with a proxy server. If no proxy is provided, it logs a warning message.
+4. **Initialize Request Session**: A `requests.Session` object is created with optional proxy settings.
+5. **Set Headers**: The `headers` dictionary is set with relevant information for communication with Bard, including the authentication cookie.
+6. **Retrieve SNlM0e Token**:  It retrieves the `SNlM0e` token from the Bard website, which is required for interacting with the service.
+7. **Construct Request Parameters**: The `params` dictionary is created with parameters specific to the Bard service.
+8. **Construct Request Data**: The `data` dictionary is created with the formatted prompt and other necessary information.
+9. **Send POST Request**: It sends a POST request to the Bard API endpoint, `https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate`, with the constructed parameters and data.
+10. **Process Response**: The response is processed by extracting the chat data and yielding it as a generator. 
+11. **Error Handling**:  If no chat data is found, it yields an "error" message.
+
+**Examples**:
 
 ```python
-def _create_completion(model: str, messages: list, stream: bool, **kwargs):
-    """ Функция создает запрос к модели Google Bard и возвращает сгенерированный ответ.
+from hypotez.src.endpoints.freegpt-webui-ru.g4f.Provider.Providers.Bard import _create_completion
 
-    Args:
-        model (str): Идентификатор модели, используемой для генерации ответа.
-        messages (list): Список сообщений для отправки модели. Каждое сообщение должно содержать ключи 'role' и 'content'.
-        stream (bool): Флаг, указывающий, следует ли возвращать ответ потоком.
-        **kwargs: Дополнительные аргументы, такие как прокси-сервер.
+messages = [
+    {'role': 'user', 'content': 'Hello, how are you?'},
+    {'role': 'assistant', 'content': 'I am doing well, thank you for asking.'}
+]
 
-    Yields:
-        str: Сгенерированный ответ от модели Google Bard. В случае ошибки возвращает "error".
+response = _create_completion(model='Palm2', messages=messages, stream=False, proxy='http://127.0.0.1:8080')
 
-    Raises:
-        Отсутствуют.
-
-    Как работает функция:
-    - Функция извлекает cookie `__Secure-1PSID` из браузера Chrome для аутентификации.
-    - Форматирует входные сообщения в строку, где каждое сообщение представлено в формате `role: content`.
-    - Проверяет, предоставлен ли прокси-сервер. Если нет, выводит предупреждение.
-    - Инициализирует параметры `snlm0e`, `conversation_id`, `response_id` и `choice_id`.
-    - Создает сессию `requests` и устанавливает прокси, если он предоставлен.
-    - Устанавливает заголовки запроса, включая cookie `__Secure-1PSID`.
-    - Извлекает значение `SNlM0e` из главной страницы Bard, если оно еще не установлено.
-    - Формирует параметры запроса.
-    - Формирует данные запроса, включая отформатированный запрос.
-    - Отправляет POST-запрос к API Bard.
-    - Обрабатывает ответ, извлекая данные чата и возвращая сгенерированный ответ.
-
-    Внутренние функции:
-    - Отсутствуют.
-
-    Примеры:
-    Примеры не применимы из-за необходимости наличия cookies и прокси.
-    """
+# Iterate over the response chunks
+for chunk in response:
+    print(chunk)
 ```
 
-## Переменные модуля
+## Parameter Details
 
-- `url` (str): URL-адрес API Bard (`https://bard.google.com`).
-- `model` (list): Список поддерживаемых моделей ([`Palm2`]).
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу данных (в данном случае `False`).
-- `needs_auth` (bool): Указывает, требуется ли аутентификация для работы с провайдером (в данном случае `True`).
-- `params` (str): Строка, содержащая информацию о поддерживаемых типах параметров функции `_create_completion`.
+- `model` (str):  Specifies the AI model to use for generating responses. Currently, only "Palm2" is supported.
+
+- `messages` (list): A list of dictionaries representing the conversation history. Each dictionary contains the following keys:
+    - `role`:  The role of the message sender (e.g., 'user', 'assistant').
+    - `content`:  The actual message content.
+
+- `stream` (bool):  Specifies whether to stream the response. If set to `True`, the response will be generated in chunks.
+
+- `proxy` (str, optional):  The proxy server address to use for communication. Defaults to `None`.
+
+## Examples
+
 ```python
-params = f\'g4f.Providers.{os.path.basename(__file__)[:-3]} supports: \' + \\\n    \'(%s)\' % \', \'.join([f"{name}: {get_type_hints(_create_completion)[name].__name__}" for name in _create_completion.__code__.co_varnames[:_create_completion.__code__.co_argcount]])
+from hypotez.src.endpoints.freegpt-webui-ru.g4f.Provider.Providers.Bard import _create_completion
+
+# Example 1: Basic prompt
+messages = [
+    {'role': 'user', 'content': 'What is the capital of France?'}
+]
+response = _create_completion(model='Palm2', messages=messages, stream=False, proxy='http://127.0.0.1:8080')
+print(response)
+
+# Example 2: Multiple messages
+messages = [
+    {'role': 'user', 'content': 'Hello, Bard.'},
+    {'role': 'assistant', 'content': 'Hello! How can I help you today?'},
+    {'role': 'user', 'content': 'What is the meaning of life?'}
+]
+response = _create_completion(model='Palm2', messages=messages, stream=False, proxy='http://127.0.0.1:8080')
+print(response)
+```

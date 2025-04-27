@@ -1,116 +1,119 @@
-# Модуль translate_readme.py
+# Module for Translation of README.md 
+## Overview
 
-## Обзор
+This module is designed to translate the README.md file into a specific language using the GPT4Free service.
 
-Модуль предназначен для перевода документов Markdown на указанный язык. В частности, он переводит файл `README.md` на немецкий язык и сохраняет результат в файле `README-GE.md`. Он использует библиотеку `g4f` для взаимодействия с языковой моделью, в данном случае `OpenaiChat`.
+## Details
 
-## Более подробная информация
+The module reads the README.md file, divides it into sections based on "##" headers, translates each section independently, and then reassembles the translated sections into a new README file with the specified ISO language code.
 
-Модуль разбивает исходный файл `README.md` на части, переводит каждую часть, а затем объединяет переведенные части обратно в один документ. При переводе учитываются определенные блоки, которые не нужно переводить, и обеспечивается сохранение форматирования кода.
-
-## Функции
+## Functions
 
 ### `read_text`
 
-```python
-def read_text(text):
-    """ Функция извлекает текстовое содержимое из блока Markdown, исключая строки, содержащие символы форматирования кода.
+**Purpose**: This function extracts code blocks from a text string.
 
-    Args:
-        text (str): Текст для извлечения.
+**Parameters**:
 
-    Returns:
-        str: Извлеченный текст, очищенный от символов форматирования кода.
+- `text` (str): The text string containing code blocks.
 
-    Принцип работы:
-    Функция разбивает входной текст на строки и ищет блоки кода, ограниченные символами ```. Она возвращает текст, находящийся между этими блоками, тем самым исключая примеры кода из перевода.
-    """
-```
+**Returns**:
+
+- `str`: The text without code blocks.
+
+**How the Function Works**:
+
+The function iterates through the lines of the text, identifying code blocks using the "```" marker. It then removes the code blocks and returns the remaining text.
 
 ### `translate`
 
-```python
-async def translate(text):
-    """ Функция выполняет асинхронный перевод заданного текста с использованием указанного провайдера.
+**Purpose**: This function translates a given text string into a specified language using the GPT4Free service.
 
-    Args:
-        text (str): Текст для перевода.
+**Parameters**:
 
-    Returns:
-        str: Переведенный текст.
+- `text` (str): The text string to be translated.
 
-    Принцип работы:
-    Функция добавляет к входному тексту префикс с инструкцией по переводу на немецкий язык. Затем она использует асинхронный метод `create_async` провайдера `OpenaiChat` для выполнения перевода. Если в тексте встречается "[!Note]", к запросу добавляется инструкция по его сохранению. Функция также проверяет и добавляет закрывающие символы ```, если они отсутствуют в результате.
-    """
-```
+**Returns**:
+
+- `str`: The translated text string.
+
+**How the Function Works**:
+
+The function constructs a prompt for the GPT4Free service, including the target language and the text to be translated. It then sends the prompt to the service and returns the translated text.
 
 ### `translate_part`
 
-```python
-async def translate_part(part, i):
-    """ Функция асинхронно переводит часть текста, исключая определенные блоки из перевода.
+**Purpose**: This function translates a section of the README.md file, handling headlines and allowing specific sections to be excluded or translated.
 
-    Args:
-        part (str): Часть текста для перевода.
-        i (int): Индекс части текста.
+**Parameters**:
 
-    Returns:
-        str: Переведенная часть текста.
+- `part` (str): The section of the README.md file to be translated.
+- `i` (int): The index of the section.
 
-    Принцип работы:
-    Функция проверяет, входит ли часть текста в список `blocklist`. Если это так, переводится только первая строка (заголовок), а затем переводится содержимое из `allowlist`. Если часть текста не входит в `blocklist`, она переводится целиком.
-    """
-```
+**Returns**:
+
+- `str`: The translated section.
+
+**How the Function Works**:
+
+The function checks if the section is in the `blocklist` (sections to be excluded from translation). If it is, it translates only the headlines within the section and allows specific sections to be translated based on the `allowlist`. If the section is not in the `blocklist`, it translates the entire section.
 
 ### `translate_readme`
 
-```python
-async def translate_readme(readme) -> str:
-    """ Функция переводит содержимое файла README.md, разделяя его на части.
+**Purpose**: This function translates the entire README.md file, dividing it into sections and translating each section independently.
 
-    Args:
-        readme (str): Содержимое файла README.md.
+**Parameters**:
 
-    Returns:
-        str: Полностью переведенное содержимое файла README.md.
+- `readme` (str): The contents of the README.md file.
 
-    Принцип работы:
-    Функция разбивает README на части, используя разделитель '## '. Затем она асинхронно переводит каждую часть с помощью функции `translate_part` и объединяет переведенные части обратно в один документ.
-    """
-```
+**Returns**:
 
-## Переменные
+- `str`: The translated README.md file.
 
--   `iso` (str): Код страны ("GE" для Германии).
--   `language` (str): Язык перевода ("german").
--   `translate_prompt` (str): Строка, содержащая инструкцию для модели перевода.
--   `keep_note` (str): Строка, содержащая инструкцию по сохранению блоков "[!Note]".
--   `blocklist` (list): Список строк, которые не нужно переводить.
--   `allowlist` (list): Список строк, которые нужно переводить даже в заблокированных частях.
+**How the Function Works**:
 
-## Как работает функция
+The function splits the README.md file into sections based on "##" headers. It then uses the `translate_part` function to translate each section asynchronously and reassembles the translated sections into a new README file.
 
-1.  Чтение содержимого `README.md`.
-2.  Разделение содержимого на части по заголовкам второго уровня (`##`).
-3.  Асинхронный перевод каждой части с использованием `translate_part`, который проверяет наличие части в `blocklist` и соответствующим образом переводит текст.
-4.  Объединение переведенных частей обратно в один документ.
-5.  Запись переведенного содержимого в файл `README-{iso}.md`.
-
-## Примеры
+## Examples
 
 ```python
-import asyncio
-from translate_readme import translate_readme
-
-async def main():
-    with open("README.md", "r") as fp:
-        readme = fp.read()
-
-    translated_readme = await translate_readme(readme)
-
-    with open("README-GE.md", "w") as fp:
-        fp.write(translated_readme)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+# Example of calling the `translate_readme` function:
+readme = """
+# Title of the README
+## Section 1
+This is the first section.
+## Section 2
+This is the second section.
+"""
+translated_readme = asyncio.run(translate_readme(readme))
+print(translated_readme)
 ```
+
+**Example Output**:
+
+```
+# Titel des README
+## Abschnitt 1
+Dies ist der erste Abschnitt.
+## Abschnitt 2
+Dies ist der zweite Abschnitt.
+```
+
+## Parameter Details
+
+- `iso` (str): The ISO language code for the target language.
+- `language` (str): The name of the target language.
+- `translate_prompt` (str): The prompt for the GPT4Free service, specifying the target language and instructions.
+- `keep_note` (str): A string that ensures the preservation of "\[!Note]" in the translated text.
+- `blocklist` (list): A list of section headlines to exclude from translation.
+- `allowlist` (list): A list of section headlines to translate even if they are in the `blocklist`.
+- `provider` (g4f.Provider): The GPT4Free provider to use for translation (OpenaiChat in this case).
+- `access_token` (str): The access token for the GPT4Free service.
+- `model` (str): The GPT4Free model to use for translation (empty in this case).
+- `messages` (list): A list of messages to send to the GPT4Free service.
+- `file` (str): The name of the translated README file.
+- `fp` (file object): A file object for reading and writing files.
+
+## How the Code Works:
+
+The code begins by importing the necessary libraries and setting up the GPT4Free provider and access token. It then defines the `read_text` function to extract code blocks from text and the `translate` function to translate text using GPT4Free. The `translate_part` function translates sections of the README, handling headlines and exclusion/inclusion rules. The `translate_readme` function orchestrates the translation process, splitting the README into sections, translating each section, and reassembling the translated sections. The code concludes by opening the README.md file, translating it, and saving the translated content to a new file named `README-GE.md`.

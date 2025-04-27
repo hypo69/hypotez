@@ -1,155 +1,107 @@
-# Module Jmuz
+# Jmuz Provider for GPT4Free
 
-## Обзор
+## Overview
 
-Модуль `Jmuz` представляет собой класс `Jmuz`, который является подклассом `OpenaiTemplate` и предназначен для работы с API Jmuz.me для взаимодействия с различными моделями, такими как GPT-4o и Gemini. Модуль поддерживает потоковую передачу данных и предоставляет интерфейс для отправки сообщений и получения ответов от этих моделей. Также модуль содержит настройки для работы с API, включая URL, API key и заголовки.
+This module defines the `Jmuz` class, which acts as a provider for the `gpt4free` endpoint. It utilizes the `OpenaiTemplate` class to interact with the Jmuz.me GPT API.
 
-## Более подробно
+## Details
 
-Модуль `Jmuz` используется для упрощения взаимодействия с API Jmuz.me. Он содержит предопределенные настройки, такие как URL, API key и заголовки, что упрощает настройку и использование API. Кроме того, модуль предоставляет методы для получения списка доступных моделей и создания асинхронного генератора для потоковой передачи данных. Это позволяет легко интегрировать функциональность Jmuz.me в проекты, требующие взаимодействия с AI-моделями.
+The `Jmuz` class extends the `OpenaiTemplate` class and provides a concrete implementation for interacting with the Jmuz.me API. It includes configuration settings for the API, model aliases, and overrides methods for handling asynchronous responses.
 
-## Классы
+## Classes
 
-### `Jmuz`
+### `class Jmuz(OpenaiTemplate)`
 
-**Описание**: Класс `Jmuz` является подклассом `OpenaiTemplate` и предоставляет интерфейс для работы с API Jmuz.me.
+**Description**: This class defines a provider for the `gpt4free` endpoint, utilizing the `OpenaiTemplate` class for interacting with the Jmuz.me API. 
 
-**Наследует**:
-- `OpenaiTemplate`: Класс, предоставляющий общие методы и атрибуты для работы с OpenAI-подобными API.
+**Inherits**: `OpenaiTemplate` 
 
-**Атрибуты**:
-- `url` (str): URL для присоединения к Discord.
-- `api_base` (str): Базовый URL API Jmuz.me.
-- `api_key` (str): API key для аутентификации.
-- `working` (bool): Указывает, работает ли провайдер.
-- `supports_system_message` (bool): Указывает, поддерживает ли модель системные сообщения.
-- `default_model` (str): Модель, используемая по умолчанию ("gpt-4o").
-- `model_aliases` (dict): Псевдонимы моделей для совместимости.
+**Attributes**:
+- `url` (str): URL for the Jmuz.me Discord server.
+- `api_base` (str): Base URL for the Jmuz.me GPT API.
+- `api_key` (str): API key for accessing the Jmuz.me API.
+- `working` (bool): Indicates whether the provider is currently functional.
+- `supports_system_message` (bool): Indicates whether the provider supports system messages.
+- `default_model` (str): Default model to use for requests.
+- `model_aliases` (dict): Dictionary mapping aliases to their corresponding model names.
 
-**Принцип работы**:
-Класс `Jmuz` использует атрибуты класса для настройки соединения с API Jmuz.me. Он переопределяет некоторые методы из `OpenaiTemplate`, чтобы адаптировать их к особенностям API Jmuz.me. Например, метод `create_async_generator` используется для создания асинхронного генератора, который отправляет сообщения в API и получает ответы в потоковом режиме.
+**Methods**:
 
-**Методы**:
-- `get_models(**kwargs)`: Возвращает список доступных моделей.
-- `create_async_generator(model: str, messages: Messages, stream: bool = True, api_key: str = None, **kwargs) -> AsyncResult`: Создает асинхронный генератор для получения потоковых ответов от API.
+#### `get_models(cls, **kwargs)`
 
-## Методы класса
+**Purpose**: Retrieves a list of available models from the Jmuz.me API.
 
-### `get_models`
+**Parameters**:
+- `**kwargs`: Optional keyword arguments for the API request.
 
-```python
-@classmethod
-def get_models(cls, **kwargs):
-    """
-    Возвращает список доступных моделей.
+**Returns**:
+- `list`: A list of available models.
 
-    Args:
-        **kwargs: Дополнительные параметры.
+**How the Function Works**:
+- If the `models` attribute is not already populated, it calls the `get_models` method of the superclass (`OpenaiTemplate`) to fetch the model list from the Jmuz.me API.
+- The `api_key` and `api_base` attributes are passed as arguments to the superclass method.
+- Returns the fetched list of models.
 
-    Returns:
-        list: Список доступных моделей.
-    """
-```
+#### `create_async_generator(cls, model: str, messages: Messages, stream: bool = True, api_key: str = None, **kwargs) -> AsyncResult`
 
-**Назначение**:
-Метод `get_models` используется для получения списка доступных моделей из API Jmuz. Если список моделей еще не был получен, он вызывает метод `super().get_models` для получения списка моделей из базового класса `OpenaiTemplate`.
+**Purpose**: Creates an asynchronous generator for streaming responses from the Jmuz.me API.
 
-**Параметры**:
-- `cls` (type): Ссылка на класс.
-- `**kwargs`: Дополнительные параметры, которые могут быть переданы в метод `super().get_models`.
+**Parameters**:
+- `model` (str): The model to use for the request.
+- `messages` (Messages): A list of messages to send to the API.
+- `stream` (bool): Flag indicating whether to stream the response. Defaults to `True`.
+- `api_key` (str): Optional API key. Defaults to `None`.
+- `**kwargs`: Optional keyword arguments for the API request.
 
-**Возвращает**:
-- `list`: Список доступных моделей.
+**Returns**:
+- `AsyncResult`: An asynchronous result object representing the API response.
 
-**Пример**:
-```python
-models = Jmuz.get_models()
-print(models)
-```
+**How the Function Works**:
+- Resolves the model name using the `get_model` method.
+- Sets up headers for the API request, including the API key and content type.
+- Creates an asynchronous generator using the `create_async_generator` method of the superclass (`OpenaiTemplate`).
+- Iterates through the chunks received from the API and filters out unwanted content like "Join for free" prompts and Discord links.
+- Yields filtered chunks to the caller, providing a streamlined streaming experience.
 
-### `create_async_generator`
+
+## Examples
 
 ```python
-@classmethod
-async def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        stream: bool = True,
-        api_key: str = None, # Remove api_key from kwargs
-        **kwargs
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для получения потоковых ответов от API.
+# Creating a Jmuz provider instance
+jmuz_provider = Jmuz()
 
-    Args:
-        model (str): Название модели.
-        messages (Messages): Список сообщений для отправки.
-        stream (bool): Указывает, использовать ли потоковую передачу. По умолчанию `True`.
-        api_key (str): API key для аутентификации. По умолчанию `None`.
-        **kwargs: Дополнительные параметры.
+# Fetching a list of available models
+models = jmuz_provider.get_models()
 
-    Returns:
-        AsyncResult: Асинхронный генератор, возвращающий потоковые ответы от API.
-    """
+# Creating a message list for the API request
+messages = [
+    {"role": "user", "content": "Hello, how are you?"}
+]
+
+# Sending a request using the asynchronous generator
+async for chunk in jmuz_provider.create_async_generator(model="gpt-4o", messages=messages):
+    print(chunk)
 ```
 
-**Назначение**:
-Метод `create_async_generator` создает асинхронный генератор, который отправляет сообщения в API Jmuz.me и получает ответы в потоковом режиме. Он использует метод `super().create_async_generator` из базового класса `OpenaiTemplate` для отправки запроса и получения ответа.
+## Parameter Details
 
-**Параметры**:
-- `cls` (type): Ссылка на класс.
-- `model` (str): Название модели.
-- `messages` (Messages): Список сообщений для отправки.
-- `stream` (bool): Указывает, использовать ли потоковую передачу. По умолчанию `True`.
-- `api_key` (str): API key для аутентификации. По умолчанию `None`.
-- `**kwargs`: Дополнительные параметры.
+- `model` (str):  Model name for the API request, which can be any supported model alias or the full name.
+- `messages` (Messages): A list of messages to send to the API, each message should be in the format specified for the API.
+- `stream` (bool): A flag indicating whether to stream the response (if the provider supports streaming).
+- `api_key` (str):  API key for the Jmuz.me service.
 
-**Возвращает**:
-- `AsyncResult`: Асинхронный генератор, возвращающий потоковые ответы от API.
-
-**Как работает функция**:
-
-1. **Подготовка заголовков**:
-   - Создаются заголовки (`headers`) для HTTP-запроса, включая `Authorization` с API key, `Content-Type` как `application/json`, `accept` как `*/*` и `user-agent`.
-
-2. **Асинхронная генерация чанков данных**:
-   - Вызывается `super().create_async_generator` для получения чанков данных из API Jmuz.me.
-   - Указываются параметры, такие как `model`, `messages`, `api_base`, `api_key`, `stream` и `headers`.
-
-3. **Фильтрация и обработка чанков**:
-   - Происходит итерация по каждому чанку данных, полученному из генератора.
-   - Чанки добавляются в буфер (`buffer`).
-   - Проверяются условия для фильтрации нежелательных данных:
-     - Если буфер начинается с "Join for free" или содержит "https://discord.gg/", данные отбрасываются.
-     - Если буфер начинается с "o1-preview", данные отбрасываются.
-   - Удаляются начальные пробелы из буфера, если это первый чанк.
-   - Если после фильтрации в буфере остаются данные, они передаются как результат.
-
-4. **Возврат чанков данных**:
-   - Каждый чанк данных возвращается как результат асинхронного генератора.
-
-**Примеры**:
+## Examples
 
 ```python
-import asyncio
-from typing import List, Dict
+# Using the default model
+async for chunk in jmuz_provider.create_async_generator(messages=messages):
+    print(chunk)
 
-async def main():
-    messages: List[Dict[str, str]] = [{"role": "user", "content": "Hello"}]
-    async for chunk in Jmuz.create_async_generator(model="gpt-4o", messages=messages):
-        print(chunk)
+# Using a specific model
+async for chunk in jmuz_provider.create_async_generator(model="gemini-pro", messages=messages):
+    print(chunk)
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# Using a custom API key
+async for chunk in jmuz_provider.create_async_generator(messages=messages, api_key="your_api_key"):
+    print(chunk)
 ```
-
-## Параметры класса
-
-- `url` (str): URL для присоединения к Discord.
-- `api_base` (str): Базовый URL API Jmuz.me.
-- `api_key` (str): API key для аутентификации.
-- `working` (bool): Указывает, работает ли провайдер.
-- `supports_system_message` (bool): Указывает, поддерживает ли модель системные сообщения.
-- `default_model` (str): Модель, используемая по умолчанию ("gpt-4o").
-- `model_aliases` (dict): Псевдонимы моделей для совместимости.

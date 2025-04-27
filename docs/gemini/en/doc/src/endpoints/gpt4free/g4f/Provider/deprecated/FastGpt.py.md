@@ -1,89 +1,90 @@
-# Документация для модуля `FastGpt.py`
+# FastGpt.py
 
-## Обзор
+## Overview
 
-Модуль `FastGpt.py` предоставляет реализацию провайдера `FastGpt` для работы с API `chat9.fastgpt.me`. Он позволяет отправлять запросы на создание завершений текста, поддерживает потоковую передачу ответов и предназначен для использования с моделями, совместимыми с `gpt-3.5-turbo`.
+Этот модуль содержит класс `FastGpt`, реализующий провайдера для доступа к модели FastGPT. 
 
-## Подробнее
+## Details
 
-Модуль содержит класс `FastGpt`, который наследуется от `AbstractProvider` и реализует метод `create_completion` для взаимодействия с API `FastGpt`. Класс определяет URL, указывает на необходимость аутентификации, поддерживает потоковую передачу и совместимость с `gpt-3.5-turbo`.
+`FastGpt` реализует интерфейс `AbstractProvider`, предоставляя возможность взаимодействовать с моделью FastGPT для генерации текста, используя методы  `create_completion`. 
 
-## Классы
+## Classes
 
 ### `FastGpt`
 
-**Описание**: Класс `FastGpt` предоставляет методы для взаимодействия с API `chat9.fastgpt.me` для генерации текста.
-**Наследует**: `AbstractProvider`
+**Description**: Класс `FastGpt`  реализует провайдера для доступа к модели FastGPT. 
 
-**Атрибуты**:
-- `url` (str): URL API `chat9.fastgpt.me`. Значение по умолчанию: `'https://chat9.fastgpt.me/'`.
-- `working` (bool): Указывает, работает ли провайдер. Значение по умолчанию: `False`.
-- `needs_auth` (bool): Указывает, требуется ли аутенентификация. Значение по умолчанию: `False`.
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу. Значение по умолчанию: `True`.
-- `supports_gpt_35_turbo` (bool): Указывает, поддерживает ли провайдер модель `gpt-3.5-turbo`. Значение по умолчанию: `True`.
-- `supports_gpt_4` (bool): Указывает, поддерживает ли провайдер модель `gpt-4`. Значение по умолчанию: `False`.
+**Inherits**:  `AbstractProvider`
 
-**Методы**:
-- `create_completion`: Метод для создания запроса на завершение текста.
+**Attributes**:
 
-## Методы класса
+-   `url`: URL-адрес для запросов к FastGPT API.
+-   `working`: Признак, указывающий, доступна ли модель FastGPT.
+-   `needs_auth`: Необходимость аутентификации.
+-   `supports_stream`: Поддержка потоковой передачи.
+-   `supports_gpt_35_turbo`: Поддержка модели `gpt-3.5-turbo`.
+-   `supports_gpt_4`: Поддержка модели `gpt-4`.
+
+
+**Methods**:
+
+-   `create_completion(model: str, messages: list[dict[str, str]], stream: bool, **kwargs: Any) -> CreateResult`:
+    Создает завершение (генерацию текста) для модели FastGPT.
+
+## Functions
 
 ### `create_completion`
 
-```python
-@staticmethod
-def create_completion(
-    model: str,
-    messages: list[dict[str, str]],
-    stream: bool, **kwargs: Any) -> CreateResult:
-    """ Функция создает запрос к API для генерации текста на основе предоставленных параметров.
-    Args:
-        model (str): Идентификатор используемой модели.
-        messages (list[dict[str, str]]): Список сообщений для контекста генерации.
-        stream (bool): Флаг, указывающий на необходимость потоковой передачи.
-        **kwargs (Any): Дополнительные параметры запроса.
+**Purpose**:  Создает завершение (генерацию текста) для модели FastGPT.
 
-    Returns:
-        CreateResult: Результат запроса к API.
+**Parameters**:
 
-    Как работает функция:
-    - Функция `create_completion` принимает параметры, необходимые для создания запроса к API `FastGpt`.
-    - Определяются заголовки запроса, включая `authority`, `accept`, `content-type` и другие.
-    - Формируется JSON-тело запроса с сообщениями, моделью, параметрами температуры, штрафами и другими настройками.
-    - Выбирается случайный поддомен из списка `['jdaen979ew', 'chat9']`.
-    - Отправляется POST-запрос к API `FastGpt` с использованием библиотеки `requests`.
-    - Если потоковая передача включена, функция итерируется по строкам ответа и извлекает содержимое (`content`) из каждой строки.
-    - Извлеченное содержимое передается как токен с использованием `yield`.
-    - В случае ошибок в процессе обработки ответа, они игнорируются.
+-   `model` (str): Имя модели (например, `gpt-3.5-turbo`).
+-   `messages` (list[dict[str, str]]): Список сообщений, передаваемых модели для генерации.
+-   `stream` (bool): Флаг, указывающий на то, должна ли генерация текста быть потоковой.
+-   `**kwargs`: Дополнительные параметры для модели, такие как `temperature`, `presence_penalty`, `frequency_penalty`, `top_p`.
 
-    Пример:
-        Пример вызова функции:
 
-        model = "gpt-3.5-turbo"
-        messages = [{"role": "user", "content": "Hello, how are you?"}]
-        stream = True
-        kwargs = {"temperature": 0.7}
-        result = FastGpt.create_completion(model=model, messages=messages, stream=stream, **kwargs)
-        for token in result:
-            print(token)
-    """
-```
+**Returns**:
 
-## Параметры класса `FastGpt`
-- `url` (str): URL API `chat9.fastgpt.me`. Значение по умолчанию: `'https://chat9.fastgpt.me/'`.
-- `working` (bool): Указывает, работает ли провайдер. Значение по умолчанию: `False`.
-- `needs_auth` (bool): Указывает, требуется ли аутентификация. Значение по умолчанию: `False`.
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу. Значение по умолчанию: `True`.
-- `supports_gpt_35_turbo` (bool): Указывает, поддерживает ли провайдер модель `gpt-3.5-turbo`. Значение по умолчанию: `True`.
-- `supports_gpt_4` (bool): Указывает, поддерживает ли провайдер модель `gpt-4`. Значение по умолчанию: `False`.
+-   `CreateResult`: Результат генерации текста, включающий текст и информацию о модели.
 
-## Примеры
+**How the Function Works**:
+
+1.  `create_completion` формирует заголовок HTTP-запроса.
+2.  Создает JSON-данные запроса, содержащие текст, модель, параметры, необходимые для генерации.
+3.  Отправляет POST-запрос к API FastGPT с сформированными данными.
+4.  Если задан параметр `stream=True`,  обрабатывает ответ в потоковом режиме, вызывая функцию `yield` для каждого полученного токена текста.
+5.  Возвращает результат генерации, включающий текст и информацию о модели.
+
+**Examples**:
 
 ```python
-model = "gpt-3.5-turbo"
-messages = [{"role": "user", "content": "Hello, how are you?"}]
-stream = True
-kwargs = {"temperature": 0.7}
-result = FastGpt.create_completion(model=model, messages=messages, stream=stream, **kwargs)
+# Пример вызова функции create_completion с потоковой генерацией текста:
+result = FastGpt.create_completion(
+    model='gpt-3.5-turbo',
+    messages=[
+        {'role': 'user', 'content': 'Привет!'}
+    ],
+    stream=True,
+)
+
 for token in result:
-    print(token)
+    print(token, end='')
+
+# Пример вызова функции create_completion без потоковой генерации текста:
+result = FastGpt.create_completion(
+    model='gpt-3.5-turbo',
+    messages=[
+        {'role': 'user', 'content': 'Привет!'}
+    ],
+    stream=False,
+)
+
+print(result.text)
+
+```
+```python
+## \file hypotez/src/endpoints/gpt4free/g4f/Provider/deprecated/FastGpt.py
+# -*- coding: utf-8 -*-
+#! .pyenv/bin/python3

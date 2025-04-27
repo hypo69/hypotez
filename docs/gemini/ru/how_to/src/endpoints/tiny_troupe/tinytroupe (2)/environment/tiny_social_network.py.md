@@ -1,36 +1,152 @@
-### Как использовать класс `TinySocialNetwork`
+```python
+                from tinytroupe.environment.tiny_world import TinyWorld
+from tinytroupe.environment import logger
+
+import copy
+from datetime import datetime, timedelta
+
+from tinytroupe.agent import *
+from tinytroupe.control import transactional
+ 
+from rich.console import Console
+
+from typing import Any, TypeVar, Union
+AgentOrWorld = Union["TinyPerson", "TinyWorld"]
+
+
+class TinySocialNetwork(TinyWorld):
+
+    def __init__(self, name, broadcast_if_no_target=True):
+        """
+        Create a new TinySocialNetwork environment.
+
+        Args:
+            name (str): The name of the environment.
+            broadcast_if_no_target (bool): If True, broadcast actions through an agent's available relations
+              if the target of an action is not found.
+        """
+        
+        super().__init__(name, broadcast_if_no_target=broadcast_if_no_target)
+
+        self.relations = {}
+    
+    @transactional
+    def add_relation(self, agent_1, agent_2, name="default"):
+        """
+        Adds a relation between two agents.
+        
+        Args:
+            agent_1 (TinyPerson): The first agent.
+            agent_2 (TinyPerson): The second agent.
+            name (str): The name of the relation.
+        """
+
+        logger.debug(f"Adding relation {name} between {agent_1.name} and {agent_2.name}.")
+
+        # agents must already be in the environment, if not they are first added
+        if agent_1 not in self.agents:
+            self.agents.append(agent_1)
+        if agent_2 not in self.agents:
+            self.agents.append(agent_2)
+
+        if name in self.relations:
+            self.relations[name].append((agent_1, agent_2))
+        else:
+            self.relations[name] = [(agent_1, agent_2)]
+
+        return self # for chaining
+    
+    @transactional
+    def _update_agents_contexts(self):
+        """
+        Updates the agents' observations based on the current state of the world.
+        """
+
+        # clear all accessibility first
+        for agent in self.agents:
+            agent.make_all_agents_inaccessible()
+
+        # now update accessibility based on relations
+        for relation_name, relation in self.relations.items():
+            logger.debug(f"Updating agents' observations for relation {relation_name}.")
+            for agent_1, agent_2 in relation:
+                agent_1.make_agent_accessible(agent_2)
+                agent_2.make_agent_accessible(agent_1)
+
+    @transactional
+    def _step(self):
+        self._update_agents_contexts()
+
+        #call super
+        super()._step()
+    
+    @transactional
+    def _handle_reach_out(self, source_agent: TinyPerson, content: str, target: str):
+        """
+        Handles the REACH_OUT action. This social network implementation only allows
+        REACH_OUT to succeed if the target agent is in the same relation as the source agent.
+
+        Args:
+            source_agent (TinyPerson): The agent that issued the REACH_OUT action.
+            content (str): The content of the message.
+            target (str): The target of the message.
+        """
+            
+        # check if the target is in the same relation as the source
+        if self.is_in_relation_with(source_agent, self.get_agent_by_name(target)):
+            super()._handle_reach_out(source_agent, content, target)
+            
+        # if we get here, the target is not in the same relation as the source
+        source_agent.socialize(f"{target} is not in the same relation as you, so you cannot reach out to them.", source=self)
+
+
+    # TODO implement _handle_talk using broadcast_if_no_target too
+
+    #######################################################################
+    # Utilities and conveniences
+    #######################################################################
+
+    def is_in_relation_with(self, agent_1:TinyPerson, agent_2:TinyPerson, relation_name=None) -> bool:
+        """
+        Checks if two agents are in a relation. If the relation name is given, check that
+        the agents are in that relation. If no relation name is given, check that the agents
+        are in any relation. Relations are undirected, so the order of the agents does not matter.
+
+        Args:
+            agent_1 (TinyPerson): The first agent.
+            agent_2 (TinyPerson): The second agent.
+            relation_name (str): The name of the relation to check, or None to check any relation.
+
+        Returns:
+            bool: True if the two agents are in the given relation, False otherwise.
+        """
+        if relation_name is None:
+            for relation_name, relation in self.relations.items():
+                if (agent_1, agent_2) in relation or (agent_2, agent_1) in relation:
+                    return True
+            return False
+        
+        else:
+            if relation_name in self.relations:
+                return (agent_1, agent_2) in self.relations[relation_name] or (agent_2, agent_1) in self.relations[relation_name]
+            else:
+                return False
+                ```
+
+### Как использовать этот блок кода
 =========================================================================================
 
 Описание
 -------------------------
-`TinySocialNetwork` - это класс, представляющий собой социальную сеть, основанную на `TinyWorld`. Он расширяет возможности `TinyWorld`, добавляя поддержку отношений между агентами (`TinyPerson`). Класс позволяет создавать, управлять отношениями между агентами и контролировать взаимодействие между ними.
+Блок кода представляет собой класс `TinySocialNetwork`, который наследуется от класса `TinyWorld`. Класс `TinySocialNetwork` реализует среду социальной сети, где агенты могут взаимодействовать друг с другом, только если они находятся в одних и тех же отношениях. Класс предоставляет функции для добавления отношений между агентами, обновления контекста наблюдения агентов, обработки действий агентов и проверки, находятся ли агенты в отношениях.
 
 Шаги выполнения
 -------------------------
-1. **Создание экземпляра `TinySocialNetwork`**:
-   - Создайте экземпляр класса `TinySocialNetwork`, указав имя сети и флаг `broadcast_if_no_target`.
-   - Флаг `broadcast_if_no_target` определяет, будет ли действие транслироваться через доступные отношения агента, если цель действия не найдена.
-
-2. **Добавление отношений между агентами**:
-   - Используйте метод `add_relation` для установления связи между двумя агентами.
-   - Укажите агента 1, агента 2 и имя отношения (например, "друг", "коллега").
-   - Если агенты еще не добавлены в сеть, они будут добавлены автоматически.
-
-3. **Обновление контекстов агентов**:
-   - Вызовите метод `_update_agents_contexts`, чтобы обновить наблюдения агентов на основе текущего состояния сети.
-   - Этот метод делает агентов доступными друг для друга в зависимости от установленных отношений.
-
-4. **Выполнение шага симуляции**:
-   - Вызовите метод `_step`, чтобы выполнить один шаг симуляции в социальной сети.
-   - Сначала обновляются контексты агентов, а затем выполняется основной шаг симуляции, унаследованный от `TinyWorld`.
-
-5. **Обработка действия `REACH_OUT`**:
-   - Метод `_handle_reach_out` обрабатывает попытки агентов связаться друг с другом.
-   - Связь будет успешной только в том случае, если целевой агент находится в тех же отношениях, что и исходный агент.
-
-6. **Проверка наличия отношения между агентами**:
-   - Используйте метод `is_in_relation_with`, чтобы проверить, связаны ли два агента.
-   - Можно указать имя конкретного отношения или проверить наличие любой связи между агентами.
+1. **Инициализация:** Создайте объект `TinySocialNetwork`, передав имя среды и флаг `broadcast_if_no_target`, который определяет, следует ли рассылать действия агентов по всем доступным отношениям, если целевой агент не найден.
+2. **Добавление отношений:** Используйте метод `add_relation` для добавления отношений между двумя агентами. Метод принимает в качестве аргументов двух агентов и имя отношения.
+3. **Обновление контекста:** Метод `_update_agents_contexts` обновляет контекст наблюдения агентов, делая доступными для них других агентов, находящихся в одних и тех же отношениях.
+4. **Обработка действий:** Метод `_handle_reach_out` обрабатывает действие `REACH_OUT`, которое позволяет агенту отправить сообщение другому агенту. Действие будет успешным, только если целевой агент находится в том же отношении, что и источник.
+5. **Проверка отношений:** Метод `is_in_relation_with` проверяет, находятся ли два агента в отношениях. Метод принимает в качестве аргументов двух агентов и необязательно имя отношения. Если имя отношения не указано, проверяется, находятся ли агенты в любых отношениях.
 
 Пример использования
 -------------------------
@@ -39,26 +155,24 @@
 from tinytroupe.environment.tiny_social_network import TinySocialNetwork
 from tinytroupe.agent import TinyPerson
 
-# Создание социальной сети
-social_network = TinySocialNetwork(name="MySocialNetwork", broadcast_if_no_target=True)
+# Создаем социальную сеть
+social_network = TinySocialNetwork("My Social Network")
 
-# Создание агентов
-agent_1 = TinyPerson(name="Alice")
-agent_2 = TinyPerson(name="Bob")
-agent_3 = TinyPerson(name="Charlie")
+# Создаем двух агентов
+alice = TinyPerson("Alice")
+bob = TinyPerson("Bob")
 
-# Добавление отношений между агентами
-social_network.add_relation(agent_1, agent_2, name="friends")
-social_network.add_relation(agent_2, agent_3, name="colleagues")
+# Добавляем отношение между агентами
+social_network.add_relation(alice, bob, name="Friends")
 
-# Проверка, находятся ли агенты в отношениях
-print(f"Alice and Bob are friends: {social_network.is_in_relation_with(agent_1, agent_2, relation_name='friends')}")
-print(f"Alice and Charlie are friends: {social_network.is_in_relation_with(agent_1, agent_3, relation_name='friends')}")
-print(f"Bob and Charlie are colleagues: {social_network.is_in_relation_with(agent_2, agent_3, relation_name='colleagues')}")
+# Проверяем, находятся ли агенты в отношениях
+print(social_network.is_in_relation_with(alice, bob, relation_name="Friends")) # Вывод: True
+print(social_network.is_in_relation_with(alice, bob, relation_name="Family")) # Вывод: False
 
-# Обновление контекстов агентов
-social_network._update_agents_contexts()
+# Добавляем агентов в социальную сеть
+social_network.add_agent(alice)
+social_network.add_agent(bob)
 
-# Попытка агента связаться с другим агентом
-social_network._handle_reach_out(source_agent=agent_1, content="Hello, Bob!", target="Bob")
-social_network._handle_reach_out(source_agent=agent_1, content="Hello, Charlie!", target="Charlie")
+# Запускаем среду
+social_network.run()
+```

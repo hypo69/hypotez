@@ -1,61 +1,58 @@
-# Модуль для добавления скрытого контента
+# Module for Adding Hidden Content to Products
 
-## Обзор
+## Overview
 
-Этот модуль содержит скрипт миграции базы данных Alembic, который добавляет столбец `hidden_content` в таблицу `products`.
+This module provides an Alembic migration script to add a `hidden_content` column to the `products` table in the database. This column will be used to store additional information about the products that should not be displayed publicly.
 
-## Подробнее
+## Details
 
-Этот скрипт миграции используется для изменения структуры базы данных, добавляя новый столбец `hidden_content` в таблицу `products`. Этот столбец предназначен для хранения скрытого контента, связанного с товарами. Скрипт также содержит функцию для отката изменений, удаляющую добавленный столбец.
+This migration script is responsible for updating the database schema to include the new `hidden_content` column. It ensures that the database structure remains consistent with the application's evolving requirements.
 
-## Функции
+## Functions
 
-### `upgrade`
+### `upgrade()`
 
-**Назначение**: Выполняет обновление базы данных, добавляя столбец `hidden_content` в таблицу `products`.
+**Purpose**: Adds a new `hidden_content` column to the `products` table in the database.
 
-```python
-def upgrade() -> None:
-    """
-    Выполняет обновление базы данных, добавляя столбец `hidden_content` в таблицу `products`.
+**Parameters**: None
 
-    Raises:
-        Exception: Если возникает ошибка при добавлении столбца.
-    """
-```
+**Returns**: None
 
-**Как работает функция**:
+**Raises Exceptions**: None
 
-- Функция `upgrade` использует `op.add_column` для добавления нового столбца с именем `hidden_content` в таблицу `products`.
-- Тип данных для нового столбца установлен как `sa.Text()`, что позволяет хранить большие объемы текстовых данных.
-- `nullable=False` означает, что столбец не может содержать `NULL` значения.
+**How the Function Works**:
 
-**Примеры**:
+- The function adds a new column named `hidden_content` to the `products` table. 
+- The column is defined as a `Text` data type, which means it can store long strings of text.
+- The column is set as `nullable=False`, indicating that it is required for all product records.
 
-```python
-upgrade()
-```
+**Examples**:
 
-### `downgrade`
+- Executing the `upgrade()` function will add the `hidden_content` column to the `products` table.
 
-**Назначение**: Выполняет откат обновления базы данных, удаляя столбец `hidden_content` из таблицы `products`.
+### `downgrade()`
 
-```python
-def downgrade() -> None:
-    """
-    Выполняет откат обновления базы данных, удаляя столбец `hidden_content` из таблицы `products`.
+**Purpose**: Removes the `hidden_content` column from the `products` table in the database.
 
-    Raises:
-        Exception: Если возникает ошибка при удалении столбца.
-    """
-```
+**Parameters**: None
 
-**Как работает функция**:
+**Returns**: None
 
-- Функция `downgrade` использует `op.drop_column` для удаления столбца `hidden_content` из таблицы `products`.
+**Raises Exceptions**: None
 
-**Примеры**:
+**How the Function Works**:
 
-```python
-downgrade()
-```
+- The function drops the `hidden_content` column from the `products` table.
+
+**Examples**:
+
+- Executing the `downgrade()` function will remove the `hidden_content` column from the `products` table.
+
+## Parameter Details
+
+- `hidden_content` (sa.Text): This column is defined as a `Text` data type, which means it can store long strings of text.
+
+## Examples
+
+- Executing the `upgrade()` function will add the `hidden_content` column to the `products` table, making it possible to store additional information about products that should not be displayed publicly.
+- Executing the `downgrade()` function will remove the `hidden_content` column, effectively reverting the database schema to its previous state.

@@ -1,175 +1,142 @@
-# Модуль `You.py`
+# You.com Provider
 
-## Обзор
+## Overview
 
-Модуль `You.py` предназначен для взаимодействия с сервисом You.com. Он предоставляет асинхронный генератор для обработки текстовых и визуальных запросов с использованием различных моделей, включая `gpt-4o-mini`, `dall-e` и другие. Модуль поддерживает потоковую передачу данных, загрузку изображений и управление cookie для обеспечения стабильной работы с API You.com.
+This module implements the `You` class, a provider for interacting with the You.com API. It allows users to send messages to various AI models available on the platform and receive responses. The `You` class handles model selection, prompt formatting, and communication with the API.
 
-## Детали
+## Details
 
-Модуль содержит класс `You`, который наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`. Он обеспечивает асинхронную генерацию ответов на основе предоставленных сообщений и моделей. Класс также поддерживает загрузку изображений и управление cookie для взаимодействия с API You.com.
+The `You` class utilizes the `StreamSession` from `src.requests` to establish a persistent connection with the You.com API. This class also implements the `AsyncGeneratorProvider` and `ProviderModelMixin` interfaces, providing support for asynchronous generation and model management.
 
-## Классы
+### Classes
 
-### `You`
+#### `class You(AsyncGeneratorProvider, ProviderModelMixin)`
 
-**Описание**: Класс для взаимодействия с сервисом You.com.
+**Description**: The `You` class provides methods for interacting with the You.com API. It inherits from `AsyncGeneratorProvider` and `ProviderModelMixin`, enabling asynchronous generation of responses and model selection.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
-- `ProviderModelMixin`: Предоставляет функциональность для работы с моделями.
+**Inherits**:
+ - `AsyncGeneratorProvider`: Handles asynchronous generation of responses.
+ - `ProviderModelMixin`: Manages and selects AI models for communication.
 
-**Атрибуты**:
-- `label` (str): Метка провайдера ("You.com").
-- `url` (str): URL сервиса You.com ("https://you.com").
-- `working` (bool): Флаг, указывающий на работоспособность провайдера (True).
-- `default_model` (str): Модель, используемая по умолчанию ("gpt-4o-mini").
-- `default_vision_model` (str): Модель для обработки изображений по умолчанию ("agent").
-- `image_models` (List[str]): Список поддерживаемых моделей для работы с изображениями (["dall-e"]).
-- `models` (List[str]): Список всех поддерживаемых моделей.
-- `_cookies` (Optional[Cookies]): Cookie для работы с сервисом.
-- `_cookies_used` (int): Счетчик использованных cookie.
-- `_telemetry_ids` (List[Any]): Список идентификаторов телеметрии.
+**Attributes**:
+ - `label` (str): The name of the provider, "You.com".
+ - `url` (str): The base URL for the You.com API.
+ - `working` (bool): Indicates if the provider is functional.
+ - `default_model` (str): The default model for text-based communication.
+ - `default_vision_model` (str): The default model for image-related tasks.
+ - `image_models` (list): A list of models supporting image generation.
+ - `models` (list): A list of all available models on the You.com platform.
+ - `_cookies` (Cookies): A dictionary containing cookies for the API.
+ - `_cookies_used` (int): Tracks the number of times cookies have been used.
+ - `_telemetry_ids` (list): Stores telemetry identifiers.
 
-**Принцип работы**:
-Класс `You` предоставляет интерфейс для отправки запросов к сервису You.com и получения ответов в асинхронном режиме. Он поддерживает различные режимы работы, включая текстовые запросы, запросы с изображениями и генерацию изображений. Класс также управляет cookie для обеспечения стабильного соединения с сервисом.
+**Methods**:
+ - `create_async_generator(model: str, messages: Messages, stream: bool = True, image: ImageType = None, image_name: str = None, proxy: str = None, timeout: int = 240, chat_mode: str = "default", cookies: Cookies = None, **kwargs) -> AsyncResult`: Asynchronously sends messages to the You.com API and returns a generator for retrieving responses.
+ - `upload_file(client: StreamSession, cookies: Cookies, file: bytes, filename: str = None) -> dict`: Uploads an image file to the You.com API and returns information about the upload.
 
-**Методы**:
-- `create_async_generator`: Создает асинхронный генератор для получения ответов от сервиса You.com.
-- `upload_file`: Загружает файл на сервис You.com.
+**Principle of Operation**: 
+ - The `You` class utilizes the `StreamSession` to establish a connection with the You.com API, enabling streaming responses.
+ - The `create_async_generator` method takes input messages, an optional image, and a desired model, formats the prompt, and sends it to the API.
+ - The `upload_file` method uploads an image file to the API, retrieving details about the upload for use in prompt formatting.
+ - The `get_model` method dynamically retrieves available models from the You.com API based on the user's preferences.
 
-## Методы класса
-
-### `create_async_generator`
+**Examples**:
 
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    stream: bool = True,
-    image: ImageType = None,
-    image_name: str = None,
-    proxy: str = None,
-    timeout: int = 240,
-    chat_mode: str = "default",
-    cookies: Cookies = None,
-    **kwargs,
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для получения ответов от сервиса You.com.
+# Creating a You provider instance
+you_provider = You()
 
-    Args:
-        cls (You): Класс `You`.
-        model (str): Используемая модель.
-        messages (Messages): Список сообщений для отправки.
-        stream (bool): Флаг для потоковой передачи данных (по умолчанию True).
-        image (ImageType): Изображение для отправки (по умолчанию None).
-        image_name (str): Имя файла изображения (по умолчанию None).
-        proxy (str): Прокси-сервер для использования (по умолчанию None).
-        timeout (int): Время ожидания ответа в секундах (по умолчанию 240).
-        chat_mode (str): Режим чата ("default", "agent", "create", "custom").
-        cookies (Cookies): Cookie для использования (по умолчанию None).
-        **kwargs: Дополнительные аргументы.
+# Sending a message using the default model
+messages = [
+    {"role": "user", "content": "Hello, how are you?"}
+]
+async_result = await you_provider.create_async_generator(messages=messages)
 
-    Returns:
-        AsyncResult: Асинхронный генератор, возвращающий ответы от сервиса You.com.
-
-    Raises:
-        MissingRequirementsError: Если отсутствуют необходимые cookie и не удается получить их автоматически.
-        ResponseError: Если получен ответ с ошибкой от сервиса You.com.
-
-    Как работает функция:
-    - Определяет режим чата в зависимости от наличия изображения и выбранной модели.
-    - Получает cookie, если они не предоставлены и режим чата не "default".
-    - Создает сессию с использованием `StreamSession` для асинхронного взаимодействия с сервисом.
-    - Загружает изображение, если оно предоставлено.
-    - Формирует заголовки и данные для запроса.
-    - Отправляет запрос к API `streamingSearch` и обрабатывает ответы, возвращая их через генератор.
-    """
-    ...
+# Iterating through the response
+async for response in async_result:
+    print(response)
 ```
 
-### `upload_file`
+### Methods
+
+#### `create_async_generator(model: str, messages: Messages, stream: bool = True, image: ImageType = None, image_name: str = None, proxy: str = None, timeout: int = 240, chat_mode: str = "default", cookies: Cookies = None, **kwargs) -> AsyncResult`
+
+**Purpose**: Asynchronously sends messages to the You.com API and returns a generator for receiving responses.
+
+**Parameters**:
+ - `model` (str): The AI model to use for communication.
+ - `messages` (Messages): A list of messages containing user input and previous responses.
+ - `stream` (bool, optional): Indicates if responses should be streamed. Defaults to `True`.
+ - `image` (ImageType, optional): An image to be processed by the model. Defaults to `None`.
+ - `image_name` (str, optional): The name of the image file. Defaults to `None`.
+ - `proxy` (str, optional): A proxy server address for connecting to the API. Defaults to `None`.
+ - `timeout` (int, optional): The maximum timeout in seconds for connecting to the API. Defaults to `240`.
+ - `chat_mode` (str, optional): Specifies the chat mode for interaction with the model. Defaults to "default".
+ - `cookies` (Cookies, optional): A dictionary of cookies for authenticating with the You.com API. Defaults to `None`.
+
+**Returns**:
+ - `AsyncResult`: An asynchronous result that represents the ongoing communication with the You.com API.
+
+**Raises Exceptions**:
+ - `ResponseError`: If the API returns an error response.
+
+**How the Function Works**: 
+ - The function first determines the chat mode based on the provided model and image.
+ - It retrieves cookies if they are not provided, attempting to load them from a local file or retrieving them from the browser.
+ - It uploads the image file to the You.com API if provided.
+ - It constructs the request data, including the formatted prompt, chat mode, and model.
+ - It initiates a GET request to the You.com API with the prepared data.
+ - It iterates through the streaming response, extracting event and data components.
+ - It handles error events and yields responses, including text, image previews, and image data.
+
+**Examples**:
 
 ```python
-@classmethod
-async def upload_file(cls, client: StreamSession, cookies: Cookies, file: bytes, filename: str = None) -> dict:
-    """
-    Загружает файл на сервис You.com.
+# Sending a message using the default model
+messages = [
+    {"role": "user", "content": "Hello, how are you?"}
+]
+async_result = await you_provider.create_async_generator(messages=messages)
 
-    Args:
-        cls (You): Класс `You`.
-        client (StreamSession): Асинхронная сессия для отправки запросов.
-        cookies (Cookies): Cookie для использования.
-        file (bytes): Файл для загрузки в виде байтов.
-        filename (str): Имя файла (по умолчанию None).
+# Sending a message with an image
+image_path = "path/to/image.jpg"
+image = ImageType(path=image_path, content_type="image/jpeg")
+async_result = await you_provider.create_async_generator(messages=messages, image=image)
 
-    Returns:
-        dict: Словарь с результатами загрузки файла.
-
-    Raises:
-        ResponseError: Если получен ответ с ошибкой от сервиса You.com.
-
-    Как работает функция:
-    - Получает nonce для загрузки файла.
-    - Формирует данные формы для загрузки файла.
-    - Отправляет POST-запрос к API `upload` с файлом и заголовками.
-    - Обрабатывает ответ и возвращает результаты.
-    """
-    ...
+# Sending a message using a specific model
+async_result = await you_provider.create_async_generator(messages=messages, model="gpt-4o")
 ```
 
-## Параметры класса
+#### `upload_file(client: StreamSession, cookies: Cookies, file: bytes, filename: str = None) -> dict`
 
-- `label` (str): Метка провайдера ("You.com").
-- `url` (str): URL сервиса You.com ("https://you.com").
-- `working` (bool): Флаг, указывающий на работоспособность провайдера (True).
-- `default_model` (str): Модель, используемая по умолчанию ("gpt-4o-mini").
-- `default_vision_model` (str): Модель для обработки изображений по умолчанию ("agent").
-- `image_models` (List[str]): Список поддерживаемых моделей для работы с изображениями (["dall-e"]).
-- `models` (List[str]): Список всех поддерживаемых моделей.
-- `_cookies` (Optional[Cookies]): Cookie для работы с сервисом.
-- `_cookies_used` (int): Счетчик использованных cookie.
-- `_telemetry_ids` (List[Any]): Список идентификаторов телеметрии.
+**Purpose**: Uploads an image file to the You.com API and retrieves information about the upload.
 
-## Примеры
+**Parameters**:
+ - `client` (StreamSession): The HTTP client for connecting to the API.
+ - `cookies` (Cookies): A dictionary of cookies for authentication.
+ - `file` (bytes): The image file data.
+ - `filename` (str, optional): The name of the image file. Defaults to `None`.
 
-Пример использования класса `You` для создания асинхронного генератора:
+**Returns**:
+ - `dict`: A dictionary containing information about the uploaded file, including its name, size, and unique identifier.
 
-```python
-from src.endpoints.gpt4free.g4f.Provider.You import You
-from src.endpoints.gpt4free.g4f.typing import Messages
+**Raises Exceptions**:
+ - `ResponseError`: If the API returns an error response.
 
-messages: Messages = [{"role": "user", "content": "Hello, world!"}]
-model = "gpt-4o-mini"
+**How the Function Works**:
+ - The function retrieves a nonce value from the You.com API for secure file upload.
+ - It creates a FormData object and adds the image file data.
+ - It sends a POST request to the upload endpoint, providing the nonce, cookies, and file data.
+ - It retrieves the response from the API and parses it as JSON data.
+ - It returns a dictionary containing information about the uploaded file.
 
-async def main():
-    generator = await You.create_async_generator(model=model, messages=messages)
-    async for message in generator:
-        print(message)
-
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
-```
-
-Пример загрузки изображения с использованием класса `You`:
+**Examples**:
 
 ```python
-from src.endpoints.gpt4free.g4f.Provider.You import You
-from src.endpoints.gpt4free.g4f.requests import StreamSession
-from src.endpoints.gpt4free.g4f.typing import Cookies
-
-async def main():
-    client = StreamSession()
-    cookies: Cookies = {}
-    file = b"example image data"
-    filename = "image.jpg"
-    result = await You.upload_file(client=client, cookies=cookies, file=file, filename=filename)
-    print(result)
-
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+# Uploading an image
+image_path = "path/to/image.jpg"
+with open(image_path, "rb") as f:
+    image_data = f.read()
+upload_info = await you_provider.upload_file(client, cookies, image_data)
+print(upload_info)
 ```

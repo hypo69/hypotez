@@ -1,107 +1,116 @@
-# Модуль `FreeNetfly`
+# FreeNetfly Provider Module
 
-## Обзор
+## Overview
 
-Модуль `FreeNetfly` предоставляет асинхронный генератор для взаимодействия с API `free.netfly.top`. Он позволяет получать ответы от моделей, таких как `gpt-3.5-turbo` и `gpt-4`, используя асинхронные запросы. Модуль поддерживает прокси и автоматические повторные попытки при сбоях соединения.
+This module provides the `FreeNetfly` class, an asynchronous generator provider that interacts with the FreeNetfly API for GPT-based text generation. It offers access to various GPT models, including `gpt-3.5-turbo` and `gpt-4`, allowing for text completion and conversational interactions. 
 
-## Более подробно
+## Details
 
-Этот модуль предназначен для интеграции с другими частями проекта `hypotez`, где требуется взаимодействие с API `free.netfly.top`. Он обеспечивает надежный способ отправки запросов и обработки ответов в асинхронном режиме.
+This provider is built to handle asynchronous requests to the FreeNetfly API for generating text using GPT models. It implements a retry mechanism with exponential backoff to improve robustness and resilience in case of network errors or API issues.
 
-## Классы
+## Classes
 
-### `FreeNetfly`
+### `class FreeNetfly`
 
-**Описание**:
-Класс `FreeNetfly` является подклассом `AsyncGeneratorProvider` и `ProviderModelMixin` и предоставляет функциональность для взаимодействия с API `free.netfly.top`.
+**Description:** This class represents a provider that communicates with the FreeNetfly API to utilize GPT models for text generation. It inherits from `AsyncGeneratorProvider` and `ProviderModelMixin`, enabling it to generate text asynchronously and manage model selection.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает базовую структуру для асинхронных генераторов.
-- `ProviderModelMixin`: Предоставляет методы для работы с моделями.
+**Inherits:**
+    - `AsyncGeneratorProvider`: Implements asynchronous text generation capabilities.
+    - `ProviderModelMixin`: Provides functionality for model selection and management.
 
-**Атрибуты**:
-- `url` (str): URL API `free.netfly.top`.
-- `api_endpoint` (str): Endpoint API для запросов completions.
-- `working` (bool): Указывает, работает ли провайдер.
-- `default_model` (str): Модель, используемая по умолчанию (`gpt-3.5-turbo`).
-- `models` (List[str]): Список поддерживаемых моделей (`gpt-3.5-turbo`, `gpt-4`).
+**Attributes:**
+    - `url (str)`: The base URL of the FreeNetfly API.
+    - `api_endpoint (str)`: The specific endpoint within the API for chat completion requests.
+    - `working (bool)`: A flag indicating whether the provider is currently operational (not implemented in this example).
+    - `default_model (str)`: The default GPT model to use.
+    - `models (list[str])`: A list of supported GPT models.
 
-**Принцип работы**:
-Класс использует `aiohttp` для асинхронных HTTP-запросов. Он отправляет сообщения пользователя к API `free.netfly.top` и возвращает ответы в виде асинхронного генератора. В случае ошибок соединения, он автоматически повторяет попытки запроса с экспоненциальным увеличением задержки.
+**Methods:**
 
-### Методы класса
+#### `create_async_generator`
 
-- `create_async_generator`
-- `_process_response`
+**Purpose:** Asynchronously generates text using the specified GPT model and messages.
 
-## Методы класса
+**Parameters:**
+    - `model (str)`: The GPT model to use for text generation.
+    - `messages (Messages)`: A list of messages for the conversation.
+    - `proxy (str, optional)`: A proxy server to use for the request. Defaults to `None`.
+    - `**kwargs`: Additional keyword arguments for the API request.
 
-### `create_async_generator`
+**Returns:**
+    - `AsyncResult`: An asynchronous result object containing the generated text.
+
+**Raises Exceptions:**
+    - `ClientError`: If an error occurs during the HTTP request.
+    - `asyncio.TimeoutError`: If the request times out.
+
+**How the Function Works:**
+    - The function sets up headers for the API request, including necessary information like Accept, Content-Type, Origin, and User-Agent.
+    - It creates a JSON payload containing the `messages`, `model`, and other parameters for the GPT request.
+    - It implements a retry loop with exponential backoff to handle potential errors during the API call.
+    - The loop retries the request up to a specified number of times, increasing the delay between attempts exponentially.
+    - The function uses `ClientSession` to make the POST request to the FreeNetfly API.
+    - The response is then processed using the `_process_response` method, which parses the streamed data and yields individual text chunks.
+
+#### `_process_response`
+
+**Purpose:** Processes the streamed response from the FreeNetfly API to extract generated text.
+
+**Parameters:**
+    - `response`: The response object from the API request.
+
+**Returns:**
+    - `AsyncGenerator[str, None]`: An asynchronous generator yielding text chunks from the response.
+
+**How the Function Works:**
+    - The function iterates over lines from the response content, decoding them into UTF-8 strings.
+    - It buffers the data and checks for a specific pattern to identify complete text chunks.
+    - When a complete chunk is found, the function extracts the relevant content from the JSON data and yields it.
+    - The process continues until the end of the stream is reached, handling any remaining data in the buffer.
+
+## Examples
 
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    **kwargs
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для получения ответов от API `free.netfly.top`.
+# Creating a FreeNetfly provider instance
+provider = FreeNetfly()
 
-    Args:
-        model (str): Название модели для использования (`gpt-3.5-turbo`, `gpt-4`).
-        messages (Messages): Список сообщений для отправки в API.
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-        **kwargs: Дополнительные параметры.
+# Defining messages for the conversation
+messages = [
+    {"role": "user", "content": "Hello, how are you?"},
+]
 
-    Returns:
-        AsyncResult: Асинхронный генератор, возвращающий ответы от API.
+# Generating text using the default model
+async def generate_text():
+    async for chunk in provider.create_async_generator(model=provider.default_model, messages=messages):
+        print(chunk, end="")
 
-    Raises:
-        ClientError: Если возникает ошибка при выполнении HTTP-запроса.
-        asyncio.TimeoutError: Если время ожидания запроса истекает.
-
-    Как работает функция:
-    - Функция формирует заголовки и данные для POST-запроса к API `free.netfly.top`.
-    - Использует `aiohttp.ClientSession` для отправки асинхронного запроса.
-    - В случае ошибки соединения, функция повторяет попытки запроса до `max_retries` раз с экспоненциальным увеличением задержки.
-    - Обрабатывает ответ с помощью `_process_response` и возвращает асинхронный генератор.
-
-    Примеры:
-        Пример вызова функции:
-        >>> model = 'gpt-3.5-turbo'
-        >>> messages = [{'role': 'user', 'content': 'Hello, world!'}]
-        >>> async for chunk in FreeNetfly.create_async_generator(model=model, messages=messages):
-        ...     print(chunk, end='')
-    """
+# Running the asynchronous task
+asyncio.run(generate_text())
 ```
 
-### `_process_response`
+## Parameter Details
+
+### `model` (str)
+
+The GPT model to use for text generation. Supported models include `gpt-3.5-turbo` and `gpt-4`.
+
+### `messages` (Messages)
+
+A list of messages for the conversation. Each message should be a dictionary with `role` (e.g., "user", "system") and `content` keys.
+
+### `proxy` (str, optional)
+
+A proxy server to use for the API request. Defaults to `None`.
+
+### `**kwargs`
+
+Additional keyword arguments for the API request, such as `temperature`, `presence_penalty`, and `frequency_penalty`.
 
 ```python
-@classmethod
-async def _process_response(cls, response) -> AsyncGenerator[str, None]:
-    """
-    Обрабатывает ответ от API, извлекая содержимое из JSON-формата.
+# Example with custom model and proxy
+async def generate_text():
+    async for chunk in provider.create_async_generator(model='gpt-4', messages=messages, proxy='http://myproxy:8080'):
+        print(chunk, end="")
 
-    Args:
-        response: Объект ответа `aiohttp.ClientResponse`.
-
-    Yields:
-        str: Части содержимого ответа.
-
-    Как работает функция:
-    - Функция читает ответ построчно, накапливая данные в буфере.
-    - Разбивает буфер на подстроки, разделенные `\\n`.
-    - Извлекает JSON из строк, начинающихся с `data: `.
-    - Извлекает содержимое из поля `content` в структуре JSON.
-    - Возвращает содержимое в виде асинхронного генератора.
-
-    Примеры:
-        Пример использования (внутри `create_async_generator`):
-        >>> async with session.post(f"{cls.url}{cls.api_endpoint}", json=data, proxy=proxy, timeout=timeout) as response:
-        ...     async for chunk in cls._process_response(response):
-        ...         yield chunk
-    """
+asyncio.run(generate_text())
+```

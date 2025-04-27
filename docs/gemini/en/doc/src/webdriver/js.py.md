@@ -1,140 +1,182 @@
-# Модуль `js`
+# Модуль `src.webdriver.js`
 
 ## Обзор
 
-Модуль `js` предоставляет утилиты на JavaScript для взаимодействия с веб-страницей. Он предназначен для расширения возможностей Selenium WebDriver путем добавления общих функций на основе JavaScript для взаимодействия с веб-страницами, включая манипуляции с видимостью, получение информации о странице и управление фокусом браузера.
+Этот модуль разработан для расширения функциональных возможностей Selenium WebDriver, добавляя общие JavaScript-функции для взаимодействия с веб-страницами, такие как управление видимостью элементов, получение информации о странице и управление фокусом браузера.
 
-## Подробнее
+## Детали
 
-Этот модуль предназначен для расширения возможностей Selenium WebDriver путем добавления общих функций на основе JavaScript для взаимодействия с веб-страницами, включая манипуляции с видимостью, получение информации о странице и управление фокусом браузера.
+Модуль `src.webdriver.js` предоставляет набор полезных JavaScript-функций, которые могут быть использованы для взаимодействия с веб-страницами в Selenium WebDriver. 
+
+Этот модуль используется для:
+
+- **Управление видимостью элементов:** Функция `unhide_DOM_element` делает невидимые элементы DOM видимыми, изменяя их стили, что позволяет взаимодействовать с ними.
+- **Получение информации о странице:** Функции `ready_state`, `get_referrer` и `get_page_lang` используются для извлечения информации о состоянии загрузки документа, ссылочном URL и языке страницы соответственно.
+- **Управление фокусом браузера:** Функция `window_focus` переносит фокус на окно браузера, чтобы переместить внимание пользователя на активное окно.
 
 ## Классы
 
 ### `JavaScript`
 
-**Описание**: Предоставляет утилиты JavaScript для взаимодействия с веб-страницей.
+**Описание**: Класс, предоставляющий набор JavaScript-функций для взаимодействия с веб-страницами.
 
-**Атрибуты**:
-- `driver` (WebDriver): Экземпляр Selenium WebDriver для выполнения JavaScript.
+**Inherits**: 
 
-**Методы**:
-- `unhide_DOM_element(element: WebElement) -> bool`: Делает невидимый DOM-элемент видимым, изменяя его свойства стиля.
-- `ready_state() -> str`: Возвращает статус загрузки документа.
-- `window_focus() -> None`: Устанавливает фокус на окно браузера, используя JavaScript.
-- `get_referrer() -> str`: Возвращает URL-адрес реферера текущего документа.
-- `get_page_lang() -> str`: Возвращает язык текущей страницы.
+**Attributes**:
+- `driver` (WebDriver): Экземпляр WebDriver для выполнения JavaScript-кода.
 
-## Методы класса
+**Methods**:
 
-### `__init__`
+#### `__init__(self, driver: WebDriver)`
 
-```python
-def __init__(self, driver: WebDriver):
-    """
-    Инициализирует помощника JavaScript с экземпляром Selenium WebDriver.
+**Purpose**: Инициализирует объект `JavaScript` с экземпляром Selenium WebDriver.
 
-    Args:
-        driver (WebDriver): Экземпляр Selenium WebDriver для выполнения JavaScript.
-    """
-```
+**Parameters**:
+- `driver` (WebDriver): Экземпляр WebDriver, который будет использоваться для выполнения JavaScript-кода.
 
-### `unhide_DOM_element`
+#### `unhide_DOM_element(self, element: WebElement) -> bool`
 
-```python
-def unhide_DOM_element(self, element: WebElement) -> bool:
-    """
-    Делает невидимый DOM-элемент видимым, изменяя его свойства стиля.
+**Purpose**: Делает невидимый элемент DOM видимым, изменяя его стили.
 
-    Args:
-        element (WebElement): Объект WebElement, который нужно сделать видимым.
+**Parameters**:
+- `element` (WebElement): Элемент WebElement, который нужно сделать видимым.
 
-    Returns:
-        bool: True, если скрипт выполнен успешно, False в противном случае.
-    """
-```
+**Returns**:
+- `bool`: `True` если скрипт успешно выполнился, `False` в противном случае.
 
-### `ready_state`
+**How the Function Works**:
+
+1. Функция определяет JavaScript-код, который изменяет стили элемента (opacity, transform, scale) и скроллит его в видимую область. 
+2. Затем код выполняется с помощью метода `driver.execute_script`.
+3. Если скрипт выполнился успешно, функция возвращает `True`, в противном случае - `False`.
+
+**Examples**:
 
 ```python
-@property
-def ready_state(self) -> str:
-    """
-    Возвращает статус загрузки документа.
-
-    Returns:
-        str: 'loading', если документ все еще загружается, 'complete', если загрузка завершена.
-    """
-```
-
-### `window_focus`
-
-```python
-def window_focus(self) -> None:
-    """
-    Устанавливает фокус на окно браузера, используя JavaScript.
-
-    Попытки вывода окна браузера на передний план.
-    """
-```
-
-### `get_referrer`
-
-```python
-def get_referrer(self) -> str:
-    """
-    Возвращает URL-адрес реферера текущего документа.
-
-    Returns:
-        str: URL-адрес реферера или пустая строка, если он недоступен.
-    """
-```
-
-### `get_page_lang`
-
-```python
-def get_page_lang(self) -> str:
-    """
-    Возвращает язык текущей страницы.
-
-    Returns:
-        str: Код языка страницы или пустая строка, если он недоступен.
-    """
-```
-
-## Примеры
-
-```python
-from selenium import webdriver
 from src.webdriver.js import JavaScript
+from selenium import webdriver
 
-# Создание экземпляра драйвера (пример с Chrome)
-driver = webdriver.Chrome()
-driver.get("https://example.com")
+driver = webdriver.Chrome()  # или другой браузер
+js = JavaScript(driver)
 
-# Создание экземпляра JavaScript
-js_utils = JavaScript(driver)
+# Найдем скрытый элемент на странице
+element = driver.find_element_by_xpath("//div[@class='hidden-element']")
 
-# Пример использования unhide_DOM_element
-element = driver.find_element_by_id("hidden_element")
-if js_utils.unhide_DOM_element(element):
-    print("Элемент успешно отображен")
-else:
-    print("Не удалось отобразить элемент")
+# Сделаем элемент видимым
+success = js.unhide_DOM_element(element)
+```
 
-# Пример использования ready_state
-ready_state = js_utils.ready_state
-print(f"Статус загрузки документа: {ready_state}")
+#### `ready_state(self) -> str`
 
-# Пример использования window_focus
-js_utils.window_focus()
-print("Фокус установлен на окно браузера")
+**Purpose**: Возвращает статус загрузки документа.
 
-# Пример использования get_referrer
-referrer = js_utils.get_referrer()
-print(f"URL-адрес реферера: {referrer}")
+**Returns**:
+- `str`: 'loading' если документ все еще загружается, 'complete' если загрузка завершена.
 
-# Пример использования get_page_lang
-page_lang = js_utils.get_page_lang()
-print(f"Язык страницы: {page_lang}")
+**How the Function Works**:
 
-driver.quit()
+1. Функция выполняет JavaScript-код, который возвращает значение свойства `document.readyState`.
+2. Возвращает строку 'loading', если документ все еще загружается, или 'complete' если загрузка завершена.
+
+**Examples**:
+
+```python
+from src.webdriver.js import JavaScript
+from selenium import webdriver
+
+driver = webdriver.Chrome()  # или другой браузер
+js = JavaScript(driver)
+
+# Получим статус загрузки документа
+ready_state = js.ready_state
+```
+
+#### `window_focus(self) -> None`
+
+**Purpose**: Переносит фокус на окно браузера.
+
+**Parameters**: 
+- Нет
+
+**Returns**: 
+- Нет
+
+**How the Function Works**:
+
+1. Функция выполняет JavaScript-код `window.focus()`, который переводит фокус на текущее окно браузера.
+
+**Examples**:
+
+```python
+from src.webdriver.js import JavaScript
+from selenium import webdriver
+
+driver = webdriver.Chrome()  # или другой браузер
+js = JavaScript(driver)
+
+# Переведем фокус на окно браузера
+js.window_focus()
+```
+
+#### `get_referrer(self) -> str`
+
+**Purpose**: Возвращает URL-адрес ссылки на текущий документ.
+
+**Returns**:
+- `str`: URL-адрес ссылки, или пустая строка, если он недоступен.
+
+**How the Function Works**:
+
+1. Функция выполняет JavaScript-код, который возвращает значение свойства `document.referrer`.
+2. Возвращает URL-адрес ссылки, или пустую строку, если он недоступен.
+
+**Examples**:
+
+```python
+from src.webdriver.js import JavaScript
+from selenium import webdriver
+
+driver = webdriver.Chrome()  # или другой браузер
+js = JavaScript(driver)
+
+# Получим URL-адрес ссылки
+referrer_url = js.get_referrer()
+```
+
+#### `get_page_lang(self) -> str`
+
+**Purpose**: Возвращает язык текущей страницы.
+
+**Returns**:
+- `str`: Код языка страницы, или пустая строка, если он недоступен.
+
+**How the Function Works**:
+
+1. Функция выполняет JavaScript-код, который возвращает значение свойства `document.documentElement.lang`.
+2. Возвращает код языка страницы, или пустую строку, если он недоступен.
+
+**Examples**:
+
+```python
+from src.webdriver.js import JavaScript
+from selenium import webdriver
+
+driver = webdriver.Chrome()  # или другой браузер
+js = JavaScript(driver)
+
+# Получим код языка страницы
+page_lang = js.get_page_lang()
+```
+
+## Inner Functions:
+
+- Нет внутренних функций.
+
+## Parameter Details:
+
+- `driver` (WebDriver): Экземпляр Selenium WebDriver, используемый для выполнения JavaScript-кода.
+- `element` (WebElement): Элемент WebElement, который нужно сделать видимым.
+
+## Examples:
+
+- См. примеры в описании каждой функции.

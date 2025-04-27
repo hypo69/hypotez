@@ -1,33 +1,34 @@
-# Модуль `Equing.py`
+# Equing Provider for GPT-4Free
 
-## Обзор
+## Overview
 
-Модуль предоставляет класс `Equing`, который является устаревшим провайдером для работы с API `next.eqing.tech`. Он позволяет создавать запросы на генерацию текста и получать ответы в потоковом или не потоковом режиме.
+This module defines the `Equing` class, a provider for GPT-4Free that utilizes the `https://next.eqing.tech/` API. 
 
-## Подробнее
+## Details
 
-Модуль `Equing.py` предназначен для взаимодействия с API `next.eqing.tech`. В настоящее время помечен как deprecated. Модуль поддерживает потоковую передачу данных и модель `gpt-3.5-turbo`, но не поддерживает `gpt-4`.
+The `Equing` class inherits from the `AbstractProvider` base class and provides a concrete implementation for generating completions using the Equing API. It supports streaming responses and allows you to configure various parameters like temperature, presence penalty, frequency penalty, and top_p.
 
-## Классы
+## Classes
 
-### `Equing`
+### `class Equing`
 
-**Описание**: Класс `Equing` предоставляет методы для взаимодействия с API `next.eqing.tech`. Он позволяет отправлять запросы на создание текста и получать результаты.
+**Description**: The Equing class implements a provider for GPT-4Free using the `https://next.eqing.tech/` API.
 
-**Наследует**:
-- `AbstractProvider`: Абстрактный базовый класс для провайдеров.
+**Inherits**: `AbstractProvider`
 
-**Атрибуты**:
-- `url` (str): URL API `next.eqing.tech`.
-- `working` (bool): Указывает, работает ли провайдер в данный момент.
-- `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу данных.
-- `supports_gpt_35_turbo` (bool): Указывает, поддерживает ли провайдер модель `gpt-3.5-turbo`.
-- `supports_gpt_4` (bool): Указывает, поддерживает ли провайдер модель `gpt-4`.
+**Attributes**:
 
-**Принцип работы**:
-Класс `Equing` использует библиотеку `requests` для отправки HTTP-запросов к API `next.eqing.tech`. Метод `create_completion` формирует запрос с необходимыми заголовками и данными, а затем отправляет его на сервер. Полученный ответ обрабатывается в зависимости от того, включен ли режим потоковой передачи данных.
+- `url` (str): The base URL of the Equing API.
+- `working` (bool): Flag indicating if the provider is currently working.
+- `supports_stream` (bool): True, as the provider supports streaming responses.
+- `supports_gpt_35_turbo` (bool): True, as the provider supports the gpt-3.5-turbo model.
+- `supports_gpt_4` (bool): False, as the provider does not support the gpt-4 model.
 
-## Методы класса
+**Methods**:
+
+- `create_completion(model: str, messages: list[dict[str, str]], stream: bool, **kwargs: Any) -> CreateResult`: Generates a completion response using the Equing API. 
+
+## Class Methods
 
 ### `create_completion`
 
@@ -38,58 +39,68 @@
         model: str,
         messages: list[dict[str, str]],
         stream: bool, **kwargs: Any) -> CreateResult:
-        """
-        Функция отправляет запрос к API `next.eqing.tech` для создания текста.
-
+        """ Функция генерирует ответ от Equing API.
         Args:
-            model (str): Идентификатор модели, используемой для генерации текста.
-            messages (list[dict[str, str]]): Список сообщений, представляющих контекст для генерации текста.
-            stream (bool): Указывает, следует ли использовать потоковый режим передачи данных.
-            **kwargs (Any): Дополнительные параметры запроса.
+            model (str): Имя модели (например, "gpt-3.5-turbo").
+            messages (list[dict[str, str]]): Список сообщений для передачи модели.
+            stream (bool): Флаг, указывающий на то, следует ли использовать потоковую передачу.
+            **kwargs (Any): Дополнительные аргументы для настройки модели.
 
         Returns:
-            CreateResult: Результат создания текста.
+            CreateResult: Результат создания текста, который может быть строкой, потоком или None.
 
-        Как работает функция:
-        - Функция формирует заголовки HTTP-запроса.
-        - Функция формирует тело запроса в формате JSON.
-        - Функция отправляет POST-запрос к API `next.eqing.tech`.
-        - Если `stream` равен `False`, функция возвращает сгенерированный текст из JSON-ответа.
-        - Если `stream` равен `True`, функция итерируется по содержимому ответа и извлекает токены из JSON-строк.
-        - Функция возвращает токены сгенерированного текста.
+        Raises:
+            Exception: В случае ошибки при получении ответа от API.
+
+        Example:
+            >>> from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated import Equing
+            >>> from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.base_provider import AbstractProvider
+            >>> provider = Equing()
+            >>> messages = [
+            ...     {"role": "user", "content": "Привет, как дела?"},
+            ... ]
+            >>> response = provider.create_completion(model="gpt-3.5-turbo", messages=messages, stream=False)
+            >>> print(response)
+            Хорошо, спасибо! А как у тебя дела?
         """
-        ...
 ```
 
-**Параметры**:
-- `model` (str): Идентификатор модели, используемой для генерации текста.
-- `messages` (list[dict[str, str]]): Список сообщений, представляющих контекст для генерации текста.
-- `stream` (bool): Указывает, следует ли использовать потоковый режим передачи данных.
-- `**kwargs` (Any): Дополнительные параметры запроса.
+**Purpose**: This method is responsible for generating a completion response using the Equing API.
 
-**Примеры**:
+**Parameters**:
 
-Пример вызова функции `create_completion` в потоковом режиме:
+- `model` (str): The name of the model to use for generation (e.g., "gpt-3.5-turbo").
+- `messages` (list[dict[str, str]]): A list of messages to be passed to the model.
+- `stream` (bool): A flag indicating whether to use streaming or not.
+- `**kwargs` (Any): Additional arguments for configuring the model.
+
+**Returns**:
+
+- `CreateResult`: The result of the completion, which can be a string, a stream, or None.
+
+**Raises Exceptions**:
+
+- `Exception`: In case of errors while retrieving a response from the API.
+
+**How the Function Works**:
+
+1. Sets up the request headers with necessary information for interacting with the Equing API.
+2. Prepares JSON data for the request, including messages, model name, and additional parameters like temperature, presence penalty, frequency penalty, and top_p.
+3. Sends a POST request to the Equing API endpoint (`https://next.eqing.tech/api/openai/v1/chat/completions`) with the prepared JSON data.
+4. If streaming is not enabled, retrieves the response as JSON and returns the generated content.
+5. If streaming is enabled, iterates through the response content, processing each chunk and yielding the generated tokens as a stream.
+
+**Examples**:
 
 ```python
-model = "gpt-3.5-turbo"
-messages = [{"role": "user", "content": "Привет, как дела?"}]
-stream = True
-kwargs = {"temperature": 0.7}
-
-result = Equing.create_completion(model, messages, stream, **kwargs)
-for token in result:
-    print(token, end="")
+>>> from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated import Equing
+>>> from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.base_provider import AbstractProvider
+>>> provider = Equing()
+>>> messages = [
+...     {"role": "user", "content": "Привет, как дела?"},
+... ]
+>>> response = provider.create_completion(model="gpt-3.5-turbo", messages=messages, stream=False)
+>>> print(response)
+Хорошо, спасибо! А как у тебя дела?
 ```
-
-Пример вызова функции `create_completion` в не потоковом режиме:
-
-```python
-model = "gpt-3.5-turbo"
-messages = [{"role": "user", "content": "Привет, как дела?"}]
-stream = False
-kwargs = {"temperature": 0.7}
-
-result = Equing.create_completion(model, messages, stream, **kwargs)
-print(next(result))
-```
+```markdown

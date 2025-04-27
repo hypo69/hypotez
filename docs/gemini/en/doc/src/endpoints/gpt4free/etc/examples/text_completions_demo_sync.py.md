@@ -1,67 +1,50 @@
-# Документация для `text_completions_demo_sync.py`
+# Text Completions Demo (Sync)
 
-## Обзор
+## Overview
 
-Этот файл демонстрирует пример синхронного запроса к модели GPT-4o с использованием библиотеки `g4f`. Он показывает, как создать клиента, отправить запрос с системным и пользовательским сообщением, и напечатать полученный ответ.
+This file demonstrates a synchronous text completion request using the `gpt-4o` model from the `g4f` library. It showcases a basic interaction with the OpenAI API using the `Client` object and a sample conversation with a "helpful assistant" role.
 
-## Подробнее
+## Details
 
-Этот код используется для демонстрации базового функционала библиотеки `g4f` для отправки запросов к моделям GPT. Он показывает, как создать простой диалог с моделью и получить ответ.
+The code utilizes the `Client` class from the `g4f` library to interact with the OpenAI API. The `client.chat.completions.create()` function allows us to send a prompt (a list of messages) to the `gpt-4o` model. The `messages` list defines the conversation context, including a system message that sets the assistant's role as "helpful" and a user message containing the question. 
 
-## Функции
+The example then prints the content of the assistant's response.
 
-### `Client`
+## Classes 
 
-```python
-from g4f.client import Client
+### `Client` 
 
-client = Client()
-```
+**Description**: This class represents a client for interacting with the OpenAI API.
 
-**Описание**: Создает экземпляр класса `Client` из библиотеки `g4f`.
+**Attributes**: None
 
-### `chat.completions.create`
+**Methods**:
 
-```python
-response = client.chat.completions.create(
-    model="gpt-4o",
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "how does a court case get to the Supreme Court?"}
-    ],
-)
-```
+- `chat.completions.create()`: This method initiates a chat completion request to the OpenAI API.
 
-**Назначение**: Отправляет запрос к модели GPT-4o с заданными сообщениями.
+## Functions 
 
-**Параметры**:
-- `model` (str): Имя модели, используемой для генерации ответа. В данном случае "gpt-4o".
-- `messages` (List[dict]): Список сообщений, формирующих контекст диалога. Каждое сообщение содержит роль (`role`) и содержание (`content`).
+### `main` 
 
-**Возвращает**:
-- `response` (объект): Объект ответа, содержащий сгенерированный моделью текст.
+**Purpose**: The `main` function serves as the entry point for the script. It initiates a chat completion request and displays the assistant's response.
 
-**Как работает функция**:
-- Функция создает запрос к указанной модели (`gpt-4o`) с заданным списком сообщений.
-- Сообщения содержат системное сообщение, определяющее роль модели, и пользовательское сообщение с вопросом.
-- Функция отправляет запрос и получает ответ от модели.
+**Parameters**: None
 
-### `print`
+**Returns**: None
 
-```python
-print(response.choices[0].message.content)
-```
+**Raises Exceptions**: None
 
-**Назначение**: Выводит содержание ответа модели в консоль.
+**How the Function Works**: 
 
-**Параметры**:
-- `response.choices[0].message.content` (str): Текст ответа, сгенерированный моделью.
+- Initializes a `Client` object for interacting with the OpenAI API.
+- Sends a chat completion request to the `gpt-4o` model using the `client.chat.completions.create()` function.
+- The prompt consists of two messages:
+    - A system message defining the assistant's role as "helpful."
+    - A user message containing the question "how does a court case get to the Supreme Court?"
+- Retrieves the assistant's response from the `response.choices[0].message.content` attribute.
+- Prints the assistant's response.
 
-**Как работает функция**:
-- Функция извлекает текст ответа из объекта `response`.
-- Выводит текст в консоль.
-
-## Примеры
+**Examples**:
 
 ```python
 from g4f.client import Client
@@ -77,3 +60,4 @@ response = client.chat.completions.create(
 )
 
 print(response.choices[0].message.content)
+```

@@ -1,72 +1,124 @@
-# Модуль `DfeHub.py`
+# DfeHub.py
 
-## Обзор
+## Overview
 
-Модуль `DfeHub.py` предоставляет реализацию провайдера `DfeHub` для работы с моделью `gpt-3.5-turbo`. Он позволяет отправлять запросы к API `chat.dfehub.com` для получения ответов модели, поддерживая как потоковую передачу, так и обычные запросы.
+Этот модуль предоставляет реализацию класса `DfeHub`, который представляет собой провайдера API для сервиса GPT4Free (DfeHub). Класс `DfeHub` наследует от базового класса `AbstractProvider` и предоставляет методы для создания завершений (completions) с использованием модели GPT-3.5-turbo. 
 
-## Более детально
+## Details
 
-Этот модуль является частью системы провайдеров, используемой для взаимодействия с различными языковыми моделями. Он инкапсулирует логику отправки запросов и обработки ответов от API `chat.dfehub.com`. В частности, модуль обрабатывает случаи, когда API возвращает информацию о задержке, и повторяет запрос после указанной задержки.
+Класс `DfeHub` обеспечивает взаимодействие с API сервиса DfeHub. Он предназначен для отправки запросов на генерацию текста с использованием модели GPT-3.5-turbo.
 
-## Классы
+## Classes
 
 ### `DfeHub`
 
-**Описание**: Класс `DfeHub` реализует интерфейс `AbstractProvider` и предоставляет методы для взаимодействия с API `chat.dfehub.com`.
-**Наследует**:
-- `AbstractProvider`: Абстрактный базовый класс для всех провайдеров.
+**Description**: Класс `DfeHub` предоставляет реализацию провайдера API для сервиса GPT4Free (DfeHub),  взаимодействуя с API для отправки запросов на генерацию текста с использованием модели GPT-3.5-turbo.
 
-**Атрибуты**:
-- `url` (str): URL-адрес API `chat.dfehub.com`.
-- `supports_stream` (bool): Поддержка потоковой передачи данных (значение `True`).
-- `supports_gpt_35_turbo` (bool): Поддержка модели `gpt-3.5-turbo` (значение `True`).
+**Inherits**: `AbstractProvider`
 
-**Принцип работы**:
-Класс `DfeHub` предназначен для отправки запросов к API `chat.dfehub.com` и обработки ответов. Он поддерживает как потоковую передачу ответов, так и обычные запросы. В случае получения информации о задержке от API, класс автоматически повторяет запрос после указанной задержки.
+**Attributes**:
+ - `url` (str): URL-адрес API сервиса DfeHub.
+ - `supports_stream` (bool): Флаг, указывающий на поддержку потоковой передачи (streaming) данных.
+ - `supports_gpt_35_turbo` (bool): Флаг, указывающий на поддержку модели GPT-3.5-turbo.
 
-## Методы класса
+**Methods**:
+ - `create_completion(model: str, messages: list[dict[str, str]], stream: bool, **kwargs: Any) -> CreateResult`
+
+## Class Methods
 
 ### `create_completion`
 
 ```python
-@staticmethod
-def create_completion(
-    model: str,
-    messages: list[dict[str, str]],
-    stream: bool, **kwargs: Any) -> CreateResult:
-    """
-    Выполняет запрос к API `chat.dfehub.com` для получения ответа модели.
+    @staticmethod
+    def create_completion(
+        model: str,
+        messages: list[dict[str, str]],
+        stream: bool, **kwargs: Any) -> CreateResult:
+        
+        headers = {
+            "authority"         : "chat.dfehub.com",
+            "accept"            : "*/*",
+            "accept-language"   : "en,fr-FR;q=0.9,fr;q=0.8,es-ES;q=0.7,es;q=0.6,en-US;q=0.5,am;q=0.4,de;q=0.3",
+            "content-type"      : "application/json",
+            "origin"            : "https://chat.dfehub.com",
+            "referer"           : "https://chat.dfehub.com/",
+            "sec-ch-ua"         : '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+            "sec-ch-ua-mobile"  : "?0",
+            "sec-ch-ua-platform": '"macOS"',
+            "sec-fetch-dest"    : "empty",
+            "sec-fetch-mode"    : "cors",
+            "sec-fetch-site"    : "same-origin",
+            "user-agent"        : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+            "x-requested-with"  : "XMLHttpRequest",
+        }
 
-    Args:
-        model (str): Имя модели для использования (например, "gpt-3.5-turbo").
-        messages (list[dict[str, str]]): Список сообщений для отправки модели.
-        stream (bool): Флаг, указывающий, использовать ли потоковую передачу данных.
-        **kwargs (Any): Дополнительные параметры для запроса.
+        json_data = {
+            "messages"          : messages,
+            "model"             : "gpt-3.5-turbo",
+            "temperature"       : kwargs.get("temperature", 0.5),
+            "presence_penalty"  : kwargs.get("presence_penalty", 0),
+            "frequency_penalty" : kwargs.get("frequency_penalty", 0),
+            "top_p"             : kwargs.get("top_p", 1),
+            "stream"            : True
+        }
+        
+        response = requests.post("https://chat.dfehub.com/api/openai/v1/chat/completions",
+            headers=headers, json=json_data, timeout=3)
 
-    Returns:
-        CreateResult: Генератор, выдающий части ответа модели, или `None` в случае ошибки.
-
-    Как работает функция:
-    - Функция отправляет POST-запрос к API `chat.dfehub.com` с указанными параметрами.
-    - Если в ответе содержится информация о задержке, функция извлекает значение задержки и повторяет запрос после указанного времени.
-    - Если в ответе содержится контент, функция извлекает его и передает в генератор.
-
-    Примеры:
-        Пример вызова функции:
-
-        >>> model = "gpt-3.5-turbo"
-        >>> messages = [{"role": "user", "content": "Hello, world!"}]
-        >>> stream = True
-        >>> kwargs = {"temperature": 0.5}
-        >>> result = DfeHub.create_completion(model, messages, stream, **kwargs)
-        >>> if result:
-        ...     for chunk in result:
-        ...         print(chunk)
-    """
+        for chunk in response.iter_lines():
+            if b"detail" in chunk:
+                delay = re.findall(r"\d+\.\d+", chunk.decode())
+                delay = float(delay[-1])
+                time.sleep(delay)
+                yield from DfeHub.create_completion(model, messages, stream, **kwargs)
+            if b"content" in chunk:
+                data = json.loads(chunk.decode().split("data: ")[1])
+                yield (data["choices"][0]["delta"]["content"])
 ```
 
-## Параметры класса
+**Purpose**: Функция `create_completion` реализует отправку запросов на API DfeHub для создания завершения (completions) текста с использованием модели GPT-3.5-turbo. 
 
-- `url` (str): URL-адрес API `chat.dfehub.com`.
-- `supports_stream` (bool): Поддержка потоковой передачи данных.
-- `supports_gpt_35_turbo` (bool): Поддержка модели `gpt-3.5-turbo`.
+**Parameters**:
+ - `model` (str): Название модели. 
+ - `messages` (list[dict[str, str]]): Список сообщений (messages) для контекста.
+ - `stream` (bool): Флаг, указывающий на потоковую передачу (streaming) данных.
+ - `kwargs` (Any): Дополнительные аргументы (keyword arguments) для настройки запроса. 
+
+**Returns**:
+ - `CreateResult`: Результат создания завершения (completions).
+
+**Raises Exceptions**:
+ - `Exception`: В случае возникновения ошибки при отправке запроса.
+
+**How the Function Works**: 
+ - Функция формирует заголовки запроса (`headers`) и данные запроса (`json_data`).
+ - Запрос отправляется на URL `https://chat.dfehub.com/api/openai/v1/chat/completions` с использованием метода `requests.post`.
+ - Полученный ответ (`response`) обрабатывается с помощью `response.iter_lines()`, который возвращает строки ответа построчно.
+ - Каждая строка ответа анализируется на наличие специальных строк, таких как `"detail"` или `"content"`.
+ - В случае наличия строки `"detail"` функция ожидает задержку (delay) и отправляет повторный запрос, чтобы получить завершение (completion) от модели.
+ - В случае наличия строки `"content"` функция извлекает текстовый контент (`data["choices"][0]["delta"]["content"]`) и возвращает его в виде потока данных (streaming).
+
+**Examples**:
+
+```python
+    messages = [
+        {"role": "user", "content": "Привет, как дела?"},
+        {"role": "assistant", "content": "Хорошо, а у тебя как?"},
+    ]
+
+    response = DfeHub.create_completion("gpt-3.5-turbo", messages, stream=True)
+
+    for chunk in response:
+        print(chunk, end="")
+```
+
+## Parameter Details
+
+ - `model` (str): Название используемой модели.  В данном случае `gpt-3.5-turbo`. 
+ - `messages` (list[dict[str, str]]): Список сообщений (messages), которые определяют контекст для генерации текста. 
+ - `stream` (bool): Флаг, указывающий на потоковую передачу (streaming) данных.  
+ - `kwargs` (Any): Дополнительные аргументы (keyword arguments) для настройки запроса:
+     - `temperature`: Вещественное число, определяющее уровень креативности модели. 
+     - `presence_penalty`: Вещественное число, определяющее штраф за повторение слов.
+     - `frequency_penalty`: Вещественное число, определяющее штраф за повторение фраз.
+     - `top_p`: Вещественное число, определяющее вероятность выбора следующего слова.

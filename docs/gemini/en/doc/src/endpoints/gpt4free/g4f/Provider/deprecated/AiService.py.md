@@ -1,105 +1,66 @@
-# Документация для `AiService.py`
+# Модуль `AiService`
 
 ## Обзор
 
-Файл `AiService.py` является частью проекта `hypotez` и содержит класс `AiService`, который является устаревшим поставщиком (Provider) для взаимодействия с сервисом AiService. Класс наследуется от `AbstractProvider` и предоставляет функциональность для создания завершений (completions) на основе предоставленных сообщений.
+Модуль предоставляет класс `AiService`, реализующий взаимодействие с сервисом `aiservice.vercel.app` для генерации ответов на основе моделей GPT-3.5 Turbo. 
 
-## Более детально
+## Детали
 
-Этот файл определяет интеграцию с сервисом AiService, предоставляя способ создания и получения ответов от модели, используя HTTP-запросы. В классе `AiService` реализован метод `create_completion`, который отправляет POST-запрос к API сервиса и возвращает сгенерированный ответ.
+`AiService` является наследником абстрактного класса `AbstractProvider` из модуля `base_provider`. Он предоставляет метод `create_completion`, который отправляет запрос на сервер `aiservice.vercel.app` для генерации ответа модели.
 
 ## Классы
 
-### `AiService`
+### `class AiService`
 
-**Описание**:
-Класс `AiService` является поставщиком, реализующим взаимодействие с сервисом AiService для генерации текстовых завершений на основе входных сообщений.
+**Описание**: Класс `AiService` представляет собой провайдера, который использует сервис `aiservice.vercel.app` для генерации текста с помощью моделей GPT-3.5 Turbo. 
 
-**Наследует**:
-- `AbstractProvider`: Абстрактный базовый класс для всех поставщиков.
+**Наследует**: `AbstractProvider` из модуля `base_provider`
 
 **Атрибуты**:
-- `url` (str): URL сервиса AiService.
-- `working` (bool): Флаг, указывающий на работоспособность сервиса (в данном случае `False`).
-- `supports_gpt_35_turbo` (bool): Флаг, указывающий на поддержку модели `gpt-35-turbo` (в данном случае `True`).
 
-**Принцип работы**:
-Класс `AiService` отправляет POST-запросы к API сервиса AiService для генерации ответов на основе предоставленных сообщений. Метод `create_completion` формирует запрос, отправляет его и возвращает ответ в виде генератора.
+- `url (str)`: Базовый URL сервиса, с которым взаимодействует провайдер.
+- `working (bool)`: Флаг, указывающий на доступность провайдера.
+- `supports_gpt_35_turbo (bool)`: Флаг, указывающий на поддержку модели GPT-3.5 Turbo.
 
-## Методы класса
+**Методы**:
+
+- `create_completion(model: str, messages: Messages, stream: bool, **kwargs: Any) -> CreateResult`
+
+## Классные методы
 
 ### `create_completion`
 
-```python
-def create_completion(
-    model: str,
-    messages: Messages,
-    stream: bool,
-    **kwargs: Any,
-) -> CreateResult:
-    """
-    Создает завершение текста на основе предоставленных сообщений, используя API сервиса AiService.
-
-    Args:
-        model (str): Идентификатор модели, используемой для генерации завершения.
-        messages (Messages): Список сообщений, используемых в качестве контекста для генерации завершения.
-        stream (bool): Флаг, указывающий, следует ли возвращать ответ в потоковом режиме.
-        **kwargs (Any): Дополнительные аргументы.
-
-    Returns:
-        CreateResult: Генератор, возвращающий части завершенного текста.
-
-    Raises:
-        requests.exceptions.RequestException: Если возникает ошибка при выполнении HTTP-запроса.
-    """
-```
-
-**Описание**:
-Метод `create_completion` отправляет запрос к API сервиса AiService и возвращает сгенерированный ответ.
+**Описание**: Метод `create_completion` отправляет запрос на сервер `aiservice.vercel.app` для генерации ответа модели. 
 
 **Параметры**:
-- `model` (str): Идентификатор модели, используемой для генерации завершения.
-- `messages` (Messages): Список сообщений, используемых в качестве контекста для генерации завершения.
-- `stream` (bool): Флаг, указывающий, следует ли возвращать ответ в потоковом режиме.
-- `**kwargs` (Any): Дополнительные аргументы.
 
-**Внутренние функции**:
-Внутри данной функции нету внутренних функций.
+- `model (str)`: Имя модели. 
+- `messages (Messages)`: Список сообщений, которые используются для генерации ответа.
+- `stream (bool)`: Флаг, указывающий на то, нужно ли отправлять ответ по частям.
+- `**kwargs (Any)`: Дополнительные параметры для запроса.
 
-**Как работает функция**:
-1. Формирует строку `base` из списка сообщений, объединяя роль и содержимое каждого сообщения.
-2. Определяет заголовки HTTP-запроса, включая `accept`, `content-type`, `sec-fetch-dest`, `sec-fetch-mode`, `sec-fetch-site` и `Referer`.
-3. Формирует словарь `data` с входными данными (`input`), содержащими строку `base`.
-4. Отправляет POST-запрос к API сервиса AiService по URL `https://aiservice.vercel.app/api/chat/answer` с указанными заголовками и данными.
-5. Проверяет статус ответа и вызывает исключение `HTTPError`, если статус код указывает на ошибку.
-6. Извлекает данные из JSON-ответа и возвращает их в виде генератора.
+**Возвращает**:
+
+- `CreateResult`: Объект, содержащий информацию о результатах запроса. 
+
+**Как работает**:
+
+1. Формируется сообщение в формате, понятном сервису `aiservice.vercel.app` - строка с ролью (`role`) и контентом (`content`) каждого сообщения из списка `messages`.
+2. Формируются заголовки запроса, определяющие тип данных и другие параметры. 
+3. Отправляется POST-запрос на URL `https://aiservice.vercel.app/api/chat/answer`, передавая сформированное сообщение и заголовки. 
+4. Проверяется статус ответа. 
+5. Извлекается JSON-данные ответа. 
 
 **Примеры**:
 
 ```python
-# Пример вызова функции create_completion
-messages = [
-    {"role": "user", "content": "Привет, как дела?"},
-    {"role": "assistant", "content": "У меня все хорошо, спасибо!"}
-]
-model = "gpt-3.5-turbo"
-stream = False
-kwargs = {}
-
-result = AiService.create_completion(model, messages, stream, **kwargs)
-for chunk in result:
-    print(chunk)
-```
-```python
-# Другой пример вызова функции create_completion
-messages = [
-    {"role": "user", "content": "Что такое машинное обучение?"}
-]
-model = "gpt-3.5-turbo"
-stream = True
-kwargs = {}
-
-result = AiService.create_completion(model, messages, stream, **kwargs)
-for chunk in result:
-    print(chunk)
+>>> from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.AiService import AiService
+>>> from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
+>>> messages: Messages = [
+...     {'role': 'user', 'content': 'What is the capital of France?'},
+... ]
+>>> ai_service = AiService()
+>>> response = ai_service.create_completion(model='gpt-3.5-turbo', messages=messages, stream=False)
+>>> print(next(response))
+{'data': 'The capital of France is Paris.'}
 ```

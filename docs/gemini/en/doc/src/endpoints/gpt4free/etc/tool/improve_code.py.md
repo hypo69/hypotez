@@ -1,122 +1,88 @@
-# Документация для `improve_code.py`
+# Module for Code Improvement with GPT-4Free
+## Overview
 
-## Обзор
+This module provides a function to improve Python code using the GPT-4Free API. The function reads code from a specified file, generates a prompt for the API, and then writes the improved code back to the file.
 
-Этот модуль предназначен для улучшения качества кода в указанном файле с использованием модели `g4f`. Он читает код из файла, отправляет его в модель для улучшения, и записывает улучшенный код обратно в файл.
+## Details
 
-## Более подробная информация
+This module utilizes the GPT-4Free API to enhance Python code by adding type hints and restructuring code elements without modifying the original logic or removing existing parts. The script prompts the API to make specific improvements, ensuring that type hints are added appropriately and that existing comments, including license information, are preserved. The process of code improvement occurs by leveraging the API's capabilities to understand and suggest improvements based on the provided code context.
 
-Модуль `improve_code.py` используется для автоматической оптимизации кода. Он принимает путь к файлу, читает его содержимое, отправляет код в модель `g4f` для улучшения, добавляет подсказки типов, где это возможно, и записывает результат обратно в исходный файл. Этот процесс позволяет улучшить читаемость и поддерживаемость кода.
-
-## Классы
-
-В данном модуле классы отсутствуют.
-
-## Функции
+## Functions
 
 ### `read_code`
 
-```python
-def read_code(text):
-    """
-    Функция извлекает код из текстового блока, заключенного в тройные обратные кавычки.
+**Purpose**: This function extracts Python code from a text string.
 
-    Args:
-        text (str): Текст, содержащий код, заключенный в тройные обратные кавычки.
+**Parameters**:
 
-    Returns:
-        str | None: Извлеченный код или `None`, если код не найден.
-    
-    Как работает:
-    - Функция принимает строку `text` в качестве аргумента.
-    - Использует регулярное выражение для поиска блока кода, заключенного в тройные обратные кавычки.
-    - Если находит блок кода, возвращает извлеченный код.
-    - Если блок кода не найден, возвращает `None`.
-    """
-```
+- `text` (str): The text string containing the code to extract.
 
-## Параметры
+**Returns**:
 
--   `text` (str): Текст, из которого нужно извлечь код.
+- `str | None`: The extracted Python code if found, otherwise `None`.
 
-## Примеры
+**How the Function Works**:
+
+- The function uses a regular expression to search for a code block enclosed within triple backticks (```).
+- If a match is found, it extracts the code content from the match and returns it.
+- If no match is found, it returns `None`.
+
+**Examples**:
 
 ```python
-code_text = "Some text ```python\nprint('Hello')\n```"
-extracted_code = read_code(code_text)
-print(extracted_code)
+>>> text = "```python\nprint('Hello, world!')\n```"
+>>> read_code(text)
+"print('Hello, world!')"
+
+>>> text = "This is a regular text without any code."
+>>> read_code(text)
+None
 ```
 
-## Основной блок кода
+### `main`
 
-Основной блок кода выполняет следующие действия:
+**Purpose**: This is the main function of the script. It prompts the user for a file path, reads the code from the file, generates a prompt for the GPT-4Free API, receives the improved code, and writes it back to the file.
 
-1.  Запрашивает у пользователя путь к файлу.
-2.  Читает содержимое файла.
-3.  Формирует запрос для модели `g4f` с просьбой улучшить код, добавить подсказки типов (если возможно), и не удалять лицензионные комментарии.
-4.  Отправляет запрос в модель `g4f` и получает ответ в виде потока чанков.
-5.  Объединяет чанки ответа в единую строку.
-6.  Извлекает улучшенный код из ответа модели.
-7.  Записывает улучшенный код обратно в файл.
+**Parameters**:
+
+- None
+
+**Returns**:
+
+- None
+
+**How the Function Works**:
+
+- The function prompts the user for the path to the file containing the code.
+- It reads the code from the specified file.
+- It constructs a prompt for the GPT-4Free API, specifying the desired code improvements (adding type hints, restructuring code elements, preserving existing comments and license information).
+- It sends the prompt to the GPT-4Free API and receives the improved code.
+- It writes the improved code back to the specified file.
+
+**Examples**:
 
 ```python
-import sys, re
-from pathlib import Path
-from os import path
-
-sys.path.append(str(Path(__file__).parent.parent.parent))
-
-import g4f
-
-def read_code(text):
-    if match := re.search(r"```(python|py|)\\n(?P<code>[\\S\\s]+?)\\n```", text):
-        return match.group("code")
-    
-path = input("Path: ")
-
-with open(path, "r") as file:
-    code = file.read()
-
-prompt = f"""
-Improve the code in this file:
-```py
-{code}
-```
-Don't remove anything.
-Add typehints if possible.
-Don't add any typehints to kwargs.
-Don't remove license comments.
-"""
-
-print("Create code...")
-response = []
-for chunk in g4f.ChatCompletion.create(
-    model=g4f.models.default,
-    messages=[{"role": "user", "content": prompt}],
-    timeout=300,
-    stream=True
-):
-    response.append(chunk)
-    print(chunk, end="", flush=True)
-print()
-response = "".join(response)
-
-if code := read_code(response):
-    with open(path, "w") as file:
-        file.write(code)
+>>> #  User input: Path: /path/to/code.py
+>>> #  The script reads the code from /path/to/code.py, sends it to the GPT-4Free API for improvement, and writes the improved code back to /path/to/code.py.
 ```
 
-## Переменные
+## Parameter Details
 
--   `path` (str): Путь к файлу, введенный пользователем.
--   `code` (str): Содержимое файла.
--   `prompt` (str): Запрос для модели `g4f`.
--   `response` (list): Список чанков ответа от модели `g4f`.
+- `path` (str): The path to the Python code file.
+- `code` (str): The content of the Python code file.
+- `prompt` (str): The prompt sent to the GPT-4Free API to request code improvements.
+- `response` (list): A list of chunks containing the improved code returned by the GPT-4Free API.
 
-## Примеры использования
+## Examples
 
-Запуск скрипта и ввод пути к файлу:
+```python
+# Example 1:  Improving a simple Python function.
+>>> #  User input: Path: /path/to/code.py
+>>> #  The script reads the code from /path/to/code.py, sends it to the GPT-4Free API for improvement, and writes the improved code back to /path/to/code.py.
+```
 
-```bash
-python improve_code.py
-Path: /path/to/your/file.py
+```python
+# Example 2:  Improving a more complex Python script.
+>>> #  User input: Path: /path/to/code.py
+>>> #  The script reads the code from /path/to/code.py, sends it to the GPT-4Free API for improvement, and writes the improved code back to /path/to/code.py.
+```

@@ -1,92 +1,55 @@
-### Как использовать этот блок кода
+## Как использовать `get_list_products_in_category`
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Этот код извлекает список URL-адресов товаров со страницы категории на сайте Amazon. Сначала он прокручивает страницу для загрузки всего контента, затем извлекает ссылки на товары с использованием заданного локатора. Если ссылки не найдены, регистрируется предупреждение. В конце возвращается список URL-адресов товаров.
+Функция `get_list_products_in_category` извлекает список URL товаров с текущей страницы категории.
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Прокрутка страницы**:
-   - Функция `d.scroll()` выполняет прокрутку страницы, чтобы гарантировать загрузку всех элементов, включая ссылки на товары. Это необходимо для динамически загружаемых страниц.
+1. **Прокрутка страницы**:  Функция выполняет прокрутку страницы (`d.scroll()`), чтобы убедиться, что все элементы на странице загружены.
+2. **Получение ссылок на товары**: Выполняет поиск элементов, соответствующих селектору `l['product_links']`, который задает, как на странице найти ссылки на товары. Полученные ссылки помещаются в список `list_products_in_category`.
+3. **Обработка результатов**: Если не найдены ссылки на товары, функция выводит предупреждение в лог (`logger.warning`). В противном случае, проверяет, является ли `list_products_in_category` строкой, и, если да, преобразует ее в список.
+4. **Логирование**: Выводит информацию о количестве найденных товаров в лог (`logger.info`).
+5. **Возвращение результата**: Возвращает список ссылок на товары.
 
-2. **Извлечение ссылок на товары**:
-   - Функция `d.execute_locator(l['product_links'])` использует локатор `product_links` для поиска и извлечения всех ссылок на товары на странице. Результат сохраняется в переменной `list_products_in_category`.
-   - Если `list_products_in_category` является строкой, она преобразуется в список, содержащий только эту строку.
-
-3. **Проверка наличия ссылок**:
-   - Проверяется, найдены ли ссылки на товары. Если `list_products_in_category` пуст, в лог записывается предупреждение `'Нет ссылок на товары'`, и функция возвращает `None`.
-
-4. **Логирование количества найденных товаров**:
-   - Если ссылки найдены, в лог записывается информационное сообщение с количеством найденных товаров: `logger.info(f"Найдено {len(list_products_in_category)} товаров")`.
-
-5. **Возврат списка ссылок**:
-   - Функция возвращает список URL-адресов товаров `list_products_in_category`.
-
-Пример использования
+### Пример использования
 -------------------------
 
 ```python
-from src.webdriver import Driver
-from src.logger.logger import logger
+from src.webdirver import Driver, Chrome
+from src.suppliers.suppliers_list.amazon.scenario import get_list_products_in_category
 
-async def get_list_products_in_category(d:'Driver', l:dict) -> list[str,str,None]:    
-    """ Returns list of products urls from category page
-    Если надо пролистстать - страницы категорий - листаю ??????
+# Инициализация WebDriver
+driver = Driver(Chrome)
 
-    Attrs:
-    @param s: Supplier - Supplier intstance
-    @returns list or one of products urls or None
-    """
+# Задание селектора для поиска ссылок на товары
+locator = {
+    "attribute": null,
+    "by": "XPATH",
+    "selector": "//a[@class='a-link-normal a-text-normal']",
+    "if_list": "all",
+    "use_mouse": false,
+    "mandatory": false,
+    "timeout": 0,
+    "timeout_for_event": "presence_of_element_located",
+    "event": null,
+    "locator_description": "Ищу ссылки на товары"
+}
 
-    d.scroll()
+# Загрузка страницы категории
+driver.get("https://www.amazon.com/s?k=laptop")
 
-    #TODO: Нет листалки
+# Извлечение списка URL товаров
+products_urls = get_list_products_in_category(driver, {'product_links': locator})
 
-    list_products_in_category = d.execute_locator(l['product_links'])
-    """ Собираю ссылки на товары.  """
-    if not list_products_in_category:
-        logger.warning('Нет ссылок на товары')
-        return
+# Вывод списка товаров
+print(f"Найдены товары: {products_urls}")
+```
 
-    list_products_in_category = [list_products_in_category] if isinstance(list_products_in_category, str) else list_products_in_category
-
-
-    logger.info(f""" Найдено {len(list_products_in_category)} товаров """)
-
-    #""" Проверяю наличие товара в базе данных магазина """
-    #for asin in list_products_in_category:
-    #    _asin = asin.split(f'''/''')[-2]
-    #    _sku = f'''{s.supplier_id}_{_asin}''' 
-    #    if PrestaShopProduct.check(_sku) == False:
-    #        """ Синтаксис для того, чтобы помнить,
-    #        что я проверяю ОТСУТСТВИЕ товара в базе данных
-    #        """
-    #        continue
-    #    else:
-    #        """ Товар в базе данных """
-    #        continue
-            #TODO: Логику 
-
-
-    return list_products_in_category
-
-# Пример вызова функции
-async def main():
-    driver = Driver("chrome")  # Инициализация веб-драйвера
-    locator = {'product_links': {'by': 'css', 'selector': '.product-link', 'attribute': 'href'}}  # Пример локатора
-    products = await get_list_products_in_category(driver, locator)
-
-    if products:
-        print(f"Найдено {len(products)} товаров.")
-        for product_url in products:
-            print(product_url)
-    else:
-        print("Товары не найдены.")
-
-    await driver.close()
-
-# Запуск примера
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+### Изменения
+-------------------------
+- **Добавлена проверка на отсутствие ссылок на товары** и выводится предупреждение в лог.
+- **Улучшена логика обработки результата**: Проверяет, является ли `list_products_in_category` строкой, и, если да, преобразует ее в список.
+- **Добавлена аннотация типа возвращаемого значения**.
+- **Добавлена документация к параметрам**.

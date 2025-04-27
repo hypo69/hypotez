@@ -1,91 +1,89 @@
-# Module `GPTalk.py`
+# GPTalk Provider for GPT-3.5-Turbo (Deprecated)
 
-## Обзор
+## Overview
 
-Модуль `GPTalk.py` предоставляет асинхронный генератор для взаимодействия с моделью GPT через API GPTalk. Он включает в себя аутентификацию, формирование запросов и обработку потоковых ответов.
+This module provides the `GPTalk` class, a deprecated asynchronous generator provider for interacting with the GPT-3.5-Turbo model via the GPTalk.net API.
 
-## Подробнее
+## Details
 
-Этот модуль предназначен для использования в проекте `hypotez` для обеспечения доступа к возможностям GPT через провайдера GPTalk. Он обрабатывает аутентификацию, формирует запросы к API и обрабатывает потоковые ответы, предоставляя асинхронный генератор текста.
+The `GPTalk` provider is no longer actively maintained or recommended for use. It utilizes the GPTalk.net API for generating responses from the GPT-3.5-Turbo model. It's important to note that this API might not be reliable or consistent and may not offer the same features or performance as other GPT-3.5-Turbo providers. 
 
-## Классы
+## Classes
 
 ### `GPTalk`
 
-**Описание**: Класс `GPTalk` является асинхронным провайдером генератора, который взаимодействует с API GPTalk для генерации текста на основе предоставленных сообщений.
-**Наследует**:
-    - `AsyncGeneratorProvider`: Этот класс наследуется от `AsyncGeneratorProvider` и реализует методы для асинхронной генерации ответов.
+**Description**: Asynchronous generator provider class for interacting with the GPT-3.5-Turbo model via the GPTalk.net API.
 
-**Атрибуты**:
-    - `url` (str): URL-адрес API GPTalk.
-    - `working` (bool): Флаг, указывающий, работает ли провайдер в данный момент.
-    - `supports_gpt_35_turbo` (bool): Флаг, указывающий, поддерживает ли провайдер модель `gpt-3.5-turbo`.
-    - `_auth` (Optional[dict]): Аутентификационные данные для доступа к API.
-    - `used_times` (int): Количество использований API.
+**Attributes**:
 
-**Принцип работы**:
-    - Класс использует URL-адрес `https://gptalk.net` для взаимодействия с API GPTalk.
-    - Перед отправкой запросов проверяет и обновляет аутентификационные данные.
-    - Формирует запросы к API с использованием предоставленных сообщений и параметров модели.
-    - Обрабатывает потоковые ответы от API и генерирует текст.
+- `url`: Base URL for the GPTalk.net API.
+- `working`: Flag indicating whether the provider is currently working.
+- `supports_gpt_35_turbo`: Flag indicating support for the GPT-3.5-Turbo model.
+- `_auth`: Authentication details for the GPTalk.net API.
+- `used_times`: Number of API calls made.
 
-## Методы класса
+**Methods**:
 
-### `create_async_generator`
+- `create_async_generator()`:  Creates an asynchronous generator for receiving responses from the GPT-3.5-Turbo model.
+
+#### `create_async_generator()`
+
+**Purpose**: Initiates an asynchronous generator to retrieve responses from the GPT-3.5-Turbo model using the GPTalk.net API.
+
+**Parameters**:
+
+- `model`:  The model to use (defaults to `gpt-3.5-turbo`).
+- `messages`: A list of messages in the conversation history.
+- `proxy`: Optional proxy server to use.
+- `kwargs`: Additional keyword arguments.
+
+**Returns**:
+
+- `AsyncResult`: An asynchronous generator yielding responses from the model.
+
+**How the Function Works**:
+
+- The function checks for authentication details (`_auth`). If the details are invalid or expired, it sends a login request to the GPTalk.net API.
+- It then forms a request to the GPTalk.net API to generate text based on the provided messages and model.
+- The function retrieves a stream of responses from the API and yields them to the calling code. 
+
+**Examples**:
 
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    **kwargs
-) -> AsyncResult:
-    """ Создает асинхронный генератор для взаимодействия с API GPTalk.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.GPTalk import GPTalk
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-    Args:
-        cls (GPTalk): Ссылка на класс.
-        model (str): Имя модели для использования.
-        messages (Messages): Список сообщений для отправки в API.
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы.
+# Define messages for the conversation
+messages = [
+    {"role": "user", "content": "Hello, how are you?"},
+    {"role": "assistant", "content": "I'm doing well, thank you! How about you?"},
+]
 
-    Returns:
-        AsyncResult: Асинхронный генератор, возвращающий текст от API.
+# Create an asynchronous generator
+async_generator = GPTalk.create_async_generator(model="gpt-3.5-turbo", messages=messages)
 
-    Как работает функция:
-        - Проверяет наличие модели, если она не указана, использует `gpt-3.5-turbo`.
-        - Получает текущую метку времени.
-        - Определяет заголовки для запроса, включая информацию о браузере и платформе.
-        - Создает асинхронную сессию клиента с заданными заголовками.
-        - Проверяет необходимость обновления аутентификационных данных.
-        - Если аутентификация отсутствует или устарела, выполняет запрос на вход в систему.
-        - Формирует данные для запроса на генерацию текста, включая содержимое сообщений, параметры модели и другие настройки.
-        - Отправляет запрос на генерацию текста в API.
-        - Извлекает токен из ответа.
-        - Создает новый запрос для получения потоковых данных.
-        - Итерируется по потоковым данным, извлекая содержимое сообщений и передавая их в генератор.
-        - Завершает генерацию, когда получает сообщение `data: [DONE]`.
-    """
-    ...
+# Iterate through the responses
+async for response in async_generator:
+    print(response)
 ```
 
-## Параметры класса
+## Parameter Details
 
-- `cls`: Ссылка на класс `GPTalk`.
-- `model` (str): Имя модели для использования. Если не указано, используется `gpt-3.5-turbo`.
-- `messages` (Messages): Список сообщений для отправки в API.
-- `proxy` (str, optional): URL прокси-сервера. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы, которые могут быть переданы в API.
+- `model` (str): Specifies the desired GPT-3.5-Turbo model.
+- `messages` (Messages): A list of messages in the conversation history, formatted as a dictionary with keys: `role`, `content`.
+- `proxy` (str): Optional proxy server to use for API requests.
+- `kwargs`: Additional keyword arguments.
 
-## Примеры
-
-Пример использования класса `GPTalk` для создания асинхронного генератора:
+**Examples**:
 
 ```python
-messages = [
-    {"role": "user", "content": "Привет, как дела?"}
-]
-async for message in GPTalk.create_async_generator(model="gpt-3.5-turbo", messages=messages):
-    print(message)
+# Example with a custom model (if supported by the GPTalk.net API)
+async_generator = GPTalk.create_async_generator(model="custom_model", messages=messages)
+
+# Example with a proxy server
+async_generator = GPTalk.create_async_generator(model="gpt-3.5-turbo", messages=messages, proxy="http://proxy_server:port")
+```
+
+## Notes
+
+The `GPTalk` provider is deprecated and might not be reliable or consistent. Consider using other providers, such as `OpenAI` or `GPT4All`, for interacting with the GPT-3.5-Turbo model.

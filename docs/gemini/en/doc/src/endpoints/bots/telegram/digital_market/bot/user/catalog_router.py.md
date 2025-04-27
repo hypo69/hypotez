@@ -1,268 +1,252 @@
-# Модуль `catalog_router`
+# Catalog Router for Telegram Bot
 
-## Обзор
+## Overview
 
-Этот модуль содержит маршрутизатор (`catalog_router`) для обработки запросов, связанных с каталогом товаров в Telegram-боте. Он обрабатывает отображение каталога, выбор категорий, отображение товаров в категориях и организацию процесса покупки товаров через различные платежные системы.
+This module defines the `catalog_router` for the Telegram bot, handling interactions related to product catalogs and purchase processes. It provides functionalities for displaying categories, listing products within each category, handling user purchase requests, and processing successful payments.
 
-## Подробнее
+## Details
 
-Модуль использует `aiogram` для обработки входящих запросов от пользователей Telegram. Он взаимодействует с базой данных через `SQLAlchemy` для получения информации о категориях и товарах. Поддерживаются платежные системы ЮKassa, Stars и Robocassa. Логика успешной оплаты обрабатывается в отдельной функции `successful_payment_logic`.
+This code is responsible for managing the product catalog and purchase flow within the Telegram bot. Users can browse through categories, view product details, and initiate purchases. 
 
-## Классы
+The module interacts with several other components of the bot, including:
 
-В данном модуле классы отсутствуют.
+- `UserDAO`: for managing user data.
+- `CategoryDao`: for retrieving category information.
+- `ProductDao`: for retrieving product information.
+- `PurchaseDao`: for managing purchase records.
+- `generate_payment_link`: for creating payment links (likely for external payment gateways).
+- `successful_payment_logic`: for processing successful payments and updating relevant data.
 
-## Функции
+## Classes
 
-### `page_catalog`
+### `catalog_router`
+
+**Description**: This router is responsible for handling interactions with the Telegram bot related to product catalogs and purchases.
+
+**Attributes**: None
+
+**Methods**:
+
+- `page_catalog(call: CallbackQuery, session_without_commit: AsyncSession)`: This method handles the display of the main catalog, showing available categories.
+- `page_catalog_products(call: CallbackQuery, session_without_commit: AsyncSession)`: This method displays products within a specific category, based on the selected category ID.
+- `process_about(call: CallbackQuery, session_without_commit: AsyncSession)`: This method handles the user's selection of a product to purchase and initiates the payment process based on the chosen payment method.
+- `send_yukassa_invoice(call, user_info, product_id, price)`: Sends an invoice to the user for payment using Youkassa.
+- `send_robocassa_invoice(call, user_info, product_id, price, session: AsyncSession)`: Sends a payment request to the user using Robocassa.
+- `send_stars_invoice(call, user_info, product_id, stars_price)`: Sends an invoice to the user for payment using Stars.
+- `pre_checkout_query(pre_checkout_q: PreCheckoutQuery)`: Confirms the payment request before proceeding with the checkout process.
+- `successful_payment(message: Message, session_with_commit: AsyncSession)`: Processes a successful payment, updates the user's purchase history, and provides appropriate feedback to the user.
+
+## Functions
+
+### `page_catalog(call: CallbackQuery, session_without_commit: AsyncSession)`
+
+**Purpose**: Displays the main product catalog with available categories to the user.
+
+**Parameters**:
+- `call (CallbackQuery)`: The Telegram callback query object containing user interaction details.
+- `session_without_commit (AsyncSession)`: An asynchronous database session used for interacting with the database.
+
+**Returns**: None
+
+**Raises Exceptions**:
+- `Exception`: If an error occurs during the deletion of the user's previous message.
+
+**How the Function Works**:
+
+1. The function first responds to the user with a message indicating that the catalog is loading.
+2. It attempts to delete the user's previous message if it exists. 
+3. It retrieves all available categories from the database using the `CategoryDao`.
+4. It displays a message to the user with a list of categories, allowing the user to select one. The list of categories is displayed using the `catalog_kb` keyboard.
+
+### `page_catalog_products(call: CallbackQuery, session_without_commit: AsyncSession)`
+
+**Purpose**: Displays the products within a specific category selected by the user.
+
+**Parameters**:
+- `call (CallbackQuery)`: The Telegram callback query object containing user interaction details.
+- `session_without_commit (AsyncSession)`: An asynchronous database session used for interacting with the database.
+
+**Returns**: None
+
+**Raises Exceptions**: None
+
+**How the Function Works**:
+
+1. The function extracts the category ID from the callback data.
+2. It retrieves all products belonging to the specified category from the database using the `ProductDao`.
+3. If products are found, it displays a message for each product with its details (name, price, and description) using a formatted text string. The `product_kb` keyboard is used for further interaction with each product.
+4. If no products are found in the category, it sends a message to the user indicating that the category is empty.
+
+### `process_about(call: CallbackQuery, session_without_commit: AsyncSession)`
+
+**Purpose**: Handles the user's selection of a product to purchase and initiates the payment process based on the chosen payment method.
+
+**Parameters**:
+- `call (CallbackQuery)`: The Telegram callback query object containing user interaction details.
+- `session_without_commit (AsyncSession)`: An asynchronous database session used for interacting with the database.
+
+**Returns**: None
+
+**Raises Exceptions**: None
+
+**How the Function Works**:
+
+1. The function retrieves user information from the database using the `UserDAO`.
+2. It extracts information about the selected product (product ID, price, and payment type) from the callback data.
+3. Based on the `payment_type`, it calls one of the following functions to initiate the payment process:
+    - `send_yukassa_invoice`: for Youkassa payments.
+    - `send_stars_invoice`: for Stars payments.
+    - `send_robocassa_invoice`: for Robocassa payments.
+4. It deletes the previous message.
+
+### `send_yukassa_invoice(call, user_info, product_id, price)`
+
+**Purpose**: Sends an invoice to the user for payment using Youkassa.
+
+**Parameters**:
+- `call (CallbackQuery)`: The Telegram callback query object containing user interaction details.
+- `user_info`: User information retrieved from the database.
+- `product_id`: The ID of the selected product.
+- `price`: The price of the selected product.
+
+**Returns**: None
+
+**Raises Exceptions**: None
+
+**How the Function Works**:
+
+1. This function sends a payment invoice to the user through the Telegram bot.
+2. It sets the invoice's title, description, payload (containing user ID, product ID, and payment type), provider token, currency, and price.
+3. The `get_product_buy_youkassa` function constructs a keyboard for interacting with the payment request.
+
+### `send_robocassa_invoice(call, user_info, product_id, price, session: AsyncSession)`
+
+**Purpose**: Sends a payment request to the user using Robocassa.
+
+**Parameters**:
+- `call (CallbackQuery)`: The Telegram callback query object containing user interaction details.
+- `user_info`: User information retrieved from the database.
+- `product_id`: The ID of the selected product.
+- `price`: The price of the selected product.
+- `session (AsyncSession)`: An asynchronous database session used for interacting with the database.
+
+**Returns**: None
+
+**Raises Exceptions**: None
+
+**How the Function Works**:
+
+1. This function generates a payment link using `generate_payment_link` and sends it to the user for payment.
+2. It retrieves the next available purchase ID from the database using `PurchaseDao.get_next_id`.
+3. It sets the payment link parameters, including the cost, number, description, user ID, Telegram ID, and product ID.
+4. It constructs a keyboard for the payment link using `get_product_buy_robocassa`.
+
+### `send_stars_invoice(call, user_info, product_id, stars_price)`
+
+**Purpose**: Sends an invoice to the user for payment using Stars.
+
+**Parameters**:
+- `call (CallbackQuery)`: The Telegram callback query object containing user interaction details.
+- `user_info`: User information retrieved from the database.
+- `product_id`: The ID of the selected product.
+- `stars_price`: The price of the selected product in Stars.
+
+**Returns**: None
+
+**Raises Exceptions**: None
+
+**How the Function Works**:
+
+1. This function sends an invoice to the user using Stars.
+2. It sets the invoice's title, description, payload, provider token, currency (XTR), and price in Stars.
+3. It constructs a keyboard for interacting with the payment request using `get_product_buy_stars`.
+
+### `pre_checkout_query(pre_checkout_q: PreCheckoutQuery)`
+
+**Purpose**: Confirms the payment request before proceeding with the checkout process.
+
+**Parameters**:
+- `pre_checkout_q (PreCheckoutQuery)`: The Telegram pre-checkout query object containing details about the pending payment.
+
+**Returns**: None
+
+**Raises Exceptions**: None
+
+**How the Function Works**:
+
+1. This function confirms the payment request by sending a positive response to the `pre_checkout_q` object.
+
+### `successful_payment(message: Message, session_with_commit: AsyncSession)`
+
+**Purpose**: Processes a successful payment, updates the user's purchase history, and provides appropriate feedback to the user.
+
+**Parameters**:
+- `message (Message)`: The Telegram message object containing the successful payment information.
+- `session_with_commit (AsyncSession)`: An asynchronous database session used for interacting with the database.
+
+**Returns**: None
+
+**Raises Exceptions**: None
+
+**How the Function Works**:
+
+1. This function extracts information about the successful payment from the `message` object.
+2. It determines the payment type and price, converting the price from the Telegram format (in cents) to the appropriate currency.
+3. It prepares a dictionary (`payment_data`) containing the payment details.
+4. It calls `successful_payment_logic` to handle the payment logic, including database updates and user feedback.
+
+## Inner Functions
+
+None.
+
+## Parameter Details
+
+- `call (CallbackQuery)`:  The callback query object represents user interaction with the bot, including button presses and selection of options.
+- `session_without_commit (AsyncSession)`: This parameter refers to an asynchronous database session that allows for interacting with the database without committing changes immediately. This is used for read-only operations or scenarios where changes are not immediately necessary.
+- `session_with_commit (AsyncSession)`: Similar to the previous parameter, this is an asynchronous database session used for interacting with the database. However, it does commit changes immediately after executing operations. This is used for updating data persistently.
+- `pre_checkout_q (PreCheckoutQuery)`: This object represents a pre-checkout query sent by the user before confirming a payment. It contains details about the payment that is about to be made.
+- `message (Message)`: This object represents a message sent by the user, which may contain details about a successful payment.
+- `user_info`: This parameter represents user information retrieved from the database. It is used to identify and retrieve user data.
+- `product_id`: This parameter represents the unique identifier of the selected product.
+- `price`: This parameter represents the price of the product.
+- `stars_price`: This parameter represents the price of the product in Stars currency.
+- `payment_type`: This parameter represents the payment method chosen by the user.
+
+## Examples
 
 ```python
-async def page_catalog(call: CallbackQuery, session_without_commit: AsyncSession):
-    """ Отображает каталог товаров.
-
-    Функция обрабатывает запрос пользователя на отображение каталога товаров.
-    Она извлекает данные о категориях товаров из базы данных и отправляет
-    пользователю сообщение со списком категорий, представленным в виде клавиатуры.
-
-    Args:
-        call (CallbackQuery): Объект обратного вызова от Telegram.
-        session_without_commit (AsyncSession): Асинхровая сессия SQLAlchemy для работы с базой данных без коммита.
-
-    Raises:
-        Exception: Обрабатывается любое исключение, возникающее при удалении предыдущего сообщения.
-
-    Как работает функция:
-        1. Отвечает на обратный вызов сообщением "Загрузка каталога...".
-        2. Пытается удалить предыдущее сообщение пользователя, чтобы интерфейс оставался чистым.
-        3. Извлекает все категории товаров из базы данных, используя `CategoryDao.find_all`.
-        4. Отправляет пользователю сообщение со списком категорий, используя клавиатуру `catalog_kb`.
-
-    Примеры:
-        Предположим, есть объект `call: CallbackQuery` и асинхровая сессия `session_without_commit: AsyncSession`.
-        Вызов функции будет выглядеть так:
-        ```python
-        await page_catalog(call, session_without_commit)
-        ```
-    """
-```
-
-### `page_catalog_products`
-
-```python
-async def page_catalog_products(call: CallbackQuery, session_without_commit: AsyncSession):
-    """ Отображает товары выбранной категории.
-
-    Функция обрабатывает запрос пользователя на отображение товаров в определенной категории.
-    Она извлекает идентификатор категории из данных обратного вызова,
-    запрашивает список товаров этой категории из базы данных и отправляет
-    пользователю сообщение с описанием каждого товара и кнопками для покупки.
-
-    Args:
-        call (CallbackQuery): Объект обратного вызова от Telegram.
-        session_without_commit (AsyncSession): Асинхровая сессия SQLAlchemy для работы с базой данных без коммита.
-
-    Как работает функция:
-        1. Извлекает `category_id` из `call.data`, который имеет формат "category_{id}".
-        2. Извлекает все товары, принадлежащие данной категории, используя `ProductDao.find_all`.
-        3. Если товары найдены, для каждого товара формируется текстовое описание и отправляется пользователю вместе с клавиатурой для покупки (`product_kb`).
-        4. Если товары не найдены, отправляет пользователю сообщение "В данной категории нет товаров.".
-
-    Примеры:
-        Предположим, есть объект `call: CallbackQuery` с данными, содержащими идентификатор категории,
-        и асинхровая сессия `session_without_commit: AsyncSession`.
-        Вызов функции будет выглядеть так:
-        ```python
-        await page_catalog_products(call, session_without_commit)
-        ```
-    """
-```
-
-### `process_about`
-
-```python
+# Example 1: User selects a product and initiates payment
+# Callback data: 'buy_yukassa_123_500' (payment type, product ID, price)
 async def process_about(call: CallbackQuery, session_without_commit: AsyncSession):
-    """ Обрабатывает запрос на покупку товара.
+    user_info = await UserDAO.find_one_or_none(session=session_without_commit, filters=TelegramIDModel(telegram_id=call.from_user.id))
+    _, payment_type, product_id, price = call.data.split('_')
 
-    Функция обрабатывает запрос пользователя на покупку товара через различные
-    платежные системы (ЮKassa, Stars, Robocassa). Она извлекает информацию
-    о типе платежа и идентификаторе товара из данных обратного вызова и
-    вызывает соответствующую функцию для организации процесса оплаты.
-
-    Args:
-        call (CallbackQuery): Объект обратного вызова от Telegram.
-        session_without_commit (AsyncSession): Асинхровая сессия SQLAlchemy для работы с базой данных без коммита.
-
-    Как работает функция:
-        1. Извлекает информацию о пользователе из базы данных, используя `UserDAO.find_one_or_none`.
-        2. Разделяет данные из `call.data` для получения типа платежа (`payment_type`), идентификатора товара (`product_id`) и цены (`price`).
-        3. В зависимости от типа платежа вызывает соответствующую функцию (`send_yukassa_invoice`, `send_stars_invoice` или `send_robocassa_invoice`).
-        4. Удаляет исходное сообщение пользователя.
-
-    Примеры:
-        Предположим, есть объект `call: CallbackQuery` с данными, содержащими тип платежа,
-        идентификатор товара и цену, а также асинхровая сессия `session_without_commit: AsyncSession`.
-        Вызов функции будет выглядеть так:
-        ```python
-        await process_about(call, session_without_commit)
-        ```
-    """
-```
-
-### `send_yukassa_invoice`
-
-```python
-async def send_yukassa_invoice(call, user_info, product_id, price):
-    """ Отправляет инвойс для оплаты через ЮKassa.
-
-    Функция отправляет пользователю инвойс для оплаты товара через платежную
-    систему ЮKassa. Она формирует инвойс с указанием названия товара, описания,
-    цены и других параметров, необходимых для проведения платежа.
-
-    Args:
-        call (CallbackQuery): Объект обратного вызова от Telegram.
-        user_info: Информация о пользователе.
-        product_id: Идентификатор товара.
-        price: Цена товара.
-
-    Как работает функция:
-        1. Отправляет инвойс пользователю, используя `bot.send_invoice`.
-        2. Инвойс содержит название, описание, payload (для идентификации платежа), токен провайдера ЮKassa, валюту и цену.
-        3. Клавиатура `get_product_buy_youkassa` прикрепляется к инвойсу.
-
-    Примеры:
-        Предположим, есть объект `call: CallbackQuery`, информация о пользователе `user_info`,
-        идентификатор товара `product_id` и цена товара `price`.
-        Вызов функции будет выглядеть так:
-        ```python
+    if payment_type == 'yukassa':
         await send_yukassa_invoice(call, user_info, product_id, price)
-        ```
-    """
-```
 
-### `send_robocassa_invoice`
-
-```python
-async def send_robocassa_invoice(call, user_info, product_id, price, session: AsyncSession):
-    """ Отправляет ссылку для оплаты через Robocassa.
-
-    Функция формирует ссылку для оплаты товара через платежную систему Robocassa
-    и отправляет ее пользователю. Ссылка содержит параметры, необходимые для
-    проведения платежа, включая идентификатор платежа, описание товара и цену.
-
-    Args:
-        call (CallbackQuery): Объект обратного вызова от Telegram.
-        user_info: Информация о пользователе.
-        product_id: Идентификатор товара.
-        price: Цена товара.
-        session (AsyncSession): Асинхровая сессия SQLAlchemy для работы с базой данных.
-
-    Как работает функция:
-        1. Получает следующий идентификатор платежа из базы данных, используя `PurchaseDao.get_next_id`.
-        2. Формирует описание платежа.
-        3. Генерирует ссылку для оплаты, используя `generate_payment_link`.
-        4. Отправляет пользователю сообщение со ссылкой для оплаты и клавиатурой `get_product_buy_robocassa`.
-
-    Примеры:
-        Предположим, есть объект `call: CallbackQuery`, информация о пользователе `user_info`,
-        идентификатор товара `product_id`, цена товара `price` и асинхровая сессия `session: AsyncSession`.
-        Вызов функции будет выглядеть так:
-        ```python
-        await send_robocassa_invoice(call, user_info, product_id, price, session)
-        ```
-    """
-```
-
-### `send_stars_invoice`
-
-```python
-async def send_stars_invoice(call, user_info, product_id, stars_price):
-    """ Отправляет инвойс для оплаты через Stars.
-
-    Функция отправляет пользователю инвойс для оплаты товара через внутреннюю
-    валюту Stars. Она формирует инвойс с указанием названия товара, описания,
-    цены в Stars и других параметров, необходимых для проведения платежа.
-
-    Args:
-        call (CallbackQuery): Объект обратного вызова от Telegram.
-        user_info: Информация о пользователе.
-        product_id: Идентификатор товара.
-        stars_price: Цена товара в Stars.
-
-    Как работает функция:
-        1. Отправляет инвойс пользователю, используя `bot.send_invoice`.
-        2. Инвойс содержит название, описание, payload (для идентификации платежа), валюту XTR и цену в Stars.
-        3. Клавиатура `get_product_buy_stars` прикрепляется к инвойсу.
-
-    Примеры:
-        Предположим, есть объект `call: CallbackQuery`, информация о пользователе `user_info`,
-        идентификатор товара `product_id` и цена товара в Stars `stars_price`.
-        Вызов функции будет выглядеть так:
-        ```python
-        await send_stars_invoice(call, user_info, product_id, stars_price)
-        ```
-    """
-```
-
-### `pre_checkout_query`
-
-```python
+# Example 2: User confirms a payment request
 async def pre_checkout_query(pre_checkout_q: PreCheckoutQuery):
-    """ Подтверждает готовность к оплате.
+    await bot.answer_pre_checkout_query(pre_checkout_q.id, ok=True)
 
-    Функция обрабатывает предварительный запрос перед оплатой и подтверждает
-    готовность бота к обработке платежа.
-
-    Args:
-        pre_checkout_q (PreCheckoutQuery): Объект предварительного запроса перед оплатой от Telegram.
-
-    Как работает функция:
-        1. Отвечает на предварительный запрос, подтверждая готовность к оплате, используя `bot.answer_pre_checkout_query`.
-
-    Примеры:
-        Предположим, есть объект `pre_checkout_q: PreCheckoutQuery`.
-        Вызов функции будет выглядеть так:
-        ```python
-        await pre_checkout_query(pre_checkout_q)
-        ```
-    """
-```
-
-### `successful_payment`
-
-```python
+# Example 3: User makes a successful payment
 async def successful_payment(message: Message, session_with_commit: AsyncSession):
-    """ Обрабатывает успешную оплату.
+    payment_info = message.successful_payment
+    payment_type, user_id, product_id = payment_info.invoice_payload.split('_')
 
-    Функция обрабатывает уведомление об успешной оплате товара. Она извлекает
-    информацию о платеже из сообщения, сохраняет данные о платеже в базе данных
-    и уведомляет пользователя об успешной оплате.
+    if payment_type == 'stars':
+        price = payment_info.total_amount
+        currency = '⭐'
+    else:
+        price = payment_info.total_amount / 100
+        currency = '₽'
 
-    Args:
-        message (Message): Объект сообщения от Telegram об успешной оплате.
-        session_with_commit (AsyncSession): Асинхровая сессия SQLAlchemy для работы с базой данных с коммитом.
+    payment_data = {
+        'user_id': int(user_id),
+        'payment_id': payment_info.telegram_payment_charge_id,
+        'price': price,
+        'product_id': int(product_id),
+        'payment_type': payment_type
+    }
 
-    Как работает функция:
-        1. Извлекает информацию о платеже из `message.successful_payment`.
-        2. Разделяет данные из `payment_info.invoice_payload` для получения типа платежа, идентификатора пользователя и идентификатора товара.
-        3. Определяет цену и валюту платежа.
-        4. Формирует словарь `payment_data` с информацией о платеже.
-        5. Вызывает функцию `successful_payment_logic` для обработки логики успешной оплаты.
-
-    Примеры:
-        Предположим, есть объект `message: Message` с информацией об успешной оплате
-        и асинхровая сессия `session_with_commit: AsyncSession`.
-        Вызов функции будет выглядеть так:
-        ```python
-        await successful_payment(message, session_with_commit)
-        ```
-    """
+    await successful_payment_logic(session=session_with_commit, payment_data=payment_data, currency=currency, user_tg_id=message.from_user.id, bot=bot)
 ```
-
-## Переменные
-
-В данном модуле используются следующие переменные:
-
-- `catalog_router`: Объект `Router` из библиотеки `aiogram`, предназначенный для маршрутизации запросов, связанных с каталогом товаров.
-
-```python
-catalog_router = Router()

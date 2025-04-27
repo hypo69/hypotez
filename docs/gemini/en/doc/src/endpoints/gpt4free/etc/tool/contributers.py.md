@@ -1,46 +1,37 @@
-# Документация для `contributers.py`
+# Модуль для вывода списка разработчиков репозитория
 
 ## Обзор
 
-Этот скрипт предназначен для получения списка контрибьюторов репозитория `xtekky/gpt4free` с использованием API GitHub и отображения их аватарок со ссылками на профили GitHub.
+Модуль предоставляет код для вывода списка разработчиков репозитория `gpt4free` на Github. 
 
-## Более подробно
+## Детали
 
-Скрипт запрашивает информацию о контрибьюторах репозитория `xtekky/gpt4free` с помощью API GitHub. Для каждого контрибьютора извлекается логин и URL аватарки, после чего формируется HTML-код для отображения аватарки со ссылкой на профиль GitHub. Этот код выводится в консоль.
+Этот модуль используется для отображения вкладов разработчиков в репозиторий `gpt4free` на Github. Он получает список разработчиков из API Github и выводит их аватары и ссылки на профили Github. 
 
 ## Функции
 
-### Запрос и вывод контрибьюторов
+### `contributers()`
 
+**Purpose**:  Функция получает список разработчиков из API Github и выводит их аватары и ссылки на профили Github.
+
+
+**Parameters**:  
+- `None`
+
+**Returns**:  
+- `None`
+
+**Raises Exceptions**:  
+- `Exception`: В случае ошибки при получении данных от API Github.
+
+
+**How the Function Works**:  
+
+1.  Функция получает список разработчиков из API Github с помощью запроса `requests.get(url)`.
+2.  Она обрабатывает JSON-ответ и выводит для каждого разработчика ссылку на его профиль Github с аватаром.
+
+**Examples**:
 ```python
-import requests
-
-url = "https://api.github.com/repos/xtekky/gpt4free/contributors?per_page=100"
-
-for user in requests.get(url).json():
-    print(f'<a href="https://github.com/{user["login"]}" target="_blank"><img src="{user["avatar_url"]}&s=45" width="45" title="{user["login"]}"></a>')
+from hypotez.src.endpoints.gpt4free.etc.tool.contributers import contributers
+contributers()
 ```
-
-**Назначение**:
-Получает список контрибьюторов репозитория `xtekky/gpt4free` и выводит HTML-код для отображения их аватарок со ссылками на профили GitHub.
-
-**Как работает функция**:
-1. Импортируется библиотека `requests` для выполнения HTTP-запросов.
-2. Определяется URL для запроса списка контрибьюторов из API GitHub.
-3. Выполняется GET-запрос к API GitHub и получается JSON-ответ.
-4. Для каждого пользователя в JSON-ответе извлекается логин (`user["login"]`) и URL аватарки (`user["avatar_url"]`).
-5. Формируется HTML-код для отображения аватарки пользователя со ссылкой на его профиль GitHub.
-6. HTML-код выводится в консоль.
-
-**Пример**:
-
-```python
-import requests
-
-url = "https://api.github.com/repos/xtekky/gpt4free/contributors?per_page=100"
-
-for user in requests.get(url).json():
-    print(f'<a href="https://github.com/{user["login"]}" target="_blank"><img src="{user["avatar_url"]}&s=45" width="45" title="{user["login"]}"></a>')
-```
-
-В результате выполнения этого кода в консоль будет выведен HTML-код для отображения аватарок контрибьюторов репозитория `xtekky/gpt4free`.

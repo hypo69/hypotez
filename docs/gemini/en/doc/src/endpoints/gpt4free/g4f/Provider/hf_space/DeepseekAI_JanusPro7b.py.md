@@ -1,180 +1,173 @@
-# Модуль DeepseekAI_JanusPro7b
+# DeepseekAI Janus-Pro-7B Provider Module
 
-## Обзор
+## Overview
 
-Модуль `DeepseekAI_JanusPro7b` предназначен для взаимодействия с моделью Janus-Pro-7B от Deepseek AI, размещенной на платформе Hugging Face Spaces. Этот модуль предоставляет асинхронный генератор для обработки текстовых и графических запросов к модели, а также поддерживает потоковую передачу данных.
+This module provides the `DeepseekAI_JanusPro7b` class, which implements an asynchronous generator provider for the DeepseekAI Janus-Pro-7B model hosted on Hugging Face Spaces. It utilizes the Hugging Face Spaces API for model interactions, allowing for asynchronous text generation and image generation tasks.
 
-## Более подробно
+## Details
 
-Модуль использует асинхронные запросы для взаимодействия с API Hugging Face Spaces, обеспечивая эффективную обработку запросов. Он поддерживает как текстовые, так и графические запросы, а также позволяет передавать историю сообщений и использовать прокси-серверы.
+The `DeepseekAI_JanusPro7b` class leverages the Hugging Face Spaces API to interact with the DeepseekAI Janus-Pro-7B model. The provider supports streaming responses, system messages, and message history, enabling the creation of more interactive and engaging conversational experiences.
 
-## Классы
+## Classes
 
 ### `DeepseekAI_JanusPro7b`
 
-**Описание**: Класс `DeepseekAI_JanusPro7b` является реализацией асинхронного генератора для взаимодействия с моделью Janus-Pro-7B.
+**Description**: Класс `DeepseekAI_JanusPro7b` реализует асинхронный генератор провайдера для модели DeepseekAI Janus-Pro-7B, размещенной в Hugging Face Spaces. 
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
-- `ProviderModelMixin`: Предоставляет общие методы для работы с моделями.
+**Inherits**: 
+- `AsyncGeneratorProvider`: This base class provides a common structure for asynchronous generators, handling tasks like stream management and response parsing.
+- `ProviderModelMixin`: This mixin class adds functionality for model selection, configuration, and related operations.
 
-**Атрибуты**:
-- `label` (str): Метка провайдера ("DeepseekAI Janus-Pro-7B").
-- `space` (str): Имя пространства на Hugging Face ("deepseek-ai/Janus-Pro-7B").
-- `url` (str): URL пространства на Hugging Face.
-- `api_url` (str): Базовый URL API.
-- `referer` (str): Referer для HTTP-запросов.
-- `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `supports_stream` (bool): Флаг, указывающий на поддержку потоковой передачи.
-- `supports_system_message` (bool): Флаг, указывающий на поддержку системных сообщений.
-- `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений.
-- `default_model` (str): Модель по умолчанию ("janus-pro-7b").
-- `default_image_model` (str): Модель для обработки изображений по умолчанию ("janus-pro-7b-image").
-- `default_vision_model` (str): Модель для обработки визуальных данных по умолчанию.
-- `image_models` (list[str]): Список моделей для обработки изображений.
-- `vision_models` (list[str]): Список моделей для обработки визуальных данных.
-- `models` (list[str]): Объединенный список моделей для визуальных данных и изображений.
+**Attributes**:
+- `label` (str): The display name of the provider.
+- `space` (str): The Hugging Face Spaces name of the model.
+- `url` (str): The URL of the Hugging Face Space for the model.
+- `api_url` (str): The base URL of the API for the model.
+- `referer` (str): The referer header used for API requests.
+- `working` (bool): Indicates whether the provider is currently functioning.
+- `supports_stream` (bool): Indicates whether the provider supports streaming responses.
+- `supports_system_message` (bool): Indicates whether the provider supports system messages.
+- `supports_message_history` (bool): Indicates whether the provider supports message history.
+- `default_model` (str): The default model name for text generation.
+- `default_image_model` (str): The default model name for image generation.
+- `default_vision_model` (str): The default model name for vision tasks.
+- `image_models` (list): A list of image models supported by the provider.
+- `vision_models` (list): A list of vision models supported by the provider.
+- `models` (list): A combined list of vision and image models.
 
-**Принцип работы**:
-Класс использует асинхронные запросы к API Hugging Face Spaces для отправки текстовых и графических запросов к модели Janus-Pro-7B. Он обрабатывает ответы API, извлекая текстовые и графические данные, и предоставляет их в виде асинхронного генератора.
+**Methods**:
 
-**Методы**:
-- `run`: Выполняет HTTP-запрос к API.
-- `create_async_generator`: Создает асинхронный генератор для взаимодействия с моделью.
+#### `run`
 
-## Методы класса
+**Purpose**: This class method handles the execution of API requests to the Hugging Face Spaces endpoint.
 
-### `run`
+**Parameters**:
+- `method` (str): The HTTP method to use for the request (e.g., "post" or "image").
+- `session` (StreamSession): The StreamSession object for handling requests.
+- `prompt` (str): The user prompt for text generation.
+- `conversation` (JsonConversation): The conversation context for the request.
+- `image` (dict, optional): Image data to use in the request. Defaults to `None`.
+- `seed` (int, optional): Random seed for generation. Defaults to `0`.
 
-```python
-@classmethod
-def run(cls, method: str, session: StreamSession, prompt: str, conversation: JsonConversation, image: dict = None, seed: int = 0):
-    """
-    Выполняет HTTP-запрос к API.
+**Returns**:
+- `StreamResponse`: The API response object.
 
-    Args:
-        cls (DeepseekAI_JanusPro7b): Класс.
-        method (str): HTTP-метод ("post" или "image").
-        session (StreamSession): Асинхронная сессия для выполнения запросов.
-        prompt (str): Текст запроса.
-        conversation (JsonConversation): Объект, содержащий информацию о сессии.
-        image (dict, optional): Данные изображения. По умолчанию `None`.
-        seed (int, optional): Зерно для генерации случайных чисел. По умолчанию 0.
+**How the Function Works**:
+- The function constructs the API request URL based on the provided `method` and other parameters.
+- It sets the request headers, including necessary authentication tokens and referer information.
+- It builds the request body, containing the prompt, seed, and other relevant data.
+- Finally, it sends the request using the appropriate HTTP method (POST or GET) and returns the API response.
 
-    Returns:
-        StreamResponse: Объект ответа от API.
-    """
-```
 
-**Как работает**:
-Функция `run` выполняет HTTP-запрос к API Hugging Face Spaces в зависимости от указанного метода (`post` для текстовых запросов, `image` для графических). Она формирует заголовки запроса, включая токен и UUID, и отправляет запрос с соответствующими данными.
+#### `create_async_generator`
 
-**Примеры**:
-```python
-# Пример вызова метода run
-async with StreamSession() as session:
-    response = await DeepseekAI_JanusPro7b.run(
-        method="post",
-        session=session,
-        prompt="Hello, world!",
-        conversation=JsonConversation(session_hash="123", zerogpu_token="token", zerogpu_uuid="uuid"),
-        seed=12345
-    )
-```
+**Purpose**: This class method is the main entry point for generating responses asynchronously. It creates a generator that yields responses as they become available.
 
-### `create_async_generator`
+**Parameters**:
+- `model` (str): The model to use for generation (text or image).
+- `messages` (Messages): The list of messages in the conversation.
+- `media` (MediaListType, optional): List of media files for the request. Defaults to `None`.
+- `prompt` (str, optional): The user prompt for generation. Defaults to `None`.
+- `proxy` (str, optional): Proxy server to use for requests. Defaults to `None`.
+- `cookies` (Cookies, optional): Cookies to use for authentication. Defaults to `None`.
+- `api_key` (str, optional): API key for accessing the model. Defaults to `None`.
+- `zerogpu_uuid` (str, optional): The UUID for the user's session. Defaults to "[object Object]".
+- `return_conversation` (bool, optional): Whether to return the conversation object as the first yield. Defaults to `False`.
+- `conversation` (JsonConversation, optional): The conversation context. Defaults to `None`.
+- `seed` (int, optional): Random seed for generation. Defaults to `None`.
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    media: MediaListType = None,
-    prompt: str = None,
-    proxy: str = None,
-    cookies: Cookies = None,
-    api_key: str = None,
-    zerogpu_uuid: str = "[object Object]",
-    return_conversation: bool = False,
-    conversation: JsonConversation = None,
-    seed: int = None,
-    **kwargs
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для взаимодействия с моделью.
+**Returns**:
+- `AsyncResult`: An asynchronous result object that yields responses.
 
-    Args:
-        cls (DeepseekAI_JanusPro7b): Класс.
-        model (str): Имя модели.
-        messages (Messages): Список сообщений для формирования запроса.
-        media (MediaListType, optional): Список медиафайлов. По умолчанию `None`.
-        prompt (str, optional): Текст запроса. По умолчанию `None`.
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-        cookies (Cookies, optional): Cookies для HTTP-запросов. По умолчанию `None`.
-        api_key (str, optional): API-ключ. По умолчанию `None`.
-        zerogpu_uuid (str, optional): UUID. По умолчанию "[object Object]".
-        return_conversation (bool, optional): Флаг, указывающий, возвращать ли объект conversation. По умолчанию `False`.
-        conversation (JsonConversation, optional): Объект, содержащий информацию о сессии. По умолчанию `None`.
-        seed (int, optional): Зерно для генерации случайных чисел. По умолчанию `None`.
-        **kwargs: Дополнительные аргументы.
+**How the Function Works**:
+- The function first determines the appropriate HTTP method based on the model and the presence of a prompt.
+- It formats the prompt for the model and generates a random seed if one isn't provided.
+- It obtains a session hash for the request and retrieves the necessary authentication tokens if they are not already provided.
+- The function creates a StreamSession for handling asynchronous requests, optionally using a proxy.
+- If media files are present, it uploads them to the API and updates the media list with the corresponding file information.
+- It then initiates an API request using the `run` method, sending the prompt, seed, and other data.
+- The function handles the streaming response from the API, parsing the JSON data and yielding responses as they become available. 
+- Responses are yielded as `Reasoning` objects for progress updates or as `ImageResponse` objects for image outputs.
 
-    Yields:
-        AsyncResult: Результаты работы генератора.
-    """
-```
-
-**Как работает**:
-Функция `create_async_generator` создает асинхронный генератор, который отправляет запросы к API Hugging Face Spaces и возвращает результаты. Она определяет метод запроса (`post` или `image`) в зависимости от типа запроса (текст или изображение), формирует запрос, получает токен и UUID, и отправляет запрос с использованием асинхронной сессии. Функция также обрабатывает медиафайлы, загружая их на сервер и передавая их в запросе.
-
-**Примеры**:
-```python
-# Пример вызова метода create_async_generator
-async def main():
-    async for result in DeepseekAI_JanusPro7b.create_async_generator(
-        model="janus-pro-7b",
-        messages=[{"role": "user", "content": "Hello, world!"}]
-    ):
-        print(result)
-
-# Запуск асинхронной функции
-# asyncio.run(main())
-```
-
-## Внутренние функции
+## Inner Functions:
 
 ### `get_zerogpu_token`
 
+**Purpose**: This function retrieves the necessary authentication tokens for accessing the Hugging Face Spaces API.
+
+**Parameters**:
+- `space` (str): The Hugging Face Spaces name of the model.
+- `session` (StreamSession): The StreamSession object for handling requests.
+- `conversation` (JsonConversation, optional): The conversation context. Defaults to `None`.
+- `cookies` (Cookies, optional): Cookies for authentication. Defaults to `None`.
+
+**Returns**:
+- `tuple`: A tuple containing the `zerogpu_uuid` and `zerogpu_token`.
+
+**How the Function Works**:
+- If a conversation object is provided, it attempts to retrieve the `zerogpu_uuid` from it.
+- The function obtains cookies for authentication and retrieves the `zerogpu_token` from the Hugging Face Spaces website if it's not available.
+- It then makes a request to the API endpoint to obtain a new JWT token for authentication.
+- Finally, it returns the retrieved `zerogpu_uuid` and `zerogpu_token`. 
+
+## Examples
+
 ```python
-async def get_zerogpu_token(space: str, session: StreamSession, conversation: JsonConversation, cookies: Cookies = None):
-    """
-    Получает zerogpu_token и zerogpu_uuid.
+# Example 1: Generating text using the default model
+from hypotez.src.endpoints.gpt4free.g4f.Provider.hf_space.DeepseekAI_JanusPro7b import DeepseekAI_JanusPro7b
+async def generate_text():
+    provider = DeepseekAI_JanusPro7b()
+    async for response in provider.create_async_generator(model="janus-pro-7b", messages=["Hello, world!"]):
+        print(response.content)
 
-    Args:
-        space (str): Имя пространства на Hugging Face.
-        session (StreamSession): Асинхронная сессия для выполнения запросов.
-        conversation (JsonConversation): Объект, содержащий информацию о сессии.
-        cookies (Cookies, optional): Cookies для HTTP-запросов. По умолчанию `None`.
-
-    Returns:
-        tuple[str, str]: zerogpu_uuid и zerogpu_token.
-    """
+# Example 2: Generating an image with a prompt
+async def generate_image():
+    provider = DeepseekAI_JanusPro7b()
+    async for response in provider.create_async_generator(model="janus-pro-7b-image", prompt="A beautiful sunset over the ocean"):
+        print(response.content)
+```
+```python
+# Example 3: Using media files in the request
+from hypotez.src.endpoints.gpt4free.g4f.Provider.hf_space.DeepseekAI_JanusPro7b import DeepseekAI_JanusPro7b
+from hypotez.src.image import is_accepted_format, to_bytes
+async def generate_text_with_image():
+    provider = DeepseekAI_JanusPro7b()
+    media = [(to_bytes('path/to/image.jpg'), 'image.jpg')]
+    async for response in provider.create_async_generator(model="janus-pro-7b-image", messages=["What is this image?"], media=media):
+        print(response.content)
+```
+```python
+# Example 4: Using a custom model with seed
+from hypotez.src.endpoints.gpt4free.g4f.Provider.hf_space.DeepseekAI_JanusPro7b import DeepseekAI_JanusPro7b
+async def generate_text_with_custom_model_and_seed():
+    provider = DeepseekAI_JanusPro7b()
+    async for response in provider.create_async_generator(model="janus-pro-7b", messages=["Tell me a story."], seed=12345):
+        print(response.content)
 ```
 
-**Как работает**:
-Функция `get_zerogpu_token` извлекает `zerogpu_token` и `zerogpu_uuid` из API Hugging Face Spaces. Она выполняет GET-запросы к страницам Hugging Face Spaces и анализирует HTML-код для извлечения необходимых значений. Функция также использует cookies для аутентификации и получения токена.
+## Parameter Details:
 
-**Примеры**:
-```python
-# Пример вызова функции get_zerogpu_token
-async def main():
-    async with StreamSession() as session:
-        uuid, token = await get_zerogpu_token(
-            space="deepseek-ai/Janus-Pro-7B",
-            session=session,
-            conversation=JsonConversation(session_hash="123")
-        )
-        print(f"UUID: {uuid}, Token: {token}")
+- `model` (str): The model name to use for generation. Possible values include `janus-pro-7b` for text, `janus-pro-7b-image` for images.
+- `messages` (Messages): A list of messages in the conversation, containing the user's prompts and the model's responses.
+- `media` (MediaListType): A list of media files, such as images, that can be used in the request.
+- `prompt` (str): The user's prompt for generation, which can be used instead of `messages` for a single prompt.
+- `proxy` (str): A proxy server address to use for requests.
+- `cookies` (Cookies): A dictionary of cookies for authentication.
+- `api_key` (str): The API key for accessing the model.
+- `zerogpu_uuid` (str): The UUID for the user's session.
+- `return_conversation` (bool): Whether to return the conversation object as the first yield.
+- `conversation` (JsonConversation): The conversation context object containing information about the current conversation.
+- `seed` (int): A random seed for generation, which can be used to control the variability of the responses.
 
-# asyncio.run(main())
-```
+
+## How the Code Works:
+
+The code defines the `DeepseekAI_JanusPro7b` class, which implements a provider for the DeepseekAI Janus-Pro-7B model hosted on Hugging Face Spaces. The class inherits from `AsyncGeneratorProvider` and `ProviderModelMixin` to provide a common structure for asynchronous generators and model-specific functionality.
+
+The `run` method handles API requests to the Hugging Face Spaces endpoint. It constructs the API request URL, sets the headers (including authentication tokens), builds the request body, and sends the request using the appropriate HTTP method.
+
+The `create_async_generator` method is the main entry point for generating responses asynchronously. It receives parameters such as the model name, conversation messages, and media files, and then initiates an asynchronous API request using the `run` method. It handles the streaming response from the API, parsing the JSON data and yielding responses as they become available.
+
+The `get_zerogpu_token` function retrieves the authentication tokens required for accessing the Hugging Face Spaces API. It obtains cookies from the Hugging Face website, retrieves the `zerogpu_token` and makes a request to the API to obtain a new JWT token for authentication.
+
+Overall, this module provides a robust and easy-to-use mechanism for interacting with the DeepseekAI Janus-Pro-7B model on Hugging Face Spaces, supporting both text and image generation tasks.

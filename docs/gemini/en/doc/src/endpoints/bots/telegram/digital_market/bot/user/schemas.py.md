@@ -1,174 +1,88 @@
-# Module Name
+# Schemas for Telegram User, Product, and Payment Data
 
 ## Overview
 
-This module defines Pydantic models for representing data related to users, products, categories, and payments in a Telegram bot context. It includes models for Telegram IDs, user information, product IDs, category IDs, and payment data.
+This module defines Pydantic models for representing user data, product information, and payment details within the context of a Telegram bot. Pydantic models provide a structured way to define data schemas and ensure type validation.
 
-## More details
+## Details
 
-This module provides a structured way to handle data within the Telegram bot, ensuring type safety and data validation. The models are used to represent data received from and sent to the Telegram API, as well as to store information about users, products, and payments.
+These schemas are essential for processing and validating user data, product information, and payment details within the Telegram bot's functionality. They ensure consistency and data integrity, enabling secure and reliable data handling.
 
 ## Classes
 
 ### `TelegramIDModel`
 
-**Description**: Базовая модель для представления ID пользователя Telegram.
-**Inherits**:
-**Attributes**:
-- `telegram_id` (int): ID пользователя в Telegram.
+**Description**: Base model for representing a Telegram user's ID.
 
-**Working principle**:
-Модель `TelegramIDModel` является базовой и служит для представления ID пользователя в Telegram. Она включает поле `telegram_id` типа `int`, которое хранит уникальный идентификатор пользователя. Конфигурация модели `model_config` указывает, что модель может быть создана из атрибутов.
+**Attributes**:
+
+- `telegram_id` (int): The unique Telegram ID of the user.
 
 ### `UserModel`
 
-**Description**: Модель для представления информации о пользователе Telegram.
-**Inherits**:
-- `TelegramIDModel`: Наследует поле `telegram_id` от базовой модели.
-**Attributes**:
-- `username` (str | None): Имя пользователя в Telegram (может отсутствовать).
-- `first_name` (str | None): Имя пользователя (может отсутствовать).
-- `last_name` (str | None): Фамилия пользователя (может отсутствовать).
+**Description**: Model for representing a Telegram user. Inherits from `TelegramIDModel`.
 
-**Working principle**:
-Модель `UserModel` расширяет `TelegramIDModel`, добавляя поля для хранения имени пользователя, имени и фамилии. Все строковые поля являются необязательными и могут иметь значение `None`. Это позволяет хранить неполную информацию о пользователях, если какие-то данные отсутствуют.
+**Attributes**:
+
+- `telegram_id` (int): The unique Telegram ID of the user.
+- `username` (str | None): The user's Telegram username, if available.
+- `first_name` (str | None): The user's first name.
+- `last_name` (str | None): The user's last name.
 
 ### `ProductIDModel`
 
-**Description**: Модель для представления ID товара.
-**Inherits**:
-**Attributes**:
-- `id` (int): ID товара.
+**Description**: Model for representing a product ID.
 
-**Working principle**:
-Модель `ProductIDModel` предназначена для представления ID товара. Она содержит поле `id` типа `int`, которое хранит уникальный идентификатор товара.
+**Attributes**:
+
+- `id` (int): The unique ID of the product.
 
 ### `ProductCategoryIDModel`
 
-**Description**: Модель для представления ID категории товара.
-**Inherits**:
-**Attributes**:
-- `category_id` (int): ID категории товара.
+**Description**: Model for representing a product category ID.
 
-**Working principle**:
-Модель `ProductCategoryIDModel` предназначена для представления ID категории товара. Она содержит поле `category_id` типа `int`, которое хранит уникальный идентификатор категории.
+**Attributes**:
+
+- `category_id` (int): The unique ID of the product category.
 
 ### `PaymentData`
 
-**Description**: Модель для представления данных о платеже.
-**Inherits**:
+**Description**: Model for representing payment data.
+
 **Attributes**:
-- `user_id` (int): ID пользователя Telegram.
-- `payment_id` (str): Уникальный ID платежа.
-- `price` (int): Сумма платежа в рублях.
-- `product_id` (int): ID товара.
-- `payment_type` (str): Тип оплаты.
 
-**Working principle**:
-Модель `PaymentData` используется для хранения информации о платежах, совершаемых пользователями. Она включает поля для ID пользователя, уникального ID платежа, суммы платежа, ID товара и типа оплаты. Модель обеспечивает структурированное представление данных о платежах и упрощает их обработку.
+- `user_id` (int): The ID of the Telegram user making the payment.
+- `payment_id` (str): The unique ID of the payment.
+- `price` (int): The price of the product in rubles.
+- `product_id` (int): The ID of the product being purchased.
+- `payment_type` (str): The type of payment method used.
 
-## Class Methods
-
-### `TelegramIDModel`
-
-#### `model_config`
+## Examples
 
 ```python
-model_config = ConfigDict(from_attributes=True)
+from hypotez.src.endpoints.bots.telegram.digital_market.bot.user.schemas import (
+    TelegramIDModel,
+    UserModel,
+    ProductIDModel,
+    ProductCategoryIDModel,
+    PaymentData,
+)
+
+# Example usage:
+user_data = UserModel(
+    telegram_id=123456789,
+    username="@username",
+    first_name="John",
+    last_name="Doe",
+)
+
+product_id = ProductIDModel(id=100)
+
+payment_details = PaymentData(
+    user_id=user_data.telegram_id,
+    payment_id="unique_payment_id",
+    price=1000,
+    product_id=product_id.id,
+    payment_type="card",
+)
 ```
-
-**Purpose**: Конфигурирует модель для создания экземпляров из атрибутов.
-
-**Parameters**:
-- Нет
-
-**Returns**:
-- Нет
-
-**Raises**:
-- Нет
-
-**How the function works**:
-Конфигурация `model_config` задает настройку `from_attributes=True`, что позволяет создавать экземпляры модели `TelegramIDModel` из атрибутов, например, из объектов базы данных.
-
-**Examples**:
-```python
-from pydantic import BaseModel, ConfigDict
-
-class MyModel(BaseModel):
-    id: int
-    name: str
-
-    model_config = ConfigDict(from_attributes=True)
-
-data = {"id": 1, "name": "Example"}
-model_instance = MyModel(**data)
-print(model_instance)
-```
-
-### `PaymentData`
-
-#### `__init__`
-
-```python
-def __init__(self, user_id: int = Field(..., description="ID пользователя Telegram"),
-                 payment_id: str = Field(..., max_length=255, description="Уникальный ID платежа"),
-                 price: int = Field(..., description="Сумма платежа в рублях"),
-                 product_id: int = Field(..., description="ID товара"),
-                 payment_type: str = Field(..., description="Тип оплаты")):
-    """
-    Инициализирует модель данных платежа.
-    Args:
-        user_id (int): ID пользователя Telegram.
-        payment_id (str): Уникальный ID платежа.
-        price (int): Сумма платежа в рублях.
-        product_id (int): ID товара.
-        payment_type (str): Тип оплаты.
-    """
-```
-
-**Purpose**: Инициализация экземпляра класса `PaymentData`.
-
-**Parameters**:
-- `user_id` (int): ID пользователя Telegram.
-- `payment_id` (str): Уникальный ID платежа.
-- `price` (int): Сумма платежа в рублях.
-- `product_id` (int): ID товара.
-- `payment_type` (str): Тип оплаты.
-
-**Returns**:
-- Нет
-
-**Raises**:
-- Нет
-
-**How the function works**:
-Метод `__init__` инициализирует экземпляр класса `PaymentData` с заданными параметрами.
-
-**Examples**:
-```python
-from pydantic import BaseModel, Field
-
-class PaymentData(BaseModel):
-    user_id: int = Field(..., description="ID пользователя Telegram")
-    payment_id: str = Field(..., max_length=255, description="Уникальный ID платежа")
-    price: int = Field(..., description="Сумма платежа в рублях")
-    product_id: int = Field(..., description="ID товара")
-    payment_type: str = Field(..., description="Тип оплаты")
-
-payment_data = PaymentData(user_id=123, payment_id="abc", price=100, product_id=1, payment_type="card")
-print(payment_data)
-```
-## Class Parameters
-
-- `telegram_id` (int): Уникальный идентификатор пользователя в Telegram.
-- `username` (str | None): Имя пользователя в Telegram (может быть `None`).
-- `first_name` (str | None): Имя пользователя (может быть `None`).
-- `last_name` (str | None): Фамилия пользователя (может быть `None`).
-- `id` (int): Уникальный идентификатор товара.
-- `category_id` (int): Уникальный идентификатор категории товара.
-- `user_id` (int): ID пользователя Telegram.
-- `payment_id` (str): Уникальный ID платежа.
-- `price` (int): Сумма платежа в рублях.
-- `product_id` (int): ID товара.
-- `payment_type` (str): Тип оплаты.

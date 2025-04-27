@@ -1,78 +1,78 @@
-# Модуль `BackendApi.py`
+# BackendApi Module
 
-## Обзор
+## Overview
 
-Модуль `BackendApi.py` содержит класс `BackendApi`, который используется для взаимодействия с API бэкенда для создания асинхронных генераторов. Этот класс предназначен для отправки запросов к API, получения ответов в виде потока данных и обработки этих данных. Он поддерживает отправку сообщений и медиа-файлов.
+This module defines the `BackendApi` class, which represents a backend API provider for interacting with a conversational AI service. The class inherits from `AsyncGeneratorProvider` and `ProviderModelMixin`, providing functionality for asynchronous generation of responses and model-specific configurations.
 
-## Детали
+## Details
 
-Модуль предоставляет функциональность для асинхронного взаимодействия с API, поддерживая потоковую передачу данных. Это позволяет обрабатывать большие объемы данных без полной загрузки в память, что особенно полезно при работе с медиа-контентом. Класс `BackendApi` наследуется от `AsyncGeneratorProvider` и `ProviderModelMixin`, что позволяет ему использовать функциональность асинхронных генераторов и моделей провайдеров.
+The `BackendApi` class is responsible for sending requests to a backend API and receiving responses in an asynchronous manner. It utilizes the `StreamSession` class from the `requests` library for handling streaming responses.
 
-## Классы
+## Classes
 
 ### `BackendApi`
 
-**Описание**: Класс `BackendApi` предназначен для взаимодействия с API бэкенда и создания асинхронных генераторов для обработки данных, получаемых в виде потока.
+**Description**:  This class represents a backend API provider for a conversational AI service.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Предоставляет базовую функциональность для асинхронных генераторов.
-- `ProviderModelMixin`: Предоставляет функциональность для работы с моделями провайдеров.
+**Inherits**:
+ -  `AsyncGeneratorProvider`:  Provides functionality for asynchronous generation of responses.
+ -  `ProviderModelMixin`: Provides functionality for model-specific configurations.
 
-**Атрибуты**:
-- `ssl` (None): Указывает, использовать ли SSL. По умолчанию `None`.
-- `headers` (dict): Заголовки HTTP-запроса. По умолчанию пустой словарь `{}`.
+**Attributes**:
+ - `ssl`:  Specifies the SSL configuration for API requests.
+ - `headers`:  Defines the HTTP headers for API requests.
 
-**Методы**:
-- `create_async_generator()`: Создает асинхронный генератор для получения ответов от API.
+**Methods**:
+ - `create_async_generator()`:  Asynchronously generates responses from the backend API.
 
-### `create_async_generator`
 
+#### `create_async_generator`
+
+**Purpose**:  Asynchronously generates responses from the backend API. 
+
+**Parameters**:
+ - `model` (str):  The model to use for the conversation.
+ - `messages` (Messages):  A list of messages for the conversation.
+ - `media` (MediaListType, optional):  A list of media files to be included in the conversation. Defaults to `None`.
+ - `api_key` (str, optional):  The API key for authentication. Defaults to `None`.
+ - `**kwargs`: Additional keyword arguments to be passed to the backend API.
+
+**Returns**:
+ - `AsyncResult`:  An asynchronous result object that yields `RawResponse` objects as they are received from the API.
+
+**Raises Exceptions**:
+ - `Exception`:  If an error occurs during the API request or response processing.
+
+**How the Function Works**:
+ 1.  The function initializes an `StreamSession` with the necessary headers.
+ 2.  It sends a POST request to the specified API endpoint with the provided parameters.
+ 3.  The function then iterates over the lines of the streaming response, converting each line to a `RawResponse` object using `json.loads`.
+ 4.  Finally, the function yields each `RawResponse` object to the caller.
+
+**Examples**:
 ```python
-    @classmethod
-    async def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        media: MediaListType = None,
-        api_key: str = None,
-        **kwargs
-    ) -> AsyncResult:
-        """Создает асинхронный генератор для получения ответов от API.
+# Example using the BackendApi class
+from hypotez.src.endpoints.gpt4free.g4f.Provider.template.BackendApi import BackendApi
+from hypotez.src.typing import Messages
 
-        Args:
-            cls (BackendApi): Ссылка на класс `BackendApi`.
-            model (str): Название модели, используемой для генерации ответов.
-            messages (Messages): Список сообщений для отправки в API.
-            media (MediaListType, optional): Список медиа-файлов для отправки в API. По умолчанию `None`.
-            api_key (str, optional): Ключ API для аутентификации. По умолчанию `None`.
-            **kwargs: Дополнительные аргументы для отправки в API.
+# Sample messages
+messages = Messages(
+    [
+        {
+            "role": "user",
+            "content": "Hello, how are you?",
+        },
+    ]
+)
 
-        Returns:
-            AsyncResult: Асинхронный генератор, возвращающий объекты `RawResponse`.
+# Creating an instance of the BackendApi class (assuming model, api_key are defined elsewhere)
+backend_api = BackendApi(model=model, api_key=api_key)
 
-        Как работает функция:
-        - Логирует информацию об использовании API-ключа.
-        - Преобразует медиа-файлы в формат data URI.
-        - Отправляет POST-запрос к API с использованием `StreamSession`.
-        - Получает ответы от API в виде потока данных и возвращает объекты `RawResponse`.
+# Asynchronously generating responses
+async def main():
+    async for response in backend_api.create_async_generator(messages=messages):
+        print(f"Response: {response.content}")
 
-        Примеры:
-            >>> model = "gpt-3.5-turbo"
-            >>> messages = [{"role": "user", "content": "Hello, world!"}]
-            >>> async for response in BackendApi.create_async_generator(model=model, messages=messages):
-            ...     print(response)
-        """
+# Running the asynchronous function
+asyncio.run(main())
 ```
-
-## Параметры Класса
-
-- `ssl`: Определяет, нужно ли использовать SSL для подключения к API.
-- `headers`: HTTP-заголовки, используемые при отправке запросов.
-
-## Параметры Метода `create_async_generator`
-
-- `model` (str): Имя используемой модели.
-- `messages` (Messages): Список сообщений, отправляемых в API.
-- `media` (MediaListType, optional): Список медиа-файлов для отправки. По умолчанию `None`.
-- `api_key` (str, optional): Ключ API для аутентификации. По умолчанию `None`.
-- `**kwargs`: Дополнительные аргументы, передаваемые в API.

@@ -1,39 +1,34 @@
-### Как использовать этот блок кода
+## Как использовать функцию `get_product_id`
 =========================================================================================
 
 Описание
 -------------------------
-Этот блок кода предназначен для извлечения ID товара из входной строки, которая может быть как самим ID, так и URL-адресом страницы товара. Он использует функцию `extract_prod_ids` для поиска и возврата ID товара. В случае, если ID не найден, выбрасывается исключение `ProductIdNotFoundException`.
+Функция `get_product_id` предназначена для извлечения идентификатора товара из текстовой строки. Она использует функцию `extract_prod_ids` для поиска и возврата идентификатора товара.
 
 Шаги выполнения
 -------------------------
-1. Функция `get_product_id` принимает строку `raw_product_id` в качестве аргумента.
-2. Вызывается функция `extract_prod_ids` с аргументом `raw_product_id`.
-3. Функция `extract_prod_ids` извлекает и возвращает ID товара из строки.
-4. Если ID товара не найден, функция `extract_prod_ids` выбрасывает исключение `ProductIdNotFoundException`.
-5. Функция `get_product_id` возвращает извлеченный ID товара.
+1. Функция принимает текстовую строку `raw_product_id`, которая может содержать идентификатор товара.
+2. Функция `extract_prod_ids` анализирует строку `raw_product_id` с использованием регулярных выражений для поиска и извлечения идентификатора товара.
+3.  Функция `get_product_id` возвращает найденный идентификатор товара, если он был найден.
+4. Если идентификатор товара не найден, функция `get_product_id` выдает исключение `ProductIdNotFoundException`.
 
 Пример использования
 -------------------------
 
 ```python
 from src.suppliers.suppliers_list.aliexpress.api.tools.get_product_id import get_product_id
-from src.suppliers.suppliers_list.aliexpress.errors import ProductIdNotFoundException
 
-try:
-    product_id = get_product_id("1234567890")
-    print(f"Product ID: {product_id}")  # Выведет: Product ID: 1234567890
-except ProductIdNotFoundException as e:
-    print(f"Error: {e}")
+# Пример текста с идентификатором товара
+raw_product_id = "https://www.aliexpress.com/item/10000000000000.html"
 
-try:
-    product_id = get_product_id("https://aliexpress.com/item/1234567890.html")
-    print(f"Product ID: {product_id}")  # Выведет: Product ID: 1234567890
-except ProductIdNotFoundException as e:
-    print(f"Error: {e}")
+# Вызов функции для получения идентификатора товара
+product_id = get_product_id(raw_product_id)
 
-try:
-    product_id = get_product_id("No product ID here")
-    print(f"Product ID: {product_id}")
-except ProductIdNotFoundException as e:
-    print(f"Error: {e}")  # Выведет сообщение об ошибке, если ID не найден
+# Печать результата
+print(f"Идентификатор товара: {product_id}")
+```
+
+**Важно**: 
+-  В примере `product_id` - это строка с найденным идентификатором.
+-  Функция `get_product_id` должна использоваться только для извлечения идентификаторов товаров. 
+-  Если идентификатор товара не найден, то функция выдает исключение.

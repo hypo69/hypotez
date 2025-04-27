@@ -1,135 +1,139 @@
-# Module for interacting with the GPROChat service
+# GPROChat Provider
 
 ## Overview
 
-The module defines the `GPROChat` class, which allows interaction with the GPROChat service for generating text. The module supports asynchronous operation, message history, and streaming responses.
+This module provides the `GPROChat` class, which implements an asynchronous generator provider for interacting with the GPROChat API. This provider allows you to send messages and receive responses from the GPROChat service, leveraging its capabilities for natural language processing and generation. 
 
-## More details
+## Details
 
-The `GPROChat` class is an asynchronous generator provider, meaning it can generate text in chunks asynchronously. It uses the `aiohttp` library to make HTTP requests to the GPROChat API. The module also includes functions for generating signatures to authenticate requests. The class determines which model to use (default is `gemini-1.5-pro`).
+The `GPROChat` provider leverages the GPROChat API to handle text generation requests. It provides a user-friendly interface for interacting with the API, allowing you to send messages, manage response streaming, and utilize message history for context. 
 
 ## Classes
 
 ### `GPROChat`
 
-**Description**: Class for interacting with the GPROChat service.
+**Description:** This class implements an asynchronous generator provider for interacting with the GPROChat API. It extends `AsyncGeneratorProvider` for stream-based responses and `ProviderModelMixin` for handling different model options.
 
-**Inherits**: `AsyncGeneratorProvider`, `ProviderModelMixin`
+**Inherits:** 
+- `AsyncGeneratorProvider`
+- `ProviderModelMixin`
 
-**Attributes**:
+**Attributes:**
 
-- `url` (str): The base URL of the GPROChat service ("https://gprochat.com").
-- `api_endpoint` (str): The API endpoint for generating text ("https://gprochat.com/api/generate").
-- `working` (bool): A flag indicating whether the service is currently working (`False`).
-- `supports_stream` (bool): A flag indicating whether the service supports streaming responses (`True`).
-- `supports_message_history` (bool): A flag indicating whether the service supports message history (`True`).
-- `default_model` (str): The default model to use if none is specified (`'gemini-1.5-pro'`).
+- `url (str)`: The base URL of the GPROChat API.
+- `api_endpoint (str)`: The endpoint for sending text generation requests.
+- `working (bool)`: Flag indicating whether the provider is functional.
+- `supports_stream (bool)`: Indicates whether the provider supports streaming responses.
+- `supports_message_history (bool)`: Indicates whether the provider supports using message history.
+- `default_model (str)`: The default model used by the provider.
 
-**Working principle**:
+**Methods:**
 
-The `GPROChat` class inherits from `AsyncGeneratorProvider` and `ProviderModelMixin`. It defines static methods for generating request signatures and creating asynchronous generators for interacting with the GPROChat API. The class uses `aiohttp.ClientSession` to send asynchronous POST requests to the API endpoint. The responses are streamed and yielded in chunks.
+- `generate_signature(timestamp: int, message: str) -> str`: Generates a signature for the API request based on a timestamp, message, and a secret key.
+- `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`: Creates an asynchronous generator for sending a text generation request to the GPROChat API.
+
+**Example:**
+
+```python
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.GPROChat import GPROChat
+
+provider = GPROChat()
+messages = [
+    {'role': 'user', 'content': 'Hello!'},
+    {'role': 'assistant', 'content': 'Hi there!'},
+]
+async for chunk in provider.create_async_generator(model='gemini-1.5-pro', messages=messages):
+    print(chunk)
+```
+
 
 ## Class Methods
 
 ### `generate_signature`
 
-```python
-@staticmethod
-def generate_signature(timestamp: int, message: str) -> str:
-    """Генерирует подпись для запроса к API GPROChat.
+**Purpose:** Generates a signature for the API request.
 
-    Args:
-        timestamp (int): Временная метка в миллисекундах.
-        message (str): Сообщение, для которого генерируется подпись.
+**Parameters:**
 
-    Returns:
-        str: Подпись, сгенерированная на основе временной метки и сообщения.
-    """
-```
+- `timestamp (int)`: Timestamp in milliseconds.
+- `message (str)`: The message to be sent to the API.
 
-**Purpose**: Generates a signature for the GPROChat API request using a timestamp, message, and secret key.
-
-**Parameters**:
-
-- `timestamp` (int): The timestamp in milliseconds.
-- `message` (str): The message for which the signature is generated.
-
-**Returns**:
+**Returns:**
 
 - `str`: The generated signature.
 
-**How the function works**:
+**How the Function Works:**
 
-The function calculates the SHA256 hash of the concatenated string of timestamp, message, and a secret key. The resulting hash is returned as the signature.
+- This function calculates a SHA-256 hash of a string composed of the timestamp, message, and a secret key.
+- The resulting hash is encoded in hexadecimal format and returned as the signature.
 
-**Examples**:
+**Examples:**
 
 ```python
-timestamp = int(time.time() * 1000)
-message = "Test message"
-signature = GPROChat.generate_signature(timestamp, message)
-print(signature)
+signature = GPROChat.generate_signature(timestamp=1693631200000, message="Hello, world!")
+print(signature) # Output: a6564458c4c8d73259a8114e149f17673d22df2f86a29f85342e1105312d94e1
 ```
 
 ### `create_async_generator`
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    **kwargs
-) -> AsyncResult:
-    """Создает асинхронный генератор для взаимодействия с API GPROChat.
+**Purpose:** Creates an asynchronous generator for sending a text generation request to the GPROChat API.
 
-    Args:
-        model (str): Имя модели для использования.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): URL прокси-сервера. Defaults to `None`.
-        **kwargs: Дополнительные аргументы.
+**Parameters:**
 
-    Returns:
-        AsyncResult: Асинхронный генератор, выдающий ответы от API.
-    """
-```
+- `model (str)`: The model to use for text generation.
+- `messages (Messages)`: A list of messages representing the conversation history.
+- `proxy (str, optional)`: A proxy server URL. Defaults to None.
+- `**kwargs`: Additional keyword arguments.
 
-**Purpose**: Creates an asynchronous generator for interacting with the GPROChat API.
+**Returns:**
 
-**Parameters**:
+- `AsyncResult`: An asynchronous generator that yields chunks of the response.
 
-- `cls`: The class object.
-- `model` (str): The name of the model to use.
-- `messages` (Messages): The list of messages to send.
-- `proxy` (str, optional): The proxy server URL. Defaults to `None`.
-- `**kwargs`: Additional arguments.
+**How the Function Works:**
 
-**Returns**:
+1. The function prepares the request data, including the formatted prompt, timestamp, and signature.
+2. It establishes an HTTP session with appropriate headers.
+3. The function sends a POST request to the API endpoint with the prepared data.
+4. The response is streamed in chunks, and each chunk is yielded by the generator.
 
-- `AsyncResult`: An asynchronous generator that yields responses from the API.
-
-**How the function works**:
-
-The function prepares the request headers and data, including the timestamp and signature. It then uses `aiohttp.ClientSession` to send an asynchronous POST request to the API endpoint. The responses are streamed and yielded in chunks.
-
-**Examples**:
+**Examples:**
 
 ```python
-messages = [{"role": "user", "content": "Hello, GPROChat!"}]
-async def generate_response():
-    async for chunk in GPROChat.create_async_generator(model='gemini-1.5-pro', messages=messages):
-        print(chunk, end="")
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.GPROChat import GPROChat
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-import asyncio
-asyncio.run(generate_response())
+provider = GPROChat()
+messages: Messages = [
+    {'role': 'user', 'content': 'Hello!'},
+    {'role': 'assistant', 'content': 'Hi there!'},
+]
+
+async for chunk in provider.create_async_generator(model='gemini-1.5-pro', messages=messages):
+    print(chunk)
 ```
 
-## Class Parameters
+## Parameter Details
 
-- `url` (str): The base URL of the GPROChat service.
-- `api_endpoint` (str): The API endpoint for generating text.
-- `working` (bool): A flag indicating whether the service is currently working.
-- `supports_stream` (bool): A flag indicating whether the service supports streaming responses.
-- `supports_message_history` (bool): A flag indicating whether the service supports message history.
-- `default_model` (str): The default model to use if none is specified.
+- `messages (Messages)`: A list of messages representing the conversation history. Each message is a dictionary with the following keys:
+    - `role (str)`: The role of the message sender (e.g., "user", "assistant").
+    - `content (str)`: The message content.
+- `proxy (str, optional)`: A proxy server URL. If provided, the API request will be sent through the proxy server. Defaults to `None`. 
+
+## Examples
+
+```python
+from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.GPROChat import GPROChat
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
+
+provider = GPROChat()
+messages: Messages = [
+    {'role': 'user', 'content': 'Hello!'},
+    {'role': 'assistant', 'content': 'Hi there!'},
+]
+
+async for chunk in provider.create_async_generator(model='gemini-1.5-pro', messages=messages):
+    print(chunk)
+
+```
+
+**Note:** This provider is currently marked as `not_working`. It may require further updates or configuration to function properly.

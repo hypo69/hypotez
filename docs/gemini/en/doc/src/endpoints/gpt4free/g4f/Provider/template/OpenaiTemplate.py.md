@@ -1,188 +1,176 @@
-# Модуль: OpenaiTemplate
+# OpenaiTemplate.py
 
-## Обзор
+## Overview
 
-Модуль `OpenaiTemplate` предоставляет шаблон для взаимодействия с API OpenAI. Он включает в себя асинхронную поддержку генерации текста и изображений, обработку ошибок и другие полезные функции. Модуль является частью проекта `hypotez` и предназначен для упрощения интеграции с различными моделями OpenAI.
+Этот модуль предоставляет класс `OpenaiTemplate`, который реализует базовый шаблон для взаимодействия с API OpenAI.
 
-## Подробнее
+## Details
 
-Модуль содержит класс `OpenaiTemplate`, который наследуется от `AsyncGeneratorProvider`, `ProviderModelMixin` и `RaiseErrorMixin`. Он предоставляет методы для получения списка моделей, создания асинхронного генератора для запросов к API OpenAI и формирования заголовков запросов.
+Класс `OpenaiTemplate` наследует от `AsyncGeneratorProvider`, `ProviderModelMixin` и `RaiseErrorMixin`. Он предоставляет методы для получения списка доступных моделей OpenAI, отправки запросов к API и обработки ответов.
 
-## Классы
+## Classes
 
 ### `OpenaiTemplate`
 
-**Описание**: Класс предоставляет шаблон для взаимодействия с API OpenAI.
+**Description**: Класс, который реализует базовый шаблон для взаимодействия с API OpenAI.
 
-**Наследуется от**:
-- `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию данных.
-- `ProviderModelMixin`: Содержит методы для работы с моделями.
-- `RaiseErrorMixin`: Добавляет функциональность обработки ошибок.
+**Inherits**:
+  - `AsyncGeneratorProvider`: Обеспечивает асинхронную генерацию ответов.
+  - `ProviderModelMixin`: Предоставляет методы для работы с моделями.
+  - `RaiseErrorMixin`: Предоставляет методы для обработки ошибок.
 
-**Атрибуты**:
-- `api_base` (str): Базовый URL API OpenAI.
-- `api_key` (str): Ключ API для аутентификации.
-- `api_endpoint` (str): Конечная точка API для запросов.
-- `supports_message_history` (bool): Поддержка истории сообщений.
-- `supports_system_message` (bool): Поддержка системных сообщений.
-- `default_model` (str): Модель, используемая по умолчанию.
-- `fallback_models` (list[str]): Список моделей для переключения в случае ошибки.
-- `sort_models` (bool): Флаг для сортировки моделей.
-- `ssl` (bool): Флаг для проверки SSL.
+**Attributes**:
+  - `api_base` (str): Базовый URL API OpenAI.
+  - `api_key` (str): Ключ API OpenAI.
+  - `api_endpoint` (str): Конечная точка API OpenAI.
+  - `supports_message_history` (bool): Поддерживает ли модель историю сообщений.
+  - `supports_system_message` (bool): Поддерживает ли модель системные сообщения.
+  - `default_model` (str): Имя модели по умолчанию.
+  - `fallback_models` (list[str]): Список резервных моделей.
+  - `sort_models` (bool): Нужно ли сортировать модели.
+  - `ssl` (bool): Нужно ли использовать SSL.
+  - `models` (list[str]): Список доступных моделей OpenAI.
+  - `image_models` (list[str]): Список моделей, поддерживающих генерацию изображений.
 
-**Принцип работы**:
-Класс `OpenaiTemplate` предназначен для упрощения взаимодействия с API OpenAI. Он предоставляет методы для получения списка доступных моделей, создания асинхронных генераторов для отправки запросов и обработки ответов от API. Класс также обрабатывает ошибки и предоставляет возможность использования прокси и других параметров запроса.
+**Methods**:
+  - `get_models()`: Возвращает список доступных моделей OpenAI.
+  - `create_async_generator()`: Создает асинхронный генератор для отправки запросов к API OpenAI.
+  - `get_headers()`: Возвращает заголовки для запросов к API OpenAI.
 
-**Методы**:
-- `get_models(api_key: str = None, api_base: str = None) -> list[str]`: Возвращает список доступных моделей.
-- `create_async_generator(...) -> AsyncResult`: Создает асинхронный генератор для запросов к API OpenAI.
-- `get_headers(stream: bool, api_key: str = None, headers: dict = None) -> dict`: Формирует заголовки запроса.
-
-## Методы класса
+## Class Methods
 
 ### `get_models`
 
-```python
-@classmethod
-def get_models(cls, api_key: str = None, api_base: str = None) -> list[str]:
-    """
-    Получает список доступных моделей из API OpenAI.
+**Purpose**: Получение списка доступных моделей OpenAI.
 
-    Args:
-        api_key (str, optional): Ключ API для аутентификации. По умолчанию `None`.
-        api_base (str, optional): Базовый URL API OpenAI. По умолчанию `None`.
+**Parameters**:
+  - `api_key` (str): Ключ API OpenAI.
+  - `api_base` (str): Базовый URL API OpenAI.
 
-    Returns:
-        list[str]: Список доступных моделей.
+**Returns**:
+  - `list[str]`: Список доступных моделей OpenAI.
 
-    Raises:
-        Exception: Если происходит ошибка при получении списка моделей.
-    """
-    # Функция извлекает список моделей из API OpenAI.
-    # Если список моделей еще не был получен, функция выполняет запрос к API.
-    # В случае ошибки возвращается список fallback_models.
-    ...
-```
+**How the Function Works**:
+  - Метод `get_models` отправляет запрос к API OpenAI для получения списка доступных моделей.
+  - Он проверяет, был ли задан ключ API и базовый URL API.
+  - Если ключ API и базовый URL API не были заданы, он использует значения по умолчанию из `api_key` и `api_base`.
+  - Он отправляет запрос GET к `/models` конечной точки API OpenAI с авторизацией Bearer.
+  - Он обрабатывает ответ API и извлекает список моделей.
+  - Он фильтрует модели, чтобы получить только модели, поддерживающие генерацию изображений.
+  - Он сортирует модели в алфавитном порядке, если `sort_models` установлен в `True`.
+  - Он возвращает список моделей.
+
+**Examples**:
+  - `OpenaiTemplate.get_models(api_key='your_api_key', api_base='https://api.openai.com')`
 
 ### `create_async_generator`
 
-```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    timeout: int = 120,
-    media: MediaListType = None,
-    api_key: str = None,
-    api_endpoint: str = None,
-    api_base: str = None,
-    temperature: float = None,
-    max_tokens: int = None,
-    top_p: float = None,
-    stop: Union[str, list[str]] = None,
-    stream: bool = False,
-    prompt: str = None,
-    headers: dict = None,
-    impersonate: str = None,
-    extra_parameters: list[str] = ["tools", "parallel_tool_calls", "tool_choice", "reasoning_effort", "logit_bias", "modalities", "audio"],
-    extra_data: dict = {},
-    **kwargs
-) -> AsyncResult:
-    """
-    Создает асинхронный генератор для запросов к API OpenAI.
+**Purpose**: Создание асинхронного генератора для отправки запросов к API OpenAI.
 
-    Args:
-        model (str): Название используемой модели.
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): Адрес прокси-сервера. По умолчанию `None`.
-        timeout (int, optional): Время ожидания запроса в секундах. По умолчанию `120`.
-        media (MediaListType, optional): Список медиафайлов для отправки. По умолчанию `None`.
-        api_key (str, optional): Ключ API для аутентификации. По умолчанию `None`.
-        api_endpoint (str, optional): Конечная точка API для запросов. По умолчанию `None`.
-        api_base (str, optional): Базовый URL API OpenAI. По умолчанию `None`.
-        temperature (float, optional): Температура для контроля случайности генерации. По умолчанию `None`.
-        max_tokens (int, optional): Максимальное количество токенов в ответе. По умолчанию `None`.
-        top_p (float, optional): Top P для контроля случайности генерации. По умолчанию `None`.
-        stop (Union[str, list[str]], optional): Список стоп-слов. По умолчанию `None`.
-        stream (bool, optional): Использовать потоковую передачу данных. По умолчанию `False`.
-        prompt (str, optional): Текст запроса. По умолчанию `None`.
-        headers (dict, optional): Дополнительные заголовки запроса. По умолчанию `None`.
-        impersonate (str, optional): Имя пользователя для имитации. По умолчанию `None`.
-        extra_parameters (list[str], optional): Список дополнительных параметров.
-        extra_data (dict, optional): Дополнительные данные для отправки. По умолчанию `{}`.
-        **kwargs: Дополнительные параметры.
+**Parameters**:
+  - `model` (str): Имя модели OpenAI.
+  - `messages` (Messages): Список сообщений для отправки в API.
+  - `proxy` (str): Прокси-сервер для отправки запросов.
+  - `timeout` (int): Время ожидания для отправки запросов.
+  - `media` (MediaListType): Список медиа-файлов.
+  - `api_key` (str): Ключ API OpenAI.
+  - `api_endpoint` (str): Конечная точка API OpenAI.
+  - `api_base` (str): Базовый URL API OpenAI.
+  - `temperature` (float): Температура генерации.
+  - `max_tokens` (int): Максимальное количество токенов в ответе.
+  - `top_p` (float): Вероятность выборки для токенов.
+  - `stop` (Union[str, list[str]]): Стоп-слова.
+  - `stream` (bool): Нужно ли использовать потоковый режим.
+  - `prompt` (str): Текстовый запрос.
+  - `headers` (dict): Дополнительные заголовки для запросов.
+  - `impersonate` (str): Имя пользователя для имитации.
+  - `extra_parameters` (list[str]): Список дополнительных параметров.
+  - `extra_data` (dict): Дополнительные данные для запроса.
 
-    Returns:
-        AsyncResult: Асинхронный генератор для получения ответов от API.
+**Returns**:
+  - `AsyncResult`: Асинхронный генератор для отправки запросов к API OpenAI.
 
-    Raises:
-        MissingAuthError: Если отсутствует ключ API.
-        ResponseError: Если получен неподдерживаемый тип контента.
-    """
-    # Функция создает асинхронный генератор для отправки запросов к API OpenAI.
-    # Она обрабатывает различные параметры запроса, такие как модель, сообщения, прокси и т. д.
-    # В случае успеха возвращается асинхронный генератор, который позволяет получать ответы от API в потоковом режиме.
-    ...
-```
+**How the Function Works**:
+  - Метод `create_async_generator` создает асинхронный генератор, который отправляет запросы к API OpenAI.
+  - Он проверяет, был ли задан ключ API.
+  - Если ключ API не был задан, он вызывает исключение `MissingAuthError`.
+  - Он создает экземпляр `StreamSession` с заданными параметрами.
+  - Он выбирает модель OpenAI для запроса.
+  - Он отправляет запрос POST к `api_endpoint` с заданными параметрами.
+  - Он обрабатывает ответ API и возвращает данные в виде асинхронного генератора.
+
+**Examples**:
+  - `async def send_request(model: str, messages: Messages) -> AsyncResult:`
+  - `result = await OpenaiTemplate.create_async_generator(model='text-davinci-003', messages=messages)`
 
 ### `get_headers`
 
+**Purpose**: Возвращает заголовки для запросов к API OpenAI.
+
+**Parameters**:
+  - `stream` (bool): Нужно ли использовать потоковый режим.
+  - `api_key` (str): Ключ API OpenAI.
+  - `headers` (dict): Дополнительные заголовки для запросов.
+
+**Returns**:
+  - `dict`: Заголовки для запросов к API OpenAI.
+
+**How the Function Works**:
+  - Метод `get_headers` формирует заголовки для запросов к API OpenAI.
+  - Он устанавливает заголовок `Accept` в `text/event-stream`, если `stream` установлен в `True`, или в `application/json` в противном случае.
+  - Он устанавливает заголовок `Content-Type` в `application/json`.
+  - Он добавляет заголовок `Authorization` с ключом API, если он был задан.
+  - Он добавляет дополнительные заголовки, если они были заданы в параметре `headers`.
+  - Он возвращает словарь с заголовками.
+
+**Examples**:
+  - `headers = OpenaiTemplate.get_headers(stream=True, api_key='your_api_key')`
+
+## Parameter Details
+
+- `api_key` (str): Ключ API OpenAI, необходимый для аутентификации в API.
+- `api_base` (str): Базовый URL API OpenAI, используется для формирования запросов.
+- `api_endpoint` (str): Конечная точка API OpenAI, используется для определения конкретного метода API.
+- `model` (str): Имя модели OpenAI, например, "text-davinci-003" или "gpt-3.5-turbo".
+- `messages` (Messages): Список сообщений для отправки в API, включает историю диалога.
+- `proxy` (str): Прокси-сервер для отправки запросов, если требуется.
+- `timeout` (int): Время ожидания для отправки запросов, по умолчанию 120 секунд.
+- `media` (MediaListType): Список медиа-файлов для отправки в API.
+- `temperature` (float): Температура генерации, значение от 0 до 1, 0 - самый консервативный, 1 - самый творческий.
+- `max_tokens` (int): Максимальное количество токенов в ответе.
+- `top_p` (float): Вероятность выборки для токенов, значение от 0 до 1, определяет насколько предсказуемым будет ответ.
+- `stop` (Union[str, list[str]]): Стоп-слова, которые сигнализируют модели о завершении генерации ответа.
+- `stream` (bool): Нужно ли использовать потоковый режим для получения ответа, по умолчанию `False`.
+- `prompt` (str): Текстовый запрос для модели OpenAI.
+- `headers` (dict): Дополнительные заголовки для запросов, например, `User-Agent` или `X-Forwarded-For`.
+- `impersonate` (str): Имя пользователя для имитации, используется для персонализации запросов.
+- `extra_parameters` (list[str]): Список дополнительных параметров для запроса.
+- `extra_data` (dict): Дополнительные данные для запроса, могут быть использованы для передачи дополнительной информации модели.
+
+## Examples
+
 ```python
-@classmethod
-def get_headers(cls, stream: bool, api_key: str = None, headers: dict = None) -> dict:
-    """
-    Формирует заголовки запроса.
+# Инициализация класса
+openai_template = OpenaiTemplate()
 
-    Args:
-        stream (bool): Использовать потоковую передачу данных.
-        api_key (str, optional): Ключ API для аутентификации. По умолчанию `None`.
-        headers (dict, optional): Дополнительные заголовки запроса. По умолчанию `None`.
+# Получение списка доступных моделей
+models = openai_template.get_models()
 
-    Returns:
-        dict: Словарь с заголовками запроса.
-    """
-    # Функция формирует заголовки запроса, включая Accept и Content-Type.
-    # Если указан ключ API, добавляется заголовок Authorization.
-    # Дополнительные заголовки объединяются с основными.
-    ...
-```
+# Отправка запроса с использованием асинхронного генератора
+async def send_request(model: str, messages: Messages) -> AsyncResult:
+    result = await openai_template.create_async_generator(model=model, messages=messages)
+    async for data in result:
+        print(data)
 
-## Параметры класса
-
-- `api_base` (str): Базовый URL API OpenAI.
-- `api_key` (str): Ключ API для аутентификации.
-- `api_endpoint` (str): Конечная точка API для запросов.
-- `supports_message_history` (bool): Поддержка истории сообщений.
-- `supports_system_message` (bool): Поддержка системных сообщений.
-- `default_model` (str): Модель, используемая по умолчанию.
-- `fallback_models` (list[str]): Список моделей для переключения в случае ошибки.
-- `sort_models` (bool): Флаг для сортировки моделей.
-- `ssl` (bool): Флаг для проверки SSL.
-
-## Примеры
-
-Пример использования класса `OpenaiTemplate` для получения списка моделей:
-
-```python
-from src.endpoints.gpt4free.g4f.Provider.template.OpenaiTemplate import OpenaiTemplate
-
-models = OpenaiTemplate.get_models(api_key="ваш_api_ключ")
-print(models)
-```
-
-Пример использования класса `OpenaiTemplate` для создания асинхронного генератора:
-
-```python
-import asyncio
-from src.endpoints.gpt4free.g4f.Provider.template.OpenaiTemplate import OpenaiTemplate
-
+# Пример использования асинхронного генератора
 async def main():
-    messages = [{"role": "user", "content": "Hello, world!"}]
-    generator = await OpenaiTemplate.create_async_generator(model="gpt-3.5-turbo", messages=messages, api_key="ваш_api_ключ")
-    async for message in generator:
-        print(message)
+    messages = [
+        {"role": "user", "content": "Привет! Как дела?"},
+    ]
+    await send_request(model="gpt-3.5-turbo", messages=messages)
 
 if __name__ == "__main__":
+    import asyncio
+
     asyncio.run(main())
+```

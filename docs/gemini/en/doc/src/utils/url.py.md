@@ -1,126 +1,148 @@
-# Модуль для работы с URL строками
-
+# Модуль src.utils.string.url
 ## Обзор
+Модуль для работы с URL строками, включая извлечение параметров запроса, проверку на валидность URL и сокращение ссылок.
 
-Модуль `src.utils.string.url` предназначен для работы с URL строками. Он включает в себя функции для извлечения параметров запроса, проверки URL на валидность и сокращения длинных ссылок с использованием сервиса TinyURL.
-
-## Более подробно
-
-Модуль предоставляет инструменты для анализа и обработки URL-адресов, что может быть полезно при работе с веб-данными, парсинге сайтов и автоматизации задач, связанных с URL. Функции модуля позволяют извлекать параметры запроса для дальнейшей обработки, проверять URL на корректность и сокращать длинные ссылки для удобства использования.
-
+## Детали
+Модуль предоставляет функции для обработки URL-адресов. 
+Он использует стандартную библиотеку `urllib.parse` для разбора URL и извлечения параметров, 
+а также библиотеку `validators` для проверки валидности URL. 
+Для сокращения ссылок используется сервис TinyURL.
+## Классы
+### `None`
 ## Функции
-
 ### `extract_url_params`
-
-```python
-def extract_url_params(url: str) -> dict | None:
-    """ Извлекает параметры из строки URL.
-
-    Args:
-        url (str): Строка URL для парсинга.
-
-    Returns:
-        dict | None: Словарь параметров запроса и их значений или `None`, если URL не содержит параметров.
-    """
-    ...
-```
-
-**Назначение**: Извлекает параметры запроса из URL-адреса.
+**Цель**: Извлекает параметры из строки URL.
 
 **Параметры**:
-- `url` (str): URL-адрес, из которого нужно извлечь параметры.
+- `url` (str): Строка URL для парсинга.
 
 **Возвращает**:
-- `dict | None`: Словарь, содержащий параметры запроса и их значения. Если URL не содержит параметров, возвращает `None`.
-
-**Принцип работы**:
-- Функция принимает URL-адрес в качестве входных данных.
-- Использует `urllib.parse.urlparse` для парсинга URL.
-- Извлекает параметры запроса с помощью `urllib.parse.parse_qs`.
-- Преобразует значения параметров из списка в строку, если параметр имеет только одно значение.
-- Возвращает словарь с параметрами и их значениями.
+- `dict | None`: Словарь параметров запроса и их значений или `None`, если URL не содержит параметров.
 
 **Пример**:
-
 ```python
-url = "https://example.com?param1=value1&param2=value2"
-params = extract_url_params(url)
-print(params)  # Вывод: {'param1': 'value1', 'param2': 'value2'}
-```
+>>> extract_url_params('https://example.com?param1=value1&param2=value2')
+{'param1': 'value1', 'param2': 'value2'}
 
+>>> extract_url_params('https://example.com')
+None
+```
 ### `is_url`
-
-```python
-def is_url(text: str) -> bool:
-    """ Проверяет, является ли переданный текст валидным URL с использованием библиотеки validators.
-
-    Args:
-        text (str): Строка для проверки.
-
-    Returns:
-        bool: `True` если строка является валидным URL, иначе `False`.
-    """
-    ...
-```
-
-**Назначение**: Проверяет, является ли переданная строка валидным URL-адресом.
+**Цель**: Проверяет, является ли переданный текст валидным URL с использованием библиотеки validators.
 
 **Параметры**:
-- `text` (str): Строка, которую необходимо проверить.
+- `text` (str): Строка для проверки.
 
 **Возвращает**:
-- `bool`: `True`, если строка является валидным URL-адресом, и `False` в противном случае.
-
-**Принцип работы**:
-- Функция использует библиотеку `validators` для проверки валидности URL.
-- Возвращает `True`, если строка является валидным URL, и `False` в противном случае.
+- `bool`: `True` если строка является валидным URL, иначе `False`.
 
 **Пример**:
-
 ```python
-url = "https://example.com"
-is_valid = is_url(url)
-print(is_valid)  # Вывод: True
+>>> is_url('https://example.com')
+True
 
-url = "not a url"
-is_valid = is_url(url)
-print(is_valid)  # Вывод: False
+>>> is_url('example.com')
+False
 ```
-
 ### `url_shortener`
-
-```python
-def url_shortener(long_url: str) -> str | None:
-    """ Сокращает длинный URL с использованием сервиса TinyURL.
-
-    Args:
-        long_url (str): Длинный URL для сокращения.
-
-    Returns:
-        str | None: Сокращённый URL или `None`, если произошла ошибка.
-    """
-    ...
-```
-
-**Назначение**: Сокращает длинный URL-адрес с использованием сервиса TinyURL.
+**Цель**: Сокращает длинный URL с использованием сервиса TinyURL.
 
 **Параметры**:
-- `long_url` (str): Длинный URL-адрес, который нужно сократить.
+- `long_url` (str): Длинный URL для сокращения.
 
 **Возвращает**:
-- `str | None`: Сокращенный URL-адрес или `None`, если произошла ошибка.
-
-**Принцип работы**:
-- Функция отправляет запрос к API TinyURL для сокращения URL-адреса.
-- Если запрос успешен (статус код 200), возвращает сокращенный URL-адрес.
-- В случае ошибки возвращает `None`.
+- `str | None`: Сокращённый URL или `None`, если произошла ошибка.
 
 **Пример**:
-
 ```python
-long_url = "https://example.com/very/long/url/to/shorten"
+>>> url_shortener('https://www.example.com/very/long/url/with/lots/of/parameters')
+'https://tinyurl.com/your-short-url'
+```
+## Параметры деталей
+- `url` (str): Строка URL для парсинга.
+- `text` (str): Строка для проверки.
+- `long_url` (str): Длинный URL для сокращения.
+## Примеры
+```python
+# Получаем строку URL от пользователя
+url = input("Введите URL: ")
+
+# Проверяем валидность URL
+if is_url(url):
+    params = extract_url_params(url)
+
+    # Выводим параметры
+    if params:
+        print("Параметры URL:")
+        for key, value in params.items():
+            print(f"{key}: {value}")
+    else:
+        print("URL не содержит параметров.")
+
+    # Предлагаем пользователю сократить URL
+    shorten = input("Хотите сократить этот URL? (y/n): ").strip().lower()
+    if shorten == 'y':
+        short_url = url_shortener(url)
+        if short_url:
+            print(f"Сокращённый URL: {short_url}")
+        else:
+            print("Ошибка при сокращении URL.")
+else:
+    print("Введенная строка не является валидным URL.")
+```
+```python
+# Пример использования extract_url_params
+url = 'https://www.example.com/search?q=python&lang=ru'
+params = extract_url_params(url)
+print(f"Параметры URL: {params}") # Вывод: {'q': 'python', 'lang': 'ru'}
+
+# Пример использования is_url
+url = 'https://www.example.com'
+is_valid = is_url(url)
+print(f"URL валиден: {is_valid}") # Вывод: URL валиден: True
+
+# Пример использования url_shortener
+long_url = 'https://www.example.com/very/long/url/with/lots/of/parameters'
 short_url = url_shortener(long_url)
+print(f"Сокращённый URL: {short_url}") # Вывод: Сокращённый URL: https://tinyurl.com/your-short-url
+```
+```python
+>>> url = 'https://www.example.com/search?q=python&lang=ru'
+>>> extract_url_params(url)
+{'q': 'python', 'lang': 'ru'}
+
+>>> url = 'https://www.example.com'
+>>> is_url(url)
+True
+
+>>> url = 'example.com'
+>>> is_url(url)
+False
+
+>>> long_url = 'https://www.example.com/very/long/url/with/lots/of/parameters'
+>>> url_shortener(long_url)
+'https://tinyurl.com/your-short-url'
+```
+```python
+# Проверка валидности URL
+url = 'https://www.example.com/search?q=python&lang=ru'
+if is_url(url):
+    print(f"URL валиден: {url}")
+else:
+    print("Введён некорректный URL.")
+
+# Извлечение параметров из URL
+params = extract_url_params(url)
+if params:
+    print("Параметры URL:")
+    for key, value in params.items():
+        print(f"{key}: {value}")
+else:
+    print("URL не содержит параметров.")
+
+# Сокращение URL
+short_url = url_shortener(url)
 if short_url:
-    print(f"Сокращенный URL: {short_url}")
+    print(f"Сокращённый URL: {short_url}")
 else:
     print("Ошибка при сокращении URL.")

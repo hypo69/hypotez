@@ -1,109 +1,75 @@
-# Модуль `ChatAnywhere.py`
+# ChatAnywhere Provider
 
-## Обзор
+## Overview
 
-Модуль `ChatAnywhere.py` предоставляет асинхронный генератор для взаимодействия с сервисом ChatAnywhere (<https://chatanywhere.cn>).
-Он поддерживает модель GPT-3.5 Turbo и хранение истории сообщений. Модуль использует библиотеку `aiohttp` для выполнения асинхронных HTTP-запросов.
+This module defines the `ChatAnywhere` class, which provides an asynchronous generator for interacting with the ChatAnywhere API to generate responses using various AI models.
 
-## Подробнее
+## Details
 
-Этот модуль предназначен для интеграции с сервисом ChatAnywhere, позволяя отправлять запросы и получать ответы в асинхронном режиме.
-Он особенно полезен для приложений, требующих потоковой обработки ответов от языковой модели.
+The `ChatAnywhere` class inherits from `AsyncGeneratorProvider` and implements methods for initiating and managing an asynchronous generator.
 
-## Классы
+### Classes
 
-### `ChatAnywhere`
+#### `class ChatAnywhere`
 
-**Описание**:
-Класс `ChatAnywhere` является провайдером асинхронного генератора. Он определяет URL, поддерживает GPT-3.5 Turbo и хранение истории сообщений.
+**Description:** This class provides a mechanism to interact with the ChatAnywhere API to generate text responses using various AI models, including GPT-3.5 Turbo.
 
-**Наследует**:
-- `AsyncGeneratorProvider`: Этот класс наследуется от `AsyncGeneratorProvider` и предоставляет функциональность асинхронной генерации.
+**Inherits:** `AsyncGeneratorProvider`
 
-**Атрибуты**:
-- `url` (str): URL сервиса ChatAnywhere (`https://chatanywhere.cn`).
-- `supports_gpt_35_turbo` (bool): Поддержка модели GPT-3.5 Turbo (всегда `True`).
-- `supports_message_history` (bool): Поддержка хранения истории сообщений (всегда `True`).
-- `working` (bool): Указывает, работает ли провайдер (изначально `False`).
+**Attributes:**
 
-**Принцип работы**:
+- `url (str):`  The base URL of the ChatAnywhere API.
+- `supports_gpt_35_turbo (bool):`  Indicates whether the provider supports the GPT-3.5 Turbo model (True in this case).
+- `supports_message_history (bool):` Indicates whether the provider supports message history (True in this case).
+- `working (bool):` A flag indicating whether the provider is currently operational (False by default).
 
-Класс предоставляет метод `create_async_generator`, который отправляет сообщения в ChatAnywhere API и возвращает асинхронный генератор, который выдает чанки данных из ответа.
+**Methods:**
 
-## Методы класса
+- `create_async_generator(model: str, messages: Messages, proxy: str = None, timeout: int = 120, temperature: float = 0.5, **kwargs) -> AsyncResult:`
+    -  Creates an asynchronous generator that handles requests to the ChatAnywhere API for generating responses.
+    -  **Purpose:**  Initiates an asynchronous interaction with the ChatAnywhere API, sending user messages and receiving model responses.
+    -  **Parameters:**
+        - `model (str):`  Specifies the desired AI model to use for generating responses.
+        - `messages (Messages):` A list of messages, including user inputs and previous model responses, for building the context of the conversation.
+        - `proxy (str, optional):` An optional proxy server address for routing requests. Defaults to None.
+        - `timeout (int, optional):`  Sets the maximum time in seconds to wait for a response from the API. Defaults to 120 seconds.
+        - `temperature (float, optional):` Controls the creativity and randomness of the generated responses. Defaults to 0.5.
+        - `**kwargs:`  Additional keyword arguments that can be passed to the API.
+    -  **Returns:** An `AsyncResult` object, which wraps the asynchronous generator.
+    -  **Raises:** `Exception` if an error occurs during the request.
+    -  **How it works:**
+        -  The method creates an asynchronous `ClientSession` with specified headers and a timeout.
+        -  It assembles a data dictionary containing the conversation messages, model ID, prompt (if applicable), temperature, and other parameters.
+        -  It performs a POST request to the ChatAnywhere API endpoint (`/v1/chat/gpt/`) with the constructed data.
+        -  It handles the response by decoding the received chunks and yields them as strings.
 
-### `create_async_generator`
+## Parameter Details
+
+- `model (str):` Specifies the AI model to use for generating responses.
+- `messages (Messages):` A list containing user inputs and previous model responses.
+- `proxy (str, optional):`  An optional proxy server address.
+- `timeout (int, optional):` Sets the maximum wait time for a response.
+- `temperature (float, optional):` Controls response creativity and randomness.
+- `**kwargs:` Additional keyword arguments passed to the API.
+
+## Examples
 
 ```python
-@classmethod
-async def create_async_generator(
-    cls,
-    model: str,
-    messages: Messages,
-    proxy: str = None,
-    timeout: int = 120,
-    temperature: float = 0.5,
-    **kwargs
-) -> AsyncResult:
-    """Создает асинхронный генератор для взаимодействия с ChatAnywhere.
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.ChatAnywhere import ChatAnywhere
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-    Args:
-        cls (type[ChatAnywhere]): Ссылка на класс `ChatAnywhere`.
-        model (str): Имя модели (не используется).
-        messages (Messages): Список сообщений для отправки.
-        proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
-        timeout (int, optional): Время ожидания HTTP-запроса в секундах. По умолчанию 120.
-        temperature (float, optional): Температура для генерации текста. По умолчанию 0.5.
-        **kwargs: Дополнительные параметры.
+# Example with GPT-3.5 Turbo model and user messages
+messages: Messages = [
+    {"role": "user", "content": "Hello, how are you?"},
+    {"role": "assistant", "content": "I am an AI, so I don't have feelings, but I'm here to help!"},
+    {"role": "user", "content": "Can you tell me a joke?"},
+]
+async_generator = await ChatAnywhere.create_async_generator(model="gpt-3.5-turbo", messages=messages)
+async for chunk in async_generator:
+    print(chunk)
 
-    Returns:
-        AsyncResult: Асинхронный генератор, выдающий чанки данных из ответа.
-
-    Raises:
-        Exception: Если возникает ошибка при выполнении HTTP-запроса.
-    """
+# Example with a custom proxy and timeout
+async_generator = await ChatAnywhere.create_async_generator(model="gpt-3.5-turbo", messages=messages, proxy="http://proxy_server:port", timeout=60)
+async for chunk in async_generator:
+    print(chunk)
 ```
-
-**Параметры**:
-- `cls` (type[ChatAnywhere]): Ссылка на класс `ChatAnywhere`.
-- `model` (str): Имя модели (не используется).
-- `messages` (Messages): Список сообщений для отправки.
-- `proxy` (str, optional): URL прокси-сервера. По умолчанию `None`.
-- `timeout` (int, optional): Время ожидания HTTP-запроса в секундах. По умолчанию 120.
-- `temperature` (float, optional): Температура для генерации текста. По умолчанию 0.5.
-- `**kwargs`: Дополнительные параметры.
-
-**Возвращает**:
-- `AsyncResult`: Асинхронный генератор, выдающий чанки данных из ответа.
-
-**Как работает функция**:
-
-Функция `create_async_generator` создает асинхронный генератор для взаимодействия с API ChatAnywhere. Она выполняет следующие шаги:
-
-1. **Формирует заголовки HTTP-запроса**:
-   - Устанавливает User-Agent, Accept, Accept-Language, Content-Type, Referer, Origin и другие необходимые заголовки.
-
-2. **Создает асинхронную сессию `aiohttp`**:
-   - Использует `ClientSession` для выполнения HTTP-запросов с заданными заголовками и временем ожидания.
-
-3. **Формирует данные запроса**:
-   - Создает словарь `data`, содержащий список сообщений, идентификатор, заголовок, температуру и другие параметры.
-
-4. **Выполняет POST-запрос к API**:
-   - Отправляет POST-запрос к `f"{cls.url}/v1/chat/gpt/"` с данными в формате JSON.
-
-5. **Обрабатывает ответ**:
-   - Итерируется по чанкам данных из ответа и декодирует их.
-   - Выдает декодированные чанки данных через генератор.
-
-**Примеры**:
-
-```python
-# Пример использования create_async_generator
-messages = [{"role": "user", "content": "Hello, ChatAnywhere!"}]
-async def example():
-    async for chunk in ChatAnywhere.create_async_generator(model="gpt-3.5-turbo", messages=messages):
-        print(chunk, end="")
-
-import asyncio
-asyncio.run(example())

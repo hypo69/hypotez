@@ -1,90 +1,53 @@
-### **Инструкции по использованию кода нормализации строк и чисел**
-
+## Как использовать модуль `src.utils.string.normalizer`
 =========================================================================================
 
-Описание
+### Описание
 -------------------------
-Данный модуль предоставляет набор функций для нормализации строк, булевых значений, целых чисел и чисел с плавающей точкой. Он также включает вспомогательные методы для обработки текста, такие как удаление HTML-тегов и специальных символов. Ниже описано, как использовать различные функции этого модуля.
+Модуль `src.utils.string.normalizer` предоставляет набор функций для нормализации различных типов данных.  Он позволяет преобразовать строки, булевы значения, целые и числа с плавающей точкой в соответствующие форматы, а также предлагает вспомогательные функции для обработки текста, такие как удаление HTML-тегов и специальных символов.
 
-Шаги выполнения
+### Шаги выполнения
 -------------------------
-1. **Импортируйте необходимые функции** из модуля `src.utils.string.normalizer`.
-2. **Используйте функции** для нормализации данных в зависимости от типа данных.
+1. **Импорт необходимых функций:** 
+    - Импортируйте нужные функции из модуля `src.utils.string.normalizer` для нормализации данных. Например:
+    ```python
+    from src.utils.string.normalizer import normalize_string, normalize_boolean
+    ```
+2. **Использование функций:**
+    - Вызовите соответствующую функцию нормализации, передавая в нее данные для преобразования.
+    ```python
+    normalized_str = normalize_string(" Пример строки <b>с HTML</b> ") 
+    normalized_bool = normalize_boolean("yes")
+    ```
+3. **Обработка результата:** 
+    - Полученный результат – это нормализованное значение, которое можно использовать в дальнейшей обработке.
 
-Пример использования
+### Пример использования
 -------------------------
-
 ```python
-from src.utils.string.normalizer import (
-    normalize_string,
-    normalize_boolean,
-    normalize_int,
-    normalize_float,
-    normalize_sql_date,
-    remove_line_breaks,
-    remove_html_tags,
-    remove_special_characters,
-    normalize_sku,
-    simplify_string,
-)
+from src.utils.string.normalizer import normalize_string, normalize_boolean, normalize_int, normalize_float, normalize_sql_date
 
-# Пример использования normalize_string
-input_str = " Пример строки <b>с HTML</b> "
+# Нормализация строки
+input_str = "  Пример строки с HTML-тегами <b>и пробелами</b>  "
 normalized_str = normalize_string(input_str)
-print(f"Original string: {input_str}")
-print(f"Normalized string: {normalized_str}")  # Output: Пример строки с HTML
+print(f'Нормализованная строка: {normalized_str}') 
 
-# Пример использования normalize_boolean
-input_bool = "yes"
+# Нормализация булевого значения
+input_bool = "true"
 normalized_bool = normalize_boolean(input_bool)
-print(f"Original boolean: {input_bool}")
-print(f"Normalized boolean: {normalized_bool}")  # Output: True
+print(f'Нормализованное булево значение: {normalized_bool}')
 
-# Пример использования normalize_int
-input_int = "42"
+# Нормализация целого числа
+input_int = "123"
 normalized_int = normalize_int(input_int)
-print(f"Original integer: {input_int}")
-print(f"Normalized integer: {normalized_int}")  # Output: 42
+print(f'Нормализованное целое число: {normalized_int}')
 
-# Пример использования normalize_float
-input_float = "$1,234.56"
+# Нормализация числа с плавающей точкой
+input_float = "123.45"
 normalized_float = normalize_float(input_float)
-print(f"Original float: {input_float}")
-print(f"Normalized float: {normalized_float}")  # Output: 1234.56
+print(f'Нормализованное число с плавающей точкой: {normalized_float}')
 
-# Пример использования normalize_sql_date
-input_date = "12/06/2024"
+# Нормализация даты в SQL-формат
+input_date = "2024-12-06"
 normalized_date = normalize_sql_date(input_date)
-print(f"Original date: {input_date}")
-print(f"Normalized date: {normalized_date}")  # Output: 2024-12-06
-
-# Пример использования remove_line_breaks
-input_text_with_breaks = "Текст\nс переносами\rстрок."
-normalized_text = remove_line_breaks(input_text_with_breaks)
-print(f"Original text with line breaks: {input_text_with_breaks}")
-print(f"Normalized text: {normalized_text}")
-
-# Пример использования remove_html_tags
-input_html_text = "<p>Текст с <b>HTML</b> тегами.</p>"
-normalized_html_text = remove_html_tags(input_html_text)
-print(f"Original HTML text: {input_html_text}")
-print(f"Normalized HTML text: {normalized_html_text}")
-
-# Пример использования remove_special_characters
-input_text_with_special_chars = "Текст#с#спец#символами."
-normalized_special_chars_text = remove_special_characters(input_text_with_special_chars, chars=['#'])
-print(f"Original text with special chars: {input_text_with_special_chars}")
-print(f"Normalized text: {normalized_special_chars_text}")
-
-# Пример использования normalize_sku
-input_sku = "מקט: 303235-A"
-normalized_sku_text = normalize_sku(input_sku)
-print(f"Original SKU text: {input_sku}")
-print(f"Normalized text: {normalized_sku_text}")
-
-# Пример использования simplify_string
-example_str = "It's a test string with 'single quotes', numbers 123 and symbols!"
-simplified_str = simplify_string(example_str)
-print(f"Original string: {example_str}")
-print(f"Simplified string: {simplified_str}")
+print(f'Нормализованная дата в SQL-формате: {normalized_date}')
 ```

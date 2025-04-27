@@ -1,127 +1,92 @@
-# Module for interaction with Upstage AI models.
+# Upstage Provider
 
 ## Overview
 
-This module enables interaction with Upstage AI models for generating text using asynchronous requests. It supports different models, including 'solar-pro' and 'upstage/solar-1-mini-chat', and provides functionality for formatting prompts and handling responses in streaming mode.
+This module provides the `Upstage` class, which acts as a provider for the Upstage AI model, enabling interaction with the Upstage API for text generation and other language-based tasks.
 
-## More details
+## Details
 
-The module facilitates communication with the Upstage AI API, handling request headers, data formatting, and response parsing. It is designed to be integrated into systems requiring asynchronous text generation capabilities. The module uses `aiohttp` for making asynchronous HTTP requests, and the `src.logger` module for logging errors.
+The `Upstage` class extends the `AsyncGeneratorProvider` and `ProviderModelMixin` base classes, offering an asynchronous generator-based interface for communication with the Upstage API. This provider supports various Upstage models, allowing you to choose the most suitable model for your needs.
 
 ## Classes
 
 ### `Upstage`
 
-**Description**: The class responsible for interacting with the Upstage AI models.
+**Description**: This class provides access to the Upstage AI model via the Upstage API, supporting asynchronous generation of text and handling various models.
 
-**Inherits**:
-- `AsyncGeneratorProvider`: Inherits asynchronous generation capabilities.
-- `ProviderModelMixin`: Inherits functionality for managing and retrieving model information.
+**Inherits**: 
+- `AsyncGeneratorProvider`: Provides an asynchronous generator-based interface for interacting with the model.
+- `ProviderModelMixin`: Handles model selection and related operations.
 
 **Attributes**:
-- `url` (str): URL of the Upstage AI playground.
-- `api_endpoint` (str): API endpoint for chat completions.
-- `working` (bool): A flag indicating if the provider is operational.
-- `default_model` (str): The default model to be used if none is specified.
-- `models` (list): List of supported models.
-- `model_aliases` (dict): Aliases for model names.
+- `url (str)`: The base URL for the Upstage playground.
+- `api_endpoint (str)`: The URL for the Upstage API endpoint.
+- `working (bool)`: Indicates whether the provider is currently working.
+- `default_model (str)`: The default Upstage model to use.
+- `models (List[str])`: A list of supported Upstage models.
+- `model_aliases (dict)`: A dictionary mapping model aliases to their corresponding names.
 
-**Working principle**:
-The class defines the necessary settings and methods to interact with the Upstage AI API. It prepares the request headers, formats the message payload, sends the request, and parses the streaming response to extract the generated text.
+**Methods**:
+- `get_model(model: str) -> str`: Retrieves the correct model name based on the provided input.
+- `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`: Creates an asynchronous generator for generating responses from the Upstage model.
 
 ## Class Methods
 
-### `get_model`
+### `get_model(model: str) -> str`
 
-```python
-    @classmethod
-    def get_model(cls, model: str) -> str:
-        """
-        Возвращает допустимую модель на основе предоставленного имени модели или псевдонима.
-
-        Args:
-            model (str): Имя модели для получения.
-
-        Returns:
-            str: Допустимое имя модели или имя модели по умолчанию, если предоставленное имя недопустимо.
-
-        """
-```
-
-**Purpose**:
-Retrieves a valid model name based on the provided model name or alias.
+**Purpose**: This method checks if the provided `model` is a valid model name. If not, it returns the default model name.
 
 **Parameters**:
-- `model` (str): The model name to retrieve.
+- `model (str)`: The name of the Upstage model.
 
 **Returns**:
-- `str`: A valid model name or the default model name if the provided name is invalid.
+- `str`: The valid model name, or the default model if the provided name is invalid.
 
-**How the function works**:
-The function checks if the provided model name is in the list of supported models or model aliases. If a match is found in the aliases, it returns the corresponding full model name. If the model name is not found in either list, it returns the default model name.
+**How the Function Works**:
+- The method first checks if the provided `model` is present in the `models` list. If found, it returns the same model name.
+- If the model is not found in the `models` list, the method checks if the `model` exists in the `model_aliases` dictionary. If a matching alias is found, the method returns the corresponding model name.
+- If neither the model name nor its alias is found, the method returns the default model name defined by the `default_model` attribute.
+
+**Examples**:
+- `Upstage.get_model('upstage/solar-1-mini-chat')` returns `'upstage/solar-1-mini-chat'`.
+- `Upstage.get_model('solar-mini')` returns `'upstage/solar-1-mini-chat'`.
+- `Upstage.get_model('unknown_model')` returns `'solar-pro'`, the default model.
+
+### `create_async_generator(model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult`
+
+**Purpose**: This method creates an asynchronous generator for generating responses from the Upstage model based on provided messages and model selection.
+
+**Parameters**:
+- `model (str)`: The name of the Upstage model to use for generation.
+- `messages (Messages)`: A list of messages to be sent to the model as input.
+- `proxy (str, optional)`: A proxy server to use for the API request. Defaults to `None`.
+
+**Returns**:
+- `AsyncResult`: An asynchronous result object that represents the response from the Upstage API.
+
+**How the Function Works**:
+- The method first obtains the correct model name using the `get_model` method.
+- It then constructs a dictionary containing the necessary request data, including the selected `model`, `messages` formatted for the prompt, and `stream` set to `True` for continuous output.
+- The method initiates an asynchronous POST request to the Upstage API endpoint using an `aiohttp.ClientSession`. The request includes the constructed data, headers for API communication, and optional `proxy` information.
+- The method waits for the response, ensuring the response status is valid.
+- It iterates through the response's content line by line, decoding and extracting the content from the `choices` list.
+- If `content` is found, it's appended to the `response_text` variable and yielded to the generator for real-time output.
+- The loop continues until a "data: [DONE]" line indicates the end of the response stream.
 
 **Examples**:
 ```python
-Upstage.get_model('solar-pro')  # Returns 'solar-pro'
-Upstage.get_model('solar-mini')  # Returns 'upstage/solar-1-mini-chat-ja'
-Upstage.get_model('invalid-model')  # Returns 'solar-pro'
+# Example with a basic message
+messages = [{"role": "user", "content": "Hello, how are you?"}]
+async_generator = await Upstage.create_async_generator(model='solar-pro', messages=messages)
+async for content in async_generator:
+    print(content)
+
+# Example with a more complex prompt using format_prompt
+messages = [
+    {"role": "user", "content": "What are the key benefits of using Upstage AI?"},
+    {"role": "assistant", "content": "Upstage AI offers ..."},
+]
+async_generator = await Upstage.create_async_generator(model='solar-mini', messages=messages)
+async for content in async_generator:
+    print(content)
 ```
-
-### `create_async_generator`
-
-```python
-    @classmethod
-    async def create_async_generator(
-        cls,
-        model: str,
-        messages: Messages,
-        proxy: str = None,
-        **kwargs
-    ) -> AsyncResult:
-        """
-        Создает асинхронный генератор для взаимодействия с API Upstage.
-
-        Args:
-            model (str): Имя модели для использования.
-            messages (Messages): Список сообщений для отправки в API.
-            proxy (str, optional): URL прокси-сервера для использования. По умолчанию `None`.
-            **kwargs: Дополнительные аргументы.
-
-        Returns:
-            AsyncResult: Асинхронный генератор, выдающий текстовые фрагменты из ответа API.
-
-        Raises:
-            Exception: В случае ошибки во время запроса или обработки ответа.
-
-        """
-```
-
-**Purpose**:
-Creates an asynchronous generator for interacting with the Upstage API.
-
-**Parameters**:
-- `model` (str): The model name to use.
-- `messages` (Messages): A list of messages to send to the API.
-- `proxy` (str, optional): The URL of the proxy server to use. Defaults to `None`.
-- `**kwargs`: Additional arguments.
-
-**Returns**:
-- `AsyncResult`: An asynchronous generator yielding text chunks from the API response.
-
-**How the function works**:
-The function prepares the request headers and payload, sends an asynchronous POST request to the Upstage API, and processes the streaming response. It extracts the content from the JSON data in each line of the response and yields it as a text chunk. If an error occurs during the request or response processing, it logs the error and continues.
-
-**Examples**:
-```python
-messages = [{"role": "user", "content": "Tell me a story."}]
-async for chunk in Upstage.create_async_generator(model='solar-pro', messages=messages):
-    print(chunk)
-```
-## Class Parameters
-
-- `url` (str): The base URL for the Upstage AI service.
-- `api_endpoint` (str): The specific endpoint for chat completions.
-- `working` (bool): A flag indicating whether the provider is currently operational.
-- `default_model` (str): The default AI model used if none is specified.
-- `models` (list): A list of available AI models supported by Upstage.
-- `model_aliases` (dict): A dictionary of aliases for the model names.
