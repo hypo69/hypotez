@@ -1,0 +1,1114 @@
+{
+  "products": [
+    {
+      "product_name": "Infineon EconoDUAL™ 3 IGBT Modules",
+      "product_url": "https://www.infineon.com/cms/en/product/power/igbt/igbt-modules/econodual-3/",
+      "category_name": "IGBT Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Mitsubishi Electric IGBT Modules CM-Series",
+      "product_url": "https://www.mitsubishielectric.com/semiconductors/products/powermod/igbtmod/index.html",
+      "category_name": "IGBT Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Semikron SEMITRANS® IGBT Modules",
+      "product_url": "https://www.semikron-danfoss.com/products/product-classes/igbt-modules.html",
+      "category_name": "IGBT Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Fuji Electric IGBT Modules (7th Generation X Series)",
+      "product_url": "https://www.fujielectric.com/products/semiconductor/model/igbt/feature.html",
+      "category_name": "IGBT Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor FDMF3170 Smart Power Stage (SPS) Module",
+      "product_url": "https://www.onsemi.com/products/power-modules/integrated-driver-mosfet-drmos/fdmf3170",
+      "category_name": "Power Modules (DrMOS)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Vishay FRED Pt® Ultrafast Recovery Rectifiers",
+      "product_url": "https://www.vishay.com/diodes/rectifiers/ultrafast-recovery/",
+      "category_name": "Power Diodes",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics STPOWER SLLIMM™ IPMs",
+      "product_url": "https://www.st.com/en/power-modules/sllimm.html",
+      "category_name": "Intelligent Power Modules (IPM)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Littelfuse Standard SCR Thyristors",
+      "product_url": "https://www.littelfuse.com/products/power-semiconductors/switching-thyristors/standard-scr.aspx",
+      "category_name": "Thyristors / SCRs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "IXYS (Littelfuse) Phase Control Thyristors",
+      "product_url": "https://www.littelfuse.com/products/power-semiconductors/switching-thyristors/phase-control-thyristors.aspx",
+      "category_name": "Thyristors / SCRs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon OptiMOS™ Power MOSFETs",
+      "product_url": "https://www.infineon.com/cms/en/product/power/mosfet/n-channel/",
+      "category_name": "Power MOSFETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon EiceDRIVER™ Gate Driver ICs",
+      "product_url": "https://www.infineon.com/cms/en/product/gate-driver-ics/",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Texas Instruments UCC21750-Q1 Single Channel Isolated Gate Driver",
+      "product_url": "https://www.ti.com/product/UCC21750-Q1",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Analog Devices ADuM4135 Isolated IGBT Gate Driver",
+      "product_url": "https://www.analog.com/en/products/adum4135.html",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics STGAP Series Galvanically Isolated Gate Drivers",
+      "product_url": "https://www.st.com/en/power-management/gate-drivers.html",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor NCP51705 High Performance 6A SiC MOSFET Driver",
+      "product_url": "https://www.onsemi.com/products/power-management/gate-drivers/ncp51705",
+      "category_name": "Gate Drivers (SiC)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ROHM BM61S41RFV Gate Driver for SiC MOSFETs",
+      "product_url": "https://www.rohm.com/products/gate-drivers/sic-mosfet-gate-drivers/bm61s41rfv-c-product",
+      "category_name": "Gate Drivers (SiC)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Broadcom (Avago) ACPL-P343 High Speed IGBT Gate Drive Optocoupler",
+      "product_url": "https://www.broadcom.com/products/optocouplers/industrial-plastic/isolated-gate-drive/acpl-p343",
+      "category_name": "Gate Drivers (Optocoupler)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Skyworks Solutions Si827x ISOdrivers",
+      "product_url": "https://www.skyworksinc.com/en/Products/Isolation/Digital-Isolators/Isodrivers",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Toshiba TLP5772 GaAlAs Infrared LED & Photo IC Gate Drive Coupler",
+      "product_url": "https://toshiba.semicon-storage.com/eu/semiconductor/product/optocouplers-photorelays/detail.TLP5772.html",
+      "category_name": "Gate Drivers (Optocoupler)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Renesas ISL89400 High Voltage High Frequency Half Bridge Driver",
+      "product_url": "https://www.renesas.com/us/en/products/power-management/gate-drivers/half-bridge-drivers/isl89400-high-voltage-high-frequency-half-bridge-driver",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon CoolSiC™ MOSFET Modules",
+      "product_url": "https://www.infineon.com/cms/en/product/power/sic-silicon-carbide/sic-modules/",
+      "category_name": "SiC Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Wolfspeed (Cree) Silicon Carbide Power Modules",
+      "product_url": "https://www.wolfspeed.com/power/products/power-modules/",
+      "category_name": "SiC Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor Silicon Carbide (SiC) Modules",
+      "product_url": "https://www.onsemi.com/products/power-modules/silicon-carbide-sic-modules",
+      "category_name": "SiC Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Microchip (Microsemi) SiC Power Modules",
+      "product_url": "https://www.microchip.com/en-us/products/power-management/sic-power-devices/sic-power-modules",
+      "category_name": "SiC Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ROHM Silicon Carbide (SiC) Power Devices - Modules",
+      "product_url": "https://www.rohm.com/products/sic-power-devices/sic-power-modules",
+      "category_name": "SiC Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics ACEPACK Power Modules (SiC)",
+      "product_url": "https://www.st.com/en/power-modules/acepack-modules.html#sic-mosfet-modules",
+      "category_name": "SiC Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "GeneSiC Semiconductor SiC Modules",
+      "product_url": "https://www.genesicsemi.com/sic-modules/",
+      "category_name": "SiC Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Hitachi Energy RoadPak SiC Module for Automotive",
+      "product_url": "https://www.hitachienergy.com/products-and-solutions/semiconductors/power-modules/silicon-carbide-modules/roadpak",
+      "category_name": "SiC Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Vishay Diode Modules",
+      "product_url": "https://www.vishay.com/diodes/modules/",
+      "category_name": "Diode Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Semikron SEMIPACK® Thyristor/Diode Modules",
+      "product_url": "https://www.semikron-danfoss.com/products/product-classes/thyristor-diode-modules.html",
+      "category_name": "Thyristor/Diode Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon MDQ PowerBLOCK Dual Diode Modules",
+      "product_url": "https://www.infineon.com/cms/en/product/power/thyristors-scr/thyristor-diode-modules/",
+      "category_name": "Diode Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor Power Modules (Rectifiers, IPMs, etc.)",
+      "product_url": "https://www.onsemi.com/products/power-modules",
+      "category_name": "Power Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Vincotech Power Modules",
+      "product_url": "https://www.vincotech.com/en/products/power-modules.html",
+      "category_name": "Power Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Microchip (Microsemi) Power Modules",
+      "product_url": "https://www.microchip.com/en-us/products/power-management/power-modules",
+      "category_name": "Power Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "IXYS (Littelfuse) Rectifier Diode Modules",
+      "product_url": "https://www.littelfuse.com/products/power-semiconductors/discrete-diodes/rectifier-diode-modules.aspx",
+      "category_name": "Diode Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ABB LinPak IGBT High Power Modules",
+      "product_url": "https://new.abb.com/semiconductors/power-modules/igbt/linpak",
+      "category_name": "IGBT Modules (High Power)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "GaN Systems Power Transistors",
+      "product_url": "https://gansystems.com/gan-transistors/",
+      "category_name": "GaN Transistors",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon CoolGaN™ Gallium Nitride Solutions",
+      "product_url": "https://www.infineon.com/cms/en/product/power/gan-gallium-nitride/",
+      "category_name": "GaN Devices",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Texas Instruments GaN FET Drivers",
+      "product_url": "https://www.ti.com/power-management/gate-drivers/gan-fet-drivers/overview.html",
+      "category_name": "Gate Drivers (GaN)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "EPC eGaN® FETs and ICs",
+      "product_url": "https://epc-co.com/epc/products/gan-fets-and-ics",
+      "category_name": "GaN Devices",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Navitas Semiconductor GaNFast™ Power ICs",
+      "product_url": "https://navitassemi.com/products/",
+      "category_name": "GaN Devices",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics STPOWER GaN Transistors",
+      "product_url": "https://www.st.com/en/power-transistors/gan-transistors.html",
+      "category_name": "GaN Transistors",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Transphorm GaN Power Devices",
+      "product_url": "https://www.transphormusa.com/en/products/",
+      "category_name": "GaN Devices",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Panasonic X-GaN Gate Drivers",
+      "product_url": "https://industrial.panasonic.com/ww/products/semiconductors/gan-devices/gan-gate-drivers",
+      "category_name": "Gate Drivers (GaN)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "MACOM GaN on SiC Technology",
+      "product_url": "https://www.macom.com/technology/gan-on-sic",
+      "category_name": "GaN Devices",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Nexperia GaN FETs",
+      "product_url": "https://www.nexperia.com/products/gan-fets/",
+      "category_name": "GaN FETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon CoolSiC™ Schottky Diodes",
+      "product_url": "https://www.infineon.com/cms/en/product/power/sic-silicon-carbide/sic-diodes/",
+      "category_name": "SiC Diodes",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Wolfspeed Silicon Carbide Diodes",
+      "product_url": "https://www.wolfspeed.com/power/products/diodes/",
+      "category_name": "SiC Diodes",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor Silicon Carbide (SiC) Diodes",
+      "product_url": "https://www.onsemi.com/products/discretes-drivers/silicon-carbide-sic/silicon-carbide-sic-diodes",
+      "category_name": "SiC Diodes",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Microchip SiC Schottky Barrier Diodes",
+      "product_url": "https://www.microchip.com/en-us/products/power-management/sic-power-devices/sic-diodes",
+      "category_name": "SiC Diodes",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ROHM Silicon Carbide (SiC) Diodes",
+      "product_url": "https://www.rohm.com/products/sic-power-devices/sic-schottky-barrier-diodes",
+      "category_name": "SiC Diodes",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics STPOWER SiC Diodes",
+      "product_url": "https://www.st.com/en/power-discretes/sic-diodes.html",
+      "category_name": "SiC Diodes",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "GeneSiC Semiconductor SiC Schottky MPS™ Diodes",
+      "product_url": "https://www.genesicsemi.com/sic-schottky-mps-diodes/",
+      "category_name": "SiC Diodes",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Littelfuse SiC Schottky Diodes",
+      "product_url": "https://www.littelfuse.com/products/power-semiconductors/discrete-sic-schottky-diodes.aspx",
+      "category_name": "SiC Diodes",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Vishay Silicon Carbide (SiC) Schottky Diodes",
+      "product_url": "https://www.vishay.com/diodes/sic/",
+      "category_name": "SiC Diodes",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "UnitedSiC (Qorvo) SiC Schottky Diodes",
+      "product_url": "https://www.qorvo.com/products/p/UJ3D06505K",
+      "category_name": "SiC Diodes",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon CoolSiC™ MOSFET Discretes",
+      "product_url": "https://www.infineon.com/cms/en/product/power/sic-silicon-carbide/sic-mosfets/",
+      "category_name": "SiC MOSFETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Wolfspeed Silicon Carbide MOSFETs",
+      "product_url": "https://www.wolfspeed.com/power/products/mosfets/",
+      "category_name": "SiC MOSFETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor Silicon Carbide (SiC) MOSFETs",
+      "product_url": "https://www.onsemi.com/products/discretes-drivers/silicon-carbide-sic/silicon-carbide-sic-mosfets",
+      "category_name": "SiC MOSFETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Microchip SiC MOSFETs",
+      "product_url": "https://www.microchip.com/en-us/products/power-management/sic-power-devices/sic-mosfets",
+      "category_name": "SiC MOSFETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ROHM Silicon Carbide (SiC) MOSFETs",
+      "product_url": "https://www.rohm.com/products/sic-power-devices/sic-mosfet",
+      "category_name": "SiC MOSFETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics STPOWER SiC MOSFETs",
+      "product_url": "https://www.st.com/en/power-transistors/sic-mosfets.html",
+      "category_name": "SiC MOSFETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "GeneSiC Semiconductor SiC MOSFETs",
+      "product_url": "https://www.genesicsemi.com/sic-mosfets/",
+      "category_name": "SiC MOSFETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Littelfuse SiC MOSFETs",
+      "product_url": "https://www.littelfuse.com/products/power-semiconductors/discrete-mosfets/sic-mosfets.aspx",
+      "category_name": "SiC MOSFETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Vishay Silicon Carbide (SiC) MOSFETs",
+      "product_url": "https://www.vishay.com/mosfets/sic-mosfets/",
+      "category_name": "SiC MOSFETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "UnitedSiC (Qorvo) SiC FETs",
+      "product_url": "https://www.qorvo.com/products/discrete-transistors/sic-fets",
+      "category_name": "SiC FETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon TRENCHSTOP™ IGBT7 Modules",
+      "product_url": "https://www.infineon.com/cms/en/product/power/igbt/igbt-modules/",
+      "category_name": "IGBT Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Mitsubishi Electric Intelligent Power Modules (IPM)",
+      "product_url": "https://www.mitsubishielectric.com/semiconductors/products/powermod/ipm/index.html",
+      "category_name": "Intelligent Power Modules (IPM)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Semikron SKiM® IGBT Modules",
+      "product_url": "https://www.semikron-danfoss.com/products/brand-family/skim.html",
+      "category_name": "IGBT Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Fuji Electric Intelligent Power Modules (IPM)",
+      "product_url": "https://www.fujielectric.com/products/semiconductor/model/ipm/index.html",
+      "category_name": "Intelligent Power Modules (IPM)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor Automotive IGBTs",
+      "product_url": "https://www.onsemi.com/products/discretes-drivers/igbts/automotive-igbts",
+      "category_name": "IGBTs (Automotive)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Vishay Standard Recovery Diodes",
+      "product_url": "https://www.vishay.com/diodes/rectifiers/standard-recovery/",
+      "category_name": "Power Diodes (Rectifiers)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics Automotive-grade Thyristors (SCR) & AC switches",
+      "product_url": "https://www.st.com/en/power-discretes/automotive-grade-thyristors-scr-ac-switches.html",
+      "category_name": "Thyristors / SCRs (Automotive)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Littelfuse Medium Power SCR Thyristors",
+      "product_url": "https://www.littelfuse.com/products/power-semiconductors/switching-thyristors/medium-power-scr.aspx",
+      "category_name": "Thyristors / SCRs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "IXYS (Littelfuse) Fast Recovery Diodes",
+      "product_url": "https://www.littelfuse.com/products/power-semiconductors/discrete-diodes/fast-recovery-diodes.aspx",
+      "category_name": "Power Diodes (Fast Recovery)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon CoolMOS™ Power MOSFETs",
+      "product_url": "https://www.infineon.com/cms/en/product/power/mosfet/n-channel-600v-950v/",
+      "category_name": "Power MOSFETs (High Voltage)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Texas Instruments High-Side Gate Drivers",
+      "product_url": "https://www.ti.com/power-management/gate-drivers/high-side-drivers/overview.html",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Analog Devices Isolated Half-Bridge Drivers",
+      "product_url": "https://www.analog.com/en/product-category/isolated-half-bridge-drivers.html",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics STDRIVE Gate drivers",
+      "product_url": "https://www.st.com/en/power-management/gate-drivers.html",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor Low-Side Gate Drivers",
+      "product_url": "https://www.onsemi.com/products/power-management/gate-drivers/low-side-gate-drivers",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ROHM Gate Drivers",
+      "product_url": "https://www.rohm.com/products/gate-drivers",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Broadcom (Avago) Gate Drive Optocouplers",
+      "product_url": "https://www.broadcom.com/products/optocouplers/industrial-plastic/isolated-gate-drive",
+      "category_name": "Gate Drivers (Optocoupler)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Skyworks Solutions Isolated Gate Drivers",
+      "product_url": "https://www.skyworksinc.com/en/Products/Isolation/Isolated-Gate-Drivers",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Toshiba Photocouplers (Gate Drive)",
+      "product_url": "https://toshiba.semicon-storage.com/ap-en/semiconductor/product/optocouplers-photorelays.html",
+      "category_name": "Gate Drivers (Optocoupler)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Renesas High Speed Low Side MOSFET Drivers",
+      "product_url": "https://www.renesas.com/us/en/products/power-management/gate-drivers/low-side-mosfet-drivers",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon IGBT discretes TRENCHSTOP™ 5",
+      "product_url": "https://www.infineon.com/cms/en/product/power/igbt/igbt-discretes/trenchstop-5/",
+      "category_name": "IGBTs (Discrete)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Mitsubishi Electric Power Modules (DIPIPM™)",
+      "product_url": "https://www.mitsubishielectric.com/semiconductors/products/powermod/dipipm/index.html",
+      "category_name": "Intelligent Power Modules (IPM)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Semikron MiniSKiiP® IPM Modules",
+      "product_url": "https://www.semikron-danfoss.com/products/brand-family/miniskiip.html",
+      "category_name": "Intelligent Power Modules (IPM)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Fuji Electric Power Integrated Modules (PIM)",
+      "product_url": "https://www.fujielectric.com/products/semiconductor/model/pim/index.html",
+      "category_name": "Power Modules (PIM)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor Power Integrated Modules (PIM)",
+      "product_url": "https://www.onsemi.com/products/power-modules/power-integrated-modules-pim",
+      "category_name": "Power Modules (PIM)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Vishay Schottky Barrier Diodes",
+      "product_url": "https://www.vishay.com/diodes/rectifiers/schottky-barrier/",
+      "category_name": "Power Diodes (Schottky)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics Silicon Carbide (SiC) devices",
+      "product_url": "https://www.st.com/en/power-discretes/sic-mosfets-and-diodes.html",
+      "category_name": "SiC Devices",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Littelfuse TRIACs",
+      "product_url": "https://www.littelfuse.com/products/power-semiconductors/switching-thyristors/triacs.aspx",
+      "category_name": "TRIACs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "IXYS (Littelfuse) IGBT Modules",
+      "product_url": "https://www.littelfuse.com/products/power-semiconductors/igbt-modules.aspx",
+      "category_name": "IGBT Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon MOSFET P-Channel",
+      "product_url": "https://www.infineon.com/cms/en/product/power/mosfet/p-channel/",
+      "category_name": "Power MOSFETs (P-Channel)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon Gate Driver Boards",
+      "product_url": "https://www.infineon.com/cms/en/product/gate-driver-ics/gate-driver-boards/",
+      "category_name": "Gate Driver Boards",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Texas Instruments Low-Side Drivers",
+      "product_url": "https://www.ti.com/power-management/gate-drivers/low-side-drivers/overview.html",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Analog Devices Half-Bridge Drivers",
+      "product_url": "https://www.analog.com/en/product-category/half-bridge-drivers.html",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics VIPower (Intelligent Power Switches)",
+      "product_url": "https://www.st.com/en/automotive-analog-and-power/intelligent-power-switches.html",
+      "category_name": "Intelligent Power Switches",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor IGBT Gate Drivers",
+      "product_url": "https://www.onsemi.com/products/power-management/gate-drivers/igbt-drivers",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ROHM IPM (Intelligent Power Modules)",
+      "product_url": "https://www.rohm.com/products/igbt/ipm",
+      "category_name": "Intelligent Power Modules (IPM)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Broadcom (Avago) Intelligent Power Module (IPM) Interface Optocouplers",
+      "product_url": "https://www.broadcom.com/products/optocouplers/industrial-plastic/ipm-interface",
+      "category_name": "Optocouplers (IPM Interface)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Skyworks Solutions Digital Isolators",
+      "product_url": "https://www.skyworksinc.com/en/Products/Isolation/Digital-Isolators",
+      "category_name": "Digital Isolators",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Toshiba IPM (Intelligent Power Modules)",
+      "product_url": "https://toshiba.semicon-storage.com/ap-en/semiconductor/product/intelligent-power-devices/ipd-high-voltage-ipd-ipm.html",
+      "category_name": "Intelligent Power Modules (IPM)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Renesas IGBT Drivers",
+      "product_url": "https://www.renesas.com/us/en/products/power-management/gate-drivers/igbt-drivers",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon EconoPIM™ IGBT Modules",
+      "product_url": "https://www.infineon.com/cms/en/product/power/igbt/igbt-modules/econopim/",
+      "category_name": "IGBT Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Wolfspeed Silicon Carbide Schottky Diodes",
+      "product_url": "https://www.wolfspeed.com/power/products/diodes/",
+      "category_name": "SiC Diodes",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor SiC MOSFET Gate Drivers",
+      "product_url": "https://www.onsemi.com/products/power-management/gate-drivers/sic-mosfet-gate-drivers",
+      "category_name": "Gate Drivers (SiC)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Microchip SiC Gate Drivers",
+      "product_url": "https://www.microchip.com/en-us/products/power-management/sic-power-devices/sic-gate-drivers",
+      "category_name": "Gate Drivers (SiC)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ROHM Schottky Barrier Diodes (Si)",
+      "product_url": "https://www.rohm.com/products/diodes/schottky-barrier-diodes",
+      "category_name": "Power Diodes (Schottky)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics STPOWER IGBTs",
+      "product_url": "https://www.st.com/en/power-transistors/igbts.html",
+      "category_name": "IGBTs (Discrete)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "GeneSiC Semiconductor SiC Transistors",
+      "product_url": "https://www.genesicsemi.com/sic-transistors/",
+      "category_name": "SiC Transistors (Other)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Hitachi Energy High Power Semiconductors",
+      "product_url": "https://www.hitachienergy.com/products-and-solutions/semiconductors",
+      "category_name": "High Power Semiconductors",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Vishay MOSFET Modules",
+      "product_url": "https://www.vishay.com/mosfets/modules/",
+      "category_name": "MOSFET Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Semikron Bridge Rectifier Modules",
+      "product_url": "https://www.semikron-danfoss.com/products/product-classes/bridge-rectifier-modules.html",
+      "category_name": "Rectifier Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon Thyristor/Diode Modules",
+      "product_url": "https://www.infineon.com/cms/en/product/power/thyristors-scr/thyristor-diode-modules/",
+      "category_name": "Thyristor/Diode Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Vincotech flowIPM Modules",
+      "product_url": "https://www.vincotech.com/en/products/by-topology/ipm.html",
+      "category_name": "Intelligent Power Modules (IPM)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Microchip Digital Gate Drivers",
+      "product_url": "https://www.microchip.com/en-us/products/power-management/gate-drivers/digital-gate-drivers",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "IXYS (Littelfuse) SIDACtor Protection Thyristors",
+      "product_url": "https://www.littelfuse.com/products/protection-relays-and-controls/protection-relays/sidactor-protection-thyristors.aspx",
+      "category_name": "Protection Thyristors",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ABB HiPak IGBT Modules",
+      "product_url": "https://new.abb.com/semiconductors/power-modules/igbt/hipak",
+      "category_name": "IGBT Modules (High Power)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "GaN Systems Evaluation Boards",
+      "product_url": "https://gansystems.com/evaluation-boards/",
+      "category_name": "GaN Evaluation Boards",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon CoolGaN™ Evaluation Boards",
+      "product_url": "https://www.infineon.com/cms/en/product/evaluation-boards/#!gan",
+      "category_name": "GaN Evaluation Boards",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Texas Instruments GaN Power Stages",
+      "product_url": "https://www.ti.com/power-management/gan/gan-power-stages/products.html",
+      "category_name": "GaN Power Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "EPC GaN Power Bench Evaluation Kits",
+      "product_url": "https://epc-co.com/epc/products/demonstration-boards",
+      "category_name": "GaN Evaluation Boards",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Navitas Semiconductor GaNSense™ Half-Bridge Power ICs",
+      "product_url": "https://navitassemi.com/products/#halfbridge",
+      "category_name": "GaN Power Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics MasterGaN Power Packages",
+      "product_url": "https://www.st.com/en/power-management/mastergan.html",
+      "category_name": "GaN Power Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Transphorm Evaluation Kits for GaN FETs",
+      "product_url": "https://www.transphormusa.com/en/evaluation-kits/",
+      "category_name": "GaN Evaluation Boards",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Panasonic GaN Power Devices (X-GaN™)",
+      "product_url": "https://industrial.panasonic.com/ww/products/semiconductors/gan-devices",
+      "category_name": "GaN Devices",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "MACOM GaN Power Transistors",
+      "product_url": "https://www.macom.com/products/product-listing/family/190",
+      "category_name": "GaN Transistors",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Nexperia Automotive GaN FETs",
+      "product_url": "https://www.nexperia.com/products/gan-fets/automotive-gan-fets/",
+      "category_name": "GaN FETs (Automotive)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon CoolSiC™ Hybrid Modules",
+      "product_url": "https://www.infineon.com/cms/en/product/power/sic-silicon-carbide/sic-hybrid-modules/",
+      "category_name": "Hybrid SiC/IGBT Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Wolfspeed SiC MOSFET Evaluation Kits",
+      "product_url": "https://www.wolfspeed.com/power/products/reference-designs-evaluation-kits/",
+      "category_name": "SiC Evaluation Boards",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor SiC Evaluation Boards",
+      "product_url": "https://www.onsemi.com/design-support/evaluation-board?category=1892",
+      "category_name": "SiC Evaluation Boards",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Microchip SiC Evaluation Kits",
+      "product_url": "https://www.microchip.com/en-us/products/power-management/sic-power-devices/sic-evaluation-kits",
+      "category_name": "SiC Evaluation Boards",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ROHM SiC Power Module Evaluation Boards",
+      "product_url": "https://www.rohm.com/products/sic-power-devices/sic-power-modules/evaluation-boards",
+      "category_name": "SiC Evaluation Boards",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics Evaluation boards for SiC MOSFETs",
+      "product_url": "https://www.st.com/en/evaluation-tools/evalboards-sicmos.html",
+      "category_name": "SiC Evaluation Boards",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "GeneSiC Semiconductor SiC Power Module Evaluation Kits",
+      "product_url": "https://www.genesicsemi.com/evaluation-kits/",
+      "category_name": "SiC Evaluation Boards",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Littelfuse Gate Driver Boards for SiC MOSFETs",
+      "product_url": "https://www.littelfuse.com/products/power-semiconductors/gate-driver-boards.aspx",
+      "category_name": "Gate Driver Boards (SiC)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Vishay Silicon Carbide (SiC) MOSFET Power Modules",
+      "product_url": "https://www.vishay.com/mosfets/sic-modules/",
+      "category_name": "SiC Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "UnitedSiC (Qorvo) FET-Jet Calculator (Tool)",
+      "product_url": "https://info.unitedsic.com/fet-jet",
+      "category_name": "SiC/FET Design Tools",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon MIPAQ™ Pro Intelligent Power Modules",
+      "product_url": "https://www.infineon.com/cms/en/product/power/igbt/intelligent-power-modules-ipm/mipaq-pro/",
+      "category_name": "Intelligent Power Modules (IPM)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Mitsubishi Electric Transfer Mold type Power Modules (T-PM)",
+      "product_url": "https://www.mitsubishielectric.com/semiconductors/products/powermod/tpm/index.html",
+      "category_name": "Power Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Semikron SEMITOP® Power Modules",
+      "product_url": "https://www.semikron-danfoss.com/products/brand-family/semitop.html",
+      "category_name": "Power Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Fuji Electric Discrete IGBTs",
+      "product_url": "https://www.fujielectric.com/products/semiconductor/model/igbt_discrete/index.html",
+      "category_name": "IGBTs (Discrete)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor Automotive MOSFETs",
+      "product_url": "https://www.onsemi.com/products/discretes-drivers/mosfets/automotive-mosfets",
+      "category_name": "Power MOSFETs (Automotive)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Vishay Fast Recovery Diodes",
+      "product_url": "https://www.vishay.com/diodes/rectifiers/fast-recovery/",
+      "category_name": "Power Diodes (Fast Recovery)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics SCRs",
+      "product_url": "https://www.st.com/en/power-discretes/scrs.html",
+      "category_name": "Thyristors / SCRs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Littelfuse High Power SCR Thyristors",
+      "product_url": "https://www.littelfuse.com/products/power-semiconductors/switching-thyristors/high-power-scr.aspx",
+      "category_name": "Thyristors / SCRs (High Power)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "IXYS (Littelfuse) Phase Control SCR Modules",
+      "product_url": "https://www.littelfuse.com/products/power-semiconductors/scr-diode-modules/phase-control-scr-modules.aspx",
+      "category_name": "SCR Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon OptiMOS™ Low Voltage Power MOSFETs (20V-40V)",
+      "product_url": "https://www.infineon.com/cms/en/product/power/mosfet/n-channel/20v-40v/",
+      "category_name": "Power MOSFETs (Low Voltage)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon ISOFACE™ Isolated Interface ICs (Gate Driver Function)",
+      "product_url": "https://www.infineon.com/cms/en/product/interface/isolated-interfaces/",
+      "category_name": "Isolated Interfaces (Gate Driver)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Texas Instruments Isolated Gate Drivers",
+      "product_url": "https://www.ti.com/power-management/gate-drivers/isolated-gate-drivers/overview.html",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Analog Devices Digital Isolators",
+      "product_url": "https://www.analog.com/en/product-category/digital-isolators.html",
+      "category_name": "Digital Isolators",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics TRIACs",
+      "product_url": "https://www.st.com/en/power-discretes/triacs.html",
+      "category_name": "TRIACs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor MOSFET Gate Drivers",
+      "product_url": "https://www.onsemi.com/products/power-management/gate-drivers/mosfet-gate-drivers",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ROHM Transistors (Bipolar, MOSFETs)",
+      "product_url": "https://www.rohm.com/products/transistors",
+      "category_name": "Power Transistors",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Broadcom (Avago) Optocouplers",
+      "product_url": "https://www.broadcom.com/products/optocouplers",
+      "category_name": "Optocouplers (General)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Skyworks Solutions High Voltage Digital Isolators",
+      "product_url": "https://www.skyworksinc.com/en/Products/Isolation/Digital-Isolators#High%20Voltage%20Digital%20Isolators",
+      "category_name": "Digital Isolators (High Voltage)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Toshiba IGBT/IEGT Modules",
+      "product_url": "https://toshiba.semicon-storage.com/ap-en/semiconductor/product/power-modules/igbt-iegts-modules.html",
+      "category_name": "IGBT Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Renesas Optocouplers / Photocouplers",
+      "product_url": "https://www.renesas.com/us/en/products/optoelectronics/optocouplers-photocouplers",
+      "category_name": "Optocouplers (General)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon EasyPACK™ IGBT Modules",
+      "product_url": "https://www.infineon.com/cms/en/product/power/igbt/igbt-modules/easypack/",
+      "category_name": "IGBT Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Wolfspeed Reference Designs & Evaluation Kits",
+      "product_url": "https://www.wolfspeed.com/power/products/reference-designs-evaluation-kits/",
+      "category_name": "Evaluation Boards (SiC/GaN)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ON Semiconductor Integrated FET Drivers",
+      "product_url": "https://www.onsemi.com/products/power-management/gate-drivers/integrated-fet-drivers",
+      "category_name": "Gate Drivers (Integrated FET)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Microchip High-Side MOSFET Drivers",
+      "product_url": "https://www.microchip.com/en-us/products/power-management/gate-drivers/high-side-mosfet-drivers",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ROHM Fast Recovery Diodes",
+      "product_url": "https://www.rohm.com/products/diodes/fast-recovery-diodes",
+      "category_name": "Power Diodes (Fast Recovery)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics STPOWER MOSFETs",
+      "product_url": "https://www.st.com/en/power-transistors/stpower-mosfets.html",
+      "category_name": "Power MOSFETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "GeneSiC Semiconductor SiC Rectifiers",
+      "product_url": "https://www.genesicsemi.com/sic-rectifiers/",
+      "category_name": "SiC Diodes / Rectifiers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Hitachi Energy IGCT (Integrated Gate-Commutated Thyristors)",
+      "product_url": "https://www.hitachienergy.com/products-and-solutions/semiconductors/igct",
+      "category_name": "IGCTs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Vishay MOSFETs",
+      "product_url": "https://www.vishay.com/mosfets/",
+      "category_name": "Power MOSFETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Semikron SiC Hybrid Power Modules",
+      "product_url": "https://www.semikron-danfoss.com/products/product-classes/sic-hybrid-power-modules.html",
+      "category_name": "Hybrid SiC Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon Diode Modules",
+      "product_url": "https://www.infineon.com/cms/en/product/power/igbt/diode-modules/",
+      "category_name": "Diode Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Vincotech flowPACK Power Modules",
+      "product_url": "https://www.vincotech.com/en/products/by-package/flowpack.html",
+      "category_name": "Power Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Microchip Low-Side MOSFET Drivers",
+      "product_url": "https://www.microchip.com/en-us/products/power-management/gate-drivers/low-side-mosfet-drivers",
+      "category_name": "Gate Drivers",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "IXYS (Littelfuse) Thyristor Modules",
+      "product_url": "https://www.littelfuse.com/products/power-semiconductors/scr-diode-modules/thyristor-modules.aspx",
+      "category_name": "Thyristor Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "ABB IGBT Power Modules",
+      "product_url": "https://new.abb.com/semiconductors/power-modules/igbt",
+      "category_name": "IGBT Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "GaN Systems Automotive GaN Transistors",
+      "product_url": "https://gansystems.com/gan-transistors/#automotive",
+      "category_name": "GaN Transistors (Automotive)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Infineon IGBT Power Modules with TRENCHSTOP™",
+      "product_url": "https://www.infineon.com/cms/en/product/power/igbt/igbt-modules/",
+      "category_name": "IGBT Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Texas Instruments GaN FET Power Stages",
+      "product_url": "https://www.ti.com/power-management/gan/gan-power-stages/overview.html",
+      "category_name": "GaN Power Modules",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "EPC Evaluation Boards for GaN FETs",
+      "product_url": "https://epc-co.com/epc/products/demonstration-boards",
+      "category_name": "GaN Evaluation Boards",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Navitas Semiconductor GaN Power IC Design Kits",
+      "product_url": "https://navitassemi.com/design-kits/",
+      "category_name": "GaN Evaluation Boards / Design Kits",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "STMicroelectronics Evaluation boards for GaN Transistors",
+      "product_url": "https://www.st.com/en/evaluation-tools/evalboards-gan.html",
+      "category_name": "GaN Evaluation Boards",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Transphorm Automotive GaN FETs",
+      "product_url": "https://www.transphormusa.com/en/automotive/",
+      "category_name": "GaN FETs (Automotive)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Panasonic GaN Power Devices",
+      "product_url": "https://industrial.panasonic.com/ww/products/semiconductors/gan-devices",
+      "category_name": "GaN Devices",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "MACOM High Power GaN",
+      "product_url": "https://www.macom.com/products/product-listing/hierarchy/high-power-gan",
+      "category_name": "GaN Devices (High Power)",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    },
+    {
+      "product_name": "Nexperia Power GaN FETs",
+      "product_url": "https://www.nexperia.com/products/gan-fets/power-gan-fets/",
+      "category_name": "GaN FETs",
+      "parent_category": "Power Electronics and High-Voltage Equipment Components"
+    }
+  ]
+}

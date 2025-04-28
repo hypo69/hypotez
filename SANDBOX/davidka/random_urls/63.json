@@ -1,0 +1,1414 @@
+{
+  "products": [
+    {
+      "product_name": "Pilz PNOZsigma Safety Relays",
+      "product_url": "https://www.pilz.com/en-INT/products/relay-modules/safety-relays-pnoz/pnozsigma",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick deTec4 Safety Light Curtains",
+      "product_url": "https://www.sick.com/gb/en/safety-light-curtains/detec/detec4/c/g468444",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron D4SL-N Guard Lock Safety Door Switch",
+      "product_url": "https://industrial.omron.eu/en/products/d4sl-n",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley Guardmaster 440G-MZ Guard Locking Switches",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-interlock-switches/guard-locking-switches/440g-mz-guard-locking-switches.html",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3SK1 Safety Relays Standard basic units",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/safety-relays/sirius-3sk1.html",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering LS Series Heavy-Duty Safety Light Curtains",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-light-curtains/type-4-safety-light-curtains/ls-series-heavy-duty.html",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence GC Series Safety Interlock Switch",
+      "product_url": "https://www.keyence.com/products/safety/safety-interlock-switches/gc/",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal AZM 201 Solenoid interlock",
+      "product_url": "https://www.schmersal.com/en/safety-locking-devices/pid/azm-201",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze SLC 440 Safety Light Curtains",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/optoelectronic_safety_sensors/safety_light_curtains/slc_440/",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner CTP Transponder-coded safety switch with guard locking",
+      "product_url": "https://www.euchner.com/en-us/Products/Safety-Switches/Safety-switches-with-guard-locking/Safety-switches-with-guard-locking-and-integrated-evaluation-electronics/CTP",
+      "category_name": "Safety Switches (Guard Lock, RFID)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB Sentry Safety Relays",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/safety-relays/sentry",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic G1501S Safety Relay",
+      "product_url": "https://www.ifm.com/us/en/product/G1501S",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XPS Universal safety modules",
+      "product_url": "https://www.se.com/ww/en/product-range/62129-preventa-xps-universal/",
+      "category_name": "Safety Modules / Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XY2C Emergency stop rope pull switches",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-switches/xy2c",
+      "category_name": "Rope Pull Switches (Emergency Stop)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pepperl+Fuchs SafeBox Safety Control Units",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_6109.htm",
+      "category_name": "Safety Controllers",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IDEC SE4D Series Safety Light Curtains",
+      "product_url": "https://www.idec.com/products/safety/light-curtains/se4d-series",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PSENmech Mechanical safety switches",
+      "product_url": "https://www.pilz.com/en-GB/products/sensor-technology/safety-switches/mechanical-safety-switches-psenmech",
+      "category_name": "Safety Switches (Mechanical)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick RE1 Magnetic safety switches",
+      "product_url": "https://www.sick.com/gb/en/safety-switches/non-contact-safety-switches/magnetic-safety-switches/re1/c/g187353",
+      "category_name": "Safety Switches (Magnetic)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron D40Z Non-Contact Switch",
+      "product_url": "https://industrial.omron.eu/en/products/d40z",
+      "category_name": "Safety Switches (Magnetic/RFID)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley Guardmaster SensaGuard Non-contact Switches",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-interlock-switches/non-contact-interlock-switches/440n-z-sensaguard-non-contact-switches.html",
+      "category_name": "Safety Switches (RFID)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3SE6 Non-contact Safety Switches RFID",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/position-and-safety-switches/non-contact-safety-switches-3se6.html",
+      "category_name": "Safety Switches (RFID)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering SI-MAG Series Magnet Safety Switches",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-interlock-switches/magnetic-safety-switches-si-mag-series.html",
+      "category_name": "Safety Switches (Magnetic)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence GS Series Safety Interlock Switch",
+      "product_url": "https://www.keyence.com/products/safety/safety-interlock-switches/gs/",
+      "category_name": "Safety Switches (Guard Lock/RFID)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal AZ 15 Safety switch with separate actuator",
+      "product_url": "https://www.schmersal.com/en/position-detection/safety-switches-with-separate-actuator/pid/az-15",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze Safety command devices E-STOP",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/control_components_and_signal_devices/control_devices/es_series/",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner MGB Multifunctional Gate Box",
+      "product_url": "https://www.euchner.com/en-us/Products/Safety-Switches/Multifunctional-Gate-Box-MGB",
+      "category_name": "Safety Gate Systems",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB Eden Safety Sensors (Non-Contact)",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/safety-sensors/non-contact-safety-switches/eden",
+      "category_name": "Safety Switches (Non-Contact)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic IN5 Series Inductive safety sensors",
+      "product_url": "https://www.ifm.com/us/en/category/070/070_030/070_030_030",
+      "category_name": "Safety Switches (Inductive)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XCS Safety interlock switches",
+      "product_url": "https://www.se.com/ww/en/product-range/61113-preventa-xcs/",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XCSLF Solenoid interlock switch",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-switches/xcslf-xcste",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PSENscan Safety laser scanners",
+      "product_url": "https://www.pilz.com/en-INT/products/sensor-technology/safety-laser-scanners-psenscan",
+      "category_name": "Safety Laser Scanners",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick microScan3 Safety laser scanners",
+      "product_url": "https://www.sick.com/gb/en/safety-laser-scanners/microsScan3/c/g293193",
+      "category_name": "Safety Laser Scanners",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron OS32C Safety Laser Scanner",
+      "product_url": "https://industrial.omron.eu/en/products/os32c",
+      "category_name": "Safety Laser Scanners",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley SafeZone Safety Laser Scanners",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-presence-sensing-devices/laser-scanners/safetyscape-safety-laser-scanner.html",
+      "category_name": "Safety Laser Scanners",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIMATIC Safe Emergency Stop Buttons",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/safety-command-devices/simatic-safe-emergency-stop.html",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering SSA Series 30 mm Mount Emergency Stop Buttons",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-emergency-stop-stop-controls/e-stop-buttons-surface-flush-mount-30-mm/ssa-series.html",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence SG Series Emergency Stop Buttons",
+      "product_url": "https://www.keyence.com/products/safety/safety-general-devices/sg/",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal ES Emergency-stop control devices",
+      "product_url": "https://www.schmersal.com/en/control-devices-signalling-devices/emergency-stop-control-devices/pid/es",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze E-STOP Devices ES Series",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/control_components_and_signal_devices/control_devices/es_series/",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner ES Emergency Stop Buttons",
+      "product_url": "https://www.euchner.com/en-us/Products/Control-Devices/Emergency-stop-buttons",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB Emergency Stop Pushbuttons",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/emergency-stops",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic EC Series Emergency Stop Buttons",
+      "product_url": "https://www.ifm.com/us/en/category/070/070_020",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Harmony XB4 Emergency stop pushbuttons Ø 22 mm",
+      "product_url": "https://www.se.com/ww/en/product-range/658-harmony-xb4/#emergency-stop-pushbuttons",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Eaton M22 Emergency Stop/Off Pushbuttons",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/machinery-controls/m22.html#emergency",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PNOZmulti Configurable safety systems",
+      "product_url": "https://www.pilz.com/en-INT/products/control-technology/configurable-safety-systems-pnozmulti",
+      "category_name": "Configurable Safety Controllers",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick Flexi Soft Safety controllers",
+      "product_url": "https://www.sick.com/gb/en/safety-controller-solutions/safety-controllers/flexi-soft/c/g351803",
+      "category_name": "Configurable Safety Controllers",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron G9SP Standalone Safety Controller",
+      "product_url": "https://industrial.omron.eu/en/products/g9sp",
+      "category_name": "Configurable Safety Controllers",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley GuardLogix Safety Controllers",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-controllers/guardlogix-safety-controllers.html",
+      "category_name": "Safety PLCs",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIMATIC S7-1200F CPU (Failsafe)",
+      "product_url": "https://new.siemens.com/global/en/products/automation/systems/industrial/plc/s7-1200/s7-1200f-cpu.html",
+      "category_name": "Safety PLCs",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering SC10 Series Safety Controller",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-controllers-modules-relays/sc10-series-safety-controller.html",
+      "category_name": "Safety Controllers",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal PROTECT PSC1 Compact Safety Controller",
+      "product_url": "https://www.schmersal.com/en/programmable-safety-controllers/pid/protect-psc1",
+      "category_name": "Safety Controllers",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze MSI 400 Configurable safety controller",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/safety_control_components/safety_controls/msi_400/",
+      "category_name": "Configurable Safety Controllers",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner MSC Safety Control System",
+      "product_url": "https://www.euchner.com/en-us/Products/Safety-Control-System-MSC",
+      "category_name": "Configurable Safety Controllers",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB Pluto Safety PLC",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/programmable-logic-controllers-plcs/pluto",
+      "category_name": "Safety PLCs",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic G1504S Safety Relay",
+      "product_url": "https://www.ifm.com/us/en/product/G1504S",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XPS MCM Modular safety controller Accessories",
+      "product_url": "https://www.se.com/ww/en/product-range/61152-preventa-xpsmcm/#accessories",
+      "category_name": "Safety Controller Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XCS Accessories",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-switches/xcsa-xcsm-xpscsl-xcstr",
+      "category_name": "Safety Switch Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pepperl+Fuchs KFD2-SCD-Ex1.LK Smart Current Driver",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_192.htm?view=productdetails&prodid=25199",
+      "category_name": "Intrinsic Safety Barriers",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IDEC HR6S Series Safety Relays",
+      "product_url": "https://www.idec.com/products/safety/safety-relays/hr6s-series",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PSENini Inductive safety switches",
+      "product_url": "https://www.pilz.com/en-INT/products/sensor-technology/safety-switches/non-contact-safety-switches/inductive-safety-switches-psenini",
+      "category_name": "Safety Switches (Inductive)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick i110R Electro-mechanical safety switches",
+      "product_url": "https://www.sick.com/gb/en/safety-switches/electro-mechanical-safety-switches/i110r/c/g185433",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron D4N-R Limit Switch with Reset Button",
+      "product_url": "https://industrial.omron.eu/en/products/d4n#specifications",
+      "category_name": "Safety Limit Switches",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley Guardmaster TLS-Z GD2 Guard Locking Switches",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-interlock-switches/guard-locking-switches/440g-tlsz-gd2-guard-locking-switches.html",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3SE5 Limit Switches with Safety Function",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/position-and-safety-switches/mechanical-position-switches-3se5.html",
+      "category_name": "Safety Limit Switches",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering SI-LS Series Hinge Safety Switches",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-interlock-switches/hinge-safety-switches-si-ls-series.html",
+      "category_name": "Safety Switches (Hinge)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence SL-V Series Safety Light Curtain",
+      "product_url": "https://www.keyence.com/products/safety/safety-light-curtains/sl-v/",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal AZM 161 Solenoid interlock",
+      "product_url": "https://www.schmersal.com/en/safety-locking-devices/pid/azm-161",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze MLD 300 Multiple light beam safety devices",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/optoelectronic_safety_sensors/multiple_light_beam_safety_devices/mld_300/",
+      "category_name": "Multiple Light Beam Safety Devices",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner MGB2 Modular Safety Gate System",
+      "product_url": "https://www.euchner.com/en-us/Products/Safety-Switches/Multifunctional-Gate-Box-MGB2-Modular",
+      "category_name": "Safety Gate Systems",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB MKey 8 Guard Locking Switch",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/safety-sensors/safety-locking-devices/mkey",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic G1513S Safety Relay",
+      "product_url": "https://www.ifm.com/us/en/product/G1513S",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XY2SB Two-hand control stations",
+      "product_url": "https://www.se.com/ww/en/product-range/61275-preventa-xy2s/",
+      "category_name": "Two-Hand Control Stations",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XCS PA Plastic safety switch",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-switches/xcspa-xcsta-xcta",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pepperl+Fuchs VAA-4E4A-KE-ZE/R AS-Interface Safety Module",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_431.htm?view=productdetails&prodid=20587",
+      "category_name": "AS-Interface Safety Modules",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IDEC HS2L Series Safety Interlock Switch",
+      "product_url": "https://www.idec.com/products/safety/interlock-switches/hs2l-series",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PNOZpower Safety Relay (High Current)",
+      "product_url": "https://www.pilz.com/en-GB/products/relay-modules/safety-relays-pnoz/pnozpower",
+      "category_name": "Safety Relays (High Current)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick C4C-EA Entry/Exit Safety Light Curtain",
+      "product_url": "https://www.sick.com/gb/en/safety-light-curtains/c4000/c4000-entry-exit/c/g190274",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron F3SG-PG Perimeter Guarding Safety Light Curtain",
+      "product_url": "https://industrial.omron.eu/en/products/f3sg-pg",
+      "category_name": "Safety Light Curtains (Perimeter Guarding)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley SensaGuard Door Handle Switches",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-interlock-switches/non-contact-interlock-switches/440n-zh-sensaguard-door-handle-switches.html",
+      "category_name": "Safety Switches (RFID Door Handle)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3SE5 Tumbler Safety Switches",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/position-and-safety-switches/safety-switches-with-tumbler-3se5.html",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering E-Stop Buttons - Dome Style",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-emergency-stop-stop-controls/e-stop-buttons-dome.html",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence GS-10PC Safety Interlock Switch (Non-Contact)",
+      "product_url": "https://www.keyence.com/products/safety/safety-interlock-switches/gs/models/gs-10pc/",
+      "category_name": "Safety Switches (Non-Contact)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal AZM 40 Compact solenoid interlock",
+      "product_url": "https://www.schmersal.com/en/safety-locking-devices/pid/azm-40",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze MLDCON Safety Relay (for MLD devices)",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/safety_control_components/safety_relays/mldcon/",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner CET Transponder-coded safety switch with guard locking",
+      "product_url": "https://www.euchner.com/en-us/Products/Safety-Switches/Safety-switches-with-guard-locking/Safety-switches-with-guard-locking-and-separate-evaluation-electronics/CET-AR",
+      "category_name": "Safety Switches (Guard Lock, RFID)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB URAX Safety Relay Expansion Unit",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/safety-relays/expansion-units/urax",
+      "category_name": "Safety Relay Expansion Modules",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic GN705S Safety Relay",
+      "product_url": "https://www.ifm.com/us/en/product/GN705S",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XPS Safety relays",
+      "product_url": "https://www.se.com/ww/en/product-range/61151-preventa-xps/",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XY2AU Safety module for rope pull switches",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-modules-and-controllers/xy2au",
+      "category_name": "Safety Modules (Rope Pull)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pepperl+Fuchs Safe PMM Profisafe I/O Modules",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_6110.htm",
+      "category_name": "Safety I/O Modules (ProfiSafe)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IDEC FS1A Series Safety Relays",
+      "product_url": "https://www.idec.com/products/safety/safety-relays/fs1a-series",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PSEN op Safety light barriers (Single Beam)",
+      "product_url": "https://www.pilz.com/en-INT/products/sensor-technology/light-curtains/safety-light-barriers-psenop",
+      "category_name": "Single Beam Safety Devices",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick L4 Single-beam photoelectric safety switches",
+      "product_url": "https://www.sick.com/gb/en/safety-switches/single-beam-photoelectric-safety-switches/l4/c/g185434",
+      "category_name": "Single Beam Safety Devices",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron F3S-TGR-N_C Non-Contact Door Switches",
+      "product_url": "https://industrial.omron.eu/en/products/f3s-tgr-n_c",
+      "category_name": "Safety Switches (Non-Contact)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley GuardShield Micro 450L Safety Light Curtains",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-presence-sensing-devices/light-curtains/450l-e-guardshield-micro-450-safety-light-curtains.html",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3SE5 Hinge Switches Metal enclosure",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/position-and-safety-switches/hinge-switches-3se5/metal-enclosure.html",
+      "category_name": "Safety Switches (Hinge)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering UM-FA Series Universal Safety Module",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-controllers-modules-relays/um-fa-series-universal-input-safety-module.html",
+      "category_name": "Safety Modules / Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence GL-R Series Safety Light Curtain",
+      "product_url": "https://www.keyence.com/products/safety/safety-light-curtains/gl-r/",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal BNS 36 Magnetic safety sensor",
+      "product_url": "https://www.schmersal.com/en/non-contact-safety-switches/magnetic-safety-sensors/pid/bns-36",
+      "category_name": "Safety Switches (Magnetic)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze MLD 310 Multiple light beam safety devices",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/optoelectronic_safety_sensors/multiple_light_beam_safety_devices/mld_300/",
+      "category_name": "Multiple Light Beam Safety Devices",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner CESA Transponder-coded safety switches",
+      "product_url": "https://www.euchner.com/en-us/Products/Safety-Switches/Safety-switches-with-separate-actuator/Transponder-coded-safety-switches-CES",
+      "category_name": "Safety Switches (RFID)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB JSBR4 Safety Relay",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/safety-relays/jsbr4",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic G1507S Safety Relay",
+      "product_url": "https://www.ifm.com/us/en/product/G1507S",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XPS Universal Expansion modules",
+      "product_url": "https://www.se.com/ww/en/product-range/62129-preventa-xps-universal/#expansion-modules",
+      "category_name": "Safety Relay Expansion Modules",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XCS TE Solenoid interlock switch",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-switches/xcste",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pepperl+Fuchs Safe PDM Diagnostics Module",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_6111.htm",
+      "category_name": "Safety Diagnostic Modules",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IDEC HS1L Series Safety Interlock Switch",
+      "product_url": "https://www.idec.com/products/safety/interlock-switches/hs1l-series",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PSEN csx.19 Coded safety switch",
+      "product_url": "https://www.pilz.com/en-INT/products/sensor-technology/safety-switches/coded-safety-switches-psencode",
+      "category_name": "Safety Switches (Coded)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick IN3000 Direct Inductive safety switches",
+      "product_url": "https://www.sick.com/gb/en/safety-switches/non-contact-safety-switches/inductive-safety-switches/in3000-direct/c/g190272",
+      "category_name": "Safety Switches (Inductive)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron F3SG-RE Global Emergency Stop",
+      "product_url": "https://industrial.omron.eu/en/products/f3sg-re",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley GuardShield Safe 440L Safety Light Curtains",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-presence-sensing-devices/light-curtains/440l-guardshield-safe-4-safety-light-curtains.html",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3SE6 Non-contact Safety Switches Magnetically operated",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/position-and-safety-switches/non-contact-safety-switches-3se6/magnetically-operated-switches.html",
+      "category_name": "Safety Switches (Magnetic)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering SI-RF Series RFID Safety Switches",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-interlock-switches/rfid-safety-switches/si-rf-series.html",
+      "category_name": "Safety Switches (RFID)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence SL-U2 Communication Unit for SL-V",
+      "product_url": "https://www.keyence.com/products/safety/safety-light-curtains/sl-v/options/",
+      "category_name": "Safety Light Curtain Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal Safety Mats SMS",
+      "product_url": "https://www.schmersal.com/en/tactile-safety-devices/safety-mats/pid/sms-4",
+      "category_name": "Safety Mats",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze Safety switches RD 800",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/safety_switches_and_locking_devices/safety_switches/rd_800/",
+      "category_name": "Safety Switches",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner CTM Transponder-coded safety switch with guard locking",
+      "product_url": "https://www.euchner.com/en-us/Products/Safety-Switches/Safety-switches-with-guard-locking/Safety-switches-with-guard-locking-and-integrated-evaluation-electronics/CTM",
+      "category_name": "Safety Switches (Guard Lock, RFID)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB Orion Light Grids",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/optoelectronic-protective-devices/safety-light-curtains-and-grids/orion/light-grids",
+      "category_name": "Safety Light Grids",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic G1508S Safety Relay",
+      "product_url": "https://www.ifm.com/us/en/product/G1508S",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XY2AU Enabling grip switches",
+      "product_url": "https://www.se.com/ww/en/product-range/61275-preventa-xy2s/",
+      "category_name": "Enabling Switches",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XCS TR Transponder safety switch",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-switches/xcstr",
+      "category_name": "Safety Switches (Transponder/RFID)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pepperl+Fuchs AS-Interface Safety Input Modules",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_432.htm",
+      "category_name": "AS-Interface Safety Modules",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IDEC HR2S Series Safety Relays",
+      "product_url": "https://www.idec.com/products/safety/safety-relays/hr2s-series",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PSENsgate Accessories",
+      "product_url": "https://www.pilz.com/en-INT/products/sensor-technology/safety-gate-systems/safety-gate-system-psensgate/accessories-psensgate",
+      "category_name": "Safety Gate System Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick in R Safety inductive sensors",
+      "product_url": "https://www.sick.com/gb/en/safety-switches/non-contact-safety-switches/inductive-safety-switches/inr/c/g561565",
+      "category_name": "Safety Switches (Inductive)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron A22NE-PD Emergency Stop Pushbutton (Panel Mount)",
+      "product_url": "https://industrial.omron.eu/en/products/a22ne-pd",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley GuardShield PAC Safety Light Curtains",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-presence-sensing-devices/light-curtains/440l-guardshield-pac-safety-light-curtains.html",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3SE5 Limit switch accessories",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/position-and-safety-switches/mechanical-position-switches-3se5/accessories.html",
+      "category_name": "Safety Limit Switch Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering E-Stop Button Enclosures",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-emergency-stop-stop-controls/e-stop-safety-stop-button-enclosures.html",
+      "category_name": "Emergency Stop Button Enclosures",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence GL-T11R Safety Interlock Switch",
+      "product_url": "https://www.keyence.com/products/safety/safety-interlock-switches/gl-t11r/",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal AZ 16 ZVRK Safety switch with separate actuator and guard locking",
+      "product_url": "https://www.schmersal.com/en/safety-locking-devices/pid/az-16zvrk",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze MLD Safety Thru-beam photoelectric sensors",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/optoelectronic_safety_sensors/safety_thru-beam_photoelectric_sensors/mld/",
+      "category_name": "Single Beam Safety Devices",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner Multifunctional Gate Box MGB with EtherNet/IP",
+      "product_url": "https://www.euchner.com/en-us/Products/Safety-Switches/Multifunctional-Gate-Box-MGB/MGB-L2B-PNE",
+      "category_name": "Safety Gate Systems (EtherNet/IP)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB Miller Safety Rope Pulls",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/rope-pull-switches/miller",
+      "category_name": "Rope Pull Switches",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic G1515S Safety Relay",
+      "product_url": "https://www.ifm.com/us/en/product/G1515S",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XPS Universal Zero speed detection modules",
+      "product_url": "https://www.se.com/ww/en/product-range/62129-preventa-xps-universal/#zero-speed-detection-modules",
+      "category_name": "Safety Modules (Zero Speed)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XCS LE Solenoid interlock switch",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-switches/xcsle-xcslr",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pepperl+Fuchs Safe PDM Diagnosis Gateway",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_6111.htm",
+      "category_name": "Safety Diagnostic Modules",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IDEC HW1L Series Safety Lever Lock Switches",
+      "product_url": "https://www.idec.com/products/safety/interlock-switches/hw1l-series",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PSENmlock Safety gate system (Guard Lock)",
+      "product_url": "https://www.pilz.com/en-INT/products/sensor-technology/safety-gate-systems/safety-gate-system-psenmlock",
+      "category_name": "Safety Gate Systems (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick IN4000 Standard Inductive safety switches",
+      "product_url": "https://www.sick.com/gb/en/safety-switches/non-contact-safety-switches/inductive-safety-switches/in4000-standard/c/g190273",
+      "category_name": "Safety Switches (Inductive)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron A165E Emergency Stop Switch (Ø16)",
+      "product_url": "https://industrial.omron.eu/en/products/a165e",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley GuardShield Safe 440L Safety Light Curtains Accessories",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-presence-sensing-devices/light-curtains/440l-guardshield-safe-4-safety-light-curtains/accessories.html",
+      "category_name": "Safety Light Curtain Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3SE6 Magnetically Operated Switches",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/position-and-safety-switches/non-contact-safety-switches-3se6/magnetically-operated-switches.html",
+      "category_name": "Safety Switches (Magnetic)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering Fiber Optic Safety Systems",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/fiber-optic-safety-systems.html",
+      "category_name": "Fiber Optic Safety Systems",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence SZ Series Safety Laser Scanner",
+      "product_url": "https://www.keyence.com/products/safety/safety-laser-scanner/sz/",
+      "category_name": "Safety Laser Scanners",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal AZM 170 Solenoid interlock",
+      "product_url": "https://www.schmersal.com/en/safety-locking-devices/pid/azm-170",
+      "category_name": "Safety Switches (Guard Lock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze MSI-RM2 Safety Relay",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/safety_control_components/safety_relays/msi-rm2/",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner ZSM Enabling Switch",
+      "product_url": "https://www.euchner.com/en-us/Products/Control-Devices/Enabling-switches/ZSM",
+      "category_name": "Enabling Switches",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB Tina 10A Muting Module",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/safety-relays/muting-modules/tina-10a",
+      "category_name": "Safety Modules (Muting)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic GN701S Safety Relay (Speed Monitoring)",
+      "product_url": "https://www.ifm.com/us/en/product/GN701S",
+      "category_name": "Safety Relays (Speed Monitoring)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XPS Universal Two hand control modules",
+      "product_url": "https://www.se.com/ww/en/product-range/62129-preventa-xps-universal/#two-hand-control-modules",
+      "category_name": "Safety Modules (Two-Hand Control)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XCS DM Coded magnetic switch",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-switches/xcsdm",
+      "category_name": "Safety Switches (Magnetic Coded)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pepperl+Fuchs Safe PDM PROFIsafe Gateway",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_6111.htm",
+      "category_name": "Safety Gateways (ProfiSafe)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IDEC HE2G Series Grip Switches (Enabling)",
+      "product_url": "https://www.idec.com/products/safety/enabling-switches/he1g-he2g-he6g-series",
+      "category_name": "Enabling Switches",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PNOZ s3 Safety Relay (E-Stop)",
+      "product_url": "https://www.pilz.com/en-GB/products/relay-modules/safety-relays-pnoz/pnozsigma/pnoz-s3",
+      "category_name": "Safety Relays (E-Stop)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick C4P Entry/Exit Safety Light Curtain",
+      "product_url": "https://www.sick.com/gb/en/safety-light-curtains/c4000/c4000-entry-exit/c/g190274",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron G9SX Flexible Safety Unit",
+      "product_url": "https://industrial.omron.eu/en/products/g9sx",
+      "category_name": "Safety Controllers",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley GuardShield 440L Safety Light Curtains",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-presence-sensing-devices/light-curtains/440l-guardshield-poc-safety-light-curtains.html",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3SK Accessories",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/safety-relays/accessories.html",
+      "category_name": "Safety Relay Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering E-Stop & Stop Control Accessories",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-emergency-stop-stop-controls/e-stop-safety-stop-accessories.html",
+      "category_name": "Emergency Stop Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence SL-C Series Accessories",
+      "product_url": "https://www.keyence.com/products/safety/safety-light-curtains/sl-c/options/",
+      "category_name": "Safety Light Curtain Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal Safety edges SE40 / SE70",
+      "product_url": "https://www.schmersal.com/en/tactile-safety-devices/safety-edges/pid/se40-se70",
+      "category_name": "Safety Edges",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze Safety Control Components Accessories",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/safety_control_components/accessories/",
+      "category_name": "Safety Component Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner CKS2 Safe key system",
+      "product_url": "https://www.euchner.com/en-us/Products/Safety-Switches/Key-system-EKS-CKS/CKS2",
+      "category_name": "Access Control / Key Systems (Safety)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB Smile Emergency Stops",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/emergency-stops/smile",
+      "category_name": "Emergency Stop Buttons (Enclosed)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic G1509S Safety Relay",
+      "product_url": "https://www.ifm.com/us/en/product/G1509S",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XPS Universal Enabling switch monitoring modules",
+      "product_url": "https://www.se.com/ww/en/product-range/62129-preventa-xps-universal/#enabling-switch-monitoring-modules",
+      "category_name": "Safety Modules (Enabling Switch)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XCSZ Actuators for safety switches",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-switches/xcsz",
+      "category_name": "Safety Switch Accessories (Actuators)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pepperl+Fuchs AS-Interface Gateways",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_433.htm",
+      "category_name": "AS-Interface Gateways",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IDEC HS6B Series Safety Interlock Switch",
+      "product_url": "https://www.idec.com/products/safety/interlock-switches/hs6b-series",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PSENvip Safety camera system",
+      "product_url": "https://www.pilz.com/en-INT/products/sensor-technology/safety-camera-systems-psenvip",
+      "category_name": "Safety Camera Systems",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick C4000 Fusion Safety Light Curtain",
+      "product_url": "https://www.sick.com/gb/en/safety-light-curtains/c4000/c4000-fusion/c/g190275",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron G7SA Safety Relay",
+      "product_url": "https://industrial.omron.eu/en/products/g7sa",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley Guardmaster MSR126 Safety Relays",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-relays/guardmaster-safety-relays/guardmaster-minotaur-msr126-and-msr127-safety-relays.html",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3TK28 Accessories",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/safety-relays/sirius-3tk28/accessories.html",
+      "category_name": "Safety Relay Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering EZ-SCREEN LS Safety Light Curtains",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-light-curtains/type-4-safety-light-curtains/ez-screen-ls-series.html",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence GS-M Series Magnetic Interlock",
+      "product_url": "https://www.keyence.com/products/safety/safety-interlock-switches/gs-m/",
+      "category_name": "Safety Switches (Magnetic)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal BNS 40S Stainless steel magnetic safety sensor",
+      "product_url": "https://www.schmersal.com/en/non-contact-safety-switches/magnetic-safety-sensors/pid/bns-40s",
+      "category_name": "Safety Switches (Magnetic, Stainless Steel)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze MLD Safety Thru-beam photoelectric sensor accessories",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/optoelectronic_safety_sensors/safety_thru-beam_photoelectric_sensors/mld/accessories/",
+      "category_name": "Single Beam Safety Device Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner Safety Rope Pull Switch RPS",
+      "product_url": "https://www.euchner.com/en-us/Products/Safety-Switches/Rope-pull-switches-RPS",
+      "category_name": "Rope Pull Switches",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB EStop Emergency Stops",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/emergency-stops/estop",
+      "category_name": "Emergency Stop Buttons",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic G1514S Safety Relay",
+      "product_url": "https://www.ifm.com/us/en/product/G1514S",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XPS Universal Light curtain monitoring modules",
+      "product_url": "https://www.se.com/ww/en/product-range/62129-preventa-xps-universal/#light-curtain-monitoring-modules",
+      "category_name": "Safety Modules (Light Curtain)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XCS P Plastic safety switch",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-switches/xcsp-xcsta-xcta",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pepperl+Fuchs AS-Interface Enclosures",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_436.htm",
+      "category_name": "AS-Interface Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IDEC HS2B Series Safety Interlock Switches",
+      "product_url": "https://www.idec.com/products/safety/interlock-switches/hs2b-series",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PSENmat Safety mat",
+      "product_url": "https://www.pilz.com/en-INT/products/sensor-technology/safety-mats-psenmat",
+      "category_name": "Safety Mats",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick RE2 Magnetic safety switches",
+      "product_url": "https://www.sick.com/gb/en/safety-switches/non-contact-safety-switches/magnetic-safety-switches/re2/c/g187354",
+      "category_name": "Safety Switches (Magnetic)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron D4GS-N Slim Safety Door Switch",
+      "product_url": "https://industrial.omron.eu/en/products/d4gs-n",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley Guardmaster MSR131 Safety Relays",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-relays/guardmaster-safety-relays/guardmaster-minotaur-msr131-and-msr138-safety-relays.html",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3SE7 Rope for Cable-Operated Switches",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/position-and-safety-switches/cable-operated-switches-3se7/accessories.html",
+      "category_name": "Rope Pull Switch Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering IM-T Series Safety Interlock Switches",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-interlock-switches/tongue-actuated-safety-interlock-switches/im-t-series.html",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence GC-R Series Mounting Bracket for Safety Interlock",
+      "product_url": "https://www.keyence.com/products/safety/safety-interlock-switches/gc/options/",
+      "category_name": "Safety Switch Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal AZ 17 Safety switch with separate actuator",
+      "product_url": "https://www.schmersal.com/en/position-detection/safety-switches-with-separate-actuator/pid/az-17",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze Safety relays for emergency stop monitoring MSI-SR-ES",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/safety_control_components/safety_relays/msi-sr_series/msi-sr-es/",
+      "category_name": "Safety Relays (E-Stop)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner CTP Accessories (Actuators, Cables)",
+      "product_url": "https://www.euchner.com/en-us/Products/Safety-Switches/Safety-switches-with-guard-locking/Safety-switches-with-guard-locking-and-integrated-evaluation-electronics/CTP/Zubehoer",
+      "category_name": "Safety Switch Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB Orion Extended Safety Light Curtain",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/optoelectronic-protective-devices/safety-light-curtains-and-grids/orion/extended",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic G1505D Safety Relay (Delay-off)",
+      "product_url": "https://www.ifm.com/us/en/product/G1505D",
+      "category_name": "Safety Relays (Time Delayed)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XPS Universal Safety mat & edges monitoring modules",
+      "product_url": "https://www.se.com/ww/en/product-range/62129-preventa-xps-universal/#safety-mat--edges-monitoring-modules",
+      "category_name": "Safety Modules (Mat/Edge Monitoring)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XCSLF Accessories",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-switches/xcslf-xcslr#tabs",
+      "category_name": "Safety Switch Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pepperl+Fuchs Safe PDM Field Connex Diagnostic Manager",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_6111.htm",
+      "category_name": "Safety Diagnostic Systems",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IDEC HW1Z Series Push-Pull Switches",
+      "product_url": "https://www.idec.com/products/switches-pilot-lights/22mm-switches-pilot-lights/hw1z-series",
+      "category_name": "Push-Pull Switches (Stop Switches)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PITmode Operating mode selection and access permission system",
+      "product_url": "https://www.pilz.com/en-INT/products/control-and-signal-devices/operating-mode-selection-and-access-permission-systems-pitmode",
+      "category_name": "Access Control / Mode Selection (Safety)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick TR10 Lock Transponder safety switches",
+      "product_url": "https://www.sick.com/gb/en/safety-switches/non-contact-safety-switches/transponder-safety-switches/tr10-lock/c/g467222",
+      "category_name": "Safety Switches (Guard Lock, RFID)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron D40R RFID Non-Contact Door Switch",
+      "product_url": "https://industrial.omron.eu/en/products/d40r",
+      "category_name": "Safety Switches (RFID)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley Guardmaster MSR138DP Safety Relays",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-relays/guardmaster-safety-relays/guardmaster-minotaur-msr131-and-msr138-safety-relays.html",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens AS-Interface Safety Modules",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/as-interface/safety-modules.html",
+      "category_name": "AS-Interface Safety Modules",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering EZ-LIGHT SI Series Safety Indicators",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-indication-annunciation/safety-indicators.html",
+      "category_name": "Safety Indicators",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence SZ-V Series Safety Laser Scanner Software",
+      "product_url": "https://www.keyence.com/products/safety/safety-laser-scanner/sz-v/software.jsp",
+      "category_name": "Safety Software (Scanner Configuration)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal SLC/SLG 240COM Safety light curtains/light grids",
+      "product_url": "https://www.schmersal.com/en/safety-light-curtains-light-grids/pid/slc-slg-240com",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze Safe AS-i Distributors",
+      "product_url": "https://www.leuze.com/en/usa/products/connecting_and_connection_technology/as-interface_fieldbus_components/safe_as-i_distributors/",
+      "category_name": "AS-Interface Safety Components",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner Multifunctional Gate Box MGB Accessories",
+      "product_url": "https://www.euchner.com/en-us/Products/Safety-Switches/Multifunctional-Gate-Box-MGB/Zubehoer",
+      "category_name": "Safety Gate System Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB Magne Process and magnetic switches",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/safety-sensors/non-contact-safety-switches/magne",
+      "category_name": "Safety Switches (Magnetic)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic G1511S Safety Relay",
+      "product_url": "https://www.ifm.com/us/en/product/G1511S",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XY2AU Foot switch for safety applications",
+      "product_url": "https://www.se.com/ww/en/product/XY2AU1/safety-foot-switch-preventa-xy2au-orange-with-locking-guard-1nc-no/",
+      "category_name": "Foot Switches (Safety)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XPS AF Safety module",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-modules-and-controllers/xpsaf",
+      "category_name": "Safety Modules / Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pepperl+Fuchs AS-Interface Safety Monitors K30",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_434.htm",
+      "category_name": "AS-Interface Safety Monitors",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IDEC HE5B Series Enabling Switches",
+      "product_url": "https://www.idec.com/products/safety/enabling-switches/he5b-series",
+      "category_name": "Enabling Switches",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pilz PSENcode Coded safety switch",
+      "product_url": "https://www.pilz.com/en-INT/products/sensor-technology/safety-switches/coded-safety-switches-psencode",
+      "category_name": "Safety Switches (Coded)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Sick RE27 Magnetic safety switches",
+      "product_url": "https://www.sick.com/gb/en/safety-switches/non-contact-safety-switches/magnetic-safety-switches/re2/c/g187354",
+      "category_name": "Safety Switches (Magnetic)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Omron D40ML Magnetic Safety Door Switch",
+      "product_url": "https://industrial.omron.eu/en/products/d40ml",
+      "category_name": "Safety Switches (Magnetic)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley Guardmaster MSR200/300 Expandable Safety Relays",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/safety-products/safety-relays/guardmaster-safety-relays/guardmaster-msr200-msr300-family-modular-safety-relays.html",
+      "category_name": "Safety Relays (Expandable)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3SE5 Mechanical Position Switches Accessories",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/position-and-safety-switches/mechanical-position-switches-3se5/accessories.html",
+      "category_name": "Safety Limit Switch Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Banner Engineering SC22 Series Safety Controller",
+      "product_url": "https://www.bannerengineering.com/us/en/products/machine-safety/safety-controllers-modules-relays/sc22-series-safety-controller.html",
+      "category_name": "Safety Controllers",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Keyence SL-U2 Accessories (Cables, Brackets)",
+      "product_url": "https://www.keyence.com/products/safety/safety-light-curtains/sl-v/options/",
+      "category_name": "Safety Light Curtain Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schmersal Safety bumpers SB",
+      "product_url": "https://www.schmersal.com/en/tactile-safety-devices/safety-bumpers/pid/sb",
+      "category_name": "Safety Bumpers",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Leuze MSI-SR4B Safety Relay",
+      "product_url": "https://www.leuze.com/en/usa/products/safety_at_work/safety_control_components/safety_relays/msi-sr_series/msi-sr4b/",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Euchner CTP Extended Accessories (Handles, Escape Release)",
+      "product_url": "https://www.euchner.com/en-us/Products/Safety-Switches/Safety-switches-with-guard-locking/Safety-switches-with-guard-locking-and-integrated-evaluation-electronics/CTP/Zubehoer-erweitert",
+      "category_name": "Safety Switch Accessories",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "ABB Focus II Safety Light Curtain",
+      "product_url": "https://new.abb.com/low-voltage/products/safety-products/optoelectronic-protective-devices/safety-light-curtains-and-grids/focus-ii",
+      "category_name": "Safety Light Curtains",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IFM Electronic G1507D Safety Relay (Delay-on)",
+      "product_url": "https://www.ifm.com/us/en/product/G1507D",
+      "category_name": "Safety Relays (Time Delayed)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Schneider Electric Preventa XPS Universal Safety timer module",
+      "product_url": "https://www.se.com/ww/en/product/XPSUAT1130/preventa-safety-module-cat-4-level-pl-e-timer-off-24v-dc-screw/",
+      "category_name": "Safety Modules (Timer)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Telemecanique Sensors Preventa XCSZ81 Actuating key for safety switch",
+      "product_url": "https://www.telemecaniquesensors.com/global/en/products/safety-switches/xpsz81",
+      "category_name": "Safety Switch Accessories (Actuators)",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "Pepperl+Fuchs AS-Interface Power Supplies",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_435.htm",
+      "category_name": "AS-Interface Power Supplies",
+      "parent_category": "Industrial Safety Components"
+    },
+    {
+      "product_name": "IDEC HR5S Series Safety Relays",
+      "product_url": "https://www.idec.com/products/safety/safety-relays/hr5s-series",
+      "category_name": "Safety Relays",
+      "parent_category": "Industrial Safety Components"
+    }
+  ]
+}

@@ -1,0 +1,916 @@
+{
+  "products": [
+    {
+      "product_name": "Panduit Cable Ties - Pan-Ty® Locking",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/cable-wire-ties-accessories/cable-ties/plt2s-c.html",
+      "category_name": "Cable Ties (Nylon)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton Heat Shrink Tubing TREDUX Medium Wall",
+      "product_url": "https://www.hellermanntyton.com/products/heat-shrinkable-tubing/tredux-medium-wall/321-50120",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Thomas & Betts (ABB) Sta-Kon® Ring Terminals",
+      "product_url": "https://electrification.us.abb.com/products/wire-cable-management/sta-kon/ring-terminals",
+      "category_name": "Wire Terminals / Lugs (Ring)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "TE Connectivity SOLISTRAND Ring Tongue Terminals",
+      "product_url": "https://www.te.com/usa-en/product-324135.html",
+      "category_name": "Wire Terminals / Lugs (Ring)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Legrand Starfix Ferrules on strip",
+      "product_url": "https://www.legrandgroup.com/en/products/cable-management/marking-systems/ferrules-strips",
+      "category_name": "Wire Ferrules",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Brady BMP®61 Label Printer",
+      "product_url": "https://www.bradyid.com/label-printers/bmp61-label-printer-pid-134491",
+      "category_name": "Label Printers (Portable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Essentra Components Heyco® Strain Relief Bushings",
+      "product_url": "https://us.essentracomponents.com/en-us/bushings-grommets-feet/strain-relief-bushings",
+      "category_name": "Strain Relief Bushings",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Alpha Wire FIT® Flexible Wire Management Sleeving",
+      "product_url": "https://www.alphawire.com/Products/Tubing/Sleeving/FIT-Flexible-Wire-Management-Sleeving",
+      "category_name": "Braided Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Techflex F6 Woven Wrap",
+      "product_url": "https://www.techflex.com/split-sleeving/flexo-f6",
+      "category_name": "Braided Cable Sleeving (Split)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Weidmüller Cable markers CLI C",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group10137242388036",
+      "category_name": "Cable Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Phoenix Contact EML... Device marking label",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/device-marking-eml-20x8r-0816796",
+      "category_name": "Labels & Markers (Device)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "WAGO SmartScript Marking Software",
+      "product_url": "https://www.wago.com/global/marking-technology/smartscript",
+      "category_name": "Labeling Software",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Cembre Cable Markers (Various)",
+      "product_url": "https://www.cembre.com/products/Cable-Marking/Cable-Accessories/2427/c1",
+      "category_name": "Cable Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Klauke EK 50 ML Micro Crimping Tool",
+      "product_url": "https://www.klauke.com/de/en/micro-electro-hydraulic-crimping-tool-ek50ml",
+      "category_name": "Crimping Tools (Battery)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Molex Ring Tongue Terminals, Insulated",
+      "product_url": "https://www.molex.com/en-us/products/connectors/terminals/ring-tongue-terminals/insulated-ring-terminals",
+      "category_name": "Wire Terminals / Lugs (Ring)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "3M™ ScotchCode™ Wire Marker Tape Dispenser STD",
+      "product_url": "https://www.3m.com/3M/en_US/p/d/b40069427/",
+      "category_name": "Wire Marker Tape",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Qualtek Cable Ties",
+      "product_url": "https://www.qualtek.com/cable-ties/",
+      "category_name": "Cable Ties",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "DSG-Canusa Medium Wall Tubing",
+      "product_url": "https://www.dsgcanusa.com/products/medium-wall-tubing/",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Nelco Heavy Duty Cable Ties",
+      "product_url": "https://www.nelcoproducts.com/wire-management/cable-ties/heavy-duty-cable-ties/",
+      "category_name": "Cable Ties (Heavy Duty)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit CT-100A Cable Tie Hand Tool",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/cable-wire-ties-accessories/cable-tie-installation-tools/ct-100a.html",
+      "category_name": "Cable Tie Installation Tools",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton EVO 7 Cable Tie Tool",
+      "product_url": "https://www.hellermanntyton.us/products/cable-tie-tools/evo-7/evo7",
+      "category_name": "Cable Tie Installation Tools",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Thomas & Betts (ABB) ERG4001 Ergonomic Hand Tool for Crimping Sta-Kon terminals",
+      "product_url": "https://electrification.us.abb.com/products/wire-cable-management/sta-kon/terminals/ergonomic-hand-tool-crimping-ra-rb-rc-terminals",
+      "category_name": "Crimping Tools (Hand)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "TE Connectivity Heat Shrink Identification Sleeves",
+      "product_url": "https://www.te.com/usa-en/products/identification-labeling/wire-cable-markers/heat-shrink-identification-sleeves.html",
+      "category_name": "Heat Shrink Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Legrand Cable Glands",
+      "product_url": "https://www.legrandgroup.com/en/products/cable-management/cable-glands",
+      "category_name": "Cable Glands",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Brady BMP®51 Label Maker",
+      "product_url": "https://www.bradyid.com/label-printers/bmp51-label-maker-pid-134441",
+      "category_name": "Label Printers (Portable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Essentra Components Heyco® Grommets",
+      "product_url": "https://us.essentracomponents.com/en-us/bushings-grommets-feet/grommets",
+      "category_name": "Cable Grommets",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Alpha Wire FIT® Wrap-Around Sleeving",
+      "product_url": "https://www.alphawire.com/Products/Tubing/Sleeving/FIT-Wrap-Around-Sleeving",
+      "category_name": "Cable Sleeving (Wrap Around)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Techflex Insultherm Braided Sleeving (High Temp)",
+      "product_url": "https://www.techflex.com/high-temperature/insultherm",
+      "category_name": "Braided Cable Sleeving (High Temp)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Weidmüller Heat-shrink tubing",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group10137242388046",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Phoenix Contact PATG/PATO Wire marking sleeves",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/cable-marking/wire-marking/patg-pato-wire-marking-sleeves",
+      "category_name": "Cable Markers (Sleeves)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "WAGO Rail-Mount Terminal Block Marking Strips",
+      "product_url": "https://www.wago.com/global/marking-technology/marking-strips",
+      "category_name": "Terminal Block Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Cembre Cable Lugs (Copper)",
+      "product_url": "https://www.cembre.com/products/Copper-tube-cable-lugs/Electrical-Connection/2371/c1",
+      "category_name": "Wire Terminals / Lugs (Copper)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Klauke Insulated Ring Terminals",
+      "product_url": "https://www.klauke.com/de/en/insulated-ring-terminals",
+      "category_name": "Wire Terminals / Lugs (Ring)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Molex Spade Tongue Terminals",
+      "product_url": "https://www.molex.com/en-us/products/connectors/terminals/spade-tongue-terminals",
+      "category_name": "Wire Terminals / Lugs (Spade)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "3M™ Heat Shrink Heavy-Wall Cable Sleeves ITCSN",
+      "product_url": "https://www.3m.com/3M/en_US/p/d/b40069414/",
+      "category_name": "Heat Shrink Tubing (Heavy Wall)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Qualtek Heat Shrink End Caps",
+      "product_url": "https://www.qualtek.com/heat-shrink-end-caps/",
+      "category_name": "Heat Shrink End Caps",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "DSG-Canusa Splice Sealers",
+      "product_url": "https://www.dsgcanusa.com/products/splice-sealers/",
+      "category_name": "Heat Shrink Splice Sealers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Nelco Stainless Steel Cable Ties",
+      "product_url": "https://www.nelcoproducts.com/wire-management/cable-ties/stainless-steel-cable-ties/",
+      "category_name": "Cable Ties (Stainless Steel)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit Cable Tie Installation Tool (for Steel Ties)",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/cable-wire-ties-accessories/cable-tie-installation-tools/gs4mt-e.html",
+      "category_name": "Cable Tie Installation Tools (Steel)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton Metal Content Tie for food industry",
+      "product_url": "https://www.hellermanntyton.com/products/cable-ties-standard/metal-content-tie/mct50l",
+      "category_name": "Cable Ties (Metal Detectable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Thomas & Betts (ABB) Ty-Rap® Detectable Cable Ties",
+      "product_url": "https://electrification.us.abb.com/products/wire-cable-management/ty-rap/detectable-cable-ties",
+      "category_name": "Cable Ties (Metal Detectable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "TE Connectivity Wire Splices",
+      "product_url": "https://www.te.com/usa-en/products/terminals-splices/wire-splices.html",
+      "category_name": "Wire Splices",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Legrand Stainless steel cable ties",
+      "product_url": "https://www.legrandgroup.com/en/products/cable-management/cable-ties-accessories/stainless-steel-cable-ties",
+      "category_name": "Cable Ties (Stainless Steel)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Brady Wraptor™ A6500 Wire ID Printer Applicator",
+      "product_url": "https://www.bradyid.com/label-printers-applicators/wraptor-a6500-pid-140021",
+      "category_name": "Label Printer Applicators",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Essentra Components Heyco® Liquid Tight Cordgrips",
+      "product_url": "https://us.essentracomponents.com/en-us/p/liquid-tight-cordgrips-pg-threads",
+      "category_name": "Cable Glands / Strain Relief",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Alpha Wire FIT® Wire Markers",
+      "product_url": "https://www.alphawire.com/Products/Accessories/Wire-Markers",
+      "category_name": "Wire Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Techflex FireFlex Fiberglass Sleeving",
+      "product_url": "https://www.techflex.com/high-temperature/fireflex",
+      "category_name": "Cable Sleeving (High Temp)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Weidmüller Cable Ties",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group10137242388047",
+      "category_name": "Cable Ties",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Phoenix Contact Thermofox Hand Printer for Shrink Sleeves",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/portable-printer-thermofox-0803960",
+      "category_name": "Label Printers (Handheld)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "WAGO Continuous Marking Strips",
+      "product_url": "https://www.wago.com/global/marking-technology/continuous-marking-strips",
+      "category_name": "Terminal Block Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Cembre Butt Connectors (Insulated)",
+      "product_url": "https://www.cembre.com/products/Insulated-butt-connectors/Electrical-Connection/2360/c1",
+      "category_name": "Wire Splices",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Klauke Crimping dies for tubular cable lugs",
+      "product_url": "https://www.klauke.com/de/en/crimping-dies-for-tubular-cable-lugs-and-connectors-cu",
+      "category_name": "Crimping Dies",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Molex Pin and Socket Connectors",
+      "product_url": "https://www.molex.com/en-us/products/connectors/pin-and-socket-connectors",
+      "category_name": "Pin & Socket Connectors (Related)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "3M™ Vinyl Insulated Butt Connectors",
+      "product_url": "https://www.3m.com/3M/en_US/p/d/b40068863/",
+      "category_name": "Wire Splices",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Qualtek Cable Markers",
+      "product_url": "https://www.qualtek.com/cable-markers/",
+      "category_name": "Cable Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "DSG-Canusa Heat Shrink End Caps",
+      "product_url": "https://www.dsgcanusa.com/products/end-caps/",
+      "category_name": "Heat Shrink End Caps",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Nelco Spiral Wrap",
+      "product_url": "https://www.nelcoproducts.com/wire-management/spiral-wrap/",
+      "category_name": "Spiral Wrap / Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit Clamp Ties",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/cable-wire-ties-accessories/cable-ties/cct2-5s-d0.html",
+      "category_name": "Cable Ties (Clamp Type)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton Rite-On® Self-Laminating Labels",
+      "product_url": "https://www.hellermanntyton.us/products/identification-systems/rite-on-labels",
+      "category_name": "Labels & Markers (Self-Laminating)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Thomas & Betts (ABB) Color-Keyed® Compression Lugs",
+      "product_url": "https://electrification.us.abb.com/products/wire-cable-management/color-keyed",
+      "category_name": "Compression Lugs",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "TE Connectivity AMPOWER Terminals and Splices",
+      "product_url": "https://www.te.com/usa-en/products/terminals-splices/power-terminals-splices/ampower-terminals-splices.html",
+      "category_name": "Power Terminals / Lugs",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Legrand Cable Sleeves",
+      "product_url": "https://www.legrandgroup.com/en/products/cable-management/marking-systems/cable-sleeves",
+      "category_name": "Cable Markers (Sleeves)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Brady Portable Printers & Labels",
+      "product_url": "https://www.bradyid.com/portable-printers",
+      "category_name": "Label Printers (Portable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Essentra Components Heyco® Strain Relief Fittings",
+      "product_url": "https://us.essentracomponents.com/en-us/cable-glands-strain-reliefs",
+      "category_name": "Cable Glands / Strain Relief",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Alpha Wire FIT® Heat Gun",
+      "product_url": "https://www.alphawire.com/Products/Accessories/Heat-Guns",
+      "category_name": "Heat Guns (for Heat Shrink)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Techflex F6 Split Sleeving with Self-Closing Wrap",
+      "product_url": "https://www.techflex.com/split-sleeving/flexo-f6-split-wrap",
+      "category_name": "Braided Cable Sleeving (Split, Self-Closing)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Weidmüller Wire end ferrules, uninsulated",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group29339912260956",
+      "category_name": "Wire Ferrules (Uninsulated)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Phoenix Contact Zack marker strip",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/terminal-strip-marker-zb-6-unbedruckt-1051003",
+      "category_name": "Terminal Block Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "WAGO WMB Multi Marking System",
+      "product_url": "https://www.wago.com/global/marking-technology/wmb-multi-marking-system",
+      "category_name": "Terminal Block Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Cembre Pin Terminals (Insulated)",
+      "product_url": "https://www.cembre.com/products/Insulated-pin-terminals/Electrical-Connection/2355/c1",
+      "category_name": "Wire Terminals / Lugs (Pin)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Klauke Bootlace Ferrules (Twin Wire)",
+      "product_url": "https://www.klauke.com/de/en/bootlace-ferrules-insulated-twin-wires",
+      "category_name": "Wire Ferrules (Twin)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Molex TermiKrimp™ Terminals",
+      "product_url": "https://www.molex.com/en-us/products/connectors/terminals/termikrimp-terminals",
+      "category_name": "Wire Terminals / Lugs",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "3M™ Heat Shrink Tubing Kits",
+      "product_url": "https://www.3m.com/3M/en_US/p/c/electrical-construction-maintenance/splices-accessories/heat-shrink/i/electrical-supplies/electrical-tapes/",
+      "category_name": "Heat Shrink Tubing (Kits)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Qualtek Heat Shrinkable Fabric Tubing",
+      "product_url": "https://www.qualtek.com/heat-shrinkable-fabric-tubing/",
+      "category_name": "Heat Shrink Tubing (Fabric)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "DSG-Canusa Heavy Wall Tubing",
+      "product_url": "https://www.dsgcanusa.com/products/heavy-wall-tubing/",
+      "category_name": "Heat Shrink Tubing (Heavy Wall)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Nelco Heat Shrink Braided Sleeving",
+      "product_url": "https://www.nelcoproducts.com/wire-management/heat-shrink-products/braided-heat-shrink/",
+      "category_name": "Heat Shrink Sleeving (Braided)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit Marker Ties",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/cable-wire-ties-accessories/cable-ties/plt1m-xm.html",
+      "category_name": "Cable Ties (Marker)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton Identification Ties",
+      "product_url": "https://www.hellermanntyton.com/products/cable-ties-standard/identification-ties/it18r",
+      "category_name": "Cable Ties (Marker)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Thomas & Betts (ABB) Cable Tie Installation Tools",
+      "product_url": "https://electrification.us.abb.com/products/wire-cable-management/ty-rap/installation-tools",
+      "category_name": "Cable Tie Installation Tools",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "TE Connectivity FASTON Terminals",
+      "product_url": "https://www.te.com/usa-en/products/terminals-splices/quick-disconnects/intersection/faston-terminals.html",
+      "category_name": "Quick Disconnect Terminals",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Legrand Heat-shrinkable sleeves",
+      "product_url": "https://www.legrandgroup.com/en/products/cable-management/marking-systems/heat-shrinkable-sleeves",
+      "category_name": "Heat Shrink Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Brady M611 Mobile Label Printer",
+      "product_url": "https://www.bradyid.com/label-printers/bradyprinter-m611-mobile-label-printer-pid-149570",
+      "category_name": "Label Printers (Mobile)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Essentra Components Heyco® Cordgrips Accessories (Locknuts, Plugs)",
+      "product_url": "https://us.essentracomponents.com/en-us/cable-glands-strain-reliefs/liquid-tight-cordgrips/liquid-tight-cordgrips-accessories",
+      "category_name": "Cable Gland Accessories",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Alpha Wire FIT® Molded Parts",
+      "product_url": "https://www.alphawire.com/Products/Tubing/Molded-Parts",
+      "category_name": "Heat Shrink Molded Parts",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Techflex Stainless Steel Braided Sleeving",
+      "product_url": "https://www.techflex.com/stainless-steel",
+      "category_name": "Braided Cable Sleeving (Stainless Steel)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Weidmüller Dekafix Markers",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1609801044",
+      "category_name": "Terminal Block Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Phoenix Contact WMT Wire marking",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/cable-marking/wire-marking/wmt-wire-marking",
+      "category_name": "Cable Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "WAGO Gelbox for Splicing Connectors",
+      "product_url": "https://www.wago.com/global/installation-terminal-blocks-and-connectors/gelbox/p/207-1333",
+      "category_name": "Wire Connector Accessories (Gelbox)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Cembre Fork Terminals (Insulated)",
+      "product_url": "https://www.cembre.com/products/Insulated-fork-terminals/Electrical-Connection/2354/c1",
+      "category_name": "Wire Terminals / Lugs (Fork)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Klauke Cable Lugs Cu",
+      "product_url": "https://www.klauke.com/de/en/cable-lugs-cu",
+      "category_name": "Wire Terminals / Lugs (Copper)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Molex Avikrimp™ Ring Terminals",
+      "product_url": "https://www.molex.com/en-us/products/connectors/terminals/ring-tongue-terminals/avikrimp-ring-terminals",
+      "category_name": "Wire Terminals / Lugs (Ring)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "3M™ Heat Shrink Tubing MW (Medium Wall)",
+      "product_url": "https://www.3m.com/3M/en_US/p/d/b40069156/",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Qualtek Expandable Sleeving",
+      "product_url": "https://www.qualtek.com/expandable-sleeving/",
+      "category_name": "Braided Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "DSG-Canusa Insulated Splice Kits",
+      "product_url": "https://www.dsgcanusa.com/products/splice-kits/",
+      "category_name": "Splice Kits (Heat Shrink)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Nelco Weather Resistant Cable Ties",
+      "product_url": "https://www.nelcoproducts.com/wire-management/cable-ties/weather-resistant-cable-ties/",
+      "category_name": "Cable Ties (Weather Resistant)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit Cable Tie Mounts (Screw Applied)",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/cable-wire-ties-accessories/cable-tie-mounts-accessories/tm2s8-c.html",
+      "category_name": "Cable Tie Mounts",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton CTAM Series Cable Tie Anchor Mounts",
+      "product_url": "https://www.hellermanntyton.com/products/cable-tie-mounts/screw-mounts/ctam110c2",
+      "category_name": "Cable Tie Mounts",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Thomas & Betts (ABB) Ty-Rap® Ty-Gen™ Automated Cable Tie Installation Tool",
+      "product_url": "https://electrification.us.abb.com/products/wire-cable-management/ty-rap/ty-gen-automated-cable-tie-installation-tool",
+      "category_name": "Cable Tie Installation Tools (Automated)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "TE Connectivity PLASTI-GRIP Terminals and Splices",
+      "product_url": "https://www.te.com/usa-en/products/terminals-splices/crimp-terminals/insulated-terminals-splices/intersection/plasti-grip-terminals-splices.html",
+      "category_name": "Wire Terminals / Lugs",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Legrand Cable Labels",
+      "product_url": "https://www.legrandgroup.com/en/products/cable-management/marking-systems/cable-labels",
+      "category_name": "Labels & Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Brady BMP®71 Label Printer",
+      "product_url": "https://www.bradyid.com/label-printers/bmp71-label-printer-pid-133254",
+      "category_name": "Label Printers (Portable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Essentra Components Heyco® Strain Relief Bushings, Snap-In",
+      "product_url": "https://us.essentracomponents.com/en-us/bushings-grommets-feet/strain-relief-bushings/snap-in-strain-relief-bushings",
+      "category_name": "Strain Relief Bushings",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Alpha Wire FIT® Standard Wall Tubing",
+      "product_url": "https://www.alphawire.com/Products/Tubing/Heat-Shrink-Tubing/FIT-Standard-Wall",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Techflex Flexo® Wrap (Hook & Loop)",
+      "product_url": "https://www.techflex.com/hook-loop-closure/flexo-wrap",
+      "category_name": "Cable Sleeving (Hook & Loop)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Weidmüller Cable markers WSM",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1631000000",
+      "category_name": "Cable Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Phoenix Contact KMK Cable marker carrier",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/cable-marking/wire-marking/kmk-cable-marker-carriers",
+      "category_name": "Cable Marker Carriers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "WAGO WMB Inline Markers",
+      "product_url": "https://www.wago.com/global/marking-technology/wmb-inline",
+      "category_name": "Wire Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Cembre Flat Pin Terminals (Insulated)",
+      "product_url": "https://www.cembre.com/products/Insulated-flat-pin-terminals/Electrical-Connection/2356/c1",
+      "category_name": "Wire Terminals / Lugs (Pin)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Klauke Cable connectors Cu, DIN 46267",
+      "product_url": "https://www.klauke.com/de/en/cable-connectors-cu-din-46267",
+      "category_name": "Wire Splices (Copper)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Molex Spade Terminals",
+      "product_url": "https://www.molex.com/en-us/products/connectors/terminals/spade-terminals",
+      "category_name": "Wire Terminals / Lugs (Spade)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "3M™ Cold Shrink QS-III Splice Kit",
+      "product_url": "https://www.3m.com/3M/en_US/p/d/b00015557/",
+      "category_name": "Cold Shrink Splice Kits",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Qualtek Spiral Wrap Tubing",
+      "product_url": "https://www.qualtek.com/spiral-wrap-tubing/",
+      "category_name": "Spiral Wrap / Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "DSG-Canusa Protective Sleeving",
+      "product_url": "https://www.dsgcanusa.com/products/protective-sleeving/",
+      "category_name": "Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Nelco Mounting Head Cable Ties",
+      "product_url": "https://www.nelcoproducts.com/wire-management/cable-ties/mounting-head-cable-ties/",
+      "category_name": "Cable Ties (Mounting Head)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit Identification Cable Ties",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/cable-wire-ties-accessories/cable-ties/plt2i-c.html",
+      "category_name": "Cable Ties (Marker)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton Cable Tie Guns (Metal)",
+      "product_url": "https://www.hellermanntyton.com/products/cable-tie-tools/metal-tie-tools/mk9sst",
+      "category_name": "Cable Tie Installation Tools (Steel)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Thomas & Betts (ABB) Spec-Kon Wire Ferrules",
+      "product_url": "https://electrification.us.abb.com/products/wire-cable-management/spec-kon/wire-ferrules",
+      "category_name": "Wire Ferrules",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "TE Connectivity Terminals & Splices",
+      "product_url": "https://www.te.com/usa-en/products/terminals-splices.html",
+      "category_name": "Wire Terminals / Lugs",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Legrand Viking 3 Terminal blocks screw connection",
+      "product_url": "https://www.legrandgroup.com/en/products/cable-management/terminal-blocks/viking-3-terminal-blocks-screw-connection",
+      "category_name": "DIN Rail Terminal Blocks (Screw Clamp)",
+      "parent_category": "Terminal Blocks & Connectors"
+    },
+    {
+      "product_name": "Brady BMP®41 Label Printer",
+      "product_url": "https://www.bradyid.com/label-printers/bmp41-label-printer-pid-134440",
+      "category_name": "Label Printers (Portable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Essentra Components Heyco® Open/Closed Bushings",
+      "product_url": "https://us.essentracomponents.com/en-us/bushings-grommets-feet/snap-bushings/open-closed-bushings",
+      "category_name": "Cable Bushings",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Alpha Wire FIT® TFE Teflon® Tubing",
+      "product_url": "https://www.alphawire.com/Products/Tubing/Heat-Shrink-Tubing/FIT-TFE-Teflon-Tubing",
+      "category_name": "Heat Shrink Tubing (Teflon)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Techflex Clean Cut Braided Sleeving",
+      "product_url": "https://www.techflex.com/general-purpose/clean-cut",
+      "category_name": "Braided Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Weidmüller Wire end ferrules in strips",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group29339912260955",
+      "category_name": "Wire Ferrules (Strip)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Phoenix Contact Terminal marking UC-TM",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/terminal-marking/terminal-markers-uc-tm",
+      "category_name": "Terminal Block Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "WAGO Terminal Block Jumpers",
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/adjacent-jumpers/p/2002-400",
+      "category_name": "Terminal Block Accessories (Jumpers)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Cembre Cable End Sleeves (Uninsulated)",
+      "product_url": "https://www.cembre.com/products/Uninsulated-cable-end-sleeves/Electrical-Connection/2362/c1",
+      "category_name": "Wire Ferrules (Uninsulated)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Klauke Crimping Tool K 50",
+      "product_url": "https://www.klauke.com/de/en/k50-crimping-tool-for-bootlace-ferrules",
+      "category_name": "Crimping Tools (Hand, Ferrules)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Molex Quick Disconnects",
+      "product_url": "https://www.molex.com/en-us/products/connectors/terminals/quick-disconnects",
+      "category_name": "Quick Disconnect Terminals",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "3M™ Heat Shrink Heavy-Wall Tubing HDT",
+      "product_url": "https://www.3m.com/3M/en_US/p/d/b40069412/",
+      "category_name": "Heat Shrink Tubing (Heavy Wall)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Qualtek Heat Shrink Tubing Kits",
+      "product_url": "https://www.qualtek.com/heat-shrink-tubing-kits/",
+      "category_name": "Heat Shrink Tubing (Kits)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "DSG-Canusa Medium Wall Adhesive Lined Tubing",
+      "product_url": "https://www.dsgcanusa.com/products/medium-wall-adhesive-lined/",
+      "category_name": "Heat Shrink Tubing (Adhesive Lined)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Nelco Braided Sleeving",
+      "product_url": "https://www.nelcoproducts.com/wire-management/braided-sleeving/",
+      "category_name": "Braided Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit Hook & Loop Cable Ties",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/cable-wire-ties-accessories/hook-loop-ties.html",
+      "category_name": "Cable Ties (Hook & Loop)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton Hook and Loop Ties",
+      "product_url": "https://www.hellermanntyton.com/products/cable-ties-velcro",
+      "category_name": "Cable Ties (Hook & Loop)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Thomas & Betts (ABB) Ty-Rap® Hook & Loop Fasteners",
+      "product_url": "https://electrification.us.abb.com/products/wire-cable-management/ty-rap/hook-loop-fasteners",
+      "category_name": "Cable Ties (Hook & Loop)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "TE Connectivity Wire Identification Products",
+      "product_url": "https://www.te.com/usa-en/products/identification-labeling/wire-identification.html",
+      "category_name": "Wire Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Legrand Transcab Cable markers",
+      "product_url": "https://www.legrandgroup.com/en/products/cable-management/marking-systems/transcab-cable-markers",
+      "category_name": "Cable Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Brady TLS 2200 Thermal Labeling System",
+      "product_url": "https://www.bradyid.com/label-printers/tls-2200-label-printer-pid-121755",
+      "category_name": "Label Printers (Portable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Essentra Components Heyco® Bushings, Plugs & Caps",
+      "product_url": "https://us.essentracomponents.com/en-us/bushings-grommets-feet",
+      "category_name": "Cable Bushings & Plugs",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Alpha Wire FIT® Heavy Wall Heat Shrink Tubing",
+      "product_url": "https://www.alphawire.com/Products/Tubing/Heat-Shrink-Tubing/FIT-Heavy-Wall",
+      "category_name": "Heat Shrink Tubing (Heavy Wall)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Techflex Flexo® Mounting System",
+      "product_url": "https://www.techflex.com/mounting-systems",
+      "category_name": "Cable Mounting Accessories",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Weidmüller SF Tools (Crimping, Cutting, Stripping)",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group10137242388042",
+      "category_name": "Crimping/Cutting/Stripping Tools",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Phoenix Contact CRIMPFOX Ferrule Hand Crimp Tool",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/crimping-pliers-crimpfox-centrus-6s-1213144",
+      "category_name": "Crimping Tools (Hand, Ferrules)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "WAGO Variocrimp 4 Crimping Tool (Ferrules)",
+      "product_url": "https://www.wago.com/global/tools/crimping-tool/p/206-204",
+      "category_name": "Crimping Tools (Hand, Ferrules)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Cembre Crimping Tools for Insulated Terminals",
+      "product_url": "https://www.cembre.com/products/Mechanical-tools-for-preinsulated-connectors/Crimping-Tools/2398/c1",
+      "category_name": "Crimping Tools (Hand)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Klauke Crimping Tools for Cable Lugs",
+      "product_url": "https://www.klauke.com/de/en/crimping-tools-cable-lugs",
+      "category_name": "Crimping Tools (Hand, Lugs)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Molex Hand Crimp Tools",
+      "product_url": "https://www.molex.com/en-us/products/application-tooling/hand-crimp-tools",
+      "category_name": "Crimping Tools (Hand)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "3M™ Scotchlok™ Insulation Displacement Connectors (IDC)",
+      "product_url": "https://www.3m.com/3M/en_US/p/c/electrical-construction-maintenance/splices-accessories/connectors/i/wire/b/scotchlok/",
+      "category_name": "Wire Connectors (IDC)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Qualtek Cable Clamps",
+      "product_url": "https://www.qualtek.com/cable-clamps/",
+      "category_name": "Cable Clamps",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "DSG-Canusa SolderSleeve Wire Terminators",
+      "product_url": "https://www.dsgcanusa.com/products/soldersleeve-wire-terminators/",
+      "category_name": "Solder Sleeve Connectors",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Nelco Cable Clamps",
+      "product_url": "https://www.nelcoproducts.com/wire-management/cable-clamps/",
+      "category_name": "Cable Clamps",
+      "parent_category": "Cable and Wire Accessories"
+    }
+  ]
+}

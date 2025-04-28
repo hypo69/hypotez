@@ -434,7 +434,38 @@ class ProgramSettings:
             print(f"Failed to extract OpenAI credentials from KeePass {ex}" )
             ...
             return False
+
+    def _load_tavily_credentials(self, kp: PyKeePass) -> bool:
+            """ Load OpenAI credentials from KeePass
+            Args:
+                kp (PyKeePass): The KeePass database instance.
+
+            Returns:
+                bool: True if loading was successful, False otherwise.
+            """
+            try:
+                tavily_credentials = kp.find_groups(path=['tavily']).entries
+           
+                for entry in tavily_credentials:
+
+
+                    try:
+                        entry_ns = SimpleNamespace()
         
+                        setattr(self.credentials.tavily, entry.title, entry_ns)
+        
+                        _entry = getattr(self.credentials.tavily, entry.title)
+                        setattr(_entry, 'api_key', entry.custom_properties.get('api_key', None))
+                
+                    except Exception as ex:
+                        logger.error(f"Failed to extract `tavily` API key from KeePass ", ex)
+                        ...
+                        return False
+                return True
+            except Exception as ex:
+                print(f"Failed to extract OpenAI credentials from KeePass {ex}" )
+                ...
+                return False
     def _load_smtp_credentials(self, kp: PyKeePass) -> bool:
         """ Load SMTP credentials from KeePass
         Args:

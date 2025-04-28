@@ -1,0 +1,1240 @@
+{
+  "products": [
+    {
+      "product_name": "Siemens SIMATIC HMI Comfort Panels",
+      "product_url": "https://new.siemens.com/global/en/products/automation/simatic-hmi/panels/comfort-panels.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley PanelView 800 Graphic Terminals",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/human-machine-interface/graphic-terminals/panelview-800-graphic-terminals.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric Magelis ST6 Basic HMI Panels",
+      "product_url": "https://www.se.com/ww/en/product-range/65388-harmony-st6/",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron NA Series Machine Interface",
+      "product_url": "https://industrial.omron.eu/en/products/na-series",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric GOT2000 Series HMI",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/hmi/got/items/got2000/index.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff CP2xxx Multi-touch Panel PCs",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/panel-pcs/cp2xxx-built-in-multi-touch-panel-pc/",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech TPC Series Touch Panel Computers",
+      "product_url": "https://www.advantech.com/en/products/gf-5v8k/sub_touch-panel-computers",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "WAGO Touch Panel 600",
+      "product_url": "https://www.wago.com/global/hmi-panels/touch-panel-600",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Keyence VT5 Series Touch Panels",
+      "product_url": "https://www.keyence.com/products/controls/hmi/vt5/",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Pro-face GP4000 Series Standard HMI",
+      "product_url": "https://www.proface.com/en/product/hmi/gp4000/top",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Red Lion Controls Graphite HMI Series",
+      "product_url": "https://www.redlion.net/products/industrial-automation/hmi-operator-panels/graphite-series",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC IPC Industrial PCs",
+      "product_url": "https://new.siemens.com/global/en/products/automation/pc-based/industrial-pc.html",
+      "category_name": "Industrial PCs (Box/Rack)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley VersaView 6300 Industrial Computers",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/industrial-computers-and-monitors/industrial-computers/versa-view-6300-industrial-computers.html",
+      "category_name": "Industrial PCs (Box/Rack)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric Magelis Industrial PC",
+      "product_url": "https://www.se.com/ww/en/product-range/539-magelis-industrial-pc/",
+      "category_name": "Industrial PCs (Panel/Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron NY Series Industrial Panel PC",
+      "product_url": "https://industrial.omron.eu/en/products/industrial-pc#panelPC",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric MELIPC Industrial PC Series",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/ipc/melipc/index.html",
+      "category_name": "Industrial PCs (Box/Panel)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff C69xx Control cabinet Industrial PC",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/industrial-pcs/c69xx-control-cabinet-industrial-pc/",
+      "category_name": "Industrial PCs (Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech UNO Series Embedded Automation Computers",
+      "product_url": "https://www.advantech.com/en/products/gf-5v9g/sub_embedded-automation-computers",
+      "category_name": "Industrial PCs (Embedded/Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC HMI Basic Panels",
+      "product_url": "https://new.siemens.com/global/en/products/automation/simatic-hmi/panels/basic-panels.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation PanelView Plus 7 Performance Terminals",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/human-machine-interface/graphic-terminals/panelview-plus-7-performance-terminals.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric Magelis GTO Optimized HMI Panels",
+      "product_url": "https://www.se.com/ww/en/product-range/61043-harmony-gto/",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron NB Series HMI",
+      "product_url": "https://industrial.omron.eu/en/products/nb-series",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric GOT Simple Series HMI",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/hmi/got/items/gs/index.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff CP67xx Built-in Panel PC",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/panel-pcs/cp67xx-built-in-panel-pc/",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech FPM Series Industrial Monitors",
+      "product_url": "https://www.advantech.com/en/products/gf-5v8j/sub_industrial-monitors-displays",
+      "category_name": "Industrial Monitors",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "WAGO Control Panel",
+      "product_url": "https://www.wago.com/global/hmi-panels/control-panel",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Keyence VT Series Programming Software",
+      "product_url": "https://www.keyence.com/products/controls/hmi/vt5/software.jsp",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Pro-face SP5000 Series Smart Portal HMI",
+      "product_url": "https://www.proface.com/en/product/hmi/sp5000/top",
+      "category_name": "HMI Panels (Modular)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Red Lion Controls CR3000 HMI",
+      "product_url": "https://www.redlion.net/products/industrial-automation/hmi-operator-panels/cr3000-hmi",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC IPC Accessories",
+      "product_url": "https://new.siemens.com/global/en/products/automation/pc-based/industrial-pc/accessories.html",
+      "category_name": "IPC Accessories",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation VersaView 5100 Industrial Monitors",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/industrial-computers-and-monitors/industrial-monitors/versa-view-5100-monitors.html",
+      "category_name": "Industrial Monitors",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric EcoStruxure Operator Terminal Expert Software",
+      "product_url": "https://www.se.com/ww/en/product-range/65774-ecostruxure-operator-terminal-expert/",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron NY Series Industrial Box PC",
+      "product_url": "https://industrial.omron.eu/en/products/industrial-pc#boxPC",
+      "category_name": "Industrial PCs (Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric GT SoftGOT HMI Software",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/hmi/got/items/softgot/index.html",
+      "category_name": "HMI Software (PC Based)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff C60xx Ultra-compact Industrial PC",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/industrial-pcs/c60xx-ultra-compact-industrial-pc/",
+      "category_name": "Industrial PCs (Compact Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech PPC Series Panel PCs",
+      "product_url": "https://www.advantech.com/en/products/gf-5v8k/sub_1-2jkk34",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "WAGO Web Panel",
+      "product_url": "https://www.wago.com/global/hmi-panels/web-panel",
+      "category_name": "Web Panels (HMI)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Keyence KV-H Windows Application Software",
+      "product_url": "https://www.keyence.com/products/controls/hmi/kv-h/",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Pro-face STW6000 Series Basic Web HMI",
+      "product_url": "https://www.proface.com/en/product/hmi/stw6000/top",
+      "category_name": "Web Panels (HMI)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Red Lion Controls DAx0D Data Station Plus",
+      "product_url": "https://www.redlion.net/products/industrial-automation/controllers-and-data-acquisition/data-station/dax0d-data-station-plus",
+      "category_name": "Data Stations / Protocol Converters",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC IPC Remote Operation",
+      "product_url": "https://new.siemens.com/global/en/products/automation/pc-based/industrial-pc/thin-clients.html",
+      "category_name": "Thin Clients (Industrial)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation ThinManager Thin Client Management Software",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/software/thinmanager.html",
+      "category_name": "Thin Client Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric Magelis Edge Box",
+      "product_url": "https://www.se.com/ww/en/product-range/65411-harmony-edge-box/",
+      "category_name": "Industrial PCs (Edge Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron NY Series Industrial Monitors",
+      "product_url": "https://industrial.omron.eu/en/products/industrial-pc#industrial-monitor",
+      "category_name": "Industrial Monitors",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric Industrial Panel Computers",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/ipc/melipc/lineup/panel.html",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff CP39xx Control Panel with DVI/USB Extended interface",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/control-panels/cp39xx-control-panel-with-dvi-usb-extended-interface/",
+      "category_name": "Control Panels / Industrial Monitors",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech UTC Series Self-Service Terminals",
+      "product_url": "https://www.advantech.com/en/products/gf-5v8k/sub_1-2jkk37",
+      "category_name": "Panel PCs (Self-Service/Kiosk)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC WinCC Unified HMI Software",
+      "product_url": "https://new.siemens.com/global/en/products/automation/simatic-hmi/hmi-software/wincc-unified.html",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation FactoryTalk View Site Edition (SE)",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/software/factorytalk/operationssuite/factorytalk-view/site-edition.html",
+      "category_name": "SCADA/HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric EcoStruxure Machine SCADA Expert",
+      "product_url": "https://www.se.com/ww/en/product-range/65812-ecostruxure-machine-scada-expert/",
+      "category_name": "SCADA/HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron CX-Supervisor SCADA Software",
+      "product_url": "https://industrial.omron.eu/en/products/cx-supervisor",
+      "category_name": "SCADA Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric GT Works3 HMI Software",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/hmi/got/items/gtworks3/index.html",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff TwinCAT HMI Software",
+      "product_url": "https://www.beckhoff.com/en-en/products/automation/twincat/tfxxxx-twincat-3-functions/tf2xxx-twincat-3-hmi/",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "WAGO VISU Operating Panels",
+      "product_url": "https://www.wago.com/global/hmi-panels/visu-panel",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Pro-face BLUE Open Studio HMI/SCADA Software",
+      "product_url": "https://www.proface.com/en/product/soft/blue/top",
+      "category_name": "SCADA/HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Red Lion Controls Crimson 3.1 Software",
+      "product_url": "https://www.redlion.net/products/industrial-automation/software/crimson-31-software",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC HMI Mobile Panels",
+      "product_url": "https://new.siemens.com/global/en/products/automation/simatic-hmi/panels/mobile-panels.html",
+      "category_name": "Mobile HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation PanelView 5310 Graphic Terminals",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/human-machine-interface/graphic-terminals/panelview-5310-graphic-terminals.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric Magelis GTU Universal HMI Panels",
+      "product_url": "https://www.se.com/ww/en/product-range/61044-harmony-gtu/",
+      "category_name": "HMI Panels (Modular)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron NS Series HMI",
+      "product_url": "https://industrial.omron.eu/en/products/ns-series",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric GOT Simple GS21 Series HMI",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/hmi/got/items/gs21/index.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff CP69xx Control Panels (Economy)",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/control-panels/cp69xx-economy-control-panel/",
+      "category_name": "Control Panels / Industrial Monitors",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech IDK Series Industrial Display Kits",
+      "product_url": "https://www.advantech.com/en/products/gf-5v8j/sub_industrial-display-kits",
+      "category_name": "Industrial Monitors (Kits)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "WAGO Visualization Software",
+      "product_url": "https://www.wago.com/global/automation-technology/visualization-software",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Keyence VT-T Series Molded Type Touch Panels",
+      "product_url": "https://www.keyence.com/products/controls/hmi/vt-t/",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Pro-face PS6000 Series Modular Industrial PC",
+      "product_url": "https://www.proface.com/en/product/ipc/ps6000/top",
+      "category_name": "Industrial PCs (Modular)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Red Lion Controls CR1000 HMI",
+      "product_url": "https://www.redlion.net/products/industrial-automation/hmi-operator-panels/cr1000-hmi",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC Notepac IPC",
+      "product_url": "https://new.siemens.com/global/en/products/automation/pc-based/industrial-pc/notebook.html",
+      "category_name": "Industrial PCs (Notebook)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation PanelView 5510 Graphic Terminals",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/human-machine-interface/graphic-terminals/panelview-5510-graphic-terminals.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric Magelis STO/STU Small Panels",
+      "product_url": "https://www.se.com/ww/en/product-range/4817-harmony-sto-stu/",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron NYP Series Industrial Panel PC (NY Monitor + NYB Box PC)",
+      "product_url": "https://industrial.omron.eu/en/products/industrial-pc",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric GOT Drive (HMI Integration with Drives)",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/hmi/got/items/drive/index.html",
+      "category_name": "HMI Software Features",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff CP27xx Built-in Panel PCs (ARM Cortex™-A8)",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/panel-pcs/cp27xx-panel-pc-with-arm-cortex-a8/",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech ARK Series Embedded Box PCs",
+      "product_url": "https://www.advantech.com/en/products/gf-5v9g/sub_embedded-box-pcs",
+      "category_name": "Industrial PCs (Embedded Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC HMI Key Panels",
+      "product_url": "https://new.siemens.com/global/en/products/automation/simatic-hmi/panels/key-panels.html",
+      "category_name": "Key Panels (HMI)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation PanelView Plus 7 Standard Terminals",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/human-machine-interface/graphic-terminals/panelview-plus-7-standard-terminals.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric Magelis XBT N, R, RT Small Panels",
+      "product_url": "https://www.se.com/ww/en/product-range/4817-harmony-sto-stu/",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron NSJ Series HMI + Controller",
+      "product_url": "https://industrial.omron.eu/en/products/nsj",
+      "category_name": "HMI Panels (Integrated Controller)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric GT16 Series HMI",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/hmi/got/items/gt16/index.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff CPXxxxx Panel PCs (Stainless Steel)",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/panel-pcs/cpxxxxx-built-in-panel-pcs-in-stainless-steel-housing/",
+      "category_name": "Panel PCs (Stainless Steel)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech IPPC Series Modular Panel PCs",
+      "product_url": "https://www.advantech.com/en/products/gf-5v8k/sub_modular-panel-pcs",
+      "category_name": "Panel PCs (Modular)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "WAGO HMI Accessories",
+      "product_url": "https://www.wago.com/global/hmi-panels/accessories",
+      "category_name": "HMI Accessories",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Keyence KV Series Communication Cables (HMI/PLC)",
+      "product_url": "https://www.keyence.com/products/controls/plc-building-block/kv-8000/options/",
+      "category_name": "HMI/PLC Cables",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Pro-face GP-Pro EX HMI Development Software",
+      "product_url": "https://www.proface.com/en/product/soft/gpproex/top",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Red Lion Controls Graphite Accessories",
+      "product_url": "https://www.redlion.net/products/industrial-automation/hmi-operator-panels/graphite-series/graphite-accessories",
+      "category_name": "HMI Accessories",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC IPC DiagMonitor Software",
+      "product_url": "https://new.siemens.com/global/en/products/automation/pc-based/industrial-pc/diagmonitor.html",
+      "category_name": "IPC Diagnostic Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation VersaView 6300 Box PCs",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/industrial-computers-and-monitors/industrial-computers/versa-view-6300-industrial-computers.html",
+      "category_name": "Industrial PCs (Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric Magelis HMISCU Rear Module Controller HMI",
+      "product_url": "https://www.se.com/ww/en/product-range/61808-harmony-scu/",
+      "category_name": "HMI Panels (Integrated Controller)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron NA Software Sysmac Studio",
+      "product_url": "https://industrial.omron.eu/en/products/sysmac-studio",
+      "category_name": "HMI/PLC Software Suite",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric GT27 Series HMI",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/hmi/got/items/gt27/index.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff CP29xx Multi-touch Control Panels",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/control-panels/cp29xx-multi-touch-control-panel/",
+      "category_name": "Control Panels / Industrial Monitors",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech SPC Series Stationary Panel Computers",
+      "product_url": "https://www.advantech.com/en/products/gf-5v8k/sub_1-2jkk35",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "B&R Mobile Panel",
+      "product_url": "https://www.br-automation.com/en/products/visualization/mobile-panel/",
+      "category_name": "Mobile HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Exor International eX700 HMI Series",
+      "product_url": "https://www.exorint.com/en/ex700",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Unitronics Vision Accessories",
+      "product_url": "https://www.unitronicsplc.com/accessories/",
+      "category_name": "PLC/HMI Accessories",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Horner Automation OCS Software (Cscape)",
+      "product_url": "https://hornerautomation.com/software/cscape/",
+      "category_name": "HMI/PLC Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "LS Electric iXP2 Series HMI",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Automation_Solution/HMI/iXP2_Series",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Delta Electronics DOP-100 Series HMI",
+      "product_url": "https://www.deltaww.com/en-US/products/HMI-Human-Machine-Interfaces/ALL/",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Kinco MT4000 Series HMI",
+      "product_url": "https://en.kinco.cn/Products/HMI/MT4000_Series_HMI",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "GE Automation (Emerson) QuickPanel+ Operator Interfaces",
+      "product_url": "https://www.emerson.com/en-us/catalog/automation-solutions/emerson-quickpanel-plus",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Weintek cMT Series HMI",
+      "product_url": "https://www.weintek.com/globalw/Product/Product_cMT.aspx",
+      "category_name": "HMI Panels (Gateway/Server Function)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beijer Electronics X2 pro Operator Panels",
+      "product_url": "https://www.beijerelectronics.com/en/Products/Operator%20Panels/X2%20pro",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Maple Systems HMI5000 Series",
+      "product_url": "https://www.maplesystems.com/products/hmi/hmi5000-series/",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "IDEC HG2G Series Standard HMI",
+      "product_url": "https://www.idec.com/products/operator-interface-hmi/hg2g-series",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Panasonic HM Series HMI",
+      "product_url": "https://industrial.panasonic.com/ww/products/factory-automation/plcs-hmi/hmi/hm",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Kontron Panel PC & Monitors",
+      "product_url": "https://www.kontron.com/en/products/systems/panel-pc/c/panel-pc-monitors",
+      "category_name": "Panel PCs & Monitors",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Axiomtek Panel Computers",
+      "product_url": "https://www.axiomtek.com/Default.aspx?MenuID=Products&FunctionID=ProductCategory&ProductCateID=77",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "AAEON Panel PC Solutions",
+      "product_url": "https://www.aaeon.com/en/c/panel-pc-solutions",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "NEXCOM Applied Panel PC (APPC)",
+      "product_url": "https://www.nexcom.com/Products/interactive-signage-panel-pc/panel-pc/applied-panel-pc",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC HMI Unified Comfort Panels",
+      "product_url": "https://new.siemens.com/global/en/products/automation/simatic-hmi/panels/unified-comfort-panels.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation PanelView Plus 7 Accessories",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/human-machine-interface/graphic-terminals/panelview-plus-7-performance-terminals/accessories.html",
+      "category_name": "HMI Accessories",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric Magelis HMIGTU Touchscreen Panel",
+      "product_url": "https://www.se.com/ww/en/product/HMIGTU2200/advanced-touchscreen-panel-8w-ethernet/",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron NA5 Series Machine Interface",
+      "product_url": "https://industrial.omron.eu/en/products/na5",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric GOT Simple GS2107",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/hmi/got/items/gs21/gs2107.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff CP32xx Panel PCs (Multi-touch, IP65)",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/panel-pcs/cp32xx-panel-pc-with-ip65-protection/",
+      "category_name": "Panel PCs (IP65)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech PPC-3100S Series Panel PC",
+      "product_url": "https://www.advantech.com/en/products/1-2jkjsv/ppc-3100s/mod_71550ff3-4939-43b1-809f-84ef0d213c4c",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "WAGO Smart Panel",
+      "product_url": "https://www.wago.com/global/hmi-panels/smart-panel",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Keyence KV Builder Software",
+      "product_url": "https://www.keyence.com/products/controls/plc-building-block/kv-studio/",
+      "category_name": "PLC/HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Pro-face LT4000M Series Programmable Operator Interface",
+      "product_url": "https://www.proface.com/en/product/hmi/lt4000m/top",
+      "category_name": "HMI Panels (Integrated Controller)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Red Lion Controls Kadet HMI Series",
+      "product_url": "https://www.redlion.net/products/industrial-automation/hmi-operator-panels/kadet-hmi-series",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC IPC127E Industrial PC (Box)",
+      "product_url": "https://new.siemens.com/global/en/products/automation/pc-based/industrial-pc/box-pc/ipc127e.html",
+      "category_name": "Industrial PCs (Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation VersaView 5400 Industrial Computers",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/industrial-computers-and-monitors/industrial-computers/versa-view-5400-industrial-computers.html",
+      "category_name": "Industrial PCs (Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric EcoStruxure Secure Connect Advisor",
+      "product_url": "https://www.se.com/ww/en/product-range/65409-ecostruxure-secure-connect-advisor/",
+      "category_name": "Remote Access Software (HMI/PLC)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron NS Series Accessories (Cables, Memory)",
+      "product_url": "https://industrial.omron.eu/en/products/ns-series#accessories",
+      "category_name": "HMI Accessories",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric GT25 Series HMI",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/hmi/got/items/gt25/index.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff C66xx Control cabinet Industrial PC",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/industrial-pcs/c66xx-control-cabinet-industrial-pc/",
+      "category_name": "Industrial PCs (Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech WebAccess/SCADA Software",
+      "product_url": "https://www.advantech.com/en/products/gf-5v8a/sub_webaccess",
+      "category_name": "SCADA Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "B&R Power Panel T-Series Terminals",
+      "product_url": "https://www.br-automation.com/en/products/visualization/power-panel/t-series/",
+      "category_name": "HMI Terminals",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Exor International eSMART Series",
+      "product_url": "https://www.exorint.com/en/esmart",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Unitronics UniStream® Built-in PLC+HMI",
+      "product_url": "https://www.unitronicsplc.com/programmable-controllers-unistream-plc-hmi/",
+      "category_name": "PLCs (Integrated HMI)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Horner Automation XL+ OCS Controller (PLC + HMI)",
+      "product_url": "https://hornerautomation.com/products/ocs/xl-series/xl/",
+      "category_name": "PLCs (Integrated HMI)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "LS Electric eXP Series HMI",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Automation_Solution/HMI/eXP_Series",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Delta Electronics TP Series Text Panel HMI",
+      "product_url": "https://www.deltaww.com/en-US/products/HMI-Text-Panel/ALL/",
+      "category_name": "HMI Panels (Text Based)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Kinco Green Series HMI (Economic)",
+      "product_url": "https://en.kinco.cn/Products/HMI/Green_Series_HMI",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "GE Automation (Emerson) PACSystems Edge Solutions",
+      "product_url": "https://www.emerson.com/en-us/automation/control-and-safety-systems/pacsystems/edge",
+      "category_name": "Industrial Edge Computing",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Weintek iE Series HMI",
+      "product_url": "https://www.weintek.com/globalw/Product/Product_iE.aspx",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beijer Electronics X2 base Operator Panels",
+      "product_url": "https://www.beijerelectronics.com/en/Products/Operator%20Panels/X2%20base",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Maple Systems HMI + PLC Series",
+      "product_url": "https://www.maplesystems.com/products/hmiplcs/",
+      "category_name": "HMI Panels (Integrated PLC)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "IDEC HG1P Series Palm Size HMI",
+      "product_url": "https://www.idec.com/products/operator-interface-hmi/hg1p-series",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Panasonic HMx700 Series HMI (High Performance)",
+      "product_url": "https://industrial.panasonic.com/ww/products/factory-automation/plcs-hmi/hmi/hmx700",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Kontron FlatClient Panel PC",
+      "product_url": "https://www.kontron.com/en/products/systems/panel-pc/flatclient/p143177",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Axiomtek GOT Series Touch Panel Computers",
+      "product_url": "https://www.axiomtek.com/Default.aspx?MenuID=Products&FunctionID=ProductCategory&ProductCateID=152",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "AAEON Industrial Panel PCs",
+      "product_url": "https://www.aaeon.com/en/c/industrial-panel-pcs",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "NEXCOM IPPC Series Panel PC",
+      "product_url": "https://www.nexcom.com/Products/interactive-signage-panel-pc/panel-pc/industrial-panel-pc",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC Thin Clients",
+      "product_url": "https://new.siemens.com/global/en/products/automation/pc-based/industrial-pc/thin-clients.html",
+      "category_name": "Thin Clients (Industrial)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation VersaView 5200 Thin Clients",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/industrial-computers-and-monitors/thin-clients/versa-view-5200-thin-clients.html",
+      "category_name": "Thin Clients (Industrial)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric Magelis Thin Clients",
+      "product_url": "https://www.se.com/ww/en/product-range/1470-magelis-thin-client/",
+      "category_name": "Thin Clients (Industrial)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech Thin Clients",
+      "product_url": "https://www.advantech.com/en/products/gf-5v8l/sub_thin-clients",
+      "category_name": "Thin Clients (Industrial)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Pepperl+Fuchs VisuNet Operator Workstations (Panel PC/Thin Client)",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_1933.htm",
+      "category_name": "Operator Workstations (Panel PC/Thin Client)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Hope Industrial Systems Panel Mount Monitors",
+      "product_url": "https://www.hopeindustrial.com/products/panel-mount-monitors/",
+      "category_name": "Industrial Monitors (Panel Mount)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC HMI Unified Comfort Panels Hygienic",
+      "product_url": "https://new.siemens.com/global/en/products/automation/simatic-hmi/panels/unified-comfort-panels/hygienic.html",
+      "category_name": "HMI Panels (Hygienic)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation PanelView 800 Accessories",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/human-machine-interface/graphic-terminals/panelview-800-graphic-terminals/accessories.html",
+      "category_name": "HMI Accessories",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric Magelis HMI Controllers (XBTGC)",
+      "product_url": "https://www.se.com/ww/en/product-range/1446-magelis-hmi-controllers/",
+      "category_name": "HMI Panels (Integrated Controller)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron NB Series Accessories",
+      "product_url": "https://industrial.omron.eu/en/products/nb-series#accessories",
+      "category_name": "HMI Accessories",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric GOT2000 Peripherals/Options",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/hmi/got/items/got2000/peripheral.html",
+      "category_name": "HMI Accessories",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff Industrial Motherboards",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/motherboards/",
+      "category_name": "Industrial Motherboards",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech Industrial Motherboards",
+      "product_url": "https://www.advantech.com/en/products/gf-5uq8/sub_industrial-motherboards",
+      "category_name": "Industrial Motherboards",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Kontron Industrial Motherboards",
+      "product_url": "https://www.kontron.com/en/products/boards-and-mezzanines/motherboards/c/motherboards",
+      "category_name": "Industrial Motherboards",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Axiomtek Industrial Motherboards",
+      "product_url": "https://www.axiomtek.com/Default.aspx?MenuID=Products&FunctionID=ProductCategory&ProductCateID=147",
+      "category_name": "Industrial Motherboards",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "AAEON Industrial Motherboards",
+      "product_url": "https://www.aaeon.com/en/c/industrial-motherboards",
+      "category_name": "Industrial Motherboards",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "NEXCOM Industrial Motherboards",
+      "product_url": "https://www.nexcom.com/Products/industrial-computing-solutions/industrial-motherboard",
+      "category_name": "Industrial Motherboards",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC Rack PC",
+      "product_url": "https://new.siemens.com/global/en/products/automation/pc-based/industrial-pc/rack-pc.html",
+      "category_name": "Industrial PCs (Rack)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley Rack PCs",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/industrial-computers-and-monitors/industrial-computers.html#rack-pcs",
+      "category_name": "Industrial PCs (Rack)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech ACP Series Multi-Panel PC",
+      "product_url": "https://www.advantech.com/en/products/gf-5v8k/sub_1-2jkk3a",
+      "category_name": "Panel PCs (Modular)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Kontron FlatClient HYG (Hygienic Panel PC)",
+      "product_url": "https://www.kontron.com/en/products/systems/panel-pc/flatclient-hyg/p149314",
+      "category_name": "Panel PCs (Hygienic)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Axiomtek Stainless Steel Panel PCs",
+      "product_url": "https://www.axiomtek.com/Default.aspx?MenuID=Products&FunctionID=ProductCategory&ProductCateID=180",
+      "category_name": "Panel PCs (Stainless Steel)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "AAEON Stainless Steel Panel PCs",
+      "product_url": "https://www.aaeon.com/en/c/stainless-steel-panel-pcs",
+      "category_name": "Panel PCs (Stainless Steel)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "NEXCOM Stainless Panel PC (IP69K)",
+      "product_url": "https://www.nexcom.com/Products/interactive-signage-panel-pc/panel-pc/stainless-panel-pc",
+      "category_name": "Panel PCs (Stainless Steel, IP69K)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Weintek MT8000iE Series HMI",
+      "product_url": "https://www.weintek.com/globalw/Product/Product_iE.aspx",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beijer Electronics X2 control Motion Panels",
+      "product_url": "https://www.beijerelectronics.com/en/Products/Operator%20Panels/X2%20control",
+      "category_name": "HMI Panels (Integrated Controller)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Maple Systems OIT Series (Text-Based HMI)",
+      "product_url": "https://www.maplesystems.com/products/hmi/oit-series/",
+      "category_name": "HMI Panels (Text Based)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "IDEC HG1G Series Value HMI",
+      "product_url": "https://www.idec.com/products/operator-interface-hmi/hg1g-series",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Panasonic HM G Series HMI (Mobile)",
+      "product_url": "https://industrial.panasonic.com/ww/products/factory-automation/plcs-hmi/hmi/hmg",
+      "category_name": "Mobile HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Kontron COM Express Modules (Computer-on-Module)",
+      "product_url": "https://www.kontron.com/en/products/boards-and-mezzanines/com-express/c/com-express",
+      "category_name": "Computer-on-Modules (for IPCs)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Axiomtek Computer on Modules",
+      "product_url": "https://www.axiomtek.com/Default.aspx?MenuID=Products&FunctionID=ProductCategory&ProductCateID=148",
+      "category_name": "Computer-on-Modules (for IPCs)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "AAEON COM Modules",
+      "product_url": "https://www.aaeon.com/en/c/com-modules",
+      "category_name": "Computer-on-Modules (for IPCs)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "NEXCOM Computer on Module",
+      "product_url": "https://www.nexcom.com/Products/industrial-computing-solutions/computer-on-module",
+      "category_name": "Computer-on-Modules (for IPCs)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC Industrial Monitors",
+      "product_url": "https://new.siemens.com/global/en/products/automation/pc-based/industrial-pc/industrial-monitors-thin-clients.html",
+      "category_name": "Industrial Monitors",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation VersaView 5000 Monitors",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/industrial-computers-and-monitors/industrial-monitors.html",
+      "category_name": "Industrial Monitors",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric Magelis Industrial Monitors",
+      "product_url": "https://www.se.com/ww/en/product-range/539-magelis-industrial-pc/#tabs",
+      "category_name": "Industrial Monitors",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech FPM Series Full IP66/IP69K Monitors",
+      "product_url": "https://www.advantech.com/en/products/gf-5v8j/sub_1-byw6f8",
+      "category_name": "Industrial Monitors (IP69K)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Hope Industrial Systems Universal Mount Monitors",
+      "product_url": "https://www.hopeindustrial.com/products/universal-mount-monitors/",
+      "category_name": "Industrial Monitors (Universal Mount)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Siemens SIMATIC HMI Panel Accessories",
+      "product_url": "https://new.siemens.com/global/en/products/automation/simatic-hmi/panels/accessories.html",
+      "category_name": "HMI Accessories",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Rockwell Automation PanelView Component Terminals",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/human-machine-interface/graphic-terminals/panelview-component-terminals.html",
+      "category_name": "HMI Panels (Component)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Schneider Electric Magelis GXO Modular HMI Panels",
+      "product_url": "https://www.se.com/ww/en/product-range/61042-harmony-gxo/",
+      "category_name": "HMI Panels (Modular)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Omron NS Series Peripherals (Screen Protectors, Cables)",
+      "product_url": "https://industrial.omron.eu/en/products/ns-series#peripherals",
+      "category_name": "HMI Accessories",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Mitsubishi Electric GT21 Series HMI",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/hmi/got/items/gt21/index.html",
+      "category_name": "HMI Panels",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beckhoff CP62xx Built-in Panel PCs",
+      "product_url": "https://www.beckhoff.com/en-en/products/ipc/panel-pcs/cp62xx-built-in-panel-pc/",
+      "category_name": "Panel PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Advantech AIMB Series Industrial Motherboards",
+      "product_url": "https://www.advantech.com/en/products/gf-5uq8/sub_1-ms6d5",
+      "category_name": "Industrial Motherboards",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "B&R Industrial Monitors",
+      "product_url": "https://www.br-automation.com/en/products/visualization/industrial-monitors/",
+      "category_name": "Industrial Monitors",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Exor International JMobile HMI Software",
+      "product_url": "https://www.exorint.com/en/jmobile",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Unitronics UniStream® Modular PLC+HMI",
+      "product_url": "https://www.unitronicsplc.com/programmable-controllers-unistream-modular/",
+      "category_name": "PLCs (Integrated HMI, Modular)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Horner Automation Micro OCS Series (PLC+HMI)",
+      "product_url": "https://hornerautomation.com/products/ocs/micro-series/",
+      "category_name": "PLCs (Integrated HMI)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "LS Electric XP-Remote (Mobile HMI App)",
+      "product_url": "https://www.ls-electric.com/products/view/Smart_Automation_Solution/HMI/Software/221",
+      "category_name": "HMI Software (Mobile App)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Delta Electronics DIAScreen HMI Software",
+      "product_url": "https://www.deltaww.com/en-US/products/HMI-Software/ALL/",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Kinco DTools HMI Configuration Software",
+      "product_url": "https://en.kinco.cn/Download/HMI/Software",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "GE Automation (Emerson) PACSystems IPCs",
+      "product_url": "https://www.emerson.com/en-us/catalog/automation-solutions/emerson-pacsystems-ipc",
+      "category_name": "Industrial PCs",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Weintek EasyBuilder Pro HMI Software",
+      "product_url": "https://www.weintek.com/globalw/Software/EasyBuilderPro.aspx",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Beijer Electronics iX Developer HMI Software",
+      "product_url": "https://www.beijerelectronics.com/en/Products/Software/iX%20Developer",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Maple Systems MAPware HMI Software",
+      "product_url": "https://www.maplesystems.com/software/mapware/",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "IDEC WindO/I-NV4 HMI Programming Software",
+      "product_url": "https://www.idec.com/products/operator-interface-hmi/windo-i-nv4",
+      "category_name": "HMI Software",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Panasonic HMW Series Windows-based HMI",
+      "product_url": "https://industrial.panasonic.com/ww/products/factory-automation/plcs-hmi/hmi/windows-based-hmi",
+      "category_name": "HMI Panels (Windows Based)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Kontron Embedded Box PC",
+      "product_url": "https://www.kontron.com/en/products/systems/embedded-box-pc/c/embedded-box-pc",
+      "category_name": "Industrial PCs (Embedded Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "Axiomtek Embedded Systems",
+      "product_url": "https://www.axiomtek.com/Default.aspx?MenuID=Products&FunctionID=ProductCategory&ProductCateID=117",
+      "category_name": "Industrial PCs (Embedded)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "AAEON Embedded Box PCs",
+      "product_url": "https://www.aaeon.com/en/c/embedded-box-pcs",
+      "category_name": "Industrial PCs (Embedded Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    },
+    {
+      "product_name": "NEXCOM Industrial Fanless PC",
+      "product_url": "https://www.nexcom.com/Products/industrial-computing-solutions/industrial-fanless-pc",
+      "category_name": "Industrial PCs (Fanless Box)",
+      "parent_category": "Human-Machine Interfaces & Industrial PCs"
+    }
+  ]
+}

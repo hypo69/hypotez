@@ -59,10 +59,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-class SimpleDriver(Config, Driver):
+class SimpleDriver(Driver):
     """"""
-    def __init__(self, GEMINI_API_KEY = None, OPENAI_API_KEY = None, openai_model_name = None, gemini_model_name = None, start_browser = True, **kwargs):
-        Config()
+    def __init__(self, 
+                 GEMINI_API_KEY:str = None, 
+                 OPENAI_API_KEY:str = None, 
+                 openai_model_name:str = None, 
+                 gemini_model_name:str = None, 
+                 start_browser:str = True,
+                **kwargs):
         super().__init__(GEMINI_API_KEY, OPENAI_API_KEY, openai_model_name, gemini_model_name, start_browser, **kwargs) 
 
     async def simple_process_task_async(self, task:str = 'Hello, world!') -> Any:
@@ -92,7 +97,7 @@ def main():
     """
     # Пример использования
     driver = SimpleDriver(gemini_model_name = 'gemini-2.5-flash-preview-04-17')
-    task = Path(__root__ / 'src' / 'webdriver' / 'ai_browser' / 'instructions' / 'get_news_from_nocamel_site.md').read_text(encoding='utf-8')
+    task = Path(__root__ / 'src' / 'webdriver' / 'ai_browser' / 'instructions' / 'get_supplier_categories.md').read_text(encoding='utf-8')
     result = asyncio.run(driver.simple_process_task_async(task))
     print(f"Результат выполнения задачи: {result}")
 

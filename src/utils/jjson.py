@@ -90,8 +90,9 @@ def j_dumps(
     """
 
     path = Path(file_path) if isinstance(file_path, (str, Path)) else None
-    data = self._string_to_dict(data)
+    data = _string_to_dict(data)
 
+    # Попытки извлечь словарь из строки
     if isinstance(data, str):
         try:
             data = repair_json(data)

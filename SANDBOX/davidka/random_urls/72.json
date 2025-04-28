@@ -1,0 +1,1282 @@
+{
+  "products": [
+    {
+      "product_name": "Siemens SINAMICS G120 Drive",
+      "product_url": "https://new.siemens.com/global/en/products/drives/sinamics/low-voltage-converters/g-series/sinamics-g120.html",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "ABB ACS880 Industrial Drives",
+      "product_url": "https://new.abb.com/drives/low-voltage-ac/industrial/acs880-single-drives",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Schneider Electric Altivar Process ATV900 Drives",
+      "product_url": "https://www.se.com/ww/en/product-range/62379-altivar-process-atv900/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Rockwell Automation PowerFlex 755 AC Drives",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/drives/low-voltage-ac-drives/powerflex-750-series-ac-drives/powerflex-755-ac-drives.html",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Danfoss VLT® AutomationDrive FC 302",
+      "product_url": "https://www.danfoss.com/en/products/dds/ac-drives/low-voltage-drives/vlt-automationdrive-fc-301-fc-302/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Yaskawa GA700 Industrial AC Drives",
+      "product_url": "https://www.yaskawa.com/products/drives/industrial-ac-drives/general-purpose/ga700-industrial-drive",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Mitsubishi Electric FR-A800 Series Inverter",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/drv/inv/items/fr_a800/index.html",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Eaton PowerXL DG1 General Purpose Drives",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/drives/powerxl-dg1.html",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Lenze i550 Frequency Inverter",
+      "product_url": "https://www.lenze.com/en-de/products/inverters/frequency-inverters/i500/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "WEG CFW500 Variable Speed Drive",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Variable-Speed-Drives/Low-Voltage/CFW500/p/GLOBAL_ACD_CFW500",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Omron MX2 Series Inverter",
+      "product_url": "https://industrial.omron.eu/en/products/mx2",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Fuji Electric FRENIC-Ace General Purpose Inverter",
+      "product_url": "https://www.fujielectric.com/products/inverter/frenic-ace/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Hitachi Industrial Equipment WJ200 Series Inverter",
+      "product_url": "https://www.hitachi-ies.co.jp/english/products/inv/wj200/index.htm",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Parker AC10 Compact Drive",
+      "product_url": "https://ph.parker.com/us/en/ac10-compact-drive",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Delta Electronics C2000 Plus Series AC Motor Drive",
+      "product_url": "https://www.deltaww.com/en-US/products/AC-Motor-Drives/3503",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Control Techniques Commander C General Purpose Drive",
+      "product_url": "https://acim.nidec.com/drives/control-techniques/products/ac-drives/commander-c",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "KEB COMBIVERT F5 BASIC Frequency Inverter",
+      "product_url": "https://www.kebamerica.com/products/drives/vfds/f5-vfd-basic/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Teco-Westinghouse E510 AC Drive",
+      "product_url": "https://www.tecowestinghouse.com/Drives/AC%20Drives/E510",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "LS Electric H100 AC Drive (HVAC)",
+      "product_url": "https://www.ls-electric.com/products/view/Smart_Automation_Solution/Drive/AC_Drive/36",
+      "category_name": "Variable Frequency Drives (VFD) - HVAC",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Inovance MD290 General Purpose AC Drive",
+      "product_url": "https://www.inovance.com/emea/products/md290-general-purpose-ac-drive",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Siemens Drive options (Line filters, reactors, braking resistors)",
+      "product_url": "https://new.siemens.com/global/en/products/drives/sinamics/low-voltage-converters/options.html",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "ABB Drive options",
+      "product_url": "https://new.abb.com/drives/options",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Schneider Electric Altivar Options (Filters, Chokes, Resistors)",
+      "product_url": "https://www.se.com/ww/en/product-category/2950-drive-options/",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Rockwell Automation PowerFlex Drive Options",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/drives/drive-options.html",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Danfoss Drive Options (Filters, Chokes, Resistors)",
+      "product_url": "https://www.danfoss.com/en/products/dds/ac-drives/drive-options/",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Yaskawa Drive Options (Reactors, Filters, Resistors)",
+      "product_url": "https://www.yaskawa.com/products/drives/industrial-ac-drives/drive-options",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Mitsubishi Electric Inverter Options (Filters, Reactors)",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/drv/inv/items/fr_a800/option.html",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Eaton Drive Accessories (Reactors, Filters, Resistors)",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/drives/drive-accessories.html",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Lenze Accessories for Frequency Inverters",
+      "product_url": "https://www.lenze.com/en-de/products/inverters/accessories/",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "WEG VSD Accessories (Filters, Resistors)",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Variable-Speed-Drives/Accessories/c/GLOBAL_ACD_Accessories_VSD",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Omron Inverter Peripherals (Filters, Resistors)",
+      "product_url": "https://industrial.omron.eu/en/products/mx2#peripherals",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Fuji Electric Inverter Options",
+      "product_url": "https://www.fujielectric.com/products/inverter/frenic-ace/option.html",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Hitachi Industrial Equipment Inverter Options",
+      "product_url": "https://www.hitachi-ies.co.jp/english/products/inv/option/index.htm",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Parker Drive Options and Accessories",
+      "product_url": "https://ph.parker.com/us/en/cat/drive-options-and-accessories",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Delta Electronics AC Motor Drive Accessories",
+      "product_url": "https://www.deltaww.com/en-US/products/AC-Motor-Drives-Accessories/ALL/",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Control Techniques Drive Options (Filters, Comms)",
+      "product_url": "https://acim.nidec.com/drives/control-techniques/products/options",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "KEB COMBILINE EMC Filters",
+      "product_url": "https://www.kebamerica.com/products/filters-chokes/emc-filters/",
+      "category_name": "EMC Filters (for Drives)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Teco-Westinghouse Drive Options",
+      "product_url": "https://www.tecowestinghouse.com/drives/AC%20Drives/Options%20and%20Accessories",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "LS Electric AC Drive Options",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Automation_Solution/Drive/Option",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Inovance Drive Options (Filters, Keypads, Comms)",
+      "product_url": "https://www.inovance.com/emea/products/drive-options",
+      "category_name": "VFD Accessories",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Siemens SINAMICS Braking Resistors",
+      "product_url": "https://new.siemens.com/global/en/products/drives/sinamics/low-voltage-converters/options/power-options.html",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "ABB Braking resistors",
+      "product_url": "https://new.abb.com/drives/options/braking-resistors",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Schneider Electric Braking resistors",
+      "product_url": "https://www.se.com/ww/en/product-subcategory/2956-braking-resistors/",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Rockwell Automation Dynamic Brake Resistors",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/drives/drive-options/dynamic-brake-resistors.html",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Danfoss VLT® Brake Resistors",
+      "product_url": "https://www.danfoss.com/en/products/dds/ac-drives/drive-options/vlt-brake-resistors/",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Yaskawa Dynamic Braking Resistors",
+      "product_url": "https://www.yaskawa.com/products/drives/industrial-ac-drives/drive-options/dynamic-braking",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Mitsubishi Electric Braking Resistor Unit",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/drv/inv/items/fr_a800/option.html",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Eaton Braking Resistors for Drives",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/drives/drive-accessories.html#brakingresistors",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Lenze Braking resistors",
+      "product_url": "https://www.lenze.com/en-de/products/inverters/accessories/braking-resistors/",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "WEG Braking Resistors",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Variable-Speed-Drives/Accessories/Braking-Resistors/c/GLOBAL_ACD_Accessories_VSD_BR",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Omron Braking Resistor Unit",
+      "product_url": "https://industrial.omron.eu/en/products/rx2#accessories",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Fuji Electric Dynamic Braking (DB) Resistor",
+      "product_url": "https://www.fujielectric.com/products/inverter/frenic-ace/option.html",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Parker Braking Resistors",
+      "product_url": "https://ph.parker.com/us/en/cat/en/braking-resistors",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Delta Electronics Braking Resistors",
+      "product_url": "https://www.deltaww.com/en-US/products/AC-Motor-Drives-Accessories/ALL/",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Control Techniques Braking Resistors",
+      "product_url": "https://acim.nidec.com/drives/control-techniques/products/options/braking-resistors",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "KEB COMBISTOP Brake Resistors",
+      "product_url": "https://www.kebamerica.com/products/brakes/brake-resistors/",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Teco-Westinghouse Dynamic Braking Kits",
+      "product_url": "https://www.tecowestinghouse.com/drives/AC%20Drives/Options%20and%20Accessories/Dynamic%20Braking%20Kits",
+      "category_name": "Braking Resistors (Kits)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "LS Electric Braking Unit & Resistor",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Automation_Solution/Drive/Option",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Inovance Braking Units & Resistors",
+      "product_url": "https://www.inovance.com/emea/products/drive-options",
+      "category_name": "Braking Resistors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Siemens SINAMICS Line Filters",
+      "product_url": "https://new.siemens.com/global/en/products/drives/sinamics/low-voltage-converters/options/line-filters.html",
+      "category_name": "Line Filters / EMC Filters",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "ABB EMC filters",
+      "product_url": "https://new.abb.com/drives/options/emc-filters",
+      "category_name": "EMC Filters (for Drives)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Schneider Electric EMC input filters",
+      "product_url": "https://www.se.com/ww/en/product-subcategory/2951-emc-input-filters/",
+      "category_name": "EMC Filters (for Drives)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Rockwell Automation PowerFlex EMC Filters",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/drives/drive-options/emc-filters.html",
+      "category_name": "EMC Filters (for Drives)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Danfoss VLT® Advanced Harmonic Filter AHF 005/010",
+      "product_url": "https://www.danfoss.com/en/products/dds/ac-drives/drive-options/vlt-advanced-harmonic-filter-ahf-005-ahf-010/",
+      "category_name": "Harmonic Filters",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Yaskawa Harmonic Filters",
+      "product_url": "https://www.yaskawa.com/products/drives/industrial-ac-drives/drive-options/harmonic-filters",
+      "category_name": "Harmonic Filters",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Mitsubishi Electric EMC Filter",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/drv/inv/items/fr_a800/option.html",
+      "category_name": "EMC Filters (for Drives)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Eaton EMC Filters for Drives",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/drives/drive-accessories.html#emcfilters",
+      "category_name": "EMC Filters (for Drives)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Lenze Mains filters",
+      "product_url": "https://www.lenze.com/en-de/products/inverters/accessories/mains-filters/",
+      "category_name": "Line Filters / EMC Filters",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "WEG Input RFI Filter",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Variable-Speed-Drives/Accessories/RFI-Filters/Input-RFI-Filter/p/10001517",
+      "category_name": "RFI Filters (for Drives)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Omron Noise Filters for Inverters",
+      "product_url": "https://industrial.omron.eu/en/products/mx2#accessories",
+      "category_name": "Noise Filters (for Drives)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Fuji Electric EMC Filter",
+      "product_url": "https://www.fujielectric.com/products/inverter/frenic-ace/option.html",
+      "category_name": "EMC Filters (for Drives)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Parker AC Drive Output Filters",
+      "product_url": "https://ph.parker.com/us/en/cat/en/ac-drive-output-filters",
+      "category_name": "Output Filters (for Drives)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Delta Electronics EMC Filter",
+      "product_url": "https://www.deltaww.com/en-US/products/AC-Motor-Drives-Accessories/ALL/",
+      "category_name": "EMC Filters (for Drives)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Control Techniques Input/Output filters",
+      "product_url": "https://acim.nidec.com/drives/control-techniques/products/options/input-output-filters",
+      "category_name": "Line/Output Filters (for Drives)",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "KEB COMBILINE Harmonic Filter",
+      "product_url": "https://www.kebamerica.com/products/filters-chokes/harmonic-filters/",
+      "category_name": "Harmonic Filters",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Teco-Westinghouse Input/Output Reactors",
+      "product_url": "https://www.tecowestinghouse.com/drives/AC%20Drives/Options%20and%20Accessories/Input%20Output%20Reactors",
+      "category_name": "Line/Output Reactors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "LS Electric DC Reactor",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Automation_Solution/Drive/Option",
+      "category_name": "DC Reactors",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Inovance DC Chokes",
+      "product_url": "https://www.inovance.com/emea/products/drive-options",
+      "category_name": "DC Reactors / Chokes",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Siemens SINAMICS IOP-2 Intelligent Operator Panel",
+      "product_url": "https://new.siemens.com/global/en/products/drives/sinamics/low-voltage-converters/options/operator-panels.html",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "ABB ACS-AP-I Assistant control panel",
+      "product_url": "https://new.abb.com/drives/options/assistant-control-panels",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Schneider Electric Remote graphic display terminal VW3A1111",
+      "product_url": "https://www.se.com/ww/en/product/VW3A1111/remote-graphic-display-terminal-ip65-altivar/",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Rockwell Automation PowerFlex 20-HIM Human Interface Modules",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/drives/drive-options/human-interface-modules.html",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Danfoss VLT® Control Panel LCP 102",
+      "product_url": "https://www.danfoss.com/en/products/dds/ac-drives/drive-options/vlt-control-panel-lcp-102/",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Yaskawa JVOP-KPLCA04AE LED Digital Operator",
+      "product_url": "https://www.yaskawa.com/products/drives/industrial-ac-drives/drive-options/keypads",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Mitsubishi Electric FR-LU08 LCD Operator Panel",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/drv/inv/items/fr_a800/option.html",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Eaton Remote Mount Keypad for DG1",
+      "product_url": "https://www.eaton.com/us/en-us/skuPage.DG1-KEYPAD.html",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Lenze Keypad X400",
+      "product_url": "https://www.lenze.com/en-de/products/inverters/accessories/keypad-x400/",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "WEG CFW500-HMIR Remote Keypad",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Variable-Speed-Drives/Accessories/Remote-Keypad/CFW500-HMIR/p/12997809",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Omron Digital Operator for MX2",
+      "product_url": "https://industrial.omron.eu/en/products/mx2#accessories",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Fuji Electric Remote Keypad TP-E1U",
+      "product_url": "https://www.fujielectric.com/products/inverter/frenic-ace/option.html",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Parker AC10 Keypad and Display",
+      "product_url": "https://ph.parker.com/us/en/ac10-compact-drive/ac10-keypad-and-display",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Delta Electronics KPC-CC01 Standard LED Keypad",
+      "product_url": "https://www.deltaww.com/en-US/products/AC-Motor-Drives-Accessories/ALL/",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Control Techniques KI-Keypad",
+      "product_url": "https://acim.nidec.com/drives/control-techniques/products/options/keypads/ki-keypad",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "KEB COMBIVIS HMI Keypad",
+      "product_url": "https://www.kebamerica.com/products/accessories/keypads-mounting/combivis-hmi/",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Teco-Westinghouse Remote Keypad for E510",
+      "product_url": "https://www.tecowestinghouse.com/drives/AC%20Drives/Options%20and%20Accessories/Remote%20Keypad",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "LS Electric Remote Keypad for H100",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Automation_Solution/Drive/Option",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Inovance External LED Keypad",
+      "product_url": "https://www.inovance.com/emea/products/drive-options",
+      "category_name": "VFD Keypads / Operator Panels",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Siemens SINAMICS Communication Options (PROFINET, EtherNet/IP, etc.)",
+      "product_url": "https://new.siemens.com/global/en/products/drives/sinamics/low-voltage-converters/options/communication-options.html",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "ABB Fieldbus adapter modules",
+      "product_url": "https://new.abb.com/drives/options/fieldbus-connectivity/fieldbus-adapter-modules",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Schneider Electric Communication modules for Altivar",
+      "product_url": "https://www.se.com/ww/en/product-subcategory/2954-communication-modules/",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Rockwell Automation PowerFlex Communication Options",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/drives/drive-options/communication.html",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Danfoss VLT® Communications options",
+      "product_url": "https://www.danfoss.com/en/products/dds/ac-drives/drive-options/vlt-communications/",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Yaskawa Communication Options",
+      "product_url": "https://www.yaskawa.com/products/drives/industrial-ac-drives/drive-options/communication",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Mitsubishi Electric Network Communication Options for Inverters",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/drv/inv/items/fr_a800/option.html",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Eaton Communication Options for Drives",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/drives/drive-accessories.html#communicationoptions",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Lenze Communication Modules",
+      "product_url": "https://www.lenze.com/en-de/products/inverters/accessories/communication-modules/",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "WEG Plug-in Modules for VSD",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Variable-Speed-Drives/Accessories/Plug-in-Modules/c/GLOBAL_ACD_Accessories_VSD_PlugIn",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Omron Communication Option Boards for Inverters",
+      "product_url": "https://industrial.omron.eu/en/products/mx2#accessories",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Fuji Electric Communication Options for Inverters",
+      "product_url": "https://www.fujielectric.com/products/inverter/frenic-ace/option.html",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Parker AC Drive Communication Interfaces",
+      "product_url": "https://ph.parker.com/us/en/cat/en/ac-drive-communication-interfaces",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Delta Electronics Communication Cards",
+      "product_url": "https://www.deltaww.com/en-US/products/AC-Motor-Drives-Accessories/ALL/",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Control Techniques Communication Modules",
+      "product_url": "https://acim.nidec.com/drives/control-techniques/products/options/communication-modules",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "KEB COMBIVERT Communication Operators",
+      "product_url": "https://www.kebamerica.com/products/accessories/communication-operators/",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Teco-Westinghouse Communication Modules",
+      "product_url": "https://www.tecowestinghouse.com/drives/AC%20Drives/Options%20and%20Accessories/Communication%20Modules",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "LS Electric Communication Options",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Automation_Solution/Drive/Option",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Inovance Communication Cards",
+      "product_url": "https://www.inovance.com/emea/products/drive-options",
+      "category_name": "VFD Communication Modules",
+      "parent_category": "Variable Frequency Drives & Accessories"
+    },
+    {
+      "product_name": "Siemens SIMOTICS M-1PH8 Main Motors",
+      "product_url": "https://new.siemens.com/global/en/products/drives/electric-motors/servo-motors/simotics-m-1ph8.html",
+      "category_name": "AC Motors (Main/Spindle)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "ABB Synchronous reluctance motors",
+      "product_url": "https://new.abb.com/motors-generators/iec-low-voltage-motors/synchronous-reluctance-motors",
+      "category_name": "Synchronous Reluctance Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "WEG WMagnet Synchronous Motors",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Electric-Motors/Medium-and-High-Voltage-Motors/Synchronous-Motors/WMagnet-Synchronous-Motor/p/GLOBAL_MOTOR_MVHV_WMAGNET",
+      "category_name": "Synchronous Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Nidec Leroy-Somer PLSRPM series IE4/IE5 permanent magnet motors",
+      "product_url": "https://acim.nidec.com/motors/leroy-somer/products/synchronous-pm-motors/plsrpm-series-ie4",
+      "category_name": "Permanent Magnet Synchronous Motors (PMSM)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "TECO Vector Duty Motors",
+      "product_url": "https://www.tecowestinghouse.com/products/motors/ac-motors/vector-duty/",
+      "category_name": "AC Motors (Vector Duty)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Baldor (ABB) Vector Motors",
+      "product_url": "https://www.baldor.com/brands/baldor-reliance/products/motors/ac-motors/vector",
+      "category_name": "AC Motors (Vector Duty)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Regal Rexnord Marathon Motors Inverter Duty Motors",
+      "product_url": "https://www.regalrexnord.com/products/motors/ac-motors/inverter-duty-motors",
+      "category_name": "AC Motors (Inverter Duty)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "SEW-EURODRIVE DRL.. series Asynchronous Motors",
+      "product_url": "https://www.sew-eurodrive.de/products/motors/ac_motors/drl_series_ac_motors/drl_series_ac_motors.html",
+      "category_name": "AC Induction Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Brook Crompton Single Phase Motors",
+      "product_url": "https://www.brookcrompton.com/products/ac-motors/single-phase-motors/",
+      "category_name": "AC Induction Motors (Single Phase)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bonfiglioli BN DC Series DC Motors",
+      "product_url": "https://www.bonfiglioli.com/en/bn-dc-series",
+      "category_name": "DC Motors (Brushed)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Oriental Motor KIIS Series AC Motors",
+      "product_url": "https://www.orientalmotor.com/ac-motors-gear-motors/standard-ac-motors-kiis.html",
+      "category_name": "AC Motors (Small)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bodine Electric AC Induction Motors",
+      "product_url": "https://www.bodine-electric.com/products/ac-motors",
+      "category_name": "AC Induction Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Dunkermotoren Iron Core Brushed DC Motors GR",
+      "product_url": "https://dunkermotoren.com/en/products/brushed-dc-motors/iron-core/",
+      "category_name": "DC Motors (Brushed)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Maxon DC RE-max motors (Brushed DC)",
+      "product_url": "https://www.maxongroup.us/maxon/view/catalog/motors/dcmotor/remax",
+      "category_name": "DC Motors (Brushed)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Faulhaber Coreless DC Motors",
+      "product_url": "https://www.faulhaber.com/en/products/product-category/coreless-dc-motors/",
+      "category_name": "DC Motors (Coreless)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Portescap Brush DC Coreless Motors",
+      "product_url": "https://www.portescap.com/products/brush-dc-coreless-motors",
+      "category_name": "DC Motors (Coreless)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Pittman (AMETEK) LO-COG® Brushed DC Motors",
+      "product_url": "https://www.ametekapt.com/products/brushed-dc-motors/lo-cog-brushed-dc-motors",
+      "category_name": "DC Motors (Brushed)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Allied Motion Brushless DC Motors",
+      "product_url": "https://www.alliedmotion.com/product-selector-guide/brushless-dc-motors/",
+      "category_name": "Brushless DC Motors (BLDC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Oriental Motor Stepper Motor Drivers",
+      "product_url": "https://www.orientalmotor.com/stepper-motors/stepper-motor-drivers.html",
+      "category_name": "Stepper Motor Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Schneider Electric Lexium Stepper Motors BRS3",
+      "product_url": "https://www.se.com/ww/en/product-range/61069-lexium-bsh-bmh/",
+      "category_name": "Stepper Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Applied Motion Products Stepper Drives",
+      "product_url": "https://www.applied-motion.com/products/stepper-drives",
+      "category_name": "Stepper Motor Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Lin Engineering NEMA 14 Stepper Motors",
+      "product_url": "https://www.linengineering.com/products/stepper-motors/nema-14/",
+      "category_name": "Stepper Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Nanotec Plug & Drive Motors (Integrated Controller)",
+      "product_url": "https://us.nanotec.com/products/10-integrated-motors/",
+      "category_name": "Motors with Integrated Controller",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Moons' Industries Size 11 Hybrid Stepping Motors",
+      "product_url": "https://www.moonsindustries.com/p/hybrid-stepping-motors/size-11-hybrid-stepping-motors-hb00000020",
+      "category_name": "Stepper Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Haydon Kerk Pittman Can Stack Stepper Motors",
+      "product_url": "https://www.haydonkerkpittman.com/products/motors/can-stack-stepper-motors",
+      "category_name": "Stepper Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Shinano Kenshi Hybrid Geared Stepping Motors",
+      "product_url": "https://shinano.com/products/motors/stepping/geared/hybrid-geared/",
+      "category_name": "Stepper Geared Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "MinebeaMitsumi Hybrid Stepping Motor Gearbox",
+      "product_url": "https://www.minebeamitsumi.com/english/product/electronic/motor/stepping/gearbox/",
+      "category_name": "Stepper Geared Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Phytron ZSS Series Stepper Motors",
+      "product_url": "https://phytron.de/en/products/stepper-motors/precision-motors/zss-series/",
+      "category_name": "Stepper Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Siemens SINAMICS S120 Drive System",
+      "product_url": "https://new.siemens.com/global/en/products/drives/sinamics/low-voltage-converters/s-series/sinamics-s120.html",
+      "category_name": "Servo Drives / Multi-Axis Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "ABB ACS355 Machinery Drives",
+      "product_url": "https://new.abb.com/drives/low-voltage-ac/machinery/acs355",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Schneider Electric Altivar 12 Variable Speed Drives",
+      "product_url": "https://www.se.com/ww/en/product-range/1449-altivar-12/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Rockwell Automation PowerFlex 4M AC Drives",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/drives/low-voltage-ac-drives/powerflex-compact-class-ac-drives/powerflex-4m-ac-drives.html",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Danfoss VLT® AQUA Drive FC 202",
+      "product_url": "https://www.danfoss.com/en/products/dds/ac-drives/low-voltage-drives/vlt-aqua-drive-fc-202/",
+      "category_name": "Variable Frequency Drives (VFD) - Water/Wastewater",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Yaskawa A1000 Configured Drive Package",
+      "product_url": "https://www.yaskawa.com/products/drives/industrial-ac-drives/configured-packages/a1000-configured",
+      "category_name": "VFD Packages",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Mitsubishi Electric FR-D700 Series Inverter (Compact)",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/drv/inv/items/fr_d700/index.html",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Eaton PowerXL SVX9000 Drives",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/drives/powerxl-svx9000.html",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Lenze Frequency Inverter SMV NEMA 4X",
+      "product_url": "https://www.lenze.com/en-us/products/inverters/frequency-inverters/smvector-nema-4x/",
+      "category_name": "Variable Frequency Drives (VFD) - NEMA 4X",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "WEG CFW100 Mini Drive",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Variable-Speed-Drives/Low-Voltage/CFW100/p/GLOBAL_ACD_CFW100",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Omron RX Series Inverter",
+      "product_url": "https://industrial.omron.eu/en/products/rx",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Fuji Electric FRENIC-Multi (E2) High Performance Inverter",
+      "product_url": "https://www.fujielectric.com/products/inverter/frenic-multi/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Hitachi Industrial Equipment SJ-P1 Series Inverter",
+      "product_url": "https://www.hitachi-ies.co.jp/english/products/inv/sjp1/index.htm",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Parker AC890 Modular Systems Drive",
+      "product_url": "https://ph.parker.com/us/en/ac890-modular-systems-drive",
+      "category_name": "Variable Frequency Drives (VFD) - Modular",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Delta Electronics VFD-MS300 Series AC Motor Drive",
+      "product_url": "https://www.deltaww.com/en-US/products/AC-Motor-Drives/5157",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Control Techniques Powerdrive F300 Fan, Pump and Compressor Drive",
+      "product_url": "https://acim.nidec.com/drives/control-techniques/products/ac-drives/powerdrive-f300",
+      "category_name": "Variable Frequency Drives (VFD) - Fan/Pump",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "KEB COMBIVERT F6-K High Power VFD",
+      "product_url": "https://www.kebamerica.com/products/drives/vfds/f6-k-vfd/",
+      "category_name": "Variable Frequency Drives (VFD) - High Power",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Teco-Westinghouse L510 Micro AC Drive",
+      "product_url": "https://www.tecowestinghouse.com/Drives/AC%20Drives/L510",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "LS Electric G100 Micro AC Drive",
+      "product_url": "https://www.ls-electric.com/products/view/Smart_Automation_Solution/Drive/AC_Drive/197",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Inovance MD520 High Performance AC Drive",
+      "product_url": "https://www.inovance.com/emea/products/md520-ac-drive",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Siemens SIMOTICS DP Roller Table Motors",
+      "product_url": "https://new.siemens.com/global/en/products/drives/electric-motors/low-voltage-motors/simotics-dp-sector-specific-motors/simotics-dp-steel-plant-roller-table-motors.html",
+      "category_name": "AC Motors (Roller Table)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "ABB Marine motors",
+      "product_url": "https://new.abb.com/motors-generators/iec-low-voltage-motors/marine-motors",
+      "category_name": "AC Motors (Marine)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "WEG W22 Cooling Tower Motor",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Electric-Motors/Low-Voltage-IEC-Motors/Cooling-Tower-Motor/W22-Cooling-Tower-Motor/p/GLOBAL_MOTOR_LV_W22_Cooling_Tower",
+      "category_name": "AC Motors (Cooling Tower)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Nidec Leroy-Somer ATEX motors for zone 2 gas",
+      "product_url": "https://acim.nidec.com/motors/leroy-somer/products/induction-motors/atex-motors/atex-zone-2-gas",
+      "category_name": "AC Motors (ATEX - Gas Zone 2)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "TECO Commercial HVAC Motors",
+      "product_url": "https://www.tecowestinghouse.com/products/motors/ac-motors/commercial-hvac/",
+      "category_name": "AC Motors (HVAC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Baldor (ABB) HVAC Motors",
+      "product_url": "https://www.baldor.com/brands/baldor-reliance/products/motors/ac-motors/hvac",
+      "category_name": "AC Motors (HVAC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Regal Rexnord Marathon Motors HVAC Motors",
+      "product_url": "https://www.regalrexnord.com/products/motors/ac-motors/hvac-motors",
+      "category_name": "AC Motors (HVAC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "SEW-EURODRIVE CT/CV series Asynchronous Motors",
+      "product_url": "https://www.sew-eurodrive.de/products/motors/asynchronous_motors/ct_cv_series_asynchronous_motors/ct_cv_series_asynchronous_motors.html",
+      "category_name": "AC Induction Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Brook Crompton W IE4 Motors",
+      "product_url": "https://www.brookcrompton.com/products/ac-motors/aluminium-motors/w-ie4/",
+      "category_name": "AC Induction Motors (IE4)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bonfiglioli Bevel helical gearmotors A Series",
+      "product_url": "https://www.bonfiglioli.com/en/bevel-helical-gearmotors-a-series",
+      "category_name": "Geared Motors (Bevel Helical)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Oriental Motor BH Series Brushless Motor Controllers",
+      "product_url": "https://www.orientalmotor.com/brushless-dc-motors-gear-motors/brushless-dc-motors-bh-series.html",
+      "category_name": "BLDC Motor Controllers/Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bodine Electric AC & DC Motor Controls",
+      "product_url": "https://www.bodine-electric.com/products/controls",
+      "category_name": "Motor Speed Controls",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Brother Gearmotors Hypoid/Helical Gearmotors",
+      "product_url": "https://www.brother-usa.com/gear-motors/hypoid-helical-gearmotors",
+      "category_name": "Geared Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Dunkermotoren Worm Gearboxes SG",
+      "product_url": "https://dunkermotoren.com/en/products/worm-gearboxes/",
+      "category_name": "Motor Gearboxes (Worm)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Maxon Encoders (Magnetic, Optical)",
+      "product_url": "https://www.maxongroup.us/maxon/view/catalog/encoder",
+      "category_name": "Motor Encoders",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Faulhaber Spur Gearheads",
+      "product_url": "https://www.faulhaber.com/en/products/product-category/spur-gearheads/",
+      "category_name": "Motor Gearboxes (Spur)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Portescap Encoders for Motors",
+      "product_url": "https://www.portescap.com/products/encoders",
+      "category_name": "Motor Encoders",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Pittman (AMETEK) Encoders",
+      "product_url": "https://www.ametekapt.com/products/encoders",
+      "category_name": "Motor Encoders",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Allied Motion Powertec Brushless DC Motors",
+      "product_url": "https://www.alliedmotion.com/product-selector-guide/powertec-brushless-dc-motors/",
+      "category_name": "Brushless DC Motors (BLDC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Oriental Motor Brakes & Gearheads for Motors",
+      "product_url": "https://www.orientalmotor.com/ac-motors-gear-motors/ac-motor-accessories.html",
+      "category_name": "Motor Accessories (Brakes, Gearheads)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Schneider Electric Lexium BMH/BSH Motors (Servo, but listed under drives)",
+      "product_url": "https://www.se.com/ww/en/product-range/539-lexium-bmh-bsh/",
+      "category_name": "Servo Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Applied Motion Products Step Motor + Driver Packages",
+      "product_url": "https://www.applied-motion.com/products/stepper-systems",
+      "category_name": "Stepper Motor Systems (Motor+Drive)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Lin Engineering NEMA 24 Stepper Motors",
+      "product_url": "https://www.linengineering.com/products/stepper-motors/nema-24/",
+      "category_name": "Stepper Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Nanotec Linear Actuators (Stepper)",
+      "product_url": "https://us.nanotec.com/products/4-linear-actuators/",
+      "category_name": "Stepper Motors (Linear Actuator)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Moons' Industries Linear Hybrid Stepping Motors",
+      "product_url": "https://www.moonsindustries.com/c/linear-hybrid-stepping-motors-lh0000009",
+      "category_name": "Stepper Motors (Linear Actuator)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Haydon Kerk Pittman EC042B Brushless DC Motors",
+      "product_url": "https://www.haydonkerkpittman.com/products/motors/bldc-motors/ec042b-brushless-dc-motors",
+      "category_name": "Brushless DC Motors (BLDC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Shinano Kenshi AC Motors",
+      "product_url": "https://shinano.com/products/motors/ac/",
+      "category_name": "AC Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "MinebeaMitsumi Brushed DC Motors",
+      "product_url": "https://www.minebeamitsumi.com/english/product/electronic/motor/dcmotor/",
+      "category_name": "DC Motors (Brushed)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Phytron Stepper Motor Controllers",
+      "product_url": "https://phytron.de/en/products/controllers/",
+      "category_name": "Stepper Motor Controllers/Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Siemens SINAMICS G120D Distributed Converter",
+      "product_url": "https://new.siemens.com/global/en/products/drives/sinamics/low-voltage-converters/g-series/sinamics-g120d.html",
+      "category_name": "Variable Frequency Drives (VFD) - Decentralized",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "ABB ACQ580 Drives for water and wastewater",
+      "product_url": "https://new.abb.com/drives/low-voltage-ac/industry-specific/acq580",
+      "category_name": "Variable Frequency Drives (VFD) - Water/Wastewater",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Schneider Electric Altivar Process ATV630 Drives (IP21/UL Type 1)",
+      "product_url": "https://www.se.com/ww/en/product-range/62201-altivar-process-atv600/?N=3651480635&No=0&Nr=OR%28product.siteId%3Arendition.siteId_WW_MASTER%29&Nrpp=12",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Rockwell Automation PowerFlex 755T Drives (Regenerative/Low Harmonic)",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/drives/low-voltage-ac-drives/powerflex-750-series-ac-drives/powerflex-755t-drives.html",
+      "category_name": "Variable Frequency Drives (VFD) - Regenerative/Low Harmonic",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Danfoss VACON® 100 INDUSTRIAL Drive",
+      "product_url": "https://www.danfoss.com/en/products/dds/ac-drives/low-voltage-drives/vacon-100-industrial/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Yaskawa U1000 iQpump Drive Package",
+      "product_url": "https://www.yaskawa.com/products/drives/industrial-ac-drives/configured-packages/u1000-iqpump-configured",
+      "category_name": "VFD Packages (Pump)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Mitsubishi Electric FR-CS80 Series Inverter (Compact)",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/drv/inv/items/fr_cs80/index.html",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Eaton PowerXL DH1 High Performance Drives",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/drives/powerxl-dh1.html",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Lenze Frequency Inverter 8400 StateLine",
+      "product_url": "https://www.lenze.com/en-de/products/inverters/frequency-inverters/8400-stateline/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "WEG CFW11 Variable Speed Drive",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Variable-Speed-Drives/Low-Voltage/CFW11/p/GLOBAL_ACD_CFW11",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Omron 3G3RX2 Series Inverter",
+      "product_url": "https://industrial.omron.eu/en/products/3g3rx2",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Fuji Electric FRENIC-Lift Inverter (Elevator)",
+      "product_url": "https://www.fujielectric.com/products/inverter/frenic-lift/",
+      "category_name": "Variable Frequency Drives (VFD) - Elevator",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Hitachi Industrial Equipment WJ-C1 Series Compact Inverter",
+      "product_url": "https://www.hitachi-ies.co.jp/english/products/inv/wjc1/index.htm",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Parker AC650V Sensorless Vector Drive",
+      "product_url": "https://ph.parker.com/us/en/ac650v-sensorless-vector-drive",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Delta Electronics CH2000 Series AC Motor Drive (Crane/Heavy Duty)",
+      "product_url": "https://www.deltaww.com/en-US/products/AC-Motor-Drives/3191",
+      "category_name": "Variable Frequency Drives (VFD) - Crane",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Control Techniques Powerdrive F300 Fan, Pump and Compressor Drive",
+      "product_url": "https://acim.nidec.com/drives/control-techniques/products/ac-drives/powerdrive-f300",
+      "category_name": "Variable Frequency Drives (VFD) - Fan/Pump",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "KEB COMBIVERT R6 Regenerative Drive",
+      "product_url": "https://www.kebamerica.com/products/drives/regenerative-drives/r6-regenerative-drive/",
+      "category_name": "Variable Frequency Drives (VFD) - Regenerative",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Teco-Westinghouse N3 AC Drive",
+      "product_url": "https://www.tecowestinghouse.com/Drives/AC%20Drives/N3",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "LS Electric iS7 AC Drive",
+      "product_url": "https://www.ls-electric.com/products/view/Smart_Automation_Solution/Drive/AC_Drive/38",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Inovance MD310 Compact AC Drive",
+      "product_url": "https://www.inovance.com/emea/products/md310-compact-ac-drive",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    }
+  ]
+}

@@ -1,0 +1,952 @@
+{
+  "products": [
+    {
+      "product_name": "Siemens SIRIUS 3RU2 Thermal Overload Relays",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/relays/overload-relays/3ru2-thermal-overload-relays.html",
+      "category_name": "Thermal Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric TeSys Deca Thermal Overload Relays",
+      "product_url": "https://www.se.com/ww/en/product-range/65719-tesys-deca/#thermal-overload-relays",
+      "category_name": "Thermal Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB TF42 Thermal overload relays",
+      "product_url": "https://new.abb.com/low-voltage/products/motor-protection/contactors/thermal-overload-relays/tf-thermal-overload-relays",
+      "category_name": "Thermal Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Eaton ZB Thermal Overload Relays",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/machinery-controls/zb-thermal-overload-relays.html",
+      "category_name": "Thermal Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley 193 IEC Bimetallic Overload Relays",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/circuit-and-load-protection/overload-relays/193-iec-bimetallic-overload-relays.html",
+      "category_name": "Thermal Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Mitsubishi Electric TH-T Series Thermal Overload Relays",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/mc/items/th_t/index.html",
+      "category_name": "Thermal Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric RF38 Series Thermal Overload Relays",
+      "product_url": "https://www.lovatoelectric.com/product/RF380175",
+      "category_name": "Thermal Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Chint NR2 Thermal Overload Relay",
+      "product_url": "https://chintglobal.com/products/nr2-thermal-overload-relay",
+      "category_name": "Thermal Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "LS Electric MT Thermal Overload Relay",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Factory_Solution/Low_Voltage_Equipment/Thermal_Overload_Relay",
+      "category_name": "Thermal Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Fuji Electric TK Series Thermal Overload Relays",
+      "product_url": "https://www.fujielectric.com/products/mc/thermal_relay/tk.html",
+      "category_name": "Thermal Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3RB3 Electronic Overload Relays",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/relays/overload-relays/3rb3-electronic-overload-relays.html",
+      "category_name": "Electronic Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric TeSys LR9 Electronic overload relays",
+      "product_url": "https://www.se.com/ww/en/product-range/757-tesys-lr9/",
+      "category_name": "Electronic Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB EF19 Electronic overload relays",
+      "product_url": "https://new.abb.com/low-voltage/products/motor-protection/contactors/electronic-overload-relays/ef19-ef45-electronic-overload-relays",
+      "category_name": "Electronic Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Eaton C440/XT Electronic Overload Relays",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/machinery-controls/c440-xt-electronic-overload-relays.html",
+      "category_name": "Electronic Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley 193-E1 Plus IEC Solid-State Overload Relays",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/circuit-and-load-protection/overload-relays/193-e1-plus-iec-solid-state-overload-relays.html",
+      "category_name": "Electronic Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Mitsubishi Electric ME-SSR Series Solid State Contactor (includes overload)",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/mc/items/me_ssr/index.html",
+      "category_name": "Electronic Motor Starters / SSR (with Overload)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric RFE series Electronic overload relays",
+      "product_url": "https://www.lovatoelectric.com/category/129/0/Motor-protection/Electronic-overload-relays.html",
+      "category_name": "Electronic Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "LS Electric GMP Series Electronic Overload Relay",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Factory_Solution/Low_Voltage_Equipment/Electronic_Motor_Protection_Relay",
+      "category_name": "Electronic Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Sprecher + Schuh CEP7 Electronic Overload Relays",
+      "product_url": "https://www.sprecherschuh.com/products/overload-relays/cep7-electronic/",
+      "category_name": "Electronic Overload Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Finder 70 Series Monitoring Relays (Current)",
+      "product_url": "https://www.findernet.com/en/worldwide/products/families/70/series",
+      "category_name": "Monitoring Relays (Current - Can act as overload)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3RT2 Contactors",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/switching-devices/contactors/3rt2-contactors.html",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric TeSys Deca contactors",
+      "product_url": "https://www.se.com/ww/en/product-range/65719-tesys-deca/#contactors",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB AF contactors 3-pole",
+      "product_url": "https://new.abb.com/low-voltage/products/motor-protection/contactors/3-pole-contactors/af-contactors",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Eaton XT Series IEC Contactors",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/machinery-controls/xt-series-iec-contactors.html",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley 100-C IEC Contactors",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/motor-control/iec-contactors-and-starters/iec-contactors/100-c-iec-contactors.html",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Mitsubishi Electric MS-T Series Contactors",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/mc/items/ms_t/contactor.html",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric BF series Three-pole contactors",
+      "product_url": "https://www.lovatoelectric.com/category/109/0/Motor-protection/Three-pole-contactors.html",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Chint NC1 AC Contactor",
+      "product_url": "https://chintglobal.com/products/nc1-ac-contactor",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "LS Electric Metasol Contactor",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Factory_Solution/Low_Voltage_Equipment/Contactor",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Fuji Electric SC-N Series Magnetic Contactors",
+      "product_url": "https://www.fujielectric.com/products/mc/sc-n/",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Sprecher + Schuh CA7 Contactors",
+      "product_url": "https://www.sprecherschuh.com/products/contactors/ca7-contactors/",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "WEG CWB Contactors",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Motor-Control-and-Protection/Contactors/CWB/p/GLOBAL_ACD_CWB",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Finder 22 Series Modular contactors",
+      "product_url": "https://www.findernet.com/en/worldwide/products/families/22/series",
+      "category_name": "Contactors (Modular)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "TE Connectivity Potter & Brumfield T9A Series Power PCB Relay (acts as small contactor)",
+      "product_url": "https://www.te.com/usa-en/product-1393210-7.html",
+      "category_name": "Power Relays (Contactor Function)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Omron G7L Power Relay (acts as contactor)",
+      "product_url": "https://industrial.omron.eu/en/products/g7l",
+      "category_name": "Power Relays (Contactor Function)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Panasonic HE Series High Capacity Power Relays",
+      "product_url": "https://industry.panasonic.eu/products/relays-connectors/relays/power-relays/series/he-series",
+      "category_name": "Power Relays (Contactor Function)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3RV Motor Starter Protectors",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/motor-starter-protectors.html",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric TeSys GV Motor circuit breakers",
+      "product_url": "https://www.se.com/ww/en/product-range/656-tesys-gv/",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB MS132 Manual Motor Starters",
+      "product_url": "https://new.abb.com/low-voltage/products/motor-protection/manual-motor-starters/ms132",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Eaton PKZ Motor Protective Circuit Breakers",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/machinery-controls/pkz-motor-protective-circuit-breakers.html",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley 140MP Motor Protection Circuit Breakers",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/circuit-and-load-protection/motor-circuit-protectors/140mp-motor-protection-circuit-breakers.html",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Mitsubishi Electric MMP-T32 Motor Protection Circuit Breaker",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/mc/items/mmp_t/index.html",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric SM series Motor protection circuit breakers",
+      "product_url": "https://www.lovatoelectric.com/category/121/0/Motor-protection/Motor-protection-circuit-breakers.html",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Chint NS2 Manual Motor Starter",
+      "product_url": "https://chintglobal.com/products/ns2-manual-motor-starter",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "LS Electric Metasol Manual Motor Starter",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Factory_Solution/Low_Voltage_Equipment/Manual_Motor_Starter",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Fuji Electric BM3 Series Motor Protection Breaker",
+      "product_url": "https://www.fujielectric.com/products/mc/manual_starter/",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Sprecher + Schuh KT7 Motor Circuit Controllers",
+      "product_url": "https://www.sprecherschuh.com/products/motor-controllers-starters/kt7-motor-circuit-controllers/",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "WEG MPW Motor Protective Circuit Breakers",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Motor-Control-and-Protection/Motor-Protective-Circuit-Breakers/MPW/p/GLOBAL_ACD_MPW",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Noark Electric Ex9S32 Manual Motor Starters",
+      "product_url": "https://www.noark-electric.eu/en/products/low-voltage-installation-products/ex9s32-manual-motor-starters",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ETI MS25 Motor protective circuit breaker",
+      "product_url": "https://www.etigroup.eu/products/contactors-and-relays/motor-protective-circuit-breakers/ms25",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3RA2 Load Feeders",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/switching-devices/load-feeders-motor-starters/load-feeders-3ra2.html",
+      "category_name": "Motor Starters (Direct-on-line)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric TeSys Deca DOL Starters",
+      "product_url": "https://www.se.com/ww/en/product-range/65719-tesys-deca/#direct-on-line-starters",
+      "category_name": "Motor Starters (DOL)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB DOL starters, open type DOL",
+      "product_url": "https://new.abb.com/low-voltage/products/motor-protection/open-starters/dol-starters",
+      "category_name": "Motor Starters (DOL)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Eaton XT Series IEC Motor Starters",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/machinery-controls/xt-series-iec-motor-starters.html",
+      "category_name": "Motor Starters (DOL)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley 109-C IEC Open Non-Reversing Starters",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/motor-control/iec-contactors-and-starters/open-non-reversing-starters/109-c-iec-open-non-reversing-starters.html",
+      "category_name": "Motor Starters (DOL)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Mitsubishi Electric MS-T Series Motor Starters",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/mc/items/ms_t/index.html",
+      "category_name": "Motor Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric Direct-on-line starters in enclosure M1P series",
+      "product_url": "https://www.lovatoelectric.com/category/124/0/Motor-protection/Direct-on-line-starters-in-enclosure.html",
+      "category_name": "Motor Starters (DOL, Enclosed)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Chint NQ3 Direct On-Line Starter",
+      "product_url": "https://chintglobal.com/products/nq3-direct-on-line-starter",
+      "category_name": "Motor Starters (DOL)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "LS Electric Metasol Direct On Line Starter",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Factory_Solution/Low_Voltage_Equipment/Direct_On_Line_Starter",
+      "category_name": "Motor Starters (DOL)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Fuji Electric SC-E Series Contactors & Starters",
+      "product_url": "https://www.fujielectric.com/products/mc/sc-e/",
+      "category_name": "Motor Starters / Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3RE Reversing Starters",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/switching-devices/load-feeders-motor-starters/reversing-starters-3re.html",
+      "category_name": "Motor Starters (Reversing)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric TeSys Deca reversing contactors",
+      "product_url": "https://www.se.com/ww/en/product-range/65719-tesys-deca/#reversing-contactors",
+      "category_name": "Motor Starters (Reversing Contactors)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB Reversing starters, enclosed, steel sheet",
+      "product_url": "https://new.abb.com/low-voltage/products/motor-protection/enclosed-starters/reversing-starters/reversing-starters-steel-enclosed",
+      "category_name": "Motor Starters (Reversing, Enclosed)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Eaton Combination Motor Starters (Reversing)",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/motor-control-centers-starters-contactors/combination-motor-starters.html",
+      "category_name": "Motor Starters (Combination, Reversing)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley 109-C IEC Open Reversing Starters",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/motor-control/iec-contactors-and-starters/open-reversing-starters/109-c-iec-open-reversing-starters.html",
+      "category_name": "Motor Starters (Reversing)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Mitsubishi Electric MS-T Series Reversible Starters",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/mc/items/ms_t/starter.html",
+      "category_name": "Motor Starters (Reversing)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric Reversing starters in enclosure M3P R series",
+      "product_url": "https://www.lovatoelectric.com/category/126/0/Motor-protection/Reversing-starters-in-enclosure.html",
+      "category_name": "Motor Starters (Reversing, Enclosed)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Chint NQ2 Reversing Direct On-Line Starter",
+      "product_url": "https://chintglobal.com/products/nq2-reversing-direct-on-line-starter",
+      "category_name": "Motor Starters (Reversing)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "LS Electric Metasol Reversing Magnetic Switch",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Factory_Solution/Low_Voltage_Equipment/Reversing_Magnetic_Switch",
+      "category_name": "Motor Starters (Reversing)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Fuji Electric SW-N Series Reversing Magnetic Starters",
+      "product_url": "https://www.fujielectric.com/products/mc/sw-n_rca/",
+      "category_name": "Motor Starters (Reversing)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3RA6 Compact Starters",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/switching-devices/load-feeders-motor-starters/compact-starters-3ra6.html",
+      "category_name": "Motor Starters (Compact)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric TeSys U Starter controllers",
+      "product_url": "https://www.se.com/ww/en/product-range/662-tesys-u/",
+      "category_name": "Motor Starters (Controller Type)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB Star-delta starters, enclosed, steel sheet",
+      "product_url": "https://new.abb.com/low-voltage/products/motor-protection/enclosed-starters/star-delta-starters/star-delta-starters-steel-enclosed",
+      "category_name": "Motor Starters (Star-Delta, Enclosed)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Eaton Enclosed Motor Starters (Star-Delta)",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/motor-control-centers-starters-contactors/enclosed-motor-starters.html",
+      "category_name": "Motor Starters (Star-Delta, Enclosed)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley 106-C IEC Open Star-Delta Starters",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/motor-control/iec-contactors-and-starters/open-star-delta-starters/106-c-iec-open-star-delta-starters.html",
+      "category_name": "Motor Starters (Star-Delta)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Mitsubishi Electric SD-T Series Star-Delta Starters",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/mc/items/ms_t/feature.html",
+      "category_name": "Motor Starters (Star-Delta)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric Star-delta starters in enclosure M2P SD series",
+      "product_url": "https://www.lovatoelectric.com/category/125/0/Motor-protection/Star-delta-starters-in-enclosure.html",
+      "category_name": "Motor Starters (Star-Delta, Enclosed)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Chint NQ5 Star-Delta Starter",
+      "product_url": "https://chintglobal.com/products/nq5-star-delta-starter",
+      "category_name": "Motor Starters (Star-Delta)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "LS Electric Metasol Star-Delta Starter",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Factory_Solution/Low_Voltage_Equipment/Star-Delta_Starter",
+      "category_name": "Motor Starters (Star-Delta)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Sprecher + Schuh KTA7 Motor Circuit Controllers",
+      "product_url": "https://www.sprecherschuh.com/products/motor-controllers-starters/kt7-motor-circuit-controllers/",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3RW Soft Starters",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/soft-starters.html",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric Altistart Soft Starters",
+      "product_url": "https://www.se.com/ww/en/product-category/2900-soft-starters/",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB PSTX Softstarters",
+      "product_url": "https://new.abb.com/low-voltage/products/softstarters/pstx",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Eaton S811+ NEMA Soft Starters",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/motor-control-centers-starters-contactors/nema-soft-starters.html",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley SMC-3 Smart Motor Controllers (Soft Starter)",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/motor-control/low-voltage-soft-starters/smc-3-smart-motor-controller.html",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "WEG SSW06 Soft Starter",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Motor-Control-and-Protection/Soft-Starters/SSW06/p/GLOBAL_ACD_SSW06",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric ADXL series Soft starters",
+      "product_url": "https://www.lovatoelectric.com/category/130/0/Motor-starting/Soft-starters.html",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Solcon Industries RVS-DN Heavy Duty Soft Starter",
+      "product_url": "https://solcon.com/rvs-dn/",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Danfoss VLT® Soft Starter MCD 600",
+      "product_url": "https://www.danfoss.com/en/products/dds/soft-starters/vlt-soft-starter-mcd-600/",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Carlo Gavazzi RS Series Soft Starters",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/soft_starters",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "AuCom EMX4i Soft Starter",
+      "product_url": "https://www.aucom.com/products/low-voltage-soft-starters/emx4i/",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Motortronics VMX-synergy™ Soft Starter",
+      "product_url": "https://www.motortronics.com/vmx-synergy/",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Benshaw EMX4 Series Smart Soft Starter",
+      "product_url": "https://www.benshaw.com/products/soft-starters/emx4-series/",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Fairford Agility Soft Starter",
+      "product_url": "https://fairford.com/products/agility/",
+      "category_name": "Soft Starters",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3RT1 Contactors",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/switching-devices/contactors/3rt1-contactors.html",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric TeSys K miniature contactors",
+      "product_url": "https://www.se.com/ww/en/product-range/750-tesys-k/",
+      "category_name": "Contactors (Miniature)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB AX contactors 3-pole",
+      "product_url": "https://new.abb.com/low-voltage/products/motor-protection/contactors/3-pole-contactors/ax-contactors",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Eaton DIL M Contactors",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/machinery-controls/dilm-contactors.html",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley 100-E IEC Contactors",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/motor-control/iec-contactors-and-starters/iec-contactors/100-e-iec-contactors.html",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Mitsubishi Electric S-T Series Contactors",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/mc/items/ms_t/lineup.html",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric Orange series contactors",
+      "product_url": "https://www.lovatoelectric.com/category/108/0/Motor-protection/Orange-series-contactors.html",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Chint NC6 AC Contactor (Mini)",
+      "product_url": "https://chintglobal.com/products/nc6-ac-contactor-mini",
+      "category_name": "Contactors (Miniature)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "LS Electric Metasol Mini Contactor",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Factory_Solution/Low_Voltage_Equipment/Mini_Contactor",
+      "category_name": "Contactors (Miniature)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Fuji Electric SK Series Magnetic Contactors (Mini)",
+      "product_url": "https://www.fujielectric.com/products/mc/sk/",
+      "category_name": "Contactors (Miniature)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Sprecher + Schuh CA8 Miniature Contactors",
+      "product_url": "https://www.sprecherschuh.com/products/contactors/ca8-mini-contactors/",
+      "category_name": "Contactors (Miniature)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "WEG CWM Contactors",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Motor-Control-and-Protection/Contactors/CWM/p/GLOBAL_ACD_CWM",
+      "category_name": "Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Finder 22 Series Accessories for modular contactors",
+      "product_url": "https://www.findernet.com/en/worldwide/products/families/22/accessories",
+      "category_name": "Contactor Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3RT2 Accessories for Contactors",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/switching-devices/contactors/3rt2-contactors/accessories.html",
+      "category_name": "Contactor Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric TeSys Deca Accessories for Contactors and Reversing Contactors",
+      "product_url": "https://www.se.com/ww/en/product-subcategory/1605-accessories-for-contactors-and-reversing-contactors/",
+      "category_name": "Contactor Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB CA4 auxiliary contact blocks",
+      "product_url": "https://new.abb.com/low-voltage/products/control-products/contactors/accessories-for-contactors/auxiliary-contacts",
+      "category_name": "Contactor Accessories (Auxiliary Contacts)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Eaton XT Contactor Accessories",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/machinery-controls/xt-contactor-accessories.html",
+      "category_name": "Contactor Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley 193 Accessories for E1 Plus, E200/E300 Overload Relays",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/circuit-and-load-protection/overload-relays/193-accessories-for-e1-plus-e200-e300-overload-relays.html",
+      "category_name": "Overload Relay Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric RFX... remote reset accessories",
+      "product_url": "https://www.lovatoelectric.com/product/RFX75",
+      "category_name": "Overload Relay Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "LS Electric Installation Kit for Overload Relay",
+      "product_url": "https://www.ls-electric.com/products/view/Smart_Factory_Solution/Low_Voltage_Equipment/Accessory/298",
+      "category_name": "Overload Relay Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Sprecher + Schuh CA7 Contactor Accessories",
+      "product_url": "https://www.sprecherschuh.com/products/contactors/ca7-contactors/accessories/",
+      "category_name": "Contactor Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "WEG Accessories for Contactors",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Motor-Control-and-Protection/Contactors/Accessories/c/GLOBAL_ACD_Accessories_Contactor",
+      "category_name": "Contactor Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3RV Accessories for Motor Starter Protectors",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/motor-starter-protectors/accessories.html",
+      "category_name": "MPCB Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric TeSys GV Accessories",
+      "product_url": "https://www.se.com/ww/en/product-range/656-tesys-gv/#tabs",
+      "category_name": "MPCB Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB Accessories for Manual Motor Starters",
+      "product_url": "https://new.abb.com/low-voltage/products/motor-protection/manual-motor-starters/accessories",
+      "category_name": "MPCB Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Eaton PKZ Accessories",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/machinery-controls/pkz-motor-protective-circuit-breakers.html#tab-4",
+      "category_name": "MPCB Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley 140M Motor Protection Circuit Breakers Accessories",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/circuit-and-load-protection/motor-circuit-protectors/140m-motor-protection-circuit-breakers/accessories.html",
+      "category_name": "MPCB Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric SM series accessories",
+      "product_url": "https://www.lovatoelectric.com/category/122/0/Motor-protection/Motor-protection-circuit-breakers-accessories.html",
+      "category_name": "MPCB Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "LS Electric MMS Accessories",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Factory_Solution/Low_Voltage_Equipment/Accessory",
+      "category_name": "MPCB Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Sprecher + Schuh KT7 Accessories",
+      "product_url": "https://www.sprecherschuh.com/products/motor-controllers-starters/kt7-motor-circuit-controllers/accessories/",
+      "category_name": "MPCB Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3RW Soft Starter Accessories",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/soft-starters/accessories.html",
+      "category_name": "Soft Starter Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric Altistart Accessories",
+      "product_url": "https://www.se.com/ww/en/product-category/2900-soft-starters/?filter=business-1-automation-and-control",
+      "category_name": "Soft Starter Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB Softstarter Accessories",
+      "product_url": "https://new.abb.com/low-voltage/products/softstarters/accessories",
+      "category_name": "Soft Starter Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley SMC™ Accessories",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/motor-control/low-voltage-soft-starters/smc-accessories.html",
+      "category_name": "Soft Starter Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "WEG Soft Starter Accessories",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Motor-Control-and-Protection/Soft-Starters/Accessories-for-Soft-Starters/c/GLOBAL_ACD_Accessories_SoftStarter",
+      "category_name": "Soft Starter Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric Soft starter accessories ADXL series",
+      "product_url": "https://www.lovatoelectric.com/category/134/0/Motor-starting/Soft-starters-accessories.html",
+      "category_name": "Soft Starter Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Solcon Industries Soft Starter Communication Options",
+      "product_url": "https://solcon.com/communication/",
+      "category_name": "Soft Starter Accessories (Communication)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Danfoss Soft Starter Accessories",
+      "product_url": "https://www.danfoss.com/en/products/dds/soft-starters/soft-starter-options/#tab-overview",
+      "category_name": "Soft Starter Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Carlo Gavazzi Soft Starter Options & Accessories",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/soft_starters",
+      "category_name": "Soft Starter Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "AuCom Soft Starter Bypass Contactors",
+      "product_url": "https://www.aucom.com/products/accessories/bypass-contactors/",
+      "category_name": "Soft Starter Accessories (Bypass Contactors)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Benshaw Soft Starter Accessories",
+      "product_url": "https://www.benshaw.com/products/soft-starters/accessories/",
+      "category_name": "Soft Starter Accessories",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Fairford Soft Starter Keypad",
+      "product_url": "https://fairford.com/products/accessories/",
+      "category_name": "Soft Starter Accessories (Keypads)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3RT Capacitor Contactors",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/switching-devices/contactors/capacitor-contactors.html",
+      "category_name": "Capacitor Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric TeSys Deca capacitor duty contactors",
+      "product_url": "https://www.se.com/ww/en/product-range/65719-tesys-deca/#capacitor-duty-contactors",
+      "category_name": "Capacitor Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB UA..RA capacitor contactors",
+      "product_url": "https://new.abb.com/low-voltage/products/motor-protection/contactors/contactors-for-switching-capacitors/ua-ra",
+      "category_name": "Capacitor Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Eaton DIL K Contactors for capacitor switching",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/machinery-controls/dilk-contactors-for-capacitor-switching.html",
+      "category_name": "Capacitor Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley Bulletin 100-K Miniature Contactors",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/motor-control/iec-contactors-and-starters/iec-contactors/bulletin-100-k-miniature-contactors.html",
+      "category_name": "Contactors (Miniature)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Mitsubishi Electric SD-Q Series Contactors for Capacitor Switching",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/mc/items/sd_q/index.html",
+      "category_name": "Capacitor Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric BFK series contactors for capacitor switching",
+      "product_url": "https://www.lovatoelectric.com/category/110/0/Power-factor-correction/Contactors-for-capacitor-switching.html",
+      "category_name": "Capacitor Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Chint CJ19 AC Contactor for Switching Capacitor",
+      "product_url": "https://chintglobal.com/products/cj19-ac-contactor-for-switching-capacitor",
+      "category_name": "Capacitor Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "LS Electric Metasol Capacitor Switching Contactor",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Factory_Solution/Low_Voltage_Equipment/Capacitor_Switching_Contactor",
+      "category_name": "Capacitor Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Fuji Electric SC-E/G Series Contactors for Capacitor Switching",
+      "product_url": "https://www.fujielectric.com/products/mc/sc-e_g/",
+      "category_name": "Capacitor Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "WEG CWMC Capacitor Switching Contactors",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Motor-Control-and-Protection/Contactors/CWMC/p/GLOBAL_ACD_CWMC",
+      "category_name": "Capacitor Contactors",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Finder 72 Series Monitoring Relays",
+      "product_url": "https://www.findernet.com/en/worldwide/products/families/72/series",
+      "category_name": "Monitoring Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3UG5 Monitoring Relays (IO-Link)",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/relays/monitoring-relays/monitoring-relays-for-io-link.html",
+      "category_name": "Monitoring Relays (IO-Link)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric Zelio Control RM35 Monitoring Relays",
+      "product_url": "https://www.se.com/ww/en/product-range/548-zelio-control/",
+      "category_name": "Monitoring Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "ABB CM-SRS Current monitoring relays",
+      "product_url": "https://new.abb.com/low-voltage/products/control-products/electronic-relays-and-controls/measuring-and-monitoring-relays/single-phase-current-monitoring-relays-cm-srs-srs2",
+      "category_name": "Monitoring Relays (Current)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Eaton Motor Protective Relay EMR",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/machinery-controls/emr6-measuring-and-monitoring-relays.html",
+      "category_name": "Monitoring Relays",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley 813S Voltage Monitor Relays",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/relays-and-timers/monitoring-relays/813s-voltage-monitor-relays.html",
+      "category_name": "Monitoring Relays (Voltage)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric PMV series Multifunction protection relays",
+      "product_url": "https://www.lovatoelectric.com/category/241/0/Monitoring-relays/Multifunction-protection-relays.html",
+      "category_name": "Monitoring Relays (Multifunction)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Pilz PMDsigma Monitoring Relays (Voltage)",
+      "product_url": "https://www.pilz.com/en-INT/products/relay-modules/monitoring-relays-pmdsrange/voltage-monitoring",
+      "category_name": "Monitoring Relays (Voltage)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Weidmüller ITrend Temperature monitoring relay",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1222320000",
+      "category_name": "Monitoring Relays (Temperature)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Omron K8AK-PM Monitoring Relay (Phase)",
+      "product_url": "https://industrial.omron.eu/en/products/k8ak-pm",
+      "category_name": "Monitoring Relays (Phase)",
+      "parent_category": "Protection Devices"
+    },
+    {
+      "product_name": "Crouzet Phase Control Relays MWS",
+      "product_url": "https://shop.crouzet.com/us/phase-control-relays/84873203.html",
+      "category_name": "Monitoring Relays (Phase)",
+      "parent_category": "Protection Devices"
+    }
+  ]
+}

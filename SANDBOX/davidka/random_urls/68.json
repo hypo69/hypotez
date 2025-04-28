@@ -1,0 +1,880 @@
+{
+  "products": [
+    {
+      "product_name": "Siemens SINAMICS G120C Compact Frequency Converter",
+      "product_url": "https://new.siemens.com/global/en/products/drives/sinamics/low-voltage-converters/g-series/sinamics-g120c.html",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "ABB ACS180 Machinery Drives",
+      "product_url": "https://new.abb.com/drives/low-voltage-ac/machinery/acs180",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Schneider Electric Altivar Machine ATV320 Variable Speed Drives",
+      "product_url": "https://www.se.com/ww/en/product-range/61914-altivar-machine-atv320/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Rockwell Automation PowerFlex 523 AC Drives",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/drives/low-voltage-ac-drives/powerflex-520-series-ac-drives/powerflex-523-ac-drives.html",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Danfoss VLT® Micro Drive FC 51",
+      "product_url": "https://www.danfoss.com/en/products/dds/ac-drives/low-voltage-drives/vlt-micro-drive-fc-51/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Yaskawa GA500 Microdrives",
+      "product_url": "https://www.yaskawa.com/products/drives/industrial-ac-drives/microdrives/ga500-industrial-microdrive",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Mitsubishi Electric FR-E800 Series Inverter",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/drv/inv/items/fr_e800/index.html",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Eaton PowerXL DC1 Compact Variable Frequency Drives",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/drives/powerxl-dc1.html",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Lenze Frequency Inverter SMVector NEMA 1",
+      "product_url": "https://www.lenze.com/en-us/products/inverters/frequency-inverters/smvector-nema-1/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "WEG CFW300 Variable Speed Drive",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Variable-Speed-Drives/Low-Voltage/CFW300/p/GLOBAL_ACD_CFW300",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Omron 3G3JX Series Simple Inverter",
+      "product_url": "https://industrial.omron.eu/en/products/3g3jx",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Fuji Electric FRENIC-Mini (C2) Compact Inverter",
+      "product_url": "https://www.fujielectric.com/products/inverter/frenic-mini/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Hitachi Industrial Equipment NE-S1 Series Inverter",
+      "product_url": "https://www.hitachi-ies.co.jp/english/products/inv/nes1/index.htm",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Parker AC10 Compact Drive",
+      "product_url": "https://ph.parker.com/us/en/ac10-compact-drive",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Delta Electronics VFD-EL Series AC Motor Drive",
+      "product_url": "https://www.deltaww.com/en-US/products/AC-Motor-Drives/3188",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Control Techniques Commander S Micro Drive",
+      "product_url": "https://acim.nidec.com/drives/control-techniques/products/ac-drives/commander-s",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "KEB COMBIVERT F5 BASIC Frequency Inverter",
+      "product_url": "https://www.kebamerica.com/products/drives/vfds/f5-vfd-basic/",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Teco-Westinghouse E510 AC Drive",
+      "product_url": "https://www.tecowestinghouse.com/Drives/AC%20Drives/E510",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "LS Electric M100 Micro AC Drive",
+      "product_url": "https://www.ls-electric.com/products/view/Smart_Automation_Solution/Drive/AC_Drive/40",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Inovance MD200 General Purpose AC Drive",
+      "product_url": "https://www.inovance.com/emea/products/md200-general-purpose-ac-drive",
+      "category_name": "Variable Frequency Drives (VFD)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3RW30 Soft Starters",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/soft-starters/sirius-3rw30-3rw40.html",
+      "category_name": "Soft Starters",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Schneider Electric Altistart 01 Soft Starters",
+      "product_url": "https://www.se.com/ww/en/product-range/1158-altistart-01/",
+      "category_name": "Soft Starters",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "ABB PSR Softstarters",
+      "product_url": "https://new.abb.com/low-voltage/products/softstarters/psr",
+      "category_name": "Soft Starters",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Eaton DS7 Soft Starters",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/motor-control-centers-starters-contactors/ds7-soft-starters.html",
+      "category_name": "Soft Starters",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley SMC-3 Smart Motor Controllers (Soft Starter)",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/motor-control/low-voltage-soft-starters/smc-3-smart-motor-controller.html",
+      "category_name": "Soft Starters",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "WEG SSW05 Soft Starter",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Motor-Control-and-Protection/Soft-Starters/SSW05/p/GLOBAL_ACD_SSW05",
+      "category_name": "Soft Starters",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Lovato Electric ADXC series Compact soft starters",
+      "product_url": "https://www.lovatoelectric.com/category/131/0/Motor-starting/Compact-soft-starters.html",
+      "category_name": "Soft Starters",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Solcon Industries DriveStart IGBT Based MV Soft Starter",
+      "product_url": "https://solcon.com/drivestart/",
+      "category_name": "Soft Starters (Medium Voltage)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Danfoss VLT® Soft Starter MCD 100",
+      "product_url": "https://www.danfoss.com/en/products/dds/soft-starters/vlt-soft-starter-mcd-100/",
+      "category_name": "Soft Starters",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Carlo Gavazzi RSGD Series Soft Starters",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/rsgd",
+      "category_name": "Soft Starters",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "AuCom CSXi Compact Soft Starter",
+      "product_url": "https://www.aucom.com/products/low-voltage-soft-starters/csxi/",
+      "category_name": "Soft Starters",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Motortronics VMX-agility™ Soft Starter",
+      "product_url": "https://www.motortronics.com/vmx-agility/",
+      "category_name": "Soft Starters",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Benshaw EMX4 Series Smart Soft Starter",
+      "product_url": "https://www.benshaw.com/products/soft-starters/emx4-series/",
+      "category_name": "Soft Starters",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Fairford Agility Soft Starter",
+      "product_url": "https://fairford.com/products/agility/",
+      "category_name": "Soft Starters",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Siemens SIMOGEAR Geared Motors",
+      "product_url": "https://new.siemens.com/global/en/products/drives/gear-units.html",
+      "category_name": "Geared Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "SEW-EURODRIVE Gearmotors",
+      "product_url": "https://www.sew-eurodrive.de/products/gearmotors/gearmotors.html",
+      "category_name": "Geared Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Nord Drivesystems Helical Geared Motors",
+      "product_url": "https://www.nord.com/us/products/geared-motors/helical-geared-motors/helical-geared-motors.jsp",
+      "category_name": "Geared Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bonfiglioli Helical gearmotors C Series",
+      "product_url": "https://www.bonfiglioli.com/en/helical-gearmotors-c-series",
+      "category_name": "Geared Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Lenze g500 geared motors",
+      "product_url": "https://www.lenze.com/en-de/products/geared-motors/",
+      "category_name": "Geared Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bauer Gear Motor BG Series Helical Geared Motors",
+      "product_url": "https://www.bauergearedmotor.com/products/geared-motors/helical-geared-motors/bg-series/",
+      "category_name": "Geared Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Rossi Helical and Bevel Helical Gear Reducers and Gearmotors G Series",
+      "product_url": "https://www.rossi.com/en/ww/products/gear-reducers-and-gearmotors/helical-and-bevel-helical/g-series",
+      "category_name": "Geared Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Oriental Motor AC Motors & Gear Motors",
+      "product_url": "https://www.orientalmotor.com/ac-motors-gear-motors/index.html",
+      "category_name": "AC Motors & Gear Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bodine Electric Parallel Shaft AC Gearmotors",
+      "product_url": "https://www.bodine-electric.com/products/ac-gearmotors/parallel-shaft-ac-gearmotors",
+      "category_name": "AC Gearmotors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Brother Gearmotors AC Induction Motors",
+      "product_url": "https://www.brother-usa.com/gear-motors/ac-induction-motors",
+      "category_name": "AC Gearmotors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Siemens SIMOTICS DC DC Motors",
+      "product_url": "https://new.siemens.com/global/en/products/drives/dc-drives/dc-motors.html",
+      "category_name": "DC Motors (Brushed)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Baldor (ABB) DC Motors",
+      "product_url": "https://www.baldor.com/brands/baldor-reliance/products/motors/dc-motors",
+      "category_name": "DC Motors (Brushed)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Regal Rexnord Marathon Motors DC Motors",
+      "product_url": "https://www.regalrexnord.com/products/motors/dc-motors",
+      "category_name": "DC Motors (Brushed)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bodine Electric Permanent Magnet DC Motors (PMDC)",
+      "product_url": "https://www.bodine-electric.com/products/pmdc-motors",
+      "category_name": "DC Motors (Brushed PMDC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Dunkermotoren GR/G Series Brushed DC Motors",
+      "product_url": "https://dunkermotoren.com/en/products/brushed-dc-motors/",
+      "category_name": "DC Motors (Brushed)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Maxon DCX motors (Brushed DC)",
+      "product_url": "https://www.maxongroup.us/maxon/view/catalog/motors/dcmotor/dcx",
+      "category_name": "DC Motors (Brushed)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Faulhaber DC-Micromotors SR Series (Brushed)",
+      "product_url": "https://www.faulhaber.com/en/products/series/sr/",
+      "category_name": "DC Motors (Brushed Micro)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Portescap Athlonix™ High Power Density Brush DC Motors",
+      "product_url": "https://www.portescap.com/products/brush-dc-motors/athlonix-high-power-density-brush-dc-motors",
+      "category_name": "DC Motors (Brushed)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Pittman (AMETEK) Brushed DC Motors",
+      "product_url": "https://www.ametekapt.com/products/brushed-dc-motors",
+      "category_name": "DC Motors (Brushed)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Allied Motion Coreless DC Motors",
+      "product_url": "https://www.alliedmotion.com/product-selector-guide/coreless-dc-motors/",
+      "category_name": "DC Motors (Coreless)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Siemens SIMOTICS S Synchronous Motors",
+      "product_url": "https://new.siemens.com/global/en/products/drives/electric-motors/synchronous-motors.html",
+      "category_name": "Synchronous Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "ABB Synchronous motors",
+      "product_url": "https://new.abb.com/motors-generators/synchronous-motors",
+      "category_name": "Synchronous Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "WEG Synchronous Motors Wsynchron",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Electric-Motors/Medium-and-High-Voltage-Motors/Synchronous-Motors/Wsychron-Synchronous-Motor/p/GLOBAL_MOTOR_MVHV_WSYNCHRON",
+      "category_name": "Synchronous Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Nidec Leroy-Somer LSRPM/CPLS Permanent magnet synchronous motors",
+      "product_url": "https://acim.nidec.com/motors/leroy-somer/products/synchronous-pm-motors/lsrpm-cpls-permanent-magnet-motors",
+      "category_name": "Permanent Magnet Synchronous Motors (PMSM)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Regal Rexnord Marathon Motors SyMAX® Permanent Magnet AC Motors",
+      "product_url": "https://www.regalrexnord.com/products/motors/ac-motors/permanent-magnet-ac-motors",
+      "category_name": "Permanent Magnet Synchronous Motors (PMSM)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "SEW-EURODRIVE CM.. series Synchronous Motors",
+      "product_url": "https://www.sew-eurodrive.de/products/motors/synchronous_motors/cm_series_synchronous_motors/cm_series_synchronous_motors.html",
+      "category_name": "Synchronous Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bonfiglioli BMD Series Permanent Magnet Synchronous Motors",
+      "product_url": "https://www.bonfiglioli.com/en/bmd-series",
+      "category_name": "Permanent Magnet Synchronous Motors (PMSM)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Oriental Motor BLE2 Series Brushless Motor Controllers",
+      "product_url": "https://www.orientalmotor.com/brushless-dc-motors-gear-motors/brushless-dc-motors-ble2-series.html",
+      "category_name": "BLDC Motor Controllers/Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bodine Electric Brushless DC Speed Controls",
+      "product_url": "https://www.bodine-electric.com/products/bldc-controls",
+      "category_name": "BLDC Motor Speed Controls",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Maxon ESCON Servo Controllers (for BLDC/DC)",
+      "product_url": "https://www.maxongroup.us/maxon/view/catalog/control/servo-controller/escon",
+      "category_name": "Motor Controllers (BLDC/DC Servo)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Faulhaber Motion Controllers MC 5004 / 5005 / 5010",
+      "product_url": "https://www.faulhaber.com/en/products/series/mc-v30/",
+      "category_name": "Motion Controllers (BLDC/DC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Portescap Motion Controllers",
+      "product_url": "https://www.portescap.com/products/motion-controllers",
+      "category_name": "Motion Controllers",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Pittman (AMETEK) BGE Series Brushless DC Motor Controllers",
+      "product_url": "https://www.ametekapt.com/products/brushless-dc-motor-controllers/bge-series",
+      "category_name": "BLDC Motor Controllers/Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Allied Motion Motion Controllers",
+      "product_url": "https://www.alliedmotion.com/product-selector-guide/motion-controllers/",
+      "category_name": "Motion Controllers",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Siemens SINAMICS DC MASTER DC Converters",
+      "product_url": "https://new.siemens.com/global/en/products/drives/dc-drives/sinamics-dcm.html",
+      "category_name": "DC Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "ABB DCS880 Industrial DC Drives",
+      "product_url": "https://new.abb.com/drives/dc-drives/dcs880",
+      "category_name": "DC Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Schneider Electric Altivar DC Drives (Legacy/Specific)",
+      "product_url": "https://www.se.com/us/en/product-range/725-altivar-dc-drives-legacy-products/",
+      "category_name": "DC Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Rockwell Automation PowerFlex DC Drives",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/drives/dc-drives/powerflex-dc-drives.html",
+      "category_name": "DC Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Control Techniques Mentor MP DC Drive",
+      "product_url": "https://acim.nidec.com/drives/control-techniques/products/dc-drives/mentor-mp",
+      "category_name": "DC Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Parker DC590+ Series DC Drives",
+      "product_url": "https://ph.parker.com/us/en/dc590-series-dc-drives",
+      "category_name": "DC Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Siemens SIMOTICS XP Explosion-Protected Motors",
+      "product_url": "https://new.siemens.com/global/en/products/drives/electric-motors/low-voltage-motors/simotics-gp-sd-xp.html",
+      "category_name": "AC Motors (Explosion Proof)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "ABB Motors for food and beverage",
+      "product_url": "https://new.abb.com/motors-generators/iec-low-voltage-motors/food-and-beverage-motors",
+      "category_name": "AC Motors (Food & Beverage)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "WEG W22 Stainless Steel Motor",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Electric-Motors/Low-Voltage-IEC-Motors/Stainless-Steel-Motor/W22-Stainless-Steel-Motor/p/GLOBAL_MOTOR_LV_W22_STAINLESS_STEEL",
+      "category_name": "AC Motors (Stainless Steel)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Nidec Leroy-Somer SLST series IE3/IE4 Stainless Steel motors",
+      "product_url": "https://acim.nidec.com/motors/leroy-somer/products/stainless-steel-motors/slst-series-ie3",
+      "category_name": "AC Motors (Stainless Steel)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "TECO Wash Down Duty Motors",
+      "product_url": "https://www.tecowestinghouse.com/products/motors/ac-motors/wash-down-duty/",
+      "category_name": "AC Motors (Washdown)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Baldor (ABB) Stainless Steel Motors",
+      "product_url": "https://www.baldor.com/brands/baldor-reliance/products/motors/ac-motors/stainless-steel",
+      "category_name": "AC Motors (Stainless Steel)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Regal Rexnord Marathon Motors Stainless Steel Washdown Motors",
+      "product_url": "https://www.regalrexnord.com/products/motors/ac-motors/stainless-steel-washdown-motors",
+      "category_name": "AC Motors (Stainless Steel, Washdown)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "SEW-EURODRIVE KS series Aseptic Motors",
+      "product_url": "https://www.sew-eurodrive.de/products/motors/aseptic_motors/ks_series_aseptic_motors/ks_series_aseptic_motors.html",
+      "category_name": "AC Motors (Aseptic/Hygienic)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Brook Crompton W Stainless Steel Motors",
+      "product_url": "https://www.brookcrompton.com/products/ac-motors/stainless-steel-motors/w-stainless-steel/",
+      "category_name": "AC Motors (Stainless Steel)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bonfiglioli BSR Series Synchronous Reluctance Motors",
+      "product_url": "https://www.bonfiglioli.com/en/bsr-series",
+      "category_name": "Synchronous Reluctance Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Oriental Motor Stepper Motors",
+      "product_url": "https://www.orientalmotor.com/stepper-motors/index.html",
+      "category_name": "Stepper Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bodine Electric PMDC Gearmotors",
+      "product_url": "https://www.bodine-electric.com/products/pmdc-gearmotors",
+      "category_name": "DC Gearmotors (Brushed PMDC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Brother Gearmotors DC Gearmotors",
+      "product_url": "https://www.brother-usa.com/gear-motors/dc-gearmotors",
+      "category_name": "DC Gearmotors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Dunkermotoren PLG Planetary Gearboxes",
+      "product_url": "https://dunkermotoren.com/en/products/planetary-gearboxes/",
+      "category_name": "Motor Gearboxes",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Maxon Gearheads",
+      "product_url": "https://www.maxongroup.us/maxon/view/catalog/gear",
+      "category_name": "Motor Gearboxes",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Faulhaber Planetary Gearheads",
+      "product_url": "https://www.faulhaber.com/en/products/product-category/planetary-gearheads/",
+      "category_name": "Motor Gearboxes",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Portescap Gearheads",
+      "product_url": "https://www.portescap.com/products/gearheads",
+      "category_name": "Motor Gearboxes",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Pittman (AMETEK) Gearboxes",
+      "product_url": "https://www.ametekapt.com/products/gearboxes",
+      "category_name": "Motor Gearboxes",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Allied Motion Wheel Drives",
+      "product_url": "https://www.alliedmotion.com/product-category/wheel-drives/",
+      "category_name": "Geared Motors (Wheel Drives)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Oriental Motor BLV Series R Brushless DC Motor Drivers",
+      "product_url": "https://www.orientalmotor.com/brushless-dc-motors-gear-motors/brushless-dc-motors-blv-series-r-type.html",
+      "category_name": "BLDC Motor Drivers",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Schneider Electric Lexium PAS B linear axis",
+      "product_url": "https://www.se.com/ww/en/product-range/62119-lexium-pas-pax/",
+      "category_name": "Linear Actuators (Stepper)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Applied Motion Products NEMA 17 Stepper Motors",
+      "product_url": "https://www.applied-motion.com/products/stepper-motors/nema-17",
+      "category_name": "Stepper Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Lin Engineering NEMA 8 Stepper Motors",
+      "product_url": "https://www.linengineering.com/products/stepper-motors/nema-8/",
+      "category_name": "Stepper Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Nanotec Brushless DC Motors",
+      "product_url": "https://us.nanotec.com/products/2-brushless-dc-motors/",
+      "category_name": "Brushless DC Motors (BLDC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Moons' Industries Brushless DC Motors",
+      "product_url": "https://www.moonsindustries.com/c/brushless-dc-motors-bl0000003",
+      "category_name": "Brushless DC Motors (BLDC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Haydon Kerk Pittman DC Brush Motors",
+      "product_url": "https://www.haydonkerkpittman.com/products/motors/dc-brush-motors",
+      "category_name": "DC Motors (Brushed)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Shinano Kenshi Brushless DC Motors",
+      "product_url": "https://shinano.com/products/motors/bldc/",
+      "category_name": "Brushless DC Motors (BLDC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "MinebeaMitsumi Brushless DC Motors",
+      "product_url": "https://www.minebeamitsumi.com/english/product/electronic/motor/bldc/",
+      "category_name": "Brushless DC Motors (BLDC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Phytron Extreme Environment Stepper Motors (Vacuum, Radiation, Cryo)",
+      "product_url": "https://phytron.de/en/products/stepper-motors/extreme-environment/",
+      "category_name": "Stepper Motors (Extreme Environment)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Siemens Drive options (Line filters, reactors, braking resistors)",
+      "product_url": "https://new.siemens.com/global/en/products/drives/sinamics/low-voltage-converters/options.html",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "ABB Drive options",
+      "product_url": "https://new.abb.com/drives/options",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Schneider Electric Altivar Options (Filters, Chokes, Resistors)",
+      "product_url": "https://www.se.com/ww/en/product-category/2950-drive-options/",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Rockwell Automation PowerFlex Drive Options",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/drives/drive-options.html",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Danfoss Drive Options (Filters, Chokes, Resistors)",
+      "product_url": "https://www.danfoss.com/en/products/dds/ac-drives/drive-options/",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Yaskawa Drive Options (Reactors, Filters, Resistors)",
+      "product_url": "https://www.yaskawa.com/products/drives/industrial-ac-drives/drive-options",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Mitsubishi Electric Inverter Options (Filters, Reactors)",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/drv/inv/items/fr_a800/option.html",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Eaton Drive Accessories (Reactors, Filters, Resistors)",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/drives/drive-accessories.html",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Lenze Accessories for Frequency Inverters",
+      "product_url": "https://www.lenze.com/en-de/products/inverters/accessories/",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "WEG VSD Accessories (Filters, Resistors)",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Automation/Variable-Speed-Drives/Accessories/c/GLOBAL_ACD_Accessories_VSD",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Omron Inverter Peripherals (Filters, Resistors)",
+      "product_url": "https://industrial.omron.eu/en/products/mx2#peripherals",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Fuji Electric Inverter Options",
+      "product_url": "https://www.fujielectric.com/products/inverter/frenic-ace/option.html",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Hitachi Industrial Equipment Inverter Options",
+      "product_url": "https://www.hitachi-ies.co.jp/english/products/inv/option/index.htm",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Parker Drive Options and Accessories",
+      "product_url": "https://ph.parker.com/us/en/cat/drive-options-and-accessories",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Delta Electronics AC Motor Drive Accessories",
+      "product_url": "https://www.deltaww.com/en-US/products/AC-Motor-Drives-Accessories/ALL/",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Control Techniques Drive Options (Filters, Comms)",
+      "product_url": "https://acim.nidec.com/drives/control-techniques/products/options",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "KEB COMBILINE EMC Filters",
+      "product_url": "https://www.kebamerica.com/products/filters-chokes/emc-filters/",
+      "category_name": "EMC Filters (for Drives)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Teco-Westinghouse Drive Options",
+      "product_url": "https://www.tecowestinghouse.com/drives/AC%20Drives/Options%20and%20Accessories",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "LS Electric AC Drive Options",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Automation_Solution/Drive/Option",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Inovance Drive Options (Filters, Keypads, Comms)",
+      "product_url": "https://www.inovance.com/emea/products/drive-options",
+      "category_name": "VFD Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Siemens Motor Brakes",
+      "product_url": "https://new.siemens.com/global/en/products/drives/electric-motors/motor-options/brakes.html",
+      "category_name": "Motor Brakes",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "ABB Motor accessories (Encoders, Brakes)",
+      "product_url": "https://new.abb.com/motors-generators/service/parts-services/motor-accessories",
+      "category_name": "Motor Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "WEG Motor Encoder",
+      "product_url": "https://www.weg.net/catalog/weg/GLOBAL/en/Electric-Motors/Accessories/Encoder/p/GLOBAL_MOTOR_ACCESSORIES_Encoder",
+      "category_name": "Motor Encoders",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Nidec Leroy-Somer Options for motors (Encoder, Brake, Blower)",
+      "product_url": "https://acim.nidec.com/motors/leroy-somer/products/induction-motors/imfinity/options",
+      "category_name": "Motor Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "SEW-EURODRIVE Encoders for Motors",
+      "product_url": "https://www.sew-eurodrive.de/products/motors/encoders/encoders.html",
+      "category_name": "Motor Encoders",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bonfiglioli Options for asynchronous motors (Encoder, Brakes)",
+      "product_url": "https://www.bonfiglioli.com/en/options-for-asynchronous-motors",
+      "category_name": "Motor Accessories",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Oriental Motor Electromagnetic Brake Motors",
+      "product_url": "https://www.orientalmotor.com/ac-motors-gear-motors/electromagnetic-brake-motors.html",
+      "category_name": "AC Motors (Brake Motor)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Bodine Electric PMDC Motor Speed Controls",
+      "product_url": "https://www.bodine-electric.com/products/pmdc-controls",
+      "category_name": "DC Motor Speed Controls",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Maxon EPOS4 Positioning Controllers",
+      "product_url": "https://www.maxongroup.us/maxon/view/catalog/control/position-controller/epos4",
+      "category_name": "Motion Controllers (DC/BLDC)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Faulhaber Speed Controllers SC Series",
+      "product_url": "https://www.faulhaber.com/en/products/series/sc/",
+      "category_name": "Motor Speed Controllers",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Portescap Encoders (for motors)",
+      "product_url": "https://www.portescap.com/products/encoders",
+      "category_name": "Motor Encoders",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Pittman (AMETEK) PLG Planetary Gearboxes",
+      "product_url": "https://www.ametekapt.com/products/gearboxes/plg-planetary-gearboxes",
+      "category_name": "Motor Gearboxes",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Allied Motion Encoders (Kit and Shaft)",
+      "product_url": "https://www.alliedmotion.com/product-selector-guide/encoders/",
+      "category_name": "Motor Encoders",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Oriental Motor BMU Series Brushless Motor Speed Controllers",
+      "product_url": "https://www.orientalmotor.com/brushless-dc-motors-gear-motors/brushless-dc-motors-bmu-series.html",
+      "category_name": "BLDC Motor Speed Controllers/Drives",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Schneider Electric Lexium Stepper motors",
+      "product_url": "https://www.se.com/ww/en/product-range/1064-lexium-sd3-sth3/",
+      "category_name": "Stepper Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Applied Motion Products NEMA 34 Stepper Motors",
+      "product_url": "https://www.applied-motion.com/products/stepper-motors/nema-34",
+      "category_name": "Stepper Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Lin Engineering NEMA 11 Stepper Motors",
+      "product_url": "https://www.linengineering.com/products/stepper-motors/nema-11/",
+      "category_name": "Stepper Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Nanotec Planetary Gearboxes",
+      "product_url": "https://us.nanotec.com/products/6-gearboxes/",
+      "category_name": "Motor Gearboxes",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Moons' Industries Linear Stepping Motors",
+      "product_url": "https://www.moonsindustries.com/c/linear-stepping-motors-lm0000007",
+      "category_name": "Stepper Motors (Linear Actuator)",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Haydon Kerk Pittman Encoder Options for Motors",
+      "product_url": "https://www.haydonkerkpittman.com/products/encoders",
+      "category_name": "Motor Encoders",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Shinano Kenshi Geared Stepping Motors",
+      "product_url": "https://shinano.com/products/motors/stepping/geared/",
+      "category_name": "Stepper Geared Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "MinebeaMitsumi Gearbox Stepping Motors",
+      "product_url": "https://www.minebeamitsumi.com/english/product/electronic/motor/stepping/gearbox/",
+      "category_name": "Stepper Geared Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    },
+    {
+      "product_name": "Phytron Precision Stepper Motors",
+      "product_url": "https://phytron.de/en/products/stepper-motors/precision-motors/",
+      "category_name": "Stepper Motors",
+      "parent_category": "Electric Drives (excluding Servo)"
+    }
+  ]
+}
