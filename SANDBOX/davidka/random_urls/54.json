@@ -1,0 +1,850 @@
+{
+  "products": [
+    {
+      "product_name": "SMC C96SDB100-100 ISO Cylinder",
+      "product_url": "https://www.smc.eu/en-eu/products/c96sdb100-100-iso-cylinder-iso15552~151698~p",
+      "category_name": "Pneumatic Cylinders (ISO)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Festo DSBC-32-100-PPVA-N3 Standard Cylinder",
+      "product_url": "https://www.festo.com/us/en/p/standard-cylinder-id_DSBC/?q=DSBC-32-100-PPVA-N3",
+      "category_name": "Pneumatic Cylinders (ISO)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Parker P1D-B050MS-0100 ISO Cylinder",
+      "product_url": "https://ph.parker.com/us/en/p1d-b-iso-15552-clean-profile-cylinder",
+      "category_name": "Pneumatic Cylinders (ISO)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Aventics PRA Series Cylinder R480679549",
+      "product_url": "https://www.emerson.com/en-us/catalog/aventics-r480679549",
+      "category_name": "Pneumatic Cylinders (ISO)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Norgren RA/8000 ISO/VDMA Cylinder",
+      "product_url": "https://www.norgren.com/us/en/list/actuators/iso-vdma-cylinders/ra-8000",
+      "category_name": "Pneumatic Cylinders (ISO/VDMA)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth ICS-D2 Series ISO Cylinder",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/pneumatics/cylinders-and-drives/piston-rod-cylinders/iso-cylinders/ics-d2",
+      "category_name": "Pneumatic Cylinders (ISO)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Camozzi 61M2P050A0100 Cylinder Series 61",
+      "product_url": "https://catalogue.camozzi.com/PartDetail/PartDetail/61M2P050A0100?language=EN",
+      "category_name": "Pneumatic Cylinders (ISO)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Metal Work Pneumatic Cylinder ISO 15552 Series 121",
+      "product_url": "https://www.metalwork.it/en/products/actuators/cylinders-iso-15552/cylinders-iso-15552",
+      "category_name": "Pneumatic Cylinders (ISO)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "CKD SSD2 Series Super Compact Cylinder",
+      "product_url": "https://www.ckd.co.jp/english/products/pneumatic/actuator/compact/ssd2",
+      "category_name": "Pneumatic Cylinders (Compact)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Koganei Jig Cylinder C Series",
+      "product_url": "https://ww1.koganei.co.jp/en/products/actuator/standard-cylinder/jig-cylinder-copy/",
+      "category_name": "Pneumatic Cylinders (Compact)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "AirTAC SC Series ISO15552 Standard Cylinder",
+      "product_url": "https://www.airtac.com/product/sc-series-iso15552-standard-cylinder/",
+      "category_name": "Pneumatic Cylinders (ISO)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Univer KD Series ISO 15552 Cylinder",
+      "product_url": "https://www.univer-group.com/products/kd-series-iso-15552-cylinder/",
+      "category_name": "Pneumatic Cylinders (ISO)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Mindman Pneumatic Cylinder ISO 15552 MCQV2",
+      "product_url": "https://www.mindman.com.tw/en/products_content/id/98/Pneumatic_Cylinder_ISO15552_MCQV2.html",
+      "category_name": "Pneumatic Cylinders (ISO)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "SMC SY5120-5LZD-01 Solenoid Valve",
+      "product_url": "https://www.smc.eu/en-eu/products/sy5120-5lzd-01-solenoid-valve-5-port-base-mounted-sy5000~78896~p",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Festo VUVG Solenoid Valve",
+      "product_url": "https://www.festo.com/us/en/p/solenoid-valve-id_VUVG/",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Parker Viking Lite Solenoid Air Control Valve",
+      "product_url": "https://ph.parker.com/us/en/viking-lite-solenoid-air-control-valve",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Aventics Series CD01-PA Directional Control Valve",
+      "product_url": "https://www.emerson.com/en-us/catalog/aventics-cd01-pa-directional-control-valve",
+      "category_name": "Directional Control Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Norgren V61 Series Solenoid Valve",
+      "product_url": "https://www.norgren.com/us/en/list/valves/inline-valves/v60-63-series",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth TC08 Directional Control Valves",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/pneumatics/directional-control-valves/single-valves/tc08",
+      "category_name": "Directional Control Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Camozzi Series EN Solenoid Valves",
+      "product_url": "https://catalogue.camozzi.com/Category/families/134?language=EN",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Metal Work Solenoid valve Series 70",
+      "product_url": "https://www.metalwork.it/en/products/valves/series-70-valves-iso-5599-1/series-70-solenoid-valve",
+      "category_name": "Solenoid Valves (ISO)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "CKD Pilot Kick 2 Port Solenoid Valve PKW Series",
+      "product_url": "https://www.ckd.co.jp/english/products/pneumatic/valve/process/pkw",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Koganei Solenoid Valve 180 Series",
+      "product_url": "https://ww1.koganei.co.jp/en/products/valve/solenoid-valve/solenoid-valve-copy-copy-copy-copy-copy-copy-copy-copy-copy-copy/",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "AirTAC 3V Series Solenoid Valves",
+      "product_url": "https://www.airtac.com/product/3v-series-solenoid-valves/",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Univer AC Series Solenoid Valves",
+      "product_url": "https://www.univer-group.com/products/ac-series-solenoid-valves/",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Mindman Solenoid Valve / Pilot Valve - MVSA-156",
+      "product_url": "https://www.mindman.com.tw/en/products_content/id/11/Solenoid_Valve_Pilot_Valve_MVSA_156.html",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "SMC AC Series F.R.L. Unit",
+      "product_url": "https://www.smcworld.com/en-jp/products/details/index.html?se=AC",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Festo MSB4 Service unit combination",
+      "product_url": "https://www.festo.com/us/en/p/service-unit-combination-id_MSB4/",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Parker Global Air Preparation System (FRL)",
+      "product_url": "https://ph.parker.com/us/en/global-air-preparation-system",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Aventics Series AS2 Maintenance units",
+      "product_url": "https://www.emerson.com/en-us/catalog/aventics-as2-maintenance-unit",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Norgren Olympian Plus Air Preparation (FRL)",
+      "product_url": "https://www.norgren.com/us/en/list/air-preparation/filters-regulators-and-lubricators-frls/olympian-plus",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth AS1 Series Maintenance units",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/pneumatics/air-preparation/maintenance-units/as1",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Camozzi Series MC Air Treatment",
+      "product_url": "https://catalogue.camozzi.com/Category/families/126?language=EN",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Metal Work Bit Air Treatment Units",
+      "product_url": "https://www.metalwork.it/en/products/air-treatment/air-treatment-units/bit-air-treatment-units",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "CKD Modular F.R.L. Unit W Series",
+      "product_url": "https://www.ckd.co.jp/english/products/pneumatic/frl/frl/w",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Koganei F.R.L. Combination Unit FRCS Series",
+      "product_url": "https://ww1.koganei.co.jp/en/products/auxiliary-equipment/f-r-l-combination-unit/f-r-l-combination-unit-copy-copy-copy/",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "AirTAC AC Series F.R.L. Combination",
+      "product_url": "https://www.airtac.com/product/ac-series-f-r-l-combination/",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Univer HZ Series FRL Modular Units",
+      "product_url": "https://www.univer-group.com/products/hz-series-frl-modular-units/",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Mindman Air Filter, Regulator, Lubricator - MCAC",
+      "product_url": "https://www.mindman.com.tw/en/products_content/id/113/Air_Filter_Regulator_Lubricator_MCAC202_302.html",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "SMC KQG2 Stainless Steel One-touch Fittings",
+      "product_url": "https://www.smcworld.com/en-jp/products/details/index.html?se=KQG2",
+      "category_name": "Pneumatic Fittings (Stainless Steel)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Festo NPQH Metal Push-in Fittings",
+      "product_url": "https://www.festo.com/us/en/p/push-in-fitting-metal-id_NPQH/",
+      "category_name": "Pneumatic Fittings (Metal)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Parker Prestolok PLP Composite Push-to-Connect Fittings",
+      "product_url": "https://ph.parker.com/us/en/prestolok-plp-composite-push-to-connect-fitting",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Aventics Series QR2 Standard Fittings",
+      "product_url": "https://www.emerson.com/en-us/catalog/aventics-qr2-standard",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Norgren Pneufit D Fittings",
+      "product_url": "https://www.norgren.com/us/en/list/fittings-tube-and-accessories/push-in-fittings/pneufit-d",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth QS1 Series Fittings",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/pneumatics/connection-technology/fittings-and-connectors/qs1",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Camozzi Series Sprint® Fittings",
+      "product_url": "https://catalogue.camozzi.com/Category/families/1?language=EN",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Metal Work RL Series Push-in fittings",
+      "product_url": "https://www.metalwork.it/en/products/fittings/push-in-fittings/rl-series-push-in-fittings",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "CKD Touch Connector Fuji Fitting F Series",
+      "product_url": "https://www.ckd.co.jp/english/products/pneumatic/fitting/touch/f",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Koganei Fitting KG Series",
+      "product_url": "https://ww1.koganei.co.jp/en/products/auxiliary-equipment/fitting/standard-fitting-copy/",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "AirTAC PC Series Fittings (Threaded)",
+      "product_url": "https://www.airtac.com/product-category/pc-fittings/",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Univer R Series Push-in Fittings",
+      "product_url": "https://www.univer-group.com/products/r-series-push-in-fittings/",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Mindman Fittings - BPL",
+      "product_url": "https://www.mindman.com.tw/en/products_content/id/57/Fittings_BPL.html",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "PIAB piINLINE Vacuum Ejectors",
+      "product_url": "https://www.piab.com/vacuum-ejectors/inline-ejectors/piinline/",
+      "category_name": "Vacuum Ejectors",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Schmalz Basic Ejectors SBPL",
+      "product_url": "https://www.schmalz.com/en/vacuum-components/vacuum-generation/ejectors/basic-ejectors-sbpl",
+      "category_name": "Vacuum Ejectors",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Legris PU Tubing",
+      "product_url": "https://www.legris.com/legris-web/web/en/technical-information/tubing-hose/polymer-tubing#polyurethane",
+      "category_name": "Pneumatic Tubing (Polyurethane)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "John Guest Flexible Polyester Tube",
+      "product_url": "https://www.johnguest.com/gb/en/products/tubing-pipe/flexible-polyester-tube/",
+      "category_name": "Pneumatic Tubing",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "SMC TL Series Fluoropolymer Tubing (PFA)",
+      "product_url": "https://www.smcworld.com/en-jp/products/details/index.html?se=TL",
+      "category_name": "Pneumatic Tubing (PFA)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Festo PAN-V0 Plastic tubing (Flame Retardant)",
+      "product_url": "https://www.festo.com/us/en/p/plastic-tubing-id_PAN_V0/",
+      "category_name": "Pneumatic Tubing (Flame Retardant)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Parker Parflex PE Tubing",
+      "product_url": "https://ph.parker.com/us/en/parflex-pe-tubing",
+      "category_name": "Pneumatic Tubing (Polyethylene)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Aventics Series TU1 Tubing",
+      "product_url": "https://www.emerson.com/en-us/catalog/aventics-tu1-tubing",
+      "category_name": "Pneumatic Tubing",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Norgren Polyamide Tubing",
+      "product_url": "https://www.norgren.com/us/en/list/fittings-tube-and-accessories/tube/pa-tube",
+      "category_name": "Pneumatic Tubing (Polyamide)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth TU2 Series Tubing",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/pneumatics/connection-technology/tubing-and-hoses/tu2",
+      "category_name": "Pneumatic Tubing",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Camozzi Series TRN Polyurethane Tubing",
+      "product_url": "https://catalogue.camozzi.com/Category/families/118?language=EN",
+      "category_name": "Pneumatic Tubing (Polyurethane)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Metal Work Pneumatic Tubing (Various Materials)",
+      "product_url": "https://www.metalwork.it/en/products/air-treatment/tubing/tubing",
+      "category_name": "Pneumatic Tubing",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "CKD Nylon Tube N2 Series",
+      "product_url": "https://www.ckd.co.jp/english/products/pneumatic/auxiliary/tube/n2",
+      "category_name": "Pneumatic Tubing (Nylon)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Koganei Tube UB Series (Polyurethane)",
+      "product_url": "https://ww1.koganei.co.jp/en/products/auxiliary-equipment/tube/tube/",
+      "category_name": "Pneumatic Tubing (Polyurethane)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "AirTAC PU Tube",
+      "product_url": "https://www.airtac.com/product-category/pu-tube/",
+      "category_name": "Pneumatic Tubing (Polyurethane)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Univer Rilsan PA11 Tubing",
+      "product_url": "https://www.univer-group.com/products/rilsan-pa11-tubing/",
+      "category_name": "Pneumatic Tubing (Polyamide)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Mindman Tubing - PU",
+      "product_url": "https://www.mindman.com.tw/en/products_content/id/60/Tubing_PU.html",
+      "category_name": "Pneumatic Tubing (Polyurethane)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "PIAB piCLASSIC Vacuum Pumps/Ejectors",
+      "product_url": "https://www.piab.com/vacuum-pumps/basic-pumps/piclassic/",
+      "category_name": "Vacuum Ejectors",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Schmalz Vacuum Pressure Switches VSi",
+      "product_url": "https://www.schmalz.com/en/vacuum-components/switches/pressure-switches-vacuum-switches/vacuum-switches-vsi",
+      "category_name": "Vacuum Switches",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Legris Pneumatic piloted function fittings",
+      "product_url": "https://www.legris.com/legris-web/web/en/technical-information/function-fittings/pneumatic-piloted-function-fittings",
+      "category_name": "Pneumatic Fittings (Function)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "John Guest Shut-Off Valves",
+      "product_url": "https://www.johnguest.com/gb/en/products/valves/shut-off-valves/",
+      "category_name": "Shut-Off Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "SMC Series D-M9 Magnetic Auto Switches",
+      "product_url": "https://www.smcworld.com/en-jp/products/details/index.html?se=D-M9",
+      "category_name": "Cylinder Position Sensors",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Festo Proximity sensor SMT-8M-A",
+      "product_url": "https://www.festo.com/us/en/p/proximity-sensor-id_SMT_8M_A/",
+      "category_name": "Cylinder Position Sensors",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Parker Solid State Sensors Series P8S",
+      "product_url": "https://ph.parker.com/us/en/solid-state-sensors-series-p8s",
+      "category_name": "Cylinder Position Sensors",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Aventics Series ST6 Sensors",
+      "product_url": "https://www.emerson.com/en-us/catalog/aventics-st6-sensors",
+      "category_name": "Cylinder Position Sensors",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Norgren M/50 Reed Switches",
+      "product_url": "https://www.norgren.com/us/en/list/switches-and-sensors/cylinder-switches/m-50",
+      "category_name": "Cylinder Position Sensors (Reed)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth SM6-AL Series Sensors",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/pneumatics/sensors/cylinder-sensors/sm6-al",
+      "category_name": "Cylinder Position Sensors",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Camozzi Series CST Sensors",
+      "product_url": "https://catalogue.camozzi.com/Category/families/226?language=EN",
+      "category_name": "Cylinder Position Sensors",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Metal Work Pneumatic Magnetic sensors Series 1580...",
+      "product_url": "https://www.metalwork.it/en/products/accessories/magnetic-sensors/magnetic-sensors-series-1580",
+      "category_name": "Cylinder Position Sensors",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "CKD Air Gripper Parallel Type HMF Series",
+      "product_url": "https://www.ckd.co.jp/english/products/pneumatic/actuator/gripper/hmf",
+      "category_name": "Pneumatic Grippers",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Koganei Pneumatic Gripper NHBDPG Series",
+      "product_url": "https://ww1.koganei.co.jp/en/products/gripper/parallel-gripper/parallel-gripper-copy-copy/",
+      "category_name": "Pneumatic Grippers",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "AirTAC HFZ Series Air Gripper (Parallel Style)",
+      "product_url": "https://www.airtac.com/product/hfz-series-air-gripper-parallel-style/",
+      "category_name": "Pneumatic Grippers",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Univer GH Series Pneumatic Grippers",
+      "product_url": "https://www.univer-group.com/products/gh-series-pneumatic-grippers/",
+      "category_name": "Pneumatic Grippers",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Mindman Parallel Gripper - MCHA",
+      "product_url": "https://www.mindman.com.tw/en/products_content/id/138/Parallel_Gripper_MCHA.html",
+      "category_name": "Pneumatic Grippers",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "PIAB BGI Suction Cups (Bag Handling)",
+      "product_url": "https://www.piab.com/suction-cups/bag-handling-suction-cups/bgi-bag-handling-cups/",
+      "category_name": "Vacuum Suction Cups",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Schmalz Flat Suction Cups SGPN",
+      "product_url": "https://www.schmalz.com/en/vacuum-components/vacuum-suction-cups/flat-suction-cups/suction-cups-sgpn",
+      "category_name": "Vacuum Suction Cups",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Legris Flow Regulator Fittings",
+      "product_url": "https://www.legris.com/legris-web/web/en/technical-information/function-fittings/flow-regulators",
+      "category_name": "Flow Control Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "John Guest Reducing Connectors",
+      "product_url": "https://www.johnguest.com/gb/en/products/fittings/standard-push-fittings/reducing-connectors/",
+      "category_name": "Pneumatic Fittings (Reducers)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "SMC Series AS Speed Controllers",
+      "product_url": "https://www.smcworld.com/en-jp/products/details/index.html?se=AS",
+      "category_name": "Flow Control Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Festo Flow control valve GRxA",
+      "product_url": "https://www.festo.com/us/en/p/flow-control-valve-id_GRXA_GRL/",
+      "category_name": "Flow Control Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Parker P1V-S Air Motor",
+      "product_url": "https://ph.parker.com/us/en/p1v-s-air-motor",
+      "category_name": "Air Motors",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Aventics Series ES05 Valve Systems",
+      "product_url": "https://www.emerson.com/en-us/catalog/aventics-es05-valve-system",
+      "category_name": "Valve Systems / Manifolds",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Norgren Nugget 120 Manifold Systems",
+      "product_url": "https://www.norgren.com/us/en/list/valve-islands/valve-manifold-ranges/nugget-120",
+      "category_name": "Valve Systems / Manifolds",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth MH1 Series Miniature Valves",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/pneumatics/directional-control-valves/single-valves/mh1",
+      "category_name": "Directional Control Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Camozzi Series 2 Stainless Steel Fittings",
+      "product_url": "https://catalogue.camozzi.com/Category/families/208?language=EN",
+      "category_name": "Pneumatic Fittings (Stainless Steel)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Metal Work Pneumatic Line ON LINE valves",
+      "product_url": "https://www.metalwork.it/en/products/valves/line-on-line-valves/line-on-line-valves",
+      "category_name": "Inline Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "CKD Rotary Actuator Rack & Pinion Type RRC Series",
+      "product_url": "https://www.ckd.co.jp/english/products/pneumatic/actuator/rotary/rrc",
+      "category_name": "Rotary Actuators (Pneumatic)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Koganei Multi Mount Cylinder BT Series",
+      "product_url": "https://ww1.koganei.co.jp/en/products/actuator/standard-cylinder/multi-mount-cylinder/",
+      "category_name": "Pneumatic Cylinders (Multi-Mount)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "AirTAC PE Union Y Fittings",
+      "product_url": "https://www.airtac.com/product/pe-union-y/",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Univer U Series Silencers",
+      "product_url": "https://www.univer-group.com/products/u-series-silencers/",
+      "category_name": "Pneumatic Silencers",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Mindman Solenoid Valve / Pilot Valve - MVSC-260",
+      "product_url": "https://www.mindman.com.tw/en/products_content/id/16/Solenoid_Valve_Pilot_Valve_MVSC_260.html",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "PIAB piLIFT SMART Vacuum Lifter",
+      "product_url": "https://www.piab.com/vacuum-lifters/electric-vacuum-lifters/pilift-smart/",
+      "category_name": "Vacuum Lifters",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Schmalz Vacuum Clamping Systems",
+      "product_url": "https://www.schmalz.com/en/vacuum-clamping-technology",
+      "category_name": "Vacuum Clamping Systems",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Legris Blowguns",
+      "product_url": "https://www.legris.com/legris-web/web/en/technical-information/accessories/blowguns",
+      "category_name": "Air Blowguns",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "John Guest Tubing Cutters",
+      "product_url": "https://www.johnguest.com/gb/en/products/tools/tubing-cutters/",
+      "category_name": "Tubing Cutters",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "SMC Series IR Precision Regulator",
+      "product_url": "https://www.smcworld.com/en-jp/products/details/index.html?se=IR",
+      "category_name": "Precision Air Regulators",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Festo Rodless cylinder DGP/DGPL",
+      "product_url": "https://www.festo.com/us/en/p/rodless-cylinder-id_DGP_DGPL/",
+      "category_name": "Rodless Cylinders",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Parker ISOMAX DX ISO 5599-1 Valve",
+      "product_url": "https://ph.parker.com/us/en/isomax-dx-iso-5599-1-valve",
+      "category_name": "Directional Control Valves (ISO)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Aventics Series SPRA Rodless cylinders",
+      "product_url": "https://www.emerson.com/en-us/catalog/aventics-spra-rodless-cylinders",
+      "category_name": "Rodless Cylinders",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Norgren Lintra Plus Rodless Cylinders",
+      "product_url": "https://www.norgren.com/us/en/list/actuators/rodless-cylinders/lintra-plus",
+      "category_name": "Rodless Cylinders",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth MSC Series Mini Slides",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/pneumatics/cylinders-and-drives/guided-drives/msc",
+      "category_name": "Pneumatic Linear Slides",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Camozzi Series Q Compact Guided Cylinders",
+      "product_url": "https://catalogue.camozzi.com/Category/families/160?language=EN",
+      "category_name": "Guided Pneumatic Cylinders",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Metal Work Pneumatic Skillair® air treatment units",
+      "product_url": "https://www.metalwork.it/en/products/air-treatment/air-treatment-units/skillair-air-treatment-units",
+      "category_name": "Air Preparation Units (FRL)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "CKD Pilot Operated 5 Port Valve 4F Series",
+      "product_url": "https://www.ckd.co.jp/english/products/pneumatic/valve/general/4f",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Koganei ORGA Series Rodless Cylinder",
+      "product_url": "https://ww1.koganei.co.jp/en/products/actuator/rodless-cylinder/rodless-cylinder-copy/",
+      "category_name": "Rodless Cylinders",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "AirTAC PL Series Plastic Push-in Fittings",
+      "product_url": "https://www.airtac.com/product/pl-series-plastic-push-in-fittings/",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Univer RM/2 Guided Cylinders",
+      "product_url": "https://www.univer-group.com/products/rm-2-guided-cylinders/",
+      "category_name": "Guided Pneumatic Cylinders",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Mindman Pressure Switch - MPS",
+      "product_url": "https://www.mindman.com.tw/en/products_content/id/117/Pressure_Switch_MPS.html",
+      "category_name": "Pressure Switches (Pneumatic)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "PIAB piCOMPACT SMART Vacuum Ejectors",
+      "product_url": "https://www.piab.com/vacuum-ejectors/configured-ejectors/picompact/picompactsmart/",
+      "category_name": "Vacuum Ejectors (Smart)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Schmalz Area Gripping Systems FXP/FMP",
+      "product_url": "https://www.schmalz.com/en/vacuum-components/vacuum-gripping-systems/area-gripping-systems-fxp-fmp",
+      "category_name": "Vacuum Gripping Systems",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Legris Cartridge System",
+      "product_url": "https://www.legris.com/legris-web/web/en/technical-information/product-families/cartridge-system",
+      "category_name": "Pneumatic Fittings (Cartridge)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "John Guest Plug-in Elbow Fittings",
+      "product_url": "https://www.johnguest.com/gb/en/products/fittings/plug-in-fittings/plug-in-elbows/",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "SMC Series CG1 Precision Air Cylinder",
+      "product_url": "https://www.smcworld.com/en-jp/products/details/index.html?se=CG1",
+      "category_name": "Pneumatic Cylinders",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Festo Rotary drive DRVS",
+      "product_url": "https://www.festo.com/us/en/p/rotary-drive-id_DRVS/",
+      "category_name": "Rotary Actuators (Pneumatic)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Parker P1S Stainless Steel Cylinder",
+      "product_url": "https://ph.parker.com/us/en/p1s-stainless-steel-cylinder",
+      "category_name": "Pneumatic Cylinders (Stainless Steel)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Aventics Series TRB Tie Rod cylinders",
+      "product_url": "https://www.emerson.com/en-us/catalog/aventics-trb-tie-rod-cylinders",
+      "category_name": "Pneumatic Cylinders (Tie Rod)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Norgren Proportional Valves VP Series",
+      "product_url": "https://www.norgren.com/us/en/list/proportional-valves/pressure-control",
+      "category_name": "Proportional Pressure Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth MH2 Manual and Mechanical Valves",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/pneumatics/directional-control-valves/single-valves/mh2",
+      "category_name": "Manual/Mechanical Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Camozzi Series W Manifold system",
+      "product_url": "https://catalogue.camozzi.com/Category/families/139?language=EN",
+      "category_name": "Valve Systems / Manifolds",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Metal Work Pneumatic Filter regulators Series 'New Deal'",
+      "product_url": "https://www.metalwork.it/en/products/air-treatment/filter-regulators/filter-regulators-series-new-deal",
+      "category_name": "Filter Regulators",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "CKD Pneumatic Silencer Metal Body Type SL Series",
+      "product_url": "https://www.ckd.co.jp/english/products/pneumatic/auxiliary/silencer/sl",
+      "category_name": "Pneumatic Silencers",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Koganei Guided Short Stroke Cylinder GSDAS Series",
+      "product_url": "https://ww1.koganei.co.jp/en/products/actuator/guided-cylinder/guided-short-stroke-cylinder/",
+      "category_name": "Guided Pneumatic Cylinders",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "AirTAC PPL Series Elbow Fittings",
+      "product_url": "https://www.airtac.com/product-category/ppl-fittings/",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Univer KE Series ISO 6432 Cylinder",
+      "product_url": "https://www.univer-group.com/products/ke-series-iso-6432-cylinder/",
+      "category_name": "Pneumatic Cylinders (ISO 6432)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Mindman Solenoid Valve / Pilot Valve - MVSC-300",
+      "product_url": "https://www.mindman.com.tw/en/products_content/id/18/Solenoid_Valve_Pilot_Valve_MVSC_300.html",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "PIAB piGRIP Suction Cups",
+      "product_url": "https://www.piab.com/suction-cups/configurable-suction-cups/",
+      "category_name": "Vacuum Suction Cups",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Schmalz Vacuum Ball Valves KUG",
+      "product_url": "https://www.schmalz.com/en/vacuum-components/valves/manual-valves/vacuum-ball-valves-kug",
+      "category_name": "Vacuum Valves",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "Legris Brass Push-In Fittings",
+      "product_url": "https://www.legris.com/legris-web/web/en/technical-information/product-families/brass-push-in-fittings",
+      "category_name": "Pneumatic Fittings (Metal)",
+      "parent_category": "Pneumatic Components"
+    },
+    {
+      "product_name": "John Guest Equal Elbow Fittings",
+      "product_url": "https://www.johnguest.com/gb/en/products/fittings/standard-push-fittings/elbow-connectors/",
+      "category_name": "Pneumatic Fittings",
+      "parent_category": "Pneumatic Components"
+    }
+  ]
+}

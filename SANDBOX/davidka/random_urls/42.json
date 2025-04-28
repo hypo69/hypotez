@@ -1,0 +1,886 @@
+{
+  "products": [
+    {
+      "product_name": "Bosch Rexroth A10VO Series Axial Piston Variable Pump",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/mobile-hydraulics/axial-piston-units/axial-piston-variable-pumps/a10vo",
+      "category_name": "Axial Piston Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker PGP/PGM 500 Series Fixed Displacement Gear Pumps",
+      "product_url": "https://ph.parker.com/us/en/pgp-pgm-500-series-fixed-displacement-gear-pumps",
+      "category_name": "Gear Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton X20 Series Piston Pumps",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/x20-pumps.html",
+      "category_name": "Piston Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Danfoss Series 45 Open Circuit Axial Piston Pumps",
+      "product_url": "https://www.danfoss.com/en/products/dps/pumps/axial-piston-pumps-open-circuit/series-45-open-circuit-axial-piston-pumps/",
+      "category_name": "Axial Piston Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik V60N Axial Piston Variable Displacement Pump",
+      "product_url": "https://www.hawe.com/en-us/products/product-catalogue/product/v60n/",
+      "category_name": "Axial Piston Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac PFG Series Fixed Displacement Gear Pumps",
+      "product_url": "https://www.hydac.com/en/products/hydraulic-pumps-and-motors/gear-pumps/fixed-displacement-gear-pumps/pfg-series",
+      "category_name": "Gear Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Kawasaki K3VLS Series Axial Piston Pump",
+      "product_url": "https://global.kawasaki.com/en/mobility/hydraulic/products/pump/k3vls.html",
+      "category_name": "Axial Piston Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth MCR Radial Piston Motors",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/mobile-hydraulics/radial-piston-motors",
+      "category_name": "Radial Piston Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker F11 Series Fixed Displacement Motors",
+      "product_url": "https://ph.parker.com/us/en/f11-series-fixed-displacement-motors",
+      "category_name": "Axial Piston Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton VIS 4535 Variable Piston Motors",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/vis-4535-motors.html",
+      "category_name": "Piston Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Danfoss Orbital Motors (OMM Series)",
+      "product_url": "https://www.danfoss.com/en/products/dps/orbital-motors/orbital-motors/",
+      "category_name": "Orbital Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik M60N Axial Piston Motor",
+      "product_url": "https://www.hawe.com/en-us/products/product-catalogue/product/m60n/",
+      "category_name": "Axial Piston Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac AXF6 Series Axial Piston Fixed Motors",
+      "product_url": "https://www.hydac.com/en/products/hydraulic-pumps-and-motors/axial-piston-motors/axial-piston-fixed-motors/axf6-series",
+      "category_name": "Axial Piston Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Kawasaki Staffa HMB Series Radial Piston Motor",
+      "product_url": "https://global.kawasaki.com/en/mobility/hydraulic/products/motor/hmb.html",
+      "category_name": "Radial Piston Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth CDL1 Series ISO Cylinder",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/cylinders/iso-cylinders/cdl1",
+      "category_name": "Hydraulic Cylinders (ISO)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker HMI Series Metric Hydraulic Cylinders",
+      "product_url": "https://ph.parker.com/us/en/hmi-series-metric-hydraulic-cylinders",
+      "category_name": "Hydraulic Cylinders",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Tie Rod Cylinders - N Series",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/tie-rod-cylinders.html",
+      "category_name": "Hydraulic Cylinders (Tie Rod)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Enerpac RR-Series Double-Acting Cylinders",
+      "product_url": "https://www.enerpac.com/en-us/double-acting-cylinders/RR-Series",
+      "category_name": "Hydraulic Cylinders (High Force)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik Clamping cylinders Series HZ",
+      "product_url": "https://www.hawe.com/en-us/products/product-catalogue/product/hz/",
+      "category_name": "Hydraulic Cylinders (Clamping)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Welded Cylinders Series HYKOS",
+      "product_url": "https://www.hydac.com/en/products/hydraulic-cylinders/welded-cylinders/hykos-series",
+      "category_name": "Hydraulic Cylinders (Welded)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth WE Series Directional Spool Valves",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/valves/directional-valves/directional-spool-valves-direct-operated/we",
+      "category_name": "Directional Control Valves (Spool)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker D1VW Series Directional Control Valves",
+      "product_url": "https://ph.parker.com/us/en/d1vw-series-directional-control-valves",
+      "category_name": "Directional Control Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton DG4V-3 Series Directional Valves",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/directional-valves.html",
+      "category_name": "Directional Control Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Danfoss PVG 32 Proportional Valves",
+      "product_url": "https://www.danfoss.com/en/products/dps/valves/proportional-valves/pvg-32/",
+      "category_name": "Proportional Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik Proportional directional spool valve Type PSL",
+      "product_url": "https://www.hawe.com/en-us/products/product-catalogue/product/psl-psv/",
+      "category_name": "Proportional Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Proportional directional valves PWK06",
+      "product_url": "https://www.hydac.com/en/products/valves/proportional-valves/proportional-directional-valves/pwk06",
+      "category_name": "Proportional Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Sun Hydraulics FLeX Series Solenoid Valves",
+      "product_url": "https://www.sunhydraulics.com/models/solenoid-valves/flex",
+      "category_name": "Solenoid Valves (Cartridge)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth DBET Series Pressure Relief Valves",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/valves/pressure-valves/pressure-relief-valves-direct-operated/dbet",
+      "category_name": "Pressure Relief Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker PRM Series Pressure Reducing Valves",
+      "product_url": "https://ph.parker.com/us/en/prm-series-pressure-reducing-valves",
+      "category_name": "Pressure Reducing Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton CGR Relief Valves",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/relief-valves.html",
+      "category_name": "Pressure Relief Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Danfoss Check Valves",
+      "product_url": "https://www.danfoss.com/en/products/dps/valves/check-valves/",
+      "category_name": "Check Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik Check valve type RK",
+      "product_url": "https://www.hawe.com/en-us/products/product-catalogue/product/rk-re/",
+      "category_name": "Check Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Pressure relief valves direct operated DB06A",
+      "product_url": "https://www.hydac.com/en/products/valves/pressure-valves/pressure-relief-valves-direct-operated/db06a",
+      "category_name": "Pressure Relief Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Sun Hydraulics CBCA Counterbalance Valve",
+      "product_url": "https://www.sunhydraulics.com/models/cartridge-valves/counterbalance/cbca",
+      "category_name": "Counterbalance Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth Z2FS Series Flow Control Valves",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/valves/flow-control-and-throttle-valves/throttle-check-valves/z2fs",
+      "category_name": "Flow Control Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker F Series Inline Flow Control Valves",
+      "product_url": "https://ph.parker.com/us/en/f-series-inline-flow-control-valves",
+      "category_name": "Flow Control Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Accutrol Valves (Flow Control)",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/flow-control-valves.html",
+      "category_name": "Flow Control Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Return line filters RF / RFD / RFM / RFL / RFLD / RFM",
+      "product_url": "https://www.hydac.com/en/products/filtration-and-fluid-conditioning/hydraulic-and-lubrication-filters/return-line-filters",
+      "category_name": "Hydraulic Filters (Return Line)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker Medium Pressure Filters Series 12CS & 50CS",
+      "product_url": "https://ph.parker.com/us/en/medium-pressure-filters-series-12cs-50cs",
+      "category_name": "Hydraulic Filters (Pressure)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Donaldson Medium Pressure Filters",
+      "product_url": "https://www.donaldson.com/en-us/engine/filters/products/hydraulic/medium-pressure/",
+      "category_name": "Hydraulic Filters (Pressure)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Pall Ultipleat SRT Hydraulic Filter Elements",
+      "product_url": "https://shop.pall.com/us/en/hydraulics/hydraulic-general-industrial/ultipleat-srt-hydraulic-lube-filter-elements/usp-ziduss2040",
+      "category_name": "Hydraulic Filter Elements",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "MP Filtri Suction Filters",
+      "product_url": "https://www.mpfiltri.com/en/products/suction-filters/",
+      "category_name": "Hydraulic Filters (Suction)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Mahle PI 200 Pressure Filter",
+      "product_url": "https://www.mahle-industry.com/products/industrial-filtration/pressure-filter/pi-200/",
+      "category_name": "Hydraulic Filters (Pressure)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Schroeder Industries BestFit™ Performance Filter Element Upgrades",
+      "product_url": "https://schroederindustries.com/hydraulic-and-lube-filters/performance-filter-element-upgrades/",
+      "category_name": "Hydraulic Filter Elements",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Filter Elements",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/filters-strainers/filter-elements.html",
+      "category_name": "Hydraulic Filter Elements",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth Filter Elements",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/filters/filter-elements",
+      "category_name": "Hydraulic Filter Elements",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Bladder Accumulators",
+      "product_url": "https://www.hydac.com/en/products/hydraulic-accumulators/bladder-accumulators",
+      "category_name": "Hydraulic Accumulators (Bladder)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker Piston Accumulators",
+      "product_url": "https://ph.parker.com/us/en/piston-accumulators",
+      "category_name": "Hydraulic Accumulators (Piston)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Olaer (Parker) Diaphragm Accumulators",
+      "product_url": "https://ph.parker.com/us/en/diaphragm-accumulators-ehu-series",
+      "category_name": "Hydraulic Accumulators (Diaphragm)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth Diaphragm Accumulators HAD",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/accumulators/diaphragm-accumulators/had",
+      "category_name": "Hydraulic Accumulators (Diaphragm)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Bladder Accumulators",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/bladder-accumulators.html",
+      "category_name": "Hydraulic Accumulators (Bladder)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth ABPAC Hydraulic Power Units",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/power-units/standard-power-units/abpac",
+      "category_name": "Hydraulic Power Units",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker Standard Hydraulic Power Units",
+      "product_url": "https://ph.parker.com/us/en/standard-hydraulic-power-units",
+      "category_name": "Hydraulic Power Units",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Standard Power Units",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/standard-power-units.html",
+      "category_name": "Hydraulic Power Units",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik Compact hydraulic power pack type HK",
+      "product_url": "https://www.hawe.com/en-us/products/product-catalogue/product/hk-hkl-hkw/",
+      "category_name": "Hydraulic Power Units (Compact)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Hydraulic power units",
+      "product_url": "https://www.hydac.com/en/products/hydraulic-power-units-accessories/hydraulic-power-units",
+      "category_name": "Hydraulic Power Units",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Continental Hydraulics Vertical Power Units VHP Series",
+      "product_url": "https://continentalhydraulics.com/products/power-units/vertical-power-units-vhp-series/",
+      "category_name": "Hydraulic Power Units",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth EHC-8 Electronic Hitch Control System",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/mobile-hydraulics/electronics-and-electrification/hitch-control",
+      "category_name": "Hydraulic Control Systems",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker IQAN Control System",
+      "product_url": "https://ph.parker.com/us/en/parker-iqan-control-system",
+      "category_name": "Hydraulic Control Systems",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Pro-FX Electronic Controls and Software",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/pro-fx-electronic-controls-and-software.html",
+      "category_name": "Hydraulic Control Systems",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Danfoss PLUS+1® Controllers",
+      "product_url": "https://www.danfoss.com/en/products/dps/plus1-software-hardware-and-services/plus1-controllers/",
+      "category_name": "Hydraulic Control Systems",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Electronic Control Units",
+      "product_url": "https://www.hydac.com/en/products/electronics/control-technology/electronic-control-units",
+      "category_name": "Hydraulic Control Systems",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Gates MegaCrimp® Couplings",
+      "product_url": "https://ww2.gates.com/europe/catalogue/category.cfm?category=europe_couplings_hydraulic&location_id=21219",
+      "category_name": "Hydraulic Hose Fittings/Couplings",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker 43 Series Hydraulic Hose Fittings",
+      "product_url": "https://ph.parker.com/us/en/43-series-hydraulic-hose-fittings",
+      "category_name": "Hydraulic Hose Fittings/Couplings",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Aeroquip MatchMate Global Hose & Fittings",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/matchmate-global-hose-and-fittings.html",
+      "category_name": "Hydraulic Hoses & Fittings",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Manuli Hydraulics Multifit Fittings",
+      "product_url": "https://www.manuli-hydraulics.com/products/fittings/multifit/",
+      "category_name": "Hydraulic Hose Fittings/Couplings",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Alfagomma ALFALOK Quick Release Couplings",
+      "product_url": "https://www.alfagomma.com/en/products/fittings/hydraulic-fittings/quick-release-couplings/alfalok/",
+      "category_name": "Quick Release Couplings",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Stauff Test 20 Hydraulic Test Couplings",
+      "product_url": "https://www.stauff.com/en/products/product-groups/test-couplings/test-couplings-stauff-test-20/",
+      "category_name": "Hydraulic Test Couplings",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Faster ANV Series Flat Face Couplings",
+      "product_url": "https://www.fastercouplings.com/couplings/series/anv-series",
+      "category_name": "Quick Release Couplings",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth UPE 2 Series Modular Power Units",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/power-units/compact-power-units/upe2",
+      "category_name": "Hydraulic Power Units (Compact)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker 70 Series Push-Lok Hose",
+      "product_url": "https://ph.parker.com/us/en/70-series-push-lok-hose",
+      "category_name": "Hydraulic Hoses",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton GH793 AQP High Temperature Hose",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/gh793-aqp-high-temperature-hose.html",
+      "category_name": "Hydraulic Hoses (High Temp)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Danfoss Hansen FF Series Quick Disconnect Couplings",
+      "product_url": "https://www.danfoss.com/en/products/dhs/quick-disconnect-couplings/flat-face-couplings/ff-series/",
+      "category_name": "Quick Release Couplings",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik Pressure filter type PF",
+      "product_url": "https://www.hawe.com/en-us/products/product-catalogue/product/pf-pfm-pfs/",
+      "category_name": "Hydraulic Filters (Pressure)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Pressure Transducers HDA 4700",
+      "product_url": "https://www.hydac.com/en/products/electronics/pressure-transducers/hda-4700",
+      "category_name": "Pressure Sensors (Hydraulic)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Sun Hydraulics YDJ Logic Element - Pilot-to-Open Check",
+      "product_url": "https://www.sunhydraulics.com/models/logic-valves/pilot-open-check/ydj",
+      "category_name": "Cartridge Valves (Check)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth ZDB Series Pressure Relief Valves (Pilot Operated)",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/valves/pressure-valves/pressure-relief-valves-pilot-operated/zdb-zdbee",
+      "category_name": "Pressure Relief Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker Accumulator Charging & Gauging Kits",
+      "product_url": "https://ph.parker.com/us/en/accumulator-charging-gauging-kits",
+      "category_name": "Accumulator Accessories",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Steering Control Units Series 5",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/steering-control-units---series-5.html",
+      "category_name": "Hydraulic Steering Units",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Danfoss Hydraulic Integrated Circuits (HICs)",
+      "product_url": "https://www.danfoss.com/en/products/dhs/hydraulic-integrated-circuits-hics/",
+      "category_name": "Hydraulic Manifolds / Integrated Circuits",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik Seated Valves",
+      "product_url": "https://www.hawe.com/en-us/products/hydraulic-valves/seated-valves/",
+      "category_name": "Directional Control Valves (Seated)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Suction Filters Return-Suction Filters",
+      "product_url": "https://www.hydac.com/en/products/filtration-and-fluid-conditioning/hydraulic-and-lubrication-filters/suction-filters-return-suction-filters",
+      "category_name": "Hydraulic Filters (Suction)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Kawasaki Precision Machinery K3VL Series Axial Piston Pump",
+      "product_url": "https://global.kawasaki.com/en/mobility/hydraulic/products/pump/k3vl.html",
+      "category_name": "Axial Piston Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth A4VG Series Axial Piston Variable Pump",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/mobile-hydraulics/axial-piston-units/axial-piston-variable-pumps/a4vg",
+      "category_name": "Axial Piston Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker PVP Series Variable Displacement Piston Pumps",
+      "product_url": "https://ph.parker.com/us/en/pvp-series-variable-displacement-piston-pumps",
+      "category_name": "Piston Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Vickers Vane Pumps",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/vickers-vane-pumps.html",
+      "category_name": "Vane Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Danfoss H1 Automotive Control Closed Circuit Pumps",
+      "product_url": "https://www.danfoss.com/en/products/dps/pumps/axial-piston-pumps-closed-circuit/h1-automotive-control-closed-circuit-pumps/",
+      "category_name": "Axial Piston Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik Radial piston pump type R",
+      "product_url": "https://www.hawe.com/en-us/products/product-catalogue/product/r-rg/",
+      "category_name": "Radial Piston Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac External gear pumps PGH Series",
+      "product_url": "https://www.hydac.com/en/products/hydraulic-pumps-and-motors/gear-pumps/external-gear-pumps/pgh-series",
+      "category_name": "Gear Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Kawasaki K7V Series Axial Piston Pump",
+      "product_url": "https://global.kawasaki.com/en/mobility/hydraulic/products/pump/k7v.html",
+      "category_name": "Axial Piston Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth A2FM Series Axial Piston Fixed Motor",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/mobile-hydraulics/axial-piston-units/axial-piston-fixed-motors/a2fm",
+      "category_name": "Axial Piston Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker T6*M Series Mobile Vane Motors",
+      "product_url": "https://ph.parker.com/us/en/t6m-series-mobile-vane-motors",
+      "category_name": "Vane Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton DuraForce HMV Variable Motors",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/duraforce-hmv-motors.html",
+      "category_name": "Piston Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Danfoss Orbital Motors (OMP/OMR Series)",
+      "product_url": "https://www.danfoss.com/en/products/dps/orbital-motors/orbital-motors/",
+      "category_name": "Orbital Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik Compact power pack type KA",
+      "product_url": "https://www.hawe.com/en-us/products/product-catalogue/product/ka-kaw/",
+      "category_name": "Hydraulic Power Units (Compact)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac External gear motors GM Series",
+      "product_url": "https://www.hydac.com/en/products/hydraulic-pumps-and-motors/gear-motors/external-gear-motors/gm-series",
+      "category_name": "Gear Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Kawasaki Staffa HMC Series Dual Displacement Motor",
+      "product_url": "https://global.kawasaki.com/en/mobility/hydraulic/products/motor/hmc.html",
+      "category_name": "Radial Piston Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth CDT3 Series ISO Cylinder",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/cylinders/iso-cylinders/cdt3",
+      "category_name": "Hydraulic Cylinders (ISO)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker MMA Series Compact Hydraulic Cylinders",
+      "product_url": "https://ph.parker.com/us/en/mma-series-compact-hydraulic-cylinders",
+      "category_name": "Hydraulic Cylinders (Compact)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Mill Type Cylinders - L Series",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/mill-type-cylinders.html",
+      "category_name": "Hydraulic Cylinders (Mill Type)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Enerpac RC-Series Single-Acting Cylinders",
+      "product_url": "https://www.enerpac.com/en-us/single-acting-cylinders/RC-Series",
+      "category_name": "Hydraulic Cylinders (High Force)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik Compact cylinders Series C",
+      "product_url": "https://www.hawe.com/en-us/products/product-catalogue/product/c-ce/",
+      "category_name": "Hydraulic Cylinders (Compact)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Tie-rod cylinders HZH Series",
+      "product_url": "https://www.hydac.com/en/products/hydraulic-cylinders/tie-rod-cylinders/hzh-series",
+      "category_name": "Hydraulic Cylinders (Tie Rod)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth ED Series Directional Seat Valves",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/valves/directional-valves/directional-seat-valves-direct-operated/ed",
+      "category_name": "Directional Control Valves (Seat)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker D3W Series Directional Control Valves",
+      "product_url": "https://ph.parker.com/us/en/d3w-series-directional-control-valves",
+      "category_name": "Directional Control Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Vickers Proportional Valves with Integrated Electronics",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/proportional-valves-with-integrated-electronics.html",
+      "category_name": "Proportional Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Danfoss PVG 100 Proportional Valves",
+      "product_url": "https://www.danfoss.com/en/products/dps/valves/proportional-valves/pvg-100/",
+      "category_name": "Proportional Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik Proportional pressure reducing valve type PMVP",
+      "product_url": "https://www.hawe.com/en-us/products/product-catalogue/product/pmv-pmvp-pmvs-pmvps/",
+      "category_name": "Proportional Valves (Pressure Reducing)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Proportional pressure relief valves PDBM06020",
+      "product_url": "https://www.hydac.com/en/products/valves/proportional-valves/proportional-pressure-valves/pdbm06020",
+      "category_name": "Proportional Valves (Pressure Relief)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Sun Hydraulics RPEE Proportional Flow Control Valve",
+      "product_url": "https://www.sunhydraulics.com/models/solenoid-valves/proportional-flow-control/rpee",
+      "category_name": "Proportional Valves (Flow Control)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth DBD Series Pressure Relief Valves (Direct Operated)",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/valves/pressure-valves/pressure-relief-valves-direct-operated/dbd",
+      "category_name": "Pressure Relief Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker FM Series Inline Flow Control Valves",
+      "product_url": "https://ph.parker.com/us/en/fm-series-inline-flow-control-valves",
+      "category_name": "Flow Control Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Check Valves",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/check-valves.html",
+      "category_name": "Check Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Danfoss Cartridge Valves",
+      "product_url": "https://www.danfoss.com/en/products/dhs/valves/cartridge-valves/",
+      "category_name": "Cartridge Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik Directional seated valve type NBVP",
+      "product_url": "https://www.hawe.com/en-us/products/product-catalogue/product/nbvp-ndvp/",
+      "category_name": "Directional Control Valves (Seat)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Pressure reducing valves direct operated DR08",
+      "product_url": "https://www.hydac.com/en/products/valves/pressure-valves/pressure-reducing-valves-direct-operated/dr08",
+      "category_name": "Pressure Reducing Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Sun Hydraulics RDDA Pressure Reducing Valve",
+      "product_url": "https://www.sunhydraulics.com/models/cartridge-valves/pressure-reducing/rdda",
+      "category_name": "Pressure Reducing Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth 4WMM Series Directional Spool Valves (Manual Operated)",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/valves/directional-valves/directional-spool-valves-mechanically-manually-operated/4wmm",
+      "category_name": "Directional Control Valves (Manual)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker Colorflow Needle Valves",
+      "product_url": "https://ph.parker.com/us/en/colorflow-needle-valves",
+      "category_name": "Needle Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Vickers Vane Motors",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/vickers-vane-motors.html",
+      "category_name": "Vane Motors",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Pressure filters LPF / LPFD / LPFM",
+      "product_url": "https://www.hydac.com/en/products/filtration-and-fluid-conditioning/hydraulic-and-lubrication-filters/pressure-filters",
+      "category_name": "Hydraulic Filters (Pressure)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker Suction Strainers & Diffusers",
+      "product_url": "https://ph.parker.com/us/en/suction-strainers-diffusers",
+      "category_name": "Hydraulic Filters (Suction)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Donaldson Low Pressure Filters",
+      "product_url": "https://www.donaldson.com/en-us/engine/filters/products/hydraulic/low-pressure/",
+      "category_name": "Hydraulic Filters (Low Pressure)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Pall Coralon Hydraulic Filter Elements",
+      "product_url": "https://shop.pall.com/us/en/hydraulics/hydraulic-general-industrial/coralon-hydraulic-lube-filter-elements/usp-ziduss2033",
+      "category_name": "Hydraulic Filter Elements",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "MP Filtri Pressure Filters",
+      "product_url": "https://www.mpfiltri.com/en/products/pressure-filters/",
+      "category_name": "Hydraulic Filters (Pressure)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Mahle PI 3000 Return Line Filter",
+      "product_url": "https://www.mahle-industry.com/products/industrial-filtration/return-line-filter/pi-3000/",
+      "category_name": "Hydraulic Filters (Return Line)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Schroeder Industries KF3 Filter Assembly",
+      "product_url": "https://schroederindustries.com/products/kf3/",
+      "category_name": "Hydraulic Filters",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Pipeline Strainers",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/filters-strainers/pipeline-strainers.html",
+      "category_name": "Hydraulic Strainers",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth Tank-mounted Return Line Filters",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/filters/return-line-filters/tank-mounted-return-line-filters",
+      "category_name": "Hydraulic Filters (Return Line)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Piston Accumulators",
+      "product_url": "https://www.hydac.com/en/products/hydraulic-accumulators/piston-accumulators",
+      "category_name": "Hydraulic Accumulators (Piston)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker Bladder Accumulators",
+      "product_url": "https://ph.parker.com/us/en/bladder-accumulators",
+      "category_name": "Hydraulic Accumulators (Bladder)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Olaer (Parker) Accumulator Safety Blocks",
+      "product_url": "https://ph.parker.com/us/en/accumulator-safety-blocks",
+      "category_name": "Accumulator Accessories (Safety Blocks)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth Piston Accumulators HPS",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/accumulators/piston-accumulators/hps",
+      "category_name": "Hydraulic Accumulators (Piston)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Diaphragm Accumulators",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/diaphragm-accumulators.html",
+      "category_name": "Hydraulic Accumulators (Diaphragm)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Bosch Rexroth CytroBox Compact Power Units",
+      "product_url": "https://www.boschrexroth.com/en/xc/products/product-groups/industrial-hydraulics/power-units/compact-power-units/cytrobox",
+      "category_name": "Hydraulic Power Units (Compact)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker Drive Controlled Pump Systems",
+      "product_url": "https://ph.parker.com/us/en/drive-controlled-pump-systems",
+      "category_name": "Hydraulic Power Units (Drive Controlled)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Custom Power Units",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/custom-power-units.html",
+      "category_name": "Hydraulic Power Units (Custom)",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "HAWE Hydraulik Hydraulic power pack for machine tools type HKL",
+      "product_url": "https://www.hawe.com/en-us/products/product-catalogue/product/hk-hkl-hkw/",
+      "category_name": "Hydraulic Power Units",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Hydac Accessories for hydraulic accumulators",
+      "product_url": "https://www.hydac.com/en/products/hydraulic-accumulators/accessories-for-hydraulic-accumulators",
+      "category_name": "Accumulator Accessories",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Continental Hydraulics Vane Pumps PVX Series",
+      "product_url": "https://continentalhydraulics.com/products/pumps/vane-pumps-pvx-series/",
+      "category_name": "Vane Pumps",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Gates GMV Global Hydraulic Variable Pressure Valves",
+      "product_url": "https://ww2.gates.com/europe/catalogue/product.cfm?category=europe_valves_hydraulic&product_id=21810&location_id=21219",
+      "category_name": "Pressure Valves",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Parker Parflex Hydraulic Hose",
+      "product_url": "https://ph.parker.com/us/en/parflex-hydraulic-hose",
+      "category_name": "Hydraulic Hoses",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Eaton Winner EC110 Hose",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/hydraulics/winner-ec110-hose.html",
+      "category_name": "Hydraulic Hoses",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Manuli Hydraulics GOLDENSPIR/12",
+      "product_url": "https://www.manuli-hydraulics.com/products/hoses/wire-spiral-hoses/goldenspir-12/",
+      "category_name": "Hydraulic Hoses",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Alfagomma ARGUS Hydraulic Hose",
+      "product_url": "https://www.alfagomma.com/en/products/hoses/hydraulic-hoses/wire-spiral-hoses/argus/",
+      "category_name": "Hydraulic Hoses",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Stauff Hydraulic Hoses",
+      "product_url": "https://www.stauff.com/en/products/product-groups/hoses/",
+      "category_name": "Hydraulic Hoses",
+      "parent_category": "Hydraulic Components"
+    },
+    {
+      "product_name": "Faster 3CKHF Series Check Valves",
+      "product_url": "https://www.fastercouplings.com/accessories/series/3ckhf-series",
+      "category_name": "Check Valves",
+      "parent_category": "Hydraulic Components"
+    }
+  ]
+}

@@ -1,0 +1,628 @@
+{
+  "products": [
+    {
+      "product_name": "Honeywell MICRO SWITCH™ NGC Series Compact Limit Switches",
+      "product_url": "https://sps.honeywell.com/us/en/products/advanced-sensing-technologies/industrial-sensing/industrial-switches/limit-switches/compact-limit-switches/ngc-series",
+      "category_name": "Limit Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Omron D4N Safety Limit Switch",
+      "product_url": "https://industrial.omron.eu/en/products/d4n",
+      "category_name": "Safety Limit Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Schneider Electric OsiSense XC standard limit switches",
+      "product_url": "https://www.se.com/ww/en/product-range/549-osisense-xc/",
+      "category_name": "Limit Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Siemens SIRIUS 3SE5 Mechanical Position Switches",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/safety-integrated/position-and-safety-switches/mechanical-position-switches-3se5.html",
+      "category_name": "Limit Switches / Position Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Eaton LS-Titan Limit Switches",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/sensors-switches-pilot-devices-column-lights/ls-titan-limit-switches.html",
+      "category_name": "Limit Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Pizzato Elettrica FR series Position switches",
+      "product_url": "https://www.pizzato.com/en/catalog/position-switches/products/fr-series/",
+      "category_name": "Limit Switches / Position Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Schmersal Position switches with safety function PS116",
+      "product_url": "https://www.schmersal.com/en/position-detection/position-switches/position-switches-with-safety-function/pid/ps116",
+      "category_name": "Safety Limit Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Bernstein Limit switches IN65",
+      "product_url": "https://www.bernstein.eu/en/products/safety-technology/safety-switches-sensors/limit-switches/in65/",
+      "category_name": "Limit Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "IDEC HS1L Series Safety Interlock Switches (Limit Switch Style)",
+      "product_url": "https://www.idec.com/products/safety/interlock-switches/hs1l-series",
+      "category_name": "Safety Switches (Interlock)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Steute Ex 97 Series Explosion-proof limit switches",
+      "product_url": "https://www.steute.com/en/products/automation/position-switches/series-ex-97.html",
+      "category_name": "Limit Switches (Explosion Proof)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Linemaster Treadlite II Foot Switch",
+      "product_url": "https://linemaster.com/product/treadlite-ii/",
+      "category_name": "Foot Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Herga Technology 6226 Series Heavy Duty Foot Switch",
+      "product_url": "https://www.herga.com/products/footswitches/heavy-duty-footswitches/6226-series-heavy-duty-footswitch",
+      "category_name": "Foot Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Schmersal Foot switches TFH 232",
+      "product_url": "https://www.schmersal.com/en/control-devices-signalling-devices/foot-switches/pid/tfh-232",
+      "category_name": "Foot Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "SSC Controls S-Series Foot Switches",
+      "product_url": "https://ssccontrols.com/product/s-series-controls/",
+      "category_name": "Foot Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Baco Controls Foot switches",
+      "product_url": "https://www.bacocontrols.com/en/foot-switches.html",
+      "category_name": "Foot Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Siemens SENTRON 3LD Manual Motor Controllers (Disconnects)",
+      "product_url": "https://new.siemens.com/us/en/products/energy/low-voltage/components/sentron-switching-devices/main-emergency-stop-switches.html",
+      "category_name": "Switch Disconnectors",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Schneider Electric TeSys Mini-Vario Switch Disconnectors",
+      "product_url": "https://www.se.com/ww/en/product-range/749-tesys-vario/",
+      "category_name": "Switch Disconnectors",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "ABB OTDC Switch-disconnectors for DC",
+      "product_url": "https://new.abb.com/low-voltage/products/switches/dc-switch-disconnectors/otdc",
+      "category_name": "Switch Disconnectors (DC)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Eaton Bussmann series Fused Disconnect Switches",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/electrical-circuit-protection/fused-disconnect-switches.html",
+      "category_name": "Fuse Switch Disconnectors",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Rockwell Automation Allen-Bradley Bulletin 1494U Visible Blade Disconnect Switches",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/circuit-and-load-protection/disconnect-switches/bulletin-1494u-visible-blade-disconnect-switches.html",
+      "category_name": "Switch Disconnectors",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Kraus & Naimer KF-Series Switch Disconnectors",
+      "product_url": "https://www.krausnaimer.com/en_us/products/switch-disconnectors/kf-series/",
+      "category_name": "Switch Disconnectors",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Legrand BTDIN Switch disconnectors",
+      "product_url": "https://www.legrand.it/pro/catalog/product/view/identifier/F72N_22",
+      "category_name": "Switch Disconnectors",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Lovato Electric ATL series automatic transfer switch controllers",
+      "product_url": "https://www.lovatoelectric.com/category/250/0/Automatic-transfer-switch-controllers.html",
+      "category_name": "Transfer Switch Controllers",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Salzer Load Break Switches",
+      "product_url": "https://www.salzerswitch.com/load-break-switches.php",
+      "category_name": "Load Break Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Baco Controls Disconnect switches 16 to 100A",
+      "product_url": "https://www.bacocontrols.com/en/disconnect-switches-16-to-100a.html",
+      "category_name": "Switch Disconnectors",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Socomec Fupac Fuse combination switches",
+      "product_url": "https://www.socomec.com/en-gb/product/fupac",
+      "category_name": "Fuse Combination Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "ABB SlimLine XR fuse switch disconnector",
+      "product_url": "https://new.abb.com/low-voltage/products/fusegear/nh-fuse-switch-disconnectors/slimline-xr",
+      "category_name": "Fuse Switch Disconnectors",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Siemens SENTRON 3NJ4 In-line fuse switch disconnectors",
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-switching-devices/fuse-switch-disconnectors/3nj4-inline-fuse-switch-disconnectors.html",
+      "category_name": "Fuse Switch Disconnectors",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Schneider Electric TeSys DF, LS1/GK1 fuse carriers",
+      "product_url": "https://www.se.com/ww/en/product-range/752-tesys-df-ls1-gk1/",
+      "category_name": "Fuse Holders",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Eaton Bussmann series Compact Circuit Protector (CCP)",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/electrical-circuit-protection/compact-circuit-protector.html",
+      "category_name": "Fused Disconnect Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Mersen Low Voltage Switchgear (MULTIFIX®, MULTIBLOC®)",
+      "product_url": "https://www.mersen.com/us/en/products/engineering/low-voltage-switchgear",
+      "category_name": "Fuse Switch Disconnectors",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Jean Müller Sasilplus NH Fuse Switch Disconnectors",
+      "product_url": "https://www.jeanmueller.de/en/products/low-voltage/nh-fuse-switch-disconnectors/sasilplus-nh-fuse-switch-disconnectors/",
+      "category_name": "Fuse Switch Disconnectors",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Wöhner NH-Fuse-switch disconnector size 1, 2, 3 QUADRON®185Power",
+      "product_url": "https://www.woehner.com/en/products/details/nh-fuse-switch-disconnector-size-1-2-3-3-pole-switchable-m12/",
+      "category_name": "Fuse Switch Disconnectors",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Socomec ATyS C55 Controller for Transfer Switches",
+      "product_url": "https://www.socomec.com/en-gb/product/atys-c55-c65",
+      "category_name": "Transfer Switch Controllers",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "ABB CM-MPS monitoring relays for TruONE ATS",
+      "product_url": "https://new.abb.com/low-voltage/products/switches/automatic-transfer-switches/truone/accessories/cm-mps",
+      "category_name": "Transfer Switch Accessories (Monitoring)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Siemens SENTRON 3KC Accessories for Transfer Switching Equipment",
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-switching-devices/transfer-switching-equipment/accessories.html",
+      "category_name": "Transfer Switch Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Schneider Electric Automatic source transfer controllers",
+      "product_url": "https://www.se.com/ww/en/product-range/1179-transferpact-atc/",
+      "category_name": "Transfer Switch Controllers",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Eaton ATC-900 Automatic Transfer Switch Controller",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/transfer-switches/atc-900.html",
+      "category_name": "Transfer Switch Controllers",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Katko KVF Switch Fuses",
+      "product_url": "https://www.katko.com/products/switch-fuses/kvf-switch-fuse/",
+      "category_name": "Switch Fuses",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Telergon M Motorised Changeover Switches",
+      "product_url": "https://www.telergon.com/en/catalogue/ac-applications/changeover-switches/m/",
+      "category_name": "Motorized Changeover Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Technoelectric CMD Motorized Changeover Switch",
+      "product_url": "https://www.technoelectric.it/en/products/changeover-switches/cmd",
+      "category_name": "Motorized Changeover Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Palazzoli X-CEIVER Interlocked Socket Outlet",
+      "product_url": "https://www.palazzoli.com/en/product-catalogue/distribution/x-ceiver-interlocked-socket-outlet",
+      "category_name": "Interlocked Socket Outlets (Switch Disconnect)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Scame OPTIMA Series Interlocked switched socket outlets",
+      "product_url": "https://www.scame.com/en/products/catalogue/distribution/interlocked-socket-outlets/surface-mounting-interlocked-socket-outlets/optima",
+      "category_name": "Interlocked Socket Outlets (Switch Disconnect)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Honeywell MICRO SWITCH™ GLS Series Global Limit Switches",
+      "product_url": "https://sps.honeywell.com/us/en/products/advanced-sensing-technologies/industrial-sensing/industrial-switches/limit-switches/global-limit-switches/gls-series",
+      "category_name": "Limit Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Omron D4B-N Safety Limit Switch",
+      "product_url": "https://industrial.omron.eu/en/products/d4b-n",
+      "category_name": "Safety Limit Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Eaton E47 Compact Limit Switches",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/sensors-switches-pilot-devices-column-lights/e47-compact-limit-switches.html",
+      "category_name": "Limit Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Pizzato Elettrica FD series Position switches",
+      "product_url": "https://www.pizzato.com/en/catalog/position-switches/products/fd-series/",
+      "category_name": "Limit Switches / Position Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Schmersal Position switches with safety function PS215/PS216/PS315/PS316",
+      "product_url": "https://www.schmersal.com/en/position-detection/position-switches/position-switches-with-safety-function/pid/ps215-ps216-ps315-ps316",
+      "category_name": "Safety Limit Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Bernstein Limit switches I88 / TI2",
+      "product_url": "https://www.bernstein.eu/en/products/safety-technology/safety-switches-sensors/limit-switches/",
+      "category_name": "Limit Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "IDEC HS6E Series Solenoid Locking Safety Switch",
+      "product_url": "https://www.idec.com/products/safety/interlock-switches/hs6e-series",
+      "category_name": "Safety Switches (Solenoid Lock)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Steute ZS 92 S Pull-wire switch",
+      "product_url": "https://www.steute.com/en/products/automation/pull-wire-switches/series-zs-92-s.html",
+      "category_name": "Rope Pull Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Linemaster Clipper Foot Switch",
+      "product_url": "https://linemaster.com/product/clipper/",
+      "category_name": "Foot Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Herga Technology 6241 Series Bluetooth Foot Switch",
+      "product_url": "https://www.herga.com/products/footswitches/bluetooth-footswitches/6241-series-bluetooth-footswitch",
+      "category_name": "Foot Switches (Wireless)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Schmersal Safety foot switches TF",
+      "product_url": "https://www.schmersal.com/en/control-devices-signalling-devices/safety-foot-switches/pid/tf",
+      "category_name": "Foot Switches (Safety)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "SSC Controls F-Series Foot Switches (Industrial)",
+      "product_url": "https://ssccontrols.com/product/f-series-foot-switch/",
+      "category_name": "Foot Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Siemens SENTRON 3VA MCCB Accessories",
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-protection-devices/molded-case-circuit-breakers/3va-molded-case-circuit-breakers/accessories.html",
+      "category_name": "MCCB Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Schneider Electric ComPacT NSX Accessories",
+      "product_url": "https://www.se.com/ww/en/product-range/65270-compact-nsx/",
+      "category_name": "MCCB Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "ABB Accessories for Tmax XT MCCB",
+      "product_url": "https://new.abb.com/low-voltage/products/circuit-breakers/molded-case/accessories-tmax-xt",
+      "category_name": "MCCB Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Eaton Series C MCCB Accessories",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/electrical-circuit-protection/molded-case-circuit-breakers.html",
+      "category_name": "MCCB Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Legrand DPX³ Accessories",
+      "product_url": "https://www.legrandgroup.com/en/products/wiring-devices-and-electrical-equipment/din-rail-equipment/accessories-dpxsup3sup",
+      "category_name": "MCCB Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Mitsubishi Electric AE-SW Series ACB Accessories",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/lvc/items/ae_sw/accessory.html",
+      "category_name": "ACB Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "LS Electric Susol ACB Accessories",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Factory_Solution/Low_Voltage_Equipment/Accessory",
+      "category_name": "ACB Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Terasaki TemPower 2 Accessories for ACB",
+      "product_url": "https://www.terasaki.com/products/low-voltage/acb/tempower2/accessories/",
+      "category_name": "ACB Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Siemens SENTRON 3NP1 Accessories for Fuse Switch Disconnectors",
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-switching-devices/fuse-switch-disconnectors/accessories.html",
+      "category_name": "Fuse Switch Disconnector Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Schneider Electric TeSys GS Accessories",
+      "product_url": "https://www.se.com/ww/en/product-range/754-tesys-gs/#tabs",
+      "category_name": "Fuse Switch Disconnector Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "ABB Accessories for switch fuses",
+      "product_url": "https://new.abb.com/low-voltage/products/switches/switch-fuses/accessories",
+      "category_name": "Switch Fuse Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Mersen Accessories for MULTIBLOC® and MULTIVERT®",
+      "product_url": "https://www.mersen.com/us/en/products/catalog/fuse-holders-and-accessories/iec-low-voltage-fuse-holders-and-accessories/accessories-for-multiblocr-and-multivertr",
+      "category_name": "Fuse Switch Disconnector Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Jean Müller Accessories for NH fuse-switch-disconnectors",
+      "product_url": "https://www.jeanmueller.de/en/products/low-voltage/nh-fuse-switch-disconnectors/accessories-for-nh-fuse-switch-disconnectors/",
+      "category_name": "Fuse Switch Disconnector Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Wöhner Accessories for NH fuse-switch disconnectors",
+      "product_url": "https://www.woehner.com/en/products/groups/accessories-for-nh-fuse-switch-disconnectors-size-00-3/",
+      "category_name": "Fuse Switch Disconnector Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Socomec Accessories for SIRCO M / MV",
+      "product_url": "https://www.socomec.com/en-gb/product/sirco-m#related_products",
+      "category_name": "Load Break Switch Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Kraus & Naimer Accessories for Cam Switches",
+      "product_url": "https://www.krausnaimer.com/en_us/products/accessories/accessories-cam-switches/",
+      "category_name": "Cam Switch Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Salzer Accessories for Panel Mounting Switches",
+      "product_url": "https://www.salzerswitch.com/images/pdf/accessories.pdf",
+      "category_name": "Switch Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Baco Controls Accessories for disconnect switches",
+      "product_url": "https://www.bacocontrols.com/en/accessories-for-disconnect-switches.html",
+      "category_name": "Switch Disconnector Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "C&K Switches Switch Caps & Buttons",
+      "product_url": "https://www.ckswitches.com/products/accessories/caps/",
+      "category_name": "Switch Accessories (Caps/Buttons)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Grayhill Product Accessories (Knobs, Seals)",
+      "product_url": "https://www.grayhill.com/products/accessories",
+      "category_name": "Switch Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Katko Accessories for Safety Switches",
+      "product_url": "https://www.katko.com/products/safety-switches/accessories-safety-switches/",
+      "category_name": "Safety Switch Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Telergon Accessories for S5/S6/S7",
+      "product_url": "https://www.telergon.com/en/catalogue/ac-applications/accessories-for-s5-s6-s7/",
+      "category_name": "Switch Disconnector Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Technoelectric Handles for SQ switches",
+      "product_url": "https://www.technoelectric.it/en/products/switch-disconnectors/sq/accessories/handles",
+      "category_name": "Switch Disconnector Accessories (Handles)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Palazzoli Padlocks for TAIS CUBIC Enclosures (Isolator Related)",
+      "product_url": "https://www.palazzoli.com/en/product-catalogue/enclosures/tais-cubic/accessories-for-tais-cubic",
+      "category_name": "Switch Accessories (Padlocks)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Scame Accessories for ISOLATORS series",
+      "product_url": "https://www.scame.com/en/products/catalogue/distribution/switch-disconnectors/accessories-for-isolators-series",
+      "category_name": "Switch Disconnector Accessories",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Honeywell MICRO SWITCH™ Toggle Switches",
+      "product_url": "https://sps.honeywell.com/us/en/products/advanced-sensing-technologies/industrial-sensing/industrial-switches/toggle-switches",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Omron A3P Toggle Switches",
+      "product_url": "https://industrial.omron.eu/en/products/a3p",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Eaton NGR Series Toggle Switches",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/controls-displays-sensors-transducers/ngr-toggle-switches.html",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "NKK Switches S Series Standard Size Toggles",
+      "product_url": "https://www.nkkswitches.com/products/toggle/s/",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "APEM 600H Series sealed toggle switches",
+      "product_url": "https://www.apem.com/int/600h-series-109",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "C&K Switches 7000 Series Toggle Switch",
+      "product_url": "https://www.ckswitches.com/products/switches/product-details/Toggle/7000/",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Carling Technologies G-Series Toggle Switches",
+      "product_url": "https://www.carlingtech.com/toggle-switches-g-series",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Otto Controls T3 Sealed Miniature Toggle Switch",
+      "product_url": "https://www.otto-controls.com/product/t3-sealed-miniature-toggle-switch/",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "TE Connectivity / Alcoswitch F Series Toggle Switches",
+      "product_url": "https://www.te.com/usa-en/product-CAT-TGS0007.html",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Honeywell MICRO SWITCH™ NT Series Toggle Switches",
+      "product_url": "https://sps.honeywell.com/us/en/products/advanced-sensing-technologies/industrial-sensing/industrial-switches/toggle-switches/nt-series",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Omron A3K Locking Toggle Switch",
+      "product_url": "https://industrial.omron.eu/en/products/a3k",
+      "category_name": "Toggle Switches (Locking)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "NKK Switches M Series Miniature Toggles",
+      "product_url": "https://www.nkkswitches.com/products/toggle/m/",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "APEM 5000 Series miniature toggle switches",
+      "product_url": "https://www.apem.com/int/5000-series-104",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "C&K Switches T Series Toggle Switch",
+      "product_url": "https://www.ckswitches.com/products/switches/product-details/Toggle/T/",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Carling Technologies L-Series Toggle Switches",
+      "product_url": "https://www.carlingtech.com/toggle-switches-l-series",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Otto Controls T7 Sealed Subminiature Toggle Switch",
+      "product_url": "https://www.otto-controls.com/product/t7-sealed-subminiature-toggle-switch/",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "TE Connectivity / Alcoswitch Gemini A Series Toggle Switches",
+      "product_url": "https://www.te.com/usa-en/product-CAT-TGS0001.html",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Honeywell MICRO SWITCH™ TL Series Toggle Switches",
+      "product_url": "https://sps.honeywell.com/us/en/products/advanced-sensing-technologies/industrial-sensing/industrial-switches/toggle-switches/tl-series",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "NKK Switches A Series Subminiature Toggles",
+      "product_url": "https://www.nkkswitches.com/products/toggle/a/",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "APEM 12000X778 Series long lever toggle switch",
+      "product_url": "https://www.apem.com/int/12000x778-110",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "C&K Switches GT Series Miniature Toggle Switch",
+      "product_url": "https://www.ckswitches.com/products/switches/product-details/Toggle/GT/",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Carling Technologies F-Series Toggle Switches",
+      "product_url": "https://www.carlingtech.com/toggle-switches-f-series",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "Otto Controls K1/K2/K3 Sealed Rocker Switches (Used as toggles)",
+      "product_url": "https://www.otto-controls.com/product/k1-k2-k3-sealed-rocker-switches/",
+      "category_name": "Rocker Switches (Toggle Function)",
+      "parent_category": "Switches, Commutators, Network Protection"
+    },
+    {
+      "product_name": "TE Connectivity / Alcoswitch TT Series Miniature Toggle Switches",
+      "product_url": "https://www.te.com/usa-en/product-CAT-TGS0009.html",
+      "category_name": "Toggle Switches",
+      "parent_category": "Switches, Commutators, Network Protection"
+    }
+  ]
+}

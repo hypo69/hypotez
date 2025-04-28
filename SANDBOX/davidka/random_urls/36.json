@@ -1,0 +1,1012 @@
+{
+  "products": [
+    {
+      "product_name": "Moxa ioLogik E1200 Series Remote I/O",
+      "product_url": "https://www.moxa.com/en/products/industrial-computing/i-o-devices/universal-controllers-i-os/iologik-e1200-series",
+      "category_name": "Remote I/O Modules",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Siemens SCALANCE M Industrial Routers",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-communication/industrial-routers/scalance-m.html",
+      "category_name": "Industrial Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Phoenix Contact FL MGUARD RS4000 Industrial Firewall/Router",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/industrial-router-fl-mguard-rs4000-tx-tx-vpn-2702593",
+      "category_name": "Industrial Routers / Firewalls",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Advantech EKI-1521 Serial Device Server",
+      "product_url": "https://www.advantech.com/en/products/gf-5uq4/eki-1521/mod_a29e3713-4c9c-41c0-813b-06b42a944f2e",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "HMS Anybus Communicator Protocol Converter",
+      "product_url": "https://www.anybus.com/products/gateway-index/anybus-communicator",
+      "category_name": "Protocol Converters / Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Red Lion DA10D Protocol Converter and Data Acquisition System",
+      "product_url": "https://www.redlion.net/products/industrial-automation/controllers-and-data-acquisition/data-station/da10d-protocol-converter",
+      "category_name": "Protocol Converters / Data Acquisition",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Westermo Lynx L110-F2G Industrial Ethernet Switch/Router",
+      "product_url": "https://www.westermo.com/products/ethernet-switches/managed-ethernet-switches/lynx-l110-f2g",
+      "category_name": "Industrial Routers / Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Belden (Hirschmann) BAT867-R Industrial Wireless LAN Access Point",
+      "product_url": "https://www.belden.com/products/industrial-networking-cybersecurity/wireless/wlan-ap-client/bat867-r",
+      "category_name": "Industrial Wireless Access Points",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Lantronix EDS1100 Serial Device Server",
+      "product_url": "https://www.lantronix.com/products/eds1100-eds2100/",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Digi Connect EZ Serial Server",
+      "product_url": "https://www.digi.com/products/networking/infrastructure-management/serial-connectivity/device-servers/digi-connect-ez",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Teltonika RUT955 Industrial Cellular Router",
+      "product_url": "https://teltonika-networks.com/products/routers/rut955",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Perle IDS-108F Industrial Ethernet Switch (Functions as Media Converter)",
+      "product_url": "https://www.perle.com/products/industrial-ethernet-switches/ids-108f-unmanaged-switch.shtml",
+      "category_name": "Industrial Media Converters (via Switch Functionality)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Antaira LMX-0600 Series Industrial Managed Ethernet Switch (Can function as converter)",
+      "product_url": "https://www.antaira.com/products/industrial-ethernet/managed-switches/LMX-0600",
+      "category_name": "Managed Industrial Switches (Converter Functionality)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Korenix JetNet 5208G Industrial 8G Ethernet Switch",
+      "product_url": "https://www.korenix.com/en/product/show.aspx?num=43",
+      "category_name": "Managed Industrial Switches (Converter Functionality)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Siemens SIMATIC CloudConnect 7 Industrial IoT Gateway",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-communication/industrial-iot/simatic-cloudconnect-7.html",
+      "category_name": "Industrial IoT Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Moxa MGate 5105 Series Modbus Ethernet Gateway",
+      "product_url": "https://www.moxa.com/en/products/industrial-network-infrastructure/protocol-gateways/modbus-tcp-gateways/mgate-5105-mb-eip-series",
+      "category_name": "Protocol Converters / Gateways (Modbus/EtherNet/IP)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Phoenix Contact FL NAT SMN 8TX NAT Switch/Router",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/nat-switch-fl-nat-smn-8tx-2702887",
+      "category_name": "Industrial Routers / NAT Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Advantech WISE-6610 LoRaWAN Gateway",
+      "product_url": "https://www.advantech.com/en/products/gf-6o9t/wise-6610/mod_a50c4318-a1a1-45c9-9354-981c8d7902d8",
+      "category_name": "Industrial IoT Gateways (LoRaWAN)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "HMS Ewon Cosy+ Industrial VPN Gateway",
+      "product_url": "https://www.ewon.biz/products/cosy/cosy-plus",
+      "category_name": "Industrial VPN Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Red Lion RAM 6000 Cellular RTUs",
+      "product_url": "https://www.redlion.net/products/industrial-networking/cellular/cellular-rtus/ram-6000",
+      "category_name": "Industrial Cellular Routers / RTUs",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Westermo MRD-455 Industrial 4G Router",
+      "product_url": "https://www.westermo.com/products/industrial-cellular-wireless/mobile-broadband-routers/mrd-455",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Belden (Hirschmann) EAGLE40 Industrial Firewall",
+      "product_url": "https://www.belden.com/products/industrial-networking-cybersecurity/security-firewalls/next-gen-firewall/eagle40",
+      "category_name": "Industrial Firewalls",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Lantronix SGX 5150 IoT Device Gateway",
+      "product_url": "https://www.lantronix.com/products/sgx-5150/",
+      "category_name": "Industrial IoT Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Digi IX10 Industrial Cellular Router",
+      "product_url": "https://www.digi.com/products/networking/cellular-routers/industrial/digi-ix10",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Teltonika TRB140 Industrial LTE Cat 4 Gateway",
+      "product_url": "https://teltonika-networks.com/products/gateways/trb140",
+      "category_name": "Industrial Cellular Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Perle IRG5521+ LTE Router",
+      "product_url": "https://www.perle.com/products/industrial-lte-routers/irg5521-lte-router.shtml",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Antaira ARS-7231-AC Industrial Wireless Router",
+      "product_url": "https://www.antaira.com/products/wireless/routers/ARS-7231-AC",
+      "category_name": "Industrial Wireless Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Korenix JetWave 2212X Industrial 802.11a/b/g/n Wireless AP",
+      "product_url": "https://www.korenix.com/en/product/show.aspx?num=5",
+      "category_name": "Industrial Wireless Access Points",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Siemens SCALANCE W770 Access Point",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-communication/industrial-wireless-lan/scalance-w770-access-points.html",
+      "category_name": "Industrial Wireless Access Points",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Moxa AWK-3131A Series Industrial IEEE 802.11n Wireless AP/Bridge/Client",
+      "product_url": "https://www.moxa.com/en/products/industrial-network-infrastructure/wireless-ap-bridge-client/wlan-ap-bridge-client/awk-3131a-series",
+      "category_name": "Industrial Wireless Access Points/Clients",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Phoenix Contact FL WLAN 1101 Wireless LAN Access Point",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/wlan-access-point-fl-wlan-1101-1043199",
+      "category_name": "Industrial Wireless Access Points",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Advantech EKI-6333AC Industrial Wi-Fi Access Point",
+      "product_url": "https://www.advantech.com/en/products/gf-5uqj/eki-6333ac/mod_b3728667-e29f-4e05-a30f-43381f7506d1",
+      "category_name": "Industrial Wireless Access Points",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "HMS Anybus Wireless Bridge II",
+      "product_url": "https://www.anybus.com/products/wireless-index/anybus-wireless-bridge-ii",
+      "category_name": "Industrial Wireless Bridges",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Red Lion SN-6000 Series Cellular Routers",
+      "product_url": "https://www.redlion.net/products/industrial-networking/cellular/cellular-routers/sn-6000",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Westermo Ibex-RT-370 Mobile Backhaul Router",
+      "product_url": "https://www.westermo.com/products/industrial-cellular-wireless/mobile-backhaul-routers/ibex-rt-370",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Belden (Hirschmann) OpenBAT Wireless LAN",
+      "product_url": "https://www.belden.com/products/industrial-networking-cybersecurity/wireless/wlan-ap-client/openbat",
+      "category_name": "Industrial Wireless Access Points/Clients",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Lantronix UDS1100 Device Server",
+      "product_url": "https://www.lantronix.com/products/uds1100/",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Digi PortServer TS Serial Server",
+      "product_url": "https://www.digi.com/products/networking/infrastructure-management/serial-connectivity/device-servers/portserver-ts",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Teltonika TRB245 Industrial LTE Cat 4 Gateway",
+      "product_url": "https://teltonika-networks.com/products/gateways/trb245",
+      "category_name": "Industrial Cellular Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Perle IOLAN SDG Device Server",
+      "product_url": "https://www.perle.com/products/iolan-sdg-device-server.shtml",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Antaira STE-604C-T Serial to Ethernet Device Server",
+      "product_url": "https://www.antaira.com/products/serial-communication/device-servers/STE-604C-T",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Korenix JetPort 5601 V3 Industrial 1-port RS-232/422/485 Serial Device Server",
+      "product_url": "https://www.korenix.com/en/product/show.aspx?num=148",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Siemens RUGGEDCOM RM1224 Router",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-communication/industrial-routers/ruggedcom-routers/ruggedcom-rm1224.html",
+      "category_name": "Industrial Routers (Rugged)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Moxa NPort 5100 Series General Device Servers",
+      "product_url": "https://www.moxa.com/en/products/industrial-network-infrastructure/serial-device-servers/general-device-servers/nport-5100-series",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Phoenix Contact TC ROUTER Cellular Router",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/industrial-communication/remote-communication/mobile-communication",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Advantech ADAM-6700 Series Intelligent I/O Gateway",
+      "product_url": "https://www.advantech.com/en/products/gf-5v8d/adam-6700/mod_ff216622-1c7c-47c1-a7f0-3c046b634e07",
+      "category_name": "Industrial IoT Gateways / Remote I/O",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "HMS Netbiter EC360 Remote Gateway",
+      "product_url": "https://www.netbiter.com/products/netbiter-ec360-gateway",
+      "category_name": "Industrial IoT Gateways (Remote Monitoring)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Red Lion FlexEdge DA50D Advanced Protocol Converter and Data Acquisition System",
+      "product_url": "https://www.redlion.net/products/industrial-automation/controllers-and-data-acquisition/data-station/flexedge-da50d-advanced",
+      "category_name": "Protocol Converters / Data Acquisition",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Westermo RedFox-5728 Industrial Routing Switch",
+      "product_url": "https://www.westermo.com/products/ethernet-switches/managed-ethernet-switches/redfox-5728",
+      "category_name": "Industrial Routers / Switches (L3)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Belden (Hirschmann) GREYHOUND 105/106 Ethernet Switch/Router",
+      "product_url": "https://www.belden.com/products/industrial-networking-cybersecurity/managed-switches/din-rail/greyhound-105-106",
+      "category_name": "Industrial Routers / Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Lantronix EMG Edge Management Gateway",
+      "product_url": "https://www.lantronix.com/products/emg/",
+      "category_name": "Industrial Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Digi IX20 Industrial Router",
+      "product_url": "https://www.digi.com/products/networking/cellular-routers/industrial/digi-ix20",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Teltonika RUTX11 Industrial Router",
+      "product_url": "https://teltonika-networks.com/products/routers/rutx11",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Perle IRG5140+ LTE Router",
+      "product_url": "https://www.perle.com/products/industrial-lte-routers/irg5140-lte-router.shtml",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Antaira ARY-7235 Industrial 5G NR Wi-Fi Router",
+      "product_url": "https://www.antaira.com/products/wireless/routers/ARY-7235",
+      "category_name": "Industrial Cellular Routers (5G)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Korenix JetWave 4020 Industrial Cellular plus WIFI IP Gateway",
+      "product_url": "https://www.korenix.com/en/product/show.aspx?num=156",
+      "category_name": "Industrial Cellular Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Siemens SCALANCE W760 Client Module",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-communication/industrial-wireless-lan/scalance-w760-client-modules.html",
+      "category_name": "Industrial Wireless Clients",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Moxa ioThinx 4510 Series Modular Remote I/O",
+      "product_url": "https://www.moxa.com/en/products/industrial-computing/i-o-devices/modular-i-os/iothinx-4500-series",
+      "category_name": "Remote I/O Modules (Modular)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Phoenix Contact FL COMSERVER UNI Serial Device Server",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/serial-device-server-fl-comserver-uni-2313452",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Advantech EKI-1221 Modbus Gateway",
+      "product_url": "https://www.advantech.com/en/products/gf-5v8c/eki-1221/mod_b5489f57-e829-4a29-8e26-0531c863ae4e",
+      "category_name": "Protocol Converters / Gateways (Modbus)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "HMS Anybus X-gateway",
+      "product_url": "https://www.anybus.com/products/gateway-index/anybus-xgateway",
+      "category_name": "Protocol Converters / Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Red Lion DA30D Protocol Converter and Data Acquisition System",
+      "product_url": "https://www.redlion.net/products/industrial-automation/controllers-and-data-acquisition/data-station/da30d-protocol-converter",
+      "category_name": "Protocol Converters / Data Acquisition",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Westermo Eltec CyBox GW 2-P Wireless Gateway",
+      "product_url": "https://www.westermo.com/products/industrial-cellular-wireless/wireless-gateways/cybox-gw-2-p",
+      "category_name": "Industrial Wireless Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Belden (Hirschmann) RSP Series Managed Switches (Router Functionality)",
+      "product_url": "https://www.belden.com/products/industrial-networking-cybersecurity/managed-switches/din-rail/rsp-series",
+      "category_name": "Managed Industrial Switches (Routing)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Lantronix PremierWave 2050 Embedded IoT Gateway",
+      "product_url": "https://www.lantronix.com/products/premierwave-2050/",
+      "category_name": "Industrial IoT Gateways (Embedded)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Digi TransPort WR31 Industrial Cellular Router",
+      "product_url": "https://www.digi.com/products/networking/cellular-routers/industrial/digi-transport-wr31",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Teltonika TRB142 Industrial RS232 Gateway",
+      "product_url": "https://teltonika-networks.com/products/gateways/trb142",
+      "category_name": "Industrial Cellular Gateways (Serial)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Perle IOLAN SCG Secure Console Server",
+      "product_url": "https://www.perle.com/products/iolan-scg-console-server.shtml",
+      "category_name": "Serial Console Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Antaira IMC-C100-XX Industrial Media Converters",
+      "product_url": "https://www.antaira.com/products/media-converters/industrial-media-converters/IMC-C100-XX",
+      "category_name": "Industrial Media Converters",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Korenix JetCon 1301 Industrial Fast Ethernet Media Converter",
+      "product_url": "https://www.korenix.com/en/product/show.aspx?num=18",
+      "category_name": "Industrial Media Converters",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Siemens SCALANCE XCM332 Media Module",
+      "product_url": "https://mall.industry.siemens.com/mall/en/WW/Catalog/Product/6GK5876-4AA00-4EA2",
+      "category_name": "Industrial Media Modules (for Switches)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Moxa IMC-21GA Series Industrial Gigabit Ethernet-to-Fiber Media Converters",
+      "product_url": "https://www.moxa.com/en/products/industrial-network-infrastructure/media-converters/ethernet-to-fiber-media-converters/imc-21ga-series",
+      "category_name": "Industrial Media Converters",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Phoenix Contact FL MC EF WDM... Media Converters",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/media-converters/fl-mc-ef-wdm",
+      "category_name": "Industrial Media Converters (WDM)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Advantech EKI-2541M Industrial Unmanaged Ethernet to Fiber Media Converter",
+      "product_url": "https://www.advantech.com/en/products/gf-5uqg/eki-2541m/mod_6e9a7600-e433-44c5-ae1b-1128a689b86e",
+      "category_name": "Industrial Media Converters",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "HMS Anybus Wireless Bolt",
+      "product_url": "https://www.anybus.com/products/wireless-index/anybus-wireless-bolt",
+      "category_name": "Industrial Wireless Connectors/Bridges",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Red Lion NT328G Layer 3 Industrial Ethernet Switch",
+      "product_url": "https://www.redlion.net/products/industrial-networking/ethernet-switches/managed-ethernet-switches/n-tron-series-nt328g-layer-3",
+      "category_name": "Managed Industrial Switches (L3 Routing)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Westermo MCW-211 Serial to Fibre Optic Modem",
+      "product_url": "https://www.westermo.com/products/serial-rs-232-422-485/fibre-optic-modems/mcw-211",
+      "category_name": "Industrial Media Converters (Serial to Fiber)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Belden (Hirschmann) OCTOPUS OS20/30 Managed Switches (IP67)",
+      "product_url": "https://www.belden.com/products/industrial-networking-cybersecurity/managed-switches/ip67/octopus-os20-os30",
+      "category_name": "Managed Industrial Switches (IP67)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Lantronix Spider KVM over IP Switch",
+      "product_url": "https://www.lantronix.com/products/lantronix-spider/",
+      "category_name": "KVM over IP Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Digi AnywhereUSB Plus Remote USB Hub",
+      "product_url": "https://www.digi.com/products/networking/infrastructure-management/usb-connectivity/usb-over-ip/anywhereusb-plus",
+      "category_name": "USB over IP Hubs",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Teltonika TRB141 Industrial LTE Cat 1 Gateway",
+      "product_url": "https://teltonika-networks.com/products/gateways/trb141",
+      "category_name": "Industrial Cellular Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Perle IOLAN STG Serial Terminal Server",
+      "product_url": "https://www.perle.com/products/iolan-stg-serial-terminal-server.shtml",
+      "category_name": "Serial Terminal Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Antaira FCU-3002A-SFP Industrial Media Converter",
+      "product_url": "https://www.antaira.com/products/media-converters/industrial-media-converters/FCU-3002A-SFP",
+      "category_name": "Industrial Media Converters",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Korenix JetCon 3401G Industrial Serial Fiber Media Converter",
+      "product_url": "https://www.korenix.com/en/product/show.aspx?num=14",
+      "category_name": "Industrial Media Converters (Serial to Fiber)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Siemens SCALANCE XF204 Unmanaged Switch (Flat)",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-communication/industrial-ethernet/scalance-x-switches/scalance-xf-200-unmanaged.html",
+      "category_name": "Unmanaged Industrial Switches (Flat)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Moxa UPort 1100 Series USB-to-Serial Converters",
+      "product_url": "https://www.moxa.com/en/products/industrial-edge-connectivity/usb-serial-converters-usb-hubs/usb-to-serial-converters/uport-1100-series",
+      "category_name": "USB-to-Serial Converters",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Phoenix Contact GW PL... Industrial Wireless Modules",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/industrial-communication/wireless-data-communication/gw-pl-wireless-modules",
+      "category_name": "Industrial Wireless Modules",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Advantech BB-SG3000 Series Modbus Gateways",
+      "product_url": "https://www.advantech.com/en/products/1-1wjn6m/bb-sg3000-series/mod_09cfd665-6a49-4470-8e71-6812d2e3de80",
+      "category_name": "Protocol Converters / Gateways (Modbus)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "HMS Intesis BACnet Gateways",
+      "product_url": "https://www.intesis.com/products/protocol-translator/bacnet-gateways",
+      "category_name": "Protocol Converters / Gateways (BACnet)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Red Lion ET-GT-ST-3 Media Converter",
+      "product_url": "https://www.redlion.net/products/industrial-networking/media-converters/ethernet-media-converters/et-gt-st-3-ethernet-media",
+      "category_name": "Industrial Media Converters",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Westermo ODW-720-F1 Fibre Optic Modem",
+      "product_url": "https://www.westermo.com/products/serial-rs-232-422-485/fibre-optic-modems/odw-720-f1",
+      "category_name": "Industrial Media Converters (Serial to Fiber)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Belden (Hirschmann) SPIDER III Standard Line Unmanaged Switch",
+      "product_url": "https://www.belden.com/products/industrial-networking-cybersecurity/unmanaged-switches/din-rail/spider-iii-standard-line",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Lantronix xSenso Analog I/O Device Server",
+      "product_url": "https://www.lantronix.com/products/xsenso/",
+      "category_name": "Remote I/O / Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Digi XBee Industrial Gateway",
+      "product_url": "https://www.digi.com/products/embedded-systems/digi-xbee/gateways/digi-xbee-gateway",
+      "category_name": "Industrial IoT Gateways (Zigbee/XBee)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Teltonika TRB145 Industrial LTE Cat 1 Gateway (RS485)",
+      "product_url": "https://teltonika-networks.com/products/gateways/trb145",
+      "category_name": "Industrial Cellular Gateways (Serial)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Perle CM1110 Media Converter",
+      "product_url": "https://www.perle.com/products/media-converters/cm1110-fast-ethernet.shtml",
+      "category_name": "Industrial Media Converters",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Antaira IMC-100A Industrial Media Converter",
+      "product_url": "https://www.antaira.com/products/media-converters/industrial-media-converters/IMC-100A",
+      "category_name": "Industrial Media Converters",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Korenix JetCon 2301-s Industrial Serial to Fiber Media Converter",
+      "product_url": "https://www.korenix.com/en/product/show.aspx?num=13",
+      "category_name": "Industrial Media Converters (Serial to Fiber)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Siemens SCALANCE X005 Unmanaged Switch",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-communication/industrial-ethernet/scalance-x-switches/scalance-x-000-unmanaged.html",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Moxa EDR-810 Series Industrial Secure Router",
+      "product_url": "https://www.moxa.com/en/products/industrial-network-infrastructure/secure-routers/industrial-secure-routers/edr-810-series",
+      "category_name": "Industrial Routers / Firewalls",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Phoenix Contact FL SWITCH SFN 5TX Unmanaged Switch",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/switch-fl-switch-sfn-5tx-2891152",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Advantech UNO-1372G Industrial IoT Gateway",
+      "product_url": "https://www.advantech.com/en/products/gf-5v9g/uno-1372g/mod_73a285ba-572f-4d7f-acb3-36d4c6ed1e3b",
+      "category_name": "Industrial IoT Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "HMS Ixxat CAN@net NT Generic Ethernet to CAN Gateway",
+      "product_url": "https://www.ixxat.com/products/products-industrial/gateways/can-ethernet-gateways/can-net-nt",
+      "category_name": "Protocol Converters / Gateways (CAN/Ethernet)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Red Lion N-Tron Series 1008TX Unmanaged Switch",
+      "product_url": "https://www.redlion.net/products/industrial-networking/ethernet-switches/unmanaged-ethernet-switches/n-tron-series-1000-gigabit/1008tx",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Westermo Lynx 5512 Industrial Ethernet Switch",
+      "product_url": "https://www.westermo.com/products/ethernet-switches/managed-ethernet-switches/lynx-5512",
+      "category_name": "Managed Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Belden (Hirschmann) MACH100 Managed Workgroup Switch",
+      "product_url": "https://www.belden.com/products/industrial-networking-cybersecurity/managed-switches/rack-mount/mach100",
+      "category_name": "Managed Industrial Switches (Rack Mount)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Lantronix EPS100 Ethernet Print Server (Serial to Ethernet)",
+      "product_url": "https://www.lantronix.com/products/eps100-eps200/",
+      "category_name": "Print Servers (Serial to Ethernet)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Digi Connect SP Customizable Serial Server",
+      "product_url": "https://www.digi.com/products/networking/infrastructure-management/serial-connectivity/device-servers/digi-connect-sp",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Teltonika RUTX12 Dual LTE Cat 6 Industrial Router",
+      "product_url": "https://teltonika-networks.com/products/routers/rutx12",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Perle IOLAN DS1 Device Server",
+      "product_url": "https://www.perle.com/products/iolan-ds1-device-server.shtml",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Antaira APX-5200 Industrial Dual Radio Wireless AP",
+      "product_url": "https://www.antaira.com/products/wireless/access-points/APX-5200",
+      "category_name": "Industrial Wireless Access Points",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Korenix JetWave 2311 Industrial 802.11a/b/g/n Wireless Serial Device Server",
+      "product_url": "https://www.korenix.com/en/product/show.aspx?num=4",
+      "category_name": "Wireless Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Siemens SCALANCE W1750D Direct Access Point",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-communication/industrial-wireless-lan/scalance-w1750d.html",
+      "category_name": "Industrial Wireless Access Points",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Moxa ioLogik R1200 Series Serial Remote I/O",
+      "product_url": "https://www.moxa.com/en/products/industrial-computing/i-o-devices/serial-remote-i-os/iologik-r1200-series",
+      "category_name": "Remote I/O Modules (Serial)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Phoenix Contact PSI-MOS Fiber Optic Modems",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/fiber-optic-converter/psi-mos",
+      "category_name": "Industrial Media Converters (Serial to Fiber)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Advantech ADAM-6000 Series Ethernet I/O Modules",
+      "product_url": "https://www.advantech.com/en/products/gf-5uqf/sub_1-2jkjuy",
+      "category_name": "Remote I/O Modules (Ethernet)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "HMS Anybus Bolt RJ45 PoE",
+      "product_url": "https://www.anybus.com/products/wireless-index/anybus-wireless-bolt/anybus-wireless-bolt-rj45-poe",
+      "category_name": "Industrial Wireless Connectors/Bridges (PoE)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Red Lion SN-6900 Series Wi-Fi Radio",
+      "product_url": "https://www.redlion.net/products/industrial-networking/wireless/wireless-radios/sn-6900",
+      "category_name": "Industrial Wireless Radios",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Westermo DDW-142 Industrial Ethernet Extender",
+      "product_url": "https://www.westermo.com/products/ethernet-extenders-modems/ethernet-extenders/ddw-142",
+      "category_name": "Industrial Ethernet Extenders",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Belden (Hirschmann) GECKO Lite Managed Switch",
+      "product_url": "https://www.belden.com/products/industrial-networking-cybersecurity/managed-switches/din-rail/gecko",
+      "category_name": "Managed Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Lantronix SLC 8000 Advanced Console Manager",
+      "product_url": "https://www.lantronix.com/products/slc-8000-advanced-console-manager/",
+      "category_name": "Serial Console Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Digi Connect Sensor+ Cellular Gateway",
+      "product_url": "https://www.digi.com/products/iot-platform/wireless-sensing/digi-connect-sensor-plus",
+      "category_name": "Industrial IoT Gateways (Sensor)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Teltonika RUTX14 Industrial LTE Cat 12 Router",
+      "product_url": "https://teltonika-networks.com/products/routers/rutx14",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Perle IRG7440 5G Router",
+      "product_url": "https://www.perle.com/products/industrial-lte-routers/irg7440-5g-router.shtml",
+      "category_name": "Industrial Cellular Routers (5G)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Antaira IMP-C1000-SFP Industrial Media Converter",
+      "product_url": "https://www.antaira.com/products/media-converters/industrial-media-converters/IMP-C1000-SFP",
+      "category_name": "Industrial Media Converters (PoE)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Korenix JetCon 3701G Industrial Gigabit Ethernet to Fiber PoE Media Converter",
+      "product_url": "https://www.korenix.com/en/product/show.aspx?num=17",
+      "category_name": "Industrial Media Converters (PoE)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Siemens RUGGEDCOM RMC41 Media Converter",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-communication/industrial-routers/ruggedcom-accessories/ruggedcom-rmc41.html",
+      "category_name": "Industrial Media Converters (Rugged)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Moxa ICF-1150 Series Serial-to-Fiber Converters",
+      "product_url": "https://www.moxa.com/en/products/industrial-edge-connectivity/media-converters/serial-to-fiber-converters/icf-1150-series",
+      "category_name": "Industrial Media Converters (Serial to Fiber)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Phoenix Contact FL IF MEM... Media converter installation module",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/media-converters/fl-if-mem",
+      "category_name": "Industrial Media Converters",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Advantech EKI-1361 Wireless Serial Device Server",
+      "product_url": "https://www.advantech.com/en/products/gf-5uqn/eki-1361/mod_9b418e3b-1c23-4238-9a02-d31c003f6b31",
+      "category_name": "Wireless Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "HMS Anybus Modbus to Profinet Gateway",
+      "product_url": "https://www.anybus.com/products/gateway-index/anybus-communicator/detail/anybus-communicator-modbus-tcp-server---profinet-io-device",
+      "category_name": "Protocol Converters / Gateways (Modbus/Profinet)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Red Lion Graphite Edge Controller",
+      "product_url": "https://www.redlion.net/products/industrial-automation/controllers-and-data-acquisition/edge-controllers/graphite-edge",
+      "category_name": "Industrial Edge Controllers / Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Westermo Viper-212A Compact Managed Ethernet Switch (EN 50155)",
+      "product_url": "https://www.westermo.com/products/ethernet-switches/managed-ethernet-switches/viper-212a",
+      "category_name": "Managed Industrial Switches (EN 50155)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Belden (Hirschmann) MS20/30 Modular Managed Switches",
+      "product_url": "https://www.belden.com/products/industrial-networking-cybersecurity/managed-switches/din-rail/ms20-ms30",
+      "category_name": "Managed Industrial Switches (Modular)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Lantronix SecureBox SDS1101 Device Server",
+      "product_url": "https://www.lantronix.com/products/securebox-sds1101/",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Digi Connect ME 9210 Embedded Device Server",
+      "product_url": "https://www.digi.com/products/embedded-systems/system-on-modules/digi-connect-me",
+      "category_name": "Embedded Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Teltonika TRB143 Industrial M-Bus Gateway",
+      "product_url": "https://teltonika-networks.com/products/gateways/trb143",
+      "category_name": "Industrial Gateways (M-Bus)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Perle IRG5410 LTE Router",
+      "product_url": "https://www.perle.com/products/industrial-lte-routers/irg5410-lte-router.shtml",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Antaira APN-310N Industrial Wireless Access Point",
+      "product_url": "https://www.antaira.com/products/wireless/access-points/APN-310N",
+      "category_name": "Industrial Wireless Access Points",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Korenix JetWave 2460 Industrial 802.11a/b/g/n Wireless Outdoor AP",
+      "product_url": "https://www.korenix.com/en/product/show.aspx?num=187",
+      "category_name": "Industrial Wireless Access Points (Outdoor)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Siemens SCALANCE XB005 Unmanaged Switch",
+      "product_url": "https://mall.industry.siemens.com/mall/en/WW/Catalog/Product/6GK5005-0BA00-1AB2",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Moxa EDS-208A Series Unmanaged Ethernet Switches",
+      "product_url": "https://www.moxa.com/en/products/industrial-network-infrastructure/ethernet-switches/unmanaged-switches/eds-200a-series",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Phoenix Contact FL SWITCH SFNB 5TX Unmanaged Switch",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/switch-fl-switch-sfnb-5tx-2891001",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Advantech EKI-2525 Unmanaged Industrial Ethernet Switch",
+      "product_url": "https://www.advantech.com/en/products/gf-5uqk/eki-2525/mod_7c4593a6-6d6a-4627-9c3b-ff8f5899d602",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "HMS Anybus CAN to Modbus RTU Gateway",
+      "product_url": "https://www.anybus.com/products/gateway-index/anybus-communicator/detail/anybus-communicator-can-modbus-rtu-slave",
+      "category_name": "Protocol Converters / Gateways (CAN/Modbus)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Red Lion N-Tron Series 105TX Unmanaged Switch",
+      "product_url": "https://www.redlion.net/products/industrial-networking/ethernet-switches/unmanaged-ethernet-switches/n-tron-series-100-unmanaged/105tx",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Westermo SDI-880 Unmanaged Industrial Ethernet Switch",
+      "product_url": "https://www.westermo.com/products/ethernet-switches/unmanaged-ethernet-switches/sdi-880",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Belden (Hirschmann) SPIDER PL Unmanaged Switch",
+      "product_url": "https://www.belden.com/products/industrial-networking-cybersecurity/unmanaged-switches/din-rail/spider-pl",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Lantronix XPort Embedded Ethernet Device Server",
+      "product_url": "https://www.lantronix.com/products/xport/",
+      "category_name": "Embedded Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Digi ConnectPort X4 Industrial Gateway",
+      "product_url": "https://www.digi.com/products/networking/gateways/industrial/connectport-x4",
+      "category_name": "Industrial IoT Gateways",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Teltonika RUT240 Industrial Cellular Router",
+      "product_url": "https://teltonika-networks.com/products/routers/rut240",
+      "category_name": "Industrial Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Perle IOLAN SDS L Device Server",
+      "product_url": "https://www.perle.com/products/iolan-sdsl-device-server.shtml",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Antaira LNX-0501G Industrial Unmanaged Gigabit Ethernet Switch",
+      "product_url": "https://www.antaira.com/products/industrial-ethernet/unmanaged-switches/LNX-0501G",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Korenix JetNet 3005G Industrial 5-port Full Gigabit Ethernet Switch",
+      "product_url": "https://www.korenix.com/en/product/show.aspx?num=2",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Siemens SCALANCE X108 Unmanaged Switch",
+      "product_url": "https://mall.industry.siemens.com/mall/en/WW/Catalog/Product/6GK5108-0BA00-2AA3",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Moxa ICF-1180I Series PROFIBUS-to-Fiber Converters",
+      "product_url": "https://www.moxa.com/en/products/industrial-edge-connectivity/media-converters/fieldbus-to-fiber-converters/icf-1180i-series",
+      "category_name": "Industrial Media Converters (Profibus to Fiber)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Phoenix Contact FL SWITCH 1000 Series Unmanaged Switches",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/network-switches/unmanaged-switches/fl-switch-1000",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Advantech EKI-3525 Unmanaged Industrial Ethernet Switch",
+      "product_url": "https://www.advantech.com/en/products/gf-5uqk/eki-3525/mod_5ef9d3d5-f5d0-427e-9a3f-920e241e766e",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "HMS Anybus Communicator CAN",
+      "product_url": "https://www.anybus.com/products/gateway-index/anybus-communicator/anybus-communicator-can",
+      "category_name": "Protocol Converters / Gateways (CAN)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Red Lion N-Tron Series 304TX Unmanaged Switch",
+      "product_url": "https://www.redlion.net/products/industrial-networking/ethernet-switches/unmanaged-ethernet-switches/n-tron-series-300-unmanaged/304tx",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Westermo Wolverine DDW-242 Industrial Ethernet Extender",
+      "product_url": "https://www.westermo.com/products/ethernet-extenders-modems/ethernet-extenders/ddw-242",
+      "category_name": "Industrial Ethernet Extenders",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Belden (Hirschmann) RS20 Compact Managed Switches",
+      "product_url": "https://www.belden.com/products/industrial-networking-cybersecurity/managed-switches/din-rail/rs20",
+      "category_name": "Managed Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Lantronix XPress-DR+ Industrial Device Server",
+      "product_url": "https://www.lantronix.com/products/xpress-dr-xpress-dr-iap/",
+      "category_name": "Serial Device Servers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Digi Connect WAN Cellular Router",
+      "product_url": "https://www.digi.com/products/networking/cellular-routers/enterprise/digi-connect-wan",
+      "category_name": "Cellular Routers",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Teltonika TRB255 Industrial LTE Cat M1/NB-IoT Gateway",
+      "product_url": "https://teltonika-networks.com/products/gateways/trb255",
+      "category_name": "Industrial Cellular Gateways (LPWAN)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Perle IOLAN SDS M Device Server (Managed)",
+      "product_url": "https://www.perle.com/products/iolan-sdsm-device-server.shtml",
+      "category_name": "Serial Device Servers (Managed)",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Antaira LNX-1002G-SFP Industrial Unmanaged Ethernet Switch",
+      "product_url": "https://www.antaira.com/products/industrial-ethernet/unmanaged-switches/LNX-1002G-SFP",
+      "category_name": "Unmanaged Industrial Switches",
+      "parent_category": "Industrial Communication Devices"
+    },
+    {
+      "product_name": "Korenix JetNet 3806Gf Industrial 6-port Full Gigabit PoE Switch",
+      "product_url": "https://www.korenix.com/en/product/show.aspx?num=151",
+      "category_name": "Unmanaged Industrial Switches (PoE)",
+      "parent_category": "Industrial Communication Devices"
+    }
+  ]
+}

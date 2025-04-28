@@ -1,0 +1,1084 @@
+{
+  "products": [
+    {
+      "product_name": "Rosemount™ 644 Temperature Transmitter",
+      "product_url": "https://www.emerson.com/en-us/catalog/automation-solutions/measurement-instrumentation/temperature/rosemount-sku-644-temperature-transmitter",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Endress+Hauser iTEMP TMT162 Temperature Transmitter",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/temperature-measurement/temperature-transmitter-itemp-TMT162",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Yokogawa YTA610 Temperature Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/temperature-transmitters/yta610-yta710/",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "WIKA model TR10-B Resistance thermometer",
+      "product_url": "https://www.wika.com/en-us/products/temperature/electrical_temperature_measurement/resistance_thermometers/productoverview/resistance_thermometer_for_sanitary_applications_model_tr10_b.WIKA",
+      "category_name": "Resistance Thermometers (RTD)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Omega Engineering PR-21 Series RTD Probes",
+      "product_url": "https://www.omega.com/en-us/temperature-measurement/temperature-probes/rtd-probes/pr-21-series/p/PR-21-2-100-1-4-12-E-NB9W",
+      "category_name": "Resistance Thermometers (RTD)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Siemens SITRANS TS500 Temperature Sensor",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/temperature-measurement/temperature-sensors/sitrans-ts500.html",
+      "category_name": "Temperature Sensors (Modular)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "ABB SensyTemp TSP300 Modular temperature sensors",
+      "product_url": "https://new.abb.com/products/measurement-products/temperature/temperature-sensors/sensytemp-tsp300",
+      "category_name": "Temperature Sensors (Modular)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Honeywell SmartLine STT850 Temperature Transmitter",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/temperature-transmitters/stt850-smart-temperature-transmitter",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Pyromation Series 460 General Purpose RTD Sensors",
+      "product_url": "https://www.pyromation.com/Products/Item.aspx?item=RTD_ASSY_GP_SERIES460",
+      "category_name": "Resistance Thermometers (RTD)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Watlow MINERAL INSULATED RTD SENSORS",
+      "product_url": "https://www.watlow.com/products/sensors/rtd-sensors/mineral-insulated-rtd-sensors",
+      "category_name": "Resistance Thermometers (RTD)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "IFM Electronic TA series Temperature sensors",
+      "product_url": "https://www.ifm.com/us/en/category/030/030_010",
+      "category_name": "Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Baumer TER8 Compact resistance thermometer",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/temperature-measurement/resistance-thermometers/ter8/p/1545",
+      "category_name": "Resistance Thermometers (RTD)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "JUMO heatTHERM-AT Surface mounting thermostat",
+      "product_url": "https://www.jumo.net/en/products/temperature/thermostats/surface-mounting-thermostats/heattherm-at-ath-series/602031",
+      "category_name": "Thermostats (Mechanical)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Dwyer Instruments Series BTO Bimetal Thermometer",
+      "product_url": "https://www.dwyer-inst.com/Product/Temperature/Thermometers/Bimetal/SeriesBTO",
+      "category_name": "Bimetal Thermometers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Ashcroft® Bimetal Thermometer Model CI",
+      "product_url": "https://www.ashcroft.com/products/temperature/bimetal-thermometers/ci-bimetal-thermometer/",
+      "category_name": "Bimetal Thermometers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Fluke 568 Ex Intrinsically Safe Infrared Thermometer",
+      "product_url": "https://www.fluke.com/en-us/product/temperature-measurement/ir-thermometers/fluke-568-ex",
+      "category_name": "Infrared Thermometers (IS)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Micro-Epsilon thermoMETER CT Infrared temperature sensor",
+      "product_url": "https://www.micro-epsilon.com/temperature-sensors/thermometer/ct/",
+      "category_name": "Infrared Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Optris CS LT Infrared Thermometer",
+      "product_url": "https://www.optris.com/infrared-thermometer-cs-lt",
+      "category_name": "Infrared Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Raytek MI3 Series Infrared Temperature Sensor",
+      "product_url": "https://www.raytek.com/en/products/fixed-thermal-imagers-and-infrared-sensors/infrared-sensors/infrared-sensors-oem/mi3",
+      "category_name": "Infrared Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "OMEGA Thermocouple Probes - Exposed Junction",
+      "product_url": "https://www.omega.com/en-us/temperature-measurement/temperature-probes/thermocouple-probes/exposed-junction-thermocouple-probes/p/SA1XL-K",
+      "category_name": "Thermocouples",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Rosemount™ 248 Temperature Transmitter",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-sku-248-temperature-transmitter",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Endress+Hauser TST434 Modular RTD thermometer",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/temperature-measurement/rtd-thermometer-Omnigrad-TST434",
+      "category_name": "Resistance Thermometers (RTD)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Yokogawa YTA710 Temperature Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/temperature-transmitters/yta610-yta710/",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "WIKA Model TC10-B Thermocouple",
+      "product_url": "https://www.wika.com/en-us/products/temperature/electrical_temperature_measurement/thermocouples/productoverview/thermocouple_model_tc10_b.WIKA",
+      "category_name": "Thermocouples",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Omega Engineering TX-M12 Series Temperature Transmitter with M12 Connector",
+      "product_url": "https://www.omega.com/en-us/control-monitoring/temperature/temperature-transmitters/tx-m12-series/p/TX-M12-RTD-385-100-A",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Siemens SITRANS TH320/420 Head Transmitters",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/temperature-measurement/head-transmitters/sitrans-th320-420.html",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "ABB TTH200 Head mounted temperature transmitter",
+      "product_url": "https://new.abb.com/products/measurement-products/temperature/temperature-transmitters/tth200",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Honeywell SmartLine STT750 Temperature Transmitter",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/temperature-transmitters/stt750-smartline-temperature-transmitter",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Pyromation Series 440 Heavy Duty Industrial Thermocouple Sensors",
+      "product_url": "https://www.pyromation.com/Products/Item.aspx?item=TC_ASSY_HD_SERIES440",
+      "category_name": "Thermocouples",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Watlow GENERAL APPLICATION RTD SENSORS",
+      "product_url": "https://www.watlow.com/products/sensors/rtd-sensors/general-application-rtd-sensors",
+      "category_name": "Resistance Thermometers (RTD)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "IFM Electronic TAD Temperature sensors with display",
+      "product_url": "https://www.ifm.com/us/en/category/030/030_010#!/query=tad&min=0&max=0&num=20&sort=topseller-desc",
+      "category_name": "Temperature Sensors (with Display)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Baumer TE2 Compact temperature sensors",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/temperature-measurement/compact-temperature-sensors/te2/p/1541",
+      "category_name": "Temperature Sensors (Compact)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "JUMO BlackLine CR Resistance Thermometer",
+      "product_url": "https://www.jumo.net/en/products/temperature/thermometers/resistance-thermometers/jumo-blackline-cr-coatable-rtd-temperature-probe/902030",
+      "category_name": "Resistance Thermometers (RTD)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Dwyer Instruments Series TE Thermocouple Temperature Sensor",
+      "product_url": "https://www.dwyer-inst.com/Product/Temperature/Sensors/Thermocouple/SeriesTE",
+      "category_name": "Thermocouples",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Ashcroft® Bimetal Thermometer Model EI",
+      "product_url": "https://www.ashcroft.com/products/temperature/bimetal-thermometers/ei-bimetal-thermometer/",
+      "category_name": "Bimetal Thermometers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Fluke 62 MAX+ Infrared Thermometer",
+      "product_url": "https://www.fluke.com/en-us/product/temperature-measurement/ir-thermometers/fluke-62-max-plus",
+      "category_name": "Infrared Thermometers (Handheld)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Micro-Epsilon thermoMETER CThot Infrared temperature sensor for extreme ambient temperatures",
+      "product_url": "https://www.micro-epsilon.com/temperature-sensors/thermometer/cthot/",
+      "category_name": "Infrared Temperature Sensors (High Temp)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Optris CSmicro LT Miniature Infrared Thermometer",
+      "product_url": "https://www.optris.com/infrared-thermometer-csmicro-lt",
+      "category_name": "Infrared Temperature Sensors (Miniature)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Raytek Thermalert 4.0 Series Integrated Infrared Temperature Sensor",
+      "product_url": "https://www.raytek.com/en/products/fixed-thermal-imagers-and-infrared-sensors/infrared-sensors/infrared-sensors-integrated/thermalert-4-0",
+      "category_name": "Infrared Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "OMEGA Thermocouple Probes - Transition Joint",
+      "product_url": "https://www.omega.com/en-us/temperature-measurement/temperature-probes/thermocouple-probes/transition-junction-probes/tj36-cass-series/p/TJ36-CASS-116G-12",
+      "category_name": "Thermocouples",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Rosemount™ 848T Temperature Transmitter",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-sku-848t-temperature-transmitter",
+      "category_name": "Temperature Transmitters (Multi-Input)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Endress+Hauser TMT71 Temperature Transmitter (Single Channel)",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/temperature-measurement/temperature-transmitter-itemp-TMT71-TMT72",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Yokogawa YTA Series Temperature Transmitter Accessories",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/temperature-transmitters/accessories-temperature-transmitters/",
+      "category_name": "Temperature Transmitter Accessories",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "WIKA Model TR30 Resistance Thermometer",
+      "product_url": "https://www.wika.com/en-us/products/temperature/electrical_temperature_measurement/resistance_thermometers/productoverview/resistance_thermometer_model_tr30.WIKA",
+      "category_name": "Resistance Thermometers (RTD)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Omega Engineering DP25B Series Panel Meter Thermometer",
+      "product_url": "https://www.omega.com/en-us/control-monitoring/panel-meters/temperature-meters/dp25b-series/p/DP25B-TC",
+      "category_name": "Panel Meters (Temperature)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Siemens SITRANS TR320/420 Rail Transmitters",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/temperature-measurement/rail-transmitters/sitrans-tr320-420.html",
+      "category_name": "Temperature Transmitters (DIN Rail)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "ABB TTR200 Rail mounted temperature transmitter",
+      "product_url": "https://new.abb.com/products/measurement-products/temperature/temperature-transmitters/ttr200",
+      "category_name": "Temperature Transmitters (DIN Rail)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Honeywell Temperature Sensors (General)",
+      "product_url": "https://sps.honeywell.com/us/en/products/advanced-sensing-technologies/sensors/temperature-sensors",
+      "category_name": "Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Pyromation Series 480 Sanitary RTD Sensors",
+      "product_url": "https://www.pyromation.com/Products/Item.aspx?item=RTD_ASSY_SANT_SERIES480",
+      "category_name": "Resistance Thermometers (RTD, Sanitary)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Watlow MULTIPOINT RTD SENSORS",
+      "product_url": "https://www.watlow.com/products/sensors/rtd-sensors/multipoint-rtd-sensors",
+      "category_name": "Resistance Thermometers (RTD, Multipoint)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "IFM Electronic TN series Temperature sensors for hygienic applications",
+      "product_url": "https://www.ifm.com/us/en/category/030/030_010#!/query=hygienic&min=0&max=0&num=20&sort=topseller-desc",
+      "category_name": "Temperature Sensors (Hygienic)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Baumer Combisens Temperature Sensors (Modular)",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/temperature-measurement/modular-temperature-sensors-combisens/p/1542",
+      "category_name": "Temperature Sensors (Modular)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "JUMO plastoSENS T Resistance Thermometer for plastic processing",
+      "product_url": "https://www.jumo.net/en/products/temperature/thermometers/resistance-thermometers/jumo-plastosens-t/902026",
+      "category_name": "Resistance Thermometers (RTD, Application Specific)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Dwyer Instruments Series RHP Humidity/Temperature Transmitter",
+      "product_url": "https://www.dwyer-inst.com/Product/Temperature/Transmitters/SeriesRHP",
+      "category_name": "Temperature & Humidity Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Ashcroft® Digital Temperature Indicator Model KTI",
+      "product_url": "https://www.ashcroft.com/products/temperature/digital-temperature-indicators/kti-digital-temperature-indicator/",
+      "category_name": "Digital Temperature Indicators",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Fluke 1523/1524 Reference Thermometers",
+      "product_url": "https://us.flukecal.com/products/temperature-calibration/handheld-thermometers-and-probes/15231524-reference-thermometers",
+      "category_name": "Reference Thermometers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Micro-Epsilon thermoMETER CSmicro Miniature pyrometer",
+      "product_url": "https://www.micro-epsilon.com/temperature-sensors/thermometer/csmicro/",
+      "category_name": "Infrared Temperature Sensors (Miniature)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Optris CTlaser Infrared Thermometer with Laser Sighting",
+      "product_url": "https://www.optris.com/infrared-thermometer-ctlaser",
+      "category_name": "Infrared Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Raytek CM Series Compact Infrared Temperature Sensor",
+      "product_url": "https://www.raytek.com/en/products/fixed-thermal-imagers-and-infrared-sensors/infrared-sensors/infrared-sensors-oem/cm",
+      "category_name": "Infrared Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "OMEGA Thermocouple Probes - Insulated Wire",
+      "product_url": "https://www.omega.com/en-us/temperature-measurement/temperature-probes/thermocouple-probes/insulated-wire-probes/p/5TC-GG-K-30-36",
+      "category_name": "Thermocouples",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Moore Industries THZ3 Dual Input Smart HART Temperature Transmitter",
+      "product_url": "https://www.miinet.com/products/sg_temp.shtml#sg_thz3tdz3",
+      "category_name": "Temperature Transmitters (HART)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Endress+Hauser TMT182 Temperature field transmitter",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/temperature-measurement/temperature-field-transmitter-itemp-TMT182",
+      "category_name": "Temperature Transmitters (Field Mount)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Yokogawa YTA Series Wireless Temperature Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/isa100-wireless-transmitters/yta510-wireless-temperature-transmitter/",
+      "category_name": "Temperature Transmitters (Wireless)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "WIKA Model TIF50, TIF52 Loop-powered digital indicator",
+      "product_url": "https://www.wika.com/en-us/products/temperature/electrical_temperature_measurement/digital_indicators/productoverview/loop_powered_digital_indicator_models_tif50_tif52.WIKA",
+      "category_name": "Digital Temperature Indicators",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Omega Engineering CNPT Series Temperature & Process Controllers",
+      "product_url": "https://www.omega.com/en-us/control-monitoring/controllers/pid-controllers/cnpt-series/p/CN132PT-110",
+      "category_name": "Temperature Controllers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Siemens SITRANS T Temperature Sensors (Thermocouples)",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/temperature-measurement/temperature-sensors/thermocouples.html",
+      "category_name": "Thermocouples",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "ABB TSP100 Cable temperature sensors",
+      "product_url": "https://new.abb.com/products/measurement-products/temperature/temperature-sensors/sensytemp-tsp100",
+      "category_name": "Temperature Sensors (Cable Type)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Honeywell MCT404 Non-Contact Infrared Temperature Transmitter",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/temperature-transmitters/mct404-non-contact-infrared-temperature-transmitter",
+      "category_name": "Infrared Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Pyromation Fixed Sheath Thermocouple Sensors",
+      "product_url": "https://www.pyromation.com/Products/Item.aspx?item=TC_ASSY_FIXED_SHEATH",
+      "category_name": "Thermocouples",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Watlow High Temperature Thermocouple Sensors",
+      "product_url": "https://www.watlow.com/products/sensors/thermocouple-sensors/high-temperature-thermocouple-sensors",
+      "category_name": "Thermocouples (High Temperature)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "IFM Electronic TW Series Temperature sensors for direct medium contact",
+      "product_url": "https://www.ifm.com/us/en/category/030/030_010#!/query=direct%20medium%20contact&min=0&max=0&num=20&sort=topseller-desc",
+      "category_name": "Temperature Sensors (Immersion)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Baumer FlexTop Temperature transmitters",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/temperature-measurement/temperature-transmitters-flextop/p/1543",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "JUMO Screw-in RTD Temperature Probe with Cable",
+      "product_url": "https://www.jumo.net/en/products/temperature/thermometers/resistance-thermometers/screw-in-rtd-temperature-probe-with-cable/902020",
+      "category_name": "Resistance Thermometers (RTD)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Dwyer Instruments Series S2-1 General Purpose Thermostat",
+      "product_url": "https://www.dwyer-inst.com/Product/Temperature/Switches/Thermostats-GeneralPurpose/SeriesS2-1",
+      "category_name": "Thermostats (Mechanical)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Ashcroft® Gas Actuated Thermometer Model A",
+      "product_url": "https://www.ashcroft.com/products/temperature/gas-actuated-thermometers/a-gas-actuated-thermometer/",
+      "category_name": "Gas Actuated Thermometers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Fluke Calibration 914X Series Field Metrology Wells",
+      "product_url": "https://us.flukecal.com/products/temperature-calibration/industrial-calibrators/field-metrology-wells",
+      "category_name": "Temperature Calibrators (Dry Well)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Micro-Epsilon TM-99AL Handheld Thermometer",
+      "product_url": "https://www.micro-epsilon.com/temperature-sensors/handheld-thermometer/tm-99a/",
+      "category_name": "Thermometers (Handheld Digital)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Optris PI Thermal Imagers (Infrared Cameras)",
+      "product_url": "https://www.optris.com/thermal-imager-pi-precision-line",
+      "category_name": "Infrared Cameras",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Raytek ET Series Endurance Integrated Infrared Temperature Sensor",
+      "product_url": "https://www.raytek.com/en/products/fixed-thermal-imagers-and-infrared-sensors/infrared-sensors/infrared-sensors-integrated/endurance",
+      "category_name": "Infrared Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "OMEGA Thermistor Elements",
+      "product_url": "https://www.omega.com/en-us/temperature-measurement/temperature-probes/thermistor-probes/thermistor-elements/p/44004",
+      "category_name": "Thermistors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Moore Industries Temperature Sensors and Assemblies",
+      "product_url": "https://www.miinet.com/products/sg_temp.shtml#sg_tempsensassy",
+      "category_name": "Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Endress+Hauser Thermophant T TTR31/TTR35 Temperature switch",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/temperature-measurement/temperature-switch-thermophant-ttr31-ttr35",
+      "category_name": "Temperature Switches",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Yokogawa YTA Series Accessories (Thermowells)",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/temperature-transmitters/accessories-temperature-transmitters/",
+      "category_name": "Thermowells",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "WIKA Model TW10 Weld-in thermowell",
+      "product_url": "https://www.wika.com/en-us/products/temperature/thermowells/productoverview/weld_in_thermowell_model_tw10.WIKA",
+      "category_name": "Thermowells",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Omega Engineering Thermowells",
+      "product_url": "https://www.omega.com/en-us/temperature-measurement/thermowells/c/thermowells",
+      "category_name": "Thermowells",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Siemens SITRANS TS insert Temperature Sensors",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/temperature-measurement/temperature-sensors/temperature-inserts.html",
+      "category_name": "Temperature Sensor Inserts",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "ABB Thermowells",
+      "product_url": "https://new.abb.com/products/measurement-products/temperature/thermowells",
+      "category_name": "Thermowells",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Honeywell Thermowells",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/temperature-sensors/thermowells",
+      "category_name": "Thermowells",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Pyromation Thermowells",
+      "product_url": "https://www.pyromation.com/Catalog/Index.aspx?cat=Well",
+      "category_name": "Thermowells",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Watlow Thermowells and Protection Tubes",
+      "product_url": "https://www.watlow.com/products/sensors/sensor-accessories/thermowells-and-protection-tubes",
+      "category_name": "Thermowells",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "IFM Electronic TT series Temperature transmitters",
+      "product_url": "https://www.ifm.com/us/en/category/030/030_020",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Baumer Thermowells",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/temperature-measurement/thermowells/p/1546",
+      "category_name": "Thermowells",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "JUMO Thermocouple for plastics machinery",
+      "product_url": "https://www.jumo.net/en/products/temperature/thermometers/thermocouples/thermocouple-for-plastics-machinery/901005",
+      "category_name": "Thermocouples (Application Specific)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Dwyer Instruments Series TI DIN Rail Temperature Indicator",
+      "product_url": "https://www.dwyer-inst.com/Product/Temperature/Indicators/DigitalPanelMount/SeriesTI",
+      "category_name": "Digital Temperature Indicators (DIN Rail)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Ashcroft® Stainless Steel Thermowell Model ST",
+      "product_url": "https://www.ashcroft.com/products/temperature/thermowells/st-stainless-steel-thermowell/",
+      "category_name": "Thermowells (Stainless Steel)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Fluke Calibration 1551A Ex / 1552A Ex Stik Thermometer Readouts",
+      "product_url": "https://us.flukecal.com/products/temperature-calibration/handheld-thermometers-and-probes/1551a-ex-1552a-ex-stik-thermomet",
+      "category_name": "Digital Thermometers (IS)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Micro-Epsilon thermoMETER CTHZ Infrared sensor for hazardous areas",
+      "product_url": "https://www.micro-epsilon.com/temperature-sensors/thermometer/cthz/",
+      "category_name": "Infrared Temperature Sensors (Hazardous Area)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Optris CSlaser Infrared Thermometer",
+      "product_url": "https://www.optris.com/infrared-thermometer-cslaser",
+      "category_name": "Infrared Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Raytek TX Series Infrared Temperature Sensors",
+      "product_url": "https://www.raytek.com/en/products/fixed-thermal-imagers-and-infrared-sensors/infrared-sensors/infrared-sensors-smart/tx",
+      "category_name": "Infrared Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "OMEGA Thermocouple Wire & Cable",
+      "product_url": "https://www.omega.com/en-us/temperature-measurement/temperature-wire-and-cable/thermocouple-wire/c/thermocouple-wire",
+      "category_name": "Thermocouple Wire",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Moore Industries Temperature Assemblies and Thermowells",
+      "product_url": "https://www.miinet.com/products/rtitempassy.shtml",
+      "category_name": "Temperature Sensor Assemblies",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Endress+Hauser iTEMP TMT82 Temperature transmitter HART®",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/temperature-measurement/temperature-transmitter-itemp-TMT82",
+      "category_name": "Temperature Transmitters (HART)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Yokogawa YTA Series Integral Temperature Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/temperature-transmitters/integrated-temperature-transmitters/",
+      "category_name": "Temperature Transmitters (Integral)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "WIKA Model TTF-300 HART temperature transmitter",
+      "product_url": "https://www.wika.com/en-us/products/temperature/electrical_temperature_measurement/temperature_transmitters/productoverview/hart_temperature_transmitter_model_ttf_300.WIKA",
+      "category_name": "Temperature Transmitters (HART)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Omega Engineering TXDIN1600 Series DIN Rail Temperature Transmitter",
+      "product_url": "https://www.omega.com/en-us/control-monitoring/temperature/temperature-transmitters/txdin1600-series/p/TXDIN1610",
+      "category_name": "Temperature Transmitters (DIN Rail)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Siemens SITRANS TS300 temperature sensor (Clamp-on)",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/temperature-measurement/temperature-sensors/sitrans-ts300.html",
+      "category_name": "Temperature Sensors (Clamp-on)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "ABB TTH300 Head mounted temperature transmitter",
+      "product_url": "https://new.abb.com/products/measurement-products/temperature/temperature-transmitters/tth300",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Honeywell SmartLine STT650 DIN Rail Temperature Transmitter",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/temperature-transmitters/stt650-din-rail-temperature-transmitter",
+      "category_name": "Temperature Transmitters (DIN Rail)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Pyromation Connection Heads and Terminal Blocks",
+      "product_url": "https://www.pyromation.com/Catalog/Index.aspx?cat=Head",
+      "category_name": "Temperature Sensor Accessories",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Watlow Thermocouple Wire & Cable",
+      "product_url": "https://www.watlow.com/products/sensors/sensor-accessories/wire-and-cable",
+      "category_name": "Thermocouple Wire",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "IFM Electronic TS series Temperature sensors with plug connection",
+      "product_url": "https://www.ifm.com/us/en/category/030/030_010#!/query=plug&min=0&max=0&num=20&sort=topseller-desc",
+      "category_name": "Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Baumer TDRM Temperature Switch",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/temperature-measurement/temperature-switches/tdrm/p/1547",
+      "category_name": "Temperature Switches",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "JUMO DELOS T Electronic temperature switch",
+      "product_url": "https://www.jumo.net/en/products/temperature/thermostats/electronic-thermostat/jumo-delos-t/902940",
+      "category_name": "Temperature Switches (Electronic)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Dwyer Instruments Series TDFS Thermal Flow Switch",
+      "product_url": "https://www.dwyer-inst.com/Product/Flow/FlowSwitches/ThermalDispersion/SeriesTDFS",
+      "category_name": "Thermal Flow Switches (Related)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Ashcroft® Bimetal Thermometer Model DURATEMP®",
+      "product_url": "https://www.ashcroft.com/products/temperature/bimetal-thermometers/duratemp-thermometer/",
+      "category_name": "Bimetal Thermometers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Fluke 572-2 High Temperature Infrared Thermometer",
+      "product_url": "https://www.fluke.com/en-us/product/temperature-measurement/ir-thermometers/fluke-572-2",
+      "category_name": "Infrared Thermometers (High Temp, Handheld)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Micro-Epsilon thermoMETER TIM Thermal Imagers",
+      "product_url": "https://www.micro-epsilon.com/temperature-sensors/thermal-imager/",
+      "category_name": "Infrared Cameras",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Optris Xi Series Compact Infrared Cameras",
+      "product_url": "https://www.optris.com/infrared-cameras-xi-series",
+      "category_name": "Infrared Cameras",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Raytek Thermalert TX Series Smart Infrared Temperature Sensor",
+      "product_url": "https://www.raytek.com/en/products/fixed-thermal-imagers-and-infrared-sensors/infrared-sensors/infrared-sensors-smart/tx",
+      "category_name": "Infrared Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "OMEGA Thermocouple Connectors",
+      "product_url": "https://www.omega.com/en-us/temperature-measurement/temperature-wire-and-cable/temperature-connectors/c/thermocouple-connectors",
+      "category_name": "Thermocouple Connectors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Moore Industries HART Concentrator System (HCS)",
+      "product_url": "https://www.miinet.com/products/pc_hart.shtml#pc_hcs",
+      "category_name": "HART Multiplexers/Interfaces (Temperature)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Endress+Hauser TMT180 Temperature head transmitter",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/temperature-measurement/temperature-transmitter-itemp-TMT180",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Yokogawa YTA Series Field Mount Temperature Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/temperature-transmitters/field-mount-temperature-transmitters/",
+      "category_name": "Temperature Transmitters (Field Mount)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "WIKA Model TR21-A Miniature resistance thermometer",
+      "product_url": "https://www.wika.com/en-us/products/temperature/electrical_temperature_measurement/resistance_thermometers/productoverview/miniature_resistance_thermometer_model_tr21_a.WIKA",
+      "category_name": "Resistance Thermometers (RTD, Miniature)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Omega Engineering iSD-TH Environmental Monitor (Temp/Humidity)",
+      "product_url": "https://www.omega.com/en-us/data-acquisition/dataloggers/temperature-humidity-dataloggers/isd-th/p/ISD-TH-W",
+      "category_name": "Temperature & Humidity Monitors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Siemens SITRANS TS100 Temperature Sensors (Cable)",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/temperature-measurement/temperature-sensors/sitrans-ts100.html",
+      "category_name": "Temperature Sensors (Cable Type)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "ABB WirelessHART temperature sensor TSP341-W",
+      "product_url": "https://new.abb.com/products/measurement-products/temperature/temperature-sensors/sensytemp-tsp341-w",
+      "category_name": "Temperature Sensors (Wireless)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Honeywell SmartLine STT170 PC-Programmable Temperature Transmitter",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/temperature-transmitters/stt170-pc-programmable-temperature-transmitter",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Pyromation Temperature Transmitters",
+      "product_url": "https://www.pyromation.com/Catalog/Index.aspx?cat=Transmitters",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Watlow Digital Temperature & Process Controllers",
+      "product_url": "https://www.watlow.com/products/controllers/temperature-and-process-controllers",
+      "category_name": "Temperature Controllers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "IFM Electronic TCC Temperature sensors for high temperatures",
+      "product_url": "https://www.ifm.com/us/en/product/TCC501",
+      "category_name": "Temperature Sensors (High Temperature)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Baumer MESAX Temperature Sensors",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/temperature-measurement/inline-temperature-sensors-mesax/p/1544",
+      "category_name": "Temperature Sensors (Inline)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "JUMO Steam and Gas Thermometer",
+      "product_url": "https://www.jumo.net/en/products/temperature/thermometers/dial-thermometers/steam-and-gas-thermometers/608001",
+      "category_name": "Gas Actuated Thermometers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Dwyer Instruments Series WET Bimetal Thermometer with Thermowell",
+      "product_url": "https://www.dwyer-inst.com/Product/Temperature/Thermometers/Bimetal/SeriesWET",
+      "category_name": "Bimetal Thermometers (with Thermowell)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Ashcroft® Sanitary Thermowell Model SL",
+      "product_url": "https://www.ashcroft.com/products/temperature/thermowells/sl-sanitary-thermowell/",
+      "category_name": "Thermowells (Sanitary)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Fluke Calibration 1620A DewK Thermo-Hygrometer",
+      "product_url": "https://us.flukecal.com/products/temperature-calibration/thermo-hygrometers/1620a-dewk-thermo-hygrometer",
+      "category_name": "Thermo-Hygrometers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Micro-Epsilon Handheld pyrometer thermoMETER P20",
+      "product_url": "https://www.micro-epsilon.com/temperature-sensors/handheld-thermometer/p20/",
+      "category_name": "Infrared Thermometers (Handheld)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Optris CTvideo / CSvideo Infrared Thermometer with Video Sighting",
+      "product_url": "https://www.optris.com/infrared-thermometer-ctvideo-csvideo",
+      "category_name": "Infrared Temperature Sensors (Video)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Raytek FoodPro Plus Infrared Food Safety Thermometer",
+      "product_url": "https://www.raytek.com/en/products/portable-infrared-thermometers/handheld-thermometers-food/foodpro-plus",
+      "category_name": "Infrared Thermometers (Food Safety)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "OMEGA RTD Wire & Cable",
+      "product_url": "https://www.omega.com/en-us/temperature-measurement/temperature-wire-and-cable/rtd-wire/c/rtd-wire",
+      "category_name": "RTD Wire",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Moore Industries TPZ PC-Programmable Temperature Transmitter",
+      "product_url": "https://www.miinet.com/products/sg_temp.shtml#sg_tpz",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Endress+Hauser Omnigrad T Thermocouple",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/temperature-measurement/thermocouple-omnigrad-t",
+      "category_name": "Thermocouples",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Yokogawa Temperature Calibrators CA330",
+      "product_url": "https://tmi.yokogawa.com/solutions/products/calibrators/handheld-calibrators/ca300/",
+      "category_name": "Temperature Calibrators",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "WIKA Model CTH6200 hand-held thermometer",
+      "product_url": "https://www.wika.com/en-us/products/temperature/calibration_instruments/temperature_hand_helds/productoverview/hand_held_thermometer_model_cth6200.WIKA",
+      "category_name": "Thermometers (Handheld Digital)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Omega Engineering RH520A Humidity and Temperature Chart Recorder",
+      "product_url": "https://www.omega.com/en-us/data-acquisition/dataloggers/chart-recorders/rh520a/p/RH520A",
+      "category_name": "Temperature & Humidity Recorders",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Siemens SITRANS TS Temperature Sensor Accessories",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/temperature-measurement/temperature-sensors/temperature-accessories.html",
+      "category_name": "Temperature Sensor Accessories",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "ABB Mounting Kits for Temperature Sensors",
+      "product_url": "https://new.abb.com/products/measurement-products/temperature/temperature-accessories/mounting-kits",
+      "category_name": "Temperature Sensor Accessories",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Honeywell Temperature Assemblies",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/temperature-sensors/temperature-assemblies",
+      "category_name": "Temperature Sensor Assemblies",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Pyromation Sanitary Thermowells",
+      "product_url": "https://www.pyromation.com/Catalog/Index.aspx?cat=SWell",
+      "category_name": "Thermowells (Sanitary)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Watlow RTD Sensor Accessories",
+      "product_url": "https://www.watlow.com/products/sensors/sensor-accessories/rtd-sensor-accessories",
+      "category_name": "Temperature Sensor Accessories",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "IFM Electronic TP Series Temperature plug-in sensors",
+      "product_url": "https://www.ifm.com/us/en/category/030/030_010#!/query=tp&min=0&max=0&num=20&sort=topseller-desc",
+      "category_name": "Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Baumer TE1 Hygienic temperature sensors",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/temperature-measurement/hygienic-temperature-sensors/te1/p/1540",
+      "category_name": "Temperature Sensors (Hygienic)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "JUMO Surface RTD Temperature Probe",
+      "product_url": "https://www.jumo.net/en/products/temperature/thermometers/resistance-thermometers/surface-rtd-temperature-probe/902040",
+      "category_name": "Temperature Sensors (Surface Mount)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Dwyer Instruments Series 16B Bimetal Thermometer",
+      "product_url": "https://www.dwyer-inst.com/Product/Temperature/Thermometers/Bimetal/Series16B",
+      "category_name": "Bimetal Thermometers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Ashcroft® Stainless Steel Bimetal Thermometer Model CI0",
+      "product_url": "https://www.ashcroft.com/products/temperature/bimetal-thermometers/ci0-stainless-steel-bimetal-thermometer/",
+      "category_name": "Bimetal Thermometers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Fluke VT04A Visual IR Thermometer",
+      "product_url": "https://www.fluke.com/en-us/product/thermal-imaging/visual-ir-thermometers/vt04a",
+      "category_name": "Visual IR Thermometers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Micro-Epsilon thermoMETER CTfast High-speed pyrometer",
+      "product_url": "https://www.micro-epsilon.com/temperature-sensors/thermometer/ctfast/",
+      "category_name": "Infrared Temperature Sensors (High Speed)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Optris CTratio 1M Ratio Pyrometer",
+      "product_url": "https://www.optris.com/ratio-pyrometer-ctratio",
+      "category_name": "Ratio Pyrometers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Raytek GP Series General Purpose Infrared Temperature Sensor",
+      "product_url": "https://www.raytek.com/en/products/fixed-thermal-imagers-and-infrared-sensors/infrared-sensors/infrared-sensors-integrated/gp",
+      "category_name": "Infrared Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "OMEGA RTD Probes with Connection Heads",
+      "product_url": "https://www.omega.com/en-us/temperature-measurement/temperature-probes/rtd-probes/rtd-connection-head-probes/p/PR-11-2-100-1-4-6-E",
+      "category_name": "Resistance Thermometers (RTD with Head)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Moore Industries SPA2 Programmable Limit Alarm Trips",
+      "product_url": "https://www.miinet.com/products/sg_alrm.shtml#sg_spa2",
+      "category_name": "Temperature Switches / Alarm Trips",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Endress+Hauser Omnigrad M TR10 RTD thermometer",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/temperature-measurement/rtd-thermometer-omnigrad-m-tr10",
+      "category_name": "Resistance Thermometers (RTD)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Yokogawa YTA Series Accessories (Mounting Brackets)",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/temperature-transmitters/accessories-temperature-transmitters/",
+      "category_name": "Temperature Transmitter Accessories",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "WIKA Model TR10-F Surface resistance thermometer",
+      "product_url": "https://www.wika.com/en-us/products/temperature/electrical_temperature_measurement/resistance_thermometers/productoverview/surface_resistance_thermometer_model_tr10_f.WIKA",
+      "category_name": "Temperature Sensors (Surface Mount)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Omega Engineering iTHX-SD Virtual Chart Recorder (Temp/Humidity)",
+      "product_url": "https://www.omega.com/en-us/data-acquisition/dataloggers/temperature-humidity-dataloggers/ithx-sd-series/p/ITHX-SD-W",
+      "category_name": "Temperature & Humidity Recorders/Dataloggers",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Siemens SITRANS TS400 Temperature Sensors (Flexible Cable)",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/temperature-measurement/temperature-sensors/sitrans-ts400.html",
+      "category_name": "Temperature Sensors (Cable Type)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "ABB Head housings for Temperature Sensors",
+      "product_url": "https://new.abb.com/products/measurement-products/temperature/temperature-accessories/head-housings",
+      "category_name": "Temperature Sensor Accessories (Heads)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Honeywell Thermocouples",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/temperature-sensors/thermocouples",
+      "category_name": "Thermocouples",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Pyromation Thermocouple Wire & Cable",
+      "product_url": "https://www.pyromation.com/Catalog/Index.aspx?cat=Wire",
+      "category_name": "Thermocouple Wire",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Watlow RTD Wire & Cable",
+      "product_url": "https://www.watlow.com/products/sensors/sensor-accessories/wire-and-cable",
+      "category_name": "RTD Wire",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "IFM Electronic TM series Temperature sensors with G 1/2 process connection",
+      "product_url": "https://www.ifm.com/us/en/category/030/030_010#!/query=g%201%2F2&min=0&max=0&num=20&sort=topseller-desc",
+      "category_name": "Temperature Sensors (Threaded)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Baumer TER4 Compact resistance thermometer (4-wire)",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/temperature-measurement/resistance-thermometers/ter4/p/5069",
+      "category_name": "Resistance Thermometers (RTD)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "JUMO ecoTRANS Lf01/02 Conductivity/Temperature Transmitter",
+      "product_url": "https://www.jumo.net/en/products/liquid-analysis/conductivity-resistivity/transmitters/ecotrans-lf01-02/202732",
+      "category_name": "Conductivity/Temperature Transmitters",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Dwyer Instruments Series TSW Digital Temperature Switch",
+      "product_url": "https://www.dwyer-inst.com/Product/Temperature/Switches/DigitalPanelMount/SeriesTSW",
+      "category_name": "Temperature Switches (Digital)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Ashcroft® Switch Model T",
+      "product_url": "https://www.ashcroft.com/products/switches/temperature-switches/t-switch/",
+      "category_name": "Temperature Switches",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Fluke Calibration Temperature Probes",
+      "product_url": "https://us.flukecal.com/products/temperature-calibration/temperature-probes",
+      "category_name": "Temperature Probes (Calibration)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Micro-Epsilon thermoMETER CTlaserGLASS Infrared sensor for glass",
+      "product_url": "https://www.micro-epsilon.com/temperature-sensors/thermometer/ctlaserglass/",
+      "category_name": "Infrared Temperature Sensors (Glass)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Optris CT P7 Plastic Film Thermometer",
+      "product_url": "https://www.optris.com/infrared-thermometer-ct-p7",
+      "category_name": "Infrared Temperature Sensors (Plastic Film)",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "Raytek XR Series High Performance Infrared Temperature Sensor",
+      "product_url": "https://www.raytek.com/en/products/fixed-thermal-imagers-and-infrared-sensors/infrared-sensors/infrared-sensors-smart/xr",
+      "category_name": "Infrared Temperature Sensors",
+      "parent_category": "Industrial Sensors - Temperature"
+    },
+    {
+      "product_name": "OMEGA RTD Probes - Miniature",
+      "product_url": "https://www.omega.com/en-us/temperature-measurement/temperature-probes/rtd-probes/miniature-rtd-probes/p/RTD-830",
+      "category_name": "Resistance Thermometers (RTD, Miniature)",
+      "parent_category": "Industrial Sensors - Temperature"
+    }
+  ]
+}

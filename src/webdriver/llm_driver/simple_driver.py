@@ -1,4 +1,4 @@
-## \file src/webdriver/ai_browser/simple_browser.py
+## \file src/webdriver/llm_driver/simple_browser.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
@@ -22,7 +22,7 @@
     - browser_use (или ваш модуль с BrowserController)
     - src.gs, src.logger, src.utils, header
 
-.. module:: src.webdriver.ai_browser.simple_browser
+.. module:: src.webdriver.llm_driver.simple_browser
 """
 
 import os

@@ -1,0 +1,1006 @@
+{
+	"products": [
+		{
+			"product_name": "Rittal TopTherm Filter Fan Units",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_filter_fan_units/pg_toptherm_filter_fan_units/PGR_135197_11019",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Filter Fans",
+			"product_url": "https://hoffman.nvent.com/en-us/products/filter-fans",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Filterfans® 4.0",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/filterfans/filterfans-40/",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Filter Fan Plus FPI/FPO 018",
+			"product_url": "https://www.stego-group.com/products/filter-fans/filter-fan-plus-fpi-fpo-018",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Schneider Electric ClimaSys Ventilation System Filter Fan",
+			"product_url": "https://www.se.com/ww/en/product-range/1063-climasys-ventilation-system/",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "DBK Cirrus Series Fan Heaters",
+			"product_url": "https://www.dbk-group.com/en/thermal-management/heating/cirrus-series",
+			"category_name": "Fan Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Semiconductor Fan Heater CS 060",
+			"product_url": "https://www.stego-group.com/products/heating/fan-heaters/semiconductor-fan-heater-cs-060",
+			"category_name": "Fan Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Fandis FPF Series Filter Fan Units",
+			"product_url": "https://www.fandis.com/en/product/fpf-filter-fan-units/",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Filter Fans",
+			"product_url": "https://seifertsystems.com/products/cooling-products/filter-fans/",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Cosmotec (Stulz) Filter Fans WLF Series",
+			"product_url": "https://www.stulz.com/en-us/cosmotec-products/filter-fans/",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Texa Filter fan units TVK series",
+			"product_url": "https://www.texa.co/en/products/fan-filter-units/",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Hammond Manufacturing Filter Fan Kits",
+			"product_url": "https://www.hammfg.com/electrical/products/climate/ffkit",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Alfa Electric Filter Fan Series GFF",
+			"product_url": "https://www.alfaelectric.com/en/filter-fans/",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Fibox Filter Fan FIBOX FANS",
+			"product_url": "https://www.fibox.com/catalog/8/product/520/FIBOX-FANS.html",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Austin Hughes Filter Fan Units (INFRACOOL)",
+			"product_url": "https://www.austin-hughes.com/products/rack-accessories/fan-units",
+			"category_name": "Filter Fans (IT/Rack specific)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Orion Fans (Knight Electronics) Filter Fan Kits",
+			"product_url": "https://orionfans.com/products/category/filter-fan-kits",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Bernstein Filter fans",
+			"product_url": "https://www.bernstein.eu/en/products/enclosure-technology/accessories/filter-fans/",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Compact Semiconductor Heater HG 140",
+			"product_url": "https://www.stego-group.com/products/heating/convection-heaters/compact-semiconductor-heater-hg-140",
+			"category_name": "Convection Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal PTC Enclosure Heaters SK 3105",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_heaters/pg_enclosure_heaters_ptc/PGR_135197_11020",
+			"category_name": "Convection Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Enclosure Heaters",
+			"product_url": "https://hoffman.nvent.com/en-us/products/enclosure-heaters",
+			"category_name": "Enclosure Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "DBK PowerBloc Series Enclosure Heaters",
+			"product_url": "https://www.dbk-group.com/en/thermal-management/heating/powerbloc-series",
+			"category_name": "Convection Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg FLH Series Heaters",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/heaters/flh-series/",
+			"category_name": "Convection Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Fandis H Series Enclosure Heaters",
+			"product_url": "https://www.fandis.com/en/product/h-heaters/",
+			"category_name": "Enclosure Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Enclosure Heaters Serie CH",
+			"product_url": "https://seifertsystems.com/products/heating-products/enclosure-heaters/",
+			"category_name": "Enclosure Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Schneider Electric ClimaSys PTC Resistance Heater",
+			"product_url": "https://www.se.com/ww/en/product/NSYCR100WU1C/resistance-heater-100w-110-120v-ac-screw/",
+			"category_name": "Convection Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Compact Thermostat KTO 111",
+			"product_url": "https://www.stego-group.com/products/regulating/thermostats/compact-thermostat-kto-kts-111",
+			"category_name": "Thermostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Enclosure internal thermostat SK 3110.000",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_regulators/pg_enclosure_internal_thermostats/PGR_135197_11021",
+			"category_name": "Thermostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Thermostats",
+			"product_url": "https://hoffman.nvent.com/en-us/products/thermostats",
+			"category_name": "Thermostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Thermostats FLZ Series",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/thermostats/flz-series/",
+			"category_name": "Thermostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Fandis TRT Series Electromechanical Thermostat",
+			"product_url": "https://www.fandis.com/en/product/trt-thermostat/",
+			"category_name": "Thermostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Thermostats Serie ST",
+			"product_url": "https://seifertsystems.com/products/controlling-products/thermostats/",
+			"category_name": "Thermostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Schneider Electric ClimaSys Control Thermostat",
+			"product_url": "https://www.se.com/ww/en/product/NSYCCOTHO/climasys-thermostat-standard-no-0-60-c-1a/",
+			"category_name": "Thermostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "DBK Enclosure Thermostats",
+			"product_url": "https://www.dbk-group.com/en/thermal-management/controlling/thermostats",
+			"category_name": "Thermostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Blue e+ Wall-mounted cooling units",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_cooling_units/pg_wall_mounted_cooling_units_blue_e_plus/PGR_135197_37955",
+			"category_name": "Enclosure Air Conditioners",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN SPECTRACOOL Air Conditioners",
+			"product_url": "https://hoffman.nvent.com/en-us/products/spectracooltm-air-conditioners",
+			"category_name": "Enclosure Air Conditioners",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg DTS Series Cooling Units (Side Mount)",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/cooling-units/side-mount-cooling-units-dts-series/",
+			"category_name": "Enclosure Air Conditioners",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems SoliTherm Thermoelectric Coolers",
+			"product_url": "https://seifertsystems.com/products/cooling-products/thermoelectric-coolers/",
+			"category_name": "Thermoelectric Coolers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Cosmotec (Stulz) Protherm Outdoor Air Conditioners",
+			"product_url": "https://www.stulz.com/en-us/cosmotec-products/outdoor-air-conditioners/",
+			"category_name": "Enclosure Air Conditioners (Outdoor)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Texa EGO series Enclosure Air Conditioners",
+			"product_url": "https://www.texa.co/en/products/air-conditioners-ego/",
+			"category_name": "Enclosure Air Conditioners",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Haewa Air Conditioners for Control Cabinets",
+			"product_url": "https://www.haewa.com/en/products/air-conditioners",
+			"category_name": "Enclosure Air Conditioners",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Air/air heat exchangers",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_air_air_heat_exchangers/PGR_135197_11015",
+			"category_name": "Air-to-Air Heat Exchangers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Air-to-Air Heat Exchangers",
+			"product_url": "https://hoffman.nvent.com/en-us/products/air-air-heat-exchangers",
+			"category_name": "Air-to-Air Heat Exchangers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Air To Air Heat Exchangers PKS Series",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/air-to-air-heat-exchangers/pks-series/",
+			"category_name": "Air-to-Air Heat Exchangers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Air / Air Heat Exchangers Serie HX",
+			"product_url": "https://seifertsystems.com/products/cooling-products/air-air-heat-exchangers/",
+			"category_name": "Air-to-Air Heat Exchangers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Cosmotec (Stulz) Air/Air Heat Exchangers",
+			"product_url": "https://www.stulz.com/en-us/cosmotec-products/air-air-heat-exchangers/",
+			"category_name": "Air-to-Air Heat Exchangers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Electronic Hygrostat ETF 012",
+			"product_url": "https://www.stego-group.com/products/regulating/hygrostats/electronic-hygrostat-etf-012",
+			"category_name": "Hygrostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Enclosure Hygrostat SK 3118.000",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_regulators/pg_enclosure_hygrostats/PG0168KLIMA1",
+			"category_name": "Hygrostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Hygrostats",
+			"product_url": "https://hoffman.nvent.com/en-us/products/hygrostats",
+			"category_name": "Hygrostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Hygrostats FLZ Series",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/hygrostats/flz-series/",
+			"category_name": "Hygrostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Fandis TRH Series Electromechanical Hygrostat",
+			"product_url": "https://www.fandis.com/en/product/trh-hygrostat/",
+			"category_name": "Hygrostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Hygrostats Serie SH",
+			"product_url": "https://seifertsystems.com/products/controlling-products/hygrostats/",
+			"category_name": "Hygrostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Schneider Electric ClimaSys Control Hygrostat",
+			"product_url": "https://www.se.com/ww/en/product/NSYCCOHYT/climasys-hygrostat-standard-50-90-1nc/",
+			"category_name": "Hygrostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "DBK Enclosure Hygrostats",
+			"product_url": "https://www.dbk-group.com/en/thermal-management/controlling/hygrostats",
+			"category_name": "Hygrostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Smart Sensor CSS 014 (Temp & Humidity)",
+			"product_url": "https://www.stego-group.com/products/regulating/sensors/smart-sensor-css-014",
+			"category_name": "Temperature & Humidity Sensors",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Thermoelectric Cooler",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_thermoelectric_coolers/PGR_135197_11016",
+			"category_name": "Thermoelectric Coolers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Thermoelectric Coolers",
+			"product_url": "https://hoffman.nvent.com/en-us/products/thermoelectric-coolers",
+			"category_name": "Thermoelectric Coolers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Thermoelectric Coolers PT Series",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/thermoelectric-coolers-peltier/pt-series/",
+			"category_name": "Thermoelectric Coolers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "TECA Model AHP-1200CP Thermoelectric Air Conditioner",
+			"product_url": "https://www.thermoelectric.com/product/ahp-1200cp-solid-state-air-conditioner/",
+			"category_name": "Thermoelectric Coolers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "EIC Solutions ThermoTEC Series Thermoelectric Air Conditioners",
+			"product_url": "https://www.eicsolutions.com/thermotec-series-thermoelectric-air-conditioners/",
+			"category_name": "Thermoelectric Coolers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Pressure Compensation Device DA 284",
+			"product_url": "https://www.stego-group.com/products/accessories/pressure-compensation-device-da-284",
+			"category_name": "Pressure Compensation Devices / Vents",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Air outlet filter",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_filter_fan_units/pg_air_outlet_filters/PGR_135197_11028",
+			"category_name": "Outlet Filters / Exhaust Grilles",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Exhaust Grilles",
+			"product_url": "https://hoffman.nvent.com/en-us/products/exhaust-grilles",
+			"category_name": "Outlet Filters / Exhaust Grilles",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Exhaust Filters PF Series",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/exhaust-filters/pf-series/",
+			"category_name": "Outlet Filters / Exhaust Grilles",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Fandis FF Series Exhaust Filters",
+			"product_url": "https://www.fandis.com/en/product/ff-exhaust-filters/",
+			"category_name": "Outlet Filters / Exhaust Grilles",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Outlet filters Serie OF",
+			"product_url": "https://seifertsystems.com/products/accessories-for-filter-fans/outlet-filters/",
+			"category_name": "Outlet Filters / Exhaust Grilles",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Schneider Electric ClimaSys Outlet grille",
+			"product_url": "https://www.se.com/ww/en/product/NSYCAG92LPF/outlet-grille-ip54-92x92mm-external-dim120x120mm-cutout/",
+			"category_name": "Outlet Filters / Exhaust Grilles",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Compact Heater CSF 060",
+			"product_url": "https://www.stego-group.com/products/heating/fan-heaters/compact-heater-csf-060",
+			"category_name": "Fan Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Filter mat for fan-and-filter units",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_filter_fan_units/pg_replacement_filter_mats/PGR_135197_11029",
+			"category_name": "Filter Mats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Replacement Filters",
+			"product_url": "https://hoffman.nvent.com/en-us/products/replacement-filters",
+			"category_name": "Filter Mats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Filter Mats",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/accessories/filter-mats/",
+			"category_name": "Filter Mats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Filter Mat FM 086",
+			"product_url": "https://www.stego-group.com/products/filter-fans/filter-mat-fm-086",
+			"category_name": "Filter Mats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Schneider Electric ClimaSys Filter for fan",
+			"product_url": "https://www.se.com/ww/en/product/NSYCAF92/climasys-filter-for-fan-cutout-92x92mm-external-dim120x120mm-g2/",
+			"category_name": "Filter Mats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Fandis MA Series Metallic Filters",
+			"product_url": "https://www.fandis.com/en/product/ma-metallic-filters/",
+			"category_name": "Metallic Filters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Replacement Filter Mats Serie RF",
+			"product_url": "https://seifertsystems.com/products/accessories-for-filter-fans/replacement-filter-mats/",
+			"category_name": "Filter Mats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Cosmotec (Stulz) Replacement Filter Mats",
+			"product_url": "https://www.stulz.com/en-us/cosmotec-products/replacement-filter-mats/",
+			"category_name": "Filter Mats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Texa Filter media series KMG",
+			"product_url": "https://www.texa.co/en/products/filter-media/",
+			"category_name": "Filter Mats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Hammond Manufacturing Replacement Filters",
+			"product_url": "https://www.hammfg.com/electrical/products/climate/filter",
+			"category_name": "Filter Mats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Alfa Electric Replacement filters",
+			"product_url": "https://www.alfaelectric.com/en/replacement-filters/",
+			"category_name": "Filter Mats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Fibox Replacement Filters",
+			"product_url": "https://www.fibox.com/catalog/8/product/523/REPLACEMENT-FILTERS.html",
+			"category_name": "Filter Mats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Orion Fans (Knight Electronics) Air Flow Monitor",
+			"product_url": "https://orionfans.com/products/category/air-flow-monitor",
+			"category_name": "Air Flow Monitors",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Bernstein Filter mats",
+			"product_url": "https://www.bernstein.eu/en/products/enclosure-technology/accessories/filter-mats/",
+			"category_name": "Filter Mats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Blue e Wall-mounted cooling units",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_cooling_units/pg_wall_mounted_cooling_units_blue_e/PGR_135197_11017",
+			"category_name": "Enclosure Air Conditioners",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN McLean Midwest Air Conditioners",
+			"product_url": "https://hoffman.nvent.com/en-us/brands/mclean/products/air-conditioners",
+			"category_name": "Enclosure Air Conditioners",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg DTT Series Top Mount Cooling Units",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/cooling-units/top-mount-cooling-units-dtt-series/",
+			"category_name": "Enclosure Air Conditioners",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Rack Mount Air Conditioners Serie RK",
+			"product_url": "https://seifertsystems.com/products/cooling-products/rack-mount-air-conditioners/",
+			"category_name": "Enclosure Air Conditioners (Rack Mount)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Cosmotec (Stulz) Kryos³ Filter Fans",
+			"product_url": "https://www.stulz.com/en/au/cosmotec-products/kryos-filter-fans/",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Texa SMART Series Air conditioners for electrical cabinets",
+			"product_url": "https://www.texa.co/en/products/air-conditioners-smart/",
+			"category_name": "Enclosure Air Conditioners",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Haewa Ventilation units",
+			"product_url": "https://www.haewa.com/en/products/ventilation-units",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Air/water heat exchangers",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_air_water_heat_exchangers/PGR_135197_11014",
+			"category_name": "Air-to-Water Heat Exchangers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Air-to-Water Heat Exchangers",
+			"product_url": "https://hoffman.nvent.com/en-us/products/air-water-heat-exchangers",
+			"category_name": "Air-to-Water Heat Exchangers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Air To Water Heat Exchangers PWS Series",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/air-to-water-heat-exchangers/pws-series/",
+			"category_name": "Air-to-Water Heat Exchangers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Air / Water Heat Exchangers Serie WR",
+			"product_url": "https://seifertsystems.com/products/cooling-products/air-water-heat-exchangers/",
+			"category_name": "Air-to-Water Heat Exchangers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Cosmotec (Stulz) Air/Water Heat Exchangers",
+			"product_url": "https://www.stulz.com/en-us/cosmotec-products/air-water-heat-exchangers/",
+			"category_name": "Air-to-Water Heat Exchangers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Texa Water heat exchanger series WEX",
+			"product_url": "https://www.texa.co/en/products/water-heat-exchanger/",
+			"category_name": "Air-to-Water Heat Exchangers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Electronic Thermostat ET 011",
+			"product_url": "https://www.stego-group.com/products/regulating/thermostats/electronic-thermostat-et-011",
+			"category_name": "Thermostats (Electronic)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Speed control for fan-and-filter units",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_regulators/pg_speed_control_for_filter_fan_units/PG0168KLIMA1",
+			"category_name": "Fan Speed Controllers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Speed Controls",
+			"product_url": "https://hoffman.nvent.com/en-us/products/speed-controls",
+			"category_name": "Fan Speed Controllers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg PTC Heater PFH Series",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/heaters/pfh-ptc-series/",
+			"category_name": "Convection Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Fandis Electronic Thermostat Fixed Temperature TFX",
+			"product_url": "https://www.fandis.com/en/product/tfx-electronic-thermostat/",
+			"category_name": "Thermostats (Electronic)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Enclosure Lights Serie LS",
+			"product_url": "https://seifertsystems.com/products/accessories/enclosure-lights/",
+			"category_name": "Enclosure Lights",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Schneider Electric ClimaSys LED light",
+			"product_url": "https://www.se.com/ww/en/product/NSYLAM54/climasys-led-light-100-240v-50-60hz-500lm-switch/",
+			"category_name": "Enclosure Lights",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "DBK TwinStat Series Thermostat",
+			"product_url": "https://www.dbk-group.com/en/thermal-management/controlling/twinstat-series",
+			"category_name": "Thermostats (Dual)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Enclosure Light LED 025",
+			"product_url": "https://www.stego-group.com/products/lighting/led-025",
+			"category_name": "Enclosure Lights",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal LED system light",
+			"product_url": "https://www.rittal.com/com-en/products/pg/enclosures/pg_lighting/pg_system_lights_led/PGR_135197_35725",
+			"category_name": "Enclosure Lights",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN LED Light Kits",
+			"product_url": "https://hoffman.nvent.com/en-us/products/led-light-kits",
+			"category_name": "Enclosure Lights",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Cabinet Lights FLZ Series",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/accessories/cabinet-lights/",
+			"category_name": "Enclosure Lights",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Fandis LAM Series LED Lighting System",
+			"product_url": "https://www.fandis.com/en/product/lam-led-lighting-system/",
+			"category_name": "Enclosure Lights",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems SlimLine Vario Cooling Units",
+			"product_url": "https://seifertsystems.com/products/cooling-products/slimline-vario-cooling-units/",
+			"category_name": "Enclosure Air Conditioners",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Cosmotec (Stulz) Protherm Indoor Air Conditioners",
+			"product_url": "https://www.stulz.com/en-us/cosmotec-products/indoor-air-conditioners/",
+			"category_name": "Enclosure Air Conditioners",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Texa Enclosure air conditioners Atex Zone 2",
+			"product_url": "https://www.texa.co/en/products/air-conditioners-atex/",
+			"category_name": "Enclosure Air Conditioners (ATEX)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Haewa Heaters",
+			"product_url": "https://www.haewa.com/en/products/heaters",
+			"category_name": "Enclosure Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Chiller Blue e+ series",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_chillers_blue_e_plus/PGR_135197_37958",
+			"category_name": "Chillers (for enclosure cooling)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Chiller Heat Exchangers",
+			"product_url": "https://hoffman.nvent.com/en-us/products/chiller-heat-exchangers",
+			"category_name": "Air-to-Water Heat Exchangers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Chillers EB Series",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/chillers/eb-series/",
+			"category_name": "Chillers (for enclosure cooling)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Chillers Serie KG",
+			"product_url": "https://seifertsystems.com/products/cooling-products/chillers/",
+			"category_name": "Chillers (for enclosure cooling)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Cosmotec (Stulz) Chillers E-Chilly",
+			"product_url": "https://www.stulz.com/en-us/cosmotec-products/e-chilly/",
+			"category_name": "Chillers (for enclosure cooling)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Texa Chiller for Industrial processes EWA series",
+			"product_url": "https://www.texa.co/en/products/chiller-ewa/",
+			"category_name": "Chillers (for enclosure cooling)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Electronic Hygrotherm HG 123",
+			"product_url": "https://www.stego-group.com/products/regulating/hygrostats/electronic-hygrotherm-hg-123",
+			"category_name": "Hygrotherms (Temp & Humidity Control)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Enclosure door switch",
+			"product_url": "https://www.rittal.com/com-en/products/pg/enclosures/pg_accessories/pg_enclosure_door_switches/PG0168KLIMA1",
+			"category_name": "Door Switches (for Climate Control)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Door Switches",
+			"product_url": "https://hoffman.nvent.com/en-us/products/door-switches",
+			"category_name": "Door Switches (for Climate Control)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Door Switch FLZ Series",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/accessories/door-switch/",
+			"category_name": "Door Switches (for Climate Control)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Fandis Door position switch",
+			"product_url": "https://www.fandis.com/en/product/door-position-switch/",
+			"category_name": "Door Switches (for Climate Control)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Door Switch Serie DS",
+			"product_url": "https://seifertsystems.com/products/accessories/door-switches/",
+			"category_name": "Door Switches (for Climate Control)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Schneider Electric ClimaSys Door switch",
+			"product_url": "https://www.se.com/ww/en/product/NSYINDSFT/door-switch-for-lighting/",
+			"category_name": "Door Switches (for Climate Control)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Touch Safe Heater RC 016",
+			"product_url": "https://www.stego-group.com/products/heating/convection-heaters/touch-safe-heater-rc-016",
+			"category_name": "Convection Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Therm Software (Climate calculation)",
+			"product_url": "https://www.rittal.com/com-en/content/en/support/software/therm/therm.jsp",
+			"category_name": "Software (Climate Calculation)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Cooling Selection Software",
+			"product_url": "https://hoffman.nvent.com/en-us/support/software/cooling-selection-software",
+			"category_name": "Software (Climate Calculation)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Sizing Software PSS",
+			"product_url": "https://www.pfannenberg.com/en/support/sizing-software/",
+			"category_name": "Software (Climate Calculation)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Thermal Calculation Software",
+			"product_url": "https://seifertsystems.com/support/thermal-calculation-software/",
+			"category_name": "Software (Climate Calculation)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Schneider Electric ProClima Thermal Software",
+			"product_url": "https://www.se.com/ww/en/work/support/resources-and-tools/softwares-and-calculators/proclima.jsp",
+			"category_name": "Software (Climate Calculation)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "DBK Resistance Heaters Creta Series",
+			"product_url": "https://www.dbk-group.com/en/thermal-management/heating/creta-series",
+			"category_name": "Resistance Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Explosion Proof Heater CREx 020",
+			"product_url": "https://www.stego-group.com/products/heating/explosion-proof-heaters/explosion-proof-heater-crex-020",
+			"category_name": "Enclosure Heaters (Explosion Proof)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal SK ATEX enclosure heater",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_heaters/pg_atex_enclosure_heaters/PGR_135197_11026",
+			"category_name": "Enclosure Heaters (ATEX)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Hazardous Location Heaters",
+			"product_url": "https://hoffman.nvent.com/en-us/products/hazardous-location-heaters",
+			"category_name": "Enclosure Heaters (Hazardous Location)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Heater FLH-Ex Series (ATEX)",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/heaters/flh-ex-series/",
+			"category_name": "Enclosure Heaters (ATEX)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Fandis Thermostat NO contact TFN",
+			"product_url": "https://www.fandis.com/en/product/tfn-thermostat/",
+			"category_name": "Thermostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems ATEX Filter Fans",
+			"product_url": "https://seifertsystems.com/products/cooling-products/atex-filter-fans/",
+			"category_name": "Filter Fans (ATEX)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Thermostat with external sensor FGT 100",
+			"product_url": "https://www.stego-group.com/products/regulating/thermostats/thermostat-with-external-sensor-fgt-100",
+			"category_name": "Thermostats (External Sensor)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal IoT interface for Blue e+ cooling units",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_iot_solutions_for_blue_e_plus/PG0168KLIMA1",
+			"category_name": "Climate Control Monitoring (IoT)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Remote Access Control (RAC)",
+			"product_url": "https://hoffman.nvent.com/en-us/products/remote-access-control-rac",
+			"category_name": "Climate Control Monitoring",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Control Cabinet Signal Light PYRA L-S",
+			"product_url": "https://www.pfannenberg.com/en/signaling-technology/visual-signaling/cabinet-signal-light/",
+			"category_name": "Cabinet Signal Lights (related to status)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Condensate Evaporators Serie DV",
+			"product_url": "https://seifertsystems.com/products/accessories/condensate-evaporators/",
+			"category_name": "Condensate Evaporators",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Schneider Electric ClimaSys PTC heater with fan",
+			"product_url": "https://www.se.com/ww/en/product/NSYCRV270WU1C/resistance-heater-fan-270w-110-120vac/",
+			"category_name": "Fan Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "DBK Frost Protection Thermostat Zentra",
+			"product_url": "https://www.dbk-group.com/en/thermal-management/controlling/zentra-series",
+			"category_name": "Thermostats (Frost Protection)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Filter Fan RF 018",
+			"product_url": "https://www.stego-group.com/products/filter-fans/filter-fan-rf-018",
+			"category_name": "Filter Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Roof-mounted fan TopTherm",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_filter_fan_units/pg_roof_mounted_fans/PGR_135197_11027",
+			"category_name": "Roof-Mounted Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Top Mount Fans",
+			"product_url": "https://hoffman.nvent.com/en-us/products/top-mount-fans",
+			"category_name": "Roof-Mounted Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Top Mount Exhaust Filters PFA",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/exhaust-filters/pfa-series/",
+			"category_name": "Roof-Mounted Filters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Fandis TRP Series Pneumatic Thermostat",
+			"product_url": "https://www.fandis.com/en/product/trp-pneumatic-thermostat/",
+			"category_name": "Thermostats (Pneumatic)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Roof Mount Fans Serie RF",
+			"product_url": "https://seifertsystems.com/products/cooling-products/roof-mount-fans/",
+			"category_name": "Roof-Mounted Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Cosmotec (Stulz) Roof exhaust units",
+			"product_url": "https://www.stulz.com/en/au/cosmotec-products/roof-exhaust-units/",
+			"category_name": "Roof-Mounted Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Texa Roof fan unit series GRV",
+			"product_url": "https://www.texa.co/en/products/roof-fan-unit/",
+			"category_name": "Roof-Mounted Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Hammond Manufacturing Roof Fans",
+			"product_url": "https://www.hammfg.com/electrical/products/climate/rf",
+			"category_name": "Roof-Mounted Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Alfa Electric Roof Fans",
+			"product_url": "https://www.alfaelectric.com/en/roof-fans/",
+			"category_name": "Roof-Mounted Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Orion Fans (Knight Electronics) Louvered Filter Fan Shrouds",
+			"product_url": "https://orionfans.com/products/category/louvered-filter-fan-shrouds",
+			"category_name": "Fan Accessories (Shrouds/Guards)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Bernstein Roof filter fans",
+			"product_url": "https://www.bernstein.eu/en/products/enclosure-technology/accessories/roof-filter-fans/",
+			"category_name": "Roof-Mounted Fans",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Hygrostats MFR 012 / EFR 012",
+			"product_url": "https://www.stego-group.com/products/regulating/hygrostats/mechanical-hygrostat-mfr-012",
+			"category_name": "Hygrostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Blue e+ S smart cooling units",
+			"product_url": "https://www.rittal.com/com-en/products/pg/climate-control/pg_cooling_units/pg_blue_e_plus_s/PGR_135197_39312",
+			"category_name": "Enclosure Air Conditioners",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Stainless Steel Air Conditioners",
+			"product_url": "https://hoffman.nvent.com/en-us/products/stainless-steel-air-conditioners",
+			"category_name": "Enclosure Air Conditioners (Stainless Steel)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg Outdoor Cooling Units DTI/DTS 6X01 Series",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/cooling-units/outdoor-cooling-units-dti-dts-6x01-series/",
+			"category_name": "Enclosure Air Conditioners (Outdoor)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Seifert Systems Hazardous Location Air Conditioners Serie EX",
+			"product_url": "https://seifertsystems.com/products/cooling-products/hazardous-location-air-conditioners/",
+			"category_name": "Enclosure Air Conditioners (Hazardous Location)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Texa Air conditioners for electrical cabinets series INOX",
+			"product_url": "https://www.texa.co/en/products/air-conditioners-inox/",
+			"category_name": "Enclosure Air Conditioners (Stainless Steel)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Haewa Thermostats and Hygrostats",
+			"product_url": "https://www.haewa.com/en/products/thermostats-and-hygrostats",
+			"category_name": "Thermostats & Hygrostats",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Rittal Interface flap, modular",
+			"product_url": "https://www.rittal.com/com-en/products/pg/enclosures/pg_accessories/pg_enclosure_interface_flap/PG0168KLIMA1",
+			"category_name": "Enclosure Interfaces (Related to accessing controls)",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "nVent HOFFMAN Vortex Cooling",
+			"product_url": "https://hoffman.nvent.com/en-us/products/vortex-cooling",
+			"category_name": "Vortex Coolers",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "Pfannenberg PTC Fan Heater PFH-T Series",
+			"product_url": "https://www.pfannenberg.com/en/thermal-management/heaters/pfh-t-series/",
+			"category_name": "Fan Heaters",
+			"parent_category": "Enclosure Climate Control"
+		},
+		{
+			"product_name": "STEGO Thermostat FZK 011 (Dual)",
+			"product_url": "https://www.stego-group.com/products/regulating/thermostats/dual-thermostat-fzk-011",
+			"category_name": "Thermostats (Dual)",
+			"parent_category": "Enclosure Climate Control"
+		}
+	]
+}

@@ -1,0 +1,856 @@
+{
+  "products": [
+    {
+      "product_name": "Knipex 13 86 200 Pliers for Electrical Installation",
+      "product_url": "https://www.knipex.com/products/electrical-installation-pliers/pliers-electrical-installation/pliers-electrical-installation/1386200",
+      "category_name": "Multifunction Installation Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wiha Insulated Industrial Pliers & Cutters Set, 3 Piece",
+      "product_url": "https://www.wihatools.com/products/insulated-industrial-pliers-cutters-set-3-piece",
+      "category_name": "Insulated Pliers & Cutters Set",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Klein Tools 11063W Wire Cutter / Wire Stripper",
+      "product_url": "https://www.kleintools.com/catalog/wire-stripperscutters/katapult-wire-strippercutter-solid-and-stranded-wire",
+      "category_name": "Wire Strippers/Cutters",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wera Kraftform Kompakt VDE 17 extra slim 1 Screwdriver Set",
+      "product_url": "https://products.wera.de/en/kraftform_kompakt_vde_kraftform_kompakt_vde_17_extra_slim_1.html",
+      "category_name": "Insulated Screwdriver Set",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Fluke 1AC II VoltAlert™ Non-Contact Voltage Tester",
+      "product_url": "https://www.fluke.com/en-us/product/electrical-testing/basic-testers/fluke-1ac-ii",
+      "category_name": "Non-Contact Voltage Testers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Ideal Industries 30-429 Twister® Wire Connector",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/connectors-termination/wire-connectors/twist-on/30-429.html",
+      "category_name": "Wire Connectors (Twist-On)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Greenlee 701K-G Tone & Probe Tracing Kit",
+      "product_url": "https://www.greenlee.com/us/en/tone-probe-tracing-kit-701k-g",
+      "category_name": "Tone & Probe Kits",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Facom 187.18CPE Combination Pliers",
+      "product_url": "https://www.facom.com/uk/tools/products/pliers/combination-pliers/combination-pliers/18718cpe",
+      "category_name": "Combination Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Channellock 369 9.5 Inch Lineman's Plier",
+      "product_url": "https://channellock.com/product/369/",
+      "category_name": "Lineman's Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Cimco Click'n'Crimp Presszange (Crimping Tool)",
+      "product_url": "https://www.cimco.de/de/Produkte/Pressen/Click-n-Crimp-System/106000/Click-n-Crimp-Presszange",
+      "category_name": "Crimping Tools",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Milwaukee 48-22-6105 7\" Wire Stripper/Cutter",
+      "product_url": "https://www.milwaukeetool.com/Products/Hand-Tools/Cutting/Wire-Strippers-and-Cutters/48-22-6105",
+      "category_name": "Wire Strippers/Cutters",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Knipex 00 21 20 LE Tool Case \"Robust23\" Basic Move",
+      "product_url": "https://www.knipex.com/products/tool-cases-and-bags/tool-cases-robust/tool-case-robust23-basic-move-empty/002120LE",
+      "category_name": "Tool Cases",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wiha Insulated Screwdriver SlimLine Blade Set, 13 Piece",
+      "product_url": "https://www.wihatools.com/products/insulated-screwdriver-slimline-blade-set-13-piece",
+      "category_name": "Insulated Screwdriver Set",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Klein Tools 1550-4 Pocket Knife / Utility Knife",
+      "product_url": "https://www.kleintools.com/catalog/utility-knives/electricians-pocket-knife",
+      "category_name": "Utility Knives",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wera Kraftform Plus VDE Insulated Screwdriver, PH2",
+      "product_url": "https://products.wera.de/en/screwdrivers_kraftform_plus__series_100_vde_162_i_vde.html",
+      "category_name": "Insulated Screwdrivers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Fluke T6-1000 PRO Electrical Tester",
+      "product_url": "https://www.fluke.com/en-us/product/electrical-testing/basic-testers/fluke-t6-1000-pro",
+      "category_name": "Electrical Testers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Ideal Industries 30-696 Ratchet Telemaster™ Crimp Tool",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/tools/crimping-tools/rj-45-rj-11/30-696.html",
+      "category_name": "Crimping Tools (Data)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Greenlee 864 Manual PVC Heater/Bender",
+      "product_url": "https://www.greenlee.com/us/en/manual-pvc-heater-bender-864",
+      "category_name": "Conduit Benders/Heaters",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Facom 467.JP10 Ratcheting Combination Wrench Set",
+      "product_url": "https://www.facom.com/uk/tools/products/wrenches/combination-wrenches/ratcheting-combination-wrenches/467jp10",
+      "category_name": "Wrench Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Channellock 420 9.5 Inch Tongue & Groove Plier",
+      "product_url": "https://channellock.com/product/420/",
+      "category_name": "Tongue & Groove Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Cimco Kabelmesser (Cable Knife)",
+      "product_url": "https://www.cimco.de/de/Produkte/Schneiden-Abisolieren/Kabelmesser/120042/Kabelmesser",
+      "category_name": "Cable Knives",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Milwaukee 48-22-8426 PACKOUT™ Rolling Tool Box",
+      "product_url": "https://www.milwaukeetool.com/Products/Storage-Solutions/PACKOUT-Modular-Storage-System/PACKOUT-Rolling-Tool-Boxes/48-22-8426",
+      "category_name": "Tool Boxes (Rolling)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Knipex 97 51 10 Crimping Pliers for Western plugs",
+      "product_url": "https://www.knipex.com/products/crimping-pliers/crimping-pliers-rj11rj12rj45-plugs/crimping-pliersrj11rj12rj45-plugs/975110",
+      "category_name": "Crimping Tools (Data)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wiha SoftFinish® Insulated Phillips Screwdriver #2",
+      "product_url": "https://www.wihatools.com/products/softfinish-insulated-phillips-screwdriver-2-x-100mm",
+      "category_name": "Insulated Screwdrivers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Klein Tools 56004 Fish Tape, 125-Foot",
+      "product_url": "https://www.kleintools.com/catalog/fish-tape-conduit-tools/steel-fish-tape-18-inch-x-125-foot",
+      "category_name": "Fish Tapes",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wera Joker 6004 Self-setting spanner",
+      "product_url": "https://products.wera.de/en/joker_the_spanner_revolution_joker_6004.html",
+      "category_name": "Adjustable Wrenches",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Fluke Networks Pro3000F Filtered Tone and Probe Kit",
+      "product_url": "https://www.flukenetworks.com/datacom-cabling/installation-tools/Pro3000-Tone-and-Probe",
+      "category_name": "Tone & Probe Kits",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Ideal Industries 45-120 T®-Stripper Wire Stripper",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/hand-tools/wire-strippers/45-120.html",
+      "category_name": "Wire Strippers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Greenlee DTAP-KIT Combination Drill/Tap Bit Kit",
+      "product_url": "https://www.greenlee.com/us/en/combination-drill-tap-bit-kit-dtap-kit",
+      "category_name": "Drill/Tap Bits",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Facom 39.JE16T Roll Set of Short Combination Wrenches",
+      "product_url": "https://www.facom.com/uk/tools/products/wrenches/combination-wrenches/short-combination-wrenches/39je16t",
+      "category_name": "Wrench Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Channellock 909 9.5-Inch Wire Stripper Crimper Cutter",
+      "product_url": "https://channellock.com/product/909/",
+      "category_name": "Wire Strippers/Crimpers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Cimco Sechskant-Stiftschlüssel-Satz (Hex Key Set)",
+      "product_url": "https://www.cimco.de/de/Produkte/Schraubendreher/Stiftschluessel-Saetze/117808/Sechskant-Stiftschluessel-Satz",
+      "category_name": "Hex Key Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Milwaukee 48-22-9486 15PC Combination Wrench Set - Metric",
+      "product_url": "https://www.milwaukeetool.com/Products/Hand-Tools/Mechanics-Tools/Wrenches/Combination-Wrenches/48-22-9486",
+      "category_name": "Wrench Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Knipex 86 01 250 Pliers Wrench",
+      "product_url": "https://www.knipex.com/products/pipe-wrenches-and-water-pump-pliers/pliers-wrenches-pliers-and-a-wrench-in-a-single-tool/pliers-wrenchespliers-and-wrench-single-tool/8601250",
+      "category_name": "Adjustable Pliers/Wrenches",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wiha Insulated High Leverage Combination Pliers",
+      "product_url": "https://www.wihatools.com/products/pliers/combination-pliers/insulated-high-leverage-combination-pliers-9-5",
+      "category_name": "Insulated Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Klein Tools 63050 Cable Cutter, High Leverage",
+      "product_url": "https://www.kleintools.com/catalog/cable-cutters/high-leverage-cable-cutter",
+      "category_name": "Cable Cutters",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wera Kraftform Kompakt 60 RA Ratcheting Screwdriver Set",
+      "product_url": "https://products.wera.de/en/kraftform_kompakt_kraftform_kompakt_60_ra.html",
+      "category_name": "Screwdriver Sets (Ratcheting)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Fluke Networks JackRapid™ Punch Down Tool",
+      "product_url": "https://www.flukenetworks.com/datacom-cabling/installation-tools/JackRapid-Punch-Down-Tool",
+      "category_name": "Punch Down Tools",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Ideal Industries 35-485 Punchmaster II Punchdown Tool",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/tools/punchdown-tools/35-485.html",
+      "category_name": "Punch Down Tools",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Greenlee 0153-01C Screwdriver Set, 7-Piece",
+      "product_url": "https://www.greenlee.com/us/en/screwdriver-set-7-piece-0153-01c",
+      "category_name": "Screwdriver Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Facom 84TZS.PB Set of 7 ResisTorx Screwdrivers",
+      "product_url": "https://www.facom.com/uk/tools/products/screwdrivers-keys/screwdriver-sets/torx-screwdriver-sets/84tzspb",
+      "category_name": "Screwdriver Sets (Torx)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Channellock 806 6-Inch Adjustable Wrench",
+      "product_url": "https://channellock.com/product/806/",
+      "category_name": "Adjustable Wrenches",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Cimco Abmantelungswerkzeug JOKARI (Stripping Tool)",
+      "product_url": "https://www.cimco.de/de/Produkte/Schneiden-Abisolieren/Abmantelungswerkzeuge/120090/Abmantelungswerkzeug-JOKARI",
+      "category_name": "Cable Stripping Tools",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Milwaukee 48-22-3079 6-in-1 Combination Pliers",
+      "product_url": "https://www.milwaukeetool.com/Products/Hand-Tools/Pliers/Combination-Pliers/48-22-3079",
+      "category_name": "Combination Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Knipex 71 01 200 CoBolt® Compact Bolt Cutter",
+      "product_url": "https://www.knipex.com/products/bolt-cutters/knipex-cobolt-compact-bolt-cutters/knipex-coboltcompact-bolt-cutters/7101200",
+      "category_name": "Bolt Cutters",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wiha Insulated SlimLine Square Screwdriver #2",
+      "product_url": "https://www.wihatools.com/products/insulated-slimline-square-screwdrivers-2-x-150mm",
+      "category_name": "Insulated Screwdrivers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Klein Tools 5102-16 Tool Bag, 16-Inch",
+      "product_url": "https://www.kleintools.com/catalog/tool-bags/canvas-tool-bag-16-inch",
+      "category_name": "Tool Bags",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wera Zyklop Metal 8100 SA 2 1/4\" Drive Metric Ratchet Set",
+      "product_url": "https://products.wera.de/en/zyklop_ratchets_and_accessories_zyklop_ratchets_zyklop_metal_ratchets_switch_lever_8100_sa_2.html",
+      "category_name": "Socket Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Fluke 117 Electrician's Multimeter",
+      "product_url": "https://www.fluke.com/en-us/product/electrical-testing/digital-multimeters/fluke-117",
+      "category_name": "Digital Multimeters (Handheld)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Ideal Industries 61-063 Vol-Con® Elite Voltage/Continuity Tester",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/testers/voltage-testers/61-063.html",
+      "category_name": "Voltage/Continuity Testers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Greenlee K09-SYNCRO Crimping Tool",
+      "product_url": "https://www.greenlee.com/us/en/crimping-tool-k09-syncro",
+      "category_name": "Crimping Tools",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Facom 194A.17CPE Combination Shears",
+      "product_url": "https://www.facom.com/uk/tools/products/pliers/cutting-pliers/combination-shears/194a17cpe",
+      "category_name": "Cable Shears",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Channellock 968 7-Inch Wire Stripper",
+      "product_url": "https://channellock.com/product/968/",
+      "category_name": "Wire Strippers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Cimco TORX®-Schraubendreher (Torx Screwdriver)",
+      "product_url": "https://www.cimco.de/de/Produkte/Schraubendreher/TORX-Schraubendreher/118634/TORX-Schraubendreher",
+      "category_name": "Screwdrivers (Torx)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Milwaukee 48-22-8310 PACKOUT™ Low-Profile Organizer",
+      "product_url": "https://www.milwaukeetool.com/Products/Storage-Solutions/PACKOUT-Modular-Storage-System/PACKOUT-Organizers/48-22-8310",
+      "category_name": "Tool Organizers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Knipex 16 95 01 SB ErgoStrip® Universal Dismantling Tool",
+      "product_url": "https://www.knipex.com/products/stripping-tools-and-dismantling-tools/knipex-ergostrip-universal-dismantling-tools/knipex-ergostripuniversal-dismantling-tools/169501SB",
+      "category_name": "Cable Stripping Tools",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wiha Insulated Water Pump Pliers",
+      "product_url": "https://www.wihatools.com/products/insulated-water-pump-pliers-10-0",
+      "category_name": "Insulated Pliers (Water Pump)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Klein Tools 70550 Bolt Cutter",
+      "product_url": "https://www.kleintools.com/catalog/bolt-cutters/bolt-cutter-14-inch",
+      "category_name": "Bolt Cutters",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wera Kraftform Micro VDE Screwdriver Set",
+      "product_url": "https://products.wera.de/en/screwdrivers_kraftform_micro_screwdrivers_kraftform_micro_vde_set_kraftform_micro-set_12_vde_1.html",
+      "category_name": "Precision Screwdriver Sets (Insulated)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Fluke Networks IntelliTone™ Pro 200 LAN Toner and Probe Kit",
+      "product_url": "https://www.flukenetworks.com/datacom-cabling/installation-tools/IntelliTone-Pro-Toner-and-Probe",
+      "category_name": "Tone & Probe Kits (Data)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Ideal Industries 45-618 Reflex™ Super T®-Stripper Wire Stripper",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/hand-tools/wire-strippers/45-618.html",
+      "category_name": "Wire Strippers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Greenlee 1903 Cable Stripper",
+      "product_url": "https://www.greenlee.com/us/en/cable-stripper-1903",
+      "category_name": "Cable Stripping Tools",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Facom R.360NANO 1/4\" Socket Set",
+      "product_url": "https://www.facom.com/uk/tools/products/sockets-ratchets/socket-sets/1-4-sockets-sets/r360nano",
+      "category_name": "Socket Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Channellock 738 8-Inch Slip Joint Plier",
+      "product_url": "https://channellock.com/product/738/",
+      "category_name": "Slip Joint Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Cimco Aderendhülsenzange (Ferrule Crimper)",
+      "product_url": "https://www.cimco.de/de/Produkte/Pressen/Aderendhuelsenzangen/101920/Aderendhuelsenzange",
+      "category_name": "Crimping Tools (Ferrules)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Milwaukee 48-22-2331 11-in-1 Screwdriver ECX™",
+      "product_url": "https://www.milwaukeetool.com/Products/Hand-Tools/Screwdrivers/Multi-Bit-Drivers/48-22-2331",
+      "category_name": "Multi-Bit Screwdrivers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Knipex 95 11 165 Cable Shears",
+      "product_url": "https://www.knipex.com/products/cable-and-wire-rope-shears/cable-shears/cable-shearstwin-cutting-edge/9511165",
+      "category_name": "Cable Shears",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wiha Insulated Industrial Long Nose Pliers",
+      "product_url": "https://www.wihatools.com/products/pliers/long-nose-pliers/insulated-industrial-long-nose-pliers-8-0",
+      "category_name": "Insulated Pliers (Long Nose)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Klein Tools 603-4 Screwdriver, 1/4-Inch Cabinet Tip",
+      "product_url": "https://www.kleintools.com/catalog/screwdrivers/cabinet-tip-screwdriver-14-inch-tip-4-inch-heavy-duty-round-shank",
+      "category_name": "Screwdrivers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wera Kraftform Plus VDE Insulated Slotted Screwdriver",
+      "product_url": "https://products.wera.de/en/screwdrivers_kraftform_plus__series_100_vde_160_i_vde.html",
+      "category_name": "Insulated Screwdrivers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Fluke Networks D914™ Series Impact Tools",
+      "product_url": "https://www.flukenetworks.com/datacom-cabling/installation-tools/D914-Series-Impact-Tools",
+      "category_name": "Punch Down Tools",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Ideal Industries 45-162 Coax Stripper",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/hand-tools/wire-strippers/coax-cable-strippers/45-162.html",
+      "category_name": "Coaxial Cable Strippers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Greenlee 45502 Professional Crimpmaster Tool Frame",
+      "product_url": "https://www.greenlee.com/us/en/professional-crimpmaster-tool-frame-45502",
+      "category_name": "Crimping Tools (Frames)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Facom 89TX.PB Set of 8 Torx Keys",
+      "product_url": "https://www.facom.com/uk/tools/products/screwdrivers-keys/hexagon-keys/torx-keys/89txpb",
+      "category_name": "Hex Key Sets (Torx)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Channellock E337CB 7-Inch XLT Diagonal Cutting Plier",
+      "product_url": "https://channellock.com/product/e337cb/",
+      "category_name": "Diagonal Cutting Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Cimco Universal-Schaltschrankschlüssel (Universal Cabinet Key)",
+      "product_url": "https://www.cimco.de/de/Produkte/Schaltschranktechnik/Schaltschrank-Schluessel/117954/Universal-Schaltschrankschluessel",
+      "category_name": "Cabinet Keys",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Milwaukee 48-22-3069 9” Wire Pliers",
+      "product_url": "https://www.milwaukeetool.com/Products/Hand-Tools/Pliers/Wire-Pliers/48-22-3069",
+      "category_name": "Wire Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Knipex 00 11 01 TwinKey® for all standard cabinets and shut-off systems",
+      "product_url": "https://www.knipex.com/products/control-cabinet-keys/knipex-twinkey-for-all-standard-cabinets-and-shut-systems/knipex-twinkeyforall-standard-cabinets-and-shutsystems/001101",
+      "category_name": "Cabinet Keys",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wiha 32800 Insulated Tool Set with Screwdrivers, Nut Drivers, Pliers/Cutters, Ruler, Knife and Case, 24 Piece",
+      "product_url": "https://www.wihatools.com/products/insulated-tool-set-with-screwdrivers-nut-drivers-pliers-cutters-ruler-knife-and-case-24-piece",
+      "category_name": "Insulated Tool Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Klein Tools 69149 Wire pulling foam",
+      "product_url": "https://www.kleintools.com/catalog/cable-lubricants-and-cleaners/wire-pulling-foam-easy-glide",
+      "category_name": "Wire Pulling Lubricants",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wera Tool-Check PLUS Bit Ratchet Set with Sockets",
+      "product_url": "https://products.wera.de/en/kraftform_kompakt_the_bit_safes_tool-checks_tool-check_plus.html",
+      "category_name": "Bit Sets / Socket Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Fluke 177 True RMS Digital Multimeter",
+      "product_url": "https://www.fluke.com/en-us/product/electrical-testing/digital-multimeters/fluke-177",
+      "category_name": "Digital Multimeters (Handheld)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Ideal Industries 31-004 Tight-Pak™ Aluminum Fish Tape",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/tools/fish-tapes-accessories/31-004.html",
+      "category_name": "Fish Tapes",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Greenlee 842H Hydraulic Knockout Kit",
+      "product_url": "https://www.greenlee.com/us/en/hydraulic-knockout-kit-842h",
+      "category_name": "Knockout Punches (Hydraulic)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Facom J.4APB Set of 3/8\" Sockets",
+      "product_url": "https://www.facom.com/uk/tools/products/sockets-ratchets/socket-sets/3-8-sockets-sets/j4apb",
+      "category_name": "Socket Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Channellock 317 8-Inch Long Nose Plier",
+      "product_url": "https://channellock.com/product/317/",
+      "category_name": "Long Nose Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Cimco Diamant-Abzieher (Diamond file)",
+      "product_url": "https://www.cimco.de/de/Produkte/Handwerkzeuge/Feilen/180010/Diamant-Abzieher",
+      "category_name": "Files",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Milwaukee 48-22-2706 6-in-1 Combination Wire Pliers",
+      "product_url": "https://www.milwaukeetool.com/Products/Hand-Tools/Pliers/Wire-Pliers/48-22-2706",
+      "category_name": "Wire Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Knipex 00 20 06 US1 Pliers Set",
+      "product_url": "https://www.knipex.com/products/pliers-sets/pliers-sets/pliersset/002006US1",
+      "category_name": "Pliers Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wiha Insulated Diagonal Cutters",
+      "product_url": "https://www.wihatools.com/products/insulated-diagonal-cutters-6-3",
+      "category_name": "Insulated Cutters",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Klein Tools D213-9NE Pliers, High-Leverage Side-Cutting",
+      "product_url": "https://www.kleintools.com/catalog/pliers/pliers-high-leverage-side-cutting-9-inch",
+      "category_name": "Lineman's Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wera VDE Interchangeable Blades Set",
+      "product_url": "https://products.wera.de/en/kraftform_kompakt_vde_kraftform_kompakt_vde_60_i_ra_s_1.html",
+      "category_name": "Insulated Screwdriver Sets (Interchangeable)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Fluke Networks CableIQ™ Qualification Tester",
+      "product_url": "https://www.flukenetworks.com/datacom-cabling/copper-testing/CableIQ-Qualification-Tester",
+      "category_name": "Cable Testers (Data)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Ideal Industries 45-163 Coax Stripper (Adjustable)",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/hand-tools/wire-strippers/coax-cable-strippers/45-163.html",
+      "category_name": "Coaxial Cable Strippers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Greenlee PA1511 Pro-Grip Crimp Tool",
+      "product_url": "https://www.greenlee.com/us/en/pro-grip-crimp-tool-pa1511",
+      "category_name": "Crimping Tools",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Facom 83SH.JP9A Set of 9 Spherical Head Hex Keys",
+      "product_url": "https://www.facom.com/uk/tools/products/screwdrivers-keys/hexagon-keys/hexagon-key-sets/83shjp9a",
+      "category_name": "Hex Key Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Channellock 911 Cable Cutter",
+      "product_url": "https://channellock.com/product/911/",
+      "category_name": "Cable Cutters",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Cimco Steckschlüsselsatz 1/4\" (Socket Set)",
+      "product_url": "https://www.cimco.de/de/Produkte/Handwerkzeuge/Steckschluessel/170024/Steckschluesselsatz-1-4",
+      "category_name": "Socket Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Milwaukee 48-22-1901 Fastback™ Compact Folding Utility Knife",
+      "product_url": "https://www.milwaukeetool.com/Products/Hand-Tools/Cutting/Knives-and-Blades/48-22-1901",
+      "category_name": "Utility Knives",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Knipex 98 52 Cable Knife",
+      "product_url": "https://www.knipex.com/products/cable-tools/cable-knives/cable-knives/9852",
+      "category_name": "Cable Knives",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wiha Insulated TorqueControl Handle, 10-50 in-lbs",
+      "product_url": "https://www.wihatools.com/products/insulated-torquecontrol-handle-10-50-in-lbs",
+      "category_name": "Torque Screwdrivers (Insulated)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Klein Tools 56034 Fish Rod Set",
+      "product_url": "https://www.kleintools.com/catalog/fish-tape-conduit-tools/15-foot-mid-flex-glow-rod-set",
+      "category_name": "Fish Rods",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wera 950 SPKL Hex Key Set, Metric, BlackLaser",
+      "product_url": "https://products.wera.de/en/l-keys_l-keys_for_hexagon_socket_screws_950_9_spkl_blacklaser_metric.html",
+      "category_name": "Hex Key Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Fluke T5-1000 Voltage, Continuity and Current Tester",
+      "product_url": "https://www.fluke.com/en-us/product/electrical-testing/basic-testers/fluke-t5-1000",
+      "category_name": "Electrical Testers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Ideal Industries 35-935 Data T®-Cutter",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/hand-tools/cable-cutters/35-935.html",
+      "category_name": "Cable Cutters (Data)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Greenlee 7238SB Slug-Buster Knockout Punch Kit",
+      "product_url": "https://www.greenlee.com/us/en/slug-buster-knockout-punch-kit-1-2-2-7238sb",
+      "category_name": "Knockout Punches",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Facom 440.JP14 Combination Wrench Set",
+      "product_url": "https://www.facom.com/uk/tools/products/wrenches/combination-wrenches/combination-wrenches/440jp14",
+      "category_name": "Wrench Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Channellock 38008 ULTRA THIN LINEMAN'S PLIER",
+      "product_url": "https://channellock.com/product/38008/",
+      "category_name": "Lineman's Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Cimco Ring-Maulschlüssel Satz (Combination Wrench Set)",
+      "product_url": "https://www.cimco.de/de/Produkte/Handwerkzeuge/Schraubenschluessel/170080/Ring-Maulschluessel-Satz",
+      "category_name": "Wrench Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Milwaukee 48-22-3078 8\" Long Nose Pliers",
+      "product_url": "https://www.milwaukeetool.com/Products/Hand-Tools/Pliers/Long-Nose-Pliers/48-22-3078",
+      "category_name": "Long Nose Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Knipex 87 01 250 Cobra® High-Tech Water Pump Pliers",
+      "product_url": "https://www.knipex.com/products/pipe-wrenches-and-water-pump-pliers/knipex-cobra-high-tech-water-pump-pliers/knipex-cobrahigh-tech-water-pump-pliers/8701250",
+      "category_name": "Water Pump Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wiha Insulated Nut Driver Set, 8 Piece Metric",
+      "product_url": "https://www.wihatools.com/products/insulated-nut-driver-set-8-piece-metric",
+      "category_name": "Insulated Nut Driver Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Klein Tools 11045 Wire Stripper/Cutter",
+      "product_url": "https://www.kleintools.com/catalog/wire-stripperscutters/wire-strippercutter-solid-and-stranded-wire",
+      "category_name": "Wire Strippers/Cutters",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wera Kraftform Plus Lasertip Screwdriver Set",
+      "product_url": "https://products.wera.de/en/kraftform_plus__series_300_335_3_9_set_kraftform_plus_lasertip_334_6_rack.html",
+      "category_name": "Screwdriver Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Fluke Networks TS®19 Test Set",
+      "product_url": "https://www.flukenetworks.com/telecom-tools/telephone-test-sets/TS19-Test-Set",
+      "category_name": "Telephone Test Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Ideal Industries 35-051 Heavy-Duty Cable Cutter",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/hand-tools/cable-cutters/35-051.html",
+      "category_name": "Cable Cutters",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Greenlee 52070520 Hole Saw Kit",
+      "product_url": "https://www.greenlee.com/us/en/hole-saw-kit-52070520",
+      "category_name": "Hole Saw Kits",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Facom 169A.RL Lock Grip Pliers",
+      "product_url": "https://www.facom.com/uk/tools/products/pliers/lock-grip-pliers/lock-grip-pliers/169arl",
+      "category_name": "Locking Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Channellock 526 6-Inch Slip Joint Plier",
+      "product_url": "https://channellock.com/product/526/",
+      "category_name": "Slip Joint Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Cimco DUOCUT Kombi-Schere (Combination Shears)",
+      "product_url": "https://www.cimco.de/de/Produkte/Schneiden-Abisolieren/Scheren/120114/DUOCUT-Kombi-Schere",
+      "category_name": "Combination Shears",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Milwaukee 48-22-8450 PACKOUT™ Tool Case W/ Customizable Insert",
+      "product_url": "https://www.milwaukeetool.com/Products/Storage-Solutions/PACKOUT-Modular-Storage-System/PACKOUT-Tool-Boxes/48-22-8450",
+      "category_name": "Tool Cases",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Knipex 98 99 14 Universal Tool Case \"Robust45\"",
+      "product_url": "https://www.knipex.com/products/tool-cases-and-bags/tool-cases-robust/universal-tool-case-robust45-empty/989914",
+      "category_name": "Tool Cases",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wiha Insulated SlimLine PICO Finish Screwdriver Set",
+      "product_url": "https://www.wihatools.com/products/insulated-slimline-pico-finish-set-6-pcs",
+      "category_name": "Precision Screwdriver Sets (Insulated)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Klein Tools 67000 Hex Key Set, 11-Key, Folding",
+      "product_url": "https://www.kleintools.com/catalog/hex-key-sets/folding-hex-key-set-11-key-inch",
+      "category_name": "Hex Key Sets (Folding)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wera 8100 SB 2 Zyklop Speed Ratchet Set, 3/8\" Drive, Metric",
+      "product_url": "https://products.wera.de/en/zyklop_ratchets_and_accessories_zyklop_speed_ratchets_3_8_sets_8100_sb_2.html",
+      "category_name": "Socket Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Fluke Networks MS2-100 MicroScanner2 Cable Verifier",
+      "product_url": "https://www.flukenetworks.com/datacom-cabling/copper-testing/MicroScanner-Cable-Verifier",
+      "category_name": "Cable Testers (Data)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Ideal Industries 33-864 Test-Pro® Multimeter",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/testers/multimeters/61-340.html",
+      "category_name": "Digital Multimeters (Handheld)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Greenlee 706 Compact Wire Stripper",
+      "product_url": "https://www.greenlee.com/us/en/compact-wire-stripper-706",
+      "category_name": "Wire Strippers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Facom E.506 Torque wrench with fixed ratchet",
+      "product_url": "https://www.facom.com/uk/tools/products/torque-control/mechanical-torque-wrenches/torque-wrenches-with-fixed-ratchet/e506",
+      "category_name": "Torque Wrenches",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Channellock 3017 8-Inch Long Nose Plier",
+      "product_url": "https://channellock.com/product/3017/",
+      "category_name": "Long Nose Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Cimco Klappmesser, 1-teilig (Folding Knife)",
+      "product_url": "https://www.cimco.de/de/Produkte/Schneiden-Abisolieren/Klappmesser/120062/Klappmesser-1-teilig",
+      "category_name": "Utility Knives (Folding)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Milwaukee 48-22-7406 6” & 10” Adjustable Wrench Set",
+      "product_url": "https://www.milwaukeetool.com/Products/Hand-Tools/Mechanics-Tools/Wrenches/Adjustable-Wrenches/48-22-7400",
+      "category_name": "Adjustable Wrenches",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Knipex 74 06 200 High Leverage Diagonal Cutter VDE",
+      "product_url": "https://www.knipex.com/products/cutting-pliers/knipex-high-leverage-diagonal-cutters/knipex-high-leverage-diagonal-cuttersvde-tested/7406200",
+      "category_name": "Insulated Cutters (Diagonal)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wiha Insulated Pliers/Cutters & Screwdrivers Set In Rolling Tool Case, 80 Piece",
+      "product_url": "https://www.wihatools.com/products/insulated-pliers-cutters-screwdrivers-set-in-rolling-tool-case-80-piece",
+      "category_name": "Insulated Tool Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Klein Tools VDV001-811 VDV Commander™ Test Kit",
+      "product_url": "https://www.kleintools.com/catalog/cable-testers/vdv-commander-test-kit",
+      "category_name": "Cable Testers (Data)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Wera Kraftform Plus Screwdriver Set, 12-Piece",
+      "product_url": "https://products.wera.de/en/kraftform_plus__series_300_kraftform_plus_300_series_sets_932_6_rack.html",
+      "category_name": "Screwdriver Sets",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Fluke Networks Pro-Tool™ Kits (IS60)",
+      "product_url": "https://www.flukenetworks.com/datacom-cabling/installation-tools/Pro-Tool-Kits",
+      "category_name": "Telecom/Data Tool Kits",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Ideal Industries 45-165 Coax Stripper (UTP/STP/Coax)",
+      "product_url": "https://www.idealind.com/us/en/shop/product-type/hand-tools/wire-strippers/coax-cable-strippers/45-165.html",
+      "category_name": "Cable Stripping Tools",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Greenlee 0451-10M Magnetic Torpedo Level",
+      "product_url": "https://www.greenlee.com/us/en/magnetic-torpedo-level-0451-10m",
+      "category_name": "Levels",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Facom 464.J1 Set of 4 Adaptable Spanners",
+      "product_url": "https://www.facom.com/uk/tools/products/wrenches/adjustable-wrenches/adjustable-wrench-sets/464j1",
+      "category_name": "Wrench Sets (Adjustable)",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Channellock 415 10-Inch Smooth Jaw Plier",
+      "product_url": "https://channellock.com/product/415/",
+      "category_name": "Tongue & Groove Pliers",
+      "parent_category": "Electrician Hand Tools"
+    },
+    {
+      "product_name": "Cimco VDE-Schraubendreher Satz (VDE Screwdriver Set)",
+      "product_url": "https://www.cimco.de/de/Produkte/VDE-Werkzeuge/Schraubendreher/117738/VDE-Schraubendreher-Satz",
+      "category_name": "Insulated Screwdriver Set",
+      "parent_category": "Electrician Hand Tools"
+    }
+  ]
+}

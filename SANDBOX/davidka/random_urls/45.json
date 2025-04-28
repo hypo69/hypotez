@@ -1,0 +1,964 @@
+{
+  "products": [
+    {
+      "product_name": "Siemens SITRANS P DS III Pressure Transmitter",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/pressure-measurement/transmitters-for-gauge-and-absolute-pressure/sitrans-p-dsiii.html",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Emerson Rosemount™ 3051S Pressure Transmitter",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-sku-3051s-series-pressure-transmitter",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Yokogawa EJX530A In-Line Mount Gauge Pressure Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/pressure-transmitters/gauge-pressure-transmitters/ejx530a-in-line-mount-gauge-pressure-transmitter-dpharp-ejx/",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Honeywell SmartLine ST800 Pressure Transmitters",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/field-instruments/pressure-transmitters/st-800-pressure-transmitters",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "ABB 266 Pressure Transmitters",
+      "product_url": "https://new.abb.com/products/measurement-products/pressure/pressure-transmitters/266-pressure-transmitters",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Endress+Hauser Cerabar PMC51 Process pressure measurement",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/pressure-measurement-product-overview/absolute-gauge-pressure-Cerabar-PMC51",
+      "category_name": "Pressure Sensors / Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "WIKA A-10 Pressure transmitter",
+      "product_url": "https://www.wika.com/en-us/products/pressure/sensors_transmitters/productoverview/pressure_transmitter_model_a_10.WIKA",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "IFM Electronic PN series Pressure sensors",
+      "product_url": "https://www.ifm.com/us/en/category/020/020_010/020_010_010",
+      "category_name": "Pressure Sensors / Switches",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Baumer PBMN Flush Pressure Sensor",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/pressure-measurement/pressure-sensors/pbmn-flush/p/2286",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Keller Series 23 SY Piezoresistive Pressure Transmitter",
+      "product_url": "https://keller-druck.com/en/products/industrial-pressure-transmitters/oem-pressure-transmitters/series-23-sy",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Danfoss MBS 3000 Compact pressure transmitter",
+      "product_url": "https://www.danfoss.com/en/products/dhs/sensors-and-transmitters/pressure-transmitters/mbs-3000/",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Turck PS+ Series Robust Pressure Sensors",
+      "product_url": "https://www.turck.us/en/product_group/pressure_sensors_ps_series-300/",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sick PBT Pressure transmitter",
+      "product_url": "https://www.sick.com/gb/en/fluid-sensors/pressure-sensors/pbt/p/p315569",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Ashcroft® GC51 Differential Pressure Transducer",
+      "product_url": "https://www.ashcroft.com/products/pressure/pressure-transducers-transmitters/gc51-differential-pressure-transducer/",
+      "category_name": "Differential Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Dwyer Instruments Series 626 Pressure Transmitter",
+      "product_url": "https://www.dwyer-inst.com/Product/Pressure/Transmitters/SinglePressure/Series626-628",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "VEGA VEGABAR 82 Pressure Transmitter",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/pressure/process-pressure/vegabar-82",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Omega PX309 Series Miniature Pressure Transducers",
+      "product_url": "https://www.omega.com/en-us/pressure-measurement/pressure-transducers/miniature-transducers/px309-series/p/PX309-100G5V",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "KROHNE OPTIBAR P 1010 Pressure transmitter",
+      "product_url": "https://krohne.com/en/products/pressure-measurement/pressure-transmitters/optibar-p-1010",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sensata 2CP5 Series Compact Pressure Switch/Sensor",
+      "product_url": "https://www.sensata.com/products/pressure-sensors/pressure-switches/2cp5-series",
+      "category_name": "Pressure Switches / Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Gems Sensors 3100 Series Pressure Transducer",
+      "product_url": "https://www.gemssensors.com/products/pressure-sensors/pressure-transducers/3100-3200-series-compact-oem-pressure-transmitters",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Siemens SITRANS P320/P420 Pressure Transmitter",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/pressure-measurement/transmitters-for-gauge-and-absolute-pressure/sitrans-p320-p420.html",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Emerson Rosemount™ 2051 Pressure Transmitter",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-sku-2051-series-pressure-transmitter",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Yokogawa EJX430A Gauge Pressure Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/pressure-transmitters/gauge-pressure-transmitters/ejx430a-gauge-pressure-transmitter-dpharp-ejx/",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Honeywell SmartLine ST700 Pressure Transmitters",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/field-instruments/pressure-transmitters/st-700-pressure-transmitters",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "ABB PxS100 Pressure Transmitter",
+      "product_url": "https://new.abb.com/products/measurement-products/pressure/pressure-transmitters/pxs100",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Endress+Hauser Cerabar PMP51 Process pressure measurement",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/pressure-measurement-product-overview/absolute-gauge-pressure-Cerabar-PMP51",
+      "category_name": "Pressure Sensors / Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "WIKA S-20 Superior pressure transmitter",
+      "product_url": "https://www.wika.com/en-us/products/pressure/sensors_transmitters/productoverview/superior_pressure_transmitter_model_s_20.WIKA",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "IFM Electronic PT Series Pressure Transmitters",
+      "product_url": "https://www.ifm.com/us/en/category/020/020_010/020_010_020",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Baumer PBMH Hygienic Pressure Sensor",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/pressure-measurement/pressure-sensors/pbmh/p/2287",
+      "category_name": "Pressure Sensors (Hygienic)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Keller Series 33 X High Precision Pressure Transmitter",
+      "product_url": "https://keller-druck.com/en/products/industrial-pressure-transmitters/high-precision-digital-pressure-transmitters/series-33-x",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Danfoss MBS 1900 Pressure transmitter for air and water applications",
+      "product_url": "https://www.danfoss.com/en/products/dhs/sensors-and-transmitters/pressure-transmitters/mbs-1900/",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Turck PC Series Miniature Pressure Sensors",
+      "product_url": "https://www.turck.us/en/product_group/pressure_sensors_pc_series-301/",
+      "category_name": "Pressure Sensors (Miniature)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sick PBS plus Electronic pressure switch",
+      "product_url": "https://www.sick.com/gb/en/fluid-sensors/pressure-sensors/pbs-plus/c/g469739",
+      "category_name": "Pressure Switches",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Ashcroft® GC31 Digital Pressure Gauge/Switch",
+      "product_url": "https://www.ashcroft.com/products/pressure/digital-pressure-gauges/gc31-digital-pressure-gauge-switch/",
+      "category_name": "Digital Pressure Gauges / Switches",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Dwyer Instruments Series 679 Weatherproof Pressure Transmitter",
+      "product_url": "https://www.dwyer-inst.com/Product/Pressure/Transmitters/SinglePressure/Series679",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "VEGA VEGABAR 38 Pressure Sensor with Ceramic Cell",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/pressure/process-pressure/vegabar-38",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Omega PX5500 Series Industrial Pressure Transducer",
+      "product_url": "https://www.omega.com/en-us/pressure-measurement/pressure-transducers/general-purpose-transducers/px5500-series/p/PX5500-015A5V",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "KROHNE OPTIBAR P 3050 Compact pressure transmitter",
+      "product_url": "https://krohne.com/en/products/pressure-measurement/pressure-transmitters/optibar-p-3050",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sensata 116CP Series Pressure Sensor",
+      "product_url": "https://www.sensata.com/products/pressure-sensors/pressure-transducers/116cp-series",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Gems Sensors 3500 Series Thin Film Pressure Transducer",
+      "product_url": "https://www.gemssensors.com/products/pressure-sensors/pressure-transducers/3500-series-thin-film-pressure-transducers",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Siemens SITRANS P200/P210/P220 Transmitters for pressure",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/pressure-measurement/transmitters-for-gauge-and-absolute-pressure/sitrans-p200-p210-p220.html",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Emerson Rosemount™ 2088 Gauge and Absolute Pressure Transmitter",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-sku-2088-gauge-absolute-pressure-transmitter",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Yokogawa EJA110E Differential Pressure Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/pressure-transmitters/differential-pressure-transmitters/eja110e-differential-pressure-transmitter-dpharp-eja/",
+      "category_name": "Differential Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Honeywell ST 3000 Series 100 Absolute Pressure Transmitters",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/field-instruments/pressure-transmitters/st-3000-pressure-transmitters/series-100-absolute-pressure",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "ABB 261 Pressure Transmitters",
+      "product_url": "https://new.abb.com/products/measurement-products/pressure/pressure-transmitters/261-pressure-transmitters",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Endress+Hauser Deltabar FMD71 Differential pressure measurement",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/pressure-measurement-product-overview/differential-pressure-deltabar-fmd71-fmd72",
+      "category_name": "Differential Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "WIKA IS-3 Pressure transmitter for hazardous areas",
+      "product_url": "https://www.wika.com/en-us/products/pressure/sensors_transmitters/productoverview/pressure_transmitter_for_hazardous_areas_model_is_3.WIKA",
+      "category_name": "Pressure Transmitters (Hazardous Area)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "IFM Electronic PK series Pressure switches",
+      "product_url": "https://www.ifm.com/us/en/category/020/020_020/020_020_010",
+      "category_name": "Pressure Switches",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Baumer PP20H Hygienic Pressure Sensor",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/pressure-measurement/pressure-sensors/pp20h/p/1438",
+      "category_name": "Pressure Sensors (Hygienic)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Keller Series 21 Y Piezoresistive Pressure Transmitter (Programmable)",
+      "product_url": "https://keller-druck.com/en/products/industrial-pressure-transmitters/standard-pressure-transmitters/series-21-y",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Danfoss MBS 3050 Compact pressure transmitter with pulse snubber",
+      "product_url": "https://www.danfoss.com/en/products/dhs/sensors-and-transmitters/pressure-transmitters/mbs-3050/",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Turck PK Series Compact Pressure Sensors",
+      "product_url": "https://www.turck.us/en/product_group/pressure_sensors_pk_series-302/",
+      "category_name": "Pressure Sensors (Compact)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sick PAC50 Electronic pressure switch",
+      "product_url": "https://www.sick.com/gb/en/fluid-sensors/pressure-sensors/pac50/c/g469740",
+      "category_name": "Pressure Switches",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Ashcroft® G2 Pressure Transducer",
+      "product_url": "https://www.ashcroft.com/products/pressure/pressure-transducers-transmitters/g2-pressure-transducer/",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Dwyer Instruments Series 628 Pressure Transmitter",
+      "product_url": "https://www.dwyer-inst.com/Product/Pressure/Transmitters/SinglePressure/Series626-628",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "VEGA VEGABAR 28 Pressure Sensor",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/pressure/process-pressure/vegabar-28",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Omega PX409 Series High Accuracy Pressure Transducers",
+      "product_url": "https://www.omega.com/en-us/pressure-measurement/pressure-transducers/high-accuracy-transducers/px409-series/p/PX409-100G5V",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "KROHNE OPTIBAR PC 5060 Pressure transmitter",
+      "product_url": "https://krohne.com/en/products/pressure-measurement/pressure-transmitters/optibar-pc-5060",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sensata PTF Series Thin Film Pressure Sensor",
+      "product_url": "https://www.sensata.com/products/pressure-sensors/pressure-transducers/ptf-series",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Gems Sensors 2200 Series Pressure Transducer",
+      "product_url": "https://www.gemssensors.com/products/pressure-sensors/pressure-transducers/2200-2600-series-cvd-pressure-transducers",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Siemens SITRANS LH100 Submersible Sensors for Hydrostatic Level",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/level-measurement/hydrostatic/sitrans-lh100.html",
+      "category_name": "Hydrostatic Level Sensors (Pressure Based)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Emerson Rosemount™ 3051L Level Transmitter",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-sku-3051l-level-transmitter",
+      "category_name": "Level Transmitters (DP)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Yokogawa EJA210E Flange Mounted Differential Pressure Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/pressure-transmitters/differential-pressure-transmitters/eja210e-flange-mounted-differential-pressure-transmitter-dpharp-eja/",
+      "category_name": "Differential Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Honeywell SmartLine ST 3000 Series 900 Gauge Pressure Transmitter",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/field-instruments/pressure-transmitters/st-3000-pressure-transmitters/series-900-gauge-pressure",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "ABB 266 Modbus Pressure Transmitters",
+      "product_url": "https://new.abb.com/products/measurement-products/pressure/pressure-transmitters/266-modbus-pressure-transmitters",
+      "category_name": "Pressure Transmitters (Modbus)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Endress+Hauser Deltapilot FMB50 Hydrostatic Level Sensor",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/level-measurement/hydrostatic-level-sensor-deltapilot-fmb50",
+      "category_name": "Hydrostatic Level Sensors (Pressure Based)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "WIKA PSD-4 Electronic pressure switch",
+      "product_url": "https://www.wika.com/en-us/products/pressure/electronic_pressure_measurement/pressure_switches/productoverview/electronic_pressure_switch_model_psd_4.WIKA",
+      "category_name": "Pressure Switches",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "IFM Electronic PI Series Pressure sensors with display",
+      "product_url": "https://www.ifm.com/us/en/category/020/020_010/020_010_010#!/query=display&min=0&max=0&num=20&sort=topseller-desc",
+      "category_name": "Pressure Sensors (with Display)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Baumer PBMR Relative Pressure Sensor",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/pressure-measurement/pressure-sensors/pbmr/p/2289",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Keller Series PRD-33 X Differential Pressure Transmitter",
+      "product_url": "https://keller-druck.com/en/products/level-probes-level-transmitters/differential-pressure-transmitters/series-prd-33-x",
+      "category_name": "Differential Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Danfoss DST P100 Pressure Transmitter for Industrial Applications",
+      "product_url": "https://www.danfoss.com/en/products/dhs/sensors-and-transmitters/pressure-transmitters/dst-p100/",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Turck PT Series Pressure Transmitter",
+      "product_url": "https://www.turck.us/en/product_group/pressure_transmitters_pt_series-310/",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sick PHT Pressure transmitter",
+      "product_url": "https://www.sick.com/gb/en/fluid-sensors/pressure-sensors/pht/p/p315572",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Ashcroft® CXLdp Differential Pressure Transducer",
+      "product_url": "https://www.ashcroft.com/products/pressure/pressure-transducers-transmitters/cxldp-differential-pressure-transducer/",
+      "category_name": "Differential Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Dwyer Instruments Series 616KD Differential Pressure Transmitter",
+      "product_url": "https://www.dwyer-inst.com/Product/Pressure/Transmitters/DifferentialPressure/Series616KD",
+      "category_name": "Differential Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "VEGA VEGADIF 85 Differential pressure transmitter",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/pressure/differential-pressure/vegadif-85",
+      "category_name": "Differential Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Omega DPG409 Series High Accuracy Digital Pressure Gauge",
+      "product_url": "https://www.omega.com/en-us/pressure-measurement/pressure-gauges/digital-pressure-gauges/dpg409-series/p/DPG409-015G-2DB",
+      "category_name": "Digital Pressure Gauges",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "KROHNE OPTIBAR DP 7060 Differential pressure transmitter",
+      "product_url": "https://krohne.com/en/products/pressure-measurement/differential-pressure-transmitters/optibar-dp-7060",
+      "category_name": "Differential Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sensata 3PP8 Series Pressure Switch",
+      "product_url": "https://www.sensata.com/products/pressure-sensors/pressure-switches/3pp8-series",
+      "category_name": "Pressure Switches",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Gems Sensors PS61 Series Sub-Miniature Pressure Switch",
+      "product_url": "https://www.gemssensors.com/products/pressure-switches/sub-miniature-pressure-switches/ps61-series-sub-miniature-pressure-switches",
+      "category_name": "Pressure Switches",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Siemens SITRANS P Compact Pressure Transmitter",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/pressure-measurement/transmitters-for-gauge-and-absolute-pressure/sitrans-p-compact.html",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Emerson Rosemount™ 3051 Coplanar™ Pressure Transmitter",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-sku-3051-coplanar-pressure-transmitter",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Yokogawa EJA430E Gauge Pressure Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/pressure-transmitters/gauge-pressure-transmitters/eja430e-gauge-pressure-transmitter-dpharp-eja/",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Honeywell Wireless Pressure Transmitter XYR 6000",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/wireless/pressure-transmitters/xyr-6000-wireless-pressure-transmitter",
+      "category_name": "Pressure Transmitters (Wireless)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "ABB 266 Wireless Pressure Transmitter",
+      "product_url": "https://new.abb.com/products/measurement-products/pressure/pressure-transmitters/266-wireless-pressure-transmitters",
+      "category_name": "Pressure Transmitters (Wireless)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Endress+Hauser Cerabar PMP71 Process pressure measurement",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/pressure-measurement-product-overview/absolute-gauge-pressure-Cerabar-PMP71",
+      "category_name": "Pressure Sensors / Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "WIKA A-1200 Pressure transmitter with CANopen®",
+      "product_url": "https://www.wika.com/en-us/products/pressure/sensors_transmitters/productoverview/pressure_transmitter_with_canopen_protocoll_model_a_1200.WIKA",
+      "category_name": "Pressure Transmitters (CANopen)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "IFM Electronic PA series Pressure sensors for hygienic applications",
+      "product_url": "https://www.ifm.com/us/en/category/020/020_010/020_010_010#!/query=hygienic&min=0&max=0&num=20&sort=topseller-desc",
+      "category_name": "Pressure Sensors (Hygienic)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Baumer PBSN Pressure Sensor (Non-Flush)",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/pressure-measurement/pressure-sensors/pbsn/p/2288",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Keller Series 25 Y High Temperature Pressure Transmitter",
+      "product_url": "https://keller-druck.com/en/products/industrial-pressure-transmitters/high-temperature-pressure-transmitters/series-25-y",
+      "category_name": "Pressure Transmitters (High Temp)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Danfoss MBS 5100 Ship approved pressure transmitter",
+      "product_url": "https://www.danfoss.com/en/products/dhs/sensors-and-transmitters/pressure-transmitters/mbs-5100/",
+      "category_name": "Pressure Transmitters (Marine)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Turck PT2000 Series Pressure Transmitter",
+      "product_url": "https://www.turck.us/en/product_group/pressure_transmitters_pt2000_series-311/",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sick PFT Pressure transmitter",
+      "product_url": "https://www.sick.com/gb/en/fluid-sensors/pressure-sensors/pft/p/p315570",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Ashcroft® A4A Precision Pressure Transducer",
+      "product_url": "https://www.ashcroft.com/products/pressure/pressure-transducers-transmitters/a4a-precision-pressure-transducer/",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Dwyer Instruments Series ISDP-WP Weatherproof Differential Pressure Transmitter",
+      "product_url": "https://www.dwyer-inst.com/Product/Pressure/Transmitters/DifferentialPressure/SeriesISDP-WP",
+      "category_name": "Differential Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "VEGA VEGABAR 39 Pressure Sensor with IO-Link",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/pressure/process-pressure/vegabar-39",
+      "category_name": "Pressure Sensors (IO-Link)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Omega PX709GW Wireless Pressure Transducer",
+      "product_url": "https://www.omega.com/en-us/pressure-measurement/pressure-transducers/wireless-transducers/px709gw-series/p/PX709GW-100G5V",
+      "category_name": "Pressure Transducers (Wireless)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "KROHNE OPTIBAR PM 3050 Pressure transmitter",
+      "product_url": "https://krohne.com/en/products/pressure-measurement/pressure-transmitters/optibar-pm-3050",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sensata PST-A Series Armored Pressure Transducer",
+      "product_url": "https://www.sensata.com/products/pressure-sensors/pressure-transducers/pst-series",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Gems Sensors 3300 Series OEM Pressure Sensor",
+      "product_url": "https://www.gemssensors.com/products/pressure-sensors/oem-pressure-sensors/3300-series-oem-pressure-sensor",
+      "category_name": "Pressure Sensors (OEM)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Siemens SITRANS P300 Pressure Transmitter (Digital)",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/pressure-measurement/transmitters-for-gauge-and-absolute-pressure/sitrans-p300.html",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Emerson Rosemount™ 3051 Differential Pressure Flow Transmitter",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-flow-3051",
+      "category_name": "Differential Pressure Transmitters (Flow)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Yokogawa EJA510E Absolute Pressure Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/pressure-transmitters/absolute-pressure-transmitters/eja510e-absolute-pressure-transmitter-dpharp-eja/",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Honeywell SmartLine SMV800 Multivariable Transmitter",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/field-instruments/multivariable-transmitters/smv800-smartline-multivariable-transmitter",
+      "category_name": "Multivariable Transmitters (Pressure)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "ABB 266 Multivariable Transmitter",
+      "product_url": "https://new.abb.com/products/measurement-products/pressure/absolute-pressure-transmitters/266mst-multivariable-transmitter",
+      "category_name": "Multivariable Transmitters (Pressure)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Endress+Hauser Cerabar PMP21 Absolute/gauge pressure sensor",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/pressure-measurement-product-overview/absolute-gauge-pressure-Cerabar-PMP21",
+      "category_name": "Pressure Sensors / Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "WIKA P-30 Precision pressure transmitter",
+      "product_url": "https://www.wika.com/en-us/products/pressure/sensors_transmitters/productoverview/precision_pressure_transmitter_model_p_30.WIKA",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "IFM Electronic PQ series Pressure sensors for pneumatic applications",
+      "product_url": "https://www.ifm.com/us/en/category/020/020_010/020_010_010#!/query=pneumatic&min=0&max=0&num=20&sort=topseller-desc",
+      "category_name": "Pressure Sensors (Pneumatic)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Baumer PDRP Differential Pressure Sensor",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/pressure-measurement/differential-pressure-sensors/pdrp/p/2290",
+      "category_name": "Differential Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Keller Series 9L High Temperature Pressure Transmitter",
+      "product_url": "https://keller-druck.com/en/products/industrial-pressure-transmitters/high-temperature-pressure-transmitters/series-9-l",
+      "category_name": "Pressure Transmitters (High Temp)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Danfoss EMP 2 Pressure transmitter for marine applications",
+      "product_url": "https://www.danfoss.com/en/products/dhs/sensors-and-transmitters/pressure-transmitters/emp-2/",
+      "category_name": "Pressure Transmitters (Marine)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Turck TS Series Temperature/Pressure Sensors",
+      "product_url": "https://www.turck.us/en/product_group/temperature_sensors_ts_series-340/",
+      "category_name": "Combined Temperature/Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sick PBS Hygienic pressure switch",
+      "product_url": "https://www.sick.com/gb/en/fluid-sensors/pressure-sensors/pbs-hygienic/c/g478166",
+      "category_name": "Pressure Switches (Hygienic)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Ashcroft® DDS Differential Pressure Switch",
+      "product_url": "https://www.ashcroft.com/products/switches/differential-pressure-switches/dds-differential-pressure-switch/",
+      "category_name": "Differential Pressure Switches",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Dwyer Instruments Series A3000 Photohelic® Pressure Switch/Gage",
+      "product_url": "https://www.dwyer-inst.com/Product/Pressure/DifferentialPressure/Switches-Gages/SeriesA3000",
+      "category_name": "Differential Pressure Switches/Gauges",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "VEGA VEGABAR 14 Pressure Sensor",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/pressure/process-pressure/vegabar-14",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Omega PXM409 Series Industrial Pressure Transmitters (High Stability)",
+      "product_url": "https://www.omega.com/en-us/pressure-measurement/pressure-transmitters/industrial-transmitters/pxm409-series/p/PXM409-015A5V",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "KROHNE OPTIBAR P 2010 Pressure transmitter",
+      "product_url": "https://krohne.com/en/products/pressure-measurement/pressure-transmitters/optibar-p-2010",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sensata 111/121/141 Series Pressure Sensor",
+      "product_url": "https://www.sensata.com/products/pressure-sensors/pressure-transducers/111-121-141-series",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Gems Sensors 4000 Series Pressure Transducer (Thin Film)",
+      "product_url": "https://www.gemssensors.com/products/pressure-sensors/pressure-transducers/4000-series-thin-film-pressure-transducers",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Siemens SITRANS P ZD Pressure Transmitter",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/pressure-measurement/transmitters-for-gauge-and-absolute-pressure/sitrans-p-zd.html",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Emerson Rosemount™ 4088 MultiVariable™ Transmitter",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-sku-4088-multivariable-transmitter",
+      "category_name": "Multivariable Transmitters (Pressure)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Yokogawa EJX110A Differential Pressure Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/pressure-transmitters/differential-pressure-transmitters/ejx110a-differential-pressure-transmitter-dpharp-ejx/",
+      "category_name": "Differential Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Honeywell HP H & G Series Pressure Sensors (Board Mount)",
+      "product_url": "https://sps.honeywell.com/us/en/products/advanced-sensing-technologies/sensors/pressure-sensors/board-mount-pressure-sensors/h-p-h-and-g-series",
+      "category_name": "Pressure Sensors (Board Mount)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "ABB 266 Differential Pressure Transmitter",
+      "product_url": "https://new.abb.com/products/measurement-products/pressure/differential-pressure-transmitters/266ddp",
+      "category_name": "Differential Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Endress+Hauser Cerabar PMP55 Process pressure measurement (Diaphragm Seal)",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/pressure-measurement-product-overview/absolute-gauge-pressure-Cerabar-PMP55",
+      "category_name": "Pressure Sensors / Transmitters (Diaphragm Seal)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "WIKA UHP-S-10 Ultra high purity pressure transmitter",
+      "product_url": "https://www.wika.com/en-us/products/pressure/sensors_transmitters/productoverview/ultra_high_purity_pressure_transmitter_model_uhp_s_10.WIKA",
+      "category_name": "Pressure Transmitters (UHP)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "IFM Electronic PV Series Pressure sensors for mobile applications",
+      "product_url": "https://www.ifm.com/us/en/category/020/020_010/020_010_010#!/search?query=mobile&min=0&max=0&num=20&sort=topseller-desc",
+      "category_name": "Pressure Sensors (Mobile)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Baumer PBM4 Pressure Sensor for Mobile Hydraulics",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/pressure-measurement/pressure-sensors/pbm4/p/4717",
+      "category_name": "Pressure Sensors (Mobile Hydraulics)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Keller Series LEO 5 Digital Manometer with Peak Recording",
+      "product_url": "https://keller-druck.com/en/products/pressure-gauges/digital-manometers/series-leo-5",
+      "category_name": "Digital Manometers / Pressure Gauges",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Danfoss MBS 1200 Compact OEM pressure transmitter",
+      "product_url": "https://www.danfoss.com/en/products/dhs/sensors-and-transmitters/pressure-transmitters/mbs-1200/",
+      "category_name": "Pressure Transmitters (OEM)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Turck PS Series Pressure Switches",
+      "product_url": "https://www.turck.us/en/product_group/pressure_switches_ps_series-320/",
+      "category_name": "Pressure Switches",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sick PBs Basic pressure switch",
+      "product_url": "https://www.sick.com/gb/en/fluid-sensors/pressure-sensors/pbs/c/g417284",
+      "category_name": "Pressure Switches",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Ashcroft® A2 Pressure Transducer",
+      "product_url": "https://www.ashcroft.com/products/pressure/pressure-transducers-transmitters/a2-pressure-transducer/",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Dwyer Instruments Series 636 Fixed Range Pressure Transmitter",
+      "product_url": "https://www.dwyer-inst.com/Product/Pressure/Transmitters/SinglePressure/Series636",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "VEGA VEGABAR 17 Pressure Sensor",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/pressure/process-pressure/vegabar-17",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Omega PX1005 Series Heavy Duty Pressure Transducers",
+      "product_url": "https://www.omega.com/en-us/pressure-measurement/pressure-transducers/general-purpose-transducers/px1005-series/p/PX1005-2KGI",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "KROHNE OPTIBAR PM 5060 Pressure transmitter",
+      "product_url": "https://krohne.com/en/products/pressure-measurement/pressure-transmitters/optibar-pm-5060",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sensata 204 Series Pressure Transducer",
+      "product_url": "https://www.sensata.com/products/pressure-sensors/pressure-transducers/204-series",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Gems Sensors 3200 Series Pressure Transducer (Compact)",
+      "product_url": "https://www.gemssensors.com/products/pressure-sensors/pressure-transducers/3100-3200-series-compact-oem-pressure-transmitters",
+      "category_name": "Pressure Transducers",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Siemens SITRANS P250 Pressure transmitter for differential pressure",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/pressure-measurement/transmitters-for-differential-pressure-and-flow/sitrans-p250.html",
+      "category_name": "Differential Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Emerson Rosemount™ 3051 Pressure Transmitter Accessories",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-pressure-accessories",
+      "category_name": "Pressure Transmitter Accessories",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Yokogawa EJX910A Multivariable Transmitter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/pressure-transmitters/multivariable-transmitters/ejx910a-multivariable-transmitter-dpharp-ejx/",
+      "category_name": "Multivariable Transmitters (Pressure)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Honeywell XYR 6000 Absolute Pressure Transmitter",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/wireless/pressure-transmitters/xyr-6000-absolute-pressure-transmitter",
+      "category_name": "Pressure Transmitters (Wireless)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "ABB 266 Absolute Pressure Transmitter",
+      "product_url": "https://new.abb.com/products/measurement-products/pressure/absolute-pressure-transmitters/266ast",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Endress+Hauser Deltapilot FMB70 Hydrostatic Level Sensor (High Temp)",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/level-measurement/hydrostatic-level-sensor-deltapilot-fmb70",
+      "category_name": "Hydrostatic Level Sensors (Pressure Based)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "WIKA A S-10 Pressure transmitter for sanitary applications",
+      "product_url": "https://www.wika.com/en-us/products/pressure/sensors_transmitters/productoverview/pressure_transmitter_for_sanitary_applications_model_a_s_10.WIKA",
+      "category_name": "Pressure Transmitters (Hygienic)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "IFM Electronic PM Series Pressure sensors for process technology",
+      "product_url": "https://www.ifm.com/us/en/category/020/020_010/020_010_010#!/query=process&min=0&max=0&num=20&sort=topseller-desc",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Baumer PDRN Differential Pressure Sensor",
+      "product_url": "https://www.baumer.com/us/en/product-overview/process-sensors/pressure-measurement/differential-pressure-sensors/pdrn/p/2291",
+      "category_name": "Differential Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Keller Series 41 X Low Pressure Transmitter",
+      "product_url": "https://keller-druck.com/en/products/industrial-pressure-transmitters/high-precision-digital-pressure-transmitters/series-41-x",
+      "category_name": "Pressure Transmitters (Low Pressure)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Danfoss MBS 4500 Pressure transmitter",
+      "product_url": "https://www.danfoss.com/en/products/dhs/sensors-and-transmitters/pressure-transmitters/mbs-4500-and-4510/",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Turck PS510 Series Pressure Sensor",
+      "product_url": "https://www.turck.us/en/product/6836351",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sick PMP Pressure transmitter (Mid-range)",
+      "product_url": "https://www.sick.com/gb/en/fluid-sensors/pressure-sensors/pmp/p/p322171",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Ashcroft® KXDp Differential Pressure Transmitter",
+      "product_url": "https://www.ashcroft.com/products/pressure/pressure-transducers-transmitters/kxdp-differential-pressure-transmitter/",
+      "category_name": "Differential Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Dwyer Instruments Series 607 Differential Pressure Transmitter",
+      "product_url": "https://www.dwyer-inst.com/Product/Pressure/Transmitters/DifferentialPressure/Series607",
+      "category_name": "Differential Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "VEGA VEGABAR 29 Pressure Sensor",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/pressure/process-pressure/vegabar-29",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Omega DP86 Series Digital Panel Meter for Pressure",
+      "product_url": "https://www.omega.com/en-us/control-monitoring/panel-meters/process-indicators/dp86-series/p/DP86-S",
+      "category_name": "Digital Panel Meters (Pressure)",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "KROHNE OPTIBAR PC 5060 Pressure transmitter",
+      "product_url": "https://krohne.com/en/products/pressure-measurement/pressure-transmitters/optibar-pc-5060",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Sensata 11/12/14 CP Series Pressure Sensor",
+      "product_url": "https://www.sensata.com/products/pressure-sensors/pressure-transducers/11-12-14cp-series",
+      "category_name": "Pressure Sensors",
+      "parent_category": "Industrial Sensors - Pressure"
+    },
+    {
+      "product_name": "Gems Sensors PS98 Series Subminiature Pressure Switch",
+      "product_url": "https://www.gemssensors.com/products/pressure-switches/sub-miniature-pressure-switches/ps98-series-sub-miniature-pressure-switches",
+      "category_name": "Pressure Switches",
+      "parent_category": "Industrial Sensors - Pressure"
+    }
+  ]
+}

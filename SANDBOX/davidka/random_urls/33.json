@@ -1,0 +1,844 @@
+{
+  "products": [
+    {
+      "product_name": "Omron E3Z Series Miniature Photoelectric Sensor",
+      "product_url": "https://industrial.omron.eu/en/products/e3z",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Sick WTB4SL-3 Miniature laser photoelectric sensor",
+      "product_url": "https://www.sick.com/gb/en/photoelectric-sensors/miniature-photoelectric-sensors/w4sl-3/c/g184848",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Keyence LR-Z Series CMOS Laser Sensor",
+      "product_url": "https://www.keyence.com/products/sensor/photoelectric/lr-z/",
+      "category_name": "Photoelectric Sensors (Laser)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Banner Engineering Q4X Series Rugged Laser Distance Sensor",
+      "product_url": "https://www.bannerengineering.com/us/en/products/sensors/laser-distance-measurement/q4x-series.html",
+      "category_name": "Photoelectric Sensors (Laser Distance)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "IFM Electronic OGT Series Photoelectric distance sensors",
+      "product_url": "https://www.ifm.com/us/en/category/020/020_070/020_070_010",
+      "category_name": "Photoelectric Sensors (Distance)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Pepperl+Fuchs R100 Series Photoelectric Sensors (Miniature)",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_144.htm?view=productoverview&filter=series_id%3A%2813404%29%3Bfam_id%3A%28144%29&sort=topseller%2CDESC",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Balluff BOS 18M Standard Photoelectric Sensors",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0001/groups/G0102/products/P010201",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Turck Q130WD Series Washdown Photoelectric Sensor",
+      "product_url": "https://www.turck.us/en/product/FCS-Q130WD-AP8X-H1141",
+      "category_name": "Photoelectric Sensors (Washdown)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Panasonic CX-400 Series Photoelectric Sensors (Micro)",
+      "product_url": "https://industrial.panasonic.com/ww/products/sensors/fa-sensors-components/photoelectric-sensors-fiber-optic-sensors/photoelectric-sensor/cx-400",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Autonics BJ Series Compact High Performance Photoelectric Sensors",
+      "product_url": "https://www.autonics.com/product/Category/Sensor/Photoelectric-Sensor/Compact-Type/BJ-Series",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Leuze 5 Series Photoelectric Sensors (Cylindrical M18)",
+      "product_url": "https://www.leuze.com/en/usa/products/switching_sensors/photoelectric_sensors/cylindrical_photoelectric_sensors/5_series/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Schneider Electric OsiSense XU Photoelectric sensors",
+      "product_url": "https://www.se.com/ww/en/product-range/788-osisense-xu/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Contrinex Photoelectric Sensors - Cylindrical M18 Diffuse (Series 3030)",
+      "product_url": "https://www.contrinex.com/product-category/photoelectric-sensors/cylindrical-m18-diffuse/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Baumer O300 Miniature photoelectric sensors",
+      "product_url": "https://www.baumer.com/us/en/product-overview/photoelectric-sensors/miniature-sensors/o300/p/1428",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Wenglor Photoelectronic Sensors - Through-Beam Sensor",
+      "product_url": "https://www.wenglor.com/en/Photoelectronic-Sensors/Through-Beam-Sensor/c/gr-01-01",
+      "category_name": "Photoelectric Sensors (Through-Beam)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Di-soric OGU Series Fork light barriers",
+      "product_url": "https://www.di-soric.com/en/products/optical-sensors/fork-light-barriers/plastic-housing",
+      "category_name": "Photoelectric Sensors (Fork/Slot)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Visolux RLK28 Series Reflexions-Lichttaster (Diffuse sensor)",
+      "product_url": "https://visolux.com/en/products/photoelectric-sensors/diffuse-reflection-sensors/rlk28-series/",
+      "category_name": "Photoelectric Sensors (Diffuse)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "SensoPart F 10 Series Miniature Photoelectric Sensors",
+      "product_url": "https://www.sensopart.com/en/products/photoelectric-sensors/miniature/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Micro Detectors FF Series Fiber Optic Sensors",
+      "product_url": "https://www.microdetectors.com/en/products/fiber-optic-sensors/fiber-optic-amplifiers-ff-series/",
+      "category_name": "Fiber Optic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Carlo Gavazzi Photoelectric Sensors PD30 Series",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/PD30",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Omron E3FA Series Cylindrical M18 Photoelectric Sensor",
+      "product_url": "https://industrial.omron.eu/en/products/e3fa",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Sick GR18S Cylindrical photoelectric sensors",
+      "product_url": "https://www.sick.com/gb/en/photoelectric-sensors/cylindrical-photoelectric-sensors/gr18s/c/g185655",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Keyence PZ-G Series Built-in Amplifier Photoelectric Sensor",
+      "product_url": "https://www.keyence.com/products/sensor/photoelectric/pz-g/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Banner Engineering Q12 Series Miniature Sensor",
+      "product_url": "https://www.bannerengineering.com/us/en/products/sensors/photoelectric-sensors/miniature-sensors/q12-series.html",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "IFM Electronic OGH Series Photoelectric sensors for Roller Conveyor Systems",
+      "product_url": "https://www.ifm.com/us/en/product/OGH580",
+      "category_name": "Photoelectric Sensors (Conveyor)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Pepperl+Fuchs R2 Series Miniature Photoelectric Sensors",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_144.htm?view=productoverview&filter=series_id%3A%2812755%29%3Bfam_id%3A%28144%29&sort=topseller%2CDESC",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Balluff BOS 5K Miniature Photoelectric Sensors",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0001/groups/G0102/products/P010204",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Turck Q80 Series Rectangular Photoelectric Sensor",
+      "product_url": "https://www.turck.us/en/product/100000633",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Panasonic PM Series U-Shaped Micro Photoelectric Sensor",
+      "product_url": "https://industrial.panasonic.com/ww/products/sensors/fa-sensors-components/photoelectric-sensors-fiber-optic-sensors/u-shaped-micro-photoelectric/pm",
+      "category_name": "Photoelectric Sensors (Fork/Slot)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Autonics BA2M Series Small, Diffuse Reflective Type Photoelectric Sensors",
+      "product_url": "https://www.autonics.com/product/Category/Sensor/Photoelectric-Sensor/Small-Type/BA2M-Series",
+      "category_name": "Photoelectric Sensors (Diffuse)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Leuze 25C Series Photoelectric sensors",
+      "product_url": "https://www.leuze.com/en/usa/products/switching_sensors/photoelectric_sensors/cubic_photoelectric_sensors/25c_series/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Schneider Electric OsiSense XUM Miniature photoelectric sensors",
+      "product_url": "https://www.se.com/ww/en/product-range/791-osisense-xum/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Contrinex Photoelectric Sensors - Cylindrical M18 Reflex (Series 4040)",
+      "product_url": "https://www.contrinex.com/product-category/photoelectric-sensors/cylindrical-m18-reflex/",
+      "category_name": "Photoelectric Sensors (Retro-Reflective)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Baumer O200 Miniature photoelectric sensors",
+      "product_url": "https://www.baumer.com/us/en/product-overview/photoelectric-sensors/miniature-sensors/o200/p/1427",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Wenglor Photoelectronic Sensors - Retro-Reflex Sensor",
+      "product_url": "https://www.wenglor.com/en/Photoelectronic-Sensors/Retro-Reflex-Sensor/c/gr-01-02",
+      "category_name": "Photoelectric Sensors (Retro-Reflective)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Di-soric LAT 51 Series Laser distance sensors",
+      "product_url": "https://www.di-soric.com/en/products/optical-sensors/laser-distance-sensors/rectangular-housing",
+      "category_name": "Photoelectric Sensors (Laser Distance)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Visolux RLP28 Series Reflexions-Lichtschranke (Retro-reflective sensor)",
+      "product_url": "https://visolux.com/en/products/photoelectric-sensors/retro-reflective-sensors/rlp28-series/",
+      "category_name": "Photoelectric Sensors (Retro-Reflective)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "SensoPart F 25 Series Subminiature Photoelectric Sensors",
+      "product_url": "https://www.sensopart.com/en/products/photoelectric-sensors/subminiature/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Micro Detectors QF Series Cubic Photoelectric Sensor",
+      "product_url": "https://www.microdetectors.com/en/products/photoelectric-sensors/cubic-sensors-qf-series/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Carlo Gavazzi Fiber Optic Sensors FA1 Series",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/FA1",
+      "category_name": "Fiber Optic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Omron E3S-DC Color Mark Sensor",
+      "product_url": "https://industrial.omron.eu/en/products/e3s-dc",
+      "category_name": "Color Mark Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Sick WLL180T Fiber-optic sensors",
+      "product_url": "https://www.sick.com/gb/en/fiber-optic-sensors-and-fibers/fiber-optic-sensors/wll180t/c/g185660",
+      "category_name": "Fiber Optic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Keyence FS-N Series Digital Fiber Optic Sensor",
+      "product_url": "https://www.keyence.com/products/sensor/fiber-optic/fs-n/",
+      "category_name": "Fiber Optic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Banner Engineering DF-G1 Series Expert™ Fiber Optic Amplifier",
+      "product_url": "https://www.bannerengineering.com/us/en/products/sensors/fiber-optic-sensors/fiber-optic-amplifiers/df-g1-expert-series.html",
+      "category_name": "Fiber Optic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "IFM Electronic OBF Series Fiber optic amplifiers",
+      "product_url": "https://www.ifm.com/us/en/category/020/020_060/020_060_010",
+      "category_name": "Fiber Optic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Pepperl+Fuchs SU18 Series Fiber Optic Sensor",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_6103.htm?view=productoverview&filter=series_id%3A%283678%29%3Bfam_id%3A%28144%29&sort=topseller%2CDESC",
+      "category_name": "Fiber Optic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Balluff BUS R06K Rectangular Photoelectric Sensors",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0001/groups/G0102/products/P010205",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Turck Q120 Series Rectangular Photoelectric Sensor",
+      "product_url": "https://www.turck.us/en/product/100003709",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Panasonic FX-500 Series Digital Fiber Sensor",
+      "product_url": "https://industrial.panasonic.com/ww/products/sensors/fa-sensors-components/photoelectric-sensors-fiber-optic-sensors/digital-fiber-sensor/fx-500",
+      "category_name": "Fiber Optic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Autonics BF5 Series Digital Fiber Optic Amplifiers",
+      "product_url": "https://www.autonics.com/product/Category/Sensor/Fiber-Optic-Sensor/Amplifier-Type/BF5-Series",
+      "category_name": "Fiber Optic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Leuze 46C Series Photoelectric sensors",
+      "product_url": "https://www.leuze.com/en/usa/products/switching_sensors/photoelectric_sensors/cubic_photoelectric_sensors/46c_series/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Schneider Electric OsiSense XUB Cylindrical M18 photoelectric sensors",
+      "product_url": "https://www.se.com/ww/en/product-range/790-osisense-xub/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Contrinex Photoelectric Sensors - Cubic Diffuse (Series 4040)",
+      "product_url": "https://www.contrinex.com/product-category/photoelectric-sensors/cubic-4040-diffuse/",
+      "category_name": "Photoelectric Sensors (Diffuse)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Baumer O500 Photoelectric sensors",
+      "product_url": "https://www.baumer.com/us/en/product-overview/photoelectric-sensors/standard-sensors/o500/p/1429",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Wenglor Photoelectronic Sensors - Diffuse Sensor with Background Suppression",
+      "product_url": "https://www.wenglor.com/en/Photoelectronic-Sensors/Diffuse-Sensor-with-Background-Suppression/c/gr-01-03",
+      "category_name": "Photoelectric Sensors (Background Suppression)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Di-soric OGUQ Series Frame light barriers",
+      "product_url": "https://www.di-soric.com/en/products/optical-sensors/frame-light-barriers/metal-housing",
+      "category_name": "Photoelectric Sensors (Frame)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Visolux V180 Series Zylindrische Sensoren M18 (Cylindrical M18)",
+      "product_url": "https://visolux.com/en/products/photoelectric-sensors/cylindrical-sensors/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "SensoPart F 55 Series Rectangular Photoelectric Sensors",
+      "product_url": "https://www.sensopart.com/en/products/photoelectric-sensors/rectangular/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Micro Detectors MS Series Slot Photoelectric Sensor",
+      "product_url": "https://www.microdetectors.com/en/products/photoelectric-sensors/slot-sensors-ms-series/",
+      "category_name": "Photoelectric Sensors (Fork/Slot)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Carlo Gavazzi Photoelectric Sensors PA18 Series",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/PA18_PC50",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Omron E3Z-F Fiber Amplifier Unit",
+      "product_url": "https://industrial.omron.eu/en/products/e3z-f",
+      "category_name": "Fiber Optic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Sick KT Contrast sensors",
+      "product_url": "https://www.sick.com/gb/en/detection-and-ranging-solutions/contrast-sensors/kt/c/g185667",
+      "category_name": "Contrast Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Keyence PZ-V/M Series Self-Contained Photoelectric Sensor",
+      "product_url": "https://www.keyence.com/products/sensor/photoelectric/pz-v_m/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Banner Engineering QS18 Series Universal Mount Sensor",
+      "product_url": "https://www.bannerengineering.com/us/en/products/sensors/photoelectric-sensors/universal-mount-sensors/qs18-series.html",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "IFM Electronic OID Series Photoelectric distance sensors",
+      "product_url": "https://www.ifm.com/us/en/product/OID200",
+      "category_name": "Photoelectric Sensors (Distance)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Pepperl+Fuchs ML100 Series Photoelectric Sensors",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_144.htm?view=productoverview&filter=series_id%3A%283474%29%3Bfam_id%3A%28144%29&sort=topseller%2CDESC",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Balluff BOS R020K Rectangular Photoelectric Sensors",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0001/groups/G0102/products/P010206",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Turck BS Series Miniature Rectangular Photoelectric Sensor",
+      "product_url": "https://www.turck.us/en/product/100010807",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Panasonic EX-Z Series Ultra-Slim Photoelectric Sensor",
+      "product_url": "https://industrial.panasonic.com/ww/products/sensors/fa-sensors-components/photoelectric-sensors-fiber-optic-sensors/ultra-slim-photoelectric/ex-z",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Autonics BTS Series Ultra-Compact, Slim Type Photoelectric Sensors",
+      "product_url": "https://www.autonics.com/product/Category/Sensor/Photoelectric-Sensor/Slim-Type/BTS-Series",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Leuze 3C Series Miniature Photoelectric Sensors",
+      "product_url": "https://www.leuze.com/en/usa/products/switching_sensors/photoelectric_sensors/miniature_photoelectric_sensors/3c_series/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Schneider Electric OsiSense XUK Compact photoelectric sensors",
+      "product_url": "https://www.se.com/ww/en/product-range/789-osisense-xuk/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Contrinex Photoelectric Sensors - Cylindrical M18 Through-beam (Series 5050)",
+      "product_url": "https://www.contrinex.com/product-category/photoelectric-sensors/cylindrical-m18-through-beam/",
+      "category_name": "Photoelectric Sensors (Through-Beam)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Baumer OADM 20 Laser distance sensors",
+      "product_url": "https://www.baumer.com/us/en/product-overview/distance-measurement/laser-distance-sensors/oadm-20/p/1423",
+      "category_name": "Photoelectric Sensors (Laser Distance)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Wenglor Photoelectronic Sensors - Diffuse Sensor with Foreground Suppression",
+      "product_url": "https://www.wenglor.com/en/Photoelectronic-Sensors/Diffuse-Sensor-with-Foreground-Suppression/c/gr-01-04",
+      "category_name": "Photoelectric Sensors (Foreground Suppression)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Di-soric OGU L Series Angled light barriers",
+      "product_url": "https://www.di-soric.com/en/products/optical-sensors/angled-light-barriers/metal-housing",
+      "category_name": "Photoelectric Sensors (Angled)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Visolux LHT 9-45 Series Lichttaster mit Hintergrundausblendung (BGS)",
+      "product_url": "https://visolux.com/en/products/photoelectric-sensors/background-suppression-sensors/",
+      "category_name": "Photoelectric Sensors (Background Suppression)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "SensoPart F 20 Series Miniature Standard Photoelectric Sensors",
+      "product_url": "https://www.sensopart.com/en/products/photoelectric-sensors/miniature-standard/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Micro Detectors QB Series Square Cubic Photoelectric Sensor",
+      "product_url": "https://www.microdetectors.com/en/products/photoelectric-sensors/square-sensors-qb-series/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Carlo Gavazzi Photoelectric Sensors PH18 Series",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/PH18",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Omron E3FB Compact Cylindrical M18 Photoelectric Sensor",
+      "product_url": "https://industrial.omron.eu/en/products/e3fb",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Sick W15 Cylindrical photoelectric sensors",
+      "product_url": "https://www.sick.com/gb/en/photoelectric-sensors/cylindrical-photoelectric-sensors/w15/c/g185657",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Keyence PS-N Series Separate Amplifier Photoelectric Sensor",
+      "product_url": "https://www.keyence.com/products/sensor/photoelectric/ps-n/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Banner Engineering Q20 Series Rectangular Sensor",
+      "product_url": "https://www.bannerengineering.com/us/en/products/sensors/photoelectric-sensors/rectangular-sensors/q20-series.html",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "IFM Electronic OFT Series Photoelectric Fork Sensors",
+      "product_url": "https://www.ifm.com/us/en/category/020/020_040",
+      "category_name": "Photoelectric Sensors (Fork/Slot)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Pepperl+Fuchs M100 Series Ultrasonic Sensors (Can sometimes replace photoelectric)",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_145.htm?view=productoverview&filter=series_id%3A%283488%29%3Bfam_id%3A%28145%29&sort=topseller%2CDESC",
+      "category_name": "Ultrasonic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Balluff BOS Q08M Miniature Photoelectric Sensors",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0001/groups/G0102/products/P010207",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Turck QS18 Series Rectangular Photoelectric Sensor",
+      "product_url": "https://www.turck.us/en/product/100000660",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Panasonic CY-100 Series Cylindrical Photoelectric Sensor",
+      "product_url": "https://industrial.panasonic.com/ww/products/sensors/fa-sensors-components/photoelectric-sensors-fiber-optic-sensors/cylindrical-photoelectric/cy-100",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Autonics BPS Series Flat Type Photoelectric Sensors",
+      "product_url": "https://www.autonics.com/product/Category/Sensor/Photoelectric-Sensor/Slim-Type/BPS-Series",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Leuze 18B Series Photoelectric sensors",
+      "product_url": "https://www.leuze.com/en/usa/products/switching_sensors/photoelectric_sensors/cylindrical_photoelectric_sensors/18b_series/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Schneider Electric OsiSense XUD Photocell diameter 18 detection body only",
+      "product_url": "https://www.se.com/ww/en/product/XUDA1PSMM8/photoelectric-sensor-receiver-sn-4m-m8/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Contrinex Photoelectric Sensors - Cubic 4050 Reflex (Series 4050)",
+      "product_url": "https://www.contrinex.com/product-category/photoelectric-sensors/cubic-4050-reflex/",
+      "category_name": "Photoelectric Sensors (Retro-Reflective)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Baumer O150 Miniature photoelectric sensors",
+      "product_url": "https://www.baumer.com/us/en/product-overview/photoelectric-sensors/miniature-sensors/o150/p/5241",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Wenglor Photoelectronic Sensors - Luminescence Sensor",
+      "product_url": "https://www.wenglor.com/en/Photoelectronic-Sensors/Luminescence-Sensor/c/gr-01-07",
+      "category_name": "Luminescence Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Di-soric OGUL Series Laser fork light barriers",
+      "product_url": "https://www.di-soric.com/en/products/optical-sensors/laser-fork-light-barriers/metal-housing",
+      "category_name": "Photoelectric Sensors (Fork/Slot, Laser)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Visolux FMS 18 Series Faseroptische Sensoren (Fiber Optic)",
+      "product_url": "https://visolux.com/en/products/photoelectric-sensors/fibre-optic-sensors/",
+      "category_name": "Fiber Optic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "SensoPart FT 55-RLAM Reflection light scanner with IO-Link",
+      "product_url": "https://www.sensopart.com/en/products/photoelectric-sensors/reflection-light-scanner-with-io-link/",
+      "category_name": "Photoelectric Sensors (IO-Link)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Micro Detectors CR Series Color Sensors",
+      "product_url": "https://www.microdetectors.com/en/products/color-sensors/color-sensors-cr-series/",
+      "category_name": "Color Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Carlo Gavazzi Photoelectric Sensors PC50 Series",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/PC50C_PC50E",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Omron E3AS Series CMOS Photoelectric Sensor",
+      "product_url": "https://industrial.omron.eu/en/products/e3as",
+      "category_name": "Photoelectric Sensors (CMOS)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Sick W100 Laser Miniature laser photoelectric sensors",
+      "product_url": "https://www.sick.com/gb/en/photoelectric-sensors/miniature-photoelectric-sensors/w100-laser/c/g184853",
+      "category_name": "Photoelectric Sensors (Laser)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Keyence LR-T Series Laser Sensor",
+      "product_url": "https://www.keyence.com/products/sensor/laser-t/lr-t/",
+      "category_name": "Photoelectric Sensors (Laser)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Banner Engineering QM26 Series Washdown Sensor",
+      "product_url": "https://www.bannerengineering.com/us/en/products/sensors/photoelectric-sensors/washdown-sensors/qm26-series.html",
+      "category_name": "Photoelectric Sensors (Washdown)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "IFM Electronic O5 Series Photoelectric Sensors (Rectangular)",
+      "product_url": "https://www.ifm.com/us/en/category/020/020_010/020_010_020",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Pepperl+Fuchs R200 Series Photoelectric Sensors",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_144.htm?view=productoverview&filter=series_id%3A%2813414%29%3Bfam_id%3A%28144%29&sort=topseller%2CDESC",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Balluff BFS Fiber Optic Sensors",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0001/groups/G0102/products/P010209",
+      "category_name": "Fiber Optic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Turck Q4X Series Rectangular Laser Measurement Sensor",
+      "product_url": "https://www.turck.us/en/product/100000726",
+      "category_name": "Photoelectric Sensors (Laser Distance)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Panasonic EQ-30 Series Side Sensing Photoelectric Sensor",
+      "product_url": "https://industrial.panasonic.com/ww/products/sensors/fa-sensors-components/photoelectric-sensors-fiber-optic-sensors/side-sensing-photoelectric/eq-30",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Autonics BMS Series Side Sensing Type Photoelectric Sensors",
+      "product_url": "https://www.autonics.com/product/Category/Sensor/Photoelectric-Sensor/Side-Sensing-Type/BMS-Series",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Leuze 10C Series Miniature photoelectric sensors",
+      "product_url": "https://www.leuze.com/en/usa/products/switching_sensors/photoelectric_sensors/miniature_photoelectric_sensors/10c_series/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Schneider Electric OsiSense XUL Fork photoelectric sensors",
+      "product_url": "https://www.se.com/ww/en/product-range/792-osisense-xul/",
+      "category_name": "Photoelectric Sensors (Fork/Slot)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Contrinex Photoelectric Sensors - Fiber-optic (Series F...)",
+      "product_url": "https://www.contrinex.com/product-category/photoelectric-sensors/fiber-optic/",
+      "category_name": "Fiber Optic Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Baumer O330 Photoelectric sensors for hygiene applications",
+      "product_url": "https://www.baumer.com/us/en/product-overview/photoelectric-sensors/hygienic-and-washdown-sensors/o330/p/4858",
+      "category_name": "Photoelectric Sensors (Hygienic)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Wenglor Photoelectronic Sensors - Reflex Sensor for Clear Glass Recognition",
+      "product_url": "https://www.wenglor.com/en/Photoelectronic-Sensors/Reflex-Sensor-for-Clear-Glass-Recognition/c/gr-01-06",
+      "category_name": "Photoelectric Sensors (Clear Object Detection)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Di-soric LLGT Series Fiber Optics",
+      "product_url": "https://www.di-soric.com/en/products/optical-sensors/fiber-optics/glass-fiber-optics/thread-m6-axial",
+      "category_name": "Fiber Optic Cables",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Visolux EL 28 Series Einweg-Lichtschranke (Through-Beam)",
+      "product_url": "https://visolux.com/en/products/photoelectric-sensors/through-beam-sensors/",
+      "category_name": "Photoelectric Sensors (Through-Beam)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "SensoPart F 50 Series Standard Photoelectric Sensors",
+      "product_url": "https://www.sensopart.com/en/products/photoelectric-sensors/standard/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Micro Detectors CX0 Series Fork Sensors",
+      "product_url": "https://www.microdetectors.com/en/products/fork-sensors/fork-sensors-cx0-series/",
+      "category_name": "Photoelectric Sensors (Fork/Slot)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Carlo Gavazzi Photoelectric Sensors - Background Suppression",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/sensors_photo_background_suppression",
+      "category_name": "Photoelectric Sensors (Background Suppression)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Omron E3FC Odor-resistant Cylindrical M18 Photoelectric Sensor",
+      "product_url": "https://industrial.omron.eu/en/products/e3fc",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Sick PowerProx Distance sensors",
+      "product_url": "https://www.sick.com/gb/en/detection-and-ranging-solutions/distance-sensors/photoelectric-distance-sensors/powerprox-distance/c/g412263",
+      "category_name": "Photoelectric Sensors (Distance)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Keyence PX Series Heavy-Duty Photoelectric Sensor",
+      "product_url": "https://www.keyence.com/products/sensor/photoelectric/px/",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Banner Engineering QS30 Series High-Power Sensor",
+      "product_url": "https://www.bannerengineering.com/us/en/products/sensors/photoelectric-sensors/high-power-sensors/qs30-series.html",
+      "category_name": "Photoelectric Sensors (High Power)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "IFM Electronic O2D Series Object Recognition Sensors",
+      "product_url": "https://www.ifm.com/us/en/category/025/025_010",
+      "category_name": "Vision Sensors (Related - Object Detection)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Pepperl+Fuchs R201 Series Photoelectric Sensors",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_144.htm?view=productoverview&filter=series_id%3A%2813415%29%3Bfam_id%3A%28144%29&sort=topseller%2CDESC",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Balluff BOS 12M Cylindrical Photoelectric Sensors",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0001/groups/G0102/products/P010202",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Turck Q25 Series Washdown Rectangular Photoelectric Sensor",
+      "product_url": "https://www.turck.us/en/product/100000689",
+      "category_name": "Photoelectric Sensors (Washdown)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Panasonic SU-7 Series U-Shaped Photoelectric Sensor",
+      "product_url": "https://industrial.panasonic.com/ww/products/sensors/fa-sensors-components/photoelectric-sensors-fiber-optic-sensors/u-shaped-photoelectric/su-7",
+      "category_name": "Photoelectric Sensors (Fork/Slot)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Autonics BR Series Cylindrical Photoelectric Sensors (Ø18 mm)",
+      "product_url": "https://www.autonics.com/product/Category/Sensor/Photoelectric-Sensor/Cylindrical-Type/BR-Series",
+      "category_name": "Photoelectric Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Leuze PRK 18B Series Photoelectric retro-reflective sensors",
+      "product_url": "https://www.leuze.com/en/usa/products/switching_sensors/photoelectric_sensors/photoelectric_retro-reflective_sensors/prk_18b/",
+      "category_name": "Photoelectric Sensors (Retro-Reflective)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Schneider Electric OsiSense XU Application photoelectric sensors",
+      "product_url": "https://www.se.com/ww/en/product-range/901-osisense-xu-application/",
+      "category_name": "Photoelectric Sensors (Application Specific)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Contrinex Photoelectric Sensors - Cubic 4050 Through-beam (Series 5050)",
+      "product_url": "https://www.contrinex.com/product-category/photoelectric-sensors/cubic-4050-through-beam/",
+      "category_name": "Photoelectric Sensors (Through-Beam)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Baumer OADR 20 Optical distance sensors",
+      "product_url": "https://www.baumer.com/us/en/product-overview/distance-measurement/optical-distance-sensors/oadr-20/p/1424",
+      "category_name": "Photoelectric Sensors (Distance)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Wenglor Photoelectronic Sensors - Color Sensor",
+      "product_url": "https://www.wenglor.com/en/Photoelectronic-Sensors/Color-Sensor/c/gr-01-08",
+      "category_name": "Color Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Di-soric OGUW Series Angled light barriers wide fork opening",
+      "product_url": "https://www.di-soric.com/en/products/optical-sensors/angled-light-barriers-wide-fork-opening/metal-housing",
+      "category_name": "Photoelectric Sensors (Fork/Slot)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Visolux LS9 Series Lichtschranken (Through-Beam)",
+      "product_url": "https://visolux.com/en/products/photoelectric-sensors/through-beam-sensors/ls9-series/",
+      "category_name": "Photoelectric Sensors (Through-Beam)",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "SensoPart F 55 Color Sensors",
+      "product_url": "https://www.sensopart.com/en/products/color-contrast-luminescence-sensors/color-sensors/",
+      "category_name": "Color Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Micro Detectors UK6 Series Luminescence Sensor",
+      "product_url": "https://www.microdetectors.com/en/products/luminescence-sensors/luminescence-sensors-uk6-series/",
+      "category_name": "Luminescence Sensors",
+      "parent_category": "Industrial Sensors"
+    },
+    {
+      "product_name": "Carlo Gavazzi Photoelectric Sensors with IO-Link",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/sensors_photo_IO-Link",
+      "category_name": "Photoelectric Sensors (IO-Link)",
+      "parent_category": "Industrial Sensors"
+    }
+  ]
+}

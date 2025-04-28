@@ -90,15 +90,23 @@ def j_dumps(
     """
 
     path = Path(file_path) if isinstance(file_path, (str, Path)) else None
+    data = self._string_to_dict(data)
 
     if isinstance(data, str):
         try:
             data = repair_json(data)
         except Exception as ex:
             logger.error(f"Error converting string: {data}", ex, exc_info)
+            try:
+                data = _convert_to_dict(data)
+            except Exception as ex:
+                logger.error(f"Error converting string to dict: {data}", ex, exc_info)
+                ...
+                return None
+            ...
             return None
 
-    data = _convert_to_dict(data)
+    
 
     if mode not in {Config.MODE_WRITE, Config.MODE_APPEND_START, Config.MODE_APPEND_END}:
         mode = Config.MODE_WRITE

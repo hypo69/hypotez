@@ -1,0 +1,910 @@
+{
+  "products": [
+    {
+      "product_name": "LAPP ÖLFLEX® CLASSIC 110 Control Cable",
+      "product_url": "https://products.lappgroup.com/online-catalogue/power-and-control-cables/pvc-control-cables/oil-resistant-pvc-control-cables/oelflex-classic-110.html",
+      "category_name": "Control Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "HELUKABEL JZ-500 Flexible Control Cable",
+      "product_url": "https://www.helukabel.de/de/produkte/kabel-leitungen/flexible-steuerleitungen/pvc/jz-500",
+      "category_name": "Control Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Belden Variable Frequency Drive (VFD) Cable 29501F",
+      "product_url": "https://catalog.belden.com/techdata/EN/29501F_techdata.pdf",
+      "category_name": "VFD Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Prysmian Group AFUMEX Low Smoke Halogen Free Cable",
+      "product_url": "https://www.prysmiangroup.com/en/products-and-solutions/power-distribution/products/low-voltage-cables/building-wires/afumex-1000-v",
+      "category_name": "Low Voltage Power Cables (Halogen Free)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Nexans LANmark-6A Cat 6A Ethernet Cable",
+      "product_url": "https://www.nexans.co.uk/en/products/LAN-Systems/Copper-Systems/LANmark-6A-Cable.html",
+      "category_name": "Data Cables (Ethernet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "igus chainflex® CFBUS Ethernet Cable",
+      "product_url": "https://www.igus.com/info/chainflex-cfbus-ethernet",
+      "category_name": "Data Cables (Ethernet, High Flex)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TKD Kabel KABELTRONIC® UNITRONIC® LiYY Data Cable",
+      "product_url": "https://www.tkd-kabel.de/en/Products/Data-cables/DIN-color-code/UNITRONIC-LiYY.html",
+      "category_name": "Data Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "SAB Bröckskes SABIX® BL Line Halogen-Free Control Cables",
+      "product_url": "https://www.sab-cable.com/cables-wires-harnessing-temperature-measurement/cable-wire/control-cables-electronic-cables/halogen-free.html",
+      "category_name": "Control Cables (Halogen Free)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Alpha Wire EcoCable® Mini Recyclable Cable",
+      "product_url": "https://www.alphawire.com/Products/Cable/EcoGen-Cable/EcoCable-Mini",
+      "category_name": "Eco-Friendly Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "General Cable GenSPEED® Category 6A Cable",
+      "product_url": "https://www.generalcable.com/na/us-canada/products-solutions/communications/datacom-premise-wire-and-cable/genspeed-copper-cable/category-6a",
+      "category_name": "Data Cables (Ethernet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Turck Sensor/Actuator Cable (PVC)",
+      "product_url": "https://www.turck.us/en/product/FCS-G1%2F2A4P-AP8X-H1141",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Balluff Sensor Cable BCC M415 (PUR)",
+      "product_url": "https://www.balluff.com/en-us/product/BCC02NH",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Phoenix Contact SAC Sensor/Actuator Cable",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/sensor-actuator-cable-sac-3p-m12ms-03-pur-m8fr-1681380",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Murrelektronik M12 Sensor/Actuator Cable",
+      "product_url": "https://www.murrelektronik.com/products-industries/connection-technology/cordsets/m12-cordsets/product/7000-12221-6140500/",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "IFM Electronic EVC Series Connection Cables",
+      "product_url": "https://www.ifm.com/us/en/category/090/090_010/090_010_010",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Binder M12 A-coded Cable Assembly",
+      "product_url": "https://www.binder-connector.com/en/products/automation-technology/m12-a-coded/cable-assemblies-overmoulded",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Escha Sensor/Actuator Cable AL-WWAK4-5/S370",
+      "product_url": "https://www.escha.net/en/products/connection-and-interconnection-cables/8047664",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Molex Brad® Micro-Change® (M12) Cordsets",
+      "product_url": "https://www.molex.com/en-us/products/cable-assemblies/standard-cable-assemblies/brad-micro-change-m12-cordsets",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TE Connectivity M12 Cable Assemblies",
+      "product_url": "https://www.te.com/usa-en/products/cable-assemblies/intersection/m12-cable-assemblies.html",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Lumberg Automation RKMWV Actuator/Sensor Cordset",
+      "product_url": "https://www.lumberg-automation.com/en/Products/Connectivity/M8___M12_Circular_Connectors/M12_circular_connectors/M12_Actuator_sensor_cordsets/RKMWV_3_224_0_5_M_pdf_9964_regdetail.pdf",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "LAPP UNITRONIC® BUS PB Profibus Cable",
+      "product_url": "https://products.lappgroup.com/online-catalogue/data-communication-systems/fieldbus-components-and-cables/profibus/profibus-dp/unitronic-bus-pb.html",
+      "category_name": "Fieldbus Cables (Profibus)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "HELUKABEL PROFINET Cable",
+      "product_url": "https://www.helukabel.de/de/produkte/kabel-leitungen/datenleitungen/profinet",
+      "category_name": "Data Cables (PROFINET)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Belden DataTuff® Cat 5e Industrial Ethernet Cable",
+      "product_url": "https://catalog.belden.com/techdata/EN/7921A_techdata.pdf",
+      "category_name": "Data Cables (Ethernet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Prysmian Group Draka UC Copper Data Cables",
+      "product_url": "https://www.prysmiangroup.com/en/products-and-solutions/telecom/products/copper-cables-and-connectivity-systems/uc-copper-data-cables",
+      "category_name": "Data Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Nexans Motionline® High Flexible Servo Cables",
+      "product_url": "https://www.nexans.com/business/industry/automation/Products/Motion-Line-Servo-cables.html",
+      "category_name": "Servo Cables (High Flex)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "igus chainflex® CFSERVO Servo Cable",
+      "product_url": "https://www.igus.com/info/chainflex-cfservo-servo-cables",
+      "category_name": "Servo Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TKD Kabel Servo Cables compatible to SIEMENS® 6FX 5008",
+      "product_url": "https://www.tkd-kabel.de/en/Products/Cable-systems/Servo-drive-systems/compatible-to-SIEMENS/Servo-Cable-compatible-to-SIEMENS-6FX-5008.html",
+      "category_name": "Servo Cables (Siemens compatible)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "SAB Bröckskes Servo Motor and Feedback Cables",
+      "product_url": "https://www.sab-cable.com/cables-wires-harnessing-temperature-measurement/cable-wire/servo-motor-feedback-cables.html",
+      "category_name": "Servo Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Alpha Wire Series F Continuous Flex Industrial Ethernet Cable",
+      "product_url": "https://www.alphawire.com/Products/Cable/Industrial-Ethernet-Cable/Series-F",
+      "category_name": "Data Cables (Ethernet, High Flex)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "General Cable Carol® Brand Portable Power Cable Type SOOW",
+      "product_url": "https://www.generalcable.com/na/us-canada/products-solutions/industrial/portable-power-cable/carol-brand-rubber-cord",
+      "category_name": "Power Cables (Portable)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Turck DeviceNet Cable",
+      "product_url": "https://www.turck.us/en/product/6914804",
+      "category_name": "Fieldbus Cables (DeviceNet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Balluff DeviceNet Cables",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0003/groups/G0302/products/P030201",
+      "category_name": "Fieldbus Cables (DeviceNet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Phoenix Contact CANopen® Cable",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/cable-psm-can-cable-2708296",
+      "category_name": "Fieldbus Cables (CANopen)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Murrelektronik Fieldbus Cable PROFIBUS DP/PA",
+      "product_url": "https://www.murrelektronik.com/products-industries/connection-technology/fieldbus-connectivity/fieldbus-cables/product/7000-78001-9610500/",
+      "category_name": "Fieldbus Cables (Profibus)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "IFM Electronic EVC IO-Link Connection Cables",
+      "product_url": "https://www.ifm.com/us/en/category/090/090_010/090_010_070",
+      "category_name": "Sensor/Actuator Cables (IO-Link)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Leoni Industrial Ethernet Cable CAT 7",
+      "product_url": "https://www.leoni-connectivity-solutions.com/en/Products-Industries/Industry/Industrial-Ethernet-Cables/Industrial-Ethernet-cable-CAT-7",
+      "category_name": "Data Cables (Ethernet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Harting Pre-assembled System Cables (for Servo Drives)",
+      "product_url": "https://b2b.harting.com/ebusiness/en/System-Cabling-Pre-assembled-System-Ca/x/",
+      "category_name": "Servo Cable Assemblies",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Molex Flamar® Industrial Automation Cable",
+      "product_url": "https://www.molex.com/en-us/products/cable/industrial-automation-cable",
+      "category_name": "Industrial Cables (General)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TE Connectivity Industrial Mini I/O Cable Assemblies",
+      "product_url": "https://www.te.com/usa-en/products/cable-assemblies/intersection/industrial-mini-io-cable-assemblies.html",
+      "category_name": "Data Cable Assemblies",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "LAPP ÖLFLEX® SERVO FD 796 CP Servo Cable",
+      "product_url": "https://products.lappgroup.com/online-catalogue/power-and-control-cables/servo-motor-and-encoder-cables/for-highly-dynamic-power-chain-use/oelflex-servo-fd-796-cp.html",
+      "category_name": "Servo Cables (High Flex)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "HELUKABEL MULTIFLEX 512-PUR Highly Flexible Control Cable",
+      "product_url": "https://www.helukabel.de/de/produkte/kabel-leitungen/hochflexible-steuerleitungen/pur/multiflex-512-pur",
+      "category_name": "Control Cables (High Flex)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Belden Industrial REVConnect Cat 6A Cable",
+      "product_url": "https://catalog.belden.com/techdata/EN/10GXS12_techdata.pdf",
+      "category_name": "Data Cables (Ethernet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Prysmian Group TECK90 Armored Power Cable",
+      "product_url": "https://www.prysmiangroup.com/en/products-and-solutions/power-distribution/products/medium-voltage-cables/armored-cables/teck90",
+      "category_name": "Power Cables (Armored)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Nexans ETHERLINE® Cat.5e Industrial Ethernet Cable",
+      "product_url": "https://www.nexans.com/business/industry/automation/Products/ETHERLINE-CAT-5e.html",
+      "category_name": "Data Cables (Ethernet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "igus chainflex® CFROBOT Robot Cable",
+      "product_url": "https://www.igus.com/info/chainflex-cfrobot-robot-cables",
+      "category_name": "Robotic Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TKD Kabel KAWEFLEX® Highly Flexible Control Cable",
+      "product_url": "https://www.tkd-kabel.de/en/Products/Flexible-control-cables/PVC/KAWEFLEX-Control-Cable.html",
+      "category_name": "Control Cables (High Flex)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "SAB Bröckskes Flexible Bus Cables (PROFIBUS, CAN-BUS)",
+      "product_url": "https://www.sab-cable.com/cables-wires-harnessing-temperature-measurement/cable-wire/bus-cables.html",
+      "category_name": "Fieldbus Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Alpha Wire Xtra-Guard® 1 High Performance Cable",
+      "product_url": "https://www.alphawire.com/Products/Cable/Xtra-Guard-Cable/Xtra-Guard-1",
+      "category_name": "Control Cables (High Performance)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "General Cable Armor-X® Armored Cable",
+      "product_url": "https://www.generalcable.com/na/us-canada/products-solutions/industrial/armored-cable/armor-x",
+      "category_name": "Power Cables (Armored)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Turck Fieldbus Junction Bricks (Cables Related)",
+      "product_url": "https://www.turck.us/en/product_group/fieldbus_junction_bricks-380/",
+      "category_name": "Fieldbus Distribution (Related)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Balluff EtherNet/IP Cables",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0003/groups/G0303/products/P030301",
+      "category_name": "Data Cables (Ethernet/IP)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Phoenix Contact ETHERNET Cable",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/data-cable-assembled-vs-msd-msd-93k-93k-1-0-1160801",
+      "category_name": "Data Cable Assemblies (Ethernet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Murrelektronik M8 Sensor/Actuator Cable",
+      "product_url": "https://www.murrelektronik.com/products-industries/connection-technology/cordsets/m8-cordsets/product/7000-08001-6140300/",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "IFM Electronic EVF Series Connection Cables (Food/Beverage)",
+      "product_url": "https://www.ifm.com/us/en/category/090/090_010/090_010_030",
+      "category_name": "Sensor/Actuator Cables (Hygienic)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Harting Ethernet Cable Assemblies M12 to RJ45",
+      "product_url": "https://b2b.harting.com/ebusiness/en/Connection-Technology-Ethernet-M12-System-/x/",
+      "category_name": "Data Cable Assemblies (Ethernet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Escha Profinet Cable Assembly",
+      "product_url": "https://www.escha.net/en/products/profinet/8047444",
+      "category_name": "Data Cable Assemblies (PROFINET)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "LAPP ÖLFLEX® CHAIN 809 Drag chain cable",
+      "product_url": "https://products.lappgroup.com/online-catalogue/power-and-control-cables/highly-flexible-cables-for-powerchain-use/oil-resistant-highly-flexible-pvc-control-cables/oelflex-chain-809.html",
+      "category_name": "Control Cables (High Flex)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "HELUKABEL ROBOTICS Cables",
+      "product_url": "https://www.helukabel.de/de/produkte/kabel-leitungen/roboterleitungen",
+      "category_name": "Robotic Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Belden MachFlex™ Flexible Industrial Cable",
+      "product_url": "https://catalog.belden.com/techdata/EN/3105A_techdata.pdf",
+      "category_name": "Control Cables (High Flex)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Prysmian Group Instrumentation Cables RE-2X(st)Y",
+      "product_url": "https://www.prysmiangroup.com/en/products-and-solutions/oil-gas-and-petrochemical/products/instrumentation-and-control-cables/instrumentation-cables",
+      "category_name": "Instrumentation Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Nexans instrumentation cable",
+      "product_url": "https://www.nexans.com/business/industry/instrumentation/Products/Instrumentation-Cable.html",
+      "category_name": "Instrumentation Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "igus chainflex® CFPE Instrument Cable",
+      "product_url": "https://www.igus.com/info/chainflex-cfpe-instrumentation-cables",
+      "category_name": "Instrumentation Cables (High Flex)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TKD Kabel PAARTRONIC®-CY-LiYCY Shielded Data Cable",
+      "product_url": "https://www.tkd-kabel.de/en/Products/Data-cables/paired/PAARTRONIC-CY-LiYCY-paired.html",
+      "category_name": "Data Cables (Shielded)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "SAB Bröckskes Silicone Insulated Cables",
+      "product_url": "https://www.sab-cable.com/cables-wires-harnessing-temperature-measurement/cable-wire/heat-resistant-cables/silicone-insulated-cables.html",
+      "category_name": "High Temperature Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Alpha Wire ThermoThin Hook-Up Wire",
+      "product_url": "https://www.alphawire.com/Products/Wire/Hook-Up-Wire/ThermoThin",
+      "category_name": "High Temperature Wire",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "General Cable FREP® Flexible Control Cable",
+      "product_url": "https://www.generalcable.com/na/us-canada/products-solutions/industrial/flexible-control-cable/frep",
+      "category_name": "Control Cables (Flexible)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Turck BUS Cables (Foundation Fieldbus, Profibus)",
+      "product_url": "https://www.turck.us/en/product_group/bus_cables-370/",
+      "category_name": "Fieldbus Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Balluff CC-Link Cables",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0003/groups/G0304/products/P030401",
+      "category_name": "Fieldbus Cables (CC-Link)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Phoenix Contact AS-INTERFACE Cable",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/cable-sac-3p-m12msl-fesh-tr-2275065",
+      "category_name": "Fieldbus Cables (AS-Interface)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Murrelektronik EtherCAT Cable",
+      "product_url": "https://www.murrelektronik.com/products-industries/connection-technology/fieldbus-connectivity/fieldbus-cables/product/7000-50081-9570100/",
+      "category_name": "Data Cables (EtherCAT)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "IFM Electronic EVT Series Shielded Connection Cables",
+      "product_url": "https://www.ifm.com/us/en/category/090/090_010/090_010_020",
+      "category_name": "Sensor/Actuator Cables (Shielded)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Leoni FieldLink PROFIBUS Cables",
+      "product_url": "https://www.leoni-connectivity-solutions.com/en/Products-Industries/Industry/Fieldbus-Cables/PROFIBUS-Cables",
+      "category_name": "Fieldbus Cables (Profibus)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Harting System Cables for INDRA DRIVE",
+      "product_url": "https://b2b.harting.com/ebusiness/en/System-Cables-for-INDRA-DRIVE/x/",
+      "category_name": "Servo Cable Assemblies",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Molex Brad® DeviceNet™ Cordsets",
+      "product_url": "https://www.molex.com/en-us/products/cable-assemblies/standard-cable-assemblies/brad-devicenet-cordsets",
+      "category_name": "Fieldbus Cable Assemblies (DeviceNet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TE Connectivity M8 Cable Assemblies",
+      "product_url": "https://www.te.com/usa-en/products/cable-assemblies/intersection/m8-cable-assemblies.html",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "LAPP ÖLFLEX® HEAT 180 SiF Silicone single core",
+      "product_url": "https://products.lappgroup.com/online-catalogue/power-and-control-cables/single-cores/halogen-free-single-cores/oelflex-heat-180-sif.html",
+      "category_name": "High Temperature Wire",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "HELUKABEL SiFF Silicone Single Core",
+      "product_url": "https://www.helukabel.de/de/produkte/kabel-leitungen/hitzebestaendige-kabel-leitungen/silikon/siff",
+      "category_name": "High Temperature Wire",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Belden Classic Control and Power Cable",
+      "product_url": "https://catalog.belden.com/index.cfm?event=pd&p=PF_83803",
+      "category_name": "Control Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Prysmian Group Flexible Cables H07RN-F",
+      "product_url": "https://www.prysmiangroup.com/en/products-and-solutions/power-distribution/products/low-voltage-cables/flexible-cables",
+      "category_name": "Power Cables (Flexible Rubber)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Nexans PowerMine® Mining Cables",
+      "product_url": "https://www.nexans.com/business/industry/mining/Products/PowerMine-Mining-Cables.html",
+      "category_name": "Mining Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "igus chainflex® CF9 UL Control Cable",
+      "product_url": "https://www.igus.com/info/chainflex-cf9-ul",
+      "category_name": "Control Cables (High Flex, UL)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TKD Kabel FESTOONFLEX® PUR-HF Festoon Cable",
+      "product_url": "https://www.tkd-kabel.de/en/Products/Festoon-Crane-and-Conveyor-Cables/PVC-PUR/Festoonflex-PUR-HF.html",
+      "category_name": "Festoon Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "SAB Bröckskes Reeling Cables",
+      "product_url": "https://www.sab-cable.com/cables-wires-harnessing-temperature-measurement/cable-wire/crane-conveyor-cables/reeling-cables.html",
+      "category_name": "Reeling Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Alpha Wire Series P Flexible Control Cable",
+      "product_url": "https://www.alphawire.com/Products/Cable/Control-Cable/Series-P",
+      "category_name": "Control Cables (Flexible)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "General Cable Anaconda® Type TC-ER Power Cable",
+      "product_url": "https://www.generalcable.com/na/us-canada/products-solutions/industrial/power-cable/anaconda-type-tc-er",
+      "category_name": "Power Cables (Tray Cable)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Turck M12 Power Cables",
+      "product_url": "https://www.turck.us/en/product_group/m12_power_cables-290/",
+      "category_name": "Power Cable Assemblies (M12)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Balluff Profibus Cables",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0003/groups/G0301/products/P030101",
+      "category_name": "Fieldbus Cables (Profibus)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Phoenix Contact Data cable Cat5",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/data-cable-cat5-nbc-r4ac-r4ac-sh-93k-1-0-1160800",
+      "category_name": "Data Cable Assemblies (Ethernet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Murrelektronik Valve Plug Cable Assembly Form A",
+      "product_url": "https://www.murrelektronik.com/products-industries/connection-technology/cordsets/valve-plug-cable-assemblies/product/7000-18001-6140300/",
+      "category_name": "Valve Cable Assemblies",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "IFM Electronic EVCA Series Y-Splitter Cables",
+      "product_url": "https://www.ifm.com/us/en/category/090/090_010/090_010_050",
+      "category_name": "Sensor/Actuator Cables (Splitters)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Leoni ROBFLEX® Robot Cables",
+      "product_url": "https://www.leoni-connectivity-solutions.com/en/Products-Industries/Robotics/Robot-Cables/ROBFLEX-Robot-Cables",
+      "category_name": "Robotic Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Harting Pre-assembled System Cables for Motors",
+      "product_url": "https://b2b.harting.com/ebusiness/en/System-Cables-for-Motors/x/",
+      "category_name": "Motor Cable Assemblies",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Molex Brad® M23 Power Cordsets",
+      "product_url": "https://www.molex.com/en-us/products/cable-assemblies/standard-cable-assemblies/brad-m23-power-cordsets",
+      "category_name": "Power Cable Assemblies (M23)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TE Connectivity LUMAWISE Endurance S Sensor Ready Modules & Cable Assemblies",
+      "product_url": "https://www.te.com/usa-en/products/connectors/power-connectors/standard-circular-connectors/intersection/lumawise-endurance-s-ecosystem.html",
+      "category_name": "Sensor Cable Assemblies (Lighting)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "LAPP HITRONIC® Fiber Optic Cables",
+      "product_url": "https://products.lappgroup.com/online-catalogue/data-communication-systems/fibre-optic-cables.html",
+      "category_name": "Fiber Optic Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "HELUKABEL HELUCHAIN® Drag Chain Cables",
+      "product_url": "https://www.helukabel.de/de/produkte/kabel-leitungen/schleppkettenleitungen",
+      "category_name": "Control Cables (High Flex)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Belden Tray Optic Fiber Cable",
+      "product_url": "https://catalog.belden.com/index.cfm?event=pd&p=PF_B9A201",
+      "category_name": "Fiber Optic Cables (Tray Rated)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Prysmian Group Marine Cables NEK 606",
+      "product_url": "https://www.prysmiangroup.com/en/products-and-solutions/oil-gas-and-petrochemical/products/offshore-cables/marine-cables",
+      "category_name": "Marine Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Nexans ShipLine® Marine Cables",
+      "product_url": "https://www.nexans.com/business/shipbuilding/Products/ShipLine-Marine-Cables.html",
+      "category_name": "Marine Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "igus chainflex® CFKOAX Coaxial Cable",
+      "product_url": "https://www.igus.com/info/chainflex-cfkoax-coaxial-cables",
+      "category_name": "Coaxial Cables (High Flex)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TKD Kabel THERM Wire and Strands",
+      "product_url": "https://www.tkd-kabel.de/en/Products/Heat-Resistant-Cables/Wire-Strands/THERM-Wire-Strands-Heat-resistant-up-to-1550-C.html",
+      "category_name": "High Temperature Wire",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "SAB Bröckskes Temperature Measurement Cables (Thermocouple)",
+      "product_url": "https://www.sab-cable.com/cables-wires-harnessing-temperature-measurement/temperature-measurement/thermocouple-compensating-cables.html",
+      "category_name": "Thermocouple Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Alpha Wire Coaxial Cable",
+      "product_url": "https://www.alphawire.com/Products/Cable/Coaxial-Cable",
+      "category_name": "Coaxial Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "General Cable Thermocouple Wire & Cable",
+      "product_url": "https://www.generalcable.com/na/us-canada/products-solutions/industrial/thermocouple-wire-and-cable",
+      "category_name": "Thermocouple Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Turck Foundation Fieldbus Cable Assemblies",
+      "product_url": "https://www.turck.us/en/product_group/foundation_fieldbus_cordsets-400/",
+      "category_name": "Fieldbus Cable Assemblies (Foundation Fieldbus)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Balluff IO-Link Cables",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0003/groups/G0306/products/P030601",
+      "category_name": "Sensor/Actuator Cables (IO-Link)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Phoenix Contact Hybrid cable",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/hybrid-cable-nbc-msy-fsy-100k-94h-1160970",
+      "category_name": "Hybrid Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Murrelektronik M12 Power Cable T-coded",
+      "product_url": "https://www.murrelektronik.com/products-industries/connection-technology/cordsets/m12-power-cordsets/product/7000-45021-7830200/",
+      "category_name": "Power Cable Assemblies (M12)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "IFM Electronic EVF Series Connection Cables (Food/Beverage, M8)",
+      "product_url": "https://www.ifm.com/us/en/product/EVF414",
+      "category_name": "Sensor/Actuator Cables (Hygienic)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Leoni Ethernet Robotics Cables",
+      "product_url": "https://www.leoni-connectivity-solutions.com/en/Products-Industries/Robotics/Ethernet-Robotics-Cables",
+      "category_name": "Robotic Cables (Ethernet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Harting Pre-assembled Ethernet Cables",
+      "product_url": "https://b2b.harting.com/ebusiness/en/Pre-assembled-Cables-Ethernet-Cabling-Ha/x/",
+      "category_name": "Data Cable Assemblies (Ethernet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Molex Brad® M8 Cordsets",
+      "product_url": "https://www.molex.com/en-us/products/cable-assemblies/standard-cable-assemblies/brad-m8-cordsets",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TE Connectivity Solarlok PV4-S Solar Connectors & Cable",
+      "product_url": "https://www.te.com/usa-en/products/families/solarlok.html",
+      "category_name": "Solar Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "LAPP ÖLFLEX® SOLAR XLS-R Solar Cable",
+      "product_url": "https://products.lappgroup.com/online-catalogue/power-and-control-cables/application-specific-cables/solar-cables/oelflex-solar-xls-r.html",
+      "category_name": "Solar Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "HELUKABEL SOLARFLEX®-X PV1-F Solar Cable",
+      "product_url": "https://www.helukabel.de/de/produkte/kabel-leitungen/solarkabel/solarflex-x-pv1-f",
+      "category_name": "Solar Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Belden Railway Cables",
+      "product_url": "https://www.belden.com/products/industrial-cable/transportation-cable/railway-cable",
+      "category_name": "Railway Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Prysmian Group Airport Cables",
+      "product_url": "https://www.prysmiangroup.com/en/markets/infrastructure/airports",
+      "category_name": "Airport Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Nexans WINDLINK® Wind Turbine Cables",
+      "product_url": "https://www.nexans.com/business/energy-transition/wind/Products/WINDLINK-Wind-Turbine-Cables.html",
+      "category_name": "Wind Turbine Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "igus chainflex® CFLG Fiber Optic Cable",
+      "product_url": "https://www.igus.com/info/chainflex-cflg-fiber-optic-cables",
+      "category_name": "Fiber Optic Cables (High Flex)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TKD Kabel TORSIONFLEX® Torsion Cable",
+      "product_url": "https://www.tkd-kabel.de/en/Products/Highly-Flexible-Cables/Torsion-Cables/TORSIONFLEX.html",
+      "category_name": "Torsion Cables (High Flex)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "SAB Bröckskes Cleanroom Cables",
+      "product_url": "https://www.sab-cable.com/cables-wires-harnessing-temperature-measurement/cable-wire/cleanroom-cables.html",
+      "category_name": "Cleanroom Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Alpha Wire Low Smoke Zero Halogen (LSZH) Communication & Control Cable",
+      "product_url": "https://www.alphawire.com/Products/Cable/Communication-Control-Cable/Low-Smoke-Zero-Halogen-LSZH",
+      "category_name": "Control Cables (LSZH)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "General Cable Super Vu-Tron® Supreme Welding Cable",
+      "product_url": "https://www.generalcable.com/na/us-canada/products-solutions/industrial/welding-cable/super-vu-tron-supreme",
+      "category_name": "Welding Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Turck Molded Cordsets (7/8\" Power)",
+      "product_url": "https://www.turck.us/en/product_group/7_8_power_cordsets-280/",
+      "category_name": "Power Cable Assemblies (7/8\")",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Balluff M23 Cables",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0003/groups/G0310/products/P031001",
+      "category_name": "Power/Signal Cable Assemblies (M23)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Phoenix Contact Power cable M12",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/power-cable-sac-4p-ms-fs-sh-pgl-m12-t-1161182",
+      "category_name": "Power Cable Assemblies (M12)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Murrelektronik M12 Food & Beverage Cable PUR",
+      "product_url": "https://www.murrelektronik.com/products-industries/connection-technology/cordsets/m12-food-beverage-cable-pur/product/7000-14601-7080500/",
+      "category_name": "Sensor/Actuator Cables (Hygienic)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "IFM Electronic Connection Cables for Valve Plugs",
+      "product_url": "https://www.ifm.com/us/en/category/090/090_010/090_010_040",
+      "category_name": "Valve Cable Assemblies",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Leoni FieldLink Sensor Cables",
+      "product_url": "https://www.leoni-connectivity-solutions.com/en/Products-Industries/Industry/Sensor-Cables",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Harting Pre-assembled Data Cables",
+      "product_url": "https://b2b.harting.com/ebusiness/en/Pre-assembled-Cables-Data-Cabling-Hartin/x/",
+      "category_name": "Data Cable Assemblies",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Molex Brad® M12 Power Cordsets",
+      "product_url": "https://www.molex.com/en-us/products/cable-assemblies/standard-cable-assemblies/brad-m12-power-cordsets",
+      "category_name": "Power Cable Assemblies (M12)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TE Connectivity Ethernet Cable Assemblies",
+      "product_url": "https://www.te.com/usa-en/products/cable-assemblies/intersection/ethernet-cable-assemblies.html",
+      "category_name": "Data Cable Assemblies (Ethernet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "LAPP ETHERLINE® Industrial Ethernet Cables",
+      "product_url": "https://products.lappgroup.com/online-catalogue/data-communication-systems/industrial-ethernet-components-and-cables.html",
+      "category_name": "Data Cables (Ethernet)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "HELUKABEL HEAT 180 Silicone Cable",
+      "product_url": "https://www.helukabel.de/de/produkte/kabel-leitungen/hitzebestaendige-kabel-leitungen/silikon/heat-180",
+      "category_name": "High Temperature Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Belden ControlBus® Fieldbus Cables",
+      "product_url": "https://catalog.belden.com/index.cfm?event=pd&p=PF_3076F",
+      "category_name": "Fieldbus Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Prysmian Group Fire Resistant Cables FP Range",
+      "product_url": "https://www.prysmiangroup.com/en/products-and-solutions/power-distribution/products/fire-resistant-cables/fp-cables",
+      "category_name": "Fire Resistant Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Nexans ALSECURE® Fire Safety Cables",
+      "product_url": "https://www.nexans.com/business/building/Products/ALSECURE-Fire-Safety-Cables.html",
+      "category_name": "Fire Resistant Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "igus chainflex® CFCRANE Crane Cable",
+      "product_url": "https://www.igus.com/info/chainflex-cfcrane-crane-cables",
+      "category_name": "Crane Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TKD Kabel Trommelflex Reeling Cable",
+      "product_url": "https://www.tkd-kabel.de/en/Products/Festoon-Crane-and-Conveyor-Cables/PVC-PUR/TROMMELFLEX-PUR-HF.html",
+      "category_name": "Reeling Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "SAB Bröckskes Lift Cables",
+      "product_url": "https://www.sab-cable.com/cables-wires-harnessing-temperature-measurement/cable-wire/lift-control-cables.html",
+      "category_name": "Lift Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Alpha Wire Hook-Up Wire",
+      "product_url": "https://www.alphawire.com/Products/Wire/Hook-Up-Wire",
+      "category_name": "Hook-Up Wire",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "General Cable Medium Voltage Power Cable",
+      "product_url": "https://www.generalcable.com/na/us-canada/products-solutions/energy/medium-voltage-power-cable",
+      "category_name": "Medium Voltage Power Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Turck PUR Sensor Cable (Bulk)",
+      "product_url": "https://www.turck.us/en/product/6914396",
+      "category_name": "Sensor/Actuator Cables (Bulk)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Balluff Profinet Cables",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0003/groups/G0308/products/P030801",
+      "category_name": "Data Cables (PROFINET)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Phoenix Contact PROFIBUS Cable",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/cable-sac-2p-ms-fs-sh-pb-pur-1161144",
+      "category_name": "Fieldbus Cable Assemblies (Profibus)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Murrelektronik M12 Power T-Coded Cable Assembly",
+      "product_url": "https://www.murrelektronik.com/products-industries/connection-technology/cordsets/m12-power-t-coded-cable-assemblies/product/7000-45021-7830500/",
+      "category_name": "Power Cable Assemblies (M12)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "IFM Electronic EVT Series Connection Cables (M12, Shielded)",
+      "product_url": "https://www.ifm.com/us/en/product/EVT079",
+      "category_name": "Sensor/Actuator Cables (Shielded)",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Leoni Fiber Optic Cables",
+      "product_url": "https://www.leoni-connectivity-solutions.com/en/Products-Industries/Fiber-Optics/Fiber-Optic-Cables",
+      "category_name": "Fiber Optic Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Harting Han® Cable Assemblies",
+      "product_url": "https://b2b.harting.com/ebusiness/en/Cable-Assemblies-Han-Cable-Assemblies/x/",
+      "category_name": "Heavy Duty Cable Assemblies",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "Molex Sensorcon M12 Cable Assemblies",
+      "product_url": "https://www.molex.com/en-us/products/cable-assemblies/standard-cable-assemblies/sensorcon-m12-cable-assemblies",
+      "category_name": "Sensor/Actuator Cables",
+      "parent_category": "Industrial Cables"
+    },
+    {
+      "product_name": "TE Connectivity Heavy Duty Connector Cable Assemblies",
+      "product_url": "https://www.te.com/usa-en/products/cable-assemblies/intersection/heavy-duty-connector-cable-assemblies.html",
+      "category_name": "Heavy Duty Cable Assemblies",
+      "parent_category": "Industrial Cables"
+    }
+  ]
+}

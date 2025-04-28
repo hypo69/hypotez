@@ -197,46 +197,113 @@ def read_text_file_generator(
         ...
         return None
 
+import logging
+import re
+from pathlib import Path
+from typing import Union, Optional, List # Use List for compatibility/clarity
+
+# Assume logger is configured appropriately
+# Example basic configuration:
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
 def read_text_file(
     file_path: Union[str, Path],
     as_list: bool = False,
-    extensions: Optional[list[str]] = None,
-    exc_info: bool = True,
-    chunk_size: int = 8192
-) -> str | list[str] | None:
+    extensions: Optional[List[str]] = None,
+    exc_info: bool = True
+) -> Union[str, List[str], None]:
     """
-    Read the contents of a file.
+    Read the contents of a text file or all text files in a directory.
 
     Args:
         file_path (str | Path): Path to the file or directory.
-        as_list (bool, optional): If True, returns content as list of lines. Defaults to False.
-        extensions (list[str], optional): List of file extensions to include if reading a directory. Defaults to None.
-        exc_info (bool, optional): If True, logs traceback on error. Defaults to True.
+        as_list (bool, optional):
+            If True, returns content as a list of original lines.
+            If False, returns content as a single string with whitespace
+            collapsed to single spaces and double quotes escaped.
+            Defaults to False.
+        extensions (List[str], optional): List of file extensions to include
+            when reading a directory (e.g., ['.txt', '.py']). The dot prefix
+            is recommended but handled if missing. Defaults to None (include all files).
+        exc_info (bool, optional): If True, logs traceback information on error.
+            Defaults to True.
 
     Returns:
-        str | list[str] | None: File content as a string or list of lines, or None if an error occurs.
+        str | List[str] | None: File content as a single processed string or a
+                                 list of original lines. Returns None if the
+                                 path is invalid or an error occurs during reading.
     """
     try:
         path = Path(file_path)
+
+        # --- Handle Single File ---
         if path.is_file():
+            # Optional: Check extension even for single files if desired
+            # if extensions:
+            #     processed_extensions = [ext if ext.startswith('.') else '.' + ext for ext in extensions]
+            #     if path.suffix not in processed_extensions:
+            #         logger.debug(f"Skipping file {path} due to extension mismatch.")
+            #         return [] if as_list else "" # Or None? Consistent return type is important
+
             with path.open("r", encoding="utf-8") as f:
-                content = f.read()
-                #Обработка согласно заданию
-                content = re.sub(r'\s+', ' ', content)
+                # Read the entire file content first
+                raw_content = f.read()
+
+            if as_list:
+                # Return list of original lines
+                return raw_content.splitlines()
+            else:
+                # Process the content for single string output
+                # 1. Collapse whitespace (including newlines) to single spaces
+                content = re.sub(r'\s+', ' ', raw_content)
+                # 2. Escape double quotes
                 content = content.replace('"', '\\"')
-                return content.splitlines() if as_list else content
+                return content
+
+        # --- Handle Directory ---
         elif path.is_dir():
-            files = [
-                p for p in path.rglob("*") if p.is_file() and (not extensions or p.suffix in extensions)
+            processed_extensions = None
+            if extensions:
+                # Ensure extensions start with a dot for consistent suffix matching
+                processed_extensions = [ext if ext.startswith('.') else '.' + ext for ext in extensions]
+
+            # Find all matching files recursively
+            files_to_read = [
+                p for p in path.rglob("*")
+                if p.is_file() and (not processed_extensions or p.suffix in processed_extensions)
             ]
-            contents = [read_text_file(p, as_list, chunk_size=chunk_size) for p in files]
-            return [item for sublist in contents if sublist for item in sublist] if as_list else "\n".join(filter(None, contents))
+
+            # Recursively read each file, passing the 'as_list' flag
+            contents = [
+                read_text_file(p, as_list=as_list, extensions=None, exc_info=exc_info)
+                for p in files_to_read
+            ] # Pass extensions=None in recursive call as files are already filtered
+
+            if as_list:
+                # Combine results: flatten the list of lists (of lines)
+                # Filter out None values from failed reads before flattening
+                flat_list = [item for sublist in contents if sublist is not None for item in sublist]
+                return flat_list
+            else:
+                # Combine results: join the list of strings (processed file contents)
+                # Filter out None values from failed reads before joining
+                valid_contents = [c for c in contents if c is not None and isinstance(c, str)]
+                return "\n".join(valid_contents)
+
+        # --- Handle Invalid Path ---
         else:
-            logger.warning(f"Path '{file_path}' is invalid.")
-            return 
+            logger.warning(f"Path '{file_path}' is not a valid file or directory.")
+            return None
+
+    # --- Handle Exceptions ---
     except Exception as ex:
-        logger.error(f"Failed to read file {file_path}.", ex, exc_info=exc_info)
-        return 
+        # Log the error, optionally with traceback
+        if exc_info:
+            logger.exception(f"Failed to read path '{file_path}'. Error: {ex}") # logger.exception includes traceback
+        else:
+            logger.error(f"Failed to read path '{file_path}'. Error: {ex}")
+        return None
 
 def yield_text_from_files(
     file_path: str | Path,

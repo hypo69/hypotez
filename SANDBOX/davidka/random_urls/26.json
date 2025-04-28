@@ -1,0 +1,808 @@
+{
+  "products": [
+    {
+      "product_name": "Siemens SENTRON 5SL Miniature Circuit Breakers",
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-protection-devices/miniature-circuit-breakers.html",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_name": "Schneider Electric Acti9 iC60 Miniature Circuit Breaker",
+      "product_url": "https://www.se.com/ww/en/product-range/61054-acti9-mcb/",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_name": "ABB System pro M compact S200 Miniature Circuit Breakers",
+      "product_url": "https://new.abb.com/low-voltage/products/modular-din-rail-products/miniature-circuit-breakers-mcbs/s200-series",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_name": "Eaton xPole Home Series MCB HNB",
+      "product_url": "https://www.eaton.com/gb/en-gb/catalog/electrical-circuit-protection/xpole-home-series-mcb-hnb.html",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_name": "Legrand DX³ 10 kA - thermal magnetic circuit breakers",
+      "product_url": "https://www.legrandgroup.com/en/products/wiring-devices-and-electrical-equipment/din-rail-equipment/dxsup3sup-10-ka-thermal-magnetic-circuit-breakers",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_name": "Hager Miniature circuit-breaker 1P 10A C curve 6kA",
+      "product_url": "https://hager.com/uk/products/energy-distribution/modular-protection-devices/miniature-circuit-breakers/mcb-6ka/nbn110a-miniature-circuit-breaker-1p-10a-c-curve-6ka",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_name": "Chint NB1-63 Miniature Circuit Breaker",
+      "product_url": "https://chintglobal.com/products/nb1-63-miniature-circuit-breaker",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_name": "Phoenix Contact TCP Thermal device circuit breakers",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/device-circuit-breakers/thermal-device-circuit-breakers",
+      "category_name": "Thermal Circuit Breakers",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_name": "Mitsubishi Electric CP30-BA Series Mini Circuit Breakers",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/lvc/items/cp30_ba/index.html",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_name": "Lovato Electric Miniature circuit breakers P1 series",
+      "product_url": "https://www.lovatoelectric.com/product/P1MBUL1PC04",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_name": "ETI ETIMAT 10 Miniature Circuit Breakers",
+      "product_url": "https://www.etigroup.eu/products/circuit-breakers-and-switchgears/miniature-circuit-breakers-mcb-and-accessories/etimat-10",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.noark-electric.eu/en/products/low-voltage-installation-products/ex9b-miniature-circuit-breakers",
+      "product_name": "Noark Electric Ex9B Miniature Circuit Breakers",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.fuji-electric.com/products/circuit_breakers/mcb/",
+      "product_name": "Fuji Electric Miniature Circuit Breakers",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.wago.com/global/circuit-breakers-and-fuses/electronic-circuit-breaker-configurable/p/787-2861",
+      "product_name": "WAGO Electronic Circuit Breaker (ECB)",
+      "category_name": "Electronic Circuit Breakers (ECB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.weidmueller.com/int/products/electronics/dc_dc_converter_electronic_load_monitoring/electronic_load_monitoring",
+      "product_name": "Weidmüller Electronic Load Monitoring",
+      "category_name": "Electronic Circuit Breakers (ECB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://uk.rs-online.com/web/p/miniature-circuit-breakers/2683174",
+      "product_name": "Gewiss Miniature Circuit Breaker",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.doepke.de/en/products/catalogue/modular-protection-devices/miniature-circuit-breakers-mcb/",
+      "product_name": "Doepke Miniature Circuit Breakers",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product/A9F03116/miniature-circuit-breaker-acti9-ic60n-1p-16a-c-curve-230v-ac-6ka-iec/",
+      "product_name": "Schneider Electric Acti9 iC60N MCB C-Curve 1P 16A",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-protection-devices/residual-current-protective-devices.html",
+      "product_name": "Siemens SENTRON Residual Current Protective Devices",
+      "category_name": "Residual Current Devices (RCD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product-range/801-acti9-rcd/",
+      "product_name": "Schneider Electric Acti9 Residual Current Devices (RCCB/RCBO)",
+      "category_name": "Residual Current Devices (RCD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/modular-din-rail-products/residual-current-devices-rcds",
+      "product_name": "ABB System pro M compact Residual Current Devices",
+      "category_name": "Residual Current Devices (RCD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.eaton.com/gb/en-gb/catalog/electrical-circuit-protection/rcd--residual-current-devices-.html",
+      "product_name": "Eaton Residual Current Devices (RCD)",
+      "category_name": "Residual Current Devices (RCD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.legrandgroup.com/en/products/wiring-devices-and-electrical-equipment/din-rail-equipment/residual-current-devices-rcds",
+      "product_name": "Legrand DX³ Residual Current Devices (RCDs)",
+      "category_name": "Residual Current Devices (RCD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://hager.com/uk/products/energy-distribution/modular-protection-devices/residual-current-circuit-breakers-rccb",
+      "product_name": "Hager Residual Current Circuit Breakers (RCCB)",
+      "category_name": "Residual Current Devices (RCD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://chintglobal.com/products/nl1-residual-current-circuit-breaker",
+      "product_name": "Chint NL1 Residual Current Circuit Breaker",
+      "category_name": "Residual Current Devices (RCD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/residual-current-circuit-breaker-elcb-pn-30ma-typea-s-1085375",
+      "product_name": "Phoenix Contact ELCB-PN Residual Current Circuit Breaker",
+      "category_name": "Residual Current Devices (RCD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/lvc/items/nv/index.html",
+      "product_name": "Mitsubishi Electric NV Series Earth Leakage Circuit Breakers (MCCB Type)",
+      "category_name": "Residual Current Devices (MCCB Type)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.lovatoelectric.com/product/P1RA2PC0630",
+      "product_name": "Lovato Electric Residual current circuit breakers with overcurrent protection P1R series",
+      "category_name": "Residual Current Circuit Breaker with Overcurrent Protection (RCBO)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.etigroup.eu/products/circuit-breakers-and-switchgears/residual-current-circuit-breakers-rccb-and-rcbo/kzs-rcbo-6ka",
+      "product_name": "ETI KZS RCBO 6kA",
+      "category_name": "Residual Current Circuit Breaker with Overcurrent Protection (RCBO)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.noark-electric.eu/en/products/low-voltage-installation-products/ex9l-n-residual-current-circuit-breakers",
+      "product_name": "Noark Electric Ex9L-N Residual Current Circuit Breakers",
+      "category_name": "Residual Current Devices (RCD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.fuji-electric.com/products/circuit_breakers/elcb/",
+      "product_name": "Fuji Electric Earth Leakage Circuit Breakers (ELCB)",
+      "category_name": "Residual Current Devices (RCD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.wago.com/global/circuit-breakers-and-fuses/residual-current-circuit-breaker-block/p/789-684",
+      "product_name": "WAGO Residual current circuit breaker block",
+      "category_name": "Residual Current Devices (RCD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://uk.rs-online.com/web/p/rcbos/1667411",
+      "product_name": "Schneider Electric Acti9 iDPN Vigi RCBO",
+      "category_name": "Residual Current Circuit Breaker with Overcurrent Protection (RCBO)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.gewiss.com/ww/en/products/product-catalogue/catalogue-domotics-energy-and-lighting/power/modular-devices-for-din-rail-mounting/residual-current-circuit-breakers-with-overcurrent-protection-rcbos/90-rcbo-range",
+      "product_name": "Gewiss 90 RCBO Range",
+      "category_name": "Residual Current Circuit Breaker with Overcurrent Protection (RCBO)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.doepke.de/en/products/catalogue/modular-protection-devices/residual-current-circuit-breakers-rccb/",
+      "product_name": "Doepke Residual Current Circuit Breakers (RCCB)",
+      "category_name": "Residual Current Devices (RCD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/modular-din-rail-products/residual-current-devices-rcds/rcbos-ds201",
+      "product_name": "ABB DS201 Series RCBOs",
+      "category_name": "Residual Current Circuit Breaker with Overcurrent Protection (RCBO)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.eaton.com/us/en-us/catalog/electrical-circuit-protection/rcbo-residual-current-circuit-breakers-with-overcurrent-protection.html",
+      "product_name": "Eaton RCBO Residual Current Circuit Breakers with Overcurrent Protection",
+      "category_name": "Residual Current Circuit Breaker with Overcurrent Protection (RCBO)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/surge-protection-devices/type-1-lightning-current-arresters",
+      "product_name": "Phoenix Contact Type 1 Lightning Current Arresters",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.dehn-international.com/en/type-1-spd-redline-dehnbloc",
+      "product_name": "DEHN Type 1 SPD DEHNbloc",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.obo-bettermann.com/en-gb/products/transient-and-lightning-protection-systems/surge-protection/surge-protection-for-power-supply-systems/type-1-lightning-current-arrestors.html",
+      "product_name": "OBO Bettermann Type 1 lightning current arrestors",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product-range/65214-acti9-spd-type-123-surge-protection-devices/",
+      "product_name": "Schneider Electric Acti9 SPD Type 1+2+3 Surge Protection Devices",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.legrandgroup.com/en/products/wiring-devices-and-electrical-equipment/din-rail-equipment/surge-protective-devices-spds",
+      "product_name": "Legrand Surge Protective Devices (SPDs)",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-protection-devices/surge-protection-devices.html",
+      "product_name": "Siemens SENTRON Surge Protection Devices",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.weidmueller.com/int/products/electronics/surge_protection",
+      "product_name": "Weidmüller VARITECTOR Surge protection",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.raycap.com/products/surge-protection-ac-power/strikesorb-30/",
+      "product_name": "Raycap Strikesorb 30 Surge Protective Modules",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://citel.us/en/products/ac-power-surge-protectors/type-1/",
+      "product_name": "CITEL AC Power Surge Protectors Type 1",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.etigroup.eu/products/surge-protection-devices",
+      "product_name": "ETI ETITEC Surge Protection Devices",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/surge-protective-devices",
+      "product_name": "ABB Surge Protective Devices (SPDs)",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.eaton.com/us/en-us/catalog/backup-power-ups-surge-it-power-distribution/eaton-sp1-series-surge-protective-device.html",
+      "product_name": "Eaton SP1 Series Surge Protective Device",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://hager.com/uk/products/energy-distribution/modular-protection-devices/surge-protection-devices-spd",
+      "product_name": "Hager Surge protection devices (SPD)",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.leutron.de/en/lightning-current-arresters-type-1/",
+      "product_name": "LEUTRON Lightning Current Arresters Type 1",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/surge-protection-devices/type-2-surge-protective-devices",
+      "product_name": "Phoenix Contact Type 2 Surge Protective Devices",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.dehn-international.com/en/type-2-spd-redline-dehnguard",
+      "product_name": "DEHN Type 2 SPD DEHNguard",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.obo-bettermann.com/en-gb/products/transient-and-lightning-protection-systems/surge-protection/surge-protection-for-power-supply-systems/type-2-surge-arrestors.html",
+      "product_name": "OBO Bettermann Type 2 surge arrestors",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product/A9L16292/surge-arrester-acti9-itrab-1p-n-20ka-with-remote-transfer/",
+      "product_name": "Schneider Electric Acti9 iPRD Type 2 SPD",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.wago.com/global/surge-protection-devices-and-rf-interference-suppression-filters/pluggable-surge-protective-device-type-2/p/890-763",
+      "product_name": "WAGO Pluggable surge protective device, Type 2",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.mersen.com/us/en/products/surge-protection/iec-surge-protective-devices",
+      "product_name": "Mersen IEC Surge Protective Devices",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.littelfuse.com/products/surge-protection-devices/type-1-spd-modules/spmn.aspx",
+      "product_name": "Littelfuse SPMN Type 1 SPD Modules",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-protection-devices/molded-case-circuit-breakers.html",
+      "product_name": "Siemens SENTRON Molded Case Circuit Breakers (MCCB)",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product-range/65269-compaqt/",
+      "product_name": "Schneider Electric ComPacT Molded Case Circuit Breakers",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/circuit-breakers/molded-case",
+      "product_name": "ABB Molded Case Circuit Breakers",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.eaton.com/us/en-us/catalog/electrical-circuit-protection/molded-case-circuit-breakers.html",
+      "product_name": "Eaton Molded Case Circuit Breakers",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.legrandgroup.com/en/products/wiring-devices-and-electrical-equipment/din-rail-equipment/moulded-case-circuit-breakers-mccbs",
+      "product_name": "Legrand DPX³ Moulded case circuit breakers (MCCBs)",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://chintglobal.com/products/nm8n-moulded-case-circuit-breaker",
+      "product_name": "Chint NM8N Moulded Case Circuit Breaker",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/lvc/ws_v/index.html",
+      "product_name": "Mitsubishi Electric World Super V Series MCCB",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.lovatoelectric.com/product/SM1R0600",
+      "product_name": "Lovato Electric Motor protection circuit breakers SM1R series",
+      "category_name": "Motor Protection Circuit Breakers (MPCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.fuji-electric.com/products/circuit_breakers/mccb/",
+      "product_name": "Fuji Electric Molded Case Circuit Breakers (MCCB)",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://uk.rs-online.com/web/p/mccbs/2682741",
+      "product_name": "Gewiss Moulded Case Circuit Breaker MTX 160",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.noark-electric.eu/en/products/low-voltage-installation-products/ex9m-moulded-case-circuit-breakers",
+      "product_name": "Noark Electric Ex9M Moulded Case Circuit Breakers",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://ls-electric.com/products/category/low-voltage-equipment/molded-case-circuit-breaker",
+      "product_name": "LS Electric Molded Case Circuit Breakers",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.mersen.com/us/en/products/catalog/circuit-protection-fusegear-and-fuse-systems/iec-low-voltage-fuses",
+      "product_name": "Mersen IEC Low Voltage Fuses",
+      "category_name": "Fuses (Industrial)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.eaton.com/us/en-us/catalog/electrical-circuit-protection/bussmann-series-fuses.html",
+      "product_name": "Eaton Bussmann Series Fuses",
+      "category_name": "Fuses (Industrial)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.littelfuse.com/products/fuses/industrial-power-fuses.aspx",
+      "product_name": "Littelfuse Industrial Power Fuses",
+      "category_name": "Fuses (Industrial)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-protection-devices/fuse-systems.html",
+      "product_name": "Siemens SENTRON Fuse Systems",
+      "category_name": "Fuses (Industrial)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product-range/756-tesys-fuse-holders-and-fuse-bases/",
+      "product_name": "Schneider Electric TeSys Fuse Holders and Bases",
+      "category_name": "Fuse Holders",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/fusegear",
+      "product_name": "ABB Low Voltage Fusegear",
+      "category_name": "Fuses (Industrial) / Fuse Holders",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/fuse-terminal-block-uk-103-hesi-n-3048386",
+      "product_name": "Phoenix Contact Fuse Terminal Blocks",
+      "category_name": "Fuse Holders (DIN Rail)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.etigroup.eu/products/fuses",
+      "product_name": "ETI Fuses (LV, NV/NH)",
+      "category_name": "Fuses (Industrial)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.jeanmueller.de/en/products/low-voltage/nh-fuse-links/",
+      "product_name": "Jean Müller NH Fuse-Links",
+      "category_name": "Fuses (Industrial)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.wago.com/global/circuit-breakers-and-fuses/fuse-plug-with-led/p/281-611",
+      "product_name": "WAGO Fuse Plug with LED",
+      "category_name": "Fuses (Industrial) / Fuse Holders",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.belpower.com/resources/CircuitProtection/SelectorGuides/TRTEFuseSelectorGuide.pdf",
+      "product_name": "Bel TRTE Series Radial Lead Fuses",
+      "category_name": "Fuses (Electronic)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.socfuse.com/en/products/product-detail-1-1.html",
+      "product_name": "SOC SHX Series SMD Fuses",
+      "category_name": "Fuses (Electronic)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.schurter.com/en/products/overview/ng/circuit_protection_pg_1/fuses_pg_2/cartridge_fuses_pg_5/produkt/MSF_250",
+      "product_name": "Schurter MSF 250 Quick-Acting Fuse",
+      "category_name": "Fuses (Electronic)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.weidmueller.com/int/products/electronics/relays_solid_state_relays/fuse_terminal",
+      "product_name": "Weidmüller Fuse Terminal Blocks",
+      "category_name": "Fuse Holders (DIN Rail)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.legrand.us/q-series-din-rail-circuit-breakers",
+      "product_name": "Legrand Q-Series DIN Rail Circuit Breakers",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.hager.co.uk/products/energy-distribution/modular-protection-devices/rcbos-rcbo-accessories/ada916g-rcbo-1p-n-6a-30ma-c-curve-6ka-type-a/p/ADA916G",
+      "product_name": "Hager RCBO 1P+N 6A 30mA C Curve Type A",
+      "category_name": "Residual Current Circuit Breaker with Overcurrent Protection (RCBO)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://chintglobal.com/products/nb1l-residual-current-operated-circuit-breaker-with-over-current-protection-rcbo",
+      "product_name": "Chint NB1L RCBO",
+      "category_name": "Residual Current Circuit Breaker with Overcurrent Protection (RCBO)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/surge-protection-device-dt-lan-cat6-2881007",
+      "product_name": "Phoenix Contact DT-LAN-CAT6+ Surge Protection for Ethernet",
+      "category_name": "Surge Protection Devices (SPD) - Data",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.dehn-international.com/en/type-3-spd-dehnflex",
+      "product_name": "DEHN Type 3 SPD DEHNflex",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.obo-bettermann.com/en-gb/products/transient-and-lightning-protection-systems/surge-protection/surge-protection-for-information-technology-systems.html",
+      "product_name": "OBO Bettermann Surge protection for information technology systems",
+      "category_name": "Surge Protection Devices (SPD) - Data",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product/A9F04106/miniature-circuit-breaker-acti9-ic60n-1p-6a-c-curve-230v-ac-6ka-iec/",
+      "product_name": "Schneider Electric Acti9 iC60N MCB C-Curve 1P 6A",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.lovatoelectric.com/product/P1MBUH1PC01",
+      "product_name": "Lovato Electric Miniature circuit breakers P1 MB UH series (High Breaking Capacity)",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.etigroup.eu/products/circuit-breakers-and-switchgears/molded-case-circuit-breakers-mccb-and-accessories/etibreak2-mccb-up-to-1600a",
+      "product_name": "ETI ETIBREAK2 MCCB",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.noark-electric.eu/en/products/low-voltage-installation-products/ex9fh-fuse-holders",
+      "product_name": "Noark Electric Ex9FH Fuse Holders",
+      "category_name": "Fuse Holders",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.fuji-electric.com/products/semiconductors/modules/igbt_modules/mccb.html",
+      "product_name": "Fuji Electric MCCB & ELCB Accessories",
+      "category_name": "MCCB Accessories",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.wago.com/global/circuit-breakers-and-fuses/fuse-disconnect-terminal-block/p/2006-1611",
+      "product_name": "WAGO Fuse disconnect terminal block",
+      "category_name": "Fuse Holders (DIN Rail)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.weidmueller.com/int/products/electronics/relays_solid_state_relays/fuse_holder_wesi",
+      "product_name": "Weidmüller Fuse Holder WESI",
+      "category_name": "Fuse Holders (DIN Rail)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://uk.rs-online.com/web/p/rcbos/2675737",
+      "product_name": "Wylex RCBO",
+      "category_name": "Residual Current Circuit Breaker with Overcurrent Protection (RCBO)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.gewiss.com/ww/en/products/product-catalogue/catalogue-domotics-energy-and-lighting/power/modular-devices-for-din-rail-mounting/surge-protection-devices-spds",
+      "product_name": "Gewiss Surge Protection Devices (SPDs)",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.doepke.de/en/products/catalogue/modular-protection-devices/residual-current-circuit-breakers-with-integrated-overcurrent-protection-rcbo/",
+      "product_name": "Doepke RCBOs",
+      "category_name": "Residual Current Circuit Breaker with Overcurrent Protection (RCBO)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/modular-din-rail-products/miniature-circuit-breakers-mcbs/accessories",
+      "product_name": "ABB MCB Accessories",
+      "category_name": "MCB Accessories",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.eaton.com/us/en-us/catalog/electrical-circuit-protection/surge-protection-devices.html",
+      "product_name": "Eaton Surge Protection Devices",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/device-circuit-breakers/thermomagnetic-device-circuit-breakers",
+      "product_name": "Phoenix Contact Thermomagnetic device circuit breakers",
+      "category_name": "Thermomagnetic Circuit Breakers",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.dehn-international.com/en/lightning-equipotential-bonding-components",
+      "product_name": "DEHN Equipotential Bonding Components",
+      "category_name": "Earthing & Bonding Components",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.obo-bettermann.com/en-at/products/transient-and-lightning-protection-systems/equipotential-bonding-and-earthing/equipotential-bonding-bars.html",
+      "product_name": "OBO Bettermann Equipotential bonding bars",
+      "category_name": "Earthing & Bonding Components",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product-range/65213-acti9-sti-fuse-holders/",
+      "product_name": "Schneider Electric Acti9 STI Fuse-holders",
+      "category_name": "Fuse Holders",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.legrand.us/wiring-devices/circuit-breakers-and-panels/panel-boards/surge-protection-devices/lpmnn010sp.aspx",
+      "product_name": "Legrand Surge Protection Device for Panelboards",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-protection-devices/air-circuit-breakers.html",
+      "product_name": "Siemens SENTRON Air Circuit Breakers (ACB)",
+      "category_name": "Air Circuit Breakers (ACB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.weidmueller.com/int/products/electronics/relays_solid_state_relays/fuse_holder",
+      "product_name": "Weidmüller Fuse Holders",
+      "category_name": "Fuse Holders",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.raycap.com/products/surge-protection-datacenter/raydat-net/",
+      "product_name": "Raycap RayDat Net Data Line Surge Protection",
+      "category_name": "Surge Protection Devices (SPD) - Data",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://citel.us/en/products/data-line-surge-protectors/ethernet-poe/",
+      "product_name": "CITEL Ethernet & PoE Surge Protectors",
+      "category_name": "Surge Protection Devices (SPD) - Data",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.etigroup.eu/products/fuse-links/cylindrical-fuse-links-ch",
+      "product_name": "ETI Cylindrical fuse-links CH",
+      "category_name": "Fuses (Industrial)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/circuit-breakers/air",
+      "product_name": "ABB Air Circuit Breakers",
+      "category_name": "Air Circuit Breakers (ACB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.eaton.com/us/en-us/catalog/electrical-circuit-protection/air-circuit-breakers.html",
+      "product_name": "Eaton Air Circuit Breakers",
+      "category_name": "Air Circuit Breakers (ACB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://hager.com/uk/products/energy-distribution/modular-protection-devices/miniature-circuit-breakers/mcb-10ka/nbn120a-miniature-circuit-breaker-1p-20a-b-curve-10ka",
+      "product_name": "Hager Miniature circuit-breaker 1P 20A B curve 10kA",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.leutron.de/en/surge-arresters-type-2/",
+      "product_name": "LEUTRON Surge Arresters Type 2",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/surge-protection-devices/type-3-device-protection",
+      "product_name": "Phoenix Contact Type 3 Device Protection",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.dehn-international.com/en/information-technology-systems",
+      "product_name": "DEHN Surge Protection for Information Technology Systems",
+      "category_name": "Surge Protection Devices (SPD) - Data",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.obo-bettermann.com/en-gb/products/transient-and-lightning-protection-systems/surge-protection/surge-protection-for-power-supply-systems/type-3-device-protection.html",
+      "product_name": "OBO Bettermann Type 3 device protection",
+      "category_name": "Surge Protection Devices (SPD)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product/A9N18363/miniature-circuit-breaker-acti9-c120n-3p-100a-c-curve-230v-ac-10ka-iec/",
+      "product_name": "Schneider Electric Acti9 C120N MCB 3P 100A C Curve",
+      "category_name": "Miniature Circuit Breakers (MCB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.wago.com/global/pluggable-connectors/fuse-terminal-block/p/280-610",
+      "product_name": "WAGO Fuse terminal block",
+      "category_name": "Fuse Holders (DIN Rail)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.mersen.com/us/en/products/catalog/circuit-protection-fusegear-and-fuse-systems/fuse-holders",
+      "product_name": "Mersen Fuse Holders",
+      "category_name": "Fuse Holders",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.littelfuse.com/products/fuse-holders-fuse-accessories/fuse-blocks.aspx",
+      "product_name": "Littelfuse Fuse Blocks",
+      "category_name": "Fuse Holders",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-protection-devices/rcd-accessories.html",
+      "product_name": "Siemens SENTRON RCD Accessories",
+      "category_name": "RCD Accessories",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.se.com/ww/en/product-range/61065-acti9-auxiliaries/",
+      "product_name": "Schneider Electric Acti9 Auxiliaries",
+      "category_name": "MCB/RCD Accessories",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://new.abb.com/low-voltage/products/circuit-breakers/molded-case/accessories",
+      "product_name": "ABB MCCB Accessories",
+      "category_name": "MCCB Accessories",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.eaton.com/us/en-us/catalog/electrical-circuit-protection/molded-case-circuit-breaker-accessories.html",
+      "product_name": "Eaton Molded Case Circuit Breaker Accessories",
+      "category_name": "MCCB Accessories",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://chintglobal.com/products/category/accessories",
+      "product_name": "Chint Circuit Breaker Accessories",
+      "category_name": "Circuit Breaker Accessories",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/lvc/ws_v/concept.html",
+      "product_name": "Mitsubishi Electric MCCB Accessories",
+      "category_name": "MCCB Accessories",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.lovatoelectric.com/category/110/0/Miniature-circuit-breakers-and-accessories.html",
+      "product_name": "Lovato Electric MCB Accessories",
+      "category_name": "MCB Accessories",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.etigroup.eu/products/circuit-breakers-and-switchgears/molded-case-circuit-breakers-mccb-and-accessories/accessories-for-etibreak-mccb",
+      "product_name": "ETI Accessories for ETIBREAK MCCB",
+      "category_name": "MCCB Accessories",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.noark-electric.eu/en/products/low-voltage-installation-products/ex9a-accessories",
+      "product_name": "Noark Electric Ex9A Accessories (MCB/RCBO)",
+      "category_name": "MCB/RCBO Accessories",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://ls-electric.com/products/category/low-voltage-equipment/air-circuit-breaker",
+      "product_name": "LS Electric Air Circuit Breaker",
+      "category_name": "Air Circuit Breakers (ACB)",
+      "parent_category": "Circuit Protection Devices"
+    },
+    {
+      "product_url": "https://www.schurter.com/en/products/overview/ng/circuit_protection_pg_1/fuseholders_pg_3/panel_mount_fuseholders_pg_6",
+      "product_name": "Schurter Panel Mount Fuseholders",
+      "category_name": "Fuse Holders (Panel Mount)",
+      "parent_category": "Circuit Protection Devices"
+    }
+  ]
+}

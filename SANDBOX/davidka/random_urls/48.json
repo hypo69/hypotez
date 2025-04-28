@@ -1,0 +1,850 @@
+{
+  "products": [
+    {
+      "product_name": "Panduit Cable Ties - Standard Nylon 6.6",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/cable-wire-ties-accessories/cable-ties/plt1m-c.html",
+      "category_name": "Cable Ties (Nylon)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton T-Series Standard Cable Ties",
+      "product_url": "https://www.hellermanntyton.us/products/cable-ties-standard/t-series/t50r0",
+      "category_name": "Cable Ties (Nylon)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Thomas & Betts (ABB) Ty-Rap® Cable Ties",
+      "product_url": "https://electrification.us.abb.com/products/wire-cable-management/ty-rap",
+      "category_name": "Cable Ties",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "TE Connectivity AMP Cable Ties",
+      "product_url": "https://www.te.com/usa-en/products/wire-cable-accessories/cable-ties.html",
+      "category_name": "Cable Ties",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Legrand Colson™ Cable Ties",
+      "product_url": "https://www.legrandgroup.com/en/products/cable-management/cable-ties-accessories",
+      "category_name": "Cable Ties",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Brady Corporation Cable Ties",
+      "product_url": "https://www.bradyid.com/cable-management/cable-ties",
+      "category_name": "Cable Ties",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Essentra Components Heyco® Cable Ties",
+      "product_url": "https://us.essentracomponents.com/en-us/cable-ties-mounts/cable-ties",
+      "category_name": "Cable Ties",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Advance Cable Ties Nylon Cable Ties",
+      "product_url": "https://www.actfs.com/products/cable-ties/nylon-cable-ties",
+      "category_name": "Cable Ties (Nylon)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "KSS Wiring Accessories Cable Ties",
+      "product_url": "https://www.kss.com.tw/en/product/cable-management-accessories/cable-ties",
+      "category_name": "Cable Ties",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Cembre Cable Ties (Polyamide)",
+      "product_url": "https://www.cembre.com/products/Cable-Ties/Cable-Accessories/2426/c1",
+      "category_name": "Cable Ties (Nylon)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Raychem (TE Connectivity) DR-25 Heat Shrink Tubing",
+      "product_url": "https://www.te.com/usa-en/product-E63291-000.html",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Alpha Wire FIT® Heat-Shrink Tubing",
+      "product_url": "https://www.alphawire.com/Products/Tubing/Heat-Shrink-Tubing",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "3M™ Heat Shrink Tubing FP-301",
+      "product_url": "https://www.3m.com/3M/en_US/p/d/b40065688/",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton SE28 Series Heat Shrinkable Tubing",
+      "product_url": "https://www.hellermanntyton.us/products/heat-shrinkable-tubing/se28-series/se28-13-bk",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit Heat Shrink Tubing HSN Series",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/abrasion-protection-heat-shrink/heat-shrink-tubing/hsnsr0-2-2y.html",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Sumitomo Electric SUMITUBE™ F32 Heat-Shrinkable Tubing",
+      "product_url": "https://sumitomoelectric.com/products/heat-shrinkable-tubing/f32",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Woer W-1-PTFE Heat Shrink Tubing",
+      "product_url": "http://en.woer.com/Products/HighTemperatureHeatShrinkTubing/W-1-PTFE.html",
+      "category_name": "Heat Shrink Tubing (PTFE)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Qualtek Heat Shrink Tubing",
+      "product_url": "https://www.qualtek.com/heat-shrink-products/",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "DSG-Canusa DERAY® Thin Wall Heat Shrink Tubing",
+      "product_url": "https://www.dsgcanusa.com/products/thin-wall-tubing/",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Nelco Heat Shrink Products",
+      "product_url": "https://www.nelcoproducts.com/wire-management/heat-shrink-products/",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Brady BMP21-PLUS Label Printer",
+      "product_url": "https://www.bradyid.com/label-printers/bmp21-plus-label-printer-pid-133251",
+      "category_name": "Label Printers (Handheld)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit LS8EQ Hand-Held Thermal Transfer Printer",
+      "product_url": "https://www.panduit.com/en/products/signs-labels-identification/labels-markers-printers/printers-accessories/ls8eq.html",
+      "category_name": "Label Printers (Handheld)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Dymo RHINO™ 5200 Industrial Label Maker",
+      "product_url": "https://www.dymo.com/label-makers-printers/rhino-industrial-label-makers/dymo-rhino-5200-industrial-label-maker/SAP_1755749.html",
+      "category_name": "Label Printers (Handheld)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Brother P-touch EDGE PT-E550W Industrial Labeling Tool",
+      "product_url": "https://www.brother-usa.com/products/pte550w",
+      "category_name": "Label Printers (Handheld)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton TagPrint Pro Labeling Software",
+      "product_url": "https://www.hellermanntyton.us/products/identification-systems/tagprint-pro-4-0/tagprintpro4-0",
+      "category_name": "Labeling Software",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Phoenix Contact THERMOMARK PRIME Portable Thermal Transfer Printer",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/portable-printer-thermomark-prime-20-5148888",
+      "category_name": "Label Printers (Portable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Weidmüller THM MultiMark Printer",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=1478990000",
+      "category_name": "Label Printers (Desktop)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Grafoplast TRASP® System (Cable Markers)",
+      "product_url": "https://www.grafoplast.it/en/cable-marking/",
+      "category_name": "Cable Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Partex Marking Systems ProMark T-1000 Marker Printer",
+      "product_url": "https://www.partex.com/en-GB/products/marking-machines/promark-t1000",
+      "category_name": "Label Printers (Desktop)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Murrplastik mp-LM Label Material",
+      "product_url": "https://www.murrplastik.com/products/labeling/labeling-systems/labeling-material/",
+      "category_name": "Labels & Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "LAPP FLEXIMARK® Cable marking",
+      "product_url": "https://products.lappgroup.com/online-catalogue/marking-systems/cable-marking.html",
+      "category_name": "Cable Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "TE Connectivity Identification & Labeling Solutions",
+      "product_url": "https://www.te.com/usa-en/products/identification-labeling.html",
+      "category_name": "Labels & Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Brady Wire & Cable Labels",
+      "product_url": "https://www.bradyid.com/wire-and-cable-labels",
+      "category_name": "Labels & Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit Wire & Cable Markers",
+      "product_url": "https://www.panduit.com/en/products/signs-labels-identification/labels-markers-printers/wire-cable-markers.html",
+      "category_name": "Cable Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton ShrinkTrak Wire Markers",
+      "product_url": "https://www.hellermanntyton.us/products/identification-systems/shrinktrak-markers/tlfxds",
+      "category_name": "Heat Shrink Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Legrand Cab 3 Cable Marking System",
+      "product_url": "https://www.legrandgroup.com/en/products/cable-management/marking-systems/cab-3-cable-marking-system",
+      "category_name": "Cable Markers",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Essentra Components Heyco® Snap Bushings",
+      "product_url": "https://us.essentracomponents.com/en-us/bushings-grommets-feet/snap-bushings",
+      "category_name": "Cable Bushings",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Alpha Wire Spiral Wrap",
+      "product_url": "https://www.alphawire.com/Products/Tubing/Spiral-Wrap",
+      "category_name": "Spiral Wrap / Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Techflex Flexo PET Braided Sleeving",
+      "product_url": "https://www.techflex.com/general-purpose/flexo-pet",
+      "category_name": "Braided Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Alex Tech Braided Cable Sleeve",
+      "product_url": "https://alexthechnology.com/collections/braided-cable-sleeve",
+      "category_name": "Braided Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit Pan-Wrap™ Split Harness Wrap",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/abrasion-protection-heat-shrink/tubing-sleeving-spiral-wrap/pw50f-t.html",
+      "category_name": "Split Harness Wrap",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton Helagaine Braided Sleeving",
+      "product_url": "https://www.hellermanntyton.us/products/wire-protection/helagaine-braided-sleeving",
+      "category_name": "Braided Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Thomas & Betts (ABB) Sta-Kon® Wire Terminals",
+      "product_url": "https://electrification.us.abb.com/products/wire-cable-management/sta-kon",
+      "category_name": "Wire Terminals / Lugs",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "TE Connectivity PIDG Terminals and Splices",
+      "product_url": "https://www.te.com/usa-en/products/terminals-splices/crimp-terminals/pidg-terminals-splices.html",
+      "category_name": "Wire Terminals / Lugs",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Molex Ring Tongue Terminals",
+      "product_url": "https://www.molex.com/en-us/products/connectors/terminals/ring-tongue-terminals",
+      "category_name": "Wire Terminals / Lugs",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Cembre Ring Tongue Terminals (Insulated)",
+      "product_url": "https://www.cembre.com/products/Insulated-ring-tongue-terminals/Electrical-Connection/2353/c1",
+      "category_name": "Wire Terminals / Lugs",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Phoenix Contact AI Insulated Ferrules",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/ferrules/ferrules-ai",
+      "category_name": "Wire Ferrules",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "WAGO Ferrules with plastic collar",
+      "product_url": "https://www.wago.com/global/wire-splicing-connectors/ferrule/p/216-241",
+      "category_name": "Wire Ferrules",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Weidmüller Wire end ferrules with plastic collars",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group29339912260957",
+      "category_name": "Wire Ferrules",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Conta-Clip AEB Insulated Wire End Ferrules",
+      "product_url": "https://www.conta-clip.com/en/products/connection-technology/wire-ferrules/wire-end-ferrules-with-plastic-collar/",
+      "category_name": "Wire Ferrules",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Klauke Insulated Ferrules",
+      "product_url": "https://www.klauke.com/gb/en/insulated-ferrules",
+      "category_name": "Wire Ferrules",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit Nylon Cable Tie Mounts",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/cable-wire-ties-accessories/cable-tie-mounts-accessories/tm3s8-c.html",
+      "category_name": "Cable Tie Mounts",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton Adhesive Backed Cable Tie Mounts",
+      "product_url": "https://www.hellermanntyton.us/products/cable-tie-mounts/adhesive-backed-mounts/mb4a",
+      "category_name": "Cable Tie Mounts",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Thomas & Betts (ABB) Ty-Rap® Mounting Bases",
+      "product_url": "https://electrification.us.abb.com/products/wire-cable-management/ty-rap/mounting-bases",
+      "category_name": "Cable Tie Mounts",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "TE Connectivity Cable Tie Mounts",
+      "product_url": "https://www.te.com/usa-en/products/wire-cable-accessories/cable-ties/cable-tie-mounts.html",
+      "category_name": "Cable Tie Mounts",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Essentra Components Heyco® Adhesive Backed Mounts",
+      "product_url": "https://us.essentracomponents.com/en-us/cable-ties-mounts/cable-tie-mounts/adhesive-backed-mounts",
+      "category_name": "Cable Tie Mounts",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Advance Cable Ties Adhesive Backed Mounts",
+      "product_url": "https://www.actfs.com/products/accessories/adhesive-backed-mounts",
+      "category_name": "Cable Tie Mounts",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "KSS Wiring Accessories Adhesive Backed Mounts",
+      "product_url": "https://www.kss.com.tw/en/product/cable-management-accessories/cable-tie-mounts/adhesive-backed-mounts",
+      "category_name": "Cable Tie Mounts",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Cembre Adhesive Mounts for Cable Ties",
+      "product_url": "https://www.cembre.com/products/Adhesive-mounts-for-cable-ties/Cable-Accessories/2444/c1",
+      "category_name": "Cable Tie Mounts",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit Spiral Wrap",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/abrasion-protection-heat-shrink/tubing-sleeving-spiral-wrap/t50f-c.html",
+      "category_name": "Spiral Wrap / Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton Spiralwrap",
+      "product_url": "https://www.hellermanntyton.us/products/wire-protection/spiralwrap",
+      "category_name": "Spiral Wrap / Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Essentra Components Heyco® Spiral Wrap",
+      "product_url": "https://us.essentracomponents.com/en-us/cable-ties-mounts/wiring-duct-spiral-wrap/spiral-wrap",
+      "category_name": "Spiral Wrap / Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "KSS Wiring Accessories Spiral Wrapping Band",
+      "product_url": "https://www.kss.com.tw/en/product/cable-management-accessories/wiring-duct-spiral-wrapping-band/spiral-wrapping-band",
+      "category_name": "Spiral Wrap / Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Cembre Spiral Binding",
+      "product_url": "https://www.cembre.com/products/Spiral-binding/Cable-Accessories/2431/c1",
+      "category_name": "Spiral Wrap / Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Techflex F6 Braided Sleeving (Split)",
+      "product_url": "https://www.techflex.com/general-purpose/flexo-f6",
+      "category_name": "Braided Cable Sleeving (Split)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Alex Tech Expandable Braided Sleeving",
+      "product_url": "https://alexthechnology.com/collections/expandable-braided-sleeving",
+      "category_name": "Braided Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Alpha Wire FIT® Wire Management Sleeving",
+      "product_url": "https://www.alphawire.com/Products/Tubing/Sleeving",
+      "category_name": "Braided Cable Sleeving",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Raychem (TE Connectivity) VERSAFIT Heat Shrink Tubing",
+      "product_url": "https://www.te.com/usa-en/product-850372-000.html",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "3M™ Heat Shrink Thin-Wall Tubing EPS-300",
+      "product_url": "https://www.3m.com/3M/en_US/p/d/b40065694/",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Sumitomo Electric SUMITUBE™ B2 Heat-Shrinkable Tubing",
+      "product_url": "https://sumitomoelectric.com/products/heat-shrinkable-tubing/b2",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Woer RSFR-135G Heat Shrink Tubing",
+      "product_url": "http://en.woer.com/Products/LowVoltageHeatShrinkTubing/RSFR-135G.html",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "DSG-Canusa CPA 100 Adhesive Lined Heat Shrink Tubing",
+      "product_url": "https://www.dsgcanusa.com/products/adhesive-lined-tubing/",
+      "category_name": "Heat Shrink Tubing (Adhesive Lined)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Nelco Flexible Polyolefin Heat Shrink Tubing",
+      "product_url": "https://www.nelcoproducts.com/wire-management/heat-shrink-products/flexible-polyolefin-heat-shrink/",
+      "category_name": "Heat Shrink Tubing",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Panduit Stainless Steel Cable Ties MLT Series",
+      "product_url": "https://www.panduit.com/en/products/wire-routing-management-protection/cable-wire-ties-accessories/cable-ties/mlt4h-lp.html",
+      "category_name": "Cable Ties (Stainless Steel)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HellermannTyton MBT Series Stainless Steel Cable Ties",
+      "product_url": "https://www.hellermanntyton.us/products/cable-ties-stainless-steel/mbt-series/mbt8h",
+      "category_name": "Cable Ties (Stainless Steel)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Thomas & Betts (ABB) Ty-Met™ Stainless Steel Cable Ties",
+      "product_url": "https://electrification.us.abb.com/products/wire-cable-management/ty-rap/ty-met-stainless-steel-cable-ties",
+      "category_name": "Cable Ties (Stainless Steel)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "TE Connectivity Stainless Steel Cable Ties",
+      "product_url": "https://www.te.com/usa-en/products/wire-cable-accessories/cable-ties/stainless-steel-cable-ties.html",
+      "category_name": "Cable Ties (Stainless Steel)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Brady Stainless Steel Cable Ties",
+      "product_url": "https://www.bradyid.com/cable-management/cable-ties/stainless-steel-cable-ties",
+      "category_name": "Cable Ties (Stainless Steel)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Essentra Components Heyco® Releasable Cable Ties",
+      "product_url": "https://us.essentracomponents.com/en-us/cable-ties-mounts/cable-ties/releasable-cable-ties",
+      "category_name": "Cable Ties (Releasable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Advance Cable Ties Releasable Cable Ties",
+      "product_url": "https://www.actfs.com/products/cable-ties/releasable-cable-ties",
+      "category_name": "Cable Ties (Releasable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "KSS Wiring Accessories Releasable Cable Ties",
+      "product_url": "https://www.kss.com.tw/en/product/cable-management-accessories/cable-ties/releasable-cable-ties",
+      "category_name": "Cable Ties (Releasable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Cembre Releasable Cable Ties",
+      "product_url": "https://www.cembre.com/products/Releasable-cable-ties/Cable-Accessories/2429/c1",
+      "category_name": "Cable Ties (Releasable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "LAPP SILVYN® Conduit Glands",
+      "product_url": "https://products.lappgroup.com/online-catalogue/protective-cable-conduit-systems/silvyn-conduit-glands.html",
+      "category_name": "Conduit Fittings / Glands",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "HELUKABEL HELUcond Conduit Systems",
+      "product_url": "https://www.helukabel.de/de/produkte/kabelzubehoer/kabelschutzsysteme/kunststoff",
+      "category_name": "Conduit Systems",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "PMA PMAGRIP Metal Fittings NPT Thread",
+      "product_url": "https://new.abb.com/low-voltage/products/cable-protection-systems/fittings/pmagrip-metal-npt",
+      "category_name": "Conduit Fittings (Metal)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Adaptaflex Adaptalok ATS T Piece Fitting",
+      "product_url": "https://new.abb.com/low-voltage/products/conduit-fitting/polyamide/adaptalok-fittings?tab=t-piece",
+      "category_name": "Conduit Fittings",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "WISKA BraceGLAND Cable Gland",
+      "product_url": "https://www.wiska.com/en/products/cable-glands/brace/plastic/bracegland/",
+      "category_name": "Cable Glands",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Phoenix Contact Cable gland - WP-G HF IP66 M20 BK",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/cable-gland-wp-g-hf-ip66-m20-bk-1411293",
+      "category_name": "Cable Glands (Halogen Free)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "icotek KEL-DP Cable Entry Plates (Round)",
+      "product_url": "https://www.icotek.com/en-uk/products/cable-entry-systems/kel-dp",
+      "category_name": "Cable Entry Plates",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Hummel HSK-M-Multi Metal Multiple Cable Gland",
+      "product_url": "https://products.hummel.com/en/cable-glands/metric/metal/hsk-m-multi.html",
+      "category_name": "Cable Glands (Multiple Cable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Jacob WADI heat Polyamide Cable Glands (High Temp)",
+      "product_url": "https://www.jacob-gmbh.de/en/cable-glands/plastic-cable-glands/wadi-heat-polyamide-cable-glands/",
+      "category_name": "Cable Glands (High Temp)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "PFLITSCH UNI Split Gland®",
+      "product_url": "https://www.pflitsch.de/en/products/cable-glands/split-cable-glands/uni-split-gland/",
+      "category_name": "Cable Glands (Split)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Sealcon Metric Nylon Liquid Tight Strain Relief Fittings",
+      "product_url": "https://www.sealconex.com/product/metric-nylon-66-liquid-tight-strain-relief-domes/",
+      "category_name": "Cable Glands / Strain Relief",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Heyco-Werk Heytec-FL Metric Polyamide Flare Cable Glands",
+      "product_url": "https://www.heyco-werk.de/en/cable-glands/plastic-cable-glands/heytec-fl.html",
+      "category_name": "Cable Glands",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "AGRO Progress® MS EMC Brass Cable Gland",
+      "product_url": "https://agro.ch/en/products/cable-glands/progress-emc/brass/",
+      "category_name": "Cable Glands (EMC)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Adaptaflex Type C45 45° Elbow Fitting (Metallic)",
+      "product_url": "https://new.abb.com/low-voltage/products/conduit-fitting/metallic/type-c45-45-degree-elbow-fitting",
+      "category_name": "Conduit Fittings",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Bimed BR EMC Metal Reducers",
+      "product_url": "https://www.bimedteknik.com/en/1/10/br-emc-metal-reducers",
+      "category_name": "Cable Gland Accessories (Reducers, EMC)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Conta-Clip KDS-FP Cable entry flange plates Accessories",
+      "product_url": "https://www.conta-clip.com/en/products/cable-management-systems/kds-fp-accessories/",
+      "category_name": "Cable Entry Accessories",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Altech Corp. Metric Thread Nylon Strain Reliefs w/ Bend Protection",
+      "product_url": "https://www.altechcorp.com/Strain_Reliefs/Metric-Nylon-BP.html",
+      "category_name": "Cable Glands / Strain Relief (Flex)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Helukabel HELUTOP® MS-EPF Metal EMC Cable Glands (Flex)",
+      "product_url": "https://www.helukabel.de/de/produkte/kabelzubehoer/kabelverschraubungen/emv-kabelverschraubungen/helutop-ms-epf",
+      "category_name": "Cable Glands (EMC, Flex)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Murrplastik KDL/H Cable Entry System for Hygienic Applications",
+      "product_url": "https://www.murrplastik.com/products/cable-entry-cable-fixing/cable-entry-systems/kdlh/",
+      "category_name": "Cable Entry Systems (Hygienic)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "CMP Products A2FRC Cable Gland (Flameproof Barrier)",
+      "product_url": "https://cmp-products.com/products/cable-glands/a2frc/",
+      "category_name": "Cable Glands (Barrier, Explosion Proof)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Hawke International 501/421 Cable Gland (Industrial)",
+      "product_url": "https://www.hubbell.com/hawke/en/Products/Electrical-Electronic/Cable-Glands-Connectors-Accessories/Industrial-Cable-Glands/501421-Cable-Gland/p/1669988",
+      "category_name": "Cable Glands",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "PMA Lock Nuts",
+      "product_url": "https://new.abb.com/low-voltage/products/cable-protection-systems/accessories/locknuts",
+      "category_name": "Cable Gland Accessories (Lock Nuts)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "LAPP SKINDICHT® Cable gland accessories",
+      "product_url": "https://products.lappgroup.com/online-catalogue/cable-glands/cable-gland-accessories.html",
+      "category_name": "Cable Gland Accessories",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "WISKA MP-S Multi Cable Entry Plate",
+      "product_url": "https://www.wiska.com/en/products/cable-entry/multi-cable-entry/",
+      "category_name": "Cable Entry Plates",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Phoenix Contact CES Sealing Frame Cable Entry System",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/cable-entry-systems/ces-sealing-frames",
+      "category_name": "Cable Entry Frames",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "icotek KEL-FG Flange Cable Entry System",
+      "product_url": "https://www.icotek.com/en-uk/products/cable-entry-systems/kel-fg-a-b",
+      "category_name": "Cable Entry Systems",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Hummel HSK-K-Ex-i Plastic Cable Gland (Intrinsically Safe)",
+      "product_url": "https://products.hummel.com/en/cable-glands/ex-cable-glands/plastic-ex-i/hsk-k-ex-i.html",
+      "category_name": "Cable Glands (Intrinsically Safe)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Jacob PERFECT Flat Ribbon Cable Glands",
+      "product_url": "https://www.jacob-gmbh.de/en/cable-glands/special-cable-glands/perfect-flat-ribbon-cable-glands/",
+      "category_name": "Cable Glands (Flat Cable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "PFLITSCH PIK-Trunking Cable Trunking",
+      "product_url": "https://www.pflitsch.de/en/products/cable-trunking/plastic-cable-trunking/pik-trunking/",
+      "category_name": "Cable Trunking / Ducts",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Sealcon Dome Plugs",
+      "product_url": "https://www.sealconex.com/products/accessories/plugs/",
+      "category_name": "Cable Gland Accessories (Plugs)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Heyco-Werk Heyco-Flex Liquid Tight Conduit",
+      "product_url": "https://www.heyco.com/Heyco-Flex_Liquid_Tight_Conduit_Tubing/index.cfm",
+      "category_name": "Conduit (Liquid Tight)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "AGRO Top Prio® Cable Glands",
+      "product_url": "https://agro.ch/en/products/cable-glands/top-prio/",
+      "category_name": "Cable Glands",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Adaptaflex Type E 90° Elbow Fitting (Metallic)",
+      "product_url": "https://new.abb.com/low-voltage/products/conduit-fitting/metallic/type-e-90-degree-elbow-fitting",
+      "category_name": "Conduit Fittings",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Bimed BDR Metal Dome Plugs",
+      "product_url": "https://www.bimedteknik.com/en/1/11/bdr-metal-dome-plugs",
+      "category_name": "Cable Gland Accessories (Plugs)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Conta-Clip KDS-DES Sealing elements",
+      "product_url": "https://www.conta-clip.com/en/products/cable-management-systems/sealing-elements-for-kds-r-kds-kv-kdsx-kv/",
+      "category_name": "Cable Entry Accessories (Seals)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Altech Corp. Seal Rings",
+      "product_url": "https://www.altechcorp.com/Strain_Reliefs/SealRings.html",
+      "category_name": "Cable Gland Accessories (Seals)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Helukabel HELUKABEL® Marking Systems",
+      "product_url": "https://www.helukabel.de/de/produkte/kabelzubehoer/beschriftungssysteme",
+      "category_name": "Cable Markers / Labeling",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Murrplastik KDL/H-VA Cable Entry System (Stainless Steel)",
+      "product_url": "https://www.murrplastik.com/products/cable-entry-cable-fixing/cable-entry-systems/kdlh-va/",
+      "category_name": "Cable Entry Systems (Stainless Steel)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "CMP Products TMC Cable Gland (Industrial)",
+      "product_url": "https://cmp-products.com/products/cable-glands/tmc/",
+      "category_name": "Cable Glands",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Hawke International Connector Accessories",
+      "product_url": "https://www.hubbell.com/hawke/en/Products/Electrical-Electronic/Cable-Glands-Connectors-Accessories/Control-Instrumentation-Connectors/c/2168340",
+      "category_name": "Connector Accessories",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "PMA Corrugated Tubing PA12",
+      "product_url": "https://new.abb.com/low-voltage/products/cable-protection-systems/conduit/polyamide/pa12",
+      "category_name": "Conduit (Polyamide)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "LAPP SKINTOP® ATEX Metal Cable Gland",
+      "product_url": "https://products.lappgroup.com/online-catalogue/cable-glands/atex-cable-glands/metal-cable-glands/skintopr-ms-m-atex.html",
+      "category_name": "Cable Glands (ATEX)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "WISKA VentGLAND ATEX Cable Gland",
+      "product_url": "https://www.wiska.com/en/products/cable-glands/venting/ventgland/atex-cable-glands/",
+      "category_name": "Cable Glands (Venting, ATEX)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Phoenix Contact CES Lock Nuts",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/cable-entry-systems/ces-accessories/ces-locknuts",
+      "category_name": "Cable Entry Accessories",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "icotek KEL-SNAP Mounting Frame",
+      "product_url": "https://www.icotek.com/en-uk/products/cable-entry-systems/kel-snap",
+      "category_name": "Cable Entry Frames",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Hummel HSK-INOX Stainless Steel Cable Gland",
+      "product_url": "https://products.hummel.com/en/cable-glands/metric/stainless-steel/hsk-inox.html",
+      "category_name": "Cable Glands (Stainless Steel)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Jacob PERFECT Elbow Cable Glands (Polyamide)",
+      "product_url": "https://www.jacob-gmbh.de/en/cable-glands/plastic-cable-glands/perfect-elbow-cable-glands/",
+      "category_name": "Cable Glands (Angled)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "PFLITSCH Cable Cleats",
+      "product_url": "https://www.pflitsch.de/en/products/cable-cleats/",
+      "category_name": "Cable Cleats",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Sealcon Metric Nylon Multi-Hole Strain Relief Fittings",
+      "product_url": "https://www.sealconex.com/product/metric-nylon-66-liquid-tight-multi-hole-strain-relief-flex-or-domes/",
+      "category_name": "Cable Glands / Strain Relief (Multiple Cable)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Heyco-Werk Heyco Strain Relief Bushings, Snap-In",
+      "product_url": "https://www.heyco.com/Strain_Relief_Bushings/product-listing.cfm?Grid=Snap-In&CFID=10197222&CFTOKEN=35962032",
+      "category_name": "Strain Relief Bushings",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "AGRO Progress® GFK Ex Glass Fibre Reinforced Polyamide Cable Gland (Explosion Proof)",
+      "product_url": "https://agro.ch/en/products/cable-glands/progress-ex-plastic/glass-fibre-reinforced-polyamide/",
+      "category_name": "Cable Glands (Explosion Proof)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Adaptaflex Type LFH-SP Conduit (Low Fire Hazard)",
+      "product_url": "https://new.abb.com/low-voltage/products/conduit-fitting/non-metallic-conduit/lfh-sp-low-fire-hazard-conduit",
+      "category_name": "Conduit (Low Fire Hazard)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Bimed BMD Membrane Plastic Cable Glands",
+      "product_url": "https://www.bimedteknik.com/en/2/14/bmd-membrane-plastic-cable-glands",
+      "category_name": "Cable Glands (Membrane)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Conta-Clip KDS-DEG Sealing elements, multi-hole",
+      "product_url": "https://www.conta-clip.com/en/products/cable-management-systems/sealing-elements-for-kdsclick/kds-des-multi-hole/",
+      "category_name": "Cable Entry Accessories (Seals)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Altech Corp. PG Thread Nylon Strain Reliefs w/ Bend Protection",
+      "product_url": "https://www.altechcorp.com/Strain_Reliefs/PG-Nylon-BP.html",
+      "category_name": "Cable Glands / Strain Relief (Flex)",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Helukabel HELUDATA® Identification Systems",
+      "product_url": "https://www.helukabel.de/de/produkte/kabelzubehoer/beschriftungssysteme",
+      "category_name": "Cable Markers / Labeling",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Murrplastik Cable Drag Chains",
+      "product_url": "https://www.murrplastik.com/products/cable-drag-chains/",
+      "category_name": "Cable Drag Chains",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "CMP Products Soloseal Female Cable Gland",
+      "product_url": "https://cmp-products.com/products/cable-glands/soloseal-female/",
+      "category_name": "Cable Glands",
+      "parent_category": "Cable and Wire Accessories"
+    },
+    {
+      "product_name": "Hawke International PLPFC EMC Cable Gland (Industrial)",
+      "product_url": "https://www.hubbell.com/hawke/en/Products/Electrical-Electronic/Cable-Glands-Connectors-Accessories/Industrial-Cable-Glands/PLPFC-Series-EMC-Cable-Gland/p/1670025",
+      "category_name": "Cable Glands (EMC)",
+      "parent_category": "Cable and Wire Accessories"
+    }
+  ]
+}
