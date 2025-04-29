@@ -35,9 +35,11 @@ class Config:
     instruction_grab_product_page_simple_driver: str = (ENDPOINT / 'instructions' / 'grab_product_page_simple_driver.md').read_text(encoding='utf-8')
     instruction_get_supplier_categories: str = (ENDPOINT / 'instructions' / 'get_supplier_categories.md').read_text(encoding='utf-8')
     instruction_find_product_in_supplier_domain: str = (ENDPOINT / 'instructions' / 'find_product_in_supplier_domain.md').read_text(encoding='utf-8')
-    instruction_for_products_urls: str = (ENDPOINT / 'instructions' / 'get_product_links.md').read_text(encoding='utf-8')
-    GEMINI_API_KEY = gs.credentials.gemini.onela.api_key
-    driver: SimpleDriver = SimpleDriver(gemini_model_name='gemini-2.5-flash-preview-04-17', GEMINI_API_KEY = GEMINI_API_KEY)
+    instruction_for_products_urls_one_product: str = (ENDPOINT / 'instructions' / 'get_product_links_one_product.md').read_text(encoding='utf-8')
+    instruction_links_from_search: str = (ENDPOINT / 'instructions' / 'links_from_search.md').read_text(encoding='utf-8')
+    instruction_links_from_searh_page: str = (ENDPOINT / 'instructions' / 'links_from_searh_page.md').read_text(encoding='utf-8')
+    GEMINI_API_KEY = gs.credentials.gemini.kazarinov.api_key
+    driver: SimpleDriver = SimpleDriver(gemini_model_name='gemini-1.5-flash-8b-exp-0924', GEMINI_API_KEY = GEMINI_API_KEY)
 
 
 def get_products_urls_list_from_files(crawl_files_list: list = None) -> list:
@@ -88,20 +90,24 @@ def get_categories_from_random_urls(crawl_files_list: list = None) -> list:
     return categories_list
 
 
-async def get_products_urls(category: str, num_of_links: str = '2'):
+async def get_products_urls(category: str, task:str = '', num_of_links: str = '1') -> str:
     """Получить товары по категории"""
     try:
         driver = Config.driver
         logger.info(f'Обработка {category=}')
-        task = Config.instruction_for_products_urls.replace('{PRODUCT_CATEGORY}', category).replace('{NUM_LINKS}', num_of_links)
-        extracted_data = await driver.simple_process_task_async(task)
+        
+        task = task or Config.instruction_links_from_searh_page.replace('{PRODUCT_CATEGORY}', category).replace('{NUM_LINKS}', num_of_links)
+        #ipdb.set_trace()
+        answer = await driver.simple_process_task_async(task)
+        if not answer:
+            return ''
         print('\n -------------------------------- EXTRACTED DATA \n------------------------------------------\n')
-        print(extracted_data)
+        print(answer)
         print('\n -------------------------------------------------------------------------------------------')
-        return extracted_data
+        return answer
     except Exception as ex:
         logger.error(f'Ошибка при обработке {category=}', ex, exc_info=True)
-        return None
+        return ''
 
 
 async def fetch_categories_from_suppliers_random_urls() -> dict:
@@ -133,14 +139,13 @@ async def fetch_categories_from_suppliers_random_urls() -> dict:
             logger.error(f'Ошибка при обработке файла {filename=}', ex, exc_info=True)
     return categories_dict
 
-
 async def main():
     """Основная функция запуска"""
     driver = Config.driver
 
     # Пример: обработка товаров по категориям
     for category in get_categories_from_random_urls():
-        await get_products_urls(category, '3')
+        await get_products_urls(category)
         ...
 
     # # Пример: обработка доменов

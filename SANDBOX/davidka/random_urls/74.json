@@ -1,0 +1,1438 @@
+{
+  "products": [
+    {
+      "product_name": "Tesla Solar Panels",
+      "product_url": "https://www.tesla.com/solarpanels",
+      "category_name": "Solar Panels (PV Modules)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Canadian Solar HiKu6 Mono PERC Panels",
+      "product_url": "https://www.csisolar.com/hiku/",
+      "category_name": "Solar Panels (PV Modules)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SMA Sunny Boy Solar Inverter",
+      "product_url": "https://www.sma-america.com/products/solarinverters/sunny-boy-30-us-60-us",
+      "category_name": "Solar Inverters (Grid-Tie)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Enphase IQ8 Microinverters",
+      "product_url": "https://enphase.com/installers/microinverters/iq8",
+      "category_name": "Microinverters",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SolarEdge Home Hub Inverter",
+      "product_url": "https://www.solaredge.com/us/products/solar-inverter/solaredge-home-hub-inverter",
+      "category_name": "Solar Inverters (Hybrid/Grid-Tie)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Vestas V150-4.2 MW Wind Turbine",
+      "product_url": "https://www.vestas.com/en/products/4-mw-platform/V150-4-2-MW",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "GE Renewable Energy Haliade-X Offshore Wind Turbine",
+      "product_url": "https://www.ge.com/renewableenergy/wind-energy/offshore-wind/haliade-x-offshore-turbine",
+      "category_name": "Wind Turbines (Offshore)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Siemens Gamesa SG 14-222 DD Offshore Wind Turbine",
+      "product_url": "https://www.siemensgamesa.com/en-int/products-and-services/offshore/wind-turbine-sg-14-222-dd",
+      "category_name": "Wind Turbines (Offshore)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Nordex N163/5.X Wind Turbine",
+      "product_url": "https://www.nordex-online.com/en/product/n163-5-x/",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Goldwind GW 155-3.3MW Smart Wind Turbine",
+      "product_url": "https://www.goldwind.com/en/product/list-137.html",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Tesla Powerwall Home Battery",
+      "product_url": "https://www.tesla.com/powerwall",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "LG Energy Solution RESU Home Battery",
+      "product_url": "https://www.lgessbattery.com/us/home-battery/overview.lg",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Enphase IQ Battery",
+      "product_url": "https://enphase.com/installers/storage/iq-battery",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Sonnen ecoLinx Intelligent Energy Storage",
+      "product_url": "https://sonnenusa.com/en/sonnenecolinx/",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Generac PWRcell Energy Storage System",
+      "product_url": "https://www.generac.com/all-products/clean-energy/pwrcell",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "BYD Battery-Box Premium HVS/HVM",
+      "product_url": "https://www.bydbatterybox.com/de/product/Battery-Box-Premium-HVS-&-HVM.html",
+      "category_name": "Battery Energy Storage Systems (BESS) - Modular",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ChargePoint Home Flex EV Charger",
+      "product_url": "https://www.chargepoint.com/drivers/home/chargepoint-home-flex",
+      "category_name": "Electric Vehicle (EV) Chargers - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ABB Terra AC wallbox EV Charger",
+      "product_url": "https://new.abb.com/ev-charging/terra-ac-wallbox",
+      "category_name": "Electric Vehicle (EV) Chargers - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Siemens VersiCharge AC Charger",
+      "product_url": "https://new.siemens.com/global/en/products/energy/medium-voltage/solutions/emobility/versicharge-ac-series.html",
+      "category_name": "Electric Vehicle (EV) Chargers - AC",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Wallbox Pulsar Plus EV Charger",
+      "product_url": "https://wallbox.com/en_us/wallbox-pulsar-plus",
+      "category_name": "Electric Vehicle (EV) Chargers - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "JuiceBox 40 Smart Electric Vehicle (EV) Charging Station",
+      "product_url": "https://evcharging.enelx.com/products/juicebox",
+      "category_name": "Electric Vehicle (EV) Chargers - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Trina Solar Vertex S+ Panels",
+      "product_url": "https://www.trinasolar.com/en-glb/product/vertex-s-plus",
+      "category_name": "Solar Panels (PV Modules)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Jinko Solar Tiger Neo N-type Panels",
+      "product_url": "https://www.jinkosolar.com/en/site/tigerneo",
+      "category_name": "Solar Panels (PV Modules)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "LONGi Hi-MO 6 Explorer Panels",
+      "product_url": "https://www.longi.com/en/products/modules/hi-mo-6/",
+      "category_name": "Solar Panels (PV Modules)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "JA Solar DeepBlue 3.0 Panels",
+      "product_url": "https://www.jasolar.com/products/deepblue/",
+      "category_name": "Solar Panels (PV Modules)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "REC Alpha Pure Black Series Panels",
+      "product_url": "https://www.recgroup.com/en/alpha",
+      "category_name": "Solar Panels (PV Modules)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Q CELLS Q.PEAK DUO BLK ML-G10+ Panels",
+      "product_url": "https://qcells.com/us/products/solar-panels/qpeak-duo-blk-ml-g10plus",
+      "category_name": "Solar Panels (PV Modules)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SunPower Maxeon Solar Panels",
+      "product_url": "https://sunpower.maxeon.com/int/solar-panels/maxeon-solar-panels",
+      "category_name": "Solar Panels (PV Modules)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SMA Sunny Tripower CORE1 Solar Inverter",
+      "product_url": "https://www.sma-america.com/products/solarinverters/sunny-tripower-core1",
+      "category_name": "Solar Inverters (Commercial)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Fronius Symo Advanced Solar Inverter",
+      "product_url": "https://www.fronius.com/en-us/usa/solar-energy/installers-partners/products-solutions/inverters/fronius-symo-advanced",
+      "category_name": "Solar Inverters (Grid-Tie)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Huawei SUN2000 Smart String Inverter",
+      "product_url": "https://solar.huawei.com/eu/Products/FusionSolarResidential/Inverter/SUN2000-2-6KTL-L1",
+      "category_name": "Solar Inverters (String)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "GoodWe ET Series Hybrid Inverter",
+      "product_url": "https://en.goodwe.com/et-series-hybrid-inverter",
+      "category_name": "Solar Inverters (Hybrid)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Growatt MIN XH Series Battery Ready Inverter",
+      "product_url": "https://us.growatt.com/product/show/205.html",
+      "category_name": "Solar Inverters (Hybrid/Battery Ready)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Solax Power X1-Hybrid G4 Inverter",
+      "product_url": "https://www.solaxpower.com/x1-hybrid-g4/",
+      "category_name": "Solar Inverters (Hybrid)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Outback Power Radian Series Inverter/Charger",
+      "product_url": "https://outbackpower.com/products/inverter-chargers/radian-series",
+      "category_name": "Inverter/Chargers (Off-Grid/Hybrid)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Victron Energy MultiPlus Inverter/Charger",
+      "product_url": "https://www.victronenergy.com/inverters-chargers/multiplus-12v-24v-48v-800va-5kva",
+      "category_name": "Inverter/Chargers (Off-Grid/Hybrid)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Morningstar SureSine Classic Inverter",
+      "product_url": "https://www.morningstarcorp.com/products/suresine/",
+      "category_name": "Off-Grid Inverters",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "MidNite Solar Classic MPPT Charge Controller",
+      "product_url": "https://www.midnitesolar.com/productPage.php?product_ID=24",
+      "category_name": "Solar Charge Controllers (MPPT)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Victron Energy SmartSolar MPPT Charge Controllers",
+      "product_url": "https://www.victronenergy.com/solar-charge-controllers",
+      "category_name": "Solar Charge Controllers (MPPT)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Epever Tracer AN Series MPPT Solar Charge Controller",
+      "product_url": "https://www.epever.com/product/tracer-an-50a-100a/",
+      "category_name": "Solar Charge Controllers (MPPT)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Renogy Rover MPPT Charge Controller",
+      "product_url": "https://www.renogy.com/rover-li-60a-mppt-solar-charge-controller/",
+      "category_name": "Solar Charge Controllers (MPPT)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Outback Power FLEXmax MPPT Charge Controllers",
+      "product_url": "https://outbackpower.com/products/charge-controllers/flexmax-series",
+      "category_name": "Solar Charge Controllers (MPPT)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Pylontech US2000C Lithium Battery Module",
+      "product_url": "https://en.pylontech.com.cn/pro_detail.aspx?id=141&cid=21",
+      "category_name": "Battery Energy Storage Systems (BESS) - Modular",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "CATL EnerOne LFP Battery Energy Storage System",
+      "product_url": "https://www.catl.com/en/solution/energy_storage/product_solution/EnerOne.html",
+      "category_name": "Battery Energy Storage Systems (BESS) - Utility Scale",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Fluence Gridstack Grid Energy Storage",
+      "product_url": "https://fluenceenergy.com/gridstack-pro/",
+      "category_name": "Battery Energy Storage Systems (BESS) - Utility Scale",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Tesla Megapack Utility-Scale Energy Storage",
+      "product_url": "https://www.tesla.com/megapack",
+      "category_name": "Battery Energy Storage Systems (BESS) - Utility Scale",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Wärtsilä GridSolv Quantum Energy Storage System",
+      "product_url": "https://www.wartsila.com/energy/energy-storage/gridsolv-quantum",
+      "category_name": "Battery Energy Storage Systems (BESS) - Utility Scale",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Sunrun Solar Battery Storage",
+      "product_url": "https://www.sunrun.com/solar-battery-storage",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Vivint Solar Battery",
+      "product_url": "https://www.vivintsolar.com/service/solar-battery",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Tritium RTM DC Fast Charger",
+      "product_url": "https://tritiumcharging.com/product/rtm/",
+      "category_name": "Electric Vehicle (EV) Chargers - DC Fast",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ABB Terra HP High Power Charger",
+      "product_url": "https://new.abb.com/ev-charging/products/high-power-charging/terra-hp",
+      "category_name": "Electric Vehicle (EV) Chargers - DC Fast",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ChargePoint Express Plus DC Fast Charging Platform",
+      "product_url": "https://www.chargepoint.com/businesses/stations-express-plus",
+      "category_name": "Electric Vehicle (EV) Chargers - DC Fast",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "EVBox Troniq High Power Charger",
+      "product_url": "https://evbox.com/en/ev-chargers/dc/troniq-high-power",
+      "category_name": "Electric Vehicle (EV) Chargers - DC Fast",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Kempower S-Series Charging System (DC Fast)",
+      "product_url": "https://kempower.com/charging-solutions/s-series-charging-system/",
+      "category_name": "Electric Vehicle (EV) Chargers - DC Fast",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": " ClipperCreek HCS Series Level 2 EV Charging Station",
+      "product_url": "https://store.clippercreek.com/level2",
+      "category_name": "Electric Vehicle (EV) Chargers - AC Level 2",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Grizzl-E Smart EV Charger",
+      "product_url": "https://grizzl-e.com/product/usa/smart/grizzl-e-smart/",
+      "category_name": "Electric Vehicle (EV) Chargers - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "EVgo Fast Charging Stations",
+      "product_url": "https://www.evgo.com/charging-stations/",
+      "category_name": "EV Charging Networks",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Electrify America DC Fast Charging Stations",
+      "product_url": "https://www.electrifyamerica.com/locate-charger/",
+      "category_name": "EV Charging Networks",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Heliox Rapid DC Chargers",
+      "product_url": "https://www.heliox-energy.com/products/rapid-dc-chargers",
+      "category_name": "Electric Vehicle (EV) Chargers - DC Fast",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Bergey Windpower Excel 10 Wind Turbine",
+      "product_url": "https://bergey.com/wind-turbines/10kw-wind-turbine/",
+      "category_name": "Wind Turbines (Small Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Primus Wind Power AIR Silent X Wind Turbine",
+      "product_url": "https://www.primuswindpower.com/wind-turbines/air-silent-x-off-grid/",
+      "category_name": "Wind Turbines (Small Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Kestrel Turbines e400i Wind Turbine",
+      "product_url": "https://kestrelwind.co.za/products/kestrel-e400i/",
+      "category_name": "Wind Turbines (Small Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Aeolos Wind Energy Vertical Axis Wind Turbines",
+      "product_url": "https://www.windturbinestar.com/vertical-axis-wind-turbine.html",
+      "category_name": "Wind Turbines (Vertical Axis)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SD Wind Energy SD6 Small Wind Turbine",
+      "product_url": "https://sdwindenergy.com/small-wind-turbines/sd6",
+      "category_name": "Wind Turbines (Small Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "WaterFurnace 7 Series Geothermal Heat Pump",
+      "product_url": "https://www.waterfurnace.com/residential/products/geothermal-heat-pumps/7-series",
+      "category_name": "Geothermal Heat Pumps",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ClimateMaster Trilogy 45 Q-Mode Geothermal Heat Pump",
+      "product_url": "https://www.climatemaster.com/geothermal-products/residential/trilogy-45-q-mode-variable-capacity-geothermal-heat-pump-systems-te",
+      "category_name": "Geothermal Heat Pumps",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Bosch Thermotechnology Greensource CDi Series Geothermal Heat Pump",
+      "product_url": "https://www.bosch-thermotechnology.us/us/en/residential/products/geothermal-heat-pumps/greensource-cdi-series-sm-model/",
+      "category_name": "Geothermal Heat Pumps",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Dandelion Energy Geothermal Heating & Cooling System",
+      "product_url": "https://dandelionenergy.com/how-geothermal-works/",
+      "category_name": "Geothermal Systems",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Enertech Global GeoComfort Geothermal Systems",
+      "product_url": "https://enertechgeo.com/geocomfort/",
+      "category_name": "Geothermal Systems",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Q-Energy Solar Thermal Collectors",
+      "product_url": "https://www.qenergy.com/en/products/solar-thermal-collectors/",
+      "category_name": "Solar Thermal Collectors",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Viessmann Vitosol Solar Collectors",
+      "product_url": "https://www.viessmann.family/en/products/solar-thermal/vitosol-200fm.html",
+      "category_name": "Solar Thermal Collectors",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SunEarth Solar Hot Water Systems",
+      "product_url": "https://sunearthinc.com/systems/",
+      "category_name": "Solar Thermal Systems",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Apricus Evacuated Tube Solar Collectors",
+      "product_url": "https://www.apricus.com/evacuated-tube-solar-collectors/",
+      "category_name": "Solar Thermal Collectors (Evacuated Tube)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Kingspan Solar Thermal Solutions",
+      "product_url": "https://www.kingspan.com/gb/en/products/solar/solar-thermal/",
+      "category_name": "Solar Thermal Systems",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Bloom Energy Server (Solid Oxide Fuel Cell)",
+      "product_url": "https://www.bloomenergy.com/technology/",
+      "category_name": "Fuel Cells (Solid Oxide)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Plug Power GenDrive Fuel Cell Systems (PEM)",
+      "product_url": "https://www.plugpower.com/fuel-cell-power/gendrive/",
+      "category_name": "Fuel Cells (PEM)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Ballard Power Systems FCmove Fuel Cell Modules",
+      "product_url": "https://www.ballard.com/fuel-cell-solutions/fuel-cell-power-modules/fcmove-fuel-cell-modules",
+      "category_name": "Fuel Cells (PEM)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Nel Hydrogen Electrolysers",
+      "product_url": "https://nelhydrogen.com/electrolysers/",
+      "category_name": "Hydrogen Electrolyzers",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Cummins HyLYZER Electrolyzers",
+      "product_url": "https://www.cummins.com/new-power/electrolyzers",
+      "category_name": "Hydrogen Electrolyzers",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SunPower SunVault Storage",
+      "product_url": "https://us.sunpower.com/products/solar-battery-storage/sunvault-storage",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Panasonic EverVolt Home Battery System",
+      "product_url": "https://na.panasonic.com/us/evervolt",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SMA Sunny Island Battery Inverter",
+      "product_url": "https://www.sma.de/en/products/battery-inverters/sunny-island-44m-60h-80h.html",
+      "category_name": "Battery Inverters (Off-Grid/Hybrid)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Fronius GEN24 Plus Hybrid Inverter",
+      "product_url": "https://www.fronius.com/en/solar-energy/installers-partners/products-solutions/inverters/fronius-gen24-plus",
+      "category_name": "Solar Inverters (Hybrid)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SolarEdge Home Battery",
+      "product_url": "https://www.solaredge.com/us/products/storage-and-backup/solaredge-home-battery",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Canadian Solar EP Cube Residential Energy Storage",
+      "product_url": "https://www.csisolar.com/ep-cube/",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Tesla Solar Roof",
+      "product_url": "https://www.tesla.com/solarroof",
+      "category_name": "Solar Roof Tiles",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "GAF Energy Timberline Solar™ Roof",
+      "product_url": "https://www.gaf.energy/",
+      "category_name": "Solar Roof Shingles",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Hanwha Q CELLS Q.HOME CORE Energy Storage",
+      "product_url": "https://qcells.com/us/products/energy-storage/qhome-core",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Meyer Burger Solar Modules",
+      "product_url": "https://www.meyerburger.com/en/solar-modules",
+      "category_name": "Solar Panels (PV Modules)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Maxeon Air Dramless Solar Panels",
+      "product_url": "https://sunpower.maxeon.com/int/solar-panels/maxeon-air-frameless-solar-panels",
+      "category_name": "Solar Panels (PV Modules - Lightweight/Flexible)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "First Solar Series 6 CdTe Thin Film Photovoltaic Modules",
+      "product_url": "https://www.firstsolar.com/modules/series-6",
+      "category_name": "Solar Panels (Thin Film)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SMA Sunny Boy Storage Battery Inverter",
+      "product_url": "https://www.sma.de/en/products/battery-inverters/sunny-boy-storage-37-50-60.html",
+      "category_name": "Battery Inverters",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Fronius Wattpilot EV Charger",
+      "product_url": "https://www.fronius.com/en/solar-energy/installers-partners/products-solutions/e-mobility/fronius-wattpilot",
+      "category_name": "Electric Vehicle (EV) Chargers - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Huawei LUNA2000 Smart String Energy Storage System",
+      "product_url": "https://solar.huawei.com/eu/Products/FusionSolarResidential/ESS/LUNA2000-5-15-S0",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "GoodWe Lynx Home U Series Battery",
+      "product_url": "https://en.goodwe.com/lynx-home-u-series",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Growatt APX HV Battery System",
+      "product_url": "https://us.growatt.com/product/show/283.html",
+      "category_name": "Battery Energy Storage Systems (BESS) - Modular",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Solax Power Triple Power Battery",
+      "product_url": "https://www.solaxpower.com/triple-power-battery/",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Outback Power SkyBox Hybrid Energy System",
+      "product_url": "https://outbackpower.com/products/integrated-systems/skybox",
+      "category_name": "Hybrid Energy Systems (Inverter+Storage)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Victron Energy Energy Storage Systems (ESS)",
+      "product_url": "https://www.victronenergy.com/live/ess:design-installation-manual",
+      "category_name": "Battery Energy Storage Systems (BESS)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Morningstar TriStar MPPT Charge Controller",
+      "product_url": "https://www.morningstarcorp.com/products/tristar-mppt/",
+      "category_name": "Solar Charge Controllers (MPPT)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "MidNite Solar MPPT Disconnect Combiner",
+      "product_url": "https://www.midnitesolar.com/productPage.php?product_ID=584",
+      "category_name": "Solar Combiner Boxes",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Epever XTRA Series MPPT Solar Charge Controller",
+      "product_url": "https://www.epever.com/product/xtra-n-series-10a-40a/",
+      "category_name": "Solar Charge Controllers (MPPT)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Renogy Deep Cycle AGM Battery",
+      "product_url": "https://www.renogy.com/deep-cycle-agm-battery-12-volt-100ah/",
+      "category_name": "Batteries (AGM/Deep Cycle)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "BYD Battery-Box Premium LVS (Low Voltage)",
+      "product_url": "https://www.bydbatterybox.com/de/product/Battery-Box-Premium-LVS.html",
+      "category_name": "Battery Energy Storage Systems (BESS) - Modular",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Pylontech Force H2 High Voltage Battery Storage",
+      "product_url": "https://en.pylontech.com.cn/pro_detail.aspx?id=170&cid=21",
+      "category_name": "Battery Energy Storage Systems (BESS) - High Voltage",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ABB DC Wallbox EV Charger",
+      "product_url": "https://new.abb.com/ev-charging/dc-wallbox",
+      "category_name": "Electric Vehicle (EV) Chargers - DC Wallbox",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Siemens SICHARGE UC High Power Charging System",
+      "product_url": "https://new.siemens.com/global/en/products/energy/medium-voltage/solutions/emobility/sicharge-uc.html",
+      "category_name": "Electric Vehicle (EV) Chargers - DC Fast (High Power)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Wallbox Quasar 2 Bidirectional DC Charger",
+      "product_url": "https://wallbox.com/en_us/quasar2-dc-charger",
+      "category_name": "Electric Vehicle (EV) Chargers - Bidirectional (V2G)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "JuiceBox Pro Commercial EV Charging Station",
+      "product_url": "https://evcharging.enelx.com/products/juicebox-pro",
+      "category_name": "Electric Vehicle (EV) Chargers - Commercial",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "EVBox Iqon Commercial EV Charger",
+      "product_url": "https://evbox.com/en/ev-chargers/ac/iqon",
+      "category_name": "Electric Vehicle (EV) Chargers - Commercial",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Kempower Movable DC Charger",
+      "product_url": "https://kempower.com/charging-solutions/movable-dc-charger/",
+      "category_name": "Electric Vehicle (EV) Chargers - DC (Movable)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ClipperCreek Share2 Enabled EVSE (Load Sharing)",
+      "product_url": "https://store.clippercreek.com/level2/level2-40-to-80/share2-enabled-evse-bundle",
+      "category_name": "Electric Vehicle (EV) Chargers - AC (Load Sharing)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Grizzl-E Avalanche Edition EV Charger",
+      "product_url": "https://grizzl-e.com/product/usa/avalanche/grizzl-e-avalanche-edition/",
+      "category_name": "Electric Vehicle (EV) Chargers - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Heliox Mobile DC Chargers",
+      "product_url": "https://www.heliox-energy.com/products/mobile-dc-chargers",
+      "category_name": "Electric Vehicle (EV) Chargers - DC (Mobile)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Envision Solar EV ARC™ (Solar Powered EV Charging)",
+      "product_url": "https://www.envisionsolar.com/ev-arc/",
+      "category_name": "Solar EV Charging Stations",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Beam Global EV ARC™ Sustainable EV Charging",
+      "product_url": "https://beamglobal.com/products/ev-arc/",
+      "category_name": "Solar EV Charging Stations",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Paired Power PairTree Solar Canopy EV Charger",
+      "product_url": "https://www.pairedpower.com/",
+      "category_name": "Solar EV Charging Stations (Canopy)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Ecotap DC Charger",
+      "product_url": "https://ecotap.com/en/products/dc-charger/",
+      "category_name": "Electric Vehicle (EV) Chargers - DC Fast",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Alfen Eve Single Pro-line EV Charger",
+      "product_url": "https://alfen.com/ev-charge-points/eve-single-pro-line",
+      "category_name": "Electric Vehicle (EV) Chargers - AC (Commercial)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Vestas V162-6.2 MW EnVentus™ Wind Turbine",
+      "product_url": "https://www.vestas.com/en/products/enventus-platform/v162-6-2-mw",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "GE Renewable Energy Cypress Onshore Wind Platform",
+      "product_url": "https://www.ge.com/renewableenergy/wind-energy/onshore-wind/cypress-platform",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Siemens Gamesa 5.X Onshore Wind Platform",
+      "product_url": "https://www.siemensgamesa.com/en-int/products-and-services/onshore/wind-turbine-sg-5-8-170",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Nordex N149/5.X Wind Turbine",
+      "product_url": "https://www.nordex-online.com/en/product/n149-5-x/",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Goldwind GW 165-5.XMW Smart Wind Turbine",
+      "product_url": "https://www.goldwind.com/en/product/list-138.html",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "MingYang Smart Energy MySE 16.0-242 Offshore Turbine",
+      "product_url": "https://www.myse.com.cn/en/cplb/info.aspx?itemid=189",
+      "category_name": "Wind Turbines (Offshore)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Envision Energy EN156/3.6MW Smart Wind Turbine",
+      "product_url": "https://www.envision-group.com/en/energy/wind-turbines.html",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Bergey Windpower Excel 15 Wind Turbine",
+      "product_url": "https://bergey.com/wind-turbines/15kw-wind-turbine/",
+      "category_name": "Wind Turbines (Small/Medium Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Primus Wind Power AIR Breeze Wind Turbine",
+      "product_url": "https://www.primuswindpower.com/wind-turbines/air-breeze-off-grid/",
+      "category_name": "Wind Turbines (Small Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Kestrel Turbines e300i Wind Turbine",
+      "product_url": "https://kestrelwind.co.za/products/kestrel-e300i/",
+      "category_name": "Wind Turbines (Small Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Aeolos Wind Energy Horizontal Axis Wind Turbines",
+      "product_url": "https://www.windturbinestar.com/horizontal-axis-wind-turbine.html",
+      "category_name": "Wind Turbines (Small/Medium Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SD Wind Energy SD3 Small Wind Turbine",
+      "product_url": "https://sdwindenergy.com/small-wind-turbines/sd3",
+      "category_name": "Wind Turbines (Small Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "WaterFurnace 5 Series Geothermal Heat Pump",
+      "product_url": "https://www.waterfurnace.com/residential/products/geothermal-heat-pumps/5-series",
+      "category_name": "Geothermal Heat Pumps",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ClimateMaster Tranquility® 30 Digital Series Geothermal Heat Pump",
+      "product_url": "https://www.climatemaster.com/geothermal-products/residential/tranquility-30-digital-series-te",
+      "category_name": "Geothermal Heat Pumps",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Bosch Thermotechnology QV Series Geothermal Heat Pump",
+      "product_url": "https://www.bosch-thermotechnology.us/us/en/residential/products/geothermal-heat-pumps/qv-series/",
+      "category_name": "Geothermal Heat Pumps",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Enertech Global Hydron Module Geothermal Systems",
+      "product_url": "https://enertechgeo.com/hydron-module/",
+      "category_name": "Geothermal Systems",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Q-Energy Swimming Pool Solar Absorbers",
+      "product_url": "https://www.qenergy.com/en/products/swimming-pool-solar-absorbers/",
+      "category_name": "Solar Thermal Collectors (Pool Heating)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Viessmann Vitosol 100-FM Flat-plate collector",
+      "product_url": "https://www.viessmann.family/en/products/solar-thermal/vitosol-100fm.html",
+      "category_name": "Solar Thermal Collectors",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SunEarth Empire Series Liquid Flat Plate Collectors",
+      "product_url": "https://sunearthinc.com/products/empire-series/",
+      "category_name": "Solar Thermal Collectors",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Apricus AP Solar Collectors",
+      "product_url": "https://www.apricus.com/ap-solar-collectors/",
+      "category_name": "Solar Thermal Collectors (Evacuated Tube)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Kingspan Varisol Solar Thermal System",
+      "product_url": "https://www.kingspan.com/gb/en/products/solar/solar-thermal/varisol-solar-thermal-system/",
+      "category_name": "Solar Thermal Systems",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "FuelCell Energy SureSource™ Fuel Cells",
+      "product_url": "https://www.fuelcellenergy.com/sure-source/",
+      "category_name": "Fuel Cells",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Plug Power GenSure Fuel Cell Backup Power",
+      "product_url": "https://www.plugpower.com/fuel-cell-power/gensure/",
+      "category_name": "Fuel Cells (Backup Power)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Ballard Power Systems FCgen® Fuel Cell Stacks",
+      "product_url": "https://www.ballard.com/fuel-cell-solutions/fuel-cell-stacks/fcgen-fuel-cell-stacks",
+      "category_name": "Fuel Cell Stacks (PEM)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Nel Hydrogen Alkaline Electrolysers",
+      "product_url": "https://nelhydrogen.com/product-category/alkaline-electrolysers/",
+      "category_name": "Hydrogen Electrolyzers",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Cummins HySTAT Electrolyzers",
+      "product_url": "https://www.cummins.com/new-power/electrolyzers",
+      "category_name": "Hydrogen Electrolyzers",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SunPower Monitoring System",
+      "product_url": "https://us.sunpower.com/products/solar-monitoring-system",
+      "category_name": "Solar Monitoring Systems",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Enphase Energy System",
+      "product_url": "https://enphase.com/installers/systems",
+      "category_name": "Integrated Solar + Storage Systems",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SonnenBatterie Residential Energy Storage",
+      "product_url": "https://sonnenusa.com/en/sonnenbatterie/",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Generac Clean Energy Solutions",
+      "product_url": "https://www.generac.com/all-products/clean-energy",
+      "category_name": "Integrated Solar + Storage Systems",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "BYD Battery-Box Accessories",
+      "product_url": "https://www.bydbatterybox.com/de/downloads",
+      "category_name": "BESS Accessories",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Pylontech Pelio Low Voltage Battery",
+      "product_url": "https://en.pylontech.com.cn/pro_detail.aspx?id=186&cid=21",
+      "category_name": "Battery Energy Storage Systems (BESS) - Low Voltage",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "CATL EnerC Containerized Liquid Cooling BESS",
+      "product_url": "https://www.catl.com/en/solution/energy_storage/product_solution/EnerC.html",
+      "category_name": "Battery Energy Storage Systems (BESS) - Containerized",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Fluence Ultrastack Grid Energy Storage",
+      "product_url": "https://fluenceenergy.com/ultrastack/",
+      "category_name": "Battery Energy Storage Systems (BESS) - Utility Scale",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Wärtsilä GridSolv Max Energy Storage System",
+      "product_url": "https://www.wartsila.com/energy/energy-storage/gridsolv-max",
+      "category_name": "Battery Energy Storage Systems (BESS) - Utility Scale",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Trina Solar Residential Energy Storage Solution",
+      "product_url": "https://www.trinasolar.com/en-glb/residential-storage",
+      "category_name": "Battery Energy Storage Systems (BESS) - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Jinko Solar Energy Storage Solutions (ESS)",
+      "product_url": "https://www.jinkosolar.com/en/site/ess",
+      "category_name": "Battery Energy Storage Systems (BESS)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "LONGi Distributed Solar Solutions",
+      "product_url": "https://www.longi.com/en/distributed/",
+      "category_name": "Solar Solutions (Distributed Generation)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "JA Solar Energy Storage System",
+      "product_url": "https://www.jasolar.com/ESS/",
+      "category_name": "Battery Energy Storage Systems (BESS)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "REC Residential Solar Panels",
+      "product_url": "https://www.recgroup.com/en/products/residential",
+      "category_name": "Solar Panels (PV Modules)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Q CELLS Q.HOME Energy Management",
+      "product_url": "https://qcells.com/us/products/energy-storage/qhome-core",
+      "category_name": "Energy Management Systems (Residential)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Meyer Burger Performance Solar Modules",
+      "product_url": "https://www.meyerburger.com/en/performance-modules",
+      "category_name": "Solar Panels (PV Modules)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Maxeon Performance Solar Panels",
+      "product_url": "https://sunpower.maxeon.com/int/solar-panels/performance-solar-panels",
+      "category_name": "Solar Panels (PV Modules)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "First Solar Advanced Thin Film Modules",
+      "product_url": "https://www.firstsolar.com/modules",
+      "category_name": "Solar Panels (Thin Film)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SMA Sunny Central UP Utility Scale Inverter",
+      "product_url": "https://www.sma.de/en/products/solarinverters/sunny-central-up.html",
+      "category_name": "Solar Inverters (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Fronius Tauro Commercial Inverter",
+      "product_url": "https://www.fronius.com/en/solar-energy/installers-partners/products-solutions/inverters/fronius-tauro",
+      "category_name": "Solar Inverters (Commercial)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Huawei FusionSolar Smart PV Solution",
+      "product_url": "https://solar.huawei.com/eu/solution/residential",
+      "category_name": "Integrated Solar Solutions",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "GoodWe SMT Series Commercial Inverter",
+      "product_url": "https://en.goodwe.com/smt-series-inverters",
+      "category_name": "Solar Inverters (Commercial)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Growatt MAX Commercial Inverter",
+      "product_url": "https://us.growatt.com/product/show/213.html",
+      "category_name": "Solar Inverters (Commercial)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Solax Power X3-PRO G2 Commercial Inverter",
+      "product_url": "https://www.solaxpower.com/x3-pro-g2/",
+      "category_name": "Solar Inverters (Commercial)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Outback Power FLEXpower Radian Integrated System",
+      "product_url": "https://outbackpower.com/products/integrated-systems/flexpower-radian",
+      "category_name": "Integrated Off-Grid Systems",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Victron Energy EasySolar Inverter/Charger/MPPT",
+      "product_url": "https://www.victronenergy.com/inverters-chargers/easysolar",
+      "category_name": "Integrated Off-Grid Systems",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Morningstar ProStar MPPT Charge Controller",
+      "product_url": "https://www.morningstarcorp.com/products/prostar-mppt/",
+      "category_name": "Solar Charge Controllers (MPPT)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "MidNite Solar Hawke's Bay Inverter/Charger",
+      "product_url": "https://www.midnitesolar.com/productPage.php?product_ID=613",
+      "category_name": "Inverter/Chargers (Off-Grid/Hybrid)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Epever PWM Solar Charge Controller",
+      "product_url": "https://www.epever.com/product-category/pwm-solar-charge-controller/",
+      "category_name": "Solar Charge Controllers (PWM)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Renogy Lithium Iron Phosphate Battery",
+      "product_url": "https://www.renogy.com/12v-100ah-smart-lithium-iron-phosphate-battery/",
+      "category_name": "Batteries (LiFePO4)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "BYD Battery-Box Premium LVL (Low Voltage)",
+      "product_url": "https://www.bydbatterybox.com/de/product/Battery-Box-Premium-LVL.html",
+      "category_name": "Battery Energy Storage Systems (BESS) - Modular",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Pylontech Phantom-S Lithium Battery",
+      "product_url": "https://en.pylontech.com.cn/pro_detail.aspx?id=114&cid=21",
+      "category_name": "Battery Energy Storage Systems (BESS)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "CATL EV Battery Systems",
+      "product_url": "https://www.catl.com/en/solution/passenger_vehicle/",
+      "category_name": "EV Batteries",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Fluence Nispera Wind & Solar Asset Management",
+      "product_url": "https://fluenceenergy.com/nispera/",
+      "category_name": "Renewable Energy Management Software",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Wärtsilä GEMS Digital Energy Platform",
+      "product_url": "https://www.wartsila.com/energy/gems-digital-energy-platform",
+      "category_name": "Energy Management Platforms",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Tritium PKM DC Fast Charging System",
+      "product_url": "https://tritiumcharging.com/product/pkm/",
+      "category_name": "Electric Vehicle (EV) Chargers - DC Fast (Modular)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ABB Terra 360 All-in-one Charger",
+      "product_url": "https://new.abb.com/ev-charging/terra-360",
+      "category_name": "Electric Vehicle (EV) Chargers - DC Fast",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ChargePoint CT4000 Series AC Charging Stations",
+      "product_url": "https://www.chargepoint.com/businesses/stations-ct4000",
+      "category_name": "Electric Vehicle (EV) Chargers - AC (Commercial)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "EVBox BusinessLine EV Charger",
+      "product_url": "https://evbox.com/en/ev-chargers/ac/businessline",
+      "category_name": "Electric Vehicle (EV) Chargers - AC (Commercial)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Kempower C-Series Charging Power Unit",
+      "product_url": "https://kempower.com/charging-solutions/c-series-charging-power-unit/",
+      "category_name": "EV Charging Power Units",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ClipperCreek LCS Series Level 2 EV Charging Station",
+      "product_url": "https://store.clippercreek.com/level2/level2-20-to-30/lcs-30-lcs-30p-ev-charging-station",
+      "category_name": "Electric Vehicle (EV) Chargers - AC Level 2",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Grizzl-E Classic EV Charger",
+      "product_url": "https://grizzl-e.com/product/usa/classic/grizzl-e-classic/",
+      "category_name": "Electric Vehicle (EV) Chargers - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Heliox OC Chargers (Overnight Charging)",
+      "product_url": "https://www.heliox-energy.com/products/oc-chargers",
+      "category_name": "Electric Vehicle (EV) Chargers - AC/DC (Fleet)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Ecotap Homebox AC Charger",
+      "product_url": "https://ecotap.com/en/products/homebox/",
+      "category_name": "Electric Vehicle (EV) Chargers - Residential",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Alfen Eve Double Pro-line EV Charger",
+      "product_url": "https://alfen.com/ev-charge-points/eve-double-pro-line",
+      "category_name": "Electric Vehicle (EV) Chargers - AC (Commercial)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Vestas V136-4.2 MW Wind Turbine",
+      "product_url": "https://www.vestas.com/en/products/4-mw-platform/V136-4-2-MW",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "GE Renewable Energy Sierra Onshore Wind Platform",
+      "product_url": "https://www.ge.com/renewableenergy/wind-energy/onshore-wind/sierra-platform",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Siemens Gamesa Direct Drive Onshore Wind Turbines",
+      "product_url": "https://www.siemensgamesa.com/en-int/products-and-services/onshore/direct-drive",
+      "category_name": "Wind Turbines (Direct Drive)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Nordex N163/6.X Wind Turbine",
+      "product_url": "https://www.nordex-online.com/en/product/n163-6-x/",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Goldwind GW 171-6.XMW Smart Wind Turbine",
+      "product_url": "https://www.goldwind.com/en/product/list-140.html",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "MingYang Smart Energy MySE 11-203 Offshore Turbine",
+      "product_url": "https://www.myse.com.cn/en/cplb/info.aspx?itemid=188",
+      "category_name": "Wind Turbines (Offshore)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Envision Energy EN171/6.5MW Smart Wind Turbine",
+      "product_url": "https://www.envision-group.com/en/energy/wind-turbines.html",
+      "category_name": "Wind Turbines (Utility Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Primus Wind Power AIR 40 Wind Turbine",
+      "product_url": "https://www.primuswindpower.com/wind-turbines/air-40-off-grid/",
+      "category_name": "Wind Turbines (Small Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Kestrel Turbines e160i Wind Turbine",
+      "product_url": "https://kestrelwind.co.za/products/kestrel-e160i/",
+      "category_name": "Wind Turbines (Small Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Aeolos 5kW Vertical Axis Wind Turbine",
+      "product_url": "https://www.windturbinestar.com/5kw-vertical-axis-wind-turbine.html",
+      "category_name": "Wind Turbines (Vertical Axis)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SD Wind Energy SD13 Small Wind Turbine",
+      "product_url": "https://sdwindenergy.com/small-wind-turbines/sd13",
+      "category_name": "Wind Turbines (Small Scale)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "WaterFurnace 3 Series Geothermal Heat Pump",
+      "product_url": "https://www.waterfurnace.com/residential/products/geothermal-heat-pumps/3-series",
+      "category_name": "Geothermal Heat Pumps",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ClimateMaster Tranquility® 22 Digital Series Geothermal Heat Pump",
+      "product_url": "https://www.climatemaster.com/geothermal-products/residential/tranquility-22-digital-series-tz",
+      "category_name": "Geothermal Heat Pumps",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Bosch Thermotechnology BP Series Geothermal Heat Pump",
+      "product_url": "https://www.bosch-thermotechnology.us/us/en/residential/products/geothermal-heat-pumps/bp-series/",
+      "category_name": "Geothermal Heat Pumps",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Enertech Global TETCO Geothermal Systems",
+      "product_url": "https://enertechgeo.com/tetco/",
+      "category_name": "Geothermal Systems",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Q-Energy OEM Solar Thermal Collectors",
+      "product_url": "https://www.qenergy.com/en/products/oem-solar-thermal-collectors/",
+      "category_name": "Solar Thermal Collectors",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Viessmann Vitosol 300-TM Evacuated tube collector",
+      "product_url": "https://www.viessmann.family/en/products/solar-thermal/vitosol-300tm.html",
+      "category_name": "Solar Thermal Collectors (Evacuated Tube)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SunEarth Thermoray Series Flat Plate Collectors",
+      "product_url": "https://sunearthinc.com/products/thermoray-series/",
+      "category_name": "Solar Thermal Collectors",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Apricus ETC Solar Collectors",
+      "product_url": "https://www.apricus.com/etc-solar-collectors/",
+      "category_name": "Solar Thermal Collectors (Evacuated Tube)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Kingspan Thermomax Evacuated Tube Collectors",
+      "product_url": "https://www.kingspan.com/us/en/products/solar/solar-thermal/thermomax-evacuated-tube-collectors/",
+      "category_name": "Solar Thermal Collectors (Evacuated Tube)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Bloom Energy Hydrogen Fuel Cells",
+      "product_url": "https://www.bloomenergy.com/hydrogen/",
+      "category_name": "Fuel Cells (Hydrogen)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Plug Power GenKey Turnkey Hydrogen Solution",
+      "product_url": "https://www.plugpower.com/fuel-cell-power/genkey/",
+      "category_name": "Hydrogen Solutions",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Ballard Power Systems FCwave™ Marine Fuel Cell Module",
+      "product_url": "https://www.ballard.com/fuel-cell-solutions/fuel-cell-power-modules/fcwave-marine-fuel-cell-module",
+      "category_name": "Fuel Cells (Marine)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Nel Hydrogen PEM Electrolysers",
+      "product_url": "https://nelhydrogen.com/product-category/pem-electrolysers/",
+      "category_name": "Hydrogen Electrolyzers (PEM)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Cummins Accelera HySTAT Hydrogen Generators",
+      "product_url": "https://www.cummins.com/new-power/electrolyzers",
+      "category_name": "Hydrogen Electrolyzers",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SMA Sunny Portal Monitoring Software",
+      "product_url": "https://www.sma.de/en/products/monitoring-control/sunny-portal.html",
+      "category_name": "Solar Monitoring Software",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Enphase App (Monitoring)",
+      "product_url": "https://enphase.com/homeowners/app",
+      "category_name": "Solar Monitoring Software (Mobile)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "SolarEdge Monitoring Platform",
+      "product_url": "https://www.solaredge.com/us/products/monitoring",
+      "category_name": "Solar Monitoring Software",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Generac Mobile Link Monitoring",
+      "product_url": "https://www.generac.com/service-support/mobile-link-connectivity",
+      "category_name": "Energy Monitoring Software (Mobile)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Fronius Solar.web Monitoring Platform",
+      "product_url": "https://www.fronius.com/en/solar-energy/installers-partners/products-solutions/monitoring-control/fronius-solar-web",
+      "category_name": "Solar Monitoring Software",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Huawei FusionSolar App",
+      "product_url": "https://solar.huawei.com/eu/FusionSolarApp",
+      "category_name": "Solar Monitoring Software (Mobile)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "GoodWe SEMS Portal (Monitoring)",
+      "product_url": "https://en.goodwe.com/sems-portal",
+      "category_name": "Solar Monitoring Software",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Growatt ShinePhone App",
+      "product_url": "https://oss.growatt.com/common/downLoad",
+      "category_name": "Solar Monitoring Software (Mobile)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Solax Cloud Monitoring Platform",
+      "product_url": "https://www.solaxcloud.com/#/login",
+      "category_name": "Solar Monitoring Software",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Outback Power Optics RE Monitoring & Control",
+      "product_url": "https://outbackpower.com/products/system-monitoring-control/optics-re",
+      "category_name": "Energy Monitoring Software",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Victron Energy VRM Portal (Remote Management)",
+      "product_url": "https://www.victronenergy.com/live/vrm_portal:start",
+      "category_name": "Energy Monitoring Software",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Morningstar MSView PC Software",
+      "product_url": "https://www.morningstarcorp.com/products/msview/",
+      "category_name": "Solar Controller Software",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "MidNite Solar MNGP Display Panel",
+      "product_url": "https://www.midnitesolar.com/productPage.php?product_ID=26",
+      "category_name": "Solar Controller Accessories (Display)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Epever EBOX-WIFI Wireless Monitoring Adapter",
+      "product_url": "https://www.epever.com/product/ebox-wifi-01/",
+      "category_name": "Solar Controller Accessories (Wireless Module)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Renogy BT-1 Bluetooth Module",
+      "product_url": "https://www.renogy.com/bt-1-bluetooth-module/",
+      "category_name": "Solar Controller Accessories (Bluetooth Module)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ChargePoint Commercial Charging Solutions",
+      "product_url": "https://www.chargepoint.com/businesses/commercial",
+      "category_name": "Electric Vehicle (EV) Chargers - Commercial",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "ABB EV Charging Infrastructure Solutions",
+      "product_url": "https://new.abb.com/ev-charging",
+      "category_name": "EV Charging Solutions",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Siemens SICHARGE D DC Fast Charger",
+      "product_url": "https://new.siemens.com/global/en/products/energy/medium-voltage/solutions/emobility/sicharge-d.html",
+      "category_name": "Electric Vehicle (EV) Chargers - DC Fast",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Wallbox Copper SB Business Charger",
+      "product_url": "https://wallbox.com/en_catalog/commander-copper-business-line",
+      "category_name": "Electric Vehicle (EV) Chargers - AC (Commercial)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "EVgo Fleet Charging Solutions",
+      "product_url": "https://www.evgo.com/business/fleet-charging/",
+      "category_name": "EV Charging Solutions (Fleet)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Electrify America Business Solutions",
+      "product_url": "https://www.electrifyamerica.com/business/",
+      "category_name": "EV Charging Solutions (Commercial)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Heliox OC Fleet Charging Solutions",
+      "product_url": "https://www.heliox-energy.com/markets/fleet-charging",
+      "category_name": "EV Charging Solutions (Fleet)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Ecotap Public Charging Solutions",
+      "product_url": "https://ecotap.com/en/public-charging/",
+      "category_name": "EV Charging Solutions (Public)",
+      "parent_category": "Green Energy"
+    },
+    {
+      "product_name": "Alfen Smart Charging Network",
+      "product_url": "https://alfen.com/ev-charge-points/smart-charging-network",
+      "category_name": "EV Charging Network Software",
+      "parent_category": "Green Energy"
+    }
+  ]
+}

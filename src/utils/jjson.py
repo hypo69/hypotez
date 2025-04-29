@@ -90,7 +90,9 @@ def j_dumps(
     """
 
     path = Path(file_path) if isinstance(file_path, (str, Path)) else None
-    data = _string_to_dict(data)
+    # Попытка очистить строку от мусора (```json ... ```)
+    if isinstance(data, str):
+        data = _string_to_dict(data)
 
     # Попытки извлечь словарь из строки
     if isinstance(data, str):

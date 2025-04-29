@@ -26,6 +26,8 @@
 """
 
 import os
+import sys
+import io
 import asyncio
 from types import SimpleNamespace
 from typing import List, Dict, Any, Optional, Callable, Type, Tuple, AsyncIterator
@@ -52,13 +54,14 @@ from src import gs
 from src.webdriver.llm_driver.use_llm import Config, Driver, stream_agent_execution
 
 from src.logger import logger
-from src.utils.jjson import j_loads, j_loads_ns
+from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.printer import pprint as print
 
 from dotenv import load_dotenv
 load_dotenv()
 
-
+class Config:
+    ENDPOINT:Path = Path(__root__/'SANDBOX'/'davidka')
 class SimpleDriver(Driver):
     """"""
     def __init__(self, 
@@ -71,6 +74,27 @@ class SimpleDriver(Driver):
         super().__init__(GEMINI_API_KEY, OPENAI_API_KEY, openai_model_name, gemini_model_name, start_browser, **kwargs) 
 
     async def simple_process_task_async(self, task:str = 'Hello, world!') -> Any:
+        """"""
+
+        result_dict:dict = {}
+
+        def clean_json(raw_text: str) -> str:
+            # 1. Убираем всё до первой фигурной скобки {
+            try:
+                json_start = raw_text.index('{')
+            except Exception as ex:
+                logger.error("Ошибка поиска первой фигурной скобки", ex, exc_info=True)
+                return ''
+            if json_start == -1:
+                return raw_text  # нет скобки, вернуть как есть
+            # Извлекаем текст начиная с первой фигурной скобки
+            json_cleaned = raw_text[json_start:]
+    
+            # 2. Убираем завершающие тройные кавычки или лишние пробелы
+            json_cleaned = json_cleaned.strip('`\n ')
+            
+            return json_cleaned
+
         try:
             # Инициализация агента с списком моделей и задачей
             # Убедитесь, что ваш класс Agent может принимать список LLM объектов в параметре 'llm'
@@ -80,13 +104,48 @@ class SimpleDriver(Driver):
                 # Другие параметры для Agent, если они есть
             )
             logger.info(f"Агент начинает выполнение задачи: \"{task}\"")
-            result: Any = await agent.run() # Ожидание результата работы агента
-            result_dict:dict = result.__dict__ # Преобразование результата в словарь
+            # --- Перехват stdout ---
+            original_stdout = sys.stdout
+            sys.stdout = io.StringIO()
+
+            try:
+                answer = await agent.run()
+            finally:
+                sys.stdout = original_stdout  # Обязательно вернуть обратно!
+
+            if not answer:
+                logger.error('Не вернулся результат действий агента')
+                ...
+            answer: Any = await agent.run() # Ожидание результата работы агента
+            if not answer:
+                logger.error('Не вернулся результат действий агента')
+                ...
+            timestamp:str = gs.now
+
+            for action_result in answer.history:
+                result_list:list = getattr(action_result, 'result', None)
+                result:'ActionResult' = result_list[0]
+                extracted_content:str =	result.extracted_content
+
+                cleaned_json_text = clean_json(extracted_content)
+                try:
+                    data = j_loads(cleaned_json_text)  # Загружаем JSON из текста
+                    if not data: continue
+                except Exception as ex:
+                    logger.error("Ошибка разбора JSON", ex, exc_info=True)
+                    ...
+                    continue
+
+                # Сохраняем данные
+                timestamp = gs.now
+                j_dumps(data, Config.ENDPOINT/'train_data_products'/f'product_links_{timestamp}.json')
+                result_dict.update(data)
+
             logger.info("Агент завершил выполнение задачи.")
             ...
             return result_dict 
         except Exception as agent_err:
-            logger.error("Произошла ошибка во время инициализации или выполнения задачи агентом.", agent_err, exc_info=True)
+            logger.error(f"\n\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!/nПроизошла ошибка во время инициализации или выполнения задачи агентом./n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!/n", agent_err, exc_info=True)
             ...
             return '' # Возврат None при ошибке агента
 

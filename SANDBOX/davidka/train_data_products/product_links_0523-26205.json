@@ -1,0 +1,296 @@
+{
+    "extracted_links": [
+        {
+            "text": "Accessibility help",
+            "url": "https://support.google.com/websearch/answer/181196?hl=en-IL"
+        },
+        {
+            "text": "Sign in",
+            "url": "https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3DAir%2BFlow%2BMonitors%26sca_esv%3D646451c4d605381a%26source%3Dhp%26ei%3DnzcQaIeALteni-gP-4jFiAo%26iflsig%3DACkRmUkAAAAAaBBFr7hbdjQaoGAg5xf1oVM7cHRn4szz%26ved%3D0ahUKEwjHy4Wml_yMAxXX0wIHHXtEEaEQ4dUDCA0%26oq%3DAir%2BFlow%2BMonitors%26gs_lp%3DEgdnd3Mtd2l6IhFBaXIgRmxvdyBNb25pdG9yczIHEAAYgAQYEzIIEAAYgAQYogQyCBAAGIAEGKIEMggQABiABBiiBDIIEAAYgAQYogQyCBAAGIAEGKIESKlIUABYAHAAeACQAQCYAWygAWyqAQMwLjG4AQzIAQD4AQGYAgGgAnKYAwCSBwMwLjGgB5IDsgcDMC4xuAdy%26sclient%3Dgws-wiz%26sei%3DrzcQaLHhH46wi-gPp8u4wQ0&ec=GAZAAQ"
+        },
+        {
+            "text": "Images",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+Flow+Monitors&udm=2&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpA-dk4wpBWOGsoR7DG5zJBsxayPSIAqObp_AgjkUGqel3rTRMIJGV_ECIUB00muput9Zp8VMKUi0ZjqPs3JlrgPeFrAnFlUitTiL3WcJlFn2_394o7wB-ITuUI5kSzhKN8qd59wkGez9Tt0oSQLJF6tj3zx6wjgrj8hdmVOSy5zRZTCkxYN9oGLbgJxF_8nBjxfhLRQ&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQtKgLegQIExAB"
+        },
+        {
+            "text": "Shopping",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+Flow+Monitors&udm=28&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpA-dk4wpBWOGsoR7DG5zJBsxayPSIAqObp_AgjkUGqel3rTRMIJGV_ECIUB00muput9Zp8VMKUi0ZjqPs3JlrgPeFrAnFlUitTiL3WcJlFn2_394o7wB-ITuUI5kSzhKN8qd59wkGez9Tt0oSQLJF6tj3zx6wjgrj8hdmVOSy5zRZTCkxYN9oGLbgJxF_8nBjxfhLRQ&ved=1t:220175&ictx=111"
+        },
+        {
+            "text": "Videos",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+Flow+Monitors&udm=7&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpA-dk4wpBWOGsoR7DG5zJBsxayPSIAqObp_AgjkUGqel3rTRMIJGV_ECIUB00muput9Zp8VMKUi0ZjqPs3JlrgPeFrAnFlUitTiL3WcJlFn2_394o7wB-ITuUI5kSzhKN8qd59wkGez9Tt0oSQLJF6tj3zx6wjgrj8hdmVOSy5zRZTCkxYN9oGLbgJxF_8nBjxfhLRQ&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQtKgLegQIERAB"
+        },
+        {
+            "text": "Short videos",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+Flow+Monitors&udm=39&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpA-dk4wpBWOGsoR7DG5zJBsxayPSIAqObp_AgjkUGqel3rTRMIJGV_ECIUB00muput9Zp8VMKUi0ZjqPs3JlrgPeFrAnFlUitTiL3WcJlFn2_394o7wB-ITuUI5kSzhKN8qd59wkGez9Tt0oSQLJF6tj3zx6wjgrj8hdmVOSy5zRZTCkxYN9oGLbgJxF_8nBjxfhLRQ&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQs6gLegQIEBAB"
+        },
+        {
+            "text": "Forums",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+Flow+Monitors&udm=18&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpA-dk4wpBWOGsoR7DG5zJBsxayPSIAqObp_AgjkUGqel3rTRMIJGV_ECIUB00muput9Zp8VMKUi0ZjqPs3JlrgPeFrAnFlUitTiL3WcJlFn2_394o7wB-ITuUI5kSzhKN8qd59wkGez9Tt0oSQLJF6tj3zx6wjgrj8hdmVOSy5zRZTCkxYN9oGLbgJxF_8nBjxfhLRQ&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQs6gLegQIDxAB"
+        },
+        {
+            "text": "Web",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+Flow+Monitors&udm=14&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpA-dk4wpBWOGsoR7DG5zJBsxayPSIAqObp_AgjkUGqel3rTRMIJGV_ECIUB00muput9Zp8VMKUi0ZjqPs3JlrgPeFrAnFlUitTiL3WcJlFn2_394o7wB-ITuUI5kSzhKN8qd59wkGez9Tt0oSQLJF6tj3zx6wjgrj8hdmVOSy5zRZTCkxYN9oGLbgJxF_8nBjxfhLRQ&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQs6gLegQIDRAB"
+        },
+        {
+            "text": "News",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+Flow+Monitors&tbm=nws&source=lnms&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpA-dk4wpBWOGsoR7DG5zJBsxayPSIAqObp_AgjkUGqel3rTRMIJGV_ECIUB00muput9Zp8VMKUi0ZjqPs3JlrgPeFrAnFlUitTiL3WcJlFn2_394o7wB-ITuUI5kSzhKN8qd59wkGez9Tt0oSQLJF6tj3zx6wjgrj8hdmVOSy5zRZTCkxYN9oGLbgJxF_8nBjxfhLRQ&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ0pQJegQIUhAB"
+        },
+        {
+            "text": "Books",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+Flow+Monitors&udm=36&source=lnms&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpA-dk4wpBWOGsoR7DG5zJBsxayPSIAqObp_AgjkUGqel3rTRMIJGV_ECIUB00muput9Zp8VMKUi0ZjqPs3JlrgPeFrAnFlUitTiL3WcJlFn2_394o7wB-ITuUI5kSzhKN8qd59wkGez9Tt0oSQLJF6tj3zx6wjgrj8hdmVOSy5zRZTCkxYN9oGLbgJxF_8nBjxfhLRQ&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ0pQJegQIUxAB"
+        },
+        {
+            "text": "Maps",
+            "url": "https://maps.google.com/maps?sca_esv=646451c4d605381a&output=search&q=Air+Flow+Monitors&source=lnms&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpA-dk4wpBWOGsoR7DG5zJBsxayPSIAqObp_AgjkUGqel3rTRMIJGV_ECIUB00muput9Zp8VMKUi0ZjqPs3JlrgPeFrAnFlUitTiL3WcJlFn2_394o7wB-ITuUI5kSzhKN8qd59wkGez9Tt0oSQLJF6tj3zx6wjgrj8hdmVOSy5zRZTCkxYN9oGLbgJxF_8nBjxfhLRQ&entry=mc&ved=1t:200715&ictx=111"
+        },
+        {
+            "text": "Past hour",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&source=lnt&tbs=qdr:h&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQpwV6BAgHEAc"
+        },
+        {
+            "text": "Past 24 hours",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&source=lnt&tbs=qdr:d&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQpwV6BAgHEAg"
+        },
+        {
+            "text": "Past week",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&source=lnt&tbs=qdr:w&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQpwV6BAgHEAk"
+        },
+        {
+            "text": "Past month",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&source=lnt&tbs=qdr:m&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQpwV6BAgHEAo"
+        },
+        {
+            "text": "Past year",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&source=lnt&tbs=qdr:y&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQpwV6BAgHEAs"
+        },
+        {
+            "text": "Verbatim",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&source=lnt&tbs=li:1&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQpwV6BAgHEBM"
+        },
+        {
+            "text": "Advanced Search",
+            "url": "https://www.google.com/advanced_search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&iflsig=ACkRmUkAAAAAaBBFr7hbdjQaoGAg5xf1oVM7cHRn4szz&gs_lp=Egdnd3Mtd2l6IhFBaXIgRmxvdyBNb25pdG9yczIHEAAYgAQYEzIIEAAYgAQYogQyCBAAGIAEGKIEMggQABiABBiiBDIIEAAYgAQYogQyCBAAGIAEGKIESKlIUABYAHAAeACQAQCYAWygAWyqAQMwLjG4AQzIAQD4AQGYAgGgAnKYAwCSBwMwLjGgB5IDsgcDMC4xuAdy"
+        },
+        {
+            "text": "Air Monitor: Precise Airflow Measurement Systems",
+            "url": "https://www.airmonitor.com/"
+        },
+        {
+            "text": "Air Monitor",
+            "url": "https://www.airmonitor.com"
+        },
+        {
+            "text": "Industrial Flow Measurement...",
+            "url": "https://www.airmonitor.com/industrial/products/"
+        },
+        {
+            "text": "HVAC",
+            "url": "https://www.airmonitor.com/hvac/"
+        },
+        {
+            "text": "Industrial",
+            "url": "https://www.airmonitor.com/industrial/"
+        },
+        {
+            "text": "Brands",
+            "url": "https://www.airmonitor.com/company/brands/"
+        },
+        {
+            "text": "Air Flow Monitor - Degree Controls Inc",
+            "url": "https://www.degreec.com/air-flow-monitor/#:~:text=Air%20Flow%20Monitors%20and%20air,and%20air%20temperature%20is%20critical."
+        },
+        {
+            "text": "Degree Controls Inc",
+            "url": "https://www.degreec.com/air-flow-monitor"
+        },
+        {
+            "text": "Air flow meter - Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Air_flow_meter#:~:text=Air%20flow%20meters%20monitor%20air,air%20for%20an%20efficient%20flame."
+        },
+        {
+            "text": "Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Air_flow_meter"
+        },
+        {
+            "text": "How to Measure Air Flow - Veris Industries",
+            "url": "https://www.veris.com/blog/how-to-measure-air-flow#:~:text=The%20best%20method%20to%20accurately,that%20reports%20various%20data%20points."
+        },
+        {
+            "text": "Veris Industries",
+            "url": "https://www.veris.com/blog/how-to-measure-air-flow"
+        },
+        {
+            "text": "What are Flow Meters & How Do They Work? - Baker Hughes",
+            "url": "https://www.bakerhughes.com/panametrics/blog/what-are-flow-meters-how-do-they-work#:~:text=An%20ultrasonic%20signal%20is%20sent,as%20flow%20velocity%20or%20volume."
+        },
+        {
+            "text": "Baker Hughes",
+            "url": "https://www.bakerhughes.com/panametrics/blog/what-are-flow-meters-how-do-they-work"
+        },
+        {
+            "text": "Air Flow Monitors",
+            "url": "https://www.fishersci.com/us/en/browse/90200042/air-flow-monitors?page=1"
+        },
+        {
+            "text": "Fisher Scientific",
+            "url": "https://www.fishersci.com/us/en/browse/90200042/air-flow-monitors"
+        },
+        {
+            "text": "Air Flow Monitors - Orion Fans",
+            "url": "https://www.digikey.co.il/he/ptm/o/orion-fans/air-flow-monitors?srsltid=AfmBOopNTuw-kfS0nXFY6XtV6It0Sx5Z6FY7iollbWUMQ59nI_l7YsVx"
+        },
+        {
+            "text": "DigiKey ישראל",
+            "url": "https://www.digikey.co.il/he/ptm/o/orion-fans/air-flow-monitors"
+        },
+        {
+            "text": "Translate this page",
+            "url": "https://translate.google.com/translate?u=https://www.digikey.co.il/he/ptm/o/orion-fans/air-flow-monitors&hl=en&sl=iw&tl=en&client=search"
+        },
+        {
+            "text": "Air flow sensors and air flow meters",
+            "url": "https://www.wika.com/en-en/air_flow_sensors.WIKA"
+        },
+        {
+            "text": "WIKA Alexander Wiegand SE & Co. KG",
+            "url": "https://www.wika.com/en-en/air_flow_sensors.WIKA"
+        },
+        {
+            "text": "Flow monitor",
+            "url": "https://www.spluss.de/en/collections/air-flow-monitors?srsltid=AfmBOorG6G6aXivuTJ4OPyY8-xmPLJ4H2kzCZ65Xiqa28N12-6QjruEe"
+        },
+        {
+            "text": "S+S Regeltechnik",
+            "url": "https://www.spluss.de/en/collections/air-flow-monitors"
+        },
+        {
+            "text": "Orion Fans AFM Fan & Filter Fan Air Flow Monitors",
+            "url": "https://www.mouser.co.il/new/orion/orion-afm-airflow-monitor/"
+        },
+        {
+            "text": "Mouser Electronics Israel",
+            "url": "https://www.mouser.co.il/new/orion/orion-afm-airflow-monitor/"
+        },
+        {
+            "text": "Airflow Monitors",
+            "url": "https://labconco.com/category/parts-accessories/accessories/ventilation-product-accessories/airflow-monitors"
+        },
+        {
+            "text": "Labconco",
+            "url": "https://labconco.com/category/parts-accessories/accessories/ventilation-product-accessories"
+        },
+        {
+            "text": "Air flow monitor",
+            "url": "https://www.eberle.de/en/products/building-services/air-flow-monitor"
+        },
+        {
+            "text": "Eberle",
+            "url": "https://www.eberle.de/en/products/building-services/air-flow-monitor"
+        },
+        {
+            "text": "Air Flow Meter",
+            "url": "https://www.amazon.com/air-flow-meter/s?k=air+flow+meter"
+        },
+        {
+            "text": "Amazon.com",
+            "url": "https://www.amazon.com/air-flow-meter/s?k=air+flow+meter"
+        },
+        {
+            "text": "Airflow sensors",
+            "url": "https://www.ifm.com/de/en/category/200_020_030_020_030"
+        },
+        {
+            "text": "IFM",
+            "url": "https://www.ifm.com/de/en/category/200_020_030_020_030"
+        },
+        {
+            "text": "Air flow monitors price",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+flow+monitors+price&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ1QJ6BAhPEAE"
+        },
+        {
+            "text": "Best air flow monitors",
+            "url": "/search?sca_esv=646451c4d605381a&q=Best+air+flow+monitors&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ1QJ6BAhAEAE"
+        },
+        {
+            "text": "Air Monitor Corporation",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+Monitor+Corporation&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ1QJ6BAhOEAE"
+        },
+        {
+            "text": "Fume hood air flow Monitor",
+            "url": "/search?sca_esv=646451c4d605381a&q=Fume+hood+air+flow+Monitor&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ1QJ6BAhLEAE"
+        },
+        {
+            "text": "Air flow meter for ducting",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+flow+meter+for+ducting&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ1QJ6BAhDEAE"
+        },
+        {
+            "text": "Air flow monitors amazon",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+flow+monitors+amazon&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ1QJ6BAg5EAE"
+        },
+        {
+            "text": "Air Monitor OAM II",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+Monitor+OAM+II&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ1QJ6BAg4EAE"
+        },
+        {
+            "text": "Air quality monitor",
+            "url": "/search?sca_esv=646451c4d605381a&q=Air+quality+monitor&sa=X&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ1QJ6BAg3EAE"
+        },
+        {
+            "text": "2",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&ei=uDcQaP25C4S7i-gPuL30mAY&start=10&sa=N&sstk=Af40H4WMjowvxvzUDXKqb6QcbMsrtVLet9yHrrT4YslgkEkwv2b03LBprIflNDgLntZc70yPkqNIENZfds-dJgMGLyUzX83MjclYOA&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ8tMDegQICxAE"
+        },
+        {
+            "text": "3",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&ei=uDcQaP25C4S7i-gPuL30mAY&start=20&sa=N&sstk=Af40H4WMjowvxvzUDXKqb6QcbMsrtVLet9yHrrT4YslgkEkwv2b03LBprIflNDgLntZc70yPkqNIENZfds-dJgMGLyUzX83MjclYOA&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ8tMDegQICxAG"
+        },
+        {
+            "text": "4",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&ei=uDcQaP25C4S7i-gPuL30mAY&start=30&sa=N&sstk=Af40H4WMjowvxvzUDXKqb6QcbMsrtVLet9yHrrT4YslgkEkwv2b03LBprIflNDgLntZc70yPkqNIENZfds-dJgMGLyUzX83MjclYOA&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ8tMDegQICxAI"
+        },
+        {
+            "text": "5",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&ei=uDcQaP25C4S7i-gPuL30mAY&start=40&sa=N&sstk=Af40H4WMjowvxvzUDXKqb6QcbMsrtVLet9yHrrT4YslgkEkwv2b03LBprIflNDgLntZc70yPkqNIENZfds-dJgMGLyUzX83MjclYOA&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ8tMDegQICxAK"
+        },
+        {
+            "text": "6",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&ei=uDcQaP25C4S7i-gPuL30mAY&start=50&sa=N&sstk=Af40H4WMjowvxvzUDXKqb6QcbMsrtVLet9yHrrT4YslgkEkwv2b03LBprIflNDgLntZc70yPkqNIENZfds-dJgMGLyUzX83MjclYOA&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ8tMDegQICxAM"
+        },
+        {
+            "text": "7",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&ei=uDcQaP25C4S7i-gPuL30mAY&start=60&sa=N&sstk=Af40H4WMjowvxvzUDXKqb6QcbMsrtVLet9yHrrT4YslgkEkwv2b03LBprIflNDgLntZc70yPkqNIENZfds-dJgMGLyUzX83MjclYOA&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ8tMDegQICxAO"
+        },
+        {
+            "text": "8",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&ei=uDcQaP25C4S7i-gPuL30mAY&start=70&sa=N&sstk=Af40H4WMjowvxvzUDXKqb6QcbMsrtVLet9yHrrT4YslgkEkwv2b03LBprIflNDgLntZc70yPkqNIENZfds-dJgMGLyUzX83MjclYOA&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ8tMDegQICxAQ"
+        },
+        {
+            "text": "9",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&ei=uDcQaP25C4S7i-gPuL30mAY&start=80&sa=N&sstk=Af40H4WMjowvxvzUDXKqb6QcbMsrtVLet9yHrrT4YslgkEkwv2b03LBprIflNDgLntZc70yPkqNIENZfds-dJgMGLyUzX83MjclYOA&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ8tMDegQICxAS"
+        },
+        {
+            "text": "10",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&ei=uDcQaP25C4S7i-gPuL30mAY&start=90&sa=N&sstk=Af40H4WMjowvxvzUDXKqb6QcbMsrtVLet9yHrrT4YslgkEkwv2b03LBprIflNDgLntZc70yPkqNIENZfds-dJgMGLyUzX83MjclYOA&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ8tMDegQICxAU"
+        },
+        {
+            "text": "Next",
+            "url": "/search?q=Air+Flow+Monitors&sca_esv=646451c4d605381a&ei=uDcQaP25C4S7i-gPuL30mAY&start=10&sa=N&sstk=Af40H4WMjowvxvzUDXKqb6QcbMsrtVLet9yHrrT4YslgkEkwv2b03LBprIflNDgLntZc70yPkqNIENZfds-dJgMGLyUzX83MjclYOA&ved=2ahUKEwj99dixl_yMAxWE3QIHHbgeHWMQ8NMDegQICxAW"
+        },
+        {
+            "text": "Help",
+            "url": "https://support.google.com/websearch/?p=ws_results_help&hl=en-IL&fg=1"
+        },
+        {
+            "text": "Send feedback",
+            "url": "#"
+        },
+        {
+            "text": "Privacy",
+            "url": "https://policies.google.com/privacy?hl=en-IL&fg=1"
+        },
+        {
+            "text": "Terms",
+            "url": "https://policies.google.com/terms?hl=en-IL&fg=1"
+        }
+    ]
+}
