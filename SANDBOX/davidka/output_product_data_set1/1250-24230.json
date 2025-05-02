@@ -1,0 +1,269 @@
+{
+    "product_name": "AV5",
+    "tagline": "Tough and Compact!",
+    "key_features": [
+        "Wide-Gap Technology Eliminates Gapping and Shimming",
+        "Fits AV485, AV685, and AV850 Encoders",
+        "Direct Machine-Mount Option",
+        "Permits Up to 4.5\" [115mm] Through-Shaft",
+        "Fully Potted Electronics",
+        "-40Â°C to +100Â°C Standard; +120Â°C Option Requires Encoder Cooling",
+        "3 Year No-Hassle Warranty"
+    ],
+    "price_information": "Price not available directly on the page. A 'CONFIGURE & PRICE ENCODER' link is provided.",
+    "description": "Avtron AV5 SMARTach IIIâ¢ sensors are magnetoresistive, severe duty incremental quadrature sensors for the AV485, AV685, or AV850 rotary encoders. The AV5 is also usable in applications where an encoder housing is not needed â simply mount the AV5 with your bracket, and use an AV850 or other rotor. Also available: XR5 and XR12 sensors for hazardous duty applications or XP5 for applications where explosion proof is a requirement.\nThe AV5 is ideal for applications where mounting on a large diameter through-shaft is needed, including large hollow shafts for cooling water or air. The AV5 sensor + AV850 rotor combination permits through-shafts up to 4.5\" [115mm].\nThe AV5 offers a full range of electrical connector options, including IP67 cable, IP66 MS connectors, and IP65 Industrial with built-in terminal strips. The AV5 sensor is fully protected against all types of wiring errors, including short circuits, reverse voltage, and phase-to-phase shorts. It is one tough sensor! For larger bore applications, use AV12 sensors with the AV125 encoder (or as stand-alone).\nThe universal 5-24V design drives longer cables and is protected against wiring errors and surges.\nAdaptive Electronics: At power-up you know you installed it right! The green LED tells you your AV5 Sensor is aligned with the rotor and reading signal. If at any time, the AV5 cannot produce consistent signals, the LED changes to red and the optional remote alarm contact activates. However, the encoder keeps working to give you time to schedule service. Even wiring errors and short circuits that cause an over-temp situation will be detected and indicated by changing the LED to orange.",
+    "specifications": {
+        "operating_power": "Volts: 5 - 24 VDC*",
+        "current": "100mA nom, no load",
+        "output_format": "A Quad B with Marker (A,/A, B,/B, Z,/Z)",
+        "second_isolated_output": "Optional",
+        "frequency_range": "@5V, @1m cable, 250 kHz Max; @24V, @300m cable, #8 output, 45 kHz Max",
+        "maximum_cable_length": "1000'",
+        "ppr": "4 - 50000***",
+        "speed": "5400 RPM Max****",
+        "electronics": "Fully Encapsulated, IP67**",
+        "temperature": "-40Â° to 120Â°C (150Â°C rotor)^",
+        "vibration": "18 g's",
+        "shock": "1 meter drop test",
+        "chemical_resistance": "Polyurethane enamel paint protects against salt spray, mild acids, and bases.",
+        "weight": "2 - 3 lbs [0.9 - 1.36 kg] (will vary by connector options)",
+        "notes": [
+            "* Electrical specifications for SMARTach III model (serial # 30,000 or higher), consult Nidec Industrial Solutions for earlier model specifications.",
+            "** Certain connector options may reduce IP rating.",
+            "*** (PPR) Standard maximum PPR is 5000. Consult Factory with your application for PPRs up to 50,000.",
+            "**** (Speed) Maximum RPM may be limited for PPR > 2,500. Consult Factory with your application.",
+            "^ Requires air cooling system option in AV485 & AV685 to reach +120Â°C rating"
+        ]
+    },
+    "more_advantages": [
+        "High resolution up to 25000 PPR",
+        "Sensor PPR can be factory reprogrammed",
+        "Full protection against short circuits, reverse voltage, phase-to-phase shorts",
+        "High-power outputs for long cable runs",
+        "Optional 24V in, 5V out option for low-voltage, long-cable applications",
+        "Diagnostic LED and alarm output contact indicates proper operation"
+    ],
+    "markets_applications": {
+        "industries": [
+            "Mining",
+            "General",
+            "Wind Power",
+            "Pulp & Paper",
+            "Oil & Gas",
+            "Marine",
+            "Metals",
+            "Machinery",
+            "Crane & Hoist"
+        ],
+        "duty_types": {
+            "Severe Mill Duty": [
+                "XRB3",
+                "Cables and Connectors",
+                "Encoder Couplings",
+                "AV5",
+                "AV30",
+                "XR5",
+                "AV12",
+                "XR12",
+                "HS40",
+                "K661",
+                "M6C",
+                "XP5",
+                "XPH1",
+                "XPH8",
+                "XR485",
+                "XR685",
+                "M7",
+                "AV685",
+                "AV485",
+                "AV30B"
+            ]
+        }
+    },
+    "documents": [
+        {
+            "name": "SMART Alarm and LED Functionality",
+            "url": "https://nidec-fm-image.s3.amazonaws.com/Document/smart-alarm-and-led-output.pdf"
+        },
+        {
+            "name": "Nidec-Avtron Terms and Conditions",
+            "url": "https://nidec-fm-image.s3.amazonaws.com/Document/10-r180329encoders.pdf"
+        },
+        {
+            "name": "Nidec Industrial Solutions ISO Certificate",
+            "url": "https://nidec-fm-image.s3.amazonaws.com/Document/ISO_1215.pdf"
+        },
+        {
+            "name": "Declaration of Conformity (CE)",
+            "url": "https://nidec-fm-image.s3.amazonaws.com/Document/AV5DOC201711_1218.pdf"
+        },
+        {
+            "name": "REACH & RoHS",
+            "url": "https://nidec-fm-image.s3.amazonaws.com/Document/REACH_4388.pdf"
+        },
+        {
+            "name": "SMT1 Brochure",
+            "url": "https://nidec-fm-image.s3.amazonaws.com/Document/SMT1_4408.pdf"
+        },
+        {
+            "name": "Avtron Encoders Product Catalog",
+            "url": "https://nidec-fm-image.s3.amazonaws.com/Document/2025_4413.pdf"
+        }
+    ],
+    "related_material": "No Related Materials Available",
+    "competitive_products_replaced": [
+        "Allen Bradley: 842A, 842D, 842E, 845GM, 845D, 845G",
+        "BEI: H25, HMT25, L18",
+        "Dynapar/ACURO: AC36, AD25, AD34, AD35, AI25",
+        "Heidenhain: ROC410, ROC412, ROC413, ROQ425",
+        "Pepperl+Fuchs: AVS36M, AVS42H,BVM58, BVS58, CVM36M, CVS36M, CVM42H, CVS42H, CVM58, CVS58, CVM58S, CVS58S, DVM58, DVS58, EVM58, EVS58, FVM58, FVS58, PVM58, PVS58, RVS58S",
+        "Many other standard 58mm diameter shafted, flanged absolute rotary encoders."
+    ],
+    "accessories": [
+        {
+            "name": "Cables and Connectors",
+            "url": "https://www.nidec-avtronencoders.com/encoders/accessories/cables-and-connectors"
+        }
+    ],
+    "product_glossary": [
+        {
+            "term": "A Quad B",
+            "definition": "A Quad B refers to the set of output quadrature signals from an incremental quadrature encoder to indicate speed and direction, including complements: A, A NOT, B, B NOT (, , , ). Most Avtron encoders offer A Quad B output at no extra cost. For more information on quadrature- Wikipedia: http://en.wikipedia.org/wiki/Quadrature_phase"
+        },
+        {
+            "term": "Complements",
+            "definition": "Also known as complementary outputs. To ensure that signal noise does not cause errors between the encoder and the controller, many encoders output signals that are driven in exactly opposite directions: when A goes high, A NOT goes low (, ); when A goes low, A NOT goes high. Controllers which see a transition in A, but not in the A NOT signal, would report a quadrature error."
+        },
+        {
+            "term": "Coupled/Coupling",
+            "definition": "Refers to a flexible device that is used to link a solid shaft encoder to the shaft to be monitored. Avtron strongly recommends isolated, flexible disk style couplings in heavy duty applications to maximize encoder bearing life. For light mill duty applications, flexible helical couplings are a great option. If there's a large amount axial shaft movement or misalignment, shift to magnetic couplings."
+        },
+        {
+            "term": "Encoder",
+            "definition": "A device which indicates position and speed via a set of digital outputs. Incremental encoders output quadrature (A Quad B) signals, and may add a marker pulse once per revolution. Absolute encoders typically indicate position via a digital message, a set of parallel outputs, or analog values."
+        },
+        {
+            "term": "Face or Flange Mount",
+            "definition": "A machined surface (NEMA 56C, NEMA FC) on the non-drive end of the motor is used to mount bearingless or pancake encoders such as Avtron AV56 THIN-LINE IIÂ® encoders. Solid shaft, coupled tachometers also flange mounted using flange adapters, also called flowerpots."
+        },
+        {
+            "term": "Flange Adapter",
+            "definition": "A Flange Adapter provides the NEMA 56C motor mounting face and properly locates the encoder shaft. The encoder shaft and motor shaft are then connected using a flexible coupling. (Drawing \"A\") Often flange adapters can be eliminated by directly mounting a modular encoder such as an Avtron AV125, AV850, AV56, AV67, AV85, AV115 unit on the motor flange. (Drawing \"B\")"
+        },
+        {
+            "term": "IR LED",
+            "definition": "Infra-Red Light Emitting Diode is the light source for an optical encoder."
+        },
+        {
+            "term": "Incremental Encoder",
+            "definition": "An encoder that produces pulses in proportion to distance moved or rotated. Incremental encoders can also have a marker pulse Z, Z NOT (, ) once per revolution to provide a position reference. Avtron produces a full range of incremental rotary encoders."
+        },
+        {
+            "term": "Light Mill Duty",
+            "definition": "Light Mill Duty encoders are designed for industrial applications but must be protected from contamination, temperature cycling, and physical force, including shock, vibration, and bearing loads. Examples include AV20, AV25, HS25A, and HS35A models."
+        },
+        {
+            "term": "Line Driver",
+            "definition": "The chip or output circuit that forms the electrical pulses output from the encoder. Avtron has extremely advanced line driver technology to prevent damage from overvoltage and short circuits. Avtron offers optional high-power line drivers to permit Avtron encoder signals to travel farther down long wires to remote controller/drive locations without the need for repeaters or amplifiers."
+        },
+        {
+            "term": "Optical Encoder",
+            "definition": "An Optical Encoder typically uses a light source shining through, or reflecting off, an optical disk with lines or slots that interrupt the beam of light to an optical sensor. Electronics count the interruptions of the beam and generate the encoderâs output pulses."
+        },
+        {
+            "term": "PPR",
+            "definition": "Pulses Per Revolution. Most Avtron encoders output quadrature pulses, with four times as many lines as pulses. Often lines can be counted in the drive/speed controller for higher resolution applications."
+        },
+        {
+            "term": "Pulses",
+            "definition": "Pulses are also known as counts and are the low voltage output transitions which indicate movement of the encoder. Encoders are rated by resolution or PPR (pulses per revolution). Pulses are not the same as lines."
+        },
+        {
+            "term": "Quadrature",
+            "definition": "To determine which direction an encoder is revolving, encoders output quadrature signals: two streams of pulses, A & B, generated at 90Â° timing angles. (Also called A Quad B) A leading B indicates rotation in one direction; B leading A indicates the encoder is rotating in the opposite direction. Example: âA leads B with clockwise rotation as viewed from the encoder face on an HS45 encoder.\" Many encoders with quadrature outputs also have complementary outputs: A NOT and B NOT signals."
+        },
+        {
+            "term": "Resolution",
+            "definition": "Resolution describes how many individual slices or positions can be reported by an incremental or absolute encoder. For incremental encoders the number of PPR (pulses per revolution) expresses resolution; for absolute encoders, PPR, or counts per turn or bits of resolution may be listed."
+        },
+        {
+            "term": "Solid Shaft",
+            "definition": "Solid Shaft encoders are coupled to the shaft to be measured. The solid shaft encoder body is typically C-Face mounted using a flange adapter, or some models can be foot mounted."
+        },
+        {
+            "term": "Wide-Gap Technology",
+            "definition": "Avtron encoders use special optical sensors and magnetoresistive sensors, combined with proprietary circuit designs to allow the sensor to be located much farther from the magnetic rotor or optical disk. This eliminates sensor crashes and makes mounting easy and forgiving of mechanical variation."
+        }
+    ],
+    "related_products": [
+        {
+            "name": "AV12",
+            "url": "https://www.nidec-avtronencoders.com/encoders/incremental-encoders/av12"
+        },
+        {
+            "name": "AV485",
+            "url": "https://www.nidec-avtronencoders.com/encoders/incremental-encoders/av485"
+        },
+        {
+            "name": "AV685",
+            "url": "https://www.nidec-avtronencoders.com/encoders/incremental-encoders/av685"
+        },
+        {
+            "name": "AV850",
+            "url": "https://www.nidec-avtronencoders.com/encoders/incremental-encoders/av850"
+        }
+    ],
+    "product_type": "Rotary Encoder | Absolute Encoder | Shafted Encoder",
+    "image_url": "https://nidec-fm-image.s3.amazonaws.com/product/av6m_1085.jpeg",
+    "competitive_products": {
+        "description": "Avtron SMARTach II Encoders enable replacement of unreliable, easily damaged sensors including:",
+        "replacements_for": [
+            "Lakeshore/Northstar: RIM LD 240, RIM LD 256, RIM LD 480, RIM LD 512, RIM LD 960, RIM LD 960Z, RIM LD 1024, RIM LD 1024Z, RIM LD 1200, RIM LD 1200Z, RIM LD 2048, NSR80240LLC, NSR80256LLC, NSR80512LLC, NSR80152ZLC, NSR80960LLC, NSR80960ZLC, NSR81024LLC, NSR81024ZLC, NSR81200LLC, NSR81200ZLC, NSH80240LLC, NSH80256LLC, NSH80512LLC, NSH80152ZLC, NSH80960LLC, NSH80960ZLC, NSH81024LLC, NSH81024ZLC, NSH81200LLC, NSH81200ZLC, NSR60240LLC, NSR60256LLC, NSR60512LLC, NSR60152ZLC, NSR60960LLC, NSR60960ZLC, NSR61024LLC, NSR61024ZLC, NSR61200LLC, NSR61200ZLC, NSR62048LLC, NSR62048ZLC",
+            "Pin-for-pin compatible with existing cabling including factory cables such as: RIMCABLEDB1"
+        ]
+    },
+    "price": null,
+    "product_subtitle": "Avtron AV5 SMARTachâ¢ III",
+    "product_glossary_terms": [
+        {
+            "term": "A Quad B",
+            "definition": "A Quad B refers to the set of output quadrature signals from an incremental quadrature encoder to indicate speed and direction, including complements: A, A NOT, B, B NOT (, , , ). Most Avtron encoders offer A Quad B output at no extra cost. For more information on quadrature- Wikipedia: http://en.wikipedia.org/wiki/Quadrature_phase"
+        },
+        {
+            "term": "Incremental Encoder",
+            "definition": "An encoder that produces pulses in proportion to distance moved or rotated. Incremental encoders can also have a marker pulse Z, Z NOT (, ) once per revolution to provide a position reference. Avtron produces a full range of incremental rotary encoders."
+        },
+        {
+            "term": "Line Driver",
+            "definition": "The chip or output circuit that forms the electrical pulses output from the encoder. Avtron has extremely advanced line driver technology to prevent damage from overvoltage and short circuits. Avtron offers optional high-power line drivers to permit Avtron encoder signals to travel farther down long wires to remote controller/drive locations without the need for repeaters or amplifiers."
+        },
+        {
+            "term": "Magnetic Encoder",
+            "definition": "Magnetic and magnetoresistive encoders typically use a magnetized rotor with north and south poles lined up around the perimeter of the disk. A magnetoresistive sensor detects the transitions, and these are the counts or pulses generated by the encoder. Magnetic encoders withstand dirt, dust, water, and temperature changes far better than optical encoders."
+        },
+        {
+            "term": "Magnetic Rotor",
+            "definition": "A magnetized disk with multiple north and south poles lined up around the perimeter of the disk. A magnetoresistive sensor detects the transitions and generates the pulses generated by the magnetic encoder."
+        },
+        {
+            "term": "Magnetoresistive Sensor",
+            "definition": "A sensor that detects the magnetic poles on an encoder's magnetic rotor and transforms them into pulses. Avtron magnetoresistive (MR) sensors use advanced technology to reject external magnetic signals such as brake solenoids and motor magnetic fields. MR sensors enable Avtron magnetic encoders to ignore dirt, oil, water, and other contaminants."
+        },
+        {
+            "term": "Marker Pulse",
+            "definition": "The Marker Pulse occurs once per revolution. The purpose of the marker pulse is to provide a repeatable home position location for positioning applications. The marker pulse is often abbreviated as \"Z\" or \"Z\" in the USA and \"C\" or \"N\" in Europe."
+        },
+        {
+            "term": "Modular Encoders",
+            "definition": "Modular Encoders mount to a machined C-face or flange adapter on the motor (drive or non-drive end). Modular encoders consist of a rotor that mounts on the shaft, and a stator that bolts to the motor frame. Modular encoders are very rugged, and Avtron encoders feature Wide-Gap sensors to avoid complex shimming or fitting to the motor. Modular C-face encoders are typically used on DC motors; but some AC motors, such as Rockwellâs RPM III AC and Marathonâs Blue and Black Max motors, have C-faces standard on the non-drive end for mounting an encoder."
+        },
+        {
+            "term": "PPR",
+            "definition": "Pulses Per Revolution. Most Avtron encoders output quadrature pulses, with four times as many lines as pulses. Often lines can be counted in the drive/speed controller for higher resolution applications."
+        },
+        {
+            "term": "Wide-Gap Technology",
+            "definition": "Avtron encoders use special optical sensors and magnetoresistive sensors, combined with proprietary circuit designs to allow the sensor to be located much farther from the magnetic rotor or optical disk. This eliminates sensor crashes and makes mounting easy and forgiving of mechanical variation."
+        }
+    ]
+}

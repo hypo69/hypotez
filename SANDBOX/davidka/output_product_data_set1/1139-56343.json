@@ -1,0 +1,162 @@
+{
+    "product_name": "Bourdon Tube Pressure Gauge, Stainless Steel",
+    "models": [
+        "232.50",
+        "233.50"
+    ],
+    "description": "This high-quality Bourdon tube pressure gauge has been designed especially for the process industry. The use of high-quality stainless steel materials and the robust design are geared to applications in the chemical and process engineering industries. Thus the instrument is suitable for liquid and gaseous media, also in aggressive environments. Scale ranges of 0 â¦ 0.6 to 0 â¦ 1,600 bar [0 ... 10 to 0 ... 20,000 psi] ensure the measuring ranges required for a wide variety of applications. WIKA manufactures and qualifies the pressure gauge in accordance with the standards EN 837-1 and ASME B40.100. This instrument has as safety function a blow-out device with blow-out plug on the back of the case. In the event of a failure, overpressure can escape there. The model 233.50 with liquid-filled case is suitable for high dynamic pressure loads and vibrations.",
+    "applications": [
+        "For gaseous and liquid aggressive media that are not highly viscous or crystallising, also in aggressive environments",
+        "Chemical and petrochemical industries, oil and gas industry, power engineering and also water and wastewater technology",
+        "Machine building and general plant construction"
+    ],
+    "special_features": [
+        "Excellent load-cycle stability and shock resistance",
+        "With case filling (model 233.50) for applications with high dynamic pressure loads and vibrations",
+        "Completely from stainless steel",
+        "Scale ranges from 0 â¦ 0.6 to 0 â¦ 1,600 bar [0 ... 10 to 0 ... 20,000 psi]"
+    ],
+    "nominal_size_ns": [
+        "63 [2 Â½\"]",
+        "100 [4\"]",
+        "160 [6\"]"
+    ],
+    "scale_ranges": "0 â¦ 0.6 to 0 â¦ 1,600 bar [0 ... 10 to 0 ... 20,000 psi]",
+    "standards_compliance": [
+        "EN 837-1",
+        "ASME B40.100"
+    ],
+    "safety_features": [
+        "Blow-out device with blow-out plug on the back of the case"
+    ],
+    "case_filling": "Model 233.50 has liquid-filled case for high dynamic pressure loads and vibrations.",
+    "price_range": "from $ 156.26",
+    "documents": [
+        {
+            "title": "Data sheet PM 02.02",
+            "description": "Bourdon tube pressure gauge, stainless steel, for the process industry, standard version, NS 63 [2 Â½\"]",
+            "url": "https://www.wika.com/media/Data-sheets/Pressure/Pressure-gauges/ds_pm0202_en_co.pdf"
+        },
+        {
+            "title": "Data sheet SP 09.03",
+            "description": "Limit indicator option",
+            "url": "https://www.wika.com/media/Data-sheets/Pressure/Pressure-gauges/ds_sp0903_en_co.pdf"
+        },
+        {
+            "title": "Operating Instruction #1",
+            "description": "Pressure Gauges",
+            "url": "https://www.wika.com/media/Operating-instructions/Operating-instructions/Pressure/Pressure-gauges/oi_pressuregauges_en_us.pdf"
+        },
+        {
+            "title": "Operating Instruction #2",
+            "description": "Pressure gauge NS 100 and NS 160 per ATEX",
+            "url": "https://www.wika.com/media/Operating-instructions/Operating-instructions/Pressure/Pressure-gauges/oi_2_atex_en_de_fr_es.pdf"
+        },
+        {
+            "title": "Operating Instruction #3",
+            "description": "Pressure gauge model 2 NS 63 per ATEX directive",
+            "url": "https://www.wika.com/media/Operating-instructions/Operating-instructions/Pressure/Pressure-gauges/oi_2_atex_ns63_en.pdf"
+        },
+        {
+            "title": "Additional operating instruction #1",
+            "description": "Additional information for pointers, for NS 63, 100 and 160 pressure gauges and dial thermometers",
+            "url": "https://www.wika.com/media/Operating-instructions/Additional-operating-instructions/Non-Ex/ai_pointers_dial_gauges_en_de_fr_es.pdf"
+        },
+        {
+            "title": "Additional operating instruction #2",
+            "description": "Additional information for pressure gauges with transport locking screw",
+            "url": "https://www.wika.com/media/Operating-instructions/Additional-operating-instructions/Non-Ex/ai_transport_locking_screw_en_de_fr_es_ru.pdf"
+        }
+    ],
+    "accessories": [
+        {
+            "model": "910.10",
+            "name": "Pressure gauge cock",
+            "description": "Brass, steel or stainless steel",
+            "url": "910_10.WIKA"
+        },
+        {
+            "model": "910.11",
+            "name": "Pressure gauge valve",
+            "description": "brass, steel or stainless steel",
+            "url": "910_11.WIKA"
+        },
+        {
+            "model": "910.13",
+            "name": "Overpressure protector, adjustable",
+            "description": "Brass or stainless steel",
+            "url": "910_13.WIKA"
+        },
+        {
+            "model": "910.15",
+            "name": "Syphons and connecting pipes",
+            "description": "For pressure measuring instruments",
+            "url": "910_15.WIKA"
+        },
+        {
+            "model": "910.16",
+            "name": "Instrument Mounting Brackets",
+            "description": null,
+            "url": "910_16.WIKA"
+        },
+        {
+            "model": "IV1",
+            "name": "Needle valve and multiport valve",
+            "description": null,
+            "url": "iv1.WIKA"
+        },
+        {
+            "model": "BV",
+            "name": "Ball valve",
+            "description": "Process and instrument version",
+            "url": "bv.WIKA"
+        },
+        {
+            "model": "IVM",
+            "name": "Monoflange",
+            "description": "Process and instrument version",
+            "url": "ivm.WIKA"
+        }
+    ],
+    "similar_products": [
+        {
+            "model": "131.11",
+            "name": "Bourdon tube pressure gauge, stainless steel",
+            "description": "Compact version, NS 40, 50 and 63",
+            "url": "131_11.WIKA"
+        },
+        {
+            "model": "232.30, 233.30",
+            "name": "Bourdon tube pressure gauge, stainless steel",
+            "description": "For the process industry, safety version, NS 63, 100 and 1 ...",
+            "url": "232_30_233_30.WIKA"
+        },
+        {
+            "model": "PGS23.100, PGS23.160, PGS26.100, PGS26.160",
+            "name": "Bourdon tube pressure gauge with switch contacts",
+            "description": "For the process industry, NS 100 and 160",
+            "url": "pgs23_100_pgs23_160_pgs26_100_pgs26_160.WIKA"
+        },
+        {
+            "model": "PGT23.063",
+            "name": "Bourdon tube pressure gauge with output signal",
+            "description": "Stainless steel, safety version, NS 63 [2 Â½\"]",
+            "url": "pgt23_063.WIKA"
+        },
+        {
+            "model": "PGT23.100, PGT23.160",
+            "name": "Bourdon tube pressure gauge with output signal",
+            "description": "For the process industry, safety version, NS 100 and 160",
+            "url": "pgt23_100_pgt23_160.WIKA"
+        }
+    ],
+    "warnings": [
+        "This product can expose you to chemicals including Nickel and Chromium, which is known to the State of California to cause cancer and reproductive harm. For more information go to www.P65Warnings.ca.gov."
+    ],
+    "additional_information": {
+        "wika_product_pass": {
+            "description": "Are you interested in individual product data (e.g. test report)? Find out more about your WIKA product.",
+            "url": "https://productpass.wika.com/"
+        }
+    }
+}

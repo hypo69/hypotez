@@ -1,0 +1,949 @@
+{
+    "page_title": "1/2-in x 10-ft Metallic EMT Conduit 101543 at Lowes.com",
+    "skip_to_main_content": "Skip to main content",
+    "promotional_banner": {
+        "text": "Take a look at these fresh spring savings. Shop Now >",
+        "link": "https://www.lowes.com/pl/Spring-into-deals/2320257962085?refinement=2,982555943,982555940,982555941&int_cmp=Home%A1:NoDivision%Other:FW11_25_SPRING_INTO_DEALS_GLOBAL"
+    },
+    "header_links": [
+        {
+            "text": "Lowe's Credit Center",
+            "link": "/l/Credit"
+        },
+        {
+            "text": "Order Status",
+            "link": "/mylowes/orders"
+        },
+        {
+            "text": "Weekly Ad",
+            "link": "/weekly-ad"
+        },
+        {
+            "text": "Lowe's PRO",
+            "link": "/l/Pro/pro-benefits"
+        }
+    ],
+    "header_navigation": {
+        "title": "DIY & Ideas",
+        "home_link": {
+            "text": "Link to Lowe's Home Improvement Home Page",
+            "link": "/"
+        },
+        "find_a_store": {
+            "text": "Find a Store Near Me",
+            "link": "/store/"
+        },
+        "mylowes_signin": "MyLowesSign In",
+        "cart": "Cart with 0 itemsCart",
+        "shop_links": [
+            {
+                "text": "Shop All"
+            },
+            {
+                "text": "Installations"
+            },
+            {
+                "text": "Deals"
+            },
+            {
+                "text": "MylowNew",
+                "link": "/ai"
+            },
+            {
+                "text": "Appliances"
+            },
+            {
+                "text": "Bathroom"
+            },
+            {
+                "text": "Building Supplies"
+            },
+            {
+                "text": "Flooring"
+            },
+            {
+                "text": "Lawn & Garden"
+            },
+            {
+                "text": "Lighting"
+            },
+            {
+                "text": "Outdoor"
+            },
+            {
+                "text": "Tools"
+            },
+            {
+                "text": "Plumbing"
+            },
+            {
+                "text": "Doors & Windows"
+            },
+            {
+                "text": "Motherâs Day",
+                "link": "/l/shop/gift-ideas"
+            }
+        ],
+        "department_links": [
+            {
+                "text": "Automotive",
+                "link": "https://www.lowes.com/c/Automotive"
+            },
+            {
+                "text": "Bathroom",
+                "link": "https://www.lowes.com/c/Bathroom"
+            },
+            {
+                "text": "Building Supplies",
+                "link": "https://www.lowes.com/c/Building-supplies"
+            },
+            {
+                "text": "Cleaning Supplies",
+                "link": "https://www.lowes.com/c/Cleaning-supplies"
+            },
+            {
+                "text": "Electrical",
+                "link": "https://www.lowes.com/c/Electrical"
+            },
+            {
+                "text": "Flooring",
+                "link": "https://www.lowes.com/c/Flooring"
+            },
+            {
+                "text": "Hardware",
+                "link": "https://www.lowes.com/c/Hardware"
+            },
+            {
+                "text": "Heating & Cooling",
+                "link": "https://www.lowes.com/c/Heating-cooling"
+            },
+            {
+                "text": "Holiday Decorations",
+                "link": "https://www.lowes.com/c/Holiday-decorations"
+            },
+            {
+                "text": "Home Decor",
+                "link": "https://www.lowes.com/c/Home-decor"
+            },
+            {
+                "text": "Window Treatments",
+                "link": "https://www.lowes.com/c/Window-treatments-Home-decor"
+            },
+            {
+                "text": "Kitchen",
+                "link": "https://www.lowes.com/c/Kitchen"
+            },
+            {
+                "text": "Lawn & Garden",
+                "link": "https://www.lowes.com/c/Lawn-garden"
+            },
+            {
+                "text": "Lighting & Ceiling Fans",
+                "link": "https://www.lowes.com/c/Lighting-ceiling-fans"
+            },
+            {
+                "text": "Moulding & Millwork",
+                "link": "https://www.lowes.com/c/Moulding-millwork"
+            },
+            {
+                "text": "Outdoors",
+                "link": "https://www.lowes.com/c/Outdoors"
+            },
+            {
+                "text": "Paint",
+                "link": "https://www.lowes.com/c/Paint"
+            },
+            {
+                "text": "Plumbing",
+                "link": "https://www.lowes.com/c/Plumbing"
+            },
+            {
+                "text": "Smart Home, Security, Wi-Fi",
+                "link": "https://www.lowes.com/c/Smart-home-security-wi-fi"
+            },
+            {
+                "text": "Sports & Fitness",
+                "link": "https://www.lowes.com/c/Sports-fitness"
+            },
+            {
+                "text": "Storage & Organization",
+                "link": "https://www.lowes.com/c/Storage-organization"
+            },
+            {
+                "text": "Tools",
+                "link": "https://www.lowes.com/c/Tools"
+            },
+            {
+                "text": "Windows & Doors",
+                "link": "https://www.lowes.com/c/Windows-doors"
+            },
+            {
+                "text": "Appliances",
+                "link": "https://www.lowes.com/c/Appliances"
+            },
+            {
+                "text": "Animal & Petcare",
+                "link": "https://www.lowes.com/c/Animal-pet-care"
+            },
+            {
+                "text": "Refrigerators",
+                "link": "https://www.lowes.com/c/Refrigerators-Appliances"
+            },
+            {
+                "text": "Washers & Dryers",
+                "link": "https://www.lowes.com/c/Washers-dryers-Appliances"
+            },
+            {
+                "text": "Best Sellers",
+                "link": "https://www.lowes.com/best-sellers"
+            },
+            {
+                "text": "Rental",
+                "link": "https://www.lowes.com/l/shop/rental"
+            },
+            {
+                "text": "Gift Cards",
+                "link": "https://www.lowes.com/l/shop/gift-cards"
+            }
+        ]
+    },
+    "installation_services_menu": {
+        "title": "Installation & Services",
+        "view_all_link": {
+            "text": "View All",
+            "link": "/l/install"
+        },
+        "categories": [
+            {
+                "text": "Appliances",
+                "link": "/l/install/appliances"
+            },
+            {
+                "text": "Bathroom",
+                "link": "/l/install/bathroom"
+            },
+            {
+                "text": "Blinds, Shades & Shutters",
+                "link": "/l/install/blinds-shades-shutters"
+            },
+            {
+                "text": "Doors & Windows",
+                "link": "/l/install/whole-home"
+            },
+            {
+                "text": "Electrical",
+                "link": "/l/install"
+            },
+            {
+                "text": "Exterior Home",
+                "link": "/l/install/exterior"
+            },
+            {
+                "text": "Flooring",
+                "link": "/l/install/flooring"
+            },
+            {
+                "text": "Heating, Cooling & Plumbing",
+                "link": "/l/install/whole-home"
+            },
+            {
+                "text": "Home Accessibility",
+                "link": "/l/install/lowes-livable-home-services"
+            },
+            {
+                "text": "Interior Home",
+                "link": "/l/install/livingroom-bedroom"
+            },
+            {
+                "text": "Kitchen",
+                "link": "/l/install/kitchen"
+            }
+        ],
+        "subcategories": {
+            "Kitchen": [
+                "Cooktops",
+                "Dishwashers",
+                "Garbage Disposals",
+                "Over-the-Range Microwaves",
+                "Range Hoods",
+                "Ranges",
+                "Refrigerators",
+                "Wall Ovens",
+                "Washers & Dryers"
+            ],
+            "Bathroom": [
+                "Bathroom Remodeling",
+                "Custom Shower Doors",
+                "Sinks & Faucets",
+                "Toilets"
+            ],
+            "Blinds, Shades & Shutters": [
+                "Blinds & Shades",
+                "Custom Interior Shutters",
+                "Custom Window Treatments"
+            ],
+            "Doors & Windows": [
+                "Doors",
+                "Garage Doors & Garage Door Openers",
+                "Windows"
+            ],
+            "Electrical": [
+                "EV Charging",
+                "Generators",
+                "Lighting & Ceiling Fans",
+                "Smart Home",
+                "Solar Power"
+            ],
+            "Exterior Home": [
+                "Artificial Grass",
+                "Decking",
+                "EV Charging",
+                "Fencing",
+                "Generators",
+                "Gutters",
+                "Playsets",
+                "Roofing",
+                "Sheds",
+                "Siding",
+                "Solar Power"
+            ],
+            "Flooring": [
+                "Carpet",
+                "Hardwood Flooring",
+                "Laminate Flooring",
+                "Tile Flooring",
+                "Vinyl Flooring"
+            ],
+            "Heating, Cooling & Plumbing": [
+                "HVAC Installation",
+                "HVAC Service",
+                "Insulation",
+                "Water Heaters",
+                "Water Treatment & Softeners"
+            ],
+            "Home Accessibility": [
+                "Bathtub Conversion",
+                "Virtual Assessment",
+                "Wheelchair Ramps & Stair Lifts",
+                "Home Accessibility"
+            ],
+            "Interior Home": [
+                "Home Organization",
+                "Lighting & Ceiling Fans",
+                "Smart Home"
+            ],
+            "Kitchen (again)": [
+                "Appliances",
+                "Backsplashes",
+                "Cabinet Refacing",
+                "Cabinets",
+                "Countertops",
+                "Dishwashers",
+                "Garbage Disposals",
+                "Kitchen Design Services",
+                "Sinks & Faucets"
+            ]
+        },
+        "project_planning_banner": {
+            "text": "Plan, track and manage your project. Get started.",
+            "link": "/mylowes/projects"
+        }
+    },
+    "deals_menu": {
+        "title": "Deals by Department",
+        "shop_all_link": {
+            "text": "Shop All",
+            "link": "/l/savings"
+        },
+        "departments": [
+            {
+                "text": "Appliances",
+                "link": "/pl/Deals/1611079983848?catalog=4294937007"
+            },
+            {
+                "text": "Bathroom",
+                "link": "/pl/Deals/1611079983848?catalog=4294737305"
+            },
+            {
+                "text": "Building Supplies",
+                "link": "/pl/Deals/1611079983848?catalog=4294934297"
+            },
+            {
+                "text": "Flooring",
+                "link": "/pl/Deals/1611079983848?catalog=4294934373"
+            },
+            {
+                "text": "Home DÃ©cor",
+                "link": "/pl/Deals/1611079983848?catalog=4294935484"
+            },
+            {
+                "text": "Lawn & Garden",
+                "link": "/pl/Deals/1611079983848?catalog=1011552124422"
+            },
+            {
+                "text": "Lighting & Ceiling Fans",
+                "link": "/pl/Deals/1611079983848?catalog=4294935637"
+            },
+            {
+                "text": "Outdoors",
+                "link": "/pl/Deals/1611079983848?catalog=4294612886"
+            },
+            {
+                "text": "Paint",
+                "link": "/pl/Deals/1611079983848?catalog=4294729418"
+            },
+            {
+                "text": "Tools",
+                "link": "/pl/Deals/1611079983848?catalog=4294936478"
+            }
+        ]
+    },
+    "dont_miss_these_deals": {
+        "title": "Don't Miss These Deals",
+        "spring_savings": {
+            "text": "Spring savings have sprung. Shop now.",
+            "link": "/pl/Spring-into-deals/2320257962085?refinement=2,982555943,982555940,982555941"
+        },
+        "daily_deals": {
+            "text": "1 Day Online Only Deals of the Day. Check every day for new deals. While supplies last. Shop now.",
+            "link": "/l/savings/daily-deals"
+        }
+    },
+    "more_ways_to_save": {
+        "title": "More Ways to Save",
+        "clearance": {
+            "text": "Clearance",
+            "link": "/pl/The-back-aisle/2021454685607?refinement=2"
+        },
+        "weekly_ad": {
+            "text": "Weekly Ad",
+            "link": "/weekly-ad"
+        },
+        "credit_cards": {
+            "text": "Lowe's Credit Cards",
+            "link": "/l/Credit"
+        }
+    },
+    "pricing_disclaimer": "Prices, Promotions, styles, and availability may vary. Our local stores do not honor online pricing. Prices and availability of products and services are subject to change without notice. Errors will be corrected where discovered, and Lowe's reserves the right to revoke any stated offer and to correct any errors, inaccuracies or omissions including after an order has been submitted.",
+    "breadcrumbs": [
+        {
+            "text": "Back to Results",
+            "link": "javascript: history.back();"
+        },
+        {
+            "text": "Electrical",
+            "link": "/c/Electrical"
+        },
+        {
+            "text": "Conduit & Conduit Fittings",
+            "link": "/c/Conduit-conduit-fittings-Electrical"
+        },
+        {
+            "text": "Conduit",
+            "link": "/pl/conduit-conduit-fittings/conduit/4294653947"
+        }
+    ],
+    "product_section": {
+        "images": [
+            {
+                "description": "101543 1/2-in x 10-ft Metallic EMT Conduit",
+                "url": "https://mobileimages.lowes.com/productimages/1da84c05-e2dd-470f-a047-da7cd7748f71/07732347.jpg?size=pdhism"
+            },
+            {
+                "description": "101543 conduit - View #2",
+                "url": "https://mobileimages.lowes.com/productimages/de3bd8a0-c540-490e-9b97-494744b77aa2/48687573.jpg?size=pdhism"
+            }
+        ],
+        "bought_last_week": "10k+ bought last week",
+        "name": "1/2-in x 10-ft Metallic EMT Conduit",
+        "item_number": "72711",
+        "model_number": "101543",
+        "rating": {
+            "average": "4.7",
+            "total_reviews": "175",
+            "out_of": "5"
+        },
+        "customer_review_summary": {
+            "title": "What Customers Are Saying",
+            "summary": "The product is generally well-received as a useful and affordable option for various DIY projects like making curtain rods, flag poles, and equipment supports. Customers describe it as sturdy and easy to work with. While a few had issues with delivery or condition, the product appears to be a reliable and versatile choice for many home improvement needs.",
+            "generated_by": "Customer review summary generated by AI, including incentivized reviews."
+        },
+        "customer_images": {
+            "count": "+ 5 images",
+            "link": "See all customer reviews"
+        },
+        "qa_link": "View Q&A",
+        "price": "$5.98",
+        "price_breakdown": {
+            "dollars": "5",
+            "cents": "98"
+        },
+        "pricing_notes": [
+            "Per Square Foot pricing is based on the area of a flat surface. Length x Width = Sq. Ft.",
+            "Per Linear Foot pricing is based on the length of a single roll. A linear foot of 10-foot-long-roll = 1 ft. x 10 ft. = 10 Sq. Ft."
+        ],
+        "bulk_savings": "$5.38/ Each (10.0% Off) when you buy 20+",
+        "pickup_availability": {
+            "status": "Available Nearby",
+            "stock_at_store": "437 in Stockat Fort Collins Lowe's (45.7) miles"
+        },
+        "delivery_availability": {
+            "status": "As soon as Thu, May 1",
+            "available_quantity": "135 Available"
+        },
+        "quantity_input": "Stepper number input field with increment and decrement buttons",
+        "add_to_cart_button": "Add to Cart"
+    },
+    "product_tabs": [
+        "Overview",
+        "Specifications",
+        "Compare",
+        "Reviews",
+        "Q&A"
+    ],
+    "loyalty_program": {
+        "text": "Members save more.",
+        "join_link": {
+            "text": "Join for FREE",
+            "link": "https://www.lowes.com/u/register"
+        }
+    },
+    "similar_items": {
+        "title": "Here are some similar items ...",
+        "items": [
+            {
+                "item_number": "0",
+                "name": "1-in x 10-ft Metallic EMT Conduit",
+                "rating": "4.7",
+                "reviews": "18",
+                "image_description": "undefined 1-in x 10-ft Metallic EMT Conduit",
+                "link": "/pd/Metal-EMT-9-98-ft-Conduit-Common-1-in-Actual-1-163-in/5013672209"
+            },
+            {
+                "item_number": "1",
+                "name": "1-1/4-in x 10-ft Metallic EMT Conduit",
+                "rating": "4.8",
+                "reviews": "59",
+                "image_description": "undefined 1-1/4-in x 10-ft Metallic EMT Conduit",
+                "link": "/pd/Common-1-1-4-in-Actual-1-25-In-Metallic-Emt-10-ft-Conduit/3129557"
+            },
+            {
+                "item_number": "2",
+                "name": "Southwire 1/2-in x 25-ft Ultratite Non-metallic Liquid-tight Conduit",
+                "rating": "4.8",
+                "reviews": "137",
+                "image_description": "Southwire 1/2-in x 25-ft Ultratite Non-metallic Liquid-tight Conduit",
+                "link": "/pd/Southwire-Ultratite-Non-Metal-Liquid-tight-25-ft-Conduit-Common-1-2-in-Actual-0-5-in/1000239881"
+            },
+            {
+                "item_number": "3",
+                "name": "2-in x 10-ft Metallic Rigid Conduit",
+                "rating": "4.6",
+                "reviews": "35",
+                "image_description": "undefined 2-in x 10-ft Metallic Rigid Conduit",
+                "link": "/pd/Common-2-in-Actual-2-In-Metallic-Rigid-10-ft-Conduit/3129563"
+            },
+            {
+                "item_number": "4",
+                "name": "1-1/2-in x 10-ft Metallic EMT Conduit",
+                "rating": "3.5",
+                "reviews": "4",
+                "image_description": "undefined 1-1/2-in x 10-ft Metallic EMT Conduit",
+                "link": "/pd/Metal-EMT-9-98-ft-Conduit-Common-1-5-in-Actual-1-74-in/5005565621"
+            },
+            {
+                "item_number": "5",
+                "name": "CANTEX 1-1/2-in x 10-ft Non-metallic Schedule 40 PVC Conduit",
+                "rating": "4.8",
+                "reviews": "131",
+                "image_description": "CANTEX 1-1/2-in x 10-ft Non-metallic Schedule 40 PVC Conduit",
+                "link": "/pd/CANTEX-Common-1-1-2-in-Actual-1-5-In-Non-Metallic-Pvc-10-ft-Conduit/50434250"
+            },
+            {
+                "item_number": "6",
+                "name": "3/4-in x 5-ft Metallic EMT Conduit",
+                "rating": "3.8",
+                "reviews": "135",
+                "image_description": "undefined 3/4-in x 5-ft Metallic EMT Conduit",
+                "link": "/pd/Common-3-4-in-Actual-75-In-Metallic-Emt-5-ft-Conduit/3130169"
+            },
+            {
+                "item_number": "7",
+                "name": "3/4-in x 10-ft Metallic Rigid Conduit",
+                "rating": "5.0",
+                "reviews": "1",
+                "image_description": "undefined 3/4-in x 10-ft Metallic Rigid Conduit",
+                "link": "/pd/Wheatland-Tube-Metal-Rigid-10-ft-Conduit-Common-0-75-in-Actual-1-05-in/5002324695"
+            },
+            {
+                "item_number": "8",
+                "name": "1/2-in x 5-ft Metallic EMT Conduit",
+                "rating": "4.4",
+                "reviews": "49",
+                "image_description": "undefined 1/2-in x 5-ft Metallic EMT Conduit",
+                "link": "/pd/Common-1-2-in-Actual-0-5-In-Metallic-Emt-5-ft-Conduit/3127645"
+            },
+            {
+                "item_number": "9",
+                "name": "3/4-in x 10-ft Metallic EMT Conduit",
+                "rating": "4.8",
+                "reviews": "234",
+                "image_description": "undefined 3/4-in x 10-ft Metallic EMT Conduit",
+                "link": "/pd/Common-3-4-in-Actual-75-In-Metallic-Emt-10-ft-Conduit/3129553"
+            },
+            {
+                "item_number": "10",
+                "name": "1/2-in x 10-ft Metallic Rigid Conduit",
+                "rating": "5.0",
+                "reviews": "2",
+                "image_description": "undefined 1/2-in x 10-ft Metallic Rigid Conduit",
+                "link": "/pd/Common-1-2-in-Actual-50-In-Metallic-Rigid-10-ft-Conduit/3129619"
+            },
+            {
+                "item_number": "11",
+                "name": "JM Eagle 2-in x 10-ft Non-metallic Schedule 40 PVC Conduit",
+                "rating": "4.8",
+                "reviews": "146",
+                "image_description": "JM Eagle 2-in x 10-ft Non-metallic Schedule 40 PVC Conduit",
+                "link": "/pd/JM-Eagle-Common-2-in-Actual-2-06-In-Non-Metallic-Pvc-10-ft-Conduit/3129573"
+            },
+            {
+                "item_number": "12",
+                "name": "CANTEX 3/4-in x 10-ft Non-metallic Schedule 40 PVC Conduit",
+                "rating": "4.7",
+                "reviews": "129",
+                "image_description": "CANTEX 3/4-in x 10-ft Non-metallic Schedule 40 PVC Conduit",
+                "link": "/pd/CANTEX-Common-3-4-in-Actual-75-In-Non-Metallic-Pvc-10-ft-Conduit/3568512"
+            },
+            {
+                "item_number": "13",
+                "name": "CANTEX 1/2-in x 10-ft Non-metallic Schedule 40 PVC Conduit",
+                "rating": "4.6",
+                "reviews": "111",
+                "image_description": "CANTEX 1/2-in x 10-ft Non-metallic Schedule 40 PVC Conduit",
+                "link": "/pd/CANTEX-Common-1-2-in-Actual-50-In-Non-Metallic-Pvc-10-ft-Conduit/50434248"
+            },
+            {
+                "item_number": "14",
+                "name": "CANTEX 1-in x 10-ft Non-metallic Schedule 40 PVC Conduit",
+                "rating": "4.7",
+                "reviews": "140",
+                "image_description": "CANTEX 1-in x 10-ft Non-metallic Schedule 40 PVC Conduit",
+                "link": "/pd/CANTEX-Common-1-in-Actual-1-In-Non-Metallic-Pvc-10-ft-Conduit/50434246"
+            }
+        ]
+    },
+    "guarantees_policies": [
+        {
+            "title": "Best Price. Guaranteed",
+            "description": "Find a lower price on an exact item? We'll match it. Some exclusions apply.",
+            "learn_more_link": "https://www.lowes.com/l/about/lowest-price-guarantee?"
+        },
+        {
+            "title": "FREE Returns",
+            "description": "Return it in store or ship it back for free. Eligibility rules apply.",
+            "learn_more_link": "https://www.lowes.com/l/help/returns-policy#ReturnPolicy"
+        },
+        {
+            "title": "FREE Shipping",
+            "description": "Delivery is on us for orders over $45. Some exclusions apply.",
+            "learn_more_link": "https://www.lowes.com/l/help/free-shipping"
+        }
+    ],
+    "overview_section": {
+        "title": "Overview",
+        "features": [
+            "Interior coating provides a smooth raceway for faster wire pulling",
+            "Patented Flo-Coat triple layer O.D. protection",
+            "High grade, durable and ductile steel for long lfe",
+            "Listed to UL Standard 797 Electrical Metal Tubing - Steel and manufactured in accordance with ANSI C80.3"
+        ]
+    },
+    "specifications_section": {
+        "title": "Specifications"
+    },
+    "reviews_section": {
+        "title": "Reviews",
+        "rating": "4.7",
+        "total_reviews": "( 175 )"
+    },
+    "qa_section": {
+        "title": "Q&A"
+    },
+    "related_searches": {
+        "title": "RELATED SEARCHES",
+        "links": [
+            {
+                "text": "Conduit",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit/4294653947"
+            },
+            {
+                "text": "EMT Conduit",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit/emt/4294653947-410898329959"
+            },
+            {
+                "text": "Metallic Conduit",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit/metallic/4294653947-4294925929"
+            },
+            {
+                "text": "Electrical Tubing Conduit",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit/electrical-tubing/4294653947-1310459353772"
+            },
+            {
+                "text": "HydroMaxx Conduit",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit/hydromaxx/4294653947-810064887520"
+            },
+            {
+                "text": "10 Foot Long Conduit",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit/10-foot-long/4294653947-4294575079"
+            },
+            {
+                "text": "Silver Conduit",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit/silver/4294653947-4294813605"
+            },
+            {
+                "text": "10 Foot Long Struts",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/struts-accessories/struts/10-foot-long/4294542256-4294786594"
+            },
+            {
+                "text": "Scepter Conduit",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit/scepter/4294653947-4294727881"
+            },
+            {
+                "text": "Top Rated Conduit",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit/top-rated/4294653947-5005561"
+            },
+            {
+                "text": "Top Rated Conduit",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit/top-rated/4294653947-5005561"
+            },
+            {
+                "text": "Top Rated Conduit",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit/top-rated/4294653947-5005561"
+            },
+            {
+                "text": "Top Rated Conduit",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit/top-rated/4294653947-5005561"
+            },
+            {
+                "text": "Top Rated Conduit",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit/top-rated/4294653947-5005561"
+            },
+            {
+                "text": "Silver Conduit (By-the-Foot)",
+                "link": "https://www.lowes.com/pl/conduit-conduit-fittings/conduit-by-the-foot/silver/4294653946-4294813605"
+            }
+        ]
+    },
+    "back_to_top": "Back to Top",
+    "footer_links_top": [
+        {
+            "text": "Ask Mylow",
+            "link": "/ai"
+        },
+        {
+            "text": "Contact Us & FAQ",
+            "link": "/l/help/contact-us"
+        },
+        {
+            "text": "Order Status",
+            "link": "/mylowes/orders/checkorderstatus"
+        },
+        {
+            "text": "Lowe's Credit Center",
+            "link": "/l/Credit"
+        },
+        {
+            "text": "Gift Cards",
+            "link": "/l/shop/gift-cards"
+        },
+        {
+            "text": "Installation Services",
+            "link": "/l/install"
+        },
+        {
+            "text": "Lowe's App",
+            "link": "/l/about/download-apps"
+        }
+    ],
+    "footer_sections": [
+        {
+            "title": "About Lowe's",
+            "links": [
+                {
+                    "text": "Who We Are",
+                    "link": "https://corporate.lowes.com/who-we-are"
+                },
+                {
+                    "text": "Careers",
+                    "link": "https://corporate.lowes.com/careers/"
+                },
+                {
+                    "text": "Our Responsibilities",
+                    "link": "https://corporate.lowes.com/our-responsibilities"
+                },
+                {
+                    "text": "Investors",
+                    "link": "https://corporate.lowes.com/investors"
+                },
+                {
+                    "text": "Newsroom",
+                    "link": "https://corporate.lowes.com/newsroom"
+                },
+                {
+                    "text": "Lowe's Suppliers",
+                    "link": "/l/about/suppliers"
+                },
+                {
+                    "text": "Safety Unites Us",
+                    "link": "/l/about/safe"
+                },
+                {
+                    "text": "Loweâs Creators",
+                    "link": "/l/shop/lowes-creator"
+                },
+                {
+                    "text": "Loweâs Brands",
+                    "link": "/l/shop/lowes-brands"
+                },
+                {
+                    "text": "Loweâs Marketplace",
+                    "link": "/l/about/lowes-marketplace"
+                }
+            ]
+        },
+        {
+            "title": "Stores & Services",
+            "links": [
+                {
+                    "text": "Find a Store",
+                    "link": "/store/"
+                },
+                {
+                    "text": "Store Directory",
+                    "link": "/Lowes-Stores"
+                },
+                {
+                    "text": "Brand Directory",
+                    "link": "/b/lowesbrands"
+                },
+                {
+                    "text": "Store Services",
+                    "link": "/l/about/store-services"
+                },
+                {
+                    "text": "Subscriptions",
+                    "link": "/subscriptions"
+                },
+                {
+                    "text": "DIY Workshops",
+                    "link": "/diy-projects-and-ideas/workshops"
+                },
+                {
+                    "text": "MyLoweâs Rewards Program",
+                    "link": "/l/about/mylowes-rewards"
+                },
+                {
+                    "text": "Resources for Pros",
+                    "link": "/l/Pro/resources-for-pros"
+                },
+                {
+                    "text": "MyLoweâs Pro Rewards Program",
+                    "link": "/l/Pro/pro-benefits"
+                },
+                {
+                    "text": "Site Directory",
+                    "link": "/c/Departments"
+                },
+                {
+                    "text": "Best Sellers",
+                    "link": "/best-sellers"
+                },
+                {
+                    "text": "Loweâs Rental",
+                    "link": "/l/shop/rental"
+                }
+            ]
+        },
+        {
+            "title": "Customer Service",
+            "links": [
+                {
+                    "text": "FAQ/Contact Us",
+                    "link": "/l/help"
+                },
+                {
+                    "text": "Rebates",
+                    "link": "/l/help/rebate-center"
+                },
+                {
+                    "text": "Returns & Exchanges",
+                    "link": "/l/help/returns-policy"
+                },
+                {
+                    "text": "Pickup, Shipping & Delivery",
+                    "link": "/l/help/shipping-delivery"
+                },
+                {
+                    "text": "Special Orders",
+                    "link": "/l/help/special-orders"
+                },
+                {
+                    "text": "Recalls & Product Safety",
+                    "link": "/l/help/recalls-and-product-safety"
+                },
+                {
+                    "text": "Protection Plans",
+                    "link": "/l/help/lowes-protection-plan"
+                },
+                {
+                    "text": "Military Discount",
+                    "link": "/l/about/honor-our-military"
+                },
+                {
+                    "text": "Coupons",
+                    "link": "/l/savings/coupons"
+                }
+            ]
+        },
+        {
+            "title": "Privacy & Use",
+            "links": [
+                {
+                    "text": "Terms",
+                    "link": "/l/about/terms-and-conditions-of-use"
+                },
+                {
+                    "text": "Privacy Statement",
+                    "link": "/l/about/privacy-and-security-statement"
+                },
+                {
+                    "text": "Interest-Based Ads",
+                    "link": "/l/about/privacy-and-security-statement#OtherImportantConsiderations"
+                },
+                {
+                    "text": "Your CA Privacy Rights",
+                    "link": "/l/about/privacy-and-security-statement#YourPrivacyRightUndertheCaliforniaShinetheLightAct"
+                },
+                {
+                    "text": "Do Not Sell/Share My Personal Information",
+                    "link": "/l/about/privacy-and-security-statement#HowtoSubmitPrivacyRequest(s))"
+                },
+                {
+                    "text": "Limit the Use of My Sensitive Personal Information",
+                    "link": "/l/about/privacy-and-security-statement#HowtoSubmitPrivacyRequest(s))"
+                },
+                {
+                    "text": "Notice of Financial Incentive/Loyalty Programs",
+                    "link": "/l/about/privacy-and-security-statement#NoticeofFinancialIncentivePrograms/LoyaltyPrograms"
+                }
+            ]
+        }
+    ],
+    "connect_with_us": "CONNECT WITH US",
+    "copyright": "Â© 2025 Lowe's. All rights reserved. Lowe's and the Gable Mansard Design are registered trademarks of LF, LLC.",
+    "help_widget": {
+        "title": "Help",
+        "text": "Need assistance?"
+    }
+}

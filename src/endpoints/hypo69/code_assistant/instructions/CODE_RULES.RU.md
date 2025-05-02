@@ -425,3 +425,13 @@ lists, strings, and file paths.
 if name == 'main':
 pprint({"name": "Alice", "age": 30}, text_color="green")
 ```
+
+
+#### **11 Импорт модулей по умолчанию**
+По умолчанию модули
+```python
+import header
+from header import __root__
+from src import gs
+```
+Загружаются ВСЕГДА! в начале проекта и не требуют дополнительных проверок

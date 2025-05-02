@@ -29,6 +29,7 @@ import os
 import sys
 import io
 import asyncio
+import time
 from types import SimpleNamespace
 from typing import List, Dict, Any, Optional, Callable, Type, Tuple, AsyncIterator
 from pathlib import Path
@@ -84,7 +85,7 @@ class SimpleDriver(Driver):
                 json_start = raw_text.index('{')
             except Exception as ex:
                 logger.error("Ошибка поиска первой фигурной скобки", ex, exc_info=True)
-                return ''
+                return raw_text
             if json_start == -1:
                 return raw_text  # нет скобки, вернуть как есть
             # Извлекаем текст начиная с первой фигурной скобки
@@ -104,22 +105,14 @@ class SimpleDriver(Driver):
                 # Другие параметры для Agent, если они есть
             )
             logger.info(f"Агент начинает выполнение задачи: \"{task}\"")
-            # --- Перехват stdout ---
-            original_stdout = sys.stdout
-            sys.stdout = io.StringIO()
-
-            try:
-                answer = await agent.run()
-            finally:
-                sys.stdout = original_stdout  # Обязательно вернуть обратно!
+            answer = await agent.run()
 
             if not answer:
                 logger.error('Не вернулся результат действий агента')
                 ...
-            answer: Any = await agent.run() # Ожидание результата работы агента
-            if not answer:
-                logger.error('Не вернулся результат действий агента')
-                ...
+                time.sleep(3000)
+                self.simple_process_task_async(task)
+
             timestamp:str = gs.now
 
             for action_result in answer.history:
@@ -129,16 +122,13 @@ class SimpleDriver(Driver):
 
                 cleaned_json_text = clean_json(extracted_content)
                 try:
-                    data = j_loads(cleaned_json_text)  # Загружаем JSON из текста
+                    data = j_loads(cleaned_json_text) or {'data':cleaned_json_text}
                     if not data: continue
                 except Exception as ex:
                     logger.error("Ошибка разбора JSON", ex, exc_info=True)
                     ...
                     continue
 
-                # Сохраняем данные
-                timestamp = gs.now
-                j_dumps(data, Config.ENDPOINT/'train_data_products'/f'product_links_{timestamp}.json')
                 result_dict.update(data)
 
             logger.info("Агент завершил выполнение задачи.")

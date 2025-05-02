@@ -1,0 +1,551 @@
+{
+    "product_name": "X-420â¢",
+    "tagline": "×××¡××£ × ×ª×× ×× ××¨××ª ×××©××¨ ××××¡×¡ ×¨×©×ª (Web-Enabled Instrumentation-Grade Data Acquisition)",
+    "price_range": "369.99â399.99",
+    "currency": "××××¨",
+    "description": "×-X-420â¢â ×××× ×§××/×¤×× ××××××× ×× ××ª× ××ª×× ××ª ××××¦×¢××ª ×ª××× ×, ×©× ××ª× ×××§×¦××ª× ××§×× ×× ××¤××. ××× ××ª××× ×××× ××××©×××× ××× × ××××¨ ×××¨× ××××××, ×× ×¨×××¨×× ××××××ª.",
+    "key_features_summary": [
+        "4 ×× ××¡××ª ×× ××××××ª (4 Analog Inputs)",
+        "2 ×× ××¡××ª/×¤×××× ×××××××××ª (2 Digital Inputs/Outputs)",
+        "×¢× 16 ××××©× × ×××¤×¨×××¨× (Up to 16 Temperature Sensors)"
+    ],
+    "powerful_series_features": [
+        {
+            "name": "×××× ××©×××× (Ready for Integration)",
+            "details": "×ª××× ×-HTTP GET, XML, JSON, SNMP, Modbus TCP/IP ××-Cloud API, ××¢×× ×××¨×."
+        },
+        {
+            "name": "×××××§× × ××ª× ×ª ××ª×× ××ª ××× ×§×× (No-Code Programmable Logic)",
+            "details": "××× × ×××©××××ª ×××× ×××××××× ×××¤×©×¨ ××× ××ª ×××××§× ×××ª×××ª ×××©××ª ××××¦×¢××ª ×ª×¤×¨×××× × ×¤×ª××× ×××¨××× ×©× '×× ×× ××× ××'."
+        },
+        {
+            "name": "×¨×©×ª P2P ××§××/×¤×× ××¨×××§ (P2P Networking & Remote I/O)",
+            "details": "××ª×§× ×× ×××××× ××ª×§×©×¨ ××¨× ×¨×©×ª Peer-to-Peer (P2P) ××× ××©×ª×£ ×§××/×¤×× ××× ××§×¨× ControlByWeb ×××¨××, ×××§×¦××ª ×× ××ª×§× ××××¡××¨, ××××××¨ ××¡×¤×¨ ×××¡××¨×× ×××§×©×¨ ×× ××¡××ª ××¨×××§ ×××§×¨×ª ×××¡×¨."
+        },
+        {
+            "name": "××ª×¨×××ª ×××\"× (Email Alerts)",
+            "details": "×××©××¨× ××©×××× ×¢× ××¤×¢××××ª ××¢××¨×ª × ××××¨ ×××× ×××ª. ×××¡××¤× ××× ××××× ×¦×× ×××××¢××ª ××××\"× ××××¦×¢××ª ×××××§× × ××ª× ×ª ××ª×× ××ª ××× ××©××× ××ª×¨×××ª ××××¤× ××××× ××× ×©×× ×× ××× ×× ××××¡× ×××¢×§××ª ×©×××."
+        },
+        {
+            "name": "×××©×§ ××©×ª××© ×××××¢ ×§× ××©××××© (Easy-to-Use Embedded User Interface)",
+            "details": "××××©××¨×× ××××¢×× ×¢× ×××©×§ ××©×ª××© ×××× × ×¤×©×× ×©×××¤×©×¨ ×× ××¨, ×× ×× ×××©××× ××§×××ª ×××§×¨×× ×©× ControlByWeb ××× ××¤××¤× ××× ××¨× × ×¡×× ××¨××."
+        },
+        {
+            "name": "×¨××©×× × ×ª×× ×× (Data Logging)",
+            "details": "×¨××©×× ××ª×××× ××××ª× × ×¢× ×××¦×× ×××× × ×××\"× ×-FTP. ControlByWeb Cloud ××××¤×¦××× ×× ××××©× ××¨×××§ ××××× × ×¨××©×× ××××¨××."
+        },
+        {
+            "name": "×ª××× ××¢× × (Cloud Compatible)",
+            "details": "×©×¤×¨× ××ª ×××××××ª ×¢× ControlByWeb Cloud. ×§××× ×ª××× ××ª ××©××¤×¨××ª ×××× ×××©× ×¤×©××× ××××©××¨×× ××¨×××§, ×¨××©×× × ×ª×× ×× ×× ××ª×××× ××ª×§××××."
+        },
+        {
+            "name": "×××××ª ×××©××¨×× ××××× ×× (Trusted Device Security)",
+            "details": "×××§×¨×× ××× ××¢×¨××ª ××¤×¢×× ×× ××¢×¨××ª ×§××¦×× ×××× ××ª, ×× ×©×××¤× ×××ª× ××¤×××ª ×××¢××× ××¤×××¢××××ª. ×××¢×¦×× ×××¦×× ××× ××¡××× ××××ª ×××©××ª×××ª ××××§×× ××ª ×××××ª ××¡××××¨ ×©× ×××§×¨××."
+        },
+        {
+            "name": "× ××××¨ ×××§×¨× ×©× IIoT (IIoT Monitoring & Control)",
+            "details": "×××©× ××©××¨× ××××©××¨ ××¨× ××ª×××ª IP ×©×××§×¦×ª×. ××××¨ ××ª ××××¨××ª ××¨×©×ª ××¨×¦×× ×, ××× ×××××× ×× ×××¤×©×¨ ×××©× ××¨×××§ ××¨× ××¢× ×."
+        }
+    ],
+    "applications": [
+        "××§×¨×ª ××©××× (Pump Control)",
+        "× ××××¨ ××¤××¡ × ××××× (Liquid Level Monitoring)",
+        "× ××××¨ ×××¤×¨×××¨× ×××××ª (Temperature and Humidity Monitoring)"
+    ],
+    "specifications": {
+        "models": [
+            "X-420-I",
+            "X-420-E"
+        ],
+        "power_requirements": {
+            "voltage": {
+                "X-420-I": "9-28 VDC",
+                "X-420-E": "POE ×/×× 9-28 VDC"
+            },
+            "max_current": "175mA ××§×¡×××× (2 ×§××/×¤×× ××××××× = ×¤×¢××, ××× ××××©× ×× ××¢×× ××× ×××. ×¢××× ××××¨×× ×××©×ª××© ×¢×××¨ ×¢×¨××× ×××¤××× ××× ×-25Â°C)"
+        },
+        "output_mode": "×¤×× ×××× ×××§×¨×× ×××¦×× ××× 5V ×××× ××¨× × ×× 49.9 ××××",
+        "digital_inputs": {
+            "number": "2 (× ××ª× ×××××¨×)",
+            "type": "×× ××××× (Non-isolated)",
+            "voltage_range": "0-5 ×××× DC",
+            "current": "× ××ª× ×××××¤× ×©× 47K Pullup/Pulldown",
+            "vin_high_min": null,
+            "vin_lo_max": null,
+            "debounce": "0 ×¢× 250 ×××××©× ×××ª (× ××ª× ×××××¨×)",
+            "minimum_hold_time": "1ms",
+            "number_of_counter_inputs": "0-2 (× ××ª× ×××××¨×)",
+            "max_count_rate": "200 ××¨×¥ ××§×¡××××",
+            "functions": [
+                "× ××××¨ ××¦× (Status Monitoring)",
+                "××§×¨×ª ×§××/×¤×× ××××××× (Digital I/O Control)",
+                "××§×¨×ª ×××¡×¨×× ××¨×××§ (Remote Relay Control)",
+                "××× × × ××ª× ×××¨××× (Expandable Counter)",
+                "×××××¨ ××¤×¢×× (Run Time Timer)",
+                "×××××¨ ××¤×¢×× ×××× (Total Run Time Timer)",
+                "×ª××¨ (Frequency)"
+            ],
+            "edge_trigger": "×¢×××, ×××¨× ×× ×©× ××× (Rising, Falling, or Both)"
+        },
+        "frequency_input": {
+            "type": "××¦××× AC, ×× ×¡×× ××¡ ×× ×× ××¨×××¢ (×¢××× ×¢× ××××©× × ××××¨××ª ×¨×× ××× ×××× ×××××××××)",
+            "max_input_voltage": "Â±12 ×××× AC, 30 ×××× ××××¡ ××ª× AC",
+            "hysteresis": "25mV",
+            "input_frequency": "0-20 ×§×××××¨×¥",
+            "waveform": "×¡×× ××¡ ×× ×× ××¨×××¢",
+            "averaging": "××××¦×¢ ×©× ×©× ××× ×××ª",
+            "minimum_input_level": [
+                {
+                    "frequency": "1 ××¨×¥",
+                    "min_vin": "50mVpp"
+                },
+                {
+                    "frequency": "10 ××¨×¥",
+                    "min_vin": "50mVpp"
+                },
+                {
+                    "frequency": "100 ××¨×¥",
+                    "min_vin": "60mVpp"
+                },
+                {
+                    "frequency": "1 ×§×××××¨×¥",
+                    "min_vin": "80mVpp"
+                },
+                {
+                    "frequency": "10 ×§×××××¨×¥",
+                    "min_vin": "700mVpp"
+                },
+                {
+                    "frequency": "20 ×§×××××¨×¥",
+                    "min_vin": "1.7Vpp ××§××ª"
+                }
+            ]
+        },
+        "analog_inputs": {
+            "number": "4",
+            "resolution": "16 ×¡×××××ª, SAR",
+            "type": "××-×§×¦×, ×××¤×¨× ×¦××××, 4-20mA (0-20mA), ×× ×©××××",
+            "input_range": "Â±1.28V, Â±2.56V, Â±5.12V, Â±10.24V, 4-20mA",
+            "max_input_voltage_vin": "-12.5V < Vin < +12.5V",
+            "input_impedance_zin": "> 500 ××× ××××",
+            "off_channel_leakage": "Â±0.6nA (×××¤××¡×)",
+            "input_common_mode_rejection": ">100dB",
+            "total_unadjusted_error": "-9LSB (min), +9LSB (max)",
+            "voltage_reference_drift": "Â±5 ppm/Â°C",
+            "internal_4_20ma_input_shunt": "200-ohm, Â±0.1%, 25ppm (uses Â±5.12V range)",
+            "logging_rate": "25 Hz"
+        },
+        "temperature_sensors": {
+            "maximum_number": "16",
+            "type": "Digital 1-Wire (Maxim Semiconductor DS18B20)",
+            "temperature_range": "-67Â°F to 257Â°F (-55Â°C to +125Â°C)",
+            "accuracy": "Â±0.5Â°C (from -10Â°C to +85Â°C)",
+            "sensor_functions": [
+                "Monitor Temperature",
+                "Control Digital I/O",
+                "Control Remote Relays",
+                "Log Temperature",
+                "Email Alerts"
+            ],
+            "humidity_type": "Xytronix Model X-DTHS-P sensor",
+            "humidity_range": "0-100% RH",
+            "humidity_accuracy": "Â±2%",
+            "max_cable_length": "600 feet (180m) maximum combined cable length"
+        },
+        "real_time_clock": {
+            "setup": "Manual or NTP(Network Time Protocol)",
+            "ntp_sync_period": "Once, Daily, Weekly, On Powerup",
+            "auto_daylight_savings_adjustment": true,
+            "battery_power_backup": true
+        },
+        "capacitor_power_backup": {
+            "backup_functions": [
+                "Retain Real-Time Clock",
+                "1 Register",
+                "2 Counters",
+                "2 Digital I/O"
+            ],
+            "backup_duration": "2 week minimum"
+        },
+        "network": {
+            "type": "10/100 Base-T Ethernet Port",
+            "setup": "Static or DHCP IP address configuration"
+        },
+        "connectors": {
+            "power_outputs_inputs": "14-Position, 3.81mm terminal spacing, Removable. For 16-28 AWG wire.",
+            "network": "8-pin RJ-45"
+        },
+        "led_indicators": {
+            "number": "5",
+            "indicators": [
+                "Power on",
+                "I/O (1-2)",
+                "Network linked",
+                "Network activity"
+            ]
+        },
+        "physical": {
+            "operating_temperature": "-40Â°F to 150Â°F (-40Â°C to 65.5Â°C)",
+            "size": "1.41in (35.7mm) wide, 3.88in (98.5mm) tall, 3.1in (78mm) deep (not including connector)",
+            "weight": "5 oz. (142 g)",
+            "enclosure_material": "Lexan 940 Polycarbonate Plastic",
+            "enclosure_flame_rating": "UL94 V0"
+        },
+        "protocols": [
+            "HTTP",
+            "HTTPS",
+            "SSL",
+            "XML",
+            "MQTT",
+            "Modbus TCP/IP",
+            "SNMP",
+            "SMTP",
+            "Remote Services"
+        ],
+        "logging": {
+            "log_file_size": "512K (up to 8,448 log entries depending on configuration)",
+            "storage": "Nonvolatile Flash",
+            "buffer_architecture": "Circular Buffer"
+        },
+        "advanced_features": [
+            "Task Builder",
+            "BASIC interpreter",
+            "Remote services"
+        ],
+        "password_settings": {
+            "password_length": "6-18 Characters"
+        },
+        "electromagnetic_compliance": [
+            "IEC CISPR 22",
+            "CISPR 24",
+            "EU EN55024",
+            "EN55022",
+            "X-420-I: FCC 47CFR15 (Class B)",
+            "X-420-E: FCC 47CFR15 (Class A)"
+        ]
+    },
+    "available_options": [
+        {
+            "model_name": "××× Ethernet ×¡×× ××¨×× (X-420-I)",
+            "part_number": "X-420-I"
+        },
+        {
+            "model_name": "××× PoE (X-420-E)",
+            "part_number": "X-420-E"
+        }
+    ],
+    "product": {
+        "name": "X-410â¢ | ××§×¨ ×§×¦× × ××ª× ××ª×× ××ª",
+        "description": "×¤×©×× ×× ×××©×× ×ª×¢×©×××ª× ×¢× ×-X-410â¢â - ××× ×¦××¨× ××§××. ××××××¦×× ×§×× ×××××ª ××××©×§ ××××¡×¡ ××¤××¤× ××ª×¤×¨×××× × ×¤×ª××× ××× ×××××××××× ×××¦××¨×ª ×××××§× ××××¡×¡×ª ×××¨××¢×× ×××ª×××× ×ª. × ××××¨ ×××¢×× ×××©×× ×××§×¨× ×¢× ×××¡×¨×× ×¢× ×§××/×¤×× ×××× ×. ××¨×× ××ª ××¤×× ×§×¦××× ××××ª ×¢× ××× ×××¡×¤×ª ××ª×§× × ControlByWeb ×××¨×× ×¢× ×ª×§×©××¨×ª P2P.",
+        "price_range": "299.99 ××××¨â399.99 ××××¨",
+        "currency": "××××¨",
+        "key_features_summary": [
+            "4 ×××¡×¨×× ×-4 ×× ××¡××ª ×××××××××ª",
+            "×¢× 16 ××××©× × ×××¤×¨×××¨×",
+            "××ª×¨× ×, ×¡××××¨× ×× WiFi",
+            "9-28VDC ×/×× POE"
+        ],
+        "available_options": [
+            {
+                "type": "××¡×¤×¨× ×××§××",
+                "options": [
+                    "Cell/WiFi Model (X-410CW-I)",
+                    "WiFi Model (X-410W-I)",
+                    "Standard Ethernet Model (X-410-I)",
+                    "PoE Model (X-410-E)"
+                ]
+            },
+            {
+                "type": "×ª××× ××ª × ×ª×× ×× ×¡××××¨××ª (×©× ×ª××ª)",
+                "options": [
+                    "×ª××× ××ª ××××©× ×¡××××¨××ª - 5MB/××××© | $59.99/×©× × (X-DAT-5MB)",
+                    "×ª××× ××ª ××××©× ×¡××××¨××ª - 10MB/××××© | 95.99$/×©× × (X-DAT-10MB)",
+                    "×ª××× ××ª ××××©× ×¡××××¨××ª - 30MB/××××© | 179.99$/×©× × (X-DAT-30MB)",
+                    "×ª××× ××ª ××××©× ×¡××××¨××ª - 50MB/××××© | 249.99$/×©× × (X-DAT-50MB)"
+                ],
+                "note": "××××¨× ××××××ª ×¡××××¨ ×× ×©× ×ª×××. ×××××××ª ××ª×××©××ª ××××××××ª ×××× ××©× × ×××¤×¢××."
+            }
+        ],
+        "descriptions": [
+            {
+                "title": "× ××××¨ ×××§×¨× ×¨×-×ª××××ª××× ××§×××",
+                "content": "×-X-410 ××× ××× ×××§×¨× ××××××§× ××¨×-×ª××××ª××× ××××ª×¨ ×©×× ×. ××× ×××× ×× ××¨ ×¢× 4 ×××¢×× ×××©××× ××¢× 4 ×××¡×¨××. ×©×××× ×× ×××× ××¤××¤×××¨× ×××× ×××××© ××××××."
+            },
+            {
+                "title": "×ª××× ××ª X-410",
+                "list": [
+                    "××ª×¨×××ª ×××\"×",
+                    "×©×¢×× ×××× ×××ª ×¢× ×¡× ××¨×× ×©×¨×ª NTP",
+                    "××× × ×××××§× ××× ×§××",
+                    "×ª×§×©××¨×ª ×¢×××ª ××¢×××ª",
+                    "×¨××©×× × ×ª×× ××",
+                    "×¤×××¤××¨××ª ×¡××¨× 400"
+                ]
+            },
+            {
+                "title": "×××©××× X-410",
+                "list": [
+                    "××§×¨×ª ×××ª××ª ××××©×",
+                    "××ª××× ××××© ×©× ××ª×§× ××¨×©×ª",
+                    "× ××××¨ ××× ×××¢×§×",
+                    "××§×¨×ª ×× ××¢",
+                    "×¨×× ×¢×× ×××©××××"
+                ]
+            },
+            {
+                "title": "X-410CW: × ××××¨ ××¨×××§ ××××¡×¡ WiFi",
+                "content": "×××©×¨ ×××××¨ Ethernet ×§××× ××× × ××¢×©×, ×§××©××¨×××ª WiFi ×××¤×©×¨×ª ×× ×× ××¨ ×××©××× ××§×××ª ×××××× ×-I/O ×©×× ××××¤× ××××××. ×××××ª ×-WiFi ××××× ××ª ×©× ×-X-410CW ×××¤×©×¨×ª ×× ×××¦××¨ ×××××§×, ×× ××¨ ×× ××¡××ª ××××¤×¢×× ×××¡×¨×× ××¨× ××¤××¤× ××× ××¨× × ×¡×× ××¨×× ××¨×©×ª WiFi. (×©×× ×× ×©× ××¨×© ×××××¨ Ethernet ×××××¨× ×¨××©×× ××ª ×©× ××ª×§× × ×¡××¨× 400.)"
+            },
+            {
+                "title": "×××ª×¨×× ××ª ×©× ××§×¨× ×××××§× ×©× WiFi",
+                "list": [
+                    "××××©××ª: ××§×¨× WiFi ××©××©×× ××¢×ª×× ×§×¨××××ª ×××©×¨ ×××××¨ Ethernet ×§××× ××× × ××¤×©×¨×.",
+                    "Cost: With WiFi, integrators can avoid the expense of burying a line, channeling Ethernet cables, and installing other physical components.",
+                    "Ease of Installation: Our WiFi-enabled controllers can be assigned network credentials through the built-in interface."
+                ]
+            },
+            {
+                "title": "Built-In No-Code Programming",
+                "content": "The X-410 comes with a built-in web interface, making programming a breeze. No more complicated ladder diagrams â just simple âif this then thatâ logic programmed with drop-down menus.\nEasily create tasks based on time, input or outputsâ status, or device responsiveness. Create up to three actions for each task providing you with the ultimate control and monitoring solution for your application!\nCreate up to 50 Scheduled Tasks, 50 Conditional Tasks, 16 Auto Reboot Tasks, and 20 Override Schedules."
+            },
+            {
+                "title": "ControlByWebÂ® 400 Series Features",
+                "list": [
+                    "Integration Ready: We support MQTT, our Open REST API, SNMP, Modbus TCP/IP, and our Cloud API with more on the way.",
+                    "No-Code Programmable Logic: Our intuitive, embedded Task Builder empowers you to create custom logic using drop-down menus in an if-this-then-that flow. Build conditional and/or scheduled logic with ease.",
+                    "P2P Networking & Remote I/O: Devices can communicate through Peer-to-Peer (P2P) networking to share I/O among other ControlByWeb controllers, assign any device as master, set up multiple masters, and link remote inputs and relay control.",
+                    "Email Notifications: Stay in control of operations with real-time monitoring. Add intelligence to your emails through programmable logic to instantly send notifications and eliminate false alarms.",
+                    "Easy-to-Use Embedded UI: Our devices come with a simple embedded user interface that will enable you to easily monitor, manage, and control ControlByWeb logic controllers from any standard web browser.",
+                    "Data Logging: Enjoy scheduled and conditional logging with email and FTP log exports. Add the optional ControlByWeb Cloud for remote access and downloadable logs.",
+                    "Cloud Compatible: Enhance your capabilities with the ControlByWeb Cloud. Gain enhanced features such as simplified remote device access, data logging, reporting, and dashboards.",
+                    "Trusted Device Security: Our controllers have no built-in OS or file system, making them less prone to vulnerabilities. Third-party consultants and government agencies test the cybersecurity of our controllers.",
+                    "IIoT Monitoring & Control: Access the device directly through an assigned IP address. Set up your network settings the way you want, to limit or allow remote access through the cloud."
+                ]
+            },
+            {
+                "title": "Cellular-Enabled I/O for Remote Monitoring",
+                "list": [
+                    "Wide Carrier Coverage: eUICC (eSIM) technology allows ControlByWeb cellular devices to operate across multiple carriers. This allows us to optimize cellular coverage based on your location.",
+                    "No WiFi Necessary: ×¡××××¨ ××¤×©× ××ª ×××ª×§× × ×××ª××× ×××§××××ª ××× ××× ×ª×©×ª××ª ×§××××ª. ××× ×¦××¨× ×××©××× ×¦× ×©×××©× ×× ×××ª×¢×¨×××ª ×©× IT - ×× ×× ×©××ª× ×¦×¨×××× ×××§×¨ ×××× ×××× ×-X-410CW.",
+                    "×¨××©× ×× ×××××: ×¢× ×-X-410CW, ××© ×× ××¤×©×¨××ª ×××©×ª××© ×-Ethernet ××××××¨ ××¢××§×¨× ××¨×©×ª ××-Sender ××××××¨ ××××××. ×× ×××¤×©×¨ ×¨××©××, ×××©× ××¨×××§ ×××ª×¨×××ª ×××\"× ×× ×××§×¨× ×©× ××©× ×-Ethernet.",
+                    "×§××©××¨×××ª ×××× ××ª: ×-X-410CW ×××× ×× ×× × ×¨×-××××× ××ª ××©××××© ×¢× ×¨××× ×¡××××¨× ××©×××¥ LTE-M. ××× ×× × ×ª××××ª ××ª ×-FCC ××× ×ª××¨×× ×××¤×¨×¢××ª ×××©×¨ ××× ×××ª×§× ×ª ×××××.",
+                    "××£ ×¡××××¡ ×× ××ª× ×××××¨×: ×-X-410CW ×××¤×¢× ×¢× ××× ×××©×§ ××©×ª××© ×××× × ××§× ××©×§×. ××××©××¨×× ×¡××××¨××× ××© ××××¨××ª × ××¡×¤××ª ××ª×× ×××©×§ ×××©×ª××© ×©××× ××©×ª××©×× ×××××× ×××××§ ××ª ×¢××¦××ª ××××ª ×©×××, ××¨×××ª ××ª ×¡××××¡ ××¨××©××, ××××××¨ ××¦× ×¡××××¨× ×××¨××× ×¤×× × ××¢××."
+                ]
+            }
+        ],
+        "specifications": {
+            "power_requirements": {
+                "voltage": "X-410-I : 9-28 ×××× DC, X-410-E : POE ×/×× 9-28VDC, X-410W-I : 9-28 ×××× DC, X-410CW-I : 9-28 ×××× DC",
+                "max_current": "240mA"
+            },
+            "relay_contacts": {
+                "number_of_relays": 4,
+                "max_voltage": "28 ×××× AC, 24 ×××× DC",
+                "max_current": "1A",
+                "contact_type": "SPST (Form A) *All Relays have a shared common*",
+                "load_type": "General Purpose",
+                "contact_resistance": "1 milliohm max",
+                "contact_material": "AgNi",
+                "electrical_life": "100K operations (Min)",
+                "mechanical_life": "5M cycles (Min)",
+                "environmental_rating": "Over voltage Category II, Pollution Degree 2",
+                "relay_modes": "ON/OFF or Pulsed",
+                "pulse_timer_duration": "0.1 to 86,400 Seconds (1-day)"
+            },
+            "digital_inputs": {
+                "number_of_inputs": 4,
+                "type": "Optically-Isolated",
+                "voltage_range": "4-26VDC",
+                "current": "950uA @ 4V, 8.5mA @ 26V",
+                "minimum_hold_time": "20ms",
+                "input_functions": "Monitor State, Control Relays, Control Remote Relays, Scalable Counter, On Timer, Total On Timer, Frequency",
+                "maximum_count": "24-bit",
+                "max_count_rate": "200Hz Max (Dependent on Configuration)",
+                "edge_trigger": "Rising, Falling or Both"
+            },
+            "temperature_sensors": {
+                "maximum_number_of_sensors": 16,
+                "type": "Digital 1-Wire (Maxim Semiconductor DS18B20)",
+                "temperature_range": "-67Â°F to 257Â°F (-55Â°C to +125Â°C)",
+                "accuracy": "Â±0.5Â°C (from -10Â°C to +85Â°C)",
+                "sensor_functions": "Monitor Temperature, Log Temperature, Email Alerts, SNMP Traps",
+                "humidity_type": "ControlByWeb Model X-DTHS-P sensor",
+                "humidity_range": "0-100% RH",
+                "humidity_accuracy": "Â±2%",
+                "max_cable_length": "600 feet (180m) maximum combined cable length"
+            },
+            "real_time_clock": {
+                "setup": "Manual or NTP(Network Time Protocol)",
+                "ntp_sync_period": "Once, Daily, Weekly, On Powerup",
+                "auto_daylight_savings_adjustment": true,
+                "power_backup": "Battery (capacitor)"
+            },
+            "capacitor_power_backup": {
+                "backup_functions": "Retain Real-Time Clock, 1 Register, 2 Counters, 4 Relay States",
+                "backup_duration": "24 hours"
+            },
+            "network": {
+                "type": "10/100 Base-T Ethernet Port",
+                "setup": "Static or DHCP IP address configuration",
+                "wireless": "WiFi Communication (X-410W model only)",
+                "cellular": "Cellular Modem (X-410CW model only)"
+            },
+            "connectors": {
+                "power_outputs_inputs": "14-Position, 3.81mm, Removable",
+                "network": "8-pin RJ-45",
+                "cell_antenna": "Male SMA Connector (X-410CW model only)"
+            },
+            "led_indicators": {
+                "number_of_leds": 11,
+                "list": [
+                    "Power on",
+                    "Relay coil energized 1-4",
+                    "Digital Inputs 1-4",
+                    "Network linked",
+                    "Network activity"
+                ]
+            },
+            "wireless": {
+                "network_standards": "IEEE 802.11 b/g/n",
+                "frequency_band": "2.412 â 2.462 GHz",
+                "security_standards": "WPA2, WPA3",
+                "network_settings": "DHCP or Static"
+            },
+            "physical": {
+                "operating_temperature": "-40Â°F to 150Â°F (-40Â°C to 65.5Â°C)",
+                "size": "1.41in (35.7mm) wide, 3.88in (98.5mm) tall, 3.1in (78mm) deep (not including connector)",
+                "weight": "5 oz (142 grams)",
+                "enclosure_material": "Lexan 940 Polycarbonate Plastic",
+                "enclosure_flame_rating": "UL94 V0"
+            },
+            "protocols": [
+                "HTTP",
+                "HTTPS",
+                "SSL",
+                "XML",
+                "MQTT",
+                "Modbus TCP/IP",
+                "SNMP",
+                "SMTP",
+                "Remote Services"
+            ],
+            "logging": {
+                "log_file_size": "512K (up to 8,448 logs)",
+                "storage": "Nonvolatile Flash",
+                "buffer_architecture": "Circular Buffer",
+                "note": "Log data can be periodically stored on a computer via FTP or email."
+            },
+            "advanced_features": [
+                "Task Builder",
+                "BASIC interpreter",
+                "Remote services"
+            ],
+            "password_settings": {
+                "password_length": "6-18 Characters"
+            },
+            "electromagnetic_compliance": [
+                "IEC CISPR 22",
+                "CISPR 24",
+                "X-410-I: FCC 47CFR15 (Class B)",
+                "X-410-E: FCC 47CFR15 (Class A)"
+            ]
+        },
+        "manuals_and_downloads": {
+            "user_manuals": [
+                "400 Series Userâs Manual",
+                "X-410 Quick Start Guide (PDF)",
+                "X-410W Quick Start Guide (PDF)",
+                "X-410CW Quick Start Guide (PDF)"
+            ],
+            "catalog": [
+                "X-410 Data Sheet (PDF)",
+                "ControlByWeb Product Catalog"
+            ],
+            "firmware": {
+                "patch_notes": [
+                    "400 Series Firmware v3.12 Patch Notes (PDF)",
+                    "400 Series Firmware v3.13.6.8 Patch Notes (PDF) (Latest)"
+                ],
+                "versions": {
+                    "X-410": [
+                        "X-410 Firmware v2.81 (for firmware versions 2.7 or lower)",
+                        "X-410 Firmware v3.12.2.5 (for firmware versions 3.0 or higher)",
+                        "X-410 Firmware v3.13.6.8 (for firmware versions 3.0 or higher)"
+                    ],
+                    "X-410W": [
+                        "X-410W Firmware v3.12.2.5 (for firmware versions 3.0 to 3.10)",
+                        "X-410W Firmware v3.12.2.5 (for firmware versions 3.12 or higher)",
+                        "X-410W Firmware v3.13.6.8 (for firmware versions 3.0 or higher)"
+                    ],
+                    "X-410CW": [
+                        "X-410CW Firmware v3.12.2.5 (for firmware versions 3.0 to 3.10)",
+                        "X-410CW Firmware v3.12.2.5 (for firmware versions 3.12 or higher)",
+                        "X-410CW Firmware v3.13.6.8 (for firmware versions 3.0 or higher)"
+                    ]
+                },
+                "important_note": "As a result of inline improvements to device hardware, different firmware versions have been created and are not cross-compatible. Installing the wrong firmware will not work. Please select the correct firmware for your current firmware version below:"
+            },
+            "3d_model": "X-410 3D Model (.stp)"
+        },
+        "demo": {
+            "live_demo_units": [
+                {
+                    "name": "X-410â¢",
+                    "control_page": "http://demos.controlbyweb.com:9035/",
+                    "setup_pages": "http://demos.controlbyweb.com:9035/setup.html",
+                    "setup_login": {
+                        "username": "admin",
+                        "password": "webrelay"
+                    }
+                },
+                {
+                    "name": "X-332â¢ (used for X-410 demo input)",
+                    "digital_input_control_page": "http://demos.controlbyweb.com:9028/"
+                }
+            ],
+            "guided_demo": "Schedule A Guided Walkthrough (15-minute guided demo with sales engineers)",
+            "pre_recorded_demo": "400 Series Setup and Programming Demo (YouTube link)",
+            "setup_explanation": "The diagram illustrates how this demonstration is wired. Nothing is connected to the relay contacts; however, you can still turn the relay on and off to see how it works. The input state only changes when a voltage is applied to the input. For this demonstration, we have connected one of our X-332 controllers to the input of the X-410. You can apply a voltage to the input of the X-410 by accessing the control page for the X-332 (Digital Input Control Page).",
+            "important_information": [
+                "Multiple users may be accessing this device simultaneously so the device can change while you are using it.",
+                "This unit will be reset to factory defaults daily at 2:30AM MST.",
+                "Please DO NOT change network or password settings."
+            ]
+        },
+        "related_products": [
+            {
+                "name": "X-401â¢ | ×××¡×¨ ××¤×× ×××××× ×§××",
+                "price_range": "269.99 ××××¨â369.99 ××××¨",
+                "description": "The X-401â¢ has two SDPT relays (form C) and two optically isolated inputs. It also shares the same benefits as other 400 series devices, which includes a built-in web server and simple, no-code logic builder. Monitor locks and lights, reboot devices like IP cameras, control bells and alarms, and much more with the X-401.",
+                "features": [
+                    "2 ×××¡×¨×× ×-2 ×× ××¡××ª ×××××××××ª",
+                    "××ª×¨× ×, ×¡××××¨× ×× WiFi",
+                    "9-28VDC ×/×× POE"
+                ],
+                "note": "Cellular and WiFi are Now Available. Note that X-401CW and X-401W models include cellular and WiFi capability respectively, which allows for more flexibility for your application."
+            },
+            {
+                "name": "X-432â¢ | ××§×¨ ×§××/×¤×× ××ª×§××",
+                "price_range": "629.99 ××××¨",
+                "description": "The X-432â¢ is a standalone programmable PLC with 38 onboard I/O and support for local or remote monitoring and control task.",
+                "features": [
+                    "16 ×××¡×¨××",
+                    "18 ×× ××¡××ª ×××××××××ª",
+                    "4 ×× ××¡××ª ×× ××××××ª",
+                    "×¢× 16 ××××©× × ×××¤×¨×××¨×"
+                ]
+            },
+            {
+                "name": "X-400â¢ | ××§×¨ ×§××/×¤×× ××××××¨×",
+                "price_range": "299.99 ××××¨â399.99 ××××¨",
+                "description": "The X-400â¢ is a web-enabled controller that allows for up to 32 added expansion modules and/or remote I/O devices. Expansion modules are connected directly to the X-400 via ribbon cable, or remotely with other CBW devices via P2Pâallowing for monitoring and control of up to 64 I/O. The X-400C offers wireless capability with a built-in cellular modem.",
+                "features": [
+                    "× ××ª× ×××¨×××, ×¢× 64 ×× ××¡××ª/×¤××××",
+                    "×××¡×¨××, ×× ××¡××ª ×× ××××××ª ××××××××××ª",
+                    "×¢× 16 ××××©× × ×××¤×¨×××¨×",
+                    "××¨×¡×ª ×¡××××¨ ×××× ×"
+                ]
+            }
+        ]
+    }
+}

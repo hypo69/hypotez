@@ -1,0 +1,98 @@
+{
+    "product_details": {
+        "name": "3/8 in. Non-Metallic (NM) Twin-Screw Cable Clamp Connectors (5-Pack)",
+        "brand": "Halex",
+        "internet_number": "100133208",
+        "model_number": "20511",
+        "store_sku": "839647",
+        "price": "$3.13",
+        "price_per_unit": "63Â¢ /unit",
+        "pack_size": "5",
+        "ratings_count": 687,
+        "average_rating": "3.1k",
+        "questions_answers_count": 46,
+        "key_features": [
+            "Features a reversible locknut to preserve grounding",
+            "Twin screw",
+            "High-strength die-cast zinc alloy"
+        ],
+        "availability": {
+            "ellsworth_store": {
+                "stock": "229 in stock",
+                "location": "Aisle 51, Bay 007",
+                "pickup": "Today",
+                "pickup_cost": "FREE"
+            },
+            "delivery_to_04605": {
+                "availability": "340 available",
+                "delivery_time": "Tomorrow",
+                "delivery_cost": "FREE",
+                "notes": "Get it delivered as soon as today. Schedule your delivery in checkout."
+            }
+        }
+    },
+    "request_details": {
+        "category_searched": "N/A",
+        "url_processed": "https://www.homedepot.com/p/Carlon-2-in-90-Degree-Schedule-40-Standard-Radius-Belled-End-Elbow-UA9AJB-5-HD-UA9AJB-5-HD/202304075"
+    },
+    "status": "success",
+    "webpage_type": "product",
+    "data": {
+        "name": "2 in. 90-Degree Schedule 40 Standard Radius Belled End Elbow (UA9AJB-5-HD)",
+        "url": "https://www.homedepot.com/p/Carlon-2-in-90-Degree-Schedule-40-Standard-Radius-Belled-End-Elbow-UA9AJB-5-HD-UA9AJB-5-HD/202304075",
+        "sku": "705163",
+        "category": "Home / Electrical / Electrical Boxes, Conduit & Fittings / Conduit Fittings",
+        "brand": "Carlon",
+        "short_description": "Enables a 90 degree change of directions in a run of conduit. Belled end allows for easy joining of conduit. Compatible with sch 40 rigid non-metallic conduit. View More Details",
+        "description": "N/A",
+        "image": "N/A",
+        "price": "$6.98",
+        "currency": "$",
+        "availability": "N/A",
+        "specifications": {
+            "Application": "Conduit",
+            "Color Family": "Gray",
+            "Compatible Conduit Type": "Schedule 40",
+            "Country of Origin": "US-United States",
+            "Electrical Product Type": "Standard Fitting",
+            "Fitting Type": "Elbow",
+            "Indoor/Outdoor": "Indoor/Outdoor",
+            "Material": "PVC",
+            "Pack Size": "1",
+            "Product Weight (lb.)": "0.45 lb",
+            "Returnable": "90-Day",
+            "Trade Size (in.)": "2"
+        },
+        "parameters": {},
+        "raw_text": "N/A"
+    },
+    "product_name": "2 in. 90-Degree Schedule 40 Standard Radius Belled End Elbow (UA9AJB-5-HD)",
+    "brand": "Carlon",
+    "model_number": "UA9AJB-5-HD",
+    "internet_number": "202304075",
+    "store_sku": "705163",
+    "price": "$6.98",
+    "rating": "4.8",
+    "review_count": 24,
+    "description_points": [
+        "Enables a 90 degree change of directions in a run of conduit",
+        "Belled end allows for easy joining of conduit",
+        "Compatible with sch 40 rigid non-metallic conduit",
+        "View More Details"
+    ],
+    "specifications": {
+        "Application": "Conduit",
+        "Color Family": "Gray",
+        "Compatible Conduit Type": "Schedule 40",
+        "Country of Origin": "US-United States",
+        "Electrical Product Type": "Standard Fitting",
+        "Fitting Type": "Elbow",
+        "Indoor/Outdoor": "Indoor/Outdoor",
+        "Material": "PVC",
+        "Pack Size": "1",
+        "Product Weight (lb.)": "0.45 lb",
+        "Returnable": "90-Day",
+        "Trade Size (in.)": "2"
+    },
+    "parameters": {}
+}

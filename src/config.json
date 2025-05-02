@@ -9,8 +9,8 @@
     "google_drive": "H:\\My Drive\\hypo69\\data",
     "log": "E:\\hypo69\\log",
     "tmp": "E:\\hypo69\\tmp",
-      "secrets": "C:\\Users\\user\\Documents\\repos\\hypotez\\secrets"
+    "secrets": "C:\\Users\\user\\Documents\\repos\\hypotez\\secrets"
   },
-  "timestamp_format": "%H%M-%S%f"
+  "timestamp_format": "%Y%m%d-%H%M%S-%f"
 
 }

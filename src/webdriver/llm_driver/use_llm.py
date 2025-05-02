@@ -66,13 +66,12 @@ from duckduckgo_search.exceptions import DuckDuckGoSearchException
 from langchain_core.exceptions import LangChainException
 
 # --- Внутренние модули ---
-import header # pylint: disable=unused-import # Импортируется для сайд-эффектов (sys.path)
-# Импорт __root__ для корректных относительных путей проекта
+import header
+
 from header import __root__
-# from src import gs # Импортируется в Config
-from src.logger import logger # Настроенный логгер проекта
-from src.utils.jjson import j_loads_ns # Утилиты для работы с JSON
-# Кастомная функция print для форматированного вывода
+from src import gs
+from src.logger import logger
+from src.utils.jjson import j_loads_ns 
 from src.utils.printer import pprint as print
 
 # --- ИМПОРТ АСИНХРОННЫХ КОНТРОЛЛЕРОВ ---
@@ -112,13 +111,10 @@ if dotenv_path.exists():
 else: logger.warning(f'.env файл не найден по пути: {dotenv_path}.')
 
 
-# Псевдоним типа для конфигурации
-ConfigType: TypeAlias = Optional[SimpleNamespace]
-
 class Config:
     """ Класс для хранения статической конфигурации приложения. """
     ENDPOINT: Path = __root__ / 'src' / 'webdriver' / 'llm_driver'
-    config: ConfigType = None
+    config: SimpleNamespace
 
     # --- ЗАГРУЗКА КОНФИГА ---
     try:
@@ -163,14 +159,13 @@ class Config:
 
     # --- Установка API ключей ---
     try:
-        from src import gs as project_gs
-        try: GEMINI_API_KEY = project_gs.credentials.gemini.katia.api_key
+        try: GEMINI_API_KEY = gs.credentials.gemini.katia.api_key
         except AttributeError: pass
-        try: OPENAI_API_KEY = project_gs.credentials.openai.hypotez.api_key
+        try: OPENAI_API_KEY = gs.credentials.openai.hypotez.api_key
         except AttributeError: pass
-        try: SERPAPI_API_KEY = project_gs.credentials.serpapi.onela.api_key
+        try: SERPAPI_API_KEY = gs.credentials.serpapi.onela.api_key
         except AttributeError: pass
-        try: TAVILY_API_KEY = project_gs.credentials.tavily.default.api_key # <-- Укажите ваш путь
+        try: TAVILY_API_KEY = gs.credentials.tavily.default.api_key # <-- Укажите ваш путь
         except AttributeError: pass
 
         if not GEMINI_API_KEY: GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
