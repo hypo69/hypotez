@@ -84,7 +84,7 @@ def extract_page_data(base_url, html_content): # Убедитесь, что base
         return {'text': '', 'internal_links': []}
 
 def update_output_dict(data:str, timestamp:str, url:str) -> bool:
-    output_file = Path(rf"J:/My Drive/hypo69/llm/filtered_urls/{timestamp}.json")
+    output_file = Path(rf"J:/My Drive/hypo69/llm/filtered_urls/{gs.now}.json")
     data_dict:dict = {'url':url, 'data':data}
     if not j_dumps(data_dict,output_file):
         logger.error(f"Ошибка записи в файл {output_file}")
@@ -102,7 +102,7 @@ if __name__ == "__main__":
 
     # 1. Получаем список URL 
     try:
-        url_list: list = utils.fetch_urls_from_all_mining_files(['random_urls','output_product_data_set1'])
+        url_list: list = utils.fetch_urls_from_all_mining_files(['random_urls','output_product_data_set1',''])
     except NameError: # Обработка случая, когда utils не импортирован
         print("Используется тестовый список URL (utils не найден).")
         # Используем тестовый список из заглушки utils
