@@ -22,8 +22,7 @@ from src.webdriver.firefox import Firefox
 #from src.webdriver.chrome import Chrome
 from src.utils.jjson import j_loads, j_dumps
 from SANDBOX.davidka import utils
-# --- Логика фильтрации ---
-# Список ключевых слов или доменов для исключения (маркетплейсы, соцсети и т.д.)
+from src.logger import logger
 
 
 FORBIDDEN_KEYWORDS = {
@@ -84,12 +83,15 @@ def extract_page_data(base_url, html_content): # Убедитесь, что base
         print(f"Ошибка при разборе HTML для {base_url}: {e}")
         return {'text': '', 'internal_links': []}
 
-def update_output_dict(data:str, timestamp:str, url:str):
+def update_output_dict(data:str, timestamp:str, url:str) -> bool:
     output_file = Path(rf"J:/My Drive/hypo69/llm/filtered_urls/{timestamp}.json")
     data_dict:dict = {'url':url, 'data':data}
-    output_dict:dict = j_loads(output_file)
-    output_dict.update(data)
-    return j_dumps(output_dict,output_file)
+    if not j_dumps(data_dict,output_file):
+        logger.error(f"Ошибка записи в файл {output_file}")
+        return False
+
+    logger.success(f'Файл {output_file} - Записан!')
+    return True
 
 
 # --- Основной блок выполнения ---
@@ -140,7 +142,7 @@ if __name__ == "__main__":
 
             # Шаг 2.3: Если URL прошел все проверки (http и не запрещен) - выбираем его
             target_url = url
-            print(f"+++ Найден подходящий URL: {target_url}")
+            #print(f"+++ Найден подходящий URL: {target_url}")
            
         except Exception as e:
             print(f"Ошибка парсинга или проверки URL '{url}': {e}")
@@ -155,14 +157,14 @@ if __name__ == "__main__":
             raise
 
         # 4. Создаем драйвер ОДИН РАЗ (как в вашем коде)
-        print(f"\nИнициализация драйвера для URL: {target_url}")
+        
         try:
 
 
             # 5. Используем драйвер для получения HTML (как в вашем коде)
             # driver.get_url(target_url) # Если используете get_url
             driver.fetch_html(target_url) # Как в вашем примере
-            print("HTML страницы получен.")
+            #print("HTML страницы получен.")
 
             # 6. Извлекаем данные (как в вашем коде, передавая target_url)
             print("Извлечение данных...")
@@ -171,20 +173,20 @@ if __name__ == "__main__":
 
             # 7. Вывод результатов (как в вашем коде)
             if data:
-                print("\n--- Извлеченный текст (начало): ---")
-                print(data['text'][:1000] + ("..." if len(data['text']) > 1000 else ""))
-                print("\n--- Найденные внутренние ссылки (до 20): ---")
-                if data['internal_links']:
-                    for i, link_info in enumerate(data['internal_links'][:20]):
-                         print(f"{i+1}: {link_info}")
-                    if len(data['internal_links']) > 20:
-                        print(f"... и еще {len(data['internal_links']) - 20}")
-                else:
-                    print("Внутренние ссылки не найдены.")
-                print(f"\nВсего найдено внутренних ссылок: {len(data['internal_links'])}")
+                # print("\n--- Извлеченный текст (начало): ---")
+                # print(data['text'][:1000] + ("..." if len(data['text']) > 1000 else ""))
+                # print("\n--- Найденные внутренние ссылки (до 20): ---")
+                # if data['internal_links']:
+                #     for i, link_info in enumerate(data['internal_links'][:20]):
+                #          print(f"{i+1}: {link_info}")
+                #     if len(data['internal_links']) > 20:
+                #         print(f"... и еще {len(data['internal_links']) - 20}")
+                # else:
+                #     print("Внутренние ссылки не найдены.")
+                # print(f"\nВсего найдено внутренних ссылок: {len(data['internal_links'])}")
                 update_output_dict(data, timestamp, target_url)
             else:
-                print("\nНе удалось извлечь данные со страницы (extract_page_data не вернул результат).")
+                logger.error("\nНе удалось извлечь данные со страницы (extract_page_data не вернул результат).", None, False)
 
         except Exception as ex:
             print(f"\nПроизошла ошибка во время работы WebDriver или обработки данных: ", ex)

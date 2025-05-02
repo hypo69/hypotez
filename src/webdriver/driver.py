@@ -301,7 +301,7 @@ class Driver:
                     self.previous_url = _previous_url
                     logger.debug(f"Предыдущий URL сохранен: {_previous_url}")
 
-                self._save_cookies_localy() # Сохраняем куки
+                #self._save_cookies_localy() # Сохраняем куки
                 # self.html_content = self.driver.page_source # Сохраняем исходный код здесь? Или в fetch_html? Лучше в fetch_html.
                 return True
             else:
