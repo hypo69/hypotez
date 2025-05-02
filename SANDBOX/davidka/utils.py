@@ -308,7 +308,7 @@ def get_categories_from_files(
 
 
 
-def fetch_urls_from_all_mining_files(dir_path: Union[Path, List[Path]]) -> List[str]: # Используем Union и List[str] для лучшей типизации
+def fetch_urls_from_all_mining_files(dir_path: Path| List[Path]  = ['random_urls','output_product_data_set1']) -> List[str]: # Используем Union и List[str] для лучшей типизации
     """
     Читает все файлы (рекурсивно, как определено в recursively_get_file_path)
     в указанных директориях (относительно Config.ENDPOINT)

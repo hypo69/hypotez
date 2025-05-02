@@ -1,0 +1,100 @@
+{
+  "products": [
+    {
+      "product_name": "Yazaki Automotive Wire Harnesses",
+      "product_url": "https://www.yazaki-group.com/en/product/automotive_01.html",
+      "category_name": "Wire Harness",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Aptiv High Voltage Connection Systems",
+      "product_url": "https://www.aptiv.com/en/solutions/connection-systems/high-voltage",
+      "category_name": "High Voltage Connector",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Lear Corporation Battery Management Systems",
+      "product_url": "https://www.lear.com/technologies/electrification/battery-management",
+      "category_name": "Battery Management System (BMS)",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Visteon Instrument Clusters",
+      "product_url": "https://www.visteon.com/products/displays/",
+      "category_name": "Instrument Cluster",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Magna ClearView™ Camera Monitoring System",
+      "product_url": "https://www.magna.com/products/electronics/adas-automated-driving/driver-monitoring-systems/clearview-camera-monitoring-system",
+      "category_name": "Camera Monitor System",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Marelli LED Headlamps",
+      "product_url": "https://www.marelli.com/en/products-services/automotive-lighting-sensing/headlamps/",
+      "category_name": "LED Headlamp",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Gentex Full Display Mirror®",
+      "product_url": "https://www.gentex.com/products/automotive/automotive-mirrors/full-display-mirror/",
+      "category_name": "Digital Rearview Mirror",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Analog Devices Automotive Audio Bus (A2B®) Transceivers",
+      "product_url": "https://www.analog.com/en/product-category/automotive-audio-bus-a2b-transceivers.html",
+      "category_name": "Audio Bus Transceiver IC",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Microchip Technology Automotive LIN Transceivers",
+      "product_url": "https://www.microchip.com/en-us/products/interface-and-connectivity/automotive-interfaces/lin-transceivers",
+      "category_name": "LIN Transceiver IC",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "ON Semiconductor Automotive Image Sensors",
+      "product_url": "https://www.onsemi.com/products/sensors/image-sensors/automotive-sensors",
+      "category_name": "Image Sensor",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "ROHM Semiconductor Automotive SiC Power Devices",
+      "product_url": "https://www.rohm.com/products/sic-power-devices/automotive",
+      "category_name": "SiC Power Device",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Murata Automotive Ceramic Capacitors",
+      "product_url": "https://www.murata.com/en-global/products/capacitor/mlcc/automotive",
+      "category_name": "Ceramic Capacitor (MLCC)",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "TDK Corporation Automotive Inductors",
+      "product_url": "https://product.tdk.com/en/search/inductor/inductor/automotive/info",
+      "category_name": "Inductor",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Kyocera Corporation Automotive Connectors",
+      "product_url": "https://global.kyocera.com/prdct/connector/automotive/",
+      "category_name": "Automotive Connector",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Littelfuse Automotive Fuses (Blade Fuses)",
+      "product_url": "https://www.littelfuse.com/products/fuses/automotive-passenger-car/blade-fuses.aspx",
+      "category_name": "Automotive Blade Fuse",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Sumitomo Electric Automotive Wiring Harnesses",
+      "product_url": "https://sumitomoelectric.com/products/automotive/wiring-harness",
+      "category_name": "Wire Harness",
+      "parent_category": "Automotive Electronics"
+    }
+  ]
+}

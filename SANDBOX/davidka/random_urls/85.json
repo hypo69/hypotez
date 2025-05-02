@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "King Tony Automotive Multimeter (9DM21)",
+      "product_url": "https://www.kingtony.com/product/9DM21",
+      "category_name": "Automotive Multimeter",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Rohde & Schwarz Automotive Radar Test System",
+      "product_url": "https://www.rohde-schwarz.com/us/solutions/test-and-measurement/automotive/radar/radar-test-systems_230498.html",
+      "category_name": "Radar Test System",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Keysight Automotive Cybersecurity Test Solutions",
+      "product_url": "https://www.keysight.com/us/en/industries/automotive-energy/automotive-cybersecurity.html",
+      "category_name": "Cybersecurity Test Solution",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Yokogawa DL950 ScopeCorder (Vehicle Measurement)",
+      "product_url": "https://tmi.yokogawa.com/solutions/products/oscilloscopes/scopecorder/dl950/",
+      "category_name": "Data Acquisition Recorder",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Würth Elektronik REDCUBE Terminals (High Current)",
+      "product_url": "https://www.we-online.com/en/components/products/REDCUBE",
+      "category_name": "High Current Terminal",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Schaeffler E-Axle Systems",
+      "product_url": "https://www.schaeffler.com/en/products-and-solutions/automotive/e-mobility/e-axle-systems/",
+      "category_name": "Electric Axle System",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Ficosa Integrated Rear Vision Systems",
+      "product_url": "https://ficosa.com/what-we-do/integrated-rear-vision-systems/",
+      "category_name": "Rear Vision System",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Desay SV Automotive Infotainment Systems",
+      "product_url": "https://en.desaysv.com/products/smartcabin/53/",
+      "category_name": "Infotainment System",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Clarion Full Digital Sound System",
+      "product_url": "https://www.clarion.com/jp/ja/products-personal/fds/",
+      "category_name": "Car Audio System",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Elektrobit EB tresos AUTOSAR Classic Software",
+      "product_url": "https://www.elektrobit.com/products/ecu/eb-tresos/classic/",
+      "category_name": "AUTOSAR Software",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Grote Industries LED Marker Lamps",
+      "product_url": "https://www.grote.com/product-catalog/led-marker-lamps/",
+      "category_name": "LED Marker Lamp",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Schaltbau Automotive Charging Connectors",
+      "product_url": "https://www.schaltbau.com/en/markets/railway-technology/applications/charging-connectors/",
+      "category_name": "EV Charging Connector",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Testo 770-3 Clamp Meter",
+      "product_url": "https://www.testo.com/en-US/testo-770-3/p/0590-7703",
+      "category_name": "Clamp Meter",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "NGK Spark Plugs (Laser Iridium)",
+      "product_url": "https://ngksparkplugs.com/en/products/spark-plugs/laser-iridium-spark-plugs",
+      "category_name": "Spark Plug",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "JVC KENWOOD Car Audio Receivers",
+      "product_url": "https://www.kenwood.com/usa/car/",
+      "category_name": "Car Audio Receiver",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Alpine Electronics Car Audio & Navigation",
+      "product_url": "https://www.alpine-usa.com/products/caraudio",
+      "category_name": "Car Audio/Navigation System",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Pioneer Electronics Car Receivers",
+      "product_url": "https://www.pioneerelectronics.com/PUSA/Car/Receivers",
+      "category_name": "Car Audio Receiver",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Metra Electronics Car Stereo Installation Kits",
+      "product_url": "https://metraonline.com/products/installation-kits",
+      "category_name": "Stereo Installation Kit",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "Install Bay Automotive Relays",
+      "product_url": "https://installbay.com/product/IBRLY",
+      "category_name": "Automotive Relay",
+      "parent_category": "Automotive Electronics"
+    },
+    {
+      "product_name": "AEM Electronics Engine Control Units (ECU)",
+      "product_url": "https://www.aemelectronics.com/products/engine-management-systems",
+      "category_name": "Engine Control Unit (ECU)",
+      "parent_category": "Automotive Electronics"
+    }
+  ]
+}
