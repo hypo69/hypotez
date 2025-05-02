@@ -248,7 +248,11 @@ def read_text_file(
 
             with path.open("r", encoding="utf-8") as f:
                 # Read the entire file content first
-                raw_content = f.read()
+                try:
+                    raw_content = f.read()
+                except Exception as ex:
+                    logger.critical(f'Ошибка чтения содержимого файла {str(path)}')
+                    return ''
 
             if as_list:
                 # Return list of original lines

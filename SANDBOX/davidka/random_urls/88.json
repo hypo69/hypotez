@@ -1,0 +1,154 @@
+{
+  "products": [
+    {
+      "product_name": "Honeywell Primus Epic Integrated Avionics System",
+      "product_url": "https://aerospace.honeywell.com/us/en/learn/products/cockpit-systems-and-displays/primus-epic",
+      "category_name": "Integrated Avionics Suite",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Collins Aerospace Pro Line Fusion Integrated Avionics System",
+      "product_url": "https://www.collinsaerospace.com/what-we-do/industries/business-aviation/flight-deck/pro-line-fusion",
+      "category_name": "Integrated Avionics Suite",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Garmin G1000 NXi Integrated Flight Deck",
+      "product_url": "https://www.garmin.com/en-US/p/642199",
+      "category_name": "Integrated Avionics Suite",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Thales FlytX Avionics Suite",
+      "product_url": "https://www.thalesgroup.com/en/markets/aerospace/avionics/flytx-cockpit-avionics-suite",
+      "category_name": "Integrated Avionics Suite",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Safran FADEC Systems",
+      "product_url": "https://www.safran-electronics-defense.com/product/fadec-full-authority-digital-engine-control-systems",
+      "category_name": "Full Authority Digital Engine Control (FADEC)",
+      "parent_category": "Engine Control & Monitoring"
+    },
+    {
+      "product_name": "GE Aviation Flight Management Systems",
+      "product_url": "https://www.geaviation.com/digital/applications/flight-management-systems",
+      "category_name": "Flight Management System (FMS)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "L3Harris Lynx NGT-9000 ADS-B Transponder + Display",
+      "product_url": "https://www.l3harris.com/all-capabilities/lynx-ngt-9000",
+      "category_name": "ADS-B Transponder",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Moog Flight Control Actuation Systems",
+      "product_url": "https://www.moog.com/products/actuation-systems/aircraft-military-commercial/flight-control-actuation.html",
+      "category_name": "Flight Control Actuator",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Parker Aerospace Hydraulic Flight Controls",
+      "product_url": "https://www.parker.com/us/en/divisions/control-systems-division/products/flight-control-packages.html",
+      "category_name": "Flight Control Actuator",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Eaton Aerospace Fuel Pumps",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/aerospace-and-defense/fuel-pumps.html",
+      "category_name": "Fuel Pump",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Avidyne IFD550 FMS/GPS/NAV/COM",
+      "product_url": "https://www.avidyne.com/product/ifd550-fms-gps-nav-com/",
+      "category_name": "Integrated FMS/GPS/NAV/COM",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Aspen Avionics EFD1000 Pro MAX PFD",
+      "product_url": "https://aspenavionics.com/products/general-aviation/evolution-1000-pro-max-pfd/",
+      "category_name": "Primary Flight Display (PFD)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Teledyne Controls Wireless GroundLink® Quick Access Recorder (WQAR)",
+      "product_url": "https://www.teledynecontrols.com/products-and-services/flight-data-management/wireless-groundlink-quick-access-recorder",
+      "category_name": "Quick Access Recorder (QAR)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Curtiss-Wright Air Data Computers",
+      "product_url": "https://www.curtisswrightds.com/products/flight-test/air-data-systems/air-data-computers/",
+      "category_name": "Air Data Computer (ADC)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Astronics TSO'd USB Power Systems",
+      "product_url": "https://www.astronics.com/products/aerospace/cabin/empower-in-seat-power-systems",
+      "category_name": "In-Seat USB Power System",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "BendixKing AeroVue Touch Integrated Flight Deck",
+      "product_url": "https://www.bendixking.com/en/products/aerovue-touch",
+      "category_name": "Integrated Avionics Suite",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Universal Avionics InSight Display System",
+      "product_url": "https://www.uasc.com/universal-avionics/systems/insight-display-system",
+      "category_name": "Integrated Display System",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Amphenol D38999 Series III Connectors",
+      "product_url": "https://www.amphenol-aerospace.com/products/d38999-series-iii",
+      "category_name": "MIL-SPEC Connector (D38999)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "TE Connectivity DEUTSCH DMC-M Series Connectors",
+      "product_url": "https://www.te.com/usa-en/products/connectors/rectangular-connectors/intersection/deutsch-dmc-m-series-connectors.html",
+      "category_name": "Rectangular Connector (ARINC)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "ITT Cannon ARINC 600 Connectors",
+      "product_url": "https://www.ittcannon.com/products/interconnects/arinc-600/",
+      "category_name": "Rack & Panel Connector (ARINC 600)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Leach International (TransDigm) Relays & Contactors",
+      "product_url": "https://www.leachint.com/en/products",
+      "category_name": "Relay / Contactor",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Saft ULM Aviation Batteries (Li-ion)",
+      "product_url": "https://www.saftbatteries.com/products-solutions/products/ultralow-maintenance-batteries-ulm",
+      "category_name": "Aircraft Battery (Li-ion)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "DME Corporation Emergency Locator Transmitters (ELT)",
+      "product_url": "https://www.dmecorp.com/products/emergency-locator-transmitters/",
+      "category_name": "Emergency Locator Transmitter (ELT)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Rohde & Schwarz R&S®AVQA Avionics Quality Analyzer",
+      "product_url": "https://www.rohde-schwarz.com/us/products/test-and-measurement/aerospace-defense-security-test/rs-avqa-avionics-quality-analyzer_63493-1167848.html",
+      "category_name": "Avionics Test Set",
+      "parent_category": "Test & Measurement Equipment (Aviation Specific)"
+    },
+    {
+      "product_name": "Barfield DPS1000 Digital Pitot Static Tester",
+      "product_url": "https://www.barfieldinc.com/product/dps1000/",
+      "category_name": "Pitot-Static Tester",
+      "parent_category": "Test & Measurement Equipment (Aviation Specific)"
+    }
+  ]
+}

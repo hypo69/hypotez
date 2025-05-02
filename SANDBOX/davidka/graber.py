@@ -17,6 +17,7 @@ import sys # Для выхода, если URL не найден
 import header
 from header import __root__
 from src import gs
+from src.utils.file import read_text_file, save_text_file
 from src.webdriver import Driver
 from src.webdriver.firefox import Firefox
 #from src.webdriver.chrome import Chrome
@@ -27,9 +28,10 @@ from src.logger import logger
 
 FORBIDDEN_KEYWORDS = {
     'google', 'youtube', 'amazon', 'ebay', 'aliexpress', 'facebook', 'fb',
-    'vk', 'twitter', 't.co', 'instagram', 'linkedin', 'pinterest', 'tiktok',
-    'wildberries', 'ozon', 'etsy', 'marketplace', # Добавил 'marketplace'
+    'vk', 'twitter',  'instagram', 'linkedin', 'pinterest', 'tiktok',
+    'wildberries', 'ozon', 'etsy', 'marketplace', 'wikipedia', 'wikimedia' 
     # Добавьте другие ключевые слова или домены по необходимости
+    # 't.co',
 }
 
 
@@ -84,13 +86,14 @@ def extract_page_data(base_url, html_content): # Убедитесь, что base
         return {'text': '', 'internal_links': []}
 
 def update_output_dict(data:str, timestamp:str, url:str) -> bool:
-    output_file = Path(rf"J:/My Drive/hypo69/llm/filtered_urls/{gs.now}.json")
+    output_file = Path(rf"F:/llm/filtered_urls/{gs.now}.json")
     data_dict:dict = {'url':url, 'data':data}
     if not j_dumps(data_dict,output_file):
         logger.error(f"Ошибка записи в файл {output_file}")
         return False
 
     logger.success(f'Файл {output_file} - Записан!')
+    save_text_file = Path(rf"F:\llm\checked_urls.txt")
     return True
 
 
@@ -99,22 +102,30 @@ if __name__ == "__main__":
 
     driver = Driver(Firefox, window_mode= 'headless')
     timestamp: str = gs.now
+    url_list: list = []
+    checked_urls:list = read_text_file(Path(rf"F:\llm\checked_urls.txt"), as_list=True)
 
     # 1. Получаем список URL 
     try:
-        url_list: list = utils.fetch_urls_from_all_mining_files(['random_urls','output_product_data_set1',''])
+       url_list = utils.fetch_urls_from_all_mining_files(['random_urls','output_product_data_set1']) 
+
     except NameError: # Обработка случая, когда utils не импортирован
         print("Используется тестовый список URL (utils не найден).")
         # Используем тестовый список из заглушки utils
         url_list = utils.fetch_urls_from_all_mining_files([])
-    except Exception as e:
-        print(f"Ошибка при получении списка URL: {e}")
+    except Exception as ex:
+        print(f"Ошибка при получении списка URL: ",ex)
         url_list = [] # Пустой список в случае ошибки
 
+    
     # 2. Ищем ПЕРВЫЙ подходящий URL с учетом ФИЛЬТРАЦИИ (логика из вашего кода + фильтр)
     target_url = None
+
     print("Поиск первого подходящего URL с фильтрацией...")
+
+
     for url in url_list:
+
         url = url.strip()
 
         # Шаг 2.1: Исходная проверка на 'http'
@@ -160,10 +171,8 @@ if __name__ == "__main__":
         
         try:
 
-
-            # 5. Используем драйвер для получения HTML (как в вашем коде)
             # driver.get_url(target_url) # Если используете get_url
-            driver.fetch_html(target_url) # Как в вашем примере
+            driver.fetch_html(target_url) 
             #print("HTML страницы получен.")
 
             # 6. Извлекаем данные (как в вашем коде, передавая target_url)

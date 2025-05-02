@@ -1,0 +1,166 @@
+{
+  "products": [
+    {
+      "product_name": "Viavi Solutions ALT-8000 Radio Altimeter Test Set",
+      "product_url": "https://www.viavisolutions.com/en-us/products/alt-8000-radio-altimeter-flight-line-test-set",
+      "category_name": "Radio Altimeter Test Set",
+      "parent_category": "Test & Measurement Equipment (Aviation Specific)"
+    },
+    {
+      "product_name": "Cobham (Draken) Antennas (VHF, UHF, GPS)",
+      "product_url": "https://www.cobhamaes.com/antennas/",
+      "category_name": "Aircraft Antenna",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Meggitt Sensing Systems Engine Sensors (Pressure, Temperature, Vibration)",
+      "product_url": "https://www.meggittsensing.com/aerospace-engine-monitoring/",
+      "category_name": "Engine Sensor",
+      "parent_category": "Engine Control & Monitoring"
+    },
+    {
+      "product_name": "Esterline (TransDigm) Korry Cockpit Controls & Displays",
+      "product_url": "https://www.esterline.com/control-communication-systems/korry/products",
+      "category_name": "Cockpit Controls / Displays",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "UTC Aerospace Systems (Collins) AC Power Generators",
+      "product_url": "https://www.collinsaerospace.com/what-we-do/industries/commercial-aviation/airframe/electric-power-systems",
+      "category_name": "AC Generator",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Ametek Power & Data Systems Generators & Starter Generators",
+      "product_url": "https://www.ametekpi.com/products/brands/power-and-data-systems",
+      "category_name": "Generator / Starter Generator",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Triumph Group Actuation Systems",
+      "product_url": "https://www.triumphgroup.com/what-we-do/systems-support/actuation-controls/",
+      "category_name": "Actuation System",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Whelen Aerospace Technologies (WAT) Aviation Lighting",
+      "product_url": "https://flywat.com/collections/aviation-lighting",
+      "category_name": "Aircraft Lighting (LED)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Genesys Aerosystems S-TEC 3100 Digital Flight Control System",
+      "product_url": "https://genesys-aerosystems.com/products/s-tec-3100-digital-flight-control-system",
+      "category_name": "Autopilot / Flight Control System",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Dynon SkyView HDX Integrated Avionics",
+      "product_url": "https://www.dynonavionics.com/skyview-hdx.php",
+      "category_name": "Integrated Avionics Suite (Experimental/LSA)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "PS Engineering PMA450B Audio Panel",
+      "product_url": "https://www.ps-engineering.com/pma450b.html",
+      "category_name": "Audio Panel",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "TRIG Avionics TT31 Transponder (Mode S, ADS-B Out)",
+      "product_url": "https://www.trig-avionics.com/product/tt31-transponder/",
+      "category_name": "Transponder (Mode S, ADS-B)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "FreeFlight Systems RANGR ADS-B Transceivers",
+      "product_url": "https://www.freeflightsystems.com/products/ads-b-solutions/rangr-series",
+      "category_name": "ADS-B Transceiver",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Heads Up Technologies (ACSS) TAWS+",
+      "product_url": "https://acss.com/products/taws/",
+      "category_name": "Terrain Awareness and Warning System (TAWS)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Mid-Continent Instruments and Avionics Chronos Digital Clock/USB Charger",
+      "product_url": "https://www.mcico.com/products/aircraft-instruments-avionics-power/chronos-digital-clocks-usb-chargers",
+      "category_name": "Aircraft Clock / USB Charger",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Sensata Airpax Circuit Breakers",
+      "product_url": "https://www.sensata.com/products/circuit-breakers/aircraft-circuit-breakers",
+      "category_name": "Aircraft Circuit Breaker",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Carlisle Interconnect Technologies Aerospace Wire & Cable",
+      "product_url": "https://www.carlisleit.com/products/wire-cable/aerospace-wire-cable/",
+      "category_name": "Aerospace Wire & Cable",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Liebherr Aerospace Air Management Systems",
+      "product_url": "https://www.liebherr.com/en/int/products/aerospace-and-transportation-systems/aerospace/air-management-systems/air-management-systems.html",
+      "category_name": "Air Management System Components",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Woodward Actuation Systems",
+      "product_url": "https://www.woodward.com/en/products/aerospace-defense/actuation",
+      "category_name": "Actuation System",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Honeywell Aspire 350 Satellite Communications System",
+      "product_url": "https://aerospace.honeywell.com/us/en/learn/products/connectivity/aspire-350",
+      "category_name": "Satellite Communications (SATCOM)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Collins Aerospace ACES 5 Ejection Seat (Electronic Components)",
+      "product_url": "https://www.collinsaerospace.com/what-we-do/industries/military-defense/training-mission-systems/ejection-seats/aces-5",
+      "category_name": "Ejection Seat Electronics",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Lufthansa Technik AVIATAR Digital Solutions (HUMS Data)",
+      "product_url": "https://www.aviatar.com/en/",
+      "category_name": "Health Monitoring Data Platform",
+      "parent_category": "Engine Control & Monitoring"
+    },
+    {
+      "product_name": "Gogo Business Aviation AVANCE L5 (In-Flight Connectivity)",
+      "product_url": "https://business.gogoair.com/products/avance-l5/",
+      "category_name": "In-Flight Connectivity System",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Dukane Seacom Underwater Locator Beacons (ULB)",
+      "product_url": "https://www.dukaneseacom.com/products/underwater-locator-beacons",
+      "category_name": "Underwater Locator Beacon (ULB)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "TKM Avionics MX11 COM Radio",
+      "product_url": "https://tkmavionics.com/our-products/mx11-comm-radio/",
+      "category_name": "Communication Radio (VHF)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Latitude Technologies SkyNode S200 SATCOM Voice/Data Transceiver",
+      "product_url": "https://www.latitudetech.com/products/skynode-s200/",
+      "category_name": "Satellite Communications (SATCOM)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "CKT Fast Test Cable and Harness Test Systems",
+      "product_url": "https://ckt.com/products-solutions/cable-and-harness-testing-systems/",
+      "category_name": "Cable & Harness Tester",
+      "parent_category": "Test & Measurement Equipment (Aviation Specific)"
+    }
+  ]
+}

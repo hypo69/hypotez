@@ -326,17 +326,21 @@ def fetch_urls_from_all_mining_files(dir_path: Path| List[Path]  = ['random_urls
     """
     URL_PATTERN = re.compile(r'https?://\S+')
     found_urls = []
+    files_list: list = []
+
     dir_path_list = [dir_path] if not isinstance(dir_path, list) else dir_path
     try:
         for dp in dir_path_list:
            
-            files_list: list = recursively_get_file_path(Config.ENDPOINT / dp)
+            files_list = recursively_get_file_path(Config.ENDPOINT / dp)
             # ----------------------------------------
             for file in files_list:
                 # read_text_file возвращает список строк
                 lines: list = read_text_file(file, as_list=True)
                 # -----------------------------
-
+                if len(lines)<1:
+                    logger.warning(f"Файл {file} пустой или не содержит строк.", None, False)
+                    continue
                 
                 for line in lines:
                     # Ищем все совпадения URL паттерна в текущей строке
@@ -350,10 +354,13 @@ def fetch_urls_from_all_mining_files(dir_path: Path| List[Path]  = ['random_urls
               
     except OSError as ex:
         logger.error(f"Ошибка доступа к элементам директории '{dp}': {ex}")
-        return []
+        # ----------------
+    except TypeError as ex:
+        logger.error(ex)
+        # ----------------
     except Exception as ex:
         logger.error(ex)
-        return []
+        # ----------------
 
     random.shuffle(found_urls)
     found_urls = set(found_urls)
