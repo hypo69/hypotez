@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Axnes PNG Wireless Intercom System (WICS)",
+      "product_url": "https://www.axnes.com/png-wireless-intercom",
+      "category_name": "Wireless Intercom System",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Jotron Tron 40VDR Float-Free Capsule (for FDR/CVR)",
+      "product_url": "https://www.jotron.com/product/tron-40vdr-float-free-capsule/",
+      "category_name": "Float-Free Recorder Capsule",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Skytrac ISAT-200A Satcom Transceiver",
+      "product_url": "https://www.skytrac.ca/products/isat-200a/",
+      "category_name": "Satellite Communications (SATCOM) Transceiver",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Troll Systems SkyLink Mini II Airborne Video Downlink",
+      "product_url": "https://trollsystems.com/products/skylink-mini-ii",
+      "category_name": "Video Downlink System",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Kongsberg Maritime Remote Environmental Monitoring Units (Aircraft)",
+      "product_url": "https://www.kongsberg.com/maritime/products/marine-robotics/environmental-monitoring/",
+      "category_name": "Environmental Sensor System",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Hartzell Engine Technologies Aircraft Starters",
+      "product_url": "https://hartzell.aero/engine-tech/products/starters/",
+      "category_name": "Aircraft Starter Motor",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "David Clark DC PRO-X2 Aviation Headset (Active Noise Reduction)",
+      "product_url": "https://store.davidclark.com/dc-pro-x2-headset-43105g-06",
+      "category_name": "Aviation Headset (ANR)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Lightspeed Zulu 3 ANR Headset",
+      "product_url": "https://www.lightspeedaviation.com/product/zulu-3-anr-headset/",
+      "category_name": "Aviation Headset (ANR)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Zodiac Aerospace (Safran) Electrical Power Management Systems",
+      "product_url": "https://www.safran-electrical-power.com/products-services/power-generation-distribution/power-distribution-management",
+      "category_name": "Power Distribution Unit (PDU)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "AEA Technology IFR6000 Transponder/DME Ramp Test Set",
+      "product_url": "https://www.aeatechnology.com/product/ifr6000-transponder-dme-ramp-test-set/",
+      "category_name": "Transponder/DME Test Set",
+      "parent_category": "Test & Measurement Equipment (Aviation Specific)"
+    },
+    {
+      "product_name": "Ultra Electronics Flightline Systems Integrated Avionics",
+      "product_url": "https://www.ultra.group/us/our-markets/avionics/",
+      "category_name": "Integrated Avionics System",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Rogerson Kratos Corporation Display Systems",
+      "product_url": "https://www.kratosdefense.com/systems-and-platforms/unmanned-systems/avionics/display-products",
+      "category_name": "Aircraft Display",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "MarathonNorco Aerospace NiCd Batteries",
+      "product_url": "https://www.marathonnorcoaerospace.com/nickel-cadmium-batteries",
+      "category_name": "Aircraft Battery (NiCd)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Lisk Aerospace Solenoids & Valves",
+      "product_url": "https://lisk-powersystems.com/aerospace-defense/products/",
+      "category_name": "Solenoid Valve",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "AvtechTyee Audio Control Panels",
+      "product_url": "https://avtechtyee.com/products/audio-control-panels/",
+      "category_name": "Audio Control Panel",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Skurka Aerospace (TransDigm) Starter Generators",
+      "product_url": "https://www.transdigm.com/portfolio/business-units/skurka-aerospace/",
+      "category_name": "Starter Generator",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "AstroNova ToughWriter Airborne Printers",
+      "product_url": "https://www.astronovaproductid.com/toughwriter-airborne-printers",
+      "category_name": "Airborne Printer",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Christie Aircraft Battery Charger/Analyzers (RF80-M)",
+      "product_url": "https://christiecbs.com/products/rf80-m/",
+      "category_name": "Aircraft Battery Charger/Analyzer",
+      "parent_category": "Ground Support Equipment (GSE) Electronics"
+    },
+    {
+      "product_name": "Nav-Aids Ltd. Air Data Accessories Kit",
+      "product_url": "https://www.nav-aids.com/air-data-accessories-kits/",
+      "category_name": "Air Data Test Accessories",
+      "parent_category": "Test & Measurement Equipment (Aviation Specific)"
+    },
+    {
+      "product_name": "Honeywell Weather Radar Systems (IntuVue RDR-4000)",
+      "product_url": "https://aerospace.honeywell.com/us/en/learn/products/weather-radar/intuvue-rdr-4000-weather-radar",
+      "category_name": "Weather Radar System",
+      "parent_category": "Avionics Systems & Instruments"
+    }
+  ]
+}

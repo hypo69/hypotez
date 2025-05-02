@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Leach International (TransDigm) Solid State Power Controllers (SSPC)",
+      "product_url": "https://www.leachint.com/en/products/power-distribution/solid-state-power-controllers",
+      "category_name": "Solid State Power Controller (SSPC)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Saft Ni-Cd Aviation Batteries (VHP Series)",
+      "product_url": "https://www.saftbatteries.com/products-solutions/products/nickel-cadmium-batteries-vhp",
+      "category_name": "Aircraft Battery (NiCd)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "DME Corporation Ground Proximity Warning Systems (GPWS)",
+      "product_url": "https://www.dmecorp.com/products/ground-proximity-warning-systems/",
+      "category_name": "Ground Proximity Warning System (GPWS/TAWS)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Rohde & Schwarz EDST300 TACAN/DME Station Tester",
+      "product_url": "https://www.rohde-schwarz.com/us/product/edst300-productstartpage_63493-630222.html",
+      "category_name": "TACAN/DME Test Set",
+      "parent_category": "Test & Measurement Equipment (Aviation Specific)"
+    },
+    {
+      "product_name": "Barfield AC4205D AC Generator Test Stand",
+      "product_url": "https://www.barfieldinc.com/product/ac4205d/",
+      "category_name": "Generator Test Stand",
+      "parent_category": "Test & Measurement Equipment (Aviation Specific)"
+    },
+    {
+      "product_name": "Viavi Solutions IFF-45TS Transponder / Interrogator Test Set",
+      "product_url": "https://www.viavisolutions.com/en-us/products/iff-45ts-iff-transponderinterrogator-bench-test-set",
+      "category_name": "IFF Transponder Test Set",
+      "parent_category": "Test & Measurement Equipment (Aviation Specific)"
+    },
+    {
+      "product_name": "Cobham (Draken) ARTEX Emergency Locator Transmitters (ELT)",
+      "product_url": "https://www.artex.com/",
+      "category_name": "Emergency Locator Transmitter (ELT)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Meggitt Sensing Systems Fuel Gauging Probes",
+      "product_url": "https://www.meggittsensing.com/aerospace-fluid-sensing/",
+      "category_name": "Fuel Quantity Sensor",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Esterline (TransDigm) Mason Electric Control Grips",
+      "product_url": "https://www.esterline.com/control-communication-systems/mason/products",
+      "category_name": "Control Stick/Grip (with switches)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "UTC Aerospace Systems (Collins) ProSim Projector Systems (HUD)",
+      "product_url": "https://www.collinsaerospace.com/what-we-do/industries/business-aviation/vision-systems/head-up-display",
+      "category_name": "Head-Up Display (HUD) Projector",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Ametek SFJO Fuel Quantity Indicating Systems (FQIS)",
+      "product_url": "https://www.ametekaerodefense.com/products/sensors-and-fluid-management-systems/fuel-quantity-indication-systems",
+      "category_name": "Fuel Quantity Indicating System (FQIS)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Triumph Group Geared Solutions (Actuation)",
+      "product_url": "https://www.triumphgroup.com/what-we-do/systems-support/geared-solutions/",
+      "category_name": "Geared Actuator Components",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Whelen Aerospace Technologies (WAT) LED Landing Lights (Parmetheus™)",
+      "product_url": "https://flywat.com/collections/landing-lights",
+      "category_name": "LED Landing Light",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Genesys Aerosystems HeliSAS Helicopter Autopilot and Stability Augmentation System",
+      "product_url": "https://genesys-aerosystems.com/products/helisas-helicopter-autopilot-and-stability-augmentation-system",
+      "category_name": "Helicopter Autopilot / SAS",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Dynon DRX Portable Dual Band ADS-B Traffic and Weather Receiver",
+      "product_url": "https://www.dynonavionics.com/drx-portable-ads-b-receiver.php",
+      "category_name": "Portable ADS-B Receiver",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "PS Engineering PAR200B Audio Panel with VHF COM Radio",
+      "product_url": "https://www.ps-engineering.com/par200b.html",
+      "category_name": "Audio Panel / VHF COM Radio Combo",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "TRIG Avionics TN72 GPS Receiver (ADS-B Out solution)",
+      "product_url": "https://www.trig-avionics.com/product/tn72-gps-receiver/",
+      "category_name": "GPS Receiver (for ADS-B)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "FreeFlight Systems TERRAIN Series TAWS+ (Class B TAWS)",
+      "product_url": "https://www.freeflightsystems.com/products/safety-systems/terrain-series",
+      "category_name": "Terrain Awareness and Warning System (TAWS)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "ACSS SafeRoute+ ADS-B In Applications",
+      "product_url": "https://acss.com/products/ads-b-in-applications/",
+      "category_name": "ADS-B In Application Software",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Mid-Continent Instruments and Avionics Flex MD23 Series Configurable Instruments",
+      "product_url": "https://www.mcico.com/products/aircraft-instruments-avionics-power/flex-md23-series-configurable-display",
+      "category_name": "Configurable Aircraft Display",
+      "parent_category": "Avionics Systems & Instruments"
+    }
+  ]
+}

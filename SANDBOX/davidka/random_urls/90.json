@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "uAvionix tailBeaconX ADS-B Transponder",
+      "product_url": "https://uavionix.com/products/tailbeaconx/",
+      "category_name": "ADS-B Transponder (Experimental/GA)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Becker Avionics BXT6500 Mode S Transponder",
+      "product_url": "https://www.becker-avionics.com/products/bxt6500",
+      "category_name": "Transponder (Mode S)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Diehl Aviation Cabin Management Systems",
+      "product_url": "https://www.diehl.com/aviation/en/portfolio/cabin-interiors/cabin-management-systems/",
+      "category_name": "Cabin Management System",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "PIC Wire & Cable Aerospace Data Cables (DataMATES)",
+      "product_url": "https://www.picwire.com/cables/data-mates/",
+      "category_name": "Aerospace Data Cable",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Glenair Mighty Mouse Connectors (Series 80)",
+      "product_url": "https://www.glenair.com/mightymouse/index.htm",
+      "category_name": "Miniature Circular Connector",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Radiall QuickFusio™ Connectors",
+      "product_url": "https://www.radiall.com/products/multi-signal-connectors/quickfusio.html",
+      "category_name": "Modular Connector",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Crane Aerospace & Electronics AutoTransformer Rectifier Unit (ATRU)",
+      "product_url": "https://www.craneae.com/products/power-conversion/autotransformer-rectifier-units",
+      "category_name": "Power Conversion Unit (ATRU)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Meggitt Avionics Engine Interface Units (EIU)",
+      "product_url": "https://www.meggitt.com/products-services/avionics-systems/engine-interface-units/",
+      "category_name": "Engine Interface Unit",
+      "parent_category": "Engine Control & Monitoring"
+    },
+    {
+      "product_name": "Tel-Instrument (TIC) T-47/M5 TCAS/Transponder/DME Test Set",
+      "product_url": "https://www.telinstrument.com/t-47m5",
+      "category_name": "TCAS/Transponder/DME Test Set",
+      "parent_category": "Test & Measurement Equipment (Aviation Specific)"
+    },
+    {
+      "product_name": "Laversab ARTS-7000 Automated RVSM Air Data Test Set",
+      "product_url": "https://www.laversab.com/product/arts-7000/",
+      "category_name": "Air Data Test Set (ADTS)",
+      "parent_category": "Test & Measurement Equipment (Aviation Specific)"
+    },
+    {
+      "product_name": "Applied Avionics VIVISUN LED Switches/Annunciators",
+      "product_url": "https://www.appliedavionics.com/vivisun",
+      "category_name": "Illuminated Switch / Annunciator",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Collins Aerospace Air Data Sensors",
+      "product_url": "https://www.collinsaerospace.com/what-we-do/industries/commercial-aviation/sensors-integrated-systems/air-data-sensors",
+      "category_name": "Air Data Sensor",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Kaman Aerospace High Temperature Sensors",
+      "product_url": "https://www.kamanaero.com/aerospace-defense/specialty-bearings-engineered-products/high-temperature-sensors",
+      "category_name": "High Temperature Sensor",
+      "parent_category": "Engine Control & Monitoring"
+    },
+    {
+      "product_name": "CMD Flight Solutions (Arconics) AeroDocs Document Management",
+      "product_url": "https://cmdsolutions.com/aviation-solutions/aerodocs/",
+      "category_name": "Electronic Flight Bag (EFB) Software",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "NavData ARINC 424 Navigation Data Services",
+      "product_url": "https://navdata.aero/products/arinc-424-navdata/",
+      "category_name": "Navigation Database Service",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Appareo Stratus 3 ADS-B Receiver (Portable)",
+      "product_url": "https://appareo.com/products/stratus-3/",
+      "category_name": "Portable ADS-B Receiver",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Start Pac GPU Power Supplies (Model 53300)",
+      "product_url": "https://startpac.com/products/model-53300-gpu/",
+      "category_name": "Ground Power Unit (GPU)",
+      "parent_category": "Ground Support Equipment (GSE) Electronics"
+    },
+    {
+      "product_name": "Red Box Aviation RB75A Twin Start Pac",
+      "product_url": "https://www.redboxaviation.com/product/rb75a-twin-start-pac/",
+      "category_name": "Aircraft Start Unit",
+      "parent_category": "Ground Support Equipment (GSE) Electronics"
+    },
+    {
+      "product_name": "Concorde Battery Corporation RG Series Aircraft Batteries (Lead-Acid)",
+      "product_url": "https://concordebattery.com/productcategory/rg-series/",
+      "category_name": "Aircraft Battery (Lead-Acid)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Gill Batteries LT Series 7000 Aircraft Batteries",
+      "product_url": "https://www.gillbatteries.com/Products",
+      "category_name": "Aircraft Battery (Lead-Acid)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    }
+  ]
+}
