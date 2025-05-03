@@ -33,7 +33,7 @@ from src.utils.url import get_domain
 class Config:
     ENDPOINT:Path = __root__/'SANDBOX'/'davidka'
     output_dir:Path = Path("F:/llm/filtered_urls")
-    sanitize_json_files(output_dir)
+    #sanitize_json_files(output_dir) # <- очистка от битых словарей
     checked_urls:list = read_text_file(output_dir/'checked_urls.txt', as_list=True) or []
     checked_urls = list(set(checked_urls))
 
@@ -60,7 +60,14 @@ def build_list_of_checked_urls() -> bool:
             logger.error(f'Ошибка при обработке файла {datafile}', ex, exc_info=True)
             continue
         
-
+def update_checked_urls_file(url:str) -> bool:
+    """Функция добавляет `URL` в список проверенных"""
+    Config.checked_urls.append(url)
+    if not save_text_file(Config.checked_urls,Config.output_dir/'checked_urls.txt'):
+        logger.error(f'Ошибка записи в файл {Config.output_dir/"checked_urls.txt"}', None, True)
+        return False
+    logger.success(f'URL {url} добавлен в список проверенных.')
+    return True
 
 def extract_domain_from_products_urls() -> bool:
     """
@@ -389,9 +396,8 @@ def fetch_urls_from_all_mining_files(dir_path: Path| List[Path]  = ['random_urls
         logger.error(ex)
         # ----------------
 
+    found_urls = list(set(found_urls))
     random.shuffle(found_urls)
-    found_urls = set(found_urls)
-     
     return  found_urls
 
 # --- Основная часть скрипта ---

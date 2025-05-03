@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Esterline (TransDigm) Flight Deck Solutions (Displays, Controls)",
+      "product_url": "https://www.esterline.com/avionicssystems/flightdeck",
+      "category_name": "Flight Deck Displays/Controls",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "UTC Aerospace Systems (Collins) Angle of Attack Sensors",
+      "product_url": "https://www.collinsaerospace.com/what-we-do/industries/commercial-aviation/sensors-integrated-systems/air-data-sensors",
+      "category_name": "Angle of Attack (AoA) Sensor",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Ametek Aerospace Temperature Sensors",
+      "product_url": "https://www.ametekaerodefense.com/products/sensors-and-fluid-management-systems/temperature-sensors",
+      "category_name": "Temperature Sensor",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Triumph Group Actuation Control Electronics",
+      "product_url": "https://www.triumphgroup.com/what-we-do/systems-support/actuation-controls/",
+      "category_name": "Actuator Control Unit",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Whelen Aerospace Technologies (WAT) LED Taxi Lights",
+      "product_url": "https://flywat.com/collections/taxi-lights",
+      "category_name": "LED Taxi Light",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Genesys Aerosystems Digital Radio (GDR)",
+      "product_url": "https://genesys-aerosystems.com/products/digital-radio-gdr",
+      "category_name": "Communication Radio (VHF Panel Mount)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Dynon SkyView Autopilot Control Panel",
+      "product_url": "https://www.dynonavionics.com/autopilot-control-panel.php",
+      "category_name": "Autopilot Control Panel",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "PS Engineering PMA8000G Audio Panel",
+      "product_url": "https://www.ps-engineering.com/pma8000g.html",
+      "category_name": "Audio Panel",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "TRIG Avionics TX56A NAV/COM",
+      "product_url": "https://www.trig-avionics.com/product/tx56a-nav-com/",
+      "category_name": "NAV/COM Radio",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "FreeFlight Systems 1203C SBAS/GNSS Sensor",
+      "product_url": "https://www.freeflightsystems.com/products/position-sources/1203c-sbass-gnss-sensor",
+      "category_name": "GNSS/GPS Sensor",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "ACSS T2CAS® (TCAS II with TAWS)",
+      "product_url": "https://acss.com/products/t2cas/",
+      "category_name": "Integrated TCAS/TAWS System",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Mid-Continent Instruments and Avionics MD41 Series Annunciation Control Units (ACU)",
+      "product_url": "https://www.mcico.com/products/aircraft-instruments-avionics-power/md41-series-annunciation-control-units",
+      "category_name": "Annunciator Control Unit (ACU)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Sensata Pressure Sensors for Aerospace",
+      "product_url": "https://www.sensata.com/products/pressure-sensors/aerospace-pressure-sensors",
+      "category_name": "Pressure Sensor",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Carlisle Interconnect Technologies Fiber Optic Cable Assemblies",
+      "product_url": "https://www.carlisleit.com/products/cable-assemblies/fiber-optic-cable-assemblies/",
+      "category_name": "Fiber Optic Cable Assembly",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Liebherr Aerospace Cabin Pressure Control Systems",
+      "product_url": "https://www.liebherr.com/en/int/products/aerospace-and-transportation-systems/aerospace/cabin-pressure-control-systems/cabin-pressure-control-systems.html",
+      "category_name": "Cabin Pressure Control System Electronics",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Woodward Turbine Fuel Controls (Electronic)",
+      "product_url": "https://www.woodward.com/en/products/aerospace-defense/fuel-systems",
+      "category_name": "Engine Fuel Control Unit (Electronic)",
+      "parent_category": "Engine Control & Monitoring"
+    },
+    {
+      "product_name": "Honeywell CNS Systems (Communication, Navigation, Surveillance)",
+      "product_url": "https://aerospace.honeywell.com/us/en/learn/products/communication-navigation-and-surveillance-systems",
+      "category_name": "Integrated CNS Systems",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Collins Aerospace Inmarsat Satcom Systems",
+      "product_url": "https://www.collinsaerospace.com/what-we-do/industries/commercial-aviation/connectivity/inmarsat-satcom",
+      "category_name": "Satellite Communications (SATCOM)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Garmin GSB 15 USB Charging Hub",
+      "product_url": "https://www.garmin.com/en-US/p/647198",
+      "category_name": "USB Charging Port",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Thales SafeDeck Pilot Assistance Tools",
+      "product_url": "https://www.thalesgroup.com/en/markets/aerospace/avionics/safedeck",
+      "category_name": "Pilot Assistance System (Software/Display Features)",
+      "parent_category": "Avionics Systems & Instruments"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Barfield Cable Tensiometers (Digital)",
+      "product_url": "https://www.barfieldinc.com/product/digital-cable-tensiometers/",
+      "category_name": "Cable Tensiometer (Test)",
+      "parent_category": "Test & Measurement Equipment (Aviation Specific)"
+    },
+    {
+      "product_name": "Viavi Solutions AVX-10K Flight Line Test Set (Multiple functions)",
+      "product_url": "https://www.viavisolutions.com/en-us/products/avx-10k-flight-line-test-set",
+      "category_name": "Multi-Function Avionics Test Set",
+      "parent_category": "Test & Measurement Equipment (Aviation Specific)"
+    },
+    {
+      "product_name": "Cobham (Draken) RT-7000 Panel-Mount Tactical Radio",
+      "product_url": "https://www.cobhamaes.com/rt-7000-panel-mount-tactical-radio/",
+      "category_name": "Tactical Communication Radio",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Meggitt Sensing Systems Bleed Air Leak Detection",
+      "product_url": "https://www.meggittsensing.com/aerospace-bleed-air/",
+      "category_name": "Bleed Air Leak Detection Sensor",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Esterline (TransDigm) Racal Acoustics Audio Communication Systems",
+      "product_url": "https://www.esterline.com/control-communication-systems/racalacoustics/products",
+      "category_name": "Audio Communication System",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "UTC Aerospace Systems (Collins) Helicopter HUMS",
+      "product_url": "https://www.collinsaerospace.com/what-we-do/industries/military-defense/helicopter/integrated-solutions/health-usage-monitoring-systems",
+      "category_name": "Health and Usage Monitoring System (HUMS)",
+      "parent_category": "Engine Control & Monitoring"
+    },
+    {
+      "product_name": "Ametek Drexelbrook RF Admittance Level Transmitters (Fuel)",
+      "product_url": "https://www.ametekpi.com/products/brands/drexelbrook/rf-admittance-level-transmitters",
+      "category_name": "Fuel Level Sensor",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Triumph Group Integrated Secondary Power Systems",
+      "product_url": "https://www.triumphgroup.com/what-we-do/systems-support/integrated-systems/secondary-power-systems/",
+      "category_name": "Secondary Power System",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Whelen Aerospace Technologies (WAT) LED Recognition Lights",
+      "product_url": "https://flywat.com/collections/recognition-lights",
+      "category_name": "LED Recognition Light",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Genesys Aerosystems EFIS Autopilot Interface",
+      "product_url": "https://genesys-aerosystems.com/products/efis-autopilot-interface",
+      "category_name": "EFIS/Autopilot Interface",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Dynon Intercom (2-Place Stereo)",
+      "product_url": "https://www.dynonavionics.com/intercom.php",
+      "category_name": "Aircraft Intercom",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "PS Engineering Remote Bluetooth® Adapter",
+      "product_url": "https://www.ps-engineering.com/pda360ex.html",
+      "category_name": "Bluetooth Audio Adapter",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "TRIG Avionics TA70 Antenna (GPS)",
+      "product_url": "https://www.trig-avionics.com/product/ta70-antenna/",
+      "category_name": "GPS Antenna",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "FreeFlight Systems RA-6500 Radar Altimeter",
+      "product_url": "https://www.freeflightsystems.com/products/radar-altimeters/ra-6500",
+      "category_name": "Radio Altimeter",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "ACSS TAWS+ Performance System",
+      "product_url": "https://acss.com/products/taws/",
+      "category_name": "Terrain Awareness and Warning System (TAWS)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Mid-Continent Instruments and Avionics Turn Coordinators (Lifesaver® Electric)",
+      "product_url": "https://www.mcico.com/products/aircraft-instruments-avionics-power/turn-coordinators-electric",
+      "category_name": "Turn Coordinator (Electric)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Sensata Kavlico Pressure Sensors (Aerospace)",
+      "product_url": "https://www.sensata.com/products/pressure-sensors/aerospace-pressure-sensors",
+      "category_name": "Pressure Sensor",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Carlisle Interconnect Technologies High Voltage Wire & Cable",
+      "product_url": "https://www.carlisleit.com/products/wire-cable/high-voltage-wire-cable/",
+      "category_name": "High Voltage Wire/Cable",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Liebherr Aerospace Electronic Control Units (ECU)",
+      "product_url": "https://www.liebherr.com/en/int/products/aerospace-and-transportation-systems/aerospace/electronics/electronics.html",
+      "category_name": "Electronic Control Unit (ECU)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Woodward Smart Actuators",
+      "product_url": "https://www.woodward.com/en/products/aerospace-defense/actuation/smart-actuators",
+      "category_name": "Smart Actuator",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    }
+  ]
+}
