@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "LS Electric Surge Protective Device (SPD)",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Power_Distribution/Protection_Relay_Monitoring_Device/Surge_Protective_Device",
+      "category_name": "Surge Protective Devices (SPD)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Terasaki TemBreak 2 Moulded Case Circuit Breakers (MCCB)",
+      "product_url": "https://www.terasaki.com/products-services/low-voltage-products/moulded-case-circuit-breakers/",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "DEHN DEHNventil modular combined arrester",
+      "product_url": "https://www.dehn-international.com/en/951400-dva-m-tns-255-fm",
+      "category_name": "Surge Protective Devices (SPD)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Schrack Technik RCBO 1+N 6kA C 30mA",
+      "product_url": "https://www.schrack.com/web/en/products/power-engineering/modular-devices/rcbo-fi-ls-switches/rcbo-1-n-6ka-c-30ma-type-a-1m.html",
+      "category_name": "Residual Current Circuit Breakers with Overcurrent Protection (RCBO)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "BENEDICT K3 Series Contactors up to 110kW/400V",
+      "product_url": "https://benedict.at/en/products/contactors/",
+      "category_name": "Power Contactors",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "nVent HOFFMAN Stainless Steel Wall-Mount Enclosures",
+      "product_url": "https://hoffman.nvent.com/en-us/products/stainless-steel-wall-mount-enclosures-watershed-type-4x",
+      "category_name": "Distribution Boards & Enclosures",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "EAE E-Line KX Busbar Enerji Dağıtım Sistemleri (Busbar Energy Distribution)",
+      "product_url": "https://www.eaeelectric.com/tr/urunler/detay/e-line-kx-busbar-enerji-dagitim-sistemleri",
+      "category_name": "Busbar Systems",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "CIRCUTOR Wibeee ONE (DIN Rail Energy Meter with Wireless)",
+      "product_url": "https://circutor.com/en/products/measurement-control/din-rail-energy-meters/wibeee-wireless-consumption-monitoring/wibeee-one-submetering-consumption-analyser-wireless-13791/",
+      "category_name": "Energy Meters (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "IDEC RJ Slim GP Relays (DIN Mountable Socket)",
+      "product_url": "https://www.idec.com/products/relays-sockets/rj-slim-gp-relays",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Omron S8VK-S Switch Mode Power Supply",
+      "product_url": "https://industrial.omron.eu/en/products/s8vk-s",
+      "category_name": "Power Supplies (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Wieland Electric samos PRO COMPACT Safety Controller",
+      "product_url": "https://www.wieland-electric.com/en-gb/products/safety-technology/safety-controller-samos-pro-compact/",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Murrelektronik Distribution Boxes MICO",
+      "product_url": "https://www.murrelektronik.com/products-industries/power-supply-distribution/electronic-circuit-protection-mico/",
+      "category_name": "Electronic Circuit Breakers",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "C&S Electric Air Circuit Breaker (ACB)",
+      "product_url": "https://www.cselectric.co.in/air-circuit-breaker-acb",
+      "category_name": "Air Circuit Breakers (ACB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Havells EUROLOAD Fuse Switch Disconnector",
+      "product_url": "https://www.havells.com/en/industrial/protection-devices/fuse-switch-disconnectors-din-type.html",
+      "category_name": "Fuse Disconnect Switches",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Jean Müller NH-Sicherungen gG (NH Fuses gG)",
+      "product_url": "https://www.jeanmueller.de/en/products/nh-fuses/",
+      "category_name": "Fuse Holders & Fuses (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Carlo Gavazzi RGC Series Solid State Relays (DIN Mountable)",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/product/RGC",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Kraus & Naimer CA Series Switches (Panel Mount/DIN Rail)",
+      "product_url": "https://www.krausnaimer.com/en/products/switches/product/CA",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "TE Connectivity Entrelec DBL Distribution Blocks",
+      "product_url": "https://www.te.com/usa-en/products/connectors/terminal-blocks-strips/intersection/entrelec-dbl-distribution-blocks.html",
+      "category_name": "Terminal Blocks (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Mersen Surge-Trap® STXH Series Surge Protective Devices (SPD)",
+      "product_url": "https://ep.mersen.com/products/catalog/line/surge-trap-stxh-series-spd",
+      "category_name": "Surge Protective Devices (SPD)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Hyundai Electric HGP Series Air Circuit Breaker (ACB)",
+      "product_url": "https://www.hyundai-electric.com/elec/en/products/lvcs/ACB.jsp",
+      "category_name": "Air Circuit Breakers (ACB)",
+      "parent_category": "Panelboard Equipment"
+    }
+  ]
+}

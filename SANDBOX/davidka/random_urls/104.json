@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Garmin GPSMAP® 8612xsv Chartplotter/Sonar Combo",
+      "product_url": "https://www.garmin.com/en-US/p/595250",
+      "category_name": "GPS Chartplotter Sonar Combo",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Raymarine Axiom+ 12 RV - 12\" MFD with RealVision 3D Sonar",
+      "product_url": "https://www.raymarine.com/multi-function-displays/axiom-plus/axiom-plus-12-rv.html",
+      "category_name": "Multi-Function Display (MFD) with Sonar",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Furuno NAVpilot-300 Autopilot System",
+      "product_url": "https://www.furuno.com/en/products/autopilot/NAVpilot-300",
+      "category_name": "Autopilot System",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Simrad NSS12 evo3S Chartplotter & Fishfinder",
+      "product_url": "https://www.simrad-yachting.com/simrad/type/fishfinders-chartplotters/nss12-evo3s-combo-mii/",
+      "category_name": "Chartplotter & Fishfinder",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "B&G Zeus³S 9 Chartplotter",
+      "product_url": "https://www.bandg.com/bg/type/chartplotters/zeus3s-9-chartplotter-world-basemap-bb6916/",
+      "category_name": "Sailing Chartplotter",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Lowrance HDS LIVE 12 Fish Finder Chartplotter",
+      "product_url": "https://www.lowrance.com/lowrance/type/fishfinders-chartplotters/hds-12-live-no-transducer-gpslomap-bb6608/",
+      "category_name": "Fish Finder Chartplotter",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Icom M605 Fixed Mount VHF Radio with AIS Receiver",
+      "product_url": "https://www.icomamerica.com/en/products/marine/fixedmount/m605/default.aspx",
+      "category_name": "Fixed Mount VHF Radio with AIS",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Standard Horizon GX6000 Fixed Mount VHF with AIS",
+      "product_url": "https://www.standardhorizon.com/indexVS.cfm?cmd=DisplayProducts&ProdCatID=83&encProdID=D66387C1AE14D45E6B96152F6A342031&DivisionID=3&isArchived=0",
+      "category_name": "Fixed Mount VHF Radio with AIS",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Victron Energy MultiPlus 12/3000/120-50 Inverter/Charger",
+      "product_url": "https://www.victronenergy.com/inverters-chargers/multiplus-12v-24v-48v-800va-3kva",
+      "category_name": "Inverter/Charger",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Mastervolt ChargeMaster Plus 12/100-3 Battery Charger",
+      "product_url": "https://www.mastervolt.com/products/chargemaster-plus/chargemaster-plus-12-100-3/",
+      "category_name": "Battery Charger",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Blue Sea Systems m-Series Battery Switch (6006)",
+      "product_url": "https://www.bluesea.com/products/6006/m-Series_Mini_On-Off_Battery_Switch_with_Knob_-_Red",
+      "category_name": "Battery Switch",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "ACR GlobalFIX V4 EPIRB - Category II",
+      "product_url": "https://www.acrartex.com/products/globalfix-v4-epirb/",
+      "category_name": "EPIRB (Emergency Position Indicating Radio Beacon)",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Garmin Fantom 24x Dome Radar",
+      "product_url": "https://www.garmin.com/en-US/p/808946",
+      "category_name": "Dome Radar",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Raymarine Quantum 2 Q24D Doppler Radar",
+      "product_url": "https://www.raymarine.com/radar/quantum-2-doppler/quantum-2.html",
+      "category_name": "Doppler Dome Radar",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Furuno DRS4DNXT Solid-State Doppler Radar",
+      "product_url": "https://www.furuno.com/en/products/radar/DRS4DNXT",
+      "category_name": "Solid-State Doppler Radar",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Simrad HALO20+ Pulse Compression Radar",
+      "product_url": "https://www.simrad-yachting.com/simrad/type/radar/halo20-pulse-compression-radar-5504/",
+      "category_name": "Pulse Compression Radar",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "B&G HALO24 Pulse Compression Dome Radar",
+      "product_url": "https://www.bandg.com/bg/type/radar/halo24-pulse-compression-dome-radar-bb7009/",
+      "category_name": "Pulse Compression Radar",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Airmar DST810 Smart™ Multisensor Transducer (Depth/Speed/Temp/Heel/Trim)",
+      "product_url": "https://www.airmar.com/products/marine-product/?id=534",
+      "category_name": "Multisensor Transducer (NMEA 2000)",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Vesper Cortex V1 VHF Radio, AIS Transponder, Remote Monitoring Hub",
+      "product_url": "https://www.vespermarine.com/cortex",
+      "category_name": "Integrated VHF/AIS/Monitoring Hub",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Maretron DSM410 Multi-Function Color Display",
+      "product_url": "https://www.maretron.com/products/dsm410.php",
+      "category_name": "NMEA 2000 Multi-Function Display",
+      "parent_category": "Marine Electronics"
+    }
+  ]
+}

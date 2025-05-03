@@ -642,7 +642,24 @@ def remove_bom(path: str | Path) -> None:
         logger.error(f'Указанный путь \'{path}\' не является файлом или директорией.')
         ...
 
-
+def find_file_in_dir(directory_path, filename):
+    """
+    Ищет файл с точным именем filename в директории directory_path.
+    Возвращает полный путь к файлу, если найден, иначе None.
+    """
+    try:
+        for item in os.listdir(directory_path):
+            full_path = os.path.join(directory_path, item)
+            # Проверяем, что это файл (а не директория) и имя совпадает
+            if os.path.isfile(full_path) and item == filename:
+                return full_path
+    except FileNotFoundError:
+        print(f"Ошибка: Директория не найдена: {directory_path}")
+        return None
+    except Exception as e:
+        print(f"Произошла ошибка: {e}")
+        return None
+    return None # Файл не найден
 
 def main() -> None:
     """Entry point for BOM removal in Python files."""

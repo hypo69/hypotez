@@ -1,0 +1,1198 @@
+{
+  "products": [
+    {
+      "product_name": "Rotork Electric Valve Actuators (IQ Series)",
+      "product_url": "https://www.rotork.com/en/products/electric-actuators-and-control-systems/iq3-range",
+      "category_name": "Electric Actuators",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Bettis (Emerson) Pneumatic Actuators (w/ Electronic Controls)",
+      "product_url": "https://www.emerson.com/en-us/catalog/bettis-g-series",
+      "category_name": "Pneumatic Actuators (with Electronic Controls)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Yokogawa CENTUM VP Distributed Control System (DCS)",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/control-system/distributed-control-systems-dcs/centum-vp/",
+      "category_name": "Distributed Control Systems (DCS)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Honeywell Experion PKS Control System",
+      "product_url": "https://process.honeywell.com/us/en/products/control-monitoring-and-safety-systems/distributed-control-systems-dcs/experion-pks",
+      "category_name": "Distributed Control Systems (DCS)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Siemens SIMATIC PCS 7 Process Control System",
+      "product_url": "https://new.siemens.com/global/en/products/automation/distributed-control-system/simatic-pcs-7.html",
+      "category_name": "Distributed Control Systems (DCS)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Rockwell Automation PlantPAx DCS",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/distributed-control-systems/plantpax.html",
+      "category_name": "Distributed Control Systems (DCS)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Schneider Electric EcoStruxure Foxboro DCS",
+      "product_url": "https://www.se.com/ww/en/product-range/61221-ecostruxure-foxboro-dcs/",
+      "category_name": "Distributed Control Systems (DCS)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "ABB Ability™ System 800xA",
+      "product_url": "https://new.abb.com/control-systems/system-800xa",
+      "category_name": "Distributed Control Systems (DCS)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Rosemount (Emerson) 3051 Pressure Transmitter",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-sku-3051s-series-pressure-transmitter",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Endress+Hauser Proline Promass Coriolis Flowmeters",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/flow-measurement-product-overview/coriolis-flowmeters-promass",
+      "category_name": "Coriolis Flowmeters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "KROHNE OPTIMASS Coriolis Mass Flowmeters",
+      "product_url": "https://krohne.com/en/products/flow-measurement/flowmeters/mass-flowmeters/optimass-6400",
+      "category_name": "Coriolis Flowmeters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Vega VEGAPULS Radar Level Sensors",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/level/radar/vegapuls-6x",
+      "category_name": "Radar Level Sensors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "WIKA Temperature Transmitters",
+      "product_url": "https://www.wika.com/en-us/products/temperature_measurement/electrical_temperature_measurement/temperature_transmitters/temperature_transmitters.WIKA",
+      "category_name": "Temperature Transmitters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Smith Flow Control Valve Interlocks (with electrical integration)",
+      "product_url": "https://www.smithflowcontrol.com/products/electronic-integration/",
+      "category_name": "Valve Interlocks (Electronic)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Siemens SITRANS Pressure Measurement Devices",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/pressure-measurement.html",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "ABB Pressure Measurement Products",
+      "product_url": "https://new.abb.com/products/measurement-products/pressure",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Honeywell SmartLine Pressure Transmitters",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/pressure-transmitters",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Yokogawa DPharp EJA Pressure Transmitters",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/pressure-transmitters/",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Micro Motion (Emerson) Coriolis Flow Meters",
+      "product_url": "https://www.emerson.com/en-us/automation/measurement-instrumentation/flow-measurement/micro-motion-coriolis-flow-meters",
+      "category_name": "Coriolis Flowmeters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Daniel (Emerson) Ultrasonic Flow Meters",
+      "product_url": "https://www.emerson.com/en-us/automation/measurement-instrumentation/flow-measurement/daniel-ultrasonic-flow-meters",
+      "category_name": "Ultrasonic Flowmeters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Magnetrol Guided Wave Radar Level Transmitters",
+      "product_url": "https://www.magnetrol.com/en/products/level/guided-wave-radar",
+      "category_name": "Guided Wave Radar Level Transmitters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Draeger Gas Detection Systems (Fixed)",
+      "product_url": "https://www.draeger.com/en_seeur/Products/Fixed-Gas-Detection",
+      "category_name": "Fixed Gas Detection Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "MSA Safety Fixed Gas & Flame Detection",
+      "product_url": "https://us.msasafety.com/Fixed-Gas-%26-Flame-Detection/c/10?facet=PRODUCTTYPE%253ACOMPLETE%2520SYSTEMS&scroll=710",
+      "category_name": "Fixed Gas & Flame Detection",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Honeywell Analytics Fixed Gas Detectors",
+      "product_url": "https://sps.honeywell.com/us/en/products/safety/gas-and-flame-detection/fixed-gas-detectors",
+      "category_name": "Fixed Gas Detectors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "HIMA Safety Instrumented Systems (SIS)",
+      "product_url": "https://www.hima.com/en/products-services/safety-systems",
+      "category_name": "Safety Instrumented Systems (SIS)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Yokogawa ProSafe-RS Safety Instrumented System",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/control-system/safety-instrumented-systems-sis/",
+      "category_name": "Safety Instrumented Systems (SIS)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Schneider Electric Triconex Safety Systems",
+      "product_url": "https://www.se.com/ww/en/product-range/61058-triconex/",
+      "category_name": "Safety Instrumented Systems (SIS)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Parker Hannifin Hydraulic Actuators (with electronic feedback)",
+      "product_url": "https://www.parker.com/us/en/products/actuators/hydraulic-actuators.html",
+      "category_name": "Hydraulic Actuators (with Electronic Feedback)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Rexroth Hydraulic Pumps (with electronic control)",
+      "product_url": "https://www.boschrexroth.com/en/us/products/product-groups/industrial-hydraulics/pumps/",
+      "category_name": "Hydraulic Pumps (with Electronic Control)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "FMC Measurement Solutions (Smith Meter) PD Flow Meters (with electronic register)",
+      "product_url": "https://www.technipfmc.com/en/what-we-do/measurement-solutions/products/liquid-measurement/positive-displacement-meters/",
+      "category_name": "PD Flowmeters (with Electronic Register)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Endress+Hauser Liquiphant Vibronic Point Level Switch",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/level-measurement-product-overview/vibronic-point-level-switch-liquiphant",
+      "category_name": "Vibronic Level Switches",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Rotork CMA Electric Modulating Actuators",
+      "product_url": "https://www.rotork.com/en/products/electric-actuators-and-control-systems/cma-range",
+      "category_name": "Electric Modulating Actuators",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Limitorque Electric Actuators (MX Series)",
+      "product_url": "https://www.flowserve.com/en/products/actuators/electric-actuators/limitorque-mx-series-a-b-electric-actuators/",
+      "category_name": "Electric Actuators",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "AUMA Electric Actuators (PROFOX)",
+      "product_url": "https://www.auma.com/en/products/electric-actuators/profox",
+      "category_name": "Electric Actuators",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Ashcroft Pressure Gauges (Digital)",
+      "product_url": "https://www.ashcroft.com/products/pressure/digital-pressure-gauges/",
+      "category_name": "Digital Pressure Gauges",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Mitsubishi Electric MELSEC PLCs",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/cnt/plcf/index.html",
+      "category_name": "Programmable Logic Controllers (PLC)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Omron Sysmac Automation Platform (PLC, HMI, Drives)",
+      "product_url": "https://industrial.omron.eu/en/products/sysmac-platform",
+      "category_name": "Automation Platform (PLC, HMI, Drives)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "GE Digital Proficy SCADA",
+      "product_url": "https://www.ge.com/digital/applications/proficy-scada",
+      "category_name": "SCADA Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Inductive Automation Ignition SCADA",
+      "product_url": "https://inductiveautomation.com/ignition/what-is-ignition",
+      "category_name": "SCADA Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "AVEVA System Platform (SCADA)",
+      "product_url": "https://www.aveva.com/en/products/system-platform/",
+      "category_name": "SCADA Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Endress+Hauser Cerabar Pressure Measurement",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/pressure-measurement-product-overview/Absolute-gauge-pressure-Cerabar",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Yokogawa Rotamass Coriolis Flow and Density Meter",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/field-instruments/flowmeters/coriolis-flowmeters/",
+      "category_name": "Coriolis Flowmeters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "KROHNE OPTIFLUX Electromagnetic Flowmeters",
+      "product_url": "https://krohne.com/en/products/flow-measurement/flowmeters/electromagnetic-flowmeters/",
+      "category_name": "Electromagnetic Flowmeters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Vega VEGABAR Pressure Transmitters",
+      "product_url": "https://www.vega.com/en-us/products/product-catalog/pressure/process-pressure/vegabar-82",
+      "category_name": "Pressure Transmitters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "ASCO (Emerson) Solenoid Valves",
+      "product_url": "https://www.emerson.com/en-us/automation/fluid-control-pneumatics/solenoid-valves",
+      "category_name": "Solenoid Valves",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Festo Process Automation (Valves & Actuators with sensors)",
+      "product_url": "https://www.festo.com/us/en/e/process-automation/",
+      "category_name": "Valve Actuation Systems (with Sensors)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "SMC Pneumatics for Process Valves (with position sensors)",
+      "product_url": "https://www.smcworld.com/en-jp/products/process-valves/",
+      "category_name": "Pneumatic Actuation (with Position Sensors)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Siemens SINAMICS Drives (for Pumps, Compressors)",
+      "product_url": "https://new.siemens.com/global/en/products/drives/sinamics.html",
+      "category_name": "Variable Speed Drives (VSD)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "ABB Drives (ACS Series for Oil & Gas)",
+      "product_url": "https://new.abb.com/drives/segments/oil-and-gas",
+      "category_name": "Variable Speed Drives (VSD)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Danfoss Drives (VLT Series)",
+      "product_url": "https://www.danfoss.com/en/products/dds/low-voltage-drives/",
+      "category_name": "Variable Speed Drives (VSD)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Yaskawa AC Drives (Industrial)",
+      "product_url": "https://www.yaskawa.com/products/drives/industrial-ac-drives",
+      "category_name": "Variable Speed Drives (VSD)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Schneider Electric Altivar Process Drives",
+      "product_url": "https://www.se.com/ww/en/product-range/62098-altivar-process-atv600/",
+      "category_name": "Variable Speed Drives (VSD)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Rockwell Automation PowerFlex Drives",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/drives.html",
+      "category_name": "Variable Speed Drives (VSD)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Magnetrol Eclipse Guided Wave Radar",
+      "product_url": "https://www.magnetrol.com/en/products/level/guided-wave-radar/eclipse-model-706",
+      "category_name": "Guided Wave Radar Level Transmitters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Honeywell SmartLine Level Transmitters",
+      "product_url": "https://process.honeywell.com/us/en/products/instrumentation/level-transmitters",
+      "category_name": "Level Transmitters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Siemens SITRANS LR Radar Level Measurement",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/level-measurement/radar/sitrans-lr.html",
+      "category_name": "Radar Level Sensors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "ABB Level Measurement Products (Guided Wave Radar, Laser)",
+      "product_url": "https://new.abb.com/products/measurement-products/level",
+      "category_name": "Level Measurement Devices",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "K-Tek (ABB) Level Gauges & Switches (Magnetic)",
+      "product_url": "https://new.abb.com/products/measurement-products/level/magnetic-level-gauges",
+      "category_name": "Magnetic Level Gauges & Switches",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Emerson Flame Detectors (Rosemount)",
+      "product_url": "https://www.emerson.com/en-us/catalog/rosemount-flame-gas-detection",
+      "category_name": "Flame Detectors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Viking Group Fire Detection & Control Systems",
+      "product_url": "https://www.vikinggroupinc.com/products/detection-control",
+      "category_name": "Fire Detection & Control Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Consilium Safety Marine Fire & Gas Detection",
+      "product_url": "https://consiliumsafety.com/products/fire-gas-detection/",
+      "category_name": "Fire & Gas Detection Systems (Marine)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Emerson Safety Instrumented Systems (DeltaV SIS)",
+      "product_url": "https://www.emerson.com/en-us/automation/control-safety-systems/safety-instrumented-systems-sis/deltav-sis",
+      "category_name": "Safety Instrumented Systems (SIS)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Rockwell Automation AADvance SIS",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/process-safety/aadvance-control-system.html",
+      "category_name": "Safety Instrumented Systems (SIS)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "HIMA HIMax Safety PLC",
+      "product_url": "https://www.hima.com/en/products-services/safety-systems/himax",
+      "category_name": "Safety Instrumented Systems (SIS)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "TopWorx (Emerson) Valve Controllers & Position Sensors",
+      "product_url": "https://www.emerson.com/en-us/automation/valves-actuators-regulators/valve-control-position-sensing/topworx",
+      "category_name": "Valve Positioners & Limit Switches",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Westlock Controls (Crane) Valve Monitoring & Control",
+      "product_url": "https://www.cranecpe.com/brands/westlock/",
+      "category_name": "Valve Positioners & Limit Switches",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Siemens SIPART PS2 Valve Positioner",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-instrumentation/positioners/electro-pneumatic/sipart-ps2.html",
+      "category_name": "Valve Positioners (Electropneumatic)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Flowserve Logix Digital Positioners",
+      "product_url": "https://www.flowserve.com/en/products/positioners/digital-positioners/",
+      "category_name": "Valve Positioners (Digital)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Metso Outotec Neles Valve Controllers",
+      "product_url": "https://www.mogroup.com/products/valve-controllers/",
+      "category_name": "Valve Positioners & Limit Switches",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Samson Positioners Series 3730",
+      "product_url": "https://www.samsongroup.com/en/products-applications/products/positioners/positioner-series-3730/",
+      "category_name": "Valve Positioners",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Bently Nevada (Baker Hughes) Vibration Monitoring Systems (3500 System)",
+      "product_url": "https://www.bakerhughes.com/bently-nevada/condition-monitoring-and-protection/3500-machinery-protection-system",
+      "category_name": "Vibration Monitoring Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "SKF Condition Monitoring Solutions",
+      "product_url": "https://www.skf.com/group/products/condition-monitoring",
+      "category_name": "Condition Monitoring Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Emerson Machinery Health Management (AMS 6500 ATG)",
+      "product_url": "https://www.emerson.com/en-us/automation/asset-management/machinery-health-management/online-monitoring/ams-6500-atg",
+      "category_name": "Vibration Monitoring Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Meggitt Sensing Systems (Vibro-Meter) Machinery Monitoring",
+      "product_url": "https://www.meggittsensing.com/energy-sensing-monitoring-solutions/machinery-protection-systems/",
+      "category_name": "Vibration Monitoring Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Schaeffler Condition Monitoring Systems (OPTME)",
+      "product_url": "https://www.schaeffler.com/en/products-and-solutions/industrial/condition-monitoring/",
+      "category_name": "Condition Monitoring Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Wilcoxon Sensing Technologies Vibration Sensors",
+      "product_url": "https://www.wilcoxon.com/products/general-purpose-sensors/",
+      "category_name": "Vibration Sensors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "PCB Piezotronics Industrial Accelerometers",
+      "product_url": "https://www.pcb.com/industrial-sensors/industrial-accelerometers",
+      "category_name": "Vibration Sensors (Accelerometers)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Cosasco Corrosion Monitoring Solutions",
+      "product_url": "https://www.cosasco.com/products-and-systems",
+      "category_name": "Corrosion Monitoring Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Emerson Corrosion & Erosion Monitoring (Rosemount Wireless)",
+      "product_url": "https://www.emerson.com/en-us/automation/measurement-instrumentation/corrosion-erosion-monitoring",
+      "category_name": "Wireless Corrosion Monitoring",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Ion Science PID Gas Detectors (Portable)",
+      "product_url": "https://ionscience.com/en/products/category/portable-handheld-pid-gas-detectors/",
+      "category_name": "Portable Gas Detectors (PID)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "RAE Systems (Honeywell) Portable Gas Monitors",
+      "product_url": "https://sps.honeywell.com/us/en/products/safety/gas-and-flame-detection/portables",
+      "category_name": "Portable Gas Detectors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "GMI (Teledyne) Portable Gas Detectors",
+      "product_url": "https://www.teledynegasandflamedetection.com/en/products/portable-gas-detection",
+      "category_name": "Portable Gas Detectors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Industrial Scientific Portable Multi-Gas Monitors (Ventis Pro5)",
+      "product_url": "https://www.indsci.com/en/gas-detectors/multi-gas/ventis-pro5/",
+      "category_name": "Portable Multi-Gas Detectors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Blackline Safety Connected Gas Detection & Lone Worker Monitoring",
+      "product_url": "https://www.blacklinesafety.com/g7c-gas-detector",
+      "category_name": "Connected Gas Detectors & Lone Worker Safety",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "General Cable Industrial Cables for Oil & Gas",
+      "product_url": "https://www.generalcable.com/na/us-canada/products-solutions/industrial/oil-gas-petrochemical",
+      "category_name": "Industrial Cables",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Prysmian Group Cables for Oil & Gas",
+      "product_url": "https://www.prysmiangroup.com/en/markets/oil-gas-petrochemical",
+      "category_name": "Industrial Cables",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Nexans Cables for Oil & Gas (Onshore & Offshore)",
+      "product_url": "https://www.nexans.com/en/business/oil-gas.html",
+      "category_name": "Industrial Cables (Onshore/Offshore)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Belden Industrial Cables",
+      "product_url": "https://www.belden.com/products/industrial-cable",
+      "category_name": "Industrial Cables",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Southwire Industrial Power Cables",
+      "product_url": "https://www.southwire.com/products/industrial-power-cable",
+      "category_name": "Industrial Power Cables",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Siemens Hazardous Location Motors (SIMOTICS XP)",
+      "product_url": "https://new.siemens.com/global/en/products/drives/electric-motors/low-voltage-motors/hazardous-area-motors.html",
+      "category_name": "Electric Motors (Hazardous Location)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "ABB Motors for Explosive Atmospheres",
+      "product_url": "https://new.abb.com/motors-generators/iec-low-voltage-motors/motors-for-explosive-atmospheres",
+      "category_name": "Electric Motors (Hazardous Location)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "WEG Motors for Hazardous Areas",
+      "product_url": "https://www.weg.net/catalog/weg/US/en/Motors/Hazardous-Area-Motors/c/EU_MOTORS_HAZARDOUS",
+      "category_name": "Electric Motors (Hazardous Location)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Nidec (US Motors) Hazardous Duty Motors",
+      "product_url": "https://acim.nidec.com/motors/usmotors/products-services/product-types/hazardous-duty",
+      "category_name": "Electric Motors (Hazardous Location)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Regal Rexnord Marathon Motors (Hazardous Duty)",
+      "product_url": "https://www.regalrexnord.com/products/motors/ac-motors/hazardous-duty",
+      "category_name": "Electric Motors (Hazardous Location)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "TECO-Westinghouse Motors for Hazardous Locations",
+      "product_url": "https://www.tecowestinghouse.com/Products/ac-motors/hazardous-location-motors",
+      "category_name": "Electric Motors (Hazardous Location)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Rittal Industrial Enclosures",
+      "product_url": "https://www.rittal.com/com-en/products/BG",
+      "category_name": "Industrial Enclosures",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Hoffman (nVent) Industrial Enclosures",
+      "product_url": "https://hoffman.nvent.com/en-us/products/industrial-enclosures",
+      "category_name": "Industrial Enclosures",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Hammond Manufacturing Electrical Enclosures",
+      "product_url": "https://www.hammfg.com/electrical/products/industrial",
+      "category_name": "Electrical Enclosures",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Saginaw Control & Engineering Enclosures",
+      "product_url": "https://www.saginawcontrol.com/products/enclosures/",
+      "category_name": "Control Enclosures",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Adalet Explosionproof Enclosures",
+      "product_url": "https://adalet.com/Explosionproof-Enclosures",
+      "category_name": "Explosionproof Enclosures",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Killark (Hubbell) Hazardous Location Enclosures",
+      "product_url": "https://www.hubbell.com/killark/en/products/Instrumentation-Control-Stations-Device-Boxes/Enclosures-Junction-Boxes/c/2096846",
+      "category_name": "Hazardous Location Enclosures",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Thermon Heat Tracing Solutions",
+      "product_url": "https://www.thermon.com/heat-tracing",
+      "category_name": "Heat Tracing Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "nVent Raychem Heat Tracing Cables",
+      "product_url": "https://raychem.nvent.com/products/heat-tracing-cable",
+      "category_name": "Heat Tracing Cables",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Chromalox Heat Trace Products",
+      "product_url": "https://www.chromalox.com/en/products/categories/heat-trace",
+      "category_name": "Heat Trace Products",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "eltherm Heat Tracing Systems",
+      "product_url": "https://www.eltherm.com/en/products/heat-tracing-systems/",
+      "category_name": "Heat Tracing Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Mattr Cathodic Protection Systems",
+      "product_url": "https://www.mattr.com/brands/shawcor/products-services/cathodic-protection-systems",
+      "category_name": "Cathodic Protection Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Corrpro Cathodic Protection",
+      "product_url": "https://www.corrpro.com/what-we-do/cathodic-protection",
+      "category_name": "Cathodic Protection Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Farwest Corrosion Control Cathodic Protection Materials",
+      "product_url": "https://www.farwestcorrosion.com/cathodic-protection.html",
+      "category_name": "Cathodic Protection Materials",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Omni Flow Computers (Custody Transfer)",
+      "product_url": "https://www.omniflow.com/products/",
+      "category_name": "Custody Transfer Flow Computers",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Krohne Custody Transfer Metering Skids (Electronics)",
+      "product_url": "https://krohne.com/en/solutions/systems-solutions/custody-transfer-metering-skids",
+      "category_name": "Custody Transfer Metering (Electronics)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "FMC Technologies Metering Systems (Electronics)",
+      "product_url": "https://www.technipfmc.com/en/what-we-do/measurement-solutions/products/metering-systems/",
+      "category_name": "Custody Transfer Metering (Electronics)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "SICK Flow Measurement for Custody Transfer (Ultrasonic)",
+      "product_url": "https://www.sick.com/ag/en/flow-measurement-technology/custody-transfer-flow-measurement/c/g484451",
+      "category_name": "Custody Transfer Ultrasonic Flowmeters",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Atmos International Pipeline Leak Detection Systems (Software & Hardware)",
+      "product_url": "https://www.atmosi.com/en/products/pipeline-leak-detection/",
+      "category_name": "Pipeline Leak Detection Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Pure Technologies Pipeline Inspection (SmartBall® Electronics)",
+      "product_url": "https://puretechltd.com/solutions/pipeline-condition-assessment/oil-gas/",
+      "category_name": "Pipeline Inspection Electronics (Acoustic)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Phoenix Contact Control Cabinet Components (Terminals, Power Supplies)",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/control-cabinet",
+      "category_name": "Control Cabinet Components",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "WAGO Automation Technology (I/O Systems, PLCs)",
+      "product_url": "https://www.wago.com/global/automation-technology",
+      "category_name": "Automation I/O Systems & PLCs",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Weidmüller Industrial Connectivity Products (Terminals, Relays)",
+      "product_url": "https://www.weidmueller.com/en/products/index.jsp",
+      "category_name": "Industrial Connectivity Components",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Pepperl+Fuchs Intrinsic Safety Barriers",
+      "product_url": "https://www.pepperl-fuchs.com/global/en/classid_161.htm",
+      "category_name": "Intrinsic Safety Barriers",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "R. STAHL Explosion Protection Products (Lighting, Control Stations)",
+      "product_url": "https://r-stahl.com/en/global/products/",
+      "category_name": "Explosion Protection Electrical Equipment",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Eaton Crouse-Hinds Explosion Proof Enclosures & Fittings",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/enclosures/explosionproof-enclosures.html",
+      "category_name": "Explosionproof Enclosures & Fittings",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Bartec Explosion Protection Solutions (Electrical)",
+      "product_url": "https://www.bartec.com/en/products/",
+      "category_name": "Explosion Protection Electrical Equipment",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "IFM Process Sensors (Flow, Pressure, Level)",
+      "product_url": "https://www.ifm.com/us/en/category/process-sensors",
+      "category_name": "Process Sensors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Turck Process Automation Solutions (Sensors, I/O)",
+      "product_url": "https://www.turck.us/en/products-applications/process-automation-16/",
+      "category_name": "Process Sensors & I/O Modules",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Balluff Sensors for Process Media",
+      "product_url": "https://www.balluff.com/en-us/products/areas/A0001/groups/G0113",
+      "category_name": "Process Sensors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "SICK Process Automation Sensors",
+      "product_url": "https://www.sick.com/ag/en/industries/oil-and-gas/c/g386244",
+      "category_name": "Process Sensors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Autronica Fire and Gas Detection",
+      "product_url": "https://www.autronicafire.com/products/flame-detectors/",
+      "category_name": "Fire and Gas Detection Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Det-Tronics Flame and Gas Detection",
+      "product_url": "https://www.det-tronics.com/Products",
+      "category_name": "Fire and Gas Detection Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Federal Signal Warning Systems (Sirens, Lights)",
+      "product_url": "https://www.fedsig.com/product-category/warning-systems",
+      "category_name": "Audible & Visual Warning Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Siemens Process Gas Chromatographs (Maxum edition II)",
+      "product_url": "https://new.siemens.com/global/en/products/automation/process-analytics/process-gas-chromatographs/maxum-edition-ii.html",
+      "category_name": "Process Gas Chromatographs",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "ABB Continuous Gas Analyzers",
+      "product_url": "https://new.abb.com/products/measurement-products/analytical/continuous-gas-analyzers",
+      "category_name": "Continuous Gas Analyzers",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Emerson Gas Analysis Solutions",
+      "product_url": "https://www.emerson.com/en-us/automation/measurement-instrumentation/gas-analysis",
+      "category_name": "Gas Analyzers",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "AMETEK Process Instruments Analyzers",
+      "product_url": "https://www.ametekpi.com/products/analyzers",
+      "category_name": "Process Analyzers",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Thermo Fisher Scientific Process Analyzers",
+      "product_url": "https://www.thermofisher.com/us/en/home/industrial/manufacturing-processing/process-monitoring-industrial-analysis/process-analytical-instruments.html",
+      "category_name": "Process Analyzers",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Berthold Technologies Process Measurement (Radiometric)",
+      "product_url": "https://www.berthold.com/en/process-control/",
+      "category_name": "Radiometric Measurement Instruments",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "MTL Instruments (Eaton) Intrinsic Safety Barriers",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/intrinsic-safety/mtl-intrinsic-safety-barriers.html",
+      "category_name": "Intrinsic Safety Barriers",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "GM International Intrinsic Safety Interfaces",
+      "product_url": "https://www.gminternational.com/product/IS_barrier.html",
+      "category_name": "Intrinsic Safety Interfaces",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Moore Industries Signal Conditioners & Isolators",
+      "product_url": "https://www.miinet.com/products/signal-conditioners-isolators-converters",
+      "category_name": "Signal Conditioners & Isolators",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "PR Electronics Signal Conditioning",
+      "product_url": "https://www.prelectronics.com/products/signal-conditioning/",
+      "category_name": "Signal Conditioners",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Acromag Signal Conditioners",
+      "product_url": "https://www.acromag.com/signal-conditioners/",
+      "category_name": "Signal Conditioners",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Larson Electronics Explosion Proof Lighting",
+      "product_url": "https://www.larsonelectronics.com/category/explosion-proof-lighting",
+      "category_name": "Explosion Proof Lighting",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Chalmit (Hubbell) Hazardous Area Lighting",
+      "product_url": "https://www.hubbell.com/chalmit/en/products/Lighting-Controls/Hazardous-Area-Lighting/c/2096841",
+      "category_name": "Hazardous Area Lighting",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Appleton (Emerson) Hazardous Location Lighting",
+      "product_url": "https://www.emerson.com/en-us/automation/lighting-fixtures-controls/hazardous-location-lighting",
+      "category_name": "Hazardous Location Lighting",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Petzl Headlamps for Hazardous Areas (ATEX)",
+      "product_url": "https://www.petzl.com/US/en/Professional/Headlamps/Headlamps-for-hazardous-areas",
+      "category_name": "Hazardous Area Headlamps",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Streamlight Hazardous Location Flashlights",
+      "product_url": "https://www.streamlight.com/products/explore-products/haz-lo-lights",
+      "category_name": "Hazardous Location Flashlights",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Oxford Instruments X-MET8000 Handheld XRF Analyzer",
+      "product_url": "https://hha.oxinst.com/x-met8000",
+      "category_name": "Handheld Analyzers (XRF)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Hitachi High-Tech Handheld XRF Analyzers",
+      "product_url": "https://hha.hitachi-hightech.com/en/products/xrf-analysers/handheld-xrf",
+      "category_name": "Handheld Analyzers (XRF)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Bruker Handheld XRF Spectrometers (S1 TITAN)",
+      "product_url": "https://www.bruker.com/en/products-and-solutions/elemental-analyzers/handheld-xrf.html",
+      "category_name": "Handheld Analyzers (XRF)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Thermo Scientific Niton Handheld XRF Analyzers",
+      "product_url": "https://www.thermofisher.com/us/en/home/industrial/manufacturing-processing/material-analysis-testing-instruments/handheld-xrf-libs-raman-analyzers/niton-handheld-xrf-analyzers.html",
+      "category_name": "Handheld Analyzers (XRF)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Gai-Tronics Industrial Communication Systems (PA/GA)",
+      "product_url": "https://www.gai-tronics.com/products/industrial-communications/page-party-pa-ga-systems",
+      "category_name": "Public Address / General Alarm (PA/GA) Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Neumann Elektronik Public Address & General Alarm (PA/GA)",
+      "product_url": "https://www.neumann-elektronik.com/en/pa-ga-systems/",
+      "category_name": "Public Address / General Alarm (PA/GA) Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Bosch Public Address and Voice Alarm Systems",
+      "product_url": "https://www.boschsecurity.com/xc/en/products/public-address-and-voice-alarm/",
+      "category_name": "Public Address / General Alarm (PA/GA) Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Zenitel Intercom & PA Systems",
+      "product_url": "https://www.zenitel.com/product-category/intercom",
+      "category_name": "Intercom Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Motorola Solutions Two-Way Radios (MOTOTRBO)",
+      "product_url": "https://www.motorolasolutions.com/en_us/products/two-way-radios/mototrbo.html",
+      "category_name": "Two-Way Radios",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Kenwood ProTalk Two-Way Radios",
+      "product_url": "https://kenwood.com/usa/com/lmr/",
+      "category_name": "Two-Way Radios",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Icom Land Mobile Radios",
+      "product_url": "https://www.icomamerica.com/en/products/landmobile/default.aspx",
+      "category_name": "Two-Way Radios",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Hytera Intrinsically Safe Two-Way Radios",
+      "product_url": "https://www.hytera.com/en/products/product-list.tag-intrinsically-safe.html",
+      "category_name": "Intrinsically Safe Two-Way Radios",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "PTC ThingWorx IoT Platform",
+      "product_url": "https://www.ptc.com/en/products/iiot/thingworx-platform",
+      "category_name": "IoT Platform",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Pason Electronic Drilling Recorder (EDR)",
+      "product_url": "https://www.pason.com/products/edr",
+      "category_name": "Drilling Data Acquisition Electronics",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "NOV RigSense Real-Time Drilling Data Electronics",
+      "product_url": "https://www.nov.com/products-and-services/brands/md-totco/software-and-data-solutions/rigsense",
+      "category_name": "Drilling Data Acquisition Electronics",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Teledyne Marine Connectors",
+      "product_url": "https://www.teledynemarine.com/products/connectors",
+      "category_name": "Subsea Connectors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "MacArtney Underwater Technology Connectors",
+      "product_url": "https://www.macartney.com/what-we-offer/systems-and-products/connectors/",
+      "category_name": "Subsea Connectors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "SEACON (TE Connectivity) Underwater Connectors",
+      "product_url": "https://www.te.com/usa-en/plp/seacon/Z3J.html",
+      "category_name": "Subsea Connectors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Glenair Interconnect Solutions (Marine)",
+      "product_url": "https://www.glenair.com/marine-interconnect-solutions/",
+      "category_name": "Subsea Connectors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Flir Systems Thermal Imaging Cameras for OGI",
+      "product_url": "https://www.flir.com/browse/industrial/gas-detection-cameras/",
+      "category_name": "Optical Gas Imaging (OGI) Cameras",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Opgal Optical Gas Imaging Cameras",
+      "product_url": "https://www.opgal.com/ogi-cameras",
+      "category_name": "Optical Gas Imaging (OGI) Cameras",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Librestream Onsight Augmented Reality Platform Hardware",
+      "product_url": "https://librestream.com/products/onsight-platform/",
+      "category_name": "Augmented Reality Hardware",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "RealWear Assisted Reality Wearable Devices",
+      "product_url": "https://www.realwear.com/products/",
+      "category_name": "Wearable Computers (Hazardous Area)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Vuzix Smart Glasses for Enterprise",
+      "product_url": "https://www.vuzix.com/pages/enterprise",
+      "category_name": "Smart Glasses",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "i.safe MOBILE Hazardous Area Mobile Devices (Smartphones, Tablets)",
+      "product_url": "https://www.isafe-mobile.com/en/products",
+      "category_name": "Hazardous Area Mobile Devices",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Ecom Instruments (Pepperl+Fuchs) Mobile Computing for Hazardous Areas",
+      "product_url": "https://www.ecom-ex.com/products/mobile-computing/",
+      "category_name": "Hazardous Area Mobile Computing",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Bartec Agile X IS Industrial Tablet PC",
+      "product_url": "https://www.bartec.com/en/products/mobile-communication/tablets/agile-x-is/",
+      "category_name": "Hazardous Area Tablets",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Getac Rugged Tablets & Laptops",
+      "product_url": "https://www.getac.com/us/products/tablets/",
+      "category_name": "Rugged Tablets & Laptops",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Panasonic Toughbook Rugged Laptops & Tablets",
+      "product_url": "https://na.panasonic.com/us/computers-tablets-handhelds/computers",
+      "category_name": "Rugged Laptops & Tablets",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Dell Rugged Laptops & Tablets",
+      "product_url": "https://www.dell.com/en-us/shop/dell-laptops/sc/laptops/latitude-rugged-laptops",
+      "category_name": "Rugged Laptops & Tablets",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "ExRobotics Robots for Hazardous Environments",
+      "product_url": "https://exrobotics.global/our-robots/",
+      "category_name": "Robots (Hazardous Area)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "ANYbotics ANYmal Inspection Robot Electronics",
+      "product_url": "https://www.anybotics.com/anymal",
+      "category_name": "Robots (Inspection Electronics)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Taurob Inspector Robot Electronics",
+      "product_url": "https://taurob.com/en/oil-gas/product-inspector",
+      "category_name": "Robots (Inspection Electronics)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Flyability Elios 3 Indoor Inspection Drone",
+      "product_url": "https://www.flyability.com/elios-3",
+      "category_name": "Drones (Confined Space Inspection)",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Servomex Gas Analyzers",
+      "product_url": "https://www.servomex.com/gas-analyzers/",
+      "category_name": "Gas Analyzers",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Michell Instruments Moisture and Humidity Measurement",
+      "product_url": "https://www.michell.com/en/products/moisture-in-process-gases",
+      "category_name": "Moisture & Humidity Analyzers",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Barben Analytical (Ametek) pH/ORP Sensors",
+      "product_url": "https://www.ametekpi.com/products/ph-orp-sensors",
+      "category_name": "pH/ORP Sensors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Endress+Hauser Analytical Measurement (Liquid Analysis)",
+      "product_url": "https://www.endress.com/en/field-instruments-overview/liquid-analysis-product-overview",
+      "category_name": "Liquid Analyzers",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Mettler Toledo Process Analytics (pH, DO, Conductivity)",
+      "product_url": "https://www.mt.com/us/en/home/products/Process-Analytics.html",
+      "category_name": "Liquid Analyzers",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Hamilton Company Process Sensors (pH, DO)",
+      "product_url": "https://www.hamiltoncompany.com/process-analytics/sensors",
+      "category_name": "Liquid Process Sensors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Yokogawa Analytical Instruments",
+      "product_url": "https://www.yokogawa.com/solutions/products-platforms/analytical-instruments/",
+      "category_name": "Analytical Instruments",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "E+H Wetzer Temperature Sensors",
+      "product_url": "https://www.endress.com/en/endress-hauser-group/company/production-center-germany-nesselwang-wetzer",
+      "category_name": "Temperature Sensors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Pyromation Temperature Sensors",
+      "product_url": "https://www.pyromation.com/Products/",
+      "category_name": "Temperature Sensors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Thermo Electric Temperature Sensors",
+      "product_url": "https://www.thermo-electric.com/products-and-services/",
+      "category_name": "Temperature Sensors",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Daily Thermetrics Temperature Instrumentation",
+      "product_url": "https://www.dailyinst.com/temperature-instrumentation/",
+      "category_name": "Temperature Instrumentation",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Teledyne DALSA Machine Vision Cameras",
+      "product_url": "https://www.teledynedalsa.com/en/products/imaging/cameras/",
+      "category_name": "Machine Vision Cameras",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Cognex Machine Vision Systems",
+      "product_url": "https://www.cognex.com/products/machine-vision",
+      "category_name": "Machine Vision Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Basler Industrial Cameras",
+      "product_url": "https://www.baslerweb.com/en/products/cameras/",
+      "category_name": "Industrial Cameras",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Keyence Vision Systems",
+      "product_url": "https://www.keyence.com/products/vision/vision-sys/",
+      "category_name": "Machine Vision Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Omron Vision Systems",
+      "product_url": "https://industrial.omron.us/en/products/vision-system",
+      "category_name": "Machine Vision Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "National Instruments Data Acquisition (DAQ)",
+      "product_url": "https://www.ni.com/en/shop/data-acquisition.html",
+      "category_name": "Data Acquisition (DAQ) Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Keysight Data Acquisition Systems",
+      "product_url": "https://www.keysight.com/us/en/products/data-acquisition-daq-systems.html",
+      "category_name": "Data Acquisition (DAQ) Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Advantech Data Acquisition Modules (ADAM)",
+      "product_url": "https://www.advantech.com/en/products/data-acquisition-modules/sub_1-2m7i4l",
+      "category_name": "Data Acquisition (DAQ) Modules",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "HBM Test and Measurement DAQ Systems",
+      "product_url": "https://www.hbm.com/en/5889/data-acquisition-systems-daq/",
+      "category_name": "Data Acquisition (DAQ) Systems",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    },
+    {
+      "product_name": "Yokogawa Data Acquisition Equipment (Recorders)",
+      "product_url": "https://tmi.yokogawa.com/solutions/products/data-acquisition-equipment/",
+      "category_name": "Data Acquisition Recorders",
+      "parent_category": "Oil & Gas Electrical, Instrumentation & Electronics"
+    }
+  ]
+}

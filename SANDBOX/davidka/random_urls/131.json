@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "LS Electric RKN Series Residual Current Circuit Breaker (RCCB)",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Power_Distribution/Low_Voltage_Circuit_Breaker/Residual_Current_Device",
+      "category_name": "Residual Current Devices (RCD/RCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Terasaki TemDin3 Miniature Circuit Breakers (MCB)",
+      "product_url": "https://www.terasaki.com/products-services/low-voltage-products/miniature-circuit-breakers/",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "DEHN DEHNguard SE DC surge arrester for PV systems",
+      "product_url": "https://www.dehn-international.com/en/900651-dg-se-dc-1000-fm",
+      "category_name": "Surge Protective Devices (SPD)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Schrack Technik MS132-T Motor protection circuit breaker",
+      "product_url": "https://www.schrack.com/web/en/products/power-engineering/contactors-motor-protection/motor-protection-circuit-breakers/ms132-t-motor-protection-circuit-breaker-with-thermal-release-25a.html",
+      "category_name": "Motor Protection Circuit Breaker",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "BENEDICT Switches for Panel Mounting M Series",
+      "product_url": "https://benedict.at/en/products/cam-switches/",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "nVent HOFFMAN Polyester Wall-Mount Enclosures (A48 / A48S)",
+      "product_url": "https://hoffman.nvent.com/en-us/products/polyester-wall-mount-enclosures-a48a48s-ip66-type-4x",
+      "category_name": "Distribution Boards & Enclosures",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Wöhner 185Power Busbar System",
+      "product_url": "https://www.woehner.com/en/products/185power",
+      "category_name": "Busbar Systems",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "CIRCUTOR M701xx digital multimeter (Panel Mount)",
+      "product_url": "https://circutor.com/en/products/measurement-control/panel-meters/digital-panel-meters/m701xx-digital-multimeter-13810/",
+      "category_name": "Panel Meters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "IDEC LB Series Flush Silhouette Switches (Panel Mount)",
+      "product_url": "https://www.idec.com/products/switches-pilot-lights/16mm-switches-and-pilot-lights/lb-series-flush-silhouette-switches-and-pilot-lights",
+      "category_name": "Push Buttons & Pilot Lights (Panel Mount)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Omron G9SE Safety Relay Unit",
+      "product_url": "https://industrial.omron.eu/en/products/g9se",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Wieland Electric flare TIME Timers",
+      "product_url": "https://www.wieland-electric.com/en-gb/products/interface/timing-relay-flare-time/",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "PULS DIMENSION C-Series Power Supplies",
+      "product_url": "https://www.pulspower.com/products/product-ranges/dimension/c-series/",
+      "category_name": "Power Supplies (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "C&S Electric WiNtrip2 MCCB",
+      "product_url": "https://www.cselectric.co.in/wintrip2-mccb",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Havells Isolator/Disconnector Switch",
+      "product_url": "https://www.havells.com/en/industrial/protection-devices/isolators-disconnector-switch.html",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Jean Müller SASIL Vertical Fuse Switch Disconnectors NH00-3",
+      "product_url": "https://www.jeanmueller.de/en/products/nh-fuse-switch-disconnectors/nh-fuse-switch-disconnectors-vertical-design-size-nh00-3/",
+      "category_name": "Fuse Disconnect Switches",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Carlo Gavazzi EM300 Series Energy Analyzer",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/product/EM300",
+      "category_name": "Energy Meters (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Kraus & Naimer C Series Switches C/CA/CAD",
+      "product_url": "https://www.krausnaimer.com/en/products/switches/product/C",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Klemsan PIK Serisi Push-in Ray Klemensler (Push-in Terminal Blocks)",
+      "product_url": "https://klemsan.com/urunler/klemensler/ray-klemensler/pik-serisi-push-in-ray-klemensler/",
+      "category_name": "Terminal Blocks (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Mersen MPDB Power Distribution Blocks",
+      "product_url": "https://ep.mersen.com/products/catalog/line/power-distribution-blocks-mpdb-series",
+      "category_name": "Terminal Blocks (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Hyundai Electric HiAS Series Air Circuit Breaker",
+      "product_url": "https://www.hyundai-electric.com/elec/en/products/lvcs/ACB.jsp",
+      "category_name": "Air Circuit Breakers (ACB)",
+      "parent_category": "Panelboard Equipment"
+    }
+  ]
+}

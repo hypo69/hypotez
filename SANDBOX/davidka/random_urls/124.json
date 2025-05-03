@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Siemens SENTRON 3VA Molded Case Circuit Breakers (MCCB)",
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-protection-devices/molded-case-circuit-breakers.html",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Schneider Electric Acti9 iC60 Miniature Circuit Breaker (MCB)",
+      "product_url": "https://www.se.com/ww/en/product-range/61054-acti9-ic60/",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "ABB Emax 2 Air Circuit Breakers (ACB)",
+      "product_url": "https://new.abb.com/low-voltage/products/circuit-breakers/air-circuit-breakers/emax-2",
+      "category_name": "Air Circuit Breakers (ACB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Eaton PKZM0 Motor-protective circuit-breakers",
+      "product_url": "https://www.eaton.com/gb/en-gb/catalog/electrical-circuit-protection/pkzm0---up-to-32-a.html",
+      "category_name": "Motor Protection Circuit Breaker",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Legrand EMDX³ Energy Meters (DIN Rail)",
+      "product_url": "https://www.legrand.fr/pro/catalogue/appareillage-modulaire/mesure-et-comptage/compteurs-denergie-emdx",
+      "category_name": "Energy Meters (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Hager RCBO 1P+N 6kA C Curve Type A",
+      "product_url": "https://hager.com/uk/products/c/rcbo-1p-n-6ka-c-curve-type-a-30ma-6a-1-module",
+      "category_name": "Residual Current Circuit Breakers with Overcurrent Protection (RCBO)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Phoenix Contact CAPAROC configurable electronic circuit breaker system",
+      "product_url": "https://www.phoenixcontact.com/en-us/products/power-supplies-and-ups/circuit-breakers/electronic-circuit-breakers/caparoc",
+      "category_name": "Electronic Circuit Breakers",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "WAGO 221 Series Splicing Connectors (for panel wiring)",
+      "product_url": "https://www.wago.com/global/installation-terminal-blocks-and-connectors/splicing-connector-compact/221",
+      "category_name": "Terminal Blocks (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Weidmüller PROtop Power Supply",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group30708462704133",
+      "category_name": "Power Supplies (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Gewiss System enclosures Q-DIN",
+      "product_url": "https://www.gewiss.com/ww/en/products/product-catalogue/catalogue-power/distribution-boards-and-enclosures/din-rail-enclosures-and-consumer-units/enclosures-for-din-rail-devices-up-to-63a/q-din-range-system-enclosures",
+      "category_name": "Distribution Boards & Enclosures",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Socomec SIRCO M and MV Load Break Switches",
+      "product_url": "https://www.socomec.com/en-gb/product/sirco-m-and-mv",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Lovato Electric Platinum series Pushbuttons, selectors and pilot lights",
+      "product_url": "https://www.lovatoelectric.com/product/P10/Pushbuttons%2C%20selectors%20and%20pilot%20lights%20Platinum%20series",
+      "category_name": "Push Buttons & Pilot Lights (Panel Mount)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Chint NXC Series AC Contactor",
+      "product_url": "https://chintglobal.com/products/nxc",
+      "category_name": "Power Contactors",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Mitsubishi Electric METES Compact Energy Measuring Module (DIN Rail)",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/idem/monitor/metes/index.html",
+      "category_name": "Energy Meters (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Fuji Electric SC-E Series Contactors & Relays",
+      "product_url": "https://www.fujielectric.com/products/mc/contactor_sc-e.html",
+      "category_name": "Power Contactors",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Rockwell Allen-Bradley 1492-SPM Supplemental Circuit Protectors",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/circuit-and-load-protection/supplementary-circuit-protectors/1492-spm-supplementary-circuit-protectors.html",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "OEZ Modeion Moulded case circuit breakers",
+      "product_url": "https://www.oez.com/en/produkty/modeion-moulded-case-circuit-breakers-product-list",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Noark Electric Ex9PN Mini Circuit Breaker",
+      "product_url": "https://www.noark-electric.eu/en/catalog/group/detail/1-miniature-circuit-breakers-ex9pn",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "ETI KZS Fuse Combination Switches",
+      "product_url": "https://www.etigroup.eu/products/fuse-links-and-holders/nh-fuse-switch-disconnectors-and-fuse-rails/fuse-combination-switches-kzs-00-1-2-3-horizontal-vertical-design",
+      "category_name": "Fuse Disconnect Switches",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Finder 22 Series Modular Contactors 25 A",
+      "product_url": "https://www.findernet.com/en/worldwide/products/families/22",
+      "category_name": "Modular Contactors",
+      "parent_category": "Panelboard Equipment"
+    }
+  ]
+}

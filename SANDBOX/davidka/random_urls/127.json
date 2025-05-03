@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "LS Electric Metasol MCCB",
+      "product_url": "https://www.ls-electric.com/products/category/Smart_Power_Distribution/Low_Voltage_Circuit_Breaker/Molded_Case_Circuit_Breaker",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Terasaki TemDin3 RCBO",
+      "product_url": "https://www.terasaki.com/products-services/low-voltage-products/miniature-circuit-breakers/",
+      "category_name": "Residual Current Circuit Breakers with Overcurrent Protection (RCBO)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "DEHN BLITZDUCTORconnect modular surge arrester",
+      "product_url": "https://www.dehn-international.com/en/927300-bco-ml2-bd-s-5",
+      "category_name": "Surge Protective Devices (SPD)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Schrack Technik MO Miniature circuit breaker",
+      "product_url": "https://www.schrack.com/web/en/products/power-engineering/modular-devices/miniature-circuit-breakers-mcb/mo-miniature-circuit-breaker-6ka-c-1p.html",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "BENEDICT K2 Contactors 4kW/400V",
+      "product_url": "https://benedict.at/en/products/contactors/",
+      "category_name": "Power Contactors",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "nVent HOFFMAN ProLine G2 Industrial Packages",
+      "product_url": "https://hoffman.nvent.com/en-us/products/proline-g2-industrial-packages-type-412",
+      "category_name": "Distribution Boards & Enclosures",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "EAE E-Line CR Busbar (Cast Resin)",
+      "product_url": "https://www.eaeelectric.com/en/products/detail/e-line-cr-busbar-cast-resin",
+      "category_name": "Busbar Systems",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "CIRCUTOR CVM-A1000 Power Quality Analyzer (Panel Mount)",
+      "product_url": "https://circutor.com/en/products/measurement-control/power-quality-energy-management/panel-power-quality-analyzers/cvm-a1000-power-quality-analyzer-13817/",
+      "category_name": "Panel Meters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "IDEC LF1D-EN LED Strip Lights (Panel Lighting)",
+      "product_url": "https://www.idec.com/products/led-lighting-signaling/led-lighting/lf1d-en-series-led-strip-lights",
+      "category_name": "Panel Accessories",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Omron K8AK / K8DS Monitoring Relays",
+      "product_url": "https://industrial.omron.eu/en/products/monitoring-relays",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Wieland Electric fasis WTP terminal blocks with Push-in connection",
+      "product_url": "https://www.wieland-electric.com/en-gb/products/terminal-blocks/din-rail-terminal-blocks-fasis-wtp/",
+      "category_name": "Terminal Blocks (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Murrelektronik Modlight Illumix Series Machine Lighting (Panel Lighting)",
+      "product_url": "https://www.murrelektronik.com/products-industries/interfaces/illumination/",
+      "category_name": "Panel Accessories",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "C&S Electric Residual Current Circuit Breaker (RCCB)",
+      "product_url": "https://www.cselectric.co.in/residual-current-circuit-breaker-rccb",
+      "category_name": "Residual Current Devices (RCD/RCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Havells Loadline MCCB",
+      "product_url": "https://www.havells.com/en/industrial/protection-devices/moulded-case-circuit-breakers.html",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Jean Müller PLVARIO Busbar System",
+      "product_url": "https://www.jeanmueller.de/en/products/busbar-systems/plvario/",
+      "category_name": "Busbar Systems",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Carlo Gavazzi WM15 Power Analyzer (Panel Mount)",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/product/WM15",
+      "category_name": "Panel Meters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Kraus & Naimer CG4 Series Switches (Panel Mount)",
+      "product_url": "https://www.krausnaimer.com/en/products/switches/product/CG4",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "TE Connectivity Entrelec Terminal Block Markers",
+      "product_url": "https://www.te.com/usa-en/products/identification-labeling/terminal-block-markers.html?tab=pgp-story",
+      "category_name": "Panel Accessories",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Mersen HelioProtection® HP15FHM32 Fuse Holder (PV/DC)",
+      "product_url": "https://ep.mersen.com/products/catalog/line/helioprotectionr-hp15fhm32-fuse-holder",
+      "category_name": "Fuse Holders & Fuses (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Hyundai Electric HiMC Series Modular Contactor",
+      "product_url": "https://www.hyundai-electric.com/elec/en/products/lvcs/CONTACTOR.jsp",
+      "category_name": "Modular Contactors",
+      "parent_category": "Panelboard Equipment"
+    }
+  ]
+}

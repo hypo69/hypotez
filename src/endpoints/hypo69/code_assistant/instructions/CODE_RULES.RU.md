@@ -435,3 +435,7 @@ from header import __root__
 from src import gs
 ```
 Загружаются ВСЕГДА! в начале проекта и не требуют дополнительных проверок
+
+Порядок передачи аргументов в функции j_dumps, save_text_file: <что>, <куда>. Например:
+save_text_file(data, path/to/file)
+j_dumps(data, path/to/file)

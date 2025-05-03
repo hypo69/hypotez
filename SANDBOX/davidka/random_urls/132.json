@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Siemens SIRIUS 3RT Contactors",
+      "product_url": "https://new.siemens.com/global/en/products/automation/industrial-controls/sirius/switching-devices/contactors.html",
+      "category_name": "Power Contactors",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Schneider Electric TeSys Deca Contactors",
+      "product_url": "https://www.se.com/ww/en/product-range/65719-tesys-deca/",
+      "category_name": "Power Contactors",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "ABB PSTX Softstarters",
+      "product_url": "https://new.abb.com/low-voltage/products/softstarters/pstx",
+      "category_name": "Motor Starters / Softstarters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Eaton Bussmann series DIN-Rail fuse holders CH Series",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/fuses-and-fuse-holders/bussmann-series-din-rail-fuse-holders.html",
+      "category_name": "Fuse Holders & Fuses (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Legrand XL³ S 630 distribution enclosures",
+      "product_url": "https://www.legrand.fr/pro/catalogue/armoires-de-distribution-xl-s-630",
+      "category_name": "Distribution Boards & Enclosures",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Hager klik LCM lighting control modules",
+      "product_url": "https://hager.com/uk/products/g/klik-lcm-6-pin-plugs-sockets-boxes",
+      "category_name": "Panel Accessories",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Phoenix Contact QUINT POWER Power supplies",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/power-supplies-and-ups/power-supplies/quint-power",
+      "category_name": "Power Supplies (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "WAGO I/O System Field (IP67)",
+      "product_url": "https://www.wago.com/global/c/io-systems-remote-io/io-system-field-ip67",
+      "category_name": "Fieldbus Modules",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Weidmüller u-remote Remote I/O System",
+      "product_url": "https://www.weidmuller.com/en/products/automation_software/remote_io/index.jsp",
+      "category_name": "Fieldbus Modules",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Gewiss THERMO ICE Wi-Fi chronothermostat (DIN)",
+      "product_url": "https://www.gewiss.com/ww/en/products/product-catalogue/catalogue-domotics/home-building-automation/chorus-smart-home-range/command-and-control-devices/thermostats-and-chronothermostats",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Socomec SIRCOVER Manual transfer switches",
+      "product_url": "https://www.socomec.com/en-gb/product/sircover",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Lovato Electric Motor protection circuit breakers SM1R... series",
+      "product_url": "https://www.lovatoelectric.com/product/P08/Motor%20protection%20circuit%20breakers%20SM1R...%20series",
+      "category_name": "Motor Protection Circuit Breaker",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Chint NQ3 series electromagnetic starter",
+      "product_url": "https://chintglobal.com/products/nq3",
+      "category_name": "Power Contactors",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Mitsubishi Electric CC-Link IE Field Network Master/Local Module",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/cnt/plcf/items/network_module/cclink_iefield.html",
+      "category_name": "Fieldbus Modules",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Fuji Electric CP Series Command Switches Φ30",
+      "product_url": "https://www.fujielectric.com/products/mc/command_switch_cp.html",
+      "category_name": "Push Buttons & Pilot Lights (Panel Mount)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Rockwell Allen-Bradley 100-C IEC Contactors",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/motor-control/contactors/iec-contactors/100-c-contactors.html",
+      "category_name": "Power Contactors",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "OEZ AFI Residual current circuit breakers with overcurrent protection",
+      "product_url": "https://www.oez.com/en/produkty/minia-modular-devices-product-list/residual-current-circuit-breakers-with-overcurrent-protection-afi",
+      "category_name": "Residual Current Circuit Breakers with Overcurrent Protection (RCBO)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Noark Electric Ex9S32 Manual Motor Starters",
+      "product_url": "https://www.noark-electric.eu/en/catalog/group/detail/18-manual-motor-starters-ex9s32",
+      "category_name": "Motor Protection Circuit Breaker",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "ETI EVE Monitoring relays",
+      "product_url": "https://www.etigroup.eu/products/modular-devices/monitoring-relays",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Finder 7S Series Relay Modules with Forcibly Guided Contacts",
+      "product_url": "https://www.findernet.com/en/worldwide/products/families/7S",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    }
+  ]
+}

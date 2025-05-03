@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Ritchie Navigation Explorer B-51 Compass",
+      "product_url": "https://www.ritchienavigation.com/product/b-51/",
+      "category_name": "Magnetic Compass",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "McMurdo FastFind 220 PLB",
+      "product_url": "https://www.mcmurdogroup.com/products/fastfind-220-plb/",
+      "category_name": "Personal Locator Beacon (PLB)",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "EmpirBus Connect 50 Interface Module",
+      "product_url": "https://www.garmin.com/en-US/p/621160",
+      "category_name": "Digital Switching Interface Module",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Attwood Sahara Mk2 Automatic Bilge Pump S1100",
+      "product_url": "https://www.attwoodmarine.com/store/product/sahara-mk2-automatic-bilge-pump",
+      "category_name": "Automated Bilge Pump",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Glomex Talitha V9125/12 Omni-Directional TV Antenna",
+      "product_url": "https://www.glomex.us/shop/en/talitha-v9125-12-omni-directional-tv-antenna/",
+      "category_name": "Marine TV Antenna",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Humphree Electric Fin Stabilisers",
+      "product_url": "https://humphree.com/stabilising-fins/electric-stabilising-fins/",
+      "category_name": "Electric Fin Stabilizer System",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Yacht Devices NMEA 2000 Bridge YDNB-07",
+      "product_url": "https://yachtdevices.com/products/nmea_2000_bridge_ydnb_07.html",
+      "category_name": "NMEA 2000 Bridge/Router",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Renogy 100 Watt 12 Volt Flexible Monocrystalline Solar Panel",
+      "product_url": "https://www.renogy.com/100-watt-12-volt-flexible-monocrystalline-solar-panel/",
+      "category_name": "Flexible Solar Panel",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Sterling Power ProCharge Ultra Battery Charger (PCU1260)",
+      "product_url": "https://sterling-power.com/products/pro-charge-ultra-12v-60a",
+      "category_name": "Battery Charger",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Magnum Energy MSH3012M Hybrid Inverter/Charger",
+      "product_url": "https://www.magnum-dimensions.com/products/msh-m-series-inverter-charger",
+      "category_name": "Hybrid Inverter/Charger",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Perko Stealth Series LED Bi-Color Navigation Light",
+      "product_url": "https://www.perko.com/catalog/navigation_lights_led/72/stealth_series_led_bi-color_light/",
+      "category_name": "LED Navigation Light (Bi-Color)",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Aqua Signal Series 34 LED Tri-Color/Anchor Light",
+      "product_url": "https://www.aquasignal.de/products/leisure-navigation-lights/series-34-led.html",
+      "category_name": "LED Navigation Light (Tri-Color/Anchor)",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Clarion Marine CMSP-651-SWG Premium Coaxial Speakers",
+      "product_url": "https://clarionmarine.com/products/cmsp-651-swg",
+      "category_name": "Marine Speakers",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Kicker KMC4 Marine Digital Media Receiver",
+      "product_url": "https://www.kicker.com/kmc4-marine-gauge-style-media-center",
+      "category_name": "Marine Media Receiver",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Rockford Fosgate PMX-3 Compact Marine Digital Media Receiver",
+      "product_url": "https://rockfordfosgate.com/products/details/pmx-3/",
+      "category_name": "Marine Media Receiver",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Lenco Marine Electric Trim Tab Kit (Standard Mount)",
+      "product_url": "https://www.lencomarine.com/product/standard-trim-tab-kits/",
+      "category_name": "Electric Trim Tab Kit",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Bennett Marine BOLT Electric Trim Tab System",
+      "product_url": "https://bennetttrimtabs.com/product/bolt-electric/",
+      "category_name": "Electric Trim Tab System",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Quick Spa BTQ 185 DC Bow Thruster",
+      "product_url": "https://www.quickitaly.com/en/products/thrusters/dc-thrusters/btq-185_1241en/",
+      "category_name": "DC Bow Thruster",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Wema System S5U Stainless Steel Fuel/Water Sender",
+      "product_url": "https://wema-system.com/products/level-senders/s5-stainless-steel-sender/",
+      "category_name": "Fuel/Water Level Sender",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "GOST Apparition Security & Monitoring System",
+      "product_url": "https://www.gostglobal.com/product/apparition/",
+      "category_name": "Marine Security & Monitoring System",
+      "parent_category": "Marine Electronics"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "NIKKEN Multi-Lock Milling Chuck",
+      "product_url": "https://www.nikken-world.com/products/holder/mlock.html",
+      "category_name": "Tool Holder (Milling Chuck)",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Tsudakoma TN Series CNC Rotary Table",
+      "product_url": "https://www.tsudakoma.co.jp/english/products/mt/rotary/tn-series.html",
+      "category_name": "CNC Rotary Table",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Metrol Air Gap Sensors",
+      "product_url": "https://www.metrol.co.jp/en/products/air-gap-sensor/",
+      "category_name": "Air Gap Sensor (Workpiece Seating Check)",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Newall Spherosyn & Microsyn Linear Encoders",
+      "product_url": "https://www.newall.com/linear-encoders/",
+      "category_name": "Linear Encoder",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "LNS Turbo HB Chip Conveyor",
+      "product_url": "https://www.lns-group.com/en_us/product/chip-conveyors-turbo-hb",
+      "category_name": "Chip Conveyor",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Hennig Telescopic Steel Covers",
+      "product_url": "https://hennigworldwide.com/telescopic-steel-covers/",
+      "category_name": "Machine Way Cover",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Igus Chainflex Continuous-Flex Cables",
+      "product_url": "https://www.igus.com/chainflex",
+      "category_name": "Continuous Flex Cable",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Phoenix Contact QUINT POWER Power Supplies",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/power-supplies-and-ups/power-supplies/quint-power",
+      "category_name": "Power Supply",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Pilz Safety Relays PNOZsigma",
+      "product_url": "https://www.pilz.com/en-INT/products/control-technology/safety-relays-pnoz/pnozsigma",
+      "category_name": "Safety Relay (for E-Stop Circuits)",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Schneider Electric TeSys Deca Contactors (for Motors/Pumps)",
+      "product_url": "https://www.se.com/ww/en/product-range/65719-tesys-deca/",
+      "category_name": "Contactor",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Iemca Maestro 80 No Limits Bar Feeder",
+      "product_url": "https://www.iemca.com/products/maestro-80-no-limits",
+      "category_name": "Bar Feeder",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Fastems RoboCell ONE (Robotized Machine Tending)",
+      "product_url": "https://www.fastems.com/product/robocell-one/",
+      "category_name": "Robotic Machine Tending Cell",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Automation Within Reach (AWR) Load & Go Robot Tender",
+      "product_url": "https://automationwithinreach.com/loadandgo/",
+      "category_name": "Robotic Machine Tending System",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Mitsubishi Electric RV-FR Series Robot Arm",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/rbt/robot/p006_rv_fr/index.html",
+      "category_name": "Industrial Robot",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Kern Pyramid Nano 5-Axis Machining Center",
+      "product_url": "https://www.kern-microtechnik.com/en/machinetools/kern-pyramid-nano/",
+      "category_name": "Ultra Precision 5-Axis Machining Center",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Haas UMC-500 Universal Machining Center (5-Axis)",
+      "product_url": "https://www.haascnc.com/machines/vertical-mills/universal-machines/models/umc-500.html",
+      "category_name": "5-Axis Machining Center",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "DMG Mori CLX 450 TC Universal Turning Machine (Mill/Turn)",
+      "product_url": "https://en.dmgmori.com/products/machines/turning/universal-turning/clx-tc/clx-450-tc",
+      "category_name": "Mill-Turn CNC Machine",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Okuma MULTUS U3000 Multitasking Lathe",
+      "product_url": "https://www.okuma.com/products/multus-u3000",
+      "category_name": "Multi-Tasking CNC Machine",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Mazak VARIAXIS i-800 NEO 5-Axis Machining Center",
+      "product_url": "https://www.mazakusa.com/machines/varixis-i-800-neo/",
+      "category_name": "5-Axis Machining Center",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Fanuc CNC Series 0i-MODEL F Plus",
+      "product_url": "https://www.fanuc.eu/uk/en/cnc/cnc-systems/cnc-series-0i-model-f-plus",
+      "category_name": "CNC Controller",
+      "parent_category": "CNC"
+    }
+  ]
+}

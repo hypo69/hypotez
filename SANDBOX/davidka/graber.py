@@ -86,7 +86,7 @@ def extract_page_data(base_url, html_content): # Убедитесь, что base
         return {'text': page_text, 'internal_links': internal_links}
     except Exception as e:
         print(f"Ошибка при разборе HTML для {base_url}: {e}")
-        return {'text': '', 'internal_links': []}
+        return {}
 
 def update_output_dict(data:str, timestamp:str, url:str) -> bool:
     output_file = Path(rf"F:/llm/filtered_urls/{gs.now}.json")

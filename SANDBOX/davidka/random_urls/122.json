@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Siemens SENTRON 5SL Miniature Circuit Breaker",
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-protection-devices/miniature-circuit-breakers.html",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Schneider Electric Acti9 iID Residual Current Circuit Breaker (RCCB)",
+      "product_url": "https://www.se.com/ww/en/product-range/61061-acti9-iid/",
+      "category_name": "Residual Current Devices (RCD/RCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "ABB System pro M compact S200 Miniature Circuit Breakers",
+      "product_url": "https://new.abb.com/low-voltage/products/modular-din-rail-products/miniature-circuit-breakers-mcbs/system-pro-m-compact-s200-s200m-s200p",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Eaton xPole PLSM Miniature Circuit Breaker",
+      "product_url": "https://www.eaton.com/gb/en-gb/catalog/electrical-circuit-protection/xpole.html",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Legrand DX³ MCBs 6 A to 125 A",
+      "product_url": "https://www.legrand.com/ecatalogue/406770-dx-mcb-6a-1p-c-curve.html",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Hager MCB 6kA Curve C",
+      "product_url": "https://hager.com/uk/products/h/mcb-6ka-curve-c-1p-6a",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Phoenix Contact THERMOMARK PRIME 2.0 (Panel Building Tool)",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/mobile-thermal-transfer-printer-thermomark-prime-20-1012346",
+      "category_name": "Panel Building Tools",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "WAGO TOPJOB S Rail-Mount Terminal Blocks",
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/topjob-s",
+      "category_name": "Terminal Blocks (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Weidmüller W-Series Terminal Blocks",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group4273095534385",
+      "category_name": "Terminal Blocks (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Gewiss ReStart Autotest PRO Residual Current Devices",
+      "product_url": "https://www.gewiss.com/ww/en/products/product-catalogue/catalogue-power/devices-for-protection-interruption-and-control/modular-protection-devices/residual-current-circuit-breakers-rcbs-with-automatic-reclosing/restart-autotest-pro-range-rcbos-rccs-2p-4p-type-a-ac-b",
+      "category_name": "Residual Current Devices (RCD/RCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Socomec DIRIS A-40 Multifunction Meter (Panel Mount)",
+      "product_url": "https://www.socomec.com/en-gb/product/diris-a-40",
+      "category_name": "Panel Meters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Lovato Electric Modular Contactors (BF Series - DIN Rail)",
+      "product_url": "https://www.lovatoelectric.com/product/P41/Modular%20contactors%20BF...%20series",
+      "category_name": "Modular Contactors",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Chint NB1 Miniature Circuit Breaker",
+      "product_url": "https://chintglobal.com/products/nb1-63",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Mitsubishi Electric WS-V Series Low Voltage Circuit Breakers (MCCB/ACB)",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/lvcb/index.html",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Fuji Electric DUO Series MCCB/ELCB",
+      "product_url": "https://www.fujielectric.com/products/mc/mccb_elcb_duo.html",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Rockwell Allen-Bradley 140MP Motor Protection Circuit Breaker (DIN/Panel)",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/circuit-and-load-protection/motor-circuit-protectors/140mp-motor-protection-circuit-breakers.html",
+      "category_name": "Motor Protection Circuit Breaker",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "OEZ Minia Miniature Circuit Breakers LPE/LPN",
+      "product_url": "https://www.oez.com/en/produkty/minia-modular-devices-product-list/miniature-circuit-breakers-lpe-lpn",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Noark Electric Ex9M Series Moulded Case Circuit Breaker",
+      "product_url": "https://www.noark-electric.eu/en/catalog/group/detail/4-moulded-case-circuit-breakers-ex9m",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "ETI ETIMAT 10 Miniature Circuit Breaker",
+      "product_url": "https://www.etigroup.eu/products/circuit-breakers-and-fuses/miniature-circuit-breakers-mcbs-accessories/miniature-circuit-breakers-etimat-10-10ka-1p-2p-3p-4p-up-to-63a",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Finder 7P Series Surge Protection Devices (SPD)",
+      "product_url": "https://www.findernet.com/en/worldwide/products/families/7P",
+      "category_name": "Surge Protective Devices (SPD)",
+      "parent_category": "Panelboard Equipment"
+    }
+  ]
+}

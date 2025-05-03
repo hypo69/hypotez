@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Siemens SENTRON 7KN Powercenter 3000 data transceiver",
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-measuring-devices-power-monitoring/7kn-powercenter-3000.html",
+      "category_name": "Panel Meters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Schneider Electric PowerLogic PM5000 series (PM5100)",
+      "product_url": "https://www.se.com/ww/en/product-range/61031-powerlogic-pm5000-series/",
+      "category_name": "Panel Meters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "ABB CM-TCN Temperature monitoring relays",
+      "product_url": "https://new.abb.com/low-voltage/products/control-products/electronic-relays-and-controls/temperature-monitoring-relays/cm-tcn-range",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Eaton easyE4 nano PLC",
+      "product_url": "https://www.eaton.com/gb/en-gb/catalog/industrial-controls-drives-automation-sensors/easye4.html",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Legrand Alpik Busbar support system",
+      "product_url": "https://www.legrand.fr/pro/catalogue/31256-systeme-supports-jeux-barres-alpik",
+      "category_name": "Busbar Systems",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Hager SPN440D Surge Protection Device Type 1+2+3 4P 40kA",
+      "product_url": "https://hager.com/uk/products/s/surge-protection-device-type-1-2-3-4p-40ka",
+      "category_name": "Surge Protective Devices (SPD)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Phoenix Contact STEP POWER Power supplies",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/power-supplies-and-ups/power-supplies/step-power",
+      "category_name": "Power Supplies (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "WAGO LEVER-NUTS® 221 Series for junction boxes",
+      "product_url": "https://www.wago.com/global/installation-terminal-blocks-and-connectors/splicing-connector-compact/221",
+      "category_name": "Terminal Blocks (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Weidmüller ACT20P Signal converter/isolator",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group30708462697083",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Gewiss MTX 96 - Multifunction digital network analysers (Panel Mount)",
+      "product_url": "https://www.gewiss.com/ww/en/products/product-catalogue/catalogue-power/devices-for-protection-interruption-and-control/modular-protection-devices/energy-and-power-meters/mtx-96-multifunction-digital-network-analysers",
+      "category_name": "Panel Meters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Socomec ATyS p M - Modular Automatic Transfer Switch",
+      "product_url": "https://www.socomec.com/en-gb/product/atys-p-m",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Lovato Electric LRD series Digital multimeters (Panel Mount)",
+      "product_url": "https://www.lovatoelectric.com/product/P16/Digital%20multimeters%20LRD...%20series",
+      "category_name": "Panel Meters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Chint NDK(JBK) series Control Transformer",
+      "product_url": "https://chintglobal.com/products/ndk",
+      "category_name": "Transformers",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Mitsubishi Electric AE-SW Moulded-case circuit breakers",
+      "product_url": "https://www.mitsubishielectric.co.jp/fa/products/lvs/lvcb/pmerit/mccb/ae-sw/index.html",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Fuji Electric G-TWIN Series Miniature Circuit Breakers (MCB/RCBO)",
+      "product_url": "https://www.fujielectric.com/products/mc/miniature_circuit_breakers.html",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Rockwell Allen-Bradley Bulletin 140G Molded Case Circuit Breakers",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/circuit-and-load-protection/molded-case-circuit-breakers/140g-molded-case-circuit-breakers.html",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "OEZ OLI Switch disconnectors",
+      "product_url": "https://www.oez.com/en/produkty/oli-switch-disconnectors-product-list",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Noark Electric Ex9RCD Residual Current Circuit Breaker",
+      "product_url": "https://www.noark-electric.eu/en/catalog/group/detail/2-residual-current-circuit-breakers-ex9rcd",
+      "category_name": "Residual Current Devices (RCD/RCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "ETI GREEN PROTECT - DC Fuses and Fuse Holders",
+      "product_url": "https://www.etigroup.eu/products/circuit-breakers-and-fuses/special-fuses-and-fuse-holders/green-protect-dc-protection-fuses-and-holders",
+      "category_name": "Fuse Holders & Fuses (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Finder 70 Series Monitoring Relays",
+      "product_url": "https://www.findernet.com/en/worldwide/products/families/70",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    }
+  ]
+}

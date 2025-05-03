@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Quick Spa MC² X Series Gyro Stabilizer",
+      "product_url": "https://www.quickitaly.com/en/products/stabilizers/mc%C2%B2-x-gyro-stabilizers_1274en/",
+      "category_name": "Gyro Stabilizer System",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Wema System S3 Fuel/Water Level Sender",
+      "product_url": "https://wema-system.com/products/level-senders/s3-sender/",
+      "category_name": "Fuel/Water Level Sender",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "GOST Watch HD XVR Surveillance System",
+      "product_url": "https://www.gostglobal.com/product/gost-watch-hd-xvr/",
+      "category_name": "Marine Video Surveillance System",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Digital Yacht WLN30 Wireless NMEA Server",
+      "product_url": "https://digitalyacht.co.uk/product/wln30-smart-nmea-0183-wifi-gateway/",
+      "category_name": "Wireless NMEA Gateway (Wi-Fi)",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Simrad GS25 GPS Antenna",
+      "product_url": "https://www.simrad-yachting.com/simrad/type/accessories/gs25-gps-antenna-5476/",
+      "category_name": "GPS Antenna",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Garmin GPS 24xd NMEA 2000 Antenna",
+      "product_url": "https://www.garmin.com/en-US/p/648103",
+      "category_name": "GPS/GNSS Antenna (NMEA 2000)",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Raymarine CAM220 IP Marine Camera (Eyeball)",
+      "product_url": "https://www.raymarine.com/view/cameras/cam220.html",
+      "category_name": "IP Marine Camera",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Furuno RD-33 Remote Data Display",
+      "product_url": "https://www.furuno.com/en/products/navigation-data/RD-33",
+      "category_name": "NMEA Data Display",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "B&G WS310 Wired Wind Sensor",
+      "product_url": "https://www.bandg.com/bg/type/sensors-transducers/ws310-wired-wind-sensor-bb6880/",
+      "category_name": "Wind Sensor",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Lowrance Point-1 GPS Antenna with Heading Sensor",
+      "product_url": "https://www.lowrance.com/lowrance/type/accessories/sensors/point-1-gps-antenna-gpslomap-bb6634/",
+      "category_name": "GPS Antenna with Heading Sensor",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Icom GM800 GMDSS MF/HF Radio with Class A DSC",
+      "product_url": "https://www.icomamerica.com/en/products/marine/gmdss/gm800/default.aspx",
+      "category_name": "GMDSS MF/HF Radio",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Standard Horizon HX40 Handheld VHF Radio",
+      "product_url": "https://www.standardhorizon.com/indexVS.cfm?cmd=DisplayProducts&ProdCatID=85&encProdID=63B4FB91CB89678917D88478B78096D6&DivisionID=3&isArchived=0",
+      "category_name": "Handheld VHF Radio",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Victron Energy Lynx Distributor",
+      "product_url": "https://www.victronenergy.com/dc-distribution-systems/lynx-distributor",
+      "category_name": "DC Distribution System",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Mastervolt Mac Plus DC-DC Charger 12/12-50",
+      "product_url": "https://www.mastervolt.com/products/dc-dc-chargers/mac-plus-12-12-50/",
+      "category_name": "DC-DC Charger",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Blue Sea Systems WeatherDeck Waterproof Circuit Breaker Panel - 6 Position",
+      "product_url": "https://www.bluesea.com/products/4376/WeatherDeck_Waterproof_Circuit_Breaker_Panel_-_Gray_6_Position",
+      "category_name": "Waterproof Circuit Breaker Panel",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "ACR ResQFlare Electronic Distress Flare",
+      "product_url": "https://www.acrartex.com/products/resqflare/",
+      "category_name": "Electronic Distress Flare (LED)",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "FLIR Ocean Scout TK Thermal Monocular",
+      "product_url": "https://www.flir.com/products/ocean-scout-tk/",
+      "category_name": "Handheld Thermal Monocular",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "KVH TracVision TV3 Satellite TV System",
+      "product_url": "https://www.kvh.com/solutions/marine-leisure/satellite-tv/tracvision-tv3/",
+      "category_name": "Marine Satellite TV Antenna",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Hella marine EuroLED 95 Down Lights",
+      "product_url": "https://www.hellamarine.com/en/products/interior-lighting/downlights/euroled-95-downlights-g2.html",
+      "category_name": "Interior LED Downlight",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Fusion Signature Series 3 Marine Subwoofer (10-inch)",
+      "product_url": "https://www.fusionentertainment.com/marine/products/subwoofers/signature-series-3-10-inch/010-02436-00",
+      "category_name": "Marine Subwoofer",
+      "parent_category": "Marine Electronics"
+    }
+  ]
+}

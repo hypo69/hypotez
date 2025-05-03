@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Siemens SITOP PSU6200 Power Supply (DIN Rail)",
+      "product_url": "https://new.siemens.com/global/en/products/automation/systems/industrial/power-supply/sitop-psu6200.html",
+      "category_name": "Power Supplies (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Schneider Electric Linergy TR Terminal Blocks",
+      "product_url": "https://www.se.com/ww/en/product-range/61076-linergy-tr-terminal-blocks/",
+      "category_name": "Terminal Blocks (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "ABB CP-D Range Power Supplies",
+      "product_url": "https://new.abb.com/low-voltage/products/control-products/power-supplies/cp-d-range",
+      "category_name": "Power Supplies (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Eaton XV-102 HMI PLC (Panel Mount Control)",
+      "product_url": "https://www.eaton.com/gb/en-gb/catalog/industrial-controls-drives-automation-sensors/xv100.html",
+      "category_name": "Panel Meters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Legrand Practibox S flush-mounting cabinets",
+      "product_url": "https://www.legrand.com/ecatalogue/practibox-s-flush-mounting-cabinet-from-1-to-4-rows-4-to-72-modules.html",
+      "category_name": "Distribution Boards & Enclosures",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Hager Invicta 3 Type B Distribution Boards",
+      "product_url": "https://hager.com/uk/products/c/invicta-3-type-b-distribution-boards-125a",
+      "category_name": "Distribution Boards & Enclosures",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Phoenix Contact PT Push-in connection terminal blocks",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/terminal-blocks/din-rail-terminal-blocks/pt-push-in-connection",
+      "category_name": "Terminal Blocks (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "WAGO Power Measurement Modules",
+      "product_url": "https://www.wago.com/global/c/io-systems-remote-io/io-system-field-bus-independent/measurement-modules/power-measurement",
+      "category_name": "Energy Meters (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Weidmüller TERMSERIES Relay modules and solid-state relays",
+      "product_url": "https://catalog.weidmueller.com/catalog/Start.do?localeId=en&ObjectID=group30708462722192",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Gewiss CHORUS Modular devices - 1-way switches",
+      "product_url": "https://www.gewiss.com/ww/en/products/product-catalogue/catalogue-domotics/home-building-automation/chorus-modular-devices-range/command-devices/1-way-switches",
+      "category_name": "Push Buttons & Pilot Lights (Panel Mount)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Socomec MULTIS P - Analogue measuring units (Panel Mount)",
+      "product_url": "https://www.socomec.com/en-gb/product/multis-p",
+      "category_name": "Panel Meters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Lovato Electric Automatic transfer switch controllers ATL series",
+      "product_url": "https://www.lovatoelectric.com/product/P35/Automatic%20transfer%20switch%20controllers%20ATL...%20series",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Chint NH(RT16) Low Voltage HRC Fuse",
+      "product_url": "https://chintglobal.com/products/rt16-00c-nh00c",
+      "category_name": "Fuse Holders & Fuses (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Mitsubishi Electric BH-D6 Miniature Circuit Breaker",
+      "product_url": "https://www.mitsubishielectric.co.jp/fa/products/lvs/lvcb/pmerit/mcb/bh-d6/index.html",
+      "category_name": "Modular Circuit Breakers (MCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Fuji Electric MS Series Relays",
+      "product_url": "https://www.fujielectric.com/products/mc/relay.html",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Rockwell Allen-Bradley 140M Motor Protection Circuit Breakers",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/circuit-and-load-protection/motor-circuit-protectors/140m-motor-protection-circuit-breakers.html",
+      "category_name": "Motor Protection Circuit Breaker",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "OEZ DistriSet Distribution boards",
+      "product_url": "https://www.oez.com/en/produkty/distriset-distribution-boards-product-list",
+      "category_name": "Distribution Boards & Enclosures",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Noark Electric Ex9MD Modular electricity meters",
+      "product_url": "https://www.noark-electric.eu/en/catalog/group/detail/11-modular-electricity-meters-ex9md",
+      "category_name": "Energy Meters (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "ETI ASTI Timers and Controllers",
+      "product_url": "https://www.etigroup.eu/products/modular-devices/timers-and-controllers",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Finder 12 Series Time Switches",
+      "product_url": "https://www.findernet.com/en/worldwide/products/families/12",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    }
+  ]
+}

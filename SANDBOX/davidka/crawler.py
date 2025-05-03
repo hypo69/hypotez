@@ -100,6 +100,7 @@ class Config:
 
 
 
+
 async def get_products_by_category(category: str, num_of_links: str = '2') -> Optional[Dict[str, Any]]:
     """
     Асинхронно получает данные о продуктах для указанной категории.

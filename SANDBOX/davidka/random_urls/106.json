@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Victron Energy BMV-712 Smart Battery Monitor",
+      "product_url": "https://www.victronenergy.com/battery-monitors/bmv-712-smart",
+      "category_name": "Battery Monitor",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Mastervolt Mass Combi Ultra 12/3000-150 Inverter/Charger",
+      "product_url": "https://www.mastervolt.com/products/mass-combi-ultra-12v/mass-combi-ultra-12-3000-150-230v/",
+      "category_name": "Inverter/Charger",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Blue Sea Systems 120A SI-ACR Automatic Charging Relay",
+      "product_url": "https://www.bluesea.com/products/7610/SI-ACR_Automatic_Charging_Relay_-_12_24V_DC_120A",
+      "category_name": "Automatic Charging Relay (ACR)",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "ACR ResQLink View PLB (Personal Locator Beacon)",
+      "product_url": "https://www.acrartex.com/products/resqlink-view-plb/",
+      "category_name": "Personal Locator Beacon (PLB)",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "FLIR M364C Marine Thermal Camera System",
+      "product_url": "https://www.flir.com/products/m364c/",
+      "category_name": "Marine Thermal Camera",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "KVH TracPhone V30 Satellite Communication System",
+      "product_url": "https://www.kvh.com/solutions/marine-leisure/satellite-internet-phones/tracphone-v30/",
+      "category_name": "Satellite Communication System",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Intellian i3 Marine Satellite TV Antenna System",
+      "product_url": "https://www.intelliantech.com/products/marine-satellite-tv/i-series/i3",
+      "category_name": "Marine Satellite TV Antenna",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Hella marine NaviLED PRO Navigation Lamps (Port/Starboard/Stern)",
+      "product_url": "https://www.hellamarine.com/en/products/navigation-lamps/2-nm/naviled-pro-series/",
+      "category_name": "LED Navigation Lights",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Side-Power (Sleipner) SE60 Bow Thruster",
+      "product_url": "https://www.sleipnergroup.com/products/thrusters/se-series/se60-185s/",
+      "category_name": "Bow Thruster",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Rule-Mate 1100 GPH Automated Bilge Pump",
+      "product_url": "https://www.xylem.com/en-us/products-services/pumps-packaged-pump-systems/pumps/submersible-pumps/small-submersible-pumps/bilge-pumps/rule-mate-fully-automatic-bilge-pump/",
+      "category_name": "Automated Bilge Pump",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Ancor Marine Grade Primary Wire",
+      "product_url": "https://www.ancorproducts.com/en/products/wire-cable/primary-wire",
+      "category_name": "Marine Grade Wire",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Balmar SG200 Battery Monitor",
+      "product_url": "https://balmar.net/products/sg200-battery-monitor/",
+      "category_name": "Battery Monitor",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Hubbell Marine 50A 125/250V Shore Power Cable Set",
+      "product_url": "https://www.hubbell.com/hubbellmarine/en/Products/Electrical-Electronic/Marine-Wiring-Devices/Shore-Power-Cable-Sets/Cable-Set-50A-125250V-Yellow-50/p/1673576",
+      "category_name": "Shore Power Cable Set",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Jabsco PAR-Max Plus 5.0 Water Pressure Pump",
+      "product_url": "https://www.xylem.com/en-us/products-services/pumps-packaged-pump-systems/pumps/diaphragm-pumps/par-max-water-pressure-pump/par-max-plus/",
+      "category_name": "Water Pressure Pump",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Ritchie Navigation SuperSport SS-2000 Compass",
+      "product_url": "https://www.ritchienavigation.com/product/ss-2000/",
+      "category_name": "Magnetic Compass",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "McMurdo SmartFind G8 AIS EPIRB",
+      "product_url": "https://www.mcmurdogroup.com/products/smartfind-g8-ais-epirb/",
+      "category_name": "EPIRB with AIS",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "EmpirBus NXT Digital Control Module (DCM)",
+      "product_url": "https://www.garmin.com/en-US/p/621155",
+      "category_name": "Digital Switching Module",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Attwood Tsunami T1200 Bilge Pump",
+      "product_url": "https://www.attwoodmarine.com/store/product/tsunami-mk2-bilge-pump",
+      "category_name": "Bilge Pump",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Glomex weBBoat 4G Plus Coastal Internet Antenna System",
+      "product_url": "https://www.glomex.us/shop/en/webboat-4g-plus-wifi-4g-3g-router-antenna-system/",
+      "category_name": "Coastal Internet Antenna System",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Humphree Interceptor System X-Series",
+      "product_url": "https://humphree.com/interceptors/x-series/",
+      "category_name": "Trim Tab Interceptor System",
+      "parent_category": "Marine Electronics"
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "products": [
+    {
+      "product_name": "NIKKEN 5AX-2MT Multi-Spindle Rotary Table",
+      "product_url": "https://www.nikken-world.com/products/rotarytable/5ax-2mt/",
+      "category_name": "Multi-Spindle Rotary Table",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Tsudakoma RTV Series Direct Drive Rotary Table",
+      "product_url": "https://www.tsudakoma.co.jp/english/products/mt/dd/",
+      "category_name": "Direct Drive Rotary Table",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Metrol Automatic Tool Length Measurer (CNC Lathe)",
+      "product_url": "https://www.metrol.co.jp/en/products/tool-setter/a-h4a/",
+      "category_name": "Tool Setter (Lathe)",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Newall Spherosyn & Microsyn Encoders",
+      "product_url": "https://www.newall.com/linear-encoders/",
+      "category_name": "Linear Encoder",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "LNS Fox WS2 Oil Mist Collector",
+      "product_url": "https://www.lns-group.com/en_us/product/air-filtration-systems-ws2-series",
+      "category_name": "Oil Mist Collector",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Hennig Telescopic Steel Covers",
+      "product_url": "https://hennigworldwide.com/telescopic-steel-covers/",
+      "category_name": "Machine Way Cover",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Igus Chainflex Continuous-Flex Cables",
+      "product_url": "https://www.igus.com/chainflex",
+      "category_name": "Flexible Cable (for Cable Carriers)",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Siemens SIMOTICS S Servomotors",
+      "product_url": "https://new.siemens.com/global/en/products/drives/servo-drive-systems/motors/simotics-s-servomotors.html",
+      "category_name": "Servo Motor",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Omron NX1 Machine Automation Controller",
+      "product_url": "https://industrial.omron.eu/en/products/nx1",
+      "category_name": "Machine Automation Controller (can integrate motion)",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Schneider Electric Lexium 32 Servo Drives",
+      "product_url": "https://www.se.com/ww/en/product-range/538-lexium-32/",
+      "category_name": "Servo Drive",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "LNS Blaze Air VT-70 Bar Feeder",
+      "product_url": "https://www.lns-group.com/en_us/product/bar-feeders-blaze-air-vt-70",
+      "category_name": "Bar Feeder",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Fastems Multi-Level System (MLS)",
+      "product_url": "https://www.fastems.com/product/multi-level-system-mls/",
+      "category_name": "Flexible Manufacturing System (FMS)",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Universal Robots ActiNav Autonomous Bin Picking",
+      "product_url": "https://www.universal-robots.com/products/actinav/",
+      "category_name": "Robotic Bin Picking System",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Mitsubishi Electric RV-FR Series Robot",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/rbt/robot/p002_rv-fr/index.html",
+      "category_name": "Industrial Robot",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Kern EVO Ultra-Precision Machining Center",
+      "product_url": "https://www.kern-microtechnik.com/en/machinetools/kern-evo/",
+      "category_name": "High Precision Machining Center",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Haas UMC-500 5-Axis Universal Machining Center",
+      "product_url": "https://www.haascnc.com/machines/vertical-mills/universal-machine/models/umc-500.html",
+      "category_name": "5-Axis Machining Center",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "DMG Mori LASERTEC 30 SLM 3rd Generation (Additive Manufacturing)",
+      "product_url": "https://en.dmgmori.com/products/machines/additive-manufacturing/powder-bed/lasertec-slm-3rd-generation/lasertec-30-slm-3rd-generation",
+      "category_name": "Additive Manufacturing (Metal 3D Printer)",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Okuma MULTUS U3000 Multi-Tasking Lathe",
+      "product_url": "https://www.okuma.com/products/multus-u3000",
+      "category_name": "Multi-Tasking CNC Machine",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Mazak QUICK TURN 250MSY Turning Center",
+      "product_url": "https://www.mazakusa.com/machines/quick-turn-250msy/",
+      "category_name": "CNC Lathe / Turning Center",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Fanuc α-CiB Series Wire EDM",
+      "product_url": "https://www.fanuc.eu/uk/en/robots/robot-filter-page/wire-edm-machines/robocut-a-cib-series",
+      "category_name": "Wire EDM Machine",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Siemens NX CAD Software",
+      "product_url": "https://www.sw.siemens.com/en-US/nx-cad/",
+      "category_name": "CAD Software",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Heidenhain ROD 400 Series Rotary Encoder",
+      "product_url": "https://www.heidenhain.com/products/rotary-encoders/rotary-encoders-without-integral-bearing/rod-400",
+      "category_name": "Rotary Encoder",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Renishaw Equator Gauging System",
+      "product_url": "https://www.renishaw.com/en/equator-gauging-system--6481",
+      "category_name": "Flexible Gauging System",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Autodesk FeatureCAM Software",
+      "product_url": "https://www.autodesk.com/products/featurecam/overview",
+      "category_name": "CAM Software",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Mastercam Swiss CAM Software",
+      "product_url": "https://www.mastercam.com/swiss/",
+      "category_name": "CAM Software (Swiss)",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Yaskawa Junma Servo Motors (Low Capacity)",
+      "product_url": "https://www.yaskawa.co.jp/en/product/servo-motion/productlineup/junma",
+      "category_name": "Servo Motor",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "THK Ball Spline LT",
+      "product_url": "https://tech.thk.com/en/products/cat/pdf/384_LT_LF.pdf",
+      "category_name": "Ball Spline",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "NSK Monocarrier Linear Actuators",
+      "product_url": "https://www.nskamericas.com/en/products/linear-motion/linear-actuators/monocarrier.html",
+      "category_name": "Linear Actuator",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Sandvik Coromant Silent Tools™ Boring Bars",
+      "product_url": "https://www.sandvik.coromant.com/en-gb/products/silent_tools/",
+      "category_name": "Anti-Vibration Boring Bar",
+      "parent_category": "CNC"
+    },
+    {
+      "product_name": "Kennametal KENtip Modular Drill System",
+      "product_url": "https://www.kennametal.com/us/en/products/metalworking-tools/hole-making/modular-drills/kentip.html",
+      "category_name": "Modular Drill",
+      "parent_category": "CNC"
+    }
+  ]
+}

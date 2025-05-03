@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Fusion MS-RA770 Apollo Marine Stereo",
+      "product_url": "https://www.fusionentertainment.com/marine/products/stereos/ms-ra770",
+      "category_name": "Marine Stereo",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "JL Audio M6-770X Marine Coaxial Speakers",
+      "product_url": "https://www.jlaudio.com/products/m6-770x-c-gwgw-m6-7-7-inch-marine-coaxial-speakers-93714",
+      "category_name": "Marine Speakers",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Iridium GO! Satellite Hotspot",
+      "product_url": "https://www.iridium.com/products/iridium-go/",
+      "category_name": "Satellite Hotspot/Communicator",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Actisense NGT-1 NMEA 2000 Gateway (USB)",
+      "product_url": "https://actisense.com/products/ngt-1-nmea-2000-pc-gateway/",
+      "category_name": "NMEA 2000 Gateway",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Shakespeare 5225-XT Galaxy VHF Antenna",
+      "product_url": "https://shakespeare-ce.com/marine/product/5225-xt-galaxy-8-vhf-antenna/",
+      "category_name": "VHF Marine Antenna",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Lumishore SMX53 Supra Series Underwater Light",
+      "product_url": "https://www.lumishore.com/smx53",
+      "category_name": "Underwater LED Light",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "OceanLED Explore E6 Underwater Light",
+      "product_url": "https://oceanled.com/explore-e6/",
+      "category_name": "Underwater LED Light",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "CZone Contact 6 PLUS Digital Switching Module",
+      "product_url": "https://www.czone.net/product/contact-6-plus/",
+      "category_name": "Digital Switching Module",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "BEP Marine Contour Connect Panel Battery Management",
+      "product_url": "https://www.bepmarine.com/en/p/1001801/Contour-Connect-Panel-Battery-Management",
+      "category_name": "Battery Management Panel",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Marinco 30A 125V Stainless Steel Power Inlet",
+      "product_url": "https://www.marinco.com/en/303ssi-pk",
+      "category_name": "Shore Power Inlet",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Scanstrut ROKK Wireless Active Phone Charger",
+      "product_url": "https://www.scanstrut.com/marine/charge/rokk-wireless/active",
+      "category_name": "Wireless Phone Charger (Waterproof)",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "ProMariner ProNautic 1260P Battery Charger",
+      "product_url": "https://www.promariner.com/en/pronaticp-series/63160",
+      "category_name": "Battery Charger",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Ocean Signal rescueME MOB1 AIS MOB Device",
+      "product_url": "https://oceansignal.com/products/mob1/",
+      "category_name": "AIS MOB Device",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Garmin inReach Mini 2 Satellite Communicator",
+      "product_url": "https://www.garmin.com/en-US/p/765374",
+      "category_name": "Satellite Communicator",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Raymarine Ray90 Modular VHF Radio System",
+      "product_url": "https://www.raymarine.com/communications/vhf-radio/ray90.html",
+      "category_name": "Modular VHF Radio",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Furuno SCX-20 Satellite Compass",
+      "product_url": "https://www.furuno.com/en/products/satellite-compass/SCX-20",
+      "category_name": "Satellite Compass",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Simrad AP44 VRF Autopilot Controller",
+      "product_url": "https://www.simrad-yachting.com/simrad/type/autopilots/ap44-autopilot-controller-7010/",
+      "category_name": "Autopilot Controller",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "B&G Triton² Digital Display",
+      "product_url": "https://www.bandg.com/bg/type/instruments/triton-bb6903/",
+      "category_name": "Sailing Instrument Display",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Lowrance ActiveTarget Live Sonar",
+      "product_url": "https://www.lowrance.com/lowrance/type/transducers/activetarget-live-sonar-gpslomap-bb6539/",
+      "category_name": "Live Sonar System",
+      "parent_category": "Marine Electronics"
+    },
+    {
+      "product_name": "Icom M94D Handheld VHF Radio with AIS Receiver & DSC",
+      "product_url": "https://www.icomamerica.com/en/products/marine/handhelds/m94d/default.aspx",
+      "category_name": "Handheld VHF Radio with AIS/DSC",
+      "parent_category": "Marine Electronics"
+    }
+  ]
+}
