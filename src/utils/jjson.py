@@ -217,3 +217,27 @@ def j_loads_ns(
             return [dict2ns(item) for item in data]
         return dict2ns(data)
     return {}
+
+def sanitize_json_files(path: Path):
+    def process_file(file_path: Path):
+        if not file_path.is_file() or not file_path.suffix == '.json':
+            return
+        try:
+            with file_path.open('r', encoding='utf-8') as f:
+                json.load(f)
+        except Exception as e:
+            logger.error(f"Ошибка чтения JSON в файле: {file_path}", e)
+            sanitized_path = file_path.with_name(file_path.name + '.sanitized')
+            try:
+                file_path.rename(sanitized_path)
+                logger.info(f"Файл переименован в: {sanitized_path}")
+            except Exception as rename_err:
+                logger.error(f"Не удалось переименовать файл: {file_path}", rename_err)
+
+    if path.is_file():
+        process_file(path)
+    elif path.is_dir():
+        for json_file in path.rglob('*.json'):
+            process_file(json_file)
+    else:
+        logger.error(f"Путь не найден или невалиден: {path}")

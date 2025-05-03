@@ -39,7 +39,7 @@ def check_latest_release(repo: str, owner: str):
             ...
             return
     else:
-        logger.warning(f"Error fetching data from git: {url}\n {response.status_code=}", None, False)
+        logger.warning(f"Нет нового релиза: {url}\n {response.status_code=}", None, False)
         #TODO: Код не проверен
         return 
 

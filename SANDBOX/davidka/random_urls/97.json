@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Whelen Aerospace Technologies (WAT) Orion Series LED Position/Anti-Collision Lights",
+      "product_url": "https://flywat.com/collections/position-anti-collision-lights",
+      "category_name": "LED Position/Anti-Collision Light",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Genesys Aerosystems VHF NAV/COMM Radios",
+      "product_url": "https://genesys-aerosystems.com/products/vhf-navcomm-radios",
+      "category_name": "NAV/COM Radio",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Dynon Engine Monitoring System (EMS) Modules",
+      "product_url": "https://www.dynonavionics.com/engine-monitoring.php",
+      "category_name": "Engine Monitoring Module",
+      "parent_category": "Engine Control & Monitoring"
+    },
+    {
+      "product_name": "PS Engineering Intercom Systems (PM Series)",
+      "product_url": "https://www.ps-engineering.com/intercoms.html",
+      "category_name": "Aircraft Intercom",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "TRIG Avionics TMA44 Audio Panel",
+      "product_url": "https://www.trig-avionics.com/product/tma44-audio-panel/",
+      "category_name": "Audio Panel",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "FreeFlight Systems Radar Altimeters (RA-4000 / RA-4500)",
+      "product_url": "https://www.freeflightsystems.com/products/radar-altimeters/ra-4000-4500",
+      "category_name": "Radio Altimeter",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "ACSS NXT-800 Mode S Transponder with ADS-B In/Out",
+      "product_url": "https://acss.com/products/transponders/",
+      "category_name": "Transponder (Mode S, ADS-B)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Mid-Continent Instruments and Avionics True Blue Power® Lithium-ion Aircraft Batteries (TB Series)",
+      "product_url": "https://www.truebluepowerusa.com/products/main-ship-batteries/",
+      "category_name": "Aircraft Battery (Li-ion)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Sensata Airpax Magnetic Circuit Breakers",
+      "product_url": "https://www.sensata.com/products/circuit-breakers/aircraft-circuit-breakers/magnetic-circuit-breakers",
+      "category_name": "Aircraft Circuit Breaker (Magnetic)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Carlisle Interconnect Technologies RF Cable Assemblies",
+      "product_url": "https://www.carlisleit.com/products/cable-assemblies/rf-cable-assemblies/",
+      "category_name": "RF Cable Assembly",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Liebherr Aerospace Hydraulic Components (Pumps, Motors)",
+      "product_url": "https://www.liebherr.com/en/int/products/aerospace-and-transportation-systems/aerospace/hydraulic-components/hydraulic-components.html",
+      "category_name": "Hydraulic Pump / Motor",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Woodward Actuation Control Units",
+      "product_url": "https://www.woodward.com/en/products/aerospace-defense/actuation/control-units",
+      "category_name": "Actuator Control Unit",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Honeywell Primus Elite Advanced Features (Synthetic Vision)",
+      "product_url": "https://aerospace.honeywell.com/us/en/learn/products/cockpit-systems-and-displays/primus-elite",
+      "category_name": "Synthetic Vision System (SVS)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Collins Aerospace EVS-3600 Enhanced Vision System",
+      "product_url": "https://www.collinsaerospace.com/what-we-do/industries/business-aviation/vision-systems/enhanced-vision-system",
+      "category_name": "Enhanced Vision System (EVS)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Garmin Smart Glide™ (Autopilot Feature)",
+      "product_url": "https://www.garmin.com/en-US/smartglide/",
+      "category_name": "Autopilot Feature (Software)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Thales Head-Up Displays (HUD) for Commercial Aircraft",
+      "product_url": "https://www.thalesgroup.com/en/markets/aerospace/avionics/head-and-helmet-mounted-displays",
+      "category_name": "Head-Up Display (HUD)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Safran Engine Vibration Monitoring Units (EVMU)",
+      "product_url": "https://www.safran-electronics-defense.com/product/evmu-engine-vibration-monitoring-unit",
+      "category_name": "Engine Vibration Monitoring Unit",
+      "parent_category": "Engine Control & Monitoring"
+    },
+    {
+      "product_name": "GE Aviation Configuration Data Management Systems",
+      "product_url": "https://www.geaviation.com/digital/applications/configuration-data-management",
+      "category_name": "Configuration Data Management Software",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "L3Harris Standby Instruments (e.g., ESI-500)",
+      "product_url": "https://www.l3harris.com/all-capabilities/electronic-standby-instrument-systems",
+      "category_name": "Electronic Standby Instrument",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Moog Electromechanical Actuation Systems (Aircraft)",
+      "product_url": "https://www.moog.com/products/actuation-systems/aircraft-military-commercial/electromechanical-actuation.html",
+      "category_name": "Electromechanical Actuator",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    }
+  ]
+}

@@ -22,17 +22,45 @@ from typing import List, Optional, Generator, Union, Dict, Set, Any # Добав
 import header
 from header import __root__
 # from src import gs # Не используется напрямую в этих функциях
-from src.utils.jjson import j_loads # j_loads_ns, j_dumps не используются здесь
+from src.utils.jjson import j_loads, j_dumps, sanitize_json_files
 from src.utils.file import get_filenames_from_directory 
 from src.logger.logger import logger
 from src.utils.file import  recursively_read_text_files, recursively_get_file_path, read_text_file
-from src.utils.printer import pprint as print # Не используется здесь
-# from src.utils.url import get_domain # Не используется здесь
-# from src.utils.string.ai_string_utils import normalize_answer # Не используется здесь
-# from src.webdriver.llm_driver import Driver, SimpleDriver # Не используется здесь
+from src.utils.printer import pprint as print 
+from src.utils.file import save_text_file
+from src.utils.url import get_domain
 
 class Config:
     ENDPOINT:Path = __root__/'SANDBOX'/'davidka'
+    output_dir:Path = Path("F:/llm/filtered_urls")
+    sanitize_json_files(output_dir)
+    checked_urls:list = read_text_file(output_dir/'checked_urls.txt', as_list=True) or []
+    checked_urls = list(set(checked_urls))
+
+
+def build_list_of_checked_urls() -> bool:
+    """
+    Собираю список проверенных url, из `random_urls`. Это адреса поставщиков, которые я сгенерировал через gemini
+    в список проверенных url, чтобы не проверять их повторно. Оперция одноразовая, но может пригодиться в будущем.
+    """
+
+    ...
+    datafiles_list:list = j_loads(Config.output_dir)
+    for datafile in datafiles_list:
+        try:
+            if hasattr(datafile, 'url'):
+                if  datafile['url'] in Config.checked_urls:
+                    logger.info(f'URL уже в списке проверенных: {datafile["url"]}')
+                    continue
+
+                Config.checked_urls.append(datafile['url'])
+                save_text_file(Config.checked_urls, Config.output_dir/'checked_urls.txt')
+
+        except Exception as ex:
+            logger.error(f'Ошибка при обработке файла {datafile}', ex, exc_info=True)
+            continue
+        
+
 
 def extract_domain_from_products_urls() -> bool:
     """
@@ -58,12 +86,12 @@ def get_products_urls_list_from_files(
     crawl_files_list: Optional[List[str]] = None
 ) -> List[str]:
     """
-    Функция читает URL продуктов из файлов словарей JSON.
+    Функция читает URL товаров из файлов словарей JSON.
 
     Читает файлы из указанной директории `mining_data_path`. Если передан
     список `crawl_files_list`, обрабатываются только файлы из этого списка,
     иначе обрабатываются все JSON-файлы в директории. Из каждого файла
-    извлекается список продуктов (ключ 'products'), а из него - URL
+    извлекается список товаров (ключ 'products'), а из него - URL
     (ключ 'product_url'). Все URL собираются в один список, перемешиваются
     и возвращаются.
 
@@ -74,7 +102,7 @@ def get_products_urls_list_from_files(
             в `mining_data_path`. По умолчанию None.
 
     Returns:
-        List[str]: Перемешанный список URL продуктов.
+        List[str]: Перемешанный список URL товаров.
     """
     # Объявление переменных
     products_urls_list: List[str] = []
@@ -86,7 +114,7 @@ def get_products_urls_list_from_files(
     product: Dict[str, Any] # Элемент списка crawl_data
 
     # Определяем список файлов для обработки
-    if crawl_files_list is None:
+    if not crawl_files_list:
         target_files = get_filenames_from_directory(mining_data_path, '*.json') # Ищем json по умолчанию
         logger.debug(f'Обработка всех json файлов из {mining_data_path}')
     else:
@@ -99,17 +127,17 @@ def get_products_urls_list_from_files(
             file_path = mining_data_path / filename
             # Загрузка данных из JSON файла
             crawl_data = j_loads(file_path)
-            # Проверка и извлечение списка продуктов
+            # Проверка и извлечение списка товаров
             if isinstance(crawl_data, dict) and 'products' in crawl_data:
                 products_data = crawl_data['products'] # Тип будет проверен ниже
-            elif isinstance(crawl_data, list): # Допускаем файл как список продуктов
+            elif isinstance(crawl_data, list): # Допускаем файл как список товаров
                 products_data = crawl_data
-                logger.debug(f"Файл {filename} содержит список продуктов напрямую.")
+                logger.debug(f"Файл {filename} содержит список товаров напрямую.")
             else:
                 logger.warning(f"Файл {filename} не содержит ключ 'products' или не является списком.", None, False)
                 continue # Переход к следующему файлу
 
-            # Проверка типа извлеченных продуктов
+            # Проверка типа извлеченных товаров
             if isinstance(products_data, list):
                  # Извлечение URL
                 for product_item in products_data: # Переименована переменная цикла
@@ -136,7 +164,7 @@ def get_products_urls_list_from_files(
 
     # Перемешивание списка URL
     random.shuffle(products_urls_list)
-    logger.info(f"Собрано и перемешано {len(products_urls_list)} URL продуктов.")
+    logger.info(f"Собрано и перемешано {len(products_urls_list)} URL товаров.")
     # Возвращаем список (даже если пустой)
     return products_urls_list
 
@@ -146,11 +174,11 @@ def yield_product_urls_from_files(
     pattern: str = '*.json' # Используем стандартный паттерн glob
 ) -> Generator[str, None, None]:
     """
-    Функция возвращает генератор URL продуктов из файлов директории.
+    Функция возвращает генератор URL товаров из файлов директории.
 
     Используется для обработки больших объемов данных без загрузки всех URL
     в память одновременно. Находит файлы по паттерну в указанной директории,
-    читает каждый файл, извлекает URL продуктов и выдает их по одному через yield.
+    читает каждый файл, извлекает URL товаров и выдает их по одному через yield.
 
     Args:
         directory (Path): Путь к директории с файлами данных.
@@ -158,7 +186,7 @@ def yield_product_urls_from_files(
                                   По умолчанию '*.json'.
 
     Yields:
-        Generator[str, None, None]: Генератор, возвращающий URL продуктов по одному.
+        Generator[str, None, None]: Генератор, возвращающий URL товаров по одному.
     """
     # Объявление переменных
     filenames: List[Path]
@@ -182,17 +210,17 @@ def yield_product_urls_from_files(
             # Загрузка данных из JSON файла
             crawl_data = j_loads(filename) # Передаем Path объект
 
-            # Извлечение списка продуктов
+            # Извлечение списка товаров
             if isinstance(crawl_data, dict) and 'products' in crawl_data:
                 products_data = crawl_data['products']
             elif isinstance(crawl_data, list):
                 products_data = crawl_data
-                logger.debug(f"Файл {filename.name} содержит список продуктов напрямую (генератор).")
+                logger.debug(f"Файл {filename.name} содержит список товаров напрямую (генератор).")
             else:
                 logger.warning(f"Файл {filename.name} не содержит ключ 'products' или не является списком (генератор).", None, False)
                 continue # Переход к следующему файлу
 
-            # Проверка типа извлеченных продуктов
+            # Проверка типа извлеченных товаров
             if isinstance(products_data, list):
                 # Извлечение и возврат URL через yield
                 for product_item in products_data:
@@ -226,7 +254,7 @@ def get_categories_from_files(
 
     Читает файлы из указанной директории `mining_data_path`. Если передан
     список `crawl_files_list`, обрабатываются только файлы из этого списка,
-    иначе обрабатываются все JSON-файлы в директории. Из данных каждого продукта
+    иначе обрабатываются все JSON-файлы в директории. Из данных каждого товара
     пытается извлечь значения по ключам 'parent_category' и 'category_name'.
     Собирает все найденные категории в один список, удаляет дубликаты,
     перемешивает и возвращает.
@@ -264,22 +292,22 @@ def get_categories_from_files(
             # Загрузка данных
             crawl_data = j_loads(file_path)
 
-            # Извлечение списка продуктов
+            # Извлечение списка товаров
             if isinstance(crawl_data, dict) and 'products' in crawl_data:
                  products_data = crawl_data['products']
             elif isinstance(crawl_data, list):
                  products_data = crawl_data
-                 logger.debug(f"Файл {filename} содержит список продуктов напрямую (категории).")
+                 logger.debug(f"Файл {filename} содержит список товаров напрямую (категории).")
             else:
                 logger.warning(f"Файл {filename} не содержит ключ 'products' или не является списком (категории). Переход к следующему файлу", None, False)
                 continue # Переход к следующему файлу
 
-            # Проверка типа извлеченных продуктов
+            # Проверка типа извлеченных товаров
             if not isinstance(products_data, list):
                 logger.warning(f"Извлеченные 'products' в файле {filename} не являются списком (категории, тип: {type(products_data)}).", None, False)
                 continue # Переход к следующему файлу
 
-            # Извлечение категорий из каждого продукта
+            # Извлечение категорий из каждого товара
             for product_item in products_data:
                 if not isinstance(product_item, dict):
                      logger.warning(f"Элемент в файле {filename} не является словарем (категории): {product_item}", None, False)
@@ -307,8 +335,7 @@ def get_categories_from_files(
     return categories_list
 
 
-
-def fetch_urls_from_all_mining_files(dir_path: Path| List[Path]  = ['random_urls','output_product_data_set1']) -> List[str]: # Используем Union и List[str] для лучшей типизации
+def fetch_urls_from_all_mining_files(dir_path: Path| List[Path]  = ['random_urls','output_product_data_set1']) -> List[str]: 
     """
     Читает все файлы (рекурсивно, как определено в recursively_get_file_path)
     в указанных директориях (относительно Config.ENDPOINT)
@@ -353,7 +380,7 @@ def fetch_urls_from_all_mining_files(dir_path: Path| List[Path]  = ['random_urls
                         found_urls.append(cleaned_url)
               
     except OSError as ex:
-        logger.error(f"Ошибка доступа к элементам директории '{dp}': {ex}")
+        logger.error(f"Ошибка доступа к элементам директории '{dp}':", ex)
         # ----------------
     except TypeError as ex:
         logger.error(ex)
@@ -370,8 +397,11 @@ def fetch_urls_from_all_mining_files(dir_path: Path| List[Path]  = ['random_urls
 # --- Основная часть скрипта ---
 if __name__ == "__main__":
 
-    mining_urls:list = fetch_urls_from_all_mining_files(['random_urls','output_product_data_set1'])
-    print(mining_urls)
+    res_dict:dict = build_list_of_checked_urls()
+    ...
+
+    # urls_for_mining:list = fetch_urls_from_all_mining_files(['random_urls','output_product_data_set1'])
+    # print(urls_for_mining)
     ...
 
     # # Запрашиваем путь у пользователя

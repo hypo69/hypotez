@@ -304,9 +304,7 @@ class Driver:
                 #self._save_cookies_localy() # Сохраняем куки
                 # self.html_content = self.driver.page_source # Сохраняем исходный код здесь? Или в fetch_html? Лучше в fetch_html.
                 return True
-            else:
-                 # Этот блок теперь избыточен из-за return False в цикле, но оставлен для ясности
-                 return False
+
 
         except InvalidArgumentException as ex:
             logger.error(f"Некорректный URL '{url}': {ex}")
@@ -484,7 +482,10 @@ class Driver:
                 try:
                     # Используем get_url для загрузки страницы
                     # get_url обновит self.current_url и self.previous_url
-                    if effective_url!=self.current_url: self.get_url(effective_url)
+                    if effective_url!=self.current_url: 
+                        if not self.get_url(effective_url):
+                            logger.critical(f'Что-то непонятное с драйвером!')
+                            ...
                     # После успешной загрузки через Selenium, получаем исходный код
                     full_html = self.driver.page_source
                     if full_html:
@@ -514,8 +515,8 @@ class Driver:
                     return body_content # УСПЕХ! Возвращаем извлеченное тело.
                 else:
                     # Загрузка удалась, но извлечение body не удалось. Возвращаем False согласно требованию.
-                    logger.error(f"Загружен контент из {effective_url}, но не удалось извлечь контент <body>.")
-                    return False
+                    logger.debug(f"Загружен контент из {effective_url}, но не удалось извлечь контент <body>.")
+                    return full_html #### ВНИМАНИЕ!!!!!! 
             else:
                 # Этот путь не должен достигаться, если логика выше верна,
                 # но служит запасным вариантом, если full_html остался None без возврата False ранее.

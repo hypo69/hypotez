@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Sensata Klixon Thermal Circuit Breakers (Aircraft)",
+      "product_url": "https://www.sensata.com/products/circuit-breakers/aircraft-circuit-breakers/thermal-circuit-breakers",
+      "category_name": "Aircraft Circuit Breaker (Thermal)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Carlisle Interconnect Technologies Octax® High-Speed Data Connectors",
+      "product_url": "https://www.carlisleit.com/products/connectors-accessories/octax-high-speed-data-connectors/",
+      "category_name": "High Speed Data Connector",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Liebherr Aerospace Landing Gear Systems (Electronic Controls)",
+      "product_url": "https://www.liebherr.com/en/int/products/aerospace-and-transportation-systems/aerospace/landing-gear-systems/landing-gear-systems.html",
+      "category_name": "Landing Gear System Electronics",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Woodward Fuel Nozzles (with sensors/controls)",
+      "product_url": "https://www.woodward.com/en/products/aerospace-defense/combustion",
+      "category_name": "Fuel Nozzle (with electronics)",
+      "parent_category": "Engine Control & Monitoring"
+    },
+    {
+      "product_name": "Honeywell Anthem Integrated Flight Deck",
+      "product_url": "https://aerospace.honeywell.com/us/en/learn/products/cockpit-systems-and-displays/honeywell-anthem",
+      "category_name": "Integrated Avionics Suite",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Collins Aerospace Heads-up Guidance System (HGS™)",
+      "product_url": "https://www.collinsaerospace.com/what-we-do/industries/business-aviation/vision-systems/head-up-display",
+      "category_name": "Head-Up Display (HUD)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Garmin GI 275 Electronic Flight Instrument",
+      "product_url": "https://www.garmin.com/en-US/p/604024",
+      "category_name": "Electronic Flight Instrument",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Thales Flight Deck Connectivity Solutions",
+      "product_url": "https://www.thalesgroup.com/en/markets/aerospace/connectivity/flight-deck",
+      "category_name": "Flight Deck Connectivity",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Safran eAPU (Electric Auxiliary Power Unit)",
+      "product_url": "https://www.safran-power-units.com/eapu",
+      "category_name": "Electric Auxiliary Power Unit (eAPU)",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "GE Aviation TrueCourse™ Flight Management System",
+      "product_url": "https://www.geaviation.com/digital/applications/flight-management-systems",
+      "category_name": "Flight Management System (FMS)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "L3Harris SRVIVR25™ Cockpit Voice and Flight Data Recorder",
+      "product_url": "https://www.l3harris.com/all-capabilities/srvivr25-cockpit-voice-and-flight-data-recorder",
+      "category_name": "Combined CVR/FDR Recorder",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Moog Electrohydraulic Servovalves (Aircraft)",
+      "product_url": "https://www.moog.com/products/servovalves-proportional-valves/aircraft.html",
+      "category_name": "Electrohydraulic Servovalve",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Parker Aerospace Electric Backup Hydraulic Actuation (EBHA)",
+      "product_url": "https://www.parker.com/us/en/products/electric-backup-hydraulic-actuation-ebha-.html",
+      "category_name": "Electro-Hydraulic Actuator",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Eaton Aerospace Emergency Lighting Systems",
+      "product_url": "https://www.eaton.com/us/en-us/catalog/aerospace-and-defense/emergency-lighting-systems.html",
+      "category_name": "Emergency Lighting System",
+      "parent_category": "Aircraft Electrical Systems & Components"
+    },
+    {
+      "product_name": "Avidyne SkyTrax100B ADS-B Receiver",
+      "product_url": "https://www.avidyne.com/product/skytrax100-ads-b-receiver/",
+      "category_name": "ADS-B Receiver",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Aspen Avionics Connected Panel™ Gateway",
+      "product_url": "https://aspenavionics.com/products/general-aviation/connected-panel/",
+      "category_name": "Connectivity Gateway",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Teledyne Controls Loadstar® Server Enterprise (LSE) Software Loader",
+      "product_url": "https://www.teledynecontrols.com/products-and-services/ground-software-solutions/loadstar-server-enterprise",
+      "category_name": "Avionics Data Loader Software",
+      "parent_category": "Ground Support Equipment (GSE) Electronics"
+    },
+    {
+      "product_name": "Curtiss-Wright Enhanced Airborne Flight Recorder (EAFR)",
+      "product_url": "https://www.curtisswrightds.com/products/recorders/combined-recorders/eafr/",
+      "category_name": "Combined CVR/FDR Recorder",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "Astronics Max-Viz Enhanced Vision Systems (EVS)",
+      "product_url": "https://www.astronics.com/products/aerospace/enhanced-vision-systems",
+      "category_name": "Enhanced Vision System (EVS)",
+      "parent_category": "Avionics Systems & Instruments"
+    },
+    {
+      "product_name": "BendixKing AeroCruze 230 (KFC 230) Autopilot",
+      "product_url": "https://www.bendixking.com/en/products/aerocruze-230",
+      "category_name": "Autopilot / Flight Control System",
+      "parent_category": "Avionics Systems & Instruments"
+    }
+  ]
+}

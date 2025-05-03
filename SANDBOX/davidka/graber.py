@@ -35,6 +35,7 @@ FORBIDDEN_KEYWORDS = {
 }
 
 
+
 def is_internal(base_url, link_url):
     """Проверяет, является ли ссылка внутренней по отношению к базовому URL."""
     try:
@@ -93,26 +94,21 @@ def update_output_dict(data:str, timestamp:str, url:str) -> bool:
         return False
 
     logger.success(f'Файл {output_file} - Записан!')
-    save_text_file = Path(rf"F:\llm\checked_urls.txt")
     return True
 
 
 # --- Основной блок выполнения ---
 if __name__ == "__main__":
-
     driver = Driver(Firefox, window_mode= 'headless')
     timestamp: str = gs.now
     url_list: list = []
-    checked_urls:list = read_text_file(Path(rf"F:\llm\checked_urls.txt"), as_list=True)
+    checked_urls:list = read_text_file(Path(rf"F:/llm/checked_urls.txt"), as_list=True)
 
     # 1. Получаем список URL 
     try:
-       url_list = utils.fetch_urls_from_all_mining_files(['random_urls','output_product_data_set1']) 
+       fetched_urls_list:list = utils.fetch_urls_from_all_mining_files(['random_urls','output_product_data_set1']) 
+       actual_urls:list = fetched_urls_list - checked_urls
 
-    except NameError: # Обработка случая, когда utils не импортирован
-        print("Используется тестовый список URL (utils не найден).")
-        # Используем тестовый список из заглушки utils
-        url_list = utils.fetch_urls_from_all_mining_files([])
     except Exception as ex:
         print(f"Ошибка при получении списка URL: ",ex)
         url_list = [] # Пустой список в случае ошибки
@@ -167,12 +163,14 @@ if __name__ == "__main__":
             ...
             raise
 
-        # 4. Создаем драйвер ОДИН РАЗ (как в вашем коде)
+        # 4. Создаем драйвер 
         
         try:
 
             # driver.get_url(target_url) # Если используете get_url
-            driver.fetch_html(target_url) 
+            if not driver.fetch_html(target_url):
+                logger.critical(f"Ошибка получения HTML для {target_url} \n Необходимо как - то обработать эту ошибку", None, True)
+                ...
             #print("HTML страницы получен.")
 
             # 6. Извлекаем данные (как в вашем коде, передавая target_url)
@@ -194,6 +192,8 @@ if __name__ == "__main__":
                 #     print("Внутренние ссылки не найдены.")
                 # print(f"\nВсего найдено внутренних ссылок: {len(data['internal_links'])}")
                 update_output_dict(data, timestamp, target_url)
+                checked_urls.append(target_url)
+                save_text_file(checked_urls, checked_urls_file)
             else:
                 logger.error("\nНе удалось извлечь данные со страницы (extract_page_data не вернул результат).", None, False)
 
