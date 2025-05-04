@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "Siemens SENTRON 3LD Main and Emergency Stop Switches",
+      "product_url": "https://new.siemens.com/global/en/products/energy/low-voltage/components/sentron-switching-devices/main-emergency-stop-switches.html",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Schneider Electric Spacial S3D steel wall-mounting enclosure",
+      "product_url": "https://www.se.com/ww/en/product-range/1444-spacial-s3d/",
+      "category_name": "Distribution Boards & Enclosures",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "ABB CT-D range Timers (DIN Rail)",
+      "product_url": "https://new.abb.com/low-voltage/products/control-products/electronic-relays-and-controls/time-relays/ct-d-range",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Eaton Dumeco Switch Disconnectors",
+      "product_url": "https://www.eaton.com/gb/en-gb/catalog/low-voltage-power-distribution-circuit-protection---safety/dumeco-switch-disconnectors.html",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Legrand MicroRex Time switches (DIN Rail)",
+      "product_url": "https://www.legrand.com/ecatalogue/time-switches-lighting-management-and-movement-detectors/time-switches/analogue-time-switches.html",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Hager ESC225S Contactor 25A 2NO Silent",
+      "product_url": "https://hager.com/uk/products/e/esc225s-contactor-25a-2no-silent",
+      "category_name": "Modular Contactors",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Phoenix Contact VALVETRAB SEC Type 2 surge protection",
+      "product_url": "https://www.phoenixcontact.com/en-pc/products/surge-protection-type-2/valvetrab-sec",
+      "category_name": "Surge Protective Devices (SPD)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "WAGO High-Current Terminal Blocks Power CAGE CLAMP",
+      "product_url": "https://www.wago.com/global/rail-mount-terminal-blocks/high-current-terminal-block",
+      "category_name": "Terminal Blocks (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Weidmüller Wire Strippers Stripax",
+      "product_url": "https://www.weidmuller.com/en/products/tools/cutting_stripping_crimping/stripping_tools/index.jsp",
+      "category_name": "Panel Building Tools",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Gewiss GW DPT - Digital Panel Timer (Panel Mount)",
+      "product_url": "https://www.gewiss.com/ww/en/products/product-catalogue/catalogue-power/devices-for-protection-interruption-and-control/modular-protection-devices/timers/gw-dpt-digital-panel-timer",
+      "category_name": "Panel Meters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Socomec ATyS t M - Modular Transfer Switching Equipment",
+      "product_url": "https://www.socomec.com/en-gb/product/atys-t-m",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Lovato Electric GAE series Soft starters",
+      "product_url": "https://www.lovatoelectric.com/product/P13A/Soft%20starters%20GAE...%20series",
+      "category_name": "Motor Starters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Chint NXM Series Moulded Case Circuit Breaker",
+      "product_url": "https://chintglobal.com/products/nxm",
+      "category_name": "Molded Case Circuit Breakers (MCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Mitsubishi Electric ME96SS Series Super-S Meter (Panel Mount)",
+      "product_url": "https://www.mitsubishielectric.com/fa/products/lvs/idem/monitor/ss/index.html",
+      "category_name": "Panel Meters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Fuji Electric Command Switches (Pushbuttons, Selectors)",
+      "product_url": "https://www.fujielectric.com/products/mc/command_switch.html",
+      "category_name": "Push Buttons & Pilot Lights (Panel Mount)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Rockwell Allen-Bradley 1694 Electronic Circuit Protection Modules",
+      "product_url": "https://www.rockwellautomation.com/en-us/products/hardware/allen-bradley/circuit-and-load-protection/electronic-circuit-protection/1694-electronic-circuit-protection-modules.html",
+      "category_name": "Electronic Circuit Breakers",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "OEZ OFI Residual current circuit breakers",
+      "product_url": "https://www.oez.com/en/produkty/minia-modular-devices-product-list/residual-current-circuit-breakers-ofi-accessories-product-list",
+      "category_name": "Residual Current Devices (RCD/RCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Noark Electric Ex9S32 Manual Motor Starters",
+      "product_url": "https://www.noark-electric.eu/en/catalog/group/detail/7-manual-motor-starters-ex9s32",
+      "category_name": "Motor Starters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "ETI EVE NH vertical fuse switch disconnectors",
+      "product_url": "https://www.etigroup.eu/products/circuit-breakers-and-fuses/lv-nh-fuse-switch-disconnectors-strips/nh-vertical-fuse-switch-disconnectors-eve-sizes-00-1-2-3",
+      "category_name": "Fuse Disconnect Switches",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Finder 7F Series Filter Fans for enclosures",
+      "product_url": "https://www.findernet.com/en/worldwide/products/families/7F",
+      "category_name": "Panel Accessories",
+      "parent_category": "Panelboard Equipment"
+    }
+  ]
+}

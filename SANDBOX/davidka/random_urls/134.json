@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "product_name": "LS Electric MMS Series Manual Motor Starter",
+      "product_url": "https://www.ls-electric.com/products/category/Motor_Protection_Control/Manual_Motor_Starter",
+      "category_name": "Motor Starters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Terasaki AR ACB Accessories (Undervoltage Release)",
+      "product_url": "https://www.terasaki.com/products-services/low-voltage-products/air-circuit-breakers/",
+      "category_name": "Panel Accessories",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "DEHNcord R 3P surge arrester",
+      "product_url": "https://www.dehn-international.com/en/900460-dc-r-3p-275",
+      "category_name": "Surge Protective Devices (SPD)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Schrack Technik AD RCCB Add-On Block",
+      "product_url": "https://www.schrack.com/web/en/products/power-engineering/modular-devices/residual-current-circuit-breakers-rccb/ad-rccb-add-on-block-4p-40a-30ma-type-ac.html",
+      "category_name": "Residual Current Devices (RCD/RCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "BENEDICT Thermistor Relays MTR1",
+      "product_url": "https://benedict.at/en/products/thermistor-relays/",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "nVent HOFFMAN Thermal Management (Air Conditioners)",
+      "product_url": "https://hoffman.nvent.com/en-us/products/thermal-management",
+      "category_name": "Panel Accessories",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Wöhner QUADRON® NH Fuse Switch Disconnectors",
+      "product_url": "https://www.woehner.com/en/products/quadron",
+      "category_name": "Fuse Disconnect Switches",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "CIRCUTOR RGU-10 Earth leakage relay (DIN Rail)",
+      "product_url": "https://circutor.com/en/products/protection-control/earth-leakage-protection/din-rail-earth-leakage-relays/rgu-10-earth-leakage-relay-13820/",
+      "category_name": "Residual Current Devices (RCD/RCCB)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "IDEC FL1F SmartRelay PLC",
+      "product_url": "https://www.idec.com/products/programmable-logic-controllers-plcs/fl1f-smartrelay",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Omron MY General-purpose Relays (Plug-in)",
+      "product_url": "https://industrial.omron.eu/en/products/my",
+      "category_name": "Timers & Control Relays (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Wieland Electric taris VTC voltage transformer terminal block",
+      "product_url": "https://www.wieland-electric.com/en-gb/products/terminal-blocks/functional-terminal-blocks-taris-vtc/",
+      "category_name": "Terminal Blocks (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "PULS FIEPOS Field Power Supplies",
+      "product_url": "https://www.pulspower.com/products/product-ranges/fiepos-field-power-supplies/",
+      "category_name": "Power Supplies (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "C&S Electric Changeover Switches",
+      "product_url": "https://www.cselectric.co.in/changeover-switches",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Havells HUMRAH DOL Motor Starters",
+      "product_url": "https://www.havells.com/en/industrial/motor-starter/dol-motor-starters.html",
+      "category_name": "Motor Starters",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Jean Müller KETO Fuse Switch Disconnectors",
+      "product_url": "https://www.jeanmueller.de/en/products/nh-fuse-switch-disconnectors/nh-fuse-switch-disconnectors-keto/",
+      "category_name": "Fuse Disconnect Switches",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Carlo Gavazzi CTD Series Current Transformers",
+      "product_url": "https://www.gavazziautomation.com/nsc/HQ/EN/product/CTD",
+      "category_name": "Panel Accessories",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Kraus & Naimer KG10 - KG105 Switches",
+      "product_url": "https://www.krausnaimer.com/en/products/switches/product/KG",
+      "category_name": "Switches & Disconnectors (Load Break Switches)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Klemsan Akım Transformatörleri (Current Transformers)",
+      "product_url": "https://klemsan.com/urunler/enerji-yonetimi/akim-transformatorleri/",
+      "category_name": "Panel Accessories",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Mersen HP Series Fuses for Photovoltaic Systems",
+      "product_url": "https://ep.mersen.com/products/catalog/type/fuses-iec/line/hp-series-fuses-photovoltaic-systems",
+      "category_name": "Fuse Holders & Fuses (DIN Rail)",
+      "parent_category": "Panelboard Equipment"
+    },
+    {
+      "product_name": "Hyundai Electric HiRO Series Residual Current Circuit Breaker (RCCB)",
+      "product_url": "https://www.hyundai-electric.com/elec/en/products/lvcs/RCCB.jsp",
+      "category_name": "Residual Current Devices (RCD/RCCB)",
+      "parent_category": "Panelboard Equipment"
+    }
+  ]
+}
