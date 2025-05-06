@@ -1,17 +1,17 @@
 ## \file /src/utils/image.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
 """
-.. module:: src.utils.image
-    :platform: Windows, Unix
-    :synopsis: Image Processing Utilities
-
 This module provides asynchronous functions for downloading, saving, and manipulating images.
+=================================================================================================
+
 It includes functionalities such as saving images from URLs, saving image data to files,
 retrieving image data, finding random images within directories, adding watermarks, resizing,
 and converting image formats.
+```rst
+.. module:: src.utils.image
+```
 """
 
 import aiohttp

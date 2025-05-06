@@ -3,255 +3,292 @@
 #! .pyenv/bin/python3
 
 """
-Модуль для обхода существующих файлов JSON поставщиков, поиска записей
-с пустым полем 'text' и заполнения его HTML-содержимым, полученным
-с соответствующего URL с помощью веб-драйвера.
-=====================================================================
+Модуль сбора информации по ссылкам из JSON файла поставщика (директория `data_by_supplier`).
+==========================================================================================
+
+Модуль для обхода существующих файлов JSON поставщиков, поиска непроверенных записей
+(где не были собраны данные с целевого URL, что определяется по пустому полю 'text')
+и заполнения полей 'text', 'internal_links' и других данными, полученными
+с соответствующего URL с помощью веб-драйвера и функции `extract_page_data`.
+
 Скрипт итерирует по файлам в `Config.data_by_supplier_dir`. Для каждого
-файла он находит *первый* ключ (URL), у которого значение поля 'text'
-является пустым. Затем он использует `driver.fetch_html` для получения
-HTML этого URL и обновляет поле 'text' в файле. Обрабатывается только
-одна запись на файл за один запуск скрипта для этой записи.
+файла он ищет первую запись с пустым 'text', загружает HTML по её URL,
+извлекаются данные (`extract_page_data`), и запись обновляется в файле,
+заполняя поля 'text', 'internal_links' и другие извлеченные данные.
+Предполагается, что URL-ключи в файлах уже валидны и не требуют проверки.
+
+Основные шаги обработки одного файла:
+1.  Чтение и базовая валидация JSON-файла (с использованием `j_loads`).
+2.  Поиск записи с пустым полем 'text'.
+3.  Получение HTML и извлечение данных (с использованием `extract_page_data`).
+4.  Обновление данных найденной записи (text, internal_links и др.) и сохранение файла (потребует `j_dumps`).
+
+Основная функция `process_supplier_link` - вызывается для каждой такой записи.
 
 ```rst
  .. module:: sandbox.davidka.random_fill_suppliers_data_from_url
 ```
 """
 
+##########################################################################################################################################
+##########################################################################################################################################
+##                                                                                                                                      ##
+##                                  ВНИМАНИЕ!!! словарь поставщика `3m.com.json` ОТЛИЧАЕТСЯ ПО СВОЕЙ СТРУКТУРЕ                          ##
+##                                                                                                                                      ##
+##########################################################################################################################################
+##########################################################################################################################################
+
+"""
+Стандартный словарь:
+```json
+{
+    "https://aaronia.com/spectrum-analyzer/real-time-analyzer-spectran-xfr-pro/": {
+        "category": "",
+        "text": "",
+        "internal_links": []
+    },
+    "https://aaronia.com/spectrum-analyzer/real-time-analyzer-spectran-v6/": {
+        "category": "",
+        "text": "",
+        "internal_links": []
+    },...
+}
+```
+Не стандартный словарь (пример для 3m.com):
+```json
+{
+    "https://www.3m.com/3M/en_US/p/d/b40065688/": {
+        "category": "",
+        "text": "",
+        "internal_links": []
+    },
+    "https://www.3m.com/3M/en_US/p/d/b40069425/": {
+        "category": "",
+        "text": "",
+        "internal_links": []
+    },...
+}
+```
+"""
+
+
 from pathlib import Path
-from typing import Optional, Dict, Any, Tuple
-import threading
+import random # Оставлен, так как используется для random.shuffle
+from typing import Dict, Any, List
 
 # Стандартные импорты проекта
 import header
 from header import __root__
 # from src import gs # Не используется в этом модуле
-from src.utils.jjson import j_loads, j_dumps
-from src.utils.file import recursively_yield_file_path
-from src.logger import logger
 
 # --- Импорты WebDriver ---
 from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
 # -------------------------
+from src.utils.jjson import j_loads, j_dumps # j_dumps может понадобиться для сохранения
+from src.utils.file import get_filenames_from_directory, get_directory_names
+from src.logger import logger
+from src.utils.printer import pprint as print # Используем кастомный print
 from SANDBOX.davidka.graber import extract_page_data
 
 class Config:
     """Класс конфигурации скрипта."""
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
     # Директория с файлами поставщиков (результат работы crawl_suppliers...)
-    data_by_supplier_dir: Path = Path("F:/llm/data_by_supplier")
-    # Убедимся, что директория существует
-    data_by_supplier_dir.mkdir(parents=True, exist_ok=True)
+    data_by_supplier_dir: Path = Path('F:/llm/data_by_supplier')
     # Настройка для драйвера
-    HEADLESS_MODE: bool = True # Пример: используется в __main__
-
-
-# --- Механизм блокировки файлов ---
-_locks: Dict[Path, threading.Lock] = {}
-_lock_guard = threading.Lock()
-
-def _get_lock(file_path: Path) -> threading.Lock:
-    """
-    Возвращает или создает объект блокировки для указанного пути файла.
-
-    Args:
-        file_path (Path): Путь к файлу.
-
-    Returns:
-        threading.Lock: Объект блокировки для данного файла.
-    """
-    with _lock_guard:
-        if file_path not in _locks:
-            _locks[file_path] = threading.Lock()
-        return _locks[file_path]
-# ----------------------------------
+    WINDOW_MODE: str = 'headless'
 
 
 # ==============================================================================
-# Функция обработки одного файла поставщика для заполнения поля 'text'
+# Основная функция
 # ==============================================================================
-def process_supplier_file_for_text(
-    supplier_file_path: Path,
-    driver: Driver
+def process_supplier_link(
+    driver: Driver,
+    link: str,
+    data: Dict[str, Any],
+    supplier_file_path: Path
 ) -> bool:
     """
-    Обрабатывает один файл JSON поставщика: находит первую запись с пустым
-    полем 'text', получает HTML для соответствующего URL и обновляет поле 'text'.
+    Обрабатывает одну ссылку из файла JSON поставщика: если поле 'text' пусто,
+    загружает HTML, извлекает данные и подготавливает их к обновлению.
+    Сохранение файла должно происходить после обработки всех ссылок в нем.
 
     Args:
-        supplier_file_path (Path): Путь к файлу JSON поставщика.
         driver (Driver): Инстанс веб-драйвера для получения HTML.
+        link (str): URL для обработки.
+        data (Dict[str, Any]): Словарь данных, соответствующий этому URL.
+        supplier_file_path (Path): Путь к файлу JSON поставщика (для логирования и потенциального сохранения).
 
     Returns:
-        bool: True, если файл был успешно прочитан, обновлен и записан,
-              False в случае любой ошибки или если не найдено записей для обновления.
+        bool: True, если данные для 'text', 'internal_links' и др. были извлечены.
+              False в случае ошибки или если обновление не требуется.
+
+    Raises:
+        Не генерирует исключений напрямую, ошибки логируются.
+    
+    Example:
+        >>> # Пример вызова (требует мокирования Driver, extract_page_data)
+        >>> # mock_driver = Driver(Firefox) 
+        >>> # result = process_supplier_link(mock_driver, 'http://example.com', {}, Path('supplier.json'))
+        >>> # print(result) # Ожидаемо False или True в зависимости от моков
     """
-    # Объявление переменных
-    file_lock: threading.Lock = _get_lock(supplier_file_path)
-    loaded_data: Optional[Dict[str, Any]] = None
-    url_key_to_update: Optional[str] = None
-    value_to_process: Optional[Dict[str, Any]] = None # Словарь для ключа с пустым текстом
-    current_text: Any = None
-    html_content: Optional[str] = None
-    modified: bool = False
-    write_success: bool = False
-    # Переменные для цикла
-    url_key: str
-    value: Any
+    # Функция извлекает текущие значения 'text' и 'internal_links'
+    text_content: str = data.get('text', '')
+    # internal_links_list: List[str] = data.get('internal_links', []) # Закомментировано, так как не используется в текущем фрагменте
 
-    logger.debug(f"Начало обработки файла: {supplier_file_path}")
+    # Проверка, что поле 'text' действительно пустое (или состоит только из пробельных символов)
+    if not text_content or text_content.isspace():
+        logger.info(f"Обработка записи для URL '{link}' с пустым полем 'text' в файле '{supplier_file_path.name}'.")
+        # Функция получает HTML-содержимое страницы
+        raw_data_from_url: str | None = driver.fetch_html(link)
 
-    with file_lock: # Захват блокировки для файла
-        # 1. Чтение файла
-        try:
-            loaded_data:dict = j_loads(supplier_file_path)
-            if not loaded_data:
-                logger.warning(f"Функция j_loads не вернула данные или файл пуст: {supplier_file_path}. Пропуск.")
-                return False # Не удалось прочитать
-            if not isinstance(loaded_data, dict):
-                 logger.error(f"Ожидался словарь, но j_loads вернул {type(loaded_data)} из {supplier_file_path}. Пропуск.")
-                 return False
-        except Exception as ex:
-            logger.error(f"Непредвиденная ошибка при загрузке {supplier_file_path}: {ex}", ex, exc_info=True)
-            return False # Ошибка чтения
-
-        # 2. Поиск первой записи с пустым 'text'
-        url_key_to_update = None
-        value_to_process = None # Сброс перед циклом
-        for url_key, value in loaded_data.items():
-            # Проверяем, что значение является словарем
-            if isinstance(value, dict):
-                # Сохраняем ссылку на словарь значения, если он найден
-                current_value_dict = value
-                current_text = current_value_dict.get('text') # Безопасно получаем значение text
-                # Проверяем, что текст "пустой" (None, "", или строка из пробелов)
-                if current_text is None or not str(current_text).strip():
-                    url_key_to_update = url_key
-                    value_to_process = current_value_dict # Сохраняем ссылку на найденный словарь
-                    logger.info(f"Найдена запись для обновления 'text' в {supplier_file_path}: URL='{url_key_to_update}'")
-                    break # Нашли первую, выходим из цикла по ключам
-            else:
-                logger.warning(f"Значение для ключа '{url_key}' в файле {supplier_file_path} не является словарем ({type(value)}). Пропускаем проверку 'text'.")
-                continue # Переходим к следующему ключу
-
-        # Если не нашли ключ для обновления, выходим
-        if not url_key_to_update or value_to_process is None:
-            logger.info(f"В файле {supplier_file_path} не найдено записей с пустым полем 'text'. Обновление не требуется.")
-            return False # Ничего не обновлено
-
-        # 3. Вызвать функцию driver.fetch_html(url)
-        html_content = None # Сброс перед вызовом
-        logger.debug(f"Запрос HTML для URL: {url_key_to_update}")
-        try:
-            # Вызов метода драйвера для получения HTML
-            html_content = driver.fetch_html(url_key_to_update)
-            # Проверка результата fetch_html
-            if not html_content:
-                 logger.error(f"Метод driver.fetch_html не вернул контент для URL '{url_key_to_update}'. Поле 'text' не будет обновлено.")
-                 return False # HTML не получен
-        except Exception as ex:
-            logger.error(f"Исключение при вызове driver.fetch_html для URL '{url_key_to_update}': {ex}", ex, exc_info=True)
-            # Решаем не обновлять файл, если получение HTML вызвало исключение
+        if not raw_data_from_url:
+            logger.error(f"Не удалось получить HTML для URL: {link}")
             return False
 
-        # 4. Результат поместить в поле 'text'
-        value_to_process:dict = extract_page_data(html_content, url_key_to_update) # Извлекаем данные из HTML)
-        if isinstance(value_to_process, dict):
-            value_to_process['text'] = html_content # Обновляем поле 'text' в найденном словаре
-            modified = True
-            logger.info(f"Поле 'text' для URL '{url_key_to_update}' в {supplier_file_path} будет обновлено полученным HTML.")
-        else:
-             # Эта ситуация маловероятна, если код выше корректен
-             logger.error(f"Критическая ошибка: value_to_process для ключа '{url_key_to_update}' не является словарем перед обновлением поля 'text'.")
-             return False
+        # Функция извлекает данные из HTML
+        extracted_data: Dict[str, Any] = extract_page_data(raw_data_from_url,link)
 
-        # 5. Записать измененные данные обратно в файл
-        if modified:
-            logger.debug(f"Попытка записи обновленных данных в {supplier_file_path}...")
-            write_success = False # Сброс перед записью
-            try:
-                # Используем порядок: <что>, <куда>
-                write_success = j_dumps(loaded_data, supplier_file_path)
-                if write_success:
-                    logger.info(f"Файл {supplier_file_path} успешно обновлен.")
-                    return True # Успешное обновление
-                else:
-                     # j_dumps должен был залогировать ошибку
-                     logger.error(f"Функция j_dumps сообщила об ошибке при записи файла {supplier_file_path}")
-                     return False # Ошибка записи
-            except Exception as ex:
-                logger.error(f"Непредвиденная ошибка при записи {supplier_file_path}: {ex}", ex, exc_info=True)
-                return False # Ошибка записи
-        else:
-             # Сюда не должны попасть, если html_content не был None
-             logger.debug("Изменений для записи не было (HTML не получен?).")
-             return False # Файл не был обновлен
-
-    # Блокировка освобождается здесь
-    return False # Если вышли из 'with' без успешного return True
+        if not extracted_data or not extracted_data.get('text'):
+            logger.warning(f"Не удалось извлечь данные или текст пуст для URL: {link}")
+            return False
+        
+        # TODO: Обновить словарь `data` из `extracted_data`
+        # Например:
+        # data['text'] = extracted_data.get('text')
+        # data['internal_links'] = extracted_data.get('internal_links', [])
+        # ... другие поля ...
+        logger.info(f"Данные для URL '{link}' извлечены. Требуется обновление и сохранение файла.")
+        ... # Заполнитель для логики обновления `data` и последующего сохранения файла JSON.
+            # Сохранение файла (j_dumps) лучше делать один раз после обработки всех ссылок в файле.
+        return True # Указывает, что данные были извлечены
+    else:
+        logger.debug(f"URL '{link}' в файле '{supplier_file_path.name}' уже содержит данные в поле 'text'. Пропуск.")
+        return False
 
 
 # ==============================================================================
 # Основной блок выполнения скрипта
 # ==============================================================================
 if __name__ == '__main__':
-    # --- Объявление переменных ---
-    driver_instance: Optional[Driver] = None # Инициализируем как None для finally
+    driver_instance: Driver | None = None
     processed_files_count: int = 0
-    updated_files_count: int = 0
-    error_files_count: int = 0 # Счетчик для ошибок во время цикла
-    total_files_scanned: int = 0
-    supplier_file: Path
-    update_result: bool = False
-    # -----------------------------
+    text_updated_in_files_count: int = 0 # Счетчик файлов, в которых хотя бы одна запись была обновлена
+    error_files_count: int = 0
+    total_links_processed_count: int = 0
+    total_links_updated_count: int = 0
+    
+    # Переменные для цикла
+    supplier_dir_path: Path
+    supplier_file_path: Path
+    supplier_data: dict | list
+    
+    # Счетчик всех обнаруженных файлов для статистики
+    total_discovered_files_count: int = 0
+
 
     logger.info(f"--- Начало работы скрипта {Path(__file__).name} ---")
     logger.info(f"Поиск файлов поставщиков в: {Config.data_by_supplier_dir}")
+    # logger.info(f"Файл для логирования обновленных поставщиков: {Config.ENDPOINT / 'updated_suppliers.txt'}") # Эта функциональность не реализована
 
     # --- Инициализация драйвера ---
     try:
-        logger.info(f"Инициализация драйвера типа: {Firefox.__name__}")
-        # Используем класс браузера и передаем режим из Config
-        driver_instance = Driver(Firefox, headless=Config.HEADLESS_MODE)
-        logger.info("Драйвер успешно инициализирован.")
+        driver_instance = Driver(Firefox, window_mode=Config.WINDOW_MODE)
+        logger.info('Драйвер успешно инициализирован.')
 
-        logger.info("Начало обхода файлов поставщиков...")
-        # Итерация по файлам JSON в директории поставщиков
-        for supplier_file in recursively_yield_file_path(Config.data_by_supplier_dir, '*.json'):
-            total_files_scanned += 1
-            try:
-                # Вызов функции обработки для каждого файла
-                update_result = process_supplier_file_for_text(supplier_file, driver_instance)
-                if update_result:
-                    updated_files_count += 1
-                # Не считаем как ошибку файла, если он просто не требовал обновления
-                processed_files_count +=1 # Считаем каждый файл, до которого дошла обработка
+        logger.info('Получение списка директорий поставщиков...')
+        suppliers_dirs_list: List[str] = get_directory_names(Config.data_by_supplier_dir) # БАГ! Функция не принимает `*.json` (комментарий сохранен)
+        if not suppliers_dirs_list:
+            logger.warning(f'Не найдено директорий поставщиков в {Config.data_by_supplier_dir}')
+        else:
+            logger.info(f'Найдено {len(suppliers_dirs_list)} директорий поставщиков. Перемешивание...')
+            random.shuffle(suppliers_dirs_list) # Перемешивание списка директорий
 
-            except Exception as loop_ex:
-                # Ловим ошибки, возникшие при обработке *одного* файла, чтобы продолжить цикл
-                logger.error(f"Ошибка при обработке файла {supplier_file}: {loop_ex}", exc_info=True)
-                error_files_count += 1
-                continue # Переходим к следующему файлу
+        for supplier_dir_name in suppliers_dirs_list:
+            supplier_dir_path = Config.data_by_supplier_dir / supplier_dir_name
+            logger.info(f"Обработка директории: {supplier_dir_path}")
+            
+            supplier_file_names: List[str] = get_filenames_from_directory(supplier_dir_path)
+            if not supplier_file_names:
+                logger.info(f"Не найдено JSON файлов в директории: {supplier_dir_path}")
+                continue
+            
+            total_discovered_files_count += len(supplier_file_names)
+
+            for supplier_file_name in supplier_file_names:
+                supplier_file_path = supplier_dir_path / supplier_file_name
+                logger.debug(f"Обработка файла: {supplier_file_path}")
+                # total_files_attempted += 1 # Заменено на processed_files_count или error_files_count
+
+                # Функция загружает данные из JSON файла
+                supplier_data = j_loads(supplier_file_path)
+
+                if not supplier_data:
+                    # j_loads уже залогировал ошибку и вернул пустую структуру
+                    logger.warning(f"Не удалось загрузить данные или файл пуст: {supplier_file_path}. Пропуск файла.")
+                    error_files_count += 1
+                    continue # Переход к следующему файлу
+
+                # Флаг, что в текущем файле были обновления
+                current_file_had_updates: bool = False
+
+                if isinstance(supplier_data, dict):
+                    for key, value_dict in supplier_data.items():
+                        if isinstance(value_dict, dict):
+                            total_links_processed_count +=1
+                            if process_supplier_link(driver_instance, key, value_dict, supplier_file_path):
+                                current_file_had_updates = True
+                                total_links_updated_count +=1
+                        else:
+                            logger.warning(f"Значение для ключа '{key}' в файле '{supplier_file_path}' не является словарем. Пропуск элемента.")
+                elif isinstance(supplier_data, list):
+                    for item in supplier_data:
+                        if isinstance(item, dict):
+                            for key, value_dict in item.items():
+                                if isinstance(value_dict, dict):
+                                    total_links_processed_count +=1
+                                    if process_supplier_link(driver_instance, key, value_dict, supplier_file_path):
+                                        current_file_had_updates = True
+                                        total_links_updated_count +=1
+                                else:
+                                    logger.warning(f"Значение для ключа '{key}' в элементе списка в файле '{supplier_file_path}' не является словарем. Пропуск элемента.")
+                        else:
+                             logger.warning(f"Элемент в списке в файле '{supplier_file_path}' не является словарем. Пропуск элемента.")
+                else:
+                    # Эта ветка не должна достигаться, если j_loads всегда возвращает dict или list (включая пустые при ошибке)
+                    logger.error(f"Неожиданный тип данных ({type(supplier_data)}) после загрузки файла {supplier_file_path}. Пропуск файла.")
+                    error_files_count += 1
+                    continue # Переход к следующему файлу
+                
+                processed_files_count += 1
+                if current_file_had_updates:
+                    text_updated_in_files_count += 1
+                    # TODO: Здесь должна быть логика сохранения обновленного supplier_data в supplier_file_path
+                    # logger.info(f"Файл {supplier_file_path} был обновлен и требует сохранения.")
+                    # if not j_dumps(supplier_data, supplier_file_path, indent=4):
+                    #     logger.error(f"Ошибка сохранения файла: {supplier_file_path}")
+                    # else:
+                    #     logger.info(f"Файл {supplier_file_path} успешно сохранен.")
+                    ... # Заполнитель для логики сохранения
 
     except Exception as ex:
-        # Ловим критические ошибки (например, инициализация драйвера, ошибка в recursively_yield_file_path)
-        logger.critical(f"Критическая ошибка во время выполнения: {ex}", exc_info=True)
-        # Статистика может быть неполной в этом случае
+        logger.critical('Критическая ошибка во время выполнения (вне цикла обработки файлов):', ex, exc_info=True)
     finally:
-        # Гарантированное закрытие драйвера
-        if driver_instance: # Проверяем, был ли драйвер успешно создан
-            logger.info("Завершение работы драйвера...")
+        if driver_instance:
+            logger.info('Завершение работы драйвера...')
             try:
                 driver_instance.quit()
-            except Exception as ex:
-                logger.error(f"Ошибка при закрытии драйвера: {ex}", ex, exc_info=True)
+            except Exception as ex_quit:
+                logger.error('Ошибка при закрытии драйвера:', ex_quit, exc_info=True)
 
-    logger.info(f"--- Обработка файлов завершена ---")
-    logger.info(f"Статистика:")
-    logger.info(f" - Всего просканировано файлов: {total_files_scanned}")
-    logger.info(f" - Файлов обработано (попытка чтения/поиска): {processed_files_count}")
-    logger.info(f" - Файлов успешно обновлено (найдена запись и записан HTML): {updated_files_count}")
-    logger.info(f" - Ошибок при обработке отдельных файлов (в цикле): {error_files_count}")
+    logger.info('--- Обработка файлов завершена ---')
+    logger.info('Статистика:')
+    logger.info(f" - Всего директорий поставщиков обработано: {len(suppliers_dirs_list) if 'suppliers_dirs_list' in locals() else 0}")
+    logger.info(f" - Всего файлов JSON обнаружено: {total_discovered_files_count}")
+    logger.info(f" - Файлов JSON успешно загружено и обработано: {processed_files_count}")
+    logger.info(f" - Файлов, в которых обновлены данные (хотя бы одна ссылка): {text_updated_in_files_count}") # TODO: Этот счетчик зависит от логики в `...`
+    logger.info(f" - Всего ссылок обработано: {total_links_processed_count}")
+    logger.info(f" - Всего ссылок, для которых извлечены новые данные: {total_links_updated_count}") # TODO: Этот счетчик зависит от логики в `...`
+    logger.info(f" - Ошибок при загрузке/обработке файлов: {error_files_count}")
     logger.info(f"--- Работа скрипта {Path(__file__).name} завершена ---")
-

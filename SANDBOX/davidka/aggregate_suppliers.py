@@ -5,13 +5,14 @@
 """
 Модуль анализирует JSON файлы с данными веб-страниц, извлекает информацию
 и агрегирует её по поставщикам (доменам) в отдельные JSON файлы.
-=================================================================
-Скрипт читает JSON файлы из `Config.filtered_urls_dir`, обрабатывает каждый,
+Каждый JSON файл поставщика сохраняется в поддиректории с именем поставщика.
+===========================================================================
+Скрипт читает JSON файлы из `Config.input_dirs`, обрабатывает каждый,
 определяет поставщика на основе URL, извлекает текст и внутренние ссылки.
 Для каждой успешно обработанной записи из исходного файла, скрипт немедленно
-обновляет или создает соответствующий JSON файл поставщика в директории
-`Config.data_by_supplier_dir`. Существующие файлы поставщиков дополняются
-новыми данными по мере их поступления.
+обновляет или создает соответствующий JSON файл поставщика. Файл поставщика
+`supplier_name.json` сохраняется в директории `Config.output_dir / supplier_name /`.
+Существующие файлы поставщиков дополняются новыми данными по мере их поступления.
 
 ```rst
  .. module:: sandbox.davidka.aggregate_suppliers
@@ -28,7 +29,7 @@ from header import __root__
 from src import gs
 from src.utils.jjson import j_loads, j_dumps, sanitize_json_files
 from src.utils.file import recursively_yield_file_path
-from src.utils.url import get_domain
+from src.utils.url import get_domain, normalize_url
 from src.logger import logger
 # from src.utils.printer import pprint as print
 
@@ -36,10 +37,8 @@ from src.logger import logger
 class Config:
     """Класс конфигурации скрипта."""
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
-    filtered_urls_dir: Path = Path("F:/llm/filtered_urls_set1")
-    data_by_supplier_dir: Path = Path("F:/llm/data_by_supplier")
-    # Создаем директорию для файлов поставщиков при инициализации, если ее нет
-    data_by_supplier_dir.mkdir(parents=True, exist_ok=True)
+    input_dirs: list[Path] = [Path("F:/llm/filtered_urls"),Path("F:/llm/filtered_urls_set1"),Path(__root__/ 'SANDBOX'/'davidka'/'output_product_data_set1')]
+    output_dir: Path = Path("F:/llm/data_by_supplier")
 
 
 # Создаем словарь для хранения блокировок по именам файлов поставщиков
@@ -49,7 +48,15 @@ _locks: Dict[Path, threading.Lock] = {}
 _lock_guard = threading.Lock() # Блокировка для доступа к словарю _locks
 
 def _get_lock(file_path: Path) -> threading.Lock:
-    """Возвращает или создает объект блокировки для указанного пути файла."""
+    """
+    Возвращает или создает объект блокировки для указанного пути файла.
+
+    Args:
+        file_path (Path): Путь к файлу.
+
+    Returns:
+        threading.Lock: Объект блокировки для данного файла.
+    """
     with _lock_guard:
         if file_path not in _locks:
             _locks[file_path] = threading.Lock()
@@ -57,7 +64,7 @@ def _get_lock(file_path: Path) -> threading.Lock:
 
 
 # ==============================================================================
-# Функция обработки одного словаря данных 
+# Функция обработки одного словаря данных
 # ==============================================================================
 def extract_and_structure_data(
     raw_data: Dict[str, Any],
@@ -65,7 +72,7 @@ def extract_and_structure_data(
 ) -> Optional[Tuple[str, str, Dict[str, Any]]]:
     """
     Извлекает данные из словаря raw_data, определяет поставщика и
-    формирует структуру для сохранения.
+    формирует структуру для сохранения. При записи исправляет битые URL.
 
     Args:
         raw_data (Dict[str, Any]): Словарь с данными из JSON.
@@ -74,52 +81,75 @@ def extract_and_structure_data(
     Returns:
         Optional[Tuple[str, str, Dict[str, Any]]]:
             Кортеж (supplier, url_key, data_to_store) или None при ошибке.
-
-    Example:
-        >>> data = {'url': 'https://example.com/page1', 'text': 'Content'}
-        >>> result = extract_and_structure_data(data, Path('file.json'))
-        >>> print(result)
-        ('example.com', 'https://example.com/page1', {'category': 'Content', 'text': '', 'internal_links': []})
     """
-    # --- Логика функции осталась прежней ---
+    # Объявление переменных в начале функции
     main_link: Optional[str] = None
     supplier: Optional[str] = None
     url_for_domain: Optional[str] = None
     page_data_text: str = ''
     actual_internal_links: list = []
     data_source: Dict[str, Any] = raw_data
+    potential_main_link: Optional[str] = None
+    nested_data: Any = None
+    internal_links_list: Any = None
+    first_link_data: Any = None
+    link_dict: Any = None
+    first_href: Optional[str] = None
+    page_data_text_raw: Any = None
+    actual_internal_links_raw: Any = None
+    data_to_store: Dict[str, Any]
 
     # 1. Определение основного URL и URL для домена
-    potential_main_link: Any = raw_data.get('url')
+    # Попытка извлечь 'url' из корня
+    potential_main_link = raw_data.get('url')
     if potential_main_link and isinstance(potential_main_link, str):
-        url_for_domain = potential_main_link
-        main_link = potential_main_link
-    else:
-        nested_data: Any = raw_data.get('data')
-        if isinstance(nested_data, dict):
-            data_source = nested_data
-        internal_links_list: Any = data_source.get('internal_links')
-        if isinstance(internal_links_list, list) and internal_links_list:
-            try:
-                first_link_data: Any = internal_links_list[0]
-                if isinstance(first_link_data, dict):
-                    link_dict: Any = first_link_data.get('link')
-                    if isinstance(link_dict, dict):
-                        first_href: Any = link_dict.get('href')
-                        if first_href and isinstance(first_href, str):
-                            url_for_domain = first_href
-                            main_link = first_href
-            except Exception as ex:
-                 logger.error(f"Ошибка при извлечении первой ссылки из 'internal_links' в {file_path}: {ex}", ex, exc_info=True)
+        main_link = normalize_url(potential_main_link)
+        if main_link:
+            url_for_domain = main_link
+            logger.debug(f"Функция использует 'url' из корня: {main_link} ({file_path})")
 
+    # Если не нашли в корне, ищем во вложенной структуре или первой внутренней ссылке
+    if not main_link:
+        logger.debug(f"Ключ 'url' отсутствует или невалиден в {file_path}. Поиск во вложенных данных или internal_links.")
+        nested_data = raw_data.get('data', {}) # Используем .get с default, чтобы избежать ошибки, если 'data' нет
+        if isinstance(nested_data, dict):
+            data_source = nested_data # Переключаем источник данных на вложенный словарь
+            # Попытка извлечь 'url' из вложенного 'data'
+            potential_main_link = data_source.get('url')
+            if potential_main_link and isinstance(potential_main_link, str):
+                main_link = normalize_url(potential_main_link)
+                if main_link:
+                    url_for_domain = main_link
+                    logger.debug(f"Функция использует 'url' из вложенного 'data': {main_link} ({file_path})")
+
+        # Если все еще нет main_link, ищем в internal_links
+        if not main_link:
+            internal_links_list = data_source.get('internal_links') # data_source может быть raw_data или nested_data
+            if isinstance(internal_links_list, list) and internal_links_list:
+                try:
+                    first_link_data = internal_links_list[0]
+                    if isinstance(first_link_data, dict):
+                        link_dict = first_link_data.get('link')
+                        if isinstance(link_dict, dict):
+                            first_href_raw = link_dict.get('href')
+                            if first_href_raw and isinstance(first_href_raw, str):
+                                first_href = normalize_url(first_href_raw)
+                                if first_href:
+                                    url_for_domain = first_href
+                                    main_link = first_href
+                                    logger.debug(f"Функция использует первую внутреннюю ссылку как ключ: {main_link} ({file_path})")
+                except Exception as ex:
+                     logger.error(f"Ошибка при извлечении первой ссылки из 'internal_links' в {file_path}: {ex}", ex, exc_info=True)
+
+    # Проверка наличия main_link и url_for_domain после всех попыток
     if not main_link:
         logger.error(f"Функции не удалось определить URL (ключ) из файла: {file_path}. Пропуск.")
         return None
-    if not url_for_domain:
-         logger.error(f"Функции не удалось определить URL для домена из файла: {file_path}. Пропуск.")
+    if not url_for_domain: # url_for_domain должен был установиться, если main_link есть
+         logger.error(f"Функции не удалось определить URL для извлечения домена из файла: {file_path}. Пропуск.")
          return None
 
-    # 2. Извлечение домена
+    # 2. Извлечение домена для определения имени поставщика
     try:
         supplier = get_domain(url_for_domain)
     except Exception as ex:
@@ -129,29 +159,39 @@ def extract_and_structure_data(
         logger.error(f"Функция get_domain не вернула домен для URL '{url_for_domain}' (файл: {file_path}). Пропуск.")
         return None
 
-    # 3. Извлечение остальных данных
-    page_data_text_raw: Any = data_source.get('text')
-    actual_internal_links_raw: Any = data_source.get('internal_links')
+    # 3. Извлечение остальных данных (text, internal_links) из data_source
+    logger.debug(f"Извлечение 'text' и 'internal_links' из источника данных для {file_path}")
+    page_data_text_raw = data_source.get('text')
+    actual_internal_links_raw = data_source.get('internal_links')
 
     if page_data_text_raw is not None and isinstance(page_data_text_raw, str):
         page_data_text = page_data_text_raw
-    elif page_data_text_raw is not None:
-        logger.warning(f"Ключ 'text' не строка ({type(page_data_text_raw)}) в {file_path}. Используется ''.")
+    elif page_data_text_raw is not None: # Если есть, но не строка
+        logger.warning(f"Ключ 'text' в источнике данных не является строкой ({type(page_data_text_raw)}) в {file_path}. Используется пустая строка ''.")
+        page_data_text = '' # Приводим к пустой строке для консистентности
 
     if actual_internal_links_raw is not None and isinstance(actual_internal_links_raw, list):
         actual_internal_links = actual_internal_links_raw
-    elif actual_internal_links_raw is not None:
-        logger.warning(f"Ключ 'internal_links' не список ({type(actual_internal_links_raw)}) в {file_path}. Используется [].")
+    elif actual_internal_links_raw is not None: # Если есть, но не список
+        logger.warning(f"Ключ 'internal_links' в источнике данных не является списком ({type(actual_internal_links_raw)}) в {file_path}. Используется пустой список [].")
+        actual_internal_links = [] # Приводим к пустому списку
+    else: # Если ключа нет или он None
+        actual_internal_links = []
 
-    # 4. Формирование словаря
-    data_to_store: Dict[str, Any] = {
-        'category': page_data_text,
-        'text': '',
-        'internal_links': actual_internal_links
+
+    # 4. Формирование словаря для сохранения
+    # Поля 'text' и 'internal_links' в data_to_store будут перезаписаны
+    # при дедупликации в update_supplier_file, если необходимо.
+    # 'category' здесь используется как первичный текст, если другого нет.
+    data_to_store = {
+        'category': page_data_text, # Сохраняем основной текст страницы как 'category'
+        'text': '', # Будет заполнено позже, если 'text' отдельное поле в данных
+        'internal_links': actual_internal_links # Сохраняем извлеченные ссылки
     }
 
-    logger.info(f"Данные для '{supplier}' извлечены из {file_path} (ключ: {main_link})")
+    logger.info(f"Данные для поставщика '{supplier}' извлечены из {file_path} (ключ: {main_link})")
     return supplier, main_link, data_to_store
+
 
 # ==============================================================================
 # Функция для немедленного обновления файла поставщика (с дедупликацией ссылок)
@@ -160,43 +200,54 @@ def update_supplier_file(
     supplier: str,
     url_key: str,
     data_to_store: Dict[str, Any],
-    target_dir: Path
+    base_output_dir: Path # Базовая директория для всех поставщиков
 ) -> bool:
     """
-    Обновляет (или создает) JSON файл для поставщика, добавляя/перезаписывая
-    данные для URL-ключа и удаляя дубликаты в 'internal_links' по 'href'.
+    Обновляет (или создает) JSON файл для поставщика в его собственной поддиректории.
+    Добавляет/перезаписывает данные для URL-ключа и удаляет дубликаты в 'internal_links'.
 
     Args:
         supplier (str): Имя поставщика (домен).
         url_key (str): URL, используемый как ключ в JSON файле.
         data_to_store (Dict[str, Any]): Словарь новых данных для сохранения.
-        target_dir (Path): Директория для файлов поставщиков.
+        base_output_dir (Path): Базовая директория, где будут создаваться поддиректории поставщиков.
 
     Returns:
         bool: True в случае успеха, False в случае ошибки.
     """
     # Объявление переменных в начале функции
-    supplier_file_path: Path = target_dir / f"{supplier}.json"
-    file_lock: threading.Lock = _get_lock(supplier_file_path)
+    supplier_specific_dir: Path
+    supplier_file_path: Path
+    file_lock: threading.Lock
     existing_data: Dict[str, Any] = {}
-    loaded_data: Optional[Dict] = None
-    success: bool = False
-    old_links: list = []
-    old_entry: Any = None
-    old_links_raw: Any = None
-    new_links_raw: Any = None
-    new_links: list = []
-    seen_hrefs: set[str] = set()
-    unique_links: list = []
-    link_item: Any = None
-    link_data: Any = None
-    href: Any = None
-    duplicate_count: int = 0
-
+    loaded_data: Optional[Dict[str, Any]] = None # Явная аннотация
+    success: bool
+    old_links: list
+    old_entry: Any
+    old_links_raw: Any
+    new_links_raw: Any
+    new_links: list
+    seen_hrefs: set[str]
+    unique_links: list
+    link_item: Any
+    # link_data: Any # Не используется напрямую в этой области видимости
+    # href: Any # Не используется напрямую в этой области видимости
+    duplicate_count: int
 
     if not supplier:
         logger.error("Попытка обновления файла с пустым именем поставщика.")
         return False
+
+    # Формирование пути к директории и файлу поставщика
+    supplier_specific_dir = base_output_dir / supplier
+    try:
+        supplier_specific_dir.mkdir(parents=True, exist_ok=True)
+    except OSError as e:
+        logger.error(f"Не удалось создать директорию для поставщика '{supplier}' в {supplier_specific_dir}: {e}", exc_info=True)
+        return False
+
+    supplier_file_path = supplier_specific_dir / f"{supplier}.json" # Имя файла совпадает с именем папки
+    file_lock = _get_lock(supplier_file_path)
 
     logger.debug(f"Попытка обновления файла {supplier_file_path} для ключа '{url_key}'...")
 
@@ -211,17 +262,16 @@ def update_supplier_file(
                     logger.debug(f"Файл {supplier_file_path} успешно прочитан.")
                 elif loaded_data is None:
                      logger.warning(f"j_loads вернул None для {supplier_file_path}. Файл будет создан заново.")
-                     existing_data = {}
-                else:
+                     existing_data = {} # Начинаем с пустого словаря
+                else: # Не None и не dict
                     logger.error(f"j_loads вернул не словарь ({type(loaded_data)}) для {supplier_file_path}. Файл будет создан заново.")
-                    existing_data = {}
+                    existing_data = {} # Начинаем с пустого словаря
             except Exception as ex:
                 logger.error(f"Непредвиденная ошибка при чтении {supplier_file_path}: {ex}", ex, exc_info=True)
-                existing_data = {} # Начинаем с чистого листа
+                existing_data = {} # Начинаем с чистого листа в случае ошибки чтения
 
         # --- Шаг 2: Подготовка к дедупликации ссылок ---
-        # Сохраняем старые ссылки ПЕРЕД обновлением основной записи для url_key
-        old_links = [] # Сбрасываем на случай повторного использования переменных
+        old_links = []
         if url_key in existing_data:
             old_entry = existing_data.get(url_key)
             if isinstance(old_entry, dict):
@@ -229,17 +279,16 @@ def update_supplier_file(
                 if isinstance(old_links_raw, list):
                     old_links = old_links_raw
                     logger.debug(f"Найдены существующие ссылки ({len(old_links)}) для ключа '{url_key}'.")
-                elif old_links_raw is not None: # Если есть ключ, но не список
-                    logger.warning(f"Существующий ключ '{url_key}' содержит 'internal_links', но это не список ({type(old_links_raw)}). Старые ссылки игнорируются для дедупликации.")
-            elif old_entry is not None: # Если есть ключ, но не словарь
-                 logger.warning(f"Существующий ключ '{url_key}' не является словарем ({type(old_entry)}). Старые ссылки игнорируются для дедупликации.")
+                elif old_links_raw is not None:
+                    logger.warning(f"Существующий ключ '{url_key}' содержит 'internal_links', но это не список ({type(old_links_raw)}). Старые ссылки игнорируются.")
+            elif old_entry is not None:
+                 logger.warning(f"Существующий ключ '{url_key}' не является словарем ({type(old_entry)}). Старые ссылки игнорируются.")
 
-        # Получаем новые ссылки из данных, которые пришли на сохранение
-        new_links = [] # Сбрасываем
+        new_links = []
         new_links_raw = data_to_store.get('internal_links')
         if isinstance(new_links_raw, list):
             new_links = new_links_raw
-        elif new_links_raw is not None: # Если есть ключ, но не список
+        elif new_links_raw is not None:
             logger.warning(f"Новые данные для ключа '{url_key}' содержат 'internal_links', но это не список ({type(new_links_raw)}). Новые ссылки игнорируются при дедупликации.")
 
         # --- Шаг 3: Дедупликация ссылок ---
@@ -247,26 +296,35 @@ def update_supplier_file(
         unique_links = []
         duplicate_count = 0
 
-        # Функция для безопасного извлечения href и добавления уникальной ссылки
-        def add_unique_link(link_item_to_add: Any, source_list_name: str):
-            nonlocal duplicate_count # Позволяет изменять внешний счетчик
+        # Внутренняя функция для добавления уникальной ссылки
+        def add_unique_link(link_item_to_add: Any, source_list_name: str) -> None:
+            nonlocal duplicate_count, seen_hrefs, unique_links # Захват внешних переменных
             item_href: Optional[str] = None
             item_link_data: Any = None
 
             if isinstance(link_item_to_add, dict):
                 item_link_data = link_item_to_add.get('link')
                 if isinstance(item_link_data, dict):
-                    item_href = item_link_data.get('href')
-                    if item_href and isinstance(item_href, str):
-                        if item_href not in seen_hrefs:
+                    item_href_raw = item_link_data.get('href')
+                    if item_href_raw and isinstance(item_href_raw, str):
+                        item_href = normalize_url(item_href_raw) # Нормализуем href перед проверкой
+                        if item_href and item_href not in seen_hrefs:
                             seen_hrefs.add(item_href)
-                            unique_links.append(link_item_to_add) # Добавляем весь элемент {'link': {...}}
-                        elif source_list_name == 'new': # Считаем дубли только из нового списка
-                            duplicate_count += 1
-                    elif item_href is None:
+                            # Сохраняем исходный link_item_to_add, но href внутри него теперь должен быть нормализован
+                            # Лучше создать копию и обновить в ней href, чтобы не менять исходные данные случайно
+                            updated_link_item = link_item_to_add.copy()
+                            updated_link_item['link'] = item_link_data.copy()
+                            updated_link_item['link']['href'] = item_href
+                            unique_links.append(updated_link_item)
+                        elif item_href: # href есть, но уже видели (дубликат)
+                             if source_list_name == 'new': # Считаем дубли только из нового списка
+                                duplicate_count += 1
+                        else: # Нормализация item_href_raw дала None
+                            logger.warning(f"Пропуск элемента в {source_list_name}_links: 'href' ('{item_href_raw}') стал невалидным после нормализации. Элемент: {link_item_to_add}")
+                    elif item_href_raw is None:
                          logger.warning(f"Пропуск элемента в {source_list_name}_links: отсутствует ключ 'href' в подсловаре 'link'. Элемент: {link_item_to_add}")
                     else: # href есть, но не строка
-                        logger.warning(f"Пропуск элемента в {source_list_name}_links: 'href' не является строкой ({type(item_href)}). Элемент: {link_item_to_add}")
+                        logger.warning(f"Пропуск элемента в {source_list_name}_links: 'href' не является строкой ({type(item_href_raw)}). Элемент: {link_item_to_add}")
                 elif item_link_data is None:
                      logger.warning(f"Пропуск элемента в {source_list_name}_links: отсутствует ключ 'link'. Элемент: {link_item_to_add}")
                 else: # link есть, но не словарь
@@ -274,176 +332,66 @@ def update_supplier_file(
             else: # Элемент списка сам по себе не словарь
                 logger.warning(f"Пропуск элемента в {source_list_name}_links: элемент не является словарем ({type(link_item_to_add)}). Элемент: {link_item_to_add}")
 
-        # Обработка старых ссылок
         logger.debug(f"Дедупликация: обработка {len(old_links)} старых ссылок...")
         for link_item in old_links:
             add_unique_link(link_item, 'old')
 
-        # Обработка новых ссылок
         logger.debug(f"Дедупликация: обработка {len(new_links)} новых ссылок...")
         for link_item in new_links:
             add_unique_link(link_item, 'new')
 
         if duplicate_count > 0:
-            logger.info(f"Удалено {duplicate_count} дублирующихся ссылок (по href) при обновлении ключа '{url_key}' для поставщика '{supplier}'.")
+            logger.info(f"Удалено {duplicate_count} дублирующихся ссылок (по нормализованному href) при обновлении ключа '{url_key}' для поставщика '{supplier}'.")
         logger.debug(f"Итоговый размер дедуплицированного списка 'internal_links': {len(unique_links)}")
 
         # --- Шаг 4: Обновление данных в словаре ---
-        # Обновляем основные данные ('category', 'text') из data_to_store
         logger.debug(f"Обновление/добавление ключа '{url_key}' в данных для {supplier}...")
-        # Важно: data_to_store должен быть словарем к этому моменту
         if not isinstance(data_to_store, dict):
-             logger.error(f"Критической ошибка: data_to_store не является словарем ({type(data_to_store)}) перед присвоением existing_data['{url_key}']. Запись не будет произведена.")
-             return False # Предотвращаем запись некорректных данных
+             logger.error(f"Критическая ошибка: data_to_store не является словарем ({type(data_to_store)}) перед присвоением. Запись не будет произведена.")
+             return False
 
-        existing_data[url_key] = data_to_store.copy() # Копируем, чтобы не изменить исходный data_to_store
+        # Обновляем или создаем запись для url_key
+        current_entry_data = existing_data.get(url_key, {}) # Получаем существующую запись или пустой словарь
+        if not isinstance(current_entry_data, dict): # Если под ключом не словарь, затираем
+            logger.warning(f"Данные под ключом '{url_key}' не являются словарем ({type(current_entry_data)}). Будут перезаписаны.")
+            current_entry_data = {}
 
-        # Обновляем 'internal_links' в сохраненных данных дедуплицированным списком
-        # Убедимся, что existing_data[url_key] все еще словарь
-        if isinstance(existing_data.get(url_key), dict):
-            existing_data[url_key]['internal_links'] = unique_links
-            logger.debug(f"Список 'internal_links' для ключа '{url_key}' заменен дедуплицированным списком.")
-        else:
-            # Эта ситуация маловероятна после предыдущей проверки data_to_store
-            logger.error(f"После присвоения data_to_store значение existing_data['{url_key}'] не является словарем ({type(existing_data.get(url_key))}). Не удалось обновить internal_links.")
-            # Решаем, прерывать ли запись или записывать без обновленных ссылок
-            # В данном случае, лучше прервать, т.к. состояние данных неконсистентное
-            return False
-
+        current_entry_data.update(data_to_store) # Обновляем данными из data_to_store
+        current_entry_data['internal_links'] = unique_links # Заменяем ссылки на дедуплицированные
+        existing_data[url_key] = current_entry_data # Обновляем основную структуру
 
         # --- Шаг 5: Запись обновленного словаря в файл ---
         logger.debug(f"Запись итоговых данных в {supplier_file_path}...")
         try:
-            # Используем порядок: <что>, <куда>
             success = j_dumps(existing_data, supplier_file_path)
             if success:
                 logger.info(f"Файл {supplier_file_path} успешно обновлен для ключа '{url_key}'.")
                 return True
             else:
+                 # j_dumps сам логирует ошибку
                  logger.error(f"Функция j_dumps сообщила об ошибке при записи файла {supplier_file_path}")
                  return False
         except Exception as ex:
             logger.error(f"Непредвиденная ошибка при записи {supplier_file_path}: {ex}", ex, exc_info=True)
             return False
     # Блокировка освобождается здесь
-
-# ==============================================================================
-# Остальной код (импорты, Config, _locks, _get_lock, extract_and_structure_data, __main__)
-# остается без изменений по сравнению с предыдущей версией
-# ==============================================================================
-
-# ... (импорты, Config, _locks, _get_lock) ...
-
-# ==============================================================================
-# Функция обработки одного словаря данных (БЕЗ ИЗМЕНЕНИЙ)
-# ==============================================================================
-def extract_and_structure_data(
-    raw_data: Dict[str, Any],
-    file_path: Path
-) -> Optional[Tuple[str, str, Dict[str, Any]]]:
-    # ... (код функции без изменений) ...
-    # Объявление переменных в начале функции
-    main_link: Optional[str] = None
-    supplier: Optional[str] = None
-    url_for_domain: Optional[str] = None
-    page_data_text: str = ''
-    actual_internal_links: list = []
-    data_source: Dict[str, Any] = raw_data
-    potential_main_link: Any = None
-    nested_data: Any = None
-    internal_links_list: Any = None
-    first_link_data: Any = None
-    link_dict: Any = None
-    first_href: Any = None
-    page_data_text_raw: Any = None
-    actual_internal_links_raw: Any = None
-    data_to_store: Dict[str, Any] = {}
-
-    # 1. Определение основного URL и URL для домена
-    potential_main_link = raw_data.get('url')
-    if potential_main_link and isinstance(potential_main_link, str):
-        url_for_domain = potential_main_link
-        main_link = potential_main_link
-        # logger.debug(f"Функция использует 'url' из корня: {main_link} ({file_path})") # Уже логируется выше
-    else:
-        # logger.warning(f"Ключ 'url' отсутствует или не строка в {file_path}. Функция ищет в 'internal_links'...") # Уже логируется выше
-        nested_data = raw_data.get('data')
-        if isinstance(nested_data, dict):
-            data_source = nested_data
-            # logger.debug(f"Функция ищет 'internal_links' во вложенном словаре 'data' ({file_path})")
-        # else:
-             # logger.debug(f"Функция ищет 'internal_links' в корневом словаре ({file_path})")
-
-        internal_links_list = data_source.get('internal_links')
-        if isinstance(internal_links_list, list) and internal_links_list:
-            try:
-                first_link_data = internal_links_list[0]
-                if isinstance(first_link_data, dict):
-                    link_dict = first_link_data.get('link')
-                    if isinstance(link_dict, dict):
-                        first_href = link_dict.get('href')
-                        if first_href and isinstance(first_href, str):
-                            url_for_domain = first_href
-                            main_link = first_href
-                            # logger.info(f"Функция использует первую внутреннюю ссылку как ключ: {main_link} ({file_path})") # Уже логируется выше
-            except Exception as ex:
-                 logger.error(f"Ошибка при извлечении первой ссылки из 'internal_links' в {file_path}: {ex}", ex, exc_info=True)
-
-    if not main_link:
-        # logger.error(f"Функции не удалось определить URL (ключ) из файла: {file_path}. Пропуск.") # Уже логируется выше
-        return None
-    if not url_for_domain:
-         # logger.error(f"Функции не удалось определить URL для домена из файла: {file_path}. Пропуск.") # Уже логируется выше
-         return None
-
-    # 2. Извлечение домена
-    try:
-        supplier = get_domain(url_for_domain)
-    except Exception as ex:
-        logger.error(f"Ошибка при вызове get_domain для URL '{url_for_domain}' ({file_path}): {ex}", ex, exc_info=True)
-        return None
-    if not supplier:
-        # logger.error(f"Функция get_domain не вернула домен для URL '{url_for_domain}' (файл: {file_path}). Пропуск.") # Уже логируется выше
-        return None
-
-    # 3. Извлечение остальных данных
-    # logger.debug(f"Функция извлекает 'text' и 'internal_links' из {'корня' if data_source is raw_data else 'вложенного data'} ({file_path})")
-    page_data_text_raw = data_source.get('text')
-    actual_internal_links_raw = data_source.get('internal_links')
-
-    if page_data_text_raw is not None and isinstance(page_data_text_raw, str):
-        page_data_text = page_data_text_raw
-    elif page_data_text_raw is not None:
-        pass # logger.warning(f"Ключ 'text' не строка ({type(page_data_text_raw)}) в {file_path}. Используется ''.") # Уже логируется выше
-
-    if actual_internal_links_raw is not None and isinstance(actual_internal_links_raw, list):
-        actual_internal_links = actual_internal_links_raw
-    elif actual_internal_links_raw is not None:
-        pass # logger.warning(f"Ключ 'internal_links' не список ({type(actual_internal_links_raw)}) в {file_path}. Используется [].") # Уже логируется выше
-
-    # 4. Формирование словаря
-    data_to_store = {
-        'category': page_data_text,
-        'text': '',
-        'internal_links': actual_internal_links # Важно: сохраняем исходный список здесь
-    }
-
-    # logger.info(f"Данные для '{supplier}' извлечены из {file_path} (ключ: {main_link})") # Уже логируется выше
-    return supplier, main_link, data_to_store
+    # На случай, если поток завершится без явного return внутри with
+    logger.error(f"Выход из функции update_supplier_file для {supplier_file_path} без явного return из блока with.")
+    return False
 
 
 # ==============================================================================
-# Основной блок выполнения скрипта (БЕЗ ИЗМЕНЕНИЙ)
+# Основной блок выполнения скрипта
 # ==============================================================================
 if __name__ == '__main__':
-    # ... (код блока __main__ без изменений) ...
     # Объявление переменных в начале блока
-    need_sanitize_json_files: bool = False
+    need_sanitize_json_files: bool = False # Установите True, если санация необходима
     processed_files_count: int = 0
     error_loading_files_count: int = 0
     error_extracting_data_count: int = 0
     error_writing_files_count: int = 0
     total_files_scanned: int = 0
+    input_dir: Path
     file_path: Path
     raw_data: Optional[Dict[str, Any]] = None
     extracted_info: Optional[Tuple[str, str, Dict[str, Any]]] = None
@@ -451,77 +399,82 @@ if __name__ == '__main__':
     url_key: str
     data_to_store: Dict[str, Any]
     write_success: bool
+    base_output_dir: Path = Config.output_dir # Используем переменную для ясности
 
-    logger.info(f"--- Начало работы скрипта ---")
-    logger.info(f"Чтение исходных JSON файлов из: {Config.filtered_urls_dir}")
-    logger.info(f"Запись/обновление файлов поставщиков в: {Config.data_by_supplier_dir}")
+    for input_dir in Config.input_dirs:
+        logger.info(f"Обработка файлов из директории: {input_dir}")
+        logger.info(f"Файлы поставщиков будут сохранены в поддиректории {base_output_dir}/<имя_поставщика>/")
 
-    if need_sanitize_json_files:
-        logger.info("Запуск санации JSON файлов...")
+        #1. Санация (опционально)
+        if need_sanitize_json_files:
+            logger.info(f"--- Запуск санации JSON файлов в {input_dir} ---")
+            try:
+                sanitize_json_files(input_dir) # Предполагается, что эта функция существует и работает
+                logger.info(f"Санация JSON файлов в {input_dir} успешно завершена.")
+            except Exception as ex_sanitize:
+                 logger.error(f"Ошибка во время выполнения sanitize_json_files для {input_dir}: {ex_sanitize}", exc_info=True)
+            logger.info(f"--- Санация завершена для {input_dir} ---")
+
+        logger.info(f"--- Начало обработки JSON файлов из {input_dir} ---")
+
+        # 2. Обработка файлов из текущей input_dir
         try:
-            sanitize_json_files(Config.filtered_urls_dir)
-            logger.info("Санация JSON файлов успешно завершена.")
-        except Exception as ex:
-             logger.error(f"Ошибка во время выполнения sanitize_json_files: {ex}", ex, exc_info=True)
+            for file_path in recursively_yield_file_path(input_dir, '*.json'):
+                total_files_scanned += 1
+                logger.debug(f"Обработка файла ({total_files_scanned}): {file_path}")
 
-    logger.info("Начало обработки JSON файлов...")
-    try:
-        for file_path in recursively_yield_file_path(Config.filtered_urls_dir, '*.json'):
-            total_files_scanned += 1
-            logger.debug(f"Обработка файла ({total_files_scanned}): {file_path}")
+                # Шаг 1: Загрузка данных
+                raw_data = None # Сброс
+                try:
+                    raw_data = j_loads(file_path)
+                except Exception as ex_load: # Более специфичный except
+                    logger.error(f"Непредвиденная ошибка при загрузке файла {file_path}: {ex_load}", exc_info=True)
+                    error_loading_files_count += 1
+                    continue # Переход к следующему файлу
 
-            # Шаг 1: Загрузка данных
-            raw_data = None # Сброс перед попыткой
-            try:
-                raw_data = j_loads(file_path)
-            except Exception as ex:
-                logger.error(f"Непредвиденная ошибка при загрузке файла {file_path}: {ex}", ex, exc_info=True)
-                error_loading_files_count += 1
-                continue
+                if not raw_data: # j_loads вернул None или пустой dict
+                    # logger.warning(f"Пропуск файла из-за ошибки загрузки/формата или пустых данных: {file_path}") # j_loads уже логирует
+                    error_loading_files_count += 1
+                    continue
 
-            if not raw_data:
-                # logger.warning(f"Пропуск файла из-за ошибки загрузки/формата: {file_path}") # Уже логируется в j_loads
-                error_loading_files_count += 1
-                continue
+                # Шаг 2: Извлечение данных
+                extracted_info = None # Сброс
+                try:
+                     extracted_info = extract_and_structure_data(
+                        raw_data=raw_data,
+                        file_path=file_path
+                    )
+                except Exception as ex_extract: # Более специфичный except
+                    logger.error(f"Непредвиденная ошибка при извлечении данных из {file_path}: {ex_extract}", exc_info=True)
+                    error_extracting_data_count += 1
+                    continue
 
-            # Шаг 2: Извлечение данных
-            extracted_info = None # Сброс перед попыткой
-            try:
-                 extracted_info = extract_and_structure_data(
-                    raw_data=raw_data,
-                    file_path=file_path
-                )
-            except Exception as ex:
-                logger.error(f"Непредвиденная ошибка при извлечении данных из {file_path}: {ex}", ex, exc_info=True)
-                error_extracting_data_count += 1
-                continue
+                # Шаг 3: Обновление файла поставщика
+                if extracted_info:
+                    supplier, url_key, data_to_store = extracted_info
+                    write_success = update_supplier_file(
+                        supplier=supplier,
+                        url_key=url_key,
+                        data_to_store=data_to_store,
+                        base_output_dir=base_output_dir # Передаем базовую директорию
+                    )
+                    if write_success:
+                        processed_files_count += 1
+                    else:
+                        error_writing_files_count += 1
+                else: # extract_and_structure_data вернула None
+                    error_extracting_data_count += 1
+                    # logger.warning(f"Не удалось извлечь структурированные данные из {file_path}. Пропуск записи.") # extract_and_structure_data уже логирует
+                    continue
 
-            # Шаг 3: Обновление файла поставщика
-            if extracted_info:
-                supplier, url_key, data_to_store = extracted_info
-                write_success = update_supplier_file(
-                    supplier=supplier,
-                    url_key=url_key,
-                    data_to_store=data_to_store,
-                    target_dir=Config.data_by_supplier_dir
-                )
-                if write_success:
-                    processed_files_count += 1
-                else:
-                    error_writing_files_count += 1
-            else:
-                error_extracting_data_count += 1
-                continue
+        except Exception as ex_main_loop: # Ошибка в самом цикле for file_path...
+            logger.critical(f"Критическая ошибка во время итерации по файлам в {input_dir}: {ex_main_loop}", exc_info=True)
+        logger.info(f"--- Обработка файлов из {input_dir} завершена ---")
 
-    except Exception as ex:
-        logger.critical(f"Критическая ошибка во время итерации по файлам: {ex}", ex, exc_info=True)
-
-    logger.info(f"--- Обработка файлов завершена ---")
-    logger.info(f"Статистика:")
+    logger.info(f"========== Итоговая статистика по всем директориям ==========")
     logger.info(f" - Всего просканировано файлов: {total_files_scanned}")
-    logger.info(f" - Успешно обработано записей (записано/обновлено): {processed_files_count}")
+    logger.info(f" - Успешно обработано записей (записано/обновлено в файлы поставщиков): {processed_files_count}")
     logger.info(f" - Ошибок загрузки/формата исходных файлов: {error_loading_files_count}")
-    logger.info(f" - Ошибок извлечения данных из файлов: {error_extracting_data_count}")
+    logger.info(f" - Ошибок извлечения структурированных данных: {error_extracting_data_count}")
     logger.info(f" - Ошибок записи в файлы поставщиков: {error_writing_files_count}")
-    logger.info(f"--- Работа скрипта завершена ---")
-
+    logger.info(f"--- Работа скрипта {Path(__file__).name} завершена ---")

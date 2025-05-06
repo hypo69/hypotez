@@ -218,13 +218,34 @@ def j_loads_ns(
         return dict2ns(data)
     return {}
 
-def sanitize_json_files(path: Path):
+def sanitize_json_files(path: Path) -> bool:
+    """
+    Проверяет валидность JSON файлов в указанной директории или файле.
+
+    Если файл невалиден, переименовывает его, добавляя '.sanitized' к имени.
+    Если файл валиден, оставляет его без изменений.
+    Если путь не существует или не является файлом/директорией, выводит ошибку.
+
+    Ars:
+        path(Path): Путь к файлу или директории, содержащей JSON файлы.
+
+    Returns:
+        bool: True, если все файлы валидны или успешно переименованы, иначе False.
+
+    Raises:
+        Exception: Если файл невалиден или не удалось переименовать файл.
+
+    """
+
     def process_file(file_path: Path):
+        logger.info(f'Start sanitize file: {file_path}')
         if not file_path.is_file() or not file_path.suffix == '.json':
-            return
+            logger.error(f"Файл не является JSON: {file_path}")
+            return False
         try:
             with file_path.open('r', encoding='utf-8') as f:
                 json.load(f)
+                logger.info(f"Файл валиден: {file_path}")
         except Exception as e:
             logger.error(f"Ошибка чтения JSON в файле: {file_path}", e)
             sanitized_path = file_path.with_name(file_path.name + '.sanitized')
@@ -233,6 +254,8 @@ def sanitize_json_files(path: Path):
                 logger.info(f"Файл переименован в: {sanitized_path}")
             except Exception as rename_err:
                 logger.error(f"Не удалось переименовать файл: {file_path}", rename_err)
+                return False
+        return True
 
     if path.is_file():
         process_file(path)

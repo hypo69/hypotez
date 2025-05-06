@@ -10,7 +10,8 @@
 import asyncio
 import requests
 from pathlib import Path
-from bs4 import BeautifulSoup, Comment
+import requests
+from bs4 import BeautifulSoup, Comment, NavigableString
 from urllib.parse import urljoin, urlparse # urlparse используется ниже и в фильтрации
 import sys # Для выхода, если URL не найден
 
@@ -28,65 +29,159 @@ from src.logger import logger
 
 
 
+# Множество запрещенных ключевых слов (пока не используется в логике, но оставлено)
 FORBIDDEN_KEYWORDS = {
     'google', 'youtube', 'amazon', 'ebay', 'aliexpress', 'facebook', 'fb',
     'vk', 'twitter',  'instagram', 'linkedin', 'pinterest', 'tiktok',
-    'wildberries', 'ozon', 'etsy', 'marketplace', 'wikipedia', 'wikimedia' 
-    # Добавьте другие ключевые слова или домены по необходимости
+    'wildberries', 'ozon', 'etsy', 'marketplace', 'wikipedia', 'wikimedia',
+    'bestbuy','avito'
     # 't.co',
 }
 
-
+# Множество разрешенных атрибутов для оставляемых тегов
+ALLOWED_ATTRIBUTES = {'name', 'id', 'label'}
 
 def is_internal(base_url, link_url):
     """Проверяет, является ли ссылка внутренней по отношению к базовому URL."""
+    if not base_url or not link_url: # Добавим проверку на пустые URL
+        return False
     try:
         absolute_link_url = urljoin(base_url, link_url)
         base_parts = urlparse(base_url)
         link_parts = urlparse(absolute_link_url)
+
+        # Считаем внутренними только http/https схемы
         if link_parts.scheme not in ('http', 'https'):
             return False
-        return base_parts.netloc == link_parts.netloc
-    except Exception:
+        # Сравниваем только 'сетевое расположение' (домен + порт)
+        return base_parts.netloc.lower() == link_parts.netloc.lower()
+    except ValueError: # urljoin или urlparse могут вызвать ValueError на некорректных строках
+        # print(f"Warning: Could not parse URL: base='{base_url}', link='{link_url}'")
+        return False
+    except Exception as e: # Ловим другие возможные ошибки парсинга URL
+        # print(f"Warning: Error checking internal link (base='{base_url}', link='{link_url}'): {e}")
         return False
 
-def extract_page_data(base_url, html_content): # Убедитесь, что base_url передается
+
+def extract_page_data(html_content, base_url):
     """
-    Извлекает основной текст и внутренние ссылки со страницы.
-    (Код функции остается как в вашем примере)
+    Извлекает очищенный HTML и внутренние ссылки со страницы.
+
+    Args:
+        base_url (str): Базовый URL страницы для разрешения относительных ссылок.
+        html_content (str): HTML-содержимое страницы.
+
+    Returns:
+        dict: Словарь с ключами 'text' (строка с очищенным HTML)
+              и 'internal_links' (список словарей внутренних ссылок).
+              Возвращает {'text': '', 'internal_links': []} в случае ошибки.
     """
     if not html_content:
         return {'text': '', 'internal_links': []}
 
     try:
-        soup = BeautifulSoup(html_content, 'html.parser')
+        # Используем html5lib для большей надежности с "диким" HTML
+        # Если html5lib не установлен (pip install html5lib), можно вернуться к 'html.parser'
+        soup = BeautifulSoup(html_content, 'html5lib')
+        # soup = BeautifulSoup(html_content, 'html.parser') # Альтернатива
 
-        # --- 1. Извлечение текста (как в вашем коде) ---
-        tags_to_remove = ['script', 'style', 'head', 'meta', 'link', 'noscript', 'nav', 'footer', 'header', 'aside']
-        for tag in soup.find_all(tags_to_remove):
+        # --- 1. Предварительная очистка: удаляем ненужные секции и комментарии ---
+        # Удаляем теги, которые почти всегда не нужны для контента
+        tags_to_remove_completely = ['script', 'style', 'head', 'meta', 'link', 'noscript', 'header', 'footer', 'nav', 'aside', 'form', 'button', 'input', 'textarea', 'select', 'option']
+        for tag in soup.find_all(tags_to_remove_completely):
             tag.decompose()
+
+        # Удаляем комментарии
         for comment in soup.find_all(string=lambda text: isinstance(text, Comment)):
             comment.extract()
-        page_text = soup.get_text(separator=' ', strip=True)
-        page_text = ' '.join(page_text.split())
 
-        # --- 2. Извлечение внутренних ссылок (как в вашем коде, используя base_url) ---
+        # --- 2. Основная логика: оставляем значащие теги и чистим атрибуты ---
+        tags_to_evaluate = list(soup.find_all(True)) # Получаем все оставшиеся теги (копируем список)
+
+        for tag in tags_to_evaluate:
+            # Пропускаем теги, которые могли быть удалены на предыдущих шагах
+            if not tag.parent:
+                continue
+
+            # Проверяем "значимость" тега: есть ли внутри непустой текст
+            # Используем генератор для текста, чтобы проверить без создания большой строки
+            has_significant_text = False
+            for text_node in tag.find_all(string=True, recursive=True):
+                if isinstance(text_node, NavigableString) and text_node.strip():
+                    has_significant_text = True
+                    break # Нашли текст, дальше проверять не нужно
+
+            if has_significant_text:
+                # Тег значащий: очищаем атрибуты, оставляя только разрешенные
+                current_attrs = dict(tag.attrs) # Копируем атрибуты
+                new_attrs = {}
+                for attr_name, attr_value in current_attrs.items():
+                    # Приводим имя атрибута к нижнему регистру для унификации
+                    if attr_name.lower() in ALLOWED_ATTRIBUTES:
+                        new_attrs[attr_name] = attr_value
+                tag.attrs = new_attrs
+            else:
+                # Тег незначащий (нет текста внутри или только пробелы): удаляем его
+                tag.decompose()
+
+        # --- 3. Получаем очищенный HTML ---
+        # Часто имеет смысл взять только содержимое body после очистки
+        body_content = soup.body
+        if body_content:
+             # Используем str() для компактного вывода, prettify() для отладки
+            body_content_as_string:str = str(body_content)
+            # Дополнительно убираем теги <body> и </body> из строки, если они есть
+            cleaned_html:str = body_content_as_string
+            if cleaned_html.startswith('<body>'):
+                cleaned_html = cleaned_html[len('<body>'):]
+            if cleaned_html.endswith('</body>'):
+                cleaned_html = cleaned_html[:-len('</body>')]
+            cleaned_html = cleaned_html.strip().replace('\n','').replace('\t','')# Убираем пробелы по краям
+        else:
+            cleaned_html = "" # Если body не найден или пуст
+
+        # --- 4. Извлечение внутренних ссылок из *очищенного* дерева ---
         internal_links = []
-        all_links = soup.find_all('a', href=True)
-        for link in all_links:
-            href = link.get('href')
-            text = link.get_text(strip=True) or "Ссылка без текста"
-            if href:
-                # Используем переданный base_url для проверки и разрешения ссылок
-                if is_internal(base_url, href):
-                    absolute_href = urljoin(base_url, href)
-                    link_data = {"link": {"href": absolute_href, "text": text}}
-                    internal_links.append(link_data)
+        # Ищем ссылки в модифицированном 'soup', т.к. body_content - это строка
+        body:str = soup.body
+        if len(body)>0: # Искать только если body существует
+            all_links = soup.body.find_all('a', href=True)
+            for link in all_links:
+                href = link.get('href')
+                # Получаем текст ссылки как он есть в очищенном HTML
+                text = link.get_text(strip=True) or "Ссылка без текста"
 
-        return {'text': page_text, 'internal_links': internal_links}
-    except Exception as e:
-        print(f"Ошибка при разборе HTML для {base_url}: {e}")
-        return {}
+                if href:
+                    # Проверяем, является ли ссылка внутренней
+                    if is_internal(base_url, href):
+                        absolute_href = urljoin(base_url, href)
+
+                        # >>> Место для  проверки FORBIDDEN_KEYWORDS <<<
+                        # Если нужно фильтровать ссылки по доменам из FORBIDDEN_KEYWORDS:
+                        # link_parts = urlparse(absolute_href)
+                        # domain = link_parts.netloc.lower()
+                        # is_forbidden = False
+                        # for keyword in FORBIDDEN_KEYWORDS:
+                        #     if keyword in domain:
+                        #         is_forbidden = True
+                        #         break
+                        # if not is_forbidden:
+                        #     link_data = {"link": {"href": absolute_href, "text": text}}
+                        #     internal_links.append(link_data)
+                        # else: # Если проверка не нужна:
+                        link_data = {"link": {"href": absolute_href, "text": text}}
+                        internal_links.append(link_data)
+
+            return {'text': cleaned_html, 'internal_links': internal_links}
+
+    except Exception as ex:
+        # Логируем ошибку для отладки
+        import traceback
+        print(f"Ошибка при обработке HTML для {base_url}: {ex}")
+        print(traceback.format_exc()) # Печатаем traceback для деталей
+        
+    return {'text': '', 'internal_links': []} # Возвращаем пустую структуру
+
 
 def update_output_dict(data:str, timestamp:str, url:str) -> bool:
     output_file = Path(rf"F:/llm/filtered_urls/{gs.now}.json")
@@ -102,7 +197,7 @@ def update_output_dict(data:str, timestamp:str, url:str) -> bool:
 
 # --- Основной блок выполнения ---
 if __name__ == "__main__":
-    driver = Driver(Firefox, window_mode= 'headless')
+    driver = Driver(Firefox, window_mode = 'headless')
     timestamp: str = gs.now
     actual_urls: list = []
     
@@ -179,7 +274,7 @@ if __name__ == "__main__":
 
             # 6. Извлекаем данные (как в вашем коде, передавая target_url)
             print("Извлечение данных...")
-            data = extract_page_data(target_url, driver.html_content) # Передаем target_url
+            data = extract_page_data(driver.html_content, target_url) # Передаем target_url
             print("Извлечение данных завершено.")
 
             # 7. Вывод результатов (как в вашем коде)

@@ -414,6 +414,7 @@ def _read_file_lines_generator(file_path: Path, chunk_size: int) -> Generator[st
                     yield line
 
 
+
 def get_filenames_from_directory(
     directory: str | Path, ext: str | list[str] = '*'
 ) -> list[str]:
@@ -433,6 +434,9 @@ def get_filenames_from_directory(
         >>> directory = Path('.')
         >>> get_filenames_from_directory(directory, ['.txt', '.md'])
         ['example.txt', 'readme.md']
+
+    TODO:
+        Сейчас не работает формат параметра `ext` переданный как `*.ext`, только `ext` 
     """
     if not Path(directory).is_dir():
         logger.error(f'Указанный путь \'{directory}\' не является директорией.')

@@ -6,6 +6,7 @@
 Модуль для сбора датасета для обучения модели 
 =====================================================
 
+
 Пример использования:
 ```python
 # Ваш словарь (пример структуры "instruction/input/output")
@@ -77,7 +78,7 @@ def yield_dialog_chunks() -> Generator[Any, None, None]:
     Yields:
         Any: Следующий 'chunk' из найденных файлов.
     """
-    # Объявление переменных в начале функции
+    
     dialogs_dir: Path = Config.DIALOGS_DIR
     json_file_paths: Generator[Path, None, None] 
     found_files: bool = False
