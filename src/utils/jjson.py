@@ -199,10 +199,10 @@ def j_loads(
         logger.error(f"File not found: {jjson}",None,False)
         return {}
     except json.JSONDecodeError as ex:
-        logger.error(f"JSON parsing error:\n{jjson}\n", ex, False)
+        logger.error(f"JSON parsing error:\n{str(jjson)}\n", ex, False)
         return {}
     except Exception as ex:
-        logger.error(f"Error loading data: ", ex, False)
+        logger.error(f"Error loading data: \n{str(jjson)}\n", ex, False)
         return {}
     return {}
 

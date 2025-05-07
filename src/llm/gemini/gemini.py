@@ -434,7 +434,7 @@ class GoogleGenerativeAi:
                         logger.warning("Функция _save_dialogue не реализована, история не сохранена.")
 
                     # Возврат очищенного или полного ответа
-                    return self.normalize_answer(response_text) if clean_response else response_text
+                    return normalize_answer(response_text) if clean_response else response_text
                 else:
                     # Логгирование отсутствия ответа и пауза перед повторной попыткой
                     sleep_time = 2 ** attempt

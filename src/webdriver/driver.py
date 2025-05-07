@@ -378,24 +378,24 @@ class Driver:
         except Exception as ex: # Общий обработчик
             logger.error(f"Неожиданная ошибка при сохранении куки в {gs.cookies_filepath}:", exc_info=ex)
 
-    def _extract_body_content(self, html: Optional[str]) -> Optional[str]:
-        """
-        Вспомогательный метод для извлечения содержимого между тегами <body>.
-        Возвращает None, если html равен None или теги <body> не найдены.
-        """
-        if not html:
-            return None
-        # Regex для поиска контента между тегами <body> и </body>
-        # - re.IGNORECASE: Сопоставление <body> или <BODY> и т.д.
-        # - re.DOTALL: Позволяет '.' соответствовать символам новой строки
-        # - .*?>: Нежадное сопоставление для атрибутов в открывающем теге <body>
-        # - (.*?): Группа захвата для контента между тегами (нежадная)
-        match = re.search(r'<body.*?>(.*?)</body>', html, re.IGNORECASE | re.DOTALL)
-        if match:
-            return match.group(1).strip() # Возвращаем захваченный контент, очищенный от пробелов
-        else:
-            logger.warning("Не удалось найти теги <body>...</body> в загруженном HTML.")
-            return None
+    # def _extract_body_content(self, html: Optional[str]) -> Optional[str]:
+    #     """
+    #     Вспомогательный метод для извлечения содержимого между тегами <body>.
+    #     Возвращает None, если html равен None или теги <body> не найдены.
+    #     """
+    #     if not html:
+    #         return None
+    #     # Regex для поиска контента между тегами <body> и </body>
+    #     # - re.IGNORECASE: Сопоставление <body> или <BODY> и т.д.
+    #     # - re.DOTALL: Позволяет '.' соответствовать символам новой строки
+    #     # - .*?>: Нежадное сопоставление для атрибутов в открывающем теге <body>
+    #     # - (.*?): Группа захвата для контента между тегами (нежадная)
+    #     match = re.search(r'<body.*?>(.*?)</body>', html, re.IGNORECASE | re.DOTALL)
+    #     if match:
+    #         return match.group(1).strip() # Возвращаем захваченный контент, очищенный от пробелов
+    #     else:
+    #         logger.warning("Не удалось найти теги <body>...</body> в загруженном HTML.")
+    #         return None
 
     def fetch_html(self, url: Optional[str] = '') -> Union[str, bool]:
         """
@@ -506,17 +506,18 @@ class Driver:
                 return False
 
             # --- Обработка успешно загруженного HTML ---
-            if full_html is not None:
-                self.html_content = full_html # Сохраняем полный HTML контент
-                body_content = self._extract_body_content(full_html)
+            if full_html:
+                return full_html
+                # self.html_content = full_html # Сохраняем полный HTML контент
+                # body_content = self._extract_body_content(full_html)
 
-                if body_content:
-                    logger.info(f"Успешно извлечен контент <body> из {effective_url}")
-                    return body_content # УСПЕХ! Возвращаем извлеченное тело.
-                else:
-                    # Загрузка удалась, но извлечение body не удалось. Возвращаем False согласно требованию.
-                    logger.debug(f"Загружен контент из {effective_url}, но не удалось извлечь контент <body>.")
-                    return full_html #### ВНИМАНИЕ!!!!!! 
+                # if body_content:
+                #     logger.info(f"Успешно извлечен контент <body> из {effective_url}")
+                #     return body_content # УСПЕХ! Возвращаем извлеченное тело.
+                # else:
+                #     # Загрузка удалась, но извлечение body не удалось. Возвращаем False согласно требованию.
+                #     logger.debug(f"Загружен контент из {effective_url}, но не удалось извлечь контент <body>.")
+                #     return full_html #### ВНИМАНИЕ!!!!!! 
             else:
                 # Этот путь не должен достигаться, если логика выше верна,
                 # но служит запасным вариантом, если full_html остался None без возврата False ранее.
