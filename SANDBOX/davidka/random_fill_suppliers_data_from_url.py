@@ -38,6 +38,7 @@ from pathlib import Path
 import random
 from typing import Dict, Any, List
 import sys
+import time
 
 # Стандартные импорты проекта
 # Убедитесь, что эти импорты работают в вашем окружении
@@ -150,6 +151,7 @@ def process_supplier_link(
             current_data_for_link[key_from_extraction] = value_from_extraction
         
         logger.info(f"Данные для URL '{link}' извлечены и словарь обновлен.")
+        time.sleep(15) # <- задержка для предотвращения блокировок со стороны сайта
         return current_data_for_link
     else:
         # Эта ветка больше не должна достигаться, так как проверка text_content делается перед вызовом
