@@ -1,5 +1,3 @@
-### **Улучшенный код**
-
 ## \file /src/webdriver/driver.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
@@ -12,6 +10,10 @@
 такими как Chrome, Firefox и Edge. Код вебдрайверов находится в подмодулях `chrome`, `firefox`, `edge`, `playwright` .
 Файлы настроек для веб-браузеров находятся в: `chrome\chrome.json`, `firefox\firefox.json`, `edge\edge.json`, `playwright\playwright.json`.
 Класс Driver упрощает задачи инициализации драйвера, навигации по URL, управления куками и обработки исключений.
+
+```rst
+.. module:: src.webdriver.driver
+```
 """
 
 import copy
@@ -19,135 +21,158 @@ import pickle
 import time
 import re
 from pathlib import Path
-from typing import Optional, Union # Добавлено Union для нового типа возврата fetch_html
+from typing import Optional, Union, Any
 import urllib.parse # Добавлено для лучшей обработки file:// URI
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import (
     InvalidArgumentException,
     ElementClickInterceptedException,
     ElementNotInteractableException,
-    ElementNotVisibleException
+    ElementNotVisibleException,
+    WebDriverException as SeleniumWebDriverException # Переименовано для ясности
 )
 
 import header # Если нужно раскомментировать
 from src import gs # Если нужно раскомментировать
 
 from src.logger.logger import logger
-from src.logger.exceptions import ExecuteLocatorException, WebDriverException
+# Исключения ExecuteLocatorException, WebDriverException не используются в этом файле напрямую
+# Оставлены, если они используются в других частях проекта, импортирующих этот модуль
+from src.logger.exceptions import ExecuteLocatorException, WebDriverException 
 
 
 
 class Driver:
     """
     Класс обеспечивает удобный интерфейс для работы с различными драйверами, такими как Chrome, Firefox и Edge.
+    Обертывает экземпляр Selenium WebDriver, предоставляя дополнительные методы и управление состоянием.
 
     Attributes:
-        driver (selenium.webdriver): Экземпляр Selenium WebDriver.
-        current_url (str): Текущий URL, открытый в браузере.
+        driver (selenium.webdriver.remote.webdriver.WebDriver): Экземпляр Selenium WebDriver (или совместимый).
+        current_url (str): Текущий URL, открытый в браузере. Инициализируется пустой строкой.
         html_content (Optional[str]): Полное HTML содержимое последней успешно загруженной страницы.
-        page_source (Optional[str]): Свойство, предоставляемое Selenium, содержащее исходный код страницы.
-                                      Используется для получения HTML при веб-запросах.
+                                      Устанавливается методом `fetch_html`.
+        previous_url (Optional[str]): URL, который был открыт до последнего успешного перехода.
+                                      Инициализируется как None.
     """
+    # Текущий URL, открытый в браузере
     current_url: str = ''
-    html_content: Optional[str] = None # Добавлено для хранения полного HTML
-    # page_source будет доступен через self.driver.page_source
+    # Полное HTML содержимое последней успешно загруженной страницы
+    html_content: Optional[str] = None 
+    # Предыдущий URL
+    previous_url: Optional[str] = None 
+    # Экземпляр WebDriver (аннотация типа для ясности)
+    driver: SeleniumWebDriverException # Используем общее исключение Selenium, но лучше конкретный тип драйвера, если известен
 
-    def __init__(self, webdriver_cls, *args, **kwargs):
+    def __init__(self, webdriver_cls: type, *args: Any, **kwargs: Any) -> None: # webdriver_cls должен быть типом
         """
-        Инициализирует экземпляр класса Driver.
+        Инициализирует экземпляр класса Driver, создавая экземпляр предоставленного WebDriver.
 
         Args:
-            webdriver_cls: Класс WebDriver, например Chrome или Firefox.
-            args: Позиционные аргументы для драйвера.
-            kwargs: Ключевые аргументы для драйвера.
+            webdriver_cls (type): Класс WebDriver для инстанцирования (например, `selenium.webdriver.Chrome`).
+            *args: Позиционные аргументы, передаваемые в конструктор `webdriver_cls`.
+            **kwargs: Именованные аргументы, передаваемые в конструктор `webdriver_cls`.
 
         Raises:
-            TypeError: Если `webdriver_cls` не является допустимым классом WebDriver.
+            TypeError: Если `webdriver_cls` не является классом или не имеет необходимых атрибутов WebDriver.
 
         Example:
             >>> # Mock WebDriver class for example
             >>> class MockWebDriver:
             ...     def __init__(self, *args, **kwargs): self.page_source = ""
-            ...     def get(self, url): self.current_url = url; self.page_source = f"<html><body>Content for {url}</body></html>"
+            ...     def get(self, url): self._current_url_prop = url; self.page_source = f"<html><body>Content for {url}</body></html>"
             ...     def execute_script(self, script): return 'complete' # Mock ready state
             ...     @property
-            ...     def current_url(self): return getattr(self, '_current_url', '')
-            ...     @current_url.setter
-            ...     def current_url(self, value): self._current_url = value
+            ...     def current_url(self): return getattr(self, '_current_url_prop', '') # Изменено на _current_url_prop
             ...     def get_cookies(self): return [{'name': 'session', 'value': '123'}]
-            ...     def find_element(self, by, value): raise Exception("Not found") # Mock locale failure
-            ...     def switch_to(self): return self # Mock switch_to
-            ...     def window(self, handle): pass # Mock window switch
+            ...     def find_element(self, by, value): raise Exception("Not found")
+            ...     def switch_to(self): return self 
+            ...     def window(self, handle): pass 
             ...     @property
-            ...     def window_handles(self): return ['handle1'] # Mock window handles
-            >>> driver_instance = Driver(MockWebDriver) # Pass the mock class
+            ...     def window_handles(self): return ['handle1'] 
+            >>> driver_instance = Driver(MockWebDriver) 
             >>> print(isinstance(driver_instance.driver, MockWebDriver))
             True
         """
-        if not hasattr(webdriver_cls, 'get'): # Простая проверка наличия метода get
-            raise TypeError('`webdriver_cls` должен быть допустимым классом WebDriver.')
+        # Проверка, что webdriver_cls является классом и имеет метод 'get'
+        if not isinstance(webdriver_cls, type) or not hasattr(webdriver_cls, 'get'): 
+            raise TypeError('`webdriver_cls` должен быть допустимым классом WebDriver (например, selenium.webdriver.Chrome).')
+        # Создание экземпляра WebDriver
         self.driver = webdriver_cls(*args, **kwargs)
-        self.previous_url: Optional[str] = None # Инициализация previous_url
+        # Инициализация previous_url значением None
+        self.previous_url: Optional[str] = None 
 
-    def __init_subclass__(cls, *, browser_name: Optional[str] = None, **kwargs):
+    def __init_subclass__(cls, *, browser_name: Optional[str] = None, **kwargs: Any) -> None:
         """
-        Автоматически вызывается при создании подкласса `Driver`.
+        Метод жизненного цикла Python, автоматически вызываемый при создании подкласса `Driver`.
+        Используется для установки атрибута `browser_name` на уровне класса подкласса.
 
         Args:
-            browser_name: Имя браузера.
-            kwargs: Дополнительные аргументы.
+            browser_name (Optional[str]): Имя браузера, которое должен указать подкласс.
+            **kwargs (Any): Дополнительные именованные аргументы, передаваемые в `super().__init_subclass__`.
 
         Raises:
-            ValueError: Если browser_name не указан.
+            ValueError: Если `browser_name` не указан при определении подкласса.
         """
         super().__init_subclass__(**kwargs)
         if browser_name is None:
-            raise ValueError(f'Класс {cls.__name__} должен указать аргумент `browser_name`.')
+            raise ValueError(f'Класс {cls.__name__} должен указать аргумент `browser_name` при наследовании от Driver.')
+        # Установка имени браузера как атрибута класса
         cls.browser_name = browser_name
 
-    def __getattr__(self, item: str):
+    def __getattr__(self, item: str) -> Any:
         """
-        Прокси для доступа к атрибутам драйвера.
+        Магический метод для делегирования доступа к атрибутам.
+        Если атрибут `item` не найден в экземпляре `Driver`, поиск передается
+        вложенному объекту `self.driver` (экземпляру Selenium WebDriver).
 
         Args:
-            item: Имя атрибута.
+            item (str): Имя атрибута для доступа.
+
+        Returns:
+            Any: Значение запрошенного атрибута.
+
+        Raises:
+            AttributeError: Если атрибут не найден ни в `Driver`, ни во вложенном `self.driver`.
 
         Example:
             >>> class MockWebDriverAttr:
-            ...     def __init__(self): self._url = "http://example.com"
+            ...     def __init__(self): self._url_prop = "http://example.com" # Изменено на _url_prop
             ...     @property
-            ...     def current_url(self): return self._url
-            ...     def get(self, url): pass # Dummy method
+            ...     def current_url(self): return self._url_prop # Используем _url_prop
+            ...     def get(self, url): pass 
             >>> driver_instance = Driver(MockWebDriverAttr)
-            >>> print(driver_instance.current_url) # Accesses driver's property via __getattr__
+            >>> print(driver_instance.current_url) # Доступ к driver.current_url через __getattr__
             http://example.com
         """
-        # Проверяем, есть ли атрибут у самого экземпляра Driver
+        # Сначала проверяем, есть ли атрибут у самого экземпляра Driver
         if item in self.__dict__:
             return self.__dict__[item]
         # Если нет, пытаемся получить его из вложенного self.driver
         try:
             return getattr(self.driver, item)
         except AttributeError:
-            # Если и там нет, вызываем стандартное поведение AttributeError
+            # Если атрибут не найден и там, генерируем стандартное исключение AttributeError
             raise AttributeError(f"'{type(self).__name__}' object has no attribute '{item}' and its 'driver' object ({type(self.driver).__name__}) also has no attribute '{item}'")
 
 
     def scroll(self, scrolls: int = 1, frame_size: int = 600, direction: str = 'both', delay: float = .3) -> bool:
         """
-        Прокручивает страницу в указанном направлении.
+        Прокручивает текущую веб-страницу в указанном направлении.
 
         Args:
-            scrolls: Количество прокруток, по умолчанию 1.
-            frame_size: Размер прокрутки в пикселях, по умолчанию 600.
-            direction: Направление ('both', 'down', 'up'), по умолчанию 'both'.
-            delay: Задержка между прокрутками, по умолчанию 0.3.
+            scrolls (int): Количество отдельных прокруток для выполнения. По умолчанию 1.
+            frame_size (int): Размер каждой прокрутки в пикселях. По умолчанию 600.
+            direction (str): Направление прокрутки. Допустимые значения:
+                             'down' или 'forward' (вниз),
+                             'up' или 'backward' (вверх),
+                             'both' (сначала вниз, затем вверх). По умолчанию 'both'.
+            delay (float): Задержка в секундах между последовательными прокрутками. По умолчанию 0.3.
 
         Returns:
-            True, если успешно, иначе False.
+            bool: `True`, если все прокрутки в указанном направлении(ях) выполнены успешно, иначе `False`.
 
         Example:
-            >>> # Mock driver with execute_script
             >>> class MockWebDriverScroll:
             ...     def get(self, url): pass
             ...     def execute_script(self, script): print(f"Executed: {script}"); return None
@@ -156,545 +181,616 @@ class Driver:
             Executed: window.scrollBy(0,600)
             True
         """
+        # Внутренняя вспомогательная функция для выполнения прокрутки
         def carousel(dir_sign: str = '', num_scrolls: int = 1, size: int = 600, scroll_delay: float = .3) -> bool:
-            """ Локальный метод для прокрутки экрана. """
+            """ Локальный метод для выполнения серии прокруток в одном направлении. """
             try:
                 for _ in range(num_scrolls):
-                    # Используем self.driver для доступа к методу execute_script экземпляра WebDriver
+                    # Выполнение JavaScript для прокрутки окна
                     self.driver.execute_script(f'window.scrollBy(0,{dir_sign}{size})')
-                    self.wait(scroll_delay) # Используем self.wait
-                return True
+                    # Использование метода self.wait для задержки
+                    self.wait(scroll_delay)
+                return True # Успешное выполнение
             except Exception as ex:
-                logger.error(f'Ошибка при прокрутке ({dir_sign or "down"}):', exc_info=ex)
-                return False
+                # Логирование ошибки при прокрутке
+                logger.error(f'Ошибка при прокрутке ({dir_sign or "down"}):', None, exc_info=ex)
+                return False # Неудачное выполнение
 
         try:
+            # Обработка различных направлений прокрутки
             if direction in ('forward', 'down'):
                 return carousel('', scrolls, frame_size, delay)
             elif direction in ('backward', 'up'):
                 return carousel('-', scrolls, frame_size, delay)
             elif direction == 'both':
-                # Выполняем прокрутку вниз, затем вверх
-                down_success = carousel('', scrolls, frame_size, delay)
-                # Ждем немного перед прокруткой вверх, если необходимо
-                # self.wait(delay)
-                up_success = carousel('-', scrolls, frame_size, delay)
-                return down_success and up_success
+                # Прокрутка вниз, затем вверх
+                down_success: bool = carousel('', scrolls, frame_size, delay)
+                # self.wait(delay) # Дополнительная задержка между "вниз" и "вверх" (опционально)
+                up_success: bool = carousel('-', scrolls, frame_size, delay)
+                return down_success and up_success # Успех, если оба направления успешны
             else:
+                # Логирование предупреждения о неизвестном направлении
                 logger.warning(f"Неизвестное направление прокрутки: {direction}")
                 return False
         except Exception as ex:
-            logger.error('Неожиданная ошибка в функции scroll:', exc_info=ex)
+            # Логирование неожиданной ошибки в основной функции scroll
+            logger.error('Неожиданная ошибка в функции scroll:', None, exc_info=ex)
             return False
 
 
     @property
     def locale(self) -> Optional[str]:
         """
-        Определяет язык страницы на основе мета-тегов или JavaScript.
+        Определяет язык (локаль) текущей веб-страницы.
+        Пытается извлечь язык сначала из мета-тега 'Content-Language',
+        затем из атрибутов `lang` тегов `<html>` или `<body>`,
+        и наконец, из свойств JavaScript `navigator.language` или `navigator.userLanguage`.
 
         Returns:
-            Код языка, если найден, иначе None.
+            Optional[str]: Строка с кодом языка (например, 'en-US', 'fr'), если найден, иначе `None`.
 
         Example:
-            >>> class MockWebDriverLocale:
+            >>> class MockWebDriverLocaleMeta:
             ...     def get(self, url): pass
             ...     def find_element(self, by, value):
             ...         if value == "meta[http-equiv='Content-Language']":
             ...             class MockElement:
-            ...                 def get_attribute(self, name): return 'en-US' if name == 'content' else None
+            ...                 def get_attribute(self, name): return 'en-GB' if name == 'content' else None
             ...             return MockElement()
-            ...         else: raise Exception("Not found")
-            ...     def execute_script(self, script): return 'fr' # Mock JS locale
-            >>> driver_instance = Driver(MockWebDriverLocale)
-            >>> print(driver_instance.locale)
-            en-US
-            >>> # Example where meta fails, uses JS
+            ...         else: raise SeleniumWebDriverException("Meta not found") # Используем SeleniumWebDriverException
+            ...     def execute_script(self, script): return 'fr-CA' 
+            >>> driver_instance_meta = Driver(MockWebDriverLocaleMeta)
+            >>> print(driver_instance_meta.locale)
+            en-GB
             >>> class MockWebDriverLocaleJS:
             ...     def get(self, url): pass
-            ...     def find_element(self, by, value): raise Exception("Meta not found")
+            ...     def find_element(self, by, value): raise SeleniumWebDriverException("Meta not found")
             ...     def execute_script(self, script):
-            ...         if 'navigator.language' in script: return 'de-DE'
-            ...         return None # Default for other scripts
+            ...         if 'document.documentElement.lang' in script: return 'de-DE'
+            ...         return None 
             >>> driver_instance_js = Driver(MockWebDriverLocaleJS)
             >>> print(driver_instance_js.locale)
             de-DE
-
         """
         try:
-             # Используем self.driver для доступа к методу find_element
-            meta_language = self.driver.find_element(By.CSS_SELECTOR, "meta[http-equiv='Content-Language']")
-            return meta_language.get_attribute('content')
-        except Exception:
-            logger.debug('Не удалось определить язык сайта из META, пытаемся через JavaScript.')
-            try:
-                # Используем self.driver для доступа к execute_script
-                # Проверяем несколько общих свойств JS для определения языка
-                lang = self.driver.execute_script(
-                    "return document.documentElement.lang || document.body.lang || navigator.language || navigator.userLanguage;"
-                )
-                if lang:
-                    return str(lang) # Убедимся, что возвращается строка
-                else:
-                    logger.debug('JavaScript не вернул язык.')
-                    return None
-            except Exception as ex_js:
-                logger.warning('Не удалось определить язык сайта из JavaScript.', exc_info=ex_js)
-                return None
+             # Попытка найти мета-тег Content-Language
+            meta_language_element = self.driver.find_element(By.CSS_SELECTOR, "meta[http-equiv='Content-Language']")
+            lang_code: Optional[str] = meta_language_element.get_attribute('content')
+            if lang_code: return lang_code
+        except Exception: # Если мета-тег не найден или произошла другая ошибка
+            logger.debug('Не удалось определить язык из META "Content-Language", попытка через JS.')
+            pass # Продолжаем попытки другими способами
 
-    # Убран get_page_lang, так как его логика встроена в locale
-    # def get_page_lang(self): ...
+        try:
+            # Попытка получить язык через JavaScript (атрибуты HTML, body, navigator)
+            # Скрипт возвращает первое непустое значение из перечисленных свойств
+            lang_code_js: Optional[str] = self.driver.execute_script(
+                "return document.documentElement.lang || document.body.lang || navigator.language || navigator.userLanguage;"
+            )
+            if lang_code_js:
+                return str(lang_code_js) # Возвращаем язык, если он найден через JS
+            else:
+                logger.debug('JavaScript не вернул информацию о языке.')
+                return None # Если JS не вернул язык
+        except Exception as ex_js:
+            # Логирование предупреждения, если и через JS не удалось определить язык
+            logger.warning('Не удалось определить язык сайта из JavaScript.', None, exc_info=ex_js)
+            return None # Возвращаем None, если все попытки неудачны
 
     @property
     def ready_state(self) -> Optional[str]:
-         """ Возвращает document.readyState """
+         """ 
+         Возвращает состояние загрузки документа (`document.readyState`).
+         Возможные значения: 'loading', 'interactive', 'complete'.
+
+         Returns:
+            Optional[str]: Строка с состоянием `document.readyState` или `None` в случае ошибки.
+         """
          try:
+             # Выполнение JavaScript для получения document.readyState
              return self.driver.execute_script('return document.readyState;')
          except Exception as ex:
-              logger.error("Не удалось получить document.readyState:", exc_info=ex)
+              # Логирование ошибки, если не удалось получить readyState
+              logger.error("Не удалось получить document.readyState:", None, exc_info=ex)
               return None
 
     def get_url(self, url: str) -> bool:
         """
-        Переходит по указанному URL и сохраняет текущий URL, предыдущий URL и куки.
+        Переходит по указанному URL.
+        Обновляет `self.current_url` и `self.previous_url`.
+        Ожидает, пока `document.readyState` не станет 'complete' или 'interactive'.
+        Сохраняет куки после успешного перехода (если логика `_save_cookies_localy` активна).
 
         Args:
-            url: URL для перехода.
+            url (str): URL для навигации.
 
         Returns:
-            `True`, если переход успешен и страница загружена (readyState 'complete' или 'interactive'), `False` в противном случае.
-
-        Raises:
-            WebDriverException: Если возникает ошибка с WebDriver.
-            InvalidArgumentException: Если URL некорректен.
-            Exception: Для любых других ошибок при переходе.
+            bool: `True`, если переход успешен и страница загружена (readyState 'complete' или 'interactive'), 
+                  `False` в противном случае (например, некорректный URL, ошибка WebDriver, таймаут загрузки).
         """
-        _previous_url: str = copy.copy(self.current_url)
+        # Сохранение текущего URL как предыдущего перед переходом
+        _previous_url_local: str = copy.copy(self.current_url)
 
         try:
             logger.info(f"Переход на URL: {url}")
+            # Выполнение перехода с помощью метода get драйвера
             self.driver.get(url)
 
-            attempts = 10 # Увеличено количество попыток и уменьшена задержка
-            loaded = False
+            # Ожидание загрузки страницы (проверка readyState)
+            attempts: int = 10 # Количество попыток проверки readyState
+            loaded: bool = False # Флаг успешной загрузки
             while attempts > 0:
-                state = self.ready_state
+                state: Optional[str] = self.ready_state # Получение текущего readyState
                 logger.debug(f"Попытка {11-attempts}/10: readyState={state} для {url}")
+                # Проверка, достигла ли страница состояния 'complete' или 'interactive'
                 if state in ('complete', 'interactive'):
                     loaded = True
                     logger.info(f"Страница загружена (readyState={state}): {url}")
-                    break
+                    break # Выход из цикла, если страница загружена
                 attempts -= 1
                 if attempts == 0:
+                    # Логирование ошибки, если страница не загрузилась за все попытки
                     logger.error(f'Страница не достигла состояния "complete" или "interactive" за 10 попыток: {url}')
-                    return False # Явный возврат False, если не загрузилась
-                self.wait(0.5) # Уменьшенная задержка между проверками
+                    return False # Явный возврат False
+                self.wait(0.5) # Короткая задержка между проверками
 
-            # Обновляем URL и сохраняем куки только если загрузка прошла успешно
+            # Обновление URL и сохранение куки только если загрузка прошла успешно
             if loaded:
-                # Проверка, что URL действительно тот, на который переходили (может быть редирект)
-                actual_url = self.driver.current_url
-                logger.info(f"Фактический URL после перехода: {actual_url}")
-                self.current_url = actual_url # Сохраняем фактический URL
+                # Получение фактического URL после возможного редиректа
+                actual_url_after_get: str = self.driver.current_url
+                logger.info(f"Фактический URL после перехода: {actual_url_after_get}")
+                self.current_url = actual_url_after_get # Обновление current_url
 
-                if self.current_url != _previous_url:
-                    self.previous_url = _previous_url
-                    logger.debug(f"Предыдущий URL сохранен: {_previous_url}")
+                # Обновление previous_url, если URL изменился
+                if self.current_url != _previous_url_local:
+                    self.previous_url = _previous_url_local
+                    logger.debug(f"Предыдущий URL сохранен: {_previous_url_local}")
 
-                #self._save_cookies_localy() # Сохраняем куки
-                # self.html_content = self.driver.page_source # Сохраняем исходный код здесь? Или в fetch_html? Лучше в fetch_html.
-                return True
+                # self._save_cookies_localy() # Раскомментировать для сохранения куки
+                return True # Успешный переход и загрузка
 
-
-        except InvalidArgumentException as ex:
-            logger.error(f"Некорректный URL '{url}': {ex}")
+        except InvalidArgumentException as ex_invalid_arg:
+            # Обработка ошибки некорректного URL
+            logger.error(f"Некорректный URL '{url}': {ex_invalid_arg}")
             return False
-        except WebDriverException as ex: # Более специфичные исключения Selenium
-            logger.error(f'Ошибка WebDriver при переходе на {url}: {ex}')
+        except SeleniumWebDriverException as ex_webdriver: 
+            # Обработка общих ошибок WebDriver
+            logger.error(f'Ошибка WebDriver при переходе на {url}: {ex_webdriver}')
             return False
-        except Exception as ex: # Общий обработчик для других ошибок
-            logger.error(f'Неожиданная ошибка при переходе по URL: {url}', exc_info=ex)
+        except Exception as ex_other: 
+            # Обработка любых других неожиданных ошибок
+            logger.error(f'Неожиданная ошибка при переходе по URL: {url}', None, exc_info=ex_other)
             return False
+        return False # Добавлено для случаев, когда loaded остается False, но исключения не было
 
     def window_open(self, url: Optional[str] = None) -> None:
-        """Открывает новую вкладку в текущем окне браузера и переключается на нее.
+        """
+        Открывает новую вкладку в текущем окне браузера и переключается на нее.
+        Если указан `url`, переходит по этому URL в новой вкладке.
 
         Args:
-            url: URL для открытия в новой вкладке. По умолчанию `None`.
+            url (Optional[str]): URL для открытия в новой вкладке. Если `None`, открывается пустая вкладка.
+                                По умолчанию `None`.
         """
         logger.debug("Открытие новой вкладки.")
-        # Используем self.driver для доступа к методам WebDriver
-        self.driver.execute_script('window.open("");') # Открываем пустую вкладку для надежности
-        new_window_handle = self.driver.window_handles[-1]
+        # Выполнение JavaScript для открытия новой пустой вкладки
+        self.driver.execute_script('window.open("");') 
+        # Получение дескриптора последней открытой вкладки
+        new_window_handle: str = self.driver.window_handles[-1]
+        # Переключение на новую вкладку
         self.driver.switch_to.window(new_window_handle)
         logger.debug(f"Переключено на новую вкладку: {new_window_handle}")
+        # Если URL предоставлен, переход по нему с использованием self.get_url
         if url:
-            self.get_url(url) # Используем наш get_url для перехода
+            self.get_url(url) 
 
     def wait(self, delay: float = .3) -> None:
         """
-        Ожидает указанное количество времени.
+        Приостанавливает выполнение на указанное количество времени.
 
         Args:
-            delay: Время задержки в секундах. По умолчанию 0.3.
-
-        Returns:
-            None
+            delay (float): Время задержки в секундах. По умолчанию 0.3.
         """
         if delay > 0:
             # logger.debug(f"Ожидание {delay} сек.") # Можно раскомментировать для отладки
-            time.sleep(delay)
+            time.sleep(delay) # Использование стандартной функции time.sleep
 
     def _save_cookies_localy(self) -> None:
         """
-        Сохраняет текущие куки веб-драйвера в локальный файл.
-
-        Returns:
-            None
-
-        Raises:
-            Exception: Если возникает ошибка при сохранении куки.
+        Сохраняет текущие куки веб-драйвера в локальный файл с использованием `pickle`.
+        Путь к файлу куки берется из `gs.cookies_filepath`.
+        Если путь не установлен или возникают ошибки, куки не сохраняются и логируется соответствующее сообщение.
         """
-        # return True # <- Закомментировано для реальной работы
-        if not gs.cookies_filepath:
+        # Проверка, установлен ли путь к файлу куки
+        if not hasattr(gs, 'cookies_filepath') or not gs.cookies_filepath: # Добавлена проверка hasattr
              logger.warning("Путь к файлу куки (gs.cookies_filepath) не установлен. Куки не сохранены.")
              return
         try:
-            cookies = self.driver.get_cookies()
-            if cookies: # Сохраняем, только если есть куки
-                # Убедимся, что директория существует
+            # Получение куки из драйвера
+            cookies: list = self.driver.get_cookies()
+            if cookies: # Сохранение, только если куки существуют
+                # Гарантируем, что родительская директория для файла куки существует
                 Path(gs.cookies_filepath).parent.mkdir(parents=True, exist_ok=True)
+                # Открытие файла в бинарном режиме для записи (wb) и сохранение куки
                 with open(gs.cookies_filepath, 'wb') as cookiesfile:
                     pickle.dump(cookies, cookiesfile)
                 logger.info(f"Куки успешно сохранены в файл: {gs.cookies_filepath}")
             else:
                 logger.info("Нет куки для сохранения.")
         except AttributeError:
+             # Обработка случая, если драйвер не поддерживает get_cookies()
              logger.error("Текущий драйвер не поддерживает get_cookies().")
-        except pickle.PicklingError as ex:
-            logger.error(f"Ошибка сериализации (pickle) при сохранении куки в {gs.cookies_filepath}:", exc_info=ex)
-        except IOError as ex:
-            logger.error(f"Ошибка ввода/вывода при сохранении куки в {gs.cookies_filepath}:", exc_info=ex)
-        except Exception as ex: # Общий обработчик
-            logger.error(f"Неожиданная ошибка при сохранении куки в {gs.cookies_filepath}:", exc_info=ex)
+        except pickle.PicklingError as ex_pickle:
+            # Обработка ошибок сериализации pickle
+            logger.error(f"Ошибка сериализации (pickle) при сохранении куки в {gs.cookies_filepath}:", None, exc_info=ex_pickle)
+        except IOError as ex_io:
+            # Обработка ошибок ввода-вывода
+            logger.error(f"Ошибка ввода/вывода при сохранении куки в {gs.cookies_filepath}:", None, exc_info=ex_io)
+        except Exception as ex_other: 
+            # Обработка других неожиданных ошибок
+            logger.error(f"Неожиданная ошибка при сохранении куки в {gs.cookies_filepath}:", None, exc_info=ex_other)
 
-    # def _extract_body_content(self, html: Optional[str]) -> Optional[str]:
-    #     """
-    #     Вспомогательный метод для извлечения содержимого между тегами <body>.
-    #     Возвращает None, если html равен None или теги <body> не найдены.
-    #     """
-    #     if not html:
-    #         return None
-    #     # Regex для поиска контента между тегами <body> и </body>
-    #     # - re.IGNORECASE: Сопоставление <body> или <BODY> и т.д.
-    #     # - re.DOTALL: Позволяет '.' соответствовать символам новой строки
-    #     # - .*?>: Нежадное сопоставление для атрибутов в открывающем теге <body>
-    #     # - (.*?): Группа захвата для контента между тегами (нежадная)
-    #     match = re.search(r'<body.*?>(.*?)</body>', html, re.IGNORECASE | re.DOTALL)
-    #     if match:
-    #         return match.group(1).strip() # Возвращаем захваченный контент, очищенный от пробелов
-    #     else:
-    #         logger.warning("Не удалось найти теги <body>...</body> в загруженном HTML.")
-    #         return None
 
     def fetch_html(self, url: Optional[str] = '') -> Union[str, bool]:
         """
-        Загружает HTML-контент из локального файла или веб-URL.
-
-        Извлекает исходный HTML-код из 'file://', 'http://' или 'https://' URL.
-        Использует `self.current_url`, если `url` не предоставлен.
-
-        При успешном извлечении пытается найти контент внутри тегов <body>.
+        Загружает HTML-контент из локального файла (схема 'file://') или с веб-URL (схемы 'http://', 'https://').
+        Если `url` не предоставлен, используется `self.current_url`.
+        При успешной загрузке HTML-контента, он сохраняется в `self.html_content` и возвращается.
 
         Args:
-            url (Optional[str]): URL или путь к локальному файлу (с префиксом 'file://')
-                для загрузки. Если None, пустой или опущен, используется `self.current_url`.
+            url (Optional[str]): URL (веб или file://) для загрузки. Если пустая строка или `None`,
+                                 используется `self.current_url`. По умолчанию пустая строка.
 
         Returns:
             Union[str, bool]:
-                - str: Извлеченный контент между тегами <body> и </body>,
-                       если загрузка и извлечение прошли успешно.
-                - False: Если произошла какая-либо ошибка (неверный URL/путь, файл не найден,
-                         ошибка чтения, сетевая ошибка, неподдерживаемый протокол или
-                         теги <body> не найдены после успешной загрузки).
+                - str: Полный HTML-контент страницы, если загрузка прошла успешно.
+                - False: Если произошла ошибка (неверный URL/путь, файл не найден, ошибка чтения,
+                         сетевая ошибка, неподдерживаемый протокол).
 
         Side Effects:
-            - Устанавливает `self.html_content` в *полную* строку HTML при успехе,
-              даже если извлечение body не удалось позже.
-            - Может изменять `self.current_url`, `self.previous_url` через вызов `self.get_url`.
-            - Логгирует ошибки/информацию с использованием настроенного `logger`.
-
-        Примечание по обработке путей к файлам:
-            Использует `urllib.parse` и `pathlib` для лучшей кроссплатформенной
-            обработки URI `file://`.
+            - Устанавливает `self.html_content` в полную строку HTML при успехе.
+            - Может изменять `self.current_url` и `self.previous_url` через вызов `self.get_url`
+              при обработке веб-URL.
+            - Логгирует информацию и ошибки с использованием `logger`.
         """
-        effective_url = url if isinstance(url, str) and url else self.current_url
-        self.html_content = None # Сбрасываем контент для этой попытки
+        # Определение эффективного URL для загрузки
+        effective_url: str = url if isinstance(url, str) and url else self.current_url
+        # Сброс html_content перед новой попыткой
+        self.html_content = None 
 
+        # Проверка, что URL для загрузки определен
         if not effective_url:
-            logger.error("Ошибка: URL не указан и self.current_url не установлен.")
+            logger.error("Ошибка fetch_html: URL не указан и self.current_url не установлен.")
             return False
 
-        full_html: Optional[str] = None # Для хранения успешно загруженного полного HTML
+        full_html_content: Optional[str] = None # Переменная для хранения загруженного HTML
 
         try:
+            # Обработка локальных файлов (схема 'file://')
             if effective_url.startswith('file://'):
-                # --- Протокол File ---
                 try:
-                    # Используем urllib.parse для корректной обработки экранирования URI файла и преобразования пути
-                    parsed_uri = urllib.parse.urlparse(effective_url)
+                    # Парсинг URI файла
+                    parsed_uri: urllib.parse.ParseResult = urllib.parse.urlparse(effective_url)
                     if parsed_uri.scheme != 'file':
-                         raise ValueError("Внутренняя ошибка: URI не файла в блоке обработки файлов.")
+                         # Эта проверка здесь для полноты, хотя startswith уже проверил
+                         raise ValueError("Внутренняя ошибка: URI не является file:// в блоке обработки файлов.")
 
-                    # url2pathname обрабатывает различия платформ (например, /C:/ -> C:/ на Win)
-                    # и декодирует %xx экранирование. Используем unquote для путей без netloc.
-                    file_path_str = urllib.parse.unquote(parsed_uri.path)
+                    # Преобразование URI в путь к файлу, учитывая особенности платформ и кодирование
+                    file_path_str_decoded: str = urllib.parse.unquote(parsed_uri.path)
+                    
+                    # Удаление ведущего слеша для путей Windows (например, /C:/... -> C:/...)
+                    if re.match(r"\/[a-zA-Z]:", file_path_str_decoded): # Паттерн для Windows путей
+                         file_path_str_decoded = file_path_str_decoded[1:] 
 
-                    # В Windows urlparse может оставлять ведущий '/' для локальных путей (например, /C:/...). Удаляем его.
-                    # Проверяем паттерн /<Буква>:/
-                    if re.match(r"\/[a-zA-Z]:", file_path_str):
-                         file_path_str = file_path_str[1:] # Удаляем первый символ '/'
+                    file_path_obj: Path = Path(file_path_str_decoded) # Создание объекта Path
 
-                    file_path = Path(file_path_str)
-
-                    if file_path.exists() and file_path.is_file():
-                        with file_path.open('r', encoding='utf-8', errors='ignore') as file: # errors='ignore' для устойчивости
-                            full_html = file.read()
-                        logger.info(f"Успешно прочитан файл: {file_path}")
-                    elif not file_path.exists():
-                        logger.error(f'Локальный файл не найден: {file_path}')
+                    # Проверка существования и типа файла
+                    if file_path_obj.exists() and file_path_obj.is_file():
+                        # Чтение содержимого файла
+                        with file_path_obj.open('r', encoding='utf-8', errors='ignore') as file_handle:
+                            full_html_content = file_handle.read()
+                        logger.info(f"Успешно прочитан файл: {file_path_obj}")
+                    elif not file_path_obj.exists():
+                        logger.error(f'Локальный файл не найден: {file_path_obj}')
                         return False
-                    else:
-                        logger.error(f'Указанный путь не является файлом: {file_path}')
+                    else: # Если путь существует, но это не файл (например, директория)
+                        logger.error(f'Указанный путь не является файлом: {file_path_obj}')
                         return False
-                except ValueError as ve: # Отлавливаем ошибки при разборе URI/создании пути
-                    logger.error(f"Ошибка обработки URI/пути файла '{effective_url}': {ve}")
+                except ValueError as ve_uri: 
+                    # Обработка ошибок парсинга URI или создания пути
+                    logger.error(f"Ошибка обработки URI/пути файла '{effective_url}': {ve_uri}")
                     return False
-                except IOError as e: # Отлавливаем ошибки чтения файла
-                    logger.error(f'Ошибка чтения файла {file_path}: {e}')
+                except IOError as e_io_file: 
+                    # Обработка ошибок чтения файла
+                    logger.error(f'Ошибка чтения файла {file_path_obj}: {e_io_file}') # file_path_obj может быть не определен здесь
                     return False
-                except Exception as e: # Отлавливаем другие неожиданные ошибки при обработке файла
-                     logger.error(f'Неожиданная ошибка обработки пути файла {effective_url}:', exc_info=e)
+                except Exception as e_file_other: 
+                     # Обработка других неожиданных ошибок при работе с файлом
+                     logger.error(f'Неожиданная ошибка обработки пути файла {effective_url}:', None, exc_info=e_file_other)
                      return False
 
+            # Обработка веб-URL (схемы 'http://', 'https://')
             elif effective_url.startswith(('http://', 'https://')):
-                # --- Протокол HTTP/HTTPS ---
                 try:
-                    # Используем get_url для загрузки страницы
-                    # get_url обновит self.current_url и self.previous_url
-                    if effective_url!=self.current_url: 
+                    # Если запрашиваемый URL отличается от текущего, выполняем переход
+                    # Это предотвращает ненужную перезагрузку, если URL уже открыт.
+                    if effective_url != self.current_url: 
                         if not self.get_url(effective_url):
-                            logger.critical(f'Что-то непонятное с драйвером!')
-                            ...
-                    # После успешной загрузки через Selenium, получаем исходный код
-                    full_html = self.driver.page_source
-                    if full_html:
-                        logger.info(f"Успешно получен HTML для URL: {self.current_url}") # Используем self.current_url, т.к. мог быть редирект
+                            # Если get_url вернул False, значит произошла ошибка загрузки
+                            logger.error(f'Ошибка при вызове get_url для {effective_url} внутри fetch_html.')
+                            return False 
+                    
+                    # После успешного (или пропущенного) get_url, получаем исходный код страницы
+                    full_html_content = self.driver.page_source
+                    if full_html_content:
+                        # self.current_url уже должен быть обновлен в get_url
+                        logger.info(f"Успешно получен HTML для URL: {self.current_url}") 
                     else:
-                            logger.warning(f"get_url вернул успех, но self.driver.page_source пуст для {self.current_url}")
-                            # Можно вернуть False здесь, если пустой page_source считать ошибкой
-                            # return False
-                            pass # Или продолжить и позволить _extract_body_content вернуть None -> False
-                except Exception as ex:
-                    # Отлавливаем исключения, возникшие в self.get_url или при доступе к page_source
-                    logger.error(f"Исключение при получении URL {effective_url}:",ex, True)
+                        # Случай, когда get_url мог вернуть True, но page_source пуст (маловероятно, но возможно)
+                        logger.warning(f"get_url вернул успех (или не вызывался), но self.driver.page_source пуст для {self.current_url}")
+                        # Решение: возвращать False, если page_source пуст, даже если get_url был успешен
+                        return False 
+                except Exception as ex_http:
+                    # Обработка исключений, возникших в self.get_url или при доступе к page_source
+                    logger.error(f"Исключение при получении URL {effective_url} или его HTML:", ex_http, True)
                     return False
 
             else:
-                # --- Неподдерживаемый протокол ---
-                logger.error(f"Ошибка: Неподдерживаемый протокол для URL: {effective_url}")
+                # Обработка неподдерживаемых протоколов
+                logger.error(f"Ошибка fetch_html: Неподдерживаемый протокол для URL: {effective_url}")
                 return False
 
-            # --- Обработка успешно загруженного HTML ---
-            if full_html:
-                return full_html
-                # self.html_content = full_html # Сохраняем полный HTML контент
-                # body_content = self._extract_body_content(full_html)
-
-                # if body_content:
-                #     logger.info(f"Успешно извлечен контент <body> из {effective_url}")
-                #     return body_content # УСПЕХ! Возвращаем извлеченное тело.
-                # else:
-                #     # Загрузка удалась, но извлечение body не удалось. Возвращаем False согласно требованию.
-                #     logger.debug(f"Загружен контент из {effective_url}, но не удалось извлечь контент <body>.")
-                #     return full_html #### ВНИМАНИЕ!!!!!! 
+            # --- Завершение обработки: сохранение и возврат HTML ---
+            if full_html_content is not None: # Проверяем, что full_html_content не None
+                self.html_content = full_html_content # Сохранение полного HTML в атрибут класса
+                return full_html_content # УСПЕХ! Возвращаем полный HTML.
             else:
-                # Этот путь не должен достигаться, если логика выше верна,
-                # но служит запасным вариантом, если full_html остался None без возврата False ранее.
-                 logger.error(f"Ошибка внутреннего состояния: HTML контент не был получен для {effective_url}, но предыдущая ошибка не была возвращена.")
+                # Этот блок не должен достигаться, если логика выше корректна,
+                # но служит дополнительной проверкой.
+                 logger.error(f"Ошибка внутреннего состояния fetch_html: HTML контент не был получен для {effective_url}, но предыдущая ошибка не была обработана.")
                  return False
 
-        except Exception as e:
-             # Отлавливаем любые действительно неожиданные ошибки на верхнем уровне
-             logger.exception(f"Неожиданная критическая ошибка во время fetch_html для {effective_url}: {e}")
+        except Exception as e_critical:
+             # Отлов любых действительно неожиданных критических ошибок на верхнем уровне
+             logger.exception(f"Неожиданная критическая ошибка во время fetch_html для {effective_url}: {e_critical}")
              return False
 
 
 # --- Пример использования (если запускается как скрипт) ---
 if __name__ == '__main__':
-    import tempfile
-    import os
+    import tempfile # Для создания временных файлов
+    import os       # Для удаления временных файлов
 
     # Mock WebDriver для тестирования fetch_html
     class MockWebDriverFetch:
         def __init__(self):
-            self._current_url = ''
-            self.page_source = ''
+            self._current_url_prop = '' # Изменено для избежания конфликта имен
+            self.page_source_content = '' # Изменено для избежания конфликта имен
 
-        def get(self, url):
-            print(f"[MockWebDriver] Вызов get({url})")
-            if "error" in url:
-                raise WebDriverException(f"Simulated WebDriver error for {url}")
-            if "notfound" in url:
-                self._current_url = url
-                self.page_source = "<html><head><title>Not Found</title></head><body><h1>404</h1></body></html>"
-                # Имитируем неудачу get_url, возвращая False извне или через проверку статуса
-                # Для простоты, в тесте будем считать, что get_url вернет False для этого URL
-                print(f"[MockWebDriver] Имитация неудачи get_url для {url}")
-                return False # Важно для теста get_url
-            if "no_body_tag" in url:
-                 self._current_url = url
-                 self.page_source = "<!DOCTYPE html><html><head><title>No Body Tag</title></head><p>Content outside body</p></html>"
-                 print(f"[MockWebDriver] Успешная загрузка (без тега body): {url}")
-                 return True
-            # Успешный случай
-            self._current_url = url
-            self.page_source = f"<!DOCTYPE html>\n<html><head><title>Test</title></head>" \
-                               f"<body class='main'>\n<h1>Success</h1><p>Content for {url}</p>\n</body></html>"
-            print(f"[MockWebDriver] Успешная загрузка: {url}")
-            return True # Важно для теста get_url
+        def get(self, url_param: str) -> bool: # Изменено имя параметра
+            print(f"[MockWebDriver] Вызов get({url_param})")
+            if "error_in_get" in url_param: # Имитация ошибки непосредственно в get
+                raise SeleniumWebDriverException(f"Имитация WebDriverException в get для {url_param}")
+            if "notfound_page" in url_param: # Имитация страницы, которую get_url посчитает неудачной
+                self._current_url_prop = url_param
+                self.page_source_content = "<html><head><title>Not Found Page</title></head><body><h1>404 Not Found</h1></body></html>"
+                print(f"[MockWebDriver] Имитация неудачной загрузки (например, readyState не complete) для {url_param}")
+                # В реальном get_url, цикл проверки readyState завершился бы неудачей.
+                # Здесь мы просто возвращаем False, чтобы имитировать это.
+                return False 
+            if "no_body_tag_page" in url_param: # Страница без тега body, но get_url успешен
+                 self._current_url_prop = url_param
+                 self.page_source_content = "<!DOCTYPE html><html><head><title>No Body Tag Page</title></head><p>Content outside body</p></html>"
+                 print(f"[MockWebDriver] Успешная загрузка (без тега body): {url_param}")
+                 return True # get_url успешен
+            if "empty_page_source_page" in url_param: # get_url успешен, но page_source пуст
+                self._current_url_prop = url_param
+                self.page_source_content = "" # Пустой page_source
+                print(f"[MockWebDriver] Успешная загрузка (но пустой page_source): {url_param}")
+                return True # get_url успешен
+            
+            # Успешный случай для get
+            self._current_url_prop = url_param
+            self.page_source_content = f"<!DOCTYPE html>\n<html><head><title>Test Page</title></head>" \
+                               f"<body class='main-body'>\n<h1>Success Title</h1><p>Content for {url_param}</p>\n</body></html>"
+            print(f"[MockWebDriver] Успешная загрузка: {url_param}")
+            return True 
 
-        def execute_script(self, script):
-            if 'readyState' in script:
-                print(f"[MockWebDriver] Вызов execute_script('{script}') -> 'complete'")
+        def execute_script(self, script_param: str) -> Optional[str]: # Изменено имя параметра
+            if 'readyState' in script_param:
+                # Имитируем различные readyState для тестирования get_url
+                if "notfound_page" in self._current_url_prop: # Если URL содержит "notfound_page"
+                    print(f"[MockWebDriver] execute_script('{script_param}') -> 'loading' (для {self._current_url_prop})")
+                    return 'loading' # Имитируем, что страница все еще грузится
+                print(f"[MockWebDriver] execute_script('{script_param}') -> 'complete' (для {self._current_url_prop})")
                 return 'complete'
-            print(f"[MockWebDriver] Вызов execute_script('{script}')")
+            print(f"[MockWebDriver] execute_script('{script_param}')")
             return None
 
         @property
-        def current_url(self):
-            return self._current_url
+        def current_url(self) -> str:
+            return self._current_url_prop
 
-        def get_cookies(self): return [] # Для _save_cookies_localy
-        def find_element(self, by, value): raise Exception("Not Found") # Для locale
+        @property # Добавлено свойство page_source
+        def page_source(self) -> str:
+            return self.page_source_content
+
+        # Другие мок-методы для полноты класса Driver
+        def get_cookies(self): return [] 
+        def find_element(self, by, value): raise SeleniumWebDriverException("Not Found in Mock") 
         def switch_to(self): return self
         def window(self, handle): pass
         @property
-        def window_handles(self): return ['h1']
+        def window_handles(self): return ['h1_mock']
 
 
     # Создаем экземпляр Driver с Mock WebDriver
-    instance = Driver(MockWebDriverFetch)
-    instance.current_url = 'http://default.example.com' # Устанавливаем начальный URL
+    test_instance = Driver(MockWebDriverFetch)
+    test_instance.current_url = 'http://default.example.com/initial' # Устанавливаем начальный URL
 
-    print("\n--- Тестирование Веб URL ---")
+    print("\n--- Тестирование fetch_html с Веб URL ---")
     # 1. Успешная загрузка веб URL
-    body_web = instance.fetch_html('https://good.example.com/page')
-    print(f"Успех (Веб): {isinstance(body_web, str)}")
-    if isinstance(body_web, str):
-        print(f"Извлеченное Body (Веб):\n---\n{body_web}\n---")
-    print("-" * 20)
+    html_web_good = test_instance.fetch_html('https://good.example.com/webpage')
+    print(f"Результат (Успех Веб): {type(html_web_good)}")
+    if isinstance(html_web_good, str):
+        print(f"Полученный HTML (Веб):\n---\n{html_web_good[:150]}...\n---") # Вывод части HTML
+    print(f"Сохраненный html_content: {test_instance.html_content is not None}")
+    print("-" * 30)
 
-    # 2. Использование URL по умолчанию
-    # Сначала "загрузим" его через get_url, чтобы page_source обновился
-    print("Имитация загрузки URL по умолчанию...")
-    instance.get_url(instance.current_url)
-    print("Вызов fetch_html() без аргументов...")
-    body_default = instance.fetch_html() # url пуст, используется self.current_url
-    print(f"Успех (По умолчанию): {isinstance(body_default, str)}")
-    if isinstance(body_default, str):
-        print(f"Извлеченное Body (По умолчанию):\n---\n{body_default}\n---")
-    print("-" * 20)
+    # 2. Использование URL по умолчанию (self.current_url)
+    # "Загрузим" URL по умолчанию, чтобы обновить page_source в моке
+    print("Имитация загрузки URL по умолчанию через get_url...")
+    test_instance.get_url(test_instance.current_url) # Это обновит page_source в моке
+    print("Вызов fetch_html() без аргументов (использует self.current_url)...")
+    html_default_url = test_instance.fetch_html() 
+    print(f"Результат (URL по умолчанию): {type(html_default_url)}")
+    if isinstance(html_default_url, str):
+        print(f"Полученный HTML (URL по умолчанию):\n---\n{html_default_url[:150]}...\n---")
+    print(f"Сохраненный html_content: {test_instance.html_content is not None}")
+    print("-" * 30)
 
-    # 3. Обработка ошибки от get_url (имитация 404)
-    # MockWebDriverFetch.get вернет False для этого URL
-    print("Тест URL, для которого get_url вернет False...")
-    result_fail_fetch = instance.fetch_html('http://example.com/notfound')
-    print(f"Успех (get_url False): {result_fail_fetch is not False}") # Ожидаем False
-    print(f"Результат: {result_fail_fetch}")
-    print("-" * 20)
+    # 3. Обработка ошибки от get_url (например, readyState не 'complete')
+    print("Тест URL, для которого get_url вернет False (имитация 'notfound_page')...")
+    result_get_url_false = test_instance.fetch_html('http://example.com/notfound_page')
+    print(f"Результат (get_url False): {result_get_url_false}") 
+    print(f"Тип результата: {type(result_get_url_false)}")
+    print(f"Сохраненный html_content: {test_instance.html_content is None}") # Должен быть None
+    print("-" * 30)
 
     # 4. Обработка исключения WebDriverException от get_url
-    print("Тест URL, который вызовет WebDriverException в get...")
-    result_network_error = instance.fetch_html('http://error.example.com')
-    print(f"Успех (WebDriverException): {result_network_error is not False}") # Ожидаем False
-    print(f"Результат: {result_network_error}")
-    print("-" * 20)
+    print("Тест URL, который вызовет WebDriverException в get ('error_in_get')...")
+    result_webdriver_ex = test_instance.fetch_html('http://error_in_get.example.com')
+    print(f"Результат (WebDriverException в get): {result_webdriver_ex}")
+    print(f"Тип результата: {type(result_webdriver_ex)}")
+    print(f"Сохраненный html_content: {test_instance.html_content is None}")
+    print("-" * 30)
 
     # 5. Обработка неподдерживаемого протокола
-    print("Тест неподдерживаемого протокола...")
-    result_bad_protocol = instance.fetch_html('ftp://example.com/resource')
-    print(f"Успех (Плохой протокол): {result_bad_protocol is not False}") # Ожидаем False
-    print(f"Результат: {result_bad_protocol}")
-    print("-" * 20)
+    print("Тест URL с неподдерживаемым протоколом...")
+    result_unsupported_protocol = test_instance.fetch_html('ftp://example.com/some_resource')
+    print(f"Результат (Неподдерживаемый протокол): {result_unsupported_protocol}")
+    print(f"Тип результата: {type(result_unsupported_protocol)}")
+    print(f"Сохраненный html_content: {test_instance.html_content is None}")
+    print("-" * 30)
 
-    # 6. Успешная загрузка, но нет тега <body>
-    print("Тест URL с контентом, но без тега <body>...")
-    result_no_body_tag = instance.fetch_html('http://no_body_tag.example.com')
-    print(f"Успех (Нет тега body): {result_no_body_tag is not False}") # Ожидаем False
-    print(f"Результат: {result_no_body_tag}")
-    print(f"Полный HTML сохранен: {instance.html_content is not None}")
-    print("-" * 20)
+    # 6. Успешная загрузка (get_url=True), но HTML без тега <body> (для fetch_html это не ошибка, вернет полный HTML)
+    print("Тест URL с контентом, но без тега <body> (для fetch_html вернет полный HTML)...")
+    html_no_body_tag = test_instance.fetch_html('http://no_body_tag_page.example.com')
+    print(f"Результат (Нет тега body, но fetch_html успешен): {type(html_no_body_tag)}")
+    if isinstance(html_no_body_tag, str):
+        print(f"Полученный HTML (Нет тега body):\n---\n{html_no_body_tag[:150]}...\n---")
+    print(f"Сохраненный html_content: {test_instance.html_content is not None}")
+    print("-" * 30)
+    
+    # 6.1 Успешная загрузка (get_url=True), но page_source пуст
+    print("Тест URL с успешным get_url, но пустым page_source...")
+    result_empty_source = test_instance.fetch_html('http://empty_page_source_page.example.com')
+    print(f"Результат (Пустой page_source): {result_empty_source}")
+    print(f"Тип результата: {type(result_empty_source)}")
+    print(f"Сохраненный html_content: {test_instance.html_content is None}") # Должен быть None, если page_source пуст
+    print("-" * 30)
 
 
-    print("\n--- Тестирование Локальных Файлов ---")
-    # 7. Успешная загрузка локального файла
-    tmp_file_path = None
+    print("\n--- Тестирование fetch_html с Локальными Файлами ---")
+    # 7. Успешная загрузка локального файла с тегом body
+    temp_file_path_good = None
     try:
-        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix=".html", encoding='utf-8') as tmp_file:
-            tmp_file.write("<!DOCTYPE html><html><head><title>Local</title></head>"
-                           "<Body style='margin: 0;'><h1>Локальный Тест</h1><p>Содержимое файла.</p></bOdY></html>")
-            tmp_file_path = tmp_file.name
+        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix=".html", encoding='utf-8') as tmp_html_file:
+            tmp_html_file.write("<!DOCTYPE html><html><head><title>Local File Test</title></head>"
+                           "<body class='local-body'><h1>Local Test Content</h1><p>Это содержимое локального файла.</p></bOdY></html>")
+            temp_file_path_good = tmp_html_file.name
 
-        file_uri = Path(tmp_file_path).as_uri() # например, file:///tmp/xyz или file:///C:/Users/...
-        print(f"Попытка загрузить из URI: {file_uri}")
-        body_file = instance.fetch_html(file_uri)
-        print(f"Успех (Локальный Файл): {isinstance(body_file, str)}")
-        if isinstance(body_file, str):
-            print(f"Извлеченное Body (Локальный Файл):\n---\n{body_file}\n---")
-            # print("Полный HTML сохранен:", instance.html_content)
-    except Exception as e:
-        print(f"Ошибка во время теста локального файла: {e}")
+        file_uri_good = Path(temp_file_path_good).as_uri() 
+        print(f"Попытка загрузить из URI локального файла: {file_uri_good}")
+        html_local_file_good = test_instance.fetch_html(file_uri_good)
+        print(f"Результат (Успех Локальный Файл): {type(html_local_file_good)}")
+        if isinstance(html_local_file_good, str):
+            print(f"Полученный HTML (Локальный Файл):\n---\n{html_local_file_good[:200]}...\n---")
+        print(f"Сохраненный html_content: {test_instance.html_content is not None}")
+    except Exception as e_local_good:
+        print(f"Ошибка во время теста успешного локального файла: {e_local_good}")
     finally:
-        if tmp_file_path and os.path.exists(tmp_file_path):
-            os.remove(tmp_file_path)
-            print(f"Удален временный файл: {tmp_file_path}")
-    print("-" * 20)
+        if temp_file_path_good and os.path.exists(temp_file_path_good):
+            os.remove(temp_file_path_good)
+            print(f"Удален временный файл: {temp_file_path_good}")
+    print("-" * 30)
 
-    # 8. Локальный файл без тега <body>
-    tmp_no_body_path = None
+    # 8. Локальный файл без тега <body> (fetch_html вернет полный HTML)
+    temp_file_no_body_path = None
     try:
-        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix=".html", encoding='utf-8') as tmp_file:
-            tmp_file.write("<html><head><title>No Body</title></head></html>")
-            tmp_no_body_path = tmp_file.name
-        file_uri_no_body = Path(tmp_no_body_path).as_uri()
-        print(f"Попытка загрузить из URI (без body): {file_uri_no_body}")
-        result_no_body = instance.fetch_html(file_uri_no_body)
-        print(f"Успех (Файл без Body): {result_no_body is not False}") # Ожидаем False
-        print(f"Результат: {result_no_body}")
-        # print("Полный HTML сохранен:", instance.html_content)
-    except Exception as e:
-        print(f"Ошибка во время теста файла без body: {e}")
+        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix=".html", encoding='utf-8') as tmp_html_file_no_body:
+            tmp_html_file_no_body.write("<html><head><title>Local No Body</title></head></html>")
+            temp_file_no_body_path = tmp_html_file_no_body.name
+        file_uri_no_body_local = Path(temp_file_no_body_path).as_uri()
+        print(f"Попытка загрузить из URI локального файла (без body): {file_uri_no_body_local}")
+        html_local_no_body = test_instance.fetch_html(file_uri_no_body_local)
+        print(f"Результат (Файл без Body, но fetch_html успешен): {type(html_local_no_body)}")
+        if isinstance(html_local_no_body, str):
+             print(f"Полученный HTML (Файл без Body):\n---\n{html_local_no_body[:150]}...\n---")
+        print(f"Сохраненный html_content: {test_instance.html_content is not None}")
+    except Exception as e_local_no_body:
+        print(f"Ошибка во время теста локального файла без body: {e_local_no_body}")
     finally:
-        if tmp_no_body_path and os.path.exists(tmp_no_body_path):
-            os.remove(tmp_no_body_path)
-            print(f"Удален временный файл: {tmp_no_body_path}")
-    print("-" * 20)
+        if temp_file_no_body_path and os.path.exists(temp_file_no_body_path):
+            os.remove(temp_file_no_body_path)
+            print(f"Удален временный файл: {temp_file_no_body_path}")
+    print("-" * 30)
 
 
     # 9. Обработка несуществующего локального файла
-    non_existent_path = Path(tempfile.gettempdir()) / "___non_existent_file___.html"
-    non_existent_uri = non_existent_path.as_uri()
-    print(f"Попытка загрузить несуществующий URI: {non_existent_uri}")
-    result_no_file = instance.fetch_html(non_existent_uri)
-    print(f"Успех (Несуществующий Файл): {result_no_file is not False}") # Ожидаем False
-    print(f"Результат: {result_no_file}")
-    print("-" * 20)
+    non_existent_file_path = Path(tempfile.gettempdir()) / "___this_file_does_not_exist___.html"
+    non_existent_file_uri = non_existent_file_path.as_uri()
+    print(f"Попытка загрузить несуществующий URI локального файла: {non_existent_file_uri}")
+    result_non_existent_file = test_instance.fetch_html(non_existent_file_uri)
+    print(f"Результат (Несуществующий Локальный Файл): {result_non_existent_file}")
+    print(f"Тип результата: {type(result_non_existent_file)}")
+    print(f"Сохраненный html_content: {test_instance.html_content is None}")
+    print("-" * 30)
 
-    # 10. Обработка некорректного формата file URI (менее вероятно с urlparse, но для теста)
-    invalid_uri = "file:// C:/contains space/file.html" # Пример URI, который может вызвать проблемы
-    print(f"Попытка загрузить некорректный URI: {invalid_uri}")
-    result_invalid_uri = instance.fetch_html(invalid_uri)
-    print(f"Успех (Некорректный URI): {result_invalid_uri is not False}") # Ожидаем False
-    print(f"Результат: {result_invalid_uri}")
-    print("-" * 20)
+    # 10. Обработка некорректного формата file URI
+    # (urllib.parse должен справляться с пробелами, но тестируем для полноты)
+    # В Windows, путь C:\Temp\file with space.html будет file:///C:/Temp/file%20with%20space.html
+    # Создадим файл с пробелом в имени для теста
+    temp_file_with_space_path = None
+    try:
+        # Создание временного файла с пробелом в имени
+        temp_dir = Path(tempfile.gettempdir())
+        filename_with_space = "test file with space.html"
+        temp_file_with_space_path = temp_dir / filename_with_space
+        with open(temp_file_with_space_path, 'w', encoding='utf-8') as f_space:
+            f_space.write("<html><body>Space Test</body></html>")
+        
+        # URI с пробелом (неправильно сформированный вручную)
+        # Правильный URI был бы с %20. urlparse и Path().as_uri() это делают.
+        # Но мы тестируем, как fetch_html справится с "сырым" путем, если он как-то попадет.
+        # Однако, Path().as_uri() всегда вернет корректный URI.
+        # Поэтому, для теста некорректного URI, мы его "сломаем" после Path().as_uri()
+        # или передадим строку, которую Path() может неправильно интерпретировать.
+
+        # Сначала протестируем с корректно сформированным URI через Path().as_uri()
+        correct_uri_with_space = temp_file_with_space_path.as_uri()
+        print(f"Попытка загрузить URI с пробелом (сформирован Path.as_uri()): {correct_uri_with_space}")
+        html_space_correct = test_instance.fetch_html(correct_uri_with_space)
+        print(f"Результат (URI с пробелом, корректный): {type(html_space_correct)}")
+        if isinstance(html_space_correct, str):
+             print(f"HTML (URI с пробелом, корректный):\n---\n{html_space_correct[:100]}...\n---")
+        print(f"Сохраненный html_content: {test_instance.html_content is not None}")
+        print("-" * 15)
+        
+        # Теперь симулируем "некорректный" URI, который может прийти извне
+        # Хотя unquote в fetch_html должен справиться с %20, если URI все же пришел с ним.
+        # Для настоящего теста "некорректного URI, который не парсится", нужно что-то вроде "file://\\invalid"
+        invalid_format_uri = "file:////server/share/inaccessible_or_bad_format"
+        print(f"Попытка загрузить некорректно сформированный URI: {invalid_format_uri}")
+        result_invalid_format_uri = test_instance.fetch_html(invalid_format_uri)
+        print(f"Результат (Некорректный формат URI): {result_invalid_format_uri}")
+        print(f"Тип результата: {type(result_invalid_format_uri)}")
+        print(f"Сохраненный html_content: {test_instance.html_content is None}")
+
+    except Exception as e_space_test:
+        print(f"Ошибка во время теста URI с пробелом / некорректного URI: {e_space_test}")
+    finally:
+        if temp_file_with_space_path and os.path.exists(temp_file_with_space_path):
+            os.remove(temp_file_with_space_path)
+            print(f"Удален временный файл с пробелом: {temp_file_with_space_path}")
+    print("-" * 30)
