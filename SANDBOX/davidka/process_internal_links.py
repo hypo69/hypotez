@@ -44,6 +44,7 @@ from SANDBOX.davidka.graber import extract_page_data
 
 class Config:
     """Класс конфигурации скрипта."""
+
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
     config:SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json')
     STORAGE:Path = Path(config.storage)
@@ -51,9 +52,7 @@ class Config:
     GEMINI_API_KEY: Optional[str] = None
     GEMINI_MODEL_NAME = 'gemini-2.0-flash-exp' # Используйте актуальное имя модели
     system_instructuction: str = read_text_file(ENDPOINT / 'instructions/analize_html.md')
-
-    processed_internal_links_file_name:str =  'processed_internal_links.json' 
-
+    processed_internal_links_file_name:str =  'processed_internal_links_file_name.json' 
     DELAY_AFTER_LINK_PROCESSING: int = 15
 
 def generate_timestamp_filename() -> str:
@@ -211,20 +210,16 @@ if __name__ == '__main__':
 
         for supplier_dir_name in suppliers_dirs_list:  
             supplier_dir_path:str = Config.STORAGE / supplier_dir_name  # <- Вот поставщик
-            dir_specific_log_path = supplier_dir_path / Config.updated_links_file_name
-            journal: Dict[str, Any] = j_loads(dir_specific_log_path) or {}
-            logger.info(f"Обработка директории '{supplier_dir_name}'. Загружено {len(journal)} записей из '{dir_specific_log_path.name}'.")
-
+            journal: Dict[str, Any] = j_loads(supplier_dir_path / Config.processed_internal_links_file_name) or {}
+            
             supplier_file_names: List[str] = get_filenames_from_directory(supplier_dir_path, 'json')
             if not supplier_file_names:
                 continue
             
             random.shuffle(supplier_file_names) 
 
-
-
             for supplier_file_name in supplier_file_names:
-                if supplier_file_name == Config.updated_links_file_name:  # <- В этом файле находится лог обработанных ссылок
+                if supplier_file_name == Config.processed_internal_links_file_name:  # <- В этом файле находится лог обработанных ссылок
                     continue
 
 
@@ -277,7 +272,6 @@ if __name__ == '__main__':
 
                         logger.info(f"Найдена необработанная внутренняя ссылка: {internal_url_to_process} из файла {supplier_file_path.name}")
                         
-                        # Эта переменная будет содержать словарь с данными страницы, где ключи - 'page_type', 'text' и т.д.
                         processed_page_data: Optional[Dict[str, Any]] = process_single_internal_link(
                             driver_instance,
                             internal_url_to_process,
