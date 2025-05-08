@@ -37,6 +37,7 @@ import argparse
 from pathlib import Path
 import random
 from typing import Dict, Any, List
+from types import SimpleNamespace
 import sys
 import time
 
@@ -47,6 +48,7 @@ from header import __root__
 from src import gs
 
 # --- Импорты WebDriver ---
+from src.credentials import j_loads_ns
 from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
 # -------------------------
@@ -62,8 +64,9 @@ class Config:
     """Класс конфигурации скрипта."""
     # Конечная точка для файлов, связанных с этим скриптом davidka
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
+    config:SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json')
     # Директория с данными поставщиков, требует указания актуального пути
-    data_by_supplier_dir: Path = Path('F:/llm/data_by_supplier') # Пример пути, измените при необходимости
+    data_by_supplier_dir: Path = Path(config.external_storage) # Пример пути, измените при необходимости
     # Режим работы браузера: 'normal' (видимый) или 'headless' (безголовый)
     WINDOW_MODE: str = 'headless' 
     # API ключ для Gemini, устанавливается из аргументов командной строки
