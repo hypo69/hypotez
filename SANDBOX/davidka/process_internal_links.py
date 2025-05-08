@@ -46,14 +46,13 @@ class Config:
     """Класс конфигурации скрипта."""
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
     config:SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json')
-    STORAGE:str = config.storage
+    STORAGE:Path = Path(config.storage)
     WINDOW_MODE: str = 'headless'
     GEMINI_API_KEY: Optional[str] = None
     GEMINI_MODEL_NAME = 'gemini-2.0-flash-exp' # Используйте актуальное имя модели
     system_instructuction: str = read_text_file(ENDPOINT / 'instructions/analize_html.md')
 
     updated_links_file_name:str =  'updated_links.json' 
-    shared_updated_links: Dict[str, str] = {} 
 
     DELAY_AFTER_LINK_PROCESSING: int = 15
 
@@ -93,6 +92,8 @@ def process_single_internal_link(
     llm_response_data: Dict[str, Any] = {}
     #llm_response_str_for_log: str = "N/A"
 
+
+    # --------------------- LLM ---------------------
     try:
         a = llm.ask(q)
         #llm_response_str_for_log = llm_response_str if llm_response_str else "empty_response"
@@ -110,11 +111,14 @@ def process_single_internal_link(
     except Exception as e:
         logger.error(f"Ошибка парсинга ответа LLM для {internal_link_url}:. Ответ: {a}", ex, True)
 
+    
     determined_page_type = llm_response_data.pop('page_type', extracted_page_content.get('page_type', ''))
     if not determined_page_type: 
         determined_page_type = 'unknown'
     extracted_page_content['page_type'] = determined_page_type
     
+
+
     if 'product_links' in llm_response_data:
         new_product_links = llm_response_data.pop('product_links', [])
         if isinstance(new_product_links, list):
@@ -159,8 +163,8 @@ if __name__ == '__main__':
 
     logger.info(f"--- Начало работы скрипта {script_name} для пользователя '{username}' (обработка internal_links, одна на файл, лог в директории, выход: {{url:data}}) ---")
 
-    Config.shared_updated_links = j_loads(Config.SHARED_UPDATED_LINKS_LOG_PATH) or {}
-    logger.info(f"Загружено {len(Config.shared_updated_links)} записей из общего лога '{Config.SHARED_UPDATED_LINKS_LOG_PATH.name}'.")
+
+    # ------------------------- GEMINI --------------------------
 
     try:
         user_gemini_config = getattr(gs.credentials.gemini, username)
@@ -208,11 +212,10 @@ if __name__ == '__main__':
             random.shuffle(suppliers_dirs_list)
 
         for supplier_dir_name in suppliers_dirs_list:  
-            supplier_dir_path = Config.STORAGE / supplier_dir_name  # <- Вот поставщик
-            
+            supplier_dir_path:str = Config.STORAGE / supplier_dir_name  # <- Вот поставщик
             dir_specific_log_path = supplier_dir_path / Config.updated_links_file_name
-            current_dir_processed_links: Dict[str, Any] = j_loads(dir_specific_log_path) or {}
-            logger.info(f"Обработка директории '{supplier_dir_name}'. Загружено {len(current_dir_processed_links)} записей из '{dir_specific_log_path.name}'.")
+            journal: Dict[str, Any] = j_loads(dir_specific_log_path) or {}
+            logger.info(f"Обработка директории '{supplier_dir_name}'. Загружено {len(journal)} записей из '{dir_specific_log_path.name}'.")
 
             supplier_file_names: List[str] = get_filenames_from_directory(supplier_dir_path, 'json')
             if not supplier_file_names:
@@ -270,7 +273,7 @@ if __name__ == '__main__':
                         if not internal_url_to_process or not isinstance(internal_url_to_process, str):
                             continue 
                         
-                        if internal_url_to_process in current_dir_processed_links:
+                        if internal_url_to_process in journal:
                             logger.debug(f"Внутренняя ссылка {internal_url_to_process} (из {supplier_file_path.name}) уже обработана ранее (согласно логу директории '{supplier_dir_name}'). Поиск следующей.")
                             continue 
 
@@ -283,7 +286,7 @@ if __name__ == '__main__':
                             llm_instance
                         )
 
-                        if processed_page_data and not processed_page_data.get('error'):
+                        if processed_page_data:
                             new_data_filename = generate_timestamp_filename()
                             output_path = supplier_dir_path / new_data_filename 
                             
@@ -295,31 +298,19 @@ if __name__ == '__main__':
                             if j_dumps(output_data_for_json_file, output_path): # Сохраняем новый структурированный словарь
                                 logger.info(f"Успешно сохранена информация для {internal_url_to_process} в файл: {output_path} (структура: {{url: data}})")
                                 
-                                current_dir_processed_links[internal_url_to_process] = {
+                                journal[internal_url_to_process] = {
                                     "processed_at": datetime.now().isoformat(),
                                     "source_file_name": supplier_file_name, 
                                     "output_file_name": new_data_filename,
                                     "page_type": processed_page_data.get('page_type', 'unknown') # Берем page_type из обработанных данных
                                 }
-                                if not j_dumps(current_dir_processed_links, dir_specific_log_path):
+                                if not j_dumps(journal, supplier_dir_path):
                                     logger.error(f"Критическая ошибка: не удалось сохранить обновленный лог директории '{dir_specific_log_path}'")
-
-                                page_type_for_shared_log = processed_page_data.get('page_type', 'unknown')
-                                Config.shared_updated_links[internal_url_to_process] = page_type_for_shared_log
-                                if not j_dumps(Config.shared_updated_links, Config.SHARED_UPDATED_LINKS_LOG_PATH):
-                                    logger.error(f"Критическая ошибка: не удалось сохранить обновленный общий лог '{Config.SHARED_UPDATED_LINKS_LOG_PATH.name}'")
-                                else:
-                                    logger.info(f"Ссылка {internal_url_to_process} (page_type: {page_type_for_shared_log}) добавлена/обновлена в '{Config.SHARED_UPDATED_LINKS_LOG_PATH.name}'.")
+                                    break
 
                                 internal_links_processed_this_run += 1
                                 one_internal_link_processed_for_this_file = True 
-                                break 
-                            else:
-                                logger.error(f"Ошибка сохранения данных для {internal_url_to_process} в файл: {output_path}")
-                        elif processed_page_data and processed_page_data.get('error'): # Используем новое имя переменной
-                             logger.warning(f"Ошибка при обработке внутренней ссылки {internal_url_to_process}: {processed_page_data.get('error')}. Пропуск этой ссылки.")
-                        else:
-                            logger.warning(f"Нет данных для сохранения для внутренней ссылки: {internal_url_to_process}")
+
                         
                         logger.info(f"Задержка на {Config.DELAY_AFTER_LINK_PROCESSING} секунд...")
                         
@@ -352,6 +343,4 @@ if __name__ == '__main__':
         logger.info(f" - Всего исходных файлов поставщиков просканировано: {total_source_files_scanned}")
         logger.info(f" - Ошибок при загрузке/чтении исходных файлов: {error_loading_source_files_count}")
         logger.info(f" - Внутренних ссылок успешно обработано и сохранено в этом прогоне (добавлено в логи директорий): {internal_links_processed_this_run}")
-        logger.info(f" - Всего записей в общем логе '{Config.SHARED_UPDATED_LINKS_LOG_PATH.name}': {len(Config.shared_updated_links)}") 
-
         logger.info(f"--- Работа скрипта {script_name} (обработка internal_links, одна на файл, лог в директории, выход: {{url:data}}) завершена ---")
