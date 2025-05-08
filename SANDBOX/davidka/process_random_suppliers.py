@@ -65,12 +65,13 @@ class Config:
     # Конечная точка для файлов, связанных с этим скриптом davidka
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
     config:SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json')
-    STORAGE:str = config.storage
+    STORAGE:Path = Path(config.storage)
     WINDOW_MODE: str = 'headless' 
     GEMINI_API_KEY: str | None = None 
     GEMINI_MODEL_NAME = 'gemini-2.0-flash-exp'
     system_instructuction:str = read_text_file(ENDPOINT/'instructions/analize_html.md')
-    updated_links:list = j_loads(ENDPOINT/'updated_links.json')
+    updated_links_file_name:str = 'updated_links.json'
+    updated_links_dict:dict = j_loads(STORAGE /'updated_links_file_name.json')
 
 # ==============================================================================
 # Основная функция обработки ссылки
@@ -128,9 +129,12 @@ def process_supplier_link(
             # Возврат словаря с указанием типа страницы 'unknown' и ошибки извлечения
             return {'page_type':'unknown','error':'error while extarct'}
 
-        # Подготовка данных для запроса к LLM
-        request_dict = extracted_page_content
-        del(request_dict['html']) # Удаление HTML-кода из данных для LLM, чтобы не мешал
+        request_dict = extracted_page_content.copy()
+        if 'text' in request_dict:
+            del request_dict['text']
+        if 'internal_links' in request_dict:
+            del request_dict['internal_links']
+        
         # Формирование строки запроса для LLM
         q:str = f"""`{str(request_dict)}`"""
 
@@ -146,14 +150,9 @@ def process_supplier_link(
 
         # Обновление или добавление ссылок на продукты
         if hasattr(a, 'product_links'): 
-            if extracted_page_content['product_links'] and isinstance(extracted_page_content['product_links'], list):
-               # Добавление новых ссылок и удаление дубликатов
-               extracted_page_content['product_links'].append(getattr(a,'product_links',[]))
-               extracted_page_content['product_links'] = list(set(extracted_page_content))
-            else:                                                  
-                # Установка ссылок на продукты из ответа LLM
-                extracted_page_content['product_links'] = getattr(a,'product_links',[])
-            # Удаление поля 'product_links' из ответа LLM после использования
+            # Добавление новых ссылок и удаление дубликатов
+            extracted_page_content['product_links'].append(getattr(a,'product_links',[]))
+            extracted_page_content['product_links'] = list(set(extracted_page_content))
             del(a['product_links'])
 
         # Обновление полей на основе ответа LLM
@@ -175,7 +174,7 @@ def process_supplier_link(
         
         logger.info(f"Данные для URL '{link}' извлечены и словарь обновлен.")
         # Задержка для предотвращения блокировок со стороны веб-сайтов при частых запросах
-        time.sleep(15) 
+        
         return current_data_for_link # Возврат обновленного словаря
     else:
         # Эта ветка не должна достигаться, так как проверка text_content выполняется перед вызовом этой функции.
@@ -261,7 +260,7 @@ if __name__ == '__main__':
     total_discovered_files_count: int = 0 # Общее количество обнаруженных файлов
     suppliers_dirs_list: List[str] = [] # Список директорий поставщиков
 
-    logger.info(f"Поиск файлов поставщиков в: {Config.data_by_supplier_dir}")
+    logger.info(f"Поиск файлов поставщиков в: {Config.STORAGE}")
     # Основной цикл обработки
     while True:
         try:
@@ -294,10 +293,10 @@ if __name__ == '__main__':
 
             logger.info('Получение списка директорий поставщиков...')
             # Получение списка имен директорий из configured data_by_supplier_dir
-            suppliers_dirs_list = get_directory_names(Config.data_by_supplier_dir)
+            suppliers_dirs_list = get_directory_names(Config.STORAGE)
             # Проверка, найдены ли директории
             if not suppliers_dirs_list:
-                logger.warning(f'Не найдено директорий поставщиков в {Config.data_by_supplier_dir}')
+                logger.warning(f'Не найдено директорий поставщиков в {Config.STORAGE}')
                 sys.exit() # Завершение, если директорий нет
             else:
                 logger.info(f'Найдено {len(suppliers_dirs_list)} директорий поставщиков. Перемешивание...')
@@ -306,7 +305,7 @@ if __name__ == '__main__':
 
             # Итерация по каждой директории поставщика
             for supplier_dir_name in suppliers_dirs_list:
-                supplier_dir_path = Config.data_by_supplier_dir / supplier_dir_name
+                supplier_dir_path = Config.STORAGE / supplier_dir_name
                 logger.info(f"Обработка директории: {supplier_dir_path}")
             
                 # Получение списка JSON-файлов в текущей директории поставщика
@@ -369,7 +368,7 @@ if __name__ == '__main__':
                     # Итерация по ссылкам и их данным из текущего файла
                     for link_key, original_value_dict in links_and_data_to_process:
                         # Проверка, не была ли ссылка уже обновлена ранее
-                        if link_key in Config.updated_links.keys():
+                        if link_key in Config.updated_links_dict.keys():
                             continue # Пропуск уже обработанной ссылки
 
                         # Извлечение текстового содержимого перед обработкой (для проверки на пустоту)
@@ -396,9 +395,9 @@ if __name__ == '__main__':
                                     logger.error(f"Ошибка сохранения файла: {supplier_file_path}")
                                 else:
                                     # Обновление списка обработанных ссылок
-                                    Config.updated_links.update({link_key:getattr(original_value_dict,'page_type', '')}) # Используем original_value_dict, так как он был обновлен
+                                    Config.updated_links_dict.update({link_key:getattr(original_value_dict,'page_type', '')}) # Используем original_value_dict, так как он был обновлен
                                     # Сохранение обновленного списка updated_links
-                                    j_dumps(Config.updated_links, Config.ENDPOINT / 'updated_links.json')
+                                    j_dumps(Config.updated_links_dict, Config.updated_links_file_name)
                                     text_updated_in_files_count += 1
                                     total_links_successfully_updated += 1
                                     
@@ -406,7 +405,12 @@ if __name__ == '__main__':
                                     ...
                                 # Установка флага, что файл был обновлен
                                 file_was_updated_and_saved = True
-                                break # Переход к следующему файлу после обновления одной ссылки в текущем файле
+                            else:
+                                logger.error(f"Данные {updated_dict_result} не были обновлены ")
+                                # Увеличение счетчика ошибок
+                                error_files_count += 1
+                                
+                            break # Переход к следующему файлу после обновления одной ссылки в текущем файле
                         else:
                             logger.debug(f"URL '{link_key}' в файле '{supplier_file_path.name}' уже содержит данные. Пропуск обработки этой ссылки.")
                 

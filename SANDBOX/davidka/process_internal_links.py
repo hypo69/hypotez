@@ -106,7 +106,10 @@ def process_single_internal_link(
                 else:
                     logger.error(f"Ответ LLM для {internal_link_url} не является валидным JSON объектом: {a}")
                     logger.debug(f"Орвет записан как `str`")
-                    llm_response_data = {'response_data': a}
+                    llm_response_data = {'ai_response_data': a}
+            else:
+                llm_response_data = {'ai_analized_content': a}
+
         else:
             logger.error(f"LLM вернул пустой ответ для {internal_link_url}")
     except Exception as e:
@@ -190,6 +193,9 @@ if __name__ == '__main__':
         logger.critical(f"Не удалось инициализировать GoogleGenerativeAi: {e}", exc_info=True)
         sys.exit(1)
 
+    # ------------------------------------------------------------
+
+    # ------------------------- ДИРЕКТОРИИ И ФАЙЛЫ --------------------------
     driver_instance: Optional[Driver] = None
     
     total_source_files_scanned: int = 0
