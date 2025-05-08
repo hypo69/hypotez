@@ -185,6 +185,27 @@ The `page_type` field is **mandatory** and must always be included.
   "description": "<full content or body text if available>"
 }
 ```
+#### 12. Distributors
+```json
+{
+  "page_type": "distributors",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>",
+  "distributors": [
+        {
+        "name": "<name of the distributor>",
+        "description": "<description of the distributor>",
+        "link": "<URL to the distributor page>",
+        "address": "<address of the distributor>",
+        "phone": "<phone number of the distributor>",
+        "email": "<email of the distributor>"
+        }
+    ]"
+}
+```
+
+
 ---
 
 ### Output Rules:

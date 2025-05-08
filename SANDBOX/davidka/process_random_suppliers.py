@@ -70,8 +70,8 @@ class Config:
     GEMINI_API_KEY: str | None = None 
     GEMINI_MODEL_NAME = 'gemini-2.0-flash-exp'
     system_instructuction:str = read_text_file(ENDPOINT/'instructions/analize_html.md')
-    updated_links_file_name:str = 'updated_links.json'
-    updated_links_dict:dict = j_loads(STORAGE /'updated_links_file_name.json')
+    updated_links_file_path:Path = STORAGE / 'updated_links.json'
+    updated_links_dict:dict = j_loads(updated_links_file_path)
 
 # ==============================================================================
 # Основная функция обработки ссылки
@@ -397,7 +397,7 @@ if __name__ == '__main__':
                                     # Обновление списка обработанных ссылок
                                     Config.updated_links_dict.update({link_key:getattr(original_value_dict,'page_type', '')}) # Используем original_value_dict, так как он был обновлен
                                     # Сохранение обновленного списка updated_links
-                                    j_dumps(Config.updated_links_dict, Config.updated_links_file_name)
+                                    j_dumps(Config.updated_links_dict, Config.updated_links_file_path)
                                     text_updated_in_files_count += 1
                                     total_links_successfully_updated += 1
                                     
