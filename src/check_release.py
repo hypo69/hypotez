@@ -26,7 +26,7 @@ def check_latest_release(repo: str, owner: str):
     Returns:
         str: The latest release version if available, else None.
     """
-    url = f'https://api.github.com/repos/{owner}/{repo}/releases/latest'
+    url = fr'https://github.com/repos/{owner}/{repo}/releases/latest'
     response = requests.get(url)
 
     if response.status_code == 200:

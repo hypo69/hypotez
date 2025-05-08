@@ -10,6 +10,9 @@
 Также логирует обработанные внутренние ссылки в общий 'updated_links.json'.
 Новый JSON-файл для каждой обработанной ссылки имеет структуру: { <url>: { <данные> } }.
 
+```rst
+ .. module:: sandbox.davidka.process_internal_links
+```
 
 """
 
@@ -88,23 +91,26 @@ def process_single_internal_link(
     if 'html' in request_dict:
         del request_dict['html']
 
-    q_str: str = f"`{str(request_dict)}`"
+    q: str = f"`{str(request_dict)}`"
     llm_response_data: Dict[str, Any] = {}
-    llm_response_str_for_log: str = "N/A"
+    #llm_response_str_for_log: str = "N/A"
 
     try:
-        llm_response_str = llm.ask(q_str)
-        llm_response_str_for_log = llm_response_str if llm_response_str else "empty_response"
-        if llm_response_str:
-            parsed_llm_response = j_loads(llm_response_str)
-            if isinstance(parsed_llm_response, dict):
-                llm_response_data = parsed_llm_response
-            else:
-                logger.error(f"Ответ LLM для {internal_link_url} не является валидным JSON объектом: {llm_response_str}")
+        a = llm.ask(q)
+        #llm_response_str_for_log = llm_response_str if llm_response_str else "empty_response"
+        if a:
+            parsed_llm_response = j_loads(a)
+            if parsed_llm_response:
+                if isinstance(parsed_llm_response, dict):
+                    llm_response_data = parsed_llm_response
+                else:
+                    logger.error(f"Ответ LLM для {internal_link_url} не является валидным JSON объектом: {a}")
+                    logger.debug(f"Орвет записан как `str`")
+                    llm_response_data = {'response_data': a}
         else:
             logger.error(f"LLM вернул пустой ответ для {internal_link_url}")
     except Exception as e:
-        logger.error(f"Ошибка парсинга ответа LLM для {internal_link_url}: {e}. Ответ: {llm_response_str_for_log}")
+        logger.error(f"Ошибка парсинга ответа LLM для {internal_link_url}:. Ответ: {a}", ex, True)
 
     determined_page_type = llm_response_data.pop('page_type', extracted_page_content.get('page_type', ''))
     if not determined_page_type: 

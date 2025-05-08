@@ -1,4 +1,4 @@
-## \file /sandbox/davidka/random_fill_suppliers_data_from_url.py
+## \file /sandbox/davidka/process random suppliers.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
@@ -20,15 +20,15 @@
 Основная функция `process_supplier_link` - вызывается для каждой такой записи.
 
 Для запуска:
-  python random_fill_suppliers_data_from_url.py [username]
+  python process random suppliers.py [username]
 
 Если `username` не указан, по умолчанию используется 'onela'.
 Например:
-  python random_fill_suppliers_data_from_url.py               # Использует ключ 'onela'
-  python random_fill_suppliers_data_from_url.py kazarinov     # Использует ключ 'kazarinov'
+  python process random suppliers.py               # Использует ключ 'onela'
+  python process random suppliers.py kazarinov     # Использует ключ 'kazarinov'
 
 ```rst
- .. module:: sandbox.davidka.random_fill_suppliers_data_from_url
+ .. module:: sandbox.davidka.process random suppliers
 ```
 """
 
