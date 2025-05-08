@@ -46,15 +46,13 @@ class Config:
     """Класс конфигурации скрипта."""
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
     config:SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json')
-    data_by_supplier_dir: Path = Path(config.external_storage) # Пример пути
+    STORAGE:str = config.storage
     WINDOW_MODE: str = 'headless'
     GEMINI_API_KEY: Optional[str] = None
     GEMINI_MODEL_NAME = 'gemini-2.0-flash-exp' # Используйте актуальное имя модели
     system_instructuction: str = read_text_file(ENDPOINT / 'instructions/analize_html.md')
-    
-    DIR_PROCESSED_LINKS_LOG_FILENAME: str = 'processed_internal_links.json'
 
-    SHARED_UPDATED_LINKS_LOG_PATH: Path = ENDPOINT / 'updated_links.json' 
+    updated_links_file_name:str =  'updated_links.json' 
     shared_updated_links: Dict[str, str] = {} 
 
     DELAY_AFTER_LINK_PROCESSING: int = 15
@@ -126,7 +124,7 @@ def process_single_internal_link(
             extracted_page_content['product_links'] = list(set(filter(None, current_product_links)))
 
     fields_from_llm = ['categoty_name', 'parent_category', 'title', 'summary', 
-                       'descrition', 'specification', 'notes', 'price']
+                       'descrition', 'specification', 'notes', 'price','specification']
     for field in fields_from_llm:
         if field in llm_response_data:
             extracted_page_content[field] = llm_response_data.pop(field, extracted_page_content.get(field, ''))
@@ -199,20 +197,20 @@ if __name__ == '__main__':
         driver_instance = Driver(Firefox, window_mode=Config.WINDOW_MODE)
         logger.info('Драйвер успешно инициализирован.')
 
-        logger.info(f"Поиск файлов поставщиков в: {Config.data_by_supplier_dir}")
-        suppliers_dirs_list = get_directory_names(Config.data_by_supplier_dir)
+        logger.info(f"Поиск файлов поставщиков в: {Config.STORAGE}")
+        suppliers_dirs_list = get_directory_names(Config.STORAGE) # <- Список директорий поставщиков
 
         if not suppliers_dirs_list:
-            logger.warning(f'Не найдено директорий поставщиков в {Config.data_by_supplier_dir}')
+            logger.warning(f'Не найдено директорий поставщиков в {Config.STORAGE}')
             sys.exit(0) 
         else:
             logger.info(f'Найдено {len(suppliers_dirs_list)} директорий поставщиков. Перемешивание...')
             random.shuffle(suppliers_dirs_list)
 
-        for supplier_dir_name in suppliers_dirs_list:
-            supplier_dir_path = Config.data_by_supplier_dir / supplier_dir_name
+        for supplier_dir_name in suppliers_dirs_list:  
+            supplier_dir_path = Config.STORAGE / supplier_dir_name  # <- Вот поставщик
             
-            dir_specific_log_path = supplier_dir_path / Config.DIR_PROCESSED_LINKS_LOG_FILENAME
+            dir_specific_log_path = supplier_dir_path / Config.updated_links_file_name
             current_dir_processed_links: Dict[str, Any] = j_loads(dir_specific_log_path) or {}
             logger.info(f"Обработка директории '{supplier_dir_name}'. Загружено {len(current_dir_processed_links)} записей из '{dir_specific_log_path.name}'.")
 
@@ -222,13 +220,15 @@ if __name__ == '__main__':
             
             random.shuffle(supplier_file_names) 
 
+
+
             for supplier_file_name in supplier_file_names:
-                if supplier_file_name == Config.DIR_PROCESSED_LINKS_LOG_FILENAME:
+                if supplier_file_name == Config.updated_links_file_name:  # <- В этом файле находится лог обработанных ссылок
                     continue
 
 
                 supplier_file_path = supplier_dir_path / supplier_file_name
-                logger.info(f"Сканирование исходного файла: {supplier_file_path.relative_to(Config.data_by_supplier_dir)}")
+                logger.info(f"Сканирование исходного файла: {supplier_file_path.relative_to(Config.STORAGE)}")
                 total_source_files_scanned += 1
                 
                 one_internal_link_processed_for_this_file = False 

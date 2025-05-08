@@ -31,7 +31,7 @@ The `page_type` field is **mandatory** and must always be included.
   "page_type": "article",
   "title": "<page title>",
   "summary": "<short summary if available>",
-  "descrition": "<full content or body text if available>"
+  "description": "<full content or body text if available>"
 }
 ```
 
@@ -44,7 +44,7 @@ The `page_type` field is **mandatory** and must always be included.
   "page_type": "information",
   "title": "<page title>",
   "summary": "<short summary if available>",
-  "descrition": "<detailed description if available>"
+  "description": "<detailed description if available>"
 }
 ```
 
@@ -57,11 +57,14 @@ The `page_type` field is **mandatory** and must always be included.
   "page_type": "category",
   "category_name": "<name of the category>",
   "parent_category": "<parent category name if available>",
-  "descrition": "<description of the category>",
+  "description": "<description of the category>",
+        "brand": "<brand name>",
+    "supplier": "<supplier name>",
   "product_links": [
     "<URL to product 1>",
     "<URL to product 2>"
-  ]
+  ],
+
 }
 ```
 
@@ -71,22 +74,117 @@ The `page_type` field is **mandatory** and must always be included.
 
 ```json
 {
-  "page_type": "product",
-  "product_title": "<product name>",
-  "sku": "<SKU, part number, model or unique ID>",
-  "summary": "<short product summary>",
-  "descrition": "<detailed product description>",
-  "specification": [
+    "page_type": "product",
+    "product_title": "<product name>",
+    "sku": "<SKU, part number, model or unique ID>",
+    "brand": "<brand name>",
+    "supplier": "<supplier name>",
+    "summary": "<short product summary>",
+    "descrition": "<detailed product description>",
+    "specification": [
     {
-      "param_name": "<specification name>",
-      "param_value": "<specification value>"
+    "param_name": "<specification name>",
+    "param_value": "<specification value>"
     }
-  ],
-  "notes": "<stock, warranty, shipping, or other notes>",
-  "price": "<price if found>"
+    ],
+    "how_to_use": "<how to use the product>",
+    "ingidients": "<ingredients if available>",
+    "usage": "<usage instructions if available>",
+    "warnings": "<warnings if available>",
+    "shipping": "<shipping information if available>",
+    "warranty": "<warranty information if available>",
+    "availability": "<availability status>",
+    "stock": "<stock status>",
+    "instructions": "<instructions if available>",
+    "included": "<included items if available>",
+    "images": [
+    "<URL to image 1>",
+    "<URL to image 2>"
+    ]",
+    "price": "<price if found>",
+    "notes": "<stock, warranty, shipping, or other notes>",
+    "price": "<price if found>"
+    },
+    "other_products": [
+    {name: "<name of the product>",
+    link: "<URL to the product page>"
+    }
+    ],
+```
+
+#### 6. Home Page
+```json
+{
+  "page_type": "home",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>",
+  "featured_products": [
+        {
+        "product_name": "<name of the product>",
+        "product_link": "<URL to the product page>"
+        }
+    ],
+    "categories": [
+        {
+        "category_name": "<name of the category>",
+        "category_link": "<URL to the category page>"
+        }
+    ],
 }
 ```
 
+#### 7. About Page
+```json
+{
+  "page_type": "about",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+
+#### 8. Contact Page
+```json
+{
+  "page_type": "contact",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+#### 9. FAQ Page
+```json
+{
+  "page_type": "faq",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+
+#### 10. Blog Page
+```json
+{
+  "page_type": "blog",
+  "title": "<page title>",
+    "product_name": "<product name if avaible>",
+  "category_name": "<category name if available>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+#### 11. Description Page
+```json
+{
+  "page_type": "description",
+  "title": "<page title>",
+  "product_name": "<product name if avaible>",
+  "category_name": "<category name if available>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
 ---
 
 ### Output Rules:

@@ -65,17 +65,11 @@ class Config:
     # Конечная точка для файлов, связанных с этим скриптом davidka
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
     config:SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json')
-    # Директория с данными поставщиков, требует указания актуального пути
-    data_by_supplier_dir: Path = Path(config.external_storage) # Пример пути, измените при необходимости
-    # Режим работы браузера: 'normal' (видимый) или 'headless' (безголовый)
+    STORAGE:str = config.storage
     WINDOW_MODE: str = 'headless' 
-    # API ключ для Gemini, устанавливается из аргументов командной строки
     GEMINI_API_KEY: str | None = None 
-    # Имя модели Gemini для использования
     GEMINI_MODEL_NAME = 'gemini-2.0-flash-exp'
-    # Системная инструкция для LLM, загружаемая из файла
     system_instructuction:str = read_text_file(ENDPOINT/'instructions/analize_html.md')
-    # Список уже обновленных ссылок, загружаемый из JSON файла
     updated_links:list = j_loads(ENDPOINT/'updated_links.json')
 
 # ==============================================================================
