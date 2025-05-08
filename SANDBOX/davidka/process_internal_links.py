@@ -217,12 +217,7 @@ if __name__ == '__main__':
             for supplier_file_name in supplier_file_names:
                 if supplier_file_name == Config.DIR_PROCESSED_LINKS_LOG_FILENAME:
                     continue
-                try:
-                    datetime.strptime(supplier_file_name[:-5], "%Y%m%d%H%M%S%f") 
-                    logger.debug(f"Пропуск файла с именем-меткой времени: {supplier_file_name} в {supplier_dir_name}")
-                    continue
-                except ValueError:
-                    pass 
+
 
                 supplier_file_path = supplier_dir_path / supplier_file_name
                 logger.info(f"Сканирование исходного файла: {supplier_file_path.relative_to(Config.data_by_supplier_dir)}")
