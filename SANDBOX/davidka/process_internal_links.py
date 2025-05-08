@@ -84,8 +84,10 @@ def process_single_internal_link(
         return {'page_type': 'unknown', 'error': 'error while extract', 'original_url': internal_link_url, 'processed_at': datetime.now().isoformat()}
 
     request_dict = extracted_page_content.copy()
-    if 'html' in request_dict:
-        del request_dict['html']
+    if 'text' in request_dict:
+        del request_dict['text']
+    if 'internal_links' in request_dict:
+        del request_dict['internal_links']
 
     q: str = f"`{str(request_dict)}`"
     llm_response_data: Dict[str, Any] = {}
