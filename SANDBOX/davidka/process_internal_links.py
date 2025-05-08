@@ -17,6 +17,7 @@ import argparse
 from pathlib import Path
 import random
 from typing import Dict, Any, List, Optional
+from types import SimpleNamespace
 import sys
 import time
 from datetime import datetime
@@ -32,7 +33,7 @@ from src.webdriver.firefox import Firefox
 # -------------------------
 from src.llm.gemini import GoogleGenerativeAi
 # -------------------------
-from src.utils.jjson import j_loads, j_dumps
+from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.file import get_filenames_from_directory, get_directory_names, read_text_file
 from src.logger import logger
 from src.utils.printer import pprint as print
@@ -41,7 +42,8 @@ from SANDBOX.davidka.graber import extract_page_data
 class Config:
     """Класс конфигурации скрипта."""
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
-    data_by_supplier_dir: Path = Path('F:/llm/data_by_supplier') # Пример пути
+    config:SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json')
+    data_by_supplier_dir: Path = Path(config.external_storage) # Пример пути
     WINDOW_MODE: str = 'headless'
     GEMINI_API_KEY: Optional[str] = None
     GEMINI_MODEL_NAME = 'gemini-2.0-flash-exp' # Используйте актуальное имя модели
