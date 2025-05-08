@@ -52,7 +52,7 @@ class Config:
     GEMINI_MODEL_NAME = 'gemini-2.0-flash-exp' # Используйте актуальное имя модели
     system_instructuction: str = read_text_file(ENDPOINT / 'instructions/analize_html.md')
 
-    updated_links_file_name:str =  'updated_links.json' 
+    processed_internal_links_file_name:str =  'processed_internal_links.json' 
 
     DELAY_AFTER_LINK_PROCESSING: int = 15
 
@@ -137,8 +137,6 @@ def process_single_internal_link(
     extracted_page_content['original_internal_url'] = internal_link_url # Это поле теперь может дублировать ключ верхнего уровня
     extracted_page_content['processed_at'] = datetime.now().isoformat()
 
-    logger.info(f"Данные для внутреннего URL '{internal_link_url}' обработаны.\n Задержка {Config.DELAY_AFTER_LINK_PROCESSING} сек")
-    time.sleep(Config.DELAY_AFTER_LINK_PROCESSING)  # Задержка перед завершением обработки
     return extracted_page_content
 
 # ==============================================================================
@@ -302,16 +300,17 @@ if __name__ == '__main__':
                                     "processed_at": datetime.now().isoformat(),
                                     "source_file_name": supplier_file_name, 
                                     "output_file_name": new_data_filename,
-                                    "page_type": processed_page_data.get('page_type', 'unknown') # Берем page_type из обработанных данных
+                                    "page_type": processed_page_data.get('page_type', 'unknown'), # Берем page_type из обработанных данных
+                                    "page_url": internal_url_to_process,
                                 }
-                                if not j_dumps(journal, supplier_dir_path):
+                                if not j_dumps(journal, supplier_dir_path / Config.processed_internal_links_file_name):
                                     logger.error(f"Критическая ошибка: не удалось сохранить обновленный лог директории '{dir_specific_log_path}'")
                                     break
 
                                 internal_links_processed_this_run += 1
                                 one_internal_link_processed_for_this_file = True 
 
-                        
+                        time.sleep(Config.DELAY_AFTER_LINK_PROCESSING)  # Задержка между обработкой ссылок
                         logger.info(f"Задержка на {Config.DELAY_AFTER_LINK_PROCESSING} секунд...")
                         
                     
