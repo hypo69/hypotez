@@ -132,7 +132,7 @@ def process_single_internal_link(
             extracted_page_content['product_links'] = list(set(filter(None, current_product_links)))
 
     fields_from_llm = ['categoty_name', 'parent_category', 'title', 'summary', 
-                       'descrition', 'specification', 'notes', 'price','specification']
+                       'descritpion', 'specification', 'notes', 'price','specification']
     for field in fields_from_llm:
         if field in llm_response_data:
             extracted_page_content[field] = llm_response_data.pop(field, extracted_page_content.get(field, ''))

@@ -80,7 +80,7 @@ The `page_type` field is **mandatory** and must always be included.
     "brand": "<brand name>",
     "supplier": "<supplier name>",
     "summary": "<short product summary>",
-    "descrition": "<detailed product description>",
+    "descritpion": "<detailed product description>",
     "specification": [
     {
     "param_name": "<specification name>",
