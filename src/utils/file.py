@@ -197,10 +197,6 @@ def read_text_file_generator(
         ...
         return None
 
-import logging
-import re
-from pathlib import Path
-from typing import Union, Optional, List # Use List for compatibility/clarity
 
 
 def read_text_file(

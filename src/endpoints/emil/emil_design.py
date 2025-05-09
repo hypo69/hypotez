@@ -244,7 +244,7 @@ class EmilDesign:
         try:
             d = Driver(Chrome)
             d.get_url(r'https://www.facebook.com/groups/1080630957030546')
-            messages = j_loads_ns(self.base_path / 'images_descritpions_he.json')
+            messages = j_loads_ns(self.base_path / 'images_descritions_he.json')
 
             for m in messages:
                 message = SimpleNamespace(

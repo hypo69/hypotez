@@ -58,7 +58,7 @@ The `page_type` field is **mandatory** and must always be included.
   "category_name": "<name of the category>",
   "parent_category": "<parent category name if available>",
   "description": "<description of the category>",
-        "brand": "<brand name>",
+    "brand": "<brand name>",
     "supplier": "<supplier name>",
   "product_links": [
     "<URL to product 1>",
@@ -80,7 +80,7 @@ The `page_type` field is **mandatory** and must always be included.
     "brand": "<brand name>",
     "supplier": "<supplier name>",
     "summary": "<short product summary>",
-    "descritpion": "<detailed product description>",
+    "descrition": "<detailed product description>",
     "specification": [
     {
     "param_name": "<specification name>",
@@ -204,8 +204,50 @@ The `page_type` field is **mandatory** and must always be included.
     ]"
 }
 ```
+#### 13. Services:
+```json
+{
+  "page_type": "services",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>",
+  "services": [
+        {
+        "name": "<name of the service>",
+        "description": "<description of the service>",
+        "link": "<URL to the service page>"
+        }
+    ]
+}
+```
+#### 14. Terms and Conditions
+```json
+{
+  "page_type": "terms",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+#### 15. Privacy Policy
+```json
+{
+  "page_type": "'privacy_police",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+#### 16. Careers
 
-
+```json
+{
+  "page_type": "careers",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
 ---
 
 ### Output Rules:
@@ -216,44 +258,6 @@ The `page_type` field is **mandatory** and must always be included.
 * Clean values of HTML tags where applicable.
 * `page_type` is always required.
 
-### Примеры:
-#### Пример 1
- - Неверный ответ:
-``` **Analyzing and Processing the Extracted Text**
 
-Okay, so I've been given this text and metadata extracted from an HTML page. Immediately, the red flags go up: "The requested item does not exist on this server" and "The link you followed is either inaccurate or may have been deleted."  Classic error messages.  From a schema perspective, this screams "Error Page." My task is clear: I need to isolate the core error message.  No need to overcomplicate things; the first sentence seems to be the most direct and relevant.  Therefore, I'll extract that, format everything into a JSON object, with the `page_type` set to "error page", and the `error` field populated with the extracted error message.  Should be straightforward from here.
-
-{
-  "page_type": "error page",
-  "error": "The requested item does not exist on this server. The link you followed is either inaccurate or may have been deleted."
-} Expecting value: line 1 column 1 (char 0)[0m
-```
- - Верный ответ:
-```json
-{
-  "page_type": "error page",
-  "error": "The requested item does not exist on this server. The link you followed is either inaccurate or may have been deleted."
-}
-```
-#### Пример 2.
- - Неверный ответ:
-``` **Analyzing the Provided Data: It's an Error Page**
-
-Okay, so I've been given a dictionary with text extracted from a webpage, and the `text` field is showing some classic error page signals: "Oops...something went wrong" and "We couldn't find the page you requested."  No question about it, this is an error page.
-
-Given this, I know what I need to do.  The schema for these situations demands a `page_type` of "error page" and an `error` field.  My task now is to extract the core error message from that `text` field and plug it into the `error` field of my output. Easy peasy.
-
-{
-  "page_type": "error page",
-  "error": "Oops...something went wrong. We couldn't find the page you requested."
-}
-```
- - Верный ответ:
-```json
-{
-  "page_type": "error page",
-  "error": "Oops...something went wrong. We couldn't find the page you requested."
-}
-```
 
 

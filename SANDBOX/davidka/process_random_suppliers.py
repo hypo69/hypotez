@@ -160,7 +160,7 @@ def process_supplier_link(
         if hasattr(a, 'parent_category'): extracted_page_content['parent_category'] = a.get('parent_category', '') ; del(a['parent_category'])
         if hasattr(a, 'title'): extracted_page_content['title'] = a.get('title', '') ; del(a['title'])
         if hasattr(a, 'summary'): extracted_page_content['summary'] = a.get('summary', '') ; del(a['summary'])
-        if hasattr(a, 'descritpion'): extracted_page_content['descritpion'] = a.get('descritpion', '') ; del(a['descritpion'])
+        if hasattr(a, 'descrition'): extracted_page_content['descrition'] = a.get('descrition', '') ; del(a['descrition'])
         if hasattr(a, 'specification'): extracted_page_content['specification'] = a.get('specification', '') ; del(a['specification'])
         if hasattr(a, 'notes'): extracted_page_content['notes'] = a.get('notes', '') ; del(a['notes'])
         if hasattr(a, 'price'): extracted_page_content['price'] = a.get('price', '') ; del(a['price'])

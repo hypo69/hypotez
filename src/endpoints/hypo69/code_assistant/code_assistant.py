@@ -73,6 +73,7 @@ class Config:
     response_mime_type:str = config.response_mime_type 
     output_directory_patterns:list = config.output_dirs
     remove_prefixes:str = config.remove_prefixes
+    model_name:str = config.model_name
 
     @classmethod
     @property
@@ -94,8 +95,8 @@ class Config:
 
 
     gemini: SimpleNamespace = SimpleNamespace(**{
-        'model_name': os.getenv('GEMINI_MODEL') if USE_ENV else config.gemini_model_name or None,  # <- MODEL_NAME
-        'api_key': os.getenv('GEMINI_API_KEY') if USE_ENV else gs.credentials.gemini.kazarinov.api_key or None,  # <- API_KEY
+        'model_name': os.getenv('GEMINI_MODEL') if USE_ENV else config.model_name or None,  # <- MODEL_NAME
+        'api_key': os.getenv('GEMINI_API_KEY') if USE_ENV else gs.credentials.gemini.onela.api_key or None,  # <- API_KEY
         'response_mime_type': 'text/plain',
     })
 
@@ -474,7 +475,7 @@ def main() -> None:
                 assistant_direct = CodeAssistant(
                     role=role,
                     lang=lang,
-                    # model_name = Config.model_name,
+                    model_name = Config.model_name,
                     # system_instruction = Config.system_instruction,
                 )
                 asyncio.run(assistant_direct.process_files(process_dirs = Config.process_dirs))

@@ -144,10 +144,14 @@ def extract_page_data(html_content: str, base_url: str) -> dict:
 
     # Шаблон для возврата пустого результата в случае ошибки или отсутствия контента
     empty_result_template: dict = {
-        'html': cleaned_html_output, 'text': plain_text_output, 
-        'internal_links': internal_links_output, 'title_tag_content': title_tag_content_output,
-        'meta_description': meta_description_output, 'meta_keywords': meta_keywords_output, 
-        'meta_name_title': meta_name_title_output, 'meta_og_title': meta_og_title_output
+        'html': cleaned_html_output, 
+        'text': plain_text_output, 
+        'title_tag_content': title_tag_content_output,
+        'meta_description': meta_description_output, 
+        'meta_keywords': meta_keywords_output, 
+        'meta_name_title': meta_name_title_output, 
+        'meta_og_title': meta_og_title_output,
+        'internal_links': internal_links_output, 
     }
 
     # Проверка на пустой HTML контент
@@ -182,8 +186,8 @@ def extract_page_data(html_content: str, base_url: str) -> dict:
         # Теги, которые удаляются полностью перед сбором ссылок и основной очисткой
         tags_to_remove_completely_initial: list[str] = [ 
             'script', 'style', 'head', 'meta', 'link', 'noscript', 
-            'iframe', 'embed', 'object', 'applet', 'audio', 'video',
-            'svg', 'canvas', 'map', 'area', 'dialog', 'figure', 'figcaption', 'details', 'summary',
+            'iframe', 'embed', 'object', 'applet', 'audio', 'video', 
+            'svg', 'canvas', 'map', 'area', 'dialog', 'figure', 'figcaption', 
         ]
         # Удаление начального набора тегов
         for tag_name_to_remove in tags_to_remove_completely_initial:
@@ -232,7 +236,7 @@ def extract_page_data(html_content: str, base_url: str) -> dict:
         # --- ШАГ B: ОСНОВНАЯ ОЧИСТКА HTML (ТЕПЕРЬ МОЖНО УДАЛЯТЬ <a> И ДРУГИЕ) ---
         # Теги, удаляемые после сбора ссылок. Они могли содержать ссылки, но теперь не нужны в очищенном HTML.
         tags_to_remove_after_link_collection: list[str] = [
-             'header', 'footer', 'nav', 'aside', 
+             'header', 'footer', 'aside', 
              'form', 'button', 'input', 'textarea', 'select', 'option',
              'a' # <--- Удаление всех тегов <a>
         ]
@@ -246,7 +250,7 @@ def extract_page_data(html_content: str, base_url: str) -> dict:
         # (теги <a> уже удалены, так что их атрибуты не будут обрабатываться здесь)
         for tag in list(soup.find_all(True)): # Итерация по всем оставшимся тегам
             # Пропуск тегов без имени или родителя (например, корневой элемент BeautifulSoup)
-            if not tag.name or not tag.parent: continue
+            if not tag.parent: continue
             
             # Проверка, является ли тег значащим медиа-элементом (img с src или alt)
             is_meaningful_media: bool = tag.name == 'img' and (tag.get('src') or tag.get('alt'))
@@ -297,10 +301,12 @@ def extract_page_data(html_content: str, base_url: str) -> dict:
                         elif allowed_by_data_pattern: new_attrs[attr_name] = attr_value # Сохранение data-* атрибутов как есть
                         else: new_attrs[attr_name] = val_to_process # Сохранение других разрешенных атрибутов
                 tag.attrs = new_attrs # Обновление атрибутов тега
-            else: 
-                # Удаление тега, если он не содержит значимого контента и не является 'body', 'html' или 'br'
-                if tag.name not in ('body', 'html', 'br'): 
-                    tag.decompose()
+            else: ... 
+                # ---------------------- закомментирован для дебагинга -------------
+                # # Удаление тега, если он не содержит значимого контента и не является 'body', 'html' или 'br'
+                # if tag.name not in ('body', 'html', 'br'): 
+                #     tag.decompose()
+                # ------------------------------------------------------------------
 
         # --- 3. Получаем очищенный HTML из body и извлекаем из него текст ---
         body_tag: NavigableString | None = soup.body
@@ -343,6 +349,7 @@ def extract_page_data(html_content: str, base_url: str) -> dict:
         
         # Возврат словаря с извлеченными данными
         return {
+            'raw_content': str(body_tag),
             'html': cleaned_html_output,
             'text': plain_text_output,
             'title_tag_content': title_tag_content_output,

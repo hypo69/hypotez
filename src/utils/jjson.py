@@ -109,7 +109,12 @@ def j_dumps(
             ...
             return None
 
-    
+    if isinstance(data, SimpleNamespace):
+        try:
+            data = _convert_to_dict(data)
+        except Exception as ex:
+            logger.error(f'Ошибка конвертации в словарь {type(data)}')
+            return {}
 
     if mode not in {Config.MODE_WRITE, Config.MODE_APPEND_START, Config.MODE_APPEND_END}:
         mode = Config.MODE_WRITE

@@ -22,88 +22,256 @@
 
 2. Действия по типу страницы:
 
-   - Если это **страница товара**:
-     - Извлеки информацию:
-       - `name` — Название товара
-       - `price` — Цена
-       - `currency` — Валюта
-       - `availability` — Наличие (true/false/null)
-       - `sku` — SKU товара
-       - `category` — Категория товара
-       - `brand` — Бренд товара
-       - `short_description` — Краткое описание товара
-       - `description` — Полное описание товара
-       - `image` — URL изображения товара
-       - `specifications` — Характеристики товара (в виде пар "название":"значение")
-       - `parameters` — Параметры товара (в виде пар "название":"значение")
-       - `url` — URL страницы товара
-       - `raw_text` — Полный текст страницы без HTML
-     - Все текстовые данные переводи на английский язык при необходимости.
-     - Если данные отсутствуют, указывай `"N/A"`.
-
-   - Если это **страница категории**:
-     - Найди до 5 ссылок на товары.
-     - Перейди по каждой ссылке и обработай её как страницу товара.
-
-   - Если это **другая страница**:
-     - Пропусти её.
-
-3. Пропускай страницы:
-   - С ошибками загрузки.
-   - Требующие обязательного входа или регистрации.
-   - Нерелевантные по содержанию.
-   - Все страницы доменов, содержащих ключевые слова:
-     - `youtube`
-     - `facebook`
-     - `instagram`
-     - `twitter`
-     - `linkedin`
-     - `tiktok`
-     - `pinterest`
-     - `vk`
-     - `reddit`
-     - `snapchat`
-     - и аналогичные сайты социальных сетей или видеохостингов.
-   - Проверку делай по части URL (поддомен и основной домен).
-
-4. Останови процесс, если достигнуто `{NUM_LINKS}` обработанных товаров.
-
 ---
 
-**📦 Формат финального результата (один товар):**
+### Page Types and JSON Schemas:
+
+#### 1. Error Page
 
 ```json
 {
-"products":[{"product":{
-  "request_details": {
-    "category_searched": "{PRODUCT_CATEGORY}",
-    "url_processed": "<URL страницы>"
-  },
-  "status": "success",
-  "webpage_type": "product",
-  "data": {
-    "name": "<Название товара>",
-    "url": "<URL страницы товара>",
-    "sku": "<SKU или 'N/A'>",
-    "category": "<Категория товара или 'N/A'>",
-    "brand": "<Бренд товара или 'N/A'>",
-    "short_description": "<Краткое описание товара или 'N/A'>",
-    "description": "<Полное описание товара или 'N/A'>",
-    "image": "<URL изображения или 'N/A'>",
-    "price": "<Цена товара или 'N/A'>",
-    "specifications": {
-      "spec1": "<value>",
-      "spec2": "<value>"
-    },
-    "parameters": {
-      "param1": "<value>",
-      "param2": "<value>"
-    },
-    "raw_text": "<Полный текст страницы без HTML>"
-  }
-  }]
+  "page_type": "error page",
+  "error": "<most relevant error message>"
 }
 ```
+
+---
+
+#### 2. Article Page
+
+```json
+{
+  "page_type": "article",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+
+---
+
+#### 3. Information Page
+
+```json
+{
+  "page_type": "information",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<detailed description if available>"
+}
+```
+
+---
+
+#### 4. Product Category Page
+
+```json
+{
+  "page_type": "category",
+  "category_name": "<name of the category>",
+  "parent_category": "<parent category name if available>",
+  "description": "<description of the category>",
+    "brand": "<brand name>",
+    "supplier": "<supplier name>",
+  "product_links": [
+    "<URL to product 1>",
+    "<URL to product 2>"
+  ],
+
+}
+```
+
+---
+
+#### 5. Product Page (**MOST IMPORTANT**)
+
+```json
+{
+    "page_type": "product",
+    "product_title": "<product name>",
+    "sku": "<SKU, part number, model or unique ID>",
+    "brand": "<brand name>",
+    "supplier": "<supplier name>",
+    "summary": "<short product summary>",
+    "descrition": "<detailed product description>",
+    "specification": [
+    {
+    "param_name": "<specification name>",
+    "param_value": "<specification value>"
+    }
+    ],
+    "how_to_use": "<how to use the product>",
+    "ingidients": "<ingredients if available>",
+    "usage": "<usage instructions if available>",
+    "warnings": "<warnings if available>",
+    "shipping": "<shipping information if available>",
+    "warranty": "<warranty information if available>",
+    "availability": "<availability status>",
+    "stock": "<stock status>",
+    "instructions": "<instructions if available>",
+    "included": "<included items if available>",
+    "images": [
+    "<URL to image 1>",
+    "<URL to image 2>"
+    ]",
+    "price": "<price if found>",
+    "notes": "<stock, warranty, shipping, or other notes>",
+    "price": "<price if found>"
+    },
+    "other_products": [
+    {name: "<name of the product>",
+    link: "<URL to the product page>"
+    }
+    ],
+```
+
+#### 6. Home Page
+```json
+{
+  "page_type": "home",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>",
+  "featured_products": [
+        {
+        "product_name": "<name of the product>",
+        "product_link": "<URL to the product page>"
+        }
+    ],
+    "categories": [
+        {
+        "category_name": "<name of the category>",
+        "category_link": "<URL to the category page>"
+        }
+    ],
+}
+```
+
+#### 7. About Page
+```json
+{
+  "page_type": "about",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+
+#### 8. Contact Page
+```json
+{
+  "page_type": "contact",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+#### 9. FAQ Page
+```json
+{
+  "page_type": "faq",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+
+#### 10. Blog Page
+```json
+{
+  "page_type": "blog",
+  "title": "<page title>",
+    "product_name": "<product name if avaible>",
+  "category_name": "<category name if available>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+#### 11. Description Page
+```json
+{
+  "page_type": "description",
+  "title": "<page title>",
+  "product_name": "<product name if avaible>",
+  "category_name": "<category name if available>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+#### 12. Distributors
+```json
+{
+  "page_type": "distributors",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>",
+  "distributors": [
+        {
+        "name": "<name of the distributor>",
+        "description": "<description of the distributor>",
+        "link": "<URL to the distributor page>",
+        "address": "<address of the distributor>",
+        "phone": "<phone number of the distributor>",
+        "email": "<email of the distributor>"
+        }
+    ]"
+}
+```
+#### 13. Services:
+```json
+{
+  "page_type": "services",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>",
+  "services": [
+        {
+        "name": "<name of the service>",
+        "description": "<description of the service>",
+        "link": "<URL to the service page>"
+        }
+    ]
+}
+```
+#### 14. Terms and Conditions
+```json
+{
+  "page_type": "terms",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+#### 15. Privacy Policy
+```json
+{
+  "page_type": "'privacy_police",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+#### 16. Careers
+
+```json
+{
+  "page_type": "careers",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
+---
+
+### Output Rules:
+
+* Output **only a single JSON object**.
+* **Do not** include any explanations, markdown, or additional text.
+* **Translate all extracted text to English**.
+* Clean values of HTML tags where applicable.
+* `page_type` is always required.
+
+
 
 ---
 

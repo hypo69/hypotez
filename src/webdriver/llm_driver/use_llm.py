@@ -148,6 +148,7 @@ class Config:
     # --- ИНИЦИАЛИЗАЦИЯ АТРИБУТОВ КЛАССА ---
     # LLM API ключи и статусы
     GEMINI_API_KEY: Optional[str] = None; GEMINI_STATUS: str = 'inactive'; GEMINI_MODEL_NAME: str = ''
+    
     OPENAI_API_KEY: Optional[str] = None; OPENAI_API_STATUS: str = 'inactive'; OPENAI_MODEL_NAME: str = ''
     # Search Providers API ключи и статусы
     SERPAPI_API_KEY: Optional[str] = None
@@ -393,6 +394,7 @@ class Driver:
 
         # Установка API ключей в переменные окружения (для некоторых SDK)
         if gemini_api_key_local: os.environ['GEMINI_API_KEY'] = gemini_api_key_local
+        logger.info(f'Ключ джемини {os.environ['GEMINI_API_KEY']=}')
         if openai_api_key_local: os.environ['OPENAI_API_KEY'] = openai_api_key_local
         if self._serpapi_key: os.environ['SERPAPI_API_KEY'] = self._serpapi_key
         if self._tavily_key: os.environ['TAVILY_API_KEY'] = self._tavily_key

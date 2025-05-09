@@ -4,15 +4,17 @@
   "model": [ "gemini" ],
 
   "response_mime_type": "text/plain",
-  "gemini_model_name": "gemini-1.5-flash-001-tuning",
+  "model_name": "gemini-2.5-flash-preview-04-17",
   "process_dirs": [
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\docs\\"
 
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\llm_driver",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\SANDBOX\\davidka"
   ],
 
 
   "dirs_list": [
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\docs\\",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\chrome",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\llm_browser",
@@ -314,11 +316,13 @@
   },
 
   "roles": [
-    "trainer",
-    "doc_writer_md",
-    "how_to_writer_md"
+    
+    "doc_writer_md"
+   
   ],
   "exclude-roles": [
+    "trainer",
+    "how_to_writer_md",
     "code_checker_md",
     "code_explainer_md",
     "code_explainer_html",

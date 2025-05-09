@@ -214,11 +214,6 @@ def extract_pure_domain(text: Optional[str]) -> Optional[str]:
 
 
 
-
-
-
-
-
 def normalize_url(url: str, default_scheme: str = 'http') -> str:
     """
     Нормализует URL-адрес, приводя его к более стандартному виду.
@@ -421,18 +416,6 @@ def normalize_url(url: str, default_scheme: str = 'http') -> str:
         return None # Возврат None в случае ошибки сборки
 
     return normalized_url_result
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
