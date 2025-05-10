@@ -9,8 +9,9 @@
 
 .. module:: sandbox.davidka.crawler_simple_driver
 """
-
+import sys
 import asyncio
+from filelock import AsyncFileLock
 import random
 from urllib.parse import urlparse
 from typing import List, Dict, Union
@@ -28,7 +29,7 @@ from src.utils.url import get_domain
 from src.utils.string.ai_string_utils import normalize_answer
 from src.utils.printer import pprint as print
 from src.logger import logger
-from SANDBOX.davidka.utils import yield_product_urls_from_files, get_products_by_category, get_categories_from_random_urls
+from SANDBOX.davidka.utils import yield_product_urls_from_files, get_categories_from_random_urls, files_mixer
 
 
 
@@ -79,7 +80,7 @@ class Config:
         raise ValueError("Ошибка загрузки пути к хранилищу", ex)
 
     TRAIN_STORAGE: Path = Path(config.train_storage)
-    UZZIPPED_STORAGE: Path = Path(config.unzipeped_storage)
+    UZZIPPED_STORAGE: Path = Path(config.unzipped_storage)
 
     # Параметры Gemini
     GEMINI_API_KEY: Optional[str] = gs.credentials.gemini.onela.api_key  # или katia.api_key
@@ -248,7 +249,7 @@ async def fetch_product_data(driver: SimpleDriver, data_dir: str | Path) -> List
         logger.error('Общая ошибка в функции fetch_product_data', ex_outer_loop, exc_info=True)
         return [] # Возвращаем пустой список в случае серьезной ошибки
 
-async def get_products_urls(driver:SimpleDriver, category: str, task:str = '', num_of_links: str = '1') -> str:
+async def find_products_urls_by_category(driver:SimpleDriver, category: str, task:str = '', num_of_links: str = '1') -> str:
     """Получить товары по категории через `SimpleDriver`"""
     try:
         
@@ -257,31 +258,64 @@ async def get_products_urls(driver:SimpleDriver, category: str, task:str = '', n
         answer = await driver.simple_process_task_async(task)
         if not answer:
             return ''
-        j_dumps(answer, Config.ENDPOINT/'train_data_products'/f'product_links_{gs.now}.json')
+        j_dumps(answer, Config.ENDPOINT/'train_data_products'/f'product_links_{gs.now}.json') # Сборник ссылок
     except Exception as ex:
         logger.error(f'Ошибка при обработке {category=}', ex, exc_info=True)
         return ''
 
+def sanitize(dir_path:Path|str):
+    """Очистка полученных данны. Функция проверяет 
+    валидность JSON, пытается исправить ошибки в битых файлах.
+    В случае неудачи функция переименовывает файл в .sanitized
+    """
+    for file_path in recursively_yield_file_path(Config.STORAGE /'data_by_supplier','*.json'):
+        if file_path.stem == 'updated_links': continue
+        file_dict = j_loads(file_path)
+        if not file_dict:
+            logger.warning(f'Файл {file_path} пуст или невалиден. Файл исключается из валидных')
+            new_name = f"{file_path.stem}.sanitized{file_path.suffix}"
 
+            # Создаем новый объект Path с новым именем в той же директории
+            new_file_path = file_path.with_name(new_name)
 
+            try:
+                # Переименовываем файл
+                file_path.rename(new_file_path)
+                print(f"Переименовано: '{file_path}' -> '{new_file_path}'")
+                continue
+            except FileNotFoundError:
+                # Это не должно произойти, если is_file() прошло, но на всякий случай
+                print(f"Ошибка: Исходный файл '{file_path}' не найден при попытке переименования.")
+                continue
+            except FileExistsError:
+                print(f"Ошибка: Файл с именем '{new_file_path.name}' уже существует в директории.")
+                continue
+            except OSError as e:
+                print(f"Ошибка при переименовании '{file_path}' в '{new_file_path}': {e}")
+                continue
 
 async def main():
     """Основная функция запуска"""
     driver = Config.driver
 
     # Парсинг страниц товаров
-    await fetch_product_data(driver, Config.STORAGE)
+    # await fetch_product_data(driver, Config.STORAGE)
     ...
-    products_dict:dict = {}
-    for file in recursively_yield_file_path(Config.STORAGE,'*.json'):
-        file_dict = j_loads(file)
-        products_dict.update(file_dict)
+    # Очистка от бытых файлов
+    # sanitize(Config.STORAGE/'data_by_supplier')
 
-        # Пример: обработка товаров по категориям
-        for category in get_categories_from_random_urls():
-            await get_products_urls(driver,category)
+    # Пример: обработка товаров по категориям
+    # for category in get_categories_from_random_urls(all_in_one_data):
+    #     await get_products_urls(driver,category)
         ...
+    # Краулер
+    for file in files_mixer(Config.STORAGE/'data_by_supplier'):
 
+
+
+    # Пример: обработка файлов товаров
+    # await fetch_product_data(driver, file)
+        ...`
     # # Пример: обработка доменов
     # domains_list:list = read_text_file(Config.ENDPOINT / 'checked_domains.txt', as_list=True)
     # output_dict:dict = {}

@@ -47,11 +47,13 @@ import json
 import codecs
 import re # Используется в _string_to_dict
 from pathlib import Path
+from tkinter.filedialog import LoadFileDialog
 from typing import Any, List as TypingList, Dict as TypingDict # TypingList/Dict for find_keys as per original.
 from collections.abc import Mapping, Sequence
 from types import SimpleNamespace
 from dataclasses import dataclass
 from json_repair import repair_json
+import json_repair
 
 
 from src.logger.logger import logger
@@ -256,7 +258,7 @@ def j_dumps(
         # Если _string_to_dict вернул пусто, но строка была непустой и не являлась "{}" или "[]"
         if not data_as_obj and data.strip() and data.strip() not in ('{}', '[]'):
             try:
-                repaired_json_str: str = repair_json(data)
+                repaired_json_str: str = repair_json(data, return_objects=True)
                 processed_data = json.loads(repaired_json_str)
             except Exception as ex_repair:
                 logger.error(f'Error repairing/parsing JSON string (first 100 chars): "{data[:100]}..."', ex_repair, exc_info=exc_info)
@@ -344,7 +346,7 @@ def _decode_strings(data: Any) -> Any:
         }
     return data
 
-def _string_to_dict(json_string: str) -> dict[Any, Any] | list[Any]:
+def _string_to_dict(json_string: str, return_objects:bool = False) -> dict[Any, Any] | list[Any]:
     """
     Функция удаляет Markdown-обёртки (например, ```json ... ```) из строки
     и затем парсит её как JSON, возвращая словарь или список.
@@ -382,10 +384,16 @@ def _string_to_dict(json_string: str) -> dict[Any, Any] | list[Any]:
         return {}
 
     try:
-        result = json.loads(cleaned_string)
+        result:dict = json.loads(cleaned_string)
     except json.JSONDecodeError as ex:
         logger.error(f'JSON parsing error for string (first 100 chars): "{cleaned_string[:100]}..."', ex, False)
-        return {}
+        logger.debug(f'Trying json_repair')
+        try:
+            repaired_result:dict|bool = json_repair(cleaned_string)
+            result:dict = json.loads(repaired_result)
+        except Exception as ex:
+            logger.error(f'Error in json_repair', ex)
+            return {}
     except Exception as ex:
         logger.error(f'Unexpected error parsing string (first 100 chars): "{cleaned_string[:100]}..."', ex, False)
         return {}
@@ -441,7 +449,25 @@ def j_loads(
                 return [j_loads(file, ordered=ordered) for file in files] # j_loads вернет {} для невалидных файлов
             elif path_obj.is_file():
                 # json.loads корректно обрабатывает \uXXXX из файла. _decode_strings здесь не нужен.
-                return json.loads(path_obj.read_text(encoding='utf-8'))
+                try:
+                    return json.loads(path_obj.read_text(encoding='utf-8'))
+                except Exception as ex:
+                    logger.error(f'Ошибка чтения словаря')
+                    try:
+                        with path_obj.open('r', encoding='utf-8') as f:
+                            file_content: str = f.read()
+                            if not file_content:
+                                logger.error(f'В файле {path_obj} Нет данных!')
+                                return {}
+
+                        repaired_json: dict| None = _string_to_dict(file_content, return_objects=True)
+                        ...
+                        return repaired_json 
+                    except Exception as ex:
+                        logger.error(f'Error reading file {path_obj}: {ex}', ex, False)
+                        ...
+                        return {}
+                    ...
             else:
                 logger.error(f'Path does not exist or is not a file/directory: {path_obj}', None, False)
                 return {}
@@ -555,6 +581,18 @@ def sanitize_json_files(path: Path) -> bool:
 
     def process_file(file_path: Path) -> bool:
         logger.info(f'Start sanitize file: {file_path}')
+
+        def write_sanitzed_suffix(file_path) -> bool:
+            try:
+                sanitized_path: Path = file_path.with_name(file_path.name + '.sanitized')
+                file_path.rename(sanitized_path)
+                logger.info(f'File renamed to: {sanitized_path}')
+                return True
+            except Exception as rename_ex:
+                logger.error(f'Failed to rename file: {file_path} to {sanitized_path}', rename_ex)
+                return False
+
+
         if not file_path.is_file() or file_path.suffix.lower() != '.json':
             logger.error(f'Path is not a JSON file: {file_path}')
             return False
@@ -563,15 +601,29 @@ def sanitize_json_files(path: Path) -> bool:
             with file_path.open('r', encoding='utf-8') as f:
                 json.load(f)
             logger.info(f'File is valid: {file_path}')
+            return True
+
         except Exception as ex:
-            logger.error(f'Error reading or parsing JSON in file: {file_path}', ex)
-            sanitized_path: Path = file_path.with_name(file_path.name + '.sanitized')
+            logger.error(f'Error reading or parsing JSON in file: {file_path}\nStart repair', ex)
             try:
-                file_path.rename(sanitized_path)
-                logger.info(f'File renamed to: {sanitized_path}')
-            except Exception as rename_ex:
-                logger.error(f'Failed to rename file: {file_path} to {sanitized_path}', rename_ex)
-                return False # Ошибка переименования
+                with file_path.open('r', encoding='utf-8') as f:
+                    text_data:str = f
+            except Exception as ex:
+                logger.error("Не удается открыть файл. Возват из функции")
+                write_sanitzed_suffix(file_path)
+                return False
+
+            repaired_data = _string_to_dict(text_data, return_objects=True)
+            if not repaired_data:
+                logger.error(f'Failed to repair JSON in file: {file_path}')
+                write_sanitzed_suffix(file_path)
+                return False
+                
+
+            if j_dumps(repaired_data, file_path.open('w', encoding='utf-8'), ensure_ascii=False, indent=4):
+                logger.success(f'File repaired and saved: {file_path}')
+                return True
+
         return True # Файл валиден или успешно переименован
 
     if not path.exists():

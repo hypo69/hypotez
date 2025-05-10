@@ -18,11 +18,11 @@ from pathlib import Path
 from typing import List, Optional, Generator, Union, Dict, Set, Any
 from types import SimpleNamespace
 
-# --- Импорты проекта ---
-# Предполагается, что эти модули всегда доступны
+# -----------------
+
 import header
 from header import __root__
-# from src import gs # Не используется напрямую в этих функциях
+from src import gs
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps, sanitize_json_files
 from src.utils.file import get_filenames_from_directory 
 from src.logger.logger import logger
@@ -284,96 +284,6 @@ def get_categories_from_random_urls(crawl_files_list: list = None) -> list:
     return categories_list
 
 
-# def get_categories_from_files(
-#     mining_data_path: Path,
-#     crawl_files_list: Optional[List[str]] = None
-# ) -> List[str]:
-#     """
-#     Извлекает все уникальные названия категорий из файлов словарей JSON в папке.
-
-#     Читает файлы из указанной директории `mining_data_path`. Если передан
-#     список `crawl_files_list`, обрабатываются только файлы из этого списка,
-#     иначе обрабатываются все JSON-файлы в директории. Из данных каждого товара
-#     пытается извлечь значения по ключам 'parent_category' и 'category_name'.
-#     Собирает все найденные категории в один список, удаляет дубликаты,
-#     перемешивает и возвращает.
-
-#     Args:
-#         mining_data_path (Path): Путь к директории с файлами данных.
-#         crawl_files_list (Optional[List[str]], optional): Список имен файлов
-#             для обработки. Если None, обрабатываются все .json файлы
-#             в `mining_data_path`. По умолчанию None.
-
-#     Returns:
-#         List[str]: Перемешанный список уникальных названий категорий.
-#     """
-#     # Объявление переменных
-#     categories_set: Set[str] = set() # Используем set для автоматической дедупликации
-#     target_files: List[str]
-#     filename: str
-#     file_path: Path
-#     crawl_data: Union[Dict[str, Any], List[Any]]
-#     products_data: List[Any] = [] # Инициализация
-#     product_item: Dict[str, Any] # Переименована переменная цикла
-
-#     # Определяем список файлов для обработки
-#     if crawl_files_list is None:
-#         target_files = get_filenames_from_directory(mining_data_path, 'json') # Ищем json по умолчанию
-#         logger.debug(f'Обработка категорий из всех json файлов {mining_data_path}')
-#     else:
-#         target_files = crawl_files_list
-#         logger.debug(f'Обработка категорий из файлов списка: {len(target_files)} шт.')
-
-#     # Обработка каждого файла
-#     for filename in target_files:
-#         try:
-#             file_path = mining_data_path / filename
-#             # Загрузка данных
-#             crawl_data = j_loads(file_path)
-
-#             # Извлечение списка товаров
-#             if isinstance(crawl_data, dict) and 'products' in crawl_data:
-#                  products_data = crawl_data['products']
-#             elif isinstance(crawl_data, list):
-#                  products_data = crawl_data
-#                  logger.debug(f"Файл {filename} содержит список товаров напрямую (категории).")
-#             else:
-#                 logger.warning(f"Файл {filename} не содержит ключ 'products' или не является списком (категории). Переход к следующему файлу", None, False)
-#                 continue # Переход к следующему файлу
-
-#             # Проверка типа извлеченных товаров
-#             if not isinstance(products_data, list):
-#                 logger.warning(f"Извлеченные 'products' в файле {filename} не являются списком (категории, тип: {type(products_data)}).", None, False)
-#                 continue # Переход к следующему файлу
-
-#             # Извлечение категорий из каждого товара
-#             for product_item in products_data:
-#                 if not isinstance(product_item, dict):
-#                      logger.warning(f"Элемент в файле {filename} не является словарем (категории): {product_item}", None, False)
-#                      continue
-#                 # Пытаемся добавить категории в set, проверяя тип и наличие значения
-#                 parent_category = product_item.get('parent_category')
-#                 category_name = product_item.get('category_name')
-#                 if isinstance(parent_category, str) and parent_category:
-#                     categories_set.add(parent_category)
-#                 if isinstance(category_name, str) and category_name:
-#                     categories_set.add(category_name)
-
-#         except FileNotFoundError:
-#              logger.error(f'Файл не найден (категории): {file_path}', None, False)
-#              continue
-#         except Exception as ex:
-#             # Логирование ошибки обработки файла
-#             logger.error(f'Ошибка при обработке файла {filename=} для извлечения категорий', ex, exc_info=True)
-#             continue # Используем continue
-
-#     # Преобразование set в list и перемешивание
-#     categories_list: list = list(set(categories_set))
-#     random.shuffle(categories_list)
-#     logger.info(f"Собрано {len(categories_list)} уникальных категорий.")
-#     return categories_list
-
-
 
 def fetch_urls_from_all_mining_files(dir_path: Path| List[Path]  = ['mined_urls','random_urls','output_product_data_set1']) -> List[str]: 
     """
@@ -433,6 +343,74 @@ def fetch_urls_from_all_mining_files(dir_path: Path| List[Path]  = ['mined_urls'
     random.shuffle(found_urls)
     return  found_urls
 
+import os
+import random
+
+import os
+import random
+
+def files_mixer(base_path):
+    """
+    Генератор, который получает имена директорий из base_path,
+    перемешивает их, затем из каждой директории выбирает один
+    случайный файл и возвращает (yields) полный путь к этому файлу.
+    """
+    if not os.path.isdir(base_path):
+        # Можно вывести сообщение об ошибке, если это критично для логики вызывающего кода
+        # print(f"Ошибка: Базовый путь '{base_path}' не является директорией или не существует.")
+        return # Завершаем генератор, он ничего не вернет
+
+    # 1. Получаем имена всех элементов в базовой директории
+    try:
+        all_entries = os.listdir(base_path)
+    except PermissionError:
+        # print(f"Ошибка: Нет прав доступа к директории '{base_path}'.")
+        return # Завершаем генератор
+
+    # 2. Фильтруем, оставляя только директории
+    directories = [d for d in all_entries if os.path.isdir(os.path.join(base_path, d))]
+
+    if not directories:
+        # print(f"В директории '{base_path}' не найдено поддиректорий.")
+        return # Завершаем генератор
+
+    # 3. Перемешиваем директории
+    # Важно: перемешиваем копию, если планируется использовать оригинальный список `directories` где-то еще
+    # или если генератор может быть вызван несколько раз с одним и тем же внутренним состоянием
+    # (хотя для простого генератора, который отрабатывает один раз, это не так критично).
+    # В данном случае, т.к. directories создается внутри функции, это не обязательно,
+    # но хорошая практика, если есть сомнения.
+    shuffled_directories = list(directories) # Создаем копию для перемешивания
+    random.shuffle(shuffled_directories)
+    # print(f"Перемешанный порядок директорий (для выбора файлов): {shuffled_directories}\n") # Для отладки
+
+    # 4. Обрабатываем каждую директорию из перемешанного списка
+    for dir_name in shuffled_directories:
+        current_dir_path = os.path.join(base_path, dir_name)
+
+        try:
+            # Получаем список файлов в текущей директории
+            # os.listdir() может вернуть пустой список, если директория пуста или содержит только поддиректории
+            entries_in_subdir = os.listdir(current_dir_path)
+            files_in_dir = [f for f in entries_in_subdir
+                            if os.path.isfile(os.path.join(current_dir_path, f))]
+        except PermissionError:
+            # print(f"  Предупреждение: Нет прав доступа к файлам в директории '{current_dir_path}'. Пропускаем.")
+            continue # Переходим к следующей директории из списка 'shuffled_directories'
+
+        if not files_in_dir:
+            # Если в директории нет файлов (но сама директория читаема)
+            # print(f"  В директории '{current_dir_path}' нет файлов. Пропускаем.") # Для отладки
+            continue # Переходим к следующей директории из списка 'shuffled_directories'
+
+        # 5. Выбираем один случайный файл
+        random_file_name = random.choice(files_in_dir)
+        file_path = os.path.join(current_dir_path, random_file_name)
+
+        yield file_path
+
+
+
 # --- Основная часть скрипта ---
 if __name__ == "__main__":
 
@@ -481,3 +459,40 @@ if __name__ == "__main__":
     # else:
     #     # Сообщение об ошибке уже было выведено ранее (либо при resolve, либо в функции)
     #     print("Поиск не был выполнен из-за ошибки доступа к директории или её отсутствия.")
+
+
+    # # Пример использования функции files_mixer
+
+    #     # Укажите путь к вашей базовой директории
+    # # Для примера, создадим ту же структуру, что и раньше:
+    # base_test_dir = "my_base_test_directory_mixer"
+    # os.makedirs(os.path.join(base_test_dir, "dir_one"), exist_ok=True)
+    # os.makedirs(os.path.join(base_test_dir, "dir_two"), exist_ok=True)
+    # os.makedirs(os.path.join(base_test_dir, "dir_three"), exist_ok=True)
+    # os.makedirs(os.path.join(base_test_dir, "dir_four_empty"), exist_ok=True)
+
+    # with open(os.path.join(base_test_dir, "dir_one", "file_1a.txt"), "w") as f: f.write("1A")
+    # with open(os.path.join(base_test_dir, "dir_one", "file_1b.dat"), "w") as f: f.write("1B")
+    # with open(os.path.join(base_test_dir, "dir_two", "file_2a.log"), "w") as f: f.write("2A")
+    # with open(os.path.join(base_test_dir, "dir_three", "file_3a.conf"), "w") as f: f.write("3A")
+    # with open(os.path.join(base_test_dir, "dir_three", "file_3b.ini"), "w") as f: f.write("3B")
+    # with open(os.path.join(base_test_dir, "dir_three", "file_3c.json"), "w") as f: f.write("3C")
+    # with open(os.path.join(base_test_dir, "some_other_file.txt"), "w") as f: f.write("This is not in a subdir")
+
+    # # Запускаем основную функцию
+    # random_paths = files_mixer(base_test_dir)
+
+    # if random_paths:
+    #     print(f"Перемешанный порядок директорий, из которых выбраны файлы (порядок соответствует списку ниже):")
+    #     # Чтобы показать, из каких директорий брались файлы в каком порядке:
+    #     ordered_parent_dirs = [os.path.dirname(p) for p in random_paths]
+    #     # Убираем дубликаты, сохраняя порядок (Python 3.7+)
+    #     unique_ordered_parent_dirs = list(dict.fromkeys(ordered_parent_dirs))
+    #     for parent_dir in unique_ordered_parent_dirs:
+    #         print(f" - {os.path.basename(parent_dir)}") # Выводим только имя директории
+
+    #     print("\nСлучайно выбранные пути к файлам:")
+    #     for path in random_paths:
+    #         print(path)
+    # else:
+    #     print("Не удалось получить пути к файлам.")
