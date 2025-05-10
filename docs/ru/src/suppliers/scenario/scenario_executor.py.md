@@ -400,10 +400,10 @@ async def insert_grabbed_data_to_prestashop(
     f: ProductFields, coupon_code: Optional[str] = None, start_date: Optional[str] = None, end_date: Optional[str] = None
 ) -> bool:
     """
-    Вставляет продукт в PrestaShop.
+    Вставляет товар в PrestaShop.
 
     Args:
-        f (ProductFields): Экземпляр ProductFields, содержащий информацию о продукте.
+        f (ProductFields): Экземпляр ProductFields, содержащий информацию о товаре.
         coupon_code (Optional[str], optional): Код купона. Defaults to None.
         start_date (Optional[str], optional): Дата начала акции. Defaults to None.
         end_date (Optional[str], optional): Дата окончания акции. Defaults to None.

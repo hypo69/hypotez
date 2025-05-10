@@ -55,7 +55,7 @@ def main():
         currency
     )
 
-    # Пример URL продуктов или их ID
+    # Пример URL товаров или их ID
     prod_urls = [
         '123',
         'https://www.aliexpress.com/item/123.html',
@@ -63,21 +63,21 @@ def main():
         'https://www.aliexpress.com/item/456.html',
     ]
 
-    # Обработайте продукты и получите список продуктов с аффилированными ссылками
+    # Обработайте товары и получите список товаров с аффилированными ссылками
     products = parser.process_affiliate_products(prod_urls)
 
     # Проверьте результаты
     if products:
-        print(f"Получено {len(products)} аффилированных продуктов.")
+        print(f"Получено {len(products)} аффилированных товаров.")
         for product in products:
-            print(f"Продукт ID: {product.product_id}")
+            print(f"товар ID: {product.product_id}")
             print(f"Аффилированная ссылка: {product.promotion_link}")
             print(f"Локальный путь к изображению: {product.local_image_path}")
             if product.local_video_path:
                 print(f"Локальный путь к видео: {product.local_video_path}")
             print()
     else:
-        print("Не удалось получить аффилированные продукты.")
+        print("Не удалось получить аффилированные товары.")
 
 if __name__ == "__main__":
     main()

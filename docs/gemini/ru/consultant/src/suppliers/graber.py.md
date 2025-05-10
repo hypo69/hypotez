@@ -496,7 +496,7 @@ class Graber:
         return asyncio.run(self.grab_page_async(*args, **kwargs))
 
     async def grab_page_async(self, *args, **kwargs) -> ProductFields:
-        """Асинхронная функция для сбора полей продукта."""
+        """Асинхронная функция для сбора полей товара."""
         async def fetch_all_data(*args, **kwargs):
             """Динамически вызывает функции для каждого поля."""
             # Динамическое вызовы функций для каждого поля из args

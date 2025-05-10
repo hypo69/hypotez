@@ -173,14 +173,14 @@ class ProductEditor(QtWidgets.QWidget):
         title_label = QtWidgets.QLabel(f"Product Title: {data.title}")
         layout.addWidget(title_label)
 
-        # Дополнительные детали продукта
+        # Дополнительные детали товара
         product_details_label = QtWidgets.QLabel(f"Product Details: {data.details}")
         layout.addWidget(product_details_label)
 
     @asyncSlot()
     async def prepare_product_async(self) -> None:
         """
-        Асинхронно подготавливает продукт.
+        Асинхронно подготавливает товар.
         """
         if self.editor:
             try:
@@ -189,7 +189,7 @@ class ProductEditor(QtWidgets.QWidget):
                     self, "Success", "Product prepared successfully."
                 )
             except Exception as ex:
-                logger.error(f"Ошибка при подготовке продукта: {ex}", exc_info=True)
+                logger.error(f"Ошибка при подготовке товара: {ex}", exc_info=True)
                 QtWidgets.QMessageBox.critical(
                     self, "Error", f"Failed to prepare product: {ex}"
                 )

@@ -141,7 +141,7 @@ from src.utils.string import format_prompt
 messages: Messages = [
     {"role": "user", "content": "Hello!"},
     {"role": "assistant", "content": "Hi there!"},
-    {"role": "user", "content": "<инструкция для модели gemini:Загрузка описаний продуктов в PrestaShop.>"}
+    {"role": "user", "content": "<инструкция для модели gemini:Загрузка описаний товаров в PrestaShop.>"}
 ]
 
 async def main():
@@ -183,7 +183,7 @@ from src.utils.string import format_prompt
 messages: Messages = [
     {"role": "user", "content": "Hello!"},
     {"role": "assistant", "content": "Hi there!"},
-    {"role": "user", "content": "<инструкция для модели gemini:Загрузка описаний продуктов в PrestaShop.>"}
+    {"role": "user", "content": "<инструкция для модели gemini:Загрузка описаний товаров в PrestaShop.>"}
 ]
 
 async def main():

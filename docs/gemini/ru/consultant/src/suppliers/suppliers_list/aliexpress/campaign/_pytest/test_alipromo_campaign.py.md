@@ -44,7 +44,7 @@
 =====================================================
 
 Тесты проверяют корректность работы методов класса `AliPromoCampaign`,
-включая инициализацию, получение продуктов, создание namespace и другие.
+включая инициализацию, получение товаров, создание namespace и другие.
 
 #Fixtures:
  - campaign: Fixture для создания экземпляра `AliPromoCampaign` для использования в тестах.
@@ -53,13 +53,13 @@
  - test_initialize_campaign: Проверяет, что метод `initialize_campaign` корректно инициализирует данные кампании.
  - test_get_category_products_no_json_files: Проверяет `get_category_products`, когда нет JSON файлов.
  - test_get_category_products_with_json_files: Проверяет `get_category_products`, когда JSON файлы присутствуют.
- - test_create_product_namespace: Проверяет, что `create_product_namespace` корректно создает namespace продукта.
+ - test_create_product_namespace: Проверяет, что `create_product_namespace` корректно создает namespace товара.
  - test_create_category_namespace: Проверяет, что `create_category_namespace` корректно создает namespace категории.
  - test_create_campaign_namespace: Проверяет, что `create_campaign_namespace` корректно создает namespace кампании.
  - test_prepare_products: Проверяет, что `prepare_products` вызывает `process_affiliate_products`.
- - test_fetch_product_data: Проверяет, что `fetch_product_data` корректно извлекает данные продукта.
- - test_save_product: Проверяет, что `save_product` корректно сохраняет данные продукта.
- - test_list_campaign_products: Проверяет, что `list_campaign_products` корректно перечисляет названия продуктов кампании.
+ - test_fetch_product_data: Проверяет, что `fetch_product_data` корректно извлекает данные товара.
+ - test_save_product: Проверяет, что `save_product` корректно сохраняет данные товара.
+ - test_list_campaign_products: Проверяет, что `list_campaign_products` корректно перечисляет названия товаров кампании.
 """
 
 import pytest
@@ -144,7 +144,7 @@ def test_get_category_products_with_json_files(mocker, campaign: AliPromoCampaig
     mocker.patch("src.utils.jjson.j_loads_ns", return_value=mock_product_data)
 
     products = campaign.get_category_products()
-    # Проверка, что возвращается список продуктов с данными из JSON файлов
+    # Проверка, что возвращается список товаров с данными из JSON файлов
     assert len(products) == 1
     assert products[0].product_id == "123"
     assert products[0].product_title == "Test Product"
@@ -161,7 +161,7 @@ def test_create_product_namespace(campaign: AliPromoCampaign) -> None:
         "product_title": "Test Product"
     }
     product = campaign.create_product_namespace(**product_data)
-    # Проверка, что namespace продукта создан корректно
+    # Проверка, что namespace товара создан корректно
     assert product.product_id == "123"
     assert product.product_title == "Test Product"
 
@@ -232,7 +232,7 @@ def test_fetch_product_data(mocker, campaign: AliPromoCampaign) -> None:
     mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products", return_value=mock_products)
 
     products = campaign.fetch_product_data(product_ids)
-    # Проверка, что данные продукта извлечены корректно
+    # Проверка, что данные товара извлечены корректно
     assert len(products) == 2
     assert products[0].product_id == "123"
     assert products[1].product_id == "456"
@@ -265,5 +265,5 @@ def test_list_campaign_products(campaign: AliPromoCampaign) -> None:
     campaign.category.products = [product1, product2]
 
     product_titles = campaign.list_campaign_products()
-    # Проверка, что возвращается корректный список названий продуктов
+    # Проверка, что возвращается корректный список названий товаров
     assert product_titles == ["Product 1", "Product 2"]

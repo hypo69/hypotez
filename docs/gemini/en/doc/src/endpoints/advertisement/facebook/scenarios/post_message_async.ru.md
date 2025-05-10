@@ -13,7 +13,7 @@
 ```mermaid
 graph TD
     Start[Начало] --> InitDriver[Инициализация Driver]
-    InitDriver --> LoadCategoryAndProducts[Загрузка категории и продуктов]
+    InitDriver --> LoadCategoryAndProducts[Загрузка категории и товаров]
     LoadCategoryAndProducts --> SendTitle[Отправка заголовка]
     SendTitle --> CheckTitleSuccess{Успешно?}
     CheckTitleSuccess -->|Да| UploadMediaAndPromotePost[Загрузка медиа и продвижение поста]
@@ -32,7 +32,7 @@ graph TD
 
 1. **Start**: Начало выполнения скрипта.
 2. **InitDriver**: Создание экземпляра класса `Driver`.
-3. **LoadCategoryAndProducts**: Загрузка данных категории и продуктов.
+3. **LoadCategoryAndProducts**: Загрузка данных категории и товаров.
 4. **SendTitle**: Вызов функции `post_title` для отправки заголовка.
 5. **CheckTitleSuccess**: Проверка успешности отправки заголовка.
    - **Да**: Переход к загрузке медиа и продвижению поста.
@@ -101,7 +101,7 @@ def upload_media(d: Driver, products: List[SimpleNamespace], no_video: bool = Fa
     Загружает медиафайлы на пост Facebook и обновляет их подписи.
     Args:
         d (Driver): Экземпляр `Driver` для взаимодействия с веб-страницей.
-        products (List[SimpleNamespace]): Список продуктов, содержащих пути к медиафайлам.
+        products (List[SimpleNamespace]): Список товаров, содержащих пути к медиафайлам.
         no_video (bool, optional): Флаг, указывающий, следует ли пропустить загрузку видео. По умолчанию `False`.
 
     Returns:
@@ -115,7 +115,7 @@ def upload_media(d: Driver, products: List[SimpleNamespace], no_video: bool = Fa
 **Параметры**:
 
 - `d` (Driver): Экземпляр `Driver` для взаимодействия с веб-страницей.
-- `products` (List[SimpleNamespace]): Список продуктов, содержащих пути к медиафайлам.
+- `products` (List[SimpleNamespace]): Список товаров, содержащих пути к медиафайлам.
 - `no_video` (bool, optional): Флаг, указывающий, следует ли пропустить загрузку видео. По умолчанию `False`.
 
 **Возвращает**:
@@ -131,7 +131,7 @@ from types import SimpleNamespace
 # Инициализация Driver
 driver = Driver(...)
 
-# Загрузка продуктов
+# Загрузка товаров
 products = [SimpleNamespace(local_image_path='путь/к/изображению.jpg', ...)]
 
 # Загрузка медиа
@@ -146,7 +146,7 @@ def update_images_captions(d: Driver, products: List[SimpleNamespace], textarea_
     Асинхронно добавляет описания к загруженным медиафайлам.
     Args:
         d (Driver): Экземпляр `Driver` для взаимодействия с веб-страницей.
-        products (List[SimpleNamespace]): Список продуктов с деталями для обновления.
+        products (List[SimpleNamespace]): Список товаров с деталями для обновления.
         textarea_list (List[WebElement]): Список текстовых полей, куда добавляются подписи.
     """
     ...
@@ -157,7 +157,7 @@ def update_images_captions(d: Driver, products: List[SimpleNamespace], textarea_
 **Параметры**:
 
 - `d` (Driver): Экземпляр `Driver` для взаимодействия с веб-страницей.
-- `products` (List[SimpleNamespace]): Список продуктов с деталями для обновления.
+- `products` (List[SimpleNamespace]): Список товаров с деталями для обновления.
 - `textarea_list` (List[WebElement]): Список текстовых полей, куда добавляются подписи.
 
 **Пример**:
@@ -170,7 +170,7 @@ from selenium.webdriver.remote.webelement import WebElement
 # Инициализация Driver
 driver = Driver(...)
 
-# Загрузка продуктов
+# Загрузка товаров
 products = [SimpleNamespace(description='Описание изображения', ...)]
 
 # Получение списка текстовых полей (пример)
@@ -189,7 +189,7 @@ def promote_post(d: Driver, category: SimpleNamespace, products: List[SimpleName
     Args:
         d (Driver): Экземпляр `Driver` для взаимодействия с веб-страницей.
         category (SimpleNamespace): Детали категории, используемые для заголовка и описания поста.
-        products (List[SimpleNamespace]): Список продуктов, содержащих медиа и детали для публикации.
+        products (List[SimpleNamespace]): Список товаров, содержащих медиа и детали для публикации.
         no_video (bool, optional): Флаг, указывающий, следует ли пропустить загрузку видео. По умолчанию `False`.
 
     Returns:
@@ -204,7 +204,7 @@ def promote_post(d: Driver, category: SimpleNamespace, products: List[SimpleName
 
 - `d` (Driver): Экземпляр `Driver` для взаимодействия с веб-страницей.
 - `category` (SimpleNamespace): Детали категории, используемые для заголовка и описания поста.
-- `products` (List[SimpleNamespace]): Список продуктов, содержащих медиа и детали для публикации.
+- `products` (List[SimpleNamespace]): Список товаров, содержащих медиа и детали для публикации.
 - `no_video` (bool, optional): Флаг, указывающий, следует ли пропустить загрузку видео. По умолчанию `False`.
 
 **Возвращает**:
@@ -220,7 +220,7 @@ from types import SimpleNamespace
 # Инициализация Driver
 driver = Driver(...)
 
-# Загрузка категории и продуктов
+# Загрузка категории и товаров
 category = SimpleNamespace(title="Заголовок кампании", description="Описание кампании")
 products = [SimpleNamespace(local_image_path='путь/к/изображению.jpg', ...)]
 

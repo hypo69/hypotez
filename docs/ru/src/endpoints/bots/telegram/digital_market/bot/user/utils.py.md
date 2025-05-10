@@ -33,7 +33,7 @@ async def successful_payment_logic(session: AsyncSession, payment_data, currency
     
     - Извлекает `product_id`, `price`, `payment_type`, `payment_id` и `user_id` из `payment_data`.
     - Добавляет информацию о покупке в базу данных через `PurchaseDao.add`.
-    - Получает данные о продукте из базы данных через `ProductDao.find_one_or_none_by_id`.
+    - Получает данные о товаре из базы данных через `ProductDao.find_one_or_none_by_id`.
     - Отправляет уведомления администраторам о покупке товара пользователем.
     - Формирует текст сообщения с информацией о товаре для пользователя.
     - Отправляет пользователю сообщение с информацией о товаре и, если товар включает файл, отправляет файл.

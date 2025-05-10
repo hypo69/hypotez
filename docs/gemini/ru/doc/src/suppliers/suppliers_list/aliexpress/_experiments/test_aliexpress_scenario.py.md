@@ -37,7 +37,7 @@ supplier = start_supplier(supplier_prefix)
 
 ### `start_product()`
 
-**Назначение**: Эта функция создает экземпляр класса `Product` для работы с продуктом с AliExpress.
+**Назначение**: Эта функция создает экземпляр класса `Product` для работы с товаром с AliExpress.
 
 **Параметры**:
 
@@ -49,7 +49,7 @@ supplier = start_supplier(supplier_prefix)
 
 **Как работает**:
 
--  Функция создает словарь `params`, который содержит информацию о продукте, такую как поставщик (`s`), локаторы веб-элементов (`webelements_locators`), категории (`product_categories`) и поля (`product_fields`).
+-  Функция создает словарь `params`, который содержит информацию о товаре, такую как поставщик (`s`), локаторы веб-элементов (`webelements_locators`), категории (`product_categories`) и поля (`product_fields`).
 - Затем она создает экземпляр класса `Product` с использованием словаря `params`.
 
 **Пример**:
@@ -66,7 +66,7 @@ product = start_product()
 supplier_prefix = 'aliexpress'
 s = start_supplier(supplier_prefix)
 
-# Создание экземпляра продукта
+# Создание экземпляра товара
 p = start_product()
 
 # Получение драйвера

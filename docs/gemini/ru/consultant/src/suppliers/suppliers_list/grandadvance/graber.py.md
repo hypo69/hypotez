@@ -199,6 +199,6 @@ class Graber(Grbr):
             >>> graber = Graber(driver, 0)
         """
         config: SimpleNamespace = j_loads_ns(gs.path.src / 'suppliers' / ENDPOINT / f'{ENDPOINT}.json') # Функция извлекает конфигурацию поставщика из JSON файла.
-        locator: SimpleNamespace = j_loads_ns(gs.path.src / 'suppliers' / ENDPOINT / 'locators' / 'product.json') # Функция извлекает локаторы элементов продукта из JSON файла.
+        locator: SimpleNamespace = j_loads_ns(gs.path.src / 'suppliers' / ENDPOINT / 'locators' / 'product.json') # Функция извлекает локаторы элементов товара из JSON файла.
         super().__init__(supplier_prefix=ENDPOINT, driver=driver, lang_index=lang_index) # Вызов конструктора родительского класса.
         Config.locator_for_decorator = self.product_locator.click_to_specifications # Установка локатора для декоратора, если он не определен.

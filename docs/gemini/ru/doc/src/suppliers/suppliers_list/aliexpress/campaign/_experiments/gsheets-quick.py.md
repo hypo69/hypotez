@@ -18,7 +18,7 @@
 - **Настройка**: 
     - В начале кода определяются параметры кампании: `campaign_name`, `category_name`, `language` и `currency`.
     - Создается экземпляр класса `AliCampaignGoogleSheet`, передавая в него заданные параметры.
-    - Вызывается метод `set_products_worksheet` для указания рабочей таблицы с продуктами.
+    - Вызывается метод `set_products_worksheet` для указания рабочей таблицы с товарами.
 - **Чтение данных**:
     - Код демонстрирует как можно использовать класс `AliCampaignGoogleSheet` для чтения данных из таблицы.
     - Запускается метод `save_campaign_from_worksheet` для сохранения данных из таблицы.
@@ -63,7 +63,7 @@ gs.save_campaign_from_worksheet()
 
 **Методы**:
 
-- `set_products_worksheet(category_name: str) -> None`: Устанавливает рабочую таблицу для продуктов.
+- `set_products_worksheet(category_name: str) -> None`: Устанавливает рабочую таблицу для товаров.
 - `save_categories_from_worksheet(write_header: bool = True) -> None`: Сохраняет категории из таблицы.
 - `save_campaign_from_worksheet() -> None`: Сохраняет данные кампании из таблицы.
 
@@ -74,7 +74,7 @@ gs.save_campaign_from_worksheet()
 **Назначение**: Точка входа в скрипт.
 **Как работает**:
 -  Создается объект `gs` класса `AliCampaignGoogleSheet` с заданными параметрами.
--  Устанавливается рабочая таблица для продуктов с помощью метода `set_products_worksheet`.
+-  Устанавливается рабочая таблица для товаров с помощью метода `set_products_worksheet`.
 -  Вызывается метод `save_campaign_from_worksheet` для сохранения данных из таблицы.
 -  Пример использования класса `AliCampaignGoogleSheet` для чтения и записи данных в гугл таблицы.
 
@@ -108,7 +108,7 @@ from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignGoogleSh
 # Создаем объект AliCampaignGoogleSheet
 gs = AliCampaignGoogleSheet(campaign_name='test_campaign', language='EN', currency='USD')
 
-# Устанавливаем рабочую таблицу для продуктов
+# Устанавливаем рабочую таблицу для товаров
 gs.set_products_worksheet('chandeliers')
 
 # Сохраняем категории из таблицы

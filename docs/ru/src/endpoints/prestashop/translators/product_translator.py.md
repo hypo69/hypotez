@@ -115,7 +115,7 @@ def translate_record(record: dict, from_locale: str, to_locale: str) -> dict:
 ```python
 from src.endpoints.prestashop.translators.product_translator import translate_record
 
-record = {'name': 'Product 789', 'description': 'Описание продукта 789'}
+record = {'name': 'Product 789', 'description': 'Описание товара 789'}
 from_locale = 'ru-RU'
 to_locale = 'en-US'
 translated_record = translate_record(record, from_locale, to_locale)

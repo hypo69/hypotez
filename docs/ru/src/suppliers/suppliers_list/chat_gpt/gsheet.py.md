@@ -2,11 +2,11 @@
 
 ## Обзор
 
-Модуль `gsheet` предназначен для управления Google Sheets в рамках кампаний AliExpress. Он предоставляет функциональность для чтения, записи и очистки данных в Google Sheets, а также для управления листами продуктов и категорий.
+Модуль `gsheet` предназначен для управления Google Sheets в рамках кампаний AliExpress. Он предоставляет функциональность для чтения, записи и очистки данных в Google Sheets, а также для управления листами товаров и категорий.
 
 ## Подробнее
 
-Модуль `gsheet` наследует функциональность из классов `SpreadSheet` для работы с Google Sheets и предназначен для управления данными, связанными с категориями и продуктами AliExpress, в Google Sheets. Он обеспечивает возможность автоматизации работы с Google Sheets для целей управления кампаниями, включая обновление данных о категориях и продуктах, а также очистку устаревших данных.
+Модуль `gsheet` наследует функциональность из классов `SpreadSheet` для работы с Google Sheets и предназначен для управления данными, связанными с категориями и товарами AliExpress, в Google Sheets. Он обеспечивает возможность автоматизации работы с Google Sheets для целей управления кампаниями, включая обновление данных о категориях и товарах, а также очистку устаревших данных.
 
 ## Классы
 
@@ -26,10 +26,10 @@
 - `get_category_worksheet`: Получает данные о категории из Google Sheets.
 - `set_categories_worksheet`: Записывает данные о категориях в Google Sheets.
 - `get_categories_worksheet`: Получает данные о категориях из Google Sheets.
-- `set_product_worksheet`: Записывает данные о продукте в Google Sheets.
-- `get_product_worksheet`: Получает данные о продукте из Google Sheets.
-- `set_products_worksheet`: Записывает данные о продуктах в Google Sheets.
-- `delete_products_worksheets`: Удаляет листы продуктов из Google Sheets.
+- `set_product_worksheet`: Записывает данные о товаре в Google Sheets.
+- `get_product_worksheet`: Получает данные о товаре из Google Sheets.
+- `set_products_worksheet`: Записывает данные о товарах в Google Sheets.
+- `delete_products_worksheets`: Удаляет листы товаров из Google Sheets.
 - `save_categories_from_worksheet`: Сохраняет отредактированные в Google Sheets данные о категориях.
 - `save_campaign_from_worksheet`: Сохраняет рекламную кампанию из данных в Google Sheets.
 
@@ -60,15 +60,15 @@ def __init__(self):
 def clear(self):
     """
     Очищает содержимое Google Sheets.
-    Удаляет листы продуктов и очищает данные на листах категорий и других указанных листах.
+    Удаляет листы товаров и очищает данные на листах категорий и других указанных листах.
     """
 ```
 
 **Назначение**:
-Очистка содержимого Google Sheets, включая удаление листов продуктов и очистку данных на листах категорий и других указанных листах.
+Очистка содержимого Google Sheets, включая удаление листов товаров и очистку данных на листах категорий и других указанных листах.
 
 **Как работает функция**:
-- Вызывает метод `delete_products_worksheets` для удаления листов продуктов.
+- Вызывает метод `delete_products_worksheets` для удаления листов товаров.
 - Попытка очистки листов `'category'`, `'categories'`, `'campaign'` (закомментировано в коде).
 - Обрабатывает исключения, возникающие в процессе очистки, и логирует ошибки.
 
@@ -283,19 +283,19 @@ print(categories_data)
 ```python
 def set_product_worksheet(self, product: SimpleNamespace | str, category_name: str):
     """
-    Записывает данные о продукте в новый лист Google Sheets.
+    Записывает данные о товаре в новый лист Google Sheets.
 
     Args:
         category_name (str): Название категории.
-        product (SimpleNamespace): Объект SimpleNamespace с полями данных продукта для записи.
+        product (SimpleNamespace): Объект SimpleNamespace с полями данных товара для записи.
 
     Raises:
-        Exception: Если возникает ошибка при обновлении данных продукта.
+        Exception: Если возникает ошибка при обновлении данных товара.
     """
 ```
 
 **Назначение**:
-Запись данных о продукте в новый лист Google Sheets.
+Запись данных о товаре в новый лист Google Sheets.
 
 **Как работает функция**:
 - Копирует лист `'product_template'` в новый лист с именем `category_name`.
@@ -318,10 +318,10 @@ gpt_gs.set_product_worksheet(product_data, 'test_category')
 ```python
 def get_product_worksheet(self) -> SimpleNamespace:
     """
-    Считывает данные о продукте из листа 'products'.
+    Считывает данные о товаре из листа 'products'.
 
     Returns:
-        SimpleNamespace: Объект SimpleNamespace с полями данных о продукте.
+        SimpleNamespace: Объект SimpleNamespace с полями данных о товаре.
 
     Raises:
         ValueError: Если лист 'products' не найден.
@@ -330,12 +330,12 @@ def get_product_worksheet(self) -> SimpleNamespace:
 ```
 
 **Назначение**:
-Чтение данных о продукте из листа `'products'` Google Sheets.
+Чтение данных о товаре из листа `'products'` Google Sheets.
 
 **Как работает функция**:
 - Получает объект листа `'products'` из Google Sheets.
 - Извлекает все значения из листа.
-- Создает объект `SimpleNamespace` с данными о продукте.
+- Создает объект `SimpleNamespace` с данными о товаре.
 - Логирует информацию об успешном чтении данных.
 - Обрабатывает исключения, возникающие в процессе чтения, логирует ошибки и пробрасывает исключение.
 

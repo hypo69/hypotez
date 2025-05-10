@@ -34,7 +34,7 @@
 ```mermaid
 graph TD
     Start[Начало] --> InitDriver[Инициализация Driver]
-    InitDriver --> LoadCategoryAndProducts[Загрузка категории и продуктов]
+    InitDriver --> LoadCategoryAndProducts[Загрузка категории и товаров]
     LoadCategoryAndProducts --> SendTitle[Отправка заголовка]
     SendTitle --> CheckTitleSuccess{Успешно?}
     CheckTitleSuccess -->|Да| UploadMediaAndPromotePost[Загрузка медиа и продвижение поста]
@@ -137,7 +137,7 @@ def upload_media(d: Driver, products: List[SimpleNamespace], no_video: bool = Fa
 
 **Параметры**:
 - `d` (Driver): Экземпляр класса `Driver`, используемый для управления браузером и взаимодействия с веб-страницей Facebook.
-- `products` (List[SimpleNamespace]): Список объектов, содержащих информацию о продуктах, включая пути к медиафайлам, которые необходимо загрузить.
+- `products` (List[SimpleNamespace]): Список объектов, содержащих информацию о товарах, включая пути к медиафайлам, которые необходимо загрузить.
 - `no_video` (bool, optional): Флаг, указывающий, нужно ли пропускать загрузку видео. По умолчанию `False`.
 
 **Возвращает**:
@@ -173,7 +173,7 @@ def update_images_captions(d: Driver, products: List[SimpleNamespace], textarea_
 
     Args:
         d (Driver): Экземпляр класса `Driver` для взаимодействия с веб-страницей.
-        products (List[SimpleNamespace]): Список объектов, содержащих информацию о продуктах, включая описания.
+        products (List[SimpleNamespace]): Список объектов, содержащих информацию о товарах, включая описания.
         textarea_list (List[WebElement]): Список текстовых полей (WebElement), в которые необходимо добавить описания.
 
     """
@@ -183,13 +183,13 @@ def update_images_captions(d: Driver, products: List[SimpleNamespace], textarea_
 
 **Параметры**:
 - `d` (Driver): Экземпляр класса `Driver`, используемый для управления браузером и взаимодействия с веб-страницей Facebook.
-- `products` (List[SimpleNamespace]): Список объектов, содержащих информацию о продуктах, включая описания, которые необходимо добавить к медиафайлам.
+- `products` (List[SimpleNamespace]): Список объектов, содержащих информацию о товарах, включая описания, которые необходимо добавить к медиафайлам.
 - `textarea_list` (List[WebElement]): Список элементов `WebElement`, представляющих текстовые поля, в которые будут добавлены описания.
 
 **Принцип работы**:
 1. Функция принимает экземпляр `Driver`, список объектов `products` и список текстовых полей `textarea_list`.
 2. Функция асинхронно итерируется по спискам `products` и `textarea_list`.
-3. Для каждого продукта функция добавляет соответствующее описание в текстовое поле.
+3. Для каждого товара функция добавляет соответствующее описание в текстовое поле.
 
 **Примеры**:
 ```python

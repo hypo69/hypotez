@@ -143,10 +143,10 @@ class GptGs(SpreadSheet):
         """
         Очищает содержимое листов.
 
-        Удаляет листы продуктов и очищает данные на листах категорий и других указанных листах.
+        Удаляет листы товаров и очищает данные на листах категорий и других указанных листах.
         """
         try:
-            # Удаление листов продуктов
+            # Удаление листов товаров
             self.delete_products_worksheets()
             # ws_to_clear = ['category','categories','campaign']
             # for ws in self.spreadsheet.worksheets():

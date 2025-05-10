@@ -32,7 +32,7 @@
 
 - `__init__(self, if_need_pdf:Optional[bool] = True, if_need_docx:Optional[bool] = True)`: Конструктор класса. Инициализирует атрибуты класса.
 - `create_reports_async(self, bot: telebot.TeleBot, chat_id: int, data:dict, lang:str, mexiron_name:str) -> tuple`: Запускает полный цикл генерации отчета для всех типов: HTML, PDF, DOCX. 
-- `service_apendix(self, lang:str) -> dict`: Возвращает словарь с данными для сервисного продукта.
+- `service_apendix(self, lang:str) -> dict`: Возвращает словарь с данными для сервисного товара.
 - `create_html_report_async(self, data:dict, lang:str, html_path:Optional[ str|Path] ) -> str`: Генерирует HTML-контент на основе шаблона и данных.
 - `create_pdf_report_async(self, data: dict, lang:str, pdf_path:str |Path) -> bool`: Преобразует HTML-контент в PDF-файл.
 - `create_docx_report_async(self, html_path:str|Path, docx_path:str|Path) -> bool`: Создает файл DOCX.

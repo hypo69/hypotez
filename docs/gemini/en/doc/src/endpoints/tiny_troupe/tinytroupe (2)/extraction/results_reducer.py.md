@@ -101,7 +101,7 @@ results_reducer = ResultsReducer()
 # Define a reduction rule for the 'visit_product' action
 def visit_product_rule(focus_agent: TinyPerson, source_agent: TinyPerson, target_agent: TinyPerson, kind: str, event: str, content: str, timestamp: float) -> dict:
     """
-    Правило для агрегации результатов посещения продукта.
+    Правило для агрегации результатов посещения товара.
     """
     return {
         'agent_id': focus_agent.id,

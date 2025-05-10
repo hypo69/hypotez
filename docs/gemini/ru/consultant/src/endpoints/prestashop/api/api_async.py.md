@@ -147,7 +147,7 @@ class PrestaShopAsync:
             for rec in recs:
                 pprint(rec)
 
-            # Создание бинарного файла (изображение продукта)
+            # Создание бинарного файла (изображение товара)
             await api.create_binary('images/products/22', 'img.jpeg', 'image')
 
         if __name__ == "__main__":
@@ -601,12 +601,12 @@ class PrestaShopAsync:
         return response
 
     async def get_product_images(self, product_id: int) -> Optional[dict]:
-        """Получение изображений продукта асинхронно.
+        """Получение изображений товара асинхронно.
 
         Args:
-            product_id (int): ID продукта.
+            product_id (int): ID товара.
 
         Returns:
-            dict | None: Список изображений продукта или `False` в случае неудачи.
+            dict | None: Список изображений товара или `False` в случае неудачи.
         """
         return await self._exec(f'products/{product_id}/images', method='GET', io_format=self.data_format)

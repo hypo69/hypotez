@@ -2,11 +2,11 @@
 
 ## Обзор
 
-Модуль `src/ai/openai/model/_experiments/model_train_for_aliexpress.py` предназначен для обучения моделей машинного обучения на данных с AliExpress. Модуль использует модели OpenAI и Google Gemini для генерации описаний продуктов.
+Модуль `src/ai/openai/model/_experiments/model_train_for_aliexpress.py` предназначен для обучения моделей машинного обучения на данных с AliExpress. Модуль использует модели OpenAI и Google Gemini для генерации описаний товаров.
 
 ## Подробнее
 
-Модуль считывает названия продуктов из файлов `product_titles.txt`, расположенных в каталоге `aliexpress/campaigns` на Google Drive. Затем он использует модели OpenAI и Google Gemini для генерации описаний продуктов на основе этих названий. 
+Модуль считывает названия товаров из файлов `product_titles.txt`, расположенных в каталоге `aliexpress/campaigns` на Google Drive. Затем он использует модели OpenAI и Google Gemini для генерации описаний товаров на основе этих названий. 
 
 ## Функции
 

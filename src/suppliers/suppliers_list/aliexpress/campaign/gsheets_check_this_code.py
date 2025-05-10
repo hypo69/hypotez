@@ -45,7 +45,7 @@ class AliCampaignGoogleSheet(SpreadSheet):
     """ Класс для работы с Google Sheets в рамках кампаний AliExpress.
     
     Наследует класс SpreadSheet и предоставляет дополнительные методы для управления листами Google Sheets,
-    записи данных о категориях и продуктах, и форматирования листов.
+    записи данных о категориях и товарах, и форматирования листов.
     """
     
     spreadsheet_id = '1nu4mNNFMzSePlggaaL_QM2vdKVP_NNBl2OG7R9MNrs0'
@@ -253,9 +253,9 @@ class AliCampaignGoogleSheet(SpreadSheet):
         return data
 
     def set_category_products(self, category_name: str, products: dict):
-        """ Запись данных о продуктах в новую таблицу Google Sheets.
+        """ Запись данных о товарах в новую таблицу Google Sheets.
         @param category_name Название категории.
-        @param products Словарь с данными о продуктах.
+        @param products Словарь с данными о товарах.
         """
         if category_name:
             category_ns: SimpleNamespace = getattr(self.editor.campaign.category, category_name)
@@ -349,7 +349,7 @@ class AliCampaignGoogleSheet(SpreadSheet):
             raise
 
     def _format_category_products_worksheet(self, ws: Worksheet):
-        """ Форматирование листа с продуктами категории.
+        """ Форматирование листа с товарами категории.
         @param ws Лист Google Sheets для форматирования.
         """
         try:

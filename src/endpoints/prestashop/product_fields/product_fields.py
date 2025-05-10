@@ -1227,14 +1227,14 @@ class ProductFields:
         return self.presta_fields.associations.get('product_option_values') if hasattr(self.presta_fields, 'product_option_values') else []
 
     def product_options_append(self, product_option_value_id: int):
-        """Добавляет связь со значением опции продукта."""
+        """Добавляет связь со значением опции товара."""
         self._ensure_associations()
         if 'product_option_values' not in self.presta_fields.associations:
             self.presta_fields.associations['product_option_values'] = []
         self.presta_fields.associations['product_option_values'].append({'id': str(product_option_value_id)})
 
     def product_options_clear(self):
-        """Очищает все связи со значениями опций продукта."""
+        """Очищает все связи со значениями опций товара."""
         self._ensure_associations()
         if 'product_option_values' in self.presta_fields.associations:
             del self.presta_fields.associations['product_option_values']
@@ -1246,7 +1246,7 @@ class ProductFields:
         return self.presta_fields.associations.get('product_features') if hasattr(self.presta_fields, 'product_features') else []
 
     def product_features_append(self, feature_id: int, feature_value_id: int):
-        """Добавляет связь с характеристикой продукта."""
+        """Добавляет связь с характеристикой товара."""
         self._ensure_associations()
         if 'product_features' not in self.presta_fields.associations:
             self.presta_fields.associations['product_features'] = []
@@ -1255,7 +1255,7 @@ class ProductFields:
         )
 
     def product_features_clear(self):
-        """Очищает все связи с характеристиками продукта."""
+        """Очищает все связи с характеристиками товара."""
         self._ensure_associations()
         if 'product_features' in self.presta_fields.associations:
             del self.presta_fields.associations['product_features']
@@ -1343,7 +1343,7 @@ class ProductFields:
         return self.presta_fields.associations.get('product_bundle') if hasattr(self.presta_fields, 'product_bundle') else []
 
     def product_bundle_append(self, bundle_id: int, product_attribute_id: int, quantity: int):
-        """Добавляет связь с бандлом продукта."""
+        """Добавляет связь с бандлом товара."""
         self._ensure_associations()
         if 'product_bundle' not in self.presta_fields.associations:
             self.presta_fields.associations['product_bundle'] = []
@@ -1352,7 +1352,7 @@ class ProductFields:
         )
 
     def product_bundle_clear(self):
-        """Очищает все связи с бандлами продуктов."""
+        """Очищает все связи с бандлами товаров."""
         self._ensure_associations()
         if 'product_bundle' in self.presta_fields.associations:
             del self.presta_fields.associations['product_bundle']

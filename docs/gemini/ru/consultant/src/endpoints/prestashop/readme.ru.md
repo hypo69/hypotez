@@ -89,7 +89,7 @@ curl -X GET 'https://<URL_сайта>/api/<endpoint>' \\\
 
 ### Пример вызова API
 
-Для получения списка продуктов на сайте `e-cat.co.il`:
+Для получения списка товаров на сайте `e-cat.co.il`:
 ```bash
 curl -X GET 'https://e-cat.co.il/api/products' \\\
 -H 'Authorization: Basic <base64(API_KEY)>'

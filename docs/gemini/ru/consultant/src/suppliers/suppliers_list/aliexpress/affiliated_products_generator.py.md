@@ -145,7 +145,7 @@ class AliAffiliatedProducts(AliApi):
 
         if not _promotion_links:
             logger.warning(
-                f'Партнерские продукты не возвращены {prod_ids=}/n', None, None)
+                f'Партнерские товары не возвращены {prod_ids=}/n', None, None)
             return None
 
         _affiliated_products: List[SimpleNamespace] = self.retrieve_product_details(

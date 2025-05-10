@@ -49,7 +49,7 @@ supplier = start_supplier(supplier_prefix='amazon', locale='de')
     - `json` для работы с форматом JSON.
     - `re` для работы с регулярными выражениями.
     - `src.webdriver` для взаимодействия с веб-браузером.
-    - `src.product` для обработки информации о продуктах.
+    - `src.product` для обработки информации о товарах.
     - `src.category` для обработки информации о категориях.
     - `src.utils` для выполнения различных вспомогательных задач.
     - `src.endpoints.PrestaShop` для взаимодействия с API PrestaShop.

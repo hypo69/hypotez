@@ -61,12 +61,12 @@ class Config:
 
 class QuotationBuilder:
     """
-    Обрабатывает извлечение, разбор и сохранение данных о продуктах поставщиков.
+    Обрабатывает извлечение, разбор и сохранение данных о товарах поставщиков.
     
     Attributes:
         driver (Driver): Экземпляр Selenium WebDriver.
         export_path (Path): Путь для экспорта данных.
-        products_list (List[dict]): Список обработанных данных о продуктах.
+        products_list (List[dict]): Список обработанных данных о товарах.
     """
     
     base_path:Path = __root__ / 'src' / 'endpoints' / Config.ENDPOINT

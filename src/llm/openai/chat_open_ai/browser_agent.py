@@ -100,11 +100,11 @@ class AIBrowserAgent:
     async def find_product_alternatives(self, product_url: Optional[str] = None,
                                         sku: Optional[str] = None) -> Optional[str]:
         """
-        Ищет в сети аналоги для продукта по заданному URL или SKU.
+        Ищет в сети аналоги для товара по заданному URL или SKU.
 
         Args:
-            product_url: URL продукта, для которого нужно найти аналоги (опционально).
-            sku: SKU продукта, для которого нужно найти аналоги (опционально).
+            product_url: URL товара, для которого нужно найти аналоги (опционально).
+            sku: SKU товара, для которого нужно найти аналоги (опционально).
 
         Returns:
             Строку с описанием найденных аналогов, или None в случае ошибки.
@@ -126,7 +126,7 @@ class AIBrowserAgent:
             search_url = f"https://duckduckgo.com/?q={encoded_search_query}"
 
         task_prompt = f"""Используя поисковую систему {self.search_engine}, перейди по адресу {search_url}.  
-        Найди и предоставь список из 3-5 аналогов продукта.  
+        Найди и предоставь список из 3-5 аналогов товара.  
         Для каждого аналога укажи название и краткое описание."""
 
         return await self.run_task(task_prompt)
@@ -168,9 +168,9 @@ async def main():
     #########################################################################
     agent = AIBrowserAgent(api_key=api_key, model_name=model_name) #  Default browser_use driver
 
-    # Пример поиска аналогов продукта
+    # Пример поиска аналогов товара
     sku: str = '1493001'
-    product_url: str = None  # "https://www.apple.com/iphone-14/"  # Замените на URL интересующего вас продукта
+    product_url: str = None  # "https://www.apple.com/iphone-14/"  # Замените на URL интересующего вас товара
     alternatives = await agent.find_product_alternatives(product_url=product_url, sku=sku)
     if alternatives:
         print("Найденные аналоги:")

@@ -23,7 +23,7 @@
 
 - `set_categories(categories: list[CategoryType])`:  Метод для загрузки данных о категориях в Google Sheet.
 - `get_categories()`:  Метод для получения данных о категориях из Google Sheet.
-- `set_category_products(category_name: str, products: list[ProductType])`:  Метод для загрузки данных о продуктах в Google Sheet. 
+- `set_category_products(category_name: str, products: list[ProductType])`:  Метод для загрузки данных о товарах в Google Sheet. 
 
 ## Функции
 
@@ -59,7 +59,7 @@ update_campaign_from_gsheet(campaign_name='lighting', language='EN', currency='U
 
 ### `get_category_products(category_name: str)`
 
-**Назначение**:  Функция получает список продуктов для заданной категории.
+**Назначение**:  Функция получает список товаров для заданной категории.
 
 **Параметры**:
 
@@ -67,12 +67,12 @@ update_campaign_from_gsheet(campaign_name='lighting', language='EN', currency='U
 
 **Возвращает**:
 
-- `list[ProductType]`:  Список продуктов.
+- `list[ProductType]`:  Список товаров.
 
 **Как работает функция**:
 
-1. **Получение данных**: Извлечение данных о продуктах для заданной категории с использованием `AliCampaignEditor`.
-2. **Возвращение списка**: Возвращение списка продуктов.
+1. **Получение данных**: Извлечение данных о товарах для заданной категории с использованием `AliCampaignEditor`.
+2. **Возвращение списка**: Возвращение списка товаров.
 
 **Примеры**:
 
@@ -83,12 +83,12 @@ products = get_category_products(category_name='lighting')
 
 ### `set_category_products(category_name: str, products: list[ProductType])`
 
-**Назначение**:  Функция загружает данные о продуктах для заданной категории в Google Sheet.
+**Назначение**:  Функция загружает данные о товарах для заданной категории в Google Sheet.
 
 **Параметры**:
 
 - `category_name` (str):  Название категории.
-- `products` (list[ProductType]): Список продуктов.
+- `products` (list[ProductType]): Список товаров.
 
 **Возвращает**:
 
@@ -97,7 +97,7 @@ products = get_category_products(category_name='lighting')
 **Как работает функция**:
 
 1. **Получение листа**: Получение нужного листа в Google Sheet.
-2. **Загрузка данных**: Загрузка данных о продуктах в Google Sheet.
+2. **Загрузка данных**: Загрузка данных о товарах в Google Sheet.
 
 **Примеры**:
 
@@ -129,12 +129,12 @@ update_campaign_from_gsheet(campaign_name, language, currency)
 ```
 
 ```python
-# Пример использования функций для работы с продуктами
+# Пример использования функций для работы с товарами
 
-# Получение продуктов для категории "lighting"
+# Получение товаров для категории "lighting"
 products = get_category_products(category_name='lighting')
 
-# Загрузка продуктов в Google Sheet
+# Загрузка товаров в Google Sheet
 set_category_products(category_name='lighting', products=products)
 ```
 ```markdown

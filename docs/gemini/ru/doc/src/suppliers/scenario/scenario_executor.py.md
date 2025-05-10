@@ -139,11 +139,11 @@ run_scenario(s, scenario, scenario_name)
 
 ### `insert_grabbed_data_to_prestashop`
 
-**Назначение**: Вставляет полученный продукт в PrestaShop.
+**Назначение**: Вставляет полученный товар в PrestaShop.
 
 **Параметры**:
 
-- `f` (ProductFields): Экземпляр `ProductFields`, содержащий информацию о продукте.
+- `f` (ProductFields): Экземпляр `ProductFields`, содержащий информацию о товаре.
 - `coupon_code` (Optional[str], optional): Необязательный промокод. По умолчанию `None`.
 - `start_date` (Optional[str], optional): Необязательная дата начала акции. По умолчанию `None`.
 - `end_date` (Optional[str], optional): Необязательная дата окончания акции. По умолчанию `None`.

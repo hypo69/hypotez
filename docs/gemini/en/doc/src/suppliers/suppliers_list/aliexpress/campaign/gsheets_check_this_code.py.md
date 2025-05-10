@@ -50,7 +50,7 @@ The `AliCampaignGoogleSheet` class uses the `gspread` library to interact with G
 
 **Purpose**: Очищает содержимое.
 
-**Description**: Удаляет листы продуктов и очищает данные на листах категорий и других указанных листах.
+**Description**: Удаляет листы товаров и очищает данные на листах категорий и других указанных листах.
 
 **Parameters**:
 
@@ -138,7 +138,7 @@ The `AliCampaignGoogleSheet` class uses the `gspread` library to interact with G
 
 ### `set_category_products(self, category_name: str, products: dict)`
 
-**Purpose**: Запись данных о продуктах в новую таблицу Google Sheets.
+**Purpose**: Запись данных о товарах в новую таблицу Google Sheets.
 
 **Parameters**:
 
@@ -171,7 +171,7 @@ The `AliCampaignGoogleSheet` class uses the `gspread` library to interact with G
 
 ### `_format_category_products_worksheet(self, ws: Worksheet)`
 
-**Purpose**: Форматирование листа с продуктами категории.
+**Purpose**: Форматирование листа с товарами категории.
 
 **Parameters**:
 

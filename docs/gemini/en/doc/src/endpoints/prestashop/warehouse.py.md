@@ -46,10 +46,10 @@ The `PrestaWarehouse` class inherits from the `PrestaShop` class, providing acce
 ```python
 def get_warehouse_id(self, product_id: int, warehouse_name: str) -> Optional[int]:
     """
-    Получает ID склада, связанного с продуктом.
+    Получает ID склада, связанного с товаром.
 
     Args:
-        product_id (int): ID продукта.
+        product_id (int): ID товара.
         warehouse_name (str): Название склада.
 
     Returns:
@@ -74,14 +74,14 @@ def get_warehouse_id(self, product_id: int, warehouse_name: str) -> Optional[int
 ```python
     def product_has_warehouse(self, product_id: int, warehouse_id: int) -> bool:
         """
-        Проверяет, назначен ли продукт на склад.
+        Проверяет, назначен ли товар на склад.
 
         Args:
-            product_id (int): ID продукта.
+            product_id (int): ID товара.
             warehouse_id (int): ID склада.
 
         Returns:
-            bool: True, если продукт назначен на склад, False в противном случае.
+            bool: True, если товар назначен на склад, False в противном случае.
         """
         warehouses = self.get_warehouse_ids(product_id)
         if warehouses:
@@ -94,14 +94,14 @@ def get_warehouse_id(self, product_id: int, warehouse_name: str) -> Optional[int
 ```python
     def product_assign_to_warehouse(self, product_id: int, warehouse_id: int) -> bool:
         """
-        Назначает продукт на склад.
+        Назначает товар на склад.
 
         Args:
-            product_id (int): ID продукта.
+            product_id (int): ID товара.
             warehouse_id (int): ID склада.
 
         Returns:
-            bool: True, если продукт назначен на склад, False в противном случае.
+            bool: True, если товар назначен на склад, False в противном случае.
         """
         data = {
             "product_id": product_id,
@@ -125,10 +125,10 @@ def get_warehouse_id(self, product_id: int, warehouse_name: str) -> Optional[int
 ```python
     def update_warehouse_id(self, product_id: int, warehouse_id: int) -> bool:
         """
-        Обновляет ID склада для продукта.
+        Обновляет ID склада для товара.
 
         Args:
-            product_id (int): ID продукта.
+            product_id (int): ID товара.
             warehouse_id (int): ID склада.
 
         Returns:
@@ -199,10 +199,10 @@ def get_warehouse_id(self, product_id: int, warehouse_name: str) -> Optional[int
 ```python
     def get_warehouse_ids(self, product_id: int) -> list:
         """
-        Получает список ID складов, связанных с продуктом.
+        Получает список ID складов, связанных с товаром.
 
         Args:
-            product_id (int): ID продукта.
+            product_id (int): ID товара.
 
         Returns:
             list: Список ID складов.
@@ -227,7 +227,7 @@ def get_warehouse_id(self, product_id: int, warehouse_name: str) -> Optional[int
         Получает список всех складов.
 
         Args:
-            product_id (int, optional): ID продукта. Defaults to None.
+            product_id (int, optional): ID товара. Defaults to None.
 
         Returns:
             list: Список всех складов.
@@ -264,7 +264,7 @@ def get_warehouse_id(self, product_id: int, warehouse_name: str) -> Optional[int
         Получает количество доступных на складе товаров.
 
         Args:
-            product_id (int): ID продукта.
+            product_id (int): ID товара.
 
         Returns:
             Optional[int]: Количество доступных товаров.
@@ -277,7 +277,7 @@ def get_warehouse_id(self, product_id: int, warehouse_name: str) -> Optional[int
 
 ## Parameter Details
 
-- `product_id` (int): ID продукта в PrestaShop.
+- `product_id` (int): ID товара в PrestaShop.
 - `warehouse_id` (int): ID склада в PrestaShop.
 - `warehouse_name` (str): Название склада.
 
@@ -290,13 +290,13 @@ warehouse = PrestaWarehouse()
 # Получение ID склада по имени
 warehouse_id = warehouse.get_warehouse_id(product_id=123, warehouse_name='Main Warehouse')
 
-# Проверка, назначен ли продукт на склад
+# Проверка, назначен ли товар на склад
 is_assigned = warehouse.product_has_warehouse(product_id=123, warehouse_id=warehouse_id)
 
-# Назначение продукта на склад
+# Назначение товара на склад
 success = warehouse.product_assign_to_warehouse(product_id=123, warehouse_id=warehouse_id)
 
-# Обновление ID склада для продукта
+# Обновление ID склада для товара
 success = warehouse.update_warehouse_id(product_id=123, warehouse_id=warehouse_id)
 
 # Получение названия склада по ID
@@ -305,7 +305,7 @@ warehouse_name = warehouse.get_warehouse_name(warehouse_id=warehouse_id)
 # Получение данных о складе
 warehouse_data = warehouse.get_warehouse_data(warehouse_id=warehouse_id)
 
-# Получение списка ID складов, связанных с продуктом
+# Получение списка ID складов, связанных с товаром
 warehouse_ids = warehouse.get_warehouse_ids(product_id=123)
 
 # Получение списка всех складов

@@ -147,9 +147,9 @@ from src.endpoints.prestashop import PrestashopAPI
 # Инициализация API для PrestaShop
 prestashop_api = PrestashopAPI(api_key='YOUR_API_KEY', shop_url='YOUR_SHOP_URL')
 
-# Получение списка продуктов
+# Получение списка товаров
 products = prestashop_api.get_products()
 
-# Добавление нового продукта
+# Добавление нового товара
 new_product = {'name': 'New Product', 'price': 100}
 prestashop_api.create_product(new_product)

@@ -60,8 +60,8 @@ print(Config.supplier_prefix)
 *   `process_supplier_scenarios_async(supplier_prefix: str, input_scenarios=None, id_lang: Optional[int] = 1) -> bool`: Метод, использующий генератор `yield_scenarios_for_supplier` и вызывающий `run_scenario` для каждого сценария.
 *   `process_scenarios(supplier_prefix: str, input_scenarios: List[Dict[str, Any]] | Dict[str, Any], id_lang: Optional[int] = 1) -> Optional[List[Any]]`: Выполняет один или несколько сценариев для указанного поставщика.
 *   `set_field_value(value: Any, locator_func: Callable[[], Any], field_name: str, default: Any = '') -> Any`: Универсальная функция для установки значений полей с обработкой ошибок.
-*   `grab_page(self, *args, **kwargs) -> ProductFields`: Функция для сбора полей продукта.
-*   `grab_page_async(self, *args, **kwargs) -> ProductFields`: Асинхронная функция для сбора полей продукта.
+*   `grab_page(self, *args, **kwargs) -> ProductFields`: Функция для сбора полей товара.
+*   `grab_page_async(self, *args, **kwargs) -> ProductFields`: Асинхронная функция для сбора полей товара.
 *   `error(field: str)`: Обработчик ошибок для полей.
 *   `additional_shipping_cost(value: Optional[Any] = None) -> bool`: Извлекает и устанавливает дополнительную стоимость доставки.
 *   `delivery_in_stock(value: Optional[str] = None) -> bool`: Извлекает и устанавливает статус доставки в наличии.

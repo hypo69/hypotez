@@ -12,14 +12,14 @@
 
 ### `UserDAO`
 
-**Описание**: Класс для доступа к данным модели `User`. Предоставляет методы для получения статистики покупок пользователя и информации о приобретенных продуктах.
+**Описание**: Класс для доступа к данным модели `User`. Предоставляет методы для получения статистики покупок пользователя и информации о приобретенных товарах.
 
 **Наследует**: `BaseDAO[User]`
 
 **Методы**:
 
 - `get_purchase_statistics`: Получает статистику покупок пользователя.
-- `get_purchased_products`: Получает информацию о приобретенных пользователем продуктах.
+- `get_purchased_products`: Получает информацию о приобретенных пользователем товарах.
 - `get_statistics`: Получает общую статистику пользователей.
 
 ### `PurchaseDao`
@@ -93,7 +93,7 @@ async def get_purchase_statistics(cls, session: AsyncSession, telegram_id: int) 
     @classmethod
     async def get_purchased_products(cls, session: AsyncSession, telegram_id: int) -> Optional[List[Purchase]]:
         """
-        Функция получает список покупок пользователя с информацией о связанных продуктах.
+        Функция получает список покупок пользователя с информацией о связанных товарах.
 
         Args:
             session (AsyncSession): Асинхронная сессия базы данных.
@@ -101,13 +101,13 @@ async def get_purchase_statistics(cls, session: AsyncSession, telegram_id: int) 
 
         Returns:
             Optional[List[Purchase]]: Список объектов Purchase, связанных с пользователем, или None, если пользователь не найден.
-            Каждый объект Purchase содержит информацию о продукте, который был приобретен.
+            Каждый объект Purchase содержит информацию о товаре, который был приобретен.
 
         Raises:
             SQLAlchemyError: Если возникает ошибка при работе с базой данных.
 
         
-        - Выполняет запрос к базе данных для получения пользователя с его покупками и связанными продуктами.
+        - Выполняет запрос к базе данных для получения пользователя с его покупками и связанными товарами.
         - Извлекает список покупок из объекта пользователя.
         - В случае ошибки логирует ошибку и возвращает None.
 
@@ -117,7 +117,7 @@ async def get_purchase_statistics(cls, session: AsyncSession, telegram_id: int) 
             >>> purchases = await UserDAO.get_purchased_products(session, telegram_id)
             >>> if purchases:
             ...     for purchase in purchases:
-            ...         print(f"Продукт: {purchase.product.name}, Цена: {purchase.price}")
+            ...         print(f"товар: {purchase.product.name}, Цена: {purchase.price}")
             ... else:
             ...     print("Покупки не найдены.")
         """

@@ -37,14 +37,14 @@ product_name = _(l['name'])[0]
 -   `supplier_prefix` (str): Префикс поставщика, в данном случае "amazon".
 -   `s` (Supplier): Объект класса `Supplier`, инициализированный с использованием `start_supplier(supplier_prefix)`.
 -   `s.current_scenario` (dict): Словарь, содержащий информацию о текущем сценарии, включая URL, условие, категории PrestaShop и правило цены.
--   `l` (dict): Локаторы элементов продукта, полученные из `s.locators.get('product')`.
+-   `l` (dict): Локаторы элементов товара, полученные из `s.locators.get('product')`.
 -   `d` (Driver): Драйвер для управления браузером, `s.driver`.
 -   `_`: Сокращение для `d.execute_locator`.
 -   `ASIN` (str): Значение ASIN, полученное с использованием локатора `l['ASIN']`.
--   `product_reference` (str): Ссылка на продукт, сформированная как "{s.supplier_id}-{ASIN}".
--   `product_id` (Union[int, bool]): ID продукта, полученный из базы данных PrestaShop, или `False`, если продукт не найден.
--   `default_image_url` (str): URL изображения продукта, полученный из `l['additional_images_urls']`.
--   `product_fields` (ProductFields): Поля продукта, полученные с использованием `Product.grab_product_page(s)`.
--   `product_dict` (dict): Словарь, содержащий информацию о продукте для отправки в PrestaShop.
--   `product_name` (list): Название продукта, полученное с использованием локатора `l['name']`.
--   `res_product_name` (str): Очищенное название продукта.
+-   `product_reference` (str): Ссылка на товар, сформированная как "{s.supplier_id}-{ASIN}".
+-   `product_id` (Union[int, bool]): ID товара, полученный из базы данных PrestaShop, или `False`, если товар не найден.
+-   `default_image_url` (str): URL изображения товара, полученный из `l['additional_images_urls']`.
+-   `product_fields` (ProductFields): Поля товара, полученные с использованием `Product.grab_product_page(s)`.
+-   `product_dict` (dict): Словарь, содержащий информацию о товаре для отправки в PrestaShop.
+-   `product_name` (list): Название товара, полученное с использованием локатора `l['name']`.
+-   `res_product_name` (str): Очищенное название товара.

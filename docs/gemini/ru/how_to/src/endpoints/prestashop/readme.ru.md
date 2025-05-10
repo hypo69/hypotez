@@ -39,7 +39,7 @@
      - `<API_KEY>`: Ключ API, закодированный в формате Base64.
 
 4. **Пример вызова API**:
-   - Пример запроса списка продуктов с сайта `e-cat.co.il`:
+   - Пример запроса списка товаров с сайта `e-cat.co.il`:
      ```bash
      curl -X GET 'https://e-cat.co.il/api/products' \
      -H 'Authorization: Basic <base64(API_KEY)>'
@@ -54,7 +54,7 @@
 -------------------------
 
 ```python
-# Пример подключения к API сайта e-cat.co.il для получения списка продуктов
+# Пример подключения к API сайта e-cat.co.il для получения списка товаров
 import subprocess
 import base64
 

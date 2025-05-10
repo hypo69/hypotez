@@ -43,7 +43,7 @@ class UserDAO(BaseDAO[User]):
     @classmethod
     async def get_purchased_products(cls, session: AsyncSession, telegram_id: int) -> Optional[List[Purchase]]:
         try:
-            # Запрос для получения пользователя с его покупками и связанными продуктами
+            # Запрос для получения пользователя с его покупками и связанными товарами
             result = await session.execute(
                 select(User)
                 .options(

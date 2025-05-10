@@ -40,7 +40,7 @@ Usage Example
         "name": {
             "language": [
                 {"attrs": {"id": "1"}, "value": "Product Name (English)"},
-                {"attrs": {"id": "2"}, "value": "Название продукта (Русский)"},
+                {"attrs": {"id": "2"}, "value": "Название товара (Русский)"},
             ]
         }
     }

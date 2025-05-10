@@ -6,7 +6,7 @@
 Модуль для генерации обучающих данных на основе типа страницы.
 ================================================================
 Скрипт обрабатывает JSON-файлы, извлекает структурированную информацию
-о продуктах и категориях, включая метаданные, описания и другие атрибуты.
+о товарах и категориях, включая метаданные, описания и другие атрибуты.
 Данные извлекаются из словарей (dict), проверяя несколько возможных
 мест их нахождения: на верхнем уровне или во вложенном объекте 'ai_analized_content'.
 Поддерживает выбор API-ключа Gemini через аргумент командной строки.
@@ -338,7 +338,7 @@ def _create_page_data_object(value_dict: Dict[str, Any], page_type_str: Optional
 
 def generate_train_data(path: Path, timestamp: str):
     """
-    Ищет страницы продуктов в JSON-файле и сохраняет их в файл train_products_{timestamp}.json.
+    Ищет страницы товаров в JSON-файле и сохраняет их в файл train_products_{timestamp}.json.
     Args:
         path (Path): Путь к JSON-файлу.
         timestamp (str): Временная метка для имени выходного файла.
@@ -381,7 +381,7 @@ def generate_train_data(path: Path, timestamp: str):
         
         existing_data.update(products_to_save) # Объединяем существующие данные с новыми
         j_dumps(existing_data, output_file_path)
-        logger.info(f"generate_train_data: Добавлено/обновлено {len(products_to_save)} продуктов в {output_file_path}")
+        logger.info(f"generate_train_data: Добавлено/обновлено {len(products_to_save)} товаров в {output_file_path}")
 
 
 def process_files_and_generate_data():

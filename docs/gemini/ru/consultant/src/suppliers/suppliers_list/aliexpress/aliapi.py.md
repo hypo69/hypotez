@@ -174,7 +174,7 @@ class AliApi(AliexpressApi):
         prod_details_ns = self.retrieve_product_details(product_ids)
         # Преобразует SimpleNamespace объекты в словари
         prod_details_dict = [vars(ns) for ns in prod_details_ns]
-        # Возвращает список словарей с деталями продуктов
+        # Возвращает список словарей с деталями товаров
         return prod_details_dict
     
     def get_affiliate_links(self, links: str | list, link_type: int = 0, **kwargs) -> List[SimpleNamespace]:
@@ -305,15 +305,15 @@ class AliApi(AliexpressApi):
             >>>     print(product_details)
         """
         try:
-            # Получает детальную информацию о продуктах в формате SimpleNamespace
+            # Получает детальную информацию о товарах в формате SimpleNamespace
             prod_details_ns = self.retrieve_product_details(product_ids)
             # Преобразует SimpleNamespace объекты в словари
             prod_details_dict = [vars(ns) for ns in prod_details_ns]
-            # Возвращает список словарей с деталями продуктов
+            # Возвращает список словарей с деталями товаров
             return prod_details_dict
         except Exception as ex:
-            # Логирует ошибку при получении деталей продукта
-            logger.error('Ошибка при получении деталей продукта', ex, exc_info=True)
+            # Логирует ошибку при получении деталей товара
+            logger.error('Ошибка при получении деталей товара', ex, exc_info=True)
             return None
     
     def get_affiliate_links(self, links: str | list, link_type: int = 0, **kwargs) -> List[SimpleNamespace]:

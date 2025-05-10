@@ -168,7 +168,7 @@ class TestRunScenarioFile(unittest.TestCase):
 
 class TestGrabProductPage(unittest.TestCase):
     """
-    Тесты для функции grab_product_page, которая извлекает информацию о продукте.
+    Тесты для функции grab_product_page, которая извлекает информацию о товаре.
     """
 
     def setUp(self):
@@ -180,7 +180,7 @@ class TestGrabProductPage(unittest.TestCase):
 
     def test_grab_product_page_successful(self):
         """
-        Тест успешного извлечения информации о продукте.
+        Тест успешного извлечения информации о товаре.
         """
         self.s.grab_product_page = MagicMock(return_value={'id': '123', 'price': 19.99, 'name': 'Product Name'})
 
@@ -194,7 +194,7 @@ class TestGrabProductPage(unittest.TestCase):
 
     def test_grab_product_page_failure(self):
         """
-        Тест неудачного извлечения информации о продукте (отсутствуют необходимые данные).
+        Тест неудачного извлечения информации о товаре (отсутствуют необходимые данные).
         """
         self.s.grab_product_page = MagicMock(return_value={'name': 'Product Name'})
 

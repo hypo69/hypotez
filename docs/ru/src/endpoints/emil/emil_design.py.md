@@ -47,7 +47,7 @@
 - `process_suppliers`: Обрабатывает поставщиков на основе предоставленного префикса.
 - `describe_images`: Описывает изображения на основе предоставленной инструкции и примеров.
 - `promote_to_facebook`: Продвигает изображения и их описания в Facebook.
-- `upload_described_products_to_prestashop`: Загружает информацию о продуктах в PrestaShop.
+- `upload_described_products_to_prestashop`: Загружает информацию о товарах в PrestaShop.
 
 ## Методы класса
 
@@ -172,10 +172,10 @@ def upload_described_products_to_prestashop(
     self, products_list: Optional[List[SimpleNamespace]] = None, id_lang: Optional[int | str] = 2, *args, **kwargs
 ) -> bool:
     """
-    Загружает информацию о продуктах в PrestaShop.
+    Загружает информацию о товарах в PrestaShop.
 
     Args:
-        products_list (Optional[List[SimpleNamespace]], optional): Список информации о продуктах. По умолчанию None.
+        products_list (Optional[List[SimpleNamespace]], optional): Список информации о товарах. По умолчанию None.
         id_lang (Optional[str], optional): ID языка для базы данных PrestaShop.
         Обычно я назначаю языки в таком порядке 1 - en;2 - he; 3 - ru. 
         Важно проверить порядок якыков целевой базе данных.
@@ -192,14 +192,14 @@ def upload_described_products_to_prestashop(
         Exception: Если во время загрузки в PrestaShop произошла ошибка.
 
     
-    - Получает список файлов продуктов из указанной директории.
-    - Загружает информацию о продуктах из JSON-файлов.
+    - Получает список файлов товаров из указанной директории.
+    - Загружает информацию о товарах из JSON-файлов.
     - Инициализирует класс `PrestaProduct` с доменом и ключом API.
     - Определяет ID языка, на котором будут отображаться названия и характеристики товара.
     - Загружает локали из файла `locales.json`.
-    - Итерируется по списку продуктов.
-    - Для каждого продукта создает объект `ProductFields` и заполняет его данными из JSON.
-    - Вызывает метод `add_new_product` класса `PrestaProduct` для добавления продукта в PrestaShop.
+    - Итерируется по списку товаров.
+    - Для каждого товара создает объект `ProductFields` и заполняет его данными из JSON.
+    - Вызывает метод `add_new_product` класса `PrestaProduct` для добавления товара в PrestaShop.
     - Обрабатывает исключения, которые могут возникнуть в процессе, и записывает ошибки в лог.
     """
 ```

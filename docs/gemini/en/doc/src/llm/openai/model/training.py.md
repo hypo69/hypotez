@@ -160,7 +160,7 @@ model.set_assistant(assistant_id="ваш_идентификатор_помощн
 **Пример:**
 
 ```python
-sentiment = model.determine_sentiment("Это отличный продукт!")
+sentiment = model.determine_sentiment("Это отличный товар!")
 print(sentiment) # Вывод: positive
 ```
 

@@ -27,16 +27,16 @@
      save_config(campaign_name, campaign_config)
      ```
 
-4. **Сбор данных о продуктах**
-   - Введите URL или ID продуктов для кампании.
+4. **Сбор данных о товарах**
+   - Введите URL или ID товаров для кампании.
    - Пример:
      ```python
      product_urls = ['https://www.aliexpress.com/item/123.html', 'https://www.aliexpress.com/item/456.html']
      product_data = collect_product_data(product_urls)
      ```
 
-5. **Сохранение данных о продуктах**
-   - Сохраните собранные данные о продуктах.
+5. **Сохранение данных о товарах**
+   - Сохраните собранные данные о товарах.
    - Пример:
      ```python
      save_product_data(campaign_name, product_data)
@@ -83,16 +83,16 @@
      update_categories(campaign_name, new_categories)
      ```
 
-4. **Сбор новых данных о продуктах**
-   - Введите новые URL или ID продуктов для обновленной кампании.
+4. **Сбор новых данных о товарах**
+   - Введите новые URL или ID товаров для обновленной кампании.
    - Пример:
      ```python
      new_product_urls = ['https://www.aliexpress.com/item/789.html']
      updated_product_data = collect_product_data(new_product_urls)
      ```
 
-5. **Сохранение обновленных данных о продуктах**
-   - Сохраните новые данные о продуктах.
+5. **Сохранение обновленных данных о товарах**
+   - Сохраните новые данные о товарах.
    - Пример:
      ```python
      save_product_data(campaign_name, updated_product_data)

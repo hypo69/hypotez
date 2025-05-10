@@ -148,7 +148,7 @@ def process_supplier_link(
             # Удаление временного поля 'category'
             del(extracted_page_content['category']) 
 
-        # Обновление или добавление ссылок на продукты
+        # Обновление или добавление ссылок на товары
         if hasattr(a, 'product_links'): 
             # Добавление новых ссылок и удаление дубликатов
             extracted_page_content['product_links'].append(getattr(a,'product_links',[]))

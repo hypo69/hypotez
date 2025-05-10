@@ -6,7 +6,7 @@
 
 ## Подробнее
 
-Этот модуль находится в директории `hypotez/src/suppliers/grandadvance/scenarios/_experiments/JUPYTER_header.py`. Он импортирует несколько модулей, таких как `src.webdriver.driver`, `src.product`, `src.category`, `src.utils` и `src.endpoints.PrestaShop`, которые используются для работы с веб-драйвером, продуктами, категориями, строками, и PrestaShop API соответственно.
+Этот модуль находится в директории `hypotez/src/suppliers/grandadvance/scenarios/_experiments/JUPYTER_header.py`. Он импортирует несколько модулей, таких как `src.webdriver.driver`, `src.product`, `src.category`, `src.utils` и `src.endpoints.PrestaShop`, которые используются для работы с веб-драйвером, товарами, категориями, строками, и PrestaShop API соответственно.
 
 ## Функции
 

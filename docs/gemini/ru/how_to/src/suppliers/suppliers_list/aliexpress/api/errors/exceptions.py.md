@@ -17,13 +17,13 @@
 
    * **InvalidArgumentException**: Используйте это исключение, если аргументы функции некорректны.
 
-   * **ProductIdNotFoundException**: Используйте это исключение, если не найден идентификатор продукта.
+   * **ProductIdNotFoundException**: Используйте это исключение, если не найден идентификатор товара.
 
    * **ApiRequestException**: Используйте это исключение, если запрос к AliExpress API не удался.
 
    * **ApiRequestResponseException**: Используйте это исключение, если ответ API не соответствует ожидаемому формату.
 
-   * **ProductsNotFoudException**: Используйте это исключение, если не найдены продукты.
+   * **ProductsNotFoudException**: Используйте это исключение, если не найдены товары.
 
    * **CategoriesNotFoudException**: Используйте это исключение, если не найдены категории.
 
@@ -36,7 +36,7 @@
        # Вызов функции, которая может вызвать исключение
        product_details = get_product_details(product_id)
    except ProductIdNotFoundException:
-       print("Идентификатор продукта не найден.")
+       print("Идентификатор товара не найден.")
    except ApiRequestException:
        print("Произошла ошибка при запросе к API.")
    except InvalidArgumentException:
@@ -52,13 +52,13 @@
 from src.suppliers.aliexpress.api.errors.exceptions import AliexpressException, InvalidArgumentException, ProductIdNotFoundException, ApiRequestException, ApiRequestResponseException, ProductsNotFoudException, CategoriesNotFoudException, InvalidTrackingIdException
 
 def get_product_details(product_id: str):
-    """Функция для получения деталей продукта по его ID."""
+    """Функция для получения деталей товара по его ID."""
     try:
-        # ... логика получения данных о продукте из AliExpress API ...
+        # ... логика получения данных о товаре из AliExpress API ...
         return product_details
     except ProductIdNotFoundException:
-        # Обработка ошибки, если идентификатор продукта не найден
-        print("Идентификатор продукта не найден.")
+        # Обработка ошибки, если идентификатор товара не найден
+        print("Идентификатор товара не найден.")
         raise
     except ApiRequestException:
         # Обработка ошибки, если запрос к API не удался

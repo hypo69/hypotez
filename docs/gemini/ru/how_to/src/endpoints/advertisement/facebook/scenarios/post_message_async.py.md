@@ -19,7 +19,7 @@
    - Обновляет подписи к изображениям.
 3. **Добавление описаний к медиафайлам**:
    - Получает тексты описаний из файла `translations.json`.
-   - Создает сообщение для каждого продукта, включающее заголовок, цену, скидку, рейтинг, ссылку и теги, если они доступны.
+   - Создает сообщение для каждого товара, включающее заголовок, цену, скидку, рейтинг, ссылку и теги, если они доступны.
    - Отправляет сообщение в текстовое поле (textarea) под изображением.
 4. **Публикация поста**:
    - Завершает редактирование поста.
@@ -39,7 +39,7 @@ driver = Driver(...)
 # Загружаем категорию
 category = SimpleNamespace(title="Campaign Title", description="Campaign Description")
 
-# Загружаем список продуктов
+# Загружаем список товаров
 products = [
     SimpleNamespace(local_image_path='path/to/image.jpg', product_title="Product Title", original_price="100$", sale_price="50$", discount="50%", evaluate_rate="4.5", promotion_link="https://aliexpress.com/product/...", tags="tag1, tag2"),
     SimpleNamespace(local_image_path='path/to/image2.jpg', product_title="Product Title 2", original_price="200$", sale_price="100$", discount="50%", evaluate_rate="4.0", promotion_link="https://aliexpress.com/product/...", tags="tag3, tag4")

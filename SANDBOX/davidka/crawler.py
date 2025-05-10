@@ -101,9 +101,9 @@ class Config:
 
 
 
-async def get_products_by_category(category: str, num_of_links: str = '2') -> Optional[Dict[str, Any]]:
+async def get_products_by_category(driver:Driver, category: str, num_of_links: str = '2') -> Optional[Dict[str, Any]]:
     """
-    Асинхронно получает данные о продуктах для указанной категории.
+    Асинхронно получает данные о товарах для указанной категории.
 
     Использует предопределенную инструкцию и WebDriver из `Config`.
 
@@ -118,7 +118,6 @@ async def get_products_by_category(category: str, num_of_links: str = '2') -> Op
     # Объявление переменных
     extracted_data: Optional[Dict[str, Any]] = None
     task: str = ''
-    driver: Optional[Driver] = Config.driver # Получаем драйвер из конфига
     extracted_data_raw: Optional[str] = None # Явно инициализируем
 
     # Проверка наличия драйвера
@@ -165,7 +164,7 @@ async def fetch_categories_from_suppliers_random_urls() -> None:
     Асинхронно извлекает категории товаров с сайтов поставщиков.
 
     Проходит по списку файлов `Config.crawl_files_list`, извлекает домены
-    из URL продуктов. Для каждого нового домена (не из `Config.checked_domains`)
+    из URL товаров. Для каждого нового домена (не из `Config.checked_domains`)
     выполняет задачу по извлечению категорий с помощью WebDriver.
     Сохраняет результаты и обновляет список проверенных доменов.
     """
@@ -201,7 +200,7 @@ async def fetch_categories_from_suppliers_random_urls() -> None:
             file_path = Config.MINING_DATA_PATH / filename # Используем константу пути
             crawl_data = j_loads(file_path)
 
-            # Извлечение списка продуктов
+            # Извлечение списка товаров
             products_data = []
             if isinstance(crawl_data, dict) and 'products' in crawl_data:
                 if isinstance(crawl_data['products'], list):
@@ -209,16 +208,16 @@ async def fetch_categories_from_suppliers_random_urls() -> None:
                 else:
                     logger.warning(f"Ключ 'products' в файле {filename} не содержит список.", None, False)
                     continue
-            elif isinstance(crawl_data, list): # Допускаем список продуктов в файле
+            elif isinstance(crawl_data, list): # Допускаем список товаров в файле
                  products_data = crawl_data
             else:
                 logger.warning(f"Файл {filename} не содержит ключ 'products' или не является списком.", None, False)
                 continue
 
-            # Обработка продуктов в файле
+            # Обработка товаров в файле
             for product in products_data:
                 if not isinstance(product, dict) or 'product_url' not in product:
-                    logger.warning(f"Некорректный формат продукта в файле {filename}: {product}", None, False)
+                    logger.warning(f"Некорректный формат товара в файле {filename}: {product}", None, False)
                     continue
 
                 try:
@@ -373,8 +372,8 @@ async def main() -> None:
     # --- Выбор режима работы ---
     # Раскомментируйте нужный блок для запуска соответствующей задачи
 
-    # # === Режим 1: Обработка URL продуктов из файлов ===
-    # logger.info("Запуск режима 1: Обработка URL продуктов...")
+    # # === Режим 1: Обработка URL товаров из файлов ===
+    # logger.info("Запуск режима 1: Обработка URL товаров...")
     # # Используем генератор для экономии памяти
     # url_generator = utils.yield_product_urls_from_files(Config.MINING_DATA_PATH)
     # # Или используем список, если данных не слишком много
@@ -412,8 +411,8 @@ async def main() -> None:
     #         logger.error(f'Ошибка при обработке {product_url=}', ex, exc_info=True)
     # logger.info("Режим 1 завершен.")
 
-    # # === Режим 2: Поиск продуктов по категориям ===
-    # logger.info("Запуск режима 2: Поиск продуктов по категориям...")
+    # # === Режим 2: Поиск товаров по категориям ===
+    # logger.info("Запуск режима 2: Поиск товаров по категориям...")
     # # Получаем список категорий из файлов, используя функцию из utils
     # categories: List[str] = utils.get_categories_from_files(Config.MINING_DATA_PATH, Config.crawl_files_list)
     # category: str

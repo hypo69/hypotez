@@ -1,6 +1,8 @@
 {
-  "storage": "J:\\My Drive\\hypo69\\llm\\data_by_supplier",
+  "storage": "J:\\My Drive\\hypo69\\llm",
+  "data_by_supplier_storage": "J:\\My Drive\\hypo69\\llm\\data_by_supplier",
   "train_storage": "J:\\My Drive\\hypo69\\llm\\train_data",
   "random_urls": "J:\\My Drive\\hypo69\\llm\\random_urls",
-  "unzipeped_storage": "J:\\My Drive\\hypo69\\llm\\unzipeped_storage"
+  "unzipped_storge": "J:\\My Drive\\hypo69\\llm\\unzipeped_storage",
+  "gemini_model_name": "gemini-1.5-turbo"
 }

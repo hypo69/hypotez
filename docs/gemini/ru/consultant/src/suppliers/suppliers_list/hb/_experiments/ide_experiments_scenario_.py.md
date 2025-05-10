@@ -3,7 +3,7 @@
 #### **Качество кода**:
 - **Соответствие стандартам**: 5/10
 - **Плюсы**:
-  - Код содержит импорты и структуру, необходимую для работы с продуктами и сценариями.
+  - Код содержит импорты и структуру, необходимую для работы с товарами и сценариями.
   - Используется логгер для обработки исключений.
   - Присутствуют аннотации типов.
 - **Минусы**:
@@ -84,14 +84,14 @@ def run_hb_scenario():
     """
     Запускает сценарий для поставщика HB и проверяет наполнение полей товаров.
 
-    Функция инициализирует поставщика, продукт, локаторы и драйвер,
+    Функция инициализирует поставщика, товар, локаторы и драйвер,
     а затем запускает сценарий для проверки данных.
     """
     supplier: Supplier = Supplier(supplier_prefix='hb')  # Инициализация поставщика HB
-    product: Product = Product(supplier)  # Создание экземпляра продукта
-    locators: dict = supplier.locators['product']  # Получение локаторов продукта
+    product: Product = Product(supplier)  # Создание экземпляра товара
+    locators: dict = supplier.locators['product']  # Получение локаторов товара
     driver: Driver = supplier.driver  # Инициализация драйвера
-    product_fields: ProductFields = ProductFields(supplier)  # Создание экземпляра для работы с полями продукта
+    product_fields: ProductFields = ProductFields(supplier)  # Создание экземпляра для работы с полями товара
 
     supplier.current_scenario: dict = {
         "url": "https://hbdeadsea.co.il/product-category/bodyspa/feet-hand-treatment/",

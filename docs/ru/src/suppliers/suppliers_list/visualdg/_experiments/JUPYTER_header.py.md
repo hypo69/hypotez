@@ -20,7 +20,7 @@
 - `src.category.Category`: Для работы с категориями товаров.
 - `src.utils.StringFormatter`, `src.utils.StringNormalizer`: Для форматирования и нормализации строк.
 - `src.utils.printer.pprint`: Для красивой печати данных.
-- `src.endpoints.PrestaShop.Product`: Для работы с продуктами в PrestaShop.
+- `src.endpoints.PrestaShop.Product`: Для работы с товарами в PrestaShop.
 - `src.endpoints.PrestaShop.save_text_file`: Для сохранения текста в файл.
 
 ## Переменные

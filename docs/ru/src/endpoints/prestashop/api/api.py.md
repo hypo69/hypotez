@@ -61,7 +61,7 @@
 -   `get_apis`: Получает список всех доступных API.
 -   `upload_image_async`: Асинхронно загружает изображение в PrestaShop API.
 -   `upload_image_from_url`: Загружает изображение в PrestaShop API.
--   `get_product_images`: Получает изображения для продукта.
+-   `get_product_images`: Получает изображения для товара.
 
 ## Методы класса
 

@@ -3,7 +3,7 @@
 ## Обзор
 
 Данный модуль предоставляет набор классов для взаимодействия с базой данных бота Telegram. 
-Он реализует абстрактный класс `BaseDAO` и конкретные реализации DAO для различных сущностей, таких как пользователи (`UserDAO`), покупки (`PurchaseDao`), категории (`CategoryDao`) и продукты (`ProductDao`).
+Он реализует абстрактный класс `BaseDAO` и конкретные реализации DAO для различных сущностей, таких как пользователи (`UserDAO`), покупки (`PurchaseDao`), категории (`CategoryDao`) и товары (`ProductDao`).
 
 ## Подробнее
 
@@ -36,7 +36,7 @@
 **Методы**:
 
 - `get_purchase_statistics(session: AsyncSession, telegram_id: int) -> Optional[Dict[str, int]]`: Получает статистику покупок пользователя по его `telegram_id`.
-- `get_purchased_products(session: AsyncSession, telegram_id: int) -> Optional[List[Purchase]]`: Возвращает список покупок пользователя с информацией о продуктах.
+- `get_purchased_products(session: AsyncSession, telegram_id: int) -> Optional[List[Purchase]]`: Возвращает список покупок пользователя с информацией о товарах.
 - `get_statistics(session: AsyncSession) -> Dict[str, int]`: Получает общую статистику пользователей.
 
 ### `PurchaseDao`

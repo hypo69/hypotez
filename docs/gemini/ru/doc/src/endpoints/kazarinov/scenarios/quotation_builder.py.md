@@ -55,7 +55,7 @@
 
 - `driver (Driver)`: Экземпляр Selenium WebDriver.
 - `export_path (Path)`: Путь для экспорта данных.
-- `products_list (List[dict])`: Список обработанных данных о продуктах.
+- `products_list (List[dict])`: Список обработанных данных о товарах.
 
 **Методы**:
 
@@ -63,7 +63,7 @@
 - `convert_product_fields(self, f: ProductFields) -> dict`: Конвертирует поля товара в словарь.
 - `process_llm(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool`: Обрабатывает список данных о товарах с помощью ИИ-модели.
 - `process_llm_async(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool`:  Обрабатывает список данных о товарах с помощью ИИ-модели асинхронно.
-- `save_product_data(self, product_data: dict) -> bool`:  Сохраняет данные о продуктах в файл.
+- `save_product_data(self, product_data: dict) -> bool`:  Сохраняет данные о товарах в файл.
 - `post_facebook_async(self, mexiron:SimpleNamespace) -> bool`:  Публикует объявления о товарах в Facebook.
 
 ### `Config`

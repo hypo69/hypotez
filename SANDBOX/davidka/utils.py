@@ -15,14 +15,15 @@
 import re
 import random
 from pathlib import Path
-from typing import List, Optional, Generator, Union, Dict, Set, Any # Добавлены Generator, Union, Dict, Set, Any
+from typing import List, Optional, Generator, Union, Dict, Set, Any
+from types import SimpleNamespace
 
 # --- Импорты проекта ---
 # Предполагается, что эти модули всегда доступны
 import header
 from header import __root__
 # from src import gs # Не используется напрямую в этих функциях
-from src.utils.jjson import j_loads, j_dumps, sanitize_json_files
+from src.utils.jjson import j_loads, j_loads_ns, j_dumps, sanitize_json_files
 from src.utils.file import get_filenames_from_directory 
 from src.logger.logger import logger
 from src.utils.file import  recursively_read_text_files, recursively_get_file_path, read_text_file
@@ -31,11 +32,20 @@ from src.utils.file import save_text_file
 from src.utils.url import get_domain
 
 class Config:
-    ENDPOINT:Path = __root__/'SANDBOX'/'davidka'
-    output_dir:Path = Path("F:/llm/filtered_urls")
-    #sanitize_json_files(output_dir) # <- очистка от битых словарей
-    checked_urls:list = read_text_file(output_dir/'checked_urls.txt', as_list=True) or []
-    checked_urls = list(set(checked_urls))
+    ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
+    config:SimpleNamespace = j_loads_ns(ENDPOINT/'davidka.json')
+    mining_data_path: Path= Path(config.random_urls)
+
+    #train_data_supplier_categories_path: Path = ENDPOINT / 'train_data_supplier_categories'
+    #checked_domains: list = read_text_file(ENDPOINT / 'checked_domains.txt', as_list=True)
+    crawl_files_list: list = get_filenames_from_directory(mining_data_path, 'json')
+    instruction_grab_product_page_simple_driver: str = (ENDPOINT / 'instructions' / 'grab_product_page_simple_driver.md').read_text(encoding='utf-8')
+    instruction_get_supplier_categories: str = (ENDPOINT / 'instructions' / 'get_supplier_categories.md').read_text(encoding='utf-8')
+    instruction_find_product_in_supplier_domain: str = (ENDPOINT / 'instructions' / 'find_product_in_supplier_domain.md').read_text(encoding='utf-8')
+    instruction_for_products_urls_one_product: str = (ENDPOINT / 'instructions' / 'get_product_links_one_product.md').read_text(encoding='utf-8')
+    instruction_links_from_search: str = (ENDPOINT / 'instructions' / 'links_from_search.md').read_text(encoding='utf-8')
+    instruction_links_from_searh_page: str = (ENDPOINT / 'instructions' / 'links_from_searh_page.md').read_text(encoding='utf-8')
+    GEMINI_API_KEY = gs.credentials.gemini.onela.api_key
 
 
 def build_list_of_checked_urls() -> bool:
@@ -252,97 +262,120 @@ def yield_product_urls_from_files(
             continue
 
 
-def get_categories_from_files(
-    mining_data_path: Path,
-    crawl_files_list: Optional[List[str]] = None
-) -> List[str]:
+def get_categories_from_random_urls(crawl_files_list: list = None) -> list:
+    """Возвращает все категории из файлов в директории 'random_urls' 
+    Директория собрана из словарей, полученных вручную через gemini aiu studio (katia).
     """
-    Извлекает все уникальные названия категорий из файлов словарей JSON.
-
-    Читает файлы из указанной директории `mining_data_path`. Если передан
-    список `crawl_files_list`, обрабатываются только файлы из этого списка,
-    иначе обрабатываются все JSON-файлы в директории. Из данных каждого товара
-    пытается извлечь значения по ключам 'parent_category' и 'category_name'.
-    Собирает все найденные категории в один список, удаляет дубликаты,
-    перемешивает и возвращает.
-
-    Args:
-        mining_data_path (Path): Путь к директории с файлами данных.
-        crawl_files_list (Optional[List[str]], optional): Список имен файлов
-            для обработки. Если None, обрабатываются все .json файлы
-            в `mining_data_path`. По умолчанию None.
-
-    Returns:
-        List[str]: Перемешанный список уникальных названий категорий.
-    """
-    # Объявление переменных
-    categories_set: Set[str] = set() # Используем set для автоматической дедупликации
-    target_files: List[str]
-    filename: str
-    file_path: Path
-    crawl_data: Union[Dict[str, Any], List[Any]]
-    products_data: List[Any] = [] # Инициализация
-    product_item: Dict[str, Any] # Переименована переменная цикла
-
-    # Определяем список файлов для обработки
-    if crawl_files_list is None:
-        target_files = get_filenames_from_directory(mining_data_path, 'json') # Ищем json по умолчанию
-        logger.debug(f'Обработка категорий из всех json файлов {mining_data_path}')
-    else:
-        target_files = crawl_files_list
-        logger.debug(f'Обработка категорий из файлов списка: {len(target_files)} шт.')
-
-    # Обработка каждого файла
-    for filename in target_files:
+    categories_list = []
+    for filename in crawl_files_list or Config.crawl_files_list:
         try:
-            file_path = mining_data_path / filename
-            # Загрузка данных
+            file_path = Config.mining_data_path / filename
             crawl_data = j_loads(file_path)
-
-            # Извлечение списка товаров
-            if isinstance(crawl_data, dict) and 'products' in crawl_data:
-                 products_data = crawl_data['products']
-            elif isinstance(crawl_data, list):
-                 products_data = crawl_data
-                 logger.debug(f"Файл {filename} содержит список товаров напрямую (категории).")
-            else:
-                logger.warning(f"Файл {filename} не содержит ключ 'products' или не является списком (категории). Переход к следующему файлу", None, False)
-                continue # Переход к следующему файлу
-
-            # Проверка типа извлеченных товаров
-            if not isinstance(products_data, list):
-                logger.warning(f"Извлеченные 'products' в файле {filename} не являются списком (категории, тип: {type(products_data)}).", None, False)
-                continue # Переход к следующему файлу
-
-            # Извлечение категорий из каждого товара
-            for product_item in products_data:
-                if not isinstance(product_item, dict):
-                     logger.warning(f"Элемент в файле {filename} не является словарем (категории): {product_item}", None, False)
-                     continue
-                # Пытаемся добавить категории в set, проверяя тип и наличие значения
-                parent_category = product_item.get('parent_category')
-                category_name = product_item.get('category_name')
-                if isinstance(parent_category, str) and parent_category:
-                    categories_set.add(parent_category)
-                if isinstance(category_name, str) and category_name:
-                    categories_set.add(category_name)
-
-        except FileNotFoundError:
-             logger.error(f'Файл не найден (категории): {file_path}', None, False)
-             continue
+            crawl_data = crawl_data.get('products', [])
+            for product in crawl_data:
+                if 'parent_category' in product:
+                    categories_list.append(product['parent_category'])
+                if 'category_name' in product:
+                    categories_list.append(product['category_name'])
         except Exception as ex:
-            # Логирование ошибки обработки файла
-            logger.error(f'Ошибка при обработке файла {filename=} для извлечения категорий', ex, exc_info=True)
-            continue # Используем continue
-
-    # Преобразование set в list и перемешивание
-    categories_list: list = list(set(categories_set))
+            logger.error(f'Ошибка при обработке файла {filename=}', ex, exc_info=True)
+    categories_list = list(filter(None, set(categories_list)))
     random.shuffle(categories_list)
-    logger.info(f"Собрано {len(categories_list)} уникальных категорий.")
     return categories_list
 
 
-def fetch_urls_from_all_mining_files(dir_path: Path| List[Path]  = ['random_urls','output_product_data_set1']) -> List[str]: 
+# def get_categories_from_files(
+#     mining_data_path: Path,
+#     crawl_files_list: Optional[List[str]] = None
+# ) -> List[str]:
+#     """
+#     Извлекает все уникальные названия категорий из файлов словарей JSON в папке.
+
+#     Читает файлы из указанной директории `mining_data_path`. Если передан
+#     список `crawl_files_list`, обрабатываются только файлы из этого списка,
+#     иначе обрабатываются все JSON-файлы в директории. Из данных каждого товара
+#     пытается извлечь значения по ключам 'parent_category' и 'category_name'.
+#     Собирает все найденные категории в один список, удаляет дубликаты,
+#     перемешивает и возвращает.
+
+#     Args:
+#         mining_data_path (Path): Путь к директории с файлами данных.
+#         crawl_files_list (Optional[List[str]], optional): Список имен файлов
+#             для обработки. Если None, обрабатываются все .json файлы
+#             в `mining_data_path`. По умолчанию None.
+
+#     Returns:
+#         List[str]: Перемешанный список уникальных названий категорий.
+#     """
+#     # Объявление переменных
+#     categories_set: Set[str] = set() # Используем set для автоматической дедупликации
+#     target_files: List[str]
+#     filename: str
+#     file_path: Path
+#     crawl_data: Union[Dict[str, Any], List[Any]]
+#     products_data: List[Any] = [] # Инициализация
+#     product_item: Dict[str, Any] # Переименована переменная цикла
+
+#     # Определяем список файлов для обработки
+#     if crawl_files_list is None:
+#         target_files = get_filenames_from_directory(mining_data_path, 'json') # Ищем json по умолчанию
+#         logger.debug(f'Обработка категорий из всех json файлов {mining_data_path}')
+#     else:
+#         target_files = crawl_files_list
+#         logger.debug(f'Обработка категорий из файлов списка: {len(target_files)} шт.')
+
+#     # Обработка каждого файла
+#     for filename in target_files:
+#         try:
+#             file_path = mining_data_path / filename
+#             # Загрузка данных
+#             crawl_data = j_loads(file_path)
+
+#             # Извлечение списка товаров
+#             if isinstance(crawl_data, dict) and 'products' in crawl_data:
+#                  products_data = crawl_data['products']
+#             elif isinstance(crawl_data, list):
+#                  products_data = crawl_data
+#                  logger.debug(f"Файл {filename} содержит список товаров напрямую (категории).")
+#             else:
+#                 logger.warning(f"Файл {filename} не содержит ключ 'products' или не является списком (категории). Переход к следующему файлу", None, False)
+#                 continue # Переход к следующему файлу
+
+#             # Проверка типа извлеченных товаров
+#             if not isinstance(products_data, list):
+#                 logger.warning(f"Извлеченные 'products' в файле {filename} не являются списком (категории, тип: {type(products_data)}).", None, False)
+#                 continue # Переход к следующему файлу
+
+#             # Извлечение категорий из каждого товара
+#             for product_item in products_data:
+#                 if not isinstance(product_item, dict):
+#                      logger.warning(f"Элемент в файле {filename} не является словарем (категории): {product_item}", None, False)
+#                      continue
+#                 # Пытаемся добавить категории в set, проверяя тип и наличие значения
+#                 parent_category = product_item.get('parent_category')
+#                 category_name = product_item.get('category_name')
+#                 if isinstance(parent_category, str) and parent_category:
+#                     categories_set.add(parent_category)
+#                 if isinstance(category_name, str) and category_name:
+#                     categories_set.add(category_name)
+
+#         except FileNotFoundError:
+#              logger.error(f'Файл не найден (категории): {file_path}', None, False)
+#              continue
+#         except Exception as ex:
+#             # Логирование ошибки обработки файла
+#             logger.error(f'Ошибка при обработке файла {filename=} для извлечения категорий', ex, exc_info=True)
+#             continue # Используем continue
+
+#     # Преобразование set в list и перемешивание
+#     categories_list: list = list(set(categories_set))
+#     random.shuffle(categories_list)
+#     logger.info(f"Собрано {len(categories_list)} уникальных категорий.")
+#     return categories_list
+
+
+
+def fetch_urls_from_all_mining_files(dir_path: Path| List[Path]  = ['mined_urls','random_urls','output_product_data_set1']) -> List[str]: 
     """
     Читает все файлы (рекурсивно, как определено в recursively_get_file_path)
     в указанных директориях (относительно Config.ENDPOINT)

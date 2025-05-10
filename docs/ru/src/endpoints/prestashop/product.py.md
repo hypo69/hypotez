@@ -12,7 +12,7 @@
 
 ### `Config`
 
-**Описание**: Класс конфигурации для настроек продукта PrestaShop.
+**Описание**: Класс конфигурации для настроек товара PrestaShop.
 
 **Атрибуты**:
 
@@ -33,11 +33,11 @@
 **Методы**:
 
 -   `__init__(self, api_key: Optional[str] = '', api_domain: Optional[str] = '', *args, **kwargs) -> None`: Инициализирует объект `PrestaProduct`.
--   `get_product_schema(self, resource_id: Optional[str | int] = None, schema: Optional[str] = None) -> dict`: Возвращает схему для ресурса продукта из PrestaShop.
+-   `get_product_schema(self, resource_id: Optional[str | int] = None, schema: Optional[str] = None) -> dict`: Возвращает схему для ресурса товара из PrestaShop.
 -   `get_parent_category(self, id_category: int) -> Optional[int]`: Рекурсивно извлекает родительские категории из PrestaShop для заданной категории.
 -   `_add_parent_categories(self, f: ProductFields) -> None`: Вычисляет и добавляет все уникальные родительские категории для списка ID категорий в объект `ProductFields`.
 -   `get_product(self, id_product: int, **kwargs) -> dict`: Возвращает словарь полей товара из магазина PrestaShop.
--   `add_new_product(self, f: ProductFields) -> dict`: Добавляет новый продукт в PrestaShop.
+-   `add_new_product(self, f: ProductFields) -> dict`: Добавляет новый товар в PrestaShop.
 
 ## Методы класса
 
@@ -73,30 +73,30 @@ def __init__(self, api_key: Optional[str] = '', api_domain: Optional[str] = '', 
 
 ```python
 def get_product_schema(self, resource_id: Optional[str | int] = None, schema: Optional[str] = None) -> dict:
-    """Возвращает схему для ресурса продукта из PrestaShop.
+    """Возвращает схему для ресурса товара из PrestaShop.
 
     Args:
-        resource_id (Optional[str  |  int], optional): ID ресурса продукта. По умолчанию `None`.
+        resource_id (Optional[str  |  int], optional): ID ресурса товара. По умолчанию `None`.
         schema (Optional[str], optional): Тип схемы. По умолчанию `'blank'`.
             - blank: Пустой шаблон ресурса: все поля присутствуют, но без значений. Обычно используется для создания нового объекта.
             - synopsis: Минимальный набор полей: только обязательные поля и краткая структура. Подходит для быстрого обзора.
             - null / не передавать параметр: Возвращает полную схему ресурса со всеми возможными полями, типами и ограничениями.
 
     Returns:
-        dict: Схема для ресурса продукта.
+        dict: Схема для ресурса товара.
     """
 ```
 
-**Назначение**: Получение схемы для ресурса продукта из PrestaShop.
+**Назначение**: Получение схемы для ресурса товара из PrestaShop.
 
 **Параметры**:
 
--   `resource_id` (Optional[str  |  int], optional): ID ресурса продукта. По умолчанию `None`.
+-   `resource_id` (Optional[str  |  int], optional): ID ресурса товара. По умолчанию `None`.
 -   `schema` (Optional[str], optional): Тип схемы. Может быть `blank`, `synopsis` или `None`. По умолчанию `'blank'`.
 
 **Возвращает**:
 
--   `dict`: Схема для ресурса продукта.
+-   `dict`: Схема для ресурса товара.
 
 **Как работает функция**:
 
@@ -200,27 +200,27 @@ def get_product(self, id_product: int, **kwargs) -> dict:
 
 ```python
 def add_new_product(self, f: ProductFields) -> dict:
-    """Добавляет новый продукт в PrestaShop.
+    """Добавляет новый товар в PrestaShop.
 
     Преобразовывает объект `ProducFields` в словарь формата `Prestashop` и отрапавлет его в API Престашоп
 
     Args:
-        f (ProductFields): Экземпляр класса данных `ProductFields`, содержащий информацию о продукте.
+        f (ProductFields): Экземпляр класса данных `ProductFields`, содержащий информацию о товаре.
 
     Returns:
-        dict: Возвращает объект `ProductFields` с установленным `id_product`, если продукт был успешно добавлен, в противном случае `None`.
+        dict: Возвращает объект `ProductFields` с установленным `id_product`, если товар был успешно добавлен, в противном случае `None`.
     """
 ```
 
-**Назначение**: Добавление нового продукта в PrestaShop.
+**Назначение**: Добавление нового товара в PrestaShop.
 
 **Параметры**:
 
--   `f` (ProductFields): Объект `ProductFields`, содержащий информацию о продукте.
+-   `f` (ProductFields): Объект `ProductFields`, содержащий информацию о товаре.
 
 **Возвращает**:
 
--   `dict`: Объект `ProductFields` с установленным `id_product`, если продукт был успешно добавлен, в противном случае пустой словарь.
+-   `dict`: Объект `ProductFields` с установленным `id_product`, если товар был успешно добавлен, в противном случае пустой словарь.
 
 **Как работает функция**:
 
@@ -228,8 +228,8 @@ def add_new_product(self, f: ProductFields) -> dict:
 2.  Вызывает метод `_add_parent_categories` для добавления родительских категорий.
 3.  Преобразует объект `ProductFields` в словарь формата PrestaShop.
 4.  Преобразует словарь в XML.
-5.  Отправляет XML в API PrestaShop для создания нового продукта.
-6.  Если продукт успешно добавлен, извлекает ID добавленного продукта из ответа и возвращает объект `ProductFields` с установленным `id_product`.
+5.  Отправляет XML в API PrestaShop для создания нового товара.
+6.  Если товар успешно добавлен, извлекает ID добавленного товара из ответа и возвращает объект `ProductFields` с установленным `id_product`.
 
 **Внутренние функции**: Отсутствуют
 
@@ -249,7 +249,7 @@ def example_add_new_product() -> None:
 1.  Создает экземпляр класса `PrestaProduct`.
 2.  Загружает пример данных из JSON-файла.
 3.  Преобразует данные в XML.
-4.  Отправляет запрос к API PrestaShop для добавления нового продукта.
+4.  Отправляет запрос к API PrestaShop для добавления нового товара.
 5.  Выводит ответ от API.
 
 ### `example_get_product`

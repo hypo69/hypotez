@@ -129,7 +129,7 @@ def translate_record(record: dict, from_locale: str, to_locale: str) -> dict:
         >>> record = {'name': 'Product Name', 'description': 'Product Description'}
         >>> translated_record = translate_record(record, 'en', 'ru')
         >>> print(translated_record)
-        {'name': 'Название продукта', 'description': 'Описание продукта'}
+        {'name': 'Название товара', 'description': 'Описание товара'}
     """
     try:
         translated_record: dict = translate(record, from_locale, to_locale)

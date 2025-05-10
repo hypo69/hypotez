@@ -35,7 +35,7 @@ import json
 import fnmatch
 import re
 from pathlib import Path
-from typing import List, Optional, Union, Generator, Iterator
+from typing import List, Dict, Optional, Union, Generator, Iterator
 from src.logger.logger import logger
 
 
@@ -198,13 +198,168 @@ def read_text_file_generator(
         return None
 
 
-
-def read_text_file(
-    file_path: Union[str, Path],
+async def read_text_file_async(
+    file_path: str | Path,
     as_list: bool = False,
     extensions: Optional[List[str]] = None,
     exc_info: bool = True
-) -> Union[str, List[str], None]:
+) -> str | List[str] | None:
+    """
+    Асинхронно считывает содержимое текстового файла или всех текстовых файлов в директории.
+
+    Args:
+        file_path (str | Path): Путь к файлу или директории.
+        as_list (bool, optional):
+            Если `True`, функция возвращает содержимое как список оригинальных строк.
+            Если `False`, функция возвращает содержимое как одну строку,
+            в которой последовательности пробельных символов заменены на один пробел,
+            а двойные кавычки экранированы.
+            По умолчанию `False`.
+        extensions (List[str], optional): Список расширений файлов для включения
+            при чтении директории (например, `['.txt', '.py']`). Точка в начале
+            расширения рекомендуется, но обрабатывается и её отсутствие.
+            По умолчанию `None` (включаются все файлы).
+        exc_info (bool, optional): Если `True`, функция логирует информацию трассировки при ошибке.
+            По умолчанию `True`.
+
+    Returns:
+        str | List[str] | None: Содержимое файла как одна обработанная строка или
+                                 список оригинальных строк. Функция возвращает `None`, если путь некорректен
+                                 или возникает ошибка во время чтения.
+
+    Example:
+        >>> import asyncio
+        >>> import shutil # Для примера
+        >>> from pathlib import Path # Для примера
+        >>> # Заглушка logger для doctest
+        >>> class LoggerMockDoctest:
+        ...     def debug(self, msg, *args, **kwargs): pass
+        ...     def warning(self, msg, *args, **kwargs): print(f"WARNING: {msg}")
+        ...     def error(self, msg, *args, **kwargs): print(f"ERROR: {msg}")
+        ...     def exception(self, msg, *args, **kwargs): print(f"EXCEPTION: {msg}")
+        ...     def critical(self, msg, *args, **kwargs): print(f"CRITICAL: {msg}")
+        >>> logger = LoggerMockDoctest()
+        >>> # Заглушка aiofiles для doctest
+        >>> class MockAiofilesFile:
+        ...     def __init__(self, content): self.content = content
+        ...     async def read(self): return self.content
+        ...     async def __aenter__(self): return self
+        ...     async def __aexit__(self, exc_type, exc, tb): pass
+        >>> class MockAiofiles:
+        ...     async def open(self, path_obj, mode, encoding):
+        ...         if not path_obj.exists(): raise FileNotFoundError
+        ...         return MockAiofilesFile(path_obj.read_text(encoding=encoding))
+        >>> aiofiles = MockAiofiles()
+        >>> # Пример использования:
+        >>> async def example_usage_doctest():
+        ...     test_dir_dt = Path("./test_async_read_data_dt")
+        ...     if test_dir_dt.exists(): shutil.rmtree(test_dir_dt)
+        ...     test_dir_dt.mkdir(exist_ok=True)
+        ...     (test_dir_dt / "file1.txt").write_text("Hello\\nWorld\\nWith  spaces and \\"quotes\\" inside.", encoding="utf-8")
+        ...     (test_dir_dt / "file2.log").write_text("Another log line.", encoding="utf-8")
+        ...     sub_dir_dt = test_dir_dt / "subdir"
+        ...     sub_dir_dt.mkdir(exist_ok=True)
+        ...     (sub_dir_dt / "file3.txt").write_text("Sub dir file content.", encoding="utf-8")
+        ...     content_str = await read_text_file_async(test_dir_dt / "file1.txt")
+        ...     assert content_str == 'Hello World With spaces and \\"quotes\\" inside.'
+        ...     content_list = await read_text_file_async(test_dir_dt / "file1.txt", as_list=True)
+        ...     assert content_list == ['Hello', 'World', 'With  spaces and "quotes" inside.']
+        ...     dir_content_str = await read_text_file_async(test_dir_dt, extensions=['.txt'])
+        ...     assert 'Hello World With spaces and \\"quotes\\" inside.' in dir_content_str
+        ...     assert 'Sub dir file content.' in dir_content_str
+        ...     assert 'Another log line.' not in dir_content_str
+        ...     dir_content_list = await read_text_file_async(test_dir_dt, as_list=True, extensions=['.txt', '.log'])
+        ...     assert len(dir_content_list) == 5 # 3 (file1) + 1 (file2) + 1 (file3)
+        ...     non_existent = await read_text_file_async(test_dir_dt / "non_existent.txt")
+        ...     assert non_existent is None # Path not valid file or directory (т.к. не существует)
+        ...     shutil.rmtree(test_dir_dt)
+        >>> # asyncio.run(example_usage_doctest()) # Закомментировано для прохождения тестов без запуска loop
+    """
+    # Объявление переменных в начале функции
+    path_obj: Path
+    raw_content: str
+    processed_content: str
+    current_processed_extensions: Optional[List[str]]
+    files_to_process: List[Path]
+    async_tasks: List[asyncio.Task[str | List[str] | None]]
+    results_from_tasks: List[str | List[str] | None]
+    flattened_list_content: List[str]
+    valid_string_contents: List[str]
+
+    try:
+        path_obj = Path(file_path)
+
+        # --- Обработка одного файла ---
+        if path_obj.is_file():
+            try:
+                async with aiofiles.open(path_obj, "r", encoding="utf-8") as f: # type: ignore
+                    raw_content = await f.read()
+            except Exception as ex_read_file:
+                logger.critical(f'Ошибка чтения содержимого файла {str(path_obj)}: {ex_read_file}')
+                return [] if as_list else ""
+
+            if as_list:
+                return raw_content.splitlines()
+            else:
+                processed_content = re.sub(r'\s+', ' ', raw_content)
+                processed_content = processed_content.replace('"', '\\"')
+                return processed_content
+
+        # --- Обработка директории ---
+        elif path_obj.is_dir():
+            current_processed_extensions = None
+            if extensions:
+                current_processed_extensions = [ext if ext.startswith('.') else '.' + ext for ext in extensions]
+
+            files_to_process = [
+                p for p in path_obj.rglob("*")
+                if p.is_file() and (not current_processed_extensions or p.suffix in current_processed_extensions)
+            ]
+
+            if not files_to_process:
+                return [] if as_list else ""
+
+            async_tasks = [
+                read_text_file_async(p, as_list=as_list, extensions=None, exc_info=exc_info)
+                for p in files_to_process
+            ]
+            
+            results_from_tasks = await asyncio.gather(*async_tasks, return_exceptions=False) # Убедимся, что ошибки не подавляются gather
+
+            if as_list:
+                flattened_list_content = []
+                for item_from_task in results_from_tasks:
+                    if isinstance(item_from_task, list):
+                        flattened_list_content.extend(item_from_task)
+                return flattened_list_content
+            else:
+                valid_string_contents = []
+                for item_from_task in results_from_tasks:
+                    if isinstance(item_from_task, str):
+                        valid_string_contents.append(item_from_task)
+                return "\n".join(valid_string_contents)
+
+        # --- Обработка некорректного пути (не файл и не директория, или не существует) ---
+        else:
+            logger.warning(f"Путь '{file_path}' не является корректным файлом или директорией.")
+            return None
+
+    # --- Обработка исключений ---
+    except Exception as ex:
+        log_message = f"Не удалось асинхронно прочитать путь '{file_path}'. Ошибка: {ex}"
+        if exc_info:
+            logger.exception(log_message)
+        else:
+            logger.error(log_message, exc_info=False)
+        return None
+
+
+def read_text_file(
+    file_path: str | Path,
+    as_list: bool = False,
+    extensions: Optional[List[str]] = None,
+    exc_info: bool = True
+) -> str | List[str] | None:
     """
     Read the contents of a text file or all text files in a directory.
 
@@ -344,6 +499,89 @@ def yield_text_from_files(
         ...
         return None
 
+
+async def save_text_file_async(
+    data: Union[str, List[str], Dict],
+    file_path: Union[str, Path],
+    mode: str = 'w'
+) -> bool:
+    """
+    Асинхронно сохраняет данные в текстовый файл с использованием файловой блокировки.
+
+    Функция обеспечивает, что только один процесс/поток может одновременно записывать
+    в целевой файл, используя файл с расширением `.lock` для координации.
+
+    Args:
+        data (Union[str, List[str], Dict]): Данные для записи.
+            Если `list`, каждая строка записывается на новой строке.
+            Если `dict`, данные сериализуются в JSON и записываются.
+            Если `str`, записывается как есть.
+        file_path (Union[str, Path]): Путь к файлу для сохранения.
+        mode (str, optional): Режим записи файла ('w' для перезаписи, 'a' для добавления).
+                              Блокировка применяется в любом режиме. По умолчанию 'w'.
+
+    Returns:
+        bool: `True`, если файл успешно сохранен, `False` в противном случае.
+              В случае ошибки, информация логируется.
+    
+    Raises:
+        Exception: Не выбрасывает напрямую, а логирует исключения и возвращает `False`.
+
+    Example:
+        >>> import asyncio
+        >>> from pathlib import Path
+        >>> # Создаем временный файл для примера
+        >>> temp_dir = Path('.') / 'temp_test_data'
+        >>> temp_dir.mkdir(exist_ok=True)
+        >>> example_file_path = temp_dir / 'example_async.txt'
+        >>> async def run_example():
+        ...     data_to_save_str = 'Пример асинхронной записи строки.'
+        ...     result_str = await save_text_file_async(data_to_save_str, example_file_path)
+        ...     print(f'Сохранение строки: {result_str}')
+        ...     data_to_save_list = ['Строка 1', 'Строка 2 из списка']
+        ...     result_list = await save_text_file_async(data_to_save_list, example_file_path, mode='a')
+        ...     print(f'Добавление списка строк: {result_list}')
+        ...     data_to_save_dict = {"key": "value", "number": 123}
+        ...     result_dict = await save_text_file_async(data_to_save_dict, example_file_path.with_suffix('.json'))
+        ...     print(f'Сохранение словаря в JSON: {result_dict}')
+        >>> # asyncio.run(run_example()) # Закомментировано для doctest, но так запускается
+        >>> # Очистка после примера (в реальном коде может не требоваться)
+        >>> # if example_file_path.exists(): example_file_path.unlink()
+        >>> # if example_file_path.with_suffix('.json').exists(): example_file_path.with_suffix('.json').unlink()
+        >>> # if example_file_path.with_suffix('.txt.lock').exists(): example_file_path.with_suffix('.txt.lock').unlink()
+        >>> # if example_file_path.with_suffix('.json.lock').exists(): example_file_path.with_suffix('.json.lock').unlink()
+        >>> # if temp_dir.exists(): temp_dir.rmdir()
+    """
+    _file_path: Path = Path(file_path)
+    # Формирование пути к файлу блокировки
+    _lock_path: Path = _file_path.with_suffix(_file_path.suffix + '.lock')
+    lock: AsyncFileLock = AsyncFileLock(_lock_path)
+
+    try:
+        # Захват блокировки асинхронно
+        async with lock:
+            # Создание родительских директорий, если они не существуют
+            _file_path.parent.mkdir(parents=True, exist_ok=True)
+            
+            # Асинхронное открытие файла для записи
+            async with aiofiles.open(_file_path, mode, encoding='utf-8') as file_obj:
+                if isinstance(data, list):
+                    # Запись списка строк, каждая на новой строке
+                    await file_obj.writelines(f'{line}\n' for line in data)
+                elif isinstance(data, dict):
+                    # Сериализация словаря в JSON и запись в файл
+                    # json.dumps является синхронной операцией, но она быстрая для большинства случаев.
+                    # Запись в файл (await file_obj.write) асинхронна.
+                    json_data: str = json.dumps(data, ensure_ascii=False, indent=4)
+                    await file_obj.write(json_data)
+                else:
+                    # Запись строки (или данных, приведенных к строке)
+                    await file_obj.write(str(data))
+            return True
+    except Exception as ex:
+        # Логирование ошибки при сохранении файла
+        logger.error(f'Ошибка при асинхронном сохранении файла {_file_path}. Данные: {str(data)[:100]}...', ex, exc_info=True)
+        return False
 
 
 # # -----------------------------------------------------------

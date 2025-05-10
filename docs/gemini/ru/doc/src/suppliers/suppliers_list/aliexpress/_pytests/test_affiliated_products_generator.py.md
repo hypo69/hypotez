@@ -1,8 +1,8 @@
-# Модуль для тестирования генератора аффилированных продуктов AliExpress
+# Модуль для тестирования генератора аффилированных товаров AliExpress
 
 ## Обзор
 
-Этот модуль содержит набор тестов для генератора аффилированных продуктов AliExpress, реализованного в модуле `src.suppliers.suppliers_list.aliexpress.affiliated_products_generator`. Тесты покрывают функции `check_and_process_affiliate_products` и `process_affiliate_products`.
+Этот модуль содержит набор тестов для генератора аффилированных товаров AliExpress, реализованного в модуле `src.suppliers.suppliers_list.aliexpress.affiliated_products_generator`. Тесты покрывают функции `check_and_process_affiliate_products` и `process_affiliate_products`.
 
 ## Подробней
 
@@ -12,7 +12,7 @@
 
 ### `AliAffiliatedProducts`
 
-**Описание**: Класс для работы с аффилированными продуктами AliExpress.
+**Описание**: Класс для работы с аффилированными товарами AliExpress.
 
 **Атрибуты**:
 
@@ -23,8 +23,8 @@
 
 **Методы**:
 
-- `check_and_process_affiliate_products(prod_urls)`: Проверяет ссылки на продукты и запускает обработку, если они валидны.
-- `process_affiliate_products(prod_urls)`: Обрабатывает список URL продуктов, извлекая информацию о каждом продукте.
+- `check_and_process_affiliate_products(prod_urls)`: Проверяет ссылки на товары и запускает обработку, если они валидны.
+- `process_affiliate_products(prod_urls)`: Обрабатывает список URL товаров, извлекая информацию о каждом товаре.
 
 ## Функции
 
@@ -80,7 +80,7 @@ def test_check_and_process_affiliate_products(ali_affiliated_products):
 
 ### `test_process_affiliate_products`
 
-**Назначение**: Тестирует метод `process_affiliate_products`, проверяя, что он правильно обрабатывает список URL продуктов.
+**Назначение**: Тестирует метод `process_affiliate_products`, проверяя, что он правильно обрабатывает список URL товаров.
 
 **Параметры**:
 
@@ -113,7 +113,7 @@ def test_process_affiliate_products(ali_affiliated_products):
 
 - Имитирует методы `retrieve_product_details`, `ensure_https`, `save_image_from_url`, `save_video_from_url` и `j_dumps` с помощью `patch`.
 - Вызывает метод `process_affiliate_products` с тестовыми данными.
-- Проверяет, что количество обработанных продуктов соответствует ожидаемому, и что атрибуты обработанного продукта соответствуют тестовым данным.
+- Проверяет, что количество обработанных товаров соответствует ожидаемому, и что атрибуты обработанного товара соответствуют тестовым данным.
 
 ## Параметры
 
@@ -121,7 +121,7 @@ def test_process_affiliate_products(ali_affiliated_products):
 - `category_name` (str): Название категории.
 - `language` (str): Язык.
 - `currency` (str): Валюта.
-- `prod_urls` (list): Список URL продуктов.
+- `prod_urls` (list): Список URL товаров.
 
 ## Примеры
 
@@ -129,9 +129,9 @@ def test_process_affiliate_products(ali_affiliated_products):
 # Создание экземпляра класса AliAffiliatedProducts
 ali_affiliated_products = AliAffiliatedProducts(campaign_name, category_name, language, currency)
 
-# Запуск проверки и обработки URL продуктов
+# Запуск проверки и обработки URL товаров
 ali_affiliated_products.check_and_process_affiliate_products(prod_urls)
 
-# Обработка URL продуктов
+# Обработка URL товаров
 processed_products = ali_affiliated_products.process_affiliate_products(prod_urls)
 ```

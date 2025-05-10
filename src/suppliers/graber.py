@@ -363,7 +363,7 @@ class Graber:
                 ...
                 continue
 
-            # 5. Вызов функции для получения списка продуктов
+            # 5. Вызов функции для получения списка товаров
             list_products_in_category: Optional[List[str]] = None
             try:
                 list_products_in_category = await get_list_func(d, self.category_locator)
@@ -470,7 +470,7 @@ class Graber:
         return asyncio.run(self.grab_page_async(*args, **kwargs))
 
     async def grab_page_async(self, *args, **kwargs) -> ProductFields:
-        """Асинхронная функция для сбора полей продукта."""
+        """Асинхронная функция для сбора полей товара."""
         async def fetch_all_data(*args, **kwargs):
             # Динамическое вызовы функций для каждого поля из args
             process_fields:list = list(args) or ['id_product',

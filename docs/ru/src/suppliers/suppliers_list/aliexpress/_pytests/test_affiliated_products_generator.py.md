@@ -2,13 +2,13 @@
 
 ## Обзор
 
-Этот модуль содержит тесты для проверки функциональности класса `AliAffiliatedProducts`, который генерирует партнерские продукты из Aliexpress. Он включает фикстуру для создания экземпляра класса `AliAffiliatedProducts` и тесты для проверки методов `check_and_process_affiliate_products` и `process_affiliate_products`. Тесты имитируют внешние зависимости и проверяют правильность обработки продуктов.
+Этот модуль содержит тесты для проверки функциональности класса `AliAffiliatedProducts`, который генерирует партнерские товары из Aliexpress. Он включает фикстуру для создания экземпляра класса `AliAffiliatedProducts` и тесты для проверки методов `check_and_process_affiliate_products` и `process_affiliate_products`. Тесты имитируют внешние зависимости и проверяют правильность обработки товаров.
 
 ## Подробнее
 
 Модуль содержит тесты, проверяющие корректность работы класса `AliAffiliatedProducts`.
 В частности, проверяется вызов метода `process_affiliate_products` из метода `check_and_process_affiliate_products`,
-а также логика обработки продуктов в методе `process_affiliate_products`.
+а также логика обработки товаров в методе `process_affiliate_products`.
 
 ## Фикстуры
 
@@ -47,7 +47,7 @@ def ali_affiliated_products():
 **Как работает функция**:
 
 -   Имитирует метод `process_affiliate_products` с помощью `patch.object`.
--   Вызывает метод `check_and_process_affiliate_products` с заданными URL-адресами продуктов.
+-   Вызывает метод `check_and_process_affiliate_products` с заданными URL-адресами товаров.
 -   Проверяет, что метод `process_affiliate_products` был вызван один раз с правильными аргументами.
 
 ```python
@@ -59,7 +59,7 @@ def test_check_and_process_affiliate_products(ali_affiliated_products):
 
 ### `test_process_affiliate_products`
 
-**Назначение**: Проверяет, что метод `process_affiliate_products` правильно обрабатывает продукты и возвращает ожидаемый результат.
+**Назначение**: Проверяет, что метод `process_affiliate_products` правильно обрабатывает товары и возвращает ожидаемый результат.
 
 **Параметры**:
 
@@ -67,7 +67,7 @@ def test_check_and_process_affiliate_products(ali_affiliated_products):
 
 **Как работает функция**:
 
-1.  Определяет `mock_product_details` - имитированный список с деталями продукта, содержащий объекты `SimpleNamespace` с данными о продукте, такими как `product_id`, `promotion_link`, `product_main_image_url` и `product_video_url`.
+1.  Определяет `mock_product_details` - имитированный список с деталями товара, содержащий объекты `SimpleNamespace` с данными о товаре, такими как `product_id`, `promotion_link`, `product_main_image_url` и `product_video_url`.
 
 2.  Имитирует несколько внешних зависимостей:
     -   `retrieve_product_details`: имитируется метод, возвращающий `mock_product_details`.
@@ -76,7 +76,7 @@ def test_check_and_process_affiliate_products(ali_affiliated_products):
     -   `save_video_from_url`: имитируется функция сохранения видео.
     -   `j_dumps`: имитируется функция, возвращающая `True`.
 
-3.  Вызывает метод `process_affiliate_products` с заданными URL-адресами продуктов (`prod_urls`).
+3.  Вызывает метод `process_affiliate_products` с заданными URL-адресами товаров (`prod_urls`).
 
 4.  Проверяет, что возвращенный список содержит один элемент и что `product_id` этого элемента равен "123".
 

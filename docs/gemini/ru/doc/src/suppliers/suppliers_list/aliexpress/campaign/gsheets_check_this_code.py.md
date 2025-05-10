@@ -7,7 +7,7 @@
 ## Подробнее
 
 Модуль предоставляет класс `AliCampaignGoogleSheet`, который наследует класс `SpreadSheet`. 
-Класс предоставляет методы для управления листами Google Sheets, записи данных о категориях и продуктах, и форматирования листов.
+Класс предоставляет методы для управления листами Google Sheets, записи данных о категориях и товарах, и форматирования листов.
 
 ## Классы
 
@@ -40,7 +40,7 @@
         google_sheet = AliCampaignGoogleSheet(campaign_name='My Campaign', language='ru', currency='USD')
         ```
 - `clear(self)`:
-    **Назначение**: Очищает содержимое таблицы Google Sheets. Удаляет листы продуктов и очищает данные на листах категорий и других указанных листах.
+    **Назначение**: Очищает содержимое таблицы Google Sheets. Удаляет листы товаров и очищает данные на листах категорий и других указанных листах.
     **Параметры**: None
     **Возвращает**: None
     **Вызывает исключения**: `Exception`: Если возникает ошибка при очистке.
@@ -56,7 +56,7 @@
     **Вызывает исключения**: `Exception`: Если возникает ошибка при удалении листов.
     **Примеры**:
         ```python
-        # Удаление всех листов продуктов
+        # Удаление всех листов товаров
         google_sheet.delete_products_worksheets()
         ```
 - `set_campaign_worksheet(self, campaign: SimpleNamespace)`:
@@ -75,12 +75,12 @@
 - `set_products_worksheet(self, category_name: str)`:
     **Назначение**: Записывает данные из списка объектов `SimpleNamespace` в ячейки Google Sheets.
     **Параметры**:
-        - `category_name` (`str`): Название категории, из которой нужно получить продукты.
+        - `category_name` (`str`): Название категории, из которой нужно получить товары.
     **Возвращает**: None
     **Вызывает исключения**: `Exception`: Если возникает ошибка при записи данных в рабочий лист.
     **Примеры**:
         ```python
-        # Запись данных продуктов в рабочий лист
+        # Запись данных товаров в рабочий лист
         google_sheet.set_products_worksheet('Electronics')
         ```
 - `set_categories_worksheet(self, categories: SimpleNamespace)`:
@@ -105,15 +105,15 @@
         categories_data = google_sheet.get_categories()
         ```
 - `set_category_products(self, category_name: str, products: dict)`:
-    **Назначение**: Запись данных о продуктах в новую таблицу Google Sheets.
+    **Назначение**: Запись данных о товарах в новую таблицу Google Sheets.
     **Параметры**:
         - `category_name` (`str`): Название категории.
-        - `products` (`dict`): Словарь с данными о продуктах.
+        - `products` (`dict`): Словарь с данными о товарах.
     **Возвращает**: None
     **Вызывает исключения**: `Exception`: Если возникает ошибка при записи данных в рабочий лист.
     **Примеры**:
         ```python
-        # Запись данных о продуктах в рабочий лист
+        # Запись данных о товарах в рабочий лист
         google_sheet.set_category_products('Electronics', products)
         ```
 - `_format_categories_worksheet(self, ws: Worksheet)`:
@@ -128,14 +128,14 @@
         google_sheet._format_categories_worksheet(ws)
         ```
 - `_format_category_products_worksheet(self, ws: Worksheet)`:
-    **Назначение**: Форматирование листа с продуктами категории.
+    **Назначение**: Форматирование листа с товарами категории.
     **Параметры**:
         - `ws` (`Worksheet`): Рабочий лист Google Sheets для форматирования.
     **Возвращает**: None
     **Вызывает исключения**: `Exception`: Если возникает ошибка при форматировании рабочего листа.
     **Примеры**:
         ```python
-        # Форматирование рабочего листа с продуктами
+        # Форматирование рабочего листа с товарами
         google_sheet._format_category_products_worksheet(ws)
         ```
 
@@ -156,7 +156,7 @@ google_sheet.clear()
 # Запись данных кампании в рабочий лист
 google_sheet.set_campaign_worksheet(campaign)
 
-# Запись данных продуктов в рабочий лист
+# Запись данных товаров в рабочий лист
 google_sheet.set_products_worksheet('Electronics')
 
 # Запись данных категорий в рабочий лист
@@ -165,13 +165,13 @@ google_sheet.set_categories_worksheet(categories)
 # Получение данных о категориях
 categories_data = google_sheet.get_categories()
 
-# Запись данных о продуктах в рабочий лист
+# Запись данных о товарах в рабочий лист
 google_sheet.set_category_products('Electronics', products)
 
 # Форматирование рабочего листа 'categories'
 google_sheet._format_categories_worksheet(ws)
 
-# Форматирование рабочего листа с продуктами
+# Форматирование рабочего листа с товарами
 google_sheet._format_category_products_worksheet(ws)
 ```
 

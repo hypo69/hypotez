@@ -3,13 +3,13 @@
 
 Описание
 -------------------------
-Класс `PrestaProductAsync`  предназначен для взаимодействия с продуктами в PrestaShop. Он наследуется от класса `PrestaShopAsync` и предоставляет методы для добавления новых продуктов, а также для получения информации о продуктах.
+Класс `PrestaProductAsync`  предназначен для взаимодействия с товарами в PrestaShop. Он наследуется от класса `PrestaShopAsync` и предоставляет методы для добавления новых товаров, а также для получения информации о товарах.
 
 Шаги выполнения
 -------------------------
 1. **Инициализация класса**: Создайте экземпляр класса `PrestaProductAsync`. В конструктор класса передайте необходимые параметры, такие как URL-адрес PrestaShop, учетные данные API и т.д.
-2. **Добавление нового продукта**: Используйте метод `add_new_product_async` для добавления нового продукта в PrestaShop. Передайте в метод объект `ProductFields`, содержащий информацию о продукте.
-3. **Получение информации о продукте**: Используйте методы, унаследованные от класса `PrestaShopAsync`, для получения информации о продуктах, таких как `get_products` и `get_product`.
+2. **Добавление нового товара**: Используйте метод `add_new_product_async` для добавления нового товара в PrestaShop. Передайте в метод объект `ProductFields`, содержащий информацию о товаре.
+3. **Получение информации о товаре**: Используйте методы, унаследованные от класса `PrestaShopAsync`, для получения информации о товарах, таких как `get_products` и `get_product`.
 
 Пример использования
 -------------------------
@@ -22,7 +22,7 @@ async def main():
     # Создаем экземпляр класса PrestaProductAsync
     product = PrestaProductAsync()
 
-    # Создаем объект ProductFields с данными о продукте
+    # Создаем объект ProductFields с данными о товаре
     product_fields = ProductFields(
         lang_index=1,
         name='Test Product Async',
@@ -34,14 +34,14 @@ async def main():
     parent_categories = await product.presta_category_async.get_parent_categories_list(id_category=3)
     print(f'Parent categories: {parent_categories}')
 
-    # Добавляем новый продукт в PrestaShop
+    # Добавляем новый товар в PrestaShop
     new_product = await product.add_new_product_async(product_fields)
     if new_product:
         print(f'New product id = {new_product.id_product}')
     else:
         print(f'Error add new product')
 
-    # Вызываем метод fetch_data_async() для получения данных о продуктах
+    # Вызываем метод fetch_data_async() для получения данных о товарах
     await product.fetch_data_async()
 
 if __name__ == '__main__':

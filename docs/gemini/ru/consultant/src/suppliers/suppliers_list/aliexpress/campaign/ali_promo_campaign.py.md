@@ -545,7 +545,7 @@ class AliPromoCampaign:
             }
             product.categories_convertor = categories_convertor
 
-            # Сохранение отдельного JSON файла продукта
+            # Сохранение отдельного JSON файла товара
             j_dumps(product, Path(category_path / f'{self.language}_{self.currency}' / f'{product.product_id}.json'), exc_info=False)
             _product_titles.append(product.product_title)
             _promotion_links_list.append(product.promotion_link)
@@ -566,7 +566,7 @@ class AliPromoCampaign:
         category_name: str = Path(category_path).name
         category_html_path: Path = Path(category_path) / f'{self.language}_{self.currency}' / f'{category_name}.html'
 
-        # Инициализируем словарь категории для хранения названий продуктов
+        # Инициализируем словарь категории для хранения названий товаров
         category: dict = {
             'products_titles': []
         }
@@ -585,7 +585,7 @@ class AliPromoCampaign:
         """
 
         for product in products_list:
-            # Добавляем детали продукта в products_titles категории
+            # Добавляем детали товара в products_titles категории
             category['products_titles'].append({
                 'title': product.product_title,
                 'product_id': product.product_id,

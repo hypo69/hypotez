@@ -95,7 +95,7 @@ gpt_gs = GptGs(campaign_name='My Campaign', category_name='Electronics', languag
     def clear(self):
         """
         Очищает содержимое.
-        Удаляет листы продуктов и очищает данные на листах категорий и других указанных листах.
+        Удаляет листы товаров и очищает данные на листах категорий и других указанных листах.
         """
         try:
             self.delete_products_worksheets()
@@ -107,7 +107,7 @@ gpt_gs = GptGs(campaign_name='My Campaign', category_name='Electronics', languag
             logger.error("Ошибка очистки",ex)
 ```
 
-**Purpose**: Очищает содержимое Google Sheets таблицы, удаляя листы продуктов и очищая данные на листах категорий и других указанных листах.
+**Purpose**: Очищает содержимое Google Sheets таблицы, удаляя листы товаров и очищая данные на листах категорий и других указанных листах.
 
 **Parameters**: None
 
@@ -116,7 +116,7 @@ gpt_gs = GptGs(campaign_name='My Campaign', category_name='Electronics', languag
 **Raises Exceptions**: `Exception`
 
 **How the Function Works**: 
-- Вызывает `self.delete_products_worksheets()` для удаления листов продуктов.
+- Вызывает `self.delete_products_worksheets()` для удаления листов товаров.
 - Очищает указанные листы (`ws_to_clear`) с помощью `self.get_worksheet(ws).clear()`.
 
 **Examples**:
@@ -484,9 +484,9 @@ print(category_data)
 ```python
     def set_product_worksheet(self, product: SimpleNamespace | str, category_name: str):
         """
-        Записывает данные о продукте на новый лист Google Sheets.
+        Записывает данные о товаре на новый лист Google Sheets.
         @param category_name Название категории.
-        @param product Объект SimpleNamespace с полями данных о продукте для записи.
+        @param product Объект SimpleNamespace с полями данных о товаре для записи.
         """
         time.sleep(10)
         ws = self.copy_worksheet('product_template', category_name)  # Копирует 'product_template' на новый лист
@@ -539,11 +539,11 @@ print(category_data)
             raise
 ```
 
-**Purpose**: Записывает данные о продукте на новый лист Google Sheets, созданный на основе шаблона `product_template`.
+**Purpose**: Записывает данные о товаре на новый лист Google Sheets, созданный на основе шаблона `product_template`.
 
 **Parameters**:
 
-- **`product` (`SimpleNamespace` | `str`)**: Объект `SimpleNamespace`, содержащий поля данных продукта для записи.
+- **`product` (`SimpleNamespace` | `str`)**: Объект `SimpleNamespace`, содержащий поля данных товара для записи.
 - **`category_name` (`str`)**: Название категории, для которой создается лист.
 
 **Returns**: None
@@ -554,12 +554,12 @@ print(category_data)
 - Создает новый лист `category_name` на основе шаблона `product_template` с помощью `self.copy_worksheet()`.
 - Задает заголовки столбцов (`headers`) на первой строке.
 - Извлекает данные из `product` объекта.
-- Записывает данные продукта (`row_data`) во вторую строку листа.
+- Записывает данные товара (`row_data`) во вторую строку листа.
 - Выводит информационное сообщение в лог.
 
 **Examples**:
 ```python
-# Запись данных продукта на лист "Electronics"
+# Запись данных товара на лист "Electronics"
 product_data = SimpleNamespace(product_id='12345', app_sale_price=10, original_price=15, ...)
 gpt_gs.set_product_worksheet(product_data, category_name='Electronics')
 ```
@@ -570,8 +570,8 @@ gpt_gs.set_product_worksheet(product_data, category_name='Electronics')
 ```python
     def get_product_worksheet(self) -> SimpleNamespace:
         """
-        Читает данные о продукте с листа 'products'.
-        @return `SimpleNamespace`: Объект SimpleNamespace с полями данных о продукте.
+        Читает данные о товаре с листа 'products'.
+        @return `SimpleNamespace`: Объект SimpleNamespace с полями данных о товаре.
         """
         try:
             ws: Worksheet = self.get_worksheet('products')
@@ -596,23 +596,23 @@ gpt_gs.set_product_worksheet(product_data, category_name='Electronics')
             raise
 ```
 
-**Purpose**: Читает данные о продукте с листа 'products' в Google Sheets.
+**Purpose**: Читает данные о товаре с листа 'products' в Google Sheets.
 
 **Parameters**: None
 
-**Returns**: `SimpleNamespace`: Объект `SimpleNamespace`, содержащий поля данных продукта.
+**Returns**: `SimpleNamespace`: Объект `SimpleNamespace`, содержащий поля данных товара.
 
 **Raises Exceptions**: `ValueError`, `Exception`
 
 **How the Function Works**:
 - Получает ссылку на лист 'products' с помощью `self.get_worksheet()`. 
 - Читает все значения с листа с помощью `ws.get_all_values()`.
-- Создает объект `SimpleNamespace` с полями данных продукта, извлекая данные из `data` списка.
+- Создает объект `SimpleNamespace` с полями данных товара, извлекая данные из `data` списка.
 - Выводит информационное сообщение в лог.
 
 **Examples**:
 ```python
-# Чтение данных продукта с листа 'products'
+# Чтение данных товара с листа 'products'
 product_data = gpt_gs.get_product_worksheet()
 print(f"Product ID: {product_data.id}")
 ```

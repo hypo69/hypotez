@@ -519,7 +519,7 @@ async def save_product_titles(self, product_titles: list[str], category_path: st
             category_path (str | Path): The path to save the output file.
         """
 ```
--   Сохраняет названия продуктов в текстовый файл.
+-   Сохраняет названия товаров в текстовый файл.
 ### `save_promotion_links`
 
 ```python
@@ -532,7 +532,7 @@ async def save_promotion_links(self, promotion_links: list[str], category_path: 
         category_path (str | Path): The path to save the output file.
     """
 ```
--   Сохраняет ссылки на продвижение продуктов в текстовый файл.
+-   Сохраняет ссылки на продвижение товаров в текстовый файл.
 
 **Примеры**:
 ```python

@@ -10,11 +10,11 @@
 1. Определяет корневой каталог проекта (`dir_root`) и добавляет его в системный путь (`sys.path`).
 2. Импортирует необходимые модули из проекта `hypotez`, включая:
     - `Driver` из `src.webdriver.driver`: для работы с браузером.
-    - `Product`, `ProductFields` из `src.product`: для работы с продуктами.
+    - `Product`, `ProductFields` из `src.product`: для работы с товарами.
     - `Category` из `src.category`: для работы с категориями.
     - `StringFormatter`, `StringNormalizer` из `src.utils`: для работы со строками.
     - `pprint` из `src.utils.printer`: для вывода информации.
-    - `Product` из `src.endpoints.PrestaShop`: для работы с продуктами PrestaShop.
+    - `Product` из `src.endpoints.PrestaShop`: для работы с товарами PrestaShop.
     - `save_text_file` из `src.utils`: для сохранения текста в файл.
 3. Определяет функцию `start_supplier(supplier_prefix: str = 'aliexpress', locale: str = 'en' )`, которая:
     - Принимает префикс поставщика (`supplier_prefix`) и язык (`locale`) в качестве аргументов.

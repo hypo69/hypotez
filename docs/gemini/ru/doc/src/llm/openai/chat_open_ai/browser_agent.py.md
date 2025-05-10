@@ -41,17 +41,17 @@
     - Она запускает `agent.run()` для выполнения задачи и возвращает результат выполнения в виде строки, если задача выполнена успешно.
     - Если при выполнении задачи произошла ошибка, функция возвращает `None`.
 
- - `find_product_alternatives(product_url: Optional[str] = None, sku: Optional[str] = None) -> Optional[str]`: Ищет в сети аналоги для продукта по заданному URL или SKU.
+ - `find_product_alternatives(product_url: Optional[str] = None, sku: Optional[str] = None) -> Optional[str]`: Ищет в сети аналоги для товара по заданному URL или SKU.
 
     **Параметры**:
-     - `product_url` (Optional[str]): URL продукта, для которого нужно найти аналоги (опционально).
-     - `sku` (Optional[str]): SKU продукта, для которого нужно найти аналоги (опционально).
+     - `product_url` (Optional[str]): URL товара, для которого нужно найти аналоги (опционально).
+     - `sku` (Optional[str]): SKU товара, для которого нужно найти аналоги (опционально).
 
     **Возвращает**:
      - `Optional[str]`: Строку с описанием найденных аналогов, или `None` в случае ошибки.
 
     **Как работает функция**: 
-    - `find_product_alternatives` -  предназначена для поиска аналогов продукта. 
+    - `find_product_alternatives` -  предназначена для поиска аналогов товара. 
     - Она  собирает поисковый запрос, основываясь на  `product_url`  или  `sku`.
     - Функция формирует текст задачи для агента,  указывая поисковую систему, URL поиска и задание найти список аналогов. 
     - Затем,  `find_product_alternatives`  вызывает  `self.run_task()`  для запуска агента с заданным текстом задачи. 
@@ -89,7 +89,7 @@
 **Назначение**: Пример использования класса `AIBrowserAgent`.
 
 **Как работает функция**:
-- `main`  представляет пример использования класса `AIBrowserAgent`  для поиска аналогов продукта и ответа на вопросы.
+- `main`  представляет пример использования класса `AIBrowserAgent`  для поиска аналогов товара и ответа на вопросы.
 - В примере  `main`  создается экземпляр  `AIBrowserAgent`  с использованием API ключа OpenAI и заданной языковой модели. 
 - Затем,  `main`  выполняет  `find_product_alternatives`  для поиска аналогов по заданному SKU и  `ask_async`  для получения ответа на вопрос.
 - Функция выводит найденные аналоги и ответ на вопрос в консоль.
@@ -162,7 +162,7 @@ playwright_driver = PlaywrightFirefoxAdapter(selenium_driver)
 agent = AIBrowserAgent(api_key='YOUR_API_KEY', model_name='gpt-4o-mini', custom_driver=playwright_driver)
 
 # Поиск аналогов по URL
-product_url = "https://www.apple.com/iphone-14/"  # Замените на URL интересующего вас продукта
+product_url = "https://www.apple.com/iphone-14/"  # Замените на URL интересующего вас товара
 alternatives = await agent.find_product_alternatives(product_url=product_url)
 if alternatives:
     print("Найденные аналоги:")

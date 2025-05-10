@@ -9,12 +9,12 @@
 Тесты охватывают различные аспекты функциональности `AliPromoCampaign`, включая:
 
 - Инициализацию кампании: `test_initialize_campaign`.
-- Извлечение продуктов из категорий: `test_get_category_products_no_json_files`, `test_get_category_products_with_json_files`.
-- Создание пространств имен для продуктов, категорий и кампаний: `test_create_product_namespace`, `test_create_category_namespace`, `test_create_campaign_namespace`.
-- Подготовку продуктов: `test_prepare_products`.
-- Извлечение данных о продуктах: `test_fetch_product_data`.
-- Сохранение данных о продуктах: `test_save_product`.
-- Вывод списка продуктов кампании: `test_list_campaign_products`.
+- Извлечение товаров из категорий: `test_get_category_products_no_json_files`, `test_get_category_products_with_json_files`.
+- Создание пространств имен для товаров, категорий и кампаний: `test_create_product_namespace`, `test_create_category_namespace`, `test_create_campaign_namespace`.
+- Подготовку товаров: `test_prepare_products`.
+- Извлечение данных о товарах: `test_fetch_product_data`.
+- Сохранение данных о товарах: `test_save_product`.
+- Вывод списка товаров кампании: `test_list_campaign_products`.
 
 ## Тесты
 
@@ -63,7 +63,7 @@ assert campaign.campaign.category.test_category.name == "test_category"
 
 ### `test_get_category_products_no_json_files`
 
-**Назначение**: Проверяет, что метод `get_category_products` возвращает пустой список, если отсутствуют JSON-файлы с данными о продуктах.
+**Назначение**: Проверяет, что метод `get_category_products` возвращает пустой список, если отсутствуют JSON-файлы с данными о товарах.
 
 **Параметры**:
 
@@ -82,7 +82,7 @@ mocker.patch("src.utils.file.get_filenames", return_value=[])
 # Мокинг функции fetch_product_data для возврата пустого списка
 mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.fetch_product_data", return_value=[])
 
-# Получение продуктов
+# Получение товаров
 products = campaign.get_category_products(force=True)
 
 # Проверка результатов
@@ -92,7 +92,7 @@ assert products == []
 
 ### `test_get_category_products_with_json_files`
 
-**Назначение**: Проверяет, что метод `get_category_products` корректно считывает данные о продуктах из JSON-файлов.
+**Назначение**: Проверяет, что метод `get_category_products` корректно считывает данные о товарах из JSON-файлов.
 
 **Параметры**:
 
@@ -105,16 +105,16 @@ assert products == []
 **Пример**:
 
 ```python
-# Тестовые данные о продукте
+# Тестовые данные о товаре
 mock_product_data = SimpleNamespace(product_id="123", product_title="Test Product")
 
 # Мокинг функции get_filenames для возврата списка JSON-файлов
 mocker.patch("src.utils.file.get_filenames", return_value=["product_123.json"])
 
-# Мокинг функции j_loads_ns для возврата тестовых данных о продукте
+# Мокинг функции j_loads_ns для возврата тестовых данных о товаре
 mocker.patch("src.utils.jjson.j_loads_ns", return_value=mock_product_data)
 
-# Получение продуктов
+# Получение товаров
 products = campaign.get_category_products()
 
 # Проверка результатов
@@ -126,7 +126,7 @@ assert products[0].product_title == "Test Product"
 
 ### `test_create_product_namespace`
 
-**Назначение**: Проверяет, что метод `create_product_namespace` правильно создает пространство имен для продукта.
+**Назначение**: Проверяет, что метод `create_product_namespace` правильно создает пространство имен для товара.
 
 **Параметры**:
 
@@ -138,13 +138,13 @@ assert products[0].product_title == "Test Product"
 **Пример**:
 
 ```python
-# Тестовые данные о продукте
+# Тестовые данные о товаре
 product_data = {
     "product_id": "123",
     "product_title": "Test Product"
 }
 
-# Создание пространства имен для продукта
+# Создание пространства имен для товара
 product = campaign.create_product_namespace(**product_data)
 
 # Проверка результатов
@@ -253,7 +253,7 @@ campaign.process_affiliate_products.assert_called_once()
 
 ### `test_fetch_product_data`
 
-**Назначение**: Проверяет, что метод `fetch_product_data` корректно извлекает данные о продуктах.
+**Назначение**: Проверяет, что метод `fetch_product_data` корректно извлекает данные о товарах.
 
 **Параметры**:
 
@@ -266,16 +266,16 @@ campaign.process_affiliate_products.assert_called_once()
 **Пример**:
 
 ```python
-# Список идентификаторов продуктов
+# Список идентификаторов товаров
 product_ids = ["123", "456"]
 
-# Тестовые данные о продуктах
+# Тестовые данные о товарах
 mock_products = [SimpleNamespace(product_id="123"), SimpleNamespace(product_id="456")]
 
 # Мокинг метода process_affiliate_products
 mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products", return_value=mock_products)
 
-# Извлечение данных о продуктах
+# Извлечение данных о товарах
 products = campaign.fetch_product_data(product_ids)
 
 # Проверка результатов
@@ -287,7 +287,7 @@ assert products[1].product_id == "456"
 
 ### `test_save_product`
 
-**Назначение**: Проверяет, что метод `save_product` корректно сохраняет данные о продукте в JSON-файл.
+**Назначение**: Проверяет, что метод `save_product` корректно сохраняет данные о товаре в JSON-файл.
 
 **Параметры**:
 
@@ -300,7 +300,7 @@ assert products[1].product_id == "456"
 **Пример**:
 
 ```python
-# Тестовые данные о продукте
+# Тестовые данные о товаре
 product = SimpleNamespace(product_id="123", product_title="Test Product")
 
 # Мокинг функции j_dumps
@@ -309,7 +309,7 @@ mocker.patch("src.utils.jjson.j_dumps", return_value="{}")
 # Мокинг функции write_text
 mocker.patch("pathlib.Path.write_text")
 
-# Сохранение данных о продукте
+# Сохранение данных о товаре
 campaign.save_product(product)
 
 # Проверка, что функция write_text была вызвана
@@ -319,7 +319,7 @@ Path.write_text.assert_called_once_with("{}", encoding='utf-8')
 
 ### `test_list_campaign_products`
 
-**Назначение**: Проверяет, что метод `list_campaign_products` правильно выводит список названий продуктов кампании.
+**Назначение**: Проверяет, что метод `list_campaign_products` правильно выводит список названий товаров кампании.
 
 **Параметры**:
 
@@ -331,14 +331,14 @@ Path.write_text.assert_called_once_with("{}", encoding='utf-8')
 **Пример**:
 
 ```python
-# Тестовые данные о продуктах
+# Тестовые данные о товарах
 product1 = SimpleNamespace(product_title="Product 1")
 product2 = SimpleNamespace(product_title="Product 2")
 
-# Добавление тестовых продуктов в список продуктов категории
+# Добавление тестовых товаров в список товаров категории
 campaign.category.products = [product1, product2]
 
-# Получение списка названий продуктов
+# Получение списка названий товаров
 product_titles = campaign.list_campaign_products()
 
 # Проверка результатов
@@ -362,13 +362,13 @@ campaign = AliPromoCampaign("test_campaign", "test_category", "EN", "USD")
 # Инициализация кампании
 campaign.initialize_campaign()
 
-# Получение продуктов из категории
+# Получение товаров из категории
 products = campaign.get_category_products()
 
-# Подготовка продуктов
+# Подготовка товаров
 campaign.prepare_products()
 
-# Сохранение данных о продукте
+# Сохранение данных о товаре
 campaign.save_product(product)
 ```
 

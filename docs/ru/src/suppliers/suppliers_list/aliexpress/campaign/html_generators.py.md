@@ -2,7 +2,7 @@
 
 ## Обзор
 
-Модуль содержит классы для генерации HTML-страниц, представляющих товары, категории и общую структуру рекламной кампании. Он включает в себя классы `ProductHTMLGenerator`, `CategoryHTMLGenerator` и `CampaignHTMLGenerator`, которые отвечают за создание HTML-файлов для отдельных продуктов, категорий продуктов и общего представления рекламной кампании соответственно.
+Модуль содержит классы для генерации HTML-страниц, представляющих товары, категории и общую структуру рекламной кампании. Он включает в себя классы `ProductHTMLGenerator`, `CategoryHTMLGenerator` и `CampaignHTMLGenerator`, которые отвечают за создание HTML-файлов для отдельных товаров, категорий товаров и общего представления рекламной кампании соответственно.
 
 ## Подробнее
 
@@ -24,7 +24,7 @@
 
 **Методы**:
 
-- `set_category_html(products_list: list[SimpleNamespace] | SimpleNamespace, category_path: str | Path)`: Создает HTML-файл для категории продуктов.
+- `set_category_html(products_list: list[SimpleNamespace] | SimpleNamespace, category_path: str | Path)`: Создает HTML-файл для категории товаров.
 
 ### `CampaignHTMLGenerator`
 
@@ -44,23 +44,23 @@ def set_product_html(product: SimpleNamespace, category_path: str | Path):
     """Создает HTML-файл для отдельного товара.
 
     Args:
-        product (SimpleNamespace): Детали продукта, которые необходимо включить в HTML.
+        product (SimpleNamespace): Детали товара, которые необходимо включить в HTML.
         category_path (str | Path): Путь для сохранения HTML-файла.
     """
 ```
 
-**Назначение**: Создает HTML-файл для отдельного товара на основе предоставленных данных о продукте.
+**Назначение**: Создает HTML-файл для отдельного товара на основе предоставленных данных о товаре.
 
 **Параметры**:
 
-- `product` (SimpleNamespace): Объект, содержащий детали продукта, такие как `product_title`, `product_id`, `local_image_path`, `target_sale_price`, `target_sale_price_currency`, `target_original_price`, `target_original_price_currency`, `second_level_category_name` и `promotion_link`.
-- `category_path` (str | Path): Путь к каталогу, в котором будет сохранен HTML-файл продукта.
+- `product` (SimpleNamespace): Объект, содержащий детали товара, такие как `product_title`, `product_id`, `local_image_path`, `target_sale_price`, `target_sale_price_currency`, `target_original_price`, `target_original_price_currency`, `second_level_category_name` и `promotion_link`.
+- `category_path` (str | Path): Путь к каталогу, в котором будет сохранен HTML-файл товара.
 
 **Как работает функция**:
 
 1. Извлекает имя категории из `category_path`.
-2. Формирует путь к HTML-файлу продукта: `<category_path>/html/<product.product_id>.html`.
-3. Создает HTML-контент, используя данные из объекта `product`. HTML-контент включает заголовок страницы, изображение продукта, цену, оригинальную цену, категорию и ссылку для покупки.
+2. Формирует путь к HTML-файлу товара: `<category_path>/html/<product.product_id>.html`.
+3. Создает HTML-контент, используя данные из объекта `product`. HTML-контент включает заголовок страницы, изображение товара, цену, оригинальную цену, категорию и ссылку для покупки.
 4. Вызывает функцию `save_text_file` для сохранения HTML-контента в файл по указанному пути.
 
 **Примеры**:
@@ -85,7 +85,7 @@ product = SimpleNamespace(
 # Пример пути к категории
 category_path = "path/to/category"
 
-# Вызов функции для создания HTML-файла продукта
+# Вызов функции для создания HTML-файла товара
 ProductHTMLGenerator.set_product_html(product, category_path)
 ```
 
@@ -104,11 +104,11 @@ def set_category_html(products_list: list[SimpleNamespace] | SimpleNamespace, ca
     """
 ```
 
-**Назначение**: Создает HTML-файл для категории продуктов, отображая список товаров в этой категории.
+**Назначение**: Создает HTML-файл для категории товаров, отображая список товаров в этой категории.
 
 **Параметры**:
 
-- `products_list` (list[SimpleNamespace] | SimpleNamespace): Список объектов, содержащих информацию о продуктах в категории. Если передан один объект, он преобразуется в список.
+- `products_list` (list[SimpleNamespace] | SimpleNamespace): Список объектов, содержащих информацию о товарах в категории. Если передан один объект, он преобразуется в список.
 - `category_path` (str | Path): Путь к каталогу, в котором будет сохранен HTML-файл категории.
 
 **Как работает функция**:
@@ -117,7 +117,7 @@ def set_category_html(products_list: list[SimpleNamespace] | SimpleNamespace, ca
 2. Извлекает имя категории из `category_path`.
 3. Формирует путь к HTML-файлу категории: `<category_path>/html/index.html`.
 4. Создает HTML-контент, начиная с заголовка страницы и структуры таблицы.
-5. Итерируется по списку продуктов и добавляет HTML-код для каждого продукта, включая изображение, название, цену, оригинальную цену, категорию и ссылку для покупки.
+5. Итерируется по списку товаров и добавляет HTML-код для каждого товара, включая изображение, название, цену, оригинальную цену, категорию и ссылку для покупки.
 6. Завершает HTML-контент закрывающими тегами.
 7. Вызывает функцию `save_text_file` для сохранения HTML-контента в файл по указанному пути.
 

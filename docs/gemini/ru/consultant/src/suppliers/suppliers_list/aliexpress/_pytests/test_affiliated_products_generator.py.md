@@ -40,11 +40,11 @@
 
 """
 Модуль содержит тесты для проверки функциональности класса AliAffiliatedProducts,
-который генерирует партнерские продукты AliExpress.
+который генерирует партнерские товары AliExpress.
 ==============================================================================
 
 Модуль включает в себя тесты для проверки корректной обработки и извлечения
-данных о партнерских продуктах, а также моки для изоляции от внешних зависимостей.
+данных о партнерских товарах, а также моки для изоляции от внешних зависимостей.
 
 #Fixtures:
  - ali_affiliated_products: Фикстура, возвращающая экземпляр AliAffiliatedProducts.
@@ -56,7 +56,7 @@
 
  - test_process_affiliate_products:
     Тестирует метод process_affiliate_products, чтобы убедиться,
-    что он обрабатывает продукты корректно. Мокирует внешние зависимости
+    что он обрабатывает товары корректно. Мокирует внешние зависимости
     и проверяет выходные данные.
 
 Пример использования
@@ -111,7 +111,7 @@ def test_process_affiliate_products(ali_affiliated_products: AliAffiliatedProduc
     """
     Тестирует метод process_affiliate_products класса AliAffiliatedProducts.
 
-    Проверяет, что метод правильно обрабатывает продукты и возвращает ожидаемый результат.
+    Проверяет, что метод правильно обрабатывает товары и возвращает ожидаемый результат.
     Использует моки для изоляции от внешних зависимостей.
 
     Args:
@@ -133,7 +133,7 @@ def test_process_affiliate_products(ali_affiliated_products: AliAffiliatedProduc
             assert len(processed_products) == 1
             assert processed_products[0].product_id == '123'
         except Exception as ex:
-            logger.error('Ошибка при обработке партнерских продуктов', ex, exc_info=True)
+            logger.error('Ошибка при обработке партнерских товаров', ex, exc_info=True)
             raise
 
 

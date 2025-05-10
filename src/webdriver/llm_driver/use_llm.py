@@ -1039,7 +1039,7 @@ async def main() -> None:
             logger.info(f"Поиск доступен: {search_tools if search_available else 'Нет'}")
             # Определение доступности основных браузерных инструментов
             browser_core_available = all(n in available_tool_names for n in ['BrowserNavigate', 'BrowserScrapeText'])
-            # Определение доступности инструмента извлечения данных о продукте
+            # Определение доступности инструмента извлечения данных о товаре
             extraction_available = 'ExtractProductSchema' in available_tool_names
             # Определение доступности инструментов взаимодействия (клик, заполнение форм)
             interaction_available = all(n in available_tool_names for n in ['BrowserClickElement', 'FillFormField'])

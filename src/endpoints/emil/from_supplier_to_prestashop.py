@@ -58,13 +58,13 @@ class Config:
 
 
 class SupplierToPrestashopProvider:
-    """Обрабатывает извлечение, разбор и сохранение данных о продуктах поставщиков.
+    """Обрабатывает извлечение, разбор и сохранение данных о товарах поставщиков.
     Данные могут быть получены как из посторнних сайтов, так из файла JSON
     
     Attributes:
         driver (Driver): Экземпляр Selenium WebDriver.
         export_path (Path): Путь для экспорта данных.
-        products_list (List[dict]): Список обработанных данных о продуктах.
+        products_list (List[dict]): Список обработанных данных о товарах.
     """
     base_dir:Path = __root__ / 'src' / 'suppliers' / 'supppliers_list' / Config.ENDPOINT
     driver: Driver
