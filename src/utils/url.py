@@ -23,7 +23,7 @@ import re # Импортируем re для регулярных выражен
 import ipaddress # Для проверки IP-адресов
 from urllib.parse import urlparse, parse_qs, urlunparse, quote, unquote
 from typing import Optional, Dict, Any, Union, List
-
+from pathlib import Path
 # Сторонние библиотеки
 import validators
 import requests
@@ -43,7 +43,7 @@ class ShorteningError(URLError):
 # Символы для грубой очистки с конца строки
 TRAILING_JUNK_CHARS: str = ',";\')\n'
 # Регулярное выражение для символов, НЕ разрешенных в стандартном доменном имени (LDH + dot)
-# Мы будем удалять все, что НЕ является буквой, цифрой, дефисом или точкой.
+# Будет удалено все, что НЕ является буквой, цифрой, дефисом или точкой.
 INVALID_DOMAIN_CHARS_PATTERN = re.compile(r'[^a-zA-Z0-9.-]+')
 # Шаблон для проверки, что строка состоит ТОЛЬКО из разрешенных символов (для финальной валидации)
 ALLOWED_DOMAIN_CHARS_ONLY_PATTERN = re.compile(r'^[a-zA-Z0-9.-]+$')
@@ -211,10 +211,41 @@ def extract_pure_domain(text: Optional[str]) -> Optional[str]:
     # 5. Возвращаем результат в нижнем регистре
     return final_domain.lower()
 
+# Список часто встречающихся расширений файлов, которые обычно не являются веб-страницами.
+# Может быть использован как основа для параметра excluded_extensions.
+# Этот список не используется напрямую функцией, а служит справочной информацией.
+COMMON_NON_HTML_EXTENSIONS: List[str] = [
+    # Документы
+    'pdf', 'doc', 'docx', 'odt', 'rtf', 'txt', 'tex', 'wpd',
+    'xls', 'xlsx', 'ods', 'csv',
+    'ppt', 'pptx', 'odp',
+    # Изображения
+    'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'tif', 'svg', 'webp', 'ico',
+    # Архивы
+    'zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz', 'iso', 'dmg',
+    # Аудио
+    'mp3', 'wav', 'ogg', 'aac', 'flac', 'm4a',
+    # Видео
+    'mp4', 'mkv', 'avi', 'mov', 'wmv', 'flv', 'webm',
+    # Исполняемые файлы и установщики
+    'exe', 'msi', 'apk', 'bat', 'sh', 'com', 'jar', 'pkg',
+    # Шрифты
+    'woff', 'woff2', 'ttf', 'otf', 'eot',
+    # Другие
+    'ics', 'vcf', 'xml', # XML может быть страницей, но часто это данные
+    'json', # Аналогично XML
+    'rss', 'atom',
+    'psd', 'ai', 'eps', # Графические форматы исходников
+    'sql', 'db', 'mdb', # Файлы баз данных
+    'torrent', 'swf', 'fla', # Flash (устаревший)
+]
 
 
-
-def normalize_url(url: str, default_scheme: str = 'http') -> str:
+def normalize_url(
+    url: str | None,
+    default_scheme: str = 'http',
+    excluded_extensions: Optional[List[str]] = None
+) -> str | None:
     """
     Нормализует URL-адрес, приводя его к более стандартному виду.
 
@@ -232,12 +263,19 @@ def normalize_url(url: str, default_scheme: str = 'http') -> str:
     9. Удаляет фрагмент ('#section').
     10. Перекодирует путь и параметры запроса для корректности,
         удаляя мусорные символы с конца декодированных пути/параметров.
-
+    11. (Опционально) Если указан список `excluded_extensions`, URL обрезается до содержащей его директории,
+        если расширение файла в пути входит в этот список. Файлы без расширения
+        или URL, указывающие на директории (заканчивающиеся на '/'), не затрагиваются этой фильтрацией.
 
     Args:
         url (str | None): Входной URL для нормализации.
         default_scheme (str): Схема по умолчанию ('http' или 'https'), добавляемая, если схема отсутствует.
                               По умолчанию 'http'.
+        excluded_extensions (Optional[List[str]], optional): Список исключаемых расширений файлов
+            (например, ['pdf', 'jpg', 'zip']). Расширения следует указывать без точки.
+            Если расширение файла в URL входит в этот список, URL будет обрезан до содержащей его директории.
+            Если None или пустой список, фильтрация по расширениям не применяется. По умолчанию None.
+            Примеры часто исключаемых расширений можно найти в `COMMON_NON_HTML_EXTENSIONS`.
 
     Returns:
         str | None: Нормализованный URL или None, если входной URL некорректен
@@ -250,46 +288,54 @@ def normalize_url(url: str, default_scheme: str = 'http') -> str:
         'http://www.example.com/path'
         >>> normalize_url("https://example.com:443")
         'https://example.com/'
-        >>> normalize_url("example.com")
-        'http://example.com/'
-        >>> normalize_url("ftp://example.com/file") # Другие схемы сохраняются
-        'ftp://example.com/file'
-        >>> normalize_url("invalid-url") # Не похож на URL
-        None
-        >>> normalize_url("http://пример.рф/путь") # IDN handling
-        'http://xn--e1afmkfd.xn--p1ai/%D0%BF%D1%83%D1%82%D1%8C'
-        >>> normalize_url('https://www.11st.co.kr/products/1122334455,"') # Очистка мусора на конце
-        'https://www.11st.co.kr/products/1122334455'
-        >>> normalize_url('https://example.com/path%2C%22') # Очистка мусора (закодированного в пути)
-        'https://example.com/path'
-        >>> normalize_url('https://uk.rs-online.com",#main-content') # Очистка мусора перед фрагментом
-        'https://uk.rs-online.com#main-content'
-        >>> normalize_url('https://uk.rs-online.com",/en/contact/') # Очистка мусора перед путем
-        'https://uk.rs-online.com/en/contact/'
         >>> normalize_url(None)
         None
+        >>> normalize_url("http://пример.рф/путь")
+        'http://xn--e1afmkfd.xn--p1ai/%D0%BF%D1%83%D1%82%D1%8C'
+        >>> normalize_url("http://example.com/path/file.pdf", excluded_extensions=['pdf', 'jpg'])
+        'http://example.com/path/'
+        >>> normalize_url("http://example.com/path/image.JPG", excluded_extensions=['pdf', 'jpg'])
+        'http://example.com/path/'
+        >>> normalize_url("http://example.com/archive.zip", excluded_extensions=['zip', 'rar'])
+        'http://example.com/'
+        >>> normalize_url("http://example.com/page.html", excluded_extensions=['pdf', 'jpg'])
+        'http://example.com/page.html'
+        >>> normalize_url("http://example.com/product", excluded_extensions=['pdf']) # Файл без расширения, не фильтруется
+        'http://example.com/product'
+        >>> normalize_url("http://example.com/some.folder/", excluded_extensions=['pdf']) # Путь - директория, не фильтруется
+        'http://example.com/some.folder/'
+        >>> normalize_url("http://example.com/file.PDF", excluded_extensions=['.pdf']) # С точкой в excluded_extensions
+        'http://example.com/'
+        >>> normalize_url("http://example.com/downloads/document.docx", excluded_extensions=COMMON_NON_HTML_EXTENSIONS)
+        'http://example.com/downloads/'
     """
-    
-    original_url_for_log: str
-    processed_url: str
-    parsed_parts: 'urllib.parse.ParseResult | None' = None
+    # Объявление переменных
+    original_url_for_log: str = ''
+    processed_url: str = ''
+    parsed_parts: ParseResult | None = None
     
     scheme_norm: str = ''
     netloc_norm: str = ''
-    netloc_raw: str
+    netloc_raw: str = ''
     path_norm: str = ''
-    path_raw: str
-    path_intermediate: str
-    decoded_path: str
-    cleaned_decoded_path: str
-    path_fallback: str
+    path_raw: str = ''
+    path_intermediate: str = ''
+    decoded_path: str = ''
+    cleaned_decoded_path: str = ''
+    path_fallback: str = '' # Используется при ошибках обработки пути
     params_norm: str = ''
     query_norm: str = ''
-    query_raw: str
-    decoded_query: str
-    cleaned_decoded_query: str
+    query_raw: str = ''
+    decoded_query: str = ''
+    cleaned_decoded_query: str = ''
     fragment_norm: str = '' # Фрагмент всегда удаляется
-    
+
+    # Переменные для фильтрации расширений
+    normalized_excluded_extensions: List[str] = []
+    p_path: Path
+    filename_from_path: str = ''
+    file_suffix_from_path: str = ''
+    parent_dir_of_path: Path
 
     if not url or not isinstance(url, str):
         return None
@@ -298,11 +344,11 @@ def normalize_url(url: str, default_scheme: str = 'http') -> str:
     
     # 1. Удаление начальных/конечных пробелов
     processed_url = url.strip()
-    if not processed_url:
+    if not processed_url: # Проверка на пустую строку после strip
         return None
 
-    # 2. Предварительная очистка от мусорных символов (для НЕЗАКОДИРОВАННЫХ символов).
-    # Удаление символов типа пробелов, кавычек, запятых, если они находятся
+    # 2. Предварительная очистка от мусорных символов
+    # Функция удаляет символы типа пробелов, кавычек, запятых, если они находятся
     # непосредственно перед компонентом пути ('/'), запроса ('?'), фрагмента ('#') или в конце URL.
     processed_url = re.sub(r'[\s\'",]+(?=([/?#]|$))', '', processed_url)
     if not processed_url: # Проверка, не стала ли строка пустой после очистки
@@ -311,113 +357,190 @@ def normalize_url(url: str, default_scheme: str = 'http') -> str:
     # 3. Добавление схемы по умолчанию
     if '://' not in processed_url and not processed_url.startswith('//'):
         # Применение эвристики для определения, следует ли добавлять схему
-        if ('.' in processed_url or processed_url.lower() == 'localhost') and not re.match(r'^[a-zA-Z]:\\', processed_url):
-             logger.debug(f"URL '{original_url_for_log}' не имеет схемы, добавление '{default_scheme}://'")
+        if ('.' in processed_url or processed_url.lower() == 'localhost') and \
+           not re.match(r'^[a-zA-Z]:\\', processed_url): # Проверка, не является ли локальным путем Windows
+             logger.debug(f"URL-адрес '{original_url_for_log}' не содержит схему. Функция добавляет схему по умолчанию '{default_scheme}://'.")
              processed_url = default_scheme + '://' + processed_url
         else:
-            logger.warning(f"Строка '{original_url_for_log}' не содержит схему и не похожа на URL для добавления схемы по умолчанию. Нормализация невозможна.", None, False)
+            logger.warning(
+                f"Строка '{original_url_for_log}' не содержит схему и не выглядит как URL-адрес "
+                f"для добавления схемы по умолчанию. Нормализация невозможна.",
+                None,
+                False
+            )
             return None # Завершение нормализации, если невозможно определить схему
 
     # 4. Парсинг URL
     try:
         # Выполнение разбора URL на компоненты с использованием urlparse
         parsed_parts = urlparse(processed_url)
-    except ValueError as ex:
-        logger.error(f"Ошибка парсинга URL '{processed_url}'", ex, exc_info=True)
+    except ValueError as ex: # Перехват специфичной ошибки парсинга
+        logger.error(f"Ошибка при разборе URL-адреса '{processed_url}'.", ex, exc_info=True)
         return None
 
     # 5. Валидация базовых компонентов
     if not parsed_parts.scheme: # Проверка на наличие схемы
-        logger.warning(f"URL '{processed_url}' после парсинга не содержит схему. Невозможно нормализовать.", None, False)
+        logger.warning(f"URL-адрес '{processed_url}' после разбора не содержит схему. Нормализация невозможна.", None, False)
         return None
     
-    # Проверка на наличие сетевого расположения (netloc) для соответствующих схем
-    if not parsed_parts.netloc and parsed_parts.scheme.lower() not in ('file', 'mailto', 'data', 'javascript'):
-        logger.warning(f"URL '{processed_url}' (схема: {parsed_parts.scheme}) после парсинга не содержит сетевое расположение (netloc). Невозможно нормализовать.", None, False)
+    # Проверка на наличие сетевого расположения (netloc) для распространенных схем
+    if not parsed_parts.netloc and parsed_parts.scheme.lower() not in ('file', 'mailto', 'data', 'javascript', 'tel', 'sms', 'urn'):
+        logger.warning(
+            f"URL-адрес '{processed_url}' (схема: {parsed_parts.scheme}) после разбора не содержит сетевое "
+            f"расположение (netloc), что нехарактерно для данной схемы. Нормализация невозможна.",
+            None,
+            False
+        )
         return None
 
     # 6. Нормализация компонентов
     scheme_norm = parsed_parts.scheme.lower()
-    netloc_raw = parsed_parts.netloc
+    netloc_raw = parsed_parts.netloc # Сохранение исходного netloc для IDN
     
     if netloc_raw:
-        # Выполнение IDN-обработки
+        # Выполнение IDN-обработки (Internationalized Domain Names)
         try:
-            netloc_norm = netloc_raw.encode('idna').decode('utf-8').lower()
-            netloc_norm = netloc_norm.encode('idna').decode('ascii')
-        except UnicodeError as ex_idn_unicode:
-            logger.warning(f"Ошибка IDN кодирования для netloc: '{netloc_raw}'. Используется .lower().", ex_idn_unicode, False)
-            netloc_norm = netloc_raw.lower()
-        except Exception as ex_idn_general:
-             logger.error(f"Неожиданная ошибка при обработке IDN для netloc '{netloc_raw}'", ex_idn_general, exc_info=True)
-             netloc_norm = netloc_raw.lower() # fallback
+            hostname_parts: List[str] = netloc_raw.split(':', 1)
+            domain_part: str = hostname_parts[0]
+            port_part: str = f":{hostname_parts[1]}" if len(hostname_parts) > 1 else ""
+            
+            # Функция кодирует доменную часть в IDNA (Punycode), затем декодирует в ASCII и приводит к нижнему регистру
+            normalized_domain: str = domain_part.encode('idna').decode('ascii')
+            netloc_norm = normalized_domain.lower() + port_part
 
-        # Удаление стандартных портов
+        except UnicodeError as ex_idn_unicode: # Ошибка кодирования IDN
+            logger.warning(f"Ошибка IDN кодирования для netloc: '{netloc_raw}'. Используется netloc.lower().", ex_idn_unicode, False)
+            netloc_norm = netloc_raw.lower() # Запасной вариант: просто приведение к нижнему регистру
+        except Exception as ex_idn_general: # Другие неожиданные ошибки IDN
+             logger.error(f"Неожиданная ошибка при обработке IDN для netloc '{netloc_raw}'.", ex_idn_general, exc_info=True)
+             netloc_norm = netloc_raw.lower() # Запасной вариант
+
+        # Удаление стандартных портов (80 для http, 443 для https)
         if (scheme_norm == 'http' and netloc_norm.endswith(':80')) or \
            (scheme_norm == 'https' and netloc_norm.endswith(':443')):
             netloc_norm = netloc_norm.rsplit(':', 1)[0]
     else:
-        netloc_norm = ''
+        netloc_norm = '' # netloc остается пустым, если его не было
 
     # --- ОБРАБОТКА ПУТИ (PATH) ---
-    path_raw = parsed_parts.path
+    path_raw = parsed_parts.path # Исходный путь из разобранного URL
     if path_raw:
-        # 1. Выполнение нормализации множественных слешей
+        # 1. Нормализация множественных слешей (например, /path//to -> /path/to)
         path_intermediate = re.sub(r'/+', '/', path_raw)
         
-        # 2. Выполнение декодирования, очистки от мусорных символов в конце, повторного кодирования
+        # 2. Декодирование, очистка от мусорных символов в конце, повторное кодирование
         try:
-            decoded_path = unquote(path_intermediate)
-            # Удаление мусорных символов [\s\'",] с конца декодированного пути
+            decoded_path = unquote(path_intermediate) # Декодирование %xx последовательностей
+            # Функция удаляет мусорные символы [\s\'",] с конца декодированного пути
             cleaned_decoded_path = re.sub(r'[\s\'",]+$', '', decoded_path)
-            path_norm = quote(cleaned_decoded_path, safe='/%:@')
-        except Exception as ex_path_proc:
+            path_norm = quote(cleaned_decoded_path, safe='/%:@') # Кодирование обратно, сохраняя безопасные символы
+        except Exception as ex_path_proc: # Ошибка при обработке пути
             logger.warning(
                 f"Ошибка при полной обработке пути для '{path_raw}': {ex_path_proc}. "
                 f"Применяется только нормализация слешей и стандартное кодирование.", ex_path_proc, False
             )
+            # Запасной вариант: только нормализация слешей и стандартное кодирование
             path_fallback = re.sub(r'/+', '/', path_raw)
             try:
                 path_norm = quote(path_fallback, safe='/%:@')
-            except Exception as ex_path_fallback_quote:
-                logger.error(f"Критическая ошибка при кодировании пути '{path_fallback}' в fallback", ex_path_fallback_quote, exc_info=True)
-                path_norm = path_fallback
-    elif netloc_norm: # Установка корневого пути '/', если присутствует домен, но отсутствует путь
+            except Exception as ex_path_fallback_quote: # Критическая ошибка кодирования
+                logger.error(f"Критическая ошибка при кодировании пути '{path_fallback}' в запасном варианте.", ex_path_fallback_quote, exc_info=True)
+                path_norm = path_fallback # В крайнем случае используется частично обработанный путь
+    elif netloc_norm: # Если есть домен, но нет пути, устанавливается корневой путь '/'
         path_norm = '/'
+    # else: path_norm остается '', если нет ни netloc, ни path_raw (например, "mailto:user@example.com")
 
+
+    # --- ФИЛЬТРАЦИЯ ПО ИСКЛЮЧАЕМЫМ РАСШИРЕНИЯМ ФАЙЛОВ ---
+    if excluded_extensions and path_norm: # Применение фильтра, если есть исключаемые расширения и путь
+        # Нормализация списка исключаемых расширений (нижний регистр, удаление начальной точки)
+        normalized_excluded_extensions = [
+            ext.lower().lstrip('.') for ext in excluded_extensions if isinstance(ext, str)
+        ]
+
+        if normalized_excluded_extensions: # Продолжение только если список расширений не пуст после очистки
+            p_path = Path(path_norm.strip('/')) # Убираем конечный слеш, если есть, для корректного Path.name
+            
+            # Извлечение имени файла или последнего компонента пути
+            # Для пути типа "/foo/bar/", Path(path_norm).name будет "bar", а Path(path_norm.strip('/')).name будет "bar"
+            # Для "/foo/file.txt", Path(path_norm).name будет "file.txt"
+            # Для "/", Path(path_norm.strip('/')).name будет "" (пустая строка)
+            filename_from_path = p_path.name 
+            
+            # Извлечение расширения из имени файла (без точки, в нижнем регистре)
+            # Пустое расширение, если имя файла пустое или нет точки.
+            if filename_from_path and '.' in filename_from_path:
+                file_suffix_from_path = filename_from_path.split('.')[-1].lower()
+            else:
+                file_suffix_from_path = ''
+
+            if file_suffix_from_path and file_suffix_from_path in normalized_excluded_extensions:
+                # Если расширение файла существует и входит в список исключаемых,
+                # URL обрезается до родительской директории файла.
+                parent_dir_of_path = p_path.parent
+                
+                # Определение нового path_norm на основе родительской директории
+                if str(parent_dir_of_path) == '.': 
+                    # Исходный путь был относительным файлом в корне типа 'file.ext' (после urlparse это будет /file.ext)
+                    # или что-то вроде 'foo/file.ext', где p_path.parent будет 'foo'
+                    # Если netloc есть, то должен быть абсолютный путь, начинающийся с /
+                    path_norm = '/'
+                elif str(parent_dir_of_path) == '/': 
+                    # Исходный путь был абсолютным файлом в корне, типа '/file.ext'
+                    path_norm = '/' # Корень
+                else: # Исходный путь был вида '/dir/file.ext' или 'dir/file.ext'
+                    path_norm = parent_dir_of_path.as_posix() + '/' # Путь к директории с завершающим '/'
+                
+                # Гарантируем, что путь начинается с '/', если есть домен и путь не пустой
+                if netloc_norm and path_norm and not path_norm.startswith('/'):
+                    path_norm = '/' + path_norm
+                
+                # И еще раз нормализуем слеши, т.к. p_path.as_posix() мог вернуть что-то без начального слеша, если p_path был относительным.
+                path_norm = re.sub(r'/+', '/', path_norm)
+
+
+                logger.debug(
+                    f"URL-путь для '{original_url_for_log}' был сокращен до '{path_norm}' "
+                    f"из-за исключенного расширения '{file_suffix_from_path}'."
+                )
 
     # --- ОБРАБОТКА ПАРАМЕТРОВ ЗАПРОСА (QUERY) ---
-    query_raw = parsed_parts.query
+    query_raw = parsed_parts.query # Исходные параметры запроса
     if query_raw:
         try:
-            decoded_query = unquote(query_raw)
+            decoded_query = unquote(query_raw) # Декодирование параметров
+            # Функция удаляет мусорные символы [\s\'",] с конца декодированных параметров
             cleaned_decoded_query = re.sub(r'[\s\'",]+$', '', decoded_query)
-            query_norm = quote(cleaned_decoded_query, safe='/?!@#$&()*+,;=:%')
-        except Exception as ex_query_proc:
+            query_norm = quote(cleaned_decoded_query, safe='/?!@#$&()*+,;=:%') # Кодирование обратно
+        except Exception as ex_query_proc: # Ошибка при обработке параметров запроса
             logger.warning(
-                f"Ошибка при полной обработке query для '{query_raw}': {ex_query_proc}. "
-                f"Применяется стандартное кодирование исходного query.", ex_query_proc, False
+                f"Ошибка при полной обработке параметров запроса для '{query_raw}': {ex_query_proc}. "
+                f"Применяется стандартное кодирование исходных параметров.", ex_query_proc, False
             )
+            # Запасной вариант: стандартное кодирование исходных параметров
             try:
                 query_norm = quote(query_raw, safe='/?!@#$&()*+,;=:%')
-            except Exception as ex_query_fallback_quote:
-                logger.error(f"Критическая ошибка при кодировании query '{query_raw}' в fallback", ex_query_fallback_quote, exc_info=True)
-                query_norm = query_raw
-    
-    fragment_norm = '' # Удаление фрагмента
-    params_norm = parsed_parts.params # Компонент params остается без изменений
+            except Exception as ex_query_fallback_quote: # Критическая ошибка кодирования
+                logger.error(f"Критическая ошибка при кодировании параметров запроса '{query_raw}' в запасном варианте.", ex_query_fallback_quote, exc_info=True)
+                query_norm = query_raw # В крайнем случае используются исходные параметры
+    # else: query_norm остается ''
+
+    fragment_norm = '' # Удаление фрагмента ('#section') согласно шагу 9
+    params_norm = parsed_parts.params # Компонент params (для matrix URIs) остается без изменений
 
     # 7. Сборка нормализованного URL
     try:
         # Сборка URL из нормализованных компонентов
-        normalized_url_result = urlunparse((scheme_norm, netloc_norm, path_norm, params_norm, query_norm, fragment_norm))
-    except Exception as ex_unparse:
-        logger.error(f"Ошибка сборки URL из компонентов: {(scheme_norm, netloc_norm, path_norm, params_norm, query_norm, fragment_norm)}", ex_unparse, exc_info=True)
+        normalized_url_result: str = urlunparse((scheme_norm, netloc_norm, path_norm, params_norm, query_norm, fragment_norm))
+    except Exception as ex_unparse: # Ошибка при сборке URL
+        logger.error(
+            f"Ошибка при сборке URL-адреса из компонентов: "
+            f"{(scheme_norm, netloc_norm, path_norm, params_norm, query_norm, fragment_norm)}",
+            ex_unparse, exc_info=True
+        )
         return None # Возврат None в случае ошибки сборки
 
     return normalized_url_result
-
-
 
 
 def is_url(text: Optional[str]) -> bool:

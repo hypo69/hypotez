@@ -248,6 +248,15 @@ The `page_type` field is **mandatory** and must always be included.
   "description": "<full content or body text if available>"
 }
 ```
+#### 17, Manuals
+```json
+{
+  "page_type": "manuals",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
+}
+```
 ---
 
 ### Output Rules:

@@ -53,7 +53,7 @@ from collections.abc import Mapping, Sequence
 from types import SimpleNamespace
 from dataclasses import dataclass
 from json_repair import repair_json
-import json_repair
+#import json_repair
 
 
 from src.logger.logger import logger
@@ -387,12 +387,12 @@ def _string_to_dict(json_string: str, return_objects:bool = False) -> dict[Any, 
         result:dict = json.loads(cleaned_string)
     except json.JSONDecodeError as ex:
         logger.error(f'JSON parsing error for string (first 100 chars): "{cleaned_string[:100]}..."', ex, False)
-        logger.debug(f'Trying json_repair')
+        logger.debug(f'Trying repair_json')
         try:
-            repaired_result:dict|bool = json_repair(cleaned_string)
+            repaired_result:dict|bool = repair_json(cleaned_string)
             result:dict = json.loads(repaired_result)
         except Exception as ex:
-            logger.error(f'Error in json_repair', ex)
+            logger.error(f'Error in repair_json', ex)
             return {}
     except Exception as ex:
         logger.error(f'Unexpected error parsing string (first 100 chars): "{cleaned_string[:100]}..."', ex, False)

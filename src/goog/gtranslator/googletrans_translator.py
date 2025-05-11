@@ -1,44 +1,21 @@
-## \file /src/goog/gtranslater/__init__.py
+## \file /src/goog/gtranslator/googletrans_translator.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
 """
-.. module:: src.goog.gtranslater 
-	:platform: Windows, Unix
-	:synopsis:
+    Модуль для перевода текста с помощью Google Translate API
+    =====================================================
 
-"""
+ This module handles language translation using Google Translate API. 
+ It includes a function to translate text with automatic language detection for 
+ the input text if not specified.
+ ```rst
+.. module:: src.goog.googletrans_translator
+```
+ """
 
-
-"""
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-"""
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-"""
-  :platform: Windows, Unix
-
-"""
-"""
-  :platform: Windows, Unix
-  :platform: Windows, Unix
-  :synopsis:
-"""
-  
-""" module: src.goog.gtranslater """
-
-
-""" This module handles language translation using Google Translate API. It includes a function to translate text with automatic language detection for the input text if not specified."""
-
-
+import header
+from header import __root__
 
 from googletrans import Translator
 from langdetect import detect
