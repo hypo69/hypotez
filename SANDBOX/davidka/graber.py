@@ -25,7 +25,7 @@ from src.utils.file import read_text_file
 from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
 from src.utils.jjson import j_loads, j_dumps
-from SANDBOX.davidka import utils 
+from SANDBOX.davidka.utils import utils 
 from src.logger import logger
 
 # Список разрешенных HTML атрибутов для сохранения в очищенном HTML.

@@ -29,7 +29,7 @@ from src.utils.url import get_domain
 from src.utils.string.ai_string_utils import normalize_answer
 from src.utils.printer import pprint as print
 from src.logger import logger
-from SANDBOX.davidka.utils import yield_product_urls_from_files, get_categories_from_random_urls, files_mixer
+from SANDBOX.davidka.utils.utils import yield_product_urls_from_files, get_categories_from_random_urls, files_mixer, sort_by_page_type
 
 
 
@@ -264,7 +264,7 @@ async def find_products_urls_by_category(driver:SimpleDriver, category: str, tas
         return ''
 
 def sanitize(dir_path:Path|str):
-    """Очистка полученных данны. Функция проверяет 
+    """Очистка полученных данныx. Функция проверяет 
     валидность JSON, пытается исправить ошибки в битых файлах.
     В случае неудачи функция переименовывает файл в .sanitized
     """
@@ -293,6 +293,16 @@ def sanitize(dir_path:Path|str):
             except OSError as e:
                 print(f"Ошибка при переименовании '{file_path}' в '{new_file_path}': {e}")
                 continue
+
+def sort_data_by_page_type():
+    """Сортировка полученных данных по 
+    типу вебстрнаиц (product, information, about, conracts, errors, ...)"""
+    input_dir:Path = Config.STORAGE / 'data_by_supplier'
+    output_dir:Path = Config.STORAGE / 'sorted_data_by_page_type'
+    chunk_limit:int = 70
+
+    sort_by_page_type(input_dir, output_dir, chunk_size=chunk_limit)
+
 
 async def main():
     """Основная функция запуска"""

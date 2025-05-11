@@ -75,6 +75,8 @@ from src import gs
 
 from src.logger.logger import logger
 from src.utils.printer import pprint as print
+from src.utils.jjson import find_keys
+#from SANDBOX.davidka import 
 
 
 class GoogleApiSearcher:
@@ -171,6 +173,10 @@ class GoogleApiSearcher:
                 # Обработка каждого элемента результата
                 item: Dict[str, Any]
                 for item in items:
+                    print(f"Заголовок: {item['title']}")
+                    print(f"Ссылка: {item['link']}")
+                    print(f"Описание: {item.get('snippet', 'Нет описания')}\n")
+
                     link: Optional[str] = item.get('link')
                     if link:
                         links.append(link)
@@ -398,6 +404,8 @@ if __name__ == '__main__':
     if searcher is None:
          print("Критическая ошибка: Не удалось создать экземпляр GoogleApiSearcher.")
          sys.exit(1)
+
+    #categories:list = find_keys(DICT?)
 
     # 2. Получение категории от пользователя
     category_input = input('Введите название категории товаров: ')

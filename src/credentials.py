@@ -105,7 +105,7 @@ class ProgramSettings:
                                 user_api = None)),
 
         google_custom_search=SimpleNamespace(owner = SimpleNamespace(api_key = None,
-                        sce_id = None)),
+                        cse_id = None)),
 
 
         shutter_stock=SimpleNamespace(owner = SimpleNamespace(token = None)),
@@ -359,7 +359,7 @@ class ProgramSettings:
                 setattr(self.credentials.google_custom_search, entry.title, entry_ns)                        
                 _entry = getattr(self.credentials.google_custom_search, entry.title)
                 setattr(_entry, 'api_key', entry.custom_properties.get('api_key', None))
-                setattr(_entry, 'sce_id', entry.custom_properties.get('sce_id', None))
+                setattr(_entry, 'cse_id', entry.custom_properties.get('cse_id', None))
       
             return True
         except Exception as ex:

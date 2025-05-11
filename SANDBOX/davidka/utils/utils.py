@@ -17,6 +17,10 @@ import random
 from pathlib import Path
 from typing import List, Optional, Generator, Union, Dict, Set, Any
 from types import SimpleNamespace
+import json
+import os
+import glob
+from collections import defaultdict
 
 # -----------------
 
@@ -343,11 +347,6 @@ def fetch_urls_from_all_mining_files(dir_path: Path| List[Path]  = ['mined_urls'
     random.shuffle(found_urls)
     return  found_urls
 
-import os
-import random
-
-import os
-import random
 
 def files_mixer(base_path):
     """
@@ -409,90 +408,130 @@ def files_mixer(base_path):
 
         yield file_path
 
+def sort_by_page_type(input_directory, output_directory, chunk_size=100):
+    """
+    Рассортировывает словари из JSON файлов по page_type,
+    сохраняет их в отдельные файлы (разбивая на чанки при необходимости)
+    и удаляет из исходных.
+
+    Args:
+        input_directory (str): Путь к директории с исходными JSON файлами.
+        output_directory (str): Путь к директории для сохранения обработанных файлов.
+        chunk_size (int): Максимальное количество ключей в одном выходном файле.
+    """
+    if not os.path.isdir(input_directory):
+        print(f"Ошибка: Директория входа '{input_directory}' не найдена.")
+        return
+    if chunk_size <= 0:
+        print(f"Ошибка: Размер чанка (chunk_size) должен быть положительным числом.")
+        return
+
+    os.makedirs(output_directory, exist_ok=True)
+    print(f"Файлы будут сохранены в: {os.path.abspath(output_directory)}")
+    print(f"Максимальный размер файла (количество ключей на чанк): {chunk_size}")
+
+    # Словарь для агрегации всех данных по page_type из всех файлов
+    aggregated_data_by_type = defaultdict(dict)
+
+    json_files = glob.glob(os.path.join(input_directory, '*.json'))
+    if not json_files:
+        print(f"В директории '{input_directory}' не найдено JSON файлов.")
+        return
+
+    for filepath in json_files:
+        print(f"\nОбработка файла: {filepath}")
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        except json.JSONDecodeError:
+            print(f"  Ошибка: Не удалось декодировать JSON из файла {filepath}. Файл пропущен.")
+            continue
+        except Exception as e:
+            print(f"  Ошибка при чтении файла {filepath}: {e}. Файл пропущен.")
+            continue
+
+        if not isinstance(data, dict):
+            print(f"  Предупреждение: Содержимое файла {filepath} не является словарем. Файл пропущен.")
+            continue
+
+        items_to_keep_in_original_file = {} 
+        urls_to_process = list(data.keys()) # Копия ключей для безопасной итерации
+
+        for url in urls_to_process:
+            item_data = data.get(url)
+            if not isinstance(item_data, dict):
+                print(f"  Предупреждение: Элемент с ключом '{url}' в файле {filepath} не является словарем. Элемент останется в исходном файле.")
+                items_to_keep_in_original_file[url] = item_data
+                continue
+
+            page_type = item_data.get("page_type")
+
+            if page_type and isinstance(page_type, str):
+                # Добавляем элемент в агрегированные данные
+                aggregated_data_by_type[page_type][url] = item_data
+                # Сообщение о каждом извлеченном элементе убрано, чтобы не засорять лог
+            else:
+                print(f"  Предупреждение: У элемента с ключом '{url}' отсутствует или некорректное поле 'page_type'. Элемент останется в исходном файле.")
+                items_to_keep_in_original_file[url] = item_data
+        
+        # Перезаписываем исходный файл только теми элементами, которые не были обработаны
+        try:
+            with open(filepath, 'w', encoding='utf-8') as f:
+                json.dump(items_to_keep_in_original_file, f, indent=4, ensure_ascii=False)
+            if not items_to_keep_in_original_file:
+                print(f"  Исходный файл {filepath} теперь пуст (все элементы обработаны).")
+            else:
+                print(f"  Исходный файл {filepath} обновлен, необработанные элементы сохранены.")
+        except Exception as e:
+            print(f"  Ошибка при записи обновленного исходного файла {filepath}: {e}")
 
 
-# --- Основная часть скрипта ---
-if __name__ == "__main__":
+    # Сохраняем агрегированные данные в отдельные файлы по page_type, разбивая на чанки
+    if not aggregated_data_by_type:
+        print("\nНе найдено элементов для сортировки по 'page_type' во всех файлах.")
+        return
+        
+    print("\nСохранение отсортированных данных...")
+    for page_type, all_items_for_type in aggregated_data_by_type.items():
+        if not all_items_for_type: # Если для этого типа нет элементов
+            continue
 
-    res_dict:dict = build_list_of_checked_urls()
-    ...
+        # Формируем безопасное базовое имя файла из page_type
+        # Приводим к нижнему регистру для унификации (Product и product будут одним типом)
+        safe_page_type_filename = "".join(c if c.isalnum() or c in ('_', '-') else '_' for c in page_type.lower())
+        if not safe_page_type_filename: 
+            safe_page_type_filename = "unnamed_page_type"
+        
+        # Преобразуем словарь элементов в список кортежей (url, data) для удобного чанкинга
+        items_list = list(all_items_for_type.items())
+        total_items = len(items_list)
 
-    # urls_for_mining:list = fetch_urls_from_all_mining_files(['random_urls','output_product_data_set1'])
-    # print(urls_for_mining)
-    ...
+        if total_items == 0: # Дополнительная проверка
+            continue
 
-    # # Запрашиваем путь у пользователя
-    # target_dir_str = input("Введите путь к директории (оставьте пустым для текущей директории): ").strip()
+        # Рассчитываем количество чанков
+        num_chunks = (total_items + chunk_size - 1) // chunk_size
 
-    # # Если пользователь ничего не ввел, используем текущую директорию
-    # if not target_dir_str:
-    #     target_dir_str = '.' # '.' означает текущую директорию
+        print(f"  Для page_type '{page_type}' ({total_items} элементов) будет создано {num_chunks} чанк(ов).")
 
-    # # Создаем объект Path из введенной строки
-    # input_path = Path(target_dir_str)
+        for i in range(num_chunks):
+            chunk_number = i + 1
+            start_index = i * chunk_size
+            end_index = start_index + chunk_size
+            
+            current_chunk_list = items_list[start_index:end_index]
+            current_chunk_dict = dict(current_chunk_list) # Преобразуем чанк обратно в словарь
 
-    # # Получаем абсолютный (разрешенный) путь для надежности и понятных сообщений
-    # # resolve() также проверяет существование пути на раннем этапе (хотя наша функция это тоже делает)
-    # try:
-    #     target_path_resolved = input_path.resolve(strict=True) # strict=True вызовет ошибку, если путь не существует
-    # except FileNotFoundError:
-    #     print(f"Ошибка: Директория '{input_path}' не найдена.", file=sys.stderr)
-    #     target_path_resolved = None # Устанавливаем в None, чтобы не вызывать функцию
-    # except Exception as e: # Ловим другие возможные ошибки resolve()
-    #     print(f"Ошибка при обработке пути '{input_path}': {e}", file=sys.stderr)
-    #     target_path_resolved = None
+            # Формируем имя файла с номером чанка (например, products_0001.json)
+            output_filename = f"{safe_page_type_filename}_{chunk_number:04d}.json"
+            output_filepath = os.path.join(output_directory, output_filename)
+            
+            try:
+                with open(output_filepath, 'w', encoding='utf-8') as f_out:
+                    json.dump(current_chunk_dict, f_out, indent=4, ensure_ascii=False)
+                print(f"    Чанк {chunk_number}/{num_chunks} ({len(current_chunk_dict)} элементов) сохранен в {output_filepath}")
+            except Exception as e:
+                print(f"    Ошибка при записи файла {output_filepath}: {e}")
 
+    print("\nОбработка завершена.")
 
-    # urls = None # Инициализируем результат
-    # if target_path_resolved: # Проверяем, что путь был успешно разрешен
-    #     # Вызываем функцию поиска URL, передавая объект Path
-    #     urls = find_http_urls_in_directory_pathlib(target_path_resolved)
-
-    # # Выводим итоговый результат
-    # print(f"\n{'-'*30}\nИтоговый список найденных URL:\n{'-'*30}")
-    # if urls is not None: # Проверяем, что функция выполнилась без ошибки директории
-    #     if urls:
-    #         for url in urls:
-    #             print(url)
-    #     else:
-    #         print("URL, начинающиеся с http:// или https://, не найдены в файлах директории.")
-    # else:
-    #     # Сообщение об ошибке уже было выведено ранее (либо при resolve, либо в функции)
-    #     print("Поиск не был выполнен из-за ошибки доступа к директории или её отсутствия.")
-
-
-    # # Пример использования функции files_mixer
-
-    #     # Укажите путь к вашей базовой директории
-    # # Для примера, создадим ту же структуру, что и раньше:
-    # base_test_dir = "my_base_test_directory_mixer"
-    # os.makedirs(os.path.join(base_test_dir, "dir_one"), exist_ok=True)
-    # os.makedirs(os.path.join(base_test_dir, "dir_two"), exist_ok=True)
-    # os.makedirs(os.path.join(base_test_dir, "dir_three"), exist_ok=True)
-    # os.makedirs(os.path.join(base_test_dir, "dir_four_empty"), exist_ok=True)
-
-    # with open(os.path.join(base_test_dir, "dir_one", "file_1a.txt"), "w") as f: f.write("1A")
-    # with open(os.path.join(base_test_dir, "dir_one", "file_1b.dat"), "w") as f: f.write("1B")
-    # with open(os.path.join(base_test_dir, "dir_two", "file_2a.log"), "w") as f: f.write("2A")
-    # with open(os.path.join(base_test_dir, "dir_three", "file_3a.conf"), "w") as f: f.write("3A")
-    # with open(os.path.join(base_test_dir, "dir_three", "file_3b.ini"), "w") as f: f.write("3B")
-    # with open(os.path.join(base_test_dir, "dir_three", "file_3c.json"), "w") as f: f.write("3C")
-    # with open(os.path.join(base_test_dir, "some_other_file.txt"), "w") as f: f.write("This is not in a subdir")
-
-    # # Запускаем основную функцию
-    # random_paths = files_mixer(base_test_dir)
-
-    # if random_paths:
-    #     print(f"Перемешанный порядок директорий, из которых выбраны файлы (порядок соответствует списку ниже):")
-    #     # Чтобы показать, из каких директорий брались файлы в каком порядке:
-    #     ordered_parent_dirs = [os.path.dirname(p) for p in random_paths]
-    #     # Убираем дубликаты, сохраняя порядок (Python 3.7+)
-    #     unique_ordered_parent_dirs = list(dict.fromkeys(ordered_parent_dirs))
-    #     for parent_dir in unique_ordered_parent_dirs:
-    #         print(f" - {os.path.basename(parent_dir)}") # Выводим только имя директории
-
-    #     print("\nСлучайно выбранные пути к файлам:")
-    #     for path in random_paths:
-    #         print(path)
-    # else:
-    #     print("Не удалось получить пути к файлам.")

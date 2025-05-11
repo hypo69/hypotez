@@ -1,4 +1,4 @@
-## \file /sandbox/davidka/process random suppliers.py
+## \file /sandbox/davidka/process_random_suppliers.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
@@ -28,7 +28,7 @@
   python process random suppliers.py kazarinov     # Использует ключ 'kazarinov'
 
 ```rst
- .. module:: sandbox.davidka.process random suppliers
+ .. module:: sandbox.davidka.process_random_suppliers
 ```
 """
 

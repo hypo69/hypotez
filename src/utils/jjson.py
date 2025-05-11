@@ -650,15 +650,15 @@ def sanitize_json_files(path: Path) -> bool:
 
 def find_keys(
     obj: Any,
-    keys_to_find: TypingList[str],
-    found: TypingDict[str, TypingList[Any]] | None = None, # Используем TypingDict/TypingList как в оригинале
+    keys_to_find_input: TypingList[str] | str,
+    found: TypingDict[str, TypingList[Any]] | None = None,
 ) -> TypingDict[str, TypingList[Any]]:
     """
     Рекурсивно находит все значения, связанные с указанными ключами, во вложенной структуре данных.
 
     Args:
         obj (Any): Входной Python объект (словарь, список или любая JSON-подобная структура).
-        keys_to_find (list[str]): Список строковых ключей для поиска.
+        keys_to_find_input (TypingList[str] | str): Список строковых ключей для поиска или один ключ-строка.
         found (dict[str, list[Any]] | None, optional): Аккумулятор для найденных ключей и их значений.
             Обычно используется внутренне для рекурсии. По умолчанию `None`.
 
@@ -676,22 +676,79 @@ def find_keys(
         [1, 2, 3, 4]
         >>> sorted(result['name'])
         ['Child1', 'Child2', 'Parent']
-        >>> find_keys(data, ["non_existent_key"])
+        >>> # Test with a single key string
+        >>> result_single = find_keys(data, "id")
+        >>> sorted(result_single['id'])
+        [1, 2, 3, 4]
+        >>> find_keys(data, ["non_existent_key"]) # Test with non-existent key
         {'non_existent_key': []}
     """
-    if found is None: # Инициализация на первом вызове
-        found = {key: [] for key in keys_to_find}
+    
+    # Эта переменная будет содержать фактический список строковых ключей для поиска.
+    actual_keys_list_to_search: TypingList[str]
+    # Эта переменная будет содержать словарь-аккумулятор.
+    current_accumulator_dict: TypingDict[str, TypingList[Any]]
+
+    # Блок выполняется только при первоначальном (не рекурсивном) вызове.
+    if found is None:
+        # Обработка keys_to_find_input для гарантии, что это список строк.
+        if isinstance(keys_to_find_input, str):
+            actual_keys_list_to_search = [keys_to_find_input]
+        elif isinstance(keys_to_find_input, list) and all(isinstance(k, str) for k in keys_to_find_input):
+            actual_keys_list_to_search = keys_to_find_input
+        else:
+            # Логирование ошибки, если тип входных данных не соответствует ожидаемому.
+            logger.error(f"Параметр 'keys_to_find_input' должен быть строкой или списком строк. Получено: {type(keys_to_find_input)}")
+            # Возврат пустого словаря или частично сформированного, если возможно.
+            if hasattr(keys_to_find_input, '__iter__') and not isinstance(keys_to_find_input, (str, bytes)):
+                 return {str(k): [] for k in keys_to_find_input if isinstance(k, str)}
+            return {}
+
+        # Инициализация словаря-аккумулятора.
+        current_accumulator_dict = {key_item: [] for key_item in actual_keys_list_to_search}
+    # Блок выполняется при рекурсивных вызовах.
+    else:
+        current_accumulator_dict = found
+        # В рекурсивных вызовах `keys_to_find_input` фактически является `actual_keys_list_to_search` из родительского вызова.
+        # Таким образом, это уже обработанный список строк.
+        if not (isinstance(keys_to_find_input, list) and all(isinstance(k, str) for k in keys_to_find_input)):
+            # Это не должно произойти, если рекурсия вызывается корректно. Логирование ошибки, если это произошло.
+            logger.error("Внутренняя ошибка: `keys_to_find_input` в рекурсивном вызове не является списком строк.")
+            return current_accumulator_dict # Или выбросить исключение
+
+        actual_keys_list_to_search = keys_to_find_input
+
 
     try:
-        if isinstance(obj, Mapping): # Если объект - словарь или подобный
+        # Если объект является словарем или подобным отображением.
+        if isinstance(obj, Mapping):
             for key, value in obj.items():
-                if key in keys_to_find:
-                    found[key].append(value)
-                find_keys(value, keys_to_find, found) # Рекурсия для значения
-        elif isinstance(obj, Sequence) and not isinstance(obj, (str, bytes)): # Если объект - список/кортеж (не строка)
+                # Приведение ключа из obj к строке для поиска.
+                key_as_str: str = str(key)
+                if key_as_str in actual_keys_list_to_search:
+                    # Если ключ совпадает с одним из искомых, добавление его значения.
+                    # Код пользователя содержал `if value:`, что пропускало бы ложные значения (например, None, 0, False).
+                    # Эта проверка удалена, чтобы включать все значения для найденных ключей.
+                    if value:
+                        # Проверка, является ли значение списком или кортежем.
+                        if isinstance(value, (list, tuple)):
+                            # Приведение к списку для хранения в аккумуляторе.
+                            current_accumulator_dict[key_as_str].extend(list(value))
+                        else:
+                            # Добавление значения в аккумулятор.
+                            current_accumulator_dict[key_as_str].append(value)
+                
+                # Рекурсивный вызов find_keys для значения.
+                # Передача `actual_keys_list_to_search` (обработанный список) и `current_accumulator_dict`.
+                find_keys(value, actual_keys_list_to_search, current_accumulator_dict)
+        # Если объект является списком или кортежем (но не строкой/байтами).
+        elif isinstance(obj, Sequence) and not isinstance(obj, (str, bytes)):
             for item in obj:
-                find_keys(item, keys_to_find, found) # Рекурсия для элемента
+                # Рекурсивный вызов find_keys для каждого элемента в последовательности.
+                find_keys(item, actual_keys_list_to_search, current_accumulator_dict)
+    
     except Exception as ex:
         logger.error('Ошибка при поиске ключей в объекте', ex, exc_info=True)
+        # Функция вернет 'current_accumulator_dict' в его состоянии на момент ошибки.
 
-    return found
+    return current_accumulator_dict

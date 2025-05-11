@@ -34,7 +34,7 @@ from src.utils.printer import pprint as print
 from src.logger.logger import logger
 
 # Импорт утилит из соседнего файла utils.py
-from . import utils
+from .utils import utils
 
 # --- Конфигурация ---
 class Config:

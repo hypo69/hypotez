@@ -45,7 +45,7 @@ from src import gs
 from src.utils.file import read_text_file # Убедитесь, что функция существует
 from src.utils.jjson import j_dumps, j_loads, j_loads_ns
 # Импортируем функцию для получения URL (убедитесь, что она существует)
-from SANDBOX.davidka.utils import fetch_urls_from_all_mining_files
+from SANDBOX.davidka.utils.utils import fetch_urls_from_all_mining_files
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.language_models.chat_models import BaseChatModel
