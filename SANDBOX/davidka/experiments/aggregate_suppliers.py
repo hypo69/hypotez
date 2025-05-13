@@ -25,6 +25,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Optional, Dict, Any, List, Tuple
 import threading
+import time
 
 # Стандартные импорты проекта
 import header

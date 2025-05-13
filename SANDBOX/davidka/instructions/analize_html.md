@@ -257,7 +257,14 @@ The `page_type` field is **mandatory** and must always be included.
   "description": "<full content or body text if available>"
 }
 ```
+#### 18, Shopping Cart
+```json
+"page_type":"shopping_card",
+  "title": "<page title>",
+  "summary": "<short summary if available>",
+  "description": "<full content or body text if available>"
 ---
+
 
 ### Output Rules:
 

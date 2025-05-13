@@ -3,18 +3,20 @@
 #! .pyenv/bin/python3
 
 """
-Модуль поискя страниц в Google по категориям
+Модуль поиска страниц в Google по категориям
 =====================================================
 ```rst
 .. module:: sandbox.davidka.custom_search_google_search_api
 ```
 """
+
 import asyncio
 import random
 from types import SimpleNamespace
 from urllib.parse import urlparse
 from pathlib import Path
 from googleapiclient.discovery import build
+import time
 
 # Локальные модули
 import header
@@ -42,9 +44,9 @@ class Config:
     ENDPOINT:Path  = __root__ / 'SANDBOX' / 'davidka'
     config:SimpleNamespace = j_loads_ns(ENDPOINT/'davidka.json') 
     STORAGE:Path = Path(config.storage)
-    API_KEY = gs.credentials.google_custom_search.onela.api_key  # Получить здесь👉 https://developers.google.com/custom-search/v1/introduction
-    CSE_ID = gs.credentials.google_custom_search.onela.cse_id  # Создайте здесь 👉 https://programmablesearchengine.google.com/about/ 
-    GEMINI_API_KEY:str = gs.credentials.gemini.onela.api_key
+    API_KEY = gs.credentials.google_custom_search.regina.api_key  # Получить здесь👉 https://developers.google.com/custom-search/v1/introduction
+    CSE_ID = gs.credentials.google_custom_search.regina.cse_id  # Создать здесь 👉 https://programmablesearchengine.google.com/about/ 
+    GEMINI_API_KEY:str = gs.credentials.gemini.regina.api_key
     MODEL_NAME:str = 'gemini-2.0-flash-exp'
 
 def google_search(query, api_key, cse_id, **kwargs) -> dict:
@@ -60,10 +62,11 @@ def google_search(query, api_key, cse_id, **kwargs) -> dict:
         logger.error(f'Ошибка поиска google custom search:' , ex)
         return {}
 
-def extract_categories():
+def extract_categories(source_categories_dirs: Path | str | list[Path], model:GoogleGenerativeAi = None) -> list:
     """Вытаскивает категории из всех файлов """
     categories:list = []
-    for source_dir in [Config.STORAGE/'data_by_supplier_test', Config.STORAGE/'random_urls_test']:
+    source_categories_dirs:list[Path] = source_categories_dirs if isinstance(source_categories_dirs, list) else [source_categories_dirs] if source_categories_dirs else  [Config.STORAGE/'data_by_supplier_test', Config.STORAGE/'random_urls']
+    for source_dir in: source_categories_dirs
         for file in recursively_yield_file_path(source_dir, '*.json'):
             # Загрузка данных из файла
             data_dict = j_loads(file)
@@ -71,6 +74,7 @@ def extract_categories():
                 logger.warning(f'No data found in {file}')
                 continue
             found = find_keys(data_dict, ['category','category_name','parent_category','parent_category_name'])
+            if model:
             if found['category']:
                 categories.extend( found['category'] )
                 print(f'Found categories in {file}: {found["category"]}')
@@ -98,8 +102,6 @@ def extract_categories():
 # extracted_categories:list = extract_categories()    
 # categories_for_search:list = list(set(extracted_categories))
 # save_text_file(categories_for_search, Config.STORAGE/'known_categories.txt')
-
-categories_for_search_list:list = read_text_file(Config.STORAGE/'known_categories.txt', as_list=True)
 #print(categories_for_search_list)
 ...
 
@@ -148,25 +150,29 @@ model:GoogleGenerativeAi = GoogleGenerativeAi(model_name=Config.MODEL_NAME, api_
 # ...
 # save_text_file(а_clear, Config.STORAGE/'known_categories.txt')
 
+categories_for_search_list:list = read_text_file(Config.STORAGE/'known_categories.txt', as_list=True)
 
 for category in categories_for_search_list:
     # Запрос для поиска
     if_cat = model.ask(f'CATEGORY FOR CHECK: `{category}`. Check the category name. If the category does not belong to the section described in the system instruction, return False.')
     if if_cat.lower() in ('false','','none'):
+        categories_for_search_list.remove(category)
+        Path(categories_for_search_list).write_text(categories_for_search_list)
         continue
     ...
+    timeout:int = 15
     keywords:list = ['electronics','electricity','electronic components','components','devices','test and measuring equipment','sensors','energy',]
-    query = f'''Give me a links for sections: {keywords} to products in the category '{category}' from different suppliers.'''
+    query = f'find {category} product in {str(keywords)} from different suppliers.'''
     
     #langs:list = ['en','ru','he','de','it','zh-cn','fr']
 
-    translated_query:list[dict] = translate_to(query, 'en', ['de'])
+    translated_query:list[dict] = translate_to(query, 'en', ['fr'])
     # Выполняем поиск
     links_dict:dict = {}
     for key, value in translated_query.items():
         kwargs:dict = {'num':15}
         results:dict = google_search(value, Config.API_KEY, Config.CSE_ID, **kwargs)  # num - количество результатов
-        #print(results)
+        print(results)
         # Выводим результаты
         if 'items' in results:
             for item in results['items']:
@@ -181,6 +187,8 @@ for category in categories_for_search_list:
             j_dumps(links_dict, Config.STORAGE / 'search_results' / f'{gs.now}.json')    
         else:
             print("Ничего не найдено.")
+
+        logger.debug(f'Sleeping for {timeout}'); time.sleep(timeout)
 
 
 

@@ -41,6 +41,7 @@ ALLOWED_ATTRIBUTES: list[str] = [
 FORBIDDEN_KEYWORDS: list[str] = [
     "google.", "facebook.", "twitter.", "youtube.", "instagram.", "linkedin.",
     "pinterest.", "amazon.", "aliexpress.", "ebay.", "wikipedia.org", "vk.com",
+    "archive.org","wikibooks",
     "ok.ru", "yandex.ru", "mail.ru", "livejournal.com", "blogspot.com", "wordpress.com",
     "microsoft.com", "apple.com", "adobe.com", "archive.org", "wa.me", "t.me", "tel:",
     "mailto:", "skype:", "javascript:", "data:", "ftp:", "file:", "android-app:", "ios-app:",

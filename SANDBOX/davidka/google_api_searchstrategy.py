@@ -2,6 +2,15 @@
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
+
+# -----------------------------------------------------------------------------------------------
+#
+#           В этом модуле находятся стратергии поиска. 
+#           Реализацию см в experiments/custom_search_google_search_api.py
+#
+# ------------------------------------------------------------------------------------------------
+
+
 """
 Скрипт для извлечения ссылок из Google Search с использованием API и различных стратегий.
 =========================================================================================
@@ -89,8 +98,8 @@ class GoogleApiSearcher:
     MAX_RESULTS_PER_PAGE: int = 10
     TARGET_RESULTS_PER_SUBQUERY: int = 20 # Желаемое кол-во на каждый подзапрос
     API_CALL_DELAY: float = 0.5 # Задержка между вызовами API
-    API_KEY: str  = getattr( gs.credentials.google_custom_search.onela, 'api_key', None)
-    CSE_ID: str = getattr( gs.credentials.google_custom_search.onela, 'cse_id', None)
+    API_KEY = gs.credentials.google_custom_search.onela.api_key  # Получить здесь👉 https://developers.google.com/custom-search/v1/introduction
+    CSE_ID = gs.credentials.google_custom_search.onela.cse_id  # Создать здесь 👉 https://programmablesearchengine.google.com/about/ 
 
     def __init__(self, api_key: Optional[str] = None, cse_id: Optional[str] = None):
         """

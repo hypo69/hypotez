@@ -56,9 +56,7 @@ class Config:
     processed_internal_links_file_name:str =  'processed_links.json' 
     DELAY_AFTER_LINK_PROCESSING: int = 15
 
-def generate_timestamp_filename() -> str:
-    """Генерирует имя файла на основе текущей временной метки с миллисекундами."""
-    return datetime.now().strftime("%Y%m%d%H%M%S%f")[:-3] + ".json"
+
 
 def process_single_internal_link(
     driver: Driver,
