@@ -648,13 +648,6 @@ async def save_text_file_async(
 
 
 
-
-
-
-
-
-
-
 def _read_file_content(file_path: Path, chunk_size: int) -> str:
     """
     Читает содержимое файла по чанкам и возвращает как строку.

@@ -137,7 +137,7 @@ The `page_type` field is **mandatory** and must always be included.
 #### 7. About Page
 ```json
 {
-  "page_type": "about",
+  "page_type": "about_us",
   "title": "<page title>",
   "summary": "<short summary if available>",
   "description": "<full content or body text if available>"

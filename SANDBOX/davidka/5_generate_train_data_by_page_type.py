@@ -19,59 +19,55 @@
 import sys
 import argparse # Добавлено для парсинга аргументов командной строки
 from pathlib import Path
-# from types import SimpleNamespace # SimpleNamespace больше не используется напрямую в Config
-from typing import Optional, Dict, Any, List, Union # Добавлено Union для Path
+from types import SimpleNamespace 
+from typing import Optional, Dict, Any, List, Union 
 
 # -------------------------------------------------------------------
 import header
 from header import __root__
 from src import gs
 from src.llm.gemini import GoogleGenerativeAi
+from src.webdriver import driver
 from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
 from SANDBOX.davidka.graber import extract_page_data # Предполагается, что этот путь корректен
 from src.utils.file import read_text_file, recursively_yield_file_path
 from src.utils.url import extract_pure_domain
-from src.utils.jjson import j_loads, j_dumps # j_loads_ns больше не используется в Config
+from src.utils.jjson import j_loads, j_dump, j_loads_ns
 from src.utils.printer import pprint as print
 from src.logger.logger import logger
 
 class Config:
     """Класс конфигурации скрипта."""
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
-    config_file_path: Path = ENDPOINT / 'davidka.json'
-    config_data: Optional[Dict[str, Any]] = j_loads(config_file_path) # Загружаем как dict
-
-    STORAGE: Path
-    TRAIN_STORAGE: Path
-
-    if config_data:
-        storage_path_str = config_data.get('storage')
-        train_storage_path_str = config_data.get('train_storage')
-
-        if storage_path_str:
-            STORAGE = Path(storage_path_str)
-        else:
-            logger.error(f"Ключ 'storage' не найден в {config_file_path}. Установка в текущую директорию.")
-            STORAGE = Path.cwd()
-
-        if train_storage_path_str:
-            TRAIN_STORAGE = Path(train_storage_path_str)
-        else:
-            logger.error(f"Ключ 'train_storage' не найден в {config_file_path}. Установка в 'TRAIN' внутри STORAGE.")
-            TRAIN_STORAGE = STORAGE / 'TRAIN'
-            TRAIN_STORAGE.mkdir(parents=True, exist_ok=True) # Создаем, если не существует
-    else:
-        logger.critical(f"Не удалось загрузить конфигурационный файл: {config_file_path}. Остановка.")
-        sys.exit(1) # Выход, если конфигурация не загружена
-
+    config:SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json') # Загрузка конфигурации из JSON
+    actual_storage:str = 'local_storage' # 'local_storage' or 'google_drive'  <- ГДЕ НАХОДИТСЯ ХРАНИЛИЩЕ
+    STORAGE:Path = Path(config.local_storage.storage) if actual_storage == 'local_storage' else Path(config.google_drive.storage)
+    TRAIN_STORAGE: Path = STORAGE / 'train_data' # Папка для хранения обучающих данных
     GEMINI_API_KEY: Optional[str] = None # Будет установлен позже из аргументов командной строки
     GEMINI_MODEL_NAME: str = 'gemini-1.5-flash-latest' # Обновлено на более актуальное имя модели
     system_instructuction: str | None = read_text_file(ENDPOINT / 'instructions/analize_html.md')
     updated_links_file_name: str = 'updated_links.json'
     DELAY_AFTER_LINK_PROCESSING: int = 15
     WINDOW_MODE: str = 'headless'
-    train_dir: Path = TRAIN_STORAGE # Используем TRAIN_STORAGE
+
+    # списки отфильтрованных данных
+    product:List[Dict[str, Any]] = []
+    category:List[Dict[str, Any]] = []
+    about_us:List[Dict[str, Any]] = [] # <- `page_type` may be 'about_us' or 'about
+    contact:List[Dict[str, Any]] = []
+    manuals:List[Dict[str, Any]] = []
+    article:List[Dict[str, Any]] = []
+    information:List[Dict[str, Any]] = []
+    home:List[Dict[str, Any]] = []
+    description:List[Dict[str, Any]] = []
+    distributors:List[Dict[str, Any]] = []
+    service:List[Dict[str, Any]] = []
+    faq:List[Dict[str, Any]] = []
+    blog:List[Dict[str, Any]] = []
+    unknown:List[Dict[str, Any]] = []
+    error:List[Dict[str, Any]] = []
+
 
 
 # ---------------------------------- Вспомогательные функции извлечения данных ---------------------------
@@ -384,38 +380,10 @@ def generate_train_data(path: Path, timestamp: str):
         logger.info(f"generate_train_data: Добавлено/обновлено {len(products_to_save)} товаров в {output_file_path}")
 
 
-def process_files_and_generate_data():
+def process_files_and_generate_data(driver:Driver, model:GoogleGenerativeAi):
     """
     Основная функция для обработки файлов и генерации структурированных данных.
     """
-    driver: Optional[Driver] = None
-    llm_instance: Optional[GoogleGenerativeAi] = None
-
-    try:
-        driver = Driver(Firefox, window_mode=Config.WINDOW_MODE)
-        logger.info('Инстанс WebDriver Firefox успешно инициализирован.')
-    except Exception as ex:
-        logger.error(f'Не удалось инициализировать WebDriver Firefox: {ex}', exc_info=True)
-        # Решение о выходе или продолжении без WebDriver зависит от требований
-        # Если WebDriver критичен для всех операций, можно сделать sys.exit(1)
-
-    # Инициализация LLM с использованием ключа, установленного из аргументов командной строки
-    if Config.GEMINI_API_KEY and Config.system_instructuction:
-        try:
-            llm_instance = GoogleGenerativeAi(
-                Config.GEMINI_API_KEY,
-                Config.GEMINI_MODEL_NAME,
-                {'response_mime_type': 'application/json'},
-                Config.system_instructuction
-            )
-            logger.info(f'Инстанс GoogleGenerativeAi успешно инициализирован с ключом пользователя.')
-        except Exception as ex:
-            logger.critical(f'Не удалось инициализировать GoogleGenerativeAi: {ex}', ex, exc_info=True)
-            # sys.exit(1) # Раскомментируйте, если LLM абсолютно необходим
-    elif not Config.GEMINI_API_KEY:
-        logger.error(f'GEMINI_API_KEY не был установлен. LLM-функциональность недоступна.')
-    elif not Config.system_instructuction:
-        logger.error(f'system_instructuction не настроен. LLM-функциональность недоступна.')
 
     current_timestamp: str = gs.now
     file_counter: int = 0
@@ -622,28 +590,9 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
     username = args.user
-
+    model:GoogleGenerativeAi = GoogleGenerativeAi(Config.GEMINI_API_KEY, Config.GEMINI_MODEL_NAME, {'response_mime_type': 'application/json'}, Config.system_instructuction)
+    driver:Driver = Driver(Firefox, window_mode = Config.WINDOW_MODE)
     logger.info(f"--- Начало работы скрипта {script_name} для пользователя '{username}' ---")
-
-    # ------------------------- УСТАНОВКА GEMINI API КЛЮЧА --------------------------
-    try:
-        user_gemini_config = getattr(gs.credentials.gemini, username)
-        Config.GEMINI_API_KEY = getattr(user_gemini_config, 'api_key')
-        logger.info(f"Успешно получен и установлен Gemini API ключ для пользователя: '{username}'")
-    except AttributeError:
-        logger.critical(f"Ошибка: не удалось найти конфигурацию или API ключ для пользователя '{username}' в gs.credentials.gemini.{username}.api_key.")
-        sys.exit(1)
-    except Exception as e: 
-        logger.critical(f"Непредвиденная ошибка при доступе к API ключу для пользователя '{username}': {e}", exc_info=True)
-        sys.exit(1)
-
-    if not Config.GEMINI_API_KEY:
-        logger.critical(f"Ошибка: API ключ для пользователя '{username}' пустой или не найден.")
-        sys.exit(1)
-
-    # Убедимся, что директория для train_dir существует
     Config.train_dir.mkdir(parents=True, exist_ok=True)
     logger.info(f"Директория для обучающих данных: {Config.train_dir.resolve()}")
-
-
-    process_files_and_generate_data()
+    process_files_and_generate_data(model)

@@ -1,4 +1,4 @@
-## \file /sandbox/davidka/utils.py
+## \file /sandbox/davidka/utils/utils.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
@@ -9,7 +9,7 @@
 используемых для сбора информации о товарах.
 
 ```rst
-.. module:: sandbox.davidka.utils
+.. module:: sandbox.davidka.utils.utils
 ```
 """
 import re
@@ -38,17 +38,14 @@ from src.utils.url import get_domain
 class Config:
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
     config:SimpleNamespace = j_loads_ns(ENDPOINT/'davidka.json')
-    mining_data_path: Path= Path(config.random_urls)
 
-    #train_data_supplier_categories_path: Path = ENDPOINT / 'train_data_supplier_categories'
-    #checked_domains: list = read_text_file(ENDPOINT / 'checked_domains.txt', as_list=True)
-    crawl_files_list: list = get_filenames_from_directory(mining_data_path, 'json')
     instruction_grab_product_page_simple_driver: str = (ENDPOINT / 'instructions' / 'grab_product_page_simple_driver.md').read_text(encoding='utf-8')
     instruction_get_supplier_categories: str = (ENDPOINT / 'instructions' / 'get_supplier_categories.md').read_text(encoding='utf-8')
     instruction_find_product_in_supplier_domain: str = (ENDPOINT / 'instructions' / 'find_product_in_supplier_domain.md').read_text(encoding='utf-8')
     instruction_for_products_urls_one_product: str = (ENDPOINT / 'instructions' / 'get_product_links_one_product.md').read_text(encoding='utf-8')
     instruction_links_from_search: str = (ENDPOINT / 'instructions' / 'links_from_search.md').read_text(encoding='utf-8')
     instruction_links_from_searh_page: str = (ENDPOINT / 'instructions' / 'links_from_searh_page.md').read_text(encoding='utf-8')
+
     GEMINI_API_KEY = gs.credentials.gemini.onela.api_key
 
 
