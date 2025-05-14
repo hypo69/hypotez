@@ -471,6 +471,15 @@ class GoogleGenerativeAi:
                 continue # Переход к следующей попытке
 
             except ResourceExhausted as ex:
+                if 'GenerateContentInputTokensPerModelPerMinute' in ex.message:
+                    logger.debug(
+                        f"Исчерпана квота запросов в минуту. Попытка: {attempt + 1}/{attempts}. Пауза: {15} сек. Время: {gs.now}",
+                        ex,
+                        False,
+                    )
+                    time.sleep(15)  
+                    continue # Переход к следующей попытке
+
                 # Длительная пауза при исчерпании квоты
                 timeout_quota = 14400 # 4 часа
                 logger.debug(
