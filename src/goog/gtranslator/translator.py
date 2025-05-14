@@ -1,16 +1,36 @@
+## \file /src/goog/gtanslator/translator.py
+# -*- coding: utf-8 -*-
+#! .pyenv/bin/python3
+
+"""
+Модуль переводов
+=====================================================
+```rst
+.. module:: src.goog.gtanslator.translator
+```
+"""
+
 from googletrans import Translator, LANGUAGES
+
+
+import header
+from header import __root__
+from src import gs
+from src.logger import logger
+from src.utils.printer import pprint as print
+
 
 # Этот список используется как fallback, если предоставленный target_langs некорректен
 # или если бы не было значения по умолчанию для target_langs.
 # Можно выбрать 10 самых популярных, как в первоначальном запросе:
-FALLBACK_DEFAULT_LANG_CODES = [
-    'en', 'zh-cn', 'hi', 'es', 'fr', 'ar', 'ru', 'pt', 'de', 'ja'
-]
-# Или использовать более широкий список:
 # FALLBACK_DEFAULT_LANG_CODES = [
-# 'en', 'zh-cn', 'de', 'it', 'es', 'fr', 'ar', 'ru', 'pt', 'ko',
-# 'tr', 'he', 'pl', 'uk', 'nl', 'cs', 'sv', 'da', 'ja'
+#     'en', 'zh-cn', 'hi', 'es', 'fr', 'ar', 'ru', 'pt', 'de', 'ja'
 # ]
+# Или использовать более широкий список:
+FALLBACK_DEFAULT_LANG_CODES = [
+'en', 'zh-cn', 'de', 'it', 'es', 'fr', 'ar', 'ru', 'pt', 'ko',
+'tr', 'he', 'pl', 'uk', 'nl', 'cs', 'sv', 'da', 'ja'
+]
 
 def translate_to(text_to_translate: str,
                            src_lang: str = 'auto',
@@ -41,20 +61,20 @@ def translate_to(text_to_translate: str,
             determined_source_lang_code = detected.lang
             # Обновляем отображаемое имя исходного языка после успешного определения
             source_lang_name_display = f"{LANGUAGES.get(determined_source_lang_code, determined_source_lang_code)} (обнаружено)"
-            print(f"Обнаружен исходный язык: {LANGUAGES.get(determined_source_lang_code, determined_source_lang_code)} ({determined_source_lang_code})")
-        except Exception as e:
-            print(f"Не удалось определить исходный язык: {e}. Используется 'auto' для перевода.")
+            #print(f"Обнаружен исходный язык: {LANGUAGES.get(determined_source_lang_code, determined_source_lang_code)} ({determined_source_lang_code})")
+        except Exception as ex:
+            logger.error(f"Не удалось определить исходный язык. Используется 'auto' для перевода.", ex)
             determined_source_lang_code = 'auto' # Остается 'auto' для сравнения
             source_lang_name_display = "auto (определение не удалось)"
 
-    print(f"\nОригинал ({source_lang_name_display}): {text_to_translate}\n")
+    #print(f"\nОригинал ({source_lang_name_display}): {text_to_translate}\n")
 
     # Определяем итоговый список целевых языков для перевода
     final_target_codes = []
     # Проверяем, что target_langs - это непустой список строк
     if isinstance(target_langs, list) and len(target_langs) > 0 and all(isinstance(lang, str) for lang in target_langs):
         final_target_codes = target_langs
-        print(f"Перевод будет выполнен на указанные языки: {final_target_codes}")
+        #print(f"Перевод будет выполнен на указанные языки: {final_target_codes}")
     else:
         final_target_codes = FALLBACK_DEFAULT_LANG_CODES
         if not isinstance(target_langs, list):

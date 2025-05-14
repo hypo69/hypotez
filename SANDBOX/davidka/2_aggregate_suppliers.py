@@ -41,11 +41,14 @@ from src.logger import logger
 class Config:
     """Класс конфигурации скрипта."""
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
-    _config_ns: SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json') # Используем приватное имя во избежание конфликта имен
-    STORAGE: Path = Path(_config_ns.storage)
-    input_dirs: list[Path] = [Path(STORAGE / 'search_results')]
-    output_dir: Path = Path(STORAGE / 'data_by_supplier_set_2')
-    need_sanitize_json_files: bool = getattr(_config_ns, 'need_sanitize_json_files', False)
+    LANG_CODE: str = 'it'  # Язык для обработки данных
+
+    config: SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json') 
+    actual_storage:str = 'local_storage' # 'google_drive'
+    STORAGE:Path = Path(config.local_storage.storage) if actual_storage == 'local_storage' else Path(config.google_drive.storage)
+    input_dirs: list[Path] = [STORAGE / f'search_links_{LANG_CODE}']
+    output_dir: Path = Path(STORAGE / f'data_by_supplier_{LANG_CODE}')
+    need_sanitize_json_files: bool = False
 
 
 _locks: Dict[Path, threading.Lock] = {}
@@ -427,7 +430,7 @@ def _process_file_entry(
 
     raw_content_from_file: Optional[Dict[str, Any] | List[Any]] = j_loads(file_path_to_process)
 
-    if not isinstance(raw_content_from_file, dict):
+    if not isinstance(raw_content_from_file, (dict,list)):
         logger.warning(f"Пропуск файла: содержимое {file_path_to_process} не является словарем (получено: {type(raw_content_from_file)}).")
         processing_stats['error_loading_files_count'] += 1 # Считаем как ошибку загрузки файла
         return

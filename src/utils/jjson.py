@@ -305,7 +305,7 @@ def j_dumps(
                 json.dump(final_data_to_write, f, ensure_ascii=ensure_ascii, indent=4)
             return True
         except Exception as ex:
-            logger.error(f'Failed to write data to {path}: {ex}', ex, exc_info=exc_info)
+            logger.error(f'Failed to write data to {path}:', ex, exc_info=exc_info)
             return False
     else: # file_path is None
         return processed_data

@@ -211,9 +211,9 @@ if __name__ == "__main__":
     }
     with open(os.path.join(subdir_a, "sA_file1.json"), "w", encoding="utf-8") as f: json.dump(data_sA_f1, f, indent=4)
     
-    # Файл для создания многих продуктов, чтобы протестировать чанкинг
+    # Файл для создания многих товаров, чтобы протестировать чанкинг
     many_products = {}
-    for i in range(120): # 120 продуктов -> 2 чанка по 50 + 1 чанк 20 (если chunk_size=50)
+    for i in range(120): # 120 товаров -> 2 чанка по 50 + 1 чанк 20 (если chunk_size=50)
         many_products[f"https://site.com/product_bulk_{i}"] = {"page_type": "product", "id": f"bulk_p_{i}", "ts": f"ts_p_bulk_{i}"}
     with open(os.path.join(subdir_a, "sA_many_products.json"), "w", encoding="utf-8") as f: json.dump(many_products, f, indent=4)
 

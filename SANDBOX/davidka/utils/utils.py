@@ -35,50 +35,50 @@ from src.utils.printer import pprint as print
 from src.utils.file import save_text_file
 from src.utils.url import get_domain
 
-class Config:
-    ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
-    config:SimpleNamespace = j_loads_ns(ENDPOINT/'davidka.json')
+# class Config:
+#     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
+#     config:SimpleNamespace = j_loads_ns(ENDPOINT/'davidka.json')
 
-    instruction_grab_product_page_simple_driver: str = (ENDPOINT / 'instructions' / 'grab_product_page_simple_driver.md').read_text(encoding='utf-8')
-    instruction_get_supplier_categories: str = (ENDPOINT / 'instructions' / 'get_supplier_categories.md').read_text(encoding='utf-8')
-    instruction_find_product_in_supplier_domain: str = (ENDPOINT / 'instructions' / 'find_product_in_supplier_domain.md').read_text(encoding='utf-8')
-    instruction_for_products_urls_one_product: str = (ENDPOINT / 'instructions' / 'get_product_links_one_product.md').read_text(encoding='utf-8')
-    instruction_links_from_search: str = (ENDPOINT / 'instructions' / 'links_from_search.md').read_text(encoding='utf-8')
-    instruction_links_from_searh_page: str = (ENDPOINT / 'instructions' / 'links_from_searh_page.md').read_text(encoding='utf-8')
+#     instruction_grab_product_page_simple_driver: str = (ENDPOINT / 'instructions' / 'grab_product_page_simple_driver.md').read_text(encoding='utf-8')
+#     instruction_get_supplier_categories: str = (ENDPOINT / 'instructions' / 'get_supplier_categories.md').read_text(encoding='utf-8')
+#     instruction_find_product_in_supplier_domain: str = (ENDPOINT / 'instructions' / 'find_product_in_supplier_domain.md').read_text(encoding='utf-8')
+#     instruction_for_products_urls_one_product: str = (ENDPOINT / 'instructions' / 'get_product_links_one_product.md').read_text(encoding='utf-8')
+#     instruction_links_from_search: str = (ENDPOINT / 'instructions' / 'links_from_search.md').read_text(encoding='utf-8')
+#     instruction_links_from_searh_page: str = (ENDPOINT / 'instructions' / 'links_from_searh_page.md').read_text(encoding='utf-8')
 
-    GEMINI_API_KEY = gs.credentials.gemini.onela.api_key
+#     GEMINI_API_KEY = gs.credentials.gemini.onela.api_key
 
 
-def build_list_of_checked_urls() -> bool:
-    """
-    Собираю список проверенных url, из `random_urls`. Это адреса поставщиков, которые я сгенерировал через gemini
-    в список проверенных url, чтобы не проверять их повторно. Оперция одноразовая, но может пригодиться в будущем.
-    """
+# def build_list_of_checked_urls() -> bool:
+#     """
+#     Собираю список проверенных url, из `random_urls`. Это адреса поставщиков, которые я сгенерировал через gemini
+#     в список проверенных url, чтобы не проверять их повторно. Оперция одноразовая, но может пригодиться в будущем.
+#     """
 
-    ...
-    datafiles_list:list = j_loads(Config.output_dir)
-    for datafile in datafiles_list:
-        try:
-            if hasattr(datafile, 'url'):
-                if  datafile['url'] in Config.checked_urls:
-                    logger.info(f'URL уже в списке проверенных: {datafile["url"]}')
-                    continue
+#     ...
+#     datafiles_list:list = j_loads(Config.output_dir)
+#     for datafile in datafiles_list:
+#         try:
+#             if hasattr(datafile, 'url'):
+#                 if  datafile['url'] in Config.checked_urls:
+#                     logger.info(f'URL уже в списке проверенных: {datafile["url"]}')
+#                     continue
 
-                Config.checked_urls.append(datafile['url'])
-                save_text_file(Config.checked_urls, Config.output_dir/'checked_urls.txt')
+#                 Config.checked_urls.append(datafile['url'])
+#                 save_text_file(Config.checked_urls, Config.output_dir/'checked_urls.txt')
 
-        except Exception as ex:
-            logger.error(f'Ошибка при обработке файла {datafile}', ex, exc_info=True)
-            continue
+#         except Exception as ex:
+#             logger.error(f'Ошибка при обработке файла {datafile}', ex, exc_info=True)
+#             continue
         
-def update_checked_urls_file(url:str) -> bool:
-    """Функция добавляет `URL` в список проверенных"""
-    Config.checked_urls.append(url)
-    if not save_text_file(Config.checked_urls,Config.output_dir/'checked_urls.txt'):
-        logger.error(f'Ошибка записи в файл {Config.output_dir/"checked_urls.txt"}', None, True)
-        return False
-    logger.success(f'URL {url} добавлен в список проверенных.')
-    return True
+# def update_checked_urls_file(url:str) -> bool:
+#     """Функция добавляет `URL` в список проверенных"""
+#     Config.checked_urls.append(url)
+#     if not save_text_file(Config.checked_urls,Config.output_dir/'checked_urls.txt'):
+#         logger.error(f'Ошибка записи в файл {Config.output_dir/"checked_urls.txt"}', None, True)
+#         return False
+#     logger.success(f'URL {url} добавлен в список проверенных.')
+#     return True
 
 def extract_domain_from_products_urls() -> bool:
     """
@@ -99,92 +99,92 @@ def extract_domain_from_products_urls() -> bool:
     return True
 
 
-def get_products_urls_list_from_files(
-    mining_data_path: Path,
-    crawl_files_list: Optional[List[str]] = None
-) -> List[str]:
-    """
-    Функция читает URL товаров из файлов словарей JSON.
+# def get_products_urls_list_from_files(
+#     mining_data_path: Path,
+#     crawl_files_list: Optional[List[str]] = None
+# ) -> List[str]:
+#     """
+#     Функция читает URL товаров из файлов словарей JSON.
 
-    Читает файлы из указанной директории `mining_data_path`. Если передан
-    список `crawl_files_list`, обрабатываются только файлы из этого списка,
-    иначе обрабатываются все JSON-файлы в директории. Из каждого файла
-    извлекается список товаров (ключ 'products'), а из него - URL
-    (ключ 'product_url'). Все URL собираются в один список, перемешиваются
-    и возвращаются.
+#     Читает файлы из указанной директории `mining_data_path`. Если передан
+#     список `crawl_files_list`, обрабатываются только файлы из этого списка,
+#     иначе обрабатываются все JSON-файлы в директории. Из каждого файла
+#     извлекается список товаров (ключ 'products'), а из него - URL
+#     (ключ 'product_url'). Все URL собираются в один список, перемешиваются
+#     и возвращаются.
 
-    Args:
-        mining_data_path (Path): Путь к директории с файлами данных.
-        crawl_files_list (Optional[List[str]], optional): Список имен файлов
-            для обработки. Если None, обрабатываются все .json файлы
-            в `mining_data_path`. По умолчанию None.
+#     Args:
+#         mining_data_path (Path): Путь к директории с файлами данных.
+#         crawl_files_list (Optional[List[str]], optional): Список имен файлов
+#             для обработки. Если None, обрабатываются все .json файлы
+#             в `mining_data_path`. По умолчанию None.
 
-    Returns:
-        List[str]: Перемешанный список URL товаров.
-    """
-    # Объявление переменных
-    products_urls_list: List[str] = []
-    target_files: List[str]
-    filename: str
-    file_path: Path
-    crawl_data: Dict[str, Any] | List[Any] # Тип данных после j_loads
-    products_data: List[Any] = [] # Инициализация
-    product: Dict[str, Any] # Элемент списка crawl_data
+#     Returns:
+#         List[str]: Перемешанный список URL товаров.
+#     """
+#     # Объявление переменных
+#     products_urls_list: List[str] = []
+#     target_files: List[str]
+#     filename: str
+#     file_path: Path
+#     crawl_data: Dict[str, Any] | List[Any] # Тип данных после j_loads
+#     products_data: List[Any] = [] # Инициализация
+#     product: Dict[str, Any] # Элемент списка crawl_data
 
-    # Определяем список файлов для обработки
-    if not crawl_files_list:
-        target_files = get_filenames_from_directory(mining_data_path, '*.json') # Ищем json по умолчанию
-        logger.debug(f'Обработка всех json файлов из {mining_data_path}')
-    else:
-        target_files = crawl_files_list
-        logger.debug(f'Обработка файлов из переданного списка: {len(target_files)} шт.')
+#     # Определяем список файлов для обработки
+#     if not crawl_files_list:
+#         target_files = get_filenames_from_directory(mining_data_path, '*.json') # Ищем json по умолчанию
+#         logger.debug(f'Обработка всех json файлов из {mining_data_path}')
+#     else:
+#         target_files = crawl_files_list
+#         logger.debug(f'Обработка файлов из переданного списка: {len(target_files)} шт.')
 
-    # Обработка каждого файла
-    for filename in target_files:
-        try:
-            file_path = mining_data_path / filename
-            # Загрузка данных из JSON файла
-            crawl_data = j_loads(file_path)
-            # Проверка и извлечение списка товаров
-            if isinstance(crawl_data, dict) and 'products' in crawl_data:
-                products_data = crawl_data['products'] # Тип будет проверен ниже
-            elif isinstance(crawl_data, list): # Допускаем файл как список товаров
-                products_data = crawl_data
-                logger.debug(f"Файл {filename} содержит список товаров напрямую.")
-            else:
-                logger.warning(f"Файл {filename} не содержит ключ 'products' или не является списком.", None, False)
-                continue # Переход к следующему файлу
+#     # Обработка каждого файла
+#     for filename in target_files:
+#         try:
+#             file_path = mining_data_path / filename
+#             # Загрузка данных из JSON файла
+#             crawl_data = j_loads(file_path)
+#             # Проверка и извлечение списка товаров
+#             if isinstance(crawl_data, dict) and 'products' in crawl_data:
+#                 products_data = crawl_data['products'] # Тип будет проверен ниже
+#             elif isinstance(crawl_data, list): # Допускаем файл как список товаров
+#                 products_data = crawl_data
+#                 logger.debug(f"Файл {filename} содержит список товаров напрямую.")
+#             else:
+#                 logger.warning(f"Файл {filename} не содержит ключ 'products' или не является списком.", None, False)
+#                 continue # Переход к следующему файлу
 
-            # Проверка типа извлеченных товаров
-            if isinstance(products_data, list):
-                 # Извлечение URL
-                for product_item in products_data: # Переименована переменная цикла
-                    if isinstance(product_item, dict) and 'product_url' in product_item:
-                        # Проверка типа URL и его наличия
-                        product_url = product_item['product_url']
-                        if isinstance(product_url, str) and product_url:
-                             products_urls_list.append(product_url)
-                        else:
-                            logger.warning(f"Значение 'product_url' в файле {filename} не является строкой или пустое: {product_url}", None, False)
-                    else:
-                         logger.warning(f"Элемент в файле {filename} не словарь или отсутствует 'product_url': {product_item}", None, False)
-            else:
-                 logger.warning(f"Извлеченные 'products' в файле {filename} не являются списком (тип: {type(products_data)}).", None, False)
+#             # Проверка типа извлеченных товаров
+#             if isinstance(products_data, list):
+#                  # Извлечение URL
+#                 for product_item in products_data: # Переименована переменная цикла
+#                     if isinstance(product_item, dict) and 'product_url' in product_item:
+#                         # Проверка типа URL и его наличия
+#                         product_url = product_item['product_url']
+#                         if isinstance(product_url, str) and product_url:
+#                              products_urls_list.append(product_url)
+#                         else:
+#                             logger.warning(f"Значение 'product_url' в файле {filename} не является строкой или пустое: {product_url}", None, False)
+#                     else:
+#                          logger.warning(f"Элемент в файле {filename} не словарь или отсутствует 'product_url': {product_item}", None, False)
+#             else:
+#                  logger.warning(f"Извлеченные 'products' в файле {filename} не являются списком (тип: {type(products_data)}).", None, False)
 
-        except FileNotFoundError:
-             logger.error(f'Файл не найден: {file_path}', None, False)
-             continue
-        except Exception as ex:
-            # Логирование ошибки обработки файла
-            logger.error(f'Ошибка при обработке файла {filename=}', ex, exc_info=True)
-            # Продолжаем обработку следующих файлов
-            continue
+#         except FileNotFoundError:
+#              logger.error(f'Файл не найден: {file_path}', None, False)
+#              continue
+#         except Exception as ex:
+#             # Логирование ошибки обработки файла
+#             logger.error(f'Ошибка при обработке файла {filename=}', ex, exc_info=True)
+#             # Продолжаем обработку следующих файлов
+#             continue
 
-    # Перемешивание списка URL
-    random.shuffle(products_urls_list)
-    logger.info(f"Собрано и перемешано {len(products_urls_list)} URL товаров.")
-    # Возвращаем список (даже если пустой)
-    return products_urls_list
+#     # Перемешивание списка URL
+#     random.shuffle(products_urls_list)
+#     logger.info(f"Собрано и перемешано {len(products_urls_list)} URL товаров.")
+#     # Возвращаем список (даже если пустой)
+#     return products_urls_list
 
 
 def yield_product_urls_from_files(

@@ -584,69 +584,6 @@ async def save_text_file_async(
         return False
 
 
-# # -----------------------------------------------------------
-
-# def _yield_files_content(
-#     self,
-#     process_directory: str | Path,
-# ) -> Iterator[tuple[Path, str]]:
-#     """
-#     Генерирует пути файлов и их содержимое по указанным шаблонам.
-
-#     Args:
-#         process_directory (Path | str): Абсолютный путь к стартовой директории
-
-#     Returns:
-#         bool: Iterator
-#     """
-
-#     process_directory: Path = process_directory if isinstance(process_directory, Path) else Path(process_directory)
-
-#     # Компиляция паттернов исключаемых файлов
-#     try:
-#         exclude_files_patterns = [
-#             re.compile(pattern) for pattern in Config.exclude_files_patterns
-#         ]
-
-#     except Exception as ex:
-#         logger.error(
-#             f'Не удалось скомпилировать регулярки из списка:/n{Config.exclude_files_patterns=}\n ', ex
-#         )
-#         ...
-
-#     # Итерация по всем файлам в директории
-#     for file_path in process_directory.rglob('*'):
-#         # Проверка на соответствие шаблонам включения
-#         if not any(
-#             fnmatch.fnmatch(file_path.name, pattern) for pattern in Config.include_files_patterns
-#         ):
-#             continue
-
-#         # Прверка исключенных директорий
-#         if any(exclude_dir in file_path.parts for exclude_dir in Config.exclude_dirs):
-#             continue
-
-#         # Проверка исключенных файлов по паттерну
-#         if any(exclude.match(str(file_path.name)) for exclude in exclude_files_patterns):
-#             continue
-
-#         # Проверка конкретных исключенных файлов
-#         if str(file_path.name) in Config.exclude_files:
-#             continue
-
-#         # Чтение содержимого файла
-#         try:
-#             content = file_path.read_text(encoding='utf-8')
-#             yield file_path, content
-#             # make_summary( docs_dir = start_dir.parent / 'docs' )  # <- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG  (create `summary.md`)
-#         except Exception as ex:
-#             logger.error(f'Ошибка при чтении файла {file_path}', ex)
-#             ...
-#             yield None, None
-
-#         ...
-
-
 
 def _read_file_content(file_path: Path, chunk_size: int) -> str:
     """
@@ -971,3 +908,68 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+
+
+
+
+# # -----------------------------------------------------------
+
+# def _yield_files_content(
+#     self,
+#     process_directory: str | Path,
+# ) -> Iterator[tuple[Path, str]]:
+#     """
+#     Генерирует пути файлов и их содержимое по указанным шаблонам.
+
+#     Args:
+#         process_directory (Path | str): Абсолютный путь к стартовой директории
+
+#     Returns:
+#         bool: Iterator
+#     """
+
+#     process_directory: Path = process_directory if isinstance(process_directory, Path) else Path(process_directory)
+
+#     # Компиляция паттернов исключаемых файлов
+#     try:
+#         exclude_files_patterns = [
+#             re.compile(pattern) for pattern in Config.exclude_files_patterns
+#         ]
+
+#     except Exception as ex:
+#         logger.error(
+#             f'Не удалось скомпилировать регулярки из списка:/n{Config.exclude_files_patterns=}\n ', ex
+#         )
+#         ...
+
+#     # Итерация по всем файлам в директории
+#     for file_path in process_directory.rglob('*'):
+#         # Проверка на соответствие шаблонам включения
+#         if not any(
+#             fnmatch.fnmatch(file_path.name, pattern) for pattern in Config.include_files_patterns
+#         ):
+#             continue
+
+#         # Прверка исключенных директорий
+#         if any(exclude_dir in file_path.parts for exclude_dir in Config.exclude_dirs):
+#             continue
+
+#         # Проверка исключенных файлов по паттерну
+#         if any(exclude.match(str(file_path.name)) for exclude in exclude_files_patterns):
+#             continue
+
+#         # Проверка конкретных исключенных файлов
+#         if str(file_path.name) in Config.exclude_files:
+#             continue
+
+#         # Чтение содержимого файла
+#         try:
+#             content = file_path.read_text(encoding='utf-8')
+#             yield file_path, content
+#             # make_summary( docs_dir = start_dir.parent / 'docs' )  # <- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG  (create `summary.md`)
+#         except Exception as ex:
+#             logger.error(f'Ошибка при чтении файла {file_path}', ex)
+#             ...
+#             yield None, None
+
+#         ...
