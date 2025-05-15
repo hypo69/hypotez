@@ -82,11 +82,16 @@ The `page_type` field is **mandatory** and must always be included.
     "summary": "<short product summary>",
     "descrition": "<detailed product description>",
     "specification": [
+    "product_params":[
     {
     "param_name": "<specification name>",
     "param_value": "<specification value>"
     }
     ],
+    "other_parameters":[<product parameters>],
+    "key params":[{key:param}]
+    ],
+
     "how_to_use": "<how to use the product>",
     "ingidients": "<ingredients if available>",
     "usage": "<usage instructions if available>",

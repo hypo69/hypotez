@@ -44,8 +44,7 @@ class Config:
     LANG_CODE: str = 'it'  # Язык для обработки данных
 
     config: SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json') 
-    actual_storage:str = 'local_storage' # 'google_drive'
-    STORAGE:Path = Path(config.local_storage.storage) if actual_storage == 'local_storage' else Path(config.google_drive.storage)
+    STORAGE: Path = Path(config.local_storage.storage) if config.actual_storage == 'local_storage' else Path(config.google_drive.storage)
     input_dirs: list[Path] = [STORAGE / f'search_links_{LANG_CODE}']
     output_dir: Path = Path(STORAGE / f'data_by_supplier_{LANG_CODE}')
     need_sanitize_json_files: bool = False

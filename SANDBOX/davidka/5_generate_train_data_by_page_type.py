@@ -41,16 +41,11 @@ class Config:
     """Класс конфигурации скрипта."""
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
     config:SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json') # Загрузка конфигурации из JSON
-    actual_storage:str = 'local_storage' # 'local_storage' or 'google_drive'  <- ГДЕ НАХОДИТСЯ ХРАНИЛИЩЕ
-    STORAGE:Path = Path(config.local_storage.storage) if actual_storage == 'local_storage' else Path(config.google_drive.storage)
+    STORAGE: Path = Path(config.local_storage.storage) if config.actual_storage == 'local_storage' else Path(config.google_drive.storage)
     TRAIN_STORAGE: Path = STORAGE / 'train_data' # Папка для хранения обучающих данных
-    SOURCE_DIRS:list[Path] = [STORAGE / 'data_by_supplier_ge', STORAGE/'data_by_supplier_set_1 DONT TOUCH!'] # Папка с файлами
-    GEMINI_API_KEY: Optional[str] = None # Будет установлен позже из аргументов командной строки
-    GEMINI_MODEL_NAME: str = 'gemini-1.5-flash-latest' # Обновлено на более актуальное имя модели
-    system_instructuction: str | None = read_text_file(ENDPOINT / 'instructions/analize_html.md')
+    SOURCE_DIRS:list[Path] = [STORAGE / 'data_by_supplier_de', STORAGE/'data_by_supplier_set_1 DONT TOUCH!'] # Папка с файлами
     updated_links_file_name: str = 'updated_links.json'
-    DELAY_AFTER_LINK_PROCESSING: int = 15
-    WINDOW_MODE: str = 'headless'
+
 
     # списки отфильтрованных данных
     product:List[Dict[str, Any]] = []

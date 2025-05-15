@@ -46,10 +46,7 @@ class Config:
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
     config: SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json')
     
-    # 'local_storage' or 'google_drive'  <- ГДЕ НАХОДИТСЯ ХРАНИЛИЩЕ
-    actual_storage: str = 'local_storage' 
-    STORAGE: Path = Path(config.local_storage.storage) if actual_storage == 'local_storage' else Path(config.google_drive.storage)
-    # Путь к активному хранилищу данных.
+    STORAGE: Path = Path(config.local_storage.storage) if config.actual_storage == 'local_storage' else Path(config.google_drive.storage)
 
     source_dirs: list[Path] = [
         # STORAGE / 'search_results', 

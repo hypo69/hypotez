@@ -43,8 +43,7 @@ from SANDBOX.davidka.utils.utils import get_categories_from_random_urls
 class Config:
     ENDPOINT:Path  = __root__ / 'SANDBOX' / 'davidka'
     config:SimpleNamespace = j_loads_ns(ENDPOINT/'davidka.json')
-    actual_storage:str = 'local_storage' # 'google_drive'
-    STORAGE:Path = Path(config.local_storage.storage) if actual_storage == 'local_storage' else Path(config.google_drive.storage)
+    STORAGE: Path = Path(config.local_storage.storage) if config.actual_storage == 'local_storage' else Path(config.google_drive.storage)
     API_KEY:str = gs.credentials.google_custom_search.kazarinov.api_key  # Получить здесь👉 https://developers.google.com/custom-search/v1/introduction
     CSE_ID:str = gs.credentials.google_custom_search.kazarinov.cse_id  # Создать здесь 👉 https://programmablesearchengine.google.com/about/ 
     GEMINI_API_KEY:str = gs.credentials.gemini.kazarinov.api_key
@@ -202,7 +201,7 @@ for category in known_categories_list:
     
     #langs:list = ['en','ru','he','de','it','zh-cn','fr']
 
-    translated_query:list[dict] = translate_to(query, 'en', ['de'])
+    translated_query:list[dict] = translate_to(query, 'en', ['pl'])
     # Выполняем поиск
    
     for key, value in translated_query.items():

@@ -57,15 +57,20 @@ class Config:
     LANG_CODE: str = 'it'  # Язык для обработки данных
     config: SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json')
     # 'local_storage' or 'google_drive'  <- ГДЕ НАХОДИТСЯ ХРАНИЛИЩЕ
-    actual_storage: str = 'local_storage' 
-    STORAGE: Path = Path(config.local_storage.storage) if actual_storage == 'local_storage' else Path(config.google_drive.storage)
+ 
+    STORAGE: Path = Path(config.local_storage.storage) if config.actual_storage == 'local_storage' else Path(config.google_drive.storage)
     WORK_DIR: Path = Path(STORAGE / f'data_by_supplier_{LANG_CODE}')
     WINDOW_MODE: str = 'headless'
     GEMINI_API_KEY: Optional[str] = None
-    GEMINI_MODEL_NAME: str = config.gemini_model_name
+    GEMINI_MODELS_LIST: str = config.gemini_models_list
+    active_model:GoogleGenerativeAi = ''
+    active_model_name:GoogleGenerativeAi = GEMINI_MODELS_LIST[0]
     system_instructuction: Optional[str] = read_text_file(ENDPOINT / 'instructions' / 'analize_html.md')
     processed_internal_links_file_name: str = 'processed_links.json'
     DELAY_AFTER_LINK_PROCESSING: int = 15
+    TOTAL_WEBDRIVER_ERRORS_BEFORE_INITIALIZE_NEW:int = 10
+    WEBDRIVER_ERRORS_COUNTER:int = 0
+    webdriver_instance:Driver = None
 
 def initialize_llm(username: str) -> Optional[GoogleGenerativeAi]:
     """
@@ -80,16 +85,7 @@ def initialize_llm(username: str) -> Optional[GoogleGenerativeAi]:
     llm_instance: Optional[GoogleGenerativeAi] = None
     user_gemini_config: Optional[SimpleNamespace] = None
 
-    try:
-        user_gemini_config = getattr(gs.credentials.gemini, username)
-        Config.GEMINI_API_KEY = getattr(user_gemini_config, 'api_key')
-        if not Config.GEMINI_API_KEY: 
-             logger.critical(f"Ошибка: API ключ для пользователя '{username}' пустой.")
-             return None
-        logger.info(f"Успешно получен и установлен Gemini API ключ для пользователя: '{username}'")
-    except AttributeError:
-        logger.critical(f"Ошибка: не удалось найти конфигурацию или API ключ для пользователя '{username}'.")
-        return None
+
     
     if not Config.system_instructuction:
         logger.warning("Системная инструкция для LLM не загружена. LLM может работать некорректно или не будет использован для анализа.")
@@ -97,7 +93,7 @@ def initialize_llm(username: str) -> Optional[GoogleGenerativeAi]:
     try:
         llm_instance = GoogleGenerativeAi(
             api_key=Config.GEMINI_API_KEY, 
-            model_name=Config.GEMINI_MODEL_NAME,
+            model_name=Config.GEMINI_MODELS_LIST[0],
             generation_config={'response_mime_type': 'application/json'},
             system_instruction=Config.system_instructuction 
         )
@@ -301,7 +297,6 @@ def main_process_all_directories(base_path_str: str) -> None:
             
     logger.info(f"Завершение обработки директорий в: {base_path}")
 
-
 def build_categories_from_suppliers_data(source_dirs_list: list[Path] | None = None) -> list[str]:
     """
     Извлекает названия категорий из JSON-файлов в указанных директориях-источниках.
@@ -407,9 +402,7 @@ def supplier_candidate(supplier_dir_path: Path) -> bool:
 # --------------------------------- БЛОК ОБРАБОТКИ ВНУТРЕННИХ ССЫЛОК ----------------------------------
 
 def process_single_internal_link(
-    driver: Driver,
     internal_link_url: str,
-    llm: GoogleGenerativeAi
 ) -> Optional[Dict[str, Any]]:
     """
     Обрабатывает одну внутреннюю ссылку, извлекает данные, анализирует с помощью LLM.
@@ -426,6 +419,7 @@ def process_single_internal_link(
     raw_data_from_url: Optional[str]
     extracted_page_content: Dict[str, Any]
     request_dict: Dict[str, Any]
+    llm_instance:GoogleGenerativeAi = Config.active_model
     q: str
     llm_response_data: Dict[str, Any] = {}
     a: Optional[str] = None 
@@ -434,7 +428,7 @@ def process_single_internal_link(
     new_product_links: Any
     current_product_links: List[str]
     field: str
-
+    driver = Config.webdriver_instance
     logger.info(f"\n--- Обработка внутренней ссылки: {internal_link_url} ---\n")
 
     if not internal_link_url or not internal_link_url.startswith(('http://', 'https://')):
@@ -444,9 +438,20 @@ def process_single_internal_link(
     raw_data_from_url = driver.fetch_html(internal_link_url)
     
     if not raw_data_from_url:
+        Config.WEBDRIVER_ERRORS_COUNTER += 1
+        if Config.TOTAL_WEBDRIVER_ERRORS_BEFORE_INITIALIZE_NEW < Config.WEBDRIVER_ERRORS_COUNTER:
+            logger.info('Завершение работы драйвера...')
+            try:
+                driver.quit()
+            except Exception as ex: # Переименована переменная ошибки
+                logger.error('Ошибка при закрытии драйвера:', ex, exc_info=True)
+            Config.webdriver_instance = initialize_driver(Config.WINDOW_MODE)
+            #process_single_internal_link(internal_link_url)
+
         logger.error(f"Не удалось получить HTML для внутреннего URL: {internal_link_url}")
         return {'page_type': 'unknown', 'error': 'page_not_found', 'original_url': internal_link_url, 'processed_at': datetime.now().isoformat()}
-
+    
+    Config.WEBDRIVER_ERRORS_COUNTER = 0
     extracted_page_content = extract_page_data(raw_data_from_url, internal_link_url)
     if not extracted_page_content or not extracted_page_content.get('text'):
         logger.warning(f"Не удалось извлечь данные или текст пуст для внутреннего URL: {internal_link_url}")
@@ -459,9 +464,26 @@ def process_single_internal_link(
     q = f"`{str(request_dict)}`"
     
     try:
-        if llm and Config.system_instructuction: 
-            a = llm.ask(q)
-            if a: 
+        if llm_instance:
+            logger.info(f'Отправка запрода в модель')
+            a = llm_instance.ask(q)
+            #logger.info(f"Ответ модели")
+            #print(a)
+            if a:
+                if a == "ResourceExhausted":
+                    logger.debug(f"Модель вернула ResourceExhausted. Переключение на следующую модель.")
+                    current_model_index = Config.GEMINI_MODELS_LIST.index(Config.active_model_name)
+                    next_index = (current_model_index + 1) % len(Config.GEMINI_MODELS_LIST)
+                    Config.active_model_name =  Config.GEMINI_MODELS_LIST[next_index]
+                    Config.active_model = GoogleGenerativeAi(api_key = Config.GEMINI_API_KEY, 
+                                            model_name = Config.active_model_name, 
+                                            generation_config = {'response_mime_type':'application/json'}, 
+                                            system_instruction= Config.system_instructuction,  
+                                            )
+
+                    process_single_internal_link(driver, internal_link_url)
+
+                logger.debug(f'Пауза 15 сек'); time.sleep(15)    
                 parsed_llm_response = j_loads(a) 
                 if isinstance(parsed_llm_response, dict):
                     llm_response_data = parsed_llm_response
@@ -474,7 +496,7 @@ def process_single_internal_link(
             else:
                 logger.error(f"LLM вернул пустой ответ (None или '') для {internal_link_url}")
                 llm_response_data = {'ai_analized_content_error': 'empty_response_from_llm'}
-        elif not llm:
+        elif not llm_instance:
              logger.warning(f"LLM не инициализирован. Пропуск анализа LLM для {internal_link_url}")
              llm_response_data = {'ai_analized_content_error': 'llm_not_initialized'}
         else: 
@@ -540,21 +562,19 @@ def save_processed_data_and_update_journal(
     output_data_for_json_file: Dict[str, Dict[str, Any]]
     
     journal_path: Path
-
-    output_path = supplier_dir_path / gs.now
-    new_data_filename: str = output_path.relative_to(Config.STORAGE)
-
+    timestamp = gs.now
+   
     output_data_for_json_file = {
         internal_url: processed_data
     }
 
-    if j_dumps(output_data_for_json_file, output_path): 
-        logger.info(f"Успешно сохранена информация для {internal_url} в файл: {output_path.relative_to(Config.STORAGE)} (структура: {{url: data}})")
+    if j_dumps(output_data_for_json_file, supplier_dir_path / f'{timestamp}.json'): 
+        logger.info(f"Успешно сохранена информация для \n {internal_url} в файл: supplier_dir_path / f'{timestamp}.json' \n(структура: {{url: data}})")
         
         journal[internal_url] = {
             "processed_at": datetime.now().isoformat(),
             "source_file_name": supplier_file_name, 
-            "output_file_name": f'{new_data_filename.stem}.json',
+            "output_file_name": f'{timestamp}.json',
             "page_type": processed_data.get('page_type', 'unknown'),
             "page_url": internal_url,
         }
@@ -569,8 +589,6 @@ def save_processed_data_and_update_journal(
 def process_one_link_from_file_content(
     supplier_data_content: Dict[str, Any],
     supplier_file_path: Path, 
-    driver: Driver,
-    llm: GoogleGenerativeAi,
     journal: Dict[str, Any],
     stats: Dict[str, int]
 ) -> bool:
@@ -622,33 +640,25 @@ def process_one_link_from_file_content(
 
             logger.info(f"Найдена необработанная внутренняя ссылка: {internal_url_to_process} из файла {supplier_file_path.name}")
             
-            processed_page_data = process_single_internal_link(
-                driver,
-                internal_url_to_process,
-                llm
-            )
+            processed_page_data = process_single_internal_link( internal_url_to_process )
 
             if processed_page_data: 
                 if 'error' in processed_page_data:
-                     logger.warning(f"Обработка {internal_url_to_process} завершилась с ошибкой: {processed_page_data.get('error')}. Данные не будут сохранены как успешные.")
-                elif save_processed_data_and_update_journal(
+                     logger.warning(f"Обработка {internal_url_to_process} завершилась с ошибкой: {processed_page_data.get('error')}.\n Данные не будут сохранены как успешные.")
+                save_processed_data_and_update_journal(
                     processed_data=processed_page_data,
                     internal_url=internal_url_to_process,
                     supplier_dir_path=supplier_file_path.parent,
                     supplier_file_name=supplier_file_path.name, 
                     journal=journal
-                ):
-                    stats['internal_links_processed_this_run'] += 1
-                    logger.info(f"Задержка на {Config.DELAY_AFTER_LINK_PROCESSING} секунд...")
-                    time.sleep(Config.DELAY_AFTER_LINK_PROCESSING)
-                    return True 
+                )
+                stats['internal_links_processed_this_run'] += 1
+                return False if 'error' in processed_page_data else True 
     return False
 
 
 def process_supplier_file(
     supplier_file_path: Path,
-    driver: Driver,
-    llm: GoogleGenerativeAi,
     journal: Dict[str, Any],
     stats: Dict[str, int]
 ) -> bool:
@@ -684,8 +694,6 @@ def process_supplier_file(
     link_processed_from_this_file = process_one_link_from_file_content(
         supplier_data_content,
         supplier_file_path,
-        driver,
-        llm,
         journal,
         stats
     )
@@ -700,8 +708,6 @@ def process_supplier_file(
 
 def process_supplier_directory(
     supplier_dir_path: Path,
-    driver: Driver,
-    llm: GoogleGenerativeAi,
     stats: Dict[str, int]
 ):
     """
@@ -758,16 +764,15 @@ def process_supplier_directory(
     for supplier_file_path in supplier_file_paths:
         _ = process_supplier_file( 
             supplier_file_path,
-            driver,
-            llm,
             journal, 
             stats
         )
+        break # <- - Прерывание после первой успешной обработки ссылки. Делается для равномерного заполнения всех поставщиков
 
-    logger.info(f"Завершена обработка файлов в директории '{supplier_dir_path.name}'.")
+    #logger.info(f"Завершена обработка файлов в директории '{supplier_dir_path.name}'.")
 
 
-def main_loop(driver: Driver, llm: GoogleGenerativeAi, stats: Dict[str, int]):
+def main_loop(gemini_api_user, stats: Dict[str, int]):
     """
     Основной цикл обработки директорий поставщиков.
 
@@ -782,7 +787,21 @@ def main_loop(driver: Driver, llm: GoogleGenerativeAi, stats: Dict[str, int]):
     delay_before_next_global_scan: int
 
     logger.info(f"Поиск директорий поставщиков в: {Config.WORK_DIR}")
-    
+    try:
+        user_gemini_config = getattr(gs.credentials.gemini, gemini_api_user)
+        Config.GEMINI_API_KEY = getattr(user_gemini_config, 'api_key')
+        if not Config.GEMINI_API_KEY: 
+                logger.critical(f"Ошибка: API ключ для пользователя '{gemini_api_user}' пустой.")
+                return None
+        logger.info(f"Успешно получен и установлен Gemini API ключ для пользователя: '{gemini_api_user}'")
+    except AttributeError:
+        logger.critical(f"Ошибка: не удалось найти конфигурацию или API ключ для пользователя '{gemini_api_user}'.")
+        return None
+    Config.active_model = GoogleGenerativeAi(api_key = Config.GEMINI_API_KEY, 
+                                             model_name = Config.GEMINI_MODELS_LIST[0], 
+                                             generation_config = {'response_mime_type':'application/json'}, 
+                                             system_instruction= Config.system_instructuction,  
+                                             )
     while True:
         # main_process_all_directories(str(Config.WORK_DIR)) # Для сортировки каталогов. Можно вызывать реже.
 
@@ -805,7 +824,7 @@ def main_loop(driver: Driver, llm: GoogleGenerativeAi, stats: Dict[str, int]):
             if not supplier_dir_path.is_dir() or supplier_dir_path.name.startswith('_'):
                  logger.info(f"Пропуск директории {supplier_dir_name}, т.к. она была переименована или удалена.")
                  continue
-            process_supplier_directory(supplier_dir_path, driver, llm, stats)
+            process_supplier_directory(supplier_dir_path, stats)
         
         delay_before_next_global_scan = Config.DELAY_AFTER_LINK_PROCESSING * 2 # Уменьшил для более частого сканирования
         logger.info(f"--- Все активные директории обработаны. Ожидание {delay_before_next_global_scan} секунд перед новым сканированием. ---")
@@ -859,7 +878,7 @@ def parse_arguments() -> argparse.Namespace:
         'user', 
         type=str, 
         nargs='?', 
-        default='onela', # Default value for user
+        default='kazarinov', # Default value for user
         help="Имя пользователя для выбора Gemini API ключа. По умолчанию 'onela'." # Help text for user
     )
     
@@ -883,8 +902,7 @@ if __name__ == '__main__':
     current_script_name: str
     arguments: argparse.Namespace
     provided_lang_code: str # Объявление переменной в начале блока
-    llm_service: Optional[GoogleGenerativeAi]
-    web_driver: Optional[Driver]
+
     run_stats: Dict[str, int]
     # Переменные для исключений будут определены в соответствующих блоках except
 
@@ -907,13 +925,8 @@ if __name__ == '__main__':
 
     logger.info(f"--- Начало работы скрипта {current_script_name} для пользователя '{arguments.user}' и языка '{Config.LANG_CODE}' ---")
 
-    llm_service = initialize_llm(arguments.user)
-    if not llm_service:
-        logger.critical("Не удалось инициализировать LLM сервис. Завершение работы.")
-        sys.exit()
-
-    web_driver = initialize_driver(Config.WINDOW_MODE)
-    if not web_driver:
+    Config.webdriver_instance = initialize_driver(Config.WINDOW_MODE)
+    if not Config.webdriver_instance:
         logger.critical("Не удалось инициализировать WebDriver. Завершение работы.")
         sys.exit(1)
 
@@ -924,16 +937,16 @@ if __name__ == '__main__':
     }
 
     try:
-        main_loop(web_driver, llm_service, run_stats)
+        main_loop(arguments.user, run_stats)
     except KeyboardInterrupt:
         logger.warning("Обработка прервана пользователем (KeyboardInterrupt).")
     except Exception as ex: 
         logger.critical('Критическая ошибка в главном цикле выполнения:', ex, exc_info=True)
     finally:
-        if web_driver:
+        if Config.webdriver_instance:
             logger.info('Завершение работы драйвера...')
             try:
-                web_driver.quit()
+                Config.webdriver_instance.quit()
             except Exception as ex_quit: # Переименована переменная ошибки
                 logger.error('Ошибка при закрытии драйвера:', ex_quit, exc_info=True)
         

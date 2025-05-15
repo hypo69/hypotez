@@ -463,7 +463,7 @@ class Driver:
             logger.error("Ошибка fetch_html: URL не указан и self.current_url не установлен.")
             return False
 
-        full_html_content: Optional[str] = None # Переменная для хранения загруженного HTML
+        full_html_content: Optional[str] = '' # Переменная для хранения загруженного HTML
 
         try:
             # Обработка локальных файлов (схема 'file://')
@@ -492,22 +492,22 @@ class Driver:
                         logger.info(f"Успешно прочитан файл: {file_path_obj}")
                     elif not file_path_obj.exists():
                         logger.error(f'Локальный файл не найден: {file_path_obj}')
-                        return False
+                        return '&nbsp;'
                     else: # Если путь существует, но это не файл (например, директория)
                         logger.error(f'Указанный путь не является файлом: {file_path_obj}')
-                        return False
+                        return '&nbsp;'
                 except ValueError as ve_uri: 
                     # Обработка ошибок парсинга URI или создания пути
                     logger.error(f"Ошибка обработки URI/пути файла '{effective_url}': {ve_uri}")
-                    return False
+                    return '&nbsp;'
                 except IOError as e_io_file: 
                     # Обработка ошибок чтения файла
                     logger.error(f'Ошибка чтения файла {file_path_obj}: {e_io_file}') # file_path_obj может быть не определен здесь
-                    return False
+                    return '&nbsp;'
                 except Exception as e_file_other: 
                      # Обработка других неожиданных ошибок при работе с файлом
                      logger.error(f'Неожиданная ошибка обработки пути файла {effective_url}:', None, exc_info=e_file_other)
-                     return False
+                     return '&nbsp;'
 
             # Обработка веб-URL (схемы 'http://', 'https://')
             elif effective_url.startswith(('http://', 'https://')):
@@ -529,16 +529,16 @@ class Driver:
                         # Случай, когда get_url мог вернуть True, но page_source пуст (маловероятно, но возможно)
                         logger.warning(f"get_url вернул успех (или не вызывался), но self.driver.page_source пуст для {self.current_url}")
                         # Решение: возвращать False, если page_source пуст, даже если get_url был успешен
-                        return False 
+                        return '&nbsp;' 
                 except Exception as ex_http:
                     # Обработка исключений, возникших в self.get_url или при доступе к page_source
                     logger.error(f"Исключение при получении URL {effective_url} или его HTML:", ex_http, True)
-                    return False
+                    return '&nbsp;'
 
             else:
                 # Обработка неподдерживаемых протоколов
                 logger.error(f"Ошибка fetch_html: Неподдерживаемый протокол для URL: {effective_url}")
-                return False
+                return '&nbsp;'
 
             # --- Завершение обработки: сохранение и возврат HTML ---
             if full_html_content is not None: # Проверяем, что full_html_content не None
@@ -548,7 +548,7 @@ class Driver:
                 # Этот блок не должен достигаться, если логика выше корректна,
                 # но служит дополнительной проверкой.
                  logger.error(f"Ошибка внутреннего состояния fetch_html: HTML контент не был получен для {effective_url}, но предыдущая ошибка не была обработана.")
-                 return False
+                 return '&nbsp;'
 
         except Exception as e_critical:
              # Отлов любых действительно неожиданных критических ошибок на верхнем уровне

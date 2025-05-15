@@ -16,6 +16,7 @@ import asyncio
 import time
 import json
 import requests
+import http
 from io import IOBase
 from pathlib import Path
 from typing import Optional, Dict, List, Any
@@ -471,24 +472,35 @@ class GoogleGenerativeAi:
                 continue # Переход к следующей попытке
 
             except ResourceExhausted as ex:
-                if 'GenerateContentInputTokensPerModelPerMinute' in ex.message:
-                    logger.debug(
-                        f"Исчерпана квота запросов в минуту. Попытка: {attempt + 1}/{attempts}. Пауза: {15} сек. Время: {gs.now}",
-                        ex,
-                        False,
-                    )
-                    time.sleep(15)  
-                    continue # Переход к следующей попытке
+                logger.critical(f"""
+                ------------------------------------------------------------------------
+                           
+                Исчерпн лимит
+                           Внимание! В ответе будет передан `ResourceExhausted` строкой
 
-                # Длительная пауза при исчерпании квоты
-                timeout_quota = 14400 # 4 часа
-                logger.debug(
-                    f"Исчерпана квота. Попытка: {attempt + 1}/{attempts}. Пауза: {timeout_quota/3600} час(ов). Время: {gs.now}",
-                    ex,
-                    False,
-                )
-                time.sleep(timeout_quota)
-                continue # Переход к следующей попытке
+                -------------------------------------------------------------------------
+                """, None, False)
+                # print(ex)
+                # TOO_MANY_REQUESTS_TIMEOUT:int = 20
+                # if ex.code == http.HTTPStatus.TOO_MANY_REQUESTS:
+                #     logger.debug(
+                #         f"Много запросов в минуту. \nПопытка: {attempt + 1}/{attempts}. \nПауза: {TOO_MANY_REQUESTS_TIMEOUT} сек. Время: {gs.now}\n",
+                #         ex,
+                #         False,
+                #     )
+                #     time.sleep(TOO_MANY_REQUESTS_TIMEOUT)  
+                #     continue # Переход к следующей попытке
+
+                # # Длительная пауза при исчерпании квоты
+                # timeout_quota = 14400 # 4 часа
+                # logger.debug(
+                #     f"Исчерпана квота. Попытка: {attempt + 1}/{attempts}. Пауза: {timeout_quota/3600} час(ов). Время: {gs.now}",
+                #     ex,
+                #     False,
+                # )
+                # time.sleep(timeout_quota)
+                # continue # Переход к следующей попытке
+                return "ResourceExhausted"
 
             except (DefaultCredentialsError, RefreshError) as ex:
                 logger.error("Ошибка аутентификации.", ex, False)
