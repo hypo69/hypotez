@@ -446,6 +446,7 @@ def process_single_internal_link(
             except Exception as ex: # Переименована переменная ошибки
                 logger.error('Ошибка при закрытии драйвера:', ex, exc_info=True)
             Config.webdriver_instance = initialize_driver(Config.WINDOW_MODE)
+            return
             #process_single_internal_link(internal_link_url)
 
         logger.error(f"Не удалось получить HTML для внутреннего URL: {internal_link_url}")
@@ -471,10 +472,11 @@ def process_single_internal_link(
             #print(a)
             if a:
                 if a == "ResourceExhausted":
-                    logger.debug(f"Модель вернула ResourceExhausted. Переключение на следующую модель.")
+                    logger.debug(f"\nМодель вернула ResourceExhausted. Переключение на следующую модель.\n")
                     current_model_index = Config.GEMINI_MODELS_LIST.index(Config.active_model_name)
                     next_index = (current_model_index + 1) % len(Config.GEMINI_MODELS_LIST)
                     Config.active_model_name =  Config.GEMINI_MODELS_LIST[next_index]
+                    logger.info(f"Активная модель: {Config.active_model_name}\n\n")
                     Config.active_model = GoogleGenerativeAi(api_key = Config.GEMINI_API_KEY, 
                                             model_name = Config.active_model_name, 
                                             generation_config = {'response_mime_type':'application/json'}, 

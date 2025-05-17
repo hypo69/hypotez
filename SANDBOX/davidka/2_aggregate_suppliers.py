@@ -41,7 +41,7 @@ from src.logger import logger
 class Config:
     """Класс конфигурации скрипта."""
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
-    LANG_CODE: str = 'it'  # Язык для обработки данных
+    LANG_CODE: str = 'pl'  # Язык для обработки данных
 
     config: SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json') 
     STORAGE: Path = Path(config.local_storage.storage) if config.actual_storage == 'local_storage' else Path(config.google_drive.storage)

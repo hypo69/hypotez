@@ -237,7 +237,7 @@ The `page_type` field is **mandatory** and must always be included.
 #### 15. Privacy Policy
 ```json
 {
-  "page_type": "'privacy_police",
+  "page_type": "'privacy_policy",
   "title": "<page title>",
   "summary": "<short summary if available>",
   "description": "<full content or body text if available>"

@@ -15,7 +15,7 @@
  .. module:: sandbox.davidka.experiments.generate_train_data_by_page_type
  ```
 """
-
+import re
 import sys
 import argparse # Добавлено для парсинга аргументов командной строки
 from pathlib import Path
@@ -34,6 +34,7 @@ from SANDBOX.davidka.graber import extract_page_data # Предполагает�
 from src.utils.file import read_text_file, recursively_yield_file_path, get_directory_names
 from src.utils.url import extract_pure_domain
 from src.utils.jjson import j_loads, j_dumps, j_loads_ns
+from src.utils.csv import save_csv_file
 from src.utils.printer import pprint as print
 from src.logger.logger import logger
 
@@ -43,26 +44,188 @@ class Config:
     config:SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json') # Загрузка конфигурации из JSON
     STORAGE: Path = Path(config.local_storage.storage) if config.actual_storage == 'local_storage' else Path(config.google_drive.storage)
     TRAIN_STORAGE: Path = STORAGE / 'train_data' # Папка для хранения обучающих данных
-    SOURCE_DIRS:list[Path] = [STORAGE / 'data_by_supplier_de', STORAGE/'data_by_supplier_set_1 DONT TOUCH!'] # Папка с файлами
+    SOURCE_DIRS:list[Path] = [
+                                STORAGE / 'data_by_supplier_it', 
+                                STORAGE / 'data_by_supplier_de', 
+                                STORAGE / 'data_by_supplier_pl', 
+                                STORAGE/'data_by_supplier_set_1 DONT TOUCH!'
+                            ] 
+
     updated_links_file_name: str = 'updated_links.json'
 
 
-    # списки отфильтрованных данных
-    product:List[Dict[str, Any]] = []
-    category:List[Dict[str, Any]] = []
-    about_us:List[Dict[str, Any]] = [] # <- `page_type` may be 'about_us' or 'about
-    contact:List[Dict[str, Any]] = []
-    manuals:List[Dict[str, Any]] = []
-    article:List[Dict[str, Any]] = []
-    information:List[Dict[str, Any]] = []
-    home:List[Dict[str, Any]] = []
-    description:List[Dict[str, Any]] = []
-    distributors:List[Dict[str, Any]] = []
-    service:List[Dict[str, Any]] = []
-    faq:List[Dict[str, Any]] = []
-    blog:List[Dict[str, Any]] = []
-    unknown:List[Dict[str, Any]] = []
-    error:List[Dict[str, Any]] = []
+    # список возможных категорий вебстраниц
+    error: List[Dict[str, Any]] = []               # 0
+    home: List[Dict[str, Any]] = []                # 1
+    category: List[Dict[str, Any]] = []            # 2
+    product_category: List[Dict[str, Any]] = []    # 3
+    product: List[Dict[str, Any]] = []             # 4
+    collection: List[Dict[str, Any]] = []          # 5
+    brand: List[Dict[str, Any]] = []               # 6
+    supplier: List[Dict[str, Any]] = []            # 7
+    about_us: List[Dict[str, Any]] = []            # 8
+    profile: List[Dict[str, Any]] = []             # 9
+    contact: List[Dict[str, Any]] = []             # 10
+    terms: List[Dict[str, Any]] = []               # 11
+    privacy_policy: List[Dict[str, Any]] = []      # 12
+    faq: List[Dict[str, Any]] = []                 # 13
+    manuals: List[Dict[str, Any]] = []             # 14
+    information: List[Dict[str, Any]] = []         # 15
+    document: List[Dict[str, Any]] = []            # 16
+    description: List[Dict[str, Any]] = []         # 17
+    distributors: List[Dict[str, Any]] = []        # 18
+    service: List[Dict[str, Any]] = []             # 19
+    support: List[Dict[str, Any]] = []             # 20
+    download: List[Dict[str, Any]] = []            # 21
+    article: List[Dict[str, Any]] = []             # 22
+    blog: List[Dict[str, Any]] = []                # 23
+    newsletter: List[Dict[str, Any]] = []          # 24
+    forum: List[Dict[str, Any]] = []               # 25
+    community: List[Dict[str, Any]] = []           # 25 (совмещено с forum/webinar)
+    events: List[Dict[str, Any]] = []              # 29
+    careers: List[Dict[str, Any]] = []             # 30
+    glossary: List[Dict[str, Any]] = []            # 31
+    links: List[Dict[str, Any]] = []               # 28
+    library: List[Dict[str, Any]] = []             # 32
+    media: List[Dict[str, Any]] = []               # 33
+    sitemap: List[Dict[str, Any]] = []             # 26
+    search_results: List[Dict[str, Any]] = []      # 27
+    unknown: List[Dict[str, Any]] = []             # 36
+
+    
+
+    page_categories: dict = {
+    # Ошибка
+    'error': 0,
+
+    # Главная страница
+    'home': 1,
+    'home_page': 1,
+    'home page': 1,
+
+    # Категории и товары
+    'category': 2,
+    'product_category': 3,
+    'product category': 3,
+    'product category page': 3,
+    'productcategory': 3,
+    'productcategorypage': 3,
+    'product': 4,
+    'collection': 5,
+
+    # Бренды и поставщики
+    'brand': 6,
+    'brand_name': 6,
+    'brand name': 6,
+    'supplier': 7,
+    'supplier_name': 7,
+    'supplier name': 7,
+
+    # О компании
+    'about_us': 8,
+    'about us': 8,
+    'about': 8,
+    'profile': 9,
+
+    # Контакты
+    'contact': 10,
+    'contact_page': 10,
+    'contact page': 10,
+
+    # Юридическая информация и политика
+    'terms': 11,
+    'privacy_policy': 12,
+    'privacy policy': 12,
+    'policy': 12,
+
+    # Поддержка и техдокументация
+    'faq': 13,
+    'manuals': 14,
+    'information': 15,
+    'document': 16,
+    'description': 17,
+    'distributors': 18,
+    'service': 19,
+    'services': 19,
+    'support': 20,
+    'support_page': 20,
+    'supportpage': 20,
+
+    # Загрузка
+    'download': 21,
+    'downloads': 21,
+    'download_page': 21,
+    'download page': 21,
+    'downloadpage': 21,
+    'application': 21,
+
+    # Контент и новости
+    'article': 22,
+    'blog': 23,
+    'newsletter': 24,
+    'newsroom': 24,
+    'newspage': 24,
+    'news': 24,
+
+    # Сообщество
+    'forum': 25,
+    'webinar': 25,
+    'community': 25,
+
+    # Навигация и поиск
+    'sitemap': 26,
+    'search_results': 27,
+    'search results': 27,
+    'searchresult': 27,
+    'search result': 27,
+    'searchresultpage': 27,
+    'searchresults': 27,
+    'searchresultspage': 27,
+    'search': 27,
+    'searchpage': 27,
+    'search page': 27,
+    'links': 28,
+
+    # События и вакансии
+    'event': 29,
+    'events': 29,
+    'auction': 29,
+    'careers': 30,
+
+    # Разное и справка
+    'glossary': 31,
+    'library': 32,
+    'media': 33,
+    'member': 34,
+    'other': 35,
+
+    # Неопознанное
+    'unknown': 36,
+    }
+
+    labels_for_train_data:dict 
+
+    rejected_page_types:list = [
+    'error', 
+    'error_page',
+    'error page',
+    'errorpage',
+    'login',
+    'loginpage',
+    'sign_in',
+    'signin',
+    'sign_in_page',
+    'signinpage',
+    'shopping_card',
+    'shoppingcard',
+    'shoppingcardpage',
+    'shoppingcard_page',
+    'shoppingcart',
+    'cart',
+    'search',
+    'socialmedia',
+    'dataset',
+    ]
 
 
 
@@ -165,9 +328,6 @@ def get_meta_keywords_str(value_dict: Dict[str, Any]) -> str:
     """
     keywords_result_str: str = ''
     raw_keywords: Optional[Any] = None
-    # raw_keywords_top: Optional[Any] = None # Не используется
-    # ai_content_dict: Optional[Dict[str, Any]] = None # Не используется
-    # raw_keywords_nested: Optional[Any] = None # Не используется
     processed_keywords: List[str] = []
 
     if not isinstance(value_dict, dict):
@@ -324,7 +484,7 @@ def _create_page_data_object(value_dict: Dict[str, Any], page_type_str: Optional
         'ai_analized_content': get_ai_content_object(value_dict), # Может быть dict или None
         'category': get_category(value_dict),
         'parent_category': get_parent_category(value_dict),
-        #'featured_products': get_featured_products(value_dict), # Закомментировано в исходном коде
+        'featured_products': get_featured_products(value_dict),
         'original_internal_url': original_url,
     }
 
@@ -335,7 +495,7 @@ def generate_train_data(source_dirs: Optional[list[str, Path] | str | Path] = No
     Если вложенный ключ (секция) не входит в список известных — сохраняет в 'unknown'.
     Данные сохраняются порционно: как только накопится 200 записей в категории — они сбрасываются в файл.
     """
-
+    list_for_csv_llm_data:list = []
     known_sections = {
         "product", "category", "about_us", "contact", "manuals", "about",
         "article", "information", "home", "description",
@@ -347,16 +507,23 @@ def generate_train_data(source_dirs: Optional[list[str, Path] | str | Path] = No
 
     chunk_counters: dict[str, int] = {section: 0 for section in buffer}
     timestamp: str = gs.now
-
+    
     def flush(section: str):
         """Сохраняет текущий буфер категории и очищает его."""
+        return True # <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG!
         nonlocal buffer, chunk_counters, timestamp
+        dict_to_save:dict = {}
 
         if not buffer[section]:
+            logger.warning(f'Empty buffer')
             return
 
+        buffer[section] = buffer[section] if isinstance(buffer[section], list) else [buffer[section]]
+        for item in buffer[section]:
+            dict_to_save.update(item)
+            
         out_path = Config.TRAIN_STORAGE / section / f'{timestamp}_{chunk_counters[section]}.json'
-        if not j_dumps(buffer[section], out_path):
+        if not j_dumps(dict_to_save, out_path):
             logger.error(f"Ошибка сохранения чанка {chunk_counters[section]} секции {section}", None, True)
         logger.success(f'Успешно сохранен {out_path}')
         chunk_counters[section] += 1
@@ -383,7 +550,7 @@ def generate_train_data(source_dirs: Optional[list[str, Path] | str | Path] = No
                         sanitized_path.write_text(_file.read_text(encoding='utf-8'), encoding='utf-8')
                         _file.unlink()
                     except Exception as ex:
-                        logger.error(f'Не удалось сохранить и переименовать файл {_file} → {sanitized_path}', ex)
+                        logger.error(f'\n\nНе удалось сохранить и переименовать файл {_file} → {sanitized_path}\n\n', ex, False)
                     continue
 
                 for url, section_dict in data_from_input_file.items():
@@ -391,211 +558,55 @@ def generate_train_data(source_dirs: Optional[list[str, Path] | str | Path] = No
                         logger.warning(f'generate_train_data: Данные по ключу {url} не являются dict в {_file}')
                         continue
 
-                    page_type = section_dict.get("page_type") or "unknown"
+                    page_type:str = section_dict.get("page_type") or "unknown"
+                    page_type = re.sub(r'[^a-zA-Z0-9_]', '', page_type)
+                    if _file.stem.lower() == _file.parent.name.lower(): page_type = 'home'
+                    folder:str = page_type if page_type in known_sections else "unknown"
+                    data_by_page_type:dict = _create_page_data_object(section_dict,page_type,url)
+                    res_dict:dict = {url:data_by_page_type}
+                    buffer[folder].append(res_dict)
+                    if page_type not in Config.rejected_page_types:
+                        category_number:int = Config.page_categories.get(page_type, 0)
+                        if category_number and category_number in Config.page_categories.values():
+                            text_data = data_by_page_type['html'] or  data_by_page_type['text']
+                            if text_data:
+                                list_for_csv_llm_data.append({
+                                                            'text':text_data, 
+                                                            'labels':category_number,
+                                                            })
 
-                    folder = page_type if page_type in known_sections else "unknown"
-                    buffer[folder].append({url:section_dict})
+                        else:
+                            logger.debug(f'\n\n\t\tНераспознанный тип вебстраницы:\n{page_type}\n\n\n')
+                            ...
 
                     if len(buffer[folder]) >= 200:
                         flush(folder)
+                        buffer[folder] = []
+                        processed_file_path:Path = Config.TRAIN_STORAGE / f'llam_{gs.now}'
+                        if list_for_csv_llm_data:
+                            # if save_csv_file(list_for_csv_llm_data, f'{processed_file_path}.csv'):
+                            #     logger.success(f'/nФайл CSV успешно сохранен.\n')
+                            if j_dumps(list_for_csv_llm_data, f'{processed_file_path}.json'):
+                                logger.success(f'/nФайл JSON успешно сохранен.\n')
+
+                        list_for_csv_llm_data = []
+
 
     # Сохраняем остатки
     for section in buffer:
         flush(section)
 
+        processed_file_path:Path = Config.TRAIN_STORAGE / f'llam_{gs.now}'
+        if list_for_csv_llm_data:
+            # if save_csv_file(list_for_csv_llm_data, f'{processed_file_path}.csv'):
+            #     logger.success(f'/nФайл CSV успешно сохранен.\n')
+            if j_dumps(list_for_csv_llm_data, f'{processed_file_path}.json'):
+                logger.success(f'/nФайл JSON успешно сохранен.\n')
+
+            list_for_csv_llm_data = []
+    
     return True
 
-
-# def process_files_and_generate_data(driver:Driver, model:GoogleGenerativeAi):
-#     """
-#     Основная функция для обработки файлов и генерации структурированных данных.
-#     """
-
-#     current_timestamp: str = gs.now
-#     file_counter: int = 0
-
-#     # Список префиксов файлов, которые нужно пропускать
-#     skip_prefixes = (
-#         'processed_internal_links', 'updated_links',
-#     )
-#     source_dirs:list = 
-#     for path in recursively_yield_file_path(Config.STORAGE, ['*.json']):
-#         if any(path.stem.startswith(prefix) for prefix in skip_prefixes):
-#             logger.info(f'Пропуск служебного или уже обработанного файла: {path}')
-#             continue
-
-#         # ------------------------ Обновление словаря товаров ------------------------
-#         file_counter += 1
-#         if file_counter > 0 and file_counter % 300 == 0: # Обновляем временную метку каждые 300 файлов (после первого блока)
-#             current_timestamp = gs.now
-        
-#         generate_train_data(path, current_timestamp)
-        
-#         # Важно: Если этот `continue` активен, то код ниже (классификация LLM и сохранение по типам)
-#         # НЕ БУДЕТ выполнен для этого файла. 
-#         # Если вам нужна и генерация `train_products_...` и последующая классификация/сохранение
-#         # по типам для каждого файла, ЗАКОММЕНТИРУЙТЕ или УДАЛИТЕ строку `continue` ниже.
-#         continue # Закомментируйте эту строку, если нужна полная обработка каждого файла
-
-#         # ------------------------------------------------------------------------
-#         # Следующий блок кода (определение типов через LLM и сохранение по типам)
-#         # будет выполнен, только если `continue` выше закомментирован или удален.
-#         # ------------------------------------------------------------------------
-
-#         data_from_input_file: Optional[Dict[str, Any]] = j_loads(path)
-#         if not data_from_input_file:
-#             logger.warning(f'Нет данных или не удалось загрузить для основной обработки: {path}')
-#             continue
-
-#         path_to_target_dir: Optional[Path] = None
-#         anchor_directory_name: str = 'data_by_supplier'
-#         try:
-#             path_parts: List[str] = list(path.parts) # Преобразуем в list для .index
-#             anchor_index: int = path_parts.index(anchor_directory_name)
-#             if anchor_index + 1 < len(path_parts):
-#                 path_to_target_dir = Path(*path_parts[:anchor_index + 2])
-#                 path_to_target_dir.mkdir(parents=True, exist_ok=True) # Убедимся, что директория существует
-#             else:
-#                 logger.error(f'Не удалось определить структуру целевой директории из частей пути: {path.parts} для файла {path}')
-#                 continue
-#         except ValueError:
-#             logger.warning(f"Анкерная директория '{anchor_directory_name}' не найдена в пути: {path.parts} для файла {path}")
-#             # Если анкерной директории нет, можно сохранять в Config.STORAGE или другую дефолтную директорию
-#             path_to_target_dir = Config.STORAGE / "categorized_data_default" / path.parent.name # Добавим имя родительской директории файла
-#             path_to_target_dir.mkdir(parents=True, exist_ok=True)
-#             logger.info(f"Данные для {path.name} будут сохранены в дефолтную директорию: {path_to_target_dir}")
-#             # continue # или continue, если это критично
-#         except Exception as ex:
-#             logger.error(f"Неожиданная ошибка при определении целевой директории для {path}: {ex}", ex, exc_info=True)
-#             continue
-
-
-#         collections: Dict[str, Dict[str, Any]] = {
-#             "products": {}, "categories": {}, "about": {},
-#             "home": {}, "service": {}, "careers": {}, "other_types": {}
-#         }
-
-#         items_to_update_status_in_source_file : Dict[str, Dict[str, Any]] = {}
-
-#         for key_url, value_data_item in data_from_input_file.items():
-#             value_dict: Optional[Dict[str, Any]] = None
-#             if isinstance(value_data_item, dict):
-#                 value_dict = value_data_item
-#             elif isinstance(value_data_item, str):
-#                 try:
-#                     parsed_str_data = j_loads(value_data_item)
-#                     if isinstance(parsed_str_data, dict):
-#                         value_dict = parsed_str_data
-#                         # data_from_input_file[key_url] = value_dict # Обновляем в исходном словаре, если нужно перезаписывать исходный файл
-#                     else:
-#                         logger.warning(f"Данные для ключа '{key_url}' в '{path.name}' (строка) не распарсились в dict: '{value_data_item[:100]}...'")
-#                 except Exception as e:
-#                     logger.warning(f"Ошибка парсинга JSON-строки для ключа '{key_url}' в '{path.name}': {e}. Строка: '{value_data_item[:100]}...'")
-#             else:
-#                 logger.warning(f"Неожиданный тип данных для '{key_url}' в '{path.name}': {type(value_data_item)}. Ожидался dict или JSON-строка.")
-
-#             if not value_dict:
-#                 logger.warning(f"Пропуск элемента для ключа '{key_url}' в '{path.name}' из-за проблем с данными или форматом.")
-#                 continue
-
-#             original_page_type: Optional[str] = get_page_type(value_dict) # Сохраняем исходный тип
-#             current_page_type: Optional[str] = original_page_type # Текущий тип, который может быть обновлен LLM
-            
-#             if llm_instance and driver: # Попытка LLM классификации
-#                 logger.info(f"Тип страницы для '{key_url}' исходно '{original_page_type}'. Попытка LLM-классификации.")
-#                 html_for_llm: Optional[str] = driver.fetch_html(key_url)
-#                 if html_for_llm:
-#                     data_for_llm: Dict[str, Any] = extract_page_data(html_for_llm, key_url)
-#                     llm_input_content: str = str(data_for_llm.get('raw_content', '')).strip()
-
-#                     if llm_input_content:
-#                         llm_response: Any = llm_instance.ask(f'`{llm_input_content}`')
-#                         if llm_response:
-#                             llm_data_from_response: Optional[dict] = None
-#                             try:
-#                                 parsed_llm_response = j_loads(str(llm_response))
-#                                 if isinstance(parsed_llm_response, dict):
-#                                     llm_data_from_response = parsed_llm_response
-#                                 else:
-#                                     logger.warning(f"Ответ LLM для '{key_url}' распарсился, но не в dict. Тип: {type(parsed_llm_response)}. Ответ: '{str(llm_response)[:200]}'")
-#                             except Exception as ex_llm_parse:
-#                                 logger.error(f"Ошибка парсинга JSON-ответа LLM для '{key_url}': {ex_llm_parse}. Ответ LLM: '{str(llm_response)[:200]}'", exc_info=True)
-
-#                             if llm_data_from_response:
-#                                 llm_determined_page_type = llm_data_from_response.get('page_type', "")
-#                                 logger.info(f"LLM определил тип страницы для '{key_url}' как '{llm_determined_page_type}'")
-#                                 # Обновляем value_dict всеми данными от LLM.
-#                                 # Это важно, так как LLM может вернуть и другие поля.
-#                                 value_dict.update(llm_data_from_response) 
-#                                 current_page_type = llm_determined_page_type # Используем тип от LLM
-#                             else:
-#                                 logger.warning(f"Не удалось получить структурированные данные от LLM для '{key_url}'. Ответ: '{str(llm_response)[:200]}'")
-#                         else:
-#                             logger.warning(f"Отсутствует ответ от LLM для '{key_url}'. Исходный тип: '{original_page_type}'")
-#                     else:
-#                         logger.warning(f"Отсутствует 'raw_content' для отправки в LLM для ключа '{key_url}'. Исходный тип: '{original_page_type}'")
-#                 else:
-#                     logger.warning(f"Не удалось получить HTML для LLM-классификации ключа '{key_url}'.")
-#             elif not llm_instance:
-#                  logger.debug('LLM не инициализирован. Пропуск LLM-классификации.') # Debug, т.к. это может быть ожидаемо
-#             elif not driver:
-#                  logger.debug('WebDriver не инициализирован. Пропуск LLM-классификации.')
-
-#             final_page_type_for_obj: str = current_page_type or "other_types"
-#             page_obj = _create_page_data_object(value_dict, final_page_type_for_obj, key_url)
-
-#             # Распределение по коллекциям
-#             collection_key = final_page_type_for_obj if final_page_type_for_obj in collections else "other_types"
-#             collections[collection_key][key_url] = page_obj
-            
-#             if page_obj: # page_obj был успешно создан
-#                  logger.info(f"Обработанные данные для ключа '{key_url}' (тип: {final_page_type_for_obj}) в '{path.name}'")
-#                  # Сохраняем обновленный value_dict для последующей перезаписи исходного файла
-#                  items_to_update_status_in_source_file[key_url] = value_dict
-#                  # Обновляем статус непосредственно в value_dict, который будет использоваться для _create_page_data_object
-#                  value_dict['status'] = 'checked_and_categorized'
-#                  value_dict['page_type'] = final_page_type_for_obj # Убедимся, что page_type обновлен после LLM
-
-
-#         if path_to_target_dir:
-#             # Обновляем исходный файл data_from_input_file только теми элементами, которые были обработаны
-#             # и для которых обновился value_dict (например, добавился статус или данные от LLM)
-#             source_file_needs_update = False
-#             for key_url_updated, updated_value_dict in items_to_update_status_in_source_file.items():
-#                 if key_url_updated in data_from_input_file: # Убедимся, что ключ все еще там
-#                     data_from_input_file[key_url_updated] = updated_value_dict
-#                     source_file_needs_update = True
-            
-#             if source_file_needs_update:
-#                 j_dumps(data_from_input_file, path)
-#                 logger.info(f"Обновленный файл '{path.name}' сохранен с обновленными статусами и данными от LLM.")
-
-#             # Сохраняем сгруппированные данные
-#             for type_name_coll, data_collection_coll in collections.items():
-#                 if data_collection_coll:
-#                     output_filename_coll = f'{type_name_coll}_{current_timestamp}.json'
-#                     # Проверяем, существует ли уже файл для этого timestamp и типа, и если да, объединяем
-#                     target_coll_file_path = path_to_target_dir / output_filename_coll
-#                     final_data_to_save = data_collection_coll
-#                     if target_coll_file_path.exists():
-#                         try:
-#                             existing_coll_data = j_loads(target_coll_file_path)
-#                             if isinstance(existing_coll_data, dict):
-#                                 existing_coll_data.update(data_collection_coll) # Новые данные перезапишут старые с тем же ключом
-#                                 final_data_to_save = existing_coll_data
-#                             else:
-#                                 logger.error(f"Файл {target_coll_file_path} не содержит JSON-объект. Будет перезаписан.")
-#                         except Exception as e_coll_load:
-#                              logger.error(f"Ошибка загрузки существующего файла коллекции {target_coll_file_path}: {e_coll_load}. Будет перезаписан.")
-                    
-#                     j_dumps(final_data_to_save, target_coll_file_path)
-#                     logger.info(f"Сохранено/обновлено {len(data_collection_coll)} элементов типа '{type_name_coll}' в {output_filename_coll} в {path_to_target_dir}")
-#         else:
-#             logger.error(f"Целевая директория не была установлена для файла {path}, агрегированные данные по типам не сохранены.")
-
-#     if driver:
-#         driver.quit()
-#         logger.info('WebDriver Firefox закрыт.')
 
 if __name__ == '__main__':
     generate_train_data()
