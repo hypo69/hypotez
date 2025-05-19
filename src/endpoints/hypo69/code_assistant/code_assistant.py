@@ -49,8 +49,8 @@ from src import gs
 from src.utils.jjson import j_loads, j_loads_ns
 from src.llm.gemini import GoogleGenerativeAi
 from src.llm.openai import OpenAIModel
-from src.utils.path import get_relative_path
 from src.utils.printer import pprint as print
+from src.utils.path import get_relative_path
 from src.logger.logger import logger
 from src import USE_ENV
 
@@ -71,6 +71,7 @@ class Config:
     exclude_files:list[Path] = config.exclude_files
     exclude_dirs:list[Path] = config.exclude_dirs
     response_mime_type:str = config.response_mime_type 
+    output_dir: str | Path = ''
     output_directory_patterns:list = config.output_dirs
     remove_prefixes:str = config.remove_prefixes
     model_name:str = config.model_name
@@ -81,33 +82,43 @@ class Config:
         """code_instruction - Инструкция для кода.
         При каждом вызове читает файл с инструкцией, что позволяет обновлять инструкции "на лету"
         """
-        return Path( Config.ENDPOINT / 'instructions'/ f'instruction_{Config.role}_{Config.lang}.md'
-            ).read_text(encoding='UTF-8')
+        try:
+            return Path( Config.ENDPOINT / 'instructions'/ f'instruction_{Config.role}_{Config.lang}.md'
+                ).read_text(encoding='UTF-8')
+
+        except Exception as ex:
+            return ''
 
     @classmethod
     @property
     def system_instruction(self):
         """Инструкция для модели.
         При каждом вызове читает файл с инструкцией, что позволяет обновлять инструкции "на лету
-        """        
-        return Path(Config.ENDPOINT / 'instructions' / f'CODE_RULES.{Config.lang}.MD'
-                            ).read_text(encoding='UTF-8')
+        """
+        try:
+            return Path(Config.ENDPOINT / 'instructions' / f'CODE_RULES.{Config.lang}.MD'
+                                ).read_text(encoding='UTF-8')
+        except Exception as ex:
+            return ''
 
 
     gemini: SimpleNamespace = SimpleNamespace(**{
-        'model_name': os.getenv('GEMINI_MODEL') if USE_ENV else config.model_name or None,  # <- MODEL_NAME
-        'api_key': os.getenv('GEMINI_API_KEY') if USE_ENV else gs.credentials.gemini.onela.api_key or None,  # <- API_KEY
+        'model_name': os.getenv('GEMINI_MODEL') if USE_ENV else config.model_name or None, 
+        'api_key': os.getenv('GEMINI_API_KEY') if USE_ENV else gs.credentials.gemini.onela.api_key or None, 
         'response_mime_type': 'text/plain',
     })
 
 # -------------------------- end config.py---------------------------------------------------
 
+
+
 class CodeAssistant:
     """Класс для работы ассистента программиста с моделями ИИ"""
 
-    role: str
-    lang: str
-    
+    role: str = ''
+    lang: str = ''
+    system_instruction:str = ''
+    code_instruction:str = ''
     gemini: 'GoogleGenerativeAi'
     openai: 'OpenAIModel'
 
@@ -129,13 +140,14 @@ class CodeAssistant:
             system_instruction (str|Path): Общая инструкция для модели. 
             **kwargs: Дополнительные аргументы для инициализации моделей.
         """
-        Config.role = role if role else Config.role
-        Config.lang = lang if lang else Config.lang
-        Config.system_instruction = system_instruction if system_instruction else Config.system_instruction
+        self.role = role or Config.role
+        self.lang = lang or Config.lang
+        self.system_instruction = system_instruction or Config.system_instruction
+
         filtered_kwargs = {
                     k: v
                     for k, v in kwargs.items()
-                    if k not in ('model_name', 'api_key', 'generation_config', 'system_instruction')
+                    if k not in ('model_name', 'api_key', 'generation_config', 'system_instruction') # <- оставляю только то, что нужно модели
                 }
         self.gemini = GoogleGenerativeAi(     
                 model_name = model_name or Config.gemini.model_name,
@@ -174,74 +186,8 @@ class CodeAssistant:
             logger.error('Ошибка при отправке файла: ', ex)
             ...
             return ''
-
-
-    async def process_files(
-        self, process_dirs: Optional[str | Path | list[str | Path]] = None, save_response: bool = True 
-    ) -> bool:
-        """компиляция, отправка запроса и сохранение результата."""
-        process_dirs = process_dirs if process_dirs else Config.process_dirs
-
-        for process_directory in process_dirs:
-
-            process_directory:Path = Path(process_directory)
-            logger.info(f'Start {process_directory=}')
-
-            if not process_directory.exists():
-                logger.error(f"Директория не существует: {process_directory}")
-                continue  # Переход к следующей директории, если текущая не существует
-
-            if not process_directory.is_dir():
-                logger.error(f"Это не директория: {process_directory}", None, False)
-                continue  # Переход к следующей директории, если текущая не является директорией
-
-            for i, (file_path, content) in enumerate(self._yield_files_content(process_directory)):
-                if not any((file_path, content)):  # <- ошибка чтения файла
-                    logger.error(f'Ошибка чтения содержимого файла {file_path}/Content {content} ')
-                    continue
-
-                if file_path and content:
-                    logger.debug(f'Чтение файла номер: {i+1}\n{file_path}', None, False)
-                    content_request:str = self._create_request(file_path, content)
-                    response = await self.gemini.ask_async(content_request)
-                    #response = await self.gemini.chat(content_request,'coder')
-
-                    if response:
-                        response: str = self._remove_outer_quotes(response)
-                        if Config.role == 'trainer': # трениривка модели, Результат не сохараням
-                            print(response, text_color = 'yellow')
-                        elif not await self._save_response(file_path, response, 'gemini'):
-                                    logger.error(f'Файл {file_path} \n НЕ сохранился')
-                                    ...
-                                    continue
-                    else:
-                        logger.error('Ошибка ответа модели', None, False)
-                        ...
-                        continue
-
-                await asyncio.sleep(20)  # <- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG (change timeout)
-
-    def _create_request(self, file_path: str, content: str) -> str:
-        """Создание запроса с учетом роли и языка."""
-        
-        try:
-            content_request: dict = {
-                'role': Config.role,
-                'output_language': Config.lang,
-                f'file_location_in_project_hypotez': get_relative_path(file_path, 'hypotez'),
-                'instruction': Config.code_instruction or '',
-                'input_code': f"""```python
-                {content}
-                ```""",
-            } 
-            return str(content_request)
-
-        except Exception as ex:
-            logger.error(f'Ошибка в составлении запроса ', ex, False)
-            ...
-            return str(content)
-
-        
+      
+    # --- вспомогательные функции ---
 
     def _yield_files_content(
         self,
@@ -303,7 +249,70 @@ class CodeAssistant:
 
             ...
 
-    async def _save_response(self, file_path: Path, response: str, model_name: str) -> bool:
+
+    def _create_request(self, file_path: str, content: str, ) -> str:
+        """Создание запроса с учетом роли и языка."""
+        
+        try:
+            content_request: dict = {
+                'role': self.role,
+                'output_language': self.lang,
+                f'file_location_in_project_hypotez': get_relative_path(file_path, 'hypotez'),
+                'instruction': self.code_instruction or '',
+                'input_code': f"""```python
+                {content}
+                ```""",
+            } 
+            return str(content_request)
+
+        except Exception as ex:
+            logger.error(f'Ошибка в составлении запроса ', ex, False)
+            ...
+            return str(content)
+
+
+    def _remove_outer_quotes(self, response: str) -> str:
+            """
+            Удаляет внешние кавычки в начале и в конце строки, если они присутствуют.
+
+            Args:
+                response (str): Ответ модели, который необходимо обработать.
+
+            Returns:
+                str: Очищенный контент как строка.
+
+            Example:
+                >>> _remove_outer_quotes('```md some content ```')
+                'some content'
+                >>> _remove_outer_quotes('some content')
+                'some content'
+                >>> _remove_outer_quotes('```python def hello(): print("Hello") ```')
+                '```python def hello(): print("Hello") ```'
+            """
+            try:
+                response = response.strip()
+            except Exception as ex:
+                logger.error('Exception in `_remove_outer_quotes()`', ex, False)
+                return ''
+
+            # Если строка начинается с '```python' или '```mermaid', возвращаем её без изменений. Это годный код
+            if response.startswith(('```python', '```mermaid')):
+                return response
+
+
+            for prefix in Config.remove_prefixes:
+                # Сравнение с префиксом без учёта регистра
+                if response.lower().startswith(prefix.lower()):
+                    # Удаляем префикс и суффикс "```", если он есть
+                    cleaned_response = response[len(prefix) :].strip()
+                    if cleaned_response.endswith('```'):
+                        cleaned_response = cleaned_response[: -len('```')].strip()
+                    return cleaned_response
+
+            # Возврат строки без изменений, если условия не выполнены
+            return response
+
+    async def _save_response(self, file_path: str|Path, output_dir: str|Path,  relative_to: str, response: str, model_name: str = 'gemini', ) -> bool:
         """
         Сохранение ответа модели в файл с добавлением суффикса.
 
@@ -319,25 +328,20 @@ class CodeAssistant:
             OSError: Если не удаётся создать директорию или записать в файл.
         """
         export_path:Path = None
-        if not Path(file_path).exists(): 
-            logger.error(f'Ошибка пути: {file_path}')
-            ...
-            return False
-
+        relative_path:Path = None
         try:
             # Получение директории  в зависимости от роли
-            _pattern:str = getattr(Config.output_directory_patterns, Config.role)
+            _pattern:str = getattr(Config.output_directory_patterns, Config.role, '')
 
             for i, part in enumerate(file_path.parts):
-                if part == 'hypotez':
+                if part == relative_to:
                     relative_path = Path(*file_path.parts[i+1:])
                     break
 
             # Формирование целевой директории с учётом подстановки параметров <model> и <lang>
             target_dir: str = (
                 f'docs/{_pattern}'
-                .replace('<model>', model_name)
-                .replace('<lang>', Config.lang)
+                .replace('<lang>', self.lang)
                 .replace('<module>', str(relative_path))
                 )
 
@@ -345,6 +349,7 @@ class CodeAssistant:
 
             # суффикс в зависимости от роли
             suffix_map = {
+                'traslator':'',
                 'code_checker': '.md',
                 'doc_writer_md': '.md',
                 'doc_writer_rst': '.rst',
@@ -353,10 +358,10 @@ class CodeAssistant:
                 'code_explainer_html': '.html',
                 'pytest': '.md',
             }
-            suffix = suffix_map.get(Config.role, '.md')  # По умолчанию используется .md
+            suffix = suffix_map.get(self.role, '')
 
-            export_path:Path = Path(f'{__root__/ target_dir}{suffix}')  # Полный путь к конеччому файлу документации
-
+            #export_path:Path = Path(output_dir / f'{target_dir}{suffix}')  # Полный путь к конеччому файлу документации
+            export_path:Path = Path(output_dir / relative_path) # <- без создания дополнительных поддиректорий 
             export_path.parent.mkdir(parents=True, exist_ok=True)
 
             try:
@@ -373,47 +378,65 @@ class CodeAssistant:
             ...
             return False
 
-    def _remove_outer_quotes(self, response: str) -> str:
-        """
-        Удаляет внешние кавычки в начале и в конце строки, если они присутствуют.
+    # --------
 
+    async def process_files(
+        self, 
+        process_dirs: Optional[str | Path | list[str | Path]], 
+        output_dir: Optional[str | Path | list[str | Path]],
+        relative_to:str
+    ) -> bool:
+        """компиляция, отправка запроса и сохранение результата.
         Args:
-            response (str): Ответ модели, который необходимо обработать.
+            process_dirs(str|Path|list[str|Path]): путь к исходным файлам. Путь должен вести к директории/ям, не к файлу
+            output_dir(str): путь конечной директории
+            relative_to(str): имя директории, откуда будет достраиваться путь к файлу в `output_dir`
 
-        Returns:
-            str: Очищенный контент как строка.
-
-        Example:
-            >>> _remove_outer_quotes('```md some content ```')
-            'some content'
-            >>> _remove_outer_quotes('some content')
-            'some content'
-            >>> _remove_outer_quotes('```python def hello(): print("Hello") ```')
-            '```python def hello(): print("Hello") ```'
         """
-        try:
-            response = response.strip()
-        except Exception as ex:
-            logger.error('Exception in `_remove_outer_quotes()`', ex, False)
-            return ''
+        process_dirs = process_dirs if isinstance(process_dirs, list) else [process_dirs]
+        for process_directory in process_dirs:
 
-        # Если строка начинается с '```python' или '```mermaid', возвращаем её без изменений. Это годный код
-        if response.startswith(('```python', '```mermaid')):
-            return response
+            process_directory:Path = Path(process_directory)
+
+            if not process_directory.exists():
+                logger.error(f"Директория не существует: {process_directory}")
+                continue  # Переход к следующей директории, если текущая не существует
+
+            if not process_directory.is_dir():
+                logger.error(f"Это не директория: {process_directory}", None, False)
+                continue  # Переход к следующей директории, если текущая не является директорией
+
+            logger.info(f'Start {process_directory=}')
+
+            for i, (file_path, content) in enumerate( self._yield_files_content(process_directory) ):
+                if not any((file_path, content)):  # <- ошибка чтения файла
+                    logger.error(f'Ошибка чтения содержимого файла {file_path}\nContent {content} ')
+                    continue
+
+                if file_path and content:
+                    logger.debug(f'Чтение файла номер: {i+1}\n{file_path}', None, False)
+                    #в случае переводчика дополнительные параметры к запросу не нужны
+                    content_request:str = content if self.role == 'translator' else self._create_request(file_path, content)
+                    response:str = await self.gemini.ask_async(content_request) 
+                    #response:str = await self.gemini.chat(content_request,'coder') # <- чат (не проверен)
+
+                    if response:
+                        response: str = self._remove_outer_quotes(response)
+                        if Config.role == 'trainer': # трениривка модели, Результат не сохараням
+                            print(response, text_color = 'yellow')
+                        elif not await self._save_response(file_path, output_dir, relative_to, response, ):
+                                    logger.error(f'Файл {file_path} \n НЕ сохранился')
+                                    ...
+                                    continue
+                    else:
+                        logger.error('Ошибка ответа модели', None, False)
+                        ...
+                        continue
+
+                await asyncio.sleep(20)  # <- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG (change timeout)
 
 
-        for prefix in Config.remove_prefixes:
-            # Сравнение с префиксом без учёта регистра
-            if response.lower().startswith(prefix.lower()):
-                # Удаляем префикс и суффикс "```", если он есть
-                cleaned_response = response[len(prefix) :].strip()
-                if cleaned_response.endswith('```'):
-                    cleaned_response = cleaned_response[: -len('```')].strip()
-                return cleaned_response
-
-        # Возврат строки без изменений, если условия не выполнены
-        return response
-
+  
     def run(self, start_from_file: int = 1) -> None:
         """Запуск процесса обработки файлов."""
         signal.signal(signal.SIGINT, self._signal_handler)  # Обработка прерывания (Ctrl+C)
@@ -465,6 +488,17 @@ def main() -> None:
     Для каждой комбинации языка и роли создается экземпляр класса :class:`CodeAssistant`, который обрабатывает файлы, используя заданную модель ИИ.
     """
 
+
+    # --- настройки для переводчика
+    Config.roles_list = ['translator']
+    Config.languages_list = ['he']
+    Config.model_name = 'gemini-2.5-flash-preview-04-17'
+    Config.process_dirs = [r'C:\Users\user\Documents\repos\public_repositories\1001-python-ru']
+    Config.output_dir = r'C:\Users\user\Documents\repos\public_repositories\1001-python-he'
+    relative_to:str = '1001-python-ru'
+    Config.system_instruction = (Config.ENDPOINT / 'instructions' / f'DOCUMENT_TRANSLATOR.{Config.languages_list[0]}.MD').read_text(encoding='UTF-8')
+    # -----------------------------
+
     while True:
        
         # Обработка файлов для каждой комбинации языков и ролей
@@ -476,9 +510,11 @@ def main() -> None:
                     role=role,
                     lang=lang,
                     model_name = Config.model_name,
-                    # system_instruction = Config.system_instruction,
+                    system_instruction = Config.system_instruction,
                 )
-                asyncio.run(assistant_direct.process_files(process_dirs = Config.process_dirs))
+                asyncio.run(
+                    assistant_direct.process_files(Config.process_dirs, Config.output_dir, relative_to)
+                    )
 
 
 if __name__ == '__main__':

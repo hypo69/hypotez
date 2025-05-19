@@ -203,7 +203,7 @@ class Config:
     'unknown': 36,
     }
 
-    labels_for_train_data:dict 
+    labels_for_train_data:dict = {} # <- метки для модели 
 
     rejected_page_types:list = [
     'error', 

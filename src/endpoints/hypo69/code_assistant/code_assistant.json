@@ -192,10 +192,6 @@
   ],
 
   "exclude_dirs": [
-
-
-
-
     ".ipynb_checkpoints",
     "resources",
     "profiles",
@@ -279,6 +275,7 @@
     "*.md"
   ],
   "remove_prefixes": [
+
     "```md",
     "```md\n",
     "```MD",
@@ -304,11 +301,11 @@
   ],
 
   "output_dirs": {
-    "code_checker_md": "<model>/<lang>/consultant/<module>",
-    "code_explainer_md": "<model>/<lang>/explainer/<module>",
-    "how_to_writer_md": "<model>/<lang>/how_to/<module>",
-    "code_explainer_html": "<model>/<lang>explainer/html/<module>",
-    "doc_writer_md": "<model>/<lang>/doc/<module>",
+    "code_checker_md": "<lang>/consultant/<module>",
+    "code_explainer_md": "<lang>/explainer/<module>",
+    "how_to_writer_md": "<lang>/how_to/<module>",
+    "code_explainer_html": "<lang>explainer/html/<module>",
+    "doc_writer_md": "<lang>/doc/<module>",
     "pytest": "../pytest/<model>/<module>",
     "doc_writer_rst": "<model>/<lang>/doc/rst/<module>",
     "doc_writer_html": "<model>/<lang>/doc/html/<module>"

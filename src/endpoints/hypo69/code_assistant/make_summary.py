@@ -1,21 +1,22 @@
 ## \file /src/endpoints/hypo69/code_assistant/make_summary.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
 """
+Модуль собирает файл `summary.md` для компиляции средствами `mdbook`
+=========================================================================
+
+```rst
 module: src.endpoints.hypo69.code_assistant.make_summary
-    :platform: Windows, Unix
-    :synopsis: Модуль собирает файл `summary.md` для компиляции средствами `mdbook`
-    Подробнее: https://chatgpt.com/share/6742f054-aaa0-800d-9f84-0ab035a2a2c2
+```
 """
 
+from header import __root__
 from pathlib import Path
 import argparse
-import header  # Импорт модуля, который определяет корневой путь проекта
 
-# Используем корневой путь проекта
-PROJECT_ROOT = header.__root__
+import header
+from header import __root__
 
 def make_summary(docs_dir: Path, lang: str = 'en') -> None:
     """
