@@ -4,14 +4,13 @@
 #! .pyenv/bin/python3
 
 """
+``rst
 .. module:: src.suppliers.amazon 
-	:platform: Windows, Unix
-	:synopsis:
-
+```
 """
 
-
 from .graber import Graber
-from .scenario import get_list_products_in_category
+from .categories_crawler import  get_list_products_in_category
+
 
 

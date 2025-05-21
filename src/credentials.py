@@ -82,7 +82,7 @@ class ProgramSettings:
             email = None,
             password = None
         ),
-        presta=SimpleNamespace(
+        prestashop=SimpleNamespace(
             client=SimpleNamespace(
                 server = None,
                 port = None,
@@ -282,7 +282,7 @@ class ProgramSettings:
                 setattr(_entry, 'public_key', entry.custom_properties.get('public_key', None))
                 setattr(_entry, 'bot_token', entry.custom_properties.get('bot_token', None))
         except Exception as ex:
-            raise ValueError(f'failed sets: `discord` credentionals {ex}')
+            raise ValueError(f'failed sets: `discord` credentianals {ex}')
         return True
 
 
@@ -303,7 +303,7 @@ class ProgramSettings:
                 setattr(_entry, 'access_token', entry.custom_properties.get('access_token', None))
                 return True
         except Exception as ex:
-            raise ValueError(f'failed sets: `facebook` credentionals {ex}')
+            raise ValueError(f'failed sets: `facebook` credentianals {ex}')
 
 
     def _load_gapi_credentials(self, kp: PyKeePass) -> bool:
@@ -322,7 +322,7 @@ class ProgramSettings:
                 setattr(_entry, 'api_key', entry.custom_properties.get('api_key', None))
 
         except Exception as ex:
-            raise ValueError(f'failed sets: `gemini` credentionals {ex}')
+            raise ValueError(f'failed sets: `gemini` credentianals {ex}')
 
 
     def _load_gemini_credentials(self, kp: PyKeePass) -> bool:
@@ -342,7 +342,7 @@ class ProgramSettings:
 
             return True
         except Exception as ex:
-            raise ValueError(f'failed sets: `gemini` credentionals {ex}')
+            raise ValueError(f'failed sets: `gemini` credentianals {ex}')
 
 
     def _load_google_custom_search_credentials(self, kp: PyKeePass) -> bool:
@@ -363,7 +363,7 @@ class ProgramSettings:
       
             return True
         except Exception as ex:
-            raise ValueError(f'failed sets: `google_custom_search` credentionals {ex}')
+            raise ValueError(f'failed sets: `google_custom_search` credentianals {ex}')
 
     def _load_openai_credentials(self, kp: PyKeePass) -> bool:
         """ Load OpenAI credentials from KeePass
@@ -384,7 +384,7 @@ class ProgramSettings:
                 setattr(_entry, 'project_api', entry.custom_properties.get('project_api', None))
                 return True
         except Exception as ex:
-            raise ValueError(f'failed sets: `openai` credentionals \n{ex}')
+            raise ValueError(f'failed sets: `openai` credentianals \n{ex}')
 
 
     def _load_prestashop_credentials(self, kp: PyKeePass) -> bool:
@@ -398,10 +398,10 @@ class ProgramSettings:
         # If any entry fails, it should probably return False immediately or collect errors.
         # Following the original pattern, we return True at the end.
         try:
-            for entry in kp.find_groups(path=['prestashop', 'clients']).entries:
+            for entry in kp.find_groups(path=['prestashop']).entries:
                 entry_ns = SimpleNamespace()
-                setattr(self.credentials.presta.client, entry.title, entry_ns)
-                _entry = getattr(self.credentials.presta.client, entry.title)
+                setattr(self.credentials.prestashop, entry.title, entry_ns)
+                _entry = getattr(self.credentials.prestashop, entry.title)
 
                 setattr(_entry, 'api_key', entry.custom_properties.get('api_key', None))
                 setattr(_entry, 'api_domain', entry.custom_properties.get('api_domain', None))
@@ -410,7 +410,7 @@ class ProgramSettings:
                 setattr(_entry, 'db_password', entry.custom_properties.get('db_password', None))
             return True 
         except Exception as ex:
-            raise ValueError(f'failed sets: `gemini` credentionals \n{ex}')
+            raise ValueError(f'failed sets: `prestashop` credentianals \n{ex}')
 
     def _load_serpapi_credentials(self, kp: PyKeePass) -> bool:
         """ Load serpapi.com credentials from KeePass
@@ -429,7 +429,7 @@ class ProgramSettings:
             return True
         except Exception as ex:
             # Error finding the 'tavily' group itself
-            raise ValueError('failed sets: `serpapi` credentionals ')
+            raise ValueError('failed sets: `serpapi` credentianals ')
 
     def _load_smtp_credentials(self, kp: PyKeePass) -> bool:
         """ Load SMTP credentials from KeePass
@@ -452,7 +452,7 @@ class ProgramSettings:
             return True
 
         except Exception as ex:
-            raise ValueError(f'failed sets: `smtp` credentionals \n{ex}')
+            raise ValueError(f'failed sets: `smtp` credentianals \n{ex}')
             
 
     def _load_tavily_credentials(self, kp: PyKeePass) -> bool:
@@ -473,7 +473,7 @@ class ProgramSettings:
                     setattr(_entry_ns_ref, 'api_key', entry.custom_properties.get('api_key', None))
             return True # 
         except Exception as ex:
-            raise ValueError(f'failed sets: `travility` credentionals \n{ex}')
+            raise ValueError(f'failed sets: `travility` credentianals \n{ex}')
 
     def _load_telegram_credentials(self, kp: PyKeePass) -> bool:
         """Load Telegram credentials from KeePass.
@@ -493,7 +493,7 @@ class ProgramSettings:
                     setattr(_entry_ns_ref, 'token', entry.custom_properties.get('token', None))
             return True # 
         except Exception as ex:
-            raise ValueError(f'failed sets: `telegram` credentionals \n{ex}')
+            raise ValueError(f'failed sets: `telegram` credentianals \n{ex}')
 
 
     def _open_kp(self, retry: int = 3) -> PyKeePass | None:

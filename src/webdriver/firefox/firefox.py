@@ -68,6 +68,7 @@ from selenium.webdriver.firefox.service import Service
 from selenium.common.exceptions import WebDriverException
 
 from fake_useragent import UserAgent # type: ignore
+from tenacity import retry, stop_after_attempt, stop_after_delay
 
 import header
 from header import __root__
@@ -95,8 +96,9 @@ class Config:
     options: list[str]              # Список опций командной строки для Firefox
     headers: dict[str, Any]         # Словарь настроек (preferences) для Firefox
     proxy_enabled: bool             # Флаг, указывающий, включено ли использование прокси
-    enable_geckodriver_log: bool    # Флаг для включения логирования geckodriver
+    enable_geckodriver_log: bool
 
+    
     def __init__(self, config_path: Path):
         """
         Initializes the Config object by loading settings from a JSON file.
@@ -145,6 +147,7 @@ class Firefox(WebDriver):
 
     driver_name: str = 'firefox'
 
+    @retry(stop=(stop_after_delay(10) | stop_after_attempt(2)))
     def __init__(
         self,
         profile_name: str | None = None,
@@ -314,7 +317,7 @@ class Firefox(WebDriver):
                 '----------------------------------'
             )
             logger.critical(error_message, ex_wd, True)
-            sys.exit(1)
+            raise
         except Exception as ex_init:
             logger.critical('Непредвиденная ошибка при инициализации Firefox WebDriver:', ex_init, True)
             raise

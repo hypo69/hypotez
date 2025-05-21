@@ -31,20 +31,23 @@ def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | b
 
         # Извлечение данных из div с классом 'tabGroupLabel'
         element = soup.find("div", class_="tabGroupLabel")
-        data = element.get_text() if element else None
+        onetab_label:str = element.get_text() if element else ''
 
-        if not data:
-            price = ""
-            description = gs.now
-        else:
-            # Разбивка данных на цену и имя
-            parts = data.split(maxsplit=1)
-            price = int(parts[0]) if parts[0].isdigit() else ""
-            description = parts[1] if len(parts) > 1 else gs.now
+        
+        # TODO: переписать скрипт на универсальный
+        # if not onetab_label:
+        #     price = ""
+        #     description = gs.now
+        # else:
+        #     # Разбивка данных на цену и имя
+        #     parts = data.split(maxsplit=1)
+        #     price = int(parts[0]) if parts[0].isdigit() else ""
+        #     description = parts[1] if len(parts) > 1 else gs.now
+        #return price, description, urls
 
-        return price, description, urls
+        return onetab_label, urls
 
     except requests.exceptions.RequestException as ex:
         logger.error(f"Ошибка при выполнении запроса: {one_tab_url=}", ex)
         ...
-        return False, False, False
+        return False, False

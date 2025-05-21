@@ -54,7 +54,7 @@ from src.utils.image import save_image_from_url_async, save_image
 from src.utils.printer import pprint as print
 from src.logger.logger import logger
 
-@dataclass
+
 class Config:
     ENDPOINT:str = 'kazarinov'
 
@@ -321,7 +321,7 @@ def main():
     
     mexiron_name: str = '250203025325520'
     base_path:Path = Path(gs.path.external_storage)
-    export_path = base_path / ENDPOINT / 'mexironim' / mexiron_name
+    export_path =  Config.ENDPOINT / 'mexironim' / mexiron_name
     html_path: Path = export_path / f'{mexiron_name}_{lang}.html'
     pdf_path: Path = export_path / f'{mexiron_name}_{lang}.pdf'
     docx_path:Path = export_path / f'{mexiron_name}_{lang}.doc'

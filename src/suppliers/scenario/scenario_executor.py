@@ -1,12 +1,11 @@
-# \file hypotez/src/suppliers/scenario/scenario_executor.py
+## \file hypotez/src/suppliers/scenario/scenario_executor.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
-# Документация: https://github.com/hypo69/hypotez/blob/master/docs/ru/src/scenario/scenario_executor.py.md
 """
 Исполнитель сценариев поставщиков
 ====================================
 Модуль может исполнять различные сценарии, такие как:
-- Сбор товаров в определенной каегории
+- Сбор товаров в определенной категории
 - Сбор товаров по определенному фильтру
 - Сбор товаров по определенному производителю
 - ...
@@ -16,198 +15,261 @@
 ```
 """
 
-import os
-import sys
-import requests
 import asyncio
-import time
-import tempfile
-from datetime import datetime
-from math import log, prod
 from pathlib import Path
-from typing import Dict, List, Optional
-import json
+from typing import Dict, List, Optional, Any, TypeAlias
+from types import SimpleNamespace
 
 import header
 from header import __root__
 from src import gs
-from src.utils.printer import pprint
-from src.utils.jjson import j_loads, j_dumps
-from src.endpoints.prestashop.product_async import PrestaProductAsync, ProductFields
-from src.endpoints.prestashop.db import ProductCampaignsManager
+from src.utils.jjson import j_loads
+from src.endpoints.prestashop.product import PrestaProduct
+
 from src.logger.logger import logger
-from src.logger.exceptions import ProductFieldException
 
-# Global journal for tracking scenario execution
-_journal: dict = {'scenario_files': ''}
-_journal['name'] = timestamp = gs.now
 
-def dump_journal(s, journal: dict) -> None:
-    """!
-    Save the journal data to a JSON file.
-
-    Args:
-        s (object): Supplier instance.
-        journal (dict): Dictionary containing the journal data.
-
-    Returns:
-        None
+async def run_scenario_files(
+                            s: 'Supplier', 
+                            d: 'Driver', 
+                            scenario_files_list: List[Path]|Path, 
+                            crawl_category_function: Any
+                            ) -> bool:
     """
-    _journal_file_path = Path(s.supplier_abs_path, '_journal', f"{journal['name']}.json")
-    j_dumps(journal, _journal_file_path)
-
-def run_scenario_files(s, scenario_files_list: List[Path] | Path) -> bool:
-    """!
-    Executes a list of scenario files.
+    Функция выполняет список файлов сценариев.
 
     Args:
-        s (object): Supplier instance.
-        scenario_files_list (List[Path] | Path): List of file paths for scenario files, or a single file path.
+        s (SupplierInstance): Экземпляр поставщика.
+        d (d): Экземпляр веб-драйвера.
+        scenario_files_list (List[Path] | Path): Список путей к файлам сценариев или один путь к файлу.
+        crawl_category_function (Any): Функция для обхода категорий, используемая в сценарии (например,
+                                      `get_list_products_in_category` из сценария поставщика).
 
     Returns:
-        bool: True if all scenarios were executed successfully, False otherwise.
+        bool: `True`, если все сценарии выполнены успешно, иначе `False`.
 
     Raises:
-        TypeError: If scenario_files_list is not a list or a Path object.
+        TypeError: Если `scenario_files_list` не является списком или объектом `Path`.
+
+    Example:
+        >>> # Предполагается, что 'supplier_instance', 'd_instance', 'my_crawl_function' определены
+        >>> # scenario_paths = [Path('path/to/scenario1.json'), Path('path/to/scenario2.json')]
+        >>> # result = await run_scenario_files(supplier_instance, d_instance, scenario_paths, my_crawl_function)
+        >>> # print(f'Все сценарии выполнены успешно: {result}')
     """
-    if isinstance(scenario_files_list, Path):
-        scenario_files_list = [scenario_files_list]
-    elif not isinstance(scenario_files_list, list):
-        raise TypeError('scenario_files_list must be a list or a Path object.')
-    scenario_files_list = scenario_files_list if scenario_files_list else s.scenario_files
 
-    _journal['scenario_files'] = {}
+
+
     for scenario_file in scenario_files_list:
-        _journal['scenario_files'][scenario_file.name] = {}
         try:
-            if run_scenario_file(s, scenario_file):
-                _journal['scenario_files'][scenario_file.name]['message'] = f'{scenario_file} completed successfully!'
-                logger.success(f'Scenario {scenario_file} completed successfully!')
+            if await run_scenario_file(s,d,scenario_file,crawl_category_function ):
+                logger.success(f'Сценарий {scenario_file} успешно завершен.')
             else:
-                _journal['scenario_files'][scenario_file.name]['message'] = f'{scenario_file} FAILED!'
-                logger.error(f'Scenario {scenario_file} failed to execute!')
-        except Exception as e:
-            logger.critical(f'An error occurred while processing {scenario_file}: {e}')
-            _journal['scenario_files'][scenario_file.name]['message'] = f'Error: {e}'
-    return True
+                logger.error(f'Сценарий {scenario_file} не удалось выполнить.')
+        except Exception as ex:
+            logger.critical(f'Произошла ошибка при обработке сценария {scenario_file}', ex, exc_info=True)
+    return True # Возвращаем True, если цикл завершился (даже если были ошибки в отдельных файлах)
 
-def run_scenario_file(s, scenario_file: Path) -> bool:
-    """!
-    Loads and executes scenarios from a file.
+
+async def run_scenario_file(
+                            s: 'Supplier', 
+                            d: 'Driver',
+                            scenario_file: Path,
+                            crawl_category_function: Any
+                            ) -> bool:
+    """
+    Функция загружает и выполняет сценарии из файла.
 
     Args:
-        s (object): Supplier instance.
-        scenario_file (Path): Path to the scenario file.
+        s (SupplierInstance): Экземпляр поставщика.
+        d (d): Экземпляр веб-драйвера.
+        scenario_file (Path): Путь к файлу сценария.
+        crawl_category_function (Any): Функция для обхода категорий, используемая в сценарии.
 
     Returns:
-        bool: True if the scenario was executed successfully, False otherwise.
+        bool: `True`, если сценарий выполнен успешно, иначе `False`.
+
+    Example:
+        >>> # Предполагается, что 'supplier_instance', 'd_instance', 'scenario_file_path', 'my_crawl_function' определены
+        >>> # result = await run_scenario_file(supplier_instance, d_instance, scenario_file_path, my_crawl_function)
+        >>> # print(f'Сценарий файла выполнен успешно: {result}')
     """
+    scenarios_dict: Dict[str, Any] 
+    scenario_name: str
+    scenario_data: Dict[str, Any]
+
     try:
-        scenarios_dict = j_loads(scenario_file)['scenarios']
-        for scenario_name, scenario in scenarios_dict.items():
-            s.current_scenario = scenario
-            if run_scenario(s, scenario, scenario_name):
-                logger.success(f'Scenario {scenario_name} completed successfully!')
+        scenarios_dict = j_loads(scenario_file)
+        if not scenarios_dict: # j_loads возвращает пустой dict при ошибке
+            logger.error(f'Не удалось загрузить или декодировать JSON из файла сценария: {scenario_file}.')
+            return False
+
+        for scenario_name, scenario_data in scenarios_dict.items():
+            s.current_scenario = scenario_data # Обновление текущего сценария в объекте поставщика
+            if await run_scenario(s,d,scenario_data,scenario_name,crawl_category_function):
+                logger.success(f'Сценарий "{scenario_name}" из файла {scenario_file} успешно завершен.')
             else:
-                logger.error(f'Scenario {scenario_name} failed to execute!')
+                logger.error(f'Сценарий "{scenario_name}" из файла {scenario_file} не удалось выполнить.')
         return True
-    except (FileNotFoundError, json.JSONDecodeError) as e:
-        logger.critical(f'Error loading or processing scenario file {scenario_file}: {e}')
+
+    except Exception as ex:
+        logger.critical(f'Непредвиденная ошибка при выполнении сценария из файла {scenario_file}', ex, exc_info=True)
         return False
 
-def run_scenarios(s, scenarios: Optional[List[dict] | dict] = None, _journal=None) -> List | dict | bool:
-    """!
-    Executes a list of scenarios (NOT FILES).
+
+async def run_scenarios(
+                        s: 'Supplier', 
+                        d: 'Driver',
+                        scenarios: Optional[List[dict] | dict],
+                        crawl_category_function: Any
+                        ) -> List | dict | bool:
+    """
+    Функция выполняет список сценариев (НЕ ФАЙЛОВ).
 
     Args:
-        s (object): Supplier instance.
-        scenarios (Optional[List[dict] | dict], optional): Accepts a list of scenarios or a single scenario as a dictionary. Defaults to None.
+        s (SupplierInstance): Экземпляр поставщика.
+        d (d): Экземпляр веб-драйвера.
+        scenarios (Optional[List[dict] | dict], optional): Принимает список сценариев или один сценарий в виде словаря.
+                                                          По умолчанию используется `s.current_scenario`.
+        crawl_category_function (Any, optional): Функция для обхода категорий, используемая в сценарии.
+                                                  По умолчанию `None`.
 
     Returns:
-        List | dict | bool: The result of executing the scenarios, or False in case of an error.
+        List | dict | bool: Результат выполнения сценариев или `False` в случае ошибки.
 
     Todo:
-        Check the option when no scenarios are specified from all sides. For example, when s.current_scenario is not specified and scenarios are not specified.
+        Проверить опцию, когда сценарии не указаны со всех сторон. Например, когда `s.current_scenario`
+        не указан и сценарии не указаны.
+
+    Example:
+        >>> # Предполагается, что 'supplier_instance', 'd_instance' определены
+        >>> # my_scenario = {'url': 'http://example.com/category', 'name': 'MyCategoryScenario'}
+        >>> # results = await run_scenarios(supplier_instance, d_instance, scenarios=my_scenario)
+        >>> # print(f'Результаты выполнения сценариев: {results}')
     """
-    if not scenarios:
-        scenarios = [s.current_scenario]
 
-    scenarios = scenarios if isinstance(scenarios, list) else [scenarios]
-    res = []
-    for scenario in scenarios:
-        res = run_scenario(s, scenario)
-        _journal['scenario_files'][-1][scenario] = str(res)
-        dump_journal(s, _journal)
-    return res
+    
+    results: List[Any] = [] 
 
-def run_scenario(supplier, scenario: dict, scenario_name: str, _journal=None) -> List | dict | bool:
-    """!
-    Executes the received scenario.
+    for scenario_item in scenarios:
+        # Генерация уникального имени сценария, если оно отсутствует
+        scenario_name = scenario_item.get('name', f'UnnamedScenario_{hash(frozenset(scenario_item.items()))}')
+        result = await run_scenario(s, d, scenario_item, scenario_name, crawl_category_function)
+        results.append(result)
+    return results
+
+
+async def run_scenario(
+                        s: 'Supplier', 
+                        d: 'Driver',
+                        scenario: SimpleNamespace,
+                        crawl_category_function: Any
+                        ) -> List | dict | bool:
+    """
+    Функция выполняет полученный сценарий.
 
     Args:
-        supplier (object): Supplier instance.
-        scenario (dict): Dictionary containing scenario details.
-        scenario_name (str): Name of the scenario.
+        s (SupplierInstance): Экземпляр поставщика.
+        d (d): Экземпляр веб-драйвера.
+        scenario (Dict[str, Any]): Словарь, содержащий детали сценария.
+        scenario_name (str): Имя сценария.
+        crawl_category_function (Any, optional): Функция для обхода категорий, используемая в сценарии.
+                                                  По умолчанию `None`.
 
     Returns:
-        List | dict | bool: The result of executing the scenario.
+        List | dict | bool: Результат выполнения сценария.
 
-    Todo:
-        Check the need for the scenario_name parameter.
+    Example:
+        >>> # Предполагается, что 'supplier_instance', 'd_instance', 'my_scenario_data', 'my_crawl_function' определены
+        >>> # result = await run_scenario(supplier_instance, d_instance, my_scenario_data, 'MyCategoryScenario', my_crawl_function)
+        >>> # print(f'Результат выполнения сценария: {result}')
     """
-    s = supplier
-    logger.info(f'Starting scenario: {scenario_name}')
-    s.current_scenario = scenario
-    d = s.driver
-    d.get_url(scenario['url'])
 
-    # Get list of products in the category
-    list_products_in_category: list = s.related_modules.get_list_products_in_category(s)
+    list_products_in_category: List[str] | None = crawl_category_function(d, s.locator.category)
+    f: ProductFields = None
 
-    # No products in the category (or they haven't loaded yet)
+
+    scenario_url: str = scenario.get('url')
+    if not scenario_url:
+        logger.error(f'В сценарии "{scenario_name}" отсутствует URL-адрес.')
+        return False
+
+    if not d.get_url(scenario_url):
+        logger.error(f'Ошибка перехода по URL сценария: {scenario_url} для сценария "{scenario_name}".')
+        ...
+        return False
+
+    # Извлечение списка товаров в категории
+    # Если crawl_category_function предоставлена, используем ее, иначе стандартную функцию поставщика
+    if crawl_category_function:
+        # Предполагается, что crawl_category_function принимает d и s.locators
+        list_products_in_category = await crawl_category_function(d, s.locators)
+    else:
+        # Предполагается, что s.related_modules.get_list_products_in_category ожидает d и s.locators
+        list_products_in_category = await s.related_modules.get_list_products_in_category(d, s.locators)
+
+    # Если в категории нет товаров (или они еще не загрузились)
     if not list_products_in_category:
-        logger.warning('No product list collected from the category page. Possibly an empty category - ', d.current_url)
+        logger.warning(f'Список товаров не собран со страницы категории. Возможно, пустая категория: {d.current_url}')
         return False
 
     for url in list_products_in_category:
         if not d.get_url(url):
-            logger.error(f'Error navigating to product page at: {url}')
-            continue  # <- Error navigating to the page. Skip
+            logger.error(f'Ошибка перехода на страницу товара по URL: {url}')
+            continue  # Ошибка при переходе на страницу. Пропускаем.
 
-        # Grab product page fields
-        grabbed_fields = s.related_modules.grab_product_page(s)
-        f: ProductFields = asyncio.run(s.related_modules.grab_page(s))
+        # Захват полей страницы товара
+        # Предполагается, что s.related_modules.grab_page является асинхронной функцией
+        f = await s.related_modules.grab_page(s)
         if not f:
-            logger.error('Failed to collect product fields')
+            logger.error(f'Не удалось собрать поля товара со страницы: {url}')
             continue
 
         presta_fields_dict, assist_fields_dict = f.presta_fields_dict, f.assist_fields_dict
         try:
-            product: Product = Product(supplier_prefix=s.supplier_prefix, presta_fields_dict=presta_fields_dict)
-            insert_grabbed_data(f)
+            # Создание экземпляра ProductClass
+            product = ProductClass(supplier_prefix=s.supplier_prefix, presta_fields_dict=presta_fields_dict)
+            # Вставка захваченных данных в PrestaShop
+            await insert_grabbed_data_to_prestashop(f)
         except Exception as ex:
-            logger.error(f'Product {product.fields["name"][1]} could not be saved', ex)
+            # Попытка извлечь имя товара для логирования
+            product_name_for_log = ''
+            if product and hasattr(product, 'fields') and 'name' in product.fields and isinstance(product.fields['name'], tuple):
+                product_name_for_log = product.fields['name'][1]
+            elif product and hasattr(product, 'name'): # Если у ProductClass есть атрибут 'name'
+                product_name_for_log = product.name
+
+            logger.error(f'товар "{product_name_for_log}" не может быть сохранен.', ex, exc_info=True)
             continue
 
-    return list_products_in_category
+    return list_products_in_category # Возвращаем список URL, которые были обработаны
+
 
 async def insert_grabbed_data_to_prestashop(
     f: ProductFields, coupon_code: Optional[str] = None, start_date: Optional[str] = None, end_date: Optional[str] = None
 ) -> bool:
-    """!
-    Inserts the product into PrestaShop.
+    """
+    Функция добавляет товар в PrestaShop.
 
     Args:
-        f (ProductFields): ProductFields instance containing the product information.
-        coupon_code (Optional[str], optional): Optional coupon code. Defaults to None.
-        start_date (Optional[str], optional): Optional start date for the promotion. Defaults to None.
-        end_date (Optional[str], optional): Optional end date for the promotion. Defaults to None.
+        f (ProductFields): Экземпляр `ProductFields`, содержащий информацию о товаре.
+        coupon_code (Optional[str], optional): Необязательный код купона. По умолчанию `None`.
+        start_date (Optional[str], optional): Необязательная дата начала акции. По умолчанию `None`.
+        end_date (Optional[str], optional): Необязательная дата окончания акции. По умолчанию `None`.
 
     Returns:
-        bool: True if the insertion was successful, False otherwise.
+        bool: `True`, если вставка прошла успешно, иначе `False`.
+
+    Example:
+        >>> # product_fields_instance = ProductFields(...)
+        >>> # success = await insert_grabbed_data_to_prestashop(product_fields_instance, coupon_code='SAVE10')
+        >>> # print(f'Вставка товара в PrestaShop {"успешна" if success else "не удалась"}.')
     """
+    presta: PrestaShopClass 
     try:
-        presta = PrestaShop()
+        # Создание экземпляра класса для взаимодействия с PrestaShop API
+        presta = PrestaProductAsync() # Использование PrestaProductAsync
+        
         return await presta.post_product_data(
             product_id=f.product_id,
             product_name=f.product_name,
@@ -220,5 +282,5 @@ async def insert_grabbed_data_to_prestashop(
         )
 
     except Exception as ex:
-        logger.error('Failed to insert product data into PrestaShop: ', ex)
+        logger.error('Не удалось вставить данные товара в PrestaShop.', ex, exc_info=True)
         return False

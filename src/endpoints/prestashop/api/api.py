@@ -125,33 +125,6 @@ class Config:
     `prod` - emil_design.com prestashop 1.7 <- ⚠️ Внимание!  Рабочий магазин!
     """
     POST_FORMAT = 'JSON'
-    API_DOMAIN: str = ''
-    API_KEY: str = ''
-
-    if USE_ENV:
-        from dotenv import load_dotenv
-
-        load_dotenv()
-        API_DOMAIN = os.getenv('HOST')
-        API_KEY = os.getenv('API_KEY')
-
-    elif MODE == 'dev':
-        API_DOMAIN = gs.credentials.presta.client.dev_emil_design.api_domain
-        API_KEY = gs.credentials.presta.client.dev_emil_design.api_key
-
-    elif MODE == 'dev8':
-        API_DOMAIN = gs.credentials.presta.client.dev8_emil_design.api_domain
-        API_KEY = gs.credentials.presta.client.dev8_emil_design.api_key
-
-    elif MODE == 'prod':
-        API_DOMAIN = gs.credentials.presta.client.emil_design.api_domain
-        API_KEY = gs.credentials.presta.client.emil_design.api_key
-
-    else:
-        # `DEV` для API устанавливается если MODE пустой или имеет невалидное значение
-        MODE = 'dev'
-        API_DOMAIN = gs.credentials.presta.client.dev_emil_design.api_domain
-        API_KEY = gs.credentials.presta.client.dev_emil_design.api_key
 
 
 class PrestaShop:

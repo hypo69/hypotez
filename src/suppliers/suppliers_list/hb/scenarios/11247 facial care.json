@@ -1,5 +1,5 @@
 {
-  "scenarios": {
+
     "moisture-face": {
       "url": "https://hbdeadsea.co.il/product-category/facial/moisture-face//",
       "condition": "new",
@@ -56,4 +56,3 @@
       "price_rule": 1
     }
   }
-}

@@ -1,11 +1,10 @@
 {
-  "scenarios": {
+
     "complementary-products": {
 
       "url": "https://hbdeadsea.co.il/product-category/hair-treatment/complementary-products/",
       "name": "מוצרי טיפוח משלימים",
-      "condition": "new"
-      "new" ],
+      "condition": "new",
       "presta_categories": {
         "default_category": {
           "11111": "presta_category"
@@ -68,4 +67,3 @@
       }
     }
   }
-}

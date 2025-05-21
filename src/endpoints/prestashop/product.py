@@ -35,27 +35,7 @@ from src import USE_ENV  # <- True - использую переменные о�
 
 class Config:
     """Configuration class for PrestaShop product settings."""
-
-
-    MODE: str = 'dev'
-    API_DOMAIN: str = ''
-    API_KEY: str = ''
-
-    if USE_ENV:
-        API_DOMAIN = os.getenv('HOST')
-        API_KEY = os.getenv('API_KEY')
-
-    elif MODE == 'dev':
-        API_DOMAIN = gs.credentials.presta.client.dev_emil_design.api_domain
-        API_KEY = gs.credentials.presta.client.dev_emil_design.api_key
-
-    elif MODE == 'dev8':
-        API_DOMAIN = gs.credentials.presta.client.dev8_emil_design.api_domain
-        API_KEY = gs.credentials.presta.client.dev8_emil_design.api_key
-
-    else:
-        API_DOMAIN = gs.credentials.presta.client.emil_design.api_domain
-        API_KEY = gs.credentials.presta.client.emil_design.api_key
+    ...
 
 
 class PrestaProduct(PrestaShop):
@@ -65,19 +45,17 @@ class PrestaProduct(PrestaShop):
     and then work with the PrestaShop API.
     """
 
-    def __init__(self, api_key: Optional[str] = '', api_domain: Optional[str] = '', *args, **kwargs) -> None:
+    def __init__(self, api_key: str, api_domain: str, *args, **kwargs):
         """Initializes a Product object.
 
         Args:
-            api_key (Optional[str], optional): PrestaShop API key. Defaults to ''.
-            api_domain (Optional[str], optional): PrestaShop API domain. Defaults to ''.
+            api_key (str): PrestaShop API key. Defaults to ''.
+            api_domain (str): PrestaShop API domain. Defaults to ''.
 
-        Returns:
-            None
         """
         super().__init__(
-            api_key=api_key if api_key else Config.API_KEY,
-            api_domain=api_domain if api_domain else Config.API_DOMAIN,
+            api_key=api_key, 
+            api_domain=api_domain,
             *args,
             **kwargs,
         )

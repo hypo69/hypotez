@@ -48,45 +48,39 @@ from src.utils.convertors.unicode import decode_unicode_escape
 from src.utils.printer import pprint as print
 from src.logger.logger import logger
 
-@dataclass
+
 class Config:
-    ENDPOINT = 'emil'
-
-    if USE_ENV:
-        from dotenv import load_dotenv
-        load_dotenv()
+    ENDPOINT:Path = __root__ / 'endpoints' / 'emil'
 
 
-class SupplierToPrestashopProvider:
+class SupplierToPrestashopPipeline:
     """Обрабатывает извлечение, разбор и сохранение данных о товарах поставщиков.
-    Данные могут быть получены как из посторнних сайтов, так из файла JSON
+    Данные могут быть получены как из посторнних сайтов, так из словаря товара в формате файла JSON
     
     Attributes:
         driver (Driver): Экземпляр Selenium WebDriver.
         export_path (Path): Путь для экспорта данных.
         products_list (List[dict]): Список обработанных данных о товарах.
     """
-    base_dir:Path = __root__ / 'src' / 'suppliers' / 'supppliers_list' / Config.ENDPOINT
+    
     driver: Driver
     export_path: Path
     mexiron_name: str
     price: float
     timestamp: str
     products_list: list
-    model: GoogleGenerativeAi
     config: SimpleNamespace
     local_images_path:Path = gs.path.external_storage / Config.ENDPOINT / 'images' / 'furniture_images'
     lang: str
     gemini_api: str
-    presta_api: str
-    presta_url: str
+    api_key: str
+    api_domain: str
 
 
     def __init__(self, 
                  lang:str, 
-                 gemini_api: str,
-                 presta_api: str,
-                 presta_url: str,
+                 api_key: str,
+                 api_domain: str,
                  driver: Optional [Driver] = None,
                  ):
         """
@@ -97,9 +91,8 @@ class SupplierToPrestashopProvider:
             
 
         """
-        self.gemini_api = gemini_api
-        self.presta_api = presta_api
-        self.presta_url = presta_url
+        self.api_key = api_key
+        self.api_domain = api_domain
         self.lang = lang
         try:
             self.config = j_loads_ns(gs.path.endpoints / Config.ENDPOINT / f'{Config.ENDPOINT}.json')
@@ -134,7 +127,8 @@ class SupplierToPrestashopProvider:
         
     ) -> bool:
         """
-        Executes the scenario: parses products, processes them via AI, and stores data.
+        Функция собирает данные со страницы и собирает список товаров в `products_list`
+        и отправляет на сохранение в файле JSON
 
         Args:
             system_instruction (Optional[str]): System instructions for the AI model.
@@ -159,6 +153,7 @@ class SupplierToPrestashopProvider:
                                  'description',
                                  'specification',
                                  'local_image_path')
+        f:ProductFields = None
         products_list = []
 
         # 1. Сбор товаров
@@ -173,9 +168,8 @@ class SupplierToPrestashopProvider:
 
             try:
                 #scenarios_files_list:list =  recursively_get_file_path(__root__ / 'src' / 'suppliers' / 'suppliers_list' / graber.supplier_prefix / 'scenarios', '.json')
-                # f = await graber.grab_page(*required_fields)
-
-                graber.process_graber('hb')
+                f = await graber.grab_page(*required_fields)
+                #graber.process_graber('hb')
                 ...
 
             except Exception as ex:
@@ -203,9 +197,10 @@ class SupplierToPrestashopProvider:
     async def process_scenarios(self, suppliers_prefixes:Optional[str] = '') -> bool:
         """"""
         ...
-        suppliers_prefixes = suppliers_prefixes if isinstance(suppliers_prefixes, list) else [suppliers_prefixes] if isinstance(suppliers_prefixes, str) else []
+        suppliers_prefixes = suppliers_prefixes if isinstance(suppliers_prefixes, list) else [suppliers_prefixes] 
+        ...
 
-        
+
     async def save_product_data(self, product_data: dict):
         """
         Saves individual product data to a file.
@@ -260,11 +255,11 @@ class SupplierToPrestashopProvider:
 
 
     async def save_in_prestashop(self, products_list:ProductFields | list[ProductFields]) -> bool:
-        """Функция, которая сохраняет товары в Prestashop emil-design.com """
+        """Функция сохраняет товары в Prestashop по апи и домену """
 
         products_list: list = products_list if isinstance(products_list, list) else [products_list]
 
-        p = PrestaProduct(api_key=self.presta_api, api_domain=self.presta_url)
+        p = PrestaProduct(api_key=self.api_key, api_domain=self.api_domain)
 
         for f in products_list:
             p.add_new_product(f)
@@ -316,7 +311,7 @@ async def upload_redacted_images_from_emil():
     """
     lang = 'he'
     products_ns = j_loads_ns(gs.path.external_storage / ENDPOINT / 'out_250108230345305_he.json')
-    suppier_to_presta = SupplierToPrestashopProvider(lang)
+    suppier_to_presta = SupplierToPrestashopPipeline(lang)
     products_list:list = [f for f in products_ns]
     await suppier_to_presta.save_in_prestashop(products_list)
 

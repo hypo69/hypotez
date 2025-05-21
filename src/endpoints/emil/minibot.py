@@ -3,10 +3,12 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.endpoints.emil.minibot 
-	:platform: Windows, Unix
-	:synopsis: Простой бот для телеграма, обслуживаююий запросы для emil-design.com
+Минибот, который принимает one-tab.com ссылку и посыкает ее на обработку в `pipeline`
+=====================================================================================
 
+```rst
+.. module:: src.endpoints.emil.minibot 
+```
 """
 
 import telebot
@@ -23,29 +25,43 @@ import header
 from header import __root__
 from src import gs
 from src.logger import logger
-from src.llm.gemini import GoogleGenerativeAi
-from src.endpoints.kazarinov.scenarios.scenario import fetch_target_urls_onetab, Scenario
+from src.endpoints.fetch_one_tab import fetch_target_urls_onetab
+from src.endpoints.emil.from_supplier_toPrestashop import SupplierToPrestashopPipeline
 
 from src.utils.url import is_url
 from src.utils.printer import pprint as print
 
-##############################################################
+# --- config.py -----------------
+class Config:
+    ENDPOINT = __root__ / 'endpoints' / 'emil'
+    BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') or gs.credentials.telegram.hypo69_emil_design_bot.token
+    CHANNEL_ID = '@onela'
+    PHOTO_DIR = Path(__root__ / 'endpoints' / 'kazarinov' / 'assets')
+    COMMAND_INFO = 'This is a simple bot. Use /help to see commands.'
+    UNKNOWN_COMMAND_MESSAGE = 'Unknown command. Use /help to see available commands.'
+    START_MESSAGE = "Howdy, how are you doing?"
+    HELP_MESSAGE = """
+    Here are the available commands:
+    /start - Starts the bot.
+    /help - Shows this help message.
+    /info - Shows information about the bot.
+    /time - Shows the current time.
+    /photo - Sends a random photo.
+    """
 
-ENDPOINT = 'emil'
-USE_ENV:bool = True # <- Определает откуда брать ключи. Если False - то из базы данных с паролями, иначе из .env
+
 
 #############################################################
 
 class BotHandler:
     """Исполнитель команд, полученных ботом."""
 
-    base_dir: Path = __root__ / 'src' / 'endpoints' / 'kazarinov'
-
     def __init__(self):
         """Инициализация обработчика событий телеграм-бота."""
-        self.scenario = Scenario()
-        self.model = GoogleGenerativeAi(os.getenv('GEMINI_API')) 
+       
         self.questions_list = ['Я не понял?', 'Объясни пожалуйста']
+        
+        pipeline = SupplierToPrestashopPipeline()
 
 
     def handle_message(self, bot:telebot, message:'message'):
@@ -69,7 +85,7 @@ class BotHandler:
 
     def _send_user_flowchart(self, bot, chat_id):
         """Отправка схемы user_flowchart."""
-        photo_path = self.base_dir / 'assets' / 'user_flowchart.png'
+        photo_path = Config.ENDPOINT / 'assets' / 'user_flowchart.png'
         try:
             with open(photo_path, 'rb') as photo:
                 bot.send_photo(chat_id, photo)
@@ -86,7 +102,7 @@ class BotHandler:
 
         # Parsing https//one-tab.com/XXXXXXXXX page
         try:
-           price, mexiron_name, urls = fetch_target_urls_onetab(url)
+           category, urls = fetch_target_urls_onetab(url)
            bot.send_message(message.chat.id, f'Получил мехирон {mexiron_name} - {price} шек')
         except Exception as ex:
             logger.error(f"Error fetching URLs from OneTab: {ex}")
@@ -179,24 +195,7 @@ class BotHandler:
             bot.send_message(message.chat.id, 'Произошла ошибка при обработке документа. Попробуй ещё раз.')
             return False
 
-# --- config.py -----------------
-@dataclass
-class Config:
-    BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') if USE_ENV else gs.credentials.telegram.hypo69_emil_design_bot
-    CHANNEL_ID = '@onela'
-    PHOTO_DIR = Path(__root__ / 'endpoints' / 'kazarinov' / 'assets')
-    COMMAND_INFO = 'This is a simple bot. Use /help to see commands.'
-    UNKNOWN_COMMAND_MESSAGE = 'Unknown command. Use /help to see available commands.'
-    START_MESSAGE = "Howdy, how are you doing?"
-    HELP_MESSAGE = """
-    Here are the available commands:
-    /start - Starts the bot.
-    /help - Shows this help message.
-    /info - Shows information about the bot.
-    /time - Shows the current time.
-    /photo - Sends a random photo.
-    """
-# --- config.py end -----------------
+
 
 # --- bot.py ---
 config = Config()

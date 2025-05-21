@@ -26,20 +26,25 @@ def check_latest_release(repo: str, owner: str):
     Returns:
         str: The latest release version if available, else None.
     """
-    url = fr'https://github.com/repos/{owner}/{repo}/releases/latest'
-    response = requests.get(url)
+    return True
+    try:
+        url = fr'https://github.com/repos/{owner}/{repo}/releases/latest'
+        response = requests.get(url)
 
-    if response.status_code == 200:
-        try:
-            latest_release = response.json()
-            print(latest_release)
-            return latest_release['tag_name']
-        except Exception as ex:
-            logger.error(f'Ошибка распаковки релиза', ex)
-            ...
+        if response.status_code == 200:
+            try:
+                latest_release = response.json()
+                print(latest_release)
+                return latest_release['tag_name']
+            except Exception as ex:
+                logger.error(f'Ошибка распаковки релиза', ex)
+                ...
+                return
+        else:
+            logger.debug(f"Нет нового релиза:\n {response.status_code=}", None, False)
+            
             return
-    else:
-        logger.debug(f"Нет нового релиза: {url}\n {response.status_code=}", None, False)
-        #TODO: Код не проверен
-        return 
+    except Exception as ex:
+        logger.error(f'Ошибка коннекта github',ex,False)
+        return
 

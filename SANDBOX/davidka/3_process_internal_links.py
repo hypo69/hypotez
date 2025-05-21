@@ -179,14 +179,14 @@ def _count_product_page_types(data: dict | list | None) -> Tuple[int, int]:
         if isinstance(entry, dict) and entry.get('page_type') == 'product':
             product_count += 1
             
-    # Функция возвращает кортеж: (общее количество, количество продуктов)
+    # Функция возвращает кортеж: (общее количество, количество товаров)
     return all_entries_count, product_count
 
 
 def rename_directory_if_no_products(directory_path: Path) -> None:
     """
     Считывает 'processed_links.json' в указанной директории, подсчитывает общее количество записей 
-    и 'product' page_types, и переименовывает директорию, если продукты не найдены.
+    и 'product' page_types, и переименовывает директорию, если товары не найдены.
 
     Args:
         directory_path (Path): Путь к директории для обработки.
@@ -396,7 +396,7 @@ def supplier_candidate(supplier_dir_path: Path) -> bool:
     if product_count > 0:
         return True
     else:
-        # Если нет продуктов, но мало других записей, все еще может быть кандидатом (новая, малоизученная)
+        # Если нет товаров, но мало других записей, все еще может быть кандидатом (новая, малоизученная)
         return True if all_entries_count < 10 else False 
 
 # --------------------------------- БЛОК ОБРАБОТКИ ВНУТРЕННИХ ССЫЛОК ----------------------------------
@@ -728,7 +728,7 @@ def process_supplier_directory(
         # Если supplier_candidate вернула False по другим причинам (например, processed_links.json не читается),
         # то переименование может быть нежелательным здесь.
         # Для ясности, rename_directory_if_no_products вызывается только если директория *становится* не кандидатом
-        # из-за отсутствия продуктов после анализа.
+        # из-за отсутствия товаров после анализа.
         # Если она изначально "плохая" (не читается журнал), то supplier_candidate это обработает.
         logger.info(f"Директория {supplier_dir_path.name} не прошла проверку 'supplier_candidate'. Пропуск обработки ссылок.")
         # Опционально: если supplier_candidate означает "не продавец", можно переименовать

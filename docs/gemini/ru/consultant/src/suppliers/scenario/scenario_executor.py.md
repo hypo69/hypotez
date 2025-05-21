@@ -36,7 +36,7 @@ from src import gs
 from src.utils.printer import pprint
 from src.utils.jjson import j_loads, j_dumps
 from src.endpoints.prestashop.product_async import PrestaProductAsync, ProductFields
-from src.endpoints.prestashop.db import ProductCampaignsManager
+
 from src.logger.logger import logger
 from src.logger.exceptions import ProductFieldException
 
@@ -292,7 +292,7 @@ from src import gs
 from src.utils.printer import pprint
 from src.utils.jjson import j_loads, j_dumps
 from src.endpoints.prestashop.product_async import PrestaProductAsync, ProductFields
-from src.endpoints.prestashop.db import ProductCampaignsManager
+
 from src.logger.logger import logger
 from src.logger.exceptions import ProductFieldException
 

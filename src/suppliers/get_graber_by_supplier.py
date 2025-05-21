@@ -163,7 +163,7 @@ def get_graber_by_supplier_prefix(driver: Driver, supplier_prefix: str, lang_ind
         ...     print(f'Grabber found: {type(grabber_instance).__name__}')
         Grabber found: KspGraber # Пример вывода
     """
-    # Объявление переменной в начале функции
+    
     grabber: Graber | None = None
     ... # Оставлено без изменений согласно требованиям
 

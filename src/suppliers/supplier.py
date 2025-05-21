@@ -4,9 +4,6 @@
 #! .pyenv/bin/python3
 
 """
-```rst
-.. :module:: src.suppliers.supplier 
-```
 Модуль описывает базовый класс поставщиков `Supplier`.
 ======================================================
 Этот модуль является ключевым компонентом системы, обеспечивающим абстракцию и унификацию взаимодействия с различными поставщиками. 
@@ -17,21 +14,10 @@
  - Управления локаторами элементов страницы.
  - Взаимодействия с веб-драйвером.
 
-[Документция к модулю](https://github.com/hypo69/hypotez/blob/master/docs/ru/src/suppliers/supplier.py.md)
+```rst
+.. :module:: src.suppliers.supplier 
+```
 
-[Докумeнтация по локаторам](https://github.com/hypo69/hypotez/blob/master/docs/ru/src/webdriver/locator.ru.md)
-
-Далее: класс [Graber](https://github.com/hypo69/hypotez/blob/master/docs/ru/src/suppliers/graber.py.md)
-
-Flowchart:
-
-
-                   supplier_prefix
-                         |
-web <-> webdriver <-> SUPPLIER -> product
-                         ^
-                         |
-                      scenario
 """
 
 
