@@ -1,11 +1,12 @@
 {
-    "suppliers": [
-      "hb",
-      "aliexpress",
-      "amazon",
-      "ebay",
-      "etzmaleh",
-      "kualastyle"
-    ]
-   
+  "suppliers": [
+    "hb",
+    "aliexpress",
+    "amazon",
+    "ebay",
+    "etzmaleh",
+    "kualastyle"
+  ],
+  "gemini_model_name": "gemini-2.5-flash-preview-04-17"
+
 }

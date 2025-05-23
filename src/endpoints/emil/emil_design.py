@@ -3,10 +3,6 @@
 #! .pyenv/bin/python3
 
 """
-```rst
-.. module:: src.endpoints.emil
-```
-
 Модуль для управления и обработки изображений, а также продвижения в Facebook и PrestaShop. Относится к магазину `emil-design.com`
 =================================
 Основные возможности:
@@ -16,25 +12,30 @@
 Классы:
     `Config` - <инструкция для модели gemini: Дай полное описание и назначение этого класса>
     `EmilDesign` - <инструкция для модели: Дай полное описание и назначение этого класса>
-    - ..... <далее, если есть>
-"""
 
+```rst
+.. module:: src.endpoints.emil
+```
+"""
+import importlib
 import os
 import asyncio
 import time
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Optional, List
+from typing import Optional, List, Any
 from dataclasses import dataclass, field
 
 import header
 from header import __root__
 
-# External modules
+# Internal modules
 from src import gs
 from src.suppliers.suppliers_list import *
 from src.suppliers.get_graber_by_supplier  import get_graber_by_supplier_prefix, get_graber_by_supplier_url
+from src.suppliers.graber import Graber
 from src.webdriver.driver import Driver
+from src.webdriver.firefox import Firefox
 from src.webdriver.chrome import Chrome
 from src.llm.gemini import GoogleGenerativeAi
 from src.llm.openai.model import OpenAIModel
@@ -49,52 +50,22 @@ from src.utils.file import read_text_file, save_text_file, get_filenames_from_di
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.image import get_image_bytes, get_raw_image_data
 from src.logger.logger import logger
+SupplierInstance:SimpleNamespace = Any
 
-from src import USE_ENV  # <- True - использую переменные окружения, False - использую параметры из keepass
-
-@dataclass
+# --- file config.py
 class Config:
-    """Configuration class for EmilDesign."""
 
-    ENDPOINT: str = 'emil'
-    MODE: str = 'dev' 
-    """
-    MODE (str) = определяет конечную точку API 
-    принимаемые значения:
-    `dev` - dev.emil_design.com prestashop 1.7
-    `dev8` - dev8.emil_design.com prestashop 8
-    `prod` - emil_design.com prestashop 1.7 <- ⚠️ Внимание!  Рабочий магазин!
-    """
-    POST_FORMAT = 'XML'
-    API_DOMAIN: str = ''
-    API_KEY: str = ''
 
-    if USE_ENV:
-        from dotenv import load_dotenv
-
-        load_dotenv()
-        API_DOMAIN = os.getenv('HOST')
-        API_KEY = os.getenv('API_KEY')
-
-    elif MODE == 'dev':
-        API_DOMAIN = gs.credentials.presta.client.dev_emil_design.api_domain
-        API_KEY = gs.credentials.presta.client.dev_emil_design.api_key
-
-    elif MODE == 'dev8':
-        API_DOMAIN = gs.credentials.presta.client.dev8_emil_design.api_domain
-        API_KEY = gs.credentials.presta.client.dev8_emil_design.api_key
-
-    elif MODE == 'prod':
-        API_DOMAIN = gs.credentials.presta.client.emil_design.api_domain
-        API_KEY = gs.credentials.presta.client.emil_design.api_key
-
-    else:
-        # `DEV` для API устанавливается если MODE пустой или имеет невалидное значение
-        MODE = 'dev'
-        API_DOMAIN = gs.credentials.presta.client.dev_emil_design.api_domain
-        API_KEY = gs.credentials.presta.client.dev_emil_design.api_key
-
-    suppliers:list= j_loads(__root__ / 'src' / 'endpoints' / 'emil' / 'emil.json')['suppliers'] 
+    ENDPOINT: Path = __root__ /'src' / 'endpoints' / 'emil'
+    SUPPLIERS_ENDPOINT: Path = __root__ / 'src' / 'suppliers' / 'suppliers_list'
+    config:SimpleNamespace = j_loads_ns(ENDPOINT / 'emil.json')
+    GEMINI_API_KEY:str = gs.credentials.gemini.onela.api_key
+    PRESTA_API_KEY:str = gs.credentials.prestashop.store_davidka_net.api_key
+    PRESTA_DOMAIN:str = gs.credentials.prestashop.store_davidka_net.api_domain
+    gemini_model_name:str = config.gemini_model_name
+    system_instruction:str = ' ' # <- Это пробел!
+    webdriver_window_mode:str = 'headless'
+# --- end file config.pt
 
 
 class EmilDesign:
@@ -102,41 +73,116 @@ class EmilDesign:
 
     gemini: Optional[GoogleGenerativeAi] = None
     openai: Optional[OpenAIModel] = None
-    base_path: Path = gs.path.endpoints / Config.ENDPOINT
-    config: SimpleNamespace = j_loads_ns(base_path / f'{Config.ENDPOINT}.json')
-    data_path: Path = Path(gs.path.external_storage, Config.ENDPOINT) 
-    gemini_api: str = os.getenv('GEMINI_API') if USE_ENV else gs.credentials.gemini.emil
-    presta_api: str = os.getenv('PRESTA_API') if USE_ENV else gs.credentials.presta.client.emil_design.api_key
-    presta_domain: str = os.getenv('PRESTA_URL') if USE_ENV else gs.credentials.presta.client.emil_design.api_domain
+    product: PrestaProduct = None
+    driver: Driver = None
+
+    def __init__(self,
+            presta_api_key:Optional[str] = '',
+            presta_api_domain:Optional[str] = '',
+            gemini_model_name:Optional[str] = '',
+            openai_model_name:Optional[str] = '',
+            gemini_api_key:Optional[str] = '',
+            openai_api_key:Optional[str] = '',
+            gemini: Optional[GoogleGenerativeAi] = None, 
+            openai: Optional[OpenAIModel] = None,
+            system_instruction:str = '', 
+            webdriver_window_mode:str = ''
+            ):
+        """
+        Инициализация 
+            Args:
+                presta_api_key:Optional[str] = '',
+                presta_api_domain:Optional[str] = '',
+                gemini_model_name:Optional[str] = '',
+                openai_model_name:Optional[str] = '',
+                gemini_api_key:Optional[str] = '',
+                openai_api_key:Optional[str] = '',
+                gemini: Optional[GoogleGenerativeAi] = None, 
+                openai: Optional[OpenAIModel] = None,
+        """
+        ...
+        self.driver = Driver(Firefox,window_mode=webdriver_window_mode if webdriver_window_mode else Config.webdriver_window_mode)
+
+        if gemini:
+            self.gemini = gemini
+        else:
+            gemini_api_key:str = gemini_api_key if gemini_api_key else Config.GEMINI_API_KEY
+            gemini_model_name:str = gemini_model_name if gemini_model_name else Config.gemini_model_name
+            system_instruction:str = system_instruction if system_instruction else Config.system_instruction
+            if not self._init_gemini(gemini_api_key, gemini_model_name, system_instruction):
+                logger.debug('Модель GEMINI не иницаилизирована')
+
+        presta_api_key:str = presta_api_key if presta_api_key else Config.PRESTA_API_KEY
+        presta_api_domain:str = presta_api_domain if presta_api_domain else Config.PRESTA_DOMAIN
+        if not presta_api_key or not presta_api_domain:
+            logger.critical(f'Проверь \nAPI {presta_api_key}\nDomain {presta_api_domain=}')
+            return False
+
+        self.product = PrestaProduct(presta_api_key, presta_api_domain )
+
+    def _init_gemini(self, api_key: str, model_name: str, system_instruction: str) -> bool:
+        """"""
+        try:
+            generation_config = dict({'response_mime_type':'application/json'})
+            self.gemini = GoogleGenerativeAi(api_key, model_name, generation_config, system_instruction)
+            return True
+        except Exception as ex:
+            logger.error(f'Ошибка иницализации модели!', ex, False)
+            return False
 
 
-    async def process_suppliers(self, supplier_prefix: Optional[str | List[str, str]] = '') -> bool:
+    async def process_supplier(self, supplier_prefix:str) -> bool:
+        """"""
+        ...
+        try:
+            supplier_path:Path = Config.SUPPLIERS_ENDPOINT / supplier_prefix 
+            graber: Graber = get_graber_by_supplier_prefix(self.driver, supplier_prefix)
+            scenarios_list: list[dict] = j_loads(Config.SUPPLIERS_ENDPOINT / supplier_prefix / 'scenarios')
+            locators_path:Path = supplier_path / 'locators' 
+            locator_product:SimpleNamespace = j_loads_ns(locators_path / 'product.json')
+            locator_category:SimpleNamespace = j_loads_ns(locators_path / 'category.json')
+            categories_crawler:Any = None
+            categories_crawler_module_path:str = f"src.suppliers.suppliers_list.{supplier_prefix}.supplier_module"
+        except Exception as ex:
+            logger.error(f'Непредвиденная ошибка', ex)
+            return False
+
+        try:
+            categories_crawler = importlib.import_module(categories_crawler_module_path)
+        except Exception as ex:
+            logger.error(f"Failed to import module `categories_crawler` '{supplier_prefix}'", ex)
+            return False
+        
+        for scenario in scenarios_list:
+            self.driver.get_url(scenario.url)
+
+            products_urls_in_category:list = categories_crawler.get_list_products_in_category(self.driver, locator_category)
+            for product_url in products_urls_in_category:
+                self.driver.get_url(product_url)
+                product_fields:ProductFields = await graber.grab_page_async()
+                ...
+
+                
+
+
+
+    async def process_suppliers_list(self, suppliers_prefixes: str|list) -> bool:
         """
         Process suppliers based on the provided prefix.
         Args:
-            supplier_prefix (Optional[str | List[str, str]], optional): Prefix for suppliers. Defaults to ''.
+            suppliers_prefixes (Optional[str | List[str, str]], optional): Prefix for suppliers. Defaults to ''.
         Returns:
             bool: True if processing is successful, False otherwise.
         Raises:
             Exception: If any error occurs during supplier processing.
         """
-        try:
-            if supplier_prefix:
-                supplier_prefix = supplier_prefix if isinstance(supplier_prefix, list) else [supplier_prefix]
-            else:
-                supplier_prefix = Config.suppliers
-
-            for prefix in supplier_prefix:
-                graber: 'Graber' = get_graber_by_supplier_prefix(prefix)
-                if not graber:
-                    logger.warning(f'No grabber found for prefix: {prefix}')
-                    continue
-                await graber.process_scenarios_async()
-                logger.info(f'Processing supplier with prefix: {prefix}')
-                graber.process_supplier_scenarios_async()
-        except Exception as ex:
-            logger.error(f'Error while processing suppliers: {ex}', exc_info=True)
-            return False
+        
+        for supplier_prefix in suppliers_prefixes:
+            try:
+                await self.process_supplier(supplier_prefix)
+            except Exception as ex:
+                logger.error(f'Error while processing suppliers: {ex}')
+                continue
 
     def describe_images(
         self,
@@ -325,7 +371,10 @@ class EmilDesign:
 
 if __name__ == '__main__':
     emil = EmilDesign()
-    asyncio.run(emil.process_suppliers())
+    suppliers_prefixes_list:list = ['hb']
+    asyncio.run(emil.process_suppliers_list(suppliers_prefixes_list))
+
+    # -------------- Другие варианты --------------
     # emil.describe_images(lang='he')
     # emil.upload_described_products_to_prestashop(id_lang = 2)
     # asyncio.run(emil.upload_described_products_to_prestashop_async(lang='he'))

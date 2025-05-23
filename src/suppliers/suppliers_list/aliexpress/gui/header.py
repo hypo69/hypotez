@@ -1,22 +1,11 @@
-## \file /src/suppliers/aliexpress/gui/header.py
+## \file header.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
-
-"""
-.. module:: src.suppliers.suppliers_list.aliexpress.gui 
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
 
 import sys
 import json
-
-
 from pathlib import Path
+
 def set_project_root(marker_files=('__root__','.git')) -> Path:
     """
     Finds the root directory of the project starting from the current file's directory,
@@ -43,13 +32,3 @@ def set_project_root(marker_files=('__root__','.git')) -> Path:
 # Get the root directory of the project
 __root__: Path = set_project_root()
 """__root__ (Path): Path to the root directory of the project"""
-
-from src import gs
-
-settings:dict = None
-try:
-    with open(gs.path.root / 'src' /  'settings.json', 'r') as settings_file:
-        settings = json.load(settings_file)
-except (FileNotFoundError, json.JSONDecodeError):
-    ...
-

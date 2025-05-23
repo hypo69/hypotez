@@ -2,14 +2,10 @@
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
-
-
 import sys
 import json
-
-
 from pathlib import Path
-import header
+
 def set_project_root(marker_files=('__root__','.git')) -> Path:
     """
     Finds the root directory of the project starting from the current file's directory,

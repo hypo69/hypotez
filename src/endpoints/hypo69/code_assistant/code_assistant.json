@@ -7,12 +7,13 @@
   "model_name": "gemini-2.5-flash-preview-04-17",
   "process_dirs": [
 
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\llm_driver",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\SANDBOX\\davidka"
+    "C:\\Users\\user\\Documents\\repos\\public_repositories\\1001-python-ru\\articles"
+    
   ],
 
 
   "dirs_list": [
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\SANDBOX\\davidka\\",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\docs\\",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver",
@@ -20,7 +21,7 @@
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\llm_browser",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\firefox",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\playwright",
-    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\ai_browser",
+    "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\webdriver\\llm_driver",
 
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\logger",
 

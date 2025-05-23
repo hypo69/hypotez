@@ -3,10 +3,10 @@
 #! .pyenv/bin/python3
 
 """
+Логику см. в `emil_design.py`
+```rst
 .. module:: src.endpoints.emil.main 
-	:platform: Windows, Unix
-	:synopsis:  обработчики сценариев  emil-design.com
-
+```
 """
 
 from .emil_design import main

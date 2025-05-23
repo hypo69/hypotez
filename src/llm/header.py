@@ -1,22 +1,11 @@
-## \file /src/ai/gemini/header.py
+## \file header.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
-"""
-.. module:: src.ai.gemini 
-	:platform: Windows, Unix
-	:synopsis: Модуль интерфейса с моделью от Coogle - generativeai
-
-"""
-
-
 
 import sys
 import json
-
-
 from pathlib import Path
+
 def set_project_root(marker_files=('__root__','.git')) -> Path:
     """
     Finds the root directory of the project starting from the current file's directory,

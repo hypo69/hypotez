@@ -1,20 +1,11 @@
-## \file /src/logger/header.py
+## \file header.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
-"""
-module: src.logger 
-	:platform: Windows, Unix
-	:synopsis: Модуль определяющий корневой путь к проекту. Все импорты строятся относительно этого пути.
-    :TODO: В дальнейшем перенести в системную переменную"""
-
 
 import sys
 import json
-
-
 from pathlib import Path
+
 def set_project_root(marker_files=('__root__','.git')) -> Path:
     """
     Finds the root directory of the project starting from the current file's directory,

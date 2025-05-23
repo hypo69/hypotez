@@ -1,13 +1,11 @@
-## \file /src/webdriver/ai_browser/header.py
+## \file header.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
-
 import sys
 import json
-
-
 from pathlib import Path
+
 def set_project_root(marker_files=('__root__','.git')) -> Path:
     """
     Finds the root directory of the project starting from the current file's directory,
@@ -34,4 +32,3 @@ def set_project_root(marker_files=('__root__','.git')) -> Path:
 # Get the root directory of the project
 __root__: Path = set_project_root()
 """__root__ (Path): Path to the root directory of the project"""
-

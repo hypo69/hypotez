@@ -150,11 +150,11 @@ async def run_scenarios(
 
     
     results: List[Any] = [] 
-
+    scenarios = scenarios if isinstance(scenarios, list) else [scenarios]
     for scenario_item in scenarios:
         # Генерация уникального имени сценария, если оно отсутствует
-        scenario_name = scenario_item.get('name', f'UnnamedScenario_{hash(frozenset(scenario_item.items()))}')
-        result = await run_scenario(s, d, scenario_item, scenario_name, crawl_category_function)
+        
+        result = await run_scenario(s, d, scenario_item,  crawl_category_function)
         results.append(result)
     return results
 

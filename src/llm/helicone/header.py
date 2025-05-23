@@ -1,22 +1,11 @@
-## \file /src/ai/helicone/header.py
+## \file header.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
-"""
-.. module:: src.ai.helicone 
-	:platform: Windows, Unix
-	:synopsis: Модуль интерфейса с моделью от Coogle - generativeai
-
-"""
-
-
 
 import sys
 import json
-
-
 from pathlib import Path
+
 def set_project_root(marker_files=('__root__','.git')) -> Path:
     """
     Finds the root directory of the project starting from the current file's directory,
@@ -43,30 +32,3 @@ def set_project_root(marker_files=('__root__','.git')) -> Path:
 # Get the root directory of the project
 __root__: Path = set_project_root()
 """__root__ (Path): Path to the root directory of the project"""
-
-from src import gs
-
-config:dict = None
-try:
-    with open(gs.path.root / 'src' /  'config.json', 'r') as f:
-        config = json.load(f)
-except (FileNotFoundError, json.JSONDecodeError):
-    ...
-
-
-doc_str:str = None
-try:
-    with open(gs.path.root / 'src' /  'README.MD', 'r') as settings_file:
-        doc_str = settings_file.read()
-except (FileNotFoundError, json.JSONDecodeError):
-    ...
-
- 
-
-__project_name__ = config.get("project_name", 'hypotez') if config else 'hypotez'
-__version__: str = config.get("version", '')  if config else ''
-__doc__: str = doc_str if doc_str else ''
-__details__: str = ''
-__author__: str = config.get("author", '')  if config else ''
-__copyright__: str = config.get("copyrihgnt", '')  if config else ''
-__cofee__: str = settings.get("cofee", "Treat the developer to a cup of coffee for boosting enthusiasm in development: https://boosty.to/hypo69")  if settings  else "Treat the developer to a cup of coffee for boosting enthusiasm in development: https://boosty.to/hypo69"

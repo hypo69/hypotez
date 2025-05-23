@@ -139,7 +139,7 @@ def close_pop_up() -> Callable:
 
 class Graber:
     """Базовый класс сбора данных со страницы для всех поставщиков."""
-    
+    supplier_prefix:str = ''
     def __init__(self, supplier_prefix: str,  driver: Optional['Driver'] = None,  lang_index:Optional[int] = 2, ):
         """Инициализация класса Graber.
 
@@ -236,7 +236,7 @@ class Graber:
             except Exception as e:
                 logger.error(f"Ошибка при поиске файлов сценариев для '{supplier_prefix}'", e, exc_info=True)
 
-    async def process_supplier_scenarios_async(self, supplier_prefix: str, input_scenarios=None, id_lang:Optional[int]=1) -> bool:
+    async def process_supplier_scenarios_async(self, input_scenarios:list = [], id_lang:Optional[int]=1) -> bool:
         """
         Пример метода, который использует генератор yield_scenarios_for_supplier
         и вызывает run_scenario для каждого сценария.
@@ -244,7 +244,7 @@ class Graber:
         all_results = []
         try:
             # Получаем генератор
-            scenario_generator = self.yield_scenarios_for_supplier(supplier_prefix, input_scenarios)
+            scenario_generator = self.yield_scenarios_for_supplier(input_scenarios)
 
             # Итерируем по сценариям, которые выдает генератор
             for scenarios in scenario_generator:
@@ -466,10 +466,10 @@ class Graber:
         await self.error(field_name)
         return default
 
-    def grab_page(self, *args, **kwargs) -> ProductFields:
+    def grab_page(self, *args, **kwargs) -> ProductFields|bool:
         return asyncio.run(self.grab_page_async(*args, **kwargs))
 
-    async def grab_page_async(self, *args, **kwargs) -> ProductFields:
+    async def grab_page_async(self, *args, **kwargs) -> ProductFields|bool:
         """Асинхронная функция для сбора полей товара."""
         async def fetch_all_data(*args, **kwargs):
             # Динамическое вызовы функций для каждого поля из args
