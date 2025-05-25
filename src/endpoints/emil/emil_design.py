@@ -64,7 +64,7 @@ class Config:
     PRESTA_DOMAIN:str = gs.credentials.prestashop.store_davidka_net.api_domain
     gemini_model_name:str = config.gemini_model_name
     system_instruction:str = ' ' # <- Это пробел!
-    webdriver_window_mode:str = 'headless'
+    webdriver_window_mode:str = 'normal'
 # --- end file config.pt
 
 
@@ -142,10 +142,11 @@ class EmilDesign:
             locator_product:SimpleNamespace = j_loads_ns(locators_path / 'product.json')
             locator_category:SimpleNamespace = j_loads_ns(locators_path / 'category.json')
             categories_crawler:Any = None
-            categories_crawler_module_path:str = f"src.suppliers.suppliers_list.{supplier_prefix}.supplier_module"
+            categories_crawler_module_path:str = f"src.suppliers.suppliers_list.{supplier_prefix}.categories_crawler"
         except Exception as ex:
             logger.error(f'Непредвиденная ошибка', ex)
             return False
+
 
         try:
             categories_crawler = importlib.import_module(categories_crawler_module_path)
@@ -154,14 +155,19 @@ class EmilDesign:
             return False
         
         for scenario in scenarios_list:
-            self.driver.get_url(scenario.url)
-
-            products_urls_in_category:list = categories_crawler.get_list_products_in_category(self.driver, locator_category)
-            for product_url in products_urls_in_category:
-                self.driver.get_url(product_url)
-                product_fields:ProductFields = await graber.grab_page_async()
+            for _, item in scenario.items():
+                self.driver.get_url(item['url'])
+    
+                products_urls_in_category:list = await categories_crawler.get_list_products_in_category(self.driver, locator_category)
+                if not products_urls_in_category:
+                    ipdb.set_trace()
+                    continue # <- мб пустаая категория
+                for product_url in products_urls_in_category:
+                    self.driver.get_url(product_url)
+                    product_fields:ProductFields = await graber.grab_page_async()
+                    print(product_fields)
+                    ipdb.set_trace()
                 ...
-
                 
 
 

@@ -112,7 +112,7 @@ class ExecuteLocator:
                             return query_params.get(locator.attribute, None)[0]
 
                 except Exception as ex:
-                    logger.error(f"Error getting attribute by 'VALUE': {print(locator.__dict__, text_color='yellow')}, error:",ex)
+                    logger.error(f"Error getting attribute by 'VALUE': {print(locator.__dict__, text_color='yellow')}, error:", ex, True)
                     return None
 
                 if locator.event:
@@ -128,17 +128,41 @@ class ExecuteLocator:
                     elements_pairs = []
 
                     for n in len(locator.by):
-                    
+                        
+                        _attribute:Any = getattr(locator, 'attribute', '')
+                        _attribute = _attribute[n] if isinstance(_attribute, list) else _attribute
+
+                        _by:Any = getattr(locator, 'by', '')
+                        _by = _by[n] if isinstance(_by, list) else _by
+
+                        _selector:Any = getattr(locator, 'selector', '')
+                        _selector = _selector[n] if isinstance(_selector, list) else _selector
+
+                        _if_list:Any = getattr(locator, 'if_list', '')
+                        _if_list = if_list[n] if isinstance(_if_list, list) else _if_list
+
+                        _mandatory:Any = getattr(locator, 'mandatory', '')
+                        _mandatory = _mandatory[n] if isinstance(_mandatory, list) else _mandatory
+
+                        _event:Any = getattr(locator, 'event', '')
+                        _event = _event[n] if isinstance(_event, list) else _event
+
+                        _timeout:Any = getattr(locator, 'timeout', '')
+                        _timeout = _timeout[n] if isinstance(_timeout, list) else _timeout
+
+                        _timeout_for_event:Any = getattr(locator, 'timeout_for_event', '')
+                        _timeout_for_event = _timeout_for_event[n] if isinstance(_timeout_for_event, list) else _timeout_for_event
+
                         l = SimpleNamespace(
                             **{
-                                "attribute": locator.attribute[n],
-                                "by": locator.by[n],
-                                "selector": locator.selector[n],
-                                "if_list": locator.if_list if isinstance(locator.if_list, str) else locator.if_list[n],
-                                "mandatory": locator.mandatory if isinstance(locator.mandatory, str) else locator.mandatory[n],
-                                "event": locator.event if isinstance(locator.event, str) else locator.event[n],
-                                "timeout": locator.timeout if isinstance(locator.timeout, str) else locator.timeout[n],
-                                "timeout_for_event": locator.timeout_for_event if isinstance(locator.timeout_for_event, str) else locator.timeout_for_event[n],
+                                "attribute": _attribute,
+                                "by": _by,
+                                "selector": _selector,
+                                "if_list": _if_list,
+                                "mandatory": _mandatory,
+                                "event": _event,
+                                "timeout": _timeout
+                                "timeout_for_event": _timeout_for_event
                                 "locator_description": locator.locator_description,
                             }
                         )

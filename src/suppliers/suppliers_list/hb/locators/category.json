@@ -3,7 +3,7 @@
     "attribute": "href",
 
     "by": "XPATH",
-    "selector": "//h1[contains(@class,'product_title')]//a",
+    "selector": "//h2[contains(@class, 'prod-thumb-title')]//a",
 
     "if_list": "first",
     "use_mouse": false,
@@ -13,24 +13,14 @@
     "event": false,
     "locator_description": "Список ссылок на товары со страницы категории"
   },
-  "pagination": {
-    "<-": {
-
-      "attribute": false,
-      "by": "XPATH",
-      "selector": "//ul[@class='pagination']",
-      "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
-      "mandatory": false,
-      "locator_description": ""
-    }
-  },
-  "categories_links": {
-
-    "attribute": { "text": "href" },
+  "show_more": {
+    "attribute": false,
     "by": "XPATH",
-    "selector": "//a[contains(@class, 'menu-item')]",
-    "timeout":0,"timeout_for_event":"presence_of_element_located","event": false,
+    "selector": "//div[@class='show-more']",
+    "timeout": 0,
+    "timeout_for_event": "presence_of_element_located",
+    "event": "click()",
     "mandatory": false,
-    "locator_description": ""
+    "locator_description": "Следует проверять наличие элемента. Пока элемент прицутствует - нажимать его. Когда пропал - пора собирать ссылки на товары"
   }
 }

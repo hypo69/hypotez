@@ -7,12 +7,13 @@
   "model_name": "gemini-2.5-flash-preview-04-17",
   "process_dirs": [
 
-    "C:\\Users\\user\\Documents\\repos\\public_repositories\\1001-python-ru\\articles"
-    
+    "C:\\Users\\user\\Documents\\repos\\public_repositories\\algorithmica"
+
   ],
 
 
   "dirs_list": [
+    "C:\\Users\\user\\Documents\\repos\\public_repositories\\1001-python-ru\\articles",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\SANDBOX\\davidka\\",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\src\\",
     "C:\\Users\\user\\Documents\\repos\\hypotez\\docs\\",

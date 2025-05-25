@@ -493,9 +493,9 @@ def main() -> None:
     Config.roles_list = ['translator']
     Config.languages_list = ['he']
     Config.model_name = 'gemini-2.5-flash-preview-04-17'
-    Config.process_dirs = [r'C:\Users\user\Documents\repos\public_repositories\1001-python-ru']
-    Config.output_dir = r'C:\Users\user\Documents\repos\public_repositories\1001-python-he'
-    relative_to:str = '1001-python-ru'
+    Config.process_dirs = [r'C:\Users\user\Documents\repos\public_repositories\algorithmica']
+    Config.output_dir = r'C:\Users\user\Documents\repos\public_repositories\algorithmica-he'
+    relative_to:str = 'algorithmica'
     Config.system_instruction = (Config.ENDPOINT / 'instructions' / f'DOCUMENT_TRANSLATOR.{Config.languages_list[0]}.MD').read_text(encoding='UTF-8')
     # -----------------------------
 
