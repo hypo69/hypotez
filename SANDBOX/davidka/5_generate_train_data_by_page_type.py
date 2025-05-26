@@ -515,9 +515,9 @@ def generate_train_data(source_dirs: Optional[list[str, Path] | str | Path] = No
     chunk_counters: dict[str, int] = {section: 0 for section in buffer}
     timestamp: str = gs.now
     
-    def flush(section: str):
+    def flush(section: str, supplier_dir:str) -> bool:
         """Сохраняет текущий буфер категории и очищает его."""
-        #return True # <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG!
+        if section != 'product': return True # <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG!
         nonlocal buffer, chunk_counters, timestamp
         dict_to_save:dict = {}
 
@@ -529,12 +529,13 @@ def generate_train_data(source_dirs: Optional[list[str, Path] | str | Path] = No
         for item in buffer[section]:
             dict_to_save.update(item)
             
-        out_path = Config.TRAIN_STORAGE / section / f'{timestamp}_{chunk_counters[section]}.json'
+        out_path = Config.TRAIN_STORAGE / supplier_dir / section / f'{timestamp}_{chunk_counters[section]}.json'
         if not j_dumps(dict_to_save, out_path):
             logger.error(f"Ошибка сохранения чанка {chunk_counters[section]} секции {section}", None, True)
         logger.success(f'Успешно сохранен {out_path}')
         chunk_counters[section] += 1
         buffer[section].clear()
+        return True
 
     source_dirs: list = (
         source_dirs if isinstance(source_dirs, list)
@@ -587,7 +588,7 @@ def generate_train_data(source_dirs: Optional[list[str, Path] | str | Path] = No
                             ...
 
                     if len(buffer[folder]) >= 200:
-                        flush(folder)
+                        flush(folder, supplier_dir)
                         buffer[folder] = []
                         
                         if json_for_csv_data:
@@ -599,7 +600,7 @@ def generate_train_data(source_dirs: Optional[list[str, Path] | str | Path] = No
 
     # Сохраняем остатки
     for section in buffer:
-        flush(section)
+        flush(section, supplier_dir)
 
         
         if json_for_csv_data:
@@ -607,7 +608,6 @@ def generate_train_data(source_dirs: Optional[list[str, Path] | str | Path] = No
                 logger.success(f'/nФайл JSON успешно сохранен.\n')
 
             json_for_csv_data = []
-    
     return True
 
 

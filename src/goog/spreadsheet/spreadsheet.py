@@ -13,19 +13,19 @@
  ```
 """
 
-import header
-from header import __root__
-
 from pathlib import Path
-from typing import List, Dict, Any # Retained for potential future use, though not strictly necessary for current code
+from typing import List, Dict, Any, Optional 
+
 import gspread
-from gspread import Spreadsheet as GSpreadsheet, Worksheet # Renamed Spreadsheet to GSpreadsheet to avoid class name clash
+from gspread import Spreadsheet as GSpreadsheet, Worksheet 
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 
+import header
+from header import __root__
 from src import gs
 from src.logger.logger import logger
-from src.utils.printer import pprint as print # Rule 10: Using custom pprint
+from src.utils.printer import pprint as print
 
 
 class SpreadSheet:
@@ -144,6 +144,7 @@ class SpreadSheet:
         try:
             # Path to the service account key file.
             creds_file = gs.path.secrets / 'e-cat-346312-137284f4419e.json' # <- e.cat.co.il@gmail.com
+            #creds_file = gs.path.secrets / 'hypo69-c32c8736ca62.json' # <- hypo69@gmail.com
             SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
             credentials = ServiceAccountCredentials.from_json_keyfile_name(
                 str(creds_file), SCOPES # Ensure creds_file is string for some versions
@@ -326,7 +327,243 @@ class SpreadSheet:
         except Exception as ex:
             logger.error(f"Error uploading data from '{target_data_file}' to worksheet '{target_worksheet.title}'.", ex, exc_info=True)
             return False
+    # В классе SpreadSheet в src/goog/spreadsheet/spreadsheet.py
 
+    def find_row_index_by_value(
+        self,
+        worksheet_name: str,
+        column_to_search_in: str | int,  # Имя заголовка колонки или 1-based индекс
+        value_to_find: str,
+        header_row_num: int = 1, # 1-based индекс строки с заголовками
+        case_sensitive: bool = False
+    ) -> int | None:
+        """
+        Функция находит 1-based индекс первой строки, где значение в указанной колонке совпадает с искомым.
+
+        Args:
+            worksheet_name (str): Имя листа.
+            column_to_search_in (str | int): Имя заголовка колонки для поиска или ее 1-based индекс.
+            value_to_find (str): Искомое значение.
+            header_row_num (int): 1-based номер строки, где находятся заголовки (если column_to_search_in - строка).
+            case_sensitive (bool): Учитывать ли регистр при поиске.
+
+        Returns:
+            int | None: 1-based индекс найденной строки или None, если не найдено или произошла ошибка.
+        """
+        ws: Optional[Worksheet] = self.get_worksheet(worksheet_name)
+        if not ws:
+            return None
+        try:
+            col_index_1_based: int
+            if isinstance(column_to_search_in, str):
+                headers = ws.row_values(header_row_num)
+                if not headers:
+                    logger.error(f"Не найдены заголовки в строке {header_row_num} листа '{worksheet_name}'.")
+                    return None
+                try:
+                    col_index_1_based = headers.index(column_to_search_in) + 1
+                except ValueError:
+                    logger.error(f"Заголовок колонки '{column_to_search_in}' не найден на листе '{worksheet_name}'.")
+                    return None
+            elif isinstance(column_to_search_in, int):
+                if column_to_search_in <= 0:
+                    logger.error("Индекс колонки должен быть положительным 1-based числом.")
+                    return None
+                col_index_1_based = column_to_search_in
+            else:
+                logger.error("Неверный тип column_to_search_in. Должен быть str или int.")
+                return None
+
+            all_column_values = ws.col_values(col_index_1_based)
+            search_value_processed = str(value_to_find).strip()
+            if not case_sensitive:
+                search_value_processed = search_value_processed.lower()
+
+            for i, cell_value in enumerate(all_column_values):
+                current_cell_value_processed = str(cell_value).strip()
+                if not case_sensitive:
+                    current_cell_value_processed = current_cell_value_processed.lower()
+                
+                if current_cell_value_processed == search_value_processed:
+                    return i + 1  # Возвращаем 1-based индекс строки
+            return None # Не найдено
+        except Exception as ex:
+            logger.error(f"Ошибка при поиске значения '{value_to_find}' в листе '{worksheet_name}': {ex}", exc_info=True)
+            return None
+
+    def get_cell_value_by_row_col(self, worksheet_name: str, row_index_1_based: int, col_index_1_based: int) -> str | None:
+        """
+        Функция получает значение ячейки по 1-based индексам строки и колонки.
+        """
+        ws: Optional[Worksheet] = self.get_worksheet(worksheet_name)
+        if not ws:
+            return None
+        try:
+            cell_value = ws.cell(row_index_1_based, col_index_1_based).value
+            return str(cell_value) if cell_value is not None else None
+        except Exception as ex:
+            logger.error(f"Ошибка при получении значения ячейки ({row_index_1_based}, {col_index_1_based}) на листе '{worksheet_name}': {ex}", exc_info=True)
+            return None
+
+    def append_row_to_sheet(self, worksheet_name: str, row_values: List[Any]) -> bool:
+        """
+        Функция добавляет строку со значениями в конец указанного листа.
+        """
+        ws: Optional[Worksheet] = self.get_worksheet(worksheet_name)
+        if not ws:
+            return False
+        try:
+            ws.append_row(row_values, value_input_option='USER_ENTERED')
+            logger.info(f"Строка {row_values} добавлена в лист '{worksheet_name}'.")
+            return True
+        except Exception as ex:
+            logger.error(f"Ошибка при добавлении строки {row_values} в лист '{worksheet_name}': {ex}", exc_info=True)
+            return False
+
+    def get_column_count(self, worksheet_name: str) -> int | None:
+        """
+        Функция получает количество колонок на листе.
+        """
+        ws: Optional[Worksheet] = self.get_worksheet(worksheet_name)
+        if not ws:
+            return None
+        try:
+            return ws.col_count
+        except Exception as ex:
+            logger.error(f"Ошибка при получении количества колонок листа '{worksheet_name}': {ex}", exc_info=True)
+            return None
+
+
+    def get_data(
+        self,
+        worksheet_name: str,
+        column_spec: List[int] | List[str] | None = None,
+        return_as_dataframe: bool = False,
+        header_row_num: int = 1 # 1-based index of the header row in the sheet
+    ) -> List[List[Any]] | pd.DataFrame | None:
+        """
+        Функция получает данные из указанного листа, опционально из конкретных колонок.
+
+        Args:
+            worksheet_name (str): Имя листа.
+            column_spec (List[int] | List[str] | None, optional):
+                Указывает, какие колонки извлечь.
+                - List[int]: 1-based индексы колонок (напр., [1, 3] для A, C).
+                - List[str]: Имена заголовков колонок или буквенные обозначения.
+                Если None, извлекаются все данные. Defaults to None.
+            return_as_dataframe (bool, optional): Если True, возвращает pandas DataFrame.
+                                                 Defaults to False.
+            header_row_num (int, optional): 1-based номер строки с заголовками.
+                                          Используется для имен колонок DataFrame и при
+                                          выборке по именам колонок. 0 - нет заголовка.
+                                          Defaults to 1.
+
+        Returns:
+            List[List[Any]] | pd.DataFrame | None: Данные с листа.
+                                                 None в случае критической ошибки.
+                                                 Пустой список/DataFrame, если лист или выборка пусты.
+        """
+        ws: Optional[Worksheet] = self.get_worksheet(worksheet_name) 
+        if not ws:
+            # logger.error уже должен быть вызван в get_worksheet
+            return None
+
+        try:
+            all_sheet_values: List[List[Any]] = ws.get_all_values() # Метод gspread
+            if not all_sheet_values:
+                logger.info(f"Лист '{worksheet_name}' пуст.")
+                return pd.DataFrame() if return_as_dataframe else []
+
+            # Обработка заголовков и данных
+            actual_header_row_0based_idx: int = header_row_num - 1 if header_row_num > 0 else -1
+            
+            headers_list: List[str] = []
+            if 0 <= actual_header_row_0based_idx < len(all_sheet_values):
+                headers_list = all_sheet_values[actual_header_row_0based_idx]
+            
+            data_start_0based_idx: int
+            if 0 <= actual_header_row_0based_idx < len(all_sheet_values): # Если есть валидная строка заголовка
+                 data_start_0based_idx = actual_header_row_0based_idx + 1
+            else: # Если нет валидной строки заголовка или лист слишком короткий
+                 data_start_0based_idx = 0 # Все строки считаются данными
+
+            data_to_process: List[List[Any]] = all_sheet_values[data_start_0based_idx:]
+            
+            # Если не указаны конкретные колонки, возвращаем все (или DataFrame из всего)
+            if not column_spec:
+                if return_as_dataframe:
+                    # Если headers_list пуст (header_row_num=0 или лист без заголовков),
+                    # DataFrame будет использовать числовые индексы для колонок.
+                    return pd.DataFrame(data_to_process, columns=headers_list if headers_list else None)
+                else:
+                    # Если нужен список списков и нет column_spec, возвращаем все значения как есть
+                    return all_sheet_values 
+
+            # Если указаны колонки для выборки (column_spec)
+            target_col_0based_indices: List[int] = []
+            if isinstance(column_spec, list) and column_spec:
+                # Проверка, являются ли элементы column_spec целыми числами (1-based индексы)
+                if all(isinstance(cs, int) for cs in column_spec):
+                    target_col_0based_indices = [idx - 1 for idx in column_spec if idx > 0]
+                # Проверка, являются ли элементы column_spec строками (имена или буквы)
+                elif all(isinstance(cs, str) for cs in column_spec):
+                    is_letters_attempt: bool = True
+                    temp_letter_indices: List[int] = []
+                    for cs_str in column_spec:
+                        if cs_str.isalpha() and 1 <= len(cs_str) <= 3: # Базовая проверка на букву колонки
+                            try:
+                                # gspread.utils.column_letter_to_index требует импорта gspread.utils
+                                import gspread.utils
+                                temp_letter_indices.append(gspread.utils.column_letter_to_index(cs_str.upper()) - 1)
+                            except Exception:
+                                is_letters_attempt = False; break
+                        else:
+                            is_letters_attempt = False; break
+                    
+                    if is_letters_attempt:
+                        target_col_0based_indices = temp_letter_indices
+                    else: # Интерпретируем как имена колонок
+                        if not headers_list: # Нужны заголовки для поиска по именам
+                            logger.error(f"Невозможно выбрать колонки по именам: заголовки не найдены (header_row_num={header_row_num}) на листе '{worksheet_name}'.")
+                            return None
+                        temp_name_indices: List[int] = []
+                        for name in column_spec:
+                            try:
+                                temp_name_indices.append(headers_list.index(name))
+                            except ValueError:
+                                logger.error(f"Имя колонки '{name}' не найдено в заголовках: {headers_list}")
+                                return None # Или пропустить эту колонку, или вернуть ошибку
+                        target_col_0based_indices = temp_name_indices
+                else:
+                    logger.error("Неверный формат column_spec: должен быть списком чисел или списком строк.")
+                    return None
+            else: # Если column_spec пустой список или неверного типа
+                logger.error("Неверный column_spec: должен быть непустым списком.")
+                return None
+
+            # Фильтрация данных по выбранным колонкам
+            selected_data_rows: List[List[Any]] = []
+            for row_values in data_to_process: # data_to_process - это строки *после* заголовка
+                filtered_row: List[Any] = []
+                for col_idx in target_col_0based_indices:
+                    if 0 <= col_idx < len(row_values):
+                        filtered_row.append(row_values[col_idx])
+                    else:
+                        filtered_row.append('') # Добавляем пустую строку, если индекс выходит за пределы строки
+                selected_data_rows.append(filtered_row)
+
+            if return_as_dataframe:
+                selected_headers: List[str] | None = None
+                if headers_list: # Если были заголовки
+                    selected_headers = [headers_list[i] for i in target_col_0based_indices if 0 <= i < len(headers_list)]
+                return pd.DataFrame(selected_data_rows, columns=selected_headers)
+            else:
+                # Если нужен список списков и был column_spec, возвращаем только выбранные данные (без заголовков)
+                return selected_data_rows
+
+        except Exception as ex:
+            logger.error(f"Ошибка при обработке данных для листа '{worksheet_name}': {ex}", exc_info=True)
+            return None
 
 # Example usage, adjusted for the refactored class
 if __name__ == '__main__':
