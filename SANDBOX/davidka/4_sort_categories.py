@@ -48,6 +48,7 @@ class Config:
     
     STORAGE: Path = Path(config.local_storage.storage) if config.actual_storage == 'local_storage' else Path(config.google_drive.storage)
 
+    # Папки, из которых будут собираться категории. 
     source_dirs: list[Path] = [
         # STORAGE / 'search_results', 
         STORAGE / 'data_by_supplier_de', 

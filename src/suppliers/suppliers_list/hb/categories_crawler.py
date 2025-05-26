@@ -23,6 +23,7 @@
 import asyncio
 from typing import List, Any, Dict # Added Any, Dict
 from types import SimpleNamespace # Added SimpleNamespace
+import time
 
 import header # Added header import
 from header import __root__ # Added __root__ import
@@ -31,7 +32,7 @@ from src.logger.logger import logger
 from src.webdriver.driver import Driver
 
 
-async def get_list_products_in_category (d: Driver, l: SimpleNamespace) -> List[str] | None:    
+async def get_list_products_in_category (d: Driver, l: SimpleNamespace) -> list:    
     """ 
     Функция извлекает список URL-адресов товаров со страницы категории.
     При необходимости пролистывает страницы категорий.
@@ -55,14 +56,22 @@ async def get_list_products_in_category (d: Driver, l: SimpleNamespace) -> List[
 
 
     """
-       В текущей версии пагинация происхоадит через 
+       В текущей версии пагинация происхоадит через нажати кнопки
        https://hbdeadsea.co.il/collections/<название каетегории>?page=...
     """
     all_product_urls: List[str] = []
     # Извлечение ссылок на товары с текущей (первой) страницы
-    while await d.execute_locator(l.show_more):
-        continue
+    while True:
+        if not await d.execute_locator(l.show_more):
+            break
+        product_links: List[str] | str | None = await d.execute_locator(l.product_links)
+        if len(all_product_urls) <  product_links:
+            all_product_urls.extend(all_product_urls)
+            time.sleep(3)
+            continue
+        else:
+            break
 
-    product_links: List[str] | str | None = await d.execute_locator(l.product_links)
-    return product_links
+    
+    return product_links if isinstance(product_links, list) else [product_links]
 

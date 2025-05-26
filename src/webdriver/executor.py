@@ -76,7 +76,7 @@ class ExecuteLocator:
             locator = SimpleNamespace(**locator)
 
         if not getattr(locator, "attribute", None) and not getattr(locator, "selector", None):
-            logger.debug("Empty locator provided.", None, False)
+            logger.debug("Empty locator provided.", None, False) # <- заглушка
             return None
 
         async def _parse_locator(
@@ -161,12 +161,12 @@ class ExecuteLocator:
                                 "if_list": _if_list,
                                 "mandatory": _mandatory,
                                 "event": _event,
-                                "timeout": _timeout
-                                "timeout_for_event": _timeout_for_event
+                                "timeout": _timeout,
+                                "timeout_for_event": _timeout_for_event,
                                 "locator_description": locator.locator_description,
                             }
                         )
-                        elements_pairs.append(await _parse_locator(l, message, timeout, timeout_for_event, message, typing_speed))
+                        elements_pairs.append(await _parse_locator(l, message, timeout, timeout_for_event, typing_speed))
 
                     zipped_pairs = list(zip_longest(*elements_pairs, fillvalue=None))
                     return zipped_pairs
@@ -306,7 +306,11 @@ class ExecuteLocator:
             if not isinstance(web_elements, list):
                 return web_elements
 
-            if_list = locator.if_list
+            
+            if_list = getattr(locator,'if_list','')
+            if not if_list:
+                return web_elements
+
 
             if if_list == "all":
                 return web_elements
@@ -352,11 +356,13 @@ class ExecuteLocator:
             return await _parse_elements_list(web_elements, locator) if web_elements else None
 
         except TimeoutException as ex:
-            logger.error(f"Timeout for locator: {print(locator.__dict__, text_color='yellow')}", ex, False)
+            logger.error(f"Timeout for locator: {print(locator.__dict__, text_color='yellow')}", ex, True)
+            ...
             return None
 
         except Exception as ex:
-            logger.error(f"Error locating element: {print(locator.__dict__, text_color='yellow')}", ex, False)
+            logger.error(f"Error locating element: {print(locator.__dict__, text_color='yellow')}", ex, True)
+            ...
             return None
 
     async def get_webelement_as_screenshot(

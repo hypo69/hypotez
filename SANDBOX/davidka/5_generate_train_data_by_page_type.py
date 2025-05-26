@@ -50,158 +50,164 @@ class Config:
                                 STORAGE / 'data_by_supplier_pl', 
                                 STORAGE/'data_by_supplier_set_1 DONT TOUCH!'
                             ] 
+    JSON_FOR_CSV_PATH: Path = STORAGE / 'json_for_csv' # Папка для хранения JSON-файлов для CSV
 
-    updated_links_file_name: str = 'updated_links.json'
+    # updated_links_file_name: str = 'updated_links.json'
+    # Данные находятся в таблице
+    # https://docs.google.com/spreadsheets/d/1J7qpsDWzojvmFyQ7mRbDiJ4KwfyKoh7vwEJN6-BSHq4
+    # Для доступа используй код из
+    # srs.goog.spreadsheet
 
 
-    # список возможных категорий вебстраниц
-    error: List[Dict[str, Any]] = []               # 0
-    home: List[Dict[str, Any]] = []                # 1
-    category: List[Dict[str, Any]] = []            # 2
-    product_category: List[Dict[str, Any]] = []    # 3
-    product: List[Dict[str, Any]] = []             # 4
-    collection: List[Dict[str, Any]] = []          # 5
-    brand: List[Dict[str, Any]] = []               # 6
-    supplier: List[Dict[str, Any]] = []            # 7
-    about_us: List[Dict[str, Any]] = []            # 8
-    profile: List[Dict[str, Any]] = []             # 9
-    contact: List[Dict[str, Any]] = []             # 10
-    terms: List[Dict[str, Any]] = []               # 11
-    privacy_policy: List[Dict[str, Any]] = []      # 12
-    faq: List[Dict[str, Any]] = []                 # 13
-    manuals: List[Dict[str, Any]] = []             # 14
-    information: List[Dict[str, Any]] = []         # 15
-    document: List[Dict[str, Any]] = []            # 16
-    description: List[Dict[str, Any]] = []         # 17
-    distributors: List[Dict[str, Any]] = []        # 18
-    service: List[Dict[str, Any]] = []             # 19
-    support: List[Dict[str, Any]] = []             # 20
-    download: List[Dict[str, Any]] = []            # 21
-    article: List[Dict[str, Any]] = []             # 22
-    blog: List[Dict[str, Any]] = []                # 23
-    newsletter: List[Dict[str, Any]] = []          # 24
-    forum: List[Dict[str, Any]] = []               # 25
-    community: List[Dict[str, Any]] = []           # 25 (совмещено с forum/webinar)
-    events: List[Dict[str, Any]] = []              # 29
-    careers: List[Dict[str, Any]] = []             # 30
-    glossary: List[Dict[str, Any]] = []            # 31
-    links: List[Dict[str, Any]] = []               # 28
-    library: List[Dict[str, Any]] = []             # 32
-    media: List[Dict[str, Any]] = []               # 33
-    sitemap: List[Dict[str, Any]] = []             # 26
-    search_results: List[Dict[str, Any]] = []      # 27
-    unknown: List[Dict[str, Any]] = []             # 36
+    error: List[Dict[str, Any]] = []               # 11414
+    home: List[Dict[str, Any]] = []                # 11415
+    category: List[Dict[str, Any]] = []            # 11416
+    product_category: List[Dict[str, Any]] = []    # 11417
+    product: List[Dict[str, Any]] = []             # 11418
+    collection: List[Dict[str, Any]] = []          # 11419
+    brand: List[Dict[str, Any]] = []               # 11420
+    supplier: List[Dict[str, Any]] = []            # 11421
+    about_us: List[Dict[str, Any]] = []            # 11422
+    profile: List[Dict[str, Any]] = []             # 11423
+    contact: List[Dict[str, Any]] = []             # 11424
+    terms: List[Dict[str, Any]] = []               # 11425
+    privacy_policy: List[Dict[str, Any]] = []      # 11426
+    faq: List[Dict[str, Any]] = []                 # 11427
+    manuals: List[Dict[str, Any]] = []             # 11428
+    information: List[Dict[str, Any]] = []         # 11429
+    document: List[Dict[str, Any]] = []            # 11430
+    description: List[Dict[str, Any]] = []         # 11431
+    distributors: List[Dict[str, Any]] = []        # 11432
+    service: List[Dict[str, Any]] = []             # 11433
+    support: List[Dict[str, Any]] = []             # 11434
+    download: List[Dict[str, Any]] = []            # 11435
+    article: List[Dict[str, Any]] = []             # 11436
+    blog: List[Dict[str, Any]] = []                # 11437
+    newsletter: List[Dict[str, Any]] = []          # 11438
+    forum: List[Dict[str, Any]] = []               # 11439
+    community: List[Dict[str, Any]] = []           # 11440
+    events: List[Dict[str, Any]] = []              # 11441
+    careers: List[Dict[str, Any]] = []             # 11442
+    glossary: List[Dict[str, Any]] = []            # 11443
+    links: List[Dict[str, Any]] = []               # 11444
+    library: List[Dict[str, Any]] = []             # 11445
+    media: List[Dict[str, Any]] = []               # 11446
+    sitemap: List[Dict[str, Any]] = []             # 11447
+    search_results: List[Dict[str, Any]] = []      # 11448
+    unknown: List[Dict[str, Any]] = []             # 11449
+
 
     
 
     page_categories: dict = {
     # Ошибка
-    'error': 0,
+    'error': 11414,
 
     # Главная страница
-    'home': 1,
-    'home_page': 1,
-    'home page': 1,
+    'home': 11415,
+    'home_page': 11415,
+    'home page': 11415,
 
     # Категории и товары
-    'category': 2,
-    'product_category': 3,
-    'product category': 3,
-    'product category page': 3,
-    'productcategory': 3,
-    'productcategorypage': 3,
-    'product': 4,
-    'collection': 5,
+    'category': 11416,
+    'product_category': 11417,
+    'product category': 11417,
+    'product category page': 11417,
+    'productcategory': 11417,
+    'productcategorypage': 11417,
+    'product': 11418,
+    'collection': 11419,
 
     # Бренды и поставщики
-    'brand': 6,
-    'brand_name': 6,
-    'brand name': 6,
-    'supplier': 7,
-    'supplier_name': 7,
-    'supplier name': 7,
+    'brand': 11420,
+    'brand_name': 11420,
+    'brand name': 11420,
+    'supplier': 11421,
+    'supplier_name': 11421,
+    'supplier name': 11421,
 
     # О компании
-    'about_us': 8,
-    'about us': 8,
-    'about': 8,
-    'profile': 9,
+    'about_us': 11422,
+    'about us': 11422,
+    'about': 11422,
+    'profile': 11423,
 
     # Контакты
-    'contact': 10,
-    'contact_page': 10,
-    'contact page': 10,
+    'contact': 11424,
+    'contact_page': 11424,
+    'contact page': 11424,
 
     # Юридическая информация и политика
-    'terms': 11,
-    'privacy_policy': 12,
-    'privacy policy': 12,
-    'policy': 12,
+    'terms': 11425,
+    'privacy_policy': 11426,
+    'privacy policy': 11426,
+    'policy': 11426,
 
     # Поддержка и техдокументация
-    'faq': 13,
-    'manuals': 14,
-    'information': 15,
-    'document': 16,
-    'description': 17,
-    'distributors': 18,
-    'service': 19,
-    'services': 19,
-    'support': 20,
-    'support_page': 20,
-    'supportpage': 20,
+    'faq': 11427,
+    'manuals': 11428,
+    'information': 11429,
+    'document': 11430,
+    'description': 11431,
+    'distributors': 11432,
+    'service': 11433,
+    'services': 11433,
+    'support': 11434,
+    'support_page': 11434,
+    'supportpage': 11434,
 
     # Загрузка
-    'download': 21,
-    'downloads': 21,
-    'download_page': 21,
-    'download page': 21,
-    'downloadpage': 21,
-    'application': 21,
+    'download': 11435,
+    'downloads': 11435,
+    'download_page': 11435,
+    'download page': 11435,
+    'downloadpage': 11435,
+    'application': 11435,
 
     # Контент и новости
-    'article': 22,
-    'blog': 23,
-    'newsletter': 24,
-    'newsroom': 24,
-    'newspage': 24,
-    'news': 24,
+    'article': 11436,
+    'blog': 11437,
+    'newsletter': 11438,
+    'newsroom': 11438,
+    'newspage': 11438,
+    'news': 11438,
 
     # Сообщество
-    'forum': 25,
-    'webinar': 25,
-    'community': 25,
+    'forum': 11439,
+    'webinar': 11439,
+    'community': 11440,
 
     # Навигация и поиск
-    'sitemap': 26,
-    'search_results': 27,
-    'search results': 27,
-    'searchresult': 27,
-    'search result': 27,
-    'searchresultpage': 27,
-    'searchresults': 27,
-    'searchresultspage': 27,
-    'search': 27,
-    'searchpage': 27,
-    'search page': 27,
-    'links': 28,
+    'sitemap': 11447,
+    'search_results': 11448,
+    'search results': 11448,
+    'searchresult': 11448,
+    'search result': 11448,
+    'searchresultpage': 11448,
+    'searchresults': 11448,
+    'searchresultspage': 11448,
+    'search': 11448,
+    'searchpage': 11448,
+    'search page': 11448,
+    'links': 11444,
 
     # События и вакансии
-    'event': 29,
-    'events': 29,
-    'auction': 29,
-    'careers': 30,
+    'event': 11441,
+    'events': 11441,
+    'auction': 11441,
+    'careers': 11442,
 
     # Разное и справка
-    'glossary': 31,
-    'library': 32,
-    'media': 33,
-    'member': 34,
-    'other': 35,
+    'glossary': 11443,
+    'library': 11445,
+    'media': 11446,
+    'member': 11450,
+    'other': 11451,
 
     # Неопознанное
-    'unknown': 36,
+    'unknown': 11449,
     }
+
 
     labels_for_train_data:dict = {} # <- метки для модели 
 
@@ -495,7 +501,8 @@ def generate_train_data(source_dirs: Optional[list[str, Path] | str | Path] = No
     Если вложенный ключ (секция) не входит в список известных — сохраняет в 'unknown'.
     Данные сохраняются порционно: как только накопится 200 записей в категории — они сбрасываются в файл.
     """
-    list_for_csv_llm_data:list = []
+    json_for_csv_data:list = []
+    
     known_sections = {
         "product", "category", "about_us", "contact", "manuals", "about",
         "article", "information", "home", "description",
@@ -510,7 +517,7 @@ def generate_train_data(source_dirs: Optional[list[str, Path] | str | Path] = No
     
     def flush(section: str):
         """Сохраняет текущий буфер категории и очищает его."""
-        return True # <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG!
+        #return True # <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG!
         nonlocal buffer, chunk_counters, timestamp
         dict_to_save:dict = {}
 
@@ -570,7 +577,7 @@ def generate_train_data(source_dirs: Optional[list[str, Path] | str | Path] = No
                         if category_number and category_number in Config.page_categories.values():
                             text_data = data_by_page_type['html'] or  data_by_page_type['text']
                             if text_data:
-                                list_for_csv_llm_data.append({
+                                json_for_csv_data.append({
                                                             'text':text_data, 
                                                             'labels':category_number,
                                                             })
@@ -582,28 +589,24 @@ def generate_train_data(source_dirs: Optional[list[str, Path] | str | Path] = No
                     if len(buffer[folder]) >= 200:
                         flush(folder)
                         buffer[folder] = []
-                        processed_file_path:Path = Config.TRAIN_STORAGE / f'llam_{gs.now}'
-                        if list_for_csv_llm_data:
-                            # if save_csv_file(list_for_csv_llm_data, f'{processed_file_path}.csv'):
-                            #     logger.success(f'/nФайл CSV успешно сохранен.\n')
-                            if j_dumps(list_for_csv_llm_data, f'{processed_file_path}.json'):
+                        
+                        if json_for_csv_data:
+                            if j_dumps(json_for_csv_data, f'{Config.JSON_FOR_CSV_PATH}/{gs.now}.json'):
                                 logger.success(f'/nФайл JSON успешно сохранен.\n')
 
-                        list_for_csv_llm_data = []
+                        json_for_csv_data = []
 
 
     # Сохраняем остатки
     for section in buffer:
         flush(section)
 
-        processed_file_path:Path = Config.TRAIN_STORAGE / f'llam_{gs.now}'
-        if list_for_csv_llm_data:
-            # if save_csv_file(list_for_csv_llm_data, f'{processed_file_path}.csv'):
-            #     logger.success(f'/nФайл CSV успешно сохранен.\n')
-            if j_dumps(list_for_csv_llm_data, f'{processed_file_path}.json'):
+        
+        if json_for_csv_data:
+            if j_dumps(json_for_csv_data, f'{Config.JSON_FOR_CSV_PATH}/{gs.now}.json'):
                 logger.success(f'/nФайл JSON успешно сохранен.\n')
 
-            list_for_csv_llm_data = []
+            json_for_csv_data = []
     
     return True
 

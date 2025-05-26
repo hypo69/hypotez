@@ -160,13 +160,23 @@ class EmilDesign:
     
                 products_urls_in_category:list = await categories_crawler.get_list_products_in_category(self.driver, locator_category)
                 if not products_urls_in_category:
-                    ipdb.set_trace()
+
                     continue # <- мб пустаая категория
                 for product_url in products_urls_in_category:
                     self.driver.get_url(product_url)
-                    product_fields:ProductFields = await graber.grab_page_async()
+
+                    # Не все поля товара надо заполнять. Вот кортеж необходимых полей:
+                    actual_fields:tuple('id_manufacturer',
+                                        'id_supplier',
+                                        'name',                                                
+                                        'description',
+                                        'description_short',
+                                        'default_image_url'
+                                        )
+
+                    product_fields:ProductFields = await graber.grab_page_async(*actual_fields)
                     print(product_fields)
-                    ipdb.set_trace()
+                    
                 ...
                 
 

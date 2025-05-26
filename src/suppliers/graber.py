@@ -979,8 +979,13 @@ class Graber:
 
         try:
             # Получаем значение через execute_locator
-            self.fields.description_short = normalize_string( value or await self.driver.execute_locator(self.product_locator.description_short))
+            value =  value or await self.driver.execute_locator(self.product_locator.description_short)
+            if not value:
+                ...
+                return
+            self.fields.description_short = normalize_string()
             return True
+
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `description_short`", ex)
             ...

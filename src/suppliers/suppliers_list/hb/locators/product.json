@@ -98,7 +98,7 @@
   "default_image_url": {
     "attribute": "src",
     "by": "XPATH",
-    "selector": "//img[contains(@class, 'zoomImg')]",
+    "selector": "//div[contains(@class ,'product-images-static')]//img",
     "if_list": "first",
     "use_mouse": false,
     "mandatory": false,
@@ -818,7 +818,7 @@
   "name": {
     "attribute": "innerText",
     "by": "XPATH",
-    "selector": "//h1[contains(@class,'product_title')]",
+    "selector": "//h1[@class = 'tt-title']",
     "if_list": "first",
     "use_mouse": false,
     "mandatory": true,
@@ -830,11 +830,11 @@
   "description_short": {
     "attribute": "innerText",
     "by": "XPATH",
-    "selector": "//div[@id = 'tab-description']//p",
+    "selector": "//div[@class = 'tt-add-info']//li",
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "if_list": "first",
+    "if_list": "all",
     "use_mouse": false,
     "mandatory": true,
     "locator_description": "HB description"
@@ -851,11 +851,12 @@
     "event": null,
     "locator_description": "Технические характеристики. "
   },
+
   "description": {
-    "attribute": null,
+    "attribute": "innerText",
     "by": null,
-    "selector": null,
-    "if_list": "first",
+    "selector": "//div[@class = 'tt-item active']//div",
+    "if_list": "all",
     "use_mouse": false,
     "mandatory": false,
     "timeout": 0,
@@ -863,6 +864,7 @@
     "event": null,
     "locator_description": "description_short - на сайте HB есть только description"
   },
+
   "affiliate_short_link": {
     "attribute": "$_(driver.current_url)_$",
     "by": "VALUE",

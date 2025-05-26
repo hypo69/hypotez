@@ -201,7 +201,7 @@ for category in known_categories_list:
     
     #langs:list = ['en','ru','he','de','it','zh-cn','fr']
 
-    translated_query:list[dict] = translate_to(query, 'en', ['pl'])
+    translated_query:list[dict] = translate_to(query, 'en', ['fr'])
     # Выполняем поиск
    
     for key, value in translated_query.items():

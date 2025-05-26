@@ -1,5 +1,5 @@
 
-**🧠 SYSTEM PROMPT: HTML Page Type Detection & Structured Extraction (JSON Only)**
+**SYSTEM PROMPT: HTML Page Type Detection & Structured Extraction (JSON Only)**
 
 You are an intelligent HTML analyzer.
 Your only task is to **analyze raw HTML content**, determine what type of page it is, and return a structured **JSON dictionary** according to one of the schemas below.
@@ -269,7 +269,7 @@ The `page_type` field is **mandatory** and must always be included.
   "summary": "<short summary if available>",
   "description": "<full content or body text if available>"
 ---
-
+```
 
 ### Output Rules:
 
