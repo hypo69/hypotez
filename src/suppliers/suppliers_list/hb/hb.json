@@ -1,6 +1,8 @@
 {
   "supplier": "HB Dead Sea Cosmetics",
   "supplier_id": "11267",
+  "supplier_type": "11510",
+  "supplier_types_description": "11510 -> manufacturer; 11511 -> marketplace",
   "supplier_prefix": "hb",
   "active_clients_list": [
     "emil-design.com",
@@ -8,7 +10,8 @@
   ],
   "start_url": "https://hbdeadsea.co.il/",
   "price_rule": "+0",
-  "if_list":"first","use_mouse": false,
+  "if_list": "first",
+  "use_mouse": false,
   "mandatory": "true",
   "if_login": false,
   "login_url": "",

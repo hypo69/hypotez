@@ -1,6 +1,8 @@
 {
   "supplier": "aliexpress",
   "supplier_id": "2801",
+  "supplier_type": "11511",
+  "supplier_types_description": "11510 -> manufacturer; 11511 -> marketplace",
   "supplier_prefix": "aliexpress",
   "start_url": "https://www.aliexpress.com/",
   "price_rule": "+0",
@@ -8,7 +10,7 @@
   "login_url": "https://www.login.aliexpress.com",
   "collect_products_from_categorypage": true,
   "aliexpres_ajax_store": "https://he.aliexpress.com/store/productGroupsAjax.htm?storeId=",
-  
+
   "scenario_files": [
     "aliexpress_stores_6388_1053035_hi5group.json",
     "aliexpress_stores_baby_clothing.json",

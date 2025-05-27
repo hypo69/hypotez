@@ -3,7 +3,7 @@
 #! .pyenv/bin/python3
 
 """
-Модуль для извлечения и обработки страниц товаров поставщиков.
+Модуль сортировки поставщиков.
 ================================================================
 Скрипт загружает информацию о поставщиках из Google Spreadsheet,
 сравнивает список поставщиков с существующими директориями,
@@ -28,14 +28,9 @@ import pandas as pd
 import header
 from header import __root__
 from src import gs
-# from src.llm.gemini import GoogleGenerativeAi
-# from src.webdriver import driver
 from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
-# Убедитесь, что путь к graber.py корректен
 from SANDBOX.davidka.graber import extract_page_data
-# Убедитесь, что здесь импортируется ВАША версия SpreadSheet с методами:
-# find_row_index_by_value, get_cell_value_by_row_col, append_row_to_sheet, get_data
 from src.goog.spreadsheet.spreadsheet import SpreadSheet
 from src.utils.file import read_text_file, recursively_yield_file_path, get_directory_names
 from src.utils.url import extract_pure_domain

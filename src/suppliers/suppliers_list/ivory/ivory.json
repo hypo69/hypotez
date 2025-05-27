@@ -1,16 +1,8 @@
+
 {
-  "supplier": "ivory",
-  "supplier_id": "11343",
+  "supplier_id": 11343,
   "supplier_prefix": "ivory",
   "start_url": "https://www.ivory.co.il/",
-  "login_url": "https://www.ivory.co.il/",
-  "price_rule": "*1.43",
-  "collect_products_from_categorypage": false,
-  "if_login": true,
-  "scenario_files": [
-  ],
-  "last_runned_scenario": "",
-
-  "excluded": [
-  ]
+  "supplier_type": 11510,
+  "supplier_types_description": "11510 -> manufacturer; 11511 -> marketplace; 11512 -> catalog"
 }

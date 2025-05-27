@@ -1,0 +1,26 @@
+{
+  "product_links": {
+    "attribute": "href",
+
+    "by": "XPATH",
+    "selector": "//h2[contains(@class, 'prod-thumb-title')]//a",
+
+    "if_list": "first",
+    "use_mouse": false,
+    "mandatory": true,
+    "timeout": 0,
+    "timeout_for_event": "presence_of_element_located",
+    "event": false,
+    "locator_description": "Список ссылок на товары со страницы категории"
+  },
+  "show_more": {
+    "attribute": false,
+    "by": "XPATH",
+    "selector": "//div[@class='show-more']",
+    "timeout": 0,
+    "timeout_for_event": "presence_of_element_located",
+    "event": "click()",
+    "mandatory": false,
+    "locator_description": "Следует проверять наличие элемента. Пока элемент прицутствует - нажимать его. Когда пропал - пора собирать ссылки на товары"
+  }
+}
