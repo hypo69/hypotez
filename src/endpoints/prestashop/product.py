@@ -110,7 +110,7 @@ class PrestaProduct(PrestaShop):
         """
 
         # 1. Создание множества для отслеживания всех ID категорий (начальных и добавленных)
-        seen_ids: Set[int] = set()
+        seen_ids: Set[int] = set(2)
 
         # Заполнение множества ID из *начального* списка f.additional_categories
         # Итерируем по копии, чтобы избежать проблем, если append меняет список

@@ -53,7 +53,7 @@ class Config:
     ENDPOINT:Path = __root__ / 'endpoints' / 'emil'
 
 
-class SupplierToPrestashopPipeline:
+class SupplierToPrestashopProvider:
     """Обрабатывает извлечение, разбор и сохранение данных о товарах поставщиков.
     Данные могут быть получены как из посторнних сайтов, так из словаря товара в формате файла JSON
     
@@ -147,7 +147,7 @@ class SupplierToPrestashopPipeline:
         """
 
         # Не все поля товара надо заполнять. Вот кортеж необходимых полей:
-        required_fields:tuple = ('id_product',
+        actual_fields:tuple = ('id_product',
                                  'name',
                                  'description_short',
                                  'description',
@@ -168,7 +168,7 @@ class SupplierToPrestashopPipeline:
 
             try:
                 #scenarios_files_list:list =  recursively_get_file_path(__root__ / 'src' / 'suppliers' / 'suppliers_list' / graber.supplier_prefix / 'scenarios', '.json')
-                f = await graber.grab_page(*required_fields)
+                f = await graber.grab_page(*actual_fields)
                 #graber.process_graber('hb')
                 ...
 
@@ -319,9 +319,6 @@ async def main():
     """
     """
     await upload_redacted_images_from_emil()
-
-
-    
 
 
 if __name__ == '__main__':

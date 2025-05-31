@@ -1,4 +1,4 @@
-## \file /src/suppliers/suppliers_list/hb/sceanrio.py
+## \file /src/suppliers/suppliers_list/hb/categories_crawler.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 """  
@@ -16,7 +16,7 @@
 `grab_product_page()` обрабатывает поля товара и передает управление классу `Product`.
 
 ```rst
- .. module:: src.suppliers.suppliers_list.hb.sceanrio
+ .. module:: src.suppliers.suppliers_list.hb.categories_crawler
 ```
 """
 
@@ -30,6 +30,7 @@ from header import __root__ # Added __root__ import
 from src import gs # Ensured gs import
 from src.logger.logger import logger
 from src.webdriver.driver import Driver
+
 
 
 async def get_list_products_in_category (d: Driver, l: SimpleNamespace) -> list:    
@@ -59,19 +60,69 @@ async def get_list_products_in_category (d: Driver, l: SimpleNamespace) -> list:
        В текущей версии пагинация происхоадит через нажати кнопки
        https://hbdeadsea.co.il/collections/<название каетегории>?page=...
     """
+
+    """
     all_product_urls: List[str] = []
     # Извлечение ссылок на товары с текущей (первой) страницы
     while True:
         if not await d.execute_locator(l.show_more):
             break
         product_links: List[str] | str | None = await d.execute_locator(l.product_links)
-        if len(all_product_urls) <  product_links:
+        if len(all_product_urls) <  len(product_links):
             all_product_urls.extend(all_product_urls)
             time.sleep(3)
+            print('Листаю')
             continue
         else:
             break
 
-    
+    """
+    product_links: List[str] | str | None = await d.execute_locator(l.product_links)
     return product_links if isinstance(product_links, list) else [product_links]
+
+
+
+# async def get_list_products_in_category (d: Driver, l: SimpleNamespace) -> list:    
+#     """ 
+#     Функция извлекает список URL-адресов товаров со страницы категории.
+#     При необходимости пролистывает страницы категорий.
+
+#     Args:
+#         d (Driver): Экземпляр WebDriver.
+#         l (SimpleNamespace): Объект с локаторами для страницы категории, 
+#                              включая локаторы товаров и пагинации.
+    
+#     Returns:
+#         List[str] | None: Список URL-адресов товаров или `None`, если товары не найдены.
+    
+#     Example:
+#         >>> # Пример использования (требует настройки d и l)
+#         >>> # driver = Driver(...) 
+#         >>> # locators = SimpleNamespace(product_links=..., pagination_locators=...)
+#         >>> # product_urls = await get_list_products_in_category(driver, locators)
+#         >>> # if product_urls:
+#         >>> #     print(f'Найдено {len(product_urls)} товаров.')
+#     """
+
+
+#     """
+#        В текущей версии пагинация происхоадит через нажати кнопки
+#        https://hbdeadsea.co.il/collections/<название каетегории>?page=...
+#     """
+#     all_product_urls: List[str] = []
+#     # Извлечение ссылок на товары с текущей (первой) страницы
+#     while True:
+#         if not await d.execute_locator(l.show_more):
+#             break
+#         product_links: List[str] | str | None = await d.execute_locator(l.product_links)
+#         if len(all_product_urls) <  product_links:
+#             all_product_urls.extend(all_product_urls)
+#             time.sleep(3)
+#             continue
+#         else:
+#             break
+
+    
+#     return product_links if isinstance(product_links, list) else [product_links]
+
 

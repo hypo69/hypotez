@@ -473,16 +473,17 @@ class Graber:
         """Асинхронная функция для сбора полей товара."""
         async def fetch_all_data(*args, **kwargs):
             # Динамическое вызовы функций для каждого поля из args
-            process_fields:list = list(args) or ['id_product',
+            process_fields:list = list(args) or [
                             'name',
                             'description_short',
                             'description',
                             'specification',
-                            'local_image_path',
-                            'id_category_default',
-                            'additional_category',
+                            'local_image_path',                      
                             'default_image_url',
                             'price']
+            if 'url' in kwargs:
+                self.driver.get_url(kwargs['url'])
+
             for filed_name in process_fields:
                 function = getattr(self, filed_name, None)
                 if function:
@@ -983,7 +984,7 @@ class Graber:
             if not value:
                 ...
                 return
-            self.fields.description_short = normalize_string()
+            self.fields.description_short = normalize_string(value)
             return True
 
         except Exception as ex:
@@ -991,8 +992,6 @@ class Graber:
             ...
             return
 
-        self.fields.description_short = value
-        return True
 
     @close_pop_up()
     async def id_category_default(self, value:int) -> bool:
@@ -1677,25 +1676,11 @@ class Graber:
         value (Any): это значение можно передать в словаре kwargs через ключ {name = `value`} при определении класса.
         Если `value` было передано, его значение подставляется в поле `ProductFields.name`.
         """
+        value = value if value else await self.driver.execute_locator(self.product_locator.name)
         if value:
-            self.fields.name = normalize_string(value)
+            self.fields.name = normalize_string(value)[:127]
             return True       
-        
-        try:
-            # Получаем значение через execute_locator
-            data = await self.driver.execute_locator(self.product_locator.name)
-            if not data:
-                logger.error(f'Нет данных для поля `name` {self.product_locator.name=}', None, False)
-                ...
-                return
-
-            self.fields.name = normalize_string(data)
-            return True
-
-        except Exception as ex:
-            logger.error(f"Ошибка получения значения в поле `name`", ex)
-            ...
-            return
+        return False
 
 
     @close_pop_up()
@@ -1778,20 +1763,9 @@ class Graber:
         Если `value` было передано, его значение подставляется в поле `ProductFields.price`.
         """
         try:
-            # Получаем значение через execute_locator
-            
-            if value:
-                self.fields.price = normalize_float(value)
-                return True
-
-            raw_data = await self.driver.execute_locator(self.product_locator.price)
-            if raw_data:
-                self.fields.price = normalize_float(raw_data)
-            else:
-                logger.error(f'Не получил цену по локатору /n{print(self.product_locator.price)}')
-                ...
-                return False
-            
+            value = value if value else await self.driver.execute_locator(self.product_locator.price)
+            print(f'PRICE: {value}')
+            self.fields.price = normalize_float(value)
             self.fields.wholesale_price = self.fields.price
             return True
         except Exception as ex:

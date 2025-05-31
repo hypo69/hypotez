@@ -2,9 +2,12 @@
   "product_links": {
     "attribute": "href",
     "by": "XPATH",
-    "selector": "//div[contains(@style, 'grid-template-columns')]//a",
-    "if_list":"first","use_mouse": false, 
-    "timeout":0,"timeout_for_event":"presence_of_element_located","event": null,
+    "selector": "//a[contains(@href, '/item/')]",
+    "if_list": "all",
+    "use_mouse": false,
+    "timeout": 0,
+    "timeout_for_event": "presence_of_element_located",
+    "event": null,
     "mandatory": true,
     "locator_description": "ссылки на страницы товаров"
   },

@@ -458,7 +458,7 @@ class PrestaShop:
                 response.raise_for_status()  # Проверка на HTTP-ошибки
 
                 # return response.json()
-                return self._parse_response(response=response, data_format='XML')
+                return self._parse_response(response=response)
 
         except RequestException as ex:
             logger.error(f'Ошибка при загрузке изображения:', ex)

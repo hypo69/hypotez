@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<prestashop>
+  <products>
+    <id_supplier>2800</id_supplier>
+    <id_shop_default>1</id_shop_default>
+    <id_shop>1</id_shop>
+    <id_tax_rules_group>13</id_tax_rules_group>
+    <on_sale>1</on_sale>
+    <online_only>0</online_only>
+    <minimal_quantity>1</minimal_quantity>
+    <price>2800.0</price>
+    <active>1</active>
+    <available_for_order>1</available_for_order>
+    <show_condition>1</show_condition>
+    <condition>new</condition>
+    <show_price>1</show_price>
+    <visibility>both</visibility>
+    <is_virtual>0</is_virtual>
+    <state>1</state>
+    <product_type>standard</product_type>
+    <description>
+      <language id="1"/>
+    </description>
+    <description_short>
+      <language id="1">【Compatibility】Our 550w sewing machine motor has more torque than 450w sewing machine motor. Our sewing machine motors are suitable for any type of industrial sewing machine. Three-phase brushless sewing machine servo motor, the product includes brushless motor, controller, foot switch, English manual and necessary installation parts 【Product Information】Servo motor sewing machine, 550W, AC110V, 3/4HP, 200RPM-6000RPM. Our sewing machine servo motors start from 200RPM and can\'t be kept at 200RPM or even lower. In addition, our sewing machine motor pulley is the same size as the pulley in the market, small size, light weight, energy saving and low noise. Please let me know if you have any concerns or choose our other CSM550 【Excellent Performance】The servo motor sewing machine is energy efficient and quiet, saving up to 70% of electricity, no noise or vibration when the machine is running, smooth running and acceleration, cost-effective and long service life, which makes it the first choice for value for money 【High Quality】Industrial sewing machine servo motor features high-quality metal construction and sturdy design. Its servo motor is made of pure copper coil and aluminum sheath, providing excellent temperature resistance and multi-layer protection 【Easy to install and operate】Sewing machine brushless servo motor can be installed by aligning with the original motor hole. The speed and parameters are adjusted by the controller. Our instruction manual contains detailed parameter adjustment. The servo motor sewing machine also has a variety of protection methods, including over-current, over-voltage, under-voltage, short-circuit and blocking protection 【After-sales service】We will use Amazon to deliver the sewing machine servo motor to ensure promptness. If you have any questions about the process of using sewing machine motors, including product parameters, performance and suitability, we promise to reply you within 24 hours to provide you with a perfect solution. If the motor will not run, code E-03, check for a loose plug on the back of the motor</language>
+    </description_short>
+    <link_rewrite>
+      <language id="1"/>
+    </link_rewrite>
+    <name>
+      <language id="1">Servo Motor Sewing Machine, Industrial Sewing Machine Servo Motor, AC110V, 550W, 3/4HP, Speed 200RPM to 6000RPM, Brushless Servo Motor with Controller and Foot Switch, Run CW and CCW, Silent</language>
+    </name>
+    <specification>
+      <language id="1"/>
+    </specification>
+    <associations>
+      <categories>
+        <id>None</id>
+      </categories>
+      <categories>
+        <id>None</id>
+      </categories>
+      <categories>
+        <id>None</id>
+      </categories>
+    </associations>
+  </products>
+</prestashop>

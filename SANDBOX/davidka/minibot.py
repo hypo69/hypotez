@@ -1,42 +1,39 @@
-## \file /src/endpoints/emil/minibot.py
+## \file /SANDBOX/davidka/minibot.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
 """
-Минибот, который принимает one-tab.com ссылку и посыкает ее на обработку в `pipeline`
-=====================================================================================
+Служебный бот на базе `onela_bot`
+=================================
 
 ```rst
-.. module:: src.endpoints.emil.minibot 
+.. module::  SANDBOX.davidka.minibot
 ```
 """
 
+from bs4 import BeautifulSoup
+import requests
 import telebot
 import os
 import datetime
 import random
-from pathlib import Path
-import asyncio
 
 from dotenv import load_dotenv
 load_dotenv()
 
-import header
 from header import __root__
 from src import gs
 from src.logger import logger
-from src.endpoints.fetch_one_tab import fetch_target_urls_onetab
-from src.endpoints.emil.from_supplier_toPrestashop import SupplierToPrestashopPipeline
-
 from src.utils.url import is_url
 from src.utils.printer import pprint as print
+from SANDBOX.davidka.process_onetab_urls_from_bot
 
 # --- config.py -----------------
 class Config:
-    ENDPOINT = __root__ / 'src' / 'endpoints' / 'emil'
-    BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') or gs.credentials.telegram.hypo69_emil_design_bot.token
+    ENDPOINT = __root__ / 'SANDBOX' / 'davidka'
+    BOT_TOKEN = gs.credentials.telegram.onela_bot.token
     CHANNEL_ID = '@onela'
-    PHOTO_DIR = Path(ENDPOINT / 'assets') # <- Картинки, сгенерированные AI для конкретрного поставщика
+   
     COMMAND_INFO = 'This is a simple bot. Use /help to see commands.'
     UNKNOWN_COMMAND_MESSAGE = 'Unknown command. Use /help to see available commands.'
     START_MESSAGE = "Howdy, how are you doing?"
@@ -48,10 +45,35 @@ class Config:
     /time - Shows the current time.
     /photo - Sends a random photo.
     """
+# --- end config.py ---------------
 
 
+def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
+    """
+    Функция паресит целевые URL из полученного OneTab.
+    """
+    try:
+        response = requests.get(one_tab_url, timeout=10)
+        response.raise_for_status()
 
-#############################################################
+        soup = BeautifulSoup(response.content, "html.parser")
+
+        # Извлечение ссылок
+        urls = [a["href"] for a in soup.find_all("a", class_="tabLink")]
+
+        # Извлечение данных из div с классом 'tabGroupLabel'
+        element = soup.find("div", class_="tabGroupLabel")
+        onetab_label:str = element.get_text() if element else ''
+        categories:list = onetab_label.split()
+
+
+        return categories, urls
+
+    except requests.exceptions.RequestException as ex:
+        logger.error(f"Ошибка при выполнении запроса: {one_tab_url=}", ex)
+        ...
+        return False, False
+
 
 class BotHandler:
     """Исполнитель команд, полученных ботом."""
@@ -60,9 +82,6 @@ class BotHandler:
         """Инициализация обработчика событий телеграм-бота."""
        
         self.questions_list = ['Я не понял?', 'Объясни пожалуйста']
-        
-        pipeline = SupplierToPrestashopPipeline()
-
 
     def handle_message(self, bot:telebot, message:'message'):
         """Обработка текстовых сообщений."""
@@ -102,8 +121,8 @@ class BotHandler:
 
         # Parsing https//one-tab.com/XXXXXXXXX page
         try:
-           category, urls = fetch_target_urls_onetab(url)
-           bot.send_message(message.chat.id, f'Получил мехирон {mexiron_name} - {price} шек')
+           categories, urls = fetch_target_urls_onetab(url)
+           bot.send_message(message.chat.id, f'Получил табы по категориям {categories}')
         except Exception as ex:
             logger.error(f"Error fetching URLs from OneTab: {ex}")
             bot.send_message(message.chat.id, "Произошла ошибка при получении данных из OneTab.")
@@ -113,15 +132,7 @@ class BotHandler:
             return
 
         try:
-            asyncio.run(
-                self.scenario.run_scenario(
-                        bot=bot,
-                        chat_id=message.chat.id,
-                        urls=list(urls), 
-                        price=price,
-                        mexiron_name=mexiron_name
-                ))
-
+            ...
         except Exception as ex:
             logger.error(f"Error during scenario execution: {ex}")
             bot.send_message(message.chat.id, f"Произошла ошибка при выполнении сценария. {print(ex.args)}")

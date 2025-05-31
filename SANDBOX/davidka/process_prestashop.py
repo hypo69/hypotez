@@ -1,20 +1,13 @@
-## \file /src/endpoints/emil/emil_design.py
+## \file /SANDBOX/davidka/process_prestashop.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
 """
-Модуль для управления и обработки изображений, а также продвижения в Facebook и PrestaShop. Относится к магазину `emil-design.com`
+Служебный бот на базе `onela_bot`
 =================================
-Основные возможности:
-    - <инструкция для модели gemini:Описание изображений с использованием Gemini AI.>
-    - <инструкция для модели gemini:Загрузка описаний товаров в PrestaShop.>
-    - ..... <далее, если есть>
-Классы:
-    `Config` - <инструкция для модели gemini: Дай полное описание и назначение этого класса>
-    `EmilDesign` - <инструкция для модели: Дай полное описание и назначение этого класса>
 
 ```rst
-.. module:: src.endpoints.emil
+.. module::  SANDBOX.davidka.process_prestashop
 ```
 """
 import importlib
@@ -50,14 +43,15 @@ from src.utils.file import read_text_file, save_text_file, get_filenames_from_di
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.image import get_image_bytes, get_raw_image_data
 from src.logger.logger import logger
-SupplierInstance:SimpleNamespace = Any
 
-# --- file config.py
+import header
+from header import __root__
+from src import gs
+
 class Config:
-
-
-    ENDPOINT: Path = __root__ /'src' / 'endpoints' / 'emil'
+    ENDPOINT = __root__ / 'SANDBOX' / 'davidka'
     SUPPLIERS_ENDPOINT: Path = __root__ / 'src' / 'suppliers' / 'suppliers_list'
+    SCENARIOS_PATH:Path =  __root__ / 'SANDBOX' / 'davidka' / 'scenarios'
     config:SimpleNamespace = j_loads_ns(ENDPOINT / 'emil.json')
     GEMINI_API_KEY:str = gs.credentials.gemini.onela.api_key
     PRESTA_API_KEY:str = gs.credentials.prestashop.store_davidka_net.api_key
@@ -65,10 +59,9 @@ class Config:
     gemini_model_name:str = config.gemini_model_name
     system_instruction:str = ' ' # <- Это пробел!
     webdriver_window_mode:str = 'normal'
-# --- end file config.pt
 
 
-class EmilDesign:
+class PrestasopProvider:
     """Dataclass for designing and promoting images through various platforms."""
 
     gemini: Optional[GoogleGenerativeAi] = None
@@ -386,12 +379,6 @@ class EmilDesign:
 
 
 if __name__ == '__main__':
-    emil = EmilDesign()
+    presta = PrestasopProvider()
     suppliers_prefixes_list:list = ['hb']
-    asyncio.run(emil.process_suppliers_list(suppliers_prefixes_list))
-
-    # -------------- Другие варианты --------------
-    # emil.describe_images(lang='he')
-    # emil.upload_described_products_to_prestashop(id_lang = 2)
-    # asyncio.run(emil.upload_described_products_to_prestashop_async(lang='he'))
-    # emil.describe_images('he')
+    asyncio.run(presta.process_suppliers_list(suppliers_prefixes_list))

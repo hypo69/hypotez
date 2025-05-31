@@ -135,73 +135,38 @@ def normalize_float(value: Any) -> Optional[float]:
 
     Returns:
         Optional[float]: Число float или None, если конвертация не удалась.
-
-    Examples:
-        >>> normalize_float(5)
-        5.0
-        >>> normalize_float("5")
-        5.0
-        >>> normalize_float("3.14")
-        3.14
-        >>> normalize_float("abc")
-        None
-        >>> normalize_float("₪0.00")
-        0.0
-        >>> normalize_float("$1,234.56")
-        1234.56
-        >>> normalize_float("  - 7.5 € ")
-        -7.5
-        >>> normalize_float(None)
-        None
-        >>> normalize_float(['1'])
-        None
-        >>> normalize_float('')
-        None
-
-    Важно! проверять после вызова этой функции, что она не вернула None
     """
     if value is None:
         return None
 
-    # Если это уже число, просто конвертируем в float
     if isinstance(value, (int, float)):
         return float(value)
 
-    # Если это список/кортеж - ошибка
     if isinstance(value, (list, tuple)):
         logger.warning(f'Ожидалось одиночное значение, получен итерируемый объект: {value}')
         return None
 
-    # Попытка преобразовать значение в строку для очистки
     try:
         value_str = str(value)
     except Exception as e:
         logger.warning(f'Невозможно преобразовать значение в строку: {value} ({type(value)}). Ошибка: {e}')
         return None
 
-    # Очистка строки от известных нечисловых символов
-    # 1. Удаляем распространенные символы валют (можно расширить список)
+    # Удаляем валюты, пробелы и разделители тысяч
     cleaned_str: str = re.sub(r'[₪$€£¥₽]', '', value_str)
-    # 2. Удаляем разделители тысяч (запятые)
     cleaned_str = cleaned_str.replace(',', '')
-    # 3. Удаляем начальные/конечные пробелы
-    cleaned_str = cleaned_str.strip()
+    cleaned_str = re.sub(r'\s+', '', cleaned_str)  # Удаляет все виды пробелов, включая внутри строки
 
-    # Если строка пуста после очистки
     if not cleaned_str:
         logger.warning(f'Значение стало пустым после очистки: "{value}" -> "{cleaned_str}"')
         return None
 
-    # Попытка конвертации очищенной строки
     try:
-        # Используем float() для преобразования
         float_value = float(cleaned_str)
-        # Округление до 3 знаков больше не требуется по коду, возвращаем как есть
         return float_value
     except (ValueError, TypeError):
         logger.warning(f'Не удалось конвертировать очищенную строку "{cleaned_str}" (из "{value}") в float')
         return None
-
 
 
 def normalize_sql_date(input_data: str) -> str:
