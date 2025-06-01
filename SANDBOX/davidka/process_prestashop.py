@@ -52,7 +52,7 @@ class Config:
     ENDPOINT = __root__ / 'SANDBOX' / 'davidka'
     SUPPLIERS_ENDPOINT: Path = __root__ / 'src' / 'suppliers' / 'suppliers_list'
     SCENARIOS_PATH:Path =  __root__ / 'SANDBOX' / 'davidka' / 'scenarios'
-    config:SimpleNamespace = j_loads_ns(ENDPOINT / 'emil.json')
+    config:SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json')
     GEMINI_API_KEY:str = gs.credentials.gemini.onela.api_key
     PRESTA_API_KEY:str = gs.credentials.prestashop.store_davidka_net.api_key
     PRESTA_DOMAIN:str = gs.credentials.prestashop.store_davidka_net.api_domain
@@ -130,7 +130,7 @@ class PrestasopProvider:
         try:
             supplier_path:Path = Config.SUPPLIERS_ENDPOINT / supplier_prefix 
             graber: Graber = get_graber_by_supplier_prefix(self.driver, supplier_prefix)
-            scenarios_list: list[dict] = j_loads(Config.SUPPLIERS_ENDPOINT / supplier_prefix / 'scenarios')
+            scenarios_ns: SimpleNamespace = j_loads_ns(Config.SCENARIOS_PATH  / f'{supplier_prefix}.json')
             locators_path:Path = supplier_path / 'locators' 
             locator_product:SimpleNamespace = j_loads_ns(locators_path / 'product.json')
             locator_category:SimpleNamespace = j_loads_ns(locators_path / 'category.json')
@@ -147,7 +147,7 @@ class PrestasopProvider:
             logger.error(f"Failed to import module `categories_crawler` '{supplier_prefix}'", ex)
             return False
         
-        for scenario in scenarios_list:
+        for _, scenario in scenarios_ns.items():
             for _, item in scenario.items():
                 self.driver.get_url(item['url'])
     

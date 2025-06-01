@@ -519,19 +519,16 @@
     "event": null
   },
   "price": {
+    "attribute": "innerText",
+    "by": "XPATH",
+    "selector": "//span[contains(@class, 'priceToPay')]//span[@class = 'a-price-whole']",
+    "if_list": "first",
+    "use_mouse": false,
+    "mandatory": true,
+    "timeout": 0,
+    "timeout_for_event": "presence_of_element_located",
+    "event": null
 
-      "attribute": "innerText",
-
-      "by": "XPATH",
-      "selector": "//span[contains(@class, 'priceToPay')]//span[@class = 'a-price-whole']",
-
-      "if_list": "first",
-      "use_mouse": false,
-      "mandatory": true,
-      "timeout": 0,
-      "timeout_for_event": "presence_of_element_located",
-      "event": null
-    
   },
   "wholesale_price": {
     "attribute": null,

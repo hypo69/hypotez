@@ -481,8 +481,11 @@ class Graber:
                             'local_image_path',                      
                             'default_image_url',
                             'price']
+
             if 'url' in kwargs:
                 self.driver.get_url(kwargs['url'])
+
+            self.driver.scroll(3)
 
             for filed_name in process_fields:
                 function = getattr(self, filed_name, None)

@@ -1,212 +1,239 @@
-## \file /src/suppliers/get_graber_by_supplier.py
-# -*- coding: utf-8 -*-
-#! .pyenv/bin/python3
-
-"""
-Модуль для получения грабера на основе URL поставщика
-=========================================================================================
-
-Этот модуль предоставляет функциональность для получения соответствующего объекта грабера
-для заданного URL поставщика. У каждого поставщика есть свой собственный грабер, который
-извлекает значения полей с целевой HTML-страницы.
-
-Пример использования
--------------------
-
-```python
-    from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
-    from src.webdriver import Driver # Предполагается, что Driver импортируется так
-
-    # Инициализация драйвера (пример)
-    driver = Driver() 
-    url = 'https://www.example.com'
-    graber = get_graber_by_supplier_url(driver, url, 2) # Пример с lang_index = 2
-
-    if graber:
-        # Использование грабера для извлечения данных
-        product_data = graber.get_product_data()
-        print(f'Data extracted: {product_data}')
-    else:
-        # Обработка случая, когда грабер не найден
-        print(f'No grabber found for URL: {url}')
-
-```
-
-.. module:: src.suppliers.get_graber_by_supplier
-"""
-from typing import Type # Используется для аннотации типа Driver без циклического импорта, если необходимо
-from src.suppliers.graber import Graber
+# get_graber_by_supplier.py
+from urllib.parse import urlparse
+# --- Импорты Graber классов ---
+from src.suppliers.suppliers_list.sphinxitalia_it.graber import Graber as SphinxitaliaItGraber
+from src.suppliers.suppliers_list.vidaxl_pl.graber import Graber as VidaxlPlGraber
+from src.suppliers.suppliers_list.visualdg.graber import Graber as VisualdgGraber
+from src.suppliers.suppliers_list.wallashop.graber import Graber as WallashopGraber
+from src.suppliers.suppliers_list.wallmart.graber import Graber as WallmartGraber
+from src.suppliers.suppliers_list.zebra_com.graber import Graber as ZebraComGraber
+from src.suppliers.suppliers_list.ads_tec_iit_com.graber import Graber as AdsTecIitComGraber
 from src.suppliers.suppliers_list.aliexpress.graber import Graber as AliexpressGraber
 from src.suppliers.suppliers_list.amazon.graber import Graber as AmazonGraber
+from src.suppliers.suppliers_list.apple_com.graber import Graber as AppleComGraber
+from src.suppliers.suppliers_list.atlascopco_com.graber import Graber as AtlascopcoComGraber
 from src.suppliers.suppliers_list.bangood.graber import Graber as BangoodGraber
+from src.suppliers.suppliers_list.bucketmaster_com_cn.graber import Graber as BucketmasterComCnGraber
 from src.suppliers.suppliers_list.cdata.graber import Graber as CdataGraber
+from src.suppliers.suppliers_list.cisco_com.graber import Graber as CiscoComGraber
+from src.suppliers.suppliers_list.de_hexcel_com.graber import Graber as DeHexcelComGraber
+from src.suppliers.suppliers_list.de_rs_online_com.graber import Graber as DeRsOnlineComGraber
+from src.suppliers.suppliers_list.de_de_ring_com.graber import Graber as DeDeRingComGraber
+from src.suppliers.suppliers_list.denaliweld_com.graber import Graber as DenaliweldComGraber
+from src.suppliers.suppliers_list.dewesoft_com.graber import Graber as DewesoftComGraber
 from src.suppliers.suppliers_list.ebay.graber import Graber as EbayGraber
+from src.suppliers.suppliers_list.elektrometal_eu.graber import Graber as ElektrometalEuGraber
 from src.suppliers.suppliers_list.etzmaleh.graber import Graber as EtzmalehGraber
+from src.suppliers.suppliers_list.findernet_com.graber import Graber as FindernetComGraber
+from src.suppliers.suppliers_list.fresubin_com.graber import Graber as FresubinComGraber
 from src.suppliers.suppliers_list.gearbest.graber import Graber as GearbestGraber
+from src.suppliers.suppliers_list.generex_de.graber import Graber as GenerexDeGraber
+from src.suppliers.suppliers_list.georgin_com.graber import Graber as GeorginComGraber
+from src.suppliers.suppliers_list.german_micro_steppermotors_com.graber import Graber as GermanMicroSteppermotorsComGraber
 from src.suppliers.suppliers_list.grandadvance.graber import Graber as GrandadvanceGraber
-from src.suppliers.suppliers_list.hb.graber import Graber as HBGraber
+from src.suppliers.suppliers_list.hb.graber import Graber as HbGraber
+from src.suppliers.suppliers_list.imos3d_com.graber import Graber as Imos3dComGraber
+from src.suppliers.suppliers_list.induprogress_pl.graber import Graber as InduprogressPlGraber
+from src.suppliers.suppliers_list.industrierat_west_de.graber import Graber as IndustrieratWestDeGraber
+from src.suppliers.suppliers_list.it_alwsci_com.graber import Graber as ItAlwsciComGraber
+from src.suppliers.suppliers_list.it_defelsko_com.graber import Graber as ItDefelskoComGraber
+from src.suppliers.suppliers_list.it_jarvis_smart_com.graber import Graber as ItJarvisSmartComGraber
+from src.suppliers.suppliers_list.it_superb_heater_com.graber import Graber as ItSuperbHeaterComGraber
+from src.suppliers.suppliers_list.it_thermo_heater_com.graber import Graber as ItThermoHeaterComGraber
 from src.suppliers.suppliers_list.ivory.graber import Graber as IvoryGraber
+from src.suppliers.suppliers_list.janitza_com.graber import Graber as JanitzaComGraber
+from src.suppliers.suppliers_list.jungbluth_com.graber import Graber as JungbluthComGraber
 from src.suppliers.suppliers_list.ksp.graber import Graber as KspGraber
-from src.suppliers.suppliers_list.kualastyle.graber import Graber as KualaStyleGraber
+from src.suppliers.suppliers_list.kualastyle.graber import Graber as KualastyleGraber
+from src.suppliers.suppliers_list.ledodm_com.graber import Graber as LedodmComGraber
+from src.suppliers.suppliers_list.leybold_com.graber import Graber as LeyboldComGraber
+from src.suppliers.suppliers_list.mecalux_it.graber import Graber as MecaluxItGraber
+from src.suppliers.suppliers_list.megatron_de.graber import Graber as MegatronDeGraber
+from src.suppliers.suppliers_list.megger_com.graber import Graber as MeggerComGraber
+from src.suppliers.suppliers_list.mococonnectors_com.graber import Graber as MococonnectorsComGraber
+from src.suppliers.suppliers_list.mordorintelligence_it.graber import Graber as MordorintelligenceItGraber
 from src.suppliers.suppliers_list.morlevi.graber import Graber as MorleviGraber
-from src.suppliers.suppliers_list.visualdg.graber import Graber as VisualDGGraber
-from src.suppliers.suppliers_list.wallashop.graber import Graber as WallaShopGraber
-from src.suppliers.suppliers_list.wallmart.graber import Graber as WallmartGraber
-from src.logger.logger import logger
-# Предполагается, что класс Driver импортируется из модуля webdriver
-# Если это вызывает циклический импорт, можно использовать Type['Driver']
-from src.webdriver import Driver
+from src.suppliers.suppliers_list.omnipod_com.graber import Graber as OmnipodComGraber
+from src.suppliers.suppliers_list.opel_de.graber import Graber as OpelDeGraber
+from src.suppliers.suppliers_list.pfannenberg_com.graber import Graber as PfannenbergComGraber
+from src.suppliers.suppliers_list.pl_dmgmori_com.graber import Graber as PlDmgmoriComGraber
+from src.suppliers.suppliers_list.plm_sw_siemens_com.graber import Graber as PlmSwSiemensComGraber
+from src.suppliers.suppliers_list.prebiel_pl.graber import Graber as PrebielPlGraber
+from src.suppliers.suppliers_list.prusa3d_com.graber import Graber as Prusa3dComGraber
+from src.suppliers.suppliers_list.ridgid_eu.graber import Graber as RidgidEuGraber
+from src.suppliers.suppliers_list.sensysmagnetometer_com.graber import Graber as SensysmagnetometerComGraber
+from src.suppliers.suppliers_list.shop_loxone_com.graber import Graber as ShopLoxoneComGraber
+from src.suppliers.suppliers_list.shop_scheppach_com.graber import Graber as ShopScheppachComGraber
+from src.suppliers.suppliers_list.sigmaaldrich_com.graber import Graber as SigmaaldrichComGraber
 
 
-def get_graber_by_supplier_url(driver: Driver, url: str, lang_index: int) -> Graber | None:
+# --- Маппинг URL и supplier_name к grabber-классам ---
+from src.suppliers.suppliers_list import *
+
+URL_PREFIX_MAP = {
+    "https://sphinxitalia.it/": SphinxitaliaItGraber,
+    "https://vidaxl.pl/": VidaxlPlGraber,
+    "https://visualdg.com/": VisualdgGraber,
+    "https://wallashop.com/": WallashopGraber,
+    "https://wallmart.com/": WallmartGraber,
+    "https://zebra.com/": ZebraComGraber,
+    "https://ads-tec-iit.com/": AdsTecIitComGraber,
+    "https://aliexpress.com/": AliexpressGraber,
+    "https://amazon.com/": AmazonGraber,
+    "https://apple.com/": AppleComGraber,
+    "https://atlascopco.com/": AtlascopcoComGraber,
+    "https://bangood.com/": BangoodGraber,
+    "https://bucketmaster.com.cn/": BucketmasterComCnGraber,
+    "https://cdata.com/": CdataGraber,
+    "https://chat.openai.com/": "chat_gpt",
+    "https://cisco.com/": CiscoComGraber,
+    "https://de.hexcel.com/": DeHexcelComGraber,
+    "https://de.rs-online.com/": DeRsOnlineComGraber,
+    "https://de-de.ring.com/": DeDeRingComGraber,
+    "https://denaliweld.com/": DenaliweldComGraber,
+    "https://dewesoft.com/": DewesoftComGraber,
+    "https://ebay.com/": EbayGraber,
+    "https://elektrometal.eu/": ElektrometalEuGraber,
+    "https://etzmaleh.com/": EtzmalehGraber,
+    "https://findernet.com/": FindernetComGraber,
+    "https://fresubin.com/": FresubinComGraber,
+    "https://gearbest.com/": GearbestGraber,
+    "https://generex.de/": GenerexDeGraber,
+    "https://georgin.com/": GeorginComGraber,
+    "https://german.micro-steppermotors.com/": GermanMicroSteppermotorsComGraber,
+    "https://grandadvance.com/": GrandadvanceGraber,
+    "https://hb.com/": HbGraber,
+    "https://imos3d.com/": Imos3dComGraber,
+    "https://induprogress.pl/": InduprogressPlGraber,
+    "https://industrierat-west.de/": IndustrieratWestDeGraber,
+    "https://it.alwsci.com/": ItAlwsciComGraber,
+    "https://it.defelsko.com/": ItDefelskoComGraber,
+    "https://it.jarvis-smart.com/": ItJarvisSmartComGraber,
+    "https://it.superb-heater.com/": ItSuperbHeaterComGraber,
+    "https://it.thermo-heater.com/": ItThermoHeaterComGraber,
+    "https://ivory.com/": IvoryGraber,
+    "https://janitza.com/": JanitzaComGraber,
+    "https://jungbluth.com/": JungbluthComGraber,
+    "https://ksp.com/": KspGraber,
+    "https://kualastyle.com/": KualastyleGraber,
+    "https://ledodm.com/": LedodmComGraber,
+    "https://leybold.com/": LeyboldComGraber,
+    "https://mecalux.it/": MecaluxItGraber,
+    "https://megatron.de/": MegatronDeGraber,
+    "https://megger.com/": MeggerComGraber,
+    "https://mococonnectors.com/": MococonnectorsComGraber,
+    "https://mordorintelligence.it/": MordorintelligenceItGraber,
+    "https://morlevi.com/": MorleviGraber,
+    "https://omnipod.com/": OmnipodComGraber,
+    "https://opel.de/": OpelDeGraber,
+    "https://pfannenberg.com/": PfannenbergComGraber,
+    "https://pl.dmgmori.com/": PlDmgmoriComGraber,
+    "https://plm.sw.siemens.com/": PlmSwSiemensComGraber,
+    "https://prebiel.pl/": PrebielPlGraber,
+    "https://prusa3d.com/": Prusa3dComGraber,
+    "https://ridgid.eu/": RidgidEuGraber,
+    "https://sensysmagnetometer.com/": SensysmagnetometerComGraber,
+    "https://shop.loxone.com/": ShopLoxoneComGraber,
+    "https://shop.scheppach.com/": ShopScheppachComGraber,
+    "https://sigmaaldrich.com/": SigmaaldrichComGraber,
+}
+
+SUPPLIER_PREFIX_MAP = {
+    "sphinxitalia_it": SphinxitaliaItGraber,
+    "vidaxl_pl": VidaxlPlGraber,
+    "visualdg": VisualdgGraber,
+    "wallashop": WallashopGraber,
+    "wallmart": WallmartGraber,
+    "zebra_com": ZebraComGraber,
+    "ads-tec-iit_com": AdsTecIitComGraber,
+    "aliexpress": AliexpressGraber,
+    "amazon": AmazonGraber,
+    "apple_com": AppleComGraber,
+    "atlascopco_com": AtlascopcoComGraber,
+    "bangood": BangoodGraber,
+    "bucketmaster_com_cn": BucketmasterComCnGraber,
+    "cdata": CdataGraber,
+    "cisco_com": CiscoComGraber,
+    "de_hexcel_com": DeHexcelComGraber,
+    "de_rs-online_com": DeRsOnlineComGraber,
+    "de-de_ring_com": DeDeRingComGraber,
+    "denaliweld_com": DenaliweldComGraber,
+    "dewesoft_com": DewesoftComGraber,
+    "ebay": EbayGraber,
+    "elektrometal_eu": ElektrometalEuGraber,
+    "etzmaleh": EtzmalehGraber,
+    "findernet_com": FindernetComGraber,
+    "fresubin_com": FresubinComGraber,
+    "gearbest": GearbestGraber,
+    "generex_de": GenerexDeGraber,
+    "georgin_com": GeorginComGraber,
+    "german_micro-steppermotors_com": GermanMicroSteppermotorsComGraber,
+    "grandadvance": GrandadvanceGraber,
+    "hb": HbGraber,
+    "imos3d_com": Imos3dComGraber,
+    "induprogress_pl": InduprogressPlGraber,
+    "industrierat-west_de": IndustrieratWestDeGraber,
+    "it_alwsci_com": ItAlwsciComGraber,
+    "it_defelsko_com": ItDefelskoComGraber,
+    "it_jarvis-smart_com": ItJarvisSmartComGraber,
+    "it_superb-heater_com": ItSuperbHeaterComGraber,
+    "it_thermo-heater_com": ItThermoHeaterComGraber,
+    "ivory": IvoryGraber,
+    "janitza_com": JanitzaComGraber,
+    "jungbluth_com": JungbluthComGraber,
+    "ksp": KspGraber,
+    "kualastyle": KualastyleGraber,
+    "ledodm_com": LedodmComGraber,
+    "leybold_com": LeyboldComGraber,
+    "mecalux_it": MecaluxItGraber,
+    "megatron_de": MegatronDeGraber,
+    "megger_com": MeggerComGraber,
+    "mococonnectors_com": MococonnectorsComGraber,
+    "mordorintelligence_it": MordorintelligenceItGraber,
+    "morlevi": MorleviGraber,
+    "omnipod_com": OmnipodComGraber,
+    "opel_de": OpelDeGraber,
+    "pfannenberg_com": PfannenbergComGraber,
+    "pl_dmgmori_com": PlDmgmoriComGraber,
+    "plm_sw_siemens_com": PlmSwSiemensComGraber,
+    "prebiel_pl": PrebielPlGraber,
+    "prusa3d_com": Prusa3dComGraber,
+    "ridgid_eu": RidgidEuGraber,
+    "sensysmagnetometer_com": SensysmagnetometerComGraber,
+    "shop_loxone_com": ShopLoxoneComGraber,
+    "shop_scheppach_com": ShopScheppachComGraber,
+    "sigmaaldrich_com": SigmaaldrichComGraber,
+}
+
+
+def get_graber_by_supplier_prefix(supplier_prefix: str):
     """
-    Функция возвращает соответствующий грабер для заданного URL поставщика.
+    Возвращает класс Graber для данного ключа поставщика.
 
-    Для каждого поставщика существует свой грабер, который извлекает значения полей
-    с целевой HTML-страницы. Функция сначала переходит по URL с помощью драйвера.
-
-    Args:
-        driver (Driver): Экземпляр веб-драйвера для взаимодействия со страницей.
-        url (str): URL страницы поставщика.
-        lang_index (int): Индекс языка в магазине Prestashop (например, для локализации).
-
-    Returns:
-        Graber | None: Экземпляр соответствующего класса Graber, если совпадение найдено, иначе None.
-
-    Example:
-        >>> from src.webdriver import Driver # Пример импорта
-        >>> driver_instance = Driver() # Пример создания экземпляра
-        >>> supplier_url = 'https://ksp.co.il/item/12345'
-        >>> lang_id = 2
-        >>> grabber_instance = get_graber_by_supplier_url(driver_instance, supplier_url, lang_id)
-        >>> if grabber_instance:
-        ...     print(f'Grabber found: {type(grabber_instance).__name__}')
-        Grabber found: KspGraber # Пример вывода
+    :param supplier_key: ключ поставщика, например 'aliexpress'
+    :return: класс Graber
+    :raises ValueError: если класс для поставщика не найден
     """
-    # Переход по указанному URL
-    driver.get_url(url)
+    supplier_alias:str = supplier_prefix.replace('.','_').replace('-','_')
 
-    # Определение и возврат соответствующего грабера на основе URL
-    if url.startswith(('https://aliexpress.com', 'https://wwww.aliexpress.com')):
-        return AliexpressGraber(driver, lang_index)
-
-    if url.startswith(('https://amazon.com', 'https://wwww.amazon.com')):
-        return AmazonGraber(driver, lang_index)
-
-    if url.startswith(('https://bangood.com', 'https://wwww.bangood.com')):
-        return BangoodGraber(driver, lang_index)
-
-    if url.startswith(('https://cdata.co.il', 'https://wwww.cdata.co.il')):
-        return CdataGraber(driver, lang_index)
-
-    if url.startswith(('https://ebay.', 'https://wwww.ebay.')): # Учитывает разные домены ebay (com, co.uk и т.д.)
-        return EbayGraber(driver, lang_index)
-
-    if url.startswith(('https://etzmaleh.co.il', 'https://www.etzmaleh.co.il')):
-        return EtzmalehGraber(driver, lang_index)
-
-    if url.startswith(('https://gearbest.com', 'https://wwww.gearbest.com')):
-        return GearbestGraber(driver, lang_index)
-
-    if url.startswith(('https://grandadvance.co.il', 'https://www.grandadvance.co.il')):
-        return GrandadvanceGraber(driver, lang_index)
-
-    if url.startswith(('https://hb-digital.co.il', 'https://www.hb-digital.co.il')):
-        return HBGraber(driver, lang_index)
-
-    if url.startswith(('https://ivory.co.il', 'https://www.ivory.co.il')):
-        return IvoryGraber(driver, lang_index)
-
-    if url.startswith(('https://ksp.co.il', 'https://www.ksp.co.il')):
-        return KspGraber(driver, lang_index)
-
-    if url.startswith(('https://kualastyle.com', 'https://www.kualastyle.com')):
-        return KualaStyleGraber(driver, lang_index)
-
-    if url.startswith(('https://morlevi.co.il', 'https://www.morlevi.co.il')):
-        return MorleviGraber(driver, lang_index)
-
-    if url.startswith(('https://www.visualdg.com', 'https://visualdg.com')):
-        return VisualDGGraber(driver, lang_index)
-
-    if url.startswith(('https://wallashop.co.il', 'https://www.wallashop.co.il')):
-        return WallaShopGraber(driver, lang_index)
-
-    if url.startswith(('https://www.wallmart.com', 'https://wallmart.com')):
-        return WallmartGraber(driver, lang_index)
-
-    # Логгирование, если грабер для URL не найден
-    logger.debug(f'грабер для URL не найден: {url}')
-    ... # Оставлено без изменений согласно требованиям
-    return None # Явный возврат None, если ни одно условие не выполнено
+    try:
+        return SUPPLIER_PREFIX_MAP[supplier_alias]
+    except KeyError as ex:
+        raise ValueError(f"Graber class not found for supplier: {supplier_alias}") from ex
 
 
-def get_graber_by_supplier_prefix(driver: Driver, supplier_prefix: str, lang_index: int = 2) -> Graber | None:
+def get_graber_by_supplier_url(url: str) -> str:
     """
-    Функция возвращает соответствующий грабер по префиксу имени поставщика.
+    Возвращает URL-префикс, соответствующий поставщику по входному URL.
 
-    Args:
-        driver (Driver): Экземпляр веб-драйвера.
-        supplier_prefix (str): Строковый префикс или идентификатор поставщика (в нижнем регистре).
-        lang_index (int, optional): Индекс языка. По умолчанию 2.
-
-    Returns:
-        Graber | None: Экземпляр соответствующего класса Graber, если префикс совпадает, иначе None.
-
-    Example:
-        >>> from src.webdriver import Driver # Пример импорта
-        >>> driver_instance = Driver() # Пример создания экземпляра
-        >>> prefix = 'ksp'
-        >>> lang_id = 2
-        >>> grabber_instance = get_graber_by_supplier_prefix(driver_instance, prefix, lang_id)
-        >>> if grabber_instance:
-        ...     print(f'Grabber found: {type(grabber_instance).__name__}')
-        Grabber found: KspGraber # Пример вывода
+    :param url: исходный URL (например, 'https://aliexpress.com/item/abc123')
+    :return: базовый URL-префикс (например, 'https://aliexpress.com/')
+    :raises ValueError: если URL не соответствует ни одному из известных поставщиков
     """
-    
-    grabber: Graber | None = None
-    ... # Оставлено без изменений согласно требованиям
+    parsed = urlparse(url)
+    base_url = f"{parsed.scheme}://{parsed.netloc}/"
 
-    # Определение грабера на основе префикса
-    # Приведение префикса к нижнему регистру для надежного сравнения
-    prefix_lower: str = supplier_prefix.lower()
-
-    if prefix_lower == 'aliexpress':
-        grabber = AliexpressGraber(driver, lang_index)
-    elif prefix_lower == 'amazon':
-        grabber = AmazonGraber(driver, lang_index)
-    elif prefix_lower == 'bangood': # Добавлен недостающий префикс
-        grabber = BangoodGraber(driver, lang_index)
-    elif prefix_lower == 'cdata': # Добавлен недостающий префикс
-         grabber = CdataGraber(driver, lang_index)
-    elif prefix_lower == 'ebay':
-        grabber = EbayGraber(driver, lang_index)
-    elif prefix_lower == 'etzmaleh': # Добавлен недостающий префикс
-         grabber = EtzmalehGraber(driver, lang_index)
-    elif prefix_lower == 'gearbest':
-        grabber = GearbestGraber(driver, lang_index)
-    elif prefix_lower == 'grandadvance':
-        grabber = GrandadvanceGraber(driver, lang_index)
-    elif prefix_lower == 'hb':
-        grabber = HBGraber(driver, lang_index)
-    elif prefix_lower == 'ivory':
-        grabber = IvoryGraber(driver, lang_index)
-    elif prefix_lower == 'ksp':
-        grabber = KspGraber(driver, lang_index)
-    elif prefix_lower == 'kualastyle':
-        grabber = KualaStyleGraber(driver, lang_index)
-    elif prefix_lower == 'morlevi':
-        grabber = MorleviGraber(driver, lang_index)
-    elif prefix_lower == 'visualdg':
-        grabber = VisualDGGraber(driver, lang_index)
-    elif prefix_lower == 'wallashop':
-        grabber = WallaShopGraber(driver, lang_index)
-    elif prefix_lower == 'wallmart':
-        grabber = WallmartGraber(driver, lang_index)
-    else:
-         # Логгирование, если грабер для префикса не найден
-         logger.debug(f'грабер для префикса поставщика не найден: {supplier_prefix}')
-
-
-    # Возврат найденного грабера или None
-    return grabber
+    try:
+        return URL_PREFIX_MAP[base_url]
+    except KeyError as ex:
+        raise ValueError(f"Supplier not found for this URL base: {base_url}") from ex

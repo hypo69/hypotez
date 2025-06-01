@@ -124,6 +124,7 @@ def normalize_int(input_data: str | int | float | Decimal) -> int:
 
 
 
+import re
 def normalize_float(value: Any) -> Optional[float]:
     """
     Безопасно конвертирует входное значение в float или возвращает None,

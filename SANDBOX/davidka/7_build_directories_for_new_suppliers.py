@@ -91,34 +91,90 @@ class Config:
 
 
 
+
+# def build_directories_for_new_suppliers(suppliers: list[str]) -> bool:
+#     """
+#     Создает директории для новых поставщиков и синхронизирует их с Google Spreadsheet.
+#     Args:
+#         suppliers(list): Список поставщиков.
+#     """
+#     suppliers_directory: Path = __root__ / 'src' / 'suppliers' / 'suppliers_list'
+#     template_path: Path = suppliers_directory / Config.template_directory
+
+#     if not template_path.exists():
+#         logger.error(f"Template directory does not exist: {template_path}")
+#         return False
+
+#     for supplier in suppliers:
+#         sanitized_name = supplier.lower().strip()
+#         supplier_path: Path = suppliers_directory / sanitized_name
+
+#         if supplier_path.exists():
+#             logger.info(f"Directory already exists: {supplier_path}")
+#             continue
+
+#         try:
+#             shutil.copytree(template_path, supplier_path)
+#             logger.info(f"Created directory for supplier: {supplier_path}")
+            
+#         except Exception as ex:
+#             logger.error(f"Failed to create directory for {supplier}", ex)
+#             return False
+
+#     return True
+
+
 def build_directories_for_new_suppliers(suppliers: list[str]) -> bool:
     """
     Создает директории для новых поставщиков и синхронизирует их с Google Spreadsheet.
+    Также создает JSON-файлы в папке `scenarios` с именами вида <поставщик>.json, если они не существуют.
+
     Args:
-        suppliers(list): Список поставщиков.
+        suppliers (list): Список поставщиков.
+
+    Returns:
+        bool: True если все успешно, False если возникли ошибки.
     """
     suppliers_directory: Path = __root__ / 'src' / 'suppliers' / 'suppliers_list'
     template_path: Path = suppliers_directory / Config.template_directory
+    scenarios_directory: Path = __root__ / 'SANDBOX' / 'davidka' / 'scenarios'
 
     if not template_path.exists():
         logger.error(f"Template directory does not exist: {template_path}")
         return False
 
+    scenarios_directory.mkdir(parents=True, exist_ok=True)
+
     for supplier in suppliers:
         sanitized_name = supplier.lower().strip()
         supplier_path: Path = suppliers_directory / sanitized_name
+        scenario_file_path: Path = scenarios_directory / f"{sanitized_name}.json"
 
-        if supplier_path.exists():
+        if not supplier_path.exists():
+            try:
+                shutil.copytree(template_path, supplier_path)
+                logger.info(f"Created directory for supplier: {supplier_path}")
+            except Exception as ex:
+                logger.error(f"Failed to create directory for {supplier}", ex)
+                return False
+        else:
             logger.info(f"Directory already exists: {supplier_path}")
-            continue
 
-        try:
-            shutil.copytree(template_path, supplier_path)
-            logger.info(f"Created directory for supplier: {supplier_path}")
-            
-        except Exception as ex:
-            logger.error(f"Failed to create directory for {supplier}", ex)
-            return False
+        if not scenario_file_path.exists():
+            try:
+                scenario_data: Dict[str, Any] = {
+                    "supplier": sanitized_name,
+                    "status": "new",
+                    "created_at": None,
+                    "metadata": {}
+                }
+                j_dumps(scenario_data, scenario_file_path)
+                logger.info(f"Created scenario file: {scenario_file_path}")
+            except Exception as ex:
+                logger.error(f"Failed to create scenario file for {supplier}", ex)
+                return False
+        else:
+            logger.info(f"Scenario file already exists: {scenario_file_path}")
 
     return True
 
