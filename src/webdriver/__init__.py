@@ -25,4 +25,5 @@ from .edge import Edge
 from .bs import BS
 #from .playwright import Playwrid
 #from .crawlee_python import CrawleePython
+from .pydoll_driverless import Pydoll
 

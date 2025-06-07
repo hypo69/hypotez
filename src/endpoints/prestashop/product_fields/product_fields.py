@@ -24,6 +24,7 @@ from datetime import datetime
 from enum import Enum
 from dataclasses import dataclass, field
 from pathlib import Path
+from tkinter import SE
 from typing import List, Dict, Optional,  Any
 from types import SimpleNamespace
 
@@ -54,15 +55,20 @@ class ProductFields:
     presta_fields: SimpleNamespace = field(init=False)
     id_lang:int = field(default=1)
 
-    def __post_init__(self):
+    def __post_init__(self, *args, **kwargs):
         """"""
-        self._payload()
+        self._payload(*args, **kwargs)
 
              
 
-    def _payload(self) -> bool:
+    def _payload(self,*args, **kwargs) -> bool:
         """
-        Загрузка дефолтных значений полей.
+        Функция загружает значения полей по умолчанию и перезаписывает их значениями из kwargs.
+
+        Args:
+            *args: Переменное количество позиционных аргументов.
+            **kwargs: Переменное количество именованных аргументов.
+
         Returns:
             bool: True, если загрузка прошла успешно, иначе False.
         """
@@ -70,29 +76,37 @@ class ProductFields:
         presta_fields_list:list =  read_text_file(base_path / 'product_fields' / 'fields_list.txt', as_list=True) 
         if not presta_fields_list:
             logger.error(f"Ошибка загрузки файла со списком полей ")
-            ...
             return False
 
         try:
             self.presta_fields:SimpleNamespace = SimpleNamespace(**{key: None for key in presta_fields_list})
         except Exception as ex:
             logger.error(f"Ошибка конвертации", ex)
-            ...
-            return
+            return False
 
         data_dict: dict = j_loads (base_path  / 'product_fields' / 'product_fields_default_values.json')
         if not data_dict:
             logger.debug(f"Ошибка загрузки полей из файла product_fields_default_values.json")
-            ...
             return False
+
         try:
             for name, value in data_dict.items():
                 setattr(self.presta_fields, name, value )
-            return True
+
         except Exception as ex:
             logger.error(f"Exception ", ex)
-            ...
             return False 
+    
+        # все переданные аргументы kwargs устанавливаются в значения полей.
+        for key, value in kwargs.items():
+            try:
+                setattr(self, key, value)
+            except AttributeError:
+                logger.error(f"Поле '{key}' не найдено в классе ProductFields.")
+            except Exception as ex:
+                logger.error(f"Ошибка при установке значения для поля '{key}': {ex}")
+
+        return True
 
 
     def _set_multilang_value(self, field_name: str, value: str, id_lang: Optional[int | str] = 1) -> bool:

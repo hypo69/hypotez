@@ -113,7 +113,7 @@ async def process_graber(
         price (Optional[str]): Price to process.
         mexiron_name (Optional[str]): Custom Mexiron name.
         urls (Optional[str | List[str]]): Product page URLs.
-        scenario (Optional[dict]): Сценарий исполнения, который находится в директории `src.suppliers.suppliers_list.<supplier>.sceanarios`
+        scenario (Optional[dict]): Сценарий исполнения, который находится в директории `src.suppliers.suppliers_list.<supplier>.scenarios`
 
     Returns:
         bool: True if the scenario executes successfully, False otherwise.

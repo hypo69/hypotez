@@ -31,6 +31,9 @@ class ImageError(Exception):
     """Custom exception for image-related errors."""
     pass
 
+def save_image_from_url(image_url: str, filename: Union[str, Path]) -> Optional[str]:
+    """"""
+    return asyncio.run(save_image_from_url_async(image_url, filename))
 
 async def save_image_from_url_async(image_url: str, filename: Union[str, Path]) -> Optional[str]:
     """

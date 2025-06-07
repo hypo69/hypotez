@@ -151,7 +151,7 @@ class SupplierToPrestashopProvider:
             urls (list[str]): URL страниц товаров.
             price (Optional[str], optional): Цена для обработки. Defaults to ''.
             mexiron_name (Optional[str], optional): Пользовательское имя Mexiron. Defaults to ''.
-            scenarios (dict | list[dict, dict], optional): Сценарий исполнения, который находится в директории `src.suppliers.suppliers_list.<supplier>.sceanarios`. Defaults to None.
+            scenarios (dict | list[dict, dict], optional): Сценарий исполнения, который находится в директории `src.suppliers.suppliers_list.<supplier>.scenarios`. Defaults to None.
 
         Returns:
             bool: True, если сценарий выполнен успешно, иначе False.
@@ -584,7 +584,7 @@ class SupplierToPrestashopProvider:
             urls (list[str]): URL страниц товаров.
             price (Optional[str], optional): Цена для обработки. Defaults to ''.
             mexiron_name (Optional[str], optional): Пользовательское имя Mexiron. Defaults to ''.
-            scenarios (dict | list[dict, dict], optional): Сценарий исполнения, который находится в директории `src.suppliers.suppliers_list.<supplier>.sceanarios`. Defaults to None.
+            scenarios (dict | list[dict, dict], optional): Сценарий исполнения, который находится в директории `src.suppliers.suppliers_list.<supplier>.scenarios`. Defaults to None.
 
         Returns:
             bool: True, если сценарий выполнен успешно, иначе False.

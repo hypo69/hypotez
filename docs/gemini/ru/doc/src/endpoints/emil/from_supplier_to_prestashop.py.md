@@ -59,7 +59,7 @@
         - `urls` (list[str]): Список URL-адресов страниц товаров.
         - `price` (Optional[str]): Цена.
         - `mexiron_name` (Optional[str]): Имя Мехирона.
-        - `scenarios` (Optional[dict]): Сценарий исполнения, который находится в директории `src.suppliers.suppliers_list.<supplier>.sceanarios`.
+        - `scenarios` (Optional[dict]): Сценарий исполнения, который находится в директории `src.suppliers.suppliers_list.<supplier>.scenarios`.
     - **Возвращает**:
         - bool: `True`, если сценарий выполнен успешно, `False` в противном случае.
 

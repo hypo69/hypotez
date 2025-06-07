@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.endpoints.prestashop 
+.. module:: src.endpoints.prestashop.supplier 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -35,13 +35,17 @@ class PrestaSupplier(PrestaShop):
             api_domain (Optional[str], optional): Домен API. Defaults to None.
             api_key (Optional[str], optional): Ключ API. Defaults to None.
         """
-        
-        if credentials is not None:
-            api_domain = credentials.get('api_domain', api_domain)
-            api_key = credentials.get('api_key', api_key)
-        
-        if not api_domain or not api_key:
-            raise ValueError('Необходимы оба параметра: api_domain и api_key.')
-        
-        super().__init__(api_domain, api_key, *args, **kwargs)
+        super().__init__(
+            api_key=api_key, 
+            api_domain=api_domain,
+            *args,
+            **kwargs,
+        )
 
+    def get_suppliers_dict(self, id_supplier:Optional[int] = None) -> dict:
+        """Получить словарь поставщиков.
+        Returns:
+            dict: Словарь поставщиков.
+        """
+        kwargs = {'data_format': 'JSON'}
+        return self.read(resource='suppliers', resource_id=id_supplier, **kwargs)

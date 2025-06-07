@@ -10,9 +10,7 @@
 
 """
 
-# from .product_fields import ProductFields
-# from .api import PrestaShop, PrestaShopAsync
-# from .product_async import PrestaProductAsync
+
 # from .supplier import PrestaSupplier
 # from .category import PrestaCategory, PrestaCategoryAsync
 # from .warehouse import PrestaWarehouse
@@ -20,3 +18,10 @@
 # from .shop import PrestaShopShop
 # from .pricelist import PriceListRequester
 # from .customer import PrestaCustomer
+
+from .product_fields import ProductFields
+
+from .api.api import PrestaShop
+from .api.api_async import PrestaShopAsync
+from .product import PrestaProduct
+from .product_async import PrestaProductAsync

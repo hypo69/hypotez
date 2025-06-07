@@ -869,10 +869,10 @@
     "event": null
   },
   "description_short": {
-    "attribute": null,
+    "attribute": "innerText",
 
-    "by": null,
-    "selector": null,
+    "by": "XPATH",
+    "selector": "//div[@id = 'productOverview_feature_div']",
 
     "if_list": "first",
     "use_mouse": false,

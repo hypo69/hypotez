@@ -12,6 +12,7 @@
  .. module:: sandbox.davidka.experiments.8_run_suppliers_scenarios
  ```
 """
+import asyncio
 import importlib
 import shutil 
 import re
@@ -31,6 +32,8 @@ from src.suppliers.graber import Graber
 from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
 from src.webdriver.chrome import Chrome
+from src.webdriver.pydoll_driverless import Pydoll
+
 from src.llm.gemini import GoogleGenerativeAi
 from src.llm.openai.model import OpenAIModel
 from src.endpoints.prestashop.product import PrestaProduct
@@ -51,12 +54,13 @@ class Config:
     """Класс конфигурации скрипта."""
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
     SUPPLIERS_ENDPOINT:Path = __root__ / 'src' / 'suppliers' / 'suppliers_list'
+    SCENARIOS_DIR:Path = __root__ /'SANDBOX' / 'davidka' / 'scenarios'
     config: SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json')
     scenarios_directory:Path = ENDPOINT / 'scenarios'
-    sceanarios_files:list = get_filenames_from_directory(scenarios_directory)
+    scenarios_files:list = get_filenames_from_directory(scenarios_directory)
 
 
-def execute_scenario(supplier_prefix:str, scenario:dict, driver:Driver):
+async def execute_scenario(supplier_prefix:str, scenario:dict, driver:Driver):
     """"""
     ...
     supplier_alias = supplier_prefix.replace('.','_').replace('-','_')
@@ -64,71 +68,82 @@ def execute_scenario(supplier_prefix:str, scenario:dict, driver:Driver):
         logger.debug('Возможно новый поставщик у которго еще нет сценария категориий')
         return
 
-    driver.get_url(scenario['url'])
-
+    
+    graber: Graber = None
     try:
         supplier_path:Path = Config.SUPPLIERS_ENDPOINT / supplier_prefix 
-        graber: Graber = get_graber_by_supplier_prefix(driver, supplier_prefix)
-        scenarios_dict: dict = j_loads(Config.SCENARIOS_PATH  / f'{supplier_prefix}.json')
+        graber = get_graber_by_supplier_prefix(supplier_prefix)
+        scenarios_dict: dict = j_loads(Config.SCENARIOS_DIR  / f'{supplier_prefix}.json')
         locators_path:Path = supplier_path / 'locators' 
         locator_product:SimpleNamespace = j_loads_ns(locators_path / 'product.json')
         locator_category:SimpleNamespace = j_loads_ns(locators_path / 'category.json')
         categories_crawler:Any = None
-        categories_crawler_module_path:str = f"src.suppliers.suppliers_list.{supplier_alias}.categories_crawler"
+        
     except Exception as ex:
         logger.error(f'Непредвиденная ошибка', ex)
+        ...
         return False
 
+    driver.get_url(scenario['url'])  # <- страница категории товаров поставщика
 
-    try:
-        categories_crawler = importlib.import_module(categories_crawler_module_path)
-    except Exception as ex:
-        logger.error(f"Failed to import module `categories_crawler` '{supplier_prefix}'", ex)
-        return False
+    # Я отключил полноценный (мультистраничный) сценарий сбора коллекции товаров и пользуюсь примитивным
+    # try:
+    #     categories_crawler_module_path:str = f"src.suppliers.suppliers_list.{supplier_alias}.categories_crawler"
+    #     categories_crawler = importlib.import_module(categories_crawler_module_path)
+    # except Exception as ex:
+    #     logger.error(f"Failed to import module `categories_crawler` '{supplier_prefix}'", ex)
+    #     return False
+    #
+    # products_urls_list:list = categories_crawler.get_list_products_in_category()
+    #
+
+    products_urls_list:list = await driver.execute_locator(locator_category.product_links) 
+
+    actual_fields:tuple = (
+                            'name',
+                            'id_supplier',
+                            'description_short',
+                            'description',
+                            'specification',
+                            'local_image_path',                      
+                            'default_image_url',
+                            'price'
+                            )
 
 
-    async def process_supplier(self, supplier_prefix:str) -> bool:
-        """"""
+    for url in products_urls_list:
+        
+        f:ProductFields = await graber.grab_page_async(*actual_fields, url=url)
         ...
-        try:
-            supplier_path:Path = Config.SUPPLIERS_ENDPOINT / supplier_alias
-            graber: Graber = get_graber_by_supplier_prefix(self.driver, supplier_prefix)
-            scenarios_dict: dict = j_loads(Config.SCENARIOS_PATH  / f'{supplier_prefix}.json')
-            locators_path:Path = supplier_path / 'locators' 
-            locator_product:SimpleNamespace = j_loads_ns(locators_path / 'product.json')
-            locator_category:SimpleNamespace = j_loads_ns(locators_path / 'category.json')
-            categories_crawler:Any = None
-            categories_crawler_module_path:str = f"src.suppliers.suppliers_list.{supplier_alias}.categories_crawler"
-        except Exception as ex:
-            logger.error(f'Непредвиденная ошибка', ex)
-            return False
+        
 
 
-        try:
-            categories_crawler = importlib.import_module(categories_crawler_module_path)
-        except Exception as ex:
-            logger.error(f"Failed to import module `categories_crawler` '{supplier_prefix}'", ex)
-            return False
+   
         ...
 
-def main():
+async def main():
     """"""
     ...
-    driver = Driver(Chrome, window_mode = 'normal')
-    for scenario_file in Config.sceanarios_files:
+    driver = Driver(Firefox, window_mode = 'normal')
+    for scenario_file in Config.scenarios_files:
         ...
         scenarios_dict:dict | list = j_loads(Config.scenarios_directory / scenario_file)
+        if not scenarios_dict: 
+            continue # в случае ошибки чтения файла json
+            
         if isinstance(scenarios_dict, dict):
-            execute_scenario(scenario_file.replace('.json',''), scenarios_dict, driver)
+            await execute_scenario(supplier_prefix = scenario_file.replace('.json',''), 
+                             scenario = scenarios_dict, 
+                             driver = driver)
 
         elif isinstance(scenarios_dict, list):
             for scenario in scenarios_dict:
-                execute_scenario(scenario_file.replace('.json',''), scenario, driver)
+                await execute_scenario(scenario_file.replace('.json',''), scenario, driver)
         ...
 
     
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
 
 

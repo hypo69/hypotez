@@ -452,12 +452,12 @@ def j_loads(
                 try:
                     return json.loads(path_obj.read_text(encoding='utf-8'))
                 except Exception as ex:
-                    logger.error(f'Ошибка чтения словаря')
+                    logger.error(f'Ошибка чтения словаря',ex, False)
                     try:
                         with path_obj.open('r', encoding='utf-8') as f:
                             file_content: str = f.read()
                             if not file_content:
-                                logger.error(f'В файле {path_obj} Нет данных!')
+                                logger.error(f'В файле {path_obj} Нет данных!', None, False)
                                 return {}
 
                         repaired_json: dict| None = _string_to_dict(file_content, return_objects=True)

@@ -261,7 +261,7 @@ class Graber:
             return None # Или другое обозначение ошибки
 
 
-    async def process_scenarios(self, supplier_prefix: str, input_scenarios: List[Dict[str, Any]] | Dict[str, Any], id_lang:Optional[int]=1) -> Optional[List[Any]]:
+    async def process_scenarios(self, input_scenarios: List[Dict[str, Any]] | Dict[str, Any], id_lang:Optional[int]=1) -> Optional[List[Any]]:
         """
         Выполняет один или несколько сценариев для указанного поставщика.
 
@@ -277,7 +277,7 @@ class Graber:
                                  или None в случае критической ошибки.
         """
         actual_scenarios_to_process: List[Dict[str, Any]] = []
-
+        supplier_prefix = self.supplier_prefix
         # 1. Нормализация входных данных -> actual_scenarios_to_process (список словарей сценариев)
         if isinstance(input_scenarios, list):
             # Вход - список: валидация содержимого
@@ -473,8 +473,9 @@ class Graber:
         """Асинхронная функция для сбора полей товара."""
         async def fetch_all_data(*args, **kwargs):
             # Динамическое вызовы функций для каждого поля из args
-            process_fields:list = list(args) or [
+            actual_fields:list = list(args) or [
                             'name',
+                            'id_supplier',
                             'description_short',
                             'description',
                             'specification',
@@ -487,7 +488,7 @@ class Graber:
 
             self.driver.scroll(3)
 
-            for filed_name in process_fields:
+            for filed_name in actual_fields:
                 function = getattr(self, filed_name, None)
                 if function:
                     await function(kwargs.get(filed_name, '')) # Просто вызываем с await, так как все функции асинхронные
@@ -975,16 +976,15 @@ class Graber:
     @close_pop_up()
     async def description_short(self, value:Optional[str] = '') -> bool:
         """Fetch and set short description.
-        
+    
         Args:
         value (atr): это значение можно передать в словаре kwargs через ключ {description_short = `value`} при определении класса.
         Если `value` было передано, его значение подставляется в поле `ProductFields.description_short`.
         """
-
         try:
-            # Получаем значение через execute_locator
             value =  value or await self.driver.execute_locator(self.product_locator.description_short)
             if not value:
+                logger.warning(f'Поле `name` не получило значений! Это важное поле!')
                 ...
                 return
             self.fields.description_short = normalize_string(value)

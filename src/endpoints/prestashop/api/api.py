@@ -374,6 +374,16 @@ class PrestaShop:
             ...
             return {}
 
+    async def create_async(self, resource: str, data: dict, *args, **kwargs) -> Optional[dict]:
+        """Asynchronously create a new resource in PrestaShop API.
+        Args:
+            resource (str): API resource (e.g., 'products').
+            data (dict): Data for the new resource.
+        Returns:
+            dict: Response from the API.
+        """
+        return self._exec(resource=resource, method='POST', data=data, *args, **kwargs)
+
     def create(self, resource: str, data: dict, *args, **kwargs) -> Optional[dict]:
         """Create a new resource in PrestaShop API.
 
@@ -517,7 +527,7 @@ class PrestaShop:
         """
         return self._exec('apis', method='GET', data_format=self.data_format)
 
-    def upload_image_async(
+    async def upload_image_async(
         self, resource: str, resource_id: int, img_url: str, img_name: Optional[str] = None
     ) -> Optional[dict]:
         """Upload an image to PrestaShop API asynchronously.
@@ -535,7 +545,7 @@ class PrestaShop:
         url_without_extension: str = url_parts[0]
         extension: str = url_parts[1] if len(url_parts) > 1 else ''
         filename: str = str(resource_id) + f'_{img_name}.{extension}'
-        png_file_path: str = save_image_from_url(img_url, filename)
+        png_file_path: str = await save_image_from_url_async (img_url, filename)
         response: dict = self.create_binary(resource, png_file_path, img_name)
         self.remove_file(png_file_path)
         return response

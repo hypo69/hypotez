@@ -86,7 +86,7 @@
   "default_image_url": {
     "attribute": "src",
     "by": "XPATH",
-    "selector": "//img[contains(@class, 'zoomImg')]",
+    "selector": "//img[contains(@class, 'zoomImg')] | (//div[contains(@class, 'image-view')]//img)[1]",
     "if_list": "first",
     "use_mouse": false,
     "mandatory": false,
@@ -518,7 +518,7 @@
   "price": {
     "attribute": "innerText",
     "by": "XPATH",
-    "selector": "//p[@class='price']",
+    "selector": "//p[@class='price'] | //div[@data-pl='product-price']",
     "if_list": "first",
     "use_mouse": false,
     "mandatory": true,
@@ -806,7 +806,7 @@
   "name": {
     "attribute": "innerText",
     "by": "XPATH",
-    "selector": "//h1[contains(@class,'product_title')]",
+    "selector": "//h1[contains(@class,'product_title')] | //h1[@data-pl='product-title']",
     "if_list": "first",
     "use_mouse": false,
     "mandatory": true,
@@ -816,37 +816,16 @@
     "locator_description": "name"
   },
   "description": {
-    "attribute": [
-      null,
-      null
-    ],
-    "by": [
-      "XPATH",
-      "XPATH"
-    ],
-    "selector": [
-      "//a[contains(@href, '#tab-description')]",
-      "//div[@id = 'tab-description']//p"
-    ],
+    "attribute": "innerText",
+    "by": "XPATH",
+    "selector": "//div[@id='nav-description']",
+    "if_list": "first",
+    "use_mouse": false,
+    "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": [
-      "click()",
-      null
-    ],
-    "if_list": "first",
-    "use_mouse": [
-      false,
-      false
-    ],
-    "mandatory": [
-      true,
-      true
-    ],
-    "locator_description": [
-      "Нажимаю на таб для отркытия поля description",
-      "читаю данные из div"
-    ]
+    "event": null,
+    "locator_description": "name"
   },
   "description_short": {
     "attribute": null,
@@ -1005,9 +984,9 @@
     "locator_description": "how_to_use"
   },
   "specification": {
-    "attribute": "innerText",
+    "attribute": "innerHTML",
     "by": "XPATH",
-    "selector": "//div[contains(@class, 'product-params')]//li",
+    "selector": "//div[contains(@class, 'product-params')]//li | //div[@id='nav-specification']//li",
     "if_list": "all",
     "use_mouse": false,
     "mandatory": true,
