@@ -518,7 +518,8 @@
   "price": {
     "attribute": "innerText",
     "by": "XPATH",
-    "selector": "//p[@class='price'] | //div[@data-pl='product-price']",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "(//span[contains(@class, 'price--originalText')])[1] ; (//p[@class='price'])[1] ; (//div[@data-pl='product-price'])[1]",
     "if_list": "first",
     "use_mouse": false,
     "mandatory": true,
@@ -828,16 +829,16 @@
     "locator_description": "name"
   },
   "description_short": {
-    "attribute": null,
-    "by": null,
-    "selector": null,
-    "if_list": "first",
+    "attribute": "innerHTML",
+    "by": "XPATH",
+    "selector": "//ul[contains(@class , 'seo-sellpoints')]",
+    "if_list": "all",
     "use_mouse": false,
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "description_short - на сайте HB есть только description. получаю через селектор `description`"
+    "locator_description": "description_short - ALIEXPRESS"
   },
   "affiliate_short_link": {
     "attribute": "$_(driver.current_url)_$",
@@ -986,7 +987,7 @@
   "specification": {
     "attribute": "innerHTML",
     "by": "XPATH",
-    "selector": "//div[contains(@class, 'product-params')]//li | //div[@id='nav-specification']//li",
+    "selector": "//div[contains(@class, 'product-params')] | //div[@id='nav-specification']",
     "if_list": "all",
     "use_mouse": false,
     "mandatory": true,

@@ -23,5 +23,6 @@ from .product_fields import ProductFields
 
 from .api.api import PrestaShop
 from .api.api_async import PrestaShopAsync
+
 from .product import PrestaProduct
 from .product_async import PrestaProductAsync

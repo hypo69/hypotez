@@ -142,47 +142,12 @@ from src import gs
 from src.logger.exceptions import PrestaShopAuthenticationError, PrestaShopException
 from src.logger.logger import logger
 from src.endpoints.prestashop.utils import dict2xml, xml2dict 
+from src.utils.file import remove_file_async
+from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.printer import pprint as print 
 
 from dataclasses import dataclass, field # field не используется, но оставлен для @dataclass
 
-
-
-
-def remove_file(filepath: str | Path) -> bool:
-    """
-    Удаляет указанный файл.
-
-    Args:
-        filepath (str | Path): Путь к файлу, который необходимо удалить.
-
-    Returns:
-        bool: `True` в случае успешного удаления файла, `False` в противном случае 
-              (например, если файл не найден или возникла ошибка доступа).
-    
-    Example:
-        >>> # from pathlib import Path
-        >>> # temp_file = Path('dummy_to_remove.txt')
-        >>> # temp_file.touch() # Создание временного файла
-        >>> # remove_file(temp_file)
-        True
-        >>> # remove_file(temp_file) # Попытка удалить несуществующий файл
-        False 
-    """
-    # Функция выполняет удаление файла
-    p_filepath: Path
-    try:
-        p_filepath = Path(filepath)
-        if p_filepath.exists():
-            p_filepath.unlink()
-            logger.debug(f'Файл {filepath} удален.')
-            return True
-        else:
-            logger.warning(f'Файл {filepath} для удаления не найден.')
-            return False # Файл не найден, удаление не выполнено
-    except OSError as ex:
-        logger.error(f'Ошибка при удалении файла {filepath}', ex, exc_info=True)
-        return False
 
 @dataclass
 class Config:
@@ -203,9 +168,9 @@ class Config:
     language: int = 1
     ps_version: str = ''
     MODE: str = 'dev'
-    POST_FORMAT: str = 'JSON' 
-    API_DOMAIN: str = 'https://your.prestashop.com' 
-    API_KEY: str = 'YOURAPIKEY' 
+    POST_FORMAT: str = 'XML' 
+    API_DOMAIN: str = '' 
+    API_KEY: str = '' 
 
 
 class PrestaShopAsync:
@@ -289,10 +254,6 @@ class PrestaShopAsync:
         self.data_format = data_format.upper() 
         
         self._initialized = False 
-
-        if self.debug:
-            logger.setLevel('DEBUG') 
-            logger.debug('PrestaShopAsync: Режим отладки включен.')
 
 
     async def __aenter__(self) -> 'PrestaShopAsync':
@@ -534,7 +495,7 @@ class PrestaShopAsync:
         payload: dict | str | None = None, 
         params: dict[str, Any] | None = None,
         req_headers: dict | None = None,
-        data_format_override: str | None = None,
+        data_format_override: str | None = 'XML',
         **kwargs: Any, 
     ) -> dict | None:
         """
@@ -610,10 +571,10 @@ class PrestaShopAsync:
             final_headers.update(req_headers)
 
         # Подготовка тела запроса (payload)
-        if payload is not None: 
+        if payload: 
             if isinstance(payload, dict):
                 if current_data_format == 'JSON':
-                    request_content = j_dumps(payload).encode('utf-8') 
+                    request_content = j_dumps(payload)
                 elif current_data_format == 'XML':
                     xml_string: str = dict2xml(payload) # dict2xml должен вернуть строку XML
                     request_content = xml_string.encode('utf-8')
@@ -623,9 +584,10 @@ class PrestaShopAsync:
                 logger.warning(f'Неподдерживаемый тип payload ({type(payload)}) для формата {current_data_format}. Тело запроса не будет отправлено.')
 
         try:
-            logger.debug(f'Выполнение {method} запроса к {self.api_domain_base}{url_path} с параметрами URL: {query_params}')
+            logger.debug(f'Выполнение {method} запроса к {self.api_domain_base}{url_path} с параметрами URL:\n\n {query_params}\n\n')
             if request_content:
-                 logger.debug(f'Тело запроса (первые 200 байт): {request_content[:200]}...')
+                 #logger.debug(f'Тело запроса (первые 200 байт): {request_content[:200]}...')
+                 logger.debug(f'Тело запроса : {request_content}...')
 
             response = await self.client.request(
                 method=method,
@@ -1076,7 +1038,7 @@ class PrestaShopAsync:
         finally:
             # 3. Удаление временного файла после операции
             if Path(local_temp_filepath).exists():
-                remove_file(local_temp_filepath)
+                await remove_file_async(local_temp_filepath)
 
 
     async def get_product_images_async(self, product_id: int) -> dict | None:

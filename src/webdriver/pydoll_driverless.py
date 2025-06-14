@@ -1,76 +1,89 @@
 import asyncio
-from dataclasses import dataclass, field
+from calendar import c
+from typing import List, Any
 from types import SimpleNamespace
-from typing import Optional
-
 from pydoll.browser.chrome import Chrome
 from pydoll.constants import By
+from pydoll.browser.page import Page
+
+from header import __root__
+from src.logger import logger
 
 
-@dataclass
-class Pydoll:
-    """
-    A dataclass wrapper for automating browser interaction using Pydoll.
-    """
-    url: str
-    browser: Optional[Chrome] = field(default=None, init=False)
-    page: Optional[object] = field(default=None, init=False)
+async def execute_locator(page: 'Page', locator: SimpleNamespace) -> Any:
+    """Locate and return content from the element based on locator info."""
+    
+    if locator.by.upper() == 'VALUE':
+        return locator.attribute
+    
+    res:list = []
+    elements:'WebElement' | list['WebElement' ] = None
 
-    async def __aenter__(self):
-        """Enter async context: start browser and open page."""
-        self.browser = Chrome()
-        await self.browser.__aenter__()
-        await self.browser.start()
-        self.page = await self.browser.get_page()
-        return self
+    match getattr(locator,'strategy_for_multiple_selectors','find_first_match').lower():
+        case 'find_first_match':
+            selectors:list = locator.selector.split(';')
+            for selector in selectors:
+                try:
+                    elements = await page.find_elements(By[locator.by.upper()], selector)
+                    if elements:
+                        break
+                except Exception as ex:
+                    logger.warning(f"Error executing locator: {locator}", ex, exc_info=True)
+                    return None
+                
+    
+    
+    match getattr(locator,'attribute','').lower():
+        case '':
+            # Локатор {locator} не содержит атрибута для извлечения данных.\n
+            # Вероятней всего мне требутеся весь вебэелемент"
+            res = elements 
 
-    async def __aexit__(self, exc_type, exc_val, exc_tb):
-        """Exit async context: close browser."""
-        if self.browser:
-            await self.browser.__aexit__(exc_type, exc_val, exc_tb)
+        case 'innertext':
+            if len(elements) == 1:
+                return await elements[0].get_element_text()
+            res = [await el.get_element_text() for el in elements]
+            
+        
+        case 'innerhtml':
+            if len(elements) == 1:
+                return await elements[0].inner_html
+            res =  [await el.inner_html for el in elements]
 
-    async def get_url(self, url: str) -> None:
-        """Navigate to the provided URL."""
-        await self.page.go_to(url)
+        case  'src' | 'href':
+            
+            if len(elements) == 1:
+                return elements[0].get_attribute(locator.attribute) 
+            res =  [ el.get_attribute(locator.attribute) for el in elements]
+            
 
-    async def click_star_button(self) -> None:
-        """Click the GitHub 'Star' button if it exists."""
-        star_button = await self.page.wait_element(
-            By.XPATH,
-            '//form[@action="/autoscrape-labs/pydoll/star"]//button',
-            timeout=5,
-            raise_exc=False
-        )
-        if not star_button:
-            print("Ops! The button was not found.")
-            return
-        await star_button.click()
-        await asyncio.sleep(3)
+        case _:
+            raise ValueError(f"Unsupported attribute: {locator=}")
 
-    async def execute_locator(self, locator: SimpleNamespace):
-        """Locate and return content from the element based on locator info."""
-        _webelement = await self.page.find_element(By[locator.by.upper()], locator.selector)
+    match getattr(locator,'if_list','').lower():
 
-        if locator.attribute.lower() == 'innertext':
-            return await _webelement.get_element_text()
-        elif locator.attribute.lower() == 'innerhtml':
-            return await _webelement.inner_html
-        # Можно добавить return None или raise, если атрибут неизвестен
+        case '':
+            return res
 
-    async def run(self) -> None:
-        """Main runner that executes all browser automation steps."""
-        await self.get_url(self.url)
-        await self.click_star_button()
+        case 'all':
+            return res
 
+        case 'first':
+            return res[0]
 
-async def run_pydoll(url: str) -> None:
-    """
-    Run the Pydoll automation for the given URL.
-    :param url: The URL to navigate to.
-    """
-    async with Pydoll(url) as pydoll:
-        await pydoll.run()
+        case 'last':
+            return res[-1]
 
+        case 'even':
+            return [res[i] for i in range(0, len(res), 2)]
 
-if __name__ == '__main__':
-    asyncio.run(run_pydoll("https://github.com/autoscrape-labs/pydoll"))
+        case 'odd':
+            return [res[i] for i in range(1, len(res), 2)]
+
+        case isinstance(if_list, list):
+            return [res[i] for i in if_list]
+
+        case isinstance(if_list, int):
+            return res[if_list - 1]
+
+    return None

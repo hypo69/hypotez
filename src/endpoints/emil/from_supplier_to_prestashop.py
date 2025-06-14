@@ -147,7 +147,7 @@ class SupplierToPrestashopProvider:
         """
 
         # Не все поля товара надо заполнять. Вот кортеж необходимых полей:
-        actual_fields:tuple = ('id_product',
+        actual_fields:tuple = ('reference',
                                  'name',
                                  'description_short',
                                  'description',

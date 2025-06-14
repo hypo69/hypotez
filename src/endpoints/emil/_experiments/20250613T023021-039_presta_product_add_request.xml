@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<prestashop>
+  <products>
+    <id_supplier>11267</id_supplier>
+    <id_shop_default>1</id_shop_default>
+    <id_shop>1</id_shop>
+    <id_tax_rules_group>13</id_tax_rules_group>
+    <on_sale>1</on_sale>
+    <online_only>0</online_only>
+    <minimal_quantity>1</minimal_quantity>
+    <price>812.41</price>
+    <reference>1005004869497167</reference>
+    <active>1</active>
+    <available_for_order>1</available_for_order>
+    <show_condition>1</show_condition>
+    <condition>new</condition>
+    <show_price>1</show_price>
+    <visibility>both</visibility>
+    <is_virtual>0</is_virtual>
+    <state>1</state>
+    <product_type>standard</product_type>
+    <name>
+      <language id="1">80 flange ac מנוע סרוו 220v 750w 1000 2.4nm/3.8nm + T3D-L20A-RABN נהג עם 3 מ \'כבל למכונת cnc</language>
+    </name>
+    <associations>
+      <categories>
+        <id>None</id>
+      </categories>
+    </associations>
+  </products>
+</prestashop>

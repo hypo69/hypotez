@@ -75,7 +75,11 @@ for rec in recs:
 api.create_binary('images/products/22', 'img.jpeg', 'image')
 ```
 """
-
+from urllib.parse import urlparse, unquote
+import os
+import mimetypes
+import uuid
+import asyncio
 import os
 import sys
 import json
@@ -93,13 +97,11 @@ from requests import Session
 from requests.models import PreparedRequest
 from requests.exceptions import RequestException, HTTPError, ConnectionError, Timeout, TooManyRedirects
 
-import header
+from header import __root__
 from src import gs
 from src.logger.exceptions import PrestaShopAuthenticationError, PrestaShopException
 from src.logger.logger import logger
 from src.utils.convertors.base64 import base64_to_tmpfile
-# from src.utils.convertors.dict import dict2xml
-# from src.utils.convertors.xml2dict import xml2dict
 from src.endpoints.prestashop.utils import dict2xml, xml2dict
 from src.utils.xml import save_xml
 from src.utils.file import save_text_file
@@ -460,7 +462,7 @@ class PrestaShop:
                     'image': (file_name, file, 'image/jpeg')
                 }  # Замените 'image/jpeg' на правильный MIME-тип
                 response: requests.Response = self.client.post(
-                    url=f'{self.api_domain}/images/{resource}',
+                    url=f'{self.api_domain}images/{resource}',
                     files=files,
                     auth=self.client.auth,  # Важно передавать аутентификацию,
                 )
@@ -527,7 +529,7 @@ class PrestaShop:
         """
         return self._exec('apis', method='GET', data_format=self.data_format)
 
-    async def upload_image_async(
+    async def upload_image_from_url_async(
         self, resource: str, resource_id: int, img_url: str, img_name: Optional[str] = None
     ) -> Optional[dict]:
         """Upload an image to PrestaShop API asynchronously.
@@ -541,14 +543,9 @@ class PrestaShop:
         Returns:
             dict | None: Response from the API or `False` on failure.
         """
-        url_parts: List[str] = img_url.rsplit('.', 1)
-        url_without_extension: str = url_parts[0]
-        extension: str = url_parts[1] if len(url_parts) > 1 else ''
-        filename: str = str(resource_id) + f'_{img_name}.{extension}'
-        png_file_path: str = await save_image_from_url_async (img_url, filename)
-        response: dict = self.create_binary(resource, png_file_path, img_name)
-        self.remove_file(png_file_path)
-        return response
+        asyncio.run(self.upload_image_from_url(resource, resource_id, img_url, img_name))
+
+
 
     def upload_image_from_url(
         self, resource: str, resource_id: int, img_url: str, img_name: Optional[str] = None
@@ -559,19 +556,33 @@ class PrestaShop:
             resource (str): API resource (e.g., 'images/products/22').
             resource_id (int): Resource ID.
             img_url (str): URL of the image.
-            img_name (Optional[str]): Name of the image file, defaults to None.
+            img_name (Optional[str]): Optional desired base name for the file.
 
         Returns:
-            dict | None: Response from the API or `False` on failure.
+            dict | None: Response from the API or None on failure.
         """
-        url_parts: List[str] = img_url.rsplit('.', 1)
-        url_without_extension: str = url_parts[0]
-        extension: str = url_parts[1] if len(url_parts) > 1 else ''
-        filename: str = str(resource_id) + f'_{img_name}.{extension}'
-        png_file_path: str = save_image_from_url(img_url, filename)
-        response: dict = self.create_binary(resource, png_file_path, img_name)
-        self.remove_file(png_file_path)
+        # Извлечение расширения из URL
+        path = urlparse(img_url).path
+        filename_from_url = os.path.basename(path)
+        name_part, ext = os.path.splitext(filename_from_url)
+
+        # Попытка угадать MIME-тип, если расширение не найдено
+        if not ext:
+            mime_type, _ = mimetypes.guess_type(img_url)
+            ext = mimetypes.guess_extension(mime_type) or '.jpg'  # По умолчанию .jpg
+
+        # Очистка и формирование имени файла
+        safe_img_name = img_name or name_part or str(uuid.uuid4())
+        safe_img_name = safe_img_name.strip().replace(' ', '_')
+        filename = f"{resource_id}_{safe_img_name}{ext}"
+
+        # Загрузка изображения
+        file_path = save_image_from_url(img_url, filename)
+        response = self.create_binary(resource, file_path, safe_img_name)
+        self.remove_file(file_path)
+
         return response
+
 
     def get_product_images(self, product_id: int) -> Optional[dict]:
         """Get images for a product.
@@ -596,15 +607,6 @@ class PrestaShop:
 
 
     ####################################################################################################################################
-
-
-
-
-
-
-
-
-
 
 
 def main() -> None:

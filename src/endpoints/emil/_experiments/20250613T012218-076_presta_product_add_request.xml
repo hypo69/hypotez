@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<prestashop>
+  <products>
+    <id_supplier>11267</id_supplier>
+    <id_shop_default>1</id_shop_default>
+    <id_shop>1</id_shop>
+    <id_tax_rules_group>13</id_tax_rules_group>
+    <on_sale>1</on_sale>
+    <online_only>0</online_only>
+    <minimal_quantity>1</minimal_quantity>
+    <price>812.41</price>
+    <reference>1005004869497167</reference>
+    <active>1</active>
+    <available_for_order>1</available_for_order>
+    <show_condition>1</show_condition>
+    <condition>new</condition>
+    <show_price>1</show_price>
+    <visibility>both</visibility>
+    <is_virtual>0</is_virtual>
+    <state>1</state>
+    <product_type>standard</product_type>
+    <description>
+      <language id="1">סקירה כלליתפריט דיווחלהציג יותר</language>
+    </description>
+    <description_short>
+      <language id="1">&lt;ul class=\&quot;seo-sellpoints--sellerPoint--RcmFO_y\&quot;&gt;&lt;li&gt;&lt;pre&gt;מנוע סובו AC עם מנוע סיבוב מהיר : עם סיבוב מהיר של 3000 סל\&quot;ד, מבטיח תגובה מהירה ומדויקת.&lt;/pre&gt;&lt;/li&gt;&lt;li&gt;&lt;pre&gt;מנוע סובו AC עם פאזה יחידה:מנוע סובו AC בעל פאזה יחידה, מתאים לשימוש יומיומי במערכת CNC.&lt;/pre&gt;&lt;/li&gt;&lt;li&gt;&lt;pre&gt;Servo Motor 220v|Ac Servo Motor 220v|מנוע סובו 220V עם קוטור חזק:מנוע סובו AC 220V עם קוטור של 3.8Nm/2.4Nm לאופטימלי של הפעלה.&lt;/pre&gt;&lt;/li&gt;&lt;li&gt;&lt;pre&gt;יעילות גבוהה עם IE1:מנוע סובו AC עם דרגת יעילות IE1, מבטיח חיסכון באנרגיה.&lt;/pre&gt;&lt;/li&gt;&lt;li&gt;&lt;pre&gt;מנוע סובו AC עם מנוע דריבר T3D-L20A:מגיע עם דריבר T3D-L20A, מבטיח תפעול חלק ויציב.&lt;/pre&gt;&lt;/li&gt;&lt;/ul&gt;</language>
+    </description_short>
+    <name>
+      <language id="1">80 flange ac מנוע סרוו 220v 750w 1000 2.4nm/3.8nm + T3D-L20A-RABN נהג עם 3 מ \'כבל למכונת cnc</language>
+    </name>
+    <associations>
+      <categories>
+        <id>None</id>
+      </categories>
+    </associations>
+  </products>
+</prestashop>

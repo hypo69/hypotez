@@ -31,6 +31,7 @@
 ```
 """
 import os
+import asyncio
 import json
 import fnmatch
 import re
@@ -583,7 +584,44 @@ async def save_text_file_async(
         logger.error(f'Ошибка при асинхронном сохранении файла {_file_path}. Данные: {str(data)[:100]}...', ex, exc_info=True)
         return False
 
+async def  remove_file_async(filepath: str | Path) -> bool:
+    """"""
+    return asyncio.run(remove_file(filepath))
 
+def remove_file(filepath: str | Path) -> bool:
+    """
+    Удаляет указанный файл.
+
+    Args:
+        filepath (str | Path): Путь к файлу, который необходимо удалить.
+
+    Returns:
+        bool: `True` в случае успешного удаления файла, `False` в противном случае 
+              (например, если файл не найден или возникла ошибка доступа).
+    
+    Example:
+        >>> # from pathlib import Path
+        >>> # temp_file = Path('dummy_to_remove.txt')
+        >>> # temp_file.touch() # Создание временного файла
+        >>> # remove_file(temp_file)
+        True
+        >>> # remove_file(temp_file) # Попытка удалить несуществующий файл
+        False 
+    """
+    # Функция выполняет удаление файла
+    p_filepath: Path
+    try:
+        p_filepath = Path(filepath)
+        if p_filepath.exists():
+            p_filepath.unlink()
+            logger.debug(f'Файл {filepath} удален.')
+            return True
+        else:
+            logger.warning(f'Файл {filepath} для удаления не найден.')
+            return False # Файл не найден, удаление не выполнено
+    except OSError as ex:
+        logger.error(f'Ошибка при удалении файла {filepath}', ex, exc_info=True)
+        return False
 
 def _read_file_content(file_path: Path, chunk_size: int) -> str:
     """

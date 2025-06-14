@@ -17,28 +17,20 @@ from typing import List, Dict, Any, Optional, Set
 
 import header
 from src import gs
-from src.endpoints.prestashop.api import PrestaShop
 
-# from src.endpoints.prestashop.category import PrestaCategory # Removed: Unused import
+from src.endpoints.prestashop.api.api import PrestaShop 
 from src.endpoints.prestashop.product_fields import ProductFields
 from src.endpoints.prestashop.utils.dict2xml import dict2xml
-# from src.endpoints.prestashop.utils.xml2dict import xml2dict # Removed: Unused import (only in commented example line)
 
 from src.utils.xml import save_xml
-# from src.utils.file import save_text_file # Removed: Unused import
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.printer import pprint as print
 from src.logger.logger import logger
-from src import USE_ENV  # <- True - использую переменные окружения, False - использую параметры из keepass
-
-
 
 class PrestaProduct(PrestaShop):
     """
     Класс для управления товарами в PrestaShop.
     ===========================================
-    Сначала класс даёт указание грабберу извлечь данные со страницы товара,
-    а затем работает с API PrestaShop.
     """
 
     def __init__(self, api_key: str, api_domain: str, *args: Any, **kwargs: Any):
@@ -60,7 +52,7 @@ class PrestaProduct(PrestaShop):
 
     def get_product_schema(self, resource_id: Optional[str | int] = None, schema: Optional[str] = None) -> dict:
         """
-        Получает схему для ресурса товара из PrestaShop.
+        Получает схему для ресурса `product` из PrestaShop.
 
         Args:
             resource_id (Optional[str | int], optional): ID ресурса товара. По умолчанию None.
@@ -258,32 +250,32 @@ class PrestaProduct(PrestaShop):
         if response and 'products' in response and response['products']:
             # Предполагаем, что API возвращает список с одним элементом для созданного продукта
             added_product_ns = j_loads_ns(response['products'][0])
-            ... # Точка останова/отладки
             try:
                 # f.reference = response['product']['reference'] if isinstance(response['product']['reference'], str) else int(response['product']['reference']) # Закомментированный код сохранен
                 if f.local_image_path: 
                     _ = self.create_binary( # Результат create_binary не используется, присвоение к _
                         resource=f'products/{added_product_ns.id}',
                         file_path=f.local_image_path,
-                        file_name=f'{gs.now}.png',
+                        file_name=f'{f.reference}.png',
                     )
                     
                     print(added_product_ns)
                     # Логирование информации о добавленном товаре
                     logger.info(f'Товар добавлен. Детали: {str(added_product_ns)}')
                     return added_product_ns
-                elif f.default_image_url:
-                    await self.upload_image_from_url_async('products', added_product_ns.id, f.default_image_url)
+
+                # elif f.default_image_url:
+                #     await self.upload_image_from_url_async('products', added_product_ns.id, f.default_image_url)
                     
-                    print(added_product_ns)
-                    # Логирование информации о добавленном товаре
-                    logger.info(f'Товар добавлен. Детали: {str(added_product_ns)}')
-                    return added_product_ns
-                else:
-                    # Если изображений нет, все равно товар добавлен
-                    print(added_product_ns)
-                    logger.info(f'Товар добавлен (без изображения). Детали: {str(added_product_ns)}')
-                    return added_product_ns
+                #     print(added_product_ns)
+                #     # Логирование информации о добавленном товаре
+                #     logger.info(f'Товар добавлен. Детали: {str(added_product_ns)}')
+                #     return added_product_ns
+                # else:
+                #     # Если изображений нет, все равно товар добавлен
+                #     print(added_product_ns)
+                #     logger.info(f'Товар добавлен (без изображения). Детали: {str(added_product_ns)}')
+                #     return added_product_ns
                     
             except (KeyError, TypeError) as ex:
                 logger.error(f'Ошибка при обработке ответа от сервера или загрузке изображения: {ex}', ex, exc_info=True)
@@ -379,8 +371,8 @@ def example_add_new_product() -> None:
 
 def example_get_product(id_product: int, **kwargs: Any) -> None:
     """"""
-    p: PrestaProduct
-    presta_product_data: dict # Переименовано для ясности
+    p: PrestaProduct = None
+    presta_product_data: dict = None
 
     # Определение Config (предполагается, что Config существует и настроен)
     class Config: # Локальное определение для примера

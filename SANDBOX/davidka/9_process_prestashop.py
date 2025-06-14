@@ -19,6 +19,7 @@ from types import SimpleNamespace
 from typing import Optional, List, Any
 from dataclasses import dataclass, field
 
+from SANDBOX.davidka.experiments import graber_via_pydoll
 import header
 from header import __root__
 
@@ -128,21 +129,22 @@ class PrestasopProvider:
         """"""
         ...
         try:
-            supplier_path:Path = Config.SUPPLIERS_ENDPOINT / supplier_prefix 
+            supplier_alias:str = supplier_prefix.replace('.','_').replace('-','_')
+            supplier_path:Path = Config.SUPPLIERS_ENDPOINT / supplier_alias 
             graber: Graber = get_graber_by_supplier_prefix(self.driver, supplier_prefix)
             scenarios_ns: SimpleNamespace = j_loads_ns(Config.SCENARIOS_PATH  / f'{supplier_prefix}.json')
             locators_path:Path = supplier_path / 'locators' 
             locator_product:SimpleNamespace = j_loads_ns(locators_path / 'product.json')
             locator_category:SimpleNamespace = j_loads_ns(locators_path / 'category.json')
-            categories_crawler:Any = None
-            categories_crawler_module_path:str = f"src.suppliers.suppliers_list.{supplier_prefix}.categories_crawler"
+            graber:Any = None
+            graber_module_path:str = f"src.suppliers.suppliers_list.{supplier_alias}.graber_via_pydoll"
         except Exception as ex:
             logger.error(f'Непредвиденная ошибка', ex)
             return False
 
 
         try:
-            categories_crawler = importlib.import_module(categories_crawler_module_path)
+            graber = importlib.import_module(graber_module_path)
         except Exception as ex:
             logger.error(f"Failed to import module `categories_crawler` '{supplier_prefix}'", ex)
             return False
@@ -151,7 +153,7 @@ class PrestasopProvider:
             for _, item in scenario.items():
                 self.driver.get_url(item['url'])
     
-                products_urls_in_category:list = await categories_crawler.get_list_products_in_category(self.driver, locator_category)
+                products_urls_in_category:list = await graber.get_list_products_in_category(self.driver, locator_category)
                 if not products_urls_in_category:
 
                     continue # <- мб пустаая категория
@@ -161,7 +163,8 @@ class PrestasopProvider:
                     # Не все поля товара надо заполнять. Вот кортеж необходимых полей:
                     actual_fields:tuple = ('id_manufacturer',
                                         'id_supplier',
-                                        'name',                                                
+                                        'name',
+                                        'reference',
                                         'description',
                                         'description_short',
                                         'default_image_url'
@@ -172,9 +175,6 @@ class PrestasopProvider:
                     
                 ...
                 
-
-
-
     async def process_suppliers_list(self, suppliers_prefixes: str|list) -> bool:
         """
         Process suppliers based on the provided prefix.

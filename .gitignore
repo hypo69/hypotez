@@ -152,7 +152,7 @@ cython_debug/
 
 # Studio community, code and DBeaver
 .vs/
-.dbeaver/
+#.dbeaver/
 
 # User profiles for Mozilla, Chrome, etc.
 profiles/

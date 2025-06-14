@@ -151,7 +151,6 @@ class Graber:
         self.product_locator: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'suppliers' / 'suppliers_list' / supplier_prefix / 'locators' / 'product.json')
         self.category_locator: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'suppliers' / 'suppliers_list' / supplier_prefix / 'locators' / 'category.json')
         self.driver = driver or Driver(Firefox) 
-        Config.driver = self.driver
         self.fields: ProductFields = ProductFields(lang_index ) # <- установка базового языка. Тип - `int`
 
         # ---------------------------- конфигурация для декоратора ------------------------------
@@ -282,7 +281,7 @@ class Graber:
         if isinstance(input_scenarios, list):
             # Вход - список: валидация содержимого
             if all(isinstance(item, dict) for item in input_scenarios):
-                actual_scenarios_to_process = input_scenarios
+                actual_scenarios_to_process = scenarios
             else:
                 logger.error(f"Входной список для '{supplier_prefix}' содержит не-словари.", None, False)
                 ...
@@ -475,6 +474,7 @@ class Graber:
             # Динамическое вызовы функций для каждого поля из args
             actual_fields:list = list(args) or [
                             'name',
+                            'reference',
                             'id_supplier',
                             'description_short',
                             'description',

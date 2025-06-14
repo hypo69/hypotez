@@ -11,7 +11,6 @@
 """
 
 
-from .aliexpress import Aliexpress
 from .aliapi import AliApi
 from .alirequests import AliRequests
 from .campaign import AliCampaignEditor

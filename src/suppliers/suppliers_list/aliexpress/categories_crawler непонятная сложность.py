@@ -366,7 +366,7 @@ def get_list_categories_from_site(s: Supplier, scenario_file: str, brand: str = 
         return []
 
     _d.get_url(shop_categories_page_url)
-    ... # Точка останова или дальнейшая логика извлечения категорий с помощью WebDriver
+    ...  или дальнейшая логика извлечения категорий с помощью WebDriver
     
     logger.warning('Функция get_list_categories_from_site не реализована полностью и вернула пустой список.')
     return [] # Заглушка, реальная логика извлечения категорий должна быть здесь.

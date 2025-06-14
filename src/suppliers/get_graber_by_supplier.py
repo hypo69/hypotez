@@ -1,12 +1,9 @@
 # get_graber_by_supplier.py
 from urllib.parse import urlparse
 # --- Импорты Graber классов ---
-from src.suppliers.suppliers_list.sphinxitalia_it.graber import Graber as SphinxitaliaItGraber
-from src.suppliers.suppliers_list.vidaxl_pl.graber import Graber as VidaxlPlGraber
-from src.suppliers.suppliers_list.visualdg.graber import Graber as VisualdgGraber
-from src.suppliers.suppliers_list.wallashop.graber import Graber as WallashopGraber
-from src.suppliers.suppliers_list.wallmart.graber import Graber as WallmartGraber
-from src.suppliers.suppliers_list.zebra_com.graber import Graber as ZebraComGraber
+from urllib.parse import urlparse
+
+# --- Импорты Graber классов ---
 from src.suppliers.suppliers_list.ads_tec_iit_com.graber import Graber as AdsTecIitComGraber
 from src.suppliers.suppliers_list.aliexpress.graber import Graber as AliexpressGraber
 from src.suppliers.suppliers_list.amazon.graber import Graber as AmazonGraber
@@ -16,9 +13,9 @@ from src.suppliers.suppliers_list.bangood.graber import Graber as BangoodGraber
 from src.suppliers.suppliers_list.bucketmaster_com_cn.graber import Graber as BucketmasterComCnGraber
 from src.suppliers.suppliers_list.cdata.graber import Graber as CdataGraber
 from src.suppliers.suppliers_list.cisco_com.graber import Graber as CiscoComGraber
+from src.suppliers.suppliers_list.de_de_ring_com.graber import Graber as DeDeRingComGraber
 from src.suppliers.suppliers_list.de_hexcel_com.graber import Graber as DeHexcelComGraber
 from src.suppliers.suppliers_list.de_rs_online_com.graber import Graber as DeRsOnlineComGraber
-from src.suppliers.suppliers_list.de_de_ring_com.graber import Graber as DeDeRingComGraber
 from src.suppliers.suppliers_list.denaliweld_com.graber import Graber as DenaliweldComGraber
 from src.suppliers.suppliers_list.dewesoft_com.graber import Graber as DewesoftComGraber
 from src.suppliers.suppliers_list.ebay.graber import Graber as EbayGraber
@@ -65,18 +62,15 @@ from src.suppliers.suppliers_list.sensysmagnetometer_com.graber import Graber as
 from src.suppliers.suppliers_list.shop_loxone_com.graber import Graber as ShopLoxoneComGraber
 from src.suppliers.suppliers_list.shop_scheppach_com.graber import Graber as ShopScheppachComGraber
 from src.suppliers.suppliers_list.sigmaaldrich_com.graber import Graber as SigmaaldrichComGraber
+from src.suppliers.suppliers_list.sphinxitalia_it.graber import Graber as SphinxitaliaItGraber
+from src.suppliers.suppliers_list.vidaxl_pl.graber import Graber as VidaxlPlGraber
+from src.suppliers.suppliers_list.visualdg.graber import Graber as VisualdgGraber
+from src.suppliers.suppliers_list.wallashop.graber import Graber as WallashopGraber
+from src.suppliers.suppliers_list.wallmart.graber import Graber as WallmartGraber
+from src.suppliers.suppliers_list.zebra_com.graber import Graber as ZebraComGraber
 
-
-# --- Маппинг URL и supplier_name к grabber-классам ---
-from src.suppliers.suppliers_list import *
 
 URL_PREFIX_MAP = {
-    "https://sphinxitalia.it/": SphinxitaliaItGraber,
-    "https://vidaxl.pl/": VidaxlPlGraber,
-    "https://visualdg.com/": VisualdgGraber,
-    "https://wallashop.com/": WallashopGraber,
-    "https://wallmart.com/": WallmartGraber,
-    "https://zebra.com/": ZebraComGraber,
     "https://ads-tec-iit.com/": AdsTecIitComGraber,
     "https://aliexpress.com/": AliexpressGraber,
     "https://amazon.com/": AmazonGraber,
@@ -87,9 +81,9 @@ URL_PREFIX_MAP = {
     "https://cdata.com/": CdataGraber,
     "https://chat.openai.com/": "chat_gpt",
     "https://cisco.com/": CiscoComGraber,
+    "https://de-de.ring.com/": DeDeRingComGraber,
     "https://de.hexcel.com/": DeHexcelComGraber,
     "https://de.rs-online.com/": DeRsOnlineComGraber,
-    "https://de-de.ring.com/": DeDeRingComGraber,
     "https://denaliweld.com/": DenaliweldComGraber,
     "https://dewesoft.com/": DewesoftComGraber,
     "https://ebay.com/": EbayGraber,
@@ -136,16 +130,16 @@ URL_PREFIX_MAP = {
     "https://shop.loxone.com/": ShopLoxoneComGraber,
     "https://shop.scheppach.com/": ShopScheppachComGraber,
     "https://sigmaaldrich.com/": SigmaaldrichComGraber,
+    "https://sphinxitalia.it/": SphinxitaliaItGraber,
+    "https://vidaxl.pl/": VidaxlPlGraber,
+    "https://visualdg.com/": VisualdgGraber,
+    "https://wallashop.com/": WallashopGraber,
+    "https://wallmart.com/": WallmartGraber,
+    "https://zebra.com/": ZebraComGraber,
 }
 
 SUPPLIER_PREFIX_MAP = {
-    "sphinxitalia_it": SphinxitaliaItGraber,
-    "vidaxl_pl": VidaxlPlGraber,
-    "visualdg": VisualdgGraber,
-    "wallashop": WallashopGraber,
-    "wallmart": WallmartGraber,
-    "zebra_com": ZebraComGraber,
-    "ads-tec-iit_com": AdsTecIitComGraber,
+    "ads_tec_iit_com": AdsTecIitComGraber,
     "aliexpress": AliexpressGraber,
     "amazon": AmazonGraber,
     "apple_com": AppleComGraber,
@@ -154,9 +148,9 @@ SUPPLIER_PREFIX_MAP = {
     "bucketmaster_com_cn": BucketmasterComCnGraber,
     "cdata": CdataGraber,
     "cisco_com": CiscoComGraber,
+    "de_de_ring_com": DeDeRingComGraber,
     "de_hexcel_com": DeHexcelComGraber,
-    "de_rs-online_com": DeRsOnlineComGraber,
-    "de-de_ring_com": DeDeRingComGraber,
+    "de_rs_online_com": DeRsOnlineComGraber,
     "denaliweld_com": DenaliweldComGraber,
     "dewesoft_com": DewesoftComGraber,
     "ebay": EbayGraber,
@@ -167,17 +161,17 @@ SUPPLIER_PREFIX_MAP = {
     "gearbest": GearbestGraber,
     "generex_de": GenerexDeGraber,
     "georgin_com": GeorginComGraber,
-    "german_micro-steppermotors_com": GermanMicroSteppermotorsComGraber,
+    "german_micro_steppermotors_com": GermanMicroSteppermotorsComGraber,
     "grandadvance": GrandadvanceGraber,
     "hb": HbGraber,
     "imos3d_com": Imos3dComGraber,
     "induprogress_pl": InduprogressPlGraber,
-    "industrierat-west_de": IndustrieratWestDeGraber,
+    "industrierat_west_de": IndustrieratWestDeGraber,
     "it_alwsci_com": ItAlwsciComGraber,
     "it_defelsko_com": ItDefelskoComGraber,
-    "it_jarvis-smart_com": ItJarvisSmartComGraber,
-    "it_superb-heater_com": ItSuperbHeaterComGraber,
-    "it_thermo-heater_com": ItThermoHeaterComGraber,
+    "it_jarvis_smart_com": ItJarvisSmartComGraber,
+    "it_superb_heater_com": ItSuperbHeaterComGraber,
+    "it_thermo_heater_com": ItThermoHeaterComGraber,
     "ivory": IvoryGraber,
     "janitza_com": JanitzaComGraber,
     "jungbluth_com": JungbluthComGraber,
@@ -203,8 +197,13 @@ SUPPLIER_PREFIX_MAP = {
     "shop_loxone_com": ShopLoxoneComGraber,
     "shop_scheppach_com": ShopScheppachComGraber,
     "sigmaaldrich_com": SigmaaldrichComGraber,
+    "sphinxitalia_it": SphinxitaliaItGraber,
+    "vidaxl_pl": VidaxlPlGraber,
+    "visualdg": VisualdgGraber,
+    "wallashop": WallashopGraber,
+    "wallmart": WallmartGraber,
+    "zebra_com": ZebraComGraber,
 }
-
 
 def get_graber_by_supplier_prefix(supplier_prefix: str):
     """
