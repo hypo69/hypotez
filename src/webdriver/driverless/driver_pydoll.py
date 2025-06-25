@@ -19,6 +19,7 @@ async def execute_locator(page: 'Page', locator: SimpleNamespace) -> Any:
     res:list = []
     elements:'WebElement' | list['WebElement' ] = None
 
+    """XPATH не умеет в жадную логику"""
     match getattr(locator,'strategy_for_multiple_selectors','find_first_match').lower():
         case 'find_first_match':
             selectors:list = locator.selector.split(';')

@@ -26,7 +26,7 @@ from pydoll.browser.page import Page
 
 from header import __root__
 from src import gs
-from src.webdriver.pydoll_driverless import grab_product_page, get_product_urls_from_category_page
+from src.webdriver.driver_pydoll import grab_product_page, get_product_urls_from_category_page
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 from src.llm.gemini import GoogleGenerativeAi # Unused, but kept
 #from src.endpoints.prestashop.product_async import PrestaProductAsync

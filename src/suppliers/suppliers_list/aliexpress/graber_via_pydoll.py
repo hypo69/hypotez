@@ -22,7 +22,7 @@ from pydoll.browser.page import Page
 from header import __root__
 from src import gs
 from src.endpoints.prestashop.product_fields import ProductFields
-from src.webdriver.pydoll_driverless import execute_locator
+from src.webdriver.executor_pydoll import execute_locator
 from src.utils.file import get_filenames_from_directory
 from src.utils.jjson import j_loads_ns
 from src.utils.image import save_image_async, save_image_from_url_async
