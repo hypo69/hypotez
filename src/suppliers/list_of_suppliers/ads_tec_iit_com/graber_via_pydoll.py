@@ -20,7 +20,7 @@ rst```
 # from src import gs
 # from src.endpoints.prestashop.product_fields import ProductFields
 # from src.webdriver.driverless import use_pydoll as driver
-from src.suppliers.graber_via_pydoll import Config as GraberConfig, Graber as GraberSupplier 
+from src.suppliers.graber_via_pydoll import Graber as GraberSupplier 
 # from src.utils.file import get_filenames_from_directory
 # from src.utils.jjson import j_loads_ns
 # from src.utils.image import save_image_async, save_image_from_url_async

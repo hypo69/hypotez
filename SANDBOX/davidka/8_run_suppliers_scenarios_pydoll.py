@@ -20,15 +20,13 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Optional, Dict, Any, List
 
-# from pydoll.browser.chrome import Chrome
-# from pydoll.constants import By
-# from pydoll.browser.page import Page
+from pydoll.browser.chrome import Chrome
+from pydoll.constants import By
+from pydoll.browser.page import Page
 
 from header import __root__
 from src import gs
-from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
-from src.llm.gemini import GoogleGenerativeAi # Unused, but kept
-#from src.endpoints.prestashop.product_async import PrestaProductAsync
+
 from src.endpoints.prestashop.product import PrestaProduct
 from src.endpoints.prestashop.product_fields import ProductFields
 from src.utils.file import read_text_file, save_text_file, get_filenames_from_directory, recursively_get_file_path
@@ -55,14 +53,9 @@ class Config:
     PRESTA_API_DOMAIN: str = gs.credentials.prestashop.store_davidka_net.api_domain
     Product: PrestaProduct = PrestaProduct(PRESTA_API_KEY, PRESTA_API_DOMAIN)
 
-    @property
-    def scenarios_files(self) -> List[str]:
-        return get_filenames_from_directory(self.SCENARIOS_DIR)
-        
 # --- end config.py ---
 
 
-# Плохо
 async def save_to_prestashop_async(f:ProductFields):
     """"""
     async with Config.Product as p:
@@ -81,13 +74,11 @@ async def process_supplier(supplier_prefix:str, page: 'Page', product_url:Option
     try:
         supplier_alias:str = supplier_prefix.replace('.','_').replace('-','_')
         supplier_path:Path = Config.SUPPLIERS_ENDPOINT / supplier_alias 
-        product_locators:SimpleNamespace = j_loads_ns(supplier_path / 'locators' / 'product.json')
-        category_locators:SimpleNamespace = j_loads_ns(supplier_path / 'locators' / 'category.json')
 
         # --- dev ---
-        scenarios_list: list = j_loads_ns(Config.SCENARIOS_DIR  / f'{supplier_prefix}.json') # <- ЧИТАЮ ИЗ ПАПКИ САНДБОХ
-        
+        scenarios_ns: SimpleNamespace = j_loads_ns(Config.SCENARIOS_DIR  / f'{supplier_prefix}.json') # <- ЧИТАЮ ИЗ ПАПКИ СЭНДБОХ
         graber_module_path:str  = f"src.suppliers.list_of_suppliers.{supplier_alias}.graber_via_pydoll"
+
     except Exception as ex:
         
         logger.error(f'Непредвиденная ошибка', ex)
@@ -95,9 +86,8 @@ async def process_supplier(supplier_prefix:str, page: 'Page', product_url:Option
 
 
     try:
-       
         graber_module = importlib.import_module(graber_module_path)
-        graber: 'Graber' = graber_module.Graber(supplier_prefix=supplier_prefix)
+        graber: 'Graber' = graber_module.Graber()
     except Exception as ex:
         logger.error(f"Failed to import module `graber` '{supplier_prefix}'", ex)
         return None    
@@ -106,21 +96,15 @@ async def process_supplier(supplier_prefix:str, page: 'Page', product_url:Option
         f:ProductFields = await graber.grab_product_page(page, product_url)
         return await save_to_prestashop_async(f)
         
-    for scenario in scenarios_list:
-        products_urls_in_category:list = await graber.get_product_urls_from_category_page(scenario['url'], category_locators.product_links, page)
 
-        if not products_urls_in_category:
-            logger.debug(f'Вероятно, пустая категория ')
-            print(scenario)
-            continue # <- мб пустаая категория
-            ...
-
-        for product_url in products_urls_in_category:
-            f:ProductFields = await graber.grab_product_page(page, product_url)
-            await save_to_prestashop_async(f)
+    async for product in graber.yield_all_scenarios(page):
+        # Сохранение товара в PrestaShop
+        result = await save_to_prestashop_async(product)
+        if not result:
+            logger.error(f"Ошибка при сохранении товара: {product.name}")
+            continue
             
-        return True
-
+        logger.info(f"Товар успешно сохранен: {product.name}")
 
 async def main(scenario_filename: Optional[str] = None) -> None:
     """
@@ -142,61 +126,36 @@ async def main(scenario_filename: Optional[str] = None) -> None:
     scenario_data: Dict[str, Any] | List[Dict[str, Any]] | None
     supplier_prefix_from_file: str
 
-    # single_scenario: Dict[str,Any] # Объявляется внутри цикла, если необходимо
+    browser = Chrome()  
+    await browser.start()
+    page = await browser.get_page()
 
+
+    # --- Начало обработки сценариев ---
     if scenario_filename:
-
-                            
-
-
+        scenario_files_to_process.append((Config.SCENARIOS_DIR / scenario_filename).resolve()) # Если передано имя файла, ищем его в директории сценариев
+    
     else:
         # Если имя файла не передано, обрабатываем все файлы из конфигурации.
         logger.info(f"Обработка всех файлов сценариев из директории: {Config.SCENARIOS_DIR}")
-        for fname in Config.scenarios_files:
+        scenarios_files = get_filenames_from_directory(Config.SCENARIOS_DIR)
+        for fname in scenarios_files:
             scenario_files_to_process.append((Config.SCENARIOS_DIR / fname).resolve())
 
     if not scenario_files_to_process:
         logger.info("Нет файлов сценариев для обработки.")
+        ... 
         return
 
     for current_scenario_path in scenario_files_to_process:
         ... 
         logger.info(f"Начало обработки файла сценария: {current_scenario_path}")
-        # Извлечение сценариев из файла
-        scenario_data = j_loads(current_scenario_path)
-
-        if not scenario_data:
-            # j_loads уже логирует ошибку, дополнительное сообщение для контекста
-            logger.warning(f"Не удалось загрузить или пустой файл сценария: {current_scenario_path}")
-            continue
-
-        # Извлечение префикса поставщика из имени файла (без расширения)
-        supplier_prefix_from_file = current_scenario_path.stem
+        supplier_prefix: str = current_scenario_path.stem
+        res = await process_supplier(supplier_prefix, page)
 
 
-        # --- Начало обработки единичного файла сценария ---
-        if isinstance(scenario_data, dict):
-            # Обработка одного сценария из файла (если файл содержит объект JSON)
-            logger.info(f"Обработка одиночного сценария для поставщика '{supplier_prefix_from_file}' из файла {current_scenario_path.name}.")
-            await execute_scenario(supplier_prefix=supplier_prefix_from_file,
-                                   scenario=scenario_data)
-
-        elif isinstance(scenario_data, list):
-            # Обработка списка сценариев из файла (если файл содержит массив JSON)
-            logger.info(f"Обработка списка сценариев для поставщика '{supplier_prefix_from_file}' из файла {current_scenario_path.name}.")
-            for index, single_scenario in enumerate(scenario_data):
-                if isinstance(single_scenario, dict):
-                    logger.info(f"Обработка сценария #{index + 1} для поставщика '{supplier_prefix_from_file}'.")
-                    await execute_scenario(supplier_prefix=supplier_prefix_from_file,
-                                           scenario=single_scenario)
-                else:
-                    logger.warning(f"Элемент #{index + 1} в списке сценариев файла {current_scenario_path.name} не является словарем: {type(single_scenario)}")
-        else:
-            logger.warning(f"Неизвестный формат данных в файле сценария {current_scenario_path.name}: {type(scenario_data)}")
-        ... 
-        logger.info(f"Завершение обработки файла сценария: {current_scenario_path}")
-
-
+# if __name__ == '__main__':
+#     asyncio.run(main('amazon.json'))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Запускает обработку сценариев поставщиков.')
@@ -211,5 +170,3 @@ if __name__ == '__main__':
 
     asyncio.run(main(scenario_filename=args.scenario_filename))
 
-if __name__ == '__main__':
-    asyncio.run(main('amazon.json'))

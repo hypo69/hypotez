@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress.campaign 
+.. module:: src.suppliers.list_of_suppliers.aliexpress.campaign 
 	:platform: Windows, Unix
 	:synopsis: This module provides the editor for advertising campaigns
 
@@ -70,9 +70,9 @@ from typing import List, Optional
 
 import header
 from src import gs
-from src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign import AliPromoCampaign
-from src.suppliers.suppliers_list.aliexpress.campaign.gsheet import AliCampaignGoogleSheet
-from src.suppliers.suppliers_list.aliexpress.utils import extract_prod_ids, ensure_https
+from src.suppliers.list_of_suppliers.aliexpress.campaign.ali_promo_campaign import AliPromoCampaign
+from src.suppliers.list_of_suppliers.aliexpress.campaign.gsheet import AliCampaignGoogleSheet
+from src.suppliers.list_of_suppliers.aliexpress.utils import extract_prod_ids, ensure_https
 from src.utils.jjson import j_loads_ns, j_loads, j_dumps
 from src.utils.convertors.csv import csv2dict
 from src.utils.printer import pprint

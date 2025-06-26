@@ -47,7 +47,7 @@ class Config:
 
     def __post_init__(self):
         self.supplier_alias = self.supplier_prefix.replace('.', '_').replace('-', '_')
-        self.ENDPOINT = __root__ / 'src' / 'suppliers' / 'suppliers_list' / self.supplier_alias
+        self.ENDPOINT = __root__ / 'src' / 'suppliers' / 'list_of_suppliers' / self.supplier_alias
         self.SCENARIOS_DIR = self.ENDPOINT / 'scenarios'
 
     @property
@@ -58,10 +58,6 @@ class Config:
     def category_locators(self) -> SimpleNamespace:
         return j_loads_ns(self.ENDPOINT / 'locators' / 'category.json')
 
-    @property
-    def scenarios(self) -> List[SimpleNamespace]:
-        result = j_loads_ns(self.SCENARIOS_DIR)
-        return result if isinstance(result, list) else [result]
 # --- end config.py ---
 
 
@@ -69,8 +65,7 @@ class Graber:
     """Grabs product/category info for a given supplier."""
 
     def __init__(self, supplier_prefix: str):
-        self.config = Config(supplier_prefix)
-        self.browser = Chrome()
+        self.config = Config(supplier_prefix=supplier_prefix)
 
     async def grab_product_page(self, product_url: str, page: Page, actual_fields: Optional[List[str]] = None) -> ProductFields:
         actual_fields = actual_fields or self.config.actual_fields
@@ -83,67 +78,99 @@ class Graber:
             logger.error(f'Failed to open product page: {product_url}', e)
             return f
 
-        f.id_supplier = locator.id_supplier
+        # Устанавливаем id_supplier в любом случае, если он определен в локаторах
+        if hasattr(locator, 'id_supplier'):
+            f.id_supplier = locator.id_supplier
 
         for field_name in actual_fields:
+            # Пропускаем id_supplier, так как он уже установлен
+            if field_name == 'id_supplier':
+                continue
+            
             try:
-                setattr(f, field_name, await driver.execute_locator(page, getattr(locator, field_name)))
+                # Убедимся, что локатор для поля существует
+                if hasattr(locator, field_name):
+                    setattr(f, field_name, await driver.execute_locator(page, getattr(locator, field_name)))
             except Exception as e:
                 logger.error(f'Failed to extract {field_name} from {product_url}', e)
 
         return f
 
+    @staticmethod
+    def _normalize_url(product_url: str) -> str:
+        """
+        Приводит URL к стандартному виду https://...
+        Поддерживаются форматы:
+            //he.aliexpress.com/item/
+            https://he.aliexpress.com/item/
+            he.aliexpress.com/item/
+        """
+        if not product_url:
+            return ""
+            
+        if product_url.startswith('//'):
+            return f'https:{product_url}'
+        if not (product_url.startswith('http://') or product_url.startswith('https://')):
+            return f'https://{product_url.lstrip("/")}'
+        
+        return product_url
+
     async def get_product_urls_from_category_page(self, category_url: str, locator: SimpleNamespace, page: Page) -> List[str]:
         await page.go_to(category_url)
-        uri_list:list[str] = await driver.execute_locator(page, locator)
+        uri_list: list[str] = await driver.execute_locator(page, locator)
 
-        def normalize_url(self,  product_url: str,) -> str:
-            """
-            Поддерживаются входные URL формата:
-                //he.aliexpress.com/item/
-                https://he.aliexpress.com/item/
-                he.aliexpress.com/item/
-            """
-
-            if product_url.startswith('//'):
-                url = f'https:{product_url}'
-            elif product_url.startswith('http://') or product_url.startswith('https://'):
-                url = product_url
-            else:
-                url = f'https://{product_url.lstrip("/")}'
-
-            return url
-
-        for i, uri in enumerate(uri_list):
-            uri_list[i] = normalize_url(self, uri)
-
-        return uri_list
+        # Нормализуем URL-ы, используя новый статический метод
+        # и отфильтровываем пустые результаты, если такие будут
+        normalized_urls = [self._normalize_url(uri) for uri in uri_list]
+        return [url for url in normalized_urls if url]
 
 
-    async def yield_scenario(self, scenario: SimpleNamespace) -> AsyncGenerator[ProductFields, None]:
+    async def yield_scenario(self, scenario: SimpleNamespace, page) -> AsyncGenerator[ProductFields, None]:
+        """Yield products for a given scenario."""
         try:
-            async with self.browser:
-                await self.browser.start()
-                page = await self.browser.get_page()
+            product_urls = await self.get_product_urls_from_category_page(
+                scenario.category_url,
+                self.config.category_locators.product_links,
+                page
+            )
 
-                product_urls = await self.get_product_urls_from_category_page(
-                    scenario.category_url,
-                    self.config.category_locators.product_links,
-                    page
-                )
+            if not product_urls:
+                 logger.warning(f"No product URLs found for scenario: {scenario.name} on page {scenario.category_url}")
 
-                for product_url in product_urls:
-                    product_fields = await self.grab_product_page(product_url, page)
-                    product_fields.id_category_default = scenario.id_category_default or '2'
-                    if getattr(scenario.presta_categories, 'additional_categories', None):
-                        product_fields.additional_categories = scenario.presta_categories.additional_categories
 
-                    yield product_fields
+            for product_url in product_urls:
+                product_fields = await self.grab_product_page(product_url, page)
+                
+                # Добавляем данные из сценария
+                product_fields.id_category_default = scenario.id_category_default or '2'
+                if getattr(scenario, 'presta_categories', None) and getattr(scenario.presta_categories, 'additional_categories', None):
+                    product_fields.additional_categories = scenario.presta_categories.additional_categories
+
+                yield product_fields
 
         except Exception as ex:
-            logger.error("Ошибка при выполнении сценария", ex)
+            logger.error(f"Ошибка при выполнении сценария '{scenario.name}'", exc_info=ex)
+            # В случае ошибки генератор просто прекратит работу для этого сценария
 
-    async def yield_all_scenarios(self) -> AsyncGenerator[ProductFields, None]:
-        for scenario in self.config.scenarios:
-            async for product in self.yield_scenario(scenario):
-                yield product
+    async def yield_all_scenarios(self, page) -> AsyncGenerator[ProductFields, None]:
+        """
+        Yield products for all scenarios defined in the config.
+        Итерируется по атрибутам объекта SimpleNamespace, который содержит сценарии.
+        """
+
+        for scenario_file in get_filenames_from_directory(self.config.SCENARIOS_DIR, '*.json'):
+            logger.info(f"Загружаем сценарии из файла: {scenario_file}")
+            scenarios_from_file = j_loads_ns(self.config.SCENARIOS_DIR / scenario_file)
+
+            for scenario_name, scenario in scenarios_from_file.__dict__.items():
+
+                # ВАЖНО: Пропускаем служебные поля, которые не являются сценариями.
+                # Лучше проверять наличие ключевого атрибута, например 'category_url'.
+                if not hasattr(scenario, 'category_url'):
+                    logger.debug(f"Пропускаем атрибут '{scenario_name}', так как это не сценарий.")
+                    continue
+
+                logger.info(f"Запускаем сценарий: '{scenario_name}'")
+
+                async for product in self.yield_scenario(scenario, page):
+                    yield product

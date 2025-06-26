@@ -1,10 +1,10 @@
-## \file /src/suppliers/suppliers_list/aliexpress/affiliated_products_generator.py
+## \file /src/suppliers/list_of_suppliers/aliexpress/affiliated_products_generator.py
 # -*- coding: utf-8 -*-
 
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress 
+.. module:: src.suppliers.list_of_suppliers.aliexpress 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -21,9 +21,9 @@ from typing import List
 
 from src.logger.logger import logger
 from src import gs
-from src.suppliers.suppliers_list.aliexpress import AliApi
-from src.suppliers.suppliers_list.aliexpress.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator 
-from src.suppliers.suppliers_list.aliexpress.utils.ensure_https import ensure_https
+from src.suppliers.list_of_suppliers.aliexpress import AliApi
+from src.suppliers.list_of_suppliers.aliexpress.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator 
+from src.suppliers.list_of_suppliers.aliexpress.utils.ensure_https import ensure_https
 from src.endpoints.prestashop.product_fields import ProductFields as f
 from src.utils.image import save_image_from_url_async 
 from src.utils.video import save_video_from_url

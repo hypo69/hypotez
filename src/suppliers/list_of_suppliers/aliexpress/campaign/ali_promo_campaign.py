@@ -3,7 +3,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress.campaign 
+.. module:: src.suppliers.list_of_suppliers.aliexpress.campaign 
 	:platform: Windows, Unix
 	:synopsis: AliPromoCampaign
 
@@ -48,12 +48,12 @@ from types import SimpleNamespace
 from typing import List, Optional, Dict
 import header
 from src import gs
-from src.suppliers.suppliers_list.aliexpress import campaign
-from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
-from src.suppliers.suppliers_list.aliexpress.utils import locales
+from src.suppliers.list_of_suppliers.aliexpress import campaign
+from src.suppliers.list_of_suppliers.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.list_of_suppliers.aliexpress.utils import locales
 from src.llm.gemini import GoogleGenerativeAi
 from src.llm.openai import OpenAIModel
-from src.suppliers.suppliers_list.aliexpress.campaign.html_generators import (
+from src.suppliers.list_of_suppliers.aliexpress.campaign.html_generators import (
     ProductHTMLGenerator,
     CategoryHTMLGenerator,
     CampaignHTMLGenerator,
@@ -69,7 +69,7 @@ from src.utils.convertors.csv import csv2dict
 from src.utils.file import save_text_file
 from src.utils.printer import pprint
 
-from src.suppliers.suppliers_list.aliexpress.utils.extract_product_id import extract_prod_ids
+from src.suppliers.list_of_suppliers.aliexpress.utils.extract_product_id import extract_prod_ids
 from src.logger.logger import logger
 
 class AliPromoCampaign:
