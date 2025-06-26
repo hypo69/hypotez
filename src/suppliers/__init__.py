@@ -9,4 +9,3 @@
 .. module:: src.suppliers 
 	:platform: Windows, Unix
 """
-from src.suppliers.suppliers_list import *

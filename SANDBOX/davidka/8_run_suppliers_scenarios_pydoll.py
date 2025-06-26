@@ -20,13 +20,12 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Optional, Dict, Any, List
 
-from pydoll.browser.chrome import Chrome
-from pydoll.constants import By
-from pydoll.browser.page import Page
+# from pydoll.browser.chrome import Chrome
+# from pydoll.constants import By
+# from pydoll.browser.page import Page
 
 from header import __root__
 from src import gs
-from src.webdriver.driver_pydoll import grab_product_page, get_product_urls_from_category_page
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 from src.llm.gemini import GoogleGenerativeAi # Unused, but kept
 #from src.endpoints.prestashop.product_async import PrestaProductAsync
@@ -37,31 +36,46 @@ from src.utils.jjson import j_loads, j_loads_ns, j_dumps # j_dumps unused
 from src.utils.image import get_image_bytes, get_raw_image_data 
 from src.logger.logger import logger
 
-
+# --- config.py ---
 class Config:
-    """Класс конфигурации скрипта."""
+    """Script-wide configuration (not supplier-specific).
+
+    ----------------------------------------------------------
+    По умолчанию используется SANDBOX/davidka/scenarios/*.json
+    и престашоп store.davidka.net
+    
+    """
+
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
-    SUPPLIERS_ENDPOINT: Path = __root__ / 'src' / 'suppliers' / 'suppliers_list'
-    SCENARIOS_DIR: Path = __root__ / 'SANDBOX' / 'davidka' / 'scenarios'
-    # config: SimpleNamespace = j_loads_ns(ENDPOINT / 'davidka.json') #  general config.
-    scenarios_files: List[str] = get_filenames_from_directory(SCENARIOS_DIR) # SANDBOX/davidka/scenarios/*.json
+    SCENARIOS_DIR: Path = ENDPOINT / 'scenarios'
+    
+    SUPPLIERS_ENDPOINT: Path = __root__ / 'src' / 'suppliers' / 'list_of_suppliers'
+
     PRESTA_API_KEY: str = gs.credentials.prestashop.store_davidka_net.api_key
     PRESTA_API_DOMAIN: str = gs.credentials.prestashop.store_davidka_net.api_domain
-    #presta_product_async: PrestaProductAsync = PrestaProductAsync(api_key=PRESTA_API_KEY, api_domain=PRESTA_API_DOMAIN)
-    presta_product: PrestaProduct = PrestaProduct(api_key=PRESTA_API_KEY, api_domain=PRESTA_API_DOMAIN)
-    browser: Chrome = None
-    page: Page = None
+    Product: PrestaProduct = PrestaProduct(PRESTA_API_KEY, PRESTA_API_DOMAIN)
+
+    @property
+    def scenarios_files(self) -> List[str]:
+        return get_filenames_from_directory(self.SCENARIOS_DIR)
+        
+# --- end config.py ---
 
 
-# ПРАВИЛЬНО:
+# Плохо
 async def save_to_prestashop_async(f:ProductFields):
     """"""
-    p = Config.presta_product
-    result = await p.presta_product.add_new_product_async(f)
+    async with Config.Product as p:
+        return await p.add_new_product_async(f)
 
 
 async def process_supplier(supplier_prefix:str, page: 'Page', product_url:Optional[str] = None ) -> bool:
-    """Название файла JSON соответствуют `supplier_prefix`, а  названия папок в системе - `supplier_alias` """
+    """Название файла JSON соответствуют `supplier_prefix`, а  названия папок в системе - `supplier_alias` 
+    Args:
+        supplier_prefix (str): Префикс поставщика, соответствующий имени файла сценария (например, 'aliexpress', 'amazon', 'ebay').
+        page (Page): Экземпляр страницы Pydoll для работы с веб-страницами.
+        product_url (Optional[str], optional):  если указан, то обрабатывается только одна ссылка на товар.
+    """
     ...
     
     try:
@@ -69,18 +83,11 @@ async def process_supplier(supplier_prefix:str, page: 'Page', product_url:Option
         supplier_path:Path = Config.SUPPLIERS_ENDPOINT / supplier_alias 
         product_locators:SimpleNamespace = j_loads_ns(supplier_path / 'locators' / 'product.json')
         category_locators:SimpleNamespace = j_loads_ns(supplier_path / 'locators' / 'category.json')
-        actual_fields:list = ['id_supplier',                                                              
-                     'name',
-                     'price',
-                     'reference',
-                     'description',
-                     'description_short',
-                     'default_image_url']
 
         # --- dev ---
-        scenarios_list: list = j_loads(Config.SCENARIOS_DIR  / f'{supplier_prefix}.json') # <- ЧИТАЮ ИЗ ПАПКИ САНДБОХ
+        scenarios_list: list = j_loads_ns(Config.SCENARIOS_DIR  / f'{supplier_prefix}.json') # <- ЧИТАЮ ИЗ ПАПКИ САНДБОХ
         
-        graber_module_path:str  = f"src.suppliers.suppliers_list.{supplier_prefix}.graber_via_pydoll"
+        graber_module_path:str  = f"src.suppliers.list_of_suppliers.{supplier_alias}.graber_via_pydoll"
     except Exception as ex:
         
         logger.error(f'Непредвиденная ошибка', ex)
@@ -88,15 +95,16 @@ async def process_supplier(supplier_prefix:str, page: 'Page', product_url:Option
 
 
     try:
-        graber = importlib.import_module(graber_module_path)
+       
+        graber_module = importlib.import_module(graber_module_path)
+        graber: 'Graber' = graber_module.Graber(supplier_prefix=supplier_prefix)
     except Exception as ex:
         logger.error(f"Failed to import module `graber` '{supplier_prefix}'", ex)
-        return False
-
+        return None    
 
     if product_url: # <- обработка одной ссылки
         f:ProductFields = await graber.grab_product_page(page, product_url)
-        return save_to_prestashop(f)
+        return await save_to_prestashop_async(f)
         
     for scenario in scenarios_list:
         products_urls_in_category:list = await graber.get_product_urls_from_category_page(scenario['url'], category_locators.product_links, page)
@@ -109,7 +117,7 @@ async def process_supplier(supplier_prefix:str, page: 'Page', product_url:Option
 
         for product_url in products_urls_in_category:
             f:ProductFields = await graber.grab_product_page(page, product_url)
-            save_to_prestashop(f)
+            await save_to_prestashop_async(f)
             
         return True
 
@@ -130,36 +138,28 @@ async def main(scenario_filename: Optional[str] = None) -> None:
         None
     """
     ... 
-    scenrio_files_to_process: List[Path] = []
+    scenario_files_to_process: List[Path] = []
     scenario_data: Dict[str, Any] | List[Dict[str, Any]] | None
     supplier_prefix_from_file: str
+
     # single_scenario: Dict[str,Any] # Объявляется внутри цикла, если необходимо
 
     if scenario_filename:
-        # Если передан конкретный файл, обрабатываем только его.
-        path_candidate: Path = Path(scenario_filename)
-        # Проверка, является ли указанный путь существующим файлом
-        if path_candidate.is_file():
-            paths_to_process.append(path_candidate.resolve())
-            logger.info(f"Обработка указанного файла сценария: {paths_to_process[0]}")
-        # Проверка, существует ли файл с таким именем в директории сценариев по умолчанию
-        elif (Config.SCENARIOS_DIR / path_candidate.name).is_file(): # Используем path_candidate.name для корректного поиска в SCENARIOS_DIR
-            paths_to_process.append((Config.SCENARIOS_DIR / path_candidate.name).resolve())
-            logger.info(f"Обработка указанного файла сценария из директории по умолчанию: {paths_to_process[0]}")
-        else:
-            logger.error(f"Файл сценария '{scenario_filename}' не найден ни как абсолютный/относительный путь, ни в директории {Config.SCENARIOS_DIR}.")
-            return # Выход, если указанный файл не найден
+
+                            
+
+
     else:
         # Если имя файла не передано, обрабатываем все файлы из конфигурации.
         logger.info(f"Обработка всех файлов сценариев из директории: {Config.SCENARIOS_DIR}")
         for fname in Config.scenarios_files:
-            scenrio_files_to_process.append((Config.SCENARIOS_DIR / fname).resolve())
+            scenario_files_to_process.append((Config.SCENARIOS_DIR / fname).resolve())
 
-    if not scenrio_files_to_process:
+    if not scenario_files_to_process:
         logger.info("Нет файлов сценариев для обработки.")
         return
 
-    for current_scenario_path in scenrio_files_to_process:
+    for current_scenario_path in scenario_files_to_process:
         ... 
         logger.info(f"Начало обработки файла сценария: {current_scenario_path}")
         # Извлечение сценариев из файла
