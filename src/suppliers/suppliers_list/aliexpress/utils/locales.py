@@ -46,4 +46,4 @@ def get_locales(locales_path: Path | str) -> list[dict[str, str]] | None:
     locales = j_loads_ns(locales_path)
     return locales.locales or None
 
-locales: list[dict[str, str]] | None = get_locales (gs.path.src / 'suppliers' / 'list_of_suppliers' / 'aliexpress' / 'utils' / 'locales.json') # defined locales for campaigns
+locales: list[dict[str, str]] | None = get_locales (gs.path.src / 'suppliers' / 'suppliers_list' / 'aliexpress' / 'utils' / 'locales.json') # defined locales for campaigns

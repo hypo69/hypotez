@@ -47,7 +47,7 @@ class Config:
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
     SCENARIOS_DIR: Path = ENDPOINT / 'scenarios'
     
-    SUPPLIERS_ENDPOINT: Path = __root__ / 'src' / 'suppliers' / 'list_of_suppliers'
+    SUPPLIERS_ENDPOINT: Path = __root__ / 'src' / 'suppliers' / 'suppliers_list'
 
     PRESTA_API_KEY: str = gs.credentials.prestashop.store_davidka_net.api_key
     PRESTA_API_DOMAIN: str = gs.credentials.prestashop.store_davidka_net.api_domain
@@ -77,7 +77,7 @@ async def process_supplier(supplier_prefix:str, page: 'Page', product_url:Option
 
         # --- dev ---
         scenarios_ns: SimpleNamespace = j_loads_ns(Config.SCENARIOS_DIR  / f'{supplier_prefix}.json') # <- ЧИТАЮ ИЗ ПАПКИ СЭНДБОХ
-        graber_module_path:str  = f"src.suppliers.list_of_suppliers.{supplier_alias}.graber_via_pydoll"
+        graber_module_path:str  = f"src.suppliers.suppliers_list.{supplier_alias}.graber_via_pydoll"
 
     except Exception as ex:
         

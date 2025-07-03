@@ -47,7 +47,7 @@ class Config:
 
     def __post_init__(self):
         self.supplier_alias = self.supplier_prefix.replace('.', '_').replace('-', '_')
-        self.ENDPOINT = __root__ / 'src' / 'suppliers' / 'list_of_suppliers' / self.supplier_alias
+        self.ENDPOINT = __root__ / 'src' / 'suppliers' / 'suppliers_list' / self.supplier_alias
         self.SCENARIOS_DIR = self.ENDPOINT / 'scenarios'
 
     @property
