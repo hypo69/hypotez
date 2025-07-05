@@ -10,6 +10,7 @@
     "gemini-2.0-flash-lite",
     "gemini-2-13b",
     "gemini-2.5-flash-preview-04-17",
+    "gemini-2.5-flash-lite-preview-06-17",
     "gemini-3-20b"
   ],
   "response_mime_types": [ "plain/text", "application/json", "image/png" ],

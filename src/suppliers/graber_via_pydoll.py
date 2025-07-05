@@ -64,11 +64,13 @@ class Config:
 class Graber:
     """Grabs product/category info for a given supplier."""
 
-    def __init__(self, supplier_prefix: str):
+    def __init__(self, page:Page, supplier_prefix: str):
         self.config = Config(supplier_prefix=supplier_prefix)
+        self.page = page
 
-    async def grab_product_page(self, product_url: str, page: Page, actual_fields: Optional[List[str]] = None) -> ProductFields:
+    async def grab_product_page(self, product_url: str, page: Optional[Page] = None, actual_fields: Optional[List[str]] = None) -> ProductFields:
         actual_fields = actual_fields or self.config.actual_fields
+        page = page or self.page
         locator = self.config.product_locators
         f = ProductFields()
 
@@ -97,7 +99,7 @@ class Graber:
         return f
 
     @staticmethod
-    def _normalize_url(product_url: str) -> str:
+    def _normalize_url(url: str) -> str:
         """
         Приводит URL к стандартному виду https://...
         Поддерживаются форматы:
@@ -105,15 +107,12 @@ class Graber:
             https://he.aliexpress.com/item/
             he.aliexpress.com/item/
         """
-        if not product_url:
-            return ""
             
-        if product_url.startswith('//'):
-            return f'https:{product_url}'
-        if not (product_url.startswith('http://') or product_url.startswith('https://')):
-            return f'https://{product_url.lstrip("/")}'
-        
-        return product_url
+        if url.startswith('//'):
+            return f'https:{url}'
+        if not (url.startswith('http://') or url.startswith('https://')):
+            return f'https://{url.lstrip("/")}'
+        return url
 
     async def get_product_urls_from_category_page(self, category_url: str, locator: SimpleNamespace, page: Page) -> List[str]:
         await page.go_to(category_url)

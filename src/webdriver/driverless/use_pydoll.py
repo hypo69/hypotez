@@ -1,5 +1,4 @@
 import asyncio
-from calendar import c
 from typing import List, Any
 from types import SimpleNamespace
 from pydoll.browser.chrome import Chrome
@@ -9,82 +8,115 @@ from pydoll.browser.page import Page
 from header import __root__
 from src.logger import logger
 
+class Driver(Chrome):
+    """! Driver class for Pydoll Chrome browser. """
 
-async def execute_locator(page: 'Page', locator: SimpleNamespace) -> Any:
-    """Locate and return content from the element based on locator info."""
-    
-    if locator.by.upper() == 'VALUE':
-        return locator.attribute
-    
-    res:list = []
-    elements:'WebElement' | list['WebElement' ] = None
+    # Class attributes declaration
+    page: Page = None
 
-    """XPATH не умеет в жадную логику"""
-    match getattr(locator,'strategy_for_multiple_selectors','find_first_match').lower():
-        case 'find_first_match':
-            selectors:list = locator.selector.split(';')
-            for selector in selectors:
-                try:
-                    elements = await page.find_elements(By[locator.by.upper()], selector)
-                    if elements:
-                        break
-                except Exception as ex:
-                    logger.warning(f"Error executing locator: {locator}", ex, exc_info=True)
-                    return None
-                
-    
-    
-    match getattr(locator,'attribute','').lower():
-        case '':
-            # Локатор {locator} не содержит атрибута для извлечения данных.\n
-            # Вероятней всего мне требутеся весь вебэелемент"
-            res = elements 
+    def __init__(self, **kwargs):
+        """! Synchronous constructor; use `await async_init()` for full setup.
 
-        case 'innertext':
-            if len(elements) == 1:
-                return await elements[0].get_element_text()
-            res = [await el.get_element_text() for el in elements]
-            
-        
-        case 'innerhtml':
-            if len(elements) == 1:
-                return await elements[0].inner_html
-            res =  [await el.inner_html for el in elements]
+        Args:
+        **kwargs: Arbitrary keyword arguments passed to Chrome constructor.
+        """
+        super().__init__(**kwargs)
+        self.page: Page = self.get_page()
 
-        case  'src' | 'href':
-            
-            if len(elements) == 1:
-                return elements[0].get_attribute(locator.attribute) 
-            res =  [ el.get_attribute(locator.attribute) for el in elements]
-            
+    async def close(self):
+        """! Close the driver. """
+        await self.page.close()
+        await super().close()
 
-        case _:
-            raise ValueError(f"Unsupported attribute: {locator=}")
+    async def execute_locator(self, locator: SimpleNamespace) -> Any:
+        """! Locate and return content from the element based on locator info.
 
-    match getattr(locator,'if_list','').lower():
+        Args:
+        locator (SimpleNamespace): Locator configuration object.
 
-        case '':
-            return res
+        Returns:
+        Any: The data extracted or list of elements depending on locator and strategy.
 
-        case 'all':
-            return res
+        Raises:
+        ValueError: If an unsupported attribute is requested.
+        """
 
-        case 'first':
-            return res[0]
+        if locator.by.upper() == 'VALUE':
+            return locator.attribute
 
-        case 'last':
-            return res[-1]
+        res: list = []
+        elements: 'WebElement' | list['WebElement'] = None
 
-        case 'even':
-            return [res[i] for i in range(0, len(res), 2)]
+        # Strategy for multiple selectors (XPATH не умеет в жадные операторы)
+        match getattr(locator, 'strategy_for_multiple_selectors', 'find_first_match').lower():
+            case 'find_first_match':
+                selectors: list = locator.selector.split(';')
+                for selector in selectors:
+                    try:
+                        elements = await self.page.find_elements(By[locator.by.upper()], selector)
+                        if elements:
+                            break
+                    except Exception as ex:
+                        logger.warning(f"Error executing locator: {locator}", ex, exc_info=True)
+                        return None
 
-        case 'odd':
-            return [res[i] for i in range(1, len(res), 2)]
+        match getattr(locator, 'attribute', '').lower():
+            case '':
+                # If no attribute is provided, return WebElement object(s)
+                res = elements
 
-        case isinstance(if_list, list):
-            return [res[i] for i in if_list]
+            case 'innertext':
+                if len(elements) == 1:
+                    return await elements[0].get_element_text()
+                res = [await el.get_element_text() for el in elements]
 
-        case isinstance(if_list, int):
-            return res[if_list - 1]
+            case 'innerhtml':
+                if len(elements) == 1:
+                    return await elements[0].inner_html
+                res = [await el.inner_html for el in elements]
 
-    return None
+            case 'src' | 'href':
+                if len(elements) == 1:
+                    return await elements[0].get_attribute(locator.attribute)
+                res = [await el.get_attribute(locator.attribute) for el in elements]
+
+            case _:
+                raise ValueError(f"Unsupported attribute: {locator=}")
+
+        # List filtering strategy
+        if_list = getattr(locator, 'if_list', '')
+        match if_list:
+            case '':
+                return res
+            case 'all':
+                return res
+            case 'first':
+                return res[0]
+            case 'last':
+                return res[-1]
+            case 'even':
+                return [res[i] for i in range(0, len(res), 2)]
+            case 'odd':
+                return [res[i] for i in range(1, len(res), 2)]
+            case list() if isinstance(if_list, list):
+                return [res[i] for i in if_list if isinstance(i, int)]
+            case int() if isinstance(if_list, int):
+                return res[if_list - 1]
+
+        return None
+
+    async def get_url(self, url: str) -> bool:
+        """! Navigate to the given URL.
+
+        Args:
+        url (str): The target URL.
+
+        Returns:
+        bool: `True` if navigation was successful, else `False`.
+        """
+        try:
+            await self.page.go_to(url)
+            return True
+        except Exception as ex:
+            logger.error(f"Failed to navigate to URL: {url}", ex)
+            return False

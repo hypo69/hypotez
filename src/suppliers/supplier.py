@@ -1,6 +1,5 @@
 ## \file /src/suppliers/supplier.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
 """

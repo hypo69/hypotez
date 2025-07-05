@@ -1,3 +1,15 @@
+## \file /src/suppliers/get_graber_by_supplier.py
+# -*- coding: utf-8 -*-
+#! .pyenv/bin/python3
+
+"""
+Модуль вохвращает класс вебдрайвера  для каждого конкретного поставщика
+
+```rst
+.. :module:: src.suppliers.get_graber_by_supplier 
+```
+
+"""
 # get_graber_by_supplier.py
 from urllib.parse import urlparse
 # --- Импорты Graber классов ---

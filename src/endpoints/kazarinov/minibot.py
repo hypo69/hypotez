@@ -29,14 +29,14 @@ from header import __root__
 from src import gs
 from src.logger import logger
 from src.llm.gemini import GoogleGenerativeAi
-from src.endpoints.kazarinov.scenarios.scenario import fetch_target_urls_onetab, Scenario
+from src.endpoints.kazarinov.scenarios.scenario import Scenario
+from src.endpoints.kazarinov.scenarios.fetch_one_tab import fetch_one_tab_data
 from src.utils.url import is_url
 from src.utils.printer import pprint as print
 from src import USE_ENV
 
 
 # --- config.py -----------------
-@dataclass
 class Config:
     
     ENDPOINT:str = 'kazarinov'
@@ -45,16 +45,16 @@ class Config:
     BOT_TOKEN:str
 
     if MODE=='PRODUCTION':
-        BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') if USE_ENV else gs.credentials.telegram.hypo69_kazarinov_bot
+        BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') if USE_ENV else gs.credentials.telegram.hypo69_kazarinov_bot.token
     else:
-        BOT_TOKEN = os.getenv('TEST_BOT_TOKEN') if USE_ENV else gs.credentials.telegram.hypo69_test_bot
+        BOT_TOKEN = os.getenv('TEST_BOT_TOKEN') if USE_ENV else gs.credentials.telegram.hypo69_test_bot.token
 
-    CHANNEL_ID = '@onela'
-    PHOTO_DIR = Path(__root__ / 'endpoints' / 'kazarinov' / 'assets')
-    COMMAND_INFO = 'This is a simple bot. Use /help to see commands.'
-    UNKNOWN_COMMAND_MESSAGE = 'Unknown command. Use /help to see available commands.'
-    START_MESSAGE = "Howdy, how are you doing?"
-    HELP_MESSAGE = """
+    CHANNEL_ID: str = '@onela'
+    PHOTO_DIR: Path = Path(__root__ / 'src' / 'endpoints' / 'kazarinov' / 'assets')
+    COMMAND_INFO: str = 'This is a simple bot. Use /help to see commands.'
+    UNKNOWN_COMMAND_MESSAGE: str = 'Unknown command. Use /help to see available commands.'
+    START_MESSAGE: str = "Howdy, how are you doing?"
+    HELP_MESSAGE: str = """
     Here are the available commands:
     /start - Starts the bot.
     /help - Shows this help message.
@@ -62,12 +62,13 @@ class Config:
     /time - Shows the current time.
     /photo - Sends a random photo.
     """
-    WINDOW_MODE = 'normal'
+    WINDOW_MODE: str = 'hidden'
 
     if USE_ENV:
         from dotenv import load_dotenv
         load_dotenv()
-    
+
+    DEFAULT_GEMINI_MODEL: str = 'gemini-2.5-flash-lite-preview-06-17'  # Default model for Gemini API'
 # --- config.py end -----------------
 
 
@@ -80,7 +81,8 @@ class BotHandler:
     def __init__(self):
         """Инициализация обработчика событий телеграм-бота."""
         self.questions_list = ['Я не понял?', 'Объясни пожалуйста']
-        self.model = GoogleGenerativeAi(os.getenv('GEMINI_API') if USE_ENV else gs.credentials.gemini.kazarinov)
+        self.model = GoogleGenerativeAi(api_key = os.getenv('GEMINI_API') if USE_ENV else gs.credentials.gemini.kazarinov.api_key,
+                                        model_name = Config.DEFAULT_GEMINI_MODEL)
 
     def handle_message(self, bot:telebot, message:'message'):
         """Обработка текстовых сообщений."""
@@ -120,8 +122,8 @@ class BotHandler:
 
         # Parsing https//one-tab.com/XXXXXXXXX 
         try:
-           price, mexiron_name, urls = fetch_target_urls_onetab(url)
-           bot.send_message(message.chat.id, f'Получил мехирон {mexiron_name} - {price} шек')
+            price, mexiron_name, urls = fetch_one_tab_data(url)
+            bot.send_message(message.chat.id, f'Получил мехирон {mexiron_name} - {price} шек')
         except Exception as ex:
             logger.error(f"Error fetching URLs from OneTab: ",ex)
             bot.send_message(message.chat.id, "Произошла ошибка при получении данных из OneTab.")
@@ -297,7 +299,7 @@ def handle_unknown_command(message):
 #         time.sleep(10)
 #         main()
 
-def run_bot() -> None:
+def run_bot(attempts:int = 3) -> None:
     """
     Запускает polling-бота в бесконечном цикле с автоматическим восстановлением при ошибках.
 
@@ -306,8 +308,10 @@ def run_bot() -> None:
     Raises:
         Exception: Повторно пробрасывается при фатальной ошибке, если бот не может быть запущен.
     """
+    if attempts < 1:
+        return False
     try:
-        logger.info(f'Starting bot in {Config.MODE} mode')
+        logger.info(f'\n\t --- \n\tStart bot in `{Config.MODE}` mode\n')
         bot.infinity_polling()
         
 
@@ -321,7 +325,7 @@ def run_bot() -> None:
 
         logger.debug('Повторный запуск через 10 секунд')
         time.sleep(10)
-        run_bot()
+        run_bot(attempts+1)
 
 if __name__ == '__main__':
     run_bot()

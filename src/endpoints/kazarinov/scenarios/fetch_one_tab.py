@@ -14,6 +14,7 @@ import requests
 
 import header
 from src import gs
+from src.endpoints.fetch_one_tab import fetch_one_tab_data as fetch
 from src.logger import logger
 
 def fetch_one_tab_data(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
@@ -21,21 +22,18 @@ def fetch_one_tab_data(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
     Функция паресит целевые URL из полученного OneTab.
     """
     try:
-        response = requests.get(one_tab_url, timeout=10)
-        response.raise_for_status()
-
-        soup = BeautifulSoup(response.content, "html.parser")
-
-        # Извлечение ссылок
-        urls = [a["href"] for a in soup.find_all("a", class_="tabLink")]
-
-        # Извлечение данных из div с классом 'tabGroupLabel'
-        element = soup.find("div", class_="tabGroupLabel")
-        onetab_label:str = element.get_text() if element else ''
-
+        label, urls = fetch(one_tab_url)
        
+        if not label:
+            price = ""
+            description = gs.now
+        else:
+            # Разбивка данных на цену и имя
+            parts = label.split(maxsplit=1)
+            price = int(parts[0]) if parts[0].isdigit() else ""
+            mexiron_name = parts[1] if len(parts) > 1 else gs.now
+        return price, mexiron_name, urls
 
-        return onetab_label, urls
 
     except requests.exceptions.RequestException as ex:
         logger.error(f"Ошибка при выполнении запроса: {one_tab_url=}", ex)

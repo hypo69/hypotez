@@ -32,7 +32,7 @@ from src.suppliers.graber import Graber
 from src.webdriver.driver import Driver
 from src.webdriver.firefox import Firefox
 from src.webdriver.chrome import Chrome
-from src.webdriver.executor_pydoll import Pydoll
+from src.webdriver.driverless.use_pydoll import Driver
 
 from src.llm.gemini import GoogleGenerativeAi
 from src.llm.openai.model import OpenAIModel

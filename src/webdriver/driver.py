@@ -15,7 +15,6 @@
 .. module:: src.webdriver.driver
 ```
 """
-
 import copy
 import pickle
 import time

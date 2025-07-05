@@ -20,15 +20,16 @@ from typing import Optional, List
 
 import header
 from src import gs
-from src.webdriver.driver import Driver
-from src.webdriver.firefox import Firefox
-from src.webdriver.playwright import Playwrid
-from src.llm.gemini import GoogleGenerativeAi
+
+#from src.webdriver.driver import Driver
+#from src.webdriver.firefox import Firefox
+from src.webdriver.driverless.use_pydoll import Driver
+
 from src.endpoints.kazarinov.report_generator.report_generator import ReportGenerator
 from src.endpoints.kazarinov.scenarios.quotation_builder import QuotationBuilder
 from src.endpoints.prestashop.product_fields.product_fields import ProductFields
-from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
-from src.endpoints.fetch_one_tab import fetch_target_urls_onetab
+from src.suppliers.get_pydoll_graber_by_supplier import get_graber_by_supplier_url
+
 from src.utils.jjson import j_dumps
 from src.logger.logger import logger
 from dataclasses import dataclass, field
@@ -42,15 +43,15 @@ class Config:
 class Scenario(QuotationBuilder):
     """Исполнитель сценария для Казаринова"""
 
-    def __init__(self, mexiron_name:Optional[str] = gs.now, driver:Optional[Firefox | Playwrid | str] = None, **kwargs):
+    def __init__(self, mexiron_name:Optional[str] = gs.now, driver:Optional = None, **kwargs):
         """Сценарий сбора информации."""
 
         if 'window_mode' not in kwargs:
             kwargs['window_mode'] = 'normal'
 
-        self.driver = Driver(Firefox,**kwargs) if not driver else driver
-
-
+        #self.driver = Driver(Firefox,**kwargs) if not driver else driver
+        self.driver = Driver()
+        
         super().__init__(mexiron_name = mexiron_name, driver = self.driver, **kwargs)
 
     async def run_scenario_async(
@@ -74,9 +75,8 @@ class Scenario(QuotationBuilder):
         lang_index: int = 2
         for url in urls:
             kwargs:dict = {}
-            # ------------------------------- бот не работает ----------------
-            graber: 'Graber' = get_graber_by_supplier_url(self.driver, url, lang_index, **kwargs)
-            bot.send_message(chat_id, f"Сереж, сегодня не работает. Позвони.") 
+            graber: 'Graber' = get_graber_by_supplier_url(url)
+            bot.send_message(chat_id, f"Сереж, что-то не работает. Позвони.") 
             break
             # -----------------------------------------------------------------
             if not graber:
