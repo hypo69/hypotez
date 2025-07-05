@@ -34,18 +34,19 @@ from header import __root__
 from src import gs
 from src.endpoints.prestashop.product_fields import ProductFields
 
-from src.webdriver.driver import Driver
-from src.webdriver.firefox import Firefox
-from src.webdriver.playwright import Playwrid
+# from src.webdriver.driver import Driver
+# from src.webdriver.firefox import Firefox
+# from src.webdriver.playwright import Playwrid
 
 from src.llm.gemini import GoogleGenerativeAi
+
 from src.endpoints.advertisement.facebook.scenarios import (
     post_message_title, upload_post_media, message_publish
 )
-from src.suppliers.suppliers_list.morlevi.graber import Graber as MorleviGraber
-from src.suppliers.suppliers_list.ksp.graber import Graber as KspGraber
-from src.suppliers.suppliers_list.ivory.graber import Graber as IvoryGraber
-from src.suppliers.suppliers_list.grandadvance.graber import Graber as GrandadvanceGraber
+# from src.suppliers.suppliers_list.morlevi.graber import Graber as MorleviGraber
+# from src.suppliers.suppliers_list.ksp.graber import Graber as KspGraber
+# from src.suppliers.suppliers_list.ivory.graber import Graber as IvoryGraber
+# from src.suppliers.suppliers_list.grandadvance.graber import Graber as GrandadvanceGraber
 from src.endpoints.kazarinov.report_generator import ReportGenerator 
 
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
@@ -57,7 +58,8 @@ from src.logger.logger import logger
 
 class Config:
     ENDPOINT:str = 'kazarinov'
-
+    model_name = 'gemini-2.5-flash-preview-04-17'
+    api_key:str = gs.credentials.gemini.kazarinov
 
 class QuotationBuilder:
     """
@@ -100,56 +102,25 @@ class QuotationBuilder:
                                 'local_image_path')
 
 
-    def __init__(self, mexiron_name:Optional[str] = gs.now, driver:Optional[Firefox | Playwrid | str] = None,  **kwargs):
+    def __init__(self, mexiron_name:Optional[str] = gs.now, model_name:Optional[str] = None,  **kwargs):
         """
         Initializes Mexiron class with required components.
 
         Args:
-            driver (Driver): Selenium WebDriver instance.
             mexiron_name (Optional[str]): Custom name for the Mexiron process.
             webdriver_name (Optional[str]): Name of the WebDriver to use. Defaults to 'firefox'. call to Firefox or Playwrid
             window_mode (Optional[str]): Оконный режим вебдрайвера. Может быть 'maximized', 'headless', 'minimized', 'fullscreen', 'normal', 'hidden', 'kiosk'
 
         """
-        self.mexiron_name = mexiron_name
-        try:
-            self.export_path = gs.path.external_storage / Config.ENDPOINT / 'mexironim' / self.mexiron_name
-        except Exception as ex:
-            logger.error(f"Error constructing export path:",ex)
-            ...
-            return
-
-        # 1. Initialize webdriver
-
-        kwargs['window_mode'] = kwargs.get('window_mode', 'normal') # <- если не указано, то нормальный режим
-        if driver:
-
-           if isinstance(driver, Driver):
-                self.driver = driver
-
-           elif isinstance(driver, (Firefox, Playwrid, )):  # Chrome, Edge
-                self.driver = Driver(driver, **kwargs)
-
-           elif isinstance(driver, str):
-               if driver.lower() == 'firefox':
-                    self.driver = Driver(Firefox, **kwargs)
-
-               elif driver.lower() == 'playwright':
-                    self.driver = Driver(Playwrid, **kwargs)
-
-        else:
-            self.driver = Driver(Firefox, **kwargs)
-
-
-
-                
-        # 2. Initialize Gemini model
 
         try:
             system_instruction:str = (gs.path.endpoints / Config.ENDPOINT / 'instructions' / 'system_instruction_mexiron.md').read_text(encoding='UTF-8')
-            api_key:str = gs.credentials.gemini.kazarinov
+            logger.info(f"System instruction:\n---\n {system_instruction[:50]}...\n---\n")  # Print first 50 characters for brevity
+
+            
             self.model = GoogleGenerativeAi(
-                api_key=api_key,
+                model_name = model_name or Config.model_name,
+                api_key = Config.api_key,
                 system_instruction=system_instruction,
                 generation_config={'response_mime_type': 'application/json'}
             )
@@ -314,9 +285,10 @@ class QuotationBuilder:
 
         return True
 
-def main():
+def example():
     """"""
     ...
+
     lang:str = 'he'
     
     mexiron_name: str = '250203025325520'
@@ -329,7 +301,10 @@ def main():
 
     quotation = QuotationBuilder(mexiron_name)
     asyncio.run(quotation.create_reports(data[lang], mexiron_name, lang, html_path, pdf_path, docx_path))
-    
+ 
+def main():
+    #example()
+    ...
 
 if __name__ == '__main__':
     main()

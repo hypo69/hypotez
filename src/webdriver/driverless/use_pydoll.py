@@ -1,9 +1,12 @@
 import asyncio
 from typing import List, Any
 from types import SimpleNamespace
-from pydoll.browser.chrome import Chrome
-from pydoll.constants import By
+from pydoll.browser import Chrome
+from pydoll.browser.options import ChromeOptions as Options
 from pydoll.browser.page import Page
+from pydoll.constants import By
+
+
 
 from header import __root__
 from src.logger import logger
@@ -11,7 +14,6 @@ from src.logger import logger
 class Driver(Chrome):
     """! Driver class for Pydoll Chrome browser. """
 
-    # Class attributes declaration
     page: Page = None
 
     def __init__(self, **kwargs):
@@ -20,7 +22,20 @@ class Driver(Chrome):
         Args:
         **kwargs: Arbitrary keyword arguments passed to Chrome constructor.
         """
-        super().__init__(**kwargs)
+            # Configure browser options
+        options = Options()
+        #options.add_argument('--proxy-server=username:password@ip:port')
+        #options.add_argument('--window-size=1920,1080')
+        #options.add_argument('--start-maximized')
+        #options.binary_location = '/path/to/your/browser'
+        #options.headless = kwargs.get('headless', True)  # Default to headless mode
+
+        options.add_argument('--headless=new')
+        options.add_argument('--disable-notifications')
+
+        
+
+        super().__init__(options = options, **kwargs, )
         self.page: Page = self.get_page()
 
     async def close(self):

@@ -32,5 +32,5 @@ from src.suppliers.graber_via_pydoll import Graber as GraberSupplier
 class Graber(GraberSupplier):
     """Grabs product/category info for Aliexpress supplier using pydoll."""
     def __init__(self):
-        super().__init__('ads-tec-iit.com')
+        super().__init__(supplier_prefix = 'ads-tec-iit.com')
         

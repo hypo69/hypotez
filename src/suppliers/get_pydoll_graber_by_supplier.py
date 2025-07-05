@@ -1,21 +1,19 @@
-## \file /src/suppliers/get_pydoll_graber_by_supplier.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
 """
-Модуль возвращает класс pydoll вебдрайвера  для каждого конкретного поставщика
+Модуль возвращает экземпляр pydoll вебдрайвера (Graber) для каждого конкретного поставщика
 
 ```rst
 .. :module:: src.suppliers.get_pydoll_graber_by_supplier 
 ```
 """
 
-# get_graber_by_supplier.py
 from urllib.parse import urlparse
-# --- Импорты Graber классов ---
-from urllib.parse import urlparse
+from typing import Optional
 
 # --- Импорты Graber классов ---
+# Убедитесь, что все эти импорты корректны и ведут к классам Graber
 from src.suppliers.suppliers_list.ads_tec_iit_com.graber_via_pydoll import Graber as AdsTecIitComGraber
 from src.suppliers.suppliers_list.aliexpress.graber_via_pydoll import Graber as AliexpressGraber
 from src.suppliers.suppliers_list.amazon.graber_via_pydoll import Graber as AmazonGraber
@@ -81,170 +79,218 @@ from src.suppliers.suppliers_list.wallashop.graber_via_pydoll import Graber as W
 from src.suppliers.suppliers_list.wallmart.graber_via_pydoll import Graber as WallmartGraber
 from src.suppliers.suppliers_list.zebra_com.graber_via_pydoll import Graber as ZebraComGraber
 
+# Импорт типа Page для аннотации типов
+from pydoll.browser.page import Page 
 
+
+# Словарь для соответствия доменов классам Graber
 URL_PREFIX_MAP = {
-    "https://ads-tec-iit.com/": AdsTecIitComGraber,
-    "https://aliexpress.com/": AliexpressGraber,
-    "https://amazon.com/": AmazonGraber,
-    "https://apple.com/": AppleComGraber,
-    "https://atlascopco.com/": AtlascopcoComGraber,
-    "https://bangood.com/": BangoodGraber,
-    "https://bucketmaster.com.cn/": BucketmasterComCnGraber,
-    "https://cdata.com/": CdataGraber,
-    "https://chat.openai.com/": "chat_gpt",
-    "https://cisco.com/": CiscoComGraber,
-    "https://de-de.ring.com/": DeDeRingComGraber,
-    "https://de.hexcel.com/": DeHexcelComGraber,
-    "https://de.rs-online.com/": DeRsOnlineComGraber,
-    "https://denaliweld.com/": DenaliweldComGraber,
-    "https://dewesoft.com/": DewesoftComGraber,
-    "https://ebay.com/": EbayGraber,
-    "https://elektrometal.eu/": ElektrometalEuGraber,
-    "https://etzmaleh.com/": EtzmalehGraber,
-    "https://findernet.com/": FindernetComGraber,
-    "https://fresubin.com/": FresubinComGraber,
-    "https://gearbest.com/": GearbestGraber,
-    "https://generex.de/": GenerexDeGraber,
-    "https://georgin.com/": GeorginComGraber,
-    "https://german.micro-steppermotors.com/": GermanMicroSteppermotorsComGraber,
-    "https://grandadvance.com/": GrandadvanceGraber,
-    "https://hb.com/": HbGraber,
-    "https://imos3d.com/": Imos3dComGraber,
-    "https://induprogress.pl/": InduprogressPlGraber,
-    "https://industrierat-west.de/": IndustrieratWestDeGraber,
-    "https://it.alwsci.com/": ItAlwsciComGraber,
-    "https://it.defelsko.com/": ItDefelskoComGraber,
-    "https://it.jarvis-smart.com/": ItJarvisSmartComGraber,
-    "https://it.superb-heater.com/": ItSuperbHeaterComGraber,
-    "https://it.thermo-heater.com/": ItThermoHeaterComGraber,
-    "https://ivory.co.il/": IvoryGraber,
-    "https://janitza.com/": JanitzaComGraber,
-    "https://jungbluth.com/": JungbluthComGraber,
-    "https://ksp.co.il/": KspGraber,
-    "https://kualastyle.co.il/": KualastyleGraber,
-    "https://ledodm.com/": LedodmComGraber,
-    "https://leybold.com/": LeyboldComGraber,
-    "https://mecalux.it/": MecaluxItGraber,
-    "https://megatron.de/": MegatronDeGraber,
-    "https://megger.com/": MeggerComGraber,
-    "https://mococonnectors.com/": MococonnectorsComGraber,
-    "https://mordorintelligence.it/": MordorintelligenceItGraber,
-    "https://morlevi.co.il/": MorleviGraber,
-    "https://omnipod.com/": OmnipodComGraber,
-    "https://opel.de/": OpelDeGraber,
-    "https://pfannenberg.com/": PfannenbergComGraber,
-    "https://pl.dmgmori.com/": PlDmgmoriComGraber,
-    "https://plm.sw.siemens.com/": PlmSwSiemensComGraber,
-    "https://prebiel.pl/": PrebielPlGraber,
-    "https://prusa3d.com/": Prusa3dComGraber,
-    "https://ridgid.eu/": RidgidEuGraber,
-    "https://sensysmagnetometer.com/": SensysmagnetometerComGraber,
-    "https://shop.loxone.com/": ShopLoxoneComGraber,
-    "https://shop.scheppach.com/": ShopScheppachComGraber,
-    "https://sigmaaldrich.com/": SigmaaldrichComGraber,
-    "https://sphinxitalia.it/": SphinxitaliaItGraber,
-    "https://vidaxl.pl/": VidaxlPlGraber,
-    "https://visualdg.co.il/": VisualdgGraber,
-    "https://wallashop.com/": WallashopGraber,
-    "https://wallmart.com/": WallmartGraber,
-    "https://zebra.com/": ZebraComGraber,
+    "ads-tec-iit.com":AdsTecIitComGraber,
+    "aliexpress.com":AliexpressGraber,
+    "amazon.com":AmazonGraber,
+    "apple.com":AppleComGraber,
+    "atlascopco.com":AtlascopcoComGraber,
+    "bangood.com":BangoodGraber,
+    "bucketmaster.com.cn":BucketmasterComCnGraber,
+    "cdata.com":CdataGraber,
+    "chat.openai.com":"chat_gpt", # Специальный случай, если нужно обрабатывать, но возвращает строку.
+    "cisco.com":CiscoComGraber,
+    "de.de-ring.com":DeDeRingComGraber,
+    "de.hexcel.com":DeHexcelComGraber,
+    "de.rs-online.com":DeRsOnlineComGraber,
+    "denaliweld.com":DenaliweldComGraber,
+    "dewesoft.com":DewesoftComGraber,
+    "ebay.com":EbayGraber,
+    "elektrometal.eu":ElektrometalEuGraber,
+    "etzmaleh.com":EtzmalehGraber,
+    "findernet.com":FindernetComGraber,
+    "fresubin.com":FresubinComGraber,
+    "gearbest.com":GearbestGraber,
+    "generex.de":GenerexDeGraber,
+    "georgin.com":GeorginComGraber,
+    "german.micro-steppermotors.com":GermanMicroSteppermotorsComGraber,
+    "grandadvance.co.il":GrandadvanceGraber,
+    "hb.com":HbGraber,
+    "imos3d.com":Imos3dComGraber,
+    "induprogress.pl":InduprogressPlGraber,
+    "industrierat-west.de":IndustrieratWestDeGraber,
+    "it.alwsci.com":ItAlwsciComGraber,
+    "it.defelsko.com":ItDefelskoComGraber,
+    "it.jarvis-smart.com":ItJarvisSmartComGraber,
+    "it.superb-heater.com":ItSuperbHeaterComGraber,
+    "it.thermo-heater.com":ItThermoHeaterComGraber,
+    "ivory.co.il":IvoryGraber,
+    "janitza.com":JanitzaComGraber,
+    "jungbluth.com":JungbluthComGraber,
+    "ksp.co.il":KspGraber,
+    "kualastyle.co.il":KualastyleGraber,
+    "ledodm.com":LedodmComGraber,
+    "leybold.com":LeyboldComGraber,
+    "mecalux.it":MecaluxItGraber,
+    "megatron.de":MegatronDeGraber,
+    "megger.com":MeggerComGraber,
+    "mococonnectors.com":MococonnectorsComGraber,
+    "mordorintelligence.it":MordorintelligenceItGraber,
+    "morlevi.co.il":MorleviGraber,
+    "omnipod.com":OmnipodComGraber,
+    "opel.de":OpelDeGraber,
+    "pfannenberg.com":PfannenbergComGraber,
+    "pl.dmgmori.com":PlDmgmoriComGraber,
+    "plm.sw.siemens.com":PlmSwSiemensComGraber,
+    "prebiel.pl":PrebielPlGraber,
+    "prusa3d.com":Prusa3dComGraber,
+    "ridgid.eu":RidgidEuGraber,
+    "sensysmagnetometer.com":SensysmagnetometerComGraber,
+    "shop.loxone.com":ShopLoxoneComGraber,
+    "shop.scheppach.com":ShopScheppachComGraber,
+    "sigmaaldrich.com":SigmaaldrichComGraber,
+    "sphinxitalia.it":SphinxitaliaItGraber,
+    "vidaxl.pl":VidaxlPlGraber,
+    "visualdg.co.il":VisualdgGraber,
+    "wallashop.co.il":WallashopGraber,
+    "wallmart.com":WallmartGraber,
+    "zebra.com":ZebraComGraber,
 }
 
 SUPPLIER_PREFIX_MAP = {
-    "ads-tec-iit.com": AdsTecIitComGraber,
+    "ads_tec_iit_com": AdsTecIitComGraber,
     "aliexpress": AliexpressGraber,
     "amazon": AmazonGraber,
-    "apple.com": AppleComGraber,
-    "atlascopco.com": AtlascopcoComGraber,
+    "apple_com": AppleComGraber,
+    "atlascopco_com": AtlascopcoComGraber,
     "bangood": BangoodGraber,
-    "bucketmaster.com.cn": BucketmasterComCnGraber,
+    "bucketmaster_com_cn": BucketmasterComCnGraber,
     "cdata": CdataGraber,
-    "cisco.com": CiscoComGraber,
-    "de.de_ring.com": DeDeRingComGraber,
-    "de.hexcel.com": DeHexcelComGraber,
-    "de.rs_online.com": DeRsOnlineComGraber,
-    "denaliweld.com": DenaliweldComGraber,
-    "dewesoft.com": DewesoftComGraber,
+    "cisco_com": CiscoComGraber,
+    "de_de_ring_com": DeDeRingComGraber,
+    "de_hexcel_com": DeHexcelComGraber,
+    "de_rs_online_com": DeRsOnlineComGraber,
+    "denaliweld_com": DenaliweldComGraber,
+    "dewesoft_com": DewesoftComGraber,
     "ebay": EbayGraber,
-    "elektrometal.eu": ElektrometalEuGraber,
+    "elektrometal_eu": ElektrometalEuGraber,
     "etzmaleh": EtzmalehGraber,
-    "findernet.com": FindernetComGraber,
-    "fresubin.com": FresubinComGraber,
+    "findernet_com": FindernetComGraber,
+    "fresubin_com": FresubinComGraber,
     "gearbest": GearbestGraber,
-    "generex.de": GenerexDeGraber,
-    "georgin.com": GeorginComGraber,
-    "german_micro_steppermotors.com": GermanMicroSteppermotorsComGraber,
+    "generex_de": GenerexDeGraber,
+    "georgin_com": GeorginComGraber,
+    "german_micro_steppermotors_com": GermanMicroSteppermotorsComGraber,
     "grandadvance": GrandadvanceGraber,
     "hb": HbGraber,
-    "imos3d.com": Imos3dComGraber,
-    "induprogress.pl": InduprogressPlGraber,
-    "industrierat_west.de": IndustrieratWestDeGraber,
-    "it.alwsci.com": ItAlwsciComGraber,
-    "it.defelsko.com": ItDefelskoComGraber,
-    "it.jarvis_smart.com": ItJarvisSmartComGraber,
-    "it.superb_heater_com": ItSuperbHeaterComGraber,
-    "it.thermo_heater_com": ItThermoHeaterComGraber,
+    "imos3d_com": Imos3dComGraber,
+    "induprogress_pl": InduprogressPlGraber,
+    "industrierat_west_de": IndustrieratWestDeGraber,
+    "it_alwsci_com": ItAlwsciComGraber,
+    "it_defelsko_com": ItDefelskoComGraber,
+    "it_jarvis_smart_com": ItJarvisSmartComGraber,
+    "it_superb_heater_com": ItSuperbHeaterComGraber,
+    "it_thermo_heater_com": ItThermoHeaterComGraber,
     "ivory": IvoryGraber,
     "janitza_com": JanitzaComGraber,
     "jungbluth_com": JungbluthComGraber,
     "ksp": KspGraber,
     "kualastyle": KualastyleGraber,
-    "ledodm.com": LedodmComGraber,
-    "leybold.com": LeyboldComGraber,
-    "mecalux.it": MecaluxItGraber,
-    "megatron.de": MegatronDeGraber,
-    "megger.com": MeggerComGraber,
-    "mococonnectors.com": MococonnectorsComGraber,
-    "mordorintelligence.it": MordorintelligenceItGraber,
+    "ledodm_com": LedodmComGraber,
+    "leybold_com": LeyboldComGraber,
+    "mecalux_it": MecaluxItGraber,
+    "megatron_de": MegatronDeGraber,
+    "megger_com": MeggerComGraber,
+    "mococonnectors_com": MococonnectorsComGraber,
+    "mordorintelligence_it": MordorintelligenceItGraber,
     "morlevi": MorleviGraber,
-    "omnipod.com": OmnipodComGraber,
-    "opel.de": OpelDeGraber,
-    "pfannenberg.com": PfannenbergComGraber,
-    "pl.dmgmori.com": PlDmgmoriComGraber,
-    "plm_sw_siemens.com": PlmSwSiemensComGraber,
-    "prebiel.pl": PrebielPlGraber,
-    "prusa3d.com": Prusa3dComGraber,
-    "ridgid.eu": RidgidEuGraber,
-    "sensysmagnetometer.com": SensysmagnetometerComGraber,
-    "shop.loxone.com": ShopLoxoneComGraber,
-    "shop.scheppach.com": ShopScheppachComGraber,
-    "sigmaaldrich.com": SigmaaldrichComGraber,
-    "sphinxitalia.it": SphinxitaliaItGraber,
-    "vidaxl.pl": VidaxlPlGraber,
+    "omnipod_com": OmnipodComGraber,
+    "opel_de": OpelDeGraber,
+    "pfannenberg_com": PfannenbergComGraber,
+    "pl_dmgmori_com": PlDmgmoriComGraber,
+    "plm_sw_siemens_com": PlmSwSiemensComGraber,
+    "prebiel_pl": PrebielPlGraber,
+    "prusa3d_com": Prusa3dComGraber,
+    "ridgid_eu": RidgidEuGraber,
+    "sensysmagnetometer_com": SensysmagnetometerComGraber,
+    "shop_loxone_com": ShopLoxoneComGraber,
+    "shop_scheppach_com": ShopScheppachComGraber,
+    "sigmaaldrich_com": SigmaaldrichComGraber,
+    "sphinxitalia_it": SphinxitaliaItGraber,
+    "vidaxl_pl": VidaxlPlGraber,
     "visualdg": VisualdgGraber,
     "wallashop": WallashopGraber,
     "wallmart": WallmartGraber,
-    "zebra.com": ZebraComGraber,
+    "zebra_com": ZebraComGraber,
 }
 
-def get_graber_by_supplier_prefix(supplier_prefix: str):
-    """
-    Возвращает класс Graber для данного ключа поставщика.
 
-    :param supplier_key: ключ поставщика, например 'aliexpress'
-    :return: класс Graber
-    :raises ValueError: если класс для поставщика не найден
+def get_graber_by_supplier_prefix(supplier_prefix: str, ) -> 'Graber':
     """
-    supplier_alias:str = supplier_prefix.replace('.','_').replace('-','_')
+    Возвращает ЭКЗЕМПЛЯР Graber для данного ключа поставщика.
+
+    :param supplier_prefix: ключ поставщика, например 'aliexpress'
+    :param driver: Опциональный экземпляр Page для передачи в конструктор Graber.
+    :return: экземпляр Graber
+    :raises ValueError: если класс для поставщика не найден, или экземпляр не может быть создан.
+    """
+    # Преобразуем префикс, чтобы он соответствовал ключам в SUPPLIER_PREFIX_MAP
+    supplier_alias: str = supplier_prefix.replace('.', '_').replace('-', '_')
 
     try:
-        return SUPPLIER_PREFIX_MAP[supplier_alias]
-    except KeyError as ex:
-        raise ValueError(f"Graber class not found for supplier: {supplier_alias}") from ex
-
-
-def get_graber_by_supplier_url(url: str) -> str:
-    """
-    Возвращает URL-префикс, соответствующий поставщику по входному URL.
-
-    :param url: исходный URL (например, 'https://aliexpress.com/item/abc123')
-    :return: базовый URL-префикс (например, 'https://aliexpress.com/')
-    :raises ValueError: если URL не соответствует ни одному из известных поставщиков
-    """
-    parsed = urlparse(url)
-    base_url = f"{parsed.scheme}://{parsed.netloc}/"
+        GraberClass = SUPPLIER_PREFIX_MAP[supplier_alias]
+    except KeyError:
+        # Попробуем найти по домену, если префикс не найден напрямую
+        # (хотя это может быть избыточно, если supplier_prefix всегда должен быть в SUPPLIER_PREFIX_MAP)
+        try:
+            # Пытаемся использовать supplier_prefix напрямую как ключ, если он уже в формате домена
+            GraberClass = URL_PREFIX_MAP[supplier_alias] 
+        except KeyError:
+            raise ValueError(f"Graber класс не найден для поставщика: {supplier_alias}")
 
     try:
-        return URL_PREFIX_MAP[base_url]
-    except KeyError as ex:
-        raise ValueError(f"Supplier not found for this URL base: {base_url}") from ex
+        # Создаем экземпляр Graber, передавая supplier_prefix и драйвер.
+        # Предполагается, что конструктор Graber принимает эти аргументы.
+        graber_instance = GraberClass()
+        return graber_instance
+    except Exception as e:
+        raise ValueError(f"Не удалось создать экземпляр Graber для {supplier_alias}: {e}") from e
+
+
+def get_graber_by_supplier_url(url: str):
+    """
+    Извлекает домен из URL, находит соответствующий класс Graber и возвращает ЕГО ЭКЗЕМПЛЯР.
+
+    Args:
+        url (str): Входной URL или домен в любом формате.
+        driver (Optional[Page]): Опциональный экземпляр Page для передачи в конструктор Graber.
+
+    Returns:
+        Graber: Экземпляр подходящего класса Graber.
+
+    Raises:
+        ValueError: Если URL недействителен, домен не может быть определен,
+                    класс Graber не найден, или экземпляр Graber не может быть создан.
+    """
+    if not url.startswith(('http://', 'https://')):
+        # Добавляем схему, если она отсутствует, для корректной работы urlparse
+        url = 'http://' + url  
+
+    parsed_url = urlparse(url)
+    domain = parsed_url.netloc or parsed_url.path
+
+    # Очищаем домен: удаляем порт и префикс 'www.'
+    domain = domain.split(':')[0].replace('www.','')
+
+    if not domain:
+        raise ValueError(f"Не удалось извлечь домен из URL: {url}")
+
+    # Получаем класс Graber по домену из URL_PREFIX_MAP
+    try:
+        GraberClass = URL_PREFIX_MAP[domain]
+    except KeyError:
+        raise ValueError(f"Graber класс не найден для поставщика (домен): {domain}")
+
+    try:
+        # Создаем экземпляр Graber, передавая ему supplier_prefix и опциональный драйвер.
+        # Важно: предполагается, что конструктор Graber принимает supplier_prefix и driver.
+        graber_instance = GraberClass()
+        return graber_instance
+    except Exception as ex:
+        # Логируем ошибку создания экземпляра, чтобы было понятно, почему не удалось
+        raise ValueError(f"Не удалось создать экземпляр Graber для домена {domain}:\n{ex}") from ex
