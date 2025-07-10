@@ -95,7 +95,7 @@
 from src.suppliers.suppliers_list.kualastyle.sceanrio import get_list_products_in_category
 from src.suppliers.suppliers_list.kualastyle.supplier import Supplier
 
-# Создаем объект поставщика
+# создание объект поставщика
 s = Supplier()
 
 # Вызываем функцию get_list_products_in_category()
@@ -112,7 +112,7 @@ print(f"Список URL товаров: {products_urls}")
 from src.suppliers.suppliers_list.kualastyle.sceanrio import get_list_categories_from_site
 from src.suppliers.suppliers_list.kualastyle.supplier import Supplier
 
-# Создаем объект поставщика
+# создание объект поставщика
 s = Supplier()
 
 # Вызываем функцию get_list_categories_from_site()

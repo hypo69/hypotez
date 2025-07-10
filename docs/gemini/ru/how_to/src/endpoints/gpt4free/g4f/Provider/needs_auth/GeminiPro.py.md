@@ -21,14 +21,14 @@ from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.GeminiPro import Gem
 # Получаем API ключ для Gemini Pro
 api_key = 'YOUR_API_KEY'  
 
-# Создаем экземпляр класса GeminiPro
+# создание экземпляр класса GeminiPro
 gemini_pro = GeminiPro()
 
 # Получаем список доступных моделей
 models = gemini_pro.get_models(api_key=api_key)
 print(f"Available models: {models}")
 
-# Создаем асинхронный генератор для отправки запроса
+# создание асинхронный генератор для отправки запроса
 async def get_response():
     async for response in gemini_pro.create_async_generator(
         model="gemini-1.5-pro",  # Выбираем модель

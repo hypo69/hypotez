@@ -30,7 +30,7 @@
 from src.webdriver.driver import Driver
 from src.endpoints.advertisement.facebook.scenarios.switch_account import switch_account
 
-# Создаем объект драйвера Chrome
+# создание объект драйвера Chrome
 driver = Driver(Chrome)
 # Выполняем переключение между аккаунтами
 switch_account(driver)

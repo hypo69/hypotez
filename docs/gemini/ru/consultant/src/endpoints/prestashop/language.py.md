@@ -84,7 +84,7 @@ class PrestaLanguage(PrestaShop):
             Optional[dict]: Language schema или `None` в случае ошибки.
 
         Examples:
-            # Возвращаемый словарь:
+            # Возвратый словарь:
             {
                 "languages": {
                         "language": [
@@ -245,7 +245,7 @@ class PrestaLanguage(PrestaShop):
             Optional[dict]: Language schema или `None` в случае ошибки.
 
         Examples:
-            # Возвращаемый словарь:
+            # Возвратый словарь:
             {
                 "languages": {
                         "language": [

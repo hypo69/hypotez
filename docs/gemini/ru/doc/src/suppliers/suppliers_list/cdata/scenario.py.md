@@ -40,13 +40,13 @@
 from src import gs
 from src.suppliers import Supplier
 
-# Создаем объект поставщика
+# создание объект поставщика
 supplier = Supplier(site_name='bangood', driver=Driver(Chrome))
 
 # Получаем список URL товаров со страницы категории
 products_urls = get_list_products_in_category(supplier)
 
-# Проверяем полученный результат
+# Проверка полученный результат
 if products_urls:
     print(f'Найдено {len(products_urls)} товаров')
     for url in products_urls:
@@ -83,13 +83,13 @@ else:
 from src import gs
 from src.suppliers import Supplier
 
-# Создаем объект поставщика
+# создание объект поставщика
 supplier = Supplier(site_name='bangood', driver=Driver(Chrome))
 
 # Получаем список URL товаров со страницы категории
 categories_urls = get_list_categories_from_site(supplier)
 
-# Проверяем полученный результат
+# Проверка полученный результат
 if categories_urls:
     print(f'Найдено {len(categories_urls)} категорий')
     for url in categories_urls:
@@ -127,7 +127,7 @@ else:
 
 **Примеры**:
 ```python
-# Создаем объект поставщика
+# создание объект поставщика
 supplier = Supplier(site_name='bangood', driver=Driver(Chrome))
 
 # Указываем URL страницы товара

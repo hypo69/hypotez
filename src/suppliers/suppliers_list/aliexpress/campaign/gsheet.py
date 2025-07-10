@@ -337,7 +337,7 @@ class AliCampaignGoogleSheet(SpreadSheet):
                 textFormat=textFormat(bold=True, fontSize=12),
                 horizontalAlignment='CENTER',
                 verticalAlignment='MIDDLE',  # Добавлено вертикальное выравнивание
-                backgroundColor=Color(0.8, 0.8, 0.8)  # Используем Color для задания цвета
+                backgroundColor=Color(0.8, 0.8, 0.8)  # Используется Color для задания цвета
             )
             format_cell_range(ws, 'A1:E1', header_format)
 
@@ -386,7 +386,7 @@ class AliCampaignGoogleSheet(SpreadSheet):
                 textFormat=textFormat(bold=True, fontSize=12),
                 horizontalAlignment='CENTER',
                 verticalAlignment='TOP',  # Добавлено вертикальное выравнивание
-                backgroundColor=Color(0.8, 0.8, 0.8)  # Используем Color для задания цвета
+                backgroundColor=Color(0.8, 0.8, 0.8)  # Используется Color для задания цвета
             )
             format_cell_range(ws, 'A1:Y1', header_format)
 

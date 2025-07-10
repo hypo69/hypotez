@@ -71,7 +71,7 @@ def create_app():
     """
     Создает и настраивает приложение aiohttp.
     """
-    # Создаем приложение
+    # создание приложение
     app = web.Application()
 
     # Регистрация обработчиков маршрутов
@@ -99,7 +99,7 @@ def main():
     register_middlewares()
     register_routers()
 
-    # Создаем приложение и запускаем его
+    # создание приложение и запускаем его
     app = create_app()
     web.run_app(app, host=settings.SITE_HOST, port=settings.SITE_PORT)
 

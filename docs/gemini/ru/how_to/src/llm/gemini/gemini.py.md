@@ -112,7 +112,7 @@
             # Асинхронный вызов чата
             llm_message = await llm.chat(user_message, chat_name=chat_session_name)
             if llm_message:
-                # Используем logger для вывода ответа Gemini
+                # Используется logger для вывода ответа Gemini
                 logger.info(f"Gemini: {llm_message}")
             else:
                 # Сообщение об ошибке уже должно быть в логах из метода chat

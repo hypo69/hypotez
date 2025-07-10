@@ -56,7 +56,7 @@
 ```python
 from hypotez.src.endpoints.prestashop.product_fields import ProductFields
 
-# Создаем объект для товара на английском языке
+# создание объект для товара на английском языке
 product = ProductFields() 
 
 # Заполняем поля

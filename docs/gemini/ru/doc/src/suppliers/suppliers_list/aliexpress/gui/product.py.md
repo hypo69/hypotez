@@ -26,7 +26,7 @@
 - `language (str)`:  Язык товара (по умолчанию `EN`).
 - `currency (str)`:  Валюта товара (по умолчанию `USD`).
 - `file_path (str)`:  Путь к JSON-файлу с данными о товаре.
-- `editor (AliCampaignEditor)`:  Инстанс класса `AliCampaignEditor`, используемый для подготовки товара. 
+- `editor (AliCampaignEditor)`:  Инстанс класса `AliCampaignEditor`, Используетсяый для подготовки товара. 
 
 **Методы**:
 

@@ -110,7 +110,7 @@ def _create_completion(model: str, messages: list, temperature: float = 0.6, str
 ## Переменные
 
 - `url` (str): URL-адрес AI-сервиса (`https://ai.ls`).
-- `model` (str): Идентификатор используемой модели (`gpt-3.5-turbo`).
+- `model` (str): Идентификатор Используетсяой модели (`gpt-3.5-turbo`).
 - `supports_stream` (bool): Флаг, указывающий на поддержку потоковой передачи данных (True).
 - `needs_auth` (bool): Флаг, указывающий на необходимость авторизации (False).
 - `params` (str): Строка, содержащая информацию о поддерживаемых параметрах функции `_create_completion`.

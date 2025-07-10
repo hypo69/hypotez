@@ -40,7 +40,7 @@ class Backend_Api:
             messages = build_messages(jailbreak)
 
             #random_proxy = get_random_proxy() # получаем случайный прокси
-            #proxies = {"http": random_proxy, "https": random_proxy} # создаем словарь с прокси
+            #proxies = {"http": random_proxy, "https": random_proxy} # создание словарь с прокси
 
 
             # Generate response

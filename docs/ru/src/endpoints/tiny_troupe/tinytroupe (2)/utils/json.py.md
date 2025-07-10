@@ -48,7 +48,7 @@ def to_json(self, include: list = None, suppress: list = None, file_path: str = 
         include (list, optional): Атрибуты для включения в сериализацию. Переопределяет поведение по умолчанию.
         suppress (list, optional): Атрибуты для исключения из сериализации. Переопределяет поведение по умолчанию.
         file_path (str, optional): Путь к файлу, куда будет записан JSON.
-        serialization_type_field_name (str, optional): Имя поля, используемого для хранения имени класса при сериализации. По умолчанию "json_serializable_class_name".
+        serialization_type_field_name (str, optional): Имя поля, Используетсяого для хранения имени класса при сериализации. По умолчанию "json_serializable_class_name".
 
     Returns:
         dict: Словарь, представляющий JSON-представление объекта.
@@ -114,7 +114,7 @@ def from_json(cls, json_dict_or_path, suppress: list = None,
     Args:
         json_dict_or_path (dict or str): JSON-словарь, представляющий объект, или путь к файлу, содержащему JSON.
         suppress (list, optional): Атрибуты для исключения при загрузке.
-        serialization_type_field_name (str, optional): Имя поля, используемого для хранения имени класса при сериализации. По умолчанию "json_serializable_class_name".
+        serialization_type_field_name (str, optional): Имя поля, Используетсяого для хранения имени класса при сериализации. По умолчанию "json_serializable_class_name".
         post_init_params (dict, optional): Параметры для передачи в метод `_post_deserialization_init`.
 
     Returns:
@@ -280,7 +280,7 @@ def _programmatic_name_to_json_name(cls, name):
 
 **Как работает функция**:
 
-Функция `_programmatic_name_to_json_name` преобразует имя атрибута из формата, используемого в коде (например, `camelCase`), в формат, используемый в JSON (например, `snake_case`). Если у класса определен атрибут `serializable_attributes_renaming`, функция использует его для переименования атрибутов.
+Функция `_programmatic_name_to_json_name` преобразует имя атрибута из формата, Используетсяого в коде (например, `camelCase`), в формат, Используетсяый в JSON (например, `snake_case`). Если у класса определен атрибут `serializable_attributes_renaming`, функция использует его для переименования атрибутов.
 
 **Примеры**:
 
@@ -298,17 +298,17 @@ print(MyClass._programmatic_name_to_json_name('myAttr'))
 @classmethod
 def _json_name_to_programmatic_name(cls, name):
     """
-    Преобразует имя атрибута из формата JSON (snake_case) в формат, используемый в коде.
+    Преобразует имя атрибута из формата JSON (snake_case) в формат, Используетсяый в коде.
 
     Args:
         name (str): Имя атрибута в формате JSON (snake_case).
 
     Returns:
-        str: Имя атрибута в формате, используемом в коде.
+        str: Имя атрибута в формате, Используетсяом в коде.
     """
 ```
 
-**Назначение**: Преобразует имя атрибута из формата JSON (snake_case) в формат, используемый в коде.
+**Назначение**: Преобразует имя атрибута из формата JSON (snake_case) в формат, Используетсяый в коде.
 
 **Параметры**:
 
@@ -316,11 +316,11 @@ def _json_name_to_programmatic_name(cls, name):
 
 **Возвращает**:
 
-- `str`: Имя атрибута в формате, используемом в коде.
+- `str`: Имя атрибута в формате, Используетсяом в коде.
 
 **Как работает функция**:
 
-Функция `_json_name_to_programmatic_name` преобразует имя атрибута из формата JSON (например, `snake_case`) в формат, используемый в коде (например, `camelCase`). Если у класса определен атрибут `serializable_attributes_renaming`, функция использует его для переименования атрибутов.
+Функция `_json_name_to_programmatic_name` преобразует имя атрибута из формата JSON (например, `snake_case`) в формат, Используетсяый в коде (например, `camelCase`). Если у класса определен атрибут `serializable_attributes_renaming`, функция использует его для переименования атрибутов.
 
 **Примеры**:
 

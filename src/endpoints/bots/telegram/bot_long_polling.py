@@ -58,7 +58,7 @@ class TelegramBot:
         if self._original_message_handler in self.application.handlers[0]:
             self.application.handlers[0].remove(self._original_message_handler)
 
-        # 3. Создаем новый обработчик
+        # 3. создание новый обработчик
         self._original_message_handler = MessageHandler(filters.TEXT & ~filters.COMMAND, new_handler)
         # 4. Регистрируем новый обработчик
         self.application.add_handler(self._original_message_handler)

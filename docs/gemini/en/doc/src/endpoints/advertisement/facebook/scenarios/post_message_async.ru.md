@@ -188,7 +188,7 @@ def promote_post(d: Driver, category: SimpleNamespace, products: List[SimpleName
     Управляет процессом продвижения поста с заголовком, описанием и медиафайлами.
     Args:
         d (Driver): Экземпляр `Driver` для взаимодействия с веб-страницей.
-        category (SimpleNamespace): Детали категории, используемые для заголовка и описания поста.
+        category (SimpleNamespace): Детали категории, Используетсяые для заголовка и описания поста.
         products (List[SimpleNamespace]): Список товаров, содержащих медиа и детали для публикации.
         no_video (bool, optional): Флаг, указывающий, следует ли пропустить загрузку видео. По умолчанию `False`.
 
@@ -203,7 +203,7 @@ def promote_post(d: Driver, category: SimpleNamespace, products: List[SimpleName
 **Параметры**:
 
 - `d` (Driver): Экземпляр `Driver` для взаимодействия с веб-страницей.
-- `category` (SimpleNamespace): Детали категории, используемые для заголовка и описания поста.
+- `category` (SimpleNamespace): Детали категории, Используетсяые для заголовка и описания поста.
 - `products` (List[SimpleNamespace]): Список товаров, содержащих медиа и детали для публикации.
 - `no_video` (bool, optional): Флаг, указывающий, следует ли пропустить загрузку видео. По умолчанию `False`.
 

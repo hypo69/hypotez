@@ -17,7 +17,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
     """Функция отправляет запрос к API Gravityengine и возвращает сгенерированный контент.
 
     Args:
-        model (str): Идентификатор используемой модели.
+        model (str): Идентификатор Используетсяой модели.
         messages (list): Список сообщений для отправки в API.
         stream (bool): Указывает, должен ли ответ быть потоковым.
         **kwargs: Дополнительные параметры.

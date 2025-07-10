@@ -163,7 +163,7 @@ async def robokassa_result(request: web.Request) -> web.Response:
     user_telegram_id = data.get('Shp_user_telegram_id')
     product_id = data.get('Shp_product_id')
 
-    # Проверяем подпись
+    # Проверка подпись
     if check_signature_result(
         out_sum=out_sum,
         inv_id=inv_id,

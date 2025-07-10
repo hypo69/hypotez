@@ -29,7 +29,7 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.ImageLabs import ImageLabs
 
 async def generate_image():
-    # Создаем экземпляр класса ImageLabs с моделью sdxl-turbo
+    # создание экземпляр класса ImageLabs с моделью sdxl-turbo
     image_generator = ImageLabs(model='sdxl-turbo')
 
     # Задаем текст подсказки и дополнительные параметры

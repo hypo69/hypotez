@@ -20,8 +20,8 @@
 - `url` (str): URL-адрес Hugging Face Space, где размещена модель.
 - `api_endpoint` (str): URL-адрес API-endpoint для генерации текста.
 - `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `default_model` (str): Модель, используемая по умолчанию ("qwen-qvq-72b-preview").
-- `default_vision_model` (str): Модель для обработки изображений, используемая по умолчанию.
+- `default_model` (str): Модель, Используетсяая по умолчанию ("qwen-qvq-72b-preview").
+- `default_vision_model` (str): Модель для обработки изображений, Используетсяая по умолчанию.
 - `model_aliases` (dict): Псевдонимы моделей.
 - `vision_models` (list): Список моделей, поддерживающих обработку изображений.
 - `models` (list): Список всех поддерживаемых моделей.

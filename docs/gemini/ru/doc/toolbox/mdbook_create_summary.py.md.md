@@ -110,7 +110,7 @@ from src import gs  # Предполагается, что gs инициализ
 example_src_path = Path(gs.path.root / 'docs' / 'example')
 example_summary_file = example_src_path / 'SUMMARY.md'
 
-# Создаем директорию и несколько файлов для примера
+# создание директорию и несколько файлов для примера
 example_src_path.mkdir(parents=True, exist_ok=True)
 (example_src_path / 'file1.md').write_text('# File 1')
 (example_src_path / 'subdir').mkdir(exist_ok=True)

@@ -23,7 +23,7 @@
 - `url` (str): URL-адрес API (`"https://free.netfly.top"`).
 - `api_endpoint` (str): Конечная точка API (`"/api/openai/v1/chat/completions"`).
 - `working` (bool): Флаг, указывающий на работоспособность провайдера (всегда `False`).
-- `default_model` (str): Модель, используемая по умолчанию (`'gpt-3.5-turbo'`).
+- `default_model` (str): Модель, Используетсяая по умолчанию (`'gpt-3.5-turbo'`).
 - `models` (List[str]): Список поддерживаемых моделей (`['gpt-3.5-turbo', 'gpt-4']`).
 
 **Методы**:
@@ -46,7 +46,7 @@ async def create_async_generator(
     """Создает асинхронный генератор для получения ответов от API.
 
     Args:
-        model (str): Название используемой модели.
+        model (str): Название Используетсяой модели.
         messages (Messages): Список сообщений для отправки в API.
         proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
         **kwargs: Дополнительные параметры.

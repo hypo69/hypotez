@@ -36,7 +36,7 @@ from src.utils.string.url import extract_url_params, is_url, url_shortener
 # Получаем строку URL от пользователя
 url = input("Введите URL: ")
 
-# Проверяем валидность URL
+# Проверка валидность URL
 if is_url(url):
     params = extract_url_params(url)
 

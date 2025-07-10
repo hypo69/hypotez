@@ -44,13 +44,13 @@ from src.endpoints.advertisement.facebook.promoter import FacebookPromoter
 from src.endpoints.advertisement.facebook.scenarios import post_message, post_event
 from src.utils.jjson import j_loads_ns
 
-# Создаем экземпляр Driver
+# создание экземпляр Driver
 driver = Driver(Firefox)
 
-# Создаем экземпляр FacebookPromoter
+# создание экземпляр FacebookPromoter
 promoter = FacebookPromoter(d=driver, promoter='aliexpress', group_file_paths='path/to/group_files')
 
-# Проверяем, что мы можем отправлять сообщения
+# Проверка, что мы можем отправлять сообщения
 message = j_loads_ns('path/to/message_data.json')
 if post_message(d=driver, message=message, no_video=False, without_captions=False):
     print('Сообщение отправлено!')

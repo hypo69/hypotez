@@ -16,7 +16,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
     """Функция создает запрос к Google Bard и возвращает ответ.
 
     Args:
-        model (str): Модель, используемая для генерации ответа.
+        model (str): Модель, Используетсяая для генерации ответа.
         messages (list): Список сообщений в формате [{"role": "user" или "assistant", "content": "текст сообщения"}].
         stream (bool): Флаг, указывающий, следует ли возвращать ответ в потоковом режиме.
         **kwargs: Дополнительные параметры, такие как `proxy`.

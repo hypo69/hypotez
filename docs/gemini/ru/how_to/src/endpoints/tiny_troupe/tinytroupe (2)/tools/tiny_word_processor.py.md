@@ -30,10 +30,10 @@ TinyWordProcessor - это инструмент, который позволяе
 ```python
 from tinytroupe.tools import TinyWordProcessor
 
-# Создаем экземпляр TinyWordProcessor
+# создание экземпляр TinyWordProcessor
 word_processor = TinyWordProcessor()
 
-# Создаем новый документ
+# создание новый документ
 word_processor.write_document(
     title="Мой новый документ",
     content="## Заголовок раздела \n Это текст документа.",

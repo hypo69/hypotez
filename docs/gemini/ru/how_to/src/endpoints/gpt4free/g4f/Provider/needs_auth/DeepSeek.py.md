@@ -26,13 +26,13 @@
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.DeepSeek import DeepSeek
 
-# Создаем объект класса DeepSeek
+# создание объект класса DeepSeek
 deepseek_api = DeepSeek()
 
 # Получаем информацию о модели по умолчанию
 default_model = deepseek_api.default_model
 
-# Используем API для отправки запроса на генерацию текста
+# Используется API для отправки запроса на генерацию текста
 response = deepseek_api.generate_text("Привет мир!")
 
 # Обработка ответа

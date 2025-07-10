@@ -13,7 +13,7 @@
   - Присутствует функциональность удаления нежелательных файлов и директорий.
   - Код достаточно хорошо документирован с описанием назначения и параметров функций.
 - **Минусы**:
-  - Отсутствуют аннотации типов для параметров и возвращаемых значений функций.
+  - Отсутствуют аннотации типов для параметров и Возвратых значений функций.
   - Не используются конструкции `try-except` с логированием ошибок в функциях `delete_directory_contents` и `read_text_files`.
   - Не соблюдены некоторые рекомендации PEP8 по форматированию кода (например, отсутствие пробелов вокруг операторов).
   - В коде используются конструкции типа `os.walk`, которые можно заменить на более современные и удобные средства библиотеки `pathlib`.
@@ -21,7 +21,7 @@
 
 **Рекомендации по улучшению**:
 1. **Добавить аннотации типов**:
-   - Необходимо добавить аннотации типов для всех параметров и возвращаемых значений функций. Это улучшит читаемость и поддерживаемость кода.
+   - Необходимо добавить аннотации типов для всех параметров и Возвратых значений функций. Это улучшит читаемость и поддерживаемость кода.
 2. **Улучшить обработку исключений**:
    - Обернуть операции удаления файлов и директорий в блоки `try-except` и логировать возникающие исключения с помощью `logger.error` с указанием `exc_info=True`.
 3. **Соблюдать стандарты PEP8**:
@@ -76,7 +76,7 @@ from jupyter_client import kernelspec
 import yaml
 import sqlite3
 
-from src.logger import logger # Используем logger из src.logger
+from src.logger import logger # Используется logger из src.logger
 from typing import Optional
 
 def delete_directory_contents(directory: Path) -> None:
@@ -95,7 +95,7 @@ def delete_directory_contents(directory: Path) -> None:
         >>> directory_path = Path('../tmp/chat_gpt/test')
         >>> delete_directory_contents(directory_path)
     """
-    for item in directory.iterdir(): # Используем iterdir вместо listdir
+    for item in directory.iterdir(): # Используется iterdir вместо listdir
         if item.is_dir():
             delete_directory_contents(item)
             try:
@@ -104,7 +104,7 @@ def delete_directory_contents(directory: Path) -> None:
                 logger.error(f"Ошибка при удалении директории {item}: {ex}", ex, exc_info=True)
         else:
             try:
-                item.unlink() # Используем unlink вместо os.remove
+                item.unlink() # Используется unlink вместо os.remove
             except Exception as ex:
                 logger.error(f"Ошибка при удалении файла {item}: {ex}", ex, exc_info=True)
 

@@ -176,7 +176,7 @@ class Driver:
     config: Config = Config
     gemini: Optional[ChatGoogleGenerativeAI] = None
     openai: Optional[ChatOpenAI] = None
-    tools: List[Tool] = []  # Инициализируем пустым списком
+    tools: List[Tool] = []  # Инициализация пустым списком
     browser: Optional[BrowserController] = None
 
     def __init__(self,
@@ -252,7 +252,7 @@ class Driver:
                 logger.info("BrowserController успешно инициализирован.")
 
                 # --- Добавляем браузерные инструменты, только если BrowserController создан ---
-                self.tools.extend([  # Используем extend для добавления нескольких инструментов
+                self.tools.extend([  # Используется extend для добавления нескольких инструментов
                     Tool(
                         name="BrowserNavigate",
                         func=lambda url: self.browser.navigate(url),
@@ -372,7 +372,7 @@ async def main():
 
     driver: Driver = None
     try:
-        # Инициализируем Driver, который попытается создать инструменты
+        # Инициализация Driver, который попытается создать инструменты
         driver = Driver(start_browser=True)  # Поставьте False, если браузер не нужен
     except Exception as ex:
         logger.error("Критическая ошибка при инициализации Driver.", ex, exc_info=True); return
@@ -380,7 +380,7 @@ async def main():
         logger.error("Объект Driver не был создан.", None, exc_info=False); return
     logger.info("Driver инициализирован.")
 
-    # Проверяем, какие инструменты реально доступны
+    # Проверка, какие инструменты реально доступны
     if not driver.tools:
         logger.warning("Инструменты НЕ доступны. Тестирование ограничено задачами без внешнего доступа.", exc_info=False)
         task_to_run = "Напиши короткий стих о программировании."  # Задача без инструментов

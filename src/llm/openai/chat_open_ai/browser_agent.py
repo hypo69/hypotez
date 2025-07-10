@@ -180,7 +180,7 @@ async def main():
 
     # Пример ответа на вопрос
     question = "Какая сейчас погода в Москве?"
-    answer = await agent.ask_async(question)  # Используем асинхронный метод напрямую
+    answer = await agent.ask_async(question)  # Используется асинхронный метод напрямую
     if answer:
         print("Ответ на вопрос:")
         print(answer)

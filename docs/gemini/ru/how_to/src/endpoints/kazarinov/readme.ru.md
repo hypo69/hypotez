@@ -109,7 +109,7 @@ def handle_message(update: Update, context: CallbackContext):
     message_text = update.message.text
     chat_id = update.message.chat_id
 
-    # Проверяем, что сообщение содержит ссылку One-Tab
+    # Проверка, что сообщение содержит ссылку One-Tab
     if "one-tab.co.il" in message_text:
         # Запускаем сценарий обработки ссылки One-Tab
         result = kazarinov_bot.handle_message(message_text)

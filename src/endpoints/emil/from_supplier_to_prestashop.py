@@ -147,7 +147,7 @@ class SupplierToPrestashopProvider:
         """
 
         # Не все поля товара надо заполнять. Вот кортеж необходимых полей:
-        actual_fields:tuple = ('reference',
+        required_fields:tuple = ('reference',
                                  'name',
                                  'description_short',
                                  'description',
@@ -168,7 +168,7 @@ class SupplierToPrestashopProvider:
 
             try:
                 #scenarios_files_list:list =  recursively_get_file_path(__root__ / 'src' / 'suppliers' / 'suppliers_list' / graber.supplier_prefix / 'scenarios', '.json')
-                f = await graber.grab_page(*actual_fields)
+                f = await graber.grab_page(*required_fields)
                 #graber.process_graber('hb')
                 ...
 

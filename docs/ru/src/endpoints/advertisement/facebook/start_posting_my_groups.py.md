@@ -61,7 +61,7 @@ def run_campaigns(campaigns: list, group_file_paths: list):
 
 - `filenames` (list): Список имен файлов, содержащих информацию о группах. Используется 'my_managed_groups.json'.
 - `campaigns` (list): Список названий кампаний. Включает 'brands', 'mom_and_baby', 'pain', 'sport_and_activity', 'house', 'bags_backpacks_suitcases', 'man'.
-- `promoter` (FacebookPromoter): Объект класса `FacebookPromoter`, используемый для запуска рекламных кампаний.
+- `promoter` (FacebookPromoter): Объект класса `FacebookPromoter`, Используетсяый для запуска рекламных кампаний.
 
 ## Примеры
 

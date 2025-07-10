@@ -53,7 +53,7 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt с токеном доступа
+# создание экземпляр VoiGpt с токеном доступа
 provider = VoiGpt(access_token="your_access_token")
 
 # Сообщения для отправки
@@ -74,7 +74,7 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt с токеном доступа
+# создание экземпляр VoiGpt с токеном доступа
 provider = VoiGpt()
 
 # Сообщения для отправки
@@ -94,7 +94,7 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt
+# создание экземпляр VoiGpt
 provider = VoiGpt()
 
 # Сообщения для отправки
@@ -114,7 +114,7 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt 
+# создание экземпляр VoiGpt 
 provider = VoiGpt()
 
 # Сообщения для отправки
@@ -134,7 +134,7 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt
+# создание экземпляр VoiGpt
 provider = VoiGpt()
 
 # Сообщения для отправки
@@ -154,48 +154,7 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt 
-provider = VoiGpt()
-
-# Сообщения для отправки
-messages = Messages(
-    [
-        {"role": "user", "content": "Привет, как дела?"},
-    ]
-)
-
-# Запускаем создание ответа
-response = provider.create_completion(model="gpt-3.5-turbo", messages=messages, stream=False)
-
-# Вывод результата
-print(response)
-```
-
-```python
-from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
-from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
-
-# Создаем экземпляр VoiGpt
-provider = VoiGpt()
-
-# Сообщения для отправки
-messages = Messages(
-    [
-        {"role": "user", "content": "Привет, как дела?"},
-    ]
-)
-
-# Запускаем создание ответа
-response = provider.create_completion(model="gpt-3.5-turbo", messages=messages, stream=False)
-
-# Вывод результата
-print(response)
-```
-```python
-from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
-from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
-
-# Создаем экземпляр VoiGpt
+# создание экземпляр VoiGpt 
 provider = VoiGpt()
 
 # Сообщения для отправки
@@ -216,7 +175,27 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt
+# создание экземпляр VoiGpt
+provider = VoiGpt()
+
+# Сообщения для отправки
+messages = Messages(
+    [
+        {"role": "user", "content": "Привет, как дела?"},
+    ]
+)
+
+# Запускаем создание ответа
+response = provider.create_completion(model="gpt-3.5-turbo", messages=messages, stream=False)
+
+# Вывод результата
+print(response)
+```
+```python
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
+
+# создание экземпляр VoiGpt
 provider = VoiGpt()
 
 # Сообщения для отправки
@@ -237,7 +216,7 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt
+# создание экземпляр VoiGpt
 provider = VoiGpt()
 
 # Сообщения для отправки
@@ -258,7 +237,7 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt
+# создание экземпляр VoiGpt
 provider = VoiGpt()
 
 # Сообщения для отправки
@@ -279,7 +258,7 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt
+# создание экземпляр VoiGpt
 provider = VoiGpt()
 
 # Сообщения для отправки
@@ -300,7 +279,7 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt
+# создание экземпляр VoiGpt
 provider = VoiGpt()
 
 # Сообщения для отправки
@@ -321,7 +300,7 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt
+# создание экземпляр VoiGpt
 provider = VoiGpt()
 
 # Сообщения для отправки
@@ -342,7 +321,7 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt
+# создание экземпляр VoiGpt
 provider = VoiGpt()
 
 # Сообщения для отправки
@@ -363,7 +342,7 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt
+# создание экземпляр VoiGpt
 provider = VoiGpt()
 
 # Сообщения для отправки
@@ -384,7 +363,28 @@ print(response)
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр VoiGpt
+# создание экземпляр VoiGpt
+provider = VoiGpt()
+
+# Сообщения для отправки
+messages = Messages(
+    [
+        {"role": "user", "content": "Привет, как дела?"},
+    ]
+)
+
+# Запускаем создание ответа
+response = provider.create_completion(model="gpt-3.5-turbo", messages=messages, stream=False)
+
+# Вывод результата
+print(response)
+```
+
+```python
+from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.VoiGpt import VoiGpt
+from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
+
+# создание экземпляр VoiGpt
 provider = VoiGpt()
 
 # Сообщения для отправки

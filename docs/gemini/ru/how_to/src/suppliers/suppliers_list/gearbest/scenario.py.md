@@ -25,12 +25,12 @@
 from src.suppliers.suppliers_list.gearbest.scenario import get_list_products_in_category
 from src.suppliers.suppliers_list.gearbest.supplier import Gearbest
 
-supplier = Gearbest()  # Создаем экземпляр класса Gearbest
+supplier = Gearbest()  # создание экземпляр класса Gearbest
 
 # Получаем список товаров из категории
 products_urls = get_list_products_in_category(supplier)
 
-# Проверяем результат
+# Проверка результат
 if products_urls:
     print(f"Найдено {len(products_urls)} товаров")
     for url in products_urls:

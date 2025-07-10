@@ -28,7 +28,7 @@ from tinytroupe.factory import TinyPersonFactory
 # Загружаем текст контекста
 context_text = "It was a bright, sunny day in the bustling city of New York. People were rushing to work, some laughing, others with serious expressions."
 
-# Создаем фабрику
+# создание фабрику
 factory = TinyPersonFactory(context_text)
 
 # Генерируем одного персонажа с заданными параметрами

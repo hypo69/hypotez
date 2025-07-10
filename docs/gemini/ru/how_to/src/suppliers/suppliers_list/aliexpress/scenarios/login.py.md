@@ -23,7 +23,7 @@
 from src.suppliers.suppliers_list.aliexpress.scenarios.login import login
 from src.suppliers.suppliers_list.aliexpress.supplier import Supplier
 
-# Создаем объект Supplier
+# создание объект Supplier
 supplier = Supplier('aliexpress_user')
 
 # Вызываем функцию login для входа в аккаунт

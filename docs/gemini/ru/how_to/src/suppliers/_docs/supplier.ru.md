@@ -38,7 +38,7 @@
 -------------------------
 
 ```python
-# Создаем объект для поставщика 'aliexpress'
+# создание объект для поставщика 'aliexpress'
 supplier = Supplier(supplier_prefix='aliexpress', locale='en', webdriver='chrome')
 
 # Выполняем вход на сайт поставщика

@@ -31,7 +31,7 @@ messages = [
     {'role': 'user', 'content': 'Привет! Как дела?'},
 ]
 
-# Используем функцию _create_completion для получения ответа от модели Theb
+# Используется функцию _create_completion для получения ответа от модели Theb
 for line in _create_completion(model='gpt-3.5-turbo', messages=messages, stream=True):
     print(line, end='')
 ```

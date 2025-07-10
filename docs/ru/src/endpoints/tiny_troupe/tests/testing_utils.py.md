@@ -27,7 +27,7 @@
 ```python
 CACHE_FILE_NAME = "tests_cache.pickle"
 ```
-Имя файла, используемого для кэширования результатов API тестов.
+Имя файла, Используетсяого для кэширования результатов API тестов.
 
 ### `EXPORT_BASE_FOLDER`
 ```python
@@ -39,7 +39,7 @@ EXPORT_BASE_FOLDER = os.path.join(os.path.dirname(__file__), "outputs/exports")
 ```python
 TEMP_SIMULATION_CACHE_FILE_NAME = os.path.join(os.path.dirname(__file__), "simulation_test_case.cache.json")
 ```
-Имя файла, используемого для кэширования тестовых случаев симуляции.
+Имя файла, Используетсяого для кэширования тестовых случаев симуляции.
 
 ## Кэширование
 

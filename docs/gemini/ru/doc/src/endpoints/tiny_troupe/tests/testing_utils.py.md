@@ -230,7 +230,7 @@
 **Примеры**:
 ```python
 >>> def test_something(focus_group_world):
-...     # Используем мир "Focus group" в тесте
+...     # Используется мир "Focus group" в тесте
 ...     pass
 ```
 

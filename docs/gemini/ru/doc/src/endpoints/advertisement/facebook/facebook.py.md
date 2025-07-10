@@ -120,8 +120,8 @@
 
 ```python
 from src.webdirver import Driver, Chrome, Firefox, Playwright, ...
-driver = Driver(Chrome) # создаем драйвер
-facebook = Facebook(driver, promoter='test_user', group_file_paths=[]) # создаем объект facebook
+driver = Driver(Chrome) # создание драйвер
+facebook = Facebook(driver, promoter='test_user', group_file_paths=[]) # создание объект facebook
 facebook.login() # логинимся на фейсбук
 facebook.promote_post({'post_text': 'Test message'}) # отправляем сообщение
 ```
@@ -129,5 +129,5 @@ facebook.promote_post({'post_text': 'Test message'}) # отправляем со
 **Пример:**
 
 ```python
-facebook = Facebook(driver, promoter='test_user', group_file_paths=[]) # создаем объект facebook
+facebook = Facebook(driver, promoter='test_user', group_file_paths=[]) # создание объект facebook
 facebook.promote_post({'post_text': 'Test message'}) # отправляем сообщение

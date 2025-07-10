@@ -38,7 +38,7 @@ class TestBackendApi(unittest.TestCase):
         api (Backend_Api): Экземпляр класса `Backend_Api`.
 
     Methods:
-        test_version(): Проверяет, содержит ли возвращаемая информация о версии "version" и "latest_version".
+        test_version(): Проверяет, содержит ли Возвратая информация о версии "version" и "latest_version".
         test_get_models(): Проверяет, возвращает ли метод `get_models()` список моделей с длиной больше 0.
         test_get_providers(): Проверяет, возвращает ли метод `get_providers()` список провайдеров с длиной больше 0.
         test_search(): Тестирует функциональность `search` с использованием заглушки для функции поиска, обрабатывая возможные исключения, такие как `DuckDuckGoSearchException` и `MissingRequirementsError`.

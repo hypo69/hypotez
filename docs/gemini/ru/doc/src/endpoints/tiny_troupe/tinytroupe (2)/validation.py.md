@@ -56,10 +56,10 @@
 from tinytroupe.agent import TinyPerson
 from tinytroupe.validation import TinyPersonValidator
 
-# Создаем экземпляр TinyPerson
+# создание экземпляр TinyPerson
 person = TinyPerson(name="John Doe", minibio="John Doe is a fictional character...")
 
-# Создаем экземпляр TinyPersonValidator
+# создание экземпляр TinyPersonValidator
 validator = TinyPersonValidator()
 
 # Валидируем персону
@@ -73,10 +73,10 @@ print(f"Justification: {justification}")
 from tinytroupe.agent import TinyPerson
 from tinytroupe.validation import TinyPersonValidator
 
-# Создаем экземпляр TinyPerson
+# создание экземпляр TinyPerson
 person = TinyPerson(name="John Doe", minibio="John Doe is a fictional character...")
 
-# Создаем экземпляр TinyPersonValidator
+# создание экземпляр TinyPersonValidator
 validator = TinyPersonValidator()
 
 # Валидируем персону

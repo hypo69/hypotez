@@ -42,7 +42,7 @@ models = Local.get_models()
 # Выбираем модель
 model = models[0]
 
-# Создаем сообщение
+# создание сообщение
 messages = [
     {"role": "user", "content": "Привет!"},
 ]

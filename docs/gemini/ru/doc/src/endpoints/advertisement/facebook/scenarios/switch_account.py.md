@@ -33,7 +33,7 @@
 ```python
 from src.endpoints.advertisement.facebook.scenarios import switch_account
 from src.webdriver.driver import Driver, Chrome
-driver = Driver(Chrome) # Создаем инстанс драйвера
+driver = Driver(Chrome) # создание инстанс драйвера
 switch_account(driver) # Вызываем функцию для переключения между аккаунтами
 ```
 
@@ -47,6 +47,6 @@ switch_account(driver) # Вызываем функцию для переключ
 ```python
 from src.endpoints.advertisement.facebook.scenarios import switch_account
 from src.webdriver.driver import Driver, Chrome
-driver = Driver(Chrome) # Создаем инстанс драйвера
+driver = Driver(Chrome) # создание инстанс драйвера
 switch_account(driver) # Вызываем функцию для переключения между аккаунтами
 ```

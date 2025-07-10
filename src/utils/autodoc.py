@@ -58,7 +58,7 @@ def update_docstring(func):
     """Обновляет docstring функции."""
     current_time = time.strftime("%Y-%m-%d %H:%M:%S")
     
-    # Проверяем, существует ли docstring
+    # Проверка, существует ли docstring
     if func.__doc__:
         # Добавляем информацию о времени последнего вызова
         func.__doc__ += f"\n\nLast called at: {current_time}"

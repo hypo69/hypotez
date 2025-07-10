@@ -20,7 +20,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
     """ Функция создает запрос к API chatgptlogin.ac и возвращает ответ.
 
     Args:
-        model (str): Имя используемой модели.
+        model (str): Имя Используетсяой модели.
         messages (list): Список сообщений для отправки.
                          Каждый элемент списка является словарем с ключами 'role' (роль отправителя: 'user' или 'assistant') и 'content' (содержимое сообщения).
         stream (bool): Флаг, указывающий, использовать ли потоковую передачу.

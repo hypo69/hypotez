@@ -181,7 +181,7 @@ class Graber:
         if input_scenarios:
             scenario_list: List[Dict[str, Any]] = []
             if isinstance(input_scenarios, list):
-                # Проверяем, что все элементы списка - словари
+                # Проверка, что все элементы списка - словари
                 if all(isinstance(item, dict) for item in input_scenarios):
                     scenario_list = input_scenarios
                 else:
@@ -202,7 +202,7 @@ class Graber:
             scenarios_dir: Path = __root__ / 'src' / 'suppliers' / 'suppliers_list' / supplier_prefix / 'scenarios'
             logger.info(f"Входные сценарии не предоставлены/обработаны для '{supplier_prefix}', поиск в: {scenarios_dir}")
             try:
-                # Используем вашу функцию для поиска файлов
+                # Используется вашу функцию для поиска файлов
                 scenarios_files: List[Path | str] = recursively_get_file_path(scenarios_dir, '.json')
 
                 if not scenarios_files:
@@ -220,7 +220,7 @@ class Graber:
                         # Загружаем JSON
                         loaded_scenario: Optional[Dict[str, Any]] = j_loads(scenario_file_path)
 
-                        # Проверяем успешность загрузки и тип
+                        # Проверка успешность загрузки и тип
                         if loaded_scenario is not None and isinstance(loaded_scenario, dict):
                             logger.debug(f"Yield сценария из файла: {scenario_file_path}")
                             yield loaded_scenario # Отдаем загруженный словарь сценария
@@ -253,7 +253,7 @@ class Graber:
                 all_results.append(result) # Собираем результаты (опционально)
 
             logger.info(f"Все сценарии для '{supplier_prefix}' обработаны.")
-            return all_results # Возвращаем собранные результаты
+            return all_results # Возврат собранные результаты
 
         except Exception as ex:
             logger.error(f"Ошибка при обработке сценариев для '{supplier_prefix}'", ex, exc_info=True)
@@ -472,7 +472,7 @@ class Graber:
         """Асинхронная функция для сбора полей товара."""
         async def fetch_all_data(*args, **kwargs):
             # Динамическое вызовы функций для каждого поля из args
-            actual_fields:list = list(args) or [
+            required_fields:list = list(args) or [
                             'name',
                             'reference',
                             'id_supplier',
@@ -488,7 +488,7 @@ class Graber:
 
             self.driver.scroll(3)
 
-            for filed_name in actual_fields:
+            for filed_name in required_fields:
                 function = getattr(self, filed_name, None)
                 if function:
                     await function(kwargs.get(filed_name, '')) # Просто вызываем с await, так как все функции асинхронные
@@ -1082,7 +1082,7 @@ class Graber:
         Если `value` не было передано, оно определяется автоматически.
         """
 
-        # Если value не передано, определяем locale автоматически
+        # Если value не передано, Определение locale автоматически
         i18n = value or d.locale
         if not i18n and self.fields.name['language'][0]['value']:
             text = self.fields.name['language'][0]['value']

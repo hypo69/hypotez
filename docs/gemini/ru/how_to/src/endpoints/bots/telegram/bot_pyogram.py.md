@@ -32,7 +32,7 @@ API_ID = int(os.environ.get("TELEGRAM_API_ID", ''))
 API_HASH = os.environ.get("TELEGRAM_API_HASH", '')
 BOT_TOKEN = os.environ.get("TELEGRAM_TOKEN", '')
 
-# Создаем экземпляр клиента Pyrogram
+# создание экземпляр клиента Pyrogram
 app = Client(
     "my_simple_bot",
     api_id=API_ID,

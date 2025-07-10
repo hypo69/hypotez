@@ -40,7 +40,7 @@
 from src.suppliers.suppliers_list.aliexpress.api.api import AliexpressApi
 from src.suppliers.suppliers_list.aliexpress.api.models import Language, Currency, LinkType
 
-# Создаем экземпляр класса AliexpressApi
+# создание экземпляр класса AliexpressApi
 api = AliexpressApi(
     key="YOUR_API_KEY",
     secret="YOUR_API_SECRET",
@@ -54,7 +54,7 @@ product_id = '123456789'
 product_details = api.retrieve_product_details(product_id)
 print(product_details)
 
-# Создаем партнерскую ссылку
+# создание партнерскую ссылку
 link = 'https://www.aliexpress.com/item/123456789.html'
 affiliate_links = api.get_affiliate_links(link)
 print(affiliate_links)

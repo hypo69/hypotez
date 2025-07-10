@@ -38,7 +38,7 @@ from middlewares.throttling import ThrottlingMiddleware
 # Загружаем переменные окружения из .env
 load_dotenv()
 
-# Создаем диспетчер
+# создание диспетчер
 dp = Dispatcher()
 
 # Запускаем бота

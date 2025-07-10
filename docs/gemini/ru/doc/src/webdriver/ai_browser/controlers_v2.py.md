@@ -74,7 +74,7 @@
             self.driver = webdriver.Chrome(service=service, options=options)
             logger.info("Chrome WebDriver успешно инициализирован.")
         except WebDriverException as ex:
-             # Используем ваш формат логгера
+             # Используется ваш формат логгера
              logger.error("Критическая ошибка: Не удалось инициализировать Chrome WebDriver.", ex, exc_info=True)
         except Exception as ex:
              logger.error("Неожиданная ошибка при инициализации Chrome WebDriver.", ex, exc_info=True)
@@ -101,7 +101,7 @@
     def _check_driver(self) -> bool:
         """ Проверяет, был ли драйвер успешно инициализирован. """
         if self.driver is None:
-            # Используем ваш формат
+            # Используется ваш формат
             logger.error("Драйвер браузера не был инициализирован.", None, exc_info=False)
             return False
         return True

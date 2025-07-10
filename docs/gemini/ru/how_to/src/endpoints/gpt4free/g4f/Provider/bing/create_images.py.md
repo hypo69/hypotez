@@ -36,10 +36,10 @@ async def main():
     # Загружаем куки
     with open('cookies.json', 'r') as f:
         cookies = json.load(f)
-    # Создаем сессию с куки
+    # создание сессию с куки
     session = create_session(cookies)
     try:
-        # Создаем изображения по запросу
+        # создание изображения по запросу
         images_urls = await create_images(session, "A beautiful sunset over a lake")
         # Выводим ссылки на изображения
         print(images_urls)

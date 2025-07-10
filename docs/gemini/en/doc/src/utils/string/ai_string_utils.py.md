@@ -154,7 +154,7 @@ def normalize_answer(text: str) -> str:
     normalized_text = text # Начинаем с исходного текста
 
     for prefix in _NORMALIZER_PREFIXES:
-        # Проверяем наличие префикса И суффикса
+        # Проверка наличие префикса И суффикса
         if normalized_text.startswith(prefix) and normalized_text.endswith(_NORMALIZER_SUFFIX):
             # Удаляем префикс
             normalized_text = normalized_text.removeprefix(prefix)

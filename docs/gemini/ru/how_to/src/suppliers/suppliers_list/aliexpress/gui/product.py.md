@@ -32,7 +32,7 @@
 ```python
 from src.suppliers.suppliers_list.aliexpress.gui.product import ProductEditor
 
-# Создаем экземпляр ProductEditor
+# создание экземпляр ProductEditor
 product_editor = ProductEditor()
 
 # Запускаем графический интерфейс

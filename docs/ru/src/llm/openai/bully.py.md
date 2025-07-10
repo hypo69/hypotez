@@ -19,7 +19,7 @@ def bully(user_message="Hello!", messages=[{"system": "user", "content": system_
 
     Args:
         user_message (str, optional): Сообщение пользователя, которое будет отправлено ChatGPT. По умолчанию "Hello!".
-        messages (list, optional): Список сообщений, используемых для контекста беседы с ChatGPT.
+        messages (list, optional): Список сообщений, Используетсяых для контекста беседы с ChatGPT.
             Список начинается с системного запроса. По умолчанию `[{"system": "user", "content": system_prompt}]`.
 
     Returns:
@@ -38,7 +38,7 @@ def bully(user_message="Hello!", messages=[{"system": "user", "content": system_
 
 **Параметры**:
 - `user_message` (str, optional): Сообщение пользователя, которое будет отправлено ChatGPT. По умолчанию "Hello!".
-- `messages` (list, optional): Список сообщений, используемых для контекста беседы с ChatGPT.
+- `messages` (list, optional): Список сообщений, Используетсяых для контекста беседы с ChatGPT.
     Список начинается с системного запроса. По умолчанию `[{"system": "user", "content": system_prompt}]`.
 
 **Возвращает**:

@@ -3,7 +3,7 @@
 
 Описание
 -------------------------
-Функция `get_list_products_in_category` извлекает список ссылок на товары со страницы категории на сайте поставщика. Она работает с объектом `Supplier`, который содержит информацию о поставщике, включая драйвер веб-браузера `driver` и локаторы `locators`, используемые для нахождения элементов на странице.
+Функция `get_list_products_in_category` извлекает список ссылок на товары со страницы категории на сайте поставщика. Она работает с объектом `Supplier`, который содержит информацию о поставщике, включая драйвер веб-браузера `driver` и локаторы `locators`, Используетсяые для нахождения элементов на странице.
 
 Шаги выполнения
 -------------------------
@@ -24,13 +24,13 @@
 from src.suppliers.suppliers_list.kualastyle.scenario import get_list_products_in_category
 from src.suppliers.suppliers_list.kualastyle.supplier import Kualastyle
 
-# Инициализируем поставщика
+# Инициализация поставщика
 kualastyle = Kualastyle()
 
 # Извлекаем список ссылок на товары со страницы категории
 products_urls = get_list_products_in_category(kualastyle)
 
-# Проверяем, что список не пуст
+# Проверка, что список не пуст
 if products_urls:
     # Обрабатываем список ссылок
     for url in products_urls:

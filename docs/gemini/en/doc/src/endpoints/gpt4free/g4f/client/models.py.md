@@ -53,7 +53,7 @@
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
 
-# Создаем экземпляр ClientModels
+# создание экземпляр ClientModels
 models = ClientModels(client)
 
 # Получаем тип провайдера для модели 'text-davinci-003'
@@ -81,7 +81,7 @@ print(provider_type)
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
 
-# Создаем экземпляр ClientModels
+# создание экземпляр ClientModels
 models = ClientModels(client)
 
 # Получаем список доступных моделей
@@ -108,7 +108,7 @@ print(available_models)
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
 
-# Создаем экземпляр ClientModels
+# создание экземпляр ClientModels
 models = ClientModels(client)
 
 # Получаем список моделей для обработки изображений
@@ -136,7 +136,7 @@ print(vision_models)
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
 
-# Создаем экземпляр ClientModels
+# создание экземпляр ClientModels
 models = ClientModels(client)
 
 # Получаем список моделей для работы с медиа-данными
@@ -163,7 +163,7 @@ print(media_models)
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
 
-# Создаем экземпляр ClientModels
+# создание экземпляр ClientModels
 models = ClientModels(client)
 
 # Получаем список моделей для обработки изображений
@@ -190,7 +190,7 @@ print(image_models)
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
 
-# Создаем экземпляр ClientModels
+# создание экземпляр ClientModels
 models = ClientModels(client)
 
 # Получаем список моделей для обработки видео
@@ -218,10 +218,10 @@ print(video_models)
 from hypotez.src.endpoints.gpt4free.g4f.client.models import ClientModels
 from hypotez.src.endpoints.gpt4free.g4f.client.client import Client
 
-# Создаем объект клиента GPT4Free
+# создание объект клиента GPT4Free
 client = Client(api_key='your_api_key')
 
-# Создаем экземпляр ClientModels
+# создание экземпляр ClientModels
 models = ClientModels(client)
 
 # Получаем список доступных моделей

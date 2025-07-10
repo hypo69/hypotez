@@ -32,7 +32,7 @@
 - `client (AsyncClient)`: Асинхронный клиент для взаимодействия с API GPT4Free.
 - `system_prompt_role (OpenAISystemPromptRole | None)`: Роль для использования в системном запросе. 
     По умолчанию `None`.
-- `_model_name (str)`: Имя используемой модели GPT4Free.
+- `_model_name (str)`: Имя Используетсяой модели GPT4Free.
 - `_provider (str)`: Имя поставщика модели. 
 - `_system (Optional[str])`: Имя системы модели, по умолчанию 'openai'. Используется для целей 
     наблюдаемости.
@@ -44,7 +44,7 @@
 
     **Параметры**:
 
-    - `model_name (str)`: Имя используемой модели GPT4Free. Список доступных моделей можно найти 
+    - `model_name (str)`: Имя Используетсяой модели GPT4Free. Список доступных моделей можно найти 
         [здесь](https://github.com/openai/openai-python/blob/v1.54.3/src/openai/types/chat_model.py#L7).
     - `provider (str | None)`: Имя поставщика модели.
     - `system_prompt_role (OpenAISystemPromptRole | None)`: Роль для использования в системном запросе.

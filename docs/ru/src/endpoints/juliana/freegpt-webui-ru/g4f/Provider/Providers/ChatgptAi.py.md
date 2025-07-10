@@ -48,7 +48,7 @@ def _create_completion(model: str, messages: list, stream: bool, **kwargs):
 
 ## Переменные
 
-- `url` (str): URL веб-сайта chatgpt.ai, используемый для запросов.
+- `url` (str): URL веб-сайта chatgpt.ai, Используетсяый для запросов.
 - `model` (list): Список поддерживаемых моделей (в данном случае `gpt-4`).
 - `supports_stream` (bool): Флаг, указывающий на поддержку потоковой передачи данных (в данном случае `False`).
 - `needs_auth` (bool): Флаг, указывающий на необходимость аутентификации (в данном случае `False`).

@@ -30,10 +30,10 @@
 from src.suppliers.ivory.graber import Graber
 from src.webdriver.driver import Driver
 
-# Создаем экземпляр веб-драйвера
+# создание экземпляр веб-драйвера
 driver = Driver(Chrome) 
 
-# Создаем экземпляр класса Graber 
+# создание экземпляр класса Graber 
 graber = Graber(driver=driver)
 
 # Устанавливаем локатор для декоратора

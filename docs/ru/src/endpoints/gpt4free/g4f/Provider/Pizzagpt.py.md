@@ -22,7 +22,7 @@
 - `url` (str): URL сервиса Pizzagpt (`https://www.pizzagpt.it`).
 - `api_endpoint` (str): Endpoint API для отправки запросов (`/api/chatx-completion`).
 - `working` (bool): Флаг, показывающий работоспособность провайдера (по умолчанию `False`).
-- `default_model` (str): Модель, используемая по умолчанию (`gpt-4o-mini`).
+- `default_model` (str): Модель, Используетсяая по умолчанию (`gpt-4o-mini`).
 - `models` (list[str]): Список поддерживаемых моделей (содержит только `default_model`).
 
 **Методы**:
@@ -45,7 +45,7 @@ async def create_async_generator(
 
     Args:
         cls (Pizzagpt): Ссылка на класс Pizzagpt.
-        model (str): Имя используемой модели.
+        model (str): Имя Используетсяой модели.
         messages (Messages): Список сообщений для отправки в API.
         proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
         **kwargs: Дополнительные параметры.

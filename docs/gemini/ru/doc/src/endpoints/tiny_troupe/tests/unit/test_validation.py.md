@@ -34,12 +34,12 @@
     assert wrong_expectations_score < 0.5, f"Validation score is too high: {wrong_expectations_score:.2f}"
 ```
 
-## Используемые функции
+## Используетсяые функции
 
 - **`TinyPersonFactory.generate_person`**: Метод класса `TinyPersonFactory`, генерирующий объект `TinyPerson` на основе заданного описания.
 - **`TinyPersonValidator.validate_person`**: Метод класса `TinyPersonValidator`, выполняющий валидацию персонажа на основе заданных ожиданий.
 
-## Используемые модули
+## Используетсяые модули
 
 - `pytest`: Фреймворк для тестирования.
 - `os`: Модуль для работы с файловой системой.

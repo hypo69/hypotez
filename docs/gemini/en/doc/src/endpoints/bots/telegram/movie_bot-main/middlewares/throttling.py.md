@@ -49,10 +49,10 @@ The middleware uses a cache to track the last time a user sent a message. If a u
         async def handler(event: Message, data: Dict[str, Any]) -> str:
             return "Message received!"
 
-        middleware = ThrottlingMiddleware(time_limit=2)  # Создаем экземпляр класса
+        middleware = ThrottlingMiddleware(time_limit=2)  # создание экземпляр класса
 
-        event = Message(chat={'id': 123456789})  # Создаем пример сообщения
-        data = {}  # Создаем пример данных
+        event = Message(chat={'id': 123456789})  # создание пример сообщения
+        data = {}  # создание пример данных
 
         result = await middleware(handler, event, data)  # Вызываем метод `__call__`
 

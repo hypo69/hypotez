@@ -26,7 +26,7 @@ from bot.dao.database_middleware import DatabaseMiddlewareWithCommit
 
 # ...
 
-# Создаем объект DatabaseMiddlewareWithCommit
+# создание объект DatabaseMiddlewareWithCommit
 db_middleware = DatabaseMiddlewareWithCommit()
 
 # Регистрируем middleware в dispatcher
@@ -41,4 +41,4 @@ async def start_handler(message: Message, data: Dict[str, Any]):
     # ...
 ```
 
-В примере мы создаем объект `DatabaseMiddlewareWithCommit` и регистрируем его в диспетчере. В обработчике `start_handler`  доступна сессия через контекст данных `data` по ключу `'session_with_commit'`.
+В примере мы создание объект `DatabaseMiddlewareWithCommit` и регистрируем его в диспетчере. В обработчике `start_handler`  доступна сессия через контекст данных `data` по ключу `'session_with_commit'`.

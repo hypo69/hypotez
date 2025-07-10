@@ -63,7 +63,7 @@ for token in provider.create_completion(model="reka", messages=messages, image=i
 - **`api_key`**:  Ключ API для авторизации.
 - **`image`**:  Изображение в виде пути к файлу, URL или байтов.
 - **`conversation_history`**:  Список сообщений в истории разговора.
-- **`model_name`**:  Название используемой модели Reka.ai.
+- **`model_name`**:  Название Используетсяой модели Reka.ai.
 
 **Важно**: 
 - Для использования этого провайдера необходимо получить cookies или токен доступа для авторизации на Reka.ai. 

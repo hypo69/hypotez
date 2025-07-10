@@ -91,7 +91,7 @@ class ProductFields:
 
         try:
             for name, value in data_dict.items():
-                setattr(self.presta_fields, name, value )
+                setattr(self.presta_fields, name, value ) # <- Установка значений полей по умолчанию
 
         except Exception as ex:
             logger.error(f"Exception ", ex)
@@ -165,7 +165,7 @@ class ProductFields:
             else:
                 # If the field exists, update or append the new language data to the existing list
                 if not isinstance(field, dict) or 'language' not in field or not isinstance(field['language'], list):
-                    # Если поле не является словарем с ключом 'language', содержащим список, то создаем словарь
+                    # Если поле не является словарем с ключом 'language', содержащим список, то создание словарь
                     setattr(self.presta_fields, field_name, {'language': lang_data})
                 else:
                     language_list = field['language']
@@ -1155,7 +1155,7 @@ class ProductFields:
         
         category_id_str = str(category_id)
         
-        # проверяем есть ли уже такая категория
+        # Проверка есть ли уже такая категория
         #if not any(d['id'] == category_id_str for d in self.presta_fields.associations['categories']):
         self.presta_fields.associations['categories'].append({'id': category_id_str})
 

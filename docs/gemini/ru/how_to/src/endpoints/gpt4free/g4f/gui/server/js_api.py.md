@@ -36,7 +36,7 @@
 ```python
 from src.endpoints.gpt4free.g4f.gui.server.js_api import JsApi
 
-# Создаем экземпляр JsApi
+# создание экземпляр JsApi
 js_api = JsApi()
 
 # Отправляем запрос к API с текстом запроса и моделью

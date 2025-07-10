@@ -59,7 +59,7 @@ def get_relative_path(full_path: str, relative_from: str) -> Optional[str]:
     path = Path(full_path)
     parts = path.parts
 
-    # Проверяем, что relative_from является строкой
+    # Проверка, что relative_from является строкой
     if not isinstance(relative_from, str):
         logger.error(f"relative_from должен быть строкой, а не {type(relative_from)}")
         return None

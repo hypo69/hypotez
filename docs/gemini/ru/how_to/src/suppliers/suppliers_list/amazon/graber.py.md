@@ -32,10 +32,10 @@
 from src.suppliers.suppliers_list.amazon.graber import Graber
 from src.webdriver.driver import Driver
 
-# Создаем объект веб-драйвера (например, Chrome)
+# создание объект веб-драйвера (например, Chrome)
 driver = Driver(Chrome)
 
-# Создаем объект класса Graber
+# создание объект класса Graber
 graber = Graber(driver, lang_index=0)  # lang_index - индекс языка
 
 # ... (получаем данные о товаре)

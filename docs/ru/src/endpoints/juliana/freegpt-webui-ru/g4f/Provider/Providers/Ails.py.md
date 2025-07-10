@@ -16,7 +16,7 @@ def _create_completion(model: str, messages: list, temperature: float = 0.6, str
     """Функция создает запрос к API caipacity.com для получения завершения текста.
 
     Args:
-        model (str): Название модели, используемой для генерации текста.
+        model (str): Название модели, Используетсяой для генерации текста.
         messages (list): Список сообщений, представляющих историю разговора.
         temperature (float, optional): Параметр, определяющий случайность генерации текста. По умолчанию 0.6.
         stream (bool, optional): Определяет, использовать ли потоковый режим передачи данных. По умолчанию False.
@@ -109,7 +109,7 @@ def _create_completion(model: str, messages: list, temperature: float = 0.6, str
 ## Переменные
 
 -   `url` (str): URL-адрес API `ai.ls`.
--   `model` (str): Название используемой модели (`gpt-3.5-turbo`).
+-   `model` (str): Название Используетсяой модели (`gpt-3.5-turbo`).
 -   `supports_stream` (bool): Флаг, указывающий на поддержку потоковой передачи данных (True).
 -   `needs_auth` (bool): Флаг, указывающий на необходимость аутентификации (False).
 -    `params` (str): Строка, содержащая информацию о поддержке параметров для функции `_create_completion`.

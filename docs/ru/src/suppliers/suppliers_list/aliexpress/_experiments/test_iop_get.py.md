@@ -41,7 +41,7 @@ print(response.body)  # Полное тело ответа
 
 ## Переменные
 
-- `client`: Инстанс класса `IopClient`, используемый для взаимодействия с API AliExpress.
+- `client`: Инстанс класса `IopClient`, Используетсяый для взаимодействия с API AliExpress.
 - `request`: Инстанс класса `IopRequest`, представляющий запрос к API AliExpress.
 - `response`: Результат выполнения запроса, содержащий информацию об ответе от API.
 

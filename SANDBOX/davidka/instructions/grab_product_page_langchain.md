@@ -116,7 +116,7 @@
       "data": {
         "name": "<Product name - EN>",
         "url": "<URL страницы>",
-        "sku": "<SKU or 'N/A'>", // Используем sku как основной идентификатор
+        "sku": "<SKU or 'N/A'>", // Используется sku как основной идентификатор
          // ... остальные поля товара из предыдущей оптимизации ...
          "brand": { "name": "<Brand name - EN or 'N/A'>", "url": "<Brand URL or 'N/A'>" },
          "images": { "main_image_url": "<URL or 'N/A'>", "additional_image_urls": ["<URL1>", "..."] },

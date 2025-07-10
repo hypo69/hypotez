@@ -27,17 +27,17 @@
   - Не все импорты используются
   - Некоторые docstring на английском языке
   - Не используется `j_loads` или `j_loads_ns`
-  - При инициализации класса `AliCampaignGoogleSheet` вызываются неиспользуемые методы
+  - При инициализации класса `AliCampaignGoogleSheet` вызываются неИспользуетсяые методы
   - Есть закомментированный код, который следует удалить
 
 **Рекомендации по улучшению**:
-1. **Добавить docstring**: Добавить docstring во все функции и методы, чтобы улучшить понимание кода. Описать назначение функции, параметры, возвращаемые значения и возможные исключения.
+1. **Добавить docstring**: Добавить docstring во все функции и методы, чтобы улучшить понимание кода. Описать назначение функции, параметры, Возвратые значения и возможные исключения.
 2. **Исправить type hinting**: Использовать `|` вместо `Union` для type hinting, чтобы соответствовать современным стандартам Python.
 3. **Добавить примеры использования**: Добавить примеры использования в docstring для облегчения понимания работы функций.
-4. **Удалить неиспользуемый код**: Удалить закомментированный код, чтобы упростить чтение и поддержку кода.
+4. **Удалить неИспользуетсяый код**: Удалить закомментированный код, чтобы упростить чтение и поддержку кода.
 5. **Заменить `open` на `j_loads`**: Использовать `j_loads` или `j_loads_ns` для чтения конфигурационных файлов.
 6. **Перевести docstring на русский**: Перевести все docstring на русский язык.
-7. **Избавиться от неиспользуемых импортов**
+7. **Избавиться от неИспользуетсяых импортов**
 8. **Добавить аннотацию типов**
 9. **Исправить инициализацию класса**
 
@@ -114,10 +114,10 @@ class AliCampaignGoogleSheet(SpreadSheet):
         """
         # Инициализация SpreadSheet с spreadsheet ID
         super().__init__(spreadsheet_id=self.spreadsheet_id)
-        # self.capmaign_editor = AliCampaignEditor(campaign_name=campaign_name, language=language, currency=currency) #Неиспользуемый код
-        # if campaign_editor: #Неиспользуемый код
-        #     self.set_campaign_worksheet(campaign_editor.campaign) #Неиспользуемый код
-        #     self.set_categories_worksheet(campaign_editor.campaign.category) #Неиспользуемый код
+        # self.capmaign_editor = AliCampaignEditor(campaign_name=campaign_name, language=language, currency=currency) #НеИспользуетсяый код
+        # if campaign_editor: #НеИспользуетсяый код
+        #     self.set_campaign_worksheet(campaign_editor.campaign) #НеИспользуетсяый код
+        #     self.set_categories_worksheet(campaign_editor.campaign.category) #НеИспользуетсяый код
         
         
     def clear(self) -> None:
@@ -402,7 +402,7 @@ class AliCampaignGoogleSheet(SpreadSheet):
                 textFormat=textFormat(bold=True, fontSize=12),
                 horizontalAlignment='CENTER',
                 verticalAlignment='MIDDLE',  # Добавлено вертикальное выравнивание
-                backgroundColor=Color(0.8, 0.8, 0.8)  # Используем Color для задания цвета
+                backgroundColor=Color(0.8, 0.8, 0.8)  # Используется Color для задания цвета
             )
             format_cell_range(ws, 'A1:E1', header_format)
 
@@ -457,7 +457,7 @@ class AliCampaignGoogleSheet(SpreadSheet):
                 textFormat=textFormat(bold=True, fontSize=12),
                 horizontalAlignment='CENTER',
                 verticalAlignment='TOP',  # Добавлено вертикальное выравнивание
-                backgroundColor=Color(0.8, 0.8, 0.8)  # Используем Color для задания цвета
+                backgroundColor=Color(0.8, 0.8, 0.8)  # Используется Color для задания цвета
             )
             format_cell_range(ws, 'A1:Y1', header_format)
 

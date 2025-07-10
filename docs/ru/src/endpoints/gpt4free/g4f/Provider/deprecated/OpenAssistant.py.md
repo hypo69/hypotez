@@ -20,7 +20,7 @@
 - `url` (str): URL для взаимодействия с Open Assistant (`"https://open-assistant.io/chat"`).
 - `needs_auth` (bool): Указывает, требуется ли аутентификация (`True`).
 - `working` (bool): Указывает, работает ли провайдер (`False`).
-- `model` (str): Имя используемой модели (`"OA_SFT_Llama_30B_6"`).
+- `model` (str): Имя Используетсяой модели (`"OA_SFT_Llama_30B_6"`).
 
 ## Методы класса
 
@@ -80,7 +80,7 @@
 - `url` (str): URL для взаимодействия с Open Assistant.
 - `needs_auth` (bool): Указывает, требуется ли аутентификация.
 - `working` (bool): Указывает, работает ли провайдер.
-- `model` (str): Имя используемой модели.
+- `model` (str): Имя Используетсяой модели.
 
 ## Примеры
 Примеры работы с классом `OpenAssistant` можно посмотреть в документации к методу `create_async_generator`.

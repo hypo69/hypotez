@@ -174,9 +174,9 @@ def _check_response(
     Args:
         status_code (int): Код состояния HTTP-ответа.
         response (requests.Response): Объект HTTP-ответа.
-        method (Optional[str]): HTTP-метод, используемый для запроса.
+        method (Optional[str]): HTTP-метод, Используетсяый для запроса.
         url (Optional[str]): URL-адрес запроса.
-        headers (Optional[dict]): Заголовки, используемые в запросе.
+        headers (Optional[dict]): Заголовки, Используетсяые в запросе.
         data (Optional[dict]): Данные, отправленные в запросе.
 
     Returns:
@@ -353,7 +353,7 @@ def _exec(
 -   `display` (Optional[str | list]) = 'full': Отображаемые поля.
 -   `schema` (Optional[str]) = None: Схема ресурса.
 -   `sort` (Optional[str]) = None: Параметры сортировки.
--   `limit` (Optional[str]) = None: Лимит количества возвращаемых записей.
+-   `limit` (Optional[str]) = None: Лимит количества Возвратых записей.
 -   `language` (Optional[int]) = None: ID языка.
 -   `data_format` (str) = Config.POST_FORMAT: Формат данных (JSON или XML).
 

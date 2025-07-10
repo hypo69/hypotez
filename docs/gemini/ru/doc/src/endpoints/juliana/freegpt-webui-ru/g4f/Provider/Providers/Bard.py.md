@@ -60,7 +60,7 @@
 ```python
 from hypotez.src.endpoints.juliana.freegpt-webui-ru.g4f.Provider.Providers.Bard import Bard
 
-# Создаем объект Bard
+# создание объект Bard
 bard = Bard()
 
 # Отправляем запрос к модели Bard

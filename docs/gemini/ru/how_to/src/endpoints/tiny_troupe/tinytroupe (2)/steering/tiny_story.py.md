@@ -27,11 +27,11 @@ import tinytroupe.utils as utils
 from tinytroupe import openai_utils
 from tinytroupe.steering.tiny_story import TinyStory
 
-# Создаем агента и среду
+# создание агента и среду
 agent = TinyPerson(name="Alice", age=30, job="Software Engineer")
 environment = TinyWorld(name="City", description="A bustling city with diverse population and vibrant culture.")
 
-# Создаем историю об агенте
+# создание историю об агенте
 story = TinyStory(agent=agent, purpose="Tell a story about a software engineer who moves to a new city.", context="Once upon a time...")
 
 # Начинаем историю

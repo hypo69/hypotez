@@ -30,7 +30,7 @@ def ...(param: str, param1: Optional[str | dict | str] = None) -> dict | None:
         param1 (Optional[str | dict | str], optional): Описание параметра `param1`. По умолчанию `None`.
 
     Returns:
-        dict | None: Описание возвращаемого значения. Возвращает словарь или `None`.
+        dict | None: Описание Возвратого значения. Возвращает словарь или `None`.
 
     Raises:
         SomeError: Описание ситуации, в которой возникает исключение `SomeError`.
@@ -52,7 +52,7 @@ def ...(param: str, param1: Optional[str | dict | str] = None) -> dict | None:
         param1 (Optional[str | dict | str], optional): Описание параметра `param1`. По умолчанию `None`.
 
     Returns:
-        dict | None: Описание возвращаемого значения. Возвращает словарь или `None`.
+        dict | None: Описание Возвратого значения. Возвращает словарь или `None`.
 
     Raises:
         SomeError: Описание ситуации, в которой возникает исключение `SomeError`.
@@ -74,7 +74,7 @@ def ...(param: str, param1: Optional[str | dict | str] = None) -> dict | None:
         param1 (Optional[str | dict | str], optional): Описание параметра `param1`. По умолчанию `None`.
 
     Returns:
-        dict | None: Описание возвращаемого значения. Возвращает словарь или `None`.
+        dict | None: Описание Возвратого значения. Возвращает словарь или `None`.
 
     Raises:
         SomeError: Описание ситуации, в которой возникает исключение `SomeError`.

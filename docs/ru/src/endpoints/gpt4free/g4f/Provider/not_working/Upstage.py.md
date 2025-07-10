@@ -22,7 +22,7 @@
 - `url` (str): URL для playground Upstage.
 - `api_endpoint` (str): URL API Upstage для запросов completions.
 - `working` (bool): Указывает, работает ли провайдер.
-- `default_model` (str): Модель, используемая по умолчанию ('solar-pro').
+- `default_model` (str): Модель, Используетсяая по умолчанию ('solar-pro').
 - `models` (List[str]): Список поддерживаемых моделей.
 - `model_aliases` (Dict[str, str]): Псевдонимы моделей для удобства использования.
 

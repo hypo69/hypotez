@@ -18,7 +18,7 @@ def create_session(cookies: Dict[str, str], proxy: str = None, connector: BaseCo
     Создает новую клиентскую сессию с указанными cookies и заголовками.
 
     Args:
-        cookies (Dict[str, str]): Cookies, используемые для сессии.
+        cookies (Dict[str, str]): Cookies, Используетсяые для сессии.
         proxy (str, optional): Proxy для подключения. По умолчанию `None`.
         connector (BaseConnector, optional): Connector aiohttp. По умолчанию `None`.
 

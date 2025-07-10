@@ -18,7 +18,7 @@
 
 **Атрибуты**:
 - `url` (str): URL-адрес API `gpt-gm.h2o.ai`.
-- `model` (str): Название модели, используемой по умолчанию: `h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1`.
+- `model` (str): Название модели, Используетсяой по умолчанию: `h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1`.
 
 **Методы**:
 - `create_async_generator()`: Создает асинхронный генератор для получения ответов от модели.
@@ -76,7 +76,7 @@
 ## Параметры класса
 
 - `url` (str): URL-адрес API `gpt-gm.h2o.ai`.
-- `model` (str): Название модели, используемой по умолчанию: `h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1`.
+- `model` (str): Название модели, Используетсяой по умолчанию: `h2oai/h2ogpt-gm-oasst1-en-2048-falcon-40b-v1`.
 
 ## Примеры
 

@@ -30,7 +30,7 @@ from urllib.parse import urljoin # Для обработки относител�
 
 # === Playwright Async Imports ===
 # Импорт асинхронных компонентов Playwright
-from playwright.async_api import (async_playwright, Page, Browser, Playwright, # ИСПОЛЬЗУЕМ ASYNC API
+from playwright.async_api import (async_playwright, Page, Browser, Playwright, # Используется ASYNC API
                                   BrowserContext, Error as PlaywrightError, Download) # Добавлены Download, BrowserContext
 # ================================
 
@@ -51,7 +51,7 @@ from header import __root__
 from src.logger import logger # Импортируем настроенный логгер проекта
 # ===============================
 
-# Определяем псевдонимы типов для Async API Playwright для улучшения читаемости
+# Определение псевдонимы типов для Async API Playwright для улучшения читаемости
 ContextPage: TypeAlias = Optional[Page]
 ContextBrowser: TypeAlias = Optional[Browser]
 ContextPlaywright: TypeAlias = Optional[Playwright]
@@ -112,7 +112,7 @@ class BrowserController:
         # Проверка, не был ли контроллер уже запущен
         if self._is_started:
             logger.warning('BrowserController уже инициализирован.')
-            return True # Если уже запущен, возвращаем True
+            return True # Если уже запущен, Возврат True
 
         logger.info('Асинхронная инициализация BrowserController...')
         try:
@@ -136,7 +136,7 @@ class BrowserController:
             logger.error('КРИТИЧЕСКАЯ ОШИБКА Async: Не удалось инициализировать Playwright/Браузер.', ex, exc_info=True)
             # Попытка асинхронного закрытия ресурсов при ошибке
             await self.close()
-            # Возвращаем False вместо исключения, чтобы основной код мог это обработать
+            # Возврат False вместо исключения, чтобы основной код мог это обработать
             return False
 
     async def navigate(self, url: str) -> str:
@@ -361,7 +361,7 @@ class BrowserController:
             except Exception as ex: logger.warning('Ошибка при закрытии страницы (Async).', ex, exc_info=False)
         self.page = None # Обнуление ссылки
 
-        if self.context: # Playwright Context не имеет метода is_closed() как такового, проверяем просто наличие
+        if self.context: # Playwright Context не имеет метода is_closed() как такового, Проверка просто наличие
              try: await self.context.close(); logger.debug('Контекст закрыт (Async).')
              except Exception as ex: logger.warning('Ошибка при закрытии контекста (Async).', ex, exc_info=False)
         self.context = None # Обнуление ссылки
@@ -839,7 +839,7 @@ class JavaScriptExecutionController:
                 # Попытка сериализации результата в JSON
                 return json.dumps(result) 
             except TypeError: 
-                # Если сериализация в JSON не удалась, возвращаем как строку
+                # Если сериализация в JSON не удалась, Возврат как строку
                 return str(result) 
         except PlaywrightError as ex: 
             error_msg=ex.message.splitlines()[0]
@@ -871,7 +871,7 @@ class StateManager:
         Raises:
             ValueError: Если `context` не предоставлен или закрыт.
         """
-        # Playwright BrowserContext не имеет is_closed(), проверяем только на None
+        # Playwright BrowserContext не имеет is_closed(), Проверка только на None
         if not context: 
             raise ValueError('StateManager требует активный контекст браузера Playwright.')
         self.context = context
@@ -890,7 +890,7 @@ class StateManager:
             Union[List[Dict[str, Any]], str]: Список словарей с данными cookies или сообщение об ошибке.
         """
         logger.info(f"Получение cookies (URL: {url or 'Все'})")
-        # Проверка состояния контекста (нет is_closed(), проверяем на None)
+        # Проверка состояния контекста (нет is_closed(), Проверка на None)
         if not self.context: return 'Ошибка: Контекст браузера закрыт или не инициализирован.'
         try: 
             # Асинхронное получение cookies

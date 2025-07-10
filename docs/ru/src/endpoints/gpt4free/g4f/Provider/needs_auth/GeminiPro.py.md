@@ -91,7 +91,7 @@ async def create_async_generator(
     Создает асинхронный генератор для взаимодействия с API Gemini.
 
     Args:
-        model (str): Название используемой модели.
+        model (str): Название Используетсяой модели.
         messages (Messages): Список сообщений для отправки в API.
         stream (bool, optional): Флаг для включения потоковой передачи. По умолчанию `False`.
         proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
@@ -139,7 +139,7 @@ async for response in generator:
 - `supports_message_history` (bool): Поддержка истории сообщений.
 - `supports_system_message` (bool): Поддержка системных сообщений.
 - `needs_auth` (bool): Требуется ли аутентификация.
-- `default_model` (str): Модель, используемая по умолчанию.
+- `default_model` (str): Модель, Используетсяая по умолчанию.
 - `default_vision_model` (str): Модель для работы с изображениями по умолчанию.
 - `fallback_models` (list[str]): Список запасных моделей.
 - `model_aliases` (dict[str, str]): Псевдонимы моделей.

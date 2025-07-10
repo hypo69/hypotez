@@ -108,7 +108,7 @@ class TimeoutCheck:
         if thread.is_alive():
             logger.warning(f'Timeout occurred after {timeout} seconds, continuing execution.') # Логгирование предупреждения о тайм-ауте
             thread.join()  # Обеспечивает остановку потока после тайм-аута
-            return False  # Произошел тайм-аут, возвращаем False
+            return False  # Произошел тайм-аут, Возврат False
         return self.result
 
     def get_input(self):
@@ -138,7 +138,7 @@ class TimeoutCheck:
 
         if thread.is_alive():
             logger.warning(f'Timeout occurred after {timeout} seconds.') # Логгирование предупреждения о тайм-ауте
-            return None  # Возвращаем None, если тайм-аут произошел
+            return None  # Возврат None, если тайм-аут произошел
 
         return self.user_input
 

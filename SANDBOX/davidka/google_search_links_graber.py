@@ -137,7 +137,7 @@ def fetch_search_results_api(query: str, api_key: str, cse_id: str, num_results:
             return links
         else:
             logger.info("API не вернуло результатов (поле 'items' отсутствует или пусто).")
-            return [] # Возвращаем пустой список, если результатов нет
+            return [] # Возврат пустой список, если результатов нет
 
     except requests.exceptions.Timeout as ex:
         logger.error(f'Тайм-аут при запросе к API Google: {Config.API_ENDPOINT}', ex, exc_info=False)
@@ -310,7 +310,7 @@ if __name__ == '__main__':
             extracted_links = None # Явно указываем на неудачу
 
     # --- Вывод результата ---
-    if extracted_links is not None: # Проверяем, что список не None (ошибки не было)
+    if extracted_links is not None: # Проверка, что список не None (ошибки не было)
         if extracted_links:
             # Вывод заголовка
             print('\n--- Найденные ссылки ---')
@@ -331,7 +331,7 @@ if __name__ == '__main__':
         print('Не удалось получить результаты поиска. Проверьте логи для деталей.')
 
     # --- Финальное примечание ---
-    # Используем кастомный print
+    # Используется кастомный print
     print('\n--- Важное замечание ---')
     if not use_api:
         print('Использовался метод веб-скрапинга. Он ненадежен и может быть заблокирован.')

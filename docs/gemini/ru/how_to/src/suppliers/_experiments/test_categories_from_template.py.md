@@ -47,7 +47,7 @@
      ```
    - **Вызов функции и проверка результата**:
      - Вызывается функция `buid_templates` с путем к временной директории.
-     - Сравнивается возвращаемое значение функции с ожидаемым результатом `expected_output` с помощью `self.assertEqual`.
+     - Сравнивается Возвратое значение функции с ожидаемым результатом `expected_output` с помощью `self.assertEqual`.
      ```python
      expected_output = {"category1": {"template1": "some content"}, "category2": {"template2": "some content"}}
      self.assertEqual(buid_templates(tmpdir), expected_output)

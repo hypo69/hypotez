@@ -20,7 +20,7 @@
 -------------------------
 
 ```python
-# Предположим, мы хотим создать провайдера "MyProvider" с использованием следующей cURL-команды:
+# Предположим, мы требуется создать провайдера "MyProvider" с использованием следующей cURL-команды:
 # curl -X POST https://example.com/api/completion -H 'authority: example.com' -H 'accept: application/json' -H 'origin: https://example.com' -H 'referer: https://example.com/chat' -d '{"prompt": "hello", "model": "gpt-3.5-turbo"}'
 name = "MyProvider"  # Введите имя провайдера
 command = "curl -X POST https://example.com/api/completion -H 'authority: example.com' -H 'accept: application/json' -H 'origin: https://example.com' -H 'referer: https://example.com/chat' -d '{\"prompt\": \"hello\", \"model\": \"gpt-3.5-turbo\"}'" # Введите cURL-команду

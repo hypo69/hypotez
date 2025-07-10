@@ -56,10 +56,10 @@ class MockSupplier:
     def __init__(self, supplier_abs_path: Path):
         self.supplier_abs_path = supplier_abs_path
 
-# Создаем моковый объект поставщика
+# создание моковый объект поставщика
 supplier = MockSupplier(Path("/tmp/supplier"))
 
-# Создаем моковый журнал
+# создание моковый журнал
 journal_data: Dict = {"name": "test_scenario", "status": "completed"}
 
 # Вызываем функцию dump_journal
@@ -135,10 +135,10 @@ class MockSupplier:
         self.scenario_files = scenario_files
         self.supplier_abs_path = Path("/tmp/supplier")
 
-# Создаем моковый объект поставщика
+# создание моковый объект поставщика
 supplier = MockSupplier([Path("scenario1.json"), Path("scenario2.json")])
 
-# Создаем список моковых файлов сценариев
+# создание список моковых файлов сценариев
 scenario_files_list: List[Path] = [Path("scenario1.json"), Path("scenario2.json")]
 
 # Вызываем функцию run_scenario_files
@@ -198,10 +198,10 @@ class MockSupplier:
         self.current_scenario = None
         self.supplier_abs_path = Path("/tmp/supplier")
 
-# Создаем моковый объект поставщика
+# создание моковый объект поставщика
 supplier = MockSupplier()
 
-# Создаем моковый файл сценария
+# создание моковый файл сценария
 scenario_file: Path = Path("scenario.json")
 
 # Вызываем функцию run_scenario_file
@@ -263,10 +263,10 @@ class MockSupplier:
         self.current_scenario = {"name": "default_scenario"}
         self.supplier_abs_path = Path("/tmp/supplier")
 
-# Создаем моковый объект поставщика
+# создание моковый объект поставщика
 supplier = MockSupplier()
 
-# Создаем список моковых сценариев
+# создание список моковых сценариев
 scenarios_list: List[Dict] = [{"name": "scenario1"}, {"name": "scenario2"}]
 
 # Вызываем функцию run_scenarios
@@ -383,10 +383,10 @@ class MockSupplier:
         self.supplier_prefix = "mock"
         self.supplier_abs_path = Path("/tmp/supplier")
 
-# Создаем моковый объект поставщика
+# создание моковый объект поставщика
 supplier = MockSupplier()
 
-# Создаем моковый сценарий
+# создание моковый сценарий
 scenario: Dict = {"url": "http://example.com/category"}
 
 # Вызываем функцию run_scenario
@@ -466,7 +466,7 @@ class MockPrestaShop:
         print("Вставка данных о товаре в PrestaShop")
         return True
 
-# Создаем моковый объект ProductFields
+# создание моковый объект ProductFields
 product_fields = MockProductFields()
 
 # Вызываем функцию insert_grabbed_data_to_prestashop

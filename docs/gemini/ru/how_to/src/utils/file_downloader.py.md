@@ -7,7 +7,7 @@ def download_file(url, destination):
     # Отправляем GET-запрос на сервер с указанным URL и передаем флаг stream=True для постепенной загрузки файла
     response = requests.get(url, stream=True)
 
-    # Проверяем, успешен ли запрос (код ответа 200 означает успех)
+    # Проверка, успешен ли запрос (код ответа 200 означает успех)
     if response.status_code == 200:
         # Открываем файл для записи в бинарном режиме (wb)
         with open(destination, 'wb') as file:

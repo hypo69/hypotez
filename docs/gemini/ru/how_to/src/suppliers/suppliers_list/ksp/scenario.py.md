@@ -27,7 +27,7 @@
 from src.suppliers.ksp.scenario import get_list_products_in_category
 from src.suppliers.suppliers_list.ksp.ksp import KSP
 
-# Создаем объект поставщика KSP
+# создание объект поставщика KSP
 supplier = KSP()
 
 # Получаем список URL-адресов товаров из категории

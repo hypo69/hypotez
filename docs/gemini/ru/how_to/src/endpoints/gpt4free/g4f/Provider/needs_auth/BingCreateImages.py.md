@@ -30,7 +30,7 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.BingCreateImages import BingCreateImages
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр класса BingCreateImages
+# создание экземпляр класса BingCreateImages
 bing_image_generator = BingCreateImages(api_key="YOUR_API_KEY")
 
 # Задаем сообщение для генерации изображения

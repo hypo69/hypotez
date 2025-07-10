@@ -79,7 +79,7 @@ def clean_html_string(html_content: str, parser: str = 'html.parser') -> str:
         cleaned_string = re.sub(r'>\s+<', '><', cleaned_string, flags=re.UNICODE)
 
         # Удаляем теги <body> и </body> если они остались по краям
-        # Используем регистронезависимый поиск и учитываем возможные атрибуты
+        # Используется регистронезависимый поиск и учитываем возможные атрибуты
         cleaned_string = re.sub(r'^<body[^>]*>', '', cleaned_string, count=1, flags=re.IGNORECASE | re.DOTALL).lstrip()
         cleaned_string = re.sub(r'</body\s*>$', '', cleaned_string, count=1, flags=re.IGNORECASE).rstrip()
 
@@ -89,7 +89,7 @@ def clean_html_string(html_content: str, parser: str = 'html.parser') -> str:
     except Exception as e:
         logger.error(f"Ошибка при очистке HTML: {e}", exc_info=True) # Логируем ошибку с traceback
         # В случае ошибки можно вернуть исходную строку или пустую
-        return "" # Возвращаем пустую строку при ошибке
+        return "" # Возврат пустую строку при ошибке
 
 
 # --- Блок для демонстрации и тестирования ---

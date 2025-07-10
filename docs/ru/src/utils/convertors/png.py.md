@@ -264,7 +264,7 @@ def center_text_position(
     Args:
         draw (ImageDraw.Draw): Объект ImageDraw.
         text (str): Текст для отображения.
-        font (ImageFont.ImageFont): Используемый шрифт.
+        font (ImageFont.ImageFont): Используетсяый шрифт.
         canvas_size (Tuple[int, int]): Размер холста в пикселях.
 
     Returns:
@@ -279,7 +279,7 @@ def center_text_position(
 **Параметры**:
 - `draw` (ImageDraw.Draw): Объект ImageDraw.
 - `text` (str): Текст для отображения.
-- `font` (ImageFont.ImageFont): Используемый шрифт.
+- `font` (ImageFont.ImageFont): Используетсяый шрифт.
 - `canvas_size` (Tuple[int, int]): Размер холста в пикселях.
 
 **Возвращает**:

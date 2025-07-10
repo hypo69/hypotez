@@ -51,7 +51,7 @@
 **Методы**:
 
 - `__init__(self, profile_name: Optional[str] = None, chromedriver_version: Optional[str] = None, user_agent: Optional[str] = None, proxy_file_path: Optional[str] = None, options: Optional[List[str]] = None, window_mode: Optional[str] = None, *args, **kwargs) -> None`: Конструктор класса `Chrome`.
-- `set_proxy(self, options: Options) -> None`: Настройка прокси из словаря, возвращаемого `get_proxies_dict`.
+- `set_proxy(self, options: Options) -> None`: Настройка прокси из словаря, Возвратого `get_proxies_dict`.
 - `_payload(self) -> None`: Загрузка исполнителей для локаторов и JavaScript сценариев.
 
 **Примеры**:
@@ -73,7 +73,7 @@ driver.quit()
 
 ### `set_proxy(self, options: Options) -> None`
 
-**Описание**: Настройка прокси из словаря, возвращаемого `get_proxies_dict`.
+**Описание**: Настройка прокси из словаря, Возвратого `get_proxies_dict`.
 
 **Параметры**:
 

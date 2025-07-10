@@ -160,7 +160,7 @@ async def fetch_product_data(driver: SimpleDriver, data_dir: str | Path) -> List
     lock_file_path: Path = processed_links_file_path.with_suffix(processed_links_file_path.suffix + '.lock')
     file_lock: AsyncFileLock = AsyncFileLock(lock_file_path)
 
-    # Объявление переменных, используемых в цикле
+    # Объявление переменных, Используетсяых в цикле
     product_url: str
     current_processed_links: List[str]
     task_instruction: str
@@ -247,7 +247,7 @@ async def fetch_product_data(driver: SimpleDriver, data_dir: str | Path) -> List
     except Exception as ex_outer_loop:
         # Общая ошибка при итерации по URL-ам или инициализации
         logger.error('Общая ошибка в функции fetch_product_data', ex_outer_loop, exc_info=True)
-        return [] # Возвращаем пустой список в случае серьезной ошибки
+        return [] # Возврат пустой список в случае серьезной ошибки
 
 async def find_products_urls_by_category(driver:SimpleDriver, category: str, task:str = '', num_of_links: str = '1') -> str:
     """Получить товары по категории через `SimpleDriver`"""
@@ -275,7 +275,7 @@ def sanitize(dir_path:Path|str):
             logger.warning(f'Файл {file_path} пуст или невалиден. Файл исключается из валидных')
             new_name = f"{file_path.stem}.sanitized{file_path.suffix}"
 
-            # Создаем новый объект Path с новым именем в той же директории
+            # создание новый объект Path с новым именем в той же директории
             new_file_path = file_path.with_name(new_name)
 
             try:

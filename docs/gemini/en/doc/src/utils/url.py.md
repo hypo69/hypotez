@@ -67,7 +67,7 @@ False
 # Получаем строку URL от пользователя
 url = input("Введите URL: ")
 
-# Проверяем валидность URL
+# Проверка валидность URL
 if is_url(url):
     params = extract_url_params(url)
 

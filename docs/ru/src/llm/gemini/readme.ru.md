@@ -16,7 +16,7 @@
 
 **Атрибуты**:
 - `api_key` (str): Ключ API для доступа к сервисам Google Generative AI.
-- `model_name` (Optional[str]): Имя используемой модели. По умолчанию `None`.
+- `model_name` (Optional[str]): Имя Используетсяой модели. По умолчанию `None`.
 - `generation_config` (Optional[Dict]): Конфигурация генерации для модели. По умолчанию `None`.
 - `system_instruction` (Optional[str]): Системная инструкция для модели. По умолчанию `None`.
 
@@ -42,7 +42,7 @@ def __init__(self, api_key: str, model_name: Optional[str] = None, generation_co
 
 **Параметры**:
 - `api_key` (str): Ключ API для доступа к сервисам Google Generative AI.
-- `model_name` (Optional[str], optional): Имя используемой модели. По умолчанию `None`.
+- `model_name` (Optional[str], optional): Имя Используетсяой модели. По умолчанию `None`.
 - `generation_config` (Optional[Dict], optional): Конфигурация генерации для модели. По умолчанию `None`.
 - `system_instruction` (Optional[str], optional): Системная инструкция для модели. По умолчанию `None`.
 - `**kwargs`: Дополнительные параметры конфигурации.

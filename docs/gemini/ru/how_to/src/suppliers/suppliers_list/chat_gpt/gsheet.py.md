@@ -40,7 +40,7 @@
 ```python
 from src.suppliers.chat_gpt.gsheet import GptGs
 
-# Создаем экземпляр класса GptGs
+# создание экземпляр класса GptGs
 gsheet = GptGs()
 
 # Очищаем листы

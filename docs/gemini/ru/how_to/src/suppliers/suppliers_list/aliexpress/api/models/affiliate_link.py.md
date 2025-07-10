@@ -18,13 +18,13 @@
 ```python
 from src.suppliers.aliexpress.api.models.affiliate_link import AffiliateLink
 
-# Создаем экземпляр класса AffiliateLink
+# создание экземпляр класса AffiliateLink
 affiliate_link = AffiliateLink(
     promotion_link='https://www.aliexpress.com/item/10000000000000.html?aff=12345678',  # Партнерская ссылка
     source_value='my_source'  # Дополнительная информация о источнике
 )
 
-# Используем атрибуты объекта
+# Используется атрибуты объекта
 print(f"Партнерская ссылка: {affiliate_link.promotion_link}")
 print(f"Источник: {affiliate_link.source_value}")
 ```

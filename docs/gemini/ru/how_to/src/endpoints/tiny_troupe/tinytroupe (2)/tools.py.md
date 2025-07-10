@@ -33,7 +33,7 @@
 ```python
 from tinytroupe.tools import TinyTool, TinyWordProcessor
 
-# Создаем новый инструмент "Word Processor"
+# создание новый инструмент "Word Processor"
 word_processor = TinyWordProcessor(owner="Alice", exporter=ArtifactExporter(), enricher=TinyEnricher())
 
 # Агент "Bob" пытается использовать инструмент "Word Processor"

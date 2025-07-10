@@ -17,6 +17,8 @@ import asyncio
 from pathlib import Path
 from typing import Optional, List
 
+from weasyprint import Page
+
 import header
 from src import gs
 
@@ -68,21 +70,21 @@ class Scenario(QuotationBuilder):
         Executes the scenario: parses products, processes them via AI, and stores data.
         """
 
-        driver_instance = None # Инициализируем переменную для экземпляра драйвера
+        driver_instance = None # Инициализация переменной для экземпляра драйвера
+        page_obj: 'Page' = None # Инициализация переменной для экземпляра страницы
+
         try:
-            # Создаем новый экземпляр драйвера здесь, для каждой операции сценария
-            driver_instance = Driver() # Возможно, тут нужно передавать конфиг или параметры окна
+            driver_instance = Driver()
             await driver_instance.start()
-            
-            # Получаем объект страницы из экземпляра драйвера
-            page_obj = driver_instance.page 
+            page_obj = await driver_instance.page 
+
             logger.info(f'pydoll driver started ')
         except Exception as ex:
             logger.error(f'Ошибка запуска pygoll вебдрайвера', exc_info=ex, extra={'chat_id': chat_id, 'bot': bot}) # Добавляем контекст для логгирования
             if bot: bot.send_message(chat_id, f"❌ Ошибка запуска вебдрайвера. Отмена сценария.")
             return False
 
-        products_list = [] # Список для собранных продуктов
+        products_list = [] # Список для собранных товаров
 
         # -------------------------------------------------
         # 1. Сбор товаров
@@ -109,7 +111,7 @@ class Scenario(QuotationBuilder):
             # Если это URL КАТЕГОРИИ, то код get_graber_by_supplier_url и далее grab_product_page не подойдет.
             # В таком случае, нужно сначала получить список URL товаров из категории, используя yield_all_scenarios или yield_scenario.
             
-            logger.info(f"Обработка URL: {url}")
+            logger.debug(f"Обработка URL: {url}")
 
             # Пытаемся получить грабер для данного URL
             graber: 'Graber' = get_graber_by_supplier_url(url)
@@ -119,9 +121,8 @@ class Scenario(QuotationBuilder):
                 if bot: bot.send_message(chat_id, f"❌ Не найден обработчик для ссылки: {url}")
                 continue # Переход к следующему URL
 
-            # Определяем поля, которые хотим извлечь.
-            # В данном случае, это фиксированный список.
-            required_fields: list[str]  = ['id_product',
+            required_fields: list[str]  = [
+                        'id_product',
                         'name',
                         'price',
                         'id_supplier',
@@ -134,16 +135,14 @@ class Scenario(QuotationBuilder):
             if bot: 
                 try:
                     bot.send_message(chat_id, f"⏳ Обработка товара:\n{url}") 
-                except Exception as e:
-                    logger.error(f"Ошибка отправки сообщения ботом: {e}")
+                except Exception as ex:
+                    logger.error(f"Ошибка отправки сообщения ботом:\n", ex)
 
             try:
-                # --- ИСПРАВЛЕННЫЙ ВЫЗОВ ---
-                # Передаем URL, экземпляр page_obj (драйвер), и список требуемых полей.
                 f: ProductFields = await graber.grab_product_page(
-                    product_url=url, 
-                    driver_instance=page_obj, # <-- Передаем здесь экземпляр Page
-                    actual_fields=required_fields
+                    product_url = url, 
+                    page = page_obj, # <-- Передаем здесь экземпляр Page
+                    required_fields = required_fields
                 )
                 # --- КОНЕЦ ИСПРАВЛЕННОГО ВЫЗОВА ---
 
@@ -169,11 +168,11 @@ class Scenario(QuotationBuilder):
             except Exception as ex:
                 logger.error(f"Произошла ошибка при обработке товара по URL {url}:", ex, )
                 if bot: bot.send_message(chat_id, f"❌ Произошла ошибка при обработке товара {url}:\n{ex}") 
-                continue # Если хотим пропустить только этот товар, но продолжить остальные
+                continue # Если требуется пропустить только этот товар, но продолжить остальные
 
         # --- ВАЖНОЕ ЗАМЕЧАНИЕ ПО ПОВОДУ ДРАЙВЕРА ---
         # Если ваш цикл по URL'ам очень длинный, и вы не закрываете драйвер,
-        # то может закончиться память. В данном коде драйвер не закрывается.
+        # то может закончиться память. В данном коде драйвер не закрывается!
         # Если вы обрабатываете URL'ы категорий, а не конкретные товары,
         # то этот цикл будет работать иначе.
         # В текущем виде, driver_instance будет закрыт только после всего сценария.
@@ -191,7 +190,7 @@ class Scenario(QuotationBuilder):
         # Я оставил один драйвер на весь run_scenario_async, но добавил условие выхода из цикла
         # если драйвер не работает.
 
-        # Если сбор товаров был успешным и есть хотя бы один продукт
+        # Если сбор товаров был успешным и есть хотя бы один товар
         if not products_list:
              logger.warning("Не было собрано ни одного товара для этого сценария.")
              # Если бот был предоставлен, отправляем уведомление
@@ -222,9 +221,9 @@ class Scenario(QuotationBuilder):
                 except Exception as e:
                     logger.error(f"Ошибка отправки сообщения ботом: {e}")
             
-            # Проверяем, что у нас есть собранные продукты для обработки AI
+            # Проверка, что у нас есть собранные товары для обработки AI
             if not products_list:
-                logger.warning(f"Нет собранных продуктов для AI обработки на языке {lang}.")
+                logger.warning(f"Нет собранных товаров для AI обработки на языке {lang}.")
                 if bot and chat_id: bot.send_message(chat_id, f"⚠️ Нет данных для AI обработки на языке {lang}.")
                 continue
 
@@ -236,7 +235,7 @@ class Scenario(QuotationBuilder):
                     if bot and chat_id: bot.send_message(chat_id, f"❌ AI обработка для {lang=} не дала результатов.")
                     continue # Пропустить этот язык
             except Exception as ex:
-                logger.exception(f"AI обработка не удалась для {lang=}:") # Используем exception для стека
+                logger.exception(f"AI обработка не удалась для {lang=}:") # Используется exception для стека
                 if bot and chat_id: bot.send_message(chat_id, f"❌ Ошибка AI обработки для {lang=}: {ex}")
                 continue
 
@@ -250,7 +249,7 @@ class Scenario(QuotationBuilder):
                 except Exception as e:
                     logger.error(f"Ошибка отправки сообщения ботом: {e}")
 
-            # Проверяем, что data для текущего языка существует
+            # Проверка, что data для текущего языка существует
             if lang not in data or not data[lang]:
                 logger.warning(f"Отсутствуют данные для языка '{lang}' после обработки AI.")
                 if bot and chat_id: bot.send_message(chat_id, f"⚠️ Отсутствуют данные для AI отчета на языке '{lang}'.")
@@ -258,7 +257,7 @@ class Scenario(QuotationBuilder):
 
             processed_data_for_lang = data[lang]
             processed_data_for_lang["price"] = price
-            # Используем getattr с default на случай, если валюты для языка нет
+            # Используется getattr с default на случай, если валюты для языка нет
             processed_data_for_lang["currency"] = getattr(self.translations.currency, lang, "ש''ח") # Предполагается, что self.translations и currency доступны
 
             # Сохраняем сырые данные после AI обработки
@@ -294,10 +293,10 @@ class Scenario(QuotationBuilder):
             except Exception as ex:
                 logger.error(f"Ошибка при остановке pydoll драйвера:", exc_info=ex)
 
-        # Возвращаем True только если сценарий в целом завершился без критических ошибок,
+        # Возврат True только если сценарий в целом завершился без критических ошибок,
         # даже если некоторые товары могли быть пропущены.
         # Если полное отсутствие товаров является ошибкой, можно добавить проверку `if not products_list: return False`
-        return True # Возвращаем True в конце, если все прошло без фатальных ошибок
+        return True # Возврат True в конце, если все прошло без фатальных ошибок
 
 
 # --- Пример вызова ---

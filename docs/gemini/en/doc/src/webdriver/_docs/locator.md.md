@@ -134,7 +134,7 @@ The following sections break down the structure of locators and provide examples
   "timeout_for_event": "presence_of_element_located",
   "event": "screenshot()",
   "mandatory": true,
-  "locator_description": "Внимание! В Morlevi изображение получаем через скриншоты и возвращаем как png (`bytes`)"
+  "locator_description": "Внимание! В Morlevi изображение получаем через скриншоты и Возврат как png (`bytes`)"
 }
 ```
 

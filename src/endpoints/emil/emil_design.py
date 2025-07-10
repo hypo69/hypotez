@@ -166,7 +166,7 @@ class EmilDesign:
                     self.driver.get_url(product_url)
 
                     # Не все поля товара надо заполнять. Вот кортеж необходимых полей:
-                    actual_fields:tuple = ('id_manufacturer',
+                    required_fields:tuple = ('id_manufacturer',
                                         'id_supplier',
                                         'name',                                                
                                         'description',
@@ -174,7 +174,7 @@ class EmilDesign:
                                         'default_image_url'
                                         )
 
-                    product_fields:ProductFields = await graber.grab_page_async(*actual_fields)
+                    product_fields:ProductFields = await graber.grab_page_async(*required_fields)
                     #print(product_fields)
                     
                 ...

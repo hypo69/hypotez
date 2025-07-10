@@ -92,7 +92,7 @@ async for result in HailuoAI.on_auth_async():
         """Создает аутентифицированный запрос к Hailuo AI.
 
         Args:
-            model (str): Используемая модель.
+            model (str): Используетсяая модель.
             messages (Messages): Список сообщений для отправки.
             auth_result (AuthResult): Результат аутентификации.
             return_conversation (bool, optional): Флаг, указывающий, нужно ли возвращать объект разговора. По умолчанию `False`.
@@ -110,7 +110,7 @@ async for result in HailuoAI.on_auth_async():
 **Назначение**: Метод создает аутентифицированный запрос к Hailuo AI, отправляет сообщения и обрабатывает ответ.
 
 **Параметры**:
-- `model` (str): Используемая модель.
+- `model` (str): Используетсяая модель.
 - `messages` (Messages): Список сообщений для отправки.
 - `auth_result` (AuthResult): Результат аутентификации.
 - `return_conversation` (bool, optional): Флаг, указывающий, нужно ли возвращать объект разговора. По умолчанию `False`.

@@ -28,9 +28,9 @@
 from src.suppliers.suppliers_list.ebay.graber import Graber
 from src.webdirver import Driver, Chrome
 
-driver = Driver(Chrome) # Создаем объект вебдрайвера (Chrome)
+driver = Driver(Chrome) # создание объект вебдрайвера (Chrome)
 
-# Создаем экземпляр класса Graber с переданным вебдрайвером
+# создание экземпляр класса Graber с переданным вебдрайвером
 graber = Graber(driver=driver)
 
 # Задаем локатор, который будет использоваться в декораторе (если он определен)

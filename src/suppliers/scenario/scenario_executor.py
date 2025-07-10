@@ -42,7 +42,7 @@ async def run_scenario_files(
         s (SupplierInstance): Экземпляр поставщика.
         d (d): Экземпляр веб-драйвера.
         scenario_files_list (List[Path] | Path): Список путей к файлам сценариев или один путь к файлу.
-        crawl_category_function (Any): Функция для обхода категорий, используемая в сценарии (например,
+        crawl_category_function (Any): Функция для обхода категорий, Используетсяая в сценарии (например,
                                       `get_list_products_in_category` из сценария поставщика).
 
     Returns:
@@ -68,7 +68,7 @@ async def run_scenario_files(
                 logger.error(f'Сценарий {scenario_file} не удалось выполнить.')
         except Exception as ex:
             logger.critical(f'Произошла ошибка при обработке сценария {scenario_file}', ex, exc_info=True)
-    return True # Возвращаем True, если цикл завершился (даже если были ошибки в отдельных файлах)
+    return True # Возврат True, если цикл завершился (даже если были ошибки в отдельных файлах)
 
 
 async def run_scenario_file(
@@ -84,7 +84,7 @@ async def run_scenario_file(
         s (SupplierInstance): Экземпляр поставщика.
         d (d): Экземпляр веб-драйвера.
         scenario_file (Path): Путь к файлу сценария.
-        crawl_category_function (Any): Функция для обхода категорий, используемая в сценарии.
+        crawl_category_function (Any): Функция для обхода категорий, Используетсяая в сценарии.
 
     Returns:
         bool: `True`, если сценарий выполнен успешно, иначе `False`.
@@ -131,7 +131,7 @@ async def run_scenarios(
         d (d): Экземпляр веб-драйвера.
         scenarios (Optional[List[dict] | dict], optional): Принимает список сценариев или один сценарий в виде словаря.
                                                           По умолчанию используется `s.current_scenario`.
-        crawl_category_function (Any, optional): Функция для обхода категорий, используемая в сценарии.
+        crawl_category_function (Any, optional): Функция для обхода категорий, Используетсяая в сценарии.
                                                   По умолчанию `None`.
 
     Returns:
@@ -173,7 +173,7 @@ async def run_scenario(
         d (d): Экземпляр веб-драйвера.
         scenario (Dict[str, Any]): Словарь, содержащий детали сценария.
         scenario_name (str): Имя сценария.
-        crawl_category_function (Any, optional): Функция для обхода категорий, используемая в сценарии.
+        crawl_category_function (Any, optional): Функция для обхода категорий, Используетсяая в сценарии.
                                                   По умолчанию `None`.
 
     Returns:
@@ -200,7 +200,7 @@ async def run_scenario(
         return False
 
     # Извлечение списка товаров в категории
-    # Если crawl_category_function предоставлена, используем ее, иначе стандартную функцию поставщика
+    # Если crawl_category_function предоставлена, Используется ее, иначе стандартную функцию поставщика
     if crawl_category_function:
         # Предполагается, что crawl_category_function принимает d и s.locators
         list_products_in_category = await crawl_category_function(d, s.locators)
@@ -242,7 +242,7 @@ async def run_scenario(
             logger.error(f'товар "{product_name_for_log}" не может быть сохранен.', ex, exc_info=True)
             continue
 
-    return list_products_in_category # Возвращаем список URL, которые были обработаны
+    return list_products_in_category # Возврат список URL, которые были обработаны
 
 
 async def insert_grabbed_data_to_prestashop(

@@ -25,7 +25,7 @@
 - `supports_stream` (bool): Флаг, указывающий на поддержку потоковой передачи данных, `True`.
 - `supports_system_message` (bool): Флаг, указывающий на поддержку системных сообщений, `True`.
 - `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений, `False`.
-- `default_model` (str): Модель, используемая по умолчанию, `"qwen-qwen2-72b-instruct"`.
+- `default_model` (str): Модель, Используетсяая по умолчанию, `"qwen-qwen2-72b-instruct"`.
 - `model_aliases` (dict): Алиасы моделей, `{"qwen-2-72b": default_model}`.
 - `models` (list): Список поддерживаемых моделей, формируется на основе ключей `model_aliases`.
 
@@ -159,6 +159,6 @@ if __name__ == "__main__":
 - `supports_stream` (bool): Флаг, указывающий на поддержку потоковой передачи данных.
 - `supports_system_message` (bool): Флаг, указывающий на поддержку системных сообщений.
 - `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений.
-- `default_model` (str): Модель, используемая по умолчанию.
+- `default_model` (str): Модель, Используетсяая по умолчанию.
 - `model_aliases` (dict): Алиасы моделей.
 - `models` (list): Список поддерживаемых моделей.

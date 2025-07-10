@@ -25,13 +25,13 @@ async def run_test():
     """
     Пример использования `TestIterListProvider`
     """
-    # Создаем `IterListProvider` с двумя провайдерами
+    # создание `IterListProvider` с двумя провайдерами
     image_provider = IterListProvider([MissingAuthProviderMock, YieldImageResponseProviderMock], False)
-    # Инициализируем `AsyncClient`
+    # Инициализация `AsyncClient`
     client = AsyncClient(image_provider=image_provider)
     # Вызываем метод `images.generate`
     response = await client.images.generate("Hello", "", response_format="original")
-    # Проверяем результат
+    # Проверка результат
     assert isinstance(response, ImagesResponse)
     assert "Hello" in response.data[0].url
 

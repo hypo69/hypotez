@@ -34,7 +34,7 @@ HAR-файлы - это  файлы,  содержащие  записанные
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.Provider.openai.har_file import RequestConfig, readHAR
 
-# Создаем объект конфигурации запроса
+# создание объект конфигурации запроса
 request_config = RequestConfig()
 
 # Читаем HAR-файлы и извлекаем данные

@@ -72,7 +72,7 @@ data = {
 
 try:
     response = requests.post(API_URL, headers=headers, data=json.dumps(data))
-    response.raise_for_status() # Проверяем статус ответа
+    response.raise_for_status() # Проверка статус ответа
     print("товар успешно создан.")
 except requests.exceptions.RequestException as e:
     print(f"Ошибка при создании товара: {e}")

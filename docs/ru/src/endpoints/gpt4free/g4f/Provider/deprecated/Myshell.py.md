@@ -44,7 +44,7 @@ async def create_async_generator(
     
     Args:
         cls (type): Ссылка на класс.
-        model (str): Имя используемой модели ("samantha", "gpt-3.5-turbo", "gpt-4").
+        model (str): Имя Используетсяой модели ("samantha", "gpt-3.5-turbo", "gpt-4").
         messages (Messages): Список сообщений для отправки в формате `List[dict]`.
         proxy (str, optional): URL прокси-сервера для использования. По умолчанию `None`.
         timeout (int, optional): Максимальное время ожидания ответа в секундах. По умолчанию 90.

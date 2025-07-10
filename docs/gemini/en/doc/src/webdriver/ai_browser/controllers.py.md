@@ -78,7 +78,7 @@ print(results_text)
 ```python
 from src.webdriver.ai_browser.controllers import BrowserController
 
-# Создаем экземпляр BrowserController
+# создание экземпляр BrowserController
 controller = BrowserController()
 
 # Выполняем поиск

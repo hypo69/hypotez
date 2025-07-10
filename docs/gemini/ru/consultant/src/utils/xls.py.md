@@ -64,7 +64,7 @@ import pandas as pd
 import json
 from typing import List, Dict, Union, Optional
 from pathlib import Path
-from src.logger import logger  # Используем logger из модуля src.logger
+from src.logger import logger  # Используется logger из модуля src.logger
 
 
 def read_xls_as_dict(
@@ -160,7 +160,7 @@ def save_xls_file(data: Dict[str, List[Dict]], file_path: str) -> bool:
         ...     print("Успешно сохранено в output.xlsx")
     """
     try:
-        # Используем менеджер контекста для автоматического закрытия файла
+        # Используется менеджер контекста для автоматического закрытия файла
         with pd.ExcelWriter(file_path, engine='xlsxwriter') as writer:
             # Перебираем листы и их данные
             for sheet_name, rows in data.items():

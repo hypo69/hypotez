@@ -74,7 +74,7 @@ if api.ping():
 ```python
 from src.endpoints.prestashop.product_fields import ProductFields
 
-# Создаем объект ProductFields для языка с ID=2 (Иврит)
+# создание объект ProductFields для языка с ID=2 (Иврит)
 pf = ProductFields(id_lang=2)
 
 # Заполняем поля (многие уже имеют значения по умолчанию)
@@ -100,7 +100,7 @@ api_data_dict = pf.to_dict()
 ### 3. Добавление товара
 
 ```python
-# Используем экземпляр PrestaProduct (pp) и ProductFields (pf) из предыдущих шагов
+# Используется экземпляр PrestaProduct (pp) и ProductFields (pf) из предыдущих шагов
 
 try:
     added_product_info = pp.add_new_product(pf)
@@ -228,7 +228,7 @@ full_category_schema = api.get_schema(resource='categories')
 ### Создание товара
 
 ```python
-# Создаем объект ProductFields
+# создание объект ProductFields
 pf = ProductFields(id_lang=2)
 pf.id_supplier = 1
 pf.reference = "TEST-SKU"

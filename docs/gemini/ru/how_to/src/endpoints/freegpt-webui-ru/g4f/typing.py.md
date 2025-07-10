@@ -20,7 +20,7 @@ from typing import Dict, NewType, Union, Optional, List, get_type_hints
 
 sha256 = NewType('sha_256_hash', str)
 
-# Создаем объект типа sha256
+# создание объект типа sha256
 hash_value: sha256 = "e5e9fa1ba31ecd1a07f9786814f00a4c51375b11064f05c0503000c9521a8d1c"
 
 # Проверка типа данных

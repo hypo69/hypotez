@@ -39,7 +39,7 @@ from hypotez.src.endpoints.freegpt-webui-ru.server.auto_proxy import get_random_
 # Получаем случайный рабочий прокси
 proxy = get_random_proxy()
 
-# Используем прокси для отправки запроса
+# Используется прокси для отправки запроса
 response = requests.get("https://www.example.com", proxies={"http": proxy})
 
 print(response.text)

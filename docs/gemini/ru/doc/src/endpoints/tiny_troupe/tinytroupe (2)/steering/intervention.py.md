@@ -144,7 +144,7 @@ result = intervention.execute() #  result - булево значение, по�
 intervention = Intervention(targets=tiny_world)
 # Устанавливаем текстовое условие
 intervention.set_textual_precondition("The person is happy")
-# Проверяем условие
+# Проверка условие
 result = intervention.check_precondition() #  result - булево значение, показывающие, выполнено вмешательство или нет
 ```
 
@@ -297,14 +297,14 @@ from tinytroupe.agent import TinyPerson
 from tinytroupe.steering.intervention import Intervention
 
 
-# Создаем TinyWorld 
+# создание TinyWorld 
 tiny_world = TinyWorld()
 
-# Создаем TinyPerson
+# создание TinyPerson
 person = TinyPerson(tiny_world, name='John')
 
 
-# Создаем Intervention
+# создание Intervention
 intervention = Intervention(targets=person, name="Make John happy")
 
 # Устанавливаем текстовое условие
@@ -328,14 +328,14 @@ from tinytroupe.agent import TinyPerson
 from tinytroupe.steering.intervention import Intervention
 
 
-# Создаем TinyWorld 
+# создание TinyWorld 
 tiny_world = TinyWorld()
 
-# Создаем TinyPerson
+# создание TinyPerson
 person = TinyPerson(tiny_world, name='John')
 
 
-# Создаем Intervention
+# создание Intervention
 intervention = Intervention(targets=person, name="Make John happy")
 
 # Устанавливаем функциональное условие
@@ -358,14 +358,14 @@ from tinytroupe.agent import TinyPerson
 from tinytroupe.steering.intervention import Intervention
 
 
-# Создаем TinyWorld 
+# создание TinyWorld 
 tiny_world = TinyWorld()
 
-# Создаем TinyPerson
+# создание TinyPerson
 person = TinyPerson(tiny_world, name='John')
 
 
-# Создаем Intervention
+# создание Intervention
 intervention = Intervention(targets=person, name="Make John happy")
 
 # Устанавливаем текстовое условие

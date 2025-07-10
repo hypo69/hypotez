@@ -207,7 +207,7 @@ class AssistantMainWindow(QMainWindow):
         self.tray_icon.hide()
         QApplication.quit()
 
-    # Переопределяем closeEvent для скрытия окна в трей при закрытии через "X"
+    # ПереОпределение closeEvent для скрытия окна в трей при закрытии через "X"
     def closeEvent(self, event):
         event.ignore()  # Игнорируем закрытие окна
         self.hide_to_tray()

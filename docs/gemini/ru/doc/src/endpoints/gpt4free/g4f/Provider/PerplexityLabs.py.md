@@ -21,7 +21,7 @@
 #### `async def create_async_generator(cls, model: str, messages: Messages, proxy: str = None, **kwargs) -> AsyncResult:`
 **Функция**: Создает асинхронный генератор ответов на вопросы, используя API Perplexity Labs.
 **Параметры**:
-    - `model`: Название используемой модели Perplexity Labs.
+    - `model`: Название Используетсяой модели Perplexity Labs.
     - `messages`: Список сообщений (история диалога).
     - `proxy`: Прокси-сервер.
 **Возвращает**:

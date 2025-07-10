@@ -50,7 +50,7 @@ def extract_conversations_from_html(file_path: Path):
         # Ищем все <div class="conversation">
         conversations = soup.find_all('div', class_='conversation')
         ...
-    # Возвращаем каждую найденную conversation
+    # Возврат каждую найденную conversation
     for conversation in conversations:
         yield conversation
 

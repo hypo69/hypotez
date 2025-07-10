@@ -37,7 +37,7 @@
 - `label` (str): Метка провайдера "Meta AI".
 - `url` (str): URL Meta AI "https://www.meta.ai".
 - `working` (bool): Флаг, указывающий на работоспособность провайдера (True).
-- `default_model` (str): Модель, используемая по умолчанию ('meta-ai').
+- `default_model` (str): Модель, Используетсяая по умолчанию ('meta-ai').
 - `session` (ClientSession): Асинхронная сессия для выполнения HTTP-запросов.
 - `cookies` (Cookies): Файлы cookie для аутентификации.
 - `access_token` (str): Токен доступа для аутентификации.
@@ -70,7 +70,7 @@
         Создает асинхронный генератор для получения ответов от Meta AI.
 
         Args:
-            model (str): Используемая модель.
+            model (str): Используетсяая модель.
             messages (Messages): Список сообщений для отправки.
             proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
 

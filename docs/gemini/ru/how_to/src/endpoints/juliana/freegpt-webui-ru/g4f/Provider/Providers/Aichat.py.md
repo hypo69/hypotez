@@ -37,7 +37,7 @@
 ```python
 from g4f.Provider.Providers import Aichat
 
-# Создаем объект провайдера
+# создание объект провайдера
 provider = Aichat.Aichat()
 
 # Формируем историю чата

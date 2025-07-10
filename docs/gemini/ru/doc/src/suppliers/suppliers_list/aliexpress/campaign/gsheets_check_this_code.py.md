@@ -22,7 +22,7 @@
 - `spreadsheet_id` (`str`): Идентификатор Google Sheets таблицы (ID).
 - `spreadsheet` (`SpreadSheet`): Объект `SpreadSheet`, предоставляющий доступ к Google Sheets таблице.
 - `worksheet` (`Worksheet`): Объект `Worksheet`, предоставляющий доступ к рабочему листу Google Sheets.
-- `driver` (`Driver`): Объект `Driver` (вебдрайвер), используемый для взаимодействия с Google Sheets.
+- `driver` (`Driver`): Объект `Driver` (вебдрайвер), Используетсяый для взаимодействия с Google Sheets.
 
 **Методы**:
 
@@ -180,8 +180,8 @@ google_sheet._format_category_products_worksheet(ws)
 - `spreadsheet_id` (`str`): Идентификатор Google Sheets таблицы (ID).
 - `spreadsheet` (`SpreadSheet`): Объект `SpreadSheet`, предоставляющий доступ к Google Sheets таблице.
 - `worksheet` (`Worksheet`): Объект `Worksheet`, предоставляющий доступ к рабочему листу Google Sheets.
-- `driver` (`Driver`): Объект `Driver` (вебдрайвер), используемый для взаимодействия с Google Sheets.
-- `editor` (`AliCampaignEditor`): Объект `AliCampaignEditor`, используемый для управления данными кампании AliExpress.
+- `driver` (`Driver`): Объект `Driver` (вебдрайвер), Используетсяый для взаимодействия с Google Sheets.
+- `editor` (`AliCampaignEditor`): Объект `AliCampaignEditor`, Используетсяый для управления данными кампании AliExpress.
 
 
 ## Дополнительные сведения

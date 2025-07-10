@@ -38,10 +38,10 @@
 from g4f.gui.server.backend_api import Backend_Api
 from unittest.mock import MagicMock
 
-# Создаем моковый объект приложения
+# создание моковый объект приложения
 app = MagicMock()
 
-# Создаем экземпляр класса Backend_Api
+# создание экземпляр класса Backend_Api
 api = Backend_Api(app)
 
 # Получаем версию

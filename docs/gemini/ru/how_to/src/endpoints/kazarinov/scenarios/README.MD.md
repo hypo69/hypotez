@@ -36,7 +36,7 @@ products_list = ['Товар 1', 'Товар 2']  # Список товаров 
 result = process_products(products_list)  # Предположим, что process_products - это функция, 
 # реализующая диаграмму потока данных из этого блока кода
 
-# Проверяем результат
+# Проверка результат
 if result:
     ru_translation = result['ru']  # Получаем перевод на русский язык
     he_translation = result['he']  # Получаем перевод на иврит

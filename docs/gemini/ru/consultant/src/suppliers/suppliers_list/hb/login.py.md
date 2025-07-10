@@ -82,7 +82,7 @@ def login(s: Supplier) -> bool:
         raise TypeError(f"Ожидается Supplier, получен {type(s)}")
     try:
         # Здесь должна быть логика авторизации поставщика
-        # В данном примере, просто возвращаем True
+        # В данном примере, просто Возврат True
         logger.info(f"Успешная авторизация поставщика {s}.")
         return True
     except Exception as ex:

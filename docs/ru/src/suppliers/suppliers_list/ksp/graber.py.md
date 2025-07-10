@@ -32,7 +32,7 @@
 
     Args:
         driver (Optional['Driver'], optional): Экземпляр веб-драйвера для управления браузером. По умолчанию `None`.
-        lang_index (Optional[int], optional): Индекс языка, используемого на сайте. По умолчанию `None`.
+        lang_index (Optional[int], optional): Индекс языка, Используетсяого на сайте. По умолчанию `None`.
 
     Raises:
         Exception: Если возникает ошибка при инициализации класса.

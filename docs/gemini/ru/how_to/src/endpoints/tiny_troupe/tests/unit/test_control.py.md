@@ -36,13 +36,13 @@ from tinytroupe.agent import TinyPerson, TinyToolUse
 # Начинаем симуляцию и сохраняем ее состояние в файл "my_simulation.cache.json"
 control.begin("my_simulation.cache.json")
 
-# Создаем мир с двумя агентами
+# создание мир с двумя агентами
 world = TinyWorld("Test World", [create_oscar_the_architect(), create_lisa_the_data_scientist()])
 
 # Выполняем симуляцию в течение 2 шагов
 world.run(2)
 
-# Создаем контрольную точку для сохранения состояния
+# создание контрольную точку для сохранения состояния
 control.checkpoint()
 
 # Продолжаем симуляцию еще на 3 шага

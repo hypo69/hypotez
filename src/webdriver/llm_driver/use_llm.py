@@ -263,14 +263,14 @@ async def stream_agent_execution( executor: AgentExecutor, task_input: Dict[str,
     run_id: Optional[str] = None # ID текущего запуска агента
     logger.info(f'--- Начало стриминга для входа: {str(task_input)[:200]}... ---')
     try:
-        # Асинхронная итерация по чанкам, возвращаемым методом astream агента
+        # Асинхронная итерация по чанкам, Возвратым методом astream агента
         async for chunk in executor.astream(task_input):
             # Добавление каждого чанка в список всех чанков
             all_chunks.append(chunk)
             # Обработка чанков типа 'actions' (планируемые действия агента)
             if actions := chunk.get('actions'):
                 for action in actions:
-                    tool: str = getattr(action, 'tool', 'N/A') # Имя используемого инструмента
+                    tool: str = getattr(action, 'tool', 'N/A') # Имя Используетсяого инструмента
                     tool_input: Any = getattr(action, 'tool_input', 'N/A') # Входные данные для инструмента
                     log_msg: str = getattr(action, 'log', '').strip() # Лог/мысли агента
                     logger.info(f"Планируемое действие: Tool=[{tool}], Input=[{str(tool_input)[:100]}...]")
@@ -357,7 +357,7 @@ class Driver:
             start_browser (bool): Флаг, запускать ли браузер при инициализации.
             browser_headless (bool): Флаг, запускать ли браузер в безголовом режиме.
             browser_timeout (int): Таймаут для операций браузера в миллисекундах.
-            **kwargs (Any): Дополнительные неиспользуемые аргументы.
+            **kwargs (Any): Дополнительные неИспользуетсяые аргументы.
         """
         # Переменные для хранения ключей и имен моделей
         openai_api_key_local: Optional[str] # Локальная область видимости
@@ -834,7 +834,7 @@ class Driver:
                                 delay_extracted = True; break
                             except Exception as parse_ex: 
                                 logger.warning(f"Не удалось распарсить retry-delay: '{item[1]}'. Ошибка: {parse_ex}", exc_info=False)
-                delay_msg: str = f"Рекомендуемая задержка: {retry_delay_seconds} сек." if delay_extracted else f"Используем задержку по умолчанию: {retry_delay_seconds} сек."
+                delay_msg: str = f"Рекомендуемая задержка: {retry_delay_seconds} сек." if delay_extracted else f"Используется задержку по умолчанию: {retry_delay_seconds} сек."
                 logger.info(f"{delay_msg} Ожидание перед повторной попыткой (Google)..."); await asyncio.sleep(retry_delay_seconds)
 
             # --- НОВЫЙ БЛОК ОБРАБОТКИ ОШИБКИ DDG ---
@@ -887,7 +887,7 @@ class Driver:
                     # Возврат оригинального JSON-ответа
                     return final_answer_raw
             except json.JSONDecodeError:
-                # Если ответ не JSON, логируем предупреждение и возвращаем как есть
+                # Если ответ не JSON, логируем предупреждение и Возврат как есть
                 logger.warning(f"Агент ({model_name}) вернул не JSON ответ: {final_answer_raw[:200]}...")
                 return final_answer_raw
             except Exception as post_ex:
@@ -999,7 +999,7 @@ async def main() -> None:
     task_to_run: Optional[str] = None
     llm_to_test_run: List[Tuple[str, bool]] = [] # Список кортежей (имя LLM, флаг use_gemini)
     # Переменные для использования внутри циклов и блоков try
-    name_llm: str # Используем другое имя, чтобы не конфликтовать с name из langchain.agents.Tool
+    name_llm: str # Используется другое имя, чтобы не конфликтовать с name из langchain.agents.Tool
     flag_use_gemini: bool # Аналогично
     start_time: float
     end_time: float
@@ -1008,7 +1008,7 @@ async def main() -> None:
     product_category: str
     num_links_str: str
     search_query: str
-    search_tool_name_main: str # Используем другое имя
+    search_tool_name_main: str # Используется другое имя
 
     try:
         logger.info('='*20 + ' Начало инициализации Driver ' + '='*20)

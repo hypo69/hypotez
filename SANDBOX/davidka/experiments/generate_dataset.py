@@ -60,7 +60,7 @@ from src.logger import logger
 
 
 class Config:
-    # Используем импортированный __root__
+    # Используется импортированный __root__
     ENDPOINT: Path = __root__ / 'SANDBOX' / 'davidka'
     DIALOGS_DIR: Path = ENDPOINT / 'dialogs with gemini from Google AI studio'
     output_file: Path = ENDPOINT / 'code_train_data' / f'dialogs_{gs.now}.jsonl'

@@ -75,7 +75,7 @@ def get_free_port(host: str, port_range: PortRangeType = None) -> int:
         Returns:
             bool: True, если порт используется, False в противном случае.
         """
-        # Создаем сокет с использованием контекстного менеджера для автоматического закрытия.
+        # создание сокет с использованием контекстного менеджера для автоматического закрытия.
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             try:
                 # Пытаемся привязать сокет к адресу и порту.
@@ -107,7 +107,7 @@ def get_free_port(host: str, port_range: PortRangeType = None) -> int:
         try:
             # Разбиваем строку по символу "-".
             parts = port_range_str.split('-')
-            # Проверяем, что получилось ровно две части.
+            # Проверка, что получилось ровно две части.
             if len(parts) != 2:
                 logger.error(f'Ошибка: Некорректный формат строки диапазона портов: {port_range_str}')
                 raise ValueError(f'Invalid port range string format: {port_range_str}')
@@ -115,11 +115,11 @@ def get_free_port(host: str, port_range: PortRangeType = None) -> int:
             min_port = int(parts[0])
             max_port = int(parts[1])
 
-            # Проверяем корректность диапазона (минимум меньше максимума).
+            # Проверка корректность диапазона (минимум меньше максимума).
             if min_port >= max_port:
                 logger.error(f'Ошибка: Некорректный диапазон портов {port_range_str}')
                 raise ValueError(f'Invalid port range {port_range_str}')
-            # Проверяем допустимость номеров портов (от 1 до 65535).
+            # Проверка допустимость номеров портов (от 1 до 65535).
             if not (0 <= min_port <= 65535 and 0 <= max_port <= 65535):
                  logger.error(f'Ошибка: Диапазон портов вне допустимого диапазона (0-65535): {port_range_str}')
                  raise ValueError(f'Port range outside valid range (0-65535): {port_range_str}')
@@ -146,7 +146,7 @@ def get_free_port(host: str, port_range: PortRangeType = None) -> int:
                 raise ValueError(f'Invalid port range {port_range}') from e
             # Перебираем порты в полученном диапазоне.
             for port in range(min_port, max_port + 1):
-                # Если порт свободен, возвращаем его.
+                # Если порт свободен, Возврат его.
                 if not _is_port_in_use(host, port):
                     logger.info(f"Найден свободный порт {port} в диапазоне {port_range}")
                     return port
@@ -166,7 +166,7 @@ def get_free_port(host: str, port_range: PortRangeType = None) -> int:
                         logger.debug(f"Парсим строковый диапазон: {item}")
                         min_port, max_port = _parse_port_range(item)
                     elif isinstance(item, list) and len(item) == 2:
-                        # Если элемент - список из двух элементов, проверяем, что это числа.
+                        # Если элемент - список из двух элементов, Проверка, что это числа.
                         logger.debug(f"Проверка на диапазон в формате списка: {item}")
                         if all(isinstance(p, int) for p in item):
                              min_port, max_port = item[0], item[1]
@@ -192,10 +192,10 @@ def get_free_port(host: str, port_range: PortRangeType = None) -> int:
                     if min_port != -1 and max_port != -1:
                         # Перебираем порты в текущем под-диапазоне.
                         for port in range(min_port, max_port + 1):
-                            # Если порт свободен, возвращаем его немедленно.
+                            # Если порт свободен, Возврат его немедленно.
                             if not _is_port_in_use(host, port):
                                 logger.info(f"Найден свободный порт {port} в диапазоне из списка: {item}")
-                                return port # Возвращаем найденный порт
+                                return port # Возврат найденный порт
 
                 except ValueError as e:
                     # Перехватываем ошибки парсинга строки или валидации списка,
@@ -221,7 +221,7 @@ def get_free_port(host: str, port_range: PortRangeType = None) -> int:
         port = 1024  # start from 1024, since lower ports are system ports
         # Бесконечный цикл для поиска порта.
         while True:
-            # Если порт свободен, возвращаем его.
+            # Если порт свободен, Возврат его.
             if not _is_port_in_use(host, port):
                 logger.info(f"Найден первый свободный порт: {port}")
                 return port

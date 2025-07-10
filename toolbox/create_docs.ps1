@@ -16,7 +16,7 @@ Get-ChildItem -Filter *.rst | Where-Object { $_.Name -ne "index.rst" } | ForEach
     "   $($_.BaseName)" | Out-File -FilePath "index.rst" -Encoding UTF8 -Append
 }
 
-# Возвращаемся в корневую директорию проекта
+# Возвратся в корневую директорию проекта
 Set-Location -Path "../.."
 
 # Создание HTML-документации с явным указанием пути к conf.py

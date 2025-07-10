@@ -209,7 +209,7 @@ thread.join(timeout)
 
 if thread.is_alive():
     print(f"Timeout occurred after {timeout} seconds.")
-    return  # Возвращаем None, если тайм-аут произошел
+    return  # Возврат None, если тайм-аут произошел
 
 return self.user_input
 ```

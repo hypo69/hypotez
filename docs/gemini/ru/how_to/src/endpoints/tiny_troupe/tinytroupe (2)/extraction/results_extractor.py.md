@@ -20,7 +20,7 @@ from tinytroupe.extraction import ResultsExtractor
 # Инициализация класса ResultsExtractor
 extractor = ResultsExtractor(extraction_objective="Извлеките ключевые моменты из истории взаимодействия агентов.")
 
-# Создаем список агентов 
+# создание список агентов 
 agents = [
     TinyPerson(name="Alice", role="friend"),
     TinyPerson(name="Bob", role="enemy")

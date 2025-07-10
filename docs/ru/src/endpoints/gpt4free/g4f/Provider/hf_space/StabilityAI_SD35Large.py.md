@@ -20,11 +20,11 @@
 
 **Атрибуты**:
 - `label` (str): Метка провайдера ("StabilityAI SD-3.5-Large").
-- `url` (str): URL Hugging Face Space, используемого для API Stability AI.
+- `url` (str): URL Hugging Face Space, Используетсяого для API Stability AI.
 - `api_endpoint` (str): Эндпоинт API для выполнения запросов на генерацию изображений.
 - `working` (bool): Флаг, указывающий, что провайдер находится в рабочем состоянии.
-- `default_model` (str): Модель, используемая по умолчанию ('stabilityai-stable-diffusion-3-5-large').
-- `default_image_model` (str): Модель изображения, используемая по умолчанию.
+- `default_model` (str): Модель, Используетсяая по умолчанию ('stabilityai-stable-diffusion-3-5-large').
+- `default_image_model` (str): Модель изображения, Используетсяая по умолчанию.
 - `model_aliases` (dict): Псевдонимы моделей, где ключ - псевдоним, значение - имя модели.
 - `image_models` (list): Список моделей изображений.
 - `models` (list): Список моделей (совпадает с `image_models`).

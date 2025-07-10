@@ -34,7 +34,7 @@ def validate_person(person, expectations=None, include_agent_spec=True, max_cont
 
     Args:
         person (TinyPerson): Экземпляр TinyPerson, который необходимо проверить.
-        expectations (str, optional): Ожидания, используемые в процессе проверки. По умолчанию None.
+        expectations (str, optional): Ожидания, Используетсяые в процессе проверки. По умолчанию None.
         include_agent_spec (bool, optional): Следует ли включать спецификацию агента в запрос. По умолчанию False.
         max_content_length (int, optional): Максимальная длина содержимого, отображаемого при отображении разговора.
 

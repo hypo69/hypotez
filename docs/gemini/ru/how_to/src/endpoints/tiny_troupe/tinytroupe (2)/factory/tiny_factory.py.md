@@ -37,7 +37,7 @@
 ```python
 from tinytroupe.factory import TinyFactory
 
-# Создаем фабрику
+# создание фабрику
 factory = TinyFactory()
 
 # Выводим имя фабрики

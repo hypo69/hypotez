@@ -233,7 +233,7 @@ class PrestaProduct(PrestaShop):
                                      {'attrs':
                                       {'xmlns:xlink': 'http://www.w3.org/1999/xlink'}, 
                                       'value':
-                                      {'products':[ # API ожидает список продуктов, даже для одного
+                                      {'products':[ # API ожидает список товаров, даже для одного
                                         f.to_dict()
                                          ]}
                                       }
@@ -248,7 +248,7 @@ class PrestaProduct(PrestaShop):
         response = await self.create_async('products', data=presta_product_xml)
         
         if response and 'products' in response and response['products']:
-            # Предполагаем, что API возвращает список с одним элементом для созданного продукта
+            # Предполагаем, что API возвращает список с одним элементом для созданного товара
             added_product_ns = j_loads_ns(response['products'][0])
             try:
                 # f.reference = response['product']['reference'] if isinstance(response['product']['reference'], str) else int(response['product']['reference']) # Закомментированный код сохранен
@@ -317,7 +317,7 @@ def example_add_new_product() -> None:
         # return # Можно раскомментировать, чтобы прервать выполнение примера без конфигурации
 
 
-    p = PrestaProduct(api_key=Config.API_KEY, api_domain=Config.API_DOMAIN) # Используем api_key и api_domain
+    p = PrestaProduct(api_key=Config.API_KEY, api_domain=Config.API_DOMAIN) # Используется api_key и api_domain
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # resource_id: int = 2191
     # schema = p.get_product_schema(resource_id = resource_id)
@@ -392,7 +392,7 @@ def example_get_product(id_product: int, **kwargs: Any) -> None:
     # }
     presta_product_data = p.get_product(id_product, **kwargs) # Передаем внешние kwargs
     
-    # API может вернуть список продуктов, даже при запросе по ID, хотя get_product ожидает один
+    # API может вернуть список товаров, даже при запросе по ID, хотя get_product ожидает один
     # Это поведение зависит от реализации self.read в PrestaShop API
     # Если p.get_product всегда возвращает dict{'product': {...}}, то извлечение первого элемента не нужно.
     # Судя по `response['products'][0]` в `add_new_product`, API часто возвращает список.
@@ -404,10 +404,10 @@ def example_get_product(id_product: int, **kwargs: Any) -> None:
     #    actual_product = presta_product_data # Или {} если структура не та
 
     # Учитывая, что get_product просто вызывает self.read, а self.read в PrestaShop API обычно возвращает {'resource_name_plural': [items...]}
-    # то, вероятно, нужно извлекать продукт из списка.
+    # то, вероятно, нужно извлекать товар из списка.
     # Однако, текущая реализация get_product напрямую возвращает результат self.read,
     # что может быть `{'products': [{'id': ...,}]}`.
-    # Для консистентности, если нужен сам продукт, а не обертка:
+    # Для консистентности, если нужен сам товар, а не обертка:
     
     actual_product_details: Optional[dict] = None
     if presta_product_data and 'products' in presta_product_data and isinstance(presta_product_data['products'], list):
@@ -415,7 +415,7 @@ def example_get_product(id_product: int, **kwargs: Any) -> None:
             actual_product_details = presta_product_data['products'][0]
         else:
             logger.warning(f"Список товаров для ID {id_product} пуст.")
-    elif presta_product_data and 'product' in presta_product_data : # Если API вернул одиночный продукт
+    elif presta_product_data and 'product' in presta_product_data : # Если API вернул одиночный товар
          actual_product_details = presta_product_data['product']
     else:
         logger.warning(f"Неожиданная структура ответа для товара ID {id_product}: {presta_product_data}")

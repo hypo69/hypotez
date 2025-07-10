@@ -20,7 +20,7 @@
 - `driver`: Экземпляр Selenium WebDriver для управления браузером.
 - `export_path`: Путь для экспорта обработанных данных.
 - `mexiron_name`: Пользовательское имя для процесса мехирона.
-- `price`: Цена, используемая при обработке данных.
+- `price`: Цена, Используетсяая при обработке данных.
 - `timestamp`: Временная метка для процесса мехирона.
 - `products_list`: Список обработанных данных о товарах.
 - `model`: Модель Google Generative AI для обработки текста.
@@ -281,7 +281,7 @@ mexiron_builder.create_report(data, html_file, pdf_file)
 - `driver` (Driver): Экземпляр Selenium WebDriver для управления браузером.
 - `export_path` (str): Путь для экспорта обработанных данных.
 - `mexiron_name` (str): Пользовательское имя для процесса мехирона.
-- `price` (str): Цена, используемая при обработке данных.
+- `price` (str): Цена, Используетсяая при обработке данных.
 - `timestamp` (datetime): Временная метка для процесса мехирона.
 - `products_list` (List[dict]): Список обработанных данных о товарах.
 - `model` (Google Generative AI): Модель Google Generative AI для обработки текста.

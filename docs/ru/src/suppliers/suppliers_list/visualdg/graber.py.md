@@ -22,7 +22,7 @@
 **Атрибуты**:
 - `supplier_prefix` (str): Префикс поставщика, устанавливается в значение `'visualdg'`.
 - `driver` (Optional['Driver']): Экземпляр веб-драйвера для взаимодействия с сайтом.
-- `lang_index` (Optional[int]): Индекс языка, используемого на сайте (если применимо).
+- `lang_index` (Optional[int]): Индекс языка, Используетсяого на сайте (если применимо).
 - `Config.locator_for_decorator` (Any): Локатор для выполнения предварительных действий через декоратор.
 
 **Параметры**:
@@ -43,7 +43,7 @@ def __init__(self, driver: Optional['Driver'] = None, lang_index: Optional[int] 
 
 **Параметры**:
 - `driver` (Optional['Driver'], optional): Экземпляр веб-драйвера для взаимодействия с сайтом. По умолчанию `None`.
-- `lang_index` (Optional[int], optional): Индекс языка, используемого на сайте (если применимо). По умолчанию `None`.
+- `lang_index` (Optional[int], optional): Индекс языка, Используетсяого на сайте (если применимо). По умолчанию `None`.
 
 **Возвращает**:
 - `None`
@@ -78,6 +78,6 @@ graber = Graber(driver=driver, lang_index=1)
 ## Параметры класса
 
 - `driver` (Optional['Driver'], optional): Экземпляр веб-драйвера для взаимодействия с сайтом. По умолчанию `None`.
-- `lang_index` (Optional[int], optional): Индекс языка, используемого на сайте (если применимо). По умолчанию `None`.
+- `lang_index` (Optional[int], optional): Индекс языка, Используетсяого на сайте (если применимо). По умолчанию `None`.
 ```python
 class Graber(Grbr):\n    """Класс для операций захвата Morlevi."""\n    supplier_prefix: str\n\n    def __init__(self, driver: Optional[\'Driver\'] = None, lang_index:Optional[int] = None):\n        """Инициализация класса сбора полей товара."""\n        self.supplier_prefix = \'visualdg\'\n        super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)\n        # Устанавливаем глобальные настройки через Context\n        \n        Config.locator_for_decorator = None # <- если будет уастановлено значение - то оно выполнится в декораторе `@close_pop_up`\n

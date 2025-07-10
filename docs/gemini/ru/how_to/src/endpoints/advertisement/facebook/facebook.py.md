@@ -25,7 +25,7 @@
 from src.endpoints.advertisement.facebook.facebook import Facebook
 from src.webdirver import Chrome
 
-# Инициализируем объект Facebook
+# Инициализация объект Facebook
 driver = Chrome()
 facebook = Facebook(driver, "promoter_name", ["path/to/group_file1.json", "path/to/group_file2.json"])
 

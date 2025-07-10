@@ -75,7 +75,7 @@
 
 - `text` (str):  Текст, который необходимо отобразить на изображении.
 - `canvas_size` (Tuple[int, int]): Размер холста в пикселях.
-- `padding` (float): Процент отступа, используемого для границы.
+- `padding` (float): Процент отступа, Используетсяого для границы.
 - `background_color` (str): Цвет фона изображения.
 - `text_color` (str): Цвет текста.
 - `font` (str | ImageFont.ImageFont): Шрифт, который необходимо использовать для текста.
@@ -176,7 +176,7 @@
 
 - `draw` (ImageDraw.Draw): Экземпляр `ImageDraw`.
 - `text` (str): Текст для отображения.
-- `font` (ImageFont.ImageFont):  Шрифт, используемый для текста.
+- `font` (ImageFont.ImageFont):  Шрифт, Используетсяый для текста.
 - `canvas_size` (Tuple[int, int]): Размер холста в пикселях.
 
 **Возвращает**:
@@ -266,7 +266,7 @@
 **Параметры**:
 
 - `lines` (List[str]):  Список строк текста.
-- `font` (ImageFont.ImageFont):  Шрифт, используемый для текста.
+- `font` (ImageFont.ImageFont):  Шрифт, Используетсяый для текста.
 
 **Возвращает**:
 
@@ -354,7 +354,7 @@ webp2png('image.webp', 'image.png')
 from src.utils.convertors.png import TextToImageGenerator
 from pathlib import Path
 
-# Создаем экземпляр класса TextToImageGenerator
+# создание экземпляр класса TextToImageGenerator
 generator = TextToImageGenerator()
 
 # Указываем путь к текстовому файлу

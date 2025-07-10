@@ -29,13 +29,13 @@
 from src.suppliers.suppliers_list.gearbest.graber import Graber
 from src.webdriver.driver import Driver
 
-# Инициализируем объект webdriver
+# Инициализация объект webdriver
 driver = Driver()
 
-# Создаем экземпляр класса Graber
+# создание экземпляр класса Graber
 graber = Graber(driver=driver)
 
-# Используем методы Graber для обработки полей товара
+# Используется методы Graber для обработки полей товара
 product_name = graber.get_product_name()
 product_price = graber.get_product_price()
 

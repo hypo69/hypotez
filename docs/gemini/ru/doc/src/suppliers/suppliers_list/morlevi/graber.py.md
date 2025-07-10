@@ -23,7 +23,7 @@
 **Параметры**:
 
 - `driver: Optional[\'Driver\'] = None`: Объект драйвера для взаимодействия с браузером.
-- `lang_index:Optional[int] = None`: Индекс языка, используемый для сбора данных.
+- `lang_index:Optional[int] = None`: Индекс языка, Используетсяый для сбора данных.
 
 **Принцип работы**:
 
@@ -56,7 +56,7 @@
 **Параметры**:
 
 - `driver: Optional[\'Driver\'] = None`: Объект драйвера для взаимодействия с браузером.
-- `lang_index:Optional[int] = None`: Индекс языка, используемый для сбора данных.
+- `lang_index:Optional[int] = None`: Индекс языка, Используетсяый для сбора данных.
 
 
 **Пример**:
@@ -72,4 +72,4 @@ graber = Graber(driver=driver)
 
 - `supplier_prefix: str = 'morlevi'`: Префикс для идентификации поставщика.
 - `driver: Optional[\'Driver\'] = None`: Объект драйвера для взаимодействия с браузером.
-- `lang_index:Optional[int] = None`: Индекс языка, используемый для сбора данных.
+- `lang_index:Optional[int] = None`: Индекс языка, Используетсяый для сбора данных.

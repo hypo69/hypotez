@@ -23,7 +23,7 @@
 - `Graber` из модуля `src.suppliers.graber`.
 
 **Атрибуты**:
-- `supplier_prefix` (str): Префикс поставщика, используемый для идентификации Etzmaleh.
+- `supplier_prefix` (str): Префикс поставщика, Используетсяый для идентификации Etzmaleh.
 
 **Методы**:
 - `__init__()`: Инициализирует экземпляр класса `Graber`.
@@ -44,7 +44,7 @@ def __init__(self, driver: Optional['Driver'] = None, lang_index:Optional[int] =
 
 **Параметры**:
 - `driver` (Optional['Driver'], optional): Экземпляр драйвера веб-браузера для управления браузером. По умолчанию `None`.
-- `lang_index` (Optional[int], optional): Индекс языка, используемый для локализации. По умолчанию `None`.
+- `lang_index` (Optional[int], optional): Индекс языка, Используетсяый для локализации. По умолчанию `None`.
 
 **Как работает функция**:
 1. Устанавливает атрибут `supplier_prefix` равным `'etzmaleh'`, чтобы указать, что этот грабер предназначен для Etzmaleh.

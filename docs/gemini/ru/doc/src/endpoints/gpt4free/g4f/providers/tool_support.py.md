@@ -47,10 +47,10 @@
 from hypotez.src.endpoints.gpt4free.g4f.providers.tool_support import ToolSupportProvider
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Инициализируем список сообщений для модели
+# Инициализация список сообщений для модели
 messages: Messages = [{"role": "user", "content": "Какие инструменты вы можете использовать?"}]
 
-# Создаем объект класса ToolSupportProvider
+# создание объект класса ToolSupportProvider
 provider = ToolSupportProvider()
 
 # Вызываем метод create_async_generator() для обработки запроса с использованием инструмента

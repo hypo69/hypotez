@@ -23,7 +23,7 @@
 ```python
 from hypotez.src.webdriver.ai_browser.controllers import BrowserController
 
-# Создаем объект BrowserController
+# создание объект BrowserController
 browser = BrowserController(window_mode='normal') 
 
 # Выполняем поиск в Google

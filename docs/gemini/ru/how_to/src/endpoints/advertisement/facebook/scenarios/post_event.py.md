@@ -23,7 +23,7 @@ from src.endpoints.advertisement.facebook.scenarios.post_event import post_event
 from src.webdriver.driver import Driver
 from src.webdriver.driver import Firefox
 
-# Создаем экземпляр драйвера для работы с Firefox
+# создание экземпляр драйвера для работы с Firefox
 driver = Driver(Firefox)
 
 # Данные события в виде объекта SimpleNamespace
@@ -44,6 +44,6 @@ driver.quit()
 - Данный код предполагает наличие локаторов элементов веб-страницы Facebook, определенных в файле `post_event.json`.
 - Функция `post_event` ожидает, что объект `event` будет содержать атрибуты `title`, `description`, `start`,  `promotional_link`.
 - Перед публикацией события, код ждет 30 секунд, чтобы страница Facebook полностью загрузилась.
-- В примере использования мы используем `Driver` с `Firefox` как браузером.
+- В примере использования мы Используется `Driver` с `Firefox` как браузером.
 -  Вместо `input()` можно использовать `time.sleep(10)` для ожидания подтверждения публикации  или какой-то иной способ проверки результата публикации события.
 - В реальных условиях нужно добавить обработку исключений и более подробную логику проверки успешности публикации события.

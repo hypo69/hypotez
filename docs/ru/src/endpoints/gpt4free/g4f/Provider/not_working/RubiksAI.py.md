@@ -24,7 +24,7 @@
 -   `supports_stream` (bool): Поддержка потоковой передачи (True).
 -   `supports_system_message` (bool): Поддержка системных сообщений (True).
 -   `supports_message_history` (bool): Поддержка истории сообщений (True).
--   `default_model` (str): Модель, используемая по умолчанию ('gpt-4o-mini').
+-   `default_model` (str): Модель, Используетсяая по умолчанию ('gpt-4o-mini').
 -   `models` (List[str]): Список поддерживаемых моделей.
 -   `model_aliases` (Dict[str, str]): Псевдонимы моделей.
 
@@ -64,7 +64,7 @@
 
 ```python
 RubiksAI.generate_mid()
-# Пример возвращаемого значения: 'a1b2c3-d4e5-f6g7-h8i9-j0k1l2m3n4o5'
+# Пример Возвратого значения: 'a1b2c3-d4e5-f6g7-h8i9-j0k1l2m3n4o5'
 ```
 
 ### `create_referer`
@@ -84,7 +84,7 @@ RubiksAI.generate_mid()
 
 -   `q` (str): Текст запроса.
 -   `mid` (str): Уникальный идентификатор сообщения.
--   `model` (str, optional): Модель, используемая для запроса. По умолчанию пустая строка.
+-   `model` (str, optional): Модель, Используетсяая для запроса. По умолчанию пустая строка.
 
 **Возвращает**:
 
@@ -101,7 +101,7 @@ RubiksAI.generate_mid()
 
 ```python
 RubiksAI.create_referer(q='Как создать сайт?', mid='a1b2c3-d4e5-f6g7-h8i9-j0k1l2m3n4o5', model='gpt-4o')
-# Пример возвращаемого значения: 'https://rubiks.ai/search/?q=%D0%9A%D0%B0%D0%BA+%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C+%D1%81%D0%B0%D0%B9%D1%82%3F&model=gpt-4o&mid=a1b2c3-d4e5-f6g7-h8i9-j0k1l2m3n4o5'
+# Пример Возвратого значения: 'https://rubiks.ai/search/?q=%D0%9A%D0%B0%D0%BA+%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C+%D1%81%D0%B0%D0%B9%D1%82%3F&model=gpt-4o&mid=a1b2c3-d4e5-f6g7-h8i9-j0k1l2m3n4o5'
 ```
 
 ### `create_async_generator`
@@ -208,7 +208,7 @@ RubiksAI.create_referer(q='Как создать сайт?', mid='a1b2c3-d4e5-f6
 -   `supports_stream` (bool): Поддержка потоковой передачи.
 -   `supports_system_message` (bool): Поддержка системных сообщений.
 -   `supports_message_history` (bool): Поддержка истории сообщений.
--   `default_model` (str): Модель, используемая по умолчанию.
+-   `default_model` (str): Модель, Используетсяая по умолчанию.
 -   `models` (List[str]): Список поддерживаемых моделей.
 -   `model_aliases` (Dict[str, str]): Псевдонимы моделей.
 

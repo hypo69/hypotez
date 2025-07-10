@@ -27,7 +27,7 @@
 - `supports_stream` (bool): Поддерживает ли потоковую передачу ответов.
 - `supports_system_message` (bool): Поддерживает ли системные сообщения.
 - `supports_message_history` (bool): Поддерживает ли историю сообщений.
-- `default_model` (str): Модель, используемая по умолчанию (`gpt-4o-mini`).
+- `default_model` (str): Модель, Используетсяая по умолчанию (`gpt-4o-mini`).
 - `models` (list): Список поддерживаемых моделей (`gpt-4o-mini`).
 
 **Методы**:

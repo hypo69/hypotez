@@ -231,10 +231,10 @@ async def fetch_snlm0e(cls, session: ClientSession, cookies: Cookies):
 - `conversation_id` (str): ID текущего диалога.
 - `response_id` (str): ID последнего ответа в диалоге.
 - `choice_id` (str): ID выбора.
-- `model` (str): Используемая модель.
+- `model` (str): Используетсяая модель.
 
 **Принцип работы**:
-Класс `Conversation` используется для хранения и передачи информации о контексте диалога между пользователем и моделью Gemini. Он содержит идентификаторы диалога, последнего ответа и выбора, а также имя используемой модели.
+Класс `Conversation` используется для хранения и передачи информации о контексте диалога между пользователем и моделью Gemini. Он содержит идентификаторы диалога, последнего ответа и выбора, а также имя Используетсяой модели.
 
 ```python
 class Conversation(JsonConversation):
@@ -245,7 +245,7 @@ class Conversation(JsonConversation):
         conversation_id (str): ID текущего диалога.
         response_id (str): ID последнего ответа в диалоге.
         choice_id (str): ID выбора.
-        model (str): Используемая модель.
+        model (str): Используетсяая модель.
     """
     def __init__(self,\
         conversation_id: str,\

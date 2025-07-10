@@ -54,7 +54,7 @@ def test_notebook_execution(notebook_path: str) -> None:
 
 - `NOTEBOOK_FOLDER` (str): Путь к директории, содержащей примеры Jupyter Notebook. По умолчанию - `"../../examples/"`.
 - `TIMEOUT` (int): Максимальное время выполнения notebook в секундах. По умолчанию - `600`.
-- `KERNEL_NAME` (str): Имя ядра Jupyter, используемого для выполнения notebook. По умолчанию - `"python3"`.
+- `KERNEL_NAME` (str): Имя ядра Jupyter, Используетсяого для выполнения notebook. По умолчанию - `"python3"`.
 
 ## Пример
 Запуск тестов для Jupyter Notebook:

@@ -25,14 +25,14 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.MyShell import MyShell
 from hypotez.src.endpoints.gpt4free.g4f.Provider.helper import Messages
 
-# Создаем список сообщений
+# создание список сообщений
 messages = Messages(
     [
         {"role": "user", "content": "Привет! Расскажи мне анекдот."}
     ]
 )
 
-# Создаем экземпляр класса MyShell
+# создание экземпляр класса MyShell
 provider = MyShell()
 
 # Отправляем запрос и получаем ответ

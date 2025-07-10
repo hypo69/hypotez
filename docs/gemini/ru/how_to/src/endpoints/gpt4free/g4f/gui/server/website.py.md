@@ -18,9 +18,9 @@
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.gui.server.website import Website
 
-app = Flask(__name__) # Создаем объект приложения Flask
+app = Flask(__name__) # создание объект приложения Flask
 
-website = Website(app) # Инициализируем класс Website с помощью объекта Flask
+website = Website(app) # Инициализация класс Website с помощью объекта Flask
 
 website.register_routes() # Регистрируем маршруты в приложении Flask
 

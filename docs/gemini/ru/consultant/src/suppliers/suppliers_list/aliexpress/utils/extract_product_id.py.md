@@ -104,7 +104,7 @@ def extract_prod_ids(urls: str | List[str]) -> Union[str, List[str], None]:
                 >>> extract_id("https://www.example.com/item/abcdef.html")
                 None
             """
-            # Проверяем, является ли входное значение допустимым идентификатором товара
+            # Проверка, является ли входное значение допустимым идентификатором товара
             if url.isdigit():
                 return url
 

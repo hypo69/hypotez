@@ -40,7 +40,7 @@
 from tinytroupe.extraction import ResultsReducer
 from tinytroupe.agent import TinyPerson
 
-# Создаем экземпляр `ResultsReducer`
+# создание экземпляр `ResultsReducer`
 reducer = ResultsReducer()
 
 # Добавляем правило для обработки события "text_stimuli"
@@ -51,13 +51,13 @@ def process_text_stimuli(focus_agent, source_agent, target_agent, kind, event, c
 
 reducer.add_reduction_rule(trigger="text_stimuli", func=process_text_stimuli)
 
-# Создаем экземпляр `TinyPerson`
+# создание экземпляр `TinyPerson`
 agent = TinyPerson(name="Alice")
 
 # Считываем информацию о стимулах из памяти агента
 results = reducer.reduce_agent(agent)
 
-# Создаем `pandas.DataFrame` из собранных данных
+# создание `pandas.DataFrame` из собранных данных
 df = reducer.reduce_agent_to_dataframe(agent, column_names=["timestamp", "content", "source"])
 
 # Выводим `DataFrame`

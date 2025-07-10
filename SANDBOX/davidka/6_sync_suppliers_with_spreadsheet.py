@@ -165,7 +165,7 @@ def sync_suppliers_with_spreadsheet(
         logger.info(f"Лист '{Config.SUPPLIERS_SHEET_NAME}' пуст или содержит только заголовки. Создается новый DataFrame.")
         current_sheet_df = pd.DataFrame(columns=expected_sheet_columns)
     else:
-        # Проверяем наличие ключевых колонок
+        # Проверка наличие ключевых колонок
         missing_cols: List[str] = []
         if id_col_header not in current_sheet_df.columns:
             missing_cols.append(id_col_header)
@@ -185,13 +185,13 @@ def sync_suppliers_with_spreadsheet(
             current_sheet_df[id_col_header] = current_sheet_df[id_col_header].astype(str).str.strip().replace(['nan', 'None', ''], pd.NA)
 
 
-    # Создаем словарь для быстрого поиска существующих поставщиков и их ID (имя -> ID)
+    # создание словарь для быстрого поиска существующих поставщиков и их ID (имя -> ID)
     # Ключ - нормализованное имя поставщика, значение - ID (или pd.NA если нет)
     existing_suppliers_map: Dict[str, Any] = {}
     if name_col_header in current_sheet_df.columns and id_col_header in current_sheet_df.columns:
         for _, row in current_sheet_df.iterrows():
             name_val = row[name_col_header]
-            if pd.notna(name_val) and str(name_val).strip(): # Проверяем, что имя не пустое
+            if pd.notna(name_val) and str(name_val).strip(): # Проверка, что имя не пустое
                 # Нормализуем имя из таблицы для ключа (без учета регистра)
                 norm_name = str(name_val).strip().lower()
                 # Если поставщик с таким нормализованным именем уже есть, не перезаписываем,
@@ -213,7 +213,7 @@ def sync_suppliers_with_spreadsheet(
     new_suppliers_to_add: List[Dict[str, Any]] = [] # Для новых поставщиков
 
     for dir_supplier_name_original in directory_supplier_names: # Имена из директорий уже нормализованы (strip)
-        # Для поиска в карте используем lower()
+        # Для поиска в карте Используется lower()
         dir_supplier_name_norm_for_search: str = dir_supplier_name_original.lower()
         
         supplier_return_info: Dict[str, Any] = {'name': dir_supplier_name_original, 'id': None, 'status': 'pending'}
@@ -227,7 +227,7 @@ def sync_suppliers_with_spreadsheet(
         else:
             # Поставщик не найден в таблице, готовим его к добавлению
             print(f"Поставщик '{dir_supplier_name_original}': не найден, будет добавлен в таблицу.")
-            new_row_dict: Dict[str, Any] = {col: None for col in expected_sheet_columns} # Инициализируем всеми колонками
+            new_row_dict: Dict[str, Any] = {col: None for col in expected_sheet_columns} # Инициализация всеми колонками
             new_row_dict[name_col_header] = dir_supplier_name_original # Устанавливаем имя
             # ID остается None, 'Вкл' и другие кастомные колонки тоже None или значение по умолчанию
             new_row_dict['Вкл'] = None # или 'Да'/'Нет' по умолчанию, если нужно
@@ -244,9 +244,9 @@ def sync_suppliers_with_spreadsheet(
     # 3. Подготовка и запись обновленных данных обратно в Google Sheet
     if not updated_sheet_data_rows and not new_suppliers_to_add and current_sheet_df.empty:
         logger.info("Нет данных для записи в Google Sheet (исходный лист был пуст, новых поставщиков нет).")
-        return processed_suppliers_info_for_return # Возвращаем статус обработки директорий
+        return processed_suppliers_info_for_return # Возврат статус обработки директорий
 
-    # Создаем DataFrame из объединенных данных
+    # создание DataFrame из объединенных данных
     final_df_to_write: pd.DataFrame
     if updated_sheet_data_rows:
         final_df_to_write = pd.DataFrame(updated_sheet_data_rows)
@@ -267,7 +267,7 @@ def sync_suppliers_with_spreadsheet(
     try:
         # Этапы: 1. Очистить (необязательно, если update_cells справится) 2. Записать.
         # gspread worksheet.update() может принимать список списков или DataFrame.
-        # Если используем update с DataFrame, он должен быть корректно обработан gspread.
+        # Если Используется update с DataFrame, он должен быть корректно обработан gspread.
         # Или конвертируем DataFrame в List[List[Any]] включая заголовки.
 
         # Очистка листа (сохраняя первую строку с заголовками)
@@ -346,7 +346,7 @@ def main(args: argparse.Namespace) -> None:
         
     print(f"Загружен DataFrame с {all_suppliers_df.shape[0]} строками для дальнейшей обработки.")
 
-    # Создаем карту URL для быстрого доступа
+    # создание карту URL для быстрого доступа
     supplier_url_map: Dict[str, str] = {}
     if Config.SUPPLIER_URL_COLUMN_HEADER in all_suppliers_df.columns and \
        Config.SUPPLIER_NAME_COLUMN_HEADER in all_suppliers_df.columns:

@@ -189,10 +189,10 @@ if __name__ == "__main__":
     directory_to_search = "../data/chat_gpt/code2file"
     output_file_path = Path("../data/chat_gpt/code2file/code2file.txt")
 
-    # Создаем директорию, если она не существует
+    # создание директорию, если она не существует
     output_file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Создаем файл, если его не существует
+    # создание файл, если его не существует
     output_file_path.touch(exist_ok=True)
 
     read_text_files(directory_to_search, output_file_path, remove_docs=True)

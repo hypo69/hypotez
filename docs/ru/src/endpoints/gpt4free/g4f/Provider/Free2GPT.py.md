@@ -22,7 +22,7 @@
 - `url` (str): URL сервиса `chat10.free2gpt.xyz`.
 - `working` (bool): Указывает, работает ли провайдер.
 - `supports_message_history` (bool): Указывает, поддерживает ли провайдер историю сообщений.
-- `default_model` (str): Модель, используемая по умолчанию (`gemini-1.5-pro`).
+- `default_model` (str): Модель, Используетсяая по умолчанию (`gemini-1.5-pro`).
 - `models` (List[str]): Список поддерживаемых моделей (`gemini-1.5-pro`, `gemini-1.5-flash`).
 
 **Методы**:

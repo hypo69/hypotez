@@ -47,7 +47,7 @@ def extract_conversations_from_html(file_path: Path):
         # Ищем все <div class="conversation">
         conversations = soup.find_all('div', class_='conversation')
         ...
-    # Возвращаем каждую найденную conversation
+    # Возврат каждую найденную conversation
     for conversation in conversations:
         yield conversation
 
@@ -77,7 +77,7 @@ for conversation in extract_conversations_from_html(file_path):
 - Завершить реализацию функции `extract_conversations_from_html`.
 - Улучшить docstring и комментарии, сделав их более подробными и информативными.
 - Привести примеры использования в соответствие с установленным стилем.
-- Добавить аннотации типов для переменных и возвращаемых значений.
+- Добавить аннотации типов для переменных и Возвратых значений.
 - Добавить описание модуля.
 - Использовать `j_loads` или `j_loads_ns` для чтения HTML.
 - Изменить `print` на `pprint` из `src.utils.printer`.

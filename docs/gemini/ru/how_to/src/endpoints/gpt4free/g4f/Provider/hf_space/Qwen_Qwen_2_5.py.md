@@ -35,7 +35,7 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.hf_space.Qwen_Qwen_2_5 import Qwen_Qwen_2_5
 
 async def main():
-    # Создаем экземпляр класса Qwen_Qwen_2_5
+    # создание экземпляр класса Qwen_Qwen_2_5
     provider = Qwen_Qwen_2_5()
     
     # Формируем список сообщений

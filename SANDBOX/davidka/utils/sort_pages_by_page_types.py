@@ -129,7 +129,7 @@ def sort_by_page_type(input_base_dir, output_base_dir, chunk_size=100):
         if not safe_page_type_name: 
             safe_page_type_name = "unnamed_page_type"
         
-        # Создаем целевую директорию для этого page_type
+        # создание целевую директорию для этого page_type
         target_page_type_dir = os.path.join(output_base_dir, safe_page_type_name)
         os.makedirs(target_page_type_dir, exist_ok=True)
 
@@ -192,7 +192,7 @@ if __name__ == "__main__":
     print(f"Тестовые входные файлы будут созданы в: {os.path.abspath(current_input_base_dir)}")
     print(f"Тестовые выходные файлы будут созданы в: {os.path.abspath(current_output_base_dir)}")
 
-    # --- Создаем тестовую структуру входных файлов ---
+    # --- создание тестовую структуру входных файлов ---
     # Файл в корне input_files
     data_root = {
         "https://site.com/product1": {"page_type": "product", "name": "Product 1", "ts": "t1"},

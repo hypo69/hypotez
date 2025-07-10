@@ -19,7 +19,7 @@
 import header
 from src.suppliers.suppliers_list.aliexpress import AffiliateLinksShortener
 
-# Создаем экземпляр класса
+# создание экземпляр класса
 a = AffiliateLinksShortener()
 
 # Исходный URL

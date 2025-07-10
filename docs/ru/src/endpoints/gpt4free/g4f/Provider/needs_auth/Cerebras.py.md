@@ -25,7 +25,7 @@
 - `login_url` (str): URL для логина в Cerebras Cloud.
 - `api_base` (str): Базовый URL для API Cerebras.
 - `working` (bool): Указывает, работает ли данный провайдер.
-- `default_model` (str): Модель, используемая по умолчанию ("llama3.1-70b").
+- `default_model` (str): Модель, Используетсяая по умолчанию ("llama3.1-70b").
 - `models` (List[str]): Список поддерживаемых моделей.
 - `model_aliases` (Dict[str, str]): Словарь псевдонимов моделей.
 
@@ -88,7 +88,7 @@ async def create_async_generator(
 - `login_url` (str): "https://cloud.cerebras.ai" - URL для логина в Cerebras Cloud.
 - `api_base` (str): "https://api.cerebras.ai/v1" - базовый URL для API Cerebras.
 - `working` (bool): `True` - указывает, что данный провайдер работает.
-- `default_model` (str): "llama3.1-70b" - модель, используемая по умолчанию.
+- `default_model` (str): "llama3.1-70b" - модель, Используетсяая по умолчанию.
 - `models` (List[str]): Список поддерживаемых моделей, включая "llama3.1-70b", "llama3.1-8b", "llama-3.3-70b" и "deepseek-r1-distill-llama-70b".
 - `model_aliases` (Dict[str, str]): Псевдонимы моделей, например, {"llama-3.1-70b": "llama3.1-70b", "llama-3.1-8b": "llama3.1-8b", "deepseek-r1": "deepseek-r1-distill-llama-70b"}.
 

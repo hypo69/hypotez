@@ -114,7 +114,7 @@ def get_prod_urls_from_pagination(s: Supplier) -> List[str]:
     elif isinstance(list_products_in_category, list):
         collected_urls: List[str] = list_products_in_category
     else:
-        # Неожиданный тип данных, логируем и возвращаем пустой список
+        # Неожиданный тип данных, логируем и Возврат пустой список
         logger.warning(f'Функция execute_locator вернула неожиданный тип для ссылок на товары: {type(list_products_in_category)}')
         return []
 

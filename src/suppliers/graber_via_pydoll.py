@@ -32,7 +32,7 @@ class Config:
     ENDPOINT: Path = field(init=False)
     SCENARIOS_DIR: Path = field(init=False)
 
-    actual_fields: list[str] = field(default_factory=lambda: [
+    required_fields: list[str] = field(default_factory=lambda: [
         'id_supplier',
         'name',
         'price',
@@ -54,8 +54,8 @@ class Config:
         try:
             return j_loads_ns(self.ENDPOINT / 'locators' / 'product.json')
         except FileNotFoundError:
-            logger.error(f"Файл локаторов продукта не найден для поставщика {self.supplier_prefix}: {self.ENDPOINT / 'locators' / 'product.json'}")
-            return SimpleNamespace() # Возвращаем пустой объект, чтобы избежать ошибок дальше
+            logger.error(f"Файл локаторов товара не найден для поставщика {self.supplier_prefix}: {self.ENDPOINT / 'locators' / 'product.json'}")
+            return SimpleNamespace() # Возврат пустой объект, чтобы избежать ошибок дальше
 
     @property
     def category_locators(self) -> SimpleNamespace:
@@ -64,7 +64,7 @@ class Config:
             return j_loads_ns(self.ENDPOINT / 'locators' / 'category.json')
         except FileNotFoundError:
             logger.error(f"Файл локаторов категории не найден для поставщика {self.supplier_prefix}: {self.ENDPOINT / 'locators' / 'category.json'}")
-            return SimpleNamespace() # Возвращаем пустой объект
+            return SimpleNamespace() # Возврат пустой объект
 
 # --- end config.py ---
 
@@ -72,56 +72,51 @@ class Config:
 class Graber:
     """Grabs product/category info for a given supplier."""
     config: Config = None
-    driver: Page = None # Явно указываем тип Page
+    page: Page = None # Явно указываем тип Page
 
-    def __init__(self, supplier_prefix: str, driver: Optional[Page] = None):
-        self.config = Config(supplier_prefix=supplier_prefix)
-        # Если драйвер передан, используем его. Иначе self.driver останется None.
-        # В grab_product_page будет логика выбора драйвера.
-        if driver:
-            self.driver = driver
+    def __init__(self, supplier_prefix: str, page: Optional[Page] = None):
+        self.config = Config(supplier_prefix = supplier_prefix)
 
-    async def grab_product_page(self, product_url: str, driver_instance: Optional[Page] = None, actual_fields: Optional[List[str]] = None) -> ProductFields:
+        if page:
+            self.page = page
+
+    async def grab_product_page(self, product_url: str, page: Optional[Page] = None, required_fields: Optional[List[str]] = None) -> ProductFields:
         """
         Grabs product information from a given URL.
 
         Args:
             product_url: The URL of the product page.
-            driver_instance: An optional Page instance to use. If not provided,
+            page: An optional Page instance to use. If not provided,
                              the instance from __init__ (self.driver) will be used.
-            actual_fields: An optional list of fields to extract. If not provided,
-                           defaults to self.config.actual_fields.
+            required_fields: An optional list of fields to extract. If not provided,
+                           defaults to self.config.required_fields.
 
         Returns:
             A ProductFields object containing the extracted information.
         """
-        actual_fields = actual_fields or self.config.actual_fields
-        # Используем переданный экземпляр драйвера или экземпляр из __init__
-        current_driver = driver_instance or self.driver
+        required_fields = required_fields or self.config.required_fields
 
-        # Проверяем, есть ли у нас экземпляр драйвера для работы
-        if not current_driver:
-            logger.error(f'Ошибка! Нет экземпляра `Page` (драйвера) для обработки URL: {product_url}')
-            # Возвращаем пустой объект, так как невозможно продолжить без драйвера
-            return ProductFields()
+        page = page or self.page
+        if not page:
+            raise ValueError("No Page instance provided or available in Graber instance.")
 
         locator = self.config.product_locators
         f = ProductFields()
 
         try:
             logger.info(f"Переход на страницу товара: {product_url}")
-            await current_driver.go_to(product_url)
+            await page.go_to(product_url)
         except Exception as ex:
-            logger.error(f'Failed to open product page: {product_url}', exc_info=ex) # Используем exc_info для стека
-            return f # Возвращаем пустой объект в случае ошибки навигации
+            logger.error(f'Failed to open product page: {product_url}', exc_info=ex) # Используется exc_info для стека
+            return f # Возврат пустой объект в случае ошибки навигации
 
         # Устанавливаем id_supplier в любом случае, если он определен в локаторах
-        # Проверяем, что locator существует и имеет атрибут id_supplier
+        # Проверка, что locator существует и имеет атрибут id_supplier
         if locator and hasattr(locator, 'id_supplier') and locator.id_supplier:
             f.id_supplier = locator.id_supplier
-            logger.debug(f"Установлен id_supplier: {f.id_supplier}")
+            logger.debug(f"\nУстановлен id_supplier: {f.id_supplier}\n")
 
-        for field_name in actual_fields:
+        for field_name in required_fields:
             # Пропускаем id_supplier, так как он уже установлен
             if field_name == 'id_supplier':
                 continue
@@ -136,7 +131,7 @@ class Graber:
                         logger.debug(f"Извлечение поля '{field_name}' с локатором: {locator_config}")
                         # Вызываем execute_locator на том драйвере, который у нас есть (current_driver)
                         # Передаем только конфиг локатора, как обычно делает execute_locator
-                        extracted_value = await current_driver.execute_locator(locator_config)
+                        extracted_value = await page.execute_locator(locator_config)
                         
                         # Устанавливаем значение, только если оно не пустое (или по другой логике)
                         if extracted_value is not None: # Можно добавить проверку на пустую строку, если нужно
@@ -145,12 +140,12 @@ class Graber:
                         else:
                            logger.warning(f"Поле '{field_name}' не найдено или пусто для URL: {product_url}")
                     else:
-                        logger.warning(f"Пропущен неверный формат локатора для поля '{field_name}' в config.product_locators. Ожидается словарь, получено: {type(locator_config)}")
+                        logger.warning(f"Пропущен неверный формат локатора для поля '{field_name}' в config.product_locators. \n\t Ожидается словарь, получено: {type(locator_config)}")
                 else:
                     # Логгируем, если локатор для поля вообще не определен в конфиге
-                    logger.debug(f"Локатор для поля '{field_name}' не найден в config.product_locators. Поле '{field_name}' не будет извлечено.")
+                    logger.debug(f"Локатор для поля '{field_name}' не найден в config.product_locators \n\t Поле '{field_name}' не будет извлечено.")
             except Exception as e:
-                logger.error(f'Failed to extract {field_name} from {product_url}', exc_info=e) # Используем exc_info
+                logger.error(f'Failed to extract {field_name} from {product_url}', exc_info=e) # Используется exc_info
 
         return f
 
@@ -176,7 +171,7 @@ class Graber:
              return []
 
         await page.go_to(category_url)
-        # Проверяем, что локатор существует и имеет атрибут product_links
+        # Проверка, что локатор существует и имеет атрибут product_links
         if not locator or not hasattr(locator, 'product_links'):
             logger.warning(f"Локатор 'product_links' не найден в category_locators для категории: {category_url}")
             return []
@@ -203,7 +198,7 @@ class Graber:
              return # Завершаем генератор для этого сценария
 
         try:
-            # Проверяем, что scenario существует и имеет category_url
+            # Проверка, что scenario существует и имеет category_url
             if not scenario or not hasattr(scenario, 'category_url'):
                 logger.warning("Пропущен некорректный сценарий (отсутствует category_url).")
                 return
@@ -232,7 +227,7 @@ class Graber:
                 product_fields = await self.grab_product_page(product_url, driver_instance=page) 
                 
                 # Добавляем данные из сценария
-                # Используем getattr с default, чтобы избежать ошибок, если атрибут отсутствует
+                # Используется getattr с default, чтобы избежать ошибок, если атрибут отсутствует
                 product_fields.id_category_default = getattr(scenario, 'id_category_default', '2') # Default value '2' if not found
                 
                 # Обработка дополнительных категорий
@@ -271,7 +266,7 @@ class Graber:
 
             for scenario_name, scenario in scenarios_from_file.__dict__.items():
 
-                # Проверяем, что это действительно объект сценария и он имеет category_url
+                # Проверка, что это действительно объект сценария и он имеет category_url
                 if not isinstance(scenario, SimpleNamespace) or not hasattr(scenario, 'category_url'):
                     logger.debug(f"Пропускаем атрибут '{scenario_name}' из файла '{scenario_file}', так как это не является валидным сценарием.")
                     continue

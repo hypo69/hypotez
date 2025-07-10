@@ -36,7 +36,7 @@ parsed_proxies = get_proxies_dict()
 # Выводим количество обработанных прокси
 logger.info(f'Обработано {sum(len(v) for v in parsed_proxies.values())} прокси.')
 
-# Проверяем работоспособность первого прокси из списка
+# Проверка работоспособность первого прокси из списка
 if parsed_proxies['http']:
     first_proxy = parsed_proxies['http'][0]
     if check_proxy(first_proxy):

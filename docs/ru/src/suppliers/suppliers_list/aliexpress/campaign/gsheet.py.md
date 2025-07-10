@@ -2,7 +2,7 @@
 
 ## Обзор
 
-Модуль предназначен для работы с Google Sheets в рамках рекламных кампаний AliExpress. Он предоставляет инструменты для создания, редактирования и форматирования Google Sheets, используемых для управления данными кампаний, категориями товаров и информацией о товарах.
+Модуль предназначен для работы с Google Sheets в рамках рекламных кампаний AliExpress. Он предоставляет инструменты для создания, редактирования и форматирования Google Sheets, Используетсяых для управления данными кампаний, категориями товаров и информацией о товарах.
 
 ## Подробней
 
@@ -18,13 +18,13 @@
 - `SpreadSheet`: Предоставляет базовую функциональность для работы с Google Sheets.
 
 **Атрибуты**:
-- `spreadsheet_id` (str): ID таблицы Google Sheets, используемой для кампании AliExpress.
+- `spreadsheet_id` (str): ID таблицы Google Sheets, Используетсяой для кампании AliExpress.
 - `spreadsheet` (SpreadSheet): Экземпляр класса `SpreadSheet` для работы с Google Sheets.
 - `worksheet` (Worksheet): Текущий рабочий лист Google Sheets.
 
 **Методы**:
 - `__init__(campaign_name: str, language: str | dict = None, currency: str = None)`: Инициализирует экземпляр класса `AliCampaignGoogleSheet`.
-- `clear()`: Очищает содержимое листов Google Sheets, используемых для кампании.
+- `clear()`: Очищает содержимое листов Google Sheets, Используетсяых для кампании.
 - `delete_products_worksheets()`: Удаляет все листы, кроме 'categories', 'product', 'category', 'campaign'.
 - `set_campaign_worksheet(campaign: SimpleNamespace)`: Записывает данные кампании в лист Google Sheets.
 - `set_products_worksheet(category_name: str)`: Записывает данные о товарах категории в лист Google Sheets.
@@ -74,7 +74,7 @@ def clear():
     """
 ```
 
-**Назначение**: Очищает содержимое листов Google Sheets, используемых для кампании.
+**Назначение**: Очищает содержимое листов Google Sheets, Используетсяых для кампании.
 
 **Как работает функция**:
 - Вызывает метод `delete_products_worksheets()` для удаления листов товаров.

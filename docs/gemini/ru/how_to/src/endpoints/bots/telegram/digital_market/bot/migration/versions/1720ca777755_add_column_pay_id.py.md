@@ -33,7 +33,7 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    # Проверяем, существует ли колонка перед добавлением
+    # Проверка, существует ли колонка перед добавлением
     conn = op.get_bind()
     result = conn.execute(
         sa.text("PRAGMA table_info('purchases')")
@@ -47,7 +47,7 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    # Проверяем, существует ли колонка перед удалением
+    # Проверка, существует ли колонка перед удалением
     conn = op.get_bind()
     result = conn.execute(
         sa.text("PRAGMA table_info('purchases')")

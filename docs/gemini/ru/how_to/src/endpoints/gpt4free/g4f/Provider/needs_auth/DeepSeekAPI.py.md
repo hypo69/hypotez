@@ -25,7 +25,7 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.DeepSeekAPI import DeepSeekAPI
 
 async def main():
-    # Инициализируем провайдер
+    # Инициализация провайдер
     provider = DeepSeekAPI()
 
     # Выполняем аутентификацию

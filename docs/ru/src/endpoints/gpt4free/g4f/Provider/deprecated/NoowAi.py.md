@@ -42,7 +42,7 @@ async def create_async_generator(
 
     Args:
         cls (NoowAi): Ссылка на класс `NoowAi`.
-        model (str): Используемая модель (например, GPT-3.5 Turbo).
+        model (str): Используетсяая модель (например, GPT-3.5 Turbo).
         messages (Messages): Список сообщений для отправки в API.
         proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
         **kwargs: Дополнительные параметры.

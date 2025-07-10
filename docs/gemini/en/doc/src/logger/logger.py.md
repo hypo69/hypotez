@@ -129,7 +129,7 @@ class Logger(metaclass=SingletonMeta):
         self.logger_file_json = logging.getLogger(name="logger_json")
         self.logger_file_json.setLevel(logging.DEBUG)
         json_handler = logging.FileHandler(self.json_log_path)
-        json_handler.setFormatter(JsonFormatter())  # Используем наш кастомный форматтер
+        json_handler.setFormatter(JsonFormatter())  # Используется наш кастомный форматтер
         self.logger_file_json.addHandler(json_handler)
 
         # Удаляем все обработчики, которые выводят в консоль

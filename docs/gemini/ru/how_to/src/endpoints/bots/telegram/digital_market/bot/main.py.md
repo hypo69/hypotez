@@ -24,7 +24,7 @@
 from bot.config import settings
 from bot.app.app import handle_webhook, robokassa_result, robokassa_fail, home_page 
 
-# Создаем приложение aiohttp
+# создание приложение aiohttp
 app = web.Application()
 
 # Регистрация обработчиков маршрутов

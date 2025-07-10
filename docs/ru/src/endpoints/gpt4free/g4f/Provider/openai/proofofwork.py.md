@@ -18,7 +18,7 @@ def generate_proof_token(required: bool, seed: str = "", difficulty: str = "", u
 
     Args:
         required (bool): Указывает, требуется ли генерация токена. Если `False`, функция не выполняет никаких действий.
-        seed (str, optional): Зерно (seed), используемое при хешировании. По умолчанию "".
+        seed (str, optional): Зерно (seed), Используетсяое при хешировании. По умолчанию "".
         difficulty (str, optional): Строка, определяющая сложность proof-of-work. Токен должен содержать хеш, начинающийся с этой строки. По умолчанию "".
         user_agent (str, optional): User-agent для включения в токен. По умолчанию `None`.
         proof_token (str, optional): Предопределенный токен для использования вместо генерации нового. По умолчанию `None`.

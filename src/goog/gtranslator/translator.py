@@ -69,9 +69,9 @@ def translate_to(text_to_translate: str,
 
     #print(f"\nОригинал ({source_lang_name_display}): {text_to_translate}\n")
 
-    # Определяем итоговый список целевых языков для перевода
+    # Определение итоговый список целевых языков для перевода
     final_target_codes = []
-    # Проверяем, что target_langs - это непустой список строк
+    # Проверка, что target_langs - это непустой список строк
     if isinstance(target_langs, list) and len(target_langs) > 0 and all(isinstance(lang, str) for lang in target_langs):
         final_target_codes = target_langs
         #print(f"Перевод будет выполнен на указанные языки: {final_target_codes}")

@@ -25,7 +25,7 @@
 
 **Атрибуты**:
 
--   `profile` (QWebEngineProfile): Профиль браузера, используемый для `QWebEngineView`.
+-   `profile` (QWebEngineProfile): Профиль браузера, Используетсяый для `QWebEngineView`.
 -   `browser` (QWebEngineView): Виджет для отображения веб-страниц.
 -   `title_bar` (QWidget): Виджет верхней панели.
 -   `url_input` (QLineEdit): Поле для ввода URL.

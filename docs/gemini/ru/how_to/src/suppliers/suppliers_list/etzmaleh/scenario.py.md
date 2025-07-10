@@ -24,13 +24,13 @@
 from hypotez.src.suppliers.suppliers_list.etzmaleh.scenario import get_list_products_in_category
 from hypotez.src.suppliers.suppliers_list.etzmaleh.supplier import Supplier
 
-# Инициализируем поставщика
+# Инициализация поставщика
 supplier = Supplier()
 
 # Получаем список URL-адресов товаров
 products_urls = get_list_products_in_category(supplier)
 
-# Проверяем, были ли найдены товары
+# Проверка, были ли найдены товары
 if products_urls:
     # Обрабатываем список URL-адресов товаров
     # ...

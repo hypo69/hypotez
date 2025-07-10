@@ -18,10 +18,10 @@
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.Anthropic import Anthropic
 
-# Создаем объект класса Anthropic
+# создание объект класса Anthropic
 anthropic = Anthropic()
 
-# Инициализируем API ключ
+# Инициализация API ключ
 anthropic.api_key = "YOUR_API_KEY"
 
 # Вызываем метод `create_async_generator` для генерации текста

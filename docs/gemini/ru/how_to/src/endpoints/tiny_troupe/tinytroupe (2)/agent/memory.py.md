@@ -17,7 +17,7 @@
 ```python
 from tinytroupe.agent.memory import TinyMemory
 
-# Создаем экземпляр класса TinyMemory
+# создание экземпляр класса TinyMemory
 memory = TinyMemory()
 
 # Храним значение в памяти

@@ -38,7 +38,7 @@
 
  - `documents` (list): Список документов, которые были проиндексированы.
  - `name_to_document` (dict): Словарь, сопоставляющий имена документов (или источников данных) с их содержимым.
- - `index` (`VectorStoreIndex`): Индекс, используемый для семантического поиска.
+ - `index` (`VectorStoreIndex`): Индекс, Используетсяый для семантического поиска.
 
 **Методы**:
 
@@ -65,9 +65,9 @@
 **Методы**:
 
  - `_post_init()`: Этот метод выполняется после инициализации класса. Он используется для индексации файлов из папок, указанных в атрибуте `folders_paths`.
- - `add_folders(folders_paths:list) -> None`: Добавляет путь к папке, содержащей файлы, используемые для "grounding".
- - `add_folder(folder_path:str) -> None`: Добавляет путь к папке, содержащей файлы, используемые для "grounding".
- - `add_file_path(file_path:str) -> None`: Добавляет путь к файлу, используемому для "grounding".
+ - `add_folders(folders_paths:list) -> None`: Добавляет путь к папке, содержащей файлы, Используетсяые для "grounding".
+ - `add_folder(folder_path:str) -> None`: Добавляет путь к папке, содержащей файлы, Используетсяые для "grounding".
+ - `add_file_path(file_path:str) -> None`: Добавляет путь к файлу, Используетсяому для "grounding".
  - `_mark_folder_as_loaded(folder_path:str) -> None`: Отмечает папку как загруженную.
 
 ### `class WebPagesGroundingConnector`
@@ -85,8 +85,8 @@
 **Методы**:
 
  - `_post_init()`: Этот метод выполняется после инициализации класса. Он используется для индексации веб-страниц, указанных в атрибуте `web_urls`.
- - `add_web_urls(web_urls:list) -> None`: Добавляет URL-адреса веб-страниц, используемые для "grounding".
- - `add_web_url(web_url:str) -> None`: Добавляет URL-адрес веб-страницы, используемой для "grounding".
+ - `add_web_urls(web_urls:list) -> None`: Добавляет URL-адреса веб-страниц, Используетсяые для "grounding".
+ - `add_web_url(web_url:str) -> None`: Добавляет URL-адрес веб-страницы, Используетсяой для "grounding".
  - `_mark_web_url_as_loaded(web_url:str) -> None`: Отмечает веб-страницу как загруженную.
 
 ## Параметры класса

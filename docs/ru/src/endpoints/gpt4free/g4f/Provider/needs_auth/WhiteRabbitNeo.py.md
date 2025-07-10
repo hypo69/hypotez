@@ -49,7 +49,7 @@ async def create_async_generator(
 
     Args:
         cls (WhiteRabbitNeo): Ссылка на класс `WhiteRabbitNeo`.
-        model (str): Модель, используемая для генерации текста.
+        model (str): Модель, Используетсяая для генерации текста.
         messages (Messages): Список сообщений для отправки в сервис.
         cookies (Cookies, optional): Файлы cookie для аутентификации. По умолчанию `None`.
         connector (BaseConnector, optional): Асинхронный коннектор для пула соединений. По умолчанию `None`.

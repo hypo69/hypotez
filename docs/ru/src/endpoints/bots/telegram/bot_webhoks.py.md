@@ -20,7 +20,7 @@
 - `port` (int): Порт для вебхука (по умолчанию 443).
 - `route` (str): Маршрут для вебхука FastAPI (по умолчанию 'telegram_webhook').
 - `config` (SimpleNamespace): Конфигурация бота, загруженная из файла `telegram.json`.
-- `application` (Application): Объект `Application` из библиотеки `python-telegram-bot`, используемый для управления ботом.
+- `application` (Application): Объект `Application` из библиотеки `python-telegram-bot`, Используетсяый для управления ботом.
 - `handler` (BotHandler): Объект `BotHandler`, содержащий обработчики команд бота.
 
 **Методы**:
@@ -184,7 +184,7 @@ def stop(self):
 
 ## Параметры класса
 
-- `token` (str): Токен Telegram бота, используемый для аутентификации бота в Telegram API.
+- `token` (str): Токен Telegram бота, Используетсяый для аутентификации бота в Telegram API.
 - `route` (str): Маршрут для вебхука FastAPI, определяющий, по какому URL Telegram будет отправлять обновления. По умолчанию равен `'telegram_webhook'`.
 - `port` (int): Порт, на котором будет прослушиваться вебхук. Используется для приема входящих сообщений от Telegram. По умолчанию равен `443`.
 

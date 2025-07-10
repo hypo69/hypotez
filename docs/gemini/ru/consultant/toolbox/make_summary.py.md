@@ -2,7 +2,7 @@
 
 ## \file /src/endpoints/hypo69/code_assistant/make_summary.py
 
-Модуль предназначен для создания файла `SUMMARY.md`, используемого для компиляции средствами `mdbook`.
+Модуль предназначен для создания файла `SUMMARY.md`, Используетсяого для компиляции средствами `mdbook`.
 
 **Качество кода:**
 
@@ -23,7 +23,7 @@
    - Заменить `print` на `logger.info` и `logger.error` для более удобного отслеживания работы скрипта и записи ошибок.
 
 2. **Использовать константы для строковых литералов**.
-   - Определить константы для часто используемых строк, таких как имя файла `SUMMARY.md` и заголовок summary, чтобы избежать дублирования и упростить изменение этих значений в будущем.
+   - Определить константы для часто Используетсяых строк, таких как имя файла `SUMMARY.md` и заголовок summary, чтобы избежать дублирования и упростить изменение этих значений в будущем.
 
 3. **Добавить проверку на существование директории `src_dir`**.
    - Перед началом обработки необходимо проверить, существует ли указанная директория, и выводить сообщение об ошибке, если ее нет.
@@ -63,7 +63,7 @@ import argparse
 from src.logger import logger  # Добавлен импорт logger
 import header  # Импорт модуля, который определяет корневой путь проекта
 
-# Используем корневой путь проекта
+# Используется корневой путь проекта
 PROJECT_ROOT = header.__root__
 
 SUMMARY_FILE_NAME: str = 'SUMMARY.md'  # Имя файла summary
@@ -101,10 +101,10 @@ def _make_summary(src_dir: Path, summary_file: Path, lang: str = 'en') -> bool:
             logger.info(f'Файл {summary_file} уже существует. Его содержимое будет перезаписано.')  # Логируем информацию
 
         with summary_file.open('w', encoding='utf-8') as summary:
-            summary.write(SUMMARY_HEADER)  # Используем константу для заголовка
+            summary.write(SUMMARY_HEADER)  # Используется константу для заголовка
 
             for path in sorted(src_dir.rglob('*.md')):
-                if path.name == SUMMARY_FILE_NAME:  # Используем константу для имени файла
+                if path.name == SUMMARY_FILE_NAME:  # Используется константу для имени файла
                     continue
 
                 # Фильтрация файлов по языку
@@ -114,7 +114,7 @@ def _make_summary(src_dir: Path, summary_file: Path, lang: str = 'en') -> bool:
                     continue  # Пропускаем файлы с суффиксом .ru.md
 
                 relative_path = path.relative_to(src_dir.parent)
-                summary.write(f'- [{path.stem}]({relative_path.as_posix()})\n')  # Используем f-строки
+                summary.write(f'- [{path.stem}]({relative_path.as_posix()})\n')  # Используется f-строки
         return True
     except Exception as ex:
         logger.error(f'Ошибка создания файла `summary.md`', ex, exc_info=True)  # Логируем ошибку

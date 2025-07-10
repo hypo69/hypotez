@@ -19,10 +19,10 @@
 from src.suppliers.ksp.graber import Graber
 from src.webdriver.driver import Driver
 
-# Создаем объект WebDriver
+# создание объект WebDriver
 driver = Driver(Chrome)
 
-# Создаем экземпляр класса Graber
+# создание экземпляр класса Graber
 graber = Graber(driver=driver)
 
 # Выполняем операции сбора данных с помощью объекта graber

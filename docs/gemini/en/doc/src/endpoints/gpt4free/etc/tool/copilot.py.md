@@ -30,7 +30,7 @@
 
 #### Параметры:
 
-- `github (Github)`: Объект Github, используемый для взаимодействия с API GitHub.
+- `github (Github)`: Объект Github, Используетсяый для взаимодействия с API GitHub.
 
 #### Возвращает:
 
@@ -233,4 +233,4 @@ print("Review prompt:", review_prompt)
 - В нем используется библиотека `github` для взаимодействия с GitHub API.
 - Для проверки pull-запросов используется `driver` из `src.webdirver`.
 -  `Driver`, `Chrome`, `Firefox`, `Playwright` modules уже содержат все настройки Selenium.
--  Основная команда, используемая в коде: `driver.execute_locator(l:dict)`. Она возвращает значение веб-элемента по локатору.
+-  Основная команда, Используетсяая в коде: `driver.execute_locator(l:dict)`. Она возвращает значение веб-элемента по локатору.

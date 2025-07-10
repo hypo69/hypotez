@@ -92,7 +92,7 @@ promoter.run_events(events_names = events_names, group_file_paths = filenames)
 - `events_names` (list): Список имен событий, которые необходимо отправить.
 - `group_file_paths` (list): Список путей к файлам, содержащим данные о группах Facebook.
 
-**Возвращаемое значение:**
+**Возвратое значение:**
 -  `None`.
 
 **Возможные исключения:**

@@ -8,18 +8,18 @@
      - Четкое разделение на функции: `collect_file_contents` и `save_contents_to_text`.
      - Есть проверка на нежелательные директории и файлы.
    - **Минусы**:
-     - Отсутствуют аннотации типов для переменных и возвращаемых значений.
+     - Отсутствуют аннотации типов для переменных и Возвратых значений.
      - Не хватает обработки исключений.
      - Плохая организация docstring.
      - Много ненужного кода в начале файла.
      - Не используется модуль `logger` для логирования.
 
 3. **Рекомендации по улучшению**:
-   - Добавить аннотации типов для всех переменных, аргументов функций и возвращаемых значений.
+   - Добавить аннотации типов для всех переменных, аргументов функций и Возвратых значений.
    - Добавить обработку исключений, особенно при работе с файлами и директориями.
    - Улучшить docstring для функций и модуля, используя более подробные описания и примеры использования.
    - Использовать `logger` из `src.logger` для логирования ошибок и информации о процессе.
-   - Убрать неиспользуемый код в начале файла.
+   - Убрать неИспользуетсяый код в начале файла.
    - Добавить комментарии для пояснения логики работы кода.
    - Переписать docstring в соответствии с примерами из инструкции.
    - Переписать функцию `collect_file_contents` с использованием `os.walk` для более простого обхода директорий.
@@ -80,7 +80,7 @@ def collect_file_contents(directory: Path, target_directory: Path) -> Dict[str, 
 
             for file in files:
                 file_path = root_path / file
-                # Проверяем, что файл соответствует условиям включения
+                # Проверка, что файл соответствует условиям включения
                 if (file_path.suffix in allowed_extensions and
                         not file.startswith(tuple(excluded_files_start)) and
                         '*' not in file and '(' not in file and ')' not in file):
@@ -92,15 +92,15 @@ def collect_file_contents(directory: Path, target_directory: Path) -> Dict[str, 
                         continue  # Переход к следующему файлу при ошибке
     except FileNotFoundError as ex:
         logger.error(f"Указанная директория не найдена: {directory}", ex, exc_info=True)
-        return {}  # Возвращаем пустой словарь
+        return {}  # Возврат пустой словарь
     except PermissionError as ex:
         logger.error(f"Нет прав на чтение директории или файлов в {directory}", ex, exc_info=True)
-        return {}  # Возвращаем пустой словарь
+        return {}  # Возврат пустой словарь
     except Exception as ex:
         logger.error(f"Произошла ошибка при обходе директории {directory}", ex, exc_info=True)
-        return {}  # Возвращаем пустой словарь
+        return {}  # Возврат пустой словарь
 
-    return contents  # Возвращаем словарь с содержимым файлов
+    return contents  # Возврат словарь с содержимым файлов
 
 
 def save_contents_to_text(contents: Dict[str, str], output_file: Path) -> None:
@@ -133,12 +133,12 @@ def main() -> None:
     project_structure_directory: Path = Path(src_directory, 'prod')  # Путь к директории для сохранения результата
 
     try:
-        # Проверяем, существует ли исходная директория
+        # Проверка, существует ли исходная директория
         if not src_directory.exists():
             logger.error(f"Директория не существует: {src_directory}")
             raise FileNotFoundError(f"Директория не существует: {src_directory}")
 
-        project_structure_directory.mkdir(parents=True, exist_ok=True)  # Создаем директорию, если она не существует
+        project_structure_directory.mkdir(parents=True, exist_ok=True)  # создание директорию, если она не существует
         file_contents: Dict[str, str] = collect_file_contents(src_directory, project_structure_directory)  # Сбор содержимого файлов
         output_file_path: Path = Path(project_structure_directory, 'all_file_contents.txt')  # Путь к выходному файлу
         save_contents_to_text(file_contents, output_file_path)  # Сохранение содержимого в файл

@@ -19,8 +19,8 @@
 `selenium.webdriver.Edge`
 
 **Атрибуты**:
-- `driver_name` (str): Имя используемого драйвера WebDriver, по умолчанию 'edge'.
-- `user_agent` (str): Строка user-agent, используемая для имитации браузера.
+- `driver_name` (str): Имя Используетсяого драйвера WebDriver, по умолчанию 'edge'.
+- `user_agent` (str): Строка user-agent, Используетсяая для имитации браузера.
 
 **Методы**:
 - `__init__`: Инициализирует Edge WebDriver с указанным user-agent и опциями.
@@ -150,8 +150,8 @@ options = driver.set_options(opts=['--disable-gpu', '--disable-extensions'])
 
 ## Параметры класса
 
-- `driver_name` (str): Имя используемого драйвера WebDriver, по умолчанию 'edge'.
-- `user_agent` (str): Строка user-agent, используемая для имитации браузера.
+- `driver_name` (str): Имя Используетсяого драйвера WebDriver, по умолчанию 'edge'.
+- `user_agent` (str): Строка user-agent, Используетсяая для имитации браузера.
 
 ## Пример использования
 

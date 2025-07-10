@@ -17,7 +17,7 @@
 - `src.suppliers.graber.Graber`: Базовый класс, предоставляющий общую функциональность для сбора данных о товарах с веб-сайтов.
 
 **Атрибуты**:
-- `supplier_prefix` (str): Префикс поставщика, используемый для идентификации поставщика в системе.
+- `supplier_prefix` (str): Префикс поставщика, Используетсяый для идентификации поставщика в системе.
 
 **Методы**:
 - `__init__(driver: Optional['Driver'] = None, lang_index: Optional[int] = None)`: Инициализирует экземпляр класса `Graber`.
@@ -39,7 +39,7 @@ def __init__(self, driver: Optional['Driver'] = None, lang_index:Optional[int] =
 
 **Параметры**:
 - `driver` (Optional['Driver'], optional): Экземпляр веб-драйвера для управления браузером. По умолчанию `None`.
-- `lang_index` (Optional[int], optional): Индекс языка, используемый при сборе данных. По умолчанию `None`.
+- `lang_index` (Optional[int], optional): Индекс языка, Используетсяый при сборе данных. По умолчанию `None`.
 
 **Как работает функция**:
 - Устанавливает префикс поставщика (`supplier_prefix`) как `etzmaleh`.

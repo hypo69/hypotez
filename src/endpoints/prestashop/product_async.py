@@ -22,7 +22,7 @@ import header
 from header import __root__
 from src import gs
 
-# Используем асинхронный базовый класс
+# Используется асинхронный базовый класс
 from src.endpoints.prestashop.api.api_async import PrestaShopAsync 
 from src.endpoints.prestashop.product_fields import ProductFields
 from src.endpoints.prestashop.utils.dict2xml import dict2xml

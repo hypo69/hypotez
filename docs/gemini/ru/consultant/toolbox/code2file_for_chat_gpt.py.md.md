@@ -4,7 +4,7 @@
 
 - **Соответствие стандартам**: 7/10
 - **Плюсы**:
-    - Модуль хорошо документирован, с описанием назначения, параметров и возвращаемых значений функций.
+    - Модуль хорошо документирован, с описанием назначения, параметров и Возвратых значений функций.
     - Приведены примеры использования функций.
     - Код разбит на логические блоки, что облегчает его понимание.
 - **Минусы**:
@@ -147,7 +147,7 @@ def read_text_files(
     try:
         output_path = Path(output_file) # Преобразуем путь к файлу в объект Path
         output_dir = output_path.parent # Получаем родительскую директорию
-        output_dir.mkdir(parents=True, exist_ok=True) # Создаем директорию, если она не существует
+        output_dir.mkdir(parents=True, exist_ok=True) # создание директорию, если она не существует
 
         file_index = 1 # Индекс файла для разделения на несколько файлов
         current_text = "" # Текущий текст для записи в файл
@@ -157,7 +157,7 @@ def read_text_files(
             dirs[:] = [d for d in dirs if d not in EXCLUDE_DIRS and not d.startswith("_") and "*" not in d]
 
             for file in files: # Итерируемся по файлам
-                if file.endswith(".py") and os.path.splitext(file)[1] not in EXCLUDE_EXTENSIONS: # Проверяем расширение файла
+                if file.endswith(".py") and os.path.splitext(file)[1] not in EXCLUDE_EXTENSIONS: # Проверка расширение файла
                     file_path = Path(os.path.join(root, file)) # Получаем полный путь к файлу
                     try:
                         with open(file_path, "r", encoding="utf-8") as f: # Открываем файл для чтения
@@ -173,7 +173,7 @@ def read_text_files(
                     if remove_docs: # Если нужно удалить docstrings
                         content = remove_docstrings(content) # Удаляем docstrings из содержимого
 
-                    header = f"--- {file_path} ---\n" # Создаем заголовок для файла
+                    header = f"--- {file_path} ---\n" # создание заголовок для файла
                     if len(current_text) + len(header) + len(content) > max_chars: # Если текущий файл переполнен
                         # Записываем текущий текст в файл
                         output_file_name = output_path.stem + f"_{file_index}" + output_path.suffix # Формируем имя файла
@@ -209,10 +209,10 @@ if __name__ == "__main__":
     directory_to_search = "../data/chat_gpt/code2file"
     output_file_path = Path("../data/chat_gpt/code2file/code2file.txt")
 
-    # Создаем директорию, если она не существует
+    # создание директорию, если она не существует
     output_file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Создаем файл, если его не существует
+    # создание файл, если его не существует
     output_file_path.touch(exist_ok=True)
 
     read_text_files(directory_to_search, output_file_path, remove_docs=True)

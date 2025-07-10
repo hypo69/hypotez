@@ -2,7 +2,7 @@
 
 ## Обзор
 
-Модуль `proofofwork.py` предоставляет функцию `generate_proof_token` для генерации токена Proof of Work (PoW), используемого для взаимодействия с API ChatGPT. 
+Модуль `proofofwork.py` предоставляет функцию `generate_proof_token` для генерации токена Proof of Work (PoW), Используетсяого для взаимодействия с API ChatGPT. 
 
 ## Подробней
 

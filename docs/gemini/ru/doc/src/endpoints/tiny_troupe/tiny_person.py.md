@@ -38,10 +38,10 @@
 ```python
 from tinytroupe.agent import TinyPerson
 
-# Создаем инстанс TinyPerson
+# создание инстанс TinyPerson
 john = TinyPerson(name="John")
 
-# Определяем некоторые характеристики
+# Определение некоторые характеристики
 john.define("age", 35)
 john.define("occupation", "Software Engineer")
 john.define("nationality", "American")
@@ -125,10 +125,10 @@ def pp_current_interactions(self):
 ```python
 from tinytroupe.agent import TinyPerson
 
-# Создаем инстанс TinyPerson
+# создание инстанс TinyPerson
 john = TinyPerson(name="John")
 
-# Определяем некоторые характеристики
+# Определение некоторые характеристики
 john.define("age", 35)
 john.define("occupation", "Software Engineer")
 john.define("nationality", "American")

@@ -56,7 +56,7 @@ async def create_async_generator(
 
     Args:
         cls (type[Ylokh]): Ссылка на класс `Ylokh`.
-        model (str): Название используемой модели (например, "gpt-3.5-turbo").
+        model (str): Название Используетсяой модели (например, "gpt-3.5-turbo").
         messages (Messages): Список сообщений для отправки в API.
         stream (bool, optional): Флаг, указывающий на использование потоковой передачи данных. По умолчанию `True`.
         proxy (str, optional): Адрес прокси-сервера. По умолчанию `None`.

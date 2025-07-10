@@ -24,13 +24,13 @@
 from src.webdriver.executor import ExecuteLocator
 from src.webdriver import Driver, Chrome
 
-# Создаем экземпляр WebDriver
+# создание экземпляр WebDriver
 driver = Driver(Chrome) 
 
-# Создаем экземпляр класса ExecuteLocator
+# создание экземпляр класса ExecuteLocator
 executor = ExecuteLocator(driver=driver)
 
-# Определяем локатор для кнопки "Поиск"
+# Определение локатор для кнопки "Поиск"
 search_button_locator = {
     "by": "XPATH",
     "selector": "//button[@id='searchButton']",
@@ -41,7 +41,7 @@ search_button_locator = {
 # Выполняем клик по кнопке "Поиск"
 result = executor.execute_locator(locator=search_button_locator)
 
-# Проверяем результат
+# Проверка результат
 if result is True:
     print("Клик по кнопке 'Поиск' выполнен успешно!")
 else:

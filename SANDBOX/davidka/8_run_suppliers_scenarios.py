@@ -99,7 +99,7 @@ async def execute_scenario(supplier_prefix:str, scenario:dict, driver:Driver):
 
     products_urls_list:list = await driver.execute_locator(locator_category.product_links) 
 
-    actual_fields:tuple = (
+    required_fields:tuple = (
                             'name',
                             'id_supplier',
                             'description_short',
@@ -113,7 +113,7 @@ async def execute_scenario(supplier_prefix:str, scenario:dict, driver:Driver):
 
     for url in products_urls_list:
         
-        f:ProductFields = await graber.grab_page_async(*actual_fields, url=url)
+        f:ProductFields = await graber.grab_page_async(*required_fields, url=url)
         ...
         
 

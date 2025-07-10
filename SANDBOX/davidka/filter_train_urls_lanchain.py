@@ -157,7 +157,7 @@ async def get_page_category(url: str, chain: LLMChain) -> str | None:
     except Exception as ex:
         # Логирование ошибки при вызове цепочки
         logger.error(f'Ошибка при вызове chain.ainvoke для URL {url}', ex, exc_info=True)
-        return None # Возвращаем None в случае исключения
+        return None # Возврат None в случае исключения
 
 
 async def main():
@@ -168,9 +168,9 @@ async def main():
     # --- Объявление переменных ---
     gemini_llm: BaseChatModel | None = None
     chain: LLMChain | None = None
-    # Путь к файлу для сохранения результатов (используем относительный путь)
+    # Путь к файлу для сохранения результатов (Используется относительный путь)
     results_dir: Path = __root__ / 'output' # Папка для результатов в корне проекта
-    results_dir.mkdir(exist_ok=True) # Создаем папку, если её нет
+    results_dir.mkdir(exist_ok=True) # создание папку, если её нет
     filtered_urls_file: Path = results_dir / 'filtered_urls_results.json'
     data_dict: Dict[str, Any] = {} # Словарь для хранения результатов URL -> JSON-строка ответа
     urls_to_process: list[str] = []
@@ -180,7 +180,7 @@ async def main():
 
     # --- Инициализация ---
     logger.info('Запуск процесса классификации URL...')
-    gemini_llm = initialize_gemini() # Используем значения из Config
+    gemini_llm = initialize_gemini() # Используется значения из Config
 
     if not gemini_llm:
         logger.error('Не удалось инициализировать Gemini LLM. Выход.')
@@ -238,7 +238,7 @@ async def main():
             json_dump_result = j_dumps(llm_response_str) # Дамп строки как JSON строки
             data_dict[url] = json_dump_result # Сохраняем результат дампа
             logger.info(f'Успешно получен ответ для {url}.')
-            print(f'Результат для {url}: {json_dump_result}') # Используем проектный или стандартный print
+            print(f'Результат для {url}: {json_dump_result}') # Используется проектный или стандартный print
             saved_count += 1
         else:
             # Сохраняем информацию об ошибке, если ответа нет

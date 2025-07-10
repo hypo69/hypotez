@@ -49,9 +49,9 @@
 ```python
 from src.ai.openai.model.event_handler import EventHandler
 
-# Создаем экземпляр класса EventHandler
+# создание экземпляр класса EventHandler
 event_handler = EventHandler()
 
-# Используем event_handler для обработки событий модели OpenAI
+# Используется event_handler для обработки событий модели OpenAI
 # ...
 ```

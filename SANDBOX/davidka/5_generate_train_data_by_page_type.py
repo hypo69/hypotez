@@ -277,7 +277,7 @@ def _get_string_attribute_from_dict_or_ai_content(value_dict: Dict[str, Any], at
         final_value_str = current_value_str
 
     if not final_value_str:
-        ai_content_dict_val = value_dict.get('ai_analized_content') # Используем другую переменную, чтобы не конфликтовать с именем параметра
+        ai_content_dict_val = value_dict.get('ai_analized_content') # Используется другую переменную, чтобы не конфликтовать с именем параметра
         if isinstance(ai_content_dict_val, dict):
             nested_value = ai_content_dict_val.get(attribute_name)
 

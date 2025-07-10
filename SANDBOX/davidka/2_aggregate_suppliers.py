@@ -131,7 +131,7 @@ def extract_structured_data_for_entry(
     file_path_context: Path
 ) -> Optional[Tuple[str, str, Dict[str, Any]]]:
     """
-    Извлекает данные для одной записи (определяемой url_key_param и data_for_url_key),
+    Извлекает данные для одной записи (Определениеой url_key_param и data_for_url_key),
     определяет поставщика и формирует структуру для сохранения.
 
     Args:
@@ -334,7 +334,7 @@ def update_supplier_file(
 
     Args:
         supplier_name (str): Имя поставщика (домен).
-        url_key_val (str): URL, используемый как ключ в JSON файле.
+        url_key_val (str): URL, Используетсяый как ключ в JSON файле.
         data_to_store_val (Dict[str, Any]): Словарь новых данных для сохранения.
         base_output_dir_path (Path): Базовая директория, где будут создаваться поддиректории поставщиков.
 
@@ -491,7 +491,7 @@ def _process_file_entry(
         try:
             write_was_successful = update_supplier_file(
                 supplier_name=supplier_name_val,
-                url_key_val=normalized_url_key, # Используем нормализованный ключ из файла
+                url_key_val=normalized_url_key, # Используется нормализованный ключ из файла
                 data_to_store_val=data_for_supplier_file,
                 base_output_dir_path=base_output_dir_ref
             )

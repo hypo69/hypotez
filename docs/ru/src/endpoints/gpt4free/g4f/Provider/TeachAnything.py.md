@@ -20,7 +20,7 @@
 - `url` (str): URL сервиса teach-anything.com.
 - `api_endpoint` (str): Endpoint API для генерации текста.
 - `working` (bool): Указывает, работает ли провайдер.
-- `default_model` (str): Модель, используемая по умолчанию (`gemini-1.5-pro`).
+- `default_model` (str): Модель, Используетсяая по умолчанию (`gemini-1.5-pro`).
 - `models` (List[str]): Список поддерживаемых моделей (`gemini-1.5-pro`, `gemini-1.5-flash`).
 
 **Принцип работы**:

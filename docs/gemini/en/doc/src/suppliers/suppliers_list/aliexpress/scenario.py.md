@@ -177,7 +177,7 @@ from src.suppliers.aliexpress import AliExpress
 from src.suppliers.suppliers_list.aliexpress.scenario import get_list_categories_from_site
 from src.suppliers.suppliers_list.aliexpress.scenario import update_categories_in_scenario_file
 
-# Создаем экземпляр поставщика AliExpress
+# создание экземпляр поставщика AliExpress
 supplier = AliExpress()
 
 # Получаем список категорий с сайта
@@ -192,7 +192,7 @@ update_categories_in_scenario_file(supplier, 'aliexpress.json')
 ```python
 from src.suppliers.suppliers_list.aliexpress.scenario import DBAdaptor
 
-# Создаем экземпляр класса DBAdaptor
+# создание экземпляр класса DBAdaptor
 db = DBAdaptor()
 
 # Выбираем все записи из таблицы AliexpressCategory, где parent_category_id равен 'parent_id_value'

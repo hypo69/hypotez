@@ -74,7 +74,7 @@
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Equing import Equing
 
-# Создаем экземпляр провайдера Equing
+# создание экземпляр провайдера Equing
 provider = Equing()
 
 # Формируем список сообщений

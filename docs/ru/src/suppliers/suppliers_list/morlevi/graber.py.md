@@ -40,7 +40,7 @@ def __init__(self, driver: Optional['Driver'] = None, lang_index: Optional[int] 
 **Параметры**:
 
 - `driver` (Optional['Driver'], optional): Экземпляр веб-драйвера для управления браузером. По умолчанию `None`.
-- `lang_index` (Optional[int], optional): Индекс языка, используемый для локализации контента на сайте. По умолчанию `None`.
+- `lang_index` (Optional[int], optional): Индекс языка, Используетсяый для локализации контента на сайте. По умолчанию `None`.
 
 **Как работает функция**:
 

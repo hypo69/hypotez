@@ -27,7 +27,7 @@
   - `test_exception`: Проверяет исключение `g4f.errors.NestAsyncioError` при использовании `asyncio.run` в `run_exception`, если  `nest_asyncio` не установлен.
   - `test_create`: Тестирует синхронную инициализацию `ChatCompletion` с `AsyncProviderMock`.
   - `test_create_generator`: Тестирует синхронную инициализацию `ChatCompletion` с `AsyncGeneratorProviderMock`.
-  - `test_await_callback`: Тестирует асинхронный вызов `client.chat.completions.create` с использованием `AsyncGeneratorProviderMock` и проверку возвращаемого результата.
+  - `test_await_callback`: Тестирует асинхронный вызов `client.chat.completions.create` с использованием `AsyncGeneratorProviderMock` и проверку Возвратого результата.
 
 ## Классы
 

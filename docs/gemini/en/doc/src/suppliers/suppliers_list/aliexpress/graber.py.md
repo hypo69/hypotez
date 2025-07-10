@@ -63,14 +63,14 @@ This module implements the `Graber` class which is responsible for scraping prod
 ## Parameter Details
 
 - `driver` (`Driver`): Экземпляр веб-драйвера для взаимодействия с браузером.
-- `lang_index` (`int`): Индекс языка, используемый для сбора данных.
+- `lang_index` (`int`): Индекс языка, Используетсяый для сбора данных.
 
 ## Examples
 
 ```python
 # Создание экземпляра класса Graber
-driver = Driver(Chrome)  # Создаем экземпляр веб-драйвера (в данном случае Chrome)
-graber = Graber(driver, lang_index=0)  # Инициализируем Graber с веб-драйвером и индексом языка
+driver = Driver(Chrome)  # создание экземпляр веб-драйвера (в данном случае Chrome)
+graber = Graber(driver, lang_index=0)  # Инициализация Graber с веб-драйвером и индексом языка
 
 # Вызов метода для получения информации о товаре
 product_data = graber.get_product_info(product_url='https://www.aliexpress.com/item/10050012345678.html')

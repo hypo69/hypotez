@@ -92,10 +92,10 @@ for chunk in response:
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Aivvm import Aivvm
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем инстанс класса Aivvm
+# создание инстанс класса Aivvm
 provider = Aivvm()
 
-# Определяем список сообщений для передачи в качестве контекста модели
+# Определение список сообщений для передачи в качестве контекста модели
 messages: Messages = [
     {"role": "user", "content": "Привет! Как дела?"}
 ]

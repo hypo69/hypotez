@@ -36,7 +36,7 @@
 # Импортируем модуль
 import openapi
 
-# Создаем приложение Flask
+# создание приложение Flask
 app = openapi.create_app()
 
 # Генерируем и записываем OpenAPI-спецификацию

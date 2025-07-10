@@ -26,10 +26,10 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.Yqcloud import Yqcloud, Conversation, Messages
 
 async def main():
-    # Создаем экземпляр класса Yqcloud
+    # создание экземпляр класса Yqcloud
     provider = Yqcloud(model='gpt-4')
 
-    # Создаем список сообщений
+    # создание список сообщений
     messages: Messages = [
         {"role": "user", "content": "Привет! Как дела?"},
         {"role": "assistant", "content": "Привет! У меня все хорошо, а у тебя?"},

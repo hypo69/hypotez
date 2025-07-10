@@ -26,7 +26,7 @@
 - `mocker`: Фикстура для мокирования функций.
 - `campaign`: Фикстура для создания экземпляра `AliPromoCampaign`.
 
-**Возвращаемое значение**: `None`.
+**Возвратое значение**: `None`.
 
 **Исключения**: `None`.
 
@@ -64,7 +64,7 @@ def test_initialize_campaign(mocker, campaign):
 - `mocker`: Фикстура для мокирования функций.
 - `campaign`: Фикстура для создания экземпляра `AliPromoCampaign`.
 
-**Возвращаемое значение**: `None`.
+**Возвратое значение**: `None`.
 
 **Исключения**: `None`.
 
@@ -88,7 +88,7 @@ def test_get_category_products_no_json_files(mocker, campaign):
 - `mocker`: Фикстура для мокирования функций.
 - `campaign`: Фикстура для создания экземпляра `AliPromoCampaign`.
 
-**Возвращаемое значение**: `None`.
+**Возвратое значение**: `None`.
 
 **Исключения**: `None`.
 
@@ -114,7 +114,7 @@ def test_get_category_products_with_json_files(mocker, campaign):
 **Параметры**:
 - `campaign`: Фикстура для создания экземпляра `AliPromoCampaign`.
 
-**Возвращаемое значение**: `None`.
+**Возвратое значение**: `None`.
 
 **Исключения**: `None`.
 
@@ -139,7 +139,7 @@ def test_create_product_namespace(campaign):
 **Параметры**:
 - `campaign`: Фикстура для создания экземпляра `AliPromoCampaign`.
 
-**Возвращаемое значение**: `None`.
+**Возвратое значение**: `None`.
 
 **Исключения**: `None`.
 
@@ -166,7 +166,7 @@ def test_create_category_namespace(campaign):
 **Параметры**:
 - `campaign`: Фикстура для создания экземпляра `AliPromoCampaign`.
 
-**Возвращаемое значение**: `None`.
+**Возвратое значение**: `None`.
 
 **Исключения**: `None`.
 
@@ -195,7 +195,7 @@ def test_create_campaign_namespace(campaign):
 - `mocker`: Фикстура для мокирования функций.
 - `campaign`: Фикстура для создания экземпляра `AliPromoCampaign`.
 
-**Возвращаемое значение**: `None`.
+**Возвратое значение**: `None`.
 
 **Исключения**: `None`.
 
@@ -221,7 +221,7 @@ def test_prepare_products(mocker, campaign):
 - `mocker`: Фикстура для мокирования функций.
 - `campaign`: Фикстура для создания экземпляра `AliPromoCampaign`.
 
-**Возвращаемое значение**: `None`.
+**Возвратое значение**: `None`.
 
 **Исключения**: `None`.
 
@@ -248,7 +248,7 @@ def test_fetch_product_data(mocker, campaign):
 - `mocker`: Фикстура для мокирования функций.
 - `campaign`: Фикстура для создания экземпляра `AliPromoCampaign`.
 
-**Возвращаемое значение**: `None`.
+**Возвратое значение**: `None`.
 
 **Исключения**: `None`.
 
@@ -272,7 +272,7 @@ def test_save_product(mocker, campaign):
 **Параметры**:
 - `campaign`: Фикстура для создания экземпляра `AliPromoCampaign`.
 
-**Возвращаемое значение**: `None`.
+**Возвратое значение**: `None`.
 
 **Исключения**: `None`.
 
@@ -321,7 +321,7 @@ def test_list_campaign_products(campaign):
 
 **Описание**: Фикстура для создания экземпляра класса `AliPromoCampaign`.
 
-**Возвращаемое значение**: `AliPromoCampaign`.
+**Возвратое значение**: `AliPromoCampaign`.
 
 **Пример**:
 

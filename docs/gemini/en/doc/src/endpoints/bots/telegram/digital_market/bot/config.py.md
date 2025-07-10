@@ -1,6 +1,6 @@
 # Модуль конфигурации Telegram-бота
 ## Overview
-Модуль `config.py` предназначен для настройки Telegram-бота, используемого для взаимодействия с пользователями и выполнения различных задач, связанных с цифровым маркетингом. 
+Модуль `config.py` предназначен для настройки Telegram-бота, Используетсяого для взаимодействия с пользователями и выполнения различных задач, связанных с цифровым маркетингом. 
 
 ## Details
 Модуль содержит класс `Settings`, который загружает конфигурационные параметры из файла `.env`. 
@@ -166,7 +166,7 @@ class Settings(BaseSettings):
 # Получаем параметры для загрузки переменных среды
 settings = Settings()
 
-# Инициализируем бота и диспетчер
+# Инициализация бота и диспетчер
 bot = Bot(token=settings.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher(storage=MemoryStorage())
 admins = settings.ADMIN_IDS

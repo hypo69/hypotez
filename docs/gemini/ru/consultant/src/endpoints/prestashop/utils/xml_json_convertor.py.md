@@ -152,7 +152,7 @@ def _parse_node(node: ET.Element) -> dict | str:
     if not has_child:
         tree['value'] = value
 
-    # Если есть только значение; нет атрибута, нет дочернего элемента, возвращаем непосредственно значение
+    # Если есть только значение; нет атрибута, нет дочернего элемента, Возврат непосредственно значение
     if list(tree.keys()) == ['value']:
         tree = tree['value']
     return tree
@@ -223,7 +223,7 @@ def presta_fields_to_xml(presta_fields_dict: dict) -> str:
     dynamic_key = next(iter(presta_fields_dict))  # Берем первый ключ (например, 'product', 'category' и т. д.)
 
     try:
-        # Создаем корневой элемент "prestashop"
+        # создание корневой элемент "prestashop"
         root = ET.Element('prestashop')
         dynamic_element = ET.SubElement(root, dynamic_key)
         _build_xml_element(dynamic_element, presta_fields_dict[dynamic_key])

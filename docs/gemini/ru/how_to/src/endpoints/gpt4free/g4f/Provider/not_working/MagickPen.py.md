@@ -21,10 +21,10 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.MagickPen import MagickPen
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр класса MagickPen
+# создание экземпляр класса MagickPen
 provider = MagickPen()
 
-# Определяем текст запроса
+# Определение текст запроса
 messages = Messages(
     [
         {"role": "user", "content": "Расскажи мне анекдот про программиста."},
@@ -33,7 +33,7 @@ messages = Messages(
 
 # Вызываем метод для получения асинхронного генератора ответа
 async_generator = provider.create_async_generator(
-    model="gpt-4o-mini",  # Используем модель gpt-4o-mini
+    model="gpt-4o-mini",  # Используется модель gpt-4o-mini
     messages=messages
 )
 

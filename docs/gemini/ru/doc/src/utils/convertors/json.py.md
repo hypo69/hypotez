@@ -120,7 +120,7 @@ print(xml_string) # Вывод: <person><name>John Doe</name><age>30</age></pers
 
 # Преобразование из словаря
 json_data = {"name": "Alice", "age": 25}
-xml_string = json2xml(json_data) # используем  root_tag='root' по умолчанию
+xml_string = json2xml(json_data) # Используется  root_tag='root' по умолчанию
 print(xml_string) # Вывод: <root><name>Alice</name><age>25</age></root>
 
 # Преобразование из JSON-файла

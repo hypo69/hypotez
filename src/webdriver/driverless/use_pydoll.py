@@ -6,8 +6,6 @@ from pydoll.browser.options import ChromeOptions as Options
 from pydoll.browser.page import Page
 from pydoll.constants import By
 
-
-
 from header import __root__
 from src.logger import logger
 

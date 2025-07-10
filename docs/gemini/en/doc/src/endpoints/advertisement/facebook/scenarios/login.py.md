@@ -30,7 +30,7 @@
 ```python
 from src.endpoints.advertisement.facebook.scenarios.login import login
 from src.webdriver import Driver, Chrome
-# Инициализируем драйвер
+# Инициализация драйвер
 driver = Driver(Chrome)
 # Выполняем вход
 result = login(driver)

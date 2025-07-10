@@ -177,7 +177,7 @@ else:
 ```python
 from types import SimpleNamespace
 
-# Определяем локатор (словарь или SimpleNamespace)
+# Определение локатор (словарь или SimpleNamespace)
 login_button_locator = {
     "locator_description": "Кнопка входа",
     "by": "id",
@@ -272,7 +272,7 @@ if graber:
     logger.info(f"Грабер для URL {product_url} получен.")
 
     async def grab_single_product():
-        # Определяем, какие поля мы хотим собрать
+        # Определение, какие поля мы требуется собрать
         fields_to_grab = [
             'id_product', 'name', 'price', 'description',
             'specification', 'local_image_path', 'id_supplier'

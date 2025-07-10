@@ -17,7 +17,7 @@ def _create_completion(model: str, messages: list, stream: bool, temperature: fl
     """ Функция отправляет запрос в Lockchat API для генерации текста и возвращает результат.
 
     Args:
-        model (str): Имя используемой модели (например, 'gpt-4', 'gpt-3.5-turbo').
+        model (str): Имя Используетсяой модели (например, 'gpt-4', 'gpt-3.5-turbo').
         messages (list): Список сообщений для отправки в API.
         stream (bool): Флаг, указывающий, использовать ли потоковый режим.
         temperature (float, optional): Температура генерации текста. По умолчанию 0.7.

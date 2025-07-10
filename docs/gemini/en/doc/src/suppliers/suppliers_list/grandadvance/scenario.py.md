@@ -103,7 +103,7 @@ s = Supplier()
 # Вызываем функцию get_list_products_in_category
 products = get_list_products_in_category(s)
 
-# Проверяем, что функция вернула список URL
+# Проверка, что функция вернула список URL
 if products:
     logger.info(f"Найдено {len(products)} товаров")
 

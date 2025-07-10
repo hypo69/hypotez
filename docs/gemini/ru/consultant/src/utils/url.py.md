@@ -5,7 +5,7 @@
 - **Соответствие стандартам**: 8/10
 - **Плюсы**:
   - Код хорошо структурирован и легко читаем.
-  - Функции имеют docstring с описанием аргументов, возвращаемых значений и исключений.
+  - Функции имеют docstring с описанием аргументов, Возвратых значений и исключений.
   - Используются аннотации типов.
   - Код соответствует PEP8.
 - **Минусы**:
@@ -113,7 +113,7 @@ def url_shortener(long_url: str) -> str | None:
     url = f'http://tinyurl.com/api-create.php?url={long_url}'
     try:
         response = requests.get(url)
-        response.raise_for_status()  # Проверяем на ошибки HTTP
+        response.raise_for_status()  # Проверка на ошибки HTTP
         return response.text
     except requests.exceptions.RequestException as ex:
         logger.error('Ошибка при сокращении URL', ex, exc_info=True)
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     # Получаем строку URL от пользователя
     url = input("Введите URL: ")
 
-    # Проверяем валидность URL
+    # Проверка валидность URL
     if is_url(url):
         params = extract_url_params(url)
 

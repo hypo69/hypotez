@@ -21,7 +21,7 @@
 - `campaign_name` (str): Название кампании.
 - `language` (Optional[str | dict]): Язык кампании.
 - `currency` (Optional[str]): Валюта кампании.
-- `google_sheet` (Optional[AliCampaignGoogleSheet]): Инстанс класса `AliCampaignGoogleSheet`, используемый для взаимодействия с Google Sheets.
+- `google_sheet` (Optional[AliCampaignGoogleSheet]): Инстанс класса `AliCampaignGoogleSheet`, Используетсяый для взаимодействия с Google Sheets.
 
 **Методы**:
 

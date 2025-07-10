@@ -38,10 +38,10 @@
 from pathlib import Path
 import make_summary
 
-# Создаем файл SUMMARY.md  для  русских  файлов
+# создание файл SUMMARY.md  для  русских  файлов
 make_summary.make_summary(docs_dir=Path('/path/to/hypotez/src'), lang='ru')
 
-# Создаем файл SUMMARY.md  для  английских  файлов
+# создание файл SUMMARY.md  для  английских  файлов
 make_summary.make_summary(docs_dir=Path('/path/to/hypotez/src'), lang='en')
 
 ```
@@ -71,10 +71,10 @@ make_summary.make_summary(docs_dir=Path('/path/to/hypotez/src'), lang='en')
 from pathlib import Path
 import make_summary
 
-# Создаем файл SUMMARY.md  для  русских  файлов
+# создание файл SUMMARY.md  для  русских  файлов
 make_summary._make_summary(src_dir=Path('/path/to/hypotez/src'), summary_file=Path('/path/to/hypotez/docs/SUMMARY.md'), lang='ru')
 
-# Создаем файл SUMMARY.md  для  английских  файлов
+# создание файл SUMMARY.md  для  английских  файлов
 make_summary._make_summary(src_dir=Path('/path/to/hypotez/src'), summary_file=Path('/path/to/hypotez/docs/SUMMARY.md'), lang='en')
 
 ```
@@ -119,10 +119,10 @@ print(summary_file)
 from pathlib import Path
 import make_summary
 
-# Создаем  файл  SUMMARY.md  для  русских  файлов
+# создание  файл  SUMMARY.md  для  русских  файлов
 make_summary.make_summary(docs_dir=Path('/path/to/hypotez/src'), lang='ru')
 
-# Создаем  файл  SUMMARY.md  для  английских  файлов
+# создание  файл  SUMMARY.md  для  английских  файлов
 make_summary.make_summary(docs_dir=Path('/path/to/hypotez/src'), lang='en')
 ```
 ```markdown

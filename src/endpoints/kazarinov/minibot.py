@@ -4,17 +4,17 @@
 #! .pyenv/bin/python3
 
 """
+
+
+This module implements a Telegram bot that interacts with users to fetch and process data from OneTab links, allowing for the creation of a price list for Kazarinov.
+========================================================================
 ```rst
 .. module:: src.endpoints.kazarinov.minibot 
 ```
-
-Минибот для обслуживания запросов на создание прайслиста для Казаринова
-========================================================================
-
-
-[Документация](https://github.com/hypo69/hypotez/blob/master/docs/ru/src/endpoints/kazarinov/minibot.py.md)
 """
-
+import time
+import threading
+import requests
 import telebot
 import os
 import datetime
@@ -33,7 +33,7 @@ from src.endpoints.kazarinov.scenarios.scenario import Scenario
 from src.endpoints.kazarinov.scenarios.fetch_one_tab import fetch_one_tab_data
 from src.utils.url import is_url
 from src.utils.printer import pprint as print
-from src import USE_ENV
+from src import USE_ENV # <- Глобальная 
 
 
 # --- config.py -----------------
@@ -62,7 +62,9 @@ class Config:
     /time - Shows the current time.
     /photo - Sends a random photo.
     """
-    WINDOW_MODE: str = 'hidden'
+    CONNECTION_CHECK_INTERVAL: int = 30  # Интервал проверки соединения в секундах
+
+    WINDOW_MODE: str = 'hidden' # Установка режима браузера
 
     if USE_ENV:
         from dotenv import load_dotenv
@@ -282,38 +284,50 @@ def handle_unknown_command(message):
     logger.info(f'User {message.from_user.username} send unknown command: {message.text}')
     bot.send_message(message.chat.id, config.UNKNOWN_COMMAND_MESSAGE)
 
-# def main():
-
-#     try:
-#         logger.info(f'Starting bot in {Config.MODE} mode')
-#         bot.polling(none_stop=True)
-        
-#     except Exception as ex:
-#         logger.error(f'Error during bot polling: ', ex, False)
-#         ...
-#         try:
-#             bot.stop_bot()
-#         except Exception as ex:
-#             logger.error(f'Ошибка останова бота:', ex, False)
-#         logger.debug('Повторный запуск через 10 сек')
-#         time.sleep(10)
-#         main()
-
-def run_bot(attempts:int = 3) -> None:
+def check_connection_status(url: str = "https://api.telegram.org") -> None:
     """
-    Запускает polling-бота в бесконечном цикле с автоматическим восстановлением при ошибках.
+    Проверяет соединение с заданным URL каждые `Config.CONNECTION_CHECK_INTERVAL` секунд.
 
+    При обнаружении разрыва соединения вызывает аварийное завершение процесса.
+
+    Args:
+        url (str): URL для проверки соединения. По умолчанию Telegram API.
+
+    Returns:
+        None
+    """
+    while True:
+        try:
+            response = requests.get(url, timeout=5)
+            if response.status_code != 200:
+                logger.warning(f"Статус ответа от сервера: {response.status_code}")
+        except Exception as e:
+            logger.error("Обнаружена потеря соединения с сервером!", exc_info=True)
+            os._exit(1)
+        time.sleep(Config.CONNECTION_CHECK_INTERVAL)
+
+
+def run_bot(attempts: int = 3) -> None:
+    """
+    Запуск polling-бота в бесконечном цикле с автоматическим восстановлением при ошибках.
+    Также запускает фоновую задачу для периодической проверки соединения с Telegram API.
     При возникновении исключений выполняется остановка бота и повторный запуск через 10 секунд.
+
+    Args:
+        attempts (int): Количество попыток запуска. Должно быть >= 1.
 
     Raises:
         Exception: Повторно пробрасывается при фатальной ошибке, если бот не может быть запущен.
     """
     if attempts < 1:
-        return False
+        raise Exception("Недопустимое количество попыток запуска")
+
+    # Старт фоновой проверки соединения
+    threading.Thread(target=check_connection_status, daemon=True).start()
+
     try:
         logger.info(f'\n\t --- \n\tStart bot in `{Config.MODE}` mode\n')
         bot.infinity_polling()
-        
 
     except Exception as ex:
         logger.error('Error during bot polling', ex, exc_info=True)
@@ -325,7 +339,8 @@ def run_bot(attempts:int = 3) -> None:
 
         logger.debug('Повторный запуск через 10 секунд')
         time.sleep(10)
-        run_bot(attempts+1)
+        run_bot(attempts + 1)
+
 
 if __name__ == '__main__':
     run_bot()

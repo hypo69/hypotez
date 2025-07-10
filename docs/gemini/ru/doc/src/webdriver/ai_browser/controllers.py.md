@@ -58,7 +58,7 @@
     def _check_driver(self) -> bool:
         """ Проверяет, был ли драйвер успешно инициализирован. """
         if self.driver is None:
-            # Используем ваш формат
+            # Используется ваш формат
             logger.error("Драйвер браузера не был инициализирован.", None, exc_info=False)
             return False
         return True

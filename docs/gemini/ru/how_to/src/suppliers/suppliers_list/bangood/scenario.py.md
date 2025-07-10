@@ -31,7 +31,7 @@ supplier.set_url(category_page_url)
 # Вызываем функцию для получения списка URL-адресов товаров
 products_urls = get_list_products_in_category(supplier)
 
-# Проверяем результат
+# Проверка результат
 if products_urls:
     print(f"Найдено {len(products_urls)} товаров")
     for url in products_urls:

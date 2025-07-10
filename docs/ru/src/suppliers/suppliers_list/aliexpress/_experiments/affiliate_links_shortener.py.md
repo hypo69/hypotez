@@ -65,7 +65,7 @@ print(short_link)
 
 ## Параметры модуля
 
-- `a`: экземпляр класса `AffiliateLinksShortener`, используемый для сокращения ссылок.
+- `a`: экземпляр класса `AffiliateLinksShortener`, Используетсяый для сокращения ссылок.
 - `url` (str): URL для сокращения.
 - `link` (str): Результат сокращения URL, полученный с использованием метода `short_affiliate_link`.
 

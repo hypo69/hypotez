@@ -17,9 +17,9 @@
 **Наследует**: `PollinationsAI`
 
 **Атрибуты**:
-- `label` (str): Метка класса, определяющая используемый провайдер ("PollinationsImage").
-- `default_model` (str): Модель, используемая по умолчанию ("flux").
-- `default_vision_model` (None): Модель vision, используемая по умолчанию (None).
+- `label` (str): Метка класса, определяющая Используетсяый провайдер ("PollinationsImage").
+- `default_model` (str): Модель, Используетсяая по умолчанию ("flux").
+- `default_vision_model` (None): Модель vision, Используетсяая по умолчанию (None).
 - `default_image_model` (str): Модель генерации изображений по умолчанию, соответствующая `default_model` ("flux").
 - `image_models` (list[str]): Список поддерживаемых моделей для генерации изображений, включающий `default_image_model`.
 - `_models_loaded` (bool): Флаг, указывающий, были ли загружены модели (изначально `False`).

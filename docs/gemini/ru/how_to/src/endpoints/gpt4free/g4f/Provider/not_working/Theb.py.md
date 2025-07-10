@@ -18,10 +18,10 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.Theb import Theb
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем объект провайдера TheB.AI
+# создание объект провайдера TheB.AI
 provider = Theb()
 
-# Определяем текст подсказки
+# Определение текст подсказки
 messages = Messages(
     [
         {

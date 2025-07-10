@@ -20,7 +20,7 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.Aivvm import Aivvm
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем экземпляр класса Aivvm
+# создание экземпляр класса Aivvm
 provider = Aivvm()
 
 # Список сообщений для отправки

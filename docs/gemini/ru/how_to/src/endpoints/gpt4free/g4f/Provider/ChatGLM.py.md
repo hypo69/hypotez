@@ -26,7 +26,7 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.ChatGLM import ChatGLM
 
 async def main():
-    # Создаем экземпляр класса ChatGLM
+    # создание экземпляр класса ChatGLM
     chatglm = ChatGLM()
 
     # Формируем список сообщений

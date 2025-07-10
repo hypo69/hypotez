@@ -24,7 +24,7 @@ def my_custom_handler(update: Update, context: CallbackContext) -> None:
     user_message = update.message.text
     logger.info(f"Получено сообщение от пользователя: {user_message}")
 
-# Создаем экземпляр TelegramBot
+# создание экземпляр TelegramBot
 telegram_bot = TelegramBot('your_telegram_bot_token')
 
 # Заменяем стандартный обработчик на наш собственный
@@ -34,4 +34,4 @@ telegram_bot.replace_message_handler(my_custom_handler)
 telegram_bot.application.run_polling() 
 ```
 
-В этом примере мы создаем функцию `my_custom_handler`, которая просто печатает полученное сообщение в лог. Затем мы передаем эту функцию `replace_message_handler()` для замены стандартного обработчика. После этого, все текстовые сообщения будут обрабатываться функцией `my_custom_handler`.
+В этом примере мы создание функцию `my_custom_handler`, которая просто печатает полученное сообщение в лог. Затем мы передаем эту функцию `replace_message_handler()` для замены стандартного обработчика. После этого, все текстовые сообщения будут обрабатываться функцией `my_custom_handler`.

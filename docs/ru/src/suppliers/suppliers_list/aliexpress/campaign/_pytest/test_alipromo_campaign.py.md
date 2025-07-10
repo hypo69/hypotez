@@ -70,7 +70,7 @@ def test_initialize_campaign(mocker, campaign):
 - `src.utils.file.get_filenames` патчится, чтобы возвращать пустой список, имитируя отсутствие JSON-файлов.
 - `src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.fetch_product_data` патчится, чтобы возвращать пустой список.
 - Вызывается метод `get_category_products` у экземпляра `campaign` с параметром `force=True`.
-- Проверяется, что возвращаемый список товаров пуст.
+- Проверяется, что Возвратый список товаров пуст.
 
 **Примеры**:
 ```python
@@ -96,7 +96,7 @@ def test_get_category_products_no_json_files(mocker, campaign):
 - `src.utils.file.get_filenames` патчится, чтобы возвращать список с именем JSON-файла.
 - `src.utils.jjson.j_loads_ns` патчится, чтобы возвращать `mock_product_data`.
 - Вызывается метод `get_category_products` у экземпляра `campaign`.
-- Проверяется, что возвращаемый список товаров содержит один элемент и что атрибуты `product_id` и `product_title` соответствуют ожидаемым значениям.
+- Проверяется, что Возвратый список товаров содержит один элемент и что атрибуты `product_id` и `product_title` соответствуют ожидаемым значениям.
 
 **Примеры**:
 ```python
@@ -122,7 +122,7 @@ def test_get_category_products_with_json_files(mocker, campaign):
 **Как работает функция**:
 - Создается словарь `product_data` с данными товара.
 - Вызывается метод `create_product_namespace` у экземпляра `campaign` с данными товара.
-- Проверяется, что атрибуты `product_id` и `product_title` у возвращаемого объекта соответствуют ожидаемым значениям.
+- Проверяется, что атрибуты `product_id` и `product_title` у Возвратого объекта соответствуют ожидаемым значениям.
 
 **Примеры**:
 ```python
@@ -147,7 +147,7 @@ def test_create_product_namespace(campaign):
 **Как работает функция**:
 - Создается словарь `category_data` с данными категории.
 - Вызывается метод `create_category_namespace` у экземпляра `campaign` с данными категории.
-- Проверяется, что атрибуты `name` и `tags` у возвращаемого объекта соответствуют ожидаемым значениям.
+- Проверяется, что атрибуты `name` и `tags` у Возвратого объекта соответствуют ожидаемым значениям.
 
 **Примеры**:
 ```python
@@ -174,7 +174,7 @@ def test_create_category_namespace(campaign):
 **Как работает функция**:
 - Создается словарь `campaign_data` с данными кампании.
 - Вызывается метод `create_campaign_namespace` у экземпляра `campaign` с данными кампании.
-- Проверяется, что атрибуты `name` и `title` у возвращаемого объекта соответствуют ожидаемым значениям.
+- Проверяется, что атрибуты `name` и `title` у Возвратого объекта соответствуют ожидаемым значениям.
 
 **Примеры**:
 ```python
@@ -234,7 +234,7 @@ def test_prepare_products(mocker, campaign):
 - Создается список `mock_products` с мок-объектами товаров.
 - `src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products` патчится, чтобы возвращать `mock_products`.
 - Вызывается метод `fetch_product_data` у экземпляра `campaign` с `product_ids`.
-- Проверяется, что возвращаемый список товаров содержит два элемента и что атрибуты `product_id` соответствуют ожидаемым значениям.
+- Проверяется, что Возвратый список товаров содержит два элемента и что атрибуты `product_id` соответствуют ожидаемым значениям.
 
 **Примеры**:
 ```python
@@ -288,7 +288,7 @@ def test_save_product(mocker, campaign):
 - Создаются мок-объекты `product1` и `product2`, представляющие товары.
 - Атрибуту `category.products` экземпляра `campaign` присваивается список с `product1` и `product2`.
 - Вызывается метод `list_campaign_products` у экземпляра `campaign`.
-- Проверяется, что возвращаемый список заголовков товаров соответствует ожидаемым значениям.
+- Проверяется, что Возвратый список заголовков товаров соответствует ожидаемым значениям.
 
 **Примеры**:
 ```python

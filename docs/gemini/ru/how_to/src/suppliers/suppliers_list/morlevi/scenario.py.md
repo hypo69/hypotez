@@ -36,7 +36,7 @@
 from src.suppliers.suppliers_list.morlevi.scenario import get_list_products_in_category
 from src.suppliers.suppliers_list.morlevi.scenario import Supplier
 
-# Создаем объект Supplier
+# создание объект Supplier
 supplier = Supplier(
     # Задаем атрибуты Supplier
 )
@@ -44,7 +44,7 @@ supplier = Supplier(
 # Получаем список URL-адресов товаров из категории
 product_urls = get_list_products_in_category(supplier)
 
-# Используем полученный список
+# Используется полученный список
 for url in product_urls:
     # Обрабатываем каждый URL-адрес товара
     print(url)

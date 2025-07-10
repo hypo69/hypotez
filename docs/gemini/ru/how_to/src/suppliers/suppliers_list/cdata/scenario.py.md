@@ -35,7 +35,7 @@
 ```python
 from src.suppliers.suppliers_list.cdata.scenario import get_list_products_in_category
 
-# Создаем объект Supplier
+# создание объект Supplier
 supplier = Supplier(
     "bangood",
     # ... дополнительные параметры
@@ -44,7 +44,7 @@ supplier = Supplier(
 # Вызываем функцию для получения списка ссылок на товары
 product_urls = get_list_products_in_category(supplier)
 
-# Используем полученный список ссылок
+# Используется полученный список ссылок
 if product_urls:
     for url in product_urls:
         # ... обработать ссылку на товар 

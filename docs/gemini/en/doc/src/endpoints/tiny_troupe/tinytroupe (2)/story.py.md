@@ -109,11 +109,11 @@ from tinytroupe.environment import TinyWorld
 from tinytroupe.agent import TinyPerson
 from tinytroupe.story import TinyStory
 
-# Создаем среду и агента
+# создание среду и агента
 environment = TinyWorld()
 agent = TinyPerson(environment=environment)
 
-# Создаем экземпляр TinyStory
+# создание экземпляр TinyStory
 story = TinyStory(agent=agent)
 
 # Начинаем историю

@@ -40,7 +40,7 @@ class Settings(BaseSettings):
 # Получаем параметры для загрузки переменных среды
 settings = Settings()
 
-# Инициализируем бота и диспетчер
+# Инициализация бота и диспетчер
 bot = Bot(token=settings.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher(storage=MemoryStorage())
 admins = settings.ADMIN_IDS

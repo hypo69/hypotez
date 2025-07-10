@@ -385,7 +385,7 @@ class SpreadSheet:
                     current_cell_value_processed = current_cell_value_processed.lower()
                 
                 if current_cell_value_processed == search_value_processed:
-                    return i + 1  # Возвращаем 1-based индекс строки
+                    return i + 1  # Возврат 1-based индекс строки
             return None # Не найдено
         except Exception as ex:
             logger.error(f"Ошибка при поиске значения '{value_to_find}' в листе '{worksheet_name}': {ex}", exc_info=True)
@@ -489,14 +489,14 @@ class SpreadSheet:
 
             data_to_process: List[List[Any]] = all_sheet_values[data_start_0based_idx:]
             
-            # Если не указаны конкретные колонки, возвращаем все (или DataFrame из всего)
+            # Если не указаны конкретные колонки, Возврат все (или DataFrame из всего)
             if not column_spec:
                 if return_as_dataframe:
                     # Если headers_list пуст (header_row_num=0 или лист без заголовков),
                     # DataFrame будет использовать числовые индексы для колонок.
                     return pd.DataFrame(data_to_process, columns=headers_list if headers_list else None)
                 else:
-                    # Если нужен список списков и нет column_spec, возвращаем все значения как есть
+                    # Если нужен список списков и нет column_spec, Возврат все значения как есть
                     return all_sheet_values 
 
             # Если указаны колонки для выборки (column_spec)
@@ -558,7 +558,7 @@ class SpreadSheet:
                     selected_headers = [headers_list[i] for i in target_col_0based_indices if 0 <= i < len(headers_list)]
                 return pd.DataFrame(selected_data_rows, columns=selected_headers)
             else:
-                # Если нужен список списков и был column_spec, возвращаем только выбранные данные (без заголовков)
+                # Если нужен список списков и был column_spec, Возврат только выбранные данные (без заголовков)
                 return selected_data_rows
 
         except Exception as ex:

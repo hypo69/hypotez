@@ -30,7 +30,7 @@
 - `language` (str): Язык рекламной кампании.
 - `currency` (str): Валюта рекламной кампании.
 - `file_path` (str): Путь к JSON-файлу с описанием рекламной кампании.
-- `editor` (AliCampaignEditor): Объект `AliCampaignEditor`, используемый для подготовки категорий.
+- `editor` (AliCampaignEditor): Объект `AliCampaignEditor`, Используетсяый для подготовки категорий.
 - `main_app` (MainApp):  Ссылка на основной класс приложения.
 
 
@@ -112,7 +112,7 @@ category_editor.prepare_category_async()
 - `language` (str): Язык рекламной кампании.
 - `currency` (str): Валюта рекламной кампании.
 - `file_path` (str): Путь к JSON-файлу с описанием рекламной кампании.
-- `editor` (AliCampaignEditor): Объект `AliCampaignEditor`, используемый для подготовки категорий.
+- `editor` (AliCampaignEditor): Объект `AliCampaignEditor`, Используетсяый для подготовки категорий.
 - `main_app` (MainApp):  Ссылка на основной класс приложения.
 
 ## Примеры

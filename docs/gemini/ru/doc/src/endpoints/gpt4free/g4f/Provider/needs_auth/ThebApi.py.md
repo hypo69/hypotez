@@ -20,7 +20,7 @@
  - `api_base` (str): Базовый URL API TheB.AI.
  - `working` (bool): Флаг, указывающий на работоспособность API TheB.AI.
  - `needs_auth` (bool): Флаг, указывающий на необходимость аутентификации при взаимодействии с API TheB.AI.
- - `default_model` (str): Название модели по умолчанию, используемой TheB.AI.
+ - `default_model` (str): Название модели по умолчанию, Используетсяой TheB.AI.
  - `fallback_models` (list): Список доступных моделей в TheB.AI.
 
 **Методы**:

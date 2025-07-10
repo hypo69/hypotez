@@ -22,7 +22,7 @@
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.gui.server.app import create_app
 
-# Создаем приложение Flask
+# создание приложение Flask
 app = create_app()
 
 # Запускаем приложение Flask

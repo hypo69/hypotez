@@ -161,7 +161,7 @@ dp.middleware.setup(db_middleware)
 # Пример обработчика
 async def handler(message: Message, data: Dict[str, Any]):
     session = data['session_with_commit']
-    # Используем сессию для взаимодействия с базой данных
+    # Используется сессию для взаимодействия с базой данных
     # ...
     return ...
 

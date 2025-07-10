@@ -27,7 +27,7 @@ from src.suppliers.suppliers_list.amazon.login import login
 from src.suppliers.suppliers_list.amazon.supplier import Amazon
 # ...
 
-supplier = Amazon()  # Создаем объект Amazon
+supplier = Amazon()  # создание объект Amazon
 success = login(supplier) # Вызываем функцию login, передавая объект Amazon
 
 if success:

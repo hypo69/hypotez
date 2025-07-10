@@ -29,7 +29,7 @@ catalog_data = [
     Category(id=2, category_name="Обувь"),
 ]
 
-# Создаем клавиатуру с категориями
+# создание клавиатуру с категориями
 kb = catalog_admin_kb(catalog_data)
 
 # Отправляем клавиатуру пользователю

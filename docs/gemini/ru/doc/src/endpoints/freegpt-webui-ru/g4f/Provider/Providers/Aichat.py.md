@@ -69,6 +69,6 @@ provider = Providers.Aichat()
 file_name = os.path.basename(__file__)[:-3]
 
 # Вывод информации о провайдере Aichat
-logger.info(f'Используемый провайдер: {file_name}')
+logger.info(f'Используетсяый провайдер: {file_name}')
 logger.info(f'Функция _create_completion: {get_type_hints(provider._create_completion)}')
 ```

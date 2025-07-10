@@ -16,7 +16,7 @@
 
 **Атрибуты**:
 
-- `model` (str): Имя используемой модели, по умолчанию "gpt-4o-mini".
+- `model` (str): Имя Используетсяой модели, по умолчанию "gpt-4o-mini".
 - `client` (OpenAI): Клиент OpenAI для взаимодействия с API.
 - `current_job_id` (str): ID текущей задачи обучения.
 - `assistant_id` (str): ID ассистента OpenAI.
@@ -282,7 +282,7 @@ def save_job_id(self, job_id: str, description: str, filename: str = "job_ids.js
 
 ## Параметры класса
 
-- `model` (str): Имя используемой модели, по умолчанию "gpt-4o-mini".
+- `model` (str): Имя Используетсяой модели, по умолчанию "gpt-4o-mini".
 - `client` (OpenAI): Клиент OpenAI для взаимодействия с API.
 - `current_job_id` (str): ID текущей задачи обучения.
 - `assistant_id` (str): ID ассистента OpenAI.

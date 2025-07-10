@@ -30,8 +30,8 @@ assistant.process_files()
 - `config` (SimpleNamespace): Объект, содержащий конфигурационные данные, загруженные из `code_assistant.json`.
 - `roles_list` (list): Список доступных ролей для `CodeAssistant`.
 - `languages_list` (list): Список доступных языков для `CodeAssistant`.
-- `role` (str): Текущая роль, используемая `CodeAssistant`.
-- `lang` (str): Текущий язык, используемый `CodeAssistant`.
+- `role` (str): Текущая роль, Используетсяая `CodeAssistant`.
+- `lang` (str): Текущий язык, Используетсяый `CodeAssistant`.
 - `process_dirs` (list[Path]): Список директорий для обработки.
 - `exclude_dirs` (list[Path]): Список директорий, которые не должны обрабатываться.
 - `exclude_files_patterns` (list[Path]): Список паттернов для исключения файлов из обработки.

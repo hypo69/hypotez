@@ -15,7 +15,7 @@
 **Назначение**: Инициализация клиента для взаимодействия с провайдером `HuggingFaceMedia`.
 
 **Параметры**:
-- `provider` (g4f.Provider): Провайдер, используемый для генерации видео. В данном случае `g4f.Provider.HuggingFaceMedia`.
+- `provider` (g4f.Provider): Провайдер, Используетсяый для генерации видео. В данном случае `g4f.Provider.HuggingFaceMedia`.
 - `api_key` (str): API ключ для доступа к сервисам HuggingFaceMedia.
 
 **Примеры**:

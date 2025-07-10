@@ -93,7 +93,7 @@ async def successful_payment_logic(session: AsyncSession, payment_data, currency
 - `user_tg_id` (int): Telegram ID пользователя.
 - `bot` (Bot): Объект бота Telegram.
 
-**Возвращаемое значение**:
+**Возвратое значение**:
 - `None`
 
 **Возможные исключения**:

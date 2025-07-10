@@ -39,10 +39,10 @@ from src.utils.jjson import j_loads
 # Загружаем данные о товаре из JSON-файла
 product_data = j_loads(Path('/path/to/product_data.json'))
 
-# Создаем объект ProductFields из данных о товаре
+# создание объект ProductFields из данных о товаре
 product_fields = ProductFields(**product_data)
 
-# Создаем экземпляр QuotationBuilder
+# создание экземпляр QuotationBuilder
 quotation_builder = QuotationBuilder(mexiron_name='my_mexiron_name')
 
 # Преобразуем данные о товаре в словарь

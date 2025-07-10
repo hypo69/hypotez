@@ -14,7 +14,7 @@ from pathlib import Path
 import argparse
 import header  # Импорт модуля, который определяет корневой путь проекта
 
-# Используем корневой путь проекта
+# Используется корневой путь проекта
 PROJECT_ROOT = header.__root__
 
 def make_summary(docs_dir: Path, lang: str = 'en') -> None:
@@ -25,7 +25,7 @@ def make_summary(docs_dir: Path, lang: str = 'en') -> None:
         docs_dir (Path): Путь к исходной директории 'src'.
         lang (str): Язык фильтрации файлов. Возможные значения: 'ru' или 'en'.
     """
-    # Используем корневой путь для формирования пути к SUMMARY.md
+    # Используется корневой путь для формирования пути к SUMMARY.md
     summary_file = prepare_summary_path(docs_dir)
     summary_file.parent.mkdir(parents=True, exist_ok=True)
     _make_summary(docs_dir, summary_file, lang)
@@ -76,7 +76,7 @@ def prepare_summary_path(src_dir: Path, file_name: str = 'SUMMARY.md') -> Path:
     Returns:
         Path: Новый путь к файлу.
     """
-    # Используем корневой путь для формирования пути к SUMMARY.md
+    # Используется корневой путь для формирования пути к SUMMARY.md
     new_dir = PROJECT_ROOT / 'docs'
     summary_file = new_dir / file_name
     return summary_file

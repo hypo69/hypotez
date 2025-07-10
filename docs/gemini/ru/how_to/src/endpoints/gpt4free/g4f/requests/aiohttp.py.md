@@ -21,7 +21,7 @@ from hypotez.src.endpoints.gpt4free.g4f.requests.aiohttp import StreamSession
 async def main():
     async with StreamSession(headers={'User-Agent': 'Mozilla/5.0'}) as session:
         async with session.get('https://www.example.com') as response:
-            # Проверяем статус ответа
+            # Проверка статус ответа
             if response.status == 200:
                 # Получаем заголовки
                 headers = response.headers

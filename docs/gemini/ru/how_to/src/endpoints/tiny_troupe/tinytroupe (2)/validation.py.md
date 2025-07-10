@@ -34,7 +34,7 @@
 from tinytroupe import TinyPerson
 from tinytroupe.validation import TinyPersonValidator
 
-# Создаем объект TinyPerson
+# создание объект TinyPerson
 person = TinyPerson(name="John Doe", minibio="John Doe is a software engineer.")
 
 # Валидируем объект TinyPerson

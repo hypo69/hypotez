@@ -30,7 +30,7 @@ class User(JsonSerializableRegistry):
         self.age = age
         self.email = email
 
-# Создаем экземпляр User
+# создание экземпляр User
 user = User(name='Иван', age=30, email='ivan@example.com')
 
 # Сериализуем в JSON

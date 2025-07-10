@@ -151,7 +151,7 @@
     from selenium.webdriver.firefox.options import Options
     from src.webdriver.firefox.firefox import Firefox
 
-    # Создаем объект Firefox
+    # создание объект Firefox
     driver = Firefox()
     options = Options()
     # Пример вызова функции set_proxy
@@ -169,7 +169,7 @@
     ```python
     from src.webdriver.firefox.firefox import Firefox
 
-    # Создаем объект Firefox
+    # создание объект Firefox
     driver = Firefox()
 
     # Пример вызова функции _payload

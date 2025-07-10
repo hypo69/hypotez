@@ -89,7 +89,7 @@ async def main_example():
         logger.info(f'Read tax: {read_rec}')
 
         # Search the first 3 taxes with 'Async' in the name
-        # Используем from src.utils.printer import pprint as print
+        # Используется from src.utils.printer import pprint as print
         recs = await api.search_async('taxes', filter={'name': '%Async%'}, limit='3') 
 
         if recs and recs.get('taxes'):
@@ -98,7 +98,7 @@ async def main_example():
             if isinstance(taxes_found, dict): # Если один налог, он не в списке
                 taxes_found = [taxes_found]
             for r_item in taxes_found: 
-                print(r_item) # Используем print (который есть pprint)
+                print(r_item) # Используется print (который есть pprint)
 
         # Remove this tax
         success = await api.unlink_async('taxes', str(tax_id))
@@ -158,10 +158,10 @@ class Config:
     и взаимодействия с API PrestaShop.
 
     Attributes:
-        language (int): ID языка по умолчанию, используемый в запросах к API.
+        language (int): ID языка по умолчанию, Используетсяый в запросах к API.
         ps_version (str): Версия PrestaShop. Определяется автоматически при первом подключении.
         MODE (str): Режим работы (например, 'dev', 'prod'). Влияет на выбор конечной точки API, если используется.
-        POST_FORMAT (str): Формат данных ('JSON' или 'XML'), используемый для тел запросов POST/PUT.
+        POST_FORMAT (str): Формат данных ('JSON' или 'XML'), Используетсяый для тел запросов POST/PUT.
         API_DOMAIN (str): Базовый URL-адрес магазина PrestaShop (например, 'https://yourshop.com').
         API_KEY (str): Ключ доступа к API PrestaShop.
     """
@@ -197,7 +197,7 @@ class PrestaShopAsync:
         ...     # Замените на реальные данные
         ...     # async with PrestaShopAsync('YOUR_API_KEY', 'https://yourshop.com') as api:
         ...     #     is_ok = await api.ping_async()
-        ...     #     print(f'Ping: {is_ok}') # Используем print (pprint)
+        ...     #     print(f'Ping: {is_ok}') # Используется print (pprint)
         ...     pass # Пример требует реального API для выполнения
         >>> # import asyncio
         >>> # asyncio.run(run_example())
@@ -427,7 +427,7 @@ class PrestaShopAsync:
 
         try:
             content_type_header: str = response.headers.get('content-type', '').lower()
-            # Используем уже прочитанный response_text_for_log для парсинга, если это возможно,
+            # Используется уже прочитанный response_text_for_log для парсинга, если это возможно,
             # или позволяем response.json()/response.text() прочитать снова, если нужно.
             # httpx.Response.json() и .text() могут быть вызваны только один раз без предварительного stream.
             # Если мы уже сделали response.aread(), то нужно парсить из полученных байт/текста.
@@ -441,7 +441,7 @@ class PrestaShopAsync:
                     error_message_raw = j_dumps(error_content_parsed)
 
             elif 'application/xml' in content_type_header or 'text/xml' in content_type_header:
-                xml_text: str = response_bytes.decode('utf-8', errors='replace') # Используем прочитанные байты
+                xml_text: str = response_bytes.decode('utf-8', errors='replace') # Используется прочитанные байты
                 error_message_raw = xml_text
                 parsed_xml_error: dict | list[Any] | None = xml2dict(xml_text)
                 if isinstance(parsed_xml_error, dict):
@@ -456,7 +456,7 @@ class PrestaShopAsync:
                 else:
                     error_content_parsed = {'message': 'Структура XML ошибки не распознана или xml2dict не вернул словарь.'}
             else:
-                error_message_raw = response_text_for_log # Используем то, что смогли прочитать
+                error_message_raw = response_text_for_log # Используется то, что смогли прочитать
                 error_content_parsed = {'message': f'Неизвестный формат ответа или пустой ответ. Content-Type: {content_type_header}'}
 
         except json.JSONDecodeError as ex_json:
@@ -624,7 +624,7 @@ class PrestaShopAsync:
 
         Args:
             response (httpx.Response): Объект HTTP-ответа от `httpx`.
-            data_format (str): Ожидаемый формат данных ('JSON' или 'XML'), используемый как fallback.
+            data_format (str): Ожидаемый формат данных ('JSON' или 'XML'), Используетсяый как fallback.
 
         Returns:
             dict | None: Разобранные данные в виде словаря, или `None` в случае ошибки разбора.
@@ -646,7 +646,7 @@ class PrestaShopAsync:
                     return None 
 
             # Определение фактического формата для парсинга по Content-Type
-            actual_parse_format: str = data_format # Используем ожидаемый формат по умолчанию
+            actual_parse_format: str = data_format # Используется ожидаемый формат по умолчанию
             if 'application/json' in response_content_type:
                 actual_parse_format = 'JSON'
             elif 'application/xml' in response_content_type or 'text/xml' in response_content_type :
@@ -670,7 +670,7 @@ class PrestaShopAsync:
             # Если xml2dict вернул список (например, для корневого элемента, который является списком)
             if isinstance(parsed_data, list):
                  # Это может быть специфично для вашего xml2dict. Если API возвращает список объектов без обертки.
-                 # Преобразуем в словарь с ключом по умолчанию, чтобы соответствовать возвращаемому типу dict | None
+                 # Преобразуем в словарь с ключом по умолчанию, чтобы соответствовать Возвратому типу dict | None
                  logger.warning(f'Ответ API был списком, обернут в словарь с ключом "data": {parsed_data[:3]}...')
                  return {'data': parsed_data}
 
@@ -817,11 +817,11 @@ class PrestaShopAsync:
     async def create_binary_async(self, resource_path: str, file_path: str, file_name_in_request: str) -> dict | None:
         """
         Асинхронно загружает бинарный файл (например, изображение) в PrestaShop API.
-        Используется для загрузки файлов напрямую, например, при создании изображений для продуктов.
+        Используется для загрузки файлов напрямую, например, при создании изображений для товаров.
 
         Args:
             resource_path (str): Путь к ресурсу API, куда будет загружен файл 
-                                 (например, 'images/products/22' для изображения продукта с ID 22).
+                                 (например, 'images/products/22' для изображения товара с ID 22).
             file_path (str): Локальный путь к файлу, который необходимо загрузить.
             file_name_in_request (str): Имя файла, которое будет указано в multipart/form-data запросе. 
                                         PrestaShop может использовать это имя или сгенерировать свое.
@@ -969,7 +969,7 @@ class PrestaShopAsync:
         Args:
             resource_images_path (str): Базовый путь для изображений ресурса в API PrestaShop 
                                         (например, 'images/products').
-            entity_id (int): ID сущности (например, продукта, категории), к которой будет 
+            entity_id (int): ID сущности (например, товара, категории), к которой будет 
                              привязано изображение.
             img_url (str): URL-адрес изображения, которое необходимо скачать и загрузить.
             img_name_prefix (str | None, optional): Необязательный префикс, который будет добавлен 
@@ -1043,11 +1043,11 @@ class PrestaShopAsync:
 
     async def get_product_images_async(self, product_id: int) -> dict | None:
         """
-        Асинхронно получает информацию об изображениях для указанного продукта.
-        Данные извлекаются из секции `associations` в информации о продукте.
+        Асинхронно получает информацию об изображениях для указанного товара.
+        Данные извлекаются из секции `associations` в информации о товаре.
 
         Args:
-            product_id (int): Уникальный идентификатор продукта.
+            product_id (int): Уникальный идентификатор товара.
 
         Returns:
             dict | None: Словарь, содержащий список информации об изображениях 
@@ -1060,11 +1060,11 @@ class PrestaShopAsync:
             ... #     print(f"Found {len(product_images_info['images'])} images for product.")
             ... #     for img_info in product_images_info['images']: print(f"Image ID: {img_info.get('id')}")
         """
-        # Функция выполняет получение информации об изображениях продукта
+        # Функция выполняет получение информации об изображениях товара
         product_data: dict | None
         images_assoc_data: Any # Тип данных из associations может варьироваться
         
-        # Запрос полной информации о продукте для доступа к associations
+        # Запрос полной информации о товаре для доступа к associations
         product_data = await self.read_async('products', product_id, display='full')
         
         if product_data and 'product' in product_data: 
@@ -1078,10 +1078,10 @@ class PrestaShopAsync:
             elif isinstance(images_assoc_data, list): # Если associations.images это уже список ID или объектов
                  return {'images': images_assoc_data}
             elif not images_assoc_data: # Если associations.images пусто (None, пустой dict/list)
-                 logger.info(f'Для продукта {product_id} не найдено ассоциированных изображений.')
+                 logger.info(f'Для товара {product_id} не найдено ассоциированных изображений.')
                  return {'images': []} # Возврат пустого списка изображений для консистентности
         
-        logger.warning(f'Не удалось извлечь информацию об изображениях для продукта {product_id} через ассоциации.')
+        logger.warning(f'Не удалось извлечь информацию об изображениях для товара {product_id} через ассоциации.')
         return None
 
 
@@ -1091,7 +1091,7 @@ async def main_async() -> None:
     Выполняет операции создания, чтения, обновления, поиска и удаления налоговой ставки.
     Содержит также закомментированный пример для тестирования загрузки изображения.
     """
-    # Объявление переменных, используемых в функции
+    # Объявление переменных, Используетсяых в функции
     api_domain_val: str
     api_key_val: str
     data_format_val: str

@@ -155,17 +155,17 @@ class TinySocialNetwork(TinyWorld):
 from tinytroupe.environment.tiny_social_network import TinySocialNetwork
 from tinytroupe.agent import TinyPerson
 
-# Создаем социальную сеть
+# создание социальную сеть
 social_network = TinySocialNetwork("My Social Network")
 
-# Создаем двух агентов
+# создание двух агентов
 alice = TinyPerson("Alice")
 bob = TinyPerson("Bob")
 
 # Добавляем отношение между агентами
 social_network.add_relation(alice, bob, name="Friends")
 
-# Проверяем, находятся ли агенты в отношениях
+# Проверка, находятся ли агенты в отношениях
 print(social_network.is_in_relation_with(alice, bob, relation_name="Friends")) # Вывод: True
 print(social_network.is_in_relation_with(alice, bob, relation_name="Family")) # Вывод: False
 

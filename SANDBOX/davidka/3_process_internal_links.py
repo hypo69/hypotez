@@ -213,7 +213,7 @@ def rename_directory_if_no_products(directory_path: Path) -> None:
     """
     # Объявление переменных
     processed_links_file: Path
-    data: dict | list | None # Тип возвращаемого значения j_loads
+    data: dict | list | None # Тип Возвратого значения j_loads
     all_entries_count: int # Переменная для общего количества записей
     product_count: int
     new_dir_name: str
@@ -233,7 +233,7 @@ def rename_directory_if_no_products(directory_path: Path) -> None:
         logger.warning(f"Данные не загружены из {processed_links_file} или файл пуст/поврежден. Пропуск проверки для {directory_path}.")
         return
 
-    # Вызов функции и извлечение обоих возвращаемых значений
+    # Вызов функции и извлечение обоих Возвратых значений
     all_entries_count, product_count = _count_product_page_types(data) 
     
     logger.info(f"В {processed_links_file} найдено {all_entries_count} записей, из них {product_count} с 'page_type': 'product'.")

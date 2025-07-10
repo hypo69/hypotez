@@ -61,7 +61,7 @@
 
 ```python
 >>> from hypotez.src.endpoints.gpt4free.etc.unittest.model import TestPassModel, test_model
->>> # Создаем экземпляр тестового класса
+>>> # создание экземпляр тестового класса
 >>> test_class = TestPassModel()
 >>> # Запускаем тест
 >>> test_class.test_model_instance()

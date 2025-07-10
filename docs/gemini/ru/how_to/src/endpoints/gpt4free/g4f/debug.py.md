@@ -40,7 +40,7 @@ except ZeroDivisionError as e:
 
 # Проверка версии (только если version_check = True)
 if version_check:
-    # Проверяем установленную версию
+    # Проверка установленную версию
     if version is not None:
         log(f"Текущая версия: {version}")
     else:

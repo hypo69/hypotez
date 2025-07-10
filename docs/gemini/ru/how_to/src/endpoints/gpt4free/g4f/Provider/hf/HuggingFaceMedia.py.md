@@ -47,7 +47,7 @@ async def generate_image(prompt: str, model: str = "stable-diffusion-xl-base-1.0
             return media_response
 ```
 
-В этом примере мы используем метод `create_async_generator` для генерации изображения с помощью модели `stable-diffusion-xl-base-1.0`. 
+В этом примере мы Используется метод `create_async_generator` для генерации изображения с помощью модели `stable-diffusion-xl-base-1.0`. 
 - Мы передаем текст-подсказку (`prompt`) и имя модели (`model`) в качестве параметров.
 - Генератор возвращает объекты `ProviderInfo` и `ImageResponse`, которые содержат информацию о провайдере и результат генерации.
 - Функция `generate_image` возвращает объект `ImageResponse`, содержащий URL-адрес сгенерированного изображения.

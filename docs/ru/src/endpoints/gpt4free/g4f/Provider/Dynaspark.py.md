@@ -30,8 +30,8 @@
 - `supports_stream` (bool): Флаг, указывающий поддержку стриминга (в данном случае `True`).
 - `supports_system_message` (bool): Флаг, указывающий поддержку системных сообщений (в данном случае `False`).
 - `supports_message_history` (bool): Флаг, указывающий поддержку истории сообщений (в данном случае `False`).
-- `default_model` (str): Модель, используемая по умолчанию (`gemini-1.5-flash`).
-- `default_vision_model` (str): Модель для обработки изображений, используемая по умолчанию (`gemini-1.5-flash`).
+- `default_model` (str): Модель, Используетсяая по умолчанию (`gemini-1.5-flash`).
+- `default_vision_model` (str): Модель для обработки изображений, Используетсяая по умолчанию (`gemini-1.5-flash`).
 - `vision_models` (List[str]): Список поддерживаемых моделей для обработки изображений.
 - `models` (List[str]): Список поддерживаемых моделей.
 - `model_aliases` (Dict[str, str]): Словарь с псевдонимами моделей.
@@ -57,7 +57,7 @@
         Создает асинхронный генератор для получения ответов от Dynaspark API.
 
         Args:
-            model (str): Имя используемой модели.
+            model (str): Имя Используетсяой модели.
             messages (Messages): Список сообщений для отправки.
             proxy (str, optional): Адрес прокси-сервера. По умолчанию `None`.
             media (MediaListType, optional): Список медиа-файлов для отправки. По умолчанию `None`.
@@ -91,8 +91,8 @@
 - `supports_stream` (bool): Флаг, указывающий поддержку стриминга (в данном случае `True`).
 - `supports_system_message` (bool): Флаг, указывающий поддержку системных сообщений (в данном случае `False`).
 - `supports_message_history` (bool): Флаг, указывающий поддержку истории сообщений (в данном случае `False`).
-- `default_model` (str): Модель, используемая по умолчанию (`gemini-1.5-flash`).
-- `default_vision_model` (str): Модель для обработки изображений, используемая по умолчанию (`gemini-1.5-flash`).
+- `default_model` (str): Модель, Используетсяая по умолчанию (`gemini-1.5-flash`).
+- `default_vision_model` (str): Модель для обработки изображений, Используетсяая по умолчанию (`gemini-1.5-flash`).
 - `vision_models` (List[str]): Список поддерживаемых моделей для обработки изображений.
 - `models` (List[str]): Список поддерживаемых моделей.
 - `model_aliases` (Dict[str, str]): Словарь с псевдонимами моделей.

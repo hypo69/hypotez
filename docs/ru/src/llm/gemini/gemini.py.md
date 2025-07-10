@@ -19,7 +19,7 @@
 - `config` (SimpleNamespace): Конфигурация, загруженная из файла `gemini.json`.
 - `api_key` (str): Ключ API для доступа к Google Generative AI.
 - `system_instruction` (str): Системная инструкция для модели.
-- `model_name` (str): Имя используемой модели Gemini.
+- `model_name` (str): Имя Используетсяой модели Gemini.
 - `model` (genai.GenerativeModel): Инициализированный клиент модели `genai.GenerativeModel`.
 - `timestamp` (str): Текущая временная метка для именования файлов истории.
 - `_chat` (Any): Активный сеанс чата с моделью.

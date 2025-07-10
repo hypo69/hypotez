@@ -56,7 +56,7 @@ MODE = 'development'
       - Устанавливает начальную папку `src/utils` для поиска (`src_directory`) и создаёт папку `prod` для сохранения результатов.
       - Вызывает `collect_and_copy_files` для сбора структуры файлов и записывает её в `file_hierarchy.json` с использованием функции `j_dumps`.
 
-3. **Используемые библиотеки**:
+3. **Используетсяые библиотеки**:
    - `Path` из `pathlib` для работы с файловыми путями.
    - `copy2` из `shutil` для копирования файлов.
    - `j_dumps` из модуля `src.utils.jjson` для сохранения словаря с иерархией в формате JSON.
@@ -83,7 +83,7 @@ def collect_and_copy_files(directory: Path, target_directory: Path) -> dict:
 
 def main():
     src_directory = Path(header.__root__ , 'src' , 'utils')
-    project_structure_directory = Path(src_directory , 'prod')  # Создаем папку 'prod'
+    project_structure_directory = Path(src_directory , 'prod')  # создание папку 'prod'
     file_hierarchy = collect_and_copy_files(src_directory, project_structure_directory)
     json_output_path = Path(project_structure_directory, 'file_hierarchy.json')
     j_dumps(file_hierarchy, json_output_path)

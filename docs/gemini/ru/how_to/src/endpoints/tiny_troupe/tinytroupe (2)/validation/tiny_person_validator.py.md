@@ -32,7 +32,7 @@
 from tinytroupe import TinyPerson
 from tinytroupe.validation import TinyPersonValidator
 
-# Создаем экземпляр TinyPerson
+# создание экземпляр TinyPerson
 person = TinyPerson(name="Иван Иванов", minibio="Иван - обычный парень, который любит футбол.")
 
 # Валидируем TinyPerson

@@ -26,9 +26,9 @@ def make_summary(src_dir: Path = src_path , summary_file: Path = summary_path) -
     4. Файл `SUMMARY.md` будет содержать список всех `.md` файлов в директории, структурированный в виде глав с вложениями.
     """
 
-    # Проверяем, существует ли файл, если нет - создаем его
+    # Проверка, существует ли файл, если нет - создание его
     if not summary_file.exists():
-        print(f'Файл {summary_file} не существует. Создаем новый.')
+        print(f'Файл {summary_file} не существует. создание новый.')
     else:
         print(f'Файл {summary_file} уже существует. Его содержимое будет перезаписано.')
 
@@ -45,7 +45,7 @@ def make_summary(src_dir: Path = src_path , summary_file: Path = summary_path) -
             rel_path = path.relative_to(src_dir).as_posix()  # Относительный путь для ссылки
             chapter_name = path.stem.replace('_', ' ').capitalize()  # Преобразуем название в читаемый формат
 
-            # Определяем уровень вложенности, чтобы правильно оформить отступы
+            # Определение уровень вложенности, чтобы правильно оформить отступы
             indent = '  ' * rel_path.count('/')
             # Записываем главу в файл SUMMARY.md
             summary.write(f'{indent}- [{chapter_name}]({rel_path})\n')

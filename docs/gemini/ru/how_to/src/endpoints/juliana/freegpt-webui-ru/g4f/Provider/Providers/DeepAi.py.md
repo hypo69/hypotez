@@ -33,5 +33,5 @@ for chunk in _create_completion(model='gpt-3.5-turbo', messages=messages, stream
     print(chunk, end="")
 ```
 
-В данном примере мы используем `_create_completion` с параметрами `model='gpt-3.5-turbo'`, `messages=messages` (список сообщений) и `stream=True` (для потоковой передачи данных). 
+В данном примере мы Используется `_create_completion` с параметрами `model='gpt-3.5-turbo'`, `messages=messages` (список сообщений) и `stream=True` (для потоковой передачи данных). 
 Функция возвращает генератор, который выводит ответ модели частями.

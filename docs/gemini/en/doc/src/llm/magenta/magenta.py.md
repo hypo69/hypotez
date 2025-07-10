@@ -60,7 +60,7 @@ This module leverages Magenta's melody RNN model to generate music. The generate
         """
         if os.path.exists(self.primer_midi_file):
             primer_sequence = mm.midi_file_to_sequence_proto(self.primer_midi_file)
-            print(f"Используем primer из {self.primer_midi_file}")
+            print(f"Используется primer из {self.primer_midi_file}")
             return primer_sequence
         else:
             print("Не найдена primer, начинаем с пустой мелодии")

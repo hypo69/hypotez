@@ -42,7 +42,7 @@
 
 2.  **`speech_recognizer`**:
 
-*   *Удалить неиспользуемые импорты, такие как `j_loads`, `j_loads_ns`, `j_dumps`*.
+*   *Удалить неИспользуетсяые импорты, такие как `j_loads`, `j_loads_ns`, `j_dumps`*.
 *   *В блоке `try` добавить аннотации типов для переменных `response`, `audio_file_path`, `wav_file_path`, `audio`, `recognizer`, `source`, `audio_data`, `text`*.
 *   *Уточнить сообщение логирования в случае ошибки распознавания речи*.
 *   *Использовать `ex` вместо `e` в блоках `except`*.

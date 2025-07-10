@@ -47,10 +47,10 @@
 from src.webdriver.js import JavaScript
 from selenium import webdriver
 
-# Создаем экземпляр WebDriver
+# создание экземпляр WebDriver
 driver = webdriver.Chrome()
 
-# Инициализируем JavaScript-объект
+# Инициализация JavaScript-объект
 js = JavaScript(driver)
 
 # Переходим на веб-страницу

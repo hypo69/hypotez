@@ -268,4 +268,4 @@ async def successful_payment(message: Message, session_with_commit: AsyncSession
 
 ## Параметры модуля
 
-- `catalog_router`: Объект `Router` из библиотеки `aiogram`, используемый для регистрации обработчиков callback-запросов и сообщений, связанных с каталогом товаров.
+- `catalog_router`: Объект `Router` из библиотеки `aiogram`, Используетсяый для регистрации обработчиков callback-запросов и сообщений, связанных с каталогом товаров.

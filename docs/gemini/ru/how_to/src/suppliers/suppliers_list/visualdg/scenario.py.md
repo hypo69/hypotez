@@ -38,13 +38,13 @@
 from hypotez.src.suppliers.suppliers_list.visualdg.scenario import get_list_products_in_category
 from hypotez.src.suppliers.suppliers_list.visualdg.supplier import Supplier
 
-# Создаем объект Supplier
+# создание объект Supplier
 supplier = Supplier('visualdg', 'https://www.visualdg.com/category/1')
 
 # Вызываем функцию get_list_products_in_category
 product_urls = get_list_products_in_category(supplier)
 
-# Проверяем результат
+# Проверка результат
 if product_urls:
     print(f'Найдено {len(product_urls)} товаров.')
     # Дальнейшая обработка списка product_urls

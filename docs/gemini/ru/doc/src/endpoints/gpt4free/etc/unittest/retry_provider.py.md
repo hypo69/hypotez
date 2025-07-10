@@ -46,7 +46,7 @@
 
 **Возвращает**:
 
-- Нет возвращаемого значения
+- Нет Возвратого значения
 
 **Вызывает исключения**:
 
@@ -56,7 +56,7 @@
 
 Функция создает экземпляр `AsyncClient` с `IterListProvider`, содержащим два провайдера: `RaiseExceptionProviderMock` (который всегда вызывает исключение) и `YieldProviderMock` (который возвращает тестовое значение). 
 
-Затем функция вызывает `client.chat.completions.create` и проверяет, что полученный ответ содержит значение, возвращаемое `YieldProviderMock`, а не исключение от `RaiseExceptionProviderMock`.
+Затем функция вызывает `client.chat.completions.create` и проверяет, что полученный ответ содержит значение, Возвратое `YieldProviderMock`, а не исключение от `RaiseExceptionProviderMock`.
 
 **Примеры**:
 
@@ -82,7 +82,7 @@ self.assertEqual("Hello", response.choices[0].message.content)
 
 **Возвращает**:
 
-- Нет возвращаемого значения
+- Нет Возвратого значения
 
 **Вызывает исключения**:
 
@@ -92,7 +92,7 @@ self.assertEqual("Hello", response.choices[0].message.content)
 
 Функция создает экземпляр `AsyncClient` с `IterListProvider`, содержащим два одинаковых провайдера: `YieldProviderMock`. 
 
-Затем функция вызывает `client.chat.completions.create` и проверяет, что полученный ответ содержит значение, возвращаемое `YieldProviderMock`, а не дублирующееся.
+Затем функция вызывает `client.chat.completions.create` и проверяет, что полученный ответ содержит значение, Возвратое `YieldProviderMock`, а не дублирующееся.
 
 **Примеры**:
 
@@ -118,7 +118,7 @@ self.assertEqual("Hello", response.choices[0].message.content)
 
 **Возвращает**:
 
-- Нет возвращаемого значения
+- Нет Возвратого значения
 
 **Вызывает исключения**:
 
@@ -128,7 +128,7 @@ self.assertEqual("Hello", response.choices[0].message.content)
 
 Функция создает экземпляр `AsyncClient` с `IterListProvider`, содержащим два провайдера: `AsyncRaiseExceptionProviderMock` (который всегда вызывает исключение в режиме потоковой передачи) и `YieldProviderMock` (который возвращает тестовое значение). 
 
-Затем функция вызывает `client.chat.completions.create` в режиме потоковой передачи (`stream=True`) и проверяет, что полученные чанки (части ответа) содержат значение, возвращаемое `YieldProviderMock`, а не исключение от `AsyncRaiseExceptionProviderMock`.
+Затем функция вызывает `client.chat.completions.create` в режиме потоковой передачи (`stream=True`) и проверяет, что полученные чанки (части ответа) содержат значение, Возвратое `YieldProviderMock`, а не исключение от `AsyncRaiseExceptionProviderMock`.
 
 **Примеры**:
 
@@ -157,7 +157,7 @@ async for chunk in response:
 
 **Возвращает**:
 
-- Нет возвращаемого значения
+- Нет Возвратого значения
 
 **Вызывает исключения**:
 
@@ -199,7 +199,7 @@ for chunk in response_list:
 
 **Возвращает**:
 
-- Нет возвращаемого значения
+- Нет Возвратого значения
 
 **Вызывает исключения**:
 
@@ -209,7 +209,7 @@ for chunk in response_list:
 
 Функция создает экземпляр `AsyncClient` с `IterListProvider`, содержащим два провайдера: `YieldNoneProviderMock` (который возвращает `None`) и `YieldProviderMock` (который возвращает тестовое значение). 
 
-Затем функция вызывает `client.chat.completions.create` и проверяет, что полученный ответ содержит значение, возвращаемое `YieldProviderMock`, а не `None` от `YieldNoneProviderMock`.
+Затем функция вызывает `client.chat.completions.create` и проверяет, что полученный ответ содержит значение, Возвратое `YieldProviderMock`, а не `None` от `YieldNoneProviderMock`.
 
 **Примеры**:
 
@@ -235,7 +235,7 @@ self.assertEqual("Hello", response.choices[0].message.content)
 
 **Возвращает**:
 
-- Нет возвращаемого значения
+- Нет Возвратого значения
 
 **Вызывает исключения**:
 
@@ -245,7 +245,7 @@ self.assertEqual("Hello", response.choices[0].message.content)
 
 Функция создает экземпляр `AsyncClient` с `IterListProvider`, содержащим два провайдера: `YieldNoneProviderMock` (который возвращает `None`) и `YieldProviderMock` (который возвращает тестовое значение). 
 
-Затем функция вызывает `client.chat.completions.create` в режиме потоковой передачи (`stream=True`) и проверяет, что полученные чанки (части ответа) содержат значение, возвращаемое `YieldProviderMock`, а не `None` от `YieldNoneProviderMock`.
+Затем функция вызывает `client.chat.completions.create` в режиме потоковой передачи (`stream=True`) и проверяет, что полученные чанки (части ответа) содержат значение, Возвратое `YieldProviderMock`, а не `None` от `YieldNoneProviderMock`.
 
 **Примеры**:
 

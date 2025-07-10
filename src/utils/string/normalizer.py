@@ -194,7 +194,7 @@ def normalize_sql_date(input_data: str) -> str:
             for date_format in ['%Y-%m-%d', '%m/%d/%Y', '%d/%m/%Y']:
                 try:
                     normalized_date = datetime.strptime(input_data, date_format).date()
-                    return normalized_date.isoformat()  # Возвращаем дату в формате 'YYYY-MM-DD'
+                    return normalized_date.isoformat()  # Возврат дату в формате 'YYYY-MM-DD'
                 except ValueError:
                     continue
         # Если входные данные уже объект datetime

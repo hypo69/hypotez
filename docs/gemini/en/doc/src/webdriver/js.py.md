@@ -174,7 +174,7 @@ page_lang = js.get_page_lang()
 
 ## Parameter Details:
 
-- `driver` (WebDriver): Экземпляр Selenium WebDriver, используемый для выполнения JavaScript-кода.
+- `driver` (WebDriver): Экземпляр Selenium WebDriver, Используетсяый для выполнения JavaScript-кода.
 - `element` (WebElement): Элемент WebElement, который нужно сделать видимым.
 
 ## Examples:

@@ -187,7 +187,7 @@ spreadsheet.delete_data()
 
 ## Параметры класса
 
-- `sheet_id` (str): Идентификатор листа Google Spreadsheets, используемого для работы с данными.
+- `sheet_id` (str): Идентификатор листа Google Spreadsheets, Используетсяого для работы с данными.
 
 - `spreadsheet` (gspread.Spreadsheet): Объект типа `gspread.Spreadsheet`, представляющий собой лист Google Spreadsheets, с которым взаимодействует класс.
 

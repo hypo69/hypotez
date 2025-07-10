@@ -67,7 +67,7 @@ def any2dict(any_data):
         return result_set
 
     elif isinstance(any_data, (int, float, str, bool, type(None))):
-        return any_data  # Базовые типы данных возвращаем как есть
+        return any_data  # Базовые типы данных Возврат как есть
     else:
       return False  # Неподдерживаемый тип данных.
 

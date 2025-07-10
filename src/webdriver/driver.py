@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 """
-Модуль для работы с веб-драйверами Selenium.
+Mодуль для работы с веб-драйверами Selenium.
 ==============================================
 Основное назначение класса `Driver` — обеспечение унифицированного интерфейса для работы с веб-драйверами Selenium.
 
@@ -61,7 +61,7 @@ class Driver:
     # Предыдущий URL
     previous_url: Optional[str] = None 
     # Экземпляр WebDriver (аннотация типа для ясности)
-    driver: SeleniumWebDriverException # Используем общее исключение Selenium, но лучше конкретный тип драйвера, если известен
+    driver: SeleniumWebDriverException # Используется общее исключение Selenium, но лучше конкретный тип драйвера, если известен
 
     def __init__(self, webdriver_cls: type, *args: Any, **kwargs: Any) -> None: # webdriver_cls должен быть типом
         """
@@ -138,13 +138,13 @@ class Driver:
             >>> class MockWebDriverAttr:
             ...     def __init__(self): self._url_prop = "http://example.com" # Изменено на _url_prop
             ...     @property
-            ...     def current_url(self): return self._url_prop # Используем _url_prop
+            ...     def current_url(self): return self._url_prop # Используется _url_prop
             ...     def get(self, url): pass 
             >>> driver_instance = Driver(MockWebDriverAttr)
             >>> print(driver_instance.current_url) # Доступ к driver.current_url через __getattr__
             http://example.com
         """
-        # Сначала проверяем, есть ли атрибут у самого экземпляра Driver
+        # Сначала Проверка, есть ли атрибут у самого экземпляра Driver
         if item in self.__dict__:
             return self.__dict__[item]
         # Если нет, пытаемся получить его из вложенного self.driver
@@ -236,7 +236,7 @@ class Driver:
             ...             class MockElement:
             ...                 def get_attribute(self, name): return 'en-GB' if name == 'content' else None
             ...             return MockElement()
-            ...         else: raise SeleniumWebDriverException("Meta not found") # Используем SeleniumWebDriverException
+            ...         else: raise SeleniumWebDriverException("Meta not found") # Используется SeleniumWebDriverException
             ...     def execute_script(self, script): return 'fr-CA' 
             >>> driver_instance_meta = Driver(MockWebDriverLocaleMeta)
             >>> print(driver_instance_meta.locale)
@@ -267,14 +267,14 @@ class Driver:
                 "return document.documentElement.lang || document.body.lang || navigator.language || navigator.userLanguage;"
             )
             if lang_code_js:
-                return str(lang_code_js) # Возвращаем язык, если он найден через JS
+                return str(lang_code_js) # Возврат язык, если он найден через JS
             else:
                 logger.debug('JavaScript не вернул информацию о языке.')
                 return None # Если JS не вернул язык
         except Exception as ex_js:
             # Логирование предупреждения, если и через JS не удалось определить язык
             logger.warning('Не удалось определить язык сайта из JavaScript.', None, exc_info=ex_js)
-            return None # Возвращаем None, если все попытки неудачны
+            return None # Возврат None, если все попытки неудачны
 
     @property
     def ready_state(self) -> Optional[str]:
@@ -540,9 +540,9 @@ class Driver:
                 return '&nbsp;'
 
             # --- Завершение обработки: сохранение и возврат HTML ---
-            if full_html_content is not None: # Проверяем, что full_html_content не None
+            if full_html_content is not None: # Проверка, что full_html_content не None
                 self.html_content = full_html_content # Сохранение полного HTML в атрибут класса
-                return full_html_content # УСПЕХ! Возвращаем полный HTML.
+                return full_html_content # УСПЕХ! Возврат полный HTML.
             else:
                 # Этот блок не должен достигаться, если логика выше корректна,
                 # но служит дополнительной проверкой.
@@ -575,7 +575,7 @@ if __name__ == '__main__':
                 self.page_source_content = "<html><head><title>Not Found Page</title></head><body><h1>404 Not Found</h1></body></html>"
                 print(f"[MockWebDriver] Имитация неудачной загрузки (например, readyState не complete) для {url_param}")
                 # В реальном get_url, цикл проверки readyState завершился бы неудачей.
-                # Здесь мы просто возвращаем False, чтобы имитировать это.
+                # Здесь мы просто Возврат False, чтобы имитировать это.
                 return False 
             if "no_body_tag_page" in url_param: # Страница без тега body, но get_url успешен
                  self._current_url_prop = url_param
@@ -623,7 +623,7 @@ if __name__ == '__main__':
         def window_handles(self): return ['h1_mock']
 
 
-    # Создаем экземпляр Driver с Mock WebDriver
+    # создание экземпляр Driver с Mock WebDriver
     test_instance = Driver(MockWebDriverFetch)
     test_instance.current_url = 'http://default.example.com/initial' # Устанавливаем начальный URL
 

@@ -55,9 +55,9 @@ def __init__(
 
     Args:
         campaign_name (str): Название кампании.
-        language (Optional[str]): Язык, используемый в кампании.
-        currency (Optional[str]): Валюта, используемая в кампании.
-        model (str): Модель, используемая для генерации данных (по умолчанию 'openai').
+        language (Optional[str]): Язык, Используетсяый в кампании.
+        currency (Optional[str]): Валюта, Используетсяая в кампании.
+        model (str): Модель, Используетсяая для генерации данных (по умолчанию 'openai').
 
     Returns:
         None

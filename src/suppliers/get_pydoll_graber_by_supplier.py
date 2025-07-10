@@ -244,7 +244,7 @@ def get_graber_by_supplier_prefix(supplier_prefix: str, ) -> 'Graber':
             raise ValueError(f"Graber класс не найден для поставщика: {supplier_alias}")
 
     try:
-        # Создаем экземпляр Graber, передавая supplier_prefix и драйвер.
+        # создание экземпляр Graber, передавая supplier_prefix и драйвер.
         # Предполагается, что конструктор Graber принимает эти аргументы.
         graber_instance = GraberClass()
         return graber_instance
@@ -287,7 +287,7 @@ def get_graber_by_supplier_url(url: str):
         raise ValueError(f"Graber класс не найден для поставщика (домен): {domain}")
 
     try:
-        # Создаем экземпляр Graber, передавая ему supplier_prefix и опциональный драйвер.
+        # создание экземпляр Graber, передавая ему supplier_prefix и опциональный драйвер.
         # Важно: предполагается, что конструктор Graber принимает supplier_prefix и driver.
         graber_instance = GraberClass()
         return graber_instance

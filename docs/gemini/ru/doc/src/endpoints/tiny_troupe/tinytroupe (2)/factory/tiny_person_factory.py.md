@@ -19,7 +19,7 @@
 **Атрибуты**:
 
 - `person_prompt_template_path (str)`: Путь к шаблону подсказки для генерации персонажей.
-- `context_text (str)`: Контекст, используемый для генерации персонажей.
+- `context_text (str)`: Контекст, Используетсяый для генерации персонажей.
 - `generated_minibios (list)`: Список уже сгенерированных коротких описаний (minibios) персонажей.
 - `generated_names (list)`: Список уже сгенерированных имен персонажей.
 
@@ -27,7 +27,7 @@
 
 - `__init__(self, context_text, simulation_id:str=None)`: Инициализирует объект `TinyPersonFactory`.
     - **Параметры**:
-        - `context_text (str)`: Контекст, используемый для генерации персонажей.
+        - `context_text (str)`: Контекст, Используетсяый для генерации персонажей.
         - `simulation_id (str, optional)`: Идентификатор симуляции. По умолчанию `None`.
 
 - `generate_person_factories(number_of_factories, generic_context_text)`: Генерирует список объектов `TinyPersonFactory` на основе заданного контекста. 
@@ -215,7 +215,7 @@ for person in people:
 ## Параметры класса
 
 - `person_prompt_template_path (str)`: Путь к шаблону подсказки для генерации персонажей.
-- `context_text (str)`: Контекст, используемый для генерации персонажей.
+- `context_text (str)`: Контекст, Используетсяый для генерации персонажей.
 - `generated_minibios (list)`: Список уже сгенерированных коротких описаний (minibios) персонажей.
 - `generated_names (list)`: Список уже сгенерированных имен персонажей.
 

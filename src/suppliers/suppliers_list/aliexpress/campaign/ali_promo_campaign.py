@@ -97,8 +97,8 @@ class AliPromoCampaign:
         Args:
             campaign_file (Optional[str | Path]): Путь к файлу кампании или ссылка для загрузки кампании.
             campaign_name (Optional[str]): Название кампании.
-            language (Optional[str | dict]): Язык, используемый в кампании.
-            currency (Optional[str]): Валюта, используемая в кампании.
+            language (Optional[str | dict]): Язык, Используетсяый в кампании.
+            currency (Optional[str]): Валюта, Используетсяая в кампании.
 
         Returns:
             SimpleNamespace: Объект, представляющий кампанию.

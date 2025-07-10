@@ -105,7 +105,7 @@ gs.save_campaign_from_worksheet()
 ```python
 from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignGoogleSheet
 
-# Создаем объект AliCampaignGoogleSheet
+# создание объект AliCampaignGoogleSheet
 gs = AliCampaignGoogleSheet(campaign_name='test_campaign', language='EN', currency='USD')
 
 # Устанавливаем рабочую таблицу для товаров

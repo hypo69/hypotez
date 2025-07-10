@@ -25,7 +25,7 @@
 - `model` (GoogleGenerativeAi): Модель Google Gemini для обработки текста.
 - `config` (SimpleNamespace): Конфигурация модуля, загруженная из JSON файла.
 - `local_images_path` (Path): Путь для сохранения локальных изображений товаров.
-- `lang` (str): Язык, используемый в процессе обработки данных.
+- `lang` (str): Язык, Используетсяый в процессе обработки данных.
 - `gemini_api` (str): API ключ для доступа к Google Gemini.
 - `presta_api` (str): API ключ для доступа к Prestashop.
 - `presta_url` (str): URL адрес Prestashop.
@@ -73,7 +73,7 @@ def __init__(self,
 **Назначение**: Инициализирует класс `SupplierToPrestashopProvider` с необходимыми компонентами.
 
 **Параметры**:
-- `lang` (str): Язык, используемый в процессе обработки данных.
+- `lang` (str): Язык, Используетсяый в процессе обработки данных.
 - `gemini_api` (str): API ключ для доступа к Google Gemini.
 - `presta_api` (str): API ключ для доступа к Prestashop.
 - `presta_url` (str): URL адрес Prestashop.
@@ -204,7 +204,7 @@ async def process_llm(self, products_list: List[str], lang:str,  attempts: int =
 
 **Параметры**:
 - `products_list` (List[str]): Список данных о товарах в виде строки.
-- `lang` (str): Язык, используемый в процессе обработки данных.
+- `lang` (str): Язык, Используетсяый в процессе обработки данных.
 - `attempts` (int, optional): Количество попыток повторной отправки запроса в случае неудачи. По умолчанию `3`.
 
 **Возвращает**:
@@ -277,7 +277,7 @@ async def create_report(self, data: dict, lang:str, html_file: Path, pdf_file: P
 
 **Параметры**:
 - `data` (dict): Данные для отчета.
-- `lang` (str): Язык, используемый в отчете.
+- `lang` (str): Язык, Используетсяый в отчете.
 - `html_file` (Path): Путь для сохранения HTML файла.
 - `pdf_file` (Path): Путь для сохранения PDF файла.
 

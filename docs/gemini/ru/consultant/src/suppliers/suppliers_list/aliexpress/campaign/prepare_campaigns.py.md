@@ -142,7 +142,7 @@ def main_process(campaign_name: str, categories: List[str] | str, language: Opti
         language (Optional[str]): Язык для кампании.
         currency (Optional[str]): Валюта для кампании.
     """
-    # Определяем локали для обработки на основе предоставленных языка и валюты
+    # Определение локали для обработки на основе предоставленных языка и валюты
     locales_to_process = [(language, currency)] if language and currency else [(lang, curr) for locale in locales for lang, curr in locale.items()]
 
     # Итерируемся по локалям для обработки
@@ -210,7 +210,7 @@ if __name__ == "__main__":
 
 1. **Дополнить Docstring**:
    - Добавить примеры использования для всех функций, где они отсутствуют.
-   - Улучшить описания аргументов и возвращаемых значений, чтобы они были более понятными и информативными.
+   - Улучшить описания аргументов и Возвратых значений, чтобы они были более понятными и информативными.
 
 2. **Добавить комментарии к коду**:
    - Добавить подробные коментарии, предшествующие блоку кода.
@@ -357,7 +357,7 @@ def process_all_campaigns(language: Optional[str] = None, currency: Optional[str
     # Обрабатываем все локали, если язык или валюта не указаны
     if not language and not currency:
         _l = [(lang, curr) for locale in locales for lang, curr in locale.items()]
-    # Если указаны язык и валюта, используем их
+    # Если указаны язык и валюта, Используется их
     else:
         _l = [(language, currency)]
     pprint(f"{_l=}")
@@ -390,7 +390,7 @@ def main_process(campaign_name: str, categories: List[str] | str, language: Opti
         language (Optional[str]): Язык для кампании.
         currency (Optional[str]): Валюта для кампании.
     """
-    # Определяем локали для обработки на основе предоставленных языка и валюты
+    # Определение локали для обработки на основе предоставленных языка и валюты
     locales_to_process = [(language, currency)] if language and currency else [(lang, curr) for locale in locales for lang, curr in locale.items()]
 
     # Итерируемся по локалям для обработки

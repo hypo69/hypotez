@@ -66,7 +66,7 @@ flowchart TD
     - **Аргументы**:
         - `src_dir (Path)`: Путь к директории с исходными `.md` файлами. По умолчанию используется значение `src_path`.
         - `summary_file (Path)`: Путь для сохранения файла `SUMMARY.md`. По умолчанию используется значение `summary_path`.
-    - **Возвращаемое значение**:
+    - **Возвратое значение**:
         - `None`: Функция ничего не возвращает.
     - **Назначение**:
         Функция рекурсивно обходит указанную директорию (`src_dir`) в поисках `.md` файлов и создает на их основе файл `SUMMARY.md` по указанному пути (`summary_file`). Файл `SUMMARY.md` содержит список глав, соответствующих найденным `.md` файлам, с учетом структуры директорий.
@@ -80,7 +80,7 @@ flowchart TD
         example_src_path = Path(gs.path.root / 'docs' / 'example')
         example_summary_file = example_src_path / 'SUMMARY.md'
 
-        # Создаем директорию и несколько файлов для примера
+        # создание директорию и несколько файлов для примера
         example_src_path.mkdir(parents=True, exist_ok=True)
         (example_src_path / 'file1.md').write_text('# File 1')
         (example_src_path / 'subdir').mkdir(exist_ok=True)

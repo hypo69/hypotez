@@ -22,7 +22,7 @@
 - `working` (bool): Флаг, указывающий на работоспособность провайдера (в данном случае `False`).
 - `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений (`True`).
 - `supports_system_message` (bool): Флаг, указывающий на поддержку системных сообщений (`True`).
-- `default_model` (str): Модель, используемая по умолчанию (`"gpt-3.5-turbo"`).
+- `default_model` (str): Модель, Используетсяая по умолчанию (`"gpt-3.5-turbo"`).
 - `models` (List[str]): Список поддерживаемых моделей.
 - `model_aliases` (Dict[str, str]): Словарь с альтернативными названиями моделей.
 
@@ -47,7 +47,7 @@ async def create_async_generator(
 
     Args:
         cls (FlowGpt): Ссылка на класс `FlowGpt`.
-        model (str): Название используемой модели.
+        model (str): Название Используетсяой модели.
         messages (Messages): Список сообщений для отправки в API.
         proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
         temperature (float, optional): Температура генерации текста. По умолчанию `0.7`.
@@ -120,7 +120,7 @@ async def main():
 - `working` (bool): Флаг, указывающий на работоспособность провайдера.
 - `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений.
 - `supports_system_message` (bool): Флаг, указывающий на поддержку системных сообщений.
-- `default_model` (str): Модель, используемая по умолчанию.
+- `default_model` (str): Модель, Используетсяая по умолчанию.
 - `models` (List[str]): Список поддерживаемых моделей.
 - `model_aliases` (Dict[str, str]): Словарь с альтернативными названиями моделей.
 

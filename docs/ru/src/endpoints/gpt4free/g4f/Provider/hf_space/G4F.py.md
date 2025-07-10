@@ -120,7 +120,7 @@ async def create_async_generator(
             zerogpu_uuid=zerogpu_uuid,
             **kwargs
         ):
-            yield chunk # Возвращаем полученные части контента
+            yield chunk # Возврат полученные части контента
         return # Завершаем выполнение функции
 
     # Проверка, не содержит ли имя модели подстроку, указанную в классе
@@ -136,7 +136,7 @@ async def create_async_generator(
             zerogpu_uuid=zerogpu_uuid,
             **kwargs
         ):
-            yield chunk # Возвращаем полученные части контента
+            yield chunk # Возврат полученные части контента
         return # Завершаем выполнение функции
 
     # Извлечение имени модели
@@ -171,7 +171,7 @@ async def create_async_generator(
     async with ClientSession() as session:
         # Если api_key не задан, получаем zerogpu_uuid и api_key
         if api_key is None:
-            yield Reasoning(status="Acquiring GPU Token") # Возвращаем статус
+            yield Reasoning(status="Acquiring GPU Token") # Возврат статус
             zerogpu_uuid, api_key = await get_zerogpu_token(cls.space, session, JsonConversation(), cookies) # Получаем токен
 
         # Формируем заголовки для запроса
@@ -197,25 +197,25 @@ async def create_async_generator(
             """
             # Выполняем POST запрос к API
             async with session.post(cls.url_flux, json=payload, proxy=proxy, headers=headers) as response:
-                await raise_for_status(response) # Проверяем статус ответа
+                await raise_for_status(response) # Проверка статус ответа
                 response_data = await response.json() # Преобразуем ответ в JSON
                 image_url = response_data["data"][0]['url'] # Извлекаем URL изображения
-                return ImageResponse(image_url, alt=prompt) # Возвращаем объект ImageResponse
+                return ImageResponse(image_url, alt=prompt) # Возврат объект ImageResponse
 
-        # Создаем задачу для асинхронного выполнения
+        # создание задачу для асинхронного выполнения
         background_tasks = set()
         started = time.time() # Запоминаем время начала генерации
-        task = asyncio.create_task(generate()) # Создаем задачу
+        task = asyncio.create_task(generate()) # создание задачу
         background_tasks.add(task) # Добавляем задачу в набор
         task.add_done_callback(background_tasks.discard) # Добавляем callback для удаления задачи из набора после завершения
 
         # Ожидаем завершения задачи
         while background_tasks:
-            yield Reasoning(status=f"Generating {time.time() - started:.2f}s") # Возвращаем статус
+            yield Reasoning(status=f"Generating {time.time() - started:.2f}s") # Возврат статус
             await asyncio.sleep(0.2) # Засыпаем на 0.2 секунды
         
-        yield await task # Возвращаем результат задачи
-        yield Reasoning(status=f"Finished {time.time() - started:.2f}s") # Возвращаем статус завершения
+        yield await task # Возврат результат задачи
+        yield Reasoning(status=f"Finished {time.time() - started:.2f}s") # Возврат статус завершения
 
 ## Параметры класса
 

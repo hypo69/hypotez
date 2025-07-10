@@ -57,7 +57,7 @@ async def create_async_generator(
 
     Args:
         cls (Voodoohop_Flux1Schnell): Класс, для которого вызывается метод.
-        model (str): Название используемой модели.
+        model (str): Название Используетсяой модели.
         messages (Messages): Список сообщений для формирования запроса.
         proxy (str, optional): URL прокси-сервера. По умолчанию `None`.
         prompt (str, optional): Текстовый запрос для генерации изображения. По умолчанию `None`.
@@ -81,7 +81,7 @@ async def create_async_generator(
 
 **Параметры**:
 - `cls` (Voodoohop_Flux1Schnell): Класс, для которого вызывается метод.
-- `model` (str): Название используемой модели.
+- `model` (str): Название Используетсяой модели.
 - `messages` (Messages): Список сообщений для формирования запроса.
 - `proxy` (str, optional): URL прокси-сервера. По умолчанию `None`.
 - `prompt` (str, optional): Текстовый запрос для генерации изображения. По умолчанию `None`.

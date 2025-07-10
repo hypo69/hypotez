@@ -60,7 +60,7 @@ def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index:int ) -> G
     У каждого поставщика есть свой грабер, который извлекает значения полей из целевой HTML-страницы.
 
     Args:
-        driver: Инстанс драйвера, используемый для граббинга.
+        driver: Инстанс драйвера, Используетсяый для граббинга.
         url (str): URL страницы поставщика.
         lang_index (int): Индекс языка для магазина Prestashop.
     Returns:
@@ -239,7 +239,7 @@ def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index: int) -> G
     У каждого поставщика есть свой грабер, который извлекает значения полей из целевой HTML-страницы.
 
     Args:
-        driver: Инстанс драйвера, используемый для граббинга.
+        driver: Инстанс драйвера, Используетсяый для граббинга.
         url (str): URL страницы поставщика.
         lang_index (int): Индекс языка для магазина Prestashop.
 
@@ -282,7 +282,7 @@ def get_graber_by_supplier_prefix(driver: 'Driver', supplier_prefix: str, lang_i
     Функция возвращает соответствующий грабер для заданного префикса поставщика.
 
     Args:
-        driver: Инстанс драйвера, используемый для граббинга.
+        driver: Инстанс драйвера, Используетсяый для граббинга.
         supplier_prefix (str): Префикс поставщика.
         lang_index (int): Индекс языка для магазина Prestashop.
 

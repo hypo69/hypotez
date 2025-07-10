@@ -32,10 +32,10 @@ def create_image(prompt: str) -> str:
     # Логика для генерации изображения
     return "Ссылка на сгенерированное изображение"
 
-# Создаем экземпляр OpenAIProvider
+# создание экземпляр OpenAIProvider
 provider = OpenAIProvider(api_key="YOUR_API_KEY", model="gpt-3.5-turbo")
 
-# Создаем экземпляр CreateImagesProvider с использованием OpenAIProvider
+# создание экземпляр CreateImagesProvider с использованием OpenAIProvider
 image_provider = CreateImagesProvider(
     provider=provider,
     create_images=create_image,

@@ -26,7 +26,7 @@ def telegram_webhook(request: Request, application: Application):
 
 **Параметры**:
 - `request` (Request): Объект запроса FastAPI, содержащий данные от Telegram.
-- `application` (Application): Объект приложения `telegram.ext`, используемый для обработки обновлений.
+- `application` (Application): Объект приложения `telegram.ext`, Используетсяый для обработки обновлений.
 
 **Возвращает**:
 - None: Функция не возвращает значения напрямую, но запускает асинхронную обработку вебхука.
@@ -69,7 +69,7 @@ async def telegram_webhook_async(request: Request, application: Application):
 
 **Параметры**:
 - `request` (Request): Объект запроса FastAPI, содержащий данные от Telegram.
-- `application` (Application): Объект приложения `telegram.ext`, используемый для обработки обновлений.
+- `application` (Application): Объект приложения `telegram.ext`, Используетсяый для обработки обновлений.
 
 **Возвращает**:
 - `Response`: Объект ответа FastAPI с кодом состояния 200 в случае успешной обработки, 400 в случае ошибки разбора JSON, и 500 в случае общей ошибки.

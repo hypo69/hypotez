@@ -25,7 +25,7 @@
 - `supports_stream` (bool): Указывает, поддерживает ли провайдер потоковую передачу данных (по умолчанию `True`).
 - `supports_system_message` (bool): Указывает, поддерживает ли провайдер системные сообщения (по умолчанию `False`).
 - `supports_message_history` (bool): Указывает, поддерживает ли провайдер историю сообщений (по умолчанию `False`).
-- `default_model` (str): Модель, используемая по умолчанию (`glm-4`).
+- `default_model` (str): Модель, Используетсяая по умолчанию (`glm-4`).
 - `models` (list): Список поддерживаемых моделей (содержит только `default_model`).
 
 **Методы**:
@@ -50,7 +50,7 @@ async def create_async_generator(
 
     Args:
         cls (ChatGLM): Класс ChatGLM.
-        model (str): Используемая модель.
+        model (str): Используетсяая модель.
         messages (Messages): Список сообщений для отправки в ChatGLM.
         proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
         **kwargs: Дополнительные параметры.
@@ -79,7 +79,7 @@ async def create_async_generator(
 ## Параметры класса
 
 - `cls` (ChatGLM): Класс ChatGLM.
-- `model` (str): Используемая модель.
+- `model` (str): Используетсяая модель.
 - `messages` (Messages): Список сообщений для отправки в ChatGLM.
 - `proxy` (str, optional): Прокси-сервер для использования. По умолчанию `None`.
 - `**kwargs`: Дополнительные параметры.

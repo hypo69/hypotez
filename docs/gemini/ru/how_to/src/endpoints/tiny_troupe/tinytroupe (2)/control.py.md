@@ -38,7 +38,7 @@ from tinytroupe.agent import TinyPerson
 from tinytroupe.environment import TinyWorld
 from tinytroupe.factory.tiny_factory import TinyFactory
 
-# Создаем симуляцию
+# создание симуляцию
 simulation = Simulation(id="my_simulation")
 
 # Добавляем агентов, окружения и фабрики в симуляцию

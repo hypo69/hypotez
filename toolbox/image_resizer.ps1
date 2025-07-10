@@ -2,7 +2,7 @@
 # Запрашиваем у пользователя ввод пути к корневой директории
 $rootPath = Read-Host "Введите путь к корневой директории"
 
-# Проверяем, существует ли указанная директория
+# Проверка, существует ли указанная директория
 if (-not (Test-Path $rootPath -PathType Container)) {
     Write-Host "Указанная директория не существует. Завершение скрипта."
     exit
@@ -24,19 +24,19 @@ function Resize-Image {
     # Получаем имя файла без расширения
     $baseFileName = [System.IO.Path]::GetFileNameWithoutExtension($imagePath)
 
-    # Проверяем, содержит ли имя файла индикатор разрешения
+    # Проверка, содержит ли имя файла индикатор разрешения
     if ($baseFileName -match "^${newWidth}_") {
         Write-Host "Индикатор разрешения уже присутствует в имени файла. Пропуск: $imagePath"
         return $imagePath
     }
 
-    # Создаем объект для работы с изображением
+    # создание объект для работы с изображением
     $image = [System.Drawing.Image]::FromFile($imagePath)
 
     # Рассчитываем новые размеры с сохранением пропорций
     $newHeight = [math]::Round(($newWidth / $image.Width) * $image.Height)
 
-    # Создаем новый объект изображения с новыми размерами
+    # создание новый объект изображения с новыми размерами
     $newImage = New-Object System.Drawing.Bitmap -ArgumentList ($image, $newWidth, $newHeight)
 
     # Составляем полное имя нового изображения
@@ -45,7 +45,7 @@ function Resize-Image {
     # Составляем полный путь для сохранения нового изображения
     $newImagePath = [System.IO.Path]::Combine([System.IO.Path]::GetDirectoryName($imagePath), $newImageName)
 
-    # Проверяем, существует ли файл с таким именем
+    # Проверка, существует ли файл с таким именем
     $counter = 1
     while (Test-Path $newImagePath) {
         # Если файл существует, пробуем следующий номер
@@ -63,7 +63,7 @@ function Resize-Image {
     $image.Dispose()
     $newImage.Dispose()
 
-    # Возвращаем путь к новому изображению
+    # Возврат путь к новому изображению
     return $newImagePath
 }
 

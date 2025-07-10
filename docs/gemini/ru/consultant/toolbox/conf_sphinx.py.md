@@ -70,7 +70,7 @@ try:
         _release: str = settings.get("release", _release)
         _author: str = settings.get("author", _author)
 except (FileNotFoundError, json.JSONDecodeError) as ex:
-    # Логируем ошибку и используем значения по умолчанию
+    # Логируем ошибку и Используется значения по умолчанию
     logger.error("Ошибка при загрузке settings.json", ex, exc_info=True)
 
 # -----------------------------------------------------------------------------------
@@ -136,10 +136,10 @@ def skip_files(app: Any, what: str, name: str, obj: Any, skip: bool, options: An
     Returns:
         bool: True, если член должен быть пропущен; иначе возвращает значение `skip`
     """
-    # Проверяем, содержит ли имя члена круглые скобки или соответствует другим шаблонам
+    # Проверка, содержит ли имя члена круглые скобки или соответствует другим шаблонам
     if fnmatch.fnmatch(name, '*(*. *)') or fnmatch.fnmatch(name, '*(*).*'):
         return True  # Пропускаем этот член документации
-    return skip  # Возвращаем исходное решение Sphinx о пропуске
+    return skip  # Возврат исходное решение Sphinx о пропуске
 
 # -----------------------------------------------------------------------------------
 # Подключение функции игнорирования к событию Sphinx

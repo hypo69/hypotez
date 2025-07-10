@@ -30,13 +30,13 @@
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.providers.base_provider import AsyncProvider
 
-# Создаем экземпляр класса AsyncProvider
+# создание экземпляр класса AsyncProvider
 provider = AsyncProvider()
 
 # Список сообщений для обработки
 messages = [{"role": "user", "content": "Привет, как дела?"}]
 
-# Создаем асинхронный запрос к модели
+# создание асинхронный запрос к модели
 async def create_request():
     result = await provider.create_async(
         model="text-davinci-003",

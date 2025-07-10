@@ -20,7 +20,7 @@
 ```python
 from tinytroupe.enrichment import TinyEnricher
 
-# Создаем объект TinyEnricher
+# создание объект TinyEnricher
 enricher = TinyEnricher()
 
 # Задаем требования, контент и тип контента

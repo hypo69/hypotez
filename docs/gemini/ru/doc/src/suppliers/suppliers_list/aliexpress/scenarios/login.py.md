@@ -31,13 +31,13 @@
 from src.suppliers.aliexpress.scenarios.login import login
 from src.suppliers.suppliers_list.aliexpress.supplier import Supplier
 
-# Создаем экземпляр класса Supplier
+# создание экземпляр класса Supplier
 supplier = Supplier(login='your_login', password='your_password')
 
 # Выполняем вход на AliExpress
 result = login(supplier)
 
-# Проверяем результат
+# Проверка результат
 if result:
     print("Вход на AliExpress выполнен успешно!")
 else:

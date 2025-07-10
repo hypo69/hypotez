@@ -55,7 +55,7 @@ post_ad(driver, message)
 
 ### `locator`
 
-- `locator` (SimpleNamespace): Набор локаторов, используемых для поиска элементов на веб-странице. Локаторы хранятся в файле `post_message.json`.
+- `locator` (SimpleNamespace): Набор локаторов, Используетсяых для поиска элементов на веб-странице. Локаторы хранятся в файле `post_message.json`.
 
 ## Внутренние функции
 

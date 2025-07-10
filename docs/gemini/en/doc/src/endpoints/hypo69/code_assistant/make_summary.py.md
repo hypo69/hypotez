@@ -32,7 +32,7 @@ from pathlib import Path
 from src.endpoints.hypo69.code_assistant.make_summary import make_summary
 
 docs_dir = Path('./src')  # Задаем путь к директории `src` 
-make_summary(docs_dir, lang='en')  # Создаем файл `SUMMARY.md` для английской документации 
+make_summary(docs_dir, lang='en')  # создание файл `SUMMARY.md` для английской документации 
 ```
 
 ### `_make_summary(src_dir: Path, summary_file: Path, lang: str = 'en') -> bool`
@@ -59,7 +59,7 @@ from src.endpoints.hypo69.code_assistant.make_summary import _make_summary
 
 src_dir = Path('./src')  # Задаем путь к директории `src` 
 summary_file = Path('./docs/SUMMARY.md')  # Задаем путь к файлу `SUMMARY.md`
-_make_summary(src_dir, summary_file, lang='en')  # Создаем файл `SUMMARY.md` для английской документации 
+_make_summary(src_dir, summary_file, lang='en')  # создание файл `SUMMARY.md` для английской документации 
 ```
 
 ### `prepare_summary_path(src_dir: Path, file_name: str = 'SUMMARY.md') -> Path`
@@ -96,7 +96,7 @@ prepare_summary_path(src_dir, file_name)  # Формируем путь к фа�
 from src.endpoints.hypo69.code_assistant.make_summary import make_summary
 
 docs_dir = Path('./src')
-make_summary(docs_dir, lang='ru')  # Создаем файл `SUMMARY.md` для русской документации
+make_summary(docs_dir, lang='ru')  # создание файл `SUMMARY.md` для русской документации
 ```
 
 **Пример 2: Создание файла `SUMMARY.md` для английской документации с использованием `_make_summary`**
@@ -107,7 +107,7 @@ from src.endpoints.hypo69.code_assistant.make_summary import _make_summary
 
 src_dir = Path('./src')
 summary_file = Path('./docs/SUMMARY.md')
-_make_summary(src_dir, summary_file, lang='en')  # Создаем файл `SUMMARY.md` для английской документации 
+_make_summary(src_dir, summary_file, lang='en')  # создание файл `SUMMARY.md` для английской документации 
 ```
 
 ## Дополнительная информация

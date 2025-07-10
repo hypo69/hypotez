@@ -32,11 +32,11 @@ from tinytroupe.agent import TinyPerson
 from tinytroupe.environment import TinyWorld
 from tinytroupe.experimentation.proposition import Proposition
 
-# Создаем агента и среду
+# создание агента и среду
 agent = TinyPerson("Alice", "Hello world!")
 world = TinyWorld("My world", agent)
 
-# Проверяем утверждение "Агент сказал 'Hello world!'" 
+# Проверка утверждение "Агент сказал 'Hello world!'" 
 proposition = Proposition(agent, "Agent said 'Hello world!'")
 result = proposition.check()
 

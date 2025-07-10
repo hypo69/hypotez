@@ -18,8 +18,8 @@
 - `url` (str): URL для доступа к DeepInfra Chat.
 - `api_base` (str): Базовый URL для API OpenAI на платформе DeepInfra.
 - `working` (bool): Указывает, является ли провайдер рабочим (в данном случае `True`).
-- `default_model` (str): Модель, используемая по умолчанию (`deepseek-ai/DeepSeek-V3`).
-- `default_vision_model` (str): Модель для обработки изображений, используемая по умолчанию (`openbmb/MiniCPM-Llama3-V-2_5`).
+- `default_model` (str): Модель, Используетсяая по умолчанию (`deepseek-ai/DeepSeek-V3`).
+- `default_vision_model` (str): Модель для обработки изображений, Используетсяая по умолчанию (`openbmb/MiniCPM-Llama3-V-2_5`).
 - `vision_models` (list[str]): Список поддерживаемых моделей для обработки изображений.
 - `models` (list[str]): Список поддерживаемых моделей для обработки текста.
 - `model_aliases` (dict[str, str]): Словарь псевдонимов моделей для упрощения их выбора.
@@ -33,8 +33,8 @@
 - `url` (str): URL для доступа к DeepInfra Chat.
 - `api_base` (str): Базовый URL для API OpenAI на платформе DeepInfra.
 - `working` (bool): Указывает, является ли провайдер рабочим (в данном случае `True`).
-- `default_model` (str): Модель, используемая по умолчанию (`deepseek-ai/DeepSeek-V3`).
-- `default_vision_model` (str): Модель для обработки изображений, используемая по умолчанию (`openbmb/MiniCPM-Llama3-V-2_5`).
+- `default_model` (str): Модель, Используетсяая по умолчанию (`deepseek-ai/DeepSeek-V3`).
+- `default_vision_model` (str): Модель для обработки изображений, Используетсяая по умолчанию (`openbmb/MiniCPM-Llama3-V-2_5`).
 - `vision_models` (list[str]): Список поддерживаемых моделей для обработки изображений.
 - `models` (list[str]): Список поддерживаемых моделей для обработки текста.
 - `model_aliases` (dict[str, str]): Словарь псевдонимов моделей для упрощения их выбора.

@@ -113,7 +113,7 @@ normalized_elements = normalizer.normalize(["apple", "banana", "cherry"])
 ```python
 from tinytroupe.extraction.normalizer import Normalizer
 
-# Создаем экземпляр класса Normalizer
+# создание экземпляр класса Normalizer
 normalizer = Normalizer(elements=["apple", "banana", "cherry"], n=3, verbose=True)
 
 # Нормализуем один элемент
@@ -132,7 +132,7 @@ print(normalized_elements)
 ```python
 from tinytroupe.extraction.normalizer import Normalizer
 
-# Создаем экземпляр класса Normalizer без вывода отладочной информации
+# создание экземпляр класса Normalizer без вывода отладочной информации
 normalizer = Normalizer(elements=["apple", "banana", "cherry"], n=3, verbose=False)
 
 # Нормализуем один элемент

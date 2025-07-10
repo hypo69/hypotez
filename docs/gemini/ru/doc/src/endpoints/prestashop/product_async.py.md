@@ -21,7 +21,7 @@
 
 **Атрибуты**:
 
-- `presta_category_async`:  Экземпляр класса `PrestaCategoryAsync`, используемый для работы с категориями товаров.
+- `presta_category_async`:  Экземпляр класса `PrestaCategoryAsync`, Используетсяый для работы с категориями товаров.
 
 **Методы**:
 

@@ -53,7 +53,7 @@ async def create_async_generator(
     Создает асинхронный генератор для получения ответов от AI моделей Hashnode.
 
     Args:
-        model (str): Название используемой модели AI.
+        model (str): Название Используетсяой модели AI.
         messages (Messages): Список сообщений, представляющих историю разговора.
         search_type (str, optional): Тип поиска, который будет использоваться. По умолчанию `SearchTypes.websearch`.
         proxy (str, optional): URL прокси-сервера для использования. По умолчанию `None`.
@@ -92,7 +92,7 @@ def get_sources(cls) -> list:
 
 ## Параметры класса
 
-- `model` (str): Название используемой модели AI.
+- `model` (str): Название Используетсяой модели AI.
 - `messages` (Messages): Список сообщений, представляющих историю разговора.
 - `search_type` (str, optional): Тип поиска, который будет использоваться. По умолчанию `SearchTypes.websearch`.
 - `proxy` (str, optional): URL прокси-сервера для использования. По умолчанию `None`.

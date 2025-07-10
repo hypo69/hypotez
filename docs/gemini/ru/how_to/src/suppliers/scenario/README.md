@@ -20,7 +20,7 @@
 from src.scenario import run_scenario_files
 from src.core import Settings  # Предполагается, что Settings определен в src.core
 
-# Создаем экземпляр настроек (пример)
+# создание экземпляр настроек (пример)
 settings = Settings()
 settings.db_host = "localhost"
 settings.db_name = "prestashop_db"
@@ -55,7 +55,7 @@ run_scenario_files(settings, scenario_files)
 from src.scenario import run_scenario_files
 from src.core import Settings  # Предполагается, что Settings определен в src.core
 
-# Создаем экземпляр настроек (пример)
+# создание экземпляр настроек (пример)
 settings = Settings()
 settings.db_host = "localhost"
 settings.db_name = "prestashop_db"
@@ -91,7 +91,7 @@ run_scenario_files(settings, scenario_files)
 from src.scenario import run_scenario_file
 from src.core import Settings  # Предполагается, что Settings определен в src.core
 
-# Создаем экземпляр настроек (пример)
+# создание экземпляр настроек (пример)
 settings = Settings()
 settings.db_host = "localhost"
 settings.db_name = "prestashop_db"
@@ -128,7 +128,7 @@ run_scenario_file(settings, scenario_file)
 from src.scenario import run_scenario
 from src.core import Settings  # Предполагается, что Settings определен в src.core
 
-# Создаем экземпляр настроек (пример)
+# создание экземпляр настроек (пример)
 settings = Settings()
 settings.db_host = "localhost"
 settings.db_name = "prestashop_db"
@@ -169,7 +169,7 @@ run_scenario(settings, scenario)
 from src.scenario import dump_journal
 from src.core import Settings  # Предполагается, что Settings определен в src.core
 
-# Создаем экземпляр настроек (пример)
+# создание экземпляр настроек (пример)
 settings = Settings()
 
 # Пример журнала

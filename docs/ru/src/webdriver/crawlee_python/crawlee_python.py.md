@@ -17,7 +17,7 @@
 **Атрибуты**:
 - `max_requests` (int): Максимальное количество запросов для выполнения во время обхода.
 - `headless` (bool): Определяет, запускать ли браузер в headless-режиме.
-- `browser_type` (str): Тип используемого браузера ('chromium', 'firefox', 'webkit').
+- `browser_type` (str): Тип Используетсяого браузера ('chromium', 'firefox', 'webkit').
 - `crawler` (PlaywrightCrawler): Экземпляр `PlaywrightCrawler`.
 - `options` (Optional[List[str]]): Список дополнительных опций для передачи в браузер.
 
@@ -36,7 +36,7 @@
 **Параметры**:
 - `max_requests` (int, optional): Максимальное количество запросов для выполнения во время обхода. По умолчанию `5`.
 - `headless` (bool, optional): Определяет, запускать ли браузер в headless-режиме. По умолчанию `False`.
-- `browser_type` (str, optional): Тип используемого браузера ('chromium', 'firefox', 'webkit'). По умолчанию `'firefox'`.
+- `browser_type` (str, optional): Тип Используетсяого браузера ('chromium', 'firefox', 'webkit'). По умолчанию `'firefox'`.
 - `options` (Optional[List[str]], optional): Список дополнительных опций для передачи в браузер. По умолчанию `None`.
 
 **Как работает функция**:

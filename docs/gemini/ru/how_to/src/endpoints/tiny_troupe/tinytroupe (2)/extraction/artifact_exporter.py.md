@@ -24,7 +24,7 @@
 ```python
 from tinytroupe.extraction import ArtifactExporter
 
-# Создаем экземпляр класса ArtifactExporter
+# создание экземпляр класса ArtifactExporter
 exporter = ArtifactExporter(base_output_folder="artifacts")
 
 # Экспортируем данные в JSON файл

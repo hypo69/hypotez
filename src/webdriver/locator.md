@@ -84,7 +84,7 @@ await self.price() # self.fields.price = await self.driver.execute_locator(self.
 
 Словарь локатора содержит следующие ключи:
 
-*   **`attribute`** (`string | null`): Атрибут, который нужно получить от найденного веб-элемента (например: `innerText`, `textContent`, `src`, `id`, `href`, `value`). Если `null` или не указан *и* нет `event`, то WebDriver вернёт сам веб-элемент (`WebElement`). Если указан `event`, то `attribute` часто игнорируется (зависит от `event`, например, `screenshot()` сам определяет возвращаемый тип).
+*   **`attribute`** (`string | null`): Атрибут, который нужно получить от найденного веб-элемента (например: `innerText`, `textContent`, `src`, `id`, `href`, `value`). Если `null` или не указан *и* нет `event`, то WebDriver вернёт сам веб-элемент (`WebElement`). Если указан `event`, то `attribute` часто игнорируется (зависит от `event`, например, `screenshot()` сам определяет Возвратый тип).
 
 *   **`by`** (`string`): Стратегия для поиска элемента. Соответствует константам `selenium.webdriver.common.by.By`:
     *   `ID` -> `By.ID`
@@ -134,7 +134,7 @@ await self.price() # self.fields.price = await self.driver.execute_locator(self.
 
 *   **`timeout`** (`float | int`): Время ожидания (в секундах) появления элемента на странице перед тем, как считать его не найденным. Если `0`, ожидание не используется (используется `find_element(s)` вместо `WebDriverWait`).
 
-*   **`timeout_for_event`** (`string`): Условие ожидания `WebDriverWait`, используемое если `timeout > 0`. Основные значения:
+*   **`timeout_for_event`** (`string`): Условие ожидания `WebDriverWait`, Используетсяое если `timeout > 0`. Основные значения:
     *   `presence_of_element_located`: Ждать, пока элемент появится в DOM (может быть невидимым).
     *   `visibility_of_element_located` / `visibility_of_all_elements_located`: Ждать, пока элемент(ы) станет видимым.
     *   Другие условия из `selenium.webdriver.support.expected_conditions`.
@@ -240,7 +240,7 @@ class KspGraber(Graber):
     # ... __init__ ...
 
     async def grab_page_async(self, *args, **kwargs) -> ProductFields:
-        # Проверяем URL перед загрузкой локаторов по умолчанию
+        # Проверка URL перед загрузкой локаторов по умолчанию
         if 'ksp.co.il/mob' in self.driver.current_url:
             logger.info("Обнаружена мобильная версия сайта KSP, загружаю мобильные локаторы.")
             # Перезагружаем локаторы из мобильного файла

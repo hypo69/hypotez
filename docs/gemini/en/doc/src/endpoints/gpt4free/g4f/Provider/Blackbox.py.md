@@ -268,7 +268,7 @@ async def create_async_generator(
 Создает асинхронный генератор для взаимодействия с API Blackbox AI.
 
 **Параметры**:
-- `model` (str): Используемая модель.
+- `model` (str): Используетсяая модель.
 - `messages` (Messages): Список сообщений для отправки.
 - `prompt` (str, optional): Промпт для генерации. По умолчанию `None`.
 - `proxy` (str, optional): HTTP-прокси для использования. По умолчанию `None`.

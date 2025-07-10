@@ -36,7 +36,7 @@ def create_completion(model: str, messages: list[dict[str, str]], stream: bool, 
     Функция создает запрос на завершение текста к API Forefront.
 
     Args:
-        model (str): Имя используемой модели.
+        model (str): Имя Используетсяой модели.
         messages (list[dict[str, str]]): Список сообщений для контекста запроса. Каждое сообщение представляет собой словарь с ключами "role" и "content".
         stream (bool): Флаг, указывающий, следует ли использовать потоковую передачу данных.
         **kwargs (Any): Дополнительные аргументы.

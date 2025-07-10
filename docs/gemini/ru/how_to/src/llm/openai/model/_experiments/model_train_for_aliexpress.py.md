@@ -37,7 +37,7 @@ system_instruction_path = gs.path.src / 'ai' / 'prompts' / 'aliexpress_campaign'
 # Считываем системную инструкцию
 system_instruction: str = read_text_file(system_instruction_path)
 
-# Создаем объекты моделей OpenAI и Gemini
+# создание объекты моделей OpenAI и Gemini
 openai = OpenAIModel(system_instruction = system_instruction)
 gemini = GoogleGenerativeAi(system_instruction = system_instruction)
 

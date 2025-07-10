@@ -24,7 +24,7 @@
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.Provider.deprecated.GetGpt import GetGpt
 
-gpt = GetGpt()  # Создаем объект провайдера
+gpt = GetGpt()  # создание объект провайдера
 
 # Список сообщений
 messages = [

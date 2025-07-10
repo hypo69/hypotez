@@ -41,7 +41,7 @@
 - `create_completion(model: str, messages: Messages, stream: bool = False, proxy: str = None, timeout: int = 900, prompt: str = None, media: MediaListType = None, conversation: BaseConversation = None, return_conversation: bool = False, api_key: str = None, **kwargs) -> CreateResult`: 
     - **Назначение**: Создает новую беседу с GPT-4 Free и отправляет запросы для генерации ответов. 
     - **Параметры**:
-        - `model (str)`:  Название используемой модели.
+        - `model (str)`:  Название Используетсяой модели.
         - `messages (Messages)`:  Список сообщений для контекста.
         - `stream (bool)`:  Указывает, необходимо ли использовать потоковую передачу.
         - `proxy (str)`:  Адрес прокси-сервера.
@@ -147,7 +147,7 @@
 ### `create_completion(model: str, messages: Messages, stream: bool = False, proxy: str = None, timeout: int = 900, prompt: str = None, media: MediaListType = None, conversation: BaseConversation = None, return_conversation: bool = False, api_key: str = None, **kwargs) -> CreateResult`: 
     - **Назначение**: Создает новую беседу с GPT-4 Free и отправляет запросы для генерации ответов. 
     - **Параметры**:
-        - `model (str)`:  Название используемой модели.
+        - `model (str)`:  Название Используетсяой модели.
         - `messages (Messages)`:  Список сообщений для контекста.
         - `stream (bool)`:  Указывает, необходимо ли использовать потоковую передачу.
         - `proxy (str)`:  Адрес прокси-сервера.

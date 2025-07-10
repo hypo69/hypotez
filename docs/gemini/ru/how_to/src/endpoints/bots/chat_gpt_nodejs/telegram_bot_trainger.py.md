@@ -45,7 +45,7 @@
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
-# Создаем объект бота.
+# создание объект бота.
 application = Application.builder().token(TELEGRAM_TOKEN).build()
 
 # Регистрируем обработчик команды `/start`.

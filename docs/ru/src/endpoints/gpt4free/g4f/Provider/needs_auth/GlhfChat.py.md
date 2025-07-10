@@ -23,7 +23,7 @@
 - `api_base` (str): Базовый URL для API `glhf.chat`.
 - `working` (bool): Указывает, что провайдер находится в рабочем состоянии.
 - `needs_auth` (bool): Указывает, требуется ли аутентификация для работы с провайдером.
-- `default_model` (str): Модель, используемая по умолчанию.
+- `default_model` (str): Модель, Используетсяая по умолчанию.
 - `models` (List[str]): Список поддерживаемых моделей.
 
 **Принцип работы**:
@@ -40,7 +40,7 @@
 - `api_base` (str): Базовый URL для API `glhf.chat`.
 - `working` (bool): Указывает, что провайдер находится в рабочем состоянии.
 - `needs_auth` (bool): Указывает, требуется ли аутентификация для работы с провайдером.
-- `default_model` (str): Модель, используемая по умолчанию ("hf:meta-llama/Llama-3.3-70B-Instruct").
+- `default_model` (str): Модель, Используетсяая по умолчанию ("hf:meta-llama/Llama-3.3-70B-Instruct").
 - `models` (List[str]): Список поддерживаемых моделей, включающий различные модели от "hf:meta-llama/Llama-3.1-405B-Instruct" до "hf:nvidia/Llama-3.1-Nemotron-70B-Instruct-HF".
 
 ## Примеры

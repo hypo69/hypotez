@@ -24,7 +24,7 @@
 from src.suppliers.suppliers_list.bangood.scenario import get_list_products_in_category
 from src.suppliers.suppliers_list.bangood.supplier import Supplier
 
-# Создаем объект Supplier
+# создание объект Supplier
 supplier = Supplier()
 
 # Получаем список URL-адресов товаров

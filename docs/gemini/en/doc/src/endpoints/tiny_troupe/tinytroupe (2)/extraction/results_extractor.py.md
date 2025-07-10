@@ -61,10 +61,10 @@
 from tinytroupe.extraction.results_extractor import ResultsExtractor
 from tinytroupe.agent import TinyPerson
 
-# Создаем экземпляр класса ResultsExtractor
+# создание экземпляр класса ResultsExtractor
 results_extractor = ResultsExtractor()
 
-# Создаем список агентов TinyPerson
+# создание список агентов TinyPerson
 agents = [TinyPerson(name='Agent1'), TinyPerson(name='Agent2')]
 
 # Извлекаем результаты из агентов
@@ -100,10 +100,10 @@ print(extracted_results)
 from tinytroupe.extraction.results_extractor import ResultsExtractor
 from tinytroupe.agent import TinyPerson
 
-# Создаем экземпляр класса ResultsExtractor
+# создание экземпляр класса ResultsExtractor
 results_extractor = ResultsExtractor()
 
-# Создаем экземпляр агента TinyPerson
+# создание экземпляр агента TinyPerson
 agent = TinyPerson(name='Agent1')
 
 # Извлекаем результаты из агента
@@ -139,10 +139,10 @@ print(extracted_results)
 from tinytroupe.extraction.results_extractor import ResultsExtractor
 from tinytroupe.environment import TinyWorld
 
-# Создаем экземпляр класса ResultsExtractor
+# создание экземпляр класса ResultsExtractor
 results_extractor = ResultsExtractor()
 
-# Создаем экземпляр мира TinyWorld
+# создание экземпляр мира TinyWorld
 world = TinyWorld(name='World1')
 
 # Извлекаем результаты из мира
@@ -173,7 +173,7 @@ print(extracted_results)
 ```python
 from tinytroupe.extraction.results_extractor import ResultsExtractor
 
-# Создаем экземпляр класса ResultsExtractor
+# создание экземпляр класса ResultsExtractor
 results_extractor = ResultsExtractor()
 
 # Извлекаем результаты из агентов или мира (не показано в этом примере)
@@ -214,7 +214,7 @@ results_extractor.save_as_json('results.json')
 ```python
 from tinytroupe.extraction.results_extractor import ResultsExtractor
 
-# Создаем экземпляр класса ResultsExtractor
+# создание экземпляр класса ResultsExtractor
 results_extractor = ResultsExtractor()
 
 # Передаем значения параметров
@@ -244,10 +244,10 @@ from tinytroupe.extraction.results_extractor import ResultsExtractor
 from tinytroupe.agent import TinyPerson
 from tinytroupe.environment import TinyWorld
 
-# Создаем экземпляр класса ResultsExtractor
+# создание экземпляр класса ResultsExtractor
 results_extractor = ResultsExtractor()
 
-# Создаем экземпляр агента TinyPerson
+# создание экземпляр агента TinyPerson
 agent = TinyPerson(name='Agent1')
 
 # Извлекаем результаты из агента
@@ -256,7 +256,7 @@ extracted_results = results_extractor.extract_results_from_agent(agent, extracti
 # Выводим результаты
 print(extracted_results)
 
-# Создаем экземпляр мира TinyWorld
+# создание экземпляр мира TinyWorld
 world = TinyWorld(name='World1')
 
 # Извлекаем результаты из мира

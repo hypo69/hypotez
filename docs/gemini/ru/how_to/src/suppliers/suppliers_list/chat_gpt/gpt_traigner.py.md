@@ -29,4 +29,4 @@ traigner = GPT_Traigner()
 traigner.dump_downloaded_conversations()
 ```
 
-В этом примере мы создаем экземпляр класса `GPT_Traigner` и вызываем метод `dump_downloaded_conversations()`, который выполняет все описанные выше действия.
+В этом примере мы создание экземпляр класса `GPT_Traigner` и вызываем метод `dump_downloaded_conversations()`, который выполняет все описанные выше действия.

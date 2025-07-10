@@ -40,7 +40,7 @@ load_dotenv()  # Загружаем переменные окружения из
 # Получаем токен Telegram бота из переменной окружения
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 
-# Создаем экземпляр TelegramBot
+# создание экземпляр TelegramBot
 bot = TelegramBot(TELEGRAM_TOKEN)
 
 # Запускаем бота

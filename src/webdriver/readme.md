@@ -68,7 +68,7 @@ pip install selenium requests fake-useragent
 }
 ```
 
-**Важно:** Пути в `executable_path` и `profile_directory` указаны относительно корня проекта (определяемого `header.__root__` или `gs.path.root`). Переменная `%LOCALAPPDATA%` будет автоматически заменена на соответствующий путь в Windows.
+**Важно:** Пути в `executable_path` и `profile_directory` указаны относительно корня проекта (Определениеого `header.__root__` или `gs.path.root`). Переменная `%LOCALAPPDATA%` будет автоматически заменена на соответствующий путь в Windows.
 
 ## Использование
 
@@ -199,7 +199,7 @@ results_links_locator = {
 }
 
 # --- Выполнение локаторов ---
-# Используем asyncio.run или существующий event loop для async функций
+# Используется asyncio.run или существующий event loop для async функций
 
 async def main_interaction():
     try:
@@ -261,7 +261,7 @@ async def get_element():
 # asyncio.run(get_element()) # В реальном коде
 
 # Отправка сообщения с эмуляцией Shift+Enter (если нужно)
-message_locator = search_input_locator # Используем тот же локатор поля ввода
+message_locator = search_input_locator # Используется тот же локатор поля ввода
 # message_locator.event = None # Убираем предыдущее событие type
 async def send_complex_message():
     message = "Первая строка;Вторая строка после переноса"

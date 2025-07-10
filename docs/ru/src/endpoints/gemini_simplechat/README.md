@@ -104,7 +104,7 @@ python main.py
 **Атрибуты**:
 
 -   `api_key` (str): API-ключ для доступа к Google Gemini API.
--   `model_name` (str): Имя используемой модели Gemini. По умолчанию "gemini-2.0-flash-exp".
+-   `model_name` (str): Имя Используетсяой модели Gemini. По умолчанию "gemini-2.0-flash-exp".
 -   `generation_config` (Dict): Конфигурация генерации текста. По умолчанию `None`.
 -   `system_instruction` (Optional[str]): Системные инструкции для модели. По умолчанию `None`.
 
@@ -125,7 +125,7 @@ python main.py
 **Параметры**:
 
 -   `api_key` (str): API-ключ для доступа к Google Gemini API.
--   `model_name` (str, optional): Имя используемой модели Gemini. По умолчанию "gemini-2.0-flash-exp".
+-   `model_name` (str, optional): Имя Используетсяой модели Gemini. По умолчанию "gemini-2.0-flash-exp".
 -   `generation_config` (Dict, optional): Конфигурация генерации текста. По умолчанию `None`.
 -   `system_instruction` (Optional[str], optional): Системные инструкции для модели. По умолчанию `None`.
 

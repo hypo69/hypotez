@@ -120,7 +120,7 @@ def read_text_file_generator(
             File content: Пример текста...
     Функция read_text_file может возвращать несколько разных типов данных в зависимости от входных параметров:
 
-    Возвращаемые значения:
+    Возвратые значения:
     ----------------------
 
     - Generator[str, None, None] (Генератор строк):
@@ -531,7 +531,7 @@ async def save_text_file_async(
     Example:
         >>> import asyncio
         >>> from pathlib import Path
-        >>> # Создаем временный файл для примера
+        >>> # создание временный файл для примера
         >>> temp_dir = Path('.') / 'temp_test_data'
         >>> temp_dir.mkdir(exist_ok=True)
         >>> example_file_path = temp_dir / 'example_async.txt'
@@ -925,7 +925,7 @@ def find_file_in_dir(directory_path, filename):
     try:
         for item in os.listdir(directory_path):
             full_path = os.path.join(directory_path, item)
-            # Проверяем, что это файл (а не директория) и имя совпадает
+            # Проверка, что это файл (а не директория) и имя совпадает
             if os.path.isfile(full_path) and item == filename:
                 return full_path
     except FileNotFoundError:

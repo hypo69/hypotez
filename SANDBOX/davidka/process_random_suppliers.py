@@ -82,7 +82,7 @@ def process_supplier_link(
     current_data_for_link: Dict[str, Any], # Это value_dict, который мы будем обновлять
     supplier_file_path: Path,
     llm: GoogleGenerativeAi
-) -> dict: # Возвращаем обновленный словарь или None
+) -> dict: # Возврат обновленный словарь или None
     """
     Обрабатывает одну ссылку из файла JSON поставщика: если поле 'text' пусто,
     загружает HTML, извлекает данные и возвращает обновленный словарь для этой ссылки.
@@ -395,7 +395,7 @@ if __name__ == '__main__':
                                     logger.error(f"Ошибка сохранения файла: {supplier_file_path}")
                                 else:
                                     # Обновление списка обработанных ссылок
-                                    Config.updated_links_dict.update({link_key:getattr(original_value_dict,'page_type', '')}) # Используем original_value_dict, так как он был обновлен
+                                    Config.updated_links_dict.update({link_key:getattr(original_value_dict,'page_type', '')}) # Используется original_value_dict, так как он был обновлен
                                     # Сохранение обновленного списка updated_links
                                     j_dumps(Config.updated_links_dict, Config.updated_links_file_path)
                                     text_updated_in_files_count += 1

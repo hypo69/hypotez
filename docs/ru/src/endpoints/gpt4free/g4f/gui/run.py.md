@@ -48,7 +48,7 @@ import argparse
 from unittest.mock import MagicMock
 from src.logger import logger
 
-# Создаем объект Namespace с аргументами (имитация argparse)
+# создание объект Namespace с аргументами (имитация argparse)
 args = argparse.Namespace(
     debug=True,
     ignore_cookie_files=False,
@@ -76,21 +76,21 @@ def test_run_gui_args():
         # Вызываем функцию
         run_gui_args(args)
 
-        # Проверяем, что g4f.debug.logging был установлен в True
+        # Проверка, что g4f.debug.logging был установлен в True
         assert g4f.debug.logging is True
 
-        # Проверяем, что read_cookie_files была вызвана
+        # Проверка, что read_cookie_files была вызвана
         assert g4f.cookies.read_cookie_files.called
 
-        # Проверяем, что g4f.cookies.browsers содержит правильные объекты
+        # Проверка, что g4f.cookies.browsers содержит правильные объекты
         assert g4f.cookies.browsers == [g4f.cookies[browser] for browser in args.cookie_browsers]
 
-        # Проверяем, что провайдеры были установлены в нерабочее состояние
+        # Проверка, что провайдеры были установлены в нерабочее состояние
         assert ProviderUtils.convert['provider1'].working is False
         assert ProviderUtils.convert['provider2'].working is False
         assert ProviderUtils.convert['provider3'].working is True
 
-        # Проверяем, что run_gui была вызвана с правильными аргументами
+        # Проверка, что run_gui была вызвана с правильными аргументами
         run_gui.assert_called_with(args.host, args.port, args.debug)
         print("Тест пройден успешно")
 

@@ -27,10 +27,10 @@ The module contains the `ProductEditor` class, which provides a graphical user i
 **Attributes**:
 
 - `data` (`SimpleNamespace`): Хранит данные о товаре, загруженные из JSON-файла.
-- `language` (`str`): Язык, используемый в редакторе. По умолчанию `EN` (английский).
-- `currency` (`str`): Валюта, используемая в редакторе. По умолчанию `USD` (доллар США).
+- `language` (`str`): Язык, Используетсяый в редакторе. По умолчанию `EN` (английский).
+- `currency` (`str`): Валюта, Используетсяая в редакторе. По умолчанию `USD` (доллар США).
 - `file_path` (`str`): Путь к JSON-файлу, содержащему данные о товаре.
-- `editor` (`AliCampaignEditor`): Экземпляр класса `AliCampaignEditor`, используемый для подготовки данных о товаре.
+- `editor` (`AliCampaignEditor`): Экземпляр класса `AliCampaignEditor`, Используетсяый для подготовки данных о товаре.
 - `main_app` (`MainApp`): Экземпляр класса `MainApp`, представляющий главное приложение.
 
 **Methods**:

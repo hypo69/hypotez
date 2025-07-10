@@ -109,11 +109,11 @@ def strip_tags(html_content: str | None, parser: Optional[str] = None) -> str:
     """
     # Проверка входных данных
     if not html_content or not isinstance(html_content, str):
-        # Логгер может быть не настроен на уровне warning, используем debug или info, если нужно видеть это часто
+        # Логгер может быть не настроен на уровне warning, Используется debug или info, если нужно видеть это часто
         logger.debug("strip_tags: Входные данные некорректны или пустые.")
-        return '' # Возвращаем пустую строку для некорректного ввода
+        return '' # Возврат пустую строку для некорректного ввода
 
-    # Используем парсер из аргумента или значение по умолчанию
+    # Используется парсер из аргумента или значение по умолчанию
     actual_parser = parser if parser is not None else 'html.parser'
 
     try:
@@ -143,7 +143,7 @@ def strip_tags(html_content: str | None, parser: Optional[str] = None) -> str:
     except Exception as ex:
         # Логгирование ошибки с использованием logger
         logger.error(f"Ошибка при обработке HTML в strip_tags: {html_content[:100]}...", ex, exc_info=True)
-        # Возвращаем пустую строку как индикатор проблемы
+        # Возврат пустую строку как индикатор проблемы
         ... # Добавлено троеточие перед return в блоке except
         return ''
 
@@ -188,7 +188,7 @@ def simplify_html(
         >>> simplify_html(sample_cls_id, config=allow_cls_id_cfg)
         '<div class="main" id="cont"><span style="color:red">Text</span></div>'
     """
-    # Используем переданный config или создаем новый по умолчанию
+    # Используется переданный config или создание новый по умолчанию
     effective_config = config if config is not None else Config()
 
     # Проверка входных данных
@@ -208,7 +208,7 @@ def simplify_html(
             # Если нет body, но есть контент, попробуем обработать его как фрагмент
             if original_soup.contents:
                  logger.debug(f"Тег <body> не найден, но есть контент. Обработка как фрагмента: {html_content[:100]}...")
-                 body_content_str = html_content # Используем весь контент
+                 body_content_str = html_content # Используется весь контент
             else:
                  logger.warning(f"Тег <body> не найден и нет контента в HTML: {html_content[:100]}... Возвращается пустая строка.")
                  return ''
@@ -218,7 +218,7 @@ def simplify_html(
 
 
         # --- Шаг 2: Обработка изолированного содержимого <body> (или фрагмента) ---
-        # Создаем новый суп только из содержимого body или всего фрагмента
+        # создание новый суп только из содержимого body или всего фрагмента
         soup = BeautifulSoup(body_content_str, actual_parser)
 
         # 2.1 Начальная чистка в новом супе: Комментарии, скрипты, стили
@@ -331,7 +331,7 @@ def simplify_html(
     except Exception as ex:
         logger.error(f"Ошибка при обработке HTML в simplify_html: {html_content[:100]}...", ex, exc_info=True)
         ... # Добавлено троеточие перед return в блоке except
-        return '' # Возвращаем пустую строку при любой ошибке
+        return '' # Возврат пустую строку при любой ошибке
 
 
 # --- Примеры использования (для демонстрации и отладки) ---
@@ -341,11 +341,11 @@ if __name__ == "__main__":
     # Если нет, можно добавить базовую настройку для тестов:
     # import logging
     # logging.basicConfig(level=logging.DEBUG)
-    # logger = logging.getLogger(__name__) # Используем стандартный логгер, если src.logger не настроен
+    # logger = logging.getLogger(__name__) # Используется стандартный логгер, если src.logger не настроен
 
     logger.info("--- Примеры работы модуля html_simplification ---")
 
-    # Определяем парсер единожды
+    # Определение парсер единожды
     parser_choice = 'lxml'
     try:
         import lxml
@@ -398,7 +398,7 @@ if __name__ == "__main__":
     logger.info(stripped_text)
 
     logger.info("\n3. simplify_html() с Config по умолчанию (class/id удалены):")
-    # Используем config по умолчанию, где class/id НЕ разрешены для '*'
+    # Используется config по умолчанию, где class/id НЕ разрешены для '*'
     default_cfg = Config()
     simplified_default: str = simplify_html(sample_html_full, config=default_cfg, parser=parser_choice)
     logger.info(simplified_default)
@@ -432,7 +432,7 @@ if __name__ == "__main__":
 
 
     logger.info("\n--- Тестирование крайних случаев ---")
-    default_config_test = Config() # Используем config по умолчанию для тестов
+    default_config_test = Config() # Используется config по умолчанию для тестов
     config_keep_significant_default = Config(keep_only_significant=True)
 
     logger.info(f"strip_tags(None): -> '{strip_tags(None)}'")

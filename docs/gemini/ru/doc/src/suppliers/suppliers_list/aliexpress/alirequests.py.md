@@ -30,7 +30,7 @@
 - `cookies_jar (RequestsCookieJar)`: Объект `RequestsCookieJar`, содержащий куки.
 - `session_id (str)`: Сессионный ID.
 - `headers (dict)`: Заголовки запросов.
-- `session (requests.Session)`: Объект `requests.Session`, используемый для выполнения запросов.
+- `session (requests.Session)`: Объект `requests.Session`, Используетсяый для выполнения запросов.
 
 **Методы**:
 

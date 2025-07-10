@@ -32,10 +32,10 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.ChatGpt import ChatGpt
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем объект ChatGpt
+# создание объект ChatGpt
 gpt = ChatGpt()
 
-# Определяем список сообщений
+# Определение список сообщений
 messages: Messages = [
     {'role': 'user', 'content': 'Привет! Как дела?'},
     {'role': 'assistant', 'content': 'Хорошо, спасибо! А у тебя как?'}
@@ -51,7 +51,7 @@ for token in gpt.create_completion(model='gpt-3.5-turbo', messages=messages, str
 * Создается объект `ChatGpt`.
 * Определяется список сообщений `messages`.
 * Вызывается функция `create_completion` с параметрами:
-    * `model` - модель ChatGpt, которую мы хотим использовать.
+    * `model` - модель ChatGpt, которую мы требуется использовать.
     * `messages` - список сообщений для отправки в чат.
     * `stream` - устанавливает флаг для получения ответа в виде потока.
 * Полученные токены текста печатаются на экран.

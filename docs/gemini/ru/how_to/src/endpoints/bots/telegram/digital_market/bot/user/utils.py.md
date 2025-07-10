@@ -60,7 +60,7 @@ payment_data = {
     "user_id": 1234567890
 }
 
-# Создаем объект сессии базы данных
+# создание объект сессии базы данных
 async with AsyncSession(settings.engine) as session:
     # Вызываем функцию successful_payment_logic 
     await successful_payment_logic(session, payment_data, 'RUB', 1234567890, bot)

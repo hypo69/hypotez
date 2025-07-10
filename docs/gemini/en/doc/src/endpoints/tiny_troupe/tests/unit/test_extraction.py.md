@@ -226,7 +226,7 @@ def exporter():
     return ArtifactExporter(base_output_folder=EXPORT_BASE_FOLDER)
 
 def test_export_json(exporter):
-    # Определяем данные для артефакта
+    # Определение данные для артефакта
     artifact_data = {
         "name": "John Doe",
         "age": 30,
@@ -237,31 +237,31 @@ def test_export_json(exporter):
     # Экспортируем данные для артефакта в формате JSON
     exporter.export("test_artifact", artifact_data, content_type="record", target_format="json")
     
-    # Проверяем, что файл JSON был экспортирован правильно
+    # Проверка, что файл JSON был экспортирован правильно
     assert os.path.exists(f"{EXPORT_BASE_FOLDER}/record/test_artifact.json"), "Файл JSON должен быть экспортирован."
 
-    # Проверяем, что файл содержит правильные данные
+    # Проверка, что файл содержит правильные данные
     with open(f"{EXPORT_BASE_FOLDER}/record/test_artifact.json", "r") as f:
         exported_data = json.load(f)
         assert exported_data == artifact_data, "Экспортированные данные JSON должны совпадать с исходными данными."
 
 def test_export_text(exporter):
-    # Определяем данные для артефакта
+    # Определение данные для артефакта
     artifact_data = "This is a sample text."
     
     # Экспортируем данные для артефакта в формате текста
     exporter.export("test_artifact", artifact_data, content_type="text", target_format="txt")
     
-    # Проверяем, что текстовый файл был экспортирован правильно
+    # Проверка, что текстовый файл был экспортирован правильно
     assert os.path.exists(f"{EXPORT_BASE_FOLDER}/text/test_artifact.txt"), "Текстовый файл должен быть экспортирован."
 
-    # Проверяем, что файл содержит правильные данные
+    # Проверка, что файл содержит правильные данные
     with open(f"{EXPORT_BASE_FOLDER}/text/test_artifact.txt", "r") as f:
         exported_data = f.read()
         assert exported_data == artifact_data, "Экспортированные текстовые данные должны совпадать с исходными данными."
 
 def test_export_docx(exporter):
-    # Определяем данные для артефакта. Включаем форматирование Markdown для проверки его сохранения.
+    # Определение данные для артефакта. Включаем форматирование Markdown для проверки его сохранения.
     artifact_data ="""
     # This is a sample markdown text
     This is a **bold** text.
@@ -272,10 +272,10 @@ def test_export_docx(exporter):
     # Экспортируем данные для артефакта в файл docx
     exporter.export("test_artifact", artifact_data, content_type="Document", content_format="markdown", target_format="docx")
     
-    # Проверяем, что файл docx был экспортирован правильно
+    # Проверка, что файл docx был экспортирован правильно
     assert os.path.exists(f"{EXPORT_BASE_FOLDER}/Document/test_artifact.docx"), "Файл docx должен быть экспортирован."
 
-    # Проверяем, что файл содержит правильные данные
+    # Проверка, что файл содержит правильные данные
     from docx import Document
     doc = Document(f"{EXPORT_BASE_FOLDER}/Document/test_artifact.docx")
     exported_data = ""
@@ -287,7 +287,7 @@ def test_export_docx(exporter):
 
 
 def test_normalizer():
-    # Определяем понятия для нормализации
+    # Определение понятия для нормализации
     concepts = ['Antique Book Collection', 'Medical Research', 'Electrical safety', 'Reading', 'Technology', 'Entrepreneurship', 'Multimedia Teaching Tools', 'Photography', 
      'Smart home technology', 'Gardening', 'Travel', 'Outdoors', 'Hiking', 'Yoga', 'Finance', 'Health and wellness', 'Sustainable Living', 'Barista Skills', 'Oral health education',
      'Patient care', 'Professional Development', 'Project safety', 'Coffee', 'Literature', 'Continuous learning', 'Model trains', 'Education', 'Mental and Physical Balance', 'Kayaking',
@@ -314,7 +314,7 @@ def test_normalizer():
 
         next_cache_size = len(normalizer.normalizing_map.keys())
 
-        # Проверяем, что длины одинаковые
+        # Проверка, что длины одинаковые
         assert len(normalized_concept) == len(bucket), "Нормализованное понятие должно иметь ту же длину, что и входное понятие."
 
         # Убеждаемся, что все элементы из нормализованных понятий находятся в ключах карты нормализации

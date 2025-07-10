@@ -34,7 +34,7 @@ This document provides an overview of the `ProgramSettings` class, which is resp
 
 **Parameters**:
 
-- `marker_files` (tuple): Кортеж строк, представляющих имена файлов или каталогов, используемых для идентификации корневого каталога проекта. По умолчанию выполняется поиск следующих маркеров: `pyproject.toml`, `requirements.txt`, `.git`.
+- `marker_files` (tuple): Кортеж строк, представляющих имена файлов или каталогов, Используетсяых для идентификации корневого каталога проекта. По умолчанию выполняется поиск следующих маркеров: `pyproject.toml`, `requirements.txt`, `.git`.
 
 **Returns**:
 

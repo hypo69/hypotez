@@ -21,10 +21,10 @@
 from src.webdriver.driver import Driver
 from src.suppliers.kualastyle.graber import Graber
 
-# Инициализируем вебдрайвер (например, Chrome)
+# Инициализация вебдрайвер (например, Chrome)
 driver = Driver(Chrome) 
 
-# Создаем экземпляр класса Graber с указанным индексом языка
+# создание экземпляр класса Graber с указанным индексом языка
 graber = Graber(driver, lang_index=0)  
 
 # Выполняем действия по сбору данных, например:

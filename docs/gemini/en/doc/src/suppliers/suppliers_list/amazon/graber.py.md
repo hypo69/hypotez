@@ -52,7 +52,7 @@
 **Purpose**: Инициализирует класс сбора полей товара.
 **Parameters**:
     - `driver` (`Driver`): Экземпляр вебдрайвера.
-    - `lang_index` (`int`): Индекс языка, используемого для сбора данных.
+    - `lang_index` (`int`): Индекс языка, Используетсяого для сбора данных.
 **Returns**: None
 **Raises Exceptions**: None
 **How the Function Works**:
@@ -63,7 +63,7 @@
 
 ## Parameter Details
 - `driver` (`Driver`): Экземпляр вебдрайвера.
-- `lang_index` (`int`): Индекс языка, используемого для сбора данных.
+- `lang_index` (`int`): Индекс языка, Используетсяого для сбора данных.
 
 ## Examples
 ```python

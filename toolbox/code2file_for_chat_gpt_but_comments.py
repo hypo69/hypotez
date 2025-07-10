@@ -213,10 +213,10 @@ if __name__ == "__main__":
     directory_to_search = "../src/suppliers/kazarinov/react"
     output_file_path = Path("../data/kazarinov_react.txt")
 
-    # Создаем директорию, если она не существует
+    # создание директорию, если она не существует
     output_file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Создаем файл, если его не существует
+    # создание файл, если его не существует
     output_file_path.touch(exist_ok=True)
 
     read_text_files(directory_to_search, output_file_path)

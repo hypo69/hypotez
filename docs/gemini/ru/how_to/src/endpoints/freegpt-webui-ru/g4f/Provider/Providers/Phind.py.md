@@ -52,7 +52,7 @@ messages = [
 # Вызов функции _create_completion
 response = _create_completion(model[0], messages, stream=True)
 
-# Обработка ответа (в цикле, так как мы используем stream=True)
+# Обработка ответа (в цикле, так как мы Используется stream=True)
 for line in response:
     print(line)
 

@@ -100,7 +100,7 @@ driver = Chrome(proxy_file_path='path/to/proxy.txt', chromedriver_version='87.0.
 ```python
 def set_proxy(self, options: Options) -> None:
     """
-    Настраивает прокси из словаря, возвращаемого get_proxies_dict.
+    Настраивает прокси из словаря, Возвратого get_proxies_dict.
 
     Args:
         options (Options): Опции Chrome, в которые добавляются настройки прокси.

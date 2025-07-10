@@ -43,7 +43,7 @@
 
 **Пример**:
 ```python
-# Предположим, что  есть функция 'process_data', которую мы хотим обернуть декоратором:
+# Предположим, что  есть функция 'process_data', которую мы требуется обернуть декоратором:
 from src.webdriver.driver import Driver
 from src.logger.logger import logger
 from src.suppliers.graber import Graber as Grbr, Config, close_pop_up

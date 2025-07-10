@@ -3,7 +3,7 @@
 
 Описание
 -------------------------
-Этот блок кода реализует класс `Chatgpt4Online`, который предоставляет асинхронный генератор для получения ответов от модели GPT-4 через API-сервис `chatgpt4online.org`. Класс использует библиотеку `aiohttp` для асинхронных HTTP-запросов, а также `json` для обработки JSON-данных, возвращаемых API. 
+Этот блок кода реализует класс `Chatgpt4Online`, который предоставляет асинхронный генератор для получения ответов от модели GPT-4 через API-сервис `chatgpt4online.org`. Класс использует библиотеку `aiohttp` для асинхронных HTTP-запросов, а также `json` для обработки JSON-данных, Возвратых API. 
 
 Шаги выполнения
 -------------------------
@@ -25,7 +25,7 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.not_working.Chatgpt4Online import Chatgpt4Online
 
 async def main():
-    # Инициализируем объект Chatgpt4Online
+    # Инициализация объект Chatgpt4Online
     provider = Chatgpt4Online(model='gpt-4', messages=[
         {'role': 'user', 'content': 'Привет! Как дела?'},
     ])

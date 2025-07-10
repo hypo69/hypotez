@@ -22,7 +22,7 @@ from src.endpoints.advertisement.facebook.facebook_groups_widgets import Faceboo
 # Загружаем данные из JSON-файла
 groups_file_path = Path("./data/facebook_groups.json")
 
-# Создаем объект виджета
+# создание объект виджета
 groups_widget = FacebookGroupsWidget(groups_file_path)
 
 # Отображаем виджет

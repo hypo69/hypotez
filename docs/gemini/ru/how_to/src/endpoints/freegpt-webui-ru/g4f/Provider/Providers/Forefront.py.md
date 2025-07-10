@@ -26,7 +26,7 @@
 ```python
 from g4f.Provider.Providers import Forefront
 
-# Создаем объект провайдера Forefront
+# создание объект провайдера Forefront
 provider = Forefront()
 
 # Формируем список сообщений для отправки на API

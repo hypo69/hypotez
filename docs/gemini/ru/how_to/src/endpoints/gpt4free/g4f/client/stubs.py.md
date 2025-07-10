@@ -29,7 +29,7 @@
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.client.stubs import ChatCompletionMessage
 
-# Создаем сообщение, которое будет отправлено в чат
+# создание сообщение, которое будет отправлено в чат
 message = ChatCompletionMessage.model_construct(content="Привет, как дела?")
 
 # Выводим сообщение
@@ -39,4 +39,4 @@ print(message)
 message.save("message.txt")
 ```
 
-В этом примере мы создаем объект `ChatCompletionMessage` с помощью метода `model_construct`. Затем мы выводим информацию о сообщении и сохраняем его в файл.
+В этом примере мы создание объект `ChatCompletionMessage` с помощью метода `model_construct`. Затем мы выводим информацию о сообщении и сохраняем его в файл.

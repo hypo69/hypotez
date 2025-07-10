@@ -37,10 +37,10 @@
 ```python
 import iop
 
-# Создаем клиента API
+# создание клиента API
 client = iop.IopClient('https://api-sg.aliexpress.com/sync', '345846782', 'e1b26aac391d1bc3987732af93')
 
-# Создаем запрос на получение аффилированной ссылки
+# создание запрос на получение аффилированной ссылки
 request = iop.IopRequest('aliexpress.affiliate.link.generate')
 
 # Добавляем параметры запроса

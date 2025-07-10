@@ -137,13 +137,13 @@ transcript = get_job_transcript(job_id='your_job_id')
 
 from revai import Revai
 
-# Создаем объект Revai
+# создание объект Revai
 revai = Revai(api_key='your_api_key')
 
 # Получаем токен доступа
 token = revai.get_token()
 
-# Создаем новую задачу транскрипции
+# создание новую задачу транскрипции
 job_config = {
   "language": "en-US",
   "model": "base",

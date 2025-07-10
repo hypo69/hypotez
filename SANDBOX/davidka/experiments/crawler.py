@@ -70,7 +70,7 @@ class Config:
         logger.info(f"Загружено {len(cls.checked_domains)} проверенных доменов.")
 
         # Загрузка списка файлов для обработки
-        # Используем '*.json', чтобы найти все json файлы
+        # Используется '*.json', чтобы найти все json файлы
         cls.crawl_files_list = get_filenames_from_directory(cls.MINING_DATA_PATH, '*.json')
         logger.info(f"Найдено {len(cls.crawl_files_list)} файлов для обработки в {cls.MINING_DATA_PATH}.")
 
@@ -118,7 +118,7 @@ async def get_products_by_category(driver:Driver, category: str, num_of_links: s
     # Объявление переменных
     extracted_data: Optional[Dict[str, Any]] = None
     task: str = ''
-    extracted_data_raw: Optional[str] = None # Явно инициализируем
+    extracted_data_raw: Optional[str] = None # Явно Инициализация
 
     # Проверка наличия драйвера
     if not driver:
@@ -143,7 +143,7 @@ async def get_products_by_category(driver:Driver, category: str, num_of_links: s
              extracted_data = j_loads(extracted_data_norm) # Парсинг JSON
              if extracted_data:
                  print('\n -------------------------------- EXTRACTED DATA (Category) ------------------------------------------')
-                 print(extracted_data) # Используем кастомный print
+                 print(extracted_data) # Используется кастомный print
                  print('\n -------------------------------------------------------------------------------------------')
              else:
                   logger.warning(f"Не удалось распарсить JSON ответ для категории {category=}: {extracted_data_norm}", None, False)
@@ -197,7 +197,7 @@ async def fetch_categories_from_suppliers_random_urls() -> None:
     # Обработка каждого файла из списка
     for filename in Config.crawl_files_list:
         try:
-            file_path = Config.MINING_DATA_PATH / filename # Используем константу пути
+            file_path = Config.MINING_DATA_PATH / filename # Используется константу пути
             crawl_data = j_loads(file_path)
 
             # Извлечение списка товаров
@@ -246,7 +246,7 @@ async def fetch_categories_from_suppliers_random_urls() -> None:
                     data = j_loads(normilized_res) # Пытаемся распарсить JSON
 
                     if data: # Если парсинг успешен
-                        print(f"Категории для {domain}:") # Используем кастомный print
+                        print(f"Категории для {domain}:") # Используется кастомный print
                         print(data)
                         # Сохранение результата для домена
                         save_path: Path = Config.TRAIN_DATA_SUPPLIER_CATEGORIES_PATH / f'{domain}.json' # Имя файла по домену
@@ -267,7 +267,7 @@ async def fetch_categories_from_suppliers_random_urls() -> None:
                      logger.warning(f"Получен пустой или некорректный ответ для домена {domain}", None, False)
 
                 # Пауза между обработкой доменов
-                await asyncio.sleep(Config.API_CALL_DELAY) # Используем константу задержки
+                await asyncio.sleep(Config.API_CALL_DELAY) # Используется константу задержки
 
         except FileNotFoundError:
             logger.error(f"Файл не найден при извлечении категорий: {file_path}", None, False)
@@ -290,7 +290,7 @@ async def find_products_in_domains() -> None:
     """
     # Объявление переменных
     driver: Optional[Driver] = Config.driver
-    domains_list: List[str] = Config.checked_domains # Используем загруженный список
+    domains_list: List[str] = Config.checked_domains # Используется загруженный список
     output_dict: Dict[str, Any] = {}
     timestamp: str = gs.now # Получаем текущую метку времени
     # Имя файла формируется один раз
@@ -331,7 +331,7 @@ async def find_products_in_domains() -> None:
                 clear_res = normalize_answer(raw_res)
                 res_dict = j_loads(clear_res) # Парсинг JSON
 
-                if res_dict is not None: # Проверяем, что парсинг удался (j_loads вернет {} при ошибке)
+                if res_dict is not None: # Проверка, что парсинг удался (j_loads вернет {} при ошибке)
                     output_dict[domain] = res_dict # Добавляем результат в общий словарь
                     logger.info(f"Найдены данные для {domain}.")
                 else:
@@ -342,7 +342,7 @@ async def find_products_in_domains() -> None:
                  logger.warning(f"Получен пустой или некорректный ответ для {domain}", None, False)
 
             # Периодическое сохранение результатов (например, после каждого домена)
-            # Используем try-except для сохранения, чтобы ошибка записи не прервала весь процесс
+            # Используется try-except для сохранения, чтобы ошибка записи не прервала весь процесс
             try:
                 j_dumps(output_dict, output_filename)
                 logger.debug(f"Промежуточные результаты сохранены в {output_filename}")
@@ -374,9 +374,9 @@ async def main() -> None:
 
     # # === Режим 1: Обработка URL товаров из файлов ===
     # logger.info("Запуск режима 1: Обработка URL товаров...")
-    # # Используем генератор для экономии памяти
+    # # Используется генератор для экономии памяти
     # url_generator = utils.yield_product_urls_from_files(Config.MINING_DATA_PATH)
-    # # Или используем список, если данных не слишком много
+    # # Или Используется список, если данных не слишком много
     # # url_list = utils.get_products_urls_list_from_files(Config.MINING_DATA_PATH, Config.crawl_files_list)
     # product_url: str
     # for product_url in url_generator: # или for product_url in url_list:
@@ -389,7 +389,7 @@ async def main() -> None:
     #         if not Config.instruction_grab_product_page:
     #              logger.error("Инструкция 'grab_product_page' не загружена, пропуск URL.", None, False)
     #              continue
-    #         task: str = Config.instruction_grab_product_page.replace('{PRODUCT_URL}', product_url) # Используем другой плейсхолдер
+    #         task: str = Config.instruction_grab_product_page.replace('{PRODUCT_URL}', product_url) # Используется другой плейсхолдер
     #
     #         result_data: Optional[str] = await Config.driver.run_task(task, use_gemini=True)
     #         if isinstance(result_data, str) and result_data.strip():
@@ -450,8 +450,8 @@ if __name__ == "__main__":
          logger.critical("Критическая ошибка в главном цикле выполнения.", e, exc_info=True)
     finally:
         # Попытка закрыть драйвер, если он еще открыт
-        # Используем run_until_complete для синхронного вызова async quit в finally
-        if Config.driver and Config.driver.browser: # Проверяем, что драйвер и браузер существуют
+        # Используется run_until_complete для синхронного вызова async quit в finally
+        if Config.driver and Config.driver.browser: # Проверка, что драйвер и браузер существуют
              logger.info("Попытка штатного/аварийного закрытия WebDriver в блоке finally...")
              try:
                  loop = asyncio.get_event_loop()

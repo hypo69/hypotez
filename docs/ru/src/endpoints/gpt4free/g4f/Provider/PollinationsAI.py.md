@@ -25,7 +25,7 @@
 - `text_api_endpoint` (str): URL для текстового API ("https://text.pollinations.ai").
 - `openai_endpoint` (str): URL для OpenAI API ("https://text.pollinations.ai/openai").
 - `image_api_endpoint` (str): URL для API генерации изображений ("https://image.pollinations.ai/").
-- `default_model` (str): Модель, используемая по умолчанию ("openai").
+- `default_model` (str): Модель, Используетсяая по умолчанию ("openai").
 - `default_image_model` (str): Модель для генерации изображений по умолчанию ("flux").
 - `default_vision_model` (str): Модель для vision задач по умолчанию.
 - `text_models` (List[str]): Список поддерживаемых текстовых моделей.
@@ -185,7 +185,7 @@ PollinationsAI.get_models()
     *   Если модель входит в список моделей для генерации изображений (`cls.image_models`), вызывает метод `cls._generate_image()` для генерации изображения.
     *   В противном случае вызывает метод `cls._generate_text()` для генерации текста.
 4.  **Асинхронная генерация**:
-    *   Использует `async for` для итерации по результатам, возвращаемым методами `_generate_image()` и `_generate_text()`.
+    *   Использует `async for` для итерации по результатам, Возвратым методами `_generate_image()` и `_generate_text()`.
     *   Каждый полученный чанк возвращается как часть асинхронного генератора.
 
 **Примеры**:

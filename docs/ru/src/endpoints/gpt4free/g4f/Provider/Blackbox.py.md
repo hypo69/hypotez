@@ -18,17 +18,17 @@
 
 **Атрибуты**:
 
--   `validated_value` (str): Валидированное значение, используемое для аутентификации.
+-   `validated_value` (str): Валидированное значение, Используетсяое для аутентификации.
 -   `chat_id` (str): Уникальный идентификатор чата.
 -   `message_history` (Messages): История сообщений в чате.
--   `model` (str): Модель, используемая в разговоре.
+-   `model` (str): Модель, Используетсяая в разговоре.
 
 **Методы**:
 
 -   `__init__(self, model: str)`:
     -   **Назначение**: Инициализирует объект `Conversation`.
     -   **Параметры**:
-        -   `model` (str): Модель, используемая в разговоре.
+        -   `model` (str): Модель, Используетсяая в разговоре.
     -   **Возвращает**: `None`
 
 ### `Blackbox(AsyncGeneratorProvider, ProviderModelMixin)`
@@ -46,7 +46,7 @@
 -   `supports_stream` (bool): Флаг, указывающий на поддержку потоковой передачи данных (True).
 -   `supports_system_message` (bool): Флаг, указывающий на поддержку системных сообщений (True).
 -   `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений (True).
--   `default_model` (str): Модель, используемая по умолчанию ("blackboxai").
+-   `default_model` (str): Модель, Используетсяая по умолчанию ("blackboxai").
 -   `default_vision_model` (str): Модель для обработки изображений по умолчанию ("blackboxai").
 -   `default_image_model` (str): Модель для генерации изображений по умолчанию ('flux').
 -   `fallback_models` (list): Список бесплатных моделей, доступных для использования.
@@ -56,7 +56,7 @@
 -   `agentMode` (dict): Конфигурации режимов агента для различных моделей.
 -   `trendingAgentMode` (dict): Конфигурации популярных режимов агента.
 -   `_all_models` (list): Полный список всех моделей, доступных для авторизованных пользователей.
--   `models` (list): Список моделей, используемых по умолчанию (инициализируется как `fallback_models`).
+-   `models` (list): Список моделей, Используетсяых по умолчанию (инициализируется как `fallback_models`).
 -   `model_aliases` (dict): Словарь псевдонимов моделей.
 
 ## Методы класса
@@ -268,7 +268,7 @@ async for response in Blackbox.create_async_generator(model="blackboxai", messag
 -   `supports_stream` (bool): Флаг, указывающий на поддержку потоковой передачи данных (True).
 -   `supports_system_message` (bool): Флаг, указывающий на поддержку системных сообщений (True).
 -   `supports_message_history` (bool): Флаг, указывающий на поддержку истории сообщений (True).
--   `default_model` (str): Модель, используемая по умолчанию ("blackboxai").
+-   `default_model` (str): Модель, Используетсяая по умолчанию ("blackboxai").
 -   `default_vision_model` (str): Модель для обработки изображений по умолчанию ("blackboxai").
 -   `default_image_model` (str): Модель для генерации изображений по умолчанию ('flux').
 -   `fallback_models` (list): Список бесплатных моделей, доступных для использования.
@@ -278,5 +278,5 @@ async for response in Blackbox.create_async_generator(model="blackboxai", messag
 -   `agentMode` (dict): Конфигурации режимов агента для различных моделей.
 -   `trendingAgentMode` (dict): Конфигурации популярных режимов агента.
 -   `_all_models` (list): Полный список всех моделей, доступных для авторизованных пользователей.
--   `models` (list): Список моделей, используемых по умолчанию (инициализируется как `fallback_models`).
+-   `models` (list): Список моделей, Используетсяых по умолчанию (инициализируется как `fallback_models`).
 -   `model_aliases` (dict): Словарь псевдонимов моделей.

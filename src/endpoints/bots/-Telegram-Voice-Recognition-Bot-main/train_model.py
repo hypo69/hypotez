@@ -43,7 +43,7 @@ epochs = 10
 for epoch in range(1, epochs + 1):
     model.fit(X_train, y_train)
 
-    # Проверяем точность
+    # Проверка точность
     y_train_pred = model.predict(X_train)
     y_test_pred = model.predict(X_test)
     train_acc = accuracy_score(y_train, y_train_pred)

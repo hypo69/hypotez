@@ -17,7 +17,7 @@
 #### **Рекомендации по улучшению**:
 
 1. **Документирование внутренней функции `ensure_https_single`**:
-   - Добавить полное описание, аргументы, возвращаемые значения и возможные исключения.
+   - Добавить полное описание, аргументы, Возвратые значения и возможные исключения.
    - Перевести docstring на русский язык.
 
 2. **Обработка исключений**:
@@ -114,13 +114,13 @@ def ensure_https(prod_ids: str | list[str]) -> str | list[str]:
             _prod_id = extract_prod_ids(prod_id)  # Извлекаем ID товара
         except Exception as ex:
             logger.error(f'Ошибка при извлечении ID товара: {prod_id=}', ex, exc_info=True)  # Логируем ошибку
-            return prod_id  # Возвращаем исходный URL
+            return prod_id  # Возврат исходный URL
 
         if _prod_id:
             return f'https://www.aliexpress.com/item/{_prod_id}.html'  # Формируем URL с https
         else:
             logger.error(f'Неверный ID товара или URL: {prod_id=}', exc_info=False)  # Логируем ошибку
-            return prod_id  # Возвращаем исходный URL
+            return prod_id  # Возврат исходный URL
 
     if isinstance(prod_ids, list):
         return [ensure_https_single(prod_id) for prod_id in prod_ids]  # Обрабатываем список URL

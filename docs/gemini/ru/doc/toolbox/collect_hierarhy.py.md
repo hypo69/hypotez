@@ -113,7 +113,7 @@ def collect_and_copy_files(directory: Path, target_directory: Path) -> dict:
 
 def main():
     src_directory = Path('./src/utils')
-    project_structure_directory = Path('./prod')  # Создаем папку 'prod'
+    project_structure_directory = Path('./prod')  # создание папку 'prod'
     file_hierarchy = collect_and_copy_files(src_directory, project_structure_directory)
     json_output_path = Path('./prod/file_hierarchy.json')
     j_dumps(file_hierarchy, json_output_path)

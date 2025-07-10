@@ -68,7 +68,7 @@
 - `conversation_id` (str): Идентификатор разговора.
 - `response_id` (str): Идентификатор ответа.
 - `choice_id` (str): Идентификатор выбора.
-- `model` (str): Используемая модель.
+- `model` (str): Используетсяая модель.
 
 **Принцип работы**:
 Класс используется для хранения и передачи контекста разговора между запросами к API Gemini.
@@ -148,7 +148,7 @@
         Создает асинхронный генератор для взаимодействия с моделью Gemini.
 
         Args:
-            model (str): Используемая модель.
+            model (str): Используетсяая модель.
             messages (Messages): Список сообщений для отправки.
             proxy (str, optional): Прокси-сервер для использования. По умолчанию `None`.
             cookies (Cookies, optional): Cookies для аутентификации. По умолчанию `None`.
@@ -299,7 +299,7 @@
             conversation_id (str): Идентификатор разговора.
             response_id (str): Идентификатор ответа.
             choice_id (str): Идентификатор выбора.
-            model (str): Используемая модель.
+            model (str): Используетсяая модель.
         """
         self.conversation_id = conversation_id
         self.response_id = response_id

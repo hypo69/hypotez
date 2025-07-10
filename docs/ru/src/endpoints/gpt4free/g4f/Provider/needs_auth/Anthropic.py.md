@@ -26,7 +26,7 @@
 - `supports_stream` (bool): Флаг, указывающий, поддерживается ли потоковая передача (True).
 - `supports_system_message` (bool): Флаг, указывающий, поддерживаются ли системные сообщения (True).
 - `supports_message_history` (bool): Флаг, указывающий, поддерживается ли история сообщений (True).
-- `default_model` (str): Модель, используемая по умолчанию ("claude-3-5-sonnet-latest").
+- `default_model` (str): Модель, Используетсяая по умолчанию ("claude-3-5-sonnet-latest").
 - `models` (list[str]): Список поддерживаемых моделей.
 - `models_aliases` (dict[str, str]): Словарь псевдонимов моделей для удобства использования.
 
@@ -179,7 +179,7 @@ def get_headers(cls, stream: bool, api_key: str = None, headers: dict = None) ->
 - `supports_stream` (bool): Флаг, указывающий, поддерживается ли потоковая передача (True).
 - `supports_system_message` (bool): Флаг, указывающий, поддерживаются ли системные сообщения (True).
 - `supports_message_history` (bool): Флаг, указывающий, поддерживается ли история сообщений (True).
-- `default_model` (str): Модель, используемая по умолчанию ("claude-3-5-sonnet-latest").
+- `default_model` (str): Модель, Используетсяая по умолчанию ("claude-3-5-sonnet-latest").
 - `models` (list[str]): Список поддерживаемых моделей.
 - `models_aliases` (dict[str, str]): Словарь псевдонимов моделей для удобства использования.
 

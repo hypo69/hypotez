@@ -113,7 +113,7 @@ class Firefox(WebDriver):
         - Настройки прокси.
 
     Args:
-        profile_name (Optional[str], optional): Имя используемого профиля Firefox. По умолчанию None.
+        profile_name (Optional[str], optional): Имя Используетсяого профиля Firefox. По умолчанию None.
         geckodriver_version (Optional[str], optional): Версия GeckoDriver. По умолчанию None.
         firefox_version (Optional[str], optional): Версия Firefox. По умолчанию None.
         user_agent (Optional[str], optional): Строка User-Agent. Если None, используется случайный User-Agent. По умолчанию None.

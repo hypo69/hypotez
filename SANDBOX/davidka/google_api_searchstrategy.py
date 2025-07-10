@@ -120,7 +120,7 @@ class GoogleApiSearcher:
 
 
         # 1. Попытка загрузки из gs (без try-except для ImportError)
-        # Используем getattr для безопасного доступа к атрибутам, если они могут отсутствовать
+        # Используется getattr для безопасного доступа к атрибутам, если они могут отсутствовать
         if api_key: self.API_KEY = api_key
         if cse_id: self.CSE_ID = cse_id
         if not self.API_KEY:
@@ -147,7 +147,7 @@ class GoogleApiSearcher:
         items: Optional[List[Dict[str, Any]]] = None
         links: List[str] = []
 
-        # Используем ключи из атрибутов экземпляра
+        # Используется ключи из атрибутов экземпляра
         params = {
             'key': self.API_KEY,
             #'cx': self.CSE_ID,

@@ -21,7 +21,7 @@ HuggingChat — это асинхронный провайдер для рабо
 from hypotez.src.endpoints.gpt4free.g4f.Provider.hf.HuggingChat import HuggingChat
 
 async def main():
-    # Инициализируем HuggingChat
+    # Инициализация HuggingChat
     provider = HuggingChat()
 
     # Авторизуемся в сервисе

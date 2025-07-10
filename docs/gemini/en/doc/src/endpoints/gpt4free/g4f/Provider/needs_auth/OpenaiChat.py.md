@@ -48,7 +48,7 @@
 - `create_messages`: Создает список сообщений для отправки в чат.
 - `get_generated_image`: Получает сгенерированное изображение по его идентификатору.
 - `create_authed`: Создает асинхронный генератор для разговора с OpenAI.
-- `iter_messages_line`: Итеративно обрабатывает строки сообщений, возвращаемые OpenAI.
+- `iter_messages_line`: Итеративно обрабатывает строки сообщений, Возвратые OpenAI.
 - `synthesize`: Синтезирует речь на основе заданных параметров.
 - `login`: Аутентифицирует пользователя и устанавливает необходимые заголовки и куки.
 - `nodriver_auth`: Аутентифицирует пользователя с использованием nodriver.
@@ -228,7 +228,7 @@ async def create_authed(
 ```python
 @classmethod
 async def iter_messages_line(cls, session: StreamSession, auth_result: AuthResult, line: bytes, fields: Conversation, sources: Sources) -> AsyncIterator:
-    """Итеративно обрабатывает строки сообщений, возвращаемые OpenAI.
+    """Итеративно обрабатывает строки сообщений, Возвратые OpenAI.
 
     Args:
         session (StreamSession): Объект StreamSession для выполнения запросов.

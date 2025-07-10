@@ -136,6 +136,6 @@ def create_index_rst(start_dir: str) -> None:
 
 # Пример использования
 if __name__ == "__main__":
-    # Импортируем модуль header и используем его атрибут __root__
+    # Импортируем модуль header и Используется его атрибут __root__
     import header
     create_index_rst(Path(header.__root__, 'src', 'utils'))

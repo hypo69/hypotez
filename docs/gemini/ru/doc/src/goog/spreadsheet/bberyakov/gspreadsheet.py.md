@@ -25,7 +25,7 @@
 
 **Методы**:
     - `__init__(self, s_id: str = None, s_title: str = None, *args, **kwargs)`: Инициализирует экземпляр класса `GSpreadsheet`. Принимает параметры `s_id` (идентификатор таблицы) и `s_title` (название таблицы).
-    - `get_project_spreadsheets_dict(self) -> dict`: Возвращает словарь с описанием таблиц Google Sheets, используемых в проекте.
+    - `get_project_spreadsheets_dict(self) -> dict`: Возвращает словарь с описанием таблиц Google Sheets, Используетсяых в проекте.
     - `get_by_title(self, sh_title: str = 'New Spreadsheet')`: Открывает таблицу Google Sheets по названию `sh_title`. Создаёт новую таблицу, если такой нет.
     - `get_by_id(self, sh_id: str) -> Spreadsheet`: Открывает таблицу Google Sheets по идентификатору `sh_id`. 
     - `get_all_spreadsheets_for_current_account(self)`: Возвращает список всех таблиц, доступных для текущего аккаунта.
@@ -70,7 +70,7 @@ from src.goog.spreadsheet.bberyakov.gspreadsheet import service_account
 # Создаём объект клиента для доступа к Google Sheets
 client = service_account('goog\\onela-hypotez-1aafa5e5d1b5.json')
 
-# Используем объект клиента для работы с таблицами Google Sheets
+# Используется объект клиента для работы с таблицами Google Sheets
 # ...
 
 ```

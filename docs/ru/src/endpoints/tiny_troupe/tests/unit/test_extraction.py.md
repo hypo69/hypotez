@@ -42,7 +42,7 @@ def exporter():
     return ArtifactExporter(base_output_folder=EXPORT_BASE_FOLDER)
 ```
 
-**Назначение**: Создает экземпляр класса `ArtifactExporter` с базовой папкой для экспорта, используемой в тестах.
+**Назначение**: Создает экземпляр класса `ArtifactExporter` с базовой папкой для экспорта, Используетсяой в тестах.
 
 **Возвращает**:
 
@@ -57,7 +57,7 @@ def test_export_json(exporter):
     """Функция проверяет экспорт артефакта в формате JSON.
 
     Args:
-        exporter: Экземпляр класса `ArtifactExporter`, используемый для экспорта.
+        exporter: Экземпляр класса `ArtifactExporter`, Используетсяый для экспорта.
     """
     # Define the artifact data
     artifact_data = {
@@ -99,7 +99,7 @@ def test_export_text(exporter):
     """Функция проверяет экспорт артефакта в формате текста.
 
     Args:
-        exporter: Экземпляр класса `ArtifactExporter`, используемый для экспорта.
+        exporter: Экземпляр класса `ArtifactExporter`, Используетсяый для экспорта.
     """
     # Define the artifact data
     artifact_data = "This is a sample text."
@@ -136,7 +136,7 @@ def test_export_docx(exporter):
     """Функция проверяет экспорт артефакта в формате DOCX.
 
     Args:
-        exporter: Экземпляр класса `ArtifactExporter`, используемый для экспорта.
+        exporter: Экземпляр класса `ArtifactExporter`, Используетсяый для экспорта.
     """
     # Define the artifact data. Include some fancy markdown formatting so we can test if it is preserved.
     artifact_data ="""
@@ -231,7 +231,7 @@ def test_normalizer():
 3.  Проверяется, что количество нормализованных элементов соответствует ожидаемому значению.
 4.  Создается несколько случайных выборок из списка концепций.
 5.  Для каждой выборки вызывается метод `normalize` класса `Normalizer`.
-6.  Проверяется, что возвращаемое значение не равно `None`.
+6.  Проверяется, что Возвратое значение не равно `None`.
 7.  Проверяется, что длина нормализованного списка соответствует длине входного списка.
 8.  Проверяется, что все элементы из нормализованного списка присутствуют в ключах словаря `normalizing_map`.
 9.  Проверяется, что размер кэша увеличивается после каждой нормализации.

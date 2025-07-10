@@ -103,7 +103,7 @@ def get_domain(url: Optional[str]) -> Optional[str]:
         if not netloc: logger.warning(f"Не удалось извлечь netloc из очищенного URL: '{cleaned_url}' (исходный: '{url}')"); return None
         if netloc.lower().startswith('www.'): domain_part = netloc[4:]
         else: domain_part = netloc
-        # Возвращаем хост без порта, но СОХРАНЯЕМ РЕГИСТР и скобки для IPv6
+        # Возврат хост без порта, но СОХРАНЯЕМ РЕГИСТР и скобки для IPv6
         return domain_part.split(':', 1)[0]
     except Exception as ex: logger.error(f"Ошибка при обработке очищенного URL '{cleaned_url}' (исходный: '{url}'): {ex}", ex, exc_info=True); return None
 
@@ -161,7 +161,7 @@ def extract_pure_domain(text: Optional[str]) -> Optional[str]:
         # get_domain не смог извлечь хост
         return None
 
-    # 2. Проверяем, не является ли извлеченный хост IP-адресом
+    # 2. Проверка, не является ли извлеченный хост IP-адресом
     try:
         # ipaddress.ip_address() выбросит ValueError, если это не валидный IP
         _ = ipaddress.ip_address(hostname)
@@ -189,7 +189,7 @@ def extract_pure_domain(text: Optional[str]) -> Optional[str]:
     # Удаляем возможные дефисы/точки с начала/конца, возникшие после очистки
     final_domain = cleaned_domain.strip('.-')
 
-    # Проверяем, что результат не пустой и выглядит как домен
+    # Проверка, что результат не пустой и выглядит как домен
     if not final_domain:
         logger.debug(f"Результат после очистки хоста '{hostname}' пуст.")
         return None
@@ -208,7 +208,7 @@ def extract_pure_domain(text: Optional[str]) -> Optional[str]:
         logger.warning(f"Результат '{final_domain}' после очистки хоста '{hostname}' не является 'localhost' и не содержит точку.")
         return None
 
-    # 5. Возвращаем результат в нижнем регистре
+    # 5. Возврат результат в нижнем регистре
     return final_domain.lower()
 
 # Список часто встречающихся расширений файлов, которые обычно не являются веб-страницами.

@@ -46,7 +46,7 @@ async def main():
         form_data.add_field("file", open("file.txt", "rb"), content_type="text/plain", filename="file.txt")
         response = await session.post("https://example.com/upload", data=form_data)
 
-        # Проверяем статус ответа
+        # Проверка статус ответа
         response.raise_for_status()
 
         # Получаем текст ответа
@@ -65,7 +65,7 @@ async def main():
         async for event in response.sse():
             print(event)
 
-        # Создаем WebSocket-соединение
+        # создание WebSocket-соединение
         async with session.ws_connect("wss://example.com/ws") as ws:
             # Отправляем сообщение на WebSocket
             await ws.send_str("Hello, world!")

@@ -24,7 +24,7 @@
 - `supports_stream` (bool): Указывает, поддерживает ли потоковую передачу.
 - `supports_system_message` (bool): Указывает, поддерживает ли системные сообщения.
 - `supports_message_history` (bool): Указывает, поддерживает ли историю сообщений.
-- `default_model` (str): Модель изображения, используемая по умолчанию.
+- `default_model` (str): Модель изображения, Используетсяая по умолчанию.
 - `default_image_model` (str): Псевдоним для `default_model`.
 - `image_models` (list): Список поддерживаемых моделей изображений.
 - `models` (list): Псевдоним для `image_models`.
@@ -170,7 +170,7 @@ def get_model(cls, model: str) -> str:
 - `supports_stream` (bool): Указывает, поддерживает ли потоковую передачу.
 - `supports_system_message` (bool): Указывает, поддерживает ли системные сообщения.
 - `supports_message_history` (bool): Указывает, поддерживает ли историю сообщений.
-- `default_model` (str): Модель изображения, используемая по умолчанию.
+- `default_model` (str): Модель изображения, Используетсяая по умолчанию.
 - `default_image_model` (str): Псевдоним для `default_model`.
 - `image_models` (list): Список поддерживаемых моделей изображений.
 - `models` (list): Псевдоним для `image_models`.

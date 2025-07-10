@@ -135,7 +135,7 @@ def start_logger(config: configparser.ConfigParser) -> None:
 
 ## Переменные
 
-- `_config`: Глобальная переменная, используемая для хранения кэшированной конфигурации.
+- `_config`: Глобальная переменная, Используетсяая для хранения кэшированной конфигурации.
 
 ```python
 _config: configparser.ConfigParser | None

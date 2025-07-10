@@ -32,13 +32,13 @@ class CDataSupplier:
         # ... реализация метода login
         return True
 
-# Создаем экземпляр класса CDataSupplier
+# создание экземпляр класса CDataSupplier
 cdata_supplier = CDataSupplier()
 
 # Вызываем метод login для авторизации
 is_logged_in = cdata_supplier.login()
 
-# Проверяем результат авторизации
+# Проверка результат авторизации
 if is_logged_in:
     print("Авторизация прошла успешно!")
 else:

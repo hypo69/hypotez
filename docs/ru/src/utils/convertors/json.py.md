@@ -61,7 +61,7 @@ print(f"Результат преобразования JSON строки в CSV
 
 # Пример 2: Преобразование JSON файла в CSV файл
 json_file = Path("data.json")  # Предполагается, что файл data.json существует
-json_file.write_text('[{"name": "Charlie", "age": 35}, {"name": "David", "age": 40}]')  # Создаем временный файл
+json_file.write_text('[{"name": "Charlie", "age": 35}, {"name": "David", "age": 40}]')  # создание временный файл
 csv_file = "data2.csv"
 result = json2csv(json_file, csv_file)
 print(f"Результат преобразования JSON файла в CSV: {result}")
@@ -121,7 +121,7 @@ print(f"Результат преобразования JSON строки в Sim
 
 # Пример 2: Преобразование JSON файла в SimpleNamespace
 json_file = Path("data.json")  # Предполагается, что файл data.json существует
-json_file.write_text('{"name": "Bob", "age": 25}')  # Создаем временный файл
+json_file.write_text('{"name": "Bob", "age": 25}')  # создание временный файл
 result = json2ns(json_file)
 print(f"Результат преобразования JSON файла в SimpleNamespace: {result.name}, {result.age}")
 
@@ -181,7 +181,7 @@ print(f"Результат преобразования JSON строки в XML
 
 # Пример 2: Преобразование JSON файла в XML
 json_file = Path("data.json")  # Предполагается, что файл data.json существует
-json_file.write_text('{"name": "Bob", "age": 25}')  # Создаем временный файл
+json_file.write_text('{"name": "Bob", "age": 25}')  # создание временный файл
 result = json2xml(json_file, root_tag="person")
 print(f"Результат преобразования JSON файла в XML: {result}")
 
@@ -242,7 +242,7 @@ print(f"Результат преобразования JSON строки в XLS
 
 # Пример 2: Преобразование JSON файла в XLS файл
 json_file = Path("data.json")  # Предполагается, что файл data.json существует
-json_file.write_text('[{"name": "Charlie", "age": 35}, {"name": "David", "age": 40}]')  # Создаем временный файл
+json_file.write_text('[{"name": "Charlie", "age": 35}, {"name": "David", "age": 40}]')  # создание временный файл
 xls_file = "data2.xls"
 result = json2xls(json_file, xls_file)
 print(f"Результат преобразования JSON файла в XLS: {result}")

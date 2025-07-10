@@ -18,7 +18,7 @@
 from tinytroupe.agent import TinyPerson
 from tinytroupe.profiling import Profiler
 
-# Создаем список агентов
+# создание список агентов
 agents = [
     TinyPerson(age=25, occupation="Engineer", nationality="Russian"),
     TinyPerson(age=30, occupation="Doctor", nationality="American"),
@@ -27,7 +27,7 @@ agents = [
     TinyPerson(age=35, occupation="Doctor", nationality="Russian"),
 ]
 
-# Создаем экземпляр Profiler
+# создание экземпляр Profiler
 profiler = Profiler(attributes=['age', 'occupation', 'nationality'])
 
 # Вычисляем распределения атрибутов
@@ -37,4 +37,4 @@ profiler.profile(agents)
 profiler.render()
 ```
 
-В данном примере мы создаем список агентов, затем инициализируем `Profiler`, чтобы анализировать возраст, профессию и национальность. После профилирования агентов, мы вызываем `render` для визуализации полученных распределений.
+В данном примере мы создание список агентов, затем Инициализация `Profiler`, чтобы анализировать возраст, профессию и национальность. После профилирования агентов, мы вызываем `render` для визуализации полученных распределений.

@@ -24,7 +24,7 @@
 - `url` (str): URL сервиса Glider.so.
 - `api_endpoint` (str): URL API endpoint для взаимодействия с Glider.so.
 - `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `default_model` (str): Модель, используемая по умолчанию, в данном случае 'chat-llama-3-1-70b'.
+- `default_model` (str): Модель, Используетсяая по умолчанию, в данном случае 'chat-llama-3-1-70b'.
 - `models` (list[str]): Список поддерживаемых моделей.
 - `model_aliases` (dict[str, str]): Словарь алиасов моделей для удобства использования.
 
@@ -60,7 +60,7 @@
 
         Args:
             messages (list[dict]): Список сообщений для отправки.
-            model (str): Имя используемой модели.
+            model (str): Имя Используетсяой модели.
 
         Returns:
             dict: Payload для запроса.
@@ -95,7 +95,7 @@
 - `url` (str): URL сервиса Glider.so.
 - `api_endpoint` (str): URL API endpoint для взаимодействия с Glider.so.
 - `working` (bool): Флаг, указывающий на работоспособность провайдера.
-- `default_model` (str): Модель, используемая по умолчанию.
+- `default_model` (str): Модель, Используетсяая по умолчанию.
 - `models` (list[str]): Список поддерживаемых моделей.
 - `model_aliases` (dict[str, str]): Словарь алиасов моделей для удобства использования.
 

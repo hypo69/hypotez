@@ -76,7 +76,7 @@ pdf_file = base_path / 'report.pdf'
 # Загружаем данные из JSON файла
 data = j_loads(data_file)
 
-# Создаем экземпляр ReportGenerator
+# создание экземпляр ReportGenerator
 report_generator = ReportGenerator()
 
 # Генерируем отчет

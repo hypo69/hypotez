@@ -32,7 +32,7 @@ from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 from hypotez.src.endpoints.gpt4free.g4f.providers.response import ImageResponse
 
 async def main():
-    # Создаем экземпляр класса AiChats
+    # создание экземпляр класса AiChats
     ai_chats = AiChats()
 
     # Отправка запроса в чат

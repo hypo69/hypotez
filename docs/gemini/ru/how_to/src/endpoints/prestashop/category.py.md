@@ -18,7 +18,7 @@
 -------------------------
 
 ```python
-    # Создаем объект PrestaCategory
+    # создание объект PrestaCategory
     category = PrestaCategory(api_key='your_api_key', api_domain='your_domain')
 
     # Получаем список родительских категорий для категории с ID 10

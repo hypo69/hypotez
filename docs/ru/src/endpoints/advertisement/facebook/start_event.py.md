@@ -31,7 +31,7 @@
 -   `filenames` (list[str]): Список имен файлов, содержащих информацию о группах Facebook.
 -   `excluded_filenames` (list[str]): Список имен файлов, которые следует исключить из обработки. В данном случае исключен файл `my_managed_groups.json`.
 -   `events_names` (list[str]): Список имен мероприятий для публикации. В данном случае указано одно мероприятие `choice_day_01_10`.
--   `promoter` (FacebookPromoter): Экземпляр класса `FacebookPromoter`, используемый для запуска и управления процессом публикации мероприятий в Facebook.
+-   `promoter` (FacebookPromoter): Экземпляр класса `FacebookPromoter`, Используетсяый для запуска и управления процессом публикации мероприятий в Facebook.
 
 ## Методы класса FacebookPromoter
 

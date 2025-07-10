@@ -38,7 +38,7 @@
 
 **Атрибуты**:
 
-- `token (str)`: Токен, используемый для аутентификации бота с API Telegram.
+- `token (str)`: Токен, Используетсяый для аутентификации бота с API Telegram.
 - `updater (Updater)`: Объект `Updater` из библиотеки `python-telegram-bot` для управления обновлениями.
 - `dispatcher (Dispatcher)`: Объект `Dispatcher` из библиотеки `python-telegram-bot` для регистрации обработчиков.
 

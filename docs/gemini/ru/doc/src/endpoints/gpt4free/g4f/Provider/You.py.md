@@ -38,7 +38,7 @@
 - `default_vision_model (str)`: Название модели для обработки изображений (`agent`).
 - `image_models (List[str])`: Список моделей, которые поддерживают генерацию изображений.
 - `models (List[str])`: Список всех доступных моделей.
-- `_cookies (Cookies)`:  Cookies, используемые для аутентификации.
+- `_cookies (Cookies)`:  Cookies, Используетсяые для аутентификации.
 - `_cookies_used (int)`: Количество использований cookies.
 - `_telemetry_ids (List[str])`: Список ID для отслеживания телеметрии.
 
@@ -145,7 +145,7 @@ async def upload_image(image_path: str):
 - `default_vision_model (str)`: Название модели для обработки изображений (`agent`).
 - `image_models (List[str])`: Список моделей, которые поддерживают генерацию изображений.
 - `models (List[str])`: Список всех доступных моделей.
-- `_cookies (Cookies)`:  Cookies, используемые для аутентификации.
+- `_cookies (Cookies)`:  Cookies, Используетсяые для аутентификации.
 - `_cookies_used (int)`: Количество использований cookies.
 - `_telemetry_ids (List[str])`: Список ID для отслеживания телеметрии.
 

@@ -27,7 +27,7 @@
     - Возвращает исходное значение при ошибке, что может быть неочевидным поведением. Лучше возвращать `False` или поднимать исключение.
 
 3.  **`normalize_string`**:
-    - Тип возвращаемого значения в docstring не соответствует действительности. Функция возвращает строку, а не `str | list`.
+    - Тип Возвратого значения в docstring не соответствует действительности. Функция возвращает строку, а не `str | list`.
     - Обработка исключений аналогична `normalize_boolean`.
 
 4.  **`normalize_int`**:
@@ -246,9 +246,9 @@ def normalize_float(value: Any) -> Optional[float]:
 
     # Попытка конвертации очищенной строки
     try:
-        # Используем float() для преобразования
+        # Используется float() для преобразования
         float_value = float(cleaned_str)
-        # Округление до 3 знаков больше не требуется по коду, возвращаем как есть
+        # Округление до 3 знаков больше не требуется по коду, Возврат как есть
         return float_value
     except (ValueError, TypeError) as ex:
         logger.warning(f'Не удалось конвертировать очищенную строку "{cleaned_str}" (из "{value}") в float')
@@ -280,7 +280,7 @@ def normalize_sql_date(input_data: str) -> str:
             for date_format in ['%Y-%m-%d', '%m/%d/%Y', '%d/%m/%Y']:
                 try:
                     normalized_date = datetime.strptime(input_data, date_format).date()
-                    return normalized_date.isoformat()  # Возвращаем дату в формате 'YYYY-MM-DD'
+                    return normalized_date.isoformat()  # Возврат дату в формате 'YYYY-MM-DD'
                 except ValueError:
                     continue
         # Если входные данные уже объект datetime

@@ -170,7 +170,7 @@ def read_text_files(
 
             for filename in files:
                 file_path = Path(root) / filename
-                # Проверяем, является ли файл Python-файлом
+                # Проверка, является ли файл Python-файлом
                 if file_path.suffix == ".py":
                     logger.info(f"Обрабатываем файл: {file_path}")
                     try:
@@ -184,7 +184,7 @@ def read_text_files(
                             if remove_docs:
                                 content = remove_docstrings(content)
 
-                        # Проверяем, нужно ли создавать новый файл
+                        # Проверка, нужно ли создавать новый файл
                         if current_char_count + len(content) > max_chars:
                             outfile.close()
                             file_number += 1
@@ -206,10 +206,10 @@ if __name__ == "__main__":
     directory_to_search = "../data/chat_gpt/code2file"
     output_file_path = Path("../data/chat_gpt/code2file/code2file.txt")
 
-    # Создаем директорию, если она не существует
+    # создание директорию, если она не существует
     output_file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Создаем файл, если его не существует
+    # создание файл, если его не существует
     output_file_path.touch(exist_ok=True)
 
     read_text_files(directory_to_search, output_file_path, remove_docs=True)

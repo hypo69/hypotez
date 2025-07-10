@@ -4,7 +4,7 @@ $pythonScriptPath = ".\src\endpoints\fast_api\main.py"
 # Уникальное имя мьютекса (используйте что-то специфичное для вашего приложения)
 $mutexName = "Global\FastAPIServerManagerMutex"
 
-# Создаем мьютекс
+# создание мьютекс
 $mutex = New-Object System.Threading.Mutex($False, $mutexName)
 
 # Пытаемся получить мьютекс

@@ -65,8 +65,8 @@ class FacebookPromoter:
 
 - `filenames` (list): Список имен файлов, содержащих информацию о группах Facebook. Пример: `['katia_homepage.json']`.
 - `campaigns` (list): Список названий рекламных кампаний. Пример: `['sport_and_activity', 'bags_backpacks_suitcases', 'pain', 'brands', 'mom_and_baby', 'house']`.
-- `promoter` (FacebookPromoter): Экземпляр класса `FacebookPromoter`, используемый для запуска рекламных кампаний.
-- `d` (Driver): Экземпляр класса `Driver`, используемый для управления веб-драйвером.
+- `promoter` (FacebookPromoter): Экземпляр класса `FacebookPromoter`, Используетсяый для запуска рекламных кампаний.
+- `d` (Driver): Экземпляр класса `Driver`, Используетсяый для управления веб-драйвером.
 
 ## Примеры
 

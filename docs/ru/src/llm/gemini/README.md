@@ -17,7 +17,7 @@
 
 **Параметры**:
 - `api_key` (str): Ключ API для доступа к Google Generative AI.
-- `model_name` (Optional[str], optional): Название используемой модели AI. По умолчанию `None`.
+- `model_name` (Optional[str], optional): Название Используетсяой модели AI. По умолчанию `None`.
 - `generation_config` (Optional[Dict], optional): Конфигурация генерации для модели AI. По умолчанию `None`.
 - `system_instruction` (Optional[str], optional): Системные инструкции для модели AI. По умолчанию `None`.
 - `**kwargs`: Дополнительные именованные аргументы.

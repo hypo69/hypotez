@@ -68,7 +68,7 @@ class Chrome(WebDriver):
                  options: list[str] | None = None,
                  window_mode: str | None = None,
                  *args, **kwargs) -> None:
-        # Объявление переменных, используемых в методе
+        # Объявление переменных, Используетсяых в методе
         service: Service | None = None
         options_obj: Options | None = None
         config: 'SimpleNamespace | dict' # Type hint for j_loads_ns result

@@ -22,12 +22,12 @@
 from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth import MetaAIAccount
 from hypotez.src.endpoints.gpt4free.g4f.typing import Messages
 
-# Создаем список сообщений для отправки к API MetaAI
+# создание список сообщений для отправки к API MetaAI
 messages: Messages = [
     {"role": "user", "content": "Привет! Расскажи мне о Python."}
 ]
 
-# Создаем асинхронный генератор для получения результатов
+# создание асинхронный генератор для получения результатов
 async_generator = MetaAIAccount.create_async_generator(model="meta", messages=messages)
 
 # Выводим результаты по мере поступления

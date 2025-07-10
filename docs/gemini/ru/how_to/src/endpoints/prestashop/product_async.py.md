@@ -19,10 +19,10 @@ from src.endpoints.prestashop.product_async import PrestaProductAsync
 from src.endpoints.prestashop.product_fields import ProductFields
 
 async def main():
-    # Создаем экземпляр класса PrestaProductAsync
+    # создание экземпляр класса PrestaProductAsync
     product = PrestaProductAsync()
 
-    # Создаем объект ProductFields с данными о товаре
+    # создание объект ProductFields с данными о товаре
     product_fields = ProductFields(
         lang_index=1,
         name='Test Product Async',

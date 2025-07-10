@@ -43,7 +43,7 @@ class Supplier:
     Args:
         supplier_prefix (str): Префикс поставщика (например, 'aliexpress' или 'amazon').
         locale (str, optional): Локализация (например, 'en' для английского, 'ru' для русского). По умолчанию 'en'.
-        webdriver (str | Driver | bool, optional): Используемый веб-драйвер. По умолчанию 'default'.
+        webdriver (str | Driver | bool, optional): Используетсяый веб-драйвер. По умолчанию 'default'.
         *attrs: Дополнительные атрибуты.
         **kwargs: Дополнительные именованные аргументы.
 
@@ -69,7 +69,7 @@ class Supplier:
         Args:
             supplier_prefix (str): Префикс поставщика (например, 'aliexpress' или 'amazon').
             locale (str, optional): Локализация (например, 'en' для английского, 'ru' для русского). По умолчанию 'en'.
-            webdriver (str | Driver | bool, optional): Используемый веб-драйвер. По умолчанию 'default'.
+            webdriver (str | Driver | bool, optional): Используетсяый веб-драйвер. По умолчанию 'default'.
             *attrs: Дополнительные атрибуты.
             **kwargs: Дополнительные именованные аргументы.
         """
@@ -80,7 +80,7 @@ class Supplier:
         """
         Загружает специфичные для поставщика конфигурации, локаторы и инициализирует веб-драйвер.
         Args:
-            webdriver (str | Driver | bool): Используемый веб-драйвер.
+            webdriver (str | Driver | bool): Используетсяый веб-драйвер.
             *attrs: Дополнительные атрибуты.
             **kwargs: Дополнительные именованные аргументы.
 

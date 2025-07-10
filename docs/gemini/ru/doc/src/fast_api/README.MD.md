@@ -224,7 +224,7 @@ FastAPI Server Manager
 - `FastApiServer`: Класс Singleton, представляющий приложение FastAPI и управляющий запуском сервера (в `main.py`).
 - `main.py`: Содержит команды CLI и логику для интерактивного управления сервером на Python.
 - `server_manager.ps1`: Скрипт PowerShell, предоставляющий интерактивный интерфейс для управления сервером FastAPI через Python CLI.
-- `typer`: Библиотека, используемая для создания интерфейса командной строки (в `main.py`).
+- `typer`: Библиотека, Используетсяая для создания интерфейса командной строки (в `main.py`).
 - `uvicorn`: ASGI веб-сервер для запуска приложения FastAPI (в `main.py`).
 - `Test-NetConnection`: Cmdlet PowerShell для проверки портов (в `server_manager.ps1`).
 - `System.Threading.Mutex`: Класс .NET для реализации мьютекса (в `server_manager.ps1`).

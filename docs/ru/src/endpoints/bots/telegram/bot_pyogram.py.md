@@ -54,7 +54,7 @@ def echo_message(client, message):
 
 - `API_ID` (int): Идентификатор API Telegram, необходимый для аутентификации бота.
 - `API_HASH` (str): Hash API Telegram, необходимый для аутентификации бота.
-- `BOT_TOKEN` (str): Токен бота Telegram, используемый для аутентификации.
+- `BOT_TOKEN` (str): Токен бота Telegram, Используетсяый для аутентификации.
 
 ## Примеры
 

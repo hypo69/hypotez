@@ -110,7 +110,7 @@ def get_languages_schema(self) -> Optional[dict]:
         Language schema or `None` on failure.
 
     Examples:
-        # Возвращаемый словарь:
+        # Возвратый словарь:
         {
             "languages": {
                     "language": [

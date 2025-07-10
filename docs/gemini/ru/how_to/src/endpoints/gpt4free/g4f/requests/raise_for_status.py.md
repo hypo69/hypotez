@@ -26,13 +26,13 @@ async def send_request_async(url: str, headers: dict = None) -> str:
     """Отправляет асинхронный HTTP-запрос и обрабатывает ответ."""
     async with aiohttp.ClientSession() as session:
         async with session.get(url, headers=headers) as response:
-            await raise_for_status_async(response) # Проверяем статус ответа
+            await raise_for_status_async(response) # Проверка статус ответа
             return await response.text()
 
 def send_request(url: str, headers: dict = None) -> str:
     """Отправляет синхронный HTTP-запрос и обрабатывает ответ."""
     response = requests.get(url, headers=headers)
-    raise_for_status(response) # Проверяем статус ответа
+    raise_for_status(response) # Проверка статус ответа
     return response.text
 
 # Пример использования

@@ -22,16 +22,16 @@
 ```python
 from src.endpoints.gpt4free.g4f.Provider.needs_auth import PerplexityApi
 
-# Создаем экземпляр PerplexityApi
+# создание экземпляр PerplexityApi
 perplexity_api = PerplexityApi()
 
 # Получаем базовый URL для API
 api_base = perplexity_api.api_base
 
-# Проверяем статус работоспособности API
+# Проверка статус работоспособности API
 is_working = perplexity_api.working
 
-# Проверяем, требуется ли авторизация для API
+# Проверка, требуется ли авторизация для API
 needs_auth = perplexity_api.needs_auth
 
 # Получаем список доступных моделей

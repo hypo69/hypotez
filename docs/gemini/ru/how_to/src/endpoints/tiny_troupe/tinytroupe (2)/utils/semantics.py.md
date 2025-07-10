@@ -33,13 +33,13 @@
 ```python
 from tinytroupe.utils import semantics
 
-# Используем функцию rephrase
+# Используется функцию rephrase
 observation = "You know, I am so sad these days."
 rule = "I am always happy and depression is unknown to me"
 modified_observation = semantics.rephrase(observation, rule)
 print(f"Modified observation: {modified_observation}")  # Выведет модифицированное наблюдение
 
-# Используем функцию restructure_as_observed_vs_expected
+# Используется функцию restructure_as_observed_vs_expected
 description = "Ana mentions she loved the proposed new food, a spicier flavor of gazpacho. However, this goes agains her known dislike of spicy food."
 restructured_description = semantics.restructure_as_observed_vs_expected(description)
 print(f"Restructured description:\n{restructured_description}")  # Выведет структурированное описание

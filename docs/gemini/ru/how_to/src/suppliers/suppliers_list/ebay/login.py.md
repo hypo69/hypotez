@@ -18,7 +18,7 @@
 ```python
 from src.suppliers.ebay.login import EbayLogin  # Импортируем класс EbayLogin из модуля
 
-ebay_login = EbayLogin()  # Создаем объект класса EbayLogin
+ebay_login = EbayLogin()  # создание объект класса EbayLogin
 ebay_login.login("your_username", "your_password")  # Авторизуемся в eBay, используя имя пользователя и пароль
 ```
 

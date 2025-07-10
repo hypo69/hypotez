@@ -6,7 +6,7 @@
 Вспомогательные утилиты для проекта crawler.py
 ===============================================
 Содержит функции для чтения и обработки данных из файлов,
-используемых для сбора информации о товарах.
+Используетсяых для сбора информации о товарах.
 
 ```rst
 .. module:: sandbox.davidka.utils.utils
@@ -131,7 +131,7 @@ def extract_domain_from_products_urls() -> bool:
 #     products_data: List[Any] = [] # Инициализация
 #     product: Dict[str, Any] # Элемент списка crawl_data
 
-#     # Определяем список файлов для обработки
+#     # Определение список файлов для обработки
 #     if not crawl_files_list:
 #         target_files = get_filenames_from_directory(mining_data_path, '*.json') # Ищем json по умолчанию
 #         logger.debug(f'Обработка всех json файлов из {mining_data_path}')
@@ -183,13 +183,13 @@ def extract_domain_from_products_urls() -> bool:
 #     # Перемешивание списка URL
 #     random.shuffle(products_urls_list)
 #     logger.info(f"Собрано и перемешано {len(products_urls_list)} URL товаров.")
-#     # Возвращаем список (даже если пустой)
+#     # Возврат список (даже если пустой)
 #     return products_urls_list
 
 
 def yield_product_urls_from_files(
     directory: Path,
-    pattern: str = '*.json' # Используем стандартный паттерн glob
+    pattern: str = '*.json' # Используется стандартный паттерн glob
 ) -> Generator[str, None, None]:
     """
     Функция возвращает генератор URL товаров из файлов директории.
@@ -245,7 +245,7 @@ def yield_product_urls_from_files(
                     if isinstance(product_item, dict) and 'product_url' in product_item:
                         product_url = product_item['product_url']
                         if isinstance(product_url, str) and product_url:
-                            yield product_url # Возвращаем URL
+                            yield product_url # Возврат URL
                         else:
                             logger.warning(f"Значение 'product_url' в файле {filename.name} не строка или пустое (генератор): {product_url}", None, False)
                     else:
@@ -376,7 +376,7 @@ def files_mixer(base_path):
     # (хотя для простого генератора, который отрабатывает один раз, это не так критично).
     # В данном случае, т.к. directories создается внутри функции, это не обязательно,
     # но хорошая практика, если есть сомнения.
-    shuffled_directories = list(directories) # Создаем копию для перемешивания
+    shuffled_directories = list(directories) # создание копию для перемешивания
     random.shuffle(shuffled_directories)
     # print(f"Перемешанный порядок директорий (для выбора файлов): {shuffled_directories}\n") # Для отладки
 

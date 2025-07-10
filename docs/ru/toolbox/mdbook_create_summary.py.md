@@ -71,11 +71,11 @@ def make_summary(src_dir: Path = src_path , summary_file: Path = summary_path) -
 from pathlib import Path
 from src import gs  # предполагается, что модуль gs предоставляет путь к корневой директории проекта
 
-# Определяем пути к директории с .md файлами и файлу SUMMARY.md
+# Определение пути к директории с .md файлами и файлу SUMMARY.md
 src_path = Path(gs.path.root / 'docs' / 'gemini' / 'consultant' / 'ru' / 'src')
 summary_path = src_path / 'SUMMARY.md'
 
-# Создаем или перезаписываем файл SUMMARY.md
+# создание или перезаписываем файл SUMMARY.md
 make_summary(src_path, summary_path)
 ```
 

@@ -21,7 +21,7 @@ from hypotez.src.endpoints.gpt4free.g4f.Provider.needs_auth.MetaAI import MetaAI
 async def main():
     """Пример использования класса MetaAI."""
 
-    # Создаем объект MetaAI
+    # создание объект MetaAI
     meta_ai = MetaAI()
 
     # Формируем сообщения для запроса
@@ -29,7 +29,7 @@ async def main():
         {"role": "user", "content": "Привет, как дела?"},
     ]
 
-    # Создаем асинхронный генератор
+    # создание асинхронный генератор
     async for chunk in await MetaAI.create_async_generator(model="meta-ai", messages=messages):
         print(chunk)
 

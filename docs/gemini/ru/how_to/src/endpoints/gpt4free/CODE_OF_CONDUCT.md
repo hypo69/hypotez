@@ -42,7 +42,7 @@ def is_acceptable_behavior(behavior: str) -> bool:
         bool: True, если поведение приемлемо, иначе False.
     """
     # Здесь должна быть логика проверки поведения на соответствие кодексу
-    # В данном примере просто возвращаем True для демонстрации
+    # В данном примере просто Возврат True для демонстрации
     return True
 
 def report_violation(behavior: str):

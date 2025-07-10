@@ -18,11 +18,11 @@
 
 1.  **Документация**:
     *   Перевести все docstring на русский язык.
-    *   Добавить более подробные описания ко всем функциям и методам, включая информацию о параметрах и возвращаемых значениях.
+    *   Добавить более подробные описания ко всем функциям и методам, включая информацию о параметрах и Возвратых значениях.
 2.  **Комментарии**:
     *   Добавить больше комментариев для пояснения логики работы кода, особенно в сложных местах.
     *   Уточнить комментарии, избегая расплывчатых формулировок, таких как "получаем" или "делаем".
-    *   Использовать точные описания: "проверяем", "отправляем", "выполняем".
+    *   Использовать точные описания: "Проверка", "отправляем", "выполняем".
 3.  **Использование `j_loads` или `j_loads_ns`**:
     *   Убедиться, что для чтения JSON или конфигурационных файлов используется `j_loads` или `j_loads_ns` вместо стандартных `open` и `json.load`.
 4.  **Логирование**:
@@ -226,7 +226,7 @@ class Graber:
         if input_scenarios:
             scenario_list: List[Dict[str, Any]] = []
             if isinstance(input_scenarios, list):
-                # Проверяем, что все элементы списка - словари
+                # Проверка, что все элементы списка - словари
                 if all(isinstance(item, dict) for item in input_scenarios):
                     scenario_list = input_scenarios
                 else:
@@ -247,7 +247,7 @@ class Graber:
             scenarios_dir: Path = __root__ / 'src' / 'suppliers' / 'suppliers_list' / supplier_prefix / 'scenarios'
             logger.info(f"Входные сценарии не предоставлены/обработаны для '{supplier_prefix}', поиск в: {scenarios_dir}")
             try:
-                # Используем вашу функцию для поиска файлов
+                # Используется вашу функцию для поиска файлов
                 scenarios_files: List[Path | str] = recursively_get_file_path(scenarios_dir, '.json')
 
                 if not scenarios_files:
@@ -265,7 +265,7 @@ class Graber:
                         # Загружаем JSON
                         loaded_scenario: Optional[Dict[str, Any]] = j_loads(scenario_file_path)
 
-                        # Проверяем успешность загрузки и тип
+                        # Проверка успешность загрузки и тип
                         if loaded_scenario is not None and isinstance(loaded_scenario, dict):
                             logger.debug(f"Yield сценария из файла: {scenario_file_path}")
                             yield loaded_scenario # Отдаем загруженный словарь сценария
@@ -298,7 +298,7 @@ class Graber:
                 all_results.append(result) # Собираем результаты (опционально)
 
             logger.info(f"Все сценарии для '{supplier_prefix}' обработаны.")
-            return all_results # Возвращаем собранные результаты
+            return all_results # Возврат собранные результаты
 
         except Exception as ex:
             logger.error(f"Ошибка при обработке сценариев для '{supplier_prefix}'", ex, exc_info=True)

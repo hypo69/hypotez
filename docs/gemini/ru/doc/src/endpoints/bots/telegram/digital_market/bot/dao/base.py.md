@@ -628,7 +628,7 @@ users = await BaseDAO.find_by_ids(session, user_ids)
                 logger.info(f"Обновлена существующая запись {cls.model.__name__}")
                 return existing
             else:
-                # Создаем новую запись
+                # создание новую запись
                 new_instance = cls.model(**values_dict)
                 session.add(new_instance)
                 await session.flush()

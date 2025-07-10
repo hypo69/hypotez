@@ -66,7 +66,7 @@ class GoogleGenerativeAi:
                                   Допустимые mime-типы: `text/plain`, `application/json`,
                                   `application/xml`, `application/yaml`, `text/x.enum`.
         system_instruction (Optional[str]): Системная инструкция для модели. По умолчанию `None`.
-        model_name (str): Имя используемой модели Gemini.
+        model_name (str): Имя Используетсяой модели Gemini.
         config (SimpleNamespace): Загруженная конфигурация из файла 'gemini.json'.
         history_dir (Path): Директория для сохранения истории чатов.
         timestamp (str): Текущая временная метка для именования файлов истории.
@@ -144,7 +144,7 @@ class GoogleGenerativeAi:
         ...
 
 
-    def _start_chat(self,system_instruction: Optional[str] = '') -> Any: # Возвращаемый тип Any, т.к. genai.ChatSession не экспортируется явно
+    def _start_chat(self,system_instruction: Optional[str] = '') -> Any: # Возвратый тип Any, т.к. genai.ChatSession не экспортируется явно
         """
         Функция запускает новый сеанс чата с моделью.
 
@@ -201,7 +201,7 @@ class GoogleGenerativeAi:
             None
         """
         history_to_load: Optional[List[Dict]] = None
-        target_file: Path = self.history_json_file # По умолчанию используем текущий файл
+        target_file: Path = self.history_json_file # По умолчанию Используется текущий файл
 
         try:
             if chat_data_folder:
@@ -688,7 +688,7 @@ class GoogleGenerativeAi:
                 return None
 
             # Формирование контента для запроса
-            # Используем формат, подходящий для generate_content с multimodal input
+            # Используется формат, подходящий для generate_content с multimodal input
             # https://ai.google.dev/tutorials/python_quickstart#generate_text_from_image_input
             content_parts: List[Any] = []
             if prompt:
@@ -867,10 +867,10 @@ async def main():
     #         logger.info("Описание изображения (запрос JSON):")
     #         logger.info(description_json)
     #         # Попытка парсинга JSON
-    #         parsed_description = j_loads(description_json) # Используем j_loads для безопасного парсинга
+    #         parsed_description = j_loads(description_json) # Используется j_loads для безопасного парсинга
     #         if parsed_description:
     #              logger.info("JSON успешно распарсен.")
-    #              # print(parsed_description, text_color='green') # Используем кастомный print
+    #              # print(parsed_description, text_color='green') # Используется кастомный print
     #         else:
     #              logger.warning("Не удалось распарсить JSON из ответа модели.")
     #     else:
@@ -932,7 +932,7 @@ async def main():
         # Асинхронный вызов чата
         llm_message = await llm.chat(user_message, chat_name=chat_session_name)
         if llm_message:
-            # Используем logger для вывода ответа Gemini
+            # Используется logger для вывода ответа Gemini
             logger.info(f"Gemini: {llm_message}")
         else:
             # Сообщение об ошибке уже должно быть в логах из метода chat

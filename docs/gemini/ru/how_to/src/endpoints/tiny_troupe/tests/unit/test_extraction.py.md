@@ -25,7 +25,7 @@
 ```python
 from tinytroupe.extraction import ArtifactExporter
 
-# Создаем экземпляр класса ArtifactExporter
+# создание экземпляр класса ArtifactExporter
 exporter = ArtifactExporter(base_output_folder="path/to/output/folder")
 
 # Экспортируем данные в формате JSON
@@ -69,7 +69,7 @@ exporter.export("test_artifact", artifact_data, content_type="Document", content
 ```python
 from tinytroupe.extraction import Normalizer
 
-# Создаем список концепций
+# создание список концепций
 concepts = [
     'Antique Book Collection', 'Medical Research', 'Electrical safety', 'Reading', 'Technology',
     'Entrepreneurship', 'Multimedia Teaching Tools', 'Photography', 'Smart home technology',
@@ -83,7 +83,7 @@ concepts = [
     'Museum Volunteering', 'Conflict Resolution'
 ]
 
-# Создаем экземпляр класса Normalizer
+# создание экземпляр класса Normalizer
 normalizer = Normalizer(concepts, n=10, verbose=True)
 
 # Нормализуем список концепций

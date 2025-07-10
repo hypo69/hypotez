@@ -74,7 +74,7 @@ class PrestaLanguage(PrestaShop):
             Language schema or `None` on failure.
 
         Examples:
-            # Возвращаемый словарь:
+            # Возвратый словарь:
             {
                 "languages": {
                         "language": [

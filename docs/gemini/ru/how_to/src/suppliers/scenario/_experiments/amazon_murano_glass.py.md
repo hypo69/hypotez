@@ -19,7 +19,7 @@
 from header import start_supplier
 from dict_scenarios import scenario
 
-# Создаем экземпляр класса Supplier для поставщика Amazon
+# создание экземпляр класса Supplier для поставщика Amazon
 s = start_supplier('amazon')
 
 # Запускаем сценарий 'Murano Glass'
