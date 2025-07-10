@@ -17,8 +17,6 @@ import asyncio
 from pathlib import Path
 from typing import Optional, List
 
-from weasyprint import Page
-
 import header
 from src import gs
 
@@ -42,8 +40,9 @@ class Config:
 
 class Scenario(QuotationBuilder):
     """Исполнитель сценария для Казаринова"""
+    driver: Driver = None
 
-    def __init__(self, mexiron_name:Optional[str] = gs.now,  **kwargs):
+    def __init__(self, mexiron_name:Optional[str] = gs.now, driver: Optional[Driver] = None, **kwargs):
         """Сценарий сбора информации."""
 
         if 'window_mode' not in kwargs:
@@ -52,7 +51,7 @@ class Scenario(QuotationBuilder):
         # Важно: Конструктор Driver сам управляет своим жизненным циклом и окном.
         # Если передается внешний драйвер, то нужно передавать его сюда.
         # В данном случае, Driver() создается внутри run_scenario_async.
-        # self.driver = Driver(Firefox,**kwargs) if not driver else driver # Эта строка, похоже, не нужна здесь, если Driver создается в run_scenario_async
+        self.driver = driver or Driver()
 
         super().__init__(mexiron_name = mexiron_name)
         
@@ -69,20 +68,8 @@ class Scenario(QuotationBuilder):
         """
         Executes the scenario: parses products, processes them via AI, and stores data.
         """
-
-        driver_instance = None # Инициализация переменной для экземпляра драйвера
-        page_obj: 'Page' = None # Инициализация переменной для экземпляра страницы
-
-        try:
-            driver_instance = Driver()
-            await driver_instance.start()
-            page_obj = await driver_instance.page 
-
-            logger.info(f'pydoll driver started ')
-        except Exception as ex:
-            logger.error(f'Ошибка запуска pygoll вебдрайвера', exc_info=ex, extra={'chat_id': chat_id, 'bot': bot}) # Добавляем контекст для логгирования
-            if bot: bot.send_message(chat_id, f"❌ Ошибка запуска вебдрайвера. Отмена сценария.")
-            return False
+        await self.driver.start()
+        driver = self.driver
 
         products_list = [] # Список для собранных товаров
 
@@ -90,22 +77,10 @@ class Scenario(QuotationBuilder):
         # 1. Сбор товаров
         lang_index: int = 2 # Эта переменная не используется в цикле
         
-        # Если в 'urls' переданы URL категорий, то нужно сначала получить список URL товаров.
-        # Текущий код предполагает, что в 'urls' уже есть URL конкретных товаров.
-        # Если это не так, то понадобится дополнительный цикл для обработки категорий.
-        
-        # Проверим, что у нас есть page_obj (экземпляр драйвера) перед началом.
-        if not page_obj:
-            logger.error("page_obj не был инициализирован. Невозможно продолжить сбор товаров.")
-            if bot: bot.send_message(chat_id, "❌ Внутренняя ошибка: вебдрайвер не инициализирован.")
-            # В случае, если драйвер не стартанул, нужно его корректно закрыть
-            if driver_instance:
-                try:
-                    await driver_instance.stop()
-                except Exception as e:
-                    logger.error(f"Ошибка при остановке драйвера: {e}")
-            return False
-
+        # Если в `urls` переданы URL категорий, то нужно сначала получить список URL товаров.
+        # Текущий код предполагает, что в `urls` уже есть URL конкретных товаров.
+        # Если это не так, то понадобится функция из модуля 
+        # `suppliers_list/supplier/categories_crawler.py` 
         for url in urls:
             # Важно: Здесь предполагается, что 'url' это URL КОНКРЕТНОГО товара.
             # Если это URL КАТЕГОРИИ, то код get_graber_by_supplier_url и далее grab_product_page не подойдет.
@@ -132,23 +107,20 @@ class Scenario(QuotationBuilder):
                         'local_image_path',
                         'default_image_url']
 
-            if bot: 
-                try:
-                    bot.send_message(chat_id, f"⏳ Обработка товара:\n{url}") 
-                except Exception as ex:
-                    logger.error(f"Ошибка отправки сообщения ботом:\n", ex)
+            if bot: bot.send_message(chat_id, f"⏳ Обработка товара:\n{url}")  
+
 
             try:
                 f: ProductFields = await graber.grab_product_page(
                     product_url = url, 
-                    page = page_obj, # <-- Передаем здесь экземпляр Page
+                    page = _page, # <-- Передаем здесь экземпляр Page
                     required_fields = required_fields
                 )
-                # --- КОНЕЦ ИСПРАВЛЕННОГО ВЫЗОВА ---
 
                 # Проверка, что поля были успешно извлечены
                 if not f or not f.name: # Простая проверка, что хоть какое-то основное поле было заполнено
                     logger.error(f"Не удалось получить основные поля товара для URL: {url}. Проверьте локаторы.")
+                    logger.debug(f"{print(f.to_dict()) if f else ''}")
                     if bot: bot.send_message(chat_id, f"❌ Ошибка парсинга товара:\n{url}\nПроверьте локаторы.") 
                     continue # Переход к следующему URL
 

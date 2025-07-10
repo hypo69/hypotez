@@ -5,6 +5,7 @@ from pydoll.browser import Chrome
 from pydoll.browser.options import ChromeOptions as Options
 from pydoll.browser.page import Page
 from pydoll.constants import By
+from pydoll.element import WebElement
 
 from header import __root__
 from src.logger import logger
@@ -14,7 +15,7 @@ class Driver(Chrome):
 
     page: Page = None
 
-    def __init__(self, **kwargs):
+    def __init__(self,  **kwargs):
         """! Synchronous constructor; use `await async_init()` for full setup.
 
         Args:
@@ -54,11 +55,13 @@ class Driver(Chrome):
         ValueError: If an unsupported attribute is requested.
         """
 
-        if locator.by.upper() == 'VALUE':
+        # Special case for 'value' in starteg `BY` returned value from locator.attribute
+        # f.e. supplier_id = locator.attribute
+        if locator.by.upper() == 'VALUE':  
             return locator.attribute
 
         res: list = []
-        elements: 'WebElement' | list['WebElement'] = None
+        elements: WebElement | list[WebElement] = None
 
         # Strategy for multiple selectors (XPATH не умеет в жадные операторы)
         match getattr(locator, 'strategy_for_multiple_selectors', 'find_first_match').lower():

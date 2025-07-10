@@ -307,7 +307,7 @@ if __name__ == '__main__':
             extracted_links = parse_links_scraper(html)
         else:
             logger.error('[Скрапинг] Не удалось получить HTML для парсинга.')
-            extracted_links = None # Явно указываем на неудачу
+            extracted_links = None # Явное указывание на на неудачу
 
     # --- Вывод результата ---
     if extracted_links is not None: # Проверка, что список не None (ошибки не было)

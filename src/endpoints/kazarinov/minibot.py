@@ -1,11 +1,8 @@
-
 ## \file /src/endpoints/kazarinov/minibot.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
 """
-
-
 This module implements a Telegram bot that interacts with users to fetch and process data from OneTab links, allowing for the creation of a price list for Kazarinov.
 ========================================================================
 ```rst
@@ -62,7 +59,7 @@ class Config:
     /time - Shows the current time.
     /photo - Sends a random photo.
     """
-    CONNECTION_CHECK_INTERVAL: int = 30  # Интервал проверки соединения в секундах
+    CONNECTION_CHECK_INTERVAL: int = 30  # Интервал проверки соединения с ботом в секундах
 
     WINDOW_MODE: str = 'hidden' # Установка режима браузера
 
@@ -70,11 +67,11 @@ class Config:
         from dotenv import load_dotenv
         load_dotenv()
 
-    DEFAULT_GEMINI_MODEL: str = 'gemini-2.5-flash-lite-preview-06-17'  # Default model for Gemini API'
+    DEFAULT_GEMINI_MODEL: str = 'gemini-2.5-flash'  # Default model for Gemini API'
 # --- config.py end -----------------
 
 
-
+# --- handlers.py -----------------
 class BotHandler:
     """Исполнитель команд, полученных ботом."""
 
@@ -218,7 +215,7 @@ class BotHandler:
             logger.error(f'Ошибка при обработке документа: {ex}')
             bot.send_message(message.chat.id, 'Произошла ошибка при обработке документа. Попробуй ещё раз.')
             return False
-
+# --- handlers.py end  -----------------
 
 
 
@@ -284,6 +281,10 @@ def handle_unknown_command(message):
     logger.info(f'User {message.from_user.username} send unknown command: {message.text}')
     bot.send_message(message.chat.id, config.UNKNOWN_COMMAND_MESSAGE)
 
+    # --- bot.py end -----------------
+
+    # --- minibot.py end -----------------
+
 def check_connection_status(url: str = "https://api.telegram.org") -> None:
     """
     Проверяет соединение с заданным URL каждые `Config.CONNECTION_CHECK_INTERVAL` секунд.
@@ -303,11 +304,38 @@ def check_connection_status(url: str = "https://api.telegram.org") -> None:
                 logger.warning(f"Статус ответа от сервера: {response.status_code}")
         except Exception as e:
             logger.error("Обнаружена потеря соединения с сервером!", exc_info=True)
-            os._exit(1)
+            #os._exit(1)
+            restart_bot()  # Перезапуск бота при потере соединения
+            ...
         time.sleep(Config.CONNECTION_CHECK_INTERVAL)
 
+def restart_bot() -> bool:
+    """
+    Функция для перезапуска бота.
+    """
+    logger.info("Restarting bot...")
+    if bot_stop():
+        return bot_start()
+    return False
 
-def run_bot(attempts: int = 3) -> None:
+def bot_stop(bot) -> bool:
+    """
+    Функция для корректного завершения работы бота.
+    
+    Останавливает polling процесс и корректно завершает все активные соединения.
+    Может быть вызвана для принудительного завершения работы бота.
+    """
+    try:
+        logger.info("Initiating bot shutdown...")
+        bot.stop_bot()
+        logger.info("Bot stopped successfully")
+        return True
+    except Exception as ex:
+        logger.error(f"Error during bot shutdown: {ex}")
+        return False
+
+
+def bot_start(attempts: int = 3) -> bool:
     """
     Запуск polling-бота в бесконечном цикле с автоматическим восстановлением при ошибках.
     Также запускает фоновую задачу для периодической проверки соединения с Telegram API.
@@ -326,22 +354,23 @@ def run_bot(attempts: int = 3) -> None:
     threading.Thread(target=check_connection_status, daemon=True).start()
 
     try:
-        logger.info(f'\n\t --- \n\tStart bot in `{Config.MODE}` mode\n')
+        logger.info(f'\n\t --- \n\tStart bot in `{Config.MODE}` mode\n\t --- \n')
         bot.infinity_polling()
-
+        return True
     except Exception as ex:
         logger.error('Error during bot polling', ex, exc_info=True)
-
-        try:
-            bot.stop_bot()
-        except Exception as ex:
-            logger.error('Ошибка останова бота', ex, exc_info=True)
-
         logger.debug('Повторный запуск через 10 секунд')
+
         time.sleep(10)
-        run_bot(attempts + 1)
+        ...  # Здесь можно добавить дополнительные действия при возникновении ошибки
+        if restart_bot():
+            return True
+        else:
+            logger.error('Ошибка останова бота', ex, exc_info=True)
+            logger.debug('Повторный запуск через 10 секунд')
+            time.sleep(10)
+            bot_start(attempts + 1)
 
 
 if __name__ == '__main__':
-    run_bot()
-   
+    bot_start()

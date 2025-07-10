@@ -276,7 +276,7 @@ class Firefox(WebDriver):
 
         # if profile_dir_path and str(profile_dir_path) != '.':
         #     resolved_profile_path = profile_dir_path.resolve()
-        #     # Проверим, существует ли директория профиля, если она не является временной и должна существовать
+        #     # Проверка, существует ли директория профиля, если она не является временной и должна существовать
         #     if not resolved_profile_path.exists() and profile_name: # Если мы указываем конкретный профиль, он должен существовать или быть создан Firefox
         #          logger.info(f'Директория профиля {resolved_profile_path} не существует. Firefox попытается ее создать или использовать временный.')
         #     elif resolved_profile_path.exists() and not resolved_profile_path.is_dir():

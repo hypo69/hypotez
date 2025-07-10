@@ -22,8 +22,9 @@ from src.endpoints.prestashop.product_fields import ProductFields
 from src.utils.convertors.ns import ns2dict
 from src.utils.file import get_filenames_from_directory
 from src.utils.jjson import j_loads_ns
-
+from src.webdriver.driverless.use_pydoll import Driver  # Импортируем класс Driver из use_pydoll
 from src.logger.logger import logger
+
 
 
 # --- start config.py ---
@@ -75,15 +76,13 @@ class Config:
 class Graber:
     """Grabs product/category info for a given supplier."""
     config: Config = None
-    page: Page = None # Явно указываем тип Page
+    driver: Driver = None
 
-    def __init__(self, supplier_prefix: str, page: Optional[Page] = None):
-        self.config = Config(supplier_prefix = supplier_prefix)
+    def __init__(self, supplier_prefix: str, driver: Optional[Driver] = None):
+        self.config = Config(supplier_prefix=supplier_prefix)
+        self.driver = driver or Driver()
 
-        if page:
-            self.page = page
-
-    async def grab_product_page(self, product_url: str, page: Optional[Page] = None, required_fields: Optional[List[str]] = None) -> ProductFields:
+    async def grab_product_page(self, product_url: str, driver: Optional[Driver] = None, required_fields: Optional[List[str]] = None) -> ProductFields:
         """
         Grabs product information from a given URL.
 
@@ -98,16 +97,19 @@ class Graber:
             A ProductFields object containing the extracted information.
         """
         required_fields = required_fields or self.config.required_fields
-        #locator = ns2dict( self.config.product_locators ) # Преобразoвание локаторов в словарь для удобства
-        page = page or self.page
-        if not page:
-            raise ValueError("No Page instance provided or available in Graber instance.")
-        locator = self.config.product_locators
         f = ProductFields()
+        locator = self.config.product_locators
+        driver = driver or self.driver
+        if not driver:
+            _m = "No driver instance provided or available in Graber instance"
+            #raise ValueError(_m)
+            logger.error(f'{_m}:{self.config.supplier_prefix}\n',None,)
+            ...
+            return f
 
         try:
             logger.info(f"Переход на страницу товара: {product_url}")
-            await page.go_to(product_url)
+            await driver.page.go_to(product_url)
         except Exception as ex:
             logger.error(f'Failed to open product page: {product_url}', exc_info=ex) # Используется exc_info для стека
             return f # Возврат пустой объект в случае ошибки навигации
@@ -122,32 +124,19 @@ class Graber:
             # Пропуск id_supplier, так как он уже установлен
             if field_name == 'id_supplier':
                 continue
-            
-            try:
-                # Провера, что locator существует и имеет атрибут для текущего поля
-                if locator and hasattr(locator, field_name):
-                    _locator = getattr(locator, field_name)
+
+            if locator and hasattr(locator, field_name):
+                _locator = getattr(locator, field_name)
                     
-                    # Провера, что locator_config это словарь с конфигурацией локатора
-                    if isinstance(_locator, dict):
-                        logger.debug(f"Извлечение поля '{field_name}' с локатором: {_locator}")
-                        # Вызываем execute_locator на том драйвере, который у нас есть (current_driver)
-                        # Передаем только конфиг локатора, как обычно делает execute_locator
-                        extracted_value = await page.execute_locator(_locator)
+                extracted_value = await driver.execute_locator(_locator)
                         
-                        # Установка значение, только если оно не пустое (или по другой логике)
-                        if extracted_value is not None: # Можно добавить проверку на пустую строку, если нужно
-                           setattr(f, field_name, extracted_value)
-                           logger.debug(f"Поле '{field_name}' извлечено: '{extracted_value}'")
-                        else:
-                           logger.warning(f"Поле '{field_name}' не найдено или пусто для URL: {product_url}")
-                    else:
-                        logger.warning(f"Пропущен неверный формат локатора для поля '{field_name}' в config.product_locators. \n\t Ожидается словарь, получено: {type(locator_config)}")
+                # Установка значение, только если оно не пустое (или по другой логике)
+                if extracted_value is not None: # Можно добавить проверку на пустую строку, если нужно
+                    setattr(f, field_name, extracted_value)
+                    logger.debug(f"Поле '{field_name}' извлечено: '{extracted_value}'")
                 else:
-                    # Логгируем, если локатор для поля вообще не определен в конфиге
-                    logger.debug(f"Локатор для поля '{field_name}' не найден в config.product_locators \n\t Поле '{field_name}' не будет извлечено.")
-            except Exception as e:
-                logger.error(f'Failed to extract {field_name} from {product_url}', exc_info=e) # Используется exc_info
+                    logger.warning(f"Локатор для поля '{field_name}' не найден в конфигурации поставщика {self.config.supplier_prefix}. Пропуск.")
+                    ...
 
         return f
 

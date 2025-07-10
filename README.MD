@@ -303,6 +303,30 @@ brew install python@3.12
 
 ---
 
+### Download and inmstall  GIT
+
+winget install --id Git.Git -e --source winget
+
+### Download project
+
+🔧 Шаги для скачивания репозитория:
+Открой терминал или командную строку.
+
+Перейди в нужную папку:
+
+```bash
+cd путь/к/папке
+```
+Введи команду:
+
+```bash
+git clone https://github.com/hypo69/hypotez.git
+```
+После завершения клонирования перейди в папку проекта:
+```bash
+cd hypotez
+```
+
 ### Setting Up a Virtual Environment
 
 1. Install `virtualenv`:

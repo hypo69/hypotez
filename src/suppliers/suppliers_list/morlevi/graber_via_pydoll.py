@@ -5,11 +5,9 @@
 """
 Модуль для сбора данных о товарах с Aliexpress с изпользованием библиотеки `pydoll`.
 =========================================================================================
-
 rst```
 .. module:: src.suppliers.suppliers_list.aliexpress.graber_via_pydoll 
 ```
-
 """
 # from pathlib import Path
 # from types import SimpleNamespace
@@ -27,11 +25,7 @@ from src.suppliers.graber_via_pydoll import Config as GraberConfig, Graber as Gr
 # from src.logger import logger
 
 
-
-
 class Graber(GraberSupplier):
     """Grabs product/category info for Morlevi supplier using pydoll."""
-    def __init__(self, supplier_prefix:str = 'morlevi'):
-        super().__init__(supplier_prefix)
-        
-        
+    def __init__(self):
+        super().__init__(supplier_prefix = 'morlevi')
