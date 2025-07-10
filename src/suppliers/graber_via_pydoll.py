@@ -31,7 +31,7 @@ from src.logger.logger import logger
 @dataclass
 class Config:
     """Configuration for a supplier."""
-    supplier_prefix: str
+    supplier_prefix: str 
     supplier_alias: str = field(init=False)
     ENDPOINT: Path = field(init=False)
     SCENARIOS_DIR: Path = field(init=False)
@@ -51,6 +51,7 @@ class Config:
         self.supplier_alias = self.supplier_prefix.replace('.', '_').replace('-', '_')
         self.ENDPOINT = __root__ / 'src' / 'suppliers' / 'suppliers_list' / self.supplier_alias
         self.SCENARIOS_DIR = self.ENDPOINT / 'scenarios'
+        ...
 
     @property
     def product_locators(self) -> SimpleNamespace:
@@ -76,20 +77,18 @@ class Config:
 class Graber:
     """Grabs product/category info for a given supplier."""
     config: Config = None
-    driver: Driver = None
 
-    def __init__(self, supplier_prefix: str, driver: Optional[Driver] = None):
+    def __init__(self, supplier_prefix: str):
         self.config = Config(supplier_prefix=supplier_prefix)
-        self.driver = driver or Driver()
 
-    async def grab_product_page(self, product_url: str, driver: Optional[Driver] = None, required_fields: Optional[List[str]] = None) -> ProductFields:
+    async def grab_product_page(self, driver: Driver, product_url: str, required_fields: Optional[List[str]] = None, ) -> ProductFields:
         """
         Grabs product information from a given URL.
 
         Args:
             product_url: The URL of the product page.
-            page: An optional Page instance to use. If not provided,
-                             the instance from __init__ (self.driver) will be used.
+            driver: An optional Driver instance to use. If not provided,
+                    the instance from __init__ (self.driver) will be used.
             required_fields: An optional list of fields to extract. If not provided,
                            defaults to self.config.required_fields.
 
@@ -97,28 +96,21 @@ class Graber:
             A ProductFields object containing the extracted information.
         """
         required_fields = required_fields or self.config.required_fields
-        f = ProductFields()
+        f: ProductFields = ProductFields()
         locator = self.config.product_locators
-        driver = driver or self.driver
-        if not driver:
-            _m = "No driver instance provided or available in Graber instance"
-            #raise ValueError(_m)
-            logger.error(f'{_m}:{self.config.supplier_prefix}\n',None,)
-            ...
-            return f
-
+         
         try:
             logger.info(f"Переход на страницу товара: {product_url}")
-            await driver.page.go_to(product_url)
+            await driver.get_url(product_url)
         except Exception as ex:
-            logger.error(f'Failed to open product page: {product_url}', exc_info=ex) # Используется exc_info для стека
+            logger.error(f'Failed to open product page: {product_url}\n', ex, True) # Используется exc_info для стека
             return f # Возврат пустой объект в случае ошибки навигации
 
         # Установка `id_supplier` если он определен в локаторах
         # Проверка, что `locator` существует и имеет `атрибут id_supplier`
         if locator and hasattr(locator, 'id_supplier') and locator.id_supplier:
-            f.id_supplier = locator.id_supplier
-            logger.debug(f"\nУстановлен id_supplier: {f.id_supplier}\n")
+            f.id_supplier = locator.id_supplier.attribute # <- передача параметра через локатор
+            logger.debug(f"\n\t\t\tУстановлен id_supplier: {f.id_supplier}" , None)
 
         for field_name in required_fields:
             # Пропуск id_supplier, так как он уже установлен

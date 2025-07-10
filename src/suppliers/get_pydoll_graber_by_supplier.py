@@ -13,7 +13,7 @@ from urllib.parse import urlparse
 from typing import Optional
 
 # --- Импорты Graber классов ---
-# Убедитесь, что все эти импорты корректны и ведут к классам Graber
+# Убедитесь, что все импорты корректны и ведут к классам Graber
 from src.suppliers.suppliers_list.ads_tec_iit_com.graber_via_pydoll import Graber as AdsTecIitComGraber
 from src.suppliers.suppliers_list.aliexpress.graber_via_pydoll import Graber as AliexpressGraber
 from src.suppliers.suppliers_list.amazon.graber_via_pydoll import Graber as AmazonGraber
@@ -78,10 +78,9 @@ from src.suppliers.suppliers_list.visualdg.graber_via_pydoll import Graber as Vi
 from src.suppliers.suppliers_list.wallashop.graber_via_pydoll import Graber as WallashopGraber
 from src.suppliers.suppliers_list.wallmart.graber_via_pydoll import Graber as WallmartGraber
 from src.suppliers.suppliers_list.zebra_com.graber_via_pydoll import Graber as ZebraComGraber
+from src.suppliers.graber_via_pydoll import Graber
 
-# Импорт типа Page для аннотации типов
-from pydoll.browser.page import Page 
-
+from src.logger import logger
 
 # Словарь для соответствия доменов классам Graber
 URL_PREFIX_MAP = {
@@ -220,39 +219,42 @@ SUPPLIER_PREFIX_MAP = {
 }
 
 
-def get_graber_by_supplier_prefix(supplier_prefix: str, ) -> 'Graber':
+def get_graber_by_supplier_prefix(supplier_prefix: str, ) -> Graber:
     """
-    Возвращает ЭКЗЕМПЛЯР Graber для данного ключа поставщика.
-
-    :param supplier_prefix: ключ поставщика, например 'aliexpress'
-    :param driver: Опциональный экземпляр Page для передачи в конструктор Graber.
-    :return: экземпляр Graber
-    :raises ValueError: если класс для поставщика не найден, или экземпляр не может быть создан.
+    Возвращает экземпляр `Graber` для данного ключа поставщика.
+    В случае, если класс не найден или другой ошибки возвращается базовый класс `Graber`
+    Args:
+        supplier_prefix (str): префикс поставщика. Например `morlevi`
     """
     # Преобразуем префикс, чтобы он соответствовал ключам в SUPPLIER_PREFIX_MAP
     supplier_alias: str = supplier_prefix.replace('.', '_').replace('-', '_')
 
     try:
-        GraberClass = SUPPLIER_PREFIX_MAP[supplier_alias]
-    except KeyError:
+        GraberClass: Graber = SUPPLIER_PREFIX_MAP[supplier_alias]
+
+    except KeyError as ex:
+        logger.error(f"""
         # Попробуем найти по домену, если префикс не найден напрямую
         # (хотя это может быть избыточно, если supplier_prefix всегда должен быть в SUPPLIER_PREFIX_MAP)
+        """,ex)
+        
         try:
             # Пытаемся использовать supplier_prefix напрямую как ключ, если он уже в формате домена
-            GraberClass = URL_PREFIX_MAP[supplier_alias] 
+            GraberClass: Graber = URL_PREFIX_MAP[supplier_alias] 
         except KeyError:
-            raise ValueError(f"Graber класс не найден для поставщика: {supplier_alias}")
+            #raise ValueError(f"Graber класс не найден для поставщика: {supplier_alias}")
+            logger.error(f"Graber класс не найден для поставщика: {supplier_alias}", ex)
+            return Graber()
 
     try:
-        # создание экземпляр Graber, передавая supplier_prefix и драйвер.
-        # Предполагается, что конструктор Graber принимает эти аргументы.
         graber_instance = GraberClass()
-        return graber_instance
-    except Exception as e:
-        raise ValueError(f"Не удалось создать экземпляр Graber для {supplier_alias}: {e}") from e
+        return GraberClass()
+    except Exception as ex:
+        #raise ValueError(f"Не удалось создать экземпляр Graber для {supplier_alias}: {e}") from e
+        logger.critical(f"Не удалось создать экземпляр Graber для {supplier_alias}:", ex)
+        return Graber() 
 
-
-def get_graber_by_supplier_url(url: str):
+def get_graber_by_supplier_url(url: str) -> Graber:
     """
     Извлекает домен из URL, находит соответствующий класс Graber и возвращает ЕГО ЭКЗЕМПЛЯР.
 
@@ -278,19 +280,28 @@ def get_graber_by_supplier_url(url: str):
     domain = domain.split(':')[0].replace('www.','')
 
     if not domain:
-        raise ValueError(f"Не удалось извлечь домен из URL: {url}")
+       logger.critical(f"Не удалось извлечь домен из URL: {url}")
+       return False
 
     # Получаем класс Graber по домену из URL_PREFIX_MAP
     try:
         GraberClass = URL_PREFIX_MAP[domain]
-    except KeyError:
-        raise ValueError(f"Graber класс не найден для поставщика (домен): {domain}")
+        return GraberClass()
 
-    try:
-        # создание экземпляр Graber, передавая ему supplier_prefix и опциональный драйвер.
-        # Важно: предполагается, что конструктор Graber принимает supplier_prefix и driver.
-        graber_instance = GraberClass()
-        return graber_instance
+    except KeyError:
+        # raise ValueError(f"Graber класс не найден для поставщика (домен): {domain}")
+        msg = f"\n\nGraber класс не найден для поставщика (домен): {domain}\n\n" 
+        logger.critical(msg, ex, True)
+        ...
     except Exception as ex:
-        # Логируем ошибку создания экземпляра, чтобы было понятно, почему не удалось
-        raise ValueError(f"Не удалось создать экземпляр Graber для домена {domain}:\n{ex}") from ex
+        # raise ValueError(f"Не удалось создать экземпляр Graber для {domain}: {e}") from e
+        msg = f"\n\nНе удалось создать экземпляр Graber для {domain}\n\n" 
+        logger.critical(msg, ex, True)
+        ...
+        # Если ничего не найдено, Возвращается объект Graber по умолчанию. 
+        # Это стандартный случай, когда нет подходящего класса для данного домена.
+        # если вы хотите иметь базовый функционал Graber,
+        # Функция вернет базовый `Graber`, 
+    return Graber()  
+
+

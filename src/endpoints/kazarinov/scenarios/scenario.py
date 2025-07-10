@@ -54,6 +54,7 @@ class Scenario(QuotationBuilder):
         self.driver = driver or Driver()
 
         super().__init__(mexiron_name = mexiron_name)
+        ...
         
 
     async def run_scenario_async(
@@ -68,8 +69,15 @@ class Scenario(QuotationBuilder):
         """
         Executes the scenario: parses products, processes them via AI, and stores data.
         """
-        await self.driver.start()
+        
         driver = self.driver
+
+        try:
+            await driver.start()
+            await driver.async_init_page()
+        except Exception as ex:
+            logger.error("Ошибка при запуске pydoll драйвера:", ex)
+            return False # Возврат False, если драйвер не удалось запустить
 
         products_list = [] # Список для собранных товаров
 
@@ -92,28 +100,28 @@ class Scenario(QuotationBuilder):
             graber: 'Graber' = get_graber_by_supplier_url(url)
             
             if not graber:
-                logger.error(f"Нет подходящего грабера для URL: {url}")
+                logger.error(f"Нет подходящего грабера для URL: {url}", None, True)
                 if bot: bot.send_message(chat_id, f"❌ Не найден обработчик для ссылки: {url}")
                 continue # Переход к следующему URL
 
             required_fields: list[str]  = [
-                        'id_product',
-                        'name',
-                        'price',
-                        'id_supplier',
-                        'description_short',
-                        'description',
-                        'specification',
-                        'local_image_path',
-                        'default_image_url']
+                            'id_supplier',
+                            'name',
+                            'price',
+                            'reference',
+                            'description',
+                            'description_short',
+                            'default_image_url',
+                            'local_image_path',
+                        ]
 
             if bot: bot.send_message(chat_id, f"⏳ Обработка товара:\n{url}")  
 
 
             try:
                 f: ProductFields = await graber.grab_product_page(
+                    driver = driver,
                     product_url = url, 
-                    page = _page, # <-- Передаем здесь экземпляр Page
                     required_fields = required_fields
                 )
 

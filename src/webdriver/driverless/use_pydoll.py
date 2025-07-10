@@ -21,7 +21,7 @@ class Driver(Chrome):
         Args:
         **kwargs: Arbitrary keyword arguments passed to Chrome constructor.
         """
-            # Configure browser options
+        # Configure browser options
         options = Options()
         #options.add_argument('--proxy-server=username:password@ip:port')
         #options.add_argument('--window-size=1920,1080')
@@ -32,14 +32,24 @@ class Driver(Chrome):
         options.add_argument('--headless=new')
         options.add_argument('--disable-notifications')
 
-        
-
         super().__init__(options = options, **kwargs, )
-        self.page: Page = self.get_page()
+        
+    async def async_init_page(self):
+        """! Asynchronous initialization to set up the page.
+        
+        This method should be called after creating the Driver instance.
+        
+        Returns:
+        Driver: Self reference for method chaining.
+        """
+        if self.page is None:
+            self.page = await self.get_page()
+        return self
 
     async def close(self):
         """! Close the driver. """
-        await self.page.close()
+        if self.page:
+            await self.page.close()
         await super().close()
 
     async def execute_locator(self, locator: SimpleNamespace) -> Any:
@@ -54,19 +64,28 @@ class Driver(Chrome):
         Raises:
         ValueError: If an unsupported attribute is requested.
         """
-
-        # Special case for 'value' in starteg `BY` returned value from locator.attribute
-        # f.e. supplier_id = locator.attribute
-        if locator.by.upper() == 'VALUE':  
-            return locator.attribute
+        # Ensure page is initialized
+        if not self.page:
+            await self.async_init()
 
         res: list = []
         elements: WebElement | list[WebElement] = None
 
-        # Strategy for multiple selectors (XPATH не умеет в жадные операторы)
+        # Special case for 'value' in starteg `BY` returned value from locator.attribute
+        # f.e. supplier_id = locator.attribute
+        if str(locator.by).upper() == 'VALUE':  
+            return locator.attribute
+
+        # Strategy for multiple selectors (XPATH не умеет в ленивые операторы)
         match getattr(locator, 'strategy_for_multiple_selectors', 'find_first_match').lower():
             case 'find_first_match':
-                selectors: list = locator.selector.split(';')
+                selectors: list 
+                if ';' in locator.selector:
+                    # If multiple selectors are provided, try each one until a match is found
+                    selectors = locator.selector.split(';')
+                else:
+                    selectors = [locator.selector]
+
                 for selector in selectors:
                     try:
                         elements = await self.page.find_elements(By[locator.by.upper()], selector)
@@ -75,7 +94,7 @@ class Driver(Chrome):
                     except Exception as ex:
                         logger.warning(f"Error executing locator: {locator}", ex, exc_info=True)
                         return None
-
+        ...
         match getattr(locator, 'attribute', '').lower():
             case '':
                 # If no attribute is provided, return WebElement object(s)
@@ -98,7 +117,7 @@ class Driver(Chrome):
 
             case _:
                 raise ValueError(f"Unsupported attribute: {locator=}")
-
+        ...
         # List filtering strategy
         if_list = getattr(locator, 'if_list', '')
         match if_list:
@@ -130,6 +149,10 @@ class Driver(Chrome):
         Returns:
         bool: `True` if navigation was successful, else `False`.
         """
+        # Ensure page is initialized
+        if self.page is None:
+            await self.async_init()
+            
         try:
             await self.page.go_to(url)
             return True
