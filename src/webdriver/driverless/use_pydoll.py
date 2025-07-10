@@ -1,7 +1,7 @@
 import asyncio
 from typing import List, Any
 from types import SimpleNamespace
-from pydoll.browser import Chrome
+from pydoll.browser import Chrome 
 from pydoll.browser.options import ChromeOptions as Options
 from pydoll.browser.page import Page
 from pydoll.constants import By
@@ -17,21 +17,21 @@ class Driver(Chrome):
     page: Page = None
 
     def __init__(self,  **kwargs):
-        """! Synchronous constructor; use `await async_init()` for full setup.
+        """! Synchronous constructor; 
+        Use `await async_init_page()` for full setup!
 
         Args:
-        **kwargs: Arbitrary keyword arguments passed to Chrome constructor.
+            **kwargs: Arbitrary keyword arguments passed to Chrome constructor.
         """
         # Configure browser options
         options = Options()
         #options.add_argument('--proxy-server=username:password@ip:port')
         #options.add_argument('--window-size=1920,1080')
         #options.add_argument('--start-maximized')
-        #options.binary_location = '/path/to/your/browser'
+        #options.binary_location = fr'C:\Program Files\Google\Chrome\Application\chrome.exe'
         #options.headless = kwargs.get('headless', True)  # Default to headless mode
-
-        options.add_argument('--headless=new')
-        options.add_argument('--disable-notifications')
+        #options.add_argument('--headless=new')
+        #options.add_argument('--disable-notifications')
 
         super().__init__(options = options, **kwargs, )
         
@@ -75,7 +75,8 @@ class Driver(Chrome):
 
         if not locator.selector or locator.selector == '':
             ...
-            logger.error(f"Locator selector is empty: {print(locator.__dict__)}")
+            if locator.mandatory: 
+                logger.error(f"Locator selector is empty: {print(locator.__dict__)}")
             return False
 
         if ';' in locator.selector:
@@ -94,7 +95,7 @@ class Driver(Chrome):
                 for selector in selectors:
                     try:
                         elements = await self.page.find_elements(By[locator.by.upper()], selector)
-
+                        ...
                     except Exception as ex:
                         logger.warning(f"Error executing locator: {locator}", ex, exc_info=True)
                         return False
@@ -108,17 +109,25 @@ class Driver(Chrome):
                 if len(elements) == 1:
                     return await elements[0].get_element_text()
                 _result= [await el.get_element_text() for el in elements]
+                if isinstance(_result, list) and len(_result) == 0:
+                    return False
                 ...
 
             case 'innerhtml':
                 if len(elements) == 1:
                     return await elements[0].inner_html
                 _result= [await el.inner_html for el in elements]
+                if isinstance(_result, list) and len(_result) == 0:
+                    return False
+                ...
 
             case 'src' | 'href':
                 if len(elements) == 1:
                     return await elements[0].get_attribute(locator.attribute)
                 _result= [await el.get_attribute(locator.attribute) for el in elements]
+                if isinstance(_result, list) and len(_result) == 0:
+                    return False
+                ...
 
             case _:
                 raise ValueError(f"Unsupported attribute: {locator=}")
@@ -131,16 +140,16 @@ class Driver(Chrome):
             case 'all':
                 return _result
             case 'first':
-                return _result[0]
+                return _result[0] if isinstance(_result, list) else _result 
             case 'last':
                 return _result[-1]
             case 'even':
                 return [_result[i] for i in range(0, len(_result), 2)]
             case 'odd':
                 return [_result[i] for i in range(1, len(_result), 2)]
-            case list() if isinstance(if_list, list):
+            case list() if isinstance(if_list, list): # <- список полей по номерам. Например [1,6,8]
                 return [_result[i] for i in if_list if isinstance(i, int)]
-            case int() if isinstance(if_list, int):
+            case int() if isinstance(if_list, int): # <-  полей по номеру. Например 4
                 return _result[if_list - 1]
             case _:
                 return _result

@@ -4,7 +4,6 @@
     "by": "XPATH",
     "selector": "//div[@class='modal-content']//button",
     "if_list": "first",
-
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
@@ -20,14 +19,13 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "id_product"
+    "locator_description": "id_product morlevi"
   },
   "id_manufacturer": {
     "attribute": "innerText",
     "by": "XPATH",
     "selector": "//span[@class = 'ltr sku-copy']",
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -44,71 +42,52 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "SKU morlevi"
+    "locator_description": "id_suppler morlevi"
   },
-  "id_product": {
-    "attribute": "innerText",
-    "by": "XPATH",
-    "selector": "//span[@class = 'ltr sku-copy']",
-    "if_list": "first",
 
+  "id_category_default": {
+    "attribute": null,
+    "by": null,
+    "selector": null,
+    "if_list": "first",
+    "mandatory": false,
+    "timeout": 0,
+    "timeout_for_event": "presence_of_element_located",
+    "event": null,
+    "locator_description": "id_category_default morlevi"
+  },
+  "new": {
+    "attribute": null,
+    "by": null,
+    "selector": null,
+    "if_list": "first",
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "SKU morlevi"
-  },
-  "id_category_default": {
-    "attribute": null,
-
-    "by": null,
-    "selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "new": {
-    "attribute": null,
-
-    "by": null,
-    "selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "locator_description": "new morlevi"
   },
   "cache_default_attribute": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "cache_default_attribute morlevi"
   },
   "id_default_image": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "cache_default_attribute morlevi"
   },
   "default_image_url": {
     "attribute": null,
@@ -130,10 +109,11 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "id_default_combination morlevi"
   },
   "id_tax_rules_group": {
     "attribute": null,
@@ -143,10 +123,11 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "id_tax_rules_group morlevi"
   },
   "position_in_category": {
     "attribute": null,
@@ -156,10 +137,11 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "position_in_category morlevi"
   },
   "type": {
     "attribute": null,
@@ -169,10 +151,11 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "type morlevi"
   },
   "id_shop_default": {
     "attribute": null,
@@ -182,72 +165,64 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "id_shop_default morlevi"
   },
   "reference": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "product reference morlevi"
+
   },
   "supplier_reference": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "supplier_reference morlevi. Собирается по шаблону `<id_supplier>_<reference>` "
   },
   "location": {
     "attribute": null,
 
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "product location morlevi"
   },
   "width": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
   "height": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -260,7 +235,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -273,7 +248,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -286,7 +261,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -299,7 +274,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -312,7 +287,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -325,7 +300,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -338,7 +313,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -351,7 +326,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -364,7 +339,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -377,7 +352,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -390,7 +365,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -403,7 +378,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -416,7 +391,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -429,7 +404,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -442,7 +417,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -455,7 +430,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -468,7 +443,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -481,7 +456,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -494,7 +469,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -507,7 +482,7 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -520,85 +495,69 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
   "price": {
-    "attribute": null,
-
-    "by": null,
-    "selector": null,
-
+    "attribute": "innerText",
+    "by": "XPATH",
+    "selector": "//span[@id='basicPrice']",
     "if_list": "first",
-
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "product price morlevi"
+
   },
   "wholesale_price": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
   "unity": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
   "unit_price_ratio": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
   "additional_shipping_cost": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
   "customizable": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
@@ -611,20 +570,19 @@
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
   "uploadable_files": {
     "attribute": null,
-
     "by": null,
     "selector": null,
 
     "if_list": "first",
 
-    "mandatory": true,
+    "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null

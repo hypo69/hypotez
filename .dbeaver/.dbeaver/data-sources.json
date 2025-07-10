@@ -1,7 +1,7 @@
 {
 	"folders": {
 		"emil-design.com": {},
-		"davidka.net": {}
+		"store.davidka.net": {}
 	},
 	"connections": {
 		"mariaDB-18f5d84c299-14a8126392588ae3": {
@@ -32,40 +32,6 @@
 				"port": "3306",
 				"database": "u782528968_Erx8s",
 				"url": "jdbc:mariadb://localhost:3306/u782528968_Erx8s",
-				"configurationType": "MANUAL",
-				"type": "dev",
-				"closeIdleConnection": true,
-				"auth-model": "native"
-			}
-		},
-		"mariaDB-18f6cf71452-319e79f98f91366f": {
-			"provider": "mysql",
-			"driver": "mariaDB",
-			"name": "translations",
-			"save-password": true,
-			"folder": "davidka.net",
-			"configuration": {
-				"host": "141.136.34.4",
-				"port": "3306",
-				"database": "u177424397_translations",
-				"url": "jdbc:mariadb://141.136.34.4:3306/u177424397_translations",
-				"configurationType": "MANUAL",
-				"type": "dev",
-				"closeIdleConnection": true,
-				"auth-model": "native"
-			}
-		},
-		"mariaDB-18f710e5a50-2e8bb8d52fe4bbb4": {
-			"provider": "mysql",
-			"driver": "mariaDB",
-			"name": "suppliers categories",
-			"save-password": true,
-			"folder": "davidka.net",
-			"configuration": {
-				"host": "141.136.34.4",
-				"port": "3306",
-				"database": "u177424397_splr_catgories",
-				"url": "jdbc:mariadb://141.136.34.4:3306/u177424397_splr_catgories",
 				"configurationType": "MANUAL",
 				"type": "dev",
 				"closeIdleConnection": true,
@@ -111,6 +77,7 @@
 			"driver": "mariaDB",
 			"name": "u177424397_store",
 			"save-password": true,
+			"folder": "store.davidka.net",
 			"configuration": {
 				"host": "77.37.35.16",
 				"port": "3306",

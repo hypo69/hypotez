@@ -62,7 +62,7 @@ class Config:
     CONNECTION_CHECK_INTERVAL: int = 30  # Интервал проверки соединения с ботом в секундах
 
     WINDOW_MODE: str = 'hidden' # Установка режима браузера
-
+    WINDOW_MODE: str = 'normal'
     if USE_ENV:
         from dotenv import load_dotenv
         load_dotenv()
