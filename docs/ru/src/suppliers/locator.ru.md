@@ -20,7 +20,7 @@
     "by": "XPATH",
     "selector": "//button[@id = 'closeXButton']",
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",

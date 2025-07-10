@@ -29,7 +29,7 @@ locator = {
     "by": "XPATH",
     "selector": "//a[@class='a-link-normal a-text-normal']",
     "if_list": "all",
-    "use_mouse": false,
+
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",

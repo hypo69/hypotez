@@ -68,7 +68,7 @@ await self.price() # self.fields.price = await self.driver.execute_locator(self.
       null        // На втором шаге - действий нет
     ],
     "if_list": "first", // Общее правило для списков (можно списком)
-    "use_mouse": false,  // Общее (можно списком)
+  // Общее (можно списком)
     "mandatory": [
       true,       // Первый шаг обязателен
       true        // Второй шаг обязателен

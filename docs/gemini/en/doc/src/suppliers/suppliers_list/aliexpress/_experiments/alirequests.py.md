@@ -57,7 +57,7 @@ product_title = driver.execute_locator({
     "by": "XPATH",
     "selector": "//h1[@class='product-title']",
     "if_list": "first",
-    "use_mouse": False,
+
     "mandatory": True,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",

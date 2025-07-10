@@ -43,7 +43,7 @@ await self.price() # self.fields.price = await self.driver.execute_locator(self.
     "by": "XPATH",     // Search strategy is XPath
     "selector": "//button[@id = 'closeXButton']", // Selector value (XPath expression)
     "if_list": "first", // If multiple found, take the first one
-    "use_mouse": false, // Do not use mouse emulation
+ // Do not use mouse emulation
     "mandatory": false, // Locator is NOT mandatory (no error if not found)
     "timeout": 0,       // Element wait timeout (0 - do not wait)
     "timeout_for_event": "presence_of_element_located", // Wait condition before the event
@@ -148,7 +148,7 @@ For example, the `name` locator will be used to get the product name, the `price
       null        // No action on the second step
     ],
     "if_list": "first", // General rule for lists (can be a list)
-    "use_mouse": false,  // General (can be a list)
+  // General (can be a list)
     "mandatory": [
       true,       // The first step is mandatory
       true        // The second step is mandatory

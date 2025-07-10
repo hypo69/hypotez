@@ -8,6 +8,7 @@ from pydoll.constants import By
 from pydoll.element import WebElement
 
 from header import __root__
+from src.utils.printer import pprint as print
 from src.logger import logger
 
 class Driver(Chrome):
@@ -70,6 +71,17 @@ class Driver(Chrome):
 
         res: list = []
         elements: WebElement | list[WebElement] = None
+        selectors: list = []
+
+        if not locator.selector or locator.selector == '':
+            ...
+            logger.error(f"Locator selector is empty: {print(locator.__dict__)}")
+            return False
+
+        if ';' in locator.selector:
+            selectors = locator.selector.split(';')
+        else:
+            selectors = [locator.selector]
 
         # Special case for 'value' in starteg `BY` returned value from locator.attribute
         # f.e. supplier_id = locator.attribute
@@ -79,41 +91,34 @@ class Driver(Chrome):
         # Strategy for multiple selectors (XPATH не умеет в ленивые операторы)
         match getattr(locator, 'strategy_for_multiple_selectors', 'find_first_match').lower():
             case 'find_first_match':
-                selectors: list 
-                if ';' in locator.selector:
-                    # If multiple selectors are provided, try each one until a match is found
-                    selectors = locator.selector.split(';')
-                else:
-                    selectors = [locator.selector]
-
                 for selector in selectors:
                     try:
                         elements = await self.page.find_elements(By[locator.by.upper()], selector)
-                        if elements:
-                            break
+
                     except Exception as ex:
                         logger.warning(f"Error executing locator: {locator}", ex, exc_info=True)
-                        return None
+                        return False
         ...
         match getattr(locator, 'attribute', '').lower():
             case '':
                 # If no attribute is provided, return WebElement object(s)
-                res = elements
+                _result = elements
 
             case 'innertext':
                 if len(elements) == 1:
                     return await elements[0].get_element_text()
-                res = [await el.get_element_text() for el in elements]
+                _result= [await el.get_element_text() for el in elements]
+                ...
 
             case 'innerhtml':
                 if len(elements) == 1:
                     return await elements[0].inner_html
-                res = [await el.inner_html for el in elements]
+                _result= [await el.inner_html for el in elements]
 
             case 'src' | 'href':
                 if len(elements) == 1:
                     return await elements[0].get_attribute(locator.attribute)
-                res = [await el.get_attribute(locator.attribute) for el in elements]
+                _result= [await el.get_attribute(locator.attribute) for el in elements]
 
             case _:
                 raise ValueError(f"Unsupported attribute: {locator=}")
@@ -122,22 +127,23 @@ class Driver(Chrome):
         if_list = getattr(locator, 'if_list', '')
         match if_list:
             case '':
-                return res
+                return _result
             case 'all':
-                return res
+                return _result
             case 'first':
-                return res[0]
+                return _result[0]
             case 'last':
-                return res[-1]
+                return _result[-1]
             case 'even':
-                return [res[i] for i in range(0, len(res), 2)]
+                return [_result[i] for i in range(0, len(_result), 2)]
             case 'odd':
-                return [res[i] for i in range(1, len(res), 2)]
+                return [_result[i] for i in range(1, len(_result), 2)]
             case list() if isinstance(if_list, list):
-                return [res[i] for i in if_list if isinstance(i, int)]
+                return [_result[i] for i in if_list if isinstance(i, int)]
             case int() if isinstance(if_list, int):
-                return res[if_list - 1]
-
+                return _result[if_list - 1]
+            case _:
+                return _result
         return None
 
     async def get_url(self, url: str) -> bool:

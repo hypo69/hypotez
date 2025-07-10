@@ -1259,7 +1259,7 @@ class Graber:
                 "by": "VALUE",
                 "selector": "none",
                 "if_list": "first",
-                "use_mouse": false,
+            
                 "mandatory": true,
                 "timeout": 2,
                 "timeout_for_event": "presence_of_element_located",

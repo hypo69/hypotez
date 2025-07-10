@@ -6,7 +6,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -19,7 +19,7 @@
     "selector": "//span[contains(text(), 'Brand')]/parent::td/following-sibling::td/span[contains(@class, 'po-break-word')]",
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -30,7 +30,7 @@
     "by": "VALUE",
     "selector": null,
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -43,7 +43,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -56,7 +56,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -69,7 +69,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -82,7 +82,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -95,7 +95,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -108,7 +108,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -121,7 +121,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -134,7 +134,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -147,7 +147,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -160,7 +160,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -171,7 +171,7 @@
     "by": "XPATH",
     "selector": "//div[@id='feature-bullets']/ul/li",
     "if_list": "all",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -185,7 +185,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -199,7 +199,7 @@
     "selector": "//img[@id = 'main-image']",
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -213,7 +213,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -226,7 +226,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -239,7 +239,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -252,7 +252,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -265,7 +265,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -278,7 +278,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -291,7 +291,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -304,7 +304,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -317,7 +317,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -330,7 +330,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -343,7 +343,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -356,7 +356,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -369,7 +369,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -382,7 +382,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -395,7 +395,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -408,7 +408,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -421,7 +421,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -434,7 +434,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -447,7 +447,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -460,7 +460,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -473,7 +473,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -486,7 +486,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -499,7 +499,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -512,7 +512,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -523,7 +523,7 @@
     "by": "XPATH",
     "selector": "//span[contains(@class, 'priceToPay')]//span[@class = 'a-price-whole']",
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -537,7 +537,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -550,7 +550,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -563,7 +563,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -576,7 +576,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -589,7 +589,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -602,7 +602,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -615,7 +615,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -628,7 +628,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -641,7 +641,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -654,7 +654,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -667,7 +667,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -680,7 +680,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -693,7 +693,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -706,7 +706,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -719,7 +719,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -732,7 +732,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -745,7 +745,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -758,7 +758,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -771,7 +771,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -784,7 +784,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -797,7 +797,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -810,7 +810,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -823,7 +823,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -836,7 +836,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -849,7 +849,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -862,7 +862,7 @@
     "selector": "//span[@id='productTitle'] | //span[@id='title']",
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -875,7 +875,7 @@
     "selector": "//div[@id = 'productOverview_feature_div']",
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -886,7 +886,7 @@
     "by": "XPATH",
     "selector": "//div[id = 'productSpecifications-content']",
     "if_list": "all",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -900,7 +900,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -913,7 +913,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -926,7 +926,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -939,7 +939,7 @@
     "selector": "",
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -952,7 +952,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -967,7 +967,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -980,7 +980,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -993,7 +993,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1006,7 +1006,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1019,7 +1019,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1032,7 +1032,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1045,7 +1045,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1058,7 +1058,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1071,7 +1071,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1084,7 +1084,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1097,7 +1097,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1110,7 +1110,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1123,7 +1123,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1136,7 +1136,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1149,7 +1149,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1162,7 +1162,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1175,7 +1175,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1188,7 +1188,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1201,7 +1201,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1214,7 +1214,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1227,7 +1227,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1240,7 +1240,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1253,7 +1253,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1266,7 +1266,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1279,7 +1279,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1293,7 +1293,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1306,7 +1306,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1319,7 +1319,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1332,7 +1332,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1345,7 +1345,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1358,7 +1358,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1371,7 +1371,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1384,7 +1384,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1397,7 +1397,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1410,7 +1410,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1423,7 +1423,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1436,7 +1436,7 @@
     "by": "XPATH",
     "selector": "//img[@id='landingImage']",
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1450,7 +1450,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1463,7 +1463,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1476,7 +1476,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1489,7 +1489,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1502,7 +1502,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1515,7 +1515,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1528,7 +1528,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1541,7 +1541,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1554,7 +1554,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1567,7 +1567,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1580,7 +1580,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1593,7 +1593,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1606,7 +1606,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1619,7 +1619,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1632,7 +1632,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1645,7 +1645,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1658,7 +1658,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1671,7 +1671,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1684,7 +1684,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1731,7 +1731,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1744,7 +1744,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1757,7 +1757,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1770,7 +1770,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1783,7 +1783,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1796,7 +1796,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1809,7 +1809,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1822,7 +1822,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1835,7 +1835,7 @@
     "selector": null,
 
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1913,7 +1913,7 @@
     "by": "XPATH",
     "selector": "",
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",

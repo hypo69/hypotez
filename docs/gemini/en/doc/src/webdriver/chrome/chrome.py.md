@@ -171,7 +171,7 @@ driver.unhide_DOM_element({
     "by": "XPATH",
     "selector": "//div[@class='hidden-element']",
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",

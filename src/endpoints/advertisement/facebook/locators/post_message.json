@@ -4,7 +4,7 @@
     "by": "XPATH",
     "selector": "//span[contains(text(), 'Что у вас нового') or contains(text(), 'Напишите что-нибудь...')]",
     "if_list": "first",
-    "use_mouse": false,
+
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
     "mandatory": true,
     "locator_description": "открытие окна для ввода сообщения, пауза, отправка сообщения"

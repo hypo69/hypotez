@@ -8,7 +8,7 @@
     "by": "XPATH",
     "selector": "//button[@id = 'closeXButton']",
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -20,7 +20,7 @@
     "by": "XPATH",
     "selector": "//ol[contains(@class, 'flex-control-thumbs')]//img",
     "if_list": "all",
-    "use_mouse": false,
+
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -32,7 +32,7 @@
     "by": "XPATH",
     "selector": "//span[@class = 'ltr sku-copy']",
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -44,7 +44,7 @@
     "by": "XPATH",
     "selector": "//a[@id = 'mainpic']//img",
     "if_list": "first",
-    "use_mouse": false,
+
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "screenshot()",

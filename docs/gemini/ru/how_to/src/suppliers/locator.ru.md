@@ -40,7 +40,7 @@ locator = {
         "by": "XPATH",
         "selector": "//h1[@class='product-name']",
         "if_list": "first",
-        "use_mouse": False,
+    
         "mandatory": True,
         "timeout": 10,
         "timeout_for_event": "presence_of_element_located",
@@ -51,7 +51,7 @@ locator = {
         "by": "XPATH",
         "selector": "//span[@class='price']",
         "if_list": "first",
-        "use_mouse": False,
+    
         "mandatory": True,
         "timeout": 10,
         "timeout_for_event": "presence_of_element_located",

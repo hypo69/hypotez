@@ -123,7 +123,7 @@ class Graber:
                 extracted_value = await driver.execute_locator(_locator)
                         
                 # Установка значение, только если оно не пустое (или по другой логике)
-                if extracted_value is not None: # Можно добавить проверку на пустую строку, если нужно
+                if extracted_value: # Можно добавить проверку на пустую строку, если нужно
                     setattr(f, field_name, extracted_value)
                     logger.debug(f"Поле '{field_name}' извлечено: '{extracted_value}'")
                 else:

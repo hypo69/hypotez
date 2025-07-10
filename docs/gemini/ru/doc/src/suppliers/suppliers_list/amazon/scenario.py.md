@@ -43,7 +43,7 @@ locators = {
     "by": "XPATH",
     "selector": "//span[@class = 'a-size-base-plus a-color-base a-text-normal']",
     "if_list": "all",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -90,7 +90,7 @@ locator = {
     "by": "XPATH",
     "selector": "//a[@class='a-link-normal a-text-normal']",
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -174,7 +174,7 @@ locators = {
     "by": "XPATH",
     "selector": "//span[@class = 'a-size-base-plus a-color-base a-text-normal']",
     "if_list": "all",
-    "use_mouse": false,
+
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",

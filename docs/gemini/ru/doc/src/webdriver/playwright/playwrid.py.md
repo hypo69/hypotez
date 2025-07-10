@@ -81,7 +81,7 @@ async def main():
     "by": "XPATH",
     "selector": "//h1",
     "if_list": "first",
-    "use_mouse": False,
+
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": None,
@@ -97,7 +97,7 @@ async def main():
     "by": "CSS",
     "selector": "button",
     "if_list": "first",
-    "use_mouse": False,
+
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
@@ -149,7 +149,7 @@ locator_name = {
     "by": "XPATH",
     "selector": "//h1",
     "if_list": "first",
-    "use_mouse": False,
+
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": None,
@@ -166,7 +166,7 @@ locator_click = {
     "by": "CSS",
     "selector": "button",
     "if_list": "first",
-    "use_mouse": False,
+
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",

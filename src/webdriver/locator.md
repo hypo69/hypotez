@@ -20,7 +20,7 @@
     "by": "XPATH",     // Стратегия поиска - XPath
     "selector": "//button[@id = 'closeXButton']", // Значение селектора (XPath-выражение)
     "if_list": "first", // Если найдено несколько, взять первый
-    "use_mouse": false, // Не использовать эмуляцию мыши
+ // Не использовать эмуляцию мыши
     "mandatory": false, // Локатор НЕ обязателен (ошибки не будет, если не найден)
     "timeout": 0,       // Таймаут ожидания элемента (0 - не ждать)
     "timeout_for_event": "presence_of_element_located", // Условие ожидания перед событием
@@ -32,7 +32,7 @@
     "by": "XPATH",
     "selector": "//ol[contains(@class, 'flex-control-thumbs')]//img",
     "if_list": "all",   // Взять все найденные элементы
-    "use_mouse": false,
+
     "mandatory": false, // Необязательный
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -44,7 +44,7 @@
     "by": "XPATH",
     "selector": "//span[@class = 'ltr sku-copy']",
     "if_list": "first",
-    "use_mouse": false,
+
     "mandatory": true,    // Обязательный локатор
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -56,7 +56,7 @@
     "by": "XPATH",
     "selector": "//a[@id = 'mainpic']//img",
     "if_list": "first",
-    "use_mouse": false,
+
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "screenshot()", // Действие - сделать скриншот элемента
@@ -170,7 +170,7 @@ await self.price() # self.fields.price = await self.driver.execute_locator(self.
       null        // На втором шаге - действия нет
     ],
     "if_list": "first", // Общее правило для списков (можно списком)
-    "use_mouse": false,  // Общее (можно списком)
+  // Общее (можно списком)
     "mandatory": [
       true,       // Первый шаг обязателен
       true        // Второй шаг обязателен
