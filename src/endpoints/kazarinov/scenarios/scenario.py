@@ -46,12 +46,13 @@ class Scenario(QuotationBuilder):
         """Сценарий сбора информации."""
 
         if 'window_mode' not in kwargs:
-            kwargs['window_mode'] = 'normal'
+            kwargs['window_mode'] = 'headless'
 
+        kwargs['profile_path'] = 'headless'
         # Важно: Конструктор Driver сам управляет своим жизненным циклом и окном.
         # Если передается внешний драйвер, то нужно передавать его сюда.
         # В данном случае, Driver() создается внутри run_scenario_async.
-        self.driver = driver or Driver()
+        self.driver = driver or Driver(**kwargs)
 
         super().__init__(mexiron_name = mexiron_name)
         ...

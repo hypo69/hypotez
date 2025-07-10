@@ -127,7 +127,7 @@ class Graber:
                     setattr(f, field_name, extracted_value)
                     logger.debug(f"Поле '{field_name}' извлечено: '{extracted_value}'")
                 else:
-                    logger.warning(f"Локатор для поля '{field_name}' не найден в конфигурации поставщика {self.config.supplier_prefix}. Пропуск.")
+                    logger.warning(f"Локатор для поля `{field_name}` не найден. Пропуск.")
                     ...
 
         return f

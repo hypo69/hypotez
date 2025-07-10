@@ -8,29 +8,56 @@ from pydoll.constants import By
 from pydoll.element import WebElement
 
 from header import __root__
+from src.credentials import j_loads_ns
 from src.utils.printer import pprint as print
 from src.logger import logger
+
+class Config:
+        """! Configuration class for Pydoll Chrome browser. """
+        # Default configuration values can be set here if needed
+        # For example, you can set default user agent, window size, etc.
+        config: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'webdriver' / 'driverless' / 'use_pydoll.json')
+        profile_path: str = config.profile_path
 
 class Driver(Chrome):
     """! Driver class for Pydoll Chrome browser. """
 
     page: Page = None
 
-    def __init__(self,  **kwargs):
+    def __init__(self, **kwargs):
         """! Synchronous constructor; 
         Use `await async_init_page()` for full setup!
 
         Args:
+            profile_path (str, optional): Path to Chrome user profile directory
             **kwargs: Arbitrary keyword arguments passed to Chrome constructor.
         """
         # Configure browser options
         options = Options()
+        
+        # Настройка пользовательского профиля
+        if profile_path:
+            # Способ 1: Указать директорию пользовательских данных
+            options.add_argument(f'--user-data-dir={profile_path}')
+            
+            # Способ 2: Указать конкретный профиль (если нужен определенный профиль)
+            # options.add_argument(f'--profile-directory=Profile 1')  # или Default, Profile 2, etc.
+        
+        # Дополнительные опции для работы с профилем
+        if profile_path:
+            # Отключить первый запуск и восстановление
+            options.add_argument('--no-first-run')
+            options.add_argument('--no-default-browser-check')
+            options.add_argument('--disable-default-apps')
+            
         #options.add_argument('--proxy-server=username:password@ip:port')
         #options.add_argument('--window-size=1920,1080')
         #options.add_argument('--start-maximized')
         #options.binary_location = fr'C:\Program Files\Google\Chrome\Application\chrome.exe'
-        #options.headless = kwargs.get('headless', True)  # Default to headless mode
-        #options.add_argument('--headless=new')
+        
+        if kwargs.get('window_mode', 'headless') == 'headless':
+            options.add_argument('--headless=new')
+
         #options.add_argument('--disable-notifications')
 
         super().__init__(options = options, **kwargs, )
@@ -142,15 +169,15 @@ class Driver(Chrome):
             case 'first':
                 return _result[0] if isinstance(_result, list) else _result 
             case 'last':
-                return _result[-1]
+                return _result[-1] if isinstance(_result, list) else _result 
             case 'even':
-                return [_result[i] for i in range(0, len(_result), 2)]
+                return [_result[i] for i in range(0, len(_result), 2)]  if isinstance(_result, list) else _result 
             case 'odd':
-                return [_result[i] for i in range(1, len(_result), 2)]
+                return [_result[i] for i in range(1, len(_result), 2)]  if isinstance(_result, list) else _result 
             case list() if isinstance(if_list, list): # <- список полей по номерам. Например [1,6,8]
-                return [_result[i] for i in if_list if isinstance(i, int)]
+                return [_result[i] for i in if_list if isinstance(i, int)] if isinstance(_result, list) else _result 
             case int() if isinstance(if_list, int): # <-  полей по номеру. Например 4
-                return _result[if_list - 1]
+                return _result[if_list - 1]  if isinstance(_result, list) else _result 
             case _:
                 return _result
         return None
@@ -174,3 +201,20 @@ class Driver(Chrome):
         except Exception as ex:
             logger.error(f"Failed to navigate to URL: {url}", ex)
             return False
+
+
+# Пример использования:
+
+"""
+# Для Windows:
+driver = Driver(profile_path=r'C:\Users\Username\AppData\Local\Google\Chrome\User Data')
+
+# Для Linux:
+driver = Driver(profile_path='/home/username/.config/google-chrome')
+
+# Для macOS:
+driver = Driver(profile_path='/Users/username/Library/Application Support/Google/Chrome')
+
+# Или можно использовать без профиля (по умолчанию):
+driver = Driver()
+"""

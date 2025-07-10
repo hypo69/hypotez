@@ -94,7 +94,6 @@
     "by": "XPATH",
     "selector": "//a[@id = 'mainpic']//img",
     "if_list": "first",
-
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "screenshot()",
@@ -103,12 +102,9 @@
   },
   "id_default_combination": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -117,12 +113,9 @@
   },
   "id_tax_rules_group": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -131,12 +124,9 @@
   },
   "position_in_category": {
     "attribute": null,
-
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -148,9 +138,7 @@
 
     "by": null,
     "selector": null,
-
     "if_list": "first",
-
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -172,11 +160,11 @@
     "locator_description": "id_shop_default morlevi"
   },
   "reference": {
-    "attribute": null,
-    "by": null,
-    "selector": null,
+    "attribute": "innerText",
+    "by": "XPATH",
+    "selector": "//span[ contains( @class, 'sku-copy')]",
     "if_list": "first",
-    "mandatory": false,
+    "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,

@@ -80,8 +80,8 @@ class BotHandler:
     def __init__(self):
         """Инициализация обработчика событий телеграм-бота."""
         self.questions_list = ['Я не понял?', 'Объясни пожалуйста']
-        self.model = GoogleGenerativeAi(api_key = os.getenv('GEMINI_API') if USE_ENV else gs.credentials.gemini.kazarinov.api_key,
-                                        model_name = Config.DEFAULT_GEMINI_MODEL)
+        # self.model = GoogleGenerativeAi(api_key = os.getenv('GEMINI_API') if USE_ENV else gs.credentials.gemini.kazarinov.api_key,
+        #                                 model_name = Config.DEFAULT_GEMINI_MODEL)
 
     def handle_message(self, bot:telebot, message:'message'):
         """Обработка текстовых сообщений."""
@@ -283,7 +283,9 @@ def handle_unknown_command(message):
 
     # --- bot.py end -----------------
 
-    # --- minibot.py end -----------------
+
+
+    # --- minibot.py -----------------
 
 def check_connection_status(url: str = "https://api.telegram.org") -> None:
     """
@@ -318,7 +320,7 @@ def restart_bot() -> bool:
         return bot_start()
     return False
 
-def bot_stop(bot) -> bool:
+def bot_stop() -> bool:
     """
     Функция для корректного завершения работы бота.
     
