@@ -216,7 +216,7 @@ async def run_scenario(
     for url in list_products_in_category:
         if not d.get_url(url):
             logger.error(f'Ошибка перехода на страницу товара по URL: {url}')
-            continue  # Ошибка при переходе на страницу. Пропускаем.
+            continue  # Ошибка при переходе на страницу. Пропуск.
 
         # Захват полей страницы товара
         # Предполагается, что s.related_modules.grab_page является асинхронной функцией

@@ -26,13 +26,13 @@
 ```python
 from src.suppliers.aliexpress.api.models.request_parameters import ProductType, SortBy, LinkType
 
-# Устанавливаем тип товара как "TMALL"
+# Установка тип товара как "TMALL"
 product_type = ProductType.TMALL
 
-# Устанавливаем способ сортировки как "SALE_PRICE_DESC"
+# Установка способ сортировки как "SALE_PRICE_DESC"
 sort_by = SortBy.SALE_PRICE_DESC
 
-# Устанавливаем тип ссылки как "HOTLINK"
+# Установка тип ссылки как "HOTLINK"
 link_type = LinkType.HOTLINK
 
 # Передаем эти параметры в функцию запроса API AliExpress

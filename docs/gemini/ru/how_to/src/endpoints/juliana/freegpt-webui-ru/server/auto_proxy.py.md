@@ -37,7 +37,7 @@ from server.auto_proxy import get_random_proxy, update_working_proxies
 
 # Запускаем обновление списка рабочих прокси-серверов в отдельном потоке
 update_thread = threading.Thread(target=update_working_proxies)
-update_thread.daemon = True  # Устанавливаем поток как фоновый
+update_thread.daemon = True  # Установка поток как фоновый
 update_thread.start()
 
 # Получаем случайный рабочий прокси-сервер

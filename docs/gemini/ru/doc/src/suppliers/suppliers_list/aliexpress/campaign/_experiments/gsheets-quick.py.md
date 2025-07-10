@@ -108,7 +108,7 @@ from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignGoogleSh
 # создание объект AliCampaignGoogleSheet
 gs = AliCampaignGoogleSheet(campaign_name='test_campaign', language='EN', currency='USD')
 
-# Устанавливаем рабочую таблицу для товаров
+# Установка рабочую таблицу для товаров
 gs.set_products_worksheet('chandeliers')
 
 # Сохраняем категории из таблицы

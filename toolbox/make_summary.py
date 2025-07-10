@@ -53,9 +53,9 @@ def _make_summary(src_dir: Path, summary_file: Path, lang: str = 'en') -> bool:
 
                 # Фильтрация файлов по языку
                 if lang == 'ru' and not path.name.endswith('.ru.md'):
-                    continue  # Пропускаем файлы без суффикса .ru.md
+                    continue  # Пропуск файлы без суффикса .ru.md
                 elif lang == 'en' and path.name.endswith('.ru.md'):
-                    continue  # Пропускаем файлы с суффиксом .ru.md
+                    continue  # Пропуск файлы с суффиксом .ru.md
 
                 relative_path = path.relative_to(src_dir.parent)
                 summary.write(f'- [{path.stem}]({relative_path.as_posix()})\n')

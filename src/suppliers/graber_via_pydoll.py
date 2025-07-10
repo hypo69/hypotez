@@ -17,9 +17,12 @@ from pydoll.browser.page import Page  # Предполагается, что Pag
 from header import __root__
 from src import gs
 #from src.webdriver.driverless import use_pydoll as driver # Этот импорт, похоже, не используется напрямую здесь
+from src.endpoints.advertisement.facebook.scenarios import locator
+from src.endpoints.prestashop.product_fields import ProductFields
+from src.utils.convertors.ns import ns2dict
 from src.utils.file import get_filenames_from_directory
 from src.utils.jjson import j_loads_ns
-from src.endpoints.prestashop.product_fields import ProductFields
+
 from src.logger.logger import logger
 
 
@@ -95,11 +98,10 @@ class Graber:
             A ProductFields object containing the extracted information.
         """
         required_fields = required_fields or self.config.required_fields
-
+        #locator = ns2dict( self.config.product_locators ) # Преобразoвание локаторов в словарь для удобства
         page = page or self.page
         if not page:
             raise ValueError("No Page instance provided or available in Graber instance.")
-
         locator = self.config.product_locators
         f = ProductFields()
 
@@ -110,30 +112,30 @@ class Graber:
             logger.error(f'Failed to open product page: {product_url}', exc_info=ex) # Используется exc_info для стека
             return f # Возврат пустой объект в случае ошибки навигации
 
-        # Устанавливаем id_supplier в любом случае, если он определен в локаторах
-        # Проверка, что locator существует и имеет атрибут id_supplier
+        # Установка `id_supplier` если он определен в локаторах
+        # Проверка, что `locator` существует и имеет `атрибут id_supplier`
         if locator and hasattr(locator, 'id_supplier') and locator.id_supplier:
             f.id_supplier = locator.id_supplier
             logger.debug(f"\nУстановлен id_supplier: {f.id_supplier}\n")
 
         for field_name in required_fields:
-            # Пропускаем id_supplier, так как он уже установлен
+            # Пропуск id_supplier, так как он уже установлен
             if field_name == 'id_supplier':
                 continue
             
             try:
-                # Убедимся, что locator существует и имеет атрибут для текущего поля
+                # Провера, что locator существует и имеет атрибут для текущего поля
                 if locator and hasattr(locator, field_name):
-                    locator_config = getattr(locator, field_name)
+                    _locator = getattr(locator, field_name)
                     
-                    # Убедимся, что locator_config это словарь с конфигурацией локатора
-                    if isinstance(locator_config, dict):
-                        logger.debug(f"Извлечение поля '{field_name}' с локатором: {locator_config}")
+                    # Провера, что locator_config это словарь с конфигурацией локатора
+                    if isinstance(_locator, dict):
+                        logger.debug(f"Извлечение поля '{field_name}' с локатором: {_locator}")
                         # Вызываем execute_locator на том драйвере, который у нас есть (current_driver)
                         # Передаем только конфиг локатора, как обычно делает execute_locator
-                        extracted_value = await page.execute_locator(locator_config)
+                        extracted_value = await page.execute_locator(_locator)
                         
-                        # Устанавливаем значение, только если оно не пустое (или по другой логике)
+                        # Установка значение, только если оно не пустое (или по другой логике)
                         if extracted_value is not None: # Можно добавить проверку на пустую строку, если нужно
                            setattr(f, field_name, extracted_value)
                            logger.debug(f"Поле '{field_name}' извлечено: '{extracted_value}'")
@@ -206,7 +208,7 @@ class Graber:
             # Получаем локаторы для категорий
             category_locators = self.config.category_locators
             if not category_locators or not hasattr(category_locators, 'product_links'):
-                logger.warning(f"Локаторы категорий не настроены или отсутствует 'product_links' для сценария '{scenario.name}'. Пропускаем.")
+                logger.warning(f"Локаторы категорий не настроены или отсутствует 'product_links' для сценария '{scenario.name}'. Пропуск.")
                 return
 
             product_urls = await self.get_product_urls_from_category_page(
@@ -261,14 +263,14 @@ class Graber:
 
             # Убеждаемся, что scenarios_from_file это объект с атрибутами
             if not isinstance(scenarios_from_file, SimpleNamespace) and not hasattr(scenarios_from_file, '__dict__'):
-                logger.warning(f"Файл сценариев '{scenario_file}' не содержит ожидаемых данных (SimpleNamespace). Пропускаем.")
+                logger.warning(f"Файл сценариев '{scenario_file}' не содержит ожидаемых данных (SimpleNamespace). Пропуск.")
                 continue
 
             for scenario_name, scenario in scenarios_from_file.__dict__.items():
 
                 # Проверка, что это действительно объект сценария и он имеет category_url
                 if not isinstance(scenario, SimpleNamespace) or not hasattr(scenario, 'category_url'):
-                    logger.debug(f"Пропускаем атрибут '{scenario_name}' из файла '{scenario_file}', так как это не является валидным сценарием.")
+                    logger.debug(f"Пропуск атрибут '{scenario_name}' из файла '{scenario_file}', так как это не является валидным сценарием.")
                     continue
 
                 logger.info(f"Запуск сценария: '{scenario_name}' из файла '{scenario_file}'")

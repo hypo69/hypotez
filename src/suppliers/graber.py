@@ -212,7 +212,7 @@ class Graber:
                 logger.info(f"Найдено {len(scenarios_files)} файлов сценариев для '{supplier_prefix}'.")
                 for scenario_file_path in scenarios_files:
                     try:
-                        # Убедимся, что это файл
+                        # Провера, что это файл
                         if not Path(scenario_file_path).is_file():
                              logger.warning(f"Пропуск не-файлового пути: {scenario_file_path}")
                              continue

@@ -116,7 +116,7 @@ def _parse_node(node: ET.Element) -> dict | str:
     tree = {}
     attrs = {}
     for attr_tag, attr_value in node.attrib.items():
-        # Пропускаем атрибуты href, не поддерживаются при преобразовании в словарь
+        # Пропуск атрибуты href, не поддерживаются при преобразовании в словарь
         if attr_tag == '{http://www.w3.org/1999/xlink}href':
             continue
         attrs.update(_make_dict(attr_tag, attr_value))

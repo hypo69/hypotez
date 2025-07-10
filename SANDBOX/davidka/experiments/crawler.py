@@ -94,7 +94,7 @@ class Config:
             logger.info("WebDriver (Driver) успешно инициализирован.")
         except Exception as ex:
             logger.error("Не удалось инициализировать WebDriver.", ex, exc_info=True)
-            cls.driver = None # Устанавливаем в None, чтобы проверки ниже работали
+            cls.driver = None # Установка в None, чтобы проверки ниже работали
 
         logger.info("Конфигурация Crawler загружена.")
 
@@ -229,7 +229,7 @@ async def fetch_categories_from_suppliers_random_urls() -> None:
                     logger.error(f"Ошибка извлечения домена из URL: {product['product_url']}", domain_ex, exc_info=False)
                     continue
 
-                # Пропускаем уже проверенные домены (глобально или в этом запуске)
+                # Пропуск уже проверенные домены (глобально или в этом запуске)
                 if domain in Config.checked_domains or domain in processed_domains_in_run:
                     continue
 
@@ -385,7 +385,7 @@ async def main() -> None:
     #         break
     #     try:
     #         logger.info(f'Обработка URL: {product_url}')
-    #         # Убедимся, что инструкция загружена
+    #         # Провера, что инструкция загружена
     #         if not Config.instruction_grab_product_page:
     #              logger.error("Инструкция 'grab_product_page' не загружена, пропуск URL.", None, False)
     #              continue

@@ -386,7 +386,7 @@ class PrestaShop:
                 },
             )
 
-            # устанавливаем Content-Type: application/json
+            # Установка Content-Type: application/json
             request_headers: dict = (
                 {'Content-Type': 'application/json', 'Accept': 'application/json'}
                 if data_format == 'JSON'

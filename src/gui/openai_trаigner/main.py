@@ -29,7 +29,7 @@ class AssistantMainWindow(QMainWindow):
         # Убираем максимизацию, чтобы пользователь мог изменять размер окна
         self.setWindowFlags(Qt.WindowType.Window | Qt.WindowType.WindowCloseButtonHint)
 
-        # Устанавливаем размеры на 3/4 экрана
+        # Установка размеры на 3/4 экрана
         screen_geometry = QApplication.primaryScreen().geometry()
         width = int(screen_geometry.width() * 0.75)
         height = int(screen_geometry.height() * 0.75)

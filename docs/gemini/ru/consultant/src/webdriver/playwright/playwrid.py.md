@@ -125,7 +125,7 @@ class Playwrid(PlaywrightCrawler):
             # launch_options=launch_options,  # Удалите или настройте, если не принимается
             **kwargs
         )
-        # Если PlaywrightCrawler не принимает launch_options, устанавливаем их отдельно
+        # Если PlaywrightCrawler не принимает launch_options, Установка их отдельно
         if hasattr(self, 'set_launch_options'):
             self.set_launch_options(launch_options)
         else:

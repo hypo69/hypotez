@@ -286,7 +286,7 @@ def j_dumps(
         final_data_to_write: dict[Any, Any] | list[Any] = processed_data
         
         if mode in {Config.MODE_APPEND_START, Config.MODE_APPEND_END}:
-            if path.exists() and path.is_file(): # Убедимся, что это файл
+            if path.exists() and path.is_file(): # Провера, что это файл
                 existing_data: dict[Any, Any] | list[Any] = _read_existing_data(path, exc_info)
                 # Проверка типов перед слиянием
                 if isinstance(processed_data, (dict, list)) and isinstance(existing_data, (dict, list)):
@@ -635,7 +635,7 @@ def sanitize_json_files(path: Path) -> bool:
             all_successful = False
     elif path.is_dir():
         for json_file in path.rglob('*.json'):
-            # Пропускаем файлы, которые уже были переименованы с суффиксом .sanitized,
+            # Пропуск файлы, которые уже были переименованы с суффиксом .sanitized,
             # чтобы избежать их повторной обработки или ошибок.
             if '.sanitized' in json_file.suffixes: # Check if '.sanitized' is one of the suffixes
                 continue

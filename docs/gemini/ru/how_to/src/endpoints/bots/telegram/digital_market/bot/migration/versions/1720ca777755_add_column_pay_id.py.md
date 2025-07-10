@@ -43,7 +43,7 @@ def upgrade() -> None:
         op.add_column('purchases', sa.Column('payment_id', sa.String(), nullable=False))
         op.create_unique_constraint('uq_purchases_payment_id', 'purchases', ['payment_id'])
     else:
-        print("Колонка 'payment_id' уже существует, пропускаем добавление")
+        print("Колонка 'payment_id' уже существует, Пропуск добавление")
 
 
 def downgrade() -> None:
@@ -57,6 +57,6 @@ def downgrade() -> None:
         op.drop_constraint('uq_purchases_payment_id', 'purchases', type_='unique')
         op.drop_column('purchases', 'payment_id')
     else:
-        print("Колонка 'payment_id' не существует, пропускаем удаление")
+        print("Колонка 'payment_id' не существует, Пропуск удаление")
 
 ```

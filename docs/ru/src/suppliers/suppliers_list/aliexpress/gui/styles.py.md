@@ -46,7 +46,7 @@ import sys
 app = QApplication(sys.argv)
 window = QWidget()
 button = QPushButton("Кнопка", window)
-set_fixed_size(button, 100, 50)  # Устанавливаем фиксированный размер кнопки: 100x50 пикселей
+set_fixed_size(button, 100, 50)  # Установка фиксированный размер кнопки: 100x50 пикселей
 window.show()
 sys.exit(app.exec())
 ```
@@ -59,6 +59,6 @@ import sys
 app = QApplication(sys.argv)
 window = QWidget()
 label = QLabel("Метка", window)
-set_fixed_size(label, 150, 30)  # Устанавливаем фиксированный размер метки: 150x30 пикселей
+set_fixed_size(label, 150, 30)  # Установка фиксированный размер метки: 150x30 пикселей
 window.show()
 sys.exit(app.exec())

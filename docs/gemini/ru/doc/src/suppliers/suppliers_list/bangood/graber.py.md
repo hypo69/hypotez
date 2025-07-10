@@ -96,7 +96,7 @@ def __init__(self, driver: Driver, lang_index:int):
     """Инициализация класса сбора полей товара."""
     self.supplier_prefix = 'bangood'
     super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)
-    # Устанавливаем глобальные настройки через Context
+    # Установка глобальные настройки через Context
 
     Config.locator_for_decorator = None # <- если будет уастановлено значение - то оно выполнится в декораторе `@close_pop_up`
 

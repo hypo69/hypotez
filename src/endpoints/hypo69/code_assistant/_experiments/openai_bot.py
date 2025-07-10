@@ -64,7 +64,7 @@ from src.utils.file import yield_files_content, read_text_file
 from src.logger.logger import logger
 
 # Глобальная переменная для роли
-role: str = 'doc_writer'  # Устанавливаем роль напрямую внутри кода
+role: str = 'doc_writer'  # Установка роль напрямую внутри кода
 
 openai_model_name:str = 'gpt-4o-mini'
 openai_assistant_id:str = gs.credentials.openai.assistant_id.code_assistant

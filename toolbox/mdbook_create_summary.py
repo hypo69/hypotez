@@ -38,7 +38,7 @@ def make_summary(src_dir: Path = src_path , summary_file: Path = summary_path) -
 
         # Рекурсивно обходим все .md файлы в директории
         for path in sorted(src_dir.rglob('*.md')):
-            if path.name == 'SUMMARY.md':  # Пропускаем сам файл SUMMARY.md
+            if path.name == 'SUMMARY.md':  # Пропуск сам файл SUMMARY.md
                 continue
 
             # Формируем относительный путь и название главы

@@ -458,7 +458,7 @@ class AliPromoCampaign:
         for product in products:
             product_id: Any = getattr(product, 'product_id', None)
             if not product_id:
-                logger.warning(f'Пропускаем товар без product_id: {product}')
+                logger.warning(f'Пропуск товар без product_id: {product}')
                 continue
             j_dumps(product, category_path / f'{product_id}.json')
 

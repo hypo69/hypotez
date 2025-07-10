@@ -122,7 +122,7 @@ def make_summary(src_dir: Path, summary_file: Path) -> None:
 
             # Рекурсивно обходим все .md файлы в директории
             for path in sorted(src_dir.rglob('*.md')):
-                # Пропускаем сам файл SUMMARY.md
+                # Пропуск сам файл SUMMARY.md
                 if path.name == 'SUMMARY.md':
                     continue
 

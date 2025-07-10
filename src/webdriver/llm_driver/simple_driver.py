@@ -215,7 +215,7 @@ class SimpleDriver(Driver):
                         # continue # Решение о продолжении зависит от требований
 
                     # Обновление общего словаря результатов данными из текущего шага
-                    if isinstance(data, dict): # Убедимся, что data - это словарь
+                    if isinstance(data, dict): # Провера, что data - это словарь
                         result_dict.update(data)
             else:
                 logger.warning("Атрибут 'history' отсутствует или не является списком в ответе агента.")

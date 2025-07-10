@@ -30,7 +30,7 @@ from src.suppliers.suppliers_list.ivory.scenario import get_list_products_in_cat
 from src.suppliers.suppliers_list.ivory.supplier import Supplier
 
 supplier = Supplier()  # создание экземпляр класса Supplier
-supplier.current_scenario = {'name': 'Категория'}  # Устанавливаем текущую категорию
+supplier.current_scenario = {'name': 'Категория'}  # Установка текущую категорию
 products_urls = get_list_products_in_category(supplier)  # Вызываем функцию и получаем список URL-адресов товаров
 
 if products_urls:

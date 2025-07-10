@@ -26,7 +26,7 @@ if (-not (Test-Path $venvPath)) {
 
 
 
-# Устанавливаем зависимости, если необходимо
+# Установка зависимости, если необходимо
 # Например, из requirements.txt
 # pip install -r requirements.txt
 

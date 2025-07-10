@@ -260,7 +260,7 @@ class AliCampaignEditor(AliPromoCampaign):
             >>> print(categories)  # ['Electronics', 'Fashion', 'Home']
         """
         try:
-            # Убедимся, что у кампании есть атрибут category и это SimpleNamespace
+            # Провера, что у кампании есть атрибут category и это SimpleNamespace
             if hasattr(self.campaign, 'category') and isinstance(self.campaign.category, SimpleNamespace):
                 return list(vars(self.campaign.category).keys())
             else:

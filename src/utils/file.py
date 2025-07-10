@@ -325,7 +325,7 @@ async def read_text_file_async(
                 for p in files_to_process
             ]
             
-            results_from_tasks = await asyncio.gather(*async_tasks, return_exceptions=False) # Убедимся, что ошибки не подавляются gather
+            results_from_tasks = await asyncio.gather(*async_tasks, return_exceptions=False) # Провера, что ошибки не подавляются gather
 
             if as_list:
                 flattened_list_content = []

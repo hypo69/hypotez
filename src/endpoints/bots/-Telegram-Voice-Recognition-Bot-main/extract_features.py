@@ -14,7 +14,7 @@ def extract_melspectrogram(file_path, sr=SR, n_mels=N_MELS):
     y, _ = librosa.effects.trim(y)  # Удаляем тишину в начале и конце
 
     if len(y) == 0:
-        return None  # Пропускаем пустые файлы
+        return None  # Пропуск пустые файлы
 
     mel_spec = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=n_mels)
     mel_db = librosa.power_to_db(mel_spec, ref=np.max)  # Преобразуем в dB

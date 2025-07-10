@@ -48,7 +48,7 @@ campaign_root = Path(gs.path.google_drive / "aliexpress" / "campaigns" / campaig
 if campaign.campaign:
     categories_names_list = campaign.campaign.category.__dict__.keys()  # Извлекаем названия категорий из объекта кампании
 else:
-    categories_names_list = campaign.set_categories_from_directories()  # Если объект кампании пустой, устанавливаем категории из директорий
+    categories_names_list = campaign.set_categories_from_directories()  # Если объект кампании пустой, Установка категории из директорий
 
 for category_name in categories_names_list:
     print(f"Обработка категории: {category_name}")

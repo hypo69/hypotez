@@ -180,7 +180,7 @@ class PDFUtils:
             from xhtml2pdf import pisa
             with open(pdf_file, "w+b") as result_file:
                 if isinstance(data, str):
-                    # Убедимся, что строка имеет кодировку UTF-8
+                    # Провера, что строка имеет кодировку UTF-8
                     data_utf8 = data.encode('utf-8').decode('utf-8')  # Преобразуем строку обратно в UTF-8, если нужно
                     try:
                         pisa.CreatePDF(data, dest=result_file)

@@ -224,7 +224,7 @@ async def main():
 
         # Пропуск уже обработанных URL
         if url in data_dict:
-            logger.info(f'URL {url} уже есть в результатах, пропускаем.')
+            logger.info(f'URL {url} уже есть в результатах, Пропуск.')
             continue
 
         # Вызов функции классификации

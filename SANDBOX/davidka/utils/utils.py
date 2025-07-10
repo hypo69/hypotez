@@ -391,12 +391,12 @@ def files_mixer(base_path):
             files_in_dir = [f for f in entries_in_subdir
                             if os.path.isfile(os.path.join(current_dir_path, f))]
         except PermissionError:
-            # print(f"  Предупреждение: Нет прав доступа к файлам в директории '{current_dir_path}'. Пропускаем.")
+            # print(f"  Предупреждение: Нет прав доступа к файлам в директории '{current_dir_path}'. Пропуск.")
             continue # Переходим к следующей директории из списка 'shuffled_directories'
 
         if not files_in_dir:
             # Если в директории нет файлов (но сама директория читаема)
-            # print(f"  В директории '{current_dir_path}' нет файлов. Пропускаем.") # Для отладки
+            # print(f"  В директории '{current_dir_path}' нет файлов. Пропуск.") # Для отладки
             continue # Переходим к следующей директории из списка 'shuffled_directories'
 
         # 5. Выбираем один случайный файл

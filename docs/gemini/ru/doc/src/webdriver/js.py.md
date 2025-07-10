@@ -120,7 +120,7 @@ js.unhide_DOM_element(element)
 ready_state = js.ready_state
 print(f"Состояние загрузки документа: {ready_state}")
 
-# Устанавливаем фокус на окно браузера
+# Установка фокус на окно браузера
 js.window_focus()
 
 # Получаем URL-адрес реферера

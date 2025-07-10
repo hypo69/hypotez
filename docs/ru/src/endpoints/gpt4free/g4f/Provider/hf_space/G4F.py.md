@@ -141,7 +141,7 @@ async def create_async_generator(
 
     # Извлечение имени модели
     model = cls.get_model(model)
-    # Убедимся, что ширина и высота кратны 8 и больше 32
+    # Провера, что ширина и высота кратны 8 и больше 32
     width = max(32, width - (width % 8))
     height = max(32, height - (height % 8))
     # Если prompt не задан, форматируем его из messages

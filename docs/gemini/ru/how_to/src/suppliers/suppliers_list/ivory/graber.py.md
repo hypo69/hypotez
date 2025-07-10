@@ -36,7 +36,7 @@ driver = Driver(Chrome)
 # создание экземпляр класса Graber 
 graber = Graber(driver=driver)
 
-# Устанавливаем локатор для декоратора
+# Установка локатор для декоратора
 graber.Config.locator_for_decorator = graber.Config.locator.close_pop_up
 
 # Вызываем функции класса Graber для сбора данных

@@ -166,7 +166,7 @@ def extract_pure_domain(text: Optional[str]) -> Optional[str]:
         # ipaddress.ip_address() выбросит ValueError, если это не валидный IP
         _ = ipaddress.ip_address(hostname)
         # Если мы здесь, значит это IP-адрес. Отбрасываем его.
-        logger.debug(f"Извлеченный хост '{hostname}' является IP-адресом, пропускаем.")
+        logger.debug(f"Извлеченный хост '{hostname}' является IP-адресом, Пропуск.")
         return None
     except ValueError:
         # Это не IP-адрес, продолжаем обработку как потенциального домена

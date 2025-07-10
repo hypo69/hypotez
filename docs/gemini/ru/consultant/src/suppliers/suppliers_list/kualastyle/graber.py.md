@@ -132,5 +132,5 @@ class Graber(Grbr):
         """
         self.supplier_prefix = 'kualastyle'
         super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)
-        # Устанавливаем глобальные настройки через Config
+        # Установка глобальные настройки через Config
         Config.locator_for_decorator = None  # <- если будет установлено значение - то оно выполнится в декораторе `@close_pop_up`

@@ -285,7 +285,7 @@ def update_categories_in_scenario_file(s: Supplier, scenario_filename: str) -> b
                 category_url = category_data.get('url', '')
                 
                 # Добавление новой категории в scenarios_in_file
-                # Убедимся, что не перезаписываем существующую категорию с таким именем, если имя не уникально
+                # Провера, что не перезаписываем существующую категорию с таким именем, если имя не уникально
                 if category_name not in scenarios_in_file:
                      scenarios_in_file[category_name] = {
                         'category ID on site': int(category_id_str), # Сохраняем как int

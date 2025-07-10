@@ -625,7 +625,7 @@ if __name__ == '__main__':
 
     # создание экземпляр Driver с Mock WebDriver
     test_instance = Driver(MockWebDriverFetch)
-    test_instance.current_url = 'http://default.example.com/initial' # Устанавливаем начальный URL
+    test_instance.current_url = 'http://default.example.com/initial' # Установка начальный URL
 
     print("\n--- Тестирование fetch_html с Веб URL ---")
     # 1. Успешная загрузка веб URL

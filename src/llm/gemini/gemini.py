@@ -218,7 +218,7 @@ class GoogleGenerativeAi:
                     for entry in self.chat_history:
                         # Проверка на валидность роли (должна быть 'user' или 'model')
                         if entry.get('role') in ('user', 'model'):
-                             # Убедимся, что parts существует и является списком
+                             # Провера, что parts существует и является списком
                              if isinstance(entry.get('parts'), list):
                                  self._chat.history.append(entry)
                              else:
@@ -231,7 +231,7 @@ class GoogleGenerativeAi:
                      logger.error(f"Файл истории {target_file=} пуст или содержит некорректные данные.", None, False)
             else:
                 logger.info(f"Файл истории {target_file=} не найден. Новая история будет создана.", None, False)
-                self.chat_history = [] # Убедимся, что история пуста, если файл не найден
+                self.chat_history = [] # Провера, что история пуста, если файл не найден
                 self._chat = self._start_chat() # Начинаем новый чат
 
         except Exception as ex:

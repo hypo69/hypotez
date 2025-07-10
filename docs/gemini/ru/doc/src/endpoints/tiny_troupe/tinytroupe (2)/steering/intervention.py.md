@@ -142,7 +142,7 @@ result = intervention.execute() #  result - булево значение, по�
 
 ```python
 intervention = Intervention(targets=tiny_world)
-# Устанавливаем текстовое условие
+# Установка текстовое условие
 intervention.set_textual_precondition("The person is happy")
 # Проверка условие
 result = intervention.check_precondition() #  result - булево значение, показывающие, выполнено вмешательство или нет
@@ -169,7 +169,7 @@ result = intervention.check_precondition() #  result - булево значен
 
 ```python
 intervention = Intervention(targets=tiny_world)
-# Устанавливаем эффект
+# Установка эффект
 intervention.set_effect(lambda targets: print("Effect applied!"))
 # Применяем эффект
 intervention.apply_effect() 
@@ -195,7 +195,7 @@ intervention.apply_effect()
 
 ```python
 intervention = Intervention(targets=tiny_world)
-# Устанавливаем текстовое условие
+# Установка текстовое условие
 intervention.set_textual_precondition("The person is happy") 
 ```
 
@@ -219,7 +219,7 @@ intervention.set_textual_precondition("The person is happy")
 
 ```python
 intervention = Intervention(targets=tiny_world)
-# Устанавливаем функциональное условие
+# Установка функциональное условие
 intervention.set_functional_precondition(lambda targets: targets.is_happy())
 ```
 
@@ -243,7 +243,7 @@ intervention.set_functional_precondition(lambda targets: targets.is_happy())
 
 ```python
 intervention = Intervention(targets=tiny_world)
-# Устанавливаем эффект
+# Установка эффект
 intervention.set_effect(lambda targets: print("Effect applied!"))
 ```
 
@@ -307,10 +307,10 @@ person = TinyPerson(tiny_world, name='John')
 # создание Intervention
 intervention = Intervention(targets=person, name="Make John happy")
 
-# Устанавливаем текстовое условие
+# Установка текстовое условие
 intervention.set_textual_precondition("John is sad")
 
-# Устанавливаем эффект
+# Установка эффект
 intervention.set_effect(lambda targets: targets.set_happy())
 
 # Выполняем Intervention
@@ -338,10 +338,10 @@ person = TinyPerson(tiny_world, name='John')
 # создание Intervention
 intervention = Intervention(targets=person, name="Make John happy")
 
-# Устанавливаем функциональное условие
+# Установка функциональное условие
 intervention.set_functional_precondition(lambda targets: not targets.is_happy())
 
-# Устанавливаем эффект
+# Установка эффект
 intervention.set_effect(lambda targets: targets.set_happy())
 
 # Выполняем Intervention
@@ -368,10 +368,10 @@ person = TinyPerson(tiny_world, name='John')
 # создание Intervention
 intervention = Intervention(targets=person, name="Make John happy")
 
-# Устанавливаем текстовое условие
+# Установка текстовое условие
 intervention.set_textual_precondition("John is sad")
 
-# Устанавливаем эффект
+# Установка эффект
 intervention.set_effect(lambda targets: targets.set_happy())
 
 # Выполняем Intervention

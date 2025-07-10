@@ -20,7 +20,7 @@ try:
         _release = settings.get("release", "2024, hypo69")
         _author = settings.get("author", "2024, hypo69")
 except (FileNotFoundError, json.JSONDecodeError):
-    # Устанавливаем значения по умолчанию в случае ошибки
+    # Установка значения по умолчанию в случае ошибки
     _project_name = "hypotez"
     _copyright = "2024, hypo69"
     _release = "2024, hypo69"
@@ -91,7 +91,7 @@ def skip_files(app, what, name, obj, skip, options):
     """
     # Проверка, содержит ли имя члена круглые скобки или соответствует другим шаблонам
     if fnmatch.fnmatch(name, '*(*.*)') or fnmatch.fnmatch(name, '*(*).*'):
-        return True  # Пропускаем этот член документации
+        return True  # Пропуск этот член документации
     return skip  # Возврат исходное решение Sphinx о пропуске
 
 # -----------------------------------------------------------------------------------

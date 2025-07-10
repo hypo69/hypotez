@@ -159,7 +159,7 @@ def sync_suppliers_with_spreadsheet(
             processed_suppliers_info_for_return.append({'name': dir_name, 'id': None, 'status': 'error_reading_sheet'})
         return processed_suppliers_info_for_return
 
-    # Убедимся, что все ожидаемые колонки присутствуют в DataFrame, если он не пустой.
+    # Провера, что все ожидаемые колонки присутствуют в DataFrame, если он не пустой.
     # Если DataFrame пуст (например, лист был пуст или содержал только заголовки), создадим его с нужными колонками.
     if current_sheet_df.empty:
         logger.info(f"Лист '{Config.SUPPLIERS_SHEET_NAME}' пуст или содержит только заголовки. Создается новый DataFrame.")
@@ -228,7 +228,7 @@ def sync_suppliers_with_spreadsheet(
             # Поставщик не найден в таблице, готовим его к добавлению
             print(f"Поставщик '{dir_supplier_name_original}': не найден, будет добавлен в таблицу.")
             new_row_dict: Dict[str, Any] = {col: None for col in expected_sheet_columns} # Инициализация всеми колонками
-            new_row_dict[name_col_header] = dir_supplier_name_original # Устанавливаем имя
+            new_row_dict[name_col_header] = dir_supplier_name_original # Установка имя
             # ID остается None, 'Вкл' и другие кастомные колонки тоже None или значение по умолчанию
             new_row_dict['Вкл'] = None # или 'Да'/'Нет' по умолчанию, если нужно
 
@@ -250,7 +250,7 @@ def sync_suppliers_with_spreadsheet(
     final_df_to_write: pd.DataFrame
     if updated_sheet_data_rows:
         final_df_to_write = pd.DataFrame(updated_sheet_data_rows)
-        # Убедимся, что колонки идут в ожидаемом порядке
+        # Провера, что колонки идут в ожидаемом порядке
         # Сначала колонки, которые точно есть
         cols_order: List[str] = [col for col in expected_sheet_columns if col in final_df_to_write.columns]
         # Затем остальные колонки из DataFrame, которых нет в expected_sheet_columns (если они были)

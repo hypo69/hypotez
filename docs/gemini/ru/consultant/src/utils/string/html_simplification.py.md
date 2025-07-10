@@ -63,7 +63,7 @@ class Config:
         keep_only_significant (bool): Удалять ли теги, не содержащие значимый контент.
         parser (str): Парсер для BeautifulSoup (\'html.parser\', \'lxml\', \'html5lib\').
     """
-    # Устанавливаем значения по умолчанию через default_factory для изменяемых типов
+    # Установка значения по умолчанию через default_factory для изменяемых типов
     allowed_tags: Set[str] = field(default_factory=lambda: {'p', 'b', 'a', 'br', 'img', 'h1', 'hr', 'div', 'span', 'table', 'tbody', 'tr', 'td', 'th', 'ul', 'ol', 'li', 'strong', 'em', 'i', 'u'}) # Расширенный набор по умолчанию
     # Изменено: Удалены 'class' и 'id' из стандартно разрешенных для '*'
     allowed_attributes: Dict[str, Set[str]] = field(default_factory=lambda: {'a': {'href', 'title'}, 'img': {'src', 'alt', 'title'}, '*': {'style'}})
@@ -555,7 +555,7 @@ class Config:
         keep_only_significant (bool): Удалять ли теги, не содержащие значимый контент.
         parser (str): Парсер для BeautifulSoup (\'html.parser\', \'lxml\', \'html5lib\').
     """
-    # Устанавливаем значения по умолчанию через default_factory для изменяемых типов
+    # Установка значения по умолчанию через default_factory для изменяемых типов
     allowed_tags: Set[str] = field(default_factory=lambda: {'p', 'b', 'a', 'br', 'img', 'h1', 'hr', 'div', 'span', 'table', 'tbody', 'tr', 'td', 'th', 'ul', 'ol', 'li', 'strong', 'em', 'i', 'u'}) # Расширенный набор по умолчанию
     # Изменено: Удалены 'class' и 'id' из стандартно разрешенных для '*'
     allowed_attributes: Dict[str, Set[str]] = field(default_factory=lambda: {'a': {'href', 'title'}, 'img': {'src', 'alt', 'title'}, '*': {'style'}})

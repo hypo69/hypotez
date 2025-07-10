@@ -19,7 +19,7 @@
 import sys
 from src.endpoints.gpt4free.g4f.api._logging import hook_except_handle
 
-# Устанавливаем обработчик исключений
+# Установка обработчик исключений
 hook_except_handle()
 
 # ... Далее код, где могут возникнуть исключения ...
