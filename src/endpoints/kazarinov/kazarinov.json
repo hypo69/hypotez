@@ -6,7 +6,7 @@
       "webdriver_options": []
     },
     "pydoll": {
-      "WINDOW_MODE": "hidden",
+      "WINDOW_MODE": "headless",
       "profile_path": "C:\\Users\\user\\AppData\\Local\\Google\\Chrome\\User Data\\Default",
       "enable_user_profile": true
     },
@@ -28,16 +28,9 @@
       "https://www.one-tab.com"
     ]
   },
-  
+
   "gemini": {
-    "generation_config": {
-      "response_mime_type": "text/plain"
-    },
-    "telegram": {
-      "bot_name": "hypo69_kazarinov_bot",
-      "log_path": "bot_logs/<user_id>/<timestamp>.txt",
-      "webhook": "/kazarinov"
-    },
-    "storage": "external_storage"
+    "response_mime_type": "text/plain",
+    "model_name": "gemini-2.5-flash"
   }
 }

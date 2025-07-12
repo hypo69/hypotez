@@ -17,6 +17,8 @@ class Config:
         # Default configuration values can be set here if needed
         # For example, you can set default user agent, window size, etc.
         config: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'webdriver' / 'driverless' / 'use_pydoll.json')
+        if not config:
+            raise FileNotFoundError(f"Configuration file not found: {__root__ / 'src' / 'webdriver' / 'driverless' / 'use_pydoll.json'}")
         user_profile_path: str = config.user_profile_path
         WINDOW_MODE:str =  config.WINDOW_MODE
 
@@ -39,13 +41,14 @@ class Driver(Chrome):
             profile_path (str, optional): Path to Chrome user profile directory
             **kwargs: Arbitrary keyword arguments passed to Chrome constructor.
         """
+        window_mode = window_mode or Config.WINDOW_MODE
         # Configure browser options
         options = Options()
         
         # Настройка пользовательского профиля
         if enable_user_profile:
             # Способ 1: Указать директорию пользовательских данных
-            options.add_argument(f'--user-data-dir={user_profile_path or Config.profile_path}')
+            options.add_argument(f'--user-data-dir={user_profile_path or Config.user_profile_path}')
             
             # Способ 2: Указать конкретный профиль (если нужен определенный профиль)
             # options.add_argument(f'--profile-directory=Profile 1')  # или Default, Profile 2, etc.
@@ -61,11 +64,12 @@ class Driver(Chrome):
         #options.add_argument('--window-size=1920,1080')
         #options.add_argument('--start-maximized')
         #options.binary_location = fr'C:\Program Files\Google\Chrome\Application\chrome.exe'
-        
-        if kwargs.get('window_mode', 'headless') == 'headless':
+        #options.add_argument('--disable-notifications')
+
+        if window_mode == 'headless':
             options.add_argument('--headless=new')
 
-        #options.add_argument('--disable-notifications')
+        
 
         super().__init__(options = options)
         

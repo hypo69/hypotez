@@ -20,5 +20,5 @@
   },
   "enable_geckodriver_log": true,
   "proxy_enabled": false,
-  "window_mode": "normal"
+  "WINDOW_MODE": "window"
 }

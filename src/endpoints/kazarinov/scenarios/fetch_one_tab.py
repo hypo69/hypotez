@@ -32,7 +32,7 @@ def fetch_one_tab_data(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
             parts = label.split(maxsplit=1)
             price = int(parts[0]) if parts[0].isdigit() else ""
             mexiron_name = parts[1] if len(parts) > 1 else gs.now
-        return price, mexiron_name, urls
+        return  mexiron_name, price, urls
 
 
     except requests.exceptions.RequestException as ex:

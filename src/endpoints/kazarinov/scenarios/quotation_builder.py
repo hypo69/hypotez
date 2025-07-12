@@ -31,7 +31,7 @@ import telebot
 
 import header
 from header import __root__
-from src import gs
+from src import gs, USE_ENV
 from src.endpoints.prestashop.product_fields import ProductFields
 
 # from src.webdriver.driver import Driver
@@ -58,8 +58,18 @@ from src.logger.logger import logger
 
 class Config:
     ENDPOINT:str = 'kazarinov'
-    model_name = 'gemini-2.5-flash-preview-04-17'
+    base_path:Path = __root__ / 'src' / 'endpoints' / ENDPOINT
+    config: SimpleNamespace = j_loads_ns(base_path / f'{ENDPOINT}.json')
+    model_name = config.model_name if hasattr(config, 'model_name') else 'gemini-1.5-flash'
+
     api_key:str = gs.credentials.gemini.kazarinov
+
+    @property
+    def system_instruction(self) -> str:
+        return (self.base_path / 'instructions' / 'system_instruction_mexiron.md').read_text(encoding='UTF-8')
+
+    translations: SimpleNamespace =  j_loads_ns(base_path / 'translations' / 'mexiron.json')
+
 
 class QuotationBuilder:
     """
@@ -70,13 +80,6 @@ class QuotationBuilder:
         export_path (Path): Путь для экспорта данных.
         products_list (List[dict]): Список обработанных данных о товарах.
     """
-    
-    base_path:Path = __root__ / 'src' / 'endpoints' / Config.ENDPOINT
-
-    try:
-        config: SimpleNamespace = j_loads_ns(base_path / f'{Config.ENDPOINT}.json')
-    except Exception as ex:
-        logger.error(f"Error loading configuration",ex)
 
     
     html_path:str|Path
@@ -91,18 +94,8 @@ class QuotationBuilder:
     timestamp: str
     products_list: List = field(default_factory=list)
     model: 'GoogleGenerativeAi'
-    translations: 'SimpleNamespace' =  j_loads_ns(base_path / 'translations' / 'mexiron.json')
-
-    # Не все поля товара надо заполнять. Вот кортеж необходимых полей:
-    required_fields:tuple = ('id_product',
-                                'name',
-                                'description_short',
-                                'description',
-                                'specification',
-                                'local_image_path')
-
-
-    def __init__(self, mexiron_name:Optional[str] = gs.now, model_name:Optional[str] = None,  **kwargs):
+    
+    def __init__(self,  **kwargs):
         """
         Initializes Mexiron class with required components.
 
@@ -114,14 +107,10 @@ class QuotationBuilder:
         """
 
         try:
-            system_instruction:str = (gs.path.endpoints / Config.ENDPOINT / 'instructions' / 'system_instruction_mexiron.md').read_text(encoding='UTF-8')
-            logger.info(f"System instruction:\n---\n {system_instruction[:50]}...\n---\n")  # Print first 50 characters for brevity
-
-            
             self.model = GoogleGenerativeAi(
-                model_name = model_name or Config.model_name,
+                model_name = Config.model_name,
                 api_key = Config.api_key,
-                system_instruction=system_instruction,
+                system_instruction= Config.system_instruction,
                 generation_config={'response_mime_type': 'application/json'}
             )
         except Exception as ex:
@@ -133,8 +122,7 @@ class QuotationBuilder:
     def convert_product_fields(self, f: ProductFields) -> dict:
         """
         Converts product fields into a dictionary. 
-        Функция конвертирует поля из объекта `ProductFields` в простой словарь для модели ии.
-
+        Функция конвертирует поля из объекта `ProductFields` в простой словарь для модели llm.
 
         Args:
             f (ProductFields): Object containing parsed product data.
@@ -142,14 +130,12 @@ class QuotationBuilder:
         Returns:
             dict: Formatted product data dictionary.
 
-        .. note:: Правила построения полей определяются в `ProductFields`
+        Note: Правила построения полей определяются в `ProductFields`
         """
         if not f.id_product:
             logger.error(f"Сбой при получении полей товара. ")
             return {} # <- сбой при получении полей товара. Такое может произойти если вместо страницы товара попалась страница категории, при невнимательном составлении мехирона из комплектующих
         ...
-
-
 
         product_name = f.name['language']['value'] if f.name else ''
         description = f.description['language']['value'] if f.description else ''
@@ -160,7 +146,7 @@ class QuotationBuilder:
             return {}
         return {
             'product_name':product_name,
-            'product_id': f.id_product,
+            'reference': f.reference,
             'description_short':description_short,
             'description': description,
             'specification': specification,
