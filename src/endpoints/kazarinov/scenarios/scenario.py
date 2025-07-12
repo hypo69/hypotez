@@ -38,30 +38,37 @@ from dataclasses import dataclass, field
 class Config:
 
     ENDPOINT:str = "kazarinov"
-    config: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'endpoints' / ENDPOINT / 'scenarios' / 'scenario.json'
-    WINDOW_MODE:str = config.WINDOW_MODE
-    enable_user_profile:bool = config.enable_user_profile
+    config: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'endpoints' / ENDPOINT / f'{ENDPOINT}.json')
+    
+    # webdriver. Firefox | pydoll
+    active_driver = config.webdriver.active_driver
+    _d = getattr(config.webriver, active_driver, 'pydoll')
+    WINDOW_MODE:str = getattr(_d, 'WINDOW_MODE', 'normal')
+    enable_user_profile:bool = getattr(_d, 'enable_user_profile', False) 
+    profile_path:str = getattr(_d, 'profile_path', None)
 
 class Scenario(QuotationBuilder):
     """Исполнитель сценария для Казаринова"""
     
     
+    driver: Driver = field(init=False, repr=False, default=None)
+    mexiron_name: str = field(init=False, repr=False, default=gs.now)
 
-    def __init__(self, mexiron_name:Optional[str] = gs.now, driver: Optional[Driver] = None, **kwargs):
+    def __init__(self, mexiron_name:str = gs.now, **kwargs):
         """Сценарий сбора информации."""
-
-        if 'window_mode' not in kwargs:
-            kwargs['window_mode'] = 'headless'
 
         # Важно: Конструктор Driver сам управляет своим жизненным циклом и окном.
         # Если передается внешний драйвер, то нужно передавать его сюда.
         # В данном случае, Driver() создается внутри run_scenario_async.
 
-        self.driver = driver or Driver(**kwargs)
-
         super().__init__(mexiron_name = mexiron_name)
-        ...
-        
+        driver = Driver(                        
+                    window_mode = Config.WINDOW_MODE,
+                    enable_user_profile = Config.enable_user_profile,
+                    user_profile_path = Config.user_profile_path,
+                    **kwargs
+                    )
+
 
     async def run_scenario_async(
         self,
@@ -81,6 +88,9 @@ class Scenario(QuotationBuilder):
         try:
             await driver.start()
             await driver.async_init_page()
+            ...
+
+
         except Exception as ex:
             logger.error("Ошибка при запуске pydoll драйвера:", ex)
             return False # Возврат False, если драйвер не удалось запустить

@@ -28,7 +28,7 @@ class Driver(Chrome):
     def __init__(self, 
                     window_mode: Optional[str] = 'headless', 
                     enable_user_profile: Optional[bool] = True,
-                    user_profile_path: Optional[str],
+                    user_profile_path: Optional[str] = None,
                     **kwargs
                     
                 ):

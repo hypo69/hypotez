@@ -39,10 +39,13 @@ from src import USE_ENV # <- Глобальная
 class Config:
     
     ENDPOINT:str = 'kazarinov'
-    config: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'endpoints' / ENDPOINT / f'{ENDPOINT}.json'
-    
+    config: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'endpoints' / ENDPOINT / f'{ENDPOINT}.json')
+
+    user_profile_path: str = config.user_profile_path
+    WINDOW_MODE:str =  config.WINDOW_MODE    
+
     MODE:str = 'PRODUCTION' # <- Определяет режим разработчика. Если MODE=='PRODUCTION' будет запущен kazarionaov бот, иначе тестбот
-    #MODE:str = 'DEV'
+    #MODE:str= 'DEV'
     BOT_TOKEN:str
     WINDOW_MODE: str = 'hidden' # Установка режима браузера
   
@@ -50,6 +53,9 @@ class Config:
         BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') if USE_ENV else gs.credentials.telegram.hypo69_kazarinov_bot.token
     else:
         BOT_TOKEN = os.getenv('TEST_BOT_TOKEN') if USE_ENV else gs.credentials.telegram.hypo69_test_bot.token
+
+
+
 
     CHANNEL_ID: str = '@onela'
     PHOTO_DIR: Path = Path(__root__ / 'src' / 'endpoints' / 'kazarinov' / 'assets')
