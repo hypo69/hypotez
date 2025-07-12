@@ -113,7 +113,7 @@ driver = Driver(Chrome)
 js = JavaScript(driver)
 
 # Делаем невидимый элемент видимым
-element = driver.execute_locator({"by": "XPATH", "selector": "//div[@id='hidden_element']"})
+element = driver.execute_locator({"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@id='hidden_element']"})
 js.unhide_DOM_element(element)
 
 # Получаем состояние загрузки документа

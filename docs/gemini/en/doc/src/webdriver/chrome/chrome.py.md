@@ -146,7 +146,7 @@ driver.get(r"https://google.com")
 result = driver.execute_locator({
   "attribute": null,
   "by": "XPATH",
-  "selector": "//button[@id = 'closeXButton']",
+  "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']",
   "if_list": "first",
   "use_mouse": false,
   "mandatory": false,
@@ -169,7 +169,7 @@ referrer = driver.get_referrer()
 driver.unhide_DOM_element({
     "attribute": null,
     "by": "XPATH",
-    "selector": "//div[@class='hidden-element']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@class='hidden-element']",
     "if_list": "first",
 
     "mandatory": false,

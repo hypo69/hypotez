@@ -76,7 +76,7 @@ def main():
         # Пример локатора для закрытия всплывающего окна (необходимо заменить на актуальный)
         close_button_locator = {
             "by": "XPATH",
-            "selector": "//button[@class='close-button']",
+            "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@class='close-button']",
             "timeout": 10
         }
 

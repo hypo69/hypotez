@@ -464,7 +464,7 @@ async def main():
     # Определение локатора для кнопки "Войти"
     login_button_locator = {
         "by": "XPATH",
-        "selector": "//button[text()='Войти']",
+        "strategy_for_multiple_selectors": "find_first_match","selector": "//button[text()='Войти']",
         "event": "click()"
     }
     await executor.execute_locator(login_button_locator)

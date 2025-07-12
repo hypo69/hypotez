@@ -92,7 +92,7 @@ result = driver.execute_locator({
     # Определение локатора для веб-элемента
     "attribute": null,
     "by": "XPATH",
-    "selector": "//button[@id = 'closeXButton']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']",
     "if_list": "first",
 
     "mandatory": false,

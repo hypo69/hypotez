@@ -41,7 +41,7 @@ await self.price() # self.fields.price = await self.driver.execute_locator(self.
 "close_banner": {
     "attribute": null, // Attribute not retrieved
     "by": "XPATH",     // Search strategy is XPath
-    "selector": "//button[@id = 'closeXButton']", // Selector value (XPath expression)
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']", // Selector value (XPath expression)
     "if_list": "first", // If multiple found, take the first one
  // Do not use mouse emulation
     "mandatory": false, // Locator is NOT mandatory (no error if not found)
@@ -174,7 +174,7 @@ This text will be the final result of executing this locator.
 "specification_pairs": {
   "attribute": {"dt": "dd"}, // Key of the dictionary - selector for the key, Value - selector for the value
   "by": "XPATH",
-  "selector": "//dl[@class='specifications-list']", // Parent element for pairs
+  "strategy_for_multiple_selectors": "find_first_match","selector": "//dl[@class='specifications-list']", // Parent element for pairs
   "if_list": "all", // Process all found pairs
   "mandatory": false,
   "timeout": 2,

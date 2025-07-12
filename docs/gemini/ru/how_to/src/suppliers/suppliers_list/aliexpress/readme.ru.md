@@ -33,7 +33,7 @@ driver = Driver(Chrome)
 driver.get("https://aliexpress.ru/item/1234567890.html")
 
 # Извлечение названия товара (пример, требуется определить точный локатор)
-title_locator = {"by": "CSS_SELECTOR", "selector": ".product-title"}  # Укажите правильный селектор
+title_locator = {"by": "CSS_SELECTOR", "strategy_for_multiple_selectors": "find_first_match","selector": ".product-title"}  # Укажите правильный селектор
 title = driver.execute_locator(title_locator) # функция вернет найденный элемент
 
 print(f"Название товара: {title}")

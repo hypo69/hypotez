@@ -151,7 +151,7 @@ if html:
 search_button_locator = {
     "locator_description": "Кнопка 'Поиск в Google'", # Описание для логов
     "by": "xpath",
-    "selector": "(//input[@name='btnK'])[2]", # Селектор элемента
+    "strategy_for_multiple_selectors": "find_first_match","selector": "(//input[@name='btnK'])[2]", # Селектор элемента
     "event": "click()", # Действие: клик
     "attribute": None, # Атрибут не получаем
     "if_list": "first", # Если найдено несколько, взять первый
@@ -176,7 +176,7 @@ search_input_locator = SimpleNamespace(
 some_value_locator = {
     "locator_description": "Получение значения value у кнопки",
     "by": "xpath",
-    "selector": "(//input[@name='btnK'])[2]",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "(//input[@name='btnK'])[2]",
     "event": None, # Действия нет
     "attribute": "value", # Получить значение атрибута 'value'
     "if_list": "first",
@@ -189,7 +189,7 @@ some_value_locator = {
 results_links_locator = {
     "locator_description": "Ссылки результатов поиска",
     "by": "css selector",
-    "selector": "div.g a h3", # Примерный селектор заголовков ссылок
+    "strategy_for_multiple_selectors": "find_first_match","selector": "div.g a h3", # Примерный селектор заголовков ссылок
     "event": None,
     "attribute": "textContent", # Получить текстовое содержимое
     "if_list": "all", # Получить все найденные элементы

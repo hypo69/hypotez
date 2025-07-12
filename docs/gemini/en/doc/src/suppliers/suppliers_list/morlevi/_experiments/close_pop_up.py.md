@@ -54,7 +54,7 @@
 locator = {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//button[@id = 'closeXButton']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']",
     "if_list": "first",
 
     "mandatory": false,
@@ -70,7 +70,7 @@ print(result) # Вывод: True
 locator = {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//button[@id = 'nonexistent_button']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'nonexistent_button']",
     "if_list": "first",
 
     "mandatory": false,
@@ -99,7 +99,7 @@ except Exception as ex:
 close_banner = {
   "attribute": null,
   "by": "XPATH",
-  "selector": "//button[@id = 'closeXButton']",
+  "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']",
   "if_list": "first",
   "use_mouse": false,
   "mandatory": false,
@@ -114,7 +114,7 @@ close_pop_up(close_banner)
 check_banner = {
   "attribute": null,
   "by": "XPATH",
-  "selector": "//button[@id = 'closeXButton']",
+  "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']",
   "if_list": "first",
   "use_mouse": false,
   "mandatory": false,

@@ -77,7 +77,7 @@ driver = aliexpress.webdriver.Driver(Chrome)
 product_description = driver.execute_locator({
     "attribute": "innerHTML",
     "by": "XPATH",
-    "selector": "//div[@id='product-description']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@id='product-description']",
     "if_list": "first",
 })
 ```

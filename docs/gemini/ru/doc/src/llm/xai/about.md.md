@@ -65,7 +65,7 @@ driver = Drivewr(Chrome)
 grok_chat_message = {
   "attribute": null,
   "by": "XPATH",
-  "selector": "//div[@id = 'grok-chat-message']",
+  "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@id = 'grok-chat-message']",
   "if_list": "first",
   "use_mouse": false,
   "mandatory": false,

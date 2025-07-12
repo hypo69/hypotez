@@ -108,7 +108,7 @@ The result of the operation, which can be a string, list, dict, Locator, bool, o
 # Example 1: Click on a button
 locator = {
     "by": "XPATH",
-    "selector": "//button[@id='submit-button']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id='submit-button']",
     "event": "click()",
 }
 
@@ -117,7 +117,7 @@ result = await executor.execute_locator(locator)
 # Example 2: Get the text content of an element
 locator = {
     "by": "CSS_SELECTOR",
-    "selector": ".product-title",
+    "strategy_for_multiple_selectors": "find_first_match","selector": ".product-title",
     "attribute": "textContent",
 }
 
@@ -126,7 +126,7 @@ text_content = await executor.execute_locator(locator)
 # Example 3: Upload a file
 locator = {
     "by": "CSS_SELECTOR",
-    "selector": "#upload-input",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "#upload-input",
     "event": "upload_media()",
 }
 
@@ -199,7 +199,7 @@ Attribute or None.
 # Example 1: Get a single attribute
 locator = {
     "by": "XPATH",
-    "selector": "//h1",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//h1",
     "attribute": "textContent",
 }
 
@@ -208,7 +208,7 @@ text_content = await executor.get_attribute_by_locator(locator)
 # Example 2: Get multiple attributes from a dictionary
 locator = {
     "by": "XPATH",
-    "selector": "//div[@class='product-details']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@class='product-details']",
     "attribute": "{title:product-title, price:product-price}",
 }
 
@@ -247,7 +247,7 @@ Playwright Locator
 # Example 1: Get the first element
 locator = {
     "by": "CSS_SELECTOR",
-    "selector": ".product-item",
+    "strategy_for_multiple_selectors": "find_first_match","selector": ".product-item",
     "if_list": "first",
 }
 
@@ -256,7 +256,7 @@ first_element = await executor.get_webelement_by_locator(locator)
 # Example 2: Get all elements
 locator = {
     "by": "XPATH",
-    "selector": "//div[@class='product-list']//a",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@class='product-list']//a",
     "if_list": "all",
 }
 
@@ -288,7 +288,7 @@ Screenshot in bytes or None.
 # Example 1: Take a screenshot of an element using locator
 locator = {
     "by": "XPATH",
-    "selector": "//img[@alt='product-image']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//img[@alt='product-image']",
 }
 
 screenshot = await executor.get_webelement_as_screenshot(locator)
@@ -331,7 +331,7 @@ Execution status.
 # Example 1: Click a button and then take a screenshot
 locator = {
     "by": "XPATH",
-    "selector": "//button[@id='submit-button']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id='submit-button']",
     "event": "click();pause(2);screenshot()",
 }
 
@@ -340,7 +340,7 @@ result = await executor.execute_event(locator)
 # Example 2: Type text into a field with typing speed
 locator = {
     "by": "CSS_SELECTOR",
-    "selector": "#search-input",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "#search-input",
     "event": "type('Hello World!')",
 }
 
@@ -373,7 +373,7 @@ Returns `True` if the message was sent successfully, `False` otherwise.
 # Example 1: Send a message with typing speed
 locator = {
     "by": "XPATH",
-    "selector": "//textarea[@id='message-box']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//textarea[@id='message-box']",
 }
 
 await executor.send_message(locator, message="Hello there!", typing_speed=0.1)
@@ -381,7 +381,7 @@ await executor.send_message(locator, message="Hello there!", typing_speed=0.1)
 # Example 2: Send a message without typing speed
 locator = {
     "by": "CSS_SELECTOR",
-    "selector": "#comment-field",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "#comment-field",
 }
 
 await executor.send_message(locator, message="This is a comment.")
@@ -450,7 +450,7 @@ async def main():
     # Click a button
     button_locator = {
         "by": "XPATH",
-        "selector": "//button[@id='submit-button']",
+        "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id='submit-button']",
         "event": "click()",
     }
     await executor.execute_locator(button_locator)
@@ -458,7 +458,7 @@ async def main():
     # Type text into a field
     text_field_locator = {
         "by": "CSS_SELECTOR",
-        "selector": "#search-input",
+        "strategy_for_multiple_selectors": "find_first_match","selector": "#search-input",
         "event": "type('Hello World!')",
     }
     await executor.execute_locator(text_field_locator, typing_speed=0.1)
@@ -466,7 +466,7 @@ async def main():
     # Get the text content of an element
     title_locator = {
         "by": "CSS_SELECTOR",
-        "selector": "h1",
+        "strategy_for_multiple_selectors": "find_first_match","selector": "h1",
         "attribute": "textContent",
     }
     title_text = await executor.execute_locator(title_locator)
@@ -475,7 +475,7 @@ async def main():
     # Take a screenshot of an element
     image_locator = {
         "by": "XPATH",
-        "selector": "//img[@alt='product-image']",
+        "strategy_for_multiple_selectors": "find_first_match","selector": "//img[@alt='product-image']",
     }
     screenshot = await executor.get_webelement_as_screenshot(image_locator)
     with open("screenshot.png", "wb") as f:

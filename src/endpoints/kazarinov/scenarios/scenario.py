@@ -16,11 +16,13 @@ import telebot
 import asyncio
 from pathlib import Path
 from typing import Optional, List
+from types import SimpleNamespace
 
-import header
+from header import __root__
 from src import gs
 
 # Предполагается, что Driver из use_pydoll возвращает объект с атрибутом 'page'
+from src.credentials import j_loads_ns
 from src.webdriver.driverless.use_pydoll import Driver
 
 from src.endpoints.kazarinov.report_generator.report_generator import ReportGenerator
@@ -36,11 +38,14 @@ from dataclasses import dataclass, field
 class Config:
 
     ENDPOINT:str = "kazarinov"
-
+    config: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'endpoints' / ENDPOINT / 'scenarios' / 'scenario.json'
+    WINDOW_MODE:str = config.WINDOW_MODE
+    enable_user_profile:bool = config.enable_user_profile
 
 class Scenario(QuotationBuilder):
     """Исполнитель сценария для Казаринова"""
-    driver: Driver = None
+    
+    
 
     def __init__(self, mexiron_name:Optional[str] = gs.now, driver: Optional[Driver] = None, **kwargs):
         """Сценарий сбора информации."""
@@ -48,10 +53,10 @@ class Scenario(QuotationBuilder):
         if 'window_mode' not in kwargs:
             kwargs['window_mode'] = 'headless'
 
-        kwargs['profile_path'] = 'headless'
         # Важно: Конструктор Driver сам управляет своим жизненным циклом и окном.
         # Если передается внешний драйвер, то нужно передавать его сюда.
         # В данном случае, Driver() создается внутри run_scenario_async.
+
         self.driver = driver or Driver(**kwargs)
 
         super().__init__(mexiron_name = mexiron_name)

@@ -1257,7 +1257,7 @@ class Graber:
               "id_supplier": {
                 "attribute": "1234",
                 "by": "VALUE",
-                "selector": "none",
+                "strategy_for_multiple_selectors": "find_first_match","selector": "none",
                 "if_list": "first",
             
                 "mandatory": true,

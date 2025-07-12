@@ -63,7 +63,7 @@ driver = MockDriver() # Using a mock for example purposes
 # locator_example = {
 #     "locator_description": "Login button on the main page", # Optional description for logging
 #     "by": By.XPATH,                  # Required: Search method (from selenium.webdriver.common.by.By) or string "url", "value"
-#     "selector": "//button[@id='login']", # Required (except for by='value'/'url'): Selector for searching
+#     "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id='login']", # Required (except for by='value'/'url'): Selector for searching
 #     "attribute": None,               # Optional: Name of the attribute to extract ('href', 'value', 'src', 'textContent', 'data-id', "{'key_attr':'value_attr'}")
 #     "event": None,                   # Optional: Action to perform ('click()', 'clear();type(text)', 'send_keys(ENTER)', 'screenshot()', 'pause(2)', 'upload_media()')
 #     "if_list": "first",              # Optional ('all'|'first'|'last'|'even'|'odd'|int|list[int]): How to handle if multiple elements are found. Default 'all'.

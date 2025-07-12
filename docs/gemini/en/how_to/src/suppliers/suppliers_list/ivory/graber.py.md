@@ -40,7 +40,7 @@ product_details = graber.get_product_details(product_url="https://www.ivory.co.i
 Config.locator_for_decorator = {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//button[@id = 'closeXButton']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']",
     "if_list": "first",
 
     "mandatory": false,

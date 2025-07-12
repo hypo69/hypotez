@@ -129,7 +129,7 @@ driver = Driver(Firefox)
 close_banner = {
   "attribute": null,
   "by": "XPATH",
-  "selector": "//button[@id = 'closeXButton']",
+  "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']",
   "if_list": "first",
   "use_mouse": false,
   "mandatory": false,

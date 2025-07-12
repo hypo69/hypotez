@@ -2,7 +2,7 @@
   "open_add_post_box": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//span[contains(text(), 'Что у вас нового') or contains(text(), 'Напишите что-нибудь...')]",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[contains(text(), 'Что у вас нового') or contains(text(), 'Напишите что-нибудь...')]",
     "if_list": "first",
 
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
@@ -12,7 +12,7 @@
   "add_message": {
     "attribute": "None",
     "by": "XPATH",
-    "selector": "(//div[@role='textbox'])[last()]",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "(//div[@role='textbox'])[last()]",
     "if_list": "first",
     "use_mouse": "None",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "pause(1);%EXTERNAL_MESSAGE%",
@@ -25,7 +25,7 @@
     "attribute": null,
     "by": "XPATH",
     "#selector": "//span[contains(text(),'или перетащите файлы')]",
-    "selector": "//div[@aria-label='Фото/видео']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@aria-label='Фото/видео']",
     "if_list": "first",
     "use_mouse": true,
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
@@ -40,7 +40,7 @@
     "#selector": "//div[@role='presentation']/following-sibling::div//input[@type='file']",
     "##selector": "//div[@role='presentation']/following-sibling::div",
     "###selector": "(//input[@type='file'])[1]",
-    "selector": "//div[@role='dialog']//input[@type = 'file']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@role='dialog']//input[@type = 'file']",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "upload_media()",
     "mandatory": true,
     "locator_description": "Загрузка медиа, Путь к файлу передается через код сценария "
@@ -49,7 +49,7 @@
   "edit_uloaded_media_button": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//div[@role='button' and contains(@aria-label,'Редактировать всё')]",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@role='button' and contains(@aria-label,'Редактировать всё')]",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
     "mandatory": true,
     "locator_description": "Открывает поля описаний для загруженных медиафайлов"
@@ -57,7 +57,7 @@
   "uploaded_media_frame": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//div[@aria-label='Фото/видео']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@aria-label='Фото/видео']",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": null,
     "mandatory": true,
     "locator_description": "Попап с открытыми медиа для редакции"
@@ -65,7 +65,7 @@
   "edit_image_properties_textarea": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//textarea",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//textarea",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": null,
     "mandatory": true,
     "locator_description": "Текстовые поля для описания к медиафайлу"
@@ -73,7 +73,7 @@
   "finish_editing_button": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//span[contains(text(),'Готово')]",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[contains(text(),'Готово')]",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
     "mandatory": true,
     "locator_description": "Закрытие окна загрузки фото и описаний"
@@ -81,7 +81,7 @@
   "publish": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//div[@aria-label='Опубликовать' or @aria-label='Отправить' or @aria-label='Далее']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@aria-label='Опубликовать' or @aria-label='Отправить' or @aria-label='Далее']",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
     "mandatory": true,
     "locator_description": "Закрытие окна загрузки фото и описаний"
@@ -89,7 +89,7 @@
   "send": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "(//span[contains(text(),'Отправить')])[last()]",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "(//span[contains(text(),'Отправить')])[last()]",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
     "mandatory": true,
     "locator_description": "Если было одно изображение - будет эта кнопка"
@@ -97,7 +97,7 @@
   "not_now": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//span[contains(text(),'Не сейчас')]",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[contains(text(),'Не сейчас')]",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
     "mandatory": true
 
@@ -105,7 +105,7 @@
   "close_pop_up": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//div[@aria-label = 'Закрыть']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@aria-label = 'Закрыть']",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
     "mandatory": true
 
@@ -113,7 +113,7 @@
   "edit_posts": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//span[@text = 'Управление публикациями']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[@text = 'Управление публикациями']",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
     "mandatory": true
 

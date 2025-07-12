@@ -87,7 +87,7 @@ def fetch_data(url: str) -> bool:
         driver.get_url(url)
         # Здесь должна быть логика для извлечения данных
         # Пример:
-        # element = driver.execute_locator({"by": "XPATH", "selector": "//some_xpath"})
+        # element = driver.execute_locator({"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//some_xpath"})
         # data = element.text
         # ...
         ...  # Заглушка для логики извлечения данных

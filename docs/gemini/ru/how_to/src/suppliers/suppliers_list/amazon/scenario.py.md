@@ -27,7 +27,7 @@ driver = Driver(Chrome)
 locator = {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//a[@class='a-link-normal a-text-normal']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//a[@class='a-link-normal a-text-normal']",
     "if_list": "all",
 
     "mandatory": false,

@@ -517,7 +517,7 @@ driver = Driver(Firefox) # Or Driver(browser_type=Firefox) depending on construc
 close_banner = {
   "attribute": None, # Specifies which attribute's value to use/check (if any)
   "by": "XPATH", # Locator strategy (e.g., "ID", "CSS_SELECTOR", "XPATH")
-  "selector": "//button[@id = 'closeXButton']", # The locator string itself
+  "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']", # The locator string itself
   "if_list": "first", # Action if selector finds multiple elements ("first", "all", etc.)
   "use_mouse": False, # Whether to simulate mouse movement for the action
   "mandatory": False, # If False, failure to find/interact doesn't raise an error

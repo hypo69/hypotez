@@ -168,7 +168,7 @@ try:
     browser.get("https://www.example.com")
 
     # Пример использования driver.execute_locator
-    locator = {"by": "XPATH", "selector": "//button[@id='someButton']"}
+    locator = {"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id='someButton']"}
     element = browser.execute_locator(locator)
     if element:
         element.click()

@@ -17,6 +17,7 @@ import os
 import datetime
 import random
 from pathlib import Path
+from types import SimpleNamespace
 import asyncio
 import time
 
@@ -29,6 +30,7 @@ from src.llm.gemini import GoogleGenerativeAi
 from src.endpoints.kazarinov.scenarios.scenario import Scenario
 from src.endpoints.kazarinov.scenarios.fetch_one_tab import fetch_one_tab_data
 from src.utils.url import is_url
+from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.printer import pprint as print
 from src import USE_ENV # <- Глобальная 
 
@@ -37,10 +39,13 @@ from src import USE_ENV # <- Глобальная
 class Config:
     
     ENDPOINT:str = 'kazarinov'
+    config: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'endpoints' / ENDPOINT / f'{ENDPOINT}.json'
+    
     MODE:str = 'PRODUCTION' # <- Определяет режим разработчика. Если MODE=='PRODUCTION' будет запущен kazarionaov бот, иначе тестбот
     #MODE:str = 'DEV'
     BOT_TOKEN:str
-
+    WINDOW_MODE: str = 'hidden' # Установка режима браузера
+  
     if MODE=='PRODUCTION':
         BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') if USE_ENV else gs.credentials.telegram.hypo69_kazarinov_bot.token
     else:
@@ -61,8 +66,6 @@ class Config:
     """
     CONNECTION_CHECK_INTERVAL: int = 30  # Интервал проверки соединения с ботом в секундах
 
-    WINDOW_MODE: str = 'hidden' # Установка режима браузера
-    WINDOW_MODE: str = 'normal'
     if USE_ENV:
         from dotenv import load_dotenv
         load_dotenv()

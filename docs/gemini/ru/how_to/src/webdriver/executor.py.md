@@ -33,7 +33,7 @@ executor = ExecuteLocator(driver=driver)
 # Определение локатор для кнопки "Поиск"
 search_button_locator = {
     "by": "XPATH",
-    "selector": "//button[@id='searchButton']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id='searchButton']",
     "event": "click()", 
     "mandatory": True, 
 }

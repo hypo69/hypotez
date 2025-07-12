@@ -20,7 +20,7 @@
 "close_banner": {
     "attribute": null, 
     "by": "XPATH", 
-    "selector": "//button[@id = 'closeXButton']", 
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']", 
     "if_list": "first", 
  
     "mandatory": false, 
@@ -135,7 +135,7 @@
 "specification_pairs": {
   "attribute": {"dt": "dd"}, // Ключ словаря - селектор для ключа, Значение - селектор для значения
   "by": "XPATH",
-  "selector": "//dl[@class='specifications-list']", // Родительский элемент для пар
+  "strategy_for_multiple_selectors": "find_first_match","selector": "//dl[@class='specifications-list']", // Родительский элемент для пар
   "if_list": "all", // Обработать все найденные пары
   "mandatory": false,
   "timeout": 2,

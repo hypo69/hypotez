@@ -127,7 +127,7 @@ executor = ExecuteLocator(driver=driver)
 # Определение локатора
 locator = {
     "by": "ID",
-    "selector": "some_element_id",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "some_element_id",
     "event": "click()"
 }
 

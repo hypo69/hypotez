@@ -131,7 +131,7 @@ supplier = Supplier(
     driver_type=Chrome,
     site_url="https://www.bangood.com/en",
     currency="ILS",
-    locators={"product": {"close_banner": {"by": "XPATH", "selector": "//button[@id = 'closeXButton']", "event": "click()"}, "product_links": {"by": "XPATH", "selector": "//div[@class = 'product-box']//a/@href"}}, "category": {"by": "XPATH", "selector": "//div[@class = 'product-list']//a/@href"}},
+    locators={"product": {"close_banner": {"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']", "event": "click()"}, "product_links": {"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@class = 'product-box']//a/@href"}}, "category": {"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@class = 'product-list']//a/@href"}},
     )
 
 # Получение списка товаров со страницы категории
@@ -159,7 +159,7 @@ supplier = Supplier(
     driver_type=Chrome,
     site_url="https://www.bangood.com/en",
     currency="ILS",
-    locators={"product": {"close_banner": {"by": "XPATH", "selector": "//button[@id = 'closeXButton']", "event": "click()"}, "product_links": {"by": "XPATH", "selector": "//div[@class = 'product-box']//a/@href"}}, "category": {"by": "XPATH", "selector": "//div[@class = 'product-list']//a/@href"}},
+    locators={"product": {"close_banner": {"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']", "event": "click()"}, "product_links": {"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@class = 'product-box']//a/@href"}}, "category": {"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@class = 'product-list']//a/@href"}},
     )
 
 # Получение списка категорий со страниц продавца

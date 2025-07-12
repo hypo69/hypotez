@@ -18,7 +18,7 @@
 "close_banner": {
     "attribute": null, // Атрибут не получаем
     "by": "XPATH",     // Стратегия поиска - XPath
-    "selector": "//button[@id = 'closeXButton']", // Значение селектора (XPath-выражение)
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']", // Значение селектора (XPath-выражение)
     "if_list": "first", // Если найдено несколько, взять первый
  // Не использовать эмуляцию мыши
     "mandatory": false, // Локатор НЕ обязателен (ошибки не будет, если не найден)
@@ -30,7 +30,7 @@
   "additional_images_urls": {
     "attribute": "src", // Получить значение атрибута 'src'
     "by": "XPATH",
-    "selector": "//ol[contains(@class, 'flex-control-thumbs')]//img",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//ol[contains(@class, 'flex-control-thumbs')]//img",
     "if_list": "all",   // Взять все найденные элементы
 
     "mandatory": false, // Необязательный
@@ -42,7 +42,7 @@
   "id_supplier": {
     "attribute": "innerText", // Получить текстовое содержимое
     "by": "XPATH",
-    "selector": "//span[@class = 'ltr sku-copy']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[@class = 'ltr sku-copy']",
     "if_list": "first",
 
     "mandatory": true,    // Обязательный локатор
@@ -54,7 +54,7 @@
   "default_image_url": {
     "attribute": null, // Атрибут не получаем, т.к. есть событие screenshot()
     "by": "XPATH",
-    "selector": "//a[@id = 'mainpic']//img",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//a[@id = 'mainpic']//img",
     "if_list": "first",
 
     "timeout": 0,
@@ -194,7 +194,7 @@ await self.price() # self.fields.price = await self.driver.execute_locator(self.
 "specification_pairs": {
   "attribute": {"dt": "dd"}, // Ключ словаря - селектор для ключа, Значение - селектор для значения
   "by": "XPATH",
-  "selector": "//dl[@class='specifications-list']", // Родительский элемент для пар
+  "strategy_for_multiple_selectors": "find_first_match","selector": "//dl[@class='specifications-list']", // Родительский элемент для пар
   "if_list": "all", // Обработать все найденные пары
   "mandatory": false,
   "timeout": 2,

@@ -40,7 +40,7 @@ value = d.execute_locator(locator['name'])  # Получите значение 
 "locator_name": {
   "attribute": null,  # Атрибут, который нужно получить от веб-элемента
   "by": "XPATH",      # Стратегия поиска элемента (ID, NAME, CLASS_NAME, TAG_NAME, LINK_TEXT, PARTIAL_LINK_TEXT, CSS_SELECTOR, XPATH)
-  "selector": "//button[@id = 'closeXButton']",   # Селектор для поиска элемента
+  "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']",   # Селектор для поиска элемента
   "if_list": "first", # Правило обработки списка элементов (first, all, last, even, odd, [1,2,3])
   "use_mouse": false,  # Использовать мышь для взаимодействия с элементом
   "mandatory": false, # Обязательный ли локатор

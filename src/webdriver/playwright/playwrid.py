@@ -236,7 +236,7 @@ if __name__ == "__main__":
         locator_name = {
         "attribute": "innerText",
         "by": "XPATH",
-        "selector": "//h1",
+        "strategy_for_multiple_selectors": "find_first_match","selector": "//h1",
         "if_list": "first",
     
         "timeout": 0,
@@ -252,7 +252,7 @@ if __name__ == "__main__":
         locator_click = {
         "attribute": None,
         "by": "CSS",
-        "selector": "button",
+        "strategy_for_multiple_selectors": "find_first_match","selector": "button",
         "if_list": "first",
     
         "timeout": 0,

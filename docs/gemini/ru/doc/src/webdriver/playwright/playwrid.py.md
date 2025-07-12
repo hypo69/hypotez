@@ -79,7 +79,7 @@ async def main():
     locator_name = {
     "attribute": "innerText",
     "by": "XPATH",
-    "selector": "//h1",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//h1",
     "if_list": "first",
 
     "timeout": 0,
@@ -95,7 +95,7 @@ async def main():
     locator_click = {
     "attribute": None,
     "by": "CSS",
-    "selector": "button",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "button",
     "if_list": "first",
 
     "timeout": 0,
@@ -147,7 +147,7 @@ asyncio.run(main())
 locator_name = {
     "attribute": "innerText",
     "by": "XPATH",
-    "selector": "//h1",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//h1",
     "if_list": "first",
 
     "timeout": 0,
@@ -164,7 +164,7 @@ print("Name:", name)
 locator_click = {
     "attribute": None,
     "by": "CSS",
-    "selector": "button",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "button",
     "if_list": "first",
 
     "timeout": 0,

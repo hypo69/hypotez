@@ -41,7 +41,7 @@ locators = {
   "product_links": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//span[@class = 'a-size-base-plus a-color-base a-text-normal']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[@class = 'a-size-base-plus a-color-base a-text-normal']",
     "if_list": "all",
 
     "mandatory": true,
@@ -88,7 +88,7 @@ driver = Driver(Chrome)
 locator = {
     "attribute": "href",
     "by": "XPATH",
-    "selector": "//a[@class='a-link-normal a-text-normal']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//a[@class='a-link-normal a-text-normal']",
     "if_list": "first",
 
     "mandatory": true,
@@ -172,7 +172,7 @@ locators = {
   "product_links": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//span[@class = 'a-size-base-plus a-color-base a-text-normal']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[@class = 'a-size-base-plus a-color-base a-text-normal']",
     "if_list": "all",
 
     "mandatory": true,

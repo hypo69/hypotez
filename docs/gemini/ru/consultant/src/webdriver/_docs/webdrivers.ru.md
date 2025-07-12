@@ -231,7 +231,7 @@ Playwright Crawler предоставляет функциональность �
   "default_locator": {
     "by": "ID",
     "attribute": "element_id",
-    "selector": "//*[@id='element_id']"
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//*[@id='element_id']"
   },
   "logging": {
     "level": "INFO",
@@ -278,7 +278,7 @@ driver = Driver(Chrome)
 locator = {
   "attribute": null,
   "by": "XPATH",
-  "selector": "//h1[@class='title']",
+  "strategy_for_multiple_selectors": "find_first_match","selector": "//h1[@class='title']",
   "if_list": "first",
   "use_mouse": false,
   "mandatory": true,

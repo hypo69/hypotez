@@ -178,7 +178,7 @@ if html:
 search_button_locator = {
     "locator_description": "Search button 'Google Search'", # Description for logs
     "by": "xpath",
-    "selector": "(//input[@name=\'btnK\'])[2]", # Element selector
+    "strategy_for_multiple_selectors": "find_first_match","selector": "(//input[@name=\'btnK\'])[2]", # Element selector
     "event": "click()", # Action: click
     "attribute": None, # Attribute not retrieved
     "if_list": "first", # If multiple found, take the first
@@ -203,7 +203,7 @@ search_input_locator = SimpleNamespace(
 some_value_locator = {
     "locator_description": "Get the value of the button",
     "by": "xpath",
-    "selector": "(//input[@name=\'btnK\'])[2]",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "(//input[@name=\'btnK\'])[2]",
     "event": None, # No action
     "attribute": "value", # Get the value of the 'value' attribute
     "if_list": "first",
@@ -216,7 +216,7 @@ some_value_locator = {
 results_links_locator = {
     "locator_description": "Search results links",
     "by": "css selector",
-    "selector": "div.g a h3", # Approximate selector for link titles
+    "strategy_for_multiple_selectors": "find_first_match","selector": "div.g a h3", # Approximate selector for link titles
     "event": None,
     "attribute": "textContent", # Get the text content
     "if_list": "all", # Get all found elements

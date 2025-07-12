@@ -38,7 +38,7 @@ locator = {
     "name": {
         "attribute": "innerText",
         "by": "XPATH",
-        "selector": "//h1[@class='product-name']",
+        "strategy_for_multiple_selectors": "find_first_match","selector": "//h1[@class='product-name']",
         "if_list": "first",
     
         "mandatory": True,
@@ -49,7 +49,7 @@ locator = {
     "price": {
         "attribute": "innerText",
         "by": "XPATH",
-        "selector": "//span[@class='price']",
+        "strategy_for_multiple_selectors": "find_first_match","selector": "//span[@class='price']",
         "if_list": "first",
     
         "mandatory": True,

@@ -3,7 +3,7 @@
 
     "attribute": null,
     "by": "XPATH",
-    "selector": "//div[@data-message-author-role='assistant']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@data-message-author-role='assistant']",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": null,
     "if_list":"first","use_mouse": false,
     "mandatory": true,
@@ -12,7 +12,7 @@
   "user": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//div[@data-message-author-role='user']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@data-message-author-role='user']",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": null,
     "if_list":"first","use_mouse": false,
     "mandatory": true,

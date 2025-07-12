@@ -31,7 +31,7 @@
 "close_banner": {
     "attribute": null, 
     "by": "XPATH",
-    "selector": "//button[@id = 'closeXButton']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']",
     "if_list": "first",
 
     "mandatory": false,
@@ -43,7 +43,7 @@
   "additional_images_urls": {
     "attribute": "src",
     "by": "XPATH",
-    "selector": "//ol[contains(@class, 'flex-control-thumbs')]//img",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//ol[contains(@class, 'flex-control-thumbs')]//img",
     "if_list": "all",
 
     "mandatory": false,
@@ -55,7 +55,7 @@
   "id_supplier": {
     "attribute": "innerText",
     "by": "XPATH",
-    "selector": "//span[@class = 'ltr sku-copy']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[@class = 'ltr sku-copy']",
     "if_list": "first",
 
     "mandatory": true,
@@ -67,7 +67,7 @@
   "default_image_url": {
     "attribute": null,
     "by": "XPATH",
-    "selector": "//a[@id = 'mainpic']//img",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//a[@id = 'mainpic']//img",
     "if_list": "first",
 
     "timeout": 0,

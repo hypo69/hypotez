@@ -124,7 +124,7 @@ from src.webdriver.playwright.executor import PlaywrightExecutor
 async def main():
     executor = PlaywrightExecutor()
     await executor.start()
-    locator = {"by": "XPATH", "selector": "//button[@id='submit']", "event": "click()"}
+    locator = {"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id='submit']", "event": "click()"}
     await executor.execute_locator(locator)
 ```
 
@@ -180,7 +180,7 @@ from src.webdriver.playwright.executor import PlaywrightExecutor
 async def main():
     executor = PlaywrightExecutor()
     await executor.start()
-    locator = {"by": "XPATH", "selector": "//input[@id='username']", "attribute": "value"}
+    locator = {"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//input[@id='username']", "attribute": "value"}
     attribute_value = await executor.get_attribute_by_locator(locator)
     print(attribute_value)
 ```
@@ -209,7 +209,7 @@ from src.webdriver.playwright.executor import PlaywrightExecutor
 async def main():
     executor = PlaywrightExecutor()
     await executor.start()
-    locator = {"by": "XPATH", "selector": "//input[@id='username']"}
+    locator = {"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//input[@id='username']"}
     element = await executor.get_webelement_by_locator(locator)
     print(element)
 ```
@@ -238,7 +238,7 @@ from src.webdriver.playwright.executor import PlaywrightExecutor
 async def main():
     executor = PlaywrightExecutor()
     await executor.start()
-    locator = {"by": "XPATH", "selector": "//input[@id='username']"}
+    locator = {"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//input[@id='username']"}
     screenshot = await executor.get_webelement_as_screenshot(locator)
     print(screenshot)
 ```
@@ -268,7 +268,7 @@ from src.webdriver.playwright.executor import PlaywrightExecutor
 async def main():
     executor = PlaywrightExecutor()
     await executor.start()
-    locator = {"by": "XPATH", "selector": "//button[@id='submit']", "event": "click()"}
+    locator = {"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id='submit']", "event": "click()"}
     await executor.execute_event(locator)
 ```
 
@@ -297,7 +297,7 @@ from src.webdriver.playwright.executor import PlaywrightExecutor
 async def main():
     executor = PlaywrightExecutor()
     await executor.start()
-    locator = {"by": "XPATH", "selector": "//input[@id='search']"}
+    locator = {"by": "XPATH", "strategy_for_multiple_selectors": "find_first_match","selector": "//input[@id='search']"}
     await executor.send_message(locator, message="Hello, world!")
 ```
 
@@ -346,7 +346,7 @@ async def main():
     # Найти кнопку "Поиск" на странице Google
     search_button_locator = {
         "by": "XPATH", 
-        "selector": "//input[@name='q']", 
+        "strategy_for_multiple_selectors": "find_first_match","selector": "//input[@name='q']", 
         "event": "click()"
     }
 
@@ -356,7 +356,7 @@ async def main():
     # Ввести текст в поле поиска
     search_field_locator = {
         "by": "XPATH",
-        "selector": "//input[@name='q']",
+        "strategy_for_multiple_selectors": "find_first_match","selector": "//input[@name='q']",
         "event": "type('Python')"
     }
 

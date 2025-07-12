@@ -55,7 +55,7 @@ driver.get_url("https://www.aliexpress.com/item/100500123456789.html")  # Exampl
 product_title = driver.execute_locator({
     "attribute": "text",
     "by": "XPATH",
-    "selector": "//h1[@class='product-title']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//h1[@class='product-title']",
     "if_list": "first",
 
     "mandatory": True,

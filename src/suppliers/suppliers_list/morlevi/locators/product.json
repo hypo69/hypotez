@@ -2,6 +2,7 @@
   "close_pop_up": {
     "attribute": null,
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//div[@class='modal-content']//button",
     "if_list": "first",
     "timeout": 0,
@@ -13,6 +14,7 @@
   "id_product": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -24,6 +26,7 @@
   "id_manufacturer": {
     "attribute": "innerText",
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//span[@class = 'ltr sku-copy']",
     "if_list": "first",
     "mandatory": true,
@@ -35,9 +38,9 @@
   "id_supplier": {
     "attribute": 2784,
     "by": "VALUE",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -48,6 +51,7 @@
   "id_category_default": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -59,6 +63,7 @@
   "new": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": true,
@@ -70,6 +75,7 @@
   "cache_default_attribute": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -81,6 +87,7 @@
   "id_default_image": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -92,6 +99,7 @@
   "default_image_url": {
     "attribute": null,
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//a[@id = 'mainpic']//img",
     "if_list": "first",
     "timeout": 0,
@@ -103,6 +111,7 @@
   "id_default_combination": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -114,6 +123,7 @@
   "id_tax_rules_group": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -125,6 +135,7 @@
   "position_in_category": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -137,6 +148,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -149,10 +161,9 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
-
     "if_list": "first",
-
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -162,6 +173,7 @@
   "reference": {
     "attribute": "innerText",
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//span[ contains( @class, 'sku-copy')]",
     "if_list": "first",
     "mandatory": true,
@@ -174,6 +186,7 @@
   "supplier_reference": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -184,8 +197,8 @@
   },
   "location": {
     "attribute": null,
-
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -197,6 +210,7 @@
   "width": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -207,6 +221,7 @@
   "height": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
 
@@ -217,10 +232,9 @@
   },
   "depth": {
     "attribute": null,
-
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
-
     "if_list": "first",
 
     "mandatory": false,
@@ -230,12 +244,10 @@
   },
   "weight": {
     "attribute": null,
-
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
-
     "if_list": "first",
-
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -243,12 +255,10 @@
   },
   "quantity_discount": {
     "attribute": null,
-
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
-
     "if_list": "first",
-
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -258,6 +268,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -271,6 +282,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -284,6 +296,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -297,6 +310,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -310,6 +324,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -323,6 +338,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -336,6 +352,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -349,6 +366,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -362,6 +380,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -375,6 +394,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -388,6 +408,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -401,6 +422,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -414,6 +436,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -427,6 +450,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -440,6 +464,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -453,6 +478,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -466,6 +492,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -479,6 +506,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -491,6 +519,7 @@
   "price": {
     "attribute": "innerText",
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//span[@id='basicPrice']",
     "if_list": "first",
     "mandatory": false,
@@ -503,6 +532,7 @@
   "wholesale_price": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -513,6 +543,7 @@
   "unity": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -523,6 +554,7 @@
   "unit_price_ratio": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -533,6 +565,7 @@
   "additional_shipping_cost": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -543,6 +576,7 @@
   "customizable": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "first",
     "mandatory": false,
@@ -554,6 +588,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -566,6 +601,7 @@
   "uploadable_files": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -579,6 +615,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -592,6 +629,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -605,6 +643,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -618,6 +657,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -631,6 +671,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -644,6 +685,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -657,6 +699,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -670,6 +713,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -683,6 +727,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -696,6 +741,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -709,6 +755,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -722,6 +769,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -735,6 +783,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -748,6 +797,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -761,6 +811,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -774,6 +825,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -787,6 +839,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -800,6 +853,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -812,6 +866,7 @@
   "name": {
     "attribute": "innerText",
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//div[contains(@class, 'product-header')]//h1",
     "if_list": "first",
 
@@ -824,6 +879,7 @@
   "description_short": {
     "attribute": "innerText",
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "(//div[contains(@class, 'description')])[2]//div | (//div[contains(@class, 'description')])[2]//p ",
     "if_list": "all",
 
@@ -836,6 +892,7 @@
   "description": {
     "attribute": null,
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
     "if_list": "all",
 
@@ -848,6 +905,7 @@
   "specification": {
     "attribute": "innerText",
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//div[contains(@class, 'product-params')]//li",
     "if_list": "all",
 
@@ -861,6 +919,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -874,6 +933,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -887,6 +947,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -900,6 +961,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -913,6 +975,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -926,6 +989,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -939,6 +1003,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -952,6 +1017,7 @@
     "attribute": "innerText",
 
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//*[contains(text(),'ASIN')]/following-sibling::*",
 
     "if_list": "first",
@@ -965,6 +1031,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -978,6 +1045,7 @@
     "attribute": "innerText",
 
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//span[@id='productTitle']",
 
     "if_list": "first",
@@ -992,6 +1060,7 @@
     "attribute": "innerText",
 
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//div[contains(@id,'corePrice')]//span[@class ='a-price-whole'][1]",
 
     "if_list": "first",
@@ -1005,6 +1074,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1018,6 +1088,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1031,6 +1102,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1044,6 +1116,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1057,6 +1130,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1070,6 +1144,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1083,6 +1158,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1096,6 +1172,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1109,6 +1186,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1122,6 +1200,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1135,6 +1214,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1148,6 +1228,7 @@
     "attribute": "innerText",
 
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//span[contains(text(), 'Brand')]/parent::td/following-sibling::td/span[contains(@class, 'po-break-word')]",
 
     "if_list": "first",
@@ -1161,6 +1242,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1174,6 +1256,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1187,6 +1270,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1200,6 +1284,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1213,6 +1298,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1226,6 +1312,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1239,6 +1326,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1252,6 +1340,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1265,6 +1354,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1278,6 +1368,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1291,6 +1382,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1304,6 +1396,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1317,6 +1410,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1330,6 +1424,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1343,6 +1438,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1356,6 +1452,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1369,6 +1466,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1382,6 +1480,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1395,6 +1494,7 @@
     "attribute": "innerHTML",
 
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//div[contains(@data-a-expander-name , 'product_overview')]//table",
 
     "if_list": "first",
@@ -1408,6 +1508,7 @@
     "attribute": "innerText",
 
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//div[@id='productDescription']",
 
     "if_list": "first",
@@ -1421,6 +1522,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1434,6 +1536,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1447,6 +1550,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1460,6 +1564,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1473,6 +1578,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1486,6 +1592,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1499,6 +1606,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1512,6 +1620,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1525,6 +1634,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1538,6 +1648,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1551,6 +1662,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1564,6 +1676,7 @@
     "attribute": null,
 
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//img[@id='landingImage']|//img[@class='a-dynamic-image']",
     "if_list": "first",
 
@@ -1578,6 +1691,7 @@
   "images_urls": {
     "attribute": "{src:alt}",
     "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//div[@class = 'carousel-inner']//img",
     "if_list": "first",
 
@@ -1592,6 +1706,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1605,6 +1720,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1618,6 +1734,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1631,6 +1748,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1644,6 +1762,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1657,6 +1776,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1670,6 +1790,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1683,6 +1804,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1696,6 +1818,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1709,6 +1832,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1722,6 +1846,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1735,6 +1860,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1748,6 +1874,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1761,6 +1888,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1774,6 +1902,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1787,6 +1916,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1800,6 +1930,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1813,6 +1944,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1826,6 +1958,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1839,6 +1972,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1885,6 +2019,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1898,6 +2033,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1911,6 +2047,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1924,6 +2061,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1937,6 +2075,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1950,6 +2089,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1963,6 +2103,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",
@@ -1976,6 +2117,7 @@
     "attribute": null,
 
     "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "selector": null,
 
     "if_list": "first",

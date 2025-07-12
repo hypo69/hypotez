@@ -176,7 +176,7 @@ from types import SimpleNamespace
 login_button_locator = {
     "locator_description": "Login button",
     "by": "id",
-    "selector": "login-button",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "login-button",
     "event": "click()", # Action - click
     "mandatory": True,
     "timeout": 10

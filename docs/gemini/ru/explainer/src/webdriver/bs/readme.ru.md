@@ -28,7 +28,7 @@ graph LR
       "default_locator": {
         "by": "ID",
         "attribute": "element_id",
-        "selector": "//*[@id='element_id']"
+        "strategy_for_multiple_selectors": "find_first_match","selector": "//*[@id='element_id']"
       }
     }
     ```

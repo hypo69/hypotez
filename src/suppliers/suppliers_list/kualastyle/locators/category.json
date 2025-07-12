@@ -3,7 +3,7 @@
     "attribute": "href",
 
     "by": "XPATH",
-    "selector": "//a[contains(@class,'image-link')]",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//a[contains(@class,'image-link')]",
 
     "if_list":"first","use_mouse": false,
     "mandatory": true,
@@ -13,7 +13,7 @@
 
     "attribute": { "text": "href" },
     "by": "XPATH",
-    "selector": "//nav[contains(@class, 'site-navigation')]//a",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//nav[contains(@class, 'site-navigation')]//a",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": false,
     "mandatory": false,
     "locator_description": ""

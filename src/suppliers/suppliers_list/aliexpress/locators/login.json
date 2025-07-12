@@ -7,7 +7,7 @@
       
       "attribute": "text",
       "by": "XPATH",
-      "selector": "//div[contains(text(), 'אפשר')]",
+      "strategy_for_multiple_selectors": "find_first_match","selector": "//div[contains(text(), 'אפשר')]",
       "timeout":0,"timeout_for_event":"presence_of_element_located","event": "send_keys(Key.RETURN)",
       "if_list":"first","use_mouse": false, "mandatory": true,
       "locator_description": ""
@@ -17,7 +17,7 @@
       
       "attribute": null,
       "by": "XPATH",
-      "selector": "//div[@class = 'account-main']//span[. = 'Sign in'] | //div[@class = 'account-main']//span[. = 'Se connecter'] | //div[@class = 'account-main']//span[. = 'כניסה'] ",
+      "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@class = 'account-main']//span[. = 'Sign in'] | //div[@class = 'account-main']//span[. = 'Se connecter'] | //div[@class = 'account-main']//span[. = 'כניסה'] ",
       "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
       "if_list":"first","use_mouse": false, "mandatory": true,
       "locator_description": ""
@@ -28,7 +28,7 @@
       
       "attribute": null,
       "by": "XPATH",
-      "selector": "//input[@id='fm-login-id']",
+      "strategy_for_multiple_selectors": "find_first_match","selector": "//input[@id='fm-login-id']",
       "timeout":0,"timeout_for_event":"presence_of_element_located","event": "send_keys('one.last.bit@gmail.com')",
       "if_list":"first","use_mouse": false, "mandatory": true,
       "locator_description": ""
@@ -38,7 +38,7 @@
       
       "attribute": null,
       "by": "XPATH",
-      "selector": "//input[@id='fm-login-password']",
+      "strategy_for_multiple_selectors": "find_first_match","selector": "//input[@id='fm-login-password']",
       "timeout":0,"timeout_for_event":"presence_of_element_located","event": "send_keys('7p3ato9kijsosw7')",
       "if_list":"first","use_mouse": false, "mandatory": true,
       "locator_description": ""
@@ -48,7 +48,7 @@
       
       "attribute": null,
       "by": "XPATH",
-      "selector": "//button[@type='submit']",
+      "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@type='submit']",
       "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
       "if_list":"first","use_mouse": false, "mandatory": true,
       "locator_description": ""
@@ -58,7 +58,7 @@
       
       "attribute": null,
       "by": "XPATH",
-      "selector": "//button[contains(@data-role,'gdpr-accept')]",
+      "strategy_for_multiple_selectors": "find_first_match","selector": "//button[contains(@data-role,'gdpr-accept')]",
       "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
       "if_list":"first","use_mouse": false, "mandatory": true,
       "locator_description": ""
@@ -71,7 +71,7 @@
       
       "attribute": null,
       "by": "XPATH",
-      "selector": "//div[@data-role = 'region-pannel']/a",
+      "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@data-role = 'region-pannel']/a",
       "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
       "if_list":"first","use_mouse": false, "mandatory": true,
       "locator_description": ""
@@ -120,7 +120,7 @@
       
       "attribute": null,
       "by": "XPATH",
-      "selector": "//div[contains(@class , 'switcher-btn')]",
+      "strategy_for_multiple_selectors": "find_first_match","selector": "//div[contains(@class , 'switcher-btn')]",
       "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
       "if_list":"first","use_mouse": false, "mandatory": true,
       "locator_description": ""

@@ -3,7 +3,7 @@
     "attribute": null,
     
     "by": "event",
-    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match","selector": null,
     
     "if_list":"first","use_mouse": false, "mandatory": true,
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "scroll(5,'both')"
@@ -12,7 +12,7 @@
     "attribute": "href",
 
     "by": "XPATH",
-    "selector": "//span[@data-component-type ='s-product-image']//a | //div[@class = 'puisg-col-inner']//div[contains(@class,'a-section')]//a[contains(@class,'aok-block')]",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[@data-component-type ='s-product-image']//a | //div[@class = 'puisg-col-inner']//div[contains(@class,'a-section')]//a[contains(@class,'aok-block')]",
 
     "if_list": "first",
 

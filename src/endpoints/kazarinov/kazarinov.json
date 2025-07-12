@@ -6,13 +6,13 @@
   "questions_list_path": "kazarinov/prompts/train_data/q",
   "url_handlers": {
     "suppliers": [
-      "https://morlevi.co.il",
+      
       "https://www.morlevi.co.il",
-      "https://grandadvance.co.il",
+      
       "https://www.grandadvance.co.il",
-      "https://ksp.co.il",
+     
       "https://www.ksp.co.il",
-      "https://ivory.co.il",
+    
       "https://www.ivory.co.il"
     ],
     "onetab": [

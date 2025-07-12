@@ -38,7 +38,7 @@ executor = ExecuteLocator(driver=driver)  # Instantiate ExecuteLocator
 # Example locator for a button with ID "submit_button"
 button_locator = {
     "by": "ID",
-    "selector": "submit_button",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "submit_button",
     "event": "click()",
     "mandatory": True,  # Indicate that clicking is essential
 }

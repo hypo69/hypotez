@@ -3,7 +3,7 @@
     "attribute": null,
 
     "by": "event",
-    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match","selector": null,
 
     "if_list":"first","use_mouse": false,
     "mandatory": true,
@@ -13,7 +13,7 @@
     "attribute": "href",
 
     "by": "XPATH",
-    "selector": "//span[@data-component-type ='s-product-image']//a",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[@data-component-type ='s-product-image']//a",
 
     "if_list":"first","use_mouse": false,
     "mandatory": true,
@@ -23,7 +23,7 @@
 
     "attribute": { "text": "href" },
     "by": "XPATH",
-    "selector": "//a[contains(@class, 'menu-item')]",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//a[contains(@class, 'menu-item')]",
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": false,
     "mandatory": false,
     "locator_description": ""

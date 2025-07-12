@@ -3,7 +3,7 @@
     "attribute": "href",
 
     "by": "XPATH",
-    "selector": "//h2[contains(@class, 'prod-thumb-title')]//a",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//h2[contains(@class, 'prod-thumb-title')]//a",
 
     "if_list": "first",
 
@@ -16,7 +16,7 @@
   "show_more": {
     "attribute": false,
     "by": "XPATH",
-    "selector": "//div[@class='show-more']",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@class='show-more']",
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",

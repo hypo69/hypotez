@@ -106,7 +106,7 @@ async def crawl_categories_async(self, url, depth, driver, locator, dump_file, d
 # url = "https://example.com/categories"
 # depth = 3
 # driver = webdriver.Chrome()
-# locator = {"by": "xpath", "selector": "//a[@class='category-link']"}
+# locator = {"by": "xpath", "strategy_for_multiple_selectors": "find_first_match","selector": "//a[@class='category-link']"}
 # dump_file = "categories.json"
 # default_category_id = 1
 
@@ -170,7 +170,7 @@ def crawl_categories(self, url, depth, driver, locator, dump_file, default_categ
 # url = "https://example.com/categories"
 # depth = 3
 # driver = webdriver.Chrome()
-# locator = {"by": "xpath", "selector": "//a[@class='category-link']"}
+# locator = {"by": "xpath", "strategy_for_multiple_selectors": "find_first_match","selector": "//a[@class='category-link']"}
 # dump_file = "categories.json"
 # default_category_id = 1
 

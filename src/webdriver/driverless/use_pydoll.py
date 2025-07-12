@@ -1,5 +1,5 @@
 import asyncio
-from typing import List, Any
+from typing import List, Any, Optional
 from types import SimpleNamespace
 from pydoll.browser import Chrome 
 from pydoll.browser.options import ChromeOptions as Options
@@ -17,14 +17,21 @@ class Config:
         # Default configuration values can be set here if needed
         # For example, you can set default user agent, window size, etc.
         config: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'webdriver' / 'driverless' / 'use_pydoll.json')
-        profile_path: str = config.profile_path
+        user_profile_path: str = config.user_profile_path
+        WINDOW_MODE:str =  config.WINDOW_MODE
 
 class Driver(Chrome):
     """! Driver class for Pydoll Chrome browser. """
 
     page: Page = None
 
-    def __init__(self, **kwargs):
+    def __init__(self, 
+                    window_mode: Optional[str] = 'headless', 
+                    enable_user_profile: Optional[bool] = True,
+                    user_profile_path: Optional[str],
+                    **kwargs
+                    
+                ):
         """! Synchronous constructor; 
         Use `await async_init_page()` for full setup!
 
@@ -36,15 +43,15 @@ class Driver(Chrome):
         options = Options()
         
         # Настройка пользовательского профиля
-        if profile_path:
+        if enable_user_profile:
             # Способ 1: Указать директорию пользовательских данных
-            options.add_argument(f'--user-data-dir={profile_path}')
+            options.add_argument(f'--user-data-dir={user_profile_path or Config.profile_path}')
             
             # Способ 2: Указать конкретный профиль (если нужен определенный профиль)
             # options.add_argument(f'--profile-directory=Profile 1')  # или Default, Profile 2, etc.
         
         # Дополнительные опции для работы с профилем
-        if profile_path:
+        if enable_user_profile:
             # Отключить первый запуск и восстановление
             options.add_argument('--no-first-run')
             options.add_argument('--no-default-browser-check')
@@ -60,7 +67,7 @@ class Driver(Chrome):
 
         #options.add_argument('--disable-notifications')
 
-        super().__init__(options = options, **kwargs, )
+        super().__init__(options = options)
         
     async def async_init_page(self):
         """! Asynchronous initialization to set up the page.
@@ -80,17 +87,31 @@ class Driver(Chrome):
             await self.page.close()
         await super().close()
 
-    async def execute_locator(self, locator: SimpleNamespace) -> Any:
+    async def execute_locator(self, locator: SimpleNamespace) -> str |  list | WebElement | bool :
         """! Locate and return content from the element based on locator info.
 
         Args:
-        locator (SimpleNamespace): Locator configuration object.
+            locator (SimpleNamespace): Locator configuration object.
 
         Returns:
-        Any: The data extracted or list of elements depending on locator and strategy.
+            Any: The data extracted or list of elements depending on locator and strategy.
 
         Raises:
-        ValueError: If an unsupported attribute is requested.
+            ValueError: If an unsupported attribute is requested.
+
+        locator exmaple:
+          "reference": {
+                        "attribute": "innerText",
+                        "by": "XPATH",
+                        "strategy_for_multiple_selectors": "find_first_match","selector": "//span[ contains( @class, 'sku-copy')]",
+                        "strategy_for_multiple_selectors": "find_first_match",
+                        "if_list": "first",
+                        "mandatory": true,
+                        "timeout": 0,
+                        "timeout_for_event": "presence_of_element_located",
+                        "event": null,
+                        "locator_description": "product reference"
+                  }
         """
         # Ensure page is initialized
         if not self.page:
@@ -202,19 +223,3 @@ class Driver(Chrome):
             logger.error(f"Failed to navigate to URL: {url}", ex)
             return False
 
-
-# Пример использования:
-
-"""
-# Для Windows:
-driver = Driver(profile_path=r'C:\Users\Username\AppData\Local\Google\Chrome\User Data')
-
-# Для Linux:
-driver = Driver(profile_path='/home/username/.config/google-chrome')
-
-# Для macOS:
-driver = Driver(profile_path='/Users/username/Library/Application Support/Google/Chrome')
-
-# Или можно использовать без профиля (по умолчанию):
-driver = Driver()
-"""
