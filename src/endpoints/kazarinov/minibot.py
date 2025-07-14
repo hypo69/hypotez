@@ -269,8 +269,9 @@ class KazarinovBot:
         threading.Thread(target = self.check_connection_status, daemon=True).start()
 
         try:
-            logger.info(f'\n\t --- \n\tStart bot in `{Config.MODE}` mode\n\t --- \n', text_color = 'light_magenta', bg_color = 'black')
+            logger.info(f'\n\t -------------------------------------------- \n\t\t Just start bot in `{Config.MODE}` mode\n\t --------------------------------------------  \n', text_color = 'light_magenta', bg_color = 'black')
             self.bot.infinity_polling()
+            
             return True
         except Exception as ex:
             logger.error('Error during bot polling', ex, exc_info=True)

@@ -97,16 +97,16 @@
     "locator_description": "cache_default_attribute morlevi"
   },
   "default_image_url": {
-    "attribute": null,
+    "attribute": "href",
     "by": "XPATH",
     "strategy_for_multiple_selectors": "find_first_match",
-    "selector": "//a[@id = 'mainpic']//img",
+    "selector": "//a[@id = 'mainpic']",
     "if_list": "first",
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "screenshot()",
     "mandatory": true,
-    "locator_description": "Внимание! в морлеви картинка получается через screenshot и возвращается как png (`bytes`)"
+    "locator_description": "morlevi - default_image_url"
   },
   "id_default_combination": {
     "attribute": null,

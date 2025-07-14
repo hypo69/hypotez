@@ -74,15 +74,19 @@ class Config:
     """
     # Определение пути к директории для файлов, связанных с этим модулем (SANDBOX/davidka)
     ENDPOINT:Path = Path(__root__/'SANDBOX'/'davidka')
+    GEMINI_API_KEY:str = None, 
+    OPENAI_API_KEY:str = None, 
+    OPENAI_MODEL_NAME:str = None, 
+    GEMINI_MODEL_NAME:str = None, 
 
 class SimpleDriver(Driver):
     """
     Упрощенный драйвер, наследующий от основного класса Driver.
     Предназначен для выполнения специфических задач с использованием LLM и агента `browser_use.Agent`.
     """
-    def __init__(self, 
-                 GEMINI_API_KEY:str = None, 
-                 OPENAI_API_KEY:str = None, 
+    def __init__(self,
+                 openai_api_key:str = None,
+                 gemini_api_key:str = None, 
                  openai_model_name:str = None, 
                  gemini_model_name:str = None, 
                  start_browser:bool = True, # Изменен тип на bool для соответствия родительскому классу
@@ -100,8 +104,9 @@ class SimpleDriver(Driver):
         """
         # Вызов конструктора родительского класса Driver
         super().__init__(
-            GEMINI_API_KEY=GEMINI_API_KEY, # Явная передача аргументов
-            OPENAI_API_KEY=OPENAI_API_KEY,
+            
+            openai_api_key=openai_api_key,
+            gemini_api_key=gemini_api_key,
             openai_model_name=openai_model_name,
             gemini_model_name=gemini_model_name,
             start_browser=start_browser,
@@ -238,9 +243,8 @@ def main() -> None:
     # Пример использования SimpleDriver
     # Инициализация драйвера с указанием модели Gemini
     # Предполагается, что API ключ Gemini будет подхвачен из Config или переменных окружения
-    driver = SimpleDriver(gemini_model_name='gemini-1.5-flash-preview-0514') # Обновлено имя модели
-
-    # Определение задачи из файла инструкций
+    driver = SimpleDriver(gemini_model_name='gemini-2.5-flash') # Обновлено имя модели
+                                                        # Определение задачи из файла инструкций
     # Формирование пути к файлу с инструкциями
     instruction_file_path: Path = __root__ / 'src' / 'webdriver' / 'ai_browser' / 'instructions' / 'get_supplier_categories.md'
     task_text: str

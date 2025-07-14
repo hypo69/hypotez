@@ -39,7 +39,7 @@ def main():
             country="US",
             source="public",
             q="android t-shirt",
-            restrictBy="accountId:5968952",
+            restrictBy="accountId:5968952",       ё
         )
         .execute()
     )

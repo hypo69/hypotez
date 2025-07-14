@@ -21,6 +21,7 @@ condition
 customizable
 date_add
 date_upd
+default_image_url
 delivery_in_stock
 delivery_out_stock
 depth

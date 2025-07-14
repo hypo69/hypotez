@@ -16,7 +16,6 @@
     "by": null,
     "strategy_for_multiple_selectors": "find_first_match","selector": null,
     "if_list": "first",
-
     "mandatory": false,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",

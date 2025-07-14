@@ -11,24 +11,23 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Optional, List, AsyncGenerator
 from dataclasses import dataclass, field
-from pydoll.browser.chrome import Chrome
-from pydoll.browser.page import Page  # Предполагается, что Page - это тип драйвера
+# from pydoll.browser.chrome import Chrome
+from pydoll.browser.page import Page  
 
 from header import __root__
 from src import gs
 #from src.webdriver.driverless import use_pydoll as driver # Этот импорт, похоже, не используется напрямую здесь
-from src.endpoints.advertisement.facebook.scenarios import locator
 from src.endpoints.prestashop.product_fields import ProductFields
 from src.utils.convertors.ns import ns2dict
 from src.utils.file import get_filenames_from_directory
 from src.utils.jjson import j_loads_ns
-from src.webdriver.driverless.use_pydoll import Driver  # Импортируем класс Driver из use_pydoll
+from src.webdriver.driverless.use_pydoll import Driver 
 from src.logger.logger import logger
 
 
 
 # --- start config.py ---
-@dataclass
+@dataclass(slots=True)
 class Config:
     """Configuration for a supplier."""
     supplier_prefix: str 
@@ -73,13 +72,18 @@ class Config:
 
 # --- end config.py ---
 
+# --- graber.py ---
 
+@dataclass(slots=True)
 class Graber:
     """Grabs product/category info for a given supplier."""
-    config: Config = None
+    supplier_prefix: str
+    config: Config = field(init=False)
+                                      
 
-    def __init__(self, supplier_prefix: str):
-        self.config = Config(supplier_prefix=supplier_prefix)
+    def __post_init__(self):
+        """ """
+        self.config = Config(supplier_prefix=self.supplier_prefix)
 
     async def grab_product_page(self, driver: Driver, product_url: str, required_fields: Optional[List[str]] = None, ) -> ProductFields:
         """
@@ -97,38 +101,38 @@ class Graber:
         """
         required_fields = required_fields or self.config.required_fields
         f: ProductFields = ProductFields()
-        locator = self.config.product_locators
-         
+        # Перечитываю локаторы при каждом вызове метода, 
+        # чтобы избежать проблем с изменениями в конфигурации
+        product_locators = self.config.product_locators
+        
+
+        
         try:
-            logger.info(f"Переход на страницу товара: {product_url}")
+            logger.info(f"Переход на страницу товара: {product_url}", text_color= "light_gray", bg_color = "black" )
             await driver.get_url(product_url)
         except Exception as ex:
-            logger.error(f'Failed to open product page: {product_url}\n', ex, True) # Используется exc_info для стека
+            logger.error(f'Failed to open product page: {product_url}\n', ex, True)
             return f # Возврат пустой объект в случае ошибки навигации
 
         # Установка `id_supplier` если он определен в локаторах
-        # Проверка, что `locator` существует и имеет `атрибут id_supplier`
-        if locator and hasattr(locator, 'id_supplier') and locator.id_supplier:
-            f.id_supplier = locator.id_supplier.attribute # <- передача параметра через локатор
-            logger.debug(f"\n\t\t\tУстановлен id_supplier: {f.id_supplier}" , None)
+        # Проверка, что `product_locators` существует и имеет `атрибут id_supplier`
+        if product_locators and hasattr(product_locators, 'id_supplier') and product_locators.id_supplier:
+            f.id_supplier = product_locators.id_supplier.attribute # <- передача параметра через локатор
+            logger.info(f"Установлен id_supplier: {f.id_supplier=}" , None, False, text_color = "light_gray", bg_color = "black")
 
         for field_name in required_fields:
             # Пропуск id_supplier, так как он уже установлен
             if field_name == 'id_supplier':
                 continue
 
-            if locator and hasattr(locator, field_name):
-                _locator = getattr(locator, field_name)
-                    
-                extracted_value = await driver.execute_locator(_locator)
+            if product_locators and hasattr(product_locators, field_name):
+                locator = getattr(product_locators, field_name)
+                extracted_value = await driver.execute_locator(locator)
                         
                 # Установка значение, только если оно не пустое (или по другой логике)
                 if extracted_value: # Можно добавить проверку на пустую строку, если нужно
                     setattr(f, field_name, extracted_value)
-                    logger.debug(f"Поле '{field_name}' извлечено: '{extracted_value}'")
-                else:
-                    logger.warning(f"Локатор для поля `{field_name}` не найден. Пропуск.")
-                    ...
+                    logger.info(f"""В поле '{field_name}' установлено значение: {extracted_value}'""", None, False, text_color = "light_gray", bg_color = "black")
 
         return f
 
@@ -169,7 +173,7 @@ class Graber:
         valid_urls = [url for url in normalized_urls if url.startswith('https://')] 
         
         if len(valid_urls) != len(normalized_urls):
-            logger.warning(f"Некоторые URL были отфильтрованы после нормализации для категории: {category_url}. Исходно: {len(normalized_urls)}, Валидных: {len(valid_urls)}")
+            logger.warning(f"Некоторые URL были отфильтрованы после нормализации для категории: {category_url}.\n Исходно: {len(normalized_urls)}, \nВалидных: {len(valid_urls)}")
             
         return valid_urls
 

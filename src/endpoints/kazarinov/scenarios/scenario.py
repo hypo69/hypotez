@@ -46,7 +46,7 @@ class Config:
     """Конфигурация сценария."""
     
     ENDPOINT: str = 'kazarinov'
-    config: SimpleNamespace = field(default_factory=lambda: j_loads_ns(__root__ / "src" / "endpoints" / ENDPOINT / f"{ENDPOINT}.json"))
+    config: SimpleNamespace = j_loads_ns(__root__ / "src" / "endpoints" / ENDPOINT / f"{ENDPOINT}.json")
     if not config:
         raise RuntimeError("Configuration not found for Kazarinov endpoint")
     _driver_cfg = getattr(config.webdriver, config.webdriver.active_driver, 'pydoll')
@@ -133,11 +133,11 @@ class Scenario:
 
         # Сбор товаров ---------------------------------------------------------
         for url in urls:
-            logger.debug("Обработка URL: %s", url)
+            logger.debug(f"Обработка URL: {url}", None, False)
 
             graber = get_graber_by_supplier_url(url)
             if not graber:
-                logger.error(f"Нет подходящего грабера для URL: {url}", None, True)
+                logger.error(f"🤷‍♂️ Нет подходящего грабера для URL: {url}", None, True)
                 if bot:
                     bot.send_message(chat_id, f"❌ Нет обработчика для ссылки:\n{url}")
                 continue
@@ -150,7 +150,6 @@ class Scenario:
                 "description",
                 "description_short",
                 "default_image_url",
-                "local_image_path",
             ]
 
             if bot:
@@ -177,7 +176,20 @@ class Scenario:
             try:
                 # Конвертиртаци поля из объекта `ProductFields` в простой словарь для модели llm
                 product_data = self.convert_product_fields(fields)
-            except Exception as ex:  # pragma: no cover
+
+                # Индивидуальные настройки поставщиков
+                match(graber.supplier_prefix):
+                    case 'morlevi':
+                        product_data['default_image_url'] = fr'https"://"morlevi.co.il/' + product_data['default_image_url'] 
+
+                    case 'grandadvance':
+                        ...
+                    case 'ksp':
+                        ...
+                    case 'ivory':
+                        ...
+
+            except Exception as ex:  
                 logger.error("Ошибка конвертации данных", ex, exc_info=True)
                 if bot:
                     bot.send_message(chat_id, f"❌ Ошибка конвертации:\n{url}")
@@ -188,7 +200,7 @@ class Scenario:
 
         # AI‑обработка ---------------------------------------------------------
         if not products_list:
-            logger.warning("Не собрано ни одного товара")
+            logger.warning(" 😒 Не собрано ни одного товара", None, False)
             if bot:
                 bot.send_message(chat_id, "⚠️ Не удалось собрать информацию ни об одном товаре.")
             await driver.stop()
@@ -201,7 +213,7 @@ class Scenario:
             try:
                 data = await self.process_llm_async(products_list, lang)
             except Exception as ex:  # pragma: no cover
-                logger.error("AI‑обработка упала", ex, exc_info=True)
+                logger.error("🤖 AI‑обработка упала", ex, exc_info=False)
                 if bot:
                     bot.send_message(chat_id, f"❌ AI ошибка ({lang}):\n{ex}")
                 continue
