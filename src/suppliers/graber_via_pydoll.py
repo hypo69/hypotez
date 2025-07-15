@@ -82,9 +82,16 @@ class Graber(GraberSupplier):
     config: Config = field(init=False)
                                       
 
-    def __post_init__(self):
+    def __post_init__(self, product_locator:SimpleNamespace):
         """ """
         self.config = Config(supplier_prefix=self.supplier_prefix)
+        super().__init__(
+            supplier_prefix = self.supplier_prefix,  
+            product_locator = self.product_locator, 
+            category_locator = self.category_locator, 
+            driver = self.driver, 
+            fields = self.product_fields,
+            *args, **kwargs)
 
     async def grab_product_page(self, driver: Driver, product_url: str, required_fields: Optional[List[str]] = None, ) -> ProductFields:
         """
@@ -106,7 +113,7 @@ class Graber(GraberSupplier):
 
         
         try:
-            logger.info(f"Переход на страницу товара: {product_url}", text_color= "light_gray", bg_color = "black" )
+            logger.info(f"Переход на страницу товара: {product_url}", text_color = "light_gray", bg_color = "black" )
             await driver.get_url(product_url)
         except Exception as ex:
             logger.error(f'Failed to open product page: {product_url}\n', ex, True)
@@ -123,9 +130,7 @@ class Graber(GraberSupplier):
             if field_name == 'id_supplier':
                 continue
 
-            function = getattr(self, field_name, None)
-            if function:
-                await function(kwargs.get(field_name, '')) # Просто вызываем с await, так как все функции асинхронные
+                await function(self, field_name)
 
 
             if product_locators and hasattr(product_locators, field_name):

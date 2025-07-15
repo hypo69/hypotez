@@ -137,26 +137,31 @@ def close_pop_up() -> Callable:
     return decorator
 
 
+@dataclass(slots=True)
 class Graber:
-    """Базовый класс сбора данных со страницы для всех поставщиков."""
-    supplier_prefix:str = ''
-    def __init__(self, supplier_prefix: str,  driver: Optional['Driver'] = None,  lang_index:Optional[int] = 2, ):
-        """Инициализация класса Graber.
+    """! Базовый класс сбора данных со страницы для всех поставщиков. """
 
-        Args:
-            supplier_prefix (str): Префикс поставщика.
-            driver ('Driver'): Экземпляр класса Driver.
-        """
-        self.supplier_prefix = supplier_prefix
-        self.product_locator: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'suppliers' / 'suppliers_list' / supplier_prefix / 'locators' / 'product.json')
-        self.category_locator: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'suppliers' / 'suppliers_list' / supplier_prefix / 'locators' / 'category.json')
-        self.driver = driver or Driver(Firefox) 
-        self.fields: ProductFields = ProductFields(lang_index ) # <- установка базового языка. Тип - `int`
+    supplier_prefix: str
+    driver: Optional[Driver] = None
+    lang_index: Optional[int] = 2
+
+    # Эти поля будут инициализированы вручную в __post_init__
+    product_locators: SimpleNamespace = field(init=False)
+    category_locators: SimpleNamespace = field(init=False)
+    product_fields: ProductFields = field(init=False)
+
+    def __post_init__(self):
+        """! Инициализация зависимостей после создания экземпляра dataclass."""
+        product_locators = self.product_locators
+        category_locators = self.category_locators
+        self.driver = self.driver #  or Driver(Firefox)
+        self.fields = ProductFields(self.lang_index)
 
         # ---------------------------- конфигурация для декоратора ------------------------------
-        """Если будет установлен локатор в Config.locator_for_decorator - выполнится декоратор `@close_pop_up`"""
-        Config.locator_for_decorator = None
-        
+        Config.locator_for_decorator = self.locator_for_decorator or None
+        Config.supplier_prefix = self.supplier_prefix
+
+
 
     def yield_scenarios_for_supplier(self, supplier_prefix: str, input_scenarios: Optional[List[Dict[str, Any]] | Dict[str, Any]] = None) -> Generator[Dict[str, Any], None, None]:
         """
@@ -281,9 +286,11 @@ class Graber:
         if isinstance(input_scenarios, list):
             # Вход - список: валидация содержимого
             if all(isinstance(item, dict) for item in input_scenarios):
-                actual_scenarios_to_process = scenarios
+                actual_scenarios_to_process = input_scenarios
             else:
-                logger.error(f"Входной список для '{supplier_prefix}' содержит не-словари.", None, False)
+                logger.error(f"""Входной список для '{supplier_prefix}' содержит не-словари.
+                {print(input_scenarios)}
+                """, None, False)
                 ...
                 return None # Возврат `None` при некорректном вводе
         elif isinstance(input_scenarios, dict):
@@ -408,7 +415,7 @@ class Graber:
 
                 f: Optional[ProductFields] = await self.grab_page_async(*required_fields, id_lang=id_lang)
                 if not f:
-                    logger.error(f'Не удалось собрать поля товара с {product_url}')
+                    logger.error(f'Не удалось собрать поля товара со страницы {product_url}')
                     ...
                     continue
 
@@ -468,20 +475,28 @@ class Graber:
     def grab_page(self, *args, **kwargs) -> ProductFields|bool:
         return asyncio.run(self.grab_page_async(*args, **kwargs))
 
-    async def grab_page_async(self, *args, **kwargs) -> ProductFields|bool:
-        """Асинхронная функция для сбора полей товара."""
-        async def fetch_all_data(*args, **kwargs):
-            # Динамическое вызовы функций для каждого поля из args
-            required_fields:list = list(args) or [
-                            'name',
-                            'reference',
-                            'id_supplier',
-                            'description_short',
-                            'description',
-                            'specification',
-                            'local_image_path',                      
-                            'default_image_url',
-                            'price']
+    async def grab_page_async(self, required_fields: Optional[list], *args, **kwargs) -> ProductFields|bool:
+        """ Асинхронная функция для сбора полей товара.
+        Ключевая функция класса.
+        """
+        async def fetch_all_data(required_fields: Optional[list], *args, **kwargs):
+            """ Динамическое вызовы функций для каждого поля из args.
+            Args:
+                required_fields (Optional[list]): Список полей, которые нужно заполнить.
+                *args: Список полей моьно передать кортежем или пустым.
+                **kwargs: Ключевые аргументы, которые могут быть переданы.
+            """
+            if not required_fields:
+                required_fields:list = list(args) or [
+                                'name',
+                                'reference',
+                                'id_supplier',
+                                'description_short',
+                                'description',
+                                'specification',
+                                'local_image_path',                      
+                                'default_image_url',
+                                'price']
 
             if 'url' in kwargs:
                 self.driver.get_url(kwargs['url'])
